@@ -1,5 +1,5 @@
 const assert = require('chai').assert
-const createRequest = require('../index.js').createRequest
+const createRequest = require('../adapter').createRequest
 
 describe('createRequest', () => {
   const jobID = '1'

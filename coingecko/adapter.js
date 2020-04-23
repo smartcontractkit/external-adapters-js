@@ -61,16 +61,4 @@ const createRequest = (input, callback) => {
   })
 }
 
-exports.gcpservice = (req, res) => {
-  createRequest(req.body, (statusCode, data) => {
-    res.status(statusCode).send(data)
-  })
-}
-
-exports.handler = (event, context, callback) => {
-  createRequest(event, (statusCode, data) => {
-    callback(null, data)
-  })
-}
-
 module.exports.createRequest = createRequest

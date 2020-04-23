@@ -1,4 +1,4 @@
-const createRequest = require('./index').createRequest
+const createRequest = require('./adapter').createRequest
 
 const express = require('express')
 const bodyParser = require('body-parser')
