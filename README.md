@@ -42,8 +42,8 @@ docker run -p 8080:8080 -e API_KEY='YOUR_API_KEY' -it bravenewcoin-adapter:lates
 Create the zip, subsituting $ADAPTER for the directory of the adapter you want to use:
 
 ```bash
-zip -r adapter.zip node_modules
-zip -g -j adapter.zip $ADAPTER/index.js
+zip -r adapter.zip node_modules index.js
+zip -g -j adapter.zip $ADAPTER/adapter.js
 ```
 
 ### Install to AWS Lambda
