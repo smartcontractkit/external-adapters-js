@@ -1,0 +1,35 @@
+{
+  "name": "price-adapters",
+  "version": "0.1.0",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "amberdata",
+    "bravenewcoin",
+    "coinapi",
+    "coingecko",
+    "coinmarketcap",
+    "coinpaprika",
+    "cryptoapis",
+    "cryptocompare",
+    "kaiko"
+  ],
+  "scripts": {
+    "lint": "yarn eslint ."
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.0",
+    "external-adapter": "^0.1.15"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "eslint": "^6.5.1",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "mocha": "^7.1.1"
+  }
+}
