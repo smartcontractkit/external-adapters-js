@@ -15,9 +15,13 @@
     "cryptoapis",
     "cryptocompare",
     "currencylayer",
+    "eodhistoricaldata",
+    "fcsapi",
     "finnhub",
     "fixer",
+    "fmpcloud",
     "kaiko",
+    "oilpriceapi",
     "openexchangerates",
     "polygon"
   ],
