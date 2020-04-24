@@ -4,6 +4,8 @@
   "license": "MIT",
   "private": true,
   "workspaces": [
+    "1forge",
+    "alphavantage",
     "amberdata",
     "bravenewcoin",
     "coinapi",
@@ -12,7 +14,12 @@
     "coinpaprika",
     "cryptoapis",
     "cryptocompare",
-    "kaiko"
+    "currencylayer",
+    "finnhub",
+    "fixer",
+    "kaiko",
+    "openexchangerates",
+    "polygon"
   ],
   "scripts": {
     "lint": "yarn eslint ."
