@@ -10,7 +10,7 @@ WORKDIR /home/node/app
 USER node
 
 COPY --chown=node:node eth/readReferenceContract.js ./
-COPY --chown=node:node $adapter/adapter.js ./priceData.js
+COPY --chown=node:node $adapter/adapter.js ./priceAdapter.js
 COPY --chown=node:node market-closure/$check/marketCheck.js ./
 COPY --chown=node:node market-closure/adapter.js ./
 COPY --chown=node:node package.json yarn.lock ./

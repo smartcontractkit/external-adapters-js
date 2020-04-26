@@ -1,7 +1,7 @@
 const { Requester, Validator } = require('external-adapter')
 const { tradingHalted } = require('./marketCheck')
 const { getContractPrice } = require('./readReferenceContract')
-const adapterCreateRequest = require('./priceData').createRequest
+const adapterCreateRequest = require('./priceAdapter').createRequest
 
 const customParams = {
   base: ['base', 'asset', 'from'],
