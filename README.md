@@ -1,4 +1,4 @@
-# Chainlink Price External Adapters
+# Chainlink External Adapters (JavaScript)
 
 This repository contains the source for Chainlink price adapters. Each adapter must document its own required parameters and output format.
 
