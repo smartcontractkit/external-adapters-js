@@ -21,6 +21,30 @@ yarn test
 
 Installs packages for all workspaces.
 
+## Market status
+
+An integration with TradingHours.com is included with the base adapter that can be used to check if trading is halted
+for the requested market. This feature is disabled by default.
+
+If trading is halted, the adapter will get the current price from the provided reference contract.
+
+### Environment variables
+
+| ENV var | Description |
+|---------|-------------|
+| `CHECK_MARKET_STATUS` | Set to `true` to enable market status checks. |
+| `RPC_URL` | Ethereum node RPC URL. Used to fetch contract price. |
+| `TH_API_KEY` | Your API key for TradingHours.com |
+
+### Request params
+
+As well as the default parameters for each adapter, the adapter takes the following extra parameters:
+
+| Param | Description |
+|---------|-------------|
+| `referenceContract` | The reference contract to get the price from if trading is halted. |
+| `multiply` | The multiply amount for the reference contract. Defaults to `100000000`. |
+
 ## Docker
 
 To build a Docker container for a specific container, use the following example:
@@ -42,7 +66,7 @@ docker run -p 8080:8080 -e API_KEY='YOUR_API_KEY' -it bravenewcoin-adapter:lates
 Create the zip, subsituting $ADAPTER for the directory of the adapter you want to use:
 
 ```bash
-zip -r adapter.zip node_modules index.js
+zip -r adapter.zip node_modules index.js market-status.js
 zip -g -j adapter.zip $ADAPTER/adapter.js
 ```
 

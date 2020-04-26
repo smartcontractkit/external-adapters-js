@@ -1,4 +1,13 @@
-const createRequest = require('./adapter').createRequest
+const adapterCreateRequest = require('./adapter').createRequest
+const marketStatusRequest = require('./market-status').marketStatusRequest
+
+const createRequest = (input, callback) => {
+  if ((process.env.CHECK_MARKET_STATUS || '').toLowerCase() !== 'true') {
+    adapterCreateRequest(input, callback)
+  } else {
+    marketStatusRequest(input, callback, adapterCreateRequest)
+  }
+}
 
 exports.gcpservice = (req, res) => {
   createRequest(req.body, (statusCode, data) => {

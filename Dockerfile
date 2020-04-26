@@ -11,6 +11,7 @@ USER node
 COPY --chown=node:node $adapter ./
 COPY --chown=node:node package.json yarn.lock ./
 COPY --chown=node:node app.js ./
+COPY --chown=node:node market-status.js ./
 
 RUN yarn --frozen-lockfile --production
 

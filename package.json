@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "body-parser": "^1.19.0",
+    "ethers": "^4.0.47",
     "express": "^4.17.0",
     "external-adapter": "^0.1.15"
   },

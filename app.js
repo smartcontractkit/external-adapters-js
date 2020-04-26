@@ -1,4 +1,5 @@
 const createRequest = require('./adapter').createRequest
+const marketStatusRequest = require('./market-status').marketStatusRequest
 
 const express = require('express')
 const bodyParser = require('body-parser')
@@ -9,10 +10,19 @@ app.use(bodyParser.json())
 
 app.post('/', (req, res) => {
   console.log('POST Data: ', req.body)
-  createRequest(req.body, (status, result) => {
-    console.log('Result: ', result)
-    res.status(status).json(result)
-  })
+
+  if ((process.env.CHECK_MARKET_STATUS || '').toLowerCase() !== 'true') {
+    createRequest(req.body, (status, result) => {
+      console.log('Result: ', result)
+      res.status(status).json(result)
+    })
+  } else {
+    console.log('Checking market status first...')
+    marketStatusRequest(req.body, createRequest, (status, result) => {
+      console.log('Result: ', result)
+      res.status(status).json(result)
+    })
+  }
 })
 
 app.listen(port, () => console.log(`Listening on port ${port}!`))
