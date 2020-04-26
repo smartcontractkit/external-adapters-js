@@ -1,4 +1,4 @@
-# Chainlink Price External Adapters
+# Chainlink External Adapters (JavaScript)
 
 This repository contains the source for Chainlink price adapters. Each adapter must document its own required parameters and output format.
 
@@ -26,10 +26,8 @@ Installs packages for all workspaces.
 To build a Docker container for a specific container, use the following example:
 
 ```bash
-docker build --no-cache --build-arg adapter=bravenewcoin . -t bravenewcoin-adapter
+make docker-price adapter=bravenewcoin
 ```
-
-A build argument `--build-arg` is required. This will be the directory of the adapter you wish to build.
 
 Then run it with:
 
@@ -39,11 +37,10 @@ docker run -p 8080:8080 -e API_KEY='YOUR_API_KEY' -it bravenewcoin-adapter:lates
 
 ## Serverless
 
-Create the zip, subsituting $ADAPTER for the directory of the adapter you want to use:
+Create the zip:
 
 ```bash
-zip -r adapter.zip node_modules index.js
-zip -g -j adapter.zip $ADAPTER/adapter.js
+make serverless-price adapter=bravenewcoin
 ```
 
 ### Install to AWS Lambda
