@@ -1423,6 +1423,18 @@ log-symbols@3.0.0:
   dependencies:
     chalk "^2.4.2"
 
+luxon@^1.23.0:
+  version "1.23.0"
+  resolved "https://registry.yarnpkg.com/luxon/-/luxon-1.23.0.tgz#23b748ad0f2d5494dc4d2878c19278c1e651410c"
+  integrity sha512-+6a/bXsCWrrR8vfbL41iM92es12zwV2Rum/KPkT+ubOZnnU3Sqbqok/FmD1xsWlWN2Y9Hu0fU/vNgU24ns7bpA==
+
+market-closure@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/market-closure/-/market-closure-0.1.1.tgz#0f4479da3a6c0168da7eb96eaf71b99573fd7309"
+  integrity sha512-Jft4KSDTefN+RFshlW7woFaptlCTWMvE5f5PPyQpocbiuA7rwLfPQHDtrzYKh+KzzxLldZTTab4nwaPnqwtH4g==
+  dependencies:
+    luxon "^1.23.0"
+
 media-typer@0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"

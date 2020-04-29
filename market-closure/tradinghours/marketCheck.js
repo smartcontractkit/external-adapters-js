@@ -5,25 +5,29 @@ const commonMICs = {
   N225: 'xjpx'
 }
 
-const tradingHalted = (exchange, callback) => {
-  exchange = commonMICs[exchange]
-  if (exchange.length === 0) {
-    return callback(false)
-  }
-
-  Requester.requestRetry({
-    url: 'https://www.tradinghours.com/api/v2/status',
-    qs: {
-      market: exchange,
-      api_token: process.env.TH_API_KEY
+const tradingHalted = (exchange) => {
+  return new Promise((resolve, reject) => {
+    exchange = commonMICs[exchange]
+    if (exchange.length === 0) {
+      return resolve(false)
     }
+
+    Requester.requestRetry({
+      url: 'https://www.tradinghours.com/api/v2/status',
+      qs: {
+        market: exchange,
+        api_token: process.env.TH_API_KEY
+      }
+    })
+      .then(response => {
+        if (!(exchange in response.body)) {
+          return reject(Error('missing exchange in body'))
+        }
+
+        resolve(Requester.getResult(response.body, [exchange, 'status']).toLowerCase() !== 'open')
+      })
+      .catch(reject)
   })
-    .then(response => {
-      callback(Requester.getResult(response.body, [exchange, 'status']).toLowerCase() !== 'open')
-    })
-    .catch(() => {
-      callback(false)
-    })
 }
 
 exports.tradingHalted = tradingHalted
