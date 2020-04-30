@@ -1,4 +1,5 @@
 const { Requester, Validator } = require('external-adapter')
+const timeout = process.env.TIMEOUT || 5000
 
 const customError = (body) => {
   if (Object.keys(body).length === 0) return true
@@ -16,8 +17,7 @@ const convertFromTicker = (ticker, coinId, callback) => {
 
   Requester.requestRetry({
     url: 'https://api.coingecko.com/api/v3/coins/list',
-    json: true,
-    resolveWithFullResponse: true
+    timeout
   }, customError)
     .then(response => {
       const coin = response.body.find(x => x.symbol.toLowerCase() === ticker.toLowerCase())
@@ -47,8 +47,7 @@ const createRequest = (input, callback) => {
     const options = {
       url: url,
       qs: queryObj,
-      json: true,
-      resolveWithFullResponse: true
+      timeout
     }
     Requester.requestRetry(options, customError)
       .then(response => {
