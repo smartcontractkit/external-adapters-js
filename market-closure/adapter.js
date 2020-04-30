@@ -23,8 +23,12 @@ const marketStatusRequest = (input, adapter, callback) => {
   tradingHalted(symbol).then(halted => {
     handleRequest(input, validator, adapter, halted, callback)
   }).catch(() => {
-    const marketSchedule = new MarketClosure(schedule)
-    handleRequest(input, validator, adapter, marketSchedule.tradingHalted(), callback)
+    let halted = false
+    if ('timezone' in schedule) {
+      const marketSchedule = new MarketClosure(schedule)
+      halted = marketSchedule.tradingHalted()
+    }
+    handleRequest(input, validator, adapter, halted, callback)
   })
 }
 
