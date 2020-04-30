@@ -1,4 +1,5 @@
 const { Requester, Validator } = require('external-adapter')
+const timeout = process.env.TIMEOUT || 5000
 
 const customParams = {
   base: ['base', 'from', 'coin'],
@@ -10,7 +11,8 @@ const convertFromTicker = (ticker, coinid, callback) => {
   if (typeof coinId !== 'undefined') return callback(coinid.toLowerCase())
 
   Requester.requestRetry({
-    url: 'https://api.coinpaprika.com/v1/coins'
+    url: 'https://api.coinpaprika.com/v1/coins',
+    timeout
   }).then(response => {
     const coin = response.body.sort((a, b) => (a.rank > b.rank) ? 1 : -1)
       .find(x => x.symbol.toLowerCase() === ticker.toLowerCase() && x.rank !== 0)
@@ -40,7 +42,8 @@ const createRequest = (input, callback) => {
 
     const options = {
       url,
-      qs
+      qs,
+      timeout
     }
 
     Requester.requestRetry(options)
