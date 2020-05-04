@@ -25,7 +25,8 @@
     "oilpriceapi",
     "openexchangerates",
     "polygon",
-    "tradinghours"
+    "tradinghours",
+    "yahoo-finance"
   ],
   "scripts": {
     "lint": "yarn eslint ."
@@ -35,7 +36,8 @@
     "ethers": "^4.0.47",
     "express": "^4.17.0",
     "external-adapter": "^0.1.15",
-    "market-closure": "^0.1.1"
+    "market-closure": "^0.1.1",
+    "yahoo-finance": "^0.3.6"
   },
   "devDependencies": {
     "chai": "^4.2.0",
