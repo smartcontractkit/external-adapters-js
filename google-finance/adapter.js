@@ -11,20 +11,20 @@ const customParams = {
 }
 
 const createRequest = (input, callback) => {
-  const validator = new Validator(input, customParams, callback)
+  const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
   let symbol = validator.validated.data.base.toUpperCase()
   if (commonKeys[symbol]) {
     symbol = commonKeys[symbol]
   }
 
-  google.getSymbol(symbol).then(body => {
+  google.getSymbol(symbol).then(data => {
     const statusCode = 200
     const response = {
-      body,
+      data,
       statusCode
     }
-    response.body.result = Requester.validateResult(response.body, ['ticker'])
+    response.data.result = Requester.validateResultNumber(response.data, ['ticker'])
     callback(statusCode, Requester.success(jobRunID, response))
   }).catch(err => {
     callback(500, Requester.errored(jobRunID, err.message))
