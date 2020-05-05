@@ -899,10 +899,10 @@ extend@~3.0.2:
   resolved "https://registry.yarnpkg.com/extend/-/extend-3.0.2.tgz#f8b1136b4071fbd8eb140aff858b1019ec2915fa"
   integrity sha512-fjquC59cD7CyW6urNXK0FBufkZcoiGG80wTuPujX590cB5Ttln20E2UB4S/WARVqhXffZl2LNgS+gQdPIIim/g==
 
-external-adapter@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/external-adapter/-/external-adapter-0.2.0.tgz#8838c40b84c2cb1c69acbab18b9bc5604addcd5a"
-  integrity sha512-TlxnqiGspM5qYC79KU0x0MbEKo8T51YXp2Ek9wZR1iLeGxsQr9Q8pHBSj9UaFzRWuWEVhnQks2bqk/iJbW91Yg==
+external-adapter@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/external-adapter/-/external-adapter-0.2.2.tgz#8c04d7ceeb5088abf1adf8d9b5d5016e0e8f9f34"
+  integrity sha512-kC9FDUB759krbaD0ZckzVtwbrrwXj27KeDHAMDKXUqxAT3bhsU6iLvTEiZ7wBjWSLc2QvQ914z3BYCZ/97q78w==
   dependencies:
     axios "^0.19.2"
 

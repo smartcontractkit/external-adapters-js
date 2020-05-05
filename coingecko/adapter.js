@@ -1,5 +1,4 @@
 const { Requester, Validator } = require('external-adapter')
-const timeout = process.env.TIMEOUT || 5000
 
 const customError = (data) => {
   if (Object.keys(data).length === 0) return true
@@ -16,8 +15,7 @@ const convertFromTicker = (ticker, coinId, callback) => {
   if (typeof coinId !== 'undefined') return callback(coinId.toLowerCase())
 
   Requester.request({
-    url: 'https://api.coingecko.com/api/v3/coins/list',
-    timeout
+    url: 'https://api.coingecko.com/api/v3/coins/list'
   }, customError)
     .then(response => {
       const coin = response.data.find(x => x.symbol.toLowerCase() === ticker.toLowerCase())
@@ -46,8 +44,7 @@ const createRequest = (input, callback) => {
 
     const config = {
       url: url,
-      params,
-      timeout
+      params
     }
     Requester.request(config, customError)
       .then(response => {

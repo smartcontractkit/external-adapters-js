@@ -31,8 +31,7 @@ const createRequest = (input, callback) => {
   const config = {
     url,
     params,
-    headers,
-    timeout: 10000
+    headers
   }
   Requester.request(config, customError)
     .then(response => {
