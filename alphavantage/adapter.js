@@ -1,7 +1,7 @@
 const { Requester, Validator } = require('external-adapter')
 
-const customError = (body) => {
-  if (body['Error Message']) return true
+const customError = (data) => {
+  if (data['Error Message']) return true
   return false
 }
 
@@ -12,14 +12,14 @@ const customParams = {
 }
 
 const createRequest = (input, callback) => {
-  const validator = new Validator(input, customParams, callback)
+  const validator = new Validator(callback, input, customParams)
   const url = 'https://www.alphavantage.co/query'
   const jobRunID = validator.validated.id
   const func = validator.validated.data.function || 'CURRENCY_EXCHANGE_RATE'
   const from = validator.validated.data.base
   const to = validator.validated.data.quote
 
-  const qs = {
+  const params = {
     function: func,
     from_currency: from,
     to_currency: to,
@@ -30,15 +30,15 @@ const createRequest = (input, callback) => {
     apikey: process.env.API_KEY
   }
 
-  const options = {
+  const config = {
     url,
-    qs
+    params
   }
-  Requester.requestRetry(options, customError)
+  Requester.request(config, customError)
     .then(response => {
-      response.body.result = JSON.parse(Requester.validateResult(
-        response.body, ['Realtime Currency Exchange Rate', '5. Exchange Rate']))
-      callback(response.statusCode, Requester.success(jobRunID, response))
+      response.data.result = JSON.parse(Requester.validateResultNumber(
+        response.data, ['Realtime Currency Exchange Rate', '5. Exchange Rate']))
+      callback(response.status, Requester.success(jobRunID, response))
     })
     .catch(error => {
       callback(500, Requester.errored(jobRunID, error))

@@ -8,7 +8,7 @@ const customParams = {
 }
 
 const createRequest = (input, callback) => {
-  const validator = new Validator(input, customParams, callback)
+  const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || 'convert'
   const url = `https://api.1forge.com/${endpoint}`
@@ -17,22 +17,22 @@ const createRequest = (input, callback) => {
   const quantity = validator.validated.data.quantity || 1
   const api_key = process.env.API_KEY // eslint-disable-line camelcase
 
-  const qs = {
+  const params = {
     from,
     to,
     quantity,
     api_key
   }
 
-  const options = {
+  const config = {
     url,
-    qs
+    params
   }
 
-  Requester.requestRetry(options)
+  Requester.request(config)
     .then(response => {
-      response.body.result = Requester.validateResult(response.body, ['value'])
-      callback(response.statusCode, Requester.success(jobRunID, response))
+      response.data.result = Requester.validateResultNumber(response.data, ['value'])
+      callback(response.status, Requester.success(jobRunID, response))
     })
     .catch(error => {
       callback(500, Requester.errored(jobRunID, error))

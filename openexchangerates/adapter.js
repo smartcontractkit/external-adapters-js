@@ -7,27 +7,27 @@ const customParams = {
 }
 
 const createRequest = (input, callback) => {
-  const validator = new Validator(input, customParams, callback)
+  const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || 'latest.json'
   const url = `https://openexchangerates.org/api/${endpoint}`
   const base = validator.validated.data.base.toUpperCase()
   const to = validator.validated.data.quote.toUpperCase()
 
-  const qs = {
+  const params = {
     base,
     app_id: process.env.API_KEY
   }
 
-  const options = {
+  const config = {
     url,
-    qs
+    params
   }
 
-  Requester.requestRetry(options)
+  Requester.request(config)
     .then(response => {
-      response.body.result = Requester.validateResult(response.body, ['rates', to])
-      callback(response.statusCode, Requester.success(jobRunID, response))
+      response.data.result = Requester.validateResultNumber(response.data, ['rates', to])
+      callback(response.status, Requester.success(jobRunID, response))
     })
     .catch(error => {
       callback(500, Requester.errored(jobRunID, error))

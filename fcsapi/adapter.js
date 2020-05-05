@@ -1,7 +1,7 @@
 const { Requester, Validator } = require('external-adapter')
 
-const customError = (body) => {
-  if (body.msg !== 'Successfully') return true
+const customError = (data) => {
+  if (data.msg !== 'Successfully') return true
   return false
 }
 
@@ -23,7 +23,7 @@ const customParams = {
 }
 
 const createRequest = (input, callback) => {
-  const validator = new Validator(input, customParams, callback)
+  const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
   let symbol = validator.validated.data.base.toUpperCase()
   let endpoint = validator.validated.data.endpoint
@@ -34,20 +34,20 @@ const createRequest = (input, callback) => {
   const url = `https://fcsapi.com/api-v2/${endpoint}`
   const access_key = process.env.API_KEY // eslint-disable-line camelcase
 
-  const qs = {
+  const params = {
     access_key,
     id: symbol
   }
 
-  const options = {
+  const config = {
     url,
-    qs
+    params
   }
 
-  Requester.requestRetry(options, customError)
+  Requester.request(config, customError)
     .then(response => {
-      response.body.result = Requester.validateResult(response.body, ['response', 0, 'price'])
-      callback(response.statusCode, Requester.success(jobRunID, response))
+      response.data.result = Requester.validateResultNumber(response.data, ['response', 0, 'price'])
+      callback(response.status, Requester.success(jobRunID, response))
     })
     .catch(error => {
       callback(500, Requester.errored(jobRunID, error))

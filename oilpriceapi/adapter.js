@@ -9,12 +9,12 @@ const customParams = {
   endpoint: false
 }
 
-const customError = (body) => {
-  return body.data === null
+const customError = (data) => {
+  return data.data === null
 }
 
 const createRequest = (input, callback) => {
-  const validator = new Validator(input, customParams, callback)
+  const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || 'prices/latest'
   const url = `https://api.oilpriceapi.com/v1/${endpoint}`
@@ -25,7 +25,7 @@ const createRequest = (input, callback) => {
     by_code = commonKeys[by_code]
   }
 
-  const qs = {
+  const params = {
     by_code
   }
 
@@ -33,16 +33,16 @@ const createRequest = (input, callback) => {
     Authorization: `Token ${process.env.API_KEY}`
   }
 
-  const options = {
+  const config = {
     url,
-    qs,
+    params,
     headers
   }
 
-  Requester.requestRetry(options, customError)
+  Requester.request(config, customError)
     .then(response => {
-      response.body.result = Requester.validateResult(response.body, ['data', 'price'])
-      callback(response.statusCode, Requester.success(jobRunID, response))
+      response.data.result = Requester.validateResultNumber(response.data, ['data', 'price'])
+      callback(response.status, Requester.success(jobRunID, response))
     })
     .catch(error => {
       callback(500, Requester.errored(jobRunID, error))

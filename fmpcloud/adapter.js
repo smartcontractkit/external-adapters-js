@@ -10,8 +10,8 @@ const commonKeys = {
   JPY: 'JPYUSD'
 }
 
-const customError = (body) => {
-  return body.length === 0
+const customError = (data) => {
+  return data.length === 0
 }
 
 const customParams = {
@@ -20,7 +20,7 @@ const customParams = {
 }
 
 const createRequest = (input, callback) => {
-  const validator = new Validator(input, customParams, callback)
+  const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || 'quote'
   let symbol = validator.validated.data.base.toUpperCase()
@@ -30,19 +30,19 @@ const createRequest = (input, callback) => {
   const url = `https://fmpcloud.io/api/v3/${endpoint}/${symbol}`
   const apikey = process.env.API_KEY
 
-  const qs = {
+  const params = {
     apikey
   }
 
-  const options = {
+  const config = {
     url,
-    qs
+    params
   }
 
-  Requester.requestRetry(options, customError)
+  Requester.request(config, customError)
     .then(response => {
-      response.body.result = Requester.validateResult(response.body, [0, 'price'])
-      callback(response.statusCode, Requester.success(jobRunID, response))
+      response.data.result = Requester.validateResultNumber(response.data, [0, 'price'])
+      callback(response.status, Requester.success(jobRunID, response))
     })
     .catch(error => {
       callback(500, Requester.errored(jobRunID, error))
