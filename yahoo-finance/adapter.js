@@ -17,7 +17,7 @@ const customParams = {
 }
 
 const createRequest = (input, callback) => {
-  const validator = new Validator(input, customParams, callback)
+  const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
   let symbol = validator.validated.data.base.toUpperCase()
   if (commonKeys[symbol]) {
@@ -27,16 +27,16 @@ const createRequest = (input, callback) => {
   yahooFinance.quote({
     symbol: symbol,
     modules: ['price']
-  }, (err, body) => {
+  }, (err, data) => {
     if (err) {
       callback(500, Requester.errored(jobRunID, err.message))
     } else {
       const statusCode = 200
       const response = {
-        body,
+        data,
         statusCode
       }
-      response.body.result = Requester.validateResult(response.body, ['price', 'regularMarketPrice'])
+      response.data.result = Requester.validateResultNumber(response.data, ['price', 'regularMarketPrice'])
       callback(statusCode, Requester.success(jobRunID, response))
     }
   })

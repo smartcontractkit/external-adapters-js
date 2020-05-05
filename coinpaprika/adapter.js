@@ -10,11 +10,11 @@ const customParams = {
 const convertFromTicker = (ticker, coinid, callback) => {
   if (typeof coinId !== 'undefined') return callback(coinid.toLowerCase())
 
-  Requester.requestRetry({
+  Requester.request({
     url: 'https://api.coinpaprika.com/v1/coins',
     timeout
   }).then(response => {
-    const coin = response.body.sort((a, b) => (a.rank > b.rank) ? 1 : -1)
+    const coin = response.data.sort((a, b) => (a.rank > b.rank) ? 1 : -1)
       .find(x => x.symbol.toLowerCase() === ticker.toLowerCase() && x.rank !== 0)
     if (typeof coin === 'undefined') {
       return callback('Could not find coin', null)
@@ -26,7 +26,7 @@ const convertFromTicker = (ticker, coinid, callback) => {
 }
 
 const createRequest = (input, callback) => {
-  const validator = new Validator(input, customParams, callback)
+  const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
   const symbol = validator.validated.data.base
   convertFromTicker(symbol, validator.validated.data.coinid, (error, coin) => {
@@ -36,20 +36,20 @@ const createRequest = (input, callback) => {
     const url = `https://api.coinpaprika.com/v1/tickers/${coin}`
     const market = validator.validated.data.quote
 
-    const qs = {
+    const params = {
       quotes: market.toUpperCase()
     }
 
-    const options = {
+    const config = {
       url,
-      qs,
+      params,
       timeout
     }
 
-    Requester.requestRetry(options)
+    Requester.request(config)
       .then(response => {
-        response.body.result = Requester.validateResult(response.body, ['quotes', market.toUpperCase(), 'price'])
-        callback(response.statusCode, Requester.success(jobRunID, response))
+        response.data.result = Requester.validateResultNumber(response.data, ['quotes', market.toUpperCase(), 'price'])
+        callback(response.status, Requester.success(jobRunID, response))
       })
       .catch(error => {
         callback(500, Requester.errored(jobRunID, error))

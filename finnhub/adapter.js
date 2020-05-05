@@ -17,7 +17,7 @@ const customParams = {
 }
 
 const createRequest = (input, callback) => {
-  const validator = new Validator(input, customParams, callback)
+  const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || 'quote'
   const url = `https://finnhub.io/api/v1/${endpoint}`
@@ -27,20 +27,20 @@ const createRequest = (input, callback) => {
   }
   const token = process.env.API_KEY
 
-  const qs = {
+  const params = {
     symbol,
     token
   }
 
-  const options = {
+  const config = {
     url,
-    qs
+    params
   }
 
-  Requester.requestRetry(options)
+  Requester.request(config)
     .then(response => {
-      response.body.result = Requester.validateResult(response.body, ['c'])
-      callback(response.statusCode, Requester.success(jobRunID, response))
+      response.data.result = Requester.validateResultNumber(response.data, ['c'])
+      callback(response.status, Requester.success(jobRunID, response))
     })
     .catch(error => {
       callback(500, Requester.errored(jobRunID, error))

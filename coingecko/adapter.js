@@ -1,8 +1,8 @@
 const { Requester, Validator } = require('external-adapter')
 const timeout = process.env.TIMEOUT || 5000
 
-const customError = (body) => {
-  if (Object.keys(body).length === 0) return true
+const customError = (data) => {
+  if (Object.keys(data).length === 0) return true
   return false
 }
 
@@ -15,12 +15,12 @@ const customParams = {
 const convertFromTicker = (ticker, coinId, callback) => {
   if (typeof coinId !== 'undefined') return callback(coinId.toLowerCase())
 
-  Requester.requestRetry({
+  Requester.request({
     url: 'https://api.coingecko.com/api/v3/coins/list',
     timeout
   }, customError)
     .then(response => {
-      const coin = response.body.find(x => x.symbol.toLowerCase() === ticker.toLowerCase())
+      const coin = response.data.find(x => x.symbol.toLowerCase() === ticker.toLowerCase())
       if (typeof coin === 'undefined') {
         return callback('undefined')
       }
@@ -32,27 +32,27 @@ const convertFromTicker = (ticker, coinId, callback) => {
 }
 
 const createRequest = (input, callback) => {
-  const validator = new Validator(input, customParams, callback)
+  const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
   const symbol = validator.validated.data.base
   convertFromTicker(symbol, validator.validated.data.coinid, (coin) => {
     const url = 'https://api.coingecko.com/api/v3/simple/price'
     const market = validator.validated.data.quote
 
-    const queryObj = {
+    const params = {
       ids: coin,
       vs_currencies: market
     }
 
-    const options = {
+    const config = {
       url: url,
-      qs: queryObj,
+      params,
       timeout
     }
-    Requester.requestRetry(options, customError)
+    Requester.request(config, customError)
       .then(response => {
-        response.body.result = Requester.validateResult(response.body, [coin.toLowerCase(), market.toLowerCase()])
-        callback(response.statusCode, Requester.success(jobRunID, response))
+        response.data.result = Requester.validateResultNumber(response.data, [coin.toLowerCase(), market.toLowerCase()])
+        callback(response.status, Requester.success(jobRunID, response))
       })
       .catch(error => {
         callback(500, Requester.errored(jobRunID, error))

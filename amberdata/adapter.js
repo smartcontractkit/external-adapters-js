@@ -1,7 +1,7 @@
 const { Requester, Validator } = require('external-adapter')
 
-const customError = (body) => {
-  return Object.keys(body.payload).length === 0
+const customError = (data) => {
+  return Object.keys(data.payload).length === 0
 }
 
 const customParams = {
@@ -10,26 +10,26 @@ const customParams = {
 }
 
 const createRequest = (input, callback) => {
-  const validator = new Validator(input, customParams, callback)
+  const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
   const coin = validator.validated.data.base
   const market = validator.validated.data.quote
   const url = `https://web3api.io/api/v2/market/prices/${coin.toLowerCase()}/latest`
 
-  const options = {
+  const config = {
     url,
     headers: {
       'x-api-key': process.env.API_KEY
     },
-    qs: {
+    params: {
       quote: market.toLowerCase()
     }
   }
-  Requester.requestRetry(options, customError)
+  Requester.request(config, customError)
     .then(response => {
-      response.body.result = Requester.validateResult(response.body,
+      response.data.result = Requester.validateResultNumber(response.data,
         ['payload', `${coin.toLowerCase()}_${market.toLowerCase()}`, 'price'])
-      callback(response.statusCode, Requester.success(jobRunID, response))
+      callback(response.status, Requester.success(jobRunID, response))
     })
     .catch(error => {
       callback(500, Requester.errored(jobRunID, error))

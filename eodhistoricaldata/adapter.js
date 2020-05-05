@@ -12,7 +12,7 @@ const customParams = {
 }
 
 const createRequest = (input, callback) => {
-  const validator = new Validator(input, customParams, callback)
+  const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || 'real-time'
   let symbol = validator.validated.data.base.toUpperCase()
@@ -22,20 +22,20 @@ const createRequest = (input, callback) => {
   const url = `https://eodhistoricaldata.com/api/${endpoint}/${symbol}`
   const api_token = process.env.API_KEY // eslint-disable-line camelcase
 
-  const qs = {
+  const params = {
     api_token,
     fmt: 'json'
   }
 
-  const options = {
+  const config = {
     url,
-    qs
+    params
   }
 
-  Requester.requestRetry(options)
+  Requester.request(config)
     .then(response => {
-      response.body.result = Requester.validateResult(response.body, ['close'])
-      callback(response.statusCode, Requester.success(jobRunID, response))
+      response.data.result = Requester.validateResultNumber(response.data, ['close'])
+      callback(response.status, Requester.success(jobRunID, response))
     })
     .catch(error => {
       callback(500, Requester.errored(jobRunID, error))
