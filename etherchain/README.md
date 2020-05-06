@@ -2,8 +2,12 @@
 
 ## Input Params
 
+- `speed`: The speed for gas price to get (required). Available choices:
+    - `safeLow`
+    - `standard`
+    - `fast`
+    - `fastest`
 - `endpoint`: The endpoint to use (optional, default: gasPriceOracle)
-- `speed`: The speed for gas price to get (required)
 
 ## Output Format
 

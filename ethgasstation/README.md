@@ -2,8 +2,12 @@
 
 ## Input Params
 
+- `speed`: The speed for gas price to get (required). Available choices:
+    - `safeLow`
+    - `average`
+    - `fast`
+    - `fastest`
 - `endpoint`: The endpoint to use (optional, default: ethgasAPI)
-- `speed`: The speed for gas price to get (required)
 
 ## Output Format
 

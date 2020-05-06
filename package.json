@@ -30,7 +30,7 @@
     "google-finance",
     "etherchain",
     "poa-gasprice",
-    "anyblock",
+    "anyblock-gasprice",
     "ethgasstation",
     "amberdata-gasprice"
   ],

@@ -7,7 +7,7 @@ const customError = (data) => {
 }
 
 const customParams = {
-  speed: ['speed']
+  speed: true
 }
 
 const createRequest = (input, callback) => {
