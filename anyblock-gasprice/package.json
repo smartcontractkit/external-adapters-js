@@ -1,0 +1,8 @@
+{
+  "name": "anyblock-gasprice",
+  "version": "0.1.0",
+  "license": "MIT",
+  "scripts": {
+    "test": "yarn _mocha --timeout 0"
+  }
+}
