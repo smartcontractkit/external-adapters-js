@@ -1,5 +1,18 @@
 check?=tradinghours
 
+docker-v2:
+	docker build --build-arg adapter=$(adapter) -f v2.Dockerfile . -t $(adapter)-adapter
+serverless-v2: v2-deps v2-build
+	(cd $(adapter)/dist && zip -r adapter.zip .) 
+	(cd $(adapter) && zip ./dist/adapter.zip package.json)
+v2-clean: 
+	rm -rf $(adapter)/dist
+	rm -f adapter.zip
+v2-deps: v2-clean
+	yarn --frozen-lockfile --production
+v2-build:
+	yarn ncc build $(adapter) -o $(adapter)/dist
+
 docker-price:
 	docker build --no-cache --build-arg adapter=$(adapter) -f Dockerfile . -t $(adapter)-adapter
 
