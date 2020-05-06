@@ -15,6 +15,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2018
   },
+  ignorePatterns: ['node_modules/', 'dist/'],
   rules: {
     'standard/no-callback-literal': 0
   }

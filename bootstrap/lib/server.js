@@ -3,7 +3,7 @@ const bodyParser = require('body-parser')
 const app = express()
 const port = process.env.EA_PORT || 8080
 
-function init(createRequest) {
+function init (createRequest) {
   return () => {
     app.use(bodyParser.json())
 

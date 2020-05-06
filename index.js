@@ -17,7 +17,7 @@ exports.handlerv2 = (event, context, callback) => {
     callback(null, {
       statusCode: statusCode,
       body: JSON.stringify(data),
-      isBase64Encoded: false,
+      isBase64Encoded: false
     })
   })
 }
