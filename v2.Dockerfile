@@ -5,11 +5,11 @@ WORKDIR /home/node/app
 COPY package.json yarn.lock Makefile ./
 COPY bootstrap/package.json bootstrap/package.json
 COPY $adapter/package.json $adapter/package.json
-RUN make v2-deps
+RUN make deps
 
 COPY bootstrap bootstrap
 COPY $adapter $adapter
-RUN make v2-build
+RUN make build
 
 FROM node:12-alpine
 ARG adapter
