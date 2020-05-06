@@ -2,7 +2,7 @@
 
 ## Input Params
 
-- `speed`: The speed for gas price to get (optional, default: fast)
+- `speed`: The speed for gas price to get (required)
 - `endpoint`: The blockchain id to get gas prices from (optional, default: ethereum-mainnet)
 
 ## Output Format

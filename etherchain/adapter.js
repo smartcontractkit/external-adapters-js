@@ -7,14 +7,14 @@ const customError = (data) => {
 
 const customParams = {
   endpoint: false,
-  speed: false
+  speed: ['speed']
 }
 
 const createRequest = (input, callback) => {
   const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || 'gasPriceOracle'
-  const speed = validator.validated.data.speed || 'fast'
+  const speed = validator.validated.data.speed
   const url = `https://www.etherchain.org/api/${endpoint}`
 
   Requester.request(url, customError)

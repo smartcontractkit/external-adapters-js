@@ -8,14 +8,14 @@ const customError = (data) => {
 
 const customParams = {
   endpoint: false,
-  speed: false
+  speed: ['speed']
 }
 
 const createRequest = (input, callback) => {
   const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || 'latest-minimum-gasprice'
-  const speed = validator.validated.data.speed || 'fast'
+  const speed = validator.validated.data.speed
   const url = `https://api.anyblock.tools/${endpoint}`
 
   Requester.request(url, customError)

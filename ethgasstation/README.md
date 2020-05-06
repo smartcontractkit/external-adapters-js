@@ -3,7 +3,7 @@
 ## Input Params
 
 - `endpoint`: The endpoint to use (optional, default: ethgasAPI)
-- `speed`: The speed for gas price to get (optional, default: fast)
+- `speed`: The speed for gas price to get (required)
 
 ## Output Format
 

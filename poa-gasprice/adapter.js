@@ -7,13 +7,13 @@ const customError = (data) => {
 }
 
 const customParams = {
-  speed: false
+  speed: ['speed']
 }
 
 const createRequest = (input, callback) => {
   const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
-  const speed = validator.validated.data.speed || 'fast'
+  const speed = validator.validated.data.speed
   const url = 'https://gasprice.poa.network/'
 
   Requester.request(url, customError)

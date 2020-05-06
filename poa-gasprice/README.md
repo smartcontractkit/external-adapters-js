@@ -2,7 +2,7 @@
 
 ## Input Params
 
-- `speed`: The speed for gas price to get (optional, default: fast)
+- `speed`: The speed for gas price to get (required)
 
 ## Output Format
 

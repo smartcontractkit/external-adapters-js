@@ -16,13 +16,6 @@ describe('createRequest', () => {
         }
       },
       {
-        name: 'data is empty',
-        testData: {
-          id: jobID,
-          data: {}
-        }
-      },
-      {
         name: 'speed is standard',
         testData: {
           id: jobID,
