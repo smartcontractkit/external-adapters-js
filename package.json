@@ -8,6 +8,7 @@
     "alphavantage",
     "amberdata",
     "bravenewcoin",
+    "bootstrap",
     "coinapi",
     "coingecko",
     "coinmarketcap",
@@ -38,6 +39,7 @@
     "lint": "yarn eslint ."
   },
   "dependencies": {
+    "@zeit/ncc": "^0.22.1",
     "body-parser": "^1.19.0",
     "boxhock_google-finance-data": "^0.1.0",
     "ethers": "^4.0.47",
@@ -47,7 +49,6 @@
     "yahoo-finance": "^0.3.6"
   },
   "devDependencies": {
-    "@zeit/ncc": "^0.22.1",
     "chai": "^4.2.0",
     "eslint": "^6.5.1",
     "eslint-config-standard": "^14.1.1",
