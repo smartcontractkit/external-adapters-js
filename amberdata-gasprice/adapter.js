@@ -13,14 +13,14 @@ const createRequest = (input, callback) => {
   const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
   const speed = validator.validated.data.speed || 'fast'
-  const blockchain = validator.validated.data.blockchain || 'ethereum-mainnet'
+  const endpoint = validator.validated.data.blockchain || 'ethereum-mainnet'
   const url = 'https://web3api.io/api/v2/transactions/gas/predictions'
 
   const config = {
     url,
     headers: {
       'x-api-key': process.env.API_KEY,
-      'x-amberdata-blockchain-id': blockchain
+      'x-amberdata-blockchain-id': endpoint
     }
   }
 

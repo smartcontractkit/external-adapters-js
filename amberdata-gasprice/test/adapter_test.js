@@ -11,7 +11,7 @@ describe('createRequest', () => {
         testData: {
           data: {
             speed: 'fast',
-            blockchain: 'ethereum-mainnet'
+            endpoint: 'ethereum-mainnet'
           }
         }
       },
@@ -63,10 +63,10 @@ describe('createRequest', () => {
         }
       },
       {
-        name: 'unknown blockchain',
+        name: 'unknown endpoint',
         testData: {
           id: jobID,
-          data: { blockchain: 'not_real' }
+          data: { endpoint: 'not_real' }
         }
       }
     ]
