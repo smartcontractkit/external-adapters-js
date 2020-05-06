@@ -27,7 +27,12 @@
     "polygon",
     "tradinghours",
     "yahoo-finance",
-    "google-finance"
+    "google-finance",
+    "etherchain",
+    "poa-gasprice",
+    "anyblock",
+    "ethgasstation",
+    "amberdata-gasprice"
   ],
   "scripts": {
     "lint": "yarn eslint ."
