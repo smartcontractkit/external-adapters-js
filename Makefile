@@ -4,12 +4,12 @@ docker:
 	docker build --build-arg adapter=$(adapter) -f v2.Dockerfile . -t $(adapter)-adapter
 
 zip: deps build
-	(cd $(adapter)/dist && zip -r adapter.zip .)
-	(cd $(adapter) && zip ./dist/adapter.zip package.json)
+	(cd $(adapter)/dist && zip -r $(adapter)-adapter.zip .)
+	(cd $(adapter) && zip ./dist/$(adapter)-adapter.zip package.json)
 
 clean:
 	rm -rf $(adapter)/dist
-	rm -f adapter.zip
+	rm -f $(adapter)-adapter.zip
 
 deps: clean
 	yarn --frozen-lockfile --production
