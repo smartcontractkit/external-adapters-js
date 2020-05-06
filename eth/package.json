@@ -1,7 +1,8 @@
 {
-  "name": "eth",
+  "name": "@chainlink/eth-adapter-helper",
   "version": "0.1.0",
   "license": "MIT",
+  "main": "readReferenceContract.js",
   "scripts": {
     "test": "yarn _mocha --timeout 0"
   },

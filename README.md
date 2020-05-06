@@ -26,7 +26,7 @@ Installs packages for all workspaces.
 To build a Docker container for a specific container, use the following example:
 
 ```bash
-make docker-price adapter=bravenewcoin
+make docker adapter=bravenewcoin
 ```
 
 Then run it with:
@@ -40,7 +40,7 @@ docker run -p 8080:8080 -e API_KEY='YOUR_API_KEY' -it bravenewcoin-adapter:lates
 Create the zip:
 
 ```bash
-make serverless-price adapter=bravenewcoin
+make zip adapter=bravenewcoin
 ```
 
 ### Install to AWS Lambda

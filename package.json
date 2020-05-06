@@ -1,5 +1,5 @@
 {
-  "name": "price-adapters",
+  "name": "@chainlink/external-adapters-js",
   "version": "0.1.0",
   "license": "MIT",
   "private": true,
@@ -8,6 +8,7 @@
     "alphavantage",
     "amberdata",
     "bravenewcoin",
+    "bootstrap",
     "coinapi",
     "coingecko",
     "coinmarketcap",
@@ -38,6 +39,7 @@
     "lint": "yarn eslint ."
   },
   "dependencies": {
+    "@zeit/ncc": "^0.22.1",
     "body-parser": "^1.19.0",
     "boxhock_google-finance-data": "^0.1.0",
     "ethers": "^4.0.47",
@@ -54,6 +56,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
-    "mocha": "^7.1.2"
+    "mocha": "^7.1.2",
+    "prettier": "^2.0.5"
   }
 }
