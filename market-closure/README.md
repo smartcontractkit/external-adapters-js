@@ -23,5 +23,5 @@ docker run -p 8080:8080 -e API_KEY='YOUR_API_KEY' -e TH_API_KEY='YOUR_TRADINGHOU
 Create the zip:
 
 ```bash
-make serverless-market-closure adapter=finnhub check=tradinghours
+make zip-market-closure adapter=finnhub check=tradinghours
 ```
