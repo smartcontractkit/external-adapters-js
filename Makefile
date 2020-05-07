@@ -1,7 +1,7 @@
 check?=tradinghours
 
 docker:
-	docker build --build-arg adapter=$(adapter) -f v2.Dockerfile . -t $(adapter)-adapter
+	docker build --build-arg adapter=$(adapter) -f Dockerfile . -t $(adapter)-adapter
 
 zip: deps build
 	(cd $(adapter)/dist && zip -r $(adapter)-adapter.zip .)
