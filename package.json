@@ -45,7 +45,7 @@
     "ethers": "^4.0.47",
     "express": "^4.17.0",
     "external-adapter": "^0.2.2",
-    "market-closure": "^0.1.1",
+    "market-closure": "^0.1.2",
     "yahoo-finance": "^0.3.6"
   },
   "devDependencies": {
