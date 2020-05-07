@@ -5,7 +5,6 @@ docker:
 
 zip: deps build
 	(cd $(adapter)/dist && zip -r $(adapter)-adapter.zip .)
-	(cd $(adapter) && zip ./dist/$(adapter)-adapter.zip package.json)
 
 clean:
 	rm -rf $(adapter)/dist
@@ -33,4 +32,3 @@ docker-market-closure:
 
 zip-market-closure: deps clean-market-closure build-market-closure
 	(cd market-closure/$(check)/dist && zip -r $(adapter)-$(check)-adapter.zip .)
-	(cd market-closure/$(check) && zip ./dist/$(adapter)-$(check)-adapter.zip package.json)
