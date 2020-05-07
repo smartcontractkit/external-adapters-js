@@ -41,7 +41,8 @@ const createRequest = (input, callback) => {
 
   Requester.request(config, customError)
     .then(response => {
-      response.data.result = Requester.validateResultNumber(response.data, [0, 'price'])
+      response.data = response.data[0]
+      response.data.result = Requester.validateResultNumber(response.data, ['price'])
       callback(response.status, Requester.success(jobRunID, response))
     })
     .catch(error => {
