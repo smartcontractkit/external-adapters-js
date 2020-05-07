@@ -1525,10 +1525,10 @@ luxon@^1.23.0:
   resolved "https://registry.yarnpkg.com/luxon/-/luxon-1.24.1.tgz#a8383266131ed4eaed4b5f430f96f3695403a52a"
   integrity sha512-CgnIMKAWT0ghcuWFfCWBnWGOddM0zu6c4wZAWmD0NN7MZTnro0+833DF6tJep+xlxRPg4KtsYEHYLfTMBQKwYg==
 
-market-closure@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/market-closure/-/market-closure-0.1.1.tgz#0f4479da3a6c0168da7eb96eaf71b99573fd7309"
-  integrity sha512-Jft4KSDTefN+RFshlW7woFaptlCTWMvE5f5PPyQpocbiuA7rwLfPQHDtrzYKh+KzzxLldZTTab4nwaPnqwtH4g==
+market-closure@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/market-closure/-/market-closure-0.1.2.tgz#3006c77a9fcacf3d2a2410fa663b5e2f04ebc68f"
+  integrity sha512-6eBBE/CVy7DD4e9flfL0KXW86jy7jl2rDdpd6O87PJaWpRq94Y0iLztWXvROlLQMDU2L+IJAegIkrXlmfn+kGQ==
   dependencies:
     luxon "^1.23.0"
 
