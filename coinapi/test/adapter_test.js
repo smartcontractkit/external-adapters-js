@@ -9,7 +9,8 @@ describe('createRequest', () => {
       { name: 'id not supplied', testData: { data: { base: 'ETH', quote: 'USD' } } },
       { name: 'base/quote', testData: { id: jobID, data: { base: 'ETH', quote: 'USD' } } },
       { name: 'from/to', testData: { id: jobID, data: { from: 'ETH', to: 'USD' } } },
-      { name: 'coin/market', testData: { id: jobID, data: { coin: 'ETH', market: 'USD' } } }
+      { name: 'coin/market', testData: { id: jobID, data: { coin: 'ETH', market: 'USD' } } },
+      { name: 'coin/market lowercase', testData: { id: jobID, data: { coin: 'eth', market: 'usd' } } }
     ]
 
     requests.forEach(req => {
