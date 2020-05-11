@@ -4,13 +4,15 @@ Market closure adapters first check if a given market is currently trading, and 
 
 ## Docker
 
-To build a Docker container for a specific container, use the following example, ran from the root of the repository:
+To build a Docker container for a specific `$adapter` and `$check`, use the following example, ran from the root of the repository:
 
 ```bash
 make docker-market-closure adapter=finnhub check=tradinghours
 ```
 
 Both build arguments `--build-arg` are required. This will be the directory of the adapter you wish to build.
+
+The naming convention for market closure Docker containers will be `$adapter-$check-adapter`.
 
 Then run it with:
 
@@ -25,3 +27,5 @@ Create the zip:
 ```bash
 make zip-market-closure adapter=finnhub check=tradinghours
 ```
+
+The zip will be created as `./market-closure/$check/dist/$adapter-$check-adapter.zip`.
