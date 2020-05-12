@@ -1,11 +1,11 @@
 # External Adapter Helper
 
-This repo helps with creating Chainlink external adapters in NodeJS.
+This package helps with creating Chainlink external adapters in NodeJS.
 
 ## Adding to your project
 
 ```
-yarn add external-adapter
+yarn add @chainlink/external-adapter
 ```
 
 ## Usage
