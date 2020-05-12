@@ -172,7 +172,7 @@ describe('Requester', () => {
       assert.equal(response.data.result, 'success')
       assert.equal(response.data.value, 1)
       const result = Requester.getResult(response, ['result'])
-      assert.equal(typeof(result), 'undefined')
+      assert.equal(typeof result, 'undefined')
     })
   })
 

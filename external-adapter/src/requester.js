@@ -10,14 +10,14 @@ class Requester {
       config.timeout = !isNaN(timeout) ? timeout : 3000
     }
     if (typeof customError === 'undefined') {
-      customError = function _customError(data) {
+      customError = function _customError (data) {
         return false
       }
     }
     if (typeof customError !== 'function') {
       delay = retries
       retries = customError
-      customError = function _customError(data) {
+      customError = function _customError (data) {
         return false
       }
     }
@@ -93,7 +93,7 @@ class Requester {
   }
 
   static success (jobRunID = '1', response) {
-    if (!response.data.hasOwnProperty('result')) {
+    if (!('result' in response.data)) {
       response.data.result = null
     }
     return {
