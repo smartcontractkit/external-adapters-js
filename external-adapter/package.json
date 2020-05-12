@@ -1,0 +1,17 @@
+{
+  "name": "@chainlink/external-adapter",
+  "version": "0.2.3",
+  "description": "Helpers for creating Chainlink External Adapters",
+  "main": "index.js",
+  "scripts": {
+    "test": "yarn mocha --exit --timeout 0"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "express": "^4.17.1"
+  }
+}

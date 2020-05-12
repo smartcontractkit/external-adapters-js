@@ -1,4 +1,4 @@
-const { Requester } = require('external-adapter')
+const { Requester } = require('@chainlink/external-adapter')
 
 const commonMICs = {
   FTSE: 'xlon',
