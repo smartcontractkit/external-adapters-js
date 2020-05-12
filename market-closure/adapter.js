@@ -47,13 +47,13 @@ const handleRequest = (input, validator, adapter, halted, callback) => {
       return adapter(input, callback)
     }
 
-    const body = {
+    const data = {
       result: price
     }
-    const statusCode = 200
-    callback(statusCode, Requester.success(jobRunID, {
-      body,
-      statusCode
+    const status = 200
+    callback(status, Requester.success(jobRunID, {
+      data,
+      status
     }))
   }).catch(() => {
     adapter(input, callback)

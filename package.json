@@ -46,6 +46,7 @@
     "express": "^4.17.0",
     "external-adapter": "^0.2.2",
     "market-closure": "^0.1.2",
+    "web3": "^1.2.7",
     "yahoo-finance": "^0.3.6"
   },
   "devDependencies": {
