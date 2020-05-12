@@ -1,8 +1,19 @@
-name: Lint
+name: Actions
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
+  test-external-adapter:
+    name: Test @chainlink/external-adapter
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: borales/actions-yarn@v2.0.0
+        with:
+          cmd: install
+      - uses: borales/actions-yarn@v2.0.0
+        with:
+          cmd: test
   run-linters:
     name: Run linters
     runs-on: ubuntu-latest

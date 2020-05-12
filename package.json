@@ -37,7 +37,8 @@
     "amberdata-gasprice"
   ],
   "scripts": {
-    "lint": "yarn eslint ."
+    "lint": "yarn eslint .",
+    "test": "yarn workspace @chainlink/external-adapter test"
   },
   "dependencies": {
     "@zeit/ncc": "^0.22.1",
