@@ -1,4 +1,4 @@
-const { Requester, Validator } = require('external-adapter')
+const { Requester, Validator } = require('@chainlink/external-adapter')
 
 const commonKeys = {
   N225: 'N225.INDX',

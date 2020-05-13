@@ -1,4 +1,4 @@
-const { Requester, Validator } = require('external-adapter')
+const { Requester, Validator } = require('@chainlink/external-adapter')
 const google = require('boxhock_google-finance-data')
 
 const commonKeys = {

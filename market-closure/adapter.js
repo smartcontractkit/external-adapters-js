@@ -1,4 +1,4 @@
-const { Requester, Validator } = require('external-adapter')
+const { Requester, Validator } = require('@chainlink/external-adapter')
 const { MarketClosure } = require('market-closure')
 const { tradingHalted } = require('./marketCheck')
 const { getContractPrice } = require('./readReferenceContract')
