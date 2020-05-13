@@ -38,6 +38,7 @@
   ],
   "scripts": {
     "lint": "yarn eslint .",
+    "local-endpoint": "node ./helpers/server.js",
     "test": "yarn workspace @chainlink/external-adapter test"
   },
   "dependencies": {
