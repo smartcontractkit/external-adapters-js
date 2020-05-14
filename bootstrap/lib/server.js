@@ -1,11 +1,12 @@
 const pjson = require('./package.json')
+const withConsul = require('with-consul')
 const express = require('express')
 const bodyParser = require('body-parser')
 const port = process.env.EA_PORT || 8080
 
 const app = withConsul(express(), {
-  name: pjson.version,
-  tags: ['external-adapter', 'fargate'],
+  name: `${pjson.name}`,
+  tags: ['external-adapter', 'fargate', `version-${pjson.version}`]
 })
 
 function init (createRequest) {
