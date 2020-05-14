@@ -12,6 +12,8 @@ This repository contains the source for Chainlink external adapters. Each adapte
 yarn
 ```
 
+Installs packages for all workspaces.
+
 ## Test
 
 In order to test adapters locally, you may need to set an `$API_KEY` environment variable for the given API.
@@ -21,7 +23,13 @@ cd $adapter
 yarn test
 ```
 
-Installs packages for all workspaces.
+## Creating a new external adapter
+
+Run the command below to have the [example](./example) directory cloned using the name you provide for $adapter:
+
+```bash
+make new adapter=my-adapter-name
+```
 
 ## Docker
 

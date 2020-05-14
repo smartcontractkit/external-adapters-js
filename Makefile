@@ -6,6 +6,14 @@ docker:
 zip: deps build
 	(cd $(adapter)/dist && zip -r $(adapter)-adapter.zip .)
 
+new:
+	mkdir $(adapter)
+	cp -r example/* $(adapter)
+	sed -i 's/example/$(adapter)/' $(adapter)/package.json
+	sed -i 's/Example/$(adapter)/' $(adapter)/README.md
+	sed '/workspaces/ a \ \ \ \ "$(adapter)",' package.json > package.json.new
+	mv package.json.new package.json
+
 clean:
 	rm -rf $(adapter)/dist
 
