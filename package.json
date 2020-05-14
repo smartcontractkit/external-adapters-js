@@ -48,6 +48,7 @@
     "express": "^4.17.0",
     "market-closure": "^0.1.2",
     "web3": "^1.2.7",
+    "with-consul": "^1.0.1",
     "yahoo-finance": "^0.3.6"
   },
   "devDependencies": {
