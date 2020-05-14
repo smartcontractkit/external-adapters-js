@@ -17,7 +17,7 @@ function init (createRequest) {
   return () => {
     consul.agent.service.register(consulOptions, err => {
       if (err) {
-        console.error('Could not register service', err);
+        console.error('Error while registering service with Consul', err);
         throw err
       } else {
         console.log(`Registered External Adapter '${consulOptions.name}' ${pjson.version} with Consul`);
@@ -39,7 +39,7 @@ function init (createRequest) {
     process.on('SIGINT', () => {
       consul.agent.service.deregister(consulOptions, err => {
         if (err) {
-          console.error('Failed to deregister with consul on shutdown', err);
+          console.error('Error while deregistering with Consul on shutdown', err);
         }
       })
       process.exit()
