@@ -1,4 +1,4 @@
-const pjson = require('./package.json')
+const pjson = require(path.join(process.cwd(), 'package.json'))
 const withConsul = require('with-consul')
 const express = require('express')
 const bodyParser = require('body-parser')
