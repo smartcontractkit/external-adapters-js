@@ -13,7 +13,21 @@ jobs:
           cmd: install
       - uses: borales/actions-yarn@v2.0.0
         with:
-          cmd: test
+          cmd: test-external-adapter
+  test-example:
+    name: Test example adapter
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: borales/actions-yarn@v2.0.0
+        with:
+          cmd: install
+      - uses: borales/actions-yarn@v2.0.0
+        with:
+          cmd: start-example-server
+      - uses: borales/actions-yarn@v2.0.0
+        with:
+          cmd: test-example
   run-linters:
     name: Run linters
     runs-on: ubuntu-latest
