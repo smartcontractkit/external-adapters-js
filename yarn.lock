@@ -677,10 +677,10 @@ concat-stream@^1.6.2:
     readable-stream "^2.2.2"
     typedarray "^0.0.6"
 
-consul@^0.35.0:
-  version "0.35.0"
-  resolved "https://registry.yarnpkg.com/consul/-/consul-0.35.0.tgz#c4f5b203a90630086e9dc5461d35de47369d03d8"
-  integrity sha512-Jv4Nlrw+B0v0FPctvgyEB636zemkvsNMSWsBanyyj4fOCqm5X5Eh2LdwjUoJTMQSx/bdZFV3iT0Yi8cQu0S+UQ==
+consul@^0.37.0:
+  version "0.37.0"
+  resolved "https://registry.yarnpkg.com/consul/-/consul-0.37.0.tgz#915964253160719181b62b124137b40c453f3465"
+  integrity sha512-8V5hUcKK0osd8lShVFEgcYAGaJZmJIYq+sBy/5i4isyJ3Ud159V1PGT2eEvfib7Tu0c9kJ7Uesicc7KEnqj0yA==
   dependencies:
     papi "^0.29.0"
 
@@ -3805,7 +3805,7 @@ uuid@3.3.2:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
   integrity sha512-yXJmeNaw3DnnKAOKJE51sL/ZaYfWJRl1pK9dr19YFCu0ObS231AB1/LbqTKRAQ5kw8A90rA6fr4riOUpTZvQZA==
 
-uuid@^3.3.2, uuid@^3.3.3:
+uuid@^3.3.2:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
   integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
@@ -4122,14 +4122,6 @@ winston@^3.2.1:
     stack-trace "0.0.x"
     triple-beam "^1.3.0"
     winston-transport "^4.3.0"
-
-with-consul@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/with-consul/-/with-consul-1.0.1.tgz#2f2df05e76425eece01b9080e254079df999e669"
-  integrity sha512-jihlYgRmooHKrBZFvdyEd9jGZLXjd24SbHOAGFMN90DOSelprqsfwAqGyvYp9bs2uJQCkLKH4U576ZiPI7okrA==
-  dependencies:
-    consul "^0.35.0"
-    uuid "^3.3.3"
 
 word-wrap@^1.2.3:
   version "1.2.3"
