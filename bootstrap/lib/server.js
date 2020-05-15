@@ -1,4 +1,5 @@
-const consul = require('consul')({host: 'consul.mgnt.devnet.tools'})
+const path = require('path')
+const consul = require('consul')()
 const express = require('express')
 const bodyParser = require('body-parser')
 const uuidGenerator = require('uuid').v4
@@ -19,10 +20,10 @@ function init (createRequest) {
   return () => {
     consul.agent.service.register(consulOptions, err => {
       if (err) {
-        console.error('Error while registering service with Consul', err);
+        console.error('Error while registering service with Consul', err)
         throw err
       } else {
-        console.log(`Registered External Adapter '${consulOptions.name}' ${pjson.version} with Consul`);
+        console.log(`Registered External Adapter '${consulOptions.name}' ${pjson.version} with Consul`)
       }
     })
 
@@ -38,13 +39,16 @@ function init (createRequest) {
 
     app.listen(port, () => console.log(`External Adapter for ${consulOptions.name} listening on port ${port}!`))
 
-    process.on('SIGINT', () => {
+    process.on('SIGINT SIGTERM', () => {
+      process.exit()
+    })
+
+    process.on('exit', () => {
       consul.agent.service.deregister(consulOptions, err => {
         if (err) {
-          console.error('Error while deregistering with Consul on shutdown', err);
+          console.error('Error while deregistering with Consul on shutdown', err)
         }
       })
-      process.exit()
     })
   }
 }
