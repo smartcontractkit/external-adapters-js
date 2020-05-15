@@ -31,6 +31,8 @@ Run the command below to have the [example](./example) directory cloned using th
 make new adapter=my-adapter-name
 ```
 
+_If on a Mac, this requires `gnu-sed` to be installed and set as the default for the command `sed`._
+
 ## Docker
 
 To build a Docker container for a specific `$adapter`, use the following example:
