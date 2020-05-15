@@ -5,6 +5,7 @@
   "private": true,
   "workspaces": [
     "external-adapter",
+    "example",
     "1forge",
     "alphavantage",
     "amberdata",
@@ -38,7 +39,9 @@
   ],
   "scripts": {
     "lint": "yarn eslint .",
-    "test": "yarn workspace @chainlink/external-adapter test"
+    "start-example-server": "node ./helpers/server.js",
+    "test-example": "yarn workspace example test",
+    "test-external-adapter": "yarn workspace @chainlink/external-adapter test"
   },
   "dependencies": {
     "@zeit/ncc": "^0.22.1",

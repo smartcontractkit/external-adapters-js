@@ -6,6 +6,14 @@ docker:
 zip: deps build
 	(cd $(adapter)/dist && zip -r $(adapter)-adapter.zip .)
 
+new:
+	mkdir $(adapter)
+	cp -r example/* $(adapter)
+	sed -i 's/example/$(adapter)/' $(adapter)/package.json
+	sed -i 's/Example/$(adapter)/' $(adapter)/README.md
+	sed '/workspaces/ a \ \ \ \ "$(adapter)",' package.json > package.json.new
+	mv package.json.new package.json
+
 clean:
 	rm -rf $(adapter)/dist
 
@@ -21,11 +29,9 @@ clean-market-closure:
 build-market-closure:
 	cp $(adapter)/adapter.js market-closure/$(check)/priceAdapter.js
 	cp market-closure/adapter.js market-closure/$(check)
-	cp eth/readReferenceContract.js market-closure/$(check)
 	yarn ncc build market-closure/$(check) -o market-closure/$(check)/dist
 	rm market-closure/$(check)/priceAdapter.js
 	rm market-closure/$(check)/adapter.js
-	rm market-closure/$(check)/readReferenceContract.js
 
 docker-market-closure:
 	docker build --no-cache --build-arg adapter=$(adapter) --build-arg check=$(check) -f Dockerfile-MarketClosure . -t $(adapter)-$(check)-adapter

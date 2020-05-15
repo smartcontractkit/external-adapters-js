@@ -9,7 +9,6 @@ RUN make deps
 
 COPY bootstrap bootstrap
 COPY $adapter $adapter
-COPY eth eth
 COPY market-closure market-closure
 COPY market-closure/$check market-closure/$check
 RUN make build-market-closure

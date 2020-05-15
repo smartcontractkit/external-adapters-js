@@ -1,27 +1,42 @@
 name: Actions
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
 
 jobs:
   test-external-adapter:
     name: Test @chainlink/external-adapter
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: borales/actions-yarn@v2.0.0
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
         with:
-          cmd: install
-      - uses: borales/actions-yarn@v2.0.0
+          node-version: '10.x'
+      - run: yarn install
+      - run: yarn test-external-adapter
+  test-example:
+    name: Test example adapter
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
         with:
-          cmd: test
+          node-version: '10.x'
+      - run: yarn install
+      - run: yarn start-example-server&
+      - run: yarn test-example
   run-linters:
     name: Run linters
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: borales/actions-yarn@v2.0.0
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
         with:
-          cmd: install
-      - uses: borales/actions-yarn@v2.0.0
-        with:
-          cmd: lint
+          node-version: '10.x'
+      - run: yarn install
+      - run: yarn lint

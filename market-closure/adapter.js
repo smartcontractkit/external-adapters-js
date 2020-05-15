@@ -1,7 +1,7 @@
 const { Requester, Validator } = require('@chainlink/external-adapter')
 const { MarketClosure } = require('market-closure')
 const { tradingHalted } = require('./marketCheck')
-const { getContractPrice } = require('./readReferenceContract')
+const { getContractPrice } = require('./helpers/eth/readReferenceContract')
 const adapterCreateRequest = require('./priceAdapter').createRequest
 
 const customParams = {
