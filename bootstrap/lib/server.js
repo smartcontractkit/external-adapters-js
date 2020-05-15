@@ -1,6 +1,7 @@
 const consul = require('consul')({host: 'consul.mgnt.devnet.tools'})
 const express = require('express')
 const bodyParser = require('body-parser')
+const uuidGenerator = require('uuid').v4
 
 const pjson = require(path.join(process.cwd(), 'package.json'))
 
@@ -10,8 +11,9 @@ const app = express()
 function init (createRequest) {
   const consulOptions = {
     name: `${pjson.name}`,
+    id: uuidGenerator(),
     tags: ['external-adapter', 'fargate', `version-${pjson.version}`],
-    port: port,
+    port: port
   }
 
   return () => {
@@ -34,7 +36,7 @@ function init (createRequest) {
       })
     })
 
-    app.listen(port, () => console.log(`Listening on port ${port}!`))
+    app.listen(port, () => console.log(`External Adapter for ${consulOptions.name} listening on port ${port}!`))
 
     process.on('SIGINT', () => {
       consul.agent.service.deregister(consulOptions, err => {
