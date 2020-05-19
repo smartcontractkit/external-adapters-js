@@ -4,7 +4,7 @@ docker:
 	docker build --build-arg adapter=$(adapter) -f Dockerfile . -t $(adapter)-adapter
 
 zip: deps build
-	(cd $(adapter)/dist && zip -r $(adapter)-adapter.zip .)
+	(cd $(adapter)/dist && zip  $(adapter)-adapter.zip index.js)
 
 new:
 	mkdir $(adapter)
@@ -37,7 +37,7 @@ docker-market-closure:
 	docker build --no-cache --build-arg adapter=$(adapter) --build-arg check=$(check) -f Dockerfile-MarketClosure . -t $(adapter)-$(check)-adapter
 
 zip-market-closure: deps clean-market-closure build-market-closure
-	(cd market-closure/$(check)/dist && zip -r $(adapter)-$(check)-adapter.zip .)
+	(cd market-closure/$(check)/dist && zip $(adapter)-$(check)-adapter.zip index.js)
 
 clean-synth-index:
 	rm -rf synth-index/$(adapter)/dist
