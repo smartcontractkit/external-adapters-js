@@ -77,6 +77,8 @@ The zip will be created as `./$adapter/dist/$adapter-adapter.zip`.
   - Value: Your_API_key
 - Save
 
+By default, Lambda functions time out after 3 seconds. You may want to change that to 60s in case an API takes longer than expected to respond.
+
 #### To Set Up an API Gateway (HTTP API)
 
 If using a HTTP API Gateway, Lambda's built-in Test will fail, but you will be able to externally call the function successfully.
