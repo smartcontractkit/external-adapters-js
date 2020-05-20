@@ -2,8 +2,8 @@
 
 ## Input Params
 
-- `base`, `from`, `coin`, or `fsym`: The symbol of the currency to query
-- `quote`, `to`, `market`, or `tsyms`: The symbol of the currency to convert to
+- `base`, `from`, or `coin`: The symbol of the currency to query
+- `quote`, `to`, or `market`: The symbol of the currency to convert to
 - `endpoint`: Optional endpoint param
 
 ## Output

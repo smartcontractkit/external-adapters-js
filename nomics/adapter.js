@@ -1,0 +1,44 @@
+const { Requester, Validator } = require('@chainlink/external-adapter')
+
+const customError = (data) => {
+  if (data.Response === 'Error') return true
+  return false
+}
+
+const customParams = {
+  base: ['base', 'from', 'coin', 'ids'],
+  quote: ['quote', 'to', 'market', 'convert'],
+  endpoint: false
+}
+
+const createRequest = (input, callback) => {
+  const validator = new Validator(callback, input, customParams)
+  const jobRunID = validator.validated.id
+  const endpoint = validator.validated.data.endpoint || 'ticker'
+  const url = `https://api.nomics.com/v1/currencies/${endpoint}`
+  const ids = validator.validated.data.base.toUpperCase()
+  const convert = validator.validated.data.quote.toUpperCase()
+
+  const params = {
+    ids,
+    convert,
+    key: process.env.API_KEY
+  }
+
+  const config = {
+    url,
+    params
+  }
+
+  Requester.request(config, customError)
+    .then(response => {
+      response.data = response.data[0]
+      response.data.result = Requester.validateResultNumber(response.data, ['price'])
+      callback(response.status, Requester.success(jobRunID, response))
+    })
+    .catch(error => {
+      callback(500, Requester.errored(jobRunID, error))
+    })
+}
+
+module.exports.createRequest = createRequest
