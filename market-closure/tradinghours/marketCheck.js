@@ -12,9 +12,9 @@ const tradingHalted = (exchange) => {
       return resolve(false)
     }
 
-    Requester.requestRetry({
+    Requester.request({
       url: 'https://www.tradinghours.com/api/v2/status',
-      qs: {
+      params: {
         market: exchange,
         api_token: process.env.TH_API_KEY
       }
