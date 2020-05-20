@@ -38,3 +38,19 @@ docker-market-closure:
 
 zip-market-closure: deps clean-market-closure build-market-closure
 	(cd market-closure/$(check)/dist && zip -r $(adapter)-$(check)-adapter.zip .)
+
+clean-synth-index:
+	rm -rf synth-index/$(check)/dist
+
+build-synth-index:
+	cp synth-index/$(adapter)/adapter.js synth-index/$(adapter)/priceAdapter.js
+	cp synth-index/adapter.js synth-index/$(adapter)
+	yarn ncc build synth-index/$(adapter) -o synth-index/$(adapter)/dist
+	rm synth-index/$(adapter)/priceAdapter.js
+	rm synth-index/$(adapter)/adapter.js
+
+docker-synth-index:
+	docker build --no-cache --build-arg adapter=$(adapter) -f Dockerfile-SynthIndex . -t synth-index-$(adapter)-adapter
+
+zip-synth-index: deps clean-synth-index build-synth-index
+	(cd synth-index/$(adapter)/dist && zip -r synth-index-$(adapter)-adapter.zip .)
