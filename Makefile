@@ -51,4 +51,4 @@ docker-synth-index:
 	docker build --no-cache --build-arg adapter=$(adapter) -f Dockerfile-SynthIndex . -t synth-index-$(adapter)-adapter
 
 zip-synth-index: deps clean-synth-index build-synth-index
-	(cd synth-index/$(adapter)/dist && zip -r synth-index-$(adapter)-adapter.zip .)
+	(cd synth-index/$(adapter)/dist && zip -r synth-index-$(adapter)-adapter.zip index.js)
