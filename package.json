@@ -36,7 +36,14 @@
     "poa-gasprice",
     "anyblock-gasprice",
     "ethgasstation",
-    "amberdata-gasprice"
+    "amberdata-gasprice",
+    "synth-index/coinapi",
+    "synth-index/coingecko",
+    "synth-index/coinmarketcap",
+    "synth-index/coinpaprika",
+    "synth-index/bravenewcoin",
+    "synth-index/cryptocompare",
+    "synth-index/amberdata"
   ],
   "scripts": {
     "lint": "yarn eslint .",
@@ -48,9 +55,11 @@
     "@zeit/ncc": "^0.22.1",
     "body-parser": "^1.19.0",
     "boxhock_google-finance-data": "^0.1.0",
+    "decimal.js": "^10.2.0",
     "ethers": "^4.0.47",
     "express": "^4.17.0",
     "market-closure": "^0.1.2",
+    "synthetix": "^2.21.13",
     "web3": "^1.2.7",
     "yahoo-finance": "^0.3.6"
   },
