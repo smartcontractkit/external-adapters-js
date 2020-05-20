@@ -1,23 +1,33 @@
 const { Requester } = require('@chainlink/external-adapter')
 const Decimal = require('decimal.js')
 
+const host = 'bravenewcoin-v1.p.rapidapi.com'
+const url = `https://${host}/convert`
+
 const getPriceData = async (synth) => {
-  const url = 'https://api.coinpaprika.com/v1/tickers'
+  const headers = {
+    'x-rapidapi-host': host,
+    'x-rapidapi-key': process.env.API_KEY
+  }
   const params = {
-    quotes: 'USD'
+    qty: 1,
+    to: 'USD',
+    from: synth.symbol
   }
   const config = {
     url,
-    params
+    params,
+    headers
   }
-  return await Requester.request(config)
+  const response = await Requester.request(config)
+  return response.data
 }
 
 const calculateIndex = (indexes) => {
   let value = new Decimal(0)
   try {
     indexes.forEach(i => {
-      const price = i.priceData.quotes.USD.price
+      const price = i.priceData.to_quantity
       if (price <= 0) {
         throw Error('invalid price')
       }
@@ -30,10 +40,8 @@ const calculateIndex = (indexes) => {
 }
 
 const createRequest = async (jobRunID, data) => {
-  const priceDatas = await getPriceData()
   await Promise.all(data.index.map(async (synth) => {
-    synth.priceData = priceDatas.sort((a, b) => (a.rank > b.rank) ? 1 : -1)
-      .find(d => d.symbol.toLowerCase() === synth.symbol.toLowerCase())
+    synth.priceData = await getPriceData(synth)
   }))
   return data
 }

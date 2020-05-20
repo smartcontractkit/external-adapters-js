@@ -2,21 +2,27 @@ const { Requester } = require('@chainlink/external-adapter')
 const Decimal = require('decimal.js')
 
 const getPriceData = async (synth) => {
-  const url = `https://rest.coinapi.io/v1/exchangerate/${synth}/USD`
+  const url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest'
+  const headers = {
+    'X-CMC_PRO_API_KEY': process.env.API_KEY
+  }
+  const params = {
+    symbol: synth.symbol
+  }
   const config = {
     url,
-    params: {
-      apikey: process.env.API_KEY
-    }
+    headers,
+    params
   }
-  return await Requester.request(config)
+  const response = await Requester.request(config)
+  return response.data
 }
 
 const calculateIndex = (indexes) => {
   let value = new Decimal(0)
   try {
     indexes.forEach(i => {
-      const price = i.priceData.rate
+      const price = i.priceData.data[i.symbol].quote.USD.price
       if (price <= 0) {
         throw Error('invalid price')
       }
@@ -30,7 +36,7 @@ const calculateIndex = (indexes) => {
 
 const createRequest = async (jobRunID, data) => {
   await Promise.all(data.index.map(async (synth) => {
-    synth.priceData = await getPriceData(synth.symbol)
+    synth.priceData = await getPriceData(synth)
   }))
   return data
 }

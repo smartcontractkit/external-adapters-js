@@ -20,9 +20,11 @@ const synthIndexRequest = (input, adapter, callback) => {
 
   adapter(jobRunID, synth).then((data) => {
     data.result = adapterCalculateIndex(data.index)
-    const statusCode = 200
-    const response = { statusCode, data }
-    callback(statusCode, Requester.success(jobRunID, response))
+    const response = {
+      status: 200,
+      data
+    }
+    callback(response.status, Requester.success(jobRunID, response))
   }).catch((error) => {
     callback(500, Requester.errored(jobRunID, error))
   })

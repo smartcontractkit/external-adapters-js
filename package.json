@@ -36,14 +36,13 @@
     "anyblock-gasprice",
     "ethgasstation",
     "amberdata-gasprice",
-    "synth-index-coinapi",
-    "synth-index-coingecko",
-    "synth-index-coinmarketcap",
-    "synth-index-coinpaprika",
-    "synth-index-alphavantage",
-    "synth-index-bravenewcoin",
-    "synth-index-cryptocompare",
-    "synth-index-amberdata"
+    "synth-index/coinapi",
+    "synth-index/coingecko",
+    "synth-index/coinmarketcap",
+    "synth-index/coinpaprika",
+    "synth-index/bravenewcoin",
+    "synth-index/cryptocompare",
+    "synth-index/amberdata"
   ],
   "scripts": {
     "lint": "yarn eslint .",

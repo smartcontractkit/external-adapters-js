@@ -6,7 +6,8 @@ const getCoinList = async () => {
   const config = {
     url
   }
-  return await Requester.request(config)
+  const response = await Requester.request(config)
+  return response.data
 }
 
 const getPriceData = async (id) => {
@@ -19,7 +20,8 @@ const getPriceData = async (id) => {
     url,
     params
   }
-  return await Requester.request(config)
+  const response = await Requester.request(config)
+  return response.data
 }
 
 const calculateIndex = (indexes) => {

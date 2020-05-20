@@ -2,25 +2,26 @@ const { Requester } = require('@chainlink/external-adapter')
 const Decimal = require('decimal.js')
 
 const getPriceData = async (synth) => {
-  const url = 'https://www.alphavantage.co/query'
-  const params = {
-    function: 'CURRENCY_EXCHANGE_RATE',
-    from_currency: synth,
-    to_currency: 'USD',
-    apikey: process.env.API_KEY
-  }
+  const url = `https://rest.coinapi.io/v1/exchangerate/${synth}/USD`
   const config = {
     url,
-    params
+    params: {
+      apikey: process.env.API_KEY
+    }
   }
-  return await Requester.request(config)
+  const response = await Requester.request(config)
+  return response.data
 }
 
 const calculateIndex = (indexes) => {
   let value = new Decimal(0)
   try {
     indexes.forEach(i => {
-      value = value.plus(new Decimal(i.units).times(new Decimal(i.priceData['Realtime Currency Exchange Rate']['5. Exchange Rate'])))
+      const price = i.priceData.rate
+      if (price <= 0) {
+        throw Error('invalid price')
+      }
+      value = value.plus(new Decimal(i.units).times(new Decimal(price)))
     })
   } catch (error) {
     throw error.message

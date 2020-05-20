@@ -2,23 +2,23 @@ const { Requester } = require('@chainlink/external-adapter')
 const Decimal = require('decimal.js')
 
 const getPriceData = async (synth) => {
-  const url = 'https://min-api.cryptocompare.com/data/price'
+  const url = 'https://api.coinpaprika.com/v1/tickers'
   const params = {
-    tsyms: 'USD',
-    fsym: synth.symbol
+    quotes: 'USD'
   }
   const config = {
     url,
     params
   }
-  return await Requester.request(config)
+  const response = await Requester.request(config)
+  return response.data
 }
 
 const calculateIndex = (indexes) => {
   let value = new Decimal(0)
   try {
     indexes.forEach(i => {
-      const price = i.priceData.USD
+      const price = i.priceData.quotes.USD.price
       if (price <= 0) {
         throw Error('invalid price')
       }
@@ -31,8 +31,10 @@ const calculateIndex = (indexes) => {
 }
 
 const createRequest = async (jobRunID, data) => {
+  const priceDatas = await getPriceData()
   await Promise.all(data.index.map(async (synth) => {
-    synth.priceData = await getPriceData(synth)
+    synth.priceData = priceDatas.sort((a, b) => (a.rank > b.rank) ? 1 : -1)
+      .find(d => d.symbol.toLowerCase() === synth.symbol.toLowerCase())
   }))
   return data
 }

@@ -40,13 +40,11 @@ zip-market-closure: deps clean-market-closure build-market-closure
 	(cd market-closure/$(check)/dist && zip -r $(adapter)-$(check)-adapter.zip .)
 
 clean-synth-index:
-	rm -rf synth-index/$(check)/dist
+	rm -rf synth-index/$(adapter)/dist
 
 build-synth-index:
-	cp synth-index/$(adapter)/adapter.js synth-index/$(adapter)/priceAdapter.js
 	cp synth-index/adapter.js synth-index/$(adapter)
 	yarn ncc build synth-index/$(adapter) -o synth-index/$(adapter)/dist
-	rm synth-index/$(adapter)/priceAdapter.js
 	rm synth-index/$(adapter)/adapter.js
 
 docker-synth-index:
