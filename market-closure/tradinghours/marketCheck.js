@@ -24,7 +24,7 @@ const tradingHalted = (exchange) => {
           return reject(new AdapterError('Missing exchange in body'))
         }
 
-        resolve(Requester.getResult(response.body, [exchange, 'status']).toLowerCase() !== 'open')
+        resolve(Requester.getResult(response.data, [exchange, 'status']).toLowerCase() !== 'open')
       })
       .catch(reject)
   })
