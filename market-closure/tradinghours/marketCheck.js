@@ -20,7 +20,7 @@ const tradingHalted = (exchange) => {
       }
     })
       .then(response => {
-        if (!(exchange in response.body)) {
+        if (!(exchange in response.data)) {
           return reject(Error('missing exchange in body'))
         }
 

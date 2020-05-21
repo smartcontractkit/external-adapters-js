@@ -23,8 +23,9 @@ const marketStatusRequest = (input, adapter, callback) => {
   tradingHalted(symbol).then(halted => {
     logger.info('Trading halted status (API): ' + halted)
     handleRequest(input, validator, adapter, halted, callback)
-  }).catch(() => {
+  }).catch((error) => {
     logger.error('Error with tradingHalted, checking schedule')
+    logger.error(error)
     let halted = false
     if ('timezone' in schedule) {
       const marketSchedule = new MarketClosure(schedule)
@@ -60,8 +61,9 @@ const handleRequest = (input, validator, adapter, halted, callback) => {
       data,
       status
     }))
-  }).catch(() => {
+  }).catch((error) => {
     logger.error('Error reading contract')
+    logger.error(error)
     adapter(input, callback)
   })
 }
