@@ -1,4 +1,4 @@
-const { Requester } = require('@chainlink/external-adapter')
+const { Requester, AdapterError } = require('@chainlink/external-adapter')
 
 const commonMICs = {
   FTSE: 'xlon',
@@ -12,19 +12,19 @@ const tradingHalted = (exchange) => {
       return resolve(false)
     }
 
-    Requester.requestRetry({
+    Requester.request({
       url: 'https://www.tradinghours.com/api/v2/status',
-      qs: {
+      params: {
         market: exchange,
         api_token: process.env.TH_API_KEY
       }
     })
       .then(response => {
-        if (!(exchange in response.body)) {
-          return reject(Error('missing exchange in body'))
+        if (!(exchange in response.data)) {
+          return reject(new AdapterError('Missing exchange in body'))
         }
 
-        resolve(Requester.getResult(response.body, [exchange, 'status']).toLowerCase() !== 'open')
+        resolve(Requester.getResult(response.data, [exchange, 'status']).toLowerCase() !== 'open')
       })
       .catch(reject)
   })
