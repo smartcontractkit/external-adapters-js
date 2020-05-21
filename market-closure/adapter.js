@@ -1,4 +1,4 @@
-const { Requester, Validator } = require('@chainlink/external-adapter')
+const { Requester, Validator, logger } = require('@chainlink/external-adapter')
 const { MarketClosure } = require('market-closure')
 const { tradingHalted } = require('./marketCheck')
 const { getContractPrice } = require('../helpers/eth/readReferenceContract')
@@ -21,12 +21,15 @@ const marketStatusRequest = (input, adapter, callback) => {
   const schedule = validator.validated.data.schedule || {}
 
   tradingHalted(symbol).then(halted => {
+    logger.info('Trading halted status (API): ' + halted)
     handleRequest(input, validator, adapter, halted, callback)
   }).catch(() => {
+    logger.error('Error with tradingHalted, checking schedule')
     let halted = false
     if ('timezone' in schedule) {
       const marketSchedule = new MarketClosure(schedule)
       halted = marketSchedule.tradingHalted()
+      logger.info('Trading halted status (schedule): ' + halted)
     }
     handleRequest(input, validator, adapter, halted, callback)
   })
@@ -41,8 +44,10 @@ const handleRequest = (input, validator, adapter, halted, callback) => {
     return adapter(input, callback)
   }
 
+  logger.info('Getting value from contract: ' + contract)
   getContractPrice(contract).then(price => {
     price = price / multiply
+    logger.info('Value: ' + price)
     if (price <= 0) {
       return adapter(input, callback)
     }
@@ -56,6 +61,7 @@ const handleRequest = (input, validator, adapter, halted, callback) => {
       status
     }))
   }).catch(() => {
+    logger.error('Error reading contract')
     adapter(input, callback)
   })
 }
