@@ -25,7 +25,7 @@ const marketStatusRequest = (input, adapter, callback) => {
     handleRequest(input, validator, adapter, halted, callback)
   }).catch((error) => {
     logger.error('Error with tradingHalted, checking schedule')
-    logger.error(error)
+    logger.error(error.toString())
     let halted = false
     if ('timezone' in schedule) {
       const marketSchedule = new MarketClosure(schedule)
@@ -63,7 +63,7 @@ const handleRequest = (input, validator, adapter, halted, callback) => {
     }))
   }).catch((error) => {
     logger.error('Error reading contract')
-    logger.error(error)
+    logger.error(error.toString())
     adapter(input, callback)
   })
 }

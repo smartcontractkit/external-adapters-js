@@ -1,4 +1,4 @@
-const { Requester } = require('@chainlink/external-adapter')
+const { Requester, AdapterError } = require('@chainlink/external-adapter')
 
 const commonMICs = {
   FTSE: 'xlon',
@@ -21,7 +21,7 @@ const tradingHalted = (exchange) => {
     })
       .then(response => {
         if (!(exchange in response.data)) {
-          return reject(Error('missing exchange in body'))
+          return reject(new AdapterError('Missing exchange in body'))
         }
 
         resolve(Requester.getResult(response.body, [exchange, 'status']).toLowerCase() !== 'open')
