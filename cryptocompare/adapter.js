@@ -29,6 +29,12 @@ const createRequest = (input, callback) => {
     params
   }
 
+  if (process.env.API_KEY) {
+    config.headers = {
+      authorization: `Apikey ${process.env.API_KEY}`
+    }
+  }
+
   Requester.request(config, customError)
     .then(response => {
       response.data.result = Requester.validateResultNumber(response.data, [tsyms])
