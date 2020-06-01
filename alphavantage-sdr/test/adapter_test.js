@@ -6,10 +6,10 @@ describe('createRequest', () => {
 
   context('successful calls', () => {
     const requests = [
-      { name: 'id not supplied', testData: { data: { base: 'ETH', quote: 'SDR' } } },
-      { name: 'base/quote', testData: { id: jobID, data: { base: 'ETH', quote: 'SDR' } } },
-      { name: 'from/to', testData: { id: jobID, data: { from: 'ETH', to: 'SDR' } } },
-      { name: 'coin/market', testData: { id: jobID, data: { coin: 'ETH', market: 'SDR' } } }
+      { name: 'id not supplied', testData: { data: { base: 'ETH', quote: 'XDR' } } },
+      { name: 'base/quote', testData: { id: jobID, data: { base: 'ETH', quote: 'XDR' } } },
+      { name: 'from/to', testData: { id: jobID, data: { from: 'ETH', to: 'XDR' } } },
+      { name: 'coin/market', testData: { id: jobID, data: { coin: 'ETH', market: 'XDR' } } }
     ]
 
     requests.forEach(req => {
@@ -30,9 +30,9 @@ describe('createRequest', () => {
     const requests = [
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },
-      { name: 'base not supplied', testData: { id: jobID, data: { quote: 'SDR' } } },
+      { name: 'base not supplied', testData: { id: jobID, data: { quote: 'XDR' } } },
       { name: 'quote not supplied', testData: { id: jobID, data: { base: 'ETH' } } },
-      { name: 'unknown base', testData: { id: jobID, data: { base: 'not_real', quote: 'SDR' } } },
+      { name: 'unknown base', testData: { id: jobID, data: { base: 'not_real', quote: 'XDR' } } },
       { name: 'unknown quote', testData: { id: jobID, data: { base: 'ETH', quote: 'not_real' } } }
     ]
 
