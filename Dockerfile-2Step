@@ -1,0 +1,24 @@
+FROM node:12 as builder
+ARG adapter
+WORKDIR /home/node/app
+
+COPY package.json yarn.lock Makefile ./
+COPY external-adapter/package.json external-adapter/package.json
+COPY bootstrap/package.json bootstrap/package.json
+RUN make deps
+
+COPY bootstrap bootstrap
+COPY external-adapter external-adapter
+COPY $adapter $adapter
+COPY 2-step 2-step
+COPY helpers helpers
+RUN make build-2-step
+
+FROM node:12-alpine
+ARG adapter
+WORKDIR /home/node/app
+
+COPY --from=builder /home/node/app/2-step/$adapter/dist ./
+COPY --from=builder /home/node/app/2-step/$adapter/package.json ./
+
+CMD ["yarn", "server"]

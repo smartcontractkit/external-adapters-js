@@ -53,3 +53,21 @@ docker-synth-index:
 
 zip-synth-index: deps clean-synth-index build-synth-index
 	(cd synth-index/$(adapter)/dist && zip -r synth-index-$(adapter)-adapter.zip index.js)
+
+clean-2-step:
+	rm -rf 2-step/$(adapter)
+
+build-2-step:
+	cp -r $(adapter) 2-step/
+	mv 2-step/$(adapter)/adapter.js 2-step/$(adapter)/priceAdapter.js
+	cp 2-step/adapter.js 2-step/$(adapter)
+	cp -r helpers 2-step/helpers
+	yarn ncc build 2-step/$(adapter) -o 2-step/$(adapter)/dist
+	rm 2-step/$(adapter)/priceAdapter.js
+	rm 2-step/$(adapter)/adapter.js
+
+docker-2-step:
+	docker build --no-cache --build-arg adapter=$(adapter) -f Dockerfile-2Step . -t $(adapter)-2-step-adapter
+
+zip-2-step: deps clean-2-step build-2-step
+	(cd 2-step/$(adapter)/dist && zip $(adapter)-2-step-adapter.zip index.js)
