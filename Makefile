@@ -29,6 +29,7 @@ clean-market-closure:
 build-market-closure:
 	cp $(adapter)/adapter.js market-closure/$(check)/priceAdapter.js
 	cp market-closure/adapter.js market-closure/$(check)
+	cp -r helpers market-closure/helpers
 	yarn ncc build market-closure/$(check) -o market-closure/$(check)/dist
 	rm market-closure/$(check)/priceAdapter.js
 	rm market-closure/$(check)/adapter.js
