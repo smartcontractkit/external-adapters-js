@@ -3,9 +3,24 @@ const { getContractPrice } = require('../helpers/eth-adapter-helper')
 const adapterCreateRequest = require('./priceAdapter').createRequest
 
 const customParams = {
-  base: ['base', 'asset', 'from'],
   contract: ['referenceContract'],
-  multiply: false
+  multiply: false,
+  operator: ['operator'],
+  dividend: false
+}
+
+const transform = (offchain, onchain, operator, dividendConfig) => {
+  if (operator === 'multiply') {
+    return offchain * onchain
+  } else if (operator === 'divide') {
+    let dividend = offchain
+    let divisor = onchain
+    if (dividendConfig === 'on-chain') {
+      dividend = onchain
+      divisor = offchain
+    }
+    return dividend / divisor
+  }
 }
 
 const createRequest = (input, callback) => {
@@ -13,6 +28,15 @@ const createRequest = (input, callback) => {
   const jobRunID = validator.validated.id
   const contract = validator.validated.data.contract
   const multiply = validator.validated.data.multiply || 100000000
+  const operator = validator.validated.data.operator
+  const dividend = validator.validated.data.dividend || 'off-chain'
+  if (operator !== 'multiply' && operator !== 'divide') {
+    return callback(400, Requester.errored(jobRunID, 'invalid operator'))
+  }
+
+  if (dividend !== 'on-chain' && dividend !== 'off-chain') {
+    return callback(400, Requester.errored(jobRunID, 'invalid dividend'))
+  }
 
   logger.info('Getting value from contract: ' + contract)
   getContractPrice(contract).then(price => {
@@ -27,7 +51,9 @@ const createRequest = (input, callback) => {
         return callback(statusCode, response)
       }
 
-      const result = response.result * price
+      const result = transform(response.result, price, operator, dividend)
+      logger.info('New result: ' + result)
+
       response.data.result = result
       response.result = result
       return callback(statusCode, response)
