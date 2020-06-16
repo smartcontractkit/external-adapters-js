@@ -15,7 +15,7 @@ const createRequest = (input, callback) => {
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || 'ethgasAPI'
   const speed = validator.validated.data.speed
-  const url = `https://ethgasstation.info/json/${endpoint}.json`
+  const url = `https://ethgasstation.info/api/${endpoint}.json?api-key=${process.env.API_KEY}`
 
   Requester.request(url, customError)
     .then(response => {
