@@ -104,6 +104,17 @@ describe('createRequest', () => {
             quote: 'not_real'
           }
         }
+      },
+      {
+        name: 'unknown dummy endpoint',
+        testData: {
+          id: jobID,
+          data: {
+            coin: 'BNB',
+            market: 'BUSD-BD1',
+            endpoint: 'dummy'
+          }
+        }
       }
     ]
 

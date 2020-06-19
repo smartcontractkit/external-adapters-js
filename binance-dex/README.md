@@ -11,33 +11,13 @@
 Use the `API_ENDPOINT` env variable to set the API endpoint to use.
 This will default to `dex-asiapacific`.
 
-<table>
-    <thead>
-        <tr>
-            <th>Network</th>
-            <th>Endpoint</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td rowspan=3>Mainnet</td>
-            <td>dex-asiapacific</td>
-        </tr>
-        <tr>
-            <td>dex-european</td>
-        </tr>
-        <tr>
-            <td>dex-atlantic</td>
-        </tr>
-        <tr>
-            <td rowspan=3>Testnet-Nile</td>
-            <td>testnet-dex-atlantic</td>
-        </tr>
-        <tr>
-            <td>testnet-dex-asiapacific</td>
-        </tr>
-    </tbody>
-</table>
+| Network      | Endpoint                |
+| ------------ | ----------------------- |
+| Mainnet      | dex-asiapacific         |
+|              | dex-european            |
+|              | dex-atlantic            |
+| Testnet-Nile | testnet-dex-atlantic    |
+|              | testnet-dex-asiapacific |
 
 ## Output
 
