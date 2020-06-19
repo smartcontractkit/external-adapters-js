@@ -3,6 +3,5 @@
   "version": "0.0.1",
   "description": "Bootstrap an external adapter with this package",
   "main": "index.js",
-  "license": "MIT",
-  "private": true
+  "license": "MIT"
 }
