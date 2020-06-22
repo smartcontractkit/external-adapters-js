@@ -18,6 +18,7 @@ describe('createRequest', () => {
           assert.isNotEmpty(data.data)
           assert.isAbove(data.result, 0)
           assert.isAbove(data.data.result, 0)
+          assert.equal(data.result, data.data.result)
           done()
         })
       })
