@@ -4,6 +4,7 @@
   "license": "MIT",
   "private": true,
   "workspaces": [
+    "marketstack",
     "nikkei",
     "binance-dex",
     "alphavantage-sdr",
