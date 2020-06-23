@@ -19,13 +19,13 @@ const createRequest = (input, callback) => {
   }
 
   google.getSymbol(symbol).then(data => {
-    const statusCode = 200
+    const status = 200
     const response = {
       data,
-      statusCode
+      status
     }
     response.data.result = Requester.validateResultNumber(response.data, ['ticker'])
-    callback(statusCode, Requester.success(jobRunID, response))
+    callback(status, Requester.success(jobRunID, response))
   }).catch(err => {
     callback(500, Requester.errored(jobRunID, err.message))
   })
