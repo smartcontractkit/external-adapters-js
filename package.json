@@ -4,6 +4,7 @@
   "license": "MIT",
   "private": true,
   "workspaces": [
+    "dxfeed",
     "marketstack",
     "nikkei",
     "binance-dex",
