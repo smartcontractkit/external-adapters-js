@@ -1,6 +1,7 @@
 const { Requester, Validator } = require('@chainlink/external-adapter')
 const username = process.env.API_USERNAME
 const password = process.env.API_PASSWORD
+const DEFAULT_DATA_ENDPOINT = 'events.json'
 const DEMO_ENDPOINT = 'https://tools.dxfeed.com/webservice/rest'
 const apiEndpoint = process.env.API_ENDPOINT || DEMO_ENDPOINT
 
@@ -19,7 +20,7 @@ const commonSymbols = {
 const createRequest = (input, callback) => {
   const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
-  const endpoint = validator.validated.data.endpoint || 'events.json'
+  const endpoint = validator.validated.data.endpoint || DEFAULT_DATA_ENDPOINT
   const url = `${apiEndpoint}/${endpoint}`
   let symbols = validator.validated.data.base.toUpperCase()
   if (symbols in commonSymbols) {
