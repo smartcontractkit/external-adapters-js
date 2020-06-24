@@ -4,6 +4,7 @@ const password = process.env.API_PASSWORD
 const DEFAULT_DATA_ENDPOINT = 'events.json'
 const DEMO_ENDPOINT = 'https://tools.dxfeed.com/webservice/rest'
 const apiEndpoint = process.env.API_ENDPOINT || DEMO_ENDPOINT
+if (apiEndpoint === DEMO_ENDPOINT) console.warn(`Using demo endpoint: ${DEMO_ENDPOINT} (Please do not use in production!)`)
 
 const customError = (data) => (data.status !== 'OK')
 
