@@ -4,9 +4,7 @@ const password = process.env.API_PASSWORD
 const DEMO_ENDPOINT = 'https://tools.dxfeed.com/webservice/rest'
 const apiEndpoint = process.env.API_ENDPOINT || DEMO_ENDPOINT
 
-const customError = (data) => {
-  return (data.status !== 'OK')
-}
+const customError = (data) => (data.status !== 'OK')
 
 const customParams = {
   base: ['base', 'from', 'asset'],
