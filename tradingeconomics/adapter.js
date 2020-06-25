@@ -57,7 +57,7 @@ const createRequest = (input, callback) => {
     }
 
     const _handleResponse = response => {
-      if (response.data.length < 1) {
+      if (!response.data || response.data.length < 1) {
         return callback(500, Requester.errored(jobRunID, 'no result for query'))
       }
       // Replace array by the first object in array
