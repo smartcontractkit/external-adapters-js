@@ -5,6 +5,7 @@
   "private": true,
   "workspaces": [
     "dxfeed",
+    "tradingeconomics",
     "marketstack",
     "nikkei",
     "binance-dex",
