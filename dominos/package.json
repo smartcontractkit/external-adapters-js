@@ -10,6 +10,7 @@
   "dependencies": {
     "@chainlink/ea-bootstrap": "0.0.1",
     "@chainlink/external-adapter": "^0.2.3",
+    "pino": "^6.3.2",
     "pizzapi": "^0.0.8"
   }
 }
