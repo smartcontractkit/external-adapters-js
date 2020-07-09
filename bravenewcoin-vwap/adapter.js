@@ -47,45 +47,48 @@ const getAssetId = async (token, symbol) => {
 
 const createRequest = (input, callback) => {
   const validator = new Validator(callback, input, customParams)
-  const url = `https://${host}/ohlcv`
   const jobRunID = validator.validated.id
-  const symbol = validator.validated.data.symbol
-  const indexType = validator.validated.data.indexType || 'GWA'
   const yesterday = new Date()
   yesterday.setDate(yesterday.getDate() - 1)
-  const timestamp = validator.validated.data.timestamp || yesterday
 
-  const auth = authenticate()
-  const id = auth.then(token => {
-    return getAssetId(token, symbol)
+  _createRequest({
+    jobRunID,
+    url: `https://${host}/ohlcv`,
+    symbol: validator.validated.data.symbol,
+    indexType: 'GWA',
+    timestamp: yesterday
   })
-  return Promise.all([auth, id]).then(([token, assetId]) => {
-    const params = {
-      indexId: assetId,
-      indexType,
-      timestamp,
-      size: 1
-    }
-    const config = {
-      url,
+    .then(result => callback(result.status, result.data))
+    .catch(error => callback(500, Requester.errored(jobRunID, error)))
+}
+
+const _createRequest = async (input) => {
+  const token = await authenticate()
+  const assetId = await getAssetId(token, input.symbol)
+  return new Promise((resolve, reject) => {
+    Requester.request({
+      url: input.url,
       headers: {
         'x-rapidapi-host': host,
         'x-rapidapi-key': process.env.API_KEY,
         authorization: `Bearer ${token}`,
         useQueryString: true
       },
-      params
-    }
-    Requester.request(config)
+      params: {
+        indexId: assetId,
+        indexType: input.indexType,
+        timestamp: input.timestamp,
+        size: 1
+      }
+    })
       .then(response => {
         response.data.result = Requester.validateResultNumber(response.data, ['content', 0, 'vwap'])
-        callback(response.status, Requester.success(jobRunID, response))
+        resolve({
+          status: response.status,
+          data: Requester.success(input.jobRunID, response)
+        })
       })
-      .catch(error => {
-        callback(500, Requester.errored(jobRunID, error))
-      })
-  }).catch(error => {
-    callback(500, Requester.errored(jobRunID, error))
+      .catch(error => reject(error))
   })
 }
 
