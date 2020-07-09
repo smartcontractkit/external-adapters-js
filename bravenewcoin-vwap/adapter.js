@@ -8,26 +8,24 @@ const customParams = {
 
 const host = 'bravenewcoin.p.rapidapi.com'
 
-const authenticate = () => {
-  return new Promise((resolve, reject) => {
-    Requester.request({
-      method: 'POST',
-      url: `https://${host}/oauth/token`,
-      headers: {
-        'content-type': 'application/json',
-        'x-rapidapi-host': host,
-        'x-rapidapi-key': process.env.API_KEY,
-        accept: 'application/json',
-        useQueryString: true
-      },
-      data: {
-        audience: 'https://api.bravenewcoin.com',
-        client_id: process.env.CLIENT_ID,
-        grant_type: 'client_credentials'
-      }
-    }).then(response => resolve(response.data.access_token))
-      .catch(error => reject(error))
+const authenticate = async () => {
+  const response = await Requester.request({
+    method: 'POST',
+    url: `https://${host}/oauth/token`,
+    headers: {
+      'content-type': 'application/json',
+      'x-rapidapi-host': host,
+      'x-rapidapi-key': process.env.API_KEY,
+      accept: 'application/json',
+      useQueryString: true
+    },
+    data: {
+      audience: 'https://api.bravenewcoin.com',
+      client_id: process.env.CLIENT_ID,
+      grant_type: 'client_credentials'
+    }
   })
+  return response.data.access_token
 }
 
 const getAssetId = (token, symbol) => {
