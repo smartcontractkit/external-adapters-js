@@ -28,23 +28,21 @@ const authenticate = async () => {
   return response.data.access_token
 }
 
-const getAssetId = (token, symbol) => {
-  return new Promise((resolve, reject) => {
-    Requester.request({
-      url: `https://${host}/asset`,
-      headers: {
-        'content-type': 'application/octet-stream',
-        'x-rapidapi-host': host,
-        'x-rapidapi-key': process.env.API_KEY,
-        useQueryString: true
-      },
-      params: {
-        status: 'ACTIVE',
-        symbol
-      }
-    }).then(response => resolve(response.data.content[0].id))
-      .catch(error => reject(error))
+const getAssetId = async (token, symbol) => {
+  const response = await Requester.request({
+    url: `https://${host}/asset`,
+    headers: {
+      'content-type': 'application/octet-stream',
+      'x-rapidapi-host': host,
+      'x-rapidapi-key': process.env.API_KEY,
+      useQueryString: true
+    },
+    params: {
+      status: 'ACTIVE',
+      symbol
+    }
   })
+  return response.data.content[0].id
 }
 
 const createRequest = (input, callback) => {
