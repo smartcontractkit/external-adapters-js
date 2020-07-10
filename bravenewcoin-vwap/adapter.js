@@ -59,38 +59,29 @@ const createRequest = (input, callback) => {
     symbol: validator.validated.data.symbol,
     indexType: 'GWA',
     timestamp: yesterday
-  })
-    .then(result => callback(result.status, result.data))
-    .catch(error => callback(500, Requester.errored(jobRunID, error)))
+  }).then(response => {
+    response.data.result = Requester.validateResultNumber(response.data, ['content', 0, 'vwap'])
+    callback(response.status, Requester.success(input.jobRunID, response))
+  }).catch(error => callback(500, Requester.errored(jobRunID, error)))
 }
 
 const _createRequest = async (input) => {
   const token = await authenticate()
   const assetId = await getAssetId(input.symbol)
-  return new Promise((resolve, reject) => {
-    Requester.request({
-      url: input.url,
-      headers: {
-        'x-rapidapi-host': host,
-        'x-rapidapi-key': process.env.API_KEY,
-        authorization: `Bearer ${token}`,
-        useQueryString: true
-      },
-      params: {
-        indexId: assetId,
-        indexType: input.indexType,
-        timestamp: input.timestamp,
-        size: 1
-      }
-    })
-      .then(response => {
-        response.data.result = Requester.validateResultNumber(response.data, ['content', 0, 'vwap'])
-        resolve({
-          status: response.status,
-          data: Requester.success(input.jobRunID, response)
-        })
-      })
-      .catch(error => reject(error))
+  return await Requester.request({
+    url: input.url,
+    headers: {
+      'x-rapidapi-host': host,
+      'x-rapidapi-key': process.env.API_KEY,
+      authorization: `Bearer ${token}`,
+      useQueryString: true
+    },
+    params: {
+      indexId: assetId,
+      indexType: input.indexType,
+      timestamp: input.timestamp,
+      size: 1
+    }
   })
 }
 
