@@ -36,9 +36,8 @@ const getAssetId = async (symbol) => {
     url: `https://${host}/asset`,
     headers: {
       'content-type': 'application/octet-stream',
-      'x-rapidapi-host': host,
-      'x-rapidapi-key': process.env.API_KEY,
-      useQueryString: true
+      useQueryString: true,
+      ...apiHeaders
     },
     params: {
       status: 'ACTIVE',
