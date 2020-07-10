@@ -77,8 +77,7 @@ const _createRequest = async (input) => {
   return await Requester.request({
     url: input.url,
     headers: {
-      'x-rapidapi-host': host,
-      'x-rapidapi-key': process.env.API_KEY,
+      ...apiHeaders,
       authorization: `Bearer ${token}`,
       useQueryString: true
     },
