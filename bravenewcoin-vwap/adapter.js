@@ -18,10 +18,9 @@ const authenticate = async () => {
     url: `https://${host}/oauth/token`,
     headers: {
       'content-type': 'application/json',
-      'x-rapidapi-host': host,
-      'x-rapidapi-key': process.env.API_KEY,
       accept: 'application/json',
-      useQueryString: true
+      useQueryString: true,
+      ...apiHeaders
     },
     data: {
       audience: 'https://api.bravenewcoin.com',
