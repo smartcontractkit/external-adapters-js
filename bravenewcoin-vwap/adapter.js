@@ -53,15 +53,22 @@ const createRequest = (input, callback) => {
   const yesterday = new Date()
   yesterday.setDate(yesterday.getDate() - 1)
 
+  const _onResponse = (resp) => {
+    const path = ['content', 0, 'vwap']
+    resp.data.result = Requester.validateResultNumber(resp.data, path)
+    callback(resp.status, Requester.success(jobRunID, resp))
+  }
+
+  const _onError = (error) =>
+    callback(500, Requester.errored(jobRunID, error))
+
   _createRequest({
     url: `https://${host}/ohlcv`,
     symbol: validator.validated.data.symbol,
     indexType: 'GWA',
     timestamp: yesterday
-  }).then(response => {
-    response.data.result = Requester.validateResultNumber(response.data, ['content', 0, 'vwap'])
-    callback(response.status, Requester.success(input.jobRunID, response))
-  }).catch(error => callback(500, Requester.errored(jobRunID, error)))
+  }).then(_onResponse)
+    .catch(_onError)
 }
 
 const _createRequest = async (input) => {
