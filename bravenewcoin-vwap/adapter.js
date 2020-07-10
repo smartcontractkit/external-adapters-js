@@ -7,6 +7,10 @@ const customParams = {
 }
 
 const host = 'bravenewcoin.p.rapidapi.com'
+const apiHeaders = {
+  'x-rapidapi-host': host,
+  'x-rapidapi-key': process.env.API_KEY
+}
 
 const authenticate = async () => {
   const response = await Requester.request({
