@@ -54,7 +54,6 @@ const createRequest = (input, callback) => {
   yesterday.setDate(yesterday.getDate() - 1)
 
   _createRequest({
-    jobRunID,
     url: `https://${host}/ohlcv`,
     symbol: validator.validated.data.symbol,
     indexType: 'GWA',
