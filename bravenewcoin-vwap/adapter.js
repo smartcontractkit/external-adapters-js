@@ -28,7 +28,7 @@ const authenticate = async () => {
   return response.data.access_token
 }
 
-const getAssetId = async (token, symbol) => {
+const getAssetId = async (symbol) => {
   const response = await Requester.request({
     url: `https://${host}/asset`,
     headers: {
@@ -64,7 +64,7 @@ const createRequest = (input, callback) => {
 
 const _createRequest = async (input) => {
   const token = await authenticate()
-  const assetId = await getAssetId(token, input.symbol)
+  const assetId = await getAssetId(input.symbol)
   return new Promise((resolve, reject) => {
     Requester.request({
       url: input.url,
