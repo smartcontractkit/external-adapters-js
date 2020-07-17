@@ -14,15 +14,12 @@ const createRequest = (input, callback) => {
   const jobRunID = validator.validated.id
   const coin = validator.validated.data.base
   const market = validator.validated.data.quote
-  const url = `https://web3api.io/api/v2/market/prices/${coin.toLowerCase()}/latest`
+  const url = `https://web3api.io/api/v2/market/prices/${coin.toLowerCase()}_${market.toLowerCase()}/latest`
 
   const config = {
     url,
     headers: {
       'x-api-key': process.env.API_KEY
-    },
-    params: {
-      quote: market.toLowerCase()
     }
   }
   Requester.request(config, customError)
