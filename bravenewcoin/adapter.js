@@ -27,7 +27,7 @@ const _createRequest = async (input) => {
   const token = await authenticate()
   const baseAssetId = await getAssetId(input.from)
   const quoteAssetId = input.to.toUpperCase() === 'USD'
-    ? input.to.toUpperCase()
+    ? 'USD'
     : await getAssetId(input.to)
   return await convert(token, baseAssetId, quoteAssetId)
 }
