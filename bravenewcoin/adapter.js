@@ -1,4 +1,9 @@
 const { Requester, Validator } = require('@chainlink/external-adapter')
+const {
+  authenticate,
+  convert,
+  getAssetId
+} = require('../helpers/bravenewcoin/helpers')
 
 const customParams = {
   from: ['base', 'from', 'coin'],
@@ -7,32 +12,24 @@ const customParams = {
 
 const createRequest = (input, callback) => {
   const validator = new Validator(callback, input, customParams)
-  const host = 'bravenewcoin-v1.p.rapidapi.com'
-  const url = 'https://' + host + '/convert'
   const jobRunID = validator.validated.id
   const from = validator.validated.data.from
   const to = validator.validated.data.to
-  const params = {
-    qty: 1,
+
+  _createRequest({
     from,
     to
-  }
-  const config = {
-    url,
-    headers: {
-      'x-rapidapi-host': host,
-      'x-rapidapi-key': process.env.API_KEY
-    },
-    params
-  }
-  Requester.request(config)
-    .then(response => {
-      response.data.result = Requester.validateResultNumber(response.data, ['to_quantity'])
-      callback(response.status, Requester.success(jobRunID, response))
-    })
-    .catch(error => {
-      callback(500, Requester.errored(jobRunID, error))
-    })
+  }).then(resp => callback(resp.status, Requester.success(jobRunID, resp)))
+    .catch(error => callback(500, Requester.errored(jobRunID, error)))
+}
+
+const _createRequest = async (input) => {
+  const token = await authenticate()
+  const baseAssetId = await getAssetId(input.from)
+  const quoteAssetId = input.to.toUpperCase() === 'USD'
+    ? input.to.toUpperCase()
+    : await getAssetId(input.to)
+  return await convert(token, baseAssetId, quoteAssetId)
 }
 
 module.exports.createRequest = createRequest

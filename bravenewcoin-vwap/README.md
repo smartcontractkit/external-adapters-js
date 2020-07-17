@@ -6,6 +6,11 @@
 - `indexType`: Restrict the OHLCV results to the index type. Either MWA or GWA
 - `timestamp`: Retrieve all daily OHLCV records from the timestamp provided. All dates are stored in UTC. Timestamp strings should be in the form YYYY-MM-DDThh:mm:ssZ
 
+## Environment Variables
+
+- `API_KEY`: Your RapidAPI API key
+- `CLIENT_ID`: Your RapidAPI client ID
+
 ## Output
 
 ```json
