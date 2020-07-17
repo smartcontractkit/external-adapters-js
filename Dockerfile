@@ -9,6 +9,7 @@ COPY $adapter/package.json $adapter/package.json
 RUN make deps
 
 COPY bootstrap bootstrap
+COPY helpers helpers
 COPY external-adapter external-adapter
 COPY $adapter $adapter
 RUN make build

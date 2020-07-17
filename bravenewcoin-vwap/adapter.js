@@ -1,50 +1,10 @@
 const { Requester, Validator } = require('@chainlink/external-adapter')
+const { apiHeaders, authenticate, getAssetId, host } = require('../helpers/bravenewcoin/helpers')
 
 const customParams = {
   symbol: ['base', 'from', 'coin', 'symbol', 'assetId', 'indexId', 'asset'],
   indexType: false,
   timestamp: false
-}
-
-const host = 'bravenewcoin.p.rapidapi.com'
-const apiHeaders = {
-  'x-rapidapi-host': host,
-  'x-rapidapi-key': process.env.API_KEY
-}
-
-const authenticate = async () => {
-  const response = await Requester.request({
-    method: 'POST',
-    url: `https://${host}/oauth/token`,
-    headers: {
-      'content-type': 'application/json',
-      accept: 'application/json',
-      useQueryString: true,
-      ...apiHeaders
-    },
-    data: {
-      audience: 'https://api.bravenewcoin.com',
-      client_id: process.env.CLIENT_ID,
-      grant_type: 'client_credentials'
-    }
-  })
-  return response.data.access_token
-}
-
-const getAssetId = async (symbol) => {
-  const response = await Requester.request({
-    url: `https://${host}/asset`,
-    headers: {
-      'content-type': 'application/octet-stream',
-      useQueryString: true,
-      ...apiHeaders
-    },
-    params: {
-      status: 'ACTIVE',
-      symbol
-    }
-  })
-  return response.data.content[0].id
 }
 
 const createRequest = (input, callback) => {
