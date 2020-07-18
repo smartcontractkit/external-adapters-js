@@ -1,4 +1,4 @@
-# Chainlink External Adapter for BNC RapidAPI convert endpoint
+# Chainlink External Adapter for [BraveNewCoin's AssetTicker endpoint](https://rapidapi.com/BraveNewCoin/api/bravenewcoin?endpoint=apiendpoint_836afc67-19d2-45ae-bb56-c576cec9f602)
 
 ## Input Params
 
@@ -9,6 +9,8 @@
 
 - `API_KEY`: Your RapidAPI API key
 - `CLIENT_ID`: Your RapidAPI client ID
+
+Credentials can be obtained from [this](https://rapidapi.com/BraveNewCoin/api/bravenewcoin?endpoint=apiendpoint_d040b5cb-b6da-4628-bb86-fef663f635dc) page (requires being logged in).
 
 ## Output
 

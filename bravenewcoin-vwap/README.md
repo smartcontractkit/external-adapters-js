@@ -1,4 +1,4 @@
-# Chainlink External Adapter for BraveNewCoin's 24 Hour USD VWAP
+# Chainlink External Adapter for [BraveNewCoin's 24 Hour USD VWAP](https://rapidapi.com/BraveNewCoin/api/bravenewcoin?endpoint=apiendpoint_8b8774ba-b368-4399-9c4a-dc78f13fc786)
 
 ## Input Params
 
@@ -10,6 +10,8 @@
 
 - `API_KEY`: Your RapidAPI API key
 - `CLIENT_ID`: Your RapidAPI client ID
+
+Credentials can be obtained from [this](https://rapidapi.com/BraveNewCoin/api/bravenewcoin?endpoint=apiendpoint_d040b5cb-b6da-4628-bb86-fef663f635dc) page (requires being logged in).
 
 ## Output
 
