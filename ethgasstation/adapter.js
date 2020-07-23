@@ -15,11 +15,11 @@ const createRequest = (input, callback) => {
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || 'ethgasAPI'
   const speed = validator.validated.data.speed
-  const url = `https://ethgasstation.info/api/${endpoint}.json?api-key=${process.env.API_KEY}`
+  const url = `https://data-api.defipulse.com/api/v1/egs/api/${endpoint}.json?api-key=${process.env.API_KEY}`
 
   Requester.request(url, customError)
     .then(response => {
-      response.data.result = Requester.validateResultNumber(response.data, [speed]) * 1e8
+      response.data.result = Requester.validateResultNumber(response.data, [speed]) * 1e9
       callback(response.status, Requester.success(jobRunID, response))
     })
     .catch(error => {
