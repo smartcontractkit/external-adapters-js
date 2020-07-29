@@ -18,6 +18,7 @@ RUN make build-market-closure
 
 FROM node:12-alpine
 ARG check
+EXPOSE 8080
 WORKDIR /home/node/app
 
 COPY --from=builder /home/node/app/market-closure/$check/dist ./
