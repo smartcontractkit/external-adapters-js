@@ -51,7 +51,8 @@
     "synth-index/coinpaprika",
     "synth-index/bravenewcoin",
     "synth-index/cryptocompare",
-    "synth-index/amberdata"
+    "synth-index/amberdata",
+    "wbtc-address-set"
   ],
   "scripts": {
     "lint": "yarn eslint .",

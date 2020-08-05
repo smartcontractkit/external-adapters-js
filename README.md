@@ -25,7 +25,7 @@ yarn test
 
 ## Creating a new external adapter
 
-Run the command below to have the [example](./example) directory cloned using the name you provide for $adapter:
+Run the command below to have the [example](./example) directory cloned using the name you provide for \$adapter:
 
 ```bash
 make new adapter=my-adapter-name
@@ -70,8 +70,8 @@ The zip will be created as `./$adapter/dist/$adapter-adapter.zip`.
 - Under Function code, select "Upload a .zip file" from the Code entry type drop-down
 - Click Upload and select the `$adapter-adapter.zip` file
 - Handler:
-    - index.handler for REST API Gateways
-    - index.handlerv2 for HTTP API Gateways
+  - index.handler for REST API Gateways
+  - index.handlerv2 for HTTP API Gateways
 - Add the environment variable (repeat for all environment variables):
   - Key: API_KEY
   - Value: Your_API_key
