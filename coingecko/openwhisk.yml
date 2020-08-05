@@ -1,0 +1,18 @@
+configValidationMode: off
+service: ea
+
+provider:
+  name: openwhisk
+  environment: ${file(./.env.yml)}
+
+functions:
+  coingecko:
+    handler: index.openwhisk
+    events:
+      - http: POST /coingecko
+    annotations:
+      web-export: true
+      require-whisk-auth: false
+
+plugins:
+  - serverless-openwhisk
