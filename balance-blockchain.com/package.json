@@ -1,15 +1,17 @@
 {
-  "name": "wbtc-address-set",
+  "name": "balance-blockchain.com",
   "version": "0.0.1",
-  "description": "Chainlink adapter to query wBTC address set.",
+  "description": "Chainlink adapter to query BTC address balance from blockchain.com.",
   "keywords": [
     "Chainlink",
     "LINK",
     "wBTC",
     "BTC",
+    "Bitcoin",
     "blockchain",
     "oracle",
-    "Proof of Reserves"
+    "Proof of Reserves",
+    "blockchain.com"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
