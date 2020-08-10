@@ -15,6 +15,7 @@ type Address = {
   chain?: ChainType
   balance?: number
 }
+
 type RequestData = {
   addresses: Address[]
   confirmations: number
