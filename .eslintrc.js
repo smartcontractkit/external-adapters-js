@@ -1,22 +1,21 @@
 module.exports = {
+  root: true,
   env: {
     browser: true,
     commonjs: true,
     es6: true,
-    mocha: true
+    mocha: true,
   },
-  extends: [
-    'standard'
-  ],
+  extends: ['standard'],
   globals: {
     Atomics: 'readonly',
-    SharedArrayBuffer: 'readonly'
+    SharedArrayBuffer: 'readonly',
   },
   parserOptions: {
-    ecmaVersion: 2018
+    ecmaVersion: 2018,
   },
   ignorePatterns: ['node_modules/', 'dist/'],
   rules: {
-    'standard/no-callback-literal': 0
-  }
+    'standard/no-callback-literal': 0,
+  },
 }
