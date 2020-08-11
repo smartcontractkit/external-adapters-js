@@ -53,7 +53,7 @@
     "synth-index/cryptocompare",
     "synth-index/amberdata",
     "wbtc-address-set",
-    "balance-blockchain.com"
+    "blockchain.com"
   ],
   "scripts": {
     "lint": "yarn eslint .",

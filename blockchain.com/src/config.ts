@@ -1,6 +1,7 @@
 export const ENV_API_ENDPOINT = 'API_ENDPOINT'
 
 export const DEFAULT_CONFIRMATIONS = 6
+export const DEFAULT_ENDPOINT = 'balance'
 
 export type Config = {
   api: Record<string, unknown>
