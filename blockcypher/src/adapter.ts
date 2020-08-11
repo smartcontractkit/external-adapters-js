@@ -35,11 +35,11 @@ export const createRequest = (
   }
 
   const _handleError = (err: Error): void =>
-    callback(500, Requester.errored(jobRunID, err))
+    callback(500, Requester.errored(jobRunID, err.message))
 
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
 
-  let fn = undefined
+  let fn
   switch (endpoint) {
     case balance.Name: {
       const { data } = new Validator(
@@ -51,7 +51,7 @@ export const createRequest = (
       break
     }
     default: {
-      fn = Promise.reject(`Endpoint ${endpoint} not supported.`)
+      fn = Promise.reject(Error(`Endpoint ${endpoint} not supported.`))
       break
     }
   }
