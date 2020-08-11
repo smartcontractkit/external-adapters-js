@@ -8,6 +8,10 @@ The adapter takes the following environment variables:
 
 ## Input Params
 
+- `endpoint`: Optional endpoint param, defaults to `balance`
+
+### Balance endpoint
+
 - `addresses`: Addresses to query
   - `address`: Address to query
   - `coin`: Currency to query
@@ -53,7 +57,7 @@ The adapter takes the following environment variables:
 }
 ```
 
-## Output
+### Output
 
 ```json
 {
