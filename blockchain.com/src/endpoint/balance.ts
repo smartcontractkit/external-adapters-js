@@ -1,5 +1,11 @@
 import { Requester } from '@chainlink/external-adapter'
-import { Config, DEFAULT_CONFIRMATIONS } from '../config'
+import {
+  Config,
+  CoinType,
+  ChainType,
+  DEFAULT_CONFIRMATIONS,
+  getBaseURL,
+} from '../config'
 
 export const Name = 'balance'
 
@@ -9,15 +15,13 @@ type Address = {
   chain?: ChainType
   balance?: number
 }
-type CoinType = string & 'btc'
-type ChainType = string & 'main'
 type RequestData = {
   addresses: Address[]
   confirmations: number
 }
 
 const WARNING_NO_OPERATION =
-  'No Operation: only btc main chain is supported by blockchain.com adapter'
+  'No Operation: only btc main/test chains are supported by blockchain.com adapter'
 
 const getBalanceURI = (address: string, confirmations: number) =>
   `/q/addressbalance/${address}?confirmations=${confirmations}`
@@ -33,13 +37,15 @@ const toBalances = async (
       if (addr.coin !== 'btc') return { ...addr, warning: WARNING_NO_OPERATION }
 
       if (!addr.chain) addr.chain = 'main'
-      if (addr.chain !== 'main')
+      if (addr.chain !== 'main' && addr.chain !== 'test')
         return { ...addr, warning: WARNING_NO_OPERATION }
 
       const reqConfig = {
         ...config.api,
+        baseURL: getBaseURL(addr.chain),
         url: getBalanceURI(addr.address, confirmations),
       }
+
       return {
         ...addr,
         balance: (await Requester.request(reqConfig)).data,
