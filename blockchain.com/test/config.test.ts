@@ -1,33 +1,28 @@
-import { assert, expect } from 'chai'
+import { expect } from 'chai'
+import { ENV_API_TIMEOUT, DEFAULT_TIMEOUT, getConfig } from '../src/config'
 
-import {
-  ENV_API_ENDPOINT,
-  RequiredEnvError,
-  getRequiredEnv,
-  getConfig,
-} from '../src/config'
-
-describe('incorrect app config', () => {
+describe('config', () => {
   beforeEach(() => {
-    delete process.env[ENV_API_ENDPOINT]
+    delete process.env[ENV_API_TIMEOUT]
   })
 
   context('when no env is set', () => {
-    it(`throws RequiredEnvError for ${ENV_API_ENDPOINT}`, () => {
-      expect(() => getRequiredEnv(ENV_API_ENDPOINT)) //
-        .throws(RequiredEnvError, ENV_API_ENDPOINT)
+    it(`configures app with default ${DEFAULT_TIMEOUT} timeout`, () => {
+      const config = getConfig()
+      expect(config).to.have.property('api')
+      expect(config.api).to.have.property('timeout', DEFAULT_TIMEOUT)
     })
   })
 
-  context(`when ${ENV_API_ENDPOINT} is set`, () => {
+  context(`when ${ENV_API_TIMEOUT} is set`, () => {
     beforeEach(() => {
-      process.env[ENV_API_ENDPOINT] = 'dummy.endpoint'
+      process.env[ENV_API_TIMEOUT] = '10000'
     })
 
-    it(`configures app with ${ENV_API_ENDPOINT} endpoint`, () => {
-      const config = getConfig();
+    it(`configures app with env set ${ENV_API_TIMEOUT} timeout`, () => {
+      const config = getConfig()
       expect(config).to.have.property('api')
-      expect(config.api).to.have.property('baseURL', 'dummy.endpoint')
+      expect(config.api).to.have.property('timeout', 10000)
     })
   })
 })
