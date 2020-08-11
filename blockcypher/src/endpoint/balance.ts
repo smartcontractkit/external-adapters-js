@@ -1,8 +1,21 @@
-import { Requester } from '@chainlink/external-adapter'
+import bcypher from 'blockcypher'
+import { Config, DEFAULT_CONFIRMATIONS } from '../config'
 import { CoinType, ChainType } from '.'
-import { Config, DEFAULT_CONFIRMATIONS, getBaseURL } from '../config'
 
 export const Name = 'balance'
+
+// blockcypher response type for addr balance query
+type AddressBalance = {
+  address: string
+  total_received: number
+  total_sent: number
+  balance: number
+  unconfirmed_balance: number
+  final_balance: number
+  n_tx: number
+  unconfirmed_n_tx: number
+  final_n_tx: number
+}
 
 type Address = {
   address: string
@@ -17,12 +30,9 @@ type RequestData = {
 }
 
 const WARNING_NO_OPERATION =
-  'No Operation: only btc main/test chains are supported by blockchain.com adapter'
+  'No Operation: only btc main/test chains are supported by blockcypher adapter'
 const WARNING_NO_OPERATION_MISSING_ADDRESS =
   'No Operation: address param is missing'
-
-const getBalanceURI = (address: string, confirmations: number) =>
-  `/q/addressbalance/${address}?confirmations=${confirmations}`
 
 const toBalances = async (
   config: Config,
@@ -41,15 +51,24 @@ const toBalances = async (
       if (addr.chain !== 'main' && addr.chain !== 'test')
         return { ...addr, warning: WARNING_NO_OPERATION }
 
-      const reqConfig = {
-        ...config.api,
-        baseURL: getBaseURL(addr.chain),
-        url: getBalanceURI(addr.address, confirmations),
-      }
+      // rewrite chain id for bcypher
+      const addrChain =
+        addr.coin === 'btc' && addr.chain === 'test' ? 'test3' : addr.chain
+      const api = new bcypher(addr.coin, addrChain, config.token)
+      const params = { confirmations }
+      const getAddrBal = (): Promise<AddressBalance> =>
+        new Promise((resolve, reject) => {
+          api.getAddrBal(
+            addr.address,
+            params,
+            (error: Error, body: AddressBalance) =>
+              error ? reject(error) : resolve(body)
+          )
+        })
 
       return {
         ...addr,
-        balance: (await Requester.request(reqConfig)).data,
+        balance: (await getAddrBal()).balance,
       }
     })
   )

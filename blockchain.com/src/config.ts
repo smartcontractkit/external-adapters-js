@@ -1,3 +1,5 @@
+import { ChainType } from './endpoint'
+
 export const ENV_API_TIMEOUT = 'API_TIMEOUT'
 
 export const ENDPOINT_MAIN = 'https://blockchain.info/'
@@ -10,9 +12,6 @@ export const DEFAULT_ENDPOINT = 'balance'
 export type Config = {
   api: Record<string, unknown>
 }
-
-export type CoinType = 'btc'
-export type ChainType = 'main' | 'test'
 
 export const getBaseURL = (chain: ChainType): string => {
   switch (chain) {

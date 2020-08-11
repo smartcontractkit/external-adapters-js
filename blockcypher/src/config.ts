@@ -1,6 +1,7 @@
 export const ENV_API_TOKEN = 'API_TOKEN'
 
 export const DEFAULT_CONFIRMATIONS = 6
+export const DEFAULT_ENDPOINT = 'balance'
 
 export type Config = {
   token?: string

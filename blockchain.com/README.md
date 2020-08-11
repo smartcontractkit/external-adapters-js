@@ -14,7 +14,7 @@ The adapter takes the following environment variables:
 
 - `addresses`: Addresses to query
   - `address`: Address to query
-  - `coin`: Currency to query
+  - `coin`: Optional currency to query, defaults to `btc`
   - `chain`: Optional chain to query, defaults to `main`
 - `confirmations`: Optional confirmations param, defaults to `6`
 
