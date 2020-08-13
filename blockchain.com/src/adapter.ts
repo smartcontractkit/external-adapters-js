@@ -2,7 +2,7 @@ import { Requester, Validator } from '@chainlink/external-adapter'
 import { Config, getConfig, logConfig, DEFAULT_ENDPOINT } from './config'
 import { balance } from './endpoint'
 
-type JobSpecRequest = {
+export type JobSpecRequest = {
   id: string
   data: Record<string, unknown>
 }
@@ -47,7 +47,7 @@ export const createRequest = (
         request,
         balance.inputParams
       ).validated
-      fn = balance.createRequest(config, data)
+      fn = balance.createRequest(config, request, data)
       break
     }
     default: {
