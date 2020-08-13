@@ -27,8 +27,8 @@ type Address = {
   balance?: number
 }
 
-type AddressType = string & ('custodial' | 'merchant' | 'deposit')
-type ChainType = string & ('btc' | 'eth')
+type AddressType = 'custodial' | 'merchant' | 'deposit'
+type ChainType = 'btc' | 'eth'
 
 type JobSpecRequest = { id: string }
 type Callback = (statusCode: number, data: Record<string, unknown>) => void
@@ -48,8 +48,10 @@ export const createRequest = (
 
   const _handleResponse = (out: AxiosResponse<APIMembersResponse>): void => {
     const addresses = out.data.result
+      .filter((member) => member.token === 'wbtc')
       .flatMap((member) => member.addresses)
       .filter((a) => a.chain === 'btc' && a.type == 'custodial' && a.balance)
+      .map((a) => ({ ...a, coin: 'btc', chain: 'main' }))
 
     callback(
       200,
@@ -62,7 +64,7 @@ export const createRequest = (
   }
 
   const _handleError = (err: Error): void =>
-    callback(500, Requester.errored(jobRunID, err))
+    callback(500, Requester.errored(jobRunID, err.message))
 
   const reqConfig = { ...config.api, url: '' }
   Requester.request(reqConfig).then(_handleResponse).catch(_handleError)
