@@ -1,5 +1,6 @@
 export const ENV_API_TOKEN = 'API_TOKEN'
 
+export const DEFAULT_DATA_PATH = 'result'
 export const DEFAULT_CONFIRMATIONS = 6
 export const DEFAULT_ENDPOINT = 'balance'
 

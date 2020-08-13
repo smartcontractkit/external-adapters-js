@@ -1,5 +1,8 @@
 import bcypher from 'blockcypher'
-import { Config, DEFAULT_CONFIRMATIONS } from '../config'
+import objectPath from 'object-path'
+
+import { Config, DEFAULT_CONFIRMATIONS, DEFAULT_DATA_PATH } from '../config'
+import { JobSpecRequest } from '../adapter'
 import { CoinType, ChainType } from '.'
 
 export const Name = 'balance'
@@ -25,7 +28,7 @@ type Address = {
 }
 
 type RequestData = {
-  addresses: Address[]
+  dataPath: string
   confirmations: number
 }
 
@@ -74,13 +77,22 @@ const toBalances = async (
   )
 
 export const inputParams = {
-  addresses: true,
+  dataPath: false,
   confirmations: false,
 }
 
 // Export function to integrate with Chainlink node
 export const createRequest = async (
   config: Config,
+  request: JobSpecRequest,
   data: RequestData
-): Promise<Address[]> =>
-  await toBalances(config, data.addresses, data.confirmations)
+): Promise<Address[]> => {
+  const dataPath = data.dataPath || DEFAULT_DATA_PATH
+  const inputData = <Address[]>objectPath.get(request.data, dataPath)
+
+  // Check if input data is valid
+  if (!inputData || !Array.isArray(inputData) || inputData.length === 0)
+    throw Error(`Input, at '${dataPath}' path, must be a non-empty array.`)
+
+  return await toBalances(config, inputData, data.confirmations)
+}

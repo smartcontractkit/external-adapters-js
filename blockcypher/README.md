@@ -12,11 +12,14 @@ The adapter takes the following environment variables:
 
 ### Balance endpoint
 
-- `addresses`: Addresses to query
-  - `address`: Address to query
-  - `coin`: Optional currency to query, defaults to `btc`
-  - `chain`: Optional chain to query, defaults to `main`
+- `dataPath`: Optional path where to find the addresses array, defaults to `result`
 - `confirmations`: Optional confirmations param, defaults to `6`
+
+Address object:
+
+- `address`: Address to query
+- `coin`: Optional currency to query, defaults to `btc`
+- `chain`: Optional chain to query, defaults to `main`
 
 ```json
 {
@@ -52,6 +55,7 @@ The adapter takes the following environment variables:
         "coin": "btc"
       }
     ],
+    "dataPath": "addresses",
     "confirmations": 3
   }
 }
