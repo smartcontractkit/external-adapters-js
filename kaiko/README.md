@@ -14,7 +14,7 @@
   "query": {
    "page_size": 100,
    "start_time": "2020-04-17T16:29:13.277Z",
-   "interval": "5m",
+   "interval": "1m",
    "sort": "desc",
    "base_asset": "eth",
    "quote_asset": "usd",
