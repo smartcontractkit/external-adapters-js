@@ -20,7 +20,7 @@ const createRequest = (input, callback) => {
   const start_time = new Date() // eslint-disable-line camelcase
   start_time.setTime(start_time.getTime() - 1000000)
   const params = {
-    interval: '5m',
+    interval: '1m',
     sort: 'desc',
     start_time
   }
