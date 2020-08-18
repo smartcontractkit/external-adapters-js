@@ -7,7 +7,6 @@ const DEFAULT_NETWORK = 'mainnet'
 
 const customParams = {
   asset: ['asset', 'from'],
-  network: false,
 }
 
 const execute = (input, callback) => {
