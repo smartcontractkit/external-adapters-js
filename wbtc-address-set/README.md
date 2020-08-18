@@ -18,7 +18,8 @@ The adapter takes the following environment variables:
         "verified": false,
         "type": "custodial",
         "date": "2020-07-29T02:47:27.212Z",
-        "chain": "btc",
+        "coin": "btc",
+        "chain": "mainnet",
         "balance": 44900000000
       },
       {
@@ -26,7 +27,8 @@ The adapter takes the following environment variables:
         "verified": true,
         "type": "custodial",
         "date": "2020-07-29T02:47:21.943Z",
-        "chain": "btc",
+        "coin": "btc",
+        "chain": "mainnet",
         "balance": 9899463044
       },
       {
@@ -34,7 +36,8 @@ The adapter takes the following environment variables:
         "verified": false,
         "type": "custodial",
         "date": "2020-07-08T19:46:37.984Z",
-        "chain": "btc",
+        "coin": "btc",
+        "chain": "mainnet",
         "balance": 307499838499
       },
       {
@@ -42,7 +45,8 @@ The adapter takes the following environment variables:
         "verified": false,
         "type": "custodial",
         "date": "2020-07-29T02:47:27.213Z",
-        "chain": "btc",
+        "coin": "btc",
+        "chain": "mainnet",
         "balance": 904070305884
       },
       {
@@ -50,7 +54,8 @@ The adapter takes the following environment variables:
         "verified": false,
         "type": "custodial",
         "date": "2020-07-29T02:47:27.214Z",
-        "chain": "btc",
+        "coin": "btc",
+        "chain": "mainnet",
         "balance": 80000
       },
       {
@@ -58,7 +63,8 @@ The adapter takes the following environment variables:
         "verified": false,
         "type": "custodial",
         "date": "2020-07-08T19:41:37.469Z",
-        "chain": "btc",
+        "coin": "btc",
+        "chain": "mainnet",
         "balance": 264148085712
       },
       {
@@ -66,7 +72,8 @@ The adapter takes the following environment variables:
         "verified": false,
         "type": "custodial",
         "date": "2020-07-08T19:46:37.990Z",
-        "chain": "btc",
+        "coin": "btc",
+        "chain": "mainnet",
         "balance": 2601100000
       }
     ]
@@ -77,7 +84,8 @@ The adapter takes the following environment variables:
       "verified": false,
       "type": "custodial",
       "date": "2020-07-29T02:47:27.212Z",
-      "chain": "btc",
+      "coin": "btc",
+      "chain": "mainnet",
       "balance": 44900000000
     },
     {
@@ -85,7 +93,8 @@ The adapter takes the following environment variables:
       "verified": true,
       "type": "custodial",
       "date": "2020-07-29T02:47:21.943Z",
-      "chain": "btc",
+      "coin": "btc",
+      "chain": "mainnet",
       "balance": 9899463044
     },
     {
@@ -93,7 +102,8 @@ The adapter takes the following environment variables:
       "verified": false,
       "type": "custodial",
       "date": "2020-07-08T19:46:37.984Z",
-      "chain": "btc",
+      "coin": "btc",
+      "chain": "mainnet",
       "balance": 307499838499
     },
     {
@@ -101,7 +111,8 @@ The adapter takes the following environment variables:
       "verified": false,
       "type": "custodial",
       "date": "2020-07-29T02:47:27.213Z",
-      "chain": "btc",
+      "coin": "btc",
+      "chain": "mainnet",
       "balance": 904070305884
     },
     {
@@ -109,7 +120,8 @@ The adapter takes the following environment variables:
       "verified": false,
       "type": "custodial",
       "date": "2020-07-29T02:47:27.214Z",
-      "chain": "btc",
+      "coin": "btc",
+      "chain": "mainnet",
       "balance": 80000
     },
     {
@@ -117,7 +129,8 @@ The adapter takes the following environment variables:
       "verified": false,
       "type": "custodial",
       "date": "2020-07-08T19:41:37.469Z",
-      "chain": "btc",
+      "coin": "btc",
+      "chain": "mainnet",
       "balance": 264148085712
     },
     {
@@ -125,7 +138,8 @@ The adapter takes the following environment variables:
       "verified": false,
       "type": "custodial",
       "date": "2020-07-08T19:46:37.990Z",
-      "chain": "btc",
+      "coin": "btc",
+      "chain": "mainnet",
       "balance": 2601100000
     }
   ],

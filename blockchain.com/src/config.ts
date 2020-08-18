@@ -16,9 +16,9 @@ export type Config = {
 
 export const getBaseURL = (chain: ChainType): string => {
   switch (chain) {
-    case 'main':
+    case 'mainnet':
       return ENDPOINT_MAIN
-    case 'test':
+    case 'testnet':
       return ENDPOINT_TEST
   }
 }
