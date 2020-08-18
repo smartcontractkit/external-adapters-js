@@ -1,1 +1,1 @@
-# CryptoCompare Kaiko Index
+# Kaiko Synthetix Index

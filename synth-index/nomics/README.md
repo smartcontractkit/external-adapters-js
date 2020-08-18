@@ -1,1 +1,1 @@
-# CryptoCompare Nomics Index
+# Nomics Synthetix Index
