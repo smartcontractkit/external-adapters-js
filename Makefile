@@ -1,4 +1,4 @@
-check?=tradinghours
+check?=schedule
 
 docker:
 	docker build --build-arg adapter=$(adapter) -f Dockerfile . -t $(adapter)-adapter
