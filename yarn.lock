@@ -1107,10 +1107,10 @@ combined-stream@^1.0.6, combined-stream@~1.0.6:
   dependencies:
     delayed-stream "~1.0.0"
 
-commander@^2.19.0:
-  version "2.20.3"
-  resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
-  integrity sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
+commander@5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-5.1.0.tgz#46abbd1652f8e059bddaef99bbdcb2ad9cf179ae"
+  integrity sha512-P0CysNDQ7rtVw4QIQtm+MRxV66vKFSvlsQvGYXZWR3qFU0jlMKHZZZgw8e+8DSah4UDKMqnknRDQz+xuQXQ/Zg==
 
 commander@~2.8.1:
   version "2.8.1"
@@ -4569,6 +4569,11 @@ snakecase-keys@^3.0.0:
     map-obj "^4.0.0"
     to-snake-case "^1.0.0"
 
+solidity-parser-antlr@^0.4.11:
+  version "0.4.11"
+  resolved "https://registry.yarnpkg.com/solidity-parser-antlr/-/solidity-parser-antlr-0.4.11.tgz#af43e1f13b3b88309a875455f5d6e565b05ee5f1"
+  integrity sha512-4jtxasNGmyC0midtjH/lTFPZYvTTUMy6agYcF+HoMnzW8+cqo3piFrINb4ZCzpPW+7tTVFCGa5ubP34zOzeuMg==
+
 source-map-support@^0.5.19:
   version "0.5.19"
   resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.5.19.tgz#a98b62f86dcaf4f67399648c085291ab9e8fed61"
@@ -4867,15 +4872,16 @@ swarm-js@^0.1.40:
     tar "^4.0.2"
     xhr-request "^1.0.1"
 
-synthetix@^2.21.13:
-  version "2.21.13"
-  resolved "https://registry.yarnpkg.com/synthetix/-/synthetix-2.21.13.tgz#80fd991c5620bfa48f869e7bb897e35a91d01eff"
-  integrity sha512-qj8oXaz2fsq+5SUlsWHwKhz3UcrUdXUM2Cph7SC2QHy/oOI0h3ZM0m/qQeicqsGhgPIAEJrIwMA8QzlO4siY3Q==
+synthetix@^2.26.3:
+  version "2.26.3"
+  resolved "https://registry.yarnpkg.com/synthetix/-/synthetix-2.26.3.tgz#f0d2319c18053c9f04663766415c510a3268dd26"
+  integrity sha512-8RERgPHRk4rTI2t3vk9+XA2hf4aHb7+kPSbeTI95LDKUird1GD0hXIbuLRReHDLtcoyVqoy6eyI/JSazeVJ9jg==
   dependencies:
     "@chainlink/contracts-0.0.3" "npm:@chainlink/contracts@0.0.3"
-    commander "^2.19.0"
+    commander "5.1.0"
     openzeppelin-solidity-2.3.0 "npm:openzeppelin-solidity@2.3.0"
     pretty-error "^2.1.1"
+    solidity-parser-antlr "^0.4.11"
     web3-utils "1.2.2"
 
 table@^5.2.3:

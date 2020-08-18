@@ -4,7 +4,7 @@ const adapterCalculateIndex = require('./priceAdapter').calculateIndex
 const snx = require('synthetix')
 
 const customParams = {
-  asset: true
+  asset: ['asset', 'from']
 }
 
 const createRequest = (input, callback) => {

@@ -67,7 +67,7 @@
     "ethers": "^4.0.47",
     "express": "^4.17.0",
     "market-closure": "^0.1.2",
-    "synthetix": "^2.21.13",
+    "synthetix": "^2.26.3",
     "web3": "^1.2.7",
     "yahoo-finance": "^0.3.6"
   },
