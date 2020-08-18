@@ -33,9 +33,19 @@ type RequestData = {
 }
 
 const WARNING_NO_OPERATION =
-  'No Operation: only btc main/test chains are supported by blockcypher adapter'
+  'No Operation: only btc mainnet/testnet chains are supported by blockcypher adapter'
 const WARNING_NO_OPERATION_MISSING_ADDRESS =
   'No Operation: address param is missing'
+
+// rewrite chain id for bcypher
+const getChainId = (coin: CoinType, chain: ChainType): string => {
+  switch (chain) {
+    case 'mainnet':
+      return 'main'
+    case 'testnet':
+      return coin === 'btc' ? 'test3' : 'test'
+  }
+}
 
 const toBalances = async (
   config: Config,
@@ -50,13 +60,12 @@ const toBalances = async (
       if (!addr.coin) addr.coin = 'btc'
       if (addr.coin !== 'btc') return { ...addr, warning: WARNING_NO_OPERATION }
 
-      if (!addr.chain) addr.chain = 'main'
-      if (addr.chain !== 'main' && addr.chain !== 'test')
+      if (!addr.chain) addr.chain = 'mainnet'
+      if (addr.chain !== 'mainnet' && addr.chain !== 'testnet')
         return { ...addr, warning: WARNING_NO_OPERATION }
 
       // rewrite chain id for bcypher
-      const addrChain =
-        addr.coin === 'btc' && addr.chain === 'test' ? 'test3' : addr.chain
+      const addrChain = getChainId(addr.coin, addr.chain)
       const api = new bcypher(addr.coin, addrChain, config.token)
       const params = { confirmations }
       const getAddrBal = (): Promise<AddressBalance> =>

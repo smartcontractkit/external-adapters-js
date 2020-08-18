@@ -25,7 +25,7 @@ type RequestData = {
 }
 
 const WARNING_NO_OPERATION =
-  'No Operation: only btc main/test chains are supported by blockchain.com adapter'
+  'No Operation: only btc mainnet/testnet chains are supported by blockchain.com adapter'
 const WARNING_NO_OPERATION_MISSING_ADDRESS =
   'No Operation: address param is missing'
 
@@ -45,8 +45,8 @@ const toBalances = async (
       if (!addr.coin) addr.coin = 'btc'
       if (addr.coin !== 'btc') return { ...addr, warning: WARNING_NO_OPERATION }
 
-      if (!addr.chain) addr.chain = 'main'
-      if (addr.chain !== 'main' && addr.chain !== 'test')
+      if (!addr.chain) addr.chain = 'mainnet'
+      if (addr.chain !== 'mainnet' && addr.chain !== 'testnet')
         return { ...addr, warning: WARNING_NO_OPERATION }
 
       const reqConfig = {

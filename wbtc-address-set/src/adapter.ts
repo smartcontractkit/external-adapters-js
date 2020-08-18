@@ -51,7 +51,7 @@ export const createRequest = (
       .filter((member) => member.token === 'wbtc')
       .flatMap((member) => member.addresses)
       .filter((a) => a.chain === 'btc' && a.type == 'custodial' && a.balance)
-      .map((a) => ({ ...a, coin: 'btc', chain: 'main' }))
+      .map((a) => ({ ...a, coin: 'btc', chain: 'mainnet' }))
 
     callback(
       200,
