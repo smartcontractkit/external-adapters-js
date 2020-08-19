@@ -8,10 +8,10 @@ const customError = (data) => {
 const customParams = {
   from: ['base', 'from'],
   to: ['quote', 'to'],
-  endpoint: false
+  endpoint: false,
 }
 
-const createRequest = (input, callback) => {
+const execute = (input, callback) => {
   const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || 'convert'
@@ -23,21 +23,21 @@ const createRequest = (input, callback) => {
     access_key: process.env.API_KEY,
     from,
     to,
-    amount: 1
+    amount: 1,
   }
 
   const config = {
     url,
-    params
+    params,
   }
 
   Requester.request(config, customError)
-    .then(response => {
+    .then((response) => {
       callback(response.status, Requester.success(jobRunID, response))
     })
-    .catch(error => {
+    .catch((error) => {
       callback(500, Requester.errored(jobRunID, error))
     })
 }
 
-module.exports.createRequest = createRequest
+module.exports.execute = execute

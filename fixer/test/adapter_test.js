@@ -1,7 +1,7 @@
 const assert = require('chai').assert
-const createRequest = require('../adapter').createRequest
+const { execute } = require('../adapter')
 
-describe('createRequest', () => {
+describe('execute', () => {
   const jobID = '1'
 
   context('successful calls', () => {
@@ -11,9 +11,9 @@ describe('createRequest', () => {
         testData: {
           data: {
             base: 'GBP',
-            quote: 'USD'
-          }
-        }
+            quote: 'USD',
+          },
+        },
       },
       {
         name: 'base/quote',
@@ -21,9 +21,9 @@ describe('createRequest', () => {
           id: jobID,
           data: {
             base: 'GBP',
-            quote: 'USD'
-          }
-        }
+            quote: 'USD',
+          },
+        },
       },
       {
         name: 'from/to',
@@ -31,15 +31,15 @@ describe('createRequest', () => {
           id: jobID,
           data: {
             from: 'GBP',
-            to: 'USD'
-          }
-        }
-      }
+            to: 'USD',
+          },
+        },
+      },
     ]
 
-    requests.forEach(req => {
+    requests.forEach((req) => {
       it(`${req.name}`, (done) => {
-        createRequest(req.testData, (statusCode, data) => {
+        execute(req.testData, (statusCode, data) => {
           assert.equal(statusCode, 200)
           assert.equal(data.jobRunID, jobID)
           assert.isNotEmpty(data.data)
@@ -55,25 +55,25 @@ describe('createRequest', () => {
     const requests = [
       {
         name: 'empty body',
-        testData: {}
+        testData: {},
       },
       {
         name: 'empty data',
-        testData: { data: {} }
+        testData: { data: {} },
       },
       {
         name: 'base not supplied',
         testData: {
           id: jobID,
-          data: { quote: 'USD' }
-        }
+          data: { quote: 'USD' },
+        },
       },
       {
         name: 'quote not supplied',
         testData: {
           id: jobID,
-          data: { base: 'GBP' }
-        }
+          data: { base: 'GBP' },
+        },
       },
       {
         name: 'unknown base',
@@ -81,9 +81,9 @@ describe('createRequest', () => {
           id: jobID,
           data: {
             base: 'not_real',
-            quote: 'USD'
-          }
-        }
+            quote: 'USD',
+          },
+        },
       },
       {
         name: 'unknown quote',
@@ -91,15 +91,15 @@ describe('createRequest', () => {
           id: jobID,
           data: {
             base: 'GBP',
-            quote: 'not_real'
-          }
-        }
-      }
+            quote: 'not_real',
+          },
+        },
+      },
     ]
 
-    requests.forEach(req => {
+    requests.forEach((req) => {
       it(`${req.name}`, (done) => {
-        createRequest(req.testData, (statusCode, data) => {
+        execute(req.testData, (statusCode, data) => {
           assert.equal(statusCode, 500)
           assert.equal(data.jobRunID, jobID)
           assert.equal(data.status, 'errored')

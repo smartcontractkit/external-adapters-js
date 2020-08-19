@@ -9,10 +9,10 @@ const customParams = {
   quote: ['quote', 'to'],
   endpoint: false,
   amount: false,
-  precision: false
+  precision: false,
 }
 
-const createRequest = (input, callback) => {
+const execute = (input, callback) => {
   const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || 'conversion'
@@ -26,22 +26,24 @@ const createRequest = (input, callback) => {
   const params = {
     amount,
     precision,
-    apikey
+    apikey,
   }
 
   const config = {
     url,
-    params
+    params,
   }
 
   Requester.request(config, customError)
-    .then(response => {
-      response.data.result = Requester.validateResultNumber(response.data, ['converted'])
+    .then((response) => {
+      response.data.result = Requester.validateResultNumber(response.data, [
+        'converted',
+      ])
       callback(response.status, Requester.success(jobRunID, response))
     })
-    .catch(error => {
+    .catch((error) => {
       callback(500, Requester.errored(jobRunID, error))
     })
 }
 
-module.exports.createRequest = createRequest
+module.exports.execute = execute

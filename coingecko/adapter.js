@@ -13,20 +13,27 @@ const customError = (data) => {
 const presetTickers = {
   COMP: 'compound-governance-token',
   FNX: 'finnexus',
-  UNI: 'uniswap'
+  UNI: 'uniswap',
 }
 
 const convertFromTicker = (ticker, coinId, callback) => {
   if (typeof coinId !== 'undefined') return callback(coinId.toLowerCase())
 
   // Correct common tickers that are misidentified
-  if (ticker in presetTickers) { return callback(presetTickers[ticker]) }
+  if (ticker in presetTickers) {
+    return callback(presetTickers[ticker])
+  }
 
-  Requester.request({
-    url: 'https://api.coingecko.com/api/v3/coins/list'
-  }, customError)
-    .then(response => {
-      const coin = response.data.find(x => x.symbol.toLowerCase() === ticker.toLowerCase())
+  Requester.request(
+    {
+      url: 'https://api.coingecko.com/api/v3/coins/list',
+    },
+    customError
+  )
+    .then((response) => {
+      const coin = response.data.find(
+        (x) => x.symbol.toLowerCase() === ticker.toLowerCase()
+      )
       if (typeof coin === 'undefined') {
         return callback('undefined')
       }
@@ -40,7 +47,7 @@ const convertFromTicker = (ticker, coinId, callback) => {
 const priceParams = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
-  coinid: false
+  coinid: false,
 }
 
 const price = (jobRunID, input, callback) => {
@@ -52,27 +59,30 @@ const price = (jobRunID, input, callback) => {
 
     const params = {
       ids: coin,
-      vs_currencies: market
+      vs_currencies: market,
     }
 
     const config = {
       url: url,
-      params
+      params,
     }
 
     Requester.request(config, customError)
-      .then(response => {
-        response.data.result = Requester.validateResultNumber(response.data, [coin.toLowerCase(), market.toLowerCase()])
+      .then((response) => {
+        response.data.result = Requester.validateResultNumber(response.data, [
+          coin.toLowerCase(),
+          market.toLowerCase(),
+        ])
         callback(response.status, Requester.success(jobRunID, response))
       })
-      .catch(error => {
+      .catch((error) => {
         callback(500, Requester.errored(jobRunID, error))
       })
   })
 }
 
 const mktcapParams = {
-  quote: ['quote', 'to', 'market']
+  quote: ['quote', 'to', 'market'],
 }
 
 const globalMarketCap = (jobRunID, input, callback) => {
@@ -81,11 +91,15 @@ const globalMarketCap = (jobRunID, input, callback) => {
   const url = 'https://api.coingecko.com/api/v3/global'
 
   const config = {
-    url: url
+    url: url,
   }
 
   const _handleResponse = (response) => {
-    response.data.result = Requester.validateResultNumber(response.data, ['data', 'total_market_cap', quote.toLowerCase()])
+    response.data.result = Requester.validateResultNumber(response.data, [
+      'data',
+      'total_market_cap',
+      quote.toLowerCase(),
+    ])
     callback(response.status, Requester.success(jobRunID, response))
   }
 
@@ -99,10 +113,10 @@ const globalMarketCap = (jobRunID, input, callback) => {
 }
 
 const customParams = {
-  endpoint: false
+  endpoint: false,
 }
 
-const createRequest = (input, callback) => {
+const execute = (input, callback) => {
   const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
@@ -116,4 +130,4 @@ const createRequest = (input, callback) => {
   }
 }
 
-module.exports.createRequest = createRequest
+module.exports.execute = execute

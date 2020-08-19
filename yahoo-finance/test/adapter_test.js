@@ -1,90 +1,90 @@
 const assert = require('chai').assert
-const createRequest = require('../adapter').createRequest
+const { execute } = require('../adapter')
 
-describe('createRequest', () => {
+describe('execute', () => {
   const jobID = '1'
 
   context('successful calls', () => {
     const requests = [
       {
         name: 'id not supplied',
-        testData: { data: { base: '^FTSE' } }
+        testData: { data: { base: '^FTSE' } },
       },
       {
         name: 'base',
         testData: {
           id: jobID,
-          data: { base: 'N225' }
-        }
+          data: { base: 'N225' },
+        },
       },
       {
         name: 'from',
         testData: {
           id: jobID,
-          data: { from: 'N225' }
-        }
+          data: { from: 'N225' },
+        },
       },
       {
         name: 'asset',
         testData: {
           id: jobID,
-          data: { asset: 'N225' }
-        }
+          data: { asset: 'N225' },
+        },
       },
       {
         name: 'common key FTSE',
         testData: {
           id: jobID,
-          data: { asset: 'FTSE' }
-        }
+          data: { asset: 'FTSE' },
+        },
       },
       {
         name: 'common key BZ',
         testData: {
           id: jobID,
-          data: { asset: 'BZ' }
-        }
+          data: { asset: 'BZ' },
+        },
       },
       {
         name: 'common key AUD',
         testData: {
           id: jobID,
-          data: { asset: 'AUD' }
-        }
+          data: { asset: 'AUD' },
+        },
       },
       {
         name: 'common key CHF',
         testData: {
           id: jobID,
-          data: { asset: 'CHF' }
-        }
+          data: { asset: 'CHF' },
+        },
       },
       {
         name: 'common key EUR',
         testData: {
           id: jobID,
-          data: { asset: 'EUR' }
-        }
+          data: { asset: 'EUR' },
+        },
       },
       {
         name: 'common key GBP',
         testData: {
           id: jobID,
-          data: { asset: 'GBP' }
-        }
+          data: { asset: 'GBP' },
+        },
       },
       {
         name: 'common key JPY',
         testData: {
           id: jobID,
-          data: { asset: 'JPY' }
-        }
-      }
+          data: { asset: 'JPY' },
+        },
+      },
     ]
 
-    requests.forEach(req => {
+    requests.forEach((req) => {
       it(`${req.name}`, (done) => {
-        createRequest(req.testData, (statusCode, data) => {
+        execute(req.testData, (statusCode, data) => {
           assert.equal(statusCode, 200)
           assert.equal(data.jobRunID, jobID)
           assert.isNotEmpty(data.data)
@@ -100,24 +100,24 @@ describe('createRequest', () => {
     const requests = [
       {
         name: 'empty body',
-        testData: {}
+        testData: {},
       },
       {
         name: 'empty data',
-        testData: { data: {} }
+        testData: { data: {} },
       },
       {
         name: 'unknown base',
         testData: {
           id: jobID,
-          data: { base: 'not_real' }
-        }
-      }
+          data: { base: 'not_real' },
+        },
+      },
     ]
 
-    requests.forEach(req => {
+    requests.forEach((req) => {
       it(`${req.name}`, (done) => {
-        createRequest(req.testData, (statusCode, data) => {
+        execute(req.testData, (statusCode, data) => {
           assert.equal(statusCode, 500)
           assert.equal(data.jobRunID, jobID)
           assert.equal(data.status, 'errored')

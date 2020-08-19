@@ -1,7 +1,7 @@
 const assert = require('chai').assert
-const createRequest = require('../adapter').createRequest
+const { execute } = require('../adapter')
 
-describe('createRequest', () => {
+describe('execute', () => {
   const jobID = '1'
 
   context('successful calls', () => {
@@ -16,12 +16,12 @@ describe('createRequest', () => {
       { name: 'GBP', testData: { id: jobID, data: { asset: 'GBP' } } },
       { name: 'JPY', testData: { id: jobID, data: { asset: 'JPY' } } },
       { name: 'XAU', testData: { id: jobID, data: { asset: 'XAU' } } },
-      { name: 'XAG', testData: { id: jobID, data: { asset: 'XAG' } } }
+      { name: 'XAG', testData: { id: jobID, data: { asset: 'XAG' } } },
     ]
 
-    requests.forEach(req => {
+    requests.forEach((req) => {
       it(`${req.name}`, (done) => {
-        createRequest(req.testData, (statusCode, data) => {
+        execute(req.testData, (statusCode, data) => {
           console.log(JSON.stringify(data, null, 1))
           assert.equal(statusCode, 200)
           assert.equal(data.jobRunID, jobID)
@@ -38,12 +38,15 @@ describe('createRequest', () => {
     const requests = [
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },
-      { name: 'unknown base', testData: { id: jobID, data: { base: 'not_real' } } }
+      {
+        name: 'unknown base',
+        testData: { id: jobID, data: { base: 'not_real' } },
+      },
     ]
 
-    requests.forEach(req => {
+    requests.forEach((req) => {
       it(`${req.name}`, (done) => {
-        createRequest(req.testData, (statusCode, data) => {
+        execute(req.testData, (statusCode, data) => {
           assert.equal(statusCode, 500)
           assert.equal(data.jobRunID, jobID)
           assert.equal(data.status, 'errored')

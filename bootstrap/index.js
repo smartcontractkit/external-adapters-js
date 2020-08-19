@@ -17,11 +17,11 @@ const withStatusCode = (execute) => (data, callback) => {
 const cacheOptions = envOptions()
 if (cacheOptions.enabled) logger.info('Cache enabled: ', cacheOptions)
 
-module.exports = {
-  server: { init: (execute) => server.initHandler(withCache(withStatusCode(execute))) },
-  serverless: {
-    initGcpService: (execute) => gcp.initHandler(withCache(withStatusCode(execute))),
-    initHandler: (execute) => aws.initHandlerREST(withCache(withStatusCode(execute))),
-    initHandlerV2: (execute) => aws.initHandlerHTTP(withCache(withStatusCode(execute))),
-  },
-}
+const expose = (execute, checkHealth) => ({
+  server: server.initHandler(withCache(withStatusCode(execute, checkHealth))),
+  gcpservice: gcp.initHandler(withCache(withStatusCode(execute))),
+  handler: aws.initHandlerREST(withCache(withStatusCode(execute))),
+  handlerv2: aws.initHandlerHTTP(withCache(withStatusCode(execute))),
+})
+
+module.exports = { expose }

@@ -7,10 +7,10 @@ const customError = (data) => {
 
 const customParams = {
   speed: false,
-  endpoint: false
+  endpoint: false,
 }
 
-const createRequest = (input, callback) => {
+const execute = (input, callback) => {
   const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || 'ethgasAPI'
@@ -19,9 +19,9 @@ const createRequest = (input, callback) => {
   const config = {
     url,
     params: {
-      'api-key': process.env.API_KEY
+      'api-key': process.env.API_KEY,
     },
-    timeout: 10000
+    timeout: 10000,
   }
 
   Requester.request(config, customError)
@@ -35,4 +35,4 @@ const createRequest = (input, callback) => {
     })
 }
 
-module.exports.createRequest = createRequest
+module.exports.execute = execute

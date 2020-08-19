@@ -6,15 +6,15 @@ const DEFAULT_WS_TIMEOUT = 5000
 const wsTimeout = process.env.WS_TIMEOUT || DEFAULT_WS_TIMEOUT
 
 const customParams = {
-  base: ['base', 'from', 'asset']
+  base: ['base', 'from', 'asset'],
 }
 
 const commonSymbols = {
   N225: 'NKY:IND',
-  FTSE: 'UKX:IND'
+  FTSE: 'UKX:IND',
 }
 
-const createRequest = (input, callback) => {
+const execute = (input, callback) => {
   const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
   let symbol = validator.validated.data.base.toUpperCase()
@@ -26,20 +26,22 @@ const createRequest = (input, callback) => {
     url: 'ws://stream.tradingeconomics.com/',
     key: API_CLIENT_KEY,
     secret: API_CLIENT_SECRET,
-    reconnect: false
+    reconnect: false,
   })
 
   client.subscribe(symbol)
 
   let completed = false
 
-  client.on('message', msg => {
+  client.on('message', (msg) => {
     completed = true
     const response = {
       data: msg,
-      status: 200
+      status: 200,
     }
-    response.data.result = Requester.validateResultNumber(response.data, ['price'])
+    response.data.result = Requester.validateResultNumber(response.data, [
+      'price',
+    ])
     callback(response.status, Requester.success(jobRunID, response))
     client.ws.close()
   })
@@ -48,15 +50,15 @@ const createRequest = (input, callback) => {
     const url = `https://api.tradingeconomics.com/markets/symbol/${symbol}`
 
     const params = {
-      c: `${API_CLIENT_KEY}:${API_CLIENT_SECRET}`
+      c: `${API_CLIENT_KEY}:${API_CLIENT_SECRET}`,
     }
 
     const config = {
       url,
-      params
+      params,
     }
 
-    const _handleResponse = response => {
+    const _handleResponse = (response) => {
       if (!response.data || response.data.length < 1) {
         return callback(500, Requester.errored(jobRunID, 'no result for query'))
       }
@@ -64,15 +66,16 @@ const createRequest = (input, callback) => {
       // to avoid unexpected behavior when returning arrays.
       response.data = response.data[0]
 
-      response.data.result = Requester.validateResultNumber(response.data, ['Last'])
+      response.data.result = Requester.validateResultNumber(response.data, [
+        'Last',
+      ])
       callback(response.status, Requester.success(jobRunID, response))
     }
 
-    const _handleError = error => callback(500, Requester.errored(jobRunID, error))
+    const _handleError = (error) =>
+      callback(500, Requester.errored(jobRunID, error))
 
-    Requester.request(config)
-      .then(_handleResponse)
-      .catch(_handleError)
+    Requester.request(config).then(_handleResponse).catch(_handleError)
   }
 
   // In case we don't get a response from the WS stream
@@ -96,4 +99,4 @@ const createRequest = (input, callback) => {
   setTimeout(_checkTimeout, timeout)
 }
 
-module.exports.createRequest = createRequest
+module.exports.execute = execute

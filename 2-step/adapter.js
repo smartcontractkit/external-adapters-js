@@ -1,12 +1,12 @@
 const { Requester, Validator, logger } = require('@chainlink/external-adapter')
 const { getContractPrice } = require('../helpers/eth-adapter-helper')
-const adapterCreateRequest = require('./priceAdapter').createRequest
+const adapterExecute = require('./priceAdapter').execute
 
 const customParams = {
   contract: ['referenceContract'],
   multiply: false,
   operator: ['operator'],
-  dividend: false
+  dividend: false,
 }
 
 const transform = (offchain, onchain, operator, dividendConfig) => {
@@ -23,7 +23,7 @@ const transform = (offchain, onchain, operator, dividendConfig) => {
   }
 }
 
-const createRequest = (input, callback) => {
+const execute = (input, callback) => {
   const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
   const contract = validator.validated.data.contract
@@ -50,7 +50,7 @@ const createRequest = (input, callback) => {
         )
       }
 
-      adapterCreateRequest(input, (statusCode, response) => {
+      adapterExecute(input, (statusCode, response) => {
         if (response.status === 'errored') {
           return callback(statusCode, response)
         }
@@ -70,4 +70,4 @@ const createRequest = (input, callback) => {
     })
 }
 
-exports.createRequest = createRequest
+exports.execute = execute

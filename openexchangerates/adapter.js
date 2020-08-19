@@ -3,10 +3,10 @@ const { Requester, Validator } = require('@chainlink/external-adapter')
 const customParams = {
   base: ['base', 'from'],
   quote: ['quote', 'to'],
-  endpoint: false
+  endpoint: false,
 }
 
-const createRequest = (input, callback) => {
+const execute = (input, callback) => {
   const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || 'latest.json'
@@ -16,22 +16,25 @@ const createRequest = (input, callback) => {
 
   const params = {
     base,
-    app_id: process.env.API_KEY
+    app_id: process.env.API_KEY,
   }
 
   const config = {
     url,
-    params
+    params,
   }
 
   Requester.request(config)
-    .then(response => {
-      response.data.result = Requester.validateResultNumber(response.data, ['rates', to])
+    .then((response) => {
+      response.data.result = Requester.validateResultNumber(response.data, [
+        'rates',
+        to,
+      ])
       callback(response.status, Requester.success(jobRunID, response))
     })
-    .catch(error => {
+    .catch((error) => {
       callback(500, Requester.errored(jobRunID, error))
     })
 }
 
-module.exports.createRequest = createRequest
+module.exports.execute = execute

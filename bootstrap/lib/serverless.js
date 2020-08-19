@@ -1,17 +1,17 @@
-exports.initGcpService = (createRequest) => (req, res) => {
-  createRequest(req.body, (statusCode, data) => {
+exports.initGcpService = (execute) => (req, res) => {
+  execute(req.body, (statusCode, data) => {
     res.status(statusCode).send(data)
   })
 }
 
-exports.initHandler = (createRequest) => (event, _context, callback) => {
-  createRequest(event, (_statusCode, data) => {
+exports.initHandler = (execute) => (event, _context, callback) => {
+  execute(event, (_statusCode, data) => {
     callback(null, data)
   })
 }
 
-exports.initHandlerV2 = (createRequest) => (event, _context, callback) => {
-  createRequest(JSON.parse(event.body), (statusCode, data) => {
+exports.initHandlerV2 = (execute) => (event, _context, callback) => {
+  execute(JSON.parse(event.body), (statusCode, data) => {
     callback(null, {
       statusCode: statusCode,
       body: JSON.stringify(data),

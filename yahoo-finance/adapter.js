@@ -9,14 +9,14 @@ const commonKeys = {
   CHF: 'CHFUSD=X',
   EUR: 'EURUSD=X',
   GBP: 'GBPUSD=X',
-  JPY: 'JPYUSD=X'
+  JPY: 'JPYUSD=X',
 }
 
 const customParams = {
-  base: ['base', 'from', 'asset']
+  base: ['base', 'from', 'asset'],
 }
 
-const createRequest = (input, callback) => {
+const execute = (input, callback) => {
   const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
   let symbol = validator.validated.data.base.toUpperCase()
@@ -24,22 +24,28 @@ const createRequest = (input, callback) => {
     symbol = commonKeys[symbol]
   }
 
-  yahooFinance.quote({
-    symbol: symbol,
-    modules: ['price']
-  }, (err, data) => {
-    if (err) {
-      callback(500, Requester.errored(jobRunID, err.message))
-    } else {
-      const statusCode = 200
-      const response = {
-        data,
-        statusCode
+  yahooFinance.quote(
+    {
+      symbol: symbol,
+      modules: ['price'],
+    },
+    (err, data) => {
+      if (err) {
+        callback(500, Requester.errored(jobRunID, err.message))
+      } else {
+        const statusCode = 200
+        const response = {
+          data,
+          statusCode,
+        }
+        response.data.result = Requester.validateResultNumber(response.data, [
+          'price',
+          'regularMarketPrice',
+        ])
+        callback(statusCode, Requester.success(jobRunID, response))
       }
-      response.data.result = Requester.validateResultNumber(response.data, ['price', 'regularMarketPrice'])
-      callback(statusCode, Requester.success(jobRunID, response))
     }
-  })
+  )
 }
 
-module.exports.createRequest = createRequest
+module.exports.execute = execute

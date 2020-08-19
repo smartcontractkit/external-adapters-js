@@ -14,15 +14,15 @@ const commonKeys = {
   XAU: { id: '1984', endpoint: 'forex/latest' },
   XAG: { id: '1975', endpoint: 'forex/latest' },
   N225: { id: '268', endpoint: 'stock/indices_latest' },
-  FTSE: { id: '529', endpoint: 'stock/indices_latest' }
+  FTSE: { id: '529', endpoint: 'stock/indices_latest' },
 }
 
 const customParams = {
   base: ['base', 'asset', 'from'],
-  endpoint: false
+  endpoint: false,
 }
 
-const createRequest = (input, callback) => {
+const execute = (input, callback) => {
   const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
   let symbol = validator.validated.data.base.toUpperCase()
@@ -36,22 +36,26 @@ const createRequest = (input, callback) => {
 
   const params = {
     access_key,
-    id: symbol
+    id: symbol,
   }
 
   const config = {
     url,
-    params
+    params,
   }
 
   Requester.request(config, customError)
-    .then(response => {
-      response.data.result = Requester.validateResultNumber(response.data, ['response', 0, 'price'])
+    .then((response) => {
+      response.data.result = Requester.validateResultNumber(response.data, [
+        'response',
+        0,
+        'price',
+      ])
       callback(response.status, Requester.success(jobRunID, response))
     })
-    .catch(error => {
+    .catch((error) => {
       callback(500, Requester.errored(jobRunID, error))
     })
 }
 
-module.exports.createRequest = createRequest
+module.exports.execute = execute

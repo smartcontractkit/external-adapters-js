@@ -1,7 +1,7 @@
 const assert = require('chai').assert
-const createRequest = require('../adapter').createRequest
+const { execute } = require('../adapter')
 
-describe('createRequest', () => {
+describe('execute', () => {
   const jobID = '1'
 
   context('successful calls', () => {
@@ -11,22 +11,22 @@ describe('createRequest', () => {
         testData: {
           data: {
             endpoint: 'gasPriceOracle',
-            speed: 'fast'
-          }
-        }
+            speed: 'fast',
+          },
+        },
       },
       {
         name: 'speed is standard',
         testData: {
           id: jobID,
-          data: { speed: 'standard' }
-        }
-      }
+          data: { speed: 'standard' },
+        },
+      },
     ]
 
-    requests.forEach(req => {
+    requests.forEach((req) => {
       it(`${req.name}`, (done) => {
-        createRequest(req.testData, (statusCode, data) => {
+        execute(req.testData, (statusCode, data) => {
           assert.equal(statusCode, 200)
           assert.equal(data.jobRunID, jobID)
           assert.isNotEmpty(data.data)
@@ -42,31 +42,31 @@ describe('createRequest', () => {
     const requests = [
       {
         name: 'empty body',
-        testData: {}
+        testData: {},
       },
       {
         name: 'empty data',
-        testData: { data: {} }
+        testData: { data: {} },
       },
       {
         name: 'unknown endpoint',
         testData: {
           id: jobID,
-          data: { endpoint: 'not_real' }
-        }
+          data: { endpoint: 'not_real' },
+        },
       },
       {
         name: 'unknown speed',
         testData: {
           id: jobID,
-          data: { speed: 'not_real' }
-        }
-      }
+          data: { speed: 'not_real' },
+        },
+      },
     ]
 
-    requests.forEach(req => {
+    requests.forEach((req) => {
       it(`${req.name}`, (done) => {
-        createRequest(req.testData, (statusCode, data) => {
+        execute(req.testData, (statusCode, data) => {
           assert.equal(statusCode, 500)
           assert.equal(data.jobRunID, jobID)
           assert.equal(data.status, 'errored')
