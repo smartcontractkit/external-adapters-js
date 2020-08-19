@@ -1,13 +1,18 @@
 const { Requester, Validator } = require('@chainlink/external-adapter')
-const { apiHeaders, authenticate, getAssetId, host } = require('../helpers/bravenewcoin/helpers')
+const {
+  apiHeaders,
+  authenticate,
+  getAssetId,
+  host,
+} = require('../helpers/bravenewcoin/helpers')
 
 const customParams = {
   symbol: ['base', 'from', 'coin', 'symbol', 'assetId', 'indexId', 'asset'],
   indexType: false,
-  timestamp: false
+  timestamp: false,
 }
 
-const createRequest = (input, callback) => {
+const execute = (input, callback) => {
   const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
   const yesterday = new Date()
@@ -19,19 +24,19 @@ const createRequest = (input, callback) => {
     callback(resp.status, Requester.success(jobRunID, resp))
   }
 
-  const _onError = (error) =>
-    callback(500, Requester.errored(jobRunID, error))
+  const _onError = (error) => callback(500, Requester.errored(jobRunID, error))
 
-  _createRequest({
+  _execute({
     url: `https://${host}/ohlcv`,
     symbol: validator.validated.data.symbol,
     indexType: 'GWA',
-    timestamp: yesterday
-  }).then(_onResponse)
+    timestamp: yesterday,
+  })
+    .then(_onResponse)
     .catch(_onError)
 }
 
-const _createRequest = async (input) => {
+const _execute = async (input) => {
   const token = await authenticate()
   const assetId = await getAssetId(input.symbol)
   return await Requester.request({
@@ -39,15 +44,15 @@ const _createRequest = async (input) => {
     headers: {
       ...apiHeaders,
       authorization: `Bearer ${token}`,
-      useQueryString: true
+      useQueryString: true,
     },
     params: {
       indexId: assetId,
       indexType: input.indexType,
       timestamp: input.timestamp,
-      size: 1
-    }
+      size: 1,
+    },
   })
 }
 
-module.exports.createRequest = createRequest
+module.exports.execute = execute

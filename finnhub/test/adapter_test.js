@@ -1,41 +1,41 @@
 const assert = require('chai').assert
-const createRequest = require('../adapter').createRequest
+const { execute } = require('../adapter')
 
-describe('createRequest', () => {
+describe('execute', () => {
   const jobID = '1'
 
   context('successful calls', () => {
     const requests = [
       {
         name: 'id not supplied',
-        testData: { data: { base: 'XAU' } }
+        testData: { data: { base: 'XAU' } },
       },
       {
         name: 'base',
         testData: {
           id: jobID,
-          data: { base: 'XAU' }
-        }
+          data: { base: 'XAU' },
+        },
       },
       {
         name: 'from',
         testData: {
           id: jobID,
-          data: { from: 'XAU' }
-        }
+          data: { from: 'XAU' },
+        },
       },
       {
         name: 'asset',
         testData: {
           id: jobID,
-          data: { asset: 'XAU' }
-        }
-      }
+          data: { asset: 'XAU' },
+        },
+      },
     ]
 
-    requests.forEach(req => {
+    requests.forEach((req) => {
       it(`${req.name}`, (done) => {
-        createRequest(req.testData, (statusCode, data) => {
+        execute(req.testData, (statusCode, data) => {
           assert.equal(statusCode, 200)
           assert.equal(data.jobRunID, jobID)
           assert.isNotEmpty(data.data)
@@ -51,24 +51,24 @@ describe('createRequest', () => {
     const requests = [
       {
         name: 'empty body',
-        testData: {}
+        testData: {},
       },
       {
         name: 'empty data',
-        testData: { data: {} }
+        testData: { data: {} },
       },
       {
         name: 'unknown base',
         testData: {
           id: jobID,
-          data: { base: 'not_real' }
-        }
-      }
+          data: { base: 'not_real' },
+        },
+      },
     ]
 
-    requests.forEach(req => {
+    requests.forEach((req) => {
       it(`${req.name}`, (done) => {
-        createRequest(req.testData, (statusCode, data) => {
+        execute(req.testData, (statusCode, data) => {
           assert.equal(statusCode, 500)
           assert.equal(data.jobRunID, jobID)
           assert.equal(data.status, 'errored')

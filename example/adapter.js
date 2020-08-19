@@ -8,10 +8,10 @@ const customError = (data) => {
 const customParams = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
-  endpoint: false
+  endpoint: false,
 }
 
-const createRequest = (input, callback) => {
+const execute = (input, callback) => {
   const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || 'price'
@@ -21,22 +21,24 @@ const createRequest = (input, callback) => {
 
   const params = {
     base,
-    quote
+    quote,
   }
 
   const config = {
     url,
-    params
+    params,
   }
 
   Requester.request(config, customError)
-    .then(response => {
-      response.data.result = Requester.validateResultNumber(response.data, ['price'])
+    .then((response) => {
+      response.data.result = Requester.validateResultNumber(response.data, [
+        'price',
+      ])
       callback(response.status, Requester.success(jobRunID, response))
     })
-    .catch(error => {
+    .catch((error) => {
       callback(500, Requester.errored(jobRunID, error))
     })
 }
 
-module.exports.createRequest = createRequest
+module.exports.execute = execute

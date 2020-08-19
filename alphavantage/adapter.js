@@ -8,10 +8,10 @@ const customError = (data) => {
 const customParams = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
-  function: false
+  function: false,
 }
 
-const createRequest = (input, callback) => {
+const execute = (input, callback) => {
   const validator = new Validator(callback, input, customParams)
   const url = 'https://www.alphavantage.co/query'
   const jobRunID = validator.validated.id
@@ -27,19 +27,19 @@ const createRequest = (input, callback) => {
     to_symbol: to,
     symbol: from,
     market: to,
-    apikey: process.env.API_KEY
+    apikey: process.env.API_KEY,
   }
 
   const config = {
     url,
-    params
+    params,
   }
   Requester.request(config, customError)
     .then((response) => {
       response.data.result = JSON.parse(
         Requester.validateResultNumber(response.data, [
           'Realtime Currency Exchange Rate',
-          '5. Exchange Rate'
+          '5. Exchange Rate',
         ])
       )
       callback(response.status, Requester.success(jobRunID, response))
@@ -49,4 +49,4 @@ const createRequest = (input, callback) => {
     })
 }
 
-module.exports.createRequest = createRequest
+module.exports.execute = execute

@@ -8,23 +8,19 @@ describe('execute', () => {
     const requests = [
       {
         name: 'id not supplied',
-        testData: { data: { base: 'ETH', quote: 'USD' } },
+        testData: { data: { base: 'ETH', quote: 'XDR' } },
       },
       {
         name: 'base/quote',
-        testData: { id: jobID, data: { base: 'ETH', quote: 'USD' } },
+        testData: { id: jobID, data: { base: 'ETH', quote: 'XDR' } },
       },
       {
         name: 'from/to',
-        testData: { id: jobID, data: { from: 'ETH', to: 'USD' } },
+        testData: { id: jobID, data: { from: 'ETH', to: 'XDR' } },
       },
       {
         name: 'coin/market',
-        testData: { id: jobID, data: { coin: 'ETH', market: 'USD' } },
-      },
-      {
-        name: 'sym/convert',
-        testData: { id: jobID, data: { sym: 'ETH', convert: 'USD' } },
+        testData: { id: jobID, data: { coin: 'ETH', market: 'XDR' } },
       },
     ]
 
@@ -48,7 +44,7 @@ describe('execute', () => {
       { name: 'empty data', testData: { data: {} } },
       {
         name: 'base not supplied',
-        testData: { id: jobID, data: { quote: 'USD' } },
+        testData: { id: jobID, data: { quote: 'XDR' } },
       },
       {
         name: 'quote not supplied',
@@ -56,7 +52,7 @@ describe('execute', () => {
       },
       {
         name: 'unknown base',
-        testData: { id: jobID, data: { base: 'not_real', quote: 'USD' } },
+        testData: { id: jobID, data: { base: 'not_real', quote: 'XDR' } },
       },
       {
         name: 'unknown quote',

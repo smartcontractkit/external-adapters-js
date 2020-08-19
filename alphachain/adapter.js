@@ -7,10 +7,10 @@ const customError = (data) => {
 
 const customParams = {
   base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market']
+  quote: ['quote', 'to', 'market'],
 }
 
-const createRequest = (input, callback) => {
+const execute = (input, callback) => {
   const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
   const url = 'https://alpha-chain2.p.rapidapi.com/data-query'
@@ -19,7 +19,7 @@ const createRequest = (input, callback) => {
     'content-type': 'application/octet-stream',
     'x-rapidapi-host': host,
     'x-rapidapi-key': process.env.API_KEY,
-    useQueryString: true
+    useQueryString: true,
   }
   const base = validator.validated.data.base.toUpperCase()
   const quote = validator.validated.data.quote.toUpperCase()
@@ -27,23 +27,23 @@ const createRequest = (input, callback) => {
   const params = {
     from_symbol: base,
     to_symbol: quote,
-    chainlink_node: true
+    chainlink_node: true,
   }
 
   const config = {
     url,
     params,
-    headers
+    headers,
   }
 
   Requester.request(config, customError)
     .then((response) => {
       response.data.result = Requester.validateResultNumber(response.data, [
-        'result'
+        'result',
       ])
       callback(response.status, Requester.success(jobRunID, response))
     })
     .catch((error) => callback(500, Requester.errored(jobRunID, error)))
 }
 
-module.exports.createRequest = createRequest
+module.exports.execute = execute

@@ -1,7 +1,7 @@
 const assert = require('chai').assert
-const createRequest = require('../adapter').createRequest
+const execute = require('../adapter').execute
 
-describe('createRequest', () => {
+describe('execute', () => {
   const jobID = '1'
 
   context('successful calls', () => {
@@ -14,7 +14,7 @@ describe('createRequest', () => {
 
     requests.forEach(req => {
       it(`${req.name}`, (done) => {
-        createRequest(req.testData, (statusCode, data) => {
+        execute(req.testData, (statusCode, data) => {
           assert.equal(statusCode, 200)
           assert.equal(data.jobRunID, jobID)
           assert.isNotEmpty(data.data)
@@ -38,7 +38,7 @@ describe('createRequest', () => {
 
     requests.forEach(req => {
       it(`${req.name}`, (done) => {
-        createRequest(req.testData, (statusCode, data) => {
+        execute(req.testData, (statusCode, data) => {
           assert.equal(statusCode, 500)
           assert.equal(data.jobRunID, jobID)
           assert.equal(data.status, 'errored')

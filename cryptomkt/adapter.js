@@ -6,7 +6,7 @@ const customParams = {
   endpoint: false
 }
 
-const createRequest = (input, callback) => {
+const execute = (input, callback) => {
   const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || 'ticker'
@@ -28,4 +28,4 @@ const createRequest = (input, callback) => {
     })
 }
 
-module.exports.createRequest = createRequest
+module.exports.execute = execute

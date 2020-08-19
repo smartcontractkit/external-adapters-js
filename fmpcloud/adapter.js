@@ -7,7 +7,7 @@ const commonKeys = {
   CHF: 'CHFUSD',
   EUR: 'EURUSD',
   GBP: 'GBPUSD',
-  JPY: 'JPYUSD'
+  JPY: 'JPYUSD',
 }
 
 const customError = (data) => {
@@ -16,10 +16,10 @@ const customError = (data) => {
 
 const customParams = {
   base: ['base', 'asset', 'from'],
-  endpoint: false
+  endpoint: false,
 }
 
-const createRequest = (input, callback) => {
+const execute = (input, callback) => {
   const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || 'quote'
@@ -31,23 +31,25 @@ const createRequest = (input, callback) => {
   const apikey = process.env.API_KEY
 
   const params = {
-    apikey
+    apikey,
   }
 
   const config = {
     url,
-    params
+    params,
   }
 
   Requester.request(config, customError)
-    .then(response => {
+    .then((response) => {
       response.data = response.data[0]
-      response.data.result = Requester.validateResultNumber(response.data, ['price'])
+      response.data.result = Requester.validateResultNumber(response.data, [
+        'price',
+      ])
       callback(response.status, Requester.success(jobRunID, response))
     })
-    .catch(error => {
+    .catch((error) => {
       callback(500, Requester.errored(jobRunID, error))
     })
 }
 
-module.exports.createRequest = createRequest
+module.exports.execute = execute

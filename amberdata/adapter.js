@@ -6,10 +6,10 @@ const customError = (data) => {
 
 const customParams = {
   base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market']
+  quote: ['quote', 'to', 'market'],
 }
 
-const createRequest = (input, callback) => {
+const execute = (input, callback) => {
   const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
   const coin = validator.validated.data.base
@@ -19,18 +19,21 @@ const createRequest = (input, callback) => {
   const config = {
     url,
     headers: {
-      'x-api-key': process.env.API_KEY
-    }
+      'x-api-key': process.env.API_KEY,
+    },
   }
   Requester.request(config, customError)
-    .then(response => {
-      response.data.result = Requester.validateResultNumber(response.data,
-        ['payload', `${coin.toLowerCase()}_${market.toLowerCase()}`, 'price'])
+    .then((response) => {
+      response.data.result = Requester.validateResultNumber(response.data, [
+        'payload',
+        `${coin.toLowerCase()}_${market.toLowerCase()}`,
+        'price',
+      ])
       callback(response.status, Requester.success(jobRunID, response))
     })
-    .catch(error => {
+    .catch((error) => {
       callback(500, Requester.errored(jobRunID, error))
     })
 }
 
-module.exports.createRequest = createRequest
+module.exports.execute = execute

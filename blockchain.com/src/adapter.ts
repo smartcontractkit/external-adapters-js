@@ -16,10 +16,7 @@ const config: Config = getConfig()
 logConfig(config)
 
 // Export function to integrate with Chainlink node
-export const createRequest = (
-  request: JobSpecRequest,
-  callback: Callback
-): void => {
+export const execute = (request: JobSpecRequest, callback: Callback): void => {
   const validator = new Validator(callback, request, inputParams)
   const jobRunID = validator.validated.id
 
@@ -47,7 +44,7 @@ export const createRequest = (
         request,
         balance.inputParams
       ).validated
-      fn = balance.createRequest(config, request, data)
+      fn = balance.execute(config, request, data)
       break
     }
     default: {

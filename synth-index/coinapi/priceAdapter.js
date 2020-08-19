@@ -6,8 +6,8 @@ const getPriceData = async (synth) => {
   const config = {
     url,
     params: {
-      apikey: process.env.API_KEY
-    }
+      apikey: process.env.API_KEY,
+    },
   }
   const response = await Requester.request(config)
   return response.data
@@ -16,7 +16,7 @@ const getPriceData = async (synth) => {
 const calculateIndex = (indexes) => {
   let value = new Decimal(0)
   try {
-    indexes.forEach(i => {
+    indexes.forEach((i) => {
       const price = i.priceData.rate
       if (price <= 0) {
         throw Error('invalid price')
@@ -29,12 +29,14 @@ const calculateIndex = (indexes) => {
   return value.toNumber()
 }
 
-const createRequest = async (jobRunID, data) => {
-  await Promise.all(data.index.map(async (synth) => {
-    synth.priceData = await getPriceData(synth.symbol)
-  }))
+const execute = async (jobRunID, data) => {
+  await Promise.all(
+    data.index.map(async (synth) => {
+      synth.priceData = await getPriceData(synth.symbol)
+    })
+  )
   return data
 }
 
-module.exports.createRequest = createRequest
+module.exports.execute = execute
 module.exports.calculateIndex = calculateIndex

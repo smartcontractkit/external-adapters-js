@@ -7,17 +7,17 @@ const url = `https://${host}/convert`
 const getPriceData = async (synth) => {
   const headers = {
     'x-rapidapi-host': host,
-    'x-rapidapi-key': process.env.API_KEY
+    'x-rapidapi-key': process.env.API_KEY,
   }
   const params = {
     qty: 1,
     to: 'USD',
-    from: synth.symbol
+    from: synth.symbol,
   }
   const config = {
     url,
     params,
-    headers
+    headers,
   }
   const response = await Requester.request(config)
   return response.data
@@ -26,7 +26,7 @@ const getPriceData = async (synth) => {
 const calculateIndex = (indexes) => {
   let value = new Decimal(0)
   try {
-    indexes.forEach(i => {
+    indexes.forEach((i) => {
       const price = i.priceData.to_quantity
       if (price <= 0) {
         throw Error('invalid price')
@@ -39,12 +39,14 @@ const calculateIndex = (indexes) => {
   return value.toNumber()
 }
 
-const createRequest = async (jobRunID, data) => {
-  await Promise.all(data.index.map(async (synth) => {
-    synth.priceData = await getPriceData(synth)
-  }))
+const execute = async (jobRunID, data) => {
+  await Promise.all(
+    data.index.map(async (synth) => {
+      synth.priceData = await getPriceData(synth)
+    })
+  )
   return data
 }
 
-module.exports.createRequest = createRequest
+module.exports.execute = execute
 module.exports.calculateIndex = calculateIndex

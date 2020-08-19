@@ -1,7 +1,7 @@
 const assert = require('chai').assert
-const createRequest = require('../adapter').createRequest
+const { execute } = require('../adapter')
 
-describe('createRequest', () => {
+describe('execute', () => {
   const jobID = '1'
 
   context('successful calls', () => {
@@ -9,12 +9,12 @@ describe('createRequest', () => {
       { name: 'id not supplied', testData: { data: { base: 'AMPL' } } },
       { name: 'base/quote', testData: { id: jobID, data: { base: 'AMPL' } } },
       { name: 'from/to', testData: { id: jobID, data: { from: 'AMPL' } } },
-      { name: 'coin/market', testData: { id: jobID, data: { coin: 'AMPL' } } }
+      { name: 'coin/market', testData: { id: jobID, data: { coin: 'AMPL' } } },
     ]
 
-    requests.forEach(req => {
+    requests.forEach((req) => {
       it(`${req.name}`, (done) => {
-        createRequest(req.testData, (statusCode, data) => {
+        execute(req.testData, (statusCode, data) => {
           assert.equal(statusCode, 200)
           assert.equal(data.jobRunID, jobID)
           assert.isNotEmpty(data.data)
@@ -30,13 +30,16 @@ describe('createRequest', () => {
     const requests = [
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },
-      { name: 'base not supplied', testData: { id: jobID, data: { } } },
-      { name: 'unknown base', testData: { id: jobID, data: { base: 'not_real' } } }
+      { name: 'base not supplied', testData: { id: jobID, data: {} } },
+      {
+        name: 'unknown base',
+        testData: { id: jobID, data: { base: 'not_real' } },
+      },
     ]
 
-    requests.forEach(req => {
+    requests.forEach((req) => {
       it(`${req.name}`, (done) => {
-        createRequest(req.testData, (statusCode, data) => {
+        execute(req.testData, (statusCode, data) => {
           assert.equal(statusCode, 500)
           assert.equal(data.jobRunID, jobID)
           assert.equal(data.status, 'errored')

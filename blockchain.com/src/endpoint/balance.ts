@@ -68,7 +68,7 @@ export const inputParams = {
 }
 
 // Export function to integrate with Chainlink node
-export const createRequest = async (
+export const execute = async (
   config: Config,
   request: JobSpecRequest,
   data: RequestData

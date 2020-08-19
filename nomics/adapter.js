@@ -8,14 +8,14 @@ const customError = (data) => {
 const customParams = {
   base: ['base', 'from', 'coin', 'ids'],
   quote: ['quote', 'to', 'market', 'convert'],
-  endpoint: false
+  endpoint: false,
 }
 
 const convertId = {
-  FNX: 'FNX2'
+  FNX: 'FNX2',
 }
 
-const createRequest = (input, callback) => {
+const execute = (input, callback) => {
   const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || 'ticker'
@@ -24,28 +24,32 @@ const createRequest = (input, callback) => {
   const convert = validator.validated.data.quote.toUpperCase()
 
   // Correct common tickers that are misidentified
-  if (ids in convertId) { ids = convertId[ids] }
+  if (ids in convertId) {
+    ids = convertId[ids]
+  }
 
   const params = {
     ids,
     convert,
-    key: process.env.API_KEY
+    key: process.env.API_KEY,
   }
 
   const config = {
     url,
-    params
+    params,
   }
 
   Requester.request(config, customError)
-    .then(response => {
+    .then((response) => {
       response.data = response.data[0]
-      response.data.result = Requester.validateResultNumber(response.data, ['price'])
+      response.data.result = Requester.validateResultNumber(response.data, [
+        'price',
+      ])
       callback(response.status, Requester.success(jobRunID, response))
     })
-    .catch(error => {
+    .catch((error) => {
       callback(500, Requester.errored(jobRunID, error))
     })
 }
 
-module.exports.createRequest = createRequest
+module.exports.execute = execute
