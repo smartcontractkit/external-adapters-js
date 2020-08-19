@@ -13,7 +13,14 @@ const customParams = {
 const createRequest = (input, callback) => {
   const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
-  const url = 'https://us-central1-alpha-chain-api.cloudfunctions.net/test-api'
+  const url = 'https://alpha-chain2.p.rapidapi.com/data-query'
+  const host = 'alpha-chain2.p.rapidapi.com'
+  const headers = {
+    'content-type': 'application/octet-stream',
+    'x-rapidapi-host': host,
+    'x-rapidapi-key': process.env.API_KEY,
+    useQueryString: true
+  }
   const base = validator.validated.data.base.toUpperCase()
   const quote = validator.validated.data.quote.toUpperCase()
 
@@ -25,15 +32,18 @@ const createRequest = (input, callback) => {
 
   const config = {
     url,
-    params
+    params,
+    headers
   }
 
   Requester.request(config, customError)
-    .then(response => {
-      response.data.result = Requester.validateResultNumber(response.data, ['result'])
+    .then((response) => {
+      response.data.result = Requester.validateResultNumber(response.data, [
+        'result'
+      ])
       callback(response.status, Requester.success(jobRunID, response))
     })
-    .catch(error => {
+    .catch((error) => {
       callback(500, Requester.errored(jobRunID, error))
     })
 }
