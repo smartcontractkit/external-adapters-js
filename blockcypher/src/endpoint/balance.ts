@@ -64,11 +64,10 @@ const toBalances = async (
       if (addr.chain !== 'mainnet' && addr.chain !== 'testnet')
         return { ...addr, warning: WARNING_NO_OPERATION }
 
-      // rewrite chain id for bcypher
-      const addrChain = getChainId(addr.coin, addr.chain)
-      const api = new bcypher(addr.coin, addrChain, config.token)
+      const chainId = getChainId(addr.coin, addr.chain)
+      const api = new bcypher(addr.coin, chainId, config.token)
       const params = { confirmations }
-      const getAddrBal = (): Promise<AddressBalance> =>
+      const _getAddrBal = (): Promise<AddressBalance> =>
         new Promise((resolve, reject) => {
           api.getAddrBal(
             addr.address,
@@ -80,7 +79,7 @@ const toBalances = async (
 
       return {
         ...addr,
-        balance: (await getAddrBal()).balance,
+        balance: (await _getAddrBal()).balance,
       }
     })
   )
