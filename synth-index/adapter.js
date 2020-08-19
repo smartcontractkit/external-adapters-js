@@ -10,9 +10,7 @@ const customParams = {
   network: false,
 }
 
-const execute = (input, callback) => {
-  synthIndexRequest(input, adapterExecute, callback)
-}
+const execute = (input, callback) => synthIndexRequest(input, adapterExecute, callback)
 
 const synthIndexRequest = (input, adapter, callback) => {
   const validator = new Validator(input, customParams)
