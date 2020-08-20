@@ -1,6 +1,11 @@
 const { Requester } = require('@chainlink/external-adapter')
 const Decimal = require('decimal.js')
 
+const nomicsIds = {
+  LEO: 'LEOTOKEN',
+  FTT: 'FTXTOKEN'
+}
+
 const getPriceData = async (synths) => {
   const url = 'https://api.nomics.com/v1/currencies/ticker'
   const params = {
@@ -35,12 +40,16 @@ const calculateIndex = (indexes) => {
 const createRequest = async (jobRunID, data) => {
   const synths = []
   data.index.forEach(synth => {
-    synths.push(synth.symbol.toUpperCase())
+    let symbol = synth.symbol.toUpperCase()
+    if (symbol in nomicsIds) {
+      symbol = nomicsIds[symbol]
+    }
+    synths.push(symbol)
   })
   const prices = await getPriceData(synths.join())
   prices.forEach(price => {
     for (let i = 0; i < data.index.length; i++) {
-      if (data.index[i].symbol !== price.id) { continue }
+      if (data.index[i].symbol.toUpperCase() !== price.symbol) { continue }
       data.index[i].priceData = price
       break
     }
