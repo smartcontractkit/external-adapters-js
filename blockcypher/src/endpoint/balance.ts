@@ -65,7 +65,7 @@ const toBalances = async (
         return { ...addr, warning: WARNING_NO_OPERATION }
 
       const chainId = getChainId(addr.coin, addr.chain)
-      const api = new bcypher(addr.coin, chainId, config.token)
+      const api = new bcypher(addr.coin, chainId, config.apiKey)
       const params = { confirmations }
       const _getAddrBal = (): Promise<AddressBalance> =>
         new Promise((resolve, reject) => {

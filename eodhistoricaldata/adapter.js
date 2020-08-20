@@ -3,12 +3,12 @@ const { Requester, Validator } = require('@chainlink/external-adapter')
 const commonKeys = {
   N225: 'N225.INDX',
   FTSE: 'FTSE.INDX',
-  BZ: 'BZ.COMM'
+  BZ: 'BZ.COMM',
 }
 
 const customParams = {
   base: ['base', 'asset', 'from', 'symbol'],
-  endpoint: false
+  endpoint: false,
 }
 
 const createRequest = (input, callback) => {
@@ -24,20 +24,22 @@ const createRequest = (input, callback) => {
 
   const params = {
     api_token,
-    fmt: 'json'
+    fmt: 'json',
   }
 
   const config = {
     url,
-    params
+    params,
   }
 
   Requester.request(config)
-    .then(response => {
-      response.data.result = Requester.validateResultNumber(response.data, ['close'])
+    .then((response) => {
+      response.data.result = Requester.validateResultNumber(response.data, [
+        'close',
+      ])
       callback(response.status, Requester.success(jobRunID, response))
     })
-    .catch(error => {
+    .catch((error) => {
       callback(500, Requester.errored(jobRunID, error))
     })
 }
