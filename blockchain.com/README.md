@@ -4,7 +4,8 @@
 
 The adapter takes the following environment variables:
 
-- `API_ENDPOINT`: blockchain.com endpoint to call
+- `API_TOKEN`: Optional blockchain.com API token to use
+- `API_TIMEOUT`: Optional timeout param, defaults to `30000`
 
 ## Input Params
 
