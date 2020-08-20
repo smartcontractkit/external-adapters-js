@@ -19,6 +19,8 @@ exports.initGcpService = (execute) => (req, res) => {
 }
 
 const awsGetRequestHeaders = (event) => {
+  if (!event || !event.headers) return {}
+
   const initialHeader =
     event.version === '2.0' && Array.isArray(event.cookies)
       ? { cookie: event.cookies.join('; ') }
