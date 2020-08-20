@@ -9,12 +9,16 @@ const CONTENT_TYPE_APPLICATION_JSON = 'application/json'
 exports.initGcpService = (execute) => (req, res) => {
   if (!req.is(CONTENT_TYPE_APPLICATION_JSON)) {
     return res
+      .type('text/plain')
       .status(HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE)
       .send(HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE_MESSAGE)
   }
 
   execute(req.body, (statusCode, data) => {
-    res.status(statusCode).send(data)
+    res
+      .type('json')
+      .status(statusCode)
+      .send(data)
   })
 }
 
@@ -41,9 +45,18 @@ const isContentTypeSupported = (event) => {
   )
 }
 
+const UNSUPPORTED_MEDIA_TYPE_RESPONSE = {
+  statusCode: HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE,
+  headers: {
+    'Content-Type': 'text/plain',
+  },
+  body: HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE_MESSAGE,
+  isBase64Encoded: false,
+}
+
 exports.initHandler = (execute) => (event, _context, callback) => {
   if (!isContentTypeSupported(event)) {
-    return callback(null, HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE_MESSAGE)
+    return callback(null, UNSUPPORTED_MEDIA_TYPE_RESPONSE)
   }
 
   execute(event, (_statusCode, data) => {
@@ -53,17 +66,16 @@ exports.initHandler = (execute) => (event, _context, callback) => {
 
 exports.initHandlerV2 = (execute) => (event, _context, callback) => {
   if (!isContentTypeSupported(event)) {
-    return callback(null, {
-      statusCode: HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE,
-      body: HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE_MESSAGE,
-      isBase64Encoded: false,
-    })
+    return callback(null, UNSUPPORTED_MEDIA_TYPE_RESPONSE)
   }
 
   execute(JSON.parse(event.body), (statusCode, data) => {
     callback(null, {
       statusCode: statusCode,
       body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+      },
       isBase64Encoded: false,
     })
   })
