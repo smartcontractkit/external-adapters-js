@@ -70,8 +70,8 @@ The zip will be created as `./$adapter/dist/$adapter-adapter.zip`.
 - Under Function code, select "Upload a .zip file" from the Code entry type drop-down
 - Click Upload and select the `$adapter-adapter.zip` file
 - Handler:
-  - index.handler for REST API Gateways
-  - index.handlerv2 for HTTP API Gateways
+  - index.awsHandlerREST for REST API Gateways
+  - index.awsHandlerHTTP for HTTP API Gateways
 - Add the environment variable (repeat for all environment variables):
   - Key: API_KEY
   - Value: Your_API_key
@@ -117,7 +117,7 @@ If using a REST API Gateway, you will need to disable the Lambda proxy integrati
 - Select Node.js 10 for the Runtime
 - Click Browse and select the `$adapter-adapter.zip` file
 - Select a Storage Bucket to keep the zip in
-- Function to execute: gcpservice
+- Function to execute: gcpHandler
 - Click More, Add variable (repeat for all environment variables)
   - NAME: API_KEY
   - VALUE: Your_API_key
