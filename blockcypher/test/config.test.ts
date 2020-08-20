@@ -1,20 +1,20 @@
 import { expect } from 'chai'
 
-import { ENV_API_TOKEN, getConfig } from '../src/config'
+import { ENV_API_KEY, getConfig } from '../src/config'
 
 describe('incorrect app config', () => {
   beforeEach(() => {
-    delete process.env[ENV_API_TOKEN]
+    delete process.env[ENV_API_KEY]
   })
 
-  context(`when ${ENV_API_TOKEN} is set`, () => {
+  context(`when ${ENV_API_KEY} is set`, () => {
     beforeEach(() => {
-      process.env[ENV_API_TOKEN] = 'dummy.token'
+      process.env[ENV_API_KEY] = 'dummy.key'
     })
 
-    it(`configures app with ${ENV_API_TOKEN} token`, () => {
+    it(`configures app with ${ENV_API_KEY} key`, () => {
       const config = getConfig()
-      expect(config).to.have.property('token', 'dummy.token')
+      expect(config).to.have.property('apiKey', 'dummy.key')
     })
   })
 })

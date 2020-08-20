@@ -1,6 +1,6 @@
 import { ChainType } from './endpoint'
 
-export const ENV_API_TOKEN = 'API_TOKEN'
+export const ENV_API_KEY = 'API_KEY'
 export const ENV_API_TIMEOUT = 'API_TIMEOUT'
 
 export const ENDPOINT_MAIN = 'https://blockchain.info/'
@@ -12,7 +12,7 @@ export const DEFAULT_CONFIRMATIONS = 6
 export const DEFAULT_ENDPOINT = 'balance'
 
 export type Config = {
-  token?: string
+  apiKey?: string
   api: Record<string, unknown>
 }
 
@@ -27,7 +27,7 @@ export const getBaseURL = (chain: ChainType): string => {
 
 // TODO: add blockchain.info API key support
 export const getConfig = (): Config => ({
-  token: process.env[ENV_API_TOKEN],
+  apiKey: process.env[ENV_API_KEY],
   api: {
     returnRejectedPromiseOnError: true,
     withCredentials: true,
@@ -42,18 +42,18 @@ export const getConfig = (): Config => ({
       },
     },
     params: {
-      key: process.env[ENV_API_TOKEN]
+      key: process.env[ENV_API_KEY],
     },
   },
 })
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 const cloneNoSecrets = (config: Config): Config =>
-  (({ token, ...o }) => o)(config)
+  (({ apiKey, ...o }) => o)(config)
 
 export const logConfig = (config: Config): void => {
   console.log('Adapter configuration:')
   console.log(cloneNoSecrets(config))
-  if (!config.token)
-    console.warn('API will be rate limited without an API token.')
+  if (!config.apiKey)
+    console.warn('API will be rate limited without an API key.')
 }
