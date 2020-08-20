@@ -4,7 +4,7 @@
 
 The adapter takes the following environment variables:
 
-- `API_TOKEN`: blockcypher.com API token to use
+- `API_TOKEN`: Optional blockcypher.com API token to use
 
 ## Input Params
 
