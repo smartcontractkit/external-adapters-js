@@ -43,13 +43,14 @@ const calculateIndex = (indexes) => {
 const coingeckoBlacklist = [
   'leocoin',
   'farmatrust',
-  'freetip'
+  'freetip',
+  'compound-coin'
 ]
 
 const createRequest = async (jobRunID, data) => {
   const coinList = await getCoinList()
   await Promise.all(data.index.map(async (synth) => {
-    const coin = coinList.find(d => d.symbol.toLowerCase() === synth.symbol.toLowerCase() && !coingeckoBlacklist.includes(d.name.toLowerCase()))
+    const coin = coinList.find(d => d.symbol.toLowerCase() === synth.symbol.toLowerCase() && !coingeckoBlacklist.includes(d.id.toLowerCase()))
     synth.coinId = coin.id
     synth.priceData = await getPriceData(coin.id)
   }))
