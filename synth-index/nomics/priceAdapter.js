@@ -2,6 +2,7 @@ const { Requester } = require('@chainlink/external-adapter')
 const Decimal = require('decimal.js')
 
 const nomicsIds = {
+  LEO: 'LEOTOKEN',
   FTT: 'FTXTOKEN',
 }
 
