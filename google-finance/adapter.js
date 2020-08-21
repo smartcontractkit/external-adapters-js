@@ -11,7 +11,9 @@ const customParams = {
 }
 
 const execute = (input, callback) => {
-  const validator = new Validator(callback, input, customParams)
+  const validator = new Validator(input, customParams)
+  if (validator.error) return callback(validator.error.statusCode, validator.error)
+
   const jobRunID = validator.validated.id
   let symbol = validator.validated.data.base.toUpperCase()
   if (commonKeys[symbol]) {
@@ -26,14 +28,10 @@ const execute = (input, callback) => {
         data,
         status,
       }
-      response.data.result = Requester.validateResultNumber(response.data, [
-        'ticker',
-      ])
+      response.data.result = Requester.validateResultNumber(response.data, ['ticker'])
       callback(status, Requester.success(jobRunID, response))
     })
-    .catch((err) => {
-      callback(500, Requester.errored(jobRunID, err.message))
-    })
+    .catch((err) => callback(500, Requester.errored(jobRunID, err.message)))
 }
 
 module.exports.execute = execute

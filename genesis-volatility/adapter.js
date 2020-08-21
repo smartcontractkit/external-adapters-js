@@ -8,7 +8,9 @@ const customParams = {
 }
 
 const expose = (input, callback) => {
-  const validator = new Validator(callback, input, customParams)
+  const validator = new Validator(input, customParams)
+  if (validator.error) return callback(validator.error.statusCode, validator.error)
+
   const jobRunID = validator.validated.id
   const url = 'https://app.pinkswantrading.com/graphql'
   const symbol = validator.validated.data.symbol.toUpperCase()

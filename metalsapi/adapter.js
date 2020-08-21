@@ -12,7 +12,9 @@ const customParams = {
 }
 
 const execute = (input, callback) => {
-  const validator = new Validator(callback, input, customParams)
+  const validator = new Validator(input, customParams)
+  if (validator.error) return callback(validator.error.statusCode, validator.error)
+
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || 'convert'
   const url = `https://metals-api.com/api/${endpoint}`
@@ -35,9 +37,7 @@ const execute = (input, callback) => {
     .then((response) => {
       callback(response.status, Requester.success(jobRunID, response))
     })
-    .catch((error) => {
-      callback(500, Requester.errored(jobRunID, error))
-    })
+    .catch((error) => callback(500, Requester.errored(jobRunID, error)))
 }
 
 module.exports.execute = execute

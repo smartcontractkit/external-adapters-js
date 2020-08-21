@@ -15,7 +15,9 @@ const execute = (input, callback) => {
 }
 
 const synthIndexRequest = (input, adapter, callback) => {
-  const validator = new Validator(callback, input, customParams)
+  const validator = new Validator(input, customParams)
+  if (validator.error) return callback(validator.error.statusCode, validator.error)
+
   const jobRunID = validator.validated.id
   const asset = validator.validated.data.asset.toLowerCase()
   const network = validator.validated.data.network || DEFAULT_NETWORK
@@ -34,9 +36,7 @@ const synthIndexRequest = (input, adapter, callback) => {
       }
       callback(response.status, Requester.success(jobRunID, response))
     })
-    .catch((error) => {
-      callback(500, Requester.errored(jobRunID, error))
-    })
+    .catch((error) => callback(500, Requester.errored(jobRunID, error)))
 }
 
 exports.execute = execute

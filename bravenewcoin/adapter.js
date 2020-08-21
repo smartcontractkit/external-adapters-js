@@ -1,9 +1,5 @@
 const { Requester, Validator } = require('@chainlink/external-adapter')
-const {
-  authenticate,
-  convert,
-  getAssetId,
-} = require('../helpers/bravenewcoin/helpers')
+const { authenticate, convert, getAssetId } = require('../helpers/bravenewcoin/helpers')
 
 const customParams = {
   from: ['base', 'from', 'coin'],
@@ -11,7 +7,9 @@ const customParams = {
 }
 
 const execute = (input, callback) => {
-  const validator = new Validator(callback, input, customParams)
+  const validator = new Validator(input, customParams)
+  if (validator.error) return callback(validator.error.statusCode, validator.error)
+
   const jobRunID = validator.validated.id
   const from = validator.validated.data.from
   const to = validator.validated.data.to
@@ -24,8 +22,7 @@ const execute = (input, callback) => {
 const _execute = async (input) => {
   const token = await authenticate()
   const baseAssetId = await getAssetId(input.from)
-  const quoteAssetId =
-    input.to.toUpperCase() === 'USD' ? 'USD' : await getAssetId(input.to)
+  const quoteAssetId = input.to.toUpperCase() === 'USD' ? 'USD' : await getAssetId(input.to)
   return await convert(token, baseAssetId, quoteAssetId)
 }
 

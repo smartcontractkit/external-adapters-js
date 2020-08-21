@@ -7,9 +7,10 @@ const customParams = {
 }
 
 const execute = (input, callback) => {
-  const url =
-    'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest'
-  const validator = new Validator(callback, input, customParams)
+  const url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest'
+  const validator = new Validator(input, customParams)
+  if (validator.error) return callback(validator.error.statusCode, validator.error)
+
   const jobRunID = validator.validated.id
   const symbol = validator.validated.data.symbol
   // CMC allows a coin ID to be specified instead of a symbol
@@ -46,9 +47,7 @@ const execute = (input, callback) => {
       ])
       callback(response.status, Requester.success(jobRunID, response))
     })
-    .catch((error) => {
-      callback(500, Requester.errored(jobRunID, error))
-    })
+    .catch((error) => callback(500, Requester.errored(jobRunID, error)))
 }
 
 module.exports.execute = execute

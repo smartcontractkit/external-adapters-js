@@ -10,7 +10,9 @@ const customParams = {
 }
 
 const execute = (input, callback) => {
-  const validator = new Validator(callback, input, customParams)
+  const validator = new Validator(input, customParams)
+  if (validator.error) return callback(validator.error.statusCode, validator.error)
+
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || DEFAULT_DATA_ENDPOINT
   const url = `https://${apiEndpoint}.binance.org/api/${endpoint}`
@@ -34,14 +36,11 @@ const execute = (input, callback) => {
       return callback(500, Requester.errored(jobRunID, 'data is too old'))
     }
 
-    response.data.result = Requester.validateResultNumber(response.data, [
-      'lastPrice',
-    ])
+    response.data.result = Requester.validateResultNumber(response.data, ['lastPrice'])
     callback(response.status, Requester.success(jobRunID, response))
   }
 
-  const _handleError = (error) =>
-    callback(500, Requester.errored(jobRunID, error))
+  const _handleError = (error) => callback(500, Requester.errored(jobRunID, error))
 
   const params = {
     symbol,
