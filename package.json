@@ -57,11 +57,15 @@
     "synth-index/cryptocompare",
     "synth-index/amberdata",
     "wbtc-address-set",
-    "blockchain.com"
+    "renvm-address-set",
+    "blockchain.com",
+    "blockcypher",
+    "reduce"
   ],
   "scripts": {
     "lint": "yarn eslint .",
     "start-example-server": "node ./helpers/server.js",
+    "test": "yarn workspaces run test",
     "test-example": "yarn workspace example test",
     "test-external-adapter": "yarn workspace @chainlink/external-adapter test"
   },
@@ -94,6 +98,7 @@
     "sinon": "^9.0.3"
   },
   "resolutions": {
-    "**/elliptic": "^6.5.3"
+    "**/elliptic": "^6.5.3",
+    "**/minimist": "^1.2.5"
   }
 }
