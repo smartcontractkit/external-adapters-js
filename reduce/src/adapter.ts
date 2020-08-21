@@ -76,21 +76,33 @@ export const execute = (request: JobSpecRequest, callback: Callback): void => {
       break
     }
     case 'average': {
-      result = inputData.reduce((acc, val, _, { length }) => acc + _get(val) / length, data.initialValue || 0)
+      result = inputData.reduce(
+        (acc, val, _, { length }) => acc + _get(val) / length,
+        data.initialValue || 0,
+      )
       break
     }
     case 'median': {
       const sortedData = inputData.sort((a, b) => _get(a) - _get(b))
       const mid = Math.ceil(inputData.length / 2)
-      result = inputData.length % 2 === 0 ? (sortedData[mid] + sortedData[mid - 1]) / 2 : sortedData[mid - 1]
+      result =
+        inputData.length % 2 === 0
+          ? (sortedData[mid] + sortedData[mid - 1]) / 2
+          : sortedData[mid - 1]
       break
     }
     case 'min': {
-      result = inputData.reduce((acc, val) => Math.min(acc, _get(val)), data.initialValue || Number.MAX_VALUE)
+      result = inputData.reduce(
+        (acc, val) => Math.min(acc, _get(val)),
+        data.initialValue || Number.MAX_VALUE,
+      )
       break
     }
     case 'max': {
-      result = inputData.reduce((acc, val) => Math.max(acc, _get(val)), data.initialValue || Number.MIN_VALUE)
+      result = inputData.reduce(
+        (acc, val) => Math.max(acc, _get(val)),
+        data.initialValue || Number.MIN_VALUE,
+      )
       break
     }
     default: {

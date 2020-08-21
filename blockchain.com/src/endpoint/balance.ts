@@ -19,7 +19,8 @@ type RequestData = {
   confirmations: number
 }
 
-const WARNING_NO_OPERATION = 'No Operation: only btc mainnet/testnet chains are supported by blockchain.com adapter'
+const WARNING_NO_OPERATION =
+  'No Operation: only btc mainnet/testnet chains are supported by blockchain.com adapter'
 const WARNING_NO_OPERATION_MISSING_ADDRESS = 'No Operation: address param is missing'
 
 const getBalanceURI = (address: string, confirmations: number) =>
@@ -38,7 +39,8 @@ const toBalances = async (
       if (addr.coin !== 'btc') return { ...addr, warning: WARNING_NO_OPERATION }
 
       if (!addr.chain) addr.chain = 'mainnet'
-      if (addr.chain !== 'mainnet' && addr.chain !== 'testnet') return { ...addr, warning: WARNING_NO_OPERATION }
+      if (addr.chain !== 'mainnet' && addr.chain !== 'testnet')
+        return { ...addr, warning: WARNING_NO_OPERATION }
 
       const reqConfig = {
         ...config.api,
@@ -59,7 +61,11 @@ export const inputParams = {
 }
 
 // Export function to integrate with Chainlink node
-export const execute = async (config: Config, request: JobSpecRequest, data: RequestData): Promise<Address[]> => {
+export const execute = async (
+  config: Config,
+  request: JobSpecRequest,
+  data: RequestData,
+): Promise<Address[]> => {
   const dataPath = data.dataPath || DEFAULT_DATA_PATH
   const inputData = <Address[]>objectPath.get(request.data, dataPath)
 
