@@ -28,12 +28,11 @@ export const execute = (request: JobSpecRequest, callback: Callback): void => {
         data: { result: out },
         result: out,
         status: 200,
-      })
+      }),
     )
   }
 
-  const _handleError = (err: Error): void =>
-    callback(500, Requester.errored(jobRunID, err.message))
+  const _handleError = (err: Error): void => callback(500, Requester.errored(jobRunID, err.message))
 
   const { data } = validator.validated
 
@@ -69,47 +68,29 @@ export const execute = (request: JobSpecRequest, callback: Callback): void => {
   let result
   switch (data.reducer) {
     case 'sum': {
-      result = inputData.reduce(
-        (acc, val) => acc + _get(val),
-        data.initialValue || 0
-      )
+      result = inputData.reduce((acc, val) => acc + _get(val), data.initialValue || 0)
       break
     }
     case 'product': {
-      result = inputData.reduce(
-        (acc, val) => acc * _get(val),
-        data.initialValue || 1
-      )
+      result = inputData.reduce((acc, val) => acc * _get(val), data.initialValue || 1)
       break
     }
     case 'average': {
-      result = inputData.reduce(
-        (acc, val, _, { length }) => acc + _get(val) / length,
-        data.initialValue || 0
-      )
+      result = inputData.reduce((acc, val, _, { length }) => acc + _get(val) / length, data.initialValue || 0)
       break
     }
     case 'median': {
       const sortedData = inputData.sort((a, b) => _get(a) - _get(b))
       const mid = Math.ceil(inputData.length / 2)
-      result =
-        inputData.length % 2 === 0
-          ? (sortedData[mid] + sortedData[mid - 1]) / 2
-          : sortedData[mid - 1]
+      result = inputData.length % 2 === 0 ? (sortedData[mid] + sortedData[mid - 1]) / 2 : sortedData[mid - 1]
       break
     }
     case 'min': {
-      result = inputData.reduce(
-        (acc, val) => Math.min(acc, _get(val)),
-        data.initialValue || Number.MAX_VALUE
-      )
+      result = inputData.reduce((acc, val) => Math.min(acc, _get(val)), data.initialValue || Number.MAX_VALUE)
       break
     }
     case 'max': {
-      result = inputData.reduce(
-        (acc, val) => Math.max(acc, _get(val)),
-        data.initialValue || Number.MIN_VALUE
-      )
+      result = inputData.reduce((acc, val) => Math.max(acc, _get(val)), data.initialValue || Number.MIN_VALUE)
       break
     }
     default: {

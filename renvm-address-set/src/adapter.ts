@@ -1,20 +1,8 @@
 import RenJS from '@renproject/ren'
-import {
-  RenContract,
-  isRenNetwork,
-  isRenContract,
-  isAsset,
-  LockAndMintParams,
-} from '@renproject/interfaces'
+import { RenContract, isRenNetwork, isRenContract, isAsset, LockAndMintParams } from '@renproject/interfaces'
 import { resolveInToken, getTokenName } from '@renproject/utils'
 import { Requester, Validator } from '@chainlink/external-adapter'
-import {
-  Config,
-  getConfig,
-  logConfig,
-  DEFAULT_NETWORK,
-  DEFAULT_TOKEN_OR_CONTRACT,
-} from './config'
+import { Config, getConfig, logConfig, DEFAULT_NETWORK, DEFAULT_TOKEN_OR_CONTRACT } from './config'
 import { btc } from './coins'
 
 type JobSpecRequest = { id: string; data: Record<string, unknown> }
@@ -33,8 +21,7 @@ export const execute = (request: JobSpecRequest, callback: Callback): void => {
   const validator = new Validator(callback, request, inputParams)
   const jobRunID = validator.validated.id
 
-  const _handleError = (err: Error): void =>
-    callback(500, Requester.errored(jobRunID, err.message))
+  const _handleError = (err: Error): void => callback(500, Requester.errored(jobRunID, err.message))
 
   const { data } = validator.validated
 
@@ -50,10 +37,7 @@ export const execute = (request: JobSpecRequest, callback: Callback): void => {
   }
 
   let tokenOrContract = data.tokenOrContract || DEFAULT_TOKEN_OR_CONTRACT
-  tokenOrContract =
-    tokenOrContract.length === 3
-      ? tokenOrContract.toUpperCase()
-      : tokenOrContract
+  tokenOrContract = tokenOrContract.length === 3 ? tokenOrContract.toUpperCase() : tokenOrContract
 
   if (!isAsset(tokenOrContract) && !isRenContract(tokenOrContract)) {
     _handleError(Error(`Unknown Ren tokenOrContract: ${tokenOrContract}`))
@@ -65,10 +49,7 @@ export const execute = (request: JobSpecRequest, callback: Callback): void => {
     : tokenOrContract
 
   // Only BTC is supported for now
-  if (
-    renContract !== RenContract.Btc2Eth &&
-    renContract !== RenContract.Eth2Btc
-  ) {
+  if (renContract !== RenContract.Btc2Eth && renContract !== RenContract.Eth2Btc) {
     _handleError(Error(`Unsupported token: ${tokenOrContract}`))
     return
   }
@@ -99,7 +80,7 @@ export const execute = (request: JobSpecRequest, callback: Callback): void => {
         data: { result },
         result,
         status: 200,
-      })
+      }),
     )
   }
 

@@ -56,12 +56,11 @@ export const execute = (request: JobSpecRequest, callback: Callback): void => {
         data: { response: out.data, result: addresses },
         result: addresses,
         status: 200,
-      })
+      }),
     )
   }
 
-  const _handleError = (err: Error): void =>
-    callback(500, Requester.errored(jobRunID, err.message))
+  const _handleError = (err: Error): void => callback(500, Requester.errored(jobRunID, err.message))
 
   const reqConfig = { ...config.api, url: '' }
   Requester.request(reqConfig).then(_handleResponse).catch(_handleError)

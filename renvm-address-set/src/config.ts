@@ -15,8 +15,7 @@ export type Config = {
 
 export const getConfig = (): Config => {
   const network = process.env[ENV_NETWORK]
-  if (network && !isRenNetwork(network))
-    throw Error(`Unknown Ren network: ${network}`)
+  if (network && !isRenNetwork(network)) throw Error(`Unknown Ren network: ${network}`)
 
   return {
     network: network as RenNetwork | undefined,
