@@ -3,15 +3,14 @@ const { Requester } = require('./requester')
 const { logger } = require('./logger')
 
 class Validator {
-  constructor(callback, input = {}, customParams = {}) {
-    this.callback = callback
+  constructor(input = {}, customParams = {}) {
     this.input = input
     this.customParams = customParams
     this.validated = { data: {} }
-    this.validateInput(this.callback)
+    this.validateInput()
   }
 
-  validateInput(callback) {
+  validateInput() {
     this.input.id = this.input.id || '1'
     this.validated.id = this.input.id
 
@@ -27,7 +26,7 @@ class Validator {
       }
     } catch (error) {
       logger.error(`Error validating input: ${error}`)
-      callback(400, Requester.errored(this.input.id, error, 400))
+      this.error = Requester.errored(this.input.id, error, 400)
     }
   }
 

@@ -15,7 +15,9 @@ const commonSymbols = {
 }
 
 const execute = (input, callback) => {
-  const validator = new Validator(callback, input, customParams)
+  const validator = new Validator(input, customParams)
+  if (validator.error) return callback(validator.error.statusCode, validator.error)
+
   const jobRunID = validator.validated.id
   let symbol = validator.validated.data.base.toUpperCase()
   if (symbol in commonSymbols) {
@@ -39,9 +41,7 @@ const execute = (input, callback) => {
       data: msg,
       status: 200,
     }
-    response.data.result = Requester.validateResultNumber(response.data, [
-      'price',
-    ])
+    response.data.result = Requester.validateResultNumber(response.data, ['price'])
     callback(response.status, Requester.success(jobRunID, response))
     client.ws.close()
   })
@@ -66,14 +66,11 @@ const execute = (input, callback) => {
       // to avoid unexpected behavior when returning arrays.
       response.data = response.data[0]
 
-      response.data.result = Requester.validateResultNumber(response.data, [
-        'Last',
-      ])
+      response.data.result = Requester.validateResultNumber(response.data, ['Last'])
       callback(response.status, Requester.success(jobRunID, response))
     }
 
-    const _handleError = (error) =>
-      callback(500, Requester.errored(jobRunID, error))
+    const _handleError = (error) => callback(500, Requester.errored(jobRunID, error))
 
     Requester.request(config).then(_handleResponse).catch(_handleError)
   }

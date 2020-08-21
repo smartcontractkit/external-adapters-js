@@ -28,12 +28,10 @@ const convertFromTicker = (ticker, coinId, callback) => {
     {
       url: 'https://api.coingecko.com/api/v3/coins/list',
     },
-    customError
+    customError,
   )
     .then((response) => {
-      const coin = response.data.find(
-        (x) => x.symbol.toLowerCase() === ticker.toLowerCase()
-      )
+      const coin = response.data.find((x) => x.symbol.toLowerCase() === ticker.toLowerCase())
       if (typeof coin === 'undefined') {
         return callback('undefined')
       }
@@ -51,7 +49,9 @@ const priceParams = {
 }
 
 const price = (jobRunID, input, callback) => {
-  const validator = new Validator(callback, input, priceParams)
+  const validator = new Validator(input, priceParams)
+  if (validator.error) return callback(validator.error.statusCode, validator.error)
+
   const symbol = validator.validated.data.base
   convertFromTicker(symbol, validator.validated.data.coinid, (coin) => {
     const url = 'https://api.coingecko.com/api/v3/simple/price'
@@ -75,9 +75,7 @@ const price = (jobRunID, input, callback) => {
         ])
         callback(response.status, Requester.success(jobRunID, response))
       })
-      .catch((error) => {
-        callback(500, Requester.errored(jobRunID, error))
-      })
+      .catch((error) => callback(500, Requester.errored(jobRunID, error)))
   })
 }
 
@@ -86,7 +84,9 @@ const mktcapParams = {
 }
 
 const globalMarketCap = (jobRunID, input, callback) => {
-  const validator = new Validator(callback, input, mktcapParams)
+  const validator = new Validator(input, mktcapParams)
+  if (validator.error) return callback(validator.error.statusCode, validator.error)
+
   const quote = validator.validated.data.quote
   const url = 'https://api.coingecko.com/api/v3/global'
 
@@ -107,9 +107,7 @@ const globalMarketCap = (jobRunID, input, callback) => {
     callback(500, Requester.errored(jobRunID, error))
   }
 
-  Requester.request(config, customError)
-    .then(_handleResponse)
-    .catch(_handleError)
+  Requester.request(config, customError).then(_handleResponse).catch(_handleError)
 }
 
 const customParams = {
@@ -117,7 +115,9 @@ const customParams = {
 }
 
 const execute = (input, callback) => {
-  const validator = new Validator(callback, input, customParams)
+  const validator = new Validator(input, customParams)
+  if (validator.error) return callback(validator.error.statusCode, validator.error)
+
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
   switch (endpoint.toLowerCase()) {

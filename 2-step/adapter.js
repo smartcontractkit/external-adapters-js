@@ -24,7 +24,9 @@ const transform = (offchain, onchain, operator, dividendConfig) => {
 }
 
 const execute = (input, callback) => {
-  const validator = new Validator(callback, input, customParams)
+  const validator = new Validator(input, customParams)
+  if (validator.error) return callback(validator.error.statusCode, validator.error)
+
   const jobRunID = validator.validated.id
   const contract = validator.validated.data.contract
   const multiply = validator.validated.data.multiply || 100000000
@@ -44,10 +46,7 @@ const execute = (input, callback) => {
       price = price / multiply
       logger.info('Value: ' + price)
       if (price <= 0) {
-        return callback(
-          500,
-          Requester.errored(jobRunID, 'on-chain value equal or less than 0')
-        )
+        return callback(500, Requester.errored(jobRunID, 'on-chain value equal or less than 0'))
       }
 
       adapterExecute(input, (statusCode, response) => {

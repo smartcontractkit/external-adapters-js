@@ -11,7 +11,9 @@ const customParams = {
 }
 
 const execute = (input, callback) => {
-  const validator = new Validator(callback, input, customParams)
+  const validator = new Validator(input, customParams)
+  if (validator.error) return callback(validator.error.statusCode, validator.error)
+
   const jobRunID = validator.validated.id
   const base = validator.validated.data.base.toLowerCase()
   const quote = validator.validated.data.quote.toLowerCase()
@@ -43,14 +45,10 @@ const execute = (input, callback) => {
   Requester.request(config, customError)
     .then((response) => {
       const result = response.data.data.filter((x) => x.price !== null)
-      response.data.result = Number(
-        Requester.validateResultNumber(result, [0, 'price'])
-      )
+      response.data.result = Number(Requester.validateResultNumber(result, [0, 'price']))
       callback(response.status, Requester.success(jobRunID, response))
     })
-    .catch((error) => {
-      callback(500, Requester.errored(jobRunID, error))
-    })
+    .catch((error) => callback(500, Requester.errored(jobRunID, error)))
 }
 
 module.exports.execute = execute

@@ -11,12 +11,12 @@ const customParams = {
   schedule: false,
 }
 
-const execute = (input, callback) => {
-  marketStatusRequest(input, adapterExecute, callback)
-}
+const execute = (input, callback) => marketStatusRequest(input, adapterExecute, callback)
 
 const marketStatusRequest = (input, adapter, callback) => {
-  const validator = new Validator(callback, input, customParams)
+  const validator = new Validator(input, customParams)
+  if (validator.error) return callback(validator.error.statusCode, validator.error)
+
   const symbol = validator.validated.data.base.toUpperCase()
   const schedule = validator.validated.data.schedule || {}
 
@@ -43,9 +43,7 @@ const handleRequest = (input, validator, adapter, halted, callback) => {
   const contract = validator.validated.data.contract
   const multiply = validator.validated.data.multiply || 100000000
 
-  if (!halted) {
-    return adapter(input, callback)
-  }
+  if (!halted) return adapter(input, callback)
 
   logger.info('Getting value from contract: ' + contract)
   getContractPrice(contract)
@@ -65,7 +63,7 @@ const handleRequest = (input, validator, adapter, halted, callback) => {
         Requester.success(jobRunID, {
           data,
           status,
-        })
+        }),
       )
     })
     .catch((error) => {

@@ -23,7 +23,9 @@ const customParams = {
 }
 
 const execute = (input, callback) => {
-  const validator = new Validator(callback, input, customParams)
+  const validator = new Validator(input, customParams)
+  if (validator.error) return callback(validator.error.statusCode, validator.error)
+
   const jobRunID = validator.validated.id
   let symbol = validator.validated.data.base.toUpperCase()
   let endpoint = validator.validated.data.endpoint
@@ -46,16 +48,10 @@ const execute = (input, callback) => {
 
   Requester.request(config, customError)
     .then((response) => {
-      response.data.result = Requester.validateResultNumber(response.data, [
-        'response',
-        0,
-        'price',
-      ])
+      response.data.result = Requester.validateResultNumber(response.data, ['response', 0, 'price'])
       callback(response.status, Requester.success(jobRunID, response))
     })
-    .catch((error) => {
-      callback(500, Requester.errored(jobRunID, error))
-    })
+    .catch((error) => callback(500, Requester.errored(jobRunID, error)))
 }
 
 module.exports.execute = execute

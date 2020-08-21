@@ -5,9 +5,7 @@ const DEFAULT_DATA_ENDPOINT = 'events.json'
 const DEMO_ENDPOINT = 'https://tools.dxfeed.com/webservice/rest'
 const apiEndpoint = process.env.API_ENDPOINT || DEMO_ENDPOINT
 if (apiEndpoint === DEMO_ENDPOINT)
-  console.warn(
-    `Using demo endpoint: ${DEMO_ENDPOINT} (Please do not use in production!)`
-  )
+  console.warn(`Using demo endpoint: ${DEMO_ENDPOINT} (Please do not use in production!)`)
 
 const customError = (data) => data.status !== 'OK'
 
@@ -22,7 +20,9 @@ const commonSymbols = {
 }
 
 const execute = (input, callback) => {
-  const validator = new Validator(callback, input, customParams)
+  const validator = new Validator(input, customParams)
+  if (validator.error) return callback(validator.error.statusCode, validator.error)
+
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || DEFAULT_DATA_ENDPOINT
   const url = `${apiEndpoint}/${endpoint}`
@@ -51,9 +51,7 @@ const execute = (input, callback) => {
       ])
       callback(response.status, Requester.success(jobRunID, response))
     })
-    .catch((error) => {
-      callback(500, Requester.errored(jobRunID, error))
-    })
+    .catch((error) => callback(500, Requester.errored(jobRunID, error)))
 }
 
 module.exports.execute = execute

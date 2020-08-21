@@ -14,9 +14,7 @@ const convertFromTicker = (ticker, coinid, callback) => {
     .then((response) => {
       const coin = response.data
         .sort((a, b) => (a.rank > b.rank ? 1 : -1))
-        .find(
-          (x) => x.symbol.toLowerCase() === ticker.toLowerCase() && x.rank !== 0
-        )
+        .find((x) => x.symbol.toLowerCase() === ticker.toLowerCase() && x.rank !== 0)
       if (typeof coin === 'undefined') {
         return callback('Could not find coin', null)
       }
@@ -34,7 +32,9 @@ const priceParams = {
 }
 
 const price = (jobRunID, input, callback) => {
-  const validator = new Validator(callback, input, priceParams)
+  const validator = new Validator(input, priceParams)
+  if (validator.error) return callback(validator.error.statusCode, validator.error)
+
   const symbol = validator.validated.data.base
   convertFromTicker(symbol, validator.validated.data.coinid, (error, coin) => {
     if (error !== null) {
@@ -61,9 +61,7 @@ const price = (jobRunID, input, callback) => {
         ])
         callback(response.status, Requester.success(jobRunID, response))
       })
-      .catch((error) => {
-        callback(500, Requester.errored(jobRunID, error))
-      })
+      .catch((error) => callback(500, Requester.errored(jobRunID, error)))
   })
 }
 
@@ -72,9 +70,7 @@ const globalMarketCap = (jobRunID, input, callback) => {
   const config = { url }
 
   const _handleResponse = (response) => {
-    response.data.result = Requester.validateResultNumber(response.data, [
-      'market_cap_usd',
-    ])
+    response.data.result = Requester.validateResultNumber(response.data, ['market_cap_usd'])
     callback(response.status, Requester.success(jobRunID, response))
   }
 
@@ -90,7 +86,9 @@ const customParams = {
 }
 
 const execute = (input, callback) => {
-  const validator = new Validator(callback, input, customParams)
+  const validator = new Validator(input, customParams)
+  if (validator.error) return callback(validator.error.statusCode, validator.error)
+
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
   switch (endpoint.toLowerCase()) {

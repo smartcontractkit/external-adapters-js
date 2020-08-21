@@ -76,10 +76,11 @@ class Requester {
   }
 
   static errored(jobRunID = '1', error = 'An error occurred', statusCode = 500) {
+    const message = error instanceof Error ? error.message : error
     return {
       jobRunID,
       status: 'errored',
-      error: new AdapterError(error),
+      error: new AdapterError(message),
       statusCode,
     }
   }

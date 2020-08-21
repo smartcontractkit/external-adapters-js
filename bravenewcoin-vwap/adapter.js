@@ -1,10 +1,5 @@
 const { Requester, Validator } = require('@chainlink/external-adapter')
-const {
-  apiHeaders,
-  authenticate,
-  getAssetId,
-  host,
-} = require('../helpers/bravenewcoin/helpers')
+const { apiHeaders, authenticate, getAssetId, host } = require('../helpers/bravenewcoin/helpers')
 
 const customParams = {
   symbol: ['base', 'from', 'coin', 'symbol', 'assetId', 'indexId', 'asset'],
@@ -13,7 +8,9 @@ const customParams = {
 }
 
 const execute = (input, callback) => {
-  const validator = new Validator(callback, input, customParams)
+  const validator = new Validator(input, customParams)
+  if (validator.error) return callback(validator.error.statusCode, validator.error)
+
   const jobRunID = validator.validated.id
   const yesterday = new Date()
   yesterday.setDate(yesterday.getDate() - 1)
