@@ -1,16 +1,16 @@
 class AdapterError extends Error {
-  constructor (message) {
+  constructor(message) {
     super(message)
     this.name = 'AdapterError'
     this.message = message
   }
 
-  toJSON () {
+  toJSON() {
     return {
       error: {
         name: this.name,
-        message: this.message
-      }
+        message: this.message,
+      },
     }
   }
 }

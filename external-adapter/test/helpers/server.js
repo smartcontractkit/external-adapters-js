@@ -1,18 +1,18 @@
 const express = require('express')
 
 class Server {
-  constructor () {
+  constructor() {
     this.app = express()
     this.start()
     this.port = 18080
     this.errorCount = 0
   }
 
-  start () {
+  start() {
     this.app.get('/', (req, res) => {
       res.status(200).json({
         result: 'success',
-        value: 1
+        value: 1,
       })
     })
 
@@ -25,7 +25,7 @@ class Server {
       if (this.errorCount >= 2) {
         res.status(200).json({
           result: 'success',
-          value: 1
+          value: 1,
         })
       } else {
         this.errorCount++
@@ -37,18 +37,18 @@ class Server {
       this.errorCount++
       res.status(200).json({
         result: 'error',
-        value: 1
+        value: 1,
       })
     })
 
     this.server = this.app.listen(this.port, () => {})
   }
 
-  stop () {
+  stop() {
     this.server.close()
   }
 
-  reset () {
+  reset() {
     this.errorCount = 0
   }
 }

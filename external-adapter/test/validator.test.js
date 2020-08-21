@@ -20,7 +20,7 @@ describe('Validator', () => {
 
   describe('without required params', () => {
     const params = {
-      endpoint: false
+      endpoint: false,
     }
 
     it('errors if no input data is supplied', () => {
@@ -34,8 +34,8 @@ describe('Validator', () => {
       const input = {
         id: 'abc123',
         data: {
-          endpoint: 'test'
-        }
+          endpoint: 'test',
+        },
       }
 
       const validator = new Validator(callback, input, params)
@@ -46,7 +46,7 @@ describe('Validator', () => {
 
     it('does not error if input data is excluded', () => {
       const input = {
-        id: 'abc123'
+        id: 'abc123',
       }
 
       const validator = new Validator(callback, input)
@@ -64,7 +64,7 @@ describe('Validator', () => {
   describe('with required params', () => {
     const params = {
       keys: ['one', 'two'],
-      endpoint: true
+      endpoint: true,
     }
 
     it('errors if no input is provided', () => {
@@ -78,8 +78,8 @@ describe('Validator', () => {
       const input = {
         id: 'abc123',
         data: {
-          endpoint: 'test'
-        }
+          endpoint: 'test',
+        },
       }
 
       const validator = new Validator(callback, input, params)
@@ -92,8 +92,8 @@ describe('Validator', () => {
       const input = {
         id: 'abc123',
         data: {
-          one: 'test'
-        }
+          one: 'test',
+        },
       }
 
       const validator = new Validator(callback, input, params)
@@ -106,8 +106,8 @@ describe('Validator', () => {
         id: 'abc123',
         data: {
           endpoint: 'test',
-          one: 'test'
-        }
+          one: 'test',
+        },
       }
 
       const validator = new Validator(callback, input, params)
@@ -123,8 +123,8 @@ describe('Validator', () => {
       id: 'abc123',
       data: {
         endpoint: 'test',
-        one: 'test'
-      }
+        one: 'test',
+      },
     }
     const validator = new Validator(callback, input)
     assert.equal(validator.validated.id, input.id)

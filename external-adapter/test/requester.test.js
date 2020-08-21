@@ -10,7 +10,7 @@ describe('Requester', () => {
   const errorTwiceUrl = 'http://localhost:18080/errorsTwice'
   const customErrorUrl = 'http://localhost:18080/customError'
   const options = {
-    timeout: 100
+    timeout: 100,
   }
   const customError = (data) => {
     return data.result !== 'success'
