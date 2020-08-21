@@ -31,8 +31,7 @@ export const getConfig = (): Config => ({
   api: {
     returnRejectedPromiseOnError: true,
     withCredentials: true,
-    timeout:
-      parseInt(process.env[ENV_API_TIMEOUT] as string) || DEFAULT_TIMEOUT,
+    timeout: parseInt(process.env[ENV_API_TIMEOUT] as string) || DEFAULT_TIMEOUT,
     headers: {
       common: {
         'Cache-Control': 'no-cache, no-store, must-revalidate',
@@ -48,12 +47,10 @@ export const getConfig = (): Config => ({
 })
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
-const cloneNoSecrets = (config: Config): Config =>
-  (({ apiKey, ...o }) => o)(config)
+const cloneNoSecrets = (config: Config): Config => (({ apiKey, ...o }) => o)(config)
 
 export const logConfig = (config: Config): void => {
   console.log('Adapter configuration:')
   console.log(cloneNoSecrets(config))
-  if (!config.apiKey)
-    console.warn('API will be rate limited without an API key.')
+  if (!config.apiKey) console.warn('API will be rate limited without an API key.')
 }

@@ -40,7 +40,7 @@ const execute = (input, callback) => {
         Requester.validateResultNumber(response.data, [
           'Realtime Currency Exchange Rate',
           '5. Exchange Rate',
-        ])
+        ]),
       )
       callback(response.status, Requester.success(jobRunID, response))
     })

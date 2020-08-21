@@ -32,10 +32,8 @@ type RequestData = {
   confirmations: number
 }
 
-const WARNING_NO_OPERATION =
-  'No Operation: only btc mainnet/testnet chains are supported by blockcypher adapter'
-const WARNING_NO_OPERATION_MISSING_ADDRESS =
-  'No Operation: address param is missing'
+const WARNING_NO_OPERATION = 'No Operation: only btc mainnet/testnet chains are supported by blockcypher adapter'
+const WARNING_NO_OPERATION_MISSING_ADDRESS = 'No Operation: address param is missing'
 
 // rewrite chain id for bcypher
 const getChainId = (coin: CoinType, chain: ChainType): string => {
@@ -50,30 +48,25 @@ const getChainId = (coin: CoinType, chain: ChainType): string => {
 const toBalances = async (
   config: Config,
   addresses: Address[],
-  confirmations: number = DEFAULT_CONFIRMATIONS
+  confirmations: number = DEFAULT_CONFIRMATIONS,
 ): Promise<Address[]> =>
   Promise.all(
     addresses.map(async (addr: Address) => {
-      if (!addr.address)
-        return { ...addr, warning: WARNING_NO_OPERATION_MISSING_ADDRESS }
+      if (!addr.address) return { ...addr, warning: WARNING_NO_OPERATION_MISSING_ADDRESS }
 
       if (!addr.coin) addr.coin = 'btc'
       if (addr.coin !== 'btc') return { ...addr, warning: WARNING_NO_OPERATION }
 
       if (!addr.chain) addr.chain = 'mainnet'
-      if (addr.chain !== 'mainnet' && addr.chain !== 'testnet')
-        return { ...addr, warning: WARNING_NO_OPERATION }
+      if (addr.chain !== 'mainnet' && addr.chain !== 'testnet') return { ...addr, warning: WARNING_NO_OPERATION }
 
       const chainId = getChainId(addr.coin, addr.chain)
       const api = new bcypher(addr.coin, chainId, config.apiKey)
       const params = { confirmations }
       const _getAddrBal = (): Promise<AddressBalance> =>
         new Promise((resolve, reject) => {
-          api.getAddrBal(
-            addr.address,
-            params,
-            (error: Error, body: AddressBalance) =>
-              error ? reject(error) : resolve(body)
+          api.getAddrBal(addr.address, params, (error: Error, body: AddressBalance) =>
+            error ? reject(error) : resolve(body),
           )
         })
 
@@ -81,7 +74,7 @@ const toBalances = async (
         ...addr,
         balance: (await _getAddrBal()).balance,
       }
-    })
+    }),
   )
 
 export const inputParams = {
@@ -90,11 +83,7 @@ export const inputParams = {
 }
 
 // Export function to integrate with Chainlink node
-export const execute = async (
-  config: Config,
-  request: JobSpecRequest,
-  data: RequestData
-): Promise<Address[]> => {
+export const execute = async (config: Config, request: JobSpecRequest, data: RequestData): Promise<Address[]> => {
   const dataPath = data.dataPath || DEFAULT_DATA_PATH
   const inputData = <Address[]>objectPath.get(request.data, dataPath)
 

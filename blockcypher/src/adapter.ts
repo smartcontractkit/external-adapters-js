@@ -27,23 +27,18 @@ export const execute = (request: JobSpecRequest, callback: Callback): void => {
         data: { result: out },
         result: out,
         status: 200,
-      })
+      }),
     )
   }
 
-  const _handleError = (err: Error): void =>
-    callback(500, Requester.errored(jobRunID, err.message))
+  const _handleError = (err: Error): void => callback(500, Requester.errored(jobRunID, err.message))
 
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
 
   let fn
   switch (endpoint) {
     case balance.Name: {
-      const { data } = new Validator(
-        callback,
-        request,
-        balance.inputParams
-      ).validated
+      const { data } = new Validator(callback, request, balance.inputParams).validated
       fn = balance.execute(config, request, data)
       break
     }
