@@ -37,9 +37,7 @@ const convertFromTicker = (ticker, coinId, callback) => {
       }
       return callback(coin.id.toLowerCase())
     })
-    .catch(() => {
-      return callback('Could not find data')
-    })
+    .catch(() => callback('Could not find data'))
 }
 
 const priceParams = {
@@ -103,9 +101,7 @@ const globalMarketCap = (jobRunID, input, callback) => {
     callback(response.status, Requester.success(jobRunID, response))
   }
 
-  const _handleError = (error) => {
-    callback(500, Requester.errored(jobRunID, error))
-  }
+  const _handleError = (error) => callback(500, Requester.errored(jobRunID, error))
 
   Requester.request(config, customError).then(_handleResponse).catch(_handleError)
 }
