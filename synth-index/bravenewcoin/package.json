@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "server": "node -e 'require(\"./index.js\").server()'",
-    "test": "yarn _mocha --timeout 0"
+    "test": "echo \"Error: no test specified\""
   },
   "dependencies": {}
 }

@@ -38,7 +38,7 @@ describe('execute', () => {
     })
   })
 
-  context('error calls', () => {
+  context('validation error', () => {
     const requests = [
       {
         name: 'empty body',
@@ -48,11 +48,28 @@ describe('execute', () => {
         name: 'empty data',
         testData: { data: {} },
       },
+    ]
+
+    requests.forEach((req) => {
+      it(`${req.name}`, (done) => {
+        execute(req.testData, (statusCode, data) => {
+          assert.equal(statusCode, 400)
+          assert.equal(data.jobRunID, jobID)
+          assert.equal(data.status, 'errored')
+          assert.isNotEmpty(data.error)
+          done()
+        })
+      })
+    })
+  })
+
+  context('error calls', () => {
+    const requests = [
       {
         name: 'unknown endpoint',
         testData: {
           id: jobID,
-          data: { endpoint: 'not_real' },
+          data: { speed: 'standard', endpoint: 'not_real' },
         },
       },
       {

@@ -38,7 +38,6 @@
     "openexchangerates",
     "polygon",
     "tradinghours",
-    "yahoo-finance",
     "google-finance",
     "etherchain",
     "poa-gasprice",
@@ -59,9 +58,9 @@
     "reduce"
   ],
   "scripts": {
-    "lint": "yarn eslint .",
-    "start-example-server": "node ./helpers/server.js",
+    "lint": "yarn workspaces run lint",
     "test": "yarn workspaces run test",
+    "start-example-server": "node ./helpers/server.js",
     "test-example": "yarn workspace example test",
     "test-external-adapter": "yarn workspace @chainlink/external-adapter test"
   },
