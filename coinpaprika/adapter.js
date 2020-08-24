@@ -15,14 +15,10 @@ const convertFromTicker = (ticker, coinid, callback) => {
       const coin = response.data
         .sort((a, b) => (a.rank > b.rank ? 1 : -1))
         .find((x) => x.symbol.toLowerCase() === ticker.toLowerCase() && x.rank !== 0)
-      if (typeof coin === 'undefined') {
-        return callback('Could not find coin', null)
-      }
+      if (!coin) return callback('Could not find coin', null)
       return callback(null, coin.id.toLowerCase())
     })
-    .catch((error) => {
-      return callback(error, null)
-    })
+    .catch((error) => callback(error, null))
 }
 
 const priceParams = {
@@ -37,9 +33,7 @@ const price = (jobRunID, input, callback) => {
 
   const symbol = validator.validated.data.base
   convertFromTicker(symbol, validator.validated.data.coinid, (error, coin) => {
-    if (error !== null) {
-      return callback(500, Requester.errored(jobRunID, error))
-    }
+    if (error) return callback(500, Requester.errored(jobRunID, error))
     const url = `https://api.coinpaprika.com/v1/tickers/${coin}`
     const market = validator.validated.data.quote
 

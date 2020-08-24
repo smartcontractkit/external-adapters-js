@@ -25,25 +25,35 @@ describe('execute', () => {
     })
   })
 
-  context('error calls', () => {
+  context('validation error', () => {
     const requests = [
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },
-      {
-        name: 'base not supplied',
-        testData: { id: jobID, data: { quote: 'USD' } },
-      },
-      {
-        name: 'quote not supplied',
-        testData: { id: jobID, data: { base: 'ETH' } },
-      },
+      { name: 'only endpoint', testData: { data: { endpoint: 'USD' } } },
+    ]
+
+    requests.forEach((req) => {
+      it(`${req.name}`, (done) => {
+        execute(req.testData, (statusCode, data) => {
+          assert.equal(statusCode, 400)
+          assert.equal(data.jobRunID, jobID)
+          assert.equal(data.status, 'errored')
+          assert.isNotEmpty(data.error)
+          done()
+        })
+      })
+    })
+  })
+
+  context('error calls', () => {
+    const requests = [
       {
         name: 'unknown base',
-        testData: { id: jobID, data: { base: 'not_real', quote: 'USD' } },
+        testData: { id: jobID, data: { base: 'not_real', endpoint: 'USD' } },
       },
       {
         name: 'unknown quote',
-        testData: { id: jobID, data: { base: 'ETH', quote: 'not_real' } },
+        testData: { id: jobID, data: { base: 'ETH', endpoint: 'not_real' } },
       },
     ]
 

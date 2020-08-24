@@ -20,7 +20,7 @@
     "build": "yarn && tsc",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
-    "test": "mocha --exit -r ts-node/register 'test/**/*.test.ts'",
+    "test": "echo \"Error: no test specified\"",
     "server": "node -e 'require(\"./dist/index.js\").server()'",
     "start": "yarn server"
   },

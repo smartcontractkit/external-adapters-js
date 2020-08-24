@@ -118,7 +118,7 @@ describe('execute', () => {
     requests.forEach((req) => {
       it(`${req.name}`, (done) => {
         execute(req.testData, (statusCode, data) => {
-          assert.equal(statusCode, 500)
+          assert.equal(statusCode, 400)
           assert.equal(data.jobRunID, jobID)
           assert.equal(data.status, 'errored')
           assert.isNotEmpty(data.error)

@@ -34,7 +34,7 @@ describe('execute', () => {
     })
   })
 
-  context('error calls', () => {
+  context('validation error', () => {
     const requests = [
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },
@@ -46,6 +46,23 @@ describe('execute', () => {
         name: 'quote not supplied',
         testData: { id: jobID, data: { base: 'GBP' } },
       },
+    ]
+
+    requests.forEach((req) => {
+      it(`${req.name}`, (done) => {
+        execute(req.testData, (statusCode, data) => {
+          assert.equal(statusCode, 400)
+          assert.equal(data.jobRunID, jobID)
+          assert.equal(data.status, 'errored')
+          assert.isNotEmpty(data.error)
+          done()
+        })
+      })
+    })
+  })
+
+  context('error calls', () => {
+    const requests = [
       {
         name: 'unknown base',
         testData: { id: jobID, data: { base: 'not_real', quote: 'USD' } },
