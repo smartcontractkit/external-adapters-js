@@ -76,8 +76,7 @@
     "express": "^4.17.0",
     "market-closure": "^0.1.2",
     "synthetix": "^2.26.3",
-    "web3": "^1.2.11",
-    "yahoo-finance": "^0.3.6"
+    "web3": "^1.2.11"
   },
   "devDependencies": {
     "@tsconfig/node12": "^1.0.7",
