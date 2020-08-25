@@ -1,10 +1,9 @@
 const { Requester, Validator } = require('@chainlink/external-adapter')
 
-const customParams = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
-  coinid: false
-}
+const ENDPOINT_PRICE = 'price'
+const ENDPOINT_MKTCAP = 'globalmarketcap'
+
+const DEFAULT_ENDPOINT = ENDPOINT_PRICE
 
 const convertFromTicker = (ticker, coinid, callback) => {
   if (typeof coinId !== 'undefined') return callback(coinid.toLowerCase())
@@ -23,9 +22,14 @@ const convertFromTicker = (ticker, coinid, callback) => {
   })
 }
 
-const createRequest = (input, callback) => {
-  const validator = new Validator(callback, input, customParams)
-  const jobRunID = validator.validated.id
+const priceParams = {
+  base: ['base', 'from', 'coin'],
+  quote: ['quote', 'to', 'market'],
+  coinid: false
+}
+
+const price = (jobRunID, input, callback) => {
+  const validator = new Validator(callback, input, priceParams)
   const symbol = validator.validated.data.base
   convertFromTicker(symbol, validator.validated.data.coinid, (error, coin) => {
     if (error !== null) {
@@ -52,6 +56,42 @@ const createRequest = (input, callback) => {
         callback(500, Requester.errored(jobRunID, error))
       })
   })
+}
+
+const globalMarketCap = (jobRunID, input, callback) => {
+  const url = 'https://api.coinpaprika.com/v1/global'
+  const config = { url }
+
+  const _handleResponse = (response) => {
+    response.data.result = Requester.validateResultNumber(response.data, ['market_cap_usd'])
+    callback(response.status, Requester.success(jobRunID, response))
+  }
+
+  const _handleError = (error) => {
+    callback(500, Requester.errored(jobRunID, error))
+  }
+
+  Requester.request(config)
+    .then(_handleResponse)
+    .catch(_handleError)
+}
+
+const customParams = {
+  endpoint: false
+}
+
+const createRequest = (input, callback) => {
+  const validator = new Validator(callback, input, customParams)
+  const jobRunID = validator.validated.id
+  const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
+  switch (endpoint.toLowerCase()) {
+    case ENDPOINT_PRICE:
+      return price(jobRunID, input, callback)
+    case ENDPOINT_MKTCAP:
+      return globalMarketCap(jobRunID, input, callback)
+    default:
+      callback(500, Requester.errored(jobRunID, 'invalid endpoint provided'))
+  }
 }
 
 module.exports.createRequest = createRequest
