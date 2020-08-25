@@ -5,6 +5,7 @@
 - `coinid`: The CoinPaprika id of the coin to query (required if not using `from`)
 - `base`, `from`, or `coin`: The ticker of the coin to query (required if not using `coinid`)
 - `quote`, `to`, or `market`: The currency to convert the coin to (required)
+- `endpoint`: The endpoint to use (defaults to "price", one of "price", "globalMarketCap")
 
 ## Output
 
