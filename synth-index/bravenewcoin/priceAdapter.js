@@ -43,7 +43,7 @@ const execute = async (jobRunID, data) => {
   await Promise.all(
     data.index.map(async (synth) => {
       synth.priceData = await getPriceData(synth)
-    })
+    }),
   )
   return data
 }

@@ -1,7 +1,7 @@
 const { Requester } = require('@chainlink/external-adapter')
 const Decimal = require('decimal.js')
 
-const getPriceData = async (synth) => {
+const getPriceData = async () => {
   const url = 'https://api.coinpaprika.com/v1/tickers'
   const params = {
     quotes: 'USD',
@@ -30,14 +30,14 @@ const calculateIndex = (indexes) => {
   return value.toNumber()
 }
 
-const execute = async (jobRunID, data) => {
+const execute = async (_, data) => {
   const priceDatas = await getPriceData()
   await Promise.all(
     data.index.map(async (synth) => {
       synth.priceData = priceDatas
         .sort((a, b) => (a.rank > b.rank ? 1 : -1))
         .find((d) => d.symbol.toLowerCase() === synth.symbol.toLowerCase())
-    })
+    }),
   )
   return data
 }

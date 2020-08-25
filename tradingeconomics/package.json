@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "server": "node -e 'require(\"./index.js\").server()'",
+    "lint": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix",
     "test": "yarn _mocha --timeout 0"
   },
   "dependencies": {

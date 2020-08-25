@@ -2,8 +2,7 @@ const { Requester } = require('@chainlink/external-adapter')
 const Decimal = require('decimal.js')
 
 const getPriceData = async (synths) => {
-  const url =
-    'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest'
+  const url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest'
   const headers = {
     'X-CMC_PRO_API_KEY': process.env.API_KEY,
   }

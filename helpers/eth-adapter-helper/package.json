@@ -4,6 +4,8 @@
   "license": "MIT",
   "main": "readReferenceContract.js",
   "scripts": {
+    "lint": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix",
     "test": "yarn _mocha --timeout 0"
   },
   "dependencies": {
