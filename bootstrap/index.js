@@ -20,6 +20,8 @@ if (cacheOptions.enabled) logger.info('Cache enabled: ', cacheOptions)
 const expose = (execute, checkHealth) => ({
   server: server.initHandler(withCache(withStatusCode(execute, checkHealth))),
   gcpHandler: gcp.initHandler(withCache(withStatusCode(execute))),
+  // Default index.handler for AWS Lambda
+  handler: aws.initHandlerREST(withCache(withStatusCode(execute))),
   awsHandlerREST: aws.initHandlerREST(withCache(withStatusCode(execute))),
   awsHandlerHTTP: aws.initHandlerHTTP(withCache(withStatusCode(execute))),
 })

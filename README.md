@@ -70,6 +70,7 @@ The zip will be created as `./$adapter/dist/$adapter-adapter.zip`.
 - Under Function code, select "Upload a .zip file" from the Code entry type drop-down
 - Click Upload and select the `$adapter-adapter.zip` file
 - Handler:
+  - index.handler (same as index.awsHandlerREST) for REST API Gateways (AWS Lambda default)
   - index.awsHandlerREST for REST API Gateways
   - index.awsHandlerHTTP for HTTP API Gateways
 - Add the environment variable (repeat for all environment variables):
