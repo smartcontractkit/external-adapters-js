@@ -1,14 +1,13 @@
 const { Requester, Validator } = require('@chainlink/external-adapter')
 
+const ENDPOINT_PRICE = 'price'
+const ENDPOINT_MKTCAP = 'globalmarketcap'
+
+const DEFAULT_ENDPOINT = ENDPOINT_PRICE
+
 const customError = (data) => {
   if (Object.keys(data).length === 0) return true
   return false
-}
-
-const customParams = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
-  coinid: false
 }
 
 const convertFromTicker = (ticker, coinId, callback) => {
@@ -29,9 +28,14 @@ const convertFromTicker = (ticker, coinId, callback) => {
     })
 }
 
-const createRequest = (input, callback) => {
-  const validator = new Validator(callback, input, customParams)
-  const jobRunID = validator.validated.id
+const priceParams = {
+  base: ['base', 'from', 'coin'],
+  quote: ['quote', 'to', 'market'],
+  coinid: false
+}
+
+const price = (jobRunID, input, callback) => {
+  const validator = new Validator(callback, input, priceParams)
   const symbol = validator.validated.data.base
   convertFromTicker(symbol, validator.validated.data.coinid, (coin) => {
     const url = 'https://api.coingecko.com/api/v3/simple/price'
@@ -46,6 +50,7 @@ const createRequest = (input, callback) => {
       url: url,
       params
     }
+
     Requester.request(config, customError)
       .then(response => {
         response.data.result = Requester.validateResultNumber(response.data, [coin.toLowerCase(), market.toLowerCase()])
@@ -55,6 +60,51 @@ const createRequest = (input, callback) => {
         callback(500, Requester.errored(jobRunID, error))
       })
   })
+}
+
+const mktcapParams = {
+  quote: ['quote', 'to', 'market']
+}
+
+const globalMarketCap = (jobRunID, input, callback) => {
+  const validator = new Validator(callback, input, mktcapParams)
+  const quote = validator.validated.data.quote
+  const url = 'https://api.coingecko.com/api/v3/global'
+
+  const config = {
+    url: url
+  }
+
+  const _handleResponse = (response) => {
+    response.data.result = Requester.validateResultNumber(response.data, ['data', 'total_market_cap', quote.toLowerCase()])
+    callback(response.status, Requester.success(jobRunID, response))
+  }
+
+  const _handleError = (error) => {
+    callback(500, Requester.errored(jobRunID, error))
+  }
+
+  Requester.request(config, customError)
+    .then(_handleResponse)
+    .catch(_handleError)
+}
+
+const customParams = {
+  endpoint: false
+}
+
+const createRequest = (input, callback) => {
+  const validator = new Validator(callback, input, customParams)
+  const jobRunID = validator.validated.id
+  const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
+  switch (endpoint.toLowerCase()) {
+    case ENDPOINT_PRICE:
+      return price(jobRunID, input, callback)
+    case ENDPOINT_MKTCAP:
+      return globalMarketCap(jobRunID, input, callback)
+    default:
+      callback(500, Requester.errored(jobRunID, 'invalid endpoint provided'))
+  }
 }
 
 module.exports.createRequest = createRequest
