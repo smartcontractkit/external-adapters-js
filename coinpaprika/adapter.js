@@ -68,9 +68,7 @@ const globalMarketCap = (jobRunID, input, callback) => {
     callback(response.status, Requester.success(jobRunID, response))
   }
 
-  const _handleError = (error) => {
-    callback(500, Requester.errored(jobRunID, error))
-  }
+  const _handleError = (error) => callback(500, Requester.errored(jobRunID, error))
 
   Requester.request(config).then(_handleResponse).catch(_handleError)
 }
