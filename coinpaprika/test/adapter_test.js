@@ -7,28 +7,13 @@ describe('execute', () => {
 
   context('successful calls @integration', () => {
     const requests = [
-      {
-        name: 'id not supplied',
-        testData: { data: { base: 'ETH', quote: 'USD' } },
-      },
-      {
-        name: 'base/quote',
-        testData: { id: jobID, data: { base: 'ETH', quote: 'USD' } },
-      },
-      {
-        name: 'from/to',
-        testData: { id: jobID, data: { from: 'ETH', to: 'USD' } },
-      },
-      {
-        name: 'coin/market',
-        testData: { id: jobID, data: { coin: 'ETH', market: 'USD' } },
-      },
+      { name: 'id not supplied', testData: { data: { base: 'ETH', quote: 'USD' } } },
+      { name: 'base/quote', testData: { id: jobID, data: { base: 'ETH', quote: 'USD' } } },
+      { name: 'from/to', testData: { id: jobID, data: { from: 'ETH', to: 'USD' } } },
+      { name: 'coin/market', testData: { id: jobID, data: { coin: 'ETH', market: 'USD' } } },
       {
         name: 'with coinid',
-        testData: {
-          id: jobID,
-          data: { coin: 'ETH', market: 'USD', coinid: 'ethereum' },
-        },
+        testData: { id: jobID, data: { coin: 'ETH', market: 'USD', coinid: 'ethereum' } },
       },
       {
         name: 'gets marketcap',
