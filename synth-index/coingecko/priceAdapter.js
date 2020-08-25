@@ -49,11 +49,11 @@ const execute = async (jobRunID, data) => {
       const coin = coinList.find(
         (d) =>
           d.symbol.toLowerCase() === synth.symbol.toLowerCase() &&
-          !coingeckoBlacklist.includes(d.id.toLowerCase())
+          !coingeckoBlacklist.includes(d.id.toLowerCase()),
       )
       synth.coinId = coin.id
       synth.priceData = await getPriceData(coin.id)
-    })
+    }),
   )
   return data
 }

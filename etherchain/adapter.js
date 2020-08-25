@@ -24,7 +24,7 @@ const execute = (input, callback) => {
       response.data.result = Requester.validateResultNumber(response.data, [speed]) * 1e9
       callback(response.status, Requester.success(jobRunID, response))
     })
-    .catch((error) =>  callback(500, Requester.errored(jobRunID, error)))
+    .catch((error) => callback(500, Requester.errored(jobRunID, error)))
 }
 
 module.exports.execute = execute

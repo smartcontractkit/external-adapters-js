@@ -19,10 +19,8 @@ const calculateIndex = (indexes) => {
     indexes.forEach((i) => {
       value = value.plus(
         new Decimal(i.units).times(
-          new Decimal(
-            i.priceData.payload[`${i.symbol.toLowerCase()}_usd`].price
-          )
-        )
+          new Decimal(i.priceData.payload[`${i.symbol.toLowerCase()}_usd`].price),
+        ),
       )
     })
   } catch (error) {
@@ -35,7 +33,7 @@ const execute = async (jobRunID, data) => {
   await Promise.all(
     data.index.map(async (synth) => {
       synth.priceData = await getPriceData(synth.symbol)
-    })
+    }),
   )
   return data
 }

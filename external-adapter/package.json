@@ -4,6 +4,8 @@
   "description": "Helpers for creating Chainlink External Adapters",
   "main": "index.js",
   "scripts": {
+    "lint": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix",
     "test": "yarn mocha --exit --timeout 0"
   },
   "license": "MIT",

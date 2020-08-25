@@ -1,11 +1,6 @@
 import { expect } from 'chai'
 
-import {
-  ENV_API_ENDPOINT,
-  RequiredEnvError,
-  getRequiredEnv,
-  getConfig,
-} from '../src/config'
+import { ENV_API_ENDPOINT, RequiredEnvError, getRequiredEnv, getConfig } from '../src/config'
 
 describe('config', () => {
   beforeEach(() => {
@@ -25,7 +20,7 @@ describe('config', () => {
     })
 
     it(`configures app with ${ENV_API_ENDPOINT} endpoint`, () => {
-      const config = getConfig();
+      const config = getConfig()
       expect(config).to.have.property('api')
       expect(config.api).to.have.property('baseURL', 'dummy.endpoint')
     })
