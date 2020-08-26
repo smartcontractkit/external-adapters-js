@@ -6,7 +6,9 @@
   "scripts": {
     "lint": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix",
-    "test": "yarn mocha --exit --timeout 0"
+    "test": "yarn _mocha --exit --timeout 0",
+    "test:unit": "yarn _mocha --exit --grep @integration --invert --timeout 0",
+    "test:integration": "yarn _mocha --exit --grep @integration --timeout 0"
   },
   "license": "MIT",
   "dependencies": {

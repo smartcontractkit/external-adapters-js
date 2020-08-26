@@ -1,10 +1,10 @@
 const { assert } = require('chai')
-const { expose } = require('../adapter')
+const { execute } = require('../adapter')
 
-describe('expose', () => {
+describe('execute', () => {
   const jobID = '1'
 
-  context('successful calls', () => {
+  context('successful calls @integration', () => {
     const requests = [
       {
         name: 'id not supplied',
@@ -26,7 +26,7 @@ describe('expose', () => {
 
     requests.forEach((req) => {
       it(`${req.name}`, (done) => {
-        expose(req.testData, (statusCode, data) => {
+        execute(req.testData, (statusCode, data) => {
           assert.equal(statusCode, 200)
           assert.equal(data.jobRunID, jobID)
           assert.isNotEmpty(data.data)
@@ -38,7 +38,7 @@ describe('expose', () => {
     })
   })
 
-  context('error calls', () => {
+  context('validation error', () => {
     const requests = [
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },
@@ -50,6 +50,23 @@ describe('expose', () => {
         name: 'quote not supplied',
         testData: { id: jobID, data: { base: 'ETH' } },
       },
+    ]
+
+    requests.forEach((req) => {
+      it(`${req.name}`, (done) => {
+        execute(req.testData, (statusCode, data) => {
+          assert.equal(statusCode, 400)
+          assert.equal(data.jobRunID, jobID)
+          assert.equal(data.status, 'errored')
+          assert.isNotEmpty(data.error)
+          done()
+        })
+      })
+    })
+  })
+
+  context('error calls @integration', () => {
+    const requests = [
       {
         name: 'unknown base',
         testData: { id: jobID, data: { base: 'not_real', quote: 'XDR' } },
@@ -62,7 +79,7 @@ describe('expose', () => {
 
     requests.forEach((req) => {
       it(`${req.name}`, (done) => {
-        expose(req.testData, (statusCode, data) => {
+        execute(req.testData, (statusCode, data) => {
           assert.equal(statusCode, 500)
           assert.equal(data.jobRunID, jobID)
           assert.equal(data.status, 'errored')

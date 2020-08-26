@@ -4,7 +4,7 @@ const { execute } = require('../adapter')
 describe('execute', () => {
   const jobID = '1'
 
-  context('successful calls', () => {
+  context('successful calls @integration', () => {
     const requests = [
       { name: 'id not supplied', testData: { data: { base: 'AAPL' } } },
       { name: 'base', testData: { id: jobID, data: { base: 'AAPL' } } },
@@ -44,7 +44,7 @@ describe('execute', () => {
     })
   })
 
-  context('error calls', () => {
+  context('error calls @integration', () => {
     const requests = [
       {
         name: 'unknown base',
