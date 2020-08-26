@@ -4,8 +4,12 @@ const { execute } = require('../adapter')
 describe('execute', () => {
   const jobID = '1'
 
-  context('successful calls', () => {
+  context('successful calls @integration', () => {
     const requests = [
+      {
+        name: 'empty data',
+        testData: { data: {} },
+      },
       {
         name: 'id not supplied',
         testData: { data: { speed: 'fast' } },
@@ -39,10 +43,6 @@ describe('execute', () => {
         name: 'empty body',
         testData: {},
       },
-      {
-        name: 'empty data',
-        testData: { data: {} },
-      },
     ]
 
     requests.forEach((req) => {
@@ -58,7 +58,7 @@ describe('execute', () => {
     })
   })
 
-  context('error calls', () => {
+  context('error calls @integration', () => {
     const requests = [
       {
         name: 'unknown speed',

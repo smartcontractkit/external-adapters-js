@@ -7,16 +7,6 @@ on:
   pull_request: ~
 
 jobs:
-  test-external-adapter:
-    name: Test @chainlink/external-adapter
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '10.x'
-      - run: yarn install
-      - run: yarn test-external-adapter
   test-example:
     name: Test example adapter
     runs-on: ubuntu-latest
@@ -38,3 +28,13 @@ jobs:
           node-version: '10.x'
       - run: yarn install
       - run: yarn lint
+  run-unit-tests:
+    name: Run unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '10.x'
+      - run: yarn install
+      - run: yarn test:unit

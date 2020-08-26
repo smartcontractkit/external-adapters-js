@@ -7,7 +7,9 @@
     "server": "node -e 'require(\"./index.js\").server()'",
     "lint": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix",
-    "test": "yarn _mocha --timeout 0"
+    "test": "yarn _mocha --timeout 0",
+    "test:unit": "yarn _mocha --grep @integration --invert --timeout 0",
+    "test:integration": "yarn _mocha --grep @integration --timeout 0"
   },
   "dependencies": {
     "tradingeconomics-stream": "^0.1.2"

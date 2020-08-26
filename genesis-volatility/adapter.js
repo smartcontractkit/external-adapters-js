@@ -7,7 +7,7 @@ const customParams = {
   key: ['key', 'result', 'period'],
 }
 
-const expose = (input, callback) => {
+const execute = (input, callback) => {
   const validator = new Validator(input, customParams)
   if (validator.error) return callback(validator.error.statusCode, validator.error)
 
@@ -54,4 +54,4 @@ const expose = (input, callback) => {
     })
 }
 
-module.exports.expose = expose
+module.exports.execute = execute

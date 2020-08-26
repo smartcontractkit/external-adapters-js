@@ -4,7 +4,7 @@ const { execute } = require('../adapter')
 describe('execute', () => {
   const jobID = '1'
 
-  context('successful calls', () => {
+  context('successful calls @integration', () => {
     const requests = [
       { name: 'id not supplied', testData: { data: { base: 'AMPL' } } },
       { name: 'base/quote', testData: { id: jobID, data: { base: 'AMPL' } } },
@@ -26,11 +26,28 @@ describe('execute', () => {
     })
   })
 
-  context('error calls', () => {
+  context('validation error', () => {
     const requests = [
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },
       { name: 'base not supplied', testData: { id: jobID, data: {} } },
+    ]
+
+    requests.forEach((req) => {
+      it(`${req.name}`, (done) => {
+        execute(req.testData, (statusCode, data) => {
+          assert.equal(statusCode, 400)
+          assert.equal(data.jobRunID, jobID)
+          assert.equal(data.status, 'errored')
+          assert.isNotEmpty(data.error)
+          done()
+        })
+      })
+    })
+  })
+
+  context('error calls @integration', () => {
+    const requests = [
       {
         name: 'unknown base',
         testData: { id: jobID, data: { base: 'not_real' } },
@@ -40,7 +57,7 @@ describe('execute', () => {
     requests.forEach((req) => {
       it(`${req.name}`, (done) => {
         execute(req.testData, (statusCode, data) => {
-          assert.equal(statusCode, 400)
+          assert.equal(statusCode, 500)
           assert.equal(data.jobRunID, jobID)
           assert.equal(data.status, 'errored')
           assert.isNotEmpty(data.error)

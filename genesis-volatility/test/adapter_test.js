@@ -1,10 +1,10 @@
 const assert = require('chai').assert
-const expose = require('../adapter').expose
+const execute = require('../adapter').execute
 
-describe('expose', () => {
+describe('execute', () => {
   const jobID = '1'
 
-  context('successful calls', () => {
+  context('successful calls @integration', () => {
     const requests = [
       {
         name: 'id not supplied',
@@ -51,7 +51,7 @@ describe('expose', () => {
 
     requests.forEach((req) => {
       it(`${req.name}`, (done) => {
-        expose(req.testData, (statusCode, data) => {
+        execute(req.testData, (statusCode, data) => {
           assert.equal(statusCode, 200)
           assert.equal(data.jobRunID, jobID)
           assert.isNotEmpty(data.data)
@@ -63,7 +63,7 @@ describe('expose', () => {
     })
   })
 
-  context('error calls', () => {
+  context('validation error', () => {
     const requests = [
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },
@@ -79,8 +79,8 @@ describe('expose', () => {
 
     requests.forEach((req) => {
       it(`${req.name}`, (done) => {
-        expose(req.testData, (statusCode, data) => {
-          assert.equal(statusCode, 500)
+        execute(req.testData, (statusCode, data) => {
+          assert.equal(statusCode, 400)
           assert.equal(data.jobRunID, jobID)
           assert.equal(data.status, 'errored')
           assert.isNotEmpty(data.error)
@@ -90,7 +90,7 @@ describe('expose', () => {
     })
   })
 
-  context('error calls to API', () => {
+  context('error calls @integration', () => {
     const requests = [
       {
         name: 'unknown symbol',
@@ -104,7 +104,7 @@ describe('expose', () => {
 
     requests.forEach((req) => {
       it(`${req.name}`, (done) => {
-        expose(req.testData, (statusCode, data) => {
+        execute(req.testData, (statusCode, data) => {
           assert.equal(statusCode, 500)
           assert.equal(data.jobRunID, jobID)
           assert.equal(data.status, 'errored')

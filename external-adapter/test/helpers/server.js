@@ -44,8 +44,8 @@ class Server {
     this.server = this.app.listen(this.port, () => {})
   }
 
-  stop() {
-    this.server.close()
+  stop(fn = () => {}) {
+    this.server.close(fn)
   }
 
   reset() {

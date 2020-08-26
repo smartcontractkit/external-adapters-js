@@ -37,14 +37,14 @@ const calculateIndex = (indexes) => {
   return value.toNumber()
 }
 
-const expose = async (jobRunID, data) => {
+const execute = async (jobRunID, data) => {
   await Promise.all(
     data.index.map(async (synth) => {
       synth.priceData = await getPriceData(synth)
-    })
+    }),
   )
   return data
 }
 
-module.exports.expose = expose
+module.exports.execute = execute
 module.exports.calculateIndex = calculateIndex

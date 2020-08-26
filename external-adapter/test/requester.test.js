@@ -204,7 +204,7 @@ describe('Requester', () => {
     })
   })
 
-  after(() => {
-    server.stop()
+  after((done) => {
+    server.stop(done)
   })
 })

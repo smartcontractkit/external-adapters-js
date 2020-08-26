@@ -4,7 +4,7 @@ const { execute } = require('../adapter')
 describe('execute', () => {
   const jobID = '1'
 
-  context('successful calls', () => {
+  context('successful calls @integration', () => {
     const requests = [
       {
         name: 'id not supplied',
@@ -38,41 +38,6 @@ describe('execute', () => {
     })
   })
 
-  context('error calls', () => {
-    const requests = [
-      { name: 'empty body', testData: {} },
-      { name: 'empty data', testData: { data: {} } },
-      {
-        name: 'base not supplied',
-        testData: { id: jobID, data: { quote: 'USD' } },
-      },
-      {
-        name: 'quote not supplied',
-        testData: { id: jobID, data: { base: 'LINK' } },
-      },
-      {
-        name: 'unknown base',
-        testData: { id: jobID, data: { base: 'not_real', quote: 'USD' } },
-      },
-      {
-        name: 'unknown quote',
-        testData: { id: jobID, data: { base: 'LINK', quote: 'not_real' } },
-      },
-    ]
-
-    requests.forEach((req) => {
-      it(`${req.name}`, (done) => {
-        execute(req.testData, (statusCode, data) => {
-          assert.equal(statusCode, 400)
-          assert.equal(data.jobRunID, jobID)
-          assert.equal(data.status, 'errored')
-          assert.isNotEmpty(data.error)
-          done()
-        })
-      })
-    })
-  })
-
   context('validation error', () => {
     const requests = [
       { name: 'empty body', testData: {} },
@@ -100,7 +65,7 @@ describe('execute', () => {
     })
   })
 
-  context('error calls', () => {
+  context('error calls @integration', () => {
     const requests = [
       {
         name: 'unknown base',

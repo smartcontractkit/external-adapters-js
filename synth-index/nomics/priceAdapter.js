@@ -36,7 +36,7 @@ const calculateIndex = (indexes) => {
   return value.toNumber()
 }
 
-const expose = async (jobRunID, data) => {
+const execute = async (jobRunID, data) => {
   const synths = []
   data.index.forEach((synth) => {
     let symbol = synth.symbol.toUpperCase()
@@ -59,5 +59,5 @@ const expose = async (jobRunID, data) => {
   return data
 }
 
-module.exports.expose = expose
+module.exports.execute = execute
 module.exports.calculateIndex = calculateIndex

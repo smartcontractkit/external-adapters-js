@@ -4,7 +4,7 @@ const { execute } = require('../adapter')
 describe('execute', () => {
   const jobID = '1'
 
-  context('successful calls', () => {
+  context('successful calls @integration', () => {
     const requests = [
       {
         name: 'id not supplied',
@@ -36,13 +36,15 @@ describe('execute', () => {
 
   context('validation error', () => {
     const requests = [
+      { name: 'empty body', testData: {} },
+      { name: 'empty data', testData: { data: {} } },
       {
-        name: 'unknown base',
-        testData: { id: jobID, data: { base: 'not_real', quote: 'USD' } },
+        name: 'base not supplied',
+        testData: { id: jobID, data: { quote: 'USD' } },
       },
       {
-        name: 'unknown quote',
-        testData: { id: jobID, data: { base: 'GBP', quote: 'not_real' } },
+        name: 'quote not supplied',
+        testData: { id: jobID, data: { base: 'GBP' } },
       },
     ]
 
@@ -59,7 +61,7 @@ describe('execute', () => {
     })
   })
 
-  context('error calls', () => {
+  context('error calls @integration', () => {
     const requests = [
       {
         name: 'unknown base',
