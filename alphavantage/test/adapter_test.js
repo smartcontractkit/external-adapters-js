@@ -1,4 +1,5 @@
-const assert = require('chai').assert
+const { assert } = require('chai')
+const { assertSuccess, assertError } = require('@chainlink/external-adapter')
 const { execute } = require('../adapter')
 
 describe('execute', () => {
@@ -27,9 +28,7 @@ describe('execute', () => {
     requests.forEach((req) => {
       it(`${req.name}`, (done) => {
         execute(req.testData, (statusCode, data) => {
-          assert.equal(statusCode, 200)
-          assert.equal(data.jobRunID, jobID)
-          assert.isNotEmpty(data.data)
+          assertSuccess({ expected: 200, actual: statusCode }, data, jobID)
           assert.isAbove(Number(data.result), 0)
           assert.isAbove(Number(data.data.result), 0)
           done()
@@ -55,10 +54,7 @@ describe('execute', () => {
     requests.forEach((req) => {
       it(`${req.name}`, (done) => {
         execute(req.testData, (statusCode, data) => {
-          assert.equal(statusCode, 400)
-          assert.equal(data.jobRunID, jobID)
-          assert.equal(data.status, 'errored')
-          assert.isNotEmpty(data.error)
+          assertError({ expected: 400, actual: statusCode }, data, jobID)
           done()
         })
       })
@@ -80,10 +76,7 @@ describe('execute', () => {
     requests.forEach((req) => {
       it(`${req.name}`, (done) => {
         execute(req.testData, (statusCode, data) => {
-          assert.equal(statusCode, 500)
-          assert.equal(data.jobRunID, jobID)
-          assert.equal(data.status, 'errored')
-          assert.isNotEmpty(data.error)
+          assertError({ expected: 500, actual: statusCode }, data, jobID)
           done()
         })
       })
