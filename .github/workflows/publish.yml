@@ -1,0 +1,25 @@
+name: Publish
+on:
+  release:
+    types: [created]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    # Setup .npmrc file to publish to npm
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+        registry-url: 'https://registry.npmjs.org'
+        # Defaults to the user or organization that owns the workflow file
+        scope: '@chainlink'
+    - run: yarn
+    # Publish @chainlink/external-adapter
+    - run: yarn workspace @chainlink/external-adapter install
+    - run: yarn workspace @chainlink/external-adapter publish --non-interactive --access public
+    # Publish @chainlink/ea-bootstrap
+    - run: yarn workspace @chainlink/ea-bootstrap install
+    - run: yarn workspace @chainlink/ea-bootstrap publish --non-interactive --access public
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
