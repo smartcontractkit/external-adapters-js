@@ -1,0 +1,114 @@
+on:
+  push:
+    # Sequence of patterns matched against refs/tags
+    tags:
+      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+
+name: Release
+
+jobs:
+  release:
+    name: Upload Release Asset
+    runs-on: ubuntu-latest
+    # TODO: only if tests pass (needs: [test])
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Build project
+        run: yarn
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+      - name: Output Release URL File
+        run: echo "${{ steps.create_release.outputs.upload_url }}" > release_url.txt
+      - name: Save Release URL File for publish-artifacts step
+        uses: actions/upload-artifact@v1
+        with:
+          name: release_url
+          path: release_url.txt
+  publish-artifacts:
+    needs: [release]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package:
+          [
+            metalsapi,
+            bravenewcoin-vwap,
+            dxfeed,
+            tradingeconomics,
+            marketstack,
+            nikkei,
+            binance-dex,
+            alphavantage-sdr,
+            nomics,
+            1forge,
+            alphavantage,
+            amberdata,
+            bravenewcoin,
+            coinapi,
+            coingecko,
+            coinmarketcap,
+            coinpaprika,
+            cryptoapis,
+            cryptocompare,
+            currencylayer,
+            eodhistoricaldata,
+            fcsapi,
+            finnhub,
+            fixer,
+            fmpcloud,
+            kaiko,
+            oilpriceapi,
+            openexchangerates,
+            polygon,
+            # tradinghours,
+            yahoo-finance,
+            google-finance,
+            etherchain,
+            poa-gasprice,
+            anyblock-gasprice,
+            ethgasstation,
+            amberdata-gasprice,
+          ]
+          # synth-index/coinapi,
+          # synth-index/coingecko,
+          # synth-index/coinmarketcap,
+          # synth-index/coinpaprika,
+          # synth-index/bravenewcoin,
+          # synth-index/cryptocompare,
+          # synth-index/amberdata
+    steps:
+      - uses: actions/checkout@v1
+      - name: Load Release URL File from release job
+        uses: actions/download-artifact@v1
+        with:
+          name: release_url
+      - name: Build
+        run: make zip adapter=${{ matrix.package }}
+      - name: Get Release File Name & Upload URL
+        id: get_release_info
+        run: |
+          echo ::set-output name=file_name::${REPOSITORY_NAME##*/}-${TAG_REF_NAME##*/v} # RepositoryName-v1.0.0
+          value=`cat release_url/release_url.txt`
+          echo ::set-output name=upload_url::$value
+        env:
+          TAG_REF_NAME: ${{ github.ref }}
+          REPOSITORY_NAME: ${{ github.repository }}
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.get_release_info.outputs.upload_url }}
+          asset_path: ./${{ matrix.package }}/dist/${{ matrix.package }}-adapter.zip
+          asset_name: ${{ steps.get_release_info.outputs.file_name }}-${{ matrix.package }}-adapter.zip
+          asset_content_type: application/zip
