@@ -1,28 +1,55 @@
 const express = require('express')
-const bodyParser = require('body-parser')
+const {
+  HTTP_ERROR_NOT_IMPLEMENTED,
+  HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE,
+  HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE_MESSAGE,
+} = require('./errors')
+
 const app = express()
 const port = process.env.EA_PORT || 8080
 
-function init (createRequest) {
-  return () => {
-    app.use(bodyParser.json())
+const HEADER_CONTENT_TYPE = 'Content-Type'
+const CONTENT_TYPE_APPLICATION_JSON = 'application/json'
+const CONTENT_TYPE_TEXT_PLAIN = 'text/plain'
 
-    app.post('/', (req, res) => {
-      console.log('POST Data: ', req.body)
-      createRequest(req.body, (status, result) => {
-        console.log('Result: ', result)
-        res.status(status).json(result)
-      })
+const notImplementedHealthCheck = (callback) => callback(HTTP_ERROR_NOT_IMPLEMENTED)
+
+const initHandler = (execute, checkHealth = notImplementedHealthCheck) => () => {
+  app.use(express.json())
+
+  app.post('/', (req, res) => {
+    console.log('POST Data: ', req.body)
+
+    if (!req.is(CONTENT_TYPE_APPLICATION_JSON)) {
+      return res
+        .status(HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE)
+        .send(HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE_MESSAGE)
+    }
+
+    execute(req.body, (status, result) => {
+      console.log(`Result: [${status}]: `, result)
+      res.status(status).json(result)
     })
+  })
 
-    app.listen(port, () => console.log(`Listening on port ${port}!`))
-
-    process.on('SIGINT', () => {
-      process.exit()
+  app.get('/health', (_, res) => {
+    console.log('Health check request')
+    checkHealth((status, result) => {
+      console.log(`Health check result [${status}]: `, result)
+      res.status(status).json(result)
     })
-  }
+  })
+
+  app.listen(port, () => console.log(`Listening on port ${port}!`))
+
+  process.on('SIGINT', () => {
+    process.exit()
+  })
 }
 
 module.exports = {
-  init
+  initHandler,
+  HEADER_CONTENT_TYPE,
+  CONTENT_TYPE_APPLICATION_JSON,
+  CONTENT_TYPE_TEXT_PLAIN,
 }
