@@ -3,7 +3,7 @@ const LRU = require('lru-cache')
 
 const DEFAULT_CACHE_ENABLED = false
 const DEFAULT_CACHE_MAX_ITEMS = 500
-const DEFAULT_CACHE_MAX_AGE = 1000 * 60 // Maximum age in ms
+const DEFAULT_CACHE_MAX_AGE = 1000 * 30 // Maximum age in ms
 const DEFAULT_CACHE_UPDATE_AGE_ON_GET = false
 const DEFAULT_IGNORED_KEYS = ['id', 'maxAge']
 
