@@ -1,6 +1,7 @@
 const server = require('./lib/server')
 const gcp = require('./lib/gcp')
 const aws = require('./lib/aws')
+const { withCache } = require('./lib/cache')
 
 const withStatusCode = (execute) => (data, callback) => {
   // Make sure data has the same statusCode as the one sent in callback
@@ -12,10 +13,10 @@ const withStatusCode = (execute) => (data, callback) => {
 }
 
 module.exports = {
-  server: { init: (execute) => server.initHandler(withStatusCode(execute)) },
+  server: { init: (execute) => server.initHandler(withCache(withStatusCode(execute))) },
   serverless: {
-    initGcpService: (execute) => gcp.initHandler(withStatusCode(execute)),
-    initHandler: (execute) => aws.initHandlerREST(withStatusCode(execute)),
-    initHandlerV2: (execute) => aws.initHandlerHTTP(withStatusCode(execute)),
+    initGcpService: (execute) => gcp.initHandler(withCache(withStatusCode(execute))),
+    initHandler: (execute) => aws.initHandlerREST(withCache(withStatusCode(execute))),
+    initHandlerV2: (execute) => aws.initHandlerHTTP(withCache(withStatusCode(execute))),
   },
 }
