@@ -1,3 +1,4 @@
+const { logger } = require('@chainlink/external-adapter')
 const hash = require('object-hash')
 const LRU = require('lru-cache')
 
@@ -44,7 +45,7 @@ const withCache = (execute) => (data, callback) => {
     if (statusCode === 200) {
       const entry = { statusCode, data, maxAge }
       cache.set(key, entry, maxAge)
-      console.log(`Cache set: ${key} => `, entry)
+      logger.debug(`Cache set: ${key} => `, entry)
     }
     callback(statusCode, data)
   }
@@ -52,12 +53,12 @@ const withCache = (execute) => (data, callback) => {
   if (cache.has(key)) {
     const entry = cache.get(key)
     if (maxAge >= 0) {
-      console.log(`Cache hit: ${key} => `, entry)
+      logger.debug(`Cache hit: ${key} => `, entry)
       return maxAge === entry.maxAge
         ? callback(entry.statusCode, entry.data)
         : _cacheAndCallback(entry.statusCode, entry.data)
     }
-    console.log(`Cache skip: maxAge < 0`)
+    logger.debug(`Cache skip: maxAge < 0`)
   }
 
   execute(data, _cacheAndCallback)
@@ -66,7 +67,7 @@ const withCache = (execute) => (data, callback) => {
 const withCacheNoop = (execute) => (data, callback) => execute(data, callback)
 
 const enabled = parseBool(process.env.CACHE_ENABLED) || DEFAULT_CACHE_ENABLED
-if (enabled) console.log('Cache enabled: ', cacheOptions)
+if (enabled) logger.info('Cache enabled: ', cacheOptions)
 
 module.exports = {
   withCache: enabled ? withCache : withCacheNoop,
