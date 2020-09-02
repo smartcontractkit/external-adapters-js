@@ -14,16 +14,19 @@ const createRequest = (input, callback) => {
   const symbol = validator.validated.data.symbol.toUpperCase()
   const key = validator.validated.data.key
 
+  const query = 'query ChainlinkIv($symbol: SymbolEnumType){' +
+    'ChainlinkIv(symbol: $symbol){' +
+      'oneDayIv twoDayIv sevenDayIv fourteenDayIv twentyOneDayIv twentyEightDayIv' +
+    '}' +
+  '}'
+
   const data = {
-    query: 'query ChainlinkIv($symbol: SymbolEnumType){ChainlinkIv(symbol: $symbol){oneDayIv twoDayIv sevenDayIv fourteenDayIv twentyOneDayIv twentyEightDayIv}}',
+    query: query,
     variables: { symbol }
   }
 
   const headers = {
-    'x-oracle': API_KEY,
-    'Content-Type': 'application/json',
-    accept: '*/*',
-    'Accept-Language': 'en-US,en;q=0.9'
+    'x-oracle': API_KEY
   }
 
   const config = {
