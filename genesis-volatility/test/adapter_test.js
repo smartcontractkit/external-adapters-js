@@ -35,7 +35,24 @@ describe('createRequest', () => {
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },
       { name: 'symbol not supplied', testData: { id: jobID, data: { result: 'oneDayIv' } } },
-      { name: 'result not supplied', testData: { id: jobID, data: { symbol: 'ETH' } } },
+      { name: 'result not supplied', testData: { id: jobID, data: { symbol: 'ETH' } } }
+    ]
+
+    requests.forEach(req => {
+      it(`${req.name}`, (done) => {
+        createRequest(req.testData, (statusCode, data) => {
+          assert.equal(statusCode, 500)
+          assert.equal(data.jobRunID, jobID)
+          assert.equal(data.status, 'errored')
+          assert.isNotEmpty(data.error)
+          done()
+        })
+      })
+    })
+  })
+
+  context('error calls to API', () => {
+    const requests = [
       { name: 'unknown symbol', testData: { id: jobID, data: { base: 'not_real', result: 'oneDayIv' } } },
       { name: 'unknown result', testData: { id: jobID, data: { symbol: 'ETH', result: 'not_real' } } }
     ]
