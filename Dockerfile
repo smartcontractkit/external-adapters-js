@@ -2,7 +2,7 @@ FROM node:12 as builder
 ARG adapter
 WORKDIR /home/node/app
 
-COPY package.json yarn.lock Makefile ./
+COPY package.json yarn.lock tsconfig.json Makefile ./
 COPY bootstrap/package.json bootstrap/package.json
 COPY external-adapter/package.json external-adapter/package.json
 COPY $adapter/package.json $adapter/package.json
