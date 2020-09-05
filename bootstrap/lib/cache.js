@@ -14,7 +14,8 @@ const parseBool = (value) => {
   return (_val === 'true' || _val === 'false') && _val === 'true'
 }
 
-const cacheOptions = {
+const envOptions = () => ({
+  enabled: parseBool(process.env.CACHE_ENABLED) || DEFAULT_CACHE_ENABLED,
   max: Number(process.env.CACHE_MAX_ITEMS) || DEFAULT_CACHE_MAX_ITEMS,
   maxAge: Number(process.env.CACHE_MAX_AGE) || DEFAULT_CACHE_MAX_AGE,
   updateAgeOnGet: parseBool(process.env.CACHE_UPDATE_AGE_ON_GET) || DEFAULT_CACHE_UPDATE_AGE_ON_GET,
@@ -22,53 +23,59 @@ const cacheOptions = {
     ...DEFAULT_IGNORED_KEYS,
     ...(process.env.CACHE_IGNORED_KEYS || '').split(',').filter((k) => k), // no empty keys
   ],
-}
-const cache = new LRU(cacheOptions)
+})
 
-const hashOptions = {
-  algorithm: 'sha1',
-  encoding: 'hex',
-  excludeKeys: (key) => cacheOptions.ignoredKeys.includes(key),
-}
+const withCache = (execute, options) => {
+  // If no options read the env with sensible defaults
+  if (!options) options = envOptions()
+  // If disabled noop
+  if (!options.enabled) return (data, callback) => execute(data, callback)
 
-const getMaxAge = (data) => {
-  if (!data || !data.data) return cacheOptions.maxAge
-  if (isNaN(data.data.maxAge)) return cacheOptions.maxAge
-  return data.data.maxAge || cacheOptions.maxAge
-}
+  logger.debug('Cache options: ', options)
+  const cache = new LRU(options)
 
-const withCache = (execute) => (data, callback) => {
-  const key = hash(data, hashOptions)
-  const maxAge = getMaxAge(data)
-  // Add successful result to cache on callback
-  const _cacheAndCallback = (statusCode, data) => {
-    if (statusCode === 200) {
-      const entry = { statusCode, data, maxAge }
-      cache.set(key, entry, maxAge)
-      logger.debug(`Cache set: ${key} => `, entry)
-    }
-    callback(statusCode, data)
+  // Algorithm we use to derive entry key
+  const hashOptions = {
+    algorithm: 'sha1',
+    encoding: 'hex',
+    excludeKeys: (key) => options.ignoredKeys.includes(key),
   }
 
-  if (cache.has(key)) {
-    const entry = cache.get(key)
-    if (maxAge >= 0) {
-      logger.debug(`Cache hit: ${key} => `, entry)
-      return maxAge === entry.maxAge
-        ? callback(entry.statusCode, entry.data)
-        : _cacheAndCallback(entry.statusCode, entry.data)
-    }
-    logger.debug(`Cache skip: maxAge < 0`)
+  const _getMaxAge = (data) => {
+    if (!data || !data.data) return options.maxAge
+    if (isNaN(data.data.maxAge)) return options.maxAge
+    return data.data.maxAge || options.maxAge
   }
 
-  execute(data, _cacheAndCallback)
+  return (data, callback) => {
+    const key = hash(data, hashOptions)
+    const maxAge = _getMaxAge(data)
+    // Add successful result to cache on callback
+    const _cacheAndCallback = (statusCode, data) => {
+      if (statusCode === 200) {
+        const entry = { statusCode, data, maxAge }
+        cache.set(key, entry, maxAge)
+        logger.debug(`Cache set: ${key} => `, entry)
+      }
+      callback(statusCode, data)
+    }
+
+    if (cache.has(key)) {
+      const entry = cache.get(key)
+      if (maxAge >= 0) {
+        logger.debug(`Cache hit: ${key} => `, entry)
+        return maxAge === entry.maxAge
+          ? callback(entry.statusCode, entry.data)
+          : _cacheAndCallback(entry.statusCode, entry.data)
+      }
+      logger.debug(`Cache skip: maxAge < 0`)
+    }
+
+    execute(data, _cacheAndCallback)
+  }
 }
-
-const withCacheNoop = (execute) => (data, callback) => execute(data, callback)
-
-const enabled = parseBool(process.env.CACHE_ENABLED) || DEFAULT_CACHE_ENABLED
-if (enabled) logger.info('Cache enabled: ', cacheOptions)
 
 module.exports = {
-  withCache: enabled ? withCache : withCacheNoop,
+  withCache,
+  envOptions,
 }

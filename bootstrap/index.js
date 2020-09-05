@@ -1,7 +1,8 @@
+const { logger } = require('@chainlink/external-adapter')
 const server = require('./lib/server')
 const gcp = require('./lib/gcp')
 const aws = require('./lib/aws')
-const { withCache } = require('./lib/cache')
+const { withCache, envOptions } = require('./lib/cache')
 
 const withStatusCode = (execute) => (data, callback) => {
   // Make sure data has the same statusCode as the one sent in callback
@@ -11,6 +12,10 @@ const withStatusCode = (execute) => (data, callback) => {
       : callback(statusCode, data)
   return execute(data, _callback)
 }
+
+// Log cache default options once
+const cacheOptions = envOptions()
+if (cacheOptions.enabled) logger.info('Cache enabled: ', cacheOptions)
 
 module.exports = {
   server: { init: (execute) => server.initHandler(withCache(withStatusCode(execute))) },
