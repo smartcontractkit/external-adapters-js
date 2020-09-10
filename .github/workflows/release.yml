@@ -8,7 +8,7 @@ name: Release
 
 jobs:
   release:
-    name: Create Release & Upload Release Asset
+    name: Create Release
     runs-on: ubuntu-latest
     # TODO: only if tests pass (needs: [test])
     steps:
@@ -34,35 +34,35 @@ jobs:
           name: release_url
           path: release_url.txt
 
-  publish-npm-packages:
-    needs: [release]
-    name: Publish NPM Packages
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      # Setup .npmrc file to publish to npm
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '12.x'
-          registry-url: 'https://registry.npmjs.org'
-          # Defaults to the user or organization that owns the workflow file
-          scope: '@chainlink'
-      - run: yarn
-      # Publish @chainlink/external-adapter
-      - run: cp .npmrc ./external-adapter # Yarn bug: not considering root .npmrc
-      - run: yarn workspace @chainlink/external-adapter install
-      - run: yarn workspace @chainlink/external-adapter publish --non-interactive --access public
-      # Publish @chainlink/ea-bootstrap
-      - run: cp .npmrc ./ea-bootstrap # Yarn bug: not considering root .npmrc
-      - run: yarn workspace @chainlink/ea-bootstrap install
-      - run: yarn workspace @chainlink/ea-bootstrap publish --non-interactive --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+  # DOES NOT WORK: https://github.com/smartcontractkit/external-adapters-js/issues/77
+  # publish-npm-packages:
+  #   needs: [release]
+  #   name: Publish NPM Packages
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     # Setup .npmrc file to publish to npm
+  #     - uses: actions/setup-node@v1
+  #       with:
+  #         node-version: '12.x'
+  #         registry-url: 'https://registry.npmjs.org'
+  #         # Defaults to the user or organization that owns the workflow file
+  #         scope: '@chainlink'
+  #         always-auth: true
+  #     - run: yarn
+  #     # Publish @chainlink/external-adapter
+  #     - run: yarn workspace @chainlink/external-adapter install
+  #     - run: yarn workspace @chainlink/external-adapter publish --non-interactive --access public
+  #     # Publish @chainlink/ea-bootstrap
+  #     - run: yarn workspace @chainlink/ea-bootstrap install
+  #     - run: yarn workspace @chainlink/ea-bootstrap publish --non-interactive --access public
+  #       env:
+  #         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   publish-artifacts:
     needs: [release]
     runs-on: ubuntu-latest
-    name: Publish GitHub Release adapter zips
+    name: Publish adapter zips (GitHub Release)
     strategy:
       matrix:
         adapter:
@@ -134,7 +134,7 @@ jobs:
 
   publish-synth-index-artifacts:
     needs: [release]
-    name: Publish GitHub Release synth-index adapter zips
+    name: Publish synth-index adapter zips (GitHub Release)
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -178,7 +178,7 @@ jobs:
 
   publish-market-closure-artifacts:
     needs: [release]
-    name: Publish GitHub Release market-closure adapter zips
+    name: Publish market-closure adapter zips (GitHub Release)
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -214,7 +214,7 @@ jobs:
 
   publish-2-step-artifacts:
     needs: [release]
-    name: Publish GitHub Release 2-step adapter zips
+    name: Publish 2-step adapter zips (GitHub Release)
     runs-on: ubuntu-latest
     strategy:
       matrix:
