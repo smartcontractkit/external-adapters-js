@@ -33,6 +33,32 @@ jobs:
         with:
           name: release_url
           path: release_url.txt
+
+  publish-npm-packages:
+    needs: [release]
+    name: Publish NPM Packages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      # Setup .npmrc file to publish to npm
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+          registry-url: 'https://registry.npmjs.org'
+          # Defaults to the user or organization that owns the workflow file
+          scope: '@chainlink'
+      - run: yarn
+      # Publish @chainlink/external-adapter
+      - run: cp .npmrc ./external-adapter # Yarn bug: not considering root .npmrc
+      - run: yarn workspace @chainlink/external-adapter install
+      - run: yarn workspace @chainlink/external-adapter publish --non-interactive --access public
+      # Publish @chainlink/ea-bootstrap
+      - run: cp .npmrc ./ea-bootstrap # Yarn bug: not considering root .npmrc
+      - run: yarn workspace @chainlink/ea-bootstrap install
+      - run: yarn workspace @chainlink/ea-bootstrap publish --non-interactive --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
   publish-artifacts:
     needs: [release]
     runs-on: ubuntu-latest
@@ -78,7 +104,6 @@ jobs:
             amberdata-gasprice,
           ]
     steps:
-      - uses: actions/checkout@v1
       - name: Load Release URL File from release job
         uses: actions/download-artifact@v1
         with:
@@ -104,6 +129,7 @@ jobs:
           asset_path: ./${{ matrix.adapter }}/dist/${{ matrix.adapter }}-adapter.zip
           asset_name: ${{ steps.get_release_info.outputs.file_name }}-${{ matrix.adapter }}-adapter.zip
           asset_content_type: application/zip
+
   publish-synth-index-artifacts:
     needs: [release]
     runs-on: ubuntu-latest
@@ -120,7 +146,6 @@ jobs:
             amberdata,
           ]
     steps:
-      - uses: actions/checkout@v1
       - name: Load Release URL File from release job
         uses: actions/download-artifact@v1
         with:
@@ -146,6 +171,7 @@ jobs:
           asset_path: ./synth-index/${{ matrix.adapter }}/dist/synth-index-${{ matrix.adapter }}-adapter.zip
           asset_name: ${{ steps.get_release_info.outputs.file_name }}-synth-index-${{ matrix.adapter }}-adapter.zip
           asset_content_type: application/zip
+
   publish-market-closure-artifacts:
     needs: [release]
     runs-on: ubuntu-latest
@@ -154,7 +180,6 @@ jobs:
         adapter: [finnhub, fcsapi]
         check: [tradinghours, schedule]
     steps:
-      - uses: actions/checkout@v1
       - name: Load Release URL File from release job
         uses: actions/download-artifact@v1
         with:
