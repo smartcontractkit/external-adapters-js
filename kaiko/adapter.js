@@ -8,15 +8,26 @@ const customError = (data) => {
 const customParams = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
-  exchange: false
+  exchange: false,
+  useFX: false
 }
+
+const FX = ['usd', 'gbp', 'aud', 'eur', 'jpy', 'chf']
 
 const createRequest = (input, callback) => {
   const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
   const base = validator.validated.data.base.toLowerCase()
   const quote = validator.validated.data.quote.toLowerCase()
-  const url = `https://us.market-api.kaiko.io/v1/data/trades.v1/spot_exchange_rate/${base}/${quote}`
+  const useFX = validator.validated.data.useFX === 'true' || validator.validated.data.useFX === true
+
+  let url = 'https://us.market-api.kaiko.io'
+  if (useFX || FX.includes(quote)) {
+    url += `/v1/data/trades.v1/spot_exchange_rate/${base}/${quote}`
+  } else {
+    url += `/v2/data/trades.v1/spot_direct_exchange_rate/${base}/${quote}`
+  }
+
   const start_time = new Date() // eslint-disable-line camelcase
   start_time.setTime(start_time.getTime() - 1000000)
   const params = {

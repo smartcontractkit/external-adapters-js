@@ -4,6 +4,7 @@
 
 - `base`, `from`, or `coin`: The symbol of the currency to query
 - `quote`, `to`, or `market`: The symbol of the currency to convert to
+- `useFX`: Set to `true` to force use the FX endpoint (happens automatically when setting "to" to FX)
 
 ## Output
 
