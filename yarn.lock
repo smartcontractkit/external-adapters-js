@@ -33,6 +33,11 @@
     "@truffle/contract" "^4.1.8"
     ethers "^4.0.44"
 
+"@chainlink/ea-bootstrap@0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@chainlink/ea-bootstrap/-/ea-bootstrap-0.0.1.tgz#b9afc0d889da8774bbbf48b43584854a61b4db41"
+  integrity sha512-QI4jhhZz+HjgyguHl7RhRmHhz3GvNCXT7WKp+LDAalQN5xTFTXZm3ee89VCC0XGuvGn2QiWSlDQkQQl6RB4GNA==
+
 "@google-cloud/common@^2.2.2":
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/@google-cloud/common/-/common-2.4.0.tgz#2783b7de8435024a31453510f2dab5a6a91a4c82"
