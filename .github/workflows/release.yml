@@ -8,7 +8,7 @@ name: Release
 
 jobs:
   release:
-    name: Upload Release Asset
+    name: Create Release
     runs-on: ubuntu-latest
     # TODO: only if tests pass (needs: [test])
     steps:
@@ -33,9 +33,36 @@ jobs:
         with:
           name: release_url
           path: release_url.txt
+
+  # DOES NOT WORK: https://github.com/smartcontractkit/external-adapters-js/issues/77
+  # publish-npm-packages:
+  #   needs: [release]
+  #   name: Publish NPM Packages
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     # Setup .npmrc file to publish to npm
+  #     - uses: actions/setup-node@v1
+  #       with:
+  #         node-version: '12.x'
+  #         registry-url: 'https://registry.npmjs.org'
+  #         # Defaults to the user or organization that owns the workflow file
+  #         scope: '@chainlink'
+  #         always-auth: true
+  #     - run: yarn
+  #     # Publish @chainlink/external-adapter
+  #     - run: yarn workspace @chainlink/external-adapter install
+  #     - run: yarn workspace @chainlink/external-adapter publish --non-interactive --access public
+  #     # Publish @chainlink/ea-bootstrap
+  #     - run: yarn workspace @chainlink/ea-bootstrap install
+  #     - run: yarn workspace @chainlink/ea-bootstrap publish --non-interactive --access public
+  #       env:
+  #         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
   publish-artifacts:
     needs: [release]
     runs-on: ubuntu-latest
+    name: Publish adapter zips (GitHub Release)
     strategy:
       matrix:
         adapter:
@@ -78,7 +105,7 @@ jobs:
             amberdata-gasprice,
           ]
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Load Release URL File from release job
         uses: actions/download-artifact@v1
         with:
@@ -104,8 +131,10 @@ jobs:
           asset_path: ./${{ matrix.adapter }}/dist/${{ matrix.adapter }}-adapter.zip
           asset_name: ${{ steps.get_release_info.outputs.file_name }}-${{ matrix.adapter }}-adapter.zip
           asset_content_type: application/zip
+
   publish-synth-index-artifacts:
     needs: [release]
+    name: Publish synth-index adapter zips (GitHub Release)
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -120,7 +149,7 @@ jobs:
             amberdata,
           ]
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Load Release URL File from release job
         uses: actions/download-artifact@v1
         with:
@@ -146,15 +175,17 @@ jobs:
           asset_path: ./synth-index/${{ matrix.adapter }}/dist/synth-index-${{ matrix.adapter }}-adapter.zip
           asset_name: ${{ steps.get_release_info.outputs.file_name }}-synth-index-${{ matrix.adapter }}-adapter.zip
           asset_content_type: application/zip
+
   publish-market-closure-artifacts:
     needs: [release]
+    name: Publish market-closure adapter zips (GitHub Release)
     runs-on: ubuntu-latest
     strategy:
       matrix:
         adapter: [finnhub, fcsapi]
         check: [tradinghours, schedule]
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Load Release URL File from release job
         uses: actions/download-artifact@v1
         with:
@@ -179,4 +210,48 @@ jobs:
           upload_url: ${{ steps.get_release_info.outputs.upload_url }}
           asset_path: ./market-closure/${{ matrix.check }}/dist/${{ matrix.adapter }}-${{ matrix.check }}-adapter.zip
           asset_name: ${{ steps.get_release_info.outputs.file_name }}-market-closure-${{ matrix.adapter }}-${{ matrix.check }}-adapter.zip
+          asset_content_type: application/zip
+
+  publish-2-step-artifacts:
+    needs: [release]
+    name: Publish 2-step adapter zips (GitHub Release)
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        adapter:
+          [
+            coinapi,
+            coingecko,
+            coinmarketcap,
+            coinpaprika,
+            bravenewcoin,
+            cryptocompare,
+            amberdata,
+          ]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Load Release URL File from release job
+        uses: actions/download-artifact@v1
+        with:
+          name: release_url
+      - name: Build
+        run: make zip-2-step adapter=${{ matrix.adapter }}
+      - name: Get Release File Name & Upload URL
+        id: get_release_info
+        run: |
+          echo ::set-output name=file_name::${REPOSITORY_NAME##*/}-${TAG_REF_NAME##*/v} # RepositoryName-v1.0.0
+          value=`cat release_url/release_url.txt`
+          echo ::set-output name=upload_url::$value
+        env:
+          TAG_REF_NAME: ${{ github.ref }}
+          REPOSITORY_NAME: ${{ github.repository }}
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.get_release_info.outputs.upload_url }}
+          asset_path: ./2-step/${{ matrix.adapter }}/dist/${{ matrix.adapter }}-2-step-adapter.zip
+          asset_name: ${{ steps.get_release_info.outputs.file_name }}-${{ matrix.adapter }}-2-step-adapter.zip
           asset_content_type: application/zip
