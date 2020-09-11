@@ -11,7 +11,7 @@ const createRequest = (input, callback) => {
   const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || 'convert'
-  const url = `https://apilayer.net/api/${endpoint}`
+  const url = `https://api.currencylayer.com/${endpoint}`
   const from = validator.validated.data.base.toUpperCase()
   const to = validator.validated.data.quote.toUpperCase()
   const amount = validator.validated.data.amount || 1
