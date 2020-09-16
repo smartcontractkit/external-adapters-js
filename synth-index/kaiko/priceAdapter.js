@@ -1,24 +1,21 @@
 const { Requester } = require('@chainlink/external-adapter')
 const Decimal = require('decimal.js')
 
-const getCoinList = async () => {
-  const url = 'https://api.coingecko.com/api/v3/coins/list'
-  const config = {
-    url
-  }
-  const response = await Requester.request(config)
-  return response.data
-}
-
-const getPriceData = async (id) => {
-  const url = 'https://api.coingecko.com/api/v3/simple/price'
+const getPriceData = async (synth) => {
+  const url = `https://us.market-api.kaiko.io/v2/data/trades.v1/spot_exchange_rate/${synth.symbol.toLowerCase()}/usd`
   const params = {
-    ids: id,
-    vs_currencies: 'usd'
+    sort: 'desc'
   }
+  const headers = {
+    'X-Api-Key': process.env.API_KEY,
+    'User-Agent': 'Chainlink'
+  }
+  const timeout = 5000
   const config = {
     url,
-    params
+    params,
+    headers,
+    timeout
   }
   const response = await Requester.request(config)
   return response.data
@@ -28,7 +25,7 @@ const calculateIndex = (indexes) => {
   let value = new Decimal(0)
   try {
     indexes.forEach(i => {
-      const price = i.priceData[i.coinId].usd
+      const price = i.priceData.data[0].price
       if (price <= 0) {
         throw Error('invalid price')
       }
@@ -40,19 +37,9 @@ const calculateIndex = (indexes) => {
   return value.toNumber()
 }
 
-const coingeckoBlacklist = [
-  'leocoin',
-  'farmatrust',
-  'freetip',
-  'compound-coin'
-]
-
 const createRequest = async (jobRunID, data) => {
-  const coinList = await getCoinList()
   await Promise.all(data.index.map(async (synth) => {
-    const coin = coinList.find(d => d.symbol.toLowerCase() === synth.symbol.toLowerCase() && !coingeckoBlacklist.includes(d.id.toLowerCase()))
-    synth.coinId = coin.id
-    synth.priceData = await getPriceData(coin.id)
+    synth.priceData = await getPriceData(synth)
   }))
   return data
 }

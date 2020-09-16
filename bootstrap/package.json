@@ -1,7 +1,19 @@
 {
   "name": "@chainlink/ea-bootstrap",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Bootstrap an external adapter with this package",
   "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
+    "test": "yarn _mocha --timeout 0",
+    "test:unit": "yarn _mocha --grep @integration --invert --timeout 0",
+    "test:integration": "yarn _mocha --grep @integration --timeout 0"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "lru-cache": "^6.0.0",
+    "object-hash": "^2.0.3"
+  }
 }
