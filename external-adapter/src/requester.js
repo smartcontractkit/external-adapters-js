@@ -2,6 +2,7 @@ const axios = require('axios')
 const { AdapterError } = require('./adapterError')
 const { logger } = require('./logger')
 
+const isObject = (o) => o !== null && typeof o === 'object' && Array.isArray(o) === false
 class Requester {
   static async request(config, customError, retries = 3, delay = 1000) {
     if (typeof config === 'string') config = { url: config }
@@ -76,11 +77,11 @@ class Requester {
   }
 
   static errored(jobRunID = '1', error = 'An error occurred', statusCode = 500) {
-    const message = error instanceof Error ? error.message : error
+    const message = error instanceof Error || isObject(error) ? error.message : error
     return {
       jobRunID,
       status: 'errored',
-      error: new AdapterError(message),
+      error: new AdapterError(message || 'An error occurred'),
       statusCode,
     }
   }
