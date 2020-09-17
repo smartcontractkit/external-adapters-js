@@ -10,8 +10,15 @@ const customError = (data) => {
   return false
 }
 
+const presetTickers = {
+  FNX: 'finnexus'
+}
+
 const convertFromTicker = (ticker, coinId, callback) => {
   if (typeof coinId !== 'undefined') return callback(coinId.toLowerCase())
+
+  // Correct common tickers that are misidentified
+  if (ticker in presetTickers) { return callback(presetTickers[ticker]) }
 
   Requester.request({
     url: 'https://api.coingecko.com/api/v3/coins/list'
