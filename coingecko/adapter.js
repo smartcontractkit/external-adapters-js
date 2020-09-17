@@ -11,7 +11,8 @@ const customError = (data) => {
 }
 
 const presetTickers = {
-  FNX: 'finnexus'
+  FNX: 'finnexus',
+  UNI: 'uniswap'
 }
 
 const convertFromTicker = (ticker, coinId, callback) => {
