@@ -60,6 +60,8 @@
     "test-external-adapter": "yarn workspace @chainlink/external-adapter test"
   },
   "dependencies": {
+    "@chainlink/ea-bootstrap": "^0.1.0",
+    "@chainlink/external-adapter": "^0.2.4",
     "@zeit/ncc": "^0.22.1",
     "body-parser": "^1.19.0",
     "boxhock_google-finance-data": "^0.1.0",
