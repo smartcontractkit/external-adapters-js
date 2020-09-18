@@ -31,7 +31,7 @@
     "typescript": "^3.9.7"
   },
   "dependencies": {
-    "@chainlink/ea-bootstrap": "^0.1.0",
-    "@chainlink/external-adapter": "^0.2.4"
+    "@chainlink/ea-bootstrap": "^0.0.1",
+    "@chainlink/external-adapter": "^0.2.3"
   }
 }
