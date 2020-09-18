@@ -25,7 +25,7 @@ const createRequest = (input, callback) => {
   if (useFX || FX.includes(quote)) {
     url += `/v1/data/trades.v1/spot_exchange_rate/${base}/${quote}`
   } else {
-    url += `/v2/data/trades.v1/spot_direct_exchange_rate/${base}/${quote}`
+    url += `/v1/data/trades.v1/spot_direct_exchange_rate/${base}/${quote}`
   }
 
   const start_time = new Date() // eslint-disable-line camelcase
