@@ -2,27 +2,28 @@
 
 ## Input Params
 
-- `speed`: The speed for gas price to get (required). Available choices:
-    - `slow`
-    - `fast`
-    - `instant`
+- `speed`: The speed for gas price to get. Available choices:
+  - `slow`
+  - `standard` (default)
+  - `fast`
+  - `instant`
 
 ## Output Format
 
 ```json
 {
- "jobRunID": "1",
- "data": {
-  "health": true,
-  "block_number": 10012606,
-  "slow": 7.8,
-  "standard": 9,
-  "fast": 13,
-  "instant": 14.3,
-  "block_time": 13.392,
-  "result": 13000000000
- },
- "result": 13000000000,
- "statusCode": 200
+  "jobRunID": "1",
+  "data": {
+    "health": true,
+    "block_number": 10012606,
+    "slow": 7.8,
+    "standard": 9,
+    "fast": 13,
+    "instant": 14.3,
+    "block_time": 13.392,
+    "result": 13000000000
+  },
+  "result": 13000000000,
+  "statusCode": 200
 }
 ```
