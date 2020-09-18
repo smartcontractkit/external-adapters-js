@@ -1,5 +1,7 @@
 # Chainlink External Adapter for Anyblock Analytics Offshift price feed
 
+You must provide the api key using the env variable `API_KEY`!
+
 ## Input Params
 
 - `debug`: Switch to show `raw` trade values (optional, default: false)
