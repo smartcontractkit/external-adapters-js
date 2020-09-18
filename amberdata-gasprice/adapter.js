@@ -5,14 +5,14 @@ const customError = (data) => {
 }
 
 const customParams = {
-  speed: true,
+  speed: false,
   endpoint: false
 }
 
 const createRequest = (input, callback) => {
   const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
-  const speed = validator.validated.data.speed
+  const speed = validator.validated.data.speed || 'average'
   const endpoint = validator.validated.data.endpoint || 'ethereum-mainnet'
   const url = 'https://web3api.io/api/v2/transactions/gas/predictions'
 
@@ -25,11 +25,15 @@ const createRequest = (input, callback) => {
   }
 
   Requester.request(config, customError)
-    .then(response => {
-      response.data.result = Requester.validateResultNumber(response.data, ['payload', speed, 'gasPrice'])
+    .then((response) => {
+      response.data.result = Requester.validateResultNumber(response.data, [
+        'payload',
+        speed,
+        'gasPrice'
+      ])
       callback(response.status, Requester.success(jobRunID, response))
     })
-    .catch(error => {
+    .catch((error) => {
       callback(500, Requester.errored(jobRunID, error))
     })
 }

@@ -1,5 +1,5 @@
 {
-  "name": "alphavantage-sdr",
+  "name": "alphachain",
   "version": "0.1.0",
   "license": "MIT",
   "main": "index.js",
@@ -7,8 +7,5 @@
     "server": "node -e 'require(\"./index.js\").server()'",
     "test": "yarn _mocha --timeout 0"
   },
-  "dependencies": {
-    "@chainlink/ea-bootstrap": "0.0.1",
-    "@chainlink/external-adapter": "^0.2.3"
-  }
+  "dependencies": {}
 }

@@ -35,12 +35,16 @@ const createRequest = (input, callback) => {
     params
   }
   Requester.request(config, customError)
-    .then(response => {
-      response.data.result = JSON.parse(Requester.validateResultNumber(
-        response.data, ['Realtime Currency Exchange Rate', '5. Exchange Rate']))
+    .then((response) => {
+      response.data.result = JSON.parse(
+        Requester.validateResultNumber(response.data, [
+          'Realtime Currency Exchange Rate',
+          '5. Exchange Rate'
+        ])
+      )
       callback(response.status, Requester.success(jobRunID, response))
     })
-    .catch(error => {
+    .catch((error) => {
       callback(500, Requester.errored(jobRunID, error))
     })
 }
