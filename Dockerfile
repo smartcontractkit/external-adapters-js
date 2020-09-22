@@ -16,6 +16,7 @@ RUN make build
 
 FROM node:12-alpine
 ARG adapter
+EXPOSE 8080
 WORKDIR /home/node/app
 
 COPY --from=builder /home/node/app/$adapter/dist ./
