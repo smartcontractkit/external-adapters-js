@@ -4,7 +4,7 @@ const createRequest = require('../adapter').createRequest
 describe('createRequest', () => {
   const jobID = '1'
 
-  context('successful calls', () => {
+  context('successful calls @integration', () => {
     it('id not supplied and data is not supplied', (done) => {
       createRequest({
         data: {}
