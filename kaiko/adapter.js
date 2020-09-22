@@ -12,20 +12,17 @@ const customParams = {
   useFX: false
 }
 
-const FX = ['usd', 'gbp', 'aud', 'eur', 'jpy', 'chf']
-
 const createRequest = (input, callback) => {
   const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
   const base = validator.validated.data.base.toLowerCase()
   const quote = validator.validated.data.quote.toLowerCase()
-  const useFX = validator.validated.data.useFX === 'true' || validator.validated.data.useFX === true
 
   let url = 'https://us.market-api.kaiko.io'
-  if (useFX || FX.includes(quote)) {
-    url += `/v1/data/trades.v1/spot_exchange_rate/${base}/${quote}`
-  } else {
+  if (quote === 'eth') {
     url += `/v1/data/trades.v1/spot_direct_exchange_rate/${base}/${quote}`
+  } else {
+    url += `/v1/data/trades.v1/spot_exchange_rate/${base}/${quote}`
   }
 
   const start_time = new Date() // eslint-disable-line camelcase
