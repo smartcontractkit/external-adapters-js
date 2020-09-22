@@ -11,13 +11,20 @@ const customParams = {
   endpoint: false
 }
 
+const convertId = {
+  FNX: 'FNX2'
+}
+
 const createRequest = (input, callback) => {
   const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || 'ticker'
   const url = `https://api.nomics.com/v1/currencies/${endpoint}`
-  const ids = validator.validated.data.base.toUpperCase()
+  let ids = validator.validated.data.base.toUpperCase()
   const convert = validator.validated.data.quote.toUpperCase()
+
+  // Correct common tickers that are misidentified
+  if (ids in convertId) { ids = convertId[ids] }
 
   const params = {
     ids,
