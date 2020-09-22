@@ -16,7 +16,9 @@ const headers = {
   Authorization: `Bearer ${process.env.API_KEY}`
 }
 
-function buildVWAP (response, debug) {
+const UNISWAP_OFFSHIFT_ADDRESS = '0x2B9e92A5B6e69Db9fEdC47a4C656C9395e8a26d2'
+
+const buildVWAP = (response, debug) => {
   const sources = response.data.hits.hits.map(i => {
     const reserve0 = i._source.args.find(j => j.pos === 0)
     const reserve1 = i._source.args.find(j => j.pos === 1)
@@ -53,6 +55,19 @@ function buildVWAP (response, debug) {
   return r
 }
 
+const cleanupDate = (inputDate, roundDay) => {
+  try {
+    inputDate = parseInt(inputDate)
+    if (roundDay) {
+      const date = new Date(inputDate)
+      date.setUTCHours(0, 0, 0, 0)
+      inputDate = date.getTime()
+    }
+  } catch (err) {
+  }
+  return inputDate
+}
+
 const createRequest = (input, callback) => {
   const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
@@ -62,25 +77,8 @@ const createRequest = (input, callback) => {
   let end = validator.validated.data.end
   const url = 'https://api.anyblock.tools/ethereum/ethereum/mainnet/es/event/search/'
 
-  try {
-    end = parseInt(end)
-    if (roundDay) {
-      const date = new Date(end)
-      date.setUTCHours(0, 0, 0, 0)
-      end = date.getTime()
-    }
-  } catch (err) {
-  }
-
-  try {
-    start = parseInt(start)
-    if (roundDay) {
-      const date = new Date(start)
-      date.setUTCHours(0, 0, 0, 0)
-      start = date.getTime()
-    }
-  } catch (err) {
-  }
+  end = cleanupDate(end, roundDay)
+  start = cleanupDate(start, roundDay)
 
   if (!start && !end) {
     const date = new Date()
@@ -100,7 +98,7 @@ const createRequest = (input, callback) => {
     query: {
       bool: {
         filter: [
-          { term: { 'address.raw': '0x2B9e92A5B6e69Db9fEdC47a4C656C9395e8a26d2' } },
+          { term: { 'address.raw': UNISWAP_OFFSHIFT_ADDRESS } },
           { term: { 'event.raw': 'Sync' } },
           {
             range: {
@@ -120,20 +118,15 @@ const createRequest = (input, callback) => {
     _source: ['timestamp', 'args']
   }
 
-  Requester.request({
+  const config = {
     url,
     headers,
     data: body
-  },
-  customError)
-    .then(response => {
-      const r = buildVWAP(response, debug)
-      // response.data.result = Requester.validateResultNumber(response.data, [speed]) * 1e9
-      callback(r.status, Requester.success(jobRunID, r))
-    })
-    .catch(error => {
-      callback(500, Requester.errored(jobRunID, error))
-    })
+  }
+  Requester.request(config, customError)
+    .then(response => buildVWAP(response, debug))
+    .then(vwapResp => callback(vwapResp.status, Requester.success(jobRunID, vwapResp)))
+    .catch(error => callback(500, Requester.errored(jobRunID, error)))
 }
 
 module.exports.createRequest = createRequest
