@@ -1,5 +1,6 @@
 const { createLogger, format, transports } = require('winston')
 const { combine, json, timestamp } = format
+const { v4: uuidv4 } = require('uuid')
 
 const detectLogger = (logger) => {
   // GCP Functions are special in that they need an extra transport
@@ -13,13 +14,19 @@ const detectLogger = (logger) => {
   return logger
 }
 
-const logger = detectLogger(createLogger({
-  level: process.env.LOG_LEVEL || 'info',
-  format: combine(
-    timestamp(),
-    json()
-  ),
-  transports: [new transports.Console()]
-}))
+// We generate an UUID per instance and add it to the logs
+const uuid = uuidv4()
+const instanceId = format((info) => {
+  if (!info.instanceId) info.instanceId = uuid
+  return info
+})
+
+const logger = detectLogger(
+  createLogger({
+    level: process.env.LOG_LEVEL || 'info',
+    format: combine(instanceId(), timestamp(), json()),
+    transports: [new transports.Console()]
+  })
+)
 
 exports.logger = logger
