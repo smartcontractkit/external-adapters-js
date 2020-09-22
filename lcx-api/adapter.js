@@ -4,8 +4,12 @@ const customError = (data) => {
   return !data || !data.data || !data.data.Price
 }
 
+const symbolEndpointParams = {
+  pair: true
+}
+
 const customParams = {
-  symbol: false
+  endpoint: false
 }
 
 const headers = {
@@ -13,48 +17,31 @@ const headers = {
   'api-key': process.env.API_KEY
 }
 
-const ALL = 'all'
+const ENDPOINT_SYMBOL = 'symbol'
+const ENDPOINT_ALL_SYMBOLS = 'all'
+
+const DEFAULT_ENDPOINT = ENDPOINT_ALL_SYMBOLS
+
 const SYMBOLS = ['btc-usd', 'btc-eur', 'eth-usd', 'eth-eur']
 
 function getUrlForSymbol (symbol) {
-  if (symbol === ALL) {
-    return SYMBOLS.map(i => getUrlForSymbol(i))
-  } else {
-    const s = symbol.split('-')
-    return `https://rp.lcx.com/v1/rates/current/?coin=${s[0].toUpperCase()}&currency=${s[1].toUpperCase()}`
-  }
+  const s = symbol.toUpperCase().split('-')
+  return `https://rp.lcx.com/v1/rates/current/?coin=${s[0]}&currency=${s[1]}`
 }
 
-function retrieveRates (url) {
-  return Requester.request({
+const getAllUrls = () => SYMBOLS.map(i => getUrlForSymbol(i))
+
+const retrieveRates = (url) =>
+  Requester.request({
     url,
     headers
   }, customError)
-}
 
-const createRequest = (input, callback) => {
-  const validator = new Validator(callback, input, customParams)
-  const jobRunID = validator.validated.id
-  const symbol = validator.validated.data.symbol || 'all'
+const symbolEndpoint = (jobRunID, input, callback) => {
+  const validator = new Validator(callback, input, symbolEndpointParams)
+  const symbol = validator.validated.data.pair
 
-  if (symbol === ALL) {
-    Promise.all(getUrlForSymbol(symbol).map(url => retrieveRates(url)))
-      .then(responses => {
-        const r = {
-          data: {
-            result: {}
-          },
-          status: 200
-        }
-        for (let i = 0; i < SYMBOLS.length; ++i) {
-          r.data[SYMBOLS[i]] = responses[i].data
-          r.data.result[SYMBOLS[i]] = Requester.validateResultNumber(responses[i].data.data, ['Price'])
-        }
-        callback(200, Requester.success(jobRunID, r))
-      }).catch(error => {
-        callback(500, Requester.errored(jobRunID, error))
-      })
-  } else if (!SYMBOLS.includes(symbol)) {
+  if (!SYMBOLS.includes(symbol)) {
     callback(400, Requester.errored(jobRunID, `Illegal symbol: ${symbol}`))
   } else {
     retrieveRates(getUrlForSymbol(symbol))
@@ -65,6 +52,39 @@ const createRequest = (input, callback) => {
       .catch(error => {
         callback(500, Requester.errored(jobRunID, error))
       })
+  }
+}
+
+const allSymbolsEndpoint = (jobRunID, input, callback) => {
+  Promise.all(getAllUrls().map(url => retrieveRates(url)))
+    .then(responses => {
+      const r = {
+        data: {
+          result: {}
+        },
+        status: 200
+      }
+      for (let i = 0; i < SYMBOLS.length; ++i) {
+        r.data[SYMBOLS[i]] = responses[i].data
+        r.data.result[SYMBOLS[i]] = Requester.validateResultNumber(responses[i].data.data, ['Price'])
+      }
+      callback(200, Requester.success(jobRunID, r))
+    }).catch(error => {
+      callback(500, Requester.errored(jobRunID, error))
+    })
+}
+
+const createRequest = (input, callback) => {
+  const validator = new Validator(callback, input, customParams)
+  const jobRunID = validator.validated.id
+  const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
+  switch (endpoint.toLowerCase()) {
+    case ENDPOINT_ALL_SYMBOLS:
+      return allSymbolsEndpoint(jobRunID, input, callback)
+    case ENDPOINT_SYMBOL:
+      return symbolEndpoint(jobRunID, input, callback)
+    default:
+      callback(500, Requester.errored(jobRunID, 'invalid endpoint provided'))
   }
 }
 
