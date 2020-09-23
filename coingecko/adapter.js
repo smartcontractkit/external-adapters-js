@@ -11,6 +11,7 @@ const customError = (data) => {
 }
 
 const presetTickers = {
+  COMP: 'compound-governance-token',
   FNX: 'finnexus',
   UNI: 'uniswap'
 }
