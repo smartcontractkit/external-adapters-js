@@ -7,9 +7,7 @@ const customError = (data) => {
 
 const customParams = {
   base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
-  exchange: false,
-  useFX: false
+  quote: ['quote', 'to', 'market']
 }
 
 const createRequest = (input, callback) => {
