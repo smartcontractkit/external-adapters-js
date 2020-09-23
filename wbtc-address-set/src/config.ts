@@ -1,3 +1,5 @@
+import { logger } from '@chainlink/external-adapter'
+
 export const ENV_API_ENDPOINT = 'API_ENDPOINT'
 
 export type Config = {
@@ -42,6 +44,5 @@ export const getConfig = (): Config => ({
 })
 
 export const logConfig = (config: Config): void => {
-  console.log('Adapter configuration:')
-  console.log(config)
+  logger.info('Adapter configuration:', { config })
 }

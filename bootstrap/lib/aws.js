@@ -1,3 +1,4 @@
+const { logger } = require('@chainlink/external-adapter')
 const {
   HEADER_CONTENT_TYPE,
   CONTENT_TYPE_APPLICATION_JSON,
@@ -43,22 +44,29 @@ const UNSUPPORTED_MEDIA_TYPE_RESPONSE = {
 
 // To be used with AWS REST API Gateway
 exports.initHandlerREST = (execute) => (event, _context, callback) => {
+  logger.debug('POST Data: ', { input: event })
+
   if (!isContentTypeSupported(event)) {
     return callback(null, UNSUPPORTED_MEDIA_TYPE_RESPONSE)
   }
 
-  execute(event, (_statusCode, data) => {
+  execute(event, (statusCode, data) => {
+    logger.debug(`Result: [${statusCode}]: `, { output: data })
     callback(null, data)
   })
 }
 
 // To be used with AWS HTTP API Gateway
 exports.initHandlerHTTP = (execute) => (event, _context, callback) => {
+  const body = JSON.parse(event.body)
+  logger.debug('POST Data: ', { input: body })
+
   if (!isContentTypeSupported(event)) {
     return callback(null, UNSUPPORTED_MEDIA_TYPE_RESPONSE)
   }
 
-  execute(JSON.parse(event.body), (statusCode, data) => {
+  execute(body, (statusCode, data) => {
+    logger.debug(`Result: [${statusCode}]: `, { output: data })
     callback(null, {
       statusCode: statusCode,
       body: JSON.stringify(data),
