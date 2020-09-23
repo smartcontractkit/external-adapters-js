@@ -1,4 +1,3 @@
-const { logger } = require('@chainlink/external-adapter')
 const { CONTENT_TYPE_APPLICATION_JSON, CONTENT_TYPE_TEXT_PLAIN } = require('./server')
 const {
   HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE,
@@ -6,8 +5,6 @@ const {
 } = require('./errors')
 
 exports.initHandler = (execute) => (req, res) => {
-  logger.debug('POST Data: ', { input: req.body })
-
   if (!req.is(CONTENT_TYPE_APPLICATION_JSON)) {
     return res
       .type(CONTENT_TYPE_TEXT_PLAIN)
@@ -16,7 +13,6 @@ exports.initHandler = (execute) => (req, res) => {
   }
 
   execute(req.body, (statusCode, data) => {
-    logger.debug(`Result: [${statusCode}]: `, { output: data })
     res.type('json').status(statusCode).send(data)
   })
 }

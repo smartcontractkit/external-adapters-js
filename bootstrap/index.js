@@ -13,17 +13,31 @@ const withStatusCode = (execute) => (data, callback) => {
   return execute(data, _callback)
 }
 
+// Log adapter input & output data
+const withLogger = (execute) => (data, callback) => {
+  logger.debug('Input: ', { input: data })
+  const _callback = (statusCode, data) => {
+    logger.debug(`Output: [${statusCode}]: `, { output: data })
+    callback(statusCode, data)
+  }
+  return execute(data, _callback)
+}
+
 // Log cache default options once
 const cacheOptions = envOptions()
 if (cacheOptions.enabled) logger.info('Cache enabled: ', cacheOptions)
 
-const expose = (execute, checkHealth) => ({
-  server: server.initHandler(withCache(withStatusCode(execute, checkHealth))),
-  gcpHandler: gcp.initHandler(withCache(withStatusCode(execute))),
-  // Default index.handler for AWS Lambda
-  handler: aws.initHandlerREST(withCache(withStatusCode(execute))),
-  awsHandlerREST: aws.initHandlerREST(withCache(withStatusCode(execute))),
-  awsHandlerHTTP: aws.initHandlerHTTP(withCache(withStatusCode(execute))),
-})
+const expose = (execute, checkHealth) => {
+  // Add middleware to the execution flow
+  const _execute = withLogger(withCache(withStatusCode(execute)))
+  return {
+    server: server.initHandler(_execute, checkHealth),
+    gcpHandler: gcp.initHandler(_execute),
+    // Default index.handler for AWS Lambda
+    handler: aws.initHandlerREST(_execute),
+    awsHandlerREST: aws.initHandlerREST(_execute),
+    awsHandlerHTTP: aws.initHandlerHTTP(_execute),
+  }
+}
 
 module.exports = { expose }
