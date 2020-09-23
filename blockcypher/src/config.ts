@@ -1,3 +1,4 @@
+import { logger } from '@chainlink/external-adapter'
 export const ENV_API_KEY = 'API_KEY'
 
 export const DEFAULT_DATA_PATH = 'result'
@@ -16,7 +17,6 @@ export const getConfig = (): Config => ({
 const cloneNoSecrets = (config: Config): Config => (({ apiKey, ...o }) => o)(config)
 
 export const logConfig = (config: Config): void => {
-  console.log('Adapter configuration:')
-  console.log(cloneNoSecrets(config))
-  if (!config.apiKey) console.warn('API will be rate limited without an API key.')
+  logger.info('Adapter configuration:', { config: cloneNoSecrets(config) })
+  if (!config.apiKey) logger.warn('API will be rate limited without an API key.')
 }

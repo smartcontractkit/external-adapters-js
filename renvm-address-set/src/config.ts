@@ -1,3 +1,4 @@
+import { logger } from '@chainlink/external-adapter'
 import { RenNetwork, isRenNetwork } from '@renproject/interfaces'
 
 export const ENV_NETWORK = 'NETWORK'
@@ -26,6 +27,5 @@ export const getConfig = (): Config => {
 }
 
 export const logConfig = (config: Config): void => {
-  console.log('Adapter configuration:')
-  console.log(config)
+  logger.info('Adapter configuration:', { config })
 }
