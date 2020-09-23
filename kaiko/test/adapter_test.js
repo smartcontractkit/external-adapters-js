@@ -10,7 +10,7 @@ describe('createRequest', () => {
       { name: 'base/quote', testData: { id: jobID, data: { base: 'ETH', quote: 'USD' } } },
       { name: 'from/to', testData: { id: jobID, data: { from: 'ETH', to: 'USD' } } },
       { name: 'coin/market', testData: { id: jobID, data: { coin: 'ETH', market: 'USD' } } },
-      { name: 'from/to non-FX', testData: { id: jobID, data: { from: 'ETH', to: 'BTC' } } }
+      { name: 'coin/market to crypto', testData: { id: jobID, data: { coin: 'YFI', market: 'ETH' } } }
     ]
 
     requests.forEach(req => {
