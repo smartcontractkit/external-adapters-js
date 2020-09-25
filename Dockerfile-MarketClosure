@@ -8,6 +8,7 @@ COPY external-adapter/package.json external-adapter/package.json
 COPY bootstrap/package.json bootstrap/package.json
 RUN make deps
 
+COPY typings typings
 COPY bootstrap bootstrap
 COPY external-adapter external-adapter
 COPY $adapter $adapter
