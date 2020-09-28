@@ -17,11 +17,19 @@ const withStatusCode = (execute) => (data, callback) => {
 const cacheOptions = envOptions()
 if (cacheOptions.enabled) logger.info('Cache enabled: ', cacheOptions)
 
+// Execution helper async => sync
+const _executeSync = (execute) => {
+  // Add middleware
+  const _execute = withCache(withStatusCode(execute))
+  // Return sync function
+  return (data, callback) => _execute(data, callback).then(() => {})
+}
+
 module.exports = {
-  server: { init: (execute) => server.initHandler(withCache(withStatusCode(execute))) },
+  server: { init: (execute) => server.initHandler(_executeSync(execute)) },
   serverless: {
-    initGcpService: (execute) => gcp.initHandler(withCache(withStatusCode(execute))),
-    initHandler: (execute) => aws.initHandlerREST(withCache(withStatusCode(execute))),
-    initHandlerV2: (execute) => aws.initHandlerHTTP(withCache(withStatusCode(execute))),
+    initGcpService: (execute) => gcp.initHandler(_executeSync(execute)),
+    initHandler: (execute) => aws.initHandlerREST(_executeSync(execute)),
+    initHandlerV2: (execute) => aws.initHandlerHTTP(_executeSync(execute)),
   },
 }
