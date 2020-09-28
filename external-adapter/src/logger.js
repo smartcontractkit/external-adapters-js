@@ -15,9 +15,13 @@ const detectLogger = (logger) => {
 }
 
 // We generate an UUID per instance and add it to the logs
-const uuid = uuidv4()
+const uuid = () => {
+  if (!process.env.UUID) process.env.UUID = uuidv4()
+  return process.env.UUID
+}
+
 const instanceId = format((info) => {
-  if (!info.instanceId) info.instanceId = uuid
+  if (!info.instanceId) info.instanceId = uuid()
   return info
 })
 

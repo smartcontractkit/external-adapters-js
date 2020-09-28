@@ -27,9 +27,17 @@ const withLogger = (execute) => (data, callback) => {
 const cacheOptions = envOptions()
 if (cacheOptions.enabled) logger.info('Cache enabled: ', cacheOptions)
 
+// Execution helper async => sync
+const _executeSync = (execute) => {
+  // Add middleware
+  const _execute = withLogger(withCache(withStatusCode(execute)))
+  // Return sync function
+  return (data, callback) => _execute(data, callback).then(() => {})
+}
+
 const expose = (execute, checkHealth) => {
   // Add middleware to the execution flow
-  const _execute = withLogger(withCache(withStatusCode(execute)))
+  const _execute = _executeSync(execute)
   return {
     server: server.initHandler(_execute, checkHealth),
     gcpHandler: gcp.initHandler(_execute),
