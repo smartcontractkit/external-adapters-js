@@ -2,10 +2,11 @@ const { expect } = require('chai')
 const { useFakeTimers } = require('sinon')
 const { withCache, envOptions } = require('../lib/cache')
 
-const noop = () => {}
 const callAndExpect = async (fn, n, result) => {
-  const _expectWhen = (predicate) => (predicate ? noop : (_, data) => expect(data).to.equal(result))
-  while (n--) await fn(0, _expectWhen(n !== 0))
+  while (n--) {
+    const { data } = await fn(0)
+    if (n === 0) expect(data).to.equal(result)
+  }
 }
 
 // Helper test function: a stateful counter

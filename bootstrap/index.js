@@ -22,7 +22,8 @@ const _executeSync = (execute) => {
   // Add middleware
   const _execute = withCache(withStatusCode(execute))
   // Return sync function
-  return (data, callback) => _execute(data, callback).then(() => {})
+  return (data, callback) =>
+    _execute(data).then((result) => callback(result.statusCode, result.data))
 }
 
 module.exports = {
