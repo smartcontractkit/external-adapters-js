@@ -1,7 +1,14 @@
 const { logger } = require('@chainlink/external-adapter')
 const hash = require('object-hash')
 const LRU = require('lru-cache')
-const { toAsync, parseBool, uuid, interval, getWithCoalescing } = require('./util')
+const {
+  toAsync,
+  parseBool,
+  uuid,
+  delay,
+  exponentialBackOffMs,
+  getWithCoalescing,
+} = require('./util')
 
 const DEFAULT_CACHE_ENABLED = false
 const DEFAULT_CACHE_MAX_ITEMS = 500
@@ -26,6 +33,8 @@ const envOptions = () => ({
     intervalMin: process.env.REQUEST_COALESCING_INTERVAL_MIN || 100,
     intervalMax: process.env.REQUEST_COALESCING_INTERVAL_MAX || 1000,
     intervalCoefficient: process.env.REQUEST_COALESCING_INTERVAL_COEFFICIENT || 2,
+    // Add entropy to absorb bursts
+    entropyMax: process.env.REQUEST_COALESCING_ENTROPY_MAX || 0,
   },
 })
 
@@ -73,7 +82,6 @@ const withCache = (execute, options) => {
         const entry = { statusCode, data, maxAge }
         await cache.set(key, entry, maxAge)
         logger.debug(`Cache: SET ${key} => `, entry)
-
         // Trigger request coalescing by removing in-flight mark
         await _delInFlightMarker(coalescingKey)
       }
@@ -87,15 +95,19 @@ const withCache = (execute, options) => {
           return entry
         },
         isInFlight: async (retryCount) => {
-          // TODO: Think about adding a small random delay here, because of possible scenario where
-          // the key won't be set before multiple other instances in a burst request try to access the coalescing key.
+          if (retryCount === 1) {
+            // Add some entropy here because of possible scenario where the key won't be set before multiple
+            // other instances in a burst request try to access the coalescing key.
+            const randomMs = Math.random() * options.requestCoalescing.entropyMax
+            await delay(randomMs)
+          }
           const inFlight = await cache.get(coalescingKey)
           logger.debug(`Request coalescing: CHECK inFlight:${!!inFlight} on retry #${retryCount}`)
           return inFlight
         },
         retries: 5,
         interval: (retryCount) =>
-          interval(
+          exponentialBackOffMs(
             retryCount,
             options.requestCoalescing.min,
             options.requestCoalescing.max,
