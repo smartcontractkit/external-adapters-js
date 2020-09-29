@@ -29,9 +29,8 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
  * @param max The maximum backoff in ms
  * @param coefficient The base multiplier
  */
-const exponentialBackOffMs = (retryCount = 1, interval = 100, max = 1000, coefficient = 2) => {
-  return Math.min(max, interval * coefficient ** (retryCount - 1))
-}
+const exponentialBackOffMs = (retryCount = 1, interval = 100, max = 1000, coefficient = 2) =>
+  Math.min(max, interval * coefficient ** (retryCount - 1))
 
 const getWithCoalescing = async ({ get, isInFlight, retries = 5, interval = () => 100 }) => {
   const _self = async (_retries) => {

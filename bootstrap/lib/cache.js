@@ -15,6 +15,13 @@ const DEFAULT_CACHE_MAX_ITEMS = 500
 const DEFAULT_CACHE_MAX_AGE = 1000 * 30 // Maximum age in ms
 const DEFAULT_CACHE_UPDATE_AGE_ON_GET = false
 const DEFAULT_IGNORED_KEYS = ['id', 'maxAge']
+// Request coalescing
+const DEFAULT_RC_ENABLED = true
+const DEFAULT_RC_GROUP = uuid()
+const DEFAULT_RC_INTERVAL_MIN = 100
+const DEFAULT_RC_INTERVAL_MAX = 1000
+const DEFAULT_RC_INTERVAL_COEFFICIENT = 2
+const DEFAULT_RC_ENTROPY_MAX = 0
 
 const envOptions = () => ({
   enabled: parseBool(process.env.CACHE_ENABLED) || DEFAULT_CACHE_ENABLED,
@@ -27,14 +34,15 @@ const envOptions = () => ({
   ],
   // Request coalescing
   requestCoalescing: {
-    enabled: parseBool(process.env.REQUEST_COALESCING_ENABLED) || DEFAULT_CACHE_ENABLED,
-    group: process.env.REQUEST_COALESCING_GROUP || uuid(),
+    enabled: parseBool(process.env.REQUEST_COALESCING_ENABLED) || DEFAULT_RC_ENABLED,
+    group: process.env.REQUEST_COALESCING_GROUP || DEFAULT_RC_GROUP,
     // Capped linear back-off: 100, 200, 400, 800, 1000..
-    intervalMin: process.env.REQUEST_COALESCING_INTERVAL_MIN || 100,
-    intervalMax: process.env.REQUEST_COALESCING_INTERVAL_MAX || 1000,
-    intervalCoefficient: process.env.REQUEST_COALESCING_INTERVAL_COEFFICIENT || 2,
+    intervalMin: process.env.REQUEST_COALESCING_INTERVAL_MIN || DEFAULT_RC_INTERVAL_MIN,
+    intervalMax: process.env.REQUEST_COALESCING_INTERVAL_MAX || DEFAULT_RC_INTERVAL_MAX,
+    intervalCoefficient:
+      process.env.REQUEST_COALESCING_INTERVAL_COEFFICIENT || DEFAULT_RC_INTERVAL_COEFFICIENT,
     // Add entropy to absorb bursts
-    entropyMax: process.env.REQUEST_COALESCING_ENTROPY_MAX || 0,
+    entropyMax: process.env.REQUEST_COALESCING_ENTROPY_MAX || DEFAULT_RC_ENTROPY_MAX,
   },
 })
 
@@ -82,7 +90,7 @@ const withCache = (execute, options) => {
         const entry = { statusCode, data, maxAge }
         await cache.set(key, entry, maxAge)
         logger.debug(`Cache: SET ${key} => `, entry)
-        // Trigger request coalescing by removing in-flight mark
+        // Notify pending requests by removing the in-flight mark
         await _delInFlightMarker(coalescingKey)
       }
     }
@@ -128,7 +136,7 @@ const withCache = (execute, options) => {
       logger.debug(`Cache: SKIP(maxAge < 0)`)
     }
 
-    // Initiate request coalescing by adding in-flight mark
+    // Initiate request coalescing by adding the in-flight mark
     await _setInFlightMarker(coalescingKey, maxAge)
 
     const result = await toAsync(execute, data)
