@@ -14,35 +14,36 @@ const DEFAULT_CACHE_ENABLED = false
 const DEFAULT_CACHE_MAX_ITEMS = 500
 const DEFAULT_CACHE_MAX_AGE = 1000 * 30 // Maximum age in ms
 const DEFAULT_CACHE_UPDATE_AGE_ON_GET = false
-const DEFAULT_IGNORED_KEYS = ['id', 'maxAge']
+const DEFAULT_CACHE_KEY_IGNORED_PROPS = ['id', 'maxAge']
 // Request coalescing
 const DEFAULT_RC_ENABLED = true
 const DEFAULT_RC_GROUP = uuid()
-const DEFAULT_RC_INTERVAL_MIN = 100
+const DEFAULT_RC_INTERVAL = 100
 const DEFAULT_RC_INTERVAL_MAX = 1000
 const DEFAULT_RC_INTERVAL_COEFFICIENT = 2
 const DEFAULT_RC_ENTROPY_MAX = 0
 
+const env = process.env
 const envOptions = () => ({
-  enabled: parseBool(process.env.CACHE_ENABLED) || DEFAULT_CACHE_ENABLED,
-  max: Number(process.env.CACHE_MAX_ITEMS) || DEFAULT_CACHE_MAX_ITEMS,
-  maxAge: Number(process.env.CACHE_MAX_AGE) || DEFAULT_CACHE_MAX_AGE,
-  updateAgeOnGet: parseBool(process.env.CACHE_UPDATE_AGE_ON_GET) || DEFAULT_CACHE_UPDATE_AGE_ON_GET,
+  enabled: parseBool(env.CACHE_ENABLED) || DEFAULT_CACHE_ENABLED,
+  max: Number(env.CACHE_MAX_ITEMS) || DEFAULT_CACHE_MAX_ITEMS,
+  maxAge: Number(env.CACHE_MAX_AGE) || DEFAULT_CACHE_MAX_AGE,
+  updateAgeOnGet: parseBool(env.CACHE_UPDATE_AGE_ON_GET) || DEFAULT_CACHE_UPDATE_AGE_ON_GET,
   ignoredKeys: [
-    ...DEFAULT_IGNORED_KEYS,
-    ...(process.env.CACHE_IGNORED_KEYS || '').split(',').filter((k) => k), // no empty keys
+    ...DEFAULT_CACHE_KEY_IGNORED_PROPS,
+    ...(env.CACHE_KEY_IGNORED_PROPS || '').split(',').filter((k) => k), // no empty keys
   ],
   // Request coalescing
   requestCoalescing: {
-    enabled: parseBool(process.env.REQUEST_COALESCING_ENABLED) || DEFAULT_RC_ENABLED,
-    group: process.env.REQUEST_COALESCING_GROUP || DEFAULT_RC_GROUP,
+    enabled: parseBool(env.REQUEST_COALESCING_ENABLED) || DEFAULT_RC_ENABLED,
+    group: env.REQUEST_COALESCING_GROUP || DEFAULT_RC_GROUP,
     // Capped linear back-off: 100, 200, 400, 800, 1000..
-    intervalMin: process.env.REQUEST_COALESCING_INTERVAL_MIN || DEFAULT_RC_INTERVAL_MIN,
-    intervalMax: process.env.REQUEST_COALESCING_INTERVAL_MAX || DEFAULT_RC_INTERVAL_MAX,
+    interval: Number(env.REQUEST_COALESCING_INTERVAL) || DEFAULT_RC_INTERVAL,
+    intervalMax: Number(env.REQUEST_COALESCING_INTERVAL_MAX) || DEFAULT_RC_INTERVAL_MAX,
     intervalCoefficient:
-      process.env.REQUEST_COALESCING_INTERVAL_COEFFICIENT || DEFAULT_RC_INTERVAL_COEFFICIENT,
+      Number(env.REQUEST_COALESCING_INTERVAL_COEFFICIENT) || DEFAULT_RC_INTERVAL_COEFFICIENT,
     // Add entropy to absorb bursts
-    entropyMax: process.env.REQUEST_COALESCING_ENTROPY_MAX || DEFAULT_RC_ENTROPY_MAX,
+    entropyMax: Number(env.REQUEST_COALESCING_ENTROPY_MAX) || DEFAULT_RC_ENTROPY_MAX,
   },
 })
 
@@ -117,9 +118,9 @@ const withCache = (execute, options) => {
         interval: (retryCount) =>
           exponentialBackOffMs(
             retryCount,
-            options.requestCoalescing.min,
-            options.requestCoalescing.max,
-            options.requestCoalescing.coefficient,
+            options.requestCoalescing.interval,
+            options.requestCoalescing.intervalMax,
+            options.requestCoalescing.intervalCoefficient,
           ),
       })
 
