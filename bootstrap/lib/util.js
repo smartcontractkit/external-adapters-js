@@ -17,9 +17,20 @@ const toAsync = (execute, data) =>
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
-const interval = (retryCount = 1, min = 100, max = 1000, coefficient = 2) => {
-  if (retryCount <= 1) return min
-  else return Math.min(interval(retryCount - 1, min, max, coefficient) * coefficient, max)
+/**
+ * Return a value used for exponential backoff in milliseconds.
+ * @example
+ * exponentialBackOffMs(1,100,1000,2) === 100
+ * exponentialBackOffMs(2,100,1000,2) === 200
+ * exponentialBackOffMs(3,100,1000,2) === 400
+ *
+ * @param retryCount The amount of retries that have passed
+ * @param interval The interval in ms
+ * @param max The maximum backoff in ms
+ * @param coefficient The base multiplier
+ */
+const exponentialBackOffMs = (retryCount = 1, interval = 100, max = 1000, coefficient = 2) => {
+  return Math.min(max, interval * coefficient ** (retryCount - 1))
 }
 
 const getWithCoalescing = async ({ get, isInFlight, retries = 5, interval = () => 100 }) => {
@@ -41,6 +52,6 @@ module.exports = {
   uuid,
   toAsync,
   delay,
-  interval,
+  exponentialBackOffMs,
   getWithCoalescing,
 }
