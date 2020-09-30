@@ -12,7 +12,30 @@ const envOptions = () => ({
   updateAgeOnGet: parseBool(env.CACHE_UPDATE_AGE_ON_GET) || DEFAULT_CACHE_UPDATE_AGE_ON_GET,
 })
 
+class LocalLRUCache {
+  constructor(options) {
+    this.options = options
+    this.client = new LRU(options)
+  }
+
+  init() {
+    // no initialization necessary
+  }
+
+  set(key, value, maxAge) {
+    return this.client.set(key, value, maxAge)
+  }
+
+  get(key) {
+    return this.client.get(key)
+  }
+
+  del(key) {
+    return this.client.del(key)
+  }
+}
+
 module.exports = {
-  Cache: LRU,
+  LocalLRUCache,
   envOptions,
 }
