@@ -11,6 +11,7 @@ const {
 } = require('../util')
 
 const DEFAULT_CACHE_ENABLED = false
+const DEFAULT_CACHE_TYPE = 'local'
 const DEFAULT_CACHE_KEY_IGNORED_PROPS = ['id', 'maxAge']
 // Request coalescing
 const DEFAULT_RC_ENABLED = true
@@ -23,6 +24,7 @@ const DEFAULT_RC_ENTROPY_MAX = 0
 const env = process.env
 const envOptions = () => ({
   enabled: parseBool(env.CACHE_ENABLED) || DEFAULT_CACHE_ENABLED,
+  type: env.CACHE_TYPE || DEFAULT_CACHE_TYPE,
   local: local.envOptions(),
   ignoredKeys: [
     ...DEFAULT_CACHE_KEY_IGNORED_PROPS,
@@ -42,14 +44,23 @@ const envOptions = () => ({
   },
 })
 
-const withCache = (execute, options) => {
+const getCacheImpl = async (options) => {
+  switch (options.type) {
+    case 'redis':
+      break
+
+    default:
+      return new local.LocalLRUCache(options.local)
+  }
+}
+
+const withCache = async (execute, options) => {
   // If no options read the env with sensible defaults
   if (!options) options = envOptions()
   // If disabled noop
   if (!options.enabled) return async (data) => await toAsync(execute, data)
 
-  const cacheOptions = options.local
-  const cache = new local.Cache(cacheOptions)
+  const cache = await getCacheImpl(options)
 
   // Algorithm we use to derive entry key
   const hashOptions = {
@@ -72,9 +83,9 @@ const withCache = (execute, options) => {
   }
 
   const _getMaxAge = (data) => {
-    if (!data || !data.data) return cacheOptions.maxAge
-    if (isNaN(data.data.maxAge)) return cacheOptions.maxAge
-    return data.data.maxAge || cacheOptions.maxAge
+    if (!data || !data.data) return cache.options.maxAge
+    if (isNaN(data.data.maxAge)) return cache.options.maxAge
+    return data.data.maxAge || cache.options.maxAge
   }
 
   return async (data) => {

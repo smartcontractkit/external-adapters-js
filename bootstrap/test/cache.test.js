@@ -48,7 +48,7 @@ describe('cache', () => {
     })
 
     it(`does not cache`, async () => {
-      const counter = withCache(counterFrom(1))
+      const counter = await withCache(counterFrom(1))
       await callAndExpect(counter, 3, 3)
       await callAndExpect(counter, 3, 6)
       await callAndExpect(counter, 3, 9)
@@ -68,12 +68,12 @@ describe('cache', () => {
     })
 
     it(`caches fn result`, async () => {
-      const counter = withCache(counterFrom(0))
+      const counter = await withCache(counterFrom(0))
       await callAndExpect(counter, 3, 0)
     })
 
     it(`caches fn result - while entry still young  (under 30s default)`, async () => {
-      const counter = withCache(counterFrom(0))
+      const counter = await withCache(counterFrom(0))
       await callAndExpect(counter, 3, 0)
       await callAndExpect(counter, 3, 0)
 
@@ -87,7 +87,7 @@ describe('cache', () => {
     })
 
     it(`invalidates cache - after default configured maxAge of 30s`, async () => {
-      const counter = withCache(counterFrom(0))
+      const counter = await withCache(counterFrom(0))
       await callAndExpect(counter, 3, 0)
 
       clock.tick(1000 * 25)
@@ -105,7 +105,7 @@ describe('cache', () => {
       const options = envOptions()
       options.local.maxAge = 1000 * 10
 
-      const counter = withCache(counterFrom(0), options)
+      const counter = await withCache(counterFrom(0), options)
       await callAndExpect(counter, 3, 0)
 
       clock.tick(1000 * 5)

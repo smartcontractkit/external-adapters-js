@@ -17,20 +17,32 @@ const withStatusCode = (execute) => (data, callback) => {
 const cacheOptions = envOptions()
 if (cacheOptions.enabled) logger.info('Cache enabled: ', cacheOptions)
 
+const withMiddleware = async (execute) => {
+  return await withCache(withStatusCode(execute))
+}
+
 // Execution helper async => sync
-const _executeSync = (execute) => {
-  // Add middleware
-  const _execute = withCache(withStatusCode(execute))
+const executeSync = (execute) => {
+  let _execute = undefined
   // Return sync function
-  return (data, callback) =>
-    _execute(data).then((result) => callback(result.statusCode, result.data))
+  return (data, callback) => {
+    // Init middleware only once
+    const init = _execute
+      ? Promise.resolve(_execute)
+      : withMiddleware(execute).then((fn) => {
+          _execute = fn
+          return _execute
+        })
+
+    return init.then((fn) => fn(data)).then((result) => callback(result.statusCode, result.data))
+  }
 }
 
 module.exports = {
-  server: { init: (execute) => server.initHandler(_executeSync(execute)) },
+  server: { init: (execute) => server.initHandler(executeSync(execute)) },
   serverless: {
-    initGcpService: (execute) => gcp.initHandler(_executeSync(execute)),
-    initHandler: (execute) => aws.initHandlerREST(_executeSync(execute)),
-    initHandlerV2: (execute) => aws.initHandlerHTTP(_executeSync(execute)),
+    initGcpService: (execute) => gcp.initHandler(executeSync(execute)),
+    initHandler: (execute) => aws.initHandlerREST(executeSync(execute)),
+    initHandlerV2: (execute) => aws.initHandlerHTTP(executeSync(execute)),
   },
 }
