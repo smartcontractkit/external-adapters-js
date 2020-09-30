@@ -1,6 +1,7 @@
 const { logger } = require('@chainlink/external-adapter')
 const hash = require('object-hash')
 const local = require('./local')
+const redis = require('./redis')
 const {
   toAsync,
   parseBool,
@@ -26,6 +27,7 @@ const envOptions = () => ({
   enabled: parseBool(env.CACHE_ENABLED) || DEFAULT_CACHE_ENABLED,
   type: env.CACHE_TYPE || DEFAULT_CACHE_TYPE,
   local: local.envOptions(),
+  redis: redis.envOptions(),
   ignoredKeys: [
     ...DEFAULT_CACHE_KEY_IGNORED_PROPS,
     ...(env.CACHE_KEY_IGNORED_PROPS || '').split(',').filter((k) => k), // no empty keys
@@ -47,7 +49,7 @@ const envOptions = () => ({
 const getCacheImpl = async (options) => {
   switch (options.type) {
     case 'redis':
-      break
+      return await redis.RedisCache.build(options.redis)
 
     default:
       return new local.LocalLRUCache(options.local)
