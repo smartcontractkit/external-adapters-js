@@ -9,10 +9,14 @@ To cache data, every adapter using the `bootstrap` package, has access to a simp
 To configure caching these environment variables are available:
 
 - `CACHE_ENABLED`: Optional bool, defaults to `false`. Set to `true` to enable the cache.
+- `CACHE_TYPE`: Optional string, defaults to `local`. Available options: `local|redis`
+- `CACHE_KEY_IGNORED_PROPS`: Optional list of keys to ignore while deriving the cache key, delimited by `,`. The key set will be added to the default ignored keys: `['id', 'maxAge']`.
+
+Local cache options:
+
 - `CACHE_MAX_ITEMS`: Optional number, defaults to `500`. The maximum size of the cache, checked by applying the length function to all values in the cache.
 - `CACHE_MAX_AGE`: Optional number in ms, defaults to `1000 * 30` (30 seconds). Maximum age in ms. Items are not pro-actively pruned out as they age, but if you try to get an item that is too old, it'll drop it and return undefined instead of giving it to you. If set to `0` the default will be used, and if set to `< 0` entries will not persist in cache.
 - `CACHE_UPDATE_AGE_ON_GET`: Optional bool, defaults to `false`. When using time-expiring entries with maxAge, setting this to true will make each item's effective time update to the current time whenever it is retrieved from cache, causing it to not expire. (It can still fall out of cache based on recency of use, of course.)
-- `CACHE_KEY_IGNORED_PROPS`: Optional list of keys to ignore while deriving the cache key, delimited by `,`. The key set will be added to the default ignored keys: `['id', 'maxAge']`.
 
 ### Cache key
 
