@@ -37,7 +37,7 @@ describe('cache', () => {
 
       it(`configures env options with default maxAge: 1000 * 30`, () => {
         const options = envOptions()
-        expect(options).to.have.property('maxAge', 1000 * 30)
+        expect(options.local).to.have.property('maxAge', 1000 * 30)
       })
     })
   })
@@ -63,7 +63,7 @@ describe('cache', () => {
       clock = useFakeTimers()
     })
 
-    afterEach(function () {
+    afterEach(() => {
       clock.restore()
     })
 
@@ -102,7 +102,9 @@ describe('cache', () => {
     })
 
     it(`invalidates cache - after configured maxAge of 10s`, async () => {
-      const options = { ...envOptions(), maxAge: 1000 * 10 }
+      const options = envOptions()
+      options.local.maxAge = 1000 * 10
+
       const counter = withCache(counterFrom(0), options)
       await callAndExpect(counter, 3, 0)
 
