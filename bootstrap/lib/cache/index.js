@@ -1,6 +1,6 @@
 const { logger } = require('@chainlink/external-adapter')
 const hash = require('object-hash')
-const LRU = require('lru-cache')
+const local = require('./local')
 const {
   toAsync,
   parseBool,
@@ -8,12 +8,9 @@ const {
   delay,
   exponentialBackOffMs,
   getWithCoalescing,
-} = require('./util')
+} = require('../util')
 
 const DEFAULT_CACHE_ENABLED = false
-const DEFAULT_CACHE_MAX_ITEMS = 500
-const DEFAULT_CACHE_MAX_AGE = 1000 * 30 // Maximum age in ms
-const DEFAULT_CACHE_UPDATE_AGE_ON_GET = false
 const DEFAULT_CACHE_KEY_IGNORED_PROPS = ['id', 'maxAge']
 // Request coalescing
 const DEFAULT_RC_ENABLED = true
@@ -26,9 +23,7 @@ const DEFAULT_RC_ENTROPY_MAX = 0
 const env = process.env
 const envOptions = () => ({
   enabled: parseBool(env.CACHE_ENABLED) || DEFAULT_CACHE_ENABLED,
-  max: Number(env.CACHE_MAX_ITEMS) || DEFAULT_CACHE_MAX_ITEMS,
-  maxAge: Number(env.CACHE_MAX_AGE) || DEFAULT_CACHE_MAX_AGE,
-  updateAgeOnGet: parseBool(env.CACHE_UPDATE_AGE_ON_GET) || DEFAULT_CACHE_UPDATE_AGE_ON_GET,
+  local: local.envOptions(),
   ignoredKeys: [
     ...DEFAULT_CACHE_KEY_IGNORED_PROPS,
     ...(env.CACHE_KEY_IGNORED_PROPS || '').split(',').filter((k) => k), // no empty keys
@@ -53,7 +48,8 @@ const withCache = (execute, options) => {
   // If disabled noop
   if (!options.enabled) return async (data) => await toAsync(execute, data)
 
-  const cache = new LRU(options)
+  const cacheOptions = options.local
+  const cache = new local.Cache(cacheOptions)
 
   // Algorithm we use to derive entry key
   const hashOptions = {
@@ -76,9 +72,9 @@ const withCache = (execute, options) => {
   }
 
   const _getMaxAge = (data) => {
-    if (!data || !data.data) return options.maxAge
-    if (isNaN(data.data.maxAge)) return options.maxAge
-    return data.data.maxAge || options.maxAge
+    if (!data || !data.data) return cacheOptions.maxAge
+    if (isNaN(data.data.maxAge)) return cacheOptions.maxAge
+    return data.data.maxAge || cacheOptions.maxAge
   }
 
   return async (data) => {
@@ -108,7 +104,8 @@ const withCache = (execute, options) => {
             // Add some entropy here because of possible scenario where the key won't be set before multiple
             // other instances in a burst request try to access the coalescing key.
             const randomMs = Math.random() * options.requestCoalescing.entropyMax
-            await delay(randomMs)
+            // Adding this next condition because of mocha timeout issues
+            if (randomMs) await delay(randomMs)
           }
           const inFlight = await cache.get(coalescingKey)
           logger.debug(`Request coalescing: CHECK inFlight:${!!inFlight} on retry #${retryCount}`)
