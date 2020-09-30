@@ -1,6 +1,7 @@
 const LRU = require('lru-cache')
 const { parseBool } = require('../util')
 
+// Options
 const DEFAULT_CACHE_MAX_ITEMS = 500
 const DEFAULT_CACHE_MAX_AGE = 1000 * 30 // Maximum age in ms
 const DEFAULT_CACHE_UPDATE_AGE_ON_GET = false
@@ -16,10 +17,6 @@ class LocalLRUCache {
   constructor(options) {
     this.options = options
     this.client = new LRU(options)
-  }
-
-  init() {
-    // no initialization necessary
   }
 
   set(key, value, maxAge) {
