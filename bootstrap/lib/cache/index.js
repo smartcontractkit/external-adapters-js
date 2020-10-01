@@ -2,14 +2,7 @@ const { logger } = require('@chainlink/external-adapter')
 const hash = require('object-hash')
 const local = require('./local')
 const redis = require('./redis')
-const {
-  toAsync,
-  parseBool,
-  uuid,
-  delay,
-  exponentialBackOffMs,
-  getWithCoalescing,
-} = require('../util')
+const { parseBool, uuid, delay, exponentialBackOffMs, getWithCoalescing } = require('../util')
 
 const DEFAULT_CACHE_ENABLED = false
 const DEFAULT_CACHE_TYPE = 'local'
@@ -60,7 +53,7 @@ const withCache = async (execute, options) => {
   // If no options read the env with sensible defaults
   if (!options) options = envOptions()
   // If disabled noop
-  if (!options.enabled) return async (data) => await toAsync(execute, data)
+  if (!options.enabled) return (data) => execute(data)
 
   const cache = await getCacheImpl(options)
 
@@ -149,7 +142,7 @@ const withCache = async (execute, options) => {
     // Initiate request coalescing by adding the in-flight mark
     await _setInFlightMarker(coalescingKey, maxAge)
 
-    const result = await toAsync(execute, data)
+    const result = await execute(data)
     _cacheOnSuccess(result)
     return result
   }
