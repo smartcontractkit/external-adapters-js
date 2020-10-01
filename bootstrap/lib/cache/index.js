@@ -46,10 +46,10 @@ const envOptions = () => ({
   },
 })
 
-const getCacheImpl = async (options) => {
+const getCacheImpl = (options) => {
   switch (options.type) {
     case 'redis':
-      return await redis.RedisCache.build(options.redis)
+      return redis.RedisCache.build(options.redis)
 
     default:
       return new local.LocalLRUCache(options.local)
@@ -113,12 +113,11 @@ const withCache = async (execute, options) => {
           return entry
         },
         isInFlight: async (retryCount) => {
-          if (retryCount === 1) {
+          if (retryCount === 1 && options.requestCoalescing.entropyMax) {
             // Add some entropy here because of possible scenario where the key won't be set before multiple
             // other instances in a burst request try to access the coalescing key.
             const randomMs = Math.random() * options.requestCoalescing.entropyMax
-            // Adding this next condition because of mocha timeout issues
-            if (randomMs) await delay(randomMs)
+            await delay(randomMs)
           }
           const inFlight = await cache.get(coalescingKey)
           logger.debug(`Request coalescing: CHECK inFlight:${!!inFlight} on retry #${retryCount}`)

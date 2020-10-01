@@ -17,13 +17,11 @@ const withStatusCode = (execute) => (data, callback) => {
 const cacheOptions = envOptions()
 if (cacheOptions.enabled) logger.info('Cache enabled: ', cacheOptions)
 
-const withMiddleware = async (execute) => {
-  return await withCache(withStatusCode(execute))
-}
+const withMiddleware = async (execute) => withCache(withStatusCode(execute))
 
 // Execution helper async => sync
 const executeSync = (execute) => {
-  let _execute = undefined
+  let _execute
   // Return sync function
   return (data, callback) => {
     // Init middleware only once
@@ -34,7 +32,9 @@ const executeSync = (execute) => {
           return _execute
         })
 
-    return init.then((fn) => fn(data)).then((result) => callback(result.statusCode, result.data))
+    return init
+      .then((executeWithMiddleware) => executeWithMiddleware(data))
+      .then((result) => callback(result.statusCode, result.data))
   }
 }
 
