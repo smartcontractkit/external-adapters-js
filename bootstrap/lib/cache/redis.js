@@ -34,7 +34,7 @@ class RedisCache {
 
   async connect() {
     if (!this.options.password) return
-    await this._auth(this.options.password)
+    return this._auth(this.options.password)
   }
 
   static async build(options) {
@@ -45,7 +45,7 @@ class RedisCache {
 
   async set(key, value, maxAge) {
     const entry = JSON.stringify(value)
-    return await this._set(key, entry, 'PX', maxAge)
+    return this._set(key, entry, 'PX', maxAge)
   }
 
   async get(key) {
@@ -54,7 +54,7 @@ class RedisCache {
   }
 
   async del(key) {
-    return await this._del(key)
+    return this._del(key)
   }
 }
 
