@@ -1,5 +1,5 @@
 const { createLogger, format, transports } = require('winston')
-const { combine, json, timestamp } = format
+const { combine, timestamp, json, prettyPrint } = format
 const { v4: uuidv4 } = require('uuid')
 
 const detectLogger = (logger) => {
@@ -28,7 +28,10 @@ const instanceId = format((info) => {
 const logger = detectLogger(
   createLogger({
     level: process.env.LOG_LEVEL || 'info',
-    format: combine(instanceId(), timestamp(), json()),
+    format:
+      process.env.NODE_ENV === 'development'
+        ? combine(instanceId(), timestamp(), json(), prettyPrint())
+        : combine(instanceId(), timestamp(), json()),
     transports: [new transports.Console()],
   }),
 )
