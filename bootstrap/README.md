@@ -10,6 +10,7 @@ To configure caching these environment variables are available:
 
 - `CACHE_ENABLED`: Optional bool, defaults to `false`. Set to `true` to enable the cache.
 - `CACHE_TYPE`: Optional string, defaults to `local`. Available options: `local|redis`
+- `CACHE_KEY_GROUP`: Optional string, defaults to UUID of the adapter. Set to specific group ID to group the cached data, for this adapter, with other instances in the same group. Applicable only in remote cache scenarios, where multiple adapter instances share the cache.
 - `CACHE_KEY_IGNORED_PROPS`: Optional list of keys to ignore while deriving the cache key, delimited by `,`. The key set will be added to the default ignored keys: `['id', 'maxAge']`.
 
 ## Local cache
@@ -63,7 +64,6 @@ For example, if the `CACHE_KEY_IGNORED_PROPS=timestamp` is set, these requests w
 To configure caching these environment variables are available:
 
 - `REQUEST_COALESCING_ENABLED`: Optional bool, defaults to `true`. Set to `false` to disable request coalescing.
-- `REQUEST_COALESCING_GROUP`: Optional string, defaults to UUID of the adapter. Set to specific group ID to group the coalescing of requests, for this adapter, with other instances in the same group. Applicable only in remote cache scenarios, where multiple adapter instances share the cache.
 - `REQUEST_COALESCING_INTERVAL`: Optional number, defaults to `100`. Interval in milliseconds for exponential back-off function.
 - `REQUEST_COALESCING_INTERVAL_MAX`: Optional number, defaults to `1000`. Maximum back-off in milliseconds.
 - `REQUEST_COALESCING_INTERVAL_COEFFICIENT`: Optional number, defaults to `2`. A coefficient as the base multiplier for exponential back-off interval function.
