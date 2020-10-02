@@ -6,10 +6,10 @@ const { parseBool, uuid, delay, exponentialBackOffMs, getWithCoalescing } = requ
 
 const DEFAULT_CACHE_ENABLED = false
 const DEFAULT_CACHE_TYPE = 'local'
+const DEFAULT_CACHE_KEY_GROUP = uuid()
 const DEFAULT_CACHE_KEY_IGNORED_PROPS = ['id', 'maxAge']
 // Request coalescing
 const DEFAULT_RC_ENABLED = true
-const DEFAULT_RC_GROUP = uuid()
 const DEFAULT_RC_INTERVAL = 100
 const DEFAULT_RC_INTERVAL_MAX = 1000
 const DEFAULT_RC_INTERVAL_COEFFICIENT = 2
@@ -21,14 +21,16 @@ const envOptions = () => ({
   type: env.CACHE_TYPE || DEFAULT_CACHE_TYPE,
   local: local.envOptions(),
   redis: redis.envOptions(),
-  ignoredKeys: [
-    ...DEFAULT_CACHE_KEY_IGNORED_PROPS,
-    ...(env.CACHE_KEY_IGNORED_PROPS || '').split(',').filter((k) => k), // no empty keys
-  ],
+  key: {
+    group: env.CACHE_KEY_GROUP || DEFAULT_CACHE_KEY_GROUP,
+    ignored: [
+      ...DEFAULT_CACHE_KEY_IGNORED_PROPS,
+      ...(env.CACHE_KEY_IGNORED_PROPS || '').split(',').filter((k) => k), // no empty keys
+    ],
+  },
   // Request coalescing
   requestCoalescing: {
     enabled: parseBool(env.REQUEST_COALESCING_ENABLED) || DEFAULT_RC_ENABLED,
-    group: env.REQUEST_COALESCING_GROUP || DEFAULT_RC_GROUP,
     // Capped linear back-off: 100, 200, 400, 800, 1000..
     interval: Number(env.REQUEST_COALESCING_INTERVAL) || DEFAULT_RC_INTERVAL,
     intervalMax: Number(env.REQUEST_COALESCING_INTERVAL_MAX) || DEFAULT_RC_INTERVAL_MAX,
@@ -61,11 +63,11 @@ const withCache = async (execute, options) => {
   const hashOptions = {
     algorithm: 'sha1',
     encoding: 'hex',
-    excludeKeys: (key) => options.ignoredKeys.includes(key),
+    excludeKeys: (props) => options.key.ignored.includes(props),
   }
 
-  const _getKey = (data) => hash(data, hashOptions)
-  const _getCoalescingKey = (key) => hash(`${options.requestCoalescing.group}--${key}`, hashOptions)
+  const _getKey = (data) => `${options.key.group}:${hash(data, hashOptions)}`
+  const _getCoalescingKey = (key) => `inFlight:${key}`
   const _setInFlightMarker = async (key, maxAge) => {
     if (!options.requestCoalescing.enabled) return
     await cache.set(key, true, maxAge)
@@ -92,7 +94,7 @@ const withCache = async (execute, options) => {
       if (statusCode === 200) {
         const entry = { statusCode, data, maxAge }
         await cache.set(key, entry, maxAge)
-        logger.debug(`Cache: SET ${key} => `, entry)
+        logger.debug(`Cache: SET ${key}`, entry)
         // Notify pending requests by removing the in-flight mark
         await _delInFlightMarker(coalescingKey)
       }
@@ -132,7 +134,7 @@ const withCache = async (execute, options) => {
 
     if (entry) {
       if (maxAge >= 0) {
-        logger.debug(`Cache: GET ${key} => `, entry)
+        logger.debug(`Cache: GET ${key}`, entry)
         if (maxAge !== entry.maxAge) _cacheOnSuccess(entry)
         return entry
       }
