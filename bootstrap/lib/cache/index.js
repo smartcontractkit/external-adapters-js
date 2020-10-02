@@ -45,7 +45,6 @@ const getCacheImpl = (options) => {
   switch (options.type) {
     case 'redis':
       return redis.RedisCache.build(options.redis)
-
     default:
       return new local.LocalLRUCache(options.local)
   }

@@ -9,6 +9,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 - [Request coalescing](https://aws.amazon.com/builders-library/caching-challenges-and-strategies/) support to mitigate the issue of requests for data coming in bursts and missing the cache.
+- Remote cache (Redis/ElastiCache) support, with adapter key grouping, to enable more efficient serverless deployments.
+
+### Changed
+
+- Prettier logs in development environment.
 
 ## [0.1.2] - 2020-09-18
 
