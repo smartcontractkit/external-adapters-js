@@ -1,9 +1,9 @@
 const { Requester, logger } = require('@chainlink/external-adapter')
+const { withCache, envOptions } = require('./lib/cache')
+const { toAsync } = require('./lib/util')
 const server = require('./lib/server')
 const gcp = require('./lib/gcp')
 const aws = require('./lib/aws')
-const { withCache, envOptions } = require('./lib/cache')
-const { toAsync } = require('./lib/util')
 
 const skipOnError = (middleware) => async (execute) => {
   // Try to execute, pass through on error
