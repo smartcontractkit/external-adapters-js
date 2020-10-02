@@ -10,7 +10,7 @@ const callAndExpect = async (fn, n, result) => {
 }
 
 // Helper test function: a stateful counter
-const counterFrom = (i = 0) => (_, callback) => callback(200, i++)
+const counterFrom = (i = 0) => () => ({ statusCode: 200, data: i++ })
 
 describe('cache', () => {
   context('options defaults', () => {
