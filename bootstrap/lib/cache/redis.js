@@ -45,9 +45,7 @@ class RedisCache {
   constructor(options) {
     this.options = options
     const client = redis.createClient({ ...options, retry_strategy: retryStrategy })
-    client.on('error', function (err) {
-      logger.error('Error connecting to redis', err)
-    })
+    client.on('error', (err) => logger.error('Error connecting to Redis. ', err))
 
     this._auth = promisify(client.auth).bind(client)
     this._get = promisify(client.get).bind(client)
