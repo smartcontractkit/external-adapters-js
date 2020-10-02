@@ -5,6 +5,26 @@ const aws = require('./lib/aws')
 const { withCache, envOptions } = require('./lib/cache')
 const { toAsync } = require('./lib/util')
 
+const skipOnError = (middleware) => async (execute) => {
+  // Try to execute, pass through on error
+  const _safe = (executeWithMiddleware) => async (data) => {
+    try {
+      return await executeWithMiddleware(data)
+    } catch (error) {
+      logger.warn(`${middleware.name} middleware execution error! Passing through. `, error)
+      return execute(data)
+    }
+  }
+
+  // Try to initialize, pass through on error
+  try {
+    return _safe(await middleware(execute))
+  } catch (error) {
+    logger.warn(`${middleware.name} middleware initialization error! Passing through. `, error)
+    return execute
+  }
+}
+
 // Make sure data has the same statusCode as the one we got as a result
 const withStatusCode = (execute) => async (data_) => {
   const { statusCode, data } = await execute(data_)
@@ -31,24 +51,25 @@ const withLogger = (execute) => async (data) => {
 // Transform sync execute function to async
 const withAsync = (execute) => async (data) => toAsync(execute, data)
 
-let executeWithMiddleware
-const middleware = [withAsync, withLogger, withCache, withStatusCode]
+const middleware = [withAsync, withLogger, skipOnError(withCache), withStatusCode]
 
 // Init all middleware, and return a wrapped execute fn
 const withMiddleware = async (execute) => {
-  // Init middleware only once
-  if (executeWithMiddleware) return executeWithMiddleware
   // Init and wrap middleware one by one
   for (let i = 0; i < middleware.length; i++) {
     execute = await middleware[i](execute)
   }
-  return (executeWithMiddleware = execute)
+  return execute
 }
 
 // Execution helper async => sync
 const executeSync = (execute) => {
+  // TODO: Try to init middleware only once
+  // const initMiddleware = withMiddleware(execute)
+
   // Return sync function
   return (data, callback) => {
+    // We init on every call because of cache connection broken state issue
     return withMiddleware(execute)
       .then((executeWithMiddleware) => executeWithMiddleware(data))
       .then((result) => callback(result.statusCode, result.data))
