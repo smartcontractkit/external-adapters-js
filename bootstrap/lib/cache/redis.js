@@ -78,6 +78,19 @@ class RedisCache {
   async del(key) {
     return this._del(key)
   }
+
+  /**
+   * Forcibly close the connection to the Redis server.
+   *
+   * AWS Lambda will timeout if the connection is not closed, because the connection
+   * keeps the event loop busy.
+   *
+   * The alternative is to use: `context.callbackWaitsForEmtpyEventLoop = false`
+   */
+  async close() {
+    // No further commands will be processed
+    this.client.end(true)
+  }
 }
 
 module.exports = {

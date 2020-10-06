@@ -30,6 +30,10 @@ class LocalLRUCache {
   del(key) {
     return this.client.del(key)
   }
+
+  close() {
+    // noop
+  }
 }
 
 module.exports = {

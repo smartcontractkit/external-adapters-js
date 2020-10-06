@@ -4,12 +4,10 @@ const local = require('./local')
 const redis = require('./redis')
 const { parseBool, uuid, delay, exponentialBackOffMs, getWithCoalescing } = require('../util')
 
-const DEFAULT_CACHE_ENABLED = false
 const DEFAULT_CACHE_TYPE = 'local'
 const DEFAULT_CACHE_KEY_GROUP = uuid()
 const DEFAULT_CACHE_KEY_IGNORED_PROPS = ['id', 'maxAge']
 // Request coalescing
-const DEFAULT_RC_ENABLED = true
 const DEFAULT_RC_INTERVAL = 100
 const DEFAULT_RC_INTERVAL_MAX = 1000
 const DEFAULT_RC_INTERVAL_COEFFICIENT = 2
@@ -17,7 +15,7 @@ const DEFAULT_RC_ENTROPY_MAX = 0
 
 const env = process.env
 const envOptions = () => ({
-  enabled: parseBool(env.CACHE_ENABLED) || DEFAULT_CACHE_ENABLED,
+  enabled: parseBool(env.CACHE_ENABLED),
   type: env.CACHE_TYPE || DEFAULT_CACHE_TYPE,
   local: local.envOptions(),
   redis: redis.envOptions(),
@@ -30,7 +28,7 @@ const envOptions = () => ({
   },
   // Request coalescing
   requestCoalescing: {
-    enabled: parseBool(env.REQUEST_COALESCING_ENABLED) || DEFAULT_RC_ENABLED,
+    enabled: parseBool(env.REQUEST_COALESCING_ENABLED),
     // Capped linear back-off: 100, 200, 400, 800, 1000..
     interval: Number(env.REQUEST_COALESCING_INTERVAL) || DEFAULT_RC_INTERVAL,
     intervalMax: Number(env.REQUEST_COALESCING_INTERVAL_MAX) || DEFAULT_RC_INTERVAL_MAX,
@@ -40,6 +38,14 @@ const envOptions = () => ({
     entropyMax: Number(env.REQUEST_COALESCING_ENTROPY_MAX) || DEFAULT_RC_ENTROPY_MAX,
   },
 })
+
+const envOptionsSafe = () => {
+  const opts = envOptions()
+  const redis = opts.redis
+  if (redis.password) redis.password = redis.password.replace(/.+/g, '*****')
+  if (redis.url) redis.url = redis.url.replace(/:\/\/.+@/g, '://*****@')
+  return opts
+}
 
 const getCacheImpl = (options) => {
   switch (options.type) {
@@ -84,7 +90,7 @@ const withCache = async (execute, options) => {
     return data.data.maxAge || cache.options.maxAge
   }
 
-  return async (data) => {
+  const _executeWithCache = async (data) => {
     const key = _getKey(data)
     const coalescingKey = _getCoalescingKey(key)
     const maxAge = _getMaxAge(data)
@@ -134,7 +140,7 @@ const withCache = async (execute, options) => {
     if (entry) {
       if (maxAge >= 0) {
         logger.debug(`Cache: GET ${key}`, entry)
-        if (maxAge !== entry.maxAge) _cacheOnSuccess(entry)
+        if (maxAge !== entry.maxAge) await _cacheOnSuccess(entry)
         return entry
       }
       logger.debug(`Cache: SKIP(maxAge < 0)`)
@@ -144,12 +150,20 @@ const withCache = async (execute, options) => {
     await _setInFlightMarker(coalescingKey, maxAge)
 
     const result = await execute(data)
-    _cacheOnSuccess(result)
+    await _cacheOnSuccess(result)
+    return result
+  }
+
+  // Middleware wrapped execute fn which cleans up after
+  return async (data) => {
+    const result = await _executeWithCache(data)
+    // Clean the connection
+    await cache.close()
     return result
   }
 }
 
 module.exports = {
   withCache,
-  envOptions,
+  envOptions: envOptionsSafe,
 }
