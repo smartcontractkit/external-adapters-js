@@ -1,11 +1,11 @@
 const { Requester } = require('@chainlink/external-adapter')
 const Decimal = require('decimal.js')
 
-const getPriceData = async (synth) => {
-  const url = 'https://min-api.cryptocompare.com/data/price'
+const getPriceData = async (synths) => {
+  const url = 'https://min-api.cryptocompare.com/data/pricemulti'
   const params = {
     tsyms: 'USD',
-    fsym: synth.symbol
+    fsyms: synths
   }
   const config = {
     url,
@@ -32,9 +32,20 @@ const calculateIndex = (indexes) => {
 }
 
 const createRequest = async (jobRunID, data) => {
-  await Promise.all(data.index.map(async (synth) => {
-    synth.priceData = await getPriceData(synth)
-  }))
+  const synths = []
+  data.index.forEach(synth => {
+    synths.push(synth.symbol.toUpperCase())
+  })
+  const prices = await getPriceData(synths.join())
+  for (const symbol in prices) {
+    if (!Object.prototype.hasOwnProperty.call(prices, symbol)) continue
+    for (let i = 0; i < data.index.length; i++) {
+      if (symbol.toUpperCase() !== data.index[i].symbol.toUpperCase()) continue
+      data.index[i].priceData = prices[symbol]
+      break
+    }
+  }
+
   return data
 }
 
