@@ -37,6 +37,7 @@ const withStatusCode = (execute) => async (data_) => {
       },
     }
   }
+
   return { statusCode, data }
 }
 
