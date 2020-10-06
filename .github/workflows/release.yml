@@ -147,6 +147,7 @@ jobs:
             bravenewcoin,
             cryptocompare,
             amberdata,
+            nomics,
           ]
     steps:
       - uses: actions/checkout@v2
