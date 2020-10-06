@@ -1,13 +1,14 @@
 const { Requester } = require('@chainlink/external-adapter')
 const Decimal = require('decimal.js')
 
-const getPriceData = async (synth) => {
+const getPriceData = async (synths) => {
   const url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest'
   const headers = {
     'X-CMC_PRO_API_KEY': process.env.API_KEY
   }
   const params = {
-    symbol: synth.symbol
+    symbol: synths,
+    convert: 'USD'
   }
   const config = {
     url,
@@ -22,7 +23,7 @@ const calculateIndex = (indexes) => {
   let value = new Decimal(0)
   try {
     indexes.forEach(i => {
-      const price = i.priceData.data[i.symbol].quote.USD.price
+      const price = i.priceData.quote.USD.price
       if (price <= 0) {
         throw Error('invalid price')
       }
@@ -35,9 +36,20 @@ const calculateIndex = (indexes) => {
 }
 
 const createRequest = async (jobRunID, data) => {
-  await Promise.all(data.index.map(async (synth) => {
-    synth.priceData = await getPriceData(synth)
-  }))
+  const synths = []
+  data.index.forEach(synth => {
+    synths.push(synth.symbol.toUpperCase())
+  })
+  const prices = await getPriceData(synths.join())
+  for (const symbol in prices.data) {
+    if (!Object.prototype.hasOwnProperty.call(prices.data, symbol)) continue
+    for (let i = 0; i < data.index.length; i++) {
+      if (symbol.toUpperCase() !== data.index[i].symbol.toUpperCase()) continue
+      data.index[i].priceData = prices.data[symbol]
+      break
+    }
+  }
+
   return data
 }
 
