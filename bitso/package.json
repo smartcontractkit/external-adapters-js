@@ -1,0 +1,11 @@
+{
+  "name": "bitso",
+  "version": "0.1.0",
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "server": "node -e 'require(\"./index.js\").server()'",
+    "test": "yarn _mocha --timeout 0"
+  },
+  "dependencies": {}
+}
