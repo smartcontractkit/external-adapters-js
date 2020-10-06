@@ -37,6 +37,8 @@ For local development run a Redis Docker container:
 docker run -p 6379:6379 --name ea-redis -d redis redis-server --requirepass SUPER_SECRET
 ```
 
+For **ElastiCache Redis** deployments: if encryption in transit is used, to make a connection `CACHE_REDIS_URL` needs to be set with `rediss://...` protocol.
+
 ### Cache key
 
 Cache key is derived by hashing the input object, using the SHA1 hash function, while by default ignoring keys `['id', 'maxAge']`. So for example these few requests will derive the same key:
@@ -63,7 +65,7 @@ For example, if the `CACHE_KEY_IGNORED_PROPS=timestamp` is set, these requests w
 
 To configure caching these environment variables are available:
 
-- `REQUEST_COALESCING_ENABLED`: Optional bool, defaults to `true`. Set to `false` to disable request coalescing.
+- `REQUEST_COALESCING_ENABLED`: Optional bool, defaults to `false`. Set to `true` to enable request coalescing.
 - `REQUEST_COALESCING_INTERVAL`: Optional number, defaults to `100`. Interval in milliseconds for exponential back-off function.
 - `REQUEST_COALESCING_INTERVAL_MAX`: Optional number, defaults to `1000`. Maximum back-off in milliseconds.
 - `REQUEST_COALESCING_INTERVAL_COEFFICIENT`: Optional number, defaults to `2`. A coefficient as the base multiplier for exponential back-off interval function.
