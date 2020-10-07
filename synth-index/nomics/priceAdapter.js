@@ -40,7 +40,7 @@ const calculateIndex = (indexes) => {
 const execute = async (jobRunID, data) => {
   const synths = []
   data.index.forEach((synth) => {
-    let symbol = synth.symbol.toUpperCase()
+    let symbol = synth.asset.toUpperCase()
     if (symbol in nomicsIds) {
       symbol = nomicsIds[symbol]
     }
@@ -49,7 +49,7 @@ const execute = async (jobRunID, data) => {
   const prices = await getPriceData(synths.join())
   prices.forEach((price) => {
     for (let i = 0; i < data.index.length; i++) {
-      if (data.index[i].symbol.toUpperCase() !== price.symbol) {
+      if (data.index[i].asset.toUpperCase() !== price.symbol) {
         continue
       }
       data.index[i].priceData = price

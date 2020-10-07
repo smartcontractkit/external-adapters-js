@@ -10,7 +10,8 @@ const getPriceData = async (synth) => {
     url,
     headers,
   }
-  return await Requester.request(config)
+  const response = await Requester.request(config)
+  return response.data
 }
 
 const calculateIndex = (indexes) => {
@@ -19,7 +20,7 @@ const calculateIndex = (indexes) => {
     indexes.forEach((i) => {
       value = value.plus(
         new Decimal(i.units).times(
-          new Decimal(i.priceData.payload[`${i.symbol.toLowerCase()}_usd`].price),
+          new Decimal(i.priceData.payload[`${i.asset.toLowerCase()}_usd`].price),
         ),
       )
     })
@@ -32,7 +33,7 @@ const calculateIndex = (indexes) => {
 const execute = async (jobRunID, data) => {
   await Promise.all(
     data.index.map(async (synth) => {
-      synth.priceData = await getPriceData(synth.symbol)
+      synth.priceData = await getPriceData(synth.asset)
     }),
   )
   return data

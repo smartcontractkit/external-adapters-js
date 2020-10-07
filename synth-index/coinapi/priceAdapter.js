@@ -32,7 +32,7 @@ const calculateIndex = (indexes) => {
 const execute = async (jobRunID, data) => {
   await Promise.all(
     data.index.map(async (synth) => {
-      synth.priceData = await getPriceData(synth.symbol)
+      synth.priceData = await getPriceData(synth.asset)
     }),
   )
   return data
