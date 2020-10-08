@@ -96,7 +96,6 @@ jobs:
             oilpriceapi,
             openexchangerates,
             polygon,
-            yahoo-finance,
             google-finance,
             etherchain,
             poa-gasprice,
@@ -220,15 +219,7 @@ jobs:
     strategy:
       matrix:
         adapter:
-          [
-            coinapi,
-            coingecko,
-            coinmarketcap,
-            coinpaprika,
-            bravenewcoin,
-            cryptocompare,
-            amberdata,
-          ]
+          [coinapi, coingecko, coinmarketcap, coinpaprika, bravenewcoin, cryptocompare, amberdata]
     steps:
       - uses: actions/checkout@v2
       - name: Load Release URL File from release job
