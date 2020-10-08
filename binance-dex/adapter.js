@@ -6,11 +6,13 @@ const apiEndpoint = process.env.API_ENDPOINT || DEFAULT_API_ENDPOINT
 const customParams = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
-  endpoint: false
+  endpoint: false,
 }
 
-const createRequest = (input, callback) => {
-  const validator = new Validator(callback, input, customParams)
+const execute = (input, callback) => {
+  const validator = new Validator(input, customParams)
+  if (validator.error) return callback(validator.error.statusCode, validator.error)
+
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || DEFAULT_DATA_ENDPOINT
   const url = `https://${apiEndpoint}.binance.org/api/${endpoint}`
@@ -18,7 +20,7 @@ const createRequest = (input, callback) => {
   const quote = validator.validated.data.quote.toUpperCase()
   const symbol = `${base}_${quote}`
 
-  const _handleResponse = response => {
+  const _handleResponse = (response) => {
     if (response.data.length < 1) {
       return callback(500, Requester.errored(jobRunID, 'no result for query'))
     }
@@ -38,20 +40,18 @@ const createRequest = (input, callback) => {
     callback(response.status, Requester.success(jobRunID, response))
   }
 
-  const _handleError = error => callback(500, Requester.errored(jobRunID, error))
+  const _handleError = (error) => callback(500, Requester.errored(jobRunID, error))
 
   const params = {
-    symbol
+    symbol,
   }
 
   const config = {
     url,
-    params
+    params,
   }
 
-  Requester.request(config)
-    .then(_handleResponse)
-    .catch(_handleError)
+  Requester.request(config).then(_handleResponse).catch(_handleError)
 }
 
-module.exports.createRequest = createRequest
+module.exports.execute = execute

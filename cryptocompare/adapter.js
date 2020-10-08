@@ -8,11 +8,13 @@ const customError = (data) => {
 const customParams = {
   base: ['base', 'from', 'coin', 'fsym'],
   quote: ['quote', 'to', 'market', 'tsyms'],
-  endpoint: false
+  endpoint: false,
 }
 
-const createRequest = (input, callback) => {
-  const validator = new Validator(callback, input, customParams)
+const execute = (input, callback) => {
+  const validator = new Validator(input, customParams)
+  if (validator.error) return callback(validator.error.statusCode, validator.error)
+
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || 'price'
   const url = `https://min-api.cryptocompare.com/data/${endpoint}`
@@ -21,28 +23,26 @@ const createRequest = (input, callback) => {
 
   const params = {
     fsym,
-    tsyms
+    tsyms,
   }
 
   const config = {
     url,
-    params
+    params,
   }
 
   if (process.env.API_KEY) {
     config.headers = {
-      authorization: `Apikey ${process.env.API_KEY}`
+      authorization: `Apikey ${process.env.API_KEY}`,
     }
   }
 
   Requester.request(config, customError)
-    .then(response => {
+    .then((response) => {
       response.data.result = Requester.validateResultNumber(response.data, [tsyms])
       callback(response.status, Requester.success(jobRunID, response))
     })
-    .catch(error => {
-      callback(500, Requester.errored(jobRunID, error))
-    })
+    .catch((error) => callback(500, Requester.errored(jobRunID, error)))
 }
 
-module.exports.createRequest = createRequest
+module.exports.execute = execute

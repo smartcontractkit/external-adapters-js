@@ -4,22 +4,25 @@ const password = process.env.API_PASSWORD
 const DEFAULT_DATA_ENDPOINT = 'events.json'
 const DEMO_ENDPOINT = 'https://tools.dxfeed.com/webservice/rest'
 const apiEndpoint = process.env.API_ENDPOINT || DEMO_ENDPOINT
-if (apiEndpoint === DEMO_ENDPOINT) console.warn(`Using demo endpoint: ${DEMO_ENDPOINT} (Please do not use in production!)`)
+if (apiEndpoint === DEMO_ENDPOINT)
+  console.warn(`Using demo endpoint: ${DEMO_ENDPOINT} (Please do not use in production!)`)
 
-const customError = (data) => (data.status !== 'OK')
+const customError = (data) => data.status !== 'OK'
 
 const customParams = {
   base: ['base', 'from', 'asset'],
-  endpoint: false
+  endpoint: false,
 }
 
 const commonSymbols = {
   N225: 'N225:JP',
-  FTSE: 'UKX:FTSE'
+  FTSE: 'UKX:FTSE',
 }
 
-const createRequest = (input, callback) => {
-  const validator = new Validator(callback, input, customParams)
+const execute = (input, callback) => {
+  const validator = new Validator(input, customParams)
+  if (validator.error) return callback(validator.error.statusCode, validator.error)
+
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || DEFAULT_DATA_ENDPOINT
   const url = `${apiEndpoint}/${endpoint}`
@@ -30,23 +33,25 @@ const createRequest = (input, callback) => {
 
   const params = {
     events: 'Trade',
-    symbols
+    symbols,
   }
 
   const config = {
     url,
     params,
-    auth: { username, password }
+    auth: { username, password },
   }
 
   Requester.request(config, customError)
-    .then(response => {
-      response.data.result = Requester.validateResultNumber(response.data, ['Trade', symbols, 'price'])
+    .then((response) => {
+      response.data.result = Requester.validateResultNumber(response.data, [
+        'Trade',
+        symbols,
+        'price',
+      ])
       callback(response.status, Requester.success(jobRunID, response))
     })
-    .catch(error => {
-      callback(500, Requester.errored(jobRunID, error))
-    })
+    .catch((error) => callback(500, Requester.errored(jobRunID, error)))
 }
 
-module.exports.createRequest = createRequest
+module.exports.execute = execute

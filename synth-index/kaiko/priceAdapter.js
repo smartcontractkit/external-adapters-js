@@ -4,18 +4,18 @@ const Decimal = require('decimal.js')
 const getPriceData = async (synth) => {
   const url = `https://us.market-api.kaiko.io/v2/data/trades.v1/spot_exchange_rate/${synth.symbol.toLowerCase()}/usd`
   const params = {
-    sort: 'desc'
+    sort: 'desc',
   }
   const headers = {
     'X-Api-Key': process.env.API_KEY,
-    'User-Agent': 'Chainlink'
+    'User-Agent': 'Chainlink',
   }
   const timeout = 5000
   const config = {
     url,
     params,
     headers,
-    timeout
+    timeout,
   }
   const response = await Requester.request(config)
   return response.data
@@ -24,7 +24,7 @@ const getPriceData = async (synth) => {
 const calculateIndex = (indexes) => {
   let value = new Decimal(0)
   try {
-    indexes.forEach(i => {
+    indexes.forEach((i) => {
       const price = i.priceData.data[0].price
       if (price <= 0) {
         throw Error('invalid price')
@@ -37,12 +37,14 @@ const calculateIndex = (indexes) => {
   return value.toNumber()
 }
 
-const createRequest = async (jobRunID, data) => {
-  await Promise.all(data.index.map(async (synth) => {
-    synth.priceData = await getPriceData(synth)
-  }))
+const execute = async (jobRunID, data) => {
+  await Promise.all(
+    data.index.map(async (synth) => {
+      synth.priceData = await getPriceData(synth)
+    }),
+  )
   return data
 }
 
-module.exports.createRequest = createRequest
+module.exports.execute = execute
 module.exports.calculateIndex = calculateIndex

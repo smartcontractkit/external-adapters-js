@@ -8,6 +8,7 @@
     "cryptomkt",
     "satoshitango",
     "bitex",
+    "orchid-bandwidth",
     "genesis-volatility",
     "metalsapi",
     "bravenewcoin-vwap",
@@ -42,7 +43,6 @@
     "openexchangerates",
     "polygon",
     "tradinghours",
-    "yahoo-finance",
     "google-finance",
     "etherchain",
     "poa-gasprice",
@@ -55,29 +55,37 @@
     "synth-index/coinpaprika",
     "synth-index/bravenewcoin",
     "synth-index/cryptocompare",
-    "synth-index/amberdata"
+    "synth-index/amberdata",
+    "wbtc-address-set",
+    "renvm-address-set",
+    "blockchain.com",
+    "blockcypher",
+    "reduce",
+    "json-rpc"
   ],
   "scripts": {
-    "lint": "yarn eslint .",
+    "lint": "yarn workspaces run lint",
+    "lint:fix": "yarn workspaces run lint:fix",
+    "test": "yarn workspaces run test",
+    "test:unit": "yarn workspaces run test:unit",
+    "test:integration": "yarn workspaces run test:integration",
     "start-example-server": "node ./helpers/server.js",
-    "test-example": "yarn workspace example test",
-    "test-external-adapter": "yarn workspace @chainlink/external-adapter test"
+    "test-example": "yarn workspace example test"
   },
   "dependencies": {
     "@chainlink/ea-bootstrap": "^0.1.0",
     "@chainlink/external-adapter": "^0.2.4",
     "@zeit/ncc": "^0.22.1",
-    "body-parser": "^1.19.0",
     "boxhock_google-finance-data": "^0.1.0",
     "decimal.js": "^10.2.0",
     "ethers": "^4.0.47",
     "express": "^4.17.0",
     "market-closure": "^0.1.2",
     "synthetix": "^2.26.3",
-    "web3": "^1.2.7",
-    "yahoo-finance": "^0.3.6"
+    "web3": "^1.2.11"
   },
   "devDependencies": {
+    "@tsconfig/node12": "^1.0.7",
     "chai": "^4.2.0",
     "eslint": "^7.2.0",
     "eslint-config-prettier": "^6.11.0",
@@ -92,6 +100,8 @@
     "sinon": "^9.0.3"
   },
   "resolutions": {
-    "**/elliptic": "^6.5.3"
+    "**/lodash": "^4.17.20",
+    "**/elliptic": "^6.5.3",
+    "**/minimist": "^1.2.5"
   }
 }

@@ -1,24 +1,57 @@
 const assert = require('chai').assert
-const createRequest = require('../adapter').createRequest
+const execute = require('../adapter').execute
 
-describe('createRequest', () => {
+describe('execute', () => {
   const jobID = '1'
 
-  context('successful calls', () => {
+  context('successful calls @integration', () => {
     const requests = [
-      { name: 'id not supplied', testData: { data: { symbol: 'ETH', result: 'oneDayIv' } } },
-      { name: '1 day', testData: { id: jobID, data: { symbol: 'ETH', result: 'oneDayIv' } } },
-      { name: '2 days', testData: { id: jobID, data: { symbol: 'ETH', result: 'twoDayIv' } } },
-      { name: '1 week', testData: { id: jobID, data: { symbol: 'ETH', result: 'sevenDayIv' } } },
-      { name: '2 weeks', testData: { id: jobID, data: { symbol: 'ETH', result: 'fourteenDayIv' } } },
-      { name: '3 weeks', testData: { id: jobID, data: { symbol: 'ETH', result: 'twentyOneDayIv' } } },
-      { name: '4 weeks', testData: { id: jobID, data: { symbol: 'ETH', result: 'twentyEightDayIv' } } },
-      { name: '1 day BTC', testData: { id: jobID, data: { symbol: 'BTC', result: 'oneDayIv' } } }
+      {
+        name: 'id not supplied',
+        testData: { data: { symbol: 'ETH', result: 'oneDayIv' } },
+      },
+      {
+        name: '1 day',
+        testData: { id: jobID, data: { symbol: 'ETH', result: 'oneDayIv' } },
+      },
+      {
+        name: '2 days',
+        testData: { id: jobID, data: { symbol: 'ETH', result: 'twoDayIv' } },
+      },
+      {
+        name: '1 week',
+        testData: { id: jobID, data: { symbol: 'ETH', result: 'sevenDayIv' } },
+      },
+      {
+        name: '2 weeks',
+        testData: {
+          id: jobID,
+          data: { symbol: 'ETH', result: 'fourteenDayIv' },
+        },
+      },
+      {
+        name: '3 weeks',
+        testData: {
+          id: jobID,
+          data: { symbol: 'ETH', result: 'twentyOneDayIv' },
+        },
+      },
+      {
+        name: '4 weeks',
+        testData: {
+          id: jobID,
+          data: { symbol: 'ETH', result: 'twentyEightDayIv' },
+        },
+      },
+      {
+        name: '1 day BTC',
+        testData: { id: jobID, data: { symbol: 'BTC', result: 'oneDayIv' } },
+      },
     ]
 
-    requests.forEach(req => {
+    requests.forEach((req) => {
       it(`${req.name}`, (done) => {
-        createRequest(req.testData, (statusCode, data) => {
+        execute(req.testData, (statusCode, data) => {
           assert.equal(statusCode, 200)
           assert.equal(data.jobRunID, jobID)
           assert.isNotEmpty(data.data)
@@ -30,18 +63,24 @@ describe('createRequest', () => {
     })
   })
 
-  context('error calls', () => {
+  context('validation error', () => {
     const requests = [
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },
-      { name: 'symbol not supplied', testData: { id: jobID, data: { result: 'oneDayIv' } } },
-      { name: 'result not supplied', testData: { id: jobID, data: { symbol: 'ETH' } } }
+      {
+        name: 'symbol not supplied',
+        testData: { id: jobID, data: { result: 'oneDayIv' } },
+      },
+      {
+        name: 'result not supplied',
+        testData: { id: jobID, data: { symbol: 'ETH' } },
+      },
     ]
 
-    requests.forEach(req => {
+    requests.forEach((req) => {
       it(`${req.name}`, (done) => {
-        createRequest(req.testData, (statusCode, data) => {
-          assert.equal(statusCode, 500)
+        execute(req.testData, (statusCode, data) => {
+          assert.equal(statusCode, 400)
           assert.equal(data.jobRunID, jobID)
           assert.equal(data.status, 'errored')
           assert.isNotEmpty(data.error)
@@ -51,15 +90,21 @@ describe('createRequest', () => {
     })
   })
 
-  context('error calls to API', () => {
+  context('error calls @integration', () => {
     const requests = [
-      { name: 'unknown symbol', testData: { id: jobID, data: { base: 'not_real', result: 'oneDayIv' } } },
-      { name: 'unknown result', testData: { id: jobID, data: { symbol: 'ETH', result: 'not_real' } } }
+      {
+        name: 'unknown symbol',
+        testData: { id: jobID, data: { base: 'not_real', result: 'oneDayIv' } },
+      },
+      {
+        name: 'unknown result',
+        testData: { id: jobID, data: { symbol: 'ETH', result: 'not_real' } },
+      },
     ]
 
-    requests.forEach(req => {
+    requests.forEach((req) => {
       it(`${req.name}`, (done) => {
-        createRequest(req.testData, (statusCode, data) => {
+        execute(req.testData, (statusCode, data) => {
           assert.equal(statusCode, 500)
           assert.equal(data.jobRunID, jobID)
           assert.equal(data.status, 'errored')

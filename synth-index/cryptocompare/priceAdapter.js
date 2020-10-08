@@ -5,11 +5,11 @@ const getPriceData = async (synths) => {
   const url = 'https://min-api.cryptocompare.com/data/pricemulti'
   const params = {
     tsyms: 'USD',
-    fsyms: synths
+    fsyms: synths,
   }
   const config = {
     url,
-    params
+    params,
   }
   const response = await Requester.request(config)
   return response.data
@@ -18,7 +18,7 @@ const getPriceData = async (synths) => {
 const calculateIndex = (indexes) => {
   let value = new Decimal(0)
   try {
-    indexes.forEach(i => {
+    indexes.forEach((i) => {
       const price = i.priceData.USD
       if (price <= 0) {
         throw Error('invalid price')
@@ -31,9 +31,9 @@ const calculateIndex = (indexes) => {
   return value.toNumber()
 }
 
-const createRequest = async (jobRunID, data) => {
+const execute = async (jobRunID, data) => {
   const synths = []
-  data.index.forEach(synth => {
+  data.index.forEach((synth) => {
     synths.push(synth.symbol.toUpperCase())
   })
   const prices = await getPriceData(synths.join())
@@ -49,5 +49,5 @@ const createRequest = async (jobRunID, data) => {
   return data
 }
 
-module.exports.createRequest = createRequest
+module.exports.execute = execute
 module.exports.calculateIndex = calculateIndex

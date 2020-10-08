@@ -6,11 +6,13 @@ const customError = (data) => {
 
 const customParams = {
   speed: false,
-  endpoint: false
+  endpoint: false,
 }
 
-const createRequest = (input, callback) => {
-  const validator = new Validator(callback, input, customParams)
+const execute = (input, callback) => {
+  const validator = new Validator(input, customParams)
+  if (validator.error) return callback(validator.error.statusCode, validator.error)
+
   const jobRunID = validator.validated.id
   const speed = validator.validated.data.speed || 'average'
   const endpoint = validator.validated.data.endpoint || 'ethereum-mainnet'
@@ -20,8 +22,8 @@ const createRequest = (input, callback) => {
     url,
     headers: {
       'x-api-key': process.env.API_KEY,
-      'x-amberdata-blockchain-id': endpoint
-    }
+      'x-amberdata-blockchain-id': endpoint,
+    },
   }
 
   Requester.request(config, customError)
@@ -29,13 +31,11 @@ const createRequest = (input, callback) => {
       response.data.result = Requester.validateResultNumber(response.data, [
         'payload',
         speed,
-        'gasPrice'
+        'gasPrice',
       ])
       callback(response.status, Requester.success(jobRunID, response))
     })
-    .catch((error) => {
-      callback(500, Requester.errored(jobRunID, error))
-    })
+    .catch((error) => callback(500, Requester.errored(jobRunID, error)))
 }
 
-module.exports.createRequest = createRequest
+module.exports.execute = execute

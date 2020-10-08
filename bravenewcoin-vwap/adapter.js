@@ -4,11 +4,13 @@ const { apiHeaders, authenticate, getAssetId, host } = require('../helpers/brave
 const customParams = {
   symbol: ['base', 'from', 'coin', 'symbol', 'assetId', 'indexId', 'asset'],
   indexType: false,
-  timestamp: false
+  timestamp: false,
 }
 
-const createRequest = (input, callback) => {
-  const validator = new Validator(callback, input, customParams)
+const execute = (input, callback) => {
+  const validator = new Validator(input, customParams)
+  if (validator.error) return callback(validator.error.statusCode, validator.error)
+
   const jobRunID = validator.validated.id
   const yesterday = new Date()
   yesterday.setDate(yesterday.getDate() - 1)
@@ -19,19 +21,19 @@ const createRequest = (input, callback) => {
     callback(resp.status, Requester.success(jobRunID, resp))
   }
 
-  const _onError = (error) =>
-    callback(500, Requester.errored(jobRunID, error))
+  const _onError = (error) => callback(500, Requester.errored(jobRunID, error))
 
-  _createRequest({
+  _execute({
     url: `https://${host}/ohlcv`,
     symbol: validator.validated.data.symbol,
     indexType: 'GWA',
-    timestamp: yesterday
-  }).then(_onResponse)
+    timestamp: yesterday,
+  })
+    .then(_onResponse)
     .catch(_onError)
 }
 
-const _createRequest = async (input) => {
+const _execute = async (input) => {
   const token = await authenticate()
   const assetId = await getAssetId(input.symbol)
   return await Requester.request({
@@ -39,15 +41,15 @@ const _createRequest = async (input) => {
     headers: {
       ...apiHeaders,
       authorization: `Bearer ${token}`,
-      useQueryString: true
+      useQueryString: true,
     },
     params: {
       indexId: assetId,
       indexType: input.indexType,
       timestamp: input.timestamp,
-      size: 1
-    }
+      size: 1,
+    },
   })
 }
 
-module.exports.createRequest = createRequest
+module.exports.execute = execute

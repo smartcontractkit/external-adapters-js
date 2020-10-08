@@ -7,11 +7,13 @@ const DEFAULT_ENDPOINT = 'intraday'
 const customParams = {
   base: ['base', 'from', 'asset'],
   endpoint: false,
-  interval: false
+  interval: false,
 }
 
-const createRequest = (input, callback) => {
-  const validator = new Validator(callback, input, customParams)
+const execute = (input, callback) => {
+  const validator = new Validator(input, customParams)
+  if (validator.error) return callback(validator.error.statusCode, validator.error)
+
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
   const url = `http://api.marketstack.com/v1/${endpoint}`
@@ -23,22 +25,20 @@ const createRequest = (input, callback) => {
     symbols,
     access_key: API_KEY,
     interval,
-    limit
+    limit,
   }
 
   const config = {
     url,
-    params
+    params,
   }
 
   Requester.request(config)
-    .then(response => {
+    .then((response) => {
       response.data.result = Requester.validateResultNumber(response.data, ['data', 0, 'close'])
       callback(response.status, Requester.success(jobRunID, response))
     })
-    .catch(error => {
-      callback(500, Requester.errored(jobRunID, error))
-    })
+    .catch((error) => callback(500, Requester.errored(jobRunID, error)))
 }
 
-module.exports.createRequest = createRequest
+module.exports.execute = execute

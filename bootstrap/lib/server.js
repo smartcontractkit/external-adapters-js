@@ -1,3 +1,4 @@
+const { logger } = require('@chainlink/external-adapter')
 const express = require('express')
 const {
   HTTP_ERROR_NOT_IMPLEMENTED,
@@ -18,8 +19,6 @@ const initHandler = (execute, checkHealth = notImplementedHealthCheck) => () => 
   app.use(express.json())
 
   app.post('/', (req, res) => {
-    console.log('POST Data: ', req.body)
-
     if (!req.is(CONTENT_TYPE_APPLICATION_JSON)) {
       return res
         .status(HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE)
@@ -27,20 +26,19 @@ const initHandler = (execute, checkHealth = notImplementedHealthCheck) => () => 
     }
 
     execute(req.body, (status, result) => {
-      console.log(`Result: [${status}]: `, result)
       res.status(status).json(result)
     })
   })
 
   app.get('/health', (_, res) => {
-    console.log('Health check request')
+    logger.debug('Health check request')
     checkHealth((status, result) => {
-      console.log(`Health check result [${status}]: `, result)
+      logger.debug(`Health check result [${status}]: `, { output: result })
       res.status(status).json(result)
     })
   })
 
-  app.listen(port, () => console.log(`Listening on port ${port}!`))
+  app.listen(port, () => logger.info(`Listening on port ${port}!`))
 
   process.on('SIGINT', () => {
     process.exit()

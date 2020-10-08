@@ -4,46 +4,54 @@ const API_KEY = process.env.API_KEY
 
 const customParams = {
   symbol: ['base', 'from', 'coin', 'symbol'],
-  key: ['key', 'result', 'period']
+  key: ['key', 'result', 'period'],
 }
 
-const createRequest = (input, callback) => {
-  const validator = new Validator(callback, input, customParams)
+const execute = (input, callback) => {
+  const validator = new Validator(input, customParams)
+  if (validator.error) return callback(validator.error.statusCode, validator.error)
+
   const jobRunID = validator.validated.id
   const url = 'https://app.pinkswantrading.com/graphql'
   const symbol = validator.validated.data.symbol.toUpperCase()
   const key = validator.validated.data.key
 
-  const query = 'query ChainlinkIv($symbol: SymbolEnumType){' +
+  const query =
+    'query ChainlinkIv($symbol: SymbolEnumType){' +
     'ChainlinkIv(symbol: $symbol){' +
-      'oneDayIv twoDayIv sevenDayIv fourteenDayIv twentyOneDayIv twentyEightDayIv' +
+    'oneDayIv twoDayIv sevenDayIv fourteenDayIv twentyOneDayIv twentyEightDayIv' +
     '}' +
-  '}'
+    '}'
 
   const data = {
     query: query,
-    variables: { symbol }
+    variables: { symbol },
   }
 
   const headers = {
-    'x-oracle': API_KEY
+    'x-oracle': API_KEY,
   }
 
   const config = {
     url,
     method: 'get',
     headers,
-    data
+    data,
   }
 
   Requester.request(config)
-    .then(response => {
-      response.data.result = Requester.validateResultNumber(response.data, ['data', 'ChainlinkIv', 0, key])
+    .then((response) => {
+      response.data.result = Requester.validateResultNumber(response.data, [
+        'data',
+        'ChainlinkIv',
+        0,
+        key,
+      ])
       callback(response.status, Requester.success(jobRunID, response))
     })
-    .catch(error => {
+    .catch((error) => {
       callback(500, Requester.errored(jobRunID, error))
     })
 }
 
-module.exports.createRequest = createRequest
+module.exports.execute = execute

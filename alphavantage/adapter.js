@@ -8,11 +8,13 @@ const customError = (data) => {
 const customParams = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
-  function: false
+  function: false,
 }
 
-const createRequest = (input, callback) => {
-  const validator = new Validator(callback, input, customParams)
+const execute = (input, callback) => {
+  const validator = new Validator(input, customParams)
+  if (validator.error) return callback(validator.error.statusCode, validator.error)
+
   const url = 'https://www.alphavantage.co/query'
   const jobRunID = validator.validated.id
   const func = validator.validated.data.function || 'CURRENCY_EXCHANGE_RATE'
@@ -27,26 +29,24 @@ const createRequest = (input, callback) => {
     to_symbol: to,
     symbol: from,
     market: to,
-    apikey: process.env.API_KEY
+    apikey: process.env.API_KEY,
   }
 
   const config = {
     url,
-    params
+    params,
   }
   Requester.request(config, customError)
     .then((response) => {
       response.data.result = JSON.parse(
         Requester.validateResultNumber(response.data, [
           'Realtime Currency Exchange Rate',
-          '5. Exchange Rate'
-        ])
+          '5. Exchange Rate',
+        ]),
       )
       callback(response.status, Requester.success(jobRunID, response))
     })
-    .catch((error) => {
-      callback(500, Requester.errored(jobRunID, error))
-    })
+    .catch((error) => callback(500, Requester.errored(jobRunID, error)))
 }
 
-module.exports.createRequest = createRequest
+module.exports.execute = execute

@@ -7,17 +7,19 @@ const commonKeys = {
   XAG: 'OANDA:XAG_USD',
   AUD: 'OANDA:AUD_USD',
   EUR: 'OANDA:EUR_USD',
-  GBP: 'OANDA:GBP_USD'
+  GBP: 'OANDA:GBP_USD',
   // CHF & JPY are not supported
 }
 
 const customParams = {
   base: ['base', 'asset', 'from'],
-  endpoint: false
+  endpoint: false,
 }
 
-const createRequest = (input, callback) => {
-  const validator = new Validator(callback, input, customParams)
+const execute = (input, callback) => {
+  const validator = new Validator(input, customParams)
+  if (validator.error) return callback(validator.error.statusCode, validator.error)
+
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || 'quote'
   const url = `https://finnhub.io/api/v1/${endpoint}`
@@ -29,22 +31,20 @@ const createRequest = (input, callback) => {
 
   const params = {
     symbol,
-    token
+    token,
   }
 
   const config = {
     url,
-    params
+    params,
   }
 
   Requester.request(config)
-    .then(response => {
+    .then((response) => {
       response.data.result = Requester.validateResultNumber(response.data, ['c'])
       callback(response.status, Requester.success(jobRunID, response))
     })
-    .catch(error => {
-      callback(500, Requester.errored(jobRunID, error))
-    })
+    .catch((error) => callback(500, Requester.errored(jobRunID, error)))
 }
 
-module.exports.createRequest = createRequest
+module.exports.execute = execute

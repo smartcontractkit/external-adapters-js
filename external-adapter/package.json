@@ -4,13 +4,18 @@
   "description": "Helpers for creating Chainlink External Adapters",
   "main": "index.js",
   "scripts": {
-    "test": "yarn mocha --exit --timeout 0"
+    "lint": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix",
+    "test": "yarn _mocha --exit --timeout 0",
+    "test:unit": "yarn _mocha --exit --grep @integration --invert --timeout 0",
+    "test:integration": "yarn _mocha --exit --grep @integration --timeout 0"
   },
   "license": "MIT",
   "dependencies": {
     "@google-cloud/logging-winston": "^3.0.6",
     "axios": "^0.19.2",
-    "winston": "^3.2.1"
+    "winston": "^3.2.1",
+    "chai": "^4.2.0"
   },
   "devDependencies": {
     "express": "^4.17.1"

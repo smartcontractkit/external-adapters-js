@@ -4,11 +4,13 @@ const customParams = {
   base: ['base', 'from'],
   quote: ['quote', 'to'],
   endpoint: false,
-  amount: false
+  amount: false,
 }
 
-const createRequest = (input, callback) => {
-  const validator = new Validator(callback, input, customParams)
+const execute = (input, callback) => {
+  const validator = new Validator(input, customParams)
+  if (validator.error) return callback(validator.error.statusCode, validator.error)
+
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || 'convert'
   const url = `https://data.fixer.io/api/${endpoint}`
@@ -21,22 +23,20 @@ const createRequest = (input, callback) => {
     from,
     to,
     amount,
-    access_key
+    access_key,
   }
 
   const config = {
     url,
-    params
+    params,
   }
 
   Requester.request(config)
-    .then(response => {
+    .then((response) => {
       response.data.result = Requester.validateResultNumber(response.data, ['result'])
       callback(response.status, Requester.success(jobRunID, response))
     })
-    .catch(error => {
-      callback(500, Requester.errored(jobRunID, error))
-    })
+    .catch((error) => callback(500, Requester.errored(jobRunID, error)))
 }
 
-module.exports.createRequest = createRequest
+module.exports.execute = execute

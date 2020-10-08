@@ -2,7 +2,8 @@ const { Requester } = require('@chainlink/external-adapter')
 const Decimal = require('decimal.js')
 
 const nomicsIds = {
-  FTT: 'FTXTOKEN'
+  LEO: 'LEOTOKEN',
+  FTT: 'FTXTOKEN',
 }
 
 const getPriceData = async (synths) => {
@@ -10,11 +11,11 @@ const getPriceData = async (synths) => {
   const params = {
     ids: synths,
     convert: 'USD',
-    key: process.env.API_KEY
+    key: process.env.API_KEY,
   }
   const config = {
     url,
-    params
+    params,
   }
   const response = await Requester.request(config)
   return response.data
@@ -23,7 +24,7 @@ const getPriceData = async (synths) => {
 const calculateIndex = (indexes) => {
   let value = new Decimal(0)
   try {
-    indexes.forEach(i => {
+    indexes.forEach((i) => {
       const price = i.priceData.price
       if (price <= 0) {
         throw Error('invalid price')
@@ -36,9 +37,9 @@ const calculateIndex = (indexes) => {
   return value.toNumber()
 }
 
-const createRequest = async (jobRunID, data) => {
+const execute = async (jobRunID, data) => {
   const synths = []
-  data.index.forEach(synth => {
+  data.index.forEach((synth) => {
     let symbol = synth.symbol.toUpperCase()
     if (symbol in nomicsIds) {
       symbol = nomicsIds[symbol]
@@ -46,9 +47,11 @@ const createRequest = async (jobRunID, data) => {
     synths.push(symbol)
   })
   const prices = await getPriceData(synths.join())
-  prices.forEach(price => {
+  prices.forEach((price) => {
     for (let i = 0; i < data.index.length; i++) {
-      if (data.index[i].symbol.toUpperCase() !== price.symbol) { continue }
+      if (data.index[i].symbol.toUpperCase() !== price.symbol) {
+        continue
+      }
       data.index[i].priceData = price
       break
     }
@@ -57,5 +60,5 @@ const createRequest = async (jobRunID, data) => {
   return data
 }
 
-module.exports.createRequest = createRequest
+module.exports.execute = execute
 module.exports.calculateIndex = calculateIndex

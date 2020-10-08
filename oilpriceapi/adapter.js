@@ -1,20 +1,22 @@
 const { Requester, Validator } = require('@chainlink/external-adapter')
 
 const commonKeys = {
-  BZ: 'BRENT_CRUDE_USD'
+  BZ: 'BRENT_CRUDE_USD',
 }
 
 const customParams = {
   base: ['type', 'base', 'asset', 'from'],
-  endpoint: false
+  endpoint: false,
 }
 
 const customError = (data) => {
   return data.data === null
 }
 
-const createRequest = (input, callback) => {
-  const validator = new Validator(callback, input, customParams)
+const execute = (input, callback) => {
+  const validator = new Validator(input, customParams)
+  if (validator.error) return callback(validator.error.statusCode, validator.error)
+
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || 'prices/latest'
   const url = `https://api.oilpriceapi.com/v1/${endpoint}`
@@ -26,27 +28,25 @@ const createRequest = (input, callback) => {
   }
 
   const params = {
-    by_code
+    by_code,
   }
 
   const headers = {
-    Authorization: `Token ${process.env.API_KEY}`
+    Authorization: `Token ${process.env.API_KEY}`,
   }
 
   const config = {
     url,
     params,
-    headers
+    headers,
   }
 
   Requester.request(config, customError)
-    .then(response => {
+    .then((response) => {
       response.data.result = Requester.validateResultNumber(response.data, ['data', 'price'])
       callback(response.status, Requester.success(jobRunID, response))
     })
-    .catch(error => {
-      callback(500, Requester.errored(jobRunID, error))
-    })
+    .catch((error) => callback(500, Requester.errored(jobRunID, error)))
 }
 
-module.exports.createRequest = createRequest
+module.exports.execute = execute

@@ -2,7 +2,7 @@ const { Requester, AdapterError } = require('@chainlink/external-adapter')
 
 const commonMICs = {
   FTSE: 'xlon',
-  N225: 'xjpx'
+  N225: 'xjpx',
 }
 
 const tradingHalted = (exchange) => {
@@ -16,15 +16,20 @@ const tradingHalted = (exchange) => {
       url: 'https://www.tradinghours.com/api/v2/status',
       params: {
         market: exchange,
-        api_token: process.env.TH_API_KEY
-      }
+        api_token: process.env.TH_API_KEY,
+      },
     })
-      .then(response => {
+      .then((response) => {
         if (!(exchange in response.data)) {
           return reject(new AdapterError('Missing exchange in body'))
         }
 
-        resolve(Requester.getResult(response.data, [exchange, 'status']).toLowerCase() !== 'open')
+        resolve(
+          Requester.getResult(response.data, [
+            exchange,
+            'status',
+          ]).toLowerCase() !== 'open'
+        )
       })
       .catch(reject)
   })

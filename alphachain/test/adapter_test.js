@@ -1,32 +1,32 @@
 const { assert } = require('chai')
-const { createRequest } = require('../adapter')
+const { execute } = require('../adapter')
 
-describe('createRequest', () => {
+describe('execute', () => {
   const jobID = '1'
 
-  context('successful calls', () => {
+  context('successful calls @integration', () => {
     const requests = [
       {
         name: 'id not supplied',
-        testData: { data: { base: 'ETH', quote: 'XDR' } }
+        testData: { data: { base: 'ETH', quote: 'XDR' } },
       },
       {
         name: 'base/quote',
-        testData: { id: jobID, data: { base: 'ETH', quote: 'XDR' } }
+        testData: { id: jobID, data: { base: 'ETH', quote: 'XDR' } },
       },
       {
         name: 'from/to',
-        testData: { id: jobID, data: { from: 'ETH', to: 'XDR' } }
+        testData: { id: jobID, data: { from: 'ETH', to: 'XDR' } },
       },
       {
         name: 'coin/market',
-        testData: { id: jobID, data: { coin: 'ETH', market: 'XDR' } }
-      }
+        testData: { id: jobID, data: { coin: 'ETH', market: 'XDR' } },
+      },
     ]
 
     requests.forEach((req) => {
       it(`${req.name}`, (done) => {
-        createRequest(req.testData, (statusCode, data) => {
+        execute(req.testData, (statusCode, data) => {
           assert.equal(statusCode, 200)
           assert.equal(data.jobRunID, jobID)
           assert.isNotEmpty(data.data)
@@ -38,31 +38,48 @@ describe('createRequest', () => {
     })
   })
 
-  context('error calls', () => {
+  context('validation error', () => {
     const requests = [
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },
       {
         name: 'base not supplied',
-        testData: { id: jobID, data: { quote: 'XDR' } }
+        testData: { id: jobID, data: { quote: 'XDR' } },
       },
       {
         name: 'quote not supplied',
-        testData: { id: jobID, data: { base: 'ETH' } }
+        testData: { id: jobID, data: { base: 'ETH' } },
       },
-      {
-        name: 'unknown base',
-        testData: { id: jobID, data: { base: 'not_real', quote: 'XDR' } }
-      },
-      {
-        name: 'unknown quote',
-        testData: { id: jobID, data: { base: 'ETH', quote: 'not_real' } }
-      }
     ]
 
     requests.forEach((req) => {
       it(`${req.name}`, (done) => {
-        createRequest(req.testData, (statusCode, data) => {
+        execute(req.testData, (statusCode, data) => {
+          assert.equal(statusCode, 400)
+          assert.equal(data.jobRunID, jobID)
+          assert.equal(data.status, 'errored')
+          assert.isNotEmpty(data.error)
+          done()
+        })
+      })
+    })
+  })
+
+  context('error calls @integration', () => {
+    const requests = [
+      {
+        name: 'unknown base',
+        testData: { id: jobID, data: { base: 'not_real', quote: 'XDR' } },
+      },
+      {
+        name: 'unknown quote',
+        testData: { id: jobID, data: { base: 'ETH', quote: 'not_real' } },
+      },
+    ]
+
+    requests.forEach((req) => {
+      it(`${req.name}`, (done) => {
+        execute(req.testData, (statusCode, data) => {
           assert.equal(statusCode, 500)
           assert.equal(data.jobRunID, jobID)
           assert.equal(data.status, 'errored')

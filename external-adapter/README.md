@@ -27,7 +27,7 @@ const customParams = {
   // Specific keys can be given a Boolean flag to indicate
   // whether or not the requester is required to provide
   // a value
-  endpoint: false
+  endpoint: false,
 }
 ```
 
@@ -45,8 +45,9 @@ Validation of the requester's input parameters can be done by creating an instan
 
 ```javascript
 // The input data is validated upon instantiating the Validator
-// If input validation fails, the callback is called with an error
-const validator = new Validator(callback, input, customParams)
+const validator = new Validator(input, customParams)
+// Check for error, and callback if exists
+if (validator.error) return callback(validator.error.statusCode, validator.error)
 ```
 
 Validated params can be obtained from the `validator.validated` object.
@@ -92,14 +93,13 @@ Call `Requester.request` to have the adapter retry failed connection attempts (a
 
 ```javascript
 Requester.request(config, customError, retries, delay)
-  .then(response => {
+  .then((response) => {
     // Optionally store the desired result at data.result
-    response.data.result = Requester.validateResultNumber(response.data,
-                                                          ['eth', 'usd'])
+    response.data.result = Requester.validateResultNumber(response.data, ['eth', 'usd'])
     // Return the successful response back to the Chainlink node
     callback(response.statusCode, Requester.success(jobRunID, response))
   })
-  .catch(error => {
+  .catch((error) => {
     callback(500, Requester.errored(jobRunID, error))
   })
 ```

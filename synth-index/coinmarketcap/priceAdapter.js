@@ -4,16 +4,16 @@ const Decimal = require('decimal.js')
 const getPriceData = async (synths) => {
   const url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest'
   const headers = {
-    'X-CMC_PRO_API_KEY': process.env.API_KEY
+    'X-CMC_PRO_API_KEY': process.env.API_KEY,
   }
   const params = {
     symbol: synths,
-    convert: 'USD'
+    convert: 'USD',
   }
   const config = {
     url,
     headers,
-    params
+    params,
   }
   const response = await Requester.request(config)
   return response.data
@@ -22,7 +22,7 @@ const getPriceData = async (synths) => {
 const calculateIndex = (indexes) => {
   let value = new Decimal(0)
   try {
-    indexes.forEach(i => {
+    indexes.forEach((i) => {
       const price = i.priceData.quote.USD.price
       if (price <= 0) {
         throw Error('invalid price')
@@ -35,9 +35,9 @@ const calculateIndex = (indexes) => {
   return value.toNumber()
 }
 
-const createRequest = async (jobRunID, data) => {
+const execute = async (jobRunID, data) => {
   const synths = []
-  data.index.forEach(synth => {
+  data.index.forEach((synth) => {
     synths.push(synth.symbol.toUpperCase())
   })
   const prices = await getPriceData(synths.join())
@@ -53,5 +53,5 @@ const createRequest = async (jobRunID, data) => {
   return data
 }
 
-module.exports.createRequest = createRequest
+module.exports.execute = execute
 module.exports.calculateIndex = calculateIndex

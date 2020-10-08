@@ -4,7 +4,7 @@ docker:
 	docker build --build-arg adapter=$(adapter) -f Dockerfile . -t $(adapter)-adapter $(if $(tag), -t $(tag), )
 
 zip: deps build
-	(cd $(adapter)/dist && zip  $(adapter)-adapter.zip index.js)
+	(cd $(adapter)/dist && zip $(adapter)-adapter.zip index.js)
 
 new:
 	mkdir $(adapter)
@@ -21,6 +21,8 @@ deps: clean
 	yarn --frozen-lockfile --production
 
 build:
+	# Call the build script for the adapter if defined (TypeScript adapters have this extra build/compile step)
+	if [ $$(cat $(adapter)/package.json | grep "^    \"build\":" | wc -l) -ge 1 ]; then yarn --cwd $(adapter) build; fi
 	yarn ncc build $(adapter) -o $(adapter)/dist
 
 clean-market-closure:

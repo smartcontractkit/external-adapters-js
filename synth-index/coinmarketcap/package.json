@@ -5,7 +5,11 @@
   "main": "index.js",
   "scripts": {
     "server": "node -e 'require(\"./index.js\").server()'",
-    "test": "yarn _mocha --timeout 0"
+    "lint": "eslint --ignore-path ../../.eslintignore . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint --ignore-path ../../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix",
+    "test": "echo \"Error: no test specified\"",
+    "test:unit": "echo \"Error: no test specified\"",
+    "test:integration": "echo \"Error: no test specified\""
   },
   "dependencies": {}
 }

@@ -47,7 +47,7 @@ exports.initHandlerREST = (execute) => (event, _context, callback) => {
     return callback(null, UNSUPPORTED_MEDIA_TYPE_RESPONSE)
   }
 
-  execute(event, (_statusCode, data) => {
+  execute(event, (_, data) => {
     callback(null, data)
   })
 }

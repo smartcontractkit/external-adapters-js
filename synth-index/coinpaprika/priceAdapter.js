@@ -1,14 +1,14 @@
 const { Requester } = require('@chainlink/external-adapter')
 const Decimal = require('decimal.js')
 
-const getPriceData = async (synth) => {
+const getPriceData = async () => {
   const url = 'https://api.coinpaprika.com/v1/tickers'
   const params = {
-    quotes: 'USD'
+    quotes: 'USD',
   }
   const config = {
     url,
-    params
+    params,
   }
   const response = await Requester.request(config)
   return response.data
@@ -17,7 +17,7 @@ const getPriceData = async (synth) => {
 const calculateIndex = (indexes) => {
   let value = new Decimal(0)
   try {
-    indexes.forEach(i => {
+    indexes.forEach((i) => {
       const price = i.priceData.quotes.USD.price
       if (price <= 0) {
         throw Error('invalid price')
@@ -30,14 +30,17 @@ const calculateIndex = (indexes) => {
   return value.toNumber()
 }
 
-const createRequest = async (jobRunID, data) => {
+const execute = async (_, data) => {
   const priceDatas = await getPriceData()
-  await Promise.all(data.index.map(async (synth) => {
-    synth.priceData = priceDatas.sort((a, b) => (a.rank > b.rank) ? 1 : -1)
-      .find(d => d.symbol.toLowerCase() === synth.symbol.toLowerCase())
-  }))
+  await Promise.all(
+    data.index.map(async (synth) => {
+      synth.priceData = priceDatas
+        .sort((a, b) => (a.rank > b.rank ? 1 : -1))
+        .find((d) => d.symbol.toLowerCase() === synth.symbol.toLowerCase())
+    }),
+  )
   return data
 }
 
-module.exports.createRequest = createRequest
+module.exports.execute = execute
 module.exports.calculateIndex = calculateIndex

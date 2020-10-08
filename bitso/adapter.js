@@ -3,11 +3,13 @@ const { Requester, Validator } = require('@chainlink/external-adapter')
 const customParams = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
-  endpoint: false
+  endpoint: false,
 }
 
-const createRequest = (input, callback) => {
-  const validator = new Validator(callback, input, customParams)
+const execute = (input, callback) => {
+  const validator = new Validator(input, customParams)
+  if (validator.error) return callback(validator.error.statusCode, validator.error)
+
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || 'ticker'
   const url = `https://api.bitso.com/v3/${endpoint}/`
@@ -19,13 +21,13 @@ const createRequest = (input, callback) => {
   const config = { url, params }
 
   Requester.request(config)
-    .then(response => {
+    .then((response) => {
       response.data.result = Requester.validateResultNumber(response.data, ['payload', 'vwap'])
       callback(response.status, Requester.success(jobRunID, response))
     })
-    .catch(error => {
+    .catch((error) => {
       callback(500, Requester.errored(jobRunID, error))
     })
 }
 
-module.exports.createRequest = createRequest
+module.exports.execute = execute

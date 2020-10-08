@@ -13,13 +13,12 @@ const detectLogger = (logger) => {
   return logger
 }
 
-const logger = detectLogger(createLogger({
-  level: process.env.LOG_LEVEL || 'info',
-  format: combine(
-    timestamp(),
-    json()
-  ),
-  transports: [new transports.Console()]
-}))
+const logger = detectLogger(
+  createLogger({
+    level: process.env.LOG_LEVEL || 'info',
+    format: combine(timestamp(), json()),
+    transports: [new transports.Console()],
+  }),
+)
 
 exports.logger = logger
