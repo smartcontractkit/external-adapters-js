@@ -1,5 +1,6 @@
 const { logger } = require('@chainlink/external-adapter')
 const { promisify } = require('util')
+const { timeout } = require('promise-timeout')
 const redis = require('redis')
 
 // Connection
@@ -7,7 +8,8 @@ const DEFAULT_CACHE_REDIS_HOST = '127.0.0.1' // IP address of the Redis server
 const DEFAULT_CACHE_REDIS_PORT = 6379 // Port of the Redis server
 const DEFAULT_CACHE_REDIS_PATH = null // The UNIX socket string of the Redis server
 const DEFAULT_CACHE_REDIS_URL = null // The URL of the Redis server
-const DEFAULT_CACHE_REDIS_PASSWORD = null // The password required for redis auth
+const DEFAULT_CACHE_REDIS_PASSWORD = '' // The password required for redis auth
+const DEFAULT_CACHE_REDIS_TIMEOUT = 500 // Timeout in ms
 // Options
 const DEFAULT_CACHE_MAX_AGE = 1000 * 30 // Maximum age in ms
 
@@ -19,6 +21,7 @@ const envOptions = () => ({
   url: env.CACHE_REDIS_URL || DEFAULT_CACHE_REDIS_URL,
   password: env.CACHE_REDIS_PASSWORD || DEFAULT_CACHE_REDIS_PASSWORD,
   maxAge: Number(env.CACHE_MAX_AGE) || DEFAULT_CACHE_MAX_AGE,
+  timeout: Number(env.CACHE_REDIS_TIMEOUT) || DEFAULT_CACHE_REDIS_TIMEOUT,
 })
 
 const retryStrategy = (options) => {
@@ -56,7 +59,7 @@ class RedisCache {
 
   async connect() {
     if (!this.options.password) return
-    return this._auth(this.options.password)
+    return timeout(this._auth(this.options.password), this.options.timeout)
   }
 
   static async build(options) {
@@ -67,16 +70,16 @@ class RedisCache {
 
   async set(key, value, maxAge) {
     const entry = JSON.stringify(value)
-    return this._set(key, entry, 'PX', maxAge)
+    return timeout(this._set(key, entry, 'PX', maxAge), this.options.timeout)
   }
 
   async get(key) {
-    const entry = await this._get(key)
+    const entry = await timeout(this._get(key), this.options.timeout)
     return JSON.parse(entry)
   }
 
   async del(key) {
-    return this._del(key)
+    return timeout(this._del(key), this.options.timeout)
   }
 
   /**
