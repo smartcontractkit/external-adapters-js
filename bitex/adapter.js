@@ -20,7 +20,7 @@ const createRequest = (input, callback) => {
 
   Requester.request(config)
     .then(response => {
-      response.data.result = Requester.validateResultNumber(response.data, ['data', 'attributes', 'last'])
+      response.data.result = Requester.validateResultNumber(response.data, ['data', 'attributes', 'vwap'])
       callback(response.status, Requester.success(jobRunID, response))
     })
     .catch(error => {
