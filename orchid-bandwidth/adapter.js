@@ -8,14 +8,9 @@ const execute = (input, callback) => {
   const config = { url }
 
   Requester.request(config)
-    .then(response => {
-      const value = response.data
-      response.data = { result: value }
-      callback(response.status, Requester.success(jobRunID, response))
-    })
-    .catch(error => {
-      callback(500, Requester.errored(jobRunID, error))
-    })
+    .then((response) => ({ ...response, data: { result: response.data } }))
+    .then((response) => callback(response.status, Requester.success(jobRunID, response)))
+    .catch((error) => callback(500, Requester.errored(jobRunID, error)))
 }
 
-module.exports.createRequest = createRequest
+module.exports.execute = execute
