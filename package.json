@@ -4,6 +4,10 @@
   "license": "MIT",
   "private": true,
   "workspaces": [
+    "bitso",
+    "cryptomkt",
+    "satoshitango",
+    "bitex",
     "genesis-volatility",
     "metalsapi",
     "bravenewcoin-vwap",
