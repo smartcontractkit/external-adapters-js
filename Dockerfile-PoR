@@ -1,0 +1,32 @@
+FROM node:12 as builder
+ARG addressSet
+ARG explorer
+WORKDIR /home/node/app
+
+COPY package.json yarn.lock tsconfig.json Makefile ./
+COPY bootstrap/package.json bootstrap/package.json
+COPY external-adapter/package.json external-adapter/package.json
+COPY $addressSet/package.json $addressSet/package.json
+COPY $explorer/package.json $explorer/package.json
+COPY reduce/package.json reduce/package.json
+COPY proof-of-reserves/package.json proof-of-reserves/package.json
+RUN make deps
+
+COPY typings typings
+COPY bootstrap bootstrap
+COPY external-adapter external-adapter
+COPY $addressSet $addressSet
+COPY $explorer $explorer
+COPY reduce reduce
+COPY proof-of-reserves proof-of-reserves
+RUN make build-por
+
+FROM node:12-alpine
+ARG addressSet
+ARG explorer
+WORKDIR /home/node/app
+
+COPY --from=builder /home/node/app/proof-of-reserves/$addressSet-$explorer/dist ./
+COPY --from=builder /home/node/app/proof-of-reserves/package.json ./
+
+CMD ["yarn", "server"]

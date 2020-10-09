@@ -73,3 +73,34 @@ docker-2-step:
 
 zip-2-step: deps clean-2-step build-2-step
 	(cd 2-step/$(adapter)/dist && zip $(adapter)-2-step-adapter.zip index.js)
+
+clean-por:
+	rm -rf proof-of-reserves/$(addressSet)-$(explorer)
+	rm -rf $(addressSet)/dist
+	rm -rf $(explorer)/dist
+	rm -rf reduce/dist
+
+build-por: clean-por
+	yarn --cwd $(addressSet) build
+	yarn --cwd $(explorer) build
+	yarn --cwd reduce build
+	mkdir proof-of-reserves/$(addressSet)-$(explorer)
+	cp -r $(addressSet)/dist proof-of-reserves/$(addressSet)-$(explorer)/addressSet
+	cp -r $(explorer)/dist proof-of-reserves/$(addressSet)-$(explorer)/explorer
+	cp -r reduce/dist proof-of-reserves/$(addressSet)-$(explorer)/reduce
+	cp proof-of-reserves/adapter.js proof-of-reserves/$(addressSet)-$(explorer)
+	cp proof-of-reserves/index.js proof-of-reserves/$(addressSet)-$(explorer)
+	cp proof-of-reserves/package.json proof-of-reserves/$(addressSet)-$(explorer)
+	yarn ncc build proof-of-reserves/$(addressSet)-$(explorer)/ -o proof-of-reserves/$(addressSet)-$(explorer)/dist
+	rm -rf proof-of-reserves/$(addressSet)-$(explorer)/addressSet
+	rm -rf proof-of-reserves/$(addressSet)-$(explorer)/explorer
+	rm -rf proof-of-reserves/$(addressSet)-$(explorer)/reduce
+	rm proof-of-reserves/$(addressSet)-$(explorer)/adapter.js
+	rm proof-of-reserves/$(addressSet)-$(explorer)/index.js
+	rm proof-of-reserves/$(addressSet)-$(explorer)/package.json
+
+docker-por:
+	docker build --no-cache --build-arg addressSet=$(addressSet) --build-arg explorer=$(explorer) -f Dockerfile-PoR . -t por-$(addressSet)-$(explorer)-adapter
+
+zip-por: deps build-por
+	(cd proof-of-reserves/$(addressSet)-$(explorer)/dist && zip por-$(addressSet)-$(explorer)-adapter.zip index.js)
