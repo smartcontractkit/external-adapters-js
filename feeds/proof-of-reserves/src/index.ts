@@ -1,4 +1,4 @@
 import { expose } from '@chainlink/ea-bootstrap'
-import { execute } from './adapter'
+import { execute } from './feed'
 
 export = { execute, ...expose(execute) }

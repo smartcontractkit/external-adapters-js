@@ -1,17 +1,15 @@
 {
-  "name": "@chainlink/blockchain.com",
+  "name": "proof-of-reserves",
   "version": "0.0.1",
-  "description": "Chainlink adapter to query BTC address balance from blockchain.com.",
+  "description": "Chainlink Proof of Reserves feed.",
   "keywords": [
     "Chainlink",
     "LINK",
-    "wBTC",
     "BTC",
     "Bitcoin",
     "blockchain",
     "oracle",
-    "Proof of Reserves",
-    "blockchain.com"
+    "Proof of Reserves"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -43,8 +41,10 @@
     "typescript": "^3.9.7"
   },
   "dependencies": {
-    "@chainlink/ea-bootstrap": "^0.0.1",
-    "@chainlink/external-adapter": "^0.2.3",
-    "object-path": "^0.11.4"
+    "@chainlink/wbtc-address-set": "^0.0.1",
+    "@chainlink/renvm-address-set": "^0.0.1",
+    "@chainlink/blockchain.com": "^0.0.1",
+    "@chainlink/blockcypher": "^0.0.1",
+    "@chainlink/reduce": "^0.0.1"
   }
 }

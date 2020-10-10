@@ -64,7 +64,8 @@
     "blockchain.com",
     "blockcypher",
     "reduce",
-    "json-rpc"
+    "json-rpc",
+    "feeds/**"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",
