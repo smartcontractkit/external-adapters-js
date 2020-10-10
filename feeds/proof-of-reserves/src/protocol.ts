@@ -8,9 +8,9 @@ const getImpl = (options: any) => {
       return (data: any) => util.toAsync(renVM.execute, data)
 
     case 'wbtc':
-      return (data: any) => util.toAsync(wBTC.execute, data)
+      return (data: any) => wBTC.execute(data, wBTC.getConfig())
     default:
-      throw Error(`Unknown balance adapter type: ${options.type}`)
+      throw Error(`Unknown protocol adapter type: ${options.type}`)
   }
 }
 
