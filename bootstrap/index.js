@@ -1,9 +1,11 @@
 const { Requester, logger } = require('@chainlink/external-adapter')
 const { withCache, envOptions } = require('./lib/cache')
-const { toAsync } = require('./lib/util')
+const util = require('./lib/util')
 const server = require('./lib/server')
 const gcp = require('./lib/gcp')
 const aws = require('./lib/aws')
+
+const { toAsync } = util
 
 const skipOnError = (middleware) => async (execute) => {
   // Try to execute, pass through on error
@@ -97,4 +99,4 @@ const expose = (execute, checkHealth) => {
 const cacheOptions = envOptions()
 if (cacheOptions.enabled) logger.info('Cache enabled: ', cacheOptions)
 
-module.exports = { expose }
+module.exports = { expose, util }
