@@ -2,8 +2,17 @@
 
 ## Input Params
 
+- `endpoint`: The endpoint to use. Default: "price"
+
+### Price
+
 - `base`, `from`, or `coin`: The symbol or ID of the coin to query
 - `quote`, `to`, or `market`: The symbol or ID of the market to convert to
+
+### Difficulty
+
+- `blockchain` or `coin`: The blockchain to get difficulty from
+- `network`: The network of the blockchain to get difficulty from. Default: "mainnet"
 
 ## Output
 

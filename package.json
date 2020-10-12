@@ -4,6 +4,8 @@
   "license": "MIT",
   "private": true,
   "workspaces": [
+    "cryptoid",
+    "blockchair",
     "bitso",
     "cryptomkt",
     "satoshitango",
