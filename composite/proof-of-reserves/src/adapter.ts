@@ -42,9 +42,3 @@ export const execute = async (input: any) => {
   }
   return throwOnError(await reduceAdapter.execute(input))
 }
-
-export const executeSync = (input: any, callback: any): void => {
-  execute(input)
-    .then((res: any) => callback(res.statusCode, res.data))
-    .catch((err: Error) => callback(500, Requester.errored(err)))
-}
