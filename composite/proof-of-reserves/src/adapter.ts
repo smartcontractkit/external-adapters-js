@@ -1,4 +1,4 @@
-import { logger, Requester } from '@chainlink/external-adapter'
+import { logger } from '@chainlink/external-adapter'
 import reduceAdapter from '@chainlink/reduce'
 import { getImpl as getProtocolImpl } from './protocol'
 import { getImpl as getBalanceImpl } from './balance'
