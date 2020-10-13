@@ -1,10 +1,10 @@
 check?=schedule
 
 docker:
-	docker build --build-arg adapter=$(adapter) -f Dockerfile . -t $(adapter)-adapter $(if $(tag), -t $(tag), )
+	docker build --build-arg adapter=$(adapter) -f Dockerfile . -t $(if $(name),$(name),$(adapter))-adapter $(if $(tag), -t $(tag), )
 
 zip: deps build
-	(cd $(adapter)/dist && zip $(adapter)-adapter.zip index.js)
+	(cd $(adapter)/dist && zip $(if $(name),$(name),$(adapter))-adapter.zip index.js)
 
 new:
 	mkdir $(adapter)
