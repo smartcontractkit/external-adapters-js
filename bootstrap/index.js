@@ -84,6 +84,8 @@ const expose = (execute, checkHealth) => {
   return {
     server: server.initHandler(_execute, checkHealth),
     gcpHandler: gcp.initHandler(_execute),
+    // Backwards compatibility for old gcpHandler
+    gcpservice: gcp.initHandler(_execute),
     // Default index.handler for AWS Lambda
     handler: aws.initHandlerREST(_execute),
     awsHandlerREST: aws.initHandlerREST(_execute),
