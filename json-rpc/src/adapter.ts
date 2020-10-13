@@ -1,14 +1,5 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
-
-export type JobSpecRequest = {
-  id: string
-  data: Record<string, unknown>
-}
-
-type Response = {
-  statusCode: number
-  data: Record<string, unknown>
-}
+import { AdapterRequest, AdapterResponse } from '@chainlink/types'
 
 const inputParams = {
   url: false,
@@ -17,7 +8,7 @@ const inputParams = {
 }
 
 // Export function to integrate with Chainlink node
-export const execute = async (request: JobSpecRequest): Promise<Response> => {
+export const execute = async (request: AdapterRequest): Promise<AdapterResponse> => {
   const validator = new Validator(request, inputParams)
   if (validator.error) return { statusCode: validator.error.statusCode, data: validator.error }
 

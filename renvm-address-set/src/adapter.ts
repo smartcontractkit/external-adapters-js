@@ -8,11 +8,9 @@ import {
 } from '@renproject/interfaces'
 import { resolveInToken, getTokenName } from '@renproject/utils'
 import { Requester, Validator } from '@chainlink/external-adapter'
+import { AdapterRequest, AdapterResponse } from '@chainlink/types'
 import { Config, getConfig, logConfig, DEFAULT_NETWORK, DEFAULT_TOKEN_OR_CONTRACT } from './config'
 import { btc } from './coins'
-
-type JobSpecRequest = { id: string; data: Record<string, unknown> }
-type JobSpecResponse = { statusCode: number; data: Record<string, unknown> }
 
 const inputParams = {
   network: false,
@@ -21,9 +19,9 @@ const inputParams = {
 
 // Export function to integrate with Chainlink node
 export const execute = async (
-  request: JobSpecRequest,
+  request: AdapterRequest,
   config: Config,
-): Promise<JobSpecResponse> => {
+): Promise<AdapterResponse> => {
   const validator = new Validator(request, inputParams)
   if (validator.error) throw validator.error
 
@@ -88,5 +86,5 @@ export const execute = async (
 }
 
 // Export function to integrate with Chainlink node
-export const executeWithDefaults = async (request: JobSpecRequest): Promise<JobSpecResponse> =>
+export const executeWithDefaults = async (request: AdapterRequest): Promise<AdapterResponse> =>
   execute(request, getConfig())
