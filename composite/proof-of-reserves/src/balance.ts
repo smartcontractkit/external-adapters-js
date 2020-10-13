@@ -5,7 +5,7 @@ import { util } from '@chainlink/ea-bootstrap'
 const getImpl = (options: any) => {
   switch (options.type) {
     case 'blockchain.com':
-      return (data: any) => util.toAsync(blockchainCom.execute, data)
+      return (data: any) => blockchainCom.execute(data, blockchainCom.getConfig())
 
     case 'blockcypher':
       return (data: any) => util.toAsync(blockcypher.execute, data)
