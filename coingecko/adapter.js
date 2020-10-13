@@ -79,7 +79,7 @@ const price = (jobRunID, input, callback) => {
 }
 
 const globalParams = {
-  market: ['market', 'to', 'quote'],
+  market: ['quote', 'to', 'market', 'coin'],
 }
 
 const global = (jobRunID, input, path, callback) => {

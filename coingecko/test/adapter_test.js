@@ -31,17 +31,17 @@ describe('execute', () => {
         },
       },
       {
-        name: 'global market cap',
+        name: 'global marketcap',
         testData: {
           id: jobID,
-          data: { endpoint: 'globalMarketCap', to: 'USD' },
+          data: { to: 'BTC', endpoint: 'globalmarketcap' },
         },
       },
       {
-        name: 'market dominance',
+        name: 'BTC dominance',
         testData: {
           id: jobID,
-          data: { endpoint: 'dominance', quote: 'BTC' },
+          data: { market: 'BTC', endpoint: 'dominance' },
         },
       },
     ]
