@@ -17,6 +17,6 @@ export const getConfig = (): Config => ({
 const cloneNoSecrets = (config: Config): Config => (({ apiKey, ...o }) => o)(config)
 
 export const logConfig = (config: Config): void => {
-  logger.info('Adapter configuration:', { config: cloneNoSecrets(config) })
+  logger.debug('Adapter configuration:', { config: cloneNoSecrets(config) })
   if (!config.apiKey) logger.warn('API will be rate limited without an API key.')
 }

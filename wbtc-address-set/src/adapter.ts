@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios'
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { Config, getConfig } from './config'
+import { Config, getConfig, logConfig } from './config'
 
 type APIMembersResponse = {
   result: Member[]
@@ -43,6 +43,8 @@ export const execute = async (
   const validator = new Validator(request, inputParams)
   if (validator.error) throw validator.error
 
+  logConfig(config)
+
   const jobRunID = validator.validated.id
 
   const reqConfig = { ...config.api, url: '' }
@@ -65,7 +67,5 @@ export const execute = async (
 }
 
 // Export function to integrate with Chainlink node
-export const executeWithDefaults = async (request: JobSpecRequest): Promise<JobSpecResponse> => {
-  const config: Config = getConfig()
-  return await execute(request, config)
-}
+export const executeWithDefaults = async (request: JobSpecRequest): Promise<JobSpecResponse> =>
+  execute(request, getConfig())

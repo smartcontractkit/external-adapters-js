@@ -44,5 +44,5 @@ export const getConfig = (): Config => ({
 })
 
 export const logConfig = (config: Config): void => {
-  logger.info('Adapter configuration:', { config })
+  logger.debug('Adapter configuration:', { config })
 }

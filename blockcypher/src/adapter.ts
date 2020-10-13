@@ -20,6 +20,8 @@ export const execute = async (
   const validator = new Validator(request, inputParams)
   if (validator.error) throw validator.error
 
+  logConfig(config)
+
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
 
@@ -51,7 +53,5 @@ export const execute = async (
 type Callback = (statusCode: number, data: Record<string, unknown>) => void
 
 // Export function to integrate with Chainlink node
-export const executeWithDefaults = async (request: JobSpecRequest): Promise<JobSpecResponse> => {
-  const config: Config = getConfig()
-  return await execute(request, config)
-}
+export const executeWithDefaults = async (request: JobSpecRequest): Promise<JobSpecResponse> =>
+  execute(request, getConfig())
