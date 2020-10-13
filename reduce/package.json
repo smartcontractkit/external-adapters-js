@@ -38,8 +38,6 @@
     "typescript": "^3.9.7"
   },
   "dependencies": {
-    "@chainlink/ea-bootstrap": "^0.0.1",
-    "@chainlink/external-adapter": "^0.2.3",
     "object-path": "^0.11.4"
   }
 }
