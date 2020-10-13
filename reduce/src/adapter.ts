@@ -105,12 +105,3 @@ export const execute = async (request: JobSpecRequest): Promise<JobSpecResponse>
     }),
   }
 }
-
-type Callback = (statusCode: number, data: Record<string, unknown>) => void
-
-// Export function to integrate with Chainlink node
-export const executeSync = (request: JobSpecRequest, callback: Callback): void => {
-  execute(request)
-    .then((res) => callback(res.statusCode, res))
-    .catch((err) => callback(err.statusCode || 500, Requester.errored(request.id, err.message)))
-}

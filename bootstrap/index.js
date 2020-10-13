@@ -1,11 +1,10 @@
 const { Requester, logger } = require('@chainlink/external-adapter')
+const { types } = require('util')
 const { withCache, envOptions } = require('./lib/cache')
 const util = require('./lib/util')
 const server = require('./lib/server')
 const gcp = require('./lib/gcp')
 const aws = require('./lib/aws')
-
-const { toAsync } = util
 
 const skipOnError = (middleware) => async (execute) => {
   // Try to execute, pass through on error
@@ -51,8 +50,15 @@ const withLogger = (execute) => async (data) => {
   return result
 }
 
+const { toAsync } = util
+const { isAsyncFunction } = types
+
 // Transform sync execute function to async
-const withAsync = (execute) => async (data) => toAsync(execute, data)
+const withAsync = (execute) => {
+  // Check if execute is already a Promise
+  if (isAsyncFunction(execute)) return (data) => execute(data)
+  return async (data) => toAsync(execute, data)
+}
 
 const middleware = [withAsync, withLogger, skipOnError(withCache), withStatusCode]
 
@@ -76,7 +82,7 @@ const executeSync = (execute) => {
     return withMiddleware(execute)
       .then((executeWithMiddleware) => executeWithMiddleware(data))
       .then((result) => callback(result.statusCode, result.data))
-      .catch((error) => callback(500, Requester.errored(data.id, error)))
+      .catch((error) => callback(error.statusCode || 500, Requester.errored(data.id, error)))
   }
 }
 
