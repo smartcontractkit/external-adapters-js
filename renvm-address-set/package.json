@@ -42,8 +42,6 @@
     "typescript": "^3.9.7"
   },
   "dependencies": {
-    "@chainlink/ea-bootstrap": "^0.0.1",
-    "@chainlink/external-adapter": "^0.2.3",
     "@renproject/interfaces": "^1.0.3",
     "@renproject/ren": "^1.0.7",
     "@renproject/utils": "^1.0.7",

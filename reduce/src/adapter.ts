@@ -5,7 +5,7 @@ type JobSpecRequest = {
   id: string
   data: Record<string, unknown>
 }
-type Callback = (statusCode: number, data: Record<string, unknown>) => void
+type JobSpecResponse = { statusCode: number; data: Record<string, unknown> }
 
 const inputParams = {
   reducer: true,
@@ -17,24 +17,11 @@ const inputParams = {
 const DEFAULT_DATA_PATH = 'result'
 
 // Export function to integrate with Chainlink node
-export const execute = (request: JobSpecRequest, callback: Callback): void => {
+export const execute = async (request: JobSpecRequest): Promise<JobSpecResponse> => {
   const validator = new Validator(request, inputParams)
-  if (validator.error) return callback(validator.error.statusCode, validator.error)
+  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-
-  const _handleResponse = (out: unknown): void => {
-    callback(
-      200,
-      Requester.success(jobRunID, {
-        data: { result: out },
-        result: out,
-        status: 200,
-      }),
-    )
-  }
-
-  const _handleError = (err: Error): void => callback(500, Requester.errored(jobRunID, err.message))
 
   const { data } = validator.validated
 
@@ -43,15 +30,13 @@ export const execute = (request: JobSpecRequest, callback: Callback): void => {
 
   // Check if input data is valid
   if (!inputData || !Array.isArray(inputData) || inputData.length === 0) {
-    _handleError(Error(`Input must be a non-empty array.`))
-    return
+    throw Error(`Input must be a non-empty array.`)
   }
 
   const path = data.valuePath || ''
   // Check if every input object has a path specified
   if (path && !inputData.every((val) => objectPath.has(val, path))) {
-    _handleError(Error(`Path '${path}' not present in every item.`))
-    return
+    throw Error(`Path '${path}' not present in every item.`)
   }
 
   // Get value at specified path
@@ -63,8 +48,7 @@ export const execute = (request: JobSpecRequest, callback: Callback): void => {
   // Check if all items are numbers
   const _isNumber = (val: unknown): boolean => !isNaN(_get(val))
   if (!inputData.every(_isNumber)) {
-    _handleError(Error(`Not every '${path}' item is a number.`))
-    return
+    throw Error(`Not every '${path}' item is a number.`)
   }
 
   let result
@@ -108,10 +92,25 @@ export const execute = (request: JobSpecRequest, callback: Callback): void => {
       break
     }
     default: {
-      _handleError(Error(`Reducer ${data.reducer} not supported.`))
-      return
+      throw Error(`Reducer ${data.reducer} not supported.`)
     }
   }
 
-  _handleResponse(result)
+  return {
+    statusCode: 200,
+    data: Requester.success(jobRunID, {
+      data: { result },
+      result,
+      status: 200,
+    }),
+  }
+}
+
+type Callback = (statusCode: number, data: Record<string, unknown>) => void
+
+// Export function to integrate with Chainlink node
+export const executeSync = (request: JobSpecRequest, callback: Callback): void => {
+  execute(request)
+    .then((res) => callback(res.statusCode, res))
+    .catch((err) => callback(err.statusCode || 500, Requester.errored(request.id, err.message)))
 }

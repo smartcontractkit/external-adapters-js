@@ -2,7 +2,6 @@ import { logger, Requester } from '@chainlink/external-adapter'
 import reduceAdapter from '@chainlink/reduce'
 import { getImpl as getProtocolImpl } from './protocol'
 import { getImpl as getBalanceImpl } from './balance'
-import { util } from '@chainlink/ea-bootstrap'
 
 const throwOnError = (output: any) => {
   const { statusCode } = output
@@ -10,7 +9,7 @@ const throwOnError = (output: any) => {
   else return output
 }
 
-export const executeAsync = async (input: any) => {
+export const execute = async (input: any) => {
   // Get address set for protocol
   const executeProtocol = getProtocolImpl({ type: process.env.PROTOCOL_ADAPTER_TYPE })
   let output: any = throwOnError(await executeProtocol(input))
@@ -41,11 +40,11 @@ export const executeAsync = async (input: any) => {
       valuePath: 'balance',
     },
   }
-  return throwOnError(await util.toAsync(reduceAdapter.execute, input))
+  return throwOnError(await reduceAdapter.execute(input))
 }
 
-export const execute = (input: any, callback: any): void => {
-  executeAsync(input)
+export const executeSync = (input: any, callback: any): void => {
+  execute(input)
     .then((res: any) => callback(res.statusCode, res.data))
     .catch((err: Error) => callback(500, Requester.errored(err)))
 }
