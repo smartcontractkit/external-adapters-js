@@ -1,7 +1,7 @@
 {
   "name": "proof-of-reserves",
   "version": "0.0.1",
-  "description": "Chainlink Proof of Reserves feed.",
+  "description": "Chainlink Proof of Reserves composite adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
@@ -21,11 +21,11 @@
   "license": "MIT",
   "scripts": {
     "build": "yarn && tsc",
-    "lint": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx",
-    "lint:fix": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix",
-    "test": "mocha --exit -r ts-node/register 'test/**/*.test.ts'",
-    "test:unit": "mocha --exit --grep @integration --invert -r ts-node/register 'test/**/*.test.ts'",
-    "test:integration": "mocha --exit --grep @integration -r ts-node/register 'test/**/*.test.ts'",
+    "lint": "eslint --ignore-path ../../.eslintignore . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint --ignore-path ../../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix",
+    "test": "echo \"Error: no test specified\"",
+    "test:unit": "echo \"Error: no test specified\"",
+    "test:integration": "echo \"Error: no test specified\"",
     "server": "node -e 'require(\"./index.js\").server()'",
     "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
     "start": "yarn server:dist"
