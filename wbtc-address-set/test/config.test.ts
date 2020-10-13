@@ -1,6 +1,6 @@
 import { expect } from 'chai'
-
-import { ENV_API_ENDPOINT, RequiredEnvError, getRequiredEnv, getConfig } from '../src/config'
+import { util } from '@chainlink/ea-bootstrap'
+import { ENV_API_ENDPOINT, getConfig } from '../src/config'
 
 describe('config', () => {
   beforeEach(() => {
@@ -9,8 +9,8 @@ describe('config', () => {
 
   context('when no env is set', () => {
     it(`throws RequiredEnvError for ${ENV_API_ENDPOINT}`, () => {
-      expect(() => getRequiredEnv(ENV_API_ENDPOINT)) //
-        .throws(RequiredEnvError, ENV_API_ENDPOINT)
+      expect(() => util.getRequiredEnv(ENV_API_ENDPOINT)) //
+        .throws(util.RequiredEnvError, ENV_API_ENDPOINT)
     })
   })
 

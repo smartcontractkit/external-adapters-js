@@ -46,7 +46,40 @@ const getWithCoalescing = async ({ get, isInFlight, retries = 5, interval = () =
   return await _self(retries)
 }
 
+// Custom error for required env variable.
+class RequiredEnvError extends Error {
+  constructor(name) {
+    super(`Please set the required env ${name}.`)
+    this.name = RequiredEnvError.name
+  }
+}
+
+/**
+ * Get variable from environments
+ * @param name The name of environment variable
+ * @throws {RequiredEnvError} Will throw an error if environment variable is not defined.
+ * @returns {string}
+ */
+const getRequiredEnv = (name, prefix = '') => {
+  const val = getEnv(prefix)
+  if (!val) throw new RequiredEnvError(`${prefix}${name}`)
+  return val
+}
+
+// /^[_a-z0-9]+$/i
+const isEnvNameValid = (name) => /^[_a-z0-9]+$/i.test(name)
+
+const getEnv = (name, prefix = '') => {
+  const envName = `${prefix}${name}`
+  if (!isEnvNameValid(name))
+    throw Error(`Invalid environment var name: ${envName}. Only '/^[_a-z0-9]+$/i' supported.`)
+  return process.env[envName]
+}
+
 module.exports = {
+  getEnv,
+  getRequiredEnv,
+  RequiredEnvError,
   parseBool,
   uuid,
   toAsync,

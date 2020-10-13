@@ -1,4 +1,5 @@
 import { logger } from '@chainlink/external-adapter'
+import { util } from '@chainlink/ea-bootstrap'
 import { ChainType } from './endpoint'
 
 export const ENV_API_KEY = 'API_KEY'
@@ -27,12 +28,12 @@ export const getBaseURL = (chain: ChainType): string => {
 }
 
 // TODO: add blockchain.info API key support
-export const getConfig = (): Config => ({
-  apiKey: process.env[ENV_API_KEY],
+export const getConfig = (prefix = ''): Config => ({
+  apiKey: util.getEnv(ENV_API_KEY, prefix),
   api: {
     returnRejectedPromiseOnError: true,
     withCredentials: true,
-    timeout: parseInt(process.env[ENV_API_TIMEOUT] as string) || DEFAULT_TIMEOUT,
+    timeout: parseInt(util.getEnv(ENV_API_TIMEOUT, prefix) as string) || DEFAULT_TIMEOUT,
     headers: {
       common: {
         'Cache-Control': 'no-cache, no-store, must-revalidate',
@@ -42,7 +43,7 @@ export const getConfig = (): Config => ({
       },
     },
     params: {
-      key: process.env[ENV_API_KEY],
+      key: util.getEnv(ENV_API_KEY, prefix),
     },
   },
 })

@@ -1,4 +1,5 @@
 import { logger } from '@chainlink/external-adapter'
+import { util } from '@chainlink/ea-bootstrap'
 import { RenNetwork, isRenNetwork } from '@renproject/interfaces'
 
 export const ENV_NETWORK = 'NETWORK'
@@ -14,14 +15,14 @@ export type Config = {
   }
 }
 
-export const getConfig = (): Config => {
-  const network = process.env[ENV_NETWORK]
+export const getConfig = (prefix = ''): Config => {
+  const network = util.getEnv(ENV_NETWORK, prefix)
   if (network && !isRenNetwork(network)) throw Error(`Unknown Ren network: ${network}`)
 
   return {
     network: network as RenNetwork | undefined,
     api: {
-      baseURL: process.env[ENV_API_ENDPOINT],
+      baseURL: util.getEnv(ENV_API_ENDPOINT, prefix),
     },
   }
 }

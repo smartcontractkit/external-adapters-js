@@ -1,4 +1,5 @@
 import { logger } from '@chainlink/external-adapter'
+import { util } from '@chainlink/ea-bootstrap'
 export const ENV_API_KEY = 'API_KEY'
 
 export const DEFAULT_DATA_PATH = 'result'
@@ -9,8 +10,8 @@ export type Config = {
   apiKey?: string
 }
 
-export const getConfig = (): Config => ({
-  apiKey: process.env[ENV_API_KEY],
+export const getConfig = (prefix = ''): Config => ({
+  apiKey: util.getEnv(ENV_API_KEY, prefix),
 })
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
