@@ -50,14 +50,11 @@ const withLogger = (execute) => async (data) => {
   return result
 }
 
-const { toAsync } = util
-const { isAsyncFunction } = types
-
 // Transform sync execute function to async
 const withAsync = (execute) => {
   // Check if execute is already a Promise
-  if (isAsyncFunction(execute)) return (data) => execute(data)
-  return async (data) => toAsync(execute, data)
+  if (types.isAsyncFunction(execute)) return (data) => execute(data)
+  return async (data) => util.toAsync(execute, data)
 }
 
 const middleware = [withAsync, withLogger, skipOnError(withCache), withStatusCode]

@@ -25,13 +25,13 @@ export const execute = async (
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
 
-  let fn
+  let result
   switch (endpoint) {
     case balance.Name: {
       const validator = new Validator(request, balance.inputParams)
       if (validator.error) throw validator.error
 
-      fn = balance.execute(config, request, validator.validated.data)
+      result = await balance.execute(config, request, validator.validated.data)
       break
     }
     default: {
@@ -39,7 +39,6 @@ export const execute = async (
     }
   }
 
-  const result = await fn
   return {
     statusCode: 200,
     data: Requester.success(jobRunID, {

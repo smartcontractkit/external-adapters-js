@@ -10,8 +10,6 @@ type Response = {
   data: Record<string, unknown>
 }
 
-type Callback = (statusCode: number, data: Record<string, unknown>) => void
-
 const inputParams = {
   url: false,
   method: false,
@@ -59,10 +57,4 @@ export const execute = async (request: JobSpecRequest): Promise<Response> => {
   } catch (error) {
     return { statusCode: 500, data: Requester.errored(request.id, error) }
   }
-}
-
-export const executeSync = (request: JobSpecRequest, callback: Callback): void => {
-  execute(request)
-    .then((resp) => callback(resp.statusCode, resp.data))
-    .catch((error) => callback(500, error))
 }
