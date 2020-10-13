@@ -103,6 +103,8 @@ jobs:
             anyblock-gasprice,
             ethgasstation,
             amberdata-gasprice,
+            blockchair,
+            cryptoid
           ]
     steps:
       - uses: actions/checkout@v2
