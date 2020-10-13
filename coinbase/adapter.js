@@ -18,7 +18,7 @@ const execute = (input, callback) => {
   const convert = validator.validated.data.convert
   const currencyPair = `${symbol}-${convert}`.toUpperCase()
   const url = baseUrl.replace(currencyPairToken, currencyPair)
-  let params = {
+  const params = {
     symbol,
     convert,
   }
