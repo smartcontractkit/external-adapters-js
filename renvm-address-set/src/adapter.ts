@@ -8,48 +8,42 @@ import {
 } from '@renproject/interfaces'
 import { resolveInToken, getTokenName } from '@renproject/utils'
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { Config, getConfig, logConfig, DEFAULT_NETWORK, DEFAULT_TOKEN_OR_CONTRACT } from './config'
+import { Config, getConfig, DEFAULT_NETWORK, DEFAULT_TOKEN_OR_CONTRACT } from './config'
 import { btc } from './coins'
 
 type JobSpecRequest = { id: string; data: Record<string, unknown> }
-type Callback = (statusCode: number, data: Record<string, unknown>) => void
+type JobSpecResponse = { statusCode: number; data: Record<string, unknown> }
 
 const inputParams = {
   network: false,
   tokenOrContract: false,
 }
 
-const config: Config = getConfig()
-logConfig(config)
-
 // Export function to integrate with Chainlink node
-export const execute = (request: JobSpecRequest, callback: Callback): void => {
+export const execute = async (
+  request: JobSpecRequest,
+  config: Config,
+): Promise<JobSpecResponse> => {
   const validator = new Validator(request, inputParams)
-  if (validator.error) return callback(validator.error.statusCode, validator.error)
+  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-
-  const _handleError = (err: Error): void => callback(500, Requester.errored(jobRunID, err.message))
-
   const { data } = validator.validated
 
   if (config.network && config.network !== data.network) {
-    _handleError(Error(`Unsupported Ren network: ${config.network}.`))
-    return
+    throw Error(`Unsupported Ren network: ${config.network}.`)
   }
 
   const network = data.network || DEFAULT_NETWORK
   if (!isRenNetwork(network)) {
-    _handleError(Error(`Unknown Ren network: ${data.network}`))
-    return
+    throw Error(`Unknown Ren network: ${data.network}`)
   }
 
   let tokenOrContract = data.tokenOrContract || DEFAULT_TOKEN_OR_CONTRACT
   tokenOrContract = tokenOrContract.length === 3 ? tokenOrContract.toUpperCase() : tokenOrContract
 
   if (!isAsset(tokenOrContract) && !isRenContract(tokenOrContract)) {
-    _handleError(Error(`Unknown Ren tokenOrContract: ${tokenOrContract}`))
-    return
+    throw Error(`Unknown Ren tokenOrContract: ${tokenOrContract}`)
   }
 
   const renContract = isAsset(tokenOrContract)
@@ -58,14 +52,12 @@ export const execute = (request: JobSpecRequest, callback: Callback): void => {
 
   // Only BTC is supported for now
   if (renContract !== RenContract.Btc2Eth && renContract !== RenContract.Eth2Btc) {
-    _handleError(Error(`Unsupported token: ${tokenOrContract}`))
-    return
+    throw Error(`Unsupported token: ${tokenOrContract}`)
   }
 
   const bitcoinNetwork = btc.getNetwork(network)
   if (!bitcoinNetwork) {
-    _handleError(Error(`Unknown Bitcoin network: ${network}`))
-    return
+    throw Error(`Unknown Bitcoin network: ${network}`)
   }
 
   const _getAddress = async (): Promise<string | undefined> => {
@@ -74,23 +66,31 @@ export const execute = (request: JobSpecRequest, callback: Callback): void => {
     return btc.p2pkh(out, bitcoinNetwork).address
   }
 
-  const _handleResponse = (address: string | undefined): void => {
-    const result = [
-      {
-        address,
-        coin: getTokenName(renContract).toLowerCase(),
-        chain: network,
-      },
-    ]
-    callback(
-      200,
-      Requester.success(jobRunID, {
-        data: { result },
-        result,
-        status: 200,
-      }),
-    )
-  }
+  const address = await _getAddress()
+  const result = [
+    {
+      address,
+      coin: getTokenName(renContract).toLowerCase(),
+      chain: network,
+    },
+  ]
 
-  _getAddress().then(_handleResponse).catch(_handleError)
+  return {
+    statusCode: 200,
+    data: Requester.success(jobRunID, {
+      data: { result },
+      result,
+      status: 200,
+    }),
+  }
+}
+
+type Callback = (statusCode: number, data: Record<string, unknown>) => void
+
+// Export function to integrate with Chainlink node
+export const executeSync = (request: JobSpecRequest, callback: Callback): void => {
+  const config: Config = getConfig()
+  execute(request, config)
+    .then((res) => callback(res.statusCode, res))
+    .catch((err) => callback(err.statusCode || 500, Requester.errored(request.id, err.message)))
 }
