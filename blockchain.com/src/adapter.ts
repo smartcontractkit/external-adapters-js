@@ -1,47 +1,33 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { Config, getConfig, logConfig, DEFAULT_ENDPOINT } from './config'
+import { Config, getConfig, DEFAULT_ENDPOINT } from './config'
 import { balance } from './endpoint'
 
 export type JobSpecRequest = {
   id: string
   data: Record<string, unknown>
 }
-type Callback = (statusCode: number, data: Record<string, unknown>) => void
+type JobSpecResponse = { statusCode: number; data: Record<string, unknown> }
 
 const inputParams = {
   endpoint: false,
 }
 
-const config: Config = getConfig()
-logConfig(config)
-
 // Export function to integrate with Chainlink node
-export const execute = (request: JobSpecRequest, callback: Callback): void => {
+export const execute = async (
+  request: JobSpecRequest,
+  config: Config,
+): Promise<JobSpecResponse> => {
   const validator = new Validator(request, inputParams)
-  if (validator.error) return callback(validator.error.statusCode, validator.error)
+  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-
-  const _handleResponse = (out: any): void => {
-    callback(
-      200,
-      Requester.success(jobRunID, {
-        data: { result: out },
-        result: out,
-        status: 200,
-      }),
-    )
-  }
-
-  const _handleError = (err: Error): void => callback(500, Requester.errored(jobRunID, err.message))
-
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
 
   let fn
   switch (endpoint) {
     case balance.Name: {
       const validator = new Validator(request, balance.inputParams)
-      if (validator.error) return callback(validator.error.statusCode, validator.error)
+      if (validator.error) throw validator.error
 
       fn = balance.execute(config, request, validator.validated.data)
       break
@@ -52,5 +38,23 @@ export const execute = (request: JobSpecRequest, callback: Callback): void => {
     }
   }
 
-  fn.then(_handleResponse).catch(_handleError)
+  const result = await fn
+  return {
+    statusCode: 200,
+    data: Requester.success(jobRunID, {
+      data: { result },
+      result,
+      status: 200,
+    }),
+  }
+}
+
+type Callback = (statusCode: number, data: Record<string, unknown>) => void
+
+// Export function to integrate with Chainlink node
+export const executeSync = (request: JobSpecRequest, callback: Callback): void => {
+  const config: Config = getConfig()
+  execute(request, config)
+    .then((res) => callback(res.statusCode, res))
+    .catch((err) => callback(err.statusCode || 500, Requester.errored(request.id, err.message)))
 }

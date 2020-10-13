@@ -1,6 +1,6 @@
 # Chainlink Composite Adapters
 
-This section contains packages that represent composite adapters built form multiple Chainlink external adapters published to NPM under `@chainlink/` organization.
+This section contains packages that represent composite adapters built form multiple Chainlink external adapters published to NPM under the `@chainlink` organization.
 
 ## Build
 
@@ -28,4 +28,4 @@ Create the zip:
 make zip adapter=composite/proof-of-reserves name=proof-of-reserves
 ```
 
-The zip will be created as `./$(adapter)/dist/$(adapter)-adapter.zip`.
+The zip will be created as `./$(adapter)/dist/$(name)-adapter.zip`.
