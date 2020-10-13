@@ -1,6 +1,4 @@
 import { expose } from '@chainlink/ea-bootstrap'
-import { executeSync } from './adapter'
-// TODO: export config
-// import * as config from './config'
+import { execute } from './adapter'
 
-export = expose(executeSync)
+export = { execute, ...expose(execute) }
