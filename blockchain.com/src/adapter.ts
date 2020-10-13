@@ -33,8 +33,7 @@ export const execute = async (
       break
     }
     default: {
-      fn = Promise.reject(Error(`Endpoint ${endpoint} not supported.`))
-      break
+      throw Error(`Endpoint ${endpoint} not supported.`)
     }
   }
 

@@ -1,6 +1,5 @@
 import blockchainCom from '@chainlink/blockchain.com'
 import blockcypher from '@chainlink/blockcypher'
-import { util } from '@chainlink/ea-bootstrap'
 
 const getImpl = (options: any) => {
   switch (options.type) {
@@ -8,7 +7,7 @@ const getImpl = (options: any) => {
       return (data: any) => blockchainCom.execute(data, blockchainCom.getConfig())
 
     case 'blockcypher':
-      return (data: any) => util.toAsync(blockcypher.execute, data)
+      return (data: any) => blockcypher.execute(data, blockcypher.getConfig())
     default:
       throw Error(`Unknown balance adapter type: ${options.type}`)
   }

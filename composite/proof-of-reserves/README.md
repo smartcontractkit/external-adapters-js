@@ -1,4 +1,4 @@
-# Chainlink Proof of Reserves feed
+# Chainlink Proof of Reserves composite adapter
 
 ## Configuration
 
