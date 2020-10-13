@@ -1,7 +1,7 @@
 import objectPath from 'object-path'
 import { Requester } from '@chainlink/external-adapter'
+import { AdapterRequest } from '@chainlink/types'
 
-import { JobSpecRequest } from '../adapter'
 import { Config, DEFAULT_CONFIRMATIONS, DEFAULT_DATA_PATH, getBaseURL } from '../config'
 import { CoinType, ChainType } from '.'
 
@@ -63,7 +63,7 @@ export const inputParams = {
 // Export function to integrate with Chainlink node
 export const execute = async (
   config: Config,
-  request: JobSpecRequest,
+  request: AdapterRequest,
   data: RequestData,
 ): Promise<Address[]> => {
   const dataPath = data.dataPath || DEFAULT_DATA_PATH

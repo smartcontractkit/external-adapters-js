@@ -1,8 +1,7 @@
 import bcypher from 'blockcypher'
 import objectPath from 'object-path'
-
+import { AdapterRequest } from '@chainlink/types'
 import { Config, DEFAULT_CONFIRMATIONS, DEFAULT_DATA_PATH } from '../config'
-import { JobSpecRequest } from '../adapter'
 import { CoinType, ChainType } from '.'
 
 export const Name = 'balance'
@@ -87,7 +86,7 @@ export const inputParams = {
 // Export function to integrate with Chainlink node
 export const execute = async (
   config: Config,
-  request: JobSpecRequest,
+  request: AdapterRequest,
   data: RequestData,
 ): Promise<Address[]> => {
   const dataPath = data.dataPath || DEFAULT_DATA_PATH
