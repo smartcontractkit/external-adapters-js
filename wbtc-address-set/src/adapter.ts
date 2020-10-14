@@ -46,7 +46,7 @@ export const execute = async (
   const jobRunID = validator.validated.id
 
   const reqConfig = { ...config.api, url: '' }
-  const out: AxiosResponse<APIMembersResponse> = Requester.request(reqConfig)
+  const out: AxiosResponse<APIMembersResponse> = await Requester.request(reqConfig)
 
   const addresses = out.data.result
     .filter((member) => member.token === 'wbtc')

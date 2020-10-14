@@ -6,6 +6,7 @@ const server = require('./lib/server')
 const gcp = require('./lib/gcp')
 const aws = require('./lib/aws')
 
+// TODO: this will duplicate request to the endpoint when endpoint returns an error (not cache)
 const skipOnError = (middleware) => async (execute) => {
   // Try to execute, pass through on error
   const _safe = (executeWithMiddleware) => async (data) => {
