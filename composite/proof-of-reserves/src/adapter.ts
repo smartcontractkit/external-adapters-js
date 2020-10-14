@@ -9,36 +9,53 @@ const throwOnError = (output: any) => {
   else return output
 }
 
-export const execute = async (input: any) => {
-  // Get address set for protocol
-  const executeProtocol = getProtocolImpl({ type: process.env.PROTOCOL_ADAPTER_TYPE })
-  let output: any = throwOnError(await executeProtocol(input))
-  logger.debug('_onProtocol', { output })
+// Run, log, throw on error
+const runAdapter = async (execute: any, input: any, tag: string) => {
+  const output = throwOnError(await execute(input))
+  logger.debug(tag, { output })
+  return output
+}
 
-  // Get balances for address set
-  const executeBalance = getBalanceImpl({ type: process.env.BTC_BALANCE_ADAPTER_TYPE })
-  input = {
+// Get address set for protocol
+const runProtocolAdapter = async (input: any) => {
+  const execute = getProtocolImpl({ type: process.env.PROTOCOL_ADAPTER })
+  return runAdapter(execute, input, '_onProtocol')
+}
+
+// Get balances for address set
+const runBalanceAdapter = async (input: any) => {
+  const execute = getBalanceImpl({ type: process.env.BTC_BALANCE_ADAPTER })
+  const next = {
     id: input.id,
     data: {
-      result: output.data.result,
+      result: input.data.result,
       dataPath: 'result',
       endpoint: 'balance',
       confirmations: 6,
     },
   }
-  output = throwOnError(await executeBalance(input))
-  logger.debug('_onBalance', { output })
+  return runAdapter(execute, next, '_onBalance')
+}
 
-  // Get reduce balances as total balance
-  input = {
+// Get reduce balances as total balance
+const runReduceAdapter = async (input: any) => {
+  const execute = reduceAdapter.execute
+  const next = {
     id: input.id,
     data: {
-      result: output.data.result,
+      result: input.data.result,
       reducer: 'sum',
       initialValue: 0,
       dataPath: 'result',
       valuePath: 'balance',
     },
   }
-  return throwOnError(await reduceAdapter.execute(input))
+  return runAdapter(execute, next, '_onReduce')
+}
+
+export const execute = async (input: any) => {
+  const protocolOutput = await runProtocolAdapter(input)
+  const balanceOutput = await runBalanceAdapter(protocolOutput)
+  const reduceOutput = await runReduceAdapter(balanceOutput)
+  return reduceOutput
 }

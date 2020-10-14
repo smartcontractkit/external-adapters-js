@@ -2,6 +2,25 @@
 
 This section contains packages that represent composite adapters built form multiple Chainlink external adapters published to NPM under the `@chainlink` organization.
 
+## Run
+
+First build the project:
+
+```bash
+yarn build
+```
+
+Then run (Mainnet renBTC - Blockcypher example):
+
+```bash
+env \
+  LOG_LEVEL=debug \
+  PROTOCOL_ADAPTER=renvm \
+  RENVM_NETWORK=mainnet \
+  BTC_BALANCE_ADAPTER=blockcypher \
+  yarn start
+```
+
 ## Build
 
 ### Docker
