@@ -6,3 +6,8 @@ declare module '@chainlink/types' {
 declare module '@chainlink/ea-bootstrap'
 declare module '@chainlink/external-adapter'
 declare module 'object-path'
+declare module '@chainlink/reduce'
+declare module '@chainlink/blockchain.com'
+declare module '@chainlink/blockcypher'
+declare module '@chainlink/renvm-address-set'
+declare module '@chainlink/wbtc-address-set'
