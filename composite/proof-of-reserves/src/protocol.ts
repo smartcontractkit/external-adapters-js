@@ -2,19 +2,30 @@ import { Execute } from '@chainlink/types'
 import renVM from '@chainlink/renvm-address-set'
 import wBTC from '@chainlink/wbtc-address-set'
 
-export type ProtocolOptions = { type: Protocol }
-export type Protocol = 'wbtc' | 'renvm'
+export type ProtocolOptions = { type?: Protocol }
+export enum Protocol {
+  WBTC = 'wbtc',
+  RenVM = 'renvm',
+}
+
+const isProtocol = (envVar?: string): envVar is Protocol =>
+  Object.values(Protocol).includes(envVar as any)
+
+export const getProtocol = (): Protocol | undefined => {
+  const protocol: string = process.env.PROTOCOL_ADAPTER || ''
+  return isProtocol(protocol) ? (protocol as Protocol) : undefined
+}
 
 export const getImpl = (options: ProtocolOptions): Execute => {
-  const prefix = options.type.toUpperCase()
+  const prefix = options.type?.toUpperCase()
   switch (options.type) {
-    case 'renvm':
+    case Protocol.RenVM:
       return (data) => {
         const config = renVM.getConfig(prefix)
         return renVM.execute(data, config)
       }
 
-    case 'wbtc':
+    case Protocol.WBTC:
       return (data) => {
         const config = wBTC.getConfig(prefix)
         return wBTC.execute(data, config)

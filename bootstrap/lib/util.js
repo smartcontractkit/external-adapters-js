@@ -78,6 +78,16 @@ const getRequiredEnv = (name, prefix = '') => {
   return val
 }
 
+// TODO: clean this ASAP
+// @see WrappedAdapterResponse
+const wrapExecute = (execute) => async (request) => {
+  const resp = await execute(request)
+  return {
+    statusCode: resp.statusCode,
+    data: resp,
+  }
+}
+
 module.exports = {
   getEnv,
   getRequiredEnv,
@@ -88,4 +98,5 @@ module.exports = {
   delay,
   exponentialBackOffMs,
   getWithCoalescing,
+  wrapExecute,
 }

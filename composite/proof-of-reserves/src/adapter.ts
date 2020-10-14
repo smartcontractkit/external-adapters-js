@@ -1,8 +1,8 @@
 import { logger } from '@chainlink/external-adapter'
 import { AdapterRequest, AdapterResponse, Execute } from '@chainlink/types'
 import reduceAdapter from '@chainlink/reduce'
-import { getImpl as getProtocolImpl, Protocol } from './protocol'
-import { getImpl as getBalanceImpl, BitcoinIndexer } from './balance'
+import { getImpl as getProtocolImpl, getProtocol } from './protocol'
+import { getImpl as getBalanceImpl, getBitcoinIndexer } from './balance'
 
 const throwOnError = (output: AdapterResponse) => {
   const { statusCode } = output
@@ -19,13 +19,13 @@ const runAdapter = async (execute: Execute, input: AdapterRequest, tag: string) 
 
 // Get address set for protocol
 const runProtocolAdapter = async (input: AdapterRequest) => {
-  const execute = getProtocolImpl({ type: process.env.PROTOCOL_ADAPTER as Protocol })
+  const execute = getProtocolImpl({ type: getProtocol() })
   return runAdapter(execute, input, '_onProtocol')
 }
 
 // Get balances for address set
 const runBalanceAdapter = async (input: AdapterResponse) => {
-  const execute = getBalanceImpl({ type: process.env.BTC_BALANCE_ADAPTER as BitcoinIndexer })
+  const execute = getBalanceImpl({ type: getBitcoinIndexer() })
   const next = {
     id: input.jobRunID,
     data: {

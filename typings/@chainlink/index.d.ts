@@ -4,9 +4,18 @@ declare module '@chainlink/types' {
   export type AdapterResponse = {
     jobRunID: string
     statusCode: number
+    status?: string
     data: Record<string, unknown>
+    result: Record<string, unknown>
     error?: any
   }
+
+  // TODO: clean this ASAP
+  export type WrappedAdapterResponse = {
+    statusCode: number
+    data: AdapterResponse
+  }
+
   export type Execute = (input: AdapterRequest) => Promise<AdapterResponse>
 }
 declare module '@chainlink/ea-bootstrap'
