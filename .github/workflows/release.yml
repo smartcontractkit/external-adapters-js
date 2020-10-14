@@ -96,7 +96,6 @@ jobs:
             oilpriceapi,
             openexchangerates,
             polygon,
-            yahoo-finance,
             google-finance,
             etherchain,
             poa-gasprice,
@@ -104,7 +103,11 @@ jobs:
             ethgasstation,
             amberdata-gasprice,
             blockchair,
-            cryptoid
+            cryptoid,
+            blockchain.com,
+            blockcypher,
+            wbtc-address-set,
+            renvm-address-set,
           ]
     steps:
       - uses: actions/checkout@v2
@@ -114,6 +117,41 @@ jobs:
           name: release_url
       - name: Build
         run: make zip adapter=${{ matrix.adapter }}
+      - name: Get Release File Name & Upload URL
+        id: get_release_info
+        run: |
+          echo ::set-output name=file_name::${REPOSITORY_NAME##*/}-${TAG_REF_NAME##*/v} # RepositoryName-v1.0.0
+          value=`cat release_url/release_url.txt`
+          echo ::set-output name=upload_url::$value
+        env:
+          TAG_REF_NAME: ${{ github.ref }}
+          REPOSITORY_NAME: ${{ github.repository }}
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.get_release_info.outputs.upload_url }}
+          asset_path: ./${{ matrix.adapter }}/dist/${{ matrix.adapter }}-adapter.zip
+          asset_name: ${{ steps.get_release_info.outputs.file_name }}-${{ matrix.adapter }}-adapter.zip
+          asset_content_type: application/zip
+
+  publish-composite-artifacts:
+    needs: [release]
+    runs-on: ubuntu-latest
+    name: Publish composite adapter zips (GitHub Release)
+    strategy:
+      matrix:
+        adapter: [proof-of-reserves]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Load Release URL File from release job
+        uses: actions/download-artifact@v1
+        with:
+          name: release_url
+      - name: Build
+        run: make zip adapter=composite/${{ matrix.adapter }} name=${{ matrix.adapter }}
       - name: Get Release File Name & Upload URL
         id: get_release_info
         run: |
@@ -222,15 +260,7 @@ jobs:
     strategy:
       matrix:
         adapter:
-          [
-            coinapi,
-            coingecko,
-            coinmarketcap,
-            coinpaprika,
-            bravenewcoin,
-            cryptocompare,
-            amberdata,
-          ]
+          [coinapi, coingecko, coinmarketcap, coinpaprika, bravenewcoin, cryptocompare, amberdata]
     steps:
       - uses: actions/checkout@v2
       - name: Load Release URL File from release job

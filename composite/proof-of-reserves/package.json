@@ -1,7 +1,7 @@
 {
-  "name": "proof-of-reserves",
+  "name": "@chainlink/proof-of-reserves",
   "version": "0.0.1",
-  "description": "Chainlink Proof of Reserves composite adapter.",
+  "description": "Chainlink BTC Proof of Reserves composite adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
