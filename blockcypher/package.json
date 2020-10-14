@@ -20,7 +20,11 @@
   },
   "author": "Kristijan Rebernisak <kristijan.rebernisak@smartcontract.com>",
   "license": "MIT",
+  "files": [
+    "dist"
+  ],
   "scripts": {
+    "prepublishOnly": "yarn build && yarn test:unit",
     "build": "yarn && tsc",
     "lint": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix",
