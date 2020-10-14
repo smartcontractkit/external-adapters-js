@@ -14,7 +14,10 @@ const execute = (input, callback) => {
 
   Requester.request(url, customError)
     .then((response) => {
-      response.data.result = Requester.validateResultNumber(response.data, ['responseData', 'totalTrust'])
+      response.data.result = Requester.validateResultNumber(response.data, [
+        'responseData',
+        'totalTrust',
+      ])
       callback(response.status, Requester.success(jobRunID, response))
     })
     .catch((error) => callback(500, Requester.errored(jobRunID, error)))
