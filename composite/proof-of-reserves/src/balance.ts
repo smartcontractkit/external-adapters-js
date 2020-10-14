@@ -12,7 +12,7 @@ const isBitcoinIndexer = (envVar?: string): envVar is BitcoinIndexer =>
   Object.values(BitcoinIndexer).includes(envVar as any)
 
 export const getBitcoinIndexer = (): BitcoinIndexer | undefined => {
-  const bitcoinIndexer: string = process.env.BTC_INDEXER_ADAPTER || ''
+  const bitcoinIndexer = process.env.BTC_INDEXER_ADAPTER
   return isBitcoinIndexer(bitcoinIndexer) ? (bitcoinIndexer as BitcoinIndexer) : undefined
 }
 
