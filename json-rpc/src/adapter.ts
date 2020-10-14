@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { AdapterRequest, AdapterResponse } from '@chainlink/types'
+import { Execute } from '@chainlink/types'
 
 const inputParams = {
   url: false,
@@ -8,9 +8,9 @@ const inputParams = {
 }
 
 // Export function to integrate with Chainlink node
-export const execute = async (request: AdapterRequest): Promise<AdapterResponse> => {
+export const execute: Execute = async (request) => {
   const validator = new Validator(request, inputParams)
-  if (validator.error) return { statusCode: validator.error.statusCode, data: validator.error }
+  if (validator.error) throw validator.error
 
   const url = process.env.RPC_URL || validator.validated.data.url || 'http://localhost:8545'
   const method = validator.validated.data.method || ''
@@ -33,19 +33,8 @@ export const execute = async (request: AdapterRequest): Promise<AdapterResponse>
     data: JSON.parse(JSON.stringify(data)),
   }
 
-  try {
-    const response = await Requester.request(options)
-    if (response.statusCode >= 400)
-      return {
-        statusCode: response.status,
-        data: Requester.errored(request.id, response.data.error),
-      }
+  const response = await Requester.request(options)
+  if (response.statusCode >= 400) throw response.data.error
 
-    return {
-      statusCode: response.status,
-      data: Requester.success(request.id, response),
-    }
-  } catch (error) {
-    return { statusCode: 500, data: Requester.errored(request.id, error) }
-  }
+  return Requester.success(request.id, response)
 }
