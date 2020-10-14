@@ -10,7 +10,7 @@ First build the project:
 yarn build
 ```
 
-Then run:
+Then run one of this examples.
 
 Mainnet wBTC & Blockchain.com:
 
@@ -18,7 +18,7 @@ Mainnet wBTC & Blockchain.com:
 env \
   LOG_LEVEL=debug \
   PROTOCOL_ADAPTER=wbtc \
-  WBTC_API_ENDPOINT=https://api \
+  WBTC_API_ENDPOINT="https://api" \
   BTC_BALANCE_ADAPTER=blockchain.com \
   BLOCKCHAIN_COM_API_KEY=123-api-key \
   yarn start
@@ -30,13 +30,13 @@ Mainnet wBTC & Blockcypher:
 env \
   LOG_LEVEL=debug \
   PROTOCOL_ADAPTER=wbtc \
-  WBTC_API_ENDPOINT=https://api \
+  WBTC_API_ENDPOINT="https://api" \
   BTC_BALANCE_ADAPTER=blockcypher \
   BLOCKCYPHER_API_KEY=123-api-key \
   yarn start
 ```
 
-Mainnet renBTC - Blockcypher:
+Mainnet renBTC & Blockcypher:
 
 ```bash
 env \
@@ -48,7 +48,7 @@ env \
   yarn start
 ```
 
-Mainnet renBTC - Blockchain.com:
+Mainnet renBTC & Blockchain.com:
 
 ```bash
 env \
