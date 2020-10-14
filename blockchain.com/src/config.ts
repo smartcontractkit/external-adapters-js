@@ -27,7 +27,6 @@ export const getBaseURL = (chain: ChainType): string => {
   }
 }
 
-// TODO: add blockchain.info API key support
 export const getConfig = (prefix = ''): Config => ({
   apiKey: util.getEnv(ENV_API_KEY, prefix),
   api: {
