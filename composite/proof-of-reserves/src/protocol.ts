@@ -12,7 +12,7 @@ const isProtocol = (envVar?: string): envVar is Protocol =>
   Object.values(Protocol).includes(envVar as any)
 
 export const getProtocol = (): Protocol | undefined => {
-  const protocol: string = process.env.PROTOCOL_ADAPTER || ''
+  const protocol = process.env.PROTOCOL_ADAPTER
   return isProtocol(protocol) ? (protocol as Protocol) : undefined
 }
 
