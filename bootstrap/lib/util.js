@@ -49,11 +49,11 @@ const getWithCoalescing = async ({ get, isInFlight, retries = 5, interval = () =
 const getEnvName = (name, prefix = '') => {
   const envName = prefix ? `${prefix}_${name}` : name
   if (!isEnvNameValid(envName))
-    throw Error(`Invalid environment var name: ${envName}. Only '/^[_a-z0-9]+$/i' supported.`)
+    throw Error(`Invalid environment var name: ${envName}. Only '/^[_a-z0-9]+$/i' is supported.`)
   return envName
 }
 
-// /^[_a-z0-9]+$/i
+// Only case-insensitive alphanumeric and underscore (_) are allowed for env vars
 const isEnvNameValid = (name) => /^[_a-z0-9]+$/i.test(name)
 
 const getEnv = (name, prefix = '') => process.env[getEnvName(name, prefix)]
