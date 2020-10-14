@@ -45,7 +45,7 @@ export const execute = async (
 
   const jobRunID = validator.validated.id
 
-  const reqConfig = { ...config.api, url: '' }
+  const reqConfig = { ...config.api }
   const out: AxiosResponse<APIMembersResponse> = await Requester.request(reqConfig)
 
   const addresses = out.data.result
