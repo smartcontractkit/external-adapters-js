@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/reduce",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Chainlink adapter to reduce input, resulting in single output value.",
   "keywords": [
     "Chainlink",

@@ -54,14 +54,11 @@ export const execute = async (
     .filter((a) => a.chain === 'btc' && a.type == 'custodial' && a.balance)
     .map((a) => ({ ...a, coin: 'btc', chain: 'mainnet' }))
 
-  return {
-    statusCode: 200,
-    data: Requester.success(jobRunID, {
-      data: { response: out.data, result: addresses },
-      result: addresses,
-      status: 200,
-    }),
-  }
+  return Requester.success(jobRunID, {
+    data: { response: out.data, result: addresses },
+    result: addresses,
+    status: 200,
+  })
 }
 
 // Export function to integrate with Chainlink node

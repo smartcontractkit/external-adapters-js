@@ -5,7 +5,7 @@
 The feed takes the following environment variables:
 
 - `PROTOCOL_ADAPTER`: Required protocol type: `renvm|wbtc`
-- `BTC_BALANCE_ADAPTER`: Required BTC balance adapter type `blockchain_com|blockcypher`
+- `BTC_INDEXER_ADAPTER`: Required BTC indexer adapter type `blockchain_com|blockcypher`
 
 ## Run
 
@@ -24,7 +24,7 @@ env \
   LOG_LEVEL=debug \
   PROTOCOL_ADAPTER=wbtc \
   WBTC_API_ENDPOINT="https://api" \
-  BTC_BALANCE_ADAPTER=blockchain_com \
+  BTC_INDEXER_ADAPTER=blockchain_com \
   BLOCKCHAIN_COM_API_KEY=123-api-key \
   yarn start
 ```
@@ -36,7 +36,7 @@ env \
   LOG_LEVEL=debug \
   PROTOCOL_ADAPTER=wbtc \
   WBTC_API_ENDPOINT="https://api" \
-  BTC_BALANCE_ADAPTER=blockcypher \
+  BTC_INDEXER_ADAPTER=blockcypher \
   BLOCKCYPHER_API_KEY=123-api-key \
   yarn start
 ```
@@ -48,7 +48,7 @@ env \
   LOG_LEVEL=debug \
   PROTOCOL_ADAPTER=renvm \
   RENVM_NETWORK=mainnet \
-  BTC_BALANCE_ADAPTER=blockcypher \
+  BTC_INDEXER_ADAPTER=blockcypher \
   BLOCKCYPHER_API_KEY=123-api-key \
   yarn start
 ```
@@ -60,7 +60,7 @@ env \
   LOG_LEVEL=debug \
   PROTOCOL_ADAPTER=renvm \
   RENVM_NETWORK=mainnet \
-  BTC_BALANCE_ADAPTER=blockchain_com \
+  BTC_INDEXER_ADAPTER=blockchain_com \
   BLOCKCHAIN_COM_API_KEY=123-api-key \
   yarn start
 ```

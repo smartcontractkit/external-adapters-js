@@ -34,14 +34,11 @@ export const execute = async (
     }
   }
 
-  return {
-    statusCode: 200,
-    data: Requester.success(jobRunID, {
-      data: { result },
-      result,
-      status: 200,
-    }),
-  }
+  return Requester.success(jobRunID, {
+    data: { result },
+    result,
+    status: 200,
+  })
 }
 
 // Export function to integrate with Chainlink node
