@@ -2,19 +2,24 @@
 
 ## Input Params
 
-- `base`, `from`, or `coin`: The symbol of the currency to query
-- `quote`, `to`, or `market`: The symbol of the currency to convert to
-- `endpoint`: Optional endpoint param
+_No params_
 
 ## Output
 
 ```json
 {
- "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
- "data": {
-  "price": 77777.77,
-  "result": 77777.77
- },
- "statusCode": 200
+  "responseData": {
+    "accountName": "TrueUSD",
+    "totalTrust": 349229951.33,
+    "totalToken": 347947192.85067266,
+    "updatedAt": "2020-10-14T23:49:01.390Z",
+    "token": [
+      { "tokenName": "TUSDB", "principle": 4786001.5606727 },
+      { "tokenName": "TUSD", "principle": 343161191.28999996 }
+    ]
+  },
+  "message": [{ "msg": "get contractSupply successfully" }],
+  "success": true,
+  "responseCode": 200
 }
 ```
