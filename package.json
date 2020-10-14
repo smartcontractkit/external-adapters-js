@@ -4,6 +4,7 @@
   "license": "MIT",
   "private": true,
   "workspaces": [
+    "trueusd",
     "cryptoid",
     "blockchair",
     "bitso",

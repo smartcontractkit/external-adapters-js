@@ -1,0 +1,45 @@
+Arguments: 
+  /home/justinkaseman/.nvm/versions/node/v10.16.3/bin/node /home/justinkaseman/Desktop/dev/external-adapters-js/.yarn/releases/yarn-1.22.5.cjs test
+
+PATH: 
+  /home/justinkaseman/.nvm/versions/node/v10.16.3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+
+Yarn version: 
+  1.22.5
+
+Node version: 
+  10.16.3
+
+Platform: 
+  linux x64
+
+Trace: 
+  SyntaxError: /home/justinkaseman/Desktop/dev/external-adapters-js/package.json: Unexpected token , in JSON at position 1460
+      at JSON.parse (<anonymous>)
+      at /home/justinkaseman/Desktop/dev/external-adapters-js/.yarn/releases/yarn-1.22.5.cjs:1098:57
+      at Generator.next (<anonymous>)
+      at step (/home/justinkaseman/Desktop/dev/external-adapters-js/.yarn/releases/yarn-1.22.5.cjs:310:30)
+      at /home/justinkaseman/Desktop/dev/external-adapters-js/.yarn/releases/yarn-1.22.5.cjs:321:13
+
+npm manifest: 
+  {
+    "name": "trueusd",
+    "version": "0.1.0",
+    "license": "MIT",
+    "main": "index.js",
+    "scripts": {
+      "server": "node -e 'require(\"./index.js\").server()'",
+      "lint": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx",
+      "lint:fix": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix",
+      "test": "yarn _mocha --timeout 0",
+      "test:unit": "yarn _mocha --grep @integration --invert --timeout 0",
+      "test:integration": "yarn _mocha --grep @integration --timeout 0"
+    },
+    "dependencies": {}
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
