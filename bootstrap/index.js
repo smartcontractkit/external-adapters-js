@@ -6,21 +6,10 @@ const server = require('./lib/server')
 const gcp = require('./lib/gcp')
 const aws = require('./lib/aws')
 
-// TODO: this will duplicate request to the endpoint when endpoint returns an error (not cache)
+// Try to initialize, pass through on error
 const skipOnError = (middleware) => async (execute) => {
-  // Try to execute, pass through on error
-  const _safe = (executeWithMiddleware) => async (data) => {
-    try {
-      return await executeWithMiddleware(data)
-    } catch (error) {
-      logger.warn(`${middleware.name} middleware execution error! Passing through. `, error)
-      return execute(data)
-    }
-  }
-
-  // Try to initialize, pass through on error
   try {
-    return _safe(await middleware(execute))
+    return await middleware(execute)
   } catch (error) {
     logger.warn(`${middleware.name} middleware initialization error! Passing through. `, error)
     return execute
