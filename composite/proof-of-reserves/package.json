@@ -13,6 +13,9 @@
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "repository": {
     "url": "https://github.com/smartcontractkit/external-adapters-js",
     "type": "git"
@@ -20,6 +23,7 @@
   "author": "Kristijan Rebernisak <kristijan.rebernisak@smartcontract.com>",
   "license": "MIT",
   "scripts": {
+    "prepublishOnly": "yarn build && yarn test:unit",
     "build": "yarn && tsc",
     "lint": "eslint --ignore-path ../../.eslintignore . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint --ignore-path ../../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix",
