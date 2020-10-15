@@ -10,12 +10,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - [Request coalescing](https://aws.amazon.com/builders-library/caching-challenges-and-strategies/) support to mitigate the issue of requests for data coming in bursts and missing the cache.
 - Remote cache (Redis/ElastiCache) support, with adapter key grouping, to enable more efficient serverless deployments.
-- Support for composite adapters
-- Proof of Reserves composite adapter
-  - wBTC address set adapter
-  - renVM address set adapter
-  - blockchain.com BTC indexer adapter
-  - blockcypher BTC indexer adapter
+- Support for composite adapters:
+  - `composite/proof-of-reserves` adapter combines multiple adapters to find total balance in custody for wBTC or renBTC.
+- New adapters:
+  - `wbtc-address-set` adapter to query wBTC custody address set.
+  - `renvm-address-set` adapter to query renVM protocol custody address set.
+  - `blockchain.com` adapter to BTC indexer used to fetch balances for a set of addresses.
+  - `blockcypher` adapter to BTC indexer used to fetch balances for a set of addresses.
+  - `trueusd`
+  - `cryptoid`
+  - `blockchair`
+  - `bitso`
+  - `cryptomkt`
+  - `satoshitango`
+  - `bitex`
+  - `orchid-bandwidth`
+  - `genesis-volatility`
 
 ### Changed
 

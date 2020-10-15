@@ -1,7 +1,7 @@
 {
   "name": "@chainlink/proof-of-reserves",
   "version": "0.0.1",
-  "description": "Chainlink BTC Proof of Reserves composite adapter.",
+  "description": "Chainlink BTC Proof of Reserves composite adapter. Combines multiple adapters to find total balance in custody for wBTC or renBTC.",
   "keywords": [
     "Chainlink",
     "LINK",
