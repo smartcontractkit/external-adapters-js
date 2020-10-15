@@ -1,6 +1,6 @@
 import objectPath from 'object-path'
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { AdapterRequest, AdapterResponse } from '@chainlink/types'
+import { Execute } from '@chainlink/types'
 
 const inputParams = {
   reducer: true,
@@ -12,7 +12,7 @@ const inputParams = {
 const DEFAULT_DATA_PATH = 'result'
 
 // Export function to integrate with Chainlink node
-export const execute = async (request: AdapterRequest): Promise<AdapterResponse> => {
+export const execute: Execute = async (request) => {
   const validator = new Validator(request, inputParams)
   if (validator.error) throw validator.error
 
