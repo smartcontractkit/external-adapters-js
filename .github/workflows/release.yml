@@ -67,6 +67,15 @@ jobs:
       matrix:
         adapter:
           [
+            trueusd,
+            cryptoid,
+            blockchair,
+            bitso,
+            cryptomkt,
+            satoshitango,
+            bitex,
+            orchid-bandwidth,
+            genesis-volatility,
             metalsapi,
             bravenewcoin-vwap,
             dxfeed,
