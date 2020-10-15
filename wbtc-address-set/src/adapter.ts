@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios'
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { AdapterRequest, AdapterResponse } from '@chainlink/types'
+import { Execute } from '@chainlink/types'
 import { Config, getConfig, logConfig } from './config'
 
 type APIMembersResponse = {
@@ -34,10 +34,7 @@ type ChainType = 'btc' | 'eth'
 const inputParams = {}
 
 // Export function to integrate with Chainlink node
-export const execute = async (
-  request: AdapterRequest,
-  config: Config,
-): Promise<AdapterResponse> => {
+export const execute: Execute = async (request, config: Config) => {
   const validator = new Validator(request, inputParams)
   if (validator.error) throw validator.error
 
@@ -62,5 +59,4 @@ export const execute = async (
 }
 
 // Export function to integrate with Chainlink node
-export const executeWithDefaults = async (request: AdapterRequest): Promise<AdapterResponse> =>
-  execute(request, getConfig())
+export const executeWithDefaults: Execute = async (request) => execute(request, getConfig())

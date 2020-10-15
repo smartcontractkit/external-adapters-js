@@ -16,7 +16,7 @@ declare module '@chainlink/types' {
     data: AdapterResponse
   }
 
-  export type Execute = (input: AdapterRequest) => Promise<AdapterResponse>
+  export type Execute = (input: AdapterRequest, config?: any) => Promise<AdapterResponse>
 }
 declare module '@chainlink/ea-bootstrap'
 declare module '@chainlink/external-adapter'
