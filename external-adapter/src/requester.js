@@ -76,6 +76,7 @@ class Requester {
     return path.reduce((o, n) => o[n], data)
   }
 
+  // TODO: fix error handling, messages are not sent in response
   static errored(jobRunID = '1', error = 'An error occurred', statusCode = 500) {
     const message = error instanceof Error || isObject(error) ? error.message : error
     return {

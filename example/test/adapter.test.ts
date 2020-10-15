@@ -1,6 +1,7 @@
-const { assert } = require('chai')
-const { assertSuccess, assertError } = require('@chainlink/external-adapter')
-const { execute } = require('../adapter')
+import { assert } from 'chai'
+import { assertSuccess, assertError } from '@chainlink/external-adapter'
+import { AdapterRequest } from '@chainlink/types'
+import { execute } from '../src/adapter'
 
 describe('execute', () => {
   const jobID = '1'
@@ -26,13 +27,11 @@ describe('execute', () => {
     ]
 
     requests.forEach((req) => {
-      it(`${req.name}`, (done) => {
-        execute(req.testData, (statusCode, data) => {
-          assertSuccess({ expected: 200, actual: statusCode }, data, jobID)
-          assert.isAbove(data.result, 0)
-          assert.isAbove(data.data.result, 0)
-          done()
-        })
+      it(`${req.name}`, async () => {
+        const data = await execute(req.testData as AdapterRequest)
+        assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
+        assert.isAbove(data.result, 0)
+        assert.isAbove(data.data.result, 0)
       })
     })
   })
@@ -52,11 +51,12 @@ describe('execute', () => {
     ]
 
     requests.forEach((req) => {
-      it(`${req.name}`, (done) => {
-        execute(req.testData, (statusCode, data) => {
-          assertError({ expected: 400, actual: statusCode }, data, jobID)
-          done()
-        })
+      it(`${req.name}`, async () => {
+        try {
+          await execute(req.testData as AdapterRequest)
+        } catch (err) {
+          assertError({ expected: 400, actual: err.statusCode }, err, jobID)
+        }
       })
     })
   })
@@ -74,11 +74,12 @@ describe('execute', () => {
     ]
 
     requests.forEach((req) => {
-      it(`${req.name}`, (done) => {
-        execute(req.testData, (statusCode, data) => {
-          assertError({ expected: 500, actual: statusCode }, data, jobID)
-          done()
-        })
+      it(`${req.name}`, async () => {
+        try {
+          await execute(req.testData as AdapterRequest)
+        } catch (err) {
+          assertError({ expected: 500, actual: err.statusCode }, err, jobID)
+        }
       })
     })
   })

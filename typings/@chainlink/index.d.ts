@@ -4,10 +4,8 @@ declare module '@chainlink/types' {
   export type AdapterResponse = {
     jobRunID: string
     statusCode: number
-    status?: string
-    data: Record<string, unknown>
-    result: Record<string, unknown>
-    error?: any
+    data: any
+    result: any
   }
 
   // TODO: clean this ASAP
