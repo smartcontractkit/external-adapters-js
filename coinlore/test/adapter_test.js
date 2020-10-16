@@ -1,5 +1,5 @@
 const { assert } = require('chai')
-const { assertSuccess, assertError } = require('@chainlink/external-adapter')
+const { assertSuccess } = require('@chainlink/external-adapter')
 const { execute } = require('../adapter')
 
 describe('execute', () => {
@@ -9,15 +9,15 @@ describe('execute', () => {
     const requests = [
       {
         name: 'id not supplied',
-        testData: { data: { } },
+        testData: { data: {} },
       },
       {
         name: 'is is supplied',
-        testData: { id: jobID, data: { } },
+        testData: { id: jobID, data: {} },
       },
       {
         name: 'empty body',
-        testData: { id: jobID, testData: { } },
+        testData: { id: jobID, testData: {} },
       },
     ]
 

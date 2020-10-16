@@ -73,10 +73,7 @@ const globalMarketDom = (jobRunID, input, callback) => {
   }
 
   const _handleResponse = (response) => {
-    response.data.result = Requester.validateResultNumber(response.data, [
-      'data',
-      'btc_dominance'
-    ])
+    response.data.result = Requester.validateResultNumber(response.data, ['data', 'btc_dominance'])
     callback(response.status, Requester.success(jobRunID, response))
   }
 
@@ -84,7 +81,6 @@ const globalMarketDom = (jobRunID, input, callback) => {
 
   Requester.request(config, customError).then(_handleResponse).catch(_handleError)
 }
-
 
 const customParams = {
   endpoint: false,
@@ -99,7 +95,7 @@ const execute = (input, callback) => {
   switch (endpoint.toLowerCase()) {
     case ENDPOINT_PRICE:
       return price(jobRunID, input, callback)
-    case ENDPOINT_MKTDOM: 
+    case ENDPOINT_MKTDOM:
       return globalMarketDom(jobRunID, input, callback)
     default:
       callback(500, Requester.errored(jobRunID, 'invalid endpoint provided'))

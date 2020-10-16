@@ -151,7 +151,7 @@ const execute = (input, callback) => {
       return price(jobRunID, input, callback)
     case ENDPOINT_MKTCAP:
       return globalMarketCap(jobRunID, input, callback)
-    case ENDPOINT_MKTDOM: 
+    case ENDPOINT_MKTDOM:
       return globalMarketDom(jobRunID, input, callback)
     default:
       callback(500, Requester.errored(jobRunID, 'invalid endpoint provided'))

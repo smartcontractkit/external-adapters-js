@@ -57,7 +57,7 @@ describe('execute', () => {
     const requests = [
       {
         name: 'unknown base',
-        testData: { id: jobID, data: { base: 'not_real'} },
+        testData: { id: jobID, data: { base: 'not_real' } },
       },
     ]
 

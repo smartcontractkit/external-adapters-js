@@ -79,7 +79,9 @@ const bitcoinDominance = (jobRunID, input, callback) => {
   const config = { url }
 
   const _handleResponse = (response) => {
-    response.data.result = Requester.validateResultNumber(response.data, ['bitcoin_dominance_percentage'])
+    response.data.result = Requester.validateResultNumber(response.data, [
+      'bitcoin_dominance_percentage',
+    ])
     callback(response.status, Requester.success(jobRunID, response))
   }
 
