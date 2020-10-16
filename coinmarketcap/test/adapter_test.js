@@ -27,6 +27,10 @@ describe('execute', () => {
         name: 'sym/convert',
         testData: { id: jobID, data: { sym: 'ETH', convert: 'USD' } },
       },
+      {
+        name: 'btc market dominance',
+        testData: { id: jobID, data: { endpoint: 'btcMarketDom' } },
+      },
     ]
 
     requests.forEach((req) => {
