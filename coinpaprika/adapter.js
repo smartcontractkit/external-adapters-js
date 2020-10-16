@@ -2,6 +2,7 @@ const { Requester, Validator } = require('@chainlink/external-adapter')
 
 const ENDPOINT_PRICE = 'price'
 const ENDPOINT_MKTCAP = 'globalmarketcap'
+const ENDPOINT_BTCD = 'bitcoindominance'
 
 const DEFAULT_ENDPOINT = ENDPOINT_PRICE
 
@@ -73,6 +74,20 @@ const globalMarketCap = (jobRunID, input, callback) => {
   Requester.request(config).then(_handleResponse).catch(_handleError)
 }
 
+const bitcoinDominance = (jobRunID, input, callback) => {
+  const url = 'https://api.coinpaprika.com/v1/global'
+  const config = { url }
+
+  const _handleResponse = (response) => {
+    response.data.result = Requester.validateResultNumber(response.data, ['bitcoin_dominance_percentage'])
+    callback(response.status, Requester.success(jobRunID, response))
+  }
+
+  const _handleError = (error) => callback(500, Requester.errored(jobRunID, error))
+
+  Requester.request(config).then(_handleResponse).catch(_handleError)
+}
+
 const customParams = {
   endpoint: false,
 }
@@ -88,6 +103,8 @@ const execute = (input, callback) => {
       return price(jobRunID, input, callback)
     case ENDPOINT_MKTCAP:
       return globalMarketCap(jobRunID, input, callback)
+    case ENDPOINT_BTCD:
+      return bitcoinDominance(jobRunID, input, callback)
     default:
       callback(500, Requester.errored(jobRunID, 'invalid endpoint provided'))
   }
