@@ -40,7 +40,14 @@ const calculateIndex = (indexes) => {
   return value.toNumber()
 }
 
-const coingeckoBlacklist = ['leocoin', 'farmatrust', 'freetip', 'compound-coin']
+const coingeckoBlacklist = [
+  'leocoin',
+  'farmatrust',
+  'freetip',
+  'compound-coin',
+  'uni-coin',
+  'unicorn-token',
+]
 
 const execute = async (jobRunID, data) => {
   const coinList = await getCoinList()
@@ -48,7 +55,7 @@ const execute = async (jobRunID, data) => {
     data.index.map(async (synth) => {
       const coin = coinList.find(
         (d) =>
-          d.symbol.toLowerCase() === synth.symbol.toLowerCase() &&
+          d.symbol.toLowerCase() === synth.asset.toLowerCase() &&
           !coingeckoBlacklist.includes(d.id.toLowerCase()),
       )
       synth.coinId = coin.id

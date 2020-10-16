@@ -2,7 +2,7 @@ const { Requester } = require('@chainlink/external-adapter')
 const Decimal = require('decimal.js')
 
 const getPriceData = async (synth) => {
-  const url = `https://us.market-api.kaiko.io/v2/data/trades.v1/spot_exchange_rate/${synth.symbol.toLowerCase()}/usd`
+  const url = `https://us.market-api.kaiko.io/v2/data/trades.v1/spot_exchange_rate/${synth.asset.toLowerCase()}/usd`
   const params = {
     sort: 'desc',
   }

@@ -38,13 +38,13 @@ const calculateIndex = (indexes) => {
 const execute = async (jobRunID, data) => {
   const synths = []
   data.index.forEach((synth) => {
-    synths.push(synth.symbol.toUpperCase())
+    synths.push(synth.asset.toUpperCase())
   })
   const prices = await getPriceData(synths.join())
   for (const symbol in prices.data) {
     if (!Object.prototype.hasOwnProperty.call(prices.data, symbol)) continue
     for (let i = 0; i < data.index.length; i++) {
-      if (symbol.toUpperCase() !== data.index[i].symbol.toUpperCase()) continue
+      if (symbol.toUpperCase() !== data.index[i].asset.toUpperCase()) continue
       data.index[i].priceData = prices.data[symbol]
       break
     }
