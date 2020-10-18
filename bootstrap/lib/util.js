@@ -1,5 +1,7 @@
 const { v4: uuidv4 } = require('uuid')
 
+const isObject = (o) => o !== null && typeof o === 'object' && Array.isArray(o) === false
+
 const parseBool = (value) => {
   if (!value) return false
   const _val = value.toString().toLowerCase()
@@ -89,6 +91,7 @@ const wrapExecute = (execute) => async (request) => {
 }
 
 module.exports = {
+  isObject,
   getEnv,
   getRequiredEnv,
   RequiredEnvError,

@@ -25,7 +25,7 @@ const transform = (offchain, onchain, operator, dividendConfig) => {
 
 const execute = (input, callback) => {
   const validator = new Validator(input, customParams)
-  if (validator.error) return callback(validator.error.statusCode, validator.error)
+  if (validator.error) return callback(validator.error.statusCode, validator.errored)
 
   const jobRunID = validator.validated.id
   const contract = validator.validated.data.contract

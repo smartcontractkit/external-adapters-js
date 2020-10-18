@@ -181,14 +181,14 @@ describe('Requester', () => {
       const error = Requester.errored()
       assert.equal(error.jobRunID, '1')
       assert.equal(error.status, 'errored')
-      assert.equal(error.error.message, 'An error occurred')
+      assert.equal(error.error.message, 'An error occurred.')
     })
 
     it('returns a Chainlink error when no data is supplied', () => {
       const error = Requester.errored('abc123')
       assert.equal(error.jobRunID, 'abc123')
       assert.equal(error.status, 'errored')
-      assert.equal(error.error.message, 'An error occurred')
+      assert.equal(error.error.message, 'An error occurred.')
     })
   })
 

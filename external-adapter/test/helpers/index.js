@@ -5,6 +5,8 @@ exports.assertError = (statusCode, data, expectedJobId) => {
   assert.equal(data.jobRunID, expectedJobId)
   assert.equal(data.status, 'errored')
   assert.exists(data.error)
+  assert.exists(data.error.name)
+  assert.exists(data.error.message)
 }
 
 exports.assertSuccess = (statusCode, data, expectedJobId) => {

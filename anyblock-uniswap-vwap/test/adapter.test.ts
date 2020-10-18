@@ -1,5 +1,5 @@
 import { assert } from 'chai'
-import { assertSuccess, assertError } from '@chainlink/external-adapter'
+import { Requester, assertSuccess, assertError } from '@chainlink/external-adapter'
 import { AdapterRequest } from '@chainlink/types'
 import { execute } from '../src/adapter'
 
@@ -42,8 +42,9 @@ describe('execute', () => {
       it(`${req.name}`, async () => {
         try {
           await execute(req.testData as AdapterRequest)
-        } catch (err) {
-          assertError({ expected: 400, actual: err.statusCode }, err, jobID)
+        } catch (error) {
+          const errorResp = Requester.errored(jobID, error)
+          assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
         }
       })
     })
@@ -61,8 +62,9 @@ describe('execute', () => {
       it(`${req.name}`, async () => {
         try {
           await execute(req.testData as AdapterRequest)
-        } catch (err) {
-          assertError({ expected: 500, actual: err.statusCode }, err, jobID)
+        } catch (error) {
+          const errorResp = Requester.errored(jobID, error)
+          assertError({ expected: 500, actual: errorResp.statusCode }, errorResp, jobID)
         }
       })
     })

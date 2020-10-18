@@ -14,7 +14,7 @@ const execute = (input, callback) => synthIndexRequest(input, adapterExecute, ca
 
 const synthIndexRequest = (input, adapter, callback) => {
   const validator = new Validator(input, customParams)
-  if (validator.error) return callback(validator.error.statusCode, validator.error)
+  if (validator.error) return callback(validator.error.statusCode, validator.errored)
 
   const jobRunID = validator.validated.id
   const asset = validator.validated.data.asset.toLowerCase()

@@ -49,7 +49,7 @@ const priceParams = {
 
 const price = (jobRunID, input, callback) => {
   const validator = new Validator(input, priceParams)
-  if (validator.error) return callback(validator.error.statusCode, validator.error)
+  if (validator.error) return callback(validator.error.statusCode, validator.errored)
 
   const symbol = validator.validated.data.base
   convertFromTicker(symbol, validator.validated.data.coinid, (coin) => {
@@ -84,7 +84,7 @@ const globalParams = {
 
 const global = (jobRunID, input, path, callback) => {
   const validator = new Validator(input, globalParams)
-  if (validator.error) return callback(validator.error.statusCode, validator.error)
+  if (validator.error) return callback(validator.error.statusCode, validator.errored)
 
   const market = validator.validated.data.market
   const url = 'https://api.coingecko.com/api/v3/global'
@@ -113,7 +113,7 @@ const customParams = {
 
 const execute = (input, callback) => {
   const validator = new Validator(input, customParams)
-  if (validator.error) return callback(validator.error.statusCode, validator.error)
+  if (validator.error) return callback(validator.error.statusCode, validator.errored)
 
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
