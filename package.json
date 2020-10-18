@@ -78,7 +78,7 @@
     "test": "yarn workspaces run test",
     "test:unit": "yarn workspaces run test:unit",
     "test:integration": "yarn workspaces run test:integration",
-    "test:example": "yarn workspace example test",
+    "test:example": "yarn workspace @chainlink/example test",
     "test:example-start-server": "node ./helpers/server.js"
   },
   "dependencies": {

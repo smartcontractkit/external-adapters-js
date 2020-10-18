@@ -14,7 +14,7 @@ const convertBlockchain = {
 
 const execute = (input, callback) => {
   const validator = new Validator(input, customParams)
-  if (validator.error) return callback(validator.error.statusCode, validator.error)
+  if (validator.error) return callback(validator.error.statusCode, validator.errored)
 
   const jobRunID = validator.validated.id
   let blockchain = validator.validated.data.blockchain

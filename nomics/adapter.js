@@ -21,7 +21,7 @@ const convertId = {
 
 const price = (jobRunID, input, callback) => {
   const validator = new Validator(input, priceParams)
-  if (validator.error) return callback(validator.error.statusCode, validator.error)
+  if (validator.error) return callback(validator.error.statusCode, validator.errored)
 
   const url = `https://api.nomics.com/v1/currencies/ticker`
   let ids = validator.validated.data.base.toUpperCase()
@@ -54,7 +54,7 @@ const price = (jobRunID, input, callback) => {
 
 const globalMarketCap = (jobRunID, input, callback) => {
   const validator = new Validator(input, {})
-  if (validator.error) return callback(validator.error.statusCode, validator.error)
+  if (validator.error) return callback(validator.error.statusCode, validator.errored)
 
   const url = `https://api.nomics.com/v1/global-ticker`
 
@@ -81,7 +81,7 @@ const customParams = {
 
 const execute = (input, callback) => {
   const validator = new Validator(input, customParams)
-  if (validator.error) return callback(validator.error.statusCode, validator.error)
+  if (validator.error) return callback(validator.error.statusCode, validator.errored)
 
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT

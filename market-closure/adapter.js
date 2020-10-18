@@ -15,7 +15,7 @@ const execute = (input, callback) => marketStatusRequest(input, adapterExecute, 
 
 const marketStatusRequest = (input, adapter, callback) => {
   const validator = new Validator(input, customParams)
-  if (validator.error) return callback(validator.error.statusCode, validator.error)
+  if (validator.error) return callback(validator.error.statusCode, validator.errored)
 
   const symbol = validator.validated.data.base.toUpperCase()
   const schedule = validator.validated.data.schedule || {}
