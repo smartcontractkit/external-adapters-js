@@ -59,7 +59,7 @@ const price = (jobRunID, input, callback) => {
     .catch((error) => callback(500, Requester.errored(jobRunID, error)))
 }
 
-const globalMarketDom = (jobRunID, input, callback) => {
+const global = (jobRunID, input, callback) => {
   const validator = new Validator(input)
   if (validator.error) return callback(validator.error.statusCode, validator.error)
 
@@ -96,7 +96,7 @@ const execute = (input, callback) => {
     case ENDPOINT_PRICE:
       return price(jobRunID, input, callback)
     case ENDPOINT_DOMINANCE:
-      return globalMarketDom(jobRunID, input, callback)
+      return global(jobRunID, input, callback)
     default:
       callback(500, Requester.errored(jobRunID, 'invalid endpoint provided'))
   }
