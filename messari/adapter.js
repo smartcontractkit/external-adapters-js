@@ -1,8 +1,8 @@
 const { Requester, Validator } = require('@chainlink/external-adapter')
 
-const ENDPOINT_MKTDOM = 'globalmarketdom'
+const ENDPOINT_DOMINANCE = 'dominance'
 
-const DEFAULT_ENDPOINT = ENDPOINT_MKTDOM
+const DEFAULT_ENDPOINT = ENDPOINT_DOMINANCE
 
 const customError = (data) => {
   if (data.Response === 'Error') return true
@@ -10,7 +10,7 @@ const customError = (data) => {
 }
 
 const mktdomParams = {
-  base: ['base', 'from', 'coin'],
+  base: ['quote', 'to', 'market', 'coin'],
 }
 
 const globalMarketDom = (jobRunID, input, callback) => {
@@ -48,7 +48,7 @@ const execute = (input, callback) => {
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
 
   switch (endpoint.toLowerCase()) {
-    case ENDPOINT_MKTDOM:
+    case ENDPOINT_DOMINANCE:
       return globalMarketDom(jobRunID, input, callback)
     default:
       callback(500, Requester.errored(jobRunID, 'invalid endpoint provided'))

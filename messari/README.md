@@ -2,8 +2,8 @@
 
 ## Input Params
 
-- `base`, `from`, or `coin`: The symbol of the currency to query
-- `endpoint`: Optional endpoint param (defaults to "globalMarketDom", one of "globalMarketDom")
+- `market`, `base`, `from`, or `coin`: The symbol of the currency to query
+- `endpoint`: Optional endpoint param (defaults to "dominance", one of "dominance")
 
 ## Output
 
