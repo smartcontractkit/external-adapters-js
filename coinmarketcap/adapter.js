@@ -1,7 +1,7 @@
 const { Requester, Validator } = require('@chainlink/external-adapter')
 
 const ENDPOINT_PRICE = 'price'
-const ENDPOINT_MKTDOM = 'btcmarketdom'
+const ENDPOINT_DOMINANCE = 'dominance'
 
 const DEFAULT_ENDPOINT = ENDPOINT_PRICE
 
@@ -95,7 +95,7 @@ const execute = (input, callback) => {
   switch (endpoint.toLowerCase()) {
     case ENDPOINT_PRICE:
       return price(jobRunID, input, callback)
-    case ENDPOINT_MKTDOM:
+    case ENDPOINT_DOMINANCE:
       return globalMarketDom(jobRunID, input, callback)
     default:
       callback(500, Requester.errored(jobRunID, 'invalid endpoint provided'))
