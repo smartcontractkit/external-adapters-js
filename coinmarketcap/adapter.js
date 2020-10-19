@@ -63,7 +63,7 @@ const globalMarketDom = (jobRunID, input, callback) => {
   const validator = new Validator(input)
   if (validator.error) return callback(validator.error.statusCode, validator.error)
 
-  const url = 'https://pro-api.coinmarketcap.com//v1/global-metrics/quotes/latest'
+  const url = 'https://pro-api.coinmarketcap.com/v1/global-metrics/quotes/latest'
 
   const config = {
     url: url,
