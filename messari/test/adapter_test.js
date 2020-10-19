@@ -12,6 +12,10 @@ describe('execute', () => {
         testData: { data: { base: 'BTC' } },
       },
       {
+        name: 'market',
+        testData: { id: jobID, data: { market: 'BTC' } },
+      },
+      {
         name: 'base',
         testData: { id: jobID, data: { base: 'BTC' } },
       },
