@@ -5,7 +5,7 @@
 - `base`, `from`, `coin`, or `sym`: The coin to query (required)
 - `quote`, `to`, `market`, or `convert`: The currency to convert to (required)
 - `cid`: The CMC coin ID (optional, use in place of `sym` or `coin`)
-- `endpoint`: The endpoint to use (defaults to "price", one of "price", "btcMarketDom")
+- `endpoint`: The endpoint to use (defaults to "price", one of "price", "dominance")
 
 ## Output
 

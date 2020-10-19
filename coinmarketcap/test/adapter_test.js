@@ -28,8 +28,8 @@ describe('execute', () => {
         testData: { id: jobID, data: { sym: 'ETH', convert: 'USD' } },
       },
       {
-        name: 'btc market dominance',
-        testData: { id: jobID, data: { endpoint: 'btcMarketDom' } },
+        name: 'market dominance',
+        testData: { id: jobID, data: { endpoint: 'dominance' } },
       },
     ]
 
