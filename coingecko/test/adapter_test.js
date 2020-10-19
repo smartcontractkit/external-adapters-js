@@ -34,7 +34,7 @@ describe('execute', () => {
         name: 'market dominance',
         testData: {
           id: jobID,
-          data: { endpoint: 'globalmarketdom', market: 'BTC' },
+          data: { endpoint: 'dominance', market: 'BTC' },
         },
       },
     ]

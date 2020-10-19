@@ -2,7 +2,7 @@ const { Requester, Validator } = require('@chainlink/external-adapter')
 
 const ENDPOINT_PRICE = 'price'
 const ENDPOINT_MKTCAP = 'globalmarketcap'
-const ENDPOINT_MKTDOM = 'globalmarketdom'
+const ENDPOINT_DOMINANCE = 'dominance'
 
 const DEFAULT_ENDPOINT = ENDPOINT_PRICE
 
@@ -78,12 +78,12 @@ const price = (jobRunID, input, callback) => {
   })
 }
 
-const mktcapParams = {
-  quote: ['quote', 'to', 'market'],
+const globalParams = {
+  quote: ['quote', 'to', 'market', 'coin'],
 }
 
-const globalMarketCap = (jobRunID, input, callback) => {
-  const validator = new Validator(input, mktcapParams)
+const global = (jobRunID, input, path, callback) => {
+  const validator = new Validator(input, globalParams)
   if (validator.error) return callback(validator.error.statusCode, validator.error)
 
   const quote = validator.validated.data.quote
@@ -96,36 +96,7 @@ const globalMarketCap = (jobRunID, input, callback) => {
   const _handleResponse = (response) => {
     response.data.result = Requester.validateResultNumber(response.data, [
       'data',
-      'total_market_cap',
-      quote.toLowerCase(),
-    ])
-    callback(response.status, Requester.success(jobRunID, response))
-  }
-
-  const _handleError = (error) => callback(500, Requester.errored(jobRunID, error))
-
-  Requester.request(config, customError).then(_handleResponse).catch(_handleError)
-}
-
-const mktdomParams = {
-  quote: ['quote', 'to', 'market'],
-}
-
-const globalMarketDom = (jobRunID, input, callback) => {
-  const validator = new Validator(input, mktdomParams)
-  if (validator.error) return callback(validator.error.statusCode, validator.error)
-
-  const quote = validator.validated.data.quote
-  const url = 'https://api.coingecko.com/api/v3/global'
-
-  const config = {
-    url: url,
-  }
-
-  const _handleResponse = (response) => {
-    response.data.result = Requester.validateResultNumber(response.data, [
-      'data',
-      'market_cap_percentage',
+      path,
       quote.toLowerCase(),
     ])
     callback(response.status, Requester.success(jobRunID, response))
@@ -150,9 +121,9 @@ const execute = (input, callback) => {
     case ENDPOINT_PRICE:
       return price(jobRunID, input, callback)
     case ENDPOINT_MKTCAP:
-      return globalMarketCap(jobRunID, input, callback)
-    case ENDPOINT_MKTDOM:
-      return globalMarketDom(jobRunID, input, callback)
+      return global(jobRunID, input, 'total_market_cap', callback)
+    case ENDPOINT_DOMINANCE:
+      return global(jobRunID, input, 'market_cap_percentage', callback)
     default:
       callback(500, Requester.errored(jobRunID, 'invalid endpoint provided'))
   }
