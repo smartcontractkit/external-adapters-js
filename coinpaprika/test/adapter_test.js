@@ -21,7 +21,7 @@ describe('execute', () => {
       },
       {
         name: 'gets bitcoin dominance',
-        testData: { id: jobID, data: { endpoint: 'bitcoindominance' } },
+        testData: { id: jobID, data: { endpoint: 'dominance' } },
       },
     ]
 

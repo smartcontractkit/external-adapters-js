@@ -2,7 +2,7 @@ const { Requester, Validator } = require('@chainlink/external-adapter')
 
 const ENDPOINT_PRICE = 'price'
 const ENDPOINT_MKTCAP = 'globalmarketcap'
-const ENDPOINT_BTCD = 'bitcoindominance'
+const ENDPOINT_DOMINANCE = 'dominance'
 
 const DEFAULT_ENDPOINT = ENDPOINT_PRICE
 
@@ -60,28 +60,12 @@ const price = (jobRunID, input, callback) => {
   })
 }
 
-const globalMarketCap = (jobRunID, input, callback) => {
+const global = (jobRunID, input, path, callback) => {
   const url = 'https://api.coinpaprika.com/v1/global'
   const config = { url }
 
   const _handleResponse = (response) => {
-    response.data.result = Requester.validateResultNumber(response.data, ['market_cap_usd'])
-    callback(response.status, Requester.success(jobRunID, response))
-  }
-
-  const _handleError = (error) => callback(500, Requester.errored(jobRunID, error))
-
-  Requester.request(config).then(_handleResponse).catch(_handleError)
-}
-
-const bitcoinDominance = (jobRunID, input, callback) => {
-  const url = 'https://api.coinpaprika.com/v1/global'
-  const config = { url }
-
-  const _handleResponse = (response) => {
-    response.data.result = Requester.validateResultNumber(response.data, [
-      'bitcoin_dominance_percentage',
-    ])
+    response.data.result = Requester.validateResultNumber(response.data, [path])
     callback(response.status, Requester.success(jobRunID, response))
   }
 
@@ -104,9 +88,9 @@ const execute = (input, callback) => {
     case ENDPOINT_PRICE:
       return price(jobRunID, input, callback)
     case ENDPOINT_MKTCAP:
-      return globalMarketCap(jobRunID, input, callback)
-    case ENDPOINT_BTCD:
-      return bitcoinDominance(jobRunID, input, callback)
+      return global(jobRunID, input, 'market_cap_usd', callback)
+    case ENDPOINT_DOMINANCE:
+      return global(jobRunID, input, 'bitcoin_dominance_percentage', callback)
     default:
       callback(500, Requester.errored(jobRunID, 'invalid endpoint provided'))
   }
