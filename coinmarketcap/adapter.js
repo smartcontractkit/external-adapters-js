@@ -60,7 +60,7 @@ const price = (jobRunID, input, callback) => {
 }
 
 const globalParams = {
-  symbol: ['base', 'from', 'coin', 'sym', 'symbol'],
+  market: ['market', 'to', 'quote'],
 }
 
 const global = (jobRunID, input, callback) => {
@@ -76,7 +76,7 @@ const global = (jobRunID, input, callback) => {
     },
   }
 
-  const symbol = validator.validated.data.symbol.toLowerCase()
+  const symbol = validator.validated.data.market.toLowerCase()
   const dataKey = `${symbol}_dominance`
 
   const _handleResponse = (response) => {

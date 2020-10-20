@@ -79,14 +79,14 @@ const price = (jobRunID, input, callback) => {
 }
 
 const globalParams = {
-  quote: ['quote', 'to', 'market', 'coin'],
+  market: ['market', 'to', 'quote'],
 }
 
 const global = (jobRunID, input, path, callback) => {
   const validator = new Validator(input, globalParams)
   if (validator.error) return callback(validator.error.statusCode, validator.error)
 
-  const quote = validator.validated.data.quote
+  const market = validator.validated.data.market
   const url = 'https://api.coingecko.com/api/v3/global'
 
   const config = {
@@ -97,7 +97,7 @@ const global = (jobRunID, input, path, callback) => {
     response.data.result = Requester.validateResultNumber(response.data, [
       'data',
       path,
-      quote.toLowerCase(),
+      market.toLowerCase(),
     ])
     callback(response.status, Requester.success(jobRunID, response))
   }

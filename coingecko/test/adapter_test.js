@@ -71,14 +71,14 @@ describe('execute', () => {
         testData: { id: jobID, data: { base: 'ETH' } },
       },
       {
-        name: 'market cap: quote not supplied',
+        name: 'market cap: market not supplied',
         testData: {
           id: jobID,
           data: { endpoint: 'globalMarketCap' },
         },
       },
       {
-        name: 'market dominance: quote not supplied',
+        name: 'market dominance: market not supplied',
         testData: {
           id: jobID,
           data: { endpoint: 'dominance' },
@@ -107,10 +107,17 @@ describe('execute', () => {
         testData: { id: jobID, data: { base: 'ETH', quote: 'not_real' } },
       },
       {
-        name: 'market dominance: unknown quote',
+        name: 'market cap: unknown market',
         testData: {
           id: jobID,
-          data: { endpoint: 'globalmarketdom', quote: 'not_real' },
+          data: { endpoint: 'globalMarketCap', market: 'not_real' },
+        },
+      },
+      {
+        name: 'market dominance: unknown market',
+        testData: {
+          id: jobID,
+          data: { endpoint: 'dominance', market: 'not_real' },
         },
       },
     ]

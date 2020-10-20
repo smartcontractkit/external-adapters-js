@@ -29,7 +29,7 @@ describe('execute', () => {
       },
       {
         name: 'market dominance',
-        testData: { id: jobID, data: { endpoint: 'dominance', base: 'BTC' } },
+        testData: { id: jobID, data: { endpoint: 'dominance', market: 'BTC' } },
       },
     ]
 
@@ -58,7 +58,7 @@ describe('execute', () => {
         testData: { id: jobID, data: { base: 'ETH' } },
       },
       {
-        name: 'dominance base not supplied',
+        name: 'dominance market not supplied',
         testData: { id: jobID, data: { endpoint: 'dominance' } },
       },
     ]
@@ -84,8 +84,8 @@ describe('execute', () => {
         testData: { id: jobID, data: { base: 'ETH', quote: 'not_real' } },
       },
       {
-        name: 'dominance unknown base',
-        testData: { id: jobID, data: { endpoint: 'dominance', base: 'not_real' } },
+        name: 'dominance unknown market',
+        testData: { id: jobID, data: { endpoint: 'dominance', market: 'not_real' } },
       },
     ]
 

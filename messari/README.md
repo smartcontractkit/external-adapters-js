@@ -2,7 +2,7 @@
 
 ## Input Params
 
-- `market`, `base`, `from`, or `coin`: The symbol of the currency to query
+- `market`, `to`, or `quote`: The symbol of the currency to query
 - `endpoint`: Optional endpoint param (defaults to "dominance", one of "dominance")
 
 ## Output

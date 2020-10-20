@@ -17,11 +17,11 @@ describe('execute', () => {
       },
       {
         name: 'gets marketcap',
-        testData: { id: jobID, data: { endpoint: 'globalmarketcap', base: 'USD' } },
+        testData: { id: jobID, data: { endpoint: 'globalmarketcap', market: 'USD' } },
       },
       {
         name: 'gets bitcoin dominance',
-        testData: { id: jobID, data: { endpoint: 'dominance', base: 'BTC' } },
+        testData: { id: jobID, data: { endpoint: 'dominance', market: 'BTC' } },
       },
     ]
 
@@ -50,11 +50,11 @@ describe('execute', () => {
         testData: { id: jobID, data: { base: 'ETH' } },
       },
       {
-        name: 'market cap: base not supplied',
+        name: 'market cap: market not supplied',
         testData: { id: jobID, data: { endpoint: 'globalmarketcap' } },
       },
       {
-        name: 'dominance: base not supplied',
+        name: 'dominance: market not supplied',
         testData: { id: jobID, data: { endpoint: 'dominance' } },
       },
     ]
@@ -80,12 +80,12 @@ describe('execute', () => {
         testData: { id: jobID, data: { base: 'ETH', quote: 'not_real' } },
       },
       {
-        name: 'market cap: unknown base',
-        testData: { id: jobID, data: { base: 'not_real', endpoint: 'globalmarketcap' } },
+        name: 'market cap: unknown market',
+        testData: { id: jobID, data: { market: 'not_real', endpoint: 'globalmarketcap' } },
       },
       {
-        name: 'dominance: unknown base',
-        testData: { id: jobID, data: { base: 'not_real', endpoint: 'dominance' } },
+        name: 'dominance: unknown market',
+        testData: { id: jobID, data: { market: 'not_real', endpoint: 'dominance' } },
       },
     ]
 

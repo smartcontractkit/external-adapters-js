@@ -61,7 +61,7 @@ const price = (jobRunID, input, callback) => {
 }
 
 const globalParams = {
-  base: ['base', 'from', 'coin', 'market'],
+  market: ['market', 'to', 'quote'],
 }
 const convert = {
   BTC: 'bitcoin',
@@ -74,7 +74,7 @@ const global = (jobRunID, input, path, coinPrefix, callback) => {
   const url = 'https://api.coinpaprika.com/v1/global'
   const config = { url }
 
-  const symbol = validator.validated.data.base.toUpperCase()
+  const symbol = validator.validated.data.market.toUpperCase()
   const dataKey = coinPrefix ? `${convert[symbol]}_${path}` : path
 
   const _handleResponse = (response) => {

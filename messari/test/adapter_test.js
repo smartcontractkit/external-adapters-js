@@ -16,16 +16,12 @@ describe('execute', () => {
         testData: { id: jobID, data: { market: 'BTC' } },
       },
       {
-        name: 'base',
-        testData: { id: jobID, data: { base: 'BTC' } },
+        name: 'to',
+        testData: { id: jobID, data: { to: 'BTC' } },
       },
       {
-        name: 'from',
-        testData: { id: jobID, data: { from: 'ETH' } },
-      },
-      {
-        name: 'coin',
-        testData: { id: jobID, data: { coin: 'ETH' } },
+        name: 'quote',
+        testData: { id: jobID, data: { quote: 'ETH' } },
       },
     ]
 
@@ -60,8 +56,8 @@ describe('execute', () => {
   context('error calls @integration', () => {
     const requests = [
       {
-        name: 'unknown base',
-        testData: { id: jobID, data: { base: 'not_real' } },
+        name: 'unknown market',
+        testData: { id: jobID, data: { market: 'not_real' } },
       },
     ]
 
