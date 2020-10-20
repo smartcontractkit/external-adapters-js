@@ -10,7 +10,7 @@ const customError = (data) => {
 }
 
 const mktdomParams = {
-  base: ['quote', 'to', 'market', 'coin'],
+  base: ['market', 'base', 'from', 'coin'],
 }
 
 const globalMarketDom = (jobRunID, input, callback) => {
