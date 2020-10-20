@@ -59,7 +59,7 @@ describe('execute', () => {
       },
       {
         name: 'dominance base not supplied',
-        testData: { id: jobID, data: { endpoint: 'dominance', } },
+        testData: { id: jobID, data: { endpoint: 'dominance' } },
       },
     ]
 
@@ -85,7 +85,7 @@ describe('execute', () => {
       },
       {
         name: 'dominance unknown base',
-        testData: { id: jobID, data: { endpoint: 'dominance', base: 'not_real'} },
+        testData: { id: jobID, data: { endpoint: 'dominance', base: 'not_real' } },
       },
     ]
 
