@@ -29,7 +29,7 @@ describe('execute', () => {
       },
       {
         name: 'market dominance',
-        testData: { id: jobID, data: { endpoint: 'dominance' } },
+        testData: { id: jobID, data: { endpoint: 'dominance', base: 'BTC' } },
       },
     ]
 
@@ -57,6 +57,10 @@ describe('execute', () => {
         name: 'quote not supplied',
         testData: { id: jobID, data: { base: 'ETH' } },
       },
+      {
+        name: 'dominance base not supplied',
+        testData: { id: jobID, data: { endpoint: 'dominance', } },
+      },
     ]
 
     requests.forEach((req) => {
@@ -78,6 +82,10 @@ describe('execute', () => {
       {
         name: 'unknown quote',
         testData: { id: jobID, data: { base: 'ETH', quote: 'not_real' } },
+      },
+      {
+        name: 'dominance unknown base',
+        testData: { id: jobID, data: { endpoint: 'dominance', base: 'not_real'} },
       },
     ]
 

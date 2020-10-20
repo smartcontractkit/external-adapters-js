@@ -56,7 +56,7 @@
 }
 ```
 
-`endpoint: btcMarketDom`
+`endpoint: dominance`
 
 ```json
 {

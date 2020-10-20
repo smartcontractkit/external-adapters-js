@@ -59,8 +59,12 @@ const price = (jobRunID, input, callback) => {
     .catch((error) => callback(500, Requester.errored(jobRunID, error)))
 }
 
+const globalParams = {
+  symbol: ['base', 'from', 'coin', 'sym', 'symbol'],
+}
+
 const global = (jobRunID, input, callback) => {
-  const validator = new Validator(input)
+  const validator = new Validator(input, globalParams)
   if (validator.error) return callback(validator.error.statusCode, validator.error)
 
   const url = 'https://pro-api.coinmarketcap.com/v1/global-metrics/quotes/latest'
@@ -72,8 +76,11 @@ const global = (jobRunID, input, callback) => {
     },
   }
 
+  const symbol = validator.validated.data.symbol.toLowerCase()
+  const dataKey = `${symbol}_dominance`
+
   const _handleResponse = (response) => {
-    response.data.result = Requester.validateResultNumber(response.data, ['data', 'btc_dominance'])
+    response.data.result = Requester.validateResultNumber(response.data, ['data', dataKey])
     callback(response.status, Requester.success(jobRunID, response))
   }
 
