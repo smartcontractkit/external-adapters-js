@@ -4,7 +4,7 @@ Coin Lore bitcoin dominance
 
 ## Input Params
 
-_No params_
+- `base`, `from`, `coin`, `market`: The coin to query (required)
 
 ## Output
 
