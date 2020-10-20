@@ -27,6 +27,10 @@ describe('execute', () => {
         name: 'ids/convert',
         testData: { id: jobID, data: { ids: 'ETH', convert: 'USD' } },
       },
+      {
+        name: 'global marketcap',
+        testData: { id: jobID, data: { endpoint: 'globalmarketcap', to: 'USD' } },
+      },
     ]
 
     requests.forEach((req) => {

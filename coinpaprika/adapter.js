@@ -63,11 +63,12 @@ const price = (jobRunID, input, callback) => {
 const globalParams = {
   market: ['market', 'to', 'quote'],
 }
+
 const convert = {
   BTC: 'bitcoin',
 }
 
-const global = (jobRunID, input, path, coinPrefix, callback) => {
+const dominance = (jobRunID, input, callback) => {
   const validator = new Validator(input, globalParams)
   if (validator.error) return callback(validator.error.statusCode, validator.error)
 
@@ -75,10 +76,30 @@ const global = (jobRunID, input, path, coinPrefix, callback) => {
   const config = { url }
 
   const symbol = validator.validated.data.market.toUpperCase()
-  const dataKey = coinPrefix ? `${convert[symbol]}_${path}` : path
 
   const _handleResponse = (response) => {
-    response.data.result = Requester.validateResultNumber(response.data, [dataKey])
+    response.data.result = Requester.validateResultNumber(response.data, [
+      `${convert[symbol]}_dominance_percentage`,
+    ])
+    callback(response.status, Requester.success(jobRunID, response))
+  }
+
+  const _handleError = (error) => callback(500, Requester.errored(jobRunID, error))
+
+  Requester.request(config).then(_handleResponse).catch(_handleError)
+}
+
+const marketcap = (jobRunID, input, callback) => {
+  const validator = new Validator(input, globalParams)
+  if (validator.error) return callback(validator.error.statusCode, validator.error)
+
+  const url = 'https://api.coinpaprika.com/v1/global'
+  const config = { url }
+
+  const symbol = validator.validated.data.market.toLowerCase()
+
+  const _handleResponse = (response) => {
+    response.data.result = Requester.validateResultNumber(response.data, [`market_cap_${symbol}`])
     callback(response.status, Requester.success(jobRunID, response))
   }
 
@@ -101,9 +122,9 @@ const execute = (input, callback) => {
     case ENDPOINT_PRICE:
       return price(jobRunID, input, callback)
     case ENDPOINT_MKTCAP:
-      return global(jobRunID, input, 'market_cap_usd', false, callback)
+      return marketcap(jobRunID, input, callback)
     case ENDPOINT_DOMINANCE:
-      return global(jobRunID, input, 'dominance_percentage', true, callback)
+      return dominance(jobRunID, input, callback)
     default:
       callback(500, Requester.errored(jobRunID, 'invalid endpoint provided'))
   }

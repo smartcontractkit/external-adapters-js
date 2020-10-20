@@ -34,7 +34,7 @@ describe('execute', () => {
         name: 'global market cap',
         testData: {
           id: jobID,
-          data: { endpoint: 'globalMarketCap', market: 'BTC' },
+          data: { endpoint: 'globalMarketCap', to: 'USD' },
         },
       },
       {
