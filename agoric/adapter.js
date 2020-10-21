@@ -1,42 +1,98 @@
-const { Requester, Validator } = require('@chainlink/external-adapter')
+const http = require('http')
 
-const customError = (data) => {
-  if (data.Response === 'Error') return true
-  return false
+const oracleAPI = process.env.AG_SOLO_ORACLE_URL
+if (!oracleAPI) {
+  throw Error(`Must supply $AG_SOLO_ORACLE_URL`)
+}
+const oracleUrl = new URL(oracleAPI)
+
+const Nat = (n) => {
+  if (!Number.isSafeInteger(n)) {
+    throw Error(`${n} is not a safe integer`)
+  }
+  return n
 }
 
-const customParams = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
-  endpoint: false,
+// FIXME: Ideally, these would be the same.
+const LINK_DECIMALS = 18
+const LINK_AGORIC_DECIMALS = 6
+if (LINK_AGORIC_DECIMALS > LINK_DECIMALS) {
+  throw Error(
+    `LINK_AGORIC_DECIMALS ${LINK_AGORIC_DECIMALS} must be less than or equal to ${LINK_DECIMALS}`,
+  )
 }
 
-const execute = (input, callback) => {
-  const validator = new Validator(input, customParams)
-  if (validator.error) return callback(validator.error.statusCode, validator.error)
-
-  const jobRunID = validator.validated.id
-  const endpoint = validator.validated.data.endpoint || 'price'
-  const url = `http://localhost:18081/${endpoint}`
-  const base = validator.validated.data.base.toUpperCase()
-  const quote = validator.validated.data.quote.toUpperCase()
-
-  const params = {
-    base,
-    quote,
+const getRequiredFee = (str) => {
+  const digits = str
+  const significant = digits.substr(
+    0,
+    Math.max(0, digits.length - (LINK_DECIMALS - LINK_AGORIC_DECIMALS)),
+  )
+  const roundUp = digits[significant.length] && parseInt(digits[significant.length], 10) >= 5
+  let requiredFee = Nat(parseInt(significant, 10))
+  if (roundUp) {
+    requiredFee += 1
   }
+  return Nat(requiredFee)
+}
 
-  const config = {
-    url,
-    params,
-  }
+const send = (obj) =>
+  new Promise((resolve, reject) => {
+    const data = JSON.stringify(obj)
+    const req = http.request(
+      {
+        hostname: oracleUrl.hostname,
+        port: oracleUrl.port,
+        path: oracleUrl.pathname,
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Content-Length': data.length,
+        },
+      },
+      (res) => {
+        if (res.statusCode === 200) {
+          resolve(res.statusCode)
+        } else {
+          reject(res.statusCode)
+        }
+      },
+    )
+    req.on('error', reject)
+    req.write(data)
+    req.end()
+  })
 
-  Requester.request(config, customError)
-    .then((response) => {
-      response.data.result = Requester.validateResultNumber(response.data, ['price'])
-      callback(response.status, Requester.success(jobRunID, response))
+const execute = async (input, callback) => {
+  const queryId = input.data.agoric_oracle_query_id
+  try {
+    if (queryId) {
+      const requiredFee = getRequiredFee(input.data.payment)
+      await send({
+        type: 'oracleServer/reply',
+        data: { queryId, reply: input.data.result, requiredFee },
+      })
+    }
+    callback(200, {
+      jobRunID: input.id,
+      data: input.data,
+      statusCode: 200,
     })
-    .catch((error) => callback(500, Requester.errored(jobRunID, error)))
+  } catch (e) {
+    const error = `${(e && e.stack) || e}`
+    if (queryId) {
+      send({
+        type: 'oracleServer/error',
+        data: { queryId, error },
+      })
+    }
+    callback(400, {
+      jobRunID: input.id,
+      status: 'errored',
+      error: error,
+      statusCode: 400,
+    })
+  }
 }
 
 module.exports.execute = execute
