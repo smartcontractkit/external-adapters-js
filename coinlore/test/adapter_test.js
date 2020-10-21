@@ -9,11 +9,19 @@ describe('execute', () => {
     const requests = [
       {
         name: 'id not supplied',
-        testData: { data: { base: 'BTC' } },
+        testData: { data: { market: 'BTC' } },
       },
       {
-        name: 'is is supplied',
-        testData: { id: jobID, data: { base: 'BTC' } },
+        name: 'id is supplied',
+        testData: { id: jobID, data: { market: 'BTC' } },
+      },
+      {
+        name: 'to',
+        testData: { id: jobID, data: { to: 'BTC' } },
+      },
+      {
+        name: 'quote',
+        testData: { id: jobID, data: { quote: 'BTC' } },
       },
     ]
 
@@ -32,7 +40,7 @@ describe('execute', () => {
   context('validation error', () => {
     const requests = [
       {
-        name: 'base not supplied',
+        name: 'market not supplied',
         testData: { id: jobID, data: {} },
       },
     ]
@@ -50,8 +58,8 @@ describe('execute', () => {
   context('error calls @integration', () => {
     const requests = [
       {
-        name: 'unknown base',
-        testData: { id: jobID, data: { base: 'not_real' } },
+        name: 'unknown market',
+        testData: { id: jobID, data: { market: 'not_real' } },
       },
     ]
 

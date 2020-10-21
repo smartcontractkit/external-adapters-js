@@ -1,13 +1,19 @@
 # Chainlink CoinPaprika External Adapter
 
-## Input Params
+## Price API (default)
+
+### Endpoint
+
+https://api.coinpaprika.com/v1/tickers/`{COIN}`
+
+### Input Params
 
 - `coinid`: The CoinPaprika id of the coin to query (required if not using `from`)
 - `base`, `from`, or `coin`: The ticker of the coin to query (required if not using `coinid`)
 - `quote`, `to`, or `market`: The currency to convert the coin to (required)
 - `endpoint`: The endpoint to use (defaults to "price", one of "price", "globalMarketCap", "dominance")
 
-## Output
+### Output
 
 ```json
 {
@@ -43,6 +49,43 @@
     "result": 173.00001891
   },
   "result": 173.00001891,
+  "statusCode": 200
+}
+```
+
+## Global API
+
+### Endpoint
+
+https://api.coinpaprika.com/v1/global
+
+### Input Params
+
+- `market`, `to`, or `quote`: The ticker of the coin to query (required)
+- `endpoint`: The endpoint to use (defaults to "price", one of "price", "globalMarketCap", "dominance")
+
+### Output
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "market_cap_usd": 368198248292,
+    "volume_24h_usd": 59351367068,
+    "bitcoin_dominance_percentage": 59.98,
+    "cryptocurrencies_number": 2435,
+    "market_cap_ath_value": 835692000000,
+    "market_cap_ath_date": "2018-01-07T11:17:00Z",
+    "volume_24h_ath_value": 197699715619,
+    "volume_24h_ath_date": "2020-03-13T10:00:00Z",
+    "volume_24h_percent_from_ath": -69.98,
+    "volume_24h_percent_to_ath": 233.1,
+    "market_cap_change_24h": -0.2,
+    "volume_24h_change_24h": 16.98,
+    "last_updated": 1603238207,
+    "result": 368198248292
+  },
+  "result": 368198248292,
   "statusCode": 200
 }
 ```

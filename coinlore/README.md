@@ -1,12 +1,17 @@
 # Chainlink External Adapter for Coin Lore
 
-Coin Lore bitcoin dominance
+## Global API
 
-## Input Params
+### Endpoint
 
-- `base`, `from`, `coin`, `market`: The coin to query (required)
+https://api.coinlore.net/api/global/
 
-## Output
+### Input Params
+
+- `market`, `to`, `quote`: The coin to query (required)
+- `endpoint`: The endpoint to use (defaults to "dominance", one of "dominance")
+
+### Output
 
 ```json
 {

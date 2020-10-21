@@ -1,13 +1,19 @@
 # Chainlink CoinMarketCap Pro External Adapter
 
-## Input Params
+## Price API (default)
+
+### Endpoint
+
+https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest
+
+### Input Params
 
 - `base`, `from`, `coin`, or `sym`: The coin to query (required)
 - `quote`, `to`, `market`, or `convert`: The currency to convert to (required)
 - `cid`: The CMC coin ID (optional, use in place of `sym` or `coin`)
 - `endpoint`: The endpoint to use (defaults to "price", one of "price", "dominance")
 
-## Output
+### Output
 
 ```json
 {
@@ -56,55 +62,66 @@
 }
 ```
 
-`endpoint: dominance`
+## Dominance
+
+### Endpoint
+
+https://pro-api.coinmarketcap.com/v1/global-metrics/quotes/latest
+
+### Input Params
+
+- `market`, `to`, or `quote`: The coin to query (required)
+- `endpoint`: The endpoint to use (defaults to "price", one of "price", "dominance")
+
+### Output
 
 ```json
 {
   "jobRunID": "1",
   "data": {
     "status": {
-      "timestamp": "2020-10-16T23:18:36.289Z",
+      "timestamp": "2020-10-20T23:43:10.921Z",
       "error_code": 0,
       "error_message": null,
-      "elapsed": 25,
+      "elapsed": 24,
       "credit_count": 1,
       "notice": null
     },
     "data": {
-      "active_cryptocurrencies": 3664,
-      "total_cryptocurrencies": 7433,
-      "active_market_pairs": 31365,
-      "active_exchanges": 354,
-      "total_exchanges": 1186,
-      "eth_dominance": 11.654905392401,
-      "btc_dominance": 59.044719937306,
-      "defi_volume_24h": 5295507637.881502,
-      "defi_volume_24h_reported": 6102491895.518447,
-      "defi_market_cap": 12069649224.074215,
-      "defi_24h_percentage_change": -5.822889028242,
-      "stablecoin_volume_24h": 42596840368.40701,
-      "stablecoin_volume_24h_reported": 49209035106.58548,
-      "stablecoin_market_cap": 22305460671.832672,
-      "stablecoin_24h_percentage_change": 1.882412510019,
-      "derivatives_volume_24h": 18862201846.868465,
-      "derivatives_volume_24h_reported": 18862201846.868465,
-      "derivatives_24h_percentage_change": 9.823120311572,
+      "active_cryptocurrencies": 3686,
+      "total_cryptocurrencies": 7458,
+      "active_market_pairs": 31687,
+      "active_exchanges": 357,
+      "total_exchanges": 1188,
+      "eth_dominance": 11.442731417817,
+      "btc_dominance": 60.526174889375,
+      "defi_volume_24h": 3580425804.8360143,
+      "defi_volume_24h_reported": 4687819883.24599,
+      "defi_market_cap": 11756342062.876287,
+      "defi_24h_percentage_change": -31.901796001889,
+      "stablecoin_volume_24h": 46272327712.47732,
+      "stablecoin_volume_24h_reported": 54378545566.47114,
+      "stablecoin_market_cap": 22530880660.946377,
+      "stablecoin_24h_percentage_change": 24.589731019677,
+      "derivatives_volume_24h": 23991994606.209496,
+      "derivatives_volume_24h_reported": 23991994606.209496,
+      "derivatives_24h_percentage_change": 30.62858016525,
       "quote": {
         "USD": {
-          "total_market_cap": 355594318165.9909,
-          "total_volume_24h": 78693834550.99867,
-          "total_volume_24h_reported": 97215603736.63431,
-          "altcoin_volume_24h": 53560686839.051575,
-          "altcoin_volume_24h_reported": 65149517236.24264,
-          "altcoin_market_cap": 145634648891.90988,
-          "last_updated": "2020-10-16T23:15:18.000Z"
+          "total_market_cap": 364954113310.4291,
+          "total_volume_24h": 86730243860.65276,
+          "total_volume_24h_reported": 116107838119.04984,
+          "altcoin_volume_24h": 55978895794.776985,
+          "altcoin_volume_24h_reported": 71472205490.42107,
+          "altcoin_market_cap": 144061348422.18985,
+          "last_updated": "2020-10-20T23:40:18.000Z"
         }
       },
-      "last_updated": "2020-10-16T23:15:18.000Z"
+      "last_updated": "2020-10-20T23:40:18.000Z"
     },
-    "result": 59.044719937306
+    "result": 60.526174889375
   },
-  "result": 59.044719937306,
+  "result": 60.526174889375,
   "statusCode": 200
 }
 ```

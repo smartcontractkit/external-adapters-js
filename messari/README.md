@@ -1,11 +1,17 @@
 # Chainlink External Adapter for Messari
 
-## Input Params
+## Assets API
+
+### Endpoint
+
+https://data.messari.io/api/v1/assets/ethereum/metrics
+
+### Input Params
 
 - `market`, `to`, or `quote`: The symbol of the currency to query
 - `endpoint`: Optional endpoint param (defaults to "dominance", one of "dominance")
 
-## Output
+### Output
 
 ```json
 {

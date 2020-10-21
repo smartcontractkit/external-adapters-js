@@ -9,12 +9,12 @@ const customError = (data) => {
   return false
 }
 
-const mktdomParams = {
+const assetsParams = {
   base: ['market', 'to', 'quote'],
 }
 
-const globalMarketDom = (jobRunID, input, callback) => {
-  const validator = new Validator(input, mktdomParams)
+const assets = (jobRunID, input, callback) => {
+  const validator = new Validator(input, assetsParams)
   if (validator.error) return callback(validator.error.statusCode, validator.error)
 
   const base = validator.validated.data.base.toLowerCase()
@@ -49,7 +49,7 @@ const execute = (input, callback) => {
 
   switch (endpoint.toLowerCase()) {
     case ENDPOINT_DOMINANCE:
-      return globalMarketDom(jobRunID, input, callback)
+      return assets(jobRunID, input, callback)
     default:
       callback(500, Requester.errored(jobRunID, 'invalid endpoint provided'))
   }

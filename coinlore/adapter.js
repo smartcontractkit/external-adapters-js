@@ -5,7 +5,7 @@ const ENDPOINT_DOMINANCE = 'dominance'
 const DEFAULT_ENDPOINT = ENDPOINT_DOMINANCE
 
 const globalParams = {
-  base: ['base', 'from', 'coin', 'market'],
+  base: ['market', 'to', 'quote'],
 }
 
 const global = (jobRunID, input, path, coinPrefix, callback) => {
