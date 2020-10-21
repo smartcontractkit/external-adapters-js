@@ -4,6 +4,8 @@
   "license": "MIT",
   "private": true,
   "workspaces": [
+    "messari",
+    "coinlore",
     "trueusd",
     "cryptoid",
     "blockchair",

@@ -9,27 +9,19 @@ describe('execute', () => {
     const requests = [
       {
         name: 'id not supplied',
-        testData: { data: { base: 'ETH', quote: 'USD' } },
+        testData: { data: { base: 'BTC' } },
       },
       {
-        name: 'base/quote',
-        testData: { id: jobID, data: { base: 'ETH', quote: 'USD' } },
+        name: 'market',
+        testData: { id: jobID, data: { market: 'BTC' } },
       },
       {
-        name: 'from/to',
-        testData: { id: jobID, data: { from: 'ETH', to: 'USD' } },
+        name: 'to',
+        testData: { id: jobID, data: { to: 'BTC' } },
       },
       {
-        name: 'coin/market',
-        testData: { id: jobID, data: { coin: 'ETH', market: 'USD' } },
-      },
-      {
-        name: 'sym/convert',
-        testData: { id: jobID, data: { sym: 'ETH', convert: 'USD' } },
-      },
-      {
-        name: 'market dominance',
-        testData: { id: jobID, data: { endpoint: 'dominance', market: 'BTC' } },
+        name: 'quote',
+        testData: { id: jobID, data: { quote: 'ETH' } },
       },
     ]
 
@@ -49,18 +41,6 @@ describe('execute', () => {
     const requests = [
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },
-      {
-        name: 'base not supplied',
-        testData: { id: jobID, data: { quote: 'USD' } },
-      },
-      {
-        name: 'quote not supplied',
-        testData: { id: jobID, data: { base: 'ETH' } },
-      },
-      {
-        name: 'dominance market not supplied',
-        testData: { id: jobID, data: { endpoint: 'dominance' } },
-      },
     ]
 
     requests.forEach((req) => {
@@ -76,16 +56,8 @@ describe('execute', () => {
   context('error calls @integration', () => {
     const requests = [
       {
-        name: 'unknown base',
-        testData: { id: jobID, data: { base: 'not_real', quote: 'USD' } },
-      },
-      {
-        name: 'unknown quote',
-        testData: { id: jobID, data: { base: 'ETH', quote: 'not_real' } },
-      },
-      {
-        name: 'dominance unknown market',
-        testData: { id: jobID, data: { endpoint: 'dominance', market: 'not_real' } },
+        name: 'unknown market',
+        testData: { id: jobID, data: { market: 'not_real' } },
       },
     ]
 

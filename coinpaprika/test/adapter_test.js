@@ -17,7 +17,11 @@ describe('execute', () => {
       },
       {
         name: 'gets marketcap',
-        testData: { id: jobID, data: { endpoint: 'globalmarketcap' } },
+        testData: { id: jobID, data: { endpoint: 'globalmarketcap', market: 'USD' } },
+      },
+      {
+        name: 'gets bitcoin dominance',
+        testData: { id: jobID, data: { endpoint: 'dominance', market: 'BTC' } },
       },
     ]
 
@@ -45,6 +49,14 @@ describe('execute', () => {
         name: 'quote not supplied',
         testData: { id: jobID, data: { base: 'ETH' } },
       },
+      {
+        name: 'market cap: market not supplied',
+        testData: { id: jobID, data: { endpoint: 'globalmarketcap' } },
+      },
+      {
+        name: 'dominance: market not supplied',
+        testData: { id: jobID, data: { endpoint: 'dominance' } },
+      },
     ]
 
     requests.forEach((req) => {
@@ -66,6 +78,14 @@ describe('execute', () => {
       {
         name: 'unknown quote',
         testData: { id: jobID, data: { base: 'ETH', quote: 'not_real' } },
+      },
+      {
+        name: 'market cap: unknown market',
+        testData: { id: jobID, data: { market: 'not_real', endpoint: 'globalmarketcap' } },
+      },
+      {
+        name: 'dominance: unknown market',
+        testData: { id: jobID, data: { market: 'not_real', endpoint: 'dominance' } },
       },
     ]
 

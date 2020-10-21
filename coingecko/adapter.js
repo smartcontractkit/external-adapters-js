@@ -2,6 +2,7 @@ const { Requester, Validator } = require('@chainlink/external-adapter')
 
 const ENDPOINT_PRICE = 'price'
 const ENDPOINT_MKTCAP = 'globalmarketcap'
+const ENDPOINT_DOMINANCE = 'dominance'
 
 const DEFAULT_ENDPOINT = ENDPOINT_PRICE
 
@@ -77,15 +78,15 @@ const price = (jobRunID, input, callback) => {
   })
 }
 
-const mktcapParams = {
-  quote: ['quote', 'to', 'market'],
+const globalParams = {
+  market: ['market', 'to', 'quote'],
 }
 
-const globalMarketCap = (jobRunID, input, callback) => {
-  const validator = new Validator(input, mktcapParams)
+const global = (jobRunID, input, path, callback) => {
+  const validator = new Validator(input, globalParams)
   if (validator.error) return callback(validator.error.statusCode, validator.error)
 
-  const quote = validator.validated.data.quote
+  const market = validator.validated.data.market
   const url = 'https://api.coingecko.com/api/v3/global'
 
   const config = {
@@ -95,8 +96,8 @@ const globalMarketCap = (jobRunID, input, callback) => {
   const _handleResponse = (response) => {
     response.data.result = Requester.validateResultNumber(response.data, [
       'data',
-      'total_market_cap',
-      quote.toLowerCase(),
+      path,
+      market.toLowerCase(),
     ])
     callback(response.status, Requester.success(jobRunID, response))
   }
@@ -120,7 +121,9 @@ const execute = (input, callback) => {
     case ENDPOINT_PRICE:
       return price(jobRunID, input, callback)
     case ENDPOINT_MKTCAP:
-      return globalMarketCap(jobRunID, input, callback)
+      return global(jobRunID, input, 'total_market_cap', callback)
+    case ENDPOINT_DOMINANCE:
+      return global(jobRunID, input, 'market_cap_percentage', callback)
     default:
       callback(500, Requester.errored(jobRunID, 'invalid endpoint provided'))
   }
