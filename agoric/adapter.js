@@ -8,9 +8,9 @@ if (!oracleAPI) {
 const oracleUrl = new URL(oracleAPI)
 
 const customParams = {
-  agoric_oracle_query_id: false,
-  result: false,
-  payment: false,
+  queryId: ['request_id'],
+  result: ['result'],
+  payment: ['payment'],
 }
 
 const Nat = (n) => {
@@ -81,22 +81,21 @@ const execute = async (input, callback) => {
       throw validator.error
     }
     jobRunID = validator.validated.id
-    queryId = validator.validated.data.agoric_oracle_query_id
-    const result = validator.validated.data.result
-    const payment = validator.validated.data.payment
-    if (queryId) {
-      const requiredFee = getRequiredFee(payment)
-      await send({
-        type: 'oracleServer/reply',
-        data: { queryId, reply: result, requiredFee },
-      })
-    }
+    queryId = validator.validated.data.queryId
+    const { result, payment } = validator.validated.data
+    const requiredFee = getRequiredFee(payment)
+    await send({
+      type: 'oracleServer/reply',
+      data: { queryId, reply: result, requiredFee },
+    })
     callback(200, {
       jobRunID,
       data: { result },
+      status: 'success',
       statusCode: 200,
     })
   } catch (e) {
+    console.error('Have error', e)
     const error = `${(e && e.stack) || e}`
     if (queryId) {
       send({
@@ -107,7 +106,7 @@ const execute = async (input, callback) => {
     callback(400, {
       jobRunID,
       status: 'errored',
-      error: error,
+      error,
       statusCode: errorStatus,
     })
   }
