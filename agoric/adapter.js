@@ -29,7 +29,8 @@ if (LINK_AGORIC_DECIMALS > LINK_DECIMALS) {
   )
 }
 
-const getRequiredFee = (str) => {
+const getRequiredFee = (value) => {
+  const str = String(value || 0)
   const digits = str
   const significant = digits.substr(
     0,
