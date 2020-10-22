@@ -8,7 +8,7 @@ if (!oracleAPI) {
 const oracleUrl = new URL(oracleAPI)
 
 const customParams = {
-  queryId: ['request_id'],
+  request_id: ['request_id'],
   result: ['result'],
   payment: ['payment'],
 }
@@ -77,9 +77,9 @@ const execute = async (request) => {
   }
 
   const jobRunID = validator.validated.id
-  const queryId = validator.validated.data.queryId
 
-  const { result, payment } = validator.validated.data
+  const { request_id, result, payment } = validator.validated.data
+  const queryId = Number(request_id)
   const requiredFee = getRequiredFee(payment)
 
   await send({
