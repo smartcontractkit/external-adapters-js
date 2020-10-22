@@ -1,4 +1,4 @@
-const { Validator } = require('@chainlink/external-adapter')
+const { Requester, Validator } = require('@chainlink/external-adapter')
 const http = require('http')
 
 const oracleAPI = process.env.AG_SOLO_ORACLE_URL
@@ -70,46 +70,28 @@ const send = (obj) =>
     req.end()
   })
 
-const execute = async (input, callback) => {
-  let queryId
-  let jobRunID = input.id
-  let errorStatus = 400
-  try {
-    const validator = new Validator(input, customParams)
-    if (validator.error) {
-      errorStatus = validator.error.statusCode
-      throw validator.error
-    }
-    jobRunID = validator.validated.id
-    queryId = validator.validated.data.queryId
-    const { result, payment } = validator.validated.data
-    const requiredFee = getRequiredFee(payment)
-    await send({
-      type: 'oracleServer/reply',
-      data: { queryId, reply: result, requiredFee },
-    })
-    callback(200, {
-      jobRunID,
-      data: { result },
-      status: 'success',
-      statusCode: 200,
-    })
-  } catch (e) {
-    console.error('Have error', e)
-    const error = `${(e && e.stack) || e}`
-    if (queryId) {
-      send({
-        type: 'oracleServer/error',
-        data: { queryId, error },
-      })
-    }
-    callback(400, {
-      jobRunID,
-      status: 'errored',
-      error,
-      statusCode: errorStatus,
-    })
+const execute = async (request) => {
+  const validator = new Validator(request, customParams)
+  if (validator.error) {
+    throw validator.error
   }
+
+  const jobRunID = validator.validated.id
+  const queryId = validator.validated.data.queryId
+
+  const { result, payment } = validator.validated.data
+  const requiredFee = getRequiredFee(payment)
+
+  await send({
+    type: 'oracleServer/reply',
+    data: { queryId, reply: result, requiredFee },
+  })
+
+  return Requester.success(jobRunID, {
+    data: { result },
+    result,
+    status: 200,
+  })
 }
 
 module.exports.execute = execute
