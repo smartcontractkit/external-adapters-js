@@ -1,3 +1,4 @@
+const { Validator } = require('@chainlink/external-adapter')
 const http = require('http')
 
 const oracleAPI = process.env.AG_SOLO_ORACLE_URL
@@ -5,6 +6,12 @@ if (!oracleAPI) {
   throw Error(`Must supply $AG_SOLO_ORACLE_URL`)
 }
 const oracleUrl = new URL(oracleAPI)
+
+const customParams = {
+  agoric_oracle_query_id: false,
+  result: false,
+  payment: false,
+}
 
 const Nat = (n) => {
   if (!Number.isSafeInteger(n)) {
@@ -64,18 +71,29 @@ const send = (obj) =>
   })
 
 const execute = async (input, callback) => {
-  const queryId = input.data.agoric_oracle_query_id
+  let queryId
+  let jobRunID = input.id
+  let errorStatus = 400
   try {
+    const validator = new Validator(input, customParams)
+    if (validator.error) {
+      errorStatus = validator.error.statusCode
+      throw validator.error
+    }
+    jobRunID = validator.validated.id
+    queryId = validator.validated.data.agoric_oracle_query_id
+    const result = validator.validated.data.result
+    const payment = validator.validated.data.payment
     if (queryId) {
-      const requiredFee = getRequiredFee(input.data.payment)
+      const requiredFee = getRequiredFee(payment)
       await send({
         type: 'oracleServer/reply',
-        data: { queryId, reply: input.data.result, requiredFee },
+        data: { queryId, reply: result, requiredFee },
       })
     }
     callback(200, {
-      jobRunID: input.id,
-      data: input.data,
+      jobRunID,
+      data: { result },
       statusCode: 200,
     })
   } catch (e) {
@@ -87,10 +105,10 @@ const execute = async (input, callback) => {
       })
     }
     callback(400, {
-      jobRunID: input.id,
+      jobRunID,
       status: 'errored',
       error: error,
-      statusCode: 400,
+      statusCode: errorStatus,
     })
   }
 }
