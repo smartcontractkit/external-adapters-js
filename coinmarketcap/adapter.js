@@ -2,6 +2,7 @@ const { Requester, Validator } = require('@chainlink/external-adapter')
 
 const ENDPOINT_PRICE = 'price'
 const ENDPOINT_DOMINANCE = 'dominance'
+const ENDPOINT_MKTCAP = 'globalmarketcap'
 
 const DEFAULT_ENDPOINT = ENDPOINT_PRICE
 
@@ -63,17 +64,19 @@ const globalParams = {
   market: ['market', 'to', 'quote'],
 }
 
-const global = (jobRunID, input, callback) => {
+const dominance = (jobRunID, input, callback) => {
   const validator = new Validator(input, globalParams)
   if (validator.error) return callback(validator.error.statusCode, validator.error)
 
   const url = 'https://pro-api.coinmarketcap.com/v1/global-metrics/quotes/latest'
 
+  const headers = {
+    'X-CMC_PRO_API_KEY': process.env.API_KEY,
+  }
+
   const config = {
-    url: url,
-    headers: {
-      'X-CMC_PRO_API_KEY': process.env.API_KEY,
-    },
+    url,
+    headers,
   }
 
   const symbol = validator.validated.data.market.toLowerCase()
@@ -81,6 +84,39 @@ const global = (jobRunID, input, callback) => {
 
   const _handleResponse = (response) => {
     response.data.result = Requester.validateResultNumber(response.data, ['data', dataKey])
+    callback(response.status, Requester.success(jobRunID, response))
+  }
+
+  const _handleError = (error) => callback(500, Requester.errored(jobRunID, error))
+
+  Requester.request(config, customError).then(_handleResponse).catch(_handleError)
+}
+
+const marketcap = (jobRunID, input, callback) => {
+  const validator = new Validator(input, globalParams)
+  if (validator.error) return callback(validator.error.statusCode, validator.error)
+
+  const convert = validator.validated.data.market.toUpperCase()
+  const url = 'https://pro-api.coinmarketcap.com/v1/global-metrics/quotes/latest'
+
+  const params = { convert }
+  const headers = {
+    'X-CMC_PRO_API_KEY': process.env.API_KEY,
+  }
+
+  const config = {
+    url,
+    params,
+    headers,
+  }
+
+  const _handleResponse = (response) => {
+    response.data.result = Requester.validateResultNumber(response.data, [
+      'data',
+      'quote',
+      convert,
+      'total_market_cap',
+    ])
     callback(response.status, Requester.success(jobRunID, response))
   }
 
@@ -103,7 +139,9 @@ const execute = (input, callback) => {
     case ENDPOINT_PRICE:
       return price(jobRunID, input, callback)
     case ENDPOINT_DOMINANCE:
-      return global(jobRunID, input, callback)
+      return dominance(jobRunID, input, callback)
+    case ENDPOINT_MKTCAP:
+      return marketcap(jobRunID, input, callback)
     default:
       callback(500, Requester.errored(jobRunID, 'invalid endpoint provided'))
   }

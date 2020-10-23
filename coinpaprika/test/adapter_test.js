@@ -17,7 +17,7 @@ describe('execute', () => {
       },
       {
         name: 'gets marketcap',
-        testData: { id: jobID, data: { endpoint: 'globalmarketcap', market: 'USD' } },
+        testData: { id: jobID, data: { endpoint: 'globalmarketcap', to: 'USD' } },
       },
       {
         name: 'gets bitcoin dominance',

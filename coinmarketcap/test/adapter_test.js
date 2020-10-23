@@ -31,6 +31,10 @@ describe('execute', () => {
         name: 'market dominance',
         testData: { id: jobID, data: { endpoint: 'dominance', market: 'BTC' } },
       },
+      {
+        name: 'marketcap',
+        testData: { id: jobID, data: { endpoint: 'globalMarketCap', to: 'USD' } },
+      },
     ]
 
     requests.forEach((req) => {

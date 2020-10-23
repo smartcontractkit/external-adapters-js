@@ -1,6 +1,7 @@
 const { Requester, Validator } = require('@chainlink/external-adapter')
 
 const ENDPOINT_DOMINANCE = 'dominance'
+const ENDPOINT_MKTCAP = 'globalmarketcap'
 
 const DEFAULT_ENDPOINT = ENDPOINT_DOMINANCE
 
@@ -42,6 +43,8 @@ const execute = (input, callback) => {
   switch (endpoint.toLowerCase()) {
     case ENDPOINT_DOMINANCE:
       return global(jobRunID, input, 'd', true, callback)
+    case ENDPOINT_MKTCAP:
+      return global(jobRunID, input, 'total_mcap', false, callback)
     default:
       callback(500, Requester.errored(jobRunID, 'invalid endpoint provided'))
   }

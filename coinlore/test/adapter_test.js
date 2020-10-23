@@ -23,6 +23,10 @@ describe('execute', () => {
         name: 'quote',
         testData: { id: jobID, data: { quote: 'BTC' } },
       },
+      {
+        name: 'global marketcap',
+        testData: { id: jobID, data: { endpoint: 'globalmarketcap', quote: 'USD' } },
+      },
     ]
 
     requests.forEach((req) => {
