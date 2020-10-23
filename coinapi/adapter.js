@@ -16,7 +16,7 @@ const execute = (input, callback) => {
   const config = {
     url,
     params: {
-      apikey: process.env.API_KEY,
+      X-CoinAPI-Key: process.env.API_KEY,
     },
   }
   Requester.request(config)
