@@ -1,31 +1,31 @@
-const { Requester, Validator } = require('@chainlink/external-adapter')
+import { Execute } from '@chainlink/types'
+import { Requester, Validator } from '@chainlink/external-adapter'
 
-const customError = (data) => {
+const customError = (data: any) => {
   return !data.hits || !data.hits.hits || data.hits.hits.length < 1
 }
 
 const customParams = {
+  address: true,
   debug: false,
   roundDay: false,
   start: false,
-  end: false
+  end: false,
 }
 
 const headers = {
   'Content-Type': 'application/json',
-  Authorization: `Bearer ${process.env.API_KEY}`
+  Authorization: `Bearer ${process.env.API_KEY}`,
 }
 
-const UNISWAP_OFFSHIFT_ADDRESS = '0x2B9e92A5B6e69Db9fEdC47a4C656C9395e8a26d2'
-
-const buildVWAP = (response, debug) => {
-  const sources = response.data.hits.hits.map(i => {
-    const reserve0 = i._source.args.find(j => j.pos === 0)
-    const reserve1 = i._source.args.find(j => j.pos === 1)
+const buildVWAP = (response: any, debug: boolean) => {
+  const sources = response.data.hits.hits.map((i: any) => {
+    const reserve0 = i._source.args.find((j: any) => j.pos === 0)
+    const reserve1 = i._source.args.find((j: any) => j.pos === 1)
     return {
       timestamp: i._source.timestamp,
       reserve0: parseInt(reserve0['value.hex'], 16),
-      reserve1: parseInt(reserve1['value.hex'], 16)
+      reserve1: parseInt(reserve1['value.hex'], 16),
     }
   })
 
@@ -39,14 +39,14 @@ const buildVWAP = (response, debug) => {
     sumAmountAndPrices += price * reserve0volume
   }
 
-  const r = {
+  const r: any = {
     status: response.status,
     data: {
       result: {
         volume: overallVolume,
-        vwap: sumAmountAndPrices / overallVolume
-      }
-    }
+        vwap: sumAmountAndPrices / overallVolume,
+      },
+    },
   }
 
   if (debug) {
@@ -55,7 +55,7 @@ const buildVWAP = (response, debug) => {
   return r
 }
 
-const cleanupDate = (inputDate, roundDay) => {
+const cleanupDate = (inputDate: any, roundDay: boolean) => {
   try {
     inputDate = parseInt(inputDate)
     if (roundDay) {
@@ -64,18 +64,26 @@ const cleanupDate = (inputDate, roundDay) => {
       inputDate = date.getTime()
     }
   } catch (err) {
+    return inputDate
   }
   return inputDate
 }
 
-const createRequest = (input, callback) => {
-  const validator = new Validator(callback, input, customParams)
+// TODO: enable other networks
+const getAnyblockUrl = () => 'https://api.anyblock.tools/ethereum/ethereum/mainnet/es/event/search/'
+
+export const execute: Execute = async (input) => {
+  const validator = new Validator(input, customParams)
+  if (validator.error) throw validator.error
+
   const jobRunID = validator.validated.id
+  const address = validator.validated.data.address
   const debug = validator.validated.data.debug || false
   const roundDay = validator.validated.data.roundDay || false
   let start = validator.validated.data.start
   let end = validator.validated.data.end
-  const url = 'https://api.anyblock.tools/ethereum/ethereum/mainnet/es/event/search/'
+
+  const url = getAnyblockUrl()
 
   end = cleanupDate(end, roundDay)
   start = cleanupDate(start, roundDay)
@@ -98,35 +106,31 @@ const createRequest = (input, callback) => {
     query: {
       bool: {
         filter: [
-          { term: { 'address.raw': UNISWAP_OFFSHIFT_ADDRESS } },
+          { term: { 'address.raw': address } },
           { term: { 'event.raw': 'Sync' } },
           {
             range: {
               timestamp: {
                 gte: start,
-                lte: end
-              }
-            }
-          }
-        ]
-      }
+                lte: end,
+              },
+            },
+          },
+        ],
+      },
     },
-    sort: [
-      { timestamp: 'asc' }
-    ],
+    sort: [{ timestamp: 'asc' }],
     size: 10000,
-    _source: ['timestamp', 'args']
+    _source: ['timestamp', 'args'],
   }
 
   const config = {
     url,
     headers,
-    data: body
+    data: body,
   }
-  Requester.request(config, customError)
-    .then(response => buildVWAP(response, debug))
-    .then(vwapResp => callback(vwapResp.status, Requester.success(jobRunID, vwapResp)))
-    .catch(error => callback(500, Requester.errored(jobRunID, error)))
-}
 
-module.exports.createRequest = createRequest
+  const response = await Requester.request(config, customError)
+  const vwapResp = buildVWAP(response, debug)
+  return Requester.success(jobRunID, vwapResp)
+}

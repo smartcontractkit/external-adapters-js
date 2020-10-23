@@ -54,6 +54,7 @@
     "etherchain",
     "poa-gasprice",
     "anyblock-gasprice",
+    "anyblock-uniswap-vwap",
     "ethgasstation",
     "amberdata-gasprice",
     "synth-index/coinapi",
