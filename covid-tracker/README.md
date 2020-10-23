@@ -8,7 +8,7 @@ https://api.covidtracking.com/v1/us/current.json
 
 ### Input Params
 
-- `location`: The location to retrieve data on (required, one of "USA")
+- `location`: The location to retrieve data on (required, one of "usa")
 - `field`: The data field to return. Must be in camel case style. (required, see Current US Values on https://covidtracking.com/data/api for a full list)
 - `date`: The date to query formatted by `[YEAR][MONTH][DAY]` e.g. `20201012`, if not given defaults to the most recent date with available data (optional)
 - `endpoint`: The endpoint to use (optional, defaults to "country", one of "country")
@@ -16,7 +16,7 @@ https://api.covidtracking.com/v1/us/current.json
 ### Example Usage
 
 ```json
-{ "field": "death" }
+{ "field": "death", "location": "usa" }
 ```
 
 #### Output
