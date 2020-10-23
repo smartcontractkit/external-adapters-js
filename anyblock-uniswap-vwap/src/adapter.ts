@@ -34,7 +34,6 @@ const buildVWAP = (response: any, debug: boolean) => {
   for (let i = 1; i < sources.length; i++) {
     const reserve0volume = Math.abs(sources[i].reserve0 - sources[i - 1].reserve0)
     const price = sources[i].reserve0 / sources[i].reserve1
-    // reserve1volume: Math.abs(sources[i].reserve1 - sources[i - 1].reserve1),
     overallVolume += reserve0volume
     sumAmountAndPrices += price * reserve0volume
   }
@@ -55,18 +54,19 @@ const buildVWAP = (response: any, debug: boolean) => {
   return r
 }
 
-const cleanupDate = (inputDate: any, roundDay: boolean) => {
+const cleanupDate = (inputDate: string, roundDay: boolean) => {
+  let outputDate: number
   try {
-    inputDate = parseInt(inputDate)
+    outputDate = parseInt(inputDate)
     if (roundDay) {
-      const date = new Date(inputDate)
+      const date = new Date(outputDate)
       date.setUTCHours(0, 0, 0, 0)
-      inputDate = date.getTime()
+      outputDate = date.getTime()
     }
   } catch (err) {
     return inputDate
   }
-  return inputDate
+  return outputDate
 }
 
 // TODO: enable other networks
