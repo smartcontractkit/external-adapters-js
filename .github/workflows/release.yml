@@ -108,6 +108,10 @@ jobs:
             blockcypher,
             wbtc-address-set,
             renvm-address-set,
+            messari,
+            coinlore,
+            trueusd,
+            covid-tracker,
           ]
     steps:
       - uses: actions/checkout@v2
