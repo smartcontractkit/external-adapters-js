@@ -15,7 +15,7 @@ const execute = (input, callback) => {
   const url = `https://rest.coinapi.io/v1/exchangerate/${coin}/${market}`
   const config = {
     url,
-    params: {
+    headers: {
       X-CoinAPI-Key: process.env.API_KEY,
     },
   }
