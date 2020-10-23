@@ -9,15 +9,15 @@ describe('execute', () => {
     const requests = [
       {
         name: 'id not supplied',
-        testData: { data: { field: 'totalTestResults' } },
+        testData: { data: { field: 'totalTestResults', location: 'USA' } },
       },
       {
         name: 'without date',
-        testData: { id: jobID, data: { field: 'totalTestResultsIncrease' } },
+        testData: { id: jobID, data: { field: 'totalTestResultsIncrease', location: 'USA' } },
       },
       {
         name: 'with date',
-        testData: { id: jobID, data: { field: 'death', date: '20201010' } },
+        testData: { id: jobID, data: { field: 'death', date: '20201010', location: 'USA' } },
       },
     ]
 
@@ -39,19 +39,23 @@ describe('execute', () => {
       { name: 'empty data', testData: { data: {} } },
       {
         name: 'field not supplied',
-        testData: { id: jobID, data: {} },
+        testData: { id: jobID, data: { location: 'USA' } },
+      },
+      {
+        name: 'location not supplied',
+        testData: { id: jobID, data: { field: 'deaths' } },
       },
       {
         name: 'unknown date format',
-        testData: { id: jobID, data: { field: 'deaths', date: 'not_real' } },
+        testData: { id: jobID, data: { field: 'deaths', date: 'not_real', location: 'USA' } },
       },
       {
         name: 'unknown date format 2',
-        testData: { id: jobID, data: { field: 'deaths', date: '2020111' } },
+        testData: { id: jobID, data: { field: 'deaths', date: '2020111', location: 'USA' } },
       },
       {
         name: 'date not found',
-        testData: { id: jobID, data: { field: 'deaths', date: '17601010' } },
+        testData: { id: jobID, data: { field: 'deaths', date: '17601010', location: 'USA' } },
       },
     ]
 
@@ -69,7 +73,7 @@ describe('execute', () => {
     const requests = [
       {
         name: 'unknown field',
-        testData: { id: jobID, data: { field: 'not_real' } },
+        testData: { id: jobID, data: { field: 'not_real', location: 'USA' } },
       },
     ]
 

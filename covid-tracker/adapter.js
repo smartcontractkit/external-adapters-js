@@ -1,10 +1,11 @@
 const { Requester, Validator } = require('@chainlink/external-adapter')
 
-const ENDPOINT_US = 'us'
+const ENDPOINT_COUNTRY = 'country'
 
-const DEFAULT_ENDPOINT = ENDPOINT_US
+const DEFAULT_ENDPOINT = ENDPOINT_COUNTRY
 
-const usParams = {
+const countryParams = {
+  location: ['location'],
   field: ['field'],
   date: false,
 }
@@ -32,8 +33,8 @@ const findDay = (payload, date) => {
   return null
 }
 
-const us = (jobRunID, input, callback) => {
-  const validator = new Validator(input, usParams)
+const country = (jobRunID, input, callback) => {
+  const validator = new Validator(input, countryParams)
   if (validator.error) return callback(validator.error.statusCode, validator.error)
 
   const field = validator.validated.data.field
@@ -67,8 +68,8 @@ const execute = (input, callback) => {
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
   switch (endpoint.toLowerCase()) {
-    case ENDPOINT_US:
-      return us(jobRunID, input, callback)
+    case ENDPOINT_COUNTRY:
+      return country(jobRunID, input, callback)
     default:
       callback(500, Requester.errored(jobRunID, 'invalid endpoint provided'))
   }
