@@ -6,8 +6,8 @@ const customError = (data) => {
 }
 
 const convert = {
-  'USD': 'totalTrust',
-  'TUSD': 'totalToken'
+  USD: 'totalTrust',
+  TUSD: 'totalToken',
 }
 
 const supplyParams = {
@@ -26,10 +26,7 @@ const execute = (input, callback) => {
 
   Requester.request(url, customError)
     .then((response) => {
-      response.data.result = Requester.validateResultNumber(response.data, [
-        'responseData',
-        field,
-      ])
+      response.data.result = Requester.validateResultNumber(response.data, ['responseData', field])
       callback(response.status, Requester.success(jobRunID, response))
     })
     .catch((error) => callback(500, Requester.errored(jobRunID, error)))

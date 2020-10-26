@@ -9,15 +9,15 @@ describe('execute', () => {
     const requests = [
       {
         name: 'id not supplied',
-        testData: { data: {base: 'TUSD'} },
+        testData: { data: { base: 'TUSD' } },
       },
       {
         name: 'id is supplied',
-        testData: { id: jobID, data: {base: 'TUSD'} },
+        testData: { id: jobID, data: { base: 'TUSD' } },
       },
       {
         name: 'trust supply',
-        testData: { id: jobID, data: {base: 'TUSD'} },
+        testData: { id: jobID, data: { base: 'TUSD' } },
       },
     ]
 
@@ -39,7 +39,7 @@ describe('execute', () => {
       { name: 'base not supplied', testData: { data: { id: jobID } } },
       {
         name: 'unknown base',
-        testData: { id: jobID, data: { base: 'not_real'} },
+        testData: { id: jobID, data: { base: 'not_real' } },
       },
     ]
 
