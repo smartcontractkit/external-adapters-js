@@ -1,10 +1,18 @@
 # Chainlink External Adapter for trueusd
 
+## Total Supply API
+
+https://core-api.real-time-attest.trustexplorer.io/trusttoken/TrueUSD
+
 ## Input Params
 
-_No params_
+- `base`, `from`, or `asset`: Required, the symbol of the asset to get the total supply of, one of "USD", "TUSD"
 
 ## Output
+
+```json
+{ "base": "TUSD" }
+```
 
 ```json
 {
@@ -23,9 +31,9 @@ _No params_
     "message": [{ "msg": "get contractSupply successfully" }],
     "success": true,
     "responseCode": 200,
-    "result": 347215038.53
+    "result": 343465335.4587567
   },
-  "result": 347215038.53,
+  "result": 343465335.4587567,
   "statusCode": 200
 }
 ```
