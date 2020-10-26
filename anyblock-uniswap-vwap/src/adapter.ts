@@ -38,20 +38,14 @@ const buildVWAP = (response: any, debug: boolean) => {
     sumAmountAndPrices += price * reserve0volume
   }
 
-  const r: any = {
+  const vwap = sumAmountAndPrices / overallVolume
+  const resp: any = {
     status: response.status,
-    data: {
-      result: {
-        volume: overallVolume,
-        vwap: sumAmountAndPrices / overallVolume,
-      },
-    },
+    data: { result: vwap },
   }
 
-  if (debug) {
-    r.data.raw = sources
-  }
-  return r
+  if (debug) resp.data.raw = sources
+  return resp
 }
 
 const cleanupDate = (inputDate: string, roundDay: boolean) => {
@@ -77,6 +71,7 @@ export const execute: Execute = async (input) => {
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
+  // TODO: validate this is a checksum address
   const address = validator.validated.data.address
   const debug = validator.validated.data.debug || false
   const roundDay = validator.validated.data.roundDay || false

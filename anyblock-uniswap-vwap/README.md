@@ -4,7 +4,7 @@ You must provide the api key using the env variable `API_KEY`!
 
 ## Input Params
 
-- `address`: Uniswap pool address (required)
+- `address`: Uniswap pool **checksum address** (required)
 - `debug`: Switch to show `raw` trade values (optional, default: false)
 - `roundDay` Switch to round the start and end to midnight UTC (optional, default: false)
 - `start`: Epoch timestamp in seconds (optional, default: \$now - 24h)
@@ -28,10 +28,7 @@ Uniswap Offshift (XTF) example:
 {
   "jobRunID": "1",
   "data": {
-    "result": {
-      "volume": 3.447481508300616e22,
-      "vwap": 299.2532855156056
-    },
+    "result": 299.2532855156056,
     "raw": [
       {
         "timestamp": 1600304409,
@@ -43,10 +40,7 @@ Uniswap Offshift (XTF) example:
       }
     ]
   },
-  "result": {
-    "volume": 3.447481508300616e22,
-    "vwap": 299.2532855156056
-  },
+  "result": 299.2532855156056,
   "statusCode": 200
 }
 ```
