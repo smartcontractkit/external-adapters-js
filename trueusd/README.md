@@ -6,12 +6,12 @@ https://core-api.real-time-attest.trustexplorer.io/trusttoken/TrueUSD
 
 ## Input Params
 
-- `base`, `from`, or `asset`: Required, the symbol of the asset to get the total supply of, one of "USD", "TUSD"
+- `field`: Required, the data field to return. Must be in camel-case style.
 
 ## Output
 
 ```json
-{ "base": "TUSD" }
+{ "field": "totalTrust" }
 ```
 
 ```json

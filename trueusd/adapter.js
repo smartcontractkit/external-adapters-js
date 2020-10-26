@@ -5,13 +5,8 @@ const customError = (data) => {
   return false
 }
 
-const convert = {
-  USD: 'totalTrust',
-  TUSD: 'totalToken',
-}
-
 const supplyParams = {
-  base: ['base', 'from', 'asset'],
+  field: ['field'],
 }
 
 const execute = (input, callback) => {
@@ -20,9 +15,7 @@ const execute = (input, callback) => {
 
   const jobRunID = validator.validated.id
   const url = 'https://core-api.real-time-attest.trustexplorer.io/trusttoken/TrueUSD'
-
-  const field = convert[validator.validated.data.base]
-  if (!field) return callback(400, Requester.errored(jobRunID, 'Invalid base parameter'))
+  const field = validator.validated.data.field
 
   Requester.request(url, customError)
     .then((response) => {

@@ -9,15 +9,15 @@ describe('execute', () => {
     const requests = [
       {
         name: 'id not supplied',
-        testData: { data: { base: 'TUSD' } },
+        testData: { data: { field: 'totalTrust' } },
       },
       {
         name: 'id is supplied',
-        testData: { id: jobID, data: { base: 'TUSD' } },
+        testData: { id: jobID, data: { field: 'totalTrust' } },
       },
       {
         name: 'trust supply',
-        testData: { id: jobID, data: { base: 'TUSD' } },
+        testData: { id: jobID, data: { field: 'totalToken' } },
       },
     ]
 
@@ -36,17 +36,31 @@ describe('execute', () => {
   context('validation error', () => {
     const requests = [
       { name: 'empty body', testData: {} },
-      { name: 'base not supplied', testData: { data: { id: jobID } } },
-      {
-        name: 'unknown base',
-        testData: { id: jobID, data: { base: 'not_real' } },
-      },
+      { name: 'field not supplied', testData: { data: { id: jobID } } },
     ]
 
     requests.forEach((req) => {
       it(`${req.name}`, (done) => {
         execute(req.testData, (statusCode, data) => {
           assertError({ expected: 400, actual: statusCode }, data, jobID)
+          done()
+        })
+      })
+    })
+  })
+
+  context('error calls @integration', () => {
+    const requests = [
+      {
+        name: 'unknown field',
+        testData: { id: jobID, data: { field: 'not_real' } },
+      },
+    ]
+
+    requests.forEach((req) => {
+      it(`${req.name}`, (done) => {
+        execute(req.testData, (statusCode, data) => {
+          assertError({ expected: 500, actual: statusCode }, data, jobID)
           done()
         })
       })
