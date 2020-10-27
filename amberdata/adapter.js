@@ -16,7 +16,7 @@ const execute = (input, callback) => {
   const jobRunID = validator.validated.id
   const coin = validator.validated.data.base
   const market = validator.validated.data.quote
-  const url = `https://web3api.io/api/v2/market/prices/${coin.toLowerCase()}_${market.toLowerCase()}/latest`
+  const url = `https://web3api.io/api/v2/market/spot/prices/pairs/${coin.toLowerCase()}_${market.toLowerCase()}/latest`
 
   const config = {
     url,
@@ -26,11 +26,7 @@ const execute = (input, callback) => {
   }
   Requester.request(config, customError)
     .then((response) => {
-      response.data.result = Requester.validateResultNumber(response.data, [
-        'payload',
-        `${coin.toLowerCase()}_${market.toLowerCase()}`,
-        'price',
-      ])
+      response.data.result = Requester.validateResultNumber(response.data, ['payload', 'price'])
       callback(response.status, Requester.success(jobRunID, response))
     })
     .catch((error) => callback(500, Requester.errored(jobRunID, error)))
