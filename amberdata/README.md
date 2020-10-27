@@ -1,5 +1,7 @@
 # Chainlink External Adapter for Amberdata
 
+Gets the [latest spot VWAP price](https://docs.amberdata.io/reference#spot-price-pair-latest) from Amberdata.
+
 ## Input Params
 
 - `base`, `from`, or `coin`: The asset to query
@@ -9,20 +11,20 @@
 
 ```json
 {
- "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
+ "jobRunID": "1",
  "data": {
   "status": 200,
   "title": "OK",
   "description": "Successful request",
   "payload": {
-   "link_eth": {
-    "timestamp": "2020-01-29T14:00:00.000Z",
-    "price": "0.01535433700000000000"
-   }
+   "timestamp": 1603800660000,
+   "pair": "link_usd",
+   "price": "12.02087667",
+   "volume": "508.31"
   },
-  "result": 0.015354337
+  "result": 12.02087667
  },
- "result": 0.015354337,
+ "result": 12.02087667,
  "statusCode": 200
 }
 ```
