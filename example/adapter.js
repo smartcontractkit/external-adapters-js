@@ -1,9 +1,6 @@
 const { Requester, Validator } = require('@chainlink/external-adapter')
 
-const customError = (data) => {
-  if (data.Response === 'Error') return true
-  return false
-}
+const customError = (data) => (data.Response === 'Error')
 
 const customParams = {
   base: ['base', 'from', 'coin'],
