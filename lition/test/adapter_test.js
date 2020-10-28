@@ -17,11 +17,14 @@ describe('execute', () => {
       },
       {
         name: 'with date',
-        testData: { id: jobID, data: { source: 1, date: `${new Date().toISOString().slice(0, 10)}` }},
+        testData: {
+          id: jobID,
+          data: { source: 1, date: `${new Date().toISOString().slice(0, 10)}` },
+        },
       },
       {
         name: 'with hour',
-        testData: { id: jobID, data: { source: 1, hour: 0 }},
+        testData: { id: jobID, data: { source: 1, hour: 0 } },
       },
     ]
 

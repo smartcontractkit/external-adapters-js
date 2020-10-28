@@ -15,9 +15,7 @@ const execute = (input, callback) => {
   const jobRunID = validator.validated.id
   const source = validator.validated.data.source
   const currentTime = new Date()
-  const date =
-    validator.validated.data.date ||
-    `${currentTime.toISOString().slice(0, 10)}` // YYYY-MM-DD
+  const date = validator.validated.data.date || `${currentTime.toISOString().slice(0, 10)}` // YYYY-MM-DD
   const hour = validator.validated.data.hour || currentTime.getUTCHours()
 
   const url = `https://staking.lition.io/api/v1/energy/source/${source}/date/${date}/hour/${hour}/`
