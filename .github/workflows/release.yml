@@ -67,9 +67,7 @@ jobs:
       matrix:
         adapter:
           [
-            trueusd,
             cryptoid,
-            blockchair,
             bitso,
             cryptomkt,
             satoshitango,
@@ -113,7 +111,6 @@ jobs:
             ethgasstation,
             amberdata-gasprice,
             blockchair,
-            cryptoid,
             blockchain.com,
             blockcypher,
             wbtc-address-set,
