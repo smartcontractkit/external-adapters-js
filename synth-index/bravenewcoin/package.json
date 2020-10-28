@@ -1,5 +1,5 @@
 {
-  "name": "synth-index-bravenewcoin",
+  "name": "@chainlink/synth-index-bravenewcoin",
   "version": "0.0.1",
   "license": "MIT",
   "main": "index.js",

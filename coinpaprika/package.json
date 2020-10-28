@@ -1,5 +1,5 @@
 {
-  "name": "coinpaprika",
+  "name": "@chainlink/coinpaprika",
   "version": "0.0.1",
   "license": "MIT",
   "main": "index.js",

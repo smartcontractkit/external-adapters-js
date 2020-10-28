@@ -1,5 +1,5 @@
 {
-  "name": "synth-index-coinmarketcap",
+  "name": "@chainlink/synth-index-coinmarketcap",
   "version": "0.0.1",
   "license": "MIT",
   "main": "index.js",

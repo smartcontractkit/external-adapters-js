@@ -1,5 +1,5 @@
 {
-  "name": "synth-index-coingecko",
+  "name": "@chainlink/synth-index-coingecko",
   "version": "0.0.1",
   "license": "MIT",
   "main": "index.js",

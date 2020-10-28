@@ -1,5 +1,5 @@
 {
-  "name": "anyblock-gasprice",
+  "name": "@chainlink/anyblock-gasprice",
   "version": "0.0.1",
   "license": "MIT",
   "main": "index.js",

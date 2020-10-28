@@ -1,5 +1,5 @@
 {
-  "name": "cryptomkt",
+  "name": "@chainlink/cryptomkt",
   "version": "0.0.1",
   "license": "MIT",
   "main": "index.js",

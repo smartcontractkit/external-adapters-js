@@ -183,7 +183,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.get_release_info.outputs.upload_url }}
-          asset_path: ./${{ matrix.adapter }}/dist/${{ matrix.adapter }}-adapter.zip
+          asset_path: ./composite/${{ matrix.adapter }}/dist/${{ matrix.adapter }}-adapter.zip
           asset_name: ${{ steps.get_release_info.outputs.file_name }}-${{ matrix.adapter }}-adapter.zip
           asset_content_type: application/zip
 

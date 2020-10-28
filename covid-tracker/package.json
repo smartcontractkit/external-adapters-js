@@ -1,5 +1,5 @@
 {
-  "name": "covid-tracker",
+  "name": "@chainlink/covid-tracker",
   "version": "0.1.0",
   "license": "MIT",
   "main": "index.js",
