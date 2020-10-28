@@ -23,7 +23,6 @@ describe('execute', () => {
           assertSuccess({ expected: 200, actual: statusCode }, data, jobID)
           assert.isAbove(data.result, 0)
           assert.isAbove(data.data.result, 0)
-          console.log(JSON.stringify(data))
           done()
         })
       })
@@ -51,6 +50,14 @@ describe('execute', () => {
       {
         name: 'unknown source',
         testData: { id: jobID, data: { source: 'not_real' } },
+      },
+      {
+        name: 'unknown date',
+        testData: { id: jobID, data: { source: 1, date: 'not_real' } },
+      },
+      {
+        name: 'unknown hour',
+        testData: { id: jobID, data: { source: 1, hour: 'not_real' } },
       },
     ]
 
