@@ -1,4 +1,4 @@
-# Chainlink External Adapter for trueusd
+# Chainlink External Adapter for TrueUSD
 
 ## Total Supply API
 
