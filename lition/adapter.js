@@ -3,9 +3,9 @@ const { Requester, Validator } = require('@chainlink/external-adapter')
 const customError = (data) => data.Response === 'Error'
 
 const customParams = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
-  endpoint: false,
+  source: ['source'],
+  date: false,
+  hour: false,
 }
 
 const execute = (input, callback) => {
@@ -13,19 +13,15 @@ const execute = (input, callback) => {
   if (validator.error) return callback(validator.error.statusCode, validator.error)
 
   const jobRunID = validator.validated.id
-  const endpoint = validator.validated.data.endpoint || 'price'
-  const url = `http://localhost:18081/${endpoint}`
-  const base = validator.validated.data.base.toUpperCase()
-  const quote = validator.validated.data.quote.toUpperCase()
+  const source = validator.validated.data.source
+  const currentTime = new Date()
+  const date = validator.validated.data.date || `${currentTime.toISOString().slice(0, 10)}` // YYYY-MM-DD
+  const hour = validator.validated.data.hour || currentTime.getUTCHours()
 
-  const params = {
-    base,
-    quote,
-  }
+  const url = `https://staking.lition.io/api/v1/energy/source/${source}/date/${date}/hour/${hour}/`
 
   const config = {
     url,
-    params,
   }
 
   Requester.request(config, customError)

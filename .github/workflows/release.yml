@@ -113,6 +113,7 @@ jobs:
             coinlore,
             trueusd,
             covid-tracker,
+            lition,
           ]
     steps:
       - uses: actions/checkout@v2
