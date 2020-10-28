@@ -1,5 +1,5 @@
 const { assert } = require('chai')
-const { assertSuccess } = require('@chainlink/external-adapter')
+const { assertSuccess, assertError } = require('@chainlink/external-adapter')
 const { execute } = require('../adapter')
 
 describe('execute', () => {
@@ -9,13 +9,16 @@ describe('execute', () => {
     const requests = [
       {
         name: 'id not supplied',
-        testData: { data: {} },
+        testData: { data: { field: 'totalTrust' } },
       },
       {
         name: 'id is supplied',
-        testData: { id: jobID, data: {} },
+        testData: { id: jobID, data: { field: 'totalTrust' } },
       },
-      { name: 'empty body', testData: {} },
+      {
+        name: 'trust supply',
+        testData: { id: jobID, data: { field: 'totalToken' } },
+      },
     ]
 
     requests.forEach((req) => {
@@ -24,6 +27,24 @@ describe('execute', () => {
           assertSuccess({ expected: 200, actual: statusCode }, data, jobID)
           assert.isAbove(data.result, 0)
           assert.isAbove(data.data.result, 0)
+          done()
+        })
+      })
+    })
+  })
+
+  context('error calls @integration', () => {
+    const requests = [
+      {
+        name: 'unknown field',
+        testData: { id: jobID, data: { field: 'not_real' } },
+      },
+    ]
+
+    requests.forEach((req) => {
+      it(`${req.name}`, (done) => {
+        execute(req.testData, (statusCode, data) => {
+          assertError({ expected: 500, actual: statusCode }, data, jobID)
           done()
         })
       })

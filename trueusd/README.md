@@ -1,8 +1,12 @@
-# Chainlink External Adapter for trueusd
+# Chainlink External Adapter for TrueUSD
+
+## Total Supply API
+
+https://core-api.real-time-attest.trustexplorer.io/trusttoken/TrueUSD
 
 ## Input Params
 
-_No params_
+- `field`: The data field to return. (defaults to `totalToken`, one of `totalToken`, `totalTrust`)
 
 ## Output
 
@@ -23,9 +27,9 @@ _No params_
     "message": [{ "msg": "get contractSupply successfully" }],
     "success": true,
     "responseCode": 200,
-    "result": 347215038.53
+    "result": 343465335.4587567
   },
-  "result": 347215038.53,
+  "result": 343465335.4587567,
   "statusCode": 200
 }
 ```
