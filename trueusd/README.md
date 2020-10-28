@@ -6,13 +6,9 @@ https://core-api.real-time-attest.trustexplorer.io/trusttoken/TrueUSD
 
 ## Input Params
 
-- `field`: Required, the data field to return. Must be in camel-case style.
+- `field`: The data field to return. (defaults to `totalToken`, one of `totalToken`, `totalTrust`)
 
 ## Output
-
-```json
-{ "field": "totalTrust" }
-```
 
 ```json
 {

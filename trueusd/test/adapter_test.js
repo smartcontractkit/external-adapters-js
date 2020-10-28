@@ -33,22 +33,6 @@ describe('execute', () => {
     })
   })
 
-  context('validation error', () => {
-    const requests = [
-      { name: 'empty body', testData: {} },
-      { name: 'field not supplied', testData: { data: { id: jobID } } },
-    ]
-
-    requests.forEach((req) => {
-      it(`${req.name}`, (done) => {
-        execute(req.testData, (statusCode, data) => {
-          assertError({ expected: 400, actual: statusCode }, data, jobID)
-          done()
-        })
-      })
-    })
-  })
-
   context('error calls @integration', () => {
     const requests = [
       {

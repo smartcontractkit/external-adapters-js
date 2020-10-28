@@ -6,7 +6,7 @@ const customError = (data) => {
 }
 
 const supplyParams = {
-  field: ['field'],
+  field: false,
 }
 
 const execute = (input, callback) => {
@@ -15,7 +15,7 @@ const execute = (input, callback) => {
 
   const jobRunID = validator.validated.id
   const url = 'https://core-api.real-time-attest.trustexplorer.io/trusttoken/TrueUSD'
-  const field = validator.validated.data.field
+  const field = validator.validated.data.field  || 'totalToken'
 
   Requester.request(url, customError)
     .then((response) => {
