@@ -17,7 +17,7 @@ const execute = (input, callback) => {
   const currentTime = new Date()
   const date =
     validator.validated.data.date ||
-    `${currentTime.getUTCFullYear()}-${currentTime.getUTCMonth()}-${currentTime.getUTCDate()}`
+    `${currentTime.toISOString().slice(0, 10)}` // YYYY-MM-DD
   const hour = validator.validated.data.hour || currentTime.getUTCHours()
 
   const url = `https://staking.lition.io/api/v1/energy/source/${source}/date/${date}/hour/${hour}/`
