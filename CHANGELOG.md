@@ -14,7 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - [Request coalescing](https://aws.amazon.com/builders-library/caching-challenges-and-strategies/) support to mitigate the issue of requests for data coming in bursts and missing the cache.
   - Remote cache (Redis/ElastiCache) support, with adapter key grouping, to enable more efficient serverless deployments.
 - Support for composite adapters:
-  - `composite/proof-of-reserves` adapter combines multiple adapters to find total balance in custody for wBTC or renBTC.
+  - `composite/proof-of-reserves` adapter combines multiple adapters to find total balance in custody for wBTC or renBTC protocols.
 - New adapters:
   - `wbtc-address-set` to query wBTC custody address set.
   - `renvm-address-set` to query renVM protocol custody address set.
@@ -29,15 +29,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `satoshitango` to get last bid price for multiple markets.
   - `bitex` to get volume weighted average price (vwap) for multiple markets.
   - `orchid-bandwidth` to get available bandwidth from Chainlink as service provider.
-  - `genesis-volatility`
-  - `covid-tracker` -  to get query COVID-19 statistics.
-  - `lition` - to query the price in Euros per MWh for Lition.
-  - `coinlore`- to query the market dominance and market capitalization of Bitcoin.
-  - `messari` - to query the market dominance of Bitcoin.
+  - `genesis-volatility` to get implied volatility of an asset.
+  - `covid-tracker` to query COVID-19 statistics.
+  - `lition` to query the price in Euros per MWh for Lition.
+  - `coinlore` to query the Bitcoin market dominance and market capitalization.
+  - `messari` to query the Bitcoin market dominance.
 
 ### Changed
 
-- Improved logs
+- Improved logs.
 - Prettier logs in development environment.
 
 ## [0.1.2] - 2020-09-18
