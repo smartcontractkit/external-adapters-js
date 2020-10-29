@@ -6,20 +6,38 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [0.1.3] - 2020-10-29
+
 ### Added
 
-- [Request coalescing](https://aws.amazon.com/builders-library/caching-challenges-and-strategies/) support to mitigate the issue of requests for data coming in bursts and missing the cache.
-- Remote cache (Redis/ElastiCache) support, with adapter key grouping, to enable more efficient serverless deployments.
-- Support for composite adapters
-- Proof of Reserves composite adapter
-  - wBTC address set adapter
-  - renVM address set adapter
-  - blockchain.com BTC indexer adapter
-  - blockcypher BTC indexer adapter
+- Caching improvements:
+  - [Request coalescing](https://aws.amazon.com/builders-library/caching-challenges-and-strategies/) support to mitigate the issue of requests for data coming in bursts and missing the cache.
+  - Remote cache (Redis/ElastiCache) support, with adapter key grouping, to enable more efficient serverless deployments.
+- Support for composite adapters:
+  - `composite/proof-of-reserves` adapter combines multiple adapters to find total balance in custody for wBTC or renBTC protocols.
+- New adapters:
+  - `wbtc-address-set` to query wBTC custody address set.
+  - `renvm-address-set` to query renVM protocol custody address set.
+  - `blockchain.com` to fetch balances for a set of Bitcoin addresses.
+  - `blockcypher` to fetch balances for a set of Bitcoin addresses.
+  - `reduce` to reduce an array to a result. Different reducers are supported like: `sum`, `product`, `average`, `median`, `min` & `max`.
+  - `trueusd` to query supply and issuance data for TrueUSD.
+  - `cryptoid` to get chain difficulty measurement from different networks.
+  - `blockchair` to get chain difficulty measurement from different networks.
+  - `bitso` to get last 24 hours volume weighted average price (vwap) for multiple markets.
+  - `cryptomkt` to get last transaction price for multiple markets.
+  - `satoshitango` to get last bid price for multiple markets.
+  - `bitex` to get volume weighted average price (vwap) for multiple markets.
+  - `orchid-bandwidth` to get available bandwidth from Chainlink as service provider.
+  - `genesis-volatility` to get implied volatility of an asset.
+  - `covid-tracker` to query COVID-19 statistics.
+  - `lition` to query the price in Euros per MWh for Lition.
+  - `coinlore` to query the Bitcoin market dominance and market capitalization.
+  - `messari` to query the Bitcoin market dominance.
 
 ### Changed
 
-- Improved logs
+- Improved logs.
 - Prettier logs in development environment.
 
 ## [0.1.2] - 2020-09-18

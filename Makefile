@@ -11,18 +11,18 @@ new:
 	cp -r example/* $(adapter)
 	sed -i 's/example/$(adapter)/' $(adapter)/package.json
 	sed -i 's/Example/$(adapter)/' $(adapter)/README.md
-	sed '/\"workspaces\"/ a \ \ \ \ "$(adapter)",' package.json > package.json.new
-	mv package.json.new package.json
+	sed -i 's/"workspaces": \[/"workspaces": \[\n    "$(adapter)",/' package.json
 
 clean:
 	rm -rf $(adapter)/dist
 
 deps: clean
+	# Call the build script for the adapter if defined (TypeScript adapters have this extra build/compile step)
+	# We use `wsrun` to build workspace dependencies in topological order (TODO: use native `yarn workspaces foreach -pt run build` with Yarn 2)
+	yarn && yarn wsrun -mre -p @chainlink/$(if $(name),$(name),$(adapter)) -t build
 	yarn --frozen-lockfile --production
 
 build:
-	# Call the build script for the adapter if defined (TypeScript adapters have this extra build/compile step)
-	if [ $$(cat $(adapter)/package.json | grep "^    \"build\":" | wc -l) -ge 1 ]; then yarn --cwd $(adapter) build; fi
 	yarn ncc build $(adapter) -o $(adapter)/dist
 
 clean-market-closure:

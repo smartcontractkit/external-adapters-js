@@ -1,4 +1,4 @@
-const { AdapterError } = require('./adapterError')
+const { AdapterError } = require('./errors')
 const { Requester } = require('./requester')
 const { logger } = require('./logger')
 
@@ -25,16 +25,24 @@ class Validator {
         }
       }
     } catch (error) {
-      logger.error(`Error validating input: ${error}`)
-      this.error = Requester.errored(this.input.id, error, 400)
+      const message = 'Error validating input.'
+      if (error instanceof AdapterError) this.error = error
+      else
+        this.error = new AdapterError({
+          jobRunID: this.validated.id,
+          statusCode: 400,
+          message,
+          cause: error,
+        })
+      logger.error(message, { error: this.error })
+      this.errored = Requester.errored(this.validated.id, this.error)
     }
   }
 
   validateRequiredParam(param, key) {
     if (typeof param === 'undefined') {
-      const error = `Required parameter not supplied: ${key}`
-      logger.error(error)
-      throw new AdapterError(error)
+      const message = `Required parameter not supplied: ${key}`
+      throw new AdapterError({ jobRunID: this.validated.id, statusCode: 400, message })
     } else {
       this.validated.data[key] = param
     }

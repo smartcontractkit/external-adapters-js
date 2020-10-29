@@ -1,6 +1,6 @@
 {
-  "name": "bravenewcoin",
-  "version": "0.1.0",
+  "name": "@chainlink/bravenewcoin",
+  "version": "0.0.1",
   "license": "MIT",
   "main": "index.js",
   "scripts": {

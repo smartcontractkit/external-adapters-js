@@ -1,6 +1,6 @@
 {
-  "name": "bitex",
-  "version": "0.1.0",
+  "name": "@chainlink/bitex",
+  "version": "0.0.1",
   "license": "MIT",
   "main": "index.js",
   "scripts": {

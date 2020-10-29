@@ -8,7 +8,7 @@ const DEFAULT_CACHE_REDIS_HOST = '127.0.0.1' // IP address of the Redis server
 const DEFAULT_CACHE_REDIS_PORT = 6379 // Port of the Redis server
 const DEFAULT_CACHE_REDIS_PATH = null // The UNIX socket string of the Redis server
 const DEFAULT_CACHE_REDIS_URL = null // The URL of the Redis server
-const DEFAULT_CACHE_REDIS_PASSWORD = '' // The password required for redis auth
+const DEFAULT_CACHE_REDIS_PASSWORD = undefined // The password required for redis auth
 const DEFAULT_CACHE_REDIS_TIMEOUT = 500 // Timeout in ms
 // Options
 const DEFAULT_CACHE_MAX_AGE = 1000 * 30 // Maximum age in ms

@@ -1,6 +1,6 @@
 {
-  "name": "finnhub",
-  "version": "0.1.0",
+  "name": "@chainlink/finnhub",
+  "version": "0.0.1",
   "license": "MIT",
   "main": "index.js",
   "scripts": {

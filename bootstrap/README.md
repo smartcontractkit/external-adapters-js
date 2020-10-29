@@ -31,6 +31,7 @@ Options:
 - `CACHE_REDIS_URL`: Optional string, defaults to `null`. The URL of the Redis server. Format: `[redis[s]:]//[[user][:password@]][host][:port][/db-number][?db=db-number[&password=bar[&option=value]]]`
 - `CACHE_REDIS_PASSWORD`: Optional string, defaults to `null`. The password required for redis auth.
 - `CACHE_REDIS_TIMEOUT`: Optional number, defaults to `500`. The timeout in ms if connection to Redis errors or is not responding.
+- `CACHE_MAX_AGE`: Optional number in ms, defaults to `1000 * 30` (30 seconds).
 
 For local development run a Redis Docker container:
 

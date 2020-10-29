@@ -4,10 +4,8 @@ declare module '@chainlink/types' {
   export type AdapterResponse = {
     jobRunID: string
     statusCode: number
-    status?: string
-    data: Record<string, unknown>
-    result: Record<string, unknown>
-    error?: any
+    data: any
+    result: any
   }
 
   // TODO: clean this ASAP
@@ -16,7 +14,7 @@ declare module '@chainlink/types' {
     data: AdapterResponse
   }
 
-  export type Execute = (input: AdapterRequest) => Promise<AdapterResponse>
+  export type Execute = (input: AdapterRequest, config?: any) => Promise<AdapterResponse>
 }
 declare module '@chainlink/ea-bootstrap'
 declare module '@chainlink/external-adapter'

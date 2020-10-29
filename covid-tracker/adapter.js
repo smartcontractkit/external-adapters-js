@@ -35,7 +35,7 @@ const findDay = (payload, date) => {
 
 const country = (jobRunID, input, callback) => {
   const validator = new Validator(input, countryParams)
-  if (validator.error) return callback(validator.error.statusCode, validator.error)
+  if (validator.error) return callback(validator.error.statusCode, validator.errored)
 
   const field = validator.validated.data.field
   const date = validator.validated.data.date
@@ -63,7 +63,7 @@ const customParams = {
 
 const execute = (input, callback) => {
   const validator = new Validator(input, customParams)
-  if (validator.error) return callback(validator.error.statusCode, validator.error)
+  if (validator.error) return callback(validator.error.statusCode, validator.errored)
 
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT

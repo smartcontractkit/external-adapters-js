@@ -4,15 +4,9 @@ import reduceAdapter from '@chainlink/reduce'
 import { getImpl as getProtocolImpl, getProtocol } from './protocol'
 import { getImpl as getBalanceImpl, getBitcoinIndexer } from './balance'
 
-const throwOnError = (output: AdapterResponse) => {
-  const { statusCode } = output
-  if (statusCode < 200 || statusCode >= 400) throw output.error
-  else return output
-}
-
 // Run, log, throw on error
 const runAdapter = async (execute: Execute, input: AdapterRequest, tag: string) => {
-  const output = throwOnError(await execute(input))
+  const output = await execute(input)
   logger.debug(tag, { output })
   return output
 }

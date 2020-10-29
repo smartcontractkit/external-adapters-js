@@ -20,7 +20,7 @@ const priceParams = {
 const price = (jobRunID, input, callback) => {
   const url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest'
   const validator = new Validator(input, priceParams)
-  if (validator.error) return callback(validator.error.statusCode, validator.error)
+  if (validator.error) return callback(validator.error.statusCode, validator.errored)
 
   const symbol = validator.validated.data.symbol
   // CMC allows a coin ID to be specified instead of a symbol
@@ -66,7 +66,7 @@ const globalParams = {
 
 const dominance = (jobRunID, input, callback) => {
   const validator = new Validator(input, globalParams)
-  if (validator.error) return callback(validator.error.statusCode, validator.error)
+  if (validator.error) return callback(validator.error.statusCode, validator.errored)
 
   const url = 'https://pro-api.coinmarketcap.com/v1/global-metrics/quotes/latest'
 
@@ -94,7 +94,7 @@ const dominance = (jobRunID, input, callback) => {
 
 const marketcap = (jobRunID, input, callback) => {
   const validator = new Validator(input, globalParams)
-  if (validator.error) return callback(validator.error.statusCode, validator.error)
+  if (validator.error) return callback(validator.error.statusCode, validator.errored)
 
   const convert = validator.validated.data.market.toUpperCase()
   const url = 'https://pro-api.coinmarketcap.com/v1/global-metrics/quotes/latest'
@@ -131,7 +131,7 @@ const customParams = {
 
 const execute = (input, callback) => {
   const validator = new Validator(input, customParams)
-  if (validator.error) return callback(validator.error.statusCode, validator.error)
+  if (validator.error) return callback(validator.error.statusCode, validator.errored)
 
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT

@@ -12,7 +12,7 @@ const priceParams = {
 
 const price = (jobRunID, input, callback) => {
   const validator = new Validator(input, priceParams)
-  if (validator.error) return callback(validator.error.statusCode, validator.error)
+  if (validator.error) return callback(validator.error.statusCode, validator.errored)
 
   const coin = validator.validated.data.base
   const market = validator.validated.data.quote
@@ -44,7 +44,7 @@ const difficultyParams = {
 
 const difficulty = (jobRunID, input, callback) => {
   const validator = new Validator(input, difficultyParams)
-  if (validator.error) return callback(validator.error.statusCode, validator.error)
+  if (validator.error) return callback(validator.error.statusCode, validator.errored)
 
   const blockchain = validator.validated.data.blockchain
   const network = validator.validated.data.network || 'mainnet'
@@ -75,7 +75,7 @@ const customParams = {
 
 const execute = (input, callback) => {
   const validator = new Validator(input, customParams)
-  if (validator.error) return callback(validator.error.statusCode, validator.error)
+  if (validator.error) return callback(validator.error.statusCode, validator.errored)
 
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT

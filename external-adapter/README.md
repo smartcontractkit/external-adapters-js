@@ -47,7 +47,7 @@ Validation of the requester's input parameters can be done by creating an instan
 // The input data is validated upon instantiating the Validator
 const validator = new Validator(input, customParams)
 // Check for error, and callback if exists
-if (validator.error) return callback(validator.error.statusCode, validator.error)
+if (validator.error) return callback(validator.error.statusCode, validator.errored)
 ```
 
 Validated params can be obtained from the `validator.validated` object.

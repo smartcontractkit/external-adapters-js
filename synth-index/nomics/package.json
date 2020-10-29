@@ -1,6 +1,6 @@
 {
-  "name": "synth-index-nomics",
-  "version": "0.1.0",
+  "name": "@chainlink/synth-index-nomics",
+  "version": "0.0.1",
   "license": "MIT",
   "main": "index.js",
   "scripts": {

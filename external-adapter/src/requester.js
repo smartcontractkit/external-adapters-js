@@ -1,8 +1,7 @@
 const axios = require('axios')
-const { AdapterError } = require('./adapterError')
+const { AdapterError } = require('./errors')
 const { logger } = require('./logger')
 
-const isObject = (o) => o !== null && typeof o === 'object' && Array.isArray(o) === false
 class Requester {
   static async request(config, customError, retries = 3, delay = 1000) {
     if (typeof config === 'string') config = { url: config }
@@ -32,7 +31,7 @@ class Requester {
         // Request error
         if (n === 1) {
           logger.error(`Could not reach endpoint: ${JSON.stringify(error.message)}`)
-          throw new AdapterError(error.message)
+          throw new AdapterError({ message: error.message, cause: error })
         }
 
         return await _delayRetry(`Caught error. Retrying: ${JSON.stringify(error.message)}`)
@@ -41,9 +40,10 @@ class Requester {
       if (response.data.error || customError(response.data)) {
         // Response error
         if (n === 1) {
-          const error = `Could not retrieve valid data: ${JSON.stringify(response.data)}`
-          logger.error(error)
-          throw new AdapterError(error)
+          const message = `Could not retrieve valid data: ${JSON.stringify(response.data)}`
+          logger.error(message)
+          const cause = response.data.error || 'customError'
+          throw new AdapterError({ message, cause })
         }
 
         return await _delayRetry(`Error in response. Retrying: ${JSON.stringify(response.data)}`)
@@ -60,14 +60,14 @@ class Requester {
   static validateResultNumber(data, path) {
     const result = this.getResult(data, path)
     if (typeof result === 'undefined') {
-      const error = 'Result could not be found in path'
-      logger.error(error)
-      throw new AdapterError(error)
+      const message = 'Result could not be found in path'
+      logger.error(message)
+      throw new AdapterError({ message })
     }
     if (Number(result) === 0 || isNaN(Number(result))) {
-      const error = 'Invalid result'
-      logger.error(error)
-      throw new AdapterError(error)
+      const message = 'Invalid result'
+      logger.error(message)
+      throw new AdapterError({ message })
     }
     return Number(result)
   }
@@ -76,14 +76,11 @@ class Requester {
     return path.reduce((o, n) => o[n], data)
   }
 
-  static errored(jobRunID = '1', error = 'An error occurred', statusCode = 500) {
-    const message = error instanceof Error || isObject(error) ? error.message : error
-    return {
-      jobRunID,
-      status: 'errored',
-      error: new AdapterError(message || 'An error occurred'),
-      statusCode,
-    }
+  static errored(jobRunID = '1', error, statusCode = 500) {
+    if (error instanceof AdapterError) return error.toJSONResponse()
+    if (error instanceof Error)
+      return new AdapterError({ jobRunID, statusCode, cause: error }).toJSONResponse()
+    return new AdapterError({ jobRunID, statusCode, message: error }).toJSONResponse()
   }
 
   static success(jobRunID = '1', response) {
