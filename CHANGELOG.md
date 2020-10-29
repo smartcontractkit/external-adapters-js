@@ -30,6 +30,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `bitex` to get volume weighted average price (vwap) for multiple markets.
   - `orchid-bandwidth` to get available bandwidth from Chainlink as service provider.
   - `genesis-volatility`
+  - `covid-tracker` -  to get query COVID-19 statistics.
+  - `lition` - to query the price in Euros per MWh for Lition.
+  - `coinlore`- to query the market dominance and market capitalization of Bitcoin.
+  - `messari` - to query the market dominance of Bitcoin.
 
 ### Changed
 
