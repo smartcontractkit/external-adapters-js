@@ -6,25 +6,29 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [0.1.3] - 2020-10-29
+
 ### Added
 
-- [Request coalescing](https://aws.amazon.com/builders-library/caching-challenges-and-strategies/) support to mitigate the issue of requests for data coming in bursts and missing the cache.
-- Remote cache (Redis/ElastiCache) support, with adapter key grouping, to enable more efficient serverless deployments.
+- Caching improvements:
+  - [Request coalescing](https://aws.amazon.com/builders-library/caching-challenges-and-strategies/) support to mitigate the issue of requests for data coming in bursts and missing the cache.
+  - Remote cache (Redis/ElastiCache) support, with adapter key grouping, to enable more efficient serverless deployments.
 - Support for composite adapters:
   - `composite/proof-of-reserves` adapter combines multiple adapters to find total balance in custody for wBTC or renBTC.
 - New adapters:
-  - `wbtc-address-set` adapter to query wBTC custody address set.
-  - `renvm-address-set` adapter to query renVM protocol custody address set.
-  - `blockchain.com` adapter to BTC indexer used to fetch balances for a set of addresses.
-  - `blockcypher` adapter to BTC indexer used to fetch balances for a set of addresses.
-  - `trueusd`
-  - `cryptoid`
-  - `blockchair`
-  - `bitso`
-  - `cryptomkt`
-  - `satoshitango`
-  - `bitex`
-  - `orchid-bandwidth`
+  - `wbtc-address-set` to query wBTC custody address set.
+  - `renvm-address-set` to query renVM protocol custody address set.
+  - `blockchain.com` to fetch balances for a set of Bitcoin addresses.
+  - `blockcypher` to fetch balances for a set of Bitcoin addresses.
+  - `reduce` to reduce an array to a result. Different reducers are supported like: `sum`, `product`, `average`, `median`, `min` & `max`.
+  - `trueusd` to query supply and issuance data for TrueUSD.
+  - `cryptoid` to get chain difficulty measurement from different networks.
+  - `blockchair` to get chain difficulty measurement from different networks.
+  - `bitso` to get last 24 hours volume weighted average price (vwap) for multiple markets.
+  - `cryptomkt` to get last transaction price for multiple markets.
+  - `satoshitango` to get last bid price for multiple markets.
+  - `bitex` to get volume weighted average price (vwap) for multiple markets.
+  - `orchid-bandwidth` to get available bandwidth from Chainlink as service provider.
   - `genesis-volatility`
 
 ### Changed
