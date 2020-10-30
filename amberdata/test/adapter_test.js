@@ -23,6 +23,10 @@ describe('execute', () => {
         name: 'coin/market',
         testData: { id: jobID, data: { coin: 'LINK', market: 'USD' } },
       },
+      {
+        name: 'includes cross-rates',
+        testData: { id: jobID, data: { from: 'BNB', to: 'USD' } },
+      },
     ]
 
     requests.forEach((req) => {
