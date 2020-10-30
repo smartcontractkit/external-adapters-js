@@ -120,6 +120,8 @@ jobs:
             trueusd,
             covid-tracker,
             lition,
+            linkpool,
+            onchain,
           ]
     steps:
       - uses: actions/checkout@v2
