@@ -6,11 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [0.1.4] - 2020-10-30
+
 ### Added
 
 - New adapters:
   - `linkpool` to get ICE futures quotes
   - `onchain` to get ICE futures quotes
+
+### Fixed
+
+- Local in-memory cache got broken in the last release, and was reinitialized on every request.
+- `amberdata` adapter wasn't responding for some assets because they don't make cross-rates by default. Cross-rates are now included which enables this adapter to support markets like `BNB/USD`, not just the actual `BNB/USDT`.
 
 ## [0.1.3] - 2020-10-29
 

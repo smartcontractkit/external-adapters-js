@@ -1,6 +1,7 @@
 const { expect } = require('chai')
 const { useFakeTimers } = require('sinon')
-const { withCache, envOptions } = require('../lib/cache')
+const { withCache, defaultOptions } = require('../lib/cache')
+const { LocalLRUCache } = require('../lib/cache/local')
 
 const callAndExpect = async (fn, n, result) => {
   while (n--) {
@@ -11,6 +12,8 @@ const callAndExpect = async (fn, n, result) => {
 
 // Helper test function: a stateful counter
 const counterFrom = (i = 0) => () => ({ statusCode: 200, data: i++ })
+// Build new cache every time
+const cacheBuilder = (options) => new LocalLRUCache(options)
 
 describe('cache', () => {
   context('options defaults', () => {
@@ -20,7 +23,7 @@ describe('cache', () => {
       })
 
       it(`configures env options with cache enabled: false`, () => {
-        const options = envOptions()
+        const options = defaultOptions()
         expect(options).to.have.property('enabled', false)
       })
     })
@@ -31,13 +34,13 @@ describe('cache', () => {
       })
 
       it(`configures env options with cache enabled: true`, () => {
-        const options = envOptions()
+        const options = defaultOptions()
         expect(options).to.have.property('enabled', true)
       })
 
       it(`configures env options with default maxAge: 1000 * 30`, () => {
-        const options = envOptions()
-        expect(options.local).to.have.property('maxAge', 1000 * 30)
+        const options = defaultOptions()
+        expect(options.cacheOptions).to.have.property('maxAge', 1000 * 30)
       })
     })
   })
@@ -57,9 +60,11 @@ describe('cache', () => {
   })
 
   context('enabled', () => {
+    let options
     let clock
     beforeEach(() => {
       process.env.CACHE_ENABLED = 'true'
+      options = { ...defaultOptions(), cacheBuilder }
       clock = useFakeTimers()
     })
 
@@ -68,12 +73,12 @@ describe('cache', () => {
     })
 
     it(`caches fn result`, async () => {
-      const counter = await withCache(counterFrom(0))
+      const counter = await withCache(counterFrom(0), options)
       await callAndExpect(counter, 3, 0)
     })
 
     it(`caches fn result - while entry still young  (under 30s default)`, async () => {
-      const counter = await withCache(counterFrom(0))
+      const counter = await withCache(counterFrom(0), options)
       await callAndExpect(counter, 3, 0)
       await callAndExpect(counter, 3, 0)
 
@@ -87,7 +92,7 @@ describe('cache', () => {
     })
 
     it(`invalidates cache - after default configured maxAge of 30s`, async () => {
-      const counter = await withCache(counterFrom(0))
+      const counter = await withCache(counterFrom(0), options)
       await callAndExpect(counter, 3, 0)
 
       clock.tick(1000 * 25)
@@ -102,8 +107,7 @@ describe('cache', () => {
     })
 
     it(`invalidates cache - after configured maxAge of 10s`, async () => {
-      const options = envOptions()
-      options.local.maxAge = 1000 * 10
+      options.cacheOptions.maxAge = 1000 * 10
 
       const counter = await withCache(counterFrom(0), options)
       await callAndExpect(counter, 3, 0)

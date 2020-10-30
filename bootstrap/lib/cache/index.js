@@ -14,11 +14,10 @@ const DEFAULT_RC_INTERVAL_COEFFICIENT = 2
 const DEFAULT_RC_ENTROPY_MAX = 0
 
 const env = process.env
-const envOptions = () => ({
+const defaultOptions = () => ({
   enabled: parseBool(env.CACHE_ENABLED),
-  type: env.CACHE_TYPE || DEFAULT_CACHE_TYPE,
-  local: local.envOptions(),
-  redis: redis.envOptions(),
+  cacheOptions: defaultCacheOptions(),
+  cacheBuilder: defaultCacheBuilder(),
   key: {
     group: env.CACHE_KEY_GROUP || DEFAULT_CACHE_KEY_GROUP,
     ignored: [
@@ -38,31 +37,40 @@ const envOptions = () => ({
     entropyMax: Number(env.REQUEST_COALESCING_ENTROPY_MAX) || DEFAULT_RC_ENTROPY_MAX,
   },
 })
-
-const envOptionsSafe = () => {
-  const opts = envOptions()
-  const redis = opts.redis
-  if (redis.password) redis.password = redis.password.replace(/.+/g, '*****')
-  if (redis.url) redis.url = redis.url.replace(/:\/\/.+@/g, '://*****@')
-  return opts
+const defaultCacheOptions = () => {
+  const type = env.CACHE_TYPE || DEFAULT_CACHE_TYPE
+  const options = type === 'redis' ? redis.defaultOptions() : local.defaultOptions()
+  return { ...options, type }
 }
-
-const getCacheImpl = (options) => {
-  switch (options.type) {
-    case 'redis':
-      return redis.RedisCache.build(options.redis)
-    default:
-      return new local.LocalLRUCache(options.local)
+// TODO: Revisit this after we stop to reinitialize middleware on every request
+// We store the local LRU cache instance, so it's not reinitialized on every request
+let localLRUCache
+const defaultCacheBuilder = () => {
+  return (options) => {
+    switch (options.type) {
+      case 'redis':
+        return redis.RedisCache.build(options)
+      default:
+        return localLRUCache || (localLRUCache = new local.LocalLRUCache(options))
+    }
   }
 }
+// Options without sensitive data
+const redactOptions = (options) => ({
+  ...options,
+  cacheOptions:
+    options.cacheOptions.type === 'redis'
+      ? redis.redactOptions(options.cacheOptions)
+      : local.redactOptions(options.cacheOptions),
+})
 
 const withCache = async (execute, options) => {
   // If no options read the env with sensible defaults
-  if (!options) options = envOptions()
+  if (!options) options = defaultOptions()
   // If disabled noop
   if (!options.enabled) return (data) => execute(data)
 
-  const cache = await getCacheImpl(options)
+  const cache = await options.cacheBuilder(options.cacheOptions)
 
   // Algorithm we use to derive entry key
   const hashOptions = {
@@ -165,5 +173,6 @@ const withCache = async (execute, options) => {
 
 module.exports = {
   withCache,
-  envOptions: envOptionsSafe,
+  defaultOptions,
+  redactOptions,
 }
