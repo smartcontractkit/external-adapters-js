@@ -23,6 +23,9 @@ const execute = (input, callback) => {
     headers: {
       'x-api-key': process.env.API_KEY,
     },
+    params: {
+      includeCrossRates: true,
+    },
   }
   Requester.request(config, customError)
     .then((response) => {
