@@ -4,6 +4,8 @@
   "license": "MIT",
   "private": true,
   "workspaces": [
+    "linkpool",
+    "onchain",
     "lition",
     "covid-tracker",
     "messari",
