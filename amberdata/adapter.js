@@ -18,8 +18,13 @@ const execute = (input, callback) => {
   const market = validator.validated.data.quote
   const url = `https://web3api.io/api/v2/market/spot/prices/pairs/${coin.toLowerCase()}_${market.toLowerCase()}/latest`
 
+  const params = {
+    includeCrossRates: true,
+  }
+
   const config = {
     url,
+    params,
     headers: {
       'x-api-key': process.env.API_KEY,
     },
