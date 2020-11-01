@@ -15,7 +15,7 @@ const execute = (input, callback) => {
 
   const jobRunID = validator.validated.id
   const url = 'https://core-api.real-time-attest.trustexplorer.io/trusttoken/TrueUSD'
-  const field = validator.validated.data.field || 'totalToken'
+  const field = validator.validated.data.field || 'totalTrust'
 
   Requester.request(url, customError)
     .then((response) => {
