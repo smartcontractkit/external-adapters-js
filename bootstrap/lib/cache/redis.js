@@ -14,7 +14,7 @@ const DEFAULT_CACHE_REDIS_TIMEOUT = 500 // Timeout in ms
 const DEFAULT_CACHE_MAX_AGE = 1000 * 30 // Maximum age in ms
 
 const env = process.env
-const envOptions = () => ({
+const defaultOptions = () => ({
   host: env.CACHE_REDIS_HOST || DEFAULT_CACHE_REDIS_HOST,
   port: env.CACHE_REDIS_PORT || DEFAULT_CACHE_REDIS_PORT,
   path: env.CACHE_REDIS_PATH || DEFAULT_CACHE_REDIS_PATH,
@@ -23,6 +23,12 @@ const envOptions = () => ({
   maxAge: Number(env.CACHE_MAX_AGE) || DEFAULT_CACHE_MAX_AGE,
   timeout: Number(env.CACHE_REDIS_TIMEOUT) || DEFAULT_CACHE_REDIS_TIMEOUT,
 })
+// Options without sensitive data
+const redactOptions = (opts) => {
+  if (opts.password) opts.password = opts.password.replace(/.+/g, '*****')
+  if (opts.url) redis.url = opts.url.replace(/:\/\/.+@/g, '://*****@')
+  return opts
+}
 
 const retryStrategy = (options) => {
   logger.warn('Redis retry strategy activated.', options)
@@ -98,5 +104,6 @@ class RedisCache {
 
 module.exports = {
   RedisCache,
-  envOptions,
+  defaultOptions,
+  redactOptions,
 }

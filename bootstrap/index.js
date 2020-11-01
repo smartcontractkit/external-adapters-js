@@ -1,6 +1,6 @@
 const { Requester, logger } = require('@chainlink/external-adapter')
 const { types } = require('util')
-const { withCache, envOptions } = require('./lib/cache')
+const { withCache, defaultOptions, redactOptions } = require('./lib/cache')
 const util = require('./lib/util')
 const server = require('./lib/server')
 const gcp = require('./lib/gcp')
@@ -89,7 +89,7 @@ const expose = (execute, checkHealth) => {
 }
 
 // Log cache default options once
-const cacheOptions = envOptions()
-if (cacheOptions.enabled) logger.info('Cache enabled: ', cacheOptions)
+const cacheOptions = defaultOptions()
+if (cacheOptions.enabled) logger.info('Cache enabled: ', redactOptions(cacheOptions))
 
 module.exports = { expose, util }
