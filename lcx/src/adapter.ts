@@ -1,10 +1,6 @@
 import { Execute } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/external-adapter'
 
-const customError = (data: any) => {
-  return data.Response === 'Request failed with status code 400'
-}
-
 const customParams = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
@@ -27,7 +23,7 @@ export const execute: Execute = async (input) => {
     },
   }
 
-  const response = await Requester.request(config, customError)
+  const response = await Requester.request(config)
   response.data.result = Requester.validateResultNumber(response.data, ['data', 'Price'])
   return Requester.success(jobRunID, response)
 }
