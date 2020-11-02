@@ -6,7 +6,7 @@ https://core-api.real-time-attest.trustexplorer.io/trusttoken/TrueUSD
 
 ## Input Params
 
-- `field`: The data field to return. (defaults to `totalToken`, one of `totalToken`, `totalTrust`)
+- `field`: The data field to return. (defaults to `totalTrust`, one of `totalToken`, `totalTrust`)
 
 ## Output
 
