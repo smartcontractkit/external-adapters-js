@@ -14,11 +14,11 @@ export const execute: Execute = async (input) => {
   const jobRunID = validator.validated.id
   const base = validator.validated.data.base.toUpperCase()
   const quote = validator.validated.data.quote.toUpperCase()
-  const url = `https://rp.lcx.com/v1/rates/current/?coin=${base}&currency=${quote}`
+  const url = `https://rp.lcx.com/v1/rates/current`
 
   const params = {
-    base,
-    quote,
+    coin: base,
+    currency: quote,
   }
 
   const config = {
