@@ -16,11 +16,17 @@ export const execute: Execute = async (input) => {
   const quote = validator.validated.data.quote.toUpperCase()
   const url = `https://rp.lcx.com/v1/rates/current/?coin=${base}&currency=${quote}`
 
+  const params = {
+    base,
+    quote,
+  }
+
   const config = {
     url,
     headers: {
       'api-key': process.env.API_KEY,
     },
+    params,
   }
 
   const response = await Requester.request(config)
