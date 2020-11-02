@@ -12,6 +12,7 @@ describe('execute', () => {
       { name: 'from', testData: { id: jobID, data: { from: 'BZ' } } },
       { name: 'asset', testData: { id: jobID, data: { asset: 'BZ' } } },
       { name: 'type', testData: { id: jobID, data: { type: 'BZ' } } },
+      { name: 'brent mapping', testData: { id: jobID, data: { market: 'Brent' } } },
     ]
 
     requests.forEach((req) => {

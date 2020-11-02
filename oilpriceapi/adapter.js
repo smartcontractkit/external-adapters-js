@@ -1,11 +1,12 @@
 const { Requester, Validator } = require('@chainlink/external-adapter')
 
 const commonKeys = {
-  BZ: 'BRENT_CRUDE_USD',
+  bz: 'BRENT_CRUDE_USD',
+  brent: 'BRENT_CRUDE_USD',
 }
 
 const customParams = {
-  base: ['type', 'base', 'asset', 'from'],
+  base: ['type', 'base', 'asset', 'from', 'market'],
   endpoint: false,
 }
 
@@ -21,7 +22,7 @@ const execute = (input, callback) => {
   const endpoint = validator.validated.data.endpoint || 'prices/latest'
   const url = `https://api.oilpriceapi.com/v1/${endpoint}`
   // eslint-disable-next-line camelcase
-  let by_code = validator.validated.data.base.toUpperCase()
+  let by_code = validator.validated.data.base.toLowerCase()
   if (commonKeys[by_code]) {
     // eslint-disable-next-line camelcase
     by_code = commonKeys[by_code]
