@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - New adapters:
   - `linkpool` to get ICE futures quotes
   - `onchain` to get ICE futures quotes
+  - `lcx` to get BTC and ETH prices in USD or EUR
 
 ### Fixed
 
