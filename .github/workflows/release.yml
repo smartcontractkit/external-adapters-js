@@ -122,6 +122,7 @@ jobs:
             lition,
             linkpool,
             onchain,
+            lcx,
           ]
     steps:
       - uses: actions/checkout@v2
