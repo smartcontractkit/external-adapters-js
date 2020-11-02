@@ -12,13 +12,13 @@ export const execute: Execute = async (input) => {
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const base = validator.validated.data.base.toUpperCase()
-  const quote = validator.validated.data.quote.toUpperCase()
+  const coin = validator.validated.data.base.toUpperCase()
+  const currency = validator.validated.data.quote.toUpperCase()
   const url = `https://rp.lcx.com/v1/rates/current`
 
   const params = {
-    coin: base,
-    currency: quote,
+    coin,
+    currency,
   }
 
   const config = {
