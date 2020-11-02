@@ -24,6 +24,10 @@ describe('execute', () => {
         name: 'future',
         testData: { id: jobID, data: { future: 'BRN' } },
       },
+      {
+        name: 'using Brent mapping',
+        testData: { id: jobID, data: { market: 'Brent' } },
+      },
     ]
 
     requests.forEach((req) => {

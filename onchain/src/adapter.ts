@@ -7,12 +7,18 @@ const customParams = {
   market: ['market', 'from', 'future'],
 }
 
+const commonKeys: Record<string, string> = {
+  brent: 'BRN',
+}
+
 export const execute: Execute = async (input) => {
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const market = validator.validated.data.market.toLowerCase()
+  let market = validator.validated.data.market.toLowerCase()
+  if (market in commonKeys) market = commonKeys[market]
+
   const url = `https://api.onchain.com.au/api/Quote/oil/${market}`
 
   const headers = {

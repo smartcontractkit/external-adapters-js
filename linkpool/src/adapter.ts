@@ -7,13 +7,19 @@ const customParams = {
   market: ['market', 'from', 'future'],
 }
 
+const commonKeys: Record<string, string> = {
+  brent: 'BRN',
+}
+
 export const execute: Execute = async (input) => {
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const market = validator.validated.data.market.toUpperCase()
-  const url = `https://api.ice.linkpool.io/v1/futures/${market}/sip62`
+  let market = validator.validated.data.market.toLowerCase()
+  if (market in commonKeys) market = commonKeys[market]
+
+  const url = `https://api.ice.linkpool.io/v1/futures/${market.toUpperCase()}/sip62`
 
   const headers = {
     'x-api-key': process.env.API_KEY,
