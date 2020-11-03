@@ -3,18 +3,8 @@ ARG adapter
 ARG check
 WORKDIR /home/node/app
 
-COPY package.json yarn.lock Makefile ./
-COPY external-adapter/package.json external-adapter/package.json
-COPY bootstrap/package.json bootstrap/package.json
+COPY . .
 RUN make deps
-
-COPY typings typings
-COPY bootstrap bootstrap
-COPY external-adapter external-adapter
-COPY $adapter $adapter
-COPY market-closure market-closure
-COPY market-closure/$check market-closure/$check
-COPY helpers helpers
 RUN make build-market-closure
 
 FROM node:12-alpine
