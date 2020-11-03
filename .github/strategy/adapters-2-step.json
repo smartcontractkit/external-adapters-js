@@ -1,0 +1,11 @@
+{
+  "adapter": [
+    "coinapi",
+    "coingecko",
+    "coinmarketcap",
+    "coinpaprika",
+    "bravenewcoin",
+    "cryptocompare",
+    "amberdata"
+  ]
+}
