@@ -2,17 +2,8 @@ FROM node:12 as builder
 ARG adapter
 WORKDIR /home/node/app
 
-COPY package.json yarn.lock Makefile ./
-COPY external-adapter/package.json external-adapter/package.json
-COPY bootstrap/package.json bootstrap/package.json
+COPY . .
 RUN make deps
-
-COPY typings typings
-COPY bootstrap bootstrap
-COPY external-adapter external-adapter
-COPY $adapter $adapter
-COPY 2-step 2-step
-COPY helpers helpers
 RUN make build-2-step
 
 FROM node:12-alpine
