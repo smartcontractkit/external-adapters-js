@@ -7,7 +7,20 @@ on:
   pull_request: ~
 
 jobs:
+  run-basic-checks:
+    name: Run linters and unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - run: yarn install
+      - run: yarn lint
+      - run: yarn test:unit
+
   test-example:
+    needs: [run-basic-checks]
     name: Test example adapter
     runs-on: ubuntu-latest
     steps:
@@ -18,23 +31,147 @@ jobs:
       - run: yarn install
       - run: yarn test:example-start-server&
       - run: yarn test:example
-  run-linters:
-    name: Run linters
+
+  build-adapters:
+    needs: [run-basic-checks]
+    name: Build few adapters
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        adapter:
+          [
+            cryptoid,
+            bitso,
+            cryptomkt,
+            satoshitango,
+            bitex,
+            orchid-bandwidth,
+            genesis-volatility,
+            metalsapi,
+            bravenewcoin-vwap,
+            dxfeed,
+            tradingeconomics,
+            marketstack,
+            nikkei,
+            binance-dex,
+            nomics,
+            1forge,
+            alphachain,
+            alphavantage,
+            amberdata,
+            bravenewcoin,
+            coinapi,
+            coingecko,
+            coinmarketcap,
+            coinpaprika,
+            cryptoapis,
+            cryptocompare,
+            currencylayer,
+            eodhistoricaldata,
+            fcsapi,
+            finnhub,
+            fixer,
+            fmpcloud,
+            kaiko,
+            oilpriceapi,
+            openexchangerates,
+            polygon,
+            google-finance,
+            etherchain,
+            poa-gasprice,
+            anyblock-gasprice,
+            anyblock-uniswap-vwap,
+            ethgasstation,
+            amberdata-gasprice,
+            blockchair,
+            blockchain.com,
+            blockcypher,
+            wbtc-address-set,
+            renvm-address-set,
+            messari,
+            coinlore,
+            trueusd,
+            covid-tracker,
+            lition,
+            linkpool,
+            onchain,
+          ]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
           node-version: '12.x'
-      - run: yarn install
-      - run: yarn lint
-  run-unit-tests:
-    name: Run unit tests
+      - run: make zip adapter=${{ matrix.adapter }}
+      - run: make docker adapter=${{ matrix.adapter }}
+
+  build-composite-adapters:
+    needs: [run-basic-checks]
+    name: Build composite adapters
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        adapter: [proof-of-reserves]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
           node-version: '12.x'
-      - run: yarn install
-      - run: yarn test:unit
+      - run: make zip adapter=composite/${{ matrix.adapter }} name=${{ matrix.adapter }}
+      - run: make docker adapter=composite/${{ matrix.adapter }} name=${{ matrix.adapter }}
+
+  build-synth-index-adapters:
+    needs: [run-basic-checks]
+    name: Build synth-index adapters
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        adapter:
+          [
+            coinapi,
+            coingecko,
+            coinmarketcap,
+            coinpaprika,
+            bravenewcoin,
+            cryptocompare,
+            amberdata,
+            nomics,
+          ]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - run: make zip-synth-index adapter=${{ matrix.adapter }}
+      - run: make docker-synth-index adapter=${{ matrix.adapter }}
+
+  build-market-closure-adapters:
+    needs: [run-basic-checks]
+    name: Build market-closure adapters
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        adapter: [finnhub, fcsapi]
+        check: [tradinghours, schedule]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - run: make zip-market-closure adapter=${{ matrix.adapter }} check=${{ matrix.check }}
+      - run: make docker-market-closure adapter=${{ matrix.adapter }} check=${{ matrix.check }}
+
+  build-2-step-adapters:
+    needs: [run-basic-checks]
+    name: Build 2-step adapters
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        adapter:
+          [coinapi, coingecko, coinmarketcap, coinpaprika, bravenewcoin, cryptocompare, amberdata]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - run: make zip-2-step adapter=${{ matrix.adapter }}
+      - run: make docker-2-step adapter=${{ matrix.adapter }}
