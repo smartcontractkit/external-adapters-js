@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+- New adapters:
+  - `xbto` to get BRN quotes
+
 ### Changed
 - Oilprice adapters now accept a common request for Brent crude oil: `{"market":"brent"}`
 

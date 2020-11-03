@@ -74,7 +74,8 @@
     "blockcypher",
     "reduce",
     "json-rpc",
-    "composite/**"
+    "composite/**",
+    "xbto"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",
