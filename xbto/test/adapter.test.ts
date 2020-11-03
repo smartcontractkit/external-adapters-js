@@ -27,19 +27,4 @@ describe('execute', () => {
       })
     })
   })
-
-  context('validation error', () => {
-    const requests = [{ name: 'empty body', testData: {} }]
-
-    requests.forEach((req) => {
-      it(`${req.name}`, async () => {
-        try {
-          await execute(req.testData as AdapterRequest)
-        } catch (error) {
-          const errorResp = Requester.errored(jobID, error)
-          assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
-        }
-      })
-    })
-  })
 })
