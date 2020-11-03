@@ -123,6 +123,7 @@ jobs:
             linkpool,
             onchain,
             lcx,
+            xbto,
           ]
     steps:
       - uses: actions/checkout@v2
