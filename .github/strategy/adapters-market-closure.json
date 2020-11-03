@@ -1,0 +1,4 @@
+{
+  "adapter": ["finnhub", "fcsapi"],
+  "check": ["tradinghours", "schedule"]
+}

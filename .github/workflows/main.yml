@@ -32,70 +32,29 @@ jobs:
       - run: yarn test:example-start-server&
       - run: yarn test:example
 
+  # Read build strategy matrix of adapters, from a json file
+  matrix-adapters:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v2
+      - id: set-matrix
+        run: |
+          content=`cat .github/strategy/adapters.json`
+          # the following lines are only required for multi line json
+          content="${content//'%'/'%25'}"
+          content="${content//$'\n'/'%0A'}"
+          content="${content//$'\r'/'%0D'}"
+          # end of optional handling for multi line json
+          echo "::set-output name=matrix::$content"
+
   build-adapters:
-    needs: [run-basic-checks]
-    name: Build few adapters
+    needs: [run-basic-checks, matrix-adapters]
+    name: Build adapters
     runs-on: ubuntu-latest
     strategy:
-      matrix:
-        adapter:
-          [
-            cryptoid,
-            bitso,
-            cryptomkt,
-            satoshitango,
-            bitex,
-            orchid-bandwidth,
-            genesis-volatility,
-            metalsapi,
-            bravenewcoin-vwap,
-            dxfeed,
-            tradingeconomics,
-            marketstack,
-            nikkei,
-            binance-dex,
-            nomics,
-            1forge,
-            alphachain,
-            alphavantage,
-            amberdata,
-            bravenewcoin,
-            coinapi,
-            coingecko,
-            coinmarketcap,
-            coinpaprika,
-            cryptoapis,
-            cryptocompare,
-            currencylayer,
-            eodhistoricaldata,
-            fcsapi,
-            finnhub,
-            fixer,
-            fmpcloud,
-            kaiko,
-            oilpriceapi,
-            openexchangerates,
-            polygon,
-            google-finance,
-            etherchain,
-            poa-gasprice,
-            anyblock-gasprice,
-            anyblock-uniswap-vwap,
-            ethgasstation,
-            amberdata-gasprice,
-            blockchair,
-            blockchain.com,
-            blockcypher,
-            wbtc-address-set,
-            renvm-address-set,
-            messari,
-            coinlore,
-            trueusd,
-            covid-tracker,
-            lition,
-            linkpool,
-            onchain,
-          ]
+      matrix: ${{fromJson(needs.matrix-adapters.outputs.matrix)}}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
@@ -104,13 +63,29 @@ jobs:
       - run: make zip adapter=${{ matrix.adapter }}
       - run: make docker adapter=${{ matrix.adapter }}
 
+  # Read build strategy matrix of composite adapters, from a json file
+  matrix-composite-adapters:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v2
+      - id: set-matrix
+        run: |
+          content=`cat .github/strategy/adapters-composite.json`
+          # the following lines are only required for multi line json
+          content="${content//'%'/'%25'}"
+          content="${content//$'\n'/'%0A'}"
+          content="${content//$'\r'/'%0D'}"
+          # end of optional handling for multi line json
+          echo "::set-output name=matrix::$content"
+
   build-composite-adapters:
-    needs: [run-basic-checks]
+    needs: [run-basic-checks, matrix-composite-adapters]
     name: Build composite adapters
     runs-on: ubuntu-latest
     strategy:
-      matrix:
-        adapter: [proof-of-reserves]
+      matrix: ${{fromJson(needs.matrix-composite-adapters.outputs.matrix)}}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
@@ -119,23 +94,29 @@ jobs:
       - run: make zip adapter=composite/${{ matrix.adapter }} name=${{ matrix.adapter }}
       - run: make docker adapter=composite/${{ matrix.adapter }} name=${{ matrix.adapter }}
 
+  # Read build strategy matrix of synth-index adapters, from a json file
+  matrix-synth-index-adapters:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v2
+      - id: set-matrix
+        run: |
+          content=`cat .github/strategy/adapters-synth-index.json`
+          # the following lines are only required for multi line json
+          content="${content//'%'/'%25'}"
+          content="${content//$'\n'/'%0A'}"
+          content="${content//$'\r'/'%0D'}"
+          # end of optional handling for multi line json
+          echo "::set-output name=matrix::$content"
+
   build-synth-index-adapters:
-    needs: [run-basic-checks]
+    needs: [run-basic-checks, matrix-synth-index-adapters]
     name: Build synth-index adapters
     runs-on: ubuntu-latest
     strategy:
-      matrix:
-        adapter:
-          [
-            coinapi,
-            coingecko,
-            coinmarketcap,
-            coinpaprika,
-            bravenewcoin,
-            cryptocompare,
-            amberdata,
-            nomics,
-          ]
+      matrix: ${{fromJson(needs.matrix-synth-index-adapters.outputs.matrix)}}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
@@ -144,14 +125,29 @@ jobs:
       - run: make zip-synth-index adapter=${{ matrix.adapter }}
       - run: make docker-synth-index adapter=${{ matrix.adapter }}
 
+  # Read build strategy matrix of market-closure adapters, from a json file
+  matrix-market-closure-adapters:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v2
+      - id: set-matrix
+        run: |
+          content=`cat .github/strategy/adapters-market-closure.json`
+          # the following lines are only required for multi line json
+          content="${content//'%'/'%25'}"
+          content="${content//$'\n'/'%0A'}"
+          content="${content//$'\r'/'%0D'}"
+          # end of optional handling for multi line json
+          echo "::set-output name=matrix::$content"
+
   build-market-closure-adapters:
-    needs: [run-basic-checks]
+    needs: [run-basic-checks, matrix-market-closure-adapters]
     name: Build market-closure adapters
     runs-on: ubuntu-latest
     strategy:
-      matrix:
-        adapter: [finnhub, fcsapi]
-        check: [tradinghours, schedule]
+      matrix: ${{fromJson(needs.matrix-market-closure-adapters.outputs.matrix)}}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
@@ -160,14 +156,29 @@ jobs:
       - run: make zip-market-closure adapter=${{ matrix.adapter }} check=${{ matrix.check }}
       - run: make docker-market-closure adapter=${{ matrix.adapter }} check=${{ matrix.check }}
 
+  # Read build strategy matrix of 2-step adapters, from a json file
+  matrix-2-step-adapters:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v2
+      - id: set-matrix
+        run: |
+          content=`cat .github/strategy/adapters-2-step.json`
+          # the following lines are only required for multi line json
+          content="${content//'%'/'%25'}"
+          content="${content//$'\n'/'%0A'}"
+          content="${content//$'\r'/'%0D'}"
+          # end of optional handling for multi line json
+          echo "::set-output name=matrix::$content"
+
   build-2-step-adapters:
-    needs: [run-basic-checks]
+    needs: [run-basic-checks, matrix-2-step-adapters]
     name: Build 2-step adapters
     runs-on: ubuntu-latest
     strategy:
-      matrix:
-        adapter:
-          [coinapi, coingecko, coinmarketcap, coinpaprika, bravenewcoin, cryptocompare, amberdata]
+      matrix: ${{fromJson(needs.matrix-2-step-adapters.outputs.matrix)}}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
