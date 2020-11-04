@@ -79,8 +79,7 @@ const execute = async (request) => {
 
   const jobRunID = validator.validated.id
 
-  const { request_id, result, payment } = validator.validated.data
-  const queryId = Number(request_id)
+  const { request_id: queryId, result, payment } = validator.validated.data
   const requiredFee = getRequiredFee(payment)
 
   await send({
