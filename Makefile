@@ -8,7 +8,9 @@ zip: deps build
 
 new:
 	mkdir $(adapter)
-	cp -r example/ $(adapter)
+	cp -R example/* $(adapter)
+	# cp -R will not copy hidden & special files, so we copy manualy
+	cp example/.eslintrc.js $(adapter)
 	sed -i 's/example/$(adapter)/' $(adapter)/package.json
 	sed -i 's/Example/$(adapter)/' $(adapter)/README.md
 	sed -i 's/"workspaces": \[/"workspaces": \[\n    "$(adapter)",/' package.json
