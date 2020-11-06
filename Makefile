@@ -8,7 +8,8 @@ zip: deps build
 
 new:
 	mkdir $(adapter)
-	cp -rT example/ $(adapter)
+	cp -R example/* $(adapter)
+	cp example/.eslintrc.js $(adapter)
 	sed -i 's/example/$(adapter)/' $(adapter)/package.json
 	sed -i 's/Example/$(adapter)/' $(adapter)/README.md
 	sed -i 's/"workspaces": \[/"workspaces": \[\n    "$(adapter)",/' package.json
