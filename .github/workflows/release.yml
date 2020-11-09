@@ -63,25 +63,30 @@ jobs:
   matrix-adapters:
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
+      adapters: ${{ steps.set-matrix-adapters.outputs.matrix }}
+      adapters-composite: ${{ steps.set-matrix-adapters-composite.outputs.matrix }}
+      adapters-synth-index: ${{ steps.set-matrix-adapters-synth-index.outputs.matrix }}
+      adapters-market-closure: ${{ steps.set-matrix-adapters-market-closure.outputs.matrix }}
+      adapters-2-step: ${{ steps.set-matrix-adapters-2-step.outputs.matrix }}
     steps:
       - uses: actions/checkout@v2
-      - id: set-matrix
-        run: |
-          content=`cat .github/strategy/adapters.json`
-          # the following lines are only required for multi line json
-          content="${content//'%'/'%25'}"
-          content="${content//$'\n'/'%0A'}"
-          content="${content//$'\r'/'%0D'}"
-          # end of optional handling for multi line json
-          echo "::set-output name=matrix::$content"
+      - id: set-matrix-adapters
+        run: .github/scripts/set-output-json-matrix .github/strategy/adapters.json
+      - id: set-matrix-adapters-composite
+        run: .github/scripts/set-output-json-matrix .github/strategy/adapters-composite.json
+      - id: set-matrix-adapters-synth-index
+        run: .github/scripts/set-output-json-matrix .github/strategy/adapters-synth-index.json
+      - id: set-matrix-adapters-market-closure
+        run: .github/scripts/set-output-json-matrix .github/strategy/adapters-market-closure.json
+      - id: set-matrix-adapters-2-step
+        run: .github/scripts/set-output-json-matrix .github/strategy/adapters-2-step.json
 
   publish-artifacts:
     needs: [release, matrix-adapters]
     runs-on: ubuntu-latest
     name: Publish adapter zips (GitHub Release)
     strategy:
-      matrix: ${{fromJson(needs.matrix-adapters.outputs.matrix)}}
+      matrix: ${{fromJson(needs.matrix-adapters.outputs.adapters)}}
     steps:
       - uses: actions/checkout@v2
       - name: Load Release URL File from release job
@@ -110,29 +115,12 @@ jobs:
           asset_name: ${{ steps.get_release_info.outputs.file_name }}-${{ matrix.adapter }}-adapter.zip
           asset_content_type: application/zip
 
-  # Read build strategy matrix of composite adapters, from a json file
-  matrix-composite-adapters:
-    runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
-    steps:
-      - uses: actions/checkout@v2
-      - id: set-matrix
-        run: |
-          content=`cat .github/strategy/adapters-composite.json`
-          # the following lines are only required for multi line json
-          content="${content//'%'/'%25'}"
-          content="${content//$'\n'/'%0A'}"
-          content="${content//$'\r'/'%0D'}"
-          # end of optional handling for multi line json
-          echo "::set-output name=matrix::$content"
-
   publish-composite-artifacts:
-    needs: [release, matrix-composite-adapters]
+    needs: [release, matrix-adapters]
     runs-on: ubuntu-latest
     name: Publish composite adapter zips (GitHub Release)
     strategy:
-      matrix: ${{fromJson(needs.matrix-composite-adapters.outputs.matrix)}}
+      matrix: ${{fromJson(needs.matrix-adapters.outputs.adapters-composite)}}
     steps:
       - uses: actions/checkout@v2
       - name: Load Release URL File from release job
@@ -161,29 +149,12 @@ jobs:
           asset_name: ${{ steps.get_release_info.outputs.file_name }}-${{ matrix.adapter }}-adapter.zip
           asset_content_type: application/zip
 
-  # Read build strategy matrix of synth-index adapters, from a json file
-  matrix-synth-index-adapters:
-    runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
-    steps:
-      - uses: actions/checkout@v2
-      - id: set-matrix
-        run: |
-          content=`cat .github/strategy/adapters-synth-index.json`
-          # the following lines are only required for multi line json
-          content="${content//'%'/'%25'}"
-          content="${content//$'\n'/'%0A'}"
-          content="${content//$'\r'/'%0D'}"
-          # end of optional handling for multi line json
-          echo "::set-output name=matrix::$content"
-
   publish-synth-index-artifacts:
-    needs: [release, matrix-synth-index-adapters]
+    needs: [release, matrix-adapters]
     name: Publish synth-index adapter zips (GitHub Release)
     runs-on: ubuntu-latest
     strategy:
-      matrix: ${{fromJson(needs.matrix-synth-index-adapters.outputs.matrix)}}
+      matrix: ${{fromJson(needs.matrix-adapters.outputs.adapters-synth-index)}}
     steps:
       - uses: actions/checkout@v2
       - name: Load Release URL File from release job
@@ -212,29 +183,12 @@ jobs:
           asset_name: ${{ steps.get_release_info.outputs.file_name }}-synth-index-${{ matrix.adapter }}-adapter.zip
           asset_content_type: application/zip
 
-  # Read build strategy matrix of market-closure adapters, from a json file
-  matrix-market-closure-adapters:
-    runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
-    steps:
-      - uses: actions/checkout@v2
-      - id: set-matrix
-        run: |
-          content=`cat .github/strategy/adapters-market-closure.json`
-          # the following lines are only required for multi line json
-          content="${content//'%'/'%25'}"
-          content="${content//$'\n'/'%0A'}"
-          content="${content//$'\r'/'%0D'}"
-          # end of optional handling for multi line json
-          echo "::set-output name=matrix::$content"
-
   publish-market-closure-artifacts:
-    needs: [release, matrix-market-closure-adapters]
+    needs: [release, matrix-adapters]
     name: Publish market-closure adapter zips (GitHub Release)
     runs-on: ubuntu-latest
     strategy:
-      matrix: ${{fromJson(needs.matrix-market-closure-adapters.outputs.matrix)}}
+      matrix: ${{fromJson(needs.matrix-adapters.outputs.adapters-market-closure)}}
     steps:
       - uses: actions/checkout@v2
       - name: Load Release URL File from release job
@@ -263,29 +217,12 @@ jobs:
           asset_name: ${{ steps.get_release_info.outputs.file_name }}-market-closure-${{ matrix.adapter }}-${{ matrix.check }}-adapter.zip
           asset_content_type: application/zip
 
-  # Read build strategy matrix of 2-step adapters, from a json file
-  matrix-2-step-adapters:
-    runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
-    steps:
-      - uses: actions/checkout@v2
-      - id: set-matrix
-        run: |
-          content=`cat .github/strategy/adapters-2-step.json`
-          # the following lines are only required for multi line json
-          content="${content//'%'/'%25'}"
-          content="${content//$'\n'/'%0A'}"
-          content="${content//$'\r'/'%0D'}"
-          # end of optional handling for multi line json
-          echo "::set-output name=matrix::$content"
-
   publish-2-step-artifacts:
-    needs: [release, matrix-2-step-adapters]
+    needs: [release, matrix-adapters]
     name: Publish 2-step adapter zips (GitHub Release)
     runs-on: ubuntu-latest
     strategy:
-      matrix: ${{fromJson(needs.matrix-2-step-adapters.outputs.matrix)}}
+      matrix: ${{fromJson(needs.matrix-adapters.outputs.adapters-2-step)}}
     steps:
       - uses: actions/checkout@v2
       - name: Load Release URL File from release job
