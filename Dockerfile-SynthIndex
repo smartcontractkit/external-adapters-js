@@ -2,16 +2,8 @@ FROM node:12 as builder
 ARG adapter
 WORKDIR /home/node/app
 
-COPY package.json yarn.lock Makefile ./
-COPY external-adapter/package.json external-adapter/package.json
-COPY bootstrap/package.json bootstrap/package.json
+COPY . .
 RUN make deps
-
-COPY typings typings
-COPY bootstrap bootstrap
-COPY external-adapter external-adapter
-COPY synth-index synth-index
-COPY synth-index/$adapter synth-index/$adapter
 RUN make build-synth-index
 
 FROM node:12-alpine

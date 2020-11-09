@@ -59,72 +59,34 @@ jobs:
   #       env:
   #         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
+  # Read build strategy matrix of adapters, from a json file
+  matrix-adapters:
+    runs-on: ubuntu-latest
+    outputs:
+      adapters: ${{ steps.set-matrix-adapters.outputs.matrix }}
+      adapters-composite: ${{ steps.set-matrix-adapters-composite.outputs.matrix }}
+      adapters-synth-index: ${{ steps.set-matrix-adapters-synth-index.outputs.matrix }}
+      adapters-market-closure: ${{ steps.set-matrix-adapters-market-closure.outputs.matrix }}
+      adapters-2-step: ${{ steps.set-matrix-adapters-2-step.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v2
+      - id: set-matrix-adapters
+        run: .github/scripts/set-output-json-matrix .github/strategy/adapters.json
+      - id: set-matrix-adapters-composite
+        run: .github/scripts/set-output-json-matrix .github/strategy/adapters-composite.json
+      - id: set-matrix-adapters-synth-index
+        run: .github/scripts/set-output-json-matrix .github/strategy/adapters-synth-index.json
+      - id: set-matrix-adapters-market-closure
+        run: .github/scripts/set-output-json-matrix .github/strategy/adapters-market-closure.json
+      - id: set-matrix-adapters-2-step
+        run: .github/scripts/set-output-json-matrix .github/strategy/adapters-2-step.json
+
   publish-artifacts:
-    needs: [release]
+    needs: [release, matrix-adapters]
     runs-on: ubuntu-latest
     name: Publish adapter zips (GitHub Release)
     strategy:
-      matrix:
-        adapter:
-          [
-            cryptoid,
-            bitso,
-            cryptomkt,
-            satoshitango,
-            bitex,
-            orchid-bandwidth,
-            genesis-volatility,
-            metalsapi,
-            bravenewcoin-vwap,
-            dxfeed,
-            tradingeconomics,
-            marketstack,
-            nikkei,
-            binance-dex,
-            nomics,
-            1forge,
-            alphachain,
-            alphavantage,
-            amberdata,
-            bravenewcoin,
-            coinapi,
-            coingecko,
-            coinmarketcap,
-            coinpaprika,
-            cryptoapis,
-            cryptocompare,
-            currencylayer,
-            eodhistoricaldata,
-            fcsapi,
-            finnhub,
-            fixer,
-            fmpcloud,
-            kaiko,
-            oilpriceapi,
-            openexchangerates,
-            polygon,
-            google-finance,
-            etherchain,
-            poa-gasprice,
-            anyblock-gasprice,
-            anyblock-uniswap-vwap,
-            ethgasstation,
-            amberdata-gasprice,
-            blockchair,
-            blockchain.com,
-            blockcypher,
-            wbtc-address-set,
-            renvm-address-set,
-            messari,
-            coinlore,
-            trueusd,
-            covid-tracker,
-            lition,
-            linkpool,
-            onchain,
-            lcx,
-            xbto,
-          ]
+      matrix: ${{fromJson(needs.matrix-adapters.outputs.adapters)}}
     steps:
       - uses: actions/checkout@v2
       - name: Load Release URL File from release job
@@ -154,12 +116,11 @@ jobs:
           asset_content_type: application/zip
 
   publish-composite-artifacts:
-    needs: [release]
+    needs: [release, matrix-adapters]
     runs-on: ubuntu-latest
     name: Publish composite adapter zips (GitHub Release)
     strategy:
-      matrix:
-        adapter: [proof-of-reserves]
+      matrix: ${{fromJson(needs.matrix-adapters.outputs.adapters-composite)}}
     steps:
       - uses: actions/checkout@v2
       - name: Load Release URL File from release job
@@ -189,22 +150,11 @@ jobs:
           asset_content_type: application/zip
 
   publish-synth-index-artifacts:
-    needs: [release]
+    needs: [release, matrix-adapters]
     name: Publish synth-index adapter zips (GitHub Release)
     runs-on: ubuntu-latest
     strategy:
-      matrix:
-        adapter:
-          [
-            coinapi,
-            coingecko,
-            coinmarketcap,
-            coinpaprika,
-            bravenewcoin,
-            cryptocompare,
-            amberdata,
-            nomics,
-          ]
+      matrix: ${{fromJson(needs.matrix-adapters.outputs.adapters-synth-index)}}
     steps:
       - uses: actions/checkout@v2
       - name: Load Release URL File from release job
@@ -234,13 +184,11 @@ jobs:
           asset_content_type: application/zip
 
   publish-market-closure-artifacts:
-    needs: [release]
+    needs: [release, matrix-adapters]
     name: Publish market-closure adapter zips (GitHub Release)
     runs-on: ubuntu-latest
     strategy:
-      matrix:
-        adapter: [finnhub, fcsapi]
-        check: [tradinghours, schedule]
+      matrix: ${{fromJson(needs.matrix-adapters.outputs.adapters-market-closure)}}
     steps:
       - uses: actions/checkout@v2
       - name: Load Release URL File from release job
@@ -270,13 +218,11 @@ jobs:
           asset_content_type: application/zip
 
   publish-2-step-artifacts:
-    needs: [release]
+    needs: [release, matrix-adapters]
     name: Publish 2-step adapter zips (GitHub Release)
     runs-on: ubuntu-latest
     strategy:
-      matrix:
-        adapter:
-          [coinapi, coingecko, coinmarketcap, coinpaprika, bravenewcoin, cryptocompare, amberdata]
+      matrix: ${{fromJson(needs.matrix-adapters.outputs.adapters-2-step)}}
     steps:
       - uses: actions/checkout@v2
       - name: Load Release URL File from release job

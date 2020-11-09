@@ -1,7 +1,7 @@
 check?=schedule
 
 docker:
-	docker build --build-arg adapter=$(adapter) -f Dockerfile . -t $(if $(name),$(name),$(adapter))-adapter $(if $(tag), -t $(tag), )
+	docker build --build-arg adapter=$(adapter) --build-arg name=$(name) -f Dockerfile . -t $(if $(name),$(name),$(adapter))-adapter $(if $(tag), -t $(tag), )
 
 zip: deps build
 	(cd $(adapter)/dist && zip $(if $(name),$(name),$(adapter))-adapter.zip index.js)
@@ -9,29 +9,32 @@ zip: deps build
 new:
 	mkdir $(adapter)
 	cp -R example/* $(adapter)
+	# cp -R will not copy hidden & special files, so we copy manualy
 	cp example/.eslintrc.js $(adapter)
-	sed -i 's/example/$(adapter)/' $(adapter)/package.json
+	cat package.json \
+	  | jq '.workspaces += ["$(adapter)"]' \
+	  | tee package.json > /dev/null
+	cat .github/strategy/adapters.json \
+	  | jq '.adapter += ["$(adapter)"]' \
+	  | tee .github/strategy/adapters.json > /dev/null
+	cat $(adapter)/package.json \
+	  | jq '.name = "@chainlink/$(adapter)" | .description = "Chainlink $(adapter) adapter." | .keywords += ["$(adapter)"]' \
+	  | tee $(adapter)/package.json > /dev/null
 	sed -i 's/Example/$(adapter)/' $(adapter)/README.md
-	sed -i 's/"workspaces": \[/"workspaces": \[\n    "$(adapter)",/' package.json
 
 clean:
 	rm -rf $(adapter)/dist
 
 deps: clean
+	# Restore all dependencies
+	yarn
 	# Call the build script for the adapter if defined (TypeScript adapters have this extra build/compile step)
 	# We use `wsrun` to build workspace dependencies in topological order (TODO: use native `yarn workspaces foreach -pt run build` with Yarn 2)
-	# TODO: does not work in Docker context
-	# TODO: --build-arg name=$(name) is not passed to Docker context
-	# TODO: workspace contained dependencies not passed to Docker context (in case of composite adapters)
-	# yarn && yarn wsrun -mre -p @chainlink/$(if $(name),$(name),$(adapter)) -t build
-
+	npx wsrun -mre -p @chainlink/$(if $(name),$(name),$(adapter)) -t build
 	yarn --frozen-lockfile --production
 
 build:
-	# Call the build script for the adapter if defined (TypeScript adapters have this extra build/compile step)
-	# TODO: calling build directly does not compile workspace contained dependencies (in case of composite adapters)
-	if [ $$(cat $(adapter)/package.json | grep "^    \"build\":" | wc -l) -ge 1 ]; then yarn --cwd $(adapter) build; fi
-	yarn ncc build $(adapter) -o $(adapter)/dist
+	npx @vercel/ncc build $(adapter) -o $(adapter)/dist
 
 clean-market-closure:
 	rm -rf market-closure/$(check)/dist
@@ -40,7 +43,7 @@ build-market-closure:
 	cp $(adapter)/adapter.js market-closure/$(check)/priceAdapter.js
 	cp market-closure/adapter.js market-closure/$(check)
 	cp -r helpers market-closure/helpers
-	yarn ncc build market-closure/$(check) -o market-closure/$(check)/dist
+	npx @vercel/ncc build market-closure/$(check) -o market-closure/$(check)/dist
 	rm market-closure/$(check)/priceAdapter.js
 	rm market-closure/$(check)/adapter.js
 
@@ -55,7 +58,7 @@ clean-synth-index:
 
 build-synth-index:
 	cp synth-index/adapter.js synth-index/$(adapter)
-	yarn ncc build synth-index/$(adapter) -o synth-index/$(adapter)/dist
+	npx @vercel/ncc build synth-index/$(adapter) -o synth-index/$(adapter)/dist
 	rm synth-index/$(adapter)/adapter.js
 
 docker-synth-index:
@@ -72,7 +75,7 @@ build-2-step:
 	mv 2-step/$(adapter)/adapter.js 2-step/$(adapter)/priceAdapter.js
 	cp 2-step/adapter.js 2-step/$(adapter)
 	cp -r helpers 2-step/helpers
-	yarn ncc build 2-step/$(adapter) -o 2-step/$(adapter)/dist
+	npx @vercel/ncc build 2-step/$(adapter) -o 2-step/$(adapter)/dist
 	rm 2-step/$(adapter)/priceAdapter.js
 	rm 2-step/$(adapter)/adapter.js
 

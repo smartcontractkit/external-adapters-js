@@ -1,12 +1,16 @@
 {
-  "name": "json-rpc",
+  "name": "@chainlink/json-rpc",
   "version": "0.0.1",
   "description": "",
   "author": "Thomas Hodges (thomas@smartcontract.com)",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
+    "prepublishOnly": "yarn build && yarn test:unit",
     "build": "tsc",
     "lint": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix",
