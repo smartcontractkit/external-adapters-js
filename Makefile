@@ -11,9 +11,16 @@ new:
 	cp -R example/* $(adapter)
 	# cp -R will not copy hidden & special files, so we copy manualy
 	cp example/.eslintrc.js $(adapter)
-	sed -i 's/example/$(adapter)/' $(adapter)/package.json
+	cat package.json \
+	  | jq '.workspaces += ["$(adapter)"]' \
+	  | tee package.json > /dev/null
+	cat .github/strategy/adapters.json \
+	  | jq '.adapter += ["$(adapter)"]' \
+	  | tee .github/strategy/adapters.json > /dev/null
+	cat $(adapter)/package.json \
+	  | jq '.name = "@chainlink/$(adapter)" | .description = "Chainlink $(adapter) adapter." | .keywords += ["$(adapter)"]' \
+	  | tee $(adapter)/package.json > /dev/null
 	sed -i 's/Example/$(adapter)/' $(adapter)/README.md
-	sed -i 's/"workspaces": \[/"workspaces": \[\n    "$(adapter)",/' package.json
 
 clean:
 	rm -rf $(adapter)/dist
