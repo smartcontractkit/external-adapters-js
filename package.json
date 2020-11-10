@@ -74,7 +74,8 @@
     "reduce",
     "json-rpc",
     "composite/**",
-    "xbto"
+    "xbto",
+    "iv-outlier-detection"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",

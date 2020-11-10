@@ -1,6 +1,6 @@
 // Declare missing type definitions
 declare module '@chainlink/types' {
-  export type AdapterRequest = { id: string; data: Record<string, unknown> }
+  export type AdapterRequest = { id: string; data: Record<string, unknown>; meta?: Record<string, unknown> }
   export type AdapterResponse = {
     jobRunID: string
     statusCode: number

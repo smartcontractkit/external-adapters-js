@@ -62,6 +62,7 @@
     "blockchain.com",
     "blockcypher",
     "reduce",
-    "json-rpc"
+    "json-rpc",
+    "iv-outlier-detection"
   ]
 }
