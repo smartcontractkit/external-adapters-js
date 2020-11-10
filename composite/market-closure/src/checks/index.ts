@@ -5,7 +5,7 @@ import { Schedule } from 'market-closure'
 export type CheckExecute = (symbol: string, schedule: Schedule) => Promise<boolean>
 
 export type ExternalCheck = (symbol: string) => Promise<boolean>
-export type ScheduleCheck = (schedule: Schedule) => Promise<boolean>
+export type ScheduleCheck = (schedule: Schedule) => boolean
 
 export type CheckOptions = { type?: Check }
 export enum Check {
@@ -23,7 +23,7 @@ export const getCheck = (): Check | undefined => {
 export const getCheckImpl = (options: CheckOptions): CheckExecute => {
   switch (options.type) {
     case Check.Schedule:
-      return checkWithSchedule(undefined)
+      return checkWithSchedule()
     case Check.TradingHours:
       return checkWithSchedule(thExecute)
     default:
@@ -31,9 +31,8 @@ export const getCheckImpl = (options: CheckOptions): CheckExecute => {
   }
 }
 
-const checkWithSchedule = (check: ExternalCheck | undefined): CheckExecute => {
-  if (typeof check === 'undefined')
-    return (symbol: string, schedule: Schedule) => scheduleExecute(schedule)
+const checkWithSchedule = (check?: ExternalCheck): CheckExecute => {
+  if (!check) return async (symbol: string, schedule: Schedule) => scheduleExecute(schedule)
 
   return async (symbol: string, schedule: Schedule) => {
     try {
@@ -42,9 +41,4 @@ const checkWithSchedule = (check: ExternalCheck | undefined): CheckExecute => {
       return scheduleExecute(schedule)
     }
   }
-}
-
-export const convertCommonKeys = (symbol: string, commonKeys: Record<string, string>): string => {
-  if (symbol in commonKeys) return commonKeys[symbol]
-  return symbol
 }

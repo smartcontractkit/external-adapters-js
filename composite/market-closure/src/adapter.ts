@@ -29,10 +29,14 @@ const executeWithAdapters = async (
   const schedule = validator.validated.data.schedule || {}
   const multiply = validator.validated.data.multiply || 100000000
 
-  const halted = check(symbol, schedule)
+  const halted = await check(symbol, schedule)
   if (halted) {
-    if (input.meta === undefined || !('latestAnswer' in input.meta))
-      throw newError(jobRunID, 'market is closed and no latestAnswer meta data', 400)
+    if (!input.meta || !input.meta.latestAnswer)
+      throw new AdapterError({
+        jobRunID,
+        statusCode: 400,
+        message: 'market is closed and no latestAnswer meta data',
+      })
 
     const contractPrice = input.meta.latestAnswer
     const price = contractPrice / multiply
@@ -40,15 +44,6 @@ const executeWithAdapters = async (
   }
 
   return await adapter(input)
-}
-
-const newError = (jobRunID: string, message: string, statusCode: number) => {
-  return new AdapterError({
-    jobRunID,
-    statusCode,
-    message,
-    cause: message,
-  })
 }
 
 exports.execute = execute
