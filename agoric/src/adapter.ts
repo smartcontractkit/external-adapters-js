@@ -1,6 +1,6 @@
 import { Execute } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { HTTPSender } from './httpSender'
+import { Action, HTTPSender, HTTPSenderReply } from './httpSender'
 
 const customParams = {
   request_id: ['request_id'],
@@ -40,6 +40,30 @@ export const getRequiredFee = (value: string | number): number => {
   return Nat(requiredFee)
 }
 
+export interface ActionResponseData {
+  success: boolean
+  error: unknown
+}
+export const assertGoodReply = (sentType: string, reply: HTTPSenderReply) => {
+  if (reply.status < 200 || reply.status >= 300) {
+    throw Error(`${sentType} reply status ${reply.status} is not 2xx`)
+  }
+
+  const obj = reply.response as Action
+  if (!obj) {
+    throw Error(`${sentType} no response data`)
+  }
+
+  if (obj.type !== `${sentType}Response`) {
+    throw Error(`${sentType} response type ${obj.type} is not ${sentType}Response`)
+  }
+
+  const data = obj.data as ActionResponseData
+  if (!data.success) {
+    throw Error(`${obj.type} error ${data.error}`)
+  }
+}
+
 export const makeExecute: (send: HTTPSender) => Execute = (send) => async (input) => {
   try {
     const validator = new Validator(input, customParams)
@@ -52,10 +76,12 @@ export const makeExecute: (send: HTTPSender) => Execute = (send) => async (input
     const { request_id: queryId, result, payment } = validator.validated.data
     const requiredFee = getRequiredFee(payment)
 
-    await send({
+    const obj = {
       type: 'oracleServer/reply',
       data: { queryId, reply: result, requiredFee },
-    })
+    }
+    const reply = await send(obj)
+    assertGoodReply(obj.type, reply)
 
     return Requester.success(jobRunID, {
       data: { result },
@@ -63,10 +89,10 @@ export const makeExecute: (send: HTTPSender) => Execute = (send) => async (input
       status: 200,
     })
   } catch (e) {
-    await send({
+    send({
       type: 'oracleServer/error',
       data: { queryId: input.data && input.data.request_id, error: `${(e && e.message) || e}` },
-    })
+    }).catch((e2) => console.error(`Cannot reflect error`, e, `to caller:`, e2))
     throw e
   }
 }

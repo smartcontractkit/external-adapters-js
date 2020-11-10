@@ -22,6 +22,12 @@ describe('execute', () => {
             },
           },
         ],
+        receive: {
+          type: 'oracleServer/errorResponse',
+          data: {
+            success: true,
+          },
+        },
       },
       {
         name: 'payment not supplied',
@@ -36,6 +42,12 @@ describe('execute', () => {
             },
           },
         ],
+        receive: {
+          type: 'oracleServer/errorResponse',
+          data: {
+            success: true,
+          },
+        },
       },
       {
         name: 'push request',
@@ -51,6 +63,12 @@ describe('execute', () => {
             },
           },
         ],
+        receive: {
+          type: 'oracleServer/replyResponse',
+          data: {
+            success: true,
+          },
+        },
       },
       {
         name: 'normal request',
@@ -69,6 +87,44 @@ describe('execute', () => {
             },
           },
         ],
+        receive: {
+          type: 'oracleServer/replyResponse',
+          data: {
+            success: true,
+          },
+        },
+      },
+      {
+        name: 'bad request_id',
+        status: 500,
+        testData: {
+          id: jobID,
+          data: { request_id: 'bad', payment: '120000000000000', result: 'abc' },
+        },
+        sends: [
+          {
+            type: 'oracleServer/reply',
+            data: {
+              queryId: 'bad',
+              reply: 'abc',
+              requiredFee: 120,
+            },
+          },
+          {
+            type: 'oracleServer/error',
+            data: {
+              queryId: 'bad',
+              error: 'oracleServer/reply reply status 500 is not 2xx',
+            },
+          },
+        ],
+        receive: {
+          type: 'oracleServer/replyResponse',
+          data: {
+            success: false,
+            error: 'unrecognized queryId bad',
+          },
+        },
       },
     ]
 
@@ -77,7 +133,7 @@ describe('execute', () => {
         const sends: Array<{ type: string; data: unknown }> = []
         const spySend: HTTPSender = async (obj) => {
           sends.push(obj)
-          return 200
+          return { status: req.status, response: req.receive }
         }
         const execute = makeExecute(spySend)
 
@@ -94,7 +150,11 @@ describe('execute', () => {
   })
 
   context('validation', () => {
-    const mockSend: HTTPSender = () => Promise.resolve(200)
+    const mockSend: HTTPSender = () =>
+      Promise.resolve({
+        status: 200,
+        response: { type: 'oracleServer/replyResponse', data: { success: true } },
+      })
     const execute = makeExecute(mockSend)
     const requests = [
       {
