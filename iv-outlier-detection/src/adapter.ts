@@ -4,6 +4,9 @@ import { fetchGenesisVolatility } from './genesisVolatility'
 import { fetchDerbit } from './derbit'
 import { getLatestAnswer } from './onchain'
 
+const onchainThreshold = process.env.DIFF_ON_CHAIN_THRESHOLD || 50
+const derbitThreshold = process.env.DIFF_DERBIT_THRESHOLD || 30
+
 export type ExternalFetch = (symbol: string, days: number) => Promise<number>
 
 const difference = (a: number, b: number): number => {
@@ -29,13 +32,17 @@ export const execute: Execute = async (input) => {
 
   const result = await fetchGenesisVolatility(symbol, days)
   const onChainValue = await getLatestAnswer(contract, multiply, input.meta)
-  if (onChainValue !== 0 && difference(result, onChainValue) > 50) {
-    throw new Error('value difference between Genesis Volatility and on-chain is more than 50%')
+  if (onChainValue !== 0 && difference(result, onChainValue) > onchainThreshold) {
+    throw new Error(
+      `value difference between Genesis Volatility and on-chain is more than ${onchainThreshold}%`,
+    )
   }
 
   const derbit = await fetchDerbit(symbol, days)
-  if (difference(result, derbit) > 30) {
-    throw new Error('value difference between Genesis Volatility and Derbit is more than 30%')
+  if (difference(result, derbit) > derbitThreshold) {
+    throw new Error(
+      `value difference between Genesis Volatility and Derbit is more than ${derbitThreshold}%`,
+    )
   }
 
   const response = { data: { result }, result, status: 200 }
