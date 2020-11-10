@@ -15,6 +15,7 @@ const presetTickers = {
   COMP: 'compound-governance-token',
   FNX: 'finnexus',
   UNI: 'uniswap',
+  SXP: 'swipe',
 }
 
 const convertFromTicker = (ticker, coinId, callback) => {
