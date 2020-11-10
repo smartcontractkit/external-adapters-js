@@ -1,6 +1,6 @@
 import { Execute } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { HTTPSender } from './httpSender';
+import { HTTPSender } from './httpSender'
 
 const customParams = {
   request_id: ['request_id'],
@@ -24,7 +24,7 @@ if (LINK_AGORIC_DECIMALS > LINK_DECIMALS) {
   )
 }
 
-export const getRequiredFee = (value: string | number) => {
+export const getRequiredFee = (value: string | number): number => {
   const str = String(value || 0)
   const digits = str
   const significant = digits.substr(
@@ -40,25 +40,33 @@ export const getRequiredFee = (value: string | number) => {
   return Nat(requiredFee)
 }
 
-export const makeExecute: (send: HTTPSender) => Execute = send => async (input) => {
-  const validator = new Validator(input, customParams)
-  if (validator.error) {
-    throw validator.error
+export const makeExecute: (send: HTTPSender) => Execute = (send) => async (input) => {
+  try {
+    const validator = new Validator(input, customParams)
+    if (validator.error) {
+      throw validator.error
+    }
+
+    const jobRunID = validator.validated.id
+
+    const { request_id: queryId, result, payment } = validator.validated.data
+    const requiredFee = getRequiredFee(payment)
+
+    await send({
+      type: 'oracleServer/reply',
+      data: { queryId, reply: result, requiredFee },
+    })
+
+    return Requester.success(jobRunID, {
+      data: { result },
+      result,
+      status: 200,
+    })
+  } catch (e) {
+    await send({
+      type: 'oracleServer/error',
+      data: { queryId: input.data && input.data.request_id, error: `${(e && e.message) || e}` },
+    })
+    throw e
   }
-
-  const jobRunID = validator.validated.id
-
-  const { request_id: queryId, result, payment } = validator.validated.data
-  const requiredFee = getRequiredFee(payment)
-
-  await send({
-    type: 'oracleServer/reply',
-    data: { queryId, reply: result, requiredFee },
-  })
-
-  return Requester.success(jobRunID, {
-    data: { result },
-    result,
-    status: 200,
-  })
 }
