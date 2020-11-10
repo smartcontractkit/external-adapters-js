@@ -17,12 +17,9 @@ export const fetchDerbit: ExternalFetch = async (
   date.setDate(date.getDate() - days)
 
   const resultForDate = result.find((elem) => elem[0] === date.getTime())
-  if (!resultForDate) {
-    console.log('no result')
+  if (!resultForDate || resultForDate.length < 2) {
     throw new Error('no derbit value for this date')
   }
 
-  console.log(result)
-
-  return result[1]
+  return resultForDate[1]
 }
