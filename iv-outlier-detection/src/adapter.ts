@@ -2,6 +2,7 @@ import { Execute } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { fetchGenesisVolatility } from './genesisVolatility'
 import { fetchDerbit } from './derbit'
+import { getLatestAnswer } from './onchain'
 
 export type ExternalFetch = (symbol: string, days: number) => Promise<number>
 
@@ -12,23 +13,26 @@ const difference = (a: number, b: number): number => {
 const customParams = {
   symbol: ['base', 'from', 'coin', 'symbol'],
   days: ['days', 'period'],
+  contract: ['referenceContract', 'contract'],
+  multiply: true,
 }
 
 export const execute: Execute = async (input) => {
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
-  if (!input.meta || !input.meta.latestAnswer) throw new Error('missing meta data')
 
   const jobRunID = validator.validated.id
   const symbol = validator.validated.data.symbol.toUpperCase()
   const days = validator.validated.data.days
+  const contract = validator.validated.data.contract
+  const multiply = validator.validated.data.multiply
 
   const result = await fetchGenesisVolatility(symbol, days)
-  const onChainValue = input.meta.latestAnswer as number
+  const onChainValue = await getLatestAnswer(contract, multiply, input.meta)
   if (onChainValue !== 0 && difference(result, onChainValue) > 50) {
     throw new Error('value difference between Genesis Volatility and on-chain is more than 50%')
   }
-  
+
   const derbit = await fetchDerbit(symbol, days)
   if (difference(result, derbit) > 30) {
     throw new Error('value difference between Genesis Volatility and Derbit is more than 30%')

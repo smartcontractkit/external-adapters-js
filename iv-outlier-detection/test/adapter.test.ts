@@ -8,29 +8,43 @@ describe('execute', () => {
 
   context('successful calls @integration', () => {
     const meta = { latestAnswer: 60 }
+    const multiply = 1
+    const referenceContract = '0x00'
 
     const requests = [
       {
         name: 'id not supplied',
-        testData: { data: { symbol: 'ETH', days: 1 }, meta },
+        testData: { data: { symbol: 'ETH', days: 1, multiply, referenceContract }, meta },
       },
       {
         name: '1 day',
-        testData: { id: jobID, data: { symbol: 'ETH', days: 1 }, meta },
+        testData: {
+          id: jobID,
+          data: { symbol: 'ETH', days: 1, multiply, referenceContract },
+          meta,
+        },
       },
       {
         name: '2 days',
-        testData: { id: jobID, data: { symbol: 'ETH', days: 2 }, meta },
+        testData: {
+          id: jobID,
+          data: { symbol: 'ETH', days: 2, multiply, referenceContract },
+          meta,
+        },
       },
       {
         name: '1 week',
-        testData: { id: jobID, data: { symbol: 'ETH', days: 7 }, meta },
+        testData: {
+          id: jobID,
+          data: { symbol: 'ETH', days: 7, multiply, referenceContract },
+          meta,
+        },
       },
       {
         name: '2 weeks',
         testData: {
           id: jobID,
-          data: { symbol: 'ETH', days: 14 },
+          data: { symbol: 'ETH', days: 14, multiply, referenceContract },
           meta,
         },
       },
@@ -38,7 +52,7 @@ describe('execute', () => {
         name: '3 weeks',
         testData: {
           id: jobID,
-          data: { symbol: 'ETH', days: 21 },
+          data: { symbol: 'ETH', days: 21, multiply, referenceContract },
           meta,
         },
       },
@@ -46,13 +60,17 @@ describe('execute', () => {
         name: '4 weeks',
         testData: {
           id: jobID,
-          data: { symbol: 'ETH', days: 28 },
+          data: { symbol: 'ETH', days: 28, multiply, referenceContract },
           meta,
         },
       },
       {
         name: '1 day BTC',
-        testData: { id: jobID, data: { symbol: 'BTC', days: 1 }, meta },
+        testData: {
+          id: jobID,
+          data: { symbol: 'BTC', days: 1, multiply, referenceContract },
+          meta,
+        },
       },
     ]
 
@@ -74,25 +92,23 @@ describe('execute', () => {
       { name: 'empty data', testData: { data: {}, meta } },
       {
         name: 'days not supplied',
-        testData: { id: jobID, data: { symbol: 'USD' }, meta },
+        testData: {
+          id: jobID,
+          data: { symbol: 'USD', referenceContract: '0x00', multiply: 1 },
+          meta,
+        },
       },
       {
         name: 'symbol not supplied',
-        testData: { id: jobID, data: { days: 1 }, meta },
+        testData: { id: jobID, data: { days: 1, referenceContract: '0x00', multiply: 1 }, meta },
       },
       {
-        name: 'missing meta',
-        testData: {
-          name: '1 day BTC',
-          testData: { id: jobID, data: { symbol: 'BTC', days: 1 } },
-        },
+        name: 'referenceContract not supplied',
+        testData: { id: jobID, data: { symbol: 'USD', days: 1, multiply: 1 }, meta },
       },
       {
-        name: 'empty meta',
-        testData: {
-          name: '1 day BTC',
-          testData: { id: jobID, data: { symbol: 'BTC', days: 1 }, meta: {} },
-        },
+        name: 'multiply amount not supplied',
+        testData: { id: jobID, data: { symbol: 'USD', days: 1, referenceContract: '0x00' }, meta },
       },
     ]
 
@@ -110,19 +126,33 @@ describe('execute', () => {
 
   context('error calls @integration', () => {
     const meta = { latestAnswer: 60 }
+    const referenceContract = '0x00'
+    const multiply = 1
 
     const requests = [
       {
         name: 'unknown symbol',
-        testData: { id: jobID, data: { symbol: 'not_real', days: 1 }, meta },
+        testData: {
+          id: jobID,
+          data: { symbol: 'not_real', days: 1, referenceContract, multiply },
+          meta,
+        },
       },
       {
         name: 'unknown amount of days',
-        testData: { id: jobID, data: { symbol: 'ETH', days: 77777 }, meta },
+        testData: {
+          id: jobID,
+          data: { symbol: 'ETH', days: 77777, referenceContract, multiply },
+          meta,
+        },
       },
       {
         name: 'on-chain outlier',
-        testData: { id: jobID, data: { symbol: 'BTC', days: 1 }, meta: { latestAnswer: 77777 } },
+        testData: {
+          id: jobID,
+          data: { symbol: 'BTC', days: 1, referenceContract, multiply },
+          meta: { latestAnswer: 77777 },
+        },
       },
     ]
 
