@@ -10,14 +10,14 @@ export const fetchDerbit: ExternalFetch = async (
   const config = { url, params }
 
   const response = await Requester.request(config)
-  const values: number[][] = response.data['result']
+  const result: number[][] = response.data['result']
 
   const date = new Date()
   date.setMinutes(0, 0, 0)
   date.setDate(date.getDate() - days)
 
-  const result = values.find((elem) => elem[0] === date.getTime())
-  if (!result) {
+  const resultForDate = result.find((elem) => elem[0] === date.getTime())
+  if (!resultForDate) {
     console.log('no result')
     throw new Error('no derbit value for this date')
   }

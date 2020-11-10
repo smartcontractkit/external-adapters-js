@@ -24,15 +24,14 @@ export const execute: Execute = async (input) => {
   const days = validator.validated.data.days
 
   const result = await fetchGenesisVolatility(symbol, days)
-  const derbit = await fetchDerbit(symbol, days)
-
-  if (difference(result, derbit) > 30) {
-    throw new Error('value difference between Genesis Volatility and Derbit is more than 30%')
-  }
-
   const onChainValue = input.meta.latestAnswer as number
   if (onChainValue !== 0 && difference(result, onChainValue) > 50) {
-    throw new Error('value difference between Genesis Volatility and on-chain is more than 30%')
+    throw new Error('value difference between Genesis Volatility and on-chain is more than 50%')
+  }
+  
+  const derbit = await fetchDerbit(symbol, days)
+  if (difference(result, derbit) > 30) {
+    throw new Error('value difference between Genesis Volatility and Derbit is more than 30%')
   }
 
   const response = { data: { result }, result, status: 200 }
