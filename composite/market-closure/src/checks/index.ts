@@ -31,7 +31,7 @@ export const getCheckImpl = (options: CheckOptions): CheckExecute => {
   }
 }
 
-const checkWithSchedule = (check?: ExternalCheck): CheckExecute => {
+export const checkWithSchedule = (check?: ExternalCheck): CheckExecute => {
   if (!check) return async (symbol: string, schedule: Schedule) => scheduleExecute(schedule)
 
   return async (symbol: string, schedule: Schedule) => {

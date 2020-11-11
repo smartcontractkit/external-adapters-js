@@ -51,10 +51,30 @@ describe('scheduleExecute', () => {
         },
         expect: true,
       },
+      {
+        name: 'empty schedule always open',
+        schedule: {
+          timezone: 'Europe/Oslo',
+          hours: {},
+          holidays: [],
+        },
+        expect: false,
+      },
+      {
+        name: 'always empty with hours set',
+        schedule: {
+          timezone: 'Europe/Oslo',
+          hours: {
+            monday: ['24:00-24:01'],
+          },
+          holidays: [],
+        },
+        expect: true,
+      },
     ]
 
     requests.forEach((req) => {
-      it(`${req.name}`, async () => {
+      it(`${req.name}`, () => {
         const halted = scheduleExecute(req.schedule as Schedule)
         assert.equal(halted, req.expect)
       })
