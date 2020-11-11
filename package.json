@@ -71,6 +71,7 @@
     "renvm-address-set",
     "blockchain.com",
     "blockcypher",
+    "sochain",
     "reduce",
     "json-rpc",
     "composite/**",

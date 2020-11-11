@@ -5,10 +5,9 @@ import { ChainType } from './endpoint'
 export const ENV_API_KEY = 'API_KEY'
 export const ENV_API_TIMEOUT = 'API_TIMEOUT'
 
-export const ENDPOINT_MAIN = 'https://blockchain.info/'
-export const ENDPOINT_TEST = 'https://testnet.blockchain.info/'
+export const ENDPOINT_MAIN = 'https://sochain.com'
 
-export const DEFAULT_DATA_PATH = 'result'
+export const DEFAULT_DATA_PATH = 'addresses'
 export const DEFAULT_TIMEOUT = 30000
 export const DEFAULT_CONFIRMATIONS = 6
 export const DEFAULT_ENDPOINT = 'balance'
@@ -18,19 +17,12 @@ export type Config = {
   api: Record<string, unknown>
 }
 
-export const getBaseURL = (chain: ChainType): string => {
-  switch (chain) {
-    case 'mainnet':
-      return ENDPOINT_MAIN
-    case 'testnet':
-      return ENDPOINT_TEST
-  }
-}
+export const getBaseURL = (chain: ChainType): string => ENDPOINT_MAIN
 
 export const getConfig = (prefix = ''): Config => ({
   api: {
     returnRejectedPromiseOnError: true,
-    withCredentials: true,
+    withCredentials: false,
     timeout: parseInt(util.getEnv(ENV_API_TIMEOUT, prefix) as string) || DEFAULT_TIMEOUT,
     headers: {
       common: {
@@ -48,5 +40,4 @@ const cloneNoSecrets = (config: Config): Config => (({ apiKey, ...o }) => o)(con
 
 export const logConfig = (config: Config): void => {
   logger.debug('Adapter configuration:', { config: cloneNoSecrets(config) })
-  if (!config.apiKey) logger.warn('API will be rate limited without an API key.')
 }
