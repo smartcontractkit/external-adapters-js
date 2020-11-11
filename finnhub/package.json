@@ -1,5 +1,5 @@
 {
-  "name": "@chainlink/finnhub-adapter",
+  "name": "@chainlink/finnhub",
   "version": "0.0.1",
   "license": "MIT",
   "main": "dist/index.js",
