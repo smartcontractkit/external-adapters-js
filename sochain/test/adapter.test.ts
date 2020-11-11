@@ -1,5 +1,5 @@
-const { assert } = require('chai')
-const { Requester, assertSuccess, assertError } = require('@chainlink/external-adapter')
+import { assert } from 'chai'
+import { Requester, assertSuccess, assertError } from '@chainlink/external-adapter'
 import { AdapterRequest } from '@chainlink/types'
 import { execute } from '../src/adapter'
 
