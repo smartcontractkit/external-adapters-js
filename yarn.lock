@@ -45,6 +45,16 @@
   dependencies:
     ethers "^5.0.19"
 
+"@chainlink/fcsapi-adapter@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@chainlink/fcsapi-adapter/-/fcsapi-adapter-0.0.1.tgz#87ceb44af5926513331002ad4912493f46b7d631"
+  integrity sha512-3o5Bjoogwg2lyO5ccr+KBtt7z6g4TshzeU/wHW6l4SHBDYPApOY6KeMLztzzfZ4J39x35nv+ml6cakGr8g0SHw==
+
+"@chainlink/finnhub-adapter@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@chainlink/finnhub-adapter/-/finnhub-adapter-0.0.1.tgz#f6871f78cda2ebca15a8e9c9f0eb3dc80f81e6bf"
+  integrity sha512-MZ8s0dNSCaWsQRLqiDOSHsaK4PvTgLd7y73Euze2gA7MGwW3z1bBzcEygPDJUlQT2FQXcPXb/+VnJjw4l1HJrw==
+
 "@dabh/diagnostics@^2.0.2":
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/@dabh/diagnostics/-/diagnostics-2.0.2.tgz#290d08f7b381b8f94607dc8f471a12c675f9db31"
