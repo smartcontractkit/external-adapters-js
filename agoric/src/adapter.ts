@@ -40,27 +40,20 @@ export const getRequiredFee = (value: string | number): number => {
   return Nat(requiredFee)
 }
 
-export interface ActionResponseData {
-  success: boolean
-  error: unknown
+export interface PostReply {
+  ok: boolean
+  res?: unknown
+  rej?: unknown
 }
-export const assertGoodReply = (sentType: string, reply: HTTPSenderReply) => {
+
+export const assertGoodReply = (sentType: string, reply: HTTPSenderReply): void => {
   if (reply.status < 200 || reply.status >= 300) {
-    throw Error(`${sentType} reply status ${reply.status} is not 2xx`)
+    throw Error(`${sentType} status ${reply.status} is not 2xx`)
   }
 
-  const obj = reply.response as Action
-  if (!obj) {
-    throw Error(`${sentType} no response data`)
-  }
-
-  if (obj.type !== `${sentType}Response`) {
-    throw Error(`${sentType} response type ${obj.type} is not ${sentType}Response`)
-  }
-
-  const data = obj.data as ActionResponseData
-  if (!data.success) {
-    throw Error(`${obj.type} error ${data.error}`)
+  const pr = reply.response as PostReply
+  if (!pr.ok) {
+    throw Error(`${sentType} response failed: ${pr.rej}`)
   }
 }
 

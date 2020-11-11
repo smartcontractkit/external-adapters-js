@@ -22,12 +22,7 @@ describe('execute', () => {
             },
           },
         ],
-        receive: {
-          type: 'oracleServer/errorResponse',
-          data: {
-            success: true,
-          },
-        },
+        receive: { ok: true, res: true },
       },
       {
         name: 'payment not supplied',
@@ -42,12 +37,7 @@ describe('execute', () => {
             },
           },
         ],
-        receive: {
-          type: 'oracleServer/errorResponse',
-          data: {
-            success: true,
-          },
-        },
+        receive: { ok: true, res: true },
       },
       {
         name: 'push request',
@@ -63,12 +53,7 @@ describe('execute', () => {
             },
           },
         ],
-        receive: {
-          type: 'oracleServer/replyResponse',
-          data: {
-            success: true,
-          },
-        },
+        receive: { ok: true, res: true },
       },
       {
         name: 'normal request',
@@ -87,12 +72,7 @@ describe('execute', () => {
             },
           },
         ],
-        receive: {
-          type: 'oracleServer/replyResponse',
-          data: {
-            success: true,
-          },
-        },
+        receive: { ok: true, res: true },
       },
       {
         name: 'bad request_id',
@@ -114,17 +94,11 @@ describe('execute', () => {
             type: 'oracleServer/error',
             data: {
               queryId: 'bad',
-              error: 'oracleServer/reply reply status 500 is not 2xx',
+              error: 'oracleServer/reply status 500 is not 2xx',
             },
           },
         ],
-        receive: {
-          type: 'oracleServer/replyResponse',
-          data: {
-            success: false,
-            error: 'unrecognized queryId bad',
-          },
-        },
+        receive: { ok: false, err: 'unrecognized queryId bad' },
       },
     ]
 
@@ -153,7 +127,7 @@ describe('execute', () => {
     const mockSend: HTTPSender = () =>
       Promise.resolve({
         status: 200,
-        response: { type: 'oracleServer/replyResponse', data: { success: true } },
+        response: { ok: true, res: true },
       })
     const execute = makeExecute(mockSend)
     const requests = [
