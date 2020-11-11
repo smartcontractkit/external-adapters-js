@@ -2,7 +2,7 @@ import { Execute } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { fetchGenesisVolatility } from './genesisVolatility'
 import { fetchDerbit } from './derbit'
-import { getLatestAnswer } from './onchain'
+import { getLatestAnswer } from '@chainlink/reference-data-reader'
 
 const onchainThreshold = process.env.DIFF_ON_CHAIN_THRESHOLD || 50
 const derbitThreshold = process.env.DIFF_DERBIT_THRESHOLD || 30

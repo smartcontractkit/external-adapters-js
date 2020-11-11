@@ -42,6 +42,6 @@
     "typescript": "^3.9.7"
   },
   "dependencies": {
-    "ethers": "^5.0.19"
+    "@chainlink/reference-data-reader": "^0.0.1"
   }
 }
