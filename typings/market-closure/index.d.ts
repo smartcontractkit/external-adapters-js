@@ -13,7 +13,7 @@ declare module 'market-closure' {
   export class MarketClosure {
     constructor(schedule: Schedule): MarketClosure
 
-    // Checks if trading is halted
+    // Checks if trading is halted according to the schedule
     tradingHalted(): boolean
 
     // Expects an object of days with an array of trading hours. Eg:

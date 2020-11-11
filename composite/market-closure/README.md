@@ -1,5 +1,10 @@
 # Chainlink Market Closure composite adapter
 
+Market Closure composite adapter adds an extra check to see if trading is halted or not for the asset that's queried. It
+allows for multiple checks and multiple price data provider. If the check provider fails, it will automatically fall
+back to checking the schedule. If the market is closed, the adapter will fetch the latest on-chain value from the
+reference contract.
+
 ## Configuration
 
 The feed takes the following environment variables:
