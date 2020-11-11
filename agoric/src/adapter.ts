@@ -1,6 +1,6 @@
 import { Execute } from '@chainlink/types'
-import { Requester, Validator } from '@chainlink/external-adapter'
-import { Action, HTTPSender, HTTPSenderReply } from './httpSender'
+import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
+import { HTTPSender, HTTPSenderReply } from './httpSender'
 
 const customParams = {
   request_id: ['request_id'],
@@ -74,6 +74,7 @@ export const makeExecute: (send: HTTPSender) => Execute = (send) => async (input
       data: { queryId, reply: result, requiredFee },
     }
     const reply = await send(obj)
+
     assertGoodReply(obj.type, reply)
 
     return Requester.success(jobRunID, {
@@ -82,10 +83,20 @@ export const makeExecute: (send: HTTPSender) => Execute = (send) => async (input
       status: 200,
     })
   } catch (e) {
+    console.error(`Agoric adapter error:`, e)
     send({
       type: 'oracleServer/error',
       data: { queryId: input.data && input.data.request_id, error: `${(e && e.message) || e}` },
-    }).catch((e2) => console.error(`Cannot reflect error`, e, `to caller:`, e2))
-    throw e
+    }).catch((e2) => console.error(`Cannot reflect error to caller:`, e2))
+
+    if (e instanceof AdapterError) {
+      throw e
+    }
+    throw new AdapterError({
+      jobRunID: input.id,
+      statusCode: 500,
+      message: `${(e && e.message) || e}`,
+      cause: e,
+    })
   }
 }
