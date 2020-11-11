@@ -51,6 +51,7 @@
     "@chainlink/blockcypher": "^0.0.3",
     "@chainlink/blockchair": "^0.0.2",
     "@chainlink/amberdata": "^0.0.2",
-    "@chainlink/reduce": "^0.0.3"
+    "@chainlink/reduce": "^0.0.3",
+    "@chainlink/btc.com": "^0.0.1"
   }
 }
