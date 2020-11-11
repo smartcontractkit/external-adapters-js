@@ -12,11 +12,18 @@ The adapter takes the following environment variables:
 
 ### Balance endpoint
 
-- `addresses`: Addresses to query
-  - `address`: Address to query
-  - `coin`: Optional currency to query, defaults to `btc`, one of `(btc|dash|doge|ltc)`
-  - `chain`: Optional chain to query, defaults to `mainnet`, one of `(testnet|mainnet)`
+- `dataPath`: Optional path where to find the addresses array, defaults to `addresses`
 - `confirmations`: Optional confirmations param, defaults to `6`
+
+- `addresses`: Addresses to query
+
+  {
+
+  - `address`: Address to query
+  - `coin`: Optional currency to query, defaults to `btc`, one of `(btc|dash|doge|ltc|zec)`
+  - `chain`: Optional chain to query, defaults to `mainnet`, one of `(mainnet|testnet)`
+
+  }
 
 ```json
 {

@@ -1,7 +1,6 @@
 import objectPath from 'object-path'
 import { Requester } from '@chainlink/external-adapter'
 import { AdapterRequest } from '@chainlink/types'
-
 import { Config, DEFAULT_CONFIRMATIONS, DEFAULT_DATA_PATH, getBaseURL } from '../config'
 import { CoinType, ChainType } from '.'
 
@@ -19,12 +18,14 @@ type RequestData = {
   confirmations: number
 }
 
-const WARNING_NO_OPERATION =
-  'No Operation: only btc mainnet/testnet chains are supported by blockchain.com adapter'
+const WARNING_NO_OPERATION = 'No Operation: only btc mainnet is supported by SoChain adapter'
 const WARNING_NO_OPERATION_MISSING_ADDRESS = 'No Operation: address param is missing'
 
-const getBalanceURI = (network: string, address: string, confirmations: number) =>
-  `/api/v2/get_address_balance/${network}/${address}/${confirmations}`
+const getBalanceURI = (network: string, address: string, confirmations: number, chain: string) => {
+  network = network.toUpperCase()
+  if (chain === 'testnet') network = network + 'TEST'
+  return `/api/v2/get_address_balance/${network}/${address}/${confirmations}`
+}
 
 const toBalances = async (
   config: Config,
@@ -45,12 +46,11 @@ const toBalances = async (
       const reqConfig = {
         ...config.api,
         baseURL: getBaseURL(addr.chain),
-        url: getBalanceURI(addr.address, confirmations),
+        url: getBalanceURI(addr.coin, addr.address, confirmations, addr.chain),
       }
-
       return {
         ...addr,
-        balance: (await Requester.request(reqConfig)).data,
+        balance: (await Requester.request(reqConfig)).data.data.confirmed_balance,
       }
     }),
   )
