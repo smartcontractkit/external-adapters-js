@@ -1,6 +1,6 @@
 import { Execute } from '@chainlink/types'
-import finnhub from '@chainlink/finnhub'
-import fcsapi from '@chainlink/fcsapi'
+import finnhub from '@chainlink/finnhub-adapter'
+import fcsapi from '@chainlink/fcsapi-adapter'
 
 export type PriceDataOptions = { type?: PriceDataProvider }
 export enum PriceDataProvider {
