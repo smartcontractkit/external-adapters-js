@@ -1,4 +1,4 @@
-import { Execute } from '@chainlink/types'
+import { AdapterResponse, Execute } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { fetchGenesisVolatility } from './genesisVolatility'
 import { fetchDerbit } from './derbit'
@@ -30,21 +30,22 @@ export const execute: Execute = async (input) => {
   const contract = validator.validated.data.contract
   const multiply = validator.validated.data.multiply
 
-  const result = await fetchGenesisVolatility(symbol, days)
   const onChainValue = await getLatestAnswer(contract, multiply, input.meta)
+
+  const result = await fetchGenesisVolatility(symbol, days)
   if (onChainValue !== 0 && difference(result, onChainValue) > onchainThreshold) {
-    throw new Error(
-      `value difference between Genesis Volatility and on-chain is more than ${onchainThreshold}%`,
-    )
+    return returnValue(jobRunID, onChainValue)
   }
 
   const derbit = await fetchDerbit(symbol, days)
   if (difference(result, derbit) > derbitThreshold) {
-    throw new Error(
-      `value difference between Genesis Volatility and Derbit is more than ${derbitThreshold}%`,
-    )
+    return returnValue(jobRunID, onChainValue)
   }
 
+  return returnValue(jobRunID, result)
+}
+
+const returnValue = (jobRunID: string, result: number): AdapterResponse => {
   const response = { data: { result }, result, status: 200 }
   return Requester.success(jobRunID, response)
 }

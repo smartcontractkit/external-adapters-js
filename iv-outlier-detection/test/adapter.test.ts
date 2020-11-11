@@ -146,6 +146,25 @@ describe('execute', () => {
           meta,
         },
       },
+    ]
+
+    requests.forEach((req) => {
+      it(`${req.name}`, async () => {
+        try {
+          await execute(req.testData as AdapterRequest)
+        } catch (error) {
+          const errorResp = Requester.errored(jobID, error)
+          assertError({ expected: 500, actual: errorResp.statusCode }, errorResp, jobID)
+        }
+      })
+    })
+  })
+
+  context('error calls returns meta answer @integration', () => {
+    const referenceContract = '0x00'
+    const multiply = 1
+
+    const requests = [
       {
         name: 'on-chain outlier',
         testData: {
@@ -158,12 +177,9 @@ describe('execute', () => {
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
-        try {
-          await execute(req.testData as AdapterRequest)
-        } catch (error) {
-          const errorResp = Requester.errored(jobID, error)
-          assertError({ expected: 500, actual: errorResp.statusCode }, errorResp, jobID)
-        }
+        const data = await execute(req.testData as AdapterRequest)
+        assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
+        assert.equal(data.result, req.testData.meta.latestAnswer)
       })
     })
   })
