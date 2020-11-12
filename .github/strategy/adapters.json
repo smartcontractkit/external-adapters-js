@@ -63,6 +63,7 @@
     "blockcypher",
     "reduce",
     "json-rpc",
-    "iv-outlier-detection"
+    "iv-outlier-detection",
+    "taapi"
   ]
 }
