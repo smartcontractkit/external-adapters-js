@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - New adapters:
   - `xbto` to get BRN quotes
   - `iv-outlier-detection` to get IV values with outlier detection
+  - `taapi` to get Trading Analysis data
 - Added support for metadata in requests. This gives adapters access to the FM on-chain round state.
 
 ### Changed
