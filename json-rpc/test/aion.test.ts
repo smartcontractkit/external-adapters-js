@@ -19,7 +19,7 @@ describe('AION client @integration', function () {
     }
 
     it('returns error to the node', async () => {
-      const resp = await execute(req)
+      const resp = await execute(req, {})
       assertError({ expected: 500, actual: resp.statusCode }, resp.data, jobID)
     })
   })
@@ -34,7 +34,7 @@ describe('AION client @integration', function () {
     }
 
     it('returns data to the node', async () => {
-      const resp = await execute(req)
+      const resp = await execute(req, {})
       assertSuccess({ expected: 200, actual: resp.statusCode }, resp.data, jobID)
     })
   })
@@ -48,7 +48,7 @@ describe('AION client @integration', function () {
     }
 
     it('returns data to the node', async () => {
-      const resp = await execute(req)
+      const resp = await execute(req, {})
       assertSuccess({ expected: 200, actual: resp.statusCode }, resp.data, jobID)
     })
   })
@@ -62,7 +62,7 @@ describe('AION client @integration', function () {
     }
 
     it('returns data to the node', async () => {
-      const resp = await execute(req)
+      const resp = await execute(req, {})
       assertSuccess({ expected: 200, actual: resp.statusCode }, resp.data, jobID)
     })
   })
@@ -76,7 +76,7 @@ describe('AION client @integration', function () {
     }
 
     it('returns data to the node', async () => {
-      const resp = await execute(req)
+      const resp = await execute(req, {})
       assertSuccess({ expected: 200, actual: resp.statusCode }, resp.data, jobID)
     })
   })
@@ -91,7 +91,7 @@ describe('AION client @integration', function () {
     }
 
     it('returns data to the node', async () => {
-      const resp = await execute(req)
+      const resp = await execute(req, {})
       assertSuccess({ expected: 200, actual: resp.statusCode }, resp.data, jobID)
     })
   })
@@ -106,7 +106,7 @@ describe('AION client @integration', function () {
     }
 
     it('returns data to the node', async () => {
-      const resp = await execute(req)
+      const resp = await execute(req, {})
       assertSuccess({ expected: 200, actual: resp.statusCode }, resp.data, jobID)
     })
   })
