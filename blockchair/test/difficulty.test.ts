@@ -1,9 +1,9 @@
 import { assert } from 'chai'
 import { Requester, assertSuccess, assertError, AdapterError } from '@chainlink/external-adapter'
 import { AdapterRequest } from '@chainlink/types'
-import { execute } from '../src/adapter'
+import { executeWithDefaults } from '../src/adapter'
 
-describe('execute', () => {
+describe('difficulty endpoint', () => {
   const jobID = '1'
 
   context('successful calls @integration', () => {
@@ -24,7 +24,7 @@ describe('execute', () => {
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
-        const data = await execute(req.testData as AdapterRequest, {})
+        const data = await executeWithDefaults(req.testData as AdapterRequest, {})
         assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
         assert.isAbove(data.result, 0)
         assert.isAbove(data.data.result, 0)
@@ -41,7 +41,7 @@ describe('execute', () => {
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
-          await execute(req.testData as AdapterRequest)
+          await executeWithDefaults(req.testData as AdapterRequest)
         } catch (error) {
           const errorResp = Requester.errored(jobID, new AdapterError(error))
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
@@ -61,7 +61,7 @@ describe('execute', () => {
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
-          await execute(req.testData as AdapterRequest)
+          await executeWithDefaults(req.testData as AdapterRequest)
         } catch (error) {
           const errorResp = Requester.errored(jobID, new AdapterError(error))
           assertError({ expected: 500, actual: errorResp.statusCode }, errorResp, jobID)
