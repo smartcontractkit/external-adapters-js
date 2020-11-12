@@ -75,7 +75,8 @@
     "json-rpc",
     "composite/**",
     "xbto",
-    "iv-outlier-detection"
+    "iv-outlier-detection",
+    "taapi"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",
