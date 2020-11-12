@@ -1,9 +1,9 @@
 import { assert } from 'chai'
 import { Requester, assertSuccess, assertError, AdapterError } from '@chainlink/external-adapter'
 import { AdapterRequest } from '@chainlink/types'
-import { execute } from '../src/adapter'
+import { executeWithDefaults } from '../src/adapter'
 
-describe('execute', () => {
+describe('balance endpoint', () => {
   const jobID = '1'
 
   context('successful calls @integration', () => {
@@ -12,6 +12,7 @@ describe('execute', () => {
         name: 'id not supplied',
         testData: {
           data: {
+            endpoint: 'balance',
             addresses: [
               {
                 address: '3D8DJLwUXFfZvE8yJRu729MZ8uLy25SuLz',
@@ -25,6 +26,7 @@ describe('execute', () => {
         testData: {
           id: '1',
           data: {
+            endpoint: 'balance',
             addresses: [
               {
                 address: '3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1',
@@ -48,14 +50,32 @@ describe('execute', () => {
           },
         },
       },
+      {
+        name: 'BTC testnet',
+        testData: {
+          id: '1',
+          data: {
+            endpoint: 'balance',
+            addresses: [
+              {
+                address: 'n4VQ5YdHf7hLQ2gWQYYrcxoE5B7nWuDFNF',
+                chain: 'testnet',
+              },
+            ],
+          },
+        },
+      },
     ]
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
-        const data = await execute(req.testData as AdapterRequest, {})
+        const data = await executeWithDefaults(req.testData as AdapterRequest)
+        const numAddr = req?.testData?.data?.addresses.length
         assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
         assert.isAbove(Number(data.data.result.length), 0)
         assert.isAbove(Number(data.result.length), 0)
+        assert.equal(Number(data.data.result.length), numAddr)
+        assert.equal(Number(data.result.length), numAddr)
       })
     })
   })
@@ -68,6 +88,7 @@ describe('execute', () => {
         testData: {
           id: '1',
           data: {
+            endpoint: 'balance',
             addresses: [],
           },
         },
@@ -91,10 +112,42 @@ describe('execute', () => {
         testData: {
           id: jobID,
           data: {
+            endpoint: 'balance',
             dataPath: 'not_real',
             addresses: [
               {
                 address: 'n4VQ5YdHf7hLQ2gWQYYrcxoE5B7nWuDFNF',
+              },
+            ],
+          },
+        },
+      },
+      {
+        name: 'non-BTC testnets',
+        testData: {
+          id: jobID,
+          data: {
+            endpoint: 'balance',
+            addresses: [
+              {
+                address: 'n4VQ5YdHf7hLQ2gWQYYrcxoE5B7nWuDFNF',
+                coin: 'doge',
+                chain: 'testnet',
+              },
+            ],
+          },
+        },
+      },
+      {
+        name: 'invalid coin',
+        testData: {
+          id: '1',
+          data: {
+            endpoint: 'balance',
+            addresses: [
+              {
+                address: 'n4VQ5YdHf7hLQ2gWQYYrcxoE5B7nWuDFNF',
+                coin: 'not_real',
               },
             ],
           },
@@ -105,7 +158,7 @@ describe('execute', () => {
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
-          await execute(req.testData as AdapterRequest)
+          await executeWithDefaults(req.testData as AdapterRequest)
         } catch (error) {
           const errorResp = Requester.errored(jobID, new AdapterError(error))
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
@@ -121,6 +174,7 @@ describe('execute', () => {
         testData: {
           id: jobID,
           data: {
+            endpoint: 'balance',
             addresses: [
               {
                 address: 'n4VQ5YdHf7hLQ2gWQYYrcxoE5B7nWuDFNF',
@@ -134,6 +188,7 @@ describe('execute', () => {
         testData: {
           id: jobID,
           data: {
+            endpoint: 'balance',
             confirmations: null,
             addresses: [
               {
@@ -148,24 +203,11 @@ describe('execute', () => {
         testData: {
           id: '1',
           data: {
+            endpoint: 'balance',
             addresses: [
               {
                 address: 'n4VQ5YdHf7hLQ2gWQYYrcxoE5B7nWuDFNF',
                 chain: 'not_real',
-              },
-            ],
-          },
-        },
-      },
-      {
-        name: 'invalid coin',
-        testData: {
-          id: '1',
-          data: {
-            addresses: [
-              {
-                address: 'n4VQ5YdHf7hLQ2gWQYYrcxoE5B7nWuDFNF',
-                coin: 'not_real',
               },
             ],
           },
@@ -176,7 +218,7 @@ describe('execute', () => {
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
-          await execute(req.testData as AdapterRequest)
+          await executeWithDefaults(req.testData as AdapterRequest)
         } catch (error) {
           const errorResp = Requester.errored(jobID, new AdapterError(error))
           assertError({ expected: 500, actual: errorResp.statusCode }, errorResp, jobID)

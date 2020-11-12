@@ -23,7 +23,7 @@ export const getConfig = (prefix = ''): Config => ({
   apiKey: util.getEnv(ENV_API_KEY, prefix),
   api: {
     returnRejectedPromiseOnError: true,
-    withCredentials: false,
+    withCredentials: true,
     timeout: parseInt(util.getEnv(ENV_API_TIMEOUT, prefix) as string) || DEFAULT_TIMEOUT,
     headers: {
       common: {

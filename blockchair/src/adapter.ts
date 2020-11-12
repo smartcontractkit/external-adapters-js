@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { Execute } from '@chainlink/types'
+import { Execute, ExecuteWithDefaults } from '@chainlink/types'
 import { Config, getConfig, logConfig, DEFAULT_ENDPOINT } from './config'
 import { difficulty, balance } from './endpoint'
 
@@ -36,4 +36,5 @@ export const execute: Execute = async (request, config: Config) => {
 }
 
 // Export function to integrate with Chainlink node
-export const executeWithDefaults: Execute = async (request) => execute(request, getConfig())
+export const executeWithDefaults: ExecuteWithDefaults = async (request) =>
+  execute(request, getConfig())
