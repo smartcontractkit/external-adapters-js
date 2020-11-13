@@ -44,7 +44,7 @@ The adapter takes the following environment variables:
 
 ### Balance endpoint
 
-https://blockchair.com/api/docs#link_390
+https://docs.cryptoapis.io/rest-apis/blockchain-as-a-service-apis/btc/index#btc-address-info-endpoint
 
 - `dataPath`: Optional path where to find the addresses array, defaults to `addresses`
 - `confirmations`: Optional confirmations param, defaults to `6`
@@ -93,42 +93,6 @@ https://blockchair.com/api/docs#link_390
 {
   "jobRunID": "1",
   "data": {
-    "responses": [
-      {
-        "data": {
-          "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1": 547,
-          "3ANaBZ6odMrzdg9xifgRNxAUFUxnReesws": 547,
-          "35ULMyVnFoYaPaMxwHTRmaGdABpAThM4QR": 500000010680,
-          "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF": 3282,
-          "3KTeq879YjzhqkAXzZmdapJAVC6qz5qEth": 202325966208,
-          "3FFgKaYkEf1M73QtzuY9DGqC7VeM2sAQhT": 895134971346
-        },
-        "context": {
-          "code": 200,
-          "source": "A",
-          "results": 6,
-          "state": 656647,
-          "cache": {
-            "live": true,
-            "duration": 60,
-            "since": "2020-11-12 20:34:55",
-            "until": "2020-11-12 20:35:55",
-            "time": null
-          },
-          "api": {
-            "version": "2.0.68",
-            "last_major_update": "2020-07-19 00:00:00",
-            "next_major_update": null,
-            "documentation": "https://blockchair.com/api/docs",
-            "notice": "Beginning July 19th, 2020 we start enforcing request cost formulas, see the changelog for details"
-          },
-          "time": 0.05315399169921875,
-          "render_time": 0.014842987060546875,
-          "full_time": 0.06799697875976562,
-          "request_cost": 1.006
-        }
-      }
-    ],
     "result": [
       [
         {
