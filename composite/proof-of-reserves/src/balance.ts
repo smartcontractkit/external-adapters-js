@@ -5,10 +5,12 @@ import blockcypher from '@chainlink/blockcypher'
 import blockchair from '@chainlink/blockchair'
 import btcCom from '@chainlink/btc.com'
 import sochain from '@chainlink/sochain'
+import cryptoApis from '@chainlink/cryptoapis'
 
 export type BitcoinIndexerOptions = { type?: BitcoinIndexer }
 export enum BitcoinIndexer {
   Amberdata = 'amberdata',
+  CryptoAPIs = 'cryptoapis',
   BlockchainCom = 'blockchain_com',
   Blockcypher = 'blockcypher',
   Blockchair = 'blockchair',
@@ -32,6 +34,13 @@ export const getImpl = (options: BitcoinIndexerOptions): Execute => {
         const config = amberdata.getConfig(prefix)
         return amberdata.execute(data, config)
       }
+
+    case BitcoinIndexer.CryptoAPIs:
+      return (data) => {
+        const config = cryptoApis.getConfig(prefix)
+        return cryptoApis.execute(data, config)
+      }
+
     case BitcoinIndexer.BlockchainCom:
       return (data) => {
         const config = blockchainCom.getConfig(prefix)
