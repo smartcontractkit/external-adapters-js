@@ -31,31 +31,11 @@ The adapter takes the following environment variables:
   "data": {
     "addresses": [
       {
-        "address": "3D8DJLwUXFfZvE8yJRu729MZ8uLy25SuLz",
-        "coin": "btc"
-      },
-      {
         "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1",
         "coin": "btc"
       },
       {
         "address": "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF",
-        "coin": "btc"
-      },
-      {
-        "address": "3ANaBZ6odMrzdg9xifgRNxAUFUxnReesws",
-        "coin": "btc"
-      },
-      {
-        "address": "3FFgKaYkEf1M73QtzuY9DGqC7VeM2sAQhT",
-        "coin": "btc"
-      },
-      {
-        "address": "3KTeq879YjzhqkAXzZmdapJAVC6qz5qEth",
-        "coin": "btc"
-      },
-      {
-        "address": "35ULMyVnFoYaPaMxwHTRmaGdABpAThM4QR",
         "coin": "btc"
       }
     ]
@@ -69,93 +49,69 @@ The adapter takes the following environment variables:
 {
   "jobRunID": "1",
   "data": {
-    "result": [
+    "responses": [
       {
-        "address": "3D8DJLwUXFfZvE8yJRu729MZ8uLy25SuLz",
-        "coin": "btc",
-        "chain": "mainnet",
-        "balance": 44900000000
+        "data": {
+          "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1",
+          "received": 331532014822,
+          "sent": 331532014275,
+          "balance": 547,
+          "tx_count": 56,
+          "unconfirmed_tx_count": 0,
+          "unconfirmed_received": 0,
+          "unconfirmed_sent": 0,
+          "unspent_tx_count": 1
+        },
+        "err_code": 0,
+        "err_no": 0,
+        "message": "success",
+        "status": "success"
       },
+      {
+        "data": {
+          "address": "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF",
+          "received": 3129544141234,
+          "sent": 3129544137952,
+          "balance": 3282,
+          "tx_count": 14,
+          "unconfirmed_tx_count": 0,
+          "unconfirmed_received": 0,
+          "unconfirmed_sent": 0,
+          "unspent_tx_count": 6
+        },
+        "err_code": 0,
+        "err_no": 0,
+        "message": "success",
+        "status": "success"
+      }
+    ],
+    "result": [
       {
         "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1",
         "coin": "btc",
         "chain": "mainnet",
-        "balance": 9899463044
+        "balance": 547
       },
       {
         "address": "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF",
         "coin": "btc",
         "chain": "mainnet",
-        "balance": 307499838499
-      },
-      {
-        "address": "3ANaBZ6odMrzdg9xifgRNxAUFUxnReesws",
-        "coin": "btc",
-        "chain": "mainnet",
-        "balance": 904070305884
-      },
-      {
-        "address": "3FFgKaYkEf1M73QtzuY9DGqC7VeM2sAQhT",
-        "coin": "btc",
-        "chain": "mainnet",
-        "balance": 80000
-      },
-      {
-        "address": "3KTeq879YjzhqkAXzZmdapJAVC6qz5qEth",
-        "coin": "btc",
-        "chain": "mainnet",
-        "balance": 264148085712
-      },
-      {
-        "address": "35ULMyVnFoYaPaMxwHTRmaGdABpAThM4QR",
-        "coin": "btc",
-        "chain": "mainnet",
-        "balance": 2601100000
+        "balance": 3282
       }
     ]
   },
   "result": [
     {
-      "address": "3D8DJLwUXFfZvE8yJRu729MZ8uLy25SuLz",
-      "coin": "btc",
-      "chain": "mainnet",
-      "balance": 44900000000
-    },
-    {
       "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1",
       "coin": "btc",
       "chain": "mainnet",
-      "balance": 9899463044
+      "balance": 547
     },
     {
       "address": "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF",
       "coin": "btc",
       "chain": "mainnet",
-      "balance": 307499838499
-    },
-    {
-      "address": "3ANaBZ6odMrzdg9xifgRNxAUFUxnReesws",
-      "coin": "btc",
-      "chain": "mainnet",
-      "balance": 904070305884
-    },
-    {
-      "address": "3FFgKaYkEf1M73QtzuY9DGqC7VeM2sAQhT",
-      "coin": "btc",
-      "chain": "mainnet",
-      "balance": 80000
-    },
-    {
-      "address": "3KTeq879YjzhqkAXzZmdapJAVC6qz5qEth",
-      "coin": "btc",
-      "chain": "mainnet",
-      "balance": 264148085712
-    },
-    {
-      "address": "35ULMyVnFoYaPaMxwHTRmaGdABpAThM4QR",
-      "coin": "btc",
-      "chain": "mainnet",
-      "balance": 2601100000
+      "balance": 3282
     }
   ],
   "statusCode": 200

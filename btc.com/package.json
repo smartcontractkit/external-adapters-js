@@ -29,9 +29,9 @@
     "build": "tsc",
     "lint": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix",
-    "test": "mocha --exit -r ts-node/register 'test/**/*.test.ts'",
+    "test": "yarn test:unit && yarn test:integration",
     "test:unit": "mocha --exit --grep @integration --invert -r ts-node/register 'test/**/*.test.ts'",
-    "test:integration": "mocha --exit --grep @integration -r ts-node/register 'test/**/*.test.ts'",
+    "test:integration": "mocha --timeout 6000 --exit --grep @integration -r ts-node/register 'test/**/*.test.ts'",
     "server": "node -e 'require(\"./index.js\").server()'",
     "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
     "start": "yarn server:dist"

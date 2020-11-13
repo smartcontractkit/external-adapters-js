@@ -18,12 +18,17 @@ type RequestData = {
   confirmations: number
 }
 
+type ResponseWithResult = {
+  response?: any
+  result?: Address
+}
+
 const WARNING_NO_OPERATION = 'No Operation: only btc mainnet is supported by BTC.com adapter'
 const WARNING_NO_OPERATION_MISSING_ADDRESS = 'No Operation: address param is missing'
 
 const getBalanceURI = (address: string) => `/v3/address/${address}`
 
-const toBalances = async (config: Config, addresses: Address[]): Promise<Address[]> =>
+const toBalances = async (config: Config, addresses: Address[]): Promise<ResponseWithResult[]> =>
   Promise.all(
     addresses.map(async (addr: Address) => {
       if (!addr.address) return { ...addr, warning: WARNING_NO_OPERATION_MISSING_ADDRESS }
@@ -35,15 +40,30 @@ const toBalances = async (config: Config, addresses: Address[]): Promise<Address
 
       const reqConfig = {
         ...config.api,
-        baseURL: getBaseURL(addr.chain),
+        baseURL: getBaseURL(),
         url: getBalanceURI(addr.address),
       }
 
+      const response = await Requester.request(reqConfig)
+
       return {
-        ...addr,
-        balance: (await Requester.request(reqConfig)).data.data.balance,
+        response: response.data,
+        result: { ...addr, balance: response.data.data.balance },
       }
     }),
+  )
+
+const reduceResponse = (responses: ResponseWithResult[]) =>
+  responses.reduce(
+    (accumulator, current) => {
+      accumulator.data.responses = [...accumulator.data.responses, current.response]
+      accumulator.data.result = [...accumulator.data.result, current.result]
+      return accumulator
+    },
+    {
+      data: { responses: [], result: [] },
+      status: 200,
+    } as any,
   )
 
 export const inputParams = {
@@ -69,5 +89,6 @@ export const execute = async (config: Config, request: AdapterRequest): Promise<
       400,
     )
 
-  return await toBalances(config, inputData)
+  const responses = await toBalances(config, inputData)
+  return reduceResponse(responses)
 }
