@@ -50,6 +50,7 @@
     "@chainlink/renvm-address-set-adapter": "^0.0.1",
     "@chainlink/blockchain.com-adapter": "^0.0.1",
     "@chainlink/blockcypher-adapter": "^0.0.1",
+    "@chainlink/blockchair-adapter": "^0.0.2",
     "@chainlink/reduce": "^0.0.3"
   }
 }
