@@ -19,7 +19,7 @@ describe('Zilliqa client @integration', function () {
     }
 
     it('returns error to the node', async () => {
-      const resp = await execute(req)
+      const resp = await execute(req, {})
       assertError({ expected: 500, actual: resp.statusCode }, resp.data, jobID)
     })
   })
@@ -34,7 +34,7 @@ describe('Zilliqa client @integration', function () {
     }
 
     it('returns data to the node', async () => {
-      const resp = await execute(req)
+      const resp = await execute(req, {})
       assertSuccess({ expected: 200, actual: resp.statusCode }, resp.data, jobID)
     })
   })
@@ -49,7 +49,7 @@ describe('Zilliqa client @integration', function () {
     }
 
     it('Get balance should return some address balance', async () => {
-      const resp = await execute(req)
+      const resp = await execute(req, {})
       assertSuccess({ expected: 200, actual: resp.statusCode }, resp.data, jobID)
     })
   })
@@ -64,7 +64,7 @@ describe('Zilliqa client @integration', function () {
     }
 
     it('Get balance should return error as address is not created.', async () => {
-      const resp = await execute(req)
+      const resp = await execute(req, {})
       assertSuccess({ expected: 200, actual: resp.statusCode }, resp.data, jobID)
     })
   })
@@ -79,7 +79,7 @@ describe('Zilliqa client @integration', function () {
     }
 
     it('returns data to the node', async () => {
-      const resp = await execute(req)
+      const resp = await execute(req, {})
       assertSuccess({ expected: 200, actual: resp.statusCode }, resp.data, jobID)
     })
   })
