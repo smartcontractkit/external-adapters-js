@@ -1,4 +1,4 @@
-import axios from 'axios'
+import { Requester } from '@chainlink/external-adapter'
 
 export interface Action {
   type: string
@@ -10,16 +10,7 @@ export interface HTTPSenderReply {
 }
 export type HTTPSender = (obj: Action) => Promise<HTTPSenderReply>
 
-export const makeHTTPSender: (url: string) => HTTPSender = (url) => async (obj) => {
-  let response
-  try {
-    response = await axios.post(url, obj)
-  } catch (e) {
-    if (e.response) {
-      response = e.response
-    } else {
-      throw e
-    }
-  }
+export const makeHTTPSender: (url: string) => HTTPSender = (url) => async (data) => {
+  const response = await Requester.request({ method: 'POST', url, data, validateStatus: null })
   return { status: response.status, response: response.data }
 }
