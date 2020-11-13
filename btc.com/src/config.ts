@@ -1,8 +1,6 @@
 import { logger } from '@chainlink/external-adapter'
 import { util } from '@chainlink/ea-bootstrap'
-import { ChainType } from './endpoint'
 
-export const ENV_API_KEY = 'API_KEY'
 export const ENV_API_TIMEOUT = 'API_TIMEOUT'
 
 export const ENDPOINT_MAIN = 'https://chain.api.btc.com'
@@ -17,7 +15,7 @@ export type Config = {
   api: Record<string, unknown>
 }
 
-export const getBaseURL = (chain: ChainType): string => ENDPOINT_MAIN
+export const getBaseURL = (): string => ENDPOINT_MAIN
 
 export const getConfig = (prefix = ''): Config => ({
   api: {
