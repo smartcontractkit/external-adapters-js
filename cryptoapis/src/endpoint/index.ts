@@ -1,5 +1,5 @@
 export * as balance from './balance'
-export * as price from './difficulty'
+export * as price from './price'
 export * as difficulty from './difficulty'
 
 export const COIN_KEYS = ['btc', 'eth', 'etc', 'bch', 'ltc', 'dash', 'doge', 'btcv', 'zil'] as const
