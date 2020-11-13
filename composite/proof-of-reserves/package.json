@@ -49,6 +49,7 @@
     "@chainlink/renvm-address-set": "^0.0.3",
     "@chainlink/blockchain.com": "^0.0.3",
     "@chainlink/blockcypher": "^0.0.3",
+    "@chainlink/blockchair": "^0.0.2",
     "@chainlink/reduce": "^0.0.3"
   }
 }
