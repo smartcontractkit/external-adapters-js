@@ -54,6 +54,6 @@
     "@chainlink/reduce": "^0.0.3",
     "@chainlink/btc.com": "^0.0.1",
     "@chainlink/sochain": "^0.0.1",
-    "@chainlink/cryptoapis": "^0.0.1"
+    "@chainlink/cryptoapis": "^0.0.2"
   }
 }
