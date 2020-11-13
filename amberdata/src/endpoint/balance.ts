@@ -19,6 +19,11 @@ type RequestData = {
   confirmations: number
 }
 
+type ResponseWithResult = {
+  response: any
+  result: Address
+}
+
 const blockchains: { [ticker: string]: string } = {
   btc: 'bitcoin',
   eth: 'ethereum',
@@ -45,12 +50,11 @@ const getBlockchainHeader = (chain: string, coin: string) => {
   return `${network}-mainnet`
 }
 
-const getBalances = async (config: Config, addresses: Address[]): Promise<Address[]> =>
+const getBalances = async (config: Config, addresses: Address[]): Promise<ResponseWithResult[]> =>
   Promise.all(
     addresses.map(async (addr: Address) => {
       if (!addr.address) return { ...addr, warning: WARNING_NO_OPERATION_MISSING_ADDRESS }
 
-      console.log(addr.coin)
       if (!addr.coin) addr.coin = 'btc'
       if (isCoinType(addr.coin) === false) return { ...addr, warning: WARNING_NO_OPERATION_COIN }
 
@@ -65,11 +69,29 @@ const getBalances = async (config: Config, addresses: Address[]): Promise<Addres
 
       reqConfig.headers['x-amberdata-blockchain-id'] = getBlockchainHeader(addr.chain, addr.coin)
 
-      return {
-        ...addr,
-        balance: (await Requester.request(reqConfig)).data.payload.balance,
+      try {
+        const response = await Requester.request(reqConfig)
+        return {
+          response: response.data,
+          result: { ...addr, balance: response.data.payload.value },
+        }
+      } catch (error) {
+        return error
       }
     }),
+  )
+
+const reduceResponse = (responses: ResponseWithResult[]) =>
+  responses.reduce(
+    (accumulator, current) => {
+      accumulator.data.responses = [...accumulator.data.responses, current.response]
+      accumulator.data.result = [...accumulator.data.result, current.result]
+      return accumulator
+    },
+    {
+      data: { responses: [], result: [] },
+      status: 200,
+    } as any,
   )
 
 export const inputParams = {
@@ -94,5 +116,7 @@ export const execute = async (config: Config, request: AdapterRequest) => {
       `Input, at '${dataPath}' path, must be a non-empty array.`,
       400,
     )
-  return await getBalances(config, inputData)
+
+  const responses = await getBalances(config, inputData)
+  return reduceResponse(responses)
 }

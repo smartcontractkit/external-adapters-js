@@ -51,15 +51,16 @@ describe('balance endpoint', () => {
         },
       },
       {
-        name: 'BTC testnet',
+        name: 'ETH testnet',
         testData: {
           id: '1',
           data: {
             endpoint: 'balance',
             addresses: [
               {
-                address: 'n4VQ5YdHf7hLQ2gWQYYrcxoE5B7nWuDFNF',
+                coin: 'eth',
                 chain: 'testnet',
+                address: '0x664EEe181C2d65619F367c5AaC7d42F571B61177',
               },
             ],
           },
@@ -192,6 +193,22 @@ describe('balance endpoint', () => {
               {
                 address: 'n4VQ5YdHf7hLQ2gWQYYrcxoE5B7nWuDFNF',
                 coin: 'not_real',
+              },
+            ],
+          },
+        },
+      },
+      {
+        name: 'Non-ETH testnet',
+        testData: {
+          id: '1',
+          data: {
+            endpoint: 'balance',
+            addresses: [
+              {
+                coin: 'btc',
+                chain: 'testnet',
+                address: 'n4VQ5YdHf7hLQ2gWQYYrcxoE5B7nWuDFNF',
               },
             ],
           },

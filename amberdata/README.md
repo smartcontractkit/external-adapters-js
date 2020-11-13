@@ -91,86 +91,47 @@ Gets the [latest spot VWAP price](https://docs.amberdata.io/reference#spot-price
 {
   "jobRunID": "1",
   "data": {
-    "result": [
-      [
-        {
-          "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1",
-          "coin": "btc",
-          "chain": "mainnet",
-          "balance": 547
-        },
-        {
-          "address": "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF",
-          "coin": "btc",
-          "chain": "mainnet",
-          "balance": 3282
-        },
-        {
-          "address": "3ANaBZ6odMrzdg9xifgRNxAUFUxnReesws",
-          "coin": "btc",
-          "chain": "mainnet",
-          "balance": 547
-        },
-        {
-          "address": "3FFgKaYkEf1M73QtzuY9DGqC7VeM2sAQhT",
-          "coin": "btc",
-          "chain": "mainnet",
-          "balance": 895134971346
-        },
-        {
-          "address": "3KTeq879YjzhqkAXzZmdapJAVC6qz5qEth",
-          "coin": "btc",
-          "chain": "mainnet",
-          "balance": 202325966208
-        },
-        {
-          "address": "35ULMyVnFoYaPaMxwHTRmaGdABpAThM4QR",
-          "coin": "btc",
-          "chain": "mainnet",
-          "balance": 500000010680
+    "responses": [
+      {
+        "status": 200,
+        "title": "OK",
+        "description": "Successful request",
+        "payload": {
+          "address": { "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1" },
+          "blockchainId": "408fa195a34b533de9ad9889f076045e",
+          "blockNumber": "656338",
+          "timestampNanoseconds": 0,
+          "value": "547",
+          "timestamp": "2020-11-10T19:54:09.000Z"
         }
-      ]
-    ]
-  },
-  "result": [
-    [
+      },
+      {
+        "status": 200,
+        "title": "OK",
+        "description": "Successful request",
+        "payload": {
+          "address": { "address": "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF" },
+          "blockchainId": "408fa195a34b533de9ad9889f076045e",
+          "blockNumber": "653986",
+          "timestampNanoseconds": 0,
+          "value": "3282",
+          "timestamp": "2020-10-23T17:28:35.000Z"
+        }
+      },
+    ],
+    "result": [
       {
         "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1",
         "coin": "btc",
         "chain": "mainnet",
-        "balance": 547
+        "balance": "547"
       },
       {
         "address": "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF",
         "coin": "btc",
         "chain": "mainnet",
-        "balance": 3282
+        "balance": "3282"
       },
-      {
-        "address": "3ANaBZ6odMrzdg9xifgRNxAUFUxnReesws",
-        "coin": "btc",
-        "chain": "mainnet",
-        "balance": 547
-      },
-      {
-        "address": "3FFgKaYkEf1M73QtzuY9DGqC7VeM2sAQhT",
-        "coin": "btc",
-        "chain": "mainnet",
-        "balance": 895134971346
-      },
-      {
-        "address": "3KTeq879YjzhqkAXzZmdapJAVC6qz5qEth",
-        "coin": "btc",
-        "chain": "mainnet",
-        "balance": 202325966208
-      },
-      {
-        "address": "35ULMyVnFoYaPaMxwHTRmaGdABpAThM4QR",
-        "coin": "btc",
-        "chain": "mainnet",
-        "balance": 500000010680
-      }
-    ]
   ],
   "statusCode": 200
 }
