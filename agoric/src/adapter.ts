@@ -83,10 +83,14 @@ export const makeExecute: (send: HTTPSender) => Execute = (send) => async (input
       status: 200,
     })
   } catch (e) {
-    console.error(`Agoric adapter error:`, e)
-    send({
+    const queryId = input.data && input.data.request_id
+    let rest
+    if (queryId !== undefined) {
+      rest = { queryId }
+    }
+    await send({
       type: 'oracleServer/error',
-      data: { queryId: input.data && input.data.request_id, error: `${(e && e.message) || e}` },
+      data: { error: `${(e && e.message) || e}`, ...rest },
     }).catch((e2) => console.error(`Cannot reflect error to caller:`, e2))
 
     if (e instanceof AdapterError) {
