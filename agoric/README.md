@@ -3,7 +3,8 @@
 ## Build Docker Container
 
 ```sh
-(cd .. && make docker adapter=agoric name=agoric/chainlink)
+(cd .. && make docker adapter=agoric tag=agoric/chainlink-adapter)
+docker push agoric/chainlink-adapter:latest
 ```
 
 ## Input Params
