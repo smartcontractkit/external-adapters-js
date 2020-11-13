@@ -1,11 +1,13 @@
 import { Execute } from '@chainlink/types'
 import blockchainCom from '@chainlink/blockchain.com'
 import blockcypher from '@chainlink/blockcypher'
+import blockchair from '@chainlink/blockchair'
 
 export type BitcoinIndexerOptions = { type?: BitcoinIndexer }
 export enum BitcoinIndexer {
   BlockchainCom = 'blockchain_com',
   Blockcypher = 'blockcypher',
+  Blockchair = 'blockchair',
 }
 
 const isBitcoinIndexer = (envVar?: string): envVar is BitcoinIndexer =>
@@ -29,6 +31,12 @@ export const getImpl = (options: BitcoinIndexerOptions): Execute => {
       return (data) => {
         const config = blockcypher.getConfig(prefix)
         return blockcypher.execute(data, config)
+      }
+
+    case BitcoinIndexer.Blockchair:
+      return (data) => {
+        const config = blockchair.getConfig(prefix)
+        return blockchair.execute(data, config)
       }
     default:
       throw Error(`Unknown balance adapter type: ${options.type}`)
