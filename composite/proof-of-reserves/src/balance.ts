@@ -1,10 +1,12 @@
 import { Execute } from '@chainlink/types'
+import amberdata from '@chainlink/amberdata-adapter'
 import blockchainCom from '@chainlink/blockchain.com-adapter'
 import blockcypher from '@chainlink/blockcypher-adapter'
 import blockchair from '@chainlink/blockchair-adapter'
 
 export type BitcoinIndexerOptions = { type?: BitcoinIndexer }
 export enum BitcoinIndexer {
+  Amberdata = 'amberdata',
   BlockchainCom = 'blockchain_com',
   Blockcypher = 'blockcypher',
   Blockchair = 'blockchair',
@@ -21,6 +23,11 @@ export const getBitcoinIndexer = (): BitcoinIndexer | undefined => {
 export const getImpl = (options: BitcoinIndexerOptions): Execute => {
   const prefix = options.type?.toUpperCase()
   switch (options.type) {
+    case BitcoinIndexer.Amberdata:
+      return (data) => {
+        const config = amberdata.getConfig(prefix)
+        return amberdata.execute(data, config)
+      }
     case BitcoinIndexer.BlockchainCom:
       return (data) => {
         const config = blockchainCom.getConfig(prefix)
