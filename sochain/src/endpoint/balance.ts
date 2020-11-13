@@ -1,8 +1,8 @@
 import objectPath from 'object-path'
-import { Requester } from '@chainlink/external-adapter'
+import { Requester, Validator } from '@chainlink/external-adapter'
 import { AdapterRequest } from '@chainlink/types'
 import { Config, DEFAULT_CONFIRMATIONS, DEFAULT_DATA_PATH, getBaseURL } from '../config'
-import { CoinType, ChainType } from '.'
+import { CoinType, isCoinType, ChainType, isChainType } from '.'
 
 export const Name = 'balance'
 
@@ -18,7 +18,13 @@ type RequestData = {
   confirmations: number
 }
 
-const WARNING_NO_OPERATION = 'No Operation: only btc mainnet is supported by SoChain adapter'
+type ResponseWithResult = {
+  response?: any
+  result?: Address
+}
+
+const WARNING_NO_OPERATION_COIN = 'No Operation: unsupported coin type'
+const WARNING_NO_OPERATION_CHAIN = 'No Operation: unsupported chain type'
 const WARNING_NO_OPERATION_MISSING_ADDRESS = 'No Operation: address param is missing'
 
 const getBalanceURI = (network: string, address: string, confirmations: number, chain: string) => {
@@ -28,31 +34,48 @@ const getBalanceURI = (network: string, address: string, confirmations: number, 
 }
 
 const toBalances = async (
+  jobRunID: string,
   config: Config,
   addresses: Address[],
   confirmations: number = DEFAULT_CONFIRMATIONS,
-): Promise<Address[]> =>
+): Promise<ResponseWithResult[]> =>
   Promise.all(
     addresses.map(async (addr: Address) => {
       if (!addr.address) return { ...addr, warning: WARNING_NO_OPERATION_MISSING_ADDRESS }
 
       if (!addr.coin) addr.coin = 'btc'
-      if (addr.coin !== 'btc') return { ...addr, warning: WARNING_NO_OPERATION }
-
+      if (isCoinType(addr.coin) === false)
+        throw Requester.errored(jobRunID, WARNING_NO_OPERATION_COIN, 400)
       if (!addr.chain) addr.chain = 'mainnet'
-      if (addr.chain !== 'mainnet' && addr.chain !== 'testnet')
-        return { ...addr, warning: WARNING_NO_OPERATION }
+      if (isChainType(addr.chain) === false)
+        throw Requester.errored(jobRunID, WARNING_NO_OPERATION_CHAIN, 400)
 
       const reqConfig = {
         ...config.api,
         baseURL: getBaseURL(addr.chain),
         url: getBalanceURI(addr.coin, addr.address, confirmations, addr.chain),
       }
+
+      const response = await Requester.request(reqConfig)
+
       return {
-        ...addr,
-        balance: (await Requester.request(reqConfig)).data.data.confirmed_balance,
+        response: response.data,
+        result: { ...addr, balance: response.data.data.confirmed_balance },
       }
     }),
+  )
+
+const reduceResponse = (responses: ResponseWithResult[]) =>
+  responses.reduce(
+    (accumulator, current) => {
+      accumulator.data.responses = [...accumulator.data.responses, current.response]
+      accumulator.data.result = [...accumulator.data.result, current.result]
+      return accumulator
+    },
+    {
+      data: { responses: [], result: [] },
+      status: 200,
+    } as any,
   )
 
 export const inputParams = {
@@ -61,17 +84,23 @@ export const inputParams = {
 }
 
 // Export function to integrate with Chainlink node
-export const execute = async (
-  config: Config,
-  request: AdapterRequest,
-  data: RequestData,
-): Promise<Address[]> => {
+export const execute = async (config: Config, request: AdapterRequest): Promise<Address[]> => {
+  const validator = new Validator(request, inputParams)
+  if (validator.error) throw validator.error
+  const jobRunID = validator.validated.id
+
+  const data: RequestData = validator.validated.data
   const dataPath = data.dataPath || DEFAULT_DATA_PATH
   const inputData = <Address[]>objectPath.get(request.data, dataPath)
 
   // Check if input data is valid
   if (!inputData || !Array.isArray(inputData) || inputData.length === 0)
-    throw Error(`Input, at '${dataPath}' path, must be a non-empty array.`)
+    throw Requester.errored(
+      jobRunID,
+      `Input, at '${dataPath}' path, must be a non-empty array.`,
+      400,
+    )
 
-  return await toBalances(config, inputData, data.confirmations)
+  const responses = await toBalances(jobRunID, config, inputData)
+  return reduceResponse(responses)
 }

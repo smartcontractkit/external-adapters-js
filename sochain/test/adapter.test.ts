@@ -1,7 +1,7 @@
 import { assert } from 'chai'
-import { Requester, assertSuccess, assertError } from '@chainlink/external-adapter'
+import { Requester, assertSuccess, assertError, AdapterError } from '@chainlink/external-adapter'
 import { AdapterRequest } from '@chainlink/types'
-import { execute } from '../src/adapter'
+import { executeWithDefaults } from '../src/adapter'
 
 describe('execute', () => {
   const jobID = '1'
@@ -66,23 +66,42 @@ describe('execute', () => {
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
-        const data = await execute(req.testData as AdapterRequest, {})
+        const data = await executeWithDefaults(req.testData as AdapterRequest)
+        const numAddr = req?.testData?.data?.addresses.length
         assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
         assert.isAbove(Number(data.data.result.length), 0)
         assert.isAbove(Number(data.result.length), 0)
+        assert.equal(Number(data.data.result.length), numAddr)
+        assert.equal(Number(data.result.length), numAddr)
       })
     })
   })
 
   context('validation error', () => {
-    const requests = [{ name: 'empty body', testData: {} }]
+    const requests = [
+      { name: 'empty body', testData: {} },
+      {
+        name: 'invalid dataPath',
+        testData: {
+          id: jobID,
+          data: {
+            dataPath: 'not_real',
+            addresses: [
+              {
+                address: 'n4VQ5YdHf7hLQ2gWQYYrcxoE5B7nWuDFNF',
+              },
+            ],
+          },
+        },
+      },
+    ]
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
-          await execute(req.testData as AdapterRequest)
+          await executeWithDefaults(req.testData as AdapterRequest)
         } catch (error) {
-          const errorResp = Requester.errored(jobID, error)
+          const errorResp = Requester.errored(jobID, new AdapterError(error))
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
         }
       })
@@ -119,20 +138,6 @@ describe('execute', () => {
         },
       },
       {
-        name: 'invalid dataPath',
-        testData: {
-          id: jobID,
-          data: {
-            dataPath: 'not_real',
-            addresses: [
-              {
-                address: 'n4VQ5YdHf7hLQ2gWQYYrcxoE5B7nWuDFNF',
-              },
-            ],
-          },
-        },
-      },
-      {
         name: 'invalid confirmations',
         testData: {
           id: jobID,
@@ -151,9 +156,9 @@ describe('execute', () => {
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
-          await execute(req.testData as AdapterRequest)
+          await executeWithDefaults(req.testData as AdapterRequest)
         } catch (error) {
-          const errorResp = Requester.errored(jobID, error)
+          const errorResp = Requester.errored(jobID, new AdapterError(error))
           assertError({ expected: 500, actual: errorResp.statusCode }, errorResp, jobID)
         }
       })

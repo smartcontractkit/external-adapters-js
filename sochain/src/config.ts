@@ -2,7 +2,6 @@ import { logger } from '@chainlink/external-adapter'
 import { util } from '@chainlink/ea-bootstrap'
 import { ChainType } from './endpoint'
 
-export const ENV_API_KEY = 'API_KEY'
 export const ENV_API_TIMEOUT = 'API_TIMEOUT'
 
 export const ENDPOINT_MAIN = 'https://sochain.com'
@@ -39,5 +38,5 @@ export const getConfig = (prefix = ''): Config => ({
 const cloneNoSecrets = (config: Config): Config => (({ apiKey, ...o }) => o)(config)
 
 export const logConfig = (config: Config): void => {
-  logger.debug('Adapter configuration:', { config: cloneNoSecrets(config) })
+  logger.debug('Adapter configuration:', { config: config && cloneNoSecrets(config) })
 }
