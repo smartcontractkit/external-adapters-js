@@ -20,14 +20,10 @@ export const execute = async (config: Config, request: AdapterRequest) => {
 
   const reqConfig = { ...config.api, baseURL: getBaseURL(), url }
 
-  try {
-    const response = await Requester.request(reqConfig)
-    response.data.result = Requester.validateResultNumber(response.data, [
-      'payload',
-      'weightedAveragePrice',
-    ])
-    return response
-  } catch (error) {
-    throw Requester.errored(jobRunID, error)
-  }
+  const response = await Requester.request(reqConfig)
+  response.data.result = Requester.validateResultNumber(response.data, [
+    'payload',
+    'weightedAveragePrice',
+  ])
+  return response
 }

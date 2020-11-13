@@ -70,6 +70,7 @@ describe('balance endpoint', () => {
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         const data = await executeWithDefaults(req.testData as AdapterRequest)
+        console.log(JSON.stringify(data))
         const numAddr = req?.testData?.data?.addresses.length
         assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
         assert.isAbove(Number(data.data.result.length), 0)

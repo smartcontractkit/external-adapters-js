@@ -65,22 +65,8 @@ https://docs.cryptoapis.io/rest-apis/blockchain-as-a-service-apis/btc/index#btc-
   "data": {
     "addresses": [
       {
-        "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1"
-      },
-      {
-        "address": "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF"
-      },
-      {
-        "address": "3ANaBZ6odMrzdg9xifgRNxAUFUxnReesws"
-      },
-      {
-        "address": "3FFgKaYkEf1M73QtzuY9DGqC7VeM2sAQhT"
-      },
-      {
-        "address": "3KTeq879YjzhqkAXzZmdapJAVC6qz5qEth"
-      },
-      {
-        "address": "35ULMyVnFoYaPaMxwHTRmaGdABpAThM4QR"
+        "address": "n4VQ5YdHf7hLQ2gWQYYrcxoE5B7nWuDFNF",
+        "chain": "testnet"
       }
     ]
   }
@@ -93,86 +79,36 @@ https://docs.cryptoapis.io/rest-apis/blockchain-as-a-service-apis/btc/index#btc-
 {
   "jobRunID": "1",
   "data": {
-    "result": [
-      [
-        {
-          "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1",
-          "coin": "btc",
-          "chain": "mainnet",
-          "balance": 547
-        },
-        {
-          "address": "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF",
-          "coin": "btc",
-          "chain": "mainnet",
-          "balance": 3282
-        },
-        {
-          "address": "3ANaBZ6odMrzdg9xifgRNxAUFUxnReesws",
-          "coin": "btc",
-          "chain": "mainnet",
-          "balance": 547
-        },
-        {
-          "address": "3FFgKaYkEf1M73QtzuY9DGqC7VeM2sAQhT",
-          "coin": "btc",
-          "chain": "mainnet",
-          "balance": 895134971346
-        },
-        {
-          "address": "3KTeq879YjzhqkAXzZmdapJAVC6qz5qEth",
-          "coin": "btc",
-          "chain": "mainnet",
-          "balance": 202325966208
-        },
-        {
-          "address": "35ULMyVnFoYaPaMxwHTRmaGdABpAThM4QR",
-          "coin": "btc",
-          "chain": "mainnet",
-          "balance": 500000010680
+    "responses": [
+      {
+        "payload": {
+          "address": "n4VQ5YdHf7hLQ2gWQYYrcxoE5B7nWuDFNF",
+          "totalSpent": "0.0498",
+          "totalReceived": "131.40923575",
+          "balance": "131.35943575",
+          "txi": 1,
+          "txo": 1590,
+          "txsCount": 1587,
+          "addresses": ["n4VQ5YdHf7hLQ2gWQYYrcxoE5B7nWuDFNF"]
         }
-      ]
+      }
+    ],
+    "result": [
+      {
+        "address": "n4VQ5YdHf7hLQ2gWQYYrcxoE5B7nWuDFNF",
+        "chain": "testnet",
+        "coin": "btc",
+        "balance": "131.35943575"
+      }
     ]
   },
   "result": [
-    [
-      {
-        "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1",
-        "coin": "btc",
-        "chain": "mainnet",
-        "balance": 547
-      },
-      {
-        "address": "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF",
-        "coin": "btc",
-        "chain": "mainnet",
-        "balance": 3282
-      },
-      {
-        "address": "3ANaBZ6odMrzdg9xifgRNxAUFUxnReesws",
-        "coin": "btc",
-        "chain": "mainnet",
-        "balance": 547
-      },
-      {
-        "address": "3FFgKaYkEf1M73QtzuY9DGqC7VeM2sAQhT",
-        "coin": "btc",
-        "chain": "mainnet",
-        "balance": 895134971346
-      },
-      {
-        "address": "3KTeq879YjzhqkAXzZmdapJAVC6qz5qEth",
-        "coin": "btc",
-        "chain": "mainnet",
-        "balance": 202325966208
-      },
-      {
-        "address": "35ULMyVnFoYaPaMxwHTRmaGdABpAThM4QR",
-        "coin": "btc",
-        "chain": "mainnet",
-        "balance": 500000010680
-      }
-    ]
+    {
+      "address": "n4VQ5YdHf7hLQ2gWQYYrcxoE5B7nWuDFNF",
+      "chain": "testnet",
+      "coin": "btc",
+      "balance": "131.35943575"
+    }
   ],
   "statusCode": 200
 }

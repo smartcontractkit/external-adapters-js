@@ -20,8 +20,8 @@ type RequestData = {
 }
 
 type ResponseWithResult = {
-  response: any
-  result: Address
+  response?: any
+  result?: Address
 }
 
 const WARNING_NO_OPERATION_COIN = 'No Operation: unsupported coin'
@@ -49,14 +49,11 @@ const getBalances = async (config: Config, addresses: Address[]): Promise<Respon
         url: getBalanceURI(addr.address, addr.chain, addr.coin),
       }
 
-      try {
-        const response = await Requester.request(reqConfig)
-        return {
-          response,
-          result: { ...addr, balance: response.data.payload.balance },
-        }
-      } catch (error) {
-        return error
+      const response = await Requester.request(reqConfig)
+
+      return {
+        response: response.data,
+        result: { ...addr, balance: response.data.payload.balance },
       }
     }),
   )
@@ -65,7 +62,7 @@ const reduceResponse = (responses: ResponseWithResult[]) =>
   responses.reduce(
     (accumulator, current) => {
       accumulator.data.responses = [...accumulator.data.responses, current.response]
-      accumulator.data.responses = [...accumulator.data.result, current.result]
+      accumulator.data.result = [...accumulator.data.result, current.result]
       return accumulator
     },
     {
@@ -97,10 +94,6 @@ export const execute = async (config: Config, request: AdapterRequest) => {
       400,
     )
 
-  try {
-    const responses = await getBalances(config, inputData)
-    return reduceResponse(responses)
-  } catch (error) {
-    throw Requester.errored(jobRunID, error)
-  }
+  const responses = await getBalances(config, inputData)
+  return reduceResponse(responses)
 }

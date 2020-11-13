@@ -28,7 +28,7 @@ describe('price endpoint', () => {
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
-        const data = await executeWithDefaults(req.testData as AdapterRequest, {})
+        const data = await executeWithDefaults(req.testData as AdapterRequest)
         assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
         assert.isAbove(data.result, 0)
         assert.isAbove(data.data.result, 0)
