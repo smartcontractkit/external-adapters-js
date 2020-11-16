@@ -1,11 +1,4 @@
-# Chainlink External Adapter for agoric
-
-## Build Docker Container
-
-```sh
-(cd .. && make docker adapter=agoric tag=agoric/chainlink-adapter)
-docker push agoric/chainlink-adapter:latest
-```
+# Chainlink External Adapter for Agoric
 
 ## Input Params
 

@@ -7,6 +7,7 @@
     "image_name": "__ADAPTER__-adapter",
     "adapter": [
       "1forge",
+      "agoric",
       "alphachain",
       "alphavantage",
       "amberdata",
