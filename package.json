@@ -76,7 +76,8 @@
     "composite/**",
     "xbto",
     "iv-outlier-detection",
-    "taapi"
+    "taapi",
+    "stasis"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",
