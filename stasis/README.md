@@ -8,6 +8,12 @@ _None_
 
 ```json
 {
-   "amount": "31979207.00"
+   "jobRunID": "1",
+   "data": {
+      "amount": "31979207.00",
+      "result": 31979207
+   },
+   "result": 31979207,
+   "statusCode": 200
 }
 ```
