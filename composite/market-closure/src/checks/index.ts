@@ -29,7 +29,7 @@ export const getCheckImpl = (type: CheckProvider | undefined, input: AdapterRequ
           return await isMarketClosed()
         } catch (e) {
           const isMarketClosed = schedule(input)
-          return isMarketClosed()
+          return await isMarketClosed()
         }
       }
     default:
