@@ -2,7 +2,7 @@ import { Requester, Validator } from '@chainlink/external-adapter'
 import { AdapterRequest } from '@chainlink/types'
 
 const customParams = {
-  symbol: ['base', 'asset', 'from'],
+  symbol: ['symbol', 'base', 'asset', 'from'],
 }
 
 const commonKeys: Record<string, string> = {
