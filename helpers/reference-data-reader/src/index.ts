@@ -1,5 +1,6 @@
 import { ethers } from 'ethers'
 import { AggregatorInterfaceFactory } from '@chainlink/contracts/ethers/v0.6/AggregatorInterfaceFactory'
+import { util } from '@chainlink/ea-bootstrap'
 
 export type ReferenceDataPrice = (
   contractAddress: string,
@@ -21,7 +22,7 @@ export const getRpcLatestAnswer: ReferenceDataPrice = async (
   contractAddress: string,
   multiply: number,
 ): Promise<number> => {
-  const rpcUrl = process.env.RPC_URL
+  const rpcUrl = util.getRequiredEnv('RPC_URL')
   const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
   const aggregator = AggregatorInterfaceFactory.connect(contractAddress, provider)
   return (await aggregator.latestAnswer()).div(multiply).toNumber()
