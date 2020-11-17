@@ -2,7 +2,6 @@ import { Execute } from '@chainlink/types'
 import finnhub from '@chainlink/finnhub-adapter'
 import fcsapi from '@chainlink/fcsapi-adapter'
 
-export type PriceDataOptions = { type?: PriceDataProvider }
 export enum PriceDataProvider {
   Finnhub = 'finnhub',
   FCS_API = 'fcsapi',
@@ -18,7 +17,7 @@ export const getPriceDataProvider = (): PriceDataProvider | undefined => {
     : undefined
 }
 
-export const getImpl = (options: PriceDataOptions): Execute => {
+export const getImpl = (type?: PriceDataProvider): Execute => {
   switch (options.type) {
     case PriceDataProvider.Finnhub:
       return finnhub.execute

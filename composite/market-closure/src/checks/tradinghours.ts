@@ -6,7 +6,7 @@ const commonKeys: Record<string, string> = {
   N225: 'xjpx',
 }
 
-export const thExecute: ExternalCheck = async (symbol: string) => {
+export const isMarketClosed = async (symbol: string): Promise<boolean> => {
   const url = 'https://www.tradinghours.com/api/v2/status'
 
   const market = commonKeys[symbol] || symbol

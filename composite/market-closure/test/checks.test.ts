@@ -2,17 +2,7 @@ import { assert } from 'chai'
 import { checkWithSchedule, ExternalCheck } from '../src/checks'
 import { Schedule } from 'market-closure'
 
-const check = (halted: boolean, fail = false): ExternalCheck => {
-  if (fail) {
-    return async () => {
-      throw Error()
-    }
-  }
-
-  return async () => {
-    return halted
-  }
-}
+const check = (halted: boolean, fail = false): ExternalCheck => fail ? Promise.error(new Error()) : Promise.resolve(halted)
 
 describe('checkWithSchedule', () => {
   context('successful calls', () => {

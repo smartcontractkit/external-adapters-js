@@ -1,7 +1,7 @@
 import { ScheduleCheck } from './index'
 import { MarketClosure, Schedule } from 'market-closure'
 
-export const scheduleExecute: ScheduleCheck = (schedule: Schedule): boolean => {
+export const isMarketClosed = (schedule: Schedule): boolean => {
   if (Object.keys(schedule).length === 0) return false // Empty schedule, just pass
 
   // If there is no timezone, the schedule is mis-configured

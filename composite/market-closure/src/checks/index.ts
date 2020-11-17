@@ -2,13 +2,10 @@ import { scheduleExecute } from './schedule'
 import { thExecute } from './tradinghours'
 import { Schedule } from 'market-closure'
 
-export type CheckExecute = (symbol: string, schedule: Schedule) => Promise<boolean>
+// We check for something and get yes/no answer
+export type Check = () => Promise<boolean>
 
-export type ExternalCheck = (symbol: string) => Promise<boolean>
-export type ScheduleCheck = (schedule: Schedule) => boolean
-
-export type CheckOptions = { type?: Check }
-export enum Check {
+export enum CheckProvider {
   Schedule = 'schedule',
   TradingHours = 'tradinghours',
 }
@@ -20,12 +17,21 @@ export const getCheck = (): Check | undefined => {
   return isCheck(check) ? (check as Check) : undefined
 }
 
-export const getCheckImpl = (options: CheckOptions): CheckExecute => {
+export const getCheckImpl = (type: CheckProvider, input: AdapterRequest): Check => {
   switch (options.type) {
     case Check.Schedule:
-      return checkWithSchedule()
+      // TODO: validate input, get schedule
+      return async () => schedule.isMarketClosed(schedule)
     case Check.TradingHours:
-      return checkWithSchedule(thExecute)
+       // TODO: validate input, get symbol
+      return async () => {
+        try {
+           return await th.isMarketClosed(symbol)
+         } catch (e) {
+           const checkSchedule = getCheckImpl(CheckProvider.Schedule, input)
+           return await checkSchedule()
+         }
+      }
     default:
       throw Error(`Unknown protocol adapter type: ${options.type}`)
   }

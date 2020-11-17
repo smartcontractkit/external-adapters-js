@@ -23,11 +23,7 @@ const adapter = (success = true): Execute => {
   }
 }
 
-const check = (halted = false): CheckExecute => {
-  return async () => {
-    return halted
-  }
-}
+const check = (halted = false): CheckExecute => Promise.resolve(halted)
 
 describe('executeWithAdapters', () => {
   context('successful calls', () => {
