@@ -1,5 +1,7 @@
 # Chainlink External Adapter for Stasis
 
+Stasis adapter to get Circulating Supply of EURS
+
 ## Input Params
 
 _None_
