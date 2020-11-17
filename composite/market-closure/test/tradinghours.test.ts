@@ -16,9 +16,10 @@ describe('isMarketClosed', () => {
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
-        const res = await isMarketClosed(req.symbol)
+        const input = { id: '1', data: { symbol: req.symbol } }
+        const res = await isMarketClosed(input)
         assert.isBoolean(res)
-        assert.doesNotThrow(async () => await isMarketClosed(req.symbol))
+        assert.doesNotThrow(async () => await isMarketClosed(input))
       })
     })
   })

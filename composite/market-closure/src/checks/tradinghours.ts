@@ -1,7 +1,8 @@
-import { Requester } from '@chainlink/external-adapter'
+import { Requester, Validator } from '@chainlink/external-adapter'
+import { AdapterRequest } from '@chainlink/types'
 
-export const customParams = {
-  base: ['base', 'asset', 'from'],
+const customParams = {
+  symbol: ['base', 'asset', 'from'],
 }
 
 const commonKeys: Record<string, string> = {
@@ -9,9 +10,12 @@ const commonKeys: Record<string, string> = {
   N225: 'xjpx',
 }
 
-export const isMarketClosed = async (symbol: string): Promise<boolean> => {
-  const url = 'https://www.tradinghours.com/api/v2/status'
+export const isMarketClosed = async (input: AdapterRequest): Promise<boolean> => {
+  const validator = new Validator(input, customParams)
+  if (validator.error) throw validator.error
 
+  const symbol = validator.validated.data.symbol
+  const url = 'https://www.tradinghours.com/api/v2/status'
   const market = commonKeys[symbol] || symbol
   const api_token = process.env.CHECK_API_KEY || process.env.TH_API_KEY
 
@@ -23,7 +27,6 @@ export const isMarketClosed = async (symbol: string): Promise<boolean> => {
   }
 
   const response = await Requester.request(config)
-
   const status = Requester.getResult(response.data, [market, 'status']).toLowerCase()
   return status !== 'open'
 }
