@@ -1,5 +1,5 @@
-import { isMarketClosed as schedule } from './schedule'
-import { isMarketClosed as th } from './tradinghours'
+import { isMarketClosedFactory as schedule } from './schedule'
+import { isMarketClosedFactory as th } from './tradinghours'
 import { AdapterRequest } from '@chainlink/types'
 
 // We check for something and get yes/no answer
@@ -21,13 +21,15 @@ export const getCheckProvider = (): CheckProvider | undefined => {
 export const getCheckImpl = (type: CheckProvider | undefined, input: AdapterRequest): Check => {
   switch (type) {
     case CheckProvider.Schedule:
-      return async () => schedule(input)
+      return schedule(input)
     case CheckProvider.TradingHours:
       return async () => {
         try {
-          return await th(input)
+          const isMarketClosed = th(input)
+          return await isMarketClosed()
         } catch (e) {
-          return schedule(input)
+          const isMarketClosed = schedule(input)
+          return isMarketClosed()
         }
       }
     default:

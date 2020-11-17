@@ -75,8 +75,7 @@ describe('isMarketClosed', () => {
 
     requests.forEach((req) => {
       it(`${req.name}`, () => {
-        const input = { id: '1', data: { schedule: req.schedule as Schedule } }
-        const halted = isMarketClosed(input)
+        const halted = isMarketClosed(req.schedule as Schedule)
         assert.equal(halted, req.expect)
       })
     })
@@ -104,8 +103,7 @@ describe('isMarketClosed', () => {
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
-        const input = { id: '1', data: { schedule: req.schedule as Schedule } }
-        assert.throw(() => isMarketClosed(input), Error)
+        assert.throw(() => isMarketClosed(req.schedule as Schedule), Error)
       })
     })
   })

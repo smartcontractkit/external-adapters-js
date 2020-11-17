@@ -6,11 +6,14 @@ const customParams = {
   schedule: false,
 }
 
-export const isMarketClosed = (input: AdapterRequest): boolean => {
+export const isMarketClosedFactory = (input: AdapterRequest): (() => Promise<boolean>) => {
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
-
   const schedule = validator.validated.data.schedule || {}
+  return async () => isMarketClosed(schedule as Schedule)
+}
+
+export const isMarketClosed = (schedule: Schedule): boolean => {
   if (Object.keys(schedule).length === 0) return false // Empty schedule, just pass
 
   // If there is no timezone, the schedule is mis-configured
