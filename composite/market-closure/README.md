@@ -7,11 +7,12 @@ reference contract.
 
 ## Configuration
 
-The feed takes the following environment variables:
+The adapter takes the following environment variables:
 
 - `CHECK_TYPE`: Required check type: `schedule|tradinghours`
 - `PRICE_ADATER`: Required price data provider adapter type `finnhub|fcs_api`
 - `CHECK_API_KEY`: Optional API key used by the check
+- `RPC_URL`: ETH RPC URL to read the reference data value. Required by runlog requests.
 
 ## Run
 
