@@ -27,11 +27,11 @@ export const getCheckImpl = (type: CheckProvider | undefined, input: AdapterRequ
       if (validator.error) throw validator.error
       return async () => schedule.isMarketClosed(validator.validated.input.schedule || {})
     case CheckProvider.TradingHours:
-      validator = new Validator(input, schedule.customParams)
+      validator = new Validator(input, th.customParams)
       if (validator.error) throw validator.error
       return async () => {
         try {
-          return await th.isMarketClosed(validator.validated.input.symbol)
+          return await th.isMarketClosed(validator.validated.input.base)
         } catch (e) {
           const checkSchedule = getCheckImpl(CheckProvider.Schedule, input)
           return await checkSchedule()
