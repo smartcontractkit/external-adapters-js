@@ -20,13 +20,12 @@ describe('checkWithSchedule', () => {
             },
           },
         },
-        expectError: false,
       },
       {
         name: 'successful check schedule',
         check: CheckProvider.Schedule,
         input: {
-          id: '1',
+          id: '2',
           data: {
             symbol: 'FTSE',
             schedule: {
@@ -38,13 +37,31 @@ describe('checkWithSchedule', () => {
             },
           },
         },
-        expectError: false,
+      },
+      {
+        name: 'tradinghours then fall back to schedule',
+        check: CheckProvider.TradingHours,
+        input: {
+          id: '3',
+          data: {
+            symbol: 'does_not_exist',
+            schedule: {
+              timezone: 'Europe/Oslo',
+              hours: {
+                monday: ['24:00-24:01'],
+              },
+              holidays: [],
+            },
+          },
+        },
       },
     ]
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         assert.doesNotThrow(await getCheckImpl(req.check, req.input))
+        const check = getCheckImpl(req.check, req.input)
+        assert.isBoolean(await check())
       })
     })
   })
