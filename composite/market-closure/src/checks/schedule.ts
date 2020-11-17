@@ -1,5 +1,8 @@
-import { ScheduleCheck } from './index'
 import { MarketClosure, Schedule } from 'market-closure'
+
+export const customParams = {
+  schedule: false,
+}
 
 export const isMarketClosed = (schedule: Schedule): boolean => {
   if (Object.keys(schedule).length === 0) return false // Empty schedule, just pass

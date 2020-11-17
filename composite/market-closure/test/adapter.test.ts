@@ -1,19 +1,19 @@
 import { assert } from 'chai'
 import { Execute, AdapterRequest } from '@chainlink/types'
 import { AdapterError, assertSuccess } from '@chainlink/external-adapter'
-import { CheckExecute } from '../src/checks'
 import { executeWithAdapters } from '../src/adapter'
+import { Check } from '../src/checks'
 
 const result = 123
 
 const adapter = (success = true): Execute => {
   if (!success) {
-    return async (input) => {
+    return async (input: AdapterRequest) => {
       throw new AdapterError({ jobRunID: input.id })
     }
   }
 
-  return async (input) => {
+  return async (input: AdapterRequest) => {
     return {
       jobRunID: input.id,
       statusCode: 200,
@@ -23,7 +23,7 @@ const adapter = (success = true): Execute => {
   }
 }
 
-const check = (halted = false): CheckExecute => Promise.resolve(halted)
+const check = (halted = false): Check => async () => halted
 
 describe('executeWithAdapters', () => {
   context('successful calls', () => {

@@ -1,5 +1,8 @@
 import { Requester } from '@chainlink/external-adapter'
-import { ExternalCheck } from './index'
+
+export const customParams = {
+  base: ['base', 'asset', 'from'],
+}
 
 const commonKeys: Record<string, string> = {
   FTSE: 'xlon',

@@ -1,8 +1,8 @@
 import { assert } from 'chai'
-import { scheduleExecute } from '../src/checks/schedule'
+import { isMarketClosed } from '../src/checks/schedule'
 import { Schedule } from 'market-closure'
 
-describe('scheduleExecute', () => {
+describe('isMarketClosed', () => {
   context('successful calls', () => {
     const requests = [
       {
@@ -75,7 +75,7 @@ describe('scheduleExecute', () => {
 
     requests.forEach((req) => {
       it(`${req.name}`, () => {
-        const halted = scheduleExecute(req.schedule as Schedule)
+        const halted = isMarketClosed(req.schedule as Schedule)
         assert.equal(halted, req.expect)
       })
     })
@@ -103,7 +103,7 @@ describe('scheduleExecute', () => {
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
-        assert.throw(() => scheduleExecute(req.schedule as Schedule), Error)
+        assert.throw(() => isMarketClosed(req.schedule as Schedule), Error)
       })
     })
   })

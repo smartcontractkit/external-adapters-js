@@ -1,7 +1,7 @@
 import { assert } from 'chai'
-import { thExecute } from '../src/checks/tradinghours'
+import { isMarketClosed } from '../src/checks/tradinghours'
 
-describe('thExecute', () => {
+describe('isMarketClosed', () => {
   context('successful calls @integration', () => {
     const requests = [
       {
@@ -16,9 +16,9 @@ describe('thExecute', () => {
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
-        const res = await thExecute(req.symbol)
+        const res = await isMarketClosed(req.symbol)
         assert.isBoolean(res)
-        assert.doesNotThrow(async () => await thExecute(req.symbol))
+        assert.doesNotThrow(async () => await isMarketClosed(req.symbol))
       })
     })
   })

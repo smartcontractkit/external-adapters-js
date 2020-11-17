@@ -1,72 +1,50 @@
 import { assert } from 'chai'
-import { checkWithSchedule, ExternalCheck } from '../src/checks'
-import { Schedule } from 'market-closure'
-
-const check = (halted: boolean, fail = false): ExternalCheck => fail ? Promise.error(new Error()) : Promise.resolve(halted)
+import { CheckProvider, getCheckImpl } from '../src/checks'
 
 describe('checkWithSchedule', () => {
-  context('successful calls', () => {
+  context('successful calls @integration', () => {
     const requests = [
       {
-        name: 'successful check open',
-        check: checkWithSchedule(check(false)),
-        symbol: 'FTSE',
-        schedule: {},
-        expect: false,
-      },
-      {
-        name: 'successful check halted',
-        check: checkWithSchedule(check(true)),
-        symbol: 'FTSE',
-        schedule: {},
-        expect: true,
-      },
-      {
-        name: 'on fail falls back to empty schedule',
-        check: checkWithSchedule(check(true, true)),
-        symbol: 'FTSE',
-        schedule: {},
-        expect: false,
-      },
-      {
-        name: 'on fail falls back to filled schedule',
-        check: checkWithSchedule(check(false, true)),
-        symbol: 'FTSE',
-        schedule: {
-          timezone: 'Europe/Oslo',
-          hours: {
-            monday: ['24:00-24:01'],
+        name: 'successful check tradinghours',
+        check: CheckProvider.TradingHours,
+        input: {
+          id: '1',
+          data: {
+            symbol: 'FTSE',
+            schedule: {
+              timezone: 'Europe/Oslo',
+              hours: {
+                monday: ['24:00-24:01'],
+              },
+              holidays: [],
+            },
           },
-          holidays: [],
         },
-        expect: true,
+        expectError: false,
       },
       {
-        name: 'on empty check falls back to empty schedule',
-        check: checkWithSchedule(),
-        symbol: 'FTSE',
-        schedule: {},
-        expect: false,
-      },
-      {
-        name: 'on empty falls back to filled schedule',
-        check: checkWithSchedule(),
-        symbol: 'FTSE',
-        schedule: {
-          timezone: 'Europe/Oslo',
-          hours: {
-            monday: ['24:00-24:01'],
+        name: 'successful check schedule',
+        check: CheckProvider.Schedule,
+        input: {
+          id: '1',
+          data: {
+            symbol: 'FTSE',
+            schedule: {
+              timezone: 'Europe/Oslo',
+              hours: {
+                monday: ['24:00-24:01'],
+              },
+              holidays: [],
+            },
           },
-          holidays: [],
         },
-        expect: true,
+        expectError: false,
       },
     ]
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
-        const halted = await req.check(req.symbol, req.schedule as Schedule)
-        assert.equal(halted, req.expect)
+        assert.doesNotThrow(await getCheckImpl(req.check, req.input))
       })
     })
   })
