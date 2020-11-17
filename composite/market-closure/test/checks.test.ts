@@ -59,7 +59,6 @@ describe('checkWithSchedule', () => {
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
-        assert.doesNotThrow(await getCheckImpl(req.check, req.input))
         const check = getCheckImpl(req.check, req.input)
         assert.isBoolean(await check())
       })
