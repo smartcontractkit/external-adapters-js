@@ -1,11 +1,11 @@
-const { Requester, Validator } = require('@chainlink/external-adapter')
+import { Execute } from '@chainlink/types'
+import { Requester, Validator } from '@chainlink/external-adapter'
 
-const customError = (data) => {
-  if (data.msg !== 'Successfully') return true
-  return false
+const customError = (data: any) => {
+  return data.msg !== 'Successfully'
 }
 
-const commonKeys = {
+const commonKeys: Record<string, Record<string, string>> = {
   AUD: { id: '13', endpoint: 'forex/latest' },
   CHF: { id: '466', endpoint: 'forex/latest' },
   EUR: { id: '1', endpoint: 'forex/latest' },
@@ -22,9 +22,9 @@ const customParams = {
   endpoint: false,
 }
 
-const execute = (input, callback) => {
+export const execute: Execute = async (input) => {
   const validator = new Validator(input, customParams)
-  if (validator.error) return callback(validator.error.statusCode, validator.errored)
+  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   let symbol = validator.validated.data.base.toUpperCase()
@@ -46,12 +46,7 @@ const execute = (input, callback) => {
     params,
   }
 
-  Requester.request(config, customError)
-    .then((response) => {
-      response.data.result = Requester.validateResultNumber(response.data, ['response', 0, 'price'])
-      callback(response.status, Requester.success(jobRunID, response))
-    })
-    .catch((error) => callback(500, Requester.errored(jobRunID, error)))
+  const response = await Requester.request(config, customError)
+  response.data.result = Requester.validateResultNumber(response.data, ['response', 0, 'price'])
+  return Requester.success(jobRunID, response)
 }
-
-module.exports.execute = execute

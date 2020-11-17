@@ -1,6 +1,7 @@
-const { Requester, Validator } = require('@chainlink/external-adapter')
+import { Execute } from '@chainlink/types'
+import { Requester, Validator } from '@chainlink/external-adapter'
 
-const commonKeys = {
+const commonKeys: Record<string, string> = {
   N225: '^N225',
   FTSE: '^FTSE',
   XAU: 'OANDA:XAU_USD',
@@ -16,9 +17,9 @@ const customParams = {
   endpoint: false,
 }
 
-const execute = (input, callback) => {
+export const execute: Execute = async (input) => {
   const validator = new Validator(input, customParams)
-  if (validator.error) return callback(validator.error.statusCode, validator.errored)
+  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || 'quote'
@@ -39,12 +40,7 @@ const execute = (input, callback) => {
     params,
   }
 
-  Requester.request(config)
-    .then((response) => {
-      response.data.result = Requester.validateResultNumber(response.data, ['c'])
-      callback(response.status, Requester.success(jobRunID, response))
-    })
-    .catch((error) => callback(500, Requester.errored(jobRunID, error)))
+  const response = await Requester.request(config)
+  response.data.result = Requester.validateResultNumber(response.data, ['c'])
+  return Requester.success(jobRunID, response)
 }
-
-module.exports.execute = execute

@@ -66,7 +66,6 @@ jobs:
       adapters: ${{ steps.set-matrix-adapters.outputs.matrix }}
       adapters-composite: ${{ steps.set-matrix-adapters-composite.outputs.matrix }}
       adapters-synth-index: ${{ steps.set-matrix-adapters-synth-index.outputs.matrix }}
-      adapters-market-closure: ${{ steps.set-matrix-adapters-market-closure.outputs.matrix }}
       adapters-2-step: ${{ steps.set-matrix-adapters-2-step.outputs.matrix }}
     steps:
       - uses: actions/checkout@v2
@@ -76,8 +75,6 @@ jobs:
         run: .github/scripts/set-output-json-matrix .github/strategy/adapters-composite.json
       - id: set-matrix-adapters-synth-index
         run: .github/scripts/set-output-json-matrix .github/strategy/adapters-synth-index.json
-      - id: set-matrix-adapters-market-closure
-        run: .github/scripts/set-output-json-matrix .github/strategy/adapters-market-closure.json
       - id: set-matrix-adapters-2-step
         run: .github/scripts/set-output-json-matrix .github/strategy/adapters-2-step.json
 
@@ -181,40 +178,6 @@ jobs:
           upload_url: ${{ steps.get_release_info.outputs.upload_url }}
           asset_path: ./synth-index/${{ matrix.adapter }}/dist/synth-index-${{ matrix.adapter }}-adapter.zip
           asset_name: ${{ steps.get_release_info.outputs.file_name }}-synth-index-${{ matrix.adapter }}-adapter.zip
-          asset_content_type: application/zip
-
-  publish-market-closure-artifacts:
-    needs: [release, matrix-adapters]
-    name: Publish market-closure adapter zips (GitHub Release)
-    runs-on: ubuntu-latest
-    strategy:
-      matrix: ${{fromJson(needs.matrix-adapters.outputs.adapters-market-closure)}}
-    steps:
-      - uses: actions/checkout@v2
-      - name: Load Release URL File from release job
-        uses: actions/download-artifact@v1
-        with:
-          name: release_url
-      - name: Build
-        run: make zip-market-closure adapter=${{ matrix.adapter }} check=${{ matrix.check }}
-      - name: Get Release File Name & Upload URL
-        id: get_release_info
-        run: |
-          echo ::set-output name=file_name::${REPOSITORY_NAME##*/}-${TAG_REF_NAME##*/v} # RepositoryName-v1.0.0
-          value=`cat release_url/release_url.txt`
-          echo ::set-output name=upload_url::$value
-        env:
-          TAG_REF_NAME: ${{ github.ref }}
-          REPOSITORY_NAME: ${{ github.repository }}
-      - name: Upload Release Asset
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.get_release_info.outputs.upload_url }}
-          asset_path: ./market-closure/${{ matrix.check }}/dist/${{ matrix.adapter }}-${{ matrix.check }}-adapter.zip
-          asset_name: ${{ steps.get_release_info.outputs.file_name }}-market-closure-${{ matrix.adapter }}-${{ matrix.check }}-adapter.zip
           asset_content_type: application/zip
 
   publish-2-step-artifacts:

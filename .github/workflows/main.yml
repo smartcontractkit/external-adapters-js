@@ -39,7 +39,6 @@ jobs:
       adapters: ${{ steps.set-matrix-adapters.outputs.matrix }}
       adapters-composite: ${{ steps.set-matrix-adapters-composite.outputs.matrix }}
       adapters-synth-index: ${{ steps.set-matrix-adapters-synth-index.outputs.matrix }}
-      adapters-market-closure: ${{ steps.set-matrix-adapters-market-closure.outputs.matrix }}
       adapters-2-step: ${{ steps.set-matrix-adapters-2-step.outputs.matrix }}
     steps:
       - uses: actions/checkout@v2
@@ -49,8 +48,6 @@ jobs:
         run: .github/scripts/set-output-json-matrix .github/strategy/adapters-composite.json
       - id: set-matrix-adapters-synth-index
         run: .github/scripts/set-output-json-matrix .github/strategy/adapters-synth-index.json
-      - id: set-matrix-adapters-market-closure
-        run: .github/scripts/set-output-json-matrix .github/strategy/adapters-market-closure.json
       - id: set-matrix-adapters-2-step
         run: .github/scripts/set-output-json-matrix .github/strategy/adapters-2-step.json
 
@@ -95,20 +92,6 @@ jobs:
           node-version: '12.x'
       - run: make zip-synth-index adapter=${{ matrix.adapter }}
       - run: make docker-synth-index adapter=${{ matrix.adapter }}
-
-  build-market-closure-adapters:
-    needs: [run-basic-checks, matrix-adapters]
-    name: Build market-closure adapters
-    runs-on: ubuntu-latest
-    strategy:
-      matrix: ${{fromJson(needs.matrix-adapters.outputs.adapters-market-closure)}}
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '12.x'
-      - run: make zip-market-closure adapter=${{ matrix.adapter }} check=${{ matrix.check }}
-      - run: make docker-market-closure adapter=${{ matrix.adapter }} check=${{ matrix.check }}
 
   build-2-step-adapters:
     needs: [run-basic-checks, matrix-adapters]

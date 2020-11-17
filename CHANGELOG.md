@@ -15,6 +15,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 - Oilprice adapters now accept a common request for Brent crude oil: `{"market":"brent"}`
+- Market closure is now a composite adapter, and now follows the build instructions for composite adapters. Market
+now also supports using metadata.
 
 ## [0.1.4] - 2020-10-30
 
