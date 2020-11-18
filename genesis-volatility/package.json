@@ -1,5 +1,5 @@
 {
-  "name": "@chainlink/genesis-volatility",
+  "name": "@chainlink/genesis-volatility-adapter",
   "version": "0.0.1",
   "license": "MIT",
   "main": "index.js",

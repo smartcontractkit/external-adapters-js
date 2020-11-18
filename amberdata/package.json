@@ -1,5 +1,5 @@
 {
-  "name": "@chainlink/amberdata",
+  "name": "@chainlink/amberdata-adapter",
   "version": "0.0.1",
   "license": "MIT",
   "main": "index.js",

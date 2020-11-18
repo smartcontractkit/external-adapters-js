@@ -18,7 +18,7 @@ new:
 	  | jq '.adapter += ["$(adapter)"]' \
 	  | tee .github/strategy/adapters.json > /dev/null
 	cat $(adapter)/package.json \
-	  | jq '.name = "@chainlink/$(adapter)" | .description = "Chainlink $(adapter) adapter." | .keywords += ["$(adapter)"]' \
+	  | jq '.name = "@chainlink/$(adapter)-adapter" | .description = "Chainlink $(adapter) adapter." | .keywords += ["$(adapter)"]' \
 	  | tee $(adapter)/package.json > /dev/null
 	sed -i 's/Example/$(adapter)/' $(adapter)/README.md
 
@@ -30,7 +30,7 @@ deps: clean
 	yarn
 	# Call the build script for the adapter if defined (TypeScript adapters have this extra build/compile step)
 	# We use `wsrun` to build workspace dependencies in topological order (TODO: use native `yarn workspaces foreach -pt run build` with Yarn 2)
-	yarn wsrun -mre -p @chainlink/$(if $(name),$(name),$(adapter)) -t build
+	yarn wsrun -mre -p @chainlink/$(if $(name),$(name),$(adapter))-adapter -t build
 	yarn --frozen-lockfile --production
 
 build:

@@ -1,5 +1,5 @@
 {
-  "name": "@chainlink/example",
+  "name": "@chainlink/example-adapter",
   "version": "0.0.1",
   "description": "Chainlink example adapter.",
   "keywords": [

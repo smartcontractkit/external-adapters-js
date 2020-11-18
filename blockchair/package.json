@@ -1,5 +1,5 @@
 {
-  "name": "@chainlink/blockchair",
+  "name": "@chainlink/blockchair-adapter",
   "version": "0.0.1",
   "license": "MIT",
   "main": "index.js",

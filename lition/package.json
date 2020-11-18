@@ -1,5 +1,5 @@
 {
-  "name": "@chainlink/lition",
+  "name": "@chainlink/lition-adapter",
   "version": "0.1.0",
   "license": "MIT",
   "main": "index.js",
