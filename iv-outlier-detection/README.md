@@ -3,6 +3,10 @@
 This adapter will fetch the value from GenesisVolatility and check the value difference against Derbit and the latest
 on-chain answer. If difference surpasses the threshold for any, it will fail.
 
+## Configuration
+
+- `RPC_URL`: ETH RPC URL to read the reference data value. Required by runlog requests.
+
 Thresholds can be configured with the following env vars:
 
 - `DIFF_ON_CHAIN_THRESHOLD`: Percentage threshold against on-chain answer. Default: 50

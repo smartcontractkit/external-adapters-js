@@ -1,3 +1,3 @@
 {
-  "adapter": ["proof-of-reserves"]
+  "adapter": ["proof-of-reserves", "market-closure"]
 }
