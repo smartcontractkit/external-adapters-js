@@ -36,23 +36,6 @@ deps: clean
 build:
 	npx @vercel/ncc build $(adapter) -o $(adapter)/dist
 
-clean-market-closure:
-	rm -rf market-closure/$(check)/dist
-
-build-market-closure:
-	cp $(adapter)/adapter.js market-closure/$(check)/priceAdapter.js
-	cp market-closure/adapter.js market-closure/$(check)
-	cp -r helpers market-closure/helpers
-	npx @vercel/ncc build market-closure/$(check) -o market-closure/$(check)/dist
-	rm market-closure/$(check)/priceAdapter.js
-	rm market-closure/$(check)/adapter.js
-
-docker-market-closure:
-	docker build --no-cache --build-arg adapter=$(adapter) --build-arg check=$(check) -f Dockerfile-MarketClosure . -t $(adapter)-$(check)-adapter
-
-zip-market-closure: deps clean-market-closure build-market-closure
-	(cd market-closure/$(check)/dist && zip $(adapter)-$(check)-adapter.zip index.js)
-
 clean-synth-index:
 	rm -rf synth-index/$(adapter)/dist
 
