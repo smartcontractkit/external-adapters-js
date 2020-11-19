@@ -4455,6 +4455,7 @@ isurl@^1.0.0-alpha5:
     has-to-string-tag-x "^1.2.0"
     is-object "^1.0.1"
 
+<<<<<<< HEAD
 jest-changed-files@^24.9.0:
   version "24.9.0"
   resolved "https://registry.yarnpkg.com/jest-changed-files/-/jest-changed-files-24.9.0.tgz#08d8c15eb79a7fa3fc98269bc14b451ee82f8039"
@@ -4464,6 +4465,8 @@ jest-changed-files@^24.9.0:
     execa "^1.0.0"
     throat "^4.0.0"
 
+=======
+>>>>>>> 3a7f8db... Add to CHANGELOG & regen lock file
 js-sha3@0.5.7, js-sha3@^0.5.7:
   version "0.5.7"
   resolved "https://registry.yarnpkg.com/js-sha3/-/js-sha3-0.5.7.tgz#0d4ffd8002d5333aabaf4a23eed2f6374c9f28e7"
@@ -8155,6 +8158,7 @@ ws@^7.2.3, ws@^7.3.0:
   version "7.4.0"
   resolved "https://registry.yarnpkg.com/ws/-/ws-7.4.0.tgz#a5dd76a24197940d4a8bb9e0e152bb4503764da7"
   integrity sha512-kyFwXuV/5ymf+IXhS6f0+eAFvydbaBW3zjpT6hUdAh/hbVjTIB5EHBGi0bPoCLSK2wcuz3BrEkB9LrYv1Nm4NQ==
+<<<<<<< HEAD
 
 wsrun@^5.2.4:
   version "5.2.4"
@@ -8170,6 +8174,8 @@ wsrun@^5.2.4:
     split "^1.0.1"
     throat "^4.1.0"
     yargs "^13.0.0"
+=======
+>>>>>>> 3a7f8db... Add to CHANGELOG & regen lock file
 
 xhr-request-promise@^0.1.2:
   version "0.1.3"
