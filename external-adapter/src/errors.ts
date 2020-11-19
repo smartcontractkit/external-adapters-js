@@ -1,4 +1,11 @@
-class AdapterError extends Error {
+export class AdapterError extends Error {
+  jobRunID: string
+  status: string
+  statusCode: number
+  name: string
+  message: string
+  cause: any
+
   constructor({
     jobRunID = '1',
     status = 'errored',
@@ -6,7 +13,7 @@ class AdapterError extends Error {
     name = 'AdapterError',
     message = 'An error occurred.',
     cause,
-  }) {
+  }: Partial<AdapterError>) {
     super(message)
     Error.captureStackTrace(this, AdapterError)
 
@@ -30,5 +37,3 @@ class AdapterError extends Error {
     }
   }
 }
-
-exports.AdapterError = AdapterError

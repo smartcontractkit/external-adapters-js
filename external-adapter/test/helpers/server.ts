@@ -1,6 +1,12 @@
-const express = require('express')
+import express, { Application } from 'express'
+import { Server as HTTPServer } from 'http'
 
-class Server {
+export class Server {
+  app: Application
+  port: number
+  errorCount: number
+  server?: HTTPServer
+
   constructor() {
     this.app = express()
     this.start()
@@ -45,12 +51,10 @@ class Server {
   }
 
   stop(fn = () => {}) {
-    this.server.close(fn)
+    if (this.server) this.server.close(fn)
   }
 
   reset() {
     this.errorCount = 0
   }
 }
-
-exports.Server = Server
