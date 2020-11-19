@@ -1,5 +1,6 @@
 import bcypher from 'blockcypher'
 import objectPath from 'object-path'
+import { Validator, AdapterError } from '@chainlink/external-adapter'
 import { AdapterRequest } from '@chainlink/types'
 import { Config, DEFAULT_CONFIRMATIONS, DEFAULT_DATA_PATH } from '../config'
 import { CoinType, ChainType } from '.'
@@ -84,17 +85,22 @@ export const inputParams = {
 }
 
 // Export function to integrate with Chainlink node
-export const execute = async (
-  config: Config,
-  request: AdapterRequest,
-  data: RequestData,
-): Promise<Address[]> => {
+export const execute = async (config: Config, request: AdapterRequest): Promise<Address[]> => {
+  const validator = new Validator(request, inputParams)
+  if (validator.error) throw validator.error
+  const jobRunID = validator.validated.id
+
+  const data: RequestData = validator.validated.data
   const dataPath = data.dataPath || DEFAULT_DATA_PATH
   const inputData = <Address[]>objectPath.get(request.data, dataPath)
 
   // Check if input data is valid
   if (!inputData || !Array.isArray(inputData) || inputData.length === 0)
-    throw Error(`Input, at '${dataPath}' path, must be a non-empty array.`)
+    throw new AdapterError({
+      jobRunID,
+      message: `Input, at '${dataPath}' path, must be a non-empty array.`,
+      statusCode: 400,
+    })
 
   return await toBalances(config, inputData, data.confirmations)
 }
