@@ -83,6 +83,7 @@
   "scripts": {
     "lint": "yarn workspaces run lint",
     "lint:fix": "yarn workspaces run lint:fix",
+    "setup": "yarn wsrun -mre -t build",
     "test": "yarn workspaces run test",
     "test:unit": "yarn workspaces run test:unit",
     "test:integration": "yarn workspaces run test:integration",
@@ -110,7 +111,8 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
-    "prettier": "^2.0.5"
+    "prettier": "^2.0.5",
+    "wsrun": "^5.2.4"
   },
   "resolutions": {
     "**/lodash": "^4.17.20",
