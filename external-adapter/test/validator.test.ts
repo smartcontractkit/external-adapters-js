@@ -1,5 +1,5 @@
-const { assert } = require('chai')
-const { Validator } = require('../src/validator')
+import { assert } from 'chai'
+import { Validator } from '../src/validator'
 
 describe('Validator', () => {
   describe('without required params', () => {

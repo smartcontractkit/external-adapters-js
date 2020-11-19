@@ -1,6 +1,6 @@
-const { assert } = require('chai')
-const { Requester } = require('../src/requester')
-const { Server } = require('./helpers/server')
+import { assert } from 'chai'
+import { Requester } from '../src/requester'
+import { Server } from './helpers/server'
 
 describe('Requester', () => {
   const errorMessage = 'Request failed with status code 500'
@@ -11,8 +11,9 @@ describe('Requester', () => {
   const customErrorUrl = 'http://localhost:18080/customError'
   const options = {
     timeout: 100,
+    url: '',
   }
-  const customError = (data) => {
+  const customError = (data: { [key: string]: any }) => {
     return data.result !== 'success'
   }
 

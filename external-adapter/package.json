@@ -2,13 +2,23 @@
   "name": "@chainlink/external-adapter",
   "version": "0.2.6",
   "description": "Helpers for creating Chainlink External Adapters",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "url": "https://github.com/smartcontractkit/external-adapters-js",
+    "type": "git"
+  },
   "scripts": {
+    "prepublishOnly": "yarn && yarn build",
+    "build": "tsc",
     "lint": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix",
-    "test": "yarn _mocha --exit --timeout 0",
-    "test:unit": "yarn _mocha --exit --grep @integration --invert --timeout 0",
-    "test:integration": "yarn _mocha --exit --grep @integration --timeout 0"
+    "test": "mocha --exit --timeout 0 -r ts-node/register 'test/**/*.test.ts'",
+    "test:unit": "mocha --exit --timeout 0 --grep @integration --invert -r ts-node/register 'test/**/*.test.ts'",
+    "test:integration": "mocha --exit --timeout 0 --grep @integration -r ts-node/register 'test/**/*.test.ts'"
   },
   "license": "MIT",
   "dependencies": {
@@ -18,7 +28,10 @@
     "uuid": "^8.3.0"
   },
   "devDependencies": {
-    "express": "^4.17.1",
-    "chai": "^4.2.0"
+    "@types/uuid": "^8.3.0",
+    "@typescript-eslint/eslint-plugin": "^3.9.0",
+    "@typescript-eslint/parser": "^3.9.0",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.7"
   }
 }

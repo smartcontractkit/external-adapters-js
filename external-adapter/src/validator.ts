@@ -1,8 +1,14 @@
-const { AdapterError } = require('./errors')
-const { Requester } = require('./requester')
-const { logger } = require('./logger')
+import { AdapterError } from './errors'
+import { Requester } from './requester'
+import { logger } from './logger'
 
-class Validator {
+export class Validator {
+  input: any
+  customParams: any
+  validated: any
+  error: any
+  errored: any
+
   constructor(input = {}, customParams = {}) {
     this.input = input
     this.customParams = customParams
@@ -39,7 +45,7 @@ class Validator {
     }
   }
 
-  validateRequiredParam(param, key) {
+  validateRequiredParam(param: any, key: string) {
     if (typeof param === 'undefined') {
       const message = `Required parameter not supplied: ${key}`
       throw new AdapterError({ jobRunID: this.validated.id, statusCode: 400, message })
@@ -48,7 +54,7 @@ class Validator {
     }
   }
 
-  getRequiredArrayParam(keyArray) {
+  getRequiredArrayParam(keyArray: string[]) {
     for (const param of keyArray) {
       if (typeof this.input.data[param] !== 'undefined') {
         return this.input.data[param]
@@ -56,5 +62,3 @@ class Validator {
     }
   }
 }
-
-exports.Validator = Validator
