@@ -1,6 +1,7 @@
 import { assert } from 'chai'
 import { Execute, AdapterRequest } from '@chainlink/types'
-import { AdapterError, assertSuccess } from '@chainlink/external-adapter'
+import { AdapterError } from '@chainlink/external-adapter'
+import { assertSuccess } from '@chainlink/adapter-test-helpers'
 import { executeWithAdapters } from '../src/adapter'
 import { Check } from '../src/checks'
 

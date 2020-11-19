@@ -1,4 +1,4 @@
-import { assertSuccess, assertError } from '@chainlink/external-adapter'
+import { assertSuccess, assertError } from '@chainlink/adapter-test-helpers'
 import { execute } from '../src/adapter'
 
 /**
