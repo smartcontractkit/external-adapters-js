@@ -30,6 +30,7 @@ jobs:
         with:
           node-version: '12.x'
       - run: yarn install
+      - run: yarn setup
       - run: yarn test:example-start-server&
       - run: yarn test:example
 
