@@ -76,6 +76,15 @@
     "@renproject/ren" "^1.0.7"
     "@renproject/utils" "^1.0.7"
     bitcoinjs-lib "^5.1.10"
+"@chainlink/fcsapi-adapter@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@chainlink/fcsapi-adapter/-/fcsapi-adapter-0.0.1.tgz#87ceb44af5926513331002ad4912493f46b7d631"
+  integrity sha512-3o5Bjoogwg2lyO5ccr+KBtt7z6g4TshzeU/wHW6l4SHBDYPApOY6KeMLztzzfZ4J39x35nv+ml6cakGr8g0SHw==
+
+"@chainlink/finnhub-adapter@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@chainlink/finnhub-adapter/-/finnhub-adapter-0.0.1.tgz#f6871f78cda2ebca15a8e9c9f0eb3dc80f81e6bf"
+  integrity sha512-MZ8s0dNSCaWsQRLqiDOSHsaK4PvTgLd7y73Euze2gA7MGwW3z1bBzcEygPDJUlQT2FQXcPXb/+VnJjw4l1HJrw==
 
 "@chainlink/wbtc-address-set@^0.0.3":
   version "0.0.3"
@@ -135,6 +144,10 @@
   version "5.0.9"
   resolved "https://registry.yarnpkg.com/@ethersproject/abi/-/abi-5.0.9.tgz#738c1c557e56d8f395a5a27caef9b0449bc85a10"
   integrity sha512-ily2OufA2DTrxkiHQw5GqbkMSnNKuwZBqKsajtT0ERhZy1r9w2CpW1bmtRMIGzaqQxCdn/GEoFogexk72cBBZQ==
+"@ethersproject/abi@5.0.8", "@ethersproject/abi@^5.0.0", "@ethersproject/abi@^5.0.5":
+  version "5.0.8"
+  resolved "https://registry.yarnpkg.com/@ethersproject/abi/-/abi-5.0.8.tgz#b79e8b90932f0ce4b5796f21ec854e4fac4e6f7a"
+  integrity sha512-QiWzNybzepEmFfwxqEOoUm9i8G5fBuxMiiMcyUwXqywKtktbhNHpUbfOapMkEvPB8VgefzaUf1vHDSqC2Dc8Eg==
   dependencies:
     "@ethersproject/address" "^5.0.4"
     "@ethersproject/bignumber" "^5.0.7"
@@ -150,6 +163,10 @@
   version "5.0.7"
   resolved "https://registry.yarnpkg.com/@ethersproject/abstract-provider/-/abstract-provider-5.0.7.tgz#04ee3bfe43323384e7fecf6c774975b8dec4bdc9"
   integrity sha512-NF16JGn6M0zZP5ZS8KtDL2Rh7yHxZbUjBIHLNHMm/0X0BephhjUWy8jqs/Zks6kDJRzNthgmPVy41Ec0RYWPYA==
+"@ethersproject/abstract-provider@5.0.6", "@ethersproject/abstract-provider@^5.0.0", "@ethersproject/abstract-provider@^5.0.4":
+  version "5.0.6"
+  resolved "https://registry.yarnpkg.com/@ethersproject/abstract-provider/-/abstract-provider-5.0.6.tgz#fd379b4c2dbb316841dd4f581a73b95d7f399a13"
+  integrity sha512-3GJjD+wM8J160XFiTMkDu1UFV9uA1OdbMUI0aYy1CFepxYGSh9vY12bsbiYiTJLXQ86usvSBK6OA9U7IqmKZVw==
   dependencies:
     "@ethersproject/bignumber" "^5.0.7"
     "@ethersproject/bytes" "^5.0.4"
@@ -163,6 +180,10 @@
   version "5.0.9"
   resolved "https://registry.yarnpkg.com/@ethersproject/abstract-signer/-/abstract-signer-5.0.9.tgz#238ddc06031aeb9dfceee2add965292d7dd1acbf"
   integrity sha512-CM5UNmXQaA03MyYARFDDRjHWBxujO41tVle7glf5kHcQsDDULgqSVpkliLJMtPzZjOKFeCVZBHybTZDEZg5zzg==
+"@ethersproject/abstract-signer@5.0.8", "@ethersproject/abstract-signer@^5.0.0", "@ethersproject/abstract-signer@^5.0.4", "@ethersproject/abstract-signer@^5.0.6":
+  version "5.0.8"
+  resolved "https://registry.yarnpkg.com/@ethersproject/abstract-signer/-/abstract-signer-5.0.8.tgz#16d8107ea718ad7a9b5925bd870aa40c05fbfba3"
+  integrity sha512-Q5ZJtxs5txKBfTbdXRI4n6Nn4EJlKg3zA22S4Eg+P3hIZ+cXoLoK9CnA1GeKMRHJiDBqECnWqeQl+yyGR7D+jg==
   dependencies:
     "@ethersproject/abstract-provider" "^5.0.4"
     "@ethersproject/bignumber" "^5.0.7"
@@ -1695,7 +1716,7 @@ bitcore-lib-cash@^8.20.3:
     inherits "=2.0.1"
     lodash "^4.17.20"
 
-bitcore-lib-zcash@zcash-hackworks/bitcore-lib-zcash:
+"bitcore-lib-zcash@github:zcash-hackworks/bitcore-lib-zcash":
   version "0.13.19"
   resolved "https://codeload.github.com/zcash-hackworks/bitcore-lib-zcash/tar.gz/e97ae1dd2e9f14d6076d5e5429c75d8965afa4ab"
   dependencies:
