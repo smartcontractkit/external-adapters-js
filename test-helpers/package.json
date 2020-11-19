@@ -19,7 +19,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "prepublishOnly": "yarn build && yarn test:unit",
+    "prepublishOnly": "yarn && yarn build",
     "build": "tsc",
     "lint": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix"
