@@ -1,0 +1,39 @@
+{
+  "name": "@chainlink/adapter-test-helpers",
+  "version": "0.0.1",
+  "description": "Helpers for testing Chainlink External Adapters.",
+  "keywords": [
+    "Chainlink",
+    "LINK",
+    "blockchain",
+    "oracle"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "url": "https://github.com/smartcontractkit/external-adapters-js",
+    "type": "git"
+  },
+  "license": "MIT",
+  "scripts": {
+    "prepublishOnly": "yarn build && yarn test:unit",
+    "build": "tsc",
+    "lint": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.11",
+    "@types/mocha": "^7.0.2",
+    "@typescript-eslint/eslint-plugin": "^3.9.0",
+    "@typescript-eslint/parser": "^3.9.0",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.7"
+  },
+  "dependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^7.1.2"
+  }
+}
