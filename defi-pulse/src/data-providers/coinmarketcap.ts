@@ -1,11 +1,12 @@
 import { Requester } from '@chainlink/external-adapter'
 import Decimal from 'decimal.js'
 import { IndexAsset } from '../adapter'
+import { util } from '@chainlink/ea-bootstrap'
 
 const getPriceData = async (symbols: string) => {
   const url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest'
   const headers = {
-    'X-CMC_PRO_API_KEY': process.env.API_KEY,
+    'X-CMC_PRO_API_KEY': util.getRequiredEnv('API_KEY'),
   }
   const params = {
     symbol: symbols,
