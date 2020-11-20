@@ -1,50 +1,28 @@
-import { AssetIndex } from './adapter'
-import { Requester } from '@chainlink/external-adapter'
-import Decimal from 'decimal.js'
+import { util } from '@chainlink/ea-bootstrap'
+import { IndexAsset } from './adapter'
+import cryptocompare from './data-providers/cryptocompare'
 
-const getPriceData = async (symbols: string) => {
-  const url = 'https://min-api.cryptocompare.com/data/pricemulti'
-  const params = {
-    tsyms: 'USD',
-    fsyms: symbols,
-  }
-  const config = {
-    url,
-    params,
-  }
-  const response = await Requester.request(config)
-  return response.data
+enum DataProvider {
+  Cryptocompare = 'cryptocompare',
+  Coingecko = 'coingecko',
 }
 
-export const calculateIndex = (index: AssetIndex[]): number => {
-  let value = new Decimal(0)
+type CalculateIndex = (index: IndexAsset[]) => number
+type GetPriceIndex = (index: IndexAsset[]) => Promise<IndexAsset[]>
 
-  for (const i of index) {
-    const price = i.priceData && i.priceData['USD']
-    if (!price || price <= 0) {
-      throw Error('Invalid price')
-    }
-    value = value.plus(new Decimal(i.units).times(new Decimal(price)))
-  }
-
-  return value.toNumber()
+type PriceAdapter = {
+  calculateIndex: CalculateIndex
+  getPriceIndex: GetPriceIndex
 }
 
-export const priceAdapter = async (index: AssetIndex[]): Promise<AssetIndex[]> => {
-  const symbols: string[] = []
-  index.forEach(({ asset }) => {
-    symbols.push(asset.toUpperCase())
-  })
-  const prices = await getPriceData(symbols.join())
-
-  const pricesMap = new Map()
-  for (const symbol in prices) {
-    pricesMap.set(symbol.toUpperCase(), prices[symbol])
+export const getPriceAdapter = (): PriceAdapter => {
+  const dataProvider = util.getRequiredEnv('DATA_PROVIDER')
+  switch (dataProvider) {
+    case DataProvider.Cryptocompare:
+      return cryptocompare
+    // case DataProvider.FCS_API:
+    //   return fcsapi.execute
+    default:
+      throw Error(`Unknown price data provider: ${dataProvider}`)
   }
-
-  for (const i of index) {
-    i.priceData = pricesMap.get(i.asset.toUpperCase())
-  }
-
-  return index
 }
