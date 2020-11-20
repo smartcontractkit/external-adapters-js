@@ -1,16 +1,9 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { Execute } from '@chainlink/types'
 import Decimal from 'decimal.js'
+import { getSymbol } from './symbols'
+import { getAllocations } from './index-allocations'
 import { priceAdapter, calculateIndex } from './priceAdapter'
-
-/*
-  TODOS:
-  - What's the address of the adapter contract? How can I get it?
-  - What's the initial blob DPI info?
-  - Where is the ticker map, associating contracts with symbols?
-  - How should I organize this?
-
-*/
 
 export type AssetIndex = {
   asset: string
@@ -27,43 +20,22 @@ type Asset = {
   index: AssetIndex[]
 }
 
+// Comes from the node
 async function getAssetInfo(): Promise<Asset> {
-  // TODO: Is this constant ?
   return {
     name: 'DPI',
     asset: 'DPI',
-    address: '0xDPI',
+    address: '0x1494CA1F11D487c2bBe4543E90080AeBa4BA3C2b',
     adapter: '0xAdapter',
     index: [],
   }
 }
 
-async function getAllocations(address: string) {
-  // TODO: This is a mocked function, it should call the contract instead
-  return { components: ['0x123', '0x456'], units: [1100000000000000000, 2320000000000000000] }
-}
-
-function getTickerMap(): Record<string, string> {
-  // TODO: Some fs read file ?
-  return {
-    '0x123': 'COMP',
-    '0x456': 'UNI',
-  }
-}
-
-function getTickerSymbol(assetAddress: string): string {
-  const tickerMap = getTickerMap()
-  if (!tickerMap[assetAddress]) {
-    throw new Error('No asset found')
-  }
-  return tickerMap[assetAddress]
-}
-
-function getIndex(components: string[], units: number[]): AssetIndex[] {
+async function getIndex(components: string[], units: number[]): Promise<AssetIndex[]> {
   const index = []
   for (let i = 0; i < components.length; i++) {
     const assetIndex: AssetIndex = {
-      asset: getTickerSymbol(components[i]),
+      asset: await getSymbol(components[i]),
       units: new Decimal(units[i]).div(1e18),
       weight: 0,
     }
@@ -82,7 +54,7 @@ const execute: Execute = async function (input) {
 
   const { components, units } = await getAllocations(asset.address)
 
-  const index = getIndex(components, units)
+  const index = await getIndex(components, units)
 
   const priceIndex = await priceAdapter(index)
   asset.index = priceIndex
