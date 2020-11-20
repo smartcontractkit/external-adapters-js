@@ -4,12 +4,14 @@ import cryptocompare from './data-providers/cryptocompare'
 import nomics from './data-providers/nomics'
 import coinpaprika from './data-providers/coinpaprika'
 import coinmarketcap from './data-providers/coinmarketcap'
+import coingecko from './data-providers/coingecko'
 
 enum DataProvider {
   Cryptocompare = 'cryptocompare',
   Coinpaprika = 'coinpaprika',
   Nomics = 'nomics',
   Coinmarketcap = 'coinmarketcap',
+  Coingecko = 'coingecko',
 }
 
 export type CalculateIndex = (index: IndexAsset[]) => number
@@ -31,6 +33,8 @@ export const getPriceAdapter = (): PriceAdapter => {
       return coinpaprika
     case DataProvider.Coinmarketcap:
       return coinmarketcap
+    case DataProvider.Coingecko:
+      return coingecko
     default:
       throw Error(`Unknown price data provider: ${dataProvider}`)
   }

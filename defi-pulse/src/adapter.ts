@@ -11,6 +11,7 @@ export type IndexAsset = {
   asset: string
   units: Decimal
   weight: number
+  coinId?: string
   priceData?: Record<string, any>
 }
 
