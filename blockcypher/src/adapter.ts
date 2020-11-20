@@ -20,9 +20,6 @@ export const execute: Execute = async (request, config: Config = {}) => {
   let result
   switch (endpoint) {
     case balance.Name: {
-      const validator = new Validator(request, balance.inputParams)
-      if (validator.error) throw validator.error
-
       result = await balance.execute(config, request)
       break
     }
