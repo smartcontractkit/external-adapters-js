@@ -11,7 +11,8 @@
   ],
   "scripts": {
     "prepublishOnly": "yarn build && yarn test:unit",
-    "build": "tsc",
+    "setup": "yarn build",
+    "build": "tsc -b",
     "lint": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix",
     "test": "mocha --exit -r ts-node/register 'test/**/*.test.ts'",

@@ -1,3 +1,0 @@
-describe('balance endpoint', () => {
-  // TODO
-})
