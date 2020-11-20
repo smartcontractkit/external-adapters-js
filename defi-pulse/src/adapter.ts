@@ -59,7 +59,7 @@ const executeWithAdapters: Execute = async function (input, adapter) {
 
   const asset = await getAssetInfo()
 
-  const { components, units } = await getAllocations(asset.address)
+  const { components, units } = await getAllocations(asset.adapter, asset.address)
 
   const index = await getIndex(components, units)
 
