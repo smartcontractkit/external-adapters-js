@@ -67,6 +67,7 @@ const executeWithAdapters: Execute = async function (input, adapter) {
   const indexResult = adapter.calculateIndex(priceIndex)
 
   const response = {
+    status: 200,
     data: { result: indexResult, ...asset },
   }
   return Requester.success(jobRunID, response)
