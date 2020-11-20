@@ -1,8 +1,8 @@
 import bcypher from 'blockcypher'
 import objectPath from 'object-path'
 import { Validator, AdapterError } from '@chainlink/external-adapter'
-import { AdapterRequest } from '@chainlink/types'
-import { Config, DEFAULT_CONFIRMATIONS, DEFAULT_DATA_PATH } from '../config'
+import { AdapterRequest, Config } from '@chainlink/types'
+import { DEFAULT_CONFIRMATIONS, DEFAULT_DATA_PATH } from '../config'
 import { CoinType, ChainType } from '.'
 
 export const Name = 'balance'

@@ -1,7 +1,6 @@
 import { expose, util } from '@chainlink/ea-bootstrap'
-import { execute, executeWithDefaults } from './adapter'
-import { getConfig } from './config'
+import { execute } from './adapter'
 
 const NAME = 'BLOCKCYPHER'
 
-export = { NAME, execute, ...expose(util.wrapExecute(executeWithDefaults)), getConfig }
+export = { NAME, execute, ...expose(util.wrapExecute(execute)) }

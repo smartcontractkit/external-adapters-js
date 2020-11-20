@@ -1,6 +1,7 @@
 import { expect } from 'chai'
+import { Requester } from '../src/requester'
 
-import { ENV_API_KEY, getConfig } from '../src/config'
+const ENV_API_KEY = 'API_KEY'
 
 describe('incorrect app config', () => {
   beforeEach(() => {
@@ -13,7 +14,7 @@ describe('incorrect app config', () => {
     })
 
     it(`configures app with ${ENV_API_KEY} key`, () => {
-      const config = getConfig()
+      const config = Requester.getDefaultConfig()
       expect(config).to.have.property('apiKey', 'dummy.key')
     })
   })
