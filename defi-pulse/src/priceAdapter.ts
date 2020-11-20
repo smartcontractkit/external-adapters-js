@@ -2,10 +2,11 @@ import { util } from '@chainlink/ea-bootstrap'
 import { IndexAsset } from './adapter'
 import cryptocompare from './data-providers/cryptocompare'
 import nomics from './data-providers/nomics'
+import coinpaprika from './data-providers/coinpaprika'
 
 enum DataProvider {
   Cryptocompare = 'cryptocompare',
-  Coingecko = 'coingecko',
+  Coinpaprika = 'coinpaprika',
   Nomics = 'nomics',
 }
 
@@ -24,6 +25,8 @@ export const getPriceAdapter = (): PriceAdapter => {
       return cryptocompare
     case DataProvider.Nomics:
       return nomics
+    case DataProvider.Coinpaprika:
+      return coinpaprika
     default:
       throw Error(`Unknown price data provider: ${dataProvider}`)
   }

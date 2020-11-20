@@ -24,7 +24,6 @@ const getPriceData = async (symbols: string) => {
 
 const calculateIndex: CalculateIndex = (indexes) => {
   let value = new Decimal(0)
-  console.log(indexes)
   indexes.forEach((i) => {
     const price = i.priceData && i.priceData.price
     if (!price || price <= 0) {

@@ -11,7 +11,7 @@ export type IndexAsset = {
   asset: string
   units: Decimal
   weight: number
-  priceData?: Record<string, number>
+  priceData?: Record<string, any>
 }
 
 type MarketIndex = {
