@@ -1,6 +1,6 @@
 import fs from 'fs'
 import { join } from 'path'
-import { ethers } from 'ethers'
+import { ethers, utils } from 'ethers'
 import { util } from '@chainlink/ea-bootstrap'
 
 const directoryPath = './src/symbols/directory.json'
@@ -22,12 +22,37 @@ const updateDirectory = (address: string, symbol: string): void => {
 }
 
 const ERC20ABI = ['function symbol() view returns (string)']
+const ERC20ABI2 = [
+  {
+    constant: true,
+    inputs: [],
+    name: 'symbol',
+    outputs: [
+      {
+        name: '',
+        type: 'bytes32',
+      },
+    ],
+    payable: false,
+    stateMutability: 'view',
+    type: 'function',
+  },
+]
 
+// Would be better from etherscan
 const getRpcTokenSymbol = async (address: string): Promise<string> => {
+  console.log('calling blockchain for symbol')
   const rpcUrl = util.getRequiredEnv('RPC_URL')
   const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
-  const erc20 = new ethers.Contract(address, ERC20ABI, provider)
-  return await erc20.symbol()
+  try {
+    const erc20 = new ethers.Contract(address, ERC20ABI, provider)
+    const symbol = await erc20.symbol()
+    return symbol
+  } catch (e) {
+    const erc20 = new ethers.Contract(address, ERC20ABI2, provider)
+    const symbol = await erc20.symbol()
+    return utils.parseBytes32String(symbol)
+  }
 }
 
 function memoizeDirectory() {

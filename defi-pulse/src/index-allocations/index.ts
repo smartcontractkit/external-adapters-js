@@ -7,7 +7,16 @@ type Allocations = {
 }
 
 const ABI = [
-  'function getAllocations(ISetToken _setToken) external view returns(address[] memory, uint256[]memory)',
+  {
+    inputs: [{ internalType: 'contract ISetToken', name: '_setToken', type: 'address' }],
+    name: 'getAllocations',
+    outputs: [
+      { internalType: 'address[]', name: '', type: 'address[]' },
+      { internalType: 'int256[]', name: '', type: 'int256[]' },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
 ]
 
 export const getAllocations = async (
@@ -21,8 +30,8 @@ export const getAllocations = async (
     const info = await index.getAllocations(setAddress)
 
     return {
-      components: info.components,
-      units: info.units,
+      components: info[0],
+      units: info[1],
     }
   } catch (e) {
     console.log(e)

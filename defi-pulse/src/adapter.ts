@@ -1,9 +1,10 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { Execute } from '@chainlink/types'
-import Decimal from 'decimal.js'
+import { utils } from 'ethers'
 import { getSymbol } from './symbols'
 import { getAllocations } from './index-allocations'
 import { getPriceAdapter } from './priceAdapter'
+import Decimal from 'decimal.js'
 
 export type Index = IndexAsset[]
 
@@ -22,13 +23,13 @@ type MarketIndex = {
   adapter: string
   index: Index
 }
-// Comes from the node
-async function getAssetInfo(): Promise<MarketIndex> {
+
+async function getMarketInfo(): Promise<MarketIndex> {
   return {
     name: 'DPI',
     asset: 'DPI',
-    address: '0x1494CA1F11D487c2bBe4543E90080AeBa4BA3C2b',
-    adapter: '0xAdapter',
+    address: '0x1494ca1f11d487c2bbe4543e90080aeba4ba3c2b',
+    adapter: '0x78733fa5e70e3ab61dc49d93921b289e4b667093',
     index: [],
   }
 }
@@ -36,12 +37,12 @@ async function getAssetInfo(): Promise<MarketIndex> {
 async function getIndex(components: string[], units: number[]): Promise<IndexAsset[]> {
   const index = []
   for (let i = 0; i < components.length; i++) {
-    const IndexAsset: IndexAsset = {
+    const indexAsset: IndexAsset = {
       asset: await getSymbol(components[i]),
-      units: new Decimal(units[i]).div(1e18),
+      units: new Decimal(new utils.BigNumber(units[i]).toString()).div(1e18),
       weight: 0,
     }
-    index.push(IndexAsset)
+    index.push(indexAsset)
   }
   return index
 }
@@ -57,21 +58,25 @@ const executeWithAdapters: Execute = async function (input, adapter) {
 
   const jobRunID = validator.validated.id
 
-  const asset = await getAssetInfo()
+  try {
+    const asset = await getMarketInfo()
 
-  const { components, units } = await getAllocations(asset.adapter, asset.address)
+    const { components, units } = await getAllocations(asset.adapter, asset.address)
 
-  const index = await getIndex(components, units)
+    const index = await getIndex(components, units)
 
-  const priceIndex = await adapter.getPriceIndex(index)
-  asset.index = priceIndex
-  const indexResult = adapter.calculateIndex(priceIndex)
+    const priceIndex = await adapter.getPriceIndex(index)
+    asset.index = priceIndex
+    const indexResult = adapter.calculateIndex(priceIndex)
 
-  const response = {
-    status: 200,
-    data: { result: indexResult, ...asset },
+    const response = {
+      status: 200,
+      data: { result: indexResult, ...asset },
+    }
+    return Requester.success(jobRunID, response)
+  } catch (e) {
+    console.log(e)
   }
-  return Requester.success(jobRunID, response)
 }
 
 export default execute
