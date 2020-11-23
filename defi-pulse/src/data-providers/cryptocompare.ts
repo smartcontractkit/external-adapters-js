@@ -1,11 +1,13 @@
 import { Requester } from '@chainlink/external-adapter'
 import { Index } from '../adapter'
+import { util } from '@chainlink/ea-bootstrap'
 
 const getPriceData = async (symbols: string) => {
   const url = 'https://min-api.cryptocompare.com/data/pricemulti'
   const params = {
     tsyms: 'USD',
     fsyms: symbols,
+    api_key: util.getRequiredEnv('API_KEY'),
   }
   const config = {
     url,
