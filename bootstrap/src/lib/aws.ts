@@ -1,14 +1,15 @@
-const {
+import { ExecuteSync } from '@chainlink/types'
+import {
   HEADER_CONTENT_TYPE,
   CONTENT_TYPE_APPLICATION_JSON,
   CONTENT_TYPE_TEXT_PLAIN,
-} = require('./server')
-const {
+} from './server'
+import {
   HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE,
   HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE_MESSAGE,
-} = require('./errors')
+} from './errors'
 
-const awsGetRequestHeaders = (event) => {
+const awsGetRequestHeaders = (event: any) => {
   if (!event || !event.headers) return {}
 
   const initialHeader =
@@ -16,14 +17,14 @@ const awsGetRequestHeaders = (event) => {
       ? { cookie: event.cookies.join('; ') }
       : {}
 
-  return Object.keys(event.headers).reduce((headers, key) => {
+  return Object.keys(event.headers).reduce((headers: any, key) => {
     headers[key.toLowerCase()] = event.headers[key]
     return headers
   }, initialHeader)
 }
 
-const isContentTypeSupported = (event) => {
-  const headers = awsGetRequestHeaders(event)
+const isContentTypeSupported = (event: any) => {
+  const headers: any = awsGetRequestHeaders(event)
   const contentTypeKey = HEADER_CONTENT_TYPE.toLowerCase()
   return !(
     headers &&
@@ -42,7 +43,11 @@ const UNSUPPORTED_MEDIA_TYPE_RESPONSE = {
 }
 
 // To be used with AWS REST API Gateway
-exports.initHandlerREST = (execute) => (event, _context, callback) => {
+export const initHandlerREST = (execute: ExecuteSync) => (
+  event: any,
+  _context: any,
+  callback: any,
+) => {
   if (!isContentTypeSupported(event)) {
     return callback(null, UNSUPPORTED_MEDIA_TYPE_RESPONSE)
   }
@@ -53,7 +58,11 @@ exports.initHandlerREST = (execute) => (event, _context, callback) => {
 }
 
 // To be used with AWS HTTP API Gateway
-exports.initHandlerHTTP = (execute) => (event, _context, callback) => {
+export const initHandlerHTTP = (execute: ExecuteSync) => (
+  event: any,
+  _context: any,
+  callback: any,
+) => {
   if (!isContentTypeSupported(event)) {
     return callback(null, UNSUPPORTED_MEDIA_TYPE_RESPONSE)
   }

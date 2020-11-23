@@ -6,6 +6,8 @@ declare module '@chainlink/types' {
     meta?: Record<string, unknown>
   }
 
+  export type AdapterHealthCheck = (callback: any) => any
+
   export type AdapterResponse = {
     jobRunID: string
     statusCode: number
@@ -18,6 +20,9 @@ declare module '@chainlink/types' {
     statusCode: number
     data: AdapterResponse
   }
+  export type ExecuteWrappedResponse = (input: AdapterRequest) => Promise<WrappedAdapterResponse>
+
+  export type ExecuteSync = (input: AdapterRequest, callback: (statusCode, data) => void) => void
 
   import { AxiosRequestConfig } from 'axios'
   export type Config = {
@@ -26,10 +31,12 @@ declare module '@chainlink/types' {
   }
 
   export type Execute = (input: AdapterRequest) => Promise<AdapterResponse>
+
   export type ExecuteWithConfig = (
     input: AdapterRequest,
     config: Config,
   ) => Promise<AdapterResponse>
+
   export type ExecuteFactory = (config: Config) => Execute
 
   export type Account = {

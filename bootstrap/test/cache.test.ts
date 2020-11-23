@@ -1,9 +1,11 @@
-const { expect } = require('chai')
-const { useFakeTimers } = require('sinon')
-const { withCache, defaultOptions } = require('../lib/cache')
-const { LocalLRUCache } = require('../lib/cache/local')
+import { expect } from 'chai'
+import { useFakeTimers } from 'sinon'
+import { withCache, ImplCacheOptions, defaultOptions } from '../src/lib/cache'
+import { LocalLRUCache } from '../src/lib/cache/local'
+import { CacheOptions } from '../src/lib/cache'
+import { Execute } from '@chainlink/types'
 
-const callAndExpect = async (fn, n, result) => {
+const callAndExpect = async (fn: Function, n: number, result: any) => {
   while (n--) {
     const { data } = await fn(0)
     if (n === 0) expect(data).to.equal(result)
@@ -11,9 +13,13 @@ const callAndExpect = async (fn, n, result) => {
 }
 
 // Helper test function: a stateful counter
-const counterFrom = (i = 0) => () => ({ statusCode: 200, data: i++ })
+const counterFrom = (i = 0): Execute => async ({ id = '1', data: {} }) => {
+  i++
+  return { jobRunID: id, statusCode: 200, data: i, result: i }
+}
+
 // Build new cache every time
-const cacheBuilder = (options) => new LocalLRUCache(options)
+const cacheBuilder = (options: ImplCacheOptions) => new LocalLRUCache(options)
 
 describe('cache', () => {
   context('options defaults', () => {
@@ -60,8 +66,8 @@ describe('cache', () => {
   })
 
   context('enabled', () => {
-    let options
-    let clock
+    let options: CacheOptions
+    let clock: sinon.SinonFakeTimers
     beforeEach(() => {
       process.env.CACHE_ENABLED = 'true'
       options = { ...defaultOptions(), cacheBuilder }
