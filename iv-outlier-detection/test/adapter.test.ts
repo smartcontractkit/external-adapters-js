@@ -8,7 +8,7 @@ describe('execute', () => {
   const jobID = '1'
 
   context('successful calls @integration', () => {
-    const meta = { latestAnswer: 60 }
+    const meta = { latestAnswer: 0 }
     const multiply = 1
     const referenceContract = '0x00'
 
@@ -86,7 +86,7 @@ describe('execute', () => {
   })
 
   context('validation error', () => {
-    const meta = { latestAnswer: 60 }
+    const meta = { latestAnswer: 0 }
 
     const requests = [
       { name: 'empty body', testData: {} },
@@ -126,7 +126,7 @@ describe('execute', () => {
   })
 
   context('error calls @integration', () => {
-    const meta = { latestAnswer: 60 }
+    const meta = { latestAnswer: 0 }
     const referenceContract = '0x00'
     const multiply = 1
 
