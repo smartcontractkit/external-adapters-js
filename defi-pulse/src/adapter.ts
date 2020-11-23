@@ -52,15 +52,21 @@ export const execute: Execute = async (input) => {
   return await executeWithAdapters(input, priceAdapter)
 }
 
+const customParams = {
+  name: false,
+  asset: false,
+  address: true,
+  adapter: true,
+}
+
 const executeWithAdapters: Execute = async function (input, adapter) {
-  const validator = new Validator(input)
+  const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
+  const asset = validator.validated.data
 
   try {
-    const asset = await getMarketInfo()
-
     const { components, units } = await getAllocations(asset.adapter, asset.address)
 
     const index = await getIndex(components, units)
