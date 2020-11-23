@@ -3,19 +3,21 @@ import { useFakeTimers } from 'sinon'
 import { withCache, ImplCacheOptions, defaultOptions } from '../src/lib/cache'
 import { LocalLRUCache } from '../src/lib/cache/local'
 import { CacheOptions } from '../src/lib/cache'
-import { Execute } from '@chainlink/types'
+import { ExecuteWrappedResponse } from '@chainlink/types'
 
 const callAndExpect = async (fn: Function, n: number, result: any) => {
   while (n--) {
     const { data } = await fn(0)
-    if (n === 0) expect(data).to.equal(result)
+    if (n === 0) expect(data.result).to.equal(result)
   }
 }
 
 // Helper test function: a stateful counter
-const counterFrom = (i = 0): Execute => async ({ id = '1', data: {} }) => {
-  i++
-  return { jobRunID: id, statusCode: 200, data: i, result: i }
+const counterFrom = (i = 0): ExecuteWrappedResponse => async (request) => {
+  return {
+    data: { jobRunID: request.id, statusCode: 200, data: request, result: i++ },
+    statusCode: 200,
+  }
 }
 
 // Build new cache every time
