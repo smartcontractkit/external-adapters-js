@@ -11,5 +11,7 @@
     "test:unit": "yarn _mocha --grep @integration --invert --timeout 0",
     "test:integration": "yarn _mocha --grep @integration --timeout 0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "boxhock_google-finance-data": "^0.2.0"
+  }
 }
