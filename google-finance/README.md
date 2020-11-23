@@ -31,3 +31,16 @@ This adapter is for Google Finance and supports the quote endpoint.
  "statusCode": 200
 }
 ```
+
+## Build instructions
+
+When building this adapter for AWS Lambda, there are a few extra steps:
+
+After running `make zip adapter=google-finance`, 3 extra files will be created in the `google-finance/dist/` directory:
+
+- aws.tar.br
+- chromium.br
+- swiftshader.tar.br
+
+**These files needs to be moved inside the `google-finance-adapter.zip` file that was generated.** You can then upload 
+the updated zip and proceed with the usual steps.
