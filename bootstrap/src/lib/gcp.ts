@@ -1,10 +1,11 @@
-const { CONTENT_TYPE_APPLICATION_JSON, CONTENT_TYPE_TEXT_PLAIN } = require('./server')
-const {
+import { CONTENT_TYPE_APPLICATION_JSON, CONTENT_TYPE_TEXT_PLAIN } from './server'
+import {
   HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE,
   HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE_MESSAGE,
-} = require('./errors')
+} from './errors'
+import { ExecuteSync } from '@chainlink/types'
 
-exports.initHandler = (execute) => (req, res) => {
+export const initHandler = (execute: ExecuteSync) => (req: any, res: any) => {
   if (!req.is(CONTENT_TYPE_APPLICATION_JSON)) {
     return res
       .type(CONTENT_TYPE_TEXT_PLAIN)

@@ -1,23 +1,33 @@
-const { v4: uuidv4 } = require('uuid')
+import {
+  Execute,
+  ExecuteSync,
+  AdapterRequest,
+  AdapterResponse,
+  WrappedAdapterResponse,
+} from '@chainlink/types'
+import { v4 as uuidv4 } from 'uuid'
 
-const isObject = (o) => o !== null && typeof o === 'object' && Array.isArray(o) === false
+export const isObject = (o: unknown) =>
+  o !== null && typeof o === 'object' && Array.isArray(o) === false
 
-const parseBool = (value) => {
+export const parseBool = (value: any) => {
   if (!value) return false
   const _val = value.toString().toLowerCase()
   return (_val === 'true' || _val === 'false') && _val === 'true'
 }
 
 // We generate an UUID per instance
-const uuid = () => {
+export const uuid = () => {
   if (!process.env.UUID) process.env.UUID = uuidv4()
   return process.env.UUID
 }
 
-const toAsync = (execute, data) =>
-  new Promise((resolve) => execute(data, (statusCode, data) => resolve({ statusCode, data })))
+export const toAsync = (execute: ExecuteSync, data: AdapterRequest) =>
+  new Promise<WrappedAdapterResponse>((resolve) =>
+    execute(data, (statusCode: number, data: AdapterResponse) => resolve(data)),
+  )
 
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+export const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 /**
  * Return a value used for exponential backoff in milliseconds.
@@ -31,11 +41,21 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
  * @param max The maximum back-off in ms
  * @param coefficient The base multiplier
  */
-const exponentialBackOffMs = (retryCount = 1, interval = 100, max = 1000, coefficient = 2) =>
+export const exponentialBackOffMs = (retryCount = 1, interval = 100, max = 1000, coefficient = 2) =>
   Math.min(max, interval * coefficient ** (retryCount - 1))
 
-const getWithCoalescing = async ({ get, isInFlight, retries = 5, interval = () => 100 }) => {
-  const _self = async (_retries) => {
+export const getWithCoalescing = async ({
+  get,
+  isInFlight,
+  retries = 5,
+  interval = (retryCount) => 100,
+}: {
+  get: (retryCount: number) => unknown
+  isInFlight: (retryCount: number) => unknown
+  retries: number
+  interval: (retryCount: number) => number
+}) => {
+  const _self = async (_retries: number): Promise<null | any> => {
     if (_retries === 0) return null
     const retryCount = retries - _retries + 1
     const entry = await get(retryCount)
@@ -48,7 +68,7 @@ const getWithCoalescing = async ({ get, isInFlight, retries = 5, interval = () =
   return await _self(retries)
 }
 
-const getEnvName = (name, prefix = '') => {
+const getEnvName = (name: string, prefix = '') => {
   const envName = prefix ? `${prefix}_${name}` : name
   if (!isEnvNameValid(envName))
     throw Error(`Invalid environment var name: ${envName}. Only '/^[_a-z0-9]+$/i' is supported.`)
@@ -56,13 +76,13 @@ const getEnvName = (name, prefix = '') => {
 }
 
 // Only case-insensitive alphanumeric and underscore (_) are allowed for env vars
-const isEnvNameValid = (name) => /^[_a-z0-9]+$/i.test(name)
+const isEnvNameValid = (name: string) => /^[_a-z0-9]+$/i.test(name)
 
-const getEnv = (name, prefix = '') => process.env[getEnvName(name, prefix)]
+export const getEnv = (name: string, prefix = '') => process.env[getEnvName(name, prefix)]
 
 // Custom error for required env variable.
-class RequiredEnvError extends Error {
-  constructor(name) {
+export class RequiredEnvError extends Error {
+  constructor(name: string) {
     super(`Please set the required env ${name}.`)
     this.name = RequiredEnvError.name
   }
@@ -74,7 +94,7 @@ class RequiredEnvError extends Error {
  * @throws {RequiredEnvError} Will throw an error if environment variable is not defined.
  * @returns {string}
  */
-const getRequiredEnv = (name, prefix = '') => {
+export const getRequiredEnv = (name: string, prefix = '') => {
   const val = getEnv(name, prefix)
   if (!val) throw new RequiredEnvError(getEnvName(name, prefix))
   return val
@@ -82,24 +102,12 @@ const getRequiredEnv = (name, prefix = '') => {
 
 // TODO: clean this ASAP
 // @see WrappedAdapterResponse
-const wrapExecute = (execute) => async (request) => {
+export const wrapExecute = (execute: Execute) => async (
+  request: AdapterRequest,
+): Promise<WrappedAdapterResponse> => {
   const resp = await execute(request)
   return {
     statusCode: resp.statusCode,
     data: resp,
   }
-}
-
-module.exports = {
-  isObject,
-  getEnv,
-  getRequiredEnv,
-  RequiredEnvError,
-  parseBool,
-  uuid,
-  toAsync,
-  delay,
-  exponentialBackOffMs,
-  getWithCoalescing,
-  wrapExecute,
 }

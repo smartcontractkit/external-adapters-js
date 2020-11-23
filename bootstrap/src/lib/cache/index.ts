@@ -1,8 +1,9 @@
-const { logger } = require('@chainlink/external-adapter')
-const hash = require('object-hash')
-const local = require('./local')
-const redis = require('./redis')
-const { parseBool, uuid, delay, exponentialBackOffMs, getWithCoalescing } = require('../util')
+import { logger } from '@chainlink/external-adapter'
+import hash from 'object-hash'
+import * as local from './local'
+import * as redis from './redis'
+import { parseBool, uuid, delay, exponentialBackOffMs, getWithCoalescing } from '../util'
+import { ExecuteWrappedResponse, AdapterRequest, WrappedAdapterResponse } from '@chainlink/types'
 
 const DEFAULT_CACHE_TYPE = 'local'
 const DEFAULT_CACHE_KEY_GROUP = uuid()
@@ -14,7 +15,7 @@ const DEFAULT_RC_INTERVAL_COEFFICIENT = 2
 const DEFAULT_RC_ENTROPY_MAX = 0
 
 const env = process.env
-const defaultOptions = () => ({
+export const defaultOptions = () => ({
   enabled: parseBool(env.CACHE_ENABLED),
   cacheOptions: defaultCacheOptions(),
   cacheBuilder: defaultCacheBuilder(),
@@ -37,16 +38,20 @@ const defaultOptions = () => ({
     entropyMax: Number(env.REQUEST_COALESCING_ENTROPY_MAX) || DEFAULT_RC_ENTROPY_MAX,
   },
 })
+export type CacheOptions = ReturnType<typeof defaultOptions>
+
 const defaultCacheOptions = () => {
   const type = env.CACHE_TYPE || DEFAULT_CACHE_TYPE
   const options = type === 'redis' ? redis.defaultOptions() : local.defaultOptions()
   return { ...options, type }
 }
+export type ImplCacheOptions = ReturnType<typeof defaultCacheOptions>
+
 // TODO: Revisit this after we stop to reinitialize middleware on every request
 // We store the local LRU cache instance, so it's not reinitialized on every request
-let localLRUCache
+let localLRUCache: local.LocalLRUCache
 const defaultCacheBuilder = () => {
-  return (options) => {
+  return (options: ImplCacheOptions) => {
     switch (options.type) {
       case 'redis':
         return redis.RedisCache.build(options)
@@ -56,7 +61,7 @@ const defaultCacheBuilder = () => {
   }
 }
 // Options without sensitive data
-const redactOptions = (options) => ({
+export const redactOptions = (options: CacheOptions) => ({
   ...options,
   cacheOptions:
     options.cacheOptions.type === 'redis'
@@ -64,11 +69,14 @@ const redactOptions = (options) => ({
       : local.redactOptions(options.cacheOptions),
 })
 
-const withCache = async (execute, options) => {
+export const withCache = async (
+  execute: ExecuteWrappedResponse,
+  options: CacheOptions = defaultOptions(),
+) => {
   // If no options read the env with sensible defaults
-  if (!options) options = defaultOptions()
+  if (!options) options
   // If disabled noop
-  if (!options.enabled) return (data) => execute(data)
+  if (!options.enabled) return (data: AdapterRequest) => execute(data)
 
   const cache = await options.cacheBuilder(options.cacheOptions)
 
@@ -76,34 +84,34 @@ const withCache = async (execute, options) => {
   const hashOptions = {
     algorithm: 'sha1',
     encoding: 'hex',
-    excludeKeys: (props) => options.key.ignored.includes(props),
+    excludeKeys: (props: string) => options.key.ignored.includes(props),
   }
 
-  const _getKey = (data) => `${options.key.group}:${hash(data, hashOptions)}`
-  const _getCoalescingKey = (key) => `inFlight:${key}`
-  const _setInFlightMarker = async (key, maxAge) => {
+  const _getKey = (data: AdapterRequest) => `${options.key.group}:${hash(data, hashOptions)}`
+  const _getCoalescingKey = (key: any) => `inFlight:${key}`
+  const _setInFlightMarker = async (key: any, maxAge: number) => {
     if (!options.requestCoalescing.enabled) return
     await cache.set(key, true, maxAge)
     logger.debug(`Request coalescing: SET ${key}`)
   }
-  const _delInFlightMarker = async (key) => {
+  const _delInFlightMarker = async (key: any) => {
     if (!options.requestCoalescing.enabled) return
     await cache.del(key)
     logger.debug(`Request coalescing: DEL ${key}`)
   }
 
-  const _getMaxAge = (data) => {
+  const _getMaxAge = (data: AdapterRequest): any => {
     if (!data || !data.data) return cache.options.maxAge
-    if (isNaN(data.data.maxAge)) return cache.options.maxAge
-    return data.data.maxAge || cache.options.maxAge
+    if (isNaN(data.data.maxAge as number)) return cache.options.maxAge
+    return Number(data.data.maxAge) || cache.options.maxAge
   }
 
-  const _executeWithCache = async (data) => {
+  const _executeWithCache = async (data: AdapterRequest) => {
     const key = _getKey(data)
     const coalescingKey = _getCoalescingKey(key)
     const maxAge = _getMaxAge(data)
     // Add successful result to cache
-    const _cacheOnSuccess = async ({ statusCode, data }) => {
+    const _cacheOnSuccess = async ({ statusCode, data }: WrappedAdapterResponse) => {
       if (statusCode === 200) {
         const entry = { statusCode, data, maxAge }
         await cache.set(key, entry, maxAge)
@@ -115,12 +123,12 @@ const withCache = async (execute, options) => {
 
     const _getWithCoalescing = () =>
       getWithCoalescing({
-        get: async (retryCount) => {
+        get: async (retryCount: number) => {
           const entry = await cache.get(key)
           if (entry) logger.debug(`Request coalescing: GET on retry #${retryCount}`)
           return entry
         },
-        isInFlight: async (retryCount) => {
+        isInFlight: async (retryCount: number) => {
           if (retryCount === 1 && options.requestCoalescing.entropyMax) {
             // Add some entropy here because of possible scenario where the key won't be set before multiple
             // other instances in a burst request try to access the coalescing key.
@@ -132,7 +140,7 @@ const withCache = async (execute, options) => {
           return inFlight
         },
         retries: 5,
-        interval: (retryCount) =>
+        interval: (retryCount: number) =>
           exponentialBackOffMs(
             retryCount,
             options.requestCoalescing.interval,
@@ -163,16 +171,10 @@ const withCache = async (execute, options) => {
   }
 
   // Middleware wrapped execute fn which cleans up after
-  return async (data) => {
+  return async (data: AdapterRequest) => {
     const result = await _executeWithCache(data)
     // Clean the connection
     await cache.close()
     return result
   }
-}
-
-module.exports = {
-  withCache,
-  defaultOptions,
-  redactOptions,
 }
