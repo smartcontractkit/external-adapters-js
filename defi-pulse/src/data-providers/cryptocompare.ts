@@ -1,6 +1,5 @@
 import { Requester } from '@chainlink/external-adapter'
-import Decimal from 'decimal.js'
-import { IndexAsset } from '../adapter'
+import { Index } from '../adapter'
 
 const getPriceData = async (symbols: string) => {
   const url = 'https://min-api.cryptocompare.com/data/pricemulti'
@@ -16,21 +15,15 @@ const getPriceData = async (symbols: string) => {
   return response.data
 }
 
-const calculateIndex = (index: IndexAsset[]): number => {
-  let value = new Decimal(0)
-
-  for (const i of index) {
-    const price = i.priceData && i.priceData['USD']
-    if (!price || price <= 0) {
-      throw Error('Invalid price')
-    }
-    value = value.plus(new Decimal(i.units).times(new Decimal(price)))
+const toAssetPrice = (data: Record<string, any>) => {
+  const price = data['USD']
+  if (!price || price <= 0) {
+    throw new Error('Invalid price')
   }
-
-  return value.toNumber()
+  return price
 }
 
-const getPriceIndex = async (index: IndexAsset[]): Promise<IndexAsset[]> => {
+const getPriceIndex = async (index: Index): Promise<Index> => {
   const symbols: string[] = []
   index.forEach(({ asset }) => {
     symbols.push(asset.toUpperCase())
@@ -43,13 +36,12 @@ const getPriceIndex = async (index: IndexAsset[]): Promise<IndexAsset[]> => {
   }
 
   for (const i of index) {
-    i.priceData = pricesMap.get(i.asset.toUpperCase())
+    const data = pricesMap.get(i.asset.toUpperCase())
+    i.priceData = data
+    i.price = toAssetPrice(data)
   }
 
   return index
 }
 
-export default {
-  calculateIndex,
-  getPriceIndex,
-}
+export default { getPriceIndex }

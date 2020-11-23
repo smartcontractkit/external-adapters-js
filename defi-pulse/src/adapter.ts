@@ -12,40 +12,31 @@ export type IndexAsset = {
   asset: string
   units: Decimal
   weight: number
-  coinId?: string
   priceData?: Record<string, any>
+  price: number
 }
 
-type MarketIndex = {
-  name: string
-  asset: string
-  address: string
-  adapter: string
-  index: Index
-}
-
-async function getMarketInfo(): Promise<MarketIndex> {
-  return {
-    name: 'DPI',
-    asset: 'DPI',
-    address: '0x1494ca1f11d487c2bbe4543e90080aeba4ba3c2b',
-    adapter: '0x78733fa5e70e3ab61dc49d93921b289e4b667093',
-    index: [],
-  }
-}
-
-async function getIndex(components: string[], units: number[]): Promise<IndexAsset[]> {
+async function getIndex(components: string[], units: number[]): Promise<Index> {
   const index = []
   for (let i = 0; i < components.length; i++) {
     const indexAsset: IndexAsset = {
       asset: await getSymbol(components[i]),
       units: new Decimal(new utils.BigNumber(units[i]).toString()).div(1e18),
       weight: 0,
+      price: 0,
     }
     index.push(indexAsset)
   }
   return index
 }
+
+const calculateIndex = (index: Index): number =>
+  index
+    .reduce(
+      (acc, { units, price }) => acc.plus(new Decimal(units).times(new Decimal(price))),
+      new Decimal(0),
+    )
+    .toNumber()
 
 export const execute: Execute = async (input) => {
   const priceAdapter = getPriceAdapter()
@@ -73,7 +64,7 @@ const executeWithAdapters: Execute = async function (input, adapter) {
 
     const priceIndex = await adapter.getPriceIndex(index)
     asset.index = priceIndex
-    const indexResult = adapter.calculateIndex(priceIndex)
+    const indexResult = calculateIndex(priceIndex)
 
     const response = {
       status: 200,

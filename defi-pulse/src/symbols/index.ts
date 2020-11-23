@@ -4,6 +4,8 @@ import { ethers, utils } from 'ethers'
 import { util } from '@chainlink/ea-bootstrap'
 
 const directoryPath = './src/symbols/directory.json'
+const rpcUrl = util.getRequiredEnv('RPC_URL')
+const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
 
 type Directory = Record<string, string>
 
@@ -22,7 +24,7 @@ const updateDirectory = (address: string, symbol: string): void => {
 }
 
 const ERC20ABI = ['function symbol() view returns (string)']
-const ERC20ABI2 = [
+const ERC20ABI_bytes32 = [
   {
     constant: true,
     inputs: [],
@@ -39,19 +41,17 @@ const ERC20ABI2 = [
   },
 ]
 
-// Would be better from etherscan
-const getRpcTokenSymbol = async (address: string): Promise<string> => {
-  console.log('calling blockchain for symbol')
-  const rpcUrl = util.getRequiredEnv('RPC_URL')
-  const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
+const getERC20Symbol = async (
+  provider: ethers.providers.Provider,
+  address: string,
+): Promise<string> => {
+  const _symbol = (abi: any) => new ethers.Contract(address, abi, provider).symbol()
+  console.log('Calling blockchain to get ERC20 token symbol...')
   try {
-    const erc20 = new ethers.Contract(address, ERC20ABI, provider)
-    const symbol = await erc20.symbol()
-    return symbol
-  } catch (e) {
-    const erc20 = new ethers.Contract(address, ERC20ABI2, provider)
-    const symbol = await erc20.symbol()
-    return utils.parseBytes32String(symbol)
+    return await _symbol(ERC20ABI)
+  } catch (ignoreable) {
+    // TODO: is this error really ignoreable in all cases?
+    return utils.parseBytes32String(await _symbol(ERC20ABI_bytes32))
   }
 }
 
@@ -68,7 +68,7 @@ export const getSymbol = async (address: string): Promise<string> => {
   try {
     const directory = cachedDirectory().directory
     if (!directory[address]) {
-      const symbol = await getRpcTokenSymbol(address)
+      const symbol = await getERC20Symbol(provider, address)
       updateDirectory(address, symbol)
       return symbol
     }

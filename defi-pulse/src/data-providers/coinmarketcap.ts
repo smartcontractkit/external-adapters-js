@@ -1,6 +1,5 @@
 import { Requester } from '@chainlink/external-adapter'
-import Decimal from 'decimal.js'
-import { IndexAsset } from '../adapter'
+import { Index } from '../adapter'
 import { util } from '@chainlink/ea-bootstrap'
 
 const getPriceData = async (symbols: string) => {
@@ -21,20 +20,15 @@ const getPriceData = async (symbols: string) => {
   return response.data
 }
 
-const calculateIndex = (index: IndexAsset[]): number => {
-  let value = new Decimal(0)
-  index.forEach((i) => {
-    const price = i.priceData && i.priceData.quote.USD.price
-    if (price <= 0) {
-      throw Error('invalid price')
-    }
-    value = value.plus(new Decimal(i.units).times(new Decimal(price)))
-  })
-
-  return value.toNumber()
+const toAssetPrice = (data: Record<string, any>) => {
+  const price = data.quote && data.quote.USD.price
+  if (!price || price <= 0) {
+    throw new Error('invalid price')
+  }
+  return price
 }
 
-const getPriceIndex = async (index: IndexAsset[]): Promise<IndexAsset[]> => {
+const getPriceIndex = async (index: Index): Promise<Index> => {
   const symbols: string[] = []
   index.forEach(({ asset }) => {
     symbols.push(asset.toUpperCase())
@@ -47,13 +41,12 @@ const getPriceIndex = async (index: IndexAsset[]): Promise<IndexAsset[]> => {
   }
 
   for (const i of index) {
-    i.priceData = pricesMap.get(i.asset.toUpperCase())
+    const data = pricesMap.get(i.asset.toUpperCase())
+    i.priceData = data
+    i.price = toAssetPrice(data)
   }
 
   return index
 }
 
-export default {
-  calculateIndex,
-  getPriceIndex,
-}
+export default { getPriceIndex }

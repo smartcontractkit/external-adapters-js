@@ -1,7 +1,6 @@
 import { Requester } from '@chainlink/external-adapter'
 import { util } from '@chainlink/ea-bootstrap'
-import Decimal from 'decimal.js'
-import { GetPriceIndex, CalculateIndex } from '../priceAdapter'
+import { GetPriceIndex } from '../priceAdapter'
 
 const nomicsIds: Record<string, string> = {
   FTT: 'FTXTOKEN',
@@ -22,17 +21,12 @@ const getPriceData = async (symbols: string) => {
   return response.data
 }
 
-const calculateIndex: CalculateIndex = (indexes) => {
-  let value = new Decimal(0)
-  indexes.forEach((i) => {
-    const price = i.priceData && i.priceData.price
-    if (!price || price <= 0) {
-      throw Error('invalid price')
-    }
-    value = value.plus(new Decimal(i.units).times(new Decimal(price)))
-  })
-
-  return value.toNumber()
+const toAssetPrice = (data: Record<string, any>) => {
+  const price = data.price
+  if (!price || price <= 0) {
+    throw new Error('Invalid price')
+  }
+  return price
 }
 
 const getPriceIndex: GetPriceIndex = async (index) => {
@@ -53,13 +47,12 @@ const getPriceIndex: GetPriceIndex = async (index) => {
   }
 
   for (const i of index) {
-    i.priceData = pricesMap.get(i.asset.toUpperCase())
+    const data = pricesMap.get(i.asset.toUpperCase())
+    i.priceData = data
+    i.price = toAssetPrice(data)
   }
 
   return index
 }
 
-export default {
-  calculateIndex,
-  getPriceIndex,
-}
+export default { getPriceIndex }

@@ -1,6 +1,5 @@
 import { Requester } from '@chainlink/external-adapter'
-import Decimal from 'decimal.js'
-import { IndexAsset } from '../adapter'
+import { Index } from '../adapter'
 
 const getPriceData = async () => {
   const url = 'https://api.coinpaprika.com/v1/tickers'
@@ -15,33 +14,33 @@ const getPriceData = async () => {
   return response.data
 }
 
-const calculateIndex = (index: IndexAsset[]): number => {
-  let value = new Decimal(0)
-
-  for (const i of index) {
-    const price = i.priceData && i.priceData.quotes.USD.price
-    if (!price || price <= 0) {
-      throw Error('Invalid price')
-    }
-    value = value.plus(new Decimal(i.units).times(new Decimal(price)))
+const toAssetPrice = (data: Record<string, any>) => {
+  const price = data.quotes && data.quotes.USD.price
+  if (!price || price <= 0) {
+    throw new Error('invalid price')
   }
-
-  return value.toNumber()
+  return price
 }
 
-const getPriceIndex = async (index: IndexAsset[]): Promise<IndexAsset[]> => {
+const getPriceIndex = async (index: Index): Promise<Index> => {
   const priceDatas = await getPriceData()
-  await Promise.all(
-    index.map(async (i) => {
-      i.priceData = priceDatas
-        .sort((a: any, b: any) => (a.rank > b.rank ? 1 : -1))
-        .find((d: any) => d.symbol.toLowerCase() === i.asset.toLowerCase())
-    }),
-  )
+
+  const sortedData = priceDatas.sort((a: any, b: any) => a.rank - b.rank)
+  const priceMap = new Map()
+  for (const price of sortedData) {
+    const key = price.symbol.toUpperCase()
+    if (!priceMap.get(key)) {
+      priceMap.set(key, price)
+    }
+  }
+
+  for (const i of index) {
+    const data = priceMap.get(i.asset.toUpperCase())
+    i.priceData = data
+    i.price = toAssetPrice(data)
+  }
+
   return index
 }
 
-export default {
-  calculateIndex,
-  getPriceIndex,
-}
+export default { getPriceIndex }

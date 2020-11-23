@@ -1,6 +1,5 @@
 import { Requester } from '@chainlink/external-adapter'
-import Decimal from 'decimal.js'
-import { IndexAsset } from '../adapter'
+import { Index } from '../adapter'
 
 const getCoinList = async () => {
   const url = 'https://api.coingecko.com/api/v3/coins/list'
@@ -25,18 +24,6 @@ const getPriceData = async (id: string) => {
   return response.data
 }
 
-const calculateIndex = (index: IndexAsset[]): number => {
-  let value = new Decimal(0)
-  index.forEach((i) => {
-    const price = i.priceData && i.coinId && i.priceData[i.coinId].usd
-    if (price <= 0) {
-      throw Error('invalid price')
-    }
-    value = value.plus(new Decimal(i.units).times(new Decimal(price)))
-  })
-  return value.toNumber()
-}
-
 const coingeckoBlacklist = [
   'leocoin',
   'farmatrust',
@@ -46,7 +33,15 @@ const coingeckoBlacklist = [
   'unicorn-token',
 ]
 
-const getPriceIndex = async (index: IndexAsset[]): Promise<IndexAsset[]> => {
+const toAssetPrice = (data: Record<string, any>, coinId: string) => {
+  const price = data[coinId] && data[coinId].usd
+  if (!price || price <= 0) {
+    throw new Error('invalid price')
+  }
+  return price
+}
+
+const getPriceIndex = async (index: Index): Promise<Index> => {
   const coinList = await getCoinList()
   await Promise.all(
     index.map(async (synth) => {
@@ -55,14 +50,12 @@ const getPriceIndex = async (index: IndexAsset[]): Promise<IndexAsset[]> => {
           d.symbol.toLowerCase() === synth.asset.toLowerCase() &&
           !coingeckoBlacklist.includes(d.id.toLowerCase()),
       )
-      synth.coinId = coin.id
-      synth.priceData = await getPriceData(coin.id)
+      const data = await getPriceData(coin.id)
+      synth.priceData = data
+      synth.price = toAssetPrice(data, coin.id)
     }),
   )
   return index
 }
 
-export default {
-  calculateIndex,
-  getPriceIndex,
-}
+export default { getPriceIndex }

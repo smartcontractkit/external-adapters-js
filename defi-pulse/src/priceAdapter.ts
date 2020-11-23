@@ -16,11 +16,9 @@ enum DataProvider {
   Coinapi = 'coinapi',
 }
 
-export type CalculateIndex = (index: IndexAsset[]) => number
 export type GetPriceIndex = (index: IndexAsset[]) => Promise<IndexAsset[]>
 
 type PriceAdapter = {
-  calculateIndex: CalculateIndex
   getPriceIndex: GetPriceIndex
 }
 
