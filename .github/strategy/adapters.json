@@ -65,6 +65,7 @@
     "json-rpc",
     "iv-outlier-detection",
     "taapi",
-    "stasis"
+    "stasis",
+    "wti-outlier-detection"
   ]
 }

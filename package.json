@@ -78,7 +78,8 @@
     "iv-outlier-detection",
     "taapi",
     "stasis",
-    "test-helpers"
+    "test-helpers",
+    "wti-outlier-detection"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",
