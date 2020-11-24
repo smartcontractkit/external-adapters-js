@@ -1,7 +1,9 @@
 const { Requester, Validator } = require('@chainlink/external-adapter')
 
 const execute = (input, callback) => {
-  const validator = new Validator(callback, input)
+  const validator = new Validator(input, {})
+  if (validator.error) return callback(validator.error.statusCode, validator.errored)
+
   const jobRunID = validator.validated.id
   const url = 'https://chainlink.orchid.com/0'
 
