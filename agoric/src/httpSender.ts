@@ -10,7 +10,7 @@ export interface HTTPSenderReply {
 }
 export type HTTPSender = (obj: Action) => Promise<HTTPSenderReply>
 
-export const makeHTTPSender: (url: string) => HTTPSender = (url) => async (data) => {
+export const makeHTTPSender = (url: string): HTTPSender => async (data) => {
   const response = await Requester.request({ method: 'POST', url, data, validateStatus: null })
   return { status: response.status, response: response.data }
 }
