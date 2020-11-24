@@ -36,7 +36,6 @@ const getPriceIndex = async (index: Index): Promise<Index> => {
   await Promise.all(
     index.map(async (i) => {
       const data = await getPriceData(i.asset)
-      i.priceData = data
       i.price = toAssetPrice(data)
     }),
   )

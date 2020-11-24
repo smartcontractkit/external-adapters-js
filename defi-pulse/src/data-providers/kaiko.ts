@@ -36,7 +36,6 @@ const getPriceIndex = async (index: Index): Promise<Index> => {
       // Particular for the Kaiko API only
       const asset = i.asset === 'UNI' ? 'uniswap' : i.asset
       const data = await getPriceData(asset)
-      i.priceData = data
       i.price = toAssetPrice(data)
     }),
   )

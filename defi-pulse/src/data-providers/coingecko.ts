@@ -44,15 +44,14 @@ const toAssetPrice = (data: Record<string, any>, coinId: string) => {
 const getPriceIndex = async (index: Index): Promise<Index> => {
   const coinList = await getCoinList()
   await Promise.all(
-    index.map(async (synth) => {
+    index.map(async (i) => {
       const coin = coinList.find(
         (d: any) =>
-          d.symbol.toLowerCase() === synth.asset.toLowerCase() &&
+          d.symbol.toLowerCase() === i.asset.toLowerCase() &&
           !coingeckoBlacklist.includes(d.id.toLowerCase()),
       )
       const data = await getPriceData(coin.id)
-      synth.priceData = data
-      synth.price = toAssetPrice(data, coin.id)
+      i.price = toAssetPrice(data, coin.id)
     }),
   )
   return index

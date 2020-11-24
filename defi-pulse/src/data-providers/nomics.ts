@@ -48,7 +48,6 @@ const getPriceIndex: GetPriceIndex = async (index) => {
 
   for (const i of index) {
     const data = pricesMap.get(i.asset.toUpperCase())
-    i.priceData = data
     i.price = toAssetPrice(data)
   }
 
