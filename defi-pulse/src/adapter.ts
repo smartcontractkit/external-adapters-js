@@ -57,23 +57,19 @@ const executeWithAdapters: Execute = async function (input, adapter) {
   const jobRunID = validator.validated.id
   const asset = validator.validated.data
 
-  try {
-    const { components, units } = await getAllocations(asset.adapter, asset.address)
+  const { components, units } = await getAllocations(asset.adapter, asset.address)
 
-    const index = await getIndex(components, units)
+  const index = await getIndex(components, units)
 
-    const priceIndex = await adapter.getPriceIndex(index)
-    asset.index = priceIndex
-    const indexResult = calculateIndex(priceIndex)
+  const priceIndex = await adapter.getPriceIndex(index)
+  asset.index = priceIndex
+  const indexResult = calculateIndex(priceIndex)
 
-    const response = {
-      status: 200,
-      data: { result: indexResult, ...asset },
-    }
-    return Requester.success(jobRunID, response)
-  } catch (e) {
-    console.log(e)
+  const response = {
+    status: 200,
+    data: { result: indexResult, ...asset },
   }
+  return Requester.success(jobRunID, response)
 }
 
 export default execute

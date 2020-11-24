@@ -15,14 +15,6 @@ const getDirectory = (): Directory => {
   return JSON.parse(buffer.toString())
 }
 
-const updateDirectory = (address: string, symbol: string): void => {
-  const absolutePath = join(process.cwd(), directoryPath)
-  const directory = cachedDirectory().directory
-  directory[address] = symbol
-  fs.writeFileSync(absolutePath, JSON.stringify(directory))
-  cachedDirectory().update()
-}
-
 const ERC20ABI = ['function symbol() view returns (string)']
 const ERC20ABI_bytes32 = [
   {
@@ -56,25 +48,19 @@ const getERC20Symbol = async (
 }
 
 function memoizeDirectory() {
-  let directory = getDirectory()
+  const directory = getDirectory()
   return () => {
-    return { directory, update: (): Directory => (directory = getDirectory()) }
+    return directory
   }
 }
 
 const cachedDirectory = memoizeDirectory()
 
 export const getSymbol = async (address: string): Promise<string> => {
-  try {
-    const directory = cachedDirectory().directory
-    if (!directory[address]) {
-      const symbol = await getERC20Symbol(provider, address)
-      updateDirectory(address, symbol)
-      return symbol
-    }
-    return directory[address]
-  } catch (e) {
-    console.log(e)
-    throw e
+  const directory = cachedDirectory()
+  if (!directory[address]) {
+    const symbol = await getERC20Symbol(provider, address)
+    return symbol
   }
+  return directory[address]
 }

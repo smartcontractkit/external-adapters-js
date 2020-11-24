@@ -23,18 +23,13 @@ export const getAllocations = async (
   contractAddress: string,
   setAddress: string,
 ): Promise<Allocations> => {
-  try {
-    const rpcUrl = util.getRequiredEnv('RPC_URL')
-    const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
-    const index = new ethers.Contract(contractAddress, ABI, provider)
-    const info = await index.getAllocations(setAddress)
+  const rpcUrl = util.getRequiredEnv('RPC_URL')
+  const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
+  const index = new ethers.Contract(contractAddress, ABI, provider)
+  const info = await index.getAllocations(setAddress)
 
-    return {
-      components: info[0],
-      units: info[1],
-    }
-  } catch (e) {
-    console.log(e)
-    throw e
+  return {
+    components: info[0],
+    units: info[1],
   }
 }

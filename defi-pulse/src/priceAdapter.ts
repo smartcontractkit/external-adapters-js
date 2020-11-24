@@ -1,5 +1,5 @@
 import { util } from '@chainlink/ea-bootstrap'
-import { IndexAsset } from './adapter'
+import { Index } from './adapter'
 import cryptocompare from './data-providers/cryptocompare'
 import nomics from './data-providers/nomics'
 import coinpaprika from './data-providers/coinpaprika'
@@ -34,7 +34,7 @@ const providers: Record<string, PriceAdapter> = {
   [DataProvider.Kaiko]: kaiko,
 }
 
-export type GetPriceIndex = (index: IndexAsset[]) => Promise<IndexAsset[]>
+export type GetPriceIndex = (index: Index) => Promise<Index>
 
 type PriceAdapter = {
   getPriceIndex: GetPriceIndex
