@@ -1,5 +1,5 @@
 const { assert } = require('chai')
-const { assertSuccess } = require('@chainlink/external-adapter')
+const { assertSuccess } = require('@chainlink/adapter-test-helpers')
 const { execute } = require('../adapter')
 
 describe('execute', () => {

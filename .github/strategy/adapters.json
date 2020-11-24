@@ -64,6 +64,8 @@
     "reduce",
     "json-rpc",
     "iv-outlier-detection",
-    "taapi"
+    "taapi",
+    "stasis",
+    "wti-outlier-detection"
   ]
 }

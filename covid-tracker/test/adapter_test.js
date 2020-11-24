@@ -1,5 +1,5 @@
 const { assert } = require('chai')
-const { assertSuccess, assertError } = require('@chainlink/external-adapter')
+const { assertSuccess, assertError } = require('@chainlink/adapter-test-helpers')
 const { execute } = require('../adapter')
 
 describe('execute', () => {
@@ -45,6 +45,14 @@ describe('execute', () => {
         name: 'location not supplied',
         testData: { id: jobID, data: { field: 'deaths' } },
       },
+      {
+        name: 'unknown date format',
+        testData: { id: jobID, data: { field: 'deaths', date: 'not_real', location: 'USA' } },
+      },
+      {
+        name: 'unknown date format 2',
+        testData: { id: jobID, data: { field: 'deaths', date: '2020111', location: 'USA' } },
+      },
     ]
 
     requests.forEach((req) => {
@@ -59,14 +67,6 @@ describe('execute', () => {
 
   context('error calls @integration', () => {
     const requests = [
-      {
-        name: 'unknown date format',
-        testData: { id: jobID, data: { field: 'deaths', date: 'not_real', location: 'USA' } },
-      },
-      {
-        name: 'unknown date format 2',
-        testData: { id: jobID, data: { field: 'deaths', date: '2020111', location: 'USA' } },
-      },
       {
         name: 'date not found',
         testData: { id: jobID, data: { field: 'deaths', date: '17601010', location: 'USA' } },

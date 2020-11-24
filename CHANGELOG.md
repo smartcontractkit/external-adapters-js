@@ -7,16 +7,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 
 ### Added
+
 - New adapters:
   - `xbto` to get BRN quotes
   - `iv-outlier-detection` to get IV values with outlier detection
   - `taapi` to get Trading Analysis data
+  - `stasis` to get Circulating Supply of EURS
 - Added support for metadata in requests. This gives adapters access to the FM on-chain round state.
+- Moves re-usable test behaviors & testing utils to a new package - `@chainlink/adapter-test-helpers`
 
 ### Changed
+
 - Oilprice adapters now accept a common request for Brent crude oil: `{"market":"brent"}`
 - Market closure is now a composite adapter, and now follows the build instructions for composite adapters. Market
-now also supports using metadata.
+  now also supports using metadata.
 
 ## [0.1.4] - 2020-10-30
 

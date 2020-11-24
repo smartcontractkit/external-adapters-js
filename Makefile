@@ -30,7 +30,7 @@ deps: clean
 	yarn
 	# Call the build script for the adapter if defined (TypeScript adapters have this extra build/compile step)
 	# We use `wsrun` to build workspace dependencies in topological order (TODO: use native `yarn workspaces foreach -pt run build` with Yarn 2)
-	npx wsrun -mre -p @chainlink/$(if $(name),$(name),$(adapter)) -t build
+	yarn wsrun -mre -p @chainlink/$(if $(name),$(name),$(adapter)) -t build
 	yarn --frozen-lockfile --production
 
 build:

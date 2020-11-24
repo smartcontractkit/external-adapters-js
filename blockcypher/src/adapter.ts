@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/external-adapter'
+import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
 import { Execute } from '@chainlink/types'
 import { Config, getConfig, logConfig, DEFAULT_ENDPOINT } from './config'
 import { balance } from './endpoint'
@@ -8,7 +8,7 @@ const inputParams = {
 }
 
 // Export function to integrate with Chainlink node
-export const execute: Execute = async (request, config: Config) => {
+export const execute: Execute = async (request, config: Config = {}) => {
   const validator = new Validator(request, inputParams)
   if (validator.error) throw validator.error
 
@@ -20,14 +20,15 @@ export const execute: Execute = async (request, config: Config) => {
   let result
   switch (endpoint) {
     case balance.Name: {
-      const validator = new Validator(request, balance.inputParams)
-      if (validator.error) throw validator.error
-
-      result = await balance.execute(config, request, validator.validated.data)
+      result = await balance.execute(config, request)
       break
     }
     default: {
-      throw Error(`Endpoint ${endpoint} not supported.`)
+      throw new AdapterError({
+        jobRunID,
+        message: `Endpoint ${endpoint} not supported.`,
+        statusCode: 400,
+      })
     }
   }
 
