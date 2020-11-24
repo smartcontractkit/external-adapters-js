@@ -5,7 +5,8 @@ on-chain answer. If difference surpasses the threshold for any, it will fail.
 
 ## Configuration
 
-- `RPC_URL`: ETH RPC URL to read the reference data value. Required by runlog requests.
+- `API_KEY`: Your API key for Genesis Volatility
+- `RPC_URL`: ETH RPC URL to read the reference data value. Required by runlog requests or when metadata is not included.
 
 Thresholds can be configured with the following env vars:
 
@@ -16,6 +17,8 @@ Thresholds can be configured with the following env vars:
 
 - `base`, `from`, `coin` or `symbol`: The symbol of the currency to query
 - `days` or `period`: The number of days to get the IV result from
+- `referenceContract` or `contract`: The reference contract to get the on-chain value from (if no metadata is included)
+- `multiply`: The multiply amount used by the reference contract
 
 ## Output
 
