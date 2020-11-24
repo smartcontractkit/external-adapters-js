@@ -8,11 +8,14 @@ The adapter takes the following environment variables:
 
 - `RPC_URL`: Blockchain RPC endpoint to get the needed on-chain data
 - `DATA_PROVIDER`: Data provider to use. Some of them require an `API_KEY`(K). Options available:
+    - `amberdata` (K)
+    - `bravenewcoin` (K)
     - `coinapi`(K)
     - `coingecko`
     - `coinmarketcap`(K)
     - `coinpaprika`
     - `cryptocompare`
+    - `kaiko` (K)
     - `nomics`(K)
 - `API_KEY`: For those data providers who need an api key
 
@@ -29,7 +32,7 @@ The adapter takes the following environment variables:
 {
     "jobRunID": "1",
     "data": {
-        "result": 106.83119866551249,
+        "result": 108.89030892698364,
         "name": "DPI",
         "asset": "DPI",
         "address": "0x1494ca1f11d487c2bbe4543e90080aeba4ba3c2b",
@@ -39,93 +42,104 @@ The adapter takes the following environment variables:
                 "asset": "YFI",
                 "units": "0.000639863431575122",
                 "weight": 0,
+                "price": 24712.77,
                 "priceData": {
-                    "USD": 25256.08
+                    "USD": 24712.77
                 }
             },
             {
                 "asset": "COMP",
                 "units": "0.082679569392920759",
                 "weight": 0,
+                "price": 127.67,
                 "priceData": {
-                    "USD": 125.42
+                    "USD": 127.67
                 }
             },
             {
                 "asset": "SNX",
                 "units": "2.702312600734526421",
                 "weight": 0,
+                "price": 5.459,
                 "priceData": {
-                    "USD": 5.274
+                    "USD": 5.459
                 }
             },
             {
                 "asset": "MKR",
                 "units": "0.019413371198865064",
                 "weight": 0,
+                "price": 606.56,
                 "priceData": {
-                    "USD": 574.98
+                    "USD": 606.56
                 }
             },
             {
                 "asset": "REN",
                 "units": "18.793919794675247046",
                 "weight": 0,
+                "price": 0.3748,
                 "priceData": {
-                    "USD": 0.386
+                    "USD": 0.3748
                 }
             },
             {
                 "asset": "KNC",
                 "units": "4.219789253398933837",
                 "weight": 0,
+                "price": 1.137,
                 "priceData": {
-                    "USD": 1.089
+                    "USD": 1.137
                 }
             },
             {
                 "asset": "LRC",
                 "units": "25.349336391802813884",
                 "weight": 0,
+                "price": 0.206,
                 "priceData": {
-                    "USD": 0.1998
+                    "USD": 0.206
                 }
             },
             {
                 "asset": "BAL",
                 "units": "0.175076232830427677",
                 "weight": 0,
+                "price": 16.75,
                 "priceData": {
-                    "USD": 17.25
+                    "USD": 16.75
                 }
             },
             {
                 "asset": "REP",
                 "units": "0.11048123024801992",
                 "weight": 0,
+                "price": 17.81,
                 "priceData": {
-                    "USD": 16.57
+                    "USD": 17.81
                 }
             },
             {
                 "asset": "UNI",
                 "units": "4.332565485183901038",
                 "weight": 0,
+                "price": 4.171,
                 "priceData": {
-                    "USD": 3.894
+                    "USD": 4.171
                 }
             },
             {
                 "asset": "AAVE",
                 "units": "0.227406077211030818",
                 "weight": 0,
+                "price": 70.18,
                 "priceData": {
-                    "USD": 71.46
+                    "USD": 70.18
                 }
             }
         ]
     },
-    "result": 106.83119866551249,
+    "result": 108.89030892698364,
     "statusCode": 200
 }
 ```
