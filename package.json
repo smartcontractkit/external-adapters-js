@@ -79,7 +79,8 @@
     "taapi",
     "stasis",
     "test-helpers",
-    "wti-outlier-detection"
+    "wti-outlier-detection",
+    "tradermade"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",
