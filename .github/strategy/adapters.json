@@ -66,6 +66,7 @@
     "iv-outlier-detection",
     "taapi",
     "stasis",
-    "wti-outlier-detection"
+    "wti-outlier-detection",
+    "iex-cloud"
   ]
 }

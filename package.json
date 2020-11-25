@@ -79,7 +79,8 @@
     "taapi",
     "stasis",
     "test-helpers",
-    "wti-outlier-detection"
+    "wti-outlier-detection",
+    "iex-cloud"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",
