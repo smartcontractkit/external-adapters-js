@@ -1,5 +1,5 @@
 {
-  "name": "@chainlink/wti-outlier-detection",
+  "name": "@chainlink/wti-outlier-detection-adapter",
   "version": "0.0.1",
   "description": "Chainlink wti-outlier-detection adapter.",
   "keywords": [

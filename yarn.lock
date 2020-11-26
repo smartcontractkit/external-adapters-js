@@ -30,6 +30,21 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
+"@chainlink/blockchain.com@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@chainlink/blockchain.com/-/blockchain.com-0.0.3.tgz#5982494e8f234de6d726e4db95910ea998533283"
+  integrity sha512-srOS5nBAOgOR01ldoJVVFrsRiT5CFleCxmJ/PSpAo1KPPin6hLtIsqz5bln+U+lMgMsIdZq5aAZTa3Z6Ame6cQ==
+  dependencies:
+    object-path "^0.11.4"
+
+"@chainlink/blockcypher@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@chainlink/blockcypher/-/blockcypher-0.0.3.tgz#f8956cd71605f7789ae1b0b75f66305a1c14e054"
+  integrity sha512-LMyhm3C89LUR80lAmygHhPnrlIX2ajpTPnEnz84FbytfSlxM0sECFFZEsQwStp+AmgWH2wUtxS7QhDH6TRX+GA==
+  dependencies:
+    blockcypher "^0.3.0"
+    object-path "^0.11.4"
+
 "@chainlink/contracts-0.0.10@npm:@chainlink/contracts@0.0.10":
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/@chainlink/contracts/-/contracts-0.0.10.tgz#9eca8ff76e82e62b8ceeda9b2f69395cdb4dae56"
@@ -38,15 +53,12 @@
     "@truffle/contract" "^4.2.6"
     ethers "^4.0.45"
 
-"@chainlink/fcsapi-adapter@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@chainlink/fcsapi-adapter/-/fcsapi-adapter-0.0.1.tgz#87ceb44af5926513331002ad4912493f46b7d631"
-  integrity sha512-3o5Bjoogwg2lyO5ccr+KBtt7z6g4TshzeU/wHW6l4SHBDYPApOY6KeMLztzzfZ4J39x35nv+ml6cakGr8g0SHw==
-
-"@chainlink/finnhub-adapter@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@chainlink/finnhub-adapter/-/finnhub-adapter-0.0.1.tgz#f6871f78cda2ebca15a8e9c9f0eb3dc80f81e6bf"
-  integrity sha512-MZ8s0dNSCaWsQRLqiDOSHsaK4PvTgLd7y73Euze2gA7MGwW3z1bBzcEygPDJUlQT2FQXcPXb/+VnJjw4l1HJrw==
+"@chainlink/reduce@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@chainlink/reduce/-/reduce-0.0.3.tgz#6d26f5a0d299fce3497c0539e3aede2aff71f7d9"
+  integrity sha512-uym+pqQBbp3lGNSTpJGGSp32UymgTSDZrqPjoft8/nm0yDeF3x7FpRfvc6y79ap0PiX6wpv8kGqOL9KR/tLI9A==
+  dependencies:
+    object-path "^0.11.4"
 
 "@chainlink/reference-data-reader@^0.0.1":
   version "0.0.1"
@@ -54,6 +66,23 @@
   integrity sha512-rb7Y0zaBsHkyoMVYGmMp+DOfMAuF7B6/OaQKNSIUwgjWogApaKH0y/x0RODECSrDIxqIof65X4QNfY2mNKhOXQ==
   dependencies:
     ethers "^5.0.19"
+
+"@chainlink/renvm-address-set@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@chainlink/renvm-address-set/-/renvm-address-set-0.0.3.tgz#19b8cd9072c910dd36487e7b88cbe491d14d3569"
+  integrity sha512-rLe7Sxx7cDr6ApesxulhGYbLPBmw06eGBZt959JZ98TEjyW67YudY5+VIuy+rwEcY5mnQJmxQbwgV1AO9Q4B4w==
+  dependencies:
+    "@renproject/interfaces" "^1.0.3"
+    "@renproject/ren" "^1.0.7"
+    "@renproject/utils" "^1.0.7"
+    bitcoinjs-lib "^5.1.10"
+
+"@chainlink/wbtc-address-set@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@chainlink/wbtc-address-set/-/wbtc-address-set-0.0.3.tgz#5a5dc154cab62f2ad6e67bf464126e36ed633adf"
+  integrity sha512-m9Paa66HcIMX3vsfQkjeN91FH2fiQkSUVVdiaXtP8Urc421Khe672DkxVBdZ1Er28FSpbhmhQjg6P8m77EEJBA==
+  dependencies:
+    axios "^0.19.2"
 
 "@dabh/diagnostics@^2.0.2":
   version "2.0.2"

@@ -1,5 +1,5 @@
 {
-  "name": "@chainlink/ethgasstation",
+  "name": "@chainlink/ethgasstation-adapter",
   "version": "0.0.1",
   "license": "MIT",
   "main": "index.js",

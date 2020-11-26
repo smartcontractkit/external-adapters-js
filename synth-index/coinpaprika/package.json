@@ -1,5 +1,5 @@
 {
-  "name": "@chainlink/synth-index-coinpaprika",
+  "name": "@chainlink/synth-index-coinpaprika-adapter",
   "version": "0.0.1",
   "license": "MIT",
   "main": "index.js",

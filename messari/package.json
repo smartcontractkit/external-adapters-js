@@ -1,6 +1,6 @@
 {
-  "name": "@chainlink/messari",
-  "version": "0.1.0",
+  "name": "@chainlink/messari-adapter",
+  "version": "0.0.1",
   "license": "MIT",
   "main": "index.js",
   "scripts": {

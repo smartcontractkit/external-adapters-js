@@ -18,7 +18,7 @@ new:
 	  | jq '.adapter += ["$(adapter)"]' \
 	  | tee .github/strategy/adapters.json > /dev/null
 	cat $(adapter)/package.json \
-	  | jq '.name = "@chainlink/$(adapter)" | .description = "Chainlink $(adapter) adapter." | .keywords += ["$(adapter)"]' \
+	  | jq '.name = "@chainlink/$(adapter)-adapter" | .description = "Chainlink $(adapter) adapter." | .keywords += ["$(adapter)"]' \
 	  | tee $(adapter)/package.json > /dev/null
 	sed -i 's/Example/$(adapter)/' $(adapter)/README.md
 
@@ -30,28 +30,11 @@ deps: clean
 	yarn
 	# Call the build script for the adapter if defined (TypeScript adapters have this extra build/compile step)
 	# We use `wsrun` to build workspace dependencies in topological order (TODO: use native `yarn workspaces foreach -pt run build` with Yarn 2)
-	yarn wsrun -mre -p @chainlink/$(if $(name),$(name),$(adapter)) -t build
+	yarn wsrun -mre -p @chainlink/$(if $(name),$(name),$(adapter))-adapter -t build
 	yarn --frozen-lockfile --production
 
 build:
 	npx @vercel/ncc build $(adapter) -o $(adapter)/dist
-
-clean-market-closure:
-	rm -rf market-closure/$(check)/dist
-
-build-market-closure:
-	cp $(adapter)/adapter.js market-closure/$(check)/priceAdapter.js
-	cp market-closure/adapter.js market-closure/$(check)
-	cp -r helpers market-closure/helpers
-	npx @vercel/ncc build market-closure/$(check) -o market-closure/$(check)/dist
-	rm market-closure/$(check)/priceAdapter.js
-	rm market-closure/$(check)/adapter.js
-
-docker-market-closure:
-	docker build --no-cache --build-arg adapter=$(adapter) --build-arg check=$(check) -f Dockerfile-MarketClosure . -t $(adapter)-$(check)-adapter
-
-zip-market-closure: deps clean-market-closure build-market-closure
-	(cd market-closure/$(check)/dist && zip $(adapter)-$(check)-adapter.zip index.js)
 
 clean-synth-index:
 	rm -rf synth-index/$(adapter)/dist

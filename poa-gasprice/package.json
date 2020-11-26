@@ -1,5 +1,5 @@
 {
-  "name": "@chainlink/poa-gasprice",
+  "name": "@chainlink/poa-gasprice-adapter",
   "version": "0.0.1",
   "license": "MIT",
   "main": "index.js",
