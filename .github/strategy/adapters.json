@@ -67,6 +67,7 @@
     "taapi",
     "stasis",
     "wti-outlier-detection",
-    "tradermade"
+    "tradermade",
+    "coinmonitor"
   ]
 }

@@ -80,7 +80,8 @@
     "stasis",
     "test-helpers",
     "wti-outlier-detection",
-    "tradermade"
+    "tradermade",
+    "coinmonitor"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",
