@@ -3,7 +3,7 @@ import { Execute } from '@chainlink/types'
 import { utils } from 'ethers'
 import { getSymbol } from './symbols'
 import { getAllocations } from './index-allocations'
-import { getPriceAdapter } from './priceAdapter'
+import { getPriceAdapter, PriceAdapter } from './priceAdapter'
 import Decimal from 'decimal.js'
 
 export type Index = IndexAsset[]
@@ -12,29 +12,27 @@ export type IndexAsset = {
   asset: string
   units: Decimal
   weight: number
-  price: number
+  price?: number
 }
 
-async function getIndex(components: string[], units: number[]): Promise<Index> {
-  const index = []
-  for (let i = 0; i < components.length; i++) {
-    const indexAsset: IndexAsset = {
-      asset: await getSymbol(components[i]),
-      units: new Decimal(new utils.BigNumber(units[i]).toString()).div(1e18),
-      weight: 0,
-      price: 0,
-    }
-    index.push(indexAsset)
-  }
-  return index
+async function makeIndex(components: string[], units: number[], network: string): Promise<Index> {
+  return await Promise.all(
+    components.map(async (component, i) => {
+      return {
+        asset: await getSymbol(component, network),
+        units: new Decimal(new utils.BigNumber(units[i]).toString()).div(1e18),
+        weight: 0,
+      }
+    }),
+  )
 }
 
-const calculateIndex = (index: Index): number =>
+const calculateIndexValue = (index: Index): number =>
   index
-    .reduce(
-      (acc, { units, price }) => acc.plus(new Decimal(units).times(new Decimal(price))),
-      new Decimal(0),
-    )
+    .reduce((acc, { units, price }) => {
+      if (!price) throw new Error('Invalid price')
+      return acc.plus(units.times(price))
+    }, new Decimal(0))
     .toNumber()
 
 export const execute: Execute = async (input) => {
@@ -49,7 +47,7 @@ const customParams = {
   adapter: true,
 }
 
-const executeWithAdapters: Execute = async function (input, adapter) {
+const executeWithAdapters: Execute = async function (input, adapter: PriceAdapter) {
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
 
@@ -58,15 +56,14 @@ const executeWithAdapters: Execute = async function (input, adapter) {
 
   const { components, units } = await getAllocations(asset.adapter, asset.address)
 
-  const index = await getIndex(components, units)
+  const index = await makeIndex(components, units, 'mainnet')
 
-  const priceIndex = await adapter.getPriceIndex(index)
-  asset.index = priceIndex
-  const indexResult = calculateIndex(priceIndex)
+  const priceIndex = await adapter.getPriceIndex(index, 'USD')
+  const totalValue = calculateIndexValue(priceIndex)
 
   const response = {
     status: 200,
-    data: { result: indexResult, ...asset },
+    data: { ...input.data, result: totalValue, index: priceIndex },
   }
   return Requester.success(jobRunID, response)
 }

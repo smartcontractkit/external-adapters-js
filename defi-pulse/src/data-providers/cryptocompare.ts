@@ -2,10 +2,10 @@ import { Requester } from '@chainlink/external-adapter'
 import { Index } from '../adapter'
 import { util } from '@chainlink/ea-bootstrap'
 
-const getPriceData = async (symbols: string) => {
+const getPriceData = async (symbols: string, currency: string) => {
   const url = 'https://min-api.cryptocompare.com/data/pricemulti'
   const params = {
-    tsyms: 'USD',
+    tsyms: currency.toUpperCase(),
     fsyms: symbols,
     api_key: util.getRequiredEnv('API_KEY'),
   }
@@ -17,32 +17,22 @@ const getPriceData = async (symbols: string) => {
   return response.data
 }
 
-const toAssetPrice = (data: Record<string, any>) => {
-  const price = data['USD']
+const toAssetPrice = (data: Record<string, any>, currency: string) => {
+  const price = data[currency.toUpperCase()]
   if (!price || price <= 0) {
     throw new Error('Invalid price')
   }
   return price
 }
 
-const getPriceIndex = async (index: Index): Promise<Index> => {
-  const symbols: string[] = []
-  index.forEach(({ asset }) => {
-    symbols.push(asset.toUpperCase())
+const getPriceIndex = async (index: Index, currency: string): Promise<Index> => {
+  const symbols = index.map(({ asset }) => asset.toUpperCase()).join()
+  const prices = await getPriceData(symbols, currency)
+
+  return index.map((i) => {
+    const data = prices[i.asset.toUpperCase()]
+    return { ...i, price: toAssetPrice(data, currency) }
   })
-  const prices = await getPriceData(symbols.join())
-
-  const pricesMap = new Map()
-  for (const symbol in prices) {
-    pricesMap.set(symbol.toUpperCase(), prices[symbol])
-  }
-
-  for (const i of index) {
-    const data = pricesMap.get(i.asset.toUpperCase())
-    i.price = toAssetPrice(data)
-  }
-
-  return index
 }
 
 export default { getPriceIndex }

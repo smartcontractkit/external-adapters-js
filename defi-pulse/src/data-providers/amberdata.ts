@@ -16,21 +16,23 @@ const getPriceData = async (symbol: string) => {
 }
 
 const toAssetPrice = (data: Record<string, any>) => {
-  const price = data.payload[0] && data.payload[0].priceUSD
+  const price = data && data.priceUSD
   if (!price || price <= 0) {
     throw new Error('invalid price')
   }
   return price
 }
 
-const getPriceIndex = async (index: Index): Promise<Index> => {
-  await Promise.all(
+const getPriceIndex = async (index: Index, currency: string): Promise<Index> => {
+  return await Promise.all(
     index.map(async (i) => {
       const data = await getPriceData(i.asset)
-      i.price = toAssetPrice(data)
+      const symbolData = data.payload.find(
+        (asset: Record<string, any>) => asset.symbol.toUpperCase() === i.asset.toUpperCase(),
+      )
+      return { ...i, price: toAssetPrice(symbolData) }
     }),
   )
-  return index
 }
 
 export default { getPriceIndex }

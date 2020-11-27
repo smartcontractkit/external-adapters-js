@@ -6,11 +6,11 @@ const nomicsIds: Record<string, string> = {
   FTT: 'FTXTOKEN',
 }
 
-const getPriceData = async (symbols: string) => {
+const getPriceData = async (symbols: string, currency: string) => {
   const url = 'https://api.nomics.com/v1/currencies/ticker'
   const params = {
     ids: symbols,
-    convert: 'USD',
+    convert: currency.toUpperCase(),
     key: util.getRequiredEnv('API_KEY'),
   }
   const config = {
@@ -29,29 +29,27 @@ const toAssetPrice = (data: Record<string, any>) => {
   return price
 }
 
-const getPriceIndex: GetPriceIndex = async (index) => {
-  const symbols: string[] = []
-  index.forEach(({ asset }) => {
-    let symbol = asset.toUpperCase()
-    if (nomicsIds[symbol]) {
-      symbol = nomicsIds[symbol]
-    }
-    symbols.push(symbol)
-  })
+const getPriceIndex: GetPriceIndex = async (index, currency) => {
+  const symbols = index
+    .map(({ asset }) => {
+      const symbol = asset.toUpperCase()
+      if (nomicsIds[symbol]) {
+        return nomicsIds[symbol]
+      }
+      return symbol
+    })
+    .join()
 
-  const prices = await getPriceData(symbols.join())
-
+  const prices = await getPriceData(symbols, currency)
   const pricesMap = new Map()
   for (const p of prices) {
     pricesMap.set(p.symbol.toUpperCase(), p)
   }
 
-  for (const i of index) {
+  return index.map((i) => {
     const data = pricesMap.get(i.asset.toUpperCase())
-    i.price = toAssetPrice(data)
-  }
-
-  return index
+    return { ...i, price: toAssetPrice(data) }
+  })
 }
 
 export default { getPriceIndex }

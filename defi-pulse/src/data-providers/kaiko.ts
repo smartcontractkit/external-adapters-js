@@ -2,8 +2,8 @@ import { Requester } from '@chainlink/external-adapter'
 import { Index } from '../adapter'
 import { util } from '@chainlink/ea-bootstrap'
 
-const getPriceData = async (symbol: string) => {
-  const url = `https://us.market-api.kaiko.io/v2/data/trades.v1/spot_exchange_rate/${symbol.toLowerCase()}/usd`
+const getPriceData = async (symbol: string, currency: string) => {
+  const url = `https://us.market-api.kaiko.io/v2/data/trades.v1/spot_exchange_rate/${symbol.toLowerCase()}/${currency.toLowerCase()}`
   const params = {
     sort: 'desc',
   }
@@ -30,16 +30,15 @@ const toAssetPrice = (data: Record<string, any>) => {
   return price
 }
 
-const getPriceIndex = async (index: Index): Promise<Index> => {
-  await Promise.all(
+const getPriceIndex = async (index: Index, currency: string): Promise<Index> => {
+  return await Promise.all(
     index.map(async (i) => {
       // Particular for the Kaiko API only
       const asset = i.asset === 'UNI' ? 'uniswap' : i.asset
-      const data = await getPriceData(asset)
-      i.price = toAssetPrice(data)
+      const data = await getPriceData(asset, currency)
+      return { ...i, price: toAssetPrice(data) }
     }),
   )
-  return index
 }
 
 export default { getPriceIndex }

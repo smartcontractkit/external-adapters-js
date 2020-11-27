@@ -9,7 +9,6 @@ The adapter takes the following environment variables:
 - `RPC_URL`: Blockchain RPC endpoint to get the needed on-chain data
 - `DATA_PROVIDER`: Data provider to use. Some of them require an `API_KEY`(K). Options available:
     - `amberdata` (K)
-    - `bravenewcoin` (K)
     - `coinapi`(K)
     - `coingecko`
     - `coinmarketcap`(K)
@@ -18,6 +17,15 @@ The adapter takes the following environment variables:
     - `kaiko` (K)
     - `nomics`(K)
 - `API_KEY`: For those data providers who need an api key
+
+## NOTICE
+
+As explained before, this adapter makes use of some onchain data. The current implementation is fetching data directly from SetToken contracts (https://etherscan.io/address/0x78733fa5e70e3ab61dc49d93921b289e4b667093#code). Note that this implementation won't work in other networks unless we deploy a copy of the contract.
+
+The correct implementation should use SetProtocol.js typed library instead to fetch data directly from the SetToken contract directly. 
+The ChainlinkAdapter.getAllocations(ISetToken _setToken) should be reimplemented in JS in order to use it.
+
+[Go to current Implementation](./src/index-allocations/index.ts)
 
 ## Input Params
 

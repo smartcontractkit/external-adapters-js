@@ -6,6 +6,16 @@ type Allocations = {
   units: number[]
 }
 
+/*
+  NOTICE!
+
+  The current implementation is fetching data directly from SetToken contracts (https://etherscan.io/address/0x78733fa5e70e3ab61dc49d93921b289e4b667093#code)
+  Note that this implementation won't work in other networks unless we deploy a copy of the contract.
+
+  The correct implementation should use SetProtocol.js typed library instead to fetch data directly from the SetToken contract directly. 
+  The ChainlinkAdapter.getAllocations(ISetToken _setToken) should be reimplemented in JS in order to use it.
+*/
+
 const ABI = [
   {
     inputs: [{ internalType: 'contract ISetToken', name: '_setToken', type: 'address' }],

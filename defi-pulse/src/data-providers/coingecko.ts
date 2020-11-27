@@ -10,11 +10,11 @@ const getCoinList = async () => {
   return response.data
 }
 
-const getPriceData = async (id: string) => {
+const getPriceData = async (id: string, currency: string) => {
   const url = 'https://api.coingecko.com/api/v3/simple/price'
   const params = {
     ids: id,
-    vs_currencies: 'usd',
+    vs_currencies: currency.toLowerCase(),
   }
   const config = {
     url,
@@ -33,28 +33,27 @@ const coingeckoBlacklist = [
   'unicorn-token',
 ]
 
-const toAssetPrice = (data: Record<string, any>, coinId: string) => {
-  const price = data[coinId] && data[coinId].usd
+const toAssetPrice = (data: Record<string, any>, coinId: string, currency: string) => {
+  const price = data[coinId] && data[coinId][currency.toLowerCase()]
   if (!price || price <= 0) {
     throw new Error('invalid price')
   }
   return price
 }
 
-const getPriceIndex = async (index: Index): Promise<Index> => {
+const getPriceIndex = async (index: Index, currency: string): Promise<Index> => {
   const coinList = await getCoinList()
-  await Promise.all(
+  return await Promise.all(
     index.map(async (i) => {
       const coin = coinList.find(
         (d: any) =>
           d.symbol.toLowerCase() === i.asset.toLowerCase() &&
           !coingeckoBlacklist.includes(d.id.toLowerCase()),
       )
-      const data = await getPriceData(coin.id)
-      i.price = toAssetPrice(data, coin.id)
+      const data = await getPriceData(coin.id, currency)
+      return { ...i, price: toAssetPrice(data, coin.id, currency) }
     }),
   )
-  return index
 }
 
 export default { getPriceIndex }

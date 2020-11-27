@@ -2,15 +2,15 @@ import fs from 'fs'
 import { join } from 'path'
 import { ethers, utils } from 'ethers'
 import { util } from '@chainlink/ea-bootstrap'
+import { logger } from '@chainlink/external-adapter'
 
-const directoryPath = './src/symbols/directory.json'
 const rpcUrl = util.getRequiredEnv('RPC_URL')
 const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
 
 type Directory = Record<string, string>
 
-const getDirectory = (): Directory => {
-  const absolutePath = join(process.cwd(), directoryPath)
+const getDirectory = (network: string): Directory => {
+  const absolutePath = join(process.cwd(), `./src/symbols/directory.${network}.json`)
   const buffer = fs.readFileSync(absolutePath, 'utf8')
   return JSON.parse(buffer.toString())
 }
@@ -38,7 +38,7 @@ const getERC20Symbol = async (
   address: string,
 ): Promise<string> => {
   const _symbol = (abi: any) => new ethers.Contract(address, abi, provider).symbol()
-  console.log('Calling blockchain to get ERC20 token symbol...')
+  logger.info('Calling blockchain to get ERC20 token symbol...')
   try {
     return await _symbol(ERC20ABI)
   } catch (ignoreable) {
@@ -47,20 +47,11 @@ const getERC20Symbol = async (
   }
 }
 
-function memoizeDirectory() {
-  const directory = getDirectory()
-  return () => {
-    return directory
-  }
-}
+let cachedDirectory: Directory
 
-const cachedDirectory = memoizeDirectory()
-
-export const getSymbol = async (address: string): Promise<string> => {
-  const directory = cachedDirectory()
-  if (!directory[address]) {
-    const symbol = await getERC20Symbol(provider, address)
-    return symbol
+export const getSymbol = async (address: string, network: string): Promise<string> => {
+  if (!cachedDirectory) {
+    cachedDirectory = getDirectory(network)
   }
-  return directory[address]
+  return cachedDirectory[address] || (await getERC20Symbol(provider, address))
 }

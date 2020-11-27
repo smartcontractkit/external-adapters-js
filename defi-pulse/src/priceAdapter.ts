@@ -7,7 +7,6 @@ import coinmarketcap from './data-providers/coinmarketcap'
 import coingecko from './data-providers/coingecko'
 import coinapi from './data-providers/coinapi'
 import amberdata from './data-providers/amberdata'
-import bravenewcoin from './data-providers/bravenewcoin'
 import kaiko from './data-providers/kaiko'
 
 enum DataProvider {
@@ -24,7 +23,6 @@ enum DataProvider {
 
 const providers: Record<string, PriceAdapter> = {
   [DataProvider.Amberdata]: amberdata,
-  [DataProvider.Bravenewcoin]: bravenewcoin,
   [DataProvider.Cryptocompare]: cryptocompare,
   [DataProvider.Coinpaprika]: coinpaprika,
   [DataProvider.Nomics]: nomics,
@@ -34,9 +32,9 @@ const providers: Record<string, PriceAdapter> = {
   [DataProvider.Kaiko]: kaiko,
 }
 
-export type GetPriceIndex = (index: Index) => Promise<Index>
+export type GetPriceIndex = (index: Index, currency: string) => Promise<Index>
 
-type PriceAdapter = {
+export type PriceAdapter = {
   getPriceIndex: GetPriceIndex
 }
 
