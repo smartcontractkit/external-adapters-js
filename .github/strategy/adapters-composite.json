@@ -2,6 +2,6 @@
   "adapter": [
     "proof-of-reserves",
     "market-closure",
-    "defi-pulse-adapter"
+    "defi-pulse"
   ]
 }
