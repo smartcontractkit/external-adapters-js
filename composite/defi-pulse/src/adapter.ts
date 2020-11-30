@@ -31,13 +31,13 @@ async function makeIndex(
   )
 }
 
-const calculateIndexValue = (index: Index): number =>
-  index
-    .reduce((acc, { units, price }) => {
-      if (!price) throw new Error('Invalid price')
-      return acc.plus(units.times(price))
-    }, new Decimal(0))
-    .toNumber()
+const calculateIndexValue = (index: Index): number => {
+  // assert all prices are set
+  const isPriceSet = (i: IndexAsset) => i.price && i.price > 0
+  if (!index.every(isPriceSet)) throw new Error('Invalid index: price not set')
+  // calculate total value
+  return index.reduce((acc, i) => acc.plus(i.units.times(i!.price)), new Decimal(0)).toNumber()
+}
 
 export const execute: Execute = async (input) => {
   const dataProvider = util.getRequiredEnv('DATA_PROVIDER')
