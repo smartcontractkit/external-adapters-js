@@ -11,6 +11,11 @@ const getPriceData = async (synths) => {
     url,
     params,
   }
+  if (process.env.API_KEY) {
+    config.headers = {
+      authorization: `Apikey ${process.env.API_KEY}`,
+    }
+  }
   const response = await Requester.request(config)
   return response.data
 }

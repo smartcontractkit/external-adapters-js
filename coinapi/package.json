@@ -1,5 +1,5 @@
 {
-  "name": "@chainlink/coinapi",
+  "name": "@chainlink/coinapi-adapter",
   "version": "0.0.1",
   "license": "MIT",
   "main": "index.js",

@@ -1,12 +1,13 @@
 {
-  "name": "@chainlink/xbto-adapter",
+  "name": "@chainlink/tradermade-adapter",
   "version": "0.0.1",
-  "description": "Chainlink xbto adapter.",
+  "description": "Chainlink tradermade adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
-    "oracle"
+    "oracle",
+    "tradermade"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -24,7 +25,7 @@
     "build": "tsc -b",
     "lint": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix",
-    "test": "mocha --exit --timeout 10000 -r ts-node/register 'test/**/*.test.ts'",
+    "test": "mocha --exit --timeout 3000 -r ts-node/register 'test/**/*.test.ts'",
     "test:unit": "mocha --exit --grep @integration --invert -r ts-node/register 'test/**/*.test.ts'",
     "test:integration": "mocha --exit --timeout 3000 --grep @integration -r ts-node/register 'test/**/*.test.ts'",
     "server": "node -e 'require(\"./index.js\").server()'",

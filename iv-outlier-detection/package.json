@@ -1,5 +1,5 @@
 {
-  "name": "@chainlink/iv-outlier-detection",
+  "name": "@chainlink/iv-outlier-detection-adapter",
   "version": "0.0.1",
   "description": "Chainlink iv-outlier-detection adapter.",
   "keywords": [

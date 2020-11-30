@@ -1,5 +1,5 @@
 {
-  "name": "@chainlink/alphavantage",
+  "name": "@chainlink/alphavantage-adapter",
   "version": "0.0.1",
   "license": "MIT",
   "main": "index.js",
