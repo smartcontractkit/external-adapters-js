@@ -49,67 +49,56 @@ The ChainlinkAdapter.getAllocations(ISetToken _setToken) should be reimplemented
             {
                 "asset": "YFI",
                 "units": "0.000639863431575122",
-                "weight": 0,
                 "price": 24712.77
             },
             {
                 "asset": "COMP",
                 "units": "0.082679569392920759",
-                "weight": 0,
                 "price": 127.67
             },
             {
                 "asset": "SNX",
                 "units": "2.702312600734526421",
-                "weight": 0,
                 "price": 5.459
             },
             {
                 "asset": "MKR",
                 "units": "0.019413371198865064",
-                "weight": 0,
                 "price": 606.56
             },
             {
                 "asset": "REN",
                 "units": "18.793919794675247046",
-                "weight": 0,
                 "price": 0.3748
             },
             {
                 "asset": "KNC",
                 "units": "4.219789253398933837",
-                "weight": 0,
                 "price": 1.137
             },
             {
                 "asset": "LRC",
                 "units": "25.349336391802813884",
-                "weight": 0,
                 "price": 0.206
             },
             {
                 "asset": "BAL",
                 "units": "0.175076232830427677",
-                "weight": 0,
                 "price": 16.75
             },
             {
                 "asset": "REP",
                 "units": "0.11048123024801992",
-                "weight": 0,
                 "price": 17.81
             },
             {
                 "asset": "UNI",
                 "units": "4.332565485183901038",
-                "weight": 0,
                 "price": 4.171
             },
             {
                 "asset": "AAVE",
                 "units": "0.227406077211030818",
-                "weight": 0,
                 "price": 70.18
             }
         ]

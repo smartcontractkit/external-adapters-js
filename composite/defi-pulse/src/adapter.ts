@@ -12,7 +12,6 @@ export type Index = IndexAsset[]
 export type IndexAsset = {
   asset: string
   units: Decimal
-  weight: number
   price?: number
 }
 
@@ -27,7 +26,6 @@ async function makeIndex(
       return {
         asset: await getSymbol(component, network, rpcUrl),
         units: new Decimal(new utils.BigNumber(units[i]).toString()).div(1e18),
-        weight: 0,
       }
     }),
   )
