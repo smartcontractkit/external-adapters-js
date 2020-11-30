@@ -1,3 +1,7 @@
 {
-  "adapter": ["proof-of-reserves", "market-closure"]
+  "adapter": [
+    "proof-of-reserves",
+    "market-closure",
+    "defi-pulse-adapter"
+  ]
 }
