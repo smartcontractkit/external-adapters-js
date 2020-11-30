@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `taapi` to get Trading Analysis data
   - `stasis` to get Circulating Supply of EURS
   - `defi-pulse` to calculate an accurate price for the Defi Pulse Index
+  - `finage` to get Financial data from finage.co.uk
 - Added support for metadata in requests. This gives adapters access to the FM on-chain round state.
 - Moves re-usable test behaviors & testing utils to a new package - `@chainlink/adapter-test-helpers`
 
