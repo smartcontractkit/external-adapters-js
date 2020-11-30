@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `iv-outlier-detection` to get IV values with outlier detection
   - `taapi` to get Trading Analysis data
   - `stasis` to get Circulating Supply of EURS
+  - `finage` to get Financial data from finage.co.uk
 - Added support for metadata in requests. This gives adapters access to the FM on-chain round state.
 - Moves re-usable test behaviors & testing utils to a new package - `@chainlink/adapter-test-helpers`
 
