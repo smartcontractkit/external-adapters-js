@@ -25,6 +25,7 @@ const toAssetPrice = (data: Record<string, any>, currency: string) => {
 const getPriceIndex = async (index: Index, currency: string): Promise<Index> => {
   const priceData = await getPriceData(currency)
 
+  // There are duplicate symbols on the response. We only want the lowest in rank
   const sortedData = priceData.sort((a: any, b: any) => a.rank - b.rank)
   const priceMap = new Map()
   for (const price of sortedData) {

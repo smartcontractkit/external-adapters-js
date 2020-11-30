@@ -1,5 +1,4 @@
 import { ethers } from 'ethers'
-import { util } from '@chainlink/ea-bootstrap'
 
 type Allocations = {
   components: string[]
@@ -32,8 +31,8 @@ const ABI = [
 export const getAllocations = async (
   contractAddress: string,
   setAddress: string,
+  rpcUrl: string,
 ): Promise<Allocations> => {
-  const rpcUrl = util.getRequiredEnv('RPC_URL')
   const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
   const index = new ethers.Contract(contractAddress, ABI, provider)
   const info = await index.getAllocations(setAddress)

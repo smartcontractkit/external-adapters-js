@@ -33,10 +33,7 @@ const getPriceIndex: GetPriceIndex = async (index, currency) => {
   const symbols = index
     .map(({ asset }) => {
       const symbol = asset.toUpperCase()
-      if (nomicsIds[symbol]) {
-        return nomicsIds[symbol]
-      }
-      return symbol
+      return nomicsIds[symbol] || symbol
     })
     .join()
 

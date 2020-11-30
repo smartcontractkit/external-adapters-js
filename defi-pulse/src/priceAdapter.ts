@@ -38,7 +38,6 @@ export type PriceAdapter = {
   getPriceIndex: GetPriceIndex
 }
 
-export const getPriceAdapter = (): PriceAdapter => {
-  const dataProvider = util.getRequiredEnv('DATA_PROVIDER')
+export const getPriceAdapter = (dataProvider: string): PriceAdapter => {
   return providers[dataProvider]
 }

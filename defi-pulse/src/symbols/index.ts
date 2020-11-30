@@ -1,11 +1,7 @@
 import fs from 'fs'
 import { join } from 'path'
 import { ethers, utils } from 'ethers'
-import { util } from '@chainlink/ea-bootstrap'
 import { logger } from '@chainlink/external-adapter'
-
-const rpcUrl = util.getRequiredEnv('RPC_URL')
-const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
 
 type Directory = Record<string, string>
 
@@ -33,10 +29,8 @@ const ERC20ABI_bytes32 = [
   },
 ]
 
-const getERC20Symbol = async (
-  provider: ethers.providers.Provider,
-  address: string,
-): Promise<string> => {
+const getERC20Symbol = async (rpcUrl: string, address: string): Promise<string> => {
+  const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
   const _symbol = (abi: any) => new ethers.Contract(address, abi, provider).symbol()
   logger.info('Calling blockchain to get ERC20 token symbol...')
   try {
@@ -49,9 +43,13 @@ const getERC20Symbol = async (
 
 let cachedDirectory: Directory
 
-export const getSymbol = async (address: string, network: string): Promise<string> => {
+export const getSymbol = async (
+  address: string,
+  network: string,
+  rpcUrl: string,
+): Promise<string> => {
   if (!cachedDirectory) {
     cachedDirectory = getDirectory(network)
   }
-  return cachedDirectory[address] || (await getERC20Symbol(provider, address))
+  return cachedDirectory[address] || (await getERC20Symbol(rpcUrl, address))
 }

@@ -1,5 +1,6 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { Execute } from '@chainlink/types'
+import { util } from '@chainlink/ea-bootstrap'
 import { utils } from 'ethers'
 import { getSymbol } from './symbols'
 import { getAllocations } from './index-allocations'
@@ -15,11 +16,16 @@ export type IndexAsset = {
   price?: number
 }
 
-async function makeIndex(components: string[], units: number[], network: string): Promise<Index> {
+async function makeIndex(
+  components: string[],
+  units: number[],
+  network: string,
+  rpcUrl: string,
+): Promise<Index> {
   return await Promise.all(
     components.map(async (component, i) => {
       return {
-        asset: await getSymbol(component, network),
+        asset: await getSymbol(component, network, rpcUrl),
         units: new Decimal(new utils.BigNumber(units[i]).toString()).div(1e18),
         weight: 0,
       }
@@ -36,7 +42,8 @@ const calculateIndexValue = (index: Index): number =>
     .toNumber()
 
 export const execute: Execute = async (input) => {
-  const priceAdapter = getPriceAdapter()
+  const dataProvider = util.getRequiredEnv('DATA_PROVIDER')
+  const priceAdapter = getPriceAdapter(dataProvider)
   return await executeWithAdapters(input, priceAdapter)
 }
 
@@ -54,9 +61,10 @@ const executeWithAdapters: Execute = async function (input, adapter: PriceAdapte
   const jobRunID = validator.validated.id
   const asset = validator.validated.data
 
-  const { components, units } = await getAllocations(asset.adapter, asset.address)
+  const rpcUrl = util.getRequiredEnv('RPC_URL')
+  const { components, units } = await getAllocations(asset.adapter, asset.address, rpcUrl)
 
-  const index = await makeIndex(components, units, 'mainnet')
+  const index = await makeIndex(components, units, 'mainnet', rpcUrl)
 
   const priceIndex = await adapter.getPriceIndex(index, 'USD')
   const totalValue = calculateIndexValue(priceIndex)
