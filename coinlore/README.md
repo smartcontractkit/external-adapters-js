@@ -6,7 +6,7 @@
 
 https://api.coinlore.net/api/global/
 
-Use the `API_DEFAULT_ENDPOINT` env variable to set the API endpoint to use (either `dominance` or `globalmarketcap`).
+Use the `API_DEFAULT_ENDPOINT` env variable to set the default API endpoint to use (either `dominance` or `globalmarketcap`). Defaults to `dominance`.
 
 ### Input Params
 
