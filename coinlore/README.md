@@ -6,6 +6,8 @@
 
 https://api.coinlore.net/api/global/
 
+Use the `API_DEFAULT_ENDPOINT` env variable to set the API endpoint to use (either `dominance` or `globalmarketcap`).
+
 ### Input Params
 
 - `market`, `to`, `quote`: The coin to query (required)

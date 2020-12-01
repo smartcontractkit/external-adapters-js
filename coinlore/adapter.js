@@ -3,7 +3,7 @@ const { Requester, Validator } = require('@chainlink/external-adapter')
 const ENDPOINT_DOMINANCE = 'dominance'
 const ENDPOINT_MKTCAP = 'globalmarketcap'
 
-const DEFAULT_ENDPOINT = ENDPOINT_DOMINANCE
+const DEFAULT_ENDPOINT = process.env.API_DEFAULT_ENDPOINT || ENDPOINT_DOMINANCE
 
 const globalParams = {
   base: ['market', 'to', 'quote'],
