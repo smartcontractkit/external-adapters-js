@@ -29,7 +29,7 @@ describe('incorrect app config', () => {
 
   context(`when ${ENV_API_TIMEOUT} is set`, () => {
     it(`configures app with ${ENV_API_TIMEOUT} endpoint`, () => {
-      process.env[ENV_API_TIMEOUT] = "4"
+      process.env[ENV_API_TIMEOUT] = '4'
       const config = Requester.getDefaultConfig()
       expect(config).to.have.property('api')
       expect(config.api).to.have.property('timeout', 4)

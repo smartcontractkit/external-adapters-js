@@ -98,6 +98,6 @@ export class Requester {
     }
   }
 
- static getDefaultConfig = getDefaultConfig
- static logConfig = logConfig 
+  static getDefaultConfig = getDefaultConfig
+  static logConfig = logConfig
 }
