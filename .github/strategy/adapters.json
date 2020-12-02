@@ -68,6 +68,7 @@
     "stasis",
     "wti-outlier-detection",
     "tradermade",
-    "finage"
+    "finage",
+    "coincodex"
   ]
 }
