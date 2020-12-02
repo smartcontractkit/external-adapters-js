@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { Execute } from '@chainlink/types'
+import { AdapterRequest, Execute } from '@chainlink/types'
 import { util } from '@chainlink/ea-bootstrap'
 import { utils } from 'ethers'
 import { getSymbol } from './symbols'
@@ -53,7 +53,7 @@ const customParams = {
   adapter: true,
 }
 
-const executeWithAdapters: Execute = async function (input, adapter: PriceAdapter) {
+const executeWithAdapters = async function (input: AdapterRequest, adapter: PriceAdapter) {
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
 
