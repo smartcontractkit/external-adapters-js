@@ -1,13 +1,9 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { AdapterError } from './errors'
 import { logger } from './logger'
-import { Config } from '@chainlink/types'
-import { util } from '@chainlink/ea-bootstrap'
+import { getDefaultConfig, logConfig } from './config'
 
 const getFalse = () => false
-
-/* eslint-disable @typescript-eslint/no-unused-vars */
-const cloneNoSecrets = (config: Config): Config => (({ apiKey, ...o }) => o)(config)
 
 export class Requester {
   static async request(config: AxiosRequestConfig, customError?: any, retries = 3, delay = 1000) {
@@ -102,26 +98,6 @@ export class Requester {
     }
   }
 
-  static getDefaultConfig(prefix = ''): Config {
-    return {
-      apiKey: util.getEnv('API_KEY', prefix),
-      api: {
-        withCredentials: true,
-        timeout: parseInt(util.getEnv('API_TIMEOUT', prefix) as string) || 30000,
-        headers: {
-          common: {
-            'Cache-Control': 'no-cache, no-store, must-revalidate',
-            Pragma: 'no-cache',
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-          },
-        },
-      },
-    }
-  }
-
-  static logConfig = (config: Config): void => {
-    logger.debug('Adapter configuration:', { config: config && cloneNoSecrets(config) })
-    if (!config.apiKey) logger.warn('API will be rate limited without an API key.')
-  }
+ static getDefaultConfig = getDefaultConfig
+ static logConfig = logConfig 
 }
