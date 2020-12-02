@@ -6,7 +6,6 @@ import { parseBool, uuid, delay, exponentialBackOffMs, getWithCoalescing } from 
 import { ExecuteWrappedResponse, AdapterRequest, WrappedAdapterResponse } from '@chainlink/types'
 import { RedisOptions } from './redis'
 
-
 const DEFAULT_CACHE_TYPE = 'local'
 const DEFAULT_CACHE_KEY_GROUP = uuid()
 const DEFAULT_CACHE_KEY_IGNORED_PROPS = ['id', 'maxAge']

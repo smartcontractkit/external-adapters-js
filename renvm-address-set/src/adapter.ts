@@ -9,7 +9,7 @@ import {
 import { resolveInToken, getTokenName } from '@renproject/utils'
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
-import {  getConfig, DEFAULT_NETWORK, DEFAULT_TOKEN_OR_CONTRACT } from './config'
+import { getConfig, DEFAULT_NETWORK, DEFAULT_TOKEN_OR_CONTRACT } from './config'
 import { btc } from './coins'
 
 const inputParams = {

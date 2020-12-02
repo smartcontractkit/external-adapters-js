@@ -20,8 +20,8 @@ export type RedisOptions = ClientOpts & { maxAge: number; timeout: number }
 export const defaultOptions = (): RedisOptions => ({
   host: env.CACHE_REDIS_HOST || DEFAULT_CACHE_REDIS_HOST,
   port: Number(env.CACHE_REDIS_PORT) || DEFAULT_CACHE_REDIS_PORT,
-  path: env.CACHE_REDIS_PATH || DEFAULT_CACHE_REDIS_PATH as unknown as undefined,
-  url: env.CACHE_REDIS_URL || DEFAULT_CACHE_REDIS_URL as unknown as undefined,
+  path: env.CACHE_REDIS_PATH || ((DEFAULT_CACHE_REDIS_PATH as unknown) as undefined),
+  url: env.CACHE_REDIS_URL || ((DEFAULT_CACHE_REDIS_URL as unknown) as undefined),
   password: env.CACHE_REDIS_PASSWORD || DEFAULT_CACHE_REDIS_PASSWORD,
   maxAge: Number(env.CACHE_MAX_AGE) || DEFAULT_CACHE_MAX_AGE,
   timeout: Number(env.CACHE_REDIS_TIMEOUT) || DEFAULT_CACHE_REDIS_TIMEOUT,
@@ -57,10 +57,10 @@ const retryStrategy = (options: any) => {
 export class RedisCache {
   options: RedisOptions
   client: RedisClient
-  _auth: Function
-  _get: Function
-  _set: Function
-  _del: Function
+  _auth: any
+  _get: any
+  _set: any
+  _del: any
 
   constructor(options: RedisOptions) {
     this.options = options
