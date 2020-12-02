@@ -24,7 +24,7 @@ export const uuid = () => {
 
 export const toAsync = (execute: ExecuteSync, data: AdapterRequest) =>
   new Promise<WrappedAdapterResponse>((resolve) =>
-    execute(data, (statusCode: number, data: AdapterResponse) => resolve(data)),
+    execute(data, (statusCode: number, data: AdapterResponse) => resolve({ statusCode, data })),
   )
 
 export const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))

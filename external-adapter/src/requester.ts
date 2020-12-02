@@ -4,7 +4,7 @@ import { logger } from './logger'
 import { Config } from '@chainlink/types'
 import { util } from '@chainlink/ea-bootstrap'
 
-const defaultCustomError = () => false
+const getFalse = () => false
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 const cloneNoSecrets = (config: Config): Config => (({ apiKey, ...o }) => o)(config)
@@ -17,11 +17,11 @@ export class Requester {
       config.timeout = !isNaN(timeout) ? timeout : 3000
     }
 
-    if (!customError) customError = defaultCustomError
+    if (!customError) customError = getFalse
     if (typeof customError !== 'function') {
       delay = retries
       retries = customError
-      customError = defaultCustomError
+      customError = getFalse
     }
 
     const _retry = async (n: number): Promise<AxiosResponse> => {
@@ -83,7 +83,7 @@ export class Requester {
     return path.reduce((o, n) => o[n], data)
   }
 
-  static errored(jobRunID = '1', error?: any, statusCode = 500) {
+  static errored(jobRunID = '1', error: AdapterError | Error | string, statusCode = 500) {
     if (error instanceof AdapterError) return error.toJSONResponse()
     if (error instanceof Error)
       return new AdapterError({ jobRunID, statusCode, cause: error }).toJSONResponse()

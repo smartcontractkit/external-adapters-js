@@ -15,6 +15,14 @@ declare module '@chainlink/types' {
     result: any
   }
 
+  export type AdapterErrorResponse = {
+    input: any
+    customParams: any
+    validated: any
+    error: AdapterError | Error | undefined
+    errored: any
+  }
+
   // TODO: clean this ASAP
   export type WrappedAdapterResponse = {
     statusCode: number
@@ -37,7 +45,7 @@ declare module '@chainlink/types' {
     config: Config,
   ) => Promise<AdapterResponse>
 
-  export type ExecuteFactory = (config: Config) => Execute
+  export type ExecuteFactory = (config?: Config) => Execute
 
   export type Account = {
     address: string
