@@ -81,7 +81,8 @@
     "test-helpers",
     "wti-outlier-detection",
     "tradermade",
-    "finage"
+    "finage",
+    "coinranking"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",
