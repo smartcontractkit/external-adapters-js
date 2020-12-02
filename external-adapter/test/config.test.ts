@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import { Requester } from '../src/requester'
-import util from "@chainlink/ea-bootstrap"
+import util from '@chainlink/ea-bootstrap'
 
 const ENV_API_KEY = 'API_KEY'
 const ENV_API_ENDPOINT = 'API_ENDPOINT'

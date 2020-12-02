@@ -76,7 +76,7 @@ const executeSync = (execute: ExecuteWrappedResponse | ExecuteSync): ExecuteSync
   // const initMiddleware = withMiddleware(execute)
 
   // Return sync function
-  return (data: AdapterRequest, callback: Function) => {
+  return (data: AdapterRequest, callback: any) => {
     // We init on every call because of cache connection broken state issue
     return withMiddleware(execute)
       .then((executeWithMiddleware) => executeWithMiddleware && executeWithMiddleware(data))

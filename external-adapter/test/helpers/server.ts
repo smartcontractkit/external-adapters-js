@@ -47,11 +47,11 @@ export class Server {
       })
     })
 
-    this.server = this.app.listen(this.port, () => {})
+    this.server = this.app.listen(this.port)
   }
 
-  stop(fn = () => {}) {
-    if (this.server) this.server.close(fn)
+  stop(callback?: (err?: Error | undefined) => void) {
+    if (this.server) this.server.close(callback)
   }
 
   reset() {

@@ -1,11 +1,11 @@
 import { expect } from 'chai'
 import { useFakeTimers } from 'sinon'
-import { withCache, ImplCacheOptions, defaultOptions } from '../src/lib/cache'
+import { withCache, CacheImplOptions, defaultOptions } from '../src/lib/cache'
 import { LocalLRUCache } from '../src/lib/cache/local'
 import { CacheOptions } from '../src/lib/cache'
 import { ExecuteWrappedResponse } from '@chainlink/types'
 
-const callAndExpect = async (fn: Function, n: number, result: any) => {
+const callAndExpect = async (fn: any, n: number, result: any) => {
   while (n--) {
     const { data } = await fn(0)
     if (n === 0) expect(data.result).to.equal(result)
@@ -21,7 +21,7 @@ const counterFrom = (i = 0): ExecuteWrappedResponse => async (request) => {
 }
 
 // Build new cache every time
-const cacheBuilder = (options: ImplCacheOptions) => new LocalLRUCache(options)
+const cacheBuilder = (options: CacheImplOptions) => new LocalLRUCache(options)
 
 describe('cache', () => {
   context('options defaults', () => {

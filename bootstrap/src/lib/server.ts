@@ -14,7 +14,7 @@ export const HEADER_CONTENT_TYPE = 'Content-Type'
 export const CONTENT_TYPE_APPLICATION_JSON = 'application/json'
 export const CONTENT_TYPE_TEXT_PLAIN = 'text/plain'
 
-const notImplementedHealthCheck = (callback: Function) => callback(HTTP_ERROR_NOT_IMPLEMENTED)
+const notImplementedHealthCheck = (callback: any) => callback(HTTP_ERROR_NOT_IMPLEMENTED)
 
 export const initHandler = (
   execute: ExecuteSync,
