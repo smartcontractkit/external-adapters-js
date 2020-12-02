@@ -15,12 +15,19 @@ declare module '@chainlink/types' {
     result: any
   }
 
+  type ErrorBasic = {
+    name: string
+    message: string
+  }
+  type ErrorFull = ErrorBasic & {
+    stack: string
+    cause: string
+  }
   export type AdapterErrorResponse = {
-    input: any
-    customParams: any
-    validated: any
-    error: AdapterError | Error | undefined
-    errored: any
+    jobRunID: string
+    status: string
+    statusCode: number
+    error: ErrorBasic | ErrorFull
   }
 
   // TODO: clean this ASAP

@@ -1,3 +1,5 @@
+import { AdapterErrorResponse } from '@chainlink/types'
+
 export class AdapterError extends Error {
   jobRunID: string
   status: string
@@ -25,7 +27,7 @@ export class AdapterError extends Error {
     this.cause = cause
   }
 
-  toJSONResponse() {
+  toJSONResponse(): AdapterErrorResponse {
     const showDebugInfo = process.env.NODE_ENV === 'development' || process.env.DEBUG === 'true'
     const errorBasic = { name: this.name, message: this.message }
     const errorFull = { ...errorBasic, stack: this.stack, cause: this.cause }

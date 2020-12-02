@@ -1,13 +1,14 @@
 import { AdapterError } from './errors'
 import { Requester } from './requester'
 import { logger } from './logger'
+import { AdapterErrorResponse } from '@chainlink/types'
 
 export class Validator {
   input: any
   customParams: any
   validated: any
   error: AdapterError | undefined
-  errored: any
+  errored: AdapterErrorResponse | undefined
 
   constructor(input = {}, customParams = {}) {
     this.input = input

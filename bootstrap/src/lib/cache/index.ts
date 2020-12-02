@@ -89,13 +89,13 @@ export const withCache = async (
   }
 
   const _getKey = (data: AdapterRequest) => `${options.key.group}:${hash(data, hashOptions)}`
-  const _getCoalescingKey = (key: any) => `inFlight:${key}`
-  const _setInFlightMarker = async (key: any, maxAge: number) => {
+  const _getCoalescingKey = (key: string) => `inFlight:${key}`
+  const _setInFlightMarker = async (key: string, maxAge: number) => {
     if (!options.requestCoalescing.enabled) return
     await cache.set(key, true, maxAge)
     logger.debug(`Request coalescing: SET ${key}`)
   }
-  const _delInFlightMarker = async (key: any) => {
+  const _delInFlightMarker = async (key: string) => {
     if (!options.requestCoalescing.enabled) return
     await cache.del(key)
     logger.debug(`Request coalescing: DEL ${key}`)
