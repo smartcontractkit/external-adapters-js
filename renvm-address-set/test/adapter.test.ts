@@ -1,4 +1,4 @@
-import { execute } from '../src/adapter'
+import { makeExecute } from '../src/adapter'
 
 describe('adapter', () => {
   context('when API returns data', () => {

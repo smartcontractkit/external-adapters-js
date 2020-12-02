@@ -35,6 +35,8 @@ declare module '@chainlink/types' {
   import { AxiosRequestConfig } from 'axios'
   export type Config = {
     apiKey?: string
+    network?: string
+    returnRejectedPromiseOnError?: Boolean
     api: Partial<AxiosRequestConfig>
   }
 

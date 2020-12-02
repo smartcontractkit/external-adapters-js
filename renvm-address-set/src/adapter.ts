@@ -8,8 +8,8 @@ import {
 } from '@renproject/interfaces'
 import { resolveInToken, getTokenName } from '@renproject/utils'
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { Execute } from '@chainlink/types'
-import { Config, getConfig, logConfig, DEFAULT_NETWORK, DEFAULT_TOKEN_OR_CONTRACT } from './config'
+import { ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
+import {  getConfig, DEFAULT_NETWORK, DEFAULT_TOKEN_OR_CONTRACT } from './config'
 import { btc } from './coins'
 
 const inputParams = {
@@ -18,11 +18,11 @@ const inputParams = {
 }
 
 // Export function to integrate with Chainlink node
-export const execute: Execute = async (request, config: Config) => {
+export const execute: ExecuteWithConfig = async (request, config) => {
   const validator = new Validator(request, inputParams)
   if (validator.error) throw validator.error
 
-  logConfig(config)
+  Requester.logConfig(config)
 
   const jobRunID = validator.validated.id
   const { data } = validator.validated
@@ -79,5 +79,6 @@ export const execute: Execute = async (request, config: Config) => {
   })
 }
 
-// Export function to integrate with Chainlink node
-export const executeWithDefaults: Execute = async (request) => execute(request, getConfig())
+export const makeExecute: ExecuteFactory = (config) => {
+  return async (request) => execute(request, config || getConfig())
+}
