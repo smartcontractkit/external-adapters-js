@@ -6,7 +6,7 @@ export class Validator {
   input: any
   customParams: any
   validated: any
-  error: AdapterError | Error | undefined
+  error: AdapterError | undefined
   errored: any
 
   constructor(input = {}, customParams = {}) {

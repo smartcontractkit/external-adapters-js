@@ -83,7 +83,7 @@ export class Requester {
     return path.reduce((o, n) => o[n], data)
   }
 
-  static errored(jobRunID = '1', error: AdapterError | Error | string, statusCode = 500) {
+  static errored(jobRunID = '1', error?: AdapterError | Error | string, statusCode = 500) {
     if (error instanceof AdapterError) return error.toJSONResponse()
     if (error instanceof Error)
       return new AdapterError({ jobRunID, statusCode, cause: error }).toJSONResponse()
