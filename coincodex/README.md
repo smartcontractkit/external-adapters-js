@@ -1,5 +1,7 @@
 # Chainlink External Adapter for CoinCodex
 
+Price adapter to query the price of an asset in USD. Only USD is supported by CoinCodex as a quote currency.
+
 ## Input Params
 
 - `base`, `from`, or `coin`: The symbol of the currency to query
