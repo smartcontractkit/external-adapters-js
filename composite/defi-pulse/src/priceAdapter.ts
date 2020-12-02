@@ -1,4 +1,3 @@
-import { util } from '@chainlink/ea-bootstrap'
 import { Index } from './adapter'
 import cryptocompare from './data-providers/cryptocompare'
 import nomics from './data-providers/nomics'
