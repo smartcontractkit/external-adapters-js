@@ -1,6 +1,6 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { Execute } from '@chainlink/types'
-import { Config, getConfig, logConfig, DEFAULT_ENDPOINT } from './config'
+import { ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
+import { getConfig, DEFAULT_ENDPOINT } from './config'
 import { balance } from './endpoint'
 
 const inputParams = {
@@ -8,11 +8,11 @@ const inputParams = {
 }
 
 // Export function to integrate with Chainlink node
-export const execute: Execute = async (request, config: Config) => {
+export const execute: ExecuteWithConfig = async (request, config) => {
   const validator = new Validator(request, inputParams)
   if (validator.error) throw validator.error
 
-  logConfig(config)
+  Requester.logConfig(config)
 
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
@@ -38,5 +38,6 @@ export const execute: Execute = async (request, config: Config) => {
   })
 }
 
-// Export function to integrate with Chainlink node
-export const executeWithDefaults: Execute = async (request) => execute(request, getConfig())
+export const makeExecute: ExecuteFactory = (config) => {
+  return async (request) => execute(request, config || getConfig())
+}
