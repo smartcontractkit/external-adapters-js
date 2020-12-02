@@ -25,8 +25,8 @@
   "dependencies": {
     "@google-cloud/logging-winston": "^4.0.1",
     "axios": "^0.19.2",
-    "winston": "^3.3.3",
-    "uuid": "^8.3.0"
+    "uuid": "^8.3.0",
+    "winston": "^3.3.3"
   },
   "devDependencies": {
     "@types/uuid": "^8.3.0",
