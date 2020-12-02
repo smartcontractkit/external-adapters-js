@@ -82,6 +82,7 @@
     "wti-outlier-detection",
     "tradermade",
     "finage",
+    "coincodex",
     "coinranking"
   ],
   "scripts": {
