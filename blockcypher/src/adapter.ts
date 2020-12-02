@@ -1,5 +1,5 @@
 import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
-import { Execute, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
+import { ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
 import { getConfig, DEFAULT_ENDPOINT } from './config'
 import { balance } from './endpoint'
 
@@ -7,8 +7,7 @@ const inputParams = {
   endpoint: false,
 }
 
-// Export function to integrate with Chainlink node
-export const executeWithConfig: ExecuteWithConfig = async (request, config) => {
+export const execute: ExecuteWithConfig = async (request, config) => {
   const validator = new Validator(request, inputParams)
   if (validator.error) throw validator.error
 
@@ -39,7 +38,6 @@ export const executeWithConfig: ExecuteWithConfig = async (request, config) => {
   })
 }
 
-const makeExecute: ExecuteFactory = (config) => async (request) =>
-  executeWithConfig(request, config)
-
-export const execute: Execute = makeExecute(getConfig())
+export const makeExecute: ExecuteFactory = (config) => {
+  return async (request) => execute(request, config || getConfig())
+}

@@ -4,6 +4,8 @@ import * as local from './local'
 import * as redis from './redis'
 import { parseBool, uuid, delay, exponentialBackOffMs, getWithCoalescing } from '../util'
 import { ExecuteWrappedResponse, AdapterRequest, WrappedAdapterResponse } from '@chainlink/types'
+import { RedisOptions } from './redis'
+
 
 const DEFAULT_CACHE_TYPE = 'local'
 const DEFAULT_CACHE_KEY_GROUP = uuid()
@@ -45,16 +47,16 @@ const defaultCacheOptions = () => {
   const options = type === 'redis' ? redis.defaultOptions() : local.defaultOptions()
   return { ...options, type }
 }
-export type ImplCacheOptions = ReturnType<typeof defaultCacheOptions>
+export type CacheImplOptions = ReturnType<typeof defaultCacheOptions>
 
 // TODO: Revisit this after we stop to reinitialize middleware on every request
 // We store the local LRU cache instance, so it's not reinitialized on every request
 let localLRUCache: local.LocalLRUCache
 const defaultCacheBuilder = () => {
-  return (options: ImplCacheOptions) => {
+  return (options: CacheImplOptions) => {
     switch (options.type) {
       case 'redis':
-        return redis.RedisCache.build(options)
+        return redis.RedisCache.build(options as RedisOptions)
       default:
         return localLRUCache || (localLRUCache = new local.LocalLRUCache(options))
     }
@@ -65,7 +67,7 @@ export const redactOptions = (options: CacheOptions) => ({
   ...options,
   cacheOptions:
     options.cacheOptions.type === 'redis'
-      ? redis.redactOptions(options.cacheOptions)
+      ? redis.redactOptions(options.cacheOptions as RedisOptions)
       : local.redactOptions(options.cacheOptions),
 })
 
@@ -74,7 +76,7 @@ export const withCache = async (
   options: CacheOptions = defaultOptions(),
 ) => {
   // If no options read the env with sensible defaults
-  if (!options) options
+  if (!options) options = defaultOptions()
   // If disabled noop
   if (!options.enabled) return (data: AdapterRequest) => execute(data)
 

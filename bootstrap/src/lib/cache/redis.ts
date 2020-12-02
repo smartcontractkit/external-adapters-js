@@ -6,8 +6,8 @@ import { createClient, ClientOpts, RedisClient } from 'redis'
 // Connection
 const DEFAULT_CACHE_REDIS_HOST = '127.0.0.1' // IP address of the Redis server
 const DEFAULT_CACHE_REDIS_PORT = 6379 // Port of the Redis server
-const DEFAULT_CACHE_REDIS_PATH = undefined // The UNIX socket string of the Redis server
-const DEFAULT_CACHE_REDIS_URL = undefined // The URL of the Redis server
+const DEFAULT_CACHE_REDIS_PATH = null // The UNIX socket string of the Redis server
+const DEFAULT_CACHE_REDIS_URL = null // The URL of the Redis server
 const DEFAULT_CACHE_REDIS_PASSWORD = undefined // The password required for redis auth
 const DEFAULT_CACHE_REDIS_TIMEOUT = 500 // Timeout in ms
 // Options
@@ -20,8 +20,8 @@ export type RedisOptions = ClientOpts & { maxAge: number; timeout: number }
 export const defaultOptions = (): RedisOptions => ({
   host: env.CACHE_REDIS_HOST || DEFAULT_CACHE_REDIS_HOST,
   port: Number(env.CACHE_REDIS_PORT) || DEFAULT_CACHE_REDIS_PORT,
-  path: env.CACHE_REDIS_PATH || DEFAULT_CACHE_REDIS_PATH,
-  url: env.CACHE_REDIS_URL || DEFAULT_CACHE_REDIS_URL,
+  path: env.CACHE_REDIS_PATH || DEFAULT_CACHE_REDIS_PATH as unknown as undefined,
+  url: env.CACHE_REDIS_URL || DEFAULT_CACHE_REDIS_URL as unknown as undefined,
   password: env.CACHE_REDIS_PASSWORD || DEFAULT_CACHE_REDIS_PASSWORD,
   maxAge: Number(env.CACHE_MAX_AGE) || DEFAULT_CACHE_MAX_AGE,
   timeout: Number(env.CACHE_REDIS_TIMEOUT) || DEFAULT_CACHE_REDIS_TIMEOUT,
