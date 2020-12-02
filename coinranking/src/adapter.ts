@@ -24,9 +24,7 @@ const referenceSymbolToUuid = async (symbol: string): Promise<string> => {
   const currency = response.data.data.currencies.find(
     (x: Record<string, unknown>) => (x['symbol'] as string).toLowerCase() === symbol.toLowerCase(),
   )
-  if (typeof currency === 'undefined') {
-    throw 'coin not found'
-  }
+  if (!currency) throw Error(`Currency not found for symbol: ${symbol}`)
   return currency.uuid
 }
 
