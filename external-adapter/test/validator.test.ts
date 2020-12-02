@@ -12,8 +12,8 @@ describe('Validator', () => {
       assert.equal(validator.validated.id, '1')
       assert.isEmpty(validator.validated.data)
       assert.exists(validator.error)
-      assert.equal(validator.error.statusCode, 400)
-      assert.equal(validator.error.status, 'errored')
+      assert.equal(validator?.error?.statusCode, 400)
+      assert.equal(validator?.error?.status, 'errored')
     })
 
     it('does not error if optional params are included', () => {
@@ -58,8 +58,8 @@ describe('Validator', () => {
       assert.equal(validator.validated.id, '1')
       assert.isEmpty(validator.validated.data)
       assert.exists(validator.error)
-      assert.equal(validator.error.statusCode, 400)
-      assert.equal(validator.error.status, 'errored')
+      assert.equal(validator?.error?.statusCode, 400)
+      assert.equal(validator?.error?.status, 'errored')
     })
 
     it('errors if an array param is not provided', () => {
@@ -73,9 +73,9 @@ describe('Validator', () => {
       const validator = new Validator(input, params)
       assert.equal(validator.validated.id, input.id)
       assert.isEmpty(validator.validated.data)
-      assert.exists(validator.error)
-      assert.equal(validator.error.statusCode, 400)
-      assert.equal(validator.error.status, 'errored')
+      assert.exists(validator?.error)
+      assert.equal(validator?.error?.statusCode, 400)
+      assert.equal(validator?.error?.status, 'errored')
     })
 
     it('errors if a boolean param is not provided', () => {
@@ -89,8 +89,8 @@ describe('Validator', () => {
       const validator = new Validator(input, params)
       assert.equal(validator.validated.id, input.id)
       assert.exists(validator.error)
-      assert.equal(validator.error.statusCode, 400)
-      assert.equal(validator.error.status, 'errored')
+      assert.equal(validator?.error?.statusCode, 400)
+      assert.equal(validator?.error?.status, 'errored')
     })
 
     it('does not error if required params are included', () => {
