@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { Execute, Implementations } from '@chainlink/types'
+=======
+import { Execute } from '@chainlink/types'
+>>>>>>> a9cb245... Fix types for composite PoR
 import renVM from '@chainlink/renvm-address-set-adapter'
 import wBTC from '@chainlink/wbtc-address-set-adapter'
 

@@ -1,13 +1,7 @@
-<<<<<<< HEAD
 import { Execute, Implementations } from '@chainlink/types'
 import blockchainCom from '@chainlink/blockchain.com-adapter'
 import blockcypher from '@chainlink/blockcypher-adapter'
-=======
-import { Execute } from '@chainlink/types'
-import blockchainCom from '@chainlink/blockchain.com'
-import blockcypher from '@chainlink/blockcypher'
-import blockchair from '@chainlink/blockchair'
->>>>>>> 958164f... Add to composite
+import blockchair from '@chainlink/blockchair-adapter'
 
 export type BitcoinIndexerOptions = { type?: BitcoinIndexer }
 export enum BitcoinIndexer {
