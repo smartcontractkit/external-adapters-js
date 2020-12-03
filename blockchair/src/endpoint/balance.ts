@@ -1,18 +1,10 @@
 import objectPath from 'object-path'
-import { Requester, Validator } from '@chainlink/external-adapter'
-import { AdapterRequest } from '@chainlink/types'
-import { Config, DEFAULT_DATA_PATH, getBaseURL } from '../config'
-import { CoinType, ChainType } from '.'
+import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
+import { AdapterRequest, Config, Address, Account } from '@chainlink/types'
+import { DEFAULT_DATA_PATH, getBaseURL } from '../config'
+import { CoinType, ChainType, COINS } from '.'
 
 export const Name = 'balance'
-
-type Address = {
-  address: string
-  coin?: CoinType
-  chain?: ChainType
-  balance?: number
-  warning?: string
-}
 
 type AddressGroup = {
   addresses: string[]
@@ -25,7 +17,7 @@ type GroupedAddresses = {
 
 type ResponseWithResult = {
   response: any
-  result: Address[]
+  result: Account[]
 }
 
 type RequestData = {
@@ -33,47 +25,45 @@ type RequestData = {
   confirmations: number
 }
 
-const coins: { [ticker: string]: string } = {
-  btc: 'bitcoin',
-  dash: 'dash',
-  doge: 'dogecoin',
-  ltc: 'litecoin',
-  zec: 'zcash',
-  bch: 'bitcoin-cash',
-  bsv: 'bitcoin-sv',
-  grs: 'groestlcoin',
-}
-
 const WARNING_NO_OPERATION_TESTNET =
-  'No Operation: only testnet supported by blockcypher adapter is btc'
-const WARNING_NO_OPERATION_MISSING_ADDRESS = 'No Operation: address param is missing'
-const WARNING_NO_OPERATION_ADDRESS_NOT_FOUND = 'No Operation: address does not exist on network'
+  'No Operation: only testnet supported by blockchair adapter is btc'
 
-const group = (addresses: Address[]) => {
+const group = (jobRunID: string, addresses: Address[]) => {
   const output: GroupedAddresses = {}
   for (const addr of addresses) {
-    if (!addr?.address) addr.warning = WARNING_NO_OPERATION_MISSING_ADDRESS
-    if (!addr?.coin) {
-      addr.coin = 'btc'
-    }
-    if (!addr?.chain) {
-      addr.chain = 'mainnet'
-    }
+    if (!addr.address)
+      throw new AdapterError({
+        jobRunID,
+        message: `Addresses are required`,
+        statusCode: 400,
+      })
+    addr.coin = addr.coin || 'btc'
+    addr.chain = addr.chain || 'mainnet'
     const { address, coin, chain } = addr
-    if (output[`${coin}-${chain}`]) {
-      output[`${coin}-${chain}`].addresses.push(address)
-      output[`${coin}-${chain}`].result.push(addr)
-    } else output[`${coin}-${chain}`] = { addresses: [address], result: [addr] }
+    const key = `${coin}-${chain}`
+    output[key] = output[key] || { addresses: [], result: [] }
+    output[key].addresses.push(address)
+    output[key].result.push(addr)
   }
   return output
 }
 
 const getBalanceURI = (jobRunID: string, addresses: string[], chain: string, coin: string) => {
-  coin = coins[coin]
-  if (!coin) throw Requester.errored(jobRunID, `Unsupported coin parameter`, 400)
+  coin = Requester.toVendorName(coin, COINS)
+  if (!coin)
+    throw new AdapterError({
+      jobRunID,
+      message: `Unsupported coin parameter`,
+      statusCode: 500,
+    })
   if (chain === 'testnet') {
     if (coin === 'bitcoin') coin = 'bitcoin/testnet'
-    else throw Requester.errored(jobRunID, WARNING_NO_OPERATION_TESTNET, 400)
+    else
+      throw new AdapterError({
+        jobRunID,
+        message: WARNING_NO_OPERATION_TESTNET,
+        statusCode: 400,
+      })
   }
   return `/${coin}/addresses/balances?addresses=${addresses.join(',')}`
 }
@@ -86,7 +76,7 @@ const getBalances = async (
   Promise.all(
     Object.entries(groupedData).map(async ([network, reqData]) => {
       const [coin, chain] = network.split('-')
-      let { result } = reqData
+      const { result } = reqData
 
       const reqConfig = {
         ...config.api,
@@ -96,15 +86,15 @@ const getBalances = async (
 
       const response = await Requester.request(reqConfig)
 
-      result = result.map((r) => {
-        r.balance = response.data.data[r.address]
-        if (!r.balance) r.warning = WARNING_NO_OPERATION_ADDRESS_NOT_FOUND
-        return r
-      })
+      const toResultWithBalance = (r) => {
+        const balance = response.data.data[r.address]
+        return { ...r, balance }
+      }
+      const resultWithBalance: Account[] = result.map(toResultWithBalance)
 
       return {
         response: response.data,
-        result,
+        result: resultWithBalance,
       }
     }),
   )
@@ -136,12 +126,12 @@ export const execute = async (config: Config, request: AdapterRequest) => {
 
   // Check if input data is valid
   if (!inputData || !Array.isArray(inputData) || inputData.length === 0)
-    throw Requester.errored(
+    throw new AdapterError({
       jobRunID,
-      `Input, at '${dataPath}' path, must be a non-empty array.`,
-      400,
-    )
-  const groupedData = group(inputData)
+      message: `Input, at '${dataPath}' path, must be a non-empty array.`,
+      statusCode: 400,
+    })
+  const groupedData = group(jobRunID, inputData)
   const response = await getBalances(jobRunID, config, groupedData)
   return reduceResponse(response)
 }
