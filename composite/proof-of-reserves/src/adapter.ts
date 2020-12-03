@@ -1,11 +1,11 @@
 import { logger } from '@chainlink/external-adapter'
-import { AdapterRequest, AdapterResponse, ExecuteWithDefaults } from '@chainlink/types'
+import { AdapterRequest, AdapterResponse, Execute } from '@chainlink/types'
 import reduceAdapter from '@chainlink/reduce'
 import { getImpl as getProtocolImpl, getProtocol } from './protocol'
 import { getImpl as getBalanceImpl, getBitcoinIndexer } from './balance'
 
 // Run, log, throw on error
-const runAdapter = async (execute: ExecuteWithDefaults, input: AdapterRequest, tag: string) => {
+const runAdapter = async (execute: Execute, input: AdapterRequest, tag: string) => {
   const output = await execute(input)
   logger.debug(tag, { output })
   return output
@@ -48,7 +48,7 @@ const runReduceAdapter = async (input: AdapterResponse) => {
   return runAdapter(execute, next, '_onReduce')
 }
 
-export const execute: ExecuteWithDefaults = async (input) => {
+export const execute: Execute = async (input) => {
   const protocolOutput = await runProtocolAdapter(input)
   const balanceOutput = await runBalanceAdapter(protocolOutput)
   const reduceOutput = await runReduceAdapter(balanceOutput)

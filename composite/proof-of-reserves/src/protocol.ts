@@ -1,6 +1,6 @@
-import { ExecuteWithDefaults } from '@chainlink/types'
-import renVM from '@chainlink/renvm-address-set'
-import wBTC from '@chainlink/wbtc-address-set'
+import { Execute } from '@chainlink/types'
+import renVM from '@chainlink/renvm-address-set-adapter'
+import wBTC from '@chainlink/wbtc-address-set-adapter'
 
 export type ProtocolOptions = { type?: Protocol }
 export enum Protocol {
@@ -16,7 +16,7 @@ export const getProtocol = (): Protocol | undefined => {
   return isProtocol(protocol) ? (protocol as Protocol) : undefined
 }
 
-export const getImpl = (options: ProtocolOptions): ExecuteWithDefaults => {
+export const getImpl = (options: ProtocolOptions): Execute => {
   const prefix = options.type?.toUpperCase()
   switch (options.type) {
     case Protocol.RenVM:
