@@ -56,10 +56,12 @@ declare module '@chainlink/types' {
 
   export type ExecuteFactory = (config?: Config) => Execute
 
-  export type Account = {
+  export type Address = {
     address: string
-    coin?: CoinType
-    chain?: ChainType
+    coin?: string
+    chain?: string
+  }
+  export type Account = Address & {
     balance?: number
   }
 }
