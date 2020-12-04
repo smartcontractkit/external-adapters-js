@@ -22,10 +22,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
+- More type support. EA-bootstrap and external-adapter packages brought to TypeScript.
 - Oilprice adapters now accept a common request for Brent crude oil: `{"market":"brent"}`
 - Market closure is now a composite adapter, and now follows the build instructions for composite adapters. Market
   now also supports using metadata.
-- Coinlore now accepts an optional environment variable to set the default API endpoint 
+- Coinlore now accepts an optional environment variable to set the default API endpoint
+- Blockchair adapter has a second endpoint for getting an account's on-chain balance
 
 ## [0.1.4] - 2020-10-30
 
