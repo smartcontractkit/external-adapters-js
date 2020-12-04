@@ -1,6 +1,7 @@
 {
-  "name": "@chainlink/agoric",
+  "name": "@chainlink/agoric-adapter",
   "version": "0.0.1",
+  "description": "Chainlink adapter to post to the Agoric blockchain",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -13,7 +14,8 @@
   },
   "scripts": {
     "prepublishOnly": "yarn build && yarn test:unit",
-    "build": "tsc",
+    "setup": "yarn build",
+    "build": "tsc -b",
     "lint": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix",
     "test": "mocha --exit --timeout 3000 -r ts-node/register 'test/**/*.test.ts'",
