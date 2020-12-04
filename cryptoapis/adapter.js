@@ -48,7 +48,7 @@ const difficulty = (jobRunID, input, callback) => {
 
   const blockchain = validator.validated.data.blockchain
   const network = validator.validated.data.network || 'mainnet'
-  const url = `https://api.cryptoapis.io/v1/bc/${blockchain.toLowerCase()}/${network.toLowerCase()}/info`
+  const url = `https://api.cryptoapis.io/v1/bc/${blockchain.toLowerCase()}/${network.toLowerCase()}/blocks/latest`
 
   const config = {
     url,
