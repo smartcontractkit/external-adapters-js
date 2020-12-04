@@ -27,7 +27,7 @@ describe('execute', () => {
         name: 'BTC testnet difficulty',
         testData: {
           id: jobID,
-          data: { blockchain: 'BTC', network: 'Testnet', endpoint: 'difficulty' },
+          data: { blockchain: 'BTC', network: 'mainnet', endpoint: 'difficulty' },
         },
       },
     ]
