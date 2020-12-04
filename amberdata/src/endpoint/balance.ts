@@ -1,18 +1,10 @@
 import objectPath from 'object-path'
-import { Requester, Validator } from '@chainlink/external-adapter'
-import { AdapterRequest } from '@chainlink/types'
-import { Config, DEFAULT_DATA_PATH, getBaseURL } from '../config'
-import { CoinType, ChainType, isCoinType, isChainType } from '.'
+import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
+import { AdapterRequest, Config, Address, Account } from '@chainlink/types'
+import { DEFAULT_DATA_PATH, getBaseURL } from '../config'
+import { BLOCKCHAINS, isCoinType, isChainType } from '.'
 
 export const Name = 'balance'
-
-type Address = {
-  address: string
-  coin?: CoinType
-  chain?: ChainType
-  balance?: number
-  warning?: string
-}
 
 type RequestData = {
   dataPath: string
@@ -21,16 +13,8 @@ type RequestData = {
 
 type ResponseWithResult = {
   response: any
-  result: Address
-}
-
-const blockchains: { [ticker: string]: string } = {
-  btc: 'bitcoin',
-  eth: 'ethereum',
-  bch: 'bitcoin-abc',
-  ltc: 'litecoin',
-  btsv: 'bitcoin-sv',
-  zec: 'zcash',
+  result: Account
+  warning?: string
 }
 
 const WARNING_NO_OPERATION_COIN = 'No Operation: unsupported coin'
@@ -42,7 +26,7 @@ const WARNING_NO_OPERATION_MISSING_ADDRESS = 'No Operation: address param is mis
 const getBalanceURI = (address: string) => `/api/v2/addresses/${address}/account-balances/latest`
 
 const getBlockchainHeader = (chain: string, coin: string) => {
-  const network = blockchains[coin]
+  const network = Requester.toVendorName(coin, BLOCKCHAINS)
   if (chain === 'testnet') {
     if (network === 'ethereum') return 'ethereum-rinkeby'
     throw WARNING_NO_OPERATION_TESTNET
@@ -53,13 +37,26 @@ const getBlockchainHeader = (chain: string, coin: string) => {
 const getBalances = async (config: Config, addresses: Address[]): Promise<ResponseWithResult[]> =>
   Promise.all(
     addresses.map(async (addr: Address) => {
-      if (!addr.address) return { ...addr, warning: WARNING_NO_OPERATION_MISSING_ADDRESS }
+      const warnedResponse = {
+        result: { ...addr, balance: 0 },
+        response: null,
+      }
+
+      if (!addr.address) return { ...warnedResponse, warning: WARNING_NO_OPERATION_MISSING_ADDRESS }
 
       if (!addr.coin) addr.coin = 'btc'
-      if (isCoinType(addr.coin) === false) return { ...addr, warning: WARNING_NO_OPERATION_COIN }
+      if (isCoinType(addr.coin) === false)
+        return {
+          ...warnedResponse,
+          warning: WARNING_NO_OPERATION_COIN,
+        }
 
       if (!addr.chain) addr.chain = 'mainnet'
-      if (isChainType(addr.chain) === false) return { ...addr, warning: WARNING_NO_OPERATION_CHAIN }
+      if (isChainType(addr.chain) === false)
+        return {
+          ...warnedResponse,
+          warning: WARNING_NO_OPERATION_CHAIN,
+        }
 
       const reqConfig: any = {
         ...config.api,
@@ -69,14 +66,10 @@ const getBalances = async (config: Config, addresses: Address[]): Promise<Respon
 
       reqConfig.headers['x-amberdata-blockchain-id'] = getBlockchainHeader(addr.chain, addr.coin)
 
-      try {
-        const response = await Requester.request(reqConfig)
-        return {
-          response: response.data,
-          result: { ...addr, balance: response.data.payload.value },
-        }
-      } catch (error) {
-        return error
+      const response = await Requester.request(reqConfig)
+      return {
+        response: response.data,
+        result: { ...addr, balance: response.data.payload.value },
       }
     }),
   )
@@ -111,12 +104,11 @@ export const execute = async (config: Config, request: AdapterRequest) => {
 
   // Check if input data is valid
   if (!inputData || !Array.isArray(inputData) || inputData.length === 0)
-    throw Requester.errored(
+    throw new AdapterError({
       jobRunID,
-      `Input, at '${dataPath}' path, must be a non-empty array.`,
-      400,
-    )
-
+      message: `Input, at '${dataPath}' path, must be a non-empty array.`,
+      statusCode: 400,
+    })
   const responses = await getBalances(config, inputData)
   return reduceResponse(responses)
 }

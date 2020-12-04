@@ -1,6 +1,6 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { AdapterRequest } from '@chainlink/types'
-import { Config, getBaseURL } from '../config'
+import { AdapterRequest, Config } from '@chainlink/types'
+import { getBaseURL } from '../config'
 
 export const Name = 'price'
 
@@ -17,7 +17,6 @@ export const execute = async (config: Config, request: AdapterRequest) => {
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 
-  const jobRunID = validator.validated.id
   const coin = validator.validated.data.base
   const market = validator.validated.data.quote
   const url = `/api/v2/market/spot/prices/pairs/${coin.toLowerCase()}_${market.toLowerCase()}/latest`

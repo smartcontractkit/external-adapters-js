@@ -11,3 +11,12 @@ export type ChainType = typeof CHAIN_KEYS[number]
 export function isChainType(key: string): key is ChainType {
   return CHAIN_KEYS.includes(key as ChainType)
 }
+
+export const BLOCKCHAINS: { [ticker: string]: string } = {
+  btc: 'bitcoin',
+  eth: 'ethereum',
+  bch: 'bitcoin-abc',
+  ltc: 'litecoin',
+  btsv: 'bitcoin-sv',
+  zec: 'zcash',
+}

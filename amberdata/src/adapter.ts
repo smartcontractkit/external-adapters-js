@@ -1,6 +1,6 @@
-import { Requester, Validator } from '@chainlink/external-adapter'
-import { Execute, ExecuteWithDefaults } from '@chainlink/types'
-import { Config, getConfig, logConfig, DEFAULT_ENDPOINT } from './config'
+import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
+import { ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
+import { getConfig, DEFAULT_ENDPOINT } from './config'
 import { price, balance } from './endpoint'
 
 const inputParams = {
@@ -8,11 +8,11 @@ const inputParams = {
 }
 
 // Export function to integrate with Chainlink node
-export const execute: Execute = async (request, config: Config) => {
+export const execute: ExecuteWithConfig = async (request, config) => {
   const validator = new Validator(request, inputParams)
   if (validator.error) throw validator.error
 
-  logConfig(config)
+  Requester.logConfig(config)
 
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
@@ -28,13 +28,17 @@ export const execute: Execute = async (request, config: Config) => {
       break
     }
     default: {
-      throw Requester.errored(jobRunID, `Endpoint ${endpoint} not supported.`, 400)
+      throw new AdapterError({
+        jobRunID,
+        message: `Endpoint ${endpoint} not supported.`,
+        statusCode: 400,
+      })
     }
   }
 
   return Requester.success(jobRunID, response)
 }
 
-// Export function to integrate with Chainlink node
-export const executeWithDefaults: ExecuteWithDefaults = async (request) =>
-  execute(request, getConfig())
+export const makeExecute: ExecuteFactory = (config) => {
+  return async (request) => execute(request, config || getConfig())
+}

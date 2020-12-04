@@ -67,18 +67,6 @@ Gets the [latest spot VWAP price](https://docs.amberdata.io/reference#spot-price
       },
       {
         "address": "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF"
-      },
-      {
-        "address": "3ANaBZ6odMrzdg9xifgRNxAUFUxnReesws"
-      },
-      {
-        "address": "3FFgKaYkEf1M73QtzuY9DGqC7VeM2sAQhT"
-      },
-      {
-        "address": "3KTeq879YjzhqkAXzZmdapJAVC6qz5qEth"
-      },
-      {
-        "address": "35ULMyVnFoYaPaMxwHTRmaGdABpAThM4QR"
       }
     ]
   }
