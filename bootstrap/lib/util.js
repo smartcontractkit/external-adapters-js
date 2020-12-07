@@ -8,6 +8,15 @@ const parseBool = (value) => {
   return (_val === 'true' || _val === 'false') && _val === 'true'
 }
 
+// parse incoming query string, strings into Numbers where possible
+const parseQueryString = (query) => {
+  let formatted = {}
+  for (const [key, val] of Object.entries(query)) {
+    formatted[key] = isNaN(val) ? val : Number(val)
+  }
+  return formatted
+}
+
 // We generate an UUID per instance
 const uuid = () => {
   if (!process.env.UUID) process.env.UUID = uuidv4()
@@ -102,4 +111,5 @@ module.exports = {
   exponentialBackOffMs,
   getWithCoalescing,
   wrapExecute,
+  parseQueryString,
 }

@@ -8,6 +8,8 @@ const {
   HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE_MESSAGE,
 } = require('./errors')
 
+const { parseQueryString } = require('./util')
+
 const awsGetRequestHeaders = (event) => {
   if (!event || !event.headers) return {}
 
@@ -46,8 +48,9 @@ exports.initHandlerREST = (execute) => (event, _context, callback) => {
   if (!isContentTypeSupported(event)) {
     return callback(null, UNSUPPORTED_MEDIA_TYPE_RESPONSE)
   }
-
-  execute(event, (_, data) => {
+  let newBody = event.requestBody
+  newBody.data = Object.assign(event.requestBody.data === undefined ? {} : event.requestBody.data, parseQueryString(event.queryStringParameters))
+  execute(newBody, (_, data) => {
     callback(null, data)
   })
 }
@@ -57,8 +60,10 @@ exports.initHandlerHTTP = (execute) => (event, _context, callback) => {
   if (!isContentTypeSupported(event)) {
     return callback(null, UNSUPPORTED_MEDIA_TYPE_RESPONSE)
   }
-
-  execute(JSON.parse(event.body), (statusCode, data) => {
+  const body = JSON.parse(event.body)
+  let newBody = body.requestBody
+  newBody.data = Object.assign(event.requestBody.data === undefined ? {} : event.requestBody.data, parseQueryString(event.queryStringParameters))
+  execute(newBody, (statusCode, data) => {
     callback(null, {
       statusCode: statusCode,
       body: JSON.stringify(data),

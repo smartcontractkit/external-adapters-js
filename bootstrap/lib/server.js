@@ -6,6 +6,8 @@ const {
   HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE_MESSAGE,
 } = require('./errors')
 
+const { parseQueryString } = require('./util')
+
 const app = express()
 const port = process.env.EA_PORT || 8080
 
@@ -15,25 +17,6 @@ const CONTENT_TYPE_TEXT_PLAIN = 'text/plain'
 
 const notImplementedHealthCheck = (callback) => callback(HTTP_ERROR_NOT_IMPLEMENTED)
 
-const formatQueryStringValue = (val) => {
-  if (typeof val === 'object') {
-    return formatObj(val)
-  } else if (Array.isArray(val)) {
-    return val.map(formatQueryStringValue)
-  } else if (isNaN(val)) { // if it's not a number it's a string
-    return val
-  } else {
-    return Number(val)
-  }
-}
-
-const formatObj = (query) => {
-  let formatted = {}
-  for (const [key, val] of Object.entries(query)) {
-    formatted[formatQueryStringValue(key)] = formatQueryStringValue(val)
-  }
-  return formatted
-}
 
 const initHandler = (execute, checkHealth = notImplementedHealthCheck) => () => {
   app.use(express.json())
@@ -44,7 +27,7 @@ const initHandler = (execute, checkHealth = notImplementedHealthCheck) => () => 
         .status(HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE)
         .send(HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE_MESSAGE)
     }
-    Object.assign(req.body.data, formatObj(req.query))
+    req.body.data = Object.assign(req.body.data === undefined ? {} : req.body.data, parseQueryString(req.query))
     execute(req.body, (status, result) => {
       res.status(status).json(result)
     })
