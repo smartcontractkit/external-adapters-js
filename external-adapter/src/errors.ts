@@ -1,4 +1,13 @@
-class AdapterError extends Error {
+import { AdapterErrorResponse } from '@chainlink/types'
+
+export class AdapterError extends Error {
+  jobRunID: string
+  status: string
+  statusCode: number
+  name: string
+  message: string
+  cause: any
+
   constructor({
     jobRunID = '1',
     status = 'errored',
@@ -6,7 +15,7 @@ class AdapterError extends Error {
     name = 'AdapterError',
     message = 'An error occurred.',
     cause,
-  }) {
+  }: Partial<AdapterError>) {
     super(message)
     Error.captureStackTrace(this, AdapterError)
 
@@ -18,7 +27,7 @@ class AdapterError extends Error {
     this.cause = cause
   }
 
-  toJSONResponse() {
+  toJSONResponse(): AdapterErrorResponse {
     const showDebugInfo = process.env.NODE_ENV === 'development' || process.env.DEBUG === 'true'
     const errorBasic = { name: this.name, message: this.message }
     const errorFull = { ...errorBasic, stack: this.stack, cause: this.cause }
@@ -30,5 +39,3 @@ class AdapterError extends Error {
     }
   }
 }
-
-exports.AdapterError = AdapterError

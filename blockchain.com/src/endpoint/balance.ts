@@ -1,8 +1,8 @@
 import objectPath from 'object-path'
 import { Requester } from '@chainlink/external-adapter'
-import { AdapterRequest } from '@chainlink/types'
+import { AdapterRequest, Config } from '@chainlink/types'
 
-import { Config, DEFAULT_CONFIRMATIONS, DEFAULT_DATA_PATH, getBaseURL } from '../config'
+import { DEFAULT_CONFIRMATIONS, DEFAULT_DATA_PATH, getBaseURL } from '../config'
 import { CoinType, ChainType } from '.'
 
 export const Name = 'balance'

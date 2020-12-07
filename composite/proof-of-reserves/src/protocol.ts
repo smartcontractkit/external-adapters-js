@@ -1,11 +1,15 @@
-import { Execute } from '@chainlink/types'
-import renVM from '@chainlink/renvm-address-set'
-import wBTC from '@chainlink/wbtc-address-set'
+import { Execute, Implementations } from '@chainlink/types'
+import renVM from '@chainlink/renvm-address-set-adapter'
+import wBTC from '@chainlink/wbtc-address-set-adapter'
 
 export type ProtocolOptions = { type?: Protocol }
 export enum Protocol {
   WBTC = 'wbtc',
   RenVM = 'renvm',
+}
+const implLookup: Implementations<Protocol> = {
+  WBTC: wBTC,
+  RemVM: renVM,
 }
 
 const isProtocol = (envVar?: string): envVar is Protocol =>
@@ -18,19 +22,12 @@ export const getProtocol = (): Protocol | undefined => {
 
 export const getImpl = (options: ProtocolOptions): Execute => {
   const prefix = options.type?.toUpperCase()
-  switch (options.type) {
-    case Protocol.RenVM:
-      return (data) => {
-        const config = renVM.getConfig(prefix)
-        return renVM.execute(data, config)
-      }
+  const impl = options.type && implLookup[options.type]
+  if (!impl) throw Error(`Unknown balance adapter type: ${options.type}`)
 
-    case Protocol.WBTC:
-      return (data) => {
-        const config = wBTC.getConfig(prefix)
-        return wBTC.execute(data, config)
-      }
-    default:
-      throw Error(`Unknown protocol adapter type: ${options.type}`)
+  return (data) => {
+    const config = impl.makeConfig(prefix)
+    const execute = impl.makeExecute(config)
+    return execute(data)
   }
 }

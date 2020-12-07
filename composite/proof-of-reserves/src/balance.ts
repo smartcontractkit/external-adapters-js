@@ -1,11 +1,15 @@
-import { Execute } from '@chainlink/types'
-import blockchainCom from '@chainlink/blockchain.com'
-import blockcypher from '@chainlink/blockcypher'
+import { Execute, Implementations } from '@chainlink/types'
+import blockchainCom from '@chainlink/blockchain.com-adapter'
+import blockcypher from '@chainlink/blockcypher-adapter'
 
 export type BitcoinIndexerOptions = { type?: BitcoinIndexer }
 export enum BitcoinIndexer {
   BlockchainCom = 'blockchain_com',
   Blockcypher = 'blockcypher',
+}
+const implLookup: Implementations<BitcoinIndexer> = {
+  BlockchainCom: blockchainCom,
+  Blockcypher: blockcypher,
 }
 
 const isBitcoinIndexer = (envVar?: string): envVar is BitcoinIndexer =>
@@ -18,19 +22,12 @@ export const getBitcoinIndexer = (): BitcoinIndexer | undefined => {
 
 export const getImpl = (options: BitcoinIndexerOptions): Execute => {
   const prefix = options.type?.toUpperCase()
-  switch (options.type) {
-    case BitcoinIndexer.BlockchainCom:
-      return (data) => {
-        const config = blockchainCom.getConfig(prefix)
-        return blockchainCom.execute(data, config)
-      }
+  const impl = options.type && implLookup[options.type]
+  if (!impl) throw Error(`Unknown balance adapter type: ${options.type}`)
 
-    case BitcoinIndexer.Blockcypher:
-      return (data) => {
-        const config = blockcypher.getConfig(prefix)
-        return blockcypher.execute(data, config)
-      }
-    default:
-      throw Error(`Unknown balance adapter type: ${options.type}`)
+  return (data) => {
+    const config = impl.makeConfig(prefix)
+    const execute = impl.makeExecute(config)
+    return execute(data)
   }
 }

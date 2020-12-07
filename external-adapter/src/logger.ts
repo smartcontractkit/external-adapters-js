@@ -1,13 +1,13 @@
-const { createLogger, format, transports } = require('winston')
+import { createLogger, format, Logger, transports } from 'winston'
 const { combine, timestamp, json, prettyPrint } = format
-const { v4: uuidv4 } = require('uuid')
+import { v4 as uuidv4 } from 'uuid'
+import { LoggingWinston } from '@google-cloud/logging-winston'
 
-const detectLogger = (logger) => {
+const detectLogger = (logger: Logger) => {
   // GCP Functions are special in that they need an extra transport
   // in order to log. The environment variable GCP_PROJECT should
   // always be present for any GCP Function.
   if (process.env.GCP_PROJECT) {
-    const { LoggingWinston } = require('@google-cloud/logging-winston')
     logger.add(new LoggingWinston())
     logger.info('Added logging for GCP Functions')
   }
@@ -25,7 +25,7 @@ const instanceId = format((info) => {
   return info
 })
 
-const logger = detectLogger(
+export const logger = detectLogger(
   createLogger({
     level: process.env.LOG_LEVEL || 'info',
     format:
@@ -35,5 +35,3 @@ const logger = detectLogger(
     transports: [new transports.Console()],
   }),
 )
-
-exports.logger = logger

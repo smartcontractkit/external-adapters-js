@@ -2,10 +2,11 @@ import { assert } from 'chai'
 import { Requester } from '@chainlink/external-adapter'
 import { assertSuccess, assertError } from '@chainlink/adapter-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
-import { execute } from '../src/adapter'
+import { makeExecute } from '../src/adapter'
 
 describe('execute', () => {
   const jobID = '1'
+  const execute = makeExecute()
 
   context('successful calls @integration', () => {
     const requests = [

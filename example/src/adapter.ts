@@ -1,35 +1,44 @@
-import { Execute } from '@chainlink/types'
-import { Requester, Validator } from '@chainlink/external-adapter'
+import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
+import { ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
+import { makeConfig, DEFAULT_ENDPOINT } from './config'
+import { example } from './endpoint'
 
-const customError = (data: any) => data.Response === 'Error'
-
-const customParams = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
+const inputParams = {
   endpoint: false,
 }
 
-export const execute: Execute = async (input) => {
-  const validator = new Validator(input, customParams)
+export const execute: ExecuteWithConfig = async (request, config) => {
+  const validator = new Validator(request, inputParams)
   if (validator.error) throw validator.error
 
+  Requester.logConfig(config)
+
   const jobRunID = validator.validated.id
-  const endpoint = validator.validated.data.endpoint || 'price'
-  const url = `http://localhost:18081/${endpoint}`
-  const base = validator.validated.data.base.toUpperCase()
-  const quote = validator.validated.data.quote.toUpperCase()
+  const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
 
-  const params = {
-    base,
-    quote,
+  let result
+  switch (endpoint) {
+    case example.Name: {
+      result = await example.execute(config, request)
+      break
+    }
+    default: {
+      throw new AdapterError({
+        jobRunID,
+        message: `Endpoint ${endpoint} not supported.`,
+        statusCode: 400,
+      })
+    }
   }
 
-  const config = {
-    url,
-    params,
-  }
+  return Requester.success(jobRunID, {
+    data: { result },
+    result,
+    status: 200,
+  })
+}
 
-  const response = await Requester.request(config, customError)
-  response.data.result = Requester.validateResultNumber(response.data, ['price'])
-  return Requester.success(jobRunID, response)
+export const makeExecute: ExecuteFactory = (config) => {
+  const c = (config = config || makeConfig())
+  return async (request) => execute(request, c)
 }

@@ -1,13 +1,21 @@
-const { Requester, logger } = require('@chainlink/external-adapter')
-const { types } = require('util')
-const { withCache, defaultOptions, redactOptions } = require('./lib/cache')
-const util = require('./lib/util')
-const server = require('./lib/server')
-const gcp = require('./lib/gcp')
-const aws = require('./lib/aws')
+import { Requester, logger } from '@chainlink/external-adapter'
+import { types } from 'util'
+import { withCache, defaultOptions, redactOptions } from './lib/cache'
+import * as util from './lib/util'
+import * as server from './lib/server'
+import * as gcp from './lib/gcp'
+import * as aws from './lib/aws'
+import {
+  ExecuteSync,
+  AdapterRequest,
+  ExecuteWrappedResponse,
+  AdapterHealthCheck,
+} from '@chainlink/types'
+
+type Middleware = (execute: ExecuteWrappedResponse) => Promise<ExecuteWrappedResponse>
 
 // Try to initialize, pass through on error
-const skipOnError = (middleware) => async (execute) => {
+const skipOnError = (middleware: Middleware) => async (execute: ExecuteWrappedResponse) => {
   try {
     return await middleware(execute)
   } catch (error) {
@@ -17,7 +25,7 @@ const skipOnError = (middleware) => async (execute) => {
 }
 
 // Make sure data has the same statusCode as the one we got as a result
-const withStatusCode = (execute) => async (data_) => {
+const withStatusCode = (execute: ExecuteWrappedResponse) => async (data_: AdapterRequest) => {
   const { statusCode, data } = await execute(data_)
   if (data && typeof data === 'object' && data.statusCode) {
     return {
@@ -33,7 +41,7 @@ const withStatusCode = (execute) => async (data_) => {
 }
 
 // Log adapter input & output data
-const withLogger = (execute) => async (data) => {
+const withLogger = (execute: ExecuteWrappedResponse) => async (data: AdapterRequest) => {
   logger.debug('Input: ', { input: data })
   const result = await execute(data)
   logger.debug(`Output: [${result.statusCode}]: `, { output: result.data })
@@ -41,39 +49,46 @@ const withLogger = (execute) => async (data) => {
 }
 
 // Transform sync execute function to async
-const withAsync = (execute) => {
+const withAsync = (execute: ExecuteWrappedResponse | ExecuteSync) => {
   // Check if execute is already a Promise
-  if (types.isAsyncFunction(execute)) return (data) => execute(data)
-  return async (data) => util.toAsync(execute, data)
+  if (types.isAsyncFunction(execute)) {
+    const execAsync = execute as ExecuteWrappedResponse
+    return (data: AdapterRequest) => execAsync(data)
+  }
+  return async (data: AdapterRequest) => util.toAsync(execute as ExecuteSync, data)
 }
 
 const middleware = [withAsync, withLogger, skipOnError(withCache), withStatusCode]
 
 // Init all middleware, and return a wrapped execute fn
-const withMiddleware = async (execute) => {
+const withMiddleware = async (execute: ExecuteWrappedResponse | ExecuteSync) => {
   // Init and wrap middleware one by one
-  for (let i = 0; i < middleware.length; i++) {
-    execute = await middleware[i](execute)
+  let wrappedExecute
+  for (const mw of middleware) {
+    wrappedExecute = await mw(execute as ExecuteWrappedResponse)
   }
-  return execute
+  return wrappedExecute as ExecuteWrappedResponse
 }
 
 // Execution helper async => sync
-const executeSync = (execute) => {
+const executeSync = (execute: ExecuteWrappedResponse | ExecuteSync): ExecuteSync => {
   // TODO: Try to init middleware only once
   // const initMiddleware = withMiddleware(execute)
 
   // Return sync function
-  return (data, callback) => {
+  return (data: AdapterRequest, callback: any) => {
     // We init on every call because of cache connection broken state issue
     return withMiddleware(execute)
-      .then((executeWithMiddleware) => executeWithMiddleware(data))
+      .then((executeWithMiddleware) => executeWithMiddleware && executeWithMiddleware(data))
       .then((result) => callback(result.statusCode, result.data))
       .catch((error) => callback(error.statusCode || 500, Requester.errored(data.id, error)))
   }
 }
 
-const expose = (execute, checkHealth) => {
+export const expose = (
+  execute: ExecuteWrappedResponse | ExecuteSync,
+  checkHealth?: AdapterHealthCheck,
+) => {
   // Add middleware to the execution flow
   const _execute = executeSync(execute)
   return {
@@ -92,4 +107,4 @@ const expose = (execute, checkHealth) => {
 const cacheOptions = defaultOptions()
 if (cacheOptions.enabled) logger.info('Cache enabled: ', redactOptions(cacheOptions))
 
-module.exports = { expose, util }
+export { util }
