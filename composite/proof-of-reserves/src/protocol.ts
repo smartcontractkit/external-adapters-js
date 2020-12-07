@@ -23,12 +23,11 @@ export const getProtocol = (): Protocol | undefined => {
 export const getImpl = (options: ProtocolOptions): Execute => {
   const prefix = options.type?.toUpperCase()
   const impl = options.type && implLookup[options.type]
-  if (impl)
-    return (data) => {
-      const config = impl.makeConfig(prefix)
-      const execute = impl.makeExecute(config)
-      return execute(data)
-    }
+  if (!impl) throw Error(`Unknown balance adapter type: ${options.type}`)
 
-  throw Error(`Unknown balance adapter type: ${options.type}`)
+  return (data) => {
+    const config = impl.makeConfig(prefix)
+    const execute = impl.makeExecute(config)
+    return execute(data)
+  }
 }
