@@ -26,6 +26,5 @@ export const execute = async (config: Config, request: AdapterRequest) => {
   const reqConfig = { ...config.api, params, baseURL: 'http://localhost:18081', url }
 
   const response = await Requester.request(reqConfig, customError)
-  response.data.result = Requester.validateResultNumber(response.data, ['payload', 'price'])
-  return response
+  return Requester.validateResultNumber(response.data, ['price'])
 }
