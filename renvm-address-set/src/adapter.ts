@@ -9,7 +9,7 @@ import {
 import { resolveInToken, getTokenName } from '@renproject/utils'
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
-import { getConfig, DEFAULT_NETWORK, DEFAULT_TOKEN_OR_CONTRACT } from './config'
+import { makeConfig, DEFAULT_NETWORK, DEFAULT_TOKEN_OR_CONTRACT } from './config'
 import { btc } from './coins'
 
 const inputParams = {
@@ -80,6 +80,6 @@ export const execute: ExecuteWithConfig = async (request, config) => {
 }
 
 export const makeExecute: ExecuteFactory = (config) => {
-  const c = (config = config || getConfig())
+  const c = (config = config || makeConfig())
   return async (request) => execute(request, c)
 }

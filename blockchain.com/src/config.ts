@@ -22,7 +22,7 @@ export const getBaseURL = (chain: ChainType): string => {
   }
 }
 
-export const getConfig = (prefix = ''): Config => ({
+export const makeConfig = (prefix = ''): Config => ({
   apiKey: util.getEnv(ENV_API_KEY, prefix),
   returnRejectedPromiseOnError: true,
   api: {

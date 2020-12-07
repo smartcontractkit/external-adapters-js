@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios'
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
-import { getConfig } from './config'
+import { makeConfig } from './config'
 
 type APIMembersResponse = {
   result: Member[]
@@ -59,6 +59,6 @@ export const execute: ExecuteWithConfig = async (request, config) => {
 }
 
 export const makeExecute: ExecuteFactory = (config) => {
-  const c = (config = config || getConfig())
+  const c = (config = config || makeConfig())
   return async (request) => execute(request, c)
 }

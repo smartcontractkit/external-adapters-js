@@ -67,6 +67,15 @@ declare module '@chainlink/types' {
 
   export type ExecuteFactory = (config?: Config) => Execute
 
+  import { expose } from '@chainlink/ea-bootstrap'
+  export type AdapterImplementation = {
+    NAME: string
+    makeExecute: ExecuteFactory
+  } & ReturnType<expose>
+  export interface Implementations<t> {
+    [type: string]: AdapterImplementation
+  }
+
   export type Account = {
     address: string
     coin?: CoinType

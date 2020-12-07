@@ -3,7 +3,7 @@ import { Config } from '@chainlink/types'
 
 export const ENV_API_ENDPOINT = 'API_ENDPOINT'
 
-export const getConfig = (prefix = ''): Config => ({
+export const makeConfig = (prefix = ''): Config => ({
   returnRejectedPromiseOnError: true,
   api: {
     withCredentials: true,
