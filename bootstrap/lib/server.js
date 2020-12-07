@@ -17,7 +17,6 @@ const CONTENT_TYPE_TEXT_PLAIN = 'text/plain'
 
 const notImplementedHealthCheck = (callback) => callback(HTTP_ERROR_NOT_IMPLEMENTED)
 
-
 const initHandler = (execute, checkHealth = notImplementedHealthCheck) => () => {
   app.use(express.json())
 
@@ -27,7 +26,10 @@ const initHandler = (execute, checkHealth = notImplementedHealthCheck) => () => 
         .status(HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE)
         .send(HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE_MESSAGE)
     }
-    req.body.data = Object.assign(req.body.data === undefined ? {} : req.body.data, parseQueryString(req.query))
+    req.body.data = Object.assign(
+      req.body.data === undefined ? {} : req.body.data,
+      parseQueryString(req.query),
+    )
     execute(req.body, (status, result) => {
       res.status(status).json(result)
     })

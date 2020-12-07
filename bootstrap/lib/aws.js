@@ -49,7 +49,10 @@ exports.initHandlerREST = (execute) => (event, _context, callback) => {
     return callback(null, UNSUPPORTED_MEDIA_TYPE_RESPONSE)
   }
   let newBody = event.requestBody
-  newBody.data = Object.assign(event.requestBody.data === undefined ? {} : event.requestBody.data, parseQueryString(event.queryStringParameters))
+  newBody.data = Object.assign(
+    event.requestBody.data === undefined ? {} : event.requestBody.data,
+    parseQueryString(event.queryStringParameters),
+  )
   execute(newBody, (_, data) => {
     callback(null, data)
   })
@@ -62,7 +65,10 @@ exports.initHandlerHTTP = (execute) => (event, _context, callback) => {
   }
   const body = JSON.parse(event.body)
   let newBody = body.requestBody
-  newBody.data = Object.assign(event.requestBody.data === undefined ? {} : event.requestBody.data, parseQueryString(event.queryStringParameters))
+  newBody.data = Object.assign(
+    event.requestBody.data === undefined ? {} : event.requestBody.data,
+    parseQueryString(event.queryStringParameters),
+  )
   execute(newBody, (statusCode, data) => {
     callback(null, {
       statusCode: statusCode,
