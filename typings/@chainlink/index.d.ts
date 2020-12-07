@@ -1,14 +1,14 @@
 // Declare missing type definitions
 declare module '@chainlink/types' {
   export type AdapterRequestMeta = {
-    availableFunds: number
-    eligibleToSubmit: boolean
-    latestAnswer: number
-    oracleCount: number
-    paymentAmount: number
-    reportableRoundID: number
-    startedAt: number
-    timeout: number
+    availableFunds?: number
+    eligibleToSubmit?: boolean
+    latestAnswer?: number
+    oracleCount?: number
+    paymentAmount?: number
+    reportableRoundID?: number
+    startedAt?: number
+    timeout?: number
   }
   export type AdapterRequest = {
     id: string
