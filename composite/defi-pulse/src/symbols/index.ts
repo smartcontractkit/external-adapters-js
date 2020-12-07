@@ -1,14 +1,11 @@
-import fs from 'fs'
-import { join } from 'path'
 import { ethers, utils } from 'ethers'
 import { logger } from '@chainlink/external-adapter'
 
 type Directory = Record<string, string>
 
-const getDirectory = (network: string): Directory => {
-  const absolutePath = join(process.cwd(), `./src/symbols/directory.${network}.json`)
-  const buffer = fs.readFileSync(absolutePath, 'utf8')
-  return JSON.parse(buffer.toString())
+const getDirectory = async (network: string): Promise<Directory> => {
+  const directory = await import(`./directory.${network}.json`)
+  return directory
 }
 
 const ERC20ABI = ['function symbol() view returns (string)']
@@ -49,7 +46,7 @@ export const getSymbol = async (
   rpcUrl: string,
 ): Promise<string> => {
   if (!cachedDirectory) {
-    cachedDirectory = getDirectory(network)
+    cachedDirectory = await getDirectory(network)
   }
   return cachedDirectory[address] || (await getERC20Symbol(rpcUrl, address))
 }

@@ -7,10 +7,12 @@
       "../../node_modules/@types",
       "../../typings",
       "./typings"
-    ]
+    ],
+    "resolveJsonModule": true
   },
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "src/**/*.json"
   ],
   "exclude": [
     "dist",
