@@ -3,9 +3,7 @@ import { AdapterRequest, Config } from '@chainlink/types'
 
 export const Name = 'example'
 
-const customError = (data: any) => {
-  return Object.keys(data.payload).length === 0
-}
+const customError = (data: any) => data.Response === 'Error'
 
 const customParams = {
   base: ['base', 'from', 'coin'],
@@ -16,12 +14,13 @@ export const execute = async (config: Config, request: AdapterRequest) => {
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 
-  const coin = validator.validated.data.base
-  const market = validator.validated.data.quote
-  const url = `/api/v2/market/spot/prices/pairs/${coin.toLowerCase()}_${market.toLowerCase()}/latest`
+  const base = validator.validated.data.base
+  const quote = validator.validated.data.quote
+  const url = `price`
 
   const params = {
-    includeCrossRates: true,
+    base,
+    quote,
   }
 
   const reqConfig = { ...config.api, params, baseURL: 'http://localhost:18081', url }
