@@ -30,6 +30,7 @@ deps: clean
 	yarn
 	# Call the build script for the adapter if defined (TypeScript adapters have this extra build/compile step)
 	# We use `wsrun` to build workspace dependencies in topological order (TODO: use native `yarn workspaces foreach -pt run build` with Yarn 2)
+	#  TODO: remove next two lines when the [`-adapter` suffix issue is fixed](https://github.com/smartcontractkit/external-adapters-js/issues/174)
 	if [ $(adapter) = bootstrap ]; then yarn wsrun -mre -p @chainlink/ea-bootstrap -t build; fi
 	if [ $(adapter) = external-adapter ]; then yarn wsrun -mre -p @chainlink/external-adapter -t build; fi
 	yarn wsrun -mre -p @chainlink/$(if $(name),$(name),$(adapter))-adapter -t build

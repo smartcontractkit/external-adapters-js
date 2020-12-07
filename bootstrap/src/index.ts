@@ -67,7 +67,7 @@ const withMiddleware = async (execute: ExecuteWrappedResponse | ExecuteSync) => 
   for (const mw of middleware) {
     wrappedExecute = await mw(execute as ExecuteWrappedResponse)
   }
-  return wrappedExecute
+  return wrappedExecute as ExecuteWrappedResponse
 }
 
 // Execution helper async => sync
@@ -80,7 +80,7 @@ const executeSync = (execute: ExecuteWrappedResponse | ExecuteSync): ExecuteSync
     // We init on every call because of cache connection broken state issue
     return withMiddleware(execute)
       .then((executeWithMiddleware) => executeWithMiddleware && executeWithMiddleware(data))
-      .then((result) => callback(result?.statusCode, result?.data))
+      .then((result) => callback(result.statusCode, result.data))
       .catch((error) => callback(error.statusCode || 500, Requester.errored(data.id, error)))
   }
 }

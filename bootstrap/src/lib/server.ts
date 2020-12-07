@@ -5,7 +5,7 @@ import {
   HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE,
   HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE_MESSAGE,
 } from './errors'
-import { ExecuteSync, AdapterResponse } from '@chainlink/types'
+import { ExecuteSync, AdapterResponse, AdapterHealthCheck } from '@chainlink/types'
 
 const app = express()
 const port = process.env.EA_PORT || 8080
@@ -14,7 +14,8 @@ export const HEADER_CONTENT_TYPE = 'Content-Type'
 export const CONTENT_TYPE_APPLICATION_JSON = 'application/json'
 export const CONTENT_TYPE_TEXT_PLAIN = 'text/plain'
 
-const notImplementedHealthCheck = (callback: any) => callback(HTTP_ERROR_NOT_IMPLEMENTED)
+const notImplementedHealthCheck: AdapterHealthCheck = (callback) =>
+  callback(HTTP_ERROR_NOT_IMPLEMENTED)
 
 export const initHandler = (
   execute: ExecuteSync,

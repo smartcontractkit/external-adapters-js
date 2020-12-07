@@ -74,8 +74,6 @@ export const withCache = async (
   execute: ExecuteWrappedResponse,
   options: CacheOptions = defaultOptions(),
 ) => {
-  // If no options read the env with sensible defaults
-  if (!options) options = defaultOptions()
   // If disabled noop
   if (!options.enabled) return (data: AdapterRequest) => execute(data)
 

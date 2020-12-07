@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
+import { ExecuteWithConfig, ExecuteFactory, Config } from '@chainlink/types'
 import { getConfig, DEFAULT_ENDPOINT } from './config'
 import { balance } from './endpoint'
 
@@ -39,5 +39,6 @@ export const execute: ExecuteWithConfig = async (request, config) => {
 }
 
 export const makeExecute: ExecuteFactory = (config) => {
-  return async (request) => execute(request, config || getConfig())
+  const c = (config = config || getConfig())
+  return async (request) => execute(request, c)
 }

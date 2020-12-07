@@ -1,12 +1,23 @@
 // Declare missing type definitions
 declare module '@chainlink/types' {
+  export type AdapterRequestMeta = {
+    availableFunds: number
+    eligibleToSubmit: boolean
+    latestAnswer: number
+    oracleCount: number
+    paymentAmount: number
+    reportableRoundID: number
+    startedAt: number
+    timeout: number
+  }
   export type AdapterRequest = {
     id: string
     data: Record<string, unknown>
-    meta?: Record<string, unknown>
+    meta?: AdapterRequestMeta
   }
 
-  export type AdapterHealthCheck = (callback: any) => any
+  export type Callback = (statusCode: number, data?: any) => void
+  export type AdapterHealthCheck = (callback: Callback) => any
 
   export type AdapterResponse = {
     jobRunID: string
@@ -37,7 +48,7 @@ declare module '@chainlink/types' {
   }
   export type ExecuteWrappedResponse = (input: AdapterRequest) => Promise<WrappedAdapterResponse>
 
-  export type ExecuteSync = (input: AdapterRequest, callback: (statusCode, data) => void) => void
+  export type ExecuteSync = (input: AdapterRequest, callback: Callback) => void
 
   import { AxiosRequestConfig } from 'axios'
   export type Config = {
