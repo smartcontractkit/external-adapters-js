@@ -1,12 +1,13 @@
 {
-  "name": "@chainlink/oilpriceapi-adapter",
+  "name": "@chainlink/derbit-adapter",
   "version": "0.0.1",
-  "description": "Chainlink OilpriceAPI adapter.",
+  "description": "Chainlink Derbit adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
-    "oracle"
+    "oracle",
+    "derbit"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

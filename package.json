@@ -86,7 +86,8 @@
     "coinranking",
     "helpers/reference-data-reader",
     "dns-query",
-    "dns-record-check"
+    "dns-record-check",
+    "derbit"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",
