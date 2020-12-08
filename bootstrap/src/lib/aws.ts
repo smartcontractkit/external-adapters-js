@@ -70,12 +70,12 @@ export const initHandlerHTTP = (execute: ExecuteSync) => (
   if (!isContentTypeSupported(event)) {
     return callback(null, UNSUPPORTED_MEDIA_TYPE_RESPONSE)
   }
-  let newBody = JSON.parse(event.body)
-  newBody.data = {
-    ...newBody.data,
-    ...toObjectWithNumbers(newBody.queryStringParameters || {})
+  let bodyIncludingQuery = JSON.parse(event.body)
+  bodyIncludingQuery.data = {
+    ...bodyIncludingQuery.data,
+    ...toObjectWithNumbers(bodyIncludingQuery.queryStringParameters || {})
   }
-  execute(newBody, (statusCode, data) => {
+  execute(bodyIncludingQuery, (statusCode, data) => {
     callback(null, {
       statusCode: statusCode,
       body: JSON.stringify(data),
