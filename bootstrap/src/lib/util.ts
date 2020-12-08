@@ -7,22 +7,25 @@ import {
 } from '@chainlink/types'
 import { v4 as uuidv4 } from 'uuid'
 
-export const isObject = (o: unknown) =>
+export const isObject = (o: unknown): boolean =>
   o !== null && typeof o === 'object' && Array.isArray(o) === false
 
-export const parseBool = (value: any) => {
+export const parseBool = (value: any): boolean => {
   if (!value) return false
   const _val = value.toString().toLowerCase()
   return (_val === 'true' || _val === 'false') && _val === 'true'
 }
 
 // We generate an UUID per instance
-export const uuid = () => {
+export const uuid = (): string => {
   if (!process.env.UUID) process.env.UUID = uuidv4()
   return process.env.UUID
 }
 
-export const toAsync = (execute: ExecuteSync, data: AdapterRequest) =>
+export const toAsync = (
+  execute: ExecuteSync,
+  data: AdapterRequest,
+): Promise<WrappedAdapterResponse> =>
   new Promise<WrappedAdapterResponse>((resolve) =>
     execute(data, (statusCode: number, data: AdapterResponse) => resolve({ statusCode, data })),
   )

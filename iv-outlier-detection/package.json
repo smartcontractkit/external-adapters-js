@@ -43,6 +43,6 @@
     "typescript": "^3.9.7"
   },
   "dependencies": {
-    "@chainlink/reference-data-reader": "^0.0.1"
+    "@chainlink/reference-data-reader": "^0.0.2"
   }
 }

@@ -20,7 +20,7 @@ const notImplementedHealthCheck: AdapterHealthCheck = (callback) =>
 export const initHandler = (
   execute: ExecuteSync,
   checkHealth = notImplementedHealthCheck,
-) => () => {
+) => (): void => {
   app.use(express.json())
 
   app.post('/', (req, res) => {
