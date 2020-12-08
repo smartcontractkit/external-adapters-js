@@ -20,7 +20,7 @@ export const getProtocol = (): Protocol | undefined => {
   return isProtocol(protocol) ? (protocol as Protocol) : undefined
 }
 
-export const getImpl = (options: ProtocolOptions): Execute => {
+export const getImpl = (options: ProtocolOptions): ExecuteWithDefaults => {
   const prefix = options.type?.toUpperCase()
   const impl = options.type && implLookup[options.type?.toUpperCase()]
   if (!impl) throw Error(`Unknown protocol adapter type: ${options.type}`)
