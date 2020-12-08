@@ -100,4 +100,6 @@ export class Requester {
 
   static getDefaultConfig = getDefaultConfig
   static logConfig = logConfig
+
+  static toVendorName = <K, V>(key: K, names: { [key: string]: V }): V => names[String(key)]
 }

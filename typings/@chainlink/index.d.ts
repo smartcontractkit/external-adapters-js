@@ -76,10 +76,12 @@ declare module '@chainlink/types' {
     [type: string]: AdapterImplementation
   }
 
-  export type Account = {
+  export type Address = {
     address: string
-    coin?: CoinType
-    chain?: ChainType
+    coin?: string
+    chain?: string
+  }
+  export type Account = Address & {
     balance?: number
   }
 }

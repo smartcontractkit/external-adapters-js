@@ -1,15 +1,18 @@
 import { Execute, Implementations } from '@chainlink/types'
 import blockchainCom from '@chainlink/blockchain.com-adapter'
 import blockcypher from '@chainlink/blockcypher-adapter'
+import blockchair from '@chainlink/blockchair-adapter'
 
 export type BitcoinIndexerOptions = { type?: BitcoinIndexer }
 export enum BitcoinIndexer {
   BlockchainCom = 'blockchain_com',
   Blockcypher = 'blockcypher',
+  Blockchair = 'blockchair',
 }
 const implLookup: Implementations<BitcoinIndexer> = {
   [blockchainCom.NAME]: blockchainCom,
   [blockcypher.NAME]: blockcypher,
+  [blockchair.NAME]: blockchair,
 }
 
 const isBitcoinIndexer = (envVar?: string): envVar is BitcoinIndexer =>
