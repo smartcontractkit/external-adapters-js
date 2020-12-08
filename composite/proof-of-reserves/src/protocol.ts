@@ -8,8 +8,8 @@ export enum Protocol {
   RenVM = 'renvm',
 }
 const implLookup: Implementations<Protocol> = {
-  WBTC: wBTC,
-  RemVM: renVM,
+  [wBTC.NAME]: wBTC,
+  [renVM.NAME]: renVM,
 }
 
 const isProtocol = (envVar?: string): envVar is Protocol =>
@@ -22,8 +22,8 @@ export const getProtocol = (): Protocol | undefined => {
 
 export const getImpl = (options: ProtocolOptions): Execute => {
   const prefix = options.type?.toUpperCase()
-  const impl = options.type && implLookup[options.type]
-  if (!impl) throw Error(`Unknown balance adapter type: ${options.type}`)
+  const impl = options.type && implLookup[options.type?.toUpperCase()]
+  if (!impl) throw Error(`Unknown protocol adapter type: ${options.type}`)
 
   return (data) => {
     const config = impl.makeConfig(prefix)

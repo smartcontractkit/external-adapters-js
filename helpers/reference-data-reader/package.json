@@ -32,7 +32,6 @@
   },
   "dependencies": {
     "@chainlink/contracts": "^0.0.11",
-    "@chainlink/ea-bootstrap": "^0.1.3",
     "ethers": "^4.0.48"
   }
 }

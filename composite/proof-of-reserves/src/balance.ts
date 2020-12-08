@@ -8,8 +8,8 @@ export enum BitcoinIndexer {
   Blockcypher = 'blockcypher',
 }
 const implLookup: Implementations<BitcoinIndexer> = {
-  BlockchainCom: blockchainCom,
-  Blockcypher: blockcypher,
+  [blockchainCom.NAME]: blockchainCom,
+  [blockcypher.NAME]: blockcypher,
 }
 
 const isBitcoinIndexer = (envVar?: string): envVar is BitcoinIndexer =>
@@ -22,7 +22,7 @@ export const getBitcoinIndexer = (): BitcoinIndexer | undefined => {
 
 export const getImpl = (options: BitcoinIndexerOptions): Execute => {
   const prefix = options.type?.toUpperCase()
-  const impl = options.type && implLookup[options.type]
+  const impl = options.type && implLookup[options.type?.toUpperCase()]
   if (!impl) throw Error(`Unknown balance adapter type: ${options.type}`)
 
   return (data) => {

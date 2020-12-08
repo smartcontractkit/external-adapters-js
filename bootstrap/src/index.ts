@@ -48,6 +48,15 @@ const withLogger = (execute: ExecuteWrappedResponse) => async (data: AdapterRequ
   return result
 }
 
+const middleware = [withLogger, skipOnError(withCache), withStatusCode]
+
+// Init all middleware, and return a wrapped execute fn
+const withMiddleware = async (execute: ExecuteWrappedResponse) => {
+  // Init and wrap middleware one by one
+  middleware.forEach(async (mw) => await mw(execute))
+  return execute
+}
+
 // Transform sync execute function to async
 const withAsync = (execute: ExecuteWrappedResponse | ExecuteSync) => {
   // Check if execute is already a Promise
@@ -58,18 +67,6 @@ const withAsync = (execute: ExecuteWrappedResponse | ExecuteSync) => {
   return async (data: AdapterRequest) => util.toAsync(execute as ExecuteSync, data)
 }
 
-const middleware = [withAsync, withLogger, skipOnError(withCache), withStatusCode]
-
-// Init all middleware, and return a wrapped execute fn
-const withMiddleware = async (execute: ExecuteWrappedResponse | ExecuteSync) => {
-  // Init and wrap middleware one by one
-  let wrappedExecute
-  for (const mw of middleware) {
-    wrappedExecute = await mw(execute as ExecuteWrappedResponse)
-  }
-  return wrappedExecute as ExecuteWrappedResponse
-}
-
 // Execution helper async => sync
 const executeSync = (execute: ExecuteWrappedResponse | ExecuteSync): ExecuteSync => {
   // TODO: Try to init middleware only once
@@ -78,7 +75,7 @@ const executeSync = (execute: ExecuteWrappedResponse | ExecuteSync): ExecuteSync
   // Return sync function
   return (data: AdapterRequest, callback: any) => {
     // We init on every call because of cache connection broken state issue
-    return withMiddleware(execute)
+    return withMiddleware(withAsync(execute))
       .then((executeWithMiddleware) => executeWithMiddleware && executeWithMiddleware(data))
       .then((result) => callback(result.statusCode, result.data))
       .catch((error) => callback(error.statusCode || 500, Requester.errored(data.id, error)))

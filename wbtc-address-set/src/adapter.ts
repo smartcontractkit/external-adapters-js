@@ -59,6 +59,5 @@ export const execute: ExecuteWithConfig = async (request, config) => {
 }
 
 export const makeExecute: ExecuteFactory = (config) => {
-  const c = (config = config || makeConfig())
-  return async (request) => execute(request, c)
+  return async (request) => execute(request, config || makeConfig())
 }

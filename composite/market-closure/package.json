@@ -33,7 +33,7 @@
   "dependencies": {
     "@chainlink/fcsapi-adapter": "^0.0.1",
     "@chainlink/finnhub-adapter": "^0.0.1",
-    "@chainlink/reference-data-reader": "^0.0.1",
+    "@chainlink/reference-data-reader": "^0.0.2",
     "market-closure": "^0.1.2"
   }
 }

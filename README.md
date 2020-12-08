@@ -14,6 +14,14 @@ yarn
 
 Installs packages for all workspaces.
 
+## Setup
+
+```bash
+yarn setup
+```
+
+Runs the setup step for all adapters. Typically this step just compiles TypeScript, but may involve other tasks.
+
 ## Test
 
 In order to test adapters locally, you may need to set an `$API_KEY` environment variable for the given API.
