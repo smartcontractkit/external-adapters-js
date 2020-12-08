@@ -5,6 +5,7 @@ import blockchair from '@chainlink/blockchair-adapter'
 
 export type BitcoinIndexerOptions = { type?: BitcoinIndexer }
 export enum BitcoinIndexer {
+  Amberdata = 'amberdata',
   BlockchainCom = 'blockchain_com',
   Blockcypher = 'blockcypher',
   Blockchair = 'blockchair',
