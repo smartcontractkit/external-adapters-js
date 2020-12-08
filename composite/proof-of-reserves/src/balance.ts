@@ -12,6 +12,7 @@ export enum BitcoinIndexer {
 const implLookup: Implementations<BitcoinIndexer> = {
   BlockchainCom: blockchainCom,
   Blockcypher: blockcypher,
+  Blockchair: blockchair,
 }
 
 const isBitcoinIndexer = (envVar?: string): envVar is BitcoinIndexer =>
