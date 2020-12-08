@@ -26,7 +26,7 @@ export const toAsync = (
   execute: ExecuteSync,
   data: AdapterRequest,
 ): Promise<WrappedAdapterResponse> =>
-  new Promise<WrappedAdapterResponse>((resolve) =>
+  new Promise((resolve) =>
     execute(data, (statusCode: number, data: AdapterResponse) => resolve({ statusCode, data })),
   )
 
