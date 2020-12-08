@@ -17,8 +17,8 @@ export const parseBool = (value: any): boolean => {
 }
 
 // convert string values into Numbers where possible (for incoming query strings)
-export const toObjectWithNumbers = (obj: any): object => {
-  const toNumber = (v: any) => isNaN(v) ? v : Number(v)
+export const toObjectWithNumbers = (obj: any) => {
+  const toNumber = (v: any) => (isNaN(v) ? v : Number(v))
   return Object.fromEntries(Object.entries(obj).map(([k, v]) => [k, toNumber(v)]))
 }
 

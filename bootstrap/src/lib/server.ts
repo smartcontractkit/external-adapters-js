@@ -1,5 +1,5 @@
 import { logger } from '@chainlink/external-adapter'
-import { toObjectWithNumbers } from "./util";
+import { toObjectWithNumbers } from './util'
 import express from 'express'
 import {
   HTTP_ERROR_NOT_IMPLEMENTED,
@@ -31,8 +31,8 @@ export const initHandler = (
         .send(HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE_MESSAGE)
     }
     req.body.data = {
-      ...req.body.data || {},
-      ...toObjectWithNumbers(req.query)
+      ...(req.body.data || {}),
+      ...toObjectWithNumbers(req.query),
     }
     execute(req.body, (status, result) => {
       res.status(status).json(result)
