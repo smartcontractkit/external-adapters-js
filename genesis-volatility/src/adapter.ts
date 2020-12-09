@@ -1,13 +1,13 @@
-import { Execute } from '@chainlink/types'
+import { ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { Config, getConfig } from './config'
+import { makeConfig } from './config'
 
 const customParams = {
   symbol: ['base', 'from', 'coin', 'symbol'],
   days: ['days', 'period'],
 }
 
-export const execute: Execute = async (input, config: Config) => {
+export const execute: ExecuteWithConfig = async (input, config) => {
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
 
@@ -29,7 +29,7 @@ export const execute: Execute = async (input, config: Config) => {
   }
 
   const headers = {
-    'x-oracle': config.apikey,
+    'x-oracle': config.apiKey,
   }
 
   const response = await Requester.request({
@@ -47,5 +47,6 @@ export const execute: Execute = async (input, config: Config) => {
   return Requester.success(jobRunID, response)
 }
 
-// Export function to integrate with Chainlink node
-export const executeWithDefaults: Execute = async (request) => execute(request, getConfig())
+export const makeExecute: ExecuteFactory = (config) => {
+  return async (request) => execute(request, config || makeConfig())
+}

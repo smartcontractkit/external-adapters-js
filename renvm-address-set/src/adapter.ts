@@ -58,6 +58,7 @@ export const execute: ExecuteWithConfig = async (request, config) => {
   }
 
   const _getAddress = async (): Promise<string | undefined> => {
+    if (!config.api) return undefined
     const { renVM } = new RenJS(network, config.api.baseURL)
     const out: Buffer = await renVM.selectPublicKey(renContract)
     return btc.p2pkh(out, bitcoinNetwork).address
