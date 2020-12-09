@@ -1,6 +1,6 @@
-import { Execute } from '@chainlink/types'
+import { ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { Config, getConfig } from './config'
+import { makeConfig } from './config'
 
 const commonKeys: Record<string, string> = {
   bz: 'BRENT_CRUDE_USD',
@@ -16,7 +16,7 @@ const customError = (data: Record<string, unknown>) => {
   return data.data === null
 }
 
-export const execute: Execute = async (input, config: Config) => {
+export const execute: ExecuteWithConfig = async (input, config) => {
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
 
@@ -35,7 +35,7 @@ export const execute: Execute = async (input, config: Config) => {
   }
 
   const headers = {
-    Authorization: `Token ${config.apikey}`,
+    Authorization: `Token ${config.apiKey}`,
   }
 
   const response = await Requester.request({ url, params, headers }, customError)
@@ -43,5 +43,6 @@ export const execute: Execute = async (input, config: Config) => {
   return Requester.success(jobRunID, response)
 }
 
-// Export function to integrate with Chainlink node
-export const executeWithDefaults: Execute = async (request) => execute(request, getConfig())
+export const makeExecute: ExecuteFactory = (config) => {
+  return async (request) => execute(request, config || makeConfig())
+}

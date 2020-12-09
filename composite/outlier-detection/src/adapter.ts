@@ -1,19 +1,27 @@
-import { AdapterRequest, AdapterResponse, Execute } from '@chainlink/types'
+import {
+  AdapterRequest,
+  AdapterResponse,
+  Config,
+  Execute,
+  ExecuteFactory,
+  ExecuteWithConfig,
+} from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { getSourceDataProviders, getSourceImpl } from './source'
 import { getLatestAnswer } from '@chainlink/reference-data-reader'
 import { getCheckDataProviders, getCheckImpl } from './check'
-import { Config, getConfig } from './config'
+import { makeConfig } from './config'
 
 const customParams = {
   referenceContract: ['referenceContract', 'contract'],
   multiply: true,
 }
 
-// Export function to integrate with Chainlink node
-export const executeWithDefaults: Execute = async (request) => execute(request, getConfig())
+export const makeExecute: ExecuteFactory = (config) => {
+  return async (request) => execute(request, config || makeConfig())
+}
 
-export const execute: Execute = async (input, config: Config) => {
+export const execute: ExecuteWithConfig = async (input, config) => {
   const sourceExecute = getSourceImpl(getSourceDataProviders())
   if (sourceExecute.length === 0) {
     throw Error('No source adapters provided')
@@ -30,6 +38,10 @@ export const executeWithAdapters = async (
 ): Promise<AdapterResponse> => {
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
+
+  if (!config.threshold) {
+    throw new Error('config is missing threshold values')
+  }
 
   const jobRunID = validator.validated.id
   const referenceContract = validator.validated.data.referenceContract
