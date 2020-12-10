@@ -1,7 +1,7 @@
 {
   "adapters": {
     "cmd": "make zip adapter=__ADAPTER__",
-    "docker": "make docker adapter=${{ matrix.adapter }}",
+    "docker": "make docker adapter=__ADAPTER__",
     "asset_path": "./__ADAPTER__/dist/__ADAPTER__-adapter.zip",
     "asset_name": "__ADAPTER__-adapter.zip",
     "adapter": [
@@ -79,7 +79,7 @@
     ]
   },
   "2-step": {
-    "docker": "make docker-2-step adapter=${{ matrix.adapter }}",
+    "docker": "make docker-2-step adapter=__ADAPTER__",
     "cmd": "make zip-2-step adapter=__ADAPTER__",
     "asset_path": "./2-step/__ADAPTER__/dist/__ADAPTER__-2-step-adapter.zip",
     "asset_name": "__ADAPTER__-2-step-adapter.zip",
@@ -94,14 +94,14 @@
     ]
   },
   "composite": {
-    "docker": "make docker adapter=composite/${{ matrix.adapter }} name=${{ matrix.adapter }}",
+    "docker": "make docker adapter=composite/__ADAPTER__ name=__ADAPTER__",
     "cmd": "make zip adapter=composite/__ADAPTER__ name=__ADAPTER__",
     "asset_path": "./composite/__ADAPTER__/dist/__ADAPTER__-adapter.zip",
     "asset_name": "__ADAPTER__-adapter.zip",
     "adapter": ["proof-of-reserves", "market-closure", "defi-pulse"]
   },
   "synth-index": {
-    "docker": "make docker-synth-index adapter=${{ matrix.adapter }}",
+    "docker": "make docker-synth-index adapter=__ADAPTER__",
     "cmd": "make zip-synth-index adapter=__ADAPTER__",
     "asset_path": "./synth-index/__ADAPTER__/dist/synth-index-__ADAPTER__-adapter.zip",
     "asset_name": "synth-index-__ADAPTER__-adapter.zip",

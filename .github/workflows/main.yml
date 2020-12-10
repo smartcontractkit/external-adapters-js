@@ -54,7 +54,7 @@ jobs:
     name: (${{ matrix.adapter.type }}) Build ${{matrix.adapter.name}} adapter
     runs-on: ubuntu-latest
     strategy:
-      matrix: ${{fromJson(needs.matrix-adapters.outputs.adapters)}}
+      matrix: ${{fromJson(needs.matrix-adapters.outputs.matrix)}}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
