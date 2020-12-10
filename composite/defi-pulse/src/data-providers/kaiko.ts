@@ -23,7 +23,7 @@ const getPriceData = async (symbol: string, currency: string) => {
 }
 
 const toAssetPrice = (data: Record<string, any>) => {
-  const price = data.data[0] && data.data[0].price
+  const price = data[0] && data[0].price
   if (!price || price <= 0) {
     throw new Error('invalid price')
   }
@@ -36,7 +36,8 @@ const getPriceIndex = async (index: Index, currency: string): Promise<Index> => 
       // Particular for the Kaiko API only
       const asset = i.asset === 'UNI' ? 'uniswap' : i.asset
       const data = await getPriceData(asset, currency)
-      return { ...i, price: toAssetPrice(data) }
+      const notNullPrices = data.data.filter((x: any) => x.price !== null)
+      return { ...i, price: toAssetPrice(notNullPrices) }
     }),
   )
 }
