@@ -10,6 +10,10 @@ const customParams = {
   quote: ['quote', 'to', 'market'],
 }
 
+const convertId = {
+  UNI: 'uniswap',
+}
+
 const execute = (input, callback) => {
   const validator = new Validator(input, customParams)
   if (validator.error) return callback(validator.error.statusCode, validator.errored)
@@ -18,6 +22,11 @@ const execute = (input, callback) => {
   const base = validator.validated.data.base.toLowerCase()
   const quote = validator.validated.data.quote.toLowerCase()
 
+  // Correct common tickers that are misidentified
+  if (base in convertId) {
+    base = convertId[base]
+  }
+  
   let url = 'https://us.market-api.kaiko.io'
   if (quote === 'eth') {
     url += `/v2/data/trades.v1/spot_direct_exchange_rate/${base}/${quote}`
