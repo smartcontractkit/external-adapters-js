@@ -38,30 +38,6 @@ jobs:
         run: |
           # eg. github.repository = chainlink/ea, github.ref = release/v0.0.1 -> ea-v0.0.1
           echo ::set-output name=prefix::${REPOSITORY_NAME##*/}-${TAG_REF_NAME##*/v}
-  # DOES NOT WORK: https://github.com/smartcontractkit/external-adapters-js/issues/77
-  # publish-npm-packages:
-  #   needs: [release]
-  #   name: Publish NPM Packages
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     # Setup .npmrc file to publish to npm
-  #     - uses: actions/setup-node@v1
-  #       with:
-  #         node-version: '12.x'
-  #         registry-url: 'https://registry.npmjs.org'
-  #         # Defaults to the user or organization that owns the workflow file
-  #         scope: '@chainlink'
-  #         always-auth: true
-  #     - run: yarn
-  #     # Publish @chainlink/external-adapter
-  #     - run: yarn workspace @chainlink/external-adapter install
-  #     - run: yarn workspace @chainlink/external-adapter publish --non-interactive --access public
-  #     # Publish @chainlink/ea-bootstrap
-  #     - run: yarn workspace @chainlink/ea-bootstrap install
-  #     - run: yarn workspace @chainlink/ea-bootstrap publish --non-interactive --access public
-  #       env:
-  #         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   # Read build strategy matrix of adapters, from a json file
   matrix-adapters:
