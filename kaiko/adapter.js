@@ -26,7 +26,7 @@ const execute = (input, callback) => {
   if (base in convertId) {
     base = convertId[base]
   }
-  
+
   let url = 'https://us.market-api.kaiko.io'
   if (quote === 'eth') {
     url += `/v2/data/trades.v1/spot_direct_exchange_rate/${base}/${quote}`
