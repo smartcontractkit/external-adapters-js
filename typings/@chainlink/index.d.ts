@@ -65,7 +65,9 @@ declare module '@chainlink/types' {
     config: Config,
   ) => Promise<AdapterResponse>
 
-  export type ExecuteFactory = (config?: Config) => Execute
+  export interface ExecuteFactory<C extends Config> {
+    (config: C): Execute
+  }
 
   import { expose } from '@chainlink/ea-bootstrap'
   export type AdapterImplementation = {
