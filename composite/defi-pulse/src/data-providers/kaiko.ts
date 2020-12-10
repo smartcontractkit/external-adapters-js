@@ -6,6 +6,7 @@ const getPriceData = async (symbol: string, currency: string) => {
   const url = `https://us.market-api.kaiko.io/v2/data/trades.v1/spot_exchange_rate/${symbol.toLowerCase()}/${currency.toLowerCase()}`
   const params = {
     sort: 'desc',
+    interval: '1m',
   }
   const headers = {
     'X-Api-Key': util.getRequiredEnv('API_KEY'),
