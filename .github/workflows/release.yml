@@ -27,8 +27,6 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
       - name: Get asset prefix
         env:
           TAG_REF_NAME: ${{ github.ref }}
