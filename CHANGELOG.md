@@ -20,6 +20,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `btc.com` to get on-chain balances from BTC.com
 - Added support for metadata in requests. This gives adapters access to the FM on-chain round state.
 - Moves re-usable test behaviors & testing utils to a new package - `@chainlink/adapter-test-helpers`
+- Added support for using query string parameters as input to adapters.
+- Add a package re-usable adapter factory implementations to - `@chainlink/ea-factories`
 
 ### Changed
 

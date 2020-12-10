@@ -31,6 +31,7 @@ deps: clean
 	# Call the build script for the adapter if defined (TypeScript adapters have this extra build/compile step)
 	# We use `wsrun` to build workspace dependencies in topological order (TODO: use native `yarn workspaces foreach -pt run setup` with Yarn 2)
 	yarn wsrun -mre -p @chainlink/ea-bootstrap -t setup
+	yarn wsrun -mre -p @chainlink/ea-factories -t setup
 	yarn wsrun -mre -p @chainlink/external-adapter -t setup
 	yarn wsrun -mre -p @chainlink/$(if $(name),$(name),$(adapter))-adapter -t setup
 	yarn --frozen-lockfile --production
