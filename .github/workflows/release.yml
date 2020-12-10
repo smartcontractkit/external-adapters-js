@@ -60,6 +60,9 @@ jobs:
     needs: [release, matrix-adapters]
     runs-on: ubuntu-latest
     name: Publish ${{ matrix.adapter }} adapter zip (GitHub Release)
+    env:
+      asset_path: ./${{ matrix.adapter }}/dist/${{ matrix.adapter }}-adapter.zip
+      asset_name: ${{ matrix.adapter }}-adapter.zip
     strategy:
       matrix: ${{fromJson(needs.matrix-adapters.outputs.adapters)}}
     steps:
@@ -72,14 +75,25 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.release.outputs.release_url }}
-          asset_path: ./${{ matrix.adapter }}/dist/${{ matrix.adapter }}-adapter.zip
-          asset_name: ${{ needs.release.outputs.asset_prefix }}-${{ matrix.adapter }}-adapter.zip
+          asset_path: ${{ env.asset_path }}
+          asset_name: ${{ needs.release.outputs.asset_prefix }}-${{ env.asset_name }}
           asset_content_type: application/zip
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - name: Upload to S3
+        run: aws s3 cp ${{ env.asset_path }} s3://adaptor-source-cl/${{ env.asset_name }}
 
   publish-composite-artifacts:
     needs: [release, matrix-adapters]
     runs-on: ubuntu-latest
     name: Publish composite ${{ matrix.adapter }} adapter zip (GitHub Release)
+    env:
+      asset_path: ./composite/${{ matrix.adapter }}/dist/${{ matrix.adapter }}-adapter.zip
+      asset_name: ${{ matrix.adapter }}-adapter.zip
     strategy:
       matrix: ${{fromJson(needs.matrix-adapters.outputs.adapters-composite)}}
     steps:
@@ -92,14 +106,25 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.release.outputs.release_url }}
-          asset_path: ./composite/${{ matrix.adapter }}/dist/${{ matrix.adapter }}-adapter.zip
-          asset_name: ${{ needs.release.outputs.asset_prefix }}-${{ matrix.adapter }}-adapter.zip
+          asset_path: ${{ env.asset_path }}
+          asset_name: ${{ needs.release.outputs.asset_prefix }}-${{ env.asset_name }}
           asset_content_type: application/zip
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - name: Upload to S3
+        run: aws s3 cp ${{ env.asset_path }} s3://adaptor-source-cl/${{ env.asset_name }}
 
   publish-synth-index-artifacts:
     needs: [release, matrix-adapters]
     name: Publish synth-index ${{ matrix.adapter }} adapter zip (GitHub Release)
     runs-on: ubuntu-latest
+    env:
+      asset_path: ./synth-index/${{ matrix.adapter }}/dist/synth-index-${{ matrix.adapter }}-adapter.zip
+      asset_name: synth-index-${{ matrix.adapter }}-adapter.zip
     strategy:
       matrix: ${{fromJson(needs.matrix-adapters.outputs.adapters-synth-index)}}
     steps:
@@ -112,14 +137,25 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.release.outputs.release_url }}
-          asset_path: ./synth-index/${{ matrix.adapter }}/dist/synth-index-${{ matrix.adapter }}-adapter.zip
-          asset_name: ${{ needs.release.outputs.asset_prefix }}-synth-index-${{ matrix.adapter }}-adapter.zip
+          asset_path: ${{ env.asset_path }}
+          asset_name: ${{ needs.release.outputs.asset_prefix }}-${{ env.asset_name }}
           asset_content_type: application/zip
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - name: Upload to S3
+        run: aws s3 cp ${{ env.asset_path }} s3://adaptor-source-cl/${{ env.asset_name }}
 
   publish-2-step-artifacts:
     needs: [release, matrix-adapters]
     name: Publish 2-step ${{ matrix.adapter }} adapter zip (GitHub Release)
     runs-on: ubuntu-latest
+    env:
+      asset_path: ./2-step/${{ matrix.adapter }}/dist/${{ matrix.adapter }}-2-step-adapter.zip
+      asset_name: ${{ matrix.adapter }}-2-step-adapter.zip
     strategy:
       matrix: ${{fromJson(needs.matrix-adapters.outputs.adapters-2-step)}}
     steps:
@@ -132,6 +168,14 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.release.outputs.release_url }}
-          asset_path: ./2-step/${{ matrix.adapter }}/dist/${{ matrix.adapter }}-2-step-adapter.zip
-          asset_name: ${{ needs.release.outputs.asset_prefix }}-${{ matrix.adapter }}-2-step-adapter.zip
+          asset_path: ${{ env.asset_path }}
+          asset_name: ${{ needs.release.outputs.asset_prefix }}-${{ env.asset_name }}
           asset_content_type: application/zip
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - name: Upload to S3
+        run: aws s3 cp ${{ env.asset_path }} s3://adaptor-source-cl/${{ env.asset_name }}
