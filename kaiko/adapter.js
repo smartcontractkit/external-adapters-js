@@ -11,7 +11,7 @@ const customParams = {
 }
 
 const convertId = {
-  UNI: 'uniswap',
+  uni: 'uniswap',
 }
 
 const execute = (input, callback) => {
