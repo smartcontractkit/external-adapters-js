@@ -19,7 +19,7 @@ const execute = (input, callback) => {
   if (validator.error) return callback(validator.error.statusCode, validator.errored)
 
   const jobRunID = validator.validated.id
-  const base = validator.validated.data.base.toLowerCase()
+  let base = validator.validated.data.base.toLowerCase()
   const quote = validator.validated.data.quote.toLowerCase()
 
   // Correct common tickers that are misidentified
