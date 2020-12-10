@@ -51,7 +51,7 @@ jobs:
 
   build-adapters:
     needs: [run-basic-checks, matrix-adapters]
-    name: Build adapters
+    name: (${{ matrix.adapter.type }}) Build ${{matrix.adapter.name}} adapter
     runs-on: ubuntu-latest
     strategy:
       matrix: ${{fromJson(needs.matrix-adapters.outputs.adapters)}}
