@@ -59,7 +59,7 @@ jobs:
   publish-artifacts:
     needs: [release, matrix-adapters]
     runs-on: ubuntu-latest
-    name: Publish ${{ matrix.adapter }} adapter zips (GitHub Release)
+    name: Publish ${{ matrix.adapter }} adapter zip (GitHub Release)
     strategy:
       matrix: ${{fromJson(needs.matrix-adapters.outputs.adapters)}}
     steps:
@@ -79,7 +79,7 @@ jobs:
   publish-composite-artifacts:
     needs: [release, matrix-adapters]
     runs-on: ubuntu-latest
-    name: Publish composite ${{ matrix.adapter }} adapter zips (GitHub Release)
+    name: Publish composite ${{ matrix.adapter }} adapter zip (GitHub Release)
     strategy:
       matrix: ${{fromJson(needs.matrix-adapters.outputs.adapters-composite)}}
     steps:
@@ -98,7 +98,7 @@ jobs:
 
   publish-synth-index-artifacts:
     needs: [release, matrix-adapters]
-    name: Publish synth-index ${{ matrix.adapter }} adapter zips (GitHub Release)
+    name: Publish synth-index ${{ matrix.adapter }} adapter zip (GitHub Release)
     runs-on: ubuntu-latest
     strategy:
       matrix: ${{fromJson(needs.matrix-adapters.outputs.adapters-synth-index)}}
@@ -118,7 +118,7 @@ jobs:
 
   publish-2-step-artifacts:
     needs: [release, matrix-adapters]
-    name: Publish 2-step ${{ matrix.adapter }} adapter zips (GitHub Release)
+    name: Publish 2-step ${{ matrix.adapter }} adapter zip (GitHub Release)
     runs-on: ubuntu-latest
     strategy:
       matrix: ${{fromJson(needs.matrix-adapters.outputs.adapters-2-step)}}
