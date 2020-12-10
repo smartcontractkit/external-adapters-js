@@ -20,9 +20,9 @@ const execute = (input, callback) => {
 
   let url = 'https://us.market-api.kaiko.io'
   if (quote === 'eth') {
-    url += `/v1/data/trades.v1/spot_direct_exchange_rate/${base}/${quote}`
+    url += `/v2/data/trades.v1/spot_direct_exchange_rate/${base}/${quote}`
   } else {
-    url += `/v1/data/trades.v1/spot_exchange_rate/${base}/${quote}`
+    url += `/v2/data/trades.v1/spot_exchange_rate/${base}/${quote}`
   }
 
   const start_time = new Date() // eslint-disable-line camelcase
