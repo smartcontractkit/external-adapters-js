@@ -1,5 +1,2 @@
-import { makeBalance } from './factories/balance'
-import { makePrice } from './factories/price'
-
-export { makeBalance }
-export { makePrice }
+export * as balance from './factories/balance'
+export * as price from './factories/price'

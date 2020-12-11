@@ -66,9 +66,7 @@ declare module '@chainlink/types' {
     config: Config,
   ) => Promise<AdapterResponse>
 
-  export interface ExecuteFactory<C extends Config> {
-    (config?: C): Execute
-  }
+  export type ExecuteFactory<C extends Config> = (config?: C) => Execute
 
   export type ConfigFactory = (prefix?: string) => Config
 
