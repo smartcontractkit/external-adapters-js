@@ -1,5 +1,5 @@
-import * as balance from './factories/balance'
-import * as price from './factories/price'
+import { makeBalance } from './factories/balance'
+import { makePrice } from './factories/price'
 
-export { balance }
-export { price }
+export { makeBalance }
+export { makePrice }

@@ -1,5 +1,5 @@
 import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
-import { ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
+import { ExecuteWithConfig, ExecuteFactory, Config } from '@chainlink/types'
 import { getConfig, DEFAULT_ENDPOINT } from './config'
 import { price, balance } from './endpoint'
 
@@ -20,12 +20,11 @@ export const execute: ExecuteWithConfig = async (request, config) => {
   let response
   switch (endpoint) {
     case price.Name: {
-      response = await price.execute(config, request)
-      break
+      response = await price.execute(request, config)
+      return Requester.success(jobRunID, response)
     }
     case balance.Name: {
-      response = await balance.execute(config, request)
-      break
+      response = balance.makeExecute(config)(request)
     }
     default: {
       throw new AdapterError({
@@ -35,10 +34,8 @@ export const execute: ExecuteWithConfig = async (request, config) => {
       })
     }
   }
-
-  return Requester.success(jobRunID, response)
 }
 
-export const makeExecute: ExecuteFactory = (config) => {
-  return async (request) => execute(request, config || getConfig())
+export const makeExecute: ExecuteFactory<Config> = (config) => {
+  return async (request) => await execute(request, config || getConfig())
 }

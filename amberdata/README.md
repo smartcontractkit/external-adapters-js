@@ -9,7 +9,7 @@ The adapter takes the following environment variables:
 
 ## Input Params
 
-- `endpoint`: The endpoint to use. Default: "price"
+- `endpoint`: The endpoint to use, one of (price|balance). Default: "price"
 
 ### Price endpoint
 

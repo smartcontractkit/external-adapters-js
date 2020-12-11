@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { AdapterRequest, Config } from '@chainlink/types'
+import { ExecuteWithConfig } from '@chainlink/types'
 import { getBaseURL } from '../config'
 
 export const Name = 'price'
@@ -13,8 +13,8 @@ const customParams = {
   quote: ['quote', 'to', 'market'],
 }
 
-export const execute = async (config: Config, request: AdapterRequest) => {
-  const validator = new Validator(request, customParams)
+export const execute: ExecuteWithConfig = async (input, config) => {
+  const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
 
   const coin = validator.validated.data.base
