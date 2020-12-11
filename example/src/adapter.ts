@@ -19,7 +19,7 @@ export const execute: ExecuteWithConfig = async (request, config) => {
   let result
   switch (endpoint) {
     case example.Name: {
-      result = await example.execute(config, request)
+      result = await example.execute(request, config)
       break
     }
     default: {

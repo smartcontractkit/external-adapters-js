@@ -1,6 +1,6 @@
 import objectPath from 'object-path'
 import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
-import { AdapterRequest, Config, Address, Account } from '@chainlink/types'
+import { ExecuteWithConfig, Config, Address, Account } from '@chainlink/types'
 import { DEFAULT_DATA_PATH, getBaseURL } from '../config'
 import { CoinType, ChainType, COINS } from '.'
 
@@ -8,7 +8,7 @@ export const Name = 'balance'
 
 type AddressGroup = {
   addresses: string[]
-  result: Address[]
+  result: Account[]
 }
 
 type GroupedAddresses = {
@@ -30,6 +30,7 @@ const WARNING_NO_OPERATION_TESTNET =
 
 const group = (jobRunID: string, addresses: Address[]) => {
   const output: GroupedAddresses = {}
+
   for (const addr of addresses) {
     if (!addr.address)
       throw new AdapterError({
@@ -37,10 +38,20 @@ const group = (jobRunID: string, addresses: Address[]) => {
         message: `Addresses are required`,
         statusCode: 400,
       })
-    addr.coin = addr.coin || 'btc'
-    addr.chain = addr.chain || 'mainnet'
-    const { address, coin, chain } = addr
-    const key = `${coin}-${chain}`
+
+    let { address, coin, chain } = addr
+    coin = addr.coin || 'btc'
+    chain = addr.chain || 'mainnet'
+    coin = Requester.toVendorName(coin, COINS)
+    if (!coin)
+      throw new AdapterError({
+        jobRunID,
+        message: `Unsupported coin parameter`,
+        statusCode: 500,
+      })
+    if (chain === 'testnet' && coin == 'bitcoin') coin = 'bitcoin/testnet'
+
+    const key = coin
     output[key] = output[key] || { addresses: [], result: [] }
     output[key].addresses.push(address)
     output[key].result.push(addr)
@@ -48,25 +59,8 @@ const group = (jobRunID: string, addresses: Address[]) => {
   return output
 }
 
-const getBalanceURI = (jobRunID: string, addresses: string[], chain: string, coin: string) => {
-  coin = Requester.toVendorName(coin, COINS)
-  if (!coin)
-    throw new AdapterError({
-      jobRunID,
-      message: `Unsupported coin parameter`,
-      statusCode: 500,
-    })
-  if (chain === 'testnet') {
-    if (coin === 'bitcoin') coin = 'bitcoin/testnet'
-    else
-      throw new AdapterError({
-        jobRunID,
-        message: WARNING_NO_OPERATION_TESTNET,
-        statusCode: 400,
-      })
-  }
-  return `/${coin}/addresses/balances?addresses=${addresses.join(',')}`
-}
+const getBalanceURI = (addresses: string[], coin: string) =>
+  `/${coin}/addresses/balances?addresses=${addresses.join(',')}`
 
 const getBalances = async (
   jobRunID: string,
@@ -74,19 +68,18 @@ const getBalances = async (
   groupedData: GroupedAddresses,
 ): Promise<ResponseWithResult[]> =>
   Promise.all(
-    Object.entries(groupedData).map(async ([network, reqData]) => {
-      const [coin, chain] = network.split('-')
+    Object.entries(groupedData).map(async ([coin, reqData]) => {
       const { result } = reqData
 
       const reqConfig = {
         ...config.api,
         baseURL: getBaseURL(),
-        url: getBalanceURI(jobRunID, reqData.addresses, chain, coin),
+        url: getBalanceURI(reqData.addresses, coin),
       }
 
       const response = await Requester.request(reqConfig)
 
-      const toResultWithBalance = (r) => {
+      const toResultWithBalance = (r: Address) => {
         const balance = response.data.data[r.address]
         return { ...r, balance }
       }
@@ -115,14 +108,14 @@ export const inputParams = {
 }
 
 // Export function to integrate with Chainlink node
-export const execute = async (config: Config, request: AdapterRequest) => {
-  const validator = new Validator(request, inputParams)
+export const execute: ExecuteWithConfig = async (input, config) => {
+  const validator = new Validator(input, inputParams)
   if (validator.error) throw validator.error
   const jobRunID = validator.validated.id
 
   const data: RequestData = validator.validated.data
   const dataPath = data.dataPath || DEFAULT_DATA_PATH
-  const inputData = <Address[]>objectPath.get(request.data, dataPath)
+  const inputData = <Address[]>objectPath.get(input.data, dataPath)
 
   // Check if input data is valid
   if (!inputData || !Array.isArray(inputData) || inputData.length === 0)

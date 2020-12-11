@@ -9,4 +9,4 @@ export const DEFAULT_ENDPOINT = 'difficulty'
 
 export const getBaseURL = (): string => ENDPOINT_MAIN
 
-export const getConfig = (): Config => Requester.getDefaultConfig()
+export const makeConfig = (prefix?: string): Config => Requester.getDefaultConfig(prefix)

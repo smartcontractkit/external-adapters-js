@@ -1,17 +1,10 @@
 import objectPath from 'object-path'
-import { Requester, Validator } from '@chainlink/external-adapter'
-import { AdapterRequest } from '@chainlink/types'
-import { Config, DEFAULT_CONFIRMATIONS, DEFAULT_DATA_PATH, getBaseURL } from '../config'
-import { CoinType, isCoinType, ChainType, isChainType } from '.'
+import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
+import { AdapterRequest, AdapterResponse, Address, Account, Config } from '@chainlink/types'
+import { DEFAULT_CONFIRMATIONS, DEFAULT_DATA_PATH, getBaseURL } from '../config'
+import { isCoinType, isChainType } from '.'
 
 export const Name = 'balance'
-
-type Address = {
-  address: string
-  coin?: CoinType
-  chain?: ChainType
-  balance?: number
-}
 
 type RequestData = {
   dataPath: string
@@ -20,7 +13,7 @@ type RequestData = {
 
 type ResponseWithResult = {
   response?: any
-  result?: Address
+  result?: Account
 }
 
 const WARNING_NO_OPERATION_COIN = 'No Operation: unsupported coin type'
@@ -41,7 +34,12 @@ const toBalances = async (
 ): Promise<ResponseWithResult[]> =>
   Promise.all(
     addresses.map(async (addr: Address) => {
-      if (!addr.address) return { ...addr, warning: WARNING_NO_OPERATION_MISSING_ADDRESS }
+      if (!addr.address)
+        throw new AdapterError({
+          jobRunID,
+          message: WARNING_NO_OPERATION_MISSING_ADDRESS,
+          statusCode: 400,
+        })
 
       if (!addr.coin) addr.coin = 'btc'
       if (isCoinType(addr.coin) === false)
@@ -52,7 +50,7 @@ const toBalances = async (
 
       const reqConfig = {
         ...config.api,
-        baseURL: getBaseURL(addr.chain),
+        baseURL: getBaseURL(),
         url: getBalanceURI(addr.coin, addr.address, confirmations, addr.chain),
       }
 
@@ -65,11 +63,11 @@ const toBalances = async (
     }),
   )
 
-const reduceResponse = (responses: ResponseWithResult[]) =>
+const reduceResponse = (responses: ResponseWithResult[], config: Config) =>
   responses.reduce(
     (accumulator, current) => {
-      accumulator.data.responses = [...accumulator.data.responses, current.response]
-      accumulator.data.result = [...accumulator.data.result, current.result]
+      accumulator.responses = [...accumulator.responses, current.response]
+      accumulator.result = [...accumulator.result, current.result]
       return accumulator
     },
     {
@@ -95,12 +93,16 @@ export const execute = async (config: Config, request: AdapterRequest): Promise<
 
   // Check if input data is valid
   if (!inputData || !Array.isArray(inputData) || inputData.length === 0)
-    throw Requester.errored(
+    throw new AdapterError({
       jobRunID,
-      `Input, at '${dataPath}' path, must be a non-empty array.`,
-      400,
-    )
+      message: `Input, at '${dataPath}' path, must be a non-empty array.`,
+      statusCode: 400,
+    })
 
   const responses = await toBalances(jobRunID, config, inputData)
-  return reduceResponse(responses)
+  return reduceResponse(responses, config)
 }
+
+// data: response.data,
+// result: response.data.result,
+// statusCode: response.status,

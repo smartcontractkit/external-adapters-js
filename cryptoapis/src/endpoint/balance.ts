@@ -1,18 +1,10 @@
 import objectPath from 'object-path'
-import { Requester, Validator } from '@chainlink/external-adapter'
-import { AdapterRequest } from '@chainlink/types'
-import { Config, DEFAULT_DATA_PATH, getBaseURL } from '../config'
-import { CoinType, ChainType, isCoinType, isChainType } from '.'
+import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
+import { AdapterRequest, Config, Address, Account } from '@chainlink/types'
+import { DEFAULT_DATA_PATH, getBaseURL } from '../config'
+import { isCoinType, isChainType } from '.'
 
 export const Name = 'balance'
-
-type Address = {
-  address: string
-  coin?: CoinType
-  chain?: ChainType
-  balance?: number
-  warning?: string
-}
 
 type RequestData = {
   dataPath: string
@@ -21,7 +13,7 @@ type RequestData = {
 
 type ResponseWithResult = {
   response?: any
-  result?: Address
+  result?: Account
 }
 
 const WARNING_NO_OPERATION_COIN = 'No Operation: unsupported coin'
@@ -48,7 +40,7 @@ const getBalances = async (config: Config, addresses: Address[]): Promise<Respon
         baseURL: getBaseURL(),
         url: getBalanceURI(addr.address, addr.chain, addr.coin),
       }
-
+      console.log(reqConfig)
       const response = await Requester.request(reqConfig)
 
       return {
@@ -88,11 +80,11 @@ export const execute = async (config: Config, request: AdapterRequest) => {
 
   // Check if input data is valid
   if (!inputData || !Array.isArray(inputData) || inputData.length === 0)
-    throw Requester.errored(
+    throw new AdapterError({
       jobRunID,
-      `Input, at '${dataPath}' path, must be a non-empty array.`,
-      400,
-    )
+      message: `Input, at '${dataPath}' path, must be a non-empty array.`,
+      statusCode: 400,
+    })
 
   const responses = await getBalances(config, inputData)
   return reduceResponse(responses)

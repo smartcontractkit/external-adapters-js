@@ -1,6 +1,6 @@
 import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
-import { ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
-import { getConfig, DEFAULT_ENDPOINT } from './config'
+import { ExecuteWithConfig, ExecuteFactory, Config } from '@chainlink/types'
+import { makeConfig, DEFAULT_ENDPOINT } from './config'
 import { difficulty, balance } from './endpoint'
 
 const inputParams = {
@@ -8,7 +8,7 @@ const inputParams = {
 }
 
 // Export function to integrate with Chainlink node
-export const execute: ExecuteWithConfig = async (request, config) => {
+const execute: ExecuteWithConfig = async (request, config) => {
   const validator = new Validator(request, inputParams)
   if (validator.error) throw validator.error
 
@@ -20,11 +20,11 @@ export const execute: ExecuteWithConfig = async (request, config) => {
   let response
   switch (endpoint) {
     case difficulty.Name: {
-      response = await difficulty.execute(config, request)
+      response = await difficulty.execute(request, config)
       break
     }
     case balance.Name: {
-      response = await balance.execute(config, request)
+      response = await balance.execute(request, config)
       break
     }
     default: {
@@ -39,6 +39,6 @@ export const execute: ExecuteWithConfig = async (request, config) => {
   return Requester.success(jobRunID, response)
 }
 
-export const makeExecute: ExecuteFactory = (config) => {
-  return async (request) => execute(request, config || getConfig())
+export const makeExecute: ExecuteFactory<Config> = (config) => {
+  return async (request) => execute(request, config || makeConfig())
 }

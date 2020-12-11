@@ -55,6 +55,7 @@ declare module '@chainlink/types' {
     apiKey?: string
     network?: string
     returnRejectedPromiseOnError?: Boolean
+    returnVerboseResponse?: Boolean
     api: Partial<AxiosRequestConfig>
   }
 
@@ -69,11 +70,14 @@ declare module '@chainlink/types' {
     (config?: C): Execute
   }
 
-  import { expose } from '@chainlink/ea-bootstrap'
+  export type ConfigFactory = (prefix?: string) => Config
+
+  import type { ExecuteHandlers } from '@chainlink/ea-bootstrap/src'
   export type AdapterImplementation = {
     NAME: string
     makeExecute: ExecuteFactory
-  } & ReturnType<expose>
+    makeConfig: ConfigFactory
+  } & ExecuteHandlers
   export interface Implementations<t> {
     [type: string]: AdapterImplementation
   }
@@ -82,6 +86,7 @@ declare module '@chainlink/types' {
     address: string
     coin?: string
     chain?: string
+    warning?: string
   }
   export type Account = Address & {
     balance?: number

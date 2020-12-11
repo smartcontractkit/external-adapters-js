@@ -53,13 +53,6 @@
   dependencies:
     object-path "^0.11.4"
 
-"@chainlink/reference-data-reader@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@chainlink/reference-data-reader/-/reference-data-reader-0.0.1.tgz#5dd0751d851fcc38ee1d08742ef6851661bcfe3e"
-  integrity sha512-rb7Y0zaBsHkyoMVYGmMp+DOfMAuF7B6/OaQKNSIUwgjWogApaKH0y/x0RODECSrDIxqIof65X4QNfY2mNKhOXQ==
-  dependencies:
-    ethers "^5.0.19"
-
 "@dabh/diagnostics@^2.0.2":
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/@dabh/diagnostics/-/diagnostics-2.0.2.tgz#290d08f7b381b8f94607dc8f471a12c675f9db31"

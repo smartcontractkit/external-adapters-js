@@ -5,6 +5,7 @@ import { logger } from './logger'
 const ENV_API_KEY = 'API_KEY'
 const ENV_API_ENDPOINT = 'API_ENDPOINT'
 const ENV_API_TIMEOUT = 'API_TIMEOUT'
+const ENV_API_VERBOSE_RESPONSE = 'API_VERBOSE_RESPONSE'
 const DEFAULT_API_TIMEOUT = 30000
 
 export const constants = {
@@ -12,6 +13,7 @@ export const constants = {
   ENV_API_ENDPOINT,
   ENV_API_TIMEOUT,
   DEFAULT_API_TIMEOUT,
+  ENV_API_VERBOSE_RESPONSE,
 }
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -21,6 +23,7 @@ export function getDefaultConfig(prefix = ''): Config {
   const apiKey = util.getEnv(ENV_API_KEY, prefix)
   return {
     apiKey,
+    returnVerboseResponse: util.getEnv(ENV_API_KEY, prefix) || false,
     api: {
       withCredentials: !!apiKey,
       baseURL: util.getEnv(ENV_API_ENDPOINT, prefix),

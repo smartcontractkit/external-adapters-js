@@ -1,6 +1,6 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { AdapterRequest } from '@chainlink/types'
-import { Config, getBaseURL } from '../config'
+import { AdapterRequest, Config } from '@chainlink/types'
+import { getBaseURL } from '../config'
 
 export const Name = 'price'
 

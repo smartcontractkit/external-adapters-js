@@ -1,7 +1,7 @@
 import bcypher from 'blockcypher'
 import objectPath from 'object-path'
 import { Validator, AdapterError } from '@chainlink/external-adapter'
-import { AdapterRequest, Config } from '@chainlink/types'
+import { AdapterRequest, Config, Address, Account } from '@chainlink/types'
 import { DEFAULT_CONFIRMATIONS, DEFAULT_DATA_PATH } from '../config'
 import { CoinType, ChainType } from '.'
 
@@ -18,13 +18,6 @@ type AddressBalance = {
   n_tx: number
   unconfirmed_n_tx: number
   final_n_tx: number
-}
-
-type Address = {
-  address: string
-  coin?: CoinType
-  chain?: ChainType
-  balance?: number
 }
 
 type RequestData = {
@@ -50,7 +43,7 @@ const toBalances = async (
   config: Config,
   addresses: Address[],
   confirmations: number = DEFAULT_CONFIRMATIONS,
-): Promise<Address[]> =>
+): Promise<Account[]> =>
   Promise.all(
     addresses.map(async (addr: Address) => {
       if (!addr.address) return { ...addr, warning: WARNING_NO_OPERATION_MISSING_ADDRESS }

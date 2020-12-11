@@ -135,7 +135,7 @@ function base(execute: Execute) {
 }
 
 const extensions: { [network: string]: (execute: Execute) => void } = {
-  bitcoinmainnet: (execute) => {
+  bitcoin_mainnet: (execute) => {
     describe('it should support bitcoin mainnet', () => {
       const jobID = '1'
 
@@ -214,7 +214,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
     })
   },
 
-  bitcointestnet: (execute) => {
+  bitcoin_testnet: (execute) => {
     describe('it should support bitcoin testnet', () => {
       const jobID = '1'
 
@@ -251,9 +251,83 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
       )
     })
   },
+
+  ethereum_mainnet: (execute) => {
+    describe('it should support ethereum mainnet', () => {
+      const jobID = '1'
+
+      const assertions = (request: any, response: any) => {
+        const numAddr = request?.testData?.data?.addresses.length
+        assert.isAbove(Number(response.data.result.length), 0)
+        assert.isAbove(Number(response.result.length), 0)
+        assert.equal(Number(response.data.result.length), numAddr)
+        assert.equal(Number(response.result.length), numAddr)
+      }
+
+      successes(
+        [
+          {
+            name: 'ETH testnet',
+            testData: {
+              id: '1',
+              data: {
+                endpoint: 'balance',
+                addresses: [
+                  {
+                    coin: 'eth',
+                    chain: 'mainnet',
+                    address: '0x664EEe181C2d65619F367c5AaC7d42F571B61177',
+                  },
+                ],
+              },
+            },
+          },
+        ],
+        execute,
+        assertions,
+      )
+    })
+  },
+
+  ethereum_rinkeby: (execute) => {
+    describe('it should support ethereum rinkeby testnet', () => {
+      const jobID = '1'
+
+      const assertions = (request: any, response: any) => {
+        const numAddr = request?.testData?.data?.addresses.length
+        assert.isAbove(Number(response.data.result.length), 0)
+        assert.isAbove(Number(response.result.length), 0)
+        assert.equal(Number(response.data.result.length), numAddr)
+        assert.equal(Number(response.result.length), numAddr)
+      }
+
+      successes(
+        [
+          {
+            name: 'ETH testnet',
+            testData: {
+              id: '1',
+              data: {
+                endpoint: 'balance',
+                addresses: [
+                  {
+                    coin: 'eth',
+                    chain: 'testnet',
+                    address: '0x664EEe181C2d65619F367c5AaC7d42F571B61177',
+                  },
+                ],
+              },
+            },
+          },
+        ],
+        execute,
+        assertions,
+      )
+    })
+  },
 }
 
-type Network = 'bitcoinmainnet' | 'bitcointestnet'
+type Network = 'bitcoin_mainnet' | 'bitcoin_testnet' | 'ethereum_mainnet' | 'ethereum_rinkeby'
 
 export function shouldBehaveLikeBalanceAdapter(execute: Execute, networks: Network[]) {
   base(execute)

@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { AdapterRequest, Config } from '@chainlink/types'
+import { ExecuteWithConfig, Config } from '@chainlink/types'
 import { getBaseURL } from '../config'
 import { COINS } from '.'
 
@@ -9,8 +9,8 @@ const inputParams = {
   blockchain: ['blockchain', 'coin'],
 }
 
-export const execute = async (config: Config, request: AdapterRequest) => {
-  const validator = new Validator(request, inputParams)
+export const execute: ExecuteWithConfig = async (input, config) => {
+  const validator = new Validator(input, inputParams)
   if (validator.error) throw validator.error
 
   const blockchain = Requester.toVendorName(

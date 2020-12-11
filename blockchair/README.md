@@ -9,7 +9,7 @@ The adapter takes the following environment variables:
 
 ## Input Params
 
-- `endpoint`: Optional endpoint param, defaults to `difficulty`
+- `endpoint`: The endpoint to use, one of (difficulty|balance). Defaults to `difficulty`
 
 ### Difficulty endpoint
 

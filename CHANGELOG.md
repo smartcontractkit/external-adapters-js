@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `coincodex` to get crypto prices from CoinCodex
   - `coinranking` to get crypto prices from Coinranking
   - `btc.com` to get on-chain balances from BTC.com
+  - `sochain` to get on-chain balances from SoChain
 - Added support for metadata in requests. This gives adapters access to the FM on-chain round state.
 - Moves re-usable test behaviors & testing utils to a new package - `@chainlink/adapter-test-helpers`
 - Added support for using query string parameters as input to adapters.
