@@ -1,5 +1,6 @@
 // Declare missing type definitions
 declare module '@chainlink/types' {
+  /* REQUESTS */
   export type AdapterRequestMeta = {
     availableFunds?: number
     eligibleToSubmit?: boolean
@@ -19,13 +20,34 @@ declare module '@chainlink/types' {
   export type Callback = (statusCode: number, data?: any) => void
   export type AdapterHealthCheck = (callback: Callback) => any
 
+  import { AxiosRequestConfig } from 'axios'
+  export type Config = {
+    apiKey?: string
+    network?: string
+    returnRejectedPromiseOnError?: Boolean
+    returnVerboseResponse?: Boolean
+    api: Partial<AxiosRequestConfig>
+  }
+
+  /* RESPONSES */
+  export type ResponseData = {
+    result: any
+    [key: string]: any
+  }
+
+  export type SequenceResponseData<ResultType> = {
+    responses: ResponseData[]
+    result: ResultType[]
+  }
+
   export type AdapterResponse = {
     jobRunID: string
     statusCode: number
-    data: any
+    data: ResponseData
     result: any
   }
 
+  /* ERRORS */
   type ErrorBasic = {
     name: string
     message: string
@@ -41,6 +63,7 @@ declare module '@chainlink/types' {
     error: ErrorBasic | ErrorFull
   }
 
+  /* BOOTSTRAP */
   // TODO: clean this ASAP
   export type WrappedAdapterResponse = {
     statusCode: number
@@ -49,15 +72,6 @@ declare module '@chainlink/types' {
   export type ExecuteWrappedResponse = (input: AdapterRequest) => Promise<WrappedAdapterResponse>
 
   export type ExecuteSync = (input: AdapterRequest, callback: Callback) => void
-
-  import { AxiosRequestConfig } from 'axios'
-  export type Config = {
-    apiKey?: string
-    network?: string
-    returnRejectedPromiseOnError?: Boolean
-    returnVerboseResponse?: Boolean
-    api: Partial<AxiosRequestConfig>
-  }
 
   export type Execute = (input: AdapterRequest) => Promise<AdapterResponse>
 
@@ -80,14 +94,15 @@ declare module '@chainlink/types' {
     [type: string]: AdapterImplementation
   }
 
+  /* IMPLEMENTATIONS */
   export type Address = {
     address: string
     coin?: string
     chain?: string
-    warning?: string
   }
   export type Account = Address & {
     balance?: number
+    warning?: string
   }
 }
 declare module '@chainlink/ea-bootstrap'

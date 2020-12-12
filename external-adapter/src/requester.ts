@@ -2,6 +2,7 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { AdapterError } from './errors'
 import { logger } from './logger'
 import { getDefaultConfig, logConfig } from './config'
+import { AdapterResponse } from '@chainlink/types'
 
 const getFalse = () => false
 
@@ -86,7 +87,7 @@ export class Requester {
     return new AdapterError({ jobRunID, statusCode, message: error }).toJSONResponse()
   }
 
-  static success(jobRunID = '1', response: AxiosResponse) {
+  static success(jobRunID = '1', response: AxiosResponse): AdapterResponse {
     if (!('result' in response.data)) {
       response.data.result = null
     }

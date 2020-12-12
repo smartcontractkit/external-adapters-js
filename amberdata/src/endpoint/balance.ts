@@ -1,5 +1,5 @@
-import { makeBalance } from '@chainlink/ea-factories'
-import { Config, Address, Account } from '@chainlink/types'
+import { balance } from '@chainlink/ea-factories'
+import { Config } from '@chainlink/types'
 import { Requester } from '@chainlink/external-adapter'
 import { isChainType, isCoinType, BLOCKCHAINS } from '.'
 
@@ -13,20 +13,20 @@ const getBlockchainHeader = (chain?: string, coin?: string) => {
   return `${network}-mainnet`
 }
 
-const getBalance = async (address: Address, config: Config) => {
+const getBalance: balance.GetBalance = async (account, config) => {
   const reqConfig: any = {
     ...config.api,
-    url: getBalanceURI(address.address),
+    url: getBalanceURI(account.address),
   }
-  reqConfig.headers['x-amberdata-blockchain-id'] = getBlockchainHeader(address.chain, address.coin)
+  reqConfig.headers['x-amberdata-blockchain-id'] = getBlockchainHeader(account.chain, account.coin)
 
   const response = await Requester.request(reqConfig)
   return {
-    response: response.data,
-    result: { ...address, balance: response.data.payload.value },
+    ...response.data,
+    result: { ...account, balance: response.data.payload.value },
   }
 }
 
-const isSupported = (coin: string, chain: string) => isChainType(chain) && isCoinType(coin)
+const isSupported: balance.IsSupported = (coin, chain) => isChainType(chain) && isCoinType(coin)
 
-export const makeExecute = (config: Config) => makeBalance({ ...config, getBalance, isSupported })
+export const makeExecute = (config: Config) => balance.make({ ...config, getBalance, isSupported })

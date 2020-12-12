@@ -105,7 +105,7 @@ Gets the [latest spot VWAP price](https://docs.amberdata.io/reference#spot-price
           "value": "3282",
           "timestamp": "2020-10-23T17:28:35.000Z"
         }
-      },
+      }
     ],
     "result": [
       {
@@ -119,7 +119,22 @@ Gets the [latest spot VWAP price](https://docs.amberdata.io/reference#spot-price
         "coin": "btc",
         "chain": "mainnet",
         "balance": "3282"
-      },
+      }
+    ]
+  },
+  "result": [
+    {
+      "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1",
+      "coin": "btc",
+      "chain": "mainnet",
+      "balance": "547"
+    },
+    {
+      "address": "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF",
+      "coin": "btc",
+      "chain": "mainnet",
+      "balance": "3282"
+    }
   ],
   "statusCode": 200
 }
