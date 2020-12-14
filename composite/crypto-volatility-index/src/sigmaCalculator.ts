@@ -33,7 +33,7 @@ export class SigmaCalculator {
     puts: Array<OptionData>,
     now: moment.Moment,
   ): Big {
-    const T = expiration.diff(now.startOf('day'), 'days') / 365.0
+    const T = expiration.diff(now.startOf('day'), 'days') / 365.0 //TODO: Change to seconds
     const r = new Big(0)
     let S = new Big(0)
     let dK = new Big(0)

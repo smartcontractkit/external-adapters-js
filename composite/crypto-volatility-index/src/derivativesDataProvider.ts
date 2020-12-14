@@ -1,6 +1,5 @@
 import { AdapterError, Requester, logger } from '@chainlink/external-adapter'
 import moment from 'moment'
-import axios from 'axios'
 import { Big } from 'big.js'
 
 const EXCHANGE_URL = `https://www.deribit.com/api/v2/public`
@@ -61,7 +60,7 @@ const getCurrencyData = async (currency: string) => {
     params: { currency },
   }
 
-  const response = await axios.request(config)
+  const response = await Requester.request(config)
   const path = ['result', currency]
   return Requester.validateResultNumber(response.data, path)
 }
@@ -73,7 +72,7 @@ const getOptionsData = async (currency: string, exchangeRate: Big) => {
   }
 
   try {
-    const response = await axios.request(config)
+    const response = await Requester.request(config)
     const result = response.data.result
     const calls: Record<string, Array<OptionData>> = {}
     const puts: Record<string, Array<OptionData>> = {}
