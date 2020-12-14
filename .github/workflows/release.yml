@@ -6,6 +6,9 @@ on:
 
 name: Release
 
+env:
+  cache-name: cd
+
 jobs:
   release:
     name: Create Release
@@ -17,8 +20,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Build project
-        run: yarn
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -60,6 +61,23 @@ jobs:
       matrix: ${{fromJson(needs.matrix-adapters.outputs.matrix)}}
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2-beta
+        with:
+          node-version: "12.x"
+      - name: Install yarn deps
+        run: yarn install --frozen-lockfile --production
+      - name: Cache node modules
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.npm
+            ~/.cache
+            **/node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('./yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
       - name: Build
         run: ${{ matrix.adapter.cmd }}
       - name: Upload Release Asset
