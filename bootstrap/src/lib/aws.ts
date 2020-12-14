@@ -8,6 +8,7 @@ import {
   HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE,
   HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE_MESSAGE,
 } from './errors'
+import { toObjectWithNumbers } from './util'
 
 const awsGetRequestHeaders = (event: any) => {
   if (!event || !event.headers) return {}
@@ -51,7 +52,10 @@ export const initHandlerREST = (execute: ExecuteSync) => (
   if (!isContentTypeSupported(event)) {
     return callback(null, UNSUPPORTED_MEDIA_TYPE_RESPONSE)
   }
-
+  event.data = {
+    ...event.data,
+    ...toObjectWithNumbers(event.queryStringParameters || {}),
+  }
   execute(event, (_, data) => {
     callback(null, data)
   })
@@ -66,8 +70,12 @@ export const initHandlerHTTP = (execute: ExecuteSync) => (
   if (!isContentTypeSupported(event)) {
     return callback(null, UNSUPPORTED_MEDIA_TYPE_RESPONSE)
   }
-
-  execute(JSON.parse(event.body), (statusCode, data) => {
+  const body = JSON.parse(event.body)
+  body.data = {
+    ...body.data,
+    ...toObjectWithNumbers(body.queryStringParameters || {}),
+  }
+  execute(body, (statusCode, data) => {
     callback(null, {
       statusCode: statusCode,
       body: JSON.stringify(data),
