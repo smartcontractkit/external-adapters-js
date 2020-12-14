@@ -327,6 +327,159 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
       )
     })
   },
+
+  bitcoin_cash_mainnet: (execute) => {
+    describe('it should support bitcoin cash mainnet', () => {
+      const jobID = '1'
+
+      const assertions = (request: any, response: any) => {
+        const numAddr = request?.testData?.data?.addresses.length
+        assert.isAbove(Number(response.data.result.length), 0)
+        assert.isAbove(Number(response.result.length), 0)
+        assert.equal(Number(response.data.result.length), numAddr)
+        assert.equal(Number(response.result.length), numAddr)
+      }
+
+      successes(
+        [
+          {
+            name: 'BCH mainnet',
+            testData: {
+              id: '1',
+              data: {
+                endpoint: 'balance',
+                dataPath: 'addresses',
+                addresses: [
+                  {
+                    coin: 'bch',
+                    chain: 'mainnet',
+                    address: 'qp3wjpa3tjlj042z2wv7hahsldgwhwy0rq9sywjpyy',
+                  },
+                ],
+              },
+            },
+          },
+        ],
+        execute,
+        assertions,
+      )
+    })
+  },
+
+  bitcoin_sv_mainnet: (execute) => {
+    describe('it should support bitcoin sv mainnet', () => {
+      const jobID = '1'
+
+      const assertions = (request: any, response: any) => {
+        const numAddr = request?.testData?.data?.addresses.length
+        assert.isAbove(Number(response.data.result.length), 0)
+        assert.isAbove(Number(response.result.length), 0)
+        assert.equal(Number(response.data.result.length), numAddr)
+        assert.equal(Number(response.result.length), numAddr)
+      }
+
+      successes(
+        [
+          {
+            name: 'BTC SV mainnet',
+            testData: {
+              id: '1',
+              data: {
+                endpoint: 'balance',
+                dataPath: 'addresses',
+                addresses: [
+                  {
+                    coin: 'btsv',
+                    chain: 'mainnet',
+                    address: '1Hw2k2iuhzcrA1Rvm6EuCoiCSp7Sc6mdrv',
+                  },
+                ],
+              },
+            },
+          },
+        ],
+        execute,
+        assertions,
+      )
+    })
+  },
+
+  litecoin_mainnet: (execute) => {
+    describe('it should support litecoin mainnet', () => {
+      const jobID = '1'
+
+      const assertions = (request: any, response: any) => {
+        const numAddr = request?.testData?.data?.addresses.length
+        assert.isAbove(Number(response.data.result.length), 0)
+        assert.isAbove(Number(response.result.length), 0)
+        assert.equal(Number(response.data.result.length), numAddr)
+        assert.equal(Number(response.result.length), numAddr)
+      }
+
+      successes(
+        [
+          {
+            name: 'LTC mainnet',
+            testData: {
+              id: '1',
+              data: {
+                endpoint: 'balance',
+                dataPath: 'addresses',
+                addresses: [
+                  {
+                    coin: 'ltc',
+                    chain: 'mainnet',
+                    address: 'M8T1B2Z97gVdvmfkQcAtYbEepune1tzGua',
+                  },
+                ],
+              },
+            },
+          },
+        ],
+        execute,
+        assertions,
+      )
+    })
+  },
+
+  zcash_mainnet: (execute) => {
+    describe('it should support zcash mainnet', () => {
+      const jobID = '1'
+
+      const assertions = (request: any, response: any) => {
+        const numAddr = request?.testData?.data?.addresses.length
+        assert.isAbove(Number(response.data.result.length), 0)
+        assert.isAbove(Number(response.result.length), 0)
+        assert.equal(Number(response.data.result.length), numAddr)
+        assert.equal(Number(response.result.length), numAddr)
+      }
+
+      successes(
+        [
+          {
+            name: 'ZEC mainnet',
+            testData: {
+              id: '1',
+              data: {
+                endpoint: 'balance',
+                dataPath: 'addresses',
+                addresses: [
+                  {
+                    coin: 'zec',
+                    chain: 'mainnet',
+                    address:
+                      'zs1z7rejlpsa98s2rrrfkwmaxu53e4ue0ulcrw0h4x5g8jl04tak0d3mm47vdtahatqrlkngh9sly',
+                  },
+                ],
+              },
+            },
+          },
+        ],
+        execute,
+        assertions,
+      )
+    })
+  },
 }
 
 type Network = 'bitcoin_mainnet' | 'bitcoin_testnet' | 'ethereum_mainnet' | 'ethereum_rinkeby'
