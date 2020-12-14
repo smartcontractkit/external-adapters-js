@@ -272,6 +272,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
               id: '1',
               data: {
                 endpoint: 'balance',
+                dataPath: 'addresses',
                 addresses: [
                   {
                     coin: 'eth',
@@ -309,6 +310,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
               id: '1',
               data: {
                 endpoint: 'balance',
+                dataPath: 'addresses',
                 addresses: [
                   {
                     coin: 'eth',

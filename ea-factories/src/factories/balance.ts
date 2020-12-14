@@ -26,11 +26,8 @@ export type BalanceConfig = BalanceImplConfig & {
 }
 
 // TODO: this could be an extension of Validator
-const validateInput = (validated: any) => {
-  const jobRunID = validated.id
-
-  const data: RequestData = validated.data
-  const dataPath = data.dataPath || DEFAULT_DATA_PATH
+const validateInput = (jobRunID: string, validated: RequestData, data: any) => {
+  const dataPath = validated.dataPath || DEFAULT_DATA_PATH
   const inputData = <Account[]>objectPath.get(data, dataPath)
 
   // Check if input data is valid
@@ -108,7 +105,7 @@ export const make: ExecuteFactory<BalanceConfig> = (config) => async (input) => 
   if (validator.error) throw validator.error
   if (!config) throw new Error('No configuration supplied')
   const jobRunID = validator.validated.id
-  let inputData = validateInput(validator.validated)
+  let inputData = validateInput(jobRunID, validator.validated.data, input.data)
   inputData = validateEachInput(jobRunID, inputData, config)
 
   const responses = await getBalances(config, inputData, config.getBalance)
