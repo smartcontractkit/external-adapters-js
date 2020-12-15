@@ -1,7 +1,7 @@
 {
-  "name": "@chainlink/dns-adapter",
+  "name": "@chainlink/dns-record-check",
   "version": "0.0.1",
-  "description": "Chainlink DNS adapter.",
+  "description": "Chainlink DNS Record Check adapter.",
   "keywords": [
     "Chainlink",
     "LINK",

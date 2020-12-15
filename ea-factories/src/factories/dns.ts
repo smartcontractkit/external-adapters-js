@@ -1,13 +1,16 @@
-import { ExecuteFactory, Config, DNSResponseAnswer } from '@chainlink/types'
-import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
-import { logger } from '@chainlink/external-adapter'
+import {
+  ExecuteFactory,
+  Config,
+  DNSResponseAnswer,
+  AdapterRequest,
+  Execute,
+} from '@chainlink/types'
+import { Requester, Validator } from '@chainlink/external-adapter'
 
 export enum DNSProviders {
   Cloudfare = 'https://cloudflare-dns.com/dns-query',
   Google = 'https://dns.google/dns-query',
 }
-
-type DNSAdapterExecute = (dnsResponse: DNSResponse) => Promise<any>
 
 type DNSResponseQuestion = {
   name: string
@@ -21,8 +24,7 @@ type DNSResponse = {
 }
 
 export type DNSConfig = Config & {
-  endpoint: string
-  execute: DNSAdapterExecute
+  execute: Execute
 }
 
 const customParams = {
@@ -30,6 +32,8 @@ const customParams = {
   type: true,
   do: false,
   cd: false,
+  // Any additional parameters required by the underlying adapters. Needs to be an object
+  additional: false,
 }
 
 export const make: ExecuteFactory<DNSConfig> = (config) => async (input) => {
@@ -38,7 +42,7 @@ export const make: ExecuteFactory<DNSConfig> = (config) => async (input) => {
   if (!config) throw new Error('No configuration supplied')
 
   const jobRunID = validator.validated.id
-  const { name, type, do: doBit, cd: cdBit } = validator.validated.data
+  const { name, type, do: doBit, cd: cdBit, additional } = validator.validated.data
 
   const params = {
     name,
@@ -51,21 +55,20 @@ export const make: ExecuteFactory<DNSConfig> = (config) => async (input) => {
   }
 
   const dnsReqConfig = {
-    url: config.endpoint,
+    url: config.api.url,
     headers,
     params,
   }
 
-  try {
-    const dnsResult = await Requester.request(dnsReqConfig)
-    const adapterResponse = config.execute(dnsResult.data)
-
-    const response = {
-      status: 200,
-      data: adapterResponse,
-    }
-    return Requester.success(jobRunID, response)
-  } catch (e) {
-    console.log(e)
+  const dnsResult = await Requester.request(dnsReqConfig)
+  const adapterRequest: AdapterRequest = {
+    id: jobRunID,
+    data: Object.assign({}, dnsResult.data, additional),
   }
+  const adapterResponse = await config.execute(adapterRequest)
+
+  return Requester.success(jobRunID, {
+    status: 200,
+    data: adapterResponse,
+  })
 }
