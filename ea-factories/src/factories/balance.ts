@@ -15,6 +15,10 @@ const ERROR_NO_OPERATION_MISSING_ADDRESS = 'No Operation: address param is missi
 
 export type IsSupported = (coin: string, chain: string) => boolean
 export type GetBalance = (account: Account, config: Config) => Promise<ResponseData>
+export type GetBatchBalance = (
+  accGroup: [string, AccountGroup],
+  config: Config,
+) => Promise<ResponseData>
 
 export type BalanceImplConfig = Config & {
   shouldOverwrite?: boolean
@@ -22,7 +26,8 @@ export type BalanceImplConfig = Config & {
 }
 export type BalanceConfig = BalanceImplConfig & {
   isSupported: IsSupported
-  getBalance: GetBalance
+  getBalance?: GetBalance
+  getBatchBalance?: GetBatchBalance
 }
 
 // TODO: this could be an extension of Validator
@@ -80,11 +85,32 @@ const getBalances = async (
     }),
   )
 
+export type AccountGroup = { addresses: string[]; result: Account[] }
+const group = (accounts: Account[]) => {
+  const output: { [coin: string]: AccountGroup } = {}
+  for (const acc of accounts) {
+    const key = `${acc.coin}-${acc.chain}` as string
+    output[key] = output[key] || { addresses: [], result: [] }
+    if (!acc.warning) output[key].addresses.push(acc.address)
+    output[key].result.push(acc)
+  }
+  return Object.entries(output)
+}
+
+export const getBalancesBatch = async (
+  config: Config,
+  accGroupEntries: [string, AccountGroup][],
+  getBatchBalance: GetBatchBalance,
+): Promise<ResponseData[]> =>
+  Promise.all(accGroupEntries.map((accGroupEntry) => getBatchBalance(accGroupEntry, config)))
+
 const reduceToResponse = (config: BalanceConfig, responses: ResponseData[]) =>
   responses.reduce<SequenceResponseData<Account>>(
     (accumulator, current) => {
       if (config.verbose) accumulator.responses = [...accumulator.responses, current]
-      accumulator.result = [...accumulator.result, current.result]
+      accumulator.result = config.getBatchBalance
+        ? [...accumulator.result, ...current.result]
+        : [...accumulator.result, current.result]
       return accumulator
     },
     { responses: [], result: [] },
@@ -104,12 +130,23 @@ export const make: ExecuteFactory<BalanceConfig> = (config) => async (input) => 
   const validator = new Validator(input, inputParams)
   if (validator.error) throw validator.error
   if (!config) throw new Error('No configuration supplied')
+  if (!config.getBalance && !config.getBatchBalance)
+    throw new Error('Request handling logic not supplied')
   const jobRunID = validator.validated.id
   let inputData = validateInput(jobRunID, validator.validated.data, input.data)
   inputData = validateEachInput(jobRunID, inputData, config)
 
-  const responses = await getBalances(config, inputData, config.getBalance)
-  const reducedResponse = reduceToResponse(config, responses)
+  let responses
+
+  if (config.getBatchBalance) {
+    const groupedData = group(inputData)
+    responses = await getBalancesBatch(config, groupedData, config.getBatchBalance)
+  }
+  if (config.getBalance) {
+    responses = await getBalances(config, inputData, config.getBalance)
+  }
+
+  const reducedResponse = reduceToResponse(config, responses as ResponseData[])
 
   return Requester.success(jobRunID, { data: reducedResponse, status: 200 })
 }
