@@ -58,7 +58,10 @@ clean-2-step:
 
 build-2-step:
 	cp -r $(adapter) 2-step/
-	mv 2-step/$(adapter)/adapter.js 2-step/$(adapter)/priceAdapter.js
+	if [ -d "2-step/$(adapter)/dist" ]; then \
+		mv 2-step/$(adapter)/dist/adapter.js 2-step/$(adapter)/priceAdapter.js; \
+	else mv 2-step/$(adapter)/adapter.js 2-step/$(adapter)/priceAdapter.js; \
+	fi
 	cp 2-step/adapter.js 2-step/$(adapter)
 	cp -r helpers 2-step/helpers
 	npx @vercel/ncc build 2-step/$(adapter) -o 2-step/$(adapter)/dist
