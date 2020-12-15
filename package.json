@@ -101,6 +101,7 @@
   },
   "dependencies": {
     "@chainlink/ea-bootstrap": "^0.1.4",
+    "@chainlink/ea-factories": "^0.0.1",
     "@chainlink/external-adapter": "^0.2.7",
     "decimal.js": "^10.2.0",
     "ethers": "^4.0.47",
