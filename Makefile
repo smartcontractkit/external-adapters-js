@@ -58,7 +58,7 @@ clean-2-step:
 
 build-2-step:
 	cp -r $(adapter) 2-step/
-	if [ -d "2-step/$(adapter)/dist" ]; then \
+	if [ "2-step/$(adapter)/dist/adapter.js" ]; then \
 		mv 2-step/$(adapter)/dist/adapter.js 2-step/$(adapter)/priceAdapter.js; \
 	else mv 2-step/$(adapter)/adapter.js 2-step/$(adapter)/priceAdapter.js; \
 	fi
