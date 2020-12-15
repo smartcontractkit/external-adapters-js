@@ -8,8 +8,8 @@ import {
 import { Requester, Validator } from '@chainlink/external-adapter'
 
 export enum DNSProviders {
-  Cloudfare = 'https://cloudflare-dns.com/dns-query',
-  Google = 'https://dns.google/dns-query',
+  cloudfare = 'https://cloudflare-dns.com/dns-query',
+  google = 'https://dns.google/dns-query',
 }
 
 type DNSResponseQuestion = {

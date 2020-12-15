@@ -2,6 +2,14 @@
 
 DNS Adapter lets query DNS over HTTPS (DoH) and check whether some record provided exists
 
+## Configuration
+
+The adapter takes the following environment variables:
+
+- `DNS_PROVIDER`: DNS provider to use. Options available:
+    - `cloudfare`
+    - `google`
+
 ## Input Params
 
 - `name`: Query Name, eg. "example.com"
