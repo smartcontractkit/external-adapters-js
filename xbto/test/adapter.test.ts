@@ -20,7 +20,7 @@ describe('execute', () => {
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
-        const data = await execute(req.testData as AdapterRequest, {})
+        const data = await execute(req.testData as AdapterRequest)
         assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
         assert.isAbove(data.result, 0)
         assert.isAbove(data.data.result, 0)
