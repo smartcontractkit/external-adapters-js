@@ -2,8 +2,8 @@
   "name": "@chainlink/external-adapter",
   "version": "0.2.7",
   "description": "Helpers for creating Chainlink External Adapters",
-  "main": "index",
-  "types": "index",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
