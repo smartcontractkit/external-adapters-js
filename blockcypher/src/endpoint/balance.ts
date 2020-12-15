@@ -1,9 +1,7 @@
 import bcypher from 'blockcypher'
-import objectPath from 'object-path'
-import { Validator, AdapterError } from '@chainlink/external-adapter'
-import { AdapterRequest, Config, Address, Account } from '@chainlink/types'
-import { DEFAULT_CONFIRMATIONS, DEFAULT_DATA_PATH } from '../config'
-import { CoinType, ChainType } from '.'
+import { balance } from '@chainlink/ea-factories'
+import { Config } from '@chainlink/types'
+import { CoinType, ChainType, isCoinType, isChainType } from '.'
 
 export const Name = 'balance'
 
@@ -20,15 +18,6 @@ type AddressBalance = {
   final_n_tx: number
 }
 
-type RequestData = {
-  dataPath: string
-  confirmations: number
-}
-
-const WARNING_NO_OPERATION =
-  'No Operation: only btc mainnet/testnet chains are supported by blockcypher adapter'
-const WARNING_NO_OPERATION_MISSING_ADDRESS = 'No Operation: address param is missing'
-
 // rewrite chain id for bcypher
 const getChainId = (coin: CoinType, chain: ChainType): string => {
   switch (chain) {
@@ -39,61 +28,25 @@ const getChainId = (coin: CoinType, chain: ChainType): string => {
   }
 }
 
-const toBalances = async (
-  config: Config,
-  addresses: Address[],
-  confirmations: number = DEFAULT_CONFIRMATIONS,
-): Promise<Account[]> =>
-  Promise.all(
-    addresses.map(async (addr: Address) => {
-      if (!addr.address) return { ...addr, warning: WARNING_NO_OPERATION_MISSING_ADDRESS }
-
-      if (!addr.coin) addr.coin = 'btc'
-      if (addr.coin !== 'btc') return { ...addr, warning: WARNING_NO_OPERATION }
-
-      if (!addr.chain) addr.chain = 'mainnet'
-      if (addr.chain !== 'mainnet' && addr.chain !== 'testnet')
-        return { ...addr, warning: WARNING_NO_OPERATION }
-
-      const chainId = getChainId(addr.coin, addr.chain)
-      const api = new bcypher(addr.coin, chainId, config.apiKey)
-      const params = { confirmations }
-      const _getAddrBal = (): Promise<AddressBalance> =>
-        new Promise((resolve, reject) => {
-          api.getAddrBal(addr.address, params, (error: Error, body: AddressBalance) =>
-            error ? reject(error) : resolve(body),
-          )
-        })
-
-      return {
-        ...addr,
-        balance: (await _getAddrBal()).balance,
-      }
-    }),
-  )
-
-export const inputParams = {
-  dataPath: false,
-  confirmations: false,
-}
-
-// Export function to integrate with Chainlink node
-export const execute = async (config: Config, request: AdapterRequest): Promise<Address[]> => {
-  const validator = new Validator(request, inputParams)
-  if (validator.error) throw validator.error
-  const jobRunID = validator.validated.id
-
-  const data: RequestData = validator.validated.data
-  const dataPath = data.dataPath || DEFAULT_DATA_PATH
-  const inputData = <Address[]>objectPath.get(request.data, dataPath)
-
-  // Check if input data is valid
-  if (!inputData || !Array.isArray(inputData) || inputData.length === 0)
-    throw new AdapterError({
-      jobRunID,
-      message: `Input, at '${dataPath}' path, must be a non-empty array.`,
-      statusCode: 400,
+const getBalance: balance.GetBalance = async (account, config) => {
+  const chainId = getChainId(account.coin as CoinType, account.chain as ChainType)
+  const api = new bcypher(account.coin, chainId, config.apiKey)
+  const params = { confirmations: config.confirmations }
+  const _getAddrBal = (): Promise<AddressBalance> =>
+    new Promise((resolve, reject) => {
+      api.getAddrBal(account.address, params, (error: Error, body: AddressBalance) =>
+        error ? reject(error) : resolve(body),
+      )
     })
 
-  return await toBalances(config, inputData, data.confirmations)
+  const response = await _getAddrBal()
+
+  return {
+    ...response,
+    result: { ...account, balance: response.balance },
+  }
 }
+
+const isSupported: balance.IsSupported = (coin, chain) => isChainType(chain) && isCoinType(coin)
+
+export const makeExecute = (config: Config) => balance.make({ ...config, getBalance, isSupported })

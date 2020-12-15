@@ -1,6 +1,5 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { AdapterRequest, Config } from '@chainlink/types'
-import { getBaseURL } from '../config'
 
 export const Name = 'price'
 
@@ -18,7 +17,7 @@ export const execute = async (config: Config, request: AdapterRequest) => {
   const market = validator.validated.data.quote
   const url = `/v1/exchange-rates/${coin}/${market}`
 
-  const reqConfig = { ...config.api, baseURL: getBaseURL(), url }
+  const reqConfig = { ...config.api, url }
 
   const response = await Requester.request(reqConfig)
   response.data.result = Requester.validateResultNumber(response.data, [

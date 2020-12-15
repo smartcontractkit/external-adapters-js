@@ -9,7 +9,6 @@ const getBalanceURI = (address: string) => `/api/v2/addresses/${address}/account
 
 const getBlockchainHeader = (chain?: string, coin?: string) => {
   const network = Requester.toVendorName(coin, BLOCKCHAINS)
-  if (chain === 'testnet' && network === 'ethereum') return 'ethereum-rinkeby'
   return `${network}-mainnet`
 }
 

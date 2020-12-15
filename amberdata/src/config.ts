@@ -5,9 +5,7 @@ export const ENDPOINT_MAIN = 'https://web3api.io'
 
 export const DEFAULT_ENDPOINT = 'price'
 
-export const getBaseURL = (): string => ENDPOINT_MAIN
-
-export const getConfig = (prefix = ''): Config => {
+export const makeConfig = (prefix = ''): Config => {
   const config = Requester.getDefaultConfig(prefix)
   config.api.headers['x-api-key'] = config.apiKey
   config.api.baseURL = ENDPOINT_MAIN

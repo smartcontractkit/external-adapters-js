@@ -1,6 +1,6 @@
 import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
 import { ExecuteWithConfig, ExecuteFactory, Config } from '@chainlink/types'
-import { getConfig, DEFAULT_ENDPOINT } from './config'
+import { makeConfig, DEFAULT_ENDPOINT } from './config'
 import { price, balance } from './endpoint'
 
 const inputParams = {
@@ -36,5 +36,5 @@ export const execute: ExecuteWithConfig = async (request, config) => {
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {
-  return async (request) => execute(request, config || getConfig())
+  return async (request) => execute(request, config || makeConfig())
 }

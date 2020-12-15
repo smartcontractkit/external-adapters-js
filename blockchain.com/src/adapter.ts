@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/external-adapter'
+import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
 import { ExecuteWithConfig, ExecuteFactory, Config } from '@chainlink/types'
 import { makeConfig, DEFAULT_ENDPOINT } from './config'
 import { balance } from './endpoint'
@@ -17,25 +17,18 @@ export const execute: ExecuteWithConfig = async (request, config) => {
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
 
-  let result
   switch (endpoint) {
     case balance.Name: {
-      const validator = new Validator(request, balance.inputParams)
-      if (validator.error) throw validator.error
-
-      result = await balance.execute(config, request, validator.validated.data)
-      break
+      return balance.makeExecute(config)(request)
     }
     default: {
-      throw Error(`Endpoint ${endpoint} not supported.`)
+      throw new AdapterError({
+        jobRunID,
+        message: `Endpoint ${endpoint} not supported.`,
+        statusCode: 400,
+      })
     }
   }
-
-  return Requester.success(jobRunID, {
-    data: { result },
-    result,
-    status: 200,
-  })
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {

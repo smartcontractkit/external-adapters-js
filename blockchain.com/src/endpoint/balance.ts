@@ -1,77 +1,29 @@
-import objectPath from 'object-path'
+import { balance } from '@chainlink/ea-factories'
 import { Requester } from '@chainlink/external-adapter'
-import { AdapterRequest, Config } from '@chainlink/types'
-
-import { DEFAULT_CONFIRMATIONS, DEFAULT_DATA_PATH, getBaseURL } from '../config'
-import { CoinType, ChainType } from '.'
+import { Config } from '@chainlink/types'
+import { getBaseURL } from '../config'
+import { ChainType, isCoinType, isChainType } from '.'
 
 export const Name = 'balance'
-
-type Address = {
-  address: string
-  coin?: CoinType
-  chain?: ChainType
-  balance?: number
-}
-
-type RequestData = {
-  dataPath: string
-  confirmations: number
-}
-
-const WARNING_NO_OPERATION =
-  'No Operation: only btc mainnet/testnet chains are supported by blockchain.com adapter'
-const WARNING_NO_OPERATION_MISSING_ADDRESS = 'No Operation: address param is missing'
 
 const getBalanceURI = (address: string, confirmations: number) =>
   `/q/addressbalance/${address}?confirmations=${confirmations}`
 
-const toBalances = async (
-  config: Config,
-  addresses: Address[],
-  confirmations: number = DEFAULT_CONFIRMATIONS,
-): Promise<Address[]> =>
-  Promise.all(
-    addresses.map(async (addr: Address) => {
-      if (!addr.address) return { ...addr, warning: WARNING_NO_OPERATION_MISSING_ADDRESS }
+const getBalance: balance.GetBalance = async (account, config) => {
+  const reqConfig = {
+    ...config.api,
+    baseURL: getBaseURL(account.chain as ChainType),
+    url: getBalanceURI(account.address, config.confirmations),
+  }
 
-      if (!addr.coin) addr.coin = 'btc'
-      if (addr.coin !== 'btc') return { ...addr, warning: WARNING_NO_OPERATION }
+  const response = await Requester.request(reqConfig)
 
-      if (!addr.chain) addr.chain = 'mainnet'
-      if (addr.chain !== 'mainnet' && addr.chain !== 'testnet')
-        return { ...addr, warning: WARNING_NO_OPERATION }
-
-      const reqConfig = {
-        ...config.api,
-        baseURL: getBaseURL(addr.chain),
-        url: getBalanceURI(addr.address, confirmations),
-      }
-
-      return {
-        ...addr,
-        balance: (await Requester.request(reqConfig)).data,
-      }
-    }),
-  )
-
-export const inputParams = {
-  dataPath: false,
-  confirmations: false,
+  return {
+    ...response.data,
+    result: { ...account, balance: response.data },
+  }
 }
 
-// Export function to integrate with Chainlink node
-export const execute = async (
-  config: Config,
-  request: AdapterRequest,
-  data: RequestData,
-): Promise<Address[]> => {
-  const dataPath = data.dataPath || DEFAULT_DATA_PATH
-  const inputData = <Address[]>objectPath.get(request.data, dataPath)
+const isSupported: balance.IsSupported = (coin, chain) => isChainType(chain) && isCoinType(coin)
 
-  // Check if input data is valid
-  if (!inputData || !Array.isArray(inputData) || inputData.length === 0)
-    throw Error(`Input, at '${dataPath}' path, must be a non-empty array.`)
-
-  return await toBalances(config, inputData, data.confirmations)
-}
+export const makeExecute = (config: Config) => balance.make({ ...config, getBalance, isSupported })

@@ -24,8 +24,7 @@ const execute: ExecuteWithConfig = async (request, config) => {
       break
     }
     case balance.Name: {
-      response = await balance.execute(request, config)
-      break
+      return balance.makeExecute(config)(request)
     }
     default: {
       throw new AdapterError({

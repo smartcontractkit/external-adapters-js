@@ -935,6 +935,44 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
       )
     })
   },
+
+  groestlcoin_mainnet: (execute) => {
+    describe('it should support groestlcoin mainnet', () => {
+      const jobID = '1'
+
+      const assertions = (request: any, response: any) => {
+        const numAddr = request?.testData?.data?.addresses.length
+        assert.isAbove(Number(response.data.result.length), 0)
+        assert.isAbove(Number(response.result.length), 0)
+        assert.equal(Number(response.data.result.length), numAddr)
+        assert.equal(Number(response.result.length), numAddr)
+      }
+
+      successes(
+        [
+          {
+            name: 'GRS mainnet',
+            testData: {
+              id: '1',
+              data: {
+                endpoint: 'balance',
+                dataPath: 'addresses',
+                addresses: [
+                  {
+                    coin: 'grs',
+                    chain: 'mainnet',
+                    address: 'Fai7L9MJHa58NBe4RS4s4foXmBeMyN6N7a',
+                  },
+                ],
+              },
+            },
+          },
+        ],
+        execute,
+        assertions,
+      )
+    })
+  },
 }
 
 type Network =
@@ -958,6 +996,7 @@ type Network =
   | 'doge_testnet'
   | 'dash_mainnet'
   | 'dash_testnet'
+  | 'groestlcoin_mainnet'
 
 export function shouldBehaveLikeBalanceAdapter(execute: Execute, networks: Network[]) {
   base(execute)

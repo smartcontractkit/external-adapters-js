@@ -9,18 +9,20 @@ import objectPath from 'object-path'
 import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
 
 const DEFAULT_DATA_PATH = 'addresses'
+const DEFAULT_CONFIRMATIONS = 6
 
 const WARNING_NO_OPERATION = 'No Operation: unsupported'
 const ERROR_NO_OPERATION_MISSING_ADDRESS = 'No Operation: address param is missing'
 
 export type IsSupported = (coin: string, chain: string) => boolean
-export type GetBalance = (account: Account, config: Config) => Promise<ResponseData>
+export type GetBalance = (account: Account, config: BalanceConfig) => Promise<ResponseData>
 export type GetBatchBalance = (
   accGroup: [string, AccountGroup],
   config: Config,
 ) => Promise<ResponseData>
 
 export type BalanceImplConfig = Config & {
+  confirmations?: number
   shouldOverwrite?: boolean
   verbose?: boolean
 }
@@ -74,7 +76,7 @@ const validateEachInput = (jobRunID: string, accounts: Account[], config: Balanc
   })
 
 const getBalances = async (
-  config: Config,
+  config: BalanceConfig,
   accounts: Account[],
   getBalance: GetBalance,
 ): Promise<ResponseData[]> =>
@@ -98,7 +100,7 @@ const group = (accounts: Account[]) => {
 }
 
 export const getBalancesBatch = async (
-  config: Config,
+  config: BalanceConfig,
   accGroupEntries: [string, AccountGroup][],
   getBatchBalance: GetBatchBalance,
 ): Promise<ResponseData[]> =>
@@ -132,6 +134,7 @@ export const make: ExecuteFactory<BalanceConfig> = (config) => async (input) => 
   if (!config) throw new Error('No configuration supplied')
   if (!config.getBalance && !config.getBatchBalance)
     throw new Error('Request handling logic not supplied')
+  config.confirmations = validator.validated.confirmations || DEFAULT_CONFIRMATIONS
   const jobRunID = validator.validated.id
   let inputData = validateInput(jobRunID, validator.validated.data, input.data)
   inputData = validateEachInput(jobRunID, inputData, config)

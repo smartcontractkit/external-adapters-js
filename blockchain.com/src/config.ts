@@ -8,9 +8,7 @@ export const ENV_API_TIMEOUT = 'API_TIMEOUT'
 export const ENDPOINT_MAIN = 'https://blockchain.info/'
 export const ENDPOINT_TEST = 'https://testnet.blockchain.info/'
 
-export const DEFAULT_DATA_PATH = 'result'
 export const DEFAULT_TIMEOUT = 30000
-export const DEFAULT_CONFIRMATIONS = 6
 export const DEFAULT_ENDPOINT = 'balance'
 
 export const getBaseURL = (chain: ChainType): string => {

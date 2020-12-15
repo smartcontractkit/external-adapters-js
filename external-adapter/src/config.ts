@@ -23,7 +23,7 @@ export function getDefaultConfig(prefix = ''): Config {
   const apiKey = util.getEnv(ENV_API_KEY, prefix)
   return {
     apiKey,
-    returnVerboseResponse: util.getEnv(ENV_API_KEY, prefix) || false,
+    returnVerboseResponse: !!util.getEnv(ENV_API_KEY, prefix),
     api: {
       withCredentials: !!apiKey,
       baseURL: util.getEnv(ENV_API_ENDPOINT, prefix),

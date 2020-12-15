@@ -1,6 +1,5 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { ExecuteWithConfig, Config } from '@chainlink/types'
-import { getBaseURL } from '../config'
+import { ExecuteWithConfig } from '@chainlink/types'
 import { COINS } from '.'
 
 export const Name = 'difficulty'
@@ -19,7 +18,7 @@ export const execute: ExecuteWithConfig = async (input, config) => {
   )
   const url = `/${blockchain}/stats`
 
-  const reqConfig = { ...config.api, baseURL: getBaseURL(), url }
+  const reqConfig = { ...config.api, url }
 
   const response = await Requester.request(reqConfig)
   response.data.result = Requester.validateResultNumber(response.data, ['data', 'difficulty'])
