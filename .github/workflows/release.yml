@@ -2,20 +2,24 @@ on:
   push:
     # Sequence of patterns matched against refs/tags
     tags:
-      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+      - "v*" # Push events to matching v*, i.e. v1.0, v20.15.10
 
 name: Release
+
+env:
+  cache-name: cd
 
 jobs:
   release:
     name: Create Release
     runs-on: ubuntu-latest
+    outputs:
+      release_url: ${{ steps.create_release.outputs.upload_url }}
+      asset_prefix: ${{ steps.get_asset_prefix.outputs.prefix }}
     # TODO: only if tests pass (needs: [test])
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Build project
-        run: yarn
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -24,192 +28,72 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
-      - name: Output Release URL File
-        run: echo "${{ steps.create_release.outputs.upload_url }}" > release_url.txt
-      - name: Save Release URL File for publish-artifacts step
-        uses: actions/upload-artifact@v1
-        with:
-          name: release_url
-          path: release_url.txt
-
-  # DOES NOT WORK: https://github.com/smartcontractkit/external-adapters-js/issues/77
-  # publish-npm-packages:
-  #   needs: [release]
-  #   name: Publish NPM Packages
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     # Setup .npmrc file to publish to npm
-  #     - uses: actions/setup-node@v1
-  #       with:
-  #         node-version: '12.x'
-  #         registry-url: 'https://registry.npmjs.org'
-  #         # Defaults to the user or organization that owns the workflow file
-  #         scope: '@chainlink'
-  #         always-auth: true
-  #     - run: yarn
-  #     # Publish @chainlink/external-adapter
-  #     - run: yarn workspace @chainlink/external-adapter install
-  #     - run: yarn workspace @chainlink/external-adapter publish --non-interactive --access public
-  #     # Publish @chainlink/ea-bootstrap
-  #     - run: yarn workspace @chainlink/ea-bootstrap install
-  #     - run: yarn workspace @chainlink/ea-bootstrap publish --non-interactive --access public
-  #       env:
-  #         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Get asset prefix
+        env:
+          TAG_REF_NAME: ${{ github.ref }}
+          REPOSITORY_NAME: ${{ github.repository }}
+        id: get_asset_prefix
+        shell: bash
+        run: |
+          # eg. github.repository = chainlink/ea, github.ref = release/v0.0.1 -> ea-v0.0.1
+          echo ::set-output name=prefix::${REPOSITORY_NAME##*/}-${TAG_REF_NAME##*/v}
 
   # Read build strategy matrix of adapters, from a json file
   matrix-adapters:
     runs-on: ubuntu-latest
     outputs:
-      adapters: ${{ steps.set-matrix-adapters.outputs.matrix }}
-      adapters-composite: ${{ steps.set-matrix-adapters-composite.outputs.matrix }}
-      adapters-synth-index: ${{ steps.set-matrix-adapters-synth-index.outputs.matrix }}
-      adapters-2-step: ${{ steps.set-matrix-adapters-2-step.outputs.matrix }}
+      matrix: ${{ steps.create-matrix.outputs.result }}
     steps:
       - uses: actions/checkout@v2
-      - id: set-matrix-adapters
-        run: .github/scripts/set-output-json-matrix .github/strategy/adapters.json
-      - id: set-matrix-adapters-composite
-        run: .github/scripts/set-output-json-matrix .github/strategy/adapters-composite.json
-      - id: set-matrix-adapters-synth-index
-        run: .github/scripts/set-output-json-matrix .github/strategy/adapters-synth-index.json
-      - id: set-matrix-adapters-2-step
-        run: .github/scripts/set-output-json-matrix .github/strategy/adapters-2-step.json
+      - uses: actions/github-script@v3
+        name: Create job matrix
+        id: create-matrix
+        with:
+          script: |
+            const script = require(`${process.env.GITHUB_WORKSPACE}/.github/scripts/matrix.js`)
+            return script()
 
   publish-artifacts:
     needs: [release, matrix-adapters]
     runs-on: ubuntu-latest
-    name: Publish adapter zips (GitHub Release)
+    name: (${{ matrix.adapter.type }}) Publish ${{ matrix.adapter.name }} adapter zip
     strategy:
-      matrix: ${{fromJson(needs.matrix-adapters.outputs.adapters)}}
+      matrix: ${{fromJson(needs.matrix-adapters.outputs.matrix)}}
     steps:
       - uses: actions/checkout@v2
-      - name: Load Release URL File from release job
-        uses: actions/download-artifact@v1
+      - uses: actions/setup-node@v2-beta
         with:
-          name: release_url
+          node-version: "12.x"
+      - name: Install yarn deps
+        run: yarn install --frozen-lockfile --production
+      - name: Cache node modules
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.npm
+            ~/.cache
+            **/node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('./yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
       - name: Build
-        run: make zip adapter=${{ matrix.adapter }}
-      - name: Get Release File Name & Upload URL
-        id: get_release_info
-        run: |
-          echo ::set-output name=file_name::${REPOSITORY_NAME##*/}-${TAG_REF_NAME##*/v} # RepositoryName-v1.0.0
-          value=`cat release_url/release_url.txt`
-          echo ::set-output name=upload_url::$value
-        env:
-          TAG_REF_NAME: ${{ github.ref }}
-          REPOSITORY_NAME: ${{ github.repository }}
+        run: ${{ matrix.adapter.cmd }}
       - name: Upload Release Asset
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1.0.1
+        uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.get_release_info.outputs.upload_url }}
-          asset_path: ./${{ matrix.adapter }}/dist/${{ matrix.adapter }}-adapter.zip
-          asset_name: ${{ steps.get_release_info.outputs.file_name }}-${{ matrix.adapter }}-adapter.zip
+          upload_url: ${{ needs.release.outputs.release_url }}
+          asset_path: ${{ matrix.adapter.asset_path }}
+          asset_name: ${{ needs.release.outputs.asset_prefix }}-${{ matrix.adapter.asset_name }}
           asset_content_type: application/zip
-
-  publish-composite-artifacts:
-    needs: [release, matrix-adapters]
-    runs-on: ubuntu-latest
-    name: Publish composite adapter zips (GitHub Release)
-    strategy:
-      matrix: ${{fromJson(needs.matrix-adapters.outputs.adapters-composite)}}
-    steps:
-      - uses: actions/checkout@v2
-      - name: Load Release URL File from release job
-        uses: actions/download-artifact@v1
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-          name: release_url
-      - name: Build
-        run: make zip adapter=composite/${{ matrix.adapter }} name=${{ matrix.adapter }}
-      - name: Get Release File Name & Upload URL
-        id: get_release_info
-        run: |
-          echo ::set-output name=file_name::${REPOSITORY_NAME##*/}-${TAG_REF_NAME##*/v} # RepositoryName-v1.0.0
-          value=`cat release_url/release_url.txt`
-          echo ::set-output name=upload_url::$value
-        env:
-          TAG_REF_NAME: ${{ github.ref }}
-          REPOSITORY_NAME: ${{ github.repository }}
-      - name: Upload Release Asset
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.get_release_info.outputs.upload_url }}
-          asset_path: ./composite/${{ matrix.adapter }}/dist/${{ matrix.adapter }}-adapter.zip
-          asset_name: ${{ steps.get_release_info.outputs.file_name }}-${{ matrix.adapter }}-adapter.zip
-          asset_content_type: application/zip
-
-  publish-synth-index-artifacts:
-    needs: [release, matrix-adapters]
-    name: Publish synth-index adapter zips (GitHub Release)
-    runs-on: ubuntu-latest
-    strategy:
-      matrix: ${{fromJson(needs.matrix-adapters.outputs.adapters-synth-index)}}
-    steps:
-      - uses: actions/checkout@v2
-      - name: Load Release URL File from release job
-        uses: actions/download-artifact@v1
-        with:
-          name: release_url
-      - name: Build
-        run: make zip-synth-index adapter=${{ matrix.adapter }}
-      - name: Get Release File Name & Upload URL
-        id: get_release_info
-        run: |
-          echo ::set-output name=file_name::${REPOSITORY_NAME##*/}-${TAG_REF_NAME##*/v} # RepositoryName-v1.0.0
-          value=`cat release_url/release_url.txt`
-          echo ::set-output name=upload_url::$value
-        env:
-          TAG_REF_NAME: ${{ github.ref }}
-          REPOSITORY_NAME: ${{ github.repository }}
-      - name: Upload Release Asset
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.get_release_info.outputs.upload_url }}
-          asset_path: ./synth-index/${{ matrix.adapter }}/dist/synth-index-${{ matrix.adapter }}-adapter.zip
-          asset_name: ${{ steps.get_release_info.outputs.file_name }}-synth-index-${{ matrix.adapter }}-adapter.zip
-          asset_content_type: application/zip
-
-  publish-2-step-artifacts:
-    needs: [release, matrix-adapters]
-    name: Publish 2-step adapter zips (GitHub Release)
-    runs-on: ubuntu-latest
-    strategy:
-      matrix: ${{fromJson(needs.matrix-adapters.outputs.adapters-2-step)}}
-    steps:
-      - uses: actions/checkout@v2
-      - name: Load Release URL File from release job
-        uses: actions/download-artifact@v1
-        with:
-          name: release_url
-      - name: Build
-        run: make zip-2-step adapter=${{ matrix.adapter }}
-      - name: Get Release File Name & Upload URL
-        id: get_release_info
-        run: |
-          echo ::set-output name=file_name::${REPOSITORY_NAME##*/}-${TAG_REF_NAME##*/v} # RepositoryName-v1.0.0
-          value=`cat release_url/release_url.txt`
-          echo ::set-output name=upload_url::$value
-        env:
-          TAG_REF_NAME: ${{ github.ref }}
-          REPOSITORY_NAME: ${{ github.repository }}
-      - name: Upload Release Asset
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.get_release_info.outputs.upload_url }}
-          asset_path: ./2-step/${{ matrix.adapter }}/dist/${{ matrix.adapter }}-2-step-adapter.zip
-          asset_name: ${{ steps.get_release_info.outputs.file_name }}-${{ matrix.adapter }}-2-step-adapter.zip
-          asset_content_type: application/zip
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - name: Upload to S3
+        run: aws s3 cp ${{ matrix.adapter.asset_path }} s3://adaptor-source-cl/${{ matrix.adapter.asset_name }}
