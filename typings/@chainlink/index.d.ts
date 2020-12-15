@@ -82,7 +82,15 @@ declare module '@chainlink/types' {
     chain?: ChainType
     balance?: number
   }
+
+  export type DNSResponseAnswer = {
+    name: string
+    type: number
+    TTL: number
+    data: string
+  }
 }
 declare module '@chainlink/ea-bootstrap'
 declare module '@chainlink/external-adapter'
 declare module 'object-path'
+declare module '@chainlink/ea-factories'
