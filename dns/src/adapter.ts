@@ -33,14 +33,10 @@ export const execute: Execute = async (input) => {
     params,
   }
 
-  try {
-    const result = await Requester.request(config)
-    const response = {
-      status: 200,
-      data: result.data,
-    }
-    return Requester.success(jobRunID, response)
-  } catch (e) {
-    console.log(e)
+  const result = await Requester.request(config)
+  const response = {
+    status: 200,
+    data: result.data,
   }
+  return Requester.success(jobRunID, response)
 }

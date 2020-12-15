@@ -20,17 +20,11 @@ export const execute: Execute = async (input) => {
   const { Answer } = validator.validated.data
 
   const record = 'adex-publisher'
-  const publisher = Answer.find((ans: DNSAnswer) => {
-    return ans.data.includes(record)
-  })
+  const publisher = Answer.find((ans: DNSAnswer) => ans.data.includes(record))
 
-  try {
-    const response = {
-      status: 200,
-      data: { result: !!publisher },
-    }
-    return Requester.success(jobRunID, response)
-  } catch (e) {
-    console.log(e)
+  const response = {
+    status: 200,
+    data: { result: !!publisher },
   }
+  return Requester.success(jobRunID, response)
 }
