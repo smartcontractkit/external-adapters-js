@@ -24,7 +24,9 @@ export const toObjectWithNumbers = (obj: any) => {
 
 // pick a random string after splitting with the delimiter ("a&b&c" "&" -> choice(["a","b","c"]))
 export const pickRandomFromString = (str: string, delimiter: string): string => {
-  if ( typeof str === 'undefined' ) { return '' }
+  if (typeof str === 'undefined') {
+    return ''
+  }
   const items = str.split(delimiter)
   return items[Math.floor(Math.random() * items.length)]
 }
