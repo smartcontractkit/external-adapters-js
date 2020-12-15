@@ -290,8 +290,8 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
     })
   },
 
-  ethereum_rinkeby: (execute) => {
-    describe('it should support ethereum rinkeby testnet', () => {
+  ethereum_testnet: (execute) => {
+    describe('it should support ethereum testnet', () => {
       const jobID = '1'
 
       const assertions = (request: any, response: any) => {
@@ -366,6 +366,44 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
     })
   },
 
+  bitcoin_cash_testnet: (execute) => {
+    describe('it should support bitcoin cash testnet', () => {
+      const jobID = '1'
+
+      const assertions = (request: any, response: any) => {
+        const numAddr = request?.testData?.data?.addresses.length
+        assert.isAbove(Number(response.data.result.length), 0)
+        assert.isAbove(Number(response.result.length), 0)
+        assert.equal(Number(response.data.result.length), numAddr)
+        assert.equal(Number(response.result.length), numAddr)
+      }
+
+      successes(
+        [
+          {
+            name: 'BCH testnet',
+            testData: {
+              id: '1',
+              data: {
+                endpoint: 'balance',
+                dataPath: 'addresses',
+                addresses: [
+                  {
+                    coin: 'bch',
+                    chain: 'testnet',
+                    address: 'muLqdHvyvbbB9oz4xnWotEuGVVeJtQZQxx',
+                  },
+                ],
+              },
+            },
+          },
+        ],
+        execute,
+        assertions,
+      )
+    })
+  },
+
   bitcoin_sv_mainnet: (execute) => {
     describe('it should support bitcoin sv mainnet', () => {
       const jobID = '1'
@@ -392,6 +430,44 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
                     coin: 'btsv',
                     chain: 'mainnet',
                     address: '1Hw2k2iuhzcrA1Rvm6EuCoiCSp7Sc6mdrv',
+                  },
+                ],
+              },
+            },
+          },
+        ],
+        execute,
+        assertions,
+      )
+    })
+  },
+
+  bitcoin_sv_testnet: (execute) => {
+    describe('it should support bitcoin sv testnet', () => {
+      const jobID = '1'
+
+      const assertions = (request: any, response: any) => {
+        const numAddr = request?.testData?.data?.addresses.length
+        assert.isAbove(Number(response.data.result.length), 0)
+        assert.isAbove(Number(response.result.length), 0)
+        assert.equal(Number(response.data.result.length), numAddr)
+        assert.equal(Number(response.result.length), numAddr)
+      }
+
+      successes(
+        [
+          {
+            name: 'BTC SV testnet',
+            testData: {
+              id: '1',
+              data: {
+                endpoint: 'balance',
+                dataPath: 'addresses',
+                addresses: [
+                  {
+                    coin: 'btsv',
+                    chain: 'testnet',
+                    address: 'qzlqpln4k995wsjlhl9dcw6kacwv06ka6580wavplr',
                   },
                 ],
               },
@@ -442,6 +518,44 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
     })
   },
 
+  litecoin_testnet: (execute) => {
+    describe('it should support litecoin testnet', () => {
+      const jobID = '1'
+
+      const assertions = (request: any, response: any) => {
+        const numAddr = request?.testData?.data?.addresses.length
+        assert.isAbove(Number(response.data.result.length), 0)
+        assert.isAbove(Number(response.result.length), 0)
+        assert.equal(Number(response.data.result.length), numAddr)
+        assert.equal(Number(response.result.length), numAddr)
+      }
+
+      successes(
+        [
+          {
+            name: 'LTC testnet',
+            testData: {
+              id: '1',
+              data: {
+                endpoint: 'balance',
+                dataPath: 'addresses',
+                addresses: [
+                  {
+                    coin: 'ltc',
+                    chain: 'testnet',
+                    address: '2N2PJEucf6QY2kNFuJ4chQEBoyZWszRQE16',
+                  },
+                ],
+              },
+            },
+          },
+        ],
+        execute,
+        assertions,
+      )
+    })
+  },
+
   zcash_mainnet: (execute) => {
     describe('it should support zcash mainnet', () => {
       const jobID = '1'
@@ -467,8 +581,349 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
                   {
                     coin: 'zec',
                     chain: 'mainnet',
-                    address:
-                      'zs1z7rejlpsa98s2rrrfkwmaxu53e4ue0ulcrw0h4x5g8jl04tak0d3mm47vdtahatqrlkngh9sly',
+                    address: 't1VShHAhsQc5RVndQLyM1ZbQXLHKd35GkG1',
+                  },
+                ],
+              },
+            },
+          },
+        ],
+        execute,
+        assertions,
+      )
+    })
+  },
+
+  zcash_testnet: (execute) => {
+    describe('it should support zcash testnet', () => {
+      const jobID = '1'
+
+      const assertions = (request: any, response: any) => {
+        const numAddr = request?.testData?.data?.addresses.length
+        assert.isAbove(Number(response.data.result.length), 0)
+        assert.isAbove(Number(response.result.length), 0)
+        assert.equal(Number(response.data.result.length), numAddr)
+        assert.equal(Number(response.result.length), numAddr)
+      }
+
+      successes(
+        [
+          {
+            name: 'ZEC testnet',
+            testData: {
+              id: '1',
+              data: {
+                endpoint: 'balance',
+                dataPath: 'addresses',
+                addresses: [
+                  {
+                    coin: 'zec',
+                    chain: 'testnet',
+                    address: 'tmA64veBVeGVe53MjK2AAAdRo2S4MAqs2oU',
+                  },
+                ],
+              },
+            },
+          },
+        ],
+        execute,
+        assertions,
+      )
+    })
+  },
+
+  doge_mainnet: (execute) => {
+    describe('it should support doge mainnet', () => {
+      const jobID = '1'
+
+      const assertions = (request: any, response: any) => {
+        const numAddr = request?.testData?.data?.addresses.length
+        assert.isAbove(Number(response.data.result.length), 0)
+        assert.isAbove(Number(response.result.length), 0)
+        assert.equal(Number(response.data.result.length), numAddr)
+        assert.equal(Number(response.result.length), numAddr)
+      }
+
+      successes(
+        [
+          {
+            name: 'DOGE mainnet',
+            testData: {
+              id: '1',
+              data: {
+                endpoint: 'balance',
+                dataPath: 'addresses',
+                addresses: [
+                  {
+                    coin: 'doge',
+                    chain: 'mainnet',
+                    address: 'DH5yaieqoZN36fDVciNyRueRGvGLR3mr7L',
+                  },
+                ],
+              },
+            },
+          },
+        ],
+        execute,
+        assertions,
+      )
+    })
+  },
+
+  doge_testnet: (execute) => {
+    describe('it should support doge testnet', () => {
+      const jobID = '1'
+
+      const assertions = (request: any, response: any) => {
+        const numAddr = request?.testData?.data?.addresses.length
+        assert.isAbove(Number(response.data.result.length), 0)
+        assert.isAbove(Number(response.result.length), 0)
+        assert.equal(Number(response.data.result.length), numAddr)
+        assert.equal(Number(response.result.length), numAddr)
+      }
+
+      successes(
+        [
+          {
+            name: 'DOGE testnet',
+            testData: {
+              id: '1',
+              data: {
+                endpoint: 'balance',
+                dataPath: 'addresses',
+                addresses: [
+                  {
+                    coin: 'doge',
+                    chain: 'testnet',
+                    address: '2MtF65ZhrkqsHsNoFtA91e1AdveqXLMvS5M',
+                  },
+                ],
+              },
+            },
+          },
+        ],
+        execute,
+        assertions,
+      )
+    })
+  },
+
+  zilliqa_mainnet: (execute) => {
+    describe('it should support zilliqa mainnet', () => {
+      const jobID = '1'
+
+      const assertions = (request: any, response: any) => {
+        const numAddr = request?.testData?.data?.addresses.length
+        assert.isAbove(Number(response.data.result.length), 0)
+        assert.isAbove(Number(response.result.length), 0)
+        assert.equal(Number(response.data.result.length), numAddr)
+        assert.equal(Number(response.result.length), numAddr)
+      }
+
+      successes(
+        [
+          {
+            name: 'ZIL mainnet',
+            testData: {
+              id: '1',
+              data: {
+                endpoint: 'balance',
+                dataPath: 'addresses',
+                addresses: [
+                  {
+                    coin: 'zil',
+                    chain: 'mainnet',
+                    address: 'zil16cgczanfw3ml5w5rutg7pyrncdx6ue4xcgt6gg',
+                  },
+                ],
+              },
+            },
+          },
+        ],
+        execute,
+        assertions,
+      )
+    })
+  },
+
+  zilliqa_testnet: (execute) => {
+    describe('it should support zilliqa testnet', () => {
+      const jobID = '1'
+
+      const assertions = (request: any, response: any) => {
+        const numAddr = request?.testData?.data?.addresses.length
+        assert.isAbove(Number(response.data.result.length), 0)
+        assert.isAbove(Number(response.result.length), 0)
+        assert.equal(Number(response.data.result.length), numAddr)
+        assert.equal(Number(response.result.length), numAddr)
+      }
+
+      successes(
+        [
+          {
+            name: 'ZIL testnet',
+            testData: {
+              id: '1',
+              data: {
+                endpoint: 'balance',
+                dataPath: 'addresses',
+                addresses: [
+                  {
+                    coin: 'zil',
+                    chain: 'testnet',
+                    address: 'zil1qwzy0kc7p5gg4xn44d4ysfj9r5p49ydsygdxu4',
+                  },
+                ],
+              },
+            },
+          },
+        ],
+        execute,
+        assertions,
+      )
+    })
+  },
+
+  dash_mainnet: (execute) => {
+    describe('it should support dash mainnet', () => {
+      const jobID = '1'
+
+      const assertions = (request: any, response: any) => {
+        const numAddr = request?.testData?.data?.addresses.length
+        assert.isAbove(Number(response.data.result.length), 0)
+        assert.isAbove(Number(response.result.length), 0)
+        assert.equal(Number(response.data.result.length), numAddr)
+        assert.equal(Number(response.result.length), numAddr)
+      }
+
+      successes(
+        [
+          {
+            name: 'DOGE mainnet',
+            testData: {
+              id: '1',
+              data: {
+                endpoint: 'balance',
+                dataPath: 'addresses',
+                addresses: [
+                  {
+                    coin: 'dash',
+                    chain: 'mainnet',
+                    address: 'Xo2w6T1PjgaZ4PHLcoceueAQZifdDQ5ViD',
+                  },
+                ],
+              },
+            },
+          },
+        ],
+        execute,
+        assertions,
+      )
+    })
+  },
+
+  dash_testnet: (execute) => {
+    describe('it should support dash testnet', () => {
+      const jobID = '1'
+
+      const assertions = (request: any, response: any) => {
+        const numAddr = request?.testData?.data?.addresses.length
+        assert.isAbove(Number(response.data.result.length), 0)
+        assert.isAbove(Number(response.result.length), 0)
+        assert.equal(Number(response.data.result.length), numAddr)
+        assert.equal(Number(response.result.length), numAddr)
+      }
+
+      successes(
+        [
+          {
+            name: 'DOGE testnet',
+            testData: {
+              id: '1',
+              data: {
+                endpoint: 'balance',
+                dataPath: 'addresses',
+                addresses: [
+                  {
+                    coin: 'dash',
+                    chain: 'testnet',
+                    address: 'yLegnSEA83TTfo67XXLaszLUcxYQCrLjwH',
+                  },
+                ],
+              },
+            },
+          },
+        ],
+        execute,
+        assertions,
+      )
+    })
+  },
+
+  ethereum_classic_mainnet: (execute) => {
+    describe('it should support ethereum_classic mainnet', () => {
+      const jobID = '1'
+
+      const assertions = (request: any, response: any) => {
+        const numAddr = request?.testData?.data?.addresses.length
+        assert.isAbove(Number(response.data.result.length), 0)
+        assert.isAbove(Number(response.result.length), 0)
+        assert.equal(Number(response.data.result.length), numAddr)
+        assert.equal(Number(response.result.length), numAddr)
+      }
+
+      successes(
+        [
+          {
+            name: 'ETC mainnet',
+            testData: {
+              id: '1',
+              data: {
+                endpoint: 'balance',
+                dataPath: 'addresses',
+                addresses: [
+                  {
+                    coin: 'etc',
+                    chain: 'mainnet',
+                    address: '0xd6054746a43e3a5c47a18796dc47437574127561',
+                  },
+                ],
+              },
+            },
+          },
+        ],
+        execute,
+        assertions,
+      )
+    })
+  },
+
+  ethereum_classic_testnet: (execute) => {
+    describe('it should support ethereum_classic testnet', () => {
+      const jobID = '1'
+
+      const assertions = (request: any, response: any) => {
+        const numAddr = request?.testData?.data?.addresses.length
+        assert.isAbove(Number(response.data.result.length), 0)
+        assert.isAbove(Number(response.result.length), 0)
+        assert.equal(Number(response.data.result.length), numAddr)
+        assert.equal(Number(response.result.length), numAddr)
+      }
+
+      successes(
+        [
+          {
+            name: 'ETC testnet',
+            testData: {
+              id: '1',
+              data: {
+                endpoint: 'balance',
+                dataPath: 'addresses',
+                addresses: [
+                  {
+                    coin: 'etc',
+                    chain: 'testnet',
+                    address: '0xDf7D7e053933b5cC24372f878c90E62dADAD5d42',
                   },
                 ],
               },
@@ -482,7 +937,27 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
   },
 }
 
-type Network = 'bitcoin_mainnet' | 'bitcoin_testnet' | 'ethereum_mainnet' | 'ethereum_rinkeby'
+type Network =
+  | 'bitcoin_mainnet'
+  | 'bitcoin_testnet'
+  | 'ethereum_mainnet'
+  | 'ethereum_testnet'
+  | 'bitcoin_cash_mainnet'
+  | 'bitcoin_cash_testnet'
+  | 'bitcoin_sv_mainnet'
+  | 'bitcoin_sv_testnet'
+  | 'ethereum_classic_mainnet'
+  | 'ethereum_classic_testnet'
+  | 'litecoin_mainnet'
+  | 'litecoin_testnet'
+  | 'zcash_mainnet'
+  | 'zcash_testnet'
+  | 'zilliqa_mainnet'
+  | 'zilliqa_testnet'
+  | 'doge_mainnet'
+  | 'doge_testnet'
+  | 'dash_mainnet'
+  | 'dash_testnet'
 
 export function shouldBehaveLikeBalanceAdapter(execute: Execute, networks: Network[]) {
   base(execute)
