@@ -1,5 +1,6 @@
 import { Execute } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/external-adapter'
+import { util } from '@chainlink/ea-bootstrap'
 
 const commonKeys: Record<string, string> = {
   N225: '^N225',
@@ -28,7 +29,7 @@ export const execute: Execute = async (input) => {
   if (commonKeys[symbol]) {
     symbol = commonKeys[symbol]
   }
-  const token = process.env.API_KEY
+  const token = util.pickRandomFromString(process.env.API_KEY, ',')
 
   const params = {
     symbol,

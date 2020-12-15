@@ -1,4 +1,5 @@
 const { Requester, Validator } = require('@chainlink/external-adapter')
+const { util } = require('@chainlink/ea-bootstrap')
 
 const commonKeys = {
   bz: 'BRENT_CRUDE_USD',
@@ -33,7 +34,7 @@ const execute = (input, callback) => {
   }
 
   const headers = {
-    Authorization: `Token ${process.env.API_KEY}`,
+    Authorization: `Token ${util.pickRandomFromString(process.env.API_KEY, ',')}`,
   }
 
   const config = {

@@ -1,4 +1,5 @@
 const { Requester, Validator } = require('@chainlink/external-adapter')
+const { util } = require('@chainlink/ea-bootstrap')
 
 const commonKeys = {
   N225: 'N225.INDX',
@@ -22,7 +23,7 @@ const execute = (input, callback) => {
     symbol = commonKeys[symbol]
   }
   const url = `https://eodhistoricaldata.com/api/${endpoint}/${symbol}`
-  const api_token = process.env.API_KEY // eslint-disable-line camelcase
+  const api_token = util.pickRandomFromString(process.env.API_KEY, ',') // eslint-disable-line camelcase
 
   const params = {
     api_token,

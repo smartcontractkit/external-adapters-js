@@ -1,4 +1,5 @@
 const { Requester, Validator } = require('@chainlink/external-adapter')
+const { util } = require('@chainlink/ea-bootstrap')
 
 const customError = (data) => data.Response === 'Error'
 
@@ -19,7 +20,7 @@ const execute = (input, callback) => {
   const to = validator.validated.data.to.toUpperCase()
 
   const params = {
-    access_key: process.env.API_KEY,
+    access_key: util.pickRandomFromString(process.env.API_KEY, ','),
     from,
     to,
     amount: 1,

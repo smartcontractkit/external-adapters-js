@@ -1,4 +1,5 @@
 const { Requester, Validator } = require('@chainlink/external-adapter')
+const { util } = require('@chainlink/ea-bootstrap')
 
 const customError = (data) => {
   if (data.Response === 'Error') return true
@@ -33,7 +34,7 @@ const execute = (input, callback) => {
 
   if (process.env.API_KEY) {
     config.headers = {
-      authorization: `Apikey ${process.env.API_KEY}`,
+      authorization: `Apikey ${util.pickRandomFromString(process.env.API_KEY, ',')}`,
     }
   }
 

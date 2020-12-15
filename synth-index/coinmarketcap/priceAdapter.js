@@ -1,10 +1,11 @@
 const { Requester } = require('@chainlink/external-adapter')
 const Decimal = require('decimal.js')
+const { util } = require('@chainlink/ea-bootstrap')
 
 const getPriceData = async (synths) => {
   const url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest'
   const headers = {
-    'X-CMC_PRO_API_KEY': process.env.API_KEY,
+    'X-CMC_PRO_API_KEY': util.pickRandomFromString(process.env.API_KEY, ','),
   }
   const params = {
     symbol: synths,

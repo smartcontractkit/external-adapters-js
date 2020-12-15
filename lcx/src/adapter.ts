@@ -1,5 +1,6 @@
 import { Execute } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/external-adapter'
+import { util } from '@chainlink/ea-bootstrap'
 
 const customParams = {
   base: ['base', 'from', 'coin'],
@@ -24,7 +25,7 @@ export const execute: Execute = async (input) => {
   const config = {
     url,
     headers: {
-      'api-key': process.env.API_KEY,
+      'api-key': util.pickRandomFromString(process.env.API_KEY, ','),
     },
     params,
   }

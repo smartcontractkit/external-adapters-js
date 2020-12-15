@@ -1,4 +1,5 @@
 const { Requester, Validator } = require('@chainlink/external-adapter')
+const { util } = require('@chainlink/ea-bootstrap')
 
 const commonKeys = {
   N225: '^N225',
@@ -30,7 +31,7 @@ const execute = (input, callback) => {
     symbol = commonKeys[symbol]
   }
   const url = `https://fmpcloud.io/api/v3/${endpoint}/${symbol}`
-  const apikey = process.env.API_KEY
+  const apikey = util.pickRandomFromString(process.env.API_KEY, ',')
 
   const params = {
     apikey,

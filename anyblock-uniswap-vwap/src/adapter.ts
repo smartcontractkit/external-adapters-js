@@ -1,5 +1,6 @@
 import { Execute } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/external-adapter'
+import { util } from '@chainlink/ea-bootstrap'
 
 const customError = (data: any) => {
   return !data.hits || !data.hits.hits || data.hits.hits.length < 1
@@ -15,7 +16,7 @@ const customParams = {
 
 const headers = {
   'Content-Type': 'application/json',
-  Authorization: `Bearer ${process.env.API_KEY}`,
+  Authorization: `Bearer ${util.pickRandomFromString(process.env.API_KEY, ',')}`,
 }
 
 const buildVWAP = (response: any, debug: boolean) => {

@@ -1,5 +1,6 @@
 const { Requester } = require('@chainlink/external-adapter')
 const Decimal = require('decimal.js')
+const { util } = require('@chainlink/ea-bootstrap')
 
 const getPriceData = async (synth) => {
   const url = `https://us.market-api.kaiko.io/v2/data/trades.v1/spot_exchange_rate/${synth.asset.toLowerCase()}/usd`
@@ -7,7 +8,7 @@ const getPriceData = async (synth) => {
     sort: 'desc',
   }
   const headers = {
-    'X-Api-Key': process.env.API_KEY,
+    'X-Api-Key': util.pickRandomFromString(process.env.API_KEY, ","),
     'User-Agent': 'Chainlink',
   }
   const timeout = 5000

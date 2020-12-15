@@ -1,4 +1,5 @@
 const { Requester, Validator } = require('@chainlink/external-adapter')
+const { util } = require('@chainlink/ea-bootstrap')
 
 const customError = (data) => {
   return Object.keys(data.payload).length < 1
@@ -21,7 +22,7 @@ const execute = (input, callback) => {
   const config = {
     url,
     headers: {
-      'x-api-key': process.env.API_KEY,
+      'x-api-key': util.pickRandomFromString(process.env.API_KEY, ','),
       'x-amberdata-blockchain-id': endpoint,
     },
   }

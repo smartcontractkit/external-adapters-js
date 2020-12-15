@@ -1,5 +1,6 @@
 const { Requester } = require('@chainlink/external-adapter')
 const Decimal = require('decimal.js')
+const { util } = require('@chainlink/ea-bootstrap')
 
 const host = 'bravenewcoin-v1.p.rapidapi.com'
 const url = `https://${host}/convert`
@@ -7,7 +8,7 @@ const url = `https://${host}/convert`
 const getPriceData = async (synth) => {
   const headers = {
     'x-rapidapi-host': host,
-    'x-rapidapi-key': process.env.API_KEY,
+    'x-rapidapi-key': util.pickRandomFromString(process.env.API_KEY, ','),
   }
   const params = {
     qty: 1,

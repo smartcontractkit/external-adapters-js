@@ -1,5 +1,6 @@
 const { Requester, Validator } = require('@chainlink/external-adapter')
-const API_KEY = process.env.API_KEY
+const { util } = require('@chainlink/ea-bootstrap')
+const API_KEY = util.pickRandomFromString(process.env.API_KEY, ',')
 const DEFAULT_INTERVAL = '1min'
 const DEFAULT_LIMIT = 1
 const DEFAULT_ENDPOINT = 'intraday'

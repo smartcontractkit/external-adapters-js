@@ -1,5 +1,6 @@
 import { Execute } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/external-adapter'
+import { util } from '@chainlink/ea-bootstrap'
 
 const customParams = {}
 
@@ -11,7 +12,7 @@ export const execute: Execute = async (input) => {
   const url = 'https://fpiw7f0axc.execute-api.us-east-1.amazonaws.com/api'
 
   const auth = {
-    password: process.env.API_KEY,
+    password: util.pickRandomFromString(process.env.API_KEY, ','),
   }
 
   const config = {

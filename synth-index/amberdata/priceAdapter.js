@@ -1,10 +1,11 @@
 const { Requester } = require('@chainlink/external-adapter')
 const Decimal = require('decimal.js')
+const { util } = require('@chainlink/ea-bootstrap')
 
 const getPriceData = async (synth) => {
   const url = `https://web3api.io/api/v2/market/prices/${synth.toLowerCase()}/latest`
   const headers = {
-    'X-API-KEY': process.env.API_KEY,
+    'X-API-KEY': util.pickRandomFromString(process.env.API_KEY, ','),
   }
   const config = {
     url,
