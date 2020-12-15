@@ -35,6 +35,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `amberdata`
   - `blockchair`
   - `cryptoapis`
+- dxFeed now uses OTC feeds for FTSE and N225, rather than licensed data feeds
 
 ## [0.1.4] - 2020-10-30
 
