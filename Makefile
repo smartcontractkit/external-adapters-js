@@ -15,7 +15,7 @@ new:
 	  | jq '.workspaces += ["$(adapter)"]' \
 	  | tee package.json > /dev/null
 	cat .github/strategy/adapters.json \
-	  | jq '.adapter += ["$(adapter)"]' \
+	  | jq '.adapters.adapter += ["$(adapter)"]' \
 	  | tee .github/strategy/adapters.json > /dev/null
 	cat $(adapter)/package.json \
 	  | jq '.name = "@chainlink/$(adapter)-adapter" | .description = "Chainlink $(adapter) adapter." | .keywords += ["$(adapter)"]' \

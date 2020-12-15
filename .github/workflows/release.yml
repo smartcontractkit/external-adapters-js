@@ -6,6 +6,9 @@ on:
 
 name: Release
 
+env:
+  cache-name: cd
+
 jobs:
   release:
     name: Create Release
@@ -17,8 +20,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Build project
-        run: yarn
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -41,97 +42,58 @@ jobs:
   matrix-adapters:
     runs-on: ubuntu-latest
     outputs:
-      adapters: ${{ steps.set-matrix-adapters.outputs.matrix }}
-      adapters-composite: ${{ steps.set-matrix-adapters-composite.outputs.matrix }}
-      adapters-synth-index: ${{ steps.set-matrix-adapters-synth-index.outputs.matrix }}
-      adapters-2-step: ${{ steps.set-matrix-adapters-2-step.outputs.matrix }}
+      matrix: ${{ steps.create-matrix.outputs.result }}
     steps:
       - uses: actions/checkout@v2
-      - id: set-matrix-adapters
-        run: .github/scripts/set-output-json-matrix .github/strategy/adapters.json
-      - id: set-matrix-adapters-composite
-        run: .github/scripts/set-output-json-matrix .github/strategy/adapters-composite.json
-      - id: set-matrix-adapters-synth-index
-        run: .github/scripts/set-output-json-matrix .github/strategy/adapters-synth-index.json
-      - id: set-matrix-adapters-2-step
-        run: .github/scripts/set-output-json-matrix .github/strategy/adapters-2-step.json
+      - uses: actions/github-script@v3
+        name: Create job matrix
+        id: create-matrix
+        with:
+          script: |
+            const script = require(`${process.env.GITHUB_WORKSPACE}/.github/scripts/matrix.js`)
+            return script()
 
   publish-artifacts:
     needs: [release, matrix-adapters]
     runs-on: ubuntu-latest
-    name: Publish ${{ matrix.adapter }} adapter zip (GitHub Release)
+    name: (${{ matrix.adapter.type }}) Publish ${{ matrix.adapter.name }} adapter zip
     strategy:
-      matrix: ${{fromJson(needs.matrix-adapters.outputs.adapters)}}
+      matrix: ${{fromJson(needs.matrix-adapters.outputs.matrix)}}
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2-beta
+        with:
+          node-version: "12.x"
+      - name: Install yarn deps
+        run: yarn install --frozen-lockfile --production
+      - name: Cache node modules
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.npm
+            ~/.cache
+            **/node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('./yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
       - name: Build
-        run: make zip adapter=${{ matrix.adapter }}
+        run: ${{ matrix.adapter.cmd }}
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.release.outputs.release_url }}
-          asset_path: ./${{ matrix.adapter }}/dist/${{ matrix.adapter }}-adapter.zip
-          asset_name: ${{ needs.release.outputs.asset_prefix }}-${{ matrix.adapter }}-adapter.zip
+          asset_path: ${{ matrix.adapter.asset_path }}
+          asset_name: ${{ needs.release.outputs.asset_prefix }}-${{ matrix.adapter.asset_name }}
           asset_content_type: application/zip
-
-  publish-composite-artifacts:
-    needs: [release, matrix-adapters]
-    runs-on: ubuntu-latest
-    name: Publish composite ${{ matrix.adapter }} adapter zip (GitHub Release)
-    strategy:
-      matrix: ${{fromJson(needs.matrix-adapters.outputs.adapters-composite)}}
-    steps:
-      - uses: actions/checkout@v2
-      - name: Build
-        run: make zip adapter=composite/${{ matrix.adapter }} name=${{ matrix.adapter }}
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-          upload_url: ${{ needs.release.outputs.release_url }}
-          asset_path: ./composite/${{ matrix.adapter }}/dist/${{ matrix.adapter }}-adapter.zip
-          asset_name: ${{ needs.release.outputs.asset_prefix }}-${{ matrix.adapter }}-adapter.zip
-          asset_content_type: application/zip
-
-  publish-synth-index-artifacts:
-    needs: [release, matrix-adapters]
-    name: Publish synth-index ${{ matrix.adapter }} adapter zip (GitHub Release)
-    runs-on: ubuntu-latest
-    strategy:
-      matrix: ${{fromJson(needs.matrix-adapters.outputs.adapters-synth-index)}}
-    steps:
-      - uses: actions/checkout@v2
-      - name: Build
-        run: make zip-synth-index adapter=${{ matrix.adapter }}
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.release.outputs.release_url }}
-          asset_path: ./synth-index/${{ matrix.adapter }}/dist/synth-index-${{ matrix.adapter }}-adapter.zip
-          asset_name: ${{ needs.release.outputs.asset_prefix }}-synth-index-${{ matrix.adapter }}-adapter.zip
-          asset_content_type: application/zip
-
-  publish-2-step-artifacts:
-    needs: [release, matrix-adapters]
-    name: Publish 2-step ${{ matrix.adapter }} adapter zip (GitHub Release)
-    runs-on: ubuntu-latest
-    strategy:
-      matrix: ${{fromJson(needs.matrix-adapters.outputs.adapters-2-step)}}
-    steps:
-      - uses: actions/checkout@v2
-      - name: Build
-        run: make zip-2-step adapter=${{ matrix.adapter }}
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.release.outputs.release_url }}
-          asset_path: ./2-step/${{ matrix.adapter }}/dist/${{ matrix.adapter }}-2-step-adapter.zip
-          asset_name: ${{ needs.release.outputs.asset_prefix }}-${{ matrix.adapter }}-2-step-adapter.zip
-          asset_content_type: application/zip
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - name: Upload to S3
+        run: aws s3 cp ${{ matrix.adapter.asset_path }} s3://adaptor-source-cl/${{ matrix.adapter.asset_name }}

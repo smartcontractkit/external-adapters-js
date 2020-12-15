@@ -6,15 +6,30 @@ on:
       - master
   pull_request: ~
 
+env:
+  cache-name: ci
+
 jobs:
   run-basic-checks:
     name: Run linters and unit tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2-beta
         with:
-          node-version: '12.x'
+          node-version: "12.x"
+      - name: Cache node modules
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.npm
+            ~/.cache
+            **/node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('./yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
       - run: yarn install
       - run: yarn setup
       - run: yarn lint
@@ -26,10 +41,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2-beta
         with:
-          node-version: '12.x'
+          node-version: "12.x"
       - run: yarn install
+      - name: Cache node modules
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.npm
+            ~/.cache
+            **/node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('./yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
       - run: yarn setup
       - run: yarn test:example-start-server&
       - run: yarn test:example
@@ -38,73 +65,39 @@ jobs:
   matrix-adapters:
     runs-on: ubuntu-latest
     outputs:
-      adapters: ${{ steps.set-matrix-adapters.outputs.matrix }}
-      adapters-composite: ${{ steps.set-matrix-adapters-composite.outputs.matrix }}
-      adapters-synth-index: ${{ steps.set-matrix-adapters-synth-index.outputs.matrix }}
-      adapters-2-step: ${{ steps.set-matrix-adapters-2-step.outputs.matrix }}
+      matrix: ${{ steps.create-matrix.outputs.result }}
     steps:
       - uses: actions/checkout@v2
-      - id: set-matrix-adapters
-        run: .github/scripts/set-output-json-matrix .github/strategy/adapters.json
-      - id: set-matrix-adapters-composite
-        run: .github/scripts/set-output-json-matrix .github/strategy/adapters-composite.json
-      - id: set-matrix-adapters-synth-index
-        run: .github/scripts/set-output-json-matrix .github/strategy/adapters-synth-index.json
-      - id: set-matrix-adapters-2-step
-        run: .github/scripts/set-output-json-matrix .github/strategy/adapters-2-step.json
+      - uses: actions/github-script@v3
+        name: Create job matrix
+        id: create-matrix
+        with:
+          script: |
+            const script = require(`${process.env.GITHUB_WORKSPACE}/.github/scripts/matrix.js`)
+            return script()
 
   build-adapters:
     needs: [run-basic-checks, matrix-adapters]
-    name: Build adapters
+    name: (${{ matrix.adapter.type }}) Build ${{matrix.adapter.name}} adapter
     runs-on: ubuntu-latest
     strategy:
-      matrix: ${{fromJson(needs.matrix-adapters.outputs.adapters)}}
+      matrix: ${{fromJson(needs.matrix-adapters.outputs.matrix)}}
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2-beta
         with:
-          node-version: '12.x'
-      - run: make zip adapter=${{ matrix.adapter }}
-      - run: make docker adapter=${{ matrix.adapter }}
-
-  build-composite-adapters:
-    needs: [run-basic-checks, matrix-adapters]
-    name: Build composite adapters
-    runs-on: ubuntu-latest
-    strategy:
-      matrix: ${{fromJson(needs.matrix-adapters.outputs.adapters-composite)}}
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+          node-version: "12.x"
+      - name: Cache node modules
+        uses: actions/cache@v2
         with:
-          node-version: '12.x'
-      - run: make zip adapter=composite/${{ matrix.adapter }} name=${{ matrix.adapter }}
-      - run: make docker adapter=composite/${{ matrix.adapter }} name=${{ matrix.adapter }}
-
-  build-synth-index-adapters:
-    needs: [run-basic-checks, matrix-adapters]
-    name: Build synth-index adapters
-    runs-on: ubuntu-latest
-    strategy:
-      matrix: ${{fromJson(needs.matrix-adapters.outputs.adapters-synth-index)}}
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '12.x'
-      - run: make zip-synth-index adapter=${{ matrix.adapter }}
-      - run: make docker-synth-index adapter=${{ matrix.adapter }}
-
-  build-2-step-adapters:
-    needs: [run-basic-checks, matrix-adapters]
-    name: Build 2-step adapters
-    runs-on: ubuntu-latest
-    strategy:
-      matrix: ${{fromJson(needs.matrix-adapters.outputs.adapters-2-step)}}
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '12.x'
-      - run: make zip-2-step adapter=${{ matrix.adapter }}
-      - run: make docker-2-step adapter=${{ matrix.adapter }}
+          path: |
+            ~/.npm
+            ~/.cache
+            **/node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('./yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      - run: ${{ matrix.adapter.cmd }}
+      - run: ${{ matrix.adapter.docker }}
