@@ -86,8 +86,7 @@
     "finage",
     "coincodex",
     "coinranking",
-    "helpers/reference-data-reader",
-    "ea-factories"
+    "helpers/reference-data-reader"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",

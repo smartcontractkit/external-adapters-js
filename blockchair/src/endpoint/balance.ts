@@ -1,11 +1,9 @@
 import { balance } from '@chainlink/ea-factories'
 import { Requester } from '@chainlink/external-adapter'
-import { Config, Address, Account } from '@chainlink/types'
+import { Config, Account } from '@chainlink/types'
 import { COINS, isCoinType, isChainType } from '.'
 
 export const Name = 'balance'
-
-// tovendor
 
 const getBalanceURI = (addresses: string[], coin: string, chain: string) => {
   coin = Requester.toVendorName(coin, COINS)
@@ -13,24 +11,23 @@ const getBalanceURI = (addresses: string[], coin: string, chain: string) => {
   return `/${coin}/addresses/balances?addresses=${addresses.join(',')}`
 }
 
-const getBatchBalance: balance.GetBatchBalance = async (
-  [network, { result, addresses }],
-  config,
-) => {
-  const [coin, chain] = network.split('-')
+const getBalances: balance.GetBalances = async (accounts, config) => {
+  const { coin, chain } = accounts[0]
+  const addresses = balance.addresses(accounts)
+
   const reqConfig: any = {
     ...config.api,
-    url: getBalanceURI(addresses, coin, chain),
+    url: getBalanceURI(addresses, coin as string, chain as string),
   }
 
   const response = await Requester.request(reqConfig)
 
-  const toResultWithBalance = (r: Address) => {
-    const balance = response.data.data[r.address]
-    if (typeof balance !== 'number') return r
-    return { ...r, balance }
+  const toResultWithBalance = (acc: Account) => {
+    const balance = response.data.data[acc.address]
+    if (typeof balance !== 'number') return acc
+    return { ...acc, balance }
   }
-  const resultWithBalance: Account[] = result.map(toResultWithBalance)
+  const resultWithBalance = accounts.map(toResultWithBalance)
 
   return {
     ...response.data,
@@ -40,5 +37,4 @@ const getBatchBalance: balance.GetBatchBalance = async (
 
 const isSupported: balance.IsSupported = (coin, chain) => isChainType(chain) && isCoinType(coin)
 
-export const makeExecute = (config: Config) =>
-  balance.make({ ...config, getBatchBalance, isSupported })
+export const makeExecute = (config: Config) => balance.make({ ...config, getBalances, isSupported })

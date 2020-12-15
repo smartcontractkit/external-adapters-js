@@ -1,7 +1,7 @@
 import {
   ExecuteFactory,
   Config,
-  ResponseData,
+  DataResponse,
   Account,
   SequenceResponseData,
 } from '@chainlink/types'
@@ -11,30 +11,46 @@ import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
 const DEFAULT_DATA_PATH = 'addresses'
 const DEFAULT_CONFIRMATIONS = 6
 
-const WARNING_NO_OPERATION = 'No Operation: unsupported'
-const ERROR_NO_OPERATION_MISSING_ADDRESS = 'No Operation: address param is missing'
+const WARNING_UNSUPPORTED_PARAMS = 'No Operation: this provider does not support'
+const ERROR_MISSING_ADDRESS = 'No Operation: address param is missing'
+
+function groupBy<K, V>(list: Array<V>, keyGetter: (input: V) => K): Map<K, Array<V>> {
+  const map = new Map<K, Array<V>>()
+  list.forEach((item) => {
+    const key = keyGetter(item)
+    const collection = map.get(key)
+    if (!collection) {
+      map.set(key, [item])
+    } else {
+      collection.push(item)
+    }
+  })
+  return map
+}
+
+export function addresses(accounts: Account[]) {
+  return accounts.reduce<string[]>((accumulator, current) => {
+    if (!current.warning) accumulator.push(current.address)
+    return accumulator
+  }, [])
+}
 
 export type IsSupported = (coin: string, chain: string) => boolean
-export type GetBalance = (account: Account, config: BalanceConfig) => Promise<ResponseData>
-export type GetBatchBalance = (
-  accGroup: [string, AccountGroup],
-  config: Config,
-) => Promise<ResponseData>
+export type BalanceResponse = DataResponse<Account, any>
+export type GetBalance = (account: Account, config: BalanceConfig) => Promise<BalanceResponse>
+export type BalancesResponse = DataResponse<Account[], any>
+export type GetBalances = (accounts: Account[], config: BalanceConfig) => Promise<BalancesResponse>
 
-export type BalanceImplConfig = Config & {
+export type BalanceConfig = Config & {
   confirmations?: number
   shouldOverwrite?: boolean
   verbose?: boolean
-}
-export type BalanceConfig = BalanceImplConfig & {
   isSupported: IsSupported
   getBalance?: GetBalance
-  getBatchBalance?: GetBatchBalance
+  getBalances?: GetBalances
 }
 
-// TODO: this could be an extension of Validator
-const validateInput = (jobRunID: string, validated: RequestData, data: any) => {
-  const dataPath = validated.dataPath || DEFAULT_DATA_PATH
+const requireArray = (jobRunID: string, dataPath: string, data: any) => {
   const inputData = <Account[]>objectPath.get(data, dataPath)
 
   // Check if input data is valid
@@ -48,38 +64,37 @@ const validateInput = (jobRunID: string, validated: RequestData, data: any) => {
   return inputData
 }
 
-// TODO: this could be an extension of Validator
-const validateEachInput = (jobRunID: string, accounts: Account[], config: BalanceConfig) =>
-  accounts.map((acc) => {
-    // Is it possible to process?
-    if (!acc.address)
-      throw new AdapterError({
-        jobRunID,
-        message: ERROR_NO_OPERATION_MISSING_ADDRESS,
-        statusCode: 400,
-      })
+const toValidAccount = (jobRunID: string, account: Account, config: BalanceConfig) => {
+  // Is it possible to process?
+  if (!account.address)
+    throw new AdapterError({
+      jobRunID,
+      message: ERROR_MISSING_ADDRESS,
+      statusCode: 400,
+    })
 
-    // Defaults
-    if (!acc.chain) acc.chain = 'mainnet'
-    if (!acc.coin) acc.coin = 'btc'
+  // Defaults
+  if (!account.chain) account.chain = 'mainnet'
+  if (!account.coin) account.coin = 'btc'
 
-    // Should we process?
-    if (!config.shouldOverwrite && typeof acc.balance === 'number') return acc
+  // Should we process?
+  if (!config.shouldOverwrite && typeof account.balance === 'number') return account
 
-    // Do we support processing?
-    const supported = config.isSupported(acc.coin, acc.chain)
-    if (!supported) return { ...acc, warning: WARNING_NO_OPERATION }
+  // Do we support processing?
+  const supported = config.isSupported(account.coin, account.chain)
+  if (!supported)
+    return { ...account, warning: WARNING_UNSUPPORTED_PARAMS + ` ${account.chain} ${account.coin}` }
 
-    // If warning, clear and continue to processing
-    const { warning, ...accNoWarning } = acc
-    return accNoWarning
-  })
+  // If warning, clear and continue to processing
+  const { warning, ...accNoWarning } = account
+  return accNoWarning
+}
 
 const getBalances = async (
   config: BalanceConfig,
   accounts: Account[],
   getBalance: GetBalance,
-): Promise<ResponseData[]> =>
+): Promise<BalanceResponse[]> =>
   Promise.all(
     accounts.map((acc) => {
       if (acc.warning) return { result: acc }
@@ -87,32 +102,28 @@ const getBalances = async (
     }),
   )
 
-export type AccountGroup = { addresses: string[]; result: Account[] }
-const group = (accounts: Account[]) => {
-  const output: { [coin: string]: AccountGroup } = {}
-  for (const acc of accounts) {
-    const key = `${acc.coin}-${acc.chain}` as string
-    output[key] = output[key] || { addresses: [], result: [] }
-    if (!acc.warning) output[key].addresses.push(acc.address)
-    output[key].result.push(acc)
-  }
-  return Object.entries(output)
-}
-
-export const getBalancesBatch = async (
-  config: BalanceConfig,
-  accGroupEntries: [string, AccountGroup][],
-  getBatchBalance: GetBatchBalance,
-): Promise<ResponseData[]> =>
-  Promise.all(accGroupEntries.map((accGroupEntry) => getBatchBalance(accGroupEntry, config)))
-
-const reduceToResponse = (config: BalanceConfig, responses: ResponseData[]) =>
+const reduceBalances = (config: BalanceConfig, responses: BalanceResponse[]) =>
   responses.reduce<SequenceResponseData<Account>>(
     (accumulator, current) => {
       if (config.verbose) accumulator.responses = [...accumulator.responses, current]
-      accumulator.result = config.getBatchBalance
-        ? [...accumulator.result, ...current.result]
-        : [...accumulator.result, current.result]
+      accumulator.result = [...accumulator.result, current.result]
+      return accumulator
+    },
+    { responses: [], result: [] },
+  )
+
+export const getBalancesBatch = async (
+  config: BalanceConfig,
+  accGroups: Account[][],
+  getBalances: GetBalances,
+): Promise<BalancesResponse[]> =>
+  Promise.all(accGroups.map((accounts) => getBalances(accounts, config)))
+
+const reduceBalancesBatch = (config: BalanceConfig, responses: BalancesResponse[]) =>
+  responses.reduce<SequenceResponseData<Account>>(
+    (accumulator, current) => {
+      if (config.verbose) accumulator.responses = [...accumulator.responses, current]
+      accumulator.result = [...accumulator.result, ...current.result]
       return accumulator
     },
     { responses: [], result: [] },
@@ -123,33 +134,35 @@ const inputParams = {
   confirmations: false,
 }
 
-type RequestData = {
-  dataPath: string
-  confirmations: number
-}
-
 export const make: ExecuteFactory<BalanceConfig> = (config) => async (input) => {
   const validator = new Validator(input, inputParams)
   if (validator.error) throw validator.error
   if (!config) throw new Error('No configuration supplied')
-  if (!config.getBalance && !config.getBatchBalance)
+  if (!config.getBalance && !config.getBalances)
     throw new Error('Request handling logic not supplied')
   config.confirmations = validator.validated.confirmations || DEFAULT_CONFIRMATIONS
   const jobRunID = validator.validated.id
-  let inputData = validateInput(jobRunID, validator.validated.data, input.data)
-  inputData = validateEachInput(jobRunID, inputData, config)
+  const data = validator.validated.data
+  const dataPath = validator.validated.dataPath || DEFAULT_DATA_PATH
+  const accounts = requireArray(jobRunID, data, dataPath).map((acc) =>
+    toValidAccount(jobRunID, acc, config),
+  )
 
-  let responses
+  let response
 
-  if (config.getBatchBalance) {
-    const groupedData = group(inputData)
-    responses = await getBalancesBatch(config, groupedData, config.getBatchBalance)
+  if (config.getBalances) {
+    const grouped = groupBy(accounts, (acc) => `${acc.coin}-${acc.chain}`)
+    const responses = await getBalancesBatch(
+      config,
+      Array.from(grouped.values()),
+      config.getBalances,
+    )
+    response = reduceBalancesBatch(config, responses)
   }
   if (config.getBalance) {
-    responses = await getBalances(config, inputData, config.getBalance)
+    const responses = await getBalances(config, accounts, config.getBalance)
+    response = reduceBalances(config, responses)
   }
 
-  const reducedResponse = reduceToResponse(config, responses as ResponseData[])
-
-  return Requester.success(jobRunID, { data: reducedResponse, status: 200 })
+  return Requester.success(jobRunID, { data: response, status: 200 })
 }

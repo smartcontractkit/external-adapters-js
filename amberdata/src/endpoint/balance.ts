@@ -16,8 +16,11 @@ const getBalance: balance.GetBalance = async (account, config) => {
   const reqConfig: any = {
     ...config.api,
     url: getBalanceURI(account.address),
+    headers: {
+      ...config.api.headers,
+      'x-amberdata-blockchain-id': getBlockchainHeader(account.chain, account.coin),
+    },
   }
-  reqConfig.headers['x-amberdata-blockchain-id'] = getBlockchainHeader(account.chain, account.coin)
 
   const response = await Requester.request(reqConfig)
   return {

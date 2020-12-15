@@ -6,10 +6,7 @@ import { isCoinType, isChainType, TESTNET_BLOCKCHAINS } from '.'
 export const Name = 'balance'
 
 const getBalanceURI = (address: string, chain: string, coin: string) => {
-  if (chain === 'testnet') {
-    const name = Requester.toVendorName(coin, TESTNET_BLOCKCHAINS)
-    if (name) chain = name
-  }
+  if (chain === 'testnet') chain = Requester.toVendorName(coin, TESTNET_BLOCKCHAINS) || chain
   return `/v1/bc/${coin}/${chain}/address/${address}`
 }
 

@@ -30,14 +30,14 @@ declare module '@chainlink/types' {
   }
 
   /* RESPONSES */
-  export type ResponseData = {
-    result: any
-    [key: string]: any
+  export type DataResponse<R, P> = {
+    result: R
+    payload?: P
   }
 
-  export type SequenceResponseData<ResultType> = {
+  export type SequenceResponseData<R> = {
     responses: ResponseData[]
-    result: ResultType[]
+    result: R[]
   }
 
   export type AdapterResponse = {
@@ -97,11 +97,11 @@ declare module '@chainlink/types' {
   /* IMPLEMENTATIONS */
   export type Address = {
     address: string
-    coin?: string
-    chain?: string
   }
   export type Account = Address & {
     balance?: number
+    coin?: string
+    chain?: string
     warning?: string
   }
 }

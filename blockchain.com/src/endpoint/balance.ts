@@ -13,7 +13,7 @@ const getBalance: balance.GetBalance = async (account, config) => {
   const reqConfig = {
     ...config.api,
     baseURL: getBaseURL(account.chain as ChainType),
-    url: getBalanceURI(account.address, config.confirmations),
+    url: getBalanceURI(account.address, config.confirmations as number),
   }
 
   const response = await Requester.request(reqConfig)

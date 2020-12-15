@@ -1,25 +1,20 @@
 import { balance } from '@chainlink/ea-factories'
 import { Requester } from '@chainlink/external-adapter'
-import { Config } from '@chainlink/types'
+import { Account, Config } from '@chainlink/types'
 import { isCoinType, isChainType } from '.'
 
 export const Name = 'balance'
 
-const getBalanceURI = (network: string, address: string, confirmations: number, chain: string) => {
-  network = network.toUpperCase()
-  if (chain === 'testnet') network = network + 'TEST'
-  return `/api/v2/get_address_balance/${network}/${address}/${confirmations}`
+const getBalanceURI = (account: Account, confirmations: number) => {
+  account.coin = account.coin?.toUpperCase()
+  if (account.chain === 'testnet') account.coin = account.coin + 'TEST'
+  return `/api/v2/get_address_balance/${account.coin}/${account.address}/${confirmations}`
 }
 
 const getBalance: balance.GetBalance = async (account, config) => {
   const reqConfig = {
     ...config.api,
-    url: getBalanceURI(
-      account.coin as string,
-      account.address,
-      config.confirmations,
-      account.chain as string,
-    ),
+    url: getBalanceURI(account, config.confirmations as number),
   }
 
   const response = await Requester.request(reqConfig)
