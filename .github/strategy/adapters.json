@@ -51,6 +51,7 @@
       "iv-outlier-detection",
       "json-rpc",
       "kaiko",
+      "kaiko",
       "lcx",
       "linkpool",
       "lition",
@@ -113,6 +114,7 @@
       "coinmarketcap",
       "coinpaprika",
       "cryptocompare",
+      "kaiko",
       "nomics"
     ]
   }
