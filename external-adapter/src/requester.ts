@@ -88,13 +88,10 @@ export class Requester {
   }
 
   static success(jobRunID = '1', response: AxiosResponse): AdapterResponse {
-    if (!('result' in response.data)) {
-      response.data.result = null
-    }
     return {
       jobRunID,
       data: response.data,
-      result: response.data.result,
+      result: response.data?.result,
       statusCode: response.status,
     }
   }

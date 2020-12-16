@@ -6,27 +6,14 @@ import {
   SequenceResponseData,
 } from '@chainlink/types'
 import objectPath from 'object-path'
-import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
+import { Validator, AdapterError } from '@chainlink/external-adapter'
+import { util } from '@chainlink/ea-bootstrap'
 
 const DEFAULT_DATA_PATH = 'addresses'
 const DEFAULT_CONFIRMATIONS = 6
 
 const WARNING_UNSUPPORTED_PARAMS = 'No Operation: this provider does not support'
 const ERROR_MISSING_ADDRESS = 'No Operation: address param is missing'
-
-function groupBy<K, V>(list: Array<V>, keyGetter: (input: V) => K): Map<K, Array<V>> {
-  const map = new Map<K, Array<V>>()
-  list.forEach((item) => {
-    const key = keyGetter(item)
-    const collection = map.get(key)
-    if (!collection) {
-      map.set(key, [item])
-    } else {
-      collection.push(item)
-    }
-  })
-  return map
-}
 
 export function addresses(accounts: Account[]) {
   return accounts.reduce<string[]>((accumulator, current) => {
@@ -36,9 +23,8 @@ export function addresses(accounts: Account[]) {
 }
 
 export type IsSupported = (coin: string, chain: string) => boolean
-export type BalanceResponse = DataResponse<Account, any>
-export type GetBalance = (account: Account, config: BalanceConfig) => Promise<BalanceResponse>
 export type BalancesResponse = DataResponse<Account[], any>
+export type GetBalance = (account: Account, config: BalanceConfig) => Promise<BalancesResponse>
 export type GetBalances = (accounts: Account[], config: BalanceConfig) => Promise<BalancesResponse>
 
 export type BalanceConfig = Config & {
@@ -64,7 +50,7 @@ const requireArray = (jobRunID: string, dataPath: string, data: any) => {
   return inputData
 }
 
-const toValidAccount = (jobRunID: string, account: Account, config: BalanceConfig) => {
+const toValidAccount = (jobRunID: string, account: Account, config: BalanceConfig): Account => {
   // Is it possible to process?
   if (!account.address)
     throw new AdapterError({
@@ -90,44 +76,13 @@ const toValidAccount = (jobRunID: string, account: Account, config: BalanceConfi
   return accNoWarning
 }
 
-const getBalances = async (
-  config: BalanceConfig,
-  accounts: Account[],
-  getBalance: GetBalance,
-): Promise<BalanceResponse[]> =>
-  Promise.all(
-    accounts.map((acc) => {
-      if (acc.warning) return { result: acc }
-      return getBalance(acc, config)
-    }),
-  )
-
-const reduceBalances = (config: BalanceConfig, responses: BalanceResponse[]) =>
-  responses.reduce<SequenceResponseData<Account>>(
-    (accumulator, current) => {
-      if (config.verbose) accumulator.responses = [...accumulator.responses, current]
-      accumulator.result = [...accumulator.result, current.result]
-      return accumulator
-    },
-    { responses: [], result: [] },
-  )
-
-export const getBalancesBatch = async (
-  config: BalanceConfig,
-  accGroups: Account[][],
-  getBalances: GetBalances,
-): Promise<BalancesResponse[]> =>
-  Promise.all(accGroups.map((accounts) => getBalances(accounts, config)))
-
-const reduceBalancesBatch = (config: BalanceConfig, responses: BalancesResponse[]) =>
-  responses.reduce<SequenceResponseData<Account>>(
-    (accumulator, current) => {
-      if (config.verbose) accumulator.responses = [...accumulator.responses, current]
-      accumulator.result = [...accumulator.result, ...current.result]
-      return accumulator
-    },
-    { responses: [], result: [] },
-  )
+const toGetBalances = (getBalance?: GetBalance) => (accounts: Account[], config: BalanceConfig) => {
+  if (!getBalance) throw new Error('Get Balance function not supplied')
+  return accounts.map(async (acc) => {
+    if (acc.warning) return { result: [acc] }
+    return getBalance(acc, config)
+  })
+}
 
 const inputParams = {
   dataPath: false,
@@ -142,27 +97,24 @@ export const make: ExecuteFactory<BalanceConfig> = (config) => async (input) => 
     throw new Error('Request handling logic not supplied')
   config.confirmations = validator.validated.confirmations || DEFAULT_CONFIRMATIONS
   const jobRunID = validator.validated.id
-  const data = validator.validated.data
-  const dataPath = validator.validated.dataPath || DEFAULT_DATA_PATH
-  const accounts = requireArray(jobRunID, data, dataPath).map((acc) =>
+  const dataPath = validator.validated.data.dataPath || DEFAULT_DATA_PATH
+  const accounts = requireArray(jobRunID, dataPath, input.data).map((acc) =>
     toValidAccount(jobRunID, acc, config),
   )
 
-  let response
+  const getBalances = config.getBalances || toGetBalances(config.getBalance)
 
-  if (config.getBalances) {
-    const grouped = groupBy(accounts, (acc) => `${acc.coin}-${acc.chain}`)
-    const responses = await getBalancesBatch(
-      config,
-      Array.from(grouped.values()),
-      config.getBalances,
-    )
-    response = reduceBalancesBatch(config, responses)
-  }
-  if (config.getBalance) {
-    const responses = await getBalances(config, accounts, config.getBalance)
-    response = reduceBalances(config, responses)
+  const key = (acc: Account) => `${acc.coin}-${acc.chain}`
+  const groups = Array.from(util.groupBy<string, Account>(accounts, key).values())
+  const requests = groups.flatMap((group) => getBalances(group, config))
+  const responses = await Promise.all(requests)
+
+  const data: SequenceResponseData<Account> = {
+    responses: responses.map((r: any) => r.payload),
+    result: responses.flatMap((r: any) => r.result),
   }
 
-  return Requester.success(jobRunID, { data: response, status: 200 })
+  if (!config.verbose) delete data.responses
+
+  return { jobRunID, statusCode: 200, data, result: data.result }
 }

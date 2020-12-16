@@ -19,8 +19,7 @@ export const execute: ExecuteWithConfig = async (request, config) => {
 
   switch (endpoint) {
     case price.Name: {
-      const response = await price.execute(request, config)
-      return Requester.success(jobRunID, response)
+      return price.execute(request, config)
     }
     case balance.Name: {
       return balance.makeExecute(config)(request)

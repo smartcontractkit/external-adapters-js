@@ -15,6 +15,7 @@ const customParams = {
 export const execute: ExecuteWithConfig = async (input, config) => {
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
+  const jobRunID = validator.validated.id
 
   const coin = validator.validated.data.base
   const market = validator.validated.data.quote
@@ -28,5 +29,5 @@ export const execute: ExecuteWithConfig = async (input, config) => {
 
   const response = await Requester.request(reqConfig, customError)
   response.data.result = Requester.validateResultNumber(response.data, ['payload', 'price'])
-  return response
+  return Requester.success(jobRunID, response)
 }

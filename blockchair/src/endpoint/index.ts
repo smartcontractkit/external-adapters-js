@@ -1,7 +1,7 @@
 export * as balance from './balance'
 export * as difficulty from './difficulty'
 
-export const COIN_KEYS = ['btc'] as const
+export const COIN_KEYS = ['btc', 'dash', 'doge', 'ltc', 'bch'] as const
 export type CoinType = typeof COIN_KEYS[number]
 export function isCoinType(key: string): key is CoinType {
   return COIN_KEYS.includes(key as CoinType)

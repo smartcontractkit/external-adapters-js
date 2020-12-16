@@ -30,7 +30,7 @@ const getBalances: balance.GetBalances = async (accounts, config) => {
   const resultWithBalance = accounts.map(toResultWithBalance)
 
   return {
-    ...response.data,
+    payload: response.data,
     result: resultWithBalance,
   }
 }

@@ -36,7 +36,7 @@ declare module '@chainlink/types' {
   }
 
   export type SequenceResponseData<R> = {
-    responses: ResponseData[]
+    responses?: ResponseData[]
     result: R[]
   }
 
@@ -106,6 +106,4 @@ declare module '@chainlink/types' {
     warning?: string
   }
 }
-declare module '@chainlink/ea-bootstrap'
-declare module '@chainlink/external-adapter'
 declare module 'object-path'

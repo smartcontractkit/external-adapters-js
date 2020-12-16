@@ -21,13 +21,14 @@ const cloneNoSecrets = (config: Config): Config => (({ apiKey, ...o }) => o)(con
 
 export function getDefaultConfig(prefix = ''): Config {
   const apiKey = util.getEnv(ENV_API_KEY, prefix)
+  const timeout = util.getEnv(ENV_API_TIMEOUT, prefix)
   return {
     apiKey,
     returnVerboseResponse: !!util.getEnv(ENV_API_VERBOSE_RESPONSE, prefix),
     api: {
       withCredentials: !!apiKey,
       baseURL: util.getEnv(ENV_API_ENDPOINT, prefix),
-      timeout: parseInt(util.getEnv(ENV_API_TIMEOUT, prefix)) || DEFAULT_API_TIMEOUT,
+      timeout: timeout ? parseInt(timeout) : DEFAULT_API_TIMEOUT,
       headers: {
         common: {
           'Cache-Control': 'no-cache, no-store, must-revalidate',

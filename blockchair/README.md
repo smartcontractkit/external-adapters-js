@@ -103,8 +103,8 @@ https://blockchair.com/api/docs#link_390
   {
 
   - `address`: Address to query
-  - `coin`: Optional currency to query, defaults to `btc`, one of `(btc|dash|doge|ltc|zec|bch|bsv|grs)`
-  - `chain`: Optional chain to query, defaults to `mainnet`, one of `(mainnet|testnet)` when coin is BTC.
+  - `coin`: Optional currency to query, defaults to `btc`, one of `(btc|dash|doge|ltc|bch)`
+  - `chain`: Optional chain to query, defaults to `mainnet`.
 
   }
 

@@ -11,6 +11,7 @@ const inputParams = {
 export const execute: ExecuteWithConfig = async (input, config) => {
   const validator = new Validator(input, inputParams)
   if (validator.error) throw validator.error
+  const jobRunID = validator.validated.id
 
   const blockchain = Requester.toVendorName(
     validator.validated.data.blockchain.toLowerCase(),
@@ -22,5 +23,5 @@ export const execute: ExecuteWithConfig = async (input, config) => {
 
   const response = await Requester.request(reqConfig)
   response.data.result = Requester.validateResultNumber(response.data, ['data', 'difficulty'])
-  return response
+  return Requester.success(jobRunID, response)
 }

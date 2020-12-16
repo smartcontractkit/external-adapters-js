@@ -42,8 +42,8 @@ const getBalance: balance.GetBalance = async (account, config) => {
   const response = await _getAddrBal()
 
   return {
-    ...response,
-    result: { ...account, balance: response.balance },
+    payload: response,
+    result: [{ ...account, balance: response.balance }],
   }
 }
 
