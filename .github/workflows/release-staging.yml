@@ -7,6 +7,7 @@ name: Release Staging
 
 env:
   cache-name: staging-cd
+  publicecr-name: x5x8k3n7
 
 jobs:
   # Read build strategy matrix of adapters, from a json file
@@ -27,7 +28,7 @@ jobs:
   publish-artifacts:
     needs: [matrix-adapters]
     runs-on: ubuntu-latest
-    name: (${{ matrix.adapter.type }}) Publish ${{ matrix.adapter.name }} adapter zip
+    name: (${{ matrix.adapter.type }}) Publish ${{ matrix.adapter.name }} zip and Docker image
     strategy:
       matrix: ${{fromJson(needs.matrix-adapters.outputs.matrix)}}
     steps:
@@ -51,6 +52,8 @@ jobs:
             ${{ runner.os }}-
       - name: Build
         run: ${{ matrix.adapter.cmd }}
+      - name: Build Docker containers
+        run: ${{ matrix.adapter.docker }} repo="public.ecr.aws/${{ env.publicecr-name }}/adapters/"
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -59,3 +62,13 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
       - name: Upload to S3
         run: aws s3 cp ${{ matrix.adapter.asset_path }} s3://adaptor-source-cl-staging/${{ matrix.adapter.asset_name }}
+      - name: Authenticate to public ECR
+        run: aws ecr-public get-login-password | docker login --username AWS --password-stdin public.ecr.aws
+        env:
+          AWS_DEFAULT_REGION: us-east-1 # https://docs.aws.amazon.com/AmazonECR/latest/public/public-registries.html#public-registry-auth
+      - name: Create a public ECR repository if does not exist
+        run: aws ecr-public create-repository --repository-name adapters/${{ matrix.adapter.image_name }} || true
+        env:
+          AWS_DEFAULT_REGION: us-east-1
+      - name: Push to public ECR
+        run: docker push public.ecr.aws/${{ env.publicecr-name }}/adapters/${{ matrix.adapter.image_name }}

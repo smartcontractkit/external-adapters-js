@@ -1,7 +1,7 @@
 check?=schedule
 
 docker:
-	docker build --build-arg adapter=$(adapter) --build-arg name=$(name) -f Dockerfile . -t $(if $(name),$(name),$(adapter))-adapter $(if $(tag), -t $(tag), )
+	docker build --build-arg adapter=$(adapter) --build-arg name=$(name) -f Dockerfile . -t $(repo)$(if $(name),$(name),$(adapter))-adapter $(if $(tag), -t $(repo)$(tag), )
 
 zip: deps build
 	(cd $(adapter)/dist && zip $(if $(name),$(name),$(adapter))-adapter.zip index.js)
@@ -47,7 +47,7 @@ build-synth-index:
 	rm synth-index/$(adapter)/adapter.js
 
 docker-synth-index:
-	docker build --no-cache --build-arg adapter=$(adapter) -f Dockerfile-SynthIndex . -t synth-index-$(adapter)-adapter
+	docker build --no-cache --build-arg adapter=$(adapter) -f Dockerfile-SynthIndex . -t $(repo)synth-index-$(adapter)-adapter
 
 zip-synth-index: deps clean-synth-index build-synth-index
 	(cd synth-index/$(adapter)/dist && zip -r synth-index-$(adapter)-adapter.zip index.js)
@@ -65,7 +65,7 @@ build-2-step:
 	rm 2-step/$(adapter)/adapter.js
 
 docker-2-step:
-	docker build --no-cache --build-arg adapter=$(adapter) -f Dockerfile-2Step . -t $(adapter)-2-step-adapter
+	docker build --no-cache --build-arg adapter=$(adapter) -f Dockerfile-2Step . -t $(repo)$(adapter)-2-step-adapter
 
 zip-2-step: deps clean-2-step build-2-step
 	(cd 2-step/$(adapter)/dist && zip $(adapter)-2-step-adapter.zip index.js)
