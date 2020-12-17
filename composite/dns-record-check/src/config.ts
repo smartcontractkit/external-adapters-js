@@ -1,6 +1,6 @@
-import { Requester } from '@chainlink/external-adapter'
 import { Config } from '@chainlink/types'
+import DNS from '@chainlink/dns-query'
 
 export const makeConfig = (): Config => {
-  return Requester.getDefaultConfig()
+  return DNS.makeConfig()
 }

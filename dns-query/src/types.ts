@@ -1,17 +1,23 @@
-export type DNSResponseQuestion = {
+export type DNSQuestion = {
   name: string
   type: number
 }
 
-export type DNSResponseAnswer = {
+export type DNSAnswer = {
   name: string
   type: number
   TTL: number
   data: string
 }
 
-export type DNSResponse = {
+export type DNSQueryResponse = {
   Status: number
-  Question: DNSResponseQuestion[]
-  Answer: DNSResponseAnswer[]
+  TC: boolean
+  RD: boolean
+  RA: boolean
+  AD: boolean
+  CD: boolean
+  Question: DNSQuestion[]
+  Answer: DNSAnswer[]
+  Comment?: string
 }

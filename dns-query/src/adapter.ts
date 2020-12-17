@@ -1,7 +1,7 @@
 import { Config, ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { makeConfig } from './config'
-import { DNSResponse } from './types'
+import { DNSQueryResponse } from './types'
 
 export const inputParams = {
   name: true,
@@ -33,7 +33,7 @@ const execute: ExecuteWithConfig = async (input, config) => {
     params,
   })
 
-  const data: DNSResponse = { ...result.data }
+  const data: DNSQueryResponse = { ...result.data }
 
   return Requester.success(jobRunID, {
     status: 200,

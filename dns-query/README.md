@@ -9,6 +9,8 @@ The adapter takes the following environment variables:
 - `DNS_PROVIDER`: DNS provider to use. Options available:
     - `cloudfare`
     - `google`
+- `CUSTOM_ENDPOINT` (Optional): DNS provider URL. Overrides the option passed on `DNS_PROVIDER`
+
 
 ## Input Params
 
