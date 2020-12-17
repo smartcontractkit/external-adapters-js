@@ -1,25 +1,23 @@
-import { Execute, DNSResponseAnswer, AdapterRequest, DNSResponse } from '@chainlink/types'
+import { ExecuteWithConfig, ExecuteFactory, Config } from '@chainlink/types'
 import { Validator } from '@chainlink/external-adapter'
-import DNS from '@chainlink/dns-query'
 import { Requester } from '@chainlink/external-adapter'
+import DNS from '@chainlink/dns-query'
+import { DNSResponse, DNSResponseAnswer } from '@chainlink/dns-query/dist/types'
+import { makeConfig } from './config'
 
 const inputParams = {
   record: true,
-  ...DNS.inputParams,
 }
 
-export const execute: Execute = async (input) => {
+const execute: ExecuteWithConfig = async (input, config) => {
   const validator = new Validator(input, inputParams)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const { record, ...dnsInputParams } = validator.validated.data
+  const { record } = validator.validated.data
 
-  const dnsRequest: AdapterRequest = {
-    id: jobRunID,
-    data: dnsInputParams,
-  }
-  const dnsResponse = await DNS.execute(dnsRequest)
+  const dnsExecute = DNS.makeExecute(DNS.makeConfig())
+  const dnsResponse = await dnsExecute(input)
   const dnsData: DNSResponse = { ...dnsResponse.data }
   const foundRecord = dnsData.Answer.find((ans: DNSResponseAnswer) => ans.data.includes(record))
 
@@ -31,4 +29,5 @@ export const execute: Execute = async (input) => {
   })
 }
 
-export default execute
+export const makeExecute: ExecuteFactory = (config?: Config) => (input) =>
+  execute(input, config || makeConfig())

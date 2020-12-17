@@ -1,4 +1,4 @@
 import { expose, util } from '@chainlink/ea-bootstrap'
-import execute from './adapter'
+import { makeExecute } from './adapter'
 
-export = { execute, ...expose(util.wrapExecute(execute)) }
+export = { makeExecute, ...expose(util.wrapExecute(makeExecute())) }

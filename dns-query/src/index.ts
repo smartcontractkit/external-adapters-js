@@ -1,6 +1,7 @@
 import { expose, util } from '@chainlink/ea-bootstrap'
-import { execute, inputParams } from './adapter'
+import { makeExecute } from './adapter'
+import { makeConfig } from './config'
 
 const NAME = 'DNS-Query'
 
-export = { NAME, inputParams, execute, ...expose(util.wrapExecute(execute)) }
+export = { NAME, makeConfig, makeExecute, ...expose(util.wrapExecute(makeExecute())) }
