@@ -1,5 +1,5 @@
 {
-  "name": "@chainlink/dns-record-check",
+  "name": "@chainlink/dns-record-check-adapter",
   "version": "0.0.1",
   "description": "Chainlink DNS record check adapter",
   "keywords": [
@@ -42,6 +42,6 @@
     "typescript": "^3.9.7"
   },
   "dependencies": {
-    "@chainlink/dns-query": "^0.0.1"
+    "@chainlink/dns-query-adapter": "^0.0.1"
   }
 }

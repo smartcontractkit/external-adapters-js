@@ -1,8 +1,8 @@
 import { ExecuteWithConfig, ExecuteFactory, Config } from '@chainlink/types'
 import { Validator } from '@chainlink/external-adapter'
 import { Requester } from '@chainlink/external-adapter'
-import DNS from '@chainlink/dns-query'
-import { DNSQueryResponse, DNSAnswer } from '@chainlink/dns-query/dist/types'
+import DNS from '@chainlink/dns-query-adapter'
+import { DNSQueryResponse, DNSAnswer } from '@chainlink/dns-query-adapter/dist/types'
 import { makeConfig } from './config'
 
 const inputParams = {
