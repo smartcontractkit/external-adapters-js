@@ -15,8 +15,8 @@ const customParams = {
 }
 
 const commonSymbols = {
-  N225: 'N225:JP',
-  FTSE: 'UKX:FTSE',
+  N225: 'NKY.IND:TEI',
+  FTSE: 'UKX.IND:TEI',
 }
 
 const execute = (input, callback) => {
