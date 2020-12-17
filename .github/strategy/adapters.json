@@ -75,7 +75,8 @@
       "tradermade",
       "finage",
       "coincodex",
-      "coinranking"
+      "coinranking",
+      "dns-query"
     ]
   },
   "2-step": {
@@ -98,7 +99,12 @@
     "cmd": "make zip adapter=composite/__ADAPTER__ name=__ADAPTER__",
     "asset_path": "./composite/__ADAPTER__/dist/__ADAPTER__-adapter.zip",
     "asset_name": "__ADAPTER__-adapter.zip",
-    "adapter": ["proof-of-reserves", "market-closure", "defi-pulse"]
+    "adapter": [
+      "proof-of-reserves",
+      "market-closure",
+      "defi-pulse",
+      "dns-record-check"
+    ]
   },
   "synth-index": {
     "docker": "make docker-synth-index adapter=__ADAPTER__",
