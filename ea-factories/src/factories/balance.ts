@@ -105,8 +105,8 @@ export const make: ExecuteFactory<BalanceConfig> = (config) => async (input) => 
   const getBalances = config.getBalances || toGetBalances(config.getBalance)
 
   const key = (acc: Account) => `${acc.coin}-${acc.chain}`
-  const groups = Array.from(util.groupBy<string, Account>(accounts, key).values())
-  const requests = groups.flatMap((group) => getBalances(group, config))
+  const groups = Array.from(util.groupBy(accounts, key).values())
+  const requests = groups.flatMap((group) => getBalances(group as Account[], config))
   const responses = await Promise.all(requests)
 
   const data: SequenceResponseData<Account> = {

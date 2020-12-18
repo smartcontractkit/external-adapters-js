@@ -4,6 +4,9 @@
   "license": "MIT",
   "private": true,
   "workspaces": [
+    "ea-factories",
+    "bootstrap",
+    "external-adapter",
     "lcx",
     "linkpool",
     "onchain",
@@ -28,14 +31,12 @@
     "nikkei",
     "binance-dex",
     "nomics",
-    "external-adapter",
     "example",
     "1forge",
     "alphachain",
     "alphavantage",
     "amberdata",
     "bravenewcoin",
-    "bootstrap",
     "coinapi",
     "coinbase",
     "coingecko",
@@ -86,8 +87,7 @@
     "finage",
     "coincodex",
     "coinranking",
-    "helpers/reference-data-reader",
-    "ea-factories"
+    "helpers/reference-data-reader"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",
