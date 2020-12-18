@@ -14,11 +14,6 @@ const customParams = {
   end: false,
 }
 
-const headers = {
-  'Content-Type': 'application/json',
-  Authorization: `Bearer ${util.getRandomRequiredEnv('API_KEY')}`,
-}
-
 const buildVWAP = (response: any, debug: boolean) => {
   const sources = response.data.hits.hits.map((i: any) => {
     const reserve0 = i._source.args.find((j: any) => j.pos === 0)
@@ -118,6 +113,11 @@ export const execute: Execute = async (input) => {
     sort: [{ timestamp: 'asc' }],
     size: 10000,
     _source: ['timestamp', 'args'],
+  }
+
+  const headers = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${util.getRandomRequiredEnv('API_KEY')}`,
   }
 
   const config = {

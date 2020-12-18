@@ -1,6 +1,5 @@
 const { Requester, Validator } = require('@chainlink/external-adapter')
 const { util } = require('@chainlink/ea-bootstrap')
-const API_KEY = util.getRandomRequiredEnv('API_KEY')
 const DEFAULT_INTERVAL = '1min'
 const DEFAULT_LIMIT = 1
 const DEFAULT_ENDPOINT = 'intraday'
@@ -12,6 +11,8 @@ const customParams = {
 }
 
 const execute = (input, callback) => {
+  const API_KEY = util.getRandomRequiredEnv('API_KEY')
+
   const validator = new Validator(input, customParams)
   if (validator.error) return callback(validator.error.statusCode, validator.errored)
 
