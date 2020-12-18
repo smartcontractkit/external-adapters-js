@@ -19,7 +19,7 @@ const execute = (input, callback) => {
 
   const params = {
     base,
-    app_id: util.pickRandomFromString(process.env.API_KEY, ','),
+    app_id: util.getRandomRequiredEnv('API_KEY'),
   }
 
   const config = {

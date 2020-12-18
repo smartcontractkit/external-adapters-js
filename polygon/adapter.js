@@ -24,7 +24,7 @@ const execute = (input, callback) => {
   const url = `https://api.polygon.io/v1/${endpoint}/${from}/${to}`
   const amount = validator.validated.data.amount || 1
   const precision = validator.validated.data.precision || 4
-  const apikey = util.pickRandomFromString(process.env.API_KEY, ',')
+  const apikey = util.getRandomRequiredEnv('API_KEY')
 
   const params = {
     amount,

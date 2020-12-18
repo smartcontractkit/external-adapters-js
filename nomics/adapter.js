@@ -36,7 +36,7 @@ const price = (jobRunID, input, callback) => {
   const params = {
     ids,
     convert,
-    key: util.pickRandomFromString(process.env.API_KEY, ','),
+    key: util.getRandomRequiredEnv('API_KEY'),
   }
 
   const config = {
@@ -60,7 +60,7 @@ const globalMarketCap = (jobRunID, input, callback) => {
   const url = `https://api.nomics.com/v1/global-ticker`
 
   const params = {
-    key: util.pickRandomFromString(process.env.API_KEY, ','),
+    key: util.getRandomRequiredEnv('API_KEY'),
   }
 
   const config = {

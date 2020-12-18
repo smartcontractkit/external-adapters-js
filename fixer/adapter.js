@@ -18,7 +18,7 @@ const execute = (input, callback) => {
   const from = validator.validated.data.base.toUpperCase()
   const to = validator.validated.data.quote.toUpperCase()
   const amount = validator.validated.data.amount || 1
-  const access_key = util.pickRandomFromString(process.env.API_KEY, ',') // eslint-disable-line camelcase
+  const access_key = util.getRandomRequiredEnv('API_KEY') // eslint-disable-line camelcase
 
   const params = {
     from,

@@ -14,7 +14,7 @@ const getPriceData = async (synths) => {
   }
   if (process.env.API_KEY) {
     config.headers = {
-      authorization: `Apikey ${util.pickRandomFromString(process.env.API_KEY, ',')}`,
+      authorization: `Apikey ${util.getRandomRequiredEnv('API_KEY')}`,
     }
   }
   const response = await Requester.request(config)

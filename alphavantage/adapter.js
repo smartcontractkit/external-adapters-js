@@ -30,7 +30,7 @@ const execute = (input, callback) => {
     to_symbol: to,
     symbol: from,
     market: to,
-    apikey: util.pickRandomFromString(process.env.API_KEY, ','),
+    apikey: util.getRandomRequiredEnv('API_KEY'),
   }
 
   const config = {

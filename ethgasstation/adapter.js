@@ -22,7 +22,7 @@ const execute = (input, callback) => {
   const config = {
     url,
     params: {
-      'api-key': util.pickRandomFromString(process.env.API_KEY, ','),
+      'api-key': util.getRandomRequiredEnv('API_KEY'),
     },
     timeout: 10000,
   }

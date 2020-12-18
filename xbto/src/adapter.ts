@@ -12,7 +12,7 @@ export const execute: Execute = async (input) => {
   const url = 'https://fpiw7f0axc.execute-api.us-east-1.amazonaws.com/api'
 
   const auth = {
-    password: util.pickRandomFromString(process.env.API_KEY, ','),
+    password: util.getRandomRequiredEnv('API_KEY'),
   }
 
   const config = {

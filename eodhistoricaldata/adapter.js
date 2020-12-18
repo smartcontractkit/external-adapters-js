@@ -23,7 +23,7 @@ const execute = (input, callback) => {
     symbol = commonKeys[symbol]
   }
   const url = `https://eodhistoricaldata.com/api/${endpoint}/${symbol}`
-  const api_token = util.pickRandomFromString(process.env.API_KEY, ',') // eslint-disable-line camelcase
+  const api_token = util.getRandomRequiredEnv('API_KEY') // eslint-disable-line camelcase
 
   const params = {
     api_token,

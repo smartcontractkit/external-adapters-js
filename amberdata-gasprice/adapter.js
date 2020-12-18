@@ -22,7 +22,7 @@ const execute = (input, callback) => {
   const config = {
     url,
     headers: {
-      'x-api-key': util.pickRandomFromString(process.env.API_KEY, ','),
+      'x-api-key': util.getRandomRequiredEnv('API_KEY'),
       'x-amberdata-blockchain-id': endpoint,
     },
   }

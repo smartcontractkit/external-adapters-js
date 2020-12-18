@@ -29,7 +29,7 @@ export const execute: Execute = async (input) => {
   if (commonKeys[symbol]) {
     symbol = commonKeys[symbol]
   }
-  const token = util.pickRandomFromString(process.env.API_KEY, ',')
+  const token = util.getRandomRequiredEnv('API_KEY')
 
   const params = {
     symbol,

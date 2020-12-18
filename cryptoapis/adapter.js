@@ -22,7 +22,7 @@ const price = (jobRunID, input, callback) => {
   const config = {
     url,
     headers: {
-      'X-API-Key': util.pickRandomFromString(process.env.API_KEY, ','),
+      'X-API-Key': util.getRandomRequiredEnv('API_KEY'),
     },
   }
   Requester.request(config)
@@ -54,7 +54,7 @@ const difficulty = (jobRunID, input, callback) => {
   const config = {
     url,
     headers: {
-      'X-API-Key': util.pickRandomFromString(process.env.API_KEY, ','),
+      'X-API-Key': util.getRandomRequiredEnv('API_KEY'),
     },
   }
   Requester.request(config)

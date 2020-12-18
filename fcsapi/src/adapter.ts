@@ -35,7 +35,7 @@ export const execute: Execute = async (input) => {
     symbol = commonKeys[symbol].id
   }
   const url = `https://fcsapi.com/api-v2/${endpoint}`
-  const access_key = util.pickRandomFromString(process.env.API_KEY, ',') // eslint-disable-line camelcase
+  const access_key = util.getRandomRequiredEnv('API_KEY') // eslint-disable-line camelcase
 
   const params = {
     access_key,

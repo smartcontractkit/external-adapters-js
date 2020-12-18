@@ -25,7 +25,7 @@ export const execute: Execute = async (input) => {
   const config = {
     url,
     headers: {
-      'api-key': util.pickRandomFromString(process.env.API_KEY, ','),
+      'api-key': util.getRandomRequiredEnv('API_KEY'),
     },
     params,
   }

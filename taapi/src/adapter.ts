@@ -22,7 +22,7 @@ export const execute: Execute = async (input) => {
   const symbol = `${base}/${quote}`
   const exchange = validator.validated.data.exchange
   const interval = validator.validated.data.interval
-  const secret = util.pickRandomFromString(process.env.API_KEY, ',')
+  const secret = util.getRandomRequiredEnv('API_KEY')
 
   const params = {
     secret,

@@ -8,7 +8,7 @@ const url = `https://${host}/convert`
 const getPriceData = async (synth) => {
   const headers = {
     'x-rapidapi-host': host,
-    'x-rapidapi-key': util.pickRandomFromString(process.env.API_KEY, ','),
+    'x-rapidapi-key': util.getRandomRequiredEnv('API_KEY'),
   }
   const params = {
     qty: 1,

@@ -21,7 +21,7 @@ const execute = (input, callback) => {
   const headers = {
     'content-type': 'application/octet-stream',
     'x-rapidapi-host': host,
-    'x-rapidapi-key': util.pickRandomFromString(process.env.API_KEY, ','),
+    'x-rapidapi-key': util.getRandomRequiredEnv('API_KEY'),
     useQueryString: true,
   }
   const base = validator.validated.data.base.toUpperCase()

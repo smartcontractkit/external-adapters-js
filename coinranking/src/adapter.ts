@@ -10,7 +10,7 @@ const customParams = {
 const baseUrl = 'https://api.coinranking.com/v2'
 
 const headers = {
-  'x-access-token': util.pickRandomFromString(process.env.API_KEY, ','),
+  'x-access-token': util.getRandomRequiredEnv('API_KEY'),
 }
 
 const referenceSymbolToUuid = async (symbol: string): Promise<string> => {

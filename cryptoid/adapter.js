@@ -12,7 +12,7 @@ const execute = (input, callback) => {
   const jobRunID = validator.validated.id
   const blockchain = validator.validated.data.blockchain.toLowerCase()
   const url = `https://${blockchain}.cryptoid.info/${blockchain}/api.dws`
-  const key = util.pickRandomFromString(process.env.API_KEY, ',')
+  const key = util.getRandomRequiredEnv('API_KEY')
   const q = 'getdifficulty'
 
   const params = { key, q }

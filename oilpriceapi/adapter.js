@@ -34,7 +34,7 @@ const execute = (input, callback) => {
   }
 
   const headers = {
-    Authorization: `Token ${util.pickRandomFromString(process.env.API_KEY, ',')}`,
+    Authorization: `Token ${util.getRandomRequiredEnv('API_KEY')}`,
   }
 
   const config = {

@@ -5,7 +5,7 @@ const { util } = require('@chainlink/ea-bootstrap')
 const getPriceData = async (synth) => {
   const url = `https://web3api.io/api/v2/market/prices/${synth.toLowerCase()}/latest`
   const headers = {
-    'X-API-KEY': util.pickRandomFromString(process.env.API_KEY, ','),
+    'X-API-KEY': util.getRandomRequiredEnv('API_KEY'),
   }
   const config = {
     url,

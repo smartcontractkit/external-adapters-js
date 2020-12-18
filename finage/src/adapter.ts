@@ -21,7 +21,7 @@ export const execute: Execute = async (input) => {
   const symbol = validator.validated.data.symbol.toUpperCase()
   const to = (validator.validated.data.to || '').toUpperCase()
   const currencies = (commonKeys[symbol] || symbol) + to
-  const apikey = util.pickRandomFromString(process.env.API_KEY, ',')
+  const apikey = util.getRandomRequiredEnv('API_KEY')
 
   const params = {
     currencies,

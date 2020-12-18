@@ -16,7 +16,7 @@ const customParams = {
 
 const headers = {
   'Content-Type': 'application/json',
-  Authorization: `Bearer ${util.pickRandomFromString(process.env.API_KEY, ',')}`,
+  Authorization: `Bearer ${util.getRandomRequiredEnv('API_KEY')}`,
 }
 
 const buildVWAP = (response: any, debug: boolean) => {

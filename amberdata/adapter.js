@@ -27,7 +27,7 @@ const execute = (input, callback) => {
     url,
     params,
     headers: {
-      'x-api-key': util.pickRandomFromString(process.env.API_KEY, ','),
+      'x-api-key': util.getRandomRequiredEnv('API_KEY'),
     },
   }
   Requester.request(config, customError)

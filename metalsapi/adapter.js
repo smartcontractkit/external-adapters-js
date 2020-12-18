@@ -20,7 +20,7 @@ const execute = (input, callback) => {
   const to = validator.validated.data.to.toUpperCase()
 
   const params = {
-    access_key: util.pickRandomFromString(process.env.API_KEY, ','),
+    access_key: util.getRandomRequiredEnv('API_KEY'),
     from,
     to,
     amount: 1,

@@ -17,7 +17,7 @@ const execute = (input, callback) => {
   const config = {
     url,
     params: {
-      apikey: util.pickRandomFromString(process.env.API_KEY, ','),
+      apikey: util.getRandomRequiredEnv('API_KEY'),
     },
   }
   Requester.request(config)

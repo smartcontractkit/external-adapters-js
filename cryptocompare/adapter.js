@@ -34,7 +34,7 @@ const execute = (input, callback) => {
 
   if (process.env.API_KEY) {
     config.headers = {
-      authorization: `Apikey ${util.pickRandomFromString(process.env.API_KEY, ',')}`,
+      authorization: `Apikey ${util.getRandomRequiredEnv('API_KEY')}`,
     }
   }
 
