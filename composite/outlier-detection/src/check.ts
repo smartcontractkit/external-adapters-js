@@ -1,10 +1,10 @@
 import { Execute } from '@chainlink/types'
 import * as OilpriceAPI from '@chainlink/oilpriceapi-adapter'
-import * as Derbit from '@chainlink/derbit-adapter'
+import * as Deribit from '@chainlink/deribit-adapter'
 
 export enum CheckDataProvider {
   OilpriceAPI = 'oilpriceapi',
-  Derbit = 'derbit',
+  Deribit = 'deribit',
 }
 
 const isCheckDataProvider = (envVar?: string): envVar is CheckDataProvider =>
@@ -33,8 +33,8 @@ export const getCheckImpl = (types: CheckDataProvider[]): Execute[] => {
           return OilpriceAPI.execute(data, config)
         })
         return
-      case CheckDataProvider.Derbit:
-        adapters.push((data) => Derbit.execute(data))
+      case CheckDataProvider.Deribit:
+        adapters.push((data) => Deribit.execute(data))
         return
       default:
         throw Error(`Unknown source data provider adapter type: ${type}`)

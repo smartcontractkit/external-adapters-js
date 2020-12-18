@@ -1,13 +1,13 @@
 {
-  "name": "@chainlink/derbit-adapter",
+  "name": "@chainlink/deribit-adapter",
   "version": "0.0.1",
-  "description": "Chainlink Derbit adapter.",
+  "description": "Chainlink Deribit adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
     "oracle",
-    "derbit"
+    "deribit"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
