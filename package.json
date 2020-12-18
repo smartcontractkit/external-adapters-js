@@ -92,7 +92,7 @@
   "scripts": {
     "lint": "yarn workspaces run lint",
     "lint:fix": "yarn workspaces run lint:fix",
-    "setup": "yarn wsrun -mre -p @chainlink/ea-bootstrap @chainlink/ea-factories @chainlink/external-adapter -t setup && yarn wsrun -mre -t setup",
+    "setup": "yarn wsrun -mre -t setup",
     "test": "yarn workspaces run test",
     "test:unit": "yarn workspaces run test:unit",
     "test:integration": "yarn workspaces run test:integration",
