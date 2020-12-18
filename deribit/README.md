@@ -1,4 +1,4 @@
-# Chainlink External Adapter for Derbit
+# Chainlink External Adapter for Deribit
 
 ## Input Params
 
