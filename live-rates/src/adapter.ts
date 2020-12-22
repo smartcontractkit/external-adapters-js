@@ -36,3 +36,4 @@ export const execute: Execute = async (input) => {
   response.data.result = Requester.validateResultNumber(response.data, [0, 'rate'])
   return Requester.success(jobRunID, response)
 }
+
