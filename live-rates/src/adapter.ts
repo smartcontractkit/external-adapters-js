@@ -8,7 +8,7 @@ const customParams = {
 
 const commonKeys: Record<string, string> = {
   EURUSD: 'EURUSD',
-  BTCEUR: 'BTCEUR'
+  BTCEUR: 'BTCEUR',
 }
 
 export const execute: Execute = async (input) => {
@@ -36,4 +36,3 @@ export const execute: Execute = async (input) => {
   response.data.result = Requester.validateResultNumber(response.data, [0, 'rate'])
   return Requester.success(jobRunID, response)
 }
-
