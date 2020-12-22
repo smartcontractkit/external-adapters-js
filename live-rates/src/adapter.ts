@@ -7,8 +7,8 @@ const customParams = {
 }
 
 const commonKeys: Record<string, string> = {
-  EURUSD: "EURUSD",
-  BTCEUR: "BTCEUR"
+  EURUSD: 'EURUSD',
+  BTCEUR: 'BTCEUR'
 }
 
 export const execute: Execute = async (input) => {
