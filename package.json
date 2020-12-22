@@ -84,7 +84,8 @@
     "finage",
     "coincodex",
     "coinranking",
-    "helpers/reference-data-reader"
+    "helpers/reference-data-reader",
+    "live-rates"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",
