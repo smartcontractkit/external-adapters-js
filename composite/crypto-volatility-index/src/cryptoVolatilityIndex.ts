@@ -18,13 +18,13 @@ export const calculate = async (
   // Calculate vix values for all currencies
   const volatilityIndexData = await calculateVixValues(derivativesData)
   // Apply weights to calculate the Crypto Vix
-  const weightedCVX = await calculateWeighted(volatilityIndexData)
-  // Smooth CVX with previous on-chain value if exists
-  const cvx = await applySmoothing(weightedCVX, oracleAddress, multiply, heartbeatMinutes)
+  const weightedCVI = await calculateWeighted(volatilityIndexData)
+  // Smooth CVI with previous on-chain value if exists
+  const cvi = await applySmoothing(weightedCVI, oracleAddress, multiply, heartbeatMinutes)
 
-  logger.info(`CVX: ${cvx}`)
-  validateIndex(cvx)
-  return toOnChainValue(cvx, multiply)
+  logger.info(`CVI: ${cvi}`)
+  validateIndex(cvi)
+  return toOnChainValue(cvi, multiply)
 }
 
 const calculateVixValues = async (derivativesData: Record<string, CurrencyDerivativesData>) => {
@@ -70,7 +70,7 @@ const getDominanceByCurrency = async () => {
 }
 
 const applySmoothing = async (
-  cvx: number,
+  cvi: number,
   oracleAddress: string,
   multiply: number,
   heartBeatMinutes: number,
@@ -79,7 +79,7 @@ const applySmoothing = async (
   const indexUpdatedAt = moment(updatedAt * 1000)
   if (!latestIndex || latestIndex <= 0) {
     logger.warn('No on-chain index value found - Is first run of adapter?')
-    return cvx
+    return cvi
   }
 
   const now = moment().utc()
@@ -88,7 +88,7 @@ const applySmoothing = async (
     throw new Error('invalid time, please check the node clock')
   }
   const l = lambda(dtSeconds, heartBeatMinutes)
-  const smoothed = cvx * l + latestIndex * (1 - l)
+  const smoothed = cvi * l + latestIndex * (1 - l)
   logger.debug(`Previous value:${latestIndex}, updatedAt:${indexUpdatedAt}, dtSeconds:${dtSeconds}`)
   return smoothed
 }
@@ -101,13 +101,13 @@ const lambda = function (t: number, heartBeatMinutes: number) {
 }
 
 const MAX_INDEX = 200
-const validateIndex = function (cvx: number) {
-  if (cvx <= 0 || cvx > MAX_INDEX) {
+const validateIndex = function (cvi: number) {
+  if (cvi <= 0 || cvi > MAX_INDEX) {
     throw new Error('Invalid calculated index value')
   }
 }
 
-const toOnChainValue = function (cvx: number, multiply: number) {
-  const trimmed = Number(cvx.toFixed(multiply.toString().length - 1)) // Keep decimal precision in same magnitude as multiply
+const toOnChainValue = function (cvi: number, multiply: number) {
+  const trimmed = Number(cvi.toFixed(multiply.toString().length - 1)) // Keep decimal precision in same magnitude as multiply
   return trimmed * multiply
 }

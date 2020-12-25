@@ -1,12 +1,12 @@
 {
   "name": "@chainlink/crypto-volatility-index-adapter",
   "version": "0.0.1",
-  "description": "The Crypto volatility index (CVX)",
+  "description": "The Crypto volatility index (CVI)",
   "keywords": [
     "Chainlink",
     "LINK",
     "COTI",
-    "CVX",
+    "CVI",
     "blockchain",
     "oracle"
   ],

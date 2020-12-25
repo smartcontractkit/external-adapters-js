@@ -1,14 +1,14 @@
-# Chainlink composite adapter for the Crypto Volatility Index (CVX)
+# Chainlink composite adapter for the Crypto Volatility Index (CVI)
 
 ## Overview
 
-CVX is a decentralized volatility index created by COTI (https://coti.io) for the crypto markets
+CVI is a decentralized volatility index created by COTI (https://coti.io) for the crypto markets
 
-The CVX index calculation is based on the classic approach of the Black-Scholes option pricing model and is adapted to the current crypto-market conditions.
+The CVI's calculation is based on the classic approach of the Black-Scholes option pricing model and is adapted to the current crypto-market conditions.
 
 ## Configuration
 
-The CVX index calculation requires the following environment variables:
+The CVI calculation requires the following environment variables:
 
 - `RPC_URL`: Blockchain RPC endpoint to get the needed on-chain data
 - `DOMINANCE_PROVIDER`: Data provider to use. Some of them require an `API_KEY`(K). Options available:
