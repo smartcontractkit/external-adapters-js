@@ -4,6 +4,7 @@ import { calculate } from './cryptoVolatilityIndex'
 
 const customParams = {
   contract: ['contractAddress', 'contract'],
+  multiply: false,
   heartbeatMinutes: false,
 }
 export const execute: Execute = async (input) => {
@@ -12,9 +13,10 @@ export const execute: Execute = async (input) => {
 
   const jobRunID = validator.validated.id
   const oracleAddress = validator.validated.data.contract
-  const heartbeatMinutes = validator.validated.data.heartbeatMinutes || 180
+  const multiply = validator.validated.data.multiply || 1000000
+  const heartbeatMinutes = validator.validated.data.heartbeatMinutes || 60
 
-  const result = await calculate(oracleAddress, heartbeatMinutes)
+  const result = await calculate(oracleAddress, multiply, heartbeatMinutes)
   return Requester.success(jobRunID, {
     data: { result },
     result,

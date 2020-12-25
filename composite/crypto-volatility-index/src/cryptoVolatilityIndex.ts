@@ -1,8 +1,8 @@
+import { util } from '@chainlink/ea-bootstrap'
 import { logger } from '@chainlink/external-adapter'
+import { getRpcLatestRound } from '@chainlink/reference-data-reader'
 import { getDerivativesData, CurrencyDerivativesData } from './derivativesDataProvider'
 import { getDominanceAdapter, dominanceByCurrency } from './dominance-data-providers'
-import { util } from '@chainlink/ea-bootstrap'
-import { getIndex } from './on-chain-index'
 import { SigmaCalculator } from './sigmaCalculator'
 import { Big } from 'big.js'
 import moment from 'moment'
@@ -10,6 +10,7 @@ const cryptoCurrencies = ['BTC', 'ETH']
 
 export const calculate = async (
   oracleAddress: string,
+  multiply: number,
   heartbeatMinutes: number,
 ): Promise<number> => {
   // Get all of the required derivatives data for the calculations, for all the relevant currencies
@@ -19,12 +20,11 @@ export const calculate = async (
   // Apply weights to calculate the Crypto Vix
   const weightedCVX = await calculateWeighted(volatilityIndexData)
   // Smooth CVX with previous on-chain value if exists
-  const cvx = await applySmoothing(weightedCVX, oracleAddress, heartbeatMinutes)
+  const cvx = await applySmoothing(weightedCVX, oracleAddress, multiply, heartbeatMinutes)
 
   logger.info(`CVX: ${cvx}`)
   validateIndex(cvx)
-
-  return cvx
+  return toOnChainValue(cvx, multiply)
 }
 
 const calculateVixValues = async (derivativesData: Record<string, CurrencyDerivativesData>) => {
@@ -72,22 +72,24 @@ const getDominanceByCurrency = async () => {
 const applySmoothing = async (
   cvx: number,
   oracleAddress: string,
+  multiply: number,
   heartBeatMinutes: number,
 ): Promise<number> => {
-  const { latestIndex, updatedAt } = await getIndex(oracleAddress)
+  const { answer: latestIndex, updatedAt } = await getRpcLatestRound(oracleAddress, multiply)
+  const indexUpdatedAt = moment(updatedAt * 1000)
   if (!latestIndex || latestIndex <= 0) {
     logger.warn('No on-chain index value found - Is first run of adapter?')
     return cvx
   }
 
   const now = moment().utc()
-  const dtSeconds = moment.duration(now.diff(updatedAt)).asSeconds()
+  const dtSeconds = moment.duration(now.diff(indexUpdatedAt)).asSeconds()
   if (dtSeconds < 0) {
     throw new Error('invalid time, please check the node clock')
   }
   const l = lambda(dtSeconds, heartBeatMinutes)
   const smoothed = cvx * l + latestIndex * (1 - l)
-  logger.debug(`Previous value:${latestIndex}, updatedAt:${updatedAt}, dtSeconds:${dtSeconds}`)
+  logger.debug(`Previous value:${latestIndex}, updatedAt:${indexUpdatedAt}, dtSeconds:${dtSeconds}`)
   return smoothed
 }
 
@@ -103,4 +105,9 @@ const validateIndex = function (cvx: number) {
   if (cvx <= 0 || cvx > MAX_INDEX) {
     throw new Error('Invalid calculated index value')
   }
+}
+
+const toOnChainValue = function (cvx: number, multiply: number) {
+  const trimmed = Number(cvx.toFixed(multiply.toString().length - 1)) // Keep decimal precision in same magnitude as multiply
+  return trimmed * multiply
 }

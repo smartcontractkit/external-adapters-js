@@ -22,7 +22,7 @@
     "build": "tsc -b",
     "lint": "eslint --ignore-path ../../.eslintignore . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint --ignore-path ../../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix",
-    "test": "mocha --timeout 5000 --exit -r ts-node/register 'test/**/*.test.ts'",
+    "test": "mocha --timeout 0 --exit -r ts-node/register 'test/**/*.test.ts'",
     "test:unit": "mocha --exit --grep @integration --invert -r ts-node/register 'test/**/*.test.ts'",
     "test:integration": "mocha --exit --grep @integration -r ts-node/register 'test/**/*.test.ts'",
     "server": "node -e 'require(\"./index.js\").server()'",
@@ -42,6 +42,7 @@
   },
   "dependencies": {
     "big.js": "^6.0.2",
-    "moment": "^2.29.1"
+    "moment": "^2.29.1",
+    "@chainlink/reference-data-reader": "^0.0.2"
   }
 }
