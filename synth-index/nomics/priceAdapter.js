@@ -11,7 +11,7 @@ const getPriceData = async (synths) => {
   const params = {
     ids: synths,
     convert: 'USD',
-    key: util.pickRandomFromString(process.env.API_KEY, ","),
+    key: util.getRandomRequiredEnv("API_KEY"),
   }
   const config = {
     url,

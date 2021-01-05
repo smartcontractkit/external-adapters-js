@@ -8,7 +8,7 @@ const getPriceData = async (synth) => {
     sort: 'desc',
   }
   const headers = {
-    'X-Api-Key': util.pickRandomFromString(process.env.API_KEY, ","),
+    'X-Api-Key': util.getRandomRequiredEnv("API_KEY"),
     'User-Agent': 'Chainlink',
   }
   const timeout = 5000
