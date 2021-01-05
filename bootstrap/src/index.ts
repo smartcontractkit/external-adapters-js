@@ -10,6 +10,7 @@ import {
   AdapterRequest,
   ExecuteWrappedResponse,
   AdapterHealthCheck,
+  AdapterErrorResponse,
 } from '@chainlink/types'
 
 type Middleware = (execute: ExecuteWrappedResponse) => Promise<ExecuteWrappedResponse>
@@ -42,9 +43,9 @@ const withStatusCode = (execute: ExecuteWrappedResponse) => async (data_: Adapte
 
 // Log adapter input & output data
 const withLogger = (execute: ExecuteWrappedResponse) => async (data: AdapterRequest) => {
-  logger.debug('Input: ', { input: data })
+  logger.debug({ input: data })
   const result = await execute(data)
-  logger.debug(`Output: [${result.statusCode}]: `, { output: result.data })
+  logger.debug({ output: result.data })
   return result
 }
 

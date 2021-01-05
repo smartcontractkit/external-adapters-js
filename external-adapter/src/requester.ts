@@ -54,7 +54,6 @@ export class Requester {
       }
 
       // Success
-      logger.info(`Received response: ${JSON.stringify(response.data)}`)
       return response
     }
 
