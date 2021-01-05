@@ -87,7 +87,9 @@
     "finage",
     "coincodex",
     "coinranking",
-    "helpers/reference-data-reader"
+    "helpers/reference-data-reader",
+    "dns-query",
+    "dns-record-check"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",

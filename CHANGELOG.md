@@ -19,6 +19,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `coinranking` to get crypto prices from Coinranking
   - `btc.com` to get on-chain balances from BTC.com
   - `sochain` to get on-chain balances from SoChain
+  - `dns-query` to query DNS over HTTPS
+  - `dns-record-check` to check whether some record provided exists on DNS
 - Added support for metadata in requests. This gives adapters access to the FM on-chain round state.
 - Moves re-usable test behaviors & testing utils to a new package - `@chainlink/adapter-test-helpers`
 - Added support for using query string parameters as input to adapters.

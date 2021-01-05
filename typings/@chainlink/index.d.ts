@@ -105,6 +105,7 @@ declare module '@chainlink/types' {
     chain?: string
     warning?: string
   }
+
 }
 declare module '@chainlink/ea-bootstrap'
 declare module '@chainlink/external-adapter'
