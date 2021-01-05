@@ -29,5 +29,5 @@ const execute: ExecuteWithConfig = async (input, config) => {
   })
 }
 
-export const makeExecute: ExecuteFactory = (config?: Config) => (input) =>
+export const makeExecute: ExecuteFactory<Config> = (config?: Config) => (input) =>
   execute(input, config || makeConfig())
