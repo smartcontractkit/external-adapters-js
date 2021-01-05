@@ -82,6 +82,7 @@ declare module '@chainlink/types' {
     chain?: ChainType
     balance?: number
   }
+
 }
 declare module '@chainlink/ea-bootstrap'
 declare module '@chainlink/external-adapter'
