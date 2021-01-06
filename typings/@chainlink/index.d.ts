@@ -36,14 +36,14 @@ declare module '@chainlink/types' {
   }
 
   export type SequenceResponseData<R> = {
-    responses?: ResponseData[]
+    responses?: any[]
     result: R[]
   }
 
   export type AdapterResponse = {
     jobRunID: string
     statusCode: number
-    data: ResponseData
+    data: any
     result: any
   }
 
@@ -84,13 +84,13 @@ declare module '@chainlink/types' {
 
   export type ConfigFactory = (prefix?: string) => Config
 
-  // import type { ExecuteHandlers } from '@chainlink/ea-bootstrap/src'
+  import type { ExecuteHandlers } from '@chainlink/ea-bootstrap/src'
   export type AdapterImplementation = {
     NAME: string
     makeExecute: ExecuteFactory
     makeConfig: ConfigFactory
   } & ExecuteHandlers
-  // & ExecuteHandlers
+
   export interface Implementations<t> {
     [type: string]: AdapterImplementation
   }
@@ -105,7 +105,6 @@ declare module '@chainlink/types' {
     chain?: string
     warning?: string
   }
-
 }
 declare module '@chainlink/ea-bootstrap'
 declare module '@chainlink/external-adapter'
