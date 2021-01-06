@@ -22,8 +22,6 @@ export type GetBalances = (accounts: Account[], config: BalanceConfig) => Promis
 
 export type BalanceConfig = Config & {
   confirmations?: number
-  shouldOverwrite?: boolean
-  verbose?: boolean
   isSupported: IsSupported
   getBalance?: GetBalance
   getBalances?: GetBalances
