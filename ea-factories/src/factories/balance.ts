@@ -90,7 +90,9 @@ export const make: ExecuteFactory<BalanceConfig> = (config) => async (input) => 
     toValidAccount(jobRunID, acc, config),
   )
   const accountsToProcess = accounts.filter(
-    (acc) => !acc.warning && (!acc.balance || config.shouldOverwrite),
+    (acc) =>
+      // TODO: Add composite adapter env var override balance here
+      !acc.warning && !acc.balance,
   )
 
   const getBalances = config.getBalances || toGetBalances(config.getBalance)
@@ -112,7 +114,7 @@ export const make: ExecuteFactory<BalanceConfig> = (config) => async (input) => 
     }),
   }
 
-  if (!config.verbose) delete data.responses
+  if (!config.returnVerboseResponse) delete data.responses
 
   return { jobRunID, statusCode: 200, data, result: data.result }
 }
