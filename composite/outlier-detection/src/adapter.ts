@@ -1,32 +1,25 @@
-import {
-  AdapterRequest,
-  AdapterResponse,
-  Config,
-  Execute,
-  ExecuteFactory,
-  ExecuteWithConfig,
-} from '@chainlink/types'
+import { AdapterRequest, AdapterResponse, Execute } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { getSourceDataProviders, getSourceImpl } from './source'
+import { getSourceImpl } from './source'
 import { getLatestAnswer } from '@chainlink/reference-data-reader'
-import { getCheckDataProviders, getCheckImpl } from './check'
-import { makeConfig } from './config'
+import { getCheckImpl } from './check'
+import { Config, makeConfig } from './config'
 
 const customParams = {
   referenceContract: ['referenceContract', 'contract'],
   multiply: true,
 }
 
-export const makeExecute: ExecuteFactory = (config) => {
-  return async (request) => execute(request, config || makeConfig())
+export const makeExecute = (config?: Config): Execute => {
+  return async (request: AdapterRequest) => execute(request, config || makeConfig())
 }
 
-export const execute: ExecuteWithConfig = async (input, config) => {
-  const sourceExecute = getSourceImpl(getSourceDataProviders())
+export const execute = async (input: AdapterRequest, config: Config): Promise<AdapterResponse> => {
+  const sourceExecute = config.sourceDataProviders.map(getSourceImpl)
   if (sourceExecute.length === 0) {
     throw Error('No source adapters provided')
   }
-  const checkExecute = getCheckImpl(getCheckDataProviders())
+  const checkExecute = config.checkDataProviders.map(getCheckImpl)
   return await executeWithAdapters(input, sourceExecute, checkExecute, config)
 }
 

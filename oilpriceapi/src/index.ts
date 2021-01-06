@@ -1,6 +1,5 @@
 import { expose, util } from '@chainlink/ea-bootstrap'
-import { makeExecute } from './adapter'
-import { makeConfig } from './config'
+import { makeConfig, makeExecute } from './adapter'
 
 const NAME = 'OilpriceAPI'
 
