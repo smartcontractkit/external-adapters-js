@@ -95,6 +95,8 @@ The adapter takes the following environment variables:
 
 https://blockchair.com/api/docs#link_390
 
+\*Note because blockchair does not fill 0 balances, they are also not filled by this adapter
+
 - `dataPath`: Optional path where to find the addresses array, defaults to `addresses`
 - `confirmations`: Optional confirmations param, defaults to `6`
 

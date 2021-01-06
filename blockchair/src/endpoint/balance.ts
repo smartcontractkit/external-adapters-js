@@ -13,7 +13,7 @@ const getBalanceURI = (addresses: string[], coin: string, chain: string) => {
 
 const getBalances: balance.GetBalances = async (accounts, config) => {
   const { coin, chain } = accounts[0]
-  const addresses = balance.addresses(accounts)
+  const addresses = accounts.map((a) => a.address)
 
   const reqConfig: any = {
     ...config.api,
