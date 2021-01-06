@@ -7,7 +7,7 @@ const customParams = {
   days: ['days', 'period'],
 }
 
-export const execute: ExecuteWithConfig = async (input, config) => {
+const execute: ExecuteWithConfig = async (input, config) => {
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
 

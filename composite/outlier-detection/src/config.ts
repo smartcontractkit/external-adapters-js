@@ -1,6 +1,13 @@
 import { logger } from '@chainlink/external-adapter'
 import { util } from '@chainlink/ea-bootstrap'
-import { Config } from '@chainlink/types'
+import types from '@chainlink/types'
+
+export type Config = types.Config & {
+   threshold: {
+     checks: number
+     onchain: number
+   }
+}
 
 export const ENV_CHECK_THRESHOLD = 'CHECK_THRESHOLD'
 export const ENV_ONCHAIN_THRESHOLD = 'ONCHAIN_THRESHOLD'
