@@ -24,6 +24,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Moves re-usable test behaviors & testing utils to a new package - `@chainlink/adapter-test-helpers`
 - Added support for using query string parameters as input to adapters.
 - Added support for using multiple API Keys per-adapter
+
 ### Changed
 
 - Oilprice adapters now accept a common request for Brent crude oil: `{"market":"brent"}`
@@ -32,6 +33,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Coinlore now accepts an optional environment variable to set the default API endpoint
 - migrates @chainlink/ea-bootstrap and @chainlink/external-adapter packages to TS.
 - dxFeed now uses OTC feeds for FTSE and N225, rather than licensed data feeds
+
+### Removed
+
+- WTI Outlier detection and IV Outlier detection is now covered in the Outlier detection composite adapter
 
 ## [0.1.4] - 2020-10-30
 
