@@ -72,7 +72,7 @@ const dominance = (jobRunID, input, callback) => {
   const validator = new Validator(input, globalParams)
   if (validator.error) return callback(validator.error.statusCode, validator.errored)
 
-  const url = 'https://api.copaprika.com/v1/global'
+  const url = 'https://api.coinpaprika.com/v1/global'
   const config = { url }
 
   const symbol = validator.validated.data.market.toUpperCase()
