@@ -27,6 +27,15 @@ describe('executeWithAdapters', () => {
   context('successful calls', () => {
     const jobID = 'abc123'
 
+    const config = {
+      sourceDataProviders: [],
+      checkDataProviders: [],
+      threshold: {
+        checks: 0,
+        onchain: 0,
+      },
+    }
+
     const requests = [
       {
         name: 'successful adapter call',
@@ -76,7 +85,10 @@ describe('executeWithAdapters', () => {
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
-        const data = await executeWithAdapters(req.input, req.adapters, req.checks, req.config)
+        const data = await executeWithAdapters(req.input, req.adapters, req.checks, {
+          ...config,
+          ...req.config,
+        })
         assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
         assert.equal(data.result, result)
         assert.equal(data.data.result, result)

@@ -1,6 +1,5 @@
-import { ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
+import { Config, ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { makeConfig } from './config'
 
 const customParams = {
   market: false,
@@ -22,13 +21,22 @@ export const execute: ExecuteWithConfig = async (input, config) => {
   }`
 
   const auth = {
-    password: config.apiKey,
+    username: '',
+    password: config.apiKey || '',
   }
 
-  const response = await Requester.request({ url, auth })
+  const reqConfig = {
+    ...config.api,
+    url,
+    auth,
+  }
+
+  const response = await Requester.request(reqConfig)
   response.data.result = Requester.validateResultNumber(response.data, ['index'])
   return Requester.success(jobRunID, response)
 }
+
+export const makeConfig = (prefix?: string): Config => Requester.getDefaultConfig(prefix)
 
 export const makeExecute: ExecuteFactory = (config) => {
   return async (request) => execute(request, config || makeConfig())

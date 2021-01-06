@@ -1,11 +1,11 @@
-import { Execute } from '@chainlink/types'
+import { Config, ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/external-adapter'
 
 const customParams = {
   currency: ['base', 'from', 'coin', 'symbol'],
 }
 
-export const execute: Execute = async (input) => {
+export const execute: ExecuteWithConfig = async (input, config) => {
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
 
@@ -14,9 +14,13 @@ export const execute: Execute = async (input) => {
 
   const url = 'https://www.deribit.com/api/v2/public/get_historical_volatility'
   const params = { currency }
-  const config = { url, params }
+  const requestConfig = {
+    ...config.api,
+    params,
+    url,
+  }
 
-  const response = await Requester.request(config)
+  const response = await Requester.request(requestConfig)
   const result: number[][] = response.data['result']
   const resultSorted = result.sort((a, b) => {
     if (a.length < 1 || b.length < 1) return 1
@@ -31,4 +35,10 @@ export const execute: Execute = async (input) => {
 
   response.data.result = Requester.validateResultNumber(resultSorted, [0, 1])
   return Requester.success(jobRunID, response)
+}
+
+export const makeConfig = (prefix?: string): Config => Requester.getDefaultConfig(prefix)
+
+export const makeExecute: ExecuteFactory = (config) => {
+  return async (request) => execute(request, config || makeConfig())
 }

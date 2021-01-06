@@ -1,6 +1,5 @@
-import { ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
+import { Config, ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { makeConfig } from './config'
 
 const commonKeys: Record<string, string> = {
   bz: 'BRENT_CRUDE_USD',
@@ -38,10 +37,19 @@ export const execute: ExecuteWithConfig = async (input, config) => {
     Authorization: `Token ${config.apiKey}`,
   }
 
-  const response = await Requester.request({ url, params, headers }, customError)
+  const reqConfig = {
+    ...config.api,
+    params,
+    url,
+    headers,
+  }
+
+  const response = await Requester.request(reqConfig, customError)
   response.data.result = Requester.validateResultNumber(response.data, ['data', 'price'])
   return Requester.success(jobRunID, response)
 }
+
+export const makeConfig = (prefix?: string): Config => Requester.getDefaultConfig(prefix)
 
 export const makeExecute: ExecuteFactory = (config) => {
   return async (request) => execute(request, config || makeConfig())

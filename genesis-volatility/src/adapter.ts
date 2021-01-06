@@ -1,6 +1,5 @@
-import { ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
+import { Config, ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { makeConfig } from './config'
 
 const customParams = {
   symbol: ['base', 'from', 'coin', 'symbol'],
@@ -32,12 +31,15 @@ const execute: ExecuteWithConfig = async (input, config) => {
     'x-oracle': config.apiKey,
   }
 
-  const response = await Requester.request({
+  const reqConfig = {
+    ...config.api,
     url,
-    method: 'get',
+    method: 'GET',
     headers,
     data,
-  })
+  }
+
+  const response = await Requester.request(reqConfig)
   response.data.result = Requester.validateResultNumber(response.data, [
     'data',
     'ChainlinkIv',
@@ -46,6 +48,8 @@ const execute: ExecuteWithConfig = async (input, config) => {
   ])
   return Requester.success(jobRunID, response)
 }
+
+export const makeConfig = (prefix?: string): Config => Requester.getDefaultConfig(prefix)
 
 export const makeExecute: ExecuteFactory = (config) => {
   return async (request) => execute(request, config || makeConfig())
