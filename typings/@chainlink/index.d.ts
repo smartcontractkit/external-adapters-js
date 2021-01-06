@@ -25,7 +25,7 @@ declare module '@chainlink/types' {
     apiKey?: string
     network?: string
     returnRejectedPromiseOnError?: Boolean
-    returnVerboseResponse?: Boolean
+    verbose?: Boolean
     api: Partial<AxiosRequestConfig>
   }
 
