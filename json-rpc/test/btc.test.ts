@@ -37,4 +37,19 @@ describe('Bitcoin client @integration', function () {
       assertSuccess({ expected: 200, actual: resp.statusCode }, resp.data, jobID)
     })
   })
+
+  context('get height of btc blockchain', () => {
+    const req = {
+      id: jobID,
+      data: {
+        blockchain: 'btc',
+        endpoint: 'height'
+      },
+    }
+
+    it('returns data to the node', async () => {
+      const resp = await execute(req)
+      assertSuccess({ expected: 200, actual: resp.statusCode }, resp.data, jobID)
+    })
+  })
 })
