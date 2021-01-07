@@ -46,10 +46,10 @@
     "typescript": "^3.9.7"
   },
   "dependencies": {
-    "@chainlink/wbtc-address-set-adapter": "^0.0.1",
-    "@chainlink/renvm-address-set-adapter": "^0.0.1",
     "@chainlink/blockchain.com-adapter": "^0.0.1",
     "@chainlink/blockcypher-adapter": "^0.0.1",
-    "@chainlink/reduce": "^0.0.3"
+    "@chainlink/reduce": "^0.0.3",
+    "@chainlink/renvm-address-set-adapter": "^0.0.1",
+    "@chainlink/wbtc-address-set-adapter": "^0.0.1"
   }
 }

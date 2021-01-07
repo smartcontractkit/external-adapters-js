@@ -85,6 +85,8 @@
     "coincodex",
     "coinranking",
     "helpers/reference-data-reader",
+    "dns-query",
+    "dns-record-check"
     "live-rates"
   ],
   "scripts": {

@@ -1,4 +1,5 @@
 const { Requester, Validator } = require('@chainlink/external-adapter')
+const { util } = require('@chainlink/ea-bootstrap')
 
 const ENDPOINT_PRICE = 'price'
 const ENDPOINT_DIFFICULTY = 'difficulty'
@@ -21,7 +22,7 @@ const price = (jobRunID, input, callback) => {
   const config = {
     url,
     headers: {
-      'X-API-Key': process.env.API_KEY,
+      'X-API-Key': util.getRandomRequiredEnv('API_KEY'),
     },
   }
   Requester.request(config)
@@ -53,7 +54,7 @@ const difficulty = (jobRunID, input, callback) => {
   const config = {
     url,
     headers: {
-      'X-API-Key': process.env.API_KEY,
+      'X-API-Key': util.getRandomRequiredEnv('API_KEY'),
     },
   }
   Requester.request(config)

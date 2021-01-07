@@ -22,6 +22,13 @@ export const toObjectWithNumbers = (obj: any) => {
   return Object.fromEntries(Object.entries(obj).map(([k, v]) => [k, toNumber(v)]))
 }
 
+// pick a random string from env var after splitting with the delimiter ("a&b&c" "&" -> choice(["a","b","c"]))
+export const getRandomRequiredEnv = (name: string, delimiter = ',', prefix = '') => {
+  const val = getRequiredEnv(name, prefix)
+  const items = val.split(delimiter)
+  return items[Math.floor(Math.random() * items.length)]
+}
+
 // We generate an UUID per instance
 export const uuid = (): string => {
   if (!process.env.UUID) process.env.UUID = uuidv4()

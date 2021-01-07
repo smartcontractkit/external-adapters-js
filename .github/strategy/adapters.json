@@ -35,6 +35,7 @@
       "cryptoid",
       "cryptomkt",
       "currencylayer",
+      "dns-query",
       "dxfeed",
       "eodhistoricaldata",
       "etherchain",
@@ -103,7 +104,9 @@
     "adapter": [
       "proof-of-reserves",
       "market-closure",
-      "defi-pulse"
+      "defi-pulse",
+      "dns-record-check"
+      "live-rates"
     ]
   },
   "synth-index": {
