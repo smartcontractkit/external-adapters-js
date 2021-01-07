@@ -2,8 +2,7 @@ const { Requester, Validator } = require('@chainlink/external-adapter')
 const { util } = require('@chainlink/ea-bootstrap')
 
 const customError = (data) => {
-  if (data.status !== '200') return true
-  return false
+  return Object.keys(data.payload).length === 0
 }
 
 const customParams = {
@@ -16,32 +15,24 @@ const execute = (input, callback) => {
   if (validator.error) return callback(validator.error.statusCode, validator.errored)
 
   const jobRunID = validator.validated.id
-  const url = 'https://alpha-chain2.p.rapidapi.com/data-query'
-  const host = 'alpha-chain2.p.rapidapi.com'
-  const headers = {
-    'content-type': 'application/octet-stream',
-    'x-rapidapi-host': host,
-    'x-rapidapi-key': util.getRandomRequiredEnv('API_KEY'),
-    useQueryString: true,
-  }
-  const base = validator.validated.data.base.toUpperCase()
-  const quote = validator.validated.data.quote.toUpperCase()
+  const coin = validator.validated.data.base
+  const market = validator.validated.data.quote
+  const url = `https://web3api.io/api/v2/market/spot/prices/pairs/${coin.toLowerCase()}_${market.toLowerCase()}/latest`
 
   const params = {
-    from_symbol: base,
-    to_symbol: quote,
-    chainlink_node: true,
+    includeCrossRates: true,
   }
 
   const config = {
     url,
     params,
-    headers,
+    headers: {
+      'x-api-key': util.getRandomRequiredEnv('API_KEY'),
+    },
   }
-
   Requester.request(config, customError)
     .then((response) => {
-      response.data.result = Requester.validateResultNumber(response.data, ['result'])
+      response.data.result = Requester.validateResultNumber(response.data, ['payload', 'price'])
       callback(response.status, Requester.success(jobRunID, response))
     })
     .catch((error) => callback(500, Requester.errored(jobRunID, error)))

@@ -26,6 +26,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Added support for using query string parameters as input to adapters.
 - Add a package re-usable adapter factory implementations to - `@chainlink/ea-factories`
 
+- Added support for using multiple API Keys per-adapter
+
 ### Changed
 
 - Oilprice adapters now accept a common request for Brent crude oil: `{"market":"brent"}`

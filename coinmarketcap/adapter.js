@@ -1,4 +1,5 @@
 const { Requester, Validator } = require('@chainlink/external-adapter')
+const { util } = require('@chainlink/ea-bootstrap')
 
 const ENDPOINT_PRICE = 'price'
 const ENDPOINT_DOMINANCE = 'dominance'
@@ -42,7 +43,7 @@ const price = (jobRunID, input, callback) => {
   const config = {
     url,
     headers: {
-      'X-CMC_PRO_API_KEY': process.env.API_KEY,
+      'X-CMC_PRO_API_KEY': util.getRandomRequiredEnv('API_KEY'),
     },
     params,
   }
@@ -71,7 +72,7 @@ const dominance = (jobRunID, input, callback) => {
   const url = 'https://pro-api.coinmarketcap.com/v1/global-metrics/quotes/latest'
 
   const headers = {
-    'X-CMC_PRO_API_KEY': process.env.API_KEY,
+    'X-CMC_PRO_API_KEY': util.getRandomRequiredEnv('API_KEY'),
   }
 
   const config = {
@@ -101,7 +102,7 @@ const marketcap = (jobRunID, input, callback) => {
 
   const params = { convert }
   const headers = {
-    'X-CMC_PRO_API_KEY': process.env.API_KEY,
+    'X-CMC_PRO_API_KEY': util.getRandomRequiredEnv('API_KEY'),
   }
 
   const config = {

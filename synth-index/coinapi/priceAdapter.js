@@ -1,12 +1,13 @@
 const { Requester } = require('@chainlink/external-adapter')
 const Decimal = require('decimal.js')
+const { util } = require('@chainlink/ea-bootstrap')
 
 const getPriceData = async (synth) => {
   const url = `https://rest.coinapi.io/v1/exchangerate/${synth}/USD`
   const config = {
     url,
     params: {
-      apikey: process.env.API_KEY,
+      apikey: util.getRandomRequiredEnv('API_KEY'),
     },
   }
   const response = await Requester.request(config)
