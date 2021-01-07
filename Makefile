@@ -20,7 +20,7 @@ new:
 	cat $(adapter)/package.json \
 	  | jq '.name = "@chainlink/$(adapter)-adapter" | .description = "Chainlink $(adapter) adapter." | .keywords += ["$(adapter)"]' \
 	  | tee $(adapter)/package.json > /dev/null
-	sed -i 's/Example/$(adapter)/' $(adapter)/README.md
+	sed -i.bak 's/Example/$(adapter)/' $(adapter)/README.md && rm $(adapter)/README.md.bak
 
 clean:
 	rm -rf $(adapter)/dist
