@@ -36,7 +36,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Removed
 
-- WTI Outlier detection and IV Outlier detection is now covered in the Outlier detection composite adapter
+- WTI Outlier detection and IV Outlier detection adapters are now covered in the Outlier detection composite adapter
 
 ## [0.1.4] - 2020-10-30
 
