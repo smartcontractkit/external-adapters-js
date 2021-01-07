@@ -54,6 +54,11 @@ export class Requester {
       }
 
       // Success
+      const { request: r, ...rest } = response
+      logger.debug({
+        message: 'Received response',
+        ...rest,
+      })
       return response
     }
 
