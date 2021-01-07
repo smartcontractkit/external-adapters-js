@@ -1,4 +1,5 @@
 const { Requester, Validator } = require('@chainlink/external-adapter')
+const { util } = require('@chainlink/ea-bootstrap')
 
 const customParams = {
   base: ['base', 'from'],
@@ -18,7 +19,7 @@ const execute = (input, callback) => {
 
   const params = {
     base,
-    app_id: process.env.API_KEY,
+    app_id: util.getRandomRequiredEnv('API_KEY'),
   }
 
   const config = {

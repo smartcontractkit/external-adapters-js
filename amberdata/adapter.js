@@ -1,4 +1,5 @@
 const { Requester, Validator } = require('@chainlink/external-adapter')
+const { util } = require('@chainlink/ea-bootstrap')
 
 const customError = (data) => {
   return Object.keys(data.payload).length === 0
@@ -26,7 +27,7 @@ const execute = (input, callback) => {
     url,
     params,
     headers: {
-      'x-api-key': process.env.API_KEY,
+      'x-api-key': util.getRandomRequiredEnv('API_KEY'),
     },
   }
   Requester.request(config, customError)

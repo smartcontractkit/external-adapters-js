@@ -1,5 +1,6 @@
 const { Requester } = require('@chainlink/external-adapter')
 const Decimal = require('decimal.js')
+const { util } = require('@chainlink/ea-bootstrap')
 
 const nomicsIds = {
   FTT: 'FTXTOKEN',
@@ -10,7 +11,7 @@ const getPriceData = async (synths) => {
   const params = {
     ids: synths,
     convert: 'USD',
-    key: process.env.API_KEY,
+    key: util.getRandomRequiredEnv("API_KEY"),
   }
   const config = {
     url,

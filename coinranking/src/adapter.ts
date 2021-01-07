@@ -1,5 +1,6 @@
 import { Execute } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/external-adapter'
+import { util } from '@chainlink/ea-bootstrap'
 
 const customParams = {
   base: ['base', 'from', 'coin'],
@@ -8,13 +9,11 @@ const customParams = {
 
 const baseUrl = 'https://api.coinranking.com/v2'
 
-const headers = {
-  'x-access-token': process.env.API_KEY,
-}
-
 const referenceSymbolToUuid = async (symbol: string): Promise<string> => {
   const url = baseUrl + '/reference-currencies'
-
+  const headers = {
+    'x-access-token': util.getRandomRequiredEnv('API_KEY'),
+  }
   const config = {
     url,
     headers,
@@ -43,7 +42,9 @@ export const execute: Execute = async (input) => {
     referenceCurrencyUuid,
     'symbols[]': base,
   }
-
+  const headers = {
+    'x-access-token': util.getRandomRequiredEnv('API_KEY'),
+  }
   const config = {
     url,
     params,
