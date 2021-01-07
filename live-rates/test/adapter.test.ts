@@ -11,7 +11,7 @@ describe('execute', () => {
     const requests = [
       {
         name: 'id not supplied',
-        testData: { data: { from: 'EUR', to: "USD" } },
+        testData: { data: { from: 'EUR', to: 'USD' } },
       },
       {
         name: 'symbol EURUSD',
