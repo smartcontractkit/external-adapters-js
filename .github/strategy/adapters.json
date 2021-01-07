@@ -76,7 +76,8 @@
       "tradingeconomics",
       "trueusd",
       "wbtc-address-set",
-      "xbto"
+      "xbto",
+      "dydx-stark"
     ]
   },
   "2-step": {
@@ -103,7 +104,8 @@
       "proof-of-reserves",
       "market-closure",
       "defi-pulse",
-      "dns-record-check"
+      "dns-record-check",
+      "outlier-detection"
     ]
   },
   "synth-index": {
