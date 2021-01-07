@@ -2,9 +2,25 @@ import { assert } from 'chai'
 import { Execute, AdapterRequest } from '@chainlink/types'
 import { AdapterError } from '@chainlink/external-adapter'
 import { assertSuccess } from '@chainlink/adapter-test-helpers'
-import { executeWithAdapters } from '../src/adapter'
+import { Config } from '../src/config'
+import { makeExecute } from '../src/adapter'
 
 const result = 123
+
+const makeMockConfig = (
+  sourceAdapters: Execute[],
+  checkAdapters: Execute[],
+  { checks = 0, onchain = 0 }: Record<string, number>,
+): Config => {
+  return {
+    sourceAdapters,
+    checkAdapters,
+    threshold: {
+      checks,
+      onchain,
+    },
+  }
+}
 
 const adapter = (success = true, value?: number): Execute => {
   if (!success) {
@@ -23,18 +39,9 @@ const adapter = (success = true, value?: number): Execute => {
   }
 }
 
-describe('executeWithAdapters', () => {
+describe('execute', () => {
   context('successful calls', () => {
     const jobID = 'abc123'
-
-    const config = {
-      sourceDataProviders: [],
-      checkDataProviders: [],
-      threshold: {
-        checks: 0,
-        onchain: 0,
-      },
-    }
 
     const requests = [
       {
@@ -46,7 +53,7 @@ describe('executeWithAdapters', () => {
         },
         adapters: [adapter()],
         checks: [],
-        config: { threshold: { onchain: 0, checks: 0 } },
+        threshold: { onchain: 0, checks: 0 },
       },
       {
         name: 'still works with failing adapters',
@@ -57,7 +64,7 @@ describe('executeWithAdapters', () => {
         },
         adapters: [adapter(), adapter(false)],
         checks: [],
-        config: { threshold: { onchain: 0, checks: 0 } },
+        threshold: { onchain: 0, checks: 0 },
       },
       {
         name: 'still works with failing adapters with checks',
@@ -68,7 +75,7 @@ describe('executeWithAdapters', () => {
         },
         adapters: [adapter(), adapter(false)],
         checks: [adapter()],
-        config: { threshold: { onchain: 0, checks: 0 } },
+        threshold: { onchain: 0, checks: 0 },
       },
       {
         name: 'returns onchain value when check threshold is surpassed',
@@ -79,16 +86,14 @@ describe('executeWithAdapters', () => {
         },
         adapters: [adapter()],
         checks: [adapter(true, result * 1000)],
-        config: { threshold: { onchain: 0, checks: 10 } },
+        threshold: { onchain: 0, checks: 10 },
       },
     ]
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
-        const data = await executeWithAdapters(req.input, req.adapters, req.checks, {
-          ...config,
-          ...req.config,
-        })
+        const execute = makeExecute(makeMockConfig(req.adapters, req.checks, req.threshold))
+        const data = await execute(req.input)
         assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
         assert.equal(data.result, result)
         assert.equal(data.data.result, result)

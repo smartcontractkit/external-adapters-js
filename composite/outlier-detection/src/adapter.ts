@@ -1,8 +1,6 @@
 import { AdapterRequest, AdapterResponse, Execute } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { getSourceImpl } from './source'
 import { getLatestAnswer } from '@chainlink/reference-data-reader'
-import { getCheckImpl } from './check'
 import { Config, makeConfig } from './config'
 
 const customParams = {
@@ -15,20 +13,6 @@ export const makeExecute = (config?: Config): Execute => {
 }
 
 const execute = async (input: AdapterRequest, config: Config): Promise<AdapterResponse> => {
-  const sourceExecute = config.sourceDataProviders.map(getSourceImpl)
-  if (sourceExecute.length === 0) {
-    throw Error('No source adapters provided')
-  }
-  const checkExecute = config.checkDataProviders.map(getCheckImpl)
-  return await executeWithAdapters(input, sourceExecute, checkExecute, config)
-}
-
-export const executeWithAdapters = async (
-  input: AdapterRequest,
-  sources: Execute[],
-  checks: Execute[],
-  config: Config,
-): Promise<AdapterResponse> => {
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
 
@@ -37,34 +21,33 @@ export const executeWithAdapters = async (
   }
 
   const jobRunID = validator.validated.id
-  const { referenceContract,  multiply } = validator.validated.data
+  const { referenceContract, multiply } = validator.validated.data
 
   const onchainValue = await getLatestAnswer(referenceContract, multiply, input.meta)
 
+  if (config.sourceAdapters.length === 0) {
+    throw Error('No source adapters provided')
+  }
+  const sourceMedian = await getExecuteMedian(config.sourceAdapters, input)
 
   if (config.threshold.onchain > 0) {
-    if (sources.length === 0) {
-      throw Error('No source adapters provided')
-    }
-    
-    const sourceMedian = await getExecuteMedian(sources, input)
     if (difference(sourceMedian, onchainValue) > config.threshold.onchain) {
-      return returnValue(jobRunID, onchainValue)
+      return success(jobRunID, onchainValue)
     }
   }
 
   if (config.threshold.checks > 0) {
-    if (checks.length === 0) {
+    if (config.checkAdapters.length === 0) {
       throw Error('No check adapters provided')
     }
 
-    const checkMedian = await getExecuteMedian(checks, input)
+    const checkMedian = await getExecuteMedian(config.checkAdapters, input)
     if (difference(sourceMedian, checkMedian) > config.threshold.checks) {
-      return returnValue(jobRunID, onchainValue)
+      return success(jobRunID, onchainValue)
     }
   }
 
-  return returnValue(jobRunID, sourceMedian)
+  return success(jobRunID, sourceMedian)
 }
 
 const getExecuteMedian = async (executes: Execute[], request: AdapterRequest): Promise<number> => {
@@ -88,7 +71,7 @@ const difference = (a: number, b: number): number => {
   return (Math.abs(a - b) / ((a + b) / 2)) * 100
 }
 
-const returnValue = (jobRunID: string, result: number): AdapterResponse => {
+const success = (jobRunID: string, result: number): AdapterResponse => {
   const response = { data: { result }, result, status: 200 }
   return Requester.success(jobRunID, response)
 }
