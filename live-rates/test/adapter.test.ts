@@ -11,7 +11,7 @@ describe('execute', () => {
     const requests = [
       {
         name: 'id not supplied',
-        testData: { data: { symbol: 'EURUSD' } },
+        testData: { data: { from: 'EUR', to: "USD" } },
       },
       {
         name: 'symbol EURUSD',
@@ -23,7 +23,11 @@ describe('execute', () => {
       },
       {
         name: 'from',
-        testData: { id: jobID, data: { from: 'EURUSD' } },
+        testData: { id: jobID, data: { from: 'EUR', to: 'USD' } },
+      },
+      {
+        name: 'from_second_assert',
+        testData: { id: jobID, data: { from: 'BTC', to: 'USD' } },
       },
       {
         name: 'rate',

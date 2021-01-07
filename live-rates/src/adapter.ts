@@ -6,11 +6,6 @@ const customParams = {
   to: false,
 }
 
-const commonKeys: Record<string, string> = {
-  EURUSD: 'EURUSD',
-  BTCEUR: 'BTCEUR',
-}
-
 export const execute: Execute = async (input) => {
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
@@ -19,7 +14,7 @@ export const execute: Execute = async (input) => {
   const url = 'https://live-rates.com/api/price'
   const symbol = validator.validated.data.symbol.toUpperCase()
   const to = (validator.validated.data.to || '').toUpperCase()
-  const rate = (commonKeys[symbol] || symbol) + to
+  const rate = symbol + to
   const key = process.env.API_KEY
 
   const params = {
