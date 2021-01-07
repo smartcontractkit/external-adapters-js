@@ -41,7 +41,11 @@ Then run the adapter.
 
 Examples of combinations include:
 
-XBTO & OilpriceAPI:
+### WTI Outlier detection
+
+- **Sources:** XBTO
+- **Checks:** OilpriceAPI
+- **Check threshold:** 10
 
 ```bash
 env \
@@ -49,18 +53,24 @@ env \
   CHECK_ADAPTERS=oilpriceapi \
   XBTO_API_KEY=your-xbto-api-key \
   OILPRICEAPI_API_KEY=your-oilpriceapi-api-key \
-  CHECK_THRESHOLD=30 \
-  ONCHAIN_THRESHOLD=50 \
+  RPC_URL=your-https-rpc-url \
+  CHECK_THRESHOLD=10 \
   yarn start
 ```
 
-GenesisVolatility & Deribit:
+### IV Outlier detection
+
+- **Sources:** GenesisVolatility
+- **Checks:** Deribit
+- **Check threshold:** 30
+- **Onchain threshold:** 50
 
 ```bash
 env \
   SOURCE_ADAPTERS=genesisvolatility \
   CHECK_ADAPTERS=deribit \
   GENESIS_VOLATILITY_API_KEY=your-genesisvolatility-api-key \
+  RPC_URL=your-https-rpc-url \
   CHECK_THRESHOLD=30 \
   ONCHAIN_THRESHOLD=50 \
   yarn start
