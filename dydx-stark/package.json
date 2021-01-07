@@ -42,5 +42,7 @@
     "ts-node": "^8.10.2",
     "typescript": "^3.9.7"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@authereum/starkware-crypto": "^1.9.7-beta.7"
+  }
 }

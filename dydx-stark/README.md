@@ -15,7 +15,7 @@ The adapter takes the following environment variables:
 
 ### Send endpoint
 
-This endpoint will sign the input data with your private STARK key, and send it to the destination endpoint.
+This endpoint will sign the input price data with your private STARK key, and send it to the destination endpoint.
 
 - `dataPath`: Optional path where to find the price data, defaults to `result`
 - `asset`: Required asset name (of your choice, per asset. for example "USDBTC")
