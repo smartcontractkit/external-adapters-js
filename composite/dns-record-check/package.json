@@ -1,15 +1,12 @@
 {
-  "name": "@chainlink/proof-of-reserves-adapter",
+  "name": "@chainlink/dns-record-check-adapter",
   "version": "0.0.1",
-  "description": "Chainlink BTC Proof of Reserves composite adapter. Combines multiple adapters to find total balance in custody for wBTC or renBTC.",
+  "description": "Chainlink DNS record check adapter",
   "keywords": [
     "Chainlink",
     "LINK",
-    "BTC",
-    "Bitcoin",
     "blockchain",
-    "oracle",
-    "Proof of Reserves"
+    "oracle"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -20,7 +17,6 @@
     "url": "https://github.com/smartcontractkit/external-adapters-js",
     "type": "git"
   },
-  "author": "Kristijan Rebernisak <kristijan.rebernisak@smartcontract.com>",
   "license": "MIT",
   "scripts": {
     "prepublishOnly": "yarn build && yarn test:unit",
@@ -28,9 +24,9 @@
     "build": "tsc -b",
     "lint": "eslint --ignore-path ../../.eslintignore . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint --ignore-path ../../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix",
-    "test": "echo \"Error: no test specified\"",
-    "test:unit": "echo \"Error: no test specified\"",
-    "test:integration": "echo \"Error: no test specified\"",
+    "test": "mocha --exit --timeout 6000 -r ts-node/register 'test/**/*.test.ts'",
+    "test:unit": "mocha --exit --grep @integration --invert -r ts-node/register 'test/**/*.test.ts'",
+    "test:integration": "mocha --exit --timeout 6000 --grep @integration -r ts-node/register 'test/**/*.test.ts'",
     "server": "node -e 'require(\"./index.js\").server()'",
     "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
     "start": "yarn server:dist"
@@ -46,10 +42,6 @@
     "typescript": "^3.9.7"
   },
   "dependencies": {
-    "@chainlink/blockchain.com-adapter": "^0.0.1",
-    "@chainlink/blockcypher-adapter": "^0.0.1",
-    "@chainlink/reduce": "^0.0.3",
-    "@chainlink/renvm-address-set-adapter": "^0.0.1",
-    "@chainlink/wbtc-address-set-adapter": "^0.0.1"
+    "@chainlink/dns-query-adapter": "^0.0.1"
   }
 }

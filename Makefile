@@ -15,7 +15,7 @@ new:
 	  | jq '.workspaces += ["$(adapter)"]' \
 	  | tee package.json > /dev/null
 	cat .github/strategy/adapters.json \
-	  | jq '.adapter += ["$(adapter)"]' \
+	  | jq '.adapters.adapter += ["$(adapter)"]' \
 	  | tee .github/strategy/adapters.json > /dev/null
 	cat $(adapter)/package.json \
 	  | jq '.name = "@chainlink/$(adapter)-adapter" | .description = "Chainlink $(adapter) adapter." | .keywords += ["$(adapter)"]' \
@@ -36,14 +36,14 @@ deps: clean
 	yarn --frozen-lockfile --production
 
 build:
-	npx @vercel/ncc build $(adapter) -o $(adapter)/dist
+	npx @vercel/ncc@0.25.1 build $(adapter) -o $(adapter)/dist
 
 clean-synth-index:
 	rm -rf synth-index/$(adapter)/dist
 
 build-synth-index:
 	cp synth-index/adapter.js synth-index/$(adapter)
-	npx @vercel/ncc build synth-index/$(adapter) -o synth-index/$(adapter)/dist
+	npx @vercel/ncc@0.25.1 build synth-index/$(adapter) -o synth-index/$(adapter)/dist
 	rm synth-index/$(adapter)/adapter.js
 
 docker-synth-index:
@@ -60,7 +60,7 @@ build-2-step:
 	mv 2-step/$(adapter)/adapter.js 2-step/$(adapter)/priceAdapter.js
 	cp 2-step/adapter.js 2-step/$(adapter)
 	cp -r helpers 2-step/helpers
-	npx @vercel/ncc build 2-step/$(adapter) -o 2-step/$(adapter)/dist
+	npx @vercel/ncc@0.25.1 build 2-step/$(adapter) -o 2-step/$(adapter)/dist
 	rm 2-step/$(adapter)/priceAdapter.js
 	rm 2-step/$(adapter)/adapter.js
 
