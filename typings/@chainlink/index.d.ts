@@ -60,12 +60,12 @@ declare module '@chainlink/types' {
 
   export type Execute = (input: AdapterRequest) => Promise<AdapterResponse>
 
-  export type ExecuteWithConfig = (
+  export type ExecuteWithConfig<C extends Config> = (
     input: AdapterRequest,
-    config: Config,
+    config: C,
   ) => Promise<AdapterResponse>
 
-  export type ExecuteFactory = (config?: Config) => Execute
+  export type ExecuteFactory<C extends Config> = (config?: C) => Execute
 
   import { expose } from '@chainlink/ea-bootstrap'
   export type AdapterImplementation = {
@@ -82,7 +82,6 @@ declare module '@chainlink/types' {
     chain?: ChainType
     balance?: number
   }
-
 }
 declare module '@chainlink/ea-bootstrap'
 declare module '@chainlink/external-adapter'
