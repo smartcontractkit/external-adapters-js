@@ -56,7 +56,6 @@ declare module '@chainlink/types' {
     network?: string
     returnRejectedPromiseOnError?: Boolean
     api?: Partial<AxiosRequestConfig>
-    threshold?: Record<string, number>
   }
 
   export type Execute = (input: AdapterRequest) => Promise<AdapterResponse>

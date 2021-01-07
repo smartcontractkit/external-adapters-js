@@ -14,7 +14,7 @@ export const makeExecute = (config?: Config): Execute => {
   return async (request: AdapterRequest) => execute(request, config || makeConfig())
 }
 
-export const execute = async (input: AdapterRequest, config: Config): Promise<AdapterResponse> => {
+const execute = async (input: AdapterRequest, config: Config): Promise<AdapterResponse> => {
   const sourceExecute = config.sourceDataProviders.map(getSourceImpl)
   if (sourceExecute.length === 0) {
     throw Error('No source adapters provided')
@@ -37,17 +37,20 @@ export const executeWithAdapters = async (
   }
 
   const jobRunID = validator.validated.id
-  const referenceContract = validator.validated.data.referenceContract
-  const multiply = validator.validated.data.multiply
+  const { referenceContract,  multiply } = validator.validated.data
 
   const onchainValue = await getLatestAnswer(referenceContract, multiply, input.meta)
 
-  const sourceMedian = await getExecuteMedian(sources, input)
-  if (
-    config.threshold.onchain > 0 &&
-    difference(sourceMedian, onchainValue) > config.threshold.onchain
-  ) {
-    return returnValue(jobRunID, onchainValue)
+
+  if (config.threshold.onchain > 0) {
+    if (sources.length === 0) {
+      throw Error('No source adapters provided')
+    }
+    
+    const sourceMedian = await getExecuteMedian(sources, input)
+    if (difference(sourceMedian, onchainValue) > config.threshold.onchain) {
+      return returnValue(jobRunID, onchainValue)
+    }
   }
 
   if (config.threshold.checks > 0) {
@@ -89,5 +92,3 @@ const returnValue = (jobRunID: string, result: number): AdapterResponse => {
   const response = { data: { result }, result, status: 200 }
   return Requester.success(jobRunID, response)
 }
-
-exports.execute = execute
