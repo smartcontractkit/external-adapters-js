@@ -77,7 +77,8 @@
       "trueusd",
       "wbtc-address-set",
       "wti-outlier-detection",
-      "xbto"
+      "xbto",
+      "live-rates"
     ]
   },
   "2-step": {
