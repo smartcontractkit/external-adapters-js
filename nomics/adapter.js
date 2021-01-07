@@ -76,7 +76,7 @@ const globalMarketCap = (jobRunID, input, callback) => {
 
 const latestBlockParams = {
   blockchain: ['blockchain', 'coin'],
-  endpoint: false,
+  endpoint: true,
   network: false,
 }
 

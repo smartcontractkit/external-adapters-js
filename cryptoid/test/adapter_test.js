@@ -19,6 +19,24 @@ describe('execute', () => {
         name: 'coin',
         testData: { id: jobID, data: { coin: 'BTC' } },
       },
+      {
+        name: 'coin',
+        testData: { id: jobID, data: { coin: 'BTC' } },
+      },
+      {
+        name: 'BTC testnet difficulty',
+        testData: {
+          id: jobID,
+          data: { blockchain: 'BTC', network: 'testnet', endpoint: 'difficulty' },
+        },
+      },
+      {
+        name: 'BTC mainnet height',
+        testData: {
+          id: jobID,
+          data: { blockchain: 'BTC', endpoint: 'height' },
+        },
+      },
     ]
 
     requests.forEach((req) => {
