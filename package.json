@@ -86,7 +86,7 @@
     "coinranking",
     "helpers/reference-data-reader",
     "dns-query",
-    "dns-record-check"
+    "dns-record-check",
     "live-rates"
   ],
   "scripts": {
