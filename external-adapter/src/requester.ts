@@ -98,7 +98,8 @@ export class Requester {
         jobRunID,
         statusCode,
         message: error.message,
-        cause: error,
+        name: error.name,
+        cause: error.stack,
       }).toJSONResponse()
     }
     return new AdapterError({ jobRunID, statusCode, message: error }).toJSONResponse()

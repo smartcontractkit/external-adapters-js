@@ -78,7 +78,10 @@ const executeSync = (execute: ExecuteWrappedResponse): ExecuteSync => {
     return withMiddleware(execute)
       .then((executeWithMiddleware) => executeWithMiddleware(data))
       .then((result) => callback(result.statusCode, result.data))
-      .catch((error) => callback(error.statusCode || 500, Requester.errored(data.id, error)))
+      .catch((error) => {
+        logger.error(error.toString(), { stack: error.stack })
+        callback(error.statusCode || 500, Requester.errored(data.id, error))
+      })
   }
 }
 
