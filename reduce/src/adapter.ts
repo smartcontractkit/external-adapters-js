@@ -1,6 +1,7 @@
 import objectPath from 'object-path'
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { Execute } from '@chainlink/types'
+import BN from 'bn.js'
 
 const inputParams = {
   reducer: true,
@@ -46,20 +47,26 @@ export const execute: Execute = async (request) => {
     throw Error(`Not every '${path}' item is a number.`)
   }
 
-  let result
+  let result: BN
   switch (data.reducer) {
     case 'sum': {
-      result = inputData.reduce((acc, val) => acc + _get(val), data.initialValue || 0)
+      result = inputData.reduce(
+        (acc, val) => acc.add(new BN(_get(val))),
+        new BN(data.initialValue) || new BN(0),
+      )
       break
     }
     case 'product': {
-      result = inputData.reduce((acc, val) => acc * _get(val), data.initialValue || 1)
+      result = inputData.reduce(
+        (acc, val) => acc.mul(new BN(_get(val))),
+        new BN(data.initialValue) || new BN(1),
+      )
       break
     }
     case 'average': {
       result = inputData.reduce(
-        (acc, val, _, { length }) => acc + _get(val) / length,
-        data.initialValue || 0,
+        (acc, val, _, { length }) => acc.add(new BN(_get(val)).div(new BN(length))),
+        new BN(data.initialValue) || new BN(0),
       )
       break
     }
@@ -68,21 +75,21 @@ export const execute: Execute = async (request) => {
       const mid = Math.ceil(inputData.length / 2)
       result =
         inputData.length % 2 === 0
-          ? (sortedData[mid] + sortedData[mid - 1]) / 2
-          : sortedData[mid - 1]
+          ? new BN(sortedData[mid]).add(new BN(sortedData[mid - 1])).div(new BN(2))
+          : new BN(sortedData[mid - 1])
       break
     }
     case 'min': {
       result = inputData.reduce(
-        (acc, val) => Math.min(acc, _get(val)),
-        data.initialValue || Number.MAX_VALUE,
+        (acc, val) => BN.min(acc, new BN(_get(val))),
+        new BN(data.initialValue) || new BN(Number.MAX_VALUE),
       )
       break
     }
     case 'max': {
       result = inputData.reduce(
-        (acc, val) => Math.max(acc, _get(val)),
-        data.initialValue || Number.MIN_VALUE,
+        (acc, val) => BN.max(acc, new BN(_get(val))),
+        new BN(data.initialValue) || new BN(Number.MIN_VALUE),
       )
       break
     }
@@ -92,7 +99,7 @@ export const execute: Execute = async (request) => {
   }
 
   return Requester.success(jobRunID, {
-    data: { result },
+    data: { result: result.toString() },
     result,
     status: 200,
   })
