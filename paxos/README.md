@@ -1,20 +1,25 @@
 # Chainlink External Adapter for paxos
 
+Query Paxos asset attestations like: https://api.paxos.com/v1/asset-attestations/PAX
+
 ## Input Params
 
-- `base`, `from`, or `coin`: The symbol of the currency to query
-- `quote`, `to`, or `market`: The symbol of the currency to convert to
-- `endpoint`: Optional endpoint param
+- `asset`: The symbol of the currency to query
 
 ## Output
 
 ```json
 {
- "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
- "data": {
-  "price": 77777.77,
-  "result": 77777.77
- },
- "statusCode": 200
+  "jobRunID": "1",
+  "data": {
+    "asset": "PAX",
+    "auditorName": "withum",
+    "lastAttestedAt": "2020-11-30T17:00:00.00-05:00",
+    "amount": 404707843.4,
+    "verified": true,
+    "result": 404707843.4
+  },
+  "result": 404707843.4,
+  "statusCode": 200
 }
 ```

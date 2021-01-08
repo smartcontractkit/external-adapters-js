@@ -19,6 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `coinranking` to get crypto prices from Coinranking
   - `dns-query` to query DNS over HTTPS
   - `dns-record-check` to check whether some record provided exists on DNS
+  - `paxos` to get Paxos asset supply attestations
 - Added support for metadata in requests. This gives adapters access to the FM on-chain round state.
 - Moves re-usable test behaviors & testing utils to a new package - `@chainlink/adapter-test-helpers`
 - Added support for using query string parameters as input to adapters.
