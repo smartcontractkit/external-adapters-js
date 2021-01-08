@@ -5,7 +5,7 @@ const customParams = {
   currency: ['base', 'from', 'coin', 'symbol'],
 }
 
-export const execute: ExecuteWithConfig = async (input, config) => {
+export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
 
@@ -39,6 +39,6 @@ export const execute: ExecuteWithConfig = async (input, config) => {
 
 export const makeConfig = (prefix?: string): Config => Requester.getDefaultConfig(prefix)
 
-export const makeExecute: ExecuteFactory = (config) => {
+export const makeExecute: ExecuteFactory<Config> = (config) => {
   return async (request) => execute(request, config || makeConfig())
 }
