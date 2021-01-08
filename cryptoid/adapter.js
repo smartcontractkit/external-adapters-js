@@ -3,12 +3,12 @@ const { util } = require('@chainlink/ea-bootstrap')
 
 const customParams = {
   blockchain: ['blockchain', 'coin'],
-  endpoint: false
+  q: false,
 }
 
-const endpointToQ = {
-  difficulty : 'getdifficulty',
-  height : 'getblockcount'
+const convertQ = {
+  difficulty: 'getdifficulty',
+  height: 'getblockcount',
 }
 
 const execute = (input, callback) => {
@@ -17,10 +17,10 @@ const execute = (input, callback) => {
 
   const jobRunID = validator.validated.id
   const blockchain = validator.validated.data.blockchain.toLowerCase()
-  const endpoint = validator.validated.data.endpoint || 'difficulty'
+  let q = validator.validated.data.q || 'difficulty'
   const url = `https://${blockchain}.cryptoid.info/${blockchain}/api.dws`
-  const key = util.getRandomRequiredEnv('API_KEY')
-  const q = endpointToQ[endpoint]
+  const key = process.env.API_KEY || util.getRandomRequiredEnv('API_KEY')
+  if (q in convertQ) q = convertQ[q]
   const params = { key, q }
   const config = { url, params }
 

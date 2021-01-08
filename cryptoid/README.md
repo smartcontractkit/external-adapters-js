@@ -2,17 +2,18 @@
 
 ## Input Params
 
-- `blockchain` or `coin`: The blockchain to get difficulty from
+- `blockchain` or `coin`: The blockchain to get stats from
+- `q`: The parameter to query for. Default: "difficulty"
 
 ## Output
 
 ```json
 {
-   "jobRunID":"1",
-   "data":{
-      "result":19298087186262.6
-   },
-   "result":19298087186262.6,
-   "statusCode":200
+  "jobRunID": "1",
+  "data": {
+    "result": 19298087186262.6
+  },
+  "result": 19298087186262.6,
+  "statusCode": 200
 }
 ```

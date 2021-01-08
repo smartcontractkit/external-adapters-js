@@ -16,15 +16,11 @@ The adapter takes the following environment variables:
 - `base`, `from`, or `coin`: The symbol or ID of the coin to query
 - `quote`, `to`, or `market`: The symbol or ID of the market to convert to
 
-### Difficulty endpoint
+### Blockchain stats
 
-- `blockchain` or `coin`: The blockchain to get difficulty from
-- `network`: The network of the blockchain to get difficulty from. Default: "mainnet"
-
-### Height
-
-- `blockchain` or `coin`: The blockchain to get latest block number from
-- `network`: The network of the blockchain to get latest block number from. Default: "mainnet"
+- `blockchain` or `coin`: The blockchain to get stats from
+- `network`: The network of the blockchain to get stats from. Default: "mainnet"
+- `endpoint`: The parameter to query for. Default: "difficulty"
 
 ## Output
 

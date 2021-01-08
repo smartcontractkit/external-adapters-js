@@ -7,18 +7,17 @@ const inputParams = {
   params: false,
   blockchain: false,
   coin: false,
-  endpoint: false,
+  q: false,
 }
 
-const convertEndpoint: {[key: string]: string} = {
-  'height' : 'headers'
+const convertQ: { [key: string]: string } = {
+  height: 'headers',
 }
 
 // Export function to integrate with Chainlink node
 export const execute: Execute = async (request) => {
-  console.log(request)
   const validator = new Validator(request, inputParams)
-  
+
   if (validator.error) throw validator.error
 
   const url = process.env.RPC_URL || validator.validated.data.url || 'http://localhost:8545'
@@ -26,10 +25,10 @@ export const execute: Execute = async (request) => {
   const params = validator.validated.data.params
   const blockchain = validator.validated.data.blockchain || validator.validated.data.coin
 
-  let endpoint = validator.validated.data.endpoint
+  let q = validator.validated.data.q
 
   if (blockchain != undefined && blockchain.toLowerCase() === 'btc') {
-    if (!endpoint) endpoint = 'difficulty'
+    if (!q) q = 'difficulty'
     method = 'getblockchaininfo'
   }
 
@@ -53,9 +52,9 @@ export const execute: Execute = async (request) => {
   const response = await Requester.request(options)
   if (response.statusCode >= 400) throw response.data.error
 
-  if (endpoint) {
-    if (endpoint in convertEndpoint) endpoint = convertEndpoint[endpoint]
-    response.data.result = Requester.validateResultNumber(response.data, ["result", endpoint])
+  if (q) {
+    if (q in convertQ) q = convertQ[q]
+    response.data.result = Requester.validateResultNumber(response.data, ['result', q])
   }
 
   return Requester.success(request.id, response)

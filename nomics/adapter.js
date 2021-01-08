@@ -46,7 +46,13 @@ const price = (jobRunID, input, callback) => {
 
   const config = {
     url,
+<<<<<<< HEAD:nomics/adapter.js
     params,
+=======
+    headers: {
+      'X-API-Key': process.env.API_KEY || util.getRandomRequiredEnv('API_KEY'),
+    },
+>>>>>>> Renamed endpoint to q. Added READMEs. Cleaned json-rpc.:cryptoapis/adapter.js
   }
 
   Requester.request(config, customError)
@@ -76,7 +82,8 @@ const globalMarketCap = (jobRunID, input, callback) => {
 
 const latestBlockParams = {
   blockchain: ['blockchain', 'coin'],
-  endpoint: true,
+  endpoint: false,
+  q: false,
   network: false,
 }
 
@@ -86,13 +93,19 @@ const latestBlock = (jobRunID, input, callback) => {
 
   const blockchain = validator.validated.data.blockchain
   const network = validator.validated.data.network || 'mainnet'
-  const endpoint = validator.validated.data.endpoint
+  const q = validator.validated.data.q || validator.validated.data.endpoint
   const url = `https://api.cryptoapis.io/v1/bc/${blockchain.toLowerCase()}/${network.toLowerCase()}/blocks/latest`
 >>>>>>> Added height(latest block number) as endpoint parameter on cryptoapis:cryptoapis/adapter.js
 
   const config = {
     url,
+<<<<<<< HEAD:nomics/adapter.js
     params,
+=======
+    headers: {
+      'X-API-Key': process.env.API_KEY || util.getRandomRequiredEnv('API_KEY'),
+    },
+>>>>>>> Renamed endpoint to q. Added READMEs. Cleaned json-rpc.:cryptoapis/adapter.js
   }
 
 <<<<<<< HEAD:nomics/adapter.js
@@ -102,11 +115,15 @@ const latestBlock = (jobRunID, input, callback) => {
 =======
   Requester.request(config)
     .then((response) => {
+<<<<<<< HEAD:nomics/adapter.js
       response.data.result = Requester.validateResultNumber(response.data, [
         'payload', 
         endpoint
       ])
 >>>>>>> Added height(latest block number) as endpoint parameter on cryptoapis:cryptoapis/adapter.js
+=======
+      response.data.result = Requester.validateResultNumber(response.data, ['payload', q])
+>>>>>>> Renamed endpoint to q. Added READMEs. Cleaned json-rpc.:cryptoapis/adapter.js
       callback(response.status, Requester.success(jobRunID, response))
     })
     .catch((error) => callback(500, Requester.errored(jobRunID, error)))
@@ -114,6 +131,7 @@ const latestBlock = (jobRunID, input, callback) => {
 
 const customParams = {
   endpoint: false,
+  q: false,
 }
 
 const execute = (input, callback) => {
@@ -122,7 +140,8 @@ const execute = (input, callback) => {
   if (validator.error) return callback(validator.error.statusCode, validator.errored)
 
   const jobRunID = validator.validated.id
-  const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
+  const endpoint =
+    validator.validated.data.endpoint || validator.validated.data.q || DEFAULT_ENDPOINT
   switch (endpoint.toLowerCase()) {
     case ENDPOINT_PRICE:
       return price(jobRunID, input, callback)

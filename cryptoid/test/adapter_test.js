@@ -20,17 +20,17 @@ describe('execute', () => {
         testData: { id: jobID, data: { coin: 'BTC' } },
       },
       {
-        name: 'BTC testnet difficulty',
+        name: 'BTC mainnet difficulty',
         testData: {
           id: jobID,
-          data: { blockchain: 'BTC', network: 'testnet', endpoint: 'difficulty' },
+          data: { blockchain: 'BTC' },
         },
       },
       {
         name: 'BTC mainnet height',
         testData: {
           id: jobID,
-          data: { blockchain: 'BTC', endpoint: 'height' },
+          data: { blockchain: 'BTC', q: 'height' },
         },
       },
     ]

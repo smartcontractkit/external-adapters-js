@@ -24,11 +24,11 @@ describe('Bitcoin client @integration', function () {
     })
   })
 
-  context('getinfo', () => {
+  context('getblockchaininfo', () => {
     const req = {
       id: jobID,
       data: {
-        method: 'getinfo',
+        method: 'getblockchaininfo',
       },
     }
 
@@ -43,7 +43,7 @@ describe('Bitcoin client @integration', function () {
       id: jobID,
       data: {
         blockchain: 'btc',
-        endpoint: 'height'
+        q: 'height',
       },
     }
 
