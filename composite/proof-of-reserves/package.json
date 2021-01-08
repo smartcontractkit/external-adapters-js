@@ -52,7 +52,7 @@
     "@chainlink/blockcypher-adapter": "^0.0.1",
     "@chainlink/btc.com-adapter": "^0.0.1",
     "@chainlink/cryptoapis-adapter": "^0.0.1",
-    "@chainlink/reduce": "^0.0.3",
+    "@chainlink/reduce-adapter": "^0.0.1",
     "@chainlink/renvm-address-set-adapter": "^0.0.1",
     "@chainlink/sochain-adapter": "^0.0.1",
     "@chainlink/wbtc-address-set-adapter": "^0.0.1"
