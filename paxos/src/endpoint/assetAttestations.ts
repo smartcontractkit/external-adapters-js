@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/external-adapter'
+import { Requester } from '@chainlink/external-adapter'
 import { AdapterRequest, Config } from '@chainlink/types'
 import { BASE_URL } from '../config'
 
@@ -11,7 +11,7 @@ type RequestData = {
 }
 
 export const inputParams = {
-  asset: false,
+  asset: true,
 }
 
 type Attestation = {

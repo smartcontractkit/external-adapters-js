@@ -12,19 +12,11 @@ describe('execute', () => {
     const requests = [
       {
         name: 'id not supplied',
-        testData: { data: { base: 'ETH', quote: 'USD' } },
+        testData: { data: { asset: 'PAX' } },
       },
       {
-        name: 'base/quote',
-        testData: { id: jobID, data: { base: 'ETH', quote: 'USD' } },
-      },
-      {
-        name: 'from/to',
-        testData: { id: jobID, data: { from: 'ETH', to: 'USD' } },
-      },
-      {
-        name: 'coin/market',
-        testData: { id: jobID, data: { coin: 'ETH', market: 'USD' } },
+        name: 'asset',
+        testData: { id: jobID, data: { asset: 'PAX' } },
       },
     ]
 
@@ -43,12 +35,8 @@ describe('execute', () => {
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },
       {
-        name: 'base not supplied',
-        testData: { id: jobID, data: { quote: 'USD' } },
-      },
-      {
-        name: 'quote not supplied',
-        testData: { id: jobID, data: { base: 'ETH' } },
+        name: 'asset not supplied',
+        testData: { id: jobID, data: { notAsset: 'USD' } },
       },
     ]
 
@@ -67,12 +55,8 @@ describe('execute', () => {
   context('error calls @integration', () => {
     const requests = [
       {
-        name: 'unknown base',
-        testData: { id: jobID, data: { base: 'not_real', quote: 'USD' } },
-      },
-      {
-        name: 'unknown quote',
-        testData: { id: jobID, data: { base: 'ETH', quote: 'not_real' } },
+        name: 'unknown asset',
+        testData: { id: jobID, data: { asset: 'not_real' } },
       },
     ]
 

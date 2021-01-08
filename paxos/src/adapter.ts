@@ -35,8 +35,7 @@ export const execute: ExecuteWithConfig = async (request, config) => {
   }
 
   return Requester.success(jobRunID, {
-    data: { result },
-    result,
+    data: { ...result, result: result.amount },
     status: 200,
   })
 }
