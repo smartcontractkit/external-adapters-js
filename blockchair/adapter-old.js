@@ -24,10 +24,10 @@ const execute = (input, callback) => {
 
   const jobRunID = validator.validated.id
   let blockchain = validator.validated.data.blockchain
-  let q = validator.validated.data.q || 'difficulty'
+  let endpoint = validator.validated.data.endpoint || 'difficulty'
 
   if (blockchain in convertBlockchain) blockchain = convertBlockchain[blockchain]
-  if (q in convertEndpoint) q = convertEndpoint[q]
+  if (endpoint in convertEndpoint) endpoint = convertEndpoint[endpoint]
 
   const url = `https://api.blockchair.com/${blockchain.toLowerCase()}/stats`
   const key = process.env.API_KEY || util.getRandomRequiredEnv('API_KEY')
@@ -38,7 +38,7 @@ const execute = (input, callback) => {
   const config = { url, params }
   Requester.request(config)
     .then((response) => {
-      response.data.result = Requester.validateResultNumber(response.data, ['data', q])
+      response.data.result = Requester.validateResultNumber(response.data, ['data', endpoint])
       callback(response.status, Requester.success(jobRunID, response))
     })
     .catch((error) => callback(500, Requester.errored(jobRunID, error)))

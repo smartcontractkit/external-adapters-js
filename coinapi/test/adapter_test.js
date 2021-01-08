@@ -41,20 +41,6 @@ describe('execute', () => {
           data: { blockchain: 'BTC', endpoint: 'height' },
         },
       },
-      {
-        name: 'BTC mainnet height with q param',
-        testData: {
-          id: jobID,
-          data: { blockchain: 'BTC', q: 'height' },
-        },
-      },
-      {
-        name: 'BTC mainnet difficulty with q param',
-        testData: {
-          id: jobID,
-          data: { blockchain: 'BTC', q: 'difficulty' },
-        },
-      },
     ]
 
     requests.forEach((req) => {
