@@ -22,14 +22,9 @@ type Attestation = {
   verified: boolean
 }
 
-const getAttestationURI = (asset: string) =>
-    `/asset-attestations/${asset.toUpperCase()}`
+const getAttestationURI = (asset: string) => `/asset-attestations/${asset.toUpperCase()}`
 
-const toAttestation = async (
-    config: Config,
-    asset: string
-): Promise<Attestation> => {
-
+const toAttestation = async (config: Config, asset: string): Promise<Attestation> => {
   const url = getAttestationURI(asset)
   const params = {}
   const reqConfig = { ...config.api, params, baseURL: BASE_URL, url }
@@ -40,19 +35,18 @@ const toAttestation = async (
     auditorName: response.data.auditorName,
     lastAttestedAt: response.data.lastAttestedAt,
     amount: Requester.validateResultNumber(response.data, ['amount']),
-    verified: response.data.verified
+    verified: response.data.verified,
   }
 }
 
 export const execute = async (
-    config: Config,
-    request: AdapterRequest,
-    data: RequestData,
+  config: Config,
+  request: AdapterRequest,
+  data: RequestData,
 ): Promise<Attestation> => {
   const asset = data.asset
 
-  if (!asset)
-    throw Error('asset must be provided')
+  if (!asset) throw Error('asset must be provided')
 
   return await toAttestation(config, asset)
 }
