@@ -61,7 +61,7 @@ export class Requester {
     return await _retry(retries)
   }
 
-  static validateResultNumber(data: { [key: string]: any }, path: string[]) {
+  static validateResultNumber(data: { [key: string]: any }, path: (string | number)[]) {
     const result = this.getResult(data, path)
     if (typeof result === 'undefined') {
       const message = 'Result could not be found in path'
@@ -76,7 +76,7 @@ export class Requester {
     return Number(result)
   }
 
-  static getResult(data: { [key: string]: any }, path: string[]): any {
+  static getResult(data: { [key: string]: any }, path: (string | number)[]): any {
     return path.reduce((o, n) => o[n], data)
   }
 

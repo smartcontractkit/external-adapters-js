@@ -35,6 +35,7 @@
       "cryptoid",
       "cryptomkt",
       "currencylayer",
+      "deribit",
       "dns-query",
       "dxfeed",
       "eodhistoricaldata",
@@ -49,7 +50,6 @@
       "fmpcloud",
       "genesis-volatility",
       "google-finance",
-      "iv-outlier-detection",
       "json-rpc",
       "kaiko",
       "kaiko",
@@ -76,7 +76,6 @@
       "tradingeconomics",
       "trueusd",
       "wbtc-address-set",
-      "wti-outlier-detection",
       "xbto"
     ]
   },

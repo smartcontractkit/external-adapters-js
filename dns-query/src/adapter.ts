@@ -28,7 +28,7 @@ const execute: ExecuteWithConfig = async (input, config) => {
   }
 
   const result = await Requester.request({
-    url: config.api.url,
+    url: config.api?.url,
     headers,
     params,
   })

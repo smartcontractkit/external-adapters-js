@@ -1,13 +1,13 @@
 {
-  "name": "@chainlink/iv-outlier-detection-adapter",
+  "name": "@chainlink/deribit-adapter",
   "version": "0.0.1",
-  "description": "Chainlink iv-outlier-detection adapter.",
+  "description": "Chainlink Deribit adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
     "oracle",
-    "iv-outlier-detection"
+    "deribit"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -25,9 +25,9 @@
     "build": "tsc -b",
     "lint": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix",
-    "test": "mocha --exit --timeout 5000 -r ts-node/register 'test/**/*.test.ts'",
+    "test": "mocha --exit --timeout 3000 -r ts-node/register 'test/**/*.test.ts'",
     "test:unit": "mocha --exit --grep @integration --invert -r ts-node/register 'test/**/*.test.ts'",
-    "test:integration": "mocha --exit --timeout 5000 --grep @integration -r ts-node/register 'test/**/*.test.ts'",
+    "test:integration": "mocha --exit --timeout 3000 --grep @integration -r ts-node/register 'test/**/*.test.ts'",
     "server": "node -e 'require(\"./index.js\").server()'",
     "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
     "start": "yarn server:dist"
@@ -42,7 +42,5 @@
     "ts-node": "^8.10.2",
     "typescript": "^3.9.7"
   },
-  "dependencies": {
-    "@chainlink/reference-data-reader": "^0.0.2"
-  }
+  "dependencies": {}
 }

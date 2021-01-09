@@ -1,6 +1,7 @@
 import { expose, util } from '@chainlink/ea-bootstrap'
-import { makeConfig, makeExecute } from './adapter'
+import { makeConfig } from './config'
+import { makeExecute } from './adapter'
 
-const NAME = 'XBTO'
+const NAME = 'OutlierDetection'
 
 export = { NAME, makeExecute, makeConfig, ...expose(util.wrapExecute(makeExecute())) }
