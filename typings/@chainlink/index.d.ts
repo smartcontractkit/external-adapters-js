@@ -73,14 +73,6 @@ declare module '@chainlink/types' {
 
   export type ExecuteSync = (input: AdapterRequest, callback: Callback) => void
 
-  import { AxiosRequestConfig } from 'axios'
-  export type Config = {
-    apiKey?: string
-    network?: string
-    returnRejectedPromiseOnError?: Boolean
-    api?: Partial<AxiosRequestConfig>
-  }
-
   export type Execute = (input: AdapterRequest) => Promise<AdapterResponse>
 
   export type ExecuteWithConfig = (
