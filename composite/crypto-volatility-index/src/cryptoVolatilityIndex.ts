@@ -23,8 +23,8 @@ export const calculate = async (
   const cvi = await applySmoothing(weightedCVI, oracleAddress, multiply, heartbeatMinutes)
 
   logger.info(`CVI: ${cvi}`)
-  validateIndex(cvi)
-  return toOnChainValue(cvi, multiply)
+  validateIndex(cvi, multiply)
+  return cvi
 }
 
 const calculateVixValues = async (derivativesData: Record<string, CurrencyDerivativesData>) => {
@@ -70,27 +70,30 @@ const getDominanceByCurrency = async () => {
 }
 
 const applySmoothing = async (
-  cvi: number,
+  weightedCVI: number,
   oracleAddress: string,
   multiply: number,
   heartBeatMinutes: number,
 ): Promise<number> => {
-  const { answer: latestIndex, updatedAt } = await getRpcLatestRound(oracleAddress, multiply)
-  const indexUpdatedAt = moment(updatedAt * 1000)
-  if (!latestIndex || latestIndex <= 0) {
+  const roundData = await getRpcLatestRound(oracleAddress, multiply)
+  const latestIndex = new Big(roundData.answer.toString())
+  const updatedAt = roundData.updatedAt.mul(1000).toNumber()
+  const cvi = toOnChainValue(weightedCVI, multiply)
+
+  if (latestIndex.lte(0)) {
     logger.warn('No on-chain index value found - Is first run of adapter?')
     return cvi
   }
 
   const now = moment().utc()
-  const dtSeconds = moment.duration(now.diff(indexUpdatedAt)).asSeconds()
+  const dtSeconds = moment.duration(now.diff(updatedAt)).asSeconds()
   if (dtSeconds < 0) {
     throw new Error('invalid time, please check the node clock')
   }
   const l = lambda(dtSeconds, heartBeatMinutes)
-  const smoothed = cvi * l + latestIndex * (1 - l)
-  logger.debug(`Previous value:${latestIndex}, updatedAt:${indexUpdatedAt}, dtSeconds:${dtSeconds}`)
-  return smoothed
+  const smoothed = latestIndex.mul(new Big(1 - l)).add(new Big(cvi).mul(l))
+  logger.debug(`Previous value:${latestIndex}, updatedAt:${updatedAt}, dtSeconds:${dtSeconds}`)
+  return smoothed.round().toNumber()
 }
 
 const LAMBDA_MIN = 0.01
@@ -101,8 +104,8 @@ const lambda = function (t: number, heartBeatMinutes: number) {
 }
 
 const MAX_INDEX = 200
-const validateIndex = function (cvi: number) {
-  if (cvi <= 0 || cvi > MAX_INDEX) {
+const validateIndex = function (cvi: number, multiply: number) {
+  if (cvi <= 0 || cvi > MAX_INDEX * multiply) {
     throw new Error('Invalid calculated index value')
   }
 }

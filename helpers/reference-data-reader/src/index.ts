@@ -1,6 +1,8 @@
 import { ethers } from 'ethers'
 import { AggregatorInterfaceFactory } from '@chainlink/contracts/ethers/v0.6/AggregatorInterfaceFactory'
+import { AggregatorV2V3InterfaceFactory } from '@chainlink/contracts/ethers/v0.6/AggregatorV2V3InterfaceFactory'
 import { util } from '@chainlink/ea-bootstrap'
+import { RoundData } from 'reference-data-reader'
 
 export type ReferenceDataPrice = (
   contractAddress: string,
@@ -8,15 +10,11 @@ export type ReferenceDataPrice = (
   meta?: Record<string, unknown>,
 ) => Promise<number>
 
-export type ReferenceDataRound = (contractAddress: string, multiply: number) => Promise<RoundData>
-
-export type RoundData = {
-  roundId: number
-  answer: number
-  startedAt: number
-  updatedAt: number
-  answeredInRound: number
-}
+export type ReferenceDataRound = (
+  contractAddress: string,
+  multiply: number,
+  meta?: Record<string, unknown>,
+) => Promise<RoundData>
 
 export const getLatestAnswer: ReferenceDataPrice = async (
   contractAddress: string,
@@ -27,7 +25,6 @@ export const getLatestAnswer: ReferenceDataPrice = async (
 
   return (meta.latestAnswer as number) / multiply
 }
-
 export const getRpcLatestAnswer: ReferenceDataPrice = async (
   contractAddress: string,
   multiply: number,
@@ -40,19 +37,9 @@ export const getRpcLatestAnswer: ReferenceDataPrice = async (
 
 export const getRpcLatestRound: ReferenceDataRound = async (
   contractAddress: string,
-  multiply: number,
 ): Promise<RoundData> => {
-  const rpcUrl = process.env.RPC_URL
-  const ABI = [
-    'function latestRoundData() external view returns (uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound)',
-  ]
+  const rpcUrl = util.getRequiredEnv('RPC_URL')
   const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
-  const contract = new ethers.Contract(contractAddress, ABI, provider)
-  const result = await contract.latestRoundData()
-  result.answer = result.answer / multiply
-  result.startedAt = Number(result.startedAt)
-  result.updatedAt = Number(result.updatedAt)
-  result.answeredInRound = Number(result.answeredInRound)
-  result.roundId = Number(result.roundId)
-  return result
+  const aggregator = AggregatorV2V3InterfaceFactory.connect(contractAddress, provider)
+  return await aggregator.latestRoundData()
 }
