@@ -30,7 +30,7 @@ const execute = (input, callback) => {
   if (endpoint in convertEndpoint) endpoint = convertEndpoint[endpoint]
 
   const url = `https://api.blockchair.com/${blockchain.toLowerCase()}/stats`
-  const key = process.env.API_KEY || util.getRandomRequiredEnv('API_KEY')
+  const key = util.getRandomRequiredEnv('API_KEY')
 
   const params = {}
   if (key.length > 0) params.key = key

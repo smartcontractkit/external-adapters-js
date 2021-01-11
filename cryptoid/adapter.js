@@ -19,7 +19,7 @@ const execute = (input, callback) => {
   const blockchain = validator.validated.data.blockchain.toLowerCase()
   const endpoint = validator.validated.data.endpoint || 'difficulty'
   const url = `https://${blockchain}.cryptoid.info/${blockchain}/api.dws`
-  const key = process.env.API_KEY || util.getRandomRequiredEnv('API_KEY')
+  const key = util.getRandomRequiredEnv('API_KEY')
   const q = endpointToQ[endpoint]
   const params = { key, q }
   const config = { url, params }
