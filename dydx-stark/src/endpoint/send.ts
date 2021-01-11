@@ -1,6 +1,6 @@
 import objectPath from 'object-path'
 import { ExecuteWithConfig } from '@chainlink/types'
-import { Requester, Validator, AdapterError, logger } from '@chainlink/external-adapter'
+import { Requester, Validator, logger } from '@chainlink/external-adapter'
 import { Config, DEFAULT_DATA_PATH } from '../config'
 import { PriceDataPoint, requireNormalizedPrice, getPricePayload } from './starkex'
 

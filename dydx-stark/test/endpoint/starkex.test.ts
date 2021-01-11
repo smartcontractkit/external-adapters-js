@@ -1,7 +1,12 @@
 import { assert } from 'chai'
-import { getKeyPair, requireNormalizedPrice } from '../../src/endpoint/starkex'
 import * as starkwareCrypto from '@authereum/starkware-crypto'
 import { AdapterError } from '@chainlink/external-adapter'
+import {
+  PriceDataPoint,
+  getKeyPair,
+  requireNormalizedPrice,
+  getPricePayload,
+} from '../../src/endpoint/starkex'
 
 type KeyPairTest = {
   name: string
@@ -18,6 +23,20 @@ type PriceNormalizationTest = {
     price: number | string
     expected: undefined | string
     error: boolean
+  }
+}
+
+type PricePayloadTest = {
+  name: string
+  testData: {
+    privateKey: string
+    starkMessage: string
+    data: PriceDataPoint
+    expected: {
+      signatureR: string
+      signatureS: string
+      starkKey: string
+    }
   }
 }
 
@@ -185,6 +204,42 @@ describe('starkex', () => {
           assert.isTrue(err instanceof AdapterError)
           assert.isTrue(t.testData.error)
         }
+      })
+    })
+  })
+
+  context('getPricePayload', () => {
+    const tests: PricePayloadTest[] = [
+      {
+        name: 'signature construction #1',
+        testData: {
+          privateKey: '0x4f3edf983ac636a65a842ce7c78d9aa706d3b113bce9c46f30d7d21715b23b1d',
+          starkMessage: 'StarkKeyDerivation',
+          data: {
+            oracleName: 'Maker',
+            assetName: 'BTCUSD',
+            timestamp: 1577836800,
+            price: requireNormalizedPrice('1', '11512.34'),
+          },
+          expected: {
+            signatureR: '0x6a7a118a6fa508c4f0eb77ea0efbc8d48a64d4a570d93f5c61cd886877cb920',
+            signatureS: '0x6de9006a7bbf610d583d514951c98d15b1a0f6c78846986491d2c8ca049fd55',
+            starkKey: '0x1895a6a77ae14e7987b9cb51329a5adfb17bd8e7c638f92d6892d76e51cebcf',
+          },
+        },
+      },
+    ]
+
+    tests.forEach((t) => {
+      it(`${t.name}`, async () => {
+        const payload = await getPricePayload(
+          t.testData.privateKey,
+          t.testData.starkMessage,
+          t.testData.data,
+        )
+        assert.equal(payload.starkKey, t.testData.expected.starkKey)
+        assert.equal(payload.signatureR, t.testData.expected.signatureR)
+        assert.equal(payload.signatureS, t.testData.expected.signatureS)
       })
     })
   })

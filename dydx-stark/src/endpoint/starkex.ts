@@ -27,7 +27,7 @@ const powOfTwo = (num: number) => TWO_BN.pow(new BN(num))
 const powOfTen = (num: number) => TEN_BN.pow(new BN(num))
 
 export const requireNormalizedPrice = (jobRunID: string, price: number | string): string => {
-  // Check if positive number
+  // Check if negative number
   if (isNaN(Number(price)) || Number(price) < 0) {
     throw new AdapterError({
       jobRunID,
@@ -111,9 +111,9 @@ export const getPricePayload = async (
   // 7. Communicate (time, price, asset_name, r, s, pub_key) to dYdX
   return {
     ...data,
-    signatureR: r.toString(16),
-    signatureS: s.toString(16),
-    starkKey: starkPublicKey,
+    signatureR: '0x' + r.toString(16),
+    signatureS: '0x' + s.toString(16),
+    starkKey: '0x' + starkPublicKey.substr(3),
   }
 }
 
@@ -146,9 +146,13 @@ export const getKeyPair = async (
  * @param data price data point to hash
  */
 export const getPriceMessage = (data: PriceDataPoint): BN => {
+  const hexOracleName = Buffer.from(data.oracleName).toString('hex')
+  // padded to 128 bit
+  const hexAssetName = Buffer.from(data.assetName).toString('hex').padEnd(32, '0')
+
   return getPriceMessageRaw(
-    new BN(Buffer.from(data.oracleName).toString('hex'), 16),
-    new BN(Buffer.from(data.assetName).toString('hex'), 16),
+    new BN(hexOracleName, 16),
+    new BN(hexAssetName, 16),
     new BN(data.timestamp),
     new BN(data.price),
   )
@@ -196,5 +200,6 @@ const getPriceMessageRaw = (oracleName: BN, assetName: BN, timestamp: BN, price:
   const w1 = first_number.toString(16)
   const w2 = second_number.toString(16)
   const hash = starkwareCrypto.hashMessage([w1, w2])
+
   return new BN(hash, 16)
 }
