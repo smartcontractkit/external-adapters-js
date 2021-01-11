@@ -162,10 +162,42 @@ describe('starkex', () => {
         },
       },
       {
+        name: 'price number many decimals',
+        testData: {
+          price: 0.1234567899999999,
+          expected: '123456789999999900',
+          error: false,
+        },
+      },
+      {
+        name: 'price number many decimals #2',
+        testData: {
+          price: 12.34567899999999,
+          expected: '12345678999999990000',
+          error: false,
+        },
+      },
+      {
         name: 'price number with 18 decimals',
         testData: {
           price: 0.000000000000000001,
           expected: '1',
+          error: false,
+        },
+      },
+      {
+        name: 'price number with 18 decimals #2',
+        testData: {
+          price: 1.000000000000000001,
+          expected: '1000000000000000000', // TODO: can we detect precision loss and throw?
+          error: false,
+        },
+      },
+      {
+        name: 'price number scientific notation',
+        testData: {
+          price: 2.32323300000012e-12,
+          expected: '2323233',
           error: false,
         },
       },
@@ -178,11 +210,19 @@ describe('starkex', () => {
         },
       },
       {
-        name: 'Error: price number with more than 18 decimals',
+        name: 'price string with 18 decimals #2',
+        testData: {
+          price: '1.000000000000000001',
+          expected: '1000000000000000001',
+          error: false,
+        },
+      },
+      {
+        name: 'price number with more than 18 decimals',
         testData: {
           price: 0.0000000000000000001,
-          expected: undefined,
-          error: true,
+          expected: '0', // TODO: can we detect precision loss and throw?
+          error: false,
         },
       },
       {
@@ -201,7 +241,7 @@ describe('starkex', () => {
           const normalizedPrice = requireNormalizedPrice('1', t.testData.price)
           assert.equal(normalizedPrice, t.testData.expected)
         } catch (err) {
-          assert.isTrue(err instanceof AdapterError)
+          if (!(err instanceof AdapterError)) throw err
           assert.isTrue(t.testData.error)
         }
       })

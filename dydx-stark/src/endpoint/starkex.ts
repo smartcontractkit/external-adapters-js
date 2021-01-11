@@ -26,6 +26,11 @@ const TEN_BN = new BN('10')
 const powOfTwo = (num: number) => TWO_BN.pow(new BN(num))
 const powOfTen = (num: number) => TEN_BN.pow(new BN(num))
 
+const ERROR_MSG_PRICE_NEGATIVE = 'Price must be a positive number.'
+const ERROR_MSG_PRICE_PRECISION_LOSS =
+  'Please use string type to avoid precision loss with very small/big numbers.'
+const ERROR_MSG_PRICE_MAX_DECIMALS = 'Price has too many decimals.'
+
 /**
  * Normalize price as string or throw on:
  *  - negative price
@@ -40,21 +45,15 @@ export const requireNormalizedPrice = (jobRunID: string, price: number | string)
 
   // Check if negative number
   if (isNaN(Number(price)) || Number(price) < 0) {
-    throw _error400(`Price must be a positive number. Got: ${price}`)
+    throw _error400(`${ERROR_MSG_PRICE_NEGATIVE} Got: ${price}`)
   }
 
   // Check if there is any loss of precision
   if (typeof price === 'number') {
-    const isDecimal = !Number.isInteger(price as number)
-    const decimalValue = price - Math.floor(price)
-    if (
-      price > Number.MAX_SAFE_INTEGER ||
-      (isDecimal && price > Number.MAX_SAFE_INTEGER / 100) ||
-      (decimalValue > 0 && decimalValue < 1e-18)
-    ) {
-      throw _error400(
-        `Please use string type to avoid precision loss with very small/big numbers. Got: ${price}.`,
-      )
+    // TODO: more precision loss detection with floats
+    const overSafeValue = price > Number.MAX_SAFE_INTEGER
+    if (overSafeValue) {
+      throw _error400(`${ERROR_MSG_PRICE_PRECISION_LOSS} Got: ${price}.`)
     }
   }
 
@@ -68,6 +67,8 @@ export const requireNormalizedPrice = (jobRunID: string, price: number | string)
         .toFixed(MAX_DECIMALS)
         // remove trailing zeros
         .replace(/(\.\d*?[1-9])0+$/g, '$1')
+        // remove decimal part if all zeros (or only decimal point)
+        .replace(/\.0*$/g, '')
     )
   }
 
@@ -79,11 +80,11 @@ export const requireNormalizedPrice = (jobRunID: string, price: number | string)
   if (decimals === 0) return priceBig.toString()
   // Check if too many decimals
   if (decimals > MAX_DECIMALS) {
-    throw _error400(`Price has too many decimals. Got: ${decimals}; Max: ${MAX_DECIMALS}`)
+    throw _error400(`${ERROR_MSG_PRICE_MAX_DECIMALS} Got: ${decimals}; Max: ${MAX_DECIMALS}`)
   }
 
-  const bigDecimals = new BN(priceStrParts[1]).mul(powOfTen(MAX_DECIMALS - decimals))
-  return priceBig.add(bigDecimals).toString()
+  const decimalValBig = new BN(priceStrParts[1]).mul(powOfTen(MAX_DECIMALS - decimals))
+  return priceBig.add(decimalValBig).toString()
 }
 
 /**
