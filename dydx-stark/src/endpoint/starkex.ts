@@ -26,14 +26,21 @@ const TEN_BN = new BN('10')
 const powOfTwo = (num: number) => TWO_BN.pow(new BN(num))
 const powOfTen = (num: number) => TEN_BN.pow(new BN(num))
 
+/**
+ * Normalize price as string or throw on:
+ *  - negative price
+ *  - loss of precision using number type
+ *  - using more than available decimal points
+ *
+ * @param jobRunID job id reported on error
+ * @param price price data point
+ */
 export const requireNormalizedPrice = (jobRunID: string, price: number | string): string => {
+  const _error400 = (message: string) => new AdapterError({ jobRunID, message, statusCode: 400 })
+
   // Check if negative number
   if (isNaN(Number(price)) || Number(price) < 0) {
-    throw new AdapterError({
-      jobRunID,
-      message: `Price must be a positive number. Got: ${price}`,
-      statusCode: 400,
-    })
+    throw _error400(`Price must be a positive number. Got: ${price}`)
   }
 
   // Check if there is any loss of precision
@@ -45,18 +52,17 @@ export const requireNormalizedPrice = (jobRunID: string, price: number | string)
       (isDecimal && price > Number.MAX_SAFE_INTEGER / 100) ||
       (decimalValue > 0 && decimalValue < 1e-18)
     ) {
-      throw new AdapterError({
-        jobRunID,
-        message: `Please use string type to avoid precision loss with very small/big numbers. Got: ${price}.`,
-        statusCode: 400,
-      })
+      throw _error400(
+        `Please use string type to avoid precision loss with very small/big numbers. Got: ${price}.`,
+      )
     }
   }
 
   // Convert number to decimal string (no scientific notation)
   const _toString = (n: number) => {
     const nStr = n.toString()
-    if (nStr.indexOf('e') === -1) return nStr
+    const isScientificNotation = nStr.indexOf('e') !== -1
+    if (!isScientificNotation) return nStr
     return (
       n
         .toFixed(MAX_DECIMALS)
@@ -73,11 +79,7 @@ export const requireNormalizedPrice = (jobRunID: string, price: number | string)
   if (decimals === 0) return priceBig.toString()
   // Check if too many decimals
   if (decimals > MAX_DECIMALS) {
-    throw new AdapterError({
-      jobRunID,
-      message: `Price has too many decimals. Got: ${decimals}; Max: ${MAX_DECIMALS}`,
-      statusCode: 400,
-    })
+    throw _error400(`Price has too many decimals. Got: ${decimals}; Max: ${MAX_DECIMALS}`)
   }
 
   const bigDecimals = new BN(priceStrParts[1]).mul(powOfTen(MAX_DECIMALS - decimals))
