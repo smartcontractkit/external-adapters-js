@@ -1,9 +1,8 @@
-import BN from 'bn.js'
 import objectPath from 'object-path'
 import { ExecuteWithConfig } from '@chainlink/types'
 import { Requester, Validator, AdapterError, logger } from '@chainlink/external-adapter'
 import { Config, DEFAULT_DATA_PATH } from '../config'
-import { PriceDataPoint, getPricePayload } from './starkex'
+import { PriceDataPoint, requireNormalizedPrice, getPricePayload } from './starkex'
 
 export const NAME = 'send'
 
@@ -21,22 +20,14 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const { asset, ...data } = validator.validated.data
 
   const dataPath = data.dataPath || DEFAULT_DATA_PATH
-  const price = <number>objectPath.get(data, dataPath)
-  // Check if input data is valid
-  if (isNaN(price)) {
-    throw new AdapterError({
-      jobRunID,
-      message: `Input, at '${dataPath}' path, must be a number. Got: ${price}`,
-      statusCode: 400,
-    })
-  }
+  const price = <number | string>objectPath.get(data, dataPath)
 
   const priceData: PriceDataPoint = {
     oracleName: config.oracleName,
-    assetPair: asset,
+    assetName: asset,
     // Get the current timestamp in seconds
     timestamp: Math.floor(Date.now() / 1000),
-    price: new BN(price),
+    price: requireNormalizedPrice(jobRunID, price),
   }
   const payload = await getPricePayload(config.privateKey, config.starkMessage, priceData)
 

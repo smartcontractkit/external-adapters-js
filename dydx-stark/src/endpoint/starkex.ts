@@ -2,21 +2,86 @@ import assert from 'assert'
 import BN from 'bn.js'
 import { ethers } from 'ethers'
 import * as starkwareCrypto from '@authereum/starkware-crypto'
+import { AdapterError } from '@chainlink/external-adapter'
 
 export type PriceDataPoint = {
   oracleName: string
-  assetPair: string
+  assetName: string
   timestamp: number
-  price: BN
+  price: string
 }
 
-export type PriceStarkPayload = {
-  time: number
-  price: string
-  asset_name: string
-  r: string
-  s: string
-  pub_key: string
+export type PriceStarkPayload = PriceDataPoint & {
+  starkKey: string
+  signatureR: string
+  signatureS: string
+}
+
+const MAX_DECIMALS = 18
+
+const ZERO_BN = new BN('0')
+const TWO_BN = new BN('2')
+const TEN_BN = new BN('10')
+
+const powOfTwo = (num: number) => TWO_BN.pow(new BN(num))
+const powOfTen = (num: number) => TEN_BN.pow(new BN(num))
+
+export const requireNormalizedPrice = (jobRunID: string, price: number | string): string => {
+  // Check if positive number
+  if (isNaN(Number(price)) || Number(price) < 0) {
+    throw new AdapterError({
+      jobRunID,
+      message: `Price must be a positive number. Got: ${price}`,
+      statusCode: 400,
+    })
+  }
+
+  // Check if there is any loss of precision
+  if (typeof price === 'number') {
+    const isDecimal = !Number.isInteger(price as number)
+    const decimalValue = price - Math.floor(price)
+    if (
+      price > Number.MAX_SAFE_INTEGER ||
+      (isDecimal && price > Number.MAX_SAFE_INTEGER / 100) ||
+      (decimalValue > 0 && decimalValue < 1e-18)
+    ) {
+      throw new AdapterError({
+        jobRunID,
+        message: `Please use string type to avoid precision loss with very small/big numbers. Got: ${price}.`,
+        statusCode: 400,
+      })
+    }
+  }
+
+  // Convert number to decimal string (no scientific notation)
+  const _toString = (n: number) => {
+    const nStr = n.toString()
+    if (nStr.indexOf('e') === -1) return nStr
+    return (
+      n
+        .toFixed(MAX_DECIMALS)
+        // remove trailing zeros
+        .replace(/(\.\d*?[1-9])0+$/g, '$1')
+    )
+  }
+
+  const priceStr = typeof price === 'number' ? _toString(price as number) : (price as string)
+  const priceStrParts = priceStr.split('.')
+  const priceBig = new BN(priceStrParts[0]).mul(powOfTen(MAX_DECIMALS))
+  const decimals = (priceStrParts[1] && priceStrParts[1].length) || 0
+
+  if (decimals === 0) return priceBig.toString()
+  // Check if too many decimals
+  if (decimals > MAX_DECIMALS) {
+    throw new AdapterError({
+      jobRunID,
+      message: `Price has too many decimals. Got: ${decimals}; Max: ${MAX_DECIMALS}`,
+      statusCode: 400,
+    })
+  }
+
+  const bigDecimals = new BN(priceStrParts[1]).mul(powOfTen(MAX_DECIMALS - decimals))
+  return priceBig.add(bigDecimals).toString()
 }
 
 /**
@@ -45,12 +110,10 @@ export const getPricePayload = async (
 
   // 7. Communicate (time, price, asset_name, r, s, pub_key) to dYdX
   return {
-    time: data.timestamp,
-    price: data.price.toString(10),
-    asset_name: data.assetPair,
-    r: r.toString(16),
-    s: s.toString(16),
-    pub_key: starkPublicKey,
+    ...data,
+    signatureR: r.toString(16),
+    signatureS: s.toString(16),
+    starkKey: starkPublicKey,
   }
 }
 
@@ -72,7 +135,7 @@ export const getKeyPair = async (
   const hash = ethers.utils.keccak256(flatSig)
 
   // 3. Cut the last 5 bits of it to get your 251-bit-long private stark key
-  const pk = new BN(hash).shrn(5).toString(16)
+  const pk = new BN(hash.substr(2), 16).shrn(5).toString(16)
 
   return starkwareCrypto.getKeyPair(pk)
 }
@@ -85,16 +148,11 @@ export const getKeyPair = async (
 export const getPriceMessage = (data: PriceDataPoint): BN => {
   return getPriceMessageRaw(
     new BN(Buffer.from(data.oracleName).toString('hex'), 16),
-    new BN(Buffer.from(data.assetPair).toString('hex'), 16),
+    new BN(Buffer.from(data.assetName).toString('hex'), 16),
     new BN(data.timestamp),
-    data.price,
+    new BN(data.price),
   )
 }
-
-const ZERO_BN = new BN('0')
-const TWO_BN = new BN('2')
-
-const powOfTwo = (num: number) => TWO_BN.pow(new BN(num))
 
 /**
  * Outputs a number which is less than FIELD_PRIME, which can be used as data
@@ -112,16 +170,16 @@ const powOfTwo = (num: number) => TWO_BN.pow(new BN(num))
  * # --------------------------------------------------------------------------------- #
  *
  * @param oracleName a 40-bit number, describes the oracle (i.e hex encoding of "Maker")
- * @param assetPair a 128-bit number
+ * @param assetName a 128-bit number
  * @param timestamp a 32 bit number, represents seconds since epoch
  * @param price a 120-bit number
  */
-const getPriceMessageRaw = (oracleName: BN, assetPair: BN, timestamp: BN, price: BN): BN => {
+const getPriceMessageRaw = (oracleName: BN, assetName: BN, timestamp: BN, price: BN): BN => {
   assert(oracleName.gte(ZERO_BN), 'oracleName must be >= 0')
   assert(oracleName.lt(powOfTwo(40)), 'oracleName must be < 2 ** 40')
 
-  assert(assetPair.gte(ZERO_BN), 'assetPair must be >= 0')
-  assert(assetPair.lt(powOfTwo(128)), 'assetPair must be < 2 ** 128')
+  assert(assetName.gte(ZERO_BN), 'assetName must be >= 0')
+  assert(assetName.lt(powOfTwo(128)), 'assetName must be < 2 ** 128')
 
   assert(timestamp.gte(ZERO_BN), 'timestamp must be >= 0')
   assert(timestamp.lt(powOfTwo(32)), 'timestamp must be < 2 ** 32')
@@ -130,7 +188,7 @@ const getPriceMessageRaw = (oracleName: BN, assetPair: BN, timestamp: BN, price:
   assert(price.lt(powOfTwo(120)), 'price must be < 2 ** 120')
 
   // The first number to hash is the oracle name (Maker) and the asset name.
-  const first_number = assetPair.shln(40).add(oracleName)
+  const first_number = assetName.shln(40).add(oracleName)
 
   // The second number is timestamp in the 32 LSB, then the price.
   const second_number = price.shln(32).add(timestamp)
