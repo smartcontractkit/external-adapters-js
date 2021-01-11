@@ -1,4 +1,5 @@
 const { Requester, Validator } = require('@chainlink/external-adapter')
+const { util } = require('@chainlink/ea-bootstrap')
 
 const customParams = {
   blockchain: ['blockchain', 'coin'],
@@ -21,7 +22,7 @@ const execute = (input, callback) => {
   if (blockchain in convertBlockchain) blockchain = convertBlockchain[blockchain]
 
   const url = `https://api.blockchair.com/${blockchain.toLowerCase()}/stats`
-  const key = process.env.API_KEY
+  const key = util.getRandomRequiredEnv('API_KEY')
 
   const params = {}
   if (key.length > 0) params.key = key

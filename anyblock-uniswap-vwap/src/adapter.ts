@@ -1,5 +1,6 @@
 import { Execute } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/external-adapter'
+import { util } from '@chainlink/ea-bootstrap'
 
 const customError = (data: any) => {
   return !data.hits || !data.hits.hits || data.hits.hits.length < 1
@@ -11,11 +12,6 @@ const customParams = {
   roundDay: false,
   start: false,
   end: false,
-}
-
-const headers = {
-  'Content-Type': 'application/json',
-  Authorization: `Bearer ${process.env.API_KEY}`,
 }
 
 const buildVWAP = (response: any, debug: boolean) => {
@@ -117,6 +113,11 @@ export const execute: Execute = async (input) => {
     sort: [{ timestamp: 'asc' }],
     size: 10000,
     _source: ['timestamp', 'args'],
+  }
+
+  const headers = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${util.getRandomRequiredEnv('API_KEY')}`,
   }
 
   const config = {

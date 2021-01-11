@@ -55,7 +55,7 @@ declare module '@chainlink/types' {
     apiKey?: string
     network?: string
     returnRejectedPromiseOnError?: Boolean
-    api: Partial<AxiosRequestConfig>
+    api?: Partial<AxiosRequestConfig>
   }
 
   export type Execute = (input: AdapterRequest) => Promise<AdapterResponse>
@@ -82,6 +82,7 @@ declare module '@chainlink/types' {
     chain?: ChainType
     balance?: number
   }
+
 }
 declare module '@chainlink/ea-bootstrap'
 declare module '@chainlink/external-adapter'

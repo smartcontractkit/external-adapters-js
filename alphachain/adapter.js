@@ -1,4 +1,5 @@
 const { Requester, Validator } = require('@chainlink/external-adapter')
+const { util } = require('@chainlink/ea-bootstrap')
 
 const customError = (data) => {
   if (data.status !== '200') return true
@@ -20,7 +21,7 @@ const execute = (input, callback) => {
   const headers = {
     'content-type': 'application/octet-stream',
     'x-rapidapi-host': host,
-    'x-rapidapi-key': process.env.API_KEY,
+    'x-rapidapi-key': util.getRandomRequiredEnv('API_KEY'),
     useQueryString: true,
   }
   const base = validator.validated.data.base.toUpperCase()

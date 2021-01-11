@@ -75,16 +75,17 @@
     "json-rpc",
     "composite/**",
     "xbto",
-    "iv-outlier-detection",
     "taapi",
     "stasis",
     "test-helpers",
-    "wti-outlier-detection",
     "tradermade",
     "finage",
     "coincodex",
     "coinranking",
-    "helpers/reference-data-reader"
+    "helpers/reference-data-reader",
+    "dns-query",
+    "dns-record-check",
+    "deribit"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",
