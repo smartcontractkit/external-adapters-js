@@ -24,11 +24,26 @@ describe('Bitcoin client @integration', function () {
     })
   })
 
-  context('getinfo', () => {
+  context('getblockchaininfo', () => {
     const req = {
       id: jobID,
       data: {
-        method: 'getinfo',
+        method: 'getblockchaininfo',
+      },
+    }
+
+    it('returns data to the node', async () => {
+      const resp = await execute(req)
+      assertSuccess({ expected: 200, actual: resp.statusCode }, resp.data, jobID)
+    })
+  })
+
+  context('get height of btc blockchain', () => {
+    const req = {
+      id: jobID,
+      data: {
+        blockchain: 'btc',
+        q: 'height',
       },
     }
 

@@ -46,6 +46,11 @@ function getBalanceExternalChain(string _account)
 }
 ```
 
+## Blockchain stats
+
+- `blockchain` or `coin`: The blockchain to get stats from
+- `q`: The parameter to query for. Default: "difficulty"
+
 ## Install
 
 Install dependencies
