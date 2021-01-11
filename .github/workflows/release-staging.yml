@@ -7,7 +7,7 @@ name: Release Staging
 
 env:
   cache-name: staging-cd
-  publicecr-name: x5x8k3n7
+  publicecr-name: chainlink-staging
 
 jobs:
   # Read build strategy matrix of adapters, from a json file
