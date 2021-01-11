@@ -6,7 +6,7 @@ import { send } from './endpoint'
 export const DEFAULT_DATA_PATH = 'result'
 export const DEFAULT_ENDPOINT = send.NAME
 
-export const DEFAULT_API_ENDPOINT = 'https://api.dydx.exchange/v3/price'
+export const DEFAULT_API_ENDPOINT = 'https://api.stage.dydx.exchange/v3/price'
 
 const ENV_PRIVATE_KEY = 'PRIVATE_KEY'
 const ENV_STARK_MESSAGE = 'STARK_MESSAGE'
