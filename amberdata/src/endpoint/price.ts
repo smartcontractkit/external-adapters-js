@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { ExecuteWithConfig } from '@chainlink/types'
+import { ExecuteWithConfig, Config } from '@chainlink/types'
 
 export const Name = 'price'
 
@@ -12,7 +12,7 @@ const customParams = {
   quote: ['quote', 'to', 'market'],
 }
 
-export const execute: ExecuteWithConfig = async (input, config) => {
+export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
   const jobRunID = validator.validated.id

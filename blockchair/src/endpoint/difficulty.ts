@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { ExecuteWithConfig } from '@chainlink/types'
+import { ExecuteWithConfig, Config } from '@chainlink/types'
 import { COINS } from '.'
 
 export const Name = 'difficulty'
@@ -8,7 +8,7 @@ const inputParams = {
   blockchain: ['blockchain', 'coin'],
 }
 
-export const execute: ExecuteWithConfig = async (input, config) => {
+export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const validator = new Validator(input, inputParams)
   if (validator.error) throw validator.error
   const jobRunID = validator.validated.id
