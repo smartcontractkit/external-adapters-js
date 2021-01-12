@@ -1,4 +1,7 @@
 import { expose, util } from '@chainlink/ea-bootstrap'
-import execute from './adapter'
+import { makeExecute } from './adapter'
+import { makeConfig } from './config'
 
-export = { execute, ...expose(util.wrapExecute(execute)) }
+const NAME = 'APY-Finance'
+
+export = { NAME, makeConfig, makeExecute, ...expose(util.wrapExecute(makeExecute())) }

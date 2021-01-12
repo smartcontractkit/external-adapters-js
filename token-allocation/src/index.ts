@@ -1,6 +1,7 @@
 import { expose, util } from '@chainlink/ea-bootstrap'
-import { execute } from './adapter'
+import { makeExecute } from './adapter'
+import { makeConfig } from './config'
 
 const NAME = 'Token-Allocations'
 
-export = { NAME, execute, ...expose(util.wrapExecute(execute)) }
+export = { NAME, makeExecute, makeConfig, ...expose(util.wrapExecute(makeExecute())) }

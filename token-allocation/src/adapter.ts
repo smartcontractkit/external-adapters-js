@@ -1,9 +1,8 @@
-import { util } from '@chainlink/ea-bootstrap'
+import { ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { AdapterRequest, Execute } from '@chainlink/types'
 import Decimal from 'decimal.js'
 import { utils } from 'ethers'
-import { getPriceAdapter, PriceAdapter } from './priceAdapter'
+import { Config, makeConfig } from './config'
 
 export type Index = IndexAsset[]
 
@@ -40,29 +39,22 @@ const calculateIndexValue = (index: Index): number => {
   return index.reduce((acc, i) => acc.plus(i.units.times(i.price!)), new Decimal(0)).toNumber()
 }
 
-export const execute: Execute = async (input) => {
-  const dataProvider = util.getRequiredEnv('DATA_PROVIDER')
-  const priceAdapter = getPriceAdapter(dataProvider)
-  return await executeWithAdapters(input, priceAdapter)
-}
-
-const executeWithAdapters = async function (input: AdapterRequest, adapter: PriceAdapter) {
+export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const validator = new Validator(input, inputParams)
   if (validator.error) throw validator.error
 
-  try {
-    const jobRunID = validator.validated.id
-    const { components, units, currency = 'USD' } = validator.validated.data
+  const jobRunID = validator.validated.id
+  const { components, units, currency = 'USD' } = validator.validated.data
 
-    const index = await makeIndex(components, units, currency)
-    const priceIndex = await adapter.getPriceIndex(index, currency)
-    const totalValue = calculateIndexValue(priceIndex)
+  const index = await makeIndex(components, units, currency)
+  const priceIndex = await config.priceAdapter.getPriceIndex(index, currency)
+  const totalValue = calculateIndexValue(priceIndex)
 
-    return Requester.success(jobRunID, {
-      status: 200,
-      data: { result: totalValue, index: priceIndex },
-    })
-  } catch (e) {
-    console.log(e)
-  }
+  return Requester.success(jobRunID, {
+    status: 200,
+    data: { result: totalValue, index: priceIndex },
+  })
 }
+
+export const makeExecute: ExecuteFactory<Config> = (config?: Config) => (input) =>
+  execute(input, config || makeConfig())
