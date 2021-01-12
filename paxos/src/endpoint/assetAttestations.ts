@@ -26,8 +26,7 @@ const getAttestationURI = (asset: string) => `/asset-attestations/${asset.toUppe
 
 const toAttestation = async (config: Config, asset: string): Promise<Attestation> => {
   const url = getAttestationURI(asset)
-  const params = {}
-  const reqConfig = { ...config.api, params, baseURL: BASE_URL, url }
+  const reqConfig = { ...config.api, baseURL: BASE_URL, url }
 
   const response = await Requester.request(reqConfig, customError)
   return {
