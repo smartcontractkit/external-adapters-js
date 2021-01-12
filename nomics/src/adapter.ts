@@ -1,7 +1,7 @@
 import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
 import { ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
 import { makeConfig, DEFAULT_ENDPOINT } from './config'
-import { eod } from './endpoint'
+import { globalmarketcap, price } from './endpoint'
 
 const inputParams = {
   endpoint: false,
@@ -16,15 +16,15 @@ export const execute: ExecuteWithConfig = async (request, config) => {
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
 
+  let data
   switch (endpoint) {
-    case eod.Name: {
-      const data = await eod.execute(config, request)
-
-      return Requester.success(jobRunID, {
-        data,
-        result: data.result,
-        status: 200,
-      })
+    case globalmarketcap.Name: {
+      data = await globalmarketcap.execute(config, request)
+      break
+    }
+    case price.Name: {
+      data = await price.execute(config, request)
+      break
     }
     default: {
       throw new AdapterError({
@@ -34,6 +34,12 @@ export const execute: ExecuteWithConfig = async (request, config) => {
       })
     }
   }
+
+  return Requester.success(jobRunID, {
+    data,
+    result: data.result,
+    status: 200,
+  })
 }
 
 export const makeExecute: ExecuteFactory = (config) => {

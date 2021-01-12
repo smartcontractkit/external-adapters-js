@@ -37,5 +37,6 @@ export const execute = async (config: Config, request: AdapterRequest) => {
   }
 
   const response = await Requester.request(reqConfig, customError)
-  return [response.data, Requester.validateResultNumber(response.data, ['data', 0, 'close'])]
+  response.data.result = Requester.validateResultNumber(response.data, ['data', 0, 'close'])
+  return response.data
 }
