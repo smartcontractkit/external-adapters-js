@@ -3,7 +3,6 @@ import { ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
 import { makeConfig, DEFAULT_ENDPOINT } from './config'
 import { dominance, marketcap, price } from './endpoint'
 
-
 const inputParams = {
   endpoint: false,
 }

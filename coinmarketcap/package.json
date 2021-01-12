@@ -1,5 +1,5 @@
 {
-  "name": "@chainlink/example-adapter",
+  "name": "@chainlink/coinmarketcap-adapter",
   "version": "0.0.1",
   "description": "Chainlink example adapter.",
   "keywords": [

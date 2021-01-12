@@ -4,7 +4,6 @@ import { assertSuccess, assertError } from '@chainlink/adapter-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
 import { makeExecute } from '../src/adapter'
 
-
 describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
