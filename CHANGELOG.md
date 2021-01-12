@@ -17,6 +17,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `finage` to get Financial data from finage.co.uk
   - `coincodex` to get crypto prices from CoinCodex
   - `coinranking` to get crypto prices from Coinranking
+  - `btc.com` to get on-chain balances from BTC.com
+  - `sochain` to get on-chain balances from SoChain
   - `dns-query` to query DNS over HTTPS
   - `dns-record-check` to check whether some record provided exists on DNS
   - `outlier-detection`: composite adapter to check for outlier values between multiple sets of data providers
@@ -24,6 +26,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Added support for metadata in requests. This gives adapters access to the FM on-chain round state.
 - Moves re-usable test behaviors & testing utils to a new package - `@chainlink/adapter-test-helpers`
 - Added support for using query string parameters as input to adapters.
+- Add a package re-usable adapter factory implementations to - `@chainlink/ea-factories`
+
 - Added support for using multiple API Keys per-adapter
 
 ### Changed
@@ -32,7 +36,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Market closure is now a composite adapter, and now follows the build instructions for composite adapters. Market
   now also supports using metadata.
 - Coinlore now accepts an optional environment variable to set the default API endpoint
-- migrates @chainlink/ea-bootstrap and @chainlink/external-adapter packages to TS.
+- Migrates @chainlink/ea-bootstrap and @chainlink/external-adapter packages to TS.
+- Updates the following adapters with a second endpoint for getting an account's on-chain balance
+  - `amberdata`
+  - `blockchair`
+  - `cryptoapis`
 - dxFeed now uses OTC feeds for FTSE and N225, rather than licensed data feeds
 
 ### Removed
