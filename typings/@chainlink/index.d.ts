@@ -96,7 +96,7 @@ declare module '@chainlink/types' {
     address: string
   }
   export type Account = Address & {
-    balance?: number
+    balance?: string
     coin?: string
     chain?: string
     warning?: string

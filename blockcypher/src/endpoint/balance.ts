@@ -43,7 +43,7 @@ const getBalance: balance.GetBalance = async (account, config) => {
 
   return {
     payload: response,
-    result: [{ ...account, balance: response.balance }],
+    result: [{ ...account, balance: String(response.balance) }],
   }
 }
 

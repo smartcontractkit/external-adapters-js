@@ -9,7 +9,7 @@ import objectPath from 'object-path'
 import { Validator, AdapterError } from '@chainlink/external-adapter'
 import { util } from '@chainlink/ea-bootstrap'
 
-const DEFAULT_DATA_PATH = 'addresses'
+const DEFAULT_DATA_PATH = 'result'
 const DEFAULT_CONFIRMATIONS = 6
 
 const WARNING_UNSUPPORTED_PARAMS = 'No Operation: this provider does not support'
@@ -101,11 +101,7 @@ export const make: ExecuteFactory<BalanceConfig> = (config) => async (input) => 
 
   const data: SequenceResponseData<Account> = {
     responses: responses.map((r: any) => r.payload),
-    result: accounts.map((a, i) => {
-      const hasResp = responseLookup[`${a.address}-${a.coin}-${a.chain}`]
-      if (hasResp) return hasResp
-      return a
-    }),
+    result: accounts.map((a, i) => responseLookup[`${a.address}-${a.coin}-${a.chain}`] || a),
   }
 
   if (!config.verbose) delete data.responses

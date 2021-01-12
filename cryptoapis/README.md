@@ -46,7 +46,7 @@ The adapter takes the following environment variables:
 
 https://docs.cryptoapis.io/rest-apis/blockchain-as-a-service-apis/btc/index#btc-address-info-endpoint
 
-- `dataPath`: Optional path where to find the addresses array, defaults to `addresses`
+- `dataPath`: Optional path where to find the addresses array, defaults to `result`
 - `confirmations`: Optional confirmations param, defaults to `6`
 
 - `addresses`: Addresses to query
@@ -68,7 +68,8 @@ https://docs.cryptoapis.io/rest-apis/blockchain-as-a-service-apis/btc/index#btc-
         "address": "n4VQ5YdHf7hLQ2gWQYYrcxoE5B7nWuDFNF",
         "chain": "testnet"
       }
-    ]
+    ],
+    "dataPath": "addresses"
   }
 }
 ```
@@ -107,7 +108,7 @@ https://docs.cryptoapis.io/rest-apis/blockchain-as-a-service-apis/btc/index#btc-
       "address": "n4VQ5YdHf7hLQ2gWQYYrcxoE5B7nWuDFNF",
       "chain": "testnet",
       "coin": "btc",
-      "balance": "131.35943575"
+      "balance": "13135943575"
     }
   ],
   "statusCode": 200

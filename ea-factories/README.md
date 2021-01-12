@@ -10,7 +10,7 @@ Queries the balance from an address of a given coin and chain
 
 ### Input
 
-- `dataPath`: Optional path where to find the addresses array, defaults to `addresses`
+- `dataPath`: Optional path where to find the addresses array, defaults to `result`
 - `confirmations`: Optional confirmations param, defaults to `6`
 
 - `addresses`: A list of addresses to query

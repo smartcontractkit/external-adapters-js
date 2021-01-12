@@ -14,8 +14,7 @@ function base(execute: Execute) {
             id: jobID,
             data: {
               endpoint: 'balance',
-              dataPath: 'addresses',
-              addresses: [],
+              result: [],
             },
           },
         },
@@ -25,8 +24,7 @@ function base(execute: Execute) {
             id: jobID,
             data: {
               endpoint: 'not_real',
-              dataPath: 'addresses',
-              addresses: [
+              result: [
                 {
                   address: '35ULMyVnFoYaPaMxwHTRmaGdABpAThM4QR',
                   coin: 'btc',
@@ -43,7 +41,7 @@ function base(execute: Execute) {
             data: {
               endpoint: 'balance',
               dataPath: 'not_real',
-              addresses: [
+              result: [
                 {
                   address: 'n4VQ5YdHf7hLQ2gWQYYrcxoE5B7nWuDFNF',
                   coin: 'btc',
@@ -65,8 +63,7 @@ function base(execute: Execute) {
             id: jobID,
             data: {
               endpoint: 'balance',
-              dataPath: 'addresses',
-              addresses: [
+              result: [
                 {
                   address: 'n4VQ5YdHf7hLQ2gWQYYrcxoE5B7nWuDFNF',
                   coin: 'btc',
@@ -83,8 +80,7 @@ function base(execute: Execute) {
             data: {
               endpoint: 'balance',
               confirmations: null,
-              dataPath: 'addresses',
-              addresses: [
+              result: [
                 {
                   address: 'n4VQ5YdHf7hLQ2gWQYYrcxoE5B7nWuDFNF',
                   coin: 'btc',
@@ -100,8 +96,7 @@ function base(execute: Execute) {
             id: jobID,
             data: {
               endpoint: 'balance',
-              dataPath: 'addresses',
-              addresses: [
+              result: [
                 {
                   address: 'n4VQ5YdHf7hLQ2gWQYYrcxoE5B7nWuDFNF',
                   coin: 'btc',
@@ -117,8 +112,7 @@ function base(execute: Execute) {
             id: jobID,
             data: {
               endpoint: 'balance',
-              dataPath: 'addresses',
-              addresses: [
+              result: [
                 {
                   address: 'n4VQ5YdHf7hLQ2gWQYYrcxoE5B7nWuDFNF',
                   coin: 'not_real',
@@ -154,8 +148,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
             testData: {
               data: {
                 endpoint: 'balance',
-                dataPath: 'addresses',
-                addresses: [
+                result: [
                   {
                     address: '3D8DJLwUXFfZvE8yJRu729MZ8uLy25SuLz',
                     coin: 'btc',
@@ -176,8 +169,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
               id: jobID,
               data: {
                 endpoint: 'balance',
-                dataPath: 'addresses',
-                addresses: [
+                result: [
                   {
                     address: '3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1',
                     coin: 'btc',
@@ -234,8 +226,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
               id: jobID,
               data: {
                 endpoint: 'balance',
-                dataPath: 'addresses',
-                addresses: [
+                result: [
                   {
                     address: 'n4VQ5YdHf7hLQ2gWQYYrcxoE5B7nWuDFNF',
                     chain: 'testnet',
@@ -272,8 +263,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
               id: '1',
               data: {
                 endpoint: 'balance',
-                dataPath: 'addresses',
-                addresses: [
+                result: [
                   {
                     coin: 'eth',
                     chain: 'mainnet',
@@ -310,8 +300,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
               id: '1',
               data: {
                 endpoint: 'balance',
-                dataPath: 'addresses',
-                addresses: [
+                result: [
                   {
                     coin: 'eth',
                     chain: 'testnet',
@@ -348,8 +337,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
               id: '1',
               data: {
                 endpoint: 'balance',
-                dataPath: 'addresses',
-                addresses: [
+                result: [
                   {
                     coin: 'bch',
                     chain: 'mainnet',
@@ -386,8 +374,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
               id: '1',
               data: {
                 endpoint: 'balance',
-                dataPath: 'addresses',
-                addresses: [
+                result: [
                   {
                     coin: 'bch',
                     chain: 'testnet',
@@ -424,8 +411,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
               id: '1',
               data: {
                 endpoint: 'balance',
-                dataPath: 'addresses',
-                addresses: [
+                result: [
                   {
                     coin: 'btsv',
                     chain: 'mainnet',
@@ -462,8 +448,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
               id: '1',
               data: {
                 endpoint: 'balance',
-                dataPath: 'addresses',
-                addresses: [
+                result: [
                   {
                     coin: 'btsv',
                     chain: 'testnet',
@@ -500,8 +485,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
               id: '1',
               data: {
                 endpoint: 'balance',
-                dataPath: 'addresses',
-                addresses: [
+                result: [
                   {
                     coin: 'ltc',
                     chain: 'mainnet',
@@ -538,8 +522,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
               id: '1',
               data: {
                 endpoint: 'balance',
-                dataPath: 'addresses',
-                addresses: [
+                result: [
                   {
                     coin: 'ltc',
                     chain: 'testnet',
@@ -576,8 +559,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
               id: '1',
               data: {
                 endpoint: 'balance',
-                dataPath: 'addresses',
-                addresses: [
+                result: [
                   {
                     coin: 'zec',
                     chain: 'mainnet',
@@ -614,8 +596,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
               id: '1',
               data: {
                 endpoint: 'balance',
-                dataPath: 'addresses',
-                addresses: [
+                result: [
                   {
                     coin: 'zec',
                     chain: 'testnet',
@@ -652,8 +633,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
               id: '1',
               data: {
                 endpoint: 'balance',
-                dataPath: 'addresses',
-                addresses: [
+                result: [
                   {
                     coin: 'doge',
                     chain: 'mainnet',
@@ -690,8 +670,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
               id: '1',
               data: {
                 endpoint: 'balance',
-                dataPath: 'addresses',
-                addresses: [
+                result: [
                   {
                     coin: 'doge',
                     chain: 'testnet',
@@ -728,8 +707,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
               id: '1',
               data: {
                 endpoint: 'balance',
-                dataPath: 'addresses',
-                addresses: [
+                result: [
                   {
                     coin: 'zil',
                     chain: 'mainnet',
@@ -766,8 +744,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
               id: '1',
               data: {
                 endpoint: 'balance',
-                dataPath: 'addresses',
-                addresses: [
+                result: [
                   {
                     coin: 'zil',
                     chain: 'testnet',
@@ -804,8 +781,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
               id: '1',
               data: {
                 endpoint: 'balance',
-                dataPath: 'addresses',
-                addresses: [
+                result: [
                   {
                     coin: 'dash',
                     chain: 'mainnet',
@@ -842,8 +818,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
               id: '1',
               data: {
                 endpoint: 'balance',
-                dataPath: 'addresses',
-                addresses: [
+                result: [
                   {
                     coin: 'dash',
                     chain: 'testnet',
@@ -880,8 +855,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
               id: '1',
               data: {
                 endpoint: 'balance',
-                dataPath: 'addresses',
-                addresses: [
+                result: [
                   {
                     coin: 'etc',
                     chain: 'mainnet',
@@ -918,8 +892,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
               id: '1',
               data: {
                 endpoint: 'balance',
-                dataPath: 'addresses',
-                addresses: [
+                result: [
                   {
                     coin: 'etc',
                     chain: 'testnet',
@@ -956,8 +929,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
               id: '1',
               data: {
                 endpoint: 'balance',
-                dataPath: 'addresses',
-                addresses: [
+                result: [
                   {
                     coin: 'grs',
                     chain: 'mainnet',

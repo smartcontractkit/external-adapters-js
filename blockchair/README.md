@@ -95,9 +95,7 @@ The adapter takes the following environment variables:
 
 https://blockchair.com/api/docs#link_390
 
-\*Note because blockchair does not fill 0 balances, they are also not filled by this adapter
-
-- `dataPath`: Optional path where to find the addresses array, defaults to `addresses`
+- `dataPath`: Optional path where to find the addresses array, defaults to `result`
 - `confirmations`: Optional confirmations param, defaults to `6`
 
 - `addresses`: Addresses to query
@@ -133,7 +131,8 @@ https://blockchair.com/api/docs#link_390
       {
         "address": "35ULMyVnFoYaPaMxwHTRmaGdABpAThM4QR"
       }
-    ]
+    ],
+    "dataPath": "addresses"
   }
 }
 ```
@@ -227,37 +226,37 @@ https://blockchair.com/api/docs#link_390
         "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1",
         "coin": "btc",
         "chain": "mainnet",
-        "balance": 547
+        "balance": "547"
       },
       {
         "address": "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF",
         "coin": "btc",
         "chain": "mainnet",
-        "balance": 3282
+        "balance": "3282"
       },
       {
         "address": "3ANaBZ6odMrzdg9xifgRNxAUFUxnReesws",
         "coin": "btc",
         "chain": "mainnet",
-        "balance": 547
+        "balance": "547"
       },
       {
         "address": "3FFgKaYkEf1M73QtzuY9DGqC7VeM2sAQhT",
         "coin": "btc",
         "chain": "mainnet",
-        "balance": 895134971346
+        "balance": "895134971346"
       },
       {
         "address": "3KTeq879YjzhqkAXzZmdapJAVC6qz5qEth",
         "coin": "btc",
         "chain": "mainnet",
-        "balance": 202325966208
+        "balance": "202325966208"
       },
       {
         "address": "35ULMyVnFoYaPaMxwHTRmaGdABpAThM4QR",
         "coin": "btc",
         "chain": "mainnet",
-        "balance": 500000010680
+        "balance": "500000010680"
       }
     ]
   ],

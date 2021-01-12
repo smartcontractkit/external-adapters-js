@@ -4,7 +4,7 @@
 
 The adapter takes the following environment variables:
 
-- `API_KEY`: Optional Blochair API key to use
+- `API_KEY`: Optional API key to use
 - `API_TIMEOUT`: Optional timeout param, defaults to `30000`
 
 ## Input Params
@@ -44,7 +44,7 @@ Gets the [latest spot VWAP price](https://docs.amberdata.io/reference#spot-price
 
 ### Balance endpoint
 
-- `dataPath`: Optional path where to find the addresses array, defaults to `addresses`
+- `dataPath`: Optional path where to find the addresses array, defaults to `result`
 - `confirmations`: Optional confirmations param, defaults to `6`
 
 - `addresses`: Addresses to query
@@ -68,7 +68,8 @@ Gets the [latest spot VWAP price](https://docs.amberdata.io/reference#spot-price
       {
         "address": "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF"
       }
-    ]
+    ],
+    "dataPath": "addresses"
   }
 }
 ```

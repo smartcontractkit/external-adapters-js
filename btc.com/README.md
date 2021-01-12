@@ -12,7 +12,7 @@ The adapter takes the following environment variables:
 
 ### Balance endpoint
 
-- `dataPath`: Optional path where to find the addresses array, defaults to `addresses`
+- `dataPath`: Optional path where to find the addresses array, defaults to `result`
 - `confirmations`: Optional confirmations param, defaults to `6`
 
 - `addresses`: Addresses to query
@@ -38,7 +38,8 @@ The adapter takes the following environment variables:
         "address": "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF",
         "coin": "btc"
       }
-    ]
+    ],
+    "dataPath": "addresses"
   }
 }
 ```
@@ -105,13 +106,13 @@ The adapter takes the following environment variables:
       "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1",
       "coin": "btc",
       "chain": "mainnet",
-      "balance": 547
+      "balance": "547"
     },
     {
       "address": "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF",
       "coin": "btc",
       "chain": "mainnet",
-      "balance": 3282
+      "balance": "3282"
     }
   ],
   "statusCode": 200

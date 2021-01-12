@@ -28,7 +28,7 @@ export function getDefaultConfig(prefix = ''): Config {
     api: {
       withCredentials: !!apiKey,
       baseURL: util.getEnv(ENV_API_ENDPOINT, prefix),
-      timeout: timeout ? parseInt(timeout) : DEFAULT_API_TIMEOUT,
+      timeout: parseInt(timeout) || DEFAULT_API_TIMEOUT,
       headers: {
         common: {
           'Cache-Control': 'no-cache, no-store, must-revalidate',

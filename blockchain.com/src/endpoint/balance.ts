@@ -12,7 +12,7 @@ const getBalanceURI = (address: string, confirmations: number) =>
 const getBalance: balance.GetBalance = async (account, config) => {
   const reqConfig = {
     ...config.api,
-    baseURL: getBaseURL(account.chain as ChainType),
+    baseURL: config.api.baseURL || getBaseURL(account.chain as ChainType),
     url: getBalanceURI(account.address, config.confirmations as number),
   }
 
@@ -20,7 +20,7 @@ const getBalance: balance.GetBalance = async (account, config) => {
 
   return {
     payload: response.data,
-    result: [{ ...account, balance: response.data }],
+    result: [{ ...account, balance: String(response.data) }],
   }
 }
 
