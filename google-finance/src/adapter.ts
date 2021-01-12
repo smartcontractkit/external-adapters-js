@@ -1,8 +1,7 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
 import { makeConfig } from './config'
-// need declaration file in order to import instead of require
-const google = require('boxhock_google-finance-data')
+import { google } from 'boxhock_google-finance-data'
 
 const commonKeys: { [key: string]: string } = {
   N225: 'INDEXNIKKEI:NI225',
