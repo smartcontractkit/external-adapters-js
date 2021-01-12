@@ -21,6 +21,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `sochain` to get on-chain balances from SoChain
   - `dns-query` to query DNS over HTTPS
   - `dns-record-check` to check whether some record provided exists on DNS
+  - `paxos` to get Paxos asset supply attestations
   - `outlier-detection`: composite adapter to check for outlier values between multiple sets of data providers
   - `dydx-stark` to sign the input price data with your private STARK key, and send it to the destination endpoint.
 - Added support for metadata in requests. This gives adapters access to the FM on-chain round state.

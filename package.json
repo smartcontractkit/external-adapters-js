@@ -88,6 +88,7 @@
     "helpers/reference-data-reader",
     "dns-query",
     "dns-record-check",
+    "paxos",
     "deribit",
     "dydx-stark"
   ],
