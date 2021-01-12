@@ -31,6 +31,8 @@ const ERROR_MSG_PRICE_PRECISION_LOSS =
   'Please use string type to avoid precision loss with very small/big numbers.'
 const ERROR_MSG_PRICE_MAX_DECIMALS = 'Price has too many decimals.'
 
+const error400 = (message: string) => new AdapterError({ message, statusCode: 400 })
+
 /**
  * Normalize price as string or throw on:
  *  - negative price
@@ -40,12 +42,10 @@ const ERROR_MSG_PRICE_MAX_DECIMALS = 'Price has too many decimals.'
  * @param jobRunID job id reported on error
  * @param price price data point
  */
-export const requireNormalizedPrice = (jobRunID: string, price: number | string): string => {
-  const _error400 = (message: string) => new AdapterError({ jobRunID, message, statusCode: 400 })
-
+export const requireNormalizedPrice = (price: number | string): string => {
   // Check if negative number
   if (isNaN(Number(price)) || Number(price) < 0) {
-    throw _error400(`${ERROR_MSG_PRICE_NEGATIVE} Got: ${price}`)
+    throw error400(`${ERROR_MSG_PRICE_NEGATIVE} Got: ${price}`)
   }
 
   // Check if there is any loss of precision
@@ -53,7 +53,7 @@ export const requireNormalizedPrice = (jobRunID: string, price: number | string)
     // TODO: more precision loss detection with floats
     const overSafeValue = price > Number.MAX_SAFE_INTEGER
     if (overSafeValue) {
-      throw _error400(`${ERROR_MSG_PRICE_PRECISION_LOSS} Got: ${price}.`)
+      throw error400(`${ERROR_MSG_PRICE_PRECISION_LOSS} Got: ${price}.`)
     }
   }
 
@@ -80,7 +80,7 @@ export const requireNormalizedPrice = (jobRunID: string, price: number | string)
   if (decimals === 0) return priceBig.toString()
   // Check if too many decimals
   if (decimals > MAX_DECIMALS) {
-    throw _error400(`${ERROR_MSG_PRICE_MAX_DECIMALS} Got: ${decimals}; Max: ${MAX_DECIMALS}`)
+    throw error400(`${ERROR_MSG_PRICE_MAX_DECIMALS} Got: ${decimals}; Max: ${MAX_DECIMALS}`)
   }
 
   const decimalValBig = new BN(priceStrParts[1]).mul(powOfTen(MAX_DECIMALS - decimals))
@@ -149,7 +149,8 @@ export const getKeyPair = async (
  * @param data price data point to hash
  */
 export const getPriceMessage = (data: PriceDataPoint): BN => {
-  const hexOracleName = Buffer.from(data.oracleName).toString('hex')
+  // padded to 40 bit
+  const hexOracleName = Buffer.from(data.oracleName).toString('hex').padEnd(10, '0')
   // padded to 128 bit
   const hexAssetName = Buffer.from(data.assetName).toString('hex').padEnd(32, '0')
 
@@ -182,17 +183,17 @@ export const getPriceMessage = (data: PriceDataPoint): BN => {
  * @param price a 120-bit number
  */
 const getPriceMessageRaw = (oracleName: BN, assetName: BN, timestamp: BN, price: BN): BN => {
-  assert(oracleName.gte(ZERO_BN), 'oracleName must be >= 0')
-  assert(oracleName.lt(powOfTwo(40)), 'oracleName must be < 2 ** 40')
+  assert(oracleName.gte(ZERO_BN), error400('oracleName must be >= 0'))
+  assert(oracleName.lt(powOfTwo(40)), error400('oracleName must be < 2 ** 40'))
 
-  assert(assetName.gte(ZERO_BN), 'assetName must be >= 0')
-  assert(assetName.lt(powOfTwo(128)), 'assetName must be < 2 ** 128')
+  assert(assetName.gte(ZERO_BN), error400('assetName must be >= 0'))
+  assert(assetName.lt(powOfTwo(128)), error400('assetName must be < 2 ** 128'))
 
-  assert(timestamp.gte(ZERO_BN), 'timestamp must be >= 0')
-  assert(timestamp.lt(powOfTwo(32)), 'timestamp must be < 2 ** 32')
+  assert(timestamp.gte(ZERO_BN), error400('timestamp must be >= 0'))
+  assert(timestamp.lt(powOfTwo(32)), error400('timestamp must be < 2 ** 32'))
 
-  assert(price.gte(ZERO_BN), 'price must be >= 0')
-  assert(price.lt(powOfTwo(120)), 'price must be < 2 ** 120')
+  assert(price.gte(ZERO_BN), error400('price must be >= 0'))
+  assert(price.lt(powOfTwo(120)), error400('price must be < 2 ** 120'))
 
   // The first number to hash is the oracle name (Maker) and the asset name.
   const first_number = assetName.shln(40).add(oracleName)

@@ -27,7 +27,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     assetName: asset,
     // Get the current timestamp in seconds
     timestamp: Math.floor(Date.now() / 1000),
-    price: requireNormalizedPrice(jobRunID, price),
+    price: requireNormalizedPrice(price),
   }
   const payload = await getPricePayload(config.privateKey, config.starkMessage, priceData)
 
