@@ -1,4 +1,4 @@
-# Chainlink External Adapter to Check DNS Records
+# Chainlink External Adapter to Calculate APY Finance TVL
 
 The adapter calculates APY Finance total value locked 
 
