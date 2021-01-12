@@ -24,9 +24,9 @@ export const getCheckImpl = (type: CheckDataProvider): Execute => {
   const prefix = type?.toUpperCase()
   switch (type) {
     case CheckDataProvider.OilpriceAPI:
-      return (data) => OilpriceAPI.execute(data, OilpriceAPI.makeConfig(prefix))
+      return OilpriceAPI.makeExecute(OilpriceAPI.makeConfig(prefix))
     case CheckDataProvider.Deribit:
-      return (data) => Deribit.execute(data, Deribit.makeConfig(prefix))
+      return Deribit.makeExecute(Deribit.makeConfig(prefix))
     default:
       throw Error(`Unknown source data provider adapter type: ${type}`)
   }
