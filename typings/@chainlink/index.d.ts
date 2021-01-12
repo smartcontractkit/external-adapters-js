@@ -91,10 +91,6 @@ declare module '@chainlink/types' {
     makeConfig: ConfigFactory
   } & ExecuteHandlers
 
-  export interface Implementations<t> {
-    [type: string]: AdapterImplementation
-  }
-
   /* IMPLEMENTATIONS */
   export type Address = {
     address: string

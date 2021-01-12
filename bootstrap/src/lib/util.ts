@@ -4,6 +4,7 @@ import {
   AdapterRequest,
   AdapterResponse,
   WrappedAdapterResponse,
+  AdapterImplementation,
 } from '@chainlink/types'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -43,7 +44,8 @@ export const toAsync = (
     execute(data, (statusCode: number, data: AdapterResponse) => resolve({ statusCode, data })),
   )
 
-export const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+export const delay = (ms: number): Promise<number> =>
+  new Promise((resolve) => setTimeout(resolve, ms))
 
 /**
  * Return a value used for exponential backoff in milliseconds.
@@ -94,7 +96,8 @@ const getEnvName = (name: string, prefix = '') => {
 // Only case-insensitive alphanumeric and underscore (_) are allowed for env vars
 const isEnvNameValid = (name: string) => /^[_a-z0-9]+$/i.test(name)
 
-export const getEnv = (name: string, prefix = '') => process.env[getEnvName(name, prefix)]
+export const getEnv = (name: string, prefix = ''): string | undefined =>
+  process.env[getEnvName(name, prefix)]
 
 // Custom error for required env variable.
 export class RequiredEnvError extends Error {
@@ -110,7 +113,7 @@ export class RequiredEnvError extends Error {
  * @throws {RequiredEnvError} Will throw an error if environment variable is not defined.
  * @returns {string}
  */
-export const getRequiredEnv = (name: string, prefix = '') => {
+export const getRequiredEnv = (name: string, prefix = ''): string => {
   const val = getEnv(name, prefix)
   if (!val) throw new RequiredEnvError(getEnvName(name, prefix))
   return val
@@ -139,7 +142,6 @@ export const wrapExecute = (execute: Execute) => async (
  *
  * @returns Map of the array grouped by the grouping function.
  */
-
 export function groupBy<K, V>(list: Array<V>, keyGetter: (input: V) => K): Map<K, Array<V>> {
   const map = new Map<K, Array<V>>()
   list.forEach((item) => {
@@ -153,3 +155,11 @@ export function groupBy<K, V>(list: Array<V>, keyGetter: (input: V) => K): Map<K
   })
   return map
 }
+
+/**
+ * Predicate used to find adapter by name
+ *
+ * @param name string adapter name
+ */
+export const byName = (name?: string) => (a: AdapterImplementation): boolean =>
+  a.NAME.toUpperCase() === name?.toUpperCase()

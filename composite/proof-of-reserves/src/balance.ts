@@ -1,43 +1,42 @@
-import { Execute, Implementations } from '@chainlink/types'
+import { Execute, AdapterImplementation } from '@chainlink/types'
+import { util } from '@chainlink/ea-bootstrap'
+// balance adapters
 import amberdata from '@chainlink/amberdata-adapter'
 import blockchainCom from '@chainlink/blockchain.com-adapter'
 import blockchair from '@chainlink/blockchair-adapter'
 import blockcypher from '@chainlink/blockcypher-adapter'
-import btc_com from '@chainlink/btc.com-adapter'
+import btcCom from '@chainlink/btc.com-adapter'
 import cryptoapis from '@chainlink/cryptoapis-adapter'
 import sochain from '@chainlink/sochain-adapter'
 
-export type BitcoinIndexerOptions = { type?: BitcoinIndexer }
-export enum BitcoinIndexer {
-  Amberdata = 'amberdata',
-  BlockchainCom = 'blockchain_com',
-  Blockcypher = 'blockcypher',
-  Blockchair = 'blockchair',
-  BtcCom = 'btc_com',
-  Cryptoapis = 'cryptoapis',
-  SoChain = 'sochain',
-}
-const implLookup: Implementations<BitcoinIndexer> = {
-  [amberdata.NAME]: amberdata,
-  [blockchainCom.NAME]: blockchainCom,
-  [blockcypher.NAME]: blockcypher,
-  [blockchair.NAME]: blockchair,
-  [btc_com.NAME]: btc_com,
-  [cryptoapis.NAME]: cryptoapis,
-  [sochain.NAME]: sochain,
+const ENV_BTC_INDEXER_ADAPTER = 'BTC_INDEXER_ADAPTER'
+
+const adapters: AdapterImplementation[] = [
+  amberdata,
+  blockchainCom,
+  blockcypher,
+  blockchair,
+  btcCom,
+  cryptoapis,
+  sochain,
+]
+
+export type BitcoinIndexer = typeof adapters[number]['NAME']
+export type BitcoinIndexerOptions = {
+  type?: BitcoinIndexer
 }
 
-const isBitcoinIndexer = (envVar?: string): envVar is BitcoinIndexer =>
-  Object.values(BitcoinIndexer).includes(envVar as any)
+const isBitcoinIndexer = (envVal?: string): envVal is BitcoinIndexer =>
+  !!(envVal && adapters.find(util.byName(envVal)))
 
 export const getBitcoinIndexer = (): BitcoinIndexer | undefined => {
-  const bitcoinIndexer = process.env.BTC_INDEXER_ADAPTER
-  return isBitcoinIndexer(bitcoinIndexer) ? (bitcoinIndexer as BitcoinIndexer) : undefined
+  const envVal = util.getEnv(ENV_BTC_INDEXER_ADAPTER)
+  return isBitcoinIndexer(envVal) ? envVal : undefined
 }
 
 export const getImpl = (options: BitcoinIndexerOptions): Execute => {
   const prefix = options.type?.toUpperCase()
-  const impl = options.type && implLookup[options.type?.toUpperCase()]
+  const impl = adapters.find(util.byName(options.type))
   if (!impl) throw Error(`Unknown balance adapter type: ${options.type}`)
 
   return (data) => {
