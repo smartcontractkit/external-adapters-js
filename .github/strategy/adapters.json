@@ -35,6 +35,7 @@
       "cryptoid",
       "cryptomkt",
       "currencylayer",
+      "deribit",
       "dns-query",
       "dxfeed",
       "eodhistoricaldata",
@@ -49,7 +50,6 @@
       "fmpcloud",
       "genesis-volatility",
       "google-finance",
-      "iv-outlier-detection",
       "json-rpc",
       "kaiko",
       "kaiko",
@@ -76,8 +76,8 @@
       "tradingeconomics",
       "trueusd",
       "wbtc-address-set",
-      "wti-outlier-detection",
-      "xbto"
+      "xbto",
+      "dydx-stark"
     ]
   },
   "2-step": {
@@ -100,12 +100,7 @@
     "cmd": "make zip adapter=composite/__ADAPTER__ name=__ADAPTER__",
     "asset_path": "./composite/__ADAPTER__/dist/__ADAPTER__-adapter.zip",
     "asset_name": "__ADAPTER__-adapter.zip",
-    "adapter": [
-      "proof-of-reserves",
-      "market-closure",
-      "defi-pulse",
-      "dns-record-check"
-    ]
+    "adapter": ["proof-of-reserves", "market-closure", "defi-pulse", "dns-record-check", "outlier-detection"]
   },
   "synth-index": {
     "docker": "make docker-synth-index adapter=__ADAPTER__",

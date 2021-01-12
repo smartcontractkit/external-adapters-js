@@ -98,6 +98,7 @@ export const expose = (
     awsHandlerHTTP: aws.initHandlerHTTP(_execute),
   }
 }
+export type ExecuteHandlers = ReturnType<typeof expose>
 
 // Log cache default options once
 const cacheOptions = defaultOptions()

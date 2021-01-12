@@ -4,6 +4,7 @@ const { execute } = require('../adapter')
 
 describe('execute', () => {
   const jobID = '1'
+  process.env.API_KEY = 'test_api_key'
 
   context('successful calls @integration', () => {
     const requests = [

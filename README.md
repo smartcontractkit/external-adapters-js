@@ -163,3 +163,11 @@ $input.json('$')
 - Click More, Add variable (repeat for all environment variables)
   - NAME: API_KEY
   - VALUE: Your_API_key
+
+### Multiple API Key Support
+In order to use multiple API keys for an adapter, simply comma delimit the keys where you define the environment variable. This will work for an arbitrary number of keys.
+
+```
+API_KEY=myapikey1,myapikey2,myapikey3
+```
+The external adapter will then randomly rotate the keys. Over time  this should balance out the number of requests between each of the API keys.
