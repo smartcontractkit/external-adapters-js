@@ -18,7 +18,7 @@ const getBalance: balance.GetBalance = async (account, config) => {
   }
 
   const response = await Requester.request(options)
-  const balance = util.convertUnits(account.chain, response.data.payload.balance)
+  const balance = util.convertUnits(account.coin, response.data.payload.balance)
 
   return {
     payload: response.data,
