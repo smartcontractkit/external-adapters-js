@@ -1,11 +1,74 @@
-# General JSON-RPC External Adapter for Chainlink
+# Bitcoin JSON-RPC External Adapter for Chainlink
 
-- Should work for any JSON RPC supported endpoint (includes tests for a few major projects which support JSON RPC commands)
+- Should work for any Bitcoin JSON RPC supported endpoint
 - Supports AWS Lambda and GCP Functions
-- Blockchain clients can sign and send transactions if wallet is unlocked
+- Bitcoin clients can sign and send transactions if wallet is unlocked
 - Takes optional connection to RPC endpoint (set via `RPC_URL` environment variable)
 
-A JSON-RPC request is typically formatted like this:
+## Input Params
+
+Returns blockchain info stats, by calling `"method": "getblockchainfo"`
+
+- `endpoint`: The parameter to query for. Default: "difficulty"
+
+## Output
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "chain": "main",
+    "blocks": 412022,
+    "headers": 665582,
+    "bestblockhash": "0000000000000000056482e60e14364c82903764eb88aef8fb0b1b60647334be",
+    "difficulty": 194254820283.444,
+    "mediantime": 1463406562,
+    "verificationprogress": 0.2162006436056612,
+    "initialblockdownload": true,
+    "chainwork": "0000000000000000000000000000000000000000001973393fcfc0215ecc9726",
+    "size_on_disk": 4758448869,
+    "pruned": true,
+    "pruneheight": 406538,
+    "automatic_pruning": true,
+    "prune_target_size": 5242880000,
+    "softforks": {
+      "bip34": {
+        "type": "buried",
+        "active": true,
+        "height": 227931
+      },
+      "bip66": {
+        "type": "buried",
+        "active": true,
+        "height": 363725
+      },
+      "bip65": {
+        "type": "buried",
+        "active": true,
+        "height": 388381
+      },
+      "csv": {
+        "type": "buried",
+        "active": false,
+        "height": 419328
+      },
+      "segwit": {
+        "type": "buried",
+        "active": false,
+        "height": 481824
+      }
+    },
+    "warnings": "",
+    "result": 665582
+  },
+  "result": 665582,
+  "statusCode": 200
+}
+```
+
+Also allows for general JSON-RPC requests, formatted like this:
+
+# Input
 
 ```JSON
 {
@@ -19,30 +82,13 @@ A JSON-RPC request is typically formatted like this:
 }
 ```
 
-What this adapter does is allow you to specify the `"method"` and `"params"` values in a Chainlink request and receive the result (format example below) back to the Chainlink node for further processing.
+# Output
 
 ```JSON
 {
   "id":1,
   "jsonrpc": "2.0",
   "result": "some_result"
-}
-```
-
-In Solidity, a Chainlink request can be made to an external chain for the balance of a given account with the following example:
-
-```javascript
-function getBalanceExternalChain(string _account)
-  public
-  onlyOwner
-{
-  Chainlink.Request memory req = newRequest(JOB_ID, this, this.fulfillRPCCall.selector);
-  req.add("method", "eth_getBalance");
-  string[] memory params = new string[](2);
-  path[0] = _account;
-  path[1] = "latest";
-  req.addStringArray("params", params);
-  chainlinkRequest(req, ORACLE_PAYMENT);
 }
 ```
 
@@ -62,31 +108,8 @@ Testing is dependent on the type of node you're connecting to. You can set a loc
 
 RPC Address and Port Defaults:
 
-- Ethereum: http://localhost:8545
-- AION: http://localhost:8545
 - BTC: (bitcoind) http://localhost:8332 (btcd) http://localhost:8334
-- Zilliqa: http://localhost:4201
-
-For Ethereum and any Geth clone (should work with Parity as well):
 
 ```bash
-npm run test:eth
-```
-
-For Bitcoin:
-
-```bash
-npm run test:btc
-```
-
-For AION:
-
-```bash
-npm run test:aion
-```
-
-For Zilliqa:
-
-```bash
-npm run test:zilliqa
+npm run test
 ```

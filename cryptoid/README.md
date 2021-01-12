@@ -3,7 +3,7 @@
 ## Input Params
 
 - `blockchain` or `coin`: The blockchain to get stats from
-- `q`: The parameter to query for. Default: "difficulty"
+- `endpoint`: The parameter to query for. Default: "difficulty"
 
 ## Output
 

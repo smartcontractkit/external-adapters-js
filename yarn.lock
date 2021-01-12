@@ -68,9 +68,6 @@
     "@truffle/contract" "^4.2.6"
     ethers "^4.0.45"
 
-"@chainlink/json-rpc-adapter@file:json-rpc":
-  version "0.0.1"
-
 "@chainlink/reduce@^0.0.3":
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/@chainlink/reduce/-/reduce-0.0.3.tgz#6d26f5a0d299fce3497c0539e3aede2aff71f7d9"

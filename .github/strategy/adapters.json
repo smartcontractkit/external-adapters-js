@@ -106,7 +106,8 @@
       "defi-pulse",
       "dns-record-check",
       "outlier-detection",
-      "crypto-volatility-index"
+      "crypto-volatility-index",
+      "bitcoin-json-rpc"
     ]
   },
   "synth-index": {
