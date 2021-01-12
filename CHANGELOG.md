@@ -33,6 +33,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Coinlore now accepts an optional environment variable to set the default API endpoint
 - migrates @chainlink/ea-bootstrap and @chainlink/external-adapter packages to TS.
 - dxFeed now uses OTC feeds for FTSE and N225, rather than licensed data feeds
+- migrates `coinmarketcap` to TS
 
 ### Removed
 
