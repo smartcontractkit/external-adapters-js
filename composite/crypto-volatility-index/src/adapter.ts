@@ -6,6 +6,7 @@ const customParams = {
   contract: ['contractAddress', 'contract'],
   multiply: false,
   heartbeatMinutes: false,
+  isAdaptive: false,
 }
 export const execute: Execute = async (input) => {
   const validator = new Validator(input, customParams)
@@ -15,8 +16,9 @@ export const execute: Execute = async (input) => {
   const oracleAddress = validator.validated.data.contract
   const multiply = validator.validated.data.multiply || 1000000
   const heartbeatMinutes = validator.validated.data.heartbeatMinutes || 60
+  const isAdaptive = validator.validated.data.isAdaptive !== false
 
-  const result = await calculate(oracleAddress, multiply, heartbeatMinutes)
+  const result = await calculate(oracleAddress, multiply, heartbeatMinutes, isAdaptive)
   return Requester.success(jobRunID, {
     data: { result },
     result,

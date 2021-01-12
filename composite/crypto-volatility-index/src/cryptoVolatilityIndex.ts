@@ -12,6 +12,7 @@ export const calculate = async (
   oracleAddress: string,
   multiply: number,
   heartbeatMinutes: number,
+  isAdaptive: boolean,
 ): Promise<number> => {
   // Get all of the required derivatives data for the calculations, for all the relevant currencies
   const derivativesData = await getDerivativesData(cryptoCurrencies)
@@ -20,7 +21,9 @@ export const calculate = async (
   // Apply weights to calculate the Crypto Vix
   const weightedCVI = await calculateWeighted(volatilityIndexData)
   // Smooth CVI with previous on-chain value if exists
-  const cvi = await applySmoothing(weightedCVI, oracleAddress, multiply, heartbeatMinutes)
+  const cvi = !isAdaptive
+    ? toOnChainValue(weightedCVI, multiply)
+    : await applySmoothing(weightedCVI, oracleAddress, multiply, heartbeatMinutes)
 
   logger.info(`CVI: ${cvi}`)
   validateIndex(cvi, multiply)
