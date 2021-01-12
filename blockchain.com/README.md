@@ -114,7 +114,7 @@ The adapter takes the following environment variables:
       "address": "3D8DJLwUXFfZvE8yJRu729MZ8uLy25SuLz",
       "coin": "btc",
       "chain": "mainnet",
-      "balance"":" 44900000000
+      "balance": "44900000000"
     },
     {
       "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1",
