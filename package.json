@@ -88,7 +88,8 @@
     "helpers/reference-data-reader",
     "dns-query",
     "dns-record-check",
-    "deribit"
+    "deribit",
+    "dydx-stark"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",

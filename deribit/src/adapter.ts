@@ -5,7 +5,7 @@ const customParams = {
   currency: ['base', 'from', 'coin', 'symbol'],
 }
 
-export const execute: ExecuteWithConfig = async (input, config) => {
+export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
 

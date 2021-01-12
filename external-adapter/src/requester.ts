@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { AdapterError } from './errors'
 import { logger } from './logger'
 import { getDefaultConfig, logConfig } from './config'
-import { AdapterResponse } from '@chainlink/types'
+import { AdapterResponse, AdapterErrorResponse } from '@chainlink/types'
 
 const getFalse = () => false
 
@@ -80,10 +80,23 @@ export class Requester {
     return path.reduce((o, n) => o[n], data)
   }
 
-  static errored(jobRunID = '1', error?: AdapterError | Error | string, statusCode = 500) {
-    if (error instanceof AdapterError) return error.toJSONResponse()
-    if (error instanceof Error)
-      return new AdapterError({ jobRunID, statusCode, cause: error }).toJSONResponse()
+  static errored(
+    jobRunID = '1',
+    error?: AdapterError | Error | string,
+    statusCode = 500,
+  ): AdapterErrorResponse {
+    if (error instanceof AdapterError) {
+      error.jobRunID = jobRunID
+      return error.toJSONResponse()
+    }
+    if (error instanceof Error) {
+      return new AdapterError({
+        jobRunID,
+        statusCode,
+        message: error.message,
+        cause: error,
+      }).toJSONResponse()
+    }
     return new AdapterError({ jobRunID, statusCode, message: error }).toJSONResponse()
   }
 

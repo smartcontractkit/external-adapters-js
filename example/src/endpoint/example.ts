@@ -1,7 +1,7 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { ExecuteWithConfig } from '@chainlink/types'
+import { ExecuteWithConfig, Config } from '@chainlink/types'
 
-export const Name = 'example'
+export const NAME = 'example'
 
 const customError = (data: any) => data.Response === 'Error'
 
@@ -10,10 +10,11 @@ const customParams = {
   quote: ['quote', 'to', 'market'],
 }
 
-export const execute: ExecuteWithConfig = async (input, config) => {
-  const validator = new Validator(input, customParams)
+export const execute: ExecuteWithConfig<Config> = async (request, config) => {
+  const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 
+  const jobRunID = validator.validated.id
   const base = validator.validated.data.base
   const quote = validator.validated.data.quote
   const url = `price`
@@ -26,5 +27,11 @@ export const execute: ExecuteWithConfig = async (input, config) => {
   const reqConfig = { ...config.api, params, baseURL: 'http://localhost:18081', url }
 
   const response = await Requester.request(reqConfig, customError)
-  return Requester.validateResultNumber(response.data, ['price'])
+  const result = Requester.validateResultNumber(response.data, ['price'])
+
+  return Requester.success(jobRunID, {
+    data: { result },
+    result,
+    status: 200,
+  })
 }
