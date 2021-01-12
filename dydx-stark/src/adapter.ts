@@ -1,7 +1,7 @@
-import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
-import { ExecuteWithConfig, ExecuteFactory, Config } from '@chainlink/types'
-import { makeConfig, DEFAULT_ENDPOINT } from './config'
-import { balance } from './endpoint'
+import { Validator, AdapterError } from '@chainlink/external-adapter'
+import { ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
+import { Config, makeConfig, logConfig, DEFAULT_ENDPOINT } from './config'
+import { send } from './endpoint'
 
 const inputParams = {
   endpoint: false,
@@ -11,16 +11,14 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const validator = new Validator(request, inputParams)
   if (validator.error) throw validator.error
 
-  Requester.logConfig(config)
+  logConfig(config)
 
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
 
-  let result
   switch (endpoint) {
-    case balance.Name: {
-      result = await balance.execute(config, request)
-      break
+    case send.NAME: {
+      return await send.execute(request, config)
     }
     default: {
       throw new AdapterError({
@@ -30,12 +28,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
       })
     }
   }
-
-  return Requester.success(jobRunID, {
-    data: { result },
-    result,
-    status: 200,
-  })
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {

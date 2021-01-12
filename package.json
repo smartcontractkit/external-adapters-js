@@ -86,7 +86,8 @@
     "dns-query",
     "dns-record-check",
     "deribit",
-    "token-allocation"
+    "token-allocation",
+    "dydx-stark"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",
