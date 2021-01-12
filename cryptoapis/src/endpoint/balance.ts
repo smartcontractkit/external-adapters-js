@@ -2,6 +2,7 @@ import { balance } from '@chainlink/ea-factories'
 import { Requester } from '@chainlink/external-adapter'
 import { Config } from '@chainlink/types'
 import { isCoinType, isChainType, TESTNET_BLOCKCHAINS } from '.'
+import { utils } from '@chainlink/ea-bootstrap'
 
 export const Name = 'balance'
 
@@ -11,14 +12,17 @@ const getBalanceURI = (address: string, chain: string, coin: string) => {
 }
 
 const getBalance: balance.GetBalance = async (account, config) => {
-  const reqConfig = {
+  const options = {
     ...config.api,
     url: getBalanceURI(account.address, account.chain as string, account.coin as string),
   }
-  const response = await Requester.request(reqConfig)
+
+  const response = await Requester.request(options)
+  const balance = utils.convertUnits(account.chain, response.data.payload.balance)
+
   return {
     payload: response.data,
-    result: [{ ...account, balance: response.data.payload.balance }],
+    result: [{ ...account, balance }],
   }
 }
 
