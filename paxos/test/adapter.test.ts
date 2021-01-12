@@ -15,8 +15,12 @@ describe('execute', () => {
         testData: { data: { asset: 'PAX' } },
       },
       {
-        name: 'asset',
+        name: 'asset: PAX',
         testData: { id: jobID, data: { asset: 'PAX' } },
+      },
+      {
+        name: 'asset: PAXG',
+        testData: { id: jobID, data: { asset: 'PAXG' } },
       },
     ]
 
