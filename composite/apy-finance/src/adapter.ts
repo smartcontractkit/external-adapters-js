@@ -4,12 +4,8 @@ import TokenAllocation from '@chainlink/token-allocation-adapter'
 import { util } from '@chainlink/ea-bootstrap'
 import makeRegistry from './registry'
 
-const customParams = {
-  currency: false,
-}
-
 export const execute: Execute = async (input) => {
-  const validator = new Validator(input, customParams)
+  const validator = new Validator(input)
   if (validator.error) throw validator.error
 
   const rpcUrl = util.getRequiredEnv('RPC_URL')
@@ -19,8 +15,7 @@ export const execute: Execute = async (input) => {
   const allocations = await registry.getAllocations()
 
   return await TokenAllocation.execute({
-    ...input,
-    data: { ...allocations, currency: validator.validated.data.currency },
+    data: { ...input.data, ...allocations },
   })
 }
 
