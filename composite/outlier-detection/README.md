@@ -69,7 +69,7 @@ env \
 env \
   SOURCE_ADAPTERS=genesisvolatility \
   CHECK_ADAPTERS=deribit \
-  GENESIS_VOLATILITY_API_KEY=your-genesisvolatility-api-key \
+  GENESISVOLATILITY_API_KEY=your-genesisvolatility-api-key \
   RPC_URL=your-https-rpc-url \
   CHECK_THRESHOLD=30 \
   ONCHAIN_THRESHOLD=50 \
