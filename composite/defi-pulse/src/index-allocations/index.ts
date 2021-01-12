@@ -1,4 +1,5 @@
 import { ethers } from 'ethers'
+import { getSymbol } from '../symbols'
 
 type Allocations = {
   components: string[]
@@ -32,13 +33,20 @@ export const getAllocations = async (
   contractAddress: string,
   setAddress: string,
   rpcUrl: string,
+  network: string,
 ): Promise<Allocations> => {
   const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
   const index = new ethers.Contract(contractAddress, ABI, provider)
   const info = await index.getAllocations(setAddress)
 
+  const components: string[] = await Promise.all(
+    info[0].map(async (address: string) => {
+      return await getSymbol(address, network, rpcUrl)
+    }),
+  )
+
   return {
-    components: info[0],
+    components,
     units: info[1],
   }
 }
