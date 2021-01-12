@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
+import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
 import { makeConfig } from './config'
 // need declaration file in order to import instead of require
 const google = require('boxhock_google-finance-data')
@@ -13,7 +13,7 @@ const inputParams = {
   base: ['base', 'from', 'asset'],
 }
 
-export const execute: ExecuteWithConfig = async (request, config) => {
+export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const validator = new Validator(request, inputParams)
   if (validator.error) throw validator.error
 
@@ -39,6 +39,6 @@ export const execute: ExecuteWithConfig = async (request, config) => {
   }
 }
 
-export const makeExecute: ExecuteFactory = (config) => {
+export const makeExecute: ExecuteFactory<Config> = (config) => {
   return async (request) => execute(request, config || makeConfig())
 }
