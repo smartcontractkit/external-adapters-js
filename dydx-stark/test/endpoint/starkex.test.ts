@@ -8,40 +8,17 @@ import {
   getPricePayload,
 } from '../../src/endpoint/starkex'
 
-type KeyPairTest = {
-  name: string
-  testData: {
-    privateKey: string
-    starkMessage: string
-    expected: string
-  }
-}
-
-type PriceNormalizationTest = {
-  name: string
-  testData: {
-    price: number | string
-    expected: undefined | string
-    error: boolean
-  }
-}
-
-type PricePayloadTest = {
-  name: string
-  testData: {
-    privateKey: string
-    starkMessage: string
-    data: PriceDataPoint
-    expected: {
-      signatureR: string
-      signatureS: string
-      starkKey: string
-    }
-  }
-}
-
 describe('starkex', () => {
   context('getKeyPair', () => {
+    type KeyPairTest = {
+      name: string
+      testData: {
+        privateKey: string
+        starkMessage: string
+        expected: string
+      }
+    }
+
     const tests: KeyPairTest[] = [
       {
         name: 'Test key derivation #1',
@@ -64,6 +41,15 @@ describe('starkex', () => {
   })
 
   context('requireNormalizedPrice', () => {
+    type PriceNormalizationTest = {
+      name: string
+      testData: {
+        price: number | string
+        expected: undefined | string
+        error: boolean
+      }
+    }
+
     const tests: PriceNormalizationTest[] = [
       {
         name: 'price number (zero)',
@@ -238,8 +224,9 @@ describe('starkex', () => {
     tests.forEach((t) => {
       it(`${t.name}`, async () => {
         try {
-          const normalizedPrice = requireNormalizedPrice('1', t.testData.price)
+          const normalizedPrice = requireNormalizedPrice(t.testData.price)
           assert.equal(normalizedPrice, t.testData.expected)
+          assert.isFalse(t.testData.error)
         } catch (err) {
           if (!(err instanceof AdapterError)) throw err
           assert.isTrue(t.testData.error)
@@ -249,6 +236,20 @@ describe('starkex', () => {
   })
 
   context('getPricePayload', () => {
+    type PricePayloadTest = {
+      name: string
+      testData: {
+        privateKey: string
+        starkMessage: string
+        data: PriceDataPoint
+        expected: {
+          signatureR: string
+          signatureS: string
+          starkKey: string
+        }
+      }
+    }
+
     const tests: PricePayloadTest[] = [
       {
         name: 'signature construction #1',
@@ -259,7 +260,7 @@ describe('starkex', () => {
             oracleName: 'Maker',
             assetName: 'BTCUSD',
             timestamp: 1577836800,
-            price: requireNormalizedPrice('1', '11512.34'),
+            price: requireNormalizedPrice('11512.34'),
           },
           expected: {
             signatureR: '0x6a7a118a6fa508c4f0eb77ea0efbc8d48a64d4a570d93f5c61cd886877cb920',
