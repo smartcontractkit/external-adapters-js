@@ -20,6 +20,8 @@ The CVI calculation requires the following environment variables:
 
 - `contractAddress` or `contract`: The address of the on-chain crypto volatility index aggregator contract
 - `heartBeat` (Optional): The time length of the aggregator heart beat in minutes (Default: 180)
+- `multiply`: (Optional) Multiply amount for the on-chain value, which also determines the result precision (default: 1000000)
+- `isAdaptive`: (Optional) Indicates whether the calculation result should be adaptively smoothed with its latest on-chain value (default: true)
 
 ## Build and run
 

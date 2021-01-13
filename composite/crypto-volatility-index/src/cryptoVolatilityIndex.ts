@@ -114,6 +114,5 @@ const validateIndex = function (cvi: number, multiply: number) {
 }
 
 const toOnChainValue = function (cvi: number, multiply: number) {
-  const trimmed = Number(cvi.toFixed(multiply.toString().length - 1)) // Keep decimal precision in same magnitude as multiply
-  return trimmed * multiply
+  return Number(cvi.toFixed(multiply.toString().length - 1)) // Keep decimal precision in same magnitude as multiply
 }
