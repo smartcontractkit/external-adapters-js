@@ -39,7 +39,7 @@ export type PriceAdapter = {
   getPriceIndex: GetPriceIndex
 }
 
-export type Config = types.Config & {
+export type Config = {
   priceAdapter: PriceAdapter
   defaultCurrency: string
 }

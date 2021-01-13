@@ -1,7 +1,6 @@
-import types from '@chainlink/types'
 import { util } from '@chainlink/ea-bootstrap'
 
-export type Config = types.Config & {
+export type Config = {
   rpcUrl: string
   addressRegistry: string
 }

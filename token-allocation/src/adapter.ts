@@ -1,4 +1,4 @@
-import { ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
+import { AdapterResponse, Execute, AdapterRequest } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/external-adapter'
 import Decimal from 'decimal.js'
 import { utils } from 'ethers'
@@ -39,7 +39,7 @@ export const calculateIndexValue = (index: Index): number => {
   return index.reduce((acc, i) => acc.plus(i.units.times(i.price!)), new Decimal(0)).toNumber()
 }
 
-export const execute: ExecuteWithConfig<Config> = async (input, config) => {
+export const execute = async (input: AdapterRequest, config: Config): Promise<AdapterResponse> => {
   const validator = new Validator(input, inputParams)
   if (validator.error) throw validator.error
 
@@ -56,5 +56,6 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   })
 }
 
-export const makeExecute: ExecuteFactory<Config> = (config?: Config) => (input) =>
-  execute(input, config || makeConfig())
+export const makeExecute = (config?: Config): Execute => {
+  return async (request: AdapterRequest) => execute(request, config || makeConfig())
+}

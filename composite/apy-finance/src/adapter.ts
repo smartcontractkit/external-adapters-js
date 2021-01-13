@@ -1,10 +1,10 @@
 import { Validator } from '@chainlink/external-adapter'
-import { ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
+import { AdapterResponse, Execute, AdapterRequest } from '@chainlink/types'
 import TokenAllocation from '@chainlink/token-allocation-adapter'
 import makeRegistry from './registry'
 import { makeConfig, Config } from './config'
 
-export const execute: ExecuteWithConfig<Config> = async (input, config) => {
+export const execute = async (input: AdapterRequest, config: Config): Promise<AdapterResponse> => {
   const validator = new Validator(input)
   if (validator.error) throw validator.error
 
@@ -18,6 +18,6 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   })
 }
 
-export const makeExecute: ExecuteFactory<Config> = (config?: Config) => (input) => {
-  return execute(input, config || makeConfig())
+export const makeExecute = (config?: Config): Execute => {
+  return async (request: AdapterRequest) => execute(request, config || makeConfig())
 }
