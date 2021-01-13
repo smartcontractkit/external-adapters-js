@@ -20,7 +20,7 @@ export const inputParams = {
   currency: false,
 }
 
-function makeIndex(components: string[], units: number[], currency: string): Index {
+export function makeIndex(components: string[], units: any[], currency: string): Index {
   return components.map((component, i) => {
     return {
       asset: component,
@@ -30,7 +30,7 @@ function makeIndex(components: string[], units: number[], currency: string): Ind
   })
 }
 
-const calculateIndexValue = (index: Index): number => {
+export const calculateIndexValue = (index: Index): number => {
   // assert all prices are set
   const isPriceSet = (i: IndexAsset) => i.price && i.price > 0
   if (!index.every(isPriceSet)) throw new Error('Invalid index: price not set')

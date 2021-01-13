@@ -44,13 +44,13 @@ export type Config = types.Config & {
   defaultCurrency: string
 }
 
-const getPriceAdapter = (dataProvider: string): PriceAdapter => {
+export const getPriceAdapter = (dataProvider: string): PriceAdapter => {
   return providers[dataProvider]
 }
 
 export const makeConfig = (): Config => {
   const dataProvider = util.getRequiredEnv('DATA_PROVIDER')
-  const defaultCurrency = util.getEnv('DEFAULT_CURRENCY') || 'USD'
+  const defaultCurrency: string = util.getEnv('DEFAULT_CURRENCY') || 'USD'
   const priceAdapter = getPriceAdapter(dataProvider)
   return { priceAdapter, defaultCurrency }
 }
