@@ -72,7 +72,8 @@ const price = (jobRunID, input, callback) => {
     // First try to find slug key in response (in case the API starts returning keys correctly)
     if (Object.keys(data.data).includes(slug)) return slug
     // Fallback to ID
-    const o = Object.values(data.data).find((o) => o.slug === slug)
+    const _iEqual = (s1, s2) => s1.toUpperCase() === s2.toUpperCase()
+    const o = Object.values(data.data).find((o) => _iEqual(o.slug, slug))
     return o && o.id
   }
 
