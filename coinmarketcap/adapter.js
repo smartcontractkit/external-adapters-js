@@ -14,7 +14,7 @@ const customError = (data) => {
 // Defaults we use when there are multiple currencies with the same symbol
 const presetSlugs = {
   COMP: 'compound',
-  BNT: 'bancor-network',
+  BNT: 'bancor',
   RCN: 'ripio-credit-network',
   UNI: 'uniswap',
   CRV: 'curve-dao-token',
