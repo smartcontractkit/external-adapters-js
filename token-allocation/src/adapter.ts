@@ -44,7 +44,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const { components, units, currency = 'USD' } = validator.validated.data
+  const { components, units, currency = config.defaultCurrency } = validator.validated.data
 
   const index = await makeIndex(components, units, currency)
   const priceIndex = await config.priceAdapter.getPriceIndex(index, currency)
