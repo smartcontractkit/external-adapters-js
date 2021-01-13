@@ -31,6 +31,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Added support for using multiple API Keys per-adapter
 
+### Fixed
+
+- CMC adapter price query fixed for currencies where multiple currencies have the same symbol
+
 ### Changed
 
 - Oilprice adapters now accept a common request for Brent crude oil: `{"market":"brent"}`

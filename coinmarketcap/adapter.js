@@ -12,10 +12,24 @@ const customError = (data) => {
   return false
 }
 
+// Defaults we use when there are multiple currencies with the same symbol
+const presetSlugs = {
+  COMP: 'compound',
+  BNT: 'bancor',
+  RCN: 'ripio-credit-network',
+  UNI: 'uniswap',
+  CRV: 'curve-dao-token',
+  FNX: 'finnexus',
+  ETC: 'ethereum-classic',
+  BAT: 'basic-attention-token',
+}
+
+// TODO: fix validation. CMC should support at least one "id" or "slug" or "symbol" for this request.
 const priceParams = {
   symbol: ['base', 'from', 'coin', 'sym', 'symbol'],
   convert: ['quote', 'to', 'market', 'convert'],
   cid: false,
+  slug: false,
 }
 
 const price = (jobRunID, input, callback) => {
@@ -24,22 +38,27 @@ const price = (jobRunID, input, callback) => {
   if (validator.error) return callback(validator.error.statusCode, validator.errored)
 
   const symbol = validator.validated.data.symbol
+  // CMC allows a coin name to be specified instead of a symbol
+  const slug = validator.validated.data.slug
   // CMC allows a coin ID to be specified instead of a symbol
   const cid = validator.validated.data.cid || ''
   // Free CMCPro API only supports a single symbol to convert
   const convert = validator.validated.data.convert
-  let params
-  if (symbol.length > 0) {
-    params = {
-      symbol,
-      convert,
-    }
+
+  const params = { convert }
+  if (cid) {
+    params.id = cid
+  } else if (slug) {
+    params.slug = slug
   } else {
-    params = {
-      id: cid,
-      convert,
+    const slugForSymbol = presetSlugs[symbol]
+    if (slugForSymbol) {
+      params.slug = slugForSymbol
+    } else {
+      params.symbol = symbol
     }
   }
+
   const config = {
     url,
     headers: {
@@ -47,15 +66,23 @@ const price = (jobRunID, input, callback) => {
     },
     params,
   }
+
+  // CMC API currently uses ID as key in response, when querying with "slug" param
+  const _keyForSlug = (data, slug) => {
+    if (!data || !data.data) return
+    // First try to find slug key in response (in case the API starts returning keys correctly)
+    if (Object.keys(data.data).includes(slug)) return slug
+    // Fallback to ID
+    const _iEqual = (s1, s2) => s1.toUpperCase() === s2.toUpperCase()
+    const o = Object.values(data.data).find((o) => _iEqual(o.slug, slug))
+    return o && o.id
+  }
+
   Requester.request(config)
     .then((response) => {
-      response.data.result = Requester.validateResultNumber(response.data, [
-        'data',
-        symbol,
-        'quote',
-        convert,
-        'price',
-      ])
+      const key = params.id || _keyForSlug(response.data, params.slug) || params.symbol
+      const path = ['data', key, 'quote', convert, 'price']
+      response.data.result = Requester.validateResultNumber(response.data, path)
       callback(response.status, Requester.success(jobRunID, response))
     })
     .catch((error) => callback(500, Requester.errored(jobRunID, error)))
