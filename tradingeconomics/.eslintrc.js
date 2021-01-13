@@ -1,3 +1,1 @@
-module.exports = {
-  ...require('../.eslintrc.ts.js'),
-}
+module.exports = require('../.eslintrc.js')
