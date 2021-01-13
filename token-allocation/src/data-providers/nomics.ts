@@ -1,6 +1,6 @@
 import { Requester } from '@chainlink/external-adapter'
 import { util } from '@chainlink/ea-bootstrap'
-import { GetPriceIndex } from '../priceAdapter'
+import { GetPriceIndex } from '../config'
 
 const nomicsIds: Record<string, string> = {
   FTT: 'FTXTOKEN',

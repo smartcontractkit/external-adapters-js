@@ -33,7 +33,7 @@ const providers: Record<string, PriceAdapter> = {
   [DataProvider.Kaiko]: kaiko,
 }
 
-type GetPriceIndex = (index: Index, currency: string) => Promise<Index>
+export type GetPriceIndex = (index: Index, currency: string) => Promise<Index>
 
 export type PriceAdapter = {
   getPriceIndex: GetPriceIndex
@@ -50,7 +50,7 @@ const getPriceAdapter = (dataProvider: string): PriceAdapter => {
 
 export const makeConfig = (): Config => {
   const dataProvider = util.getRequiredEnv('DATA_PROVIDER')
-  const defaultCurrency = util.getEnv('CURRENCY') || 'USD'
+  const defaultCurrency = util.getEnv('DEFAULT_CURRENCY') || 'USD'
   const priceAdapter = getPriceAdapter(dataProvider)
   return { priceAdapter, defaultCurrency }
 }
