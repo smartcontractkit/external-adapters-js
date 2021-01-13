@@ -5,20 +5,18 @@ import { Config } from '@chainlink/types'
 export const ENV_API_KEY = 'API_KEY'
 export const ENV_API_TIMEOUT = 'API_TIMEOUT'
 
-export const ENDPOINT_MAIN = 'https://blockchain.info/'
-export const ENDPOINT_TEST = 'https://testnet.blockchain.info/'
+export const API_ENDPOINT_MAIN = 'https://blockchain.info/'
+export const API_ENDPOINT_TEST = 'https://testnet.blockchain.info/'
 
-export const DEFAULT_DATA_PATH = 'result'
 export const DEFAULT_TIMEOUT = 30000
-export const DEFAULT_CONFIRMATIONS = 6
 export const DEFAULT_ENDPOINT = 'balance'
 
 export const getBaseURL = (chain: ChainType): string => {
   switch (chain) {
     case 'mainnet':
-      return ENDPOINT_MAIN
+      return API_ENDPOINT_MAIN
     case 'testnet':
-      return ENDPOINT_TEST
+      return API_ENDPOINT_TEST
   }
 }
 

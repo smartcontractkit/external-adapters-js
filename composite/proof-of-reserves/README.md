@@ -5,7 +5,7 @@
 The feed takes the following environment variables:
 
 - `PROTOCOL_ADAPTER`: Required protocol type: `renvm|wbtc`
-- `BTC_INDEXER_ADAPTER`: Required BTC indexer adapter type `blockchain_com|blockcypher`
+- `BTC_INDEXER_ADAPTER`: Required BTC indexer adapter type `amberdata|blockchain_com|blockcypher|blockchair|btc_com|cryptoapis|sochain`
 
 ## Run
 

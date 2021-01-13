@@ -4,6 +4,7 @@ import { Requester, Validator } from '@chainlink/external-adapter'
 const commonKeys: Record<string, string> = {
   bz: 'BRENT_CRUDE_USD',
   brent: 'BRENT_CRUDE_USD',
+  wti: 'WTI_USD',
 }
 
 const customParams = {
@@ -22,12 +23,9 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || 'prices/latest'
   const url = `https://api.oilpriceapi.com/v1/${endpoint}`
+  const base = validator.validated.data.base.toLowerCase()
   // eslint-disable-next-line camelcase
-  let by_code = validator.validated.data.base.toLowerCase()
-  if (commonKeys[by_code]) {
-    // eslint-disable-next-line camelcase
-    by_code = commonKeys[by_code]
-  }
+  const by_code = commonKeys[base] || base
 
   const params = {
     by_code,

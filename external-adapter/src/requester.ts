@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { AdapterError } from './errors'
 import { logger } from './logger'
 import { getDefaultConfig, logConfig } from './config'
-import { AdapterErrorResponse } from '@chainlink/types'
+import { AdapterResponse, AdapterErrorResponse } from '@chainlink/types'
 
 const getFalse = () => false
 
@@ -100,18 +100,17 @@ export class Requester {
     return new AdapterError({ jobRunID, statusCode, message: error }).toJSONResponse()
   }
 
-  static success(jobRunID = '1', response: AxiosResponse) {
-    if (!('result' in response.data)) {
-      response.data.result = null
-    }
+  static success(jobRunID = '1', response: AxiosResponse): AdapterResponse {
     return {
       jobRunID,
       data: response.data,
-      result: response.data.result,
+      result: response.data?.result,
       statusCode: response.status,
     }
   }
 
   static getDefaultConfig = getDefaultConfig
   static logConfig = logConfig
+
+  static toVendorName = <K, V>(key: K, names: { [key: string]: V }): V => names[String(key)]
 }
