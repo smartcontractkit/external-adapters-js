@@ -44,9 +44,14 @@ const withStatusCode = (execute: ExecuteWrappedResponse) => async (data_: Adapte
 // Log adapter input & output data
 const withLogger = (execute: ExecuteWrappedResponse) => async (data: AdapterRequest) => {
   logger.debug({ input: data })
-  const result = await execute(data)
-  logger.debug({ output: result.data })
-  return result
+  try {
+    const result = await execute(data)
+    logger.debug({ output: result.data })
+    return result
+  } catch (error) {
+    logger.error(error.toString(), { stack: error.stack })
+    throw error
+  }
 }
 
 const middleware = [withLogger, skipOnError(withCache), withStatusCode]
@@ -78,10 +83,7 @@ const executeSync = (execute: ExecuteWrappedResponse): ExecuteSync => {
     return withMiddleware(execute)
       .then((executeWithMiddleware) => executeWithMiddleware(data))
       .then((result) => callback(result.statusCode, result.data))
-      .catch((error) => {
-        logger.error(error.toString(), { stack: error.stack })
-        callback(error.statusCode || 500, Requester.errored(data.id, error))
-      })
+      .catch((error) => callback(error.statusCode || 500, Requester.errored(data.id, error)))
   }
 }
 
