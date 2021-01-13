@@ -79,7 +79,7 @@ const price = (jobRunID, input, callback) => {
 
   Requester.request(config)
     .then((response) => {
-      const key = params.id || _keyForSlug(response.data, params.slug) || params.symbol
+      const key = params.id || _keyForSlug(response.data, params.slug || '') || params.symbol
       const path = ['data', key, 'quote', convert, 'price']
       response.data.result = Requester.validateResultNumber(response.data, path)
       callback(response.status, Requester.success(jobRunID, response))
