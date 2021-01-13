@@ -1,22 +1,52 @@
 const { Requester } = require('@chainlink/external-adapter')
 const Decimal = require('decimal.js')
 
+// Defaults we use when there are multiple currencies with the same symbol
+const presetSlugs = {
+  COMP: 'compound',
+  BNT: 'bancor',
+  RCN: 'ripio-credit-network',
+  UNI: 'uniswap',
+  CRV: 'curve-dao-token',
+  FNX: 'finnexus',
+  ETC: 'ethereum-classic',
+  BAT: 'basic-attention-token',
+}
+
 const getPriceData = async (synths) => {
-  const url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest'
-  const headers = {
-    'X-CMC_PRO_API_KEY': process.env.API_KEY,
+  const _getPriceData = async (params) => {
+    const url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest'
+    const headers = {
+      'X-CMC_PRO_API_KEY': process.env.API_KEY,
+    }
+    const config = {
+      url,
+      headers,
+      params,
+    }
+    const response = await Requester.request(config)
+    return response.data
   }
-  const params = {
-    symbol: synths,
-    convert: 'USD',
+
+  // We map some symbols as slugs
+  const slugs = synths.map((s) => presetSlugs[s]).filter(Boolean)
+  const symbols = synths.filter((s) => !presetSlugs[s])
+
+  let data = {}
+
+  // We need to make two separate requests, one querying slugs
+  if (slugs) {
+    const slugPrices = _getPriceData({ slug: slugs.join(), convert: 'USD' })
+    data = { ...data, ...slugPrices.data }
   }
-  const config = {
-    url,
-    headers,
-    params,
+
+  // The other one querying symbols
+  if (symbols) {
+    const symbolsPrices = _getPriceData({ symbol: symbols.join(), convert: 'USD' })
+    data = { ...data, ...symbolsPrices.data }
   }
-  const response = await Requester.request(config)
-  return response.data
+
+  return data
 }
 
 const calculateIndex = (indexes) => {
@@ -40,14 +70,12 @@ const execute = async (jobRunID, data) => {
   data.index.forEach((synth) => {
     synths.push(synth.asset.toUpperCase())
   })
-  const prices = await getPriceData(synths.join())
-  for (const symbol in prices.data) {
-    if (!Object.prototype.hasOwnProperty.call(prices.data, symbol)) continue
-    for (let i = 0; i < data.index.length; i++) {
-      if (symbol.toUpperCase() !== data.index[i].asset.toUpperCase()) continue
-      data.index[i].priceData = prices.data[symbol]
-      break
-    }
+
+  const pricesData = await getPriceData(synths)
+  for (let i = 0; i < data.index.length; i++) {
+    const { asset } = data.index[i]
+    const _iEqual = (s1, s2) => s1.toUpperCase() === s2.toUpperCase()
+    data.index[i].priceData = Object.values(pricesData).find((o) => _iEqual(o.symbol, asset))
   }
 
   return data
