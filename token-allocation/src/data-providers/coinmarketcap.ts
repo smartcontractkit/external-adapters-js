@@ -2,14 +2,15 @@ import { Requester } from '@chainlink/external-adapter'
 import { Index } from '../adapter'
 import { util } from '@chainlink/ea-bootstrap'
 
-const getPriceData = async (symbols: string, currency: string) => {
+const getPriceData = async (symbols: string, slugs: string, currency: string) => {
   const url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest'
   const headers = {
     'X-CMC_PRO_API_KEY': util.getRequiredEnv('API_KEY'),
   }
   const params = {
-    symbol: symbols,
     convert: currency.toUpperCase(),
+    ...(symbols && { symbol: symbols }),
+    ...(slugs && { slug: slugs }),
   }
   const config = {
     url,
@@ -28,12 +29,30 @@ const toAssetPrice = (data: Record<string, any>, currency: string) => {
   return price
 }
 
-const getPriceIndex = async (index: Index, currency: string): Promise<Index> => {
-  const symbols = index.map(({ asset }) => asset.toUpperCase()).join()
-  const prices = await getPriceData(symbols, currency)
+// Defaults we use when there are multiple currencies with the same symbol
+const presetSlugs: Record<string, string> = {
+  COMP: 'compound',
+  UNI: 'uniswap',
+}
 
+const getPriceIndex = async (index: Index, currency: string): Promise<Index> => {
+  // CMC does not allow to query by symbol and slug at the same time
+  const slugsIndex: Index = index.filter(({ asset }) => presetSlugs[asset])
+  const slugs = slugsIndex.map(({ asset }) => presetSlugs[asset.toUpperCase()]).join()
+  const slugPrices = slugsIndex.length > 0 ? await getPriceData('', slugs, currency) : []
+
+  const filteredIndex: Index = index.filter(({ asset }) => !presetSlugs[asset])
+  const symbols = filteredIndex.map(({ asset }) => asset.toUpperCase()).join()
+  const symbolPrices = await getPriceData(symbols, '', currency)
+
+  const prices = { ...slugPrices.data, ...symbolPrices.data }
+
+  const indexMap = new Map()
+  for (const id in prices) {
+    indexMap.set(prices[id].symbol, prices[id])
+  }
   return index.map((i) => {
-    const data = prices.data[i.asset]
+    const data = indexMap.get(i.asset)
     return { ...i, price: toAssetPrice(data, currency) }
   })
 }
