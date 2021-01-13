@@ -4,7 +4,7 @@ import { assertSuccess, assertError } from '@chainlink/adapter-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
 import { makeExecute } from '../src/adapter'
 
-describe('difficulty endpoint', () => {
+describe('stats endpoint', () => {
   const jobID = '1'
   const execute = makeExecute()
 
@@ -21,7 +21,21 @@ describe('difficulty endpoint', () => {
         name: 'BTC testnet difficulty',
         testData: {
           id: jobID,
-          data: { blockchain: 'BTC', network: 'Testnet', endpoint: 'difficulty' },
+          data: { blockchain: 'BTC', network: 'testnet', endpoint: 'difficulty' },
+        },
+      },
+      {
+        name: 'BTC height',
+        testData: {
+          id: jobID,
+          data: { blockchain: 'BTC', endpoint: 'height' },
+        },
+      },
+      {
+        name: 'BTC testnet height',
+        testData: {
+          id: jobID,
+          data: { blockchain: 'BTC', network: 'testnet', endpoint: 'height' },
         },
       },
     ]
