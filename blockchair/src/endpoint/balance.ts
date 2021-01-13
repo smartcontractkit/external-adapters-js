@@ -11,7 +11,7 @@ const getBalanceURI = (addresses: string[], coin: string, chain: string) => {
   return `/${coin}/addresses/balances?addresses=${addresses.join(',')}`
 }
 
-const getBalances: balance.GetBalances = async (accounts, config) => {
+const getBalances: balance.GetBalances = async (accounts, config: Config) => {
   const { coin, chain } = accounts[0]
   const addresses = accounts.map((a) => a.address)
 
