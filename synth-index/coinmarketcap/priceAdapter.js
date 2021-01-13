@@ -13,7 +13,7 @@ const presetSlugs = {
   BAT: 'basic-attention-token',
 }
 
-const getPriceData = async (synths) => {
+const getPriceData = async (assets, convert) => {
   const _getPriceData = async (params) => {
     const url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest'
     const headers = {
@@ -29,21 +29,21 @@ const getPriceData = async (synths) => {
   }
 
   // We map some symbols as slugs
-  const slugs = synths.map((s) => presetSlugs[s]).filter(Boolean)
-  const symbols = synths.filter((s) => !presetSlugs[s])
+  const slugs = assets.map((s) => presetSlugs[s]).filter(Boolean)
+  const symbols = assets.filter((s) => !presetSlugs[s])
 
   let data = {}
 
   // We need to make two separate requests, one querying slugs
   if (slugs) {
-    const slugPrices = _getPriceData({ slug: slugs.join(), convert: 'USD' })
+    const slugPrices = await _getPriceData({ slug: slugs.join(), convert })
     data = { ...data, ...slugPrices.data }
   }
 
   // The other one querying symbols
   if (symbols) {
-    const symbolsPrices = _getPriceData({ symbol: symbols.join(), convert: 'USD' })
-    data = { ...data, ...symbolsPrices.data }
+    const symbolPrices = await _getPriceData({ symbol: symbols.join(), convert })
+    data = { ...data, ...symbolPrices.data }
   }
 
   return data
@@ -66,12 +66,9 @@ const calculateIndex = (indexes) => {
 }
 
 const execute = async (jobRunID, data) => {
-  const synths = []
-  data.index.forEach((synth) => {
-    synths.push(synth.asset.toUpperCase())
-  })
+  const assets = data.index.map(({ asset }) => asset.toUpperCase())
+  const pricesData = await getPriceData(assets, 'USD')
 
-  const pricesData = await getPriceData(synths)
   for (let i = 0; i < data.index.length; i++) {
     const { asset } = data.index[i]
     const _iEqual = (s1, s2) => s1.toUpperCase() === s2.toUpperCase()
