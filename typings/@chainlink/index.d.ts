@@ -1,5 +1,6 @@
 // Declare missing type definitions
 declare module '@chainlink/types' {
+  /* REQUESTS */
   export type AdapterRequestMeta = {
     availableFunds?: number
     eligibleToSubmit?: boolean
@@ -19,6 +20,26 @@ declare module '@chainlink/types' {
   export type Callback = (statusCode: number, data?: any) => void
   export type AdapterHealthCheck = (callback: Callback) => any
 
+  import { AxiosRequestConfig } from 'axios'
+  export type Config = {
+    apiKey?: string
+    network?: string
+    returnRejectedPromiseOnError?: Boolean
+    verbose?: boolean
+    api: Partial<AxiosRequestConfig>
+  }
+
+  /* RESPONSES */
+  export type DataResponse<R, P> = {
+    result: R
+    payload?: P
+  }
+
+  export type SequenceResponseData<R> = {
+    responses?: any[]
+    result: R[]
+  }
+
   export type AdapterResponse = {
     jobRunID: string
     statusCode: number
@@ -26,6 +47,7 @@ declare module '@chainlink/types' {
     result: any
   }
 
+  /* ERRORS */
   type ErrorBasic = {
     name: string
     message: string
@@ -41,6 +63,7 @@ declare module '@chainlink/types' {
     error: ErrorBasic | ErrorFull
   }
 
+  /* BOOTSTRAP */
   // TODO: clean this ASAP
   export type WrappedAdapterResponse = {
     statusCode: number
@@ -50,37 +73,33 @@ declare module '@chainlink/types' {
 
   export type ExecuteSync = (input: AdapterRequest, callback: Callback) => void
 
-  import { AxiosRequestConfig } from 'axios'
-  export type Config = {
-    apiKey?: string
-    network?: string
-    returnRejectedPromiseOnError?: Boolean
-    api: Partial<AxiosRequestConfig>
-  }
-
   export type Execute = (input: AdapterRequest) => Promise<AdapterResponse>
 
-  export type ExecuteWithConfig = (
+  export type ExecuteWithConfig<C extends Config> = (
     input: AdapterRequest,
-    config: Config,
+    config: C,
   ) => Promise<AdapterResponse>
 
-  export type ExecuteFactory = (config?: Config) => Execute
+  export type ExecuteFactory<C extends Config> = (config?: C) => Execute
 
-  import { expose } from '@chainlink/ea-bootstrap'
+  export type ConfigFactory = (prefix?: string) => Config
+
+  import type { ExecuteHandlers } from '@chainlink/ea-bootstrap/src'
   export type AdapterImplementation = {
     NAME: string
     makeExecute: ExecuteFactory
-  } & ReturnType<expose>
-  export interface Implementations<t> {
-    [type: string]: AdapterImplementation
-  }
+    makeConfig: ConfigFactory
+  } & ExecuteHandlers
 
-  export type Account = {
+  /* IMPLEMENTATIONS */
+  export type Address = {
     address: string
-    coin?: CoinType
-    chain?: ChainType
-    balance?: number
+  }
+  export type Account = Address & {
+    balance?: string
+    coin?: string
+    chain?: string
+    warning?: string
   }
 }
 declare module '@chainlink/ea-bootstrap'

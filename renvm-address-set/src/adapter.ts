@@ -8,7 +8,7 @@ import {
 } from '@renproject/interfaces'
 import { resolveInToken, getTokenName } from '@renproject/utils'
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
+import { ExecuteWithConfig, ExecuteFactory, Config } from '@chainlink/types'
 import { makeConfig, DEFAULT_NETWORK, DEFAULT_TOKEN_OR_CONTRACT } from './config'
 import { btc } from './coins'
 
@@ -18,7 +18,7 @@ const inputParams = {
 }
 
 // Export function to integrate with Chainlink node
-export const execute: ExecuteWithConfig = async (request, config) => {
+export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const validator = new Validator(request, inputParams)
   if (validator.error) throw validator.error
 
@@ -58,6 +58,7 @@ export const execute: ExecuteWithConfig = async (request, config) => {
   }
 
   const _getAddress = async (): Promise<string | undefined> => {
+    if (!config.api) return undefined
     const { renVM } = new RenJS(network, config.api.baseURL)
     const out: Buffer = await renVM.selectPublicKey(renContract)
     return btc.p2pkh(out, bitcoinNetwork).address
@@ -79,6 +80,6 @@ export const execute: ExecuteWithConfig = async (request, config) => {
   })
 }
 
-export const makeExecute: ExecuteFactory = (config) => {
+export const makeExecute: ExecuteFactory<Config> = (config) => {
   return async (request) => execute(request, config || makeConfig())
 }
