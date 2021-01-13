@@ -3,7 +3,7 @@ import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
 import { makeConfig } from './config'
 import { google } from 'boxhock_google-finance-data'
 
-const commonKeys: { [key: string]: string } = {
+const commonKeys: Record<string, string> = {
   N225: 'INDEXNIKKEI:NI225',
   FTSE: 'INDEXFTSE:UKX',
 }
@@ -24,18 +24,14 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (commonKeys[symbol]) {
     symbol = commonKeys[symbol]
   }
-  try {
-    const data = await google.getSymbol(symbol)
-    const result = Requester.validateResultNumber(data, ['ticker'])
+  const data = await google.getSymbol(symbol)
+  const result = Requester.validateResultNumber(data, ['ticker'])
 
-    return Requester.success(jobRunID, {
-      data: { result },
-      result,
-      status: 200,
-    })
-  } catch (err) {
-    return Requester.errored(jobRunID, err.message)
-  }
+  return Requester.success(jobRunID, {
+    data: { result },
+    result,
+    status: 200,
+  })
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {

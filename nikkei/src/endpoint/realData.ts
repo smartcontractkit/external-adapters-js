@@ -6,7 +6,7 @@ export const Name = 'realData'
 
 const customError = (data: any) => data.Response === 'Error'
 
-const commonKeys: { [key: string]: string } = {
+const commonKeys: Record<string, string> = {
   N225: 'nk225',
 }
 

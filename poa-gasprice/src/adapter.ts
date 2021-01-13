@@ -20,17 +20,13 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const jobRunID = validator.validated.id
   const speed = validator.validated.data.speed || 'standard'
   const url = 'https://gasprice.poa.network/'
-  try {
-    const { data } = await Requester.request(url)
-    data.result = Requester.validateResultNumber(data, [speed]) * 1e9
-    return Requester.success(jobRunID, {
-      data,
-      result: data.result,
-      status: 200,
-    })
-  } catch (err) {
-    return Requester.errored(jobRunID, err.message)
-  }
+  const { data } = await Requester.request(url)
+  data.result = Requester.validateResultNumber(data, [speed]) * 1e9
+  return Requester.success(jobRunID, {
+    data,
+    result: data.result,
+    status: 200,
+  })
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {

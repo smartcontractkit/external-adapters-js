@@ -16,26 +16,26 @@ The adapter takes the following environment variables:
 
 ```json
 {
-    "jobRunID":"1",
-    "data":{
-        "s":"UKX:IND",
-        "i":"UKX",
-        "pch":-0.28,
-        "nch":-17.37,
-        "bid":6106.32,
-        "ask":6106.32,
-        "price":6106.32,
-        "dt":1593080344361,
-        "state":"open",
-        "type":"index",
-        "dhigh":6320.12,
-        "dlow":6068.87,
-        "o":6320.12,
-        "prev":6123.69,
-        "topic":"UKX",
-        "result":6106.32
-    },
-    "result":6106.32,
-    "statusCode":200
+  "jobRunID": "1",
+  "data": {
+    "s": "UKX:IND",
+    "i": "UKX",
+    "pch": -0.28,
+    "nch": -17.37,
+    "bid": 6106.32,
+    "ask": 6106.32,
+    "price": 6106.32,
+    "dt": 1593080344361,
+    "state": "open",
+    "type": "index",
+    "dhigh": 6320.12,
+    "dlow": 6068.87,
+    "o": 6320.12,
+    "prev": 6123.69,
+    "topic": "UKX",
+    "result": 6106.32
+  },
+  "result": 6106.32,
+  "statusCode": 200
 }
 ```

@@ -11,7 +11,7 @@ const customParams = {
   quote: ['quote', 'to', 'market', 'convert'],
 }
 
-const convertId: { [key: string]: string } = {
+const convertId: Record<string, string> = {
   FNX: 'FNX2',
 }
 

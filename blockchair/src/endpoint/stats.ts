@@ -10,7 +10,7 @@ const inputParams = {
   endpoint: false,
 }
 
-const convertEndpoint: { [key: string]: string } = {
+const convertEndpoint: Record<string, string> = {
   height: 'blocks',
 }
 

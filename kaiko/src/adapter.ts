@@ -13,7 +13,7 @@ const customParams = {
   quote: ['quote', 'to', 'market'],
 }
 
-const convertId: { [key: string]: string } = {
+const convertId: Record<string, string> = {
   uni: 'uniswap',
 }
 
@@ -57,20 +57,16 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     timeout: 10000,
   }
 
-  try {
-    const response = await Requester.request(requestConfig, customError)
-    const result = (response.data.result = Number(
-      Requester.validateResultNumber(response.data.data, [0, 'price']),
-    ))
-    response.data.result = result
-    return Requester.success(jobRunID, {
-      data: response.data,
-      result,
-      status: 200,
-    })
-  } catch (err) {
-    return Requester.errored(jobRunID, err.message)
-  }
+  const response = await Requester.request(requestConfig, customError)
+  const result = (response.data.result = Number(
+    Requester.validateResultNumber(response.data.data, [0, 'price']),
+  ))
+  response.data.result = result
+  return Requester.success(jobRunID, {
+    data: response.data,
+    result,
+    status: 200,
+  })
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {
