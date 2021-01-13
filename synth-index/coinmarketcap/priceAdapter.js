@@ -12,6 +12,12 @@ const presetSlugs = {
   FNX: 'finnexus',
   ETC: 'ethereum-classic',
   BAT: 'basic-attention-token',
+  CRO: 'crypto-com-coin',
+  LEO: 'unus-sed-leo',
+  FTT: 'ftx-token',
+  HT: 'huobi-token',
+  OKB: 'okb',
+  KCS: 'kucoin-shares',
 }
 
 const getPriceData = async (assets, convert) => {
