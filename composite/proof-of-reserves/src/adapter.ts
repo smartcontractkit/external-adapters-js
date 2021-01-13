@@ -1,6 +1,6 @@
 import { logger } from '@chainlink/external-adapter'
 import { AdapterRequest, AdapterResponse, Execute } from '@chainlink/types'
-import reduceAdapter from '@chainlink/reduce'
+import reduceAdapter from '@chainlink/reduce-adapter'
 import { getImpl as getProtocolImpl, getProtocol } from './protocol'
 import { getImpl as getBalanceImpl, getBitcoinIndexer } from './balance'
 

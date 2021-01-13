@@ -1,3 +1,4 @@
+const { util } = require('@chainlink/ea-bootstrap')
 const { Requester, Validator } = require('@chainlink/external-adapter')
 
 const customParams = {
@@ -17,7 +18,7 @@ const execute = (input, callback) => {
   const from = validator.validated.data.base.toUpperCase()
   const to = validator.validated.data.quote.toUpperCase()
   const quantity = validator.validated.data.quantity || 1
-  const api_key = process.env.API_KEY // eslint-disable-line camelcase
+  const api_key = util.getRandomRequiredEnv('API_KEY') // eslint-disable-line camelcase
 
   const params = {
     from,

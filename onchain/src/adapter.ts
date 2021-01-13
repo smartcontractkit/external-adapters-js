@@ -1,5 +1,6 @@
 import { Execute } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/external-adapter'
+import { util } from '@chainlink/ea-bootstrap'
 
 const customError = (data: any) => data.Response === 'Error'
 
@@ -22,7 +23,7 @@ export const execute: Execute = async (input) => {
   const url = `https://api.onchain.com.au/api/Quote/oil/${market}`
 
   const headers = {
-    'x-api-key': process.env.API_KEY,
+    'x-api-key': util.getRandomRequiredEnv('API_KEY'),
   }
 
   const config = {

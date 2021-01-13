@@ -1,5 +1,6 @@
 import { Execute } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/external-adapter'
+import { util } from '@chainlink/ea-bootstrap'
 
 const customParams = {
   symbol: ['base', 'from', 'symbol'],
@@ -20,7 +21,7 @@ export const execute: Execute = async (input) => {
   const symbol = validator.validated.data.symbol.toUpperCase()
   const to = (validator.validated.data.to || '').toUpperCase()
   const currencies = (commonKeys[symbol] || symbol) + to
-  const apikey = process.env.API_KEY
+  const apikey = util.getRandomRequiredEnv('API_KEY')
 
   const params = {
     currencies,
