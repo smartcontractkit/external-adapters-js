@@ -8,7 +8,6 @@ describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
 
-
   context('successful calls @integration', () => {
     const requests = [
       {
