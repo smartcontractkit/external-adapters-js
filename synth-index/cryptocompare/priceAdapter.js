@@ -1,5 +1,6 @@
 const { Requester } = require('@chainlink/external-adapter')
 const Decimal = require('decimal.js')
+const { util } = require('@chainlink/ea-bootstrap')
 
 const getPriceData = async (synths) => {
   const url = 'https://min-api.cryptocompare.com/data/pricemulti'
@@ -13,7 +14,7 @@ const getPriceData = async (synths) => {
   }
   if (process.env.API_KEY) {
     config.headers = {
-      authorization: `Apikey ${process.env.API_KEY}`,
+      authorization: `Apikey ${util.getRandomRequiredEnv('API_KEY')}`,
     }
   }
   const response = await Requester.request(config)

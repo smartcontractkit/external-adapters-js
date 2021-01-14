@@ -64,6 +64,7 @@ This is an example, a JSON body the adapter will receive when plugged into the C
 
 When the FluxMonitor posts to External Adapters, it will include the `RoundState` as the "meta" field in the request, serialized to a JSON object with lower camelCase keys.
 
+Optionally `data` parameters can also be passed via a query string like: `{ENDPOINT}?from=ETH&to=USD`
 ## Docker
 
 To build a Docker container for a specific `$adapter`, use the following example:
@@ -137,6 +138,15 @@ If using a REST API Gateway, you will need to disable the Lambda proxy integrati
 - Click Integration Request
 - Uncheck Use Lamba Proxy integration
 - Click OK on the two dialogs
+- Click the Mapping Templates dropdown
+- Check "When there are no templates defined (recommended)"
+- Add new Content-Type `application/json`
+- Use Mapping Template: 
+```
+#set($input.path("$").queryStringParameters = $input.params().querystring)
+$input.json('$')
+```
+- Click Save
 - Return to your function
 - Remove the API Gateway and Save
 - Click Add Trigger and use the same API Gateway
@@ -153,3 +163,11 @@ If using a REST API Gateway, you will need to disable the Lambda proxy integrati
 - Click More, Add variable (repeat for all environment variables)
   - NAME: API_KEY
   - VALUE: Your_API_key
+
+### Multiple API Key Support
+In order to use multiple API keys for an adapter, simply comma delimit the keys where you define the environment variable. This will work for an arbitrary number of keys.
+
+```
+API_KEY=myapikey1,myapikey2,myapikey3
+```
+The external adapter will then randomly rotate the keys. Over time  this should balance out the number of requests between each of the API keys.

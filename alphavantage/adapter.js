@@ -1,4 +1,5 @@
 const { Requester, Validator } = require('@chainlink/external-adapter')
+const { util } = require('@chainlink/ea-bootstrap')
 
 const customError = (data) => {
   if (data['Error Message']) return true
@@ -29,7 +30,7 @@ const execute = (input, callback) => {
     to_symbol: to,
     symbol: from,
     market: to,
-    apikey: process.env.API_KEY,
+    apikey: util.getRandomRequiredEnv('API_KEY'),
   }
 
   const config = {

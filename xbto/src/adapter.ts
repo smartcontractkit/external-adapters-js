@@ -1,25 +1,43 @@
-import { Execute } from '@chainlink/types'
+import { Config, ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/external-adapter'
 
-const customParams = {}
+const customParams = {
+  market: false,
+}
 
-export const execute: Execute = async (input) => {
+const endpoints: Record<string, string> = {
+  brent: 'api',
+  wti: 'api/index_cl',
+}
+
+export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const url = 'https://fpiw7f0axc.execute-api.us-east-1.amazonaws.com/api'
+  const market = validator.validated.data.market || 'brent'
+  const url = `https://fpiw7f0axc.execute-api.us-east-1.amazonaws.com/${
+    endpoints[market.toLowerCase()]
+  }`
 
   const auth = {
-    password: process.env.API_KEY,
+    username: '',
+    password: config.apiKey || '',
   }
 
-  const config = {
+  const reqConfig = {
+    ...config.api,
     url,
     auth,
   }
 
-  const response = await Requester.request(config)
+  const response = await Requester.request(reqConfig)
   response.data.result = Requester.validateResultNumber(response.data, ['index'])
   return Requester.success(jobRunID, response)
+}
+
+export const makeConfig = (prefix?: string): Config => Requester.getDefaultConfig(prefix)
+
+export const makeExecute: ExecuteFactory<Config> = (config) => {
+  return async (request) => execute(request, config || makeConfig())
 }

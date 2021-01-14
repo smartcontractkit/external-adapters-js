@@ -15,7 +15,7 @@ new:
 	  | jq '.workspaces += ["$(adapter)"]' \
 	  | tee package.json > /dev/null
 	cat .github/strategy/adapters.json \
-	  | jq '.adapter += ["$(adapter)"]' \
+	  | jq '.adapters.adapter += ["$(adapter)"]' \
 	  | tee .github/strategy/adapters.json > /dev/null
 	cat $(adapter)/package.json \
 	  | jq '.name = "@chainlink/$(adapter)-adapter" | .description = "Chainlink $(adapter) adapter." | .keywords += ["$(adapter)"]' \
@@ -31,6 +31,7 @@ deps: clean
 	# Call the build script for the adapter if defined (TypeScript adapters have this extra build/compile step)
 	# We use `wsrun` to build workspace dependencies in topological order (TODO: use native `yarn workspaces foreach -pt run setup` with Yarn 2)
 	yarn wsrun -mre -p @chainlink/ea-bootstrap -t setup
+	yarn wsrun -mre -p @chainlink/ea-factories -t setup
 	yarn wsrun -mre -p @chainlink/external-adapter -t setup
 	yarn wsrun -mre -p @chainlink/$(if $(name),$(name),$(adapter))-adapter -t setup
 	yarn --frozen-lockfile --production
@@ -57,7 +58,10 @@ clean-2-step:
 
 build-2-step:
 	cp -r $(adapter) 2-step/
-	mv 2-step/$(adapter)/adapter.js 2-step/$(adapter)/priceAdapter.js
+	if [ -f "2-step/$(adapter)/dist/adapter.js" ]; then \
+		mv 2-step/$(adapter)/dist/adapter.js 2-step/$(adapter)/priceAdapter.js; \
+	else mv 2-step/$(adapter)/adapter.js 2-step/$(adapter)/priceAdapter.js; \
+	fi
 	cp 2-step/adapter.js 2-step/$(adapter)
 	cp -r helpers 2-step/helpers
 	npx @vercel/ncc@0.25.1 build 2-step/$(adapter) -o 2-step/$(adapter)/dist
