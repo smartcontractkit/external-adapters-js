@@ -85,7 +85,16 @@
     "helpers/reference-data-reader",
     "dns-query",
     "dns-record-check",
-    "deribit"
+    "deribit",
+    "coinpaprika",
+    "cryptocompare",
+    "currencylayer",
+    "dxfeed",
+    "eodhistoricaldata",
+    "etherchain",
+    "ethgasstation",
+    "fixer",
+    "fmpcloud"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",
@@ -118,6 +127,7 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "prettier": "^2.0.5",
+    "ts-node": "^8.10.2",
     "wsrun": "^5.2.4"
   },
   "resolutions": {
