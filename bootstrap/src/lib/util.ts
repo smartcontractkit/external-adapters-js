@@ -4,8 +4,10 @@ import {
   AdapterRequest,
   AdapterResponse,
   WrappedAdapterResponse,
+  AdapterImplementation,
 } from '@chainlink/types'
 import { v4 as uuidv4 } from 'uuid'
+import BN from 'bignumber.js'
 
 export const isObject = (o: unknown): boolean =>
   o !== null && typeof o === 'object' && Array.isArray(o) === false
@@ -43,7 +45,8 @@ export const toAsync = (
     execute(data, (statusCode: number, data: AdapterResponse) => resolve({ statusCode, data })),
   )
 
-export const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+export const delay = (ms: number): Promise<number> =>
+  new Promise((resolve) => setTimeout(resolve, ms))
 
 /**
  * Return a value used for exponential backoff in milliseconds.
@@ -94,7 +97,8 @@ const getEnvName = (name: string, prefix = '') => {
 // Only case-insensitive alphanumeric and underscore (_) are allowed for env vars
 const isEnvNameValid = (name: string) => /^[_a-z0-9]+$/i.test(name)
 
-export const getEnv = (name: string, prefix = '') => process.env[getEnvName(name, prefix)]
+export const getEnv = (name: string, prefix = ''): string | undefined =>
+  process.env[getEnvName(name, prefix)]
 
 // Custom error for required env variable.
 export class RequiredEnvError extends Error {
@@ -110,7 +114,7 @@ export class RequiredEnvError extends Error {
  * @throws {RequiredEnvError} Will throw an error if environment variable is not defined.
  * @returns {string}
  */
-export const getRequiredEnv = (name: string, prefix = '') => {
+export const getRequiredEnv = (name: string, prefix = ''): string => {
   const val = getEnv(name, prefix)
   if (!val) throw new RequiredEnvError(getEnvName(name, prefix))
   return val
@@ -125,5 +129,55 @@ export const wrapExecute = (execute: Execute) => async (
   return {
     statusCode: resp.statusCode,
     data: resp,
+  }
+}
+
+/**
+ * @description
+ * Takes an Array<V>, and a grouping function,
+ * and returns a Map of the array grouped by the grouping function.
+ *
+ * @param list An array of type V.
+ * @param keyGetter A Function that takes the the Array type V as an input, and returns a value of type K.
+ *                  K is generally intended to be a property key of V.
+ *
+ * @returns Map of the array grouped by the grouping function.
+ */
+export function groupBy<K, V>(list: Array<V>, keyGetter: (input: V) => K): Map<K, Array<V>> {
+  const map = new Map<K, Array<V>>()
+  list.forEach((item) => {
+    const key = keyGetter(item)
+    const collection = map.get(key)
+    if (!collection) {
+      map.set(key, [item])
+    } else {
+      collection.push(item)
+    }
+  })
+  return map
+}
+
+/**
+ * Predicate used to find adapter by name
+ *
+ * @param name string adapter name
+ */
+export const byName = (name?: string) => (a: AdapterImplementation): boolean =>
+  a.NAME.toUpperCase() === name?.toUpperCase()
+
+/**
+ * Converts a given coin to different unit decimal places
+ *
+ * @param coin string of coin ticker name
+ * @param amount string of a number value
+ * @param unit optional string name of unit to convert to
+ */
+export const convertUnits = (coin: string, amount: string, unit?: string) => {
+  switch (coin.toLowerCase()) {
+    case 'btc':
+      // default satoshi
+      return new BN(amount).multipliedBy(10 ** 8).toString(10)
+    default:
+      return amount
   }
 }

@@ -2,22 +2,59 @@ const { Requester } = require('@chainlink/external-adapter')
 const Decimal = require('decimal.js')
 const { util } = require('@chainlink/ea-bootstrap')
 
-const getPriceData = async (synths) => {
-  const url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest'
-  const headers = {
-    'X-CMC_PRO_API_KEY': util.getRandomRequiredEnv('API_KEY'),
+// Defaults we use when there are multiple currencies with the same symbol
+const presetSlugs = {
+  COMP: 'compound',
+  BNT: 'bancor',
+  RCN: 'ripio-credit-network',
+  UNI: 'uniswap',
+  CRV: 'curve-dao-token',
+  FNX: 'finnexus',
+  ETC: 'ethereum-classic',
+  BAT: 'basic-attention-token',
+  CRO: 'crypto-com-coin',
+  LEO: 'unus-sed-leo',
+  FTT: 'ftx-token',
+  HT: 'huobi-token',
+  OKB: 'okb',
+  KCS: 'kucoin-shares',
+}
+
+const getPriceData = async (assets, convert) => {
+  const _getPriceData = async (params) => {
+    const url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest'
+    const headers = {
+      'X-CMC_PRO_API_KEY': util.getRandomRequiredEnv('API_KEY'),
+    }
+    const config = {
+      url,
+      headers,
+      params,
+    }
+    const response = await Requester.request(config)
+    return response.data
   }
-  const params = {
-    symbol: synths,
-    convert: 'USD',
+
+  let data = {}
+  if (!assets || assets.length === 0) return data
+
+  // We map some symbols as slugs
+  const slugs = assets.map((s) => presetSlugs[s]).filter(Boolean)
+  const symbols = assets.filter((s) => !presetSlugs[s])
+
+  // We need to make two separate requests, one querying slugs
+  if (slugs.length > 0) {
+    const slugPrices = await _getPriceData({ slug: slugs.join(), convert })
+    data = { ...data, ...slugPrices.data }
   }
-  const config = {
-    url,
-    headers,
-    params,
+
+  // The other one querying symbols
+  if (symbols.length > 0) {
+    const symbolPrices = await _getPriceData({ symbol: symbols.join(), convert })
+    data = { ...data, ...symbolPrices.data }
   }
-  const response = await Requester.request(config)
-  return response.data
+
+  return data
 }
 
 const calculateIndex = (indexes) => {
@@ -37,18 +74,13 @@ const calculateIndex = (indexes) => {
 }
 
 const execute = async (jobRunID, data) => {
-  const synths = []
-  data.index.forEach((synth) => {
-    synths.push(synth.asset.toUpperCase())
-  })
-  const prices = await getPriceData(synths.join())
-  for (const symbol in prices.data) {
-    if (!Object.prototype.hasOwnProperty.call(prices.data, symbol)) continue
-    for (let i = 0; i < data.index.length; i++) {
-      if (symbol.toUpperCase() !== data.index[i].asset.toUpperCase()) continue
-      data.index[i].priceData = prices.data[symbol]
-      break
-    }
+  const assets = data.index.map(({ asset }) => asset.toUpperCase())
+  const pricesData = await getPriceData(assets, 'USD')
+
+  for (let i = 0; i < data.index.length; i++) {
+    const { asset } = data.index[i]
+    const _iEqual = (s1, s2) => s1.toUpperCase() === s2.toUpperCase()
+    data.index[i].priceData = Object.values(pricesData).find((o) => _iEqual(o.symbol, asset))
   }
 
   return data
