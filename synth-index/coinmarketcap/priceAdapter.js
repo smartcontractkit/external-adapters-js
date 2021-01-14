@@ -28,20 +28,21 @@ const getPriceData = async (assets, convert) => {
     return response.data
   }
 
+  let data = {}
+  if (!assets || assets.length === 0) return data
+
   // We map some symbols as slugs
   const slugs = assets.map((s) => presetSlugs[s]).filter(Boolean)
   const symbols = assets.filter((s) => !presetSlugs[s])
 
-  let data = {}
-
   // We need to make two separate requests, one querying slugs
-  if (slugs) {
+  if (slugs.length > 0) {
     const slugPrices = await _getPriceData({ slug: slugs.join(), convert })
     data = { ...data, ...slugPrices.data }
   }
 
   // The other one querying symbols
-  if (symbols) {
+  if (symbols.length > 0) {
     const symbolPrices = await _getPriceData({ symbol: symbols.join(), convert })
     data = { ...data, ...symbolPrices.data }
   }
