@@ -49,9 +49,5 @@ export const execute = async (config: Config, request: AdapterRequest) => {
   const response = await Requester.request(reqConfig, customError)
   console.log(reqConfig)
   console.log(response.data)
-  return Requester.validateResultNumber(response.data, [
-    'Trade',
-    symbols,
-    'price',
-  ])
+  return Requester.validateResultNumber(response.data, ['Trade', symbols, 'price'])
 }

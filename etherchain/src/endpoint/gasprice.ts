@@ -20,7 +20,7 @@ export const execute = async (config: Config, request: AdapterRequest) => {
 
   const reqConfig = {
     ...config.api,
-    url
+    url,
   }
 
   const response = await Requester.request(reqConfig, customError)
