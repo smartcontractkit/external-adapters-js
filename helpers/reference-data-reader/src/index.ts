@@ -2,7 +2,15 @@ import { ethers } from 'ethers'
 import { AggregatorInterfaceFactory } from '@chainlink/contracts/ethers/v0.6/AggregatorInterfaceFactory'
 import { AggregatorV2V3InterfaceFactory } from '@chainlink/contracts/ethers/v0.6/AggregatorV2V3InterfaceFactory'
 import { util } from '@chainlink/ea-bootstrap'
-import { RoundData } from 'reference-data-reader'
+import { BigNumber } from 'ethers/utils'
+
+export interface RoundData {
+  roundId: BigNumber
+  answer: BigNumber
+  startedAt: BigNumber
+  updatedAt: BigNumber
+  answeredInRound: BigNumber
+}
 
 export type ReferenceDataPrice = (
   contractAddress: string,
@@ -10,11 +18,7 @@ export type ReferenceDataPrice = (
   meta?: Record<string, unknown>,
 ) => Promise<number>
 
-export type ReferenceDataRound = (
-  contractAddress: string,
-  multiply: number,
-  meta?: Record<string, unknown>,
-) => Promise<RoundData>
+export type ReferenceDataRound = (contractAddress: string) => Promise<RoundData>
 
 export const getLatestAnswer: ReferenceDataPrice = async (
   contractAddress: string,

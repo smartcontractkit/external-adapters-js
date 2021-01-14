@@ -6,18 +6,25 @@ import { execute } from '../src/adapter'
 
 describe('execute', () => {
   const jobID = '1'
-  const contractAddress = '0xdd042a17f7d9c407b66e62e4c5e8ee53ecd1aa77' // Mock address on Kovan testnet
+  const contractAddress = '0x0BD102ef50a6a133B38Bf3Bd3d40cE36cc1aB5A8'
   context('successful calls @integration', () => {
     const requests = [
       {
         name: 'id not supplied',
-        testData: { data: { contractAddress } },
+        testData: { data: { contractAddress, isAdaptive: true, multiply: 1e18 } },
+      },
+      {
+        name: 'Calculates without on-chain value',
+        testData: {
+          id: jobID,
+          data: { contractAddress, isAdaptive: false },
+        },
       },
       {
         name: 'Calculates with on-chain value',
         testData: {
           id: jobID,
-          data: { contractAddress },
+          data: { contractAddress, isAdaptive: true, multiply: 1e18 },
         },
       },
     ]

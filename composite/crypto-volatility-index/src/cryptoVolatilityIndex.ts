@@ -26,7 +26,7 @@ export const calculate = async (
     : await applySmoothing(weightedCVI, oracleAddress, multiply, heartbeatMinutes)
 
   logger.info(`CVI: ${cvi}`)
-  validateIndex(cvi, multiply)
+  validateIndex(cvi)
   return cvi
 }
 
@@ -78,14 +78,13 @@ const applySmoothing = async (
   multiply: number,
   heartBeatMinutes: number,
 ): Promise<number> => {
-  const roundData = await getRpcLatestRound(oracleAddress, multiply)
-  const latestIndex = new Big(roundData.answer.toString())
+  const roundData = await getRpcLatestRound(oracleAddress)
+  const latestIndex = new Big(roundData.answer.toString()).div(multiply)
   const updatedAt = roundData.updatedAt.mul(1000).toNumber()
-  const cvi = toOnChainValue(weightedCVI, multiply)
 
   if (latestIndex.lte(0)) {
     logger.warn('No on-chain index value found - Is first run of adapter?')
-    return cvi
+    return weightedCVI
   }
 
   const now = moment().utc()
@@ -94,9 +93,9 @@ const applySmoothing = async (
     throw new Error('invalid time, please check the node clock')
   }
   const l = lambda(dtSeconds, heartBeatMinutes)
-  const smoothed = latestIndex.mul(new Big(1 - l)).add(new Big(cvi).mul(l))
+  const smoothed = latestIndex.mul(new Big(1 - l)).add(new Big(weightedCVI).mul(l))
   logger.debug(`Previous value:${latestIndex}, updatedAt:${updatedAt}, dtSeconds:${dtSeconds}`)
-  return smoothed.round().toNumber()
+  return smoothed.toNumber()
 }
 
 const LAMBDA_MIN = 0.01
@@ -107,8 +106,8 @@ const lambda = function (t: number, heartBeatMinutes: number) {
 }
 
 const MAX_INDEX = 200
-const validateIndex = function (cvi: number, multiply: number) {
-  if (cvi <= 0 || cvi > MAX_INDEX * multiply) {
+const validateIndex = function (cvi: number) {
+  if (cvi <= 0 || cvi > MAX_INDEX) {
     throw new Error('Invalid calculated index value')
   }
 }
