@@ -54,10 +54,12 @@ export class Requester {
       }
 
       // Success
-      const { request: r, ...rest } = response
+      const { data, status, statusText } = response
       logger.debug({
         message: 'Received response',
-        ...rest,
+        data,
+        status,
+        statusText,
       })
       return response
     }
@@ -98,8 +100,7 @@ export class Requester {
         jobRunID,
         statusCode,
         message: error.message,
-        name: error.name,
-        cause: error.stack,
+        cause: error,
       }).toJSONResponse()
     }
     return new AdapterError({ jobRunID, statusCode, message: error }).toJSONResponse()
