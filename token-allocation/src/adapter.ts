@@ -1,9 +1,8 @@
-import { util } from '@chainlink/ea-bootstrap'
+import { AdapterResponse, Execute, AdapterRequest } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { AdapterRequest, Execute } from '@chainlink/types'
 import Decimal from 'decimal.js'
 import { utils } from 'ethers'
-import { getPriceAdapter, PriceAdapter } from './priceAdapter'
+import { Config, makeConfig } from './config'
 
 export type Index = IndexAsset[]
 
@@ -21,7 +20,7 @@ export const inputParams = {
   currency: false,
 }
 
-function makeIndex(components: string[], units: number[], currency: string): Index {
+export function makeIndex(components: string[], units: any[], currency: string): Index {
   return components.map((component, i) => {
     return {
       asset: component,
@@ -31,7 +30,7 @@ function makeIndex(components: string[], units: number[], currency: string): Ind
   })
 }
 
-const calculateIndexValue = (index: Index): number => {
+export const calculateIndexValue = (index: Index): number => {
   // assert all prices are set
   const isPriceSet = (i: IndexAsset) => i.price && i.price > 0
   if (!index.every(isPriceSet)) throw new Error('Invalid index: price not set')
@@ -40,29 +39,23 @@ const calculateIndexValue = (index: Index): number => {
   return index.reduce((acc, i) => acc.plus(i.units.times(i.price!)), new Decimal(0)).toNumber()
 }
 
-export const execute: Execute = async (input) => {
-  const dataProvider = util.getRequiredEnv('DATA_PROVIDER')
-  const priceAdapter = getPriceAdapter(dataProvider)
-  return await executeWithAdapters(input, priceAdapter)
-}
-
-const executeWithAdapters = async function (input: AdapterRequest, adapter: PriceAdapter) {
+export const execute = async (input: AdapterRequest, config: Config): Promise<AdapterResponse> => {
   const validator = new Validator(input, inputParams)
   if (validator.error) throw validator.error
 
-  try {
-    const jobRunID = validator.validated.id
-    const { components, units, currency = 'USD' } = validator.validated.data
+  const jobRunID = validator.validated.id
+  const { components, units, currency = config.defaultCurrency } = validator.validated.data
 
-    const index = await makeIndex(components, units, currency)
-    const priceIndex = await adapter.getPriceIndex(index, currency)
-    const totalValue = calculateIndexValue(priceIndex)
+  const index = await makeIndex(components, units, currency)
+  const priceIndex = await config.priceAdapter.getPriceIndex(index, currency)
+  const totalValue = calculateIndexValue(priceIndex)
 
-    return Requester.success(jobRunID, {
-      status: 200,
-      data: { result: totalValue, index: priceIndex },
-    })
-  } catch (e) {
-    console.log(e)
-  }
+  return Requester.success(jobRunID, {
+    status: 200,
+    data: { result: totalValue, index: priceIndex },
+  })
+}
+
+export const makeExecute = (config?: Config): Execute => {
+  return async (request: AdapterRequest) => execute(request, config || makeConfig())
 }

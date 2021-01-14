@@ -1,9 +1,9 @@
 import { util } from '@chainlink/ea-bootstrap'
-import types, { Execute } from '@chainlink/types'
+import { Execute } from '@chainlink/types'
 import { getSourceDataProviders, getSourceImpl } from './source'
 import { getCheckDataProviders, getCheckImpl } from './check'
 
-export type Config = types.Config & {
+export type Config = {
   sourceAdapters: Execute[]
   checkAdapters: Execute[]
   threshold: {

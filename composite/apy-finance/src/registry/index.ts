@@ -2,14 +2,9 @@ import { ethers } from 'ethers'
 import registryAbi from './IRegistry.json'
 import assetAllocationAbi from './IAssetAllocation.json'
 
-const getRegistry = (address: string, rpcUrl: string): ethers.Contract => {
+const getRegistry = (address: string, rpcUrl: string, abi: any): ethers.Contract => {
   const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
-  return new ethers.Contract(address, registryAbi, provider)
-}
-
-const getChainlinkRegistry = (address: string, rpcUrl: string): ethers.Contract => {
-  const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
-  return new ethers.Contract(address, assetAllocationAbi, provider)
+  return new ethers.Contract(address, abi, provider)
 }
 
 type Allocations = {
@@ -21,14 +16,11 @@ export type GetAllocations = (registry: ethers.Contract) => () => Promise<Alloca
 
 const getAllocations: GetAllocations = (registry) => async () => {
   const tokenAddresses = await registry.getTokenAddresses()
-  const allocations: Allocations = { components: [], units: [] }
-  for (const address of tokenAddresses) {
-    const balance = await registry.balanceOf(address)
-    const symbol = await registry.symbolOf(address)
-    allocations.components.push(symbol)
-    allocations.units.push(balance)
-  }
-  return allocations
+  const [components, units]: string[][] = await Promise.all([
+    Promise.all(tokenAddresses.map((address: string) => registry.symbolOf(address))),
+    Promise.all(tokenAddresses.map((address: string) => registry.balanceOf(address))),
+  ])
+  return { components, units }
 }
 
 type Registry = {
@@ -36,9 +28,9 @@ type Registry = {
 }
 
 const makeRegistry = async (address: string, rpcUrl: string): Promise<Registry> => {
-  const registry = getRegistry(address, rpcUrl)
+  const registry = getRegistry(address, rpcUrl, registryAbi)
   const chainlinkRegistryAddress = await registry.chainlinkRegistryAddress()
-  const chainlinkRegistry = getChainlinkRegistry(chainlinkRegistryAddress, rpcUrl)
+  const chainlinkRegistry = getRegistry(chainlinkRegistryAddress, rpcUrl, assetAllocationAbi)
 
   return {
     getAllocations: getAllocations(chainlinkRegistry),

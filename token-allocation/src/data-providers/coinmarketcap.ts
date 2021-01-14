@@ -1,27 +1,56 @@
 import { Requester } from '@chainlink/external-adapter'
 import { Index } from '../adapter'
-import { util } from '@chainlink/ea-bootstrap'
 
-const getPriceData = async (symbols: string, currency: string) => {
-  const url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest'
-  const headers = {
-    'X-CMC_PRO_API_KEY': util.getRequiredEnv('API_KEY'),
+// Defaults we use when there are multiple currencies with the same symbol
+const presetSlugs: Record<string, string> = {
+  COMP: 'compound',
+  BNT: 'bancor',
+  RCN: 'ripio-credit-network',
+  UNI: 'uniswap',
+  CRV: 'curve-dao-token',
+  FNX: 'finnexus',
+  ETC: 'ethereum-classic',
+  BAT: 'basic-attention-token',
+}
+
+const getPriceData = async (assets: string[], convert: string) => {
+  const _getPriceData = async (params: any): Promise<any> => {
+    const url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest'
+    const headers = {
+      'X-CMC_PRO_API_KEY': process.env.API_KEY,
+    }
+    const config = {
+      url,
+      headers,
+      params,
+    }
+    const response = await Requester.request(config)
+    return response.data
   }
-  const params = {
-    symbol: symbols,
-    convert: currency.toUpperCase(),
+
+  // We map some symbols as slugs
+  const slugs = assets.map((s) => presetSlugs[s]).filter(Boolean)
+  const symbols = assets.filter((s) => !presetSlugs[s])
+
+  let data: Record<string, any> = {}
+
+  // We need to make two separate requests, one querying slugs
+  if (slugs.length > 0) {
+    const slugPrices = await _getPriceData({ slug: slugs.join(), convert })
+    data = { ...data, ...slugPrices.data }
   }
-  const config = {
-    url,
-    headers,
-    params,
+
+  // The other one querying symbols
+  if (symbols.length > 0) {
+    const symbolPrices = await _getPriceData({ symbol: symbols.join(), convert })
+    data = { ...data, ...symbolPrices.data }
   }
-  const response = await Requester.request(config)
-  return response.data
+
+  return data
 }
 
 const toAssetPrice = (data: Record<string, any>, currency: string) => {
-  const price = data.quote && data.quote[currency.toUpperCase()].price
+  const price = data.quote && data.quote[currency].price
   if (!price || price <= 0) {
     throw new Error('invalid price')
   }
@@ -29,12 +58,15 @@ const toAssetPrice = (data: Record<string, any>, currency: string) => {
 }
 
 const getPriceIndex = async (index: Index, currency: string): Promise<Index> => {
-  const symbols = index.map(({ asset }) => asset.toUpperCase()).join()
-  const prices = await getPriceData(symbols, currency)
+  currency = currency.toUpperCase()
 
+  const assets = index.map(({ asset }) => asset.toUpperCase())
+  const pricesData = await getPriceData(assets, currency)
+
+  const indexMap = new Map()
+  Object.values(pricesData).forEach((asset) => indexMap.set(asset.symbol.toUpperCase(), asset))
   return index.map((i) => {
-    const data = prices.data[i.asset]
-    return { ...i, price: toAssetPrice(data, currency) }
+    return { ...i, price: toAssetPrice(indexMap.get(i.asset.toUpperCase()), currency) }
   })
 }
 

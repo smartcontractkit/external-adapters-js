@@ -1,3 +1,5 @@
+import types from '@chainlink/types'
+import { util } from '@chainlink/ea-bootstrap'
 import { Index } from './adapter'
 import cryptocompare from './data-providers/cryptocompare'
 import nomics from './data-providers/nomics'
@@ -37,6 +39,18 @@ export type PriceAdapter = {
   getPriceIndex: GetPriceIndex
 }
 
+export type Config = {
+  priceAdapter: PriceAdapter
+  defaultCurrency: string
+}
+
 export const getPriceAdapter = (dataProvider: string): PriceAdapter => {
   return providers[dataProvider]
+}
+
+export const makeConfig = (): Config => {
+  const dataProvider = util.getRequiredEnv('DATA_PROVIDER')
+  const defaultCurrency: string = util.getEnv('DEFAULT_CURRENCY') || 'USD'
+  const priceAdapter = getPriceAdapter(dataProvider)
+  return { priceAdapter, defaultCurrency }
 }

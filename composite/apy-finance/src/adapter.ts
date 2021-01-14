@@ -1,27 +1,23 @@
 import { Validator } from '@chainlink/external-adapter'
-import { Execute } from '@chainlink/types'
+import { AdapterResponse, Execute, AdapterRequest } from '@chainlink/types'
 import TokenAllocation from '@chainlink/token-allocation-adapter'
-import { util } from '@chainlink/ea-bootstrap'
 import makeRegistry from './registry'
+import { makeConfig, Config } from './config'
 
-const customParams = {
-  currency: false,
-}
-
-export const execute: Execute = async (input) => {
-  const validator = new Validator(input, customParams)
+export const execute = async (input: AdapterRequest, config: Config): Promise<AdapterResponse> => {
+  const validator = new Validator(input)
   if (validator.error) throw validator.error
 
-  const rpcUrl = util.getRequiredEnv('RPC_URL')
-  const addressRegistry = util.getRequiredEnv('ADDRESS_REGISTRY')
-
-  const registry = await makeRegistry(addressRegistry, rpcUrl)
+  const registry = await makeRegistry(config.addressRegistry, config.rpcUrl)
   const allocations = await registry.getAllocations()
 
-  return await TokenAllocation.execute({
-    ...input,
-    data: { ...allocations, currency: validator.validated.data.currency },
+  const tokenAllocationExecute = TokenAllocation.makeExecute()
+
+  return await tokenAllocationExecute({
+    data: { ...input.data, ...allocations },
   })
 }
 
-export default execute
+export const makeExecute = (config?: Config): Execute => {
+  return async (request: AdapterRequest) => execute(request, config || makeConfig())
+}

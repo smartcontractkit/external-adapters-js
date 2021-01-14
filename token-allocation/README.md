@@ -16,22 +16,32 @@ The adapter takes the following environment variables:
     - `kaiko` (K)
     - `nomics`(K)
 - `API_KEY`: For those data providers who need an api key
+- `DEFAULT_CURRENCY` (Optional): Currency that the price will be fetched by default. `USD` used by default
+
 
 ## Input Params
 
 - `components`: Array of the token symbols. 
 - `units`: Array of balances in wei of each token.
-- `currency` (optional). Currency we want the price on. USD by default
+- `currency` (optional). Currency we want the price on. `DEFAULT_CURRENCY` by default
 
 `units[n]` would correspond to the `components[n]` balance
 
 ```json
 {
-	"jobID": "1",
-    "data": {
-        "components": [ "DAI", "USDC", "USDT" ],
-        "units": ["1000000000000000000", "10000000000000000000", "1000000000000000000"]
-    }
+  "jobID": "1",
+  "data": {
+    "components": [
+      "DAI",
+      "USDC",
+      "USDT"
+    ],
+    "units": [
+      "10000000000000000000",
+      "10000000000000000000",
+      "10000000000000000000"
+    ]
+  }
 }
 ```
 
