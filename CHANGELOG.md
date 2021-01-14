@@ -17,6 +17,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `finage` to get Financial data from finage.co.uk
   - `coincodex` to get crypto prices from CoinCodex
   - `coinranking` to get crypto prices from Coinranking
+  - `crypto-volatility-index` to calculate the CVI (Crypto volatility index)
   - `btc.com` to get on-chain balances from BTC.com
   - `sochain` to get on-chain balances from SoChain
   - `dns-query` to query DNS over HTTPS
