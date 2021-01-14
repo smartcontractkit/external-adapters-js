@@ -24,7 +24,7 @@ describe('execute', () => {
       },
       {
         name: 'coin/market',
-        testData: { id: jobID, data: { coin: 'ETH', market: 'USD' } },
+        testData: { id: jobID, data: { coin: 'ETH', market: 'XDR' } },
       },
     ]
 
