@@ -29,11 +29,19 @@ The adapter takes the following environment variables:
 
 ```json
 {
-	"jobID": "1",
-    "data": {
-        "components": [ "DAI", "USDC", "USDT" ],
-        "units": ["1000000000000000000", "10000000000000000000", "1000000000000000000"]
-    }
+  "jobID": "1",
+  "data": {
+    "components": [
+      "DAI",
+      "USDC",
+      "USDT"
+    ],
+    "units": [
+      "10000000000000000000",
+      "10000000000000000000",
+      "10000000000000000000"
+    ]
+  }
 }
 ```
 

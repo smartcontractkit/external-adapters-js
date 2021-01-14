@@ -16,12 +16,10 @@ export type GetAllocations = (registry: ethers.Contract) => () => Promise<Alloca
 
 const getAllocations: GetAllocations = (registry) => async () => {
   const tokenAddresses = await registry.getTokenAddresses()
-  const components: string[] = await Promise.all(
-    tokenAddresses.map(async (address: string) => await registry.symbolOf(address)),
-  )
-  const units: string[] = await Promise.all(
-    tokenAddresses.map(async (address: string) => await registry.balanceOf(address)),
-  )
+  const [components, units]: string[][] = await Promise.all([
+    Promise.all(tokenAddresses.map((address: string) => registry.symbolOf(address))),
+    Promise.all(tokenAddresses.map((address: string) => registry.balanceOf(address))),
+  ])
   return { components, units }
 }
 
