@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { ExecuteWithConfig } from '@chainlink/types'
+import { ExecuteWithConfig, Config } from '@chainlink/types'
 import { util } from '@chainlink/ea-bootstrap'
 
 export const NAME = 'balance'
@@ -11,7 +11,7 @@ const customParams = {
   quantity: false,
 }
 
-export const execute: ExecuteWithConfig = async (request, config) => {
+export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 
