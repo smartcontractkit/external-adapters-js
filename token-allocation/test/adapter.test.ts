@@ -3,16 +3,12 @@ import { Requester } from '@chainlink/external-adapter'
 import { assertSuccess, assertError } from '@chainlink/adapter-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
 import { makeExecute, makeIndex, calculateIndexValue } from '../src/adapter'
-import { getPriceAdapter } from '../src/config'
+import { makeConfig } from '../src/config'
 import Decimal from 'decimal.js'
-
-const makeConfig = () => {
-  const priceAdapter = getPriceAdapter('coingecko')
-  return { priceAdapter, defaultCurrency: 'USD' }
-}
 
 describe('execute', () => {
   const jobID = '1'
+  process.env.DATA_PROVIDER = 'coingecko'
   const execute = makeExecute(makeConfig())
 
   context('successful calls @integration', () => {
@@ -95,7 +91,7 @@ describe('execute', () => {
       })
     })
 
-    const units = new Decimal(1)
+    const units = new Decimal(1e18).toString()
     it('units are correct', () => {
       index.forEach((asset) => {
         assert.strictEqual(asset.units.toString(), units.toString())
@@ -113,29 +109,27 @@ describe('execute', () => {
     const index = [
       {
         asset: 'A',
-        units: new Decimal(2),
+        units: new Decimal(2e18),
         price: 1,
         currency: 'USD',
       },
       {
         asset: 'B',
-        units: new Decimal(5),
+        units: new Decimal(5e18),
         price: 2,
         currency: 'USD',
       },
       {
         asset: 'C',
-        units: new Decimal(1),
+        units: new Decimal(1e18),
         price: 20,
         currency: 'USD',
       },
     ]
-    const expectedValue = 32
     const indexValue = calculateIndexValue(index)
     it('index value is correct', () => {
+      const expectedValue = 32
       assert.strictEqual(indexValue, expectedValue)
-      assert.isAbove(indexValue, 31)
-      assert.isBelow(indexValue, 33)
     })
   })
 })
