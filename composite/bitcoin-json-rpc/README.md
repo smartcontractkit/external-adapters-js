@@ -1,8 +1,6 @@
-# Bitcoin JSON-RPC External Adapter for Chainlink
+# Bitcoin JSON-RPC Blockchain info adapter for Chainlink
 
-- Should work for any Bitcoin JSON RPC supported endpoint
 - Supports AWS Lambda and GCP Functions
-- Bitcoin clients can sign and send transactions if wallet is unlocked
 - Takes optional connection to RPC endpoint (set via `RPC_URL` environment variable)
 
 ## Input Params
@@ -63,32 +61,6 @@ Returns blockchain info stats, by calling `"method": "getblockchainfo"`
   },
   "result": 665582,
   "statusCode": 200
-}
-```
-
-Also allows for general JSON-RPC requests, formatted like this:
-
-# Input
-
-```JSON
-{
-	"jsonrpc": "2.0",
-	"method": "some_method",
-	"params": [
-		"some_param",
-		"another_param"
-	],
-	"id": 1
-}
-```
-
-# Output
-
-```JSON
-{
-  "id":1,
-  "jsonrpc": "2.0",
-  "result": "some_result"
 }
 ```
 

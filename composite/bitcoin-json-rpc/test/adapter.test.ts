@@ -1,53 +1,39 @@
-import { assertSuccess, assertError } from '@chainlink/adapter-test-helpers'
-import { execute } from '../src/adapter'
-import { AdapterRequest } from '@chainlink/types'
+import { assert } from 'chai'
 import { Requester } from '@chainlink/external-adapter'
-
-/**
- * Running these tests requires a connection to a Bitcoin client.
- * Not all supported methods have a test case, just enough to display capability.
- */
+import { assertSuccess, assertError } from '@chainlink/adapter-test-helpers'
+import { AdapterRequest } from '@chainlink/types'
+import { makeExecute } from '../src/adapter'
 
 describe('execute', () => {
   const jobID = '1'
+  const execute = makeExecute()
 
   context('successful calls @integration', () => {
     const requests = [
       {
-        name: 'get blockchain info',
-        testData: {
-          id: jobID,
-          data: {
-            method: 'getblockchaininfo',
-          },
-        },
+        name: 'id not supplied',
+        testData: { data: { blockchain: 'BTC' } },
       },
       {
-        name: 'get height with endpoint convention',
-        testData: {
-          id: jobID,
-          data: { endpoint: 'height' },
-        },
+        name: 'blockchain',
+        testData: { id: jobID, data: { blockchain: 'BTC' } },
       },
       {
-        name: 'get difficulty with blockchain convention and default endpoint',
+        name: 'coin',
+        testData: { id: jobID, data: { coin: 'BTC' } },
+      },
+      {
+        name: 'BTC difficulty',
         testData: {
           id: jobID,
           data: { blockchain: 'BTC' },
         },
       },
       {
-        name: 'get height with common interface',
+        name: 'BTC height',
         testData: {
           id: jobID,
           data: { blockchain: 'BTC', endpoint: 'height' },
-        },
-      },
-      {
-        name: 'get difficulty with common interface',
-        testData: {
-          id: jobID,
-          data: { blockchain: 'BTC', endpoint: 'difficulty' },
         },
       },
     ]
@@ -56,6 +42,26 @@ describe('execute', () => {
       it(`${req.name}`, async () => {
         const data = await execute(req.testData as AdapterRequest)
         assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
+        assert.isAbove(data.result, 0)
+        assert.isAbove(data.data.result, 0)
+      })
+    })
+  })
+
+  context('validation error', () => {
+    const requests = [
+      { name: 'empty body', testData: {} },
+      { name: 'empty data', testData: { data: {} } },
+    ]
+
+    requests.forEach((req) => {
+      it(`${req.name}`, async () => {
+        try {
+          await execute(req.testData as AdapterRequest)
+        } catch (error) {
+          const errorResp = Requester.errored(jobID, error)
+          assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
+        }
       })
     })
   })
@@ -63,8 +69,8 @@ describe('execute', () => {
   context('error calls @integration', () => {
     const requests = [
       {
-        name: 'endpoint not existing',
-        testData: { id: jobID, data: { endpoint: 'no_op' } },
+        name: 'unknown blockchain',
+        testData: { id: jobID, data: { blockchain: 'not_real' } },
       },
     ]
 
