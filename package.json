@@ -92,7 +92,8 @@
     "paxos",
     "deribit",
     "token-allocation",
-    "dydx-stark"
+    "dydx-stark",
+    "blackbook"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",
