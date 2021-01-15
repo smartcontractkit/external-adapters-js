@@ -17,6 +17,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `finage` to get Financial data from finage.co.uk
   - `coincodex` to get crypto prices from CoinCodex
   - `coinranking` to get crypto prices from Coinranking
+  - `crypto-volatility-index` to calculate the CVI (Crypto volatility index)
   - `btc.com` to get on-chain balances from BTC.com
   - `sochain` to get on-chain balances from SoChain
   - `dns-query` to query DNS over HTTPS
@@ -24,6 +25,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `paxos` to get Paxos asset supply attestations
   - `outlier-detection`: composite adapter to check for outlier values between multiple sets of data providers
   - `dydx-stark` to sign the input price data with your private STARK key, and send it to the destination endpoint.
+  - `bitcoin-json-rpc`: composite adapter for querying bitcoin blockchain stats(difficulty, height) according to the existing convention
 - Added support for metadata in requests. This gives adapters access to the FM on-chain round state.
 - Moves re-usable test behaviors & testing utils to a new package - `@chainlink/adapter-test-helpers`
 - Added support for using query string parameters as input to adapters.
