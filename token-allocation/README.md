@@ -22,7 +22,7 @@ The adapter takes the following environment variables:
 ## Input Params
 
 - `components`: Array of the token symbols. 
-- `units`: Array of balances in wei of each token.
+- `units` (optional): Array of balances in wei of each token. `10000000000000000000` wei (1 ether) for each token by default.
 - `currency` (optional). Currency we want the price on. `DEFAULT_CURRENCY` by default
 
 `units[n]` would correspond to the `components[n]` balance
@@ -54,7 +54,7 @@ The adapter takes the following environment variables:
         "index": [
             {
                 "asset": "DAI",
-                "units": "1",
+                "units": "10",
                 "currency": "USD",
                 "price": "0.99985095"
             },
@@ -66,7 +66,7 @@ The adapter takes the following environment variables:
             },
             {
                 "asset": "USDT",
-                "units": "1",
+                "units": "10",
                 "currency": "USD",
                 "price": "1.00139295"
             }

@@ -1,4 +1,3 @@
-import types from '@chainlink/types'
 import { util } from '@chainlink/ea-bootstrap'
 import { Index } from './adapter'
 import cryptocompare from './data-providers/cryptocompare'
@@ -9,6 +8,7 @@ import coingecko from './data-providers/coingecko'
 import coinapi from './data-providers/coinapi'
 import amberdata from './data-providers/amberdata'
 import kaiko from './data-providers/kaiko'
+import Decimal from 'decimal.js'
 
 enum DataProvider {
   Amberdata = 'amberdata',
@@ -42,15 +42,24 @@ export type PriceAdapter = {
 export type Config = {
   priceAdapter: PriceAdapter
   defaultCurrency: string
+  makeDefaultUnits: any
 }
 
 export const getPriceAdapter = (dataProvider: string): PriceAdapter => {
   return providers[dataProvider]
 }
 
-export const makeConfig = (): Config => {
+const makeDefaultUnits = (defaultUnit: string) => (assetNumber: number) => {
+  return new Array(assetNumber).fill(defaultUnit)
+}
+
+export const makeConfig = (defaultUnit?: string): Config => {
   const dataProvider = util.getRequiredEnv('DATA_PROVIDER')
   const defaultCurrency: string = util.getEnv('DEFAULT_CURRENCY') || 'USD'
   const priceAdapter = getPriceAdapter(dataProvider)
-  return { priceAdapter, defaultCurrency }
+  return {
+    priceAdapter,
+    defaultCurrency,
+    makeDefaultUnits: makeDefaultUnits(defaultUnit || new Decimal(1e18).toString()),
+  }
 }

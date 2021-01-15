@@ -16,7 +16,7 @@ type IndexAsset = {
 // Components is an array of token symbols
 export const inputParams = {
   components: true,
-  units: true,
+  units: false,
   currency: false,
 }
 
@@ -24,7 +24,7 @@ export function makeIndex(components: string[], units: any[], currency: string):
   return components.map((component, i) => {
     return {
       asset: component,
-      units: new Decimal(new utils.BigNumber(units[i]).toString()).div(1e18),
+      units: new Decimal(new utils.BigNumber(units[i]).toString()),
       currency,
     }
   })
@@ -35,8 +35,9 @@ export const calculateIndexValue = (index: Index): number => {
   const isPriceSet = (i: IndexAsset) => i.price && i.price > 0
   if (!index.every(isPriceSet)) throw new Error('Invalid index: price not set')
   // calculate total value
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  return index.reduce((acc, i) => acc.plus(i.units.times(i.price!)), new Decimal(0)).toNumber()
+  return index // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    .reduce((acc, i) => acc.plus(i.units.div(1e18).times(i.price!)), new Decimal(0))
+    .toNumber()
 }
 
 export const execute = async (input: AdapterRequest, config: Config): Promise<AdapterResponse> => {
@@ -44,7 +45,11 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const { components, units, currency = config.defaultCurrency } = validator.validated.data
+  const {
+    components,
+    units = config.makeDefaultUnits(components.length),
+    currency = config.defaultCurrency,
+  } = validator.validated.data
 
   const index = await makeIndex(components, units, currency)
   const priceIndex = await config.priceAdapter.getPriceIndex(index, currency)
