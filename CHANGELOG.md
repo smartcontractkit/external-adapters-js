@@ -27,6 +27,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `dydx-stark` to sign the input price data with your private STARK key, and send it to the destination endpoint.
   - `apy-finance` to calculate the TVL in APY Finance
   - `token-allocation` to calculate the total price from a set of token balances
+  - `bitcoin-json-rpc`: composite adapter for querying bitcoin blockchain stats(difficulty, height) according to the existing convention
 - Added support for metadata in requests. This gives adapters access to the FM on-chain round state.
 - Moves re-usable test behaviors & testing utils to a new package - `@chainlink/adapter-test-helpers`
 - Added support for using query string parameters as input to adapters.

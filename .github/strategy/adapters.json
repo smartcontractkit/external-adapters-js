@@ -108,7 +108,8 @@
       "dns-record-check",
       "outlier-detection",
       "apy-finance",
-      "crypto-volatility-index"
+      "crypto-volatility-index",
+      "bitcoin-json-rpc"
     ]
   },
   "synth-index": {
