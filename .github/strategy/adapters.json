@@ -77,7 +77,8 @@
       "trueusd",
       "wbtc-address-set",
       "xbto",
-      "dydx-stark"
+      "dydx-stark",
+      "token-allocation"
     ]
   },
   "2-step": {
@@ -106,6 +107,7 @@
       "defi-pulse",
       "dns-record-check",
       "outlier-detection",
+      "apy-finance",
       "crypto-volatility-index",
       "bitcoin-json-rpc"
     ]
