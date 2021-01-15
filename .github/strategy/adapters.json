@@ -107,7 +107,8 @@
       "defi-pulse",
       "dns-record-check",
       "outlier-detection",
-      "apy-finance"
+      "apy-finance",
+      "crypto-volatility-index"
     ]
   },
   "synth-index": {
