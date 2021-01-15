@@ -1,5 +1,4 @@
 import { assertSuccess, assertError } from '@chainlink/adapter-test-helpers'
-import { execute } from '../src/adapter'
 import { AdapterRequest } from '@chainlink/types'
 import { Requester } from '@chainlink/external-adapter'
 import { makeExecute } from '../src/adapter'

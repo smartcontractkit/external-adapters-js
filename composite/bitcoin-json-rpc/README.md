@@ -1,6 +1,5 @@
 # Bitcoin JSON-RPC Blockchain info adapter for Chainlink
 
-- Supports AWS Lambda and GCP Functions
 - Takes optional connection to RPC endpoint (set via `RPC_URL` environment variable)
 
 ## Input Params

@@ -1,7 +1,6 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
 import { makeConfig, DEFAULT_ENDPOINT } from './config'
-import { util } from '@chainlink/ea-bootstrap'
 
 const customParams = {
   blockchain: ['blockchain', 'coin'],
@@ -23,7 +22,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
   const blockchain = validator.validated.data.blockchain.toLowerCase()
 
-  const key = util.getRandomRequiredEnv('API_KEY')
+  const key = config.apiKey
   const apiFunctionName = endpointToApiFunctionName[endpoint]
   const params = { key, q: apiFunctionName }
 

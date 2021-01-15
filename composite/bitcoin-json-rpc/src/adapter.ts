@@ -1,7 +1,7 @@
 import JSONRPC from '@chainlink/json-rpc-adapter'
 import { Config, ExecuteWithConfig, ExecuteFactory, AdapterRequest } from '@chainlink/types'
 import { Validator, Requester } from '@chainlink/external-adapter'
-import { makeConfig, DEFAULT_ENDPOINT } from './config'
+import { DEFAULT_ENDPOINT, makeConfig } from './config'
 
 const inputParams = {
   endpoint: false,
@@ -12,7 +12,7 @@ const convertEndpoint: { [key: string]: string } = {
 }
 
 // Export function to integrate with Chainlink node
-export const execute: ExecuteWithConfig<Config> = async (request: AdapterRequest) => {
+const execute: ExecuteWithConfig<Config> = async (request: AdapterRequest) => {
   const validator = new Validator(request, inputParams)
   if (validator.error) throw validator.error
 
