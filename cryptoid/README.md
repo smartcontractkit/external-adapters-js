@@ -2,8 +2,8 @@
 
 ## Input Params
 
-- `blockchain` or `coin`: The blockchain to get stats from
-- `endpoint`: The parameter to query for. Default: "difficulty"
+- `blockchain` or `coin`: The blockchain name (required).
+- `endpoint`: The requested data point. One of (`difficulty`|`height`). Defaults: `difficulty`.
 
 ## Output
 
