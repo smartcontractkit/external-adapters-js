@@ -19,8 +19,10 @@ export const execute: ExecuteWithConfig<Config> = async (request: AdapterRequest
   const jobRunID = validator.validated.id
   let endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
 
-  const jsonrpcRequest: AdapterRequest = { id: jobRunID, data: { method: 'getblockchaininfo' } }
-  const response = await JSONRPC.execute(jsonrpcRequest)
+  const response = await JSONRPC.execute({
+    ...request,
+    data: { ...request.data, method: 'getblockchaininfo' },
+  })
 
   if (endpoint in convertEndpoint) endpoint = convertEndpoint[endpoint]
   const result = Requester.validateResultNumber(response.data, ['result', endpoint])

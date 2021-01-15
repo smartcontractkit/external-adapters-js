@@ -5,7 +5,7 @@
 
 ## Input Params
 
-Returns blockchain info stats, by calling `"method": "getblockchainfo"`
+Returns blockchain info stats, by calling `"method": "getblockchainfo"`. It relies on `json-rpc` adapter.
 
 - `endpoint`: The parameter to query for. Default: "difficulty"
 
@@ -69,7 +69,7 @@ Returns blockchain info stats, by calling `"method": "getblockchainfo"`
 Install dependencies
 
 ```bash
-npm install
+yarn
 ```
 
 Set the `RPC_URL` environment variable to your client URL.
@@ -83,5 +83,5 @@ RPC Address and Port Defaults:
 - BTC: (bitcoind) http://localhost:8332 (btcd) http://localhost:8334
 
 ```bash
-npm run test
+yarn test
 ```

@@ -8,7 +8,7 @@ const customParams = {
   endpoint: false,
 }
 
-const endpointToQ: { [key: string]: string } = {
+const endpointToApiParam: { [key: string]: string } = {
   difficulty: 'getdifficulty',
   height: 'getblockcount',
 }
@@ -24,8 +24,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const blockchain = validator.validated.data.blockchain.toLowerCase()
 
   const key = util.getRandomRequiredEnv('API_KEY')
-  const q = endpointToQ[endpoint]
-  const params = { key, q }
+  const apiParam = endpointToApiParam[endpoint]
+  const params = { key, q: apiParam }
 
   const reqConfig = {
     ...config.api,
