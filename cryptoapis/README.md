@@ -169,7 +169,3 @@ https://docs.cryptoapis.io/rest-apis/blockchain-as-a-service-apis/btc/index#btc-
   "statusCode": 200
 }
 ```
-
-```
-
-```
