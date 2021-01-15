@@ -19,7 +19,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   if (validator.error) throw validator.error
   const jobRunID = validator.validated.id
   let endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
-  if (endpoint in convertEndpoint) endpoint = convertEndpoint[endpoint]
+  endpoint = convertEndpoint[endpoint] || endpoint
 
   const blockchain = Requester.toVendorName(
     validator.validated.data.blockchain.toLowerCase(),

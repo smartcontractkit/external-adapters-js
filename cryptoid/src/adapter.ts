@@ -29,7 +29,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const reqConfig = {
     ...config.api,
     params,
-    baseURL: `https://${blockchain}.cryptoid.info/${blockchain}/api.dws`,
+    baseURL: config.api.baseURL || `https://${blockchain}.cryptoid.info/${blockchain}/api.dws`,
   }
   const response = await Requester.request(reqConfig)
   const result = response.data

@@ -21,7 +21,7 @@ export const execute = async (config: Config, request: AdapterRequest) => {
   const blockchain = validator.validated.data.blockchain
   const network = validator.validated.data.network || 'mainnet'
   let endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
-  if (endpoint in convertEndpoint) endpoint = convertEndpoint[endpoint]
+  endpoint = convertEndpoint[endpoint] || endpoint
   const url = `/v1/bc/${blockchain.toLowerCase()}/${network.toLowerCase()}/info`
 
   const reqConfig = { ...config.api, url }

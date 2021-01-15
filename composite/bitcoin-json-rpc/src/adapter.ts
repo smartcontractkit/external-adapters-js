@@ -24,7 +24,7 @@ const execute: ExecuteWithConfig<Config> = async (request: AdapterRequest) => {
     data: { ...request.data, method: 'getblockchaininfo' },
   })
 
-  if (endpoint in convertEndpoint) endpoint = convertEndpoint[endpoint]
+  endpoint = convertEndpoint[endpoint] || endpoint
   const result = Requester.validateResultNumber(response.data, ['result', endpoint])
   return Requester.success(jobRunID, {
     data: { ...response.data.result, result },
