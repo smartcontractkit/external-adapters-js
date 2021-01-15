@@ -9,11 +9,8 @@ The adapter takes the following environment variables:
 
 ## Input Params
 
-- `endpoint`: The endpoint to use, one of (difficulty|balance). Defaults to `difficulty`
-
-### Difficulty endpoint
-
-- `blockchain` or `coin`: The blockchain to get difficulty from
+- `blockchain` or `coin`: The blockchain to get stats from
+- `endpoint`: The parameter to query for. Default: "difficulty"
 
 ### Output
 
