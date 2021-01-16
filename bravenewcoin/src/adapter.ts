@@ -1,7 +1,7 @@
 import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
 import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
 import { makeConfig, DEFAULT_ENDPOINT } from './config'
-import { price } from './endpoint'
+import { price, vwap } from './endpoint'
 
 const inputParams = {
   endpoint: false,
@@ -19,6 +19,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   switch (endpoint) {
     case price.NAME: {
       return await price.execute(request, config)
+    }
+    case vwap.NAME: {
+      return await vwap.execute(request, config)
     }
     default: {
       throw new AdapterError({
