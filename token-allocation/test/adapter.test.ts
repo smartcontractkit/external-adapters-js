@@ -109,19 +109,19 @@ describe('execute', () => {
     const index = [
       {
         asset: 'A',
-        units: new Decimal(2e18),
+        units: new Decimal(2),
         price: 1,
         currency: 'USD',
       },
       {
         asset: 'B',
-        units: new Decimal(5e18),
+        units: new Decimal(5),
         price: 2,
         currency: 'USD',
       },
       {
         asset: 'C',
-        units: new Decimal(1e18),
+        units: new Decimal(1),
         price: 20,
         currency: 'USD',
       },

@@ -39,6 +39,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 
 - CMC adapter price query fixed for currencies where multiple currencies have the same symbol
+- APY Finance converts to ETH taking token `decimals` into account
 
 ### Changed
 
