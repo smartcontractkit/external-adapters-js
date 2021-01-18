@@ -22,7 +22,7 @@ The adapter takes the following environment variables:
 ## Input Params
 
 - `components`: Array of the token symbols. 
-- `units` (optional): Array of balances of each token in ETH. 1 ether for each token by default.
+- `units` (optional): Array of balances of each token. 1 unit for each token by default.
 - `currency` (optional). Currency we want the price on. `DEFAULT_CURRENCY` by default
 
 `units[n]` would correspond to the `components[n]` balance
