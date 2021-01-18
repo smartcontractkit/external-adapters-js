@@ -60,6 +60,6 @@ export const makeConfig = (defaultUnit?: string): Config => {
   return {
     priceAdapter,
     defaultCurrency,
-    makeDefaultUnits: makeDefaultUnits(defaultUnit || new Decimal(1e18).toString()),
+    makeDefaultUnits: makeDefaultUnits(defaultUnit || new Decimal(1).toString()),
   }
 }
