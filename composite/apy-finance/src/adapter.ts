@@ -14,7 +14,7 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
   const tokenAllocationExecute = TokenAllocation.makeExecute()
 
   return await tokenAllocationExecute({
-    data: { ...input.data, ...allocations },
+    data: { ...input.data, allocations },
   })
 }
 

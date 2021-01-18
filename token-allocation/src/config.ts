@@ -42,24 +42,20 @@ export type PriceAdapter = {
 export type Config = {
   priceAdapter: PriceAdapter
   defaultCurrency: string
-  makeDefaultUnits: any
+  defaultBalance: number
 }
 
 export const getPriceAdapter = (dataProvider: string): PriceAdapter => {
   return providers[dataProvider]
 }
 
-const makeDefaultUnits = (defaultUnit: string) => (assetNumber: number) => {
-  return new Array(assetNumber).fill(defaultUnit)
-}
-
-export const makeConfig = (defaultUnit?: string): Config => {
+export const makeConfig = (defaultBalance = 1e18): Config => {
   const dataProvider = util.getRequiredEnv('DATA_PROVIDER')
   const defaultCurrency: string = util.getEnv('DEFAULT_CURRENCY') || 'USD'
   const priceAdapter = getPriceAdapter(dataProvider)
   return {
     priceAdapter,
     defaultCurrency,
-    makeDefaultUnits: makeDefaultUnits(defaultUnit || new Decimal(1).toString()),
+    defaultBalance,
   }
 }

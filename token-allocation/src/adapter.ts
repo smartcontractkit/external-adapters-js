@@ -1,30 +1,34 @@
 import { AdapterResponse, Execute, AdapterRequest } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/external-adapter'
-import Decimal from 'decimal.js'
 import { Config, makeConfig } from './config'
+import { Allocations } from './types'
+import { Decimal } from 'decimal.js'
 
 export type Index = IndexAsset[]
 
 type IndexAsset = {
   asset: string
-  units: Decimal
   price?: number
   currency: string
+  units: Decimal
 }
 
 // Components is an array of token symbols
 export const inputParams = {
-  components: true,
-  units: false,
+  allocations: true,
   currency: false,
 }
 
-export function makeIndex(components: string[], units: any[], currency: string): Index {
-  return components.map((component, i) => {
+export function makeIndex(
+  allocations: Allocations,
+  currency: string,
+  defaultBalance: number,
+): Index {
+  return allocations.map(({ symbol, balance = defaultBalance, decimals = 18 }) => {
     return {
-      asset: component,
-      units: new Decimal(units[i]),
+      asset: symbol,
       currency,
+      units: new Decimal(balance).div(Math.pow(10, decimals)),
     }
   })
 }
@@ -34,9 +38,8 @@ export const calculateIndexValue = (index: Index): number => {
   const isPriceSet = (i: IndexAsset) => i.price && i.price > 0
   if (!index.every(isPriceSet)) throw new Error('Invalid index: price not set')
   // calculate total value
-  return index // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    .reduce((acc, i) => acc.plus(i.units.times(i.price!)), new Decimal(0))
-    .toNumber()
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  return index.reduce((acc, i) => acc.add(i.units.times(i.price!)), new Decimal(0)).toNumber()
 }
 
 export const execute = async (input: AdapterRequest, config: Config): Promise<AdapterResponse> => {
@@ -44,13 +47,9 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const {
-    components,
-    units = config.makeDefaultUnits(components.length),
-    currency = config.defaultCurrency,
-  } = validator.validated.data
+  const { allocations, currency = config.defaultCurrency } = validator.validated.data
 
-  const index = await makeIndex(components, units, currency)
+  const index = await makeIndex(allocations, currency, config.defaultBalance)
   const priceIndex = await config.priceAdapter.getPriceIndex(index, currency)
   const totalValue = calculateIndexValue(priceIndex)
 
