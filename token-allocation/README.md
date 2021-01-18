@@ -23,7 +23,7 @@ The adapter takes the following environment variables:
 
 - `allocations`: Array of allocations, being each allocation:
   - `symbol`: Token symbol
-  - `units` (optional): Token balance. `1e18` by default
+  - `balance` (optional): Token balance. `1e18` by default
   - `decimals` (optional): Token decimals. `18` by default
   - `currency` (optional). Currency we want the price on. `DEFAULT_CURRENCY` by default
 
