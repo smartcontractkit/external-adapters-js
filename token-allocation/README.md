@@ -21,23 +21,27 @@ The adapter takes the following environment variables:
 
 ## Input Params
 
-- `components`: Array of the token symbols. 
-- `units` (optional): Array of balances of each token. 1 unit for each token by default.
-- `currency` (optional). Currency we want the price on. `DEFAULT_CURRENCY` by default
+- `allocations`: Array of allocations, being each allocation:
+  - `symbol`: Token symbol
+  - `units` (optional): Token balance. `1e18` by default
+  - `decimals` (optional): Token decimals. `18` by default
+  - `currency` (optional). Currency we want the price on. `DEFAULT_CURRENCY` by default
 
-`units[n]` would correspond to the `components[n]` balance
 
 ```json
 {
   "jobID": "1",
   "data": {
-    "components": [
-      "DAI",
-      "USDC"
-    ],
-    "units": [
-      "1",
-      "20"
+    "allocations": [
+      {
+        "symbol": "wBTC",
+        "balance": 100000001,
+        "decimals": 8
+      },
+      {
+        "symbol": "DAI",
+        "balance": 1000000000000
+      }
     ]
   }
 }
@@ -48,23 +52,23 @@ The adapter takes the following environment variables:
 {
   "jobRunID": "1",
   "data": {
-    "result": 21.0120259020486,
+    "result": 36221.40305171679,
     "index": [
       {
-        "asset": "DAI",
-        "units": "1",
+        "asset": "wBTC",
         "currency": "USD",
-        "price": 1.0009618237296
+        "units": "1.00000001",
+        "price": 36221.40268850176
       },
       {
-        "asset": "USDC",
-        "units": "20",
+        "asset": "DAI",
         "currency": "USD",
-        "price": 1.00055320391595
+        "units": "0.000001",
+        "price": 1.00100698793125
       }
     ]
   },
-  "result": 21.0120259020486,
+  "result": 36221.40305171679,
   "statusCode": 200
 }
 ```
