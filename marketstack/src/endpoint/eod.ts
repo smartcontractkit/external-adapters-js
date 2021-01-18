@@ -17,6 +17,7 @@ export const execute = async (config: Config, request: AdapterRequest) => {
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 
+  const jobRunID = validator.validated.id
   const symbols = validator.validated.data.base.toUpperCase()
   const interval = validator.validated.data.interval || DEFAULT_INTERVAL
   const limit = validator.validated.data.limit || DEFAULT_LIMIT
@@ -37,6 +38,11 @@ export const execute = async (config: Config, request: AdapterRequest) => {
   }
 
   const response = await Requester.request(reqConfig, customError)
-  response.data.result = Requester.validateResultNumber(response.data, ['data', 0, 'close'])
-  return response.data
+  const result = Requester.validateResultNumber(response.data, ['data', 0, 'close'])
+
+  return Requester.success(jobRunID, {
+    data: { ...response.data, result },
+    result,
+    status: 200,
+  })
 }
