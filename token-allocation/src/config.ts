@@ -36,12 +36,14 @@ export type GetPriceIndex = (index: PriceAllocations, currency: string) => Promi
 
 export type PriceAdapter = {
   getPriceIndex: GetPriceIndex
+  getMarketcap: GetPriceIndex
 }
 
 export type Config = {
   priceAdapter: PriceAdapter
   defaultQuote: string
   defaultBalance: number
+  defaultMethod: string
 }
 
 export const getPriceAdapter = (dataProvider: string): PriceAdapter => {
@@ -51,10 +53,12 @@ export const getPriceAdapter = (dataProvider: string): PriceAdapter => {
 export const makeConfig = (defaultBalance = 1e18): Config => {
   const dataProvider = util.getRequiredEnv('DATA_PROVIDER')
   const defaultQuote: string = util.getEnv('DEFAULT_QUOTE') || 'USD'
+  const defaultMethod: string = util.getEnv('DEFAULT_METHOD') || 'price'
   const priceAdapter = getPriceAdapter(dataProvider)
   return {
     priceAdapter,
     defaultQuote,
+    defaultMethod,
     defaultBalance,
   }
 }

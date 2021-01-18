@@ -48,4 +48,32 @@ const getPriceIndex: GetPriceIndex = async (index, currency) => {
   })
 }
 
-export default { getPriceIndex }
+const toMarketcap = (data: Record<string, any>) => {
+  const marketcap = data.market_cap
+  if (!marketcap || marketcap <= 0) {
+    throw new Error('Invalid marketcap')
+  }
+  return marketcap
+}
+
+const getMarketcap: GetPriceIndex = async (index, currency) => {
+  const symbols = index
+    .map(({ asset }) => {
+      const symbol = asset.toUpperCase()
+      return nomicsIds[symbol] || symbol
+    })
+    .join()
+
+  const prices = await getPriceData(symbols, currency)
+  const pricesMap = new Map()
+  for (const p of prices) {
+    pricesMap.set(p.symbol.toUpperCase(), p)
+  }
+
+  return index.map((i) => {
+    const data = pricesMap.get(i.asset.toUpperCase())
+    return { ...i, marketcap: toMarketcap(data) }
+  })
+}
+
+export default { getPriceIndex, getMarketcap }

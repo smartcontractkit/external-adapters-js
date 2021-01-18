@@ -70,4 +70,25 @@ const getPriceIndex: GetPriceIndex = async (index, currency) => {
   })
 }
 
-export default { getPriceIndex }
+const toMarketcap = (data: Record<string, any>, currency: string) => {
+  const marketcap = data.quote && data.quote[currency].market_cap
+  if (!marketcap || marketcap <= 0) {
+    throw new Error('invalid marketcap')
+  }
+  return marketcap
+}
+
+const getMarketcap = async (index: Index, currency: string): Promise<Index> => {
+  currency = currency.toUpperCase()
+
+  const assets = index.map(({ asset }) => asset.toUpperCase())
+  const pricesData = await getPriceData(assets, currency)
+
+  const indexMap = new Map()
+  Object.values(pricesData).forEach((asset) => indexMap.set(asset.symbol.toUpperCase(), asset))
+  return index.map((i) => {
+    return { ...i, price: toMarketcap(indexMap.get(i.asset.toUpperCase()), currency) }
+  })
+}
+
+export default { getPriceIndex, getMarketcap }

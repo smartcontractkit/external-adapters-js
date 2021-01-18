@@ -3,7 +3,7 @@ import { util } from '@chainlink/ea-bootstrap'
 import { GetPriceIndex } from '../config'
 
 const getPriceData = async (symbols: string, currency: string) => {
-  const url = 'https://min-api.cryptocompare.com/data/pricemulti'
+  const url = 'https://min-api.cryptocompare.com/data/pricemultifull'
   const params = {
     tsyms: currency.toUpperCase(),
     fsyms: symbols,
@@ -18,7 +18,7 @@ const getPriceData = async (symbols: string, currency: string) => {
 }
 
 const toAssetPrice = (data: Record<string, any>, currency: string) => {
-  const price = data[currency.toUpperCase()]
+  const price = data[currency.toUpperCase()].PRICE
   if (!price || price <= 0) {
     throw new Error('Invalid price')
   }
@@ -35,4 +35,22 @@ const getPriceIndex: GetPriceIndex = async (index, currency) => {
   })
 }
 
-export default { getPriceIndex }
+const toMarketcap = (data: Record<string, any>, currency: string) => {
+  const marketcap = data[currency.toUpperCase()].MKTCAP
+  if (!marketcap || marketcap <= 0) {
+    throw new Error('Invalid marketcap')
+  }
+  return marketcap
+}
+
+const getMarketcap = async (index: Index, currency: string): Promise<Index> => {
+  const symbols = index.map(({ asset }) => asset.toUpperCase()).join()
+  const prices = await getPriceData(symbols, currency)
+
+  return index.map((i) => {
+    const data = prices.RAW[i.asset.toUpperCase()]
+    return { ...i, marketcap: toMarketcap(data, currency) }
+  })
+}
+
+export default { getPriceIndex, getMarketcap }

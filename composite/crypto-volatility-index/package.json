@@ -43,6 +43,7 @@
   "dependencies": {
     "big.js": "^6.0.2",
     "moment": "^2.29.1",
-    "@chainlink/reference-data-reader": "^0.0.2"
+    "@chainlink/reference-data-reader": "^0.0.2",
+    "@chainlink/token-allocation-adapter": "^0.0.1"
   }
 }

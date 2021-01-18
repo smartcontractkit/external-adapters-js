@@ -1,11 +1,11 @@
-import { util } from '@chainlink/ea-bootstrap'
 import { logger } from '@chainlink/external-adapter'
 import { getRpcLatestRound } from '@chainlink/reference-data-reader'
 import { getDerivativesData, CurrencyDerivativesData } from './derivativesDataProvider'
-import { getDominanceAdapter, dominanceByCurrency } from './dominance-data-providers'
 import { SigmaCalculator } from './sigmaCalculator'
 import { Big } from 'big.js'
 import moment from 'moment'
+import { dominanceByCurrency, getDominanceAdapter } from './dominanceDataProvider'
+import { AdapterRequest } from '@chainlink/types'
 const cryptoCurrencies = ['BTC', 'ETH']
 
 export const calculate = async (
@@ -66,10 +66,10 @@ const calculateWeighted = async (vixData: Array<Big>) => {
 }
 
 const getDominanceByCurrency = async () => {
-  const dominanceProvider = util.getRequiredEnv('DOMINANCE_PROVIDER')
-  const dominanceAdapter = await getDominanceAdapter(dominanceProvider)
-  const dominanceData = await dominanceAdapter.getDominance(cryptoCurrencies)
-  return dominanceByCurrency(dominanceData)
+  const dominanceAdapter = await getDominanceAdapter()
+  const input: AdapterRequest = { id: '123', data: { components: cryptoCurrencies } }
+  const dominanceData = await dominanceAdapter(input)
+  return dominanceByCurrency(dominanceData.data)
 }
 
 const applySmoothing = async (

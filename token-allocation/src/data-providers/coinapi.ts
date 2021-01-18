@@ -31,4 +31,8 @@ const getPriceIndex: GetPriceIndex = async (index, currency) => {
   )
 }
 
-export default { getPriceIndex }
+const getMarketcap = () => {
+  throw 'not implemented'
+}
+
+export default { getPriceIndex, getMarketcap }

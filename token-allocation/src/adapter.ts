@@ -46,7 +46,7 @@ function makeResponse(allocations: PriceAllocations, defaultQuote: string): Resp
   return response
 }
 
-export const calculateIndexValue = (index: PriceAllocations): number => {
+export const calculatePriceIndexValue = (index: PriceAllocations): number => {
   // assert all prices are set
   const isPriceSet = (i: PriceAllocation) => i.price && i.price > 0
   if (!index.every(isPriceSet)) throw new Error('Invalid index: price not set')
@@ -60,21 +60,66 @@ export const calculateIndexValue = (index: PriceAllocations): number => {
     .toNumber()
 }
 
+const getPriceIndex = async (
+  config: Config,
+  index: Index,
+  currency: string,
+): Promise<IndexResult> => {
+  const priceIndex = await config.priceAdapter.getPriceIndex(index, currency)
+  const total = calculatePriceIndexValue(priceIndex)
+  return { total, index: priceIndex }
+}
+
+export const calculateMarketcapIndexValue = (index: Index): number => {
+  // assert all prices are set
+  const isMarketcapSet = (i: IndexAsset) => i.marketcap && i.marketcap > 0
+  if (!index.every(isMarketcapSet)) throw new Error('Invalid index: marketcap not set')
+  // calculate total value
+  return index // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    .reduce((acc, i) => acc.plus(i.units.div(1e18).times(i.marketcap!)), new Decimal(0))
+    .toNumber()
+}
+
+const getMarketcapIndex = async (
+  config: Config,
+  index: Index,
+  currency: string,
+): Promise<IndexResult> => {
+  const marketcapIndex = await config.priceAdapter.getMarketcap(index, currency)
+  const total = calculateMarketcapIndexValue(index)
+  return { total, index: marketcapIndex }
+}
+
 export const execute = async (input: AdapterRequest, config: Config): Promise<AdapterResponse> => {
   const validator = new Validator(input, inputParams)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const { allocations, quote = config.defaultQuote } = validator.validated.data
+  const {
+    allocations,
+    quote = config.defaultQuote,
+    method = config.defaultMethod,
+  } = validator.validated.data
 
   const index = await parseAllocations(allocations, quote, config.defaultBalance)
-  const priceIndex = await config.priceAdapter.getPriceIndex(index, quote)
-  const totalValue = calculateIndexValue(priceIndex)
+  switch (method) {
+    case 'price':
+      const priceIndex = await config.priceAdapter.getPriceIndex(index, quote)
+      const totalValue = calculatePriceIndexValue(priceIndex)
+      return success(jobRunID, { priceIndex, totalValue })
+    case 'marketcap':
+      const marketcap = await config.priceAdapter.getMarketcap(index, quote)
+      const totalValue = calculateMarketcapIndexValue(marketcap)
+      return success(jobRunID, { marketcap, totalValue })
+    default:
+      throw 'unknown method'
+  }
+}
 
-  const response = makeResponse(priceIndex, quote)
+const success = (jobRunID: string, data: IndexResult): AdapterResponse => {
   return Requester.success(jobRunID, {
     status: 200,
-    data: { result: totalValue, ...response },
+    data: { result: data.total, index: data.index },
   })
 }
 
