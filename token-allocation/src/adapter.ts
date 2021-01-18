@@ -1,7 +1,6 @@
 import { AdapterResponse, Execute, AdapterRequest } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/external-adapter'
 import Decimal from 'decimal.js'
-import { utils } from 'ethers'
 import { Config, makeConfig } from './config'
 
 export type Index = IndexAsset[]
@@ -24,7 +23,7 @@ export function makeIndex(components: string[], units: any[], currency: string):
   return components.map((component, i) => {
     return {
       asset: component,
-      units: new Decimal(new utils.BigNumber(units[i]).toString()),
+      units: new Decimal(units[i]),
       currency,
     }
   })
@@ -36,7 +35,7 @@ export const calculateIndexValue = (index: Index): number => {
   if (!index.every(isPriceSet)) throw new Error('Invalid index: price not set')
   // calculate total value
   return index // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    .reduce((acc, i) => acc.plus(i.units.div(1e18).times(i.price!)), new Decimal(0))
+    .reduce((acc, i) => acc.plus(i.units.times(i.price!)), new Decimal(0))
     .toNumber()
 }
 

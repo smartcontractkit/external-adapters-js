@@ -1,10 +1,13 @@
-import { ethers } from 'ethers'
-import registryAbi from './IRegistry.json'
-import assetAllocationAbi from './IAssetAllocation.json'
+import { ethers, utils } from 'ethers'
+import registryAbi from '../abi/IRegistry.json'
+import assetAllocationAbi from '../abi/IAssetAllocation.json'
+import erc20Abi from '../abi/ERC20.json'
 
-const getRegistry = (address: string, rpcUrl: string, abi: any): ethers.Contract => {
-  const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
-  return new ethers.Contract(address, abi, provider)
+type GetDecimals = (address: string) => Promise<number>
+type GetTokenDecimals = (provider: ethers.providers.JsonRpcProvider, abi: any) => GetDecimals
+
+const getTokenDecimals: GetTokenDecimals = (provider, abi) => async (address) => {
+  return await new ethers.Contract(address, abi, provider).decimals()
 }
 
 type Allocations = {
@@ -12,15 +15,30 @@ type Allocations = {
   units: string[]
 }
 
-export type GetAllocations = (registry: ethers.Contract) => () => Promise<Allocations>
+export type GetAllocations = (
+  registry: ethers.Contract,
+  getDecimals: GetDecimals,
+) => () => Promise<Allocations>
 
-const getAllocations: GetAllocations = (registry) => async () => {
+const getAllocations: GetAllocations = (registry, getDecimals) => async () => {
   const tokenAddresses = await registry.getTokenAddresses()
-  const [components, units]: string[][] = await Promise.all([
+  const [components, units, decimals]: string[][] = await Promise.all([
     Promise.all(tokenAddresses.map((address: string) => registry.symbolOf(address))),
-    Promise.all(tokenAddresses.map((address: string) => registry.balanceOf(address))),
+    Promise.all(
+      tokenAddresses.map(async (address: string) =>
+        utils.bigNumberify(await registry.balanceOf(address)),
+      ),
+    ),
+    Promise.all(tokenAddresses.map(async (address: string) => getDecimals(address))),
   ])
-  return { components, units }
+
+  return {
+    components,
+    units: units.map((unit, i) => {
+      const decimal = new utils.BigNumber(10).pow(decimals[i])
+      return new utils.BigNumber(unit).div(decimal).toString()
+    }),
+  }
 }
 
 type Registry = {
@@ -28,12 +46,17 @@ type Registry = {
 }
 
 const makeRegistry = async (address: string, rpcUrl: string): Promise<Registry> => {
-  const registry = getRegistry(address, rpcUrl, registryAbi)
+  const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
+  const registry = new ethers.Contract(address, registryAbi, provider)
   const chainlinkRegistryAddress = await registry.chainlinkRegistryAddress()
-  const chainlinkRegistry = getRegistry(chainlinkRegistryAddress, rpcUrl, assetAllocationAbi)
+  const chainlinkRegistry = new ethers.Contract(
+    chainlinkRegistryAddress,
+    assetAllocationAbi,
+    provider,
+  )
 
   return {
-    getAllocations: getAllocations(chainlinkRegistry),
+    getAllocations: getAllocations(chainlinkRegistry, getTokenDecimals(provider, erc20Abi)),
   }
 }
 
