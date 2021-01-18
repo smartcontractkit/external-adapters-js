@@ -12,7 +12,6 @@ export const execute = async (config: Config, request: AdapterRequest) => {
   const validator = new Validator(request, priceParams)
   if (validator.error) throw validator.error
 
-  const jobRunID = validator.validated.id
   const coin = validator.validated.data.base
   const market = validator.validated.data.quote
   const url = `/v1/exchange-rates/${coin}/${market}`

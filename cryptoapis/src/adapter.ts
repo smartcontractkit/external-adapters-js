@@ -23,20 +23,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
       response = await price.execute(config, request)
       break
     }
-    case 'difficulty':
-    case 'height': {
-      response = await bc_info.execute(config, request)
-      break
-    }
     case balance.Name: {
       return balance.makeExecute(config)(request)
     }
     default: {
-      throw new AdapterError({
-        jobRunID,
-        message: `Endpoint ${endpoint} not supported.`,
-        statusCode: 400,
-      })
+      response = await bc_info.execute(config, { ...request, data: { path: endpoint } })
+      break
     }
   }
 
