@@ -2,7 +2,7 @@ import { assert } from 'chai'
 import { Requester } from '@chainlink/external-adapter'
 import { assertSuccess, assertError } from '@chainlink/adapter-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
-import { makeExecute, calculateTotalValue } from '../src/adapter'
+import { makeExecute, priceTotalValue } from '../src/adapter'
 import { makeConfig } from '../src/config'
 import { TokenAllocations } from '../src/types'
 import { BigNumber } from 'ethers/utils'
@@ -111,7 +111,7 @@ describe('execute', () => {
           },
         },
       }
-      const value = calculateTotalValue(allocations, 'USD', data)
+      const value = priceTotalValue(allocations, 'USD', data)
       const expectedValue = 11
       assert.strictEqual(value, expectedValue)
     })
@@ -133,7 +133,7 @@ describe('execute', () => {
           },
         },
       }
-      const value = calculateTotalValue(allocations, 'USD', data)
+      const value = priceTotalValue(allocations, 'USD', data)
       const expectedValue = 34.1
       assert.strictEqual(value, expectedValue)
     })

@@ -33,10 +33,12 @@ const providers: Record<string, PriceAdapter> = {
 
 export type PriceAdapter = {
   getPrices: (baseSymbols: string[], quote: string) => Promise<Record<string, number>>
+  getMarketCaps: (baseSymbols: string[], quote: string) => Promise<Record<string, number>>
 }
 
 export type Config = {
   priceAdapter: PriceAdapter
+  defaultMethod: string
 }
 
 export const DEFAULT_TOKEN_DECIMALS = 18
@@ -46,5 +48,6 @@ export const makeConfig = (): Config => {
   const dataProvider = util.getRequiredEnv('DATA_PROVIDER')
   return {
     priceAdapter: providers[dataProvider],
+    defaultMethod: util.getEnv('DEFAULT_METHOD') || 'price',
   }
 }
