@@ -18,22 +18,22 @@ function base(execute: Execute) {
             },
           },
         },
-        {
-          name: 'unknown endpoint',
-          testData: {
-            id: jobID,
-            data: {
-              endpoint: 'not_real',
-              result: [
-                {
-                  address: '35ULMyVnFoYaPaMxwHTRmaGdABpAThM4QR',
-                  coin: 'btc',
-                  chain: 'mainnet',
-                },
-              ],
-            },
-          },
-        },
+        // {
+        //   name: 'unknown endpoint',
+        //   testData: {
+        //     id: jobID,
+        //     data: {
+        //       endpoint: 'not_real',
+        //       result: [
+        //         {
+        //           address: '35ULMyVnFoYaPaMxwHTRmaGdABpAThM4QR',
+        //           coin: 'btc',
+        //           chain: 'mainnet',
+        //         },
+        //       ],
+        //     },
+        //   },
+        // },
         {
           name: 'invalid dataPath',
           testData: {
