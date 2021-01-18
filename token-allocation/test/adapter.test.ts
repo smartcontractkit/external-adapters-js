@@ -5,6 +5,7 @@ import { AdapterRequest } from '@chainlink/types'
 import { makeExecute, makeIndex, calculateIndexValue } from '../src/adapter'
 import { makeConfig } from '../src/config'
 import Decimal from 'decimal.js'
+import { Allocations } from '../src/types'
 
 describe('execute', () => {
   const jobID = '1'
@@ -15,11 +16,14 @@ describe('execute', () => {
     const requests = [
       {
         name: 'id not supplied',
-        testData: { data: { components: [], units: [] } },
+        testData: { data: { allocations: [] } },
       },
       {
-        name: 'components/units',
-        testData: { id: jobID, data: { components: ['DAI'], units: ['1000000000000000000'] } },
+        name: 'allocations',
+        testData: {
+          id: jobID,
+          data: { allocations: [{ symbol: 'DAI', balance: '1000000000000000000', decimals: 18 }] },
+        },
       },
     ]
 
@@ -36,12 +40,8 @@ describe('execute', () => {
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },
       {
-        name: 'units not supplied',
-        testData: { id: jobID, data: { components: ['DAI'] } },
-      },
-      {
-        name: 'components not supplied',
-        testData: { id: jobID, data: { units: ['1000000000000000000'] } },
+        name: 'allocations not supplied',
+        testData: { id: jobID, data: {} },
       },
     ]
 
@@ -61,7 +61,10 @@ describe('execute', () => {
     const requests = [
       {
         name: 'invalid units',
-        testData: { id: jobID, data: { components: ['DAI'], units: [1000000000000000000] } },
+        testData: {
+          id: jobID,
+          data: { allocations: [{ symbol: 'DAI', balance: '1000000000000000000', decimals: 18 }] },
+        },
       },
     ]
 
@@ -78,29 +81,40 @@ describe('execute', () => {
   })
 
   context('make index', () => {
-    const data = {
-      components: ['DAI', 'USDC', 'USDT'],
-      units: ['1000000000000000000', '1000000000000000000', '1000000000000000000'],
-      currency: 'USD',
+    const allocations: Allocations = [
+      {
+        symbol: 'wBTC',
+        balance: 100000001,
+        decimals: 8,
+      },
+      {
+        symbol: 'DAI',
+        balance: 1000000000000,
+        decimals: 18,
+      },
+    ]
+    const expectedUnits: any = {
+      wBTC: 1.00000001,
+      DAI: 0.000001,
     }
-    const index = makeIndex(data.components, data.units, data.currency)
+    const currency = 'USD'
+    const index = makeIndex(allocations, currency, 1e18)
 
     it('symbols are correct', () => {
-      data.components.forEach((symbol, i) => {
+      allocations.forEach(({ symbol }, i) => {
         assert.strictEqual(symbol, index[i].asset)
       })
     })
 
-    const units = new Decimal(1e18).toString()
     it('units are correct', () => {
       index.forEach((asset) => {
-        assert.strictEqual(asset.units.toString(), units.toString())
+        assert.strictEqual(asset.units.toString(), expectedUnits[asset.asset].toString())
       })
     })
 
     it('currency is correct', () => {
       index.forEach((asset) => {
-        assert.strictEqual(asset.currency, data.currency)
+        assert.strictEqual(asset.currency, currency)
       })
     })
   })
