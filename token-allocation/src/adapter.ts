@@ -31,10 +31,9 @@ function getNormalizedBalance(balance: BigNumberish, decimals: number): Decimal 
 
 function makeResponse(allocations: PriceAllocations, defaultQuote: string): Response {
   let response = {}
-  allocations.forEach(({ symbol, balance, decimals, quote = defaultQuote, price }) => {
+  allocations.forEach(({ symbol, quote = defaultQuote, price }) => {
     const tokenResponse = {
       [symbol]: {
-        balance: getNormalizedBalance(balance, decimals).toString(),
         quote: {
           [quote]: {
             price,
