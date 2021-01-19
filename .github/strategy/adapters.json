@@ -78,7 +78,8 @@
       "wbtc-address-set",
       "xbto",
       "dydx-stark",
-      "token-allocation"
+      "token-allocation",
+      "iex-cloud"
     ]
   },
   "2-step": {
