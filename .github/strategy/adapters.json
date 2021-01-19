@@ -79,7 +79,8 @@
       "xbto",
       "dydx-stark",
       "token-allocation",
-      "blackbook"
+      "blackbook",
+      "marketcheck"
     ]
   },
   "2-step": {

@@ -3,21 +3,11 @@ import { Requester } from '@chainlink/external-adapter'
 import { assertSuccess, assertError } from '@chainlink/adapter-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
 import { makeExecute } from '../src/adapter'
-import { Config } from '../src/config'
-
-const makeMockConfig = (): Config => {
-  return {
-    ...Requester.getDefaultConfig(),
-    username: 'dummy_user',
-    password: 'dummy_pass',
-  }
-}
 
 describe('execute', () => {
   const jobID = '1'
 
-  const config = makeMockConfig()
-  const execute = makeExecute(config)
+  const execute = makeExecute()
 
   context('successful calls @integration', () => {
     const requests = [

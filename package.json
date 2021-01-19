@@ -93,7 +93,8 @@
     "deribit",
     "token-allocation",
     "dydx-stark",
-    "blackbook"
+    "blackbook",
+    "marketcheck"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",

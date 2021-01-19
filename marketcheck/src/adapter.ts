@@ -1,6 +1,6 @@
-import { Validator, AdapterError } from '@chainlink/external-adapter'
+import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
 import { ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
-import { Config, makeConfig, logConfig, DEFAULT_ENDPOINT } from './config'
+import { Config, makeConfig, DEFAULT_ENDPOINT } from './config'
 import { vehicle } from './endpoint'
 
 const inputParams = {
@@ -11,7 +11,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const validator = new Validator(request, inputParams)
   if (validator.error) throw validator.error
 
-  logConfig(config)
+  Requester.logConfig(config)
 
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT

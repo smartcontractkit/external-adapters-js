@@ -6,10 +6,9 @@
 
 ### Vehicle
 
-- `product`: The Black Book product to query (supported: `CPI`)
-- `year`: The vehicle year (required for CPI)
-- `make`: The vehicle make (required for CPI)
-- `model`: The vehicle model (required for CPI)
+- `year`: The vehicle year (required)
+- `make`: The vehicle make (required)
+- `model`: The vehicle model (required)
 - `customerid`: Optional customerid param
 
 #### Output
