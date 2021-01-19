@@ -1,5 +1,4 @@
 import { util } from '@chainlink/ea-bootstrap'
-import { Index } from './adapter'
 import cryptocompare from './data-providers/cryptocompare'
 import nomics from './data-providers/nomics'
 import coinpaprika from './data-providers/coinpaprika'
@@ -8,7 +7,7 @@ import coingecko from './data-providers/coingecko'
 import coinapi from './data-providers/coinapi'
 import amberdata from './data-providers/amberdata'
 import kaiko from './data-providers/kaiko'
-import Decimal from 'decimal.js'
+import { TokenAllocations } from './types'
 
 enum DataProvider {
   Amberdata = 'amberdata',
@@ -33,7 +32,7 @@ const providers: Record<string, PriceAdapter> = {
   [DataProvider.Kaiko]: kaiko,
 }
 
-export type GetPriceIndex = (index: Index, currency: string) => Promise<Index>
+export type GetPriceIndex = (index: TokenAllocations, currency: string) => Promise<TokenAllocations>
 
 export type PriceAdapter = {
   getPriceIndex: GetPriceIndex

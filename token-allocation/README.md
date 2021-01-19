@@ -25,7 +25,7 @@ The adapter takes the following environment variables:
   - `symbol`: Token symbol
   - `balance` (optional): Token balance. `1e18` by default
   - `decimals` (optional): Token decimals. `18` by default
-  - `currency` (optional). Currency we want the price on. `DEFAULT_CURRENCY` by default
+- `currency` (optional). Currency we want the price on. `DEFAULT_CURRENCY` by default
 
 
 ```json
@@ -35,12 +35,12 @@ The adapter takes the following environment variables:
     "allocations": [
       {
         "symbol": "wBTC",
-        "balance": 100000001,
+        "balance": 100000000,
         "decimals": 8
       },
       {
         "symbol": "DAI",
-        "balance": 1000000000000
+        "balance": "1000000000000000000"
       }
     ]
   }
@@ -52,23 +52,25 @@ The adapter takes the following environment variables:
 {
   "jobRunID": "1",
   "data": {
-    "result": 36221.40305171679,
-    "index": [
-      {
-        "asset": "wBTC",
-        "currency": "USD",
-        "units": "1.00000001",
-        "price": 36221.40268850176
-      },
-      {
-        "asset": "DAI",
-        "currency": "USD",
-        "units": "0.000001",
-        "price": 1.00100698793125
+    "result": 37340.964000680404,
+    "wBTC": {
+      "balance": "1",
+      "quote": {
+        "USD": {
+          "price": 37339.963061228416
+        }
       }
-    ]
+    },
+    "DAI": {
+      "balance": "1",
+      "quote": {
+        "USD": {
+          "price": 1.00093945198743
+        }
+      }
+    }
   },
-  "result": 36221.40305171679,
+  "result": 37340.964000680404,
   "statusCode": 200
 }
 ```

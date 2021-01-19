@@ -20,16 +20,12 @@ const getAllocations: GetAllocations = (registry, getDecimals) => async () => {
   const tokenAddresses = await registry.getTokenAddresses()
   const [components, balances, decimals]: any = await Promise.all([
     Promise.all(tokenAddresses.map((address: string) => registry.symbolOf(address))),
-    Promise.all(
-      tokenAddresses.map(async (address: string) =>
-        utils.bigNumberify(await registry.balanceOf(address)),
-      ),
-    ),
+    Promise.all(tokenAddresses.map((address: string) => registry.balanceOf(address))),
     Promise.all(tokenAddresses.map(async (address: string) => getDecimals(address))),
   ])
 
   return components.map((symbol: string, i: number) => {
-    return { symbol, balance: balances[i].toString(), decimals: decimals[i] }
+    return { symbol, balance: utils.bigNumberify(balances[i]), decimals: decimals[i] }
   })
 }
 
