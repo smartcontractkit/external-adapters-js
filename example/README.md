@@ -6,11 +6,11 @@ A template to be used as an example for new [External Adapters](https://github.c
 
 | Required? |   Name   |     Description     |           Options            | Defaults to |
 | :-------: | :------: | :-----------------: | :--------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [example](#Example-Endpoint) |   example   |
+|           | endpoint | The endpoint to use | [example](#Example-endpoint) |   example   |
 
 ---
 
-## Example Endpoint
+## Example endpoint
 
 An example endpoint description
 
