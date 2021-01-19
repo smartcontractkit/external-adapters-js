@@ -15,7 +15,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const jobRunID = validator.validated.id
   const base = validator.validated.data.base
   const quote = validator.validated.data.quote
-  const url = `${base.toUpperCase()}${quote.toUpperCase()}/quote`
+  const url = `crypto/${base.toUpperCase()}${quote.toUpperCase()}/quote`
 
   const params = {
     token: config.apiKey,
@@ -24,7 +24,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const reqConfig = {
     ...config.api,
     params,
-    baseURL: 'https://cloud.iexapis.com/stable/crypto',
     url,
   }
 

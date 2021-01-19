@@ -13,7 +13,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
   const jobRunID = validator.validated.id
   const base = validator.validated.data.base
-  const url = `${base.toUpperCase()}/quote`
+  const url = `stock/${base.toUpperCase()}/quote`
 
   const params = {
     token: config.apiKey,
@@ -22,7 +22,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const reqConfig = {
     ...config.api,
     params,
-    baseURL: 'https://cloud.iexapis.com/stable/stock',
     url,
   }
 
