@@ -94,7 +94,8 @@
     "token-allocation",
     "dydx-stark",
     "blackbook",
-    "marketcheck"
+    "marketcheck",
+    "scrapinghub"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",

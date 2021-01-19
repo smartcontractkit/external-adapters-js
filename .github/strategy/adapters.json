@@ -80,7 +80,8 @@
       "dydx-stark",
       "token-allocation",
       "blackbook",
-      "marketcheck"
+      "marketcheck",
+      "scrapinghub"
     ]
   },
   "2-step": {
