@@ -4,7 +4,7 @@ import { assertSuccess, assertError } from '@chainlink/adapter-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
 import { makeExecute, calculateIndexValue } from '../src/adapter'
 import { makeConfig } from '../src/config'
-import { TokenAllocations } from '../src/types'
+import { PriceAllocations } from '../src/types'
 import { BigNumber } from 'ethers/utils'
 
 describe('execute', () => {
@@ -81,20 +81,20 @@ describe('execute', () => {
   })
 
   context('calculate index value', () => {
-    const allocations: TokenAllocations = [
+    const allocations: PriceAllocations = [
       {
         symbol: 'wBTC',
         balance: 100000000,
         decimals: 8,
         price: 10,
-        currency: 'USD',
+        quote: 'USD',
       },
       {
         symbol: 'DAI',
         balance: new BigNumber('1000000000000000000'),
         decimals: 18,
         price: 1,
-        currency: 'USD',
+        quote: 'USD',
       },
     ]
     const indexValue = calculateIndexValue(allocations)
