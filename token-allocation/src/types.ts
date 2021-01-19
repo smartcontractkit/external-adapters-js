@@ -23,6 +23,5 @@ export type Response = {
         marketCap?: number
       }
     }
-    balance: string
   }
 }
