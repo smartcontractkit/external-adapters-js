@@ -4,26 +4,25 @@ export type TokenAllocation = {
   symbol: string
   balance: BigNumberish
   decimals: number
-  price?: number
-  currency?: string
 }
 
 export type TokenAllocations = TokenAllocation[]
 
-type QuoteSymbol = {
+export type PriceAllocation = TokenAllocation & {
   price?: number
-  marketCap?: number
+  quote?: string
 }
 
-type Quote = {
-  [symbol: string]: QuoteSymbol
-}
-
-type ResponseAsset = {
-  quote: Quote
-  balance: string
-}
+export type PriceAllocations = PriceAllocation[]
 
 export type Response = {
-  [symbol: string]: ResponseAsset
+  [symbol: string]: {
+    quote: {
+      [symbol: string]: {
+        price?: number
+        marketCap?: number
+      }
+    }
+    balance: string
+  }
 }
