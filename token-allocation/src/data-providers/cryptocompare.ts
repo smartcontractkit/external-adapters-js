@@ -1,6 +1,6 @@
 import { Requester } from '@chainlink/external-adapter'
-import { Index } from '../adapter'
 import { util } from '@chainlink/ea-bootstrap'
+import { GetPriceIndex } from '../config'
 
 const getPriceData = async (symbols: string, currency: string) => {
   const url = 'https://min-api.cryptocompare.com/data/pricemulti'
@@ -25,12 +25,12 @@ const toAssetPrice = (data: Record<string, any>, currency: string) => {
   return price
 }
 
-const getPriceIndex = async (index: Index, currency: string): Promise<Index> => {
-  const symbols = index.map(({ asset }) => asset.toUpperCase()).join()
+const getPriceIndex: GetPriceIndex = async (index, currency) => {
+  const symbols = index.map(({ symbol }) => symbol.toUpperCase()).join()
   const prices = await getPriceData(symbols, currency)
 
   return index.map((i) => {
-    const data = prices[i.asset.toUpperCase()]
+    const data = prices[i.symbol.toUpperCase()]
     return { ...i, price: toAssetPrice(data, currency) }
   })
 }

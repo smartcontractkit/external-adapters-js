@@ -1,5 +1,5 @@
 import { Requester } from '@chainlink/external-adapter'
-import { Index } from '../adapter'
+import { GetPriceIndex } from '../config'
 
 const getPriceData = async (currency: string) => {
   const url = 'https://api.coinpaprika.com/v1/tickers'
@@ -22,7 +22,7 @@ const toAssetPrice = (data: Record<string, any>, currency: string) => {
   return price
 }
 
-const getPriceIndex = async (index: Index, currency: string): Promise<Index> => {
+const getPriceIndex: GetPriceIndex = async (index, currency) => {
   const priceData = await getPriceData(currency)
 
   // There are duplicate symbols on the response. We only want the lowest in rank
@@ -36,7 +36,7 @@ const getPriceIndex = async (index: Index, currency: string): Promise<Index> => 
   }
 
   return index.map((i) => {
-    const data = priceMap.get(i.asset.toUpperCase())
+    const data = priceMap.get(i.symbol.toUpperCase())
     return { ...i, price: toAssetPrice(data, currency) }
   })
 }
