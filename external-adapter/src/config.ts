@@ -30,6 +30,8 @@ export function getDefaultConfig(prefix = ''): Config {
       baseURL: util.getEnv(ENV_API_ENDPOINT, prefix),
       timeout: parseInt(timeout) || DEFAULT_API_TIMEOUT,
       headers: {
+        // TODO: possibly these headers are not applied the way they are used currently.
+        // It's possible that headers.common is only useful when creating a long term client axios.create
         common: {
           'Cache-Control': 'no-cache, no-store, must-revalidate',
           Pragma: 'no-cache',

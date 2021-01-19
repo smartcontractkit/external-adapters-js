@@ -78,7 +78,10 @@
       "wbtc-address-set",
       "xbto",
       "dydx-stark",
-      "token-allocation"
+      "token-allocation",
+      "blackbook",
+      "marketcheck",
+      "scrapinghub"
     ]
   },
   "2-step": {

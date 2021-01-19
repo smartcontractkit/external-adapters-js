@@ -92,7 +92,10 @@
     "paxos",
     "deribit",
     "token-allocation",
-    "dydx-stark"
+    "dydx-stark",
+    "blackbook",
+    "marketcheck",
+    "scrapinghub"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",

@@ -24,6 +24,7 @@ export class AdapterError extends Error {
     this.statusCode = statusCode
     this.name = name
     this.message = message
+    // TODO: on Axios HTTP request error this obj can leak API key in `config.headers` or `config.params`
     this.cause = cause
   }
 
