@@ -67,9 +67,19 @@ const calculateWeighted = async (vixData: Array<Big>) => {
 
 const getDominanceByCurrency = async () => {
   const dominanceAdapter = await getDominanceAdapter()
-  const input: AdapterRequest = { id: '123', data: { components: cryptoCurrencies } }
+  const allocations = cryptoCurrencies.map((symbol) => {
+    return { symbol }
+  })
+  const quote = 'USD'
+  const input: AdapterRequest = {
+    id: '123',
+    data: {
+      allocations,
+      quote,
+    },
+  }
   const dominanceData = await dominanceAdapter(input)
-  return dominanceByCurrency(dominanceData.data)
+  return dominanceByCurrency(dominanceData.data, quote)
 }
 
 const applySmoothing = async (
