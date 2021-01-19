@@ -76,7 +76,6 @@
     "btc.com",
     "sochain",
     "reduce",
-    "json-rpc",
     "composite/**",
     "xbto",
     "taapi",
@@ -95,7 +94,10 @@
     "dydx-stark",
     "adapters/**",
     "adapter-legos",
-    "adapters"
+    "adapters",
+    "adapters/json-rpc",
+    "json-rpc",
+    "json-rpc-adapters"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",
