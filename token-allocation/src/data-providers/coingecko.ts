@@ -42,15 +42,6 @@ const toAssetPrice = (data: Record<string, any>, coinId: string, currency: strin
   return price
 }
 
-const toMarketcap = (data: Record<string, any>, coinId: string, currency: string) => {
-  const resultKey = `${currency.toLowerCase()}_market_cap`
-  const marketcap = data[coinId] && data[coinId][resultKey]
-  if (!marketcap || marketcap <= 0) {
-    throw new Error('invalid marketcap')
-  }
-  return marketcap
-}
-
 const getPriceIndex: GetPriceIndex = async (index, currency) => {
   const coinList = await getCoinList()
   return await Promise.all(
@@ -66,13 +57,22 @@ const getPriceIndex: GetPriceIndex = async (index, currency) => {
   )
 }
 
-const getMarketcap = async (index: Index, currency: string): Promise<Index> => {
+const toMarketcap = (data: Record<string, any>, coinId: string, currency: string) => {
+  const resultKey = `${currency.toLowerCase()}_market_cap`
+  const marketcap = data[coinId] && data[coinId][resultKey]
+  if (!marketcap || marketcap <= 0) {
+    throw new Error('invalid marketcap')
+  }
+  return marketcap
+}
+
+const getMarketcap: GetPriceIndex = async (index, currency) => {
   const coinList = await getCoinList()
   return await Promise.all(
     index.map(async (i) => {
       const coin = coinList.find(
         (d: any) =>
-          d.symbol.toLowerCase() === i.asset.toLowerCase() &&
+          d.symbol.toLowerCase() === i.symbol.toLowerCase() &&
           !coingeckoBlacklist.includes(d.id.toLowerCase()),
       )
       const data = await getPriceData(coin.id, currency, true)

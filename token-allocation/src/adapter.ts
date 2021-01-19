@@ -1,7 +1,13 @@
 import { AdapterResponse, Execute, AdapterRequest } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { Config, makeConfig } from './config'
-import { TokenAllocations, PriceAllocation, Response, PriceAllocations } from './types'
+import {
+  TokenAllocations,
+  PriceAllocation,
+  Response,
+  PriceAllocations,
+  TotalCalculation,
+} from './types'
 import { Decimal } from 'decimal.js'
 import { BigNumber, BigNumberish } from 'ethers/utils'
 
@@ -29,19 +35,27 @@ function getNormalizedBalance(balance: BigNumberish, decimals: number): Decimal 
   return new Decimal(balance.toString()).div(Math.pow(10, decimals))
 }
 
-function makeResponse(allocations: PriceAllocations, defaultQuote: string): Response {
-  let response = {}
-  allocations.forEach(({ symbol, quote = defaultQuote, price }) => {
+function makeResponse(
+  allocations: PriceAllocations,
+  totalCalc: TotalCalculation,
+  defaultQuote: string,
+): Response {
+  const response: Response = {
+    result: totalCalc(allocations),
+    allocations: {},
+  }
+  allocations.forEach(({ symbol, quote = defaultQuote, price, marketcap }) => {
     const tokenResponse = {
       [symbol]: {
         quote: {
           [quote]: {
             price,
+            marketcap,
           },
         },
       },
     }
-    response = { ...response, ...tokenResponse }
+    response.allocations = { ...response.allocations, ...tokenResponse }
   })
   return response
 }
@@ -62,32 +76,34 @@ export const calculatePriceIndexValue = (index: PriceAllocations): number => {
 
 const getPriceIndex = async (
   config: Config,
-  index: Index,
-  currency: string,
-): Promise<IndexResult> => {
-  const priceIndex = await config.priceAdapter.getPriceIndex(index, currency)
-  const total = calculatePriceIndexValue(priceIndex)
-  return { total, index: priceIndex }
+  allocations: PriceAllocations,
+  quote: string,
+): Promise<Response> => {
+  const priceIndex = await config.priceAdapter.getPriceIndex(allocations, quote)
+  return makeResponse(priceIndex, calculatePriceIndexValue, quote)
 }
 
-export const calculateMarketcapIndexValue = (index: Index): number => {
+export const calculateMarketcapIndexValue = (index: PriceAllocations): number => {
   // assert all prices are set
-  const isMarketcapSet = (i: IndexAsset) => i.marketcap && i.marketcap > 0
+  const isMarketcapSet = (i: PriceAllocation) => i.marketcap && i.marketcap > 0
   if (!index.every(isMarketcapSet)) throw new Error('Invalid index: marketcap not set')
   // calculate total value
-  return index // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    .reduce((acc, i) => acc.plus(i.units.div(1e18).times(i.marketcap!)), new Decimal(0))
+  return index
+    .reduce(
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      (acc, i) => acc.add(getNormalizedBalance(i.balance, i.decimals).mul(i.marketcap!)),
+      new Decimal(0),
+    )
     .toNumber()
 }
 
 const getMarketcapIndex = async (
   config: Config,
-  index: Index,
-  currency: string,
-): Promise<IndexResult> => {
-  const marketcapIndex = await config.priceAdapter.getMarketcap(index, currency)
-  const total = calculateMarketcapIndexValue(index)
-  return { total, index: marketcapIndex }
+  allocations: PriceAllocations,
+  quote: string,
+): Promise<Response> => {
+  const marketcapIndex = await config.priceAdapter.getMarketcap(allocations, quote)
+  return makeResponse(marketcapIndex, calculateMarketcapIndexValue, quote)
 }
 
 export const execute = async (input: AdapterRequest, config: Config): Promise<AdapterResponse> => {
@@ -102,24 +118,29 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
   } = validator.validated.data
 
   const index = await parseAllocations(allocations, quote, config.defaultBalance)
+  let indexFunction: (
+    config: Config,
+    allocations: PriceAllocations,
+    quote: string,
+  ) => Promise<Response>
   switch (method) {
     case 'price':
-      const priceIndex = await config.priceAdapter.getPriceIndex(index, quote)
-      const totalValue = calculatePriceIndexValue(priceIndex)
-      return success(jobRunID, { priceIndex, totalValue })
+      indexFunction = getPriceIndex
+      break
     case 'marketcap':
-      const marketcap = await config.priceAdapter.getMarketcap(index, quote)
-      const totalValue = calculateMarketcapIndexValue(marketcap)
-      return success(jobRunID, { marketcap, totalValue })
+      indexFunction = getMarketcapIndex
+      break
     default:
       throw 'unknown method'
   }
+
+  return success(jobRunID, await indexFunction(config, index, quote))
 }
 
-const success = (jobRunID: string, data: IndexResult): AdapterResponse => {
+const success = (jobRunID: string, data: Response): AdapterResponse => {
   return Requester.success(jobRunID, {
     status: 200,
-    data: { result: data.total, index: data.index },
+    data,
   })
 }
 

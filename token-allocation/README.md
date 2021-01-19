@@ -53,19 +53,19 @@ The adapter takes the following environment variables:
   "jobRunID": "1",
   "data": {
     "result": 37340.964000680404,
-    "wBTC": {
-      "balance": "1",
-      "quote": {
-        "USD": {
-          "price": 37339.963061228416
+    "allocations": {
+      "wBTC": {
+        "quote": {
+          "USD": {
+            "price": 37339.963061228416
+          }
         }
-      }
-    },
-    "DAI": {
-      "balance": "1",
-      "quote": {
-        "USD": {
-          "price": 1.00093945198743
+      },
+      "DAI": {
+        "quote": {
+          "USD": {
+            "price": 1.00093945198743
+          }
         }
       }
     }

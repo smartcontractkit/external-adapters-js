@@ -24,15 +24,6 @@ const toAssetPrice = (data: Record<string, any>, currency: string) => {
   return price
 }
 
-const toMarketcap = (data: Record<string, any>, currency: string) => {
-  const resultKey = `marketCap${currency.toUpperCase()}`
-  const marketcap = data && data[resultKey]
-  if (!marketcap || marketcap <= 0) {
-    throw new Error('invalid marketcap')
-  }
-  return marketcap
-}
-
 const getPriceIndex: GetPriceIndex = async (index, currency) => {
   return await Promise.all(
     index.map(async (i) => {
@@ -45,12 +36,21 @@ const getPriceIndex: GetPriceIndex = async (index, currency) => {
   )
 }
 
-const getMarketcap = async (index: Index, currency: string): Promise<Index> => {
+const toMarketcap = (data: Record<string, any>, currency: string) => {
+  const resultKey = `marketCap${currency.toUpperCase()}`
+  const marketcap = data && data[resultKey]
+  if (!marketcap || marketcap <= 0) {
+    throw new Error('invalid marketcap')
+  }
+  return marketcap
+}
+
+const getMarketcap: GetPriceIndex = async (index, currency) => {
   return await Promise.all(
     index.map(async (i) => {
-      const data = await getPriceData(i.asset)
+      const data = await getPriceData(i.symbol)
       const symbolData = data.payload.find(
-        (asset: Record<string, any>) => asset.symbol.toUpperCase() === i.asset.toUpperCase(),
+        (asset: Record<string, any>) => asset.symbol.toUpperCase() === i.symbol.toUpperCase(),
       )
       return { ...i, marketcap: toMarketcap(symbolData, currency) }
     }),

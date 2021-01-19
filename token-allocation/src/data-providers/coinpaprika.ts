@@ -49,7 +49,7 @@ const toMarketcap = (data: Record<string, any>, currency: string) => {
   return marketcap
 }
 
-const getMarketcap = async (index: Index, currency: string): Promise<Index> => {
+const getMarketcap: GetPriceIndex = async (index, currency) => {
   const priceData = await getPriceData(currency)
 
   // There are duplicate symbols on the response. We only want the lowest in rank
@@ -63,7 +63,7 @@ const getMarketcap = async (index: Index, currency: string): Promise<Index> => {
   }
 
   return index.map((i) => {
-    const data = priceMap.get(i.asset.toUpperCase())
+    const data = priceMap.get(i.symbol.toUpperCase())
     return { ...i, marketcap: toMarketcap(data, currency) }
   })
 }

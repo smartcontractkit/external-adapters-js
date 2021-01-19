@@ -43,7 +43,7 @@ const getPriceIndex: GetPriceIndex = async (index, currency) => {
   )
 }
 
-const getMarketcap = () => {
+const getMarketcap: GetPriceIndex = () => {
   throw 'not implemented'
 }
 

@@ -10,18 +10,24 @@ export type TokenAllocations = TokenAllocation[]
 
 export type PriceAllocation = TokenAllocation & {
   price?: number
+  marketcap?: number
   quote?: string
 }
 
 export type PriceAllocations = PriceAllocation[]
 
 export type Response = {
-  [symbol: string]: {
-    quote: {
-      [symbol: string]: {
-        price?: number
-        marketCap?: number
+  result: number
+  allocations: {
+    [symbol: string]: {
+      quote: {
+        [symbol: string]: {
+          price?: number
+          marketcap?: number
+        }
       }
     }
   }
 }
+
+export type TotalCalculation = (allocations: PriceAllocations) => number

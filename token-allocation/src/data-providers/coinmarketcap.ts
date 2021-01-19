@@ -78,16 +78,16 @@ const toMarketcap = (data: Record<string, any>, currency: string) => {
   return marketcap
 }
 
-const getMarketcap = async (index: Index, currency: string): Promise<Index> => {
+const getMarketcap: GetPriceIndex = async (index, currency) => {
   currency = currency.toUpperCase()
 
-  const assets = index.map(({ asset }) => asset.toUpperCase())
+  const assets = index.map(({ symbol }) => symbol.toUpperCase())
   const pricesData = await getPriceData(assets, currency)
 
   const indexMap = new Map()
   Object.values(pricesData).forEach((asset) => indexMap.set(asset.symbol.toUpperCase(), asset))
   return index.map((i) => {
-    return { ...i, price: toMarketcap(indexMap.get(i.asset.toUpperCase()), currency) }
+    return { ...i, price: toMarketcap(indexMap.get(i.symbol.toUpperCase()), currency) }
   })
 }
 

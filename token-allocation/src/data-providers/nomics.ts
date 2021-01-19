@@ -58,8 +58,8 @@ const toMarketcap = (data: Record<string, any>) => {
 
 const getMarketcap: GetPriceIndex = async (index, currency) => {
   const symbols = index
-    .map(({ asset }) => {
-      const symbol = asset.toUpperCase()
+    .map(({ symbol }) => {
+      symbol = symbol.toUpperCase()
       return nomicsIds[symbol] || symbol
     })
     .join()
@@ -71,7 +71,7 @@ const getMarketcap: GetPriceIndex = async (index, currency) => {
   }
 
   return index.map((i) => {
-    const data = pricesMap.get(i.asset.toUpperCase())
+    const data = pricesMap.get(i.symbol.toUpperCase())
     return { ...i, marketcap: toMarketcap(data) }
   })
 }
