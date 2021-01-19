@@ -16,7 +16,7 @@ The adapter takes the following environment variables:
     - `kaiko` (K)
     - `nomics`(K)
 - `API_KEY`: For those data providers who need an api key
-- `DEFAULT_CURRENCY` (Optional): Currency that the price will be fetched by default. `USD` used by default
+- `DEFAULT_QUOTE` (Optional): Currency that the price will be fetched by default. `USD` used by default
 
 
 ## Input Params
@@ -25,7 +25,7 @@ The adapter takes the following environment variables:
   - `symbol`: Token symbol
   - `balance` (optional): Token balance. `1e18` by default
   - `decimals` (optional): Token decimals. `18` by default
-- `currency` (optional). Currency we want the price on. `DEFAULT_CURRENCY` by default
+- `quote` (optional). Currency we want the price on. `DEFAULT_QUOTE` by default
 
 
 ```json
