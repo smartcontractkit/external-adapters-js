@@ -2,11 +2,7 @@ import { assert } from 'chai'
 import { Requester } from '@chainlink/external-adapter'
 import { assertSuccess, assertError } from '@chainlink/adapter-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
-<<<<<<< HEAD
-import { makeExecute, calculateIndexValue } from '../src/adapter'
-=======
-import { makeExecute, makeIndex, calculatePriceIndexValue } from '../src/adapter'
->>>>>>> CVI use token-allocation adapter
+import { makeExecute, calculatePriceIndexValue } from '../src/adapter'
 import { makeConfig } from '../src/config'
 import { PriceAllocations } from '../src/types'
 import { BigNumber } from 'ethers/utils'
@@ -101,11 +97,7 @@ describe('execute', () => {
         quote: 'USD',
       },
     ]
-<<<<<<< HEAD
-    const indexValue = calculateIndexValue(allocations)
-=======
-    const indexValue = calculatePriceIndexValue(index)
->>>>>>> CVI use token-allocation adapter
+    const indexValue = calculatePriceIndexValue(allocations)
     it('index value is correct', () => {
       const expectedValue = 11
       assert.strictEqual(indexValue, expectedValue)
