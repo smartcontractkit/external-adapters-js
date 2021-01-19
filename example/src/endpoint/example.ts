@@ -24,7 +24,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     quote,
   }
 
-  const reqConfig = { ...config.api, params, baseURL: 'http://localhost:18081', url }
+  const reqConfig = { ...config.api, params, url }
 
   const response = await Requester.request(reqConfig, customError)
   const result = Requester.validateResultNumber(response.data, ['price'])
