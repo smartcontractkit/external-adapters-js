@@ -2,10 +2,10 @@ import { assert } from 'chai'
 import { Requester } from '@chainlink/external-adapter'
 import { assertSuccess, assertError } from '@chainlink/adapter-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
-import { makeExecute, makeIndex, calculateIndexValue } from '../src/adapter'
+import { makeExecute, calculateIndexValue } from '../src/adapter'
 import { makeConfig } from '../src/config'
-import Decimal from 'decimal.js'
-import { Allocations } from '../src/types'
+import { TokenAllocations } from '../src/types'
+import { BigNumber } from 'ethers/utils'
 
 describe('execute', () => {
   const jobID = '1'
@@ -80,69 +80,26 @@ describe('execute', () => {
     })
   })
 
-  context('make index', () => {
-    const allocations: Allocations = [
+  context('calculate index value', () => {
+    const allocations: TokenAllocations = [
       {
         symbol: 'wBTC',
-        balance: 100000001,
+        balance: 100000000,
         decimals: 8,
+        price: 10,
+        currency: 'USD',
       },
       {
         symbol: 'DAI',
-        balance: 1000000000000,
+        balance: new BigNumber('1000000000000000000'),
         decimals: 18,
-      },
-    ]
-    const expectedUnits: any = {
-      wBTC: 1.00000001,
-      DAI: 0.000001,
-    }
-    const currency = 'USD'
-    const index = makeIndex(allocations, currency, 1e18)
-
-    it('symbols are correct', () => {
-      allocations.forEach(({ symbol }, i) => {
-        assert.strictEqual(symbol, index[i].asset)
-      })
-    })
-
-    it('units are correct', () => {
-      index.forEach((asset) => {
-        assert.strictEqual(asset.units.toString(), expectedUnits[asset.asset].toString())
-      })
-    })
-
-    it('currency is correct', () => {
-      index.forEach((asset) => {
-        assert.strictEqual(asset.currency, currency)
-      })
-    })
-  })
-
-  context('calculate index value', () => {
-    const index = [
-      {
-        asset: 'A',
-        units: new Decimal(2),
         price: 1,
         currency: 'USD',
       },
-      {
-        asset: 'B',
-        units: new Decimal(5),
-        price: 2,
-        currency: 'USD',
-      },
-      {
-        asset: 'C',
-        units: new Decimal(1),
-        price: 20,
-        currency: 'USD',
-      },
     ]
-    const indexValue = calculateIndexValue(index)
+    const indexValue = calculateIndexValue(allocations)
     it('index value is correct', () => {
-      const expectedValue = 32
+      const expectedValue = 11
       assert.strictEqual(indexValue, expectedValue)
     })
   })
