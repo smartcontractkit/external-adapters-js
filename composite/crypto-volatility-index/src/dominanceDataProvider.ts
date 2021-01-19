@@ -1,9 +1,9 @@
-import { IndexResult, makeExecute } from '@chainlink/token-allocation-adapter/dist/adapter'
-import { makeConfig } from '@chainlink/token-allocation-adapter/src/config'
+import { IndexResult } from '@chainlink/token-allocation-adapter/dist/adapter'
+import * as TokenAllocation from '@chainlink/token-allocation-adapter'
 import { Execute } from '@chainlink/types'
 
 export const getDominanceAdapter = (): Execute => {
-  return makeExecute(makeConfig())
+  return TokenAllocation.makeExecute(TokenAllocation.makeConfig())
 }
 
 export const dominanceByCurrency = (result: IndexResult): Record<string, number> => {
