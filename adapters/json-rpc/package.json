@@ -1,8 +1,8 @@
 {
-  "name": "@chainlink/bitcoin-json-rpc-adapter",
+  "name": "@chainlink/json-rpc",
   "version": "0.0.1",
   "description": "",
-  "author": "Evangelos Barakos (evangelos@smartcontract.com)",
+  "author": "Thomas Hodges (thomas@smartcontract.com)",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -13,11 +13,16 @@
     "prepublishOnly": "yarn build && yarn test:unit",
     "setup": "yarn build",
     "build": "tsc -b",
-    "lint": "eslint --ignore-path ../../.eslintignore . --ext .js,.jsx,.ts,.tsx",
-    "lint:fix": "eslint --ignore-path ../../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix",
+    "lint": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix",
     "test": "mocha --exit -r ts-node/register 'test/**/*.test.ts'",
     "test:unit": "mocha --exit --grep @integration --invert -r ts-node/register 'test/**/*.test.ts'",
-    "test:integration": "mocha --exit --grep @integration -r ts-node/register 'test/**/*.test.ts'",    "server": "node -e 'require(\"./index.js\").server()'",
+    "test:integration": "mocha --exit --grep @integration -r ts-node/register 'test/**/*.test.ts'",
+    "test:eth": "mocha --exit -r ts-node/register 'test/eth.test.ts'",
+    "test:btc": "mocha --exit -r ts-node/register 'test/btc.test.ts'",
+    "test:aion": "mocha --exit -r ts-node/register 'test/aion.test.ts'",
+    "test:zilliqa": "RPC_URL=https://dev-api.zilliqa.com mocha --exit -r ts-node/register 'test/zilliqa.test.ts'",
+    "server": "node -e 'require(\"./index.js\").server()'",
     "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
     "start": "yarn server:dist"
   },
@@ -30,7 +35,5 @@
     "ts-node": "^8.10.2",
     "typescript": "^3.9.7"
   },
-  "dependencies": {
-    "@chainlink/json-rpc-adapter": "^0.0.1"
-  }
+  "dependencies": {}
 }

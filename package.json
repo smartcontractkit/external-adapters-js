@@ -92,7 +92,10 @@
     "paxos",
     "deribit",
     "token-allocation",
-    "dydx-stark"
+    "dydx-stark",
+    "adapters/**",
+    "adapter-legos",
+    "adapters"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",
