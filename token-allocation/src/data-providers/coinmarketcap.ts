@@ -1,5 +1,4 @@
 import { Requester } from '@chainlink/external-adapter'
-import { GetPriceIndex } from '../config'
 
 // Defaults we use when there are multiple currencies with the same symbol
 const presetSlugs: Record<string, string> = {
@@ -57,17 +56,17 @@ const toAssetPrice = (data: Record<string, any>, currency: string) => {
   return price
 }
 
-const getPriceIndex: GetPriceIndex = async (index, currency) => {
-  currency = currency.toUpperCase()
+export const getPrices = async (
+  baseSymbols: string[],
+  quote: string,
+): Promise<Record<string, number>> => {
+  quote = quote.toUpperCase()
 
-  const assets = index.map(({ symbol }) => symbol.toUpperCase())
-  const pricesData = await getPriceData(assets, currency)
+  const assets = baseSymbols.map((symbol) => symbol.toUpperCase())
+  const pricesData = await getPriceData(assets, quote)
 
   const indexMap = new Map()
   Object.values(pricesData).forEach((asset) => indexMap.set(asset.symbol.toUpperCase(), asset))
-  return index.map((i) => {
-    return { ...i, price: toAssetPrice(indexMap.get(i.symbol.toUpperCase()), currency) }
-  })
+  const entries = assets.map((symbol) => [symbol, toAssetPrice(indexMap.get(symbol), quote)])
+  return Object.fromEntries(entries)
 }
-
-export default { getPriceIndex }

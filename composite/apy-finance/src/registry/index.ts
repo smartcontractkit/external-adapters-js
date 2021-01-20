@@ -4,29 +4,24 @@ import assetAllocationAbi from '../abi/IAssetAllocation.json'
 import erc20 from '@openzeppelin/contracts/build/contracts/ERC20.json'
 import { TokenAllocations } from '@chainlink/token-allocation-adapter/dist/types'
 
-type GetDecimals = (address: string) => Promise<number>
-type GetTokenDecimals = (provider: ethers.providers.JsonRpcProvider, abi: any) => GetDecimals
-
-const getTokenDecimals: GetTokenDecimals = (provider, abi) => async (address) => {
-  return await new ethers.Contract(address, abi, provider).decimals()
-}
-
 export type GetAllocations = (
   registry: ethers.Contract,
-  getDecimals: GetDecimals,
+  decimalsOf: (address: string) => Promise<number>,
 ) => () => Promise<TokenAllocations>
 
-const getAllocations: GetAllocations = (registry, getDecimals) => async () => {
+const getAllocations: GetAllocations = (registry, decimalsOf) => async () => {
   const tokenAddresses = await registry.getTokenAddresses()
   const [components, balances, decimals]: any = await Promise.all([
     Promise.all(tokenAddresses.map((address: string) => registry.symbolOf(address))),
     Promise.all(tokenAddresses.map((address: string) => registry.balanceOf(address))),
-    Promise.all(tokenAddresses.map(async (address: string) => getDecimals(address))),
+    Promise.all(tokenAddresses.map(async (address: string) => decimalsOf(address))),
   ])
 
-  return components.map((symbol: string, i: number) => {
-    return { symbol, balance: utils.bigNumberify(balances[i]), decimals: decimals[i] }
-  })
+  return components.map((symbol: string, i: number) => ({
+    symbol,
+    balance: utils.bigNumberify(balances[i]),
+    decimals: decimals[i],
+  }))
 }
 
 type Registry = {
@@ -43,8 +38,11 @@ const makeRegistry = async (address: string, rpcUrl: string): Promise<Registry> 
     provider,
   )
 
+  const _getERC20 = (address: string) => new ethers.Contract(address, erc20.abi, provider)
+  const _decimalsOf = (address: string) => _getERC20(address).decimals()
+
   return {
-    getAllocations: getAllocations(chainlinkRegistry, getTokenDecimals(provider, erc20.abi)),
+    getAllocations: getAllocations(chainlinkRegistry, _decimalsOf),
   }
 }
 

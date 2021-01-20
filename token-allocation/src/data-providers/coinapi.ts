@@ -1,6 +1,5 @@
 import { Requester } from '@chainlink/external-adapter'
 import { util } from '@chainlink/ea-bootstrap'
-import { GetPriceIndex } from '../config'
 
 const getPriceData = async (symbol: string, currency: string) => {
   const url = `https://rest.coinapi.io/v1/exchangerate/${symbol}/${currency.toUpperCase()}`
@@ -22,13 +21,16 @@ const toAssetPrice = (data: Record<string, any>) => {
   return price
 }
 
-const getPriceIndex: GetPriceIndex = async (index, currency) => {
-  return await Promise.all(
-    index.map(async (i) => {
-      const data = await getPriceData(i.symbol, currency)
-      return { ...i, price: toAssetPrice(data) }
+export const getPrices = async (
+  baseSymbols: string[],
+  quote: string,
+): Promise<Record<string, number>> => {
+  const entries = await Promise.all(
+    baseSymbols.map(async (symbol) => {
+      const data = await getPriceData(symbol, quote)
+      return [symbol, toAssetPrice(data)]
     }),
   )
-}
 
-export default { getPriceIndex }
+  return Object.fromEntries(entries)
+}

@@ -1,13 +1,12 @@
 import { util } from '@chainlink/ea-bootstrap'
-import cryptocompare from './data-providers/cryptocompare'
-import nomics from './data-providers/nomics'
-import coinpaprika from './data-providers/coinpaprika'
-import coinmarketcap from './data-providers/coinmarketcap'
-import coingecko from './data-providers/coingecko'
-import coinapi from './data-providers/coinapi'
-import amberdata from './data-providers/amberdata'
-import kaiko from './data-providers/kaiko'
-import { PriceAllocations } from './types'
+import * as cryptocompare from './data-providers/cryptocompare'
+import * as nomics from './data-providers/nomics'
+import * as coinpaprika from './data-providers/coinpaprika'
+import * as coinmarketcap from './data-providers/coinmarketcap'
+import * as coingecko from './data-providers/coingecko'
+import * as coinapi from './data-providers/coinapi'
+import * as amberdata from './data-providers/amberdata'
+import * as kaiko from './data-providers/kaiko'
 
 enum DataProvider {
   Amberdata = 'amberdata',
@@ -32,29 +31,20 @@ const providers: Record<string, PriceAdapter> = {
   [DataProvider.Kaiko]: kaiko,
 }
 
-export type GetPriceIndex = (index: PriceAllocations, currency: string) => Promise<PriceAllocations>
-
 export type PriceAdapter = {
-  getPriceIndex: GetPriceIndex
+  getPrices: (baseSymbols: string[], quote: string) => Promise<Record<string, number>>
 }
 
 export type Config = {
   priceAdapter: PriceAdapter
-  defaultQuote: string
-  defaultBalance: number
 }
 
-export const getPriceAdapter = (dataProvider: string): PriceAdapter => {
-  return providers[dataProvider]
-}
+export const DEFAULT_TOKEN_DECIMALS = 18
+export const DEFAULT_TOKEN_BALANCE = 1
 
-export const makeConfig = (defaultBalance = 1e18): Config => {
+export const makeConfig = (): Config => {
   const dataProvider = util.getRequiredEnv('DATA_PROVIDER')
-  const defaultQuote: string = util.getEnv('DEFAULT_QUOTE') || 'USD'
-  const priceAdapter = getPriceAdapter(dataProvider)
   return {
-    priceAdapter,
-    defaultQuote,
-    defaultBalance,
+    priceAdapter: providers[dataProvider],
   }
 }
