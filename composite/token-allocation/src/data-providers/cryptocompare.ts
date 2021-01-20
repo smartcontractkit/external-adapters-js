@@ -32,7 +32,7 @@ export const getPrices = async (
   const prices = await getPriceData(symbols, quote)
 
   const entries = baseSymbols.map((symbol) => {
-    const data = prices[symbol.toUpperCase()]
+    const data = prices.RAW[symbol.toUpperCase()]
     return [symbol, toAssetPrice(data, quote)]
   })
 
@@ -55,7 +55,7 @@ export const getMarketCaps = async (
   const prices = await getPriceData(symbols, quote)
 
   const entries = baseSymbols.map((symbol) => {
-    const data = prices[symbol.toUpperCase()]
+    const data = prices.RAW[symbol.toUpperCase()]
     return [symbol, toMarketCap(data, quote)]
   })
 

@@ -84,7 +84,7 @@ export const getMarketCaps = async (
           d.symbol.toLowerCase() === symbol.toLowerCase() &&
           !coingeckoBlacklist.includes(d.id.toLowerCase()),
       )
-      const data = await getPriceData(coin.id, quote)
+      const data = await getPriceData(coin.id, quote, true)
       return [symbol, toMarketCap(data, coin.id, quote)]
     }),
   )
