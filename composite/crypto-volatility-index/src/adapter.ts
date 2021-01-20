@@ -8,6 +8,7 @@ const customParams = {
   heartbeatMinutes: false,
   isAdaptive: false,
 }
+
 export const execute: Execute = async (input) => {
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error

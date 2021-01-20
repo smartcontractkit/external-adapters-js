@@ -109,7 +109,7 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
       // eslint-disable-next-line no-case-declarations
       const price = await computePrice(config, allocations, quote)
       return _success(price.payload, price.result)
-    case 'marketcap':
+    case 'marketCap':
       // eslint-disable-next-line no-case-declarations
       const marketCap = await computeMarketCap(config, allocations, quote)
       return _success(marketCap.payload, marketCap.result)
