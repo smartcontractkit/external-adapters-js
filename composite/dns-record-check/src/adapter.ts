@@ -1,7 +1,7 @@
 import { ExecuteWithConfig, ExecuteFactory, Config } from '@chainlink/types'
 import { Validator } from '@chainlink/external-adapter'
 import { Requester } from '@chainlink/external-adapter'
-import DNS from '@chainlink/dns-query-adapter'
+import { adapters } from '@chainlink/adapters'
 import { DNSQueryResponse, DNSAnswer } from '@chainlink/dns-query-adapter/dist/types'
 import { makeConfig } from './config'
 
@@ -16,7 +16,7 @@ const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const jobRunID = validator.validated.id
   const { record } = validator.validated.data
 
-  const dnsExecute = DNS.makeExecute(config)
+  const dnsExecute = adapters.dnsquery.makeExecute(config)
   const dnsResponse = await dnsExecute(input)
   const dnsData: DNSQueryResponse = { ...dnsResponse.data }
   const foundRecord = dnsData.Answer.find((ans: DNSAnswer) => ans.data.includes(record))
