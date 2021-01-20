@@ -7,7 +7,7 @@ on:
   pull_request: ~
 
 env:
-  cache-name: ci
+  cache-name: main-ci
 
 jobs:
   run-basic-checks:
@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2-beta
         with:
-          node-version: "12.x"
+          node-version: '12.x'
       - name: Cache node modules
         uses: actions/cache@v2
         with:
@@ -28,8 +28,6 @@ jobs:
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('./yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
       - run: yarn install
       - run: yarn setup
       - run: yarn lint
@@ -43,7 +41,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2-beta
         with:
-          node-version: "12.x"
+          node-version: '12.x'
       - run: yarn install
       - name: Cache node modules
         uses: actions/cache@v2
@@ -55,8 +53,6 @@ jobs:
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('./yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
       - run: yarn setup
       - run: yarn test:example-start-server&
       - run: yarn test:example
@@ -86,7 +82,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2-beta
         with:
-          node-version: "12.x"
+          node-version: '12.x'
       - name: Cache node modules
         uses: actions/cache@v2
         with:
@@ -97,7 +93,5 @@ jobs:
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('./yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
       - run: ${{ matrix.adapter.cmd }}
       - run: ${{ matrix.adapter.docker }}
