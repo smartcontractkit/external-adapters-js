@@ -1,6 +1,6 @@
 import { Validator } from '@chainlink/external-adapter'
 import { AdapterResponse, Execute, AdapterRequest } from '@chainlink/types'
-import TokenAllocation from '@chainlink/token-allocation-adapter'
+import * as TokenAllocation from '@chainlink/token-allocation-adapter'
 import makeRegistry from './registry'
 import { makeConfig, Config } from './config'
 
