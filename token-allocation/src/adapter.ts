@@ -29,7 +29,7 @@ const toValidAllocations = (allocations: TokenAllocations): TokenAllocations => 
   if (!allocations.every((t) => !!t.symbol))
     throw new AdapterError({ message: `Symbol not available for all tokens.`, statusCode: 400 })
   return allocations.map((t) => ({
-    symbol: t.symbol,
+    symbol: t.symbol.toUpperCase(),
     decimals: t.decimals || DEFAULT_TOKEN_DECIMALS,
     balance: t.balance || DEFAULT_TOKEN_BALANCE,
   }))
@@ -49,10 +49,8 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
   const dataResponseEntries = symbols.map((symbol) => {
     const key = symbol
     const val = {
-      [symbol]: {
-        quote: {
-          [quote]: { price: prices[symbol] },
-        },
+      quote: {
+        [quote]: { price: prices[symbol] },
       },
     }
     return [key, val]
@@ -63,7 +61,7 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
 
   return Requester.success(jobRunID, {
     status: 200,
-    data: { dataResponse, result },
+    data: { allocations: dataResponse, result },
     result,
   })
 }
