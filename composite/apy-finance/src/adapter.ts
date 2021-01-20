@@ -11,8 +11,8 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
   const registry = await makeRegistry(config.registryAddr, config.rpcUrl)
   const allocations = await registry.getAllocations()
 
-  const tokenAllocation = TokenAllocation.makeExecute()
-  return await tokenAllocation({ data: { ...input.data, allocations } })
+  const _execute = TokenAllocation.makeExecute()
+  return await _execute({ id: validator.validated.id, data: { ...input.data, allocations } })
 }
 
 export const makeExecute = (config?: Config): Execute => {

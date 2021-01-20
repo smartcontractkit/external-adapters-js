@@ -2,12 +2,12 @@ import { ethers, utils } from 'ethers'
 import registryAbi from '../abi/IRegistry.json'
 import assetAllocationAbi from '../abi/IAssetAllocation.json'
 import erc20 from '@openzeppelin/contracts/build/contracts/ERC20.json'
-import { TokenAllocations } from '@chainlink/token-allocation-adapter/dist/types'
+import { types } from '@chainlink/token-allocation-adapter'
 
 export type GetAllocations = (
   registry: ethers.Contract,
   decimalsOf: (address: string) => Promise<number>,
-) => () => Promise<TokenAllocations>
+) => () => Promise<types.TokenAllocations>
 
 const getAllocations: GetAllocations = (registry, decimalsOf) => async () => {
   const tokenAddresses = await registry.getTokenAddresses()
@@ -25,7 +25,7 @@ const getAllocations: GetAllocations = (registry, decimalsOf) => async () => {
 }
 
 type Registry = {
-  getAllocations: () => Promise<TokenAllocations>
+  getAllocations: () => Promise<types.TokenAllocations>
 }
 
 const makeRegistry = async (address: string, rpcUrl: string): Promise<Registry> => {
