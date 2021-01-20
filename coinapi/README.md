@@ -12,8 +12,6 @@ Obtain an API key from [CoinAPI.io](https://www.coinapi.io/pricing).
 
 ## Price endpoint
 
-An example endpoint description
-
 ### Input Params
 
 | Required? |            Name            |               Description                |       Options       | Defaults to |
