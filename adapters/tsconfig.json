@@ -1,0 +1,18 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": ".",
+    "typeRoots": ["../node_modules/@types", "../typings", "./typings"]
+  },
+  "exclude": [
+    "dist", 
+    "**/*.spec.ts", 
+    "**/*.test.ts"
+  ],
+  "include" :[
+    // might be needed when compiling adapters into one
+    // "**/src/**/*.ts", 
+    "*.ts",
+  ],
+}
