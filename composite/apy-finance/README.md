@@ -18,29 +18,31 @@ This adapter relies on [`token-allocation`](../../token-allocation/README.md) ad
 {
     "jobRunID": "1",
     "data": {
-        "result": 4292798.933109738,
-        "index": [
-            {
-                "asset": "DAI",
-                "units": "4293438.870162793971",
-                "currency": "USD",
-                "price": "0.99985095"
-            },
-            {
-                "asset": "USDC",
-                "units": "0.000007849783550851",
-                "currency": "USD",
-                "price": "1.00310470"
-            },
-            {
-                "asset": "USDT",
-                "units": "0.000002663750518631",
-                "currency": "USD",
-                "price": "1.00139295"
+        "sources": [],
+        "DAI": {
+            "quote": {
+                "USD": {
+                    "price": "1.00750541"
+                }
             }
-        ]
+        },
+        "USDC": {
+            "quote": {
+                "USD": {
+                    "price": "0.99465161"
+                }
+            }
+        },
+        "USDT": {
+            "quote": {
+                "USD": {
+                    "price": "1.00064981"
+                }
+            }
+        },
+        "result": 18469823.762145024
     },
-    "result": 4292798.933109738,
+    "result": 18469823.762145024,
     "statusCode": 200
 }
 ```
