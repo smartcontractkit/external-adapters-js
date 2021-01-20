@@ -26,7 +26,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `outlier-detection`: composite adapter to check for outlier values between multiple sets of data providers
   - `dydx-stark` to sign the input price data with your private STARK key, and send it to the destination endpoint.
   - `apy-finance` to calculate the TVL in APY Finance
-  - `token-allocation` to calculate the total price from a set of token balances
+  - `token-allocation` composite adapter to calculate the total price from a set of tokens
   - `bitcoin-json-rpc`: composite adapter for querying bitcoin blockchain stats(difficulty, height) according to the existing convention
   - `iex-cloud` to get stock and crypto market data from IEX Cloud
 - Added support for metadata in requests. This gives adapters access to the FM on-chain round state.

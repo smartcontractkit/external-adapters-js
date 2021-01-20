@@ -91,7 +91,6 @@
     "dns-record-check",
     "paxos",
     "deribit",
-    "token-allocation",
     "dydx-stark",
     "iex-cloud"
   ],
