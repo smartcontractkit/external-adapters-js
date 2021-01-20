@@ -8,7 +8,7 @@ export type TokenAllocation = {
 
 export type TokenAllocations = TokenAllocation[]
 
-export type Response = {
+export type ResponsePayload = {
   [symbol: string]: {
     quote: {
       [symbol: string]: {
