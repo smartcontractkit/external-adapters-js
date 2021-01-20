@@ -17,6 +17,8 @@ const customParams = {
 const commonSymbols = {
   N225: 'NKY.IND:TEI',
   FTSE: 'UKX.IND:TEI',
+  TSLA: 'TSLA:BFX',
+  TSLAX: 'TSLA.US:TEI',
 }
 
 const execute = (input, callback) => {
