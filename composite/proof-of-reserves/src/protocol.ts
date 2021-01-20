@@ -1,28 +1,29 @@
-import { Execute, Implementations } from '@chainlink/types'
+import { Execute, AdapterImplementation } from '@chainlink/types'
+import { util } from '@chainlink/ea-bootstrap'
+// protocol adapters
 import renVM from '@chainlink/renvm-address-set-adapter'
 import wBTC from '@chainlink/wbtc-address-set-adapter'
 
-export type ProtocolOptions = { type?: Protocol }
-export enum Protocol {
-  WBTC = 'wbtc',
-  RenVM = 'renvm',
-}
-const implLookup: Implementations<Protocol> = {
-  [wBTC.NAME]: wBTC,
-  [renVM.NAME]: renVM,
+const ENV_PROTOCOL_ADAPTER = 'PROTOCOL_ADAPTER'
+
+const adapters: AdapterImplementation[] = [wBTC, renVM]
+
+export type Protocol = typeof adapters[number]['NAME']
+export type ProtocolOptions = {
+  type?: Protocol
 }
 
-const isProtocol = (envVar?: string): envVar is Protocol =>
-  Object.values(Protocol).includes(envVar as any)
+const isProtocol = (envVal?: string): envVal is Protocol =>
+  !!(envVal && adapters.find(util.byName(envVal)))
 
 export const getProtocol = (): Protocol | undefined => {
-  const protocol = process.env.PROTOCOL_ADAPTER
-  return isProtocol(protocol) ? (protocol as Protocol) : undefined
+  const envVal = util.getEnv(ENV_PROTOCOL_ADAPTER)
+  return isProtocol(envVal) ? envVal : undefined
 }
 
 export const getImpl = (options: ProtocolOptions): Execute => {
   const prefix = options.type?.toUpperCase()
-  const impl = options.type && implLookup[options.type?.toUpperCase()]
+  const impl = adapters.find(util.byName(options.type))
   if (!impl) throw Error(`Unknown protocol adapter type: ${options.type}`)
 
   return (data) => {

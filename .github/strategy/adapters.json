@@ -77,7 +77,10 @@
       "tradingeconomics",
       "trueusd",
       "wbtc-address-set",
-      "xbto"
+      "xbto",
+      "dydx-stark",
+      "token-allocation",
+      "iex-cloud"
     ]
   },
   "2-step": {
@@ -106,7 +109,11 @@
       "proof-of-reserves",
       "market-closure",
       "defi-pulse",
-      "dns-record-check"
+      "dns-record-check",
+      "outlier-detection",
+      "apy-finance",
+      "crypto-volatility-index",
+      "bitcoin-json-rpc"
     ]
   },
   "synth-index": {

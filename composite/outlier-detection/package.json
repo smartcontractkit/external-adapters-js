@@ -31,6 +31,10 @@
     "typescript": "^3.9.7"
   },
   "dependencies": {
-    "@chainlink/reference-data-reader": "^0.0.1"
+    "@chainlink/reference-data-reader": "^0.0.1",
+    "@chainlink/oilpriceapi-adapter": "^0.0.1",
+    "@chainlink/deribit-adapter": "^0.0.1",
+    "@chainlink/genesis-volatility-adapter": "^0.0.1",
+    "@chainlink/xbto-adapter": "^0.0.1"
   }
 }

@@ -3,17 +3,27 @@ import { Requester, Validator } from '@chainlink/external-adapter'
 
 const customParams = {
   symbol: ['base', 'from', 'coin', 'symbol'],
-  days: ['days', 'period'],
+  days: ['days', 'period', 'result', 'key'],
 }
 
-const execute: ExecuteWithConfig = async (input, config) => {
+const daysConversion: Record<number, string> = {
+  1: 'oneDayIv',
+  2: 'twoDayIv',
+  7: 'sevenDayIv',
+  14: 'fourteenDayIv',
+  21: 'twentyOneDayIv',
+  28: 'twentyEightDayIv',
+}
+
+const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const url = 'https://app.pinkswantrading.com/graphql'
   const symbol = validator.validated.data.symbol.toUpperCase()
-  const days = validator.validated.data.days
+  const daysInput = validator.validated.data.days
+  const days = daysConversion[daysInput] || daysInput
 
   const query =
     'query ChainlinkIv($symbol: SymbolEnumType){' +
@@ -51,6 +61,6 @@ const execute: ExecuteWithConfig = async (input, config) => {
 
 export const makeConfig = (prefix?: string): Config => Requester.getDefaultConfig(prefix)
 
-export const makeExecute: ExecuteFactory = (config) => {
+export const makeExecute: ExecuteFactory<Config> = (config) => {
   return async (request) => execute(request, config || makeConfig())
 }

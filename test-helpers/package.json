@@ -24,9 +24,9 @@
     "build": "tsc -b",
     "lint": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix",
-    "test": ":",
-    "test:unit": ":",
-    "test:integration": ":"
+    "test": "echo \"Error: no test specified\"",
+    "test:unit": "echo \"Error: no test specified\"",
+    "test:integration": "echo \"Error: no test specified\""
   },
   "devDependencies": {
     "@types/chai": "^4.2.14",

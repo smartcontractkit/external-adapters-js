@@ -1,0 +1,30 @@
+{
+  "name": "@chainlink/ea-factories",
+  "version": "0.0.1",
+  "description": "Build an external adapter with this package",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "prepublishOnly": "yarn build && yarn test",
+    "setup": "yarn build",
+    "build": "tsc -b",
+    "lint": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix",
+    "test": "echo \"Error: no test specified\"",
+    "test:unit": "echo \"Error: no test specified\"",
+    "test:integration": "echo \"Error: no test specified\""
+  },
+  "dependencies": {
+    "object-path": "^0.11.4"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^3.9.0",
+    "@typescript-eslint/parser": "^3.9.0",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.7"
+  }
+}
