@@ -1,4 +1,4 @@
-import TokenAllocation from '@chainlink/token-allocation-adapter'
+import * as TokenAllocation from '@chainlink/token-allocation-adapter'
 import { Execute } from '@chainlink/types'
 
 export const getDominanceAdapter = (): Execute => {
