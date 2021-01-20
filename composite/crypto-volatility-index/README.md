@@ -13,11 +13,11 @@ The CVI calculation requires the following environment variables:
 - `RPC_URL`: Blockchain RPC endpoint to get the needed on-chain data
 - `DOMINANCE_DATA_PROVIDER`: Data provider to use. Some of them require an `API_KEY`(K). Options available:
   - `amberdata` (K)
-  - `coinapi` (K)
   - `coingecko`
   - `coinmarketcap`(K)
   - `coinpaprika`
   - `cryptocompare`
+  - `nomics` (K)
 - `DOMINANCE_API_KEY`: For those data providers who need an api key
 
 ## Input Params
