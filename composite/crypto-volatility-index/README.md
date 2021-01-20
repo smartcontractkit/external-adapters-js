@@ -16,7 +16,7 @@ The CVI calculation requires the following environment variables:
   - `coingecko`
   - `coinmarketcap`(K)
   - `coinpaprika`
-  - `cryptocompare`
+  - `cryptocompare` (K)
   - `nomics` (K)
 - `DOMINANCE_API_KEY`: For those data providers who need an api key
 
