@@ -1,5 +1,4 @@
 import { Requester } from '@chainlink/external-adapter'
-import { GetPriceIndex } from '../config'
 
 const getCoinList = async () => {
   const url = 'https://api.coingecko.com/api/v3/coins/list'
@@ -41,19 +40,23 @@ const toAssetPrice = (data: Record<string, any>, coinId: string, currency: strin
   return price
 }
 
-const getPriceIndex: GetPriceIndex = async (index, currency) => {
+export const getPrices = async (
+  baseSymbols: string[],
+  quote: string,
+): Promise<Record<string, number>> => {
   const coinList = await getCoinList()
-  return await Promise.all(
-    index.map(async (i) => {
+
+  const entries = await Promise.all(
+    baseSymbols.map(async (symbol) => {
       const coin = coinList.find(
         (d: any) =>
-          d.symbol.toLowerCase() === i.symbol.toLowerCase() &&
+          d.symbol.toLowerCase() === symbol.toLowerCase() &&
           !coingeckoBlacklist.includes(d.id.toLowerCase()),
       )
-      const data = await getPriceData(coin.id, currency)
-      return { ...i, price: toAssetPrice(data, coin.id, currency) }
+      const data = await getPriceData(coin.id, quote)
+      return [symbol, toAssetPrice(data, coin.id, quote)]
     }),
   )
-}
 
-export default { getPriceIndex }
+  return Object.fromEntries(entries)
+}

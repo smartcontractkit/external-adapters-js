@@ -1,6 +1,5 @@
 import { Requester } from '@chainlink/external-adapter'
 import { util } from '@chainlink/ea-bootstrap'
-import { GetPriceIndex } from '../config'
 
 const nomicsIds: Record<string, string> = {
   FTT: 'FTXTOKEN',
@@ -29,23 +28,24 @@ const toAssetPrice = (data: Record<string, any>) => {
   return price
 }
 
-const getPriceIndex: GetPriceIndex = async (index, currency) => {
-  const symbols = index
-    .map(({ symbol }) => {
-      return nomicsIds[symbol.toUpperCase()] || symbol.toUpperCase()
-    })
+export const getPrices = async (
+  baseSymbols: string[],
+  quote: string,
+): Promise<Record<string, number>> => {
+  const symbols = baseSymbols
+    .map((symbol) => nomicsIds[symbol.toUpperCase()] || symbol.toUpperCase())
     .join()
 
-  const prices = await getPriceData(symbols, currency)
+  const prices = await getPriceData(symbols, quote)
   const pricesMap = new Map()
   for (const p of prices) {
     pricesMap.set(p.symbol.toUpperCase(), p)
   }
 
-  return index.map((i) => {
-    const data = pricesMap.get(i.symbol.toUpperCase())
-    return { ...i, price: toAssetPrice(data) }
+  const entries = baseSymbols.map((symbol) => {
+    const data = pricesMap.get(symbol.toUpperCase())
+    return [symbol, toAssetPrice(data)]
   })
-}
 
-export default { getPriceIndex }
+  return Object.fromEntries(entries)
+}

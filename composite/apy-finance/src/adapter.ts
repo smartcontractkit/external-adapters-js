@@ -8,14 +8,11 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
   const validator = new Validator(input)
   if (validator.error) throw validator.error
 
-  const registry = await makeRegistry(config.addressRegistry, config.rpcUrl)
+  const registry = await makeRegistry(config.registryAddr, config.rpcUrl)
   const allocations = await registry.getAllocations()
 
-  const tokenAllocationExecute = TokenAllocation.makeExecute()
-
-  return await tokenAllocationExecute({
-    data: { ...input.data, allocations },
-  })
+  const tokenAllocation = TokenAllocation.makeExecute()
+  return await tokenAllocation({ data: { ...input.data, allocations } })
 }
 
 export const makeExecute = (config?: Config): Execute => {
