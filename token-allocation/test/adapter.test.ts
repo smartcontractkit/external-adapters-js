@@ -2,9 +2,9 @@ import { assert } from 'chai'
 import { Requester } from '@chainlink/external-adapter'
 import { assertSuccess, assertError } from '@chainlink/adapter-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
-import { makeExecute, calculateIndexValue } from '../src/adapter'
+import { makeExecute, calculateTotalValue } from '../src/adapter'
 import { makeConfig } from '../src/config'
-import { PriceAllocations } from '../src/types'
+import { TokenAllocations } from '../src/types'
 import { BigNumber } from 'ethers/utils'
 
 describe('execute', () => {
@@ -80,27 +80,62 @@ describe('execute', () => {
     })
   })
 
-  context('calculate index value', () => {
-    const allocations: PriceAllocations = [
+  context('calculate total price value', () => {
+    const allocations: TokenAllocations = [
       {
         symbol: 'wBTC',
         balance: 100000000,
         decimals: 8,
-        price: 10,
-        quote: 'USD',
       },
       {
         symbol: 'DAI',
         balance: new BigNumber('1000000000000000000'),
         decimals: 18,
-        price: 1,
-        quote: 'USD',
       },
     ]
-    const indexValue = calculateIndexValue(allocations)
-    it('index value is correct', () => {
+
+    it('price value is correct #1', () => {
+      const data = {
+        wBTC: {
+          quote: {
+            USD: {
+              price: 10,
+            },
+          },
+        },
+        DAI: {
+          quote: {
+            USD: {
+              price: 1,
+            },
+          },
+        },
+      }
+      const value = calculateTotalValue(allocations, 'USD', data)
       const expectedValue = 11
-      assert.strictEqual(indexValue, expectedValue)
+      assert.strictEqual(value, expectedValue)
+    })
+
+    it('price value is correct #2', () => {
+      const data = {
+        wBTC: {
+          quote: {
+            USD: {
+              price: 33.2,
+            },
+          },
+        },
+        DAI: {
+          quote: {
+            USD: {
+              price: 0.9,
+            },
+          },
+        },
+      }
+      const value = calculateTotalValue(allocations, 'USD', data)
+      const expectedValue = 34.1
+      assert.strictEqual(value, expectedValue)
     })
   })
 })

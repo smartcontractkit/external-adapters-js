@@ -5,7 +5,7 @@ import { TokenAllocations, Response } from './types'
 import { Decimal } from 'decimal.js'
 import { AdapterError } from '@chainlink/external-adapter'
 
-const calculateTotalValue = (
+export const calculateTotalValue = (
   allocations: TokenAllocations,
   quote: string,
   data: Response,
@@ -13,9 +13,9 @@ const calculateTotalValue = (
   return allocations
     .reduce((acc, t) => {
       const price = data[t.symbol].quote[quote].price
-      const coins = new Decimal(t.balance.toString()).div(t.decimals)
+      const coins = new Decimal(t.balance.toString(10)).div(10 ** t.decimals)
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      return acc.add(coins).mul(price!)
+      return acc.add(coins.mul(price!))
     }, new Decimal(0))
     .toNumber()
 }
