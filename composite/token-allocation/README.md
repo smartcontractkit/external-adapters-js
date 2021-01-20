@@ -7,17 +7,16 @@ The adapter calculates the total value in the currency selected for the selected
 The adapter takes the following environment variables:
 
 - `DATA_PROVIDER`: Data provider to use. Some of them require an `API_KEY`(K). Options available:
-    - `amberdata` (K)
-    - `coinapi`(K)
-    - `coingecko`
-    - `coinmarketcap`(K)
-    - `coinpaprika`
-    - `cryptocompare`
-    - `kaiko` (K)
-    - `nomics`(K)
+  - `amberdata` (K)
+  - `coinapi`(K)
+  - `coingecko`
+  - `coinmarketcap`(K)
+  - `coinpaprika`
+  - `cryptocompare`
+  - `kaiko` (K)
+  - `nomics`(K)
 - `API_KEY`: For those data providers who need an api key
 - `DEFAULT_QUOTE` (Optional): Currency that the price will be fetched by default. `USD` used by default
-
 
 ## Input Params
 
@@ -26,7 +25,6 @@ The adapter takes the following environment variables:
   - `balance` (optional): Token balance. `1e18` by default
   - `decimals` (optional): Token decimals. `18` by default
 - `quote` (optional). Currency we want the price on. `DEFAULT_QUOTE` by default
-
 
 ```json
 {
@@ -48,22 +46,25 @@ The adapter takes the following environment variables:
 ```
 
 ## Output
+
 ```json
 {
   "jobRunID": "1",
   "data": {
     "sources": [],
-    "WBTC": {
-      "quote": {
-        "USD": {
-          "price": "34148.75913338036"
+    "payload": {
+      "WBTC": {
+        "quote": {
+          "USD": {
+            "price": "34148.75913338036"
+          }
         }
-      }
-    },
-    "DAI": {
-      "quote": {
-        "USD": {
-          "price": "1.000837177435277"
+      },
+      "DAI": {
+        "quote": {
+          "USD": {
+            "price": "1.000837177435277"
+          }
         }
       }
     },

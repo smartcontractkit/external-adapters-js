@@ -1,7 +1,6 @@
 # Chainlink External Adapter to Calculate APY Finance TVL
 
-The adapter calculates APY Finance total value locked 
-
+The adapter calculates APY Finance total value locked
 
 ## Configuration
 
@@ -16,33 +15,35 @@ This adapter relies on [`token-allocation`](../../token-allocation/README.md) ad
 
 ```json
 {
-    "jobRunID": "1",
-    "data": {
-        "sources": [],
-        "DAI": {
-            "quote": {
-                "USD": {
-                    "price": "1.00750541"
-                }
-            }
-        },
-        "USDC": {
-            "quote": {
-                "USD": {
-                    "price": "0.99465161"
-                }
-            }
-        },
-        "USDT": {
-            "quote": {
-                "USD": {
-                    "price": "1.00064981"
-                }
-            }
-        },
-        "result": 18469823.762145024
+  "jobRunID": "1",
+  "data": {
+    "sources": [],
+    "payload": {
+      "DAI": {
+        "quote": {
+          "USD": {
+            "price": "1.00750541"
+          }
+        }
+      },
+      "USDC": {
+        "quote": {
+          "USD": {
+            "price": "0.99465161"
+          }
+        }
+      },
+      "USDT": {
+        "quote": {
+          "USD": {
+            "price": "1.00064981"
+          }
+        }
+      }
     },
-    "result": 18469823.762145024,
-    "statusCode": 200
+    "result": 18469823.762145024
+  },
+  "result": 18469823.762145024,
+  "statusCode": 200
 }
 ```
