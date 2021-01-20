@@ -29,7 +29,7 @@ const ERC20ABI_bytes32 = [
 const getERC20Symbol = async (rpcUrl: string, address: string): Promise<string> => {
   const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
   const _symbol = (abi: any) => new ethers.Contract(address, abi, provider).symbol()
-  logger.info('Calling blockchain to get ERC20 token symbol...')
+  logger.debug('Calling blockchain to get ERC20 token symbol...')
   try {
     return await _symbol(ERC20ABI)
   } catch (ignoreable) {

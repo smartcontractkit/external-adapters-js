@@ -54,7 +54,13 @@ export class Requester {
       }
 
       // Success
-      logger.info(`Received response: ${JSON.stringify(response.data)}`)
+      const { data, status, statusText } = response
+      logger.debug({
+        message: 'Received response',
+        data,
+        status,
+        statusText,
+      })
       return response
     }
 
