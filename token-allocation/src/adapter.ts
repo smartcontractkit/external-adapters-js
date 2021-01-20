@@ -31,7 +31,7 @@ const toValidAllocations = (allocations: TokenAllocations): TokenAllocations => 
   return allocations.map((t) => ({
     symbol: t.symbol.toUpperCase(),
     decimals: t.decimals || DEFAULT_TOKEN_DECIMALS,
-    balance: t.balance || DEFAULT_TOKEN_BALANCE,
+    balance: t.balance || DEFAULT_TOKEN_BALANCE * 10 ** (t.decimals || DEFAULT_TOKEN_DECIMALS),
   }))
 }
 
@@ -61,7 +61,7 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
 
   return Requester.success(jobRunID, {
     status: 200,
-    data: { allocations: dataResponse, result },
+    data: { ...dataResponse, result },
     result,
   })
 }
