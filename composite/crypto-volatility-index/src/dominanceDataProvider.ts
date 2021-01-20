@@ -3,7 +3,7 @@ import { Execute } from '@chainlink/types'
 import { Response } from '@chainlink/token-allocation-adapter/dist/types'
 
 export const getDominanceAdapter = (): Execute => {
-  const config = TokenAllocation.makeConfig()
+  const config = TokenAllocation.makeConfig('DOMINANCE')
   config.defaultMethod = 'marketcap'
   return TokenAllocation.makeExecute(config)
 }
