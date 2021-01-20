@@ -46,3 +46,7 @@ export const getPrices = async (
 
   return Object.fromEntries(entries)
 }
+
+export const getMarketCaps = () => {
+  throw Error('not implemented')
+}

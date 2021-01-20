@@ -12,7 +12,7 @@ The adapter takes the following environment variables:
   - `coingecko`
   - `coinmarketcap`(K)
   - `coinpaprika`
-  - `cryptocompare`
+  - `cryptocompare` (K)
   - `kaiko` (K)
   - `nomics`(K)
 - `API_KEY`: For those data providers who need an api key

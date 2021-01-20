@@ -49,3 +49,33 @@ export const getPrices = async (
 
   return Object.fromEntries(entries)
 }
+
+const toMarketCap = (data: Record<string, any>) => {
+  const marketCap = data.market_cap
+  if (!marketCap || marketCap <= 0) {
+    throw new Error('Invalid marketCap')
+  }
+  return marketCap
+}
+
+export const getMarketCaps = async (
+  baseSymbols: string[],
+  quote: string,
+): Promise<Record<string, number>> => {
+  const symbols = baseSymbols
+    .map((symbol) => nomicsIds[symbol.toUpperCase()] || symbol.toUpperCase())
+    .join()
+
+  const prices = await getPriceData(symbols, quote)
+  const pricesMap = new Map()
+  for (const p of prices) {
+    pricesMap.set(p.symbol.toUpperCase(), p)
+  }
+
+  const entries = baseSymbols.map((symbol) => {
+    const data = pricesMap.get(symbol.toUpperCase())
+    return [symbol, toMarketCap(data)]
+  })
+
+  return Object.fromEntries(entries)
+}

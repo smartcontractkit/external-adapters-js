@@ -56,6 +56,14 @@ const toAssetPrice = (data: Record<string, any>, currency: string) => {
   return price
 }
 
+const toMarketCap = (data: Record<string, any>, currency: string) => {
+  const marketCap = data.quote && data.quote[currency].market_cap
+  if (!marketCap || marketCap <= 0) {
+    throw new Error('invalid marketCap')
+  }
+  return marketCap
+}
+
 export const getPrices = async (
   baseSymbols: string[],
   quote: string,
@@ -68,5 +76,20 @@ export const getPrices = async (
   const indexMap = new Map()
   Object.values(pricesData).forEach((asset) => indexMap.set(asset.symbol.toUpperCase(), asset))
   const entries = assets.map((symbol) => [symbol, toAssetPrice(indexMap.get(symbol), quote)])
+  return Object.fromEntries(entries)
+}
+
+export const getMarketCaps = async (
+  baseSymbols: string[],
+  quote: string,
+): Promise<Record<string, number>> => {
+  quote = quote.toUpperCase()
+
+  const assets = baseSymbols.map((symbol) => symbol.toUpperCase())
+  const pricesData = await getPriceData(assets, quote)
+
+  const indexMap = new Map()
+  Object.values(pricesData).forEach((asset) => indexMap.set(asset.symbol.toUpperCase(), asset))
+  const entries = assets.map((symbol) => [symbol, toMarketCap(indexMap.get(symbol), quote)])
   return Object.fromEntries(entries)
 }

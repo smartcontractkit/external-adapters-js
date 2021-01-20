@@ -8,6 +8,7 @@ const customParams = {
   heartbeatMinutes: false,
   isAdaptive: false,
 }
+
 export const execute: Execute = async (input) => {
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
@@ -16,7 +17,7 @@ export const execute: Execute = async (input) => {
   const oracleAddress = validator.validated.data.contract
   const multiply = validator.validated.data.multiply || 1000000
   const heartbeatMinutes = validator.validated.data.heartbeatMinutes || 60
-  const isAdaptive = validator.validated.data.isAdaptive !== false
+  const isAdaptive = validator.validated.data.isAdaptive as boolean
 
   const result = await calculate(oracleAddress, multiply, heartbeatMinutes, isAdaptive)
   return Requester.success(jobRunID, {

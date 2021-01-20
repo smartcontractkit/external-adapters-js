@@ -50,7 +50,7 @@ export class SigmaCalculator {
           dK = strikePrice.minus(calls[idx - 1].strikePrice)
         } else {
           // eslint-disable-next-line prettier/prettier
-          dK = (calls[idx + 1].strikePrice.minus(calls[idx - 1].strikePrice)).div(2)
+          dK = calls[idx + 1].strikePrice.minus(calls[idx - 1].strikePrice).div(2)
         }
 
         S = S.plus(dK.times(midPrice).times(exchangeRate).div(strikePrice.pow(2)))
@@ -71,7 +71,7 @@ export class SigmaCalculator {
           dK = puts[idx - 1].strikePrice.minus(strikePrice)
         } else {
           // eslint-disable-next-line prettier/prettier
-          dK = (puts[idx - 1].strikePrice.minus(puts[idx + 1].strikePrice)).div(2)
+          dK = puts[idx - 1].strikePrice.minus(puts[idx + 1].strikePrice).div(2)
         }
 
         S = S.plus(dK.times(midPrice).times(exchangeRate).div(strikePrice.pow(2)))

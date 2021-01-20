@@ -9,11 +9,12 @@ const getCoinList = async () => {
   return response.data
 }
 
-const getPriceData = async (id: string, currency: string) => {
+const getPriceData = async (id: string, currency: string, marketcap = false) => {
   const url = 'https://api.coingecko.com/api/v3/simple/price'
   const params = {
     ids: id,
     vs_currencies: currency.toLowerCase(),
+    include_market_cap: marketcap,
   }
   const config = {
     url,
@@ -40,6 +41,15 @@ const toAssetPrice = (data: Record<string, any>, coinId: string, currency: strin
   return price
 }
 
+const toMarketCap = (data: Record<string, any>, coinId: string, currency: string) => {
+  const resultKey = `${currency.toLowerCase()}_market_cap`
+  const marketCap = data[coinId] && data[coinId][resultKey]
+  if (!marketCap || marketCap <= 0) {
+    throw new Error('invalid marketCap')
+  }
+  return marketCap
+}
+
 export const getPrices = async (
   baseSymbols: string[],
   quote: string,
@@ -55,6 +65,27 @@ export const getPrices = async (
       )
       const data = await getPriceData(coin.id, quote)
       return [symbol, toAssetPrice(data, coin.id, quote)]
+    }),
+  )
+
+  return Object.fromEntries(entries)
+}
+
+export const getMarketCaps = async (
+  baseSymbols: string[],
+  quote: string,
+): Promise<Record<string, number>> => {
+  const coinList = await getCoinList()
+
+  const entries = await Promise.all(
+    baseSymbols.map(async (symbol) => {
+      const coin = coinList.find(
+        (d: any) =>
+          d.symbol.toLowerCase() === symbol.toLowerCase() &&
+          !coingeckoBlacklist.includes(d.id.toLowerCase()),
+      )
+      const data = await getPriceData(coin.id, quote, true)
+      return [symbol, toMarketCap(data, coin.id, quote)]
     }),
   )
 
