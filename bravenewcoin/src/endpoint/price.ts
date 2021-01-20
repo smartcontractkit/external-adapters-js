@@ -1,6 +1,6 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
-const { authenticate, convert, getAssetId } = require('../../../helpers/bravenewcoin/helpers')
+import { authenticate, convert, getAssetId } from '../helpers'
 
 export const NAME = 'price'
 

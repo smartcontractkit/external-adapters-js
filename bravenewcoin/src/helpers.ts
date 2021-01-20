@@ -1,12 +1,12 @@
-const { Requester } = require('@chainlink/external-adapter')
+import { Requester } from '@chainlink/external-adapter'
 
-const host = 'bravenewcoin.p.rapidapi.com'
-const apiHeaders = {
+export const host = 'bravenewcoin.p.rapidapi.com'
+export const apiHeaders = {
   'x-rapidapi-host': host,
-  'x-rapidapi-key': process.env.API_KEY
+  'x-rapidapi-key': process.env.API_KEY,
 }
 
-const authenticate = async () => {
+export const authenticate = async () => {
   const response = await Requester.request({
     method: 'POST',
     url: `https://${host}/oauth/token`,
@@ -14,34 +14,34 @@ const authenticate = async () => {
       'content-type': 'application/json',
       accept: 'application/json',
       useQueryString: true,
-      ...apiHeaders
+      ...apiHeaders,
     },
     data: {
       audience: 'https://api.bravenewcoin.com',
       client_id: process.env.CLIENT_ID,
-      grant_type: 'client_credentials'
-    }
+      grant_type: 'client_credentials',
+    },
   })
   return response.data.access_token
 }
 
-const getAssetId = async (symbol) => {
+export const getAssetId = async (symbol: any) => {
   const response = await Requester.request({
     url: `https://${host}/asset`,
     headers: {
       'content-type': 'application/octet-stream',
       useQueryString: true,
-      ...apiHeaders
+      ...apiHeaders,
     },
     params: {
       status: 'ACTIVE',
-      symbol
-    }
+      symbol,
+    },
   })
   return response.data.content[0].id
 }
 
-const convert = async (token, baseAssetId, quoteAssetId) => {
+export const convert = async (token: any, baseAssetId: any, quoteAssetId: any) => {
   const url = `https://${host}/market-cap`
   const path = ['content', 0, 'price']
   const base = await Requester.request({
@@ -49,11 +49,11 @@ const convert = async (token, baseAssetId, quoteAssetId) => {
     headers: {
       ...apiHeaders,
       authorization: `Bearer ${token}`,
-      useQueryString: true
+      useQueryString: true,
     },
     params: {
-      assetId: baseAssetId
-    }
+      assetId: baseAssetId,
+    },
   })
   const basePrice = Requester.validateResultNumber(base.data, path)
   if (quoteAssetId.toUpperCase() === 'USD') {
@@ -61,7 +61,7 @@ const convert = async (token, baseAssetId, quoteAssetId) => {
     return {
       status: 200,
       data: { result },
-      result
+      result,
     }
   }
   const quote = await Requester.request({
@@ -69,23 +69,17 @@ const convert = async (token, baseAssetId, quoteAssetId) => {
     headers: {
       ...apiHeaders,
       authorization: `Bearer ${token}`,
-      useQueryString: true
+      useQueryString: true,
     },
     params: {
-      assetId: quoteAssetId
-    }
+      assetId: quoteAssetId,
+    },
   })
   const quotePrice = Requester.validateResultNumber(quote.data, path)
   const result = basePrice / quotePrice
   return {
     status: 200,
     data: { result },
-    result
+    result,
   }
 }
-
-exports.host = host
-exports.apiHeaders = apiHeaders
-exports.authenticate = authenticate
-exports.convert = convert
-exports.getAssetId = getAssetId

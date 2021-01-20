@@ -1,11 +1,6 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
-const {
-  authenticate,
-  apiHeaders,
-  getAssetId,
-  host,
-} = require('../../../helpers/bravenewcoin/helpers')
+import { authenticate, apiHeaders, getAssetId, host } from '../helpers'
 
 export const NAME = 'vwap'
 
