@@ -50,10 +50,10 @@ export const getPriceAdapter = (dataProvider: string): PriceAdapter => {
   return providers[dataProvider]
 }
 
-export const makeConfig = (defaultBalance = 1e18): Config => {
-  const dataProvider = util.getRequiredEnv('DATA_PROVIDER')
-  const defaultQuote: string = util.getEnv('DEFAULT_QUOTE') || 'USD'
-  const defaultMethod: string = util.getEnv('DEFAULT_METHOD') || 'price'
+export const makeConfig = (prefix = '', defaultBalance = 1e18): Config => {
+  const dataProvider = util.getRequiredEnv('DATA_PROVIDER', prefix)
+  const defaultQuote: string = util.getEnv('DEFAULT_QUOTE', prefix) || 'USD'
+  const defaultMethod: string = util.getEnv('DEFAULT_METHOD', prefix) || 'price'
   const priceAdapter = getPriceAdapter(dataProvider)
   return {
     priceAdapter,
