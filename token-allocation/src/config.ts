@@ -40,7 +40,7 @@ export type Config = {
 }
 
 export const DEFAULT_TOKEN_DECIMALS = 18
-export const DEFAULT_TOKEN_BALANCE = 1e18
+export const DEFAULT_TOKEN_BALANCE = 1
 
 export const makeConfig = (): Config => {
   const dataProvider = util.getRequiredEnv('DATA_PROVIDER')
