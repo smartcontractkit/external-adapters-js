@@ -1,14 +1,14 @@
 import { AdapterResponse, Execute, AdapterRequest } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { Config, DEFAULT_TOKEN_BALANCE, DEFAULT_TOKEN_DECIMALS, makeConfig } from './config'
-import { TokenAllocations, Response } from './types'
+import { TokenAllocations, ResponsePayload } from './types'
 import { Decimal } from 'decimal.js'
 import { AdapterError } from '@chainlink/external-adapter'
 
 export const calculateTotalValue = (
   allocations: TokenAllocations,
   quote: string,
-  data: Response,
+  data: ResponsePayload,
 ): number => {
   return allocations
     .reduce((acc, t) => {
@@ -46,7 +46,7 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
   const symbols = (allocations as TokenAllocations).map((t) => t.symbol)
   const prices = await config.priceAdapter.getPrices(symbols, quote)
 
-  const dataResponseEntries = symbols.map((symbol) => {
+  const payloadEntries = symbols.map((symbol) => {
     const key = symbol
     const val = {
       quote: {
@@ -56,12 +56,12 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
     return [key, val]
   })
 
-  const dataResponse: Response = Object.fromEntries(dataResponseEntries)
-  const result = calculateTotalValue(allocations, quote, dataResponse)
+  const payload: ResponsePayload = Object.fromEntries(payloadEntries)
+  const result = calculateTotalValue(allocations, quote, payload)
 
   return Requester.success(jobRunID, {
     status: 200,
-    data: { ...dataResponse, result },
+    data: { sources: [], ...payload, result },
     result,
   })
 }
