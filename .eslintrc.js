@@ -17,6 +17,7 @@ module.exports = {
   },
   parserOptions: {
     ecmaVersion: 2020,
+    sourceType: 'module',
   },
   ignorePatterns: ['node_modules/', 'dist/'],
   rules: {
