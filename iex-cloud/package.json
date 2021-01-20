@@ -1,15 +1,13 @@
 {
-  "name": "@chainlink/wbtc-address-set-adapter",
+  "name": "@chainlink/iex-cloud-adapter",
   "version": "0.0.1",
-  "description": "Chainlink adapter to query wBTC address set.",
+  "description": "Chainlink iex-cloud adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
-    "wBTC",
-    "BTC",
     "blockchain",
     "oracle",
-    "Proof of Reserves"
+    "iex-cloud"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -20,7 +18,6 @@
     "url": "https://github.com/smartcontractkit/external-adapters-js",
     "type": "git"
   },
-  "author": "Kristijan Rebernisak <kristijan.rebernisak@smartcontract.com>",
   "license": "MIT",
   "scripts": {
     "prepublishOnly": "yarn build && yarn test:unit",
@@ -28,9 +25,9 @@
     "build": "tsc -b",
     "lint": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix",
-    "test": "mocha --exit -r ts-node/register 'test/**/*.test.ts'",
+    "test": "mocha --exit --timeout 3000 -r ts-node/register 'test/**/*.test.ts'",
     "test:unit": "mocha --exit --grep @integration --invert -r ts-node/register 'test/**/*.test.ts'",
-    "test:integration": "mocha --exit --grep @integration -r ts-node/register 'test/**/*.test.ts'",
+    "test:integration": "mocha --exit --timeout 3000 --grep @integration -r ts-node/register 'test/**/*.test.ts'",
     "server": "node -e 'require(\"./index.js\").server()'",
     "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
     "start": "yarn server:dist"
@@ -45,7 +42,5 @@
     "ts-node": "^8.10.2",
     "typescript": "^3.9.7"
   },
-  "dependencies": {
-    "axios": "^0.21.1"
-  }
+  "dependencies": {}
 }

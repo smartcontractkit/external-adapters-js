@@ -92,7 +92,8 @@
     "paxos",
     "deribit",
     "token-allocation",
-    "dydx-stark"
+    "dydx-stark",
+    "iex-cloud"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",
