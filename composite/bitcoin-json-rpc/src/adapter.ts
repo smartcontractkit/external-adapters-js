@@ -1,4 +1,4 @@
-import { adapters } from '@chainlink/adapters'
+import JSONRPC from '@chainlink/json-rpc-adapter'
 import { Config, ExecuteWithConfig, ExecuteFactory, AdapterRequest } from '@chainlink/types'
 import { Validator, Requester } from '@chainlink/external-adapter'
 import { DEFAULT_ENDPOINT, makeConfig } from './config'
@@ -19,7 +19,7 @@ const execute: ExecuteWithConfig<Config> = async (request: AdapterRequest) => {
   const jobRunID = validator.validated.id
   let endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
 
-  const response = await adapters.jsonrpc.execute({
+  const response = await JSONRPC.execute({
     ...request,
     data: { ...request.data, method: 'getblockchaininfo' },
   })

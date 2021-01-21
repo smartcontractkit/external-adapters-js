@@ -2,7 +2,7 @@ import { ExecuteWithConfig, ExecuteFactory, Config } from '@chainlink/types'
 import { Validator } from '@chainlink/external-adapter'
 import { Requester } from '@chainlink/external-adapter'
 import { adapters } from '@chainlink/adapters'
-import { DNSQueryResponse, DNSAnswer } from '@chainlink/dns-query-adapter/dist/types'
+import { DNSQueryResponse, DNSAnswer } from '@chainlink/adapters/dist/dns-query/src/types'
 import { makeConfig } from './config'
 
 const inputParams = {

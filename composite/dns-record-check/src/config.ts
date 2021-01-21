@@ -1,6 +1,6 @@
 import { Config } from '@chainlink/types'
-import DNS from '@chainlink/dns-query-adapter'
+import { adapters } from '@chainlink/adapters'
 
 export const makeConfig = (): Config => {
-  return DNS.makeConfig()
+  return adapters.dnsquery.makeConfig()
 }

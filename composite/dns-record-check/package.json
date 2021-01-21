@@ -42,6 +42,6 @@
     "typescript": "^3.9.7"
   },
   "dependencies": {
-    "@chainlink/dns-query-adapter": "^0.0.1"
+    "@chainlink/adapters": "^0.0.1"
   }
 }
