@@ -43,11 +43,14 @@ const inputParams = {
 const toValidAllocations = (allocations: TokenAllocations): TokenAllocations => {
   if (!allocations.every((t) => !!t.symbol))
     throw new AdapterError({ message: `Symbol not available for all tokens.`, statusCode: 400 })
-  return allocations.map((t) => ({
-    symbol: t.symbol.toUpperCase(),
-    decimals: t.decimals || DEFAULT_TOKEN_DECIMALS,
-    balance: t.balance || DEFAULT_TOKEN_BALANCE * 10 ** (t.decimals || DEFAULT_TOKEN_DECIMALS),
-  }))
+  return allocations.map((t) => {
+    const decimals = Number.isInteger(t.decimals) ? t.decimals : DEFAULT_TOKEN_DECIMALS
+    return {
+      symbol: t.symbol.toUpperCase(),
+      decimals,
+      balance: t.balance || DEFAULT_TOKEN_BALANCE * 10 ** decimals,
+    }
+  })
 }
 
 const computePrice = async (config: Config, allocations: TokenAllocations, quote: string) => {

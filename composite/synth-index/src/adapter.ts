@@ -1,8 +1,10 @@
 import { Validator, Requester } from '@chainlink/external-adapter'
 import { AdapterResponse, Execute, AdapterRequest } from '@chainlink/types'
-import TokenAllocation from '@chainlink/token-allocation-adapter'
+import {
+  types,
+  makeExecute as tokenAllocationMakeExecute,
+} from '@chainlink/token-allocation-adapter'
 import snx from 'synthetix'
-import Decimal from 'decimal.js'
 import { makeConfig, Config } from './config'
 
 const customParams = {
@@ -17,15 +19,12 @@ type Synth = {
   inverted: Record<string, any>
 }
 
-type Allocations = {
-  components: string[]
-  units: string[]
-}
-
-const makeAllocations = (synth: Synth): Allocations => {
-  const components = synth.index.map((i) => i.asset)
-  const units = synth.index.map((i) => new Decimal(i.units).mul(1e18).toString())
-  return { components, units }
+const getAllocations = (synth: Synth): types.TokenAllocations => {
+  return synth.index.map((index) => ({
+    symbol: index.asset,
+    balance: index.units,
+    decimals: 0,
+  }))
 }
 
 export const execute = async (input: AdapterRequest, config: Config): Promise<AdapterResponse> => {
@@ -45,13 +44,9 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
     return Requester.errored(jobID, new Error('Synth not found'))
   }
 
-  const allocations = makeAllocations(synth)
-
-  const tokenAllocationExecute = TokenAllocation.makeExecute()
-
-  return await tokenAllocationExecute({
-    data: { ...input.data, ...allocations },
-  })
+  const allocations = getAllocations(synth)
+  const _execute = tokenAllocationMakeExecute()
+  return await _execute({ id: validator.validated.id, data: { ...input.data, allocations } })
 }
 
 export const makeExecute = (config?: Config): Execute => {
