@@ -39,20 +39,6 @@ deps: clean
 build:
 	npx @vercel/ncc@0.25.1 build $(adapter) -o $(adapter)/dist
 
-clean-synth-index:
-	rm -rf synth-index/$(adapter)/dist
-
-build-synth-index:
-	cp synth-index/adapter.js synth-index/$(adapter)
-	npx @vercel/ncc@0.25.1 build synth-index/$(adapter) -o synth-index/$(adapter)/dist
-	rm synth-index/$(adapter)/adapter.js
-
-docker-synth-index:
-	docker build --no-cache --build-arg adapter=$(adapter) -f Dockerfile-SynthIndex . -t $(repo)synth-index-$(adapter)-adapter
-
-zip-synth-index: deps clean-synth-index build-synth-index
-	(cd synth-index/$(adapter)/dist && zip -r synth-index-$(adapter)-adapter.zip index.js)
-
 clean-2-step:
 	rm -rf 2-step/$(adapter)
 

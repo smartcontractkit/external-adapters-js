@@ -115,25 +115,8 @@
       "apy-finance",
       "crypto-volatility-index",
       "bitcoin-json-rpc",
-      "token-allocation"
-    ]
-  },
-  "synth-index": {
-    "docker": "make docker-synth-index adapter=__ADAPTER__",
-    "cmd": "make zip-synth-index adapter=__ADAPTER__",
-    "asset_path": "./synth-index/__ADAPTER__/dist/synth-index-__ADAPTER__-adapter.zip",
-    "asset_name": "synth-index-__ADAPTER__-adapter.zip",
-    "image_name": "synth-index-__ADAPTER__-adapter",
-    "adapter": [
-      "amberdata",
-      "bravenewcoin",
-      "coinapi",
-      "coingecko",
-      "coinmarketcap",
-      "coinpaprika",
-      "cryptocompare",
-      "kaiko",
-      "nomics"
+      "token-allocation",
+      "synth-index"
     ]
   }
 }

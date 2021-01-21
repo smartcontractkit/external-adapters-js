@@ -1,1 +1,0 @@
-# Coinpaprika Synthetix Index
