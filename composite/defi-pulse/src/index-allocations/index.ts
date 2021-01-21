@@ -36,10 +36,12 @@ export const getAllocations = async (
 
   const [addresses, balances] = await index.getAllocations(setAddress)
 
+  // Token balances are coming already normalized as 18 decimals token
   return await Promise.all(
     addresses.map(async (address: string, i: number) => ({
       balance: balances[i],
       symbol: await getSymbol(address, rpcUrl, network),
+      decimals: 18,
     })),
   )
 }
