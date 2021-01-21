@@ -98,4 +98,5 @@ declare module '@chainlink/types' {
 }
 declare module '@chainlink/ea-bootstrap'
 declare module '@chainlink/external-adapter'
+declare module 'synthetix'
 declare module 'object-path'
