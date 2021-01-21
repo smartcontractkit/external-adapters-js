@@ -1,5 +1,6 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
+import { util } from '@chainlink/ea-bootstrap'
 
 export const NAME = 'price'
 
@@ -29,11 +30,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     to_symbol: to,
     symbol: from,
     market: to,
+    apikey: util.getRandomRequiredEnv('API_KEY'),
   }
 
   const options = {
     ...config.api,
-    params: { ...config.api.params, ...params },
+    params,
   }
 
   const response = await Requester.request(options, customError)
