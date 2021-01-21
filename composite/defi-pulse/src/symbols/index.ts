@@ -42,8 +42,8 @@ let cachedDirectory: Directory
 
 export const getSymbol = async (
   address: string,
-  network: string,
   rpcUrl: string,
+  network: string,
 ): Promise<string> => {
   if (!cachedDirectory) {
     cachedDirectory = await getDirectory(network)

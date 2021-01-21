@@ -1,50 +1,8 @@
-import { Requester, Validator } from '@chainlink/external-adapter'
-import { AdapterRequest, Execute } from '@chainlink/types'
-import { util } from '@chainlink/ea-bootstrap'
-import { utils } from 'ethers'
-import { getSymbol } from './symbols'
+import { Validator } from '@chainlink/external-adapter'
+import { AdapterResponse, AdapterRequest, Execute } from '@chainlink/types'
 import { getAllocations } from './index-allocations'
-import { getPriceAdapter, PriceAdapter } from './priceAdapter'
-import Decimal from 'decimal.js'
-
-export type Index = IndexAsset[]
-
-export type IndexAsset = {
-  asset: string
-  units: Decimal
-  price?: number
-}
-
-async function makeIndex(
-  components: string[],
-  units: number[],
-  network: string,
-  rpcUrl: string,
-): Promise<Index> {
-  return await Promise.all(
-    components.map(async (component, i) => {
-      return {
-        asset: await getSymbol(component, network, rpcUrl),
-        units: new Decimal(new utils.BigNumber(units[i]).toString()).div(1e18),
-      }
-    }),
-  )
-}
-
-const calculateIndexValue = (index: Index): number => {
-  // assert all prices are set
-  const isPriceSet = (i: IndexAsset) => i.price && i.price > 0
-  if (!index.every(isPriceSet)) throw new Error('Invalid index: price not set')
-  // calculate total value
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  return index.reduce((acc, i) => acc.plus(i.units.times(i.price!)), new Decimal(0)).toNumber()
-}
-
-export const execute: Execute = async (input) => {
-  const dataProvider = util.getRequiredEnv('DATA_PROVIDER')
-  const priceAdapter = getPriceAdapter(dataProvider)
-  return await executeWithAdapters(input, priceAdapter)
-}
+import * as TokenAllocation from '@chainlink/token-allocation-adapter'
+import { makeConfig, Config } from './config'
 
 const customParams = {
   name: false,
@@ -53,26 +11,24 @@ const customParams = {
   adapter: true,
 }
 
-const executeWithAdapters = async function (input: AdapterRequest, adapter: PriceAdapter) {
+export const execute = async (input: AdapterRequest, config: Config): Promise<AdapterResponse> => {
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const asset = validator.validated.data
 
-  const rpcUrl = util.getRequiredEnv('RPC_URL')
-  const { components, units } = await getAllocations(asset.adapter, asset.address, rpcUrl)
+  const allocations = await getAllocations(
+    asset.adapter,
+    asset.address,
+    config.rpcUrl,
+    config.network,
+  )
 
-  const index = await makeIndex(components, units, 'mainnet', rpcUrl)
-
-  const priceIndex = await adapter.getPriceIndex(index, 'USD')
-  const totalValue = calculateIndexValue(priceIndex)
-
-  const response = {
-    status: 200,
-    data: { ...input.data, result: totalValue, index: priceIndex },
-  }
-  return Requester.success(jobRunID, response)
+  const _execute = TokenAllocation.makeExecute()
+  return await _execute({ id: jobRunID, data: { ...input.data, allocations } })
 }
 
-export default execute
+export const makeExecute = (config?: Config): Execute => {
+  return async (request: AdapterRequest) => execute(request, config || makeConfig())
+}
