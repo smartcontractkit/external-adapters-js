@@ -16,7 +16,8 @@
     "lint:fix": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix",
     "test": "echo \"Error: no test specified\"",
     "test:unit": "echo \"Error: no test specified\"",
-    "test:integration": "echo \"Error: no test specified\""
+    "test:integration": "echo \"Error: no test specified\"",
+    "start:jsonrpc": "node -e 'require(\"./dist/adapters/json-rpc/index.js\").server()'"
   },
   "dependencies": {
     "object-path": "^0.11.4"

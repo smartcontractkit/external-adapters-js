@@ -49,7 +49,6 @@
     "crypto-volatility-index",
     "currencylayer",
     "eodhistoricaldata",
-    "json-rpc",
     "fcsapi",
     "finnhub",
     "fixer",
