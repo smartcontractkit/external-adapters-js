@@ -6,18 +6,23 @@ The adapter calculates a Synthetix Index value in the currency selected
 
 - `DEFAULT_NETWORK` (Optional). Network to fetch the Synth Index
 
-This adapter relies on [`token-allocation`](../../token-allocation/README.md) adapter. Required `token-allocation` input params and configuration apply to this adapter as well.
+This adapter relies on [`token-allocation`](../token-allocation/README.md) adapter. Required `token-allocation` input params and configuration apply to this adapter as well.
+
+E.g. if we wish to use Coincapmarket as data provider, we should run (docker):
+```
+docker run -p 8080:8080 -e DATA_PROVIDER=coinmarketcap -e API_KEY=xxx-xxx -it synth-index-adapter:latest
+```
 
 ## Input Params
 
-- `asset`, `from`: Synthx Index asset to fetch
+- `base`, `asset` or `from`: Synthx Index asset to fetch
 - `network` (optional): Network to fetch. `mainnet` by default
 
 ```json
 {
   "jobID": "1",
   "data": {
-    "asset": "sDEFI"
+    "base": "sDEFI"
   }
 }
 ```
