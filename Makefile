@@ -33,7 +33,7 @@ deps: clean
 	yarn wsrun -mre -p @chainlink/ea-bootstrap -t setup
 	yarn wsrun -mre -p @chainlink/ea-factories -t setup
 	yarn wsrun -mre -p @chainlink/external-adapter -t setup
-	yarn wsrun -mre -p @chainlink/adapters -t setup
+	yarn wsrun -mre -p @chainlink/ea -t setup
 	yarn wsrun -mre -p @chainlink/$(if $(name),$(name),$(adapter))-adapter -t setup
 	yarn --frozen-lockfile --production
 

@@ -1,11 +1,11 @@
 {
-  "name": "@chainlink/adapters",
+  "name": "@chainlink/ea",
   "version": "0.0.1",
   "description": "Composable adapters",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/adapters/index.js",
+  "types": "dist/adapters/index.d.ts",
   "files": [
-    "dist"
+    "dist/adapters"
   ],
   "license": "MIT",
   "scripts": {
