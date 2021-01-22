@@ -1,7 +1,7 @@
 import objectPath from 'object-path'
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { Execute } from '@chainlink/types'
-import BN from 'bignumber.js'
+import { Decimal } from 'decimal.js'
 
 const inputParams = {
   reducer: true,
@@ -47,25 +47,25 @@ export const execute: Execute = async (request) => {
     throw Error(`Not every '${path}' item is a number.`)
   }
 
-  let result: BN
+  let result: Decimal
   switch (data.reducer) {
     case 'sum': {
       result = inputData.reduce((acc, val) => {
-        return acc.plus(new BN(_get(val)))
-      }, new BN(data.initialValue) || new BN(0))
+        return acc.plus(new Decimal(_get(val)))
+      }, new Decimal(data.initialValue) || new Decimal(0))
       break
     }
     case 'product': {
       result = inputData.reduce(
-        (acc, val) => acc.multipliedBy(new BN(_get(val))),
-        new BN(data.initialValue) || new BN(1),
+        (acc, val) => acc.mul(new Decimal(_get(val))),
+        new Decimal(data.initialValue) || new Decimal(1),
       )
       break
     }
     case 'average': {
       result = inputData.reduce(
-        (acc, val, _, { length }) => acc.plus(new BN(_get(val)).div(new BN(length))),
-        new BN(data.initialValue) || new BN(0),
+        (acc, val, _, { length }) => acc.plus(new Decimal(_get(val)).div(new Decimal(length))),
+        new Decimal(data.initialValue) || new Decimal(0),
       )
       break
     }
@@ -74,21 +74,21 @@ export const execute: Execute = async (request) => {
       const mid = Math.ceil(inputData.length / 2)
       result =
         inputData.length % 2 === 0
-          ? new BN(sortedData[mid]).plus(new BN(sortedData[mid - 1])).div(new BN(2))
-          : new BN(sortedData[mid - 1])
+          ? new Decimal(sortedData[mid]).plus(new Decimal(sortedData[mid - 1])).div(new Decimal(2))
+          : new Decimal(sortedData[mid - 1])
       break
     }
     case 'min': {
       result = inputData.reduce(
-        (acc, val) => BN.min(acc, new BN(_get(val))),
-        new BN(data.initialValue) || new BN(Number.MAX_VALUE),
+        (acc, val) => Decimal.min(acc, new Decimal(_get(val))),
+        new Decimal(data.initialValue) || new Decimal(Number.MAX_VALUE),
       )
       break
     }
     case 'max': {
       result = inputData.reduce(
-        (acc, val) => BN.max(acc, new BN(_get(val))),
-        new BN(data.initialValue) || new BN(Number.MIN_VALUE),
+        (acc, val) => Decimal.max(acc, new Decimal(_get(val))),
+        new Decimal(data.initialValue) || new Decimal(Number.MIN_VALUE),
       )
       break
     }

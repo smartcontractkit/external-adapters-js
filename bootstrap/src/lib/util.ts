@@ -7,7 +7,7 @@ import {
   AdapterImplementation,
 } from '@chainlink/types'
 import { v4 as uuidv4 } from 'uuid'
-import BN from 'bignumber.js'
+import { Decimal } from 'decimal.js'
 
 export const isObject = (o: unknown): boolean =>
   o !== null && typeof o === 'object' && Array.isArray(o) === false
@@ -176,7 +176,7 @@ export const convertUnits = (coin: string, amount: string, unit?: string) => {
   switch (coin.toLowerCase()) {
     case 'btc':
       // default satoshi
-      return new BN(amount).multipliedBy(10 ** 8).toString(10)
+      return new Decimal(amount).mul(10 ** 8).toString()
     default:
       return amount
   }

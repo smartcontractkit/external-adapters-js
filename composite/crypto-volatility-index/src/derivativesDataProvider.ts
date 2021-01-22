@@ -1,6 +1,6 @@
 import { AdapterError, Requester, logger } from '@chainlink/external-adapter'
 import moment from 'moment'
-import { Big } from 'big.js'
+import { Decimal } from 'decimal.js'
 
 const EXCHANGE_URL = `https://www.deribit.com/api/v2/public`
 const currencyEndpoint = `${EXCHANGE_URL}/get_index`
@@ -15,9 +15,9 @@ export type DeribitOptionDataResponse = {
 }
 
 export type OptionData = {
-  strikePrice: Big
-  midPrice: Big | undefined
-  underlyingPrice: Big
+  strikePrice: Decimal
+  midPrice: Decimal | undefined
+  underlyingPrice: Decimal
   expiration: moment.Moment
   type: string
 }
@@ -29,7 +29,7 @@ export type CurrencyDerivativesData = {
   callsE2: Array<OptionData>
   putsE1: Array<OptionData>
   putsE2: Array<OptionData>
-  exchangeRate: Big
+  exchangeRate: Decimal
 }
 
 export const getDerivativesData = async (
@@ -65,7 +65,7 @@ const getCurrencyData = async (currency: string) => {
   return Requester.validateResultNumber(response.data, path)
 }
 
-const getOptionsData = async (currency: string, exchangeRate: Big) => {
+const getOptionsData = async (currency: string, exchangeRate: Decimal) => {
   const config = {
     url: bookDataEndpoint,
     params: { currency, kind: 'option' },
@@ -144,9 +144,9 @@ function convertToOptionData(option: DeribitOptionDataResponse) {
   const { instrument_name, mid_price, underlying_price } = option
   const [, expiration, strikePrice, type] = instrument_name.split('-')
   const optionData: OptionData = {
-    strikePrice: new Big(strikePrice),
-    midPrice: mid_price ? new Big(mid_price) : undefined,
-    underlyingPrice: new Big(underlying_price),
+    strikePrice: new Decimal(strikePrice),
+    midPrice: mid_price ? new Decimal(mid_price) : undefined,
+    underlyingPrice: new Decimal(underlying_price),
     expiration: moment(expiration, 'DDMMMYY'),
     type,
   }

@@ -1,4 +1,4 @@
-import { ethers, utils } from 'ethers'
+import { BigNumber, ethers } from 'ethers'
 import registryAbi from '../abi/IRegistry.json'
 import assetAllocationAbi from '../abi/IAssetAllocation.json'
 import erc20 from '@openzeppelin/contracts/build/contracts/ERC20.json'
@@ -19,7 +19,7 @@ const getAllocations: GetAllocations = (registry, decimalsOf) => async () => {
 
   return components.map((symbol: string, i: number) => ({
     symbol,
-    balance: utils.bigNumberify(balances[i]),
+    balance: BigNumber.from(balances[i]),
     decimals: decimals[i],
   }))
 }

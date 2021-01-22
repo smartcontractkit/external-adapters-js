@@ -1,6 +1,6 @@
 import { SigmaCalculator } from '../src/sigmaCalculator'
 import { CurrencyDerivativesData, OptionData } from '../src/derivativesDataProvider'
-import { Big } from 'big.js'
+import { Decimal } from 'decimal.js'
 import moment from 'moment'
 import { expect } from 'chai'
 
@@ -14,7 +14,7 @@ describe('sigma calculator', () => {
         callsE2: [_createOptionWithStrike(500, 'C'), _createOptionWithStrike(400, 'C')],
         putsE1: [_createOptionWithStrike(400, 'P'), _createOptionWithStrike(500, 'P')],
         putsE2: [_createOptionWithStrike(400, 'P'), _createOptionWithStrike(500, 'P')],
-        exchangeRate: new Big(0),
+        exchangeRate: new Decimal(0),
       }
 
       const sigmaCalculator = new SigmaCalculator()
@@ -30,9 +30,9 @@ describe('sigma calculator', () => {
 
 function _createOptionWithStrike(strikePrice: number, type: string): OptionData {
   return {
-    strikePrice: new Big(strikePrice),
-    midPrice: new Big(0),
-    underlyingPrice: new Big(0),
+    strikePrice: new Decimal(strikePrice),
+    midPrice: new Decimal(0),
+    underlyingPrice: new Decimal(0),
     expiration: moment(),
     type,
   }
