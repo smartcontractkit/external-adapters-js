@@ -97,7 +97,7 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const { quote = 'USD' } = validator.validated.data
+  const { quote = config.defaultQuote } = validator.validated.data
   const allocations = toValidAllocations(validator.validated.data.allocations)
 
   const _success = (payload: ResponsePayload, result: number) =>
