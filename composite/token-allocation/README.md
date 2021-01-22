@@ -12,16 +12,16 @@ The adapter takes the following environment variables:
 - `DEFAULT_METHOD` (Optional): Method that will be used. Accepts `price` and `marketCap`. `price` by default.
 
 The data providers supported and their properties are as follows:
-| Data Provider | API Key Required | Supports Price | Supports MarketCap | Notes                           |
-|---------------|------------------|----------------|--------------------|---------------------------------|
-| amberdata     | Yes              | Yes            | Yes                |                                 |
-| coinapi       | Yes              | Yes            | No                 |                                 |
-| coingecko     | No               | Yes            | Yes                |                                 |
-| coinmarketcap | Yes              | Yes            | Yes                |                                 |
-| coinpaprika   | No               | Yes            | Yes                |                                 |
-| cryptocompare | Yes              | Yes            | Yes                |                                 |
-| kaiko         | Yes              | Yes            | No                 | Crypto Quotes are not supported |
-| nomics        | Yes              | Yes            | Yes                |                                 |
+| Data Provider | API Key Required   | Supports Price     | Supports MarketCap | Notes                           |
+|---------------|--------------------|--------------------|--------------------|---------------------------------|
+| amberdata     | :white_check_mark: | :white_check_mark: | :white_check_mark: |                                 |
+| coinapi       | :white_check_mark: | :white_check_mark: | :x:                |                                 |
+| coingecko     | :x:                | :white_check_mark: | :white_check_mark: |                                 |
+| coinmarketcap | :white_check_mark: | :white_check_mark: | :white_check_mark: |                                 |
+| coinpaprika   | :x:                | :white_check_mark: | :white_check_mark: |                                 |
+| cryptocompare | :white_check_mark: | :white_check_mark: | :white_check_mark: |                                 |
+| kaiko         | :white_check_mark: | :white_check_mark: | :x:                | Crypto Quotes are not supported |
+| nomics        | :white_check_mark: | :white_check_mark: | :white_check_mark: |                                 |
 
 ## Input Params
 
