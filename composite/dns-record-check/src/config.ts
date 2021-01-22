@@ -1,6 +1,6 @@
 import { Config } from '@chainlink/types'
-import { adapters } from '@chainlink/ea'
+import { dnsquery } from '@chainlink/ea'
 
 export const makeConfig = (): Config => {
-  return adapters.dnsquery.makeConfig()
+  return dnsquery.makeConfig()
 }

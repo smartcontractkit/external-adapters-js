@@ -104,5 +104,6 @@ declare module '@chainlink/types' {
   }
 }
 declare module '@chainlink/ea-bootstrap'
+declare module '@chainlink/ea'
 declare module '@chainlink/external-adapter'
 declare module 'object-path'

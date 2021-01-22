@@ -1,7 +1,7 @@
-import { default as jsonrpc } from './json-rpc/index'
-import { default as dnsquery } from '../dns-query/src/index'
+import jsonrpc from './json-rpc/'
+import * as dnsquery from '../dns-query/src/index'
 
-export const adapters = {
+export {  
   jsonrpc,
-  dnsquery,
+  dnsquery
 }

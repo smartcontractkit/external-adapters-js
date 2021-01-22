@@ -15,5 +15,5 @@
     // "**/src/**/*.ts", 
     "*.ts",
   ],
-  // "esModuleInterop": true,
+  "esModuleInterop": true,
 }
