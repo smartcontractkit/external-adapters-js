@@ -6,17 +6,22 @@ The adapter calculates the total value in the currency selected for the selected
 
 The adapter takes the following environment variables:
 
-- `DATA_PROVIDER`: Data provider to use. Some of them require an `API_KEY`(K). Options available:
-  - `amberdata` (K)
-  - `coinapi`(K)
-  - `coingecko`
-  - `coinmarketcap`(K)
-  - `coinpaprika`
-  - `cryptocompare` (K)
-  - `kaiko` (K)
-  - `nomics`(K)
+- `DATA_PROVIDER`: Data provider to use
 - `API_KEY`: For those data providers who need an api key
 - `DEFAULT_QUOTE` (Optional): Currency that the price will be fetched by default. `USD` used by default
+- `DEFAULT_METHOD` (Optional): Method that will be used. Accepts `price` and `marketCap`. `price` by default.
+
+The data providers supported and their properties are as follows:
+| Data Provider | API Key Required | Supports Price | Supports MarketCap | Notes                           |
+|---------------|------------------|----------------|--------------------|---------------------------------|
+| amberdata     | Yes              | Yes            | Yes                |                                 |
+| coinapi       | Yes              | Yes            | No                 |                                 |
+| coingecko     | No               | Yes            | Yes                |                                 |
+| coinmarketcap | Yes              | Yes            | Yes                |                                 |
+| coinpaprika   | No               | Yes            | Yes                |                                 |
+| cryptocompare | Yes              | Yes            | Yes                |                                 |
+| kaiko         | Yes              | Yes            | No                 | Crypto Quotes are not supported |
+| nomics        | Yes              | Yes            | Yes                |                                 |
 
 ## Input Params
 
@@ -25,6 +30,7 @@ The adapter takes the following environment variables:
   - `balance` (optional): Token balance. `1e18` by default
   - `decimals` (optional): Token decimals. `18` by default
 - `quote` (optional). Currency we want the price on. `DEFAULT_QUOTE` by default
+- `method` (optional). Method we want the total value calculation be based on. Accepts `price` and `marketCap`. `DEFAULT_QUOTE` by default
 
 ```json
 {
@@ -40,7 +46,9 @@ The adapter takes the following environment variables:
         "symbol": "DAI",
         "balance": "1000000000000000000"
       }
-    ]
+    ],
+    "quote": "USD",
+    "method": "price"
   }
 }
 ```
