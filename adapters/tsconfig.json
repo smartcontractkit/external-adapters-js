@@ -15,4 +15,5 @@
     // "**/src/**/*.ts", 
     "*.ts",
   ],
+  // "esModuleInterop": true,
 }
