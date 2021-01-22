@@ -39,6 +39,7 @@ export type PriceAdapter = {
 export type Config = {
   priceAdapter: PriceAdapter
   defaultMethod: string
+  defaultQuote: string
 }
 
 export const DEFAULT_TOKEN_DECIMALS = 18
@@ -49,5 +50,6 @@ export const makeConfig = (prefix = ''): Config => {
   return {
     priceAdapter: providers[dataProvider],
     defaultMethod: util.getEnv('DEFAULT_METHOD', prefix) || 'price',
+    defaultQuote: util.getEnv('DEFAULT_QUOTE') || 'USD',
   }
 }
