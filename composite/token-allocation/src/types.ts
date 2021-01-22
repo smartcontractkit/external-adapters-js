@@ -1,4 +1,4 @@
-import { BigNumberish } from 'ethers/utils'
+import { BigNumberish } from 'ethers'
 
 export type TokenAllocation = {
   symbol: string
