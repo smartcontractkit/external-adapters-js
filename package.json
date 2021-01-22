@@ -4,8 +4,7 @@
   "license": "MIT",
   "private": true,
   "workspaces": [
-    "adapters/**",
-    "composite/**",
+    "adapters",
     "ea-factories",
     "bootstrap",
     "external-adapter",
@@ -93,7 +92,8 @@
     "deribit",
     "dydx-stark",
     "iex-cloud",
-    "cfbenchmarks"
+    "cfbenchmarks",
+    "composite/**"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",

@@ -5,7 +5,3 @@ export const adapters = {
   jsonrpc,
   dnsquery,
 }
-// export const jsonrpc = {
-//   jsonrpc
-//   // dnsquery,
-// }
