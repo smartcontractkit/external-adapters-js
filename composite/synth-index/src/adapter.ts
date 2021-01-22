@@ -8,7 +8,7 @@ import snx from 'synthetix'
 import { makeConfig, Config } from './config'
 
 const customParams = {
-  asset: ['asset', 'from'],
+  base: ['base', 'asset', 'from'],
   network: false,
 }
 
@@ -32,13 +32,13 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
   if (validator.error) throw validator.error
 
   const jobID = validator.validated.jobID
-  const asset = validator.validated.data.asset.toLowerCase()
+  const base = validator.validated.data.base.toLowerCase()
   const network = validator.validated.data.network || config.defaultNetwork
 
   const synths: Synth[] = snx.getSynths({ network: network.toLowerCase() })
   const synth = synths
     .filter(({ index, inverted }) => index && !inverted)
-    .find((d) => d.name.toLowerCase() === asset)
+    .find((d) => d.name.toLowerCase() === base)
 
   if (!synth) {
     return Requester.errored(jobID, new Error('Synth not found'))

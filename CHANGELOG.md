@@ -67,7 +67,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `nomics`
   - `openexchangerates`
   - `coinmarketcap`
-- `synth-index` adapter is now a composite adapter.
+- `synth-index` adapter is now a composite adapter. Going forward there is only one instance of `synth-index` adapter built, one that you configure with the underlying data provider you wish to use.
 
 ### Removed
 
