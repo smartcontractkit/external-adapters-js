@@ -9,7 +9,7 @@ The adapter takes the following environment variables:
 - `RPC_URL`: Blockchain RPC endpoint to get the needed on-chain data
 - `REGISTRY_ADDRESS`: Address Registry contract address used to query the Chainlink Registry
 
-This adapter relies on [`token-allocation`](../../token-allocation/README.md) adapter. Required `token-allocation` input params and configuration apply to this adapter as well.
+This adapter relies on [`token-allocation`](../token-allocation/README.md) adapter. Required `token-allocation` input params and configuration apply to this adapter as well.
 
 ## Output
 
