@@ -134,7 +134,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
       const jobID = '1'
 
       const assertions = (request: any, response: any) => {
-        const numAddr = request?.testData?.data?.addresses.length
+        const numAddr = request?.testData?.data?.result.length
         assert.isAbove(Number(response.data.result.length), 0)
         assert.isAbove(Number(response.result.length), 0)
         assert.equal(Number(response.data.result.length), numAddr)
@@ -211,7 +211,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
       const jobID = '1'
 
       const assertions = (request: any, response: any) => {
-        const numAddr = request?.testData?.data?.addresses.length
+        const numAddr = request?.testData?.data?.result.length
         assert.isAbove(Number(response.data.result.length), 0)
         assert.isAbove(Number(response.result.length), 0)
         assert.equal(Number(response.data.result.length), numAddr)
@@ -248,7 +248,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
       const jobID = '1'
 
       const assertions = (request: any, response: any) => {
-        const numAddr = request?.testData?.data?.addresses.length
+        const numAddr = request?.testData?.data?.result.length
         assert.isAbove(Number(response.data.result.length), 0)
         assert.isAbove(Number(response.result.length), 0)
         assert.equal(Number(response.data.result.length), numAddr)
@@ -285,7 +285,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
       const jobID = '1'
 
       const assertions = (request: any, response: any) => {
-        const numAddr = request?.testData?.data?.addresses.length
+        const numAddr = request?.testData?.data?.result.length
         assert.isAbove(Number(response.data.result.length), 0)
         assert.isAbove(Number(response.result.length), 0)
         assert.equal(Number(response.data.result.length), numAddr)
@@ -322,7 +322,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
       const jobID = '1'
 
       const assertions = (request: any, response: any) => {
-        const numAddr = request?.testData?.data?.addresses.length
+        const numAddr = request?.testData?.data?.result.length
         assert.isAbove(Number(response.data.result.length), 0)
         assert.isAbove(Number(response.result.length), 0)
         assert.equal(Number(response.data.result.length), numAddr)
@@ -359,7 +359,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
       const jobID = '1'
 
       const assertions = (request: any, response: any) => {
-        const numAddr = request?.testData?.data?.addresses.length
+        const numAddr = request?.testData?.data?.result.length
         assert.isAbove(Number(response.data.result.length), 0)
         assert.isAbove(Number(response.result.length), 0)
         assert.equal(Number(response.data.result.length), numAddr)
@@ -396,7 +396,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
       const jobID = '1'
 
       const assertions = (request: any, response: any) => {
-        const numAddr = request?.testData?.data?.addresses.length
+        const numAddr = request?.testData?.data?.result.length
         assert.isAbove(Number(response.data.result.length), 0)
         assert.isAbove(Number(response.result.length), 0)
         assert.equal(Number(response.data.result.length), numAddr)
@@ -433,7 +433,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
       const jobID = '1'
 
       const assertions = (request: any, response: any) => {
-        const numAddr = request?.testData?.data?.addresses.length
+        const numAddr = request?.testData?.data?.result.length
         assert.isAbove(Number(response.data.result.length), 0)
         assert.isAbove(Number(response.result.length), 0)
         assert.equal(Number(response.data.result.length), numAddr)
@@ -470,7 +470,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
       const jobID = '1'
 
       const assertions = (request: any, response: any) => {
-        const numAddr = request?.testData?.data?.addresses.length
+        const numAddr = request?.testData?.data?.result.length
         assert.isAbove(Number(response.data.result.length), 0)
         assert.isAbove(Number(response.result.length), 0)
         assert.equal(Number(response.data.result.length), numAddr)
@@ -507,7 +507,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
       const jobID = '1'
 
       const assertions = (request: any, response: any) => {
-        const numAddr = request?.testData?.data?.addresses.length
+        const numAddr = request?.testData?.data?.result.length
         assert.isAbove(Number(response.data.result.length), 0)
         assert.isAbove(Number(response.result.length), 0)
         assert.equal(Number(response.data.result.length), numAddr)
@@ -544,7 +544,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
       const jobID = '1'
 
       const assertions = (request: any, response: any) => {
-        const numAddr = request?.testData?.data?.addresses.length
+        const numAddr = request?.testData?.data?.result.length
         assert.isAbove(Number(response.data.result.length), 0)
         assert.isAbove(Number(response.result.length), 0)
         assert.equal(Number(response.data.result.length), numAddr)
@@ -581,7 +581,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
       const jobID = '1'
 
       const assertions = (request: any, response: any) => {
-        const numAddr = request?.testData?.data?.addresses.length
+        const numAddr = request?.testData?.data?.result.length
         assert.isAbove(Number(response.data.result.length), 0)
         assert.isAbove(Number(response.result.length), 0)
         assert.equal(Number(response.data.result.length), numAddr)
@@ -618,7 +618,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
       const jobID = '1'
 
       const assertions = (request: any, response: any) => {
-        const numAddr = request?.testData?.data?.addresses.length
+        const numAddr = request?.testData?.data?.result.length
         assert.isAbove(Number(response.data.result.length), 0)
         assert.isAbove(Number(response.result.length), 0)
         assert.equal(Number(response.data.result.length), numAddr)
@@ -655,7 +655,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
       const jobID = '1'
 
       const assertions = (request: any, response: any) => {
-        const numAddr = request?.testData?.data?.addresses.length
+        const numAddr = request?.testData?.data?.result.length
         assert.isAbove(Number(response.data.result.length), 0)
         assert.isAbove(Number(response.result.length), 0)
         assert.equal(Number(response.data.result.length), numAddr)
@@ -692,7 +692,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
       const jobID = '1'
 
       const assertions = (request: any, response: any) => {
-        const numAddr = request?.testData?.data?.addresses.length
+        const numAddr = request?.testData?.data?.result.length
         assert.isAbove(Number(response.data.result.length), 0)
         assert.isAbove(Number(response.result.length), 0)
         assert.equal(Number(response.data.result.length), numAddr)
@@ -729,7 +729,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
       const jobID = '1'
 
       const assertions = (request: any, response: any) => {
-        const numAddr = request?.testData?.data?.addresses.length
+        const numAddr = request?.testData?.data?.result.length
         assert.isAbove(Number(response.data.result.length), 0)
         assert.isAbove(Number(response.result.length), 0)
         assert.equal(Number(response.data.result.length), numAddr)
@@ -766,7 +766,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
       const jobID = '1'
 
       const assertions = (request: any, response: any) => {
-        const numAddr = request?.testData?.data?.addresses.length
+        const numAddr = request?.testData?.data?.result.length
         assert.isAbove(Number(response.data.result.length), 0)
         assert.isAbove(Number(response.result.length), 0)
         assert.equal(Number(response.data.result.length), numAddr)
@@ -803,7 +803,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
       const jobID = '1'
 
       const assertions = (request: any, response: any) => {
-        const numAddr = request?.testData?.data?.addresses.length
+        const numAddr = request?.testData?.data?.result.length
         assert.isAbove(Number(response.data.result.length), 0)
         assert.isAbove(Number(response.result.length), 0)
         assert.equal(Number(response.data.result.length), numAddr)
@@ -840,7 +840,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
       const jobID = '1'
 
       const assertions = (request: any, response: any) => {
-        const numAddr = request?.testData?.data?.addresses.length
+        const numAddr = request?.testData?.data?.result.length
         assert.isAbove(Number(response.data.result.length), 0)
         assert.isAbove(Number(response.result.length), 0)
         assert.equal(Number(response.data.result.length), numAddr)
@@ -877,7 +877,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
       const jobID = '1'
 
       const assertions = (request: any, response: any) => {
-        const numAddr = request?.testData?.data?.addresses.length
+        const numAddr = request?.testData?.data?.result.length
         assert.isAbove(Number(response.data.result.length), 0)
         assert.isAbove(Number(response.result.length), 0)
         assert.equal(Number(response.data.result.length), numAddr)
@@ -914,7 +914,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
       const jobID = '1'
 
       const assertions = (request: any, response: any) => {
-        const numAddr = request?.testData?.data?.addresses.length
+        const numAddr = request?.testData?.data?.result.length
         assert.isAbove(Number(response.data.result.length), 0)
         assert.isAbove(Number(response.result.length), 0)
         assert.equal(Number(response.data.result.length), numAddr)
