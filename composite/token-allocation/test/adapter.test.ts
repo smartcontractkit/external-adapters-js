@@ -5,7 +5,7 @@ import { AdapterRequest } from '@chainlink/types'
 import { makeExecute, priceTotalValue } from '../src/adapter'
 import { makeConfig } from '../src/config'
 import { TokenAllocations } from '../src/types'
-import { BigNumber } from 'ethers/utils'
+import { BigNumber } from 'ethers'
 
 describe('execute', () => {
   const jobID = '1'
@@ -89,7 +89,7 @@ describe('execute', () => {
       },
       {
         symbol: 'DAI',
-        balance: new BigNumber('1000000000000000000'),
+        balance: BigNumber.from('1000000000000000000'),
         decimals: 18,
       },
     ]

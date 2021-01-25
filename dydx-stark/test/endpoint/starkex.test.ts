@@ -135,8 +135,8 @@ describe('starkex', () => {
         name: 'Error: price number over max safe number',
         testData: {
           price: Number.MAX_SAFE_INTEGER + 1,
-          expected: undefined,
-          error: true,
+          expected: '9007199254740992000000000000000000',
+          error: false,
         },
       },
       {
@@ -215,8 +215,8 @@ describe('starkex', () => {
         name: 'Error: price string with more than 18 decimals',
         testData: {
           price: '0.0000000000000000001',
-          expected: undefined,
-          error: true,
+          expected: '0', // TODO: can we detect precision loss and throw?
+          error: false,
         },
       },
     ]
