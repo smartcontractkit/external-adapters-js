@@ -5,6 +5,7 @@
   "private": true,
   "workspaces": [
     "adapters",
+    "examples",
     "ea-factories",
     "bootstrap",
     "external-adapter",

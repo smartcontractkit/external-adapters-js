@@ -1,7 +1,7 @@
 {
   "name": "@chainlink/ea",
   "version": "0.0.1",
-  "description": "Composable adapters",
+  "description": "External adapters",
   "main": "dist/adapters/index.js",
   "types": "dist/adapters/index.d.ts",
   "files": [
@@ -18,10 +18,14 @@
     "test:unit": "echo \"Error: no test specified\"",
     "test:integration": "echo \"Error: no test specified\"",
     "start:jsonrpc": "node -e 'require(\"./dist/adapters/index.js\").jsonrpc.handlers.server()'",
-    "start:dnsquery": "node -e 'require(\"./dist/adapters/index.js\").dnsquery.handlers.server()'"
+    "start:dnsquery": "node -e 'require(\"./dist/adapters/index.js\").dnsquery.handlers.server()'",
+    "start:cryptoapis": "node -e 'require(\"./dist/adapters/index.js\").cryptoapis.handlers.server()'"
   },
   "dependencies": {
-    "object-path": "^0.11.4"
+    "object-path": "^0.11.4",
+    "@chainlink/ea-bootstrap": "^0.1.4",
+    "@chainlink/ea-factories": "^0.0.1",
+    "@chainlink/external-adapter": "^0.2.7"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^3.9.0",

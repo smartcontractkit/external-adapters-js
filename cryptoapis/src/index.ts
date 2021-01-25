@@ -3,5 +3,5 @@ import { makeExecute } from './adapter'
 import { makeConfig } from './config'
 
 const NAME = 'CRYPTOAPIS'
-
-export = { NAME, makeExecute, makeConfig, ...expose(util.wrapExecute(makeExecute())) }
+const handlers = expose(util.wrapExecute(makeExecute()))
+export { NAME, makeExecute, makeConfig, handlers }
