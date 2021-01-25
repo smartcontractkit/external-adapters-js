@@ -29,3 +29,5 @@
    "statusCode":200
 }
 ```
+## To Test
+ curl -s --header "Content-Type: application/json" --request POST --data '{"data":{"symbol":"ETH","result":"twentyEightDayIv"}}' 127.0.0.1:EA_Listening_port
