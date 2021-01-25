@@ -3,6 +3,7 @@ import { ethers, BigNumber } from 'ethers'
 import * as starkwareCrypto from '@authereum/starkware-crypto'
 import { AdapterError } from '@chainlink/external-adapter'
 import { Decimal } from 'decimal.js'
+import { logger } from '@chainlink/external-adapter'
 
 export type PriceDataPoint = {
   oracleName: string
@@ -21,22 +22,12 @@ const MAX_DECIMALS = 18
 
 const ZERO_BN = BigNumber.from('0')
 const TWO_BN = BigNumber.from('2')
-const TEN_DEC = new Decimal('10')
 
 const powOfTwo = (num: number) => TWO_BN.pow(BigNumber.from(num))
-const powOfTenDec = (num: number) => TEN_DEC.pow(new Decimal(num))
-
-const hexToBn = (hex: string): BigNumber => {
-  if (hex.substr(0, 2) !== '0x') {
-    hex = '0x' + hex
-  }
-  return BigNumber.from(hex)
-}
 
 const ERROR_MSG_PRICE_NEGATIVE = 'Price must be a positive number.'
 const ERROR_MSG_PRICE_PRECISION_LOSS =
   'Please use string type to avoid precision loss with very small/big numbers.'
-const ERROR_MSG_PRICE_MAX_DECIMALS = 'Price has too many decimals.'
 
 const error400 = (message: string) => new AdapterError({ message, statusCode: 400 })
 
@@ -56,42 +47,15 @@ export const requireNormalizedPrice = (price: number | string): string => {
   }
 
   // Check if there is any loss of precision
+  const msg = `${ERROR_MSG_PRICE_PRECISION_LOSS} Got: ${price}.`
   if (typeof price === 'number') {
     // TODO: more precision loss detection with floats
     const overSafeValue = price > Number.MAX_SAFE_INTEGER
-    if (overSafeValue) {
-      throw error400(`${ERROR_MSG_PRICE_PRECISION_LOSS} Got: ${price}.`)
-    }
+    if (overSafeValue) logger.warn(msg)
   }
 
-  // Convert number to decimal string (no scientific notation)
-  const _toString = (n: number) => {
-    const nStr = n.toString()
-    const isScientificNotation = nStr.indexOf('e') !== -1
-    if (!isScientificNotation) return nStr
-    return (
-      n
-        .toFixed(MAX_DECIMALS)
-        // remove trailing zeros
-        .replace(/(\.\d*?[1-9])0+$/g, '$1')
-        // remove decimal part if all zeros (or only decimal point)
-        .replace(/\.0*$/g, '')
-    )
-  }
-
-  const priceStr = typeof price === 'number' ? _toString(price as number) : (price as string)
-  const priceStrParts = priceStr.split('.')
-  const priceBig = new Decimal(priceStrParts[0]).mul(powOfTenDec(MAX_DECIMALS))
-  const decimals = (priceStrParts[1] && priceStrParts[1].length) || 0
-
-  if (decimals === 0) return priceBig.toFixed()
-  // Check if too many decimals
-  if (decimals > MAX_DECIMALS) {
-    throw error400(`${ERROR_MSG_PRICE_MAX_DECIMALS} Got: ${decimals}; Max: ${MAX_DECIMALS}`)
-  }
-
-  const decimalValBig = new Decimal(priceStrParts[1]).mul(powOfTenDec(MAX_DECIMALS - decimals))
-  return priceBig.add(decimalValBig).toFixed()
+  const _powOfTen = (num: number) => new Decimal(10).pow(num)
+  return new Decimal(price).mul(_powOfTen(MAX_DECIMALS)).toFixed(0)
 }
 
 /**
@@ -145,9 +109,9 @@ export const getKeyPair = async (
   const hash = ethers.utils.keccak256(flatSig)
 
   // 3. Cut the last 5 bits of it to get your 251-bit-long private stark key
-  const pk = BigNumber.from(hexToBn(hash)).shr(5).toHexString()
+  const pk = BigNumber.from(hash).shr(5).toHexString().substr(2)
 
-  return starkwareCrypto.getKeyPair(pk.substr(2))
+  return starkwareCrypto.getKeyPair(pk)
 }
 
 /**
@@ -157,13 +121,13 @@ export const getKeyPair = async (
  */
 export const getPriceMessage = (data: PriceDataPoint): BigNumber => {
   // padded to 40 bit
-  const hexOracleName = Buffer.from(data.oracleName).toString('hex').padEnd(10, '0')
+  const hexOracleName = '0x' + Buffer.from(data.oracleName).toString('hex').padEnd(10, '0')
   // padded to 128 bit
-  const hexAssetName = Buffer.from(data.assetName).toString('hex').padEnd(32, '0')
+  const hexAssetName = '0x' + Buffer.from(data.assetName).toString('hex').padEnd(32, '0')
 
   return getPriceMessageRaw(
-    hexToBn(hexOracleName),
-    hexToBn(hexAssetName),
+    BigNumber.from(hexOracleName),
+    BigNumber.from(hexAssetName),
     BigNumber.from(data.timestamp),
     BigNumber.from(data.price),
   )
@@ -213,9 +177,9 @@ const getPriceMessageRaw = (
   // The second number is timestamp in the 32 LSB, then the price.
   const second_number = price.shl(32).add(timestamp)
 
-  const w1 = first_number.toHexString()
-  const w2 = second_number.toHexString()
-  const hash = starkwareCrypto.hashMessage([w1.substr(2), w2.substr(2)])
+  const w1 = first_number.toHexString().substr(2)
+  const w2 = second_number.toHexString().substr(2)
+  const hash = starkwareCrypto.hashMessage([w1, w2])
 
-  return hexToBn(hash)
+  return BigNumber.from('0x' + hash)
 }
