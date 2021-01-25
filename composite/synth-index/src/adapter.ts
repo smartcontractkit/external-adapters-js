@@ -1,12 +1,9 @@
 import { Validator, AdapterError } from '@chainlink/external-adapter'
 import { AdapterResponse, Execute, AdapterRequest } from '@chainlink/types'
-import {
-  types,
-  makeExecute as TAMakeExecute,
-  makeConfig as TAMakeConfig,
-} from '@chainlink/token-allocation-adapter'
+import * as ta from '@chainlink/token-allocation-adapter'
 import snx from 'synthetix'
 import { makeConfig, Config } from './config'
+import Decimal from 'decimal.js'
 
 const customParams = {
   base: ['base', 'asset', 'from'],
@@ -24,12 +21,12 @@ type Synth = {
   inverted: Record<string, any>
 }
 
-const getAllocations = (synth: Synth): types.TokenAllocations => {
-  return synth.index.map((index) => ({
-    symbol: index.asset,
-    balance: index.units,
-    decimals: 0,
-  }))
+const getAllocations = (synth: Synth): ta.types.TokenAllocations => {
+  return synth.index.map((index) => {
+    const decimals = 18
+    const balance = new Decimal(index.units).mul(10 ** decimals).toString()
+    return { symbol: index.asset, balance, decimals }
+  })
 }
 
 export const execute = async (input: AdapterRequest, config: Config): Promise<AdapterResponse> => {
@@ -46,7 +43,7 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
   if (!synth) throw new AdapterError({ message: `Synth not found`, statusCode: 400 })
 
   const allocations = getAllocations(synth)
-  const _execute = TAMakeExecute(TAMakeConfig(config.dataProvider))
+  const _execute = ta.makeExecute(config.taConfig)
   return await _execute({ id: validator.validated.id, data: { ...input.data, allocations } })
 }
 

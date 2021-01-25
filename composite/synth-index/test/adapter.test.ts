@@ -2,11 +2,18 @@ import { Requester } from '@chainlink/external-adapter'
 import { assertSuccess, assertError } from '@chainlink/adapter-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
 import { makeExecute } from '../src/adapter'
-import { makeConfig } from '../src/config'
+import * as ta from '@chainlink/token-allocation-adapter'
+
+const makeMockConfig = (provider: string) => {
+  return {
+    defaultNetwork: 'mainnet',
+    taConfig: ta.makeConfig(provider),
+  }
+}
 
 describe('execute', () => {
   const jobID = '1'
-  const execute = makeExecute(makeConfig('coingecko'))
+  const execute = makeExecute(makeMockConfig('coingecko'))
 
   context('successful calls @integration', () => {
     const requests = [
@@ -71,6 +78,29 @@ describe('execute', () => {
         } catch (error) {
           const errorResp = Requester.errored(jobID, error)
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
+        }
+      })
+    })
+  })
+
+  context('succeed calls @integration', () => {
+    const requests = [
+      {
+        name: 'valid asset',
+        testData: {
+          id: jobID,
+          data: { asset: 'sDEFI' },
+        },
+      },
+    ]
+
+    requests.forEach((req) => {
+      it(`${req.name}`, async () => {
+        try {
+          await execute(req.testData as AdapterRequest)
+        } catch (error) {
+          const errorResp = Requester.errored(jobID, error)
+          assertError({ expected: 200, actual: errorResp.statusCode }, errorResp, jobID)
         }
       })
     })
