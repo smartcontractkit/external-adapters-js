@@ -17,8 +17,8 @@
     "test": "echo \"Error: no test specified\"",
     "test:unit": "echo \"Error: no test specified\"",
     "test:integration": "echo \"Error: no test specified\"",
-    "start:jsonrpc": "node -e 'require(\"./dist/json-rpc/src/index.js\").server()'",
-    "start:dnsquery": "node -e 'require(\"./dist/dns-query/src/index.js\").handlers.server()'"
+    "start:jsonrpc": "node -e 'require(\"./dist/adapters/index.js\").jsonrpc.server()'",
+    "start:dnsquery": "node -e 'require(\"./dist/adapters/index.js\").dnsquery.handlers.server()'"
   },
   "dependencies": {
     "object-path": "^0.11.4"
