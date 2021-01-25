@@ -1,21 +1,16 @@
 import { Requester, logger } from '@chainlink/external-adapter'
-import { types } from 'util'
 import { withCache, defaultOptions, redactOptions } from './lib/cache'
 import * as util from './lib/util'
 import * as server from './lib/server'
 import * as gcp from './lib/gcp'
 import * as aws from './lib/aws'
-import {
-  ExecuteSync,
-  AdapterRequest,
-  ExecuteWrappedResponse,
-  AdapterHealthCheck,
-} from '@chainlink/types'
+import { ExecuteSync, AdapterRequest, Execute, AdapterHealthCheck } from '@chainlink/types'
 
-type Middleware = (execute: ExecuteWrappedResponse) => Promise<ExecuteWrappedResponse>
+type Middleware = (execute: Execute) => Execute
+type AsyncMiddleware = (execute: Execute) => Promise<Execute>
 
 // Try to initialize, pass through on error
-const skipOnError = (middleware: Middleware) => async (execute: ExecuteWrappedResponse) => {
+const skipOnError = (middleware: Middleware | AsyncMiddleware) => async (execute: Execute) => {
   try {
     return await middleware(execute)
   } catch (error) {
@@ -25,10 +20,12 @@ const skipOnError = (middleware: Middleware) => async (execute: ExecuteWrappedRe
 }
 
 // Make sure data has the same statusCode as the one we got as a result
-const withStatusCode = (execute: ExecuteWrappedResponse) => async (data_: AdapterRequest) => {
-  const { statusCode, data } = await execute(data_)
+// Is this still neccessary?
+const withStatusCode: Middleware = (execute) => async (data_: AdapterRequest) => {
+  const { statusCode, data, ...rest } = await execute(data_)
   if (data && typeof data === 'object' && data.statusCode) {
     return {
+      ...rest,
       statusCode,
       data: {
         ...data,
@@ -37,14 +34,14 @@ const withStatusCode = (execute: ExecuteWrappedResponse) => async (data_: Adapte
     }
   }
 
-  return { statusCode, data }
+  return { ...rest, statusCode, data }
 }
 
 // Log adapter input & output data
-const withLogger = (execute: ExecuteWrappedResponse) => async (data: AdapterRequest) => {
-  logger.debug('Input: ', { input: data })
+const withLogger: Middleware = (execute) => async (input: AdapterRequest) => {
+  logger.debug('Input: ', { input })
   try {
-    const result = await execute(data)
+    const result = await execute(input)
     logger.debug(`Output: [${result.statusCode}]: `, { output: result.data })
     return result
   } catch (error) {
@@ -56,7 +53,7 @@ const withLogger = (execute: ExecuteWrappedResponse) => async (data: AdapterRequ
 const middleware = [withLogger, skipOnError(withCache), withStatusCode]
 
 // Init all middleware, and return a wrapped execute fn
-const withMiddleware = async (execute: ExecuteWrappedResponse) => {
+const withMiddleware = async (execute: Execute) => {
   // Init and wrap middleware one by one
   for (let i = 0; i < middleware.length; i++) {
     execute = await middleware[i](execute)
@@ -64,15 +61,8 @@ const withMiddleware = async (execute: ExecuteWrappedResponse) => {
   return execute
 }
 
-// Transform sync execute function to async
-const withAsync = (execute: ExecuteWrappedResponse | ExecuteSync): ExecuteWrappedResponse => {
-  // Check if execute is already a Promise
-  if (types.isAsyncFunction(execute)) return execute as ExecuteWrappedResponse
-  return (data: AdapterRequest) => util.toAsync(execute as ExecuteSync, data)
-}
-
 // Execution helper async => sync
-const executeSync = (execute: ExecuteWrappedResponse): ExecuteSync => {
+const executeSync = (execute: Execute): ExecuteSync => {
   // TODO: Try to init middleware only once
   // const initMiddleware = withMiddleware(execute)
 
@@ -86,12 +76,9 @@ const executeSync = (execute: ExecuteWrappedResponse): ExecuteSync => {
   }
 }
 
-export const expose = (
-  execute: ExecuteWrappedResponse | ExecuteSync,
-  checkHealth?: AdapterHealthCheck,
-) => {
+export const expose = (execute: Execute, checkHealth?: AdapterHealthCheck) => {
   // Add middleware to the execution flow
-  const _execute = executeSync(withAsync(execute))
+  const _execute = executeSync(execute)
   return {
     server: server.initHandler(_execute, checkHealth),
     gcpHandler: gcp.initHandler(_execute),

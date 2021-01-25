@@ -1,13 +1,6 @@
-import {
-  Execute,
-  ExecuteSync,
-  AdapterRequest,
-  AdapterResponse,
-  WrappedAdapterResponse,
-  AdapterImplementation,
-} from '@chainlink/types'
+import { AdapterImplementation } from '@chainlink/types'
 import { v4 as uuidv4 } from 'uuid'
-import { Decimal } from 'decimal.js'
+import BN from 'bignumber.js'
 
 export const isObject = (o: unknown): boolean =>
   o !== null && typeof o === 'object' && Array.isArray(o) === false
@@ -44,14 +37,6 @@ export const uuid = (): string => {
   if (!process.env.UUID) process.env.UUID = uuidv4()
   return process.env.UUID
 }
-
-export const toAsync = (
-  execute: ExecuteSync,
-  data: AdapterRequest,
-): Promise<WrappedAdapterResponse> =>
-  new Promise((resolve) =>
-    execute(data, (statusCode: number, data: AdapterResponse) => resolve({ statusCode, data })),
-  )
 
 export const delay = (ms: number): Promise<number> =>
   new Promise((resolve) => setTimeout(resolve, ms))
@@ -128,18 +113,6 @@ export const getRequiredEnv = (name: string, prefix = ''): string => {
   return val
 }
 
-// TODO: clean this ASAP
-// @see WrappedAdapterResponse
-export const wrapExecute = (execute: Execute) => async (
-  request: AdapterRequest,
-): Promise<WrappedAdapterResponse> => {
-  const resp = await execute(request)
-  return {
-    statusCode: resp.statusCode,
-    data: resp,
-  }
-}
-
 /**
  * @description
  * Takes an Array<V>, and a grouping function,
@@ -174,15 +147,18 @@ export const byName = (name?: string) => (a: AdapterImplementation): boolean =>
   a.NAME.toUpperCase() === name?.toUpperCase()
 
 /**
- * Covert number to max number of decimals, trim trailing zeros
+ * Converts a given coin to different unit decimal places
  *
- * @param num number to convert to fixed max number of decimals
- * @param decimals max number of decimals
+ * @param coin string of coin ticker name
+ * @param amount string of a number value
+ * @param unit optional string name of unit to convert to
  */
-export const toFixedMax = (num: number | string | Decimal, decimals: number): string =>
-  new Decimal(num)
-    .toFixed(decimals)
-    // remove trailing zeros
-    .replace(/(\.\d*?[1-9])0+$/g, '$1')
-    // remove decimal part if all zeros (or only decimal point)
-    .replace(/\.0*$/g, '')
+export const convertUnits = (coin: string, amount: string, unit?: string) => {
+  switch (coin.toLowerCase()) {
+    case 'btc':
+      // default satoshi
+      return new BN(amount).multipliedBy(10 ** 8).toString(10)
+    default:
+      return amount
+  }
+}

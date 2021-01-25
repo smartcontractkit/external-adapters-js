@@ -3,7 +3,7 @@ import hash from 'object-hash'
 import * as local from './local'
 import * as redis from './redis'
 import { parseBool, uuid, delay, exponentialBackOffMs, getWithCoalescing } from '../util'
-import { ExecuteWrappedResponse, AdapterRequest, WrappedAdapterResponse } from '@chainlink/types'
+import { Execute, AdapterRequest, AdapterResponse } from '@chainlink/types'
 import { RedisOptions } from './redis'
 
 const DEFAULT_CACHE_TYPE = 'local'
@@ -70,10 +70,9 @@ export const redactOptions = (options: CacheOptions) => ({
       : local.redactOptions(options.cacheOptions),
 })
 
-export const withCache = async (
-  execute: ExecuteWrappedResponse,
-  options: CacheOptions = defaultOptions(),
-) => {
+export const withCache = async (execute: Execute): Promise<Execute> => {
+  const options = defaultOptions()
+
   // If disabled noop
   if (!options.enabled) return (data: AdapterRequest) => execute(data)
 
@@ -110,7 +109,7 @@ export const withCache = async (
     const coalescingKey = _getCoalescingKey(key)
     const maxAge = _getMaxAge(data)
     // Add successful result to cache
-    const _cacheOnSuccess = async ({ statusCode, data }: WrappedAdapterResponse) => {
+    const _cacheOnSuccess = async ({ statusCode, data }: AdapterResponse) => {
       if (statusCode === 200) {
         const entry = { statusCode, data, maxAge }
         await cache.set(key, entry, maxAge)
