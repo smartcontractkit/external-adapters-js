@@ -16,8 +16,10 @@ const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const { record } = validator.validated.data
   const dnsExecute = dnsquery.makeExecute(config)
   const dnsResponse = await dnsExecute(input)
-  const dnsData: dnsquery.DNSQueryResponse = { ...dnsResponse.data }
-  const foundRecord = dnsData.Answer.find((ans: dnsquery.DNSAnswer) => ans.data.includes(record))
+  const dnsData: dnsquery.types.DNSQueryResponse = { ...dnsResponse.data }
+  const foundRecord = dnsData.Answer.find((ans: dnsquery.types.DNSAnswer) =>
+    ans.data.includes(record),
+  )
 
   return Requester.success(jobRunID, {
     status: 200,

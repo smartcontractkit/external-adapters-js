@@ -88,6 +88,7 @@
     "helpers/reference-data-reader",
     "dns-query",
     "dns-record-check",
+    "json-rpc",
     "paxos",
     "deribit",
     "dydx-stark",

@@ -1,4 +1,5 @@
 {
+  "name": "@chainlink/json-rpc-adapter",
   "version": "0.0.1",
   "description": "",
   "author": "Thomas Hodges (thomas@smartcontract.com)",
@@ -12,8 +13,8 @@
     "prepublishOnly": "yarn build && yarn test:unit",
     "setup": "yarn build",
     "build": "tsc -b",
-    "lint": "eslint --ignore-path ../../.eslintignore . --ext .js,.jsx,.ts,.tsx",
-    "lint:fix": "eslint --ignore-path ../../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix",
+    "lint": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix",
     "test": "mocha --exit -r ts-node/register 'test/**/*.test.ts'",
     "test:unit": "mocha --exit --grep @integration --invert -r ts-node/register 'test/**/*.test.ts'",
     "test:integration": "mocha --exit --grep @integration -r ts-node/register 'test/**/*.test.ts'",

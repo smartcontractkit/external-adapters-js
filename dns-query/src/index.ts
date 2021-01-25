@@ -1,14 +1,9 @@
 import { expose, util } from '@chainlink/ea-bootstrap'
 import { makeExecute } from './adapter'
 import { makeConfig } from './config'
-export * from './types'
+export * as types from './types'
 
 const NAME = 'DNS-Query'
-
-export {
-  NAME,
-  makeConfig,
-  makeExecute,
-  // TODO:: export the following as well
-  //   ...expose(util.wrapExecute(makeExecute())),
-}
+//TODO: can this be handled better? Are exposed handler types available?
+const handlers = expose(util.wrapExecute(makeExecute()))
+export { NAME, makeConfig, makeExecute, handlers }

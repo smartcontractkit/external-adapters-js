@@ -1,4 +1,4 @@
-import jsonrpc from './json-rpc/'
-import * as dnsquery from '../dns-query/src/index'
+import * as dnsquery from '../dns-query/src'
+import jsonrpc from '../json-rpc/src/index'
 
 export { jsonrpc, dnsquery }
