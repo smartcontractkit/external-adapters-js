@@ -1,8 +1,9 @@
-import { Validator, Requester } from '@chainlink/external-adapter'
+import { Validator, AdapterError } from '@chainlink/external-adapter'
 import { AdapterResponse, Execute, AdapterRequest } from '@chainlink/types'
 import {
   types,
-  makeExecute as tokenAllocationMakeExecute,
+  makeExecute as TAMakeExecute,
+  makeConfig as TAMakeConfig,
 } from '@chainlink/token-allocation-adapter'
 import snx from 'synthetix'
 import { makeConfig, Config } from './config'
@@ -15,7 +16,11 @@ const customParams = {
 type Synth = {
   name: string
   asset: string
-  index: any[]
+  index: {
+    asset: string
+    category: string
+    units: number
+  }[]
   inverted: Record<string, any>
 }
 
@@ -31,21 +36,17 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
 
-  const jobID = validator.validated.jobID
-  const base = validator.validated.data.base.toLowerCase()
-  const network = validator.validated.data.network || config.defaultNetwork
+  const { base, network = config.defaultNetwork } = validator.validated.data
 
   const synths: Synth[] = snx.getSynths({ network: network.toLowerCase() })
   const synth = synths
     .filter(({ index, inverted }) => index && !inverted)
-    .find((d) => d.name.toLowerCase() === base)
+    .find((d) => d.name.toLowerCase() === base.toLowerCase())
 
-  if (!synth) {
-    return Requester.errored(jobID, new Error('Synth not found'))
-  }
+  if (!synth) throw new AdapterError({ message: `Synth not found`, statusCode: 400 })
 
   const allocations = getAllocations(synth)
-  const _execute = tokenAllocationMakeExecute()
+  const _execute = TAMakeExecute(TAMakeConfig(config.dataProvider))
   return await _execute({ id: validator.validated.id, data: { ...input.data, allocations } })
 }
 

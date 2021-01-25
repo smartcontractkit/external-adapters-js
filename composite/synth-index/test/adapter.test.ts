@@ -6,8 +6,7 @@ import { makeConfig } from '../src/config'
 
 describe('execute', () => {
   const jobID = '1'
-  process.env.DATA_PROVIDER = 'coingecko'
-  const execute = makeExecute(makeConfig())
+  const execute = makeExecute(makeConfig('coingecko'))
 
   context('successful calls @integration', () => {
     const requests = [
@@ -71,7 +70,7 @@ describe('execute', () => {
           await execute(req.testData as AdapterRequest)
         } catch (error) {
           const errorResp = Requester.errored(jobID, error)
-          assertError({ expected: 500, actual: errorResp.statusCode }, errorResp, jobID)
+          assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
         }
       })
     })
