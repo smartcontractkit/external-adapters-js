@@ -2,7 +2,7 @@ import { Requester, Validator } from '@chainlink/external-adapter'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 import { util } from '@chainlink/ea-bootstrap'
 
-export const Name = 'ethgasAPI'
+export const NAME = 'ethgasAPI'
 
 const customError = (data: any) => data.Response === 'Error'
 

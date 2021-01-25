@@ -17,7 +17,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
 
   switch (endpoint) {
-    case convert.Name: {
+    case convert.NAME: {
       return await convert.execute(request, config)
     }
     default: {

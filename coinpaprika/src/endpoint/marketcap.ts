@@ -1,7 +1,7 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 
-export const Name = 'globalmarketcap'
+export const NAME = 'globalmarketcap'
 
 const inputParams = {
   market: ['market', 'to', 'quote'],

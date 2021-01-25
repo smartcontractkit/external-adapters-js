@@ -17,13 +17,13 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
 
   switch (endpoint) {
-    case price.Name: {
+    case price.NAME: {
       return await price.execute(request, config)
     }
-    case dominance.Name: {
+    case dominance.NAME: {
       return await dominance.execute(request, config)
     }
-    case marketcap.Name: {
+    case marketcap.NAME: {
       return await marketcap.execute(request, config)
     }
     default: {

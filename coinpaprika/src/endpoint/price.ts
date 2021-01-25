@@ -1,7 +1,7 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 
-export const Name = 'price'
+export const NAME = 'price'
 
 const inputParams = {
   base: ['base', 'from', 'coin'],

@@ -1,7 +1,7 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 
-export const Name = 'gasPriceOracle'
+export const NAME = 'gasPriceOracle'
 
 const customError = (data: any) => data.Response === 'Error'
 
