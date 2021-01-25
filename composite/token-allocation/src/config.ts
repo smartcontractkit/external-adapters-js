@@ -45,8 +45,8 @@ export type Config = {
 export const DEFAULT_TOKEN_DECIMALS = 18
 export const DEFAULT_TOKEN_BALANCE = 1
 
-export const makeConfig = (prefix = ''): Config => {
-  const dataProvider = util.getRequiredEnv('DATA_PROVIDER', prefix)
+export const makeConfig = (provider = '', prefix = ''): Config => {
+  const dataProvider = provider || util.getRequiredEnv('DATA_PROVIDER', prefix)
   return {
     priceAdapter: providers[dataProvider],
     defaultMethod: util.getEnv('DEFAULT_METHOD', prefix) || 'price',

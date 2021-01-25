@@ -4,6 +4,7 @@ import { Config, DEFAULT_TOKEN_BALANCE, DEFAULT_TOKEN_DECIMALS, makeConfig } fro
 import { TokenAllocations, ResponsePayload } from './types'
 import { Decimal } from 'decimal.js'
 import { AdapterError } from '@chainlink/external-adapter'
+import { BigNumberish } from 'ethers/utils'
 
 export const priceTotalValue = (
   allocations: TokenAllocations,
@@ -38,12 +39,29 @@ export const marketCapTotalValue = (
 const toValidAllocations = (allocations: TokenAllocations): TokenAllocations => {
   if (!allocations.every((t) => !!t.symbol))
     throw new AdapterError({ message: `Symbol not available for all tokens.`, statusCode: 400 })
+
+  const _toValidDecimals = (decimals: number) =>
+    Number.isInteger(decimals) && decimals >= 0 ? decimals : DEFAULT_TOKEN_DECIMALS
+  const _toValidBalance = (balance: BigNumberish, decimals: number) => {
+    if (!balance) {
+      return DEFAULT_TOKEN_BALANCE * 10 ** decimals
+    }
+    if (!Number(balance)) {
+      throw new AdapterError({
+        message: `Invalid balance`,
+        statusCode: 400,
+      })
+    }
+    if (Number(balance) < 0)
+      throw new AdapterError({ message: `Balance cannot be negative.`, statusCode: 400 })
+    return balance
+  }
   return allocations.map((t) => {
-    const decimals = Number.isInteger(t.decimals) ? t.decimals : DEFAULT_TOKEN_DECIMALS
+    const decimals = _toValidDecimals(t.decimals)
     return {
       symbol: t.symbol.toUpperCase(),
       decimals,
-      balance: t.balance || DEFAULT_TOKEN_BALANCE * 10 ** decimals,
+      balance: _toValidBalance(t.balance, decimals),
     }
   })
 }
