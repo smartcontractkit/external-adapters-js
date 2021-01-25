@@ -1,10 +1,10 @@
 import { AdapterResponse, Execute, AdapterRequest } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { Config, DEFAULT_TOKEN_BALANCE, DEFAULT_TOKEN_DECIMALS, makeConfig } from './config'
-import { TokenAllocations, ResponsePayload } from './types'
+import { DEFAULT_TOKEN_BALANCE, DEFAULT_TOKEN_DECIMALS, makeConfig } from './config'
+import { TokenAllocations, ResponsePayload, Config } from './types'
 import { Decimal } from 'decimal.js'
 import { AdapterError } from '@chainlink/external-adapter'
-import { BigNumberish } from 'ethers/utils'
+import { BigNumber } from 'ethers'
 
 export const priceTotalValue = (
   allocations: TokenAllocations,
@@ -36,30 +36,32 @@ export const marketCapTotalValue = (
     .toNumber()
 }
 
-const toValidAllocations = (allocations: TokenAllocations): TokenAllocations => {
-  if (!allocations.every((t) => !!t.symbol))
-    throw new AdapterError({ message: `Symbol not available for all tokens.`, statusCode: 400 })
-
-  const _toValidDecimals = (decimals: number) =>
-    Number.isInteger(decimals) && decimals >= 0 ? decimals : DEFAULT_TOKEN_DECIMALS
-  const _toValidBalance = (balance: BigNumberish, decimals: number) => {
-    if (!balance) {
-      return DEFAULT_TOKEN_BALANCE * 10 ** decimals
+const toValidAllocations = (allocations: any[]): TokenAllocations => {
+  const _toValidSymbol = (symbol: string) => {
+    if (!symbol)
+      throw new AdapterError({ message: `Symbol not available for all tokens.`, statusCode: 400 })
+    return symbol.toUpperCase()
+  }
+  const _toValidDecimals = (decimals: number | undefined) => {
+    if (decimals === undefined) return DEFAULT_TOKEN_DECIMALS
+    return Number.isInteger(decimals) && decimals >= 0 ? decimals : DEFAULT_TOKEN_DECIMALS
+  }
+  const _toValidBalance = (balance: number | string | undefined, decimals: number) => {
+    if (!balance) return DEFAULT_TOKEN_BALANCE * 10 ** decimals
+    let BNbalance
+    try {
+      BNbalance = BigNumber.from(balance)
+    } catch (e) {
+      throw new AdapterError({ message: `Invalid balance: ${e.message}`, statusCode: 400 })
     }
-    if (!Number(balance)) {
-      throw new AdapterError({
-        message: `Invalid balance`,
-        statusCode: 400,
-      })
-    }
-    if (Number(balance) < 0)
-      throw new AdapterError({ message: `Balance cannot be negative.`, statusCode: 400 })
+    if (!BNbalance.gte(0))
+      throw new AdapterError({ message: `Balance cannot be negative`, statusCode: 400 })
     return balance
   }
-  return allocations.map((t) => {
+  return allocations.map((t: any) => {
     const decimals = _toValidDecimals(t.decimals)
     return {
-      symbol: t.symbol.toUpperCase(),
+      symbol: _toValidSymbol(t.symbol),
       decimals,
       balance: _toValidBalance(t.balance, decimals),
     }
