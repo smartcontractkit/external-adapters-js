@@ -44,7 +44,7 @@ declare module '@chainlink/types' {
     jobRunID: string
     statusCode: number
     data: any
-    result: any
+    result?: any
   }
 
   /* ERRORS */
@@ -65,13 +65,6 @@ declare module '@chainlink/types' {
   }
 
   /* BOOTSTRAP */
-  // TODO: clean this ASAP
-  export type WrappedAdapterResponse = {
-    statusCode: number
-    data: AdapterResponse | AdapterErrorResponse
-  }
-  export type ExecuteWrappedResponse = (input: AdapterRequest) => Promise<WrappedAdapterResponse>
-
   export type ExecuteSync = (input: AdapterRequest, callback: Callback) => void
 
   export type Execute = (input: AdapterRequest) => Promise<AdapterResponse>
