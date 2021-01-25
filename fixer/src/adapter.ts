@@ -16,11 +16,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
 
-  let result
   switch (endpoint) {
     case convert.Name: {
-      result = await convert.execute(config, request)
-      break
+      return await convert.execute(request, config)
     }
     default: {
       throw new AdapterError({
@@ -30,12 +28,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
       })
     }
   }
-
-  return Requester.success(jobRunID, {
-    data: { result },
-    result,
-    status: 200,
-  })
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {

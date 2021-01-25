@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { AdapterRequest, Config } from '@chainlink/types'
+import { ExecuteWithConfig, Config } from '@chainlink/types'
 import { util } from '@chainlink/ea-bootstrap'
 
 export const Name = 'convert'
@@ -11,10 +11,11 @@ const customParams = {
   quote: ['quote', 'to', 'market'],
 }
 
-export const execute = async (config: Config, request: AdapterRequest) => {
+export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 
+  const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || 'convert'
   const url = `https://api.currencylayer.com/${endpoint}`
   const from = validator.validated.data.base.toUpperCase()
@@ -29,11 +30,18 @@ export const execute = async (config: Config, request: AdapterRequest) => {
     access_key,
   }
 
-  const reqConfig = {
+  const options = {
     ...config.api,
     url,
     params,
   }
-  const response = await Requester.request(reqConfig, customError)
-  return Requester.validateResultNumber(response.data, ['result'])
+
+  const response = await Requester.request(options, customError)
+  const result = Requester.validateResultNumber(response.data, ['result'])
+
+  return Requester.success(jobRunID, {
+    data: { result },
+    result,
+    status: 200,
+  })
 }

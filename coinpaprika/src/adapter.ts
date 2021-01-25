@@ -16,19 +16,15 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
 
-  let result
   switch (endpoint) {
     case price.Name: {
-      result = await price.execute(config, request)
-      break
+      return await price.execute(request, config)
     }
     case dominance.Name: {
-      result = await dominance.execute(config, request)
-      break
+      return await dominance.execute(request, config)
     }
     case marketcap.Name: {
-      result = await marketcap.execute(config, request)
-      break
+      return await marketcap.execute(request, config)
     }
     default: {
       throw new AdapterError({
@@ -38,11 +34,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
       })
     }
   }
-  return Requester.success(jobRunID, {
-    data: { result },
-    result,
-    status: 200,
-  })
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {

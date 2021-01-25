@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { AdapterRequest, Config } from '@chainlink/types'
+import { ExecuteWithConfig, Config } from '@chainlink/types'
 import { util } from '@chainlink/ea-bootstrap'
 
 export const Name = 'price'
@@ -17,10 +17,11 @@ const commonKeys: { [key: string]: string } = {
   BZ: 'BZ.COMM',
 }
 
-export const execute = async (config: Config, request: AdapterRequest) => {
+export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 
+  const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || 'real-time'
   let symbol = validator.validated.data.base.toUpperCase()
   if (commonKeys[symbol]) {
@@ -34,12 +35,18 @@ export const execute = async (config: Config, request: AdapterRequest) => {
     fmt: 'json',
   }
 
-  const reqConfig = {
+  const options = {
     ...config.api,
     url,
     params,
   }
 
-  const response = await Requester.request(reqConfig, customError)
-  return Requester.validateResultNumber(response.data, ['close'])
+  const response = await Requester.request(options, customError)
+  const result = Requester.validateResultNumber(response.data, ['close'])
+
+  return Requester.success(jobRunID, {
+    data: { result },
+    result,
+    status: 200,
+  })
 }

@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { AdapterRequest, Config } from '@chainlink/types'
+import { ExecuteWithConfig, Config } from '@chainlink/types'
 import { util } from '@chainlink/ea-bootstrap'
 
 export const Name = 'ethgasAPI'
@@ -11,14 +11,16 @@ const customParams = {
   endpoint: false,
 }
 
-export const execute = async (config: Config, request: AdapterRequest) => {
+export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 
+  const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || 'ethgasAPI'
   const speed = validator.validated.data.speed || 'average'
   const url = `https://data-api.defipulse.com/api/v1/egs/api/${endpoint}.json?`
-  const reqConfig = {
+
+  const options = {
     ...config.api,
     url,
     params: {
@@ -26,7 +28,13 @@ export const execute = async (config: Config, request: AdapterRequest) => {
     },
     timeout: 10000,
   }
-  const response = await Requester.request(reqConfig, customError)
-  // console.log(response.data)
-  return Requester.validateResultNumber(response.data, [speed]) * 1e8
+
+  const response = await Requester.request(options, customError)
+  const result = Requester.validateResultNumber(response.data, [speed]) * 1e8
+
+  return Requester.success(jobRunID, {
+    data: { result },
+    result,
+    status: 200,
+  })
 }

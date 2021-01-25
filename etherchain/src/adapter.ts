@@ -19,8 +19,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   let result
   switch (endpoint) {
     case gasprice.Name: {
-      result = await gasprice.execute(config, request)
-      break
+      return await gasprice.execute(request, config)
     }
     default: {
       throw new AdapterError({
@@ -30,12 +29,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
       })
     }
   }
-
-  return Requester.success(jobRunID, {
-    data: { result },
-    result,
-    status: 200,
-  })
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {

@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { AdapterRequest, Config } from '@chainlink/types'
+import { ExecuteWithConfig, Config } from '@chainlink/types'
 import { util } from '@chainlink/ea-bootstrap'
 
 export const Name = 'price'
@@ -11,10 +11,11 @@ const customParams = {
   quote: ['quote', 'to', 'market'],
 }
 
-export const execute = async (config: Config, request: AdapterRequest) => {
+export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 
+  const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || 'price'
   const url = `https://min-api.cryptocompare.com/data/${endpoint}`
   const fsym = validator.validated.data.base.toUpperCase()
@@ -25,18 +26,25 @@ export const execute = async (config: Config, request: AdapterRequest) => {
     tsyms,
   }
 
-  const reqConfig = {
+  const options = {
     ...config.api,
     url,
     params,
   }
 
   if (process.env.API_KEY) {
-    reqConfig.headers = {
+    options.headers = {
+      ...options.headers,
       authorization: `Apikey ${util.getRandomRequiredEnv('API_KEY')}`,
     }
   }
 
-  const response = await Requester.request(reqConfig, customError)
-  return Requester.validateResultNumber(response.data, [tsyms])
+  const response = await Requester.request(options, customError)
+  const result = Requester.validateResultNumber(response.data, [tsyms])
+
+  return Requester.success(jobRunID, {
+    data: { result },
+    result,
+    status: 200,
+  })
 }

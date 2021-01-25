@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { AdapterRequest, Config } from '@chainlink/types'
+import { ExecuteWithConfig, Config } from '@chainlink/types'
 
 export const Name = 'price'
 
@@ -25,9 +25,11 @@ const convertFromTicker = async (ticker: string, coinId: string | undefined) => 
   return coin.id.toLowerCase()
 }
 
-export const execute = async (config: Config, request: AdapterRequest): Promise<number> => {
+export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const validator = new Validator(request, inputParams)
   if (validator.error) throw validator.error
+
+  const jobRunID = validator.validated.id
   const symbol = validator.validated.data.base
   const coin = await convertFromTicker(symbol, validator.validated.data.coinid)
   const url = `https://api.coinpaprika.com/v1/tickers/${coin}`
@@ -44,5 +46,15 @@ export const execute = async (config: Config, request: AdapterRequest): Promise<
   }
 
   const response = await Requester.request(options)
-  return Requester.validateResultNumber(response.data, ['quotes', market.toUpperCase(), 'price'])
+  const result = Requester.validateResultNumber(response.data, [
+    'quotes',
+    market.toUpperCase(),
+    'price',
+  ])
+
+  return Requester.success(jobRunID, {
+    data: { result },
+    result,
+    status: 200,
+  })
 }
