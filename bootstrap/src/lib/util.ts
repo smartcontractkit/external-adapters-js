@@ -164,3 +164,17 @@ export function groupBy<K, V>(list: Array<V>, keyGetter: (input: V) => K): Map<K
  */
 export const byName = (name?: string) => (a: AdapterImplementation): boolean =>
   a.NAME.toUpperCase() === name?.toUpperCase()
+
+/**
+ * Covert number to max number of decimals, trim trailing zeros
+ *
+ * @param num number to convert to fixed max number of decimals
+ * @param decimals max number of decimals
+ */
+export const toFixedMax = (num: number | string | Decimal, decimals: number): string =>
+  new Decimal(num)
+    .toFixed(decimals)
+    // remove trailing zeros
+    .replace(/(\.\d*?[1-9])0+$/g, '$1')
+    // remove decimal part if all zeros (or only decimal point)
+    .replace(/\.0*$/g, '')

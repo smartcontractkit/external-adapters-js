@@ -1,9 +1,9 @@
 import assert from 'assert'
 import { ethers, BigNumber } from 'ethers'
 import * as starkwareCrypto from '@authereum/starkware-crypto'
-import { AdapterError } from '@chainlink/external-adapter'
+import { logger, AdapterError } from '@chainlink/external-adapter'
+import { util } from '@chainlink/ea-bootstrap'
 import { Decimal } from 'decimal.js'
-import { logger } from '@chainlink/external-adapter'
 
 export type PriceDataPoint = {
   oracleName: string
@@ -25,9 +25,10 @@ const TWO_BN = BigNumber.from('2')
 
 const powOfTwo = (num: number) => TWO_BN.pow(num)
 
-const ERROR_MSG_PRICE_NEGATIVE = 'Price must be a positive number.'
-const ERROR_MSG_PRICE_PRECISION_LOSS =
+const ERROR_PRICE_NEGATIVE = 'Price must be a positive number.'
+const WARN_PRECISION_LOSS_NUMBER =
   'Please use string type to avoid precision loss with very small/big numbers.'
+const WARN_PRECISION_LOSS_STRING = `Precision loss detected: over ${MAX_DECIMALS} decimals.`
 
 const error400 = (message: string) => new AdapterError({ message, statusCode: 400 })
 
@@ -43,18 +44,25 @@ const error400 = (message: string) => new AdapterError({ message, statusCode: 40
 export const requireNormalizedPrice = (price: number | string): string => {
   // Check if negative number
   if (isNaN(Number(price)) || Number(price) < 0) {
-    throw error400(`${ERROR_MSG_PRICE_NEGATIVE} Got: ${price}`)
+    throw error400(`${ERROR_PRICE_NEGATIVE} Got: ${price}`)
   }
 
+  const _normalize = (num: number | string): Decimal => new Decimal(num).mul(10 ** MAX_DECIMALS)
+
+  const _tooMuchPrecision = (num: number | string): boolean =>
+    util.toFixedMax(_normalize(num), 1).indexOf('.') !== -1
+
   // Check if there is any loss of precision
-  const msg = `${ERROR_MSG_PRICE_PRECISION_LOSS} Got: ${price}.`
   if (typeof price === 'number') {
     // TODO: more precision loss detection with floats
     const overSafeValue = price > Number.MAX_SAFE_INTEGER
-    if (overSafeValue) logger.warn(msg)
+    if (overSafeValue || _tooMuchPrecision(price))
+      logger.warn(`${WARN_PRECISION_LOSS_NUMBER} Got: ${price}`)
+  } else if (_tooMuchPrecision(price)) {
+    logger.warn(`${WARN_PRECISION_LOSS_STRING} Got: ${price}`)
   }
 
-  return new Decimal(price).mul(10 ** MAX_DECIMALS).toFixed(0)
+  return _normalize(price).toFixed(0)
 }
 
 /**

@@ -1,5 +1,6 @@
 import objectPath from 'object-path'
 import { Requester, Validator } from '@chainlink/external-adapter'
+import { util } from '@chainlink/ea-bootstrap'
 import { Execute } from '@chainlink/types'
 import { Decimal } from 'decimal.js'
 
@@ -10,6 +11,7 @@ const inputParams = {
   valuePath: false,
 }
 
+const MAX_DECIMALS = 18
 const DEFAULT_DATA_PATH = 'result'
 
 // Export function to integrate with Chainlink node
@@ -97,8 +99,11 @@ export const execute: Execute = async (request) => {
     }
   }
 
+  // Avoid printing scientific notation on output with `result.toString()`
+  const resultStr = util.toFixedMax(result, MAX_DECIMALS)
+
   return Requester.success(jobRunID, {
-    data: { result: result.toString() },
+    data: { result: resultStr },
     result,
     status: 200,
   })
