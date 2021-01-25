@@ -17,7 +17,7 @@
     "test": "echo \"Error: no test specified\"",
     "test:unit": "echo \"Error: no test specified\"",
     "test:integration": "echo \"Error: no test specified\"",
-    "start:jsonrpc": "node -e 'require(\"./dist/adapters/index.js\").jsonrpc.server()'",
+    "start:jsonrpc": "node -e 'require(\"./dist/adapters/index.js\").jsonrpc.handlers.server()'",
     "start:dnsquery": "node -e 'require(\"./dist/adapters/index.js\").dnsquery.handlers.server()'"
   },
   "dependencies": {
