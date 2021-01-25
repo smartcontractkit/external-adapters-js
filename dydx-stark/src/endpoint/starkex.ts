@@ -23,7 +23,7 @@ const MAX_DECIMALS = 18
 const ZERO_BN = BigNumber.from('0')
 const TWO_BN = BigNumber.from('2')
 
-const powOfTwo = (num: number) => TWO_BN.pow(BigNumber.from(num))
+const powOfTwo = (num: number) => TWO_BN.pow(num)
 
 const ERROR_MSG_PRICE_NEGATIVE = 'Price must be a positive number.'
 const ERROR_MSG_PRICE_PRECISION_LOSS =
@@ -54,8 +54,7 @@ export const requireNormalizedPrice = (price: number | string): string => {
     if (overSafeValue) logger.warn(msg)
   }
 
-  const _powOfTen = (num: number) => new Decimal(10).pow(num)
-  return new Decimal(price).mul(_powOfTen(MAX_DECIMALS)).toFixed(0)
+  return new Decimal(price).mul(10 ** MAX_DECIMALS).toFixed(0)
 }
 
 /**
@@ -74,10 +73,10 @@ export const getPricePayload = async (
   const keyPair = await getKeyPair(privateKey, starkMessage)
 
   // 4. Hash the required parameters
-  const message = getPriceMessage(data)
+  const message = getPriceMessage(data).toHexString().substr(2)
 
   // 5. Sign with your private stark key and the hash message to get r,s
-  const { r, s } = starkwareCrypto.sign(keyPair, message.toHexString().substr(2))
+  const { r, s } = starkwareCrypto.sign(keyPair, message)
 
   // 6. Generate the public key (pub_key) with your private key
   const starkPublicKey = starkwareCrypto.getStarkPublicKey(keyPair)

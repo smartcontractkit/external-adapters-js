@@ -1,8 +1,8 @@
+import { ethers } from 'ethers'
 import { balance } from '@chainlink/ea-factories'
 import { Requester } from '@chainlink/external-adapter'
 import { Config } from '@chainlink/types'
 import { isCoinType, isChainType, TESTNET_BLOCKCHAINS } from '.'
-import { util } from '@chainlink/ea-bootstrap'
 
 export const Name = 'balance'
 
@@ -18,7 +18,8 @@ const getBalance: balance.GetBalance = async (account, config) => {
   }
 
   const response = await Requester.request(options)
-  const balance = util.convertUnits(account.coin, response.data.payload.balance)
+  // Each BTC has 8 decimal places
+  const balance = ethers.utils.parseUnits(response.data.payload.balance, 8).toString()
 
   return {
     payload: response.data,

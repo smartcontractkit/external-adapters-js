@@ -164,20 +164,3 @@ export function groupBy<K, V>(list: Array<V>, keyGetter: (input: V) => K): Map<K
  */
 export const byName = (name?: string) => (a: AdapterImplementation): boolean =>
   a.NAME.toUpperCase() === name?.toUpperCase()
-
-/**
- * Converts a given coin to different unit decimal places
- *
- * @param coin string of coin ticker name
- * @param amount string of a number value
- * @param unit optional string name of unit to convert to
- */
-export const convertUnits = (coin: string, amount: string, unit?: string) => {
-  switch (coin.toLowerCase()) {
-    case 'btc':
-      // default satoshi
-      return new Decimal(amount).mul(10 ** 8).toString()
-    default:
-      return amount
-  }
-}
