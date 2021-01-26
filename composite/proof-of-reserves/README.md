@@ -30,7 +30,7 @@ Each protocol may need additional configuration:
 
 ### Local
 
-Ensure that the project's dependencies are install and code is compiled by running the following command from the external-adapters respository root:
+Ensure that the project's dependencies are installed and that the code is compiled by running the following command from the external-adapters respository root:
 
 ```bash
 yarn && yarn setup

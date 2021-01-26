@@ -24,7 +24,7 @@ const getBalances: balance.GetBalances = async (accounts, config) => {
 
   const toResultWithBalance = (acc: Account) => {
     // NOTE: Blockchair does not return 0 balances
-    const balance = String(response.data.data[acc.address]) || '0'
+    const balance = String(response.data.data[acc.address] ?? 0)
     return { ...acc, balance }
   }
   const resultWithBalance = accounts.map(toResultWithBalance)
