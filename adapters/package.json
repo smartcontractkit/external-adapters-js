@@ -20,7 +20,8 @@
     "start:jsonrpc": "node -e 'require(\"./dist/adapters/index.js\").jsonrpc.handlers.server()'",
     "start:dnsquery": "node -e 'require(\"./dist/adapters/index.js\").dnsquery.handlers.server()'",
     "start:cryptoapis": "node -e 'require(\"./dist/adapters/index.js\").cryptoapis.handlers.server()'",
-    "start": "node -e 'require(\"./dist/adapters/index.js\").'$npm_config_adapter'.handlers.server()'"
+    "start:npm": "node -e 'require(\"./dist/adapters/index.js\").'$npm_config_adapter'.handlers.server()'",
+    "start": "node -e 'eval(`require(\"./dist/adapters/index.js\").${process.env.ADAPTER}.handlers.server()`)'"
   },
   "dependencies": {
     "object-path": "^0.11.4",
