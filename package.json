@@ -94,7 +94,8 @@
     "deribit",
     "dydx-stark",
     "iex-cloud",
-    "cfbenchmarks"
+    "cfbenchmarks",
+    "harmony"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",
