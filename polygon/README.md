@@ -12,22 +12,22 @@ This adapter is for [Polygon.io](https://polygon.io/) and supports the conversio
 
 ```json
 {
- "jobRunID": "1",
- "data": {
-  "status": "success",
-  "last": {
-   "bid": 0.8131,
-   "ask": 0.8133,
-   "exchange": 48,
-   "timestamp": 1587501544000
+  "jobRunID": "1",
+  "data": {
+    "status": "success",
+    "last": {
+      "bid": 0.8131,
+      "ask": 0.8133,
+      "exchange": 48,
+      "timestamp": 1587501544000
+    },
+    "from": "GBP",
+    "to": "USD",
+    "initialAmount": 1,
+    "converted": 1.2299,
+    "result": 1.2299
   },
-  "from": "GBP",
-  "to": "USD",
-  "initialAmount": 1,
-  "converted": 1.2299,
-  "result": 1.2299
- },
- "result": 1.2299,
- "statusCode": 200
+  "result": 1.2299,
+  "statusCode": 200
 }
 ```
