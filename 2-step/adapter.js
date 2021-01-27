@@ -40,11 +40,11 @@ const execute = (input, callback) => {
     return callback(400, Requester.errored(jobRunID, 'invalid dividend'))
   }
 
-  logger.info('Getting value from contract: ' + contract)
+  logger.debug('Getting value from contract: ' + contract)
   getContractPrice(contract)
     .then((price) => {
       price = price / multiply
-      logger.info('Value: ' + price)
+      logger.debug('Value: ' + price)
       if (price <= 0) {
         return callback(500, Requester.errored(jobRunID, 'on-chain value equal or less than 0'))
       }
@@ -55,7 +55,7 @@ const execute = (input, callback) => {
         }
 
         const result = transform(response.result, price, operator, dividend)
-        logger.info('New result: ' + result)
+        logger.debug('New result: ' + result)
 
         response.data.result = result
         response.result = result

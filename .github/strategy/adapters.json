@@ -52,7 +52,6 @@
       "google-finance",
       "json-rpc",
       "kaiko",
-      "kaiko",
       "lcx",
       "linkpool",
       "lition",
@@ -65,6 +64,7 @@
       "onchain",
       "openexchangerates",
       "orchid-bandwidth",
+      "paxos",
       "poa-gasprice",
       "polygon",
       "reduce",
@@ -76,7 +76,10 @@
       "tradingeconomics",
       "trueusd",
       "wbtc-address-set",
-      "xbto"
+      "xbto",
+      "dydx-stark",
+      "iex-cloud",
+      "cfbenchmarks"
     ]
   },
   "2-step": {
@@ -103,7 +106,12 @@
       "proof-of-reserves",
       "market-closure",
       "defi-pulse",
-      "dns-record-check"
+      "dns-record-check",
+      "outlier-detection",
+      "apy-finance",
+      "crypto-volatility-index",
+      "bitcoin-json-rpc",
+      "token-allocation"
     ]
   },
   "synth-index": {
