@@ -92,7 +92,8 @@
     "paxos",
     "deribit",
     "dydx-stark",
-    "iex-cloud"
+    "iex-cloud",
+    "cfbenchmarks"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",

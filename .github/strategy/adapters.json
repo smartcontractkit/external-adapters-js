@@ -78,7 +78,8 @@
       "wbtc-address-set",
       "xbto",
       "dydx-stark",
-      "iex-cloud"
+      "iex-cloud",
+      "cfbenchmarks"
     ]
   },
   "2-step": {
