@@ -1,7 +1,9 @@
-const { Requester, Validator } = require('@chainlink/external-adapter')
-const { util } = require('@chainlink/ea-bootstrap')
+import { Requester, Validator } from '@chainlink/external-adapter'
+import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
+import { makeConfig } from './config'
+import { util } from '@chainlink/ea-bootstrap'
 
-const customError = (data) => {
+const customError = (data: any) => {
   if (data.result === 'error') return true
   return false
 }
@@ -11,13 +13,15 @@ const customParams = {
   quote: ['quote', 'to', 'market'],
 }
 
-const convertId = {
+const convertId: Record<string, string> = {
   uni: 'uniswap',
 }
 
-const execute = (input, callback) => {
-  const validator = new Validator(input, customParams)
-  if (validator.error) return callback(validator.error.statusCode, validator.errored)
+export const execute: ExecuteWithConfig<Config> = async (request, config) => {
+  const validator = new Validator(request, customParams)
+  if (validator.error) throw validator.error
+
+  Requester.logConfig(config)
 
   const jobRunID = validator.validated.id
   let base = validator.validated.data.base.toLowerCase()
@@ -46,19 +50,25 @@ const execute = (input, callback) => {
     'X-Api-Key': util.getRandomRequiredEnv('API_KEY'),
     'User-Agent': 'Chainlink',
   }
-  const config = {
+  const requestConfig = {
     url,
     params,
     headers,
     timeout: 10000,
   }
-  Requester.request(config, customError)
-    .then((response) => {
-      const result = response.data.data.filter((x) => x.price !== null)
-      response.data.result = Number(Requester.validateResultNumber(result, [0, 'price']))
-      callback(response.status, Requester.success(jobRunID, response))
-    })
-    .catch((error) => callback(500, Requester.errored(jobRunID, error)))
+
+  const response = await Requester.request(requestConfig, customError)
+  const result = (response.data.result = Number(
+    Requester.validateResultNumber(response.data.data, [0, 'price']),
+  ))
+  response.data.result = result
+  return Requester.success(jobRunID, {
+    data: response.data,
+    result,
+    status: 200,
+  })
 }
 
-module.exports.execute = execute
+export const makeExecute: ExecuteFactory<Config> = (config) => {
+  return async (request) => execute(request, config || makeConfig())
+}
