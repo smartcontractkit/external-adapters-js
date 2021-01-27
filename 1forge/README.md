@@ -1,6 +1,6 @@
 # Chainlink 1Forge External Adapter
 
-## Balance Endpoint
+## Price Endpoint
 
 ### Input Params
 

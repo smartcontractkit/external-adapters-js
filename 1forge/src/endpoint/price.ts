@@ -2,7 +2,7 @@ import { Requester, Validator } from '@chainlink/external-adapter'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 import { util } from '@chainlink/ea-bootstrap'
 
-export const NAME = 'balance'
+export const NAME = 'price'
 
 const customParams = {
   base: ['base', 'from'],
