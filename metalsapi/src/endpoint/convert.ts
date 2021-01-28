@@ -20,13 +20,13 @@ export const execute = async (config: Config, request: AdapterRequest) => {
   const url = `convert`
 
   const params = {
-    access_key: util.getRandomRequiredEnv('API_KEY'),
+    access_key: config.apiKey,
     from,
     to,
     amount: 1,
   }
 
-  const reqConfig = { ...config.api, params, baseURL: 'https://metals-api.com/api/', url }
+  const reqConfig = { ...config.api, params, url }
 
   const response = await Requester.request(reqConfig, customError)
   return response.data
