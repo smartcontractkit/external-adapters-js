@@ -1,26 +1,31 @@
 import { balance } from '@chainlink/ea-factories'
-import { Requester } from '@chainlink/external-adapter'
-import { Config } from '@chainlink/types'
 import { isChainType, isCoinType } from '.'
+import * as blocktrail from 'blocktrail-sdk'
+import { ImplConfig } from '../config'
 
-export const Name = 'balance'
+export const NAME = 'balance'
 
-const getBalanceURI = (address: string) => `/v3/address/${address}`
+const getBalance: balance.GetBalance<ImplConfig> = async (account, config) => {
+  const client = blocktrail.BlocktrailSDK({
+    apiKey: config.apiKey,
+    apiSecret: config.apiSecret,
+    network: account.coin?.toUpperCase(),
+    testnet: account.chain === 'testnet',
+  })
 
-const getBalance: balance.GetBalance = async (account, config) => {
-  const reqConfig = {
-    ...config.api,
-    url: getBalanceURI(account.address),
-  }
-
-  const response = await Requester.request(reqConfig)
+  const response: any = await new Promise(async (resolve, reject) =>
+    client.address(account.address, (error: any, address: any) =>
+      error ? reject(error) : resolve(address),
+    ),
+  )
 
   return {
-    payload: response.data,
-    result: [{ ...account, balance: String(response.data.data.balance) }],
+    payload: response,
+    result: [{ ...account, balance: String(response.balance) }],
   }
 }
 
 const isSupported: balance.IsSupported = (coin, chain) => isChainType(chain) && isCoinType(coin)
 
-export const makeExecute = (config: Config) => balance.make({ ...config, getBalance, isSupported })
+export const makeExecute = (config: ImplConfig) =>
+  balance.make<ImplConfig>({ ...config, getBalance, isSupported })
