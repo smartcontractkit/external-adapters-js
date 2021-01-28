@@ -19,12 +19,14 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   Requester.logConfig(config)
   const jobRunID = validator.validated.id
   const speed = validator.validated.data.speed || 'standard'
-  const url = 'https://gasprice.poa.network/'
-  const { data } = await Requester.request(url)
-  data.result = Requester.validateResultNumber(data, [speed]) * 1e9
+  const reqConfig = {
+    ...config.api,
+  }
+  const response = await Requester.request(reqConfig)
+  const result = Requester.validateResultNumber(response.data, [speed]) * 1e9
   return Requester.success(jobRunID, {
-    data,
-    result: data.result,
+    data: { ...response.data, result },
+    result,
     status: 200,
   })
 }
