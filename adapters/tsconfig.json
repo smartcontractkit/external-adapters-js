@@ -2,7 +2,7 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": "..",
+    "rootDir": ".",
     "typeRoots": ["../node_modules/@types", "../typings", "./typings"]
   },
   "exclude": [
@@ -15,5 +15,5 @@
     // "**/src/*.ts", 
     "*.ts",
   ],
-  // "esModuleInterop": true,
+  "esModuleInterop": true,
 }

@@ -1,16 +1,18 @@
 {
-  "extends": "../tsconfig.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "src",
     "typeRoots": [
-      "../node_modules/@types",
-      "../typings",
+      "../../node_modules/@types",
+      "../../typings",
       "./typings"
-    ]
+    ],
+    "resolveJsonModule": true
   },
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "src/**/*.json"
   ],
   "exclude": [
     "dist",
