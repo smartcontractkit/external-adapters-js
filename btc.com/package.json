@@ -48,6 +48,7 @@
     "typescript": "^3.9.7"
   },
   "dependencies": {
+    "blocktrail-sdk": "^3.7.22",
     "object-path": "^0.11.4"
   }
 }
