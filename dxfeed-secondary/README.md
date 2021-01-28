@@ -1,5 +1,11 @@
 # Chainlink External Adapter for dxFeed
 
+An adapter to add secondary mapping for symbols:
+
+```bash
+TSLA ➡️ 'TSLA.US:TEI'
+```
+
 ## Configuration
 
 This adapter supports the following environment variables:
@@ -17,28 +23,28 @@ This adapter supports the following environment variables:
 
 ```json
 {
-    "jobRunID":"1",
-    "data":{
-        "status":"OK",
-        "Trade":{
-            "UKX:FTSE":{
-                "eventSymbol":"UKX:FTSE",
-                "eventTime":0,
-                "time":1593001772000,
-                "timeNanoPart":0,
-                "sequence":115972,
-                "exchangeCode":"",
-                "price":6194.63,
-                "size":0,
-                "dayVolume":0,
-                "dayTurnover":"NaN",
-                "tickDirection":"ZERO_UP",
-                "extendedTradingHours":false
-            }
-        },
-        "result":6194.63
+  "jobRunID": "1",
+  "data": {
+    "status": "OK",
+    "Trade": {
+      "UKX:FTSE": {
+        "eventSymbol": "UKX:FTSE",
+        "eventTime": 0,
+        "time": 1593001772000,
+        "timeNanoPart": 0,
+        "sequence": 115972,
+        "exchangeCode": "",
+        "price": 6194.63,
+        "size": 0,
+        "dayVolume": 0,
+        "dayTurnover": "NaN",
+        "tickDirection": "ZERO_UP",
+        "extendedTradingHours": false
+      }
     },
-    "result":6194.63,
-    "statusCode":200
+    "result": 6194.63
+  },
+  "result": 6194.63,
+  "statusCode": 200
 }
 ```

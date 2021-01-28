@@ -13,32 +13,41 @@ This adapter supports the following environment variables:
 - `base`, `from`, or `asset`: The symbol of the asset to query
 - `endpoint`: Optional endpoint param
 
+The `base` param handles the following symbol conversions:
+
+```bash
+N225 ➡️ 'NKY.IND:TEI'
+FTSE ➡️ 'UKX.IND:TEI'
+TSLA ➡️ 'TSLA:BFX'
+TSLAX ➡️ 'TSLA.US:TEI'
+```
+
 ## Output
 
 ```json
 {
-    "jobRunID":"1",
-    "data":{
-        "status":"OK",
-        "Trade":{
-            "UKX:FTSE":{
-                "eventSymbol":"UKX:FTSE",
-                "eventTime":0,
-                "time":1593001772000,
-                "timeNanoPart":0,
-                "sequence":115972,
-                "exchangeCode":"",
-                "price":6194.63,
-                "size":0,
-                "dayVolume":0,
-                "dayTurnover":"NaN",
-                "tickDirection":"ZERO_UP",
-                "extendedTradingHours":false
-            }
-        },
-        "result":6194.63
+  "jobRunID": "1",
+  "data": {
+    "status": "OK",
+    "Trade": {
+      "UKX:FTSE": {
+        "eventSymbol": "UKX:FTSE",
+        "eventTime": 0,
+        "time": 1593001772000,
+        "timeNanoPart": 0,
+        "sequence": 115972,
+        "exchangeCode": "",
+        "price": 6194.63,
+        "size": 0,
+        "dayVolume": 0,
+        "dayTurnover": "NaN",
+        "tickDirection": "ZERO_UP",
+        "extendedTradingHours": false
+      }
     },
-    "result":6194.63,
-    "statusCode":200
+    "result": 6194.63
+  },
+  "result": 6194.63,
+  "statusCode": 200
 }
 ```

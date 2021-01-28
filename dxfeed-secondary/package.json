@@ -42,6 +42,6 @@
     "typescript": "^3.9.7"
   },
   "dependencies": {
-    "@chainlink/dxfeed-adapter": "0.0.1"
+    "@chainlink/dxfeed-adapter": "0.0.2"
   }
 }
