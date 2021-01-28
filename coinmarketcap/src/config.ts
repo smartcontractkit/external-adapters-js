@@ -3,4 +3,10 @@ import { Config } from '@chainlink/types'
 
 export const DEFAULT_ENDPOINT = 'price'
 
-export const makeConfig = (prefix?: string): Config => Requester.getDefaultConfig(prefix)
+const DEFAULT_API_ENDPOINT = 'https://pro-api.coinmarketcap.com/v1/'
+
+export const makeConfig = (prefix?: string): Config => {
+  const config = Requester.getDefaultConfig(prefix)
+  config.api.baseUrl = config.api.baseUrl || DEFAULT_API_ENDPOINT
+  return config
+}

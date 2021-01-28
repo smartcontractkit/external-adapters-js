@@ -30,7 +30,7 @@ const priceParams = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-  const url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest'
+  const url = 'cryptocurrency/quotes/latest'
   const validator = new Validator(request, priceParams)
   if (validator.error) throw validator.error
 

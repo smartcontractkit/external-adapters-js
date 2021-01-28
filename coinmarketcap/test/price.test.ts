@@ -7,7 +7,7 @@ import { makeExecute } from '../src/adapter'
 describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
-  process.env.API_KEY = 'test_api_key'
+  process.env.API_KEY = process.env.API_KEY ?? 'test_api_key'
 
   context('successful calls @integration', () => {
     const requests = [
@@ -30,14 +30,6 @@ describe('execute', () => {
       {
         name: 'sym/convert',
         testData: { id: jobID, data: { sym: 'ETH', convert: 'USD' } },
-      },
-      {
-        name: 'market dominance',
-        testData: { id: jobID, data: { endpoint: 'dominance', market: 'BTC' } },
-      },
-      {
-        name: 'marketcap',
-        testData: { id: jobID, data: { endpoint: 'globalMarketCap', to: 'USD' } },
       },
     ]
 
@@ -63,10 +55,6 @@ describe('execute', () => {
         name: 'quote not supplied',
         testData: { id: jobID, data: { base: 'ETH' } },
       },
-      {
-        name: 'dominance market not supplied',
-        testData: { id: jobID, data: { endpoint: 'dominance' } },
-      },
     ]
 
     requests.forEach((req) => {
@@ -90,10 +78,6 @@ describe('execute', () => {
       {
         name: 'unknown quote',
         testData: { id: jobID, data: { base: 'ETH', quote: 'not_real' } },
-      },
-      {
-        name: 'dominance unknown market',
-        testData: { id: jobID, data: { endpoint: 'dominance', market: 'not_real' } },
       },
     ]
 

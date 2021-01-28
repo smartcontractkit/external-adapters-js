@@ -1,7 +1,7 @@
 {
   "name": "@chainlink/coinmarketcap-adapter",
   "version": "0.0.2",
-  "description": "Chainlink example adapter.",
+  "description": "Coinmarketcap adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
