@@ -12,7 +12,6 @@ const commonSymbols: { [key: string]: string } = {
   N225: 'NKY.IND:TEI',
   FTSE: 'UKX.IND:TEI',
   TSLA: 'TSLA.US:TEI',
-  TSLAX: 'TSLA:BFX',
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
