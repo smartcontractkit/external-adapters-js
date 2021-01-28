@@ -5,6 +5,7 @@
   "private": true,
   "workspaces": [
     "adapters",
+    "adapters/**",
     "examples",
     "ea-factories",
     "bootstrap",
@@ -44,7 +45,6 @@
     "coingecko",
     "coinmarketcap",
     "coinpaprika",
-    "cryptoapis",
     "cryptocompare",
     "crypto-volatility-index",
     "currencylayer",
@@ -87,15 +87,12 @@
     "coincodex",
     "coinranking",
     "helpers/reference-data-reader",
-    "dns-query",
     "dns-record-check",
-    "json-rpc",
     "paxos",
     "deribit",
     "dydx-stark",
     "iex-cloud",
-    "cfbenchmarks",
-    "composite/**"
+    "cfbenchmarks"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",

@@ -30,13 +30,11 @@
       "coinpaprika",
       "coinranking",
       "covid-tracker",
-      "cryptoapis",
       "cryptocompare",
       "cryptoid",
       "cryptomkt",
       "currencylayer",
       "deribit",
-      "dns-query",
       "dxfeed",
       "eodhistoricaldata",
       "etherchain",
@@ -50,7 +48,6 @@
       "fmpcloud",
       "genesis-volatility",
       "google-finance",
-      "json-rpc",
       "kaiko",
       "lcx",
       "linkpool",
@@ -112,6 +109,17 @@
       "crypto-volatility-index",
       "bitcoin-json-rpc",
       "token-allocation"
+    ]
+  },
+  "adapters-single": {
+    "docker": "make docker adapter=adapters/__ADAPTER__ name=__ADAPTER__",
+    "cmd": "make zip adapter=adapters/__ADAPTER__ name=__ADAPTER__",
+    "asset_path": "./adapters/__ADAPTER__/dist/__ADAPTER__-adapter.zip",
+    "asset_name": "__ADAPTER__-adapter.zip",
+    "adapter": [
+      "dns-query",
+      "json-rpc",
+      "cryptoapis"
     ]
   },
   "synth-index": {
