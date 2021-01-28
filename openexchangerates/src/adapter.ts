@@ -2,6 +2,7 @@ import { Requester, Validator } from '@chainlink/external-adapter'
 import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
 import { makeConfig, DEFAULT_ENDPOINT } from './config'
 import { util } from '@chainlink/ea-bootstrap'
+import { application } from 'express'
 
 const inputParams = {
   base: ['base', 'from'],
@@ -22,13 +23,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
   const params = {
     base,
-    app_id: util.getRandomRequiredEnv('API_KEY'),
+    app_id: config.apiKey,
   }
 
   const reqConfig = {
     ...config.api,
     params,
-    baseURL: 'https://openexchangerates.org/api/',
     url: endpoint,
   }
   const response = await Requester.request(reqConfig)

@@ -25,8 +25,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const endpoint = `conversion`
   const amount = validator.validated.data.amount || 1
   const precision = validator.validated.data.precision || 4
-  const apikey = util.getRandomRequiredEnv('API_KEY')
-  const baseURL = `https://api.polygon.io/v1/${endpoint}/${from}/${to}`
+  const apikey = config.apiKey
+  const url = `${endpoint}/${from}/${to}`
 
   const params = {
     amount,
@@ -34,13 +34,13 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     apikey,
   }
 
-  const reqConfig = { ...config.api, params, baseURL }
+  const reqConfig = { ...config.api, params, url }
 
-  const { data } = await Requester.request(reqConfig)
-  data.result = Requester.validateResultNumber(data, ['converted'])
+  const response = await Requester.request(reqConfig)
+  const result = Requester.validateResultNumber(response.data, ['converted'])
   return Requester.success(jobRunID, {
-    data,
-    result: data.result,
+    data: { ...response.data, result },
+    result,
     status: 200,
   })
 }

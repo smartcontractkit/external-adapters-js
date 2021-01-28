@@ -23,22 +23,20 @@ export const execute = async (config: Config, request: AdapterRequest) => {
   const convert = validator.validated.data.quote.toUpperCase()
 
   // Correct common tickers that are misidentified
-  if (ids in convertId) {
-    ids = convertId[ids]
-  }
+  ids = convertId[ids] || ids
 
   const params = {
     ids,
     convert,
-    key: util.getRandomRequiredEnv('API_KEY'),
+    key: config.apiKey,
   }
   const reqConfig = {
     ...config.api,
     params,
-    baseURL: 'https://api.nomics.com/v1/currencies/ticker',
   }
 
   const response = await Requester.request(reqConfig, customError)
+
   response.data = response.data[0]
   response.data.result = Requester.validateResultNumber(response.data, ['price'])
   return response.data

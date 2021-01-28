@@ -5,7 +5,7 @@ This adapter is for [Polygon.io](https://polygon.io/) and supports the conversio
 ## Input params
 
 - `base` or `from`: The asset to query
-- `quote` or `to`: The currency to conver to
+- `quote` or `to`: The currency to convert to
 - `endpoint`: The endpoint to query (default: conversion)
 
 ## Output

@@ -12,13 +12,12 @@ export const execute = async (config: Config, request: AdapterRequest) => {
   if (validator.error) throw validator.error
 
   const params = {
-    key: util.getRandomRequiredEnv('API_KEY'),
+    key: config.apiKey,
   }
 
   const reqConfig = {
     ...config.api,
     params,
-    baseURL: 'https://api.nomics.com/v1/global-ticker',
   }
 
   const response = await Requester.request(reqConfig, customError)
