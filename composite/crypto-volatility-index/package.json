@@ -30,7 +30,6 @@
     "start": "yarn server:dist"
   },
   "devDependencies": {
-    "@types/big.js": "^6.0.0",
     "@types/chai": "^4.2.11",
     "@types/express": "^4.17.6",
     "@types/mocha": "^7.0.2",
@@ -41,8 +40,8 @@
     "typescript": "^3.9.7"
   },
   "dependencies": {
-    "big.js": "^6.0.2",
     "moment": "^2.29.1",
-    "@chainlink/reference-data-reader": "^0.0.2"
+    "@chainlink/reference-data-reader": "^0.0.2",
+    "@chainlink/token-allocation-adapter": "^0.0.1"
   }
 }

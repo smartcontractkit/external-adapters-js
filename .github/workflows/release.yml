@@ -7,8 +7,8 @@ on:
 name: Release
 
 env:
-  cache-name: cd
-  publicecr-name: chainlink
+  cache-name: release-ci
+  publicecr-name: chainlin
 
 jobs:
   release:
@@ -77,8 +77,6 @@ jobs:
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('./yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
       - name: Build
         run: ${{ matrix.adapter.cmd }}
       - name: Build Docker containers

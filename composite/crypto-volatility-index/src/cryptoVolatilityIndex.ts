@@ -1,11 +1,11 @@
-import { util } from '@chainlink/ea-bootstrap'
 import { logger } from '@chainlink/external-adapter'
 import { getRpcLatestRound } from '@chainlink/reference-data-reader'
 import { getDerivativesData, CurrencyDerivativesData } from './derivativesDataProvider'
-import { getDominanceAdapter, dominanceByCurrency } from './dominance-data-providers'
 import { SigmaCalculator } from './sigmaCalculator'
-import { Big } from 'big.js'
+import { Decimal } from 'decimal.js'
 import moment from 'moment'
+import { dominanceByCurrency, getDominanceAdapter } from './dominanceDataProvider'
+import { AdapterRequest } from '@chainlink/types'
 const cryptoCurrencies = ['BTC', 'ETH']
 
 export const calculate = async (
@@ -36,7 +36,7 @@ const calculateVixValues = async (derivativesData: Record<string, CurrencyDeriva
   const vixValues = cryptoCurrencies.map((currency) => {
     sigmaCalculator.sortByStrikePrice(derivativesData[currency])
     const { e1, e2, exchangeRate, callsE1, putsE1, callsE2, putsE2 } = derivativesData[currency]
-    const weightedSigma: Big = sigmaCalculator.weightedSigma({
+    const weightedSigma: Decimal = sigmaCalculator.weightedSigma({
       e1,
       e2,
       sigma1: sigmaCalculator.oneSigma(e1, exchangeRate, callsE1, putsE1, now),
@@ -49,16 +49,16 @@ const calculateVixValues = async (derivativesData: Record<string, CurrencyDeriva
   return vixValues
 }
 
-const calculateWeighted = async (vixData: Array<Big>) => {
+const calculateWeighted = async (vixData: Array<Decimal>) => {
   const dominanceByCurrency = await getDominanceByCurrency()
   const weightedVix = cryptoCurrencies.reduce((vix, currency, idx) => {
     const dominance = dominanceByCurrency[currency]
     if (!dominance) throw new Error(`No dominance found for currency ${currency}`)
-    const currencyVix = new Big(vixData[idx])
+    const currencyVix = new Decimal(vixData[idx])
     // Weight by dominance
-    vix = vix.plus(currencyVix.times(new Big(dominance)))
+    vix = vix.plus(currencyVix.times(new Decimal(dominance)))
     return vix
-  }, new Big(0))
+  }, new Decimal(0))
 
   const weighted = Number(weightedVix.toFixed())
   logger.debug(`Weighted volatility index:${weighted}`)
@@ -66,10 +66,20 @@ const calculateWeighted = async (vixData: Array<Big>) => {
 }
 
 const getDominanceByCurrency = async () => {
-  const dominanceProvider = util.getRequiredEnv('DOMINANCE_PROVIDER')
-  const dominanceAdapter = await getDominanceAdapter(dominanceProvider)
-  const dominanceData = await dominanceAdapter.getDominance(cryptoCurrencies)
-  return dominanceByCurrency(dominanceData)
+  const dominanceAdapter = await getDominanceAdapter()
+  const allocations = cryptoCurrencies.map((symbol) => {
+    return { symbol }
+  })
+  const quote = 'USD'
+  const input: AdapterRequest = {
+    id: '123',
+    data: {
+      allocations,
+      quote,
+    },
+  }
+  const dominanceData = await dominanceAdapter(input)
+  return dominanceByCurrency(dominanceData.data, quote)
 }
 
 const applySmoothing = async (
@@ -79,7 +89,7 @@ const applySmoothing = async (
   heartBeatMinutes: number,
 ): Promise<number> => {
   const roundData = await getRpcLatestRound(oracleAddress)
-  const latestIndex = new Big(roundData.answer.toString()).div(multiply)
+  const latestIndex = new Decimal(roundData.answer.toString()).div(multiply)
   const updatedAt = roundData.updatedAt.mul(1000).toNumber()
 
   if (latestIndex.lte(0)) {
@@ -93,7 +103,7 @@ const applySmoothing = async (
     throw new Error('invalid time, please check the node clock')
   }
   const l = lambda(dtSeconds, heartBeatMinutes)
-  const smoothed = latestIndex.mul(new Big(1 - l)).add(new Big(weightedCVI).mul(l))
+  const smoothed = latestIndex.mul(new Decimal(1 - l)).add(new Decimal(weightedCVI).mul(l))
   logger.debug(`Previous value:${latestIndex}, updatedAt:${updatedAt}, dtSeconds:${dtSeconds}`)
   return smoothed.toNumber()
 }

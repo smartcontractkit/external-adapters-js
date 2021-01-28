@@ -7,7 +7,7 @@ import {
   AdapterImplementation,
 } from '@chainlink/types'
 import { v4 as uuidv4 } from 'uuid'
-import BN from 'bignumber.js'
+import { Decimal } from 'decimal.js'
 
 export const isObject = (o: unknown): boolean =>
   o !== null && typeof o === 'object' && Array.isArray(o) === false
@@ -166,18 +166,15 @@ export const byName = (name?: string) => (a: AdapterImplementation): boolean =>
   a.NAME.toUpperCase() === name?.toUpperCase()
 
 /**
- * Converts a given coin to different unit decimal places
+ * Covert number to max number of decimals, trim trailing zeros
  *
- * @param coin string of coin ticker name
- * @param amount string of a number value
- * @param unit optional string name of unit to convert to
+ * @param num number to convert to fixed max number of decimals
+ * @param decimals max number of decimals
  */
-export const convertUnits = (coin: string, amount: string, unit?: string) => {
-  switch (coin.toLowerCase()) {
-    case 'btc':
-      // default satoshi
-      return new BN(amount).multipliedBy(10 ** 8).toString(10)
-    default:
-      return amount
-  }
-}
+export const toFixedMax = (num: number | string | Decimal, decimals: number): string =>
+  new Decimal(num)
+    .toFixed(decimals)
+    // remove trailing zeros
+    .replace(/(\.\d*?[1-9])0+$/g, '$1')
+    // remove decimal part if all zeros (or only decimal point)
+    .replace(/\.0*$/g, '')

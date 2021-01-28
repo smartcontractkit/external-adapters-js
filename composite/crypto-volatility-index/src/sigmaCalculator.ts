@@ -1,23 +1,23 @@
 import { logger } from '@chainlink/external-adapter'
-import { Big } from 'big.js'
+import { Decimal } from 'decimal.js'
 import moment from 'moment'
 import { CurrencyDerivativesData, OptionData } from './derivativesDataProvider'
 
 export type SigmaData = {
   e1: moment.Moment
   e2: moment.Moment
-  sigma1: Big
-  sigma2: Big
+  sigma1: Decimal
+  sigma2: Decimal
   now: moment.Moment
 }
 
 export class SigmaCalculator {
-  weightedSigma(sigmaData: SigmaData): Big {
+  weightedSigma(sigmaData: SigmaData): Decimal {
     const { e1, e2, sigma1, sigma2, now } = sigmaData
     const secondsInDay = 60 * 60 * 24
-    const tm = new Big(secondsInDay * 30)
-    const t1 = new Big(e1.diff(now, 'days') * secondsInDay)
-    const t2 = new Big(e2.diff(now, 'days') * secondsInDay)
+    const tm = new Decimal(secondsInDay * 30)
+    const t1 = new Decimal(e1.diff(now, 'days') * secondsInDay)
+    const t2 = new Decimal(e2.diff(now, 'days') * secondsInDay)
 
     const weighted = (t1.times(t2.minus(tm)).times(sigma1).minus((t2.times((t1.minus(tm)).times(sigma2)))))
       .div((t2.minus(t1)))
@@ -28,17 +28,17 @@ export class SigmaCalculator {
 
   oneSigma(
     expiration: moment.Moment,
-    exchangeRate: Big,
+    exchangeRate: Decimal,
     calls: Array<OptionData>,
     puts: Array<OptionData>,
     now: moment.Moment,
-  ): Big {
+  ): Decimal {
     const T = expiration.diff(now.startOf('day'), 'days') / 365.0 //TODO: Change to seconds
-    const r = new Big(0)
-    let S = new Big(0)
-    let dK = new Big(0)
-    let F = new Big(0)
-    let K0c = new Big(0)
+    const r = new Decimal(0)
+    let S = new Decimal(0)
+    let dK = new Decimal(0)
+    let F = new Decimal(0)
+    let K0c = new Decimal(0)
     calls.forEach((call: OptionData, idx: number) => {
       const { strikePrice, midPrice, underlyingPrice } = call
       if (strikePrice.gt(underlyingPrice)) {
@@ -50,7 +50,7 @@ export class SigmaCalculator {
           dK = strikePrice.minus(calls[idx - 1].strikePrice)
         } else {
           // eslint-disable-next-line prettier/prettier
-          dK = (calls[idx + 1].strikePrice.minus(calls[idx - 1].strikePrice)).div(2)
+          dK = calls[idx + 1].strikePrice.minus(calls[idx - 1].strikePrice).div(2)
         }
 
         S = S.plus(dK.times(midPrice).times(exchangeRate).div(strikePrice.pow(2)))
@@ -59,7 +59,7 @@ export class SigmaCalculator {
       }
     })
 
-    let K0p = new Big(0)
+    let K0p = new Decimal(0)
     puts.forEach((put: OptionData, idx: number) => {
       const { strikePrice, midPrice, underlyingPrice } = put
       if (strikePrice.lt(underlyingPrice)) {
@@ -71,7 +71,7 @@ export class SigmaCalculator {
           dK = puts[idx - 1].strikePrice.minus(strikePrice)
         } else {
           // eslint-disable-next-line prettier/prettier
-          dK = (puts[idx - 1].strikePrice.minus(puts[idx + 1].strikePrice)).div(2)
+          dK = puts[idx - 1].strikePrice.minus(puts[idx + 1].strikePrice).div(2)
         }
 
         S = S.plus(dK.times(midPrice).times(exchangeRate).div(strikePrice.pow(2)))
@@ -81,8 +81,8 @@ export class SigmaCalculator {
     })
 
     const K0 = (K0c.plus(K0p)).div(2) // prettier-ignore
-    const sigma = (new Big(2)
-      .times(new Big(Math.exp(Number(r.mul(T).toFixed()))))
+    const sigma = (new Decimal(2)
+      .times(new Decimal(Math.exp(Number(r.mul(T).toFixed()))))
       .times(S)
       .minus((F.div(K0).minus(1)).pow(2)).div(T)) // prettier-ignore
 

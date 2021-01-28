@@ -53,7 +53,6 @@
       "google-finance",
       "json-rpc",
       "kaiko",
-      "kaiko",
       "lcx",
       "linkpool",
       "lition",
@@ -66,6 +65,7 @@
       "onchain",
       "openexchangerates",
       "orchid-bandwidth",
+      "paxos",
       "poa-gasprice",
       "polygon",
       "reduce",
@@ -79,8 +79,8 @@
       "wbtc-address-set",
       "xbto",
       "dydx-stark",
-      "token-allocation",
-      "iex-cloud"
+      "iex-cloud",
+      "cfbenchmarks"
     ]
   },
   "2-step": {
@@ -113,7 +113,8 @@
       "outlier-detection",
       "apy-finance",
       "crypto-volatility-index",
-      "bitcoin-json-rpc"
+      "bitcoin-json-rpc",
+      "token-allocation"
     ]
   },
   "synth-index": {

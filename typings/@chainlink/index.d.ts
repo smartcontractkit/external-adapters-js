@@ -56,6 +56,7 @@ declare module '@chainlink/types' {
     stack: string
     cause: string
   }
+
   export type AdapterErrorResponse = {
     jobRunID: string
     status: string
@@ -67,7 +68,7 @@ declare module '@chainlink/types' {
   // TODO: clean this ASAP
   export type WrappedAdapterResponse = {
     statusCode: number
-    data: AdapterResponse
+    data: AdapterResponse | AdapterErrorResponse
   }
   export type ExecuteWrappedResponse = (input: AdapterRequest) => Promise<WrappedAdapterResponse>
 
