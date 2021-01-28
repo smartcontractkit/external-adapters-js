@@ -1,8 +1,6 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
 import { makeConfig, DEFAULT_ENDPOINT } from './config'
-import { util } from '@chainlink/ea-bootstrap'
-import { application } from 'express'
 
 const inputParams = {
   base: ['base', 'from'],
@@ -33,9 +31,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   }
   const response = await Requester.request(reqConfig)
   const result = Requester.validateResultNumber(response.data, ['rates', to])
-
   return Requester.success(jobRunID, {
-    data: { result },
+    data: { ...response.data, result },
     result,
     status: 200,
   })

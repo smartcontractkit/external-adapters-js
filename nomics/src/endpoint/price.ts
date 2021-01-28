@@ -1,6 +1,5 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { AdapterRequest, Config } from '@chainlink/types'
-import { util } from '@chainlink/ea-bootstrap'
 
 export const Name = 'price'
 
@@ -21,6 +20,7 @@ export const execute = async (config: Config, request: AdapterRequest) => {
 
   let ids = validator.validated.data.base.toUpperCase()
   const convert = validator.validated.data.quote.toUpperCase()
+  const jobRunID = validator.validated.id
 
   // Correct common tickers that are misidentified
   ids = convertId[ids] || ids
@@ -36,8 +36,10 @@ export const execute = async (config: Config, request: AdapterRequest) => {
   }
 
   const response = await Requester.request(reqConfig, customError)
-
-  response.data = response.data[0]
-  response.data.result = Requester.validateResultNumber(response.data, ['price'])
-  return response.data
+  const result = Requester.validateResultNumber(response.data[0], ['price'])
+  return Requester.success(jobRunID, {
+    data: { ...response.data[0], result },
+    result,
+    status: 200,
+  })
 }

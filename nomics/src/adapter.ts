@@ -19,12 +19,10 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   let data
   switch (endpoint) {
     case globalmarketcap.Name: {
-      data = await globalmarketcap.execute(config, request)
-      break
+      return await globalmarketcap.execute(config, request)
     }
     case price.Name: {
-      data = await price.execute(config, request)
-      break
+      return await price.execute(config, request)
     }
     default: {
       throw new AdapterError({
@@ -34,12 +32,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
       })
     }
   }
-
-  return Requester.success(jobRunID, {
-    data,
-    result: data.result,
-    status: 200,
-  })
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {
