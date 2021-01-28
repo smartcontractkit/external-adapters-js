@@ -1,12 +1,8 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
-import { makeConfig } from './config'
-import { util } from '@chainlink/ea-bootstrap'
+import { DEFAULT_INTERVAL, DEFAULT_SORT, makeConfig } from './config'
 
-const customError = (data: any) => {
-  if (data.result === 'error') return true
-  return false
-}
+const customError = (data: any) => data.result === 'error'
 
 const customParams = {
   base: ['base', 'from', 'coin'],
@@ -28,29 +24,32 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const quote = validator.validated.data.quote.toLowerCase()
 
   // Correct common tickers that are misidentified
-  if (base in convertId) {
-    base = convertId[base]
-  }
+  base = convertId[base] || base
 
-  let url = 'https://us.market-api.kaiko.io'
+  let url
+  // what eth has to do with switching to direct exchange rate?
   if (quote === 'eth') {
-    url += `/v2/data/trades.v1/spot_direct_exchange_rate/${base}/${quote}`
+    url = 'spot_direct_exchange_rate/'
   } else {
-    url += `/v2/data/trades.v1/spot_exchange_rate/${base}/${quote}`
+    url = 'spot_exchange_rate/'
   }
+  url += `${base}/${quote}`
 
   const start_time = new Date() // eslint-disable-line camelcase
+  // what is the reasoning behind this number/date?
   start_time.setTime(start_time.getTime() - 1000000)
   const params = {
-    interval: '1m',
-    sort: 'desc',
+    interval: DEFAULT_INTERVAL,
+    sort: DEFAULT_SORT,
     start_time,
   }
   const headers = {
-    'X-Api-Key': util.getRandomRequiredEnv('API_KEY'),
+    'X-Api-Key': config.apiKey,
+    // what is this user agent about?
     'User-Agent': 'Chainlink',
   }
   const requestConfig = {
+    ...config.api,
     url,
     params,
     headers,
@@ -58,12 +57,13 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   }
 
   const response = await Requester.request(requestConfig, customError)
-  const result = (response.data.result = Number(
-    Requester.validateResultNumber(response.data.data, [0, 'price']),
-  ))
-  response.data.result = result
+
+  const result = Requester.validateResultNumber(response.data.data, [0, 'price'])
   return Requester.success(jobRunID, {
-    data: response.data,
+    data: {
+      ...response.data,
+      result,
+    },
     result,
     status: 200,
   })
