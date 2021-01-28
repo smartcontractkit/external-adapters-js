@@ -27,13 +27,12 @@ export const execute = async (config: Config, request: AdapterRequest) => {
     symbols,
     interval,
     limit,
-    access_key: util.getRandomRequiredEnv('API_KEY'),
+    access_key: config.apiKey,
   }
 
   const reqConfig = {
     ...config.api,
     params,
-    baseURL: 'http://api.marketstack.com/v1/',
     url,
   }
 
