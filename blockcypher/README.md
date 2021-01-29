@@ -5,6 +5,7 @@
 The adapter takes the following environment variables:
 
 - `API_KEY`: Optional blockcypher.com API key to use
+- `API_THROTTLE`: Optional amount to throttle the number of requests that are sent per second. This is useful for using a lower tier subscription plan.
 
 ## Input Params
 
