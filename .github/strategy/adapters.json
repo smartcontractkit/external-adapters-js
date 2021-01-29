@@ -79,6 +79,17 @@
       "cfbenchmarks"
     ]
   },
+  "ea": {
+    "docker": "make docker adapter=adapters/__ADAPTER__ name=__ADAPTER__",
+    "cmd": "make zip adapter=adapters/__ADAPTER__ name=__ADAPTER__",
+    "asset_path": "./adapters/__ADAPTER__/dist/__ADAPTER__-adapter.zip",
+    "asset_name": "__ADAPTER__-adapter.zip",
+    "adapter": [
+      "dns-query",
+      "json-rpc",
+      "cryptoapis"
+    ]
+  },
   "2-step": {
     "docker": "make docker-2-step adapter=__ADAPTER__",
     "cmd": "make zip-2-step adapter=__ADAPTER__",
@@ -109,17 +120,6 @@
       "crypto-volatility-index",
       "bitcoin-json-rpc",
       "token-allocation"
-    ]
-  },
-  "adapters-single": {
-    "docker": "make docker adapter=adapters/__ADAPTER__ name=__ADAPTER__",
-    "cmd": "make zip adapter=adapters/__ADAPTER__ name=__ADAPTER__",
-    "asset_path": "./adapters/__ADAPTER__/dist/__ADAPTER__-adapter.zip",
-    "asset_name": "__ADAPTER__-adapter.zip",
-    "adapter": [
-      "dns-query",
-      "json-rpc",
-      "cryptoapis"
     ]
   },
   "synth-index": {

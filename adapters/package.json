@@ -2,10 +2,10 @@
   "name": "@chainlink/ea",
   "version": "0.0.1",
   "description": "External adapters",
-  "main": "dist/adapters/index.js",
-  "types": "dist/adapters/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
-    "dist/adapters"
+    "dist"
   ],
   "license": "MIT",
   "scripts": {

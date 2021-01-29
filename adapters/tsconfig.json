@@ -11,9 +11,7 @@
     "**/*.test.ts"
   ],
   "include" :[
-    // might be needed when compiling adapters into one
-    // "**/src/*.ts", 
-    "*.ts",
+    "*",
   ],
   "esModuleInterop": true,
 }
