@@ -21,7 +21,7 @@ export const execute = async (config: Config, request: AdapterRequest) => {
   let ids = validator.validated.data.base.toUpperCase()
   const convert = validator.validated.data.quote.toUpperCase()
   const jobRunID = validator.validated.id
-
+  const url = `/currencies/ticker`
   // Correct common tickers that are misidentified
   ids = convertId[ids] || ids
 
@@ -32,6 +32,7 @@ export const execute = async (config: Config, request: AdapterRequest) => {
   }
   const reqConfig = {
     ...config.api,
+    url,
     params,
   }
 
