@@ -43,7 +43,7 @@ const chunk = (amount: number, data: any[]) => {
   return output
 }
 
-const throttle = async (amount: number, data: any[], callback: Function) => {
+const throttle = async (amount: number, data: any[], callback: any) => {
   const chunks = chunk(amount, data)
   const responses = await Promise.all(
     chunks.map(async (c, i) => {
