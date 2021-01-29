@@ -19,7 +19,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   switch (endpoint) {
     case realData.Name: {
       return await realData.execute(config, request)
-
     }
     default: {
       throw new AdapterError({
