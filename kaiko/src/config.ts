@@ -8,5 +8,7 @@ export const DEFAULT_API_ENDPOINT = 'https://us.market-api.kaiko.io/v2/data/trad
 export const makeConfig = (prefix = ''): Config => {
   const config = Requester.getDefaultConfig(prefix)
   config.api.baseURL = config.api.baseURL || DEFAULT_API_ENDPOINT
+  config.api.headers['X-Api-Key'] = config.apiKey
+  config.api.headers['User-Agent'] = 'Chainlink'
   return config
 }
