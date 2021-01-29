@@ -26,17 +26,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   // Correct common tickers that are misidentified
   base = convertId[base] || base
 
-  let url
-  // what eth has to do with switching to direct exchange rate?
+  let url = `spot_exchange_rate/${base}/${quote}`
   if (quote === 'eth') {
-    url = 'spot_direct_exchange_rate/'
-  } else {
-    url = 'spot_exchange_rate/'
+    url = `spot_direct_exchange_rate/${base}/${quote}`
   }
-  url += `${base}/${quote}`
-
   const start_time = new Date() // eslint-disable-line camelcase
-  // what is the reasoning behind this number/date?
   start_time.setTime(start_time.getTime() - 1000000)
   const params = {
     interval: DEFAULT_INTERVAL,
@@ -45,7 +39,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   }
   const headers = {
     'X-Api-Key': config.apiKey,
-    // what is this user agent about?
     'User-Agent': 'Chainlink',
   }
   const requestConfig = {

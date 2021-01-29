@@ -18,12 +18,12 @@ export const execute = async (config: Config, request: AdapterRequest) => {
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 
+  const jobRunID = validator.validated.id
+
   const url = `get_real_data`
   let idx = validator.validated.data.base.toUpperCase()
 
-  if (idx in commonKeys) {
-    idx = commonKeys[idx]
-  }
+  idx = commonKeys[idx] || idx
 
   const params = {
     idx,
@@ -32,10 +32,17 @@ export const execute = async (config: Config, request: AdapterRequest) => {
   const reqConfig = {
     ...config.api,
     params,
-    baseURL: 'https://indexes.nikkei.co.jp/en/nkave/',
     url,
   }
+
   const response = await Requester.request(reqConfig, customError)
-  response.data.result = parseFloat(response.data.price.replace(',', ''))
-  return response.data
+  const result = parseFloat(response.data.price.replace(',', ''))
+  return Requester.success(jobRunID, {
+    data: {
+      ...response.data,
+      result,
+    },
+    result,
+    status: 200,
+  })
 }
