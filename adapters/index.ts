@@ -1,5 +1,5 @@
 import { AdapterRequest, AdapterResponse } from '@chainlink/types'
-import dnsquery from '@chainlink/dns-query-adapter'
+import * as dnsquery from './dns-query/src'
 import jsonrpc from './json-rpc/src'
 import * as cryptoapisMain from './cryptoapis/src/'
 const price = function (from: string, to: string): Promise<AdapterResponse> {
