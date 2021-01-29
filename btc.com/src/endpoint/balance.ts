@@ -13,7 +13,7 @@ const getBalance: balance.GetBalance<ImplConfig> = async (account, config) => {
     testnet: account.chain === 'testnet',
   })
 
-  const response: any = await new Promise(async (resolve, reject) =>
+  const response: any = await new Promise((resolve, reject) =>
     client.address(account.address, (error: any, address: any) =>
       error ? reject(error) : resolve(address),
     ),
