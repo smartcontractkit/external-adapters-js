@@ -18,12 +18,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
   switch (endpoint) {
     case realData.Name: {
-      const data = await realData.execute(config, request)
-      return Requester.success(jobRunID, {
-        data,
-        result: data.result,
-        status: 200,
-      })
+      return await realData.execute(config, request)
+
     }
     default: {
       throw new AdapterError({
