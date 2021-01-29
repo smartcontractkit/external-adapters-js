@@ -37,15 +37,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     sort: DEFAULT_SORT,
     start_time,
   }
-  const headers = {
-    'X-Api-Key': config.apiKey,
-    'User-Agent': 'Chainlink',
-  }
+
   const requestConfig = {
     ...config.api,
     url,
     params,
-    headers,
     timeout: 10000,
   }
 
