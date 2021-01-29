@@ -1,9 +1,8 @@
 import bcypher from 'blockcypher'
 import { balance } from '@chainlink/ea-factories'
-import { Config, Account } from '@chainlink/types'
+import { Account } from '@chainlink/types'
 import { ImplConfig } from '../config'
 import { CoinType, ChainType, isCoinType, isChainType } from '.'
-import { response } from 'express'
 
 export const Name = 'balance'
 
@@ -30,6 +29,14 @@ const getChainId = (coin: CoinType, chain: ChainType): string => {
   }
 }
 
+/**
+ * Chunk an array into a nested array
+ *
+ * @param amount number the max size of the chunks
+ * @param data array of arbitrary data
+ *
+ * @returns 2d array
+ */
 const chunk = (amount: number, data: any[]) => {
   const output: any[][] = []
   const length = data.length
@@ -43,15 +50,24 @@ const chunk = (amount: number, data: any[]) => {
   return output
 }
 
-const throttle = async (amount: number, data: any[], callback: any) => {
+/**
+ * Delays the amount of requests sent per second
+ *
+ * @param amount maximum number of requests per second
+ * @param data array of arbitrary data
+ * @param exec function handler of a chunk
+ *
+ * @returns array of response data
+ */
+const throttle = async (amount: number, data: any[], exec: any) => {
   const chunks = chunk(amount, data)
-  const responses = await Promise.all(
-    chunks.map(async (c, i) => {
-      await new Promise((resolve) => setTimeout(resolve, i * 1000))
-      return await callback(c)
-    }),
-  )
-  return responses.flat()
+  const delay = 1000
+  const withDelay = async (c: any, i: number) => {
+    await new Promise((resolve) => setTimeout(resolve, i * delay))
+    return await exec(c)
+  }
+  const output = await Promise.all(chunks.map(withDelay))
+  return output.flat()
 }
 
 const getBalances: balance.GetBalances<ImplConfig> = async (accounts, config) => {
@@ -77,14 +93,14 @@ const getBalances: balance.GetBalances<ImplConfig> = async (accounts, config) =>
     ? await throttle(config.throttle, addresses, _getAddrBal)
     : await _getAddrBal(addresses)
 
-  const responseLookup: { [key: string]: AddressBalance } = {}
-  response.forEach((a) => (responseLookup[a.address] = a))
+  const addrLookup: { [key: string]: AddressBalance } = {}
+  response.forEach((r) => (addrLookup[r.address] = r))
 
-  const toResultWithBalance = (acc: Account) => ({
+  const addBalance = (acc: Account) => ({
     ...acc,
-    balance: String(responseLookup[acc.address].final_balance),
+    balance: String(addrLookup[acc.address].final_balance),
   })
-  const resultWithBalance = accounts.map(toResultWithBalance)
+  const resultWithBalance = accounts.map(addBalance)
 
   return {
     payload: response,
