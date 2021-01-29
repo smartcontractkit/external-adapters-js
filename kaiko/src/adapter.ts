@@ -1,6 +1,6 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
-import { DEFAULT_INTERVAL, DEFAULT_SORT, makeConfig } from './config'
+import { DEFAULT_INTERVAL, DEFAULT_SORT, DEFAULT_MILLISECONDS, makeConfig } from './config'
 
 const customError = (data: any) => data.result === 'error'
 
@@ -26,16 +26,21 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   // Correct common tickers that are misidentified
   base = convertId[base] || base
 
-  let url = `spot_exchange_rate/${base}/${quote}`
+  let url = `/spot_exchange_rate/${base}/${quote}`
   if (quote === 'eth') {
-    url = `spot_direct_exchange_rate/${base}/${quote}`
+    url = `/spot_direct_exchange_rate/${base}/${quote}`
   }
-  const start_time = new Date() // eslint-disable-line camelcase
-  start_time.setTime(start_time.getTime() - 1000000)
+
+  function calculateStartTime(millisecondsAgo: number) {
+    const date = new Date()
+    date.setTime(date.getTime() - millisecondsAgo)
+    return date
+  }
+
   const params = {
     interval: DEFAULT_INTERVAL,
     sort: DEFAULT_SORT,
-    start_time,
+    start_time: calculateStartTime(DEFAULT_MILLISECONDS),
   }
 
   const requestConfig = {
@@ -46,7 +51,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   }
 
   const response = await Requester.request(requestConfig, customError)
-
   const result = Requester.validateResultNumber(response.data.data, [0, 'price'])
   return Requester.success(jobRunID, {
     data: {
