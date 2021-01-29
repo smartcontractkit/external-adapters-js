@@ -9,6 +9,7 @@ export const execute = async (config: Config, request: AdapterRequest) => {
   const validator = new Validator(request, {})
   if (validator.error) throw validator.error
   const jobRunID = validator.validated.id
+  const url = `/global-ticker`
 
   const params = {
     key: config.apiKey,
@@ -16,12 +17,11 @@ export const execute = async (config: Config, request: AdapterRequest) => {
 
   const reqConfig = {
     ...config.api,
-    baseURL: `https://api.nomics.com/v1/global-ticker`,
+    url,
     params,
   }
 
   const response = await Requester.request(reqConfig, customError)
-
   const result = Requester.validateResultNumber(response.data, ['market_cap'])
   return Requester.success(jobRunID, {
     data: { ...response.data, result },
