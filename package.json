@@ -6,6 +6,7 @@
   "workspaces": [
     "adapters",
     "adapters/**",
+    "composite/**",
     "examples",
     "ea-factories",
     "bootstrap",
