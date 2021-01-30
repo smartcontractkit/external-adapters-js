@@ -39,6 +39,7 @@
       "deribit",
       "dns-query",
       "dxfeed",
+      "dxfeed-secondary",
       "eodhistoricaldata",
       "etherchain",
       "ethgasstation",

@@ -1,5 +1,11 @@
 # Chainlink External Adapter for dxFeed
 
+An adapter to add secondary mapping for symbols:
+
+```bash
+TSLA ➡️ 'TSLA.US:TEI'
+```
+
 ## Configuration
 
 This adapter supports the following environment variables:
@@ -12,15 +18,6 @@ This adapter supports the following environment variables:
 
 - `base`, `from`, or `asset`: The symbol of the asset to query
 - `endpoint`: Optional endpoint param
-
-The `base` param handles the following symbol conversions:
-
-```bash
-N225 ➡️ 'NKY.IND:TEI'
-FTSE ➡️ 'UKX.IND:TEI'
-TSLA ➡️ 'TSLA:BFX'
-TSLAX ➡️ 'TSLA.US:TEI'
-```
 
 ## Output
 
