@@ -8,7 +8,7 @@ name: Release
 
 env:
   cache-name: release-ci
-  publicecr-name: chainlin
+  publicecr-name: chainlink
 
 jobs:
   release:
