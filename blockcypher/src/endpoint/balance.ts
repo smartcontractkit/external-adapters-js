@@ -1,7 +1,7 @@
 import bcypher from 'blockcypher'
 import { balance } from '@chainlink/ea-factories'
 import { Account } from '@chainlink/types'
-import { ImplConfig } from '../config'
+import { Config } from '../config'
 import { CoinType, ChainType, isCoinType, isChainType } from '.'
 
 export const Name = 'balance'
@@ -70,7 +70,7 @@ const throttle = async (amount: number, data: any[], exec: any) => {
   return output.flat()
 }
 
-const getBalances: balance.GetBalances<ImplConfig> = async (accounts, config) => {
+const getBalances: balance.GetBalances<Config> = async (accounts, config) => {
   const addresses = accounts.map((a) => a.address)
   const { coin, chain } = accounts[0]
   const chainId = getChainId(coin as CoinType, chain as ChainType)
@@ -110,5 +110,5 @@ const getBalances: balance.GetBalances<ImplConfig> = async (accounts, config) =>
 
 const isSupported: balance.IsSupported = (coin, chain) => isChainType(chain) && isCoinType(coin)
 
-export const makeExecute = (config: ImplConfig) =>
-  balance.make<ImplConfig>({ ...config, getBalances, isSupported })
+export const makeExecute = (config: Config) =>
+  balance.make<Config>({ ...config, getBalances, isSupported })

@@ -1,11 +1,11 @@
 import { balance } from '@chainlink/ea-factories'
 import { isChainType, isCoinType } from '.'
 import * as blocktrail from 'blocktrail-sdk'
-import { ImplConfig } from '../config'
+import { Config } from '../config'
 
 export const NAME = 'balance'
 
-const getBalance: balance.GetBalance<ImplConfig> = async (account, config) => {
+const getBalance: balance.GetBalance<Config> = async (account, config) => {
   const client = blocktrail.BlocktrailSDK({
     apiKey: config.apiKey,
     apiSecret: config.apiSecret,
@@ -27,5 +27,5 @@ const getBalance: balance.GetBalance<ImplConfig> = async (account, config) => {
 
 const isSupported: balance.IsSupported = (coin, chain) => isChainType(chain) && isCoinType(coin)
 
-export const makeExecute = (config: ImplConfig) =>
-  balance.make<ImplConfig>({ ...config, getBalance, isSupported })
+export const makeExecute = (config: Config) =>
+  balance.make<Config>({ ...config, getBalance, isSupported })
