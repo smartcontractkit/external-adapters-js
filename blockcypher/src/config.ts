@@ -4,10 +4,10 @@ import { util } from '@chainlink/ea-bootstrap'
 
 export const DEFAULT_ENDPOINT = 'balance'
 
-export const ENV_REQUEST_THROTTLE = 'API_THROTTLE'
+export const ENV_REQUEST_THROTTLE = 'API_RATE_LIMIT'
 
 export type Config = types.Config & {
-  throttle: number
+  ratelimit: number
 }
 
 export const makeConfig = (prefix = ''): Config => {

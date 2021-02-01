@@ -59,7 +59,7 @@ const chunk = (amount: number, data: any[]) => {
  *
  * @returns array of response data
  */
-const throttle = async (amount: number, data: any[], exec: any) => {
+const rateLimit = async (amount: number, data: any[], exec: any) => {
   const chunks = chunk(amount, data)
   const delay = 1000
   const withDelay = async (c: any, i: number) => {
@@ -89,8 +89,8 @@ const getBalances: balance.GetBalances<Config> = async (accounts, config) => {
       )
     })
 
-  const response = config.throttle
-    ? await throttle(config.throttle, addresses, _getAddrBal)
+  const response = config.ratelimit
+    ? await rateLimit(config.ratelimit, addresses, _getAddrBal)
     : await _getAddrBal(addresses)
 
   const addrLookup: { [key: string]: AddressBalance } = {}
