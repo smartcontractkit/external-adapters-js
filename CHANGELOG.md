@@ -31,6 +31,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `iex-cloud` to get stock and crypto market data from IEX Cloud
   - `cfbenchmarks` to get crypto benchmarks and indices
   - `dxfeed-secondary` to handle secondary mappings for the TSLA symbol
+  - `klaytn` to query to Klaytn chain.
 - Added support for metadata in requests. This gives adapters access to the FM on-chain round state.
 - Moves re-usable test behaviors & testing utils to a new package - `@chainlink/adapter-test-helpers`
 - Added support for using query string parameters as input to adapters.
