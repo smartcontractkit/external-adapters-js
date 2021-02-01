@@ -13,6 +13,7 @@ export type Config = types.Config & {
 export const makeConfig = (prefix = ''): Config => {
   const config = Requester.getDefaultConfig(prefix)
   config.api.baseURL = config.api.baseURL || DEFAULT_API_ENDPOINT
-  config.apiSecret = util.getEnv('API_SECRET', prefix)
+  config.apiSecret = util.getRequiredEnv('API_SECRET', prefix)
+  config.apiKey = util.getRequiredEnv('API_KEY', prefix)
   return config
 }
