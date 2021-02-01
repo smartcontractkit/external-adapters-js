@@ -1,0 +1,26 @@
+{
+  "name": "@chainlink/klaytn-adapter",
+  "version": "0.0.1",
+  "description": "Chainlink Klaytn adapter",
+  "keywords": [
+    "Klaytn",
+    "Chainlink",
+    "LINK",
+    "blockchain",
+    "oracle"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "server": "node -e 'require(\"./index.js\").server()'"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@chainlink/ea-bootstrap": "^0.0.1",
+    "@chainlink/external-adapter": "0.2.3",
+    "@truffle/contract": "^4.3.5",
+    "caver-js": "^1.5.5",
+    "fs": "0.0.1-security",
+    "solc": "^0.6.0",
+    "web3": "^1.2.9"
+  }
+}
