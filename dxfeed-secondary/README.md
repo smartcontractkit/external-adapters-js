@@ -17,7 +17,7 @@ This adapter supports the following environment variables:
 ## Input Params
 
 - `base`, `from`, or `asset`: The symbol of the asset to query
-- `endpoint`: Optional endpoint param
+- `endpoint`: Optional endpoint param, defaults to using the price endpoint
 
 ## Output
 
