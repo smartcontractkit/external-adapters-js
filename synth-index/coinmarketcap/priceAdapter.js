@@ -1,5 +1,6 @@
 const { Requester } = require('@chainlink/external-adapter')
 const Decimal = require('decimal.js')
+const { util } = require('@chainlink/ea-bootstrap')
 
 // Defaults we use when there are multiple currencies with the same symbol
 const presetSlugs = {
@@ -11,13 +12,19 @@ const presetSlugs = {
   FNX: 'finnexus',
   ETC: 'ethereum-classic',
   BAT: 'basic-attention-token',
+  CRO: 'crypto-com-coin',
+  LEO: 'unus-sed-leo',
+  FTT: 'ftx-token',
+  HT: 'huobi-token',
+  OKB: 'okb',
+  KCS: 'kucoin-shares',
 }
 
 const getPriceData = async (assets, convert) => {
   const _getPriceData = async (params) => {
     const url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest'
     const headers = {
-      'X-CMC_PRO_API_KEY': process.env.API_KEY,
+      'X-CMC_PRO_API_KEY': util.getRandomRequiredEnv('API_KEY'),
     }
     const config = {
       url,

@@ -10,24 +10,24 @@
 
 ```json
 {
- "jobRunID": "1",
- "data": {
-  "success": true,
-  "query": {
-   "from": "XAU",
-   "to": "USD",
-   "amount": "1"
+  "jobRunID": "1",
+  "data": {
+    "success": true,
+    "query": {
+      "from": "XAU",
+      "to": "USD",
+      "amount": "1"
+    },
+    "info": {
+      "timestamp": 1595252400,
+      "rate": 1813.1957606105088
+    },
+    "historical": false,
+    "date": "2020-07-20",
+    "result": 1813.1957606105088,
+    "unit": "per ounce"
   },
-  "info": {
-   "timestamp": 1595252400,
-   "rate": 1813.1957606105088
-  },
-  "historical": false,
-  "date": "2020-07-20",
   "result": 1813.1957606105088,
-  "unit": "per ounce"
- },
- "result": 1813.1957606105088,
- "statusCode": 200
+  "statusCode": 200
 }
 ```

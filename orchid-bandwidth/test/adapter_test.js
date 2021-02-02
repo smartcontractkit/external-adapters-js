@@ -14,7 +14,6 @@ describe('execute', () => {
     requests.forEach((req) => {
       it(`${req.name}`, (done) => {
         execute(req.testData, (statusCode, data) => {
-          console.log(JSON.stringify(data))
           assertSuccess({ expected: 200, actual: statusCode }, data, jobID)
           assert.isAbove(data.result, 0)
           assert.isAbove(data.data.result, 0)
