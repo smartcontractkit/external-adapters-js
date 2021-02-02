@@ -35,6 +35,7 @@
     "@chainlink/oilpriceapi-adapter": "^0.0.1",
     "@chainlink/deribit-adapter": "^0.0.1",
     "@chainlink/genesis-volatility-adapter": "^0.0.1",
-    "@chainlink/xbto-adapter": "^0.0.1"
+    "@chainlink/xbto-adapter": "^0.0.1",
+    "@chainlink/dxfeed-adapter": "^0.0.2"
   }
 }
