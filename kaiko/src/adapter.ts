@@ -31,6 +31,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     url = `/spot_direct_exchange_rate/${base}/${quote}`
   }
 
+  // provide a reasonable interval to fetch only recent results
   function calculateStartTime(millisecondsAgo: number) {
     const date = new Date()
     date.setTime(date.getTime() - millisecondsAgo)
@@ -51,7 +52,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   }
 
   const response = await Requester.request(requestConfig, customError)
-  const result = Requester.validateResultNumber(response.data.data, [0, 'price'])
+  const result = Requester.validateResultNumber(
+    // sometimes, the most recent(fraction of a second) data contain null price
+    response.data.data.filter((x: any) => x.price !== null),
+    [0, 'price'],
+  )
   return Requester.success(jobRunID, {
     data: {
       ...response.data,
