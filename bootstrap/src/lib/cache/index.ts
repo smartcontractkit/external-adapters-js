@@ -8,7 +8,7 @@ import { RedisOptions } from './redis'
 
 const DEFAULT_CACHE_TYPE = 'local'
 const DEFAULT_CACHE_KEY_GROUP = uuid()
-const DEFAULT_CACHE_KEY_IGNORED_PROPS = ['id', 'maxAge']
+const DEFAULT_CACHE_KEY_IGNORED_PROPS = ['id', 'maxAge', 'meta']
 // Request coalescing
 const DEFAULT_RC_INTERVAL = 100
 const DEFAULT_RC_INTERVAL_MAX = 1000

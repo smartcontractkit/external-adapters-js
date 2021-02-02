@@ -32,6 +32,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Coinlore now accepts an optional environment variable to set the default API endpoint
 - migrates @chainlink/ea-bootstrap and @chainlink/external-adapter packages to TS.
 
+## [0.1.5] - 2021-2-2
+
+- Cache key generator now ignores `'meta'` metadata as default setting
+
 ## [0.1.4] - 2020-10-30
 
 ### Added
