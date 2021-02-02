@@ -68,6 +68,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - WTI Outlier detection and IV Outlier detection adapters are now covered in the Outlier detection composite adapter
 
+## [0.1.5] - 2021-2-2
+
+- Cache key generator now ignores `'meta'` metadata as default setting
+
 ## [0.1.4] - 2020-10-30
 
 ### Added

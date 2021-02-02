@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/market-closure-adapter",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Chainlink Market-Closure adapter. Checks if trading market for asset is open before fetching the price.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -31,8 +31,8 @@
     "typescript": "^3.9.7"
   },
   "dependencies": {
-    "@chainlink/fcsapi-adapter": "^0.0.1",
-    "@chainlink/finnhub-adapter": "^0.0.1",
+    "@chainlink/fcsapi-adapter": "^0.0.2",
+    "@chainlink/finnhub-adapter": "^0.0.2",
     "@chainlink/reference-data-reader": "^0.0.2",
     "market-closure": "^0.1.2"
   }
