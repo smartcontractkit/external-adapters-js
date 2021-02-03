@@ -1,11 +1,13 @@
 import { Execute } from '@chainlink/types'
 import * as GenesisVolatility from '@chainlink/genesis-volatility-adapter'
 import * as XBTO from '@chainlink/xbto-adapter'
+import * as dxFeed from '@chainlink/dxfeed-adapter'
 import { util } from '@chainlink/ea-bootstrap'
 
 export enum SourceDataProvider {
   XBTO = 'xbto',
   GenesisVolatility = 'genesisvolatility',
+  dxFeed = 'dxfeed',
 }
 
 export const ENV_SOURCE_ADAPTERS = 'SOURCE_ADAPTERS'
@@ -29,6 +31,8 @@ export const getSourceImpl = (type: SourceDataProvider): Execute => {
       return XBTO.makeExecute(XBTO.makeConfig(prefix))
     case SourceDataProvider.GenesisVolatility:
       return GenesisVolatility.makeExecute(GenesisVolatility.makeConfig(prefix))
+    case SourceDataProvider.dxFeed:
+      return dxFeed.makeExecute(dxFeed.makeConfig(prefix))
     default:
       throw Error(`Unknown source data provider adapter type: ${type}`)
   }

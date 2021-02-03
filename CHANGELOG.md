@@ -30,6 +30,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `bitcoin-json-rpc`: composite adapter for querying bitcoin blockchain stats(difficulty, height) according to the existing convention
   - `iex-cloud` to get stock and crypto market data from IEX Cloud
   - `cfbenchmarks` to get crypto benchmarks and indices
+  - `dxfeed-secondary` to handle secondary mappings for the TSLA symbol
+  - `harmony` to write transactions to the Harmony blockchain
 - Added support for metadata in requests. This gives adapters access to the FM on-chain round state.
 - Moves re-usable test behaviors & testing utils to a new package - `@chainlink/adapter-test-helpers`
 - Added support for using query string parameters as input to adapters.
@@ -53,11 +55,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `blockchair`
   - `cryptoapis`
 - dxFeed now uses OTC feeds for FTSE and N225, rather than licensed data feeds
-- migrates `coinmarketcap` to TS
+- Migrated to Typescript
+  - `kaiko`
+  - `marketstack`
+  - `metalsapi`
+  - `nikkei`
+  - `poa-gasprice`
+  - `polygon`
+  - `nomics`
+  - `openexchangerates`
+  - `coinmarketcap`
 
 ### Removed
 
 - WTI Outlier detection and IV Outlier detection adapters are now covered in the Outlier detection composite adapter
+
+## [0.1.5] - 2021-2-2
+
+- Cache key generator now ignores `'meta'` metadata as default setting
 
 ## [0.1.4] - 2020-10-30
 

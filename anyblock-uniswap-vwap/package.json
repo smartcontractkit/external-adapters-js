@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/anyblock-uniswap-vwap-adapter",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Chainlink adapter using Anyblock Analytics service to calculate the volume weighted average price (VWAP) for any Uniswap asset.",
   "keywords": [
     "Chainlink",

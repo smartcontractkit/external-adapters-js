@@ -4,6 +4,7 @@
     "docker": "make docker adapter=__ADAPTER__",
     "asset_path": "./__ADAPTER__/dist/__ADAPTER__-adapter.zip",
     "asset_name": "__ADAPTER__-adapter.zip",
+    "image_name": "__ADAPTER__-adapter",
     "adapter": [
       "1forge",
       "alphachain",
@@ -38,6 +39,7 @@
       "deribit",
       "dns-query",
       "dxfeed",
+      "dxfeed-secondary",
       "eodhistoricaldata",
       "etherchain",
       "ethgasstation",
@@ -79,7 +81,8 @@
       "xbto",
       "dydx-stark",
       "iex-cloud",
-      "cfbenchmarks"
+      "cfbenchmarks",
+      "harmony"
     ]
   },
   "2-step": {
@@ -87,6 +90,7 @@
     "cmd": "make zip-2-step adapter=__ADAPTER__",
     "asset_path": "./2-step/__ADAPTER__/dist/__ADAPTER__-2-step-adapter.zip",
     "asset_name": "__ADAPTER__-2-step-adapter.zip",
+    "image_name": "__ADAPTER__-2-step-adapter",
     "adapter": [
       "amberdata",
       "bravenewcoin",
@@ -102,6 +106,7 @@
     "cmd": "make zip adapter=composite/__ADAPTER__ name=__ADAPTER__",
     "asset_path": "./composite/__ADAPTER__/dist/__ADAPTER__-adapter.zip",
     "asset_name": "__ADAPTER__-adapter.zip",
+    "image_name": "__ADAPTER__-adapter",
     "adapter": [
       "proof-of-reserves",
       "market-closure",
@@ -119,6 +124,7 @@
     "cmd": "make zip-synth-index adapter=__ADAPTER__",
     "asset_path": "./synth-index/__ADAPTER__/dist/synth-index-__ADAPTER__-adapter.zip",
     "asset_name": "synth-index-__ADAPTER__-adapter.zip",
+    "image_name": "synth-index-__ADAPTER__-adapter",
     "adapter": [
       "amberdata",
       "bravenewcoin",

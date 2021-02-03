@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/external-adapters-js",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "license": "MIT",
   "private": true,
   "workspaces": [
@@ -26,6 +26,7 @@
     "metalsapi",
     "bravenewcoin-vwap",
     "dxfeed",
+    "dxfeed-secondary",
     "tradingeconomics",
     "marketstack",
     "nikkei",
@@ -93,7 +94,8 @@
     "deribit",
     "dydx-stark",
     "iex-cloud",
-    "cfbenchmarks"
+    "cfbenchmarks",
+    "harmony"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",
@@ -106,7 +108,7 @@
     "test:example-start-server": "node ./helpers/server.js"
   },
   "dependencies": {
-    "@chainlink/ea-bootstrap": "^0.1.4",
+    "@chainlink/ea-bootstrap": "^0.1.5",
     "@chainlink/ea-factories": "^0.0.1",
     "@chainlink/external-adapter": "^0.2.7",
     "decimal.js": "^10.2.0",
