@@ -9,11 +9,17 @@ import { RedisOptions } from './redis'
 const DEFAULT_CACHE_TYPE = 'local'
 const DEFAULT_CACHE_KEY_GROUP = uuid()
 const DEFAULT_CACHE_KEY_IGNORED_PROPS = ['id', 'maxAge', 'meta']
+const DEFAULT_CACHE_RATE_CAPACITY = '1000000'
+const DEFAULT_CACHE_KEY_RATE_LIMIT_PARTICIPANT = uuid()
+
 // Request coalescing
 const DEFAULT_RC_INTERVAL = 100
 const DEFAULT_RC_INTERVAL_MAX = 1000
 const DEFAULT_RC_INTERVAL_COEFFICIENT = 2
 const DEFAULT_RC_ENTROPY_MAX = 0
+
+const DEFAULT_RATE_WEIGHT = 1
+const DEFAULT_RATE_COST = 1
 
 const env = process.env
 export const defaultOptions = () => ({
@@ -22,6 +28,9 @@ export const defaultOptions = () => ({
   cacheBuilder: defaultCacheBuilder(),
   key: {
     group: env.CACHE_KEY_GROUP || DEFAULT_CACHE_KEY_GROUP,
+    rateLimitGroup: env.API_KEY || undefined,
+    rateLimitParticipant: DEFAULT_CACHE_KEY_RATE_LIMIT_PARTICIPANT,
+    totalCapacity: parseInt(env.CACHE_RATE_CAPACITY || DEFAULT_CACHE_RATE_CAPACITY),
     ignored: [
       ...DEFAULT_CACHE_KEY_IGNORED_PROPS,
       ...(env.CACHE_KEY_IGNORED_PROPS || '').split(',').filter((k) => k), // no empty keys
@@ -70,6 +79,45 @@ export const redactOptions = (options: CacheOptions) => ({
       : local.redactOptions(options.cacheOptions),
 })
 
+type RateLimitParticipant = {
+  // for this this type of req, how many underlying requests to provider
+  cost: number
+  // importance of this type of req
+  weight: number
+}
+
+type RateLimitGroup = {
+  totalCapacity: number
+  group: { [key: string]: RateLimitParticipant }
+}
+
+const getParticipantMaxAge = (rlGroup: RateLimitGroup, participantId: string) => {
+  const SEC_IN_MIN = 60
+  const MS_IN_SEC = 1000
+
+  // to be on the safe side, we don't use max capacity
+  const _safeCapacity = (num: number) => num * 0.9
+  // capacity for participant depends on its weight vs group weight
+  const _capacityFor = (key: string) => {
+    // assert key exists
+    const p = rlGroup.group[key]
+    const groupWeight = Object.values(rlGroup.group).reduce((acc, val) => acc + val.weight, 0)
+    return (_safeCapacity(rlGroup.totalCapacity) * p.weight) / groupWeight
+  }
+  // how often should we cache requests to be under capacity limit
+  const _maxAgeFor = (key: string) => {
+    // assert key exists
+    const p = rlGroup.group[key]
+    const capacity = _capacityFor(key)
+    const rps = capacity / SEC_IN_MIN / p.cost
+    const maxAge = Math.round(MS_IN_SEC / rps)
+    return { rps, maxAge }
+  }
+  return Object.fromEntries(Object.entries(rlGroup.group).map(([k, _]) => [k, _maxAgeFor(k)]))[
+    participantId
+  ]
+}
+
 export const withCache = async (
   execute: ExecuteWrappedResponse,
   options: CacheOptions = defaultOptions(),
@@ -105,6 +153,35 @@ export const withCache = async (
     return Number(data.data.maxAge) || cache.options.maxAge
   }
 
+  const GROUP_MAX_AGE = 1000 * 60 * 60 * 24 * 30
+  const _getRateLimmitGroup = async (groupId: string): Promise<RateLimitGroup> => {
+    const result: any = (await cache.get(groupId)) || {}
+    return {
+      totalCapacity: result.totalCapacity || options.key.totalCapacity,
+      group: result.group || {},
+    }
+  }
+
+  const _updateRateLimitGroup = async (
+    groupId: string,
+    cost = DEFAULT_RATE_COST,
+    weight = DEFAULT_RATE_WEIGHT,
+  ) => {
+    const rateLimitGroup = await _getRateLimmitGroup(groupId)
+    const newGroup = {
+      totalCapacity: rateLimitGroup.totalCapacity,
+      group: {
+        ...rateLimitGroup.group,
+        [options.key.rateLimitParticipant]: {
+          cost,
+          weight,
+        },
+      },
+    }
+    await cache.set(groupId, newGroup, GROUP_MAX_AGE)
+    return newGroup
+  }
+
   const _executeWithCache = async (data: AdapterRequest) => {
     const key = _getKey(data)
     const coalescingKey = _getCoalescingKey(key)
@@ -112,8 +189,17 @@ export const withCache = async (
     // Add successful result to cache
     const _cacheOnSuccess = async ({ statusCode, data }: WrappedAdapterResponse) => {
       if (statusCode === 200) {
-        const entry = { statusCode, data, maxAge }
-        await cache.set(key, entry, maxAge)
+        let participantMaxAge
+        if (options.key.rateLimitGroup) {
+          const rlg = await _updateRateLimitGroup(
+            options.key.rateLimitGroup,
+            data.data.cost,
+            data.data.weight,
+          )
+          participantMaxAge = getParticipantMaxAge(rlg, options.key.rateLimitParticipant).maxAge
+        }
+        const entry = { statusCode, data, maxAge: participantMaxAge || maxAge }
+        await cache.set(key, entry, participantMaxAge || maxAge)
         logger.debug(`Cache: SET ${key}`, entry)
         // Notify pending requests by removing the in-flight mark
         await _delInFlightMarker(coalescingKey)
