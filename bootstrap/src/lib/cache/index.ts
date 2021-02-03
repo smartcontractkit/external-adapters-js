@@ -158,9 +158,6 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
           participantMaxAge = getParticipantMaxAge(rlg, options.key.rateLimitParticipant).maxAge
         }
         const entry = { statusCode, data, maxAge: participantMaxAge || maxAge }
-        console.log('SETTING CACHE:', entry)
-        console.log('WITH MAX AGE:', participantMaxAge || maxAge)
-        console.log('WITH KEY:', key)
         await cache.set(key, entry, participantMaxAge || maxAge)
         logger.debug(`Cache: SET ${key}`, entry)
         // Notify pending requests by removing the in-flight mark
