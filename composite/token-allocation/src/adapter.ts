@@ -100,7 +100,7 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
   const _success = (payload: ResponsePayload, result: number) =>
     Requester.success(jobRunID, {
       status: 200,
-      data: { sources: [], payload, result },
+      data: { sources: [], payload, result, cost: 10 },
       result,
     })
 
