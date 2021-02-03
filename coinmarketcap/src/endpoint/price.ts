@@ -1,4 +1,3 @@
-import { util } from '@chainlink/ea-bootstrap'
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 
@@ -61,9 +60,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const options = {
     ...config.api,
     url,
-    headers: {
-      'X-CMC_PRO_API_KEY': util.getRandomRequiredEnv('API_KEY'),
-    },
     params,
   }
   const response = await Requester.request(options)

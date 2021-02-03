@@ -1,4 +1,3 @@
-import { util } from '@chainlink/ea-bootstrap'
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 
@@ -18,15 +17,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const url = '/global-metrics/quotes/latest'
 
   const params = { convert }
-  const headers = {
-    'X-CMC_PRO_API_KEY': util.getRandomRequiredEnv('API_KEY'),
-  }
 
   const options = {
     ...config.api,
     url,
     params,
-    headers,
   }
   const response = await Requester.request(options)
   const result = Requester.validateResultNumber(response.data, [

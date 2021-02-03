@@ -25,6 +25,14 @@ export const toObjectWithNumbers = (obj: any) => {
 }
 
 // pick a random string from env var after splitting with the delimiter ("a&b&c" "&" -> choice(["a","b","c"]))
+export const getRandomEnv = (name: string, delimiter = ',', prefix = '') => {
+  const val = getEnv(name, prefix)
+  if (!val) return val
+  const items = val.split(delimiter)
+  return items[Math.floor(Math.random() * items.length)]
+}
+
+// pick a random string from env var after splitting with the delimiter ("a&b&c" "&" -> choice(["a","b","c"]))
 export const getRandomRequiredEnv = (name: string, delimiter = ',', prefix = '') => {
   const val = getRequiredEnv(name, prefix)
   const items = val.split(delimiter)

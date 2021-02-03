@@ -19,8 +19,10 @@ export const constants = {
 /* eslint-disable @typescript-eslint/no-unused-vars */
 const cloneNoSecrets = (config: Config): Config => (({ apiKey, ...o }) => o)(config)
 
-export function getDefaultConfig(prefix = ''): Config {
-  const apiKey = util.getEnv(ENV_API_KEY, prefix)
+export function getDefaultConfig(prefix = '', requireKey = false): Config {
+  const apiKey = requireKey
+    ? util.getRandomRequiredEnv(ENV_API_KEY, ',', prefix)
+    : util.getRandomEnv(ENV_API_KEY, ',', prefix)
   const timeout = util.getEnv(ENV_API_TIMEOUT, prefix)
   return {
     apiKey,
