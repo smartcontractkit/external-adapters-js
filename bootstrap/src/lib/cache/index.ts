@@ -10,11 +10,17 @@ import { Middleware } from '../../index'
 const DEFAULT_CACHE_TYPE = 'local'
 const DEFAULT_CACHE_KEY_GROUP = uuid()
 const DEFAULT_CACHE_KEY_IGNORED_PROPS = ['id', 'maxAge', 'meta']
+const DEFAULT_CACHE_RATE_CAPACITY = '1000000'
+const DEFAULT_CACHE_KEY_RATE_LIMIT_PARTICIPANT = uuid()
+
 // Request coalescing
 const DEFAULT_RC_INTERVAL = 100
 const DEFAULT_RC_INTERVAL_MAX = 1000
 const DEFAULT_RC_INTERVAL_COEFFICIENT = 2
 const DEFAULT_RC_ENTROPY_MAX = 0
+
+const DEFAULT_RATE_WEIGHT = 1
+const DEFAULT_RATE_COST = 1
 
 const env = process.env
 export const defaultOptions = () => ({
@@ -23,6 +29,9 @@ export const defaultOptions = () => ({
   cacheBuilder: defaultCacheBuilder(),
   key: {
     group: env.CACHE_KEY_GROUP || DEFAULT_CACHE_KEY_GROUP,
+    rateLimitGroup: env.API_KEY || undefined,
+    rateLimitParticipant: DEFAULT_CACHE_KEY_RATE_LIMIT_PARTICIPANT,
+    totalCapacity: parseInt(env.CACHE_RATE_CAPACITY || DEFAULT_CACHE_RATE_CAPACITY),
     ignored: [
       ...DEFAULT_CACHE_KEY_IGNORED_PROPS,
       ...(env.CACHE_KEY_IGNORED_PROPS || '').split(',').filter((k) => k), // no empty keys
@@ -101,6 +110,35 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
     if (!data || !data.data) return cache.options.maxAge
     if (isNaN(data.data.maxAge as number)) return cache.options.maxAge
     return Number(data.data.maxAge) || cache.options.maxAge
+  }
+
+  const GROUP_MAX_AGE = 1000 * 60 * 60 * 24 * 30
+  const _getRateLimmitGroup = async (groupId: string): Promise<RateLimitGroup> => {
+    const result: any = (await cache.get(groupId)) || {}
+    return {
+      totalCapacity: result.totalCapacity || options.key.totalCapacity,
+      group: result.group || {},
+    }
+  }
+
+  const _updateRateLimitGroup = async (
+    groupId: string,
+    cost = DEFAULT_RATE_COST,
+    weight = DEFAULT_RATE_WEIGHT,
+  ) => {
+    const rateLimitGroup = await _getRateLimmitGroup(groupId)
+    const newGroup = {
+      totalCapacity: rateLimitGroup.totalCapacity,
+      group: {
+        ...rateLimitGroup.group,
+        [options.key.rateLimitParticipant]: {
+          cost,
+          weight,
+        },
+      },
+    }
+    await cache.set(groupId, newGroup, GROUP_MAX_AGE)
+    return newGroup
   }
 
   const _executeWithCache = async (data: AdapterRequest) => {
