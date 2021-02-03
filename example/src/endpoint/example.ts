@@ -1,7 +1,7 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 
-export const NAME = 'example'
+export const Names = ['example']
 
 const customError = (data: any) => data.Response === 'Error'
 
@@ -28,9 +28,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
   const response = await Requester.request(reqConfig, customError)
   const result = Requester.validateResultNumber(response.data, ['price'])
-
   return Requester.success(jobRunID, {
-    data: { result },
+    data: { ...response.data, result },
     result,
     status: 200,
   })

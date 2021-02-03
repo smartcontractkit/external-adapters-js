@@ -3,7 +3,7 @@ import { Config } from '@chainlink/types'
 import { Requester } from '@chainlink/external-adapter'
 import { isChainType, isCoinType, BLOCKCHAINS } from '.'
 
-export const Name = 'balance'
+export const Names = ['balance']
 
 const getBalanceURI = (address: string) => `/api/v2/addresses/${address}/account-balances/latest`
 

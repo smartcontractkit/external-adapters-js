@@ -1,7 +1,9 @@
-export * as balance from './balance'
-export * as price from './price'
-export * as bc_info from './bc_info'
+import * as balance from './balance'
+import * as price from './price'
+import * as bc_info from './bc_info'
+import { Endpoint } from '@chainlink/types'
 
+export const Endpoints: Endpoint[] = [balance, price, bc_info]
 export const COIN_KEYS = ['btc', 'eth', 'etc', 'bch', 'ltc', 'dash', 'doge', 'btcv', 'zil'] as const
 export type CoinType = typeof COIN_KEYS[number]
 export function isCoinType(key: string): key is CoinType {

@@ -1,15 +1,15 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { AdapterRequest, Config } from '@chainlink/types'
+import { ExecuteWithConfig, Config } from '@chainlink/types'
 
-export const Name = 'price'
+export const Names = ['price']
 
 const priceParams = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
 }
 
-export const execute = async (config: Config, request: AdapterRequest) => {
-  const validator = new Validator(request, priceParams)
+export const execute: ExecuteWithConfig<Config> = async (input, config) => {
+  const validator = new Validator(input, priceParams)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
@@ -24,5 +24,5 @@ export const execute = async (config: Config, request: AdapterRequest) => {
     'payload',
     'weightedAveragePrice',
   ])
-  return response
+  return Requester.success(jobRunID, response)
 }

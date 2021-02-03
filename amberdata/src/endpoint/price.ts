@@ -1,7 +1,7 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 
-export const Name = 'price'
+export const Names = ['price']
 
 const customError = (data: any) => {
   return Object.keys(data.payload).length === 0

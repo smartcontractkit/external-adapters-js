@@ -1,8 +1,8 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { AdapterRequest, Config } from '@chainlink/types'
+import { ExecuteWithConfig, Config } from '@chainlink/types'
 import { DEFAULT_ENDPOINT } from '../config'
 
-export const Name = 'bc_info'
+export const Names = ['difficulty', 'height']
 
 const statsParams = {
   blockchain: ['blockchain', 'coin'],
@@ -14,9 +14,10 @@ const convertEndpoint: { [key: string]: string } = {
   height: 'headers',
 }
 
-export const execute = async (config: Config, request: AdapterRequest) => {
-  const validator = new Validator(request, statsParams)
+export const execute: ExecuteWithConfig<Config> = async (input, config) => {
+  const validator = new Validator(input, statsParams)
   if (validator.error) throw validator.error
+  const jobRunID = validator.validated.id
 
   const blockchain = validator.validated.data.blockchain
   const network = validator.validated.data.network || 'mainnet'
@@ -28,5 +29,5 @@ export const execute = async (config: Config, request: AdapterRequest) => {
 
   const response = await Requester.request(reqConfig)
   response.data.result = Requester.validateResultNumber(response.data, ['payload', endpoint])
-  return response
+  return Requester.success(jobRunID, response)
 }
