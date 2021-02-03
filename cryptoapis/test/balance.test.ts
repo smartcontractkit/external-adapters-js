@@ -1,7 +1,7 @@
-import { makeExecute } from '../src/adapter'
+import adapter from '../src/index'
 import { shouldBehaveLikeBalanceAdapter } from '@chainlink/adapter-test-helpers'
 
-shouldBehaveLikeBalanceAdapter(makeExecute(), [
+shouldBehaveLikeBalanceAdapter(adapter.makeExecute(), [
   'bitcoin_mainnet',
   'bitcoin_testnet',
   'ethereum_mainnet',
