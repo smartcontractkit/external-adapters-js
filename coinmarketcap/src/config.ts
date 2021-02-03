@@ -7,6 +7,6 @@ const DEFAULT_API_ENDPOINT = 'https://pro-api.coinmarketcap.com/v1/'
 
 export const makeConfig = (prefix?: string): Config => {
   const config = Requester.getDefaultConfig(prefix)
-  config.api.baseUrl = config.api.baseUrl || DEFAULT_API_ENDPOINT
+  config.api.baseURL = config.api.baseUrl || DEFAULT_API_ENDPOINT
   return config
 }

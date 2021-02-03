@@ -33,6 +33,22 @@ describe('execute', () => {
         name: 'marketcap market not supplied',
         testData: { id: jobID, data: { endpoint: 'globalMarketCap' } },
       },
+    ]
+
+    requests.forEach((req) => {
+      it(`${req.name}`, async () => {
+        try {
+          await execute(req.testData as AdapterRequest)
+        } catch (error) {
+          const errorResp = Requester.errored(jobID, error)
+          assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
+        }
+      })
+    })
+  })
+
+  context('error calls @integration', () => {
+    const requests = [
       {
         name: 'marketcap unknown market',
         testData: { id: jobID, data: { endpoint: 'globalMarketCap', market: 'not_real' } },
@@ -45,7 +61,7 @@ describe('execute', () => {
           await execute(req.testData as AdapterRequest)
         } catch (error) {
           const errorResp = Requester.errored(jobID, error)
-          assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
+          assertError({ expected: 500, actual: errorResp.statusCode }, errorResp, jobID)
         }
       })
     })
