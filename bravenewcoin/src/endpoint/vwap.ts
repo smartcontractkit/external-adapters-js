@@ -43,7 +43,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const result = Requester.validateResultNumber(response.data, ['content', 0, 'vwap'])
 
   return Requester.success(jobRunID, {
-    data: { result },
+    data: { ...response.data, result },
     result,
     status: 200,
   })

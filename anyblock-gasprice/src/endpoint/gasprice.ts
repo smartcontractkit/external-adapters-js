@@ -32,7 +32,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const result = Requester.validateResultNumber(response.data, [speed]) * 1e9
 
   return Requester.success(jobRunID, {
-    data: { result },
+    data: { ...response.data, result },
     result,
     status: 200,
   })

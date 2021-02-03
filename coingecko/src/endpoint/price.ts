@@ -28,7 +28,7 @@ const convertFromTicker = async (config: Config, ticker: string, coinId: string)
     return presetTickers[ticker]
   }
 
-  const url = 'https://api.coingecko.com/api/v3/coins/list'
+  const url = '/coins/list'
 
   const options = {
     ...config.api,
@@ -64,7 +64,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
   const options = {
     ...config.api,
-    url: url,
+    url,
     params,
   }
 
@@ -75,7 +75,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   ])
 
   return Requester.success(jobRunID, {
-    data: { result },
+    data: { ...response.data, result },
     result,
     status: 200,
   })
