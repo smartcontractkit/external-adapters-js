@@ -25,6 +25,10 @@ describe('execute', () => {
         name: 'from',
         testData: { id: jobID, data: { from: 'FTSE' } },
       },
+      {
+        name: 'endpoint stock',
+        testData: { id: jobID, data: { base: 'TSLA', endpoint: 'stock' } },
+      },
     ]
 
     requests.forEach((req) => {

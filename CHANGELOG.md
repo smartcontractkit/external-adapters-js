@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [0.2.0-rc.1] - 2021-2-4
+
 ### Added
 
 - New adapters:
@@ -17,8 +19,27 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `finage` to get Financial data from finage.co.uk
   - `coincodex` to get crypto prices from CoinCodex
   - `coinranking` to get crypto prices from Coinranking
+  - `crypto-volatility-index` to calculate the CVI (Crypto volatility index)
+  - `btc.com` to get on-chain balances from BTC.com
+  - `sochain` to get on-chain balances from SoChain
+  - `dns-query` to query DNS over HTTPS
+  - `dns-record-check` to check whether some record provided exists on DNS
+  - `paxos` to get Paxos asset supply attestations
+  - `outlier-detection`: composite adapter to check for outlier values between multiple sets of data providers
+  - `dydx-stark` to sign the input price data with your private STARK key, and send it to the destination endpoint.
+  - `apy-finance` to calculate the TVL in APY Finance
+  - `token-allocation` composite adapter to calculate the total price from a set of tokens
+  - `bitcoin-json-rpc`: composite adapter for querying bitcoin blockchain stats(difficulty, height) according to the existing convention
+  - `iex-cloud` to get stock and crypto market data from IEX Cloud
+  - `cfbenchmarks` to get crypto benchmarks and indices
+  - `dxfeed-secondary` to handle secondary mappings for the TSLA symbol
+  - `harmony` to write transactions to the Harmony blockchain
 - Added support for metadata in requests. This gives adapters access to the FM on-chain round state.
 - Moves re-usable test behaviors & testing utils to a new package - `@chainlink/adapter-test-helpers`
+- Added support for using query string parameters as input to adapters.
+- Add a package re-usable adapter factory implementations to - `@chainlink/ea-factories`
+
+- Added support for using multiple API Keys per-adapter
 
 ### Fixed
 
@@ -30,7 +51,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Market closure is now a composite adapter, and now follows the build instructions for composite adapters. Market
   now also supports using metadata.
 - Coinlore now accepts an optional environment variable to set the default API endpoint
-- migrates @chainlink/ea-bootstrap and @chainlink/external-adapter packages to TS.
+- Migrates @chainlink/ea-bootstrap and @chainlink/external-adapter packages to TS.
+- Updates the following adapters with a second endpoint for getting an account's on-chain balance
+  - `amberdata`
+  - `blockchair`
+  - `cryptoapis`
+- dxFeed now uses OTC feeds for FTSE and N225, rather than licensed data feeds
+- Migrated to Typescript
+  - `kaiko`
+  - `marketstack`
+  - `metalsapi`
+  - `nikkei`
+  - `poa-gasprice`
+  - `polygon`
+  - `nomics`
+  - `openexchangerates`
+
+### Removed
+
+- WTI Outlier detection and IV Outlier detection adapters are now covered in the Outlier detection composite adapter
 
 ## [0.1.5] - 2021-2-2
 

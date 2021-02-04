@@ -1,9 +1,6 @@
 import { ethers } from 'ethers'
-
-type Allocations = {
-  components: string[]
-  units: number[]
-}
+import { types } from '@chainlink/token-allocation-adapter'
+import { getSymbol } from '../symbols'
 
 /*
   NOTICE!
@@ -32,13 +29,19 @@ export const getAllocations = async (
   contractAddress: string,
   setAddress: string,
   rpcUrl: string,
-): Promise<Allocations> => {
+  network: string,
+): Promise<types.TokenAllocations> => {
   const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
   const index = new ethers.Contract(contractAddress, ABI, provider)
-  const info = await index.getAllocations(setAddress)
 
-  return {
-    components: info[0],
-    units: info[1],
-  }
+  const [addresses, balances] = await index.getAllocations(setAddress)
+
+  // Token balances are coming already normalized as 18 decimals token
+  return await Promise.all(
+    addresses.map(async (address: string, i: number) => ({
+      balance: balances[i],
+      symbol: await getSymbol(address, rpcUrl, network),
+      decimals: 18,
+    })),
+  )
 }

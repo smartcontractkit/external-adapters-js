@@ -43,9 +43,14 @@ const withStatusCode = (execute: ExecuteWrappedResponse) => async (data_: Adapte
 // Log adapter input & output data
 const withLogger = (execute: ExecuteWrappedResponse) => async (data: AdapterRequest) => {
   logger.debug('Input: ', { input: data })
-  const result = await execute(data)
-  logger.debug(`Output: [${result.statusCode}]: `, { output: result.data })
-  return result
+  try {
+    const result = await execute(data)
+    logger.debug(`Output: [${result.statusCode}]: `, { output: result.data })
+    return result
+  } catch (error) {
+    logger.error(error.toString(), { stack: error.stack })
+    throw error
+  }
 }
 
 const middleware = [withLogger, skipOnError(withCache), withStatusCode]
@@ -98,6 +103,7 @@ export const expose = (
     awsHandlerHTTP: aws.initHandlerHTTP(_execute),
   }
 }
+export type ExecuteHandlers = ReturnType<typeof expose>
 
 // Log cache default options once
 const cacheOptions = defaultOptions()
