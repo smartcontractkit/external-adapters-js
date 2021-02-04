@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 - New adapters:
+  - `conflux` to send conflux chain transaction
   - `xbto` to get BRN quotes
   - `iv-outlier-detection` to get IV values with outlier detection
   - `taapi` to get Trading Analysis data
