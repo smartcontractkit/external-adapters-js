@@ -6,11 +6,10 @@ import * as gcp from './lib/gcp'
 import * as aws from './lib/aws'
 import { ExecuteSync, AdapterRequest, Execute, AdapterHealthCheck } from '@chainlink/types'
 
-type Middleware = (execute: Execute) => Execute
-type AsyncMiddleware = (execute: Execute) => Promise<Execute>
+export type Middleware = (execute: Execute) => Promise<Execute>
 
 // Try to initialize, pass through on error
-const skipOnError = (middleware: Middleware | AsyncMiddleware) => async (execute: Execute) => {
+const skipOnError = (middleware: Middleware) => async (execute: Execute) => {
   try {
     return await middleware(execute)
   } catch (error) {
@@ -21,7 +20,7 @@ const skipOnError = (middleware: Middleware | AsyncMiddleware) => async (execute
 
 // Make sure data has the same statusCode as the one we got as a result
 // Is this still neccessary?
-const withStatusCode: Middleware = (execute) => async (data_: AdapterRequest) => {
+const withStatusCode: Middleware = async (execute) => async (data_: AdapterRequest) => {
   const { statusCode, data, ...rest } = await execute(data_)
   if (data && typeof data === 'object' && data.statusCode) {
     return {
@@ -38,7 +37,7 @@ const withStatusCode: Middleware = (execute) => async (data_: AdapterRequest) =>
 }
 
 // Log adapter input & output data
-const withLogger: Middleware = (execute) => async (input: AdapterRequest) => {
+const withLogger: Middleware = async (execute) => async (input: AdapterRequest) => {
   logger.debug('Input: ', { input })
   try {
     const result = await execute(input)

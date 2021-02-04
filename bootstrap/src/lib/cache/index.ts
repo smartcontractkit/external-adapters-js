@@ -5,6 +5,7 @@ import * as redis from './redis'
 import { parseBool, uuid, delay, exponentialBackOffMs, getWithCoalescing } from '../util'
 import { Execute, AdapterRequest, AdapterResponse } from '@chainlink/types'
 import { RedisOptions } from './redis'
+import { Middleware } from '../../index'
 
 const DEFAULT_CACHE_TYPE = 'local'
 const DEFAULT_CACHE_KEY_GROUP = uuid()
@@ -70,7 +71,7 @@ export const redactOptions = (options: CacheOptions) => ({
       : local.redactOptions(options.cacheOptions),
 })
 
-export const withCache = async (execute: Execute): Promise<Execute> => {
+export const withCache: Middleware = async (execute) => {
   const options = defaultOptions()
 
   // If disabled noop
