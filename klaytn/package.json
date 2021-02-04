@@ -9,18 +9,25 @@
     "blockchain",
     "oracle"
   ],
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "server": "node -e 'require(\"./index.js\").server()'"
+    "setup": "yarn build",
+    "build": "tsc -b",
+    "lint": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix",
+    "server": "node -e 'require(\"./dist/index.js\").server()'",
+    "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
+    "start": "yarn server:dist"
   },
   "license": "MIT",
   "dependencies": {
-    "@chainlink/ea-bootstrap": "^0.0.1",
-    "@chainlink/external-adapter": "0.2.3",
-    "@truffle/contract": "^4.3.5",
     "caver-js": "^1.5.5",
-    "fs": "0.0.1-security",
-    "solc": "^0.6.0",
-    "web3": "^1.2.9"
+    "web3": "^1.2.9",
+    "@types/node": "^14.0.13",
+    "@typescript-eslint/eslint-plugin": "^3.9.0",
+    "@typescript-eslint/parser": "^3.9.0",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.7"
   }
 }
