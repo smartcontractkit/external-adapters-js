@@ -19,9 +19,8 @@ const skipOnError = (middleware: Middleware) => async (execute: Execute) => {
 }
 
 // Make sure data has the same statusCode as the one we got as a result
-// Is this still neccessary?
-const withStatusCode: Middleware = async (execute) => async (data_: AdapterRequest) => {
-  const { statusCode, data, ...rest } = await execute(data_)
+const withStatusCode: Middleware = async (execute) => async (input) => {
+  const { statusCode, data, ...rest } = await execute(input)
   if (data && typeof data === 'object' && data.statusCode) {
     return {
       ...rest,
