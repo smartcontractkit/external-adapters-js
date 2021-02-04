@@ -71,7 +71,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Removed
 
 - WTI Outlier detection and IV Outlier detection adapters are now covered in the Outlier detection composite adapter
-- Removes ExecuteWrappedResponse and WrappedAdapterResponse
 
 ## [0.1.5] - 2021-2-2
 
