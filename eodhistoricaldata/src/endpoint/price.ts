@@ -1,6 +1,5 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
-import { util } from '@chainlink/ea-bootstrap'
 
 export const NAME = 'price'
 
@@ -27,11 +26,10 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (commonKeys[symbol]) {
     symbol = commonKeys[symbol]
   }
-  const url = `https://eodhistoricaldata.com/api/${endpoint}/${symbol}`
-  const api_token = util.getRandomRequiredEnv('API_KEY')
+  const url = `/api/${endpoint}/${symbol}`
 
   const params = {
-    api_token,
+    ...config.api.params,
     fmt: 'json',
   }
 
@@ -45,7 +43,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const result = Requester.validateResultNumber(response.data, ['close'])
 
   return Requester.success(jobRunID, {
-    data: { result },
+    data: config.verbose ? { ...response.data, result } : { result },
     result,
     status: 200,
   })

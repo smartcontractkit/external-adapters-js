@@ -16,7 +16,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const url = 'https://api.coinpaprika.com/v1/global'
+  const url = '/v1/global'
   const options = {
     ...config.api,
     url,
@@ -29,7 +29,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   ])
 
   return Requester.success(jobRunID, {
-    data: { result },
+    data: config.verbose ? { ...response.data, result } : { result },
     result,
     status: 200,
   })

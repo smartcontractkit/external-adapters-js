@@ -32,7 +32,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const jobRunID = validator.validated.id
   const symbol = validator.validated.data.base
   const coin = await convertFromTicker(symbol, validator.validated.data.coinid)
-  const url = `https://api.coinpaprika.com/v1/tickers/${coin}`
+  const url = `v1/tickers/${coin}`
   const market = validator.validated.data.quote
 
   const params = {
@@ -53,7 +53,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   ])
 
   return Requester.success(jobRunID, {
-    data: { result },
+    data: config.verbose ? { ...response.data, result } : { result },
     result,
     status: 200,
   })

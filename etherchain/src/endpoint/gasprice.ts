@@ -7,7 +7,6 @@ const customError = (data: any) => data.Response === 'Error'
 
 const customParams = {
   speed: true,
-  endpoint: false,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
@@ -15,9 +14,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const endpoint = validator.validated.data.endpoint || 'gasPriceOracle'
   const speed = validator.validated.data.speed || 'standard'
-  const url = `https://www.etherchain.org/api/${endpoint}`
+  const url = `/api/gasPriceOracle`
 
   const options = {
     ...config.api,
@@ -28,7 +26,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const result = Requester.validateResultNumber(response.data, [speed]) * 1e9
 
   return Requester.success(jobRunID, {
-    data: { result },
+    data: config.verbose ? { ...response.data, result } : { result },
     result,
     status: 200,
   })
