@@ -5,8 +5,17 @@ The adapter calculates a Synthetix Index value in the currency selected
 ## Configuration
 
 - `DEFAULT_NETWORK` (Optional). Network to fetch the Synth Index
-
-This adapter relies on [`token-allocation`](../token-allocation/README.md) adapter. Required `token-allocation` input params and configuration apply to this adapter as well.
+- `DATA_PROVIDER`: Data provider to use. Options (Notes):
+  - amberdata (Doesn't support crypto quotes)
+  - coinapi
+  - coingecko
+  - coinmarketcap
+  - coinpaprika
+  - cryptocompare
+  - kaiko
+  - nomics
+- `API_KEY`: For those data providers who need an api key
+- `DEFAULT_QUOTE` (Optional): Currency that the price will be fetched by default. `USD` used by default
 
 E.g. if we wish to use Coincapmarket as data provider, we should run (docker):
 ```
@@ -17,6 +26,8 @@ docker run -p 8080:8080 -e DATA_PROVIDER=coinmarketcap -e API_KEY=xxx-xxx -it sy
 
 - `base`, `asset` or `from`: Synthx Index asset to fetch
 - `network` (optional): Network to fetch. `mainnet` by default
+- `quote` (optional). Currency we want the price on. `DEFAULT_QUOTE` by default
+
 
 ```json
 {
