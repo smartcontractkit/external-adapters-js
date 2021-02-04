@@ -34,6 +34,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `cfbenchmarks` to get crypto benchmarks and indices
   - `dxfeed-secondary` to handle secondary mappings for the TSLA symbol
   - `harmony` to write transactions to the Harmony blockchain
+  - `json-rpc-balance` to get address balances through JSON-RPC nodes
 - Added support for metadata in requests. This gives adapters access to the FM on-chain round state.
 - Moves re-usable test behaviors & testing utils to a new package - `@chainlink/adapter-test-helpers`
 - Added support for using query string parameters as input to adapters.
