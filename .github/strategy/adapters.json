@@ -81,7 +81,8 @@
       "iex-cloud",
       "cfbenchmarks",
       "harmony",
-      "tiingo"
+      "tiingo",
+      "ethwrite"
     ]
   },
   "2-step": {
