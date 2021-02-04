@@ -3,7 +3,7 @@ import hash from 'object-hash'
 import * as local from './local'
 import * as redis from './redis'
 import { parseBool, uuid, delay, exponentialBackOffMs, getWithCoalescing } from '../util'
-import { Execute, AdapterRequest, AdapterResponse } from '@chainlink/types'
+import { AdapterRequest, AdapterResponse } from '@chainlink/types'
 import { RedisOptions } from './redis'
 import { Middleware } from '../../index'
 
@@ -71,9 +71,7 @@ export const redactOptions = (options: CacheOptions) => ({
       : local.redactOptions(options.cacheOptions),
 })
 
-export const withCache: Middleware = async (execute) => {
-  const options = defaultOptions()
-
+export const withCache: Middleware = async (execute, options: CacheOptions = defaultOptions()) => {
   // If disabled noop
   if (!options.enabled) return (data: AdapterRequest) => execute(data)
 
@@ -170,8 +168,8 @@ export const withCache: Middleware = async (execute) => {
   }
 
   // Middleware wrapped execute fn which cleans up after
-  return async (data: AdapterRequest) => {
-    const result = await _executeWithCache(data)
+  return async (input) => {
+    const result = await _executeWithCache(input)
     // Clean the connection
     await cache.close()
     return result
