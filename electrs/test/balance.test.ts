@@ -1,5 +1,9 @@
+import { makeExecute } from '../src/adapter'
+import { shouldBehaveLikeBalanceAdapter } from '@chainlink/adapter-test-helpers'
 import { assert } from 'chai'
-import { convertAddressToScriptHash } from '../src/nodes/electrs'
+import { convertAddressToScriptHash } from '../src/endpoint/balance'
+
+shouldBehaveLikeBalanceAdapter(makeExecute(), ['bitcoin_mainnet'])
 
 describe('convertAddressToScriptHash', () => {
   context('successful calls', () => {

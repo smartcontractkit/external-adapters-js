@@ -1,7 +1,7 @@
 import { expose, util } from '@chainlink/ea-bootstrap'
-import { makeConfig } from './config'
 import { makeExecute } from './adapter'
+import { makeConfig } from './config'
 
-const NAME = 'JsonRpcBalance'
+const NAME = 'Electrs'
 
 export = { NAME, makeExecute, makeConfig, ...expose(util.wrapExecute(makeExecute())) }

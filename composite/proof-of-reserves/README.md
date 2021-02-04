@@ -6,11 +6,11 @@ This composite adapter first queries a list of custodial contracts of a protocol
 
 The feed takes the following environment variables:
 
-| Required? |                              Name                               |            Description             |                                            Options                                                              | Defaults to |
-| :-------: | :-------------------------------------------------------------: | :--------------------------------: | :-------------------------------------------------------------------------------------------------------------: | :---------: |
-|    ✅     |                       `PROTOCOL_ADAPTER`                        |         The protocol type          |                                        `renvm`, `wbtc`                                                          |             |
-|    ✅     |                      `BTC_INDEXER_ADAPTER`                      |      BTC indexer adapter type      | `amberdata`, `blockchain_com`, `blockcypher`. `blockchair`, `btc_com`,`cryptoapis`, `sochain`, `jsonRpcBalance` |             |
-|    🟡     | `*_API_KEY` (where \* is the capitalized `BTC_INDEXER_ADAPTER`) | The API key for an indexer adapter |                          (e.g. BLOCKCYPHER_API_KEY="34234dmmd313" )                                             |             |
+| Required? |                              Name                               |            Description             |                                            Options                                                               | Defaults to |
+| :-------: | :-------------------------------------------------------------: | :--------------------------------: | :--------------------------------------------------------------------------------------------------------------: | :---------: |
+|    ✅     |                       `PROTOCOL_ADAPTER`                        |         The protocol type          |                                        `renvm`, `wbtc`                                                           |             |
+|    ✅     |                      `BTC_INDEXER_ADAPTER`                      |      BTC indexer adapter type      | `amberdata`, `blockchain_com`, `blockcypher`. `blockchair`, `btc_com`,`cryptoapis`, `sochain`, `electrs`, `btcd` |             |
+|    🟡     | `*_API_KEY` (where \* is the capitalized `BTC_INDEXER_ADAPTER`) | The API key for an indexer adapter |                          (e.g. BLOCKCYPHER_API_KEY="34234dmmd313" )                                              |             |
 
 Each protocol may need additional configuration:
 

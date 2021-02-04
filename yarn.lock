@@ -2432,6 +2432,11 @@ bn.js@=2.0.4:
   resolved "https://registry.yarnpkg.com/bn.js/-/bn.js-2.0.4.tgz#220a7cd677f7f1bfa93627ff4193776fe7819480"
   integrity sha1-Igp81nf38b+pNif/QZN3b+eBlIA=
 
+bn.js@^2.0.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/bn.js/-/bn.js-2.2.0.tgz#12162bc2ae71fc40a5626c33438f3a875cd37625"
+  integrity sha1-EhYrwq5x/EClYmwzQ486h1zTdiU=
+
 bn.js@^4.0.0, bn.js@^4.1.0, bn.js@^4.11.0, bn.js@^4.11.1, bn.js@^4.11.3, bn.js@^4.11.6, bn.js@^4.11.8, bn.js@^4.11.9, bn.js@^4.4.0, bn.js@^4.8.0, bn.js@~4.11.8:
   version "4.11.9"
   resolved "https://registry.yarnpkg.com/bn.js/-/bn.js-4.11.9.tgz#26d556829458f9d1e81fc48952493d0ba3507828"
@@ -2509,7 +2514,7 @@ braces@~3.0.2:
   dependencies:
     fill-range "^7.0.1"
 
-brorand@^1.0.1:
+brorand@^1.0.1, brorand@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/brorand/-/brorand-1.1.0.tgz#12c25efe40a45e3c323eb8675a0a0ce57b22371f"
   integrity sha1-EsJe/kCkXjwyPrhnWgoM5XsiNx8=
@@ -3600,10 +3605,56 @@ ee-first@1.1.1:
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
-elliptic@6.3.3, elliptic@6.5.3, elliptic@=3.0.3, elliptic@^6.2.3, elliptic@^6.4.0, elliptic@^6.5.2, elliptic@^6.5.3, elliptic@~6.4.0:
+elliptic@6.3.3:
+  version "6.3.3"
+  resolved "https://registry.yarnpkg.com/elliptic/-/elliptic-6.3.3.tgz#5482d9646d54bcb89fd7d994fc9e2e9568876e3f"
+  integrity sha1-VILZZG1UvLif19mU/J4ulWiHbj8=
+  dependencies:
+    bn.js "^4.4.0"
+    brorand "^1.0.1"
+    hash.js "^1.0.0"
+    inherits "^2.0.1"
+
+elliptic@6.5.3, elliptic@^6.4.0, elliptic@^6.4.1, elliptic@^6.5.2, elliptic@^6.5.3:
   version "6.5.3"
   resolved "https://registry.yarnpkg.com/elliptic/-/elliptic-6.5.3.tgz#cb59eb2efdaf73a0bd78ccd7015a62ad6e0f93d6"
   integrity sha512-IMqzv5wNQf+E6aHeIqATs0tOLeOTwj1QKbRcS3jBbYkl5oLAserA8yJTT7/VyHUYG91PRmPyeQDObKLPpeS4dw==
+  dependencies:
+    bn.js "^4.4.0"
+    brorand "^1.0.1"
+    hash.js "^1.0.0"
+    hmac-drbg "^1.0.0"
+    inherits "^2.0.1"
+    minimalistic-assert "^1.0.0"
+    minimalistic-crypto-utils "^1.0.0"
+
+elliptic@=3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/elliptic/-/elliptic-3.0.3.tgz#865c9b420bfbe55006b9f969f97a0d2c44966595"
+  integrity sha1-hlybQgv75VAGuflp+XoNLESWZZU=
+  dependencies:
+    bn.js "^2.0.0"
+    brorand "^1.0.1"
+    hash.js "^1.0.0"
+    inherits "^2.0.1"
+
+elliptic@^6.2.3:
+  version "6.5.4"
+  resolved "https://registry.yarnpkg.com/elliptic/-/elliptic-6.5.4.tgz#da37cebd31e79a1367e941b592ed1fbebd58abbb"
+  integrity sha512-iLhC6ULemrljPZb+QutR5TQGB+pdW6KGD5RSegS+8sorOZT+rdQFbsQFJgvN3eRqNALqJer4oQ16YvJHlU8hzQ==
+  dependencies:
+    bn.js "^4.11.9"
+    brorand "^1.1.0"
+    hash.js "^1.0.0"
+    hmac-drbg "^1.0.1"
+    inherits "^2.0.4"
+    minimalistic-assert "^1.0.1"
+    minimalistic-crypto-utils "^1.0.1"
+
+elliptic@~6.4.0:
+  version "6.4.1"
+  resolved "https://registry.yarnpkg.com/elliptic/-/elliptic-6.4.1.tgz#c2d0b7776911b86722c632c3c06c60f2f819939a"
+  integrity sha512-BsXLz5sqX8OHcsh7CqBMztyXARmGQ3LWPtGjJi6DiJHq5C/qvi9P3OqgswKSDftbu8+IoI/QDTAm2fFnQ9SZSQ==
   dependencies:
     bn.js "^4.4.0"
     brorand "^1.0.1"
@@ -4210,6 +4261,42 @@ ethers@^4.0.0-beta.1, ethers@^4.0.20, ethers@^4.0.27, ethers@^4.0.32, ethers@^4.
     setimmediate "1.0.4"
     uuid "2.0.1"
     xmlhttprequest "1.8.0"
+
+ethers@^5.0.19:
+  version "5.0.24"
+  resolved "https://registry.yarnpkg.com/ethers/-/ethers-5.0.24.tgz#fbb8e4d35070d134f2eb846c07500b8c0eaef6d3"
+  integrity sha512-77CEtVC88fJGEhxGXRvQqAEH6e2A+ZFiv2FBT6ikXndlty5sw6vMatAhg1v+w3CaaGZOf1CP81jl4Mc8Zrj08A==
+  dependencies:
+    "@ethersproject/abi" "5.0.9"
+    "@ethersproject/abstract-provider" "5.0.7"
+    "@ethersproject/abstract-signer" "5.0.9"
+    "@ethersproject/address" "5.0.8"
+    "@ethersproject/base64" "5.0.6"
+    "@ethersproject/basex" "5.0.6"
+    "@ethersproject/bignumber" "5.0.12"
+    "@ethersproject/bytes" "5.0.8"
+    "@ethersproject/constants" "5.0.7"
+    "@ethersproject/contracts" "5.0.8"
+    "@ethersproject/hash" "5.0.9"
+    "@ethersproject/hdnode" "5.0.7"
+    "@ethersproject/json-wallets" "5.0.9"
+    "@ethersproject/keccak256" "5.0.6"
+    "@ethersproject/logger" "5.0.8"
+    "@ethersproject/networks" "5.0.6"
+    "@ethersproject/pbkdf2" "5.0.6"
+    "@ethersproject/properties" "5.0.6"
+    "@ethersproject/providers" "5.0.17"
+    "@ethersproject/random" "5.0.6"
+    "@ethersproject/rlp" "5.0.6"
+    "@ethersproject/sha2" "5.0.6"
+    "@ethersproject/signing-key" "5.0.7"
+    "@ethersproject/solidity" "5.0.7"
+    "@ethersproject/strings" "5.0.7"
+    "@ethersproject/transactions" "5.0.8"
+    "@ethersproject/units" "5.0.8"
+    "@ethersproject/wallet" "5.0.9"
+    "@ethersproject/web" "5.0.11"
+    "@ethersproject/wordlists" "5.0.7"
 
 ethjs-unit@0.1.6, ethjs-unit@^0.1.6:
   version "0.1.6"
@@ -5600,7 +5687,12 @@ lodash.sum@^4.0.2:
   resolved "https://registry.yarnpkg.com/lodash.sum/-/lodash.sum-4.0.2.tgz#ad90e397965d803d4f1ff7aa5b2d0197f3b4637b"
   integrity sha1-rZDjl5ZdgD1PH/eqWy0Bl/O0Y3s=
 
-lodash@=3.10.1, lodash@^4.15.0, lodash@^4.17.11, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.4:
+lodash@=3.10.1:
+  version "3.10.1"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
+  integrity sha1-W/Rejkm6QYnhfUgnid/RW9FAt7Y=
+
+lodash@^4.15.0, lodash@^4.17.11, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.4:
   version "4.17.20"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.20.tgz#b44a9b6297bcb698f1c51a3545a2b3b368d59c52"
   integrity sha512-PlhdFcillOINfeV7Ni6oF1TAEayyZBoZ8bcshTHqOYJYlrqzRK5hagpagky5o4HfCzzd1TRkXPMFq6cKk9rGmA==

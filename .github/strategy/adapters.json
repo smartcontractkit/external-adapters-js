@@ -81,7 +81,9 @@
       "dydx-stark",
       "iex-cloud",
       "cfbenchmarks",
-      "harmony"
+      "harmony",
+      "btcd",
+      "electrs"
     ]
   },
   "2-step": {

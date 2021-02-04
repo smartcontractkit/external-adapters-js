@@ -8,7 +8,8 @@ import blockcypher from '@chainlink/blockcypher-adapter'
 import btcCom from '@chainlink/btc.com-adapter'
 import cryptoapis from '@chainlink/cryptoapis-adapter'
 import sochain from '@chainlink/sochain-adapter'
-import jsonRpcBalance from '@chainlink/json-rpc-balance'
+import electrs from '@chainlink/electrs-adapter'
+import btcd from '@chainlink/btcd-adapter'
 
 const ENV_BTC_INDEXER_ADAPTER = 'BTC_INDEXER_ADAPTER'
 
@@ -20,7 +21,8 @@ const adapters: AdapterImplementation[] = [
   btcCom,
   cryptoapis,
   sochain,
-  jsonRpcBalance,
+  electrs,
+  btcd,
 ]
 
 export type BitcoinIndexer = typeof adapters[number]['NAME']
