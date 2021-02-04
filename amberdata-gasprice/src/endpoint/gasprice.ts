@@ -34,7 +34,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const result = Requester.validateResultNumber(response.data, ['payload', speed, 'gasPrice'])
 
   return Requester.success(jobRunID, {
-    data: { ...response.data, result },
+    data: config.verbose ? { ...response.data, result } : { result },
     result,
     status: 200,
   })
