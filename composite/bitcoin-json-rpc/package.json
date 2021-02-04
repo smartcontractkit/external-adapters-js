@@ -17,7 +17,8 @@
     "lint:fix": "eslint --ignore-path ../../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix",
     "test": "mocha --exit -r ts-node/register 'test/**/*.test.ts'",
     "test:unit": "mocha --exit --grep @integration --invert -r ts-node/register 'test/**/*.test.ts'",
-    "test:integration": "mocha --exit --grep @integration -r ts-node/register 'test/**/*.test.ts'",    "server": "node -e 'require(\"./index.js\").server()'",
+    "test:integration": "mocha --exit --grep @integration -r ts-node/register 'test/**/*.test.ts'",
+    "server": "node -e 'require(\"./index.js\").server()'",
     "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
     "start": "yarn server:dist"
   },
@@ -31,6 +32,6 @@
     "typescript": "^3.9.7"
   },
   "dependencies": {
-    "@chainlink/json-rpc-adapter": "^0.0.1"
+    "@chainlink/json-rpc-adapter": "^0.0.2"
   }
 }
