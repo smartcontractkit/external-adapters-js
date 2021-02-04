@@ -31,7 +31,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     'total_market_cap',
   ])
   return Requester.success(jobRunID, {
-    data: { result },
+    data: config.verbose ? { ...response.data, result } : { result },
     result,
     status: 200,
   })
