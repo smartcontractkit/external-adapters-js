@@ -1,5 +1,5 @@
 {
-  "name": "@chainlink/json-rpc-balance",
+  "name": "@chainlink/json-rpc-balance-adapter",
   "version": "0.0.1",
   "description": "Chainlink JSON-RPC Balance adapter.",
   "main": "dist/index.js",
