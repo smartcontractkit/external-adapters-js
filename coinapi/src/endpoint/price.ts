@@ -1,6 +1,5 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
-import { util } from '@chainlink/ea-bootstrap'
 
 export const NAME = 'price'
 
@@ -18,14 +17,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const jobRunID = validator.validated.id
   const coin = validator.validated.data.base.toUpperCase()
   const market = validator.validated.data.quote.toUpperCase()
-  const url = `https://rest.coinapi.io/v1/exchangerate/${coin}/${market}`
+  const url = `exchangerate/${coin}/${market}`
 
   const options = {
     ...config.api,
     url,
-    params: {
-      apikey: util.getRandomRequiredEnv('API_KEY'),
-    },
   }
 
   const response = await Requester.request(options, customError)

@@ -1,6 +1,5 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
-import { util } from '@chainlink/ea-bootstrap'
 
 export const NAME = 'price'
 
@@ -23,6 +22,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const to = validator.validated.data.quote
 
   const params = {
+    ...config.api.params,
     function: 'CURRENCY_EXCHANGE_RATE',
     from_currency: from,
     to_currency: to,
@@ -30,7 +30,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     to_symbol: to,
     symbol: from,
     market: to,
-    apikey: util.getRandomRequiredEnv('API_KEY'),
   }
 
   const options = {
