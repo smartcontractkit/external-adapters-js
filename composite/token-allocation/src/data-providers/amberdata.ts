@@ -46,7 +46,7 @@ export const getPrices = async (
     }),
   )
 
-  return Object.fromEntries(entries)
+  return { ...Object.fromEntries(entries), cost: baseSymbols.length }
 }
 
 export const getMarketCaps = async (
