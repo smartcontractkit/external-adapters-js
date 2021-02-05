@@ -14,9 +14,11 @@ const callAndExpect = async (fn: any, n: number, result: any) => {
 
 // Helper test function: a stateful counter
 const counterFrom = (i = 0): Execute => async (request) => {
+  const result = i++
   return {
     jobRunID: request.id,
-    data: { jobRunID: request.id, statusCode: 200, data: request, result: i++ },
+    data: { jobRunID: request.id, statusCode: 200, data: request, result },
+    result,
     statusCode: 200,
   }
 }

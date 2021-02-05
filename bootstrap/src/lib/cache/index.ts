@@ -71,7 +71,7 @@ export const redactOptions = (options: CacheOptions) => ({
       : local.redactOptions(options.cacheOptions),
 })
 
-export const withCache: Middleware = async (execute, options: CacheOptions = defaultOptions()) => {
+export const withCache: Middleware<CacheOptions> = async (execute, options = defaultOptions()) => {
   // If disabled noop
   if (!options.enabled) return (data: AdapterRequest) => execute(data)
 
