@@ -13,14 +13,15 @@ const DEFAULT_CACHE_KEY_IGNORED_PROPS = ['id', 'maxAge', 'meta']
 const DEFAULT_CACHE_RATE_CAPACITY = '1000000'
 const DEFAULT_CACHE_KEY_RATE_LIMIT_PARTICIPANT = uuid()
 
+// Rate Limiting
+const DEFAULT_GROUP_MAX_AGE = 1000 * 60 * 60 * 2
+const DEFAULT_RATE_WEIGHT = 1
+const DEFAULT_RATE_COST = 1
 // Request coalescing
 const DEFAULT_RC_INTERVAL = 100
 const DEFAULT_RC_INTERVAL_MAX = 1000
 const DEFAULT_RC_INTERVAL_COEFFICIENT = 2
 const DEFAULT_RC_ENTROPY_MAX = 0
-
-const DEFAULT_RATE_WEIGHT = 1
-const DEFAULT_RATE_COST = 1
 
 const env = process.env
 export const defaultOptions = () => ({
@@ -189,7 +190,7 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
 
     const maxAge = await _getMaxAge(request)
     if (entry) {
-      if (maxAge > 0) {
+      if (maxAge >= 0) {
         logger.debug(`Cache: GET ${key}`, entry)
         if (maxAge !== entry.maxAge) await _cacheOnSuccess(entry)
         return { jobRunID: data.id, ...entry }
