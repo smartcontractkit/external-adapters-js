@@ -6,7 +6,7 @@ import * as gcp from './lib/gcp'
 import * as aws from './lib/aws'
 import { ExecuteSync, AdapterRequest, Execute, AdapterHealthCheck } from '@chainlink/types'
 
-export type Middleware = (execute: Execute) => Promise<Execute>
+export type Middleware<O = any> = (execute: Execute, options?: O) => Promise<Execute>
 
 // Try to initialize, pass through on error
 const skipOnError = (middleware: Middleware) => async (execute: Execute) => {
