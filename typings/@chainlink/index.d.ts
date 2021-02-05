@@ -62,7 +62,7 @@ declare module '@chainlink/types' {
     status: string
     statusCode: number
     error: ErrorBasic | ErrorFull
-    data: any
+    data?: any
   }
 
   /* BOOTSTRAP */
