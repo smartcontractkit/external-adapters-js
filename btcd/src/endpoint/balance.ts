@@ -24,23 +24,20 @@ interface Transaction {
 }
 
 export const getBalance: balance.GetBalance = async (account, config) => {
-  const confirmations = config.confirmations || 6
-  const txs = (await searchRawTxs(account, config)).filter(
-    (tx) => tx.confirmations >= confirmations,
-  )
+  const _confirmed = (tx: Transaction) => tx.confirmations >= (config.confirmations || 6)
+  const _prevOutContains = (tx: Transaction, address: string) =>
+    tx.vin.filter((vin) => vin.prevOut && vin.prevOut.addresses.indexOf(address) >= 0)
+  const _scriptPubKeyContains = (tx: Transaction, address: string) =>
+    tx.vout.filter((vout) => vout.scriptPubKey.addresses.indexOf(address) >= 0)
+
+  const txs = (await searchRawTxs(account, config)).filter(_confirmed)
   const txsOut = txs
-    .filter((tx) =>
-      tx.vin.filter((vin) => vin.prevOut && vin.prevOut.addresses.indexOf(account.address) >= 0),
-    )
-    .map((tx) => tx.vin.map((vin) => BigNumber.from(vin.prevOut?.value)))
-    .flat() as BigNumber[]
+    .filter((tx) => _prevOutContains(tx, account.address))
+    .flatMap((tx) => tx.vin.map((vin) => BigNumber.from(vin.prevOut?.value))) as BigNumber[]
 
   const txsIn = txs
-    .filter((tx) =>
-      tx.vout.filter((vout) => vout.scriptPubKey.addresses.indexOf(account.address) >= 0),
-    )
-    .map((tx) => tx.vout.map((vout) => BigNumber.from(vout.value)))
-    .flat() as BigNumber[]
+    .filter((tx) => _scriptPubKeyContains(tx, account.address))
+    .flatMap((tx) => tx.vout.map((vout) => BigNumber.from(vout.value))) as BigNumber[]
 
   const totalOut = txsOut.reduce((sum, out) => sum.add(out), BigNumber.from(0))
   const totalIn = txsIn.reduce((sum, inn) => sum.add(inn), BigNumber.from(0))
