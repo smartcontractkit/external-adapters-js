@@ -61,6 +61,7 @@ export class RedisCache {
   _get: any
   _set: any
   _del: any
+  _ttl: any
 
   constructor(options: RedisOptions) {
     this.options = options
@@ -71,6 +72,7 @@ export class RedisCache {
     this._get = promisify(client.get).bind(client)
     this._set = promisify(client.set).bind(client)
     this._del = promisify(client.del).bind(client)
+    this._ttl = promisify(client.ttl).bind(client)
     this.client = client
   }
 
@@ -97,6 +99,14 @@ export class RedisCache {
 
   async del(key: string) {
     return timeout(this._del(key), this.options.timeout)
+  }
+
+  async setKeepingMaxAge(key: string, value: any, maxAge: number) {
+    const ttl: number = await timeout(this._ttl(key), this.options.timeout)
+    if (ttl > 0) {
+      maxAge = ttl * 1000
+    }
+    return this.set(key, value, maxAge)
   }
 
   /**
