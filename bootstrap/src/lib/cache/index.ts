@@ -36,7 +36,7 @@ export const defaultOptions = () => ({
   },
   rateLimit: {
     groupMaxAge: parseInt(env.GROUP_MAX_AGE || '') || DEFAULT_GROUP_MAX_AGE,
-    groupId: env.API_KEY || undefined,
+    groupId: (env.API_KEY && hash(env.API_KEY)) || undefined,
     participantId: DEFAULT_CACHE_KEY_RATE_LIMIT_PARTICIPANT,
     totalCapacity: parseInt(env.CACHE_RATE_CAPACITY || ''),
   },
@@ -88,7 +88,7 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
   if (!options.enabled) return (data: AdapterRequest) => execute(data)
 
   const cache = await options.cacheBuilder(options.cacheOptions)
-
+  const rateLimit = makeRateLimit(options.rateLimit, cache)
   // Algorithm we use to derive entry key
   const hashOptions = {
     algorithm: 'sha1',
@@ -109,62 +109,34 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
     logger.debug(`Request coalescing: DEL ${key}`)
   }
 
-  const _getMaxAge = (data: AdapterRequest): any => {
-    if (!data || !data.data) return cache.options.maxAge
-    if (isNaN(data.data.maxAge as number)) return cache.options.maxAge
-    return Number(data.data.maxAge) || cache.options.maxAge
+  const _getRequestMaxAge = (data: AdapterRequest): number | undefined => {
+    if (!data || !data.data) return
+    if (isNaN(data.data.maxAge as number)) return
+    return Number(data.data.maxAge)
+  }
+  const _getDefaultMaxAge = (): any => {
+    return cache.options.maxAge
+  }
+  // MaxAge in the request will always have preference
+  const _getMaxAge = async (request: AdapterRequest) => {
+    const defaultMaxAge = rateLimit.isEnabled()
+      ? await rateLimit.getParticipantMaxAge()
+      : _getDefaultMaxAge()
+    return _getRequestMaxAge(request) || defaultMaxAge
   }
 
-  const _getRateLimitGroup = async (groupId: string): Promise<RateLimitGroup> => {
-    const result: any = (await cache.get(groupId)) || {}
-    const _getMinimumCapacity = (current: number, upcoming: number) => {
-      if (!current) return upcoming
-      return Math.min(current, upcoming)
-    }
-    return {
-      totalCapacity: _getMinimumCapacity(result.totalCapacity, options.rateLimit.totalCapacity),
-      participants: result.participants || {},
-    }
-  }
-
-  const _updateRateLimitGroup = async (
-    groupId: string,
-    cost = DEFAULT_RATE_COST,
-    weight = DEFAULT_RATE_WEIGHT,
-  ): Promise<RateLimitGroup> => {
-    const rateLimitGroup = await _getRateLimitGroup(groupId)
-    const newGroup = {
-      totalCapacity: rateLimitGroup.totalCapacity,
-      participants: {
-        ...rateLimitGroup.participants,
-        [options.rateLimit.participantId]: {
-          cost,
-          weight,
-        },
-      },
-    }
-    await cache.set(groupId, newGroup, options.rateLimit.groupMaxAge)
-    return newGroup
-  }
-
-  const _executeWithCache = async (data: AdapterRequest) => {
-    const key = _getKey(data)
+  const _executeWithCache = async (request: AdapterRequest) => {
+    const key = _getKey(request)
     const coalescingKey = _getCoalescingKey(key)
-    const maxAge = _getMaxAge(data)
     // Add successful result to cache
     const _cacheOnSuccess = async ({ statusCode, data }: AdapterResponse) => {
       if (statusCode === 200) {
-        let participantMaxAge
-        if (options.rateLimit.groupId && options.rateLimit.totalCapacity) {
-          const rlg = await _updateRateLimitGroup(
-            options.rateLimit.groupId,
-            data.data.cost,
-            data.data.weight,
-          )
-          participantMaxAge = getParticipantMaxAge(rlg, options.rateLimit.participantId).maxAge
+        if (rateLimit.isEnabled()) {
+          await rateLimit.updateRateLimitGroup(data.data.cost, data.data.weight)
         }
-        const entry = { statusCode, data, maxAge: participantMaxAge || maxAge }
-        await cache.set(key, entry, participantMaxAge || maxAge)
+        const maxAge = await _getMaxAge(request)
+        const entry = { statusCode, data, maxAge }
+        await cache.set(key, entry, maxAge)
         logger.debug(`Cache: SET ${key}`, entry)
         // Notify pending requests by removing the in-flight mark
         await _delInFlightMarker(coalescingKey)
@@ -203,8 +175,9 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
       ? await _getWithCoalescing()
       : await cache.get(key)
 
+    const maxAge = await _getMaxAge(request)
     if (entry) {
-      if (maxAge >= 0) {
+      if (maxAge > 0) {
         logger.debug(`Cache: GET ${key}`, entry)
         if (maxAge !== entry.maxAge) await _cacheOnSuccess(entry)
         return entry
@@ -215,7 +188,7 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
     // Initiate request coalescing by adding the in-flight mark
     await _setInFlightMarker(coalescingKey, maxAge)
 
-    const result = await execute(data)
+    const result = await execute(request)
     await _cacheOnSuccess(result)
     return result
   }
