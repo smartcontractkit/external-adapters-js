@@ -218,15 +218,12 @@ export const withCache = async (
     if (isNaN(data.data.maxAge as number)) return
     return Number(data.data.maxAge)
   }
-  const _getDefaultMaxAge = (): any => {
-    return cache.options.maxAge
+  const _getDefaultMaxAge = async (): Promise<any> => {
+    return rateLimit.isEnabled() ? await rateLimit.getParticipantMaxAge() : cache.options.maxAge
   }
   // MaxAge in the request will always have preference
   const _getMaxAge = async (request: AdapterRequest) => {
-    const defaultMaxAge = rateLimit.isEnabled()
-      ? await rateLimit.getParticipantMaxAge()
-      : _getDefaultMaxAge()
-    return _getRequestMaxAge(request) || defaultMaxAge
+    return _getRequestMaxAge(request) || (await _getDefaultMaxAge())
   }
 
   const _executeWithCache = async (request: AdapterRequest) => {
@@ -238,7 +235,10 @@ export const withCache = async (
         if (rateLimit.isEnabled()) {
           await rateLimit.updateRateLimitGroup(data.data.cost, data.data.weight)
         }
-        const maxAge = await _getMaxAge(request)
+        let maxAge = await _getMaxAge(request)
+        if (maxAge < 0) {
+          maxAge = await _getDefaultMaxAge()
+        }
         const entry = { statusCode, data, maxAge }
         await cache.set(key, entry, maxAge)
         logger.debug(`Cache: SET ${key}`, entry)
