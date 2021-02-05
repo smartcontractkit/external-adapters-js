@@ -85,7 +85,7 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
   if (!options.enabled) return (data: AdapterRequest) => execute(data)
 
   const cache = await options.cacheBuilder(options.cacheOptions)
-
+  const rateLimit = makeRateLimit(options.rateLimit, cache)
   // Algorithm we use to derive entry key
   const hashOptions = {
     algorithm: 'sha1',
@@ -106,10 +106,10 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
     logger.debug(`Request coalescing: DEL ${key}`)
   }
 
-  const _getMaxAge = (data: AdapterRequest): any => {
-    if (!data || !data.data) return cache.options.maxAge
-    if (isNaN(data.data.maxAge as number)) return cache.options.maxAge
-    return Number(data.data.maxAge) || cache.options.maxAge
+  const _getRequestMaxAge = (data: AdapterRequest): number | undefined => {
+    if (!data || !data.data) return
+    if (isNaN(data.data.maxAge as number)) return
+    return Number(data.data.maxAge)
   }
 
   const GROUP_MAX_AGE = 1000 * 60 * 60 * 24 * 30
@@ -141,10 +141,9 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
     return newGroup
   }
 
-  const _executeWithCache = async (data: AdapterRequest) => {
-    const key = _getKey(data)
+  const _executeWithCache = async (request: AdapterRequest) => {
+    const key = _getKey(request)
     const coalescingKey = _getCoalescingKey(key)
-    const maxAge = _getMaxAge(data)
     // Add successful result to cache
     const _cacheOnSuccess = async ({ statusCode, data, result }: AdapterResponse) => {
       if (statusCode === 200) {
@@ -188,8 +187,9 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
       ? await _getWithCoalescing()
       : await cache.get(key)
 
+    const maxAge = await _getMaxAge(request)
     if (entry) {
-      if (maxAge >= 0) {
+      if (maxAge > 0) {
         logger.debug(`Cache: GET ${key}`, entry)
         if (maxAge !== entry.maxAge) await _cacheOnSuccess(entry)
         return { jobRunID: data.id, ...entry }
@@ -200,7 +200,7 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
     // Initiate request coalescing by adding the in-flight mark
     await _setInFlightMarker(coalescingKey, maxAge)
 
-    const result = await execute(data)
+    const result = await execute(request)
     await _cacheOnSuccess(result)
     return result
   }
