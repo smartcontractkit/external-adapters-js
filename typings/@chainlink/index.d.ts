@@ -44,7 +44,7 @@ declare module '@chainlink/types' {
     jobRunID: string
     statusCode: number
     data: any
-    result?: any
+    result: any
   }
 
   /* ERRORS */
