@@ -9,7 +9,7 @@
   - `instant`
 - `endpoint`: The endpoint to use (optional, default: latest-minimum-gasprice)
 
-## Output Format
+## Output
 
 ```json
 {
