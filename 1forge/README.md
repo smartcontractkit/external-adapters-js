@@ -1,12 +1,24 @@
-# Chainlink 1Forge External Adapter
+# Chainlink External Adapter for 1forge
 
-## Price Endpoint
+### Input Parameters
+
+| Required? |   Name   |     Description     |         Options          | Defaults to |
+| :-------: | :------: | :-----------------: | :----------------------: | :---------: |
+|           | endpoint | The endpoint to use | [price](#Price-endpoint) |    price    |
+
+---
+
+## Price endpoint
+
+[`/convert`](https://1forge.com/api#convert) - Convert from one currency to another
 
 ### Input Params
 
-- `base` or `to`: The target currency to query (required)
-- `quote` or `from`: The currency to convert to (required)
-- `endpoint`: The endpoint to call (optional)
+| Required? |      Name      |                  Description                  |                 Options                  | Defaults to |
+| :-------: | :------------: | :-------------------------------------------: | :--------------------------------------: | :---------: |
+|    ✅     | `base`, `from` |      The symbol of the currency to query      | [List](https://1forge.com/currency-list) |             |
+|    ✅     | `quote`, `to`  |   The symbol of the currency to convert to    | [List](https://1forge.com/currency-list) |             |
+|    🟡     |   `quantity`   | An additional amount of the original currency |                                          |             |
 
 ### Output
 

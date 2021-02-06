@@ -9,7 +9,7 @@
   - `fastest`
 - `endpoint`: The blockchain id to get gas prices from (optional, default: ethereum-mainnet)
 
-## Output Format
+## Output
 
 ```json
 {
