@@ -6,7 +6,7 @@ require('dotenv').config()
 const provider = new Conflux({
   url: process.env.URL,
   logger: console, //JSON RPC call logging
-  networkId: process.env.NETWORK_ID,
+  networkId: Number(process.env.NETWORK_ID),
   defaultGasRatio: 1.3,
   defaultStorageRatio: 1.3
 })
