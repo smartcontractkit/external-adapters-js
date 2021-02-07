@@ -29,6 +29,8 @@ const sendFulfillment = async (
     to: address,
     from: account,
     data: Web3Utils.bytesToHex(data),
+    gas: 500000,
+    gasPrice: 1,
   }
 
   return await provider.sendTransaction(tx).executed()
