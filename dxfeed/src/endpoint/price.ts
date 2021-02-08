@@ -28,9 +28,10 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (symbols in commonSymbols) {
     symbols = commonSymbols[symbols]
   }
+  const events = symbols === commonSymbols['WTI'] ? 'Quote' : 'Trade'
 
   const params = {
-    events: 'Trade',
+    events,
     symbols,
   }
 
@@ -41,8 +42,13 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   }
 
   const response = await Requester.request(options, customError)
-  const result = Requester.validateResultNumber(response.data, ['Trade', symbols, 'price'])
 
+  const quotePath = ['Quote', symbols, 'bidPrice']
+  const tradePath = ['Trade', symbols, 'price']
+  const result = Requester.validateResultNumber(
+    response.data,
+    events === 'Quote' ? quotePath : tradePath,
+  )
   return Requester.success(jobRunID, {
     data: config.verbose ? { ...response.data, result } : { result },
     result,
