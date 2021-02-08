@@ -1,6 +1,9 @@
 import { ethers } from 'ethers'
-const provider = new ethers.providers.JsonRpcProvider(process.env.URL)
-const privateKey = process.env.PRIVATE_KEY || ''
+// default port of main hardhat configuration
+const provider = new ethers.providers.JsonRpcProvider(process.env.URL || 'localhost:4444')
+const privateKey =
+  // default private key of main hardhat configuration
+  process.env.PRIVATE_KEY || '0x90125e49d93a24cc8409d1e00cc69c88919c6826d8bbabb6f2e1dc8213809f4c'
 const wallet = new ethers.Wallet(privateKey, provider)
 
 const abi = [
@@ -28,11 +31,13 @@ const byteCode =
   '22d80029'
 
 // https://docs.ethers.io/ethers.js/html/api-contract.html#deploying-a-contract
-;(async function () {
+export async function deploy(): Promise<string> {
   const factory = new ethers.ContractFactory(abi, byteCode, wallet)
   const contract = await factory.deploy()
   console.log('Contract deployed at: ', contract.address)
   console.log('Transaction: ', contract.deployTransaction.hash)
-
   await contract.deployed()
-})()
+  return contract.address
+}
+
+deploy()
