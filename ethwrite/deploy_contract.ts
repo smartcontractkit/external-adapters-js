@@ -1,9 +1,8 @@
 import { ethers } from 'ethers'
-// default port of main hardhat configuration
-const provider = new ethers.providers.JsonRpcProvider(process.env.URL || 'localhost:4444')
-const privateKey =
-  // default private key of main hardhat configuration
-  process.env.PRIVATE_KEY || '0x90125e49d93a24cc8409d1e00cc69c88919c6826d8bbabb6f2e1dc8213809f4c'
+import { DEFAULT_PRIVATE_KEY, DEFAULT_RPC_URL } from './src/config'
+
+const provider = new ethers.providers.JsonRpcProvider(process.env.URL || DEFAULT_RPC_URL)
+const privateKey = process.env.PRIVATE_KEY || DEFAULT_PRIVATE_KEY
 const wallet = new ethers.Wallet(privateKey, provider)
 
 const abi = [

@@ -1,13 +1,10 @@
 {
-  "name": "@chainlink/ethtx-adapter",
+  "name": "@chainlink/ethwrite-adapter",
   "version": "0.0.2",
-  "description": "Chainlink ethtx adapter.",
+  "description": "Chainlink ethwrite adapter.",
   "keywords": [
-    "Chainlink",
-    "LINK",
-    "blockchain",
-    "oracle",
-    "ethtx"
+    "ethtx",
+    "ethwrite"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
