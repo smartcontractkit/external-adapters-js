@@ -18,7 +18,7 @@ yarn
 
 ## Deploy & Test
 
-- Run `ganache-cli` or some local blockchain with RPC enabled
+- Run `ganache-cli`, `hardhat` or some local blockchain with RPC enabled
 - Set local environment variable `URL` to the RPC endpoint for that client. For example `http://localhost:8545`
 - Set the local environment variable `PRIVATE_KEY` to the private key of a funded wallet. For example `0xde1673a55d14576f10f5223efbe6b1df771409eb3d51d24d3fb0e04bd615a619` (Ganache's default)
 - Run:
