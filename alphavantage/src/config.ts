@@ -5,7 +5,7 @@ export const DEFAULT_ENDPOINT = 'price'
 export const DEFAULT_API_ENDPOINT = 'https://www.alphavantage.co/query'
 
 export const makeConfig = (prefix?: string): Config => {
-  const config = Requester.getDefaultConfig(prefix)
+  const config = Requester.getDefaultConfig(prefix, true)
   config.api = {
     ...config.api,
     baseURL: config.api.baseUrl || DEFAULT_API_ENDPOINT,

@@ -23,9 +23,16 @@ Query information from [Coinbase's API](https://developers.coinbase.com/api/v2)
 
 ```json
 {
+  "jobRunID": "1",
   "data": {
-    "amount": "1015.00",
-    "currency": "USD"
-  }
+    "data": {
+      "base": "BTC",
+      "currency": "USD",
+      "amount": "46823.85"
+    },
+    "result": 46823.85
+  },
+  "result": 46823.85,
+  "statusCode": 200
 }
 ```

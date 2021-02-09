@@ -1,13 +1,21 @@
 # Chainlink External Adapter for Amberdata gas price
 
-## Input Params
+### Environment Variables
 
-- `speed`: The speed for gas price to get. Available choices:
-  - `safeLow`
-  - `average` (default)
-  - `fast`
-  - `fastest`
-- `endpoint`: The blockchain id to get gas prices from (optional, default: ethereum-mainnet)
+| Required? |  Name   |                              Description                               | Options | Defaults to |
+| :-------: | :-----: | :--------------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     | API_KEY | An API key that can be made [here](https://amberdata.io/user/api-keys) |         |             |
+
+---
+
+## Gas Price Endpoint
+
+### Input Params
+
+| Required? |    Name    |               Description                |               Options                |    Defaults to     |
+| :-------: | :--------: | :--------------------------------------: | :----------------------------------: | :----------------: |
+|    🟡     |  `speed`   |            The desired speed             | `safeLow`,`average`,`fast`,`fastest` |     `average`      |
+|    🟡     | `endpoint` | The blockchain id to get gas prices from |                                      | `ethereum-mainnet` |
 
 ## Output
 

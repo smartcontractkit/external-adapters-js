@@ -8,6 +8,7 @@ const customError = (data: any) => data.Response === 'Error'
 const customParams = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
+  amount: false,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
