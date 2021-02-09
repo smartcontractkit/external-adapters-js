@@ -18,30 +18,20 @@ export const execute: ExecuteWithConfig<Config> = async (request, config, endpoi
       if (e.Names.includes(endpoint)) {
         if (e.execute) {
           return await e.execute(request, config)
-        } else if (e.makeExecute) {
-          return await e.makeExecute(config)(request)
-        } else {
-          // should never reach here
-          throw new AdapterError({
-            jobRunID,
-            message: `Something is very wrong.`,
-            statusCode: 500,
-          })
         }
+        return await e.makeExecute(config)(request)
       }
     }
-  } else {
     throw new AdapterError({
       jobRunID,
-      message: `Endpoints not available for this adapter.`,
-      statusCode: 500,
+      message: `Endpoint ${endpoint} not supported.`,
+      statusCode: 400,
     })
   }
-
   throw new AdapterError({
     jobRunID,
-    message: `Endpoint ${endpoint} not supported.`,
-    statusCode: 400,
+    message: `Endpoints not available for this adapter.`,
+    statusCode: 500,
   })
 }
 
