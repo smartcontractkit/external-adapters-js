@@ -20,6 +20,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     case convert.NAME: {
       return await convert.execute(request, config)
     }
+    case 'price': {
+      return await convert.execute(request, config)
+    }
     default: {
       throw new AdapterError({
         jobRunID,

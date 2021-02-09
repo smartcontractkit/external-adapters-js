@@ -1,6 +1,12 @@
 # Chainlink CoinApi External Adapter
 
-Obtain an API key from [CoinAPI.io](https://www.coinapi.io/pricing).
+### Environment Variables
+
+| Required? |  Name   |                            Description                             | Options | Defaults to |
+| :-------: | :-----: | :----------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     | API_KEY | An API key that can be made [here](https://www.coinapi.io/pricing) |         |             |
+
+---
 
 ### Input Parameters
 
@@ -14,10 +20,10 @@ Obtain an API key from [CoinAPI.io](https://www.coinapi.io/pricing).
 
 ### Input Params
 
-| Required? |            Name            |               Description                |       Options       | Defaults to |
-| :-------: | :------------------------: | :--------------------------------------: | :-----------------: | :---------: |
-|    ✅     | `base`, `from`, or `coin`  |   The symbol of the currency to query    | `BTC`, `ETH`, `USD` |             |
-|    ✅     | `quote`, `to`, or `market` | The symbol of the currency to convert to | `BTC`, `ETH`, `USD` |             |
+| Required? |            Name            |               Description                |                     Options                      | Defaults to |
+| :-------: | :------------------------: | :--------------------------------------: | :----------------------------------------------: | :---------: |
+|    ✅     | `base`, `from`, or `coin`  |   The symbol of the currency to query    | [List](https://docs.coinapi.io/#list-all-assets) |             |
+|    ✅     | `quote`, `to`, or `market` | The symbol of the currency to convert to | [List](https://docs.coinapi.io/#list-all-assets) |             |
 
 ### Output
 

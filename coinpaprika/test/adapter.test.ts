@@ -20,7 +20,7 @@ describe('execute', () => {
       },
       {
         name: 'gets marketcap',
-        testData: { id: jobID, data: { endpoint: 'globalmarketcap', to: 'USD' } },
+        testData: { id: jobID, data: { endpoint: 'globalMarketCap', to: 'USD' } },
       },
       {
         name: 'gets bitcoin dominance',
@@ -52,7 +52,7 @@ describe('execute', () => {
       },
       {
         name: 'market cap: market not supplied',
-        testData: { id: jobID, data: { endpoint: 'globalmarketcap' } },
+        testData: { id: jobID, data: { endpoint: 'globalMarketCap' } },
       },
       {
         name: 'dominance: market not supplied',
@@ -84,7 +84,7 @@ describe('execute', () => {
       },
       {
         name: 'market cap: unknown market',
-        testData: { id: jobID, data: { market: 'not_real', endpoint: 'globalmarketcap' } },
+        testData: { id: jobID, data: { market: 'not_real', endpoint: 'globalMarketCap' } },
       },
       {
         name: 'dominance: unknown market',

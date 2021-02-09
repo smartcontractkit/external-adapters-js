@@ -1,5 +1,13 @@
 # Chainlink External Adapter for 1forge
 
+### Environment Variables
+
+| Required? |  Name   |                     Description                     | Options | Defaults to |
+| :-------: | :-----: | :-------------------------------------------------: | :-----: | :---------: |
+|    ✅     | API_KEY | An API key that can be made on the 1forge dashboard |         |             |
+
+---
+
 ### Input Parameters
 
 | Required? |   Name   |     Description     |         Options          | Defaults to |
