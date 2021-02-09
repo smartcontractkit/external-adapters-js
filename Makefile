@@ -46,7 +46,10 @@ build-2-step:
 	cp -r $(adapter) 2-step/
 	if [ -f "2-step/$(adapter)/dist/adapter.js" ]; then \
 		mv 2-step/$(adapter)/dist/adapter.js 2-step/$(adapter)/priceAdapter.js; \
-	else mv 2-step/$(adapter)/adapter.js 2-step/$(adapter)/priceAdapter.js; \
+	elif [ -f "2-step/$(adapter)/adapter.js" ]; then \
+		mv 2-step/$(adapter)adapter.js 2-step/$(adapter)/priceAdapter.js; \
+	else \
+		mv bootstrap/dist/adapter.js 2-step/$(adapter)/priceAdapter.js; \
 	fi
 	cp 2-step/adapter.js 2-step/$(adapter)
 	cp -r helpers 2-step/helpers
@@ -57,5 +60,5 @@ build-2-step:
 docker-2-step:
 	docker build --no-cache --build-arg adapter=$(adapter) -f Dockerfile-2Step . -t $(repo)$(adapter)-2-step-adapter
 
-zip-2-step: deps clean-2-step build-2-step
+zip-2-step: deps clean-2-step build bootstrap build-2-step
 	(cd 2-step/$(adapter)/dist && zip $(adapter)-2-step-adapter.zip index.js)
