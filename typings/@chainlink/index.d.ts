@@ -88,7 +88,7 @@ declare module '@chainlink/types' {
   } & ExecuteHandlers
 
   export type Endpoint = {
-    Names: string[]
+    NAMES: string[]
     makeExecute?: ExecuteFactory 
     execute?: ExecuteWithConfig<Config>
   } 

@@ -2,7 +2,7 @@ import { Requester, Validator } from '@chainlink/external-adapter'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 import { DEFAULT_ENDPOINT } from '../config'
 
-export const Names = ['difficulty', 'height']
+export const NAMES = ['difficulty', 'height']
 
 const statsParams = {
   blockchain: ['blockchain', 'coin'],

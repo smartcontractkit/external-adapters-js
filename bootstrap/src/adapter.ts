@@ -15,7 +15,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config, endpoi
   const endpoint = validator.validated.data.endpoint || config.DEFAULT_ENDPOINT
   if (endpoints) {
     for (const e of endpoints) {
-      if (e.Names.includes(endpoint)) {
+      if (e.NAMES.includes(endpoint)) {
         if (e.execute) {
           return await e.execute(request, config)
         }

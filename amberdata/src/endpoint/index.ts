@@ -2,7 +2,7 @@ import * as balance from './balance'
 import * as price from './price'
 import { Endpoint } from '@chainlink/types'
 
-export const Endpoints: Endpoint[] = [balance, price]
+export const ENDPOINTS: Endpoint[] = [balance, price]
 
 export const COIN_KEYS = ['btc', 'eth', 'bch', 'ltc', 'btsv', 'zec'] as const
 export type CoinType = typeof COIN_KEYS[number]

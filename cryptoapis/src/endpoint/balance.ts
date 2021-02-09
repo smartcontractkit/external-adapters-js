@@ -4,7 +4,7 @@ import { Requester } from '@chainlink/external-adapter'
 import { Config } from '@chainlink/types'
 import { isCoinType, isChainType, TESTNET_BLOCKCHAINS } from '.'
 
-export const Names = ['balance']
+export const NAMES = ['balance']
 
 const getBalanceURI = (address: string, chain: string, coin: string) => {
   if (chain === 'testnet') chain = Requester.toVendorName(coin, TESTNET_BLOCKCHAINS) || chain

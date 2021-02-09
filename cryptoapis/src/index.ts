@@ -1,12 +1,12 @@
 import { expose, commonAdapter } from '@chainlink/ea-bootstrap'
-import { Endpoints } from './endpoint'
+import { ENDPOINTS } from './endpoint'
 import { makeConfig } from './config'
 import { ExecuteFactory, Config } from '@chainlink/types'
 
 const NAME = 'CRYPTOAPIS'
 
 const makeExecute: ExecuteFactory<Config> = (config) => {
-  return async (request) => commonAdapter.execute(request, config || makeConfig(), Endpoints)
+  return async (request) => commonAdapter.execute(request, config || makeConfig(), ENDPOINTS)
 }
 
 export = { NAME, makeConfig, makeExecute, ...expose(makeExecute()) }
