@@ -58,12 +58,15 @@ export const getPrices = async (
   const idToSymbol = getIdtoSymbol(baseSymbols, coinList)
   const ids = Object.keys(idToSymbol).join(',')
   const response: Record<string, any> = await getPriceData(ids, quote)
-  return Object.fromEntries(
-    Object.entries(response).map(([coinId, data]) => [
-      idToSymbol[coinId],
-      toAssetPrice(data, quote),
-    ]),
-  )
+  return {
+    ...Object.fromEntries(
+      Object.entries(response).map(([coinId, data]) => [
+        idToSymbol[coinId],
+        toAssetPrice(data, quote),
+      ]),
+    ),
+    cost: baseSymbols.length + 1,
+  }
 }
 
 export const getMarketCaps = async (

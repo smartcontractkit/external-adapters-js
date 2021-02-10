@@ -76,7 +76,7 @@ export const getPrices = async (
   const indexMap = new Map()
   Object.values(pricesData).forEach((asset) => indexMap.set(asset.symbol.toUpperCase(), asset))
   const entries = assets.map((symbol) => [symbol, toAssetPrice(indexMap.get(symbol), quote)])
-  return Object.fromEntries(entries)
+  return { ...Object.fromEntries(entries), cost: 2 }
 }
 
 export const getMarketCaps = async (
