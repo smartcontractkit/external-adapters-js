@@ -51,6 +51,17 @@ Cache key is derived by hashing the input object, using the SHA1 hash function, 
 
 The `maxAge` input argument can be used to set per item `maxAge` parameter. If not set, or set to `0`, the cache level `maxAge` option will be used. Every time the `maxAge` input argument changes, the item will be cached with the new `maxAge` parameter. To avoid hitting the cache for a specific item set `maxAge: -1` (any value `< 0`).
 
+#### Rate Limit mitigation 
+
+When several adapters use the same data provider with the same API Key, it's possible that Rate Limit issues appear. When this happens, next configuration can be provided:
+
+- `CACHE_RATE_CAPACITY`: Maximum requests per minute the provider lets the API Key make
+- `GROUP_MAX_AGE`: Time the adapter rate limit configuration will live in cache (2 hours by default)
+
+In order to enable this, both configuration env vars need to be provided. If enabled, Redis will act as central point of every adapter, storing the cost of each of them, understanding cost as the amount of requests that an adapter makes. The adapters with higher costs, will have a higher `maxAge` (will live longer in cache). API Key rate limit capacity needs to be provided, as it will be considered to calculate the `maxAge`. 
+
+Only Redis will be effective for this solution. 
+
 #### Ignoring keys
 
 If you want to ignore specific input data object keys, to be excluded from key derivation, you can use the `CACHE_KEY_IGNORED_PROPS` environment variable.

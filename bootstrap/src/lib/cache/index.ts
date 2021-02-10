@@ -5,6 +5,7 @@ import * as redis from './redis'
 import { parseBool, uuid, delay, exponentialBackOffMs, getWithCoalescing } from '../util'
 import { ExecuteWrappedResponse, AdapterRequest, WrappedAdapterResponse } from '@chainlink/types'
 import { RedisOptions } from './redis'
+import { makeRateLimit } from './rateLimit'
 
 const DEFAULT_CACHE_TYPE = 'local'
 const DEFAULT_CACHE_KEY_GROUP = uuid()
@@ -12,8 +13,6 @@ const DEFAULT_CACHE_KEY_IGNORED_PROPS = ['id', 'maxAge', 'meta']
 // Rate Limiting
 const DEFAULT_CACHE_KEY_RATE_LIMIT_PARTICIPANT = uuid()
 const DEFAULT_GROUP_MAX_AGE = 1000 * 60 * 60 * 2
-const DEFAULT_RATE_WEIGHT = 1
-const DEFAULT_RATE_COST = 1
 // Request coalescing
 const DEFAULT_RC_INTERVAL = 100
 const DEFAULT_RC_INTERVAL_MAX = 1000
@@ -34,7 +33,7 @@ export const defaultOptions = () => ({
   },
   rateLimit: {
     groupMaxAge: parseInt(env.GROUP_MAX_AGE || '') || DEFAULT_GROUP_MAX_AGE,
-    groupId: (env.API_KEY && hash(env.API_KEY)) || undefined,
+    groupId: (env.API_KEY && hash(env.API_KEY)) || '',
     participantId: DEFAULT_CACHE_KEY_RATE_LIMIT_PARTICIPANT,
     totalCapacity: parseInt(env.CACHE_RATE_CAPACITY || ''),
   },
@@ -81,112 +80,6 @@ export const redactOptions = (options: CacheOptions) => ({
       : local.redactOptions(options.cacheOptions),
 })
 
-type RateLimitParticipant = {
-  // for this this type of req, how many underlying requests to provider
-  cost: number
-  // importance of this type of req
-  weight: number
-}
-
-type RateLimitGroup = {
-  totalCapacity: number
-  participants: { [key: string]: RateLimitParticipant }
-}
-
-type RateLimitOptions = {
-  groupMaxAge: number
-  groupId: string | undefined
-  participantId: string
-  totalCapacity: number
-}
-
-const makeRateLimit = (
-  options: RateLimitOptions,
-  cache: local.LocalLRUCache | redis.RedisCache,
-) => {
-  const _isEnabled = () => {
-    return options.groupId && options.totalCapacity
-  }
-
-  const _getRateLimitGroup = async (): Promise<RateLimitGroup | undefined> => {
-    if (!options.groupId) return
-    const result: any = (await cache.get(options.groupId)) || {}
-    const _getMinimumCapacity = (current: number, upcoming: number) => {
-      if (!current) return upcoming
-      return Math.min(current, upcoming)
-    }
-    return {
-      totalCapacity: _getMinimumCapacity(result.totalCapacity, options.totalCapacity),
-      participants: result.participants || {},
-    }
-  }
-
-  const _updateRateLimitGroup = async (
-    cost = DEFAULT_RATE_COST,
-    weight = DEFAULT_RATE_WEIGHT,
-  ): Promise<RateLimitGroup | undefined> => {
-    if (!options.groupId) return
-    const rateLimitGroup = await _getRateLimitGroup()
-    if (!rateLimitGroup) return
-    const newGroup = {
-      totalCapacity: rateLimitGroup.totalCapacity,
-      participants: {
-        ...rateLimitGroup.participants,
-        [options.participantId]: {
-          cost,
-          weight,
-        },
-      },
-    }
-    if (cache instanceof local.LocalLRUCache) {
-      await cache.set(options.groupId, newGroup, options.groupMaxAge)
-    } else {
-      await cache.setKeepingMaxAge(options.groupId, newGroup, options.groupMaxAge)
-    }
-    return newGroup
-  }
-
-  const _getParticipantMaxAge = async () => {
-    const participantId = options.participantId
-    const rlGroup = await _getRateLimitGroup()
-    if (!rlGroup) return
-
-    const SEC_IN_MIN = 60
-    const MS_IN_SEC = 1000
-
-    // to be on the safe side, we don't use max capacity
-    const _safeCapacity = (num: number) => num * 0.9
-    // capacity for participant depends on its weight vs group weight
-    const _capacityFor = (participant: RateLimitParticipant) => {
-      const groupWeight = Object.values(rlGroup.participants).reduce(
-        (acc, val) => acc + val.weight,
-        0,
-      )
-      return (_safeCapacity(rlGroup.totalCapacity) * participant.weight) / groupWeight
-    }
-    // how often should we cache requests to be under capacity limit
-    const _maxAgeFor = (participant: RateLimitParticipant) => {
-      const capacity = _capacityFor(participant)
-      const rps = capacity / SEC_IN_MIN / participant.cost
-      return Math.round(MS_IN_SEC / rps)
-    }
-    const participantsMaxAge = Object.fromEntries(
-      Object.entries(rlGroup.participants).map(([id, _]) => [
-        id,
-        _maxAgeFor(rlGroup.participants[id]),
-      ]),
-    )
-    return participantsMaxAge[participantId]
-  }
-
-  return {
-    isEnabled: _isEnabled,
-    getRateLimitGroup: _getRateLimitGroup,
-    updateRateLimitGroup: _updateRateLimitGroup,
-    getParticipantMaxAge: _getParticipantMaxAge,
-  }
-}
-
 export const withCache = async (
   execute: ExecuteWrappedResponse,
   options: CacheOptions = defaultOptions(),
@@ -222,7 +115,7 @@ export const withCache = async (
     return Number(data.data.maxAge)
   }
   const _getDefaultMaxAge = async (): Promise<any> => {
-    return rateLimit.isEnabled() ? await rateLimit.getParticipantMaxAge() : cache.options.maxAge
+    return (await rateLimit.getParticipantMaxAge()) || cache.options.maxAge
   }
   // MaxAge in the request will always have preference
   const _getMaxAge = async (request: AdapterRequest) => {
@@ -235,9 +128,7 @@ export const withCache = async (
     // Add successful result to cache
     const _cacheOnSuccess = async ({ statusCode, data }: WrappedAdapterResponse) => {
       if (statusCode === 200) {
-        if (rateLimit.isEnabled()) {
-          await rateLimit.updateRateLimitGroup(data.data.cost, data.data.weight)
-        }
+        await rateLimit.updateRateLimitGroup(data.data.cost, data.data.weight)
         let maxAge = await _getMaxAge(request)
         if (maxAge < 0) {
           maxAge = await _getDefaultMaxAge()
