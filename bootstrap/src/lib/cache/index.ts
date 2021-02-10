@@ -6,6 +6,7 @@ import { parseBool, uuid, delay, exponentialBackOffMs, getWithCoalescing } from 
 import { AdapterRequest, AdapterResponse } from '@chainlink/types'
 import { RedisOptions } from './redis'
 import { Middleware } from '../../index'
+import { makeRateLimit } from './rateLimit'
 
 const DEFAULT_CACHE_TYPE = 'local'
 const DEFAULT_CACHE_KEY_GROUP = uuid()
@@ -15,8 +16,6 @@ const DEFAULT_CACHE_KEY_RATE_LIMIT_PARTICIPANT = uuid()
 
 // Rate Limiting
 const DEFAULT_GROUP_MAX_AGE = 1000 * 60 * 60 * 2
-const DEFAULT_RATE_WEIGHT = 1
-const DEFAULT_RATE_COST = 1
 // Request coalescing
 const DEFAULT_RC_INTERVAL = 100
 const DEFAULT_RC_INTERVAL_MAX = 1000
@@ -37,6 +36,12 @@ export const defaultOptions = () => ({
       ...DEFAULT_CACHE_KEY_IGNORED_PROPS,
       ...(env.CACHE_KEY_IGNORED_PROPS || '').split(',').filter((k) => k), // no empty keys
     ],
+  },
+  rateLimit: {
+    groupMaxAge: parseInt(env.GROUP_MAX_AGE || '') || DEFAULT_GROUP_MAX_AGE,
+    groupId: (env.API_KEY && hash(env.API_KEY)) || '',
+    participantId: DEFAULT_CACHE_KEY_RATE_LIMIT_PARTICIPANT,
+    totalCapacity: parseInt(env.CACHE_RATE_CAPACITY || ''),
   },
   // Request coalescing
   requestCoalescing: {
@@ -112,14 +117,8 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
     if (isNaN(data.data.maxAge as number)) return
     return Number(data.data.maxAge)
   }
-
-  const GROUP_MAX_AGE = 1000 * 60 * 60 * 24 * 30
-  const _getRateLimmitGroup = async (groupId: string): Promise<RateLimitGroup> => {
-    const result: any = (await cache.get(groupId)) || {}
-    return {
-      totalCapacity: result.totalCapacity || options.key.totalCapacity,
-      group: result.group || {},
-    }
+  const _getDefaultMaxAge = async (): Promise<any> => {
+    return (await rateLimit.getParticipantMaxAge()) || cache.options.maxAge
   }
 
   const _updateRateLimitGroup = async (
@@ -148,7 +147,12 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
     // Add successful result to cache
     const _cacheOnSuccess = async ({ statusCode, data, result }: AdapterResponse) => {
       if (statusCode === 200) {
-        const entry = { statusCode, data, result, maxAge }
+        await rateLimit.updateRateLimitGroup(data.data.cost, data.data.weight)
+        let maxAge = await _getMaxAge(request)
+        if (maxAge < 0) {
+          maxAge = await _getDefaultMaxAge()
+        }
+        const entry = { statusCode, data, maxAge }
         await cache.set(key, entry, maxAge)
         logger.debug(`Cache: SET ${key}`, entry)
         // Notify pending requests by removing the in-flight mark
