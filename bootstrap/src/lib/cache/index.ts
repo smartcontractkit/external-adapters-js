@@ -6,6 +6,7 @@ import { parseBool, uuid, delay, exponentialBackOffMs, getWithCoalescing } from 
 import { AdapterRequest, AdapterResponse } from '@chainlink/types'
 import { RedisOptions } from './redis'
 import { Middleware } from '../../index'
+import { makeRateLimit } from './rateLimit'
 
 const DEFAULT_CACHE_TYPE = 'local'
 const DEFAULT_CACHE_KEY_GROUP = uuid()
@@ -13,8 +14,6 @@ const DEFAULT_CACHE_KEY_IGNORED_PROPS = ['id', 'maxAge', 'meta']
 // Rate Limiting
 const DEFAULT_CACHE_KEY_RATE_LIMIT_PARTICIPANT = uuid()
 const DEFAULT_GROUP_MAX_AGE = 1000 * 60 * 60 * 2
-const DEFAULT_RATE_WEIGHT = 1
-const DEFAULT_RATE_COST = 1
 // Request coalescing
 const DEFAULT_RC_INTERVAL = 100
 const DEFAULT_RC_INTERVAL_MAX = 1000
@@ -35,7 +34,7 @@ export const defaultOptions = () => ({
   },
   rateLimit: {
     groupMaxAge: parseInt(env.GROUP_MAX_AGE || '') || DEFAULT_GROUP_MAX_AGE,
-    groupId: (env.API_KEY && hash(env.API_KEY)) || undefined,
+    groupId: (env.API_KEY && hash(env.API_KEY)) || '',
     participantId: DEFAULT_CACHE_KEY_RATE_LIMIT_PARTICIPANT,
     totalCapacity: parseInt(env.CACHE_RATE_CAPACITY || ''),
   },
@@ -114,7 +113,7 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
     return Number(data.data.maxAge)
   }
   const _getDefaultMaxAge = async (): Promise<any> => {
-    return rateLimit.isEnabled() ? await rateLimit.getParticipantMaxAge() : cache.options.maxAge
+    return (await rateLimit.getParticipantMaxAge()) || cache.options.maxAge
   }
   // MaxAge in the request will always have preference
   const _getMaxAge = async (request: AdapterRequest) => {
@@ -127,9 +126,7 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
     // Add successful result to cache
     const _cacheOnSuccess = async ({ statusCode, data }: AdapterResponse) => {
       if (statusCode === 200) {
-        if (rateLimit.isEnabled()) {
-          await rateLimit.updateRateLimitGroup(data.data.cost, data.data.weight)
-        }
+        await rateLimit.updateRateLimitGroup(data.data.cost, data.data.weight)
         let maxAge = await _getMaxAge(request)
         if (maxAge < 0) {
           maxAge = await _getDefaultMaxAge()
