@@ -76,7 +76,6 @@ export const withCache = async (
 ) => {
   // If disabled noop
   if (!options.enabled) return (data: AdapterRequest) => execute(data)
-
   const cache = await options.cacheBuilder(options.cacheOptions)
 
   // Algorithm we use to derive entry key
