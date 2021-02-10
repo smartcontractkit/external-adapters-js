@@ -14,7 +14,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   Requester.logConfig(config)
 
   const jobRunID = validator.validated.id
-  const endpoint = validator.validated.data.endpoint.toLowerCase() || DEFAULT_ENDPOINT
+  const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
 
   switch (endpoint.toLowerCase()) {
     case price.NAME: {
