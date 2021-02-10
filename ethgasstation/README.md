@@ -1,15 +1,31 @@
 # Chainlink External Adapter for EthGasStation
 
-## Input Params
+### Environment Variables
 
-- `speed`: The speed for gas price to get. Available choices:
-  - `safeLow`
-  - `average` (default)
-  - `fast`
-  - `fastest`
-- `endpoint`: The endpoint to use (optional, default: ethgasAPI)
+| Required? |  Name   | Description | Options | Defaults to |
+| :-------: | :-----: | :---------: | :-----: | :---------: |
+|    ✅     | API_KEY |             |         |             |
 
-## Output Format
+---
+
+### Input Parameters
+
+| Required? |   Name   |     Description     |            Options             | Defaults to |
+| :-------: | :------: | :-----------------: | :----------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [gasprice](#gasprice-Endpoint) | `gasprice`  |
+
+---
+
+## Gas Price Endpoint
+
+### Input Params
+
+| Required? |    Name    |               Description                |               Options                |    Defaults to     |
+| :-------: | :--------: | :--------------------------------------: | :----------------------------------: | :----------------: |
+|    🟡     |  `speed`   |            The desired speed             | `safeLow`,`average`,`fast`,`fastest` |     `average`      |
+|    🟡     | `endpoint` | The blockchain id to get gas prices from |                                      | `ethereum-mainnet` |
+
+### Output Format
 
 ```json
 {

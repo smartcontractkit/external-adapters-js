@@ -1,15 +1,22 @@
 # Chainlink External Adapter for Etherchain
 
-## Input Params
+### Input Parameters
 
-- `speed`: The speed for gas price to get. Available choices:
-  - `safeLow`
-  - `standard` (default)
-  - `fast`
-  - `fastest`
-- `endpoint`: The endpoint to use (optional, default: gasPriceOracle)
+| Required? |   Name   |     Description     |            Options             | Defaults to |
+| :-------: | :------: | :-----------------: | :----------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [gasprice](#gasprice-Endpoint) | `gasprice`  |
 
-## Output Format
+---
+
+## Gas Price Endpoint
+
+### Input Params
+
+| Required? |  Name   |    Description    |               Options                | Defaults to |
+| :-------: | :-----: | :---------------: | :----------------------------------: | :---------: |
+|    🟡     | `speed` | The desired speed | `safeLow`,`average`,`fast`,`fastest` |  `average`  |
+
+### Output Format
 
 ```json
 {

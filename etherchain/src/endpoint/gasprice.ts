@@ -1,12 +1,12 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 
-export const NAME = 'gasPriceOracle'
+export const NAME = 'gasprice'
 
 const customError = (data: any) => data.Response === 'Error'
 
 const customParams = {
-  speed: true,
+  speed: false,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {

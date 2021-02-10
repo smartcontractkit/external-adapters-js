@@ -7,7 +7,6 @@ const customError = (data: any) => data.Response === 'Error'
 
 const customParams = {
   base: ['base', 'asset', 'from', 'symbol'],
-  endpoint: false,
 }
 
 const commonKeys: { [key: string]: string } = {
@@ -21,12 +20,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const endpoint = validator.validated.data.endpoint || 'real-time'
   let symbol = validator.validated.data.base.toUpperCase()
   if (commonKeys[symbol]) {
     symbol = commonKeys[symbol]
   }
-  const url = `/api/${endpoint}/${symbol}`
+  const url = `/api/real-time/${symbol}`
 
   const params = {
     ...config.api.params,

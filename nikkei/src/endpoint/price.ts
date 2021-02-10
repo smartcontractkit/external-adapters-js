@@ -1,8 +1,7 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { AdapterRequest, Config } from '@chainlink/types'
-import { util } from '@chainlink/ea-bootstrap'
 
-export const Name = 'realData'
+export const NAME = 'price'
 
 const customError = (data: any) => data.Response === 'Error'
 

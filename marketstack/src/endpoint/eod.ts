@@ -1,9 +1,8 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { AdapterRequest, Config } from '@chainlink/types'
 import { DEFAULT_INTERVAL, DEFAULT_LIMIT } from '../config'
-import { util } from '@chainlink/ea-bootstrap'
 
-export const Name = 'eod'
+export const NAME = 'eod'
 
 const customError = (data: any) => data.Response === 'Error'
 

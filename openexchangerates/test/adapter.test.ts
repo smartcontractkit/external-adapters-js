@@ -12,7 +12,7 @@ describe('execute', () => {
     const requests = [
       {
         name: 'id not supplied',
-        testData: { data: { base: 'GBP', quote: 'USD' } },
+        testData: { data: { base: 'BTC', quote: 'USD' } },
       },
       {
         name: 'base/quote',
@@ -20,7 +20,7 @@ describe('execute', () => {
       },
       {
         name: 'from/to',
-        testData: { id: jobID, data: { from: 'GBP', to: 'USD' } },
+        testData: { id: jobID, data: { from: 'ETH', to: 'USD' } },
       },
     ]
 

@@ -1,11 +1,22 @@
 # Chainlink External Adapter for Nikkei
 
-## Input Params
+### Input Parameters
 
-- `base`, `from`, or `asset`: The symbol of the currency to query
-- `endpoint`: Optional endpoint param
+| Required? |   Name   |     Description     |         Options          | Defaults to |
+| :-------: | :------: | :-----------------: | :----------------------: | :---------: |
+|           | endpoint | The endpoint to use | [price](#Price-endpoint) |    price    |
 
-## Output
+---
+
+## Price endpoint
+
+### Input Params
+
+| Required? |           Name            |           Description            |                           Options                           | Defaults to |
+| :-------: | :-----------------------: | :------------------------------: | :---------------------------------------------------------: | :---------: |
+|    ✅     | `base`, `from`, or `coin` | The symbol of the index to query | `N255`, [list](https://indexes.nikkei.co.jp/en/nkave/index) |             |
+
+### Output
 
 ```json
 {
