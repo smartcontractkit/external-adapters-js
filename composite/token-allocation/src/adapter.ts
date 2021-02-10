@@ -104,12 +104,12 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
     })
 
   const { method = config.defaultMethod } = validator.validated.data
-  switch (method) {
+  switch (method.toLowerCase()) {
     case 'price':
       // eslint-disable-next-line no-case-declarations
       const price = await computePrice(config, allocations, quote)
       return _success(price.payload, price.result)
-    case 'marketCap':
+    case 'marketcap':
       // eslint-disable-next-line no-case-declarations
       const marketCap = await computeMarketCap(config, allocations, quote)
       return _success(marketCap.payload, marketCap.result)

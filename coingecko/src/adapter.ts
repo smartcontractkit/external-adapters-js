@@ -16,11 +16,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
 
-  switch (endpoint) {
+  switch (endpoint.toLowerCase()) {
     case price.NAME:
       return await price.execute(request, config)
 
-    case 'globalMarketCap':
+    case 'globalmarketcap':
       request.data.path = 'total_market_cap'
       return await global.execute(request, config)
 
