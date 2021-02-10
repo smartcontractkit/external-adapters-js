@@ -4,7 +4,7 @@
 
 | Required? |   Name   |     Description     |                                                    Options                                                     | Defaults to |
 | :-------: | :------: | :-----------------: | :------------------------------------------------------------------------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [price](#Price-Endpoint), [dominance](#Dominance-Endpoint), [globalMarketCap](#Market-Capitalization-Endpoint) |   `price`   |
+|           | endpoint | The endpoint to use | [price](#Price-Endpoint), [dominance](#Dominance-Endpoint), [globalmarketcap](#Market-Capitalization-Endpoint) |   `price`   |
 
 ---
 

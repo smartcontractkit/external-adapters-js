@@ -1,8 +1,6 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 
-const DEFAULT_DATA_ENDPOINT = 'events.json'
-
 export const NAME = 'price'
 
 const customError = (data: any) => data.Response === 'Error'
@@ -23,7 +21,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const url = validator.validated.data.endpoint || DEFAULT_DATA_ENDPOINT
+  const url = 'events.json'
   let symbols = validator.validated.data.base.toUpperCase()
   if (symbols in commonSymbols) {
     symbols = commonSymbols[symbols]

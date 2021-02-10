@@ -5,7 +5,7 @@ import * as dxfeed from '@chainlink/dxfeed-adapter'
 export const NAME = 'price'
 
 const customParams = {
-  base: ['base', 'from', 'coin'],
+  base: ['base', 'from', 'coin', 'market'],
 }
 
 const commonSymbols: { [key: string]: string } = {

@@ -1,13 +1,32 @@
 # Chainlink External Adapter for Marketstack
 
-## Input Params
+### Environment Variables
 
-- `base`, `from`, or `coin`: The symbol of the currency to query
-- `endpoint`: Optional endpoint param(default:eod)
-- `interval`: The interval for the data (default: 1min)
-- `limit`: The limit for number of results (default: 1)
+| Required? |  Name   | Description | Options | Defaults to |
+| :-------: | :-----: | :---------: | :-----: | :---------: |
+|    ✅     | API_KEY |             |         |             |
 
-## Output
+---
+
+### Input Parameters
+
+| Required? |   Name   |     Description     |           Options           | Defaults to |
+| :-------: | :------: | :-----------------: | :-------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [eod](#End-Of-Day-endpoint) |     eod     |
+
+---
+
+## End Of Day endpoint
+
+### Input Params
+
+| Required? |           Name            |               Description                | Options | Defaults to |
+| :-------: | :-----------------------: | :--------------------------------------: | :-----: | :---------: |
+|    ✅     | `base`, `from`, or `coin` |   The symbol of the currency to query    |         |             |
+|    🟡     |        `interval`         | The symbol of the currency to convert to |         |    1min     |
+|    🟡     |          `limit`          |     The limit for number of results      |         |      1      |
+
+### Output
 
 ```json
 {

@@ -1,12 +1,31 @@
 # Chainlink Open Exchange Rates External Adapter
 
-## Input Params
+### Environment Variables
 
-- `base` or `from`: The currency symbol to convert from
-- `quote` or `to`: The currency symbol to convert to
-- `endpoint`: The endpoint to use (default: latest.json)
+| Required? |  Name   |                                Description                                | Options | Defaults to |
+| :-------: | :-----: | :-----------------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     | API_KEY | An API key that can be made [here](hhttps://openexchangerates.org/signup) |         |             |
 
-## Output
+---
+
+### Input Parameters
+
+| Required? |   Name   |     Description     |         Options          | Defaults to |
+| :-------: | :------: | :-----------------: | :----------------------: | :---------: |
+|           | endpoint | The endpoint to use | [price](#Price-endpoint) |    price    |
+
+---
+
+## Price endpoint
+
+### Input Params
+
+| Required? |            Name            |               Description                | Options | Defaults to |
+| :-------: | :------------------------: | :--------------------------------------: | :-----: | :---------: |
+|    ✅     | `base`, `from`, or `coin`  |   The symbol of the currency to query    |         |             |
+|    ✅     | `quote`, `to`, or `market` | The symbol of the currency to convert to |         |             |
+
+### Output
 
 ```json
 {

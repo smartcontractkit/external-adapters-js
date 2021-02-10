@@ -6,8 +6,8 @@ export const NAME = 'convert'
 const customError = (data: any) => data.Response === 'Error'
 
 const customParams = {
-  base: ['base', 'from'],
-  quote: ['quote', 'to'],
+  base: ['base', 'from', 'coin'],
+  quote: ['quote', 'to', 'market'],
   amount: false,
 }
 
@@ -22,6 +22,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const amount = validator.validated.data.amount || 1
 
   const params = {
+    ...config.api.params,
     from,
     to,
     amount,

@@ -2,13 +2,36 @@
 
 This adapter is for [Polygon.io](https://polygon.io/) and supports the conversion endpoint.
 
-## Input params
+### Environment Variables
 
-- `base` or `from`: The asset to query
-- `quote` or `to`: The currency to convert to
-- `endpoint`: The endpoint to query (default: conversion)
+| Required? |  Name   |                               Description                               | Options | Defaults to |
+| :-------: | :-----: | :---------------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     | API_KEY | An API key that can be made [here](https://polygon.io/dashboard/signup) |         |             |
 
-## Output
+---
+
+### Input Parameters
+
+| Required? |   Name   |     Description     |         Options          | Defaults to |
+| :-------: | :------: | :-----------------: | :----------------------: | :---------: |
+|           | endpoint | The endpoint to use | [price](#Price-endpoint) |    price    |
+
+---
+
+## Price endpoint
+
+Get FOREX price conversions
+
+### Input Params
+
+| Required? |            Name            |                 Description                  |       Options       | Defaults to |
+| :-------: | :------------------------: | :------------------------------------------: | :-----------------: | :---------: |
+|    ✅     | `base`, `from`, or `coin`  |     The symbol of the currency to query      | `BTC`, `ETH`, `USD` |             |
+|    ✅     | `quote`, `to`, or `market` |   The symbol of the currency to convert to   | `BTC`, `ETH`, `USD` |             |
+|    🟡     |          `amount`          |     The amount of the `base` to convert      |                     |      1      |
+|    🟡     |        `precision`         | The number of significant figures to include |                     |      4      |
+
+### Output
 
 ```json
 {

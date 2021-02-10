@@ -1,10 +1,9 @@
-import { Requester, Validator } from '@chainlink/external-adapter'
+import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
 import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
 import { makeConfig, DEFAULT_ENDPOINT } from './config'
+import { price } from './endpoint'
 
 const inputParams = {
-  base: ['base', 'from'],
-  quote: ['quote', 'to'],
   endpoint: false,
 }
 
@@ -16,26 +15,19 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
-  const base = validator.validated.data.base
-  const to = validator.validated.data.quote
 
-  const params = {
-    base,
-    app_id: config.apiKey,
+  switch (endpoint) {
+    case price.NAME: {
+      return await price.execute(request, config)
+    }
+    default: {
+      throw new AdapterError({
+        jobRunID,
+        message: `Endpoint ${endpoint} not supported.`,
+        statusCode: 400,
+      })
+    }
   }
-
-  const reqConfig = {
-    ...config.api,
-    params,
-    url: endpoint,
-  }
-  const response = await Requester.request(reqConfig)
-  const result = Requester.validateResultNumber(response.data, ['rates', to])
-  return Requester.success(jobRunID, {
-    data: { ...response.data, result },
-    result,
-    status: 200,
-  })
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {

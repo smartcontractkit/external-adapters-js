@@ -22,24 +22,6 @@ describe('execute', () => {
         name: 'from/to',
         testData: { id: jobID, data: { from: 'CHF', to: 'USD' } },
       },
-      {
-        name: 'coin',
-        testData: { id: jobID, data: { coin: 'BTC' } },
-      },
-      {
-        name: 'BTC difficulty',
-        testData: {
-          id: jobID,
-          data: { blockchain: 'BTC' },
-        },
-      },
-      {
-        name: 'BTC height',
-        testData: {
-          id: jobID,
-          data: { blockchain: 'BTC', endpoint: 'height' },
-        },
-      },
     ]
 
     requests.forEach((req) => {
