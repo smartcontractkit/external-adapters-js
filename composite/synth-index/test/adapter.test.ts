@@ -7,7 +7,7 @@ import * as ta from '@chainlink/token-allocation-adapter'
 const makeMockConfig = (provider: string) => {
   return {
     defaultNetwork: 'mainnet',
-    taConfig: ta.makeConfig(provider),
+    taConfig: ta.makeConfig('', provider),
   }
 }
 

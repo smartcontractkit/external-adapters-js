@@ -9,7 +9,7 @@ import { BigNumber } from 'ethers'
 
 describe('execute', () => {
   const jobID = '1'
-  const execute = makeExecute(makeConfig('coingecko'))
+  const execute = makeExecute(makeConfig('', 'coingecko'))
 
   context('successful calls @integration', () => {
     const requests = [
