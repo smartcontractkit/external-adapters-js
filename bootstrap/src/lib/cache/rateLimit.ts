@@ -8,7 +8,7 @@ type RateLimitParticipant = {
   weight: number
 }
 
-type RateLimitGroup = {
+export type RateLimitGroup = {
   totalCapacity: number
   participants: { [key: string]: RateLimitParticipant }
 }
