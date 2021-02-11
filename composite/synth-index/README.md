@@ -17,7 +17,7 @@ The adapter calculates a Synthetix Index value in the currency selected
 - `API_KEY`: For those data providers who need an api key
 - `DEFAULT_QUOTE` (Optional): Currency that the price will be fetched by default. `USD` used by default
 
-E.g. if we wish to use Coincapmarket as data provider, we should run (docker):
+E.g. if we wish to use CoinMarketCap as data provider, we should run (docker):
 ```
 docker run -p 8080:8080 -e DATA_PROVIDER=coinmarketcap -e API_KEY=xxx-xxx -it synth-index-adapter:latest
 ```
