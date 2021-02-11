@@ -10,16 +10,41 @@ A typical workflow of a Chainlink job for this external adapter could look like:
 - Parse the transaction object from ChainB for the transaction hash
 - Write the transaction hash from ChainB to ChainA
 
-## Install
+## Input Params
 
-```bash
-yarn
+- `exAddr`: The address for sending the transaction to.
+- `funcId`: (Optional) One of the following setter functions: `0xc2b12a73` for `bytes32`, `0xa53b1c1e` for `int256` or `0xd2282dc5` for `uint256` (defaults to `0xd2282dc5`)
+- `dataType`: (Optional) One of the following types: `bytes32`, `int256` or `uint256` (defaults to `uint256`)
+- `result`: Corresponds to the result of the previous adapter.
+- `dataToSend`: Used only if the result field is not defined, but should be provided in case result is missing (optional)
+
+## Output Format
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "nonce": 1,
+    "gasPrice": { "type": "BigNumber", "hex": "0x04a817c800" },
+    "gasLimit": { "type": "BigNumber", "hex": "0x53d8" },
+    "to": "0xBb5696deFD9005e0CfD8bf40ae4C1f9beB6c109d",
+    "value": { "type": "BigNumber", "hex": "0x00" },
+    "data": "0xa53b1c1e0000000000000000000000000000000000000000000000000000000000000036",
+    "chainId": 1337,
+    "v": 2710,
+    "r": "0x58389e578005462f7e8d0c980cd4fca9e16ab4141882f56f98deec0b572da0b3",
+    "s": "0x17a977f57a88c3dbbab89beac60beb78ae8ab4dffd676831f84d14151c5b03d5",
+    "from": "0x78C696E4cA526f17380DAc7b6C5fd54B17F3f637",
+    "hash": "0x311b1e57342f61379bc597813c41bfa7c3535cfc2a49e61b2456c602dd07708e"
+  },
+  "statusCode": 200
+}
 ```
 
 ## Deploy & Test
 
-- Run `ganache-cli`, `hardhat` or some local blockchain with RPC enabled
-- Set local environment variable `URL` to the RPC endpoint for that client. For example `http://localhost:8545`
+- Run `hardhat`, `ganache-cli` or some local blockchain with RPC enabled
+- Set local environment variable `RPC_URL` to the RPC endpoint for that client. For example `http://localhost:8545`
 - Set the local environment variable `PRIVATE_KEY` to the private key of a funded wallet. For example `0xde1673a55d14576f10f5223efbe6b1df771409eb3d51d24d3fb0e04bd615a619` (Ganache's default)
 - Run:
 
@@ -43,39 +68,3 @@ Verify the contract was written
 ```bash
 ts-node read_contract.ts
 ```
-
-## Create the zip
-
-```bash
-zip -r ethwrite.zip .
-```
-
-## Install to AWS Lambda
-
-- In Lambda Functions, create function
-- On the Create function page:
-  - Give the function a name
-  - Use Node.js 8.10 for the runtime
-  - Choose an existing role or create a new one
-  - Click Create Function
-- Under Function code, select "Upload a .zip file" from the Code entry type drop-down
-- Click Upload and select the `ethwrite.zip` file
-- Handler should remain index.handler
-- Add the environment variable:
-  - Key: URL
-  - Value: RPC_Endpoint_To_Connect
-  - Key: PRIVATE_KEY
-  - Value: Your_Private_key
-- Save
-
-## Install to GCP
-
-- In Functions, create a new function, choose to ZIP upload
-- Click Browse and select the `ethwrite.zip` file
-- Select a Storage Bucket to keep the zip in
-- Function to execute: gcpservice
-- Click More, Add variable
-  - NAME: URL
-  - VALUE: RPC_Endpoint_To_Connect
-  - NAME: PRIVATE_KEY
-  - VALUE: Your_Private_key

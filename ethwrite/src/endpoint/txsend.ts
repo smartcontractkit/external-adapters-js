@@ -5,7 +5,7 @@ import { DEFAULT_PRIVATE_KEY, DEFAULT_RPC_URL } from '../config'
 
 export const NAME = 'txsend'
 
-const provider = new ethers.providers.JsonRpcProvider(process.env.URL || DEFAULT_RPC_URL)
+const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL || DEFAULT_RPC_URL)
 const privateKey = process.env.PRIVATE_KEY || DEFAULT_PRIVATE_KEY
 
 const wallet = new ethers.Wallet(privateKey, provider)
@@ -24,20 +24,20 @@ const encode = (type: any, value: any) => {
 }
 
 const customParams = {
-  exAddr: false,
+  exAddr: true,
   funcId: false,
   dataType: false,
   result: false,
   dataToSend: false,
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, config) => {
+export const execute: ExecuteWithConfig<Config> = async (request) => {
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const externalAddress = validator.validated.data.exAddr || ''
-  const functionId = validator.validated.data.funcId || ''
+  const functionId = validator.validated.data.funcId || '0xc2b12a73'
   const dataType = validator.validated.data.dataType || 'uint256'
   // Prioritize data coming from a previous adapter (result),
   // but allow dataToSend to be used if specified
