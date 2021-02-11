@@ -35,11 +35,6 @@ export const marketCapTotalValue = (
     .toNumber()
 }
 
-const inputParams = {
-  allocations: true,
-  quote: false,
-}
-
 const toValidAllocations = (allocations: TokenAllocations): TokenAllocations => {
   if (!allocations.every((t) => !!t.symbol))
     throw new AdapterError({ message: `Symbol not available for all tokens.`, statusCode: 400 })
@@ -86,6 +81,12 @@ const computeMarketCap = async (config: Config, allocations: TokenAllocations, q
   const payload: ResponsePayload = Object.fromEntries(payloadEntries)
   const result = marketCapTotalValue(allocations, quote, payload)
   return { payload, result }
+}
+
+const inputParams = {
+  allocations: true,
+  quote: false,
+  method: false,
 }
 
 export const execute = async (input: AdapterRequest, config: Config): Promise<AdapterResponse> => {
