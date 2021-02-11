@@ -1,7 +1,7 @@
 import { ethers } from 'ethers'
 import { DEFAULT_RPC_URL } from './src/config'
 
-const provider = new ethers.providers.JsonRpcProvider(process.env.URL || DEFAULT_RPC_URL)
+const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL || DEFAULT_RPC_URL)
 
 const abi = [
   'function setBytes32(bytes32 _value)',

@@ -93,7 +93,10 @@ setTimeout(async function () {
     })
 
     context('validation error', () => {
-      const requests = [{ name: 'empty body', testData: {} }]
+      const requests = [
+        { name: 'empty body', testData: {} },
+        { name: 'empty data', testData: { data: {} } },
+      ]
 
       requests.forEach((req) => {
         it(`${req.name}`, async () => {
@@ -108,7 +111,20 @@ setTimeout(async function () {
     })
 
     context('error calls @integration', () => {
-      const requests = [{ name: 'empty data', testData: { data: {} } }]
+      const requests = [
+        {
+          name: 'with sending string while int datatype and func',
+          testData: {
+            id: jobID,
+            data: {
+              exAddr: address,
+              dataType: 'int256',
+              funcId: int256FuncId,
+              dataToSend: 'not correct',
+            },
+          },
+        },
+      ]
       requests.forEach((req) => {
         it(`${req.name}`, async () => {
           try {
