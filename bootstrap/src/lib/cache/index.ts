@@ -5,7 +5,7 @@ import * as redis from './redis'
 import { parseBool, uuid, delay, exponentialBackOffMs, getWithCoalescing } from '../util'
 import { ExecuteWrappedResponse, AdapterRequest, WrappedAdapterResponse } from '@chainlink/types'
 import { RedisOptions } from './redis'
-import { makeRateLimit } from './rateLimit'
+import { makeRateLimit } from './ratelimit'
 
 const DEFAULT_CACHE_TYPE = 'local'
 const DEFAULT_CACHE_KEY_GROUP = uuid()
