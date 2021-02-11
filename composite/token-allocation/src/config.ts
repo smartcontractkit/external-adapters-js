@@ -35,7 +35,7 @@ const providers: Record<string, PriceAdapter> = {
 export const DEFAULT_TOKEN_DECIMALS = 18
 export const DEFAULT_TOKEN_BALANCE = 1
 
-export const makeConfig = (provider = '', prefix = ''): Config => {
+export const makeConfig = (prefix = '', provider = ''): Config => {
   const dataProvider = provider || util.getRequiredEnv('DATA_PROVIDER', prefix)
   return {
     priceAdapter: providers[dataProvider],
