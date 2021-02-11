@@ -65,7 +65,7 @@ export const getPrices = async (
         toAssetPrice(data, quote),
       ]),
     ),
-    cost: baseSymbols.length + 1,
+    cost: 2,
   }
 }
 
