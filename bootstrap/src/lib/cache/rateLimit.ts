@@ -100,6 +100,7 @@ export const makeRateLimit = (
 
   const _ifEnabled = (fn: (...args: any[]) => Promise<any>) => (_isEnabled() ? fn : () => false)
   return {
+    isEnabled: _isEnabled,
     getRateLimitGroup: _ifEnabled(_getRateLimitGroup),
     updateRateLimitGroup: _ifEnabled(_updateRateLimitGroup),
     getParticipantMaxAge: _ifEnabled(_getParticipantMaxAge),
