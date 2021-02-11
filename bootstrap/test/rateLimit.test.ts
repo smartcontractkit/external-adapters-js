@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import sinon from 'sinon'
 import { defaultOptions } from '../src/lib/cache'
-import { makeRateLimit, RateLimitGroup } from '../src/lib/cache/ratelimit'
+import { makeRateLimit, RateLimitGroup } from '../src/lib/cache/rateLimit'
 import { RedisCache } from '../src/lib/cache/redis'
 
 describe('rate limit', () => {
