@@ -100,6 +100,13 @@
   dependencies:
     ethers "5.0.0"
 
+"@eth-optimism/watcher@0.0.1-alpha.8":
+  version "0.0.1-alpha.8"
+  resolved "https://registry.yarnpkg.com/@eth-optimism/watcher/-/watcher-0.0.1-alpha.8.tgz#db8179cf9dd38ad20ffe7aac799353e6e2312221"
+  integrity sha512-UICItZmRtQ4U2Ae8D56to0MZskFVdKOej3srcDg7PgAi/HqDetoyt5eutBPVgABiiIMTWvkoh6EsbgRJRPjWNg==
+  dependencies:
+    ethers "5.0.0"
+
 "@ethersproject/abi@5.0.0-beta.153":
   version "5.0.0-beta.153"
   resolved "https://registry.yarnpkg.com/@ethersproject/abi/-/abi-5.0.0-beta.153.tgz#43a37172b33794e4562999f6e2d555b7599a8eee"
@@ -7158,13 +7165,14 @@ swarm-js@^0.1.40:
     tar "^4.0.2"
     xhr-request "^1.0.1"
 
-synthetix@^2.29.3:
-  version "2.34.0"
-  resolved "https://registry.yarnpkg.com/synthetix/-/synthetix-2.34.0.tgz#ef7ec4cc335c539b57e0c88541cce2db39bfd614"
-  integrity sha512-e3HCRRaz1duuhe/ZZj8jyGKRRFklM5AZNn2d9xmvgAQtRPMrElR0n2FFU+I8+Bp4+bLsGosrJS1cp1+X+qcZeg==
+synthetix@2.38.0-sccp-77-defi-rebalance:
+  version "2.38.0-sccp-77-defi-rebalance"
+  resolved "https://registry.yarnpkg.com/synthetix/-/synthetix-2.38.0-sccp-77-defi-rebalance.tgz#f50e93715ac3f3029bad6ae10472df6e608e5503"
+  integrity sha512-jLyRHFcko183LCTeW1bKVZYBCMn5hRws4afse06uNyp8ypxLG9FExbS3tzN8AuR1hR26lpxDAoyjLgQ0fEO8Jw==
   dependencies:
     "@chainlink/contracts-0.0.10" "npm:@chainlink/contracts@0.0.10"
     "@eth-optimism/contracts" "0.0.2-alpha.7"
+    "@eth-optimism/watcher" "0.0.1-alpha.8"
     abi-decoder "2.3.0"
     commander "5.1.0"
     openzeppelin-solidity-2.3.0 "npm:openzeppelin-solidity@2.3.0"
