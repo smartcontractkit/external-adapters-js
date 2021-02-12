@@ -6,11 +6,11 @@ A template to be used as an example for new [External Adapters](https://github.c
 
 | Required? |   Name   |     Description     |           Options            | Defaults to |
 | :-------: | :------: | :-----------------: | :--------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [example](#Example-endpoint) |   example   |
+|           | endpoint | The endpoint to use | [example](#Example-Endpoint) |   example   |
 
 ---
 
-## Example endpoint
+## Example Endpoint
 
 An example endpoint description
 
@@ -21,7 +21,19 @@ An example endpoint description
 |    ✅     | `base`, `from`, or `coin`  |   The symbol of the currency to query    | `BTC`, `ETH`, `USD` |             |
 |    ✅     | `quote`, `to`, or `market` | The symbol of the currency to convert to | `BTC`, `ETH`, `USD` |             |
 
-### Output
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "base": "ETH",
+    "quote": "USD"
+  }
+}
+```
+
+### Sample Output
 
 ```json
 {

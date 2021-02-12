@@ -4,9 +4,9 @@ Use this adapter for connecting to [AlphaVantage's API](https://www.alphavantage
 
 ### Environment Variables
 
-| Required? |  Name   |                                   Description                                    | Options | Defaults to |
-| :-------: | :-----: | :------------------------------------------------------------------------------: | :-----: | :---------: |
-|    ✅     | API_KEY | An API key that can be made [here](https://www.alphavantage.co/support/#api-key) |         |             |
+| Required? |  Name   |                                      Description                                      | Options | Defaults to |
+| :-------: | :-----: | :-----------------------------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     | API_KEY | An API key that can be obtained from [here](https://www.alphavantage.co/support/#api-key) |         |             |
 
 ---
 

@@ -2,9 +2,9 @@
 
 ### Environment Variables
 
-| Required? |  Name   |                            Description                             | Options | Defaults to |
-| :-------: | :-----: | :----------------------------------------------------------------: | :-----: | :---------: |
-|    ✅     | API_KEY | An API key that can be made [here](https://www.coinapi.io/pricing) |         |             |
+| Required? |  Name   |                                 Description                                 | Options | Defaults to |
+| :-------: | :-----: | :-------------------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     | API_KEY | An API key that can be obtained from [here](https://www.coinapi.io/pricing) |         |             |
 
 ---
 

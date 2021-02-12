@@ -12,11 +12,11 @@
 
 | Required? |   Name   |     Description     |         Options          | Defaults to |
 | :-------: | :------: | :-----------------: | :----------------------: | :---------: |
-|           | endpoint | The endpoint to use | [price](#Price-endpoint) |    price    |
+|           | endpoint | The endpoint to use | [price](#Price-Endpoint) |    price    |
 
 ---
 
-## Price endpoint
+## Price Endpoint
 
 ### Input Params
 

@@ -4,11 +4,11 @@
 
 | Required? |   Name   |     Description     |                                                        Options                                                        | Defaults to |
 | :-------: | :------: | :-----------------: | :-------------------------------------------------------------------------------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [price](#Price-endpoint), [globalmarketcap](#Global-Market-Capitalization-endpoint), [dominance](#Dominance-endpoint) |    price    |
+|           | endpoint | The endpoint to use | [price](#Price-Endpoint), [globalmarketcap](#Global-Market-Capitalization-Endpoint), [dominance](#Dominance-Endpoint) |    price    |
 
 ---
 
-## Price endpoint (Default)
+## Price Endpoint
 
 Query the price from [Coingecko](https://api.coingecko.com/api/v3/simple/price)
 
@@ -36,9 +36,7 @@ Query the price from [Coingecko](https://api.coingecko.com/api/v3/simple/price)
 }
 ```
 
-## Global Market Capitalization endpoint
-
-### Endpoint
+## Global Market Capitalization Endpoint
 
 Query the global market cap from [Coingecko](https://api.coingecko.com/api/v3/global)
 
@@ -106,9 +104,7 @@ Query the global market cap from [Coingecko](https://api.coingecko.com/api/v3/gl
 }
 ```
 
-## Dominance endpoint
-
-### Endpoint
+## Dominance Endpoint
 
 Query the market dominance percentage from [Coingecko](https://api.coingecko.com/api/v3/global)
 

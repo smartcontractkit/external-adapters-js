@@ -12,11 +12,11 @@
 
 | Required? |   Name   |     Description     |           Options           | Defaults to |
 | :-------: | :------: | :-----------------: | :-------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [eod](#End-Of-Day-endpoint) |     eod     |
+|           | endpoint | The endpoint to use | [eod](#End-Of-Day-Endpoint) |     eod     |
 
 ---
 
-## End Of Day endpoint
+## End Of Day Endpoint
 
 ### Input Params
 

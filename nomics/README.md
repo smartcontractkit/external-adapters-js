@@ -2,9 +2,9 @@
 
 ### Environment Variables
 
-| Required? |  Name   |                                Description                                 | Options | Defaults to |
-| :-------: | :-----: | :------------------------------------------------------------------------: | :-----: | :---------: |
-|    ✅     | API_KEY | An API key that can be made [here](https://p.nomics.com/pricing#free-plan) |         |             |
+| Required? |  Name   |                                     Description                                     | Options | Defaults to |
+| :-------: | :-----: | :---------------------------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     | API_KEY | An API key that can be obtained from [here](https://p.nomics.com/pricing#free-plan) |         |             |
 
 ---
 
@@ -12,11 +12,11 @@
 
 | Required? |   Name   |     Description     |                                       Options                                       | Defaults to |
 | :-------: | :------: | :-----------------: | :---------------------------------------------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [price](#Price-endpoint), [globalmarketcap](#Global-Market-Capitalization-endpoint) |    price    |
+|           | endpoint | The endpoint to use | [price](#Price-Endpoint), [globalmarketcap](#Global-Market-Capitalization-Endpoint) |    price    |
 
 ---
 
-## Price endpoint
+## Price Endpoint
 
 ### Input Params
 
@@ -96,7 +96,7 @@
 }
 ```
 
-## Global Market Capitalization endpoint
+## Global Market Capitalization Endpoint
 
 ## Output
 
