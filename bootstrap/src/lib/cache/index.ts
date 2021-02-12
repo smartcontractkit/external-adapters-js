@@ -5,7 +5,7 @@ import * as redis from './redis'
 import { parseBool, uuid, delay, exponentialBackOffMs, getWithCoalescing } from '../util'
 import { ExecuteWrappedResponse, AdapterRequest, WrappedAdapterResponse } from '@chainlink/types'
 import { RedisOptions } from './redis'
-import { makeRateLimit } from './rateLimit'
+import { makeRateLimit, getGroupsIds, getCapacities } from './rateLimit'
 
 const DEFAULT_CACHE_TYPE = 'local'
 const DEFAULT_CACHE_KEY_GROUP = uuid()
@@ -33,9 +33,9 @@ export const defaultOptions = () => ({
   },
   rateLimit: {
     groupMaxAge: parseInt(env.GROUP_MAX_AGE || '') || DEFAULT_GROUP_MAX_AGE,
-    groupId: (env.API_KEY && hash(env.API_KEY)) || '',
     participantId: DEFAULT_CACHE_KEY_RATE_LIMIT_PARTICIPANT,
-    totalCapacity: parseInt(env.CACHE_RATE_CAPACITY || ''),
+    groupsIds: getGroupsIds(),
+    capacities: getCapacities(),
   },
   // Request coalescing
   requestCoalescing: {
@@ -115,7 +115,7 @@ export const withCache = async (
     return Number(data.data.maxAge)
   }
   const _getDefaultMaxAge = async (): Promise<any> => {
-    return (await rateLimit.getParticipantMaxAge()) || cache.options.maxAge
+    return (await rateLimit.getMaxAge()) || cache.options.maxAge
   }
   // MaxAge in the request will always have preference
   const _getMaxAge = async (request: AdapterRequest) => {
@@ -128,7 +128,7 @@ export const withCache = async (
     // Add successful result to cache
     const _cacheOnSuccess = async ({ statusCode, data }: WrappedAdapterResponse) => {
       if (statusCode === 200) {
-        await rateLimit.updateRateLimitGroup(data.data.cost, data.data.weight)
+        await rateLimit.updateRateLimitGroups(data.data.cost, data.data.weight)
         let maxAge = await _getMaxAge(request)
         if (maxAge < 0) {
           maxAge = await _getDefaultMaxAge()
