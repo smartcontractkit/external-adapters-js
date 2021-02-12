@@ -1,4 +1,4 @@
-import { Config, ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
+import { AdapterRequest, Config, Execute, ExecuteWithConfigFactory } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { makeConfig } from './config'
 import { DNSQueryResponse } from './types'
@@ -10,7 +10,7 @@ export const inputParams = {
   cd: false,
 }
 
-const execute: ExecuteWithConfig<Config> = async (input, config) => {
+const execute: Execute<Config> = async (input, config) => {
   const validator = new Validator(input, inputParams)
   if (validator.error) throw validator.error
 
@@ -41,5 +41,7 @@ const execute: ExecuteWithConfig<Config> = async (input, config) => {
   })
 }
 
-export const makeExecute: ExecuteFactory<Config> = (config?: Config) => (input) =>
-  execute(input, config || makeConfig())
+export const makeExecute: ExecuteWithConfigFactory<Config> = (config?: Config) => ({
+  config: config || makeConfig(),
+  call: (input) => execute(input, config || makeConfig()),
+})

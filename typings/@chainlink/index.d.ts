@@ -75,12 +75,29 @@ declare module '@chainlink/types' {
 
   export type ExecuteSync = (input: AdapterRequest, callback: Callback) => void
 
-  export type Execute = (input: AdapterRequest) => Promise<AdapterResponse>
+  // export type Execute = (input: AdapterRequest) => Promise<AdapterResponse>
 
-  export type ExecuteWithConfig<C extends Config> = (
+  export type ExecuteConfigInjection<C extends Config> = (input: AdapterRequest) => ({
+    config: C
+    call(input): Promise<AdapterResponse>
+  })
+
+
+  // NEW
+  export type Execute<C extends Config> = (
     input: AdapterRequest,
     config: C,
   ) => Promise<AdapterResponse>
+
+
+  export type ExecuteWithConfig<C extends Config> = {
+    config: C
+    call: (input: AdapterRequest) => Execute
+  }
+
+  export type ExecuteWithConfigFactory<C extends Config> = (config?: C) => ExecuteWithConfig<C>
+
+
 
   export type ExecuteFactory<C extends Config> = (config?: C) => Execute
 

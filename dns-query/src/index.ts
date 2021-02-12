@@ -4,4 +4,11 @@ import { makeConfig } from './config'
 
 const NAME = 'DNS-Query'
 
-export = { NAME, makeConfig, makeExecute, ...expose(util.wrapExecute(makeExecute())) }
+const execute = makeExecute()
+
+export = {
+  NAME,
+  makeConfig,
+  makeExecute,
+  ...expose(execute),
+}

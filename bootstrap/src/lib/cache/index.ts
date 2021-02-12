@@ -3,7 +3,12 @@ import hash from 'object-hash'
 import * as local from './local'
 import * as redis from './redis'
 import { parseBool, uuid, delay, exponentialBackOffMs, getWithCoalescing } from '../util'
-import { ExecuteWrappedResponse, AdapterRequest, WrappedAdapterResponse } from '@chainlink/types'
+import {
+  ExecuteWrappedResponse,
+  AdapterRequest,
+  WrappedAdapterResponse,
+  Config,
+} from '@chainlink/types'
 import { RedisOptions } from './redis'
 import { makeRateLimit } from './rateLimit'
 
@@ -82,6 +87,7 @@ export const redactOptions = (options: CacheOptions) => ({
 
 export const withCache = async (
   execute: ExecuteWrappedResponse,
+  config?: Config,
   options: CacheOptions = defaultOptions(),
 ) => {
   // If disabled noop

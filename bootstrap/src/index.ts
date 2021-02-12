@@ -10,14 +10,21 @@ import {
   AdapterRequest,
   ExecuteWrappedResponse,
   AdapterHealthCheck,
+  Config,
 } from '@chainlink/types'
 
-type Middleware = (execute: ExecuteWrappedResponse) => Promise<ExecuteWrappedResponse>
+type Middleware = (
+  execute: ExecuteWrappedResponse,
+  config?: Config,
+) => Promise<ExecuteWrappedResponse>
 
 // Try to initialize, pass through on error
-const skipOnError = (middleware: Middleware) => async (execute: ExecuteWrappedResponse) => {
+const skipOnError = (middleware: Middleware) => async (
+  execute: ExecuteWrappedResponse,
+  config?: Config,
+) => {
   try {
-    return await middleware(execute)
+    return await middleware(execute, config)
   } catch (error) {
     logger.warn(`${middleware.name} middleware initialization error! Passing through. `, error)
     return execute
@@ -56,10 +63,10 @@ const withLogger = (execute: ExecuteWrappedResponse) => async (data: AdapterRequ
 const middleware = [withLogger, skipOnError(withCache), withStatusCode]
 
 // Init all middleware, and return a wrapped execute fn
-const withMiddleware = async (execute: ExecuteWrappedResponse) => {
+const withMiddleware = async (execute: ExecuteWrappedResponse, config?: Config) => {
   // Init and wrap middleware one by one
   for (let i = 0; i < middleware.length; i++) {
-    execute = await middleware[i](execute)
+    execute = await middleware[i](execute, config)
   }
   return execute
 }
@@ -72,14 +79,14 @@ const withAsync = (execute: ExecuteWrappedResponse | ExecuteSync): ExecuteWrappe
 }
 
 // Execution helper async => sync
-const executeSync = (execute: ExecuteWrappedResponse): ExecuteSync => {
+const executeSync = (execute: ExecuteWrappedResponse, config?: Config): ExecuteSync => {
   // TODO: Try to init middleware only once
   // const initMiddleware = withMiddleware(execute)
 
   // Return sync function
   return (data: AdapterRequest, callback: any) => {
     // We init on every call because of cache connection broken state issue
-    return withMiddleware(execute)
+    return withMiddleware(execute, config)
       .then((executeWithMiddleware) => executeWithMiddleware(data))
       .then((result) => callback(result.statusCode, result.data))
       .catch((error) => callback(error.statusCode || 500, Requester.errored(data.id, error)))
@@ -89,9 +96,10 @@ const executeSync = (execute: ExecuteWrappedResponse): ExecuteSync => {
 export const expose = (
   execute: ExecuteWrappedResponse | ExecuteSync,
   checkHealth?: AdapterHealthCheck,
+  config?: Config,
 ) => {
   // Add middleware to the execution flow
-  const _execute = executeSync(withAsync(execute))
+  const _execute = executeSync(withAsync(execute), config)
   return {
     server: server.initHandler(_execute, checkHealth),
     gcpHandler: gcp.initHandler(_execute),
