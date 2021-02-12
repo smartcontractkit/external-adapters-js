@@ -2,9 +2,9 @@
 
 ### Environment Variables
 
-| Required? |  Name   |                     Description                     | Options | Defaults to |
-| :-------: | :-----: | :-------------------------------------------------: | :-----: | :---------: |
-|    ✅     | API_KEY | An API key that can be made on the 1forge dashboard |         |             |
+| Required? |  Name   |                        Description                        | Options | Defaults to |
+| :-------: | :-----: | :-------------------------------------------------------: | :-----: | :---------: |
+|    ✅     | API_KEY | An API key that can be obtained from the 1forge dashboard |         |             |
 
 ---
 
@@ -12,11 +12,11 @@
 
 | Required? |   Name   |     Description     |         Options          | Defaults to |
 | :-------: | :------: | :-----------------: | :----------------------: | :---------: |
-|           | endpoint | The endpoint to use | [price](#Price-endpoint) |    price    |
+|           | endpoint | The endpoint to use | [price](#Price-Endpoint) |    price    |
 
 ---
 
-## Price endpoint
+## Price Endpoint
 
 [`/convert`](https://1forge.com/api#convert) - Convert from one currency to another
 

@@ -6,11 +6,11 @@ Query information from [Coinbase's API](https://developers.coinbase.com/api/v2)
 
 | Required? |   Name   |     Description     |         Options          | Defaults to |
 | :-------: | :------: | :-----------------: | :----------------------: | :---------: |
-|           | endpoint | The endpoint to use | [price](#Price-endpoint) |    price    |
+|           | endpoint | The endpoint to use | [price](#Price-Endpoint) |    price    |
 
 ---
 
-## Price endpoint
+## Price Endpoint
 
 ### Input Params
 

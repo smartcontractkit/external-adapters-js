@@ -4,9 +4,9 @@ This adapter is for [Polygon.io](https://polygon.io/) and supports the conversio
 
 ### Environment Variables
 
-| Required? |  Name   |                               Description                               | Options | Defaults to |
-| :-------: | :-----: | :---------------------------------------------------------------------: | :-----: | :---------: |
-|    ✅     | API_KEY | An API key that can be made [here](https://polygon.io/dashboard/signup) |         |             |
+| Required? |  Name   |                                   Description                                    | Options | Defaults to |
+| :-------: | :-----: | :------------------------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     | API_KEY | An API key that can be obtained from [here](https://polygon.io/dashboard/signup) |         |             |
 
 ---
 
@@ -14,11 +14,11 @@ This adapter is for [Polygon.io](https://polygon.io/) and supports the conversio
 
 | Required? |   Name   |     Description     |         Options          | Defaults to |
 | :-------: | :------: | :-----------------: | :----------------------: | :---------: |
-|           | endpoint | The endpoint to use | [price](#Price-endpoint) |    price    |
+|           | endpoint | The endpoint to use | [price](#Price-Endpoint) |    price    |
 
 ---
 
-## Price endpoint
+## Price Endpoint
 
 Get FOREX price conversions
 
