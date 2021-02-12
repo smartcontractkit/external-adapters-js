@@ -1,14 +1,14 @@
 import { expect } from 'chai'
 import sinon from 'sinon'
 import { defaultOptions } from '../src/lib/cache'
-import { makeRateLimit, RateLimitGroup } from '../src/lib/cache/ratelimit'
+import { makeRateLimit, RateLimitGroup } from '../src/lib/cache/rateLimit'
 import { RedisCache } from '../src/lib/cache/redis'
 
 describe('rate limit', () => {
   context('Disabled', () => {
     before(() => {
       delete process.env.API_KEY
-      delete process.env.CACHE_RATE_CAPACITY
+      delete process.env.RATE_LIMIT_CAPACITY
     })
 
     it(`rate limit is disabled without env rate limit`, async () => {
@@ -20,7 +20,7 @@ describe('rate limit', () => {
 
     before(() => {
       process.env.API_KEY = 'some'
-      process.env.CACHE_RATE_CAPACITY = '30'
+      process.env.RATE_LIMIT_CAPACITY = '30'
       process.env.CACHE_ENABLED = 'true'
       process.env.CACHE_TYPE = 'local'
     })
@@ -37,7 +37,7 @@ describe('rate limit', () => {
     const sandbox = sinon.createSandbox()
     before(() => {
       process.env.API_KEY = 'some'
-      process.env.CACHE_RATE_CAPACITY = '30'
+      process.env.RATE_LIMIT_CAPACITY = '30'
       process.env.CACHE_ENABLED = 'true'
       process.env.CACHE_TYPE = 'redis'
 
@@ -76,7 +76,7 @@ describe('rate limit', () => {
     }
     before(() => {
       process.env.API_KEY = 'some'
-      process.env.CACHE_RATE_CAPACITY = '30'
+      process.env.RATE_LIMIT_CAPACITY = '30'
       process.env.CACHE_ENABLED = 'true'
       process.env.CACHE_TYPE = 'redis'
       const redis = {
@@ -92,7 +92,7 @@ describe('rate limit', () => {
       options.rateLimit.participantId = participantId
       const cache = await options.cacheBuilder(options.cacheOptions)
       const rateLimit = makeRateLimit(options.rateLimit, cache)
-      expect(await rateLimit.getParticipantMaxAge()).to.be.equal(44444)
+      expect(await rateLimit.getMaxAge()).to.be.equal(44444)
     })
 
     it(`group is properly updated`, async () => {
@@ -111,8 +111,8 @@ describe('rate limit', () => {
         },
       }
       expect(
-        await rateLimit.updateRateLimitGroup(newParticipant.cost, newParticipant.weight),
-      ).to.be.deep.equal(expectedNewGroup)
+        await rateLimit.updateRateLimitGroups(newParticipant.cost, newParticipant.weight),
+      ).to.be.deep.equal([expectedNewGroup])
     })
 
     after(() => {
