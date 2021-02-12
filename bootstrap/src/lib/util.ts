@@ -186,3 +186,44 @@ export const toFixedMax = (num: number | string | Decimal, decimals: number): st
     .replace(/(\.\d*?[1-9])0+$/g, '$1')
     // remove decimal part if all zeros (or only decimal point)
     .replace(/\.0*$/g, '')
+
+/**
+ * Chunk an array into a nested array
+ *
+ * @param amount number the max size of the chunks
+ * @param data array of arbitrary data
+ *
+ * @returns 2d array
+ */
+export const chunk = (amount: number, data: any[]) => {
+  const output: any[][] = []
+  const length = data.length
+  if (amount < 1 || length < 1) return output
+  const chunks = Math.ceil(data.length / amount)
+  for (let i = 0; i < chunks; i++) {
+    const offset = amount * i
+    const slice = data.slice(offset, offset + amount)
+    output.push(slice)
+  }
+  return output
+}
+
+/**
+ * Delays the amount of requests sent per second
+ *
+ * @param amount maximum number of requests per second
+ * @param data array of arbitrary data
+ * @param exec function handler of a chunk
+ *
+ * @returns array of response data
+ */
+export const throttle = async (amount: number, data: any[], exec: any) => {
+  const chunks = chunk(amount, data)
+  const delay = 1000
+  const withDelay = async (c: any, i: number) => {
+    await new Promise((resolve) => setTimeout(resolve, i * delay))
+    return await exec(c)
+  }
+  const output = await Promise.all(chunks.map(withDelay))
+  return output.flat()
+}
