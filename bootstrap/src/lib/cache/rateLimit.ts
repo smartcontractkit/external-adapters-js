@@ -3,6 +3,7 @@ import * as redis from './redis'
 import hash from 'object-hash'
 
 export const RATE_CAPACITY_ENV = 'RATE_LIMIT_CAPACITY'
+export const API_KEY = 'API_KEY'
 
 type RateLimitParticipant = {
   // for this this type of req, how many underlying requests to provider
@@ -40,7 +41,7 @@ const getMatchPrefixes = (regex: string): string[] => {
     .map(([name]) => name.split(regex)[0])
 }
 
-export const getGroupsIds = (prefixId = 'API_KEY'): string[] => {
+export const getGroupsIds = (prefixId = API_KEY): string[] => {
   const multiple = getMatchEnvVars(prefixId)
   if (multiple.length === 0) {
     return [process.env.API_KEY || ''].map((v) => hash(v))
@@ -48,7 +49,7 @@ export const getGroupsIds = (prefixId = 'API_KEY'): string[] => {
   return multiple.map((v) => hash(v))
 }
 
-export const getCapacities = (prefixId = 'API_KEY'): { [key: string]: number } => {
+export const getCapacities = (prefixId = API_KEY): { [key: string]: number } => {
   const prefixes = getMatchPrefixes(prefixId)
   return Object.fromEntries(
     prefixes.map((prefix) => {
@@ -64,8 +65,6 @@ export const makeRateLimit = (
   options: RateLimitOptions,
   cache: local.LocalLRUCache | redis.RedisCache,
 ) => {
-  console.log(options)
-
   const _isEnabled = (): boolean => {
     return (
       options.groupsIds.length > 0 &&
@@ -103,18 +102,16 @@ export const makeRateLimit = (
       },
     }
     if (!(cache instanceof local.LocalLRUCache)) {
-      try {
-        await cache.setKeepingMaxAge(groupId, newGroup, options.groupMaxAge)
-      } catch (e) {
-        console.log(e)
-      }
+      await cache.setKeepingMaxAge(groupId, newGroup, options.groupMaxAge)
     }
     return newGroup
   }
 
   const _updateRateLimitGroups = async (cost = DEFAULT_RATE_COST, weight = DEFAULT_RATE_WEIGHT) => {
-    return await options.groupsIds.map(
-      async (groupId) => await _updateRateLimitGroup(groupId, cost, weight),
+    return await Promise.all(
+      options.groupsIds.map(async (groupId) => {
+        return await _updateRateLimitGroup(groupId, cost, weight)
+      }),
     )
   }
 
