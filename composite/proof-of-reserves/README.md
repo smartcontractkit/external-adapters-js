@@ -31,9 +31,9 @@ Each indexer may take additional configuration:
 
 ### Blockcypher
 
-| Required? |            Name            |                                                    Description                                                     | Options | Defaults to |
-| :-------: | :------------------------: | :----------------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
-|           | `BLOCKCYPHER_API_THROTTLE` | Throttle the amount of requests that are sent per second. This is useful for using a lower tier subscription plan. |         |             |
+| Required? |             Name             |                                                                    Description                                                                    | Options | Defaults to |
+| :-------: | :--------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
+|           | `BLOCKCYPHER_API_RATE_LIMIT` | Provide the plan rate limit to throttle the amount of requests that are sent per second. This is useful for using a lower tier subscription plan. |         |             |
 
 ### BTC_COM
 
