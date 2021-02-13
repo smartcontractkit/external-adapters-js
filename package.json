@@ -94,7 +94,9 @@
     "dydx-stark",
     "iex-cloud",
     "cfbenchmarks",
-    "harmony"
+    "harmony",
+    "btcd",
+    "electrs"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",

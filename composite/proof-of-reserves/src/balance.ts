@@ -1,4 +1,4 @@
-import { Execute, AdapterImplementation } from '@chainlink/types'
+import { AdapterImplementation, Execute } from '@chainlink/types'
 import { util } from '@chainlink/ea-bootstrap'
 // balance adapters
 import amberdata from '@chainlink/amberdata-adapter'
@@ -8,6 +8,8 @@ import blockcypher from '@chainlink/blockcypher-adapter'
 import btcCom from '@chainlink/btc.com-adapter'
 import cryptoapis from '@chainlink/cryptoapis-adapter'
 import sochain from '@chainlink/sochain-adapter'
+import electrs from '@chainlink/electrs-adapter'
+import btcd from '@chainlink/btcd-adapter'
 
 const ENV_BTC_INDEXER_ADAPTER = 'BTC_INDEXER_ADAPTER'
 
@@ -19,6 +21,8 @@ const adapters: AdapterImplementation[] = [
   btcCom,
   cryptoapis,
   sochain,
+  electrs,
+  btcd,
 ]
 
 export type BitcoinIndexer = typeof adapters[number]['NAME']
