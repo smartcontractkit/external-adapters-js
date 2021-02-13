@@ -1,8 +1,8 @@
-import { Validator, logger } from '@chainlink/external-adapter'
-import { AdapterResponse, AdapterRequest, Execute } from '@chainlink/types'
-import { getAllocations } from './index-allocations'
+import {Validator, logger} from '@chainlink/external-adapter'
+import {AdapterResponse, AdapterRequest, Execute} from '@chainlink/types'
+import {getAllocations} from './index-allocations'
 import * as TokenAllocation from '@chainlink/token-allocation-adapter'
-import { makeConfig, Config } from './config'
+import {makeConfig, Config} from './config'
 
 const customParams = {
   name: false,
@@ -18,12 +18,12 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
   const jobRunID = validator.validated.id
   const asset = validator.validated.data
 
-  logger.debug(`DATA_PROVIDER: ${process.env.DATA_PROVIDER}`)
-  logger.debug(`adapter: ${asset.adapter}`)
-  logger.debug(`address: ${asset.address}`)
-  logger.debug(`rpcUrl: ${config.rpcUrl}`)
-  logger.debug(`network: ${config.network}`)
-  logger.debug(`input: ${JSON.stringify(input)}`)
+  logger.debug(`defi-pulse - DATA_PROVIDER: ${process.env.DATA_PROVIDER}`)
+  logger.debug(`defi-pulse - adapter: ${asset.adapter}`)
+  logger.debug(`defi-pulse - address: ${asset.address}`)
+  logger.debug(`defi-pulse - rpcUrl: ${config.rpcUrl}`)
+  logger.debug(`defi-pulse - network: ${config.network}`)
+  logger.debug('defi-pulse - input: ', input)
 
   const allocations = await getAllocations(
     asset.adapter,
@@ -33,7 +33,7 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
   )
 
   const _execute = TokenAllocation.makeExecute()
-  return await _execute({ id: jobRunID, data: { ...input.data, allocations } })
+  return await _execute({id: jobRunID, data: {...input.data, allocations}})
 }
 
 export const makeExecute = (config?: Config): Execute => {
