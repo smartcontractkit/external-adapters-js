@@ -3,6 +3,7 @@ import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
 import { makeConfig } from './config'
 import { txResult } from './types'
 import Web3 from 'web3'
+import fs from 'fs'
 
 const Caver = require('caver-js')
 const caver = new Caver(process.env.URL)
@@ -11,16 +12,42 @@ const privateKey = process.env.PRIVATE_KEY
 const keyring = caver.wallet.keyring.createFromPrivateKey(privateKey)
 caver.wallet.add(keyring)
 
-const sendFulfillment = async (address: string, dataPrefix: string, functionSelector: string, value: string) => {
-  const dataPrefixBz = Web3.utils.hexToBytes(dataPrefix)
-  const functionSelectorBz = Web3.utils.hexToBytes(functionSelector)
-  const valueBz = Web3.utils.hexToBytes(value)
-  const data = functionSelectorBz.concat(dataPrefixBz, valueBz)
+const sendFulfillment = async (address: string, logData: string, topics: string, value: string) => {
+  const decoded = caver.abi.decodeLog(
+    JSON.parse(fs.readFileSync('./OracleRequestABI.json').toString()),
+    logData,
+    topics
+  )
+
+  console.log("[Decoded Data] \n", decoded);
+
+  let functionSelector = caver.abi.encodeFunctionSignature('fulfillOracleRequest(bytes32,uint256,address,bytes4,uint256,bytes32)')
+
+  const requestId = decoded.requestId
+  const payment = decoded.payment
+  const callbackAddr = decoded.callbackAddr
+  const callbackFunctionId = decoded.callbackFunctionId
+  const expiration = decoded.cancelExpiration
+
+  if (!isNaN(+value)) {
+    // if number
+    value = Web3.utils.numberToHex(value);
+  } else if (value.substring(0, 2) != "0x") {
+    // if string
+    value = Web3.utils.stringToHex(value);
+  }
+
+  console.log("result: ", value);
+
+  let param = caver.abi.encodeParameters(
+    ['bytes32', 'uint256', 'address', 'bytes4', 'uint256', 'bytes32'],
+    [requestId, payment, callbackAddr, callbackFunctionId, expiration, caver.utils.leftPad(value, 64)]
+  ).substring(2);
 
   let tx = new caver.transaction.legacyTransaction({
     from: keyring.toAccount()._address,
     to: address,
-    input: Web3.utils.bytesToHex(data),
+    input: functionSelector.concat(param),
     gas: 1500000,
   })
 
@@ -30,29 +57,32 @@ const sendFulfillment = async (address: string, dataPrefix: string, functionSele
 
 const customParams = {
   address: ['address'],
-  dataPrefix: ['dataPrefix'],
-  functionSelector: ['functionSelector'],
+  data: ['data'],
+  topics: ['topics'],
   value: ['result', 'value']
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
+  console.log("[Received Data] \n", request)
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 
   Requester.logConfig(config)
 
-  const jobRunID = validator.validated.id
-  const address = validator.validated.data.address
-  const dataPrefix = validator.validated.data.dataPrefix
-  const functionSelector = validator.validated.data.functionSelector
-  const value = validator.validated.data.value
+  const jobRunID = validator.validated.id;
+  const address = validator.validated.data.address;
+  const data = validator.validated.data.data;
+  const topcis = validator.validated.data.data;
+  const value = validator.validated.data.value;
 
   const tx: txResult = await sendFulfillment(
     address,
-    dataPrefix,
-    functionSelector,
-    value,
+    data,
+    topcis,
+    JSON.parse(value).result,
   )
+
+  console.log("[Success] ", tx)
 
   return Requester.success(jobRunID, {
     data: { result: tx.transactionHash, },
