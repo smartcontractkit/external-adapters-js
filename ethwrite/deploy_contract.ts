@@ -1,9 +1,4 @@
 import { ethers } from 'ethers'
-import { DEFAULT_PRIVATE_KEY, DEFAULT_RPC_URL } from './src/config'
-
-const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL || DEFAULT_RPC_URL)
-const privateKey = process.env.PRIVATE_KEY || DEFAULT_PRIVATE_KEY
-const wallet = new ethers.Wallet(privateKey, provider)
 
 const abi = [
   'function setBytes32(bytes32 _value)',
@@ -30,7 +25,9 @@ const byteCode =
   '22d80029'
 
 // https://docs.ethers.io/ethers.js/html/api-contract.html#deploying-a-contract
-export async function deploy(): Promise<string> {
+export async function deploy(privateKey: string, rpcUrl: string): Promise<string> {
+  const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
+  const wallet = new ethers.Wallet(privateKey, provider)
   const factory = new ethers.ContractFactory(abi, byteCode, wallet)
   const contract = await factory.deploy()
   console.log('Contract deployed at: ', contract.address)
@@ -39,4 +36,8 @@ export async function deploy(): Promise<string> {
   return contract.address
 }
 
-deploy()
+if (process.env.PRIVATE_KEY && process.env.RPC_URL) {
+  deploy(process.env.PRIVATE_KEY, process.env.RPC_URL)
+} else {
+  console.log('Please set PRIVATE_KEY and RPC_URL env vars')
+}
