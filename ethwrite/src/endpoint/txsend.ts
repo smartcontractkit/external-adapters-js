@@ -1,14 +1,9 @@
 import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
-import { ExecuteWithConfig, Config } from '@chainlink/types'
+import { ExecuteWithConfig } from '@chainlink/types'
 import { ethers } from 'ethers'
-import { DEFAULT_PRIVATE_KEY, DEFAULT_RPC_URL } from '../config'
+import { Config } from '../config'
 
 export const NAME = 'txsend'
-
-const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL || DEFAULT_RPC_URL)
-const privateKey = process.env.PRIVATE_KEY || DEFAULT_PRIVATE_KEY
-
-const wallet = new ethers.Wallet(privateKey, provider)
 
 const encode = (type: any, value: any) => {
   let retVal
@@ -31,13 +26,18 @@ const customParams = {
   dataToSend: false,
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request) => {
+export const execute: ExecuteWithConfig<Config> = async (request, config) => {
+  const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl)
+  const wallet = new ethers.Wallet(config.privateKey, provider)
+
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 
+  const getUint256 = '0xc2b12a73'
+
   const jobRunID = validator.validated.id
-  const externalAddress = validator.validated.data.exAddr || ''
-  const functionId = validator.validated.data.funcId || '0xc2b12a73'
+  const externalAddress = validator.validated.data.exAddr
+  const functionId = validator.validated.data.funcId || getUint256
   const dataType = validator.validated.data.dataType || 'uint256'
   // Prioritize data coming from a previous adapter (result),
   // but allow dataToSend to be used if specified

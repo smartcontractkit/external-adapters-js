@@ -4,11 +4,20 @@ import { assertSuccess, assertError, startChain } from '@chainlink/adapter-test-
 import { AdapterRequest } from '@chainlink/types'
 import { makeExecute } from '../src/adapter'
 import { deploy } from '../deploy_contract'
+import { abi } from '../read_contract'
+import { ethers } from 'ethers'
 
 // using DELAYED ROOT SUITE in order to start the chain and deploy the contract
 setTimeout(async function () {
-  const chain = await startChain()
-  const address = await deploy()
+  const chain = await startChain(4444)
+  const rpcUrl = 'http://localhost:4444'
+  const address = await deploy(
+    '0x90125e49d93a24cc8409d1e00cc69c88919c6826d8bbabb6f2e1dc8213809f4c',
+    rpcUrl,
+  )
+  const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
+  const contract = new ethers.Contract(address, abi, provider)
+
   describe('execute', async () => {
     const execute = makeExecute()
     after(async () => {
@@ -85,8 +94,10 @@ setTimeout(async function () {
         console.log(req)
         it(`${req.name}`, async () => {
           const data = await execute(req.testData as AdapterRequest)
+          const contractReadResult = await contract.getBytes32()
           assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
           assert.equal(data.jobRunID, jobID)
+          assert.equal(req.testData.data.result || req.testData.data.dataToSend, contractReadResult)
           assert.isNotEmpty(data.data)
         })
       })
