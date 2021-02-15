@@ -68,16 +68,15 @@ const tryExecuteLogError = (send: HTTPSender, execute: Execute): Execute => asyn
   try {
     return await execute(input)
   } catch (e) {
-    const queryId = input.data && input.data.request_id
-    let rest
-    if (queryId !== undefined) {
-      rest = { queryId }
-    }
+    const queryId = input.data?.request_id
+    const rest = { queryId }
     await send({
       type: 'oracleServer/error',
-      data: { error: `${(e && e.message) || e}`, ...rest },
+      data: { error: `${(e && e.message) || e}`, ...(queryId && rest) },
     }).catch((e2) => console.error(`Cannot reflect error to caller:`, e2))
 
+    // See https://github.com/smartcontractkit/external-adapters-js/issues/204
+    // for discussion of why this code is necessary.
     if (e instanceof AdapterError) {
       throw e
     }

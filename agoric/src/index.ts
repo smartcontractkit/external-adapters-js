@@ -8,4 +8,4 @@ const send = makeHTTPSender(oracleAPI)
 
 const execute = makeExecute(send)
 
-export = { NAME: 'Agoric', execute, ...expose(util.wrapExecute(execute)) }
+export = { NAME: 'Agoric', makeExecute, ...expose(util.wrapExecute(execute)) }

@@ -3,15 +3,10 @@ import { Requester } from '@chainlink/external-adapter'
 import { assertSuccess, assertError } from '@chainlink/adapter-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
 import { makeExecute } from '../src/adapter'
-import { HTTPSender, makeHTTPSender } from '../src/httpSender'
+import { Action, HTTPSender, makeHTTPSender } from '../src/httpSender'
 
 import express from 'express'
 import { Server } from 'http'
-
-interface Action {
-  type: string
-  data: unknown
-}
 
 describe('execute', () => {
   const jobID = '1'
