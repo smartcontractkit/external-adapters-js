@@ -9,13 +9,14 @@ export const NAME = 'price'
 const customError = (data: any) => data.Response === 'Error'
 
 const customParams = {
-  base: ['base', 'from', 'coin'],
+  base: ['base', 'from', 'coin', 'market'],
 }
 
 const commonSymbols: { [key: string]: string } = {
   N225: 'NKY.IND:TEI',
   FTSE: 'UKX.IND:TEI',
   TSLA: 'TSLA:BFX',
+  WTI: 'USO/USD:AFX',
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
