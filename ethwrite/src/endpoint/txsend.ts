@@ -38,12 +38,18 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const jobRunID = validator.validated.id
   const externalAddress = validator.validated.data.exAddr
   const functionId = validator.validated.data.funcId || getUint256
-  const dataType = validator.validated.data.dataType || 'uint256'
+  // Passing this optionally, in case the data is not encrypted from the previous step
+  const dataType = validator.validated.data.dataType
   // Prioritize data coming from a previous adapter (result),
   // but allow dataToSend to be used if specified
   const dataToSend = validator.validated.data.result || validator.validated.data.dataToSend || ''
   // Ensure we use only 4 bytes for the functionId
-  const transactionData = functionId.substring(0, 10) + encode(dataType, dataToSend)
+  let transactionData
+  if (dataType) {
+    transactionData = functionId.substring(0, 10) + encode(dataType, dataToSend)
+  } else {
+    transactionData = functionId.substring(0, 10) + dataToSend
+  }
 
   const transaction = {
     to: externalAddress,

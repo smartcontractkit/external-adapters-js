@@ -3,10 +3,8 @@ import { Requester } from '@chainlink/external-adapter'
 import { assertSuccess, assertError, startChain } from '@chainlink/adapter-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
 import { makeExecute } from '../src/adapter'
-import { deploy } from '../deploy_contract'
-import { abi } from '../read_contract'
+import { abi, deploy } from '../src/contract_helpers'
 import { ethers } from 'ethers'
-import { Config } from '../src/config'
 
 // using DELAYED ROOT SUITE in order to start the chain and deploy the contract
 setTimeout(async function () {
@@ -30,36 +28,26 @@ setTimeout(async function () {
     context('successfully writes uint', async () => {
       const requests = [
         {
-          name: 'without specifying the data type',
+          name: 'without already encoded integer',
+          uncodedResult: 42,
           testData: {
             id: jobID,
             data: {
               exAddr: address,
               funcId: uint256FuncId,
-              result: '54',
-            },
-          },
-        },
-        {
-          name: 'with specifying uint256',
-          testData: {
-            id: jobID,
-            data: {
-              exAddr: address,
-              dataType: 'uint256',
-              funcId: uint256FuncId,
-              result: 42,
+              result: ethers.utils.defaultAbiCoder.encode(['uint256'], [42]).slice(2),
             },
           },
         },
         {
           name: 'with specifying dataToSend instead of result',
+          uncodedResult: 12,
           testData: {
             id: jobID,
             data: {
               exAddr: address,
-              dataType: 'uint256',
               funcId: uint256FuncId,
+              dataType: 'uint256',
               dataToSend: 12,
             },
           },
@@ -73,10 +61,7 @@ setTimeout(async function () {
           const contractReadResultUint = await contract.getUint256()
           assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
           assert.equal(data.jobRunID, jobID)
-          assert.equal(
-            req.testData.data.result || req.testData.data.dataToSend,
-            contractReadResultUint.toNumber(),
-          )
+          assert.equal(req.uncodedResult, contractReadResultUint.toNumber())
           assert.isNotEmpty(data.data)
         })
       })
@@ -85,37 +70,27 @@ setTimeout(async function () {
     context('successfully writes int', async () => {
       const requests = [
         {
-          name: 'without specifying the data type',
+          name: 'with already encoded negative number',
+          uncodedResult: -42,
           testData: {
             id: jobID,
             data: {
               exAddr: address,
               funcId: int256FuncId,
-              result: '54',
-            },
-          },
-        },
-        {
-          name: 'with specifying int256',
-          testData: {
-            id: jobID,
-            data: {
-              exAddr: address,
-              dataType: 'int256',
-              funcId: int256FuncId,
-              result: 42,
+              result: ethers.utils.defaultAbiCoder.encode(['int256'], [-42]).slice(2),
             },
           },
         },
         {
           name: 'with specifying dataToSend instead of result',
+          uncodedResult: 42,
           testData: {
             id: jobID,
             data: {
               exAddr: address,
-              dataType: 'uint256',
               funcId: int256FuncId,
-              dataToSend: 12,
+              dataType: 'int256',
+              dataToSend: 42,
             },
           },
         },
@@ -128,42 +103,37 @@ setTimeout(async function () {
           const contractReadResultInt = await contract.getInt256()
           assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
           assert.equal(data.jobRunID, jobID)
-          assert.equal(
-            req.testData.data.result || req.testData.data.dataToSend,
-            contractReadResultInt.toNumber(),
-          )
+          assert.equal(req.uncodedResult, contractReadResultInt.toNumber())
           assert.isNotEmpty(data.data)
         })
       })
     })
 
     context('successfully writes bytes32', async () => {
+      const uncodedResult = 'hello world'
       const requests = [
         {
-          name: 'with specifying bytes32',
+          name: 'with already encoded string',
+          uncodedResult,
           testData: {
             id: jobID,
             data: {
               exAddr: address,
-              dataType: 'bytes32',
               funcId: bytes32FuncId,
-              result: 'hello world',
+              result: ethers.utils.formatBytes32String(uncodedResult).slice(2),
             },
           },
         },
       ]
-
       requests.forEach((req) => {
         console.log(req)
         it(`${req.name}`, async () => {
           const data = await execute(req.testData as AdapterRequest)
           const contractReadResultBytes = await contract.getBytes32()
+
           assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
           assert.equal(data.jobRunID, jobID)
-          assert.equal(
-            req.testData.data.result,
-            ethers.utils.parseBytes32String(contractReadResultBytes),
-          )
+          assert.equal(req.uncodedResult, ethers.utils.parseBytes32String(contractReadResultBytes))
           assert.isNotEmpty(data.data)
         })
       })

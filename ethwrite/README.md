@@ -14,7 +14,7 @@ A typical workflow of a Chainlink job for this external adapter could look like:
 
 - `exAddr`: The address for sending the transaction to.
 - `funcId`: (Optional) One of the following setter functions: `0xc2b12a73` for `bytes32`, `0xa53b1c1e` for `int256` or `0xd2282dc5` for `uint256` (defaults to `0xd2282dc5`)
-- `dataType`: (Optional) One of the following types: `bytes32`, `int256` or `uint256` (defaults to `uint256`)
+- `dataType`: (Optional) Pass this only in case you need to encode the data(normally should be already encoded). One of the following types: `bytes32`, `int256` or `uint256`
 - `result`: Corresponds to the result of the previous adapter.
 - `dataToSend`: Used only if the result field is not defined, but should be provided in case result is missing (optional)
 
