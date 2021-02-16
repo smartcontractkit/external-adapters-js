@@ -6,18 +6,20 @@ import { makeExecute } from '../src/adapter'
 import { deploy } from '../deploy_contract'
 import { abi } from '../read_contract'
 import { ethers } from 'ethers'
-import { default as hardhatConfig } from '../../hardhat.config'
+import { Config } from '../src/config'
 
 // using DELAYED ROOT SUITE in order to start the chain and deploy the contract
 setTimeout(async function () {
   const chain = await startChain(4444)
+  // TODO: There are the default hardhat setup. Could be imported from a source of default/testing configuration.
   const rpcUrl = 'http://localhost:4444'
-  const address = await deploy(hardhatConfig.networks.hardhat.accounts[0].privateKey, rpcUrl)
+  const privateKey = '0x90125e49d93a24cc8409d1e00cc69c88919c6826d8bbabb6f2e1dc8213809f4c'
+  const address = await deploy(privateKey, rpcUrl)
   const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
   const contract = new ethers.Contract(address, abi, provider)
 
   describe('execute', async () => {
-    const execute = makeExecute()
+    const execute = makeExecute({ rpcUrl, privateKey, api: {} })
     after(async () => {
       await chain.close()
     })
