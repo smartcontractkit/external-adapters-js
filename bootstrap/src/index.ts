@@ -69,7 +69,7 @@ const executeSync = (execute: Execute): ExecuteSync => {
     // We init on every call because of cache connection broken state issue
     return withMiddleware(execute)
       .then((executeWithMiddleware) => executeWithMiddleware(data))
-      .then((result) => callback(result.statusCode, result.data))
+      .then((result) => callback(result.statusCode, result))
       .catch((error) => callback(error.statusCode || 500, Requester.errored(data.id, error)))
   }
 }
