@@ -1,25 +1,9 @@
 import { ethers } from 'ethers'
-
-const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL)
-
-export const abi = [
-  'function setBytes32(bytes32 _value)',
-  'function getBytes32() view returns (bytes32)',
-  'function setInt256(int256 _value)',
-  'function getInt256() view returns (int256)',
-  'function setUint256(uint256 _value)',
-  'function getUint256() view returns (uint256)',
-]
-
+import { abi } from './src/contract_helpers'
 // https://docs.ethers.io/ethers.js/html/api-contract.html#connecting-to-existing-contracts
 ;(async function () {
   if (process.env.CONTRACT_ADDRESS) {
-    console.log('Address')
-    console.log(process.env.CONTRACT_ADDRESS)
-    console.log('ABI')
-    console.log(abi)
-    console.log('Provider')
-    console.log(provider)
+    const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL)
     const contract = new ethers.Contract(process.env.CONTRACT_ADDRESS, abi, provider)
     console.log('Reading contract:', process.env.CONTRACT_ADDRESS)
 
