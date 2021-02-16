@@ -13,15 +13,25 @@ export const abi = [
 
 // https://docs.ethers.io/ethers.js/html/api-contract.html#connecting-to-existing-contracts
 ;(async function () {
-  const contract = new ethers.Contract(process.env.CONTRACT_ADDRESS || '', abi, provider)
-  console.log('Reading contract:', process.env.CONTRACT_ADDRESS)
+  if (process.env.CONTRACT_ADDRESS) {
+    console.log('Address')
+    console.log(process.env.CONTRACT_ADDRESS)
+    console.log('ABI')
+    console.log(abi)
+    console.log('Provider')
+    console.log(provider)
+    const contract = new ethers.Contract(process.env.CONTRACT_ADDRESS, abi, provider)
+    console.log('Reading contract:', process.env.CONTRACT_ADDRESS)
 
-  const bytesValue = await contract.getBytes32()
-  console.log('Bytes32 value:', bytesValue)
+    const bytesValue = await contract.getBytes32()
+    console.log('Bytes32 value:', bytesValue)
 
-  const intValue = await contract.getInt256()
-  console.log('Int256 value:', intValue)
+    const intValue = await contract.getInt256()
+    console.log('Int256 value:', intValue)
 
-  const uintValue = await contract.getUint256()
-  console.log('Uint256 value:', uintValue)
+    const uintValue = await contract.getUint256()
+    console.log('Uint256 value:', uintValue)
+  } else {
+    console.log('Please set CONTRACT_ADDRESS env variable')
+  }
 })()

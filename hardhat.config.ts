@@ -4,7 +4,7 @@
 // const { MNEMONIC } = require('./test.env')
 // const MNEMONIC = 'novel mobile inform nurse circle spoon cricket soup crowd clip hawk glad'
 
-module.exports = {
+export = {
   defaultNetwork: 'hardhat',
   networks: {
     hardhat: {

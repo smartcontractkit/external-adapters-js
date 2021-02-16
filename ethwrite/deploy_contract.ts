@@ -35,9 +35,10 @@ export async function deploy(privateKey: string, rpcUrl: string): Promise<string
   await contract.deployed()
   return contract.address
 }
-
-if (process.env.PRIVATE_KEY && process.env.RPC_URL) {
-  deploy(process.env.PRIVATE_KEY, process.env.RPC_URL)
-} else {
-  console.log('Please set PRIVATE_KEY and RPC_URL env vars')
-}
+;(async function () {
+  if (process.env.PRIVATE_KEY && process.env.RPC_URL) {
+    deploy(process.env.PRIVATE_KEY, process.env.RPC_URL)
+  } else {
+    console.log('Please set PRIVATE_KEY and RPC_URL env vars')
+  }
+})()
