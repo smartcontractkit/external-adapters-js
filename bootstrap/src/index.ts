@@ -4,14 +4,7 @@ import * as util from './lib/util'
 import * as server from './lib/server'
 import * as gcp from './lib/gcp'
 import * as aws from './lib/aws'
-import {
-  ExecuteSync,
-  AdapterRequest,
-  Execute,
-  AdapterHealthCheck,
-  AdapterResponse,
-  AdapterErrorResponse,
-} from '@chainlink/types'
+import { ExecuteSync, AdapterRequest, Execute, AdapterHealthCheck } from '@chainlink/types'
 
 export type Middleware<O = any> = (execute: Execute, options?: O) => Promise<Execute>
 
