@@ -4,7 +4,14 @@ import * as util from './lib/util'
 import * as server from './lib/server'
 import * as gcp from './lib/gcp'
 import * as aws from './lib/aws'
-import { ExecuteSync, AdapterRequest, Execute, AdapterHealthCheck } from '@chainlink/types'
+import {
+  ExecuteSync,
+  AdapterRequest,
+  Execute,
+  AdapterHealthCheck,
+  AdapterResponse,
+  AdapterErrorResponse,
+} from '@chainlink/types'
 
 export type Middleware<O = any> = (execute: Execute, options?: O) => Promise<Execute>
 
@@ -59,6 +66,13 @@ const withMiddleware = async (execute: Execute) => {
   return execute
 }
 
+const wrapResponse = (response: AdapterResponse | AdapterErrorResponse) => {
+  return {
+    statusCode: response.statusCode,
+    data: response,
+  }
+}
+
 // Execution helper async => sync
 const executeSync = (execute: Execute): ExecuteSync => {
   // TODO: Try to init middleware only once
@@ -69,6 +83,7 @@ const executeSync = (execute: Execute): ExecuteSync => {
     // We init on every call because of cache connection broken state issue
     return withMiddleware(execute)
       .then((executeWithMiddleware) => executeWithMiddleware(data))
+      .then(wrapResponse)
       .then((result) => callback(result.statusCode, result.data))
       .catch((error) => callback(error.statusCode || 500, Requester.errored(data.id, error)))
   }
