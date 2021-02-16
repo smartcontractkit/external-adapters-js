@@ -130,15 +130,15 @@ export const getRequiredEnv = (name: string, prefix = ''): string => {
 // TODO: clean this ASAP
 // @see WrappedAdapterResponse
 // This could be removed
-export const wrapExecute = (execute: Execute) => async (
-  request: AdapterRequest,
-): Promise<WrappedAdapterResponse> => {
-  const resp = await execute(request)
-  return {
-    statusCode: resp.statusCode,
-    data: resp,
-  }
-}
+// export const wrapExecute = (execute: Execute) => async (
+//   request: AdapterRequest,
+// ): Promise<WrappedAdapterResponse> => {
+//   const resp = await execute(request)
+//   return {
+//     statusCode: resp.statusCode,
+//     data: resp,
+//   }
+// }
 
 /**
  * @description

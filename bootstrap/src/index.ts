@@ -35,9 +35,10 @@ const skipOnError = (middleware: Middleware) => async (execute: ExecuteWithConfi
 const withStatusCode: Middleware = (execute: ExecuteWithConfig<Config>) => async (
   data_: AdapterRequest,
 ) => {
-  const { statusCode, data } = await execute.call(data_)
+  const { jobRunID, statusCode, data } = await execute.call(data_)
   if (data && typeof data === 'object' && data.statusCode) {
     return {
+      jobRunID,
       statusCode,
       data: {
         ...data,
@@ -46,7 +47,7 @@ const withStatusCode: Middleware = (execute: ExecuteWithConfig<Config>) => async
     }
   }
 
-  return { statusCode, data }
+  return { jobRunID, statusCode, data }
 }
 
 // Log adapter input & output data
