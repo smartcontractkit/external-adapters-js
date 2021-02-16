@@ -66,13 +66,6 @@ const withMiddleware = async (execute: Execute) => {
   return execute
 }
 
-const wrapResponse = (response: AdapterResponse | AdapterErrorResponse) => {
-  return {
-    statusCode: response.statusCode,
-    data: response,
-  }
-}
-
 // Execution helper async => sync
 const executeSync = (execute: Execute): ExecuteSync => {
   // TODO: Try to init middleware only once
@@ -83,8 +76,7 @@ const executeSync = (execute: Execute): ExecuteSync => {
     // We init on every call because of cache connection broken state issue
     return withMiddleware(execute)
       .then((executeWithMiddleware) => executeWithMiddleware(data))
-      .then(wrapResponse)
-      .then((result) => callback(result.statusCode, result.data))
+      .then((result) => callback(result.statusCode, result))
       .catch((error) => callback(error.statusCode || 500, Requester.errored(data.id, error)))
   }
 }
