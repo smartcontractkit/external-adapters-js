@@ -71,28 +71,22 @@ declare module '@chainlink/types' {
     statusCode: number
     data: AdapterResponse | AdapterErrorResponse
   }
-  export type ExecuteWrappedResponse = (input: AdapterRequest) => Promise<WrappedAdapterResponse>
 
   export type ExecuteSync = (input: AdapterRequest, callback: Callback) => void
 
-  // export type Execute = (input: AdapterRequest) => Promise<AdapterResponse>
-
-  export type ExecuteConfigInjection<C extends Config> = (input: AdapterRequest) => ({
-    config: C
-    call(input): Promise<AdapterResponse>
-  })
 
 
   // NEW
   export type Execute<C extends Config> = (
     input: AdapterRequest,
     config: C,
-  ) => Promise<AdapterResponse>
+  ) => Promise<AdapterResponse | AdapterErrorResponse>
 
+  export type ExecuteCall = (input: AdapterRequest) => Execute
 
   export type ExecuteWithConfig<C extends Config> = {
     config: C
-    call: (input: AdapterRequest) => Execute
+    call: ExecuteCall
   }
 
   export type ExecuteWithConfigFactory<C extends Config> = (config?: C) => ExecuteWithConfig<C>

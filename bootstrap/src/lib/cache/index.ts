@@ -4,13 +4,15 @@ import * as local from './local'
 import * as redis from './redis'
 import { parseBool, uuid, delay, exponentialBackOffMs, getWithCoalescing } from '../util'
 import {
-  ExecuteWrappedResponse,
+  ExecuteWithConfig,
   AdapterRequest,
-  WrappedAdapterResponse,
   Config,
+  AdapterResponse,
+  AdapterErrorResponse,
 } from '@chainlink/types'
 import { RedisOptions } from './redis'
 import { makeRateLimit } from './rateLimit'
+import { Middleware } from '../..'
 
 const DEFAULT_CACHE_TYPE = 'local'
 const DEFAULT_CACHE_KEY_GROUP = uuid()
@@ -85,13 +87,12 @@ export const redactOptions = (options: CacheOptions) => ({
       : local.redactOptions(options.cacheOptions),
 })
 
-export const withCache = async (
-  execute: ExecuteWrappedResponse,
-  config?: Config,
+export const withCache: Middleware = async (
+  execute: ExecuteWithConfig<Config>,
   options: CacheOptions = defaultOptions(),
 ) => {
   // If disabled noop
-  if (!options.enabled) return (data: AdapterRequest) => execute(data)
+  if (!options.enabled) return (data: AdapterRequest) => execute.call(data)
 
   const cache = await options.cacheBuilder(options.cacheOptions)
   const rateLimit = makeRateLimit(options.rateLimit, cache)
@@ -132,9 +133,12 @@ export const withCache = async (
     const key = _getKey(request)
     const coalescingKey = _getCoalescingKey(key)
     // Add successful result to cache
-    const _cacheOnSuccess = async ({ statusCode, data }: WrappedAdapterResponse) => {
+    const _cacheOnSuccess = async ({
+      statusCode,
+      data,
+    }: AdapterResponse | AdapterErrorResponse) => {
       if (statusCode === 200) {
-        await rateLimit.updateRateLimitGroup(data.data.cost, data.data.weight)
+        await rateLimit.updateRateLimitGroup(data.cost, data.weight)
         let maxAge = await _getMaxAge(request)
         if (maxAge < 0) {
           maxAge = await _getDefaultMaxAge()
@@ -192,7 +196,7 @@ export const withCache = async (
     // Initiate request coalescing by adding the in-flight mark
     await _setInFlightMarker(coalescingKey, maxAge)
 
-    const result = await execute(request)
+    const result = await execute.call(request)
     await _cacheOnSuccess(result)
     return result
   }
