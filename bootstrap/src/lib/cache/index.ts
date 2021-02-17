@@ -41,7 +41,7 @@ export const defaultOptions = () => ({
     groupMaxAge: parseInt(env.GROUP_MAX_AGE || '') || DEFAULT_GROUP_MAX_AGE,
     groupId: (env.API_KEY && hash(env.API_KEY)) || '',
     participantId: DEFAULT_CACHE_KEY_RATE_LIMIT_PARTICIPANT,
-    totalCapacity: parseInt(env.CACHE_RATE_CAPACITY || ''),
+    totalCapacity: parseInt(env.RATE_LIMIT_CAPACITY || ''),
   },
   // Request coalescing
   requestCoalescing: {
@@ -147,7 +147,7 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
     // Add successful result to cache
     const _cacheOnSuccess = async ({ statusCode, data, result }: AdapterResponse) => {
       if (statusCode === 200) {
-        await rateLimit.updateRateLimitGroup(data.data.cost, data.data.weight)
+        await rateLimit.updateRateLimitGroup(data.cost, data.weight)
         let maxAge = await _getMaxAge(request)
         if (maxAge < 0) {
           maxAge = await _getDefaultMaxAge()
