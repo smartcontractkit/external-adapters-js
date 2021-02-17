@@ -17,7 +17,7 @@ const presetSlugs = {
   FTT: 'ftx-token',
   HT: 'huobi-token',
   OKB: 'okb',
-  KCS: 'kucoin-shares',
+  KCS: 'kucoin-token',
 }
 
 const getPriceData = async (assets, convert) => {
