@@ -1,29 +1,53 @@
-# Chainlink External Adapter for Tiingo
+# Chainlink Tiingo External Adapter
 
-## Configuration
+### Environment Variables
 
-This adapter supports the following environment variables:
+| Required? |  Name   |                                            Description                                             | Options | Defaults to |
+| :-------: | :-----: | :------------------------------------------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     | API_KEY | An API key that can be obtained from [here](https://api.tiingo.com/documentation/general/overview) |         |             |
 
-- `API_KEY`: Your Tiingo API key
+---
 
-## Input Params
+### Input Parameters
 
-- `ticker`: The stock ticker to query
-- `field`: Value to be returned. Default is `close`. Available values: `date`,`close`,`high`,`low`,`open`,`volume`,`adjClose`,`adjHigh`,`adjLow`,`adjOpen`,`adjVolume`,`divCash`,`splitFactor`.
+| Required? |   Name   |     Description     |       Options        | Defaults to |
+| :-------: | :------: | :-----------------: | :------------------: | :---------: |
+|           | endpoint | The endpoint to use | [eod](#EOD-Endpoint) |    `eod`    |
 
-### EOD endpoint
+---
 
-Gets the most recent End of Day price for a stock. [supported tickers](https://apimedia.tiingo.com/docs/tiingo/daily/supported_tickers.zip) (zip format) at Tiingo. Additional endpoint docs are also [available](https://api.tiingo.com/documentation/end-of-day).
+## EOD Endpoint
 
-## Output
+https://api.tiingo.com/documentation/end-of-day
+
+### Input Params
+
+| Required? |   Name   |        Description        | Options | Defaults to |
+| :-------: | :------: | :-----------------------: | :-----: | :---------: |
+|    ✅     | `ticker` | The stock ticker to query |         |             |
+|           | `field`  |    The value to return    |         |   `close`   |
+
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "ticker": "aapl",
+    "field": "close"
+  }
+}
+```
+
+### Sample Output
 
 ```json
 {
   "jobRunID": "1",
   "data": {
-    "result": 342.86
+    "result": 130.27
   },
-  "result": 342.86,
+  "result": 130.27,
   "statusCode": 200
 }
 ```

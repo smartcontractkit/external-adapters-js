@@ -5,6 +5,7 @@ import { AdapterRequest } from '@chainlink/types'
 import { makeExecute } from '../src/adapter'
 
 describe('execute', () => {
+  process.env.API_KEY = process.env.API_KEY ?? 'test_API_key'
   const jobID = '1'
   const execute = makeExecute()
 
