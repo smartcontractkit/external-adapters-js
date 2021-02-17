@@ -18,7 +18,7 @@ const presetSlugs: Record<string, string> = {
   FTT: 'ftx-token',
   HT: 'huobi-token',
   OKB: 'okb',
-  KCS: 'kucoin-shares',
+  KCS: 'kucoin-token',
 }
 
 const priceParams = {
