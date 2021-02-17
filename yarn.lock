@@ -7180,7 +7180,7 @@ synthetix@2.38.0-sccp-77-defi-rebalance:
     solidity-parser-antlr "^0.4.11"
     web3-utils "1.2.2"
 
-synthetix@^2.39.1:
+synthetix@2.39.1:
   version "2.39.1"
   resolved "https://registry.yarnpkg.com/synthetix/-/synthetix-2.39.1.tgz#e1c94fb7e659a1c53af4d07a3ae04a56ef3b3044"
   integrity sha512-GYtTgkKsva5aQ4mB2AidbnNJCAW2nl+n6NM42tK9Q+LUqXuKNLnir+t2LR+iOLs5WDtHz2yidUgTLEZ4dN2svQ==
