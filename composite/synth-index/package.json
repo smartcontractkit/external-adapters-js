@@ -43,6 +43,6 @@
   },
   "dependencies": {
     "@chainlink/token-allocation-adapter": "^0.0.1",
-    "synthetix": "^2.35.6"
+    "synthetix": "^2.39.1"
   }
 }
