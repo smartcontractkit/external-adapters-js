@@ -1,4 +1,4 @@
-import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
+import { Requester, Validator } from '@chainlink/external-adapter'
 import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
 import { makeConfig } from './config'
 import { txResult } from './types'
@@ -15,12 +15,14 @@ const sendFulfillment = async (address: string, logData: string, topics: string,
   const decoded = caver.abi.decodeLog(
     JSON.parse(fs.readFileSync('./OracleRequestABI.json').toString()),
     logData,
-    topics
+    topics,
   )
 
-  console.log("[Decoded Data] \n", decoded);
+  console.log('[Decoded Data] \n', decoded)
 
-  let functionSelector = caver.abi.encodeFunctionSignature('fulfillOracleRequest(bytes32,uint256,address,bytes4,uint256,bytes32)')
+  const functionSelector = caver.abi.encodeFunctionSignature(
+    'fulfillOracleRequest(bytes32,uint256,address,bytes4,uint256,bytes32)',
+  )
 
   const requestId = decoded.requestId
   const payment = decoded.payment
@@ -30,68 +32,71 @@ const sendFulfillment = async (address: string, logData: string, topics: string,
 
   if (!isNaN(+value)) {
     // if number
-    value = caver.utils.numberToHex(value);
-  } else if (value.substring(0, 2) != "0x") {
+    value = caver.utils.numberToHex(value)
+  } else if (value.substring(0, 2) != '0x') {
     // if string
-    value = caver.utils.stringToHex(value);
+    value = caver.utils.stringToHex(value)
   }
 
-  console.log("result: ", value);
+  console.log('result: ', value)
 
-  let param = caver.abi.encodeParameters(
-    ['bytes32', 'uint256', 'address', 'bytes4', 'uint256', 'bytes32'],
-    [requestId, payment, callbackAddr, callbackFunctionId, expiration, caver.utils.leftPad(value, 64)]
-  ).substring(2);
+  const param = caver.abi
+    .encodeParameters(
+      ['bytes32', 'uint256', 'address', 'bytes4', 'uint256', 'bytes32'],
+      [
+        requestId,
+        payment,
+        callbackAddr,
+        callbackFunctionId,
+        expiration,
+        caver.utils.leftPad(value, 64),
+      ],
+    )
+    .substring(2)
 
-  let tx = new caver.transaction.legacyTransaction({
+  const tx = new caver.transaction.legacyTransaction({
     from: keyring.toAccount()._address,
     to: address,
     input: functionSelector.concat(param),
     gas: 1500000,
   })
 
-  return await caver.wallet.sign(keyring.address, tx)
-    .then(caver.rpc.klay.sendRawTransaction)
+  return await caver.wallet.sign(keyring.address, tx).then(caver.rpc.klay.sendRawTransaction)
 }
 
 const customParams = {
   address: ['address'],
   data: ['data'],
   topics: ['topics'],
-  value: ['result', 'value']
+  value: ['result', 'value'],
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-  console.log("[Received Data] \n", request)
+  console.log('[Received Data] \n', request)
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 
   Requester.logConfig(config)
 
-  const jobRunID = validator.validated.id;
-  const address = validator.validated.data.address;
-  const data = validator.validated.data.data;
-  const topcis = validator.validated.data.data;
-  const value = validator.validated.data.value;
+  const jobRunID = validator.validated.id
+  const address = validator.validated.data.address
+  const data = validator.validated.data.data
+  const topcis = validator.validated.data.data
+  const value = validator.validated.data.value
 
   try {
-    const tx: txResult = await sendFulfillment(
-      address,
-      data,
-      topcis,
-      JSON.parse(value).result,
-    )
+    const tx: txResult = await sendFulfillment(address, data, topcis, JSON.parse(value).result)
 
-    console.log("[Success] ", tx)
+    console.log('[Success] ', tx)
 
     return Requester.success(jobRunID, {
-      data: { result: tx.transactionHash, },
+      data: { result: tx.transactionHash },
       result_tx: tx.transactionHash,
       status: 200,
     })
   } catch (e) {
-    console.error(e);
-    return Requester.errored(jobRunID, e);
+    console.error(e)
+    return Requester.errored(jobRunID, e)
   }
 }
 
