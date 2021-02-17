@@ -8,7 +8,7 @@ describe('rate limit', () => {
   context('Disabled', () => {
     before(() => {
       delete process.env.API_KEY
-      delete process.env.CACHE_RATE_CAPACITY
+      delete process.env.RATE_LIMIT_CAPACITY
     })
 
     it(`rate limit is disabled without env rate limit`, async () => {
@@ -20,7 +20,7 @@ describe('rate limit', () => {
 
     before(() => {
       process.env.API_KEY = 'some'
-      process.env.CACHE_RATE_CAPACITY = '30'
+      process.env.RATE_LIMIT_CAPACITY = '30'
       process.env.CACHE_ENABLED = 'true'
       process.env.CACHE_TYPE = 'local'
     })
@@ -37,7 +37,7 @@ describe('rate limit', () => {
     const sandbox = sinon.createSandbox()
     before(() => {
       process.env.API_KEY = 'some'
-      process.env.CACHE_RATE_CAPACITY = '30'
+      process.env.RATE_LIMIT_CAPACITY = '30'
       process.env.CACHE_ENABLED = 'true'
       process.env.CACHE_TYPE = 'redis'
 
@@ -76,7 +76,7 @@ describe('rate limit', () => {
     }
     before(() => {
       process.env.API_KEY = 'some'
-      process.env.CACHE_RATE_CAPACITY = '30'
+      process.env.RATE_LIMIT_CAPACITY = '30'
       process.env.CACHE_ENABLED = 'true'
       process.env.CACHE_TYPE = 'redis'
       const redis = {
