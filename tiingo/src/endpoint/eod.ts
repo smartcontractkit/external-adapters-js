@@ -17,13 +17,19 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const field = validator.validated.data.field || 'close'
   const url = `daily/${ticker.toLowerCase()}/prices`
 
-  const reqConfig = { ...config.api, url }
+  const reqConfig = {
+    ...config.api,
+    params: {
+      token: config.apiKey,
+    },
+    url,
+  }
 
   const response = await Requester.request(reqConfig)
   const result = Requester.validateResultNumber(response.data, [0, field])
 
   return Requester.success(jobRunID, {
-    data: { result },
+    data: config.verbose ? { ...response.data, result } : { result },
     result,
     status: 200,
   })
