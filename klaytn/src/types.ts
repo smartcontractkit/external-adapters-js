@@ -1,3 +1,15 @@
+export interface LegacyTransaction {
+  _type: string
+  _from: string
+  _gas: string
+  _signature: signature
+  _to: string
+  _input: string
+  _value: string
+  _chainId: string
+  _gasPrice: string
+  _nonce: string
+}
 export interface txResult {
   blockHash: string
   blockNumber: string

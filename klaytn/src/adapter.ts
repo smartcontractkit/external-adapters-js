@@ -1,7 +1,7 @@
-import { Requester, Validator } from '@chainlink/external-adapter'
-import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
+import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
+import { Config, ExecuteWithConfig, ExecuteFactory, AdapterResponse } from '@chainlink/types'
 import { makeConfig } from './config'
-import { txResult } from './types'
+import { LegacyTransaction } from './types'
 import fs from 'fs'
 
 const Caver = require('caver-js')
@@ -11,25 +11,27 @@ const privateKey = process.env.PRIVATE_KEY
 const keyring = caver.wallet.keyring.createFromPrivateKey(privateKey)
 caver.wallet.add(keyring)
 
-const sendFulfillment = async (address: string, logData: string, topics: string, value: string) => {
+const sendFulfillment = async (
+  address: string,
+  logData: string,
+  topics: string,
+  value: string,
+  callback: (txhash: string, e?: Error) => Promise<AdapterResponse>,
+) => {
+  // decode data in log
   const decoded = caver.abi.decodeLog(
     JSON.parse(fs.readFileSync('./OracleRequestABI.json').toString()),
     logData,
     topics,
   )
-
   console.log('[Decoded Data] \n', decoded)
 
+  // get function selector
   const functionSelector = caver.abi.encodeFunctionSignature(
     'fulfillOracleRequest(bytes32,uint256,address,bytes4,uint256,bytes32)',
   )
 
-  const requestId = decoded.requestId
-  const payment = decoded.payment
-  const callbackAddr = decoded.callbackAddr
-  const callbackFunctionId = decoded.callbackFunctionId
-  const expiration = decoded.cancelExpiration
-
+  // convert value to hex
   if (!isNaN(+value)) {
     // if number
     value = caver.utils.numberToHex(value)
@@ -38,30 +40,44 @@ const sendFulfillment = async (address: string, logData: string, topics: string,
     value = caver.utils.stringToHex(value)
   }
 
-  console.log('result: ', value)
-
-  const param = caver.abi
+  // encode params
+  const params = caver.abi
     .encodeParameters(
       ['bytes32', 'uint256', 'address', 'bytes4', 'uint256', 'bytes32'],
       [
-        requestId,
-        payment,
-        callbackAddr,
-        callbackFunctionId,
-        expiration,
+        decoded.requestId,
+        decoded.payment,
+        decoded.callbackAddr,
+        decoded.callbackFunctionId,
+        decoded.cancelExpiration,
         caver.utils.leftPad(value, 64),
       ],
     )
     .substring(2)
 
+  // make transaction
   const tx = new caver.transaction.legacyTransaction({
     from: keyring.toAccount()._address,
     to: address,
-    input: functionSelector.concat(param),
+    input: functionSelector.concat(params),
     gas: 1500000,
   })
 
-  return await caver.wallet.sign(keyring.address, tx).then(caver.rpc.klay.sendRawTransaction)
+  // send transaction
+  let transactionHash = ''
+  let err: Error | undefined
+  await caver.wallet.sign(keyring.address, tx).then(async (t: LegacyTransaction) => {
+    await caver.rpc.klay
+      .sendRawTransaction(t)
+      .on('transactionHash', (hash: string) => {
+        transactionHash = hash
+      })
+      .on('receipt')
+      .on('error', (error: Error) => {
+        err = error
+      })
+  })
+  return callback(transactionHash, err)
 }
 
 const customParams = {
@@ -84,20 +100,30 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const topcis = validator.validated.data.data
   const value = validator.validated.data.value
 
-  try {
-    const tx: txResult = await sendFulfillment(address, data, topcis, JSON.parse(value).result)
+  return sendFulfillment(
+    address,
+    data,
+    topcis,
+    JSON.parse(value).result,
+    (txHash: string, err?: Error): Promise<AdapterResponse> => {
+      if (err) {
+        return Requester.errored(
+          jobRunID,
+          new AdapterError({
+            jobRunID,
+            message: err,
+            statusCode: 400,
+          }),
+        )
+      }
 
-    console.log('[Success] ', tx)
-
-    return Requester.success(jobRunID, {
-      data: { result: tx.transactionHash },
-      result_tx: tx.transactionHash,
-      status: 200,
-    })
-  } catch (e) {
-    console.error(e)
-    return Requester.errored(jobRunID, e)
-  }
+      return Requester.success(jobRunID, {
+        data: { result: txHash },
+        result_tx: txHash,
+        status: 200,
+      })
+    },
+  )
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {
