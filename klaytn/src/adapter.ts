@@ -2,7 +2,6 @@ import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
 import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
 import { makeConfig } from './config'
 import { txResult } from './types'
-import Web3 from 'web3'
 import fs from 'fs'
 
 const Caver = require('caver-js')
@@ -31,10 +30,10 @@ const sendFulfillment = async (address: string, logData: string, topics: string,
 
   if (!isNaN(+value)) {
     // if number
-    value = Web3.utils.numberToHex(value);
+    value = caver.utils.numberToHex(value);
   } else if (value.substring(0, 2) != "0x") {
     // if string
-    value = Web3.utils.stringToHex(value);
+    value = caver.utils.stringToHex(value);
   }
 
   console.log("result: ", value);
@@ -75,20 +74,25 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const topcis = validator.validated.data.data;
   const value = validator.validated.data.value;
 
-  const tx: txResult = await sendFulfillment(
-    address,
-    data,
-    topcis,
-    JSON.parse(value).result,
-  )
+  try {
+    const tx: txResult = await sendFulfillment(
+      address,
+      data,
+      topcis,
+      JSON.parse(value).result,
+    )
 
-  console.log("[Success] ", tx)
+    console.log("[Success] ", tx)
 
-  return Requester.success(jobRunID, {
-    data: { result: tx.transactionHash, },
-    result_tx: tx.transactionHash,
-    status: 200,
-  })
+    return Requester.success(jobRunID, {
+      data: { result: tx.transactionHash, },
+      result_tx: tx.transactionHash,
+      status: 200,
+    })
+  } catch (e) {
+    console.error(e);
+    return Requester.errored(jobRunID, e);
+  }
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {
