@@ -1,4 +1,4 @@
-import { Config, ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
+import { AdapterRequest, Config, ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { makeConfig } from './config'
 import { DNSQueryResponse } from './types'
@@ -41,5 +41,7 @@ const execute: ExecuteWithConfig<Config> = async (input, config) => {
   })
 }
 
-export const makeExecute: ExecuteFactory<Config> = (config?: Config) => (input) =>
-  execute(input, config || makeConfig())
+export const makeExecute: ExecuteFactory<Config> = (config?: Config) => ({
+  config: config || makeConfig(),
+  call: (input: AdapterRequest) => execute(input, config || makeConfig()),
+})

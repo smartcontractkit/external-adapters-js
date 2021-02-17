@@ -3,7 +3,7 @@ import hash from 'object-hash'
 import * as local from './local'
 import * as redis from './redis'
 import { parseBool, uuid, delay, exponentialBackOffMs, getWithCoalescing } from '../util'
-import { AdapterRequest, AdapterResponse } from '@chainlink/types'
+import { AdapterRequest, AdapterResponse, Config, Execute } from '@chainlink/types'
 import { RedisOptions } from './redis'
 import { Middleware } from '../../index'
 import { makeRateLimit } from './rateLimit'
@@ -36,7 +36,7 @@ export const defaultOptions = () => ({
     groupMaxAge: parseInt(env.GROUP_MAX_AGE || '') || DEFAULT_GROUP_MAX_AGE,
     groupId: (env.API_KEY && hash(env.API_KEY)) || '',
     participantId: DEFAULT_CACHE_KEY_RATE_LIMIT_PARTICIPANT,
-    totalCapacity: parseInt(env.CACHE_RATE_CAPACITY || ''),
+    totalCapacity: parseInt(env.RATE_LIMIT_CAPACITY || ''),
   },
   // Request coalescing
   requestCoalescing: {
@@ -81,9 +81,12 @@ export const redactOptions = (options: CacheOptions) => ({
       : local.redactOptions(options.cacheOptions),
 })
 
-export const withCache: Middleware<CacheOptions> = async (execute, options = defaultOptions()) => {
+export const withCache: Middleware<CacheOptions> = async (
+  execute: Execute<Config>,
+  options = defaultOptions(),
+) => {
   // If disabled noop
-  if (!options.enabled) return (data: AdapterRequest) => execute(data)
+  if (!options.enabled) return (data: AdapterRequest) => execute.call(data)
 
   const cache = await options.cacheBuilder(options.cacheOptions)
   const rateLimit = makeRateLimit(options.rateLimit, cache)
@@ -126,7 +129,7 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
     // Add successful result to cache
     const _cacheOnSuccess = async ({ statusCode, data }: AdapterResponse) => {
       if (statusCode === 200) {
-        await rateLimit.updateRateLimitGroup(data.data.cost, data.data.weight)
+        await rateLimit.updateRateLimitGroup(data.cost, data.weight)
         let maxAge = await _getMaxAge(request)
         if (maxAge < 0) {
           maxAge = await _getDefaultMaxAge()
@@ -184,7 +187,7 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
     // Initiate request coalescing by adding the in-flight mark
     await _setInFlightMarker(coalescingKey, maxAge)
 
-    const result = await execute(request)
+    const result = await execute.call(request)
     await _cacheOnSuccess(result)
     return result
   }

@@ -7,7 +7,7 @@ import * as coingecko from './data-providers/coingecko'
 import * as coinapi from './data-providers/coinapi'
 import * as amberdata from './data-providers/amberdata'
 import * as kaiko from './data-providers/kaiko'
-
+import { Config as DefaultConfig } from '@chainlink/types'
 enum DataProvider {
   Amberdata = 'amberdata',
   Bravenewcoin = 'bravenewcoin',
@@ -36,7 +36,7 @@ export type PriceAdapter = {
   getMarketCaps: (baseSymbols: string[], quote: string) => Promise<Record<string, number>>
 }
 
-export type Config = {
+export type Config = DefaultConfig & {
   priceAdapter: PriceAdapter
   defaultMethod: string
 }

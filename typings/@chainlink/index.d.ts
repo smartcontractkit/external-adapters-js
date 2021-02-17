@@ -26,7 +26,7 @@ declare module '@chainlink/types' {
     network?: string
     returnRejectedPromiseOnError?: Boolean
     verbose?: boolean
-    api: Partial<AxiosRequestConfig>
+    api?: Partial<AxiosRequestConfig>
   }
 
   /* RESPONSES */
@@ -68,7 +68,11 @@ declare module '@chainlink/types' {
   /* BOOTSTRAP */
   export type ExecuteSync = (input: AdapterRequest, callback: Callback) => void
 
-  export type Execute = (input: AdapterRequest) => Promise<AdapterResponse>
+  export type ExecuteCall = (input: AdapterRequest) => Promise<AdapterResponse>
+  export interface Execute<C extends Config> {
+    readonly config: C
+    call: ExecuteCall
+  }
 
   export type ExecuteWithConfig<C extends Config> = (
     input: AdapterRequest,

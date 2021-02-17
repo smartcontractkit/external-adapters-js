@@ -1,4 +1,4 @@
-import { AdapterResponse, Execute, AdapterRequest } from '@chainlink/types'
+import { AdapterResponse, ExecuteFactory, AdapterRequest } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { Config, DEFAULT_TOKEN_BALANCE, DEFAULT_TOKEN_DECIMALS, makeConfig } from './config'
 import { TokenAllocations, ResponsePayload } from './types'
@@ -123,6 +123,7 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
   }
 }
 
-export const makeExecute = (config?: Config): Execute => {
-  return async (request: AdapterRequest) => execute(request, config || makeConfig())
-}
+export const makeExecute: ExecuteFactory<Config> = (config?: Config) => ({
+  config: config || makeConfig(),
+  call: (request: AdapterRequest) => execute(request, config || makeConfig()),
+})

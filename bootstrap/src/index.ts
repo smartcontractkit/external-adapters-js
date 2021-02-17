@@ -4,23 +4,30 @@ import * as util from './lib/util'
 import * as server from './lib/server'
 import * as gcp from './lib/gcp'
 import * as aws from './lib/aws'
-import { ExecuteSync, AdapterRequest, Execute, AdapterHealthCheck } from '@chainlink/types'
+import {
+  ExecuteSync,
+  AdapterRequest,
+  Execute,
+  AdapterHealthCheck,
+  Config,
+  ExecuteCall,
+} from '@chainlink/types'
 
-export type Middleware<O = any> = (execute: Execute, options?: O) => Promise<Execute>
+export type Middleware<O = any> = (execute: Execute<Config>, options?: O) => Promise<ExecuteCall>
 
 // Try to initialize, pass through on error
-const skipOnError = (middleware: Middleware) => async (execute: Execute) => {
+const skipOnError = (middleware: Middleware) => async (execute: Execute<Config>) => {
   try {
     return await middleware(execute)
   } catch (error) {
     logger.warn(`${middleware.name} middleware initialization error! Passing through. `, error)
-    return execute
+    return execute.call
   }
 }
 
 // Make sure data has the same statusCode as the one we got as a result
 const withStatusCode: Middleware = async (execute) => async (input) => {
-  const { statusCode, data, ...rest } = await execute(input)
+  const { statusCode, data, ...rest } = await execute.call(input)
   if (data && typeof data === 'object' && data.statusCode) {
     return {
       ...rest,
@@ -39,7 +46,7 @@ const withStatusCode: Middleware = async (execute) => async (input) => {
 const withLogger: Middleware = async (execute) => async (input: AdapterRequest) => {
   logger.debug('Input: ', { input })
   try {
-    const result = await execute(input)
+    const result = await execute.call(input)
     logger.debug(`Output: [${result.statusCode}]: `, { output: result.data })
     return result
   } catch (error) {
@@ -51,16 +58,18 @@ const withLogger: Middleware = async (execute) => async (input: AdapterRequest) 
 const middleware = [withLogger, skipOnError(withCache), withStatusCode]
 
 // Init all middleware, and return a wrapped execute fn
-const withMiddleware = async (execute: Execute) => {
+const withMiddleware = async (execute: Execute<Config>) => {
   // Init and wrap middleware one by one
+  const config = execute.config
   for (let i = 0; i < middleware.length; i++) {
-    execute = await middleware[i](execute)
+    const prev = await middleware[i](execute)
+    execute = { config, call: prev }
   }
   return execute
 }
 
 // Execution helper async => sync
-const executeSync = (execute: Execute): ExecuteSync => {
+const executeSync = (execute: Execute<Config>): ExecuteSync => {
   // TODO: Try to init middleware only once
   // const initMiddleware = withMiddleware(execute)
 
@@ -68,13 +77,13 @@ const executeSync = (execute: Execute): ExecuteSync => {
   return (data: AdapterRequest, callback: any) => {
     // We init on every call because of cache connection broken state issue
     return withMiddleware(execute)
-      .then((executeWithMiddleware) => executeWithMiddleware(data))
+      .then((executeWithMiddleware) => executeWithMiddleware.call(data))
       .then((result) => callback(result.statusCode, result))
       .catch((error) => callback(error.statusCode || 500, Requester.errored(data.id, error)))
   }
 }
 
-export const expose = (execute: Execute, checkHealth?: AdapterHealthCheck) => {
+export const expose = (execute: Execute<Config>, checkHealth?: AdapterHealthCheck): any => {
   // Add middleware to the execution flow
   const _execute = executeSync(execute)
   return {
