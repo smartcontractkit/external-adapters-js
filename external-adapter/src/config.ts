@@ -17,7 +17,8 @@ export const constants = {
 }
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
-const cloneNoSecrets = (config: Config): Config => (({ apiKey, ...o }) => o)(config)
+const cloneNoSecrets = (config: Config): Config =>
+  (({ apiKey, api: { auth, ...api }, ...o }) => ({ api, ...o }))(config)
 
 export function getDefaultConfig(prefix = '', requireKey = false): Config {
   const apiKey = requireKey
