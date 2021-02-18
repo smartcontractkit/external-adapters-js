@@ -12,8 +12,8 @@ export const DEFAULT_ENDPOINT = 'txsend'
 export const makeConfig = (): Config => {
   return {
     api: {},
-    rpcUrl: util.getEnv('RPC_URL'),
+    rpcUrl: util.getRequiredEnv('RPC_URL'),
     network: util.getEnv('NETWORK') || 'mainnet',
-    privateKey: util.getEnv('PRIVATE_KEY'),
+    privateKey: util.getRequiredEnv('PRIVATE_KEY'),
   }
 }

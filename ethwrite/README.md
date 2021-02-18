@@ -10,13 +10,27 @@ A typical workflow of a Chainlink job for this external adapter could look like:
 - Parse the transaction object from ChainB for the transaction hash
 - Write the transaction hash from ChainB to ChainA
 
-## Input Params
+### Environment Variables
 
-- `exAddr`: The address for sending the transaction to.
-- `funcId`: (Optional) One of the following setter functions: `0xc2b12a73` for `bytes32`, `0xa53b1c1e` for `int256` or `0xd2282dc5` for `uint256` (defaults to `0xd2282dc5`)
-- `dataType`: (Optional) Pass this only in case you need to encode the data(normally should be already encoded). One of the following types: `bytes32`, `int256` or `uint256`
-- `result`: Corresponds to the result of the previous adapter.
-- `dataToSend`: Used only if the result field is not defined, but should be provided in case result is missing (optional)
+| Required? |       Name       |                             Description                             | Options | Defaults to |
+| :-------: | :--------------: | :-----------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     |     RPC_URL      |  RPC endpoint for that client. For example `http://localhost:8545`  |         |             |
+|    ✅     |   PRIVATE_KEY    | The private key of a funded account, to sign the transactions from. |         |             |
+|    ✅     | CONTRACT_ADDRESS |       The contract address that the contract is deployed to.        |         |             |
+
+---
+
+### Input Parameters
+
+| Required? |    Name    |                                       Description                                       |                                     Options                                     | Defaults to  |
+| :-------: | :--------: | :-------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------: | :----------: |
+|    ✅     |   exAddr   |                       The address for sending the transaction to.                       |                                                                                 |              |
+|           |   funcId   |                              The setter function to call:                               | [`0xc2b12a73`(for bytes32), `0xa53b1c1e`(for int256),`0xd2282dc5`(for uint256)] | `0xd2282dc5` |
+|           |  dataType  | Pass this only in case you need to encode the data(normally should be already encoded). |                        [`bytes32`, `int256`, `uint256`]                         |              |
+|           |   result   |                           The result of the previous adapter                            |                                                                                 |              |
+|           | dataToSend |               If specified, this value will be sent instead of `result`.                |                                                                                 |              |
+
+---
 
 ## Output Format
 
@@ -39,32 +53,4 @@ A typical workflow of a Chainlink job for this external adapter could look like:
   },
   "statusCode": 200
 }
-```
-
-## Deploy & Test
-
-- Run `hardhat`, `ganache-cli` or some local blockchain with RPC enabled
-- Set local environment variable `RPC_URL` to the RPC endpoint for that client. For example `http://localhost:8545`
-- Set the local environment variable `PRIVATE_KEY` to the private key of a funded wallet. For example `0xde1673a55d14576f10f5223efbe6b1df771409eb3d51d24d3fb0e04bd615a619` (Ganache's default)
-- Run:
-
-```bash
-ts-node deploy_contract.ts
-```
-
-The output should include a deployed contract address
-
-- Set the local environment variable `CONTRACT_ADDRESS` to that address
-- Run:
-
-```bash
-yarn test
-```
-
-Verify the contract was written
-
-- Run:
-
-```bash
-ts-node read_contract.ts
 ```
