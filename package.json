@@ -89,7 +89,8 @@
     "conflux",
     "harmony",
     "tiingo",
-    "ethwrite"
+    "ethwrite",
+    "geodb"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",
