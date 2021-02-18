@@ -1,23 +1,26 @@
 import { assert } from 'chai'
 import { Requester } from '@chainlink/external-adapter'
-import { assertSuccess, assertError, startChain } from '@chainlink/adapter-test-helpers'
+import {
+  assertSuccess,
+  assertError,
+  startChain,
+  TESTING_PRIVATE_KEY,
+} from '@chainlink/adapter-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
 import { makeExecute } from '../src/adapter'
-import { abi, deploy } from '../src/contract_helpers'
+import { abi, deploy } from './helpers'
 import { ethers } from 'ethers'
 
 // using DELAYED ROOT SUITE in order to start the chain and deploy the contract
 setTimeout(async function () {
   const chain = await startChain(4444)
-  // TODO: There are the default hardhat setup. Could be imported from a source of default/testing configuration.
   const rpcUrl = 'http://localhost:4444'
-  const privateKey = '0x90125e49d93a24cc8409d1e00cc69c88919c6826d8bbabb6f2e1dc8213809f4c'
-  const address = await deploy(privateKey, rpcUrl)
+  const address = await deploy(TESTING_PRIVATE_KEY, rpcUrl)
   const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
   const contract = new ethers.Contract(address, abi, provider)
 
   describe('execute', async () => {
-    const execute = makeExecute({ rpcUrl, privateKey, api: {} })
+    const execute = makeExecute({ rpcUrl, privateKey: TESTING_PRIVATE_KEY, api: {} })
     after(async () => {
       await chain.close()
     })
