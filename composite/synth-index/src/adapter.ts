@@ -21,10 +21,25 @@ type Synth = {
   inverted: Record<string, any>
 }
 
+/**
+ * Covert number to max number of decimals, trim trailing zeros
+ *
+ * @param num number to convert to fixed max number of decimals
+ * @param decimals max number of decimals
+ */
+const toFixedMax = (num: number | string | Decimal, decimals: number): string =>
+  new Decimal(num)
+    .toFixed(decimals)
+    // remove trailing zeros
+    .replace(/(\.\d*?[1-9])0+$/g, '$1')
+    // remove decimal part if all zeros (or only decimal point)
+    .replace(/\.0*$/g, '')
+
 const getAllocations = (synth: Synth): ta.types.TokenAllocations => {
   return synth.index.map((index) => {
     const decimals = 18
-    const balance = new Decimal(index.units).mul(10 ** decimals).toString()
+    const balanceDec = new Decimal(index.units).mul(10 ** decimals)
+    const balance = toFixedMax(balanceDec, decimals)
     return { symbol: index.asset, balance, decimals }
   })
 }
