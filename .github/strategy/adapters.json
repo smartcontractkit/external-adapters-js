@@ -83,7 +83,8 @@
       "conflux",
       "harmony",
       "tiingo",
-      "ethwrite"
+      "ethwrite",
+      "geodb"
     ]
   },
   "2-step": {
