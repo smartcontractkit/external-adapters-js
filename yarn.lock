@@ -7165,10 +7165,10 @@ swarm-js@^0.1.40:
     tar "^4.0.2"
     xhr-request "^1.0.1"
 
-synthetix@2.38.0-sccp-77-defi-rebalance:
-  version "2.38.0-sccp-77-defi-rebalance"
-  resolved "https://registry.yarnpkg.com/synthetix/-/synthetix-2.38.0-sccp-77-defi-rebalance.tgz#f50e93715ac3f3029bad6ae10472df6e608e5503"
-  integrity sha512-jLyRHFcko183LCTeW1bKVZYBCMn5hRws4afse06uNyp8ypxLG9FExbS3tzN8AuR1hR26lpxDAoyjLgQ0fEO8Jw==
+synthetix@2.39.2:
+  version "2.39.2"
+  resolved "https://registry.yarnpkg.com/synthetix/-/synthetix-2.39.2.tgz#455c52a4c29394f013471fdece2ef4f6e3634c91"
+  integrity sha512-Dp41ukNTUo2PBzzPj8sHw6BXIoOrkIUSPx9+V5MK/c04HIGuETMDbU5ccQwqvYMUmMipeHbBH7D0mvDpILfohg==
   dependencies:
     "@chainlink/contracts-0.0.10" "npm:@chainlink/contracts@0.0.10"
     "@eth-optimism/contracts" "0.0.2-alpha.7"

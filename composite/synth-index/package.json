@@ -43,6 +43,6 @@
   },
   "dependencies": {
     "@chainlink/token-allocation-adapter": "^0.0.1",
-    "synthetix": "2.38.0-sccp-77-defi-rebalance"
+    "synthetix": "2.39.2"
   }
 }
