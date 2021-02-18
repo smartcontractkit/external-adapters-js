@@ -1,6 +1,6 @@
 const { Conflux } = require('js-conflux-sdk')
 const { Requester, Validator } = require('@chainlink/external-adapter')
-const { util } = require('@chainlink/ea-adapter')
+const { util } = require('@chainlink/ea-bootstrap')
 const { ethers: {utils: etherUtils} } = require("ethers");
 
 const provider = new Conflux({
