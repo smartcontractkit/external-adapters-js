@@ -6,10 +6,9 @@ This adapter is built to fulfill Chainlink oracle requests.
 
 The adapter uses the following environment variables:
 
-- `URL`: A URL to a JSON-RPC (HTTP RPC) node on Conflux Network
+- `RPC_URL`: A URL to a JSON-RPC (HTTP RPC) node on Conflux Network
 - `NETWORK_ID`: networkId of a JSON-RPC (HTTP RPC) node on Conflux Network
 - `PRIVATE_KEY`: The private key to sign transactions with. Must have fulfillment permissions on the Oracle contract.
-- `EA_PORT`: Configure this parameter to change the EA port
 
 ## Input Params
 
