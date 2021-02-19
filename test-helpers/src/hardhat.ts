@@ -26,6 +26,3 @@ export async function startChain(port = 7545): Promise<JsonRpcServer> {
   console.log(`Hardhat listening on localhost:${port}`)
   return server
 }
-
-export const TESTING_PRIVATE_KEY =
-  '0x90125e49d93a24cc8409d1e00cc69c88919c6826d8bbabb6f2e1dc8213809f4c'

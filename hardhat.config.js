@@ -3,7 +3,7 @@
 
 // const { MNEMONIC } = require('./test.env')
 // const MNEMONIC = 'novel mobile inform nurse circle spoon cricket soup crowd clip hawk glad'
-const { TESTING_PRIVATE_KEY } = require('./test-helpers/src/hardhat')
+const { TESTING_PRIVATE_KEY } = require('./test-helpers/src/hardhat_config.json')
 
 module.exports = {
   defaultNetwork: 'hardhat',
