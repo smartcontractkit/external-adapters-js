@@ -14,10 +14,11 @@ const customParams = {
   coinid: false,
 }
 
-const presetTickers: { [ticket: string]: string } = {
+const presetTickers: { [ticker: string]: string } = {
   COMP: 'compound-governance-token',
   FNX: 'finnexus',
   UNI: 'uniswap',
+  GRT: 'the-graph',
 }
 
 const convertFromTicker = async (config: Config, ticker: string, coinId: string) => {
