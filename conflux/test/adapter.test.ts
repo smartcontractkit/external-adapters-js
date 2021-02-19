@@ -8,7 +8,7 @@ describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
 
-  context('successful calls @integration', () => {
+  /* context('successful calls @integration', () => {
     const requests = [
       {
         name: 'id not supplied',
@@ -36,9 +36,9 @@ describe('execute', () => {
         assert.isAbove(data.data.result, 0)
       })
     })
-  })
+  }) */
 
-  context('validation error', () => {
+  /* context('validation error', () => {
     const requests = [
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },
@@ -62,9 +62,9 @@ describe('execute', () => {
         }
       })
     })
-  })
+  }) */
 
-  context('error calls @integration', () => {
+  /* context('error calls @integration', () => {
     const requests = [
       {
         name: 'unknown base',
@@ -86,5 +86,5 @@ describe('execute', () => {
         }
       })
     })
-  })
+  }) */
 })
