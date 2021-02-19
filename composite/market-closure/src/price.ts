@@ -11,7 +11,7 @@ const isPriceDataProvider = (envVar?: string): envVar is PriceDataProvider =>
   Object.values(PriceDataProvider).includes(envVar as any)
 
 export const getPriceDataProvider = (): PriceDataProvider | undefined => {
-  const priceDataProvider = process.env.PRICE_ADATER
+  const priceDataProvider = process.env.PRICE_ADAPTER
   return isPriceDataProvider(priceDataProvider)
     ? (priceDataProvider as PriceDataProvider)
     : undefined

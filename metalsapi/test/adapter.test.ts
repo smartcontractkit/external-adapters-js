@@ -7,6 +7,7 @@ import { makeExecute } from '../src/adapter'
 describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
+  process.env.API_KEY = process.env.API_KEY ?? 'test_api_key'
 
   context('successful calls @integration', () => {
     const requests = [
@@ -21,24 +22,6 @@ describe('execute', () => {
       {
         name: 'from/to',
         testData: { id: jobID, data: { from: 'CHF', to: 'USD' } },
-      },
-      {
-        name: 'coin',
-        testData: { id: jobID, data: { coin: 'BTC' } },
-      },
-      {
-        name: 'BTC difficulty',
-        testData: {
-          id: jobID,
-          data: { blockchain: 'BTC' },
-        },
-      },
-      {
-        name: 'BTC height',
-        testData: {
-          id: jobID,
-          data: { blockchain: 'BTC', endpoint: 'height' },
-        },
       },
     ]
 

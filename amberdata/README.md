@@ -7,20 +7,24 @@ The adapter takes the following environment variables:
 - `API_KEY`: Optional API key to use
 - `API_TIMEOUT`: Optional timeout param, defaults to `30000`
 
-## Input Params
+### Input Parameters
 
-- `endpoint`: The endpoint to use, one of (price|balance). Default: "price"
+| Required? |   Name   |     Description     |                        Options                         | Defaults to |
+| :-------: | :------: | :-----------------: | :----------------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [price](#Price-Endpoint), [balance](#Balance-Endpoint) |    price    |
 
-### Price endpoint
+---
+
+## Price Endpoint
 
 Gets the [latest spot VWAP price](https://docs.amberdata.io/reference#spot-price-pair-latest) from Amberdata.
 
-## Input Params
+### Input Params
 
 - `base`, `from`, or `coin`: The asset to query
 - `quote`, `to`, or `market`: The currency to convert to
 
-## Output
+### Output
 
 ```json
 {
@@ -42,7 +46,9 @@ Gets the [latest spot VWAP price](https://docs.amberdata.io/reference#spot-price
 }
 ```
 
-### Balance endpoint
+## Balance Endpoint
+
+### Input Params
 
 - `dataPath`: Optional path where to find the addresses array, defaults to `result`
 - `confirmations`: Optional confirmations param, defaults to `6`

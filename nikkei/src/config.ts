@@ -1,7 +1,7 @@
 import { Requester } from '@chainlink/external-adapter'
 import { Config } from '@chainlink/types'
 
-export const DEFAULT_ENDPOINT = 'realData'
+export const DEFAULT_ENDPOINT = 'price'
 
 export const DEFAULT_API_ENDPOINT = 'https://indexes.nikkei.co.jp/en/nkave/'
 

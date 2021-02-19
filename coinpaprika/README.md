@@ -1,17 +1,24 @@
 # Chainlink CoinPaprika External Adapter
 
-## Price API (default)
+### Input Parameters
 
-### Endpoint
+| Required? |   Name   |     Description     |                                                    Options                                                     | Defaults to |
+| :-------: | :------: | :-----------------: | :------------------------------------------------------------------------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [price](#Price-Endpoint), [dominance](#Dominance-Endpoint), [globalmarketcap](#Market-Capitalization-Endpoint) |   `price`   |
+
+---
+
+## Price Endpoint
 
 https://api.coinpaprika.com/v1/tickers/`{COIN}`
 
 ### Input Params
 
-- `coinid`: The CoinPaprika id of the coin to query (required if not using `from`)
-- `base`, `from`, or `coin`: The ticker of the coin to query (required if not using `coinid`)
-- `quote`, `to`, or `market`: The currency to convert the coin to (required)
-- `endpoint`: The endpoint to use (defaults to "price", one of "price", "globalMarketCap", "dominance")
+| Required? |          Name           |                   Description                    | Options | Defaults to |
+| :-------: | :---------------------: | :----------------------------------------------: | :-----: | :---------: |
+|    ✅     | `base`, `from`, `coin`  |       The symbol of the currency to query        |         |             |
+|    ✅     | `quote`, `to`, `market` |     The symbol of the currency to convert to     |         |             |
+|    🟡     |        `coinid`         | The coin ID (optional to use in place of `base`) |         |             |
 
 ### Output
 
@@ -53,16 +60,51 @@ https://api.coinpaprika.com/v1/tickers/`{COIN}`
 }
 ```
 
-## Global API
+## Dominance Endpoint
 
-### Endpoint
-
-https://api.coinpaprika.com/v1/global
+Returns Bitcoin's dominance from the [global endpoint](https://api.coinpaprika.com/v1/global)
 
 ### Input Params
 
-- `market`, `to`, or `quote`: The ticker of the coin to query (required)
-- `endpoint`: The endpoint to use (defaults to "price", one of "price", "globalMarketCap", "dominance")
+| Required? |          Name           |             Description             | Options | Defaults to |
+| :-------: | :---------------------: | :---------------------------------: | :-----: | :---------: |
+|    ✅     | `quote`, `to`, `market` | The symbol of the currency to query |  `BTC`  |             |
+
+### Output
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "market_cap_usd": 368198248292,
+    "volume_24h_usd": 59351367068,
+    "bitcoin_dominance_percentage": 59.98,
+    "cryptocurrencies_number": 2435,
+    "market_cap_ath_value": 835692000000,
+    "market_cap_ath_date": "2018-01-07T11:17:00Z",
+    "volume_24h_ath_value": 197699715619,
+    "volume_24h_ath_date": "2020-03-13T10:00:00Z",
+    "volume_24h_percent_from_ath": -69.98,
+    "volume_24h_percent_to_ath": 233.1,
+    "market_cap_change_24h": -0.2,
+    "volume_24h_change_24h": 16.98,
+    "last_updated": 1603238207,
+    "result": 59.98
+  },
+  "result": 59.98,
+  "statusCode": 200
+}
+```
+
+## Market Capitalization Endpoint
+
+Returns the global market capitilization from the [global endpoint](https://api.coinpaprika.com/v1/global)
+
+### Input Params
+
+| Required? |          Name           |             Description             | Options | Defaults to |
+| :-------: | :---------------------: | :---------------------------------: | :-----: | :---------: |
+|    ✅     | `quote`, `to`, `market` | The symbol of the currency to query |  `USD`  |             |
 
 ### Output
 

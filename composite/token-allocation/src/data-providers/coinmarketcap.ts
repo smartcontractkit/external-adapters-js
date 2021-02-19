@@ -10,6 +10,12 @@ const presetSlugs: Record<string, string> = {
   FNX: 'finnexus',
   ETC: 'ethereum-classic',
   BAT: 'basic-attention-token',
+  CRO: 'crypto-com-coin',
+  LEO: 'unus-sed-leo',
+  FTT: 'ftx-token',
+  HT: 'huobi-token',
+  OKB: 'okb',
+  KCS: 'kucoin-token',
 }
 
 const getPriceData = async (assets: string[], convert: string) => {

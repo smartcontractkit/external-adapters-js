@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/poa-gasprice-adapter",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Chainlink poa-gasprice adapter.",
   "keywords": [
     "Chainlink",
