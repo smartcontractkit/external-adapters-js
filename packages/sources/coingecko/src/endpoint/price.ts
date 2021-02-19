@@ -1,6 +1,5 @@
-import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
-import { ExecuteWithConfig, Config } from '@chainlink/types'
-import { NAME as AdapterName } from '../config'
+import { Requester, Validator } from '@chainlink/external-adapter'
+import { ExecuteWithConfig, Config, ResponsePayload } from '@chainlink/types'
 
 export const NAME = 'price'
 
@@ -15,22 +14,70 @@ const customParams = {
   coinid: false,
 }
 
-const getCoinId = async (config: Config, symbol: string): Promise<string> => {
-  const url = '/coins/list'
+const presetTickers: { [ticker: string]: string } = {
+  COMP: 'compound-governance-token',
+  FNX: 'finnexus',
+  UNI: 'uniswap',
+  GRT: 'the-graph',
+  LINA: 'linear',
+}
 
+const blacklist = ['leocoin', 'farmatrust', 'freetip', 'compound-coin', 'uni-coin', 'unicorn-token']
+
+const getCoinList = async (config: Config) => {
+  const url = '/coins/list'
   const options = {
     ...config.api,
     url,
   }
-
   const response = await Requester.request(options, customError)
-  const coin = response.data.find((x: any) => x.symbol.toLowerCase() === symbol.toLowerCase())
+  return response.data
+}
 
-  if (typeof coin === 'undefined') {
-    throw new Error('Coin id not found')
+const getPriceData = async (config: Config, ids: string, currency: string) => {
+  const url = '/simple/price'
+  const params = {
+    ids,
+    vs_currencies: currency.toLowerCase(),
   }
+  const options = {
+    ...config.api,
+    url,
+    params,
+  }
+  const response = await Requester.request(options)
+  return response.data
+}
 
-  return coin.id.toLowerCase()
+const getIdtoSymbol = (symbols: string[], coinList: any) => {
+  return Object.fromEntries(
+    symbols.map((symbol) => {
+      if (symbol in presetTickers) {
+        return [presetTickers[symbol], symbol]
+      }
+      const coin = coinList.find(
+        (d: any) =>
+          d.symbol.toLowerCase() === symbol.toLowerCase() &&
+          !blacklist.includes(d.id.toLowerCase()),
+      )
+      return [coin.id, symbol]
+    }),
+  )
+}
+
+const getPayload = (symbols: string[], prices: { [key: string]: any }, quote: string) => {
+  const payloadEntries = symbols.map((symbol) => {
+    const key = symbol
+    const val = {
+      quote: {
+        [quote]: { price: prices[symbol] },
+      },
+    }
+    return [key, val]
+  })
+
+  const payload: ResponsePayload = Object.fromEntries(payloadEntries)
+  return payload
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
@@ -38,37 +85,30 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const symbol = validator.overrideSymbol(AdapterName)
+  const base = validator.validated.data.base
+  const symbols = Array.isArray(base) ? base : [base]
+  const coingeckoSymbolId = validator.validated.data.coinid
   const quote = validator.validated.data.quote
-  const coinid = validator.validated.data.coinid as string | undefined
 
-  // If coinid was provided or base was overridden, that symbol will be fetched
-  let coin = coinid?.toLowerCase() || (symbol !== validator.validated.data.base && symbol)
-  if (!coin) {
-    try {
-      coin = await getCoinId(config, symbol)
-    } catch (e) {
-      throw new AdapterError({ jobRunID, statusCode: 400, message: e.message })
-    }
-  }
+  const coinList = await getCoinList(config)
+  const idToSymbol = getIdtoSymbol(symbols, coinList)
+  const ids = coingeckoSymbolId
+    ? coingeckoSymbolId.toLowerCase()
+    : Object.keys(idToSymbol).join(',')
 
-  const url = '/simple/price'
-  const params = {
-    ids: coin,
-    vs_currencies: quote,
-  }
+  const response: Record<string, any> = await getPriceData(config, ids, quote)
+  const prices = Object.fromEntries(
+    Object.entries(response).map(([coinId, data]) => [
+      idToSymbol[coinId],
+      Requester.validateResultNumber(data, [quote.toLowerCase()]),
+    ]),
+  )
 
-  const options = {
-    ...config.api,
-    url,
-    params,
-  }
-
-  const response = await Requester.request(options, customError)
-  response.data.result = Requester.validateResultNumber(response.data, [
-    coin.toLowerCase(),
-    quote.toLowerCase(),
-  ])
-
-  return Requester.success(jobRunID, response, config.verbose)
+  const result = symbols.length === 1 && prices[symbols[0]]
+  const payload = getPayload(symbols, prices, quote)
+  return Requester.success(jobRunID, {
+    data: config.verbose ? { ...response.data, result, payload } : { result, payload },
+    result,
+    status: 200,
+  })
 }
