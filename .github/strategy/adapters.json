@@ -81,7 +81,8 @@
       "xbto",
       "dydx-stark",
       "iex-cloud",
-      "cfbenchmarks"
+      "cfbenchmarks",
+      "conflux"
     ]
   },
   "2-step": {
