@@ -47,6 +47,17 @@ declare module '@chainlink/types' {
     result: any
   }
 
+  export type ResponsePayload = {
+    [symbol: string]: {
+      quote: {
+        [symbol: string]: {
+          price?: number
+          marketCap?: number
+        }
+      }
+    }
+  }
+
   /* ERRORS */
   type ErrorBasic = {
     name: string
