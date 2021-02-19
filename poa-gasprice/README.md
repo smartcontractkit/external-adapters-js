@@ -1,12 +1,10 @@
 # Chainlink External Adapter for POA Network gas price
 
-## Input Params
+### Input Params
 
-- `speed`: The speed for gas price to get. Available choices:
-  - `slow`
-  - `standard` (default)
-  - `fast`
-  - `instant`
+| Required? |  Name   |             Description             |              Options               | Defaults to |
+| :-------: | :-----: | :---------------------------------: | :--------------------------------: | :---------: |
+|    🟡     | `speed` | The symbol of the currency to query | `slow`,`standard`,`fast`,`instant` | `standard`  |
 
 ## Output Format
 

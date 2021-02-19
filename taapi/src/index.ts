@@ -1,6 +1,6 @@
-import { expose, util } from '@chainlink/ea-bootstrap'
+import { expose } from '@chainlink/ea-bootstrap'
 import { execute } from './adapter'
 
 const NAME = 'taapi'
 
-export = { NAME, execute, ...expose(util.wrapExecute(execute)) }
+export = { NAME, execute, ...expose(execute) }

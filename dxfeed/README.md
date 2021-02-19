@@ -1,17 +1,30 @@
 # Chainlink External Adapter for dxFeed
 
-## Configuration
+### Environment Variables
 
-This adapter supports the following environment variables:
+| Required? |     Name     |         Description          | Options |                Defaults to                 |
+| :-------: | :----------: | :--------------------------: | :-----: | :----------------------------------------: |
+|    ✅     | API_USERNAME |                              |         |                                            |
+|    ✅     | API_PASSWORD |                              |         |                                            |
+|    🟡     | API_ENDPOINT | The endpoint for your dxFeed |         | `https://tools.dxfeed.com/webservice/rest` |
 
-- `API_USERNAME`: Your API username
-- `API_PASSWORD`: Your API password
-- `API_ENDPOINT`: The endpoint for your dxFeed. Defaults to the demo endpoint (`https://tools.dxfeed.com/webservice/rest`)
+---
 
-## Input Params
+### Input Parameters
 
-- `base`, `from`, or `asset`: The symbol of the asset to query
-- `endpoint`: Optional endpoint param, defaults to using the price endpoint
+| Required? |   Name   |     Description     |         Options          | Defaults to |
+| :-------: | :------: | :-----------------: | :----------------------: | :---------: |
+|           | endpoint | The endpoint to use | [price](#Price-Endpoint) |   `price`   |
+
+---
+
+## Price Endpoint
+
+### Input Params
+
+| Required? |               Name               |             Description             | Options | Defaults to |
+| :-------: | :------------------------------: | :---------------------------------: | :-----: | :---------: |
+|    ✅     | `base`, `from`, `coin`, `market` | The symbol of the currency to query |         |             |
 
 The `base` param handles the following symbol conversions:
 
@@ -22,7 +35,7 @@ TSLA ➡️ 'TSLA:BFX'
 TSLAX ➡️ 'TSLA.US:TEI'
 ```
 
-## Output
+### Output
 
 ```json
 {

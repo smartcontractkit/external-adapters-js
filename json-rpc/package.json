@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/json-rpc-adapter",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "",
   "author": "Thomas Hodges (thomas@smartcontract.com)",
   "license": "MIT",
