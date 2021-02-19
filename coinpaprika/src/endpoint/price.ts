@@ -9,6 +9,10 @@ const inputParams = {
   coinid: false,
 }
 
+const presetTickers: { [ticker: string]: string } = {
+  GRT: 'grt-the-graph',
+}
+
 const convertFromTicker = async (ticker: string, coinId: string | undefined) => {
   if (typeof coinId !== 'undefined') return coinId.toLowerCase()
 
@@ -31,7 +35,10 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
   const jobRunID = validator.validated.id
   const symbol = validator.validated.data.base
-  const coin = await convertFromTicker(symbol, validator.validated.data.coinid)
+  const coin = await convertFromTicker(
+    symbol,
+    validator.validated.data.coinid || presetTickers[symbol],
+  )
   const url = `v1/tickers/${coin}`
   const market = validator.validated.data.quote
 
