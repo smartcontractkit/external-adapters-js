@@ -1,10 +1,17 @@
-import { Requester } from '@chainlink/external-adapter'
-import { Config } from '@chainlink/types'
+import { util } from '@chainlink/ea-bootstrap'
 
 export const DEFAULT_ENDPOINT = 'conflux'
 
-export const makeConfig = (prefix?: string): Config => {
-  const config = Requester.getDefaultConfig(prefix)
-  config.api.baseURL = config.api.baseURL || 'http://localhost:12537'
-  return config
+export type Config = {
+  rpcUrl: string
+  networkId: number
+  privateKey: string
+}
+
+export const makeConfig = (): Config => {
+  return {
+    rpcUrl: util.getRequiredEnv('RPC_URL'),
+    networkId: util.getRequiredEnv('NETWORK_ID'),
+    privateKey: util.getRequiredEnv('PRIVATE_KEY'),
+  }
 }

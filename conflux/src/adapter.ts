@@ -1,13 +1,16 @@
 import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
-import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
-import { makeConfig, DEFAULT_ENDPOINT } from './config'
+import { AdapterRequest, Execute, AdapterResponse } from '@chainlink/types'
+import { makeConfig, DEFAULT_ENDPOINT, Config } from './config'
 import { conflux } from './endpoint'
 
 const inputParams = {
   endpoint: false,
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, config) => {
+export const execute = async (
+  request: AdapterRequest,
+  config: Config,
+): Promise<AdapterResponse> => {
   const validator = new Validator(request, inputParams)
   if (validator.error) throw validator.error
 
@@ -30,6 +33,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   }
 }
 
-export const makeExecute: ExecuteFactory<Config> = (config) => {
+export const makeExecute = (config?: Config): Execute => {
   return async (request) => execute(request, config || makeConfig())
 }

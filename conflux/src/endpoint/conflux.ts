@@ -1,19 +1,13 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { util } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config } from '@chainlink/types'
+import { AdapterRequest, AdapterResponse } from '@chainlink/types'
 import { Conflux } from 'js-conflux-sdk'
 import { ethers } from 'ethers'
-
-const provider = new Conflux({
-  url: util.getRequiredEnv('RPC_URL'),
-  networkId: Number(util.getRequiredEnv('NETWORK_ID')),
-  defaultGasRatio: 1.3,
-  defaultStorageRatio: 1.3,
-})
-const account = provider.wallet.addPrivateKey(util.getRequiredEnv('PRIVATE_KEY'))
+import { Config } from '../config'
 
 const sendFulfillment = async (
-  address: string,
+  provider: any,
+  from: any,
+  to: string,
   dataPrefix: string,
   functionSelector: string,
   value: number,
@@ -24,8 +18,8 @@ const sendFulfillment = async (
   const data = ethers.utils.concat([functionSelectorBz, dataPrefixBz, valueBz])
 
   const tx = {
-    from: account,
-    to: address,
+    from: from,
+    to: to,
     data: ethers.utils.hexlify(data),
     gas: 500000,
     gasPrice: 1,
@@ -33,8 +27,6 @@ const sendFulfillment = async (
 
   return await provider.sendTransaction(tx)
 }
-
-export const NAME = 'conflux'
 
 // const customError = (data: any) => data.Response === 'Error'
 
@@ -47,9 +39,22 @@ const customParams = {
   value: ['result', 'value'],
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, config) => {
+export const NAME = 'conflux'
+
+export const execute = async (
+  request: AdapterRequest,
+  config: Config,
+): Promise<AdapterResponse> => {
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
+
+  const provider = new Conflux({
+    url: config.rpcUrl,
+    networkId: Number(config.networkId),
+    defaultGasRatio: 1.3,
+    defaultStorageRatio: 1.3,
+  })
+  const account = provider.wallet.addPrivateKey(config.privateKey)
 
   const jobRunID = validator.validated.id
   const address = validator.validated.data.address
@@ -59,10 +64,17 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
   // handling the multiplying
   // if (request.data.times !== undefined) {
-  // value = String(Math.round(Number(value)*Number(request.data.times)))
+  //   value = String(Math.round(Number(value)*Number(request.data.times)))
   // }
 
-  const txHash = await sendFulfillment(address, dataPrefix, functionSelector, value)
+  const txHash = await sendFulfillment(
+    provider,
+    account,
+    address,
+    dataPrefix,
+    functionSelector,
+    value,
+  )
 
   return Requester.success(jobRunID, {
     data: { result: txHash },
