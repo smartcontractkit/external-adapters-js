@@ -1,37 +1,43 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { ExecuteWithConfig, Config } from '@chainlink/types'
+import { ExecuteWithConfig, Config, ResponsePayload } from '@chainlink/types'
+import { getSymbolData } from './price'
 
-export const NAME = 'globalmarketcap'
+export const NAME = 'marketcap'
 
-const marketcapParams = {
-  market: ['market', 'to', 'quote'],
+const priceParams = {
+  symbol: ['base', 'from', 'coin', 'sym', 'symbol'],
+  quote: ['quote', 'to', 'market', 'convert'],
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-  const validator = new Validator(request, marketcapParams)
+  const validator = new Validator(request, priceParams)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
+  const symbol = validator.validated.data.symbol
+  const assets = Array.isArray(symbol) ? symbol : [symbol]
+  const quote = validator.validated.data.quote
 
-  const convert = validator.validated.data.market.toUpperCase()
-  const url = '/global-metrics/quotes/latest'
+  const _validateMarketCap = (data: any) =>
+    Requester.validateResultNumber(data, ['quote', quote, 'market_cap'])
 
-  const params = { convert }
+  const response = await getSymbolData(config, { assets }, quote)
+  const result =
+    Object.values(response.assets).length === 1 &&
+    _validateMarketCap(Object.values(response.assets)[0])
 
-  const options = {
-    ...config.api,
-    url,
-    params,
-  }
-  const response = await Requester.request(options)
-  const result = Requester.validateResultNumber(response.data, [
-    'data',
-    'quote',
-    convert,
-    'total_market_cap',
-  ])
+  const payloadEntries = Object.entries(response.assets).map(([symbol, price]) => {
+    const val = {
+      quote: {
+        [quote]: { marketCap: _validateMarketCap(price) },
+      },
+    }
+    return [symbol, val]
+  })
+
+  const payload: ResponsePayload = Object.fromEntries(payloadEntries)
   return Requester.success(jobRunID, {
-    data: config.verbose ? { ...response.data, result } : { result },
+    data: config.verbose ? { ...response, result, payload } : { result, payload },
     result,
     status: 200,
   })
