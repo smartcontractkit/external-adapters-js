@@ -13,7 +13,7 @@ const getPayload = (symbols: string[], marketCaps: any, quote: string) => {
     const key = symbol
     const val = {
       quote: {
-        [quote.toUpperCase()]: {
+        [quote]: {
           marketCap: marketCaps[symbol],
         },
       },
@@ -49,7 +49,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     ]),
   )
 
-  const result = symbols.length === 1 ? marketCaps[symbols[0]] : ''
+  const result = symbols.length === 1 && marketCaps[symbols[0]]
   const payload = getPayload(symbols, marketCaps, quote)
   return Requester.success(jobRunID, {
     data: config.verbose ? { ...response.data, result, payload } : { result, payload },
