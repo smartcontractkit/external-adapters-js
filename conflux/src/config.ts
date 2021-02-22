@@ -3,7 +3,7 @@ import { util } from '@chainlink/ea-bootstrap'
 export const DEFAULT_ENDPOINT = 'conflux'
 
 export type Config = {
-  api: object,
+  api: any
   rpcUrl: string
   networkId: number
   privateKey: string
