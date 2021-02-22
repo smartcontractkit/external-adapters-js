@@ -78,7 +78,7 @@ const getPayload = (symbols: string[], prices: Prices, quote: string) => {
     const key = symbol
     const val = {
       quote: {
-        [quote]: {
+        [quote.toUpperCase()]: {
           price: prices[symbol],
         },
       },
