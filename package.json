@@ -88,7 +88,8 @@
     "cfbenchmarks",
     "conflux",
     "harmony",
-    "tiingo"
+    "tiingo",
+    "ethwrite"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",

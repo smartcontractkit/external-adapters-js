@@ -82,7 +82,8 @@
       "cfbenchmarks",
       "conflux",
       "harmony",
-      "tiingo"
+      "tiingo",
+      "ethwrite"
     ]
   },
   "2-step": {
