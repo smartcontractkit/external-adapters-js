@@ -43,11 +43,15 @@ const priceParams = {
   slug: false,
 }
 
-const getPayload = (prices: { [symbol: string]: number }, quote: string) => {
-  const payloadEntries = Object.entries(prices).map(([symbol, price]) => {
+interface Prices {
+  [symbol: string]: { price: number; marketCap: number }
+}
+
+const getPayload = (prices: Prices, quote: string) => {
+  const payloadEntries = Object.entries(prices).map(([symbol, info]) => {
     const val = {
       quote: {
-        [quote]: { price },
+        [quote]: { price: info.price, marketCap: info.marketCap },
       },
     }
     return [symbol, val]
@@ -79,13 +83,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
       params,
     }
     const response = await Requester.request(options)
-    console.log(response.data.data)
     return response.data && response.data.data
   }
 
-  const _success = (prices: any, response: any) => {
+  const _success = (prices: Prices, response: any) => {
     const payload = getPayload(prices, convert)
-    const result = Object.values(prices).length === 1 && Object.values(prices)[0]
+    const result = Object.values(prices).length === 1 && Object.values(prices)[0].price
     return Requester.success(jobRunID, {
       data: config.verbose ? { ...response, result, payload } : { result, payload },
       result,
@@ -94,17 +97,33 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   }
 
   const params: Record<string, string> = { convert }
-  const _validate = (data: any) => Requester.validateResultNumber(data, ['quote', convert, 'price'])
+  const _validatePrice = (data: any) =>
+    Requester.validateResultNumber(data, ['quote', convert, 'price'])
+  const _validateMarketCap = (data: any) =>
+    Requester.getResult(data, ['quote', convert, 'market_cap'])
   if (cid) {
     const response = await _getPriceData({ ...params, id: cid })
-    const prices = { [response[cid].symbol]: _validate(response[cid]) }
+    const prices = {
+      [response[cid].symbol]: {
+        price: _validatePrice(response[cid]),
+        marketCap: _validateMarketCap(response[cid]),
+      },
+    }
     return _success(prices, response)
   } else if (slug) {
     const response = await _getPriceData({ ...params, slug })
     const asset: any = Object.values(response).find(
       (o: any) => o.slug.toLowerCase() === slug.toLowerCase(),
     )
-    return _success({ [asset.symbol]: _validate(asset) }, response)
+    return _success(
+      {
+        [asset.symbol]: {
+          price: _validatePrice(response[cid]),
+          marketCap: _validateMarketCap(response[cid]),
+        },
+      },
+      response,
+    )
   } else {
     const slugs = assets.map((s) => presetSlugs[s]).filter(Boolean)
     const symbols = assets.filter((s) => !presetSlugs[s])
@@ -122,9 +141,14 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
     const indexMap = new Map()
     Object.values(response).forEach((asset) => indexMap.set(asset.symbol.toUpperCase(), asset))
-    console.log(indexMap)
     const prices = Object.fromEntries(
-      assets.map((symbol) => [symbol, _validate(indexMap.get(symbol.toUpperCase()))]),
+      assets.map((symbol) => [
+        symbol,
+        {
+          price: _validatePrice(response[cid]),
+          marketCap: _validateMarketCap(response[cid]),
+        },
+      ]),
     )
     return _success(prices, response)
   }
