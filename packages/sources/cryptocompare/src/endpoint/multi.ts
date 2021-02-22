@@ -12,10 +12,10 @@ const customParams = {
 
 const getPayload = (symbols: string[], prices: any, quote: string) => {
   const payloadEntries = symbols.map((symbol) => {
-    const key = symbol.toUpperCase()
+    const key = symbol
     const val = {
       quote: {
-        [quote.toUpperCase()]: {
+        [quote]: {
           price: Requester.validateResultNumber(prices, [
             'RAW',
             symbol.toUpperCase(),
@@ -57,8 +57,10 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const response = await Requester.request(options, customError)
   const payload = getPayload(symbols, response.data, tsyms)
 
+  const result = ''
   return Requester.success(jobRunID, {
-    data: config.verbose ? { ...response.data, payload } : { payload },
+    data: config.verbose ? { ...response.data, result, payload } : { result, payload },
+    result,
     status: 200,
   })
 }
