@@ -13,7 +13,7 @@ const getPayload = (symbols: string[], marketCaps: any, quote: string) => {
     const key = symbol
     const val = {
       quote: {
-        [quote]: {
+        [quote.toUpperCase()]: {
           marketCap: marketCaps[symbol],
         },
       },

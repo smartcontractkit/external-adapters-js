@@ -20,7 +20,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     case globalmarketcap.NAME: {
       return await globalmarketcap.execute(config, request)
     }
-    case price.NAME: {
+    case price.PRICE_NAME:
+    case price.MARKET_CAP_NAME: {
       return await price.execute(config, request)
     }
     default: {
