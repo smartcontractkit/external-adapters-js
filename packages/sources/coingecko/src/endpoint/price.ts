@@ -17,7 +17,6 @@ const customParams = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
   coinid: false,
-  marketcap: false,
 }
 
 const presetTickers: { [ticker: string]: string } = {
@@ -29,7 +28,7 @@ const presetTickers: { [ticker: string]: string } = {
 
 const blacklist = ['leocoin', 'farmatrust', 'freetip', 'compound-coin', 'uni-coin', 'unicorn-token']
 
-const getCoinList = async (config: Config) => {
+export const getCoinList = async (config: Config) => {
   const url = '/coins/list'
   const options = {
     ...config.api,
@@ -39,7 +38,12 @@ const getCoinList = async (config: Config) => {
   return response.data
 }
 
-const getPriceData = async (config: Config, ids: string, currency: string, marketCap = false) => {
+export const getPriceData = async (
+  config: Config,
+  ids: string,
+  currency: string,
+  marketCap = false,
+) => {
   const url = '/simple/price'
   const params = {
     ids,
@@ -55,7 +59,7 @@ const getPriceData = async (config: Config, ids: string, currency: string, marke
   return response.data
 }
 
-const getIdtoSymbol = (symbols: string[], coinList: any) => {
+export const getIdtoSymbol = (symbols: string[], coinList: any) => {
   return Object.fromEntries(
     symbols.map((symbol) => {
       if (symbol in presetTickers) {
@@ -71,8 +75,8 @@ const getIdtoSymbol = (symbols: string[], coinList: any) => {
   )
 }
 
-interface Prices {
-  [symbol: string]: { price: number; marketCap: number }
+export interface Prices {
+  [symbol: string]: number
 }
 
 const getPayload = (symbols: string[], prices: Prices, quote: string) => {
@@ -81,8 +85,7 @@ const getPayload = (symbols: string[], prices: Prices, quote: string) => {
     const val = {
       quote: {
         [quote]: {
-          price: prices[symbol].price,
-          marketCap: prices[symbol].marketCap,
+          price: prices[symbol],
         },
       },
     }
@@ -102,7 +105,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const symbols = Array.isArray(base) ? base : [base]
   const coingeckoSymbolId = validator.validated.data.coinid
   const quote = validator.validated.data.quote
-  const includeMarketCap = validator.validated.data.marketcap || false
 
   const coinList = await getCoinList(config)
   const idToSymbol = getIdtoSymbol(symbols, coinList)
@@ -110,18 +112,15 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     ? coingeckoSymbolId.toLowerCase()
     : Object.keys(idToSymbol).join(',')
 
-  const response: Record<string, any> = await getPriceData(config, ids, quote, includeMarketCap)
+  const response: Record<string, any> = await getPriceData(config, ids, quote)
   const prices = Object.fromEntries(
     Object.entries(response).map(([coinId, data]) => [
       idToSymbol[coinId],
-      {
-        price: Requester.validateResultNumber(data, [quote.toLowerCase()]),
-        marketCap: Requester.getResult(data, [`${quote.toLowerCase()}_market_cap`]),
-      },
+      Requester.validateResultNumber(data, [quote.toLowerCase()]),
     ]),
   )
 
-  const result = symbols.length === 1 && prices[symbols[0]].price
+  const result = symbols.length === 1 && prices[symbols[0]]
   const payload = getPayload(symbols, prices, quote)
   return Requester.success(jobRunID, {
     data: config.verbose ? { ...response.data, result, payload } : { result, payload },
