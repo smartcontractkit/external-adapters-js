@@ -28,7 +28,7 @@ const getPayload = (data: any, symbols: string[], quote: string, marketCap: bool
     const data = priceMap.get(symbol.toUpperCase())
     const val = {
       quote: {
-        [quote]: {
+        [quote.toUpperCase()]: {
           price: Requester.validateResultNumber(data, ['quotes', quote.toUpperCase(), 'price']),
           ...(marketCap && {
             marketCap: Requester.validateResultNumber(data, [
