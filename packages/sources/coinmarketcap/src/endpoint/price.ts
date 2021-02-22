@@ -41,7 +41,7 @@ const presetIds: { [symbol: string]: number } = {
 }
 
 // Defaults we use when there are multiple currencies with the same symbol
-const presetSlugs: Record<string, string> = {
+export const presetSlugs: Record<string, string> = {
   COMP: 'compound',
   BNT: 'bancor',
   RCN: 'ripio-credit-network',
@@ -66,39 +66,16 @@ const priceParams = {
   path: false,
 }
 
-interface Prices {
-  [symbol: string]: { price: number; marketCap: number }
+interface AssetResponse {
+  assets: { [key: string]: any }
+  response: any
 }
 
-const getPayload = (prices: Prices, quote: string) => {
-  const payloadEntries = Object.entries(prices).map(([symbol, info]) => {
-    const val = {
-      quote: {
-        [quote]: { price: info.price, marketCap: info.marketCap },
-      },
-    }
-    return [symbol, val]
-  })
-
-  const payload: ResponsePayload = Object.fromEntries(payloadEntries)
-  return payload
-}
-
-export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-  const validator = new Validator(request, priceParams)
-  if (validator.error) throw validator.error
-
-  const jobRunID = validator.validated.id
-  const symbol = validator.validated.data.symbol
-  const assets = Array.isArray(symbol) ? symbol : [symbol]
-  // CMC allows a coin name to be specified instead of a symbol
-  const slug = validator.validated.data.slug
-  // CMC allows a coin ID to be specified instead of a symbol
-  const cid = validator.validated.data.cid
-  // Free CMCPro API only supports a single symbol to convert
-  const convert = validator.validated.data.convert
-  const path = validator.validated.data.path || Paths.Price
-
+export const getSymbolData = async (
+  config: Config,
+  base: { [key: string]: any },
+  quote: string,
+): Promise<AssetResponse> => {
   const _getPriceData = async (params: any): Promise<any> => {
     const url = 'cryptocurrency/quotes/latest'
     const options = {
@@ -110,44 +87,25 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     return response.data && response.data.data
   }
 
-  const _success = (prices: Prices, response: any) => {
-    const payload = getPayload(prices, convert)
-    const result = Object.values(prices).length === 1 && Object.values(prices)[0].price
-    return Requester.success(jobRunID, {
-      data: config.verbose ? { ...response, result, payload } : { result, payload },
-      result,
-      status: 200,
-    })
-  }
-
-  const params: Record<string, string> = { convert }
-  const _validatePrice = (data: any) =>
-    Requester.validateResultNumber(data, ['quote', convert, 'price'])
-  const _validateMarketCap = (data: any) =>
-    Requester.getResult(data, ['quote', convert, 'market_cap'])
+  const params = { convert: quote }
+  const cid = base.cid
+  const slug = base.slug
+  const assets: string[] = base.assets
   if (cid) {
     const response = await _getPriceData({ ...params, id: cid })
-    const prices = {
-      [response[cid].symbol]: {
-        price: _validatePrice(response[cid]),
-        marketCap: _validateMarketCap(response[cid]),
-      },
+    return {
+      assets: { [response[cid].symbol]: response[cid] },
+      response,
     }
-    return _success(prices, response)
   } else if (slug) {
     const response = await _getPriceData({ ...params, slug })
     const asset: any = Object.values(response).find(
       (o: any) => o.slug.toLowerCase() === slug.toLowerCase(),
     )
-    return _success(
-      {
-        [asset.symbol]: {
-          price: _validatePrice(response[cid]),
-          marketCap: _validateMarketCap(response[cid]),
-        },
-      },
+    return {
+      assets: { [asset.symbol]: asset },
       response,
-    )
+    }
   } else {
     const slugs = assets.map((s) => presetSlugs[s]).filter(Boolean)
     const symbols = assets.filter((s) => !presetSlugs[s])
@@ -165,15 +123,46 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
     const indexMap = new Map()
     Object.values(response).forEach((asset) => indexMap.set(asset.symbol.toUpperCase(), asset))
-    const prices = Object.fromEntries(
-      assets.map((symbol) => [
-        symbol,
-        {
-          price: _validatePrice(response[cid]),
-          marketCap: _validateMarketCap(response[cid]),
-        },
-      ]),
-    )
-    return _success(prices, response)
+    return {
+      assets: Object.fromEntries(
+        assets.map((symbol: any) => [symbol, indexMap.get(symbol.toUpperCase())]),
+      ),
+      response,
+    }
   }
+}
+
+export const execute: ExecuteWithConfig<Config> = async (request, config) => {
+  const validator = new Validator(request, priceParams)
+  if (validator.error) throw validator.error
+
+  const jobRunID = validator.validated.id
+  const symbol = validator.validated.data.symbol
+  const assets = Array.isArray(symbol) ? symbol : [symbol]
+  const slug = validator.validated.data.slug
+  const cid = validator.validated.data.cid
+  const convert = validator.validated.data.convert
+
+  const _validatePrice = (data: any) =>
+    Requester.validateResultNumber(data, ['quote', convert, 'price'])
+
+  const response = await getSymbolData(config, { cid, slug, assets }, convert)
+  const result =
+    Object.values(response.assets).length === 1 && _validatePrice(Object.values(response.assets)[0])
+
+  const payloadEntries = Object.entries(response.assets).map(([symbol, price]) => {
+    const val = {
+      quote: {
+        [convert]: { price: _validatePrice(price) },
+      },
+    }
+    return [symbol, val]
+  })
+
+  const payload: ResponsePayload = Object.fromEntries(payloadEntries)
+  return Requester.success(jobRunID, {
+    data: config.verbose ? { ...response, result, payload } : { result, payload },
+    result,
+    status: 200,
+  })
 }
