@@ -1,25 +1,26 @@
-# Chainlink External Adapter for geodb
-
-A template to be used as an example for new [External Adapters](https://github.com/smartcontractkit/external-adapters-js)
+# Chainlink GeoDB External Adapter
 
 ### Input Parameters
 
 | Required? |   Name   |     Description     |           Options            | Defaults to |
 | :-------: | :------: | :-----------------: | :--------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [example](#geodb-Endpoint) |   example   |
+|           | endpoint | The endpoint to use | [matches](#Matches-Endpoint) |  `matches`  |
 
 ---
 
-## geodb Endpoint
+## Matches Endpoint
 
-An example endpoint description
+Counts the number of matches within the circle specified by a radius and coordinates during the selected time period
 
 ### Input Params
 
-| Required? |            Name            |               Description                |       Options       | Defaults to |
-| :-------: | :------------------------: | :--------------------------------------: | :-----------------: | :---------: |
-|    ✅     | `base`, `from`, or `coin`  |   The symbol of the currency to query    | `BTC`, `ETH`, `USD` |             |
-|    ✅     | `quote`, `to`, or `market` | The symbol of the currency to convert to | `BTC`, `ETH`, `USD` |             |
+| Required? |   Name   |           Description            | Options | Defaults to |
+| :-------: | :------: | :------------------------------: | :-----: | :---------: |
+|    ✅     |  `lat`   |       latitude coordinate        |         |             |
+|    ✅     |  `lng`   |       longitude coordinate       |         |             |
+|    ✅     | `radius` | radius around coordinates (in m) |         |             |
+|    ✅     | `start`  | start time (yyyy-mm-dd hh:mm:ss) |         |             |
+|    ✅     |  `end`   |  end time (yyyy-mm-dd hh:mm:ss)  |         |             |
 
 ### Sample Input
 
@@ -27,8 +28,11 @@ An example endpoint description
 {
   "id": "1",
   "data": {
-    "base": "ETH",
-    "quote": "USD"
+    "lat": "45.7905",
+    "lng": "11.9202",
+    "radius": "500000",
+    "start": "2021-01-01 20:00:00",
+    "end": "2021-02-21 20:30:00"
   }
 }
 ```
@@ -37,11 +41,11 @@ An example endpoint description
 
 ```json
 {
-  "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
+  "jobRunID": "1",
   "data": {
-    "price": 77777.77,
-    "result": 77777.77
+    "result": 1496
   },
+  "result": 1496,
   "statusCode": 200
 }
 ```

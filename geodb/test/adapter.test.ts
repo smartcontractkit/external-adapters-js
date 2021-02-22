@@ -12,19 +12,28 @@ describe('execute', () => {
     const requests = [
       {
         name: 'id not supplied',
-        testData: { data: { base: 'ETH', quote: 'USD' } },
+        testData: {
+          data: {
+            lat: '45.7905',
+            lng: '11.9202',
+            radius: '500000',
+            start: '2021-01-01 00:00:00',
+            end: '2021-02-21 02:30:00',
+          },
+        },
       },
       {
-        name: 'base/quote',
-        testData: { id: jobID, data: { base: 'ETH', quote: 'USD' } },
-      },
-      {
-        name: 'from/to',
-        testData: { id: jobID, data: { from: 'ETH', to: 'USD' } },
-      },
-      {
-        name: 'coin/market',
-        testData: { id: jobID, data: { coin: 'ETH', market: 'USD' } },
+        name: 'matches',
+        testData: {
+          id: jobID,
+          data: {
+            lat: '45.7905',
+            lng: '11.9202',
+            radius: '500000',
+            start: '2021-01-01 00:00:00',
+            end: '2021-02-21 02:30:00',
+          },
+        },
       },
     ]
 
@@ -34,7 +43,7 @@ describe('execute', () => {
         assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
         assert.isAbove(data.result, 0)
         assert.isAbove(data.data.result, 0)
-      })
+      }).timeout(30000)
     })
   })
 
@@ -43,12 +52,64 @@ describe('execute', () => {
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },
       {
-        name: 'base not supplied',
-        testData: { id: jobID, data: { quote: 'USD' } },
+        name: 'lat not supplied',
+        testData: {
+          id: jobID,
+          data: {
+            lng: '11.9202',
+            radius: '500000',
+            start: '2021-01-01 00:00:00',
+            end: '2021-02-21 02:30:00',
+          },
+        },
       },
       {
-        name: 'quote not supplied',
-        testData: { id: jobID, data: { base: 'ETH' } },
+        name: 'lng not supplied',
+        testData: {
+          id: jobID,
+          data: {
+            lat: '45.7905',
+            radius: '500000',
+            start: '2021-01-01 20:00:00',
+            end: '2021-02-21 20:30:00',
+          },
+        },
+      },
+      {
+        name: 'radius not supplied',
+        testData: {
+          id: jobID,
+          data: {
+            lat: '45.7905',
+            lng: '11.9202',
+            start: '2021-01-01 20:00:00',
+            end: '2021-02-21 20:30:00',
+          },
+        },
+      },
+      {
+        name: 'start not supplied',
+        testData: {
+          id: jobID,
+          data: {
+            lat: '45.7905',
+            lng: '11.9202',
+            radius: '500000',
+            end: '2021-02-21 20:30:00',
+          },
+        },
+      },
+      {
+        name: 'end not supplied',
+        testData: {
+          id: jobID,
+          data: {
+            lat: '45.7905',
+            lng: '11.9202',
+            radius: '500000',
+            start: '2021-01-01 20:00:00',
+          },
+        },
       },
     ]
 
@@ -67,12 +128,82 @@ describe('execute', () => {
   context('error calls @integration', () => {
     const requests = [
       {
-        name: 'unknown base',
-        testData: { id: jobID, data: { base: 'not_real', quote: 'USD' } },
+        name: 'invalid lat',
+        testData: {
+          id: jobID,
+          data: {
+            lat: '100',
+            lng: '11.9202',
+            radius: '500000',
+            start: '2021-01-01 00:00:00',
+            end: '2021-02-21 02:30:00',
+          },
+        },
       },
       {
-        name: 'unknown quote',
-        testData: { id: jobID, data: { base: 'ETH', quote: 'not_real' } },
+        name: 'invalid lng',
+        testData: {
+          id: jobID,
+          data: {
+            lat: '45.7905',
+            lng: '200',
+            radius: '500000',
+            start: '2021-01-01 00:00:00',
+            end: '2021-02-21 02:30:00',
+          },
+        },
+      },
+      {
+        name: 'invalid radius',
+        testData: {
+          id: jobID,
+          data: {
+            lat: '45.7905',
+            lng: '11.9202',
+            radius: '-100',
+            start: '2021-01-01 00:00:00',
+            end: '2021-02-21 02:30:00',
+          },
+        },
+      },
+      {
+        name: 'invalid start',
+        testData: {
+          id: jobID,
+          data: {
+            lat: '45.7905',
+            lng: '11.9202',
+            radius: '500000',
+            start: 'invalid_time',
+            end: '2021-02-21 02:30:00',
+          },
+        },
+      },
+      {
+        name: 'invalid end',
+        testData: {
+          id: jobID,
+          data: {
+            lat: '45.7905',
+            lng: '11.9202',
+            radius: '500000',
+            start: '2021-01-01 00:00:00',
+            end: 'invalid_time',
+          },
+        },
+      },
+      {
+        name: 'end < start',
+        testData: {
+          id: jobID,
+          data: {
+            lat: '45.7905',
+            lng: '11.9202',
+            radius: '500000',
+            end: '2021-01-01 00:00:00',
+            start: '2021-02-21 02:30:00',
+          },
+        },
       },
     ]
 
@@ -84,7 +215,7 @@ describe('execute', () => {
           const errorResp = Requester.errored(jobID, error)
           assertError({ expected: 500, actual: errorResp.statusCode }, errorResp, jobID)
         }
-      })
+      }).timeout(30000)
     })
   })
 })
