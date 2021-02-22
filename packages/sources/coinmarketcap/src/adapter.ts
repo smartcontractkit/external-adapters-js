@@ -1,7 +1,7 @@
 import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
 import { ExecuteWithConfig, ExecuteFactory, Config } from '@chainlink/types'
 import { makeConfig, DEFAULT_ENDPOINT } from './config'
-import { dominance, globalMarketCap, price } from './endpoint'
+import { dominance, globalMarketCap, price, marketCap } from './endpoint'
 
 const inputParams = {
   endpoint: false,
@@ -20,9 +20,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     case price.NAME: {
       return await price.execute(request, config)
     }
-    case 'marketcap': {
-      request.data.path = price.Paths.MarketCap
-      return await price.execute(request, config)
+    case marketCap.NAME: {
+      return await marketCap.execute(request, config)
     }
     case dominance.NAME: {
       return await dominance.execute(request, config)
