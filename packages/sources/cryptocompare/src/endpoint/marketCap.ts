@@ -15,7 +15,7 @@ const getPayload = (symbols: string[], prices: any, quote: string) => {
     const key = symbol
     const val = {
       quote: {
-        [quote]: {
+        [quote.toUpperCase()]: {
           marketCap: Requester.validateResultNumber(prices, [
             'RAW',
             symbol.toUpperCase(),
