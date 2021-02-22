@@ -2,7 +2,7 @@ import { Requester, Validator } from '@chainlink/external-adapter'
 import { ExecuteWithConfig, Config, ResponsePayload } from '@chainlink/types'
 
 export const PRICE_NAME = 'multi'
-export const MARKET_CAP_NAME = 'marketcap'
+export const MARKET_CAP_NAME = 'multimarketcap'
 
 const customError = (data: any) => data.Response === 'Error'
 
@@ -24,11 +24,11 @@ const getPayload = (data: any, symbols: string[], quote: string, marketCap: bool
   }
 
   const payloadEntries = symbols.map((symbol) => {
-    const key = symbol.toUpperCase()
+    const key = symbol
     const data = priceMap.get(symbol.toUpperCase())
     const val = {
       quote: {
-        [quote.toUpperCase()]: {
+        [quote]: {
           price: Requester.validateResultNumber(data, ['quotes', quote.toUpperCase(), 'price']),
           ...(marketCap && {
             marketCap: Requester.validateResultNumber(data, [
@@ -72,8 +72,10 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
   const payload = getPayload(response.data, symbols, quote, withMarketCap)
 
+  const result = ''
   return Requester.success(jobRunID, {
-    data: config.verbose ? { ...response.data, payload } : { payload },
+    data: config.verbose ? { ...response.data, result, payload } : { result, payload },
+    result,
     status: 200,
   })
 }
