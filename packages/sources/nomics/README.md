@@ -10,8 +10,8 @@
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |                                       Options                                       | Defaults to |
-| :-------: | :------: | :-----------------: | :---------------------------------------------------------------------------------: | :---------: |
+| Required? |   Name   |     Description     |                                                        Options                                                        | Defaults to |
+| :-------: | :------: | :-----------------: | :-------------------------------------------------------------------------------------------------------------------: | :---------: |
 |           | endpoint | The endpoint to use | [price](#Price-Endpoint), [globalmarketcap](#Global-Market-Capitalization-Endpoint), [marketcap](#Marketcap-Endpoint) |    price    |
 
 ---
@@ -340,23 +340,42 @@
 
 ## Marketcap Endpoint
 
-Fetch the market cap of the requested asset
+Fetch the market cap of the requested assets
+
 ### Input Params
 
-| Required? |               Name                |               Description                | Options | Defaults to |
-| :-------: | :-------------------------------: | :--------------------------------------: | :-----: | :---------: |
-|    ✅     |   `base`, `from`, `coin`, `ids`   |   The symbol of the currency to query    |         |             |
-|    ✅     | `quote`, `to`,`market`, `convert` | The symbol of the currency to convert to |         |             |
+| Required? |               Name                |                       Description                       | Options | Defaults to |
+| :-------: | :-------------------------------: | :-----------------------------------------------------: | :-----: | :---------: |
+|    ✅     |   `base`, `from`, `coin`, `ids`   | The symbol or array of symbols of the currency to query |         |             |
+|    ✅     | `quote`, `to`,`market`, `convert` |        The symbol of the currency to convert to         |         |             |
 
 ## Output
 
 ```json
 {
   "jobRunID": "1",
-  "result": 178200927834,
+  "result": false,
   "statusCode": 200,
   "data": {
-    "result": 178200927834
+    "result": false,
+    "payload": {
+      "ETH": {
+        "quote": {
+          "USD": {
+            "price": 1552.41876112,
+            "marketCap": 178200927834
+          }
+        }
+      },
+      "BTC": {
+        "quote": {
+          "USD": {
+            "price": 49155.15357836,
+            "marketCap": 916075104148
+          }
+        }
+      }
+    }
   }
 }
 ```

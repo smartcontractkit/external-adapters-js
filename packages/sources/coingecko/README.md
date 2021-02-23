@@ -2,8 +2,8 @@
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |                                                        Options                                                        | Defaults to |
-| :-------: | :------: | :-----------------: | :-------------------------------------------------------------------------------------------------------------------: | :---------: |
+| Required? |   Name   |     Description     |                                                                         Options                                                                         | Defaults to |
+| :-------: | :------: | :-----------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
 |           | endpoint | The endpoint to use | [price](#Price-Endpoint), [globalmarketcap](#Global-Market-Capitalization-Endpoint), [dominance](#Dominance-Endpoint), [marketcap](#Marketcap-Endpoint) |    price    |
 
 ---
@@ -14,25 +14,41 @@ Query the price from [Coingecko](https://api.coingecko.com/api/v3/simple/price)
 
 ### Input Params
 
-|         Required?          |            Name            |               Description                |                                        Options                                         | Defaults to |
-| :------------------------: | :------------------------: | :--------------------------------------: | :------------------------------------------------------------------------------------: | :---------: |
-|  🟡 (if not using `base`)  |          `coinid`          |  The CoinGecko id of the coin to query   | [See list here](https://www.coingecko.com/api/documentations/v3#/coins/get_coins_list) |             |
-| 🟡 (if not using `coinid`) | `base`, `from`, or `coin`  |   The symbol of the currency to query    |                                           ↑                                            |             |
-|             ✅             | `quote`, `to`, or `market` | The symbol of the currency to convert to |                                           ↑                                            |             |
+|         Required?          |            Name            |                       Description                       |                                        Options                                         | Defaults to |
+| :------------------------: | :------------------------: | :-----------------------------------------------------: | :------------------------------------------------------------------------------------: | :---------: |
+|  🟡 (if not using `base`)  |          `coinid`          |          The CoinGecko id of the coin to query          | [See list here](https://www.coingecko.com/api/documentations/v3#/coins/get_coins_list) |             |
+| 🟡 (if not using `coinid`) | `base`, `from`, or `coin`  | The symbol or array of symbols of the currency to query |                                           ↑                                            |             |
+|             ✅             | `quote`, `to`, or `market` |        The symbol of the currency to convert to         |                                           ↑                                            |             |
+
+```json
+{
+  "jobId": "1",
+  "data": {
+    "base": "ETH",
+    "quote": "USD"
+  }
+}
+```
 
 ### Output
 
 ```json
 {
   "jobRunID": "1",
+  "result": 1541.96,
+  "statusCode": 200,
   "data": {
-    "ethereum": {
-      "usd": 157.24
-    },
-    "result": 157.24
-  },
-  "result": 157.24,
-  "statusCode": 200
+    "result": 1541.96,
+    "payload": {
+      "eth": {
+        "quote": {
+          "USD": {
+            "price": 1541.96
+          }
+        }
+      }
+    }
+  }
 }
 ```
 
@@ -178,11 +194,11 @@ Query the Market Cap for the requested assets
 
 ### Input Params
 
-|         Required?          |            Name            |               Description                |                                        Options                                         | Defaults to |
-| :------------------------: | :------------------------: | :--------------------------------------: | :------------------------------------------------------------------------------------: | :---------: |
-|  🟡 (if not using `base`)  |          `coinid`          |  The CoinGecko id of the coin to query   | [See list here](https://www.coingecko.com/api/documentations/v3#/coins/get_coins_list) |             |
-| 🟡 (if not using `coinid`) | `base`, `from`, or `coin`  |   The symbol of the currency to query    |                                           ↑                                            |             |
-|             ✅             | `quote`, `to`, or `market` | The symbol of the currency to fecth market cap |                                           ↑                                            |             |
+|         Required?          |            Name            |                       Description                       |                                        Options                                         | Defaults to |
+| :------------------------: | :------------------------: | :-----------------------------------------------------: | :------------------------------------------------------------------------------------: | :---------: |
+|  🟡 (if not using `base`)  |          `coinid`          |          The CoinGecko id of the coin to query          | [See list here](https://www.coingecko.com/api/documentations/v3#/coins/get_coins_list) |             |
+| 🟡 (if not using `coinid`) | `base`, `from`, or `coin`  | The symbol or array of symbols of the currency to query |                                           ↑                                            |             |
+|             ✅             | `quote`, `to`, or `market` |     The symbol of the currency to fecth market cap      |                                           ↑                                            |             |
 
 ```json
 {
@@ -202,7 +218,16 @@ Query the Market Cap for the requested assets
   "result": 177000170328.04462,
   "statusCode": 200,
   "data": {
-    "result": 177000170328.04462
+    "result": 177000170328.04462,
+    "payload": {
+      "eth": {
+        "quote": {
+          "USD": {
+            "marketCap": 177000170328.04462
+          }
+        }
+      }
+    }
   }
 }
 ```
