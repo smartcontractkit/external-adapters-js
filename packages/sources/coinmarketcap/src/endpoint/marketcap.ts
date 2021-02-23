@@ -32,7 +32,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
         [quote]: { marketCap: _validateMarketCap(price) },
       },
     }
-    return [symbol, val]
+    return [symbol.toUpperCase(), val]
   })
 
   const payload: ResponsePayload = Object.fromEntries(payloadEntries)
