@@ -2,7 +2,7 @@ import { Requester, Validator } from '@chainlink/external-adapter'
 import { ExecuteWithConfig, Config, ResponsePayload } from '@chainlink/types'
 
 export const PRICE_NAME = 'multi'
-export const MARKET_CAP_NAME = 'multimarketcap'
+export const MARKET_CAP_NAME = 'marketcap'
 
 const customError = (data: any) => data.Response === 'Error'
 
