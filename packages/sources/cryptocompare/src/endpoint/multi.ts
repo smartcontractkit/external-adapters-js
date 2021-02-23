@@ -12,7 +12,7 @@ const customParams = {
 
 const getPayload = (symbols: string[], prices: any, quote: string) => {
   const payloadEntries = symbols.map((symbol) => {
-    const key = symbol
+    const key = symbol.toUpperCase()
     const val = {
       quote: {
         [quote.toUpperCase()]: {
