@@ -1,7 +1,7 @@
 import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
 import { ExecuteWithConfig, ExecuteFactory, Config } from '@chainlink/types'
 import { makeConfig, DEFAULT_ENDPOINT } from './config'
-import { price, dominance, marketcap, multi } from './endpoint'
+import { price, dominance, globalMarketcap, multi } from './endpoint'
 
 const inputParams = {
   endpoint: false,
