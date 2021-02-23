@@ -8,7 +8,7 @@ const getPrices = (apiConfig: any, providerConfig: DataProviderConfig) => async 
   withMarketCap = false,
 ): Promise<ResponsePayload> => {
   const _getPrices = async (): Promise<ResponsePayload> => {
-    const prices = await Promise.all(
+    const results = await Promise.all(
       symbols.map(async (base) => {
         const data = { data: { base, quote, endpoint: withMarketCap ? 'marketcap' : 'price' } }
         const response = await Requester.request({ ...apiConfig, data: data })
@@ -19,7 +19,7 @@ const getPrices = (apiConfig: any, providerConfig: DataProviderConfig) => async 
       const key = symbol
       const val = {
         quote: {
-          [quote]: { price: prices[i] },
+          [quote]: { [withMarketCap ? 'marketCap' : 'price']: results[i] },
         },
       }
       return [key, val]
