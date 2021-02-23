@@ -114,7 +114,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     ]),
   )
 
-  const result = symbols.length === 1 && prices[symbols[0]]
+  const result = symbols.length === 1 ? prices[symbols[0]] : ''
   const payload = getPayload(symbols, prices, quote)
   return Requester.success(jobRunID, {
     data: config.verbose ? { ...response.data, result, payload } : { result, payload },
