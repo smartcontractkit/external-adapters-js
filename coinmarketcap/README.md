@@ -12,7 +12,7 @@
 
 | Required? |   Name   |     Description     |                                                    Options                                                     | Defaults to |
 | :-------: | :------: | :-----------------: | :------------------------------------------------------------------------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [price](#Price-Endpoint), [dominance](#Dominance-Endpoint), [globalmarketcap](#Market-Capitalization-Endpoint) |   `price`   |
+|           | endpoint | The endpoint to use | [price](#Price-Endpoint), [dominance](#Dominance-Endpoint), [globalmarketcap](#Global-Market-Capitalization-Endpoint), [marketcap](#Marketcap-Endpoint) |   `price`   |
 
 ---
 
@@ -24,7 +24,7 @@ https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest
 
 | Required? |                Name                |                      Description                       | Options | Defaults to |
 | :-------: | :--------------------------------: | :----------------------------------------------------: | :-----: | :---------: |
-|    ✅     |   `base`, `from`, `coin`, `sym`    |          The symbol of the currency to query           |         |             |
+|    ✅     |   `base`, `from`, `coin`, `sym`    |          The symbol or array of symbols of the currency to query           |         |             |
 |    ✅     | `quote`, `to`, `market`, `convert` |        The symbol of the currency to convert to        |         |             |
 |    🟡     |               `cid`                |  The CMC coin ID (optional to use in place of `base`)  |         |             |
 |    🟡     |               `slug`               | The CMC coin name (optional to use in place of `base`) |         |             |
@@ -141,7 +141,7 @@ https://pro-api.coinmarketcap.com/v1/global-metrics/quotes/latest
 }
 ```
 
-## Market Capitalization Endpoint
+## Global Market Capitalization Endpoint
 
 https://pro-api.coinmarketcap.com/v1/global-metrics/quotes/latest
 
@@ -201,5 +201,38 @@ https://pro-api.coinmarketcap.com/v1/global-metrics/quotes/latest
   },
   "result": 1393964637158.628,
   "statusCode": 200
+}
+```
+
+## Marketcap Endpoint
+
+https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest
+
+### Input Params
+
+| Required? |                Name                |                      Description                       | Options | Defaults to |
+| :-------: | :--------------------------------: | :----------------------------------------------------: | :-----: | :---------: |
+|    ✅     |   `base`, `from`, `coin`, `sym`    |          The symbol or array of symbols of the currency to query           |         |             |
+|    ✅     | `quote`, `to`, `market`, `convert` |        The symbol of the currency to convert to        |         |             |
+
+### Output
+
+```json
+{
+  "jobRunID": "1",
+  "result": 177312029136.15845,
+  "statusCode": 200,
+  "data": {
+    "result": 177312029136.15845,
+    "payload": {
+      "ETH": {
+        "quote": {
+          "USD": {
+            "marketCap": 177312029136.15845
+          }
+        }
+      }
+    }
+  }
 }
 ```

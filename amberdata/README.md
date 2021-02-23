@@ -11,7 +11,7 @@ The adapter takes the following environment variables:
 
 | Required? |   Name   |     Description     |                        Options                         | Defaults to |
 | :-------: | :------: | :-----------------: | :----------------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [price](#Price-Endpoint), [balance](#Balance-Endpoint) |    price    |
+|           | endpoint | The endpoint to use | [price](#Price-Endpoint), [balance](#Balance-Endpoint), [marketcap](#MarketCap-Endpoint) |    price    |
 
 ---
 
@@ -144,5 +144,27 @@ Gets the [latest spot VWAP price](https://docs.amberdata.io/reference#spot-price
     }
   ],
   "statusCode": 200
+}
+```
+
+## MarketCap Endpoint
+
+Gets the asset Market Cap from Amberdata.
+
+### Input Params
+
+- `base`, `from`, or `coin`: The asset to query
+- `quote`, `to`, or `market`: The currency to convert to
+
+### Output
+
+```json
+{
+  "jobRunID": "1",
+  "result": 177205928109.17303,
+  "statusCode": 200,
+  "data": {
+    "result": 177205928109.17303
+  }
 }
 ```
