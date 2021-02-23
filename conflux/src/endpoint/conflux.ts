@@ -6,7 +6,7 @@ import { Config } from '../config'
 
 const sendFulfillment = async (
   provider: any,
-  from: any,
+  account: any,
   to: string,
   dataPrefix: string,
   functionSelector: string,
@@ -18,7 +18,7 @@ const sendFulfillment = async (
   const data = ethers.utils.concat([functionSelectorBz, dataPrefixBz, valueBz])
 
   const tx = {
-    from: from,
+    from: account.address,
     to: to,
     data: ethers.utils.hexlify(data),
     gas: 500000,

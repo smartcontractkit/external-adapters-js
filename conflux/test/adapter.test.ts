@@ -1,9 +1,7 @@
-import { assert } from 'chai'
 import { Requester } from '@chainlink/external-adapter'
-import { assertSuccess, assertError } from '@chainlink/adapter-test-helpers'
+import { assertError } from '@chainlink/adapter-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
 import { makeExecute } from '../src/adapter'
-// import { Config } from '../src/config'
 
 const TestOracleAddress = '0x8688ebA9Bf38cBb1Fa27A8C3Fda11414D6057887'
 const FunctionSelector = '0x4ab0d190'
@@ -12,33 +10,7 @@ const DataPrefixExample =
 
 describe('execute', () => {
   const jobID = 'fd26a90e0aa84040bc6b4d6f5036a23a'
-  const execute = makeExecute()
-
-  /* context('successful calls @integration', () => {
-    const requests = [
-      {
-        name: 'eth price update',
-        testData: { 
-          id: jobID, 
-          data: {
-            address: TestOracleAddress,
-            dataPrefix: DataPrefixExample,
-            functionSelector: FunctionSelector,
-            value: '168007'
-          }
-        },
-      },
-    ]
-
-    requests.forEach((req) => {
-      it(`${req.name}`, async () => {
-        const data = await execute(req.testData as AdapterRequest)
-        assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
-        assert.isAbove(data.result, 0)
-        assert.isAbove(data.data.result, 0)
-      })
-    })
-  }) */
+  const execute = makeExecute({ rpcUrl: '', privateKey: '', networkId: 1, api: {} })
 
   context('validation error', () => {
     const requests = [

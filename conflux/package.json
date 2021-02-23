@@ -43,7 +43,6 @@
     "typescript": "^3.9.7"
   },
   "dependencies": {
-    "eslint": "^7.20.0",
     "js-conflux-sdk": "^1.5.11"
   }
 }
