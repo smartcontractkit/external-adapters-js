@@ -27,7 +27,7 @@ const getPayload = (data: any, symbols: string[], quote: string, marketCap: bool
   }
 
   const payloadEntries = symbols.map((symbol) => {
-    const key = symbol
+    const key = symbol.toUpperCase()
     const data = pricesMap.get(symbol.toUpperCase())
     const val = {
       quote: {
