@@ -4,7 +4,7 @@
 
 | Required? |   Name   |     Description     |                                                    Options                                                     | Defaults to |
 | :-------: | :------: | :-----------------: | :------------------------------------------------------------------------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [price](#Price-Endpoint), [dominance](#Dominance-Endpoint), [globalmarketcap](#Market-Capitalization-Endpoint) |   `price`   |
+|           | endpoint | The endpoint to use | [price](#Price-Endpoint), [dominance](#Dominance-Endpoint), [globalmarketcap](#Market-Capitalization-Endpoint), [multi](#Multi-Endpoint), [marketcap](#Marketcap-Endpoint) |   `price`   |
 
 ---
 
@@ -129,5 +129,109 @@ Returns the global market capitilization from the [global endpoint](https://api.
   },
   "result": 368198248292,
   "statusCode": 200
+}
+```
+
+## Multi Endpoint
+
+Fetch multiple assets in the same query
+### Input Params
+
+| Required? |          Name           |                   Description                    | Options | Defaults to |
+| :-------: | :---------------------: | :----------------------------------------------: | :-----: | :---------: |
+|    ✅     | `base`, `from`, `coin`  |       The symbol or array of symbols of the currency to query        |         |             |
+|    ✅     | `quote`, `to`, `market` |     The symbol of the currency to convert to     |         |             |
+
+```json
+{
+  "jobId": "1",
+  "data": {
+    "base": [
+      "ETH",
+      "BTC"
+    ],
+    "quote": "USD",
+    "endpoint": "multi"
+  }
+}
+```
+
+### Output
+
+```json
+{
+  "jobRunID": "1",
+  "statusCode": 200,
+  "data": {
+    "payload": {
+      "ETH": {
+        "quote": {
+          "USD": {
+            "price": 1548.53404675
+          }
+        }
+      },
+      "BTC": {
+        "quote": {
+          "USD": {
+            "price": 49088.03224699
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+## Marketcap Endpoint
+
+Fetch one or multiple market cap assets
+### Input Params
+
+| Required? |          Name           |                   Description                    | Options | Defaults to |
+| :-------: | :---------------------: | :----------------------------------------------: | :-----: | :---------: |
+|    ✅     | `base`, `from`, `coin`  |       The symbol or array of symbols of the currency to query        |         |             |
+|    ✅     | `quote`, `to`, `market` |     The symbol of the currency to convert to     |         |             |
+
+```json
+{
+  "jobId": "1",
+  "data": {
+    "base": [
+      "ETH",
+      "BTC"
+    ],
+    "quote": "USD",
+    "endpoint": "marketcap"
+  }
+}
+```
+
+### Output
+
+```json
+{
+  "jobRunID": "1",
+  "statusCode": 200,
+  "data": {
+    "payload": {
+      "ETH": {
+        "quote": {
+          "USD": {
+            "price": 1548.53404675,
+            "marketCap": 177755351401
+          }
+        }
+      },
+      "BTC": {
+        "quote": {
+          "USD": {
+            "price": 49088.03224699,
+            "marketCap": 914824204167
+          }
+        }
+      }
+    }
+  }
 }
 ```
