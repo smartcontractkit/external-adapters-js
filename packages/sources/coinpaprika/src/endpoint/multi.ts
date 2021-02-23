@@ -72,10 +72,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
   const payload = getPayload(response.data, symbols, quote, withMarketCap)
 
-  const result = ''
   return Requester.success(jobRunID, {
-    data: config.verbose ? { ...response.data, result, payload } : { result, payload },
-    result,
+    data: config.verbose ? { ...response.data, payload } : { payload },
     status: 200,
   })
 }
