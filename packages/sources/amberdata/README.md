@@ -9,8 +9,8 @@ The adapter takes the following environment variables:
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |                        Options                         | Defaults to |
-| :-------: | :------: | :-----------------: | :----------------------------------------------------: | :---------: |
+| Required? |   Name   |     Description     |                                         Options                                          | Defaults to |
+| :-------: | :------: | :-----------------: | :--------------------------------------------------------------------------------------: | :---------: |
 |           | endpoint | The endpoint to use | [price](#Price-Endpoint), [balance](#Balance-Endpoint), [marketcap](#MarketCap-Endpoint) |    price    |
 
 ---
@@ -150,43 +150,22 @@ Gets the [latest spot VWAP price](https://docs.amberdata.io/reference#spot-price
 
 ## MarketCap Endpoint
 
-Gets the asset USD Market Cap from Amberdata.
+Gets the asset Market Cap from Amberdata.
 
 ### Input Params
 
 - `base`, `from`, or `coin`: The asset to query
+- `quote`, `to`, or `market`: The currency to convert to
 
 ### Output
 
 ```json
 {
   "jobRunID": "1",
-  "result": 882396855649.2188,
+  "result": 177205928109.17303,
   "statusCode": 200,
   "data": {
-    "status": 200,
-    "title": "OK",
-    "description": "Successful request",
-    "payload": [
-      {
-        "address": null,
-        "circulatingSupply": "18641681",
-        "dailyPercentChangeUSD": "4.07699683",
-        "dailyVolumeUSD": "169547.8348362793",
-        "hourlyPercentChangeUSD": "0.44095348",
-        "marketCapUSD": "882396855649.21876233",
-        "name": "Bitcoin",
-        "priceUSD": "47334.61835600",
-        "symbol": "btc",
-        "totalSupply": "21000000",
-        "weeklyPercentChangeUSD": "-27.13252210",
-        "decimals": "0",
-        "timestamp": 1614591360000
-      },
-      {...}
-    ],
-    "result": 882396855649.2188
+    "result": 177205928109.17303
   }
 }
-
 ```
