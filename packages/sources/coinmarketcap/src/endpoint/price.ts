@@ -148,7 +148,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
   const response = await getSymbolData(config, { cid, slug, assets }, convert)
   const result =
-    Object.values(response.assets).length === 1 && _validatePrice(Object.values(response.assets)[0])
+    Object.values(response.assets).length === 1
+      ? _validatePrice(Object.values(response.assets)[0])
+      : ''
 
   const payloadEntries = Object.entries(response.assets).map(([symbol, price]) => {
     const val = {

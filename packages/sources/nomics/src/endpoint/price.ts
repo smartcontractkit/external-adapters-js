@@ -76,7 +76,8 @@ export const execute = async (config: Config, request: AdapterRequest) => {
   }
 
   const response = await Requester.request(reqConfig, customError)
-  const result = symbols.length === 1 && Requester.validateResultNumber(response.data[0], ['price'])
+  const result =
+    symbols.length === 1 ? Requester.validateResultNumber(response.data[0], ['price']) : ''
   const payload = getPayload(response.data, symbols, convert, withMarketCap)
   return Requester.success(jobRunID, {
     data: config.verbose ? { ...response.data, result, payload } : { result, payload },
