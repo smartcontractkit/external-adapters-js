@@ -20,12 +20,21 @@ export type ResponsePayload = {
 }
 
 export type PriceAdapter = {
-  getPrices: (baseSymbols: string[], quote: string) => Promise<ResponsePayload>
-  getMarketCaps: (baseSymbols: string[], quote: string) => Promise<ResponsePayload>
+  getPrices: (
+    baseSymbols: string[],
+    quote: string,
+    withMarketCap?: boolean,
+  ) => Promise<ResponsePayload>
 }
 
 export type Config = {
   priceAdapter: PriceAdapter
   defaultMethod: string
   defaultQuote: string
+}
+
+export type DataProviderConfig = {
+  batchingSupport: boolean
+  batchEndpoint?: string
+  defaultDataUrl: string
 }

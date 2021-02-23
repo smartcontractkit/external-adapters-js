@@ -78,19 +78,8 @@ const computePrice = async (config: Config, allocations: TokenAllocations, quote
 
 const computeMarketCap = async (config: Config, allocations: TokenAllocations, quote: string) => {
   const symbols = (allocations as TokenAllocations).map((t) => t.symbol)
-  const data = await config.priceAdapter.getMarketCaps(symbols, quote)
+  const payload = await config.priceAdapter.getPrices(symbols, quote, true)
 
-  const payloadEntries = symbols.map((symbol) => {
-    const key = symbol
-    const val = {
-      quote: {
-        [quote]: { marketCap: data[symbol] },
-      },
-    }
-    return [key, val]
-  })
-
-  const payload: ResponsePayload = Object.fromEntries(payloadEntries)
   const result = marketCapTotalValue(allocations, quote, payload)
   return { payload, result }
 }

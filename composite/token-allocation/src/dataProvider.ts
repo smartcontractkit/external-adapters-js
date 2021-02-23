@@ -1,30 +1,16 @@
 import { Requester } from '@chainlink/external-adapter'
 import { ResponsePayload } from '@chainlink/types'
-import { PriceAdapter } from './types'
+import { PriceAdapter, DataProviderConfig } from './types'
 
-const getMarketCaps = (apiConfig: any, withBatching: boolean) => async (
-  symbols: string | string[],
-  quote: string,
-): Promise<ResponsePayload> => {
-  return {
-    ETH: {
-      quote: {
-        USD: {
-          price: 12,
-        },
-      },
-    },
-  }
-}
-
-const getPrices = (apiConfig: any, withBatching: boolean) => async (
+const getPrices = (apiConfig: any, providerConfig: DataProviderConfig) => async (
   symbols: string[],
   quote: string,
+  withMarketCap = false,
 ): Promise<ResponsePayload> => {
   const _getPrices = async (): Promise<ResponsePayload> => {
     const prices = await Promise.all(
       symbols.map(async (base) => {
-        const data = { data: { base, quote } }
+        const data = { data: { base, quote, endpoint: withMarketCap ? 'marketcap' : 'price' } }
         const response = await Requester.request({ ...apiConfig, data: data })
         return response.data.result
       }),
@@ -41,13 +27,14 @@ const getPrices = (apiConfig: any, withBatching: boolean) => async (
 
     return Object.fromEntries(payloadEntries)
   }
-  if (!withBatching) {
+  if (!providerConfig.batchingSupport) {
     return await _getPrices()
   }
 
   const data = {
     base: symbols,
     quote,
+    endpoint: withMarketCap ? 'marketcap' : providerConfig.batchEndpoint || 'price',
   }
   const options = {
     ...apiConfig,
@@ -60,9 +47,11 @@ const getPrices = (apiConfig: any, withBatching: boolean) => async (
   return result.data.data.payload
 }
 
-export const getDataProvider = (apiConfig: any, withBatching: boolean): PriceAdapter => {
+export const getDataProvider = (
+  apiConfig: any,
+  providerConfig: DataProviderConfig,
+): PriceAdapter => {
   return {
-    getPrices: getPrices(apiConfig, withBatching),
-    getMarketCaps: getMarketCaps(apiConfig, withBatching),
+    getPrices: getPrices(apiConfig, providerConfig),
   }
 }

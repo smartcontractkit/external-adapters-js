@@ -1,7 +1,7 @@
 import { util } from '@chainlink/ea-bootstrap'
 import { getDefaultConfig } from '@chainlink/external-adapter'
 import { getDataProvider } from './dataProvider'
-import { Config } from './types'
+import { Config, DataProviderConfig } from './types'
 
 enum DataProvider {
   Amberdata = 'amberdata',
@@ -15,17 +15,19 @@ enum DataProvider {
   Kaiko = 'kaiko',
 }
 
-const providers: Record<string, any> = {
+const providers: Record<string, DataProviderConfig> = {
   [DataProvider.Amberdata]: {
     batchingSupport: false,
     defaultDataUrl: 'http://localhost:8080',
   },
   [DataProvider.Cryptocompare]: {
     batchingSupport: true,
+    batchEndpoint: 'multi',
     defaultDataUrl: 'http://localhost:8080',
   },
   [DataProvider.Coinpaprika]: {
     batchingSupport: true,
+    batchEndpoint: 'multi',
     defaultDataUrl: 'http://localhost:8080',
   },
   [DataProvider.Nomics]: {
@@ -62,7 +64,7 @@ export const makeConfig = (prefix = '', provider = ''): Config => {
   defaultConfig.api.method = 'post'
 
   return {
-    priceAdapter: getDataProvider(defaultConfig.api, providers[dataProvider].batchingSupport),
+    priceAdapter: getDataProvider(defaultConfig.api, providers[dataProvider]),
     defaultMethod: util.getEnv('DEFAULT_METHOD', prefix) || 'price',
     defaultQuote: util.getEnv('DEFAULT_QUOTE') || 'USD',
   }
