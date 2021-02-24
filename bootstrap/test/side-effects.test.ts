@@ -6,11 +6,15 @@ import { of, Subject, throwError } from 'rxjs'
 import { RunHelpers } from 'rxjs/internal/testing/TestScheduler'
 import { TestScheduler } from 'rxjs/testing'
 import { stub } from 'sinon'
-import * as actions from './actions'
-import { get } from './config'
-import { RootState, SubscriptionState } from './reducer'
-import { warmupRequestEpic, warmupSubscriber, warmupUnsubscriber } from './side-effects'
-import { EpicDependencies } from './store'
+import * as actions from '../src/lib/cache-warmer/actions'
+import { get } from '../src/lib/cache-warmer/config'
+import { RootState, SubscriptionState } from '../src/lib/cache-warmer/reducer'
+import {
+  warmupRequestEpic,
+  warmupSubscriber,
+  warmupUnsubscriber,
+} from '../src/lib/cache-warmer/side-effects'
+import { EpicDependencies } from '../src/lib/cache-warmer/store'
 
 let scheduler: TestScheduler
 

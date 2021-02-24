@@ -21,6 +21,7 @@ To configure caching these environment variables are available:
 - `CACHE_TYPE`: Optional string, defaults to `local`. Available options: `local|redis`
 - `CACHE_KEY_GROUP`: Optional string, defaults to UUID of the adapter. Set to specific group ID to group the cached data, for this adapter, with other instances in the same group. Applicable only in remote cache scenarios, where multiple adapter instances share the cache.
 - `CACHE_KEY_IGNORED_PROPS`: Optional list of keys to ignore while deriving the cache key, delimited by `,`. The key set will be added to the default ignored keys: `['id', 'maxAge', 'meta']`.
+- `WARMUP_UNHEALTHY_THRESHOLD`: Optional number for configuring cache warmer unhealthy threshold, this is the number of times a warmup execution can fail before we drop a warmup subscription for a particular cache key
 
 ## Local cache
 
