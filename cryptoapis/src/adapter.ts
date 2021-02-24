@@ -23,16 +23,13 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
       response = await price.execute(config, request)
       break
     }
-    case balance.Name: {
-      return balance.makeExecute(config)(request)
-    }
     case 'difficulty':
     case 'height': {
-      response = await bc_info.execute(config, {
-        ...request,
-        data: { ...request.data, path: endpoint },
-      })
+      response = await bc_info.execute(config, request)
       break
+    }
+    case balance.Name: {
+      return balance.makeExecute(config)(request)
     }
     default: {
       throw new AdapterError({
