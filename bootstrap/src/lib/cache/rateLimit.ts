@@ -28,6 +28,13 @@ export const makeRateLimit = (
 
   // Weight normalizes the relevance the participant is having in the adapter
   const _getWeight = (participantHeartbeat: number, totalHeartbeat: number): number => {
+    // Avoid having Infinity weight
+    if (participantHeartbeat === 0) {
+      participantHeartbeat = 1
+    }
+    if (totalHeartbeat === 0) {
+      totalHeartbeat = 1
+    }
     return (participantHeartbeat - minHeartbeat) / (totalHeartbeat - minHeartbeat)
   }
 
@@ -42,9 +49,10 @@ export const makeRateLimit = (
     const participantWeight = _getWeight(participantHeartbeat, totalHeartbeat)
     const allowedReqPerMin = safeCapacity * participantWeight
 
-    return MS_IN_SEC / (allowedReqPerMin / SEC_IN_MIN)
+    return Math.round(MS_IN_SEC / (allowedReqPerMin / SEC_IN_MIN))
   }
 
+  // hash(API_KEY):uuid()
   const _getHeartbeatKey = () => {
     return `${options.groupId}:${options.id}`
   }
@@ -61,6 +69,7 @@ export const makeRateLimit = (
     return heartbeat + 1
   }
 
+  // hash(API_KEY):uuid():CACHE_KEY_GROUP:hash(requestData)
   const _getParticipantKey = (keyId: string) => {
     return `${_getHeartbeatKey()}:${keyId}`
   }
@@ -72,7 +81,7 @@ export const makeRateLimit = (
   const _incrementParticipantHeartbeat = async (participantId: string): Promise<number> => {
     const heartbeat = await _getCurrentParticipantHeartbeat(_getParticipantKey(participantId))
     if (!(cache instanceof local.LocalLRUCache)) {
-      await cache.update(_getHeartbeatKey(), heartbeat + 1, options.groupMaxAge)
+      await cache.update(_getParticipantKey(participantId), heartbeat + 1, options.groupMaxAge)
     }
     return heartbeat + 1
   }

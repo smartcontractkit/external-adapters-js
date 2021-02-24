@@ -117,24 +117,16 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
     if (isNaN(data.data.maxAge as number)) return
     return Number(data.data.maxAge)
   }
-  const _getDefaultMaxAge = async (participantId: string): Promise<any> => {
-    return (await rateLimit.getParticipantMaxAge(participantId)) || cache.options.maxAge
-  }
-  // MaxAge in the request will always have preference
-  const _getMaxAge = async (request: AdapterRequest) => {
-    return _getRequestMaxAge(request) || (await _getDefaultMaxAge(_getKey(request)))
+  const _getDefaultMaxAge = async (request: AdapterRequest): Promise<any> => {
+    return (await rateLimit.getParticipantMaxAge(_getKey(request))) || cache.options.maxAge
   }
 
   const _executeWithCache = async (request: AdapterRequest) => {
     const key = _getKey(request)
     const coalescingKey = _getCoalescingKey(key)
     // Add successful result to cache
-    const _cacheOnSuccess = async ({ statusCode, data, result }: AdapterResponse) => {
+    const _cacheOnSuccess = async ({ statusCode, data }: AdapterResponse, maxAge: number) => {
       if (statusCode === 200) {
-        let maxAge = await _getMaxAge(request)
-        if (maxAge < 0) {
-          maxAge = await _getDefaultMaxAge(_getKey(request))
-        }
         const entry = { statusCode, data, maxAge }
         await cache.set(key, entry, maxAge)
         logger.debug(`Cache: SET ${key}`, entry)
@@ -178,21 +170,24 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
       ? await _getWithCoalescing()
       : await cache.get(key)
 
-    const maxAge = await _getMaxAge(request)
+    const requestMaxAge = _getRequestMaxAge(request)
     if (entry) {
-      if (maxAge >= 0) {
+      if (!requestMaxAge || requestMaxAge >= 0) {
         logger.debug(`Cache: GET ${key}`, entry)
-        if (maxAge !== entry.maxAge) await _cacheOnSuccess(entry)
-        return { jobRunID: data.id, ...entry }
+        // If maxAge is present on the request, cache entry is updated
+        if (requestMaxAge && requestMaxAge !== entry.maxAge)
+          await _cacheOnSuccess(entry, requestMaxAge)
+        return entry
       }
       logger.debug(`Cache: SKIP(maxAge < 0)`)
     }
 
+    const maxAge = await _getDefaultMaxAge(request)
     // Initiate request coalescing by adding the in-flight mark
     await _setInFlightMarker(coalescingKey, maxAge)
 
     const result = await execute(request)
-    await _cacheOnSuccess(result)
+    await _cacheOnSuccess(result, maxAge)
     return result
   }
 
