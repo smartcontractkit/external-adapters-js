@@ -1,11 +1,11 @@
 import objectHash from 'object-hash'
 
-// bootstrap/src/lib/cache
-const DEFAULT_CACHE_KEY_IGNORED_PROPS = ['id', 'maxAge', 'meta']
-
 export interface Config {
+  /**
+   * The interval in milliseconds which the warm-up engine will execute
+   * the underlying external adapter to update its cache
+   */
   warmupInterval: number
-
   /**
    * The number of errors that can consecutively occur
    * before a warmup subscription for a particular request
@@ -19,15 +19,17 @@ export interface Config {
   hashOpts: Required<Parameters<typeof objectHash>>['1']
 }
 
-// TOOD: allow these to be configured :D
 export function get(): Config {
   return {
     hashOpts: {
       algorithm: 'sha1',
       encoding: 'hex',
-      excludeKeys: (props: string) => DEFAULT_CACHE_KEY_IGNORED_PROPS.includes(props),
+      excludeKeys: (props: string) =>
+        ['id', 'maxAge', 'meta']
+          .concat((process.env.CACHE_KEY_IGNORED_PROPS || '').split(',').filter((k) => k))
+          .includes(props),
     },
-    unhealthyThreshold: 3,
-    warmupInterval: 10_000,
+    unhealthyThreshold: Number(process.env.WARMUP_UNHEALTHY_THRESHOLD) || 3,
+    warmupInterval: (Number(process.env.CACHE_MAX_AGE) || 30_000) / 2,
   }
 }
