@@ -36,5 +36,4 @@ export type Config = {
 export type DataProviderConfig = {
   batchingSupport: boolean
   batchEndpoint?: string
-  defaultDataUrl: string
 }
