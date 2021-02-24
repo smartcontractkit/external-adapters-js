@@ -1,5 +1,8 @@
 import * as local from './local'
 import * as redis from './redis'
+import { DEFAULT_CACHE_MAX_AGE } from './redis'
+
+const MAX_AGE_ALLOWED = 1000 * 60 * 2
 
 type RateLimitOptions = {
   groupMaxAge: number
@@ -14,6 +17,9 @@ interface RateLimit {
   incrementTotalHeartbeat: () => Promise<number> | boolean
   incrementParticipantHeartbeat: (a: string) => Promise<number> | boolean
 }
+
+const totalHeartbeat = new Map()
+const participantHeartbeats = new Map()
 
 export const makeRateLimit = (
   options: RateLimitOptions,
@@ -38,6 +44,11 @@ export const makeRateLimit = (
     return (participantHeartbeat - minHeartbeat) / (totalHeartbeat - minHeartbeat)
   }
 
+  const _getParticipantEvenCapacity = () => {
+    const totalParticipants = Array.from(participantHeartbeats.keys()).length || 1
+    return safeCapacity / totalParticipants
+  }
+
   const _getParticipantMaxAge = async (participantId: string) => {
     const SEC_IN_MIN = 60
     const MS_IN_SEC = 1000
@@ -47,9 +58,16 @@ export const makeRateLimit = (
     )
     const totalHeartbeat = await _getCurrentHeartbeat()
     const participantWeight = _getWeight(participantHeartbeat, totalHeartbeat)
+    // const allowedReqPerMin = _getParticipantEvenCapacity()
     const allowedReqPerMin = safeCapacity * participantWeight
 
-    return Math.round(MS_IN_SEC / (allowedReqPerMin / SEC_IN_MIN))
+    let maxAge = Math.round(MS_IN_SEC / (allowedReqPerMin / SEC_IN_MIN))
+    if (maxAge < DEFAULT_CACHE_MAX_AGE) {
+      maxAge = DEFAULT_CACHE_MAX_AGE
+    } else if (maxAge >= MAX_AGE_ALLOWED) {
+      maxAge = MAX_AGE_ALLOWED
+    }
+    return maxAge
   }
 
   // hash(API_KEY):uuid()
@@ -58,14 +76,15 @@ export const makeRateLimit = (
   }
 
   const _getCurrentHeartbeat = async (): Promise<number> => {
-    return Number(await cache.get(_getHeartbeatKey())) || 0
+    return Number(totalHeartbeat.get(_getHeartbeatKey())) || 0
   }
 
   const _incrementTotalHeartbeat = async (): Promise<number> => {
     const heartbeat = await _getCurrentHeartbeat()
-    if (!(cache instanceof local.LocalLRUCache)) {
-      await cache.update(_getHeartbeatKey(), heartbeat + 1, options.groupMaxAge)
-    }
+    totalHeartbeat.set(_getHeartbeatKey(), heartbeat + 1)
+    // if (!(cache instanceof local.LocalLRUCache)) {
+    //   await cache.update(_getHeartbeatKey(), heartbeat + 1, options.groupMaxAge)
+    // }
     return heartbeat + 1
   }
 
@@ -75,14 +94,15 @@ export const makeRateLimit = (
   }
 
   const _getCurrentParticipantHeartbeat = async (key: string): Promise<number> => {
-    return Number(await cache.get(key)) || 0
+    return Number(participantHeartbeats.get(key)) || 0
   }
 
   const _incrementParticipantHeartbeat = async (participantId: string): Promise<number> => {
     const heartbeat = await _getCurrentParticipantHeartbeat(_getParticipantKey(participantId))
-    if (!(cache instanceof local.LocalLRUCache)) {
-      await cache.update(_getParticipantKey(participantId), heartbeat + 1, options.groupMaxAge)
-    }
+    participantHeartbeats.set(_getParticipantKey(participantId), heartbeat + 1)
+    // if (!(cache instanceof local.LocalLRUCache)) {
+    //   await cache.update(_getParticipantKey(participantId), heartbeat + 1, options.groupMaxAge)
+    // }
     return heartbeat + 1
   }
 

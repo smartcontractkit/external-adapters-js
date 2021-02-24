@@ -11,11 +11,11 @@ import { makeRateLimit } from './rateLimit'
 const DEFAULT_CACHE_TYPE = 'local'
 const DEFAULT_CACHE_KEY_GROUP = uuid()
 const DEFAULT_CACHE_KEY_IGNORED_PROPS = ['id', 'maxAge', 'meta']
-const DEFAULT_CACHE_RATE_CAPACITY = '1000000'
-const DEFAULT_CACHE_KEY_RATE_LIMIT_PARTICIPANT = uuid()
 
 // Rate Limiting
 const DEFAULT_GROUP_MAX_AGE = 1000 * 60 * 60 * 2
+const DEFAULT_CACHE_KEY_RATE_LIMIT_PARTICIPANT = uuid()
+
 // Request coalescing
 const DEFAULT_RC_INTERVAL = 100
 const DEFAULT_RC_INTERVAL_MAX = 1000
@@ -29,9 +29,6 @@ export const defaultOptions = () => ({
   cacheBuilder: defaultCacheBuilder(),
   key: {
     group: env.CACHE_KEY_GROUP || DEFAULT_CACHE_KEY_GROUP,
-    rateLimitGroup: env.API_KEY || undefined,
-    rateLimitParticipant: DEFAULT_CACHE_KEY_RATE_LIMIT_PARTICIPANT,
-    totalCapacity: parseInt(env.CACHE_RATE_CAPACITY || DEFAULT_CACHE_RATE_CAPACITY),
     ignored: [
       ...DEFAULT_CACHE_KEY_IGNORED_PROPS,
       ...(env.CACHE_KEY_IGNORED_PROPS || '').split(',').filter((k) => k), // no empty keys
@@ -125,9 +122,13 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
     const key = _getKey(request)
     const coalescingKey = _getCoalescingKey(key)
     // Add successful result to cache
-    const _cacheOnSuccess = async ({ statusCode, data }: AdapterResponse, maxAge: number) => {
+    const _cacheOnSuccess = async (
+      { statusCode, data, result }: AdapterResponse,
+      maxAge: number,
+    ) => {
       if (statusCode === 200) {
-        const entry = { statusCode, data, maxAge }
+        console.log('Setting with MaxAge:', maxAge)
+        const entry = { statusCode, data, result, maxAge }
         await cache.set(key, entry, maxAge)
         logger.debug(`Cache: SET ${key}`, entry)
         // Notify pending requests by removing the in-flight mark
@@ -177,7 +178,7 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
         // If maxAge is present on the request, cache entry is updated
         if (requestMaxAge && requestMaxAge !== entry.maxAge)
           await _cacheOnSuccess(entry, requestMaxAge)
-        return entry
+        return { jobRunID: request.id, ...entry }
       }
       logger.debug(`Cache: SKIP(maxAge < 0)`)
     }
