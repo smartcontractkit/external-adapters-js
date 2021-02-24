@@ -1,11 +1,11 @@
-import { Requester, logger } from '@chainlink/external-adapter'
-import { withCache, defaultOptions, redactOptions } from './lib/cache'
-import * as util from './lib/util'
-import * as server from './lib/server'
-import * as gcp from './lib/gcp'
+import { logger, Requester } from '@chainlink/external-adapter'
+import { AdapterHealthCheck, AdapterRequest, Execute, ExecuteSync } from '@chainlink/types'
 import * as aws from './lib/aws'
-import { ExecuteSync, AdapterRequest, Execute, AdapterHealthCheck } from '@chainlink/types'
-
+import { defaultOptions, redactOptions, withCache } from './lib/cache'
+import { actions, store } from './lib/cache-warmer'
+import * as gcp from './lib/gcp'
+import * as server from './lib/server'
+import * as util from './lib/util'
 export type Middleware<O = any> = (execute: Execute, options?: O) => Promise<Execute>
 
 // Try to initialize, pass through on error
@@ -65,12 +65,19 @@ const executeSync = (execute: Execute): ExecuteSync => {
   // const initMiddleware = withMiddleware(execute)
 
   // Return sync function
-  return (data: AdapterRequest, callback: any) => {
+  return async (data: AdapterRequest, callback: any) => {
     // We init on every call because of cache connection broken state issue
-    return withMiddleware(execute)
-      .then((executeWithMiddleware) => executeWithMiddleware(data))
-      .then((result) => callback(result.statusCode, result))
-      .catch((error) => callback(error.statusCode || 500, Requester.errored(data.id, error)))
+    try {
+      const executeWithMiddleware = await withMiddleware(execute)
+      const result = await executeWithMiddleware(data)
+      // only consider registering a warmup request if the original one was successful
+      store.dispatch(
+        actions.warmupRequestSubscribed({ data, executeFn: executeWithMiddleware, id: data.id }),
+      )
+      return callback(result.statusCode, result)
+    } catch (error) {
+      return callback(error.statusCode || 500, Requester.errored(data.id, error))
+    }
   }
 }
 
