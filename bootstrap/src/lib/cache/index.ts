@@ -40,7 +40,7 @@ export const defaultOptions = () => ({
   rateLimit: {
     groupMaxAge: parseInt(env.GROUP_MAX_AGE || '') || DEFAULT_GROUP_MAX_AGE,
     groupId: (env.API_KEY && hash(env.API_KEY)) || '',
-    participantId: DEFAULT_CACHE_KEY_RATE_LIMIT_PARTICIPANT,
+    id: DEFAULT_CACHE_KEY_RATE_LIMIT_PARTICIPANT,
     totalCapacity: parseInt(env.RATE_LIMIT_CAPACITY || ''),
   },
   // Request coalescing
@@ -117,28 +117,12 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
     if (isNaN(data.data.maxAge as number)) return
     return Number(data.data.maxAge)
   }
-  const _getDefaultMaxAge = async (): Promise<any> => {
-    return (await rateLimit.getParticipantMaxAge()) || cache.options.maxAge
+  const _getDefaultMaxAge = async (participantId: string): Promise<any> => {
+    return (await rateLimit.getParticipantMaxAge(participantId)) || cache.options.maxAge
   }
-
-  const _updateRateLimitGroup = async (
-    groupId: string,
-    cost = DEFAULT_RATE_COST,
-    weight = DEFAULT_RATE_WEIGHT,
-  ) => {
-    const rateLimitGroup = await _getRateLimmitGroup(groupId)
-    const newGroup = {
-      totalCapacity: rateLimitGroup.totalCapacity,
-      group: {
-        ...rateLimitGroup.group,
-        [options.key.rateLimitParticipant]: {
-          cost,
-          weight,
-        },
-      },
-    }
-    await cache.set(groupId, newGroup, GROUP_MAX_AGE)
-    return newGroup
+  // MaxAge in the request will always have preference
+  const _getMaxAge = async (request: AdapterRequest) => {
+    return _getRequestMaxAge(request) || (await _getDefaultMaxAge(_getKey(request)))
   }
 
   const _executeWithCache = async (request: AdapterRequest) => {
@@ -147,10 +131,9 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
     // Add successful result to cache
     const _cacheOnSuccess = async ({ statusCode, data, result }: AdapterResponse) => {
       if (statusCode === 200) {
-        await rateLimit.updateRateLimitGroup(data.cost, data.weight)
         let maxAge = await _getMaxAge(request)
         if (maxAge < 0) {
-          maxAge = await _getDefaultMaxAge()
+          maxAge = await _getDefaultMaxAge(_getKey(request))
         }
         const entry = { statusCode, data, maxAge }
         await cache.set(key, entry, maxAge)
@@ -187,6 +170,9 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
             options.requestCoalescing.intervalCoefficient,
           ),
       })
+
+    await rateLimit.incrementTotalHeartbeat()
+    await rateLimit.incrementParticipantHeartbeat(_getKey(request))
 
     const entry = options.requestCoalescing.enabled
       ? await _getWithCoalescing()

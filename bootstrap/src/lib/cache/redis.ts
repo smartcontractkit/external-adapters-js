@@ -101,7 +101,7 @@ export class RedisCache {
     return timeout(this._del(key), this.options.timeout)
   }
 
-  async setKeepingMaxAge(key: string, value: any, maxAge: number) {
+  async update(key: string, value: any, maxAge: number) {
     const ttl: number = await timeout(this._ttl(key), this.options.timeout)
     if (ttl > 0) {
       maxAge = ttl * 1000

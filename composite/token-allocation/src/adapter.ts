@@ -73,7 +73,7 @@ const computePrice = async (config: Config, allocations: TokenAllocations, quote
   const payload = await config.priceAdapter.getPrices(symbols, quote)
 
   const result = priceTotalValue(allocations, quote, payload)
-  return { payload, result, cost: data.cost }
+  return { payload, result }
 }
 
 const computeMarketCap = async (config: Config, allocations: TokenAllocations, quote: string) => {
@@ -98,10 +98,10 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
   const { quote = config.defaultQuote, method = config.defaultMethod } = validator.validated.data
   const allocations = toValidAllocations(validator.validated.data.allocations)
 
-  const _success = (payload: ResponsePayload, result: number, cost: number) =>
+  const _success = (payload: ResponsePayload, result: number) =>
     Requester.success(jobRunID, {
       status: 200,
-      data: { sources: [], payload, result, cost },
+      data: { sources: [], payload, result },
       result,
     })
 
@@ -109,11 +109,11 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
     case 'price':
       // eslint-disable-next-line no-case-declarations
       const price = await computePrice(config, allocations, quote)
-      return _success(price.payload, price.result, price.cost)
+      return _success(price.payload, price.result)
     case 'marketCap':
       // eslint-disable-next-line no-case-declarations
       const marketCap = await computeMarketCap(config, allocations, quote)
-      return _success(marketCap.payload, marketCap.result, 1)
+      return _success(marketCap.payload, marketCap.result)
     default:
       throw new AdapterError({
         jobRunID,
