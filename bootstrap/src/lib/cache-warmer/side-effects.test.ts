@@ -1,19 +1,22 @@
 import { AdapterRequest } from '@chainlink/types'
+import { expect } from 'chai'
 import { DeepPartial } from 'redux'
 import { ActionsObservable, StateObservable } from 'redux-observable'
 import { of, Subject, throwError } from 'rxjs'
 import { RunHelpers } from 'rxjs/internal/testing/TestScheduler'
 import { TestScheduler } from 'rxjs/testing'
+import { stub } from 'sinon'
 import * as actions from './actions'
 import { get } from './config'
 import { RootState, SubscriptionState } from './reducer'
 import { warmupRequestEpic, warmupSubscriber, warmupUnsubscriber } from './side-effects'
 import { EpicDependencies } from './store'
+
 let scheduler: TestScheduler
 
 beforeEach(() => {
   scheduler = new TestScheduler((actual, expected) => {
-    expect(actual).toEqual(expected)
+    expect(actual).to.deep.equal(expected)
   })
 })
 
@@ -32,49 +35,49 @@ function actionStream(
 }
 
 let epicDependencies: EpicDependencies
-
-describe('side effect tests', () => {
-  const key1 = '80dd5e40ca3343c4ec07f4b572a5f8d30d0e2087'
+context('side effect tests', () => {
+  const key1 = 'be74e241ba991cd7ad65b1cbd04e4012459fb329'
 
   beforeEach(() => {
     epicDependencies = { config: get() }
   })
 
-  describe('warmupSubscriber', () => {
-    it('should create a warmup subscription and emit a request every 10 seconds, then unsubscribe one of the subscriptions', () => {
+  context('warmupSubscriber', () => {
+    it('should create a warmup subscription and emit a request every 15 seconds, then unsubscribe one of the subscriptions', () => {
       scheduler.run(({ hot, expectObservable }) => {
         const adapterRequest1: AdapterRequest = { data: {}, id: '0' }
         const adapterRequest2: AdapterRequest = { data: { foo: 'bar' }, id: '0' }
-        const action$ = actionStream(hot, 'a c 20s b ', {
-          a: actions.warmupRequestSubscribed({ executeFn: jest.fn(), ...adapterRequest1 }),
+        const action$ = actionStream(hot, 'a c 40s b ', {
+          a: actions.warmupRequestSubscribed({ executeFn: stub(), ...adapterRequest1 }),
           b: actions.warmupRequestUnsubscribed({
             key: key1,
           }),
-          c: actions.warmupRequestSubscribed({ executeFn: jest.fn(), ...adapterRequest2 }),
+          c: actions.warmupRequestSubscribed({ executeFn: stub(), ...adapterRequest2 }),
         })
         const state$ = stateStream({
           subscriptions: {
             [key1]: { isDuplicate: false },
-            '00b7f2cf13ae0eb34821a53f2e7801356cba188a': { isDuplicate: false },
+            '0797e1cb455bafc9295cc0e8a9b582e96272b8c6': { isDuplicate: false },
           },
         })
 
         const output$ = warmupSubscriber(action$, state$, epicDependencies)
-        expectObservable(output$, '^ 40s !').toBe('10s a b 9998ms a b 9999ms b', {
+        expectObservable(output$, '^ 50s !').toBe('15s a b 14998ms a b 14999ms b', {
           a: actions.warmupRequestRequested({
             key: key1,
           }),
           b: actions.warmupRequestRequested({
-            key: '00b7f2cf13ae0eb34821a53f2e7801356cba188a',
+            key: '0797e1cb455bafc9295cc0e8a9b582e96272b8c6',
           }),
         })
       })
     })
+
     it('should skip creating a subscription if one already exists in state', () => {
       scheduler.run(({ hot, expectObservable }) => {
         const adapterRequest1: AdapterRequest = { data: {}, id: '0' }
         const action$ = actionStream(hot, 'a ', {
-          a: actions.warmupRequestSubscribed({ executeFn: jest.fn(), ...adapterRequest1 }),
+          a: actions.warmupRequestSubscribed({ executeFn: stub(), ...adapterRequest1 }),
         })
         const state$ = stateStream({ subscriptions: { [key1]: { isDuplicate: true } } })
         const output$ = warmupSubscriber(action$, state$, epicDependencies)
@@ -82,14 +85,15 @@ describe('side effect tests', () => {
       })
     })
   })
-  describe('warmupRequest', () => {
+
+  context('warmupRequest', () => {
     it('should handle warmup requests by executing a function to update the cache', () => {
       scheduler.run(({ hot, expectObservable }) => {
         const action$ = actionStream(hot, 'a', {
           a: actions.warmupRequestRequested({ key: key1 }),
         })
         const subscriptionState: SubscriptionState[string] = {
-          executeFn: jest.fn().mockReturnValue(of('external adapter return value')),
+          executeFn: stub().returns(of('external adapter return value')),
           info: { id: '0', data: { foo: 'bar' } },
           startedAt: Date.now(),
           isDuplicate: false,
@@ -109,8 +113,9 @@ describe('side effect tests', () => {
         const action$ = actionStream(hot, 'a', {
           a: actions.warmupRequestRequested({ key: key1 }),
         })
+        const err = Error('We havin a bad time')
         const subscriptionState: SubscriptionState[string] = {
-          executeFn: jest.fn().mockReturnValue(throwError(Error('We havin a bad time'))),
+          executeFn: stub().returns(throwError(err)),
           info: { id: '0', data: { foo: 'bar' } },
           startedAt: Date.now(),
           isDuplicate: false,
@@ -123,13 +128,13 @@ describe('side effect tests', () => {
         expectObservable(output$).toBe('a', {
           a: actions.warmupRequestFailed({
             key: key1,
-            error: Error('We havin a bad time'),
+            error: err,
           }),
         })
       })
     })
   })
-  describe('warmupUnsubscriber', () => {
+  context('warmupUnsubscriber', () => {
     it('should match on request failures and emit nothing while under the error threshold', () => {
       scheduler.run(({ hot, expectObservable }) => {
         const action$ = actionStream(hot, 'a', {
