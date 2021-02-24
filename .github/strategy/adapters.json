@@ -80,8 +80,10 @@
       "dydx-stark",
       "iex-cloud",
       "cfbenchmarks",
+      "conflux",
       "harmony",
-      "tiingo"
+      "tiingo",
+      "ethwrite"
     ]
   },
   "2-step": {
