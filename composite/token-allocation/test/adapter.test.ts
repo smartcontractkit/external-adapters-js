@@ -1,6 +1,6 @@
 import { assert } from 'chai'
 import { Requester } from '@chainlink/external-adapter'
-import { assertSuccess, assertError } from '@chainlink/adapter-test-helpers'
+import { assertError } from '@chainlink/adapter-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
 import { makeExecute, priceTotalValue } from '../src/adapter'
 import { makeConfig } from '../src/config'
@@ -9,30 +9,8 @@ import { BigNumber } from 'ethers'
 
 describe('execute', () => {
   const jobID = '1'
+  process.env.DATA_PROVIDER_URL = 'ignoreable'
   const execute = makeExecute(makeConfig('', 'coingecko'))
-
-  context('successful calls @integration', () => {
-    const requests = [
-      {
-        name: 'id not supplied',
-        testData: { data: { allocations: [] } },
-      },
-      {
-        name: 'allocations',
-        testData: {
-          id: jobID,
-          data: { allocations: [{ symbol: 'DAI', balance: '1000000000000000000', decimals: 18 }] },
-        },
-      },
-    ]
-
-    requests.forEach((req) => {
-      it(`${req.name}`, async () => {
-        const data = await execute(req.testData as AdapterRequest)
-        assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
-      })
-    })
-  })
 
   context('validation error', () => {
     const requests = [
