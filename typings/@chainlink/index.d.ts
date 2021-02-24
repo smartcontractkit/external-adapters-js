@@ -72,6 +72,11 @@ declare module '@chainlink/types' {
   export type ExecuteWithConfig<C> = (
     input: AdapterRequest,
     config: C,
+  ) => Promise<AdapterResponse>
+
+  export type EndpointRouter<C> = (
+    input: AdapterRequest,
+    config: C,
     endpoints?: Endpoint[],
     defaultEndpoint?: string
   ) => Promise<AdapterResponse>

@@ -7,7 +7,7 @@ const NAME = 'ETHWRITE'
 
 const makeExecute: ExecuteFactory<Config> = (config) => {
   return async (request) =>
-    commonAdapter.execute(request, config || makeConfig(), ENDPOINTS, DEFAULT_ENDPOINT)
+    commonAdapter.endpointExecute(request, config || makeConfig(), ENDPOINTS, DEFAULT_ENDPOINT)
 }
 
 export = { NAME, makeExecute, makeConfig, ...expose(makeExecute()) }

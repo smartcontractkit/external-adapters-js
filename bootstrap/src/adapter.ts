@@ -1,11 +1,11 @@
 import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
-import { ExecuteWithConfig, Config } from '@chainlink/types'
+import { EndpointRouter, Config } from '@chainlink/types'
 
 const inputParams = {
   endpoint: false,
 }
 
-export const execute: ExecuteWithConfig<Config> = async (
+export const endpointExecute: EndpointRouter<Config> = async (
   request,
   config,
   endpoints,
