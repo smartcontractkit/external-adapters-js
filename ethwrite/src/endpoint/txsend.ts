@@ -3,7 +3,7 @@ import { ExecuteWithConfig } from '@chainlink/types'
 import { ethers } from 'ethers'
 import { Config } from '../config'
 
-export const NAME = 'txsend'
+export const NAMES = ['txsend']
 
 const encode = (type: any, value: any) => {
   let retVal

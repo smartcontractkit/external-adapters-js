@@ -5,14 +5,18 @@ const inputParams = {
   endpoint: false,
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, config, endpoints) => {
+export const execute: ExecuteWithConfig<Config> = async (
+  request,
+  config,
+  endpoints,
+  defaultEndpoint,
+) => {
   const validator = new Validator(request, inputParams)
   if (validator.error) throw validator.error
 
   Requester.logConfig(config)
-
   const jobRunID = validator.validated.id
-  const endpoint = validator.validated.data.endpoint || config.DEFAULT_ENDPOINT
+  const endpoint = validator.validated.data.endpoint || defaultEndpoint
   if (endpoints) {
     for (const e of endpoints) {
       if (e.NAMES.includes(endpoint)) {

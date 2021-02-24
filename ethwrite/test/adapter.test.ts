@@ -7,9 +7,10 @@ import {
   TESTING_PRIVATE_KEY,
 } from '@chainlink/adapter-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
-import { makeExecute } from '../src/adapter'
+import adapter from '../src/index'
 import { abi, deploy } from './helpers'
 import { ethers } from 'ethers'
+import { DEFAULT_ENDPOINT } from '../src/config'
 
 // using DELAYED ROOT SUITE in order to start the chain and deploy the contract
 setTimeout(async function () {
@@ -20,7 +21,12 @@ setTimeout(async function () {
   const contract = new ethers.Contract(address, abi, provider)
 
   describe('execute', async () => {
-    const execute = makeExecute({ rpcUrl, privateKey: TESTING_PRIVATE_KEY, api: {} })
+    const execute = adapter.makeExecute({
+      rpcUrl,
+      privateKey: TESTING_PRIVATE_KEY,
+      api: {},
+      DEFAULT_ENDPOINT,
+    })
     after(async () => {
       await chain.close()
     })
