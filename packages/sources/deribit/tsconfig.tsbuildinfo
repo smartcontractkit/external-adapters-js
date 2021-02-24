@@ -176,14 +176,49 @@
         "signature": "89bf2b7a601b73ea4311eda9c41f86a58994fec1bee3b87c4a14d68d9adcdcbd",
         "affectsGlobalScope": true
       },
-      "../../../node_modules/@types/mocha/index.d.ts": {
-        "version": "f24768499dab9a34c0aff9c9e3fbfe5117001bfabba4a1db01a17df086d6a606",
-        "signature": "f24768499dab9a34c0aff9c9e3fbfe5117001bfabba4a1db01a17df086d6a606",
-        "affectsGlobalScope": true
+      "../../../node_modules/decimal.js/decimal.d.ts": {
+        "version": "eae8cc8dc2a626108eb092a5e70bc6298fa63221e7172ff1730b713338310006",
+        "signature": "eae8cc8dc2a626108eb092a5e70bc6298fa63221e7172ff1730b713338310006",
+        "affectsGlobalScope": false
       },
-      "../../../node_modules/hardhat/types/config.d.ts": {
-        "version": "8621afc9348c2495bb7324929a85ab42741901fde02364b3887960a28076b37a",
-        "signature": "8621afc9348c2495bb7324929a85ab42741901fde02364b3887960a28076b37a",
+      "../../core/bootstrap/dist/lib/util.d.ts": {
+        "version": "7ffe02682473deb436712f2e254b8bdbf530b3263634732bcace6a2064925fb8",
+        "signature": "7ffe02682473deb436712f2e254b8bdbf530b3263634732bcace6a2064925fb8",
+        "affectsGlobalScope": false
+      },
+      "../../core/bootstrap/dist/index.d.ts": {
+        "version": "badd42c971ee74af85a395bb55a66cdb63c30ae676868528063cadbb159c7d64",
+        "signature": "badd42c971ee74af85a395bb55a66cdb63c30ae676868528063cadbb159c7d64",
+        "affectsGlobalScope": false
+      },
+      "../../core/types/@chainlink/index.d.ts": {
+        "version": "48ccca80817a82545060d94156b6debbe2da6555c05ac09eff5a466dd96ab6d9",
+        "signature": "48ccca80817a82545060d94156b6debbe2da6555c05ac09eff5a466dd96ab6d9",
+        "affectsGlobalScope": false
+      },
+      "../../core/external-adapter/node_modules/axios/index.d.ts": {
+        "version": "0d892f035dbee4534f0ba096407136877595ca592f67ec9bb8a5c912b9c967e8",
+        "signature": "0d892f035dbee4534f0ba096407136877595ca592f67ec9bb8a5c912b9c967e8",
+        "affectsGlobalScope": false
+      },
+      "../../core/external-adapter/dist/errors.d.ts": {
+        "version": "57967083a1ca460546dc2998bb22e32dae76987df3596ece8c87eaa8547dc285",
+        "signature": "57967083a1ca460546dc2998bb22e32dae76987df3596ece8c87eaa8547dc285",
+        "affectsGlobalScope": false
+      },
+      "../../core/external-adapter/dist/config.d.ts": {
+        "version": "f00fdaff97d120582da3146a344ecc8686c3b2ba808b6f8390f89d3336365058",
+        "signature": "f00fdaff97d120582da3146a344ecc8686c3b2ba808b6f8390f89d3336365058",
+        "affectsGlobalScope": false
+      },
+      "../../core/external-adapter/dist/requester.d.ts": {
+        "version": "1501c4dd554d8f06a59bed71709baac95f602696528fb5bc5a314cab415bd3d3",
+        "signature": "1501c4dd554d8f06a59bed71709baac95f602696528fb5bc5a314cab415bd3d3",
+        "affectsGlobalScope": false
+      },
+      "../../core/external-adapter/dist/validator.d.ts": {
+        "version": "71d68441b957d00abb029e73eb007590e1839dd3ed1d7f4bbcd4e6d1f44f0025",
+        "signature": "71d68441b957d00abb029e73eb007590e1839dd3ed1d7f4bbcd4e6d1f44f0025",
         "affectsGlobalScope": false
       },
       "../../../node_modules/@types/node/globals.d.ts": {
@@ -416,181 +451,6 @@
         "signature": "9c4c395e927045b324877acdc4bfb95f128f36bc9f073266a2f0342495075a4f",
         "affectsGlobalScope": false
       },
-      "../../../node_modules/@types/bn.js/index.d.ts": {
-        "version": "bc6dd50ac2fc9a7ca6488811b116bd0ddd606338db0bb97852c8fcf757e2d7f5",
-        "signature": "bc6dd50ac2fc9a7ca6488811b116bd0ddd606338db0bb97852c8fcf757e2d7f5",
-        "affectsGlobalScope": false
-      },
-      "../../../node_modules/@nomiclabs/ethereumjs-vm/dist/exceptions.d.ts": {
-        "version": "7d1583d76c850a0c6bbdfda1e3c62403089941ce5c4977d0574a865afba36ba5",
-        "signature": "7d1583d76c850a0c6bbdfda1e3c62403089941ce5c4977d0574a865afba36ba5",
-        "affectsGlobalScope": false
-      },
-      "../../../node_modules/rlp/dist/types.d.ts": {
-        "version": "1eeb8c3c6ff3734d7f3647ff9622ebe0992a92080cd90c3710e9f08afd108e81",
-        "signature": "1eeb8c3c6ff3734d7f3647ff9622ebe0992a92080cd90c3710e9f08afd108e81",
-        "affectsGlobalScope": false
-      },
-      "../../../node_modules/rlp/dist/index.d.ts": {
-        "version": "8fcc2bc8dae2c29f7db02ca5112f343936e544bab0dd66c997ec2045fae4b660",
-        "signature": "8fcc2bc8dae2c29f7db02ca5112f343936e544bab0dd66c997ec2045fae4b660",
-        "affectsGlobalScope": false
-      },
-      "../../../node_modules/ethereumjs-util/dist/constants.d.ts": {
-        "version": "4722cf7a7d9c980965eb59465737be548c4012a169e66a67dfc881dde5112204",
-        "signature": "4722cf7a7d9c980965eb59465737be548c4012a169e66a67dfc881dde5112204",
-        "affectsGlobalScope": false
-      },
-      "../../../node_modules/ethereumjs-util/dist/account.d.ts": {
-        "version": "e1d63b39b3517ac3f3ae04ae519d41242b44646130af458acbb0bbbe694b303e",
-        "signature": "e1d63b39b3517ac3f3ae04ae519d41242b44646130af458acbb0bbbe694b303e",
-        "affectsGlobalScope": false
-      },
-      "../../../node_modules/ethereumjs-util/dist/hash.d.ts": {
-        "version": "d6be1337204e593ddaa0234d37be3b09658bdbd9006237e3cb2e08948f5f13aa",
-        "signature": "d6be1337204e593ddaa0234d37be3b09658bdbd9006237e3cb2e08948f5f13aa",
-        "affectsGlobalScope": false
-      },
-      "../../../node_modules/ethereumjs-util/dist/signature.d.ts": {
-        "version": "f3b62429b80f1216f751b39302bbfc0b30156c2b502791c26d93868574ee80c7",
-        "signature": "f3b62429b80f1216f751b39302bbfc0b30156c2b502791c26d93868574ee80c7",
-        "affectsGlobalScope": false
-      },
-      "../../../node_modules/ethereumjs-util/dist/bytes.d.ts": {
-        "version": "a29fa54beee2b1cdae7b957d04878711e8b3e81e83a3617cfbc55c58abfb899b",
-        "signature": "a29fa54beee2b1cdae7b957d04878711e8b3e81e83a3617cfbc55c58abfb899b",
-        "affectsGlobalScope": false
-      },
-      "../../../node_modules/ethereumjs-util/dist/object.d.ts": {
-        "version": "7d94535f9f1d806369869945c09587b69b924f741d857f8c8586eb2bb4b928b2",
-        "signature": "7d94535f9f1d806369869945c09587b69b924f741d857f8c8586eb2bb4b928b2",
-        "affectsGlobalScope": false
-      },
-      "../../../node_modules/ethereumjs-util/dist/index.d.ts": {
-        "version": "0f63c2b2470fb1999de0a5bf24e3a9f9f3eeec8bafa2312ab74d492d487690d6",
-        "signature": "0f63c2b2470fb1999de0a5bf24e3a9f9f3eeec8bafa2312ab74d492d487690d6",
-        "affectsGlobalScope": false
-      },
-      "../../../node_modules/hardhat/internal/hardhat-network/stack-traces/opcodes.d.ts": {
-        "version": "74a732cff96b0691de672a969be8c70f9213bf5c4941f53745f6cfd80515cb50",
-        "signature": "74a732cff96b0691de672a969be8c70f9213bf5c4941f53745f6cfd80515cb50",
-        "affectsGlobalScope": false
-      },
-      "../../../node_modules/hardhat/internal/hardhat-network/stack-traces/model.d.ts": {
-        "version": "f60a2356e45570ea847ed51f92653c515d30cd3ccc98af4fe29b617f0fe3543d",
-        "signature": "f60a2356e45570ea847ed51f92653c515d30cd3ccc98af4fe29b617f0fe3543d",
-        "affectsGlobalScope": false
-      },
-      "../../../node_modules/hardhat/internal/hardhat-network/stack-traces/message-trace.d.ts": {
-        "version": "ccad649417b8d9b21e33f553a9f51da1d0b55bd76629f79cdd0a150aeb56e8ab",
-        "signature": "ccad649417b8d9b21e33f553a9f51da1d0b55bd76629f79cdd0a150aeb56e8ab",
-        "affectsGlobalScope": false
-      },
-      "../../../node_modules/hardhat/types/artifacts.d.ts": {
-        "version": "a10c2d54bb3dc89105a47b592b0614e4425be274c9042349e0ec34ffcc144cf9",
-        "signature": "a10c2d54bb3dc89105a47b592b0614e4425be274c9042349e0ec34ffcc144cf9",
-        "affectsGlobalScope": false
-      },
-      "../../../node_modules/hardhat/types/provider.d.ts": {
-        "version": "54a34fee8a4760e82d551526ef5b13f0fc696ba16438312a99fce481268c9895",
-        "signature": "54a34fee8a4760e82d551526ef5b13f0fc696ba16438312a99fce481268c9895",
-        "affectsGlobalScope": false
-      },
-      "../../../node_modules/hardhat/types/runtime.d.ts": {
-        "version": "79595f57d39983cd5f2eff1c4bd6d44b62ba71573959878d6a24a6c435a61ca4",
-        "signature": "79595f57d39983cd5f2eff1c4bd6d44b62ba71573959878d6a24a6c435a61ca4",
-        "affectsGlobalScope": false
-      },
-      "../../../node_modules/hardhat/types/experimental.d.ts": {
-        "version": "13179d1420b1e02267c61270eb3220009bf84d9ed18e63b6ec502d278c39e7ae",
-        "signature": "13179d1420b1e02267c61270eb3220009bf84d9ed18e63b6ec502d278c39e7ae",
-        "affectsGlobalScope": false
-      },
-      "../../../node_modules/hardhat/types/builtin-tasks/compile.d.ts": {
-        "version": "1cbb2f155dac684b7f130d3cddebaaeec36912ea588bbe3620a8435f1891b467",
-        "signature": "1cbb2f155dac684b7f130d3cddebaaeec36912ea588bbe3620a8435f1891b467",
-        "affectsGlobalScope": false
-      },
-      "../../../node_modules/hardhat/types/builtin-tasks/node.d.ts": {
-        "version": "ff4135655d5090f9d9a88cf5c86d2e868ca0624ad26c663d95a03044185ef2d3",
-        "signature": "ff4135655d5090f9d9a88cf5c86d2e868ca0624ad26c663d95a03044185ef2d3",
-        "affectsGlobalScope": false
-      },
-      "../../../node_modules/hardhat/types/builtin-tasks/index.d.ts": {
-        "version": "9c08981b31d17e0f3f1459c5c89031908648cf3f56983a9e567ce13d3ffbd837",
-        "signature": "9c08981b31d17e0f3f1459c5c89031908648cf3f56983a9e567ce13d3ffbd837",
-        "affectsGlobalScope": false
-      },
-      "../../../node_modules/hardhat/types/index.d.ts": {
-        "version": "89ce673d8d64c809c7d26d19fba2a31311e73b83267e1315cfd4a0167bf27dc4",
-        "signature": "89ce673d8d64c809c7d26d19fba2a31311e73b83267e1315cfd4a0167bf27dc4",
-        "affectsGlobalScope": false
-      },
-      "../../../node_modules/hardhat/internal/hardhat-network/jsonrpc/server.d.ts": {
-        "version": "979c4105d5ff6937c6f9ab0c63e2f23cb34cf75ad13d60a164a6a160874e8728",
-        "signature": "979c4105d5ff6937c6f9ab0c63e2f23cb34cf75ad13d60a164a6a160874e8728",
-        "affectsGlobalScope": false
-      },
-      "../../../node_modules/hardhat/builtin-tasks/task-names.d.ts": {
-        "version": "b24dafd35bdcd82f897a3d89f78864b7c9bb52bdfe89be4c3e25d5253137eb88",
-        "signature": "b24dafd35bdcd82f897a3d89f78864b7c9bb52bdfe89be4c3e25d5253137eb88",
-        "affectsGlobalScope": false
-      },
-      "../../../node_modules/hardhat/internal/lib/hardhat-lib.d.ts": {
-        "version": "942f3a06f98fda0e3e979af505931bc80d428d9e32d7bcc7f89d890250214a5c",
-        "signature": "942f3a06f98fda0e3e979af505931bc80d428d9e32d7bcc7f89d890250214a5c",
-        "affectsGlobalScope": false
-      },
-      "./src/hardhat.ts": {
-        "version": "24d29c2316956aa308722b3d4f17687a149e82c2a2916c3161b2708bfabe8fce",
-        "signature": "b0acf24e8248b85edd01e55ca2168b352839ffccd6045738f981527fc29f2846",
-        "affectsGlobalScope": false
-      },
-      "../../../node_modules/@types/chai/index.d.ts": {
-        "version": "267813ae499a9c070ea61bca2d235e31e785181d967e4461719cbcc78a35abfe",
-        "signature": "267813ae499a9c070ea61bca2d235e31e785181d967e4461719cbcc78a35abfe",
-        "affectsGlobalScope": true
-      },
-      "../types/@chainlink/index.d.ts": {
-<<<<<<< HEAD
-        "version": "531c2a4951fdbcb64b7f5438b9099ce9b45d728298ef3237e25e58b2b6df24bb",
-        "signature": "531c2a4951fdbcb64b7f5438b9099ce9b45d728298ef3237e25e58b2b6df24bb",
-=======
-        "version": "a83e0e66388e840bb1841b85fe0ad089d89eeb1969cedac1590aae36abb786f4",
-        "signature": "a83e0e66388e840bb1841b85fe0ad089d89eeb1969cedac1590aae36abb786f4",
->>>>>>> dd6783e4... Initial cache warmer implementation
-        "affectsGlobalScope": false
-      },
-      "../external-adapter/node_modules/axios/index.d.ts": {
-        "version": "0d892f035dbee4534f0ba096407136877595ca592f67ec9bb8a5c912b9c967e8",
-        "signature": "0d892f035dbee4534f0ba096407136877595ca592f67ec9bb8a5c912b9c967e8",
-        "affectsGlobalScope": false
-      },
-      "../external-adapter/dist/errors.d.ts": {
-        "version": "57967083a1ca460546dc2998bb22e32dae76987df3596ece8c87eaa8547dc285",
-        "signature": "57967083a1ca460546dc2998bb22e32dae76987df3596ece8c87eaa8547dc285",
-        "affectsGlobalScope": false
-      },
-      "../external-adapter/dist/config.d.ts": {
-        "version": "f00fdaff97d120582da3146a344ecc8686c3b2ba808b6f8390f89d3336365058",
-        "signature": "f00fdaff97d120582da3146a344ecc8686c3b2ba808b6f8390f89d3336365058",
-        "affectsGlobalScope": false
-      },
-      "../external-adapter/dist/requester.d.ts": {
-<<<<<<< HEAD
-        "version": "b567a321f755aa292a5c12b5daec2cbc794c785d9f01b6972abad09994c13e3b",
-        "signature": "b567a321f755aa292a5c12b5daec2cbc794c785d9f01b6972abad09994c13e3b",
-=======
-        "version": "1501c4dd554d8f06a59bed71709baac95f602696528fb5bc5a314cab415bd3d3",
-        "signature": "1501c4dd554d8f06a59bed71709baac95f602696528fb5bc5a314cab415bd3d3",
->>>>>>> dd6783e4... Initial cache warmer implementation
-        "affectsGlobalScope": false
-      },
-      "../external-adapter/dist/validator.d.ts": {
-        "version": "71d68441b957d00abb029e73eb007590e1839dd3ed1d7f4bbcd4e6d1f44f0025",
-        "signature": "71d68441b957d00abb029e73eb007590e1839dd3ed1d7f4bbcd4e6d1f44f0025",
-        "affectsGlobalScope": false
-      },
       "../../../node_modules/logform/index.d.ts": {
         "version": "89c631193ed616083e1ee16611dae34d719029b77274680d0f00dbf3bb8ba998",
         "signature": "89c631193ed616083e1ee16611dae34d719029b77274680d0f00dbf3bb8ba998",
@@ -616,43 +476,34 @@
         "signature": "e7c0503e5da78c978e6b9c43dc5728312fa9e19943fd392eca047739e348f283",
         "affectsGlobalScope": false
       },
-      "../external-adapter/dist/logger.d.ts": {
+      "../../core/external-adapter/dist/logger.d.ts": {
         "version": "af3d5db9e2614e4d35a8f210a67276708b76ee2444eaea3411464dc1f7042593",
         "signature": "af3d5db9e2614e4d35a8f210a67276708b76ee2444eaea3411464dc1f7042593",
         "affectsGlobalScope": false
       },
-      "../external-adapter/dist/index.d.ts": {
+      "../../core/external-adapter/dist/index.d.ts": {
         "version": "bb2a3d1e093d2c0ef6ead5749de10caedf63597513a14c98c2ea51d8654d6f33",
         "signature": "bb2a3d1e093d2c0ef6ead5749de10caedf63597513a14c98c2ea51d8654d6f33",
         "affectsGlobalScope": false
       },
-      "./src/helpers.ts": {
-        "version": "9b75b544f5459abb15f81406484ad7139d2e59153084a106ccd81d5a23bc096f",
-        "signature": "e4a61b1461c17ea81a293931467c77129ee0b2046f0f6e17a02b9b4791c429a1",
+      "./src/adapter.ts": {
+        "version": "80c4ae5949da48a44b24a58ddce2c950fe3228a1c036dc4df249c981e901c1f4",
+        "signature": "dcfa229d208808a392236dae9ad110f75c2b14d7b38877d852b2d0df22032c57",
         "affectsGlobalScope": false
-      },
-      "./src/behaviors/balance.ts": {
-        "version": "bec520864657677b221bfdd4463ef32248fd218cf6db7fe0dc22238fa84e2a12",
-        "signature": "1d1292b74970e7a1599db494fa5bffe5a007a85e962267be67b3ff7da1212beb",
-        "affectsGlobalScope": false
-      },
-      "./src/behaviors/index.ts": {
-        "version": "81145426aa4e5a150b815a83737b0ef188aa2a6b65d38890723117912a9e20f2",
-        "signature": "bec5b71c8895d71d2ef5f5f2821eaa92bb65630e019b21e4e7c7f20ce6f2a9b7",
-        "affectsGlobalScope": false
-      },
-      "./src/hardhat_config.json": {
-        "version": "cd519b1b5607a9982fd428b54265ffe1fb4b2935b14ab2d1e9c1c018157b1eb6",
-        "affectsGlobalScope": true
       },
       "./src/index.ts": {
-        "version": "9d093631683899778dd4f7415fb4b21191664f1089aef8cb78c7f2ddfb1b6ac6",
-        "signature": "5f9431319b0b64976fb5e26f4fd65126bcdc93487e5b1cbb146c593f802bdecd",
+        "version": "6d17cc0ed0750d926ee3317e82c10f6a7d5266b70752c9254f324bd6bee41295",
+        "signature": "3f0d37abf1f7f8b4c71bd0efe4ac463cb7f7ef1e22e7365e0ee4ddb8b2a10c05",
         "affectsGlobalScope": false
       },
       "../../../node_modules/@types/bchaddrjs/index.d.ts": {
         "version": "9c0b569ed9e010f815c6c0a01dd590b7cbccdc4d2819acba8e22bf096e09d7d3",
         "signature": "9c0b569ed9e010f815c6c0a01dd590b7cbccdc4d2819acba8e22bf096e09d7d3",
+        "affectsGlobalScope": false
+      },
+      "../../../node_modules/@types/bn.js/index.d.ts": {
+        "version": "bc6dd50ac2fc9a7ca6488811b116bd0ddd606338db0bb97852c8fcf757e2d7f5",
+        "signature": "bc6dd50ac2fc9a7ca6488811b116bd0ddd606338db0bb97852c8fcf757e2d7f5",
         "affectsGlobalScope": false
       },
       "../../../node_modules/@types/connect/index.d.ts": {
@@ -679,6 +530,11 @@
         "version": "648230398e74d6738f828166267a7ad1e7238ff54834c7457c4a09f14edb4e37",
         "signature": "648230398e74d6738f828166267a7ad1e7238ff54834c7457c4a09f14edb4e37",
         "affectsGlobalScope": false
+      },
+      "../../../node_modules/@types/chai/index.d.ts": {
+        "version": "267813ae499a9c070ea61bca2d235e31e785181d967e4461719cbcc78a35abfe",
+        "signature": "267813ae499a9c070ea61bca2d235e31e785181d967e4461719cbcc78a35abfe",
+        "affectsGlobalScope": true
       },
       "../../../node_modules/@types/eslint-visitor-keys/index.d.ts": {
         "version": "725d9be2fd48440256f4deb00649adffdbc5ecd282b09e89d4e200663792c34c",
@@ -825,6 +681,11 @@
         "signature": "db80fcbd0c9693ac9964c31c11979a3d33550a612981021d99e935c0e3d9c36c",
         "affectsGlobalScope": false
       },
+      "../../../node_modules/@types/mocha/index.d.ts": {
+        "version": "f24768499dab9a34c0aff9c9e3fbfe5117001bfabba4a1db01a17df086d6a606",
+        "signature": "f24768499dab9a34c0aff9c9e3fbfe5117001bfabba4a1db01a17df086d6a606",
+        "affectsGlobalScope": true
+      },
       "../../../node_modules/@types/moxios/node_modules/axios/index.d.ts": {
         "version": "0d892f035dbee4534f0ba096407136877595ca592f67ec9bb8a5c912b9c967e8",
         "signature": "0d892f035dbee4534f0ba096407136877595ca592f67ec9bb8a5c912b9c967e8",
@@ -915,15 +776,12 @@
         "signature": "1a81627b04dd2feab19e26d3df04e79f50d5dae42b9b5f9181d23dc820c9f048",
         "affectsGlobalScope": false
       },
-<<<<<<< HEAD
-=======
       "../../../node_modules/@types/yauzl/index.d.ts": {
         "version": "3845d3b64286c12c60d39fc90ac1cc5e47cbc951530658d2567d578b2faa1f26",
         "signature": "3845d3b64286c12c60d39fc90ac1cc5e47cbc951530658d2567d578b2faa1f26",
         "affectsGlobalScope": false
       },
->>>>>>> dd6783e4... Initial cache warmer implementation
-      "../types/market-closure/index.d.ts": {
+      "../../core/types/market-closure/index.d.ts": {
         "version": "bf33a13fa202385afddaffd229c2ca5d10110d59b327908f92d2ea906555eef6",
         "signature": "bf33a13fa202385afddaffd229c2ca5d10110d59b327908f92d2ea906555eef6",
         "affectsGlobalScope": false
@@ -951,10 +809,9 @@
       "rootDir": "./src",
       "typeRoots": [
         "../../../node_modules/@types",
-        "../types",
+        "../../core/types",
         "./types"
       ],
-      "resolveJsonModule": true,
       "composite": true,
       "configFilePath": "./tsconfig.json"
     },
@@ -1184,7 +1041,7 @@
         "../../../node_modules/@types/lodash/common/util.d.ts"
       ],
       "../../../node_modules/@types/moxios/index.d.ts": [
-        "../external-adapter/node_modules/axios/index.d.ts"
+        "../../core/external-adapter/node_modules/axios/index.d.ts"
       ],
       "../../../node_modules/@types/node/assert.d.ts": [
         "../../../node_modules/@types/node/assert.d.ts"
@@ -1445,103 +1302,16 @@
       "../../../node_modules/@types/yargs/index.d.ts": [
         "../../../node_modules/@types/yargs-parser/index.d.ts"
       ],
-<<<<<<< HEAD
-=======
       "../../../node_modules/@types/yauzl/index.d.ts": [
         "../../../node_modules/@types/node/events.d.ts",
         "../../../node_modules/@types/node/index.d.ts",
         "../../../node_modules/@types/node/stream.d.ts"
       ],
->>>>>>> dd6783e4... Initial cache warmer implementation
       "../../../node_modules/base-x/src/index.d.ts": [
         "../../../node_modules/@types/node/index.d.ts"
       ],
-      "../../../node_modules/ethereumjs-util/dist/account.d.ts": [
-        "../../../node_modules/@types/node/index.d.ts"
-      ],
-      "../../../node_modules/ethereumjs-util/dist/bytes.d.ts": [
-        "../../../node_modules/@types/bn.js/index.d.ts",
-        "../../../node_modules/@types/node/index.d.ts"
-      ],
-      "../../../node_modules/ethereumjs-util/dist/constants.d.ts": [
-        "../../../node_modules/@types/bn.js/index.d.ts",
-        "../../../node_modules/@types/node/index.d.ts"
-      ],
-      "../../../node_modules/ethereumjs-util/dist/hash.d.ts": [
-        "../../../node_modules/@types/node/index.d.ts",
-        "../../../node_modules/rlp/dist/index.d.ts"
-      ],
-      "../../../node_modules/ethereumjs-util/dist/index.d.ts": [
-        "../../../node_modules/@types/bn.js/index.d.ts",
-        "../../../node_modules/ethereumjs-util/dist/account.d.ts",
-        "../../../node_modules/ethereumjs-util/dist/bytes.d.ts",
-        "../../../node_modules/ethereumjs-util/dist/constants.d.ts",
-        "../../../node_modules/ethereumjs-util/dist/hash.d.ts",
-        "../../../node_modules/ethereumjs-util/dist/object.d.ts",
-        "../../../node_modules/ethereumjs-util/dist/signature.d.ts",
-        "../../../node_modules/rlp/dist/index.d.ts"
-      ],
-      "../../../node_modules/ethereumjs-util/dist/signature.d.ts": [
-        "../../../node_modules/@types/node/index.d.ts"
-      ],
-      "../../../node_modules/hardhat/internal/hardhat-network/jsonrpc/server.d.ts": [
-        "../../../node_modules/hardhat/types/index.d.ts"
-      ],
-      "../../../node_modules/hardhat/internal/hardhat-network/stack-traces/message-trace.d.ts": [
-        "../../../node_modules/@nomiclabs/ethereumjs-vm/dist/exceptions.d.ts",
-        "../../../node_modules/@types/bn.js/index.d.ts",
-        "../../../node_modules/@types/node/index.d.ts",
-        "../../../node_modules/ethereumjs-util/dist/index.d.ts",
-        "../../../node_modules/hardhat/internal/hardhat-network/stack-traces/model.d.ts"
-      ],
-      "../../../node_modules/hardhat/internal/hardhat-network/stack-traces/model.d.ts": [
-        "../../../node_modules/@types/node/index.d.ts",
-        "../../../node_modules/hardhat/internal/hardhat-network/stack-traces/opcodes.d.ts"
-      ],
-      "../../../node_modules/hardhat/internal/lib/hardhat-lib.d.ts": [
-        "../../../node_modules/hardhat/types/index.d.ts"
-      ],
-      "../../../node_modules/hardhat/types/builtin-tasks/compile.d.ts": [
-        "../../../node_modules/hardhat/types/config.d.ts"
-      ],
-      "../../../node_modules/hardhat/types/builtin-tasks/index.d.ts": [
-        "../../../node_modules/hardhat/types/builtin-tasks/compile.d.ts",
-        "../../../node_modules/hardhat/types/builtin-tasks/node.d.ts"
-      ],
-      "../../../node_modules/hardhat/types/config.d.ts": [
-        "../../../node_modules/@types/mocha/index.d.ts"
-      ],
-      "../../../node_modules/hardhat/types/experimental.d.ts": [
-        "../../../node_modules/hardhat/internal/hardhat-network/stack-traces/message-trace.d.ts",
-        "../../../node_modules/hardhat/types/runtime.d.ts"
-      ],
-      "../../../node_modules/hardhat/types/index.d.ts": [
-        "../../../node_modules/hardhat/types/artifacts.d.ts",
-        "../../../node_modules/hardhat/types/builtin-tasks/index.d.ts",
-        "../../../node_modules/hardhat/types/config.d.ts",
-        "../../../node_modules/hardhat/types/experimental.d.ts",
-        "../../../node_modules/hardhat/types/provider.d.ts",
-        "../../../node_modules/hardhat/types/runtime.d.ts"
-      ],
-      "../../../node_modules/hardhat/types/provider.d.ts": [
-        "../../../node_modules/@types/node/events.d.ts",
-        "../../../node_modules/@types/node/index.d.ts"
-      ],
-      "../../../node_modules/hardhat/types/runtime.d.ts": [
-        "../../../node_modules/hardhat/types/artifacts.d.ts",
-        "../../../node_modules/hardhat/types/config.d.ts",
-        "../../../node_modules/hardhat/types/provider.d.ts"
-      ],
       "../../../node_modules/redux/index.d.ts": [
         "../../../node_modules/symbol-observable/index.d.ts"
-      ],
-      "../../../node_modules/rlp/dist/index.d.ts": [
-        "../../../node_modules/@types/node/index.d.ts",
-        "../../../node_modules/rlp/dist/types.d.ts"
-      ],
-      "../../../node_modules/rlp/dist/types.d.ts": [
-        "../../../node_modules/@types/bn.js/index.d.ts",
-        "../../../node_modules/@types/node/index.d.ts"
       ],
       "../../../node_modules/winston-transport/index.d.ts": [
         "../../../node_modules/@types/node/index.d.ts",
@@ -1564,55 +1334,50 @@
         "../../../node_modules/@types/node/index.d.ts",
         "../../../node_modules/winston-transport/index.d.ts"
       ],
-      "../external-adapter/dist/config.d.ts": [
-        "../types/@chainlink/index.d.ts"
+      "../../core/bootstrap/dist/index.d.ts": [
+        "../../core/bootstrap/dist/lib/util.d.ts",
+        "../../core/types/@chainlink/index.d.ts"
       ],
-      "../external-adapter/dist/errors.d.ts": [
-        "../types/@chainlink/index.d.ts"
+      "../../core/bootstrap/dist/lib/util.d.ts": [
+        "../../../node_modules/decimal.js/decimal.d.ts",
+        "../../core/types/@chainlink/index.d.ts"
       ],
-      "../external-adapter/dist/index.d.ts": [
-        "../external-adapter/dist/config.d.ts",
-        "../external-adapter/dist/errors.d.ts",
-        "../external-adapter/dist/logger.d.ts",
-        "../external-adapter/dist/requester.d.ts",
-        "../external-adapter/dist/validator.d.ts"
+      "../../core/external-adapter/dist/config.d.ts": [
+        "../../core/types/@chainlink/index.d.ts"
       ],
-      "../external-adapter/dist/logger.d.ts": [
+      "../../core/external-adapter/dist/errors.d.ts": [
+        "../../core/types/@chainlink/index.d.ts"
+      ],
+      "../../core/external-adapter/dist/index.d.ts": [
+        "../../core/external-adapter/dist/config.d.ts",
+        "../../core/external-adapter/dist/errors.d.ts",
+        "../../core/external-adapter/dist/logger.d.ts",
+        "../../core/external-adapter/dist/requester.d.ts",
+        "../../core/external-adapter/dist/validator.d.ts"
+      ],
+      "../../core/external-adapter/dist/logger.d.ts": [
         "../../../node_modules/winston/index.d.ts"
       ],
-      "../external-adapter/dist/requester.d.ts": [
-        "../external-adapter/dist/config.d.ts",
-        "../external-adapter/dist/errors.d.ts",
-        "../external-adapter/node_modules/axios/index.d.ts",
-        "../types/@chainlink/index.d.ts"
+      "../../core/external-adapter/dist/requester.d.ts": [
+        "../../core/external-adapter/dist/config.d.ts",
+        "../../core/external-adapter/dist/errors.d.ts",
+        "../../core/external-adapter/node_modules/axios/index.d.ts",
+        "../../core/types/@chainlink/index.d.ts"
       ],
-      "../external-adapter/dist/validator.d.ts": [
-        "../external-adapter/dist/errors.d.ts",
-        "../types/@chainlink/index.d.ts"
+      "../../core/external-adapter/dist/validator.d.ts": [
+        "../../core/external-adapter/dist/errors.d.ts",
+        "../../core/types/@chainlink/index.d.ts"
       ],
-      "./src/behaviors/balance.ts": [
-        "../../../node_modules/@types/chai/index.d.ts",
-        "../types/@chainlink/index.d.ts",
-        "./src/helpers.ts"
+      "../../core/types/@chainlink/index.d.ts": [
+        "../../core/bootstrap/dist/index.d.ts"
       ],
-      "./src/behaviors/index.ts": [
-        "./src/behaviors/balance.ts"
-      ],
-      "./src/hardhat.ts": [
-        "../../../node_modules/hardhat/builtin-tasks/task-names.d.ts",
-        "../../../node_modules/hardhat/internal/hardhat-network/jsonrpc/server.d.ts",
-        "../../../node_modules/hardhat/internal/lib/hardhat-lib.d.ts"
-      ],
-      "./src/helpers.ts": [
-        "../../../node_modules/@types/chai/index.d.ts",
-        "../external-adapter/dist/index.d.ts",
-        "../types/@chainlink/index.d.ts"
+      "./src/adapter.ts": [
+        "../../core/external-adapter/dist/index.d.ts",
+        "../../core/types/@chainlink/index.d.ts"
       ],
       "./src/index.ts": [
-        "./src/behaviors/index.ts",
-        "./src/hardhat.ts",
-        "./src/hardhat_config.json",
-        "./src/helpers.ts"
+        "../../core/bootstrap/dist/index.d.ts",
+        "./src/adapter.ts"
       ]
     },
     "exportedModulesMap": {
@@ -1841,7 +1606,7 @@
         "../../../node_modules/@types/lodash/common/util.d.ts"
       ],
       "../../../node_modules/@types/moxios/index.d.ts": [
-        "../external-adapter/node_modules/axios/index.d.ts"
+        "../../core/external-adapter/node_modules/axios/index.d.ts"
       ],
       "../../../node_modules/@types/node/assert.d.ts": [
         "../../../node_modules/@types/node/assert.d.ts"
@@ -2102,103 +1867,16 @@
       "../../../node_modules/@types/yargs/index.d.ts": [
         "../../../node_modules/@types/yargs-parser/index.d.ts"
       ],
-<<<<<<< HEAD
-=======
       "../../../node_modules/@types/yauzl/index.d.ts": [
         "../../../node_modules/@types/node/events.d.ts",
         "../../../node_modules/@types/node/index.d.ts",
         "../../../node_modules/@types/node/stream.d.ts"
       ],
->>>>>>> dd6783e4... Initial cache warmer implementation
       "../../../node_modules/base-x/src/index.d.ts": [
         "../../../node_modules/@types/node/index.d.ts"
       ],
-      "../../../node_modules/ethereumjs-util/dist/account.d.ts": [
-        "../../../node_modules/@types/node/index.d.ts"
-      ],
-      "../../../node_modules/ethereumjs-util/dist/bytes.d.ts": [
-        "../../../node_modules/@types/bn.js/index.d.ts",
-        "../../../node_modules/@types/node/index.d.ts"
-      ],
-      "../../../node_modules/ethereumjs-util/dist/constants.d.ts": [
-        "../../../node_modules/@types/bn.js/index.d.ts",
-        "../../../node_modules/@types/node/index.d.ts"
-      ],
-      "../../../node_modules/ethereumjs-util/dist/hash.d.ts": [
-        "../../../node_modules/@types/node/index.d.ts",
-        "../../../node_modules/rlp/dist/index.d.ts"
-      ],
-      "../../../node_modules/ethereumjs-util/dist/index.d.ts": [
-        "../../../node_modules/@types/bn.js/index.d.ts",
-        "../../../node_modules/ethereumjs-util/dist/account.d.ts",
-        "../../../node_modules/ethereumjs-util/dist/bytes.d.ts",
-        "../../../node_modules/ethereumjs-util/dist/constants.d.ts",
-        "../../../node_modules/ethereumjs-util/dist/hash.d.ts",
-        "../../../node_modules/ethereumjs-util/dist/object.d.ts",
-        "../../../node_modules/ethereumjs-util/dist/signature.d.ts",
-        "../../../node_modules/rlp/dist/index.d.ts"
-      ],
-      "../../../node_modules/ethereumjs-util/dist/signature.d.ts": [
-        "../../../node_modules/@types/node/index.d.ts"
-      ],
-      "../../../node_modules/hardhat/internal/hardhat-network/jsonrpc/server.d.ts": [
-        "../../../node_modules/hardhat/types/index.d.ts"
-      ],
-      "../../../node_modules/hardhat/internal/hardhat-network/stack-traces/message-trace.d.ts": [
-        "../../../node_modules/@nomiclabs/ethereumjs-vm/dist/exceptions.d.ts",
-        "../../../node_modules/@types/bn.js/index.d.ts",
-        "../../../node_modules/@types/node/index.d.ts",
-        "../../../node_modules/ethereumjs-util/dist/index.d.ts",
-        "../../../node_modules/hardhat/internal/hardhat-network/stack-traces/model.d.ts"
-      ],
-      "../../../node_modules/hardhat/internal/hardhat-network/stack-traces/model.d.ts": [
-        "../../../node_modules/@types/node/index.d.ts",
-        "../../../node_modules/hardhat/internal/hardhat-network/stack-traces/opcodes.d.ts"
-      ],
-      "../../../node_modules/hardhat/internal/lib/hardhat-lib.d.ts": [
-        "../../../node_modules/hardhat/types/index.d.ts"
-      ],
-      "../../../node_modules/hardhat/types/builtin-tasks/compile.d.ts": [
-        "../../../node_modules/hardhat/types/config.d.ts"
-      ],
-      "../../../node_modules/hardhat/types/builtin-tasks/index.d.ts": [
-        "../../../node_modules/hardhat/types/builtin-tasks/compile.d.ts",
-        "../../../node_modules/hardhat/types/builtin-tasks/node.d.ts"
-      ],
-      "../../../node_modules/hardhat/types/config.d.ts": [
-        "../../../node_modules/@types/mocha/index.d.ts"
-      ],
-      "../../../node_modules/hardhat/types/experimental.d.ts": [
-        "../../../node_modules/hardhat/internal/hardhat-network/stack-traces/message-trace.d.ts",
-        "../../../node_modules/hardhat/types/runtime.d.ts"
-      ],
-      "../../../node_modules/hardhat/types/index.d.ts": [
-        "../../../node_modules/hardhat/types/artifacts.d.ts",
-        "../../../node_modules/hardhat/types/builtin-tasks/index.d.ts",
-        "../../../node_modules/hardhat/types/config.d.ts",
-        "../../../node_modules/hardhat/types/experimental.d.ts",
-        "../../../node_modules/hardhat/types/provider.d.ts",
-        "../../../node_modules/hardhat/types/runtime.d.ts"
-      ],
-      "../../../node_modules/hardhat/types/provider.d.ts": [
-        "../../../node_modules/@types/node/events.d.ts",
-        "../../../node_modules/@types/node/index.d.ts"
-      ],
-      "../../../node_modules/hardhat/types/runtime.d.ts": [
-        "../../../node_modules/hardhat/types/artifacts.d.ts",
-        "../../../node_modules/hardhat/types/config.d.ts",
-        "../../../node_modules/hardhat/types/provider.d.ts"
-      ],
       "../../../node_modules/redux/index.d.ts": [
         "../../../node_modules/symbol-observable/index.d.ts"
-      ],
-      "../../../node_modules/rlp/dist/index.d.ts": [
-        "../../../node_modules/@types/node/index.d.ts",
-        "../../../node_modules/rlp/dist/types.d.ts"
-      ],
-      "../../../node_modules/rlp/dist/types.d.ts": [
-        "../../../node_modules/@types/bn.js/index.d.ts",
-        "../../../node_modules/@types/node/index.d.ts"
       ],
       "../../../node_modules/winston-transport/index.d.ts": [
         "../../../node_modules/@types/node/index.d.ts",
@@ -2221,52 +1899,51 @@
         "../../../node_modules/@types/node/index.d.ts",
         "../../../node_modules/winston-transport/index.d.ts"
       ],
-      "../external-adapter/dist/config.d.ts": [
-        "../types/@chainlink/index.d.ts"
+      "../../core/bootstrap/dist/index.d.ts": [
+        "../../core/bootstrap/dist/lib/util.d.ts",
+        "../../core/types/@chainlink/index.d.ts"
       ],
-      "../external-adapter/dist/errors.d.ts": [
-        "../types/@chainlink/index.d.ts"
+      "../../core/bootstrap/dist/lib/util.d.ts": [
+        "../../../node_modules/decimal.js/decimal.d.ts",
+        "../../core/types/@chainlink/index.d.ts"
       ],
-      "../external-adapter/dist/index.d.ts": [
-        "../external-adapter/dist/config.d.ts",
-        "../external-adapter/dist/errors.d.ts",
-        "../external-adapter/dist/logger.d.ts",
-        "../external-adapter/dist/requester.d.ts",
-        "../external-adapter/dist/validator.d.ts"
+      "../../core/external-adapter/dist/config.d.ts": [
+        "../../core/types/@chainlink/index.d.ts"
       ],
-      "../external-adapter/dist/logger.d.ts": [
+      "../../core/external-adapter/dist/errors.d.ts": [
+        "../../core/types/@chainlink/index.d.ts"
+      ],
+      "../../core/external-adapter/dist/index.d.ts": [
+        "../../core/external-adapter/dist/config.d.ts",
+        "../../core/external-adapter/dist/errors.d.ts",
+        "../../core/external-adapter/dist/logger.d.ts",
+        "../../core/external-adapter/dist/requester.d.ts",
+        "../../core/external-adapter/dist/validator.d.ts"
+      ],
+      "../../core/external-adapter/dist/logger.d.ts": [
         "../../../node_modules/winston/index.d.ts"
       ],
-      "../external-adapter/dist/requester.d.ts": [
-        "../external-adapter/dist/config.d.ts",
-        "../external-adapter/dist/errors.d.ts",
-        "../external-adapter/node_modules/axios/index.d.ts",
-        "../types/@chainlink/index.d.ts"
+      "../../core/external-adapter/dist/requester.d.ts": [
+        "../../core/external-adapter/dist/config.d.ts",
+        "../../core/external-adapter/dist/errors.d.ts",
+        "../../core/external-adapter/node_modules/axios/index.d.ts",
+        "../../core/types/@chainlink/index.d.ts"
       ],
-      "../external-adapter/dist/validator.d.ts": [
-        "../external-adapter/dist/errors.d.ts",
-        "../types/@chainlink/index.d.ts"
+      "../../core/external-adapter/dist/validator.d.ts": [
+        "../../core/external-adapter/dist/errors.d.ts",
+        "../../core/types/@chainlink/index.d.ts"
       ],
-      "./src/behaviors/balance.ts": [
-        "../types/@chainlink/index.d.ts"
+      "../../core/types/@chainlink/index.d.ts": [
+        "../../core/bootstrap/dist/index.d.ts"
       ],
-      "./src/behaviors/index.ts": [
-        "./src/behaviors/balance.ts"
-      ],
-      "./src/hardhat.ts": [
-        "../../../node_modules/hardhat/internal/hardhat-network/jsonrpc/server.d.ts"
-      ],
-      "./src/helpers.ts": [
-        "../types/@chainlink/index.d.ts"
+      "./src/adapter.ts": [
+        "../../core/types/@chainlink/index.d.ts"
       ],
       "./src/index.ts": [
-        "../../../node_modules/hardhat/internal/hardhat-network/jsonrpc/server.d.ts",
-        "../types/@chainlink/index.d.ts",
-        "./src/behaviors/index.ts"
+        "../../core/types/@chainlink/index.d.ts"
       ]
     },
     "semanticDiagnosticsPerFile": [
-      "../../../node_modules/@nomiclabs/ethereumjs-vm/dist/exceptions.d.ts",
       "../../../node_modules/@types/bchaddrjs/index.d.ts",
       "../../../node_modules/@types/bn.js/index.d.ts",
       "../../../node_modules/@types/body-parser/index.d.ts",
@@ -2366,37 +2043,11 @@
       "../../../node_modules/@types/web3-provider-engine/index.d.ts",
       "../../../node_modules/@types/yargs-parser/index.d.ts",
       "../../../node_modules/@types/yargs/index.d.ts",
-<<<<<<< HEAD
-=======
       "../../../node_modules/@types/yauzl/index.d.ts",
->>>>>>> dd6783e4... Initial cache warmer implementation
       "../../../node_modules/base-x/src/index.d.ts",
-      "../../../node_modules/ethereumjs-util/dist/account.d.ts",
-      "../../../node_modules/ethereumjs-util/dist/bytes.d.ts",
-      "../../../node_modules/ethereumjs-util/dist/constants.d.ts",
-      "../../../node_modules/ethereumjs-util/dist/hash.d.ts",
-      "../../../node_modules/ethereumjs-util/dist/index.d.ts",
-      "../../../node_modules/ethereumjs-util/dist/object.d.ts",
-      "../../../node_modules/ethereumjs-util/dist/signature.d.ts",
-      "../../../node_modules/hardhat/builtin-tasks/task-names.d.ts",
-      "../../../node_modules/hardhat/internal/hardhat-network/jsonrpc/server.d.ts",
-      "../../../node_modules/hardhat/internal/hardhat-network/stack-traces/message-trace.d.ts",
-      "../../../node_modules/hardhat/internal/hardhat-network/stack-traces/model.d.ts",
-      "../../../node_modules/hardhat/internal/hardhat-network/stack-traces/opcodes.d.ts",
-      "../../../node_modules/hardhat/internal/lib/hardhat-lib.d.ts",
-      "../../../node_modules/hardhat/types/artifacts.d.ts",
-      "../../../node_modules/hardhat/types/builtin-tasks/compile.d.ts",
-      "../../../node_modules/hardhat/types/builtin-tasks/index.d.ts",
-      "../../../node_modules/hardhat/types/builtin-tasks/node.d.ts",
-      "../../../node_modules/hardhat/types/config.d.ts",
-      "../../../node_modules/hardhat/types/experimental.d.ts",
-      "../../../node_modules/hardhat/types/index.d.ts",
-      "../../../node_modules/hardhat/types/provider.d.ts",
-      "../../../node_modules/hardhat/types/runtime.d.ts",
+      "../../../node_modules/decimal.js/decimal.d.ts",
       "../../../node_modules/logform/index.d.ts",
       "../../../node_modules/redux/index.d.ts",
-      "../../../node_modules/rlp/dist/index.d.ts",
-      "../../../node_modules/rlp/dist/types.d.ts",
       "../../../node_modules/symbol-observable/index.d.ts",
       "../../../node_modules/typescript/lib/lib.es2015.collection.d.ts",
       "../../../node_modules/typescript/lib/lib.es2015.core.d.ts",
@@ -2437,21 +2088,19 @@
       "../../../node_modules/winston/index.d.ts",
       "../../../node_modules/winston/lib/winston/config/index.d.ts",
       "../../../node_modules/winston/lib/winston/transports/index.d.ts",
-      "../external-adapter/dist/config.d.ts",
-      "../external-adapter/dist/errors.d.ts",
-      "../external-adapter/dist/index.d.ts",
-      "../external-adapter/dist/logger.d.ts",
-      "../external-adapter/dist/requester.d.ts",
-      "../external-adapter/dist/validator.d.ts",
-      "../external-adapter/node_modules/axios/index.d.ts",
-      "./src/behaviors/balance.ts",
-      "./src/behaviors/index.ts",
-      "./src/hardhat.ts",
-      "./src/hardhat_config.json",
-      "./src/helpers.ts",
-      "./src/index.ts",
-      "../types/@chainlink/index.d.ts",
-      "../types/market-closure/index.d.ts"
+      "../../core/bootstrap/dist/index.d.ts",
+      "../../core/bootstrap/dist/lib/util.d.ts",
+      "../../core/external-adapter/dist/config.d.ts",
+      "../../core/external-adapter/dist/errors.d.ts",
+      "../../core/external-adapter/dist/index.d.ts",
+      "../../core/external-adapter/dist/logger.d.ts",
+      "../../core/external-adapter/dist/requester.d.ts",
+      "../../core/external-adapter/dist/validator.d.ts",
+      "../../core/external-adapter/node_modules/axios/index.d.ts",
+      "../../core/types/@chainlink/index.d.ts",
+      "../../core/types/market-closure/index.d.ts",
+      "./src/adapter.ts",
+      "./src/index.ts"
     ]
   },
   "version": "3.9.9"
