@@ -105,9 +105,12 @@ const executeSync = (execute: Execute): ExecuteSync => {
       const executeWithMiddleware = await withMiddleware(execute)
       const result = await executeWithMiddleware(data)
       // only consider registering a warmup request if the original one was successful
-      store.dispatch(
-        actions.warmupRequestSubscribed({ data, executeFn: executeWithMiddleware, id: data.id }),
-      )
+      // and we have caching enabled
+      if (util.parseBool(process.env.CACHE_ENABLED)) {
+        store.dispatch(
+          actions.warmupRequestSubscribed({ data, executeFn: executeWithMiddleware, id: data.id }),
+        )
+      }
       return callback(result.statusCode, result)
     } catch (error) {
       return callback(error.statusCode || 500, Requester.errored(data.id, error))
