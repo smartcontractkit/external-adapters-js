@@ -1,15 +1,6 @@
 import { combineEpics, Epic } from 'redux-observable'
 import { from, interval, of } from 'rxjs'
-import {
-  catchError,
-  filter,
-  map,
-  mapTo,
-  mergeMap,
-  takeUntil,
-  tap,
-  withLatestFrom,
-} from 'rxjs/operators'
+import { catchError, filter, map, mapTo, mergeMap, takeUntil, withLatestFrom } from 'rxjs/operators'
 import {
   warmupRequestFailed,
   warmupRequestFulfilled,
@@ -64,7 +55,6 @@ export const warmupRequestEpic: Epic<any, any, RootState> = (action$, state$) =>
       key: action.payload.key,
     })),
     // make the request
-    tap((data) => console.log(`Performing cache warmup on: ${JSON.stringify(data, null, 1)}`)),
     mergeMap(({ requestData, key }) =>
       from(
         requestData.executeFn({
