@@ -1,3 +1,4 @@
+import { ResponsePayload } from '@chainlink/types'
 import { BigNumberish } from 'ethers'
 
 export type TokenAllocation = {
@@ -7,17 +8,6 @@ export type TokenAllocation = {
 }
 
 export type TokenAllocations = TokenAllocation[]
-
-export type ResponsePayload = {
-  [symbol: string]: {
-    quote: {
-      [symbol: string]: {
-        price?: number
-        marketCap?: number
-      }
-    }
-  }
-}
 
 export type PriceAdapter = {
   getPrices: (
@@ -36,5 +26,4 @@ export type Config = {
 export type DataProviderConfig = {
   batchingSupport: boolean
   batchEndpoint?: string
-  defaultDataUrl: string
 }

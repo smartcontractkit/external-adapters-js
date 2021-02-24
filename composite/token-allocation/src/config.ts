@@ -18,37 +18,29 @@ enum DataProvider {
 const providers: Record<string, DataProviderConfig> = {
   [DataProvider.Amberdata]: {
     batchingSupport: false,
-    defaultDataUrl: 'http://localhost:8080',
   },
   [DataProvider.Cryptocompare]: {
     batchingSupport: true,
     batchEndpoint: 'multi',
-    defaultDataUrl: 'http://localhost:8080',
   },
   [DataProvider.Coinpaprika]: {
     batchingSupport: true,
     batchEndpoint: 'multi',
-    defaultDataUrl: 'http://localhost:8080',
   },
   [DataProvider.Nomics]: {
     batchingSupport: true,
-    defaultDataUrl: 'http://localhost:8080',
   },
   [DataProvider.Coinmarketcap]: {
     batchingSupport: true,
-    defaultDataUrl: 'http://localhost:8080',
   },
   [DataProvider.Coingecko]: {
     batchingSupport: true,
-    defaultDataUrl: 'http://localhost:8080',
   },
   [DataProvider.Coinapi]: {
     batchingSupport: false,
-    defaultDataUrl: 'http://localhost:8080',
   },
   [DataProvider.Kaiko]: {
     batchingSupport: false,
-    defaultDataUrl: 'http://localhost:8080',
   },
 }
 
@@ -57,8 +49,7 @@ export const DEFAULT_TOKEN_BALANCE = 1
 
 export const makeConfig = (prefix = '', provider = ''): Config => {
   const dataProvider = provider || util.getRequiredEnv('DATA_PROVIDER', prefix)
-  const dataProviderUrl =
-    util.getEnv('DATA_PROVIDER_URL', prefix) || providers[dataProvider].defaultDataUrl
+  const dataProviderUrl = util.getRequiredEnv('DATA_PROVIDER_URL', prefix)
   const defaultConfig = getDefaultConfig(prefix)
   defaultConfig.api.baseURL = defaultConfig.api.baseURL || dataProviderUrl
   defaultConfig.api.method = 'post'
