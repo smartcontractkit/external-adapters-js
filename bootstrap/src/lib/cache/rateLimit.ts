@@ -1,6 +1,4 @@
 import { logger } from '@chainlink/external-adapter'
-import * as local from './local'
-import * as redis from './redis'
 import { DEFAULT_CACHE_MAX_AGE } from './redis'
 
 const MAX_AGE_ALLOWED = 1000 * 60 * 2
@@ -12,7 +10,7 @@ type RateLimitOptions = {
   totalCapacity: number
 }
 
-interface RateLimit {
+export interface RateLimit {
   isEnabled: () => boolean
   getParticipantMaxAge: (participantId: string) => number | boolean
   incrementTotalHeartbeat: () => number | boolean
@@ -27,15 +25,12 @@ type Heartbeat = {
 const totalHeartbeat = new Map()
 let participantHeartbeats: Map<string, Heartbeat> = new Map()
 
-export const makeRateLimit = (
-  options: RateLimitOptions,
-  cache: local.LocalLRUCache | redis.RedisCache,
-): RateLimit => {
+export const makeRateLimit = (options: RateLimitOptions): RateLimit => {
   const minHeartbeat = 0
   const safeCapacity = options.totalCapacity * 0.9
 
   const _isEnabled = (): boolean => {
-    return !!options.groupId && !!options.totalCapacity && !(cache instanceof local.LocalLRUCache)
+    return !!options.groupId && !!options.totalCapacity
   }
 
   // Weight normalizes the relevance the participant is having in the adapter

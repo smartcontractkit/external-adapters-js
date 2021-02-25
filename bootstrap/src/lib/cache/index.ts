@@ -88,7 +88,7 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
   if (!options.enabled) return (data: AdapterRequest) => execute(data)
 
   const cache = await options.cacheBuilder(options.cacheOptions)
-  const rateLimit = makeRateLimit(options.rateLimit, cache)
+  const rateLimit = makeRateLimit(options.rateLimit)
   // Algorithm we use to derive entry key
   const hashOptions = {
     algorithm: 'sha1',
@@ -127,7 +127,6 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
       maxAge: number,
     ) => {
       if (statusCode === 200) {
-        console.log('Setting with MaxAge:', maxAge)
         const entry = { statusCode, data, result, maxAge }
         await cache.set(key, entry, maxAge)
         logger.debug(`Cache: SET ${key}`, entry)
