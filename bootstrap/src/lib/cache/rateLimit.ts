@@ -1,3 +1,4 @@
+import { logger } from '@chainlink/external-adapter'
 import * as local from './local'
 import * as redis from './redis'
 import { DEFAULT_CACHE_MAX_AGE } from './redis'
@@ -13,13 +14,18 @@ type RateLimitOptions = {
 
 interface RateLimit {
   isEnabled: () => boolean
-  getParticipantMaxAge: (a: string) => Promise<number> | boolean
-  incrementTotalHeartbeat: () => Promise<number> | boolean
-  incrementParticipantHeartbeat: (a: string) => Promise<number> | boolean
+  getParticipantMaxAge: (participantId: string) => number | boolean
+  incrementTotalHeartbeat: () => number | boolean
+  incrementParticipantHeartbeat: (participantId: string) => number | boolean
+}
+
+type Heartbeat = {
+  heartbeat: number
+  lastSeen: number
 }
 
 const totalHeartbeat = new Map()
-const participantHeartbeats = new Map()
+let participantHeartbeats: Map<string, Heartbeat> = new Map()
 
 export const makeRateLimit = (
   options: RateLimitOptions,
@@ -45,21 +51,19 @@ export const makeRateLimit = (
   }
 
   const _getParticipantEvenCapacity = () => {
-    const totalParticipants = Array.from(participantHeartbeats.keys()).length || 1
+    const totalParticipants = participantHeartbeats.size || 1
     return safeCapacity / totalParticipants
   }
 
-  const _getParticipantMaxAge = async (participantId: string) => {
+  const _getParticipantMaxAge = (participantId: string): number => {
     const SEC_IN_MIN = 60
     const MS_IN_SEC = 1000
 
-    const participantHeartbeat = await _getCurrentParticipantHeartbeat(
-      _getParticipantKey(participantId),
-    )
-    const totalHeartbeat = await _getCurrentHeartbeat()
+    const participantHeartbeat = _getCurrentParticipantHeartbeat(participantId)
+    const totalHeartbeat = _getCurrentHeartbeat()
     const participantWeight = _getWeight(participantHeartbeat, totalHeartbeat)
-    // const allowedReqPerMin = _getParticipantEvenCapacity()
-    const allowedReqPerMin = safeCapacity * participantWeight
+    const allowedReqPerMin = _getParticipantEvenCapacity()
+    // const allowedReqPerMin = safeCapacity * participantWeight
 
     let maxAge = Math.round(MS_IN_SEC / (allowedReqPerMin / SEC_IN_MIN))
     if (maxAge < DEFAULT_CACHE_MAX_AGE) {
@@ -75,42 +79,54 @@ export const makeRateLimit = (
     return `${options.groupId}:${options.id}`
   }
 
-  const _getCurrentHeartbeat = async (): Promise<number> => {
+  const _getCurrentHeartbeat = (): number => {
     return Number(totalHeartbeat.get(_getHeartbeatKey())) || 0
   }
 
-  const _incrementTotalHeartbeat = async (): Promise<number> => {
-    const heartbeat = await _getCurrentHeartbeat()
+  const _incrementTotalHeartbeat = (): number => {
+    const heartbeat = _getCurrentHeartbeat()
     totalHeartbeat.set(_getHeartbeatKey(), heartbeat + 1)
-    // if (!(cache instanceof local.LocalLRUCache)) {
-    //   await cache.update(_getHeartbeatKey(), heartbeat + 1, options.groupMaxAge)
-    // }
     return heartbeat + 1
   }
 
-  // hash(API_KEY):uuid():CACHE_KEY_GROUP:hash(requestData)
-  const _getParticipantKey = (keyId: string) => {
-    return `${_getHeartbeatKey()}:${keyId}`
+  const _getCurrentParticipantHeartbeat = (key: string): number => {
+    return Number(participantHeartbeats.get(key)?.heartbeat) || 0
   }
 
-  const _getCurrentParticipantHeartbeat = async (key: string): Promise<number> => {
-    return Number(participantHeartbeats.get(key)) || 0
+  const _removedExpiredHeartbeats = (
+    heartbeats: Map<string, Heartbeat>,
+  ): Map<string, Heartbeat> => {
+    const heartbeatsCopy = new Map(heartbeats)
+    const now = new Date().getTime()
+    for (const [id, heartbeat] of heartbeats) {
+      if (now - heartbeat.lastSeen > options.groupMaxAge) {
+        heartbeatsCopy.delete(id)
+        logger.debug(`Cache: Participant ${id} has expired. Removing`)
+      }
+    }
+    return heartbeatsCopy
   }
 
-  const _incrementParticipantHeartbeat = async (participantId: string): Promise<number> => {
-    const heartbeat = await _getCurrentParticipantHeartbeat(_getParticipantKey(participantId))
-    participantHeartbeats.set(_getParticipantKey(participantId), heartbeat + 1)
-    // if (!(cache instanceof local.LocalLRUCache)) {
-    //   await cache.update(_getParticipantKey(participantId), heartbeat + 1, options.groupMaxAge)
-    // }
+  const _withExpiration = (fn: any) => (...args: any) => {
+    const updatedParticipantHearbeats = _removedExpiredHeartbeats(participantHeartbeats)
+    participantHeartbeats = updatedParticipantHearbeats
+    return fn(...args)
+  }
+
+  const _incrementParticipantHeartbeat = (participantId: string): number => {
+    const heartbeat = _getCurrentParticipantHeartbeat(participantId)
+    participantHeartbeats.set(participantId, {
+      heartbeat: heartbeat + 1,
+      lastSeen: new Date().getTime(),
+    })
     return heartbeat + 1
   }
 
-  const _ifEnabled = (fn: (...args: any[]) => Promise<any>) => (_isEnabled() ? fn : () => false)
+  const _ifEnabled = (fn: (...args: any[]) => any) => (_isEnabled() ? fn : () => false)
   return {
     isEnabled: _isEnabled,
     getParticipantMaxAge: _ifEnabled(_getParticipantMaxAge),
-    incrementTotalHeartbeat: _ifEnabled(_incrementTotalHeartbeat),
-    incrementParticipantHeartbeat: _ifEnabled(_incrementParticipantHeartbeat),
+    incrementTotalHeartbeat: _ifEnabled(_withExpiration(_incrementTotalHeartbeat)),
+    incrementParticipantHeartbeat: _ifEnabled(_withExpiration(_incrementParticipantHeartbeat)),
   }
 }

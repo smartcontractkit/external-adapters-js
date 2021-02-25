@@ -114,8 +114,8 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
     if (isNaN(data.data.maxAge as number)) return
     return Number(data.data.maxAge)
   }
-  const _getDefaultMaxAge = async (request: AdapterRequest): Promise<any> => {
-    return (await rateLimit.getParticipantMaxAge(_getKey(request))) || cache.options.maxAge
+  const _getDefaultMaxAge = (request: AdapterRequest): any => {
+    return rateLimit.getParticipantMaxAge(_getKey(request)) || cache.options.maxAge
   }
 
   const _executeWithCache = async (request: AdapterRequest) => {
@@ -164,8 +164,8 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
           ),
       })
 
-    await rateLimit.incrementTotalHeartbeat()
-    await rateLimit.incrementParticipantHeartbeat(_getKey(request))
+    // rateLimit.incrementTotalHeartbeat()
+    rateLimit.incrementParticipantHeartbeat(_getKey(request))
 
     const entry = options.requestCoalescing.enabled
       ? await _getWithCoalescing()
@@ -183,7 +183,7 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
       logger.debug(`Cache: SKIP(maxAge < 0)`)
     }
 
-    const maxAge = await _getDefaultMaxAge(request)
+    const maxAge = _getDefaultMaxAge(request)
     // Initiate request coalescing by adding the in-flight mark
     await _setInFlightMarker(coalescingKey, maxAge)
 
