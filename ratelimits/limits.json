@@ -2,18 +2,22 @@
   "1forge":
   [
     { "rateLimit1s": -1,
+      "rateLimit1m": -1,
       "rateLimit1h": 208.33,
       "tierName": "starter"
     },
     { "rateLimit1s": -1,
+      "rateLimit1m": -1,
       "rateLimit1h": 4166.66,
       "tierName": "premium"
     },
     { "rateLimit1s": -1,
+      "rateLimit1m": -1,
       "rateLimit1h": 41666.66,
       "tierName": "business"
     },
     { "rateLimit1s": -1,
+      "rateLimit1m": -1,
       "rateLimit1h": 416666.66,
       "tierName": "business+"
     }
