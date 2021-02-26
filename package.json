@@ -90,6 +90,7 @@
     "harmony",
     "tiingo",
     "ethwrite",
+    "geodb",
     "goldapi.io"
   ],
   "scripts": {
