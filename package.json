@@ -89,7 +89,8 @@
     "conflux",
     "harmony",
     "tiingo",
-    "ethwrite"
+    "ethwrite",
+    "goldapi.io"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",
