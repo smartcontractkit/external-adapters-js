@@ -18,7 +18,7 @@ export const constants = {
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 const cloneNoSecrets = (config: Config): Config =>
-  (({ apiKey, api: { auth, ...api }, ...o }) => ({ api, ...o }))(config)
+  (({ apiKey, api: { auth, headers, params, ...api }, ...o }) => ({ api, ...o }))(config)
 
 export function getDefaultConfig(prefix = '', requireKey = false): Config {
   const apiKey = requireKey
@@ -46,5 +46,4 @@ export function getDefaultConfig(prefix = '', requireKey = false): Config {
 
 export function logConfig(config: Config): void {
   logger.debug('Adapter configuration:', { config: config && cloneNoSecrets(config) })
-  if (!config.apiKey) logger.warn('API will be rate limited without an API key.')
 }
