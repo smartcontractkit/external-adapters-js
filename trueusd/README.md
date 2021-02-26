@@ -1,14 +1,35 @@
 # Chainlink External Adapter for TrueUSD
 
-## Total Supply API
+### Input Parameters
+
+| Required? |   Name   |     Description     |           Options            | Defaults to |
+| :-------: | :------: | :-----------------: | :--------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [trueusd](#TrueUSD-Endpoint) |  `trueusd`  |
+
+---
+
+## TrueUSD Endpoint
 
 https://core-api.real-time-attest.trustexplorer.io/trusttoken/TrueUSD
 
-## Input Params
+### Input Params
 
-- `field`: The data field to return. (defaults to `totalTrust`, one of `totalToken`, `totalTrust`)
+| Required? |  Name  |                     Description                     |          Options           | Defaults to  |
+| :-------: | :----: | :-------------------------------------------------: | :------------------------: | :----------: |
+|           | `path` | The data point to return from the API response data | `totalTrust`, `totalToken` | `totalTrust` |
 
-## Output
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "path": "totalToken"
+  }
+}
+```
+
+### Output
 
 ```json
 {
