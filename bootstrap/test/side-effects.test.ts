@@ -40,8 +40,10 @@ function actionStream(
 
 let epicDependencies: EpicDependencies
 context('side effect tests', () => {
+  const adapterRequest1: AdapterRequest = { data: {}, id: '0' }
+  const adapterRequest2: AdapterRequest = { data: { foo: 'bar' }, id: '0' }
   const key1 = 'be74e241ba991cd7ad65b1cbd04e4012459fb329'
-
+  const key2 = '0797e1cb455bafc9295cc0e8a9b582e96272b8c6'
   beforeEach(() => {
     epicDependencies = { config: get() }
   })
@@ -49,8 +51,6 @@ context('side effect tests', () => {
   context('warmupSubscriber', () => {
     it('should create a warmup subscription and emit a request every 15 seconds, then unsubscribe one of the subscriptions', () => {
       scheduler.run(({ hot, expectObservable }) => {
-        const adapterRequest1: AdapterRequest = { data: {}, id: '0' }
-        const adapterRequest2: AdapterRequest = { data: { foo: 'bar' }, id: '0' }
         const action$ = actionStream(hot, 'a c 40s b ', {
           a: actions.warmupRequestSubscribed({ executeFn: stub(), ...adapterRequest1 }),
           b: actions.warmupRequestUnsubscribed({
@@ -61,7 +61,7 @@ context('side effect tests', () => {
         const state$ = stateStream({
           subscriptions: {
             [key1]: { isDuplicate: false },
-            '0797e1cb455bafc9295cc0e8a9b582e96272b8c6': { isDuplicate: false },
+            [key2]: { isDuplicate: false },
           },
         })
 
@@ -71,7 +71,7 @@ context('side effect tests', () => {
             key: key1,
           }),
           b: actions.warmupRequestRequested({
-            key: '0797e1cb455bafc9295cc0e8a9b582e96272b8c6',
+            key: key2,
           }),
         })
       })
@@ -79,7 +79,6 @@ context('side effect tests', () => {
 
     it('should skip creating a subscription if one already exists in state', () => {
       scheduler.run(({ hot, expectObservable }) => {
-        const adapterRequest1: AdapterRequest = { data: {}, id: '0' }
         const action$ = actionStream(hot, 'a ', {
           a: actions.warmupRequestSubscribed({ executeFn: stub(), ...adapterRequest1 }),
         })
@@ -98,7 +97,7 @@ context('side effect tests', () => {
         })
         const subscriptionState: SubscriptionState[string] = {
           executeFn: stub().returns(of('external adapter return value')),
-          info: { id: '0', data: { foo: 'bar' } },
+          info: adapterRequest2,
           startedAt: Date.now(),
           isDuplicate: false,
         }
@@ -120,7 +119,7 @@ context('side effect tests', () => {
         const err = Error('We havin a bad time')
         const subscriptionState: SubscriptionState[string] = {
           executeFn: stub().returns(throwError(err)),
-          info: { id: '0', data: { foo: 'bar' } },
+          info: adapterRequest2,
           startedAt: Date.now(),
           isDuplicate: false,
         }
@@ -180,6 +179,20 @@ context('side effect tests', () => {
         const output$ = warmupUnsubscriber(action$, state$, epicDependencies)
         expectObservable(output$).toBe('a', {
           a: actions.warmupRequestUnsubscribed({ key: key1 }),
+        })
+      })
+    })
+    it('should start a subscription timeout timer that resets on every resubscription for the same key', () => {
+      scheduler.run(({ hot, expectObservable }) => {
+        const action$ = actionStream(hot, 'a b 50m a 50m a', {
+          a: actions.warmupRequestSubscribed({ executeFn: stub(), ...adapterRequest1 }),
+          b: actions.warmupRequestSubscribed({ executeFn: stub(), ...adapterRequest2 }),
+        })
+        const state$ = stateStream({})
+        const output$ = warmupUnsubscriber(action$, state$, epicDependencies)
+        expectObservable(output$, '^ 120m !').toBe('50m -- a 9m 59s 998ms b 40m - a', {
+          a: actions.warmupRequestSubscriptionTimeoutReset({ key: key1 }),
+          b: actions.warmupRequestUnsubscribed({ key: key2 }),
         })
       })
     })
