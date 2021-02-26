@@ -72,7 +72,7 @@ export const warmupRequestHandler: Epic<AnyAction, AnyAction, RootState> = (acti
         requestData.executeFn({
           id: '9001',
           data: { ...(requestData.origin.data.data as any) }, // TODO: this data attribute should not be nested
-          meta: { ...(requestData.origin.meta ?? {}) },
+          // don't pass a stale `meta` to force data refresh
         }),
       ).pipe(
         mapTo(warmupFulfilled({ key })),
