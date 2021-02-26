@@ -33,16 +33,12 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const currency = validator.validated.data.quote.toUpperCase()
   const url = `${metal}/${currency}`
 
-  const headers = {
-    'x-access-token': process.env.API_KEY
-  }
-
   const reqConfig = {
     ...config.api,
-    validateStatus: function (status: any) {
-      return status >= 200 || status === 400; // default
+    validateStatus: function (status: number) {
+      return status >= 200 || status === 400 // default
     },
-    url
+    url,
   }
 
   const response = await Requester.request(reqConfig, customError)
