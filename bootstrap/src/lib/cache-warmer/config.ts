@@ -14,6 +14,12 @@ export interface Config {
   unhealthyThreshold: number
 
   /**
+   * The time to live on a subscription, if no new requests come in that do not
+   * originate from the warm up engine itself
+   */
+  subscriptionTTL: number
+
+  /**
    * Hashing options for differentiating requests
    */
   hashOpts: Required<Parameters<typeof objectHash>>['1']
@@ -31,5 +37,6 @@ export function get(): Config {
     },
     unhealthyThreshold: Number(process.env.WARMUP_UNHEALTHY_THRESHOLD) || 3,
     warmupInterval: (Number(process.env.CACHE_MAX_AGE) || 30_000) / 2,
+    subscriptionTTL: Number(process.env.WARMUP_SUBSCRIPTION_TTL) || 60 * 1000 * 60, // default 1h
   }
 }

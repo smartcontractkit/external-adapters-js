@@ -7,9 +7,15 @@ interface WarmupRequestSubscribedPayload extends AdapterRequest {
 interface WarmupRequestUnsubscribedPayload {
   key: string
 }
+interface WarmupRequestSubscriptionTimeoutResetPayload {
+  key: string
+}
 
 export const warmupRequestSubscribed = createAction<WarmupRequestSubscribedPayload>(
   'WARMUP_REQUEST_SUBSCRIBED',
+)
+export const warmupRequestSubscriptionTimeoutReset = createAction<WarmupRequestSubscriptionTimeoutResetPayload>(
+  'WARMUP_REQUEST_SUBSCRIPTION_TIMEOUT_RESET',
 )
 export const warmupRequestUnsubscribed = createAction<WarmupRequestUnsubscribedPayload>(
   'WARMUP_REQUEST_UNSUBSCRIBED',
