@@ -2,8 +2,8 @@ import { assert } from 'chai'
 import { Requester } from '@chainlink/external-adapter'
 import { assertSuccess, assertError } from '@chainlink/adapter-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
-import { makeExecute } from '../src/adapter'
-import { Action, HTTPSender, makeHTTPSender } from '../src/httpSender'
+import { Action, makeExecute } from '../src/adapter'
+import { makeConfig } from '../src/config'
 
 import express from 'express'
 import { Server } from 'http'
@@ -96,7 +96,7 @@ describe('execute', () => {
           type: 'oracleServer/error',
           data: {
             queryId: 'bad',
-            error: 'oracleServer/reply status 500 is not 2xx',
+            error: 'Request failed with status code 500',
           },
         },
       ],
@@ -110,7 +110,9 @@ describe('execute', () => {
     let server: Server
 
     const port = 18082
-    const execute = makeExecute(makeHTTPSender(`http://localhost:${port}/api/oracle`))
+    process.env.AG_SOLO_ORACLE = `http://localhost:${port}/api/oracle`
+    const execute = makeExecute(makeConfig('AGORICTEST'))
+    delete process.env.AG_SOLO_ORACLE
 
     before(
       () =>
@@ -149,89 +151,6 @@ describe('execute', () => {
           assertError({ expected: req.status, actual: errorResp.statusCode }, errorResp, jobID)
         }
         assert.deepEqual(sends, req.sends)
-      })
-    })
-  })
-
-  context('HTTP calls', () => {
-    requests.forEach((req) => {
-      it(`${req.name}`, async () => {
-        const sends: Action[] = []
-        const spySend: HTTPSender = async (obj) => {
-          sends.push(obj)
-          return { status: req.status, response: req.receive }
-        }
-        const execute = makeExecute(spySend)
-
-        try {
-          const data = await execute(req.testData as AdapterRequest)
-          assertSuccess({ expected: req.status, actual: data.statusCode }, data, jobID)
-        } catch (error) {
-          const errorResp = Requester.errored(jobID, error)
-          assertError({ expected: req.status, actual: errorResp.statusCode }, errorResp, jobID)
-        }
-        assert.deepEqual(sends, req.sends)
-      })
-    })
-  })
-
-  context('validation', () => {
-    const mockSend: HTTPSender = () =>
-      Promise.resolve({
-        status: 200,
-        response: { ok: true, res: true },
-      })
-    const execute = makeExecute(mockSend)
-    const requests = [
-      {
-        name: 'normal request_id',
-        status: 200,
-        testData: {
-          id: jobID,
-          data: { request_id: '4', payment: '10000000000000000', result: 'abc' },
-        },
-      },
-      {
-        name: 'push request_id',
-        status: 200,
-        testData: {
-          id: jobID,
-          data: { request_id: 'push-3', payment: '10000000000000000', result: 'def' },
-        },
-      },
-      {
-        name: 'zero payment',
-        status: 200,
-        testData: { id: jobID, data: { request_id: '99', payment: '0', result: 'ghi' } },
-      },
-      { status: 400, name: 'empty body', testData: {} },
-      { status: 400, name: 'empty data', testData: { data: {} } },
-      {
-        status: 400,
-        name: 'payment not supplied',
-        testData: { id: jobID, data: { request_id: '3', result: 'abc' } },
-      },
-      {
-        status: 400,
-        name: 'request_id not supplied',
-        testData: { id: jobID, data: { payment: '0', result: 'def' } },
-      },
-      {
-        status: 400,
-        name: 'result not supplied',
-        testData: { id: jobID, data: { request_id: '3', payment: '0' } },
-      },
-    ]
-
-    requests.forEach((req) => {
-      it(`${req.name}`, async () => {
-        try {
-          const data = await execute(req.testData as AdapterRequest)
-          assertSuccess({ expected: req.status, actual: data.statusCode }, data, jobID)
-        } catch (error) {
-          const errorResp = Requester.errored(jobID, error)
-          assertError({ expected: req.status, actual: errorResp.statusCode }, errorResp, jobID)
-        }
       })
     })
   })
