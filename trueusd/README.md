@@ -14,9 +14,9 @@ https://core-api.real-time-attest.trustexplorer.io/trusttoken/TrueUSD
 
 ### Input Params
 
-| Required? |  Name  |                     Description                     |          Options           | Defaults to  |
-| :-------: | :----: | :-------------------------------------------------: | :------------------------: | :----------: |
-|           | `path` | The data point to return from the API response data | `totalTrust`, `totalToken` | `totalTrust` |
+| Required? |  Name   |                     Description                     |          Options           | Defaults to  |
+| :-------: | :-----: | :-------------------------------------------------: | :------------------------: | :----------: |
+|           | `field` | The data point to return from the API response data | `totalTrust`, `totalToken` | `totalTrust` |
 
 ### Sample Input
 
@@ -24,7 +24,7 @@ https://core-api.real-time-attest.trustexplorer.io/trusttoken/TrueUSD
 {
   "id": "1",
   "data": {
-    "path": "totalToken"
+    "field": "totalToken"
   }
 }
 ```

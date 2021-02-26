@@ -16,11 +16,11 @@ describe('execute', () => {
       },
       {
         name: 'id is supplied',
-        testData: { id: jobID, data: { path: 'totalTrust' } },
+        testData: { id: jobID, data: { field: 'totalTrust' } },
       },
       {
         name: 'trust supply',
-        testData: { id: jobID, data: { path: 'totalToken' } },
+        testData: { id: jobID, data: { field: 'totalToken' } },
       },
     ]
 
