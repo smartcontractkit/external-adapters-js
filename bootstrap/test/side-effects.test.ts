@@ -10,7 +10,7 @@ import * as actions from '../src/lib/cache-warmer/actions'
 import { get } from '../src/lib/cache-warmer/config'
 import { RootState, SubscriptionState } from '../src/lib/cache-warmer/reducer'
 import {
-  warmupRequestEpic,
+  warmupRequestHandler,
   warmupSubscriber,
   warmupUnsubscriber,
 } from '../src/lib/cache-warmer/side-effects'
@@ -52,11 +52,11 @@ context('side effect tests', () => {
     it('should create a warmup subscription and emit a request every 15 seconds, then unsubscribe one of the subscriptions', () => {
       scheduler.run(({ hot, expectObservable }) => {
         const action$ = actionStream(hot, 'a c 40s b ', {
-          a: actions.warmupRequestSubscribed({ executeFn: stub(), ...adapterRequest1 }),
-          b: actions.warmupRequestUnsubscribed({
+          a: actions.warmupSubscribed({ executeFn: stub(), ...adapterRequest1 }),
+          b: actions.warmupUnsubscribed({
             key: key1,
           }),
-          c: actions.warmupRequestSubscribed({ executeFn: stub(), ...adapterRequest2 }),
+          c: actions.warmupSubscribed({ executeFn: stub(), ...adapterRequest2 }),
         })
         const state$ = stateStream({
           subscriptions: {
@@ -67,10 +67,10 @@ context('side effect tests', () => {
 
         const output$ = warmupSubscriber(action$, state$, epicDependencies)
         expectObservable(output$, '^ 50s !').toBe('15s a b 14998ms a b 14999ms b', {
-          a: actions.warmupRequestRequested({
+          a: actions.warmupRequested({
             key: key1,
           }),
-          b: actions.warmupRequestRequested({
+          b: actions.warmupRequested({
             key: key2,
           }),
         })
@@ -80,7 +80,7 @@ context('side effect tests', () => {
     it('should skip creating a subscription if one already exists in state', () => {
       scheduler.run(({ hot, expectObservable }) => {
         const action$ = actionStream(hot, 'a ', {
-          a: actions.warmupRequestSubscribed({ executeFn: stub(), ...adapterRequest1 }),
+          a: actions.warmupSubscribed({ executeFn: stub(), ...adapterRequest1 }),
         })
         const state$ = stateStream({ subscriptions: { [key1]: { isDuplicate: true } } })
         const output$ = warmupSubscriber(action$, state$, epicDependencies)
@@ -89,15 +89,15 @@ context('side effect tests', () => {
     })
   })
 
-  context('warmupRequest', () => {
+  context('warmup', () => {
     it('should handle warmup requests by executing a function to update the cache', () => {
       scheduler.run(({ hot, expectObservable }) => {
         const action$ = actionStream(hot, 'a', {
-          a: actions.warmupRequestRequested({ key: key1 }),
+          a: actions.warmupRequested({ key: key1 }),
         })
         const subscriptionState: SubscriptionState[string] = {
           executeFn: stub().returns(of('external adapter return value')),
-          info: adapterRequest2,
+          origin: adapterRequest2,
           startedAt: Date.now(),
           isDuplicate: false,
         }
@@ -105,21 +105,21 @@ context('side effect tests', () => {
           subscriptions: { [key1]: subscriptionState },
         })
 
-        const output$ = warmupRequestEpic(action$, state$, null)
+        const output$ = warmupRequestHandler(action$, state$, null)
         expectObservable(output$).toBe('a', {
-          a: actions.warmupRequestFulfilled({ key: key1 }),
+          a: actions.warmupFulfilled({ key: key1 }),
         })
       })
     })
     it('should handle errors by emitting an error action', () => {
       scheduler.run(({ hot, expectObservable }) => {
         const action$ = actionStream(hot, 'a', {
-          a: actions.warmupRequestRequested({ key: key1 }),
+          a: actions.warmupRequested({ key: key1 }),
         })
         const err = Error('We havin a bad time')
         const subscriptionState: SubscriptionState[string] = {
           executeFn: stub().returns(throwError(err)),
-          info: adapterRequest2,
+          origin: adapterRequest2,
           startedAt: Date.now(),
           isDuplicate: false,
         }
@@ -127,9 +127,9 @@ context('side effect tests', () => {
           subscriptions: { [key1]: subscriptionState },
         })
 
-        const output$ = warmupRequestEpic(action$, state$, null)
+        const output$ = warmupRequestHandler(action$, state$, null)
         expectObservable(output$).toBe('a', {
-          a: actions.warmupRequestFailed({
+          a: actions.warmupFailed({
             key: key1,
             error: err,
           }),
@@ -141,13 +141,13 @@ context('side effect tests', () => {
     it('should match on request failures and emit nothing while under the error threshold', () => {
       scheduler.run(({ hot, expectObservable }) => {
         const action$ = actionStream(hot, 'a', {
-          a: actions.warmupRequestFailed({
+          a: actions.warmupFailed({
             key: key1,
             error: Error('We havin a bad time'),
           }),
         })
         const state$ = stateStream({
-          response: {
+          warmups: {
             [key1]: {
               error: null,
               errorCount: 0,
@@ -162,13 +162,13 @@ context('side effect tests', () => {
     it('should match on request failures and emit an unsubscription failure if the error threshold is met', () => {
       scheduler.run(({ hot, expectObservable }) => {
         const action$ = actionStream(hot, 'a', {
-          a: actions.warmupRequestFailed({
+          a: actions.warmupFailed({
             key: key1,
             error: Error('We havin a bad time'),
           }),
         })
         const state$ = stateStream({
-          response: {
+          warmups: {
             [key1]: {
               error: null,
               errorCount: 3,
@@ -178,21 +178,21 @@ context('side effect tests', () => {
         })
         const output$ = warmupUnsubscriber(action$, state$, epicDependencies)
         expectObservable(output$).toBe('a', {
-          a: actions.warmupRequestUnsubscribed({ key: key1 }),
+          a: actions.warmupUnsubscribed({ key: key1 }),
         })
       })
     })
     it('should start a subscription timeout timer that resets on every resubscription for the same key', () => {
       scheduler.run(({ hot, expectObservable }) => {
         const action$ = actionStream(hot, 'a b 50m a 50m a', {
-          a: actions.warmupRequestSubscribed({ executeFn: stub(), ...adapterRequest1 }),
-          b: actions.warmupRequestSubscribed({ executeFn: stub(), ...adapterRequest2 }),
+          a: actions.warmupSubscribed({ executeFn: stub(), ...adapterRequest1 }),
+          b: actions.warmupSubscribed({ executeFn: stub(), ...adapterRequest2 }),
         })
         const state$ = stateStream({})
         const output$ = warmupUnsubscriber(action$, state$, epicDependencies)
         expectObservable(output$, '^ 120m !').toBe('50m -- a 9m 59s 998ms b 40m - a', {
-          a: actions.warmupRequestSubscriptionTimeoutReset({ key: key1 }),
-          b: actions.warmupRequestUnsubscribed({ key: key2 }),
+          a: actions.warmupSubscriptionTimeoutReset({ key: key1 }),
+          b: actions.warmupUnsubscribed({ key: key2 }),
         })
       })
     })

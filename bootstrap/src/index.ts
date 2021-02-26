@@ -74,7 +74,7 @@ const executeSync = (execute: Execute): ExecuteSync => {
       // and we have caching enabled
       if (util.parseBool(process.env.CACHE_ENABLED)) {
         store.dispatch(
-          actions.warmupRequestSubscribed({ data, executeFn: executeWithMiddleware, id: data.id }),
+          actions.warmupSubscribed({ data, executeFn: executeWithMiddleware, id: data.id }),
         )
       }
       return callback(result.statusCode, result)
