@@ -24,7 +24,6 @@ setTimeout(async function () {
     const execute = adapter.makeExecute({
       rpcUrl,
       privateKey: TESTING_PRIVATE_KEY,
-      api: {},
       DEFAULT_ENDPOINT,
     })
     after(async () => {

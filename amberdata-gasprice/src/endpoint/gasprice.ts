@@ -25,7 +25,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     ...config.api,
     url,
     headers: {
-      ...config.api.headers,
+      ...config.api?.headers,
       'x-amberdata-blockchain-id': endpoint,
     },
   }

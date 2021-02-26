@@ -20,7 +20,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const quantity = validator.validated.data.quantity || 1
 
   const params = {
-    ...config.api.params,
+    ...config.api?.params,
     from,
     to,
     quantity,

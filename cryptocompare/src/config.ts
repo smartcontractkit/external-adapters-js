@@ -9,7 +9,7 @@ export const makeConfig = (prefix?: string): Config => {
   config.api.baseURL = config.api.baseUrl || DEFAULT_API_ENDPOINT
   if (config.apiKey)
     config.api.headers = {
-      ...config.api.headers,
+      ...config.api?.headers,
       authorization: `Apikey ${config.apiKey}`,
     }
   return config

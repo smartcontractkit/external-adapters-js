@@ -22,7 +22,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const to = validator.validated.data.quote
 
   const params = {
-    ...config.api.params,
+    ...config.api?.params,
     function: 'CURRENCY_EXCHANGE_RATE',
     from_currency: from,
     to_currency: to,
