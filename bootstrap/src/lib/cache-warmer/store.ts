@@ -23,7 +23,11 @@ export function configureStore(rootReducer: Reducer, preloadedState: PreloadedSt
   })
 
   const middlewares: Middleware<unknown, any, Dispatch<AnyAction>>[] = [epicMiddleware]
-  if (process.env.DEBUG || process.env.NODE_ENV === 'development') {
+  if (
+    process.env.DEBUG ||
+    process.env.NODE_ENV === 'development' ||
+    process.env.LOG_LEVEL === 'debug'
+  ) {
     middlewares.push(logger)
   }
   const middlewareEnhancer = applyMiddleware(...middlewares)
