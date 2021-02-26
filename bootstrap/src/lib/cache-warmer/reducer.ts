@@ -10,7 +10,7 @@ export interface SubscriptionData {
   /**
    * The original request data that triggered this subscription
    */
-  info: AdapterRequest
+  origin: AdapterRequest
   /**
    * The wrapped execute function that was used to service the request
    */
@@ -32,16 +32,16 @@ export interface SubscriptionState {
 }
 
 export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builder) => {
-  builder.addCase(actions.warmupRequestSubscribed, (state, action) => {
+  builder.addCase(actions.warmupSubscribed, (state, action) => {
     state[getSubscriptionKey(action.payload)] = {
-      info: action.payload,
+      origin: action.payload,
       executeFn: action.payload.executeFn,
       startedAt: Date.now(),
       isDuplicate: !!state[getSubscriptionKey(action.payload)],
     }
   })
 
-  builder.addCase(actions.warmupRequestUnsubscribed, (state, action) => {
+  builder.addCase(actions.warmupUnsubscribed, (state, action) => {
     delete state[action.payload.key]
   })
 })
@@ -64,33 +64,33 @@ export interface RequestState {
   [key: string]: RequestData
 }
 
-export const requestReducer = createReducer<RequestState>({}, (builder) => {
-  builder.addCase(actions.warmupRequestRequested, (state, action) => {
+export const warmupReducer = createReducer<RequestState>({}, (builder) => {
+  builder.addCase(actions.warmupRequested, (state, action) => {
     if (!state[action.payload.key]) {
       state[action.payload.key] = { error: null, successCount: 0, errorCount: 0 }
     }
   })
 
-  builder.addCase(actions.warmupRequestFulfilled, (state, action) => {
+  builder.addCase(actions.warmupFulfilled, (state, action) => {
     state[action.payload.key].successCount++
     state[action.payload.key].error = null
     state[action.payload.key].errorCount = 0
   })
 
-  builder.addCase(actions.warmupRequestFailed, (state, action) => {
+  builder.addCase(actions.warmupFailed, (state, action) => {
     state[action.payload.key].error = action.payload.error
     state[action.payload.key].errorCount++
     state[action.payload.key].successCount = 0
   })
 
-  builder.addCase(actions.warmupRequestUnsubscribed, (state, action) => {
+  builder.addCase(actions.warmupUnsubscribed, (state, action) => {
     delete state[action.payload.key]
   })
 })
 
 export const rootReducer = combineReducers({
   subscriptions: subscriptionsReducer,
-  response: requestReducer,
+  warmups: warmupReducer,
 })
 
 export type RootState = ReturnType<typeof rootReducer>
