@@ -13,12 +13,12 @@ import {
   withLatestFrom,
 } from 'rxjs/operators'
 import {
-  warmupRequestFailed,
-  warmupRequestFulfilled,
-  warmupRequestRequested,
-  warmupRequestSubscribed,
-  warmupRequestSubscriptionTimeoutReset,
-  warmupRequestUnsubscribed,
+  warmupFailed,
+  warmupFulfilled,
+  warmupRequested,
+  warmupSubscribed,
+  warmupSubscriptionTimeoutReset,
+  warmupUnsubscribed,
 } from './actions'
 import { RootState } from './reducer'
 import { EpicDependencies } from './store'
@@ -30,7 +30,7 @@ export const warmupSubscriber: Epic<AnyAction, AnyAction, RootState, EpicDepende
   { config },
 ) =>
   action$.pipe(
-    filter(warmupRequestSubscribed.match),
+    filter(warmupSubscribed.match),
     map(({ payload }) => ({ payload, key: getSubscriptionKey(payload) })),
     // check if the subscription already exists, then noop
     withLatestFrom(state$),
@@ -42,11 +42,11 @@ export const warmupSubscriber: Epic<AnyAction, AnyAction, RootState, EpicDepende
     // on a subscribe action being dispatched, spin up a long lived interval if one doesnt exist yet
     mergeMap(([{ key }]) =>
       interval(config.warmupInterval).pipe(
-        mapTo(warmupRequestRequested({ key })),
+        mapTo(warmupRequested({ key })),
         // unsubscribe our warmup algo when a matching unsubscribe comes in
         takeUntil(
           action$.pipe(
-            filter(warmupRequestUnsubscribed.match),
+            filter(warmupUnsubscribed.match),
             filter((a) => a.payload.key === key),
           ),
         ),
@@ -56,10 +56,10 @@ export const warmupSubscriber: Epic<AnyAction, AnyAction, RootState, EpicDepende
 /**
  * Handle warmup response request events
  */
-export const warmupRequestEpic: Epic<AnyAction, AnyAction, RootState> = (action$, state$) =>
+export const warmupRequestHandler: Epic<AnyAction, AnyAction, RootState> = (action$, state$) =>
   action$.pipe(
     // this pipeline will execute when we have a request to warm up an adapter
-    filter(warmupRequestRequested.match),
+    filter(warmupRequested.match),
     // fetch our required state to make a request to warm up an adapter
     withLatestFrom(state$),
     map(([action, state]) => ({
@@ -71,12 +71,12 @@ export const warmupRequestEpic: Epic<AnyAction, AnyAction, RootState> = (action$
       from(
         requestData.executeFn({
           id: '9001',
-          data: { ...(requestData.info.data.data as any) }, // TODO: this data attribute should not be nested
-          meta: { ...(requestData.info.meta ?? {}) },
+          data: { ...(requestData.origin.data.data as any) }, // TODO: this data attribute should not be nested
+          meta: { ...(requestData.origin.meta ?? {}) },
         }),
       ).pipe(
-        mapTo(warmupRequestFulfilled({ key })),
-        catchError((error: unknown) => of(warmupRequestFailed({ error: error as Error, key }))),
+        mapTo(warmupFulfilled({ key })),
+        catchError((error: unknown) => of(warmupFailed({ error: error as Error, key }))),
       ),
     ),
   )
@@ -88,18 +88,18 @@ export const warmupUnsubscriber: Epic<AnyAction, AnyAction, RootState, EpicDepen
   { config },
 ) => {
   const unsubscribeWhenFailureThresholdIsMet$ = action$.pipe(
-    filter(warmupRequestFailed.match),
+    filter(warmupFailed.match),
     withLatestFrom(state$),
     filter(
-      ([{ payload }, state]) => state.response[payload.key].errorCount >= config.unhealthyThreshold,
+      ([{ payload }, state]) => state.warmups[payload.key].errorCount >= config.unhealthyThreshold,
     ),
-    map(([{ payload }]) => warmupRequestUnsubscribed({ key: payload.key })),
+    map(([{ payload }]) => warmupUnsubscribed({ key: payload.key })),
   )
 
   // emits whenever a subscription event comes in,
   // used as a helper stream for the timeout limit stream
   const keyedSubscription$ = action$.pipe(
-    filter(warmupRequestSubscribed.match),
+    filter(warmupSubscribed.match),
     map(({ payload }) => ({ payload, key: getSubscriptionKey(payload) })),
   )
 
@@ -111,11 +111,11 @@ export const warmupUnsubscriber: Epic<AnyAction, AnyAction, RootState, EpicDepen
       const reset$ = keyedSubscription$.pipe(
         filter(({ key: keyB }) => key === keyB),
         take(1),
-        mapTo(warmupRequestSubscriptionTimeoutReset({ key })),
+        mapTo(warmupSubscriptionTimeoutReset({ key })),
       )
 
       // start the current unsubscription timer
-      const timeout$ = of(warmupRequestUnsubscribed({ key })).pipe(delay(config.subscriptionTTL))
+      const timeout$ = of(warmupUnsubscribed({ key })).pipe(delay(config.subscriptionTTL))
 
       // if a re-subscription comes in before timeout emits, then we emit nothing
       // else we unsubscribe from the current subscription
@@ -126,4 +126,4 @@ export const warmupUnsubscriber: Epic<AnyAction, AnyAction, RootState, EpicDepen
   return merge(unsubscribeWhenFailureThresholdIsMet$, unsubscribeWhenTimeoutLimitIsMet$)
 }
 
-export const rootEpic = combineEpics(warmupSubscriber, warmupUnsubscriber, warmupRequestEpic)
+export const rootEpic = combineEpics(warmupSubscriber, warmupUnsubscriber, warmupRequestHandler)
