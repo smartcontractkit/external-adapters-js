@@ -36,6 +36,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `dxfeed-secondary` to handle secondary mappings for the TSLA symbol
   - `harmony` to write transactions to the Harmony blockchain
   - `tiingo` to get end-of-day stock price data from Tiingo
+  - `geodb` to get location data from GeoDB
 - Added support for metadata in requests. This gives adapters access to the FM on-chain round state.
 - Moves re-usable test behaviors & testing utils to a new package - `@chainlink/adapter-test-helpers`
 - Added support for using query string parameters as input to adapters.
