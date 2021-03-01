@@ -4,17 +4,17 @@ import { AdapterRequest } from '@chainlink/types'
 import { makeExecute } from '../src/adapter'
 import * as ta from '@chainlink/token-allocation-adapter'
 
-const makeMockConfig = (provider: string) => {
+const makeMockConfig = () => {
   return {
     defaultNetwork: 'mainnet',
-    taConfig: ta.makeConfig('', provider),
+    taConfig: ta.makeConfig(''),
   }
 }
 
 describe('execute', () => {
   const jobID = '1'
   process.env.DATA_PROVIDER_URL = 'ignoreable'
-  const execute = makeExecute(makeMockConfig('coingecko'))
+  const execute = makeExecute(makeMockConfig())
 
   context('validation error', () => {
     const requests = [
