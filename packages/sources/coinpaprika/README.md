@@ -2,9 +2,9 @@
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |                                                                                  Options                                                                                   | Defaults to |
-| :-------: | :------: | :-----------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [price](#Price-Endpoint), [dominance](#Dominance-Endpoint), [globalmarketcap](#Market-Capitalization-Endpoint), [multi](#Multi-Endpoint), [marketcap](#Marketcap-Endpoint) |   `price`   |
+| Required? |   Name   |     Description     |                                                                     Options                                                                      | Defaults to |
+| :-------: | :------: | :-----------------: | :----------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [price](#Price-Endpoint), [dominance](#Dominance-Endpoint), [globalmarketcap](#Market-Capitalization-Endpoint), [marketcap](#Marketcap-Endpoint) |   `price`   |
 
 ---
 
@@ -133,102 +133,54 @@ Returns the global market capitilization from the [global endpoint](https://api.
 }
 ```
 
-## Multi Endpoint
-
-Fetch multiple assets in the same query
-
-### Input Params
-
-| Required? |          Name           |                       Description                       | Options | Defaults to |
-| :-------: | :---------------------: | :-----------------------------------------------------: | :-----: | :---------: |
-|    ✅     | `base`, `from`, `coin`  | The symbol or array of symbols of the currency to query |         |             |
-|    ✅     | `quote`, `to`, `market` |        The symbol of the currency to convert to         |         |             |
-
-```json
-{
-  "jobId": "1",
-  "data": {
-    "base": ["ETH", "BTC"],
-    "quote": "USD",
-    "endpoint": "multi"
-  }
-}
-```
-
-### Output
-
-```json
-{
-  "jobRunID": "1",
-  "statusCode": 200,
-  "data": {
-    "payload": {
-      "ETH": {
-        "quote": {
-          "USD": {
-            "price": 1548.53404675
-          }
-        }
-      },
-      "BTC": {
-        "quote": {
-          "USD": {
-            "price": 49088.03224699
-          }
-        }
-      }
-    }
-  }
-}
-```
-
 ## Marketcap Endpoint
 
 Fetch one or multiple market cap assets
 
 ### Input Params
 
-| Required? |          Name           |                       Description                       | Options | Defaults to |
-| :-------: | :---------------------: | :-----------------------------------------------------: | :-----: | :---------: |
-|    ✅     | `base`, `from`, `coin`  | The symbol or array of symbols of the currency to query |         |             |
-|    ✅     | `quote`, `to`, `market` |        The symbol of the currency to convert to         |         |             |
-
-```json
-{
-  "jobId": "1",
-  "data": {
-    "base": ["ETH", "BTC"],
-    "quote": "USD",
-    "endpoint": "marketcap"
-  }
-}
-```
+| Required? |          Name           |                   Description                    | Options | Defaults to |
+| :-------: | :---------------------: | :----------------------------------------------: | :-----: | :---------: |
+|    ✅     | `base`, `from`, `coin`  |       The symbol of the currency to query        |         |             |
+|    ✅     | `quote`, `to`, `market` |     The symbol of the currency to convert to     |         |             |
+|    🟡     |        `coinid`         | The coin ID (optional to use in place of `base`) |         |             |
 
 ### Output
 
 ```json
 {
-  "jobRunID": "1",
-  "statusCode": 200,
+  "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
   "data": {
-    "payload": {
-      "ETH": {
-        "quote": {
-          "USD": {
-            "price": 1548.53404675,
-            "marketCap": 177755351401
-          }
-        }
-      },
-      "BTC": {
-        "quote": {
-          "USD": {
-            "price": 49088.03224699,
-            "marketCap": 914824204167
-          }
-        }
+    "id": "eth-ethereum",
+    "name": "Ethereum",
+    "symbol": "ETH",
+    "rank": 2,
+    "circulating_supply": 109469522,
+    "total_supply": 109469556,
+    "max_supply": 0,
+    "beta_value": 1.04048,
+    "last_updated": "2020-01-28T21:56:03Z",
+    "quotes": {
+      "USD": {
+        "price": 173.00001891,
+        "volume_24h": 8256159044.3763,
+        "volume_24h_change_24h": 2.54,
+        "market_cap": 18938229376,
+        "market_cap_change_24h": 0.93,
+        "percent_change_1h": 0.27,
+        "percent_change_12h": 1.04,
+        "percent_change_24h": 0.92,
+        "percent_change_7d": 2.18,
+        "percent_change_30d": 27.49,
+        "percent_change_1y": 64.2,
+        "ath_price": 1432.88,
+        "ath_date": "2018-01-13T21:04:00Z",
+        "percent_from_price_ath": -87.93
       }
-    }
-  }
+    },
+    "result": 173.00001891
+  },
+  "result": 173.00001891,
+  "statusCode": 200
 }
 ```
