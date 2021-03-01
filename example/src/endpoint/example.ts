@@ -1,7 +1,7 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 
-export const NAME = 'example'
+export const NAME = 'example' // This should be filled in with a lowercase name corresponding to the API endpoint
 
 const customError = (data: any) => data.Response === 'Error'
 
@@ -24,6 +24,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const params = {
     base,
     quote,
+    api_key: config.apiKey,
   }
 
   const options = { ...config.api, params, url }
