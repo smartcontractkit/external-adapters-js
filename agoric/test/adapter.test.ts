@@ -110,9 +110,9 @@ describe('execute', () => {
     let server: Server
 
     const port = 18082
-    process.env.AG_SOLO_ORACLE = `http://localhost:${port}/api/oracle`
+    process.env.AG_SOLO_ORACLE_URL = `http://localhost:${port}/api/oracle`
     const execute = makeExecute(makeConfig('AGORICTEST'))
-    delete process.env.AG_SOLO_ORACLE
+    delete process.env.AG_SOLO_ORACLE_URL
 
     before(
       () =>
