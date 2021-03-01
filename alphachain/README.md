@@ -26,7 +26,7 @@ Retrieves price data for a given currency pair
 | :-------: | :---------------------: | :--------------------------------------------------------: | :-----: | :---------: |
 |    ✅     | `base`, `from`, `coin`  |            The symbol of the currency to query             |         |             |
 |    ✅     | `quote`, `to`, `market` |          The symbol of the currency to convert to          |         |             |
-|    🟡     |         `field`         | The object path to access the value returned as the result |         |             |
+|           |         `field`         | The object path to access the value returned as the result |         |  `result`   |
 
 ## Sample Output
 
