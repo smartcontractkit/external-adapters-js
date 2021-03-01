@@ -10,7 +10,7 @@ import { BigNumber } from 'ethers'
 describe('execute', () => {
   const jobID = '1'
   process.env.DATA_PROVIDER_URL = 'ignoreable'
-  const execute = makeExecute(makeConfig('', 'coingecko'))
+  const execute = makeExecute(makeConfig(''))
 
   context('validation error', () => {
     const requests = [
