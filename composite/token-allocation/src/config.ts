@@ -1,7 +1,7 @@
 import { util } from '@chainlink/ea-bootstrap'
 import { getDefaultConfig } from '@chainlink/external-adapter'
 import { getDataProvider } from './dataProvider'
-import { Config, DataProviderConfig } from './types'
+import { Config } from './types'
 
 export const DEFAULT_TOKEN_DECIMALS = 18
 export const DEFAULT_TOKEN_BALANCE = 1

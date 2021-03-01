@@ -32,8 +32,3 @@ export type Config = {
   defaultMethod: string
   defaultQuote: string
 }
-
-export type DataProviderConfig = {
-  batchingSupport: boolean
-  batchEndpoint?: string
-}
