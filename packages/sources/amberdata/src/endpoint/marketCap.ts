@@ -1,15 +1,25 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 
-export const Name = 'marketcap'
+export const Name = 'token'
 
 const customError = (data: any) => {
   return Object.keys(data.payload).length === 0
 }
 
+export enum TokenEndpoints {
+  MarketCap = 'marketcap',
+  TotalSupply = 'totalsupply',
+}
+
+const paths: Record<TokenEndpoints, string> = {
+  [TokenEndpoints.MarketCap]: 'marketCapUSD',
+  [TokenEndpoints.TotalSupply]: 'totalSupply',
+}
+
 const customParams = {
   base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
+  endpoint: true,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, config) => {
@@ -18,7 +28,8 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const jobRunID = validator.validated.id
 
   const coin = validator.validated.data.base
-  const market = validator.validated.data.quote
+  const endpoint: TokenEndpoints = validator.validated.data.endpoint
+  const path = paths[endpoint] || 'marketCapUSD'
   const url = `/api/v2/market/tokens/prices/${coin.toLowerCase()}/latest`
 
   const reqConfig = { ...config.api, url }
@@ -27,10 +38,10 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const coinData = response.data.payload.find(
     (asset: Record<string, any>) => asset.symbol.toUpperCase() === coin.toUpperCase(),
   )
-  const result = Requester.validateResultNumber(coinData, [`marketCap${market.toUpperCase()}`])
+  const result = Requester.validateResultNumber(coinData, [path])
 
   return Requester.success(jobRunID, {
-    data: config.verbose ? { ...response, result } : { result },
+    data: config.verbose ? { ...response.data, result } : { result },
     result,
     status: 200,
   })
