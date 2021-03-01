@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { ExecuteWithConfig, Config, ResponsePayload } from '@chainlink/types'
+import { ExecuteWithConfig, Config } from '@chainlink/types'
 
 export const NAME = 'price'
 
@@ -8,10 +8,16 @@ const customError = (data: any) => {
   return false
 }
 
+export enum Paths {
+  Price = 'price',
+  MarketCap = 'marketcap',
+}
+
 const customParams = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
   coinid: false,
+  path: false,
 }
 
 const presetTickers: { [ticker: string]: string } = {
@@ -22,74 +28,30 @@ const presetTickers: { [ticker: string]: string } = {
   LINA: 'linear',
 }
 
-const blacklist = ['leocoin', 'farmatrust', 'freetip', 'compound-coin', 'uni-coin', 'unicorn-token']
+const convertFromTicker = async (config: Config, ticker: string, coinId: string) => {
+  if (typeof coinId !== 'undefined') return coinId.toLowerCase()
 
-export const getCoinList = async (config: Config) => {
+  // Correct common tickers that are misidentified
+  if (ticker in presetTickers) {
+    return presetTickers[ticker]
+  }
+
   const url = '/coins/list'
+
   const options = {
     ...config.api,
     url,
   }
+
   const response = await Requester.request(options, customError)
-  return response.data
-}
 
-export const getPriceData = async (
-  config: Config,
-  ids: string,
-  currency: string,
-  marketCap = false,
-) => {
-  const url = '/simple/price'
-  const params = {
-    ids,
-    vs_currencies: currency.toLowerCase(),
-    include_market_cap: marketCap,
+  const coin = response.data.find((x: any) => x.symbol.toLowerCase() === ticker.toLowerCase())
+
+  if (typeof coin === 'undefined') {
+    return undefined
   }
-  const options = {
-    ...config.api,
-    url,
-    params,
-  }
-  const response = await Requester.request(options)
-  return response.data
-}
 
-export const getIdtoSymbol = (symbols: string[], coinList: any) => {
-  return Object.fromEntries(
-    symbols.map((symbol) => {
-      if (symbol in presetTickers) {
-        return [presetTickers[symbol], symbol]
-      }
-      const coin = coinList.find(
-        (d: any) =>
-          d.symbol.toLowerCase() === symbol.toLowerCase() &&
-          !blacklist.includes(d.id.toLowerCase()),
-      )
-      return [coin.id, symbol]
-    }),
-  )
-}
-
-export interface Prices {
-  [symbol: string]: number
-}
-
-const getPayload = (symbols: string[], prices: Prices, quote: string) => {
-  const payloadEntries = symbols.map((symbol) => {
-    const key = symbol.toUpperCase()
-    const val = {
-      quote: {
-        [quote.toUpperCase()]: {
-          price: prices[symbol],
-        },
-      },
-    }
-    return [key, val]
-  })
-
-  const payload: ResponsePayload = Object.fromEntries(payloadEntries)
-  return payload
+  return coin.id.toLowerCase()
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
@@ -97,29 +59,38 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const base = validator.validated.data.base
-  const symbols = Array.isArray(base) ? base : [base]
-  const coingeckoSymbolId = validator.validated.data.coinid
-  const quote = validator.validated.data.quote
+  const symbol = validator.validated.data.base
+  const coinid = validator.validated.data.coinid
+  const url = '/simple/price'
+  const market = validator.validated.data.quote
+  const path: string = validator.validated.data.path || Paths.Price
+  const coin = await convertFromTicker(config, symbol, coinid)
 
-  const coinList = await getCoinList(config)
-  const idToSymbol = getIdtoSymbol(symbols, coinList)
-  const ids = coingeckoSymbolId
-    ? coingeckoSymbolId.toLowerCase()
-    : Object.keys(idToSymbol).join(',')
+  const params = {
+    ids: coin,
+    vs_currencies: market,
+    include_market_cap: path === Paths.MarketCap,
+  }
 
-  const response: Record<string, any> = await getPriceData(config, ids, quote)
-  const prices = Object.fromEntries(
-    Object.entries(response).map(([coinId, data]) => [
-      idToSymbol[coinId],
-      Requester.validateResultNumber(data, [quote.toLowerCase()]),
-    ]),
-  )
+  const options = {
+    ...config.api,
+    url,
+    params,
+  }
 
-  const result = symbols.length === 1 ? prices[symbols[0]] : ''
-  const payload = getPayload(symbols, prices, quote)
+  const param: { [key: string]: string } = {
+    [Paths.MarketCap]: `${market.toLowerCase()}_market_cap`,
+    [Paths.Price]: `${market.toLowerCase()}`,
+  }
+
+  const response = await Requester.request(options, customError)
+  const result = Requester.validateResultNumber(response.data, [
+    coin.toLowerCase(),
+    param[path] || market.toLowerCase(),
+  ])
+
   return Requester.success(jobRunID, {
-    data: config.verbose ? { ...response.data, result, payload } : { result, payload },
+    data: config.verbose ? { ...response.data, result } : { result },
     result,
     status: 200,
   })
