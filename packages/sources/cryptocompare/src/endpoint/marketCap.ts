@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { ExecuteWithConfig, Config, ResponsePayload } from '@chainlink/types'
+import { ExecuteWithConfig, Config } from '@chainlink/types'
 
 export const NAME = 'marketcap'
 
@@ -8,28 +8,6 @@ const customError = (data: any) => data.Response === 'Error'
 const customParams = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
-}
-
-const getPayload = (symbols: string[], prices: any, quote: string) => {
-  const payloadEntries = symbols.map((symbol) => {
-    const key = symbol
-    const val = {
-      quote: {
-        [quote.toUpperCase()]: {
-          marketCap: Requester.validateResultNumber(prices, [
-            'RAW',
-            symbol.toUpperCase(),
-            quote.toUpperCase(),
-            'MKTCAP',
-          ]),
-        },
-      },
-    }
-    return [key, val]
-  })
-
-  const payload: ResponsePayload = Object.fromEntries(payloadEntries)
-  return payload
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
@@ -55,10 +33,22 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   }
 
   const response = await Requester.request(options, customError)
-  const payload = getPayload(symbols, response.data, tsyms)
+  const marketCaps = symbols.map((symbol) => {
+    const key = symbol
+    const result = Requester.validateResultNumber(response.data, [
+      'RAW',
+      symbol.toUpperCase(),
+      tsyms,
+      'MKTCAP',
+    ])
+    return [key, result]
+  })
+
+  const result = marketCaps[0][1]
 
   return Requester.success(jobRunID, {
-    data: config.verbose ? { ...response.data, payload } : { payload },
+    data: config.verbose ? { ...response.data, result } : { result },
+    result,
     status: 200,
   })
 }
