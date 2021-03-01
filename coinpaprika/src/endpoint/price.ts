@@ -2,11 +2,16 @@ import { Requester, Validator } from '@chainlink/external-adapter'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 
 export const NAME = 'price'
+export enum Paths {
+  Price = 'price',
+  MarketCap = 'marketcap',
+}
 
 const inputParams = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
   coinid: false,
+  path: false,
 }
 
 const presetTickers: { [ticker: string]: string } = {
@@ -41,6 +46,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   )
   const url = `v1/tickers/${coin}`
   const market = validator.validated.data.quote
+  const path = validator.validated.data.path || Paths.Price
 
   const params = {
     quotes: market.toUpperCase(),
@@ -52,12 +58,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     params,
   }
 
+  const resultPaths: { [key: string]: string[] } = {
+    [Paths.Price]: ['quotes', market.toUpperCase(), 'price'],
+    [Paths.MarketCap]: ['quotes', market.toUpperCase(), 'market_cap'],
+  }
   const response = await Requester.request(options)
-  const result = Requester.validateResultNumber(response.data, [
-    'quotes',
-    market.toUpperCase(),
-    'price',
-  ])
+  const result = Requester.validateResultNumber(response.data, resultPaths[path])
 
   return Requester.success(jobRunID, {
     data: config.verbose ? { ...response.data, result } : { result },
