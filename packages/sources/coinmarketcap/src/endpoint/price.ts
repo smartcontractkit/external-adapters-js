@@ -1,8 +1,12 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { NAME as AdapterName } from '../config'
-import { ExecuteWithConfig, Config, ResponsePayload } from '@chainlink/types'
+import { ExecuteWithConfig, Config } from '@chainlink/types'
 
 export const NAME = 'price'
+export enum Paths {
+  Price = 'price',
+  MarketCap = 'marketcap',
+}
 
 // Coin IDs fetched from the ID map: https://coinmarketcap.com/api/documentation/v1/#operation/getV1CryptocurrencyMap
 const presetIds: { [symbol: string]: number } = {
@@ -37,111 +41,90 @@ const presetIds: { [symbol: string]: number } = {
   '1INCH': 8104,
 }
 
+// Defaults we use when there are multiple currencies with the same symbol
+const presetSlugs: Record<string, string> = {
+  COMP: 'compound',
+  BNT: 'bancor',
+  RCN: 'ripio-credit-network',
+  UNI: 'uniswap',
+  CRV: 'curve-dao-token',
+  FNX: 'finnexus',
+  ETC: 'ethereum-classic',
+  BAT: 'basic-attention-token',
+  CRO: 'crypto-com-coin',
+  LEO: 'unus-sed-leo',
+  FTT: 'ftx-token',
+  HT: 'huobi-token',
+  OKB: 'okb',
+  KCS: 'kucoin-token',
+}
+
 const priceParams = {
   base: ['base', 'from', 'coin', 'sym', 'symbol'],
   convert: ['quote', 'to', 'market', 'convert'],
   cid: false,
   slug: false,
-}
-
-interface AssetResponse {
-  assets: { [key: string]: any }
-  response: any
-}
-
-export const getSymbolData = async (
-  config: Config,
-  base: { [key: string]: any },
-  quote: string,
-): Promise<AssetResponse> => {
-  const _getPriceData = async (params: any): Promise<any> => {
-    const url = 'cryptocurrency/quotes/latest'
-    const options = {
-      ...config.api,
-      url,
-      params,
-    }
-    const response = await Requester.request(options)
-    return response.data && response.data.data
-  }
-
-  const params = { convert: quote }
-  const cid = base.cid
-  const slug = base.slug
-  const assets: string[] = base.assets
-  if (cid) {
-    const response = await _getPriceData({ ...params, id: cid })
-    return {
-      assets: { [response[cid].symbol]: response[cid] },
-      response,
-    }
-  } else if (slug) {
-    const response = await _getPriceData({ ...params, slug })
-    const asset: any = Object.values(response).find(
-      (o: any) => o.slug.toLowerCase() === slug.toLowerCase(),
-    )
-    return {
-      assets: { [asset.symbol]: asset },
-      response,
-    }
-  } else {
-    const slugs = assets.map((s) => presetSlugs[s]).filter(Boolean)
-    const symbols = assets.filter((s) => !presetSlugs[s])
-    let response: Record<string, any> = {}
-    // Queries for slugs and symbols cannot be together
-    if (slugs.length > 0) {
-      const slugPrices = await _getPriceData({ ...params, slug: slugs.join() })
-      response = { ...response, ...slugPrices }
-    }
-
-    if (symbols.length > 0) {
-      const symbolPrices = await _getPriceData({ ...params, symbol: symbols.join() })
-      response = { ...response, ...symbolPrices }
-    }
-
-    const indexMap = new Map()
-    Object.values(response).forEach((asset) => indexMap.set(asset.symbol.toUpperCase(), asset))
-    return {
-      assets: Object.fromEntries(
-        assets.map((symbol: any) => [symbol, indexMap.get(symbol.toUpperCase())]),
-      ),
-      response,
-    }
-  }
+  path: false,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
+  const url = 'cryptocurrency/quotes/latest'
   const validator = new Validator(request, priceParams)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
+
   const symbol = validator.overrideSymbol(AdapterName)
-  const assets = Array.isArray(symbol) ? symbol : [symbol]
+  // CMC allows a coin name to be specified instead of a symbol
   const slug = validator.validated.data.slug
-  const cid = validator.validated.data.cid
+  // CMC allows a coin ID to be specified instead of a symbol
+  const cid = validator.validated.data.cid || ''
+  // Free CMCPro API only supports a single symbol to convert
   const convert = validator.validated.data.convert
+  const path = validator.validated.data.path || Paths.Price
 
-  const _validatePrice = (data: any) =>
-    Requester.validateResultNumber(data, ['quote', convert, 'price'])
-
-  const response = await getSymbolData(config, { cid, slug, assets }, convert)
-  const result =
-    Object.values(response.assets).length === 1
-      ? _validatePrice(Object.values(response.assets)[0])
-      : ''
-
-  const payloadEntries = Object.entries(response.assets).map(([symbol, price]) => {
-    const val = {
-      quote: {
-        [convert]: { price: _validatePrice(price) },
-      },
+  const params: Record<string, string> = { convert }
+  if (cid) {
+    params.id = cid
+  } else if (slug) {
+    params.slug = slug
+  } else {
+    const slugForSymbol = presetSlugs[symbol]
+    if (slugForSymbol) {
+      params.slug = slugForSymbol
+    } else {
+      params.symbol = symbol
     }
-    return [symbol.toUpperCase(), val]
-  })
+  }
 
-  const payload: ResponsePayload = Object.fromEntries(payloadEntries)
+  const options = {
+    ...config.api,
+    url,
+    params,
+  }
+  const response = await Requester.request(options)
+
+  // CMC API currently uses ID as key in response, when querying with "slug" param
+  const _keyForSlug = (data: any, slug: string) => {
+    if (!data || !data.data) return
+    // First try to find slug key in response (in case the API starts returning keys correctly)
+    if (Object.keys(data.data).includes(slug)) return slug
+    // Fallback to ID
+    const _iEqual = (s1: string, s2: string) => s1.toUpperCase() === s2.toUpperCase()
+    const o: any = Object.values(data.data).find((o: any) => _iEqual(o.slug, slug))
+    return o && o.id
+  }
+
+  const key = params.id || _keyForSlug(response.data, params.slug || '') || params.symbol
+  const resultPaths: { [key: string]: string[] } = {
+    [Paths.Price]: ['data', key, 'quote', convert, 'price'],
+    [Paths.MarketCap]: ['data', key, 'quote', convert, 'market_cap'],
+  }
+
+  const result = Requester.validateResultNumber(response.data, resultPaths[path])
+
   return Requester.success(jobRunID, {
-    data: config.verbose ? { ...response, result, payload } : { result, payload },
+    data: config.verbose ? { ...response.data, result } : { result },
     result,
     status: 200,
   })
