@@ -12,11 +12,11 @@
 
 ### Input Params
 
-| Required? |            Name            |                        Description                         |       Options       | Defaults to |
-| :-------: | :------------------------: | :--------------------------------------------------------: | :-----------------: | :---------: |
-|    ✅     | `base`, `from`, or `coin`  |            The symbol of the currency to query             | `BTC`, `ETH`, `USD` |             |
-|    ✅     | `quote`, `to`, or `market` |          The symbol of the currency to convert to          | `BTC`, `ETH`, `USD` |             |
-|           |          `field`           | The object path to access the value returned as the result |                     |   `vwap`    |
+| Required? |            Name            |                               Description                               | Options | Defaults to |
+| :-------: | :------------------------: | :---------------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     | `base`, `from`, or `coin`  |                   The symbol of the currency to query                   |         |             |
+|    ✅     | `quote`, `to`, or `market` |                The symbol of the currency to convert to                 |         |             |
+|           |          `field`           | The object path to access the value that will be returned as the result |         |   `vwap`    |
 
 ### Sample Input
 

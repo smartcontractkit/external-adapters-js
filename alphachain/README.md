@@ -22,13 +22,25 @@ Retrieves price data for a given currency pair
 
 ### Input Params
 
-| Required? |          Name           |                        Description                         | Options | Defaults to |
-| :-------: | :---------------------: | :--------------------------------------------------------: | :-----: | :---------: |
-|    ✅     | `base`, `from`, `coin`  |            The symbol of the currency to query             |         |             |
-|    ✅     | `quote`, `to`, `market` |          The symbol of the currency to convert to          |         |             |
-|           |         `field`         | The object path to access the value returned as the result |         |  `result`   |
+| Required? |          Name           |                               Description                               | Options | Defaults to |
+| :-------: | :---------------------: | :---------------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     | `base`, `from`, `coin`  |                   The symbol of the currency to query                   |         |             |
+|    ✅     | `quote`, `to`, `market` |                The symbol of the currency to convert to                 |         |             |
+|           |         `field`         | The object path to access the value that will be returned as the result |         |  `result`   |
 
-## Sample Output
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "base": "ETH",
+    "quote": "SDR"
+  }
+}
+```
+
+### Sample Output
 
 ```json
 {
