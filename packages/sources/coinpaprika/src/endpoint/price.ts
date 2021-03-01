@@ -3,11 +3,16 @@ import { ExecuteWithConfig, Config } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
 export const NAME = 'price'
+export enum Paths {
+  Price = 'price',
+  MarketCap = 'marketcap',
+}
 
 const inputParams = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
   coinid: false,
+  path: false,
 }
 
 const getCoinId = async (ticker: string): Promise<string> => {
@@ -46,6 +51,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   }
 
   const url = `v1/tickers/${coin.toLowerCase()}`
+  const market = validator.validated.data.quote
+  const path = validator.validated.data.path || Paths.Price
 
   const params = {
     quotes: quote.toUpperCase(),
@@ -57,12 +64,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     params,
   }
 
+  const resultPaths: { [key: string]: string[] } = {
+    [Paths.Price]: ['quotes', market.toUpperCase(), 'price'],
+    [Paths.MarketCap]: ['quotes', market.toUpperCase(), 'market_cap'],
+  }
   const response = await Requester.request(options)
-  response.data.result = Requester.validateResultNumber(response.data, [
-    'quotes',
-    quote.toUpperCase(),
-    'price',
-  ])
+  response.data.result = Requester.validateResultNumber(response.data, resultPaths[path])
 
   return Requester.success(jobRunID, response, config.verbose)
 }
