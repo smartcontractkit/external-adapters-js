@@ -23,7 +23,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const to = validator.validated.data.quote.toUpperCase()
   const amount = validator.validated.data.amount || 1
   const precision = validator.validated.data.precision || 4
-  const url = `conversion/${from}/${to}`
+  const url = `last/crypto/${from}/${to}`
 
   const params = {
     ...config.api.params,
@@ -34,10 +34,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const options = { ...config.api, params, url }
 
   const response = await Requester.request(options, customError)
-  const result = Requester.validateResultNumber(response.data, ['converted'])
+  const result = Requester.validateResultNumber(response.data, ['last','price'])
   return Requester.success(jobRunID, {
-    data: { ...response.data, result },
-    result,
+    data: {result},
     status: 200,
   })
 }
