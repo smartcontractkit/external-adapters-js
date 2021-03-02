@@ -13,7 +13,6 @@ type RateLimitOptions = {
 export interface RateLimit {
   isEnabled: () => boolean
   getParticipantMaxAge: (participantId: string) => number | boolean
-  incrementTotalHeartbeat: () => number | boolean
   incrementParticipantHeartbeat: (participantId: string) => number | boolean
 }
 
@@ -88,6 +87,16 @@ export const makeRateLimit = (options: RateLimitOptions): RateLimit => {
     return Number(participantHeartbeats.get(key)?.heartbeat) || 0
   }
 
+  const _incrementParticipantHeartbeat = (participantId: string): number => {
+    _incrementTotalHeartbeat()
+    const heartbeat = _getCurrentParticipantHeartbeat(participantId)
+    participantHeartbeats.set(participantId, {
+      heartbeat: heartbeat + 1,
+      lastSeen: new Date().getTime(),
+    })
+    return heartbeat + 1
+  }
+
   const _removedExpiredHeartbeats = (
     heartbeats: Map<string, Heartbeat>,
   ): Map<string, Heartbeat> => {
@@ -108,20 +117,10 @@ export const makeRateLimit = (options: RateLimitOptions): RateLimit => {
     return fn(...args)
   }
 
-  const _incrementParticipantHeartbeat = (participantId: string): number => {
-    const heartbeat = _getCurrentParticipantHeartbeat(participantId)
-    participantHeartbeats.set(participantId, {
-      heartbeat: heartbeat + 1,
-      lastSeen: new Date().getTime(),
-    })
-    return heartbeat + 1
-  }
-
   const _ifEnabled = (fn: (...args: any[]) => any) => (_isEnabled() ? fn : () => false)
   return {
     isEnabled: _isEnabled,
     getParticipantMaxAge: _ifEnabled(_getParticipantMaxAge),
-    incrementTotalHeartbeat: _ifEnabled(_withExpiration(_incrementTotalHeartbeat)),
     incrementParticipantHeartbeat: _ifEnabled(_withExpiration(_incrementParticipantHeartbeat)),
   }
 }

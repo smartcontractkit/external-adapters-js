@@ -163,9 +163,6 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
           ),
       })
 
-    // rateLimit.incrementTotalHeartbeat()
-    rateLimit.incrementParticipantHeartbeat(_getKey(request))
-
     const entry = options.requestCoalescing.enabled
       ? await _getWithCoalescing()
       : await cache.get(key)
@@ -177,16 +174,19 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
         // If maxAge is present on the request, cache entry is updated
         if (requestMaxAge && requestMaxAge !== entry.maxAge)
           await _cacheOnSuccess(entry, requestMaxAge)
+        rateLimit.incrementParticipantHeartbeat(_getKey(request))
         return { jobRunID: request.id, ...entry }
       }
       logger.debug(`Cache: SKIP(maxAge < 0)`)
     }
 
+    const result = await execute(request)
+    // Heartbeat is incremented only if valid request
+    rateLimit.incrementParticipantHeartbeat(_getKey(request))
     const maxAge = _getDefaultMaxAge(request)
     // Initiate request coalescing by adding the in-flight mark
     await _setInFlightMarker(coalescingKey, maxAge)
 
-    const result = await execute(request)
     await _cacheOnSuccess(result, maxAge)
     return result
   }
