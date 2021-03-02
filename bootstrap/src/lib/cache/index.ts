@@ -114,8 +114,8 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
     if (isNaN(data.data.maxAge as number)) return
     return Number(data.data.maxAge)
   }
-  const _getDefaultMaxAge = (request: AdapterRequest): any => {
-    return rateLimit.getParticipantMaxAge(_getKey(request)) || cache.options.maxAge
+  const _getDefaultMaxAge = (request: AdapterRequest): number => {
+    return rateLimit.getParticipantMaxAge(_getKey(request)) || (cache.options.maxAge as number)
   }
 
   const _executeWithCache = async (request: AdapterRequest) => {
@@ -124,9 +124,14 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
     // Add successful result to cache
     const _cacheOnSuccess = async (
       { statusCode, data, result }: AdapterResponse,
-      maxAge: number,
+      maxAge?: number,
     ) => {
       if (statusCode === 200) {
+        // Heartbeat is incremented only if valid request
+        rateLimit.incrementParticipantHeartbeat(_getKey(request), data.cost)
+        if (!maxAge) {
+          maxAge = _getDefaultMaxAge(request)
+        }
         const entry = { statusCode, data, result, maxAge }
         await cache.set(key, entry, maxAge)
         logger.debug(`Cache: SET ${key}`, entry)
@@ -180,14 +185,12 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
       logger.debug(`Cache: SKIP(maxAge < 0)`)
     }
 
-    const result = await execute(request)
-    // Heartbeat is incremented only if valid request
-    rateLimit.incrementParticipantHeartbeat(_getKey(request))
     const maxAge = _getDefaultMaxAge(request)
     // Initiate request coalescing by adding the in-flight mark
     await _setInFlightMarker(coalescingKey, maxAge)
 
-    await _cacheOnSuccess(result, maxAge)
+    const result = await execute(request)
+    await _cacheOnSuccess(result)
     return result
   }
 

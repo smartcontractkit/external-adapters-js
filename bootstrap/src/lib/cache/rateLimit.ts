@@ -12,17 +12,18 @@ type RateLimitOptions = {
 
 export interface RateLimit {
   isEnabled: () => boolean
-  getParticipantMaxAge: (participantId: string) => number | boolean
-  incrementParticipantHeartbeat: (participantId: string) => number | boolean
+  getParticipantMaxAge: (participantId: string) => number | false
+  incrementParticipantHeartbeat: (participantId: string, cost?: number) => number | false
 }
 
-type Heartbeat = {
+type Participant = {
+  cost: number
   heartbeat: number
   lastSeen: number
 }
 
 const totalHeartbeat = new Map()
-let participantHeartbeats: Map<string, Heartbeat> = new Map()
+let participants: Map<string, Participant> = new Map()
 
 export const makeRateLimit = (options: RateLimitOptions): RateLimit => {
   const minHeartbeat = 0
@@ -44,20 +45,29 @@ export const makeRateLimit = (options: RateLimitOptions): RateLimit => {
     return (participantHeartbeat - minHeartbeat) / (totalHeartbeat - minHeartbeat)
   }
 
-  const _getParticipantEvenCapacity = () => {
-    const totalParticipants = participantHeartbeats.size || 1
-    return safeCapacity / totalParticipants
+  const _getParticipant = (participantId: string): Participant => {
+    return (
+      participants.get(participantId) || { cost: 1, heartbeat: 0, lastSeen: new Date().getTime() }
+    )
+  }
+
+  const _getParticipantEvenCapacity = (participantId: string) => {
+    const totalParticipants = participants.size || 1
+    return safeCapacity / totalParticipants / _getParticipant(participantId).cost
   }
 
   const _getParticipantMaxAge = (participantId: string): number => {
     const SEC_IN_MIN = 60
     const MS_IN_SEC = 1000
 
-    const participantHeartbeat = _getCurrentParticipantHeartbeat(participantId)
-    const totalHeartbeat = _getCurrentHeartbeat()
-    const participantWeight = _getWeight(participantHeartbeat, totalHeartbeat)
-    const allowedReqPerMin = _getParticipantEvenCapacity()
+    // Precise Capacity
+    // const participantHeartbeat = _getParticipant(participantId).heartbeat
+    // const totalHeartbeat = _getCurrentHeartbeat()
+    // const participantWeight = _getWeight(participantHeartbeat, totalHeartbeat)
     // const allowedReqPerMin = safeCapacity * participantWeight
+
+    const allowedReqPerMin = _getParticipantEvenCapacity(participantId)
+    console.log('PARTICIPANT CAPACITY: ', allowedReqPerMin)
 
     let maxAge = Math.round(MS_IN_SEC / (allowedReqPerMin / SEC_IN_MIN))
     if (maxAge < DEFAULT_CACHE_MAX_AGE) {
@@ -66,6 +76,15 @@ export const makeRateLimit = (options: RateLimitOptions): RateLimit => {
       maxAge = MAX_AGE_ALLOWED
     }
     return maxAge
+  }
+
+  const _getUpdatedParticipant = (participantId: string, cost?: number): Participant => {
+    const participant = _getParticipant(participantId)
+    return {
+      cost: cost || participant.cost,
+      heartbeat: participant.heartbeat + 1,
+      lastSeen: new Date().getTime(),
+    }
   }
 
   // hash(API_KEY):uuid()
@@ -83,23 +102,18 @@ export const makeRateLimit = (options: RateLimitOptions): RateLimit => {
     return heartbeat + 1
   }
 
-  const _getCurrentParticipantHeartbeat = (key: string): number => {
-    return Number(participantHeartbeats.get(key)?.heartbeat) || 0
-  }
-
-  const _incrementParticipantHeartbeat = (participantId: string): number => {
+  const _incrementParticipantHeartbeat = (participantId: string, cost?: number): number => {
     _incrementTotalHeartbeat()
-    const heartbeat = _getCurrentParticipantHeartbeat(participantId)
-    participantHeartbeats.set(participantId, {
-      heartbeat: heartbeat + 1,
-      lastSeen: new Date().getTime(),
-    })
-    return heartbeat + 1
+    const updatedParticipant = _getUpdatedParticipant(participantId, cost)
+    participants.set(participantId, updatedParticipant)
+    console.log(participants)
+
+    return updatedParticipant.heartbeat
   }
 
-  const _removedExpiredHeartbeats = (
-    heartbeats: Map<string, Heartbeat>,
-  ): Map<string, Heartbeat> => {
+  const _getNonExpiredParticipants = (
+    heartbeats: Map<string, Participant>,
+  ): Map<string, Participant> => {
     const heartbeatsCopy = new Map(heartbeats)
     const now = new Date().getTime()
     for (const [id, heartbeat] of heartbeats) {
@@ -112,8 +126,8 @@ export const makeRateLimit = (options: RateLimitOptions): RateLimit => {
   }
 
   const _withExpiration = (fn: any) => (...args: any) => {
-    const updatedParticipantHearbeats = _removedExpiredHeartbeats(participantHeartbeats)
-    participantHeartbeats = updatedParticipantHearbeats
+    const updatedParticipantHearbeats = _getNonExpiredParticipants(participants)
+    participants = updatedParticipantHearbeats
     return fn(...args)
   }
 
