@@ -1,4 +1,4 @@
-# Chainlink External Adapter for AlphaVantage
+# Chainlink External Adapter for Klaytn
 
 This adapter is built to fulfill Chainlink oracle requests and send transactions to a [Klaytn](https://github.com/klaytn/klaytn) node.
 
@@ -17,7 +17,7 @@ This adapter is built to fulfill Chainlink oracle requests and send transactions
 |    ✅     | `address`  |   The oracle contract to fulfill the request on    |  |             |
 |    ✅     | `data` | The data that contains functionSelector and dataPrefix prefix in the request                   |  |             |
 |    ✅     | `topics` | The fulfillment function selector          |  |             |
-|    ✅     | `result` or `value` | The value to fulfill the request with     |  |      0      |
+|    ✅     | `result` or `value` | The value to fulfill the request with     |  |             |
 
 ---
 
