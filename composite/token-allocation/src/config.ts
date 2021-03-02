@@ -7,6 +7,7 @@ import * as coingecko from './data-providers/coingecko'
 import * as coinapi from './data-providers/coinapi'
 import * as amberdata from './data-providers/amberdata'
 import * as kaiko from './data-providers/kaiko'
+import { Config, PriceAdapter } from './types'
 
 enum DataProvider {
   Amberdata = 'amberdata',
@@ -31,23 +32,14 @@ const providers: Record<string, PriceAdapter> = {
   [DataProvider.Kaiko]: kaiko,
 }
 
-export type PriceAdapter = {
-  getPrices: (baseSymbols: string[], quote: string) => Promise<Record<string, number>>
-  getMarketCaps: (baseSymbols: string[], quote: string) => Promise<Record<string, number>>
-}
-
-export type Config = {
-  priceAdapter: PriceAdapter
-  defaultMethod: string
-}
-
 export const DEFAULT_TOKEN_DECIMALS = 18
 export const DEFAULT_TOKEN_BALANCE = 1
 
-export const makeConfig = (prefix = ''): Config => {
-  const dataProvider = util.getRequiredEnv('DATA_PROVIDER', prefix)
+export const makeConfig = (prefix = '', provider = ''): Config => {
+  const dataProvider = provider || util.getRequiredEnv('DATA_PROVIDER', prefix)
   return {
     priceAdapter: providers[dataProvider],
     defaultMethod: util.getEnv('DEFAULT_METHOD', prefix) || 'price',
+    defaultQuote: util.getEnv('DEFAULT_QUOTE') || 'USD',
   }
 }

@@ -1,1 +1,0 @@
-# Nomics Synthetix Index

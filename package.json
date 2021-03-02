@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/external-adapters-js",
-  "version": "0.1.5",
+  "version": "0.2.0-rc.1",
   "license": "MIT",
   "private": true,
   "workspaces": [
@@ -14,6 +14,7 @@
     "covid-tracker",
     "messari",
     "coinlore",
+    "agoric",
     "trueusd",
     "cryptoid",
     "blockchair",
@@ -24,7 +25,6 @@
     "orchid-bandwidth",
     "genesis-volatility",
     "metalsapi",
-    "bravenewcoin-vwap",
     "dxfeed",
     "dxfeed-secondary",
     "tradingeconomics",
@@ -57,20 +57,12 @@
     "oilpriceapi",
     "openexchangerates",
     "polygon",
-    "google-finance",
     "etherchain",
     "poa-gasprice",
     "anyblock-gasprice",
     "anyblock-uniswap-vwap",
     "ethgasstation",
     "amberdata-gasprice",
-    "synth-index/coinapi",
-    "synth-index/coingecko",
-    "synth-index/coinmarketcap",
-    "synth-index/coinpaprika",
-    "synth-index/bravenewcoin",
-    "synth-index/cryptocompare",
-    "synth-index/amberdata",
     "wbtc-address-set",
     "renvm-address-set",
     "blockchain.com",
@@ -96,7 +88,11 @@
     "dydx-stark",
     "iex-cloud",
     "cfbenchmarks",
-    "harmony"
+    "conflux",
+    "harmony",
+    "tiingo",
+    "ethwrite",
+    "geodb"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",
@@ -109,13 +105,12 @@
     "test:example-start-server": "node ./helpers/server.js"
   },
   "dependencies": {
-    "@chainlink/ea-bootstrap": "^0.1.5",
+    "@chainlink/ea-bootstrap": "^0.1.6",
     "@chainlink/ea-factories": "^0.0.1",
-    "@chainlink/external-adapter": "^0.2.7",
+    "@chainlink/external-adapter": "^0.2.8",
     "decimal.js": "^10.2.0",
     "ethers": "^5.0.26",
     "express": "^4.17.0",
-    "synthetix": "^2.29.3",
     "web3": "^1.2.11"
   },
   "devDependencies": {
@@ -130,6 +125,7 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "prettier": "^2.0.5",
+    "ts-node": "^8.10.2",
     "wsrun": "^5.2.4"
   },
   "resolutions": {

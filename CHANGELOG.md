@@ -9,6 +9,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 - New adapters:
+  - `agoric` to push results to the Agoric blockchain
+
+## [0.2.0-rc.1] - 2021-2-4
+
+### Added
+
+- New adapters:
+  - `conflux` to send conflux chain transaction
   - `xbto` to get BRN quotes
   - `iv-outlier-detection` to get IV values with outlier detection
   - `taapi` to get Trading Analysis data
@@ -33,6 +41,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `dxfeed-secondary` to handle secondary mappings for the TSLA symbol
   - `klaytn` to query to Klaytn chain.
   - `harmony` to write transactions to the Harmony blockchain
+  - `tiingo` to get end-of-day stock price data from Tiingo
+  - `geodb` to get location data from GeoDB
 - Added support for metadata in requests. This gives adapters access to the FM on-chain round state.
 - Moves re-usable test behaviors & testing utils to a new package - `@chainlink/adapter-test-helpers`
 - Added support for using query string parameters as input to adapters.
@@ -65,6 +75,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `polygon`
   - `nomics`
   - `openexchangerates`
+  - `coinmarketcap`
+- `synth-index` adapter is now a composite adapter. Going forward there is only one instance of `synth-index` adapter built, one that you configure with the underlying data provider you wish to use.
+- Removed
+  - `google-finance`
 
 ### Removed
 

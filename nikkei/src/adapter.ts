@@ -1,7 +1,7 @@
 import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
 import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
 import { makeConfig, DEFAULT_ENDPOINT } from './config'
-import { realData } from './endpoint'
+import { price } from './endpoint'
 
 const inputParams = {
   endpoint: false,
@@ -17,8 +17,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
 
   switch (endpoint) {
-    case realData.Name: {
-      return await realData.execute(config, request)
+    case price.NAME: {
+      return await price.execute(config, request)
     }
     default: {
       throw new AdapterError({
