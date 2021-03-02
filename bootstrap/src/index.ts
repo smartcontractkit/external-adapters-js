@@ -106,7 +106,7 @@ const executeSync = (execute: Execute): ExecuteSync => {
       const result = await executeWithMiddleware(data)
       // only consider registering a warmup request if the original one was successful
       // and we have caching enabled
-      if (util.parseBool(process.env.CACHE_ENABLED)) {
+      if (util.parseBool(process.env.CACHE_ENABLED) && util.parseBool(process.env.WARMUP_ENABLED)) {
         store.dispatch(
           actions.warmupSubscribed({ data, executeFn: executeWithMiddleware, id: data.id }),
         )
