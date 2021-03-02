@@ -127,9 +127,9 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
       maxAge?: number,
     ) => {
       if (statusCode === 200) {
-        // Heartbeat is incremented only if valid request
-        rateLimit.incrementParticipantHeartbeat(_getKey(request), data.cost)
         if (!maxAge) {
+          // Heartbeat is incremented only if valid request
+          rateLimit.incrementParticipantHeartbeat(_getKey(request), data.cost)
           maxAge = _getDefaultMaxAge(request)
         }
         const entry = { statusCode, data, result, maxAge }
