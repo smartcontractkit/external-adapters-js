@@ -1,23 +1,29 @@
-# Chainlink External Adapter for Klaytn
+# Chainlink External Adapter for AlphaVantage
 
-This adapter is built to fulfill Chainlink oracle requests.
+This adapter is built to fulfill Chainlink oracle requests and send transactions to a [Klaytn](https://github.com/klaytn/klaytn) node.
 
-## Configuration
+### Environment Variables
 
-The adapter uses the following environment variables:
+| Required? |  Name   |                                      Description                                      | Options | Defaults to |
+| :-------: | :-----: | :-----------------------------------------------------------------------------------: | :-----: | :---------: |
+|         | URL          | A URL to a JSON-RPC (HTTP RPC) node on Klaytn                                         |         | `http://localhost:8551`            |
+|    ✅     | PRIVATE_KEY  | The private key to sign transactions with. Must have fulfillment permissions on the Oracle contract.  |         |             |
 
-- `URL`: A URL to a JSON-RPC (HTTP RPC) node on Klaytn
-- `PRIVATE_KEY`: The private key to sign transactions with. Must have fulfillment permissions on the Oracle contract.
+---
 
-## Input Params
+### Input Parameters
+| Required? |            Name            |               Description                |                                                                          Options                                                                           | Defaults to |
+| :-------: | :------------------------: | :--------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
+|    ✅     | `address`  |   The oracle contract to fulfill the request on    |  |             |
+|    ✅     | `data` | The data that contains functionSelector and dataPrefix prefix in the request                   |  |             |
+|    ✅     | `topics` | The fulfillment function selector          |  |             |
+|    ✅     | `result` or `value` | The value to fulfill the request with     |  |      0      |
 
-- `address` : The oracle contract to fulfill the request on
-- `dataPrefix` : The data prefix in the request
-- `functionSelector` : The fulfillment function selector
-- `result` or `value` : The value to fulfill the request with
+---
 
-## Output
-```
+### Output
+
+```json
 {
    "jobRunID":"1",
    "data":{

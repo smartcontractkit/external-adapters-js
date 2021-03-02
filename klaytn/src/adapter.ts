@@ -1,22 +1,18 @@
-import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
-import { Config, ExecuteWithConfig, ExecuteFactory, AdapterResponse } from '@chainlink/types'
-import { makeConfig } from './config'
-import { LegacyTransaction } from './types'
+import { Requester, Validator } from '@chainlink/external-adapter'
+import { AdapterRequest } from '@chainlink/types'
+import { logger } from '@chainlink/external-adapter'
+import { Config, makeConfig } from './config'
+import { txResult } from './types'
 import fs from 'fs'
-
 const Caver = require('caver-js')
-const caver = new Caver(process.env.URL)
-
-const privateKey = process.env.PRIVATE_KEY
-const keyring = caver.wallet.keyring.createFromPrivateKey(privateKey)
-caver.wallet.add(keyring)
 
 const sendFulfillment = async (
+  caver: any,
+  keyring: any,
   address: string,
   logData: string,
   topics: string,
   value: string,
-  callback: (txhash: string, e?: Error) => Promise<AdapterResponse>,
 ) => {
   // decode data in log
   const decoded = caver.abi.decodeLog(
@@ -24,7 +20,8 @@ const sendFulfillment = async (
     logData,
     topics,
   )
-  console.log('[Decoded Data] \n', decoded)
+
+  logger.debug('[Decoded Data]: ', { decoded })
 
   // get function selector
   const functionSelector = caver.abi.encodeFunctionSignature(
@@ -63,21 +60,7 @@ const sendFulfillment = async (
     gas: 1500000,
   })
 
-  // send transaction
-  let transactionHash = ''
-  let err: Error | undefined
-  await caver.wallet.sign(keyring.address, tx).then(async (t: LegacyTransaction) => {
-    await caver.rpc.klay
-      .sendRawTransaction(t)
-      .on('transactionHash', (hash: string) => {
-        transactionHash = hash
-      })
-      .on('receipt')
-      .on('error', (error: Error) => {
-        err = error
-      })
-  })
-  return callback(transactionHash, err)
+  return await caver.wallet.sign(keyring.address, tx).then(caver.rpc.klay.sendRawTransaction)
 }
 
 const customParams = {
@@ -87,8 +70,11 @@ const customParams = {
   value: ['result', 'value'],
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-  console.log('[Received Data] \n', request)
+export const execute = async (request: AdapterRequest, config: Config) => {
+  const caver = new Caver(config.url)
+  const keyring = caver.wallet.keyring.createFromPrivateKey(config.privatekey)
+  caver.wallet.add(keyring)
+
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 
@@ -97,35 +83,29 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const jobRunID = validator.validated.id
   const address = validator.validated.data.address
   const data = validator.validated.data.data
-  const topcis = validator.validated.data.data
+  const topics = validator.validated.data.topics
   const value = validator.validated.data.value
 
-  return sendFulfillment(
-    address,
-    data,
-    topcis,
-    JSON.parse(value).result,
-    (txHash: string, err?: Error): Promise<AdapterResponse> => {
-      if (err) {
-        return Requester.errored(
-          jobRunID,
-          new AdapterError({
-            jobRunID,
-            message: err,
-            statusCode: 400,
-          }),
-        )
-      }
+  try {
+    const tx: txResult = await sendFulfillment(
+      caver,
+      keyring,
+      address,
+      data,
+      topics,
+      JSON.parse(value).result,
+    )
 
-      return Requester.success(jobRunID, {
-        data: { result: txHash },
-        result_tx: txHash,
-        status: 200,
-      })
-    },
-  )
+    return Requester.success(jobRunID, {
+      data: { result: tx.transactionHash },
+      result_tx: tx.transactionHash,
+      status: 200,
+    })
+  } catch (e) {
+    return Requester.errored(jobRunID, e)
+  }
 }
 
-export const makeExecute: ExecuteFactory<Config> = (config) => {
-  return async (request) => execute(request, config || makeConfig())
+export const makeExecute = (config?: Config) => {
+  return async (request: AdapterRequest) => execute(request, config || makeConfig())
 }
