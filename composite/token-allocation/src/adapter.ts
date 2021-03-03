@@ -1,7 +1,7 @@
 import { AdapterResponse, Execute, AdapterRequest } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { DEFAULT_TOKEN_BALANCE, DEFAULT_TOKEN_DECIMALS, makeConfig } from './config'
-import { TokenAllocations, ResponsePayload, Config } from './types'
+import { TokenAllocations, Config, ResponsePayload } from './types'
 import { Decimal } from 'decimal.js'
 import { AdapterError } from '@chainlink/external-adapter'
 import { BigNumber } from 'ethers'
@@ -70,38 +70,16 @@ const toValidAllocations = (allocations: any[]): TokenAllocations => {
 
 const computePrice = async (config: Config, allocations: TokenAllocations, quote: string) => {
   const symbols = (allocations as TokenAllocations).map((t) => t.symbol)
-  const data = await config.priceAdapter.getPrices(symbols, quote)
+  const payload = await config.priceAdapter.getPrices(symbols, quote)
 
-  const payloadEntries = symbols.map((symbol) => {
-    const key = symbol
-    const val = {
-      quote: {
-        [quote]: { price: data[symbol] },
-      },
-    }
-    return [key, val]
-  })
-
-  const payload: ResponsePayload = Object.fromEntries(payloadEntries)
   const result = priceTotalValue(allocations, quote, payload)
   return { payload, result }
 }
 
 const computeMarketCap = async (config: Config, allocations: TokenAllocations, quote: string) => {
   const symbols = (allocations as TokenAllocations).map((t) => t.symbol)
-  const data = await config.priceAdapter.getMarketCaps(symbols, quote)
+  const payload = await config.priceAdapter.getPrices(symbols, quote, true)
 
-  const payloadEntries = symbols.map((symbol) => {
-    const key = symbol
-    const val = {
-      quote: {
-        [quote]: { marketCap: data[symbol] },
-      },
-    }
-    return [key, val]
-  })
-
-  const payload: ResponsePayload = Object.fromEntries(payloadEntries)
   const result = marketCapTotalValue(allocations, quote, payload)
   return { payload, result }
 }
