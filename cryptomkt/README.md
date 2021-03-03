@@ -10,7 +10,7 @@
 
 ## Ticker Endpoint
 
-## Input Params
+### Input Params
 
 | Required? |          Name           |                               Description                               | Options | Defaults to  |
 | :-------: | :---------------------: | :---------------------------------------------------------------------: | :-----: | :----------: |
