@@ -20,7 +20,9 @@
 
 ## Markets Endpoint
 
-Returns the price of a currency
+Returns the price of a currency.
+
+First attempts to request over a Websocket connecting and then falls back to HTTP
 
 ### Input Params
 
@@ -38,6 +40,8 @@ Returns the price of a currency
 ```
 
 ### Sample Output
+
+WS
 
 ```json
 {
@@ -63,4 +67,47 @@ Returns the price of a currency
   "result": 6106.32,
   "statusCode": 200
 }
+```
+
+HTTP
+
+```json
+[
+  {
+    "Symbol": "AAPL:US",
+    "Ticker": "AAPL",
+    "Name": "Apple",
+    "Country": "United States",
+    "Date": "2021-03-03T21:00:00",
+    "Type": "stocks",
+    "decimals": 2.0,
+    "state": "CLOSED    ",
+    "Last": 122.825,
+    "Close": 122.825,
+    "CloseDate": "2021-03-03T00:00:00",
+    "MarketCap": 1303031131050.0,
+    "URL": "/aapl:us",
+    "Importance": 500,
+    "DailyChange": -2.295,
+    "DailyPercentualChange": -1.8342,
+    "WeeklyChange": -2.525,
+    "WeeklyPercentualChange": -2.0144,
+    "MonthlyChange": -14.565,
+    "MonthlyPercentualChange": -10.6012,
+    "YearlyChange": 47.14,
+    "YearlyPercentualChange": 62.2845,
+    "YTDChange": -9.865,
+    "YTDPercentualChange": -7.4346,
+    "day_high": 125.71,
+    "day_low": 121.84,
+    "yesterday": 125.12,
+    "lastWeek": 125.35,
+    "lastMonth": 137.39,
+    "lastYear": 75.685,
+    "startYear": 132.69,
+    "ISIN": "US0378331005                  ",
+    "frequency": "Daily, Intraday, Live Stream",
+    "LastUpdate": "2021-03-03T21:01:00"
+  }
+]
 ```
