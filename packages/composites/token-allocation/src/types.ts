@@ -6,8 +6,6 @@ export type TokenAllocation = {
   balance: BigNumberish
 }
 
-export type TokenAllocations = TokenAllocation[]
-
 export type ResponsePayload = {
   [symbol: string]: {
     quote: {
@@ -19,9 +17,14 @@ export type ResponsePayload = {
   }
 }
 
+export type TokenAllocations = TokenAllocation[]
+
 export type PriceAdapter = {
-  getPrices: (baseSymbols: string[], quote: string) => Promise<Record<string, number>>
-  getMarketCaps: (baseSymbols: string[], quote: string) => Promise<Record<string, number>>
+  getPrices: (
+    baseSymbols: string[],
+    quote: string,
+    withMarketCap?: boolean,
+  ) => Promise<ResponsePayload>
 }
 
 export type Config = {
