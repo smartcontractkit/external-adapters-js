@@ -12,7 +12,7 @@ describe('rate limit', () => {
     it(`rate limit is disabled without env rate limit`, () => {
       const options = defaultOptions()
       const rateLimit = makeRateLimit(options.rateLimit)
-      expect(rateLimit.isEnabled()).to.be.false
+      expect(rateLimit.isEnabled).to.be.false
     })
 
     before(() => {
@@ -22,7 +22,7 @@ describe('rate limit', () => {
     it(`rate limit is disabled without rate limit capacity`, () => {
       const options = defaultOptions()
       const rateLimit = makeRateLimit(options.rateLimit)
-      expect(rateLimit.isEnabled()).to.be.false
+      expect(rateLimit.isEnabled).to.be.false
     })
   })
 
@@ -37,7 +37,7 @@ describe('rate limit', () => {
     it(`rate limit is enabled`, () => {
       const options = defaultOptions()
       const rateLimit = makeRateLimit(options.rateLimit)
-      expect(rateLimit.isEnabled()).to.be.true
+      expect(rateLimit.isEnabled).to.be.true
     })
   })
 
@@ -58,8 +58,10 @@ describe('rate limit', () => {
       rateLimit.incrementParticipantHeartbeat(firstParticipant)
     })
 
-    it(`max age defaults to a minimum of 30000 `, () => {
-      expect(rateLimit.getParticipantMaxAge(firstParticipant)).to.be.equal(30000)
+    it(`max age defaults to a minimum`, () => {
+      expect(rateLimit.getParticipantMaxAge(firstParticipant)).to.be.equal(
+        options.rateLimit.maxAgeLimits.min,
+      )
     })
 
     context('Max Age Participants', () => {
@@ -76,7 +78,10 @@ describe('rate limit', () => {
 
       it(`participant heartbeat is increased`, () => {
         for (let i = 0; i < 5; i++) rateLimit.incrementParticipantHeartbeat(firstParticipant)
-        expect(rateLimit.incrementParticipantHeartbeat(firstParticipant)).to.be.equal(7)
+        const participant = rateLimit.getParticipant(firstParticipant)
+        if (participant) {
+          expect(participant.heartbeat).to.be.equal(6)
+        }
       })
     })
   })

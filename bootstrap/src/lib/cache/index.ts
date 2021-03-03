@@ -36,7 +36,6 @@ export const defaultOptions = () => ({
   },
   rateLimit: {
     participantMaxAge: parseInt(env.PARTICIPANT_MAX_AGE || '') || DEFAULT_PARTICIPANT_MAX_AGE,
-    groupId: (env.API_KEY && hash(env.API_KEY)) || '',
     totalCapacity: parseInt(env.RATE_LIMIT_CAPACITY || ''),
     maxAgeLimits: {
       min: DEFAULT_CACHE_MAX_AGE,
