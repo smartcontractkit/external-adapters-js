@@ -4,7 +4,7 @@ import * as local from './local'
 import * as redis from './redis'
 import { parseBool, uuid, delay, exponentialBackOffMs, getWithCoalescing } from '../util'
 import { AdapterRequest, AdapterResponse } from '@chainlink/types'
-import { RedisOptions } from './redis'
+import { RedisOptions, DEFAULT_CACHE_MAX_AGE } from './redis'
 import { Middleware } from '../../index'
 import { makeRateLimit } from './rateLimit'
 
@@ -13,8 +13,8 @@ const DEFAULT_CACHE_KEY_GROUP = uuid()
 const DEFAULT_CACHE_KEY_IGNORED_PROPS = ['id', 'maxAge', 'meta']
 
 // Rate Limiting
-const DEFAULT_GROUP_MAX_AGE = 1000 * 60 * 60 * 2
-const DEFAULT_CACHE_KEY_RATE_LIMIT_PARTICIPANT = uuid()
+const DEFAULT_PARTICIPANT_MAX_AGE = 1000 * 60 * 60 * 2
+const MAX_AGE_ALLOWED = 1000 * 60 * 2
 
 // Request coalescing
 const DEFAULT_RC_INTERVAL = 100
@@ -35,10 +35,13 @@ export const defaultOptions = () => ({
     ],
   },
   rateLimit: {
-    groupMaxAge: parseInt(env.GROUP_MAX_AGE || '') || DEFAULT_GROUP_MAX_AGE,
+    participantMaxAge: parseInt(env.PARTICIPANT_MAX_AGE || '') || DEFAULT_PARTICIPANT_MAX_AGE,
     groupId: (env.API_KEY && hash(env.API_KEY)) || '',
-    id: DEFAULT_CACHE_KEY_RATE_LIMIT_PARTICIPANT,
     totalCapacity: parseInt(env.RATE_LIMIT_CAPACITY || ''),
+    maxAgeLimits: {
+      min: DEFAULT_CACHE_MAX_AGE,
+      max: MAX_AGE_ALLOWED,
+    },
   },
   // Request coalescing
   requestCoalescing: {
@@ -128,8 +131,9 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
     ) => {
       if (statusCode === 200) {
         if (!maxAge) {
-          // Heartbeat is incremented only if valid request
-          rateLimit.incrementParticipantHeartbeat(_getKey(request), data.cost)
+          // Participant is created and Heartbeat is incremented only if valid request
+          rateLimit.newParticipant(_getKey(request), data.cost)
+          rateLimit.incrementParticipantHeartbeat(_getKey(request))
           maxAge = _getDefaultMaxAge(request)
         }
         const entry = { statusCode, data, result, maxAge }

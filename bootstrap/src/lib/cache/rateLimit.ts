@@ -1,19 +1,20 @@
 import { logger } from '@chainlink/external-adapter'
-import { DEFAULT_CACHE_MAX_AGE } from './redis'
-
-const MAX_AGE_ALLOWED = 1000 * 60 * 2
 
 type RateLimitOptions = {
-  groupMaxAge: number
+  participantMaxAge: number
   groupId: string
-  id: string
   totalCapacity: number
+  maxAgeLimits: {
+    min: number
+    max: number
+  }
 }
 
 export interface RateLimit {
-  isEnabled: () => boolean
-  getParticipantMaxAge: (participantId: string) => number | false
-  incrementParticipantHeartbeat: (participantId: string, cost?: number) => number | false
+  isEnabled: boolean
+  getParticipantMaxAge: ((participantId: string) => number) | (() => void)
+  incrementParticipantHeartbeat: ((participantId: string, cost?: number) => void) | (() => void)
+  newParticipant: ((participantId: string, cost?: number) => void) | (() => void)
 }
 
 type Participant = {
@@ -22,19 +23,83 @@ type Participant = {
   lastSeen: number
 }
 
-const totalHeartbeat = new Map()
 let participants: Map<string, Participant> = new Map()
 
-export const makeRateLimit = (options: RateLimitOptions): RateLimit => {
-  const minHeartbeat = 0
-  const safeCapacity = options.totalCapacity * 0.9
+const makeParticipants = (participantMaxAge: number) => {
+  const DEFAULT_COST = 1
 
-  const _isEnabled = (): boolean => {
-    return !!options.groupId && !!options.totalCapacity
+  const getParticipant = (participantId: string): Participant | undefined => {
+    return participants.get(participantId)
+  }
+
+  const createParticipant = (participantId: string, cost?: number): Participant => {
+    let currentParticipant = getParticipant(participantId)
+    // If the participant exists, we don't create a new one. It updates the cost in case it exists
+    if (currentParticipant) {
+      if (cost && cost !== currentParticipant.cost) {
+        currentParticipant = {
+          cost: cost,
+          heartbeat: currentParticipant.heartbeat,
+          lastSeen: currentParticipant.lastSeen,
+        }
+        participants.set(participantId, currentParticipant)
+      }
+      return currentParticipant
+    }
+
+    const participant = { cost: cost || DEFAULT_COST, heartbeat: 0, lastSeen: Date.now() }
+    participants.set(participantId, participant)
+    return participant
+  }
+
+  const increaseParticipantHeartbeat = (participantId: string) => {
+    const participant = getParticipant(participantId) || createParticipant(participantId)
+    participants.set(participantId, {
+      cost: participant.cost,
+      heartbeat: participant.heartbeat + 1,
+      lastSeen: Date.now(),
+    })
+  }
+
+  const getTotalParticipants = (): number => {
+    return participants.size
+  }
+
+  const refreshParticipants = () => {
+    const participantsCopy = new Map(participants)
+    const now = Date.now()
+    for (const [id, heartbeat] of participants) {
+      if (now - heartbeat.lastSeen > participantMaxAge) {
+        participantsCopy.delete(id)
+        logger.debug(`Cache: Participant ${id} has expired. Removing`)
+      }
+    }
+    participants = participantsCopy
+  }
+
+  return {
+    getParticipant,
+    increaseParticipantHeartbeat,
+    createParticipant,
+    getTotalParticipants,
+    refreshParticipants,
+  }
+}
+
+let totalHeartbeat = 0
+
+export const makeRateLimit = (options: RateLimitOptions): RateLimit => {
+  const safeCapacity = options.totalCapacity * 0.9
+  const participantsOps = makeParticipants(options.participantMaxAge)
+
+  const isEnabled = !!(options.groupId && options.totalCapacity)
+  const noop = (): void => {
+    return
   }
 
   // Weight normalizes the relevance the participant is having in the adapter
   const _getWeight = (participantHeartbeat: number, totalHeartbeat: number): number => {
+    const minHeartbeat = 0
     // Avoid having Infinity weight
     if (participantHeartbeat === 0) {
       participantHeartbeat = 1
@@ -45,15 +110,12 @@ export const makeRateLimit = (options: RateLimitOptions): RateLimit => {
     return (participantHeartbeat - minHeartbeat) / (totalHeartbeat - minHeartbeat)
   }
 
-  const _getParticipant = (participantId: string): Participant => {
-    return (
-      participants.get(participantId) || { cost: 1, heartbeat: 0, lastSeen: new Date().getTime() }
-    )
-  }
-
-  const _getParticipantEvenCapacity = (participantId: string) => {
-    const totalParticipants = participants.size || 1
-    return safeCapacity / totalParticipants / _getParticipant(participantId).cost
+  const _getReqPerMinFor = (participantId: string): number => {
+    const totalParticipants = participantsOps.getTotalParticipants() || 1
+    const safeCapacityPerParticipant = safeCapacity / totalParticipants
+    const requestRatePerMinForParticipant =
+      safeCapacityPerParticipant / (participantsOps.getParticipant(participantId)?.cost || 1)
+    return requestRatePerMinForParticipant
   }
 
   const _getParticipantMaxAge = (participantId: string): number => {
@@ -61,80 +123,36 @@ export const makeRateLimit = (options: RateLimitOptions): RateLimit => {
     const MS_IN_SEC = 1000
 
     // Precise Capacity
-    // const participantHeartbeat = _getParticipant(participantId).heartbeat
-    // const totalHeartbeat = _getCurrentHeartbeat()
+    // const participantHeartbeat = participantsOps.getParticipant(participantId)?.heartbeat || 1
     // const participantWeight = _getWeight(participantHeartbeat, totalHeartbeat)
     // const allowedReqPerMin = safeCapacity * participantWeight
 
-    const allowedReqPerMin = _getParticipantEvenCapacity(participantId)
-    console.log('PARTICIPANT CAPACITY: ', allowedReqPerMin)
+    const allowedReqPerMin = _getReqPerMinFor(participantId)
 
     let maxAge = Math.round(MS_IN_SEC / (allowedReqPerMin / SEC_IN_MIN))
-    if (maxAge < DEFAULT_CACHE_MAX_AGE) {
-      maxAge = DEFAULT_CACHE_MAX_AGE
-    } else if (maxAge >= MAX_AGE_ALLOWED) {
-      maxAge = MAX_AGE_ALLOWED
+    if (maxAge < options.maxAgeLimits.min) {
+      maxAge = options.maxAgeLimits.min
+    } else if (maxAge >= options.maxAgeLimits.max) {
+      logger.warn(`Cache: Max age is hitting the maximum values. Too many dependent adapters`)
+      maxAge = options.maxAgeLimits.max
     }
     return maxAge
   }
 
-  const _getUpdatedParticipant = (participantId: string, cost?: number): Participant => {
-    const participant = _getParticipant(participantId)
-    return {
-      cost: cost || participant.cost,
-      heartbeat: participant.heartbeat + 1,
-      lastSeen: new Date().getTime(),
-    }
+  const _incrementParticipantHeartbeat = (participantId: string) => {
+    totalHeartbeat++
+    participantsOps.refreshParticipants()
+    participantsOps.increaseParticipantHeartbeat(participantId)
   }
 
-  // hash(API_KEY):uuid()
-  const _getHeartbeatKey = () => {
-    return `${options.groupId}:${options.id}`
+  const _newParticipant = (participantId: string, cost?: number) => {
+    participantsOps.createParticipant(participantId, cost)
   }
 
-  const _getCurrentHeartbeat = (): number => {
-    return Number(totalHeartbeat.get(_getHeartbeatKey())) || 0
-  }
-
-  const _incrementTotalHeartbeat = (): number => {
-    const heartbeat = _getCurrentHeartbeat()
-    totalHeartbeat.set(_getHeartbeatKey(), heartbeat + 1)
-    return heartbeat + 1
-  }
-
-  const _incrementParticipantHeartbeat = (participantId: string, cost?: number): number => {
-    _incrementTotalHeartbeat()
-    const updatedParticipant = _getUpdatedParticipant(participantId, cost)
-    participants.set(participantId, updatedParticipant)
-    console.log(participants)
-
-    return updatedParticipant.heartbeat
-  }
-
-  const _getNonExpiredParticipants = (
-    heartbeats: Map<string, Participant>,
-  ): Map<string, Participant> => {
-    const heartbeatsCopy = new Map(heartbeats)
-    const now = new Date().getTime()
-    for (const [id, heartbeat] of heartbeats) {
-      if (now - heartbeat.lastSeen > options.groupMaxAge) {
-        heartbeatsCopy.delete(id)
-        logger.debug(`Cache: Participant ${id} has expired. Removing`)
-      }
-    }
-    return heartbeatsCopy
-  }
-
-  const _withExpiration = (fn: any) => (...args: any) => {
-    const updatedParticipantHearbeats = _getNonExpiredParticipants(participants)
-    participants = updatedParticipantHearbeats
-    return fn(...args)
-  }
-
-  const _ifEnabled = (fn: (...args: any[]) => any) => (_isEnabled() ? fn : () => false)
   return {
-    isEnabled: _isEnabled,
-    getParticipantMaxAge: _ifEnabled(_getParticipantMaxAge),
-    incrementParticipantHeartbeat: _ifEnabled(_withExpiration(_incrementParticipantHeartbeat)),
+    isEnabled,
+    getParticipantMaxAge: isEnabled ? _getParticipantMaxAge : noop,
+    incrementParticipantHeartbeat: isEnabled ? _incrementParticipantHeartbeat : noop,
+    newParticipant: isEnabled ? _newParticipant : noop,
   }
 }
