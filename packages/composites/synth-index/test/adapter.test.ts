@@ -1,42 +1,20 @@
 import { Requester } from '@chainlink/external-adapter'
-import { assertSuccess, assertError } from '@chainlink/adapter-test-helpers'
+import { assertError } from '@chainlink/adapter-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
 import { makeExecute } from '../src/adapter'
 import * as ta from '@chainlink/token-allocation-adapter'
 
-const makeMockConfig = (provider: string) => {
+const makeMockConfig = () => {
   return {
     defaultNetwork: 'mainnet',
-    taConfig: ta.makeConfig('', provider),
+    taConfig: ta.makeConfig(''),
   }
 }
 
 describe('execute', () => {
   const jobID = '1'
-  const execute = makeExecute(makeMockConfig('coingecko'))
-
-  context('successful calls @integration', () => {
-    const requests = [
-      {
-        name: 'id not supplied',
-        testData: { data: { asset: 'sDEFI' } },
-      },
-      {
-        name: 'asset',
-        testData: {
-          id: jobID,
-          data: { asset: 'sDEFI' },
-        },
-      },
-    ]
-
-    requests.forEach((req) => {
-      it(`${req.name}`, async () => {
-        const data = await execute(req.testData as AdapterRequest)
-        assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
-      })
-    })
-  })
+  process.env.DATA_PROVIDER_URL = 'ignoreable'
+  const execute = makeExecute(makeMockConfig())
 
   context('validation error', () => {
     const requests = [
@@ -78,29 +56,6 @@ describe('execute', () => {
         } catch (error) {
           const errorResp = Requester.errored(jobID, error)
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
-        }
-      })
-    })
-  })
-
-  context('succeed calls @integration', () => {
-    const requests = [
-      {
-        name: 'valid asset',
-        testData: {
-          id: jobID,
-          data: { asset: 'sDEFI' },
-        },
-      },
-    ]
-
-    requests.forEach((req) => {
-      it(`${req.name}`, async () => {
-        try {
-          await execute(req.testData as AdapterRequest)
-        } catch (error) {
-          const errorResp = Requester.errored(jobID, error)
-          assertError({ expected: 200, actual: errorResp.statusCode }, errorResp, jobID)
         }
       })
     })
