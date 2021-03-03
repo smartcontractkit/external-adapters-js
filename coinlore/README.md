@@ -32,7 +32,7 @@ The default is to use the Chainlink `dominance` behavior.
 }
 ```
 
-### Output
+### Sample Output
 
 ```json
 {
