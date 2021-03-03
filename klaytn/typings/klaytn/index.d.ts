@@ -1,4 +1,6 @@
-export interface LegacyTransaction {
+declare module 'caver-js'
+
+interface LegacyTransaction {
   _type: string
   _from: string
   _gas: string
@@ -10,7 +12,7 @@ export interface LegacyTransaction {
   _gasPrice: string
   _nonce: string
 }
-export interface txResult {
+interface txResult {
   blockHash: string
   blockNumber: string
   contractAddress: string

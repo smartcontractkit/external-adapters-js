@@ -1,23 +1,18 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { AdapterRequest } from '@chainlink/types'
+import { ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
 import { logger } from '@chainlink/external-adapter'
-import { Config, makeConfig } from './config'
-import { txResult } from './types'
+import { CustomConfig, makeConfig } from './config'
 import fs from 'fs'
-const Caver = require('caver-js')
+import Caver from 'caver-js'
 
-const sendFulfillment = async (
-  caver: any,
-  keyring: any,
-  address: string,
-  logData: string,
-  topics: string,
-  value: string,
-) => {
+const makeTx = async (caver: any, keyring: any, input: any): Promise<txResult> => {
+  let { address, data, topics, value } = input
+  value = JSON.parse(value).result
+
   // decode data in log
   const decoded = caver.abi.decodeLog(
     JSON.parse(fs.readFileSync('./OracleRequestABI.json').toString()),
-    logData,
+    data,
     topics,
   )
 
@@ -53,14 +48,12 @@ const sendFulfillment = async (
     .substring(2)
 
   // make transaction
-  const tx = new caver.transaction.legacyTransaction({
+  return new caver.transaction.legacyTransaction({
     from: keyring.toAccount()._address,
     to: address,
     input: functionSelector.concat(params),
     gas: 1500000,
   })
-
-  return await caver.wallet.sign(keyring.address, tx).then(caver.rpc.klay.sendRawTransaction)
 }
 
 const customParams = {
@@ -70,35 +63,28 @@ const customParams = {
   value: ['result', 'value'],
 }
 
-export const execute = async (request: AdapterRequest, config: Config) => {
+export const execute: ExecuteWithConfig<CustomConfig> = async (request, config) => {
+  Requester.logConfig(config)
+
   const caver = new Caver(config.url)
-  const keyring = caver.wallet.keyring.createFromPrivateKey(config.privatekey)
+  const keyring = caver.wallet.keyring.createFromPrivateKey(config.apiKey)
   caver.wallet.add(keyring)
 
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 
-  Requester.logConfig(config)
-
   const jobRunID = validator.validated.id
-  const address = validator.validated.data.address
-  const data = validator.validated.data.data
-  const topics = validator.validated.data.topics
-  const value = validator.validated.data.value
 
   try {
-    const tx: txResult = await sendFulfillment(
-      caver,
-      keyring,
-      address,
-      data,
-      topics,
-      JSON.parse(value).result,
-    )
+    const tx = await makeTx(caver, keyring, validator.validated)
+    const response = await caver.wallet
+      .sign(keyring.address, tx)
+      .then(caver.rpc.klay.sendRawTransaction)
+    const result = response.transactionHash
 
     return Requester.success(jobRunID, {
-      data: { result: tx.transactionHash },
-      result_tx: tx.transactionHash,
+      data: config.verbose ? { ...response, result } : { result },
+      result,
       status: 200,
     })
   } catch (e) {
@@ -106,6 +92,6 @@ export const execute = async (request: AdapterRequest, config: Config) => {
   }
 }
 
-export const makeExecute = (config?: Config) => {
-  return async (request: AdapterRequest) => execute(request, config || makeConfig())
+export const makeExecute: ExecuteFactory<CustomConfig> = (config) => {
+  return async (request) => execute(request, config || makeConfig())
 }
