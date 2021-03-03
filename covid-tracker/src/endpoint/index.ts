@@ -1,1 +1,1 @@
-export * as dataQuery from './us'
+export * as us from './us'
