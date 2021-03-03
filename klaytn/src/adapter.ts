@@ -6,7 +6,8 @@ import fs from 'fs'
 import Caver from 'caver-js'
 
 const makeTx = async (caver: any, keyring: any, input: any): Promise<txResult> => {
-  let { address, data, topics, value } = input
+  let { value } = input
+  const { address, data, topics } = input
   value = JSON.parse(value).result
 
   // decode data in log
