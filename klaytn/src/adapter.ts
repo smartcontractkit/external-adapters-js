@@ -8,7 +8,6 @@ import Caver from 'caver-js'
 const makeTx = async (caver: any, keyring: any, input: any): Promise<txResult> => {
   let { value } = input
   const { address, data, topics } = input
-  value = JSON.parse(value).result
 
   // decode data in log
   const decoded = caver.abi.decodeLog(
