@@ -16,8 +16,7 @@ The adapter takes the following environment variables:
 | :-------: | :-----------------------------------------: | :-------------------------------------------: | :------------------------: | :---------: |
 |    ✅     |                `CHECK_TYPE`                 |   The provider to check if a market is open   | `schedule`, `tradinghours` |             |
 |    🟡     | `CHECK_API_KEY` (when using `tradinghours`) |  An API key when needed by a check provider   |                            |             |
-|    ✅     |               `PRICE_ADAPTER`               | The provider to use for retrieving price data |    `finnhub`, `fcsapi`     |             |
-|    🟡     |                  `API_KEY`                  |  An API key when needed by a price provider   |                            |             |
+|    ✅     |             `DATA_PROVIDER_URL`             | The adapter URL for the price data provider   | `finnhub`, `fcsapi`        |             |
 |    ✅     |                  `RPC_URL`                  | ETH RPC URL to read the reference data value  |                            |             |
 
 ## Input Params
@@ -26,8 +25,8 @@ The adapter takes the following environment variables:
 | :-------: | :-------------------------------: | :-------------------------------------------------------------------------------------------: | :-----: | :---------: |
 |    ✅     |  `referenceContract`, `contract`  |                 The Aggregator contract to call for its latest round's price                  |         |             |
 |    ✅     |            `multiply`             | To handle big numbers, the amount to divide the output from reading the reference contract by |         |             |
-|    ✅     | `base`, `asset`, `from`, `symbol` |                                 The target currency to query                                  |         |             |
 |    🟡     |            `schedule`             |                   A schedule of market times to check whether they are open                   |         |             |
+|    ✅     |                                   |                         Any params required by the underlying adapter                         |         |             |
 
 An example schedule looks like:
 

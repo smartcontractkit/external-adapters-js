@@ -6,11 +6,11 @@ const customParams = {
   schedule: false,
 }
 
-export const isMarketClosedFactory = (input: AdapterRequest): (() => Promise<boolean>) => {
+export const isMarketClosedFactory = (input: AdapterRequest): Promise<boolean> => {
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
   const schedule = validator.validated.data.schedule || {}
-  return async () => isMarketClosed(schedule as Schedule)
+  return new Promise<boolean>((resolve) => resolve(isMarketClosed(schedule as Schedule)))
 }
 
 export const isMarketClosed = (schedule: Schedule): boolean => {

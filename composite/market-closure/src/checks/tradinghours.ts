@@ -10,10 +10,10 @@ const commonKeys: Record<string, string> = {
   N225: 'xjpx',
 }
 
-export const isMarketClosedFactory = (input: AdapterRequest): (() => Promise<boolean>) => {
+export const isMarketClosedFactory = (input: AdapterRequest): Promise<boolean> => {
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
-  return async () => await isMarketClosed(validator.validated.data.symbol)
+  return isMarketClosed(validator.validated.data.symbol)
 }
 
 export const isMarketClosed = async (symbol: string): Promise<boolean> => {

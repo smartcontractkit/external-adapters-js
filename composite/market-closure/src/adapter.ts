@@ -1,25 +1,14 @@
-import { AdapterRequest, AdapterResponse, Execute } from '@chainlink/types'
+import { AdapterRequest, Execute } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { Check, getCheckImpl, getCheckProvider } from './checks'
-import { getImpl, getPriceDataProvider } from './price'
 import { getLatestAnswer } from '@chainlink/reference-data-reader'
+import { Config, makeConfig } from './config'
 
 const customParams = {
   referenceContract: ['referenceContract', 'contract'],
   multiply: true,
 }
 
-export const execute: Execute = async (input) => {
-  const adapterExecute = getImpl(getPriceDataProvider())
-  const checkExecute = getCheckImpl(getCheckProvider(), input)
-  return await executeWithAdapters(input, adapterExecute, checkExecute)
-}
-
-export const executeWithAdapters = async (
-  input: AdapterRequest,
-  adapter: Execute,
-  check: Check,
-): Promise<AdapterResponse> => {
+export const execute = async (input: AdapterRequest, config: Config) => {
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
 
@@ -27,13 +16,15 @@ export const executeWithAdapters = async (
   const referenceContract = validator.validated.data.referenceContract
   const multiply = validator.validated.data.multiply
 
-  const halted = await check()
+  const halted = await config.checkAdapter(input)
   if (halted) {
     const result = await getLatestAnswer(referenceContract, multiply, input.meta)
     return Requester.success(jobRunID, { data: { result }, result, status: 200 })
   }
 
-  return await adapter(input)
+  return await config.priceAdapter(input)
 }
 
-exports.execute = execute
+export const makeExecute = (config?: Config): Execute => {
+  return async (request: AdapterRequest) => execute(request, config || makeConfig())
+}
