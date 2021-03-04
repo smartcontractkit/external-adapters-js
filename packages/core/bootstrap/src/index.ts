@@ -5,6 +5,7 @@ import { defaultOptions, redactOptions, withCache } from './lib/cache'
 import * as metrics from './lib/metrics'
 import { actions, store } from './lib/cache-warmer'
 import * as gcp from './lib/gcp'
+import rateLimit from './lib/rateLimit'
 import * as server from './lib/server'
 import * as util from './lib/util'
 export type Middleware<O = any> = (execute: Execute, options?: O) => Promise<Execute>
@@ -36,6 +37,29 @@ const withStatusCode: Middleware = async (execute) => async (input) => {
   return { ...rest, statusCode, data }
 }
 
+const withRateLimit: Middleware = async (execute) => async (input) => {
+  // if (rateLimit.enabled) {
+  //   const subscriber = await rateLimit.buildSubscriber()
+  //   const participantHeartbeatPerMin = subscriber.getTroughput(input, 60 * 1000)
+  //   const totalHeartbeat = subscriber.getTroughput('*', 60 * 1000)
+  //   const maxAge = rateLimit.getMaxAge(participantHeartbeatPerMin, totalHeartbeat)
+
+  //   const maxAgeInput = {
+  //     ...input,
+  //     data: {
+  //       ...input.data,
+  //       maxAge,
+  //     },
+  //   }
+  //   const result = await execute(maxAgeInput)
+  //   const producer = await rateLimit.buildProducer()
+  //   await producer.addRequest(input, result.data.cost)
+  //   await rateLimit.close()
+  //   return result
+  // }
+  return await execute(input)
+}
+
 // Log adapter input & output data
 const withLogger: Middleware = async (execute) => async (input: AdapterRequest) => {
   logger.debug('Input: ', { input })
@@ -49,40 +73,7 @@ const withLogger: Middleware = async (execute) => async (input: AdapterRequest) 
   }
 }
 
-const withMetrics: Middleware = async (execute) => async (input: AdapterRequest) => {
-  const recordMetrics = () => {
-    const labels: Parameters<typeof metrics.httpRequestsTotal.labels>[0] = {
-      method: 'POST',
-    }
-    const end = metrics.httpRequestDurationSeconds.startTimer()
-
-    return (statusCode?: number, type?: metrics.HttpRequestType) => {
-      labels.type = type
-      labels.status_code = metrics.normalizeStatusCode(statusCode)
-      end()
-      metrics.httpRequestsTotal.labels(labels).inc()
-    }
-  }
-
-  const record = recordMetrics()
-  try {
-    const result = await execute(input)
-    record(
-      result.statusCode,
-      result.data.maxAge || (result as any).maxAge
-        ? metrics.HttpRequestType.CACHE_HIT
-        : metrics.HttpRequestType.DATA_PROVIDER_HIT,
-    )
-    return result
-  } catch (error) {
-    record()
-    throw error
-  }
-}
-
-const middleware = [withLogger, skipOnError(withCache), withStatusCode].concat(
-  metrics.METRICS_ENABLED ? [withMetrics] : [],
-)
+const middleware = [withLogger, skipOnError(withCache), withRateLimit, withStatusCode]
 
 // Init all middleware, and return a wrapped execute fn
 const withMiddleware = async (execute: Execute) => {
