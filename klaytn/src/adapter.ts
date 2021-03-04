@@ -76,7 +76,7 @@ export const execute: ExecuteWithConfig<CustomConfig> = async (request, config) 
   const jobRunID = validator.validated.id
 
   try {
-    const tx = await makeTx(caver, keyring, validator.validated)
+    const tx = await makeTx(caver, keyring, validator.validated.data)
     const response = await caver.wallet
       .sign(keyring.address, tx)
       .then(caver.rpc.klay.sendRawTransaction)
