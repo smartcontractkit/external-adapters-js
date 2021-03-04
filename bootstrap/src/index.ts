@@ -4,6 +4,7 @@ import * as aws from './lib/aws'
 import { defaultOptions, redactOptions, withCache } from './lib/cache'
 import { actions, store } from './lib/cache-warmer'
 import * as gcp from './lib/gcp'
+import rateLimit from './lib/rateLimit'
 import * as server from './lib/server'
 import * as util from './lib/util'
 export type Middleware<O = any> = (execute: Execute, options?: O) => Promise<Execute>
@@ -35,6 +36,29 @@ const withStatusCode: Middleware = async (execute) => async (input) => {
   return { ...rest, statusCode, data }
 }
 
+const withRateLimit: Middleware = async (execute) => async (input) => {
+  // if (rateLimit.enabled) {
+  //   const subscriber = await rateLimit.buildSubscriber()
+  //   const participantHeartbeatPerMin = subscriber.getTroughput(input, 60 * 1000)
+  //   const totalHeartbeat = subscriber.getTroughput('*', 60 * 1000)
+  //   const maxAge = rateLimit.getMaxAge(participantHeartbeatPerMin, totalHeartbeat)
+
+  //   const maxAgeInput = {
+  //     ...input,
+  //     data: {
+  //       ...input.data,
+  //       maxAge,
+  //     },
+  //   }
+  //   const result = await execute(maxAgeInput)
+  //   const producer = await rateLimit.buildProducer()
+  //   await producer.addRequest(input, result.data.cost)
+  //   await rateLimit.close()
+  //   return result
+  // }
+  return await execute(input)
+}
+
 // Log adapter input & output data
 const withLogger: Middleware = async (execute) => async (input: AdapterRequest) => {
   logger.debug('Input: ', { input })
@@ -48,7 +72,7 @@ const withLogger: Middleware = async (execute) => async (input: AdapterRequest) 
   }
 }
 
-const middleware = [withLogger, skipOnError(withCache), withStatusCode]
+const middleware = [withLogger, skipOnError(withCache), withRateLimit, withStatusCode]
 
 // Init all middleware, and return a wrapped execute fn
 const withMiddleware = async (execute: Execute) => {
