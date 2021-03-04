@@ -13,7 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
-- Updated support for `DIGG/BTC` in Kaiko
+- Updated support for `DIGG/BTC` in Kaiko and Amberdata
 - Updated base URL for GeoDB
 
 ## [0.2.0-rc.1] - 2021-2-4
