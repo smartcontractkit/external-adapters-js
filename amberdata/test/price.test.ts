@@ -2,12 +2,12 @@ import { assert } from 'chai'
 import { Requester } from '@chainlink/external-adapter'
 import { assertSuccess, assertError } from '@chainlink/adapter-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
-import { makeExecute } from '../src/adapter'
+import adapter from '../src/index'
 
 describe('price endpoint', () => {
   const jobID = '1'
-  const execute = makeExecute()
   process.env.API_KEY = process.env.API_KEY ?? 'test_api_key'
+  const execute = adapter.makeExecute()
 
   context('successful calls @integration', () => {
     const requests = [

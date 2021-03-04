@@ -22,7 +22,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const amount = validator.validated.data.amount || 1
 
   const params = {
-    ...config.api.params,
+    ...config.api?.params,
     from,
     to,
     amount,

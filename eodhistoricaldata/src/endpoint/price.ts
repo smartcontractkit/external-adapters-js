@@ -27,7 +27,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const url = `/api/real-time/${symbol}`
 
   const params = {
-    ...config.api.params,
+    ...config.api?.params,
     fmt: 'json',
   }
 

@@ -26,7 +26,7 @@ declare module '@chainlink/types' {
     network?: string
     returnRejectedPromiseOnError?: Boolean
     verbose?: boolean
-    api: Partial<AxiosRequestConfig>
+    api?: Partial<AxiosRequestConfig>
   }
 
   /* RESPONSES */
@@ -69,12 +69,19 @@ declare module '@chainlink/types' {
 
   export type Execute = (input: AdapterRequest) => Promise<AdapterResponse>
 
-  export type ExecuteWithConfig<C extends Config> = (
+  export type ExecuteWithConfig<C> = (
     input: AdapterRequest,
     config: C,
   ) => Promise<AdapterResponse>
 
-  export type ExecuteFactory<C extends Config> = (config?: C) => Execute
+  export type EndpointRouter<C> = (
+    input: AdapterRequest,
+    config: C,
+    endpoints?: Endpoint[],
+    defaultEndpoint?: string
+  ) => Promise<AdapterResponse>
+
+  export type ExecuteFactory<C> = (config?: C) => Execute
 
   export type ConfigFactory = (prefix?: string) => Config
 
@@ -84,6 +91,12 @@ declare module '@chainlink/types' {
     makeExecute: ExecuteFactory
     makeConfig: ConfigFactory
   } & ExecuteHandlers
+
+  export type Endpoint = {
+    NAMES: string[]
+    makeExecute?: ExecuteFactory 
+    execute?: ExecuteWithConfig
+  } 
 
   /* IMPLEMENTATIONS */
   export type Address = {

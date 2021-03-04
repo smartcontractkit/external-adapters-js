@@ -26,7 +26,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const url = `conversion/${from}/${to}`
 
   const params = {
-    ...config.api.params,
+    ...config.api?.params,
     amount,
     precision,
   }

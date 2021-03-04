@@ -30,7 +30,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     ]),
   )
 
-  const url = config.api.baseURL || DEFAULT_API_ENDPOINT
+  const url = config.api?.baseURL || DEFAULT_API_ENDPOINT
   const hmy = new Harmony(url, {
     chainType: ChainType.Harmony,
     chainId: Number(config.chainID),

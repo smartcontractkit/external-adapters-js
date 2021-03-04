@@ -1,9 +1,9 @@
-import { makeExecute } from '../src/adapter'
+import adapter from '../src/index'
 import { shouldBehaveLikeBalanceAdapter } from '@chainlink/adapter-test-helpers'
 
 process.env.API_KEY = process.env.API_KEY ?? 'test_api_key'
 
-shouldBehaveLikeBalanceAdapter(makeExecute(), [
+shouldBehaveLikeBalanceAdapter(adapter.makeExecute(), [
   'bitcoin_mainnet',
   'ethereum_mainnet',
   'bitcoin_cash_mainnet',
