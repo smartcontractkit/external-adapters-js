@@ -8,7 +8,7 @@ const customError = (data: any) => data.Response === 'Error'
 const customParams = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
-  path: false,
+  field: false,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
@@ -18,7 +18,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const jobRunID = validator.validated.id
   const base = validator.validated.data.base
   const quote = validator.validated.data.quote
-  const path = validator.validated.data.path || 'price'
+  const field = validator.validated.data.field || 'price'
   const url = `price`
 
   const params = {
@@ -29,7 +29,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const options = { ...config.api, params, url }
 
   const response = await Requester.request(options, customError)
-  const result = Requester.validateResultNumber(response.data, [path])
+  const result = Requester.validateResultNumber(response.data, [field])
 
   return Requester.success(jobRunID, {
     data: config.verbose ? { ...response.data, result } : { result },
