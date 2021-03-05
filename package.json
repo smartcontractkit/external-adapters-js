@@ -92,7 +92,8 @@
     "tiingo",
     "ethwrite",
     "geodb",
-    "therundown"
+    "therundown",
+    "tradingeconomics-stream"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",
