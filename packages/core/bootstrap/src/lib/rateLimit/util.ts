@@ -11,16 +11,13 @@ export const getParticipantId = (request: AdapterRequest): string => {
 const getWeight = (totalRequests: Heartbeat[], participantRequests: Heartbeat[]): number => {
   const minHeartbeat = 0
   // Avoid having Infinity weight
-  if (participantRequests.length === 0) {
-    participantRequests.length = 1
-  }
-  if (totalRequests.length === 0) {
-    totalRequests.length = 1
-  }
-  return (participantRequests.length - minHeartbeat) / (totalRequests.length - minHeartbeat)
+  const participantReqNumber = participantRequests.length === 0 ? 1 : participantRequests.length
+  const totalReqNumber = totalRequests.length === 0 ? 1 : totalRequests.length
+  return (participantReqNumber - minHeartbeat) / (totalReqNumber - minHeartbeat)
 }
 
 const getParticipantCost = (participantRequests: Heartbeat[]): number => {
+  if (participantRequests.length === 0) return 1
   return (
     participantRequests.reduce((totalCost, h) => totalCost + h.cost, 0) / participantRequests.length
   )
@@ -32,7 +29,6 @@ export const getMaxReqAllowed = (
 ): number => {
   const weight = getWeight(totalRequests, participantRequests)
   const averageCost = getParticipantCost(participantRequests)
-
   const safeCapacity = 0.9 * (config.totalCapacity / averageCost)
   return weight * safeCapacity
 }
