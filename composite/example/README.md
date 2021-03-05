@@ -1,0 +1,1 @@
+# Chainlink example composite adapter
