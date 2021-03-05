@@ -8,8 +8,12 @@ The adapter takes the following environment variables:
 
 - `RPC_URL`: Blockchain RPC endpoint to get the needed on-chain data
 - `REGISTRY_ADDRESS`: Address Registry contract address used to query the Chainlink Registry
+- `DATA_PROVIDER_URL`: The adapter URL for the price data provider
+- `DEFAULT_QUOTE` (Optional): Currency that the price will be fetched by default. `USD` used by default
 
-This adapter relies on [`token-allocation`](../token-allocation/README.md) adapter. Required `token-allocation` input params and configuration apply to this adapter as well.
+## Input Params
+
+- `quote` (optional). Currency we want the price on. `DEFAULT_QUOTE` by default
 
 ## Output
 
