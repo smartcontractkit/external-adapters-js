@@ -20,7 +20,7 @@ declare module '@chainlink/types' {
   export type Callback = (statusCode: number, data?: any) => void
   export type AdapterHealthCheck = (callback: Callback) => any
 
-  import { AxiosRequestConfig } from 'axios'
+  export { AxiosRequestConfig } from 'axios'
   export type Config = {
     apiKey?: string
     network?: string
