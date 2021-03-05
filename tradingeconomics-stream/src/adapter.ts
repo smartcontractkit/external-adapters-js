@@ -78,6 +78,6 @@ export const execute = async (input: AdapterRequest, config: Config) => {
   return Requester.success(jobRunID, response)
 }
 
-export const makeExecute = (config: Config) => {
+export const makeExecute = (config?: Config) => {
   return async (request: AdapterRequest) => execute(request, config || makeConfig())
 }

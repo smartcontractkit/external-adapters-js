@@ -15,5 +15,5 @@ const executeSync = (execute: Execute): ExecuteSync => {
 
 export const server = (): void => {
   startService(makeConfig())
-  bootstrap.server.initHandler(executeSync(makeExecute(makeConfig())))()
+  bootstrap.server.initHandler(executeSync(makeExecute()))()
 }
