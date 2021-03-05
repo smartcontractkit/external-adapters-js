@@ -1,5 +1,5 @@
-import { isMarketClosedFactory as schedule } from './schedule'
-import { isMarketClosedFactory as th } from './tradinghours'
+import { isMarketClosed as schedule } from './schedule'
+import { isMarketClosed as th } from './tradinghours'
 import { AdapterRequest } from '@chainlink/types'
 
 // We check for something and get yes/no answer

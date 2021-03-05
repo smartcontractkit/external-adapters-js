@@ -11,7 +11,7 @@ export type Config = {
 export const makeConfig = (prefix = ''): Config => {
   const dataProviderUrl = util.getRequiredEnv('DATA_PROVIDER_URL', prefix)
   const defaultConfig = getDefaultConfig(prefix)
-  defaultConfig.api.baseURL = defaultConfig.api.baseURL || dataProviderUrl
+  defaultConfig.api.baseURL = dataProviderUrl
   defaultConfig.api.method = 'post'
 
   return {
