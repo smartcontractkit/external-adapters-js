@@ -4,7 +4,8 @@ import * as aws from './lib/aws'
 import { defaultOptions, redactOptions, withCache } from './lib/cache'
 import { actions, store } from './lib/cache-warmer'
 import * as gcp from './lib/gcp'
-import rateLimit from './lib/rateLimit'
+import * as rateLimit from './lib/rateLimit'
+import maxAgeController from './lib/maxAge'
 import * as server from './lib/server'
 import * as util from './lib/util'
 export type Middleware<O = any> = (execute: Execute, options?: O) => Promise<Execute>
@@ -37,26 +38,13 @@ const withStatusCode: Middleware = async (execute) => async (input) => {
 }
 
 const withRateLimit: Middleware = async (execute) => async (input) => {
-  // if (rateLimit.enabled) {
-  //   const subscriber = await rateLimit.buildSubscriber()
-  //   const participantHeartbeatPerMin = subscriber.getTroughput(input, 60 * 1000)
-  //   const totalHeartbeat = subscriber.getTroughput('*', 60 * 1000)
-  //   const maxAge = rateLimit.getMaxAge(participantHeartbeatPerMin, totalHeartbeat)
-
-  //   const maxAgeInput = {
-  //     ...input,
-  //     data: {
-  //       ...input.data,
-  //       maxAge,
-  //     },
-  //   }
-  //   const result = await execute(maxAgeInput)
-  //   const producer = await rateLimit.buildProducer()
-  //   await producer.addRequest(input, result.data.cost)
-  //   await rateLimit.close()
-  //   return result
-  // }
-  return await execute(input)
+  const totalReqPerMin = rateLimit.getTroughput(rateLimit.Interval.MINUTE)
+  const participantReqPerMin = rateLimit.getTroughput(rateLimit.Interval.MINUTE, input)
+  const maxReqPerMin = rateLimit.getMaxReqAllowed(totalReqPerMin, participantReqPerMin)
+  const maxAge = maxAgeController.calculate(maxReqPerMin)
+  const result = await execute({ ...input, data: { ...input.data, maxAge } })
+  rateLimit.store.dispatch(rateLimit.actions.newRequest({ data: input }))
+  return result
 }
 
 // Log adapter input & output data

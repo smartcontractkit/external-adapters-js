@@ -73,9 +73,9 @@ export const redactOptions = (options: CacheOptions) => ({
 
 export const withCache: Middleware<CacheOptions> = async (execute, options = defaultOptions()) => {
   // If disabled noop
-  if (!options.enabled) return (data: AdapterRequest) => execute(data)
+  // if (!options.enabled) return (data: AdapterRequest) => execute(data)
 
-  const cache = await options.cacheBuilder(options.cacheOptions)
+  // const cache = await options.cacheBuilder(options.cacheOptions)
 
   // Algorithm we use to derive entry key
   const hashOptions = {
@@ -86,24 +86,28 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
 
   const _getKey = (data: AdapterRequest) => `${options.key.group}:${hash(data, hashOptions)}`
   const _getCoalescingKey = (key: string) => `inFlight:${key}`
-  const _setInFlightMarker = async (key: string, maxAge: number) => {
-    if (!options.requestCoalescing.enabled) return
-    await cache.set(key, true, maxAge)
-    logger.debug(`Request coalescing: SET ${key}`)
-  }
-  const _delInFlightMarker = async (key: string) => {
-    if (!options.requestCoalescing.enabled) return
-    await cache.del(key)
-    logger.debug(`Request coalescing: DEL ${key}`)
-  }
 
-  const _getMaxAge = (data: AdapterRequest): any => {
-    if (!data || !data.data) return cache.options.maxAge
-    if (isNaN(data.data.maxAge as number)) return cache.options.maxAge
-    return Number(data.data.maxAge) || cache.options.maxAge
-  }
+  const _executeWithCache = async (
+    data: AdapterRequest,
+    cache: local.LocalLRUCache | redis.RedisCache,
+  ) => {
+    const _setInFlightMarker = async (key: string, maxAge: number) => {
+      if (!options.requestCoalescing.enabled) return
+      await cache.set(key, true, maxAge)
+      logger.debug(`Request coalescing: SET ${key}`)
+    }
+    const _delInFlightMarker = async (key: string) => {
+      if (!options.requestCoalescing.enabled) return
+      await cache.del(key)
+      logger.debug(`Request coalescing: DEL ${key}`)
+    }
 
-  const _executeWithCache = async (data: AdapterRequest) => {
+    const _getMaxAge = (data: AdapterRequest): any => {
+      if (!data || !data.data) return cache.options.maxAge
+      if (isNaN(data.data.maxAge as number)) return cache.options.maxAge
+      return Number(data.data.maxAge) || cache.options.maxAge
+    }
+
     const key = _getKey(data)
     const coalescingKey = _getCoalescingKey(key)
     const maxAge = _getMaxAge(data)
@@ -169,7 +173,10 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
 
   // Middleware wrapped execute fn which cleans up after
   return async (input) => {
-    const result = await _executeWithCache(input)
+    if (!options.enabled) return execute(input)
+
+    const cache = await options.cacheBuilder(options.cacheOptions)
+    const result = await _executeWithCache(input, cache)
     // Clean the connection
     await cache.close()
     return result
