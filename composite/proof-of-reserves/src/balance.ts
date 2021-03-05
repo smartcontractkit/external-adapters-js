@@ -1,5 +1,5 @@
-import { Execute, AdapterImplementation } from '@chainlink/types'
-import { util } from '@chainlink/ea-bootstrap'
+import { AdapterImplementation, AdapterResponse, Config } from '@chainlink/types'
+import { callAdapter, makeRequestFactory } from './adapter'
 // balance adapters
 import amberdata from '@chainlink/amberdata-adapter'
 import blockchainCom from '@chainlink/blockchain.com-adapter'
@@ -9,9 +9,7 @@ import btcCom from '@chainlink/btc.com-adapter'
 import cryptoapis from '@chainlink/cryptoapis-adapter'
 import sochain from '@chainlink/sochain-adapter'
 
-const ENV_BTC_INDEXER_ADAPTER = 'BTC_INDEXER_ADAPTER'
-
-const adapters: AdapterImplementation[] = [
+export const adapters: AdapterImplementation[] = [
   amberdata,
   blockchainCom,
   blockcypher,
@@ -21,27 +19,23 @@ const adapters: AdapterImplementation[] = [
   sochain,
 ]
 
-export type BitcoinIndexer = typeof adapters[number]['NAME']
-export type BitcoinIndexerOptions = {
-  type?: BitcoinIndexer
-}
+export type Indexer = typeof adapters[number]['NAME']
 
-const isBitcoinIndexer = (envVal?: string): envVal is BitcoinIndexer =>
-  !!(envVal && adapters.find(util.byName(envVal)))
-
-export const getBitcoinIndexer = (): BitcoinIndexer | undefined => {
-  const envVal = util.getEnv(ENV_BTC_INDEXER_ADAPTER)
-  return isBitcoinIndexer(envVal) ? envVal : undefined
-}
-
-export const getImpl = (options: BitcoinIndexerOptions): Execute => {
-  const prefix = options.type?.toUpperCase()
-  const impl = adapters.find(util.byName(options.type))
-  if (!impl) throw Error(`Unknown balance adapter type: ${options.type}`)
-
-  return (data) => {
-    const config = impl.makeConfig(prefix)
-    const execute = impl.makeExecute(config)
-    return execute(data)
+// Get balances for address set
+export const runBalanceAdapter = async (
+  indexer: Indexer,
+  config: Config,
+  input: AdapterResponse,
+) => {
+  const execute = makeRequestFactory(config, indexer)
+  const next = {
+    id: input.jobRunID,
+    data: {
+      result: input.data.result,
+      dataPath: 'result',
+      endpoint: 'balance',
+      confirmations: 6,
+    },
   }
+  return callAdapter(execute, next, '_onBalance')
 }
