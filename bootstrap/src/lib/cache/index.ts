@@ -103,10 +103,7 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
     return Number(data.data.maxAge) || cache.options.maxAge
   }
 
-  const _executeWithCache = async (
-    data: AdapterRequest,
-    cache: local.LocalLRUCache | redis.RedisCache,
-  ) => {
+  const _executeWithCache = async (data: AdapterRequest) => {
     const key = _getKey(data)
     const coalescingKey = _getCoalescingKey(key)
     const maxAge = _getMaxAge(data)
@@ -172,7 +169,7 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
 
   // Middleware wrapped execute fn which cleans up after
   return async (input) => {
-    const result = await _executeWithCache(input, cache)
+    const result = await _executeWithCache(input)
     // Clean the connection
     await cache.close()
     return result
