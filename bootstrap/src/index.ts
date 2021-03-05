@@ -43,7 +43,7 @@ const withRateLimit: Middleware = async (execute) => async (input) => {
   const maxReqPerMin = rateLimit.getMaxReqAllowed(totalReqPerMin, participantReqPerMin)
   const maxAge = maxAgeController.calculate(maxReqPerMin)
   const result = await execute({ ...input, data: { ...input.data, maxAge } })
-  rateLimit.store.dispatch(rateLimit.actions.newRequest({ data: input }))
+  rateLimit.store.dispatch(rateLimit.actions.newRequest({ data: input, cost: result.data.cost }))
   return result
 }
 
