@@ -14,17 +14,8 @@ The ChainlinkAdapter.getAllocations(ISetToken _setToken) should be reimplemented
 
 The adapter takes the following environment variables:
 
+- `DATA_PROVIDER_URL`: The adapter URL for the price data provider
 - `RPC_URL`: Blockchain RPC endpoint to get the needed on-chain data
-- `DATA_PROVIDER`: Data provider to use. Options (Notes):
-  - amberdata (Doesn't support crypto quotes)
-  - coinapi
-  - coingecko
-  - coinmarketcap
-  - coinpaprika
-  - cryptocompare
-  - kaiko
-  - nomics
-- `API_KEY`: For those data providers who need an api key
 - `DEFAULT_QUOTE` (Optional): Currency that the price will be fetched by default. `USD` used by default
 
 ## Input Params

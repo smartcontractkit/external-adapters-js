@@ -4,23 +4,9 @@ The adapter calculates a Synthetix Index value in the currency selected
 
 ## Configuration
 
+- `DATA_PROVIDER_URL`: The adapter URL for the price data provider
 - `DEFAULT_NETWORK` (Optional). Network to fetch the Synth Index
-- `DATA_PROVIDER`: Data provider to use. Options (Notes):
-  - amberdata (Doesn't support crypto quotes)
-  - coinapi
-  - coingecko
-  - coinmarketcap
-  - coinpaprika
-  - cryptocompare
-  - kaiko
-  - nomics
-- `API_KEY`: For those data providers who need an api key
 - `DEFAULT_QUOTE` (Optional): Currency that the price will be fetched by default. `USD` used by default
-
-E.g. if we wish to use CoinMarketCap as data provider, we should run (docker):
-```
-docker run -p 8080:8080 -e DATA_PROVIDER=coinmarketcap -e API_KEY=xxx-xxx -it synth-index-adapter:latest
-```
 
 ## Input Params
 
