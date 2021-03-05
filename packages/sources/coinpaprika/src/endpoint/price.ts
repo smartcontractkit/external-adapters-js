@@ -71,5 +71,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const response = await Requester.request(options)
   response.data.result = Requester.validateResultNumber(response.data, resultPaths[path])
 
-  return Requester.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, {
+    data: config.verbose ? { ...response.data, result, cost: 2 } : { result, cost: 2 },
+    result,
+    status: 200,
+  })
 }
