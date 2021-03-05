@@ -6,22 +6,9 @@ The adapter calculates the total value in the currency selected for the selected
 
 The adapter takes the following environment variables:
 
-- `DATA_PROVIDER`: Data provider to use
-- `API_KEY`: For those data providers who need an api key
+- `DATA_PROVIDER_URL`: The adapter URL for the price data provider
 - `DEFAULT_QUOTE` (Optional): Currency that the price will be fetched by default. `USD` used by default
 - `DEFAULT_METHOD` (Optional): Method that will be used. Accepts `price` and `marketCap`. `price` by default.
-
-The data providers supported and their properties are as follows:
-| Data Provider | API Key Required   | Supports Price     | Supports MarketCap | Notes                           |
-|---------------|--------------------|--------------------|--------------------|---------------------------------|
-| amberdata     | :white_check_mark: | :white_check_mark: | :white_check_mark: |                                 |
-| coinapi       | :white_check_mark: | :white_check_mark: | :x:                |                                 |
-| coingecko     | :x:                | :white_check_mark: | :white_check_mark: |                                 |
-| coinmarketcap | :white_check_mark: | :white_check_mark: | :white_check_mark: |                                 |
-| coinpaprika   | :x:                | :white_check_mark: | :white_check_mark: |                                 |
-| cryptocompare | :white_check_mark: | :white_check_mark: | :white_check_mark: |                                 |
-| kaiko         | :white_check_mark: | :white_check_mark: | :x:                | Crypto Quotes are not supported |
-| nomics        | :white_check_mark: | :white_check_mark: | :white_check_mark: |                                 |
 
 ## Input Params
 
