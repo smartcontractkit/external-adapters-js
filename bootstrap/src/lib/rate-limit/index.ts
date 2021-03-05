@@ -1,9 +1,9 @@
 import { AdapterRequest } from '@chainlink/types'
 import rootReducer, { Heartbeat } from './reducer'
 import { configureStore, IntervalNames } from './store'
-import { getParticipantId, getMaxReqAllowed } from './util'
+import { getParticipantId, getMaxReqAllowed, getParticipantCost } from './util'
 export * as actions from './actions'
-export { store, IntervalNames as Interval, getMaxReqAllowed }
+export { store, IntervalNames as Interval, getMaxReqAllowed, getParticipantCost }
 
 const { store } = configureStore(rootReducer)
 
