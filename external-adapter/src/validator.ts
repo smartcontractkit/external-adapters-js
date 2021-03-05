@@ -9,13 +9,15 @@ import presetSymbols from './overrides/presetSymbols.json'
 export class Validator {
   input: any
   customParams: any
+  options: Record<string, any[]>
   validated: any
   error: AdapterError | undefined
   errored: AdapterErrorResponse | undefined
 
-  constructor(input = {}, customParams = {}) {
+  constructor(input = {}, customParams = {}, options = {}) {
     this.input = input
     this.customParams = customParams
+    this.options = options
     this.validated = { data: {} }
     this.validateInput()
     this.validateOverrides()
@@ -27,12 +29,17 @@ export class Validator {
 
     try {
       for (const key in this.customParams) {
+        const options = this.options[key]
         if (Array.isArray(this.customParams[key])) {
-          this.validateRequiredParam(this.getRequiredArrayParam(this.customParams[key]), key)
+          this.validateRequiredParam(
+            this.getRequiredArrayParam(this.customParams[key]),
+            key,
+            options,
+          )
         } else if (this.customParams[key] === true) {
-          this.validateRequiredParam(this.input.data[key], key)
+          this.validateRequiredParam(this.input.data[key], key, options)
         } else if (typeof this.input.data[key] !== 'undefined') {
-          this.validated.data[key] = this.input.data[key]
+          this.validateOptionalParam(this.input.data[key], key, options)
         }
       }
     } catch (error) {
@@ -104,13 +111,36 @@ export class Validator {
     )
   }
 
-  validateRequiredParam(param: any, key: string) {
+  validateOptionalParam(param: any, key: string, options: any[]) {
+    if (param && options) {
+      if (!Array.isArray(options)) {
+        const message = `Parameter options for ${key} must be of an Array type`
+        throw new AdapterError({ jobRunID: this.validated.id, statusCode: 400, message })
+      }
+      if (!options.includes(param)) {
+        const message = `${param} is not a supported ${key} option. Must be one of ${options}`
+        throw new AdapterError({ jobRunID: this.validated.id, statusCode: 400, message })
+      }
+    }
+    this.validated.data[key] = param
+  }
+
+  validateRequiredParam(param: any, key: string, options: any[]) {
     if (typeof param === 'undefined') {
       const message = `Required parameter not supplied: ${key}`
       throw new AdapterError({ jobRunID: this.validated.id, statusCode: 400, message })
-    } else {
-      this.validated.data[key] = param
     }
+    if (options) {
+      if (!Array.isArray(options)) {
+        const message = `Parameter options for ${key} must be of an Array type`
+        throw new AdapterError({ jobRunID: this.validated.id, statusCode: 400, message })
+      }
+      if (!options.includes(param)) {
+        const message = `${param} is not a supported ${key} option. Must be one of ${options}`
+        throw new AdapterError({ jobRunID: this.validated.id, statusCode: 400, message })
+      }
+    }
+    this.validated.data[key] = param
   }
 
   getRequiredArrayParam(keyArray: string[]) {
