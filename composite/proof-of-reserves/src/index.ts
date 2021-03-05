@@ -1,4 +1,9 @@
 import { expose } from '@chainlink/ea-bootstrap'
-import { execute } from './adapter'
+import { makeExecute } from './adapter'
+import { makeConfig } from './config'
 
-export = { execute, ...expose(execute) }
+const NAME = 'PROOF_OF_RESERVES'
+
+const handlers = expose(makeExecute())
+
+export = { NAME, makeConfig, makeExecute, handlers }
