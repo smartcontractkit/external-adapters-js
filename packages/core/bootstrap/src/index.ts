@@ -5,7 +5,7 @@ import { defaultOptions, redactOptions, withCache } from './lib/cache'
 import * as metrics from './lib/metrics'
 import { actions, store } from './lib/cache-warmer'
 import * as gcp from './lib/gcp'
-import * as rateLimit from './lib/rateLimit'
+import * as rateLimit from './lib/rate-limit'
 import maxAgeController from './lib/maxAge'
 import * as server from './lib/server'
 import * as util from './lib/util'
@@ -38,10 +38,15 @@ const withStatusCode: Middleware = async (execute) => async (input) => {
   return { ...rest, statusCode, data }
 }
 
-const withRateLimit: Middleware = async (execute) => async (input) => {
+export const withRateLimit: Middleware = async (execute) => async (input) => {
   const totalReqPerMin = rateLimit.getTroughput(rateLimit.Interval.MINUTE)
   const participantReqPerMin = rateLimit.getTroughput(rateLimit.Interval.MINUTE, input)
-  const maxReqPerMin = rateLimit.getMaxReqAllowed(totalReqPerMin, participantReqPerMin)
+  const cost = rateLimit.getParticipantCost(participantReqPerMin)
+  const maxReqPerMin = rateLimit.getMaxReqAllowed(
+    totalReqPerMin.length + 1,
+    participantReqPerMin.length + 1,
+    cost,
+  )
   const maxAge = maxAgeController.calculate(maxReqPerMin)
   const result = await execute({ ...input, data: { ...input.data, maxAge } })
   rateLimit.store.dispatch(rateLimit.actions.newRequest({ data: input, cost: result.data.cost }))
