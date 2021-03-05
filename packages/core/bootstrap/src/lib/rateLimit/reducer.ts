@@ -39,7 +39,7 @@ const heartbeatReducer = createReducer<StateTree>(initialState, (builder) => {
     const id = getParticipantId(action.payload.data)
     const heartbeat: Heartbeat = {
       id,
-      cost: Number(action.payload.data.data.cost) || DEFAULT_COST,
+      cost: Number(action.payload.cost) || DEFAULT_COST,
       timestamp,
     }
     if (!state.participants[id]) {
