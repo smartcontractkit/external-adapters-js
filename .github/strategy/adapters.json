@@ -86,7 +86,8 @@
       "tiingo",
       "ethwrite",
       "geodb",
-      "therundown"
+      "therundown",
+      "tradingeconomics-stream"
     ]
   },
   "2-step": {
