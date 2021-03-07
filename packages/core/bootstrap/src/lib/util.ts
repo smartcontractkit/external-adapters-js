@@ -1,6 +1,7 @@
 import { AdapterImplementation } from '@chainlink/types'
 import { v4 as uuidv4 } from 'uuid'
 import { Decimal } from 'decimal.js'
+import objectHash from 'object-hash'
 
 export const isObject = (o: unknown): boolean =>
   o !== null && typeof o === 'object' && Array.isArray(o) === false
@@ -18,7 +19,7 @@ export const toObjectWithNumbers = (obj: any) => {
 }
 
 // pick a random string from env var after splitting with the delimiter ("a&b&c" "&" -> choice(["a","b","c"]))
-export const getRandomEnv = (name: string, delimiter = ',', prefix = '') => {
+export const getRandomEnv = (name: string, delimiter = ',', prefix = ''): string | undefined => {
   const val = getEnv(name, prefix)
   if (!val) return val
   const items = val.split(delimiter)
@@ -26,7 +27,11 @@ export const getRandomEnv = (name: string, delimiter = ',', prefix = '') => {
 }
 
 // pick a random string from env var after splitting with the delimiter ("a&b&c" "&" -> choice(["a","b","c"]))
-export const getRandomRequiredEnv = (name: string, delimiter = ',', prefix = '') => {
+export const getRandomRequiredEnv = (
+  name: string,
+  delimiter = ',',
+  prefix = '',
+): string | undefined => {
   const val = getRequiredEnv(name, prefix)
   const items = val.split(delimiter)
   return items[Math.floor(Math.random() * items.length)]
@@ -159,3 +164,12 @@ export const toFixedMax = (num: number | string | Decimal, decimals: number): st
     .replace(/(\.\d*?[1-9])0+$/g, '$1')
     // remove decimal part if all zeros (or only decimal point)
     .replace(/\.0*$/g, '')
+
+export const getHashOpts = (): Required<Parameters<typeof objectHash>>['1'] => ({
+  algorithm: 'sha1',
+  encoding: 'hex',
+  excludeKeys: (props: string) =>
+    ['id', 'maxAge', 'meta']
+      .concat((process.env.CACHE_KEY_IGNORED_PROPS || '').split(',').filter((k) => k))
+      .includes(props),
+})

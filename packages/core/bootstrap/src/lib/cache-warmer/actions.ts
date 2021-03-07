@@ -11,11 +11,11 @@ interface WarmupSubscriptionTimeoutResetPayload {
   key: string
 }
 
-export const warmupSubscribed = createAction<WarmupSubscribedPayload>('WARMUP_SUBSCRIBED')
+export const warmupSubscribed = createAction<WarmupSubscribedPayload>('WARMUP/SUBSCRIBED')
 export const warmupSubscriptionTimeoutReset = createAction<WarmupSubscriptionTimeoutResetPayload>(
-  'WARMUP_SUBSCRIPTION_TIMEOUT_RESET',
+  'WARMUP/SUBSCRIPTION_TIMEOUT_RESET',
 )
-export const warmupUnsubscribed = createAction<WarmupUnsubscribedPayload>('WARMUP_UNSUBSCRIBED')
+export const warmupUnsubscribed = createAction<WarmupUnsubscribedPayload>('WARMUP/UNSUBSCRIBED')
 
 interface WarmupRequestedPayload {
   /**
@@ -41,6 +41,6 @@ interface WarmupFailedPayload {
  * These set of events are emitted when our warmup handler requests the EA itself to warm up
  * the cache for a particular key
  */
-export const warmupRequested = createAction<WarmupRequestedPayload>('WARMUP_REQUESTED')
-export const warmupFulfilled = createAction<WarmupFulfilledPayload>('WARMUP_FULFILLED')
-export const warmupFailed = createAction<WarmupFailedPayload>('WARMUP_FAILED')
+export const warmupRequested = createAction<WarmupRequestedPayload>('WARMUP/REQUESTED')
+export const warmupFulfilled = createAction<WarmupFulfilledPayload>('WARMUP/FULFILLED')
+export const warmupFailed = createAction<WarmupFailedPayload>('WARMUP/FAILED')
