@@ -1,4 +1,7 @@
 import objectHash from 'object-hash'
+import { getHashOpts } from '../util'
+
+export const WARMUP_REQUEST_ID = '9001'
 
 export interface Config {
   /**
@@ -27,14 +30,7 @@ export interface Config {
 
 export function get(): Config {
   return {
-    hashOpts: {
-      algorithm: 'sha1',
-      encoding: 'hex',
-      excludeKeys: (props: string) =>
-        ['id', 'maxAge', 'meta']
-          .concat((process.env.CACHE_KEY_IGNORED_PROPS || '').split(',').filter((k) => k))
-          .includes(props),
-    },
+    hashOpts: getHashOpts(),
     unhealthyThreshold: Number(process.env.WARMUP_UNHEALTHY_THRESHOLD) || 3,
     warmupInterval: (Number(process.env.CACHE_MAX_AGE) || 30_000) / 2,
     subscriptionTTL: Number(process.env.WARMUP_SUBSCRIPTION_TTL) || 60 * 1000 * 60, // default 1h

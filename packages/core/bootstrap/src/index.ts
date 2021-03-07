@@ -5,10 +5,10 @@ import { defaultOptions, redactOptions, withCache } from './lib/cache'
 import * as metrics from './lib/metrics'
 import { actions, store } from './lib/cache-warmer'
 import * as gcp from './lib/gcp'
-import * as rateLimit from './lib/rate-limit'
-import maxAgeController from './lib/maxAge'
+import { withRateLimit } from './lib/rate-limit'
 import * as server from './lib/server'
 import * as util from './lib/util'
+
 export type Middleware<O = any> = (execute: Execute, options?: O) => Promise<Execute>
 
 // Try to initialize, pass through on error
@@ -36,21 +36,6 @@ const withStatusCode: Middleware = async (execute) => async (input) => {
   }
 
   return { ...rest, statusCode, data }
-}
-
-export const withRateLimit: Middleware = async (execute) => async (input) => {
-  const totalReqPerMin = rateLimit.getTroughput(rateLimit.Interval.MINUTE)
-  const participantReqPerMin = rateLimit.getTroughput(rateLimit.Interval.MINUTE, input)
-  const cost = rateLimit.getParticipantCost(participantReqPerMin)
-  const maxReqPerMin = rateLimit.getMaxReqAllowed(
-    totalReqPerMin.length + 1,
-    participantReqPerMin.length + 1,
-    cost,
-  )
-  const maxAge = maxAgeController.calculate(maxReqPerMin)
-  const result = await execute({ ...input, data: { ...input.data, maxAge } })
-  rateLimit.store.dispatch(rateLimit.actions.newRequest({ data: input, cost: result.data.cost }))
-  return result
 }
 
 // Log adapter input & output data
