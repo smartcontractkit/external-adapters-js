@@ -20,6 +20,7 @@ import {
   warmupSubscriptionTimeoutReset,
   warmupUnsubscribed,
 } from './actions'
+import { WARMUP_REQUEST_ID } from './config'
 import { RootState } from './reducer'
 import { EpicDependencies } from './store'
 import { getSubscriptionKey } from './util'
@@ -53,6 +54,7 @@ export const warmupSubscriber: Epic<AnyAction, AnyAction, RootState, EpicDepende
       ),
     ),
   )
+
 /**
  * Handle warmup response request events
  */
@@ -70,7 +72,7 @@ export const warmupRequestHandler: Epic<AnyAction, AnyAction, RootState> = (acti
     mergeMap(({ requestData, key }) =>
       from(
         requestData.executeFn({
-          id: '9001',
+          id: WARMUP_REQUEST_ID,
           data: { ...(requestData.origin.data.data as any) }, // TODO: this data attribute should not be nested
           // don't pass a stale `meta` to force data refresh
         }),
@@ -87,7 +89,7 @@ export const warmupUnsubscriber: Epic<AnyAction, AnyAction, RootState, EpicDepen
   state$,
   { config },
 ) => {
-  const unsubscribeWhenFailureThresholdIsMet$ = action$.pipe(
+  const unsubscribeOnFailure$ = action$.pipe(
     filter(warmupFailed.match),
     withLatestFrom(state$),
     filter(
@@ -103,7 +105,7 @@ export const warmupUnsubscriber: Epic<AnyAction, AnyAction, RootState, EpicDepen
     map(({ payload }) => ({ payload, key: getSubscriptionKey(payload) })),
   )
 
-  const unsubscribeWhenTimeoutLimitIsMet$ = keyedSubscription$.pipe(
+  const unsubscribeOnTimeout$ = keyedSubscription$.pipe(
     // when a subscription comes in
     mergeMap(({ key }) => {
       // we look for matching subscriptions of the same type
@@ -123,7 +125,7 @@ export const warmupUnsubscriber: Epic<AnyAction, AnyAction, RootState, EpicDepen
     }),
   )
 
-  return merge(unsubscribeWhenFailureThresholdIsMet$, unsubscribeWhenTimeoutLimitIsMet$)
+  return merge(unsubscribeOnFailure$, unsubscribeOnTimeout$)
 }
 
 export const rootEpic = combineEpics(warmupSubscriber, warmupUnsubscriber, warmupRequestHandler)
