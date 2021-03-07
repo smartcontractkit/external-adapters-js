@@ -1,15 +1,15 @@
 import { AdapterRequest } from '@chainlink/types'
 import hash from 'object-hash'
-import { getConfig } from './config'
+import * as config from './config'
 import { Heartbeat } from './reducer'
 
-const config = getConfig()
 export const getParticipantId = (request: AdapterRequest): string => {
-  return hash(request, config.hashOpts)
+  return hash(request, config.get().hashOpts)
 }
 
 const getWeight = (totalRequests: number, participantRequests: number): number => {
   const minHeartbeat = 0
+
   // Avoid having Infinity weight
   if (totalRequests === 0) {
     totalRequests = 1
@@ -33,6 +33,6 @@ export const getMaxReqAllowed = (
   cost: number,
 ): number => {
   const weight = getWeight(totalRequests, participantRequests)
-  const safeCapacity = 0.9 * (config.totalCapacity / cost)
+  const safeCapacity = 0.9 * (config.get().totalCapacity / cost)
   return weight * safeCapacity
 }
