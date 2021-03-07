@@ -1,9 +1,28 @@
 import { AdapterRequest } from '@chainlink/types'
-import { createAction } from '@reduxjs/toolkit'
+import { createAction, nanoid } from '@reduxjs/toolkit'
+import { getParticipantId } from './util'
 
-export interface ParticipantPayload {
-  data: AdapterRequest
+const DEFAULT_COST = 1
+
+const toActionPayload = <A extends ActionBase>(data: any): A => ({
+  id: nanoid(),
+  createdAt: new Date().toISOString(),
+  ...data,
+})
+
+export interface ActionBase {
+  id: string
+  createdAt: string
+}
+
+export interface RequestObservedPayload extends ActionBase {
+  requestId: string
   cost: number
 }
 
-export const newRequest = createAction<ParticipantPayload>('NEW_REQUEST')
+export const requestObserved = createAction(
+  'RL/REQUEST_OBSERVED',
+  (input: AdapterRequest, cost = DEFAULT_COST) => ({
+    payload: toActionPayload({ requestId: getParticipantId(input), cost }),
+  }),
+)
