@@ -1,10 +1,6 @@
 import { createReducer, combineReducers } from '@reduxjs/toolkit'
 import { requestObserved } from './actions'
 
-export interface Interval {
-  [key: string]: number
-}
-
 export enum IntervalNames {
   SEC = 'SEC',
   MINUTE = 'MINUTE',
@@ -12,7 +8,7 @@ export enum IntervalNames {
   DAY = 'DAY',
 }
 
-export const Intervals: Interval = {
+export const Intervals: { [key: string]: number } = {
   [IntervalNames.SEC]: 1000,
   [IntervalNames.MINUTE]: 60 * 1000,
   [IntervalNames.HOUR]: 60 * 60 * 1000,
@@ -25,6 +21,10 @@ export interface Heartbeat {
 }
 
 export interface StateTree {
+  heartbeats: Heartbeats
+}
+
+export interface Heartbeats {
   total: {
     [interval: string]: Heartbeat[]
   }
@@ -35,19 +35,19 @@ export interface StateTree {
   }
 }
 
-const initialTimeWindowsState = () => ({
+const initialIntervalsState = () => ({
   SEC: [],
   MINUTE: [],
   HOUR: [],
   DAY: [],
 })
 
-const initialState: StateTree = {
-  total: initialTimeWindowsState(),
+const initialHeartbeatsState: Heartbeats = {
+  total: initialIntervalsState(),
   participants: {},
 }
 
-const heartbeatReducer = createReducer<StateTree>(initialState, (builder) => {
+const heartbeatReducer = createReducer<Heartbeats>(initialHeartbeatsState, (builder) => {
   builder.addCase(requestObserved, (state, action) => {
     const heartbeat: Heartbeat = {
       id: action.payload.requestId,
@@ -55,11 +55,10 @@ const heartbeatReducer = createReducer<StateTree>(initialState, (builder) => {
       timestamp: Date.parse(action.payload.createdAt),
     }
 
-    if (!state.participants[heartbeat.id]) {
-      state.participants[heartbeat.id] = initialTimeWindowsState()
-    }
-
     const { id } = heartbeat
+    // Init if first time seeing this id
+    if (!state.participants[id]) state.participants[id] = initialIntervalsState()
+
     for (const [intervalName, interval] of Object.entries(Intervals)) {
       state.total[intervalName].push(heartbeat)
       state.participants[id][intervalName].push(heartbeat)
@@ -74,6 +73,12 @@ const heartbeatReducer = createReducer<StateTree>(initialState, (builder) => {
     return state
   })
 })
+
+export const selectObserved = (
+  state: Heartbeats,
+  interval: IntervalNames,
+  id?: string,
+): Heartbeat[] => (id ? state.participants[id]?.[interval] || [] : state.total[interval] || [])
 
 export default combineReducers({
   heartbeats: heartbeatReducer,
