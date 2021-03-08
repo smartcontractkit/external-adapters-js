@@ -1,11 +1,9 @@
-import { logger } from '@chainlink/external-adapter'
 import hash from 'object-hash'
+import { AdapterRequest, AdapterResponse, Middleware } from '@chainlink/types'
+import { logger } from '@chainlink/external-adapter'
+import { parseBool, uuid, delay, exponentialBackOffMs, getWithCoalescing } from '../util'
 import * as local from './local'
 import * as redis from './redis'
-import { parseBool, uuid, delay, exponentialBackOffMs, getWithCoalescing } from '../util'
-import { AdapterRequest, AdapterResponse } from '@chainlink/types'
-import { RedisOptions } from './redis'
-import { Middleware } from '../../index'
 
 const DEFAULT_CACHE_TYPE = 'local'
 const DEFAULT_CACHE_KEY_GROUP = uuid()
@@ -56,22 +54,22 @@ const defaultCacheBuilder = () => {
   return (options: CacheImplOptions) => {
     switch (options.type) {
       case 'redis':
-        return redis.RedisCache.build(options as RedisOptions)
+        return redis.RedisCache.build(options as redis.RedisOptions)
       default:
         return localLRUCache || (localLRUCache = new local.LocalLRUCache(options))
     }
   }
 }
 // Options without sensitive data
-export const redactOptions = (options: CacheOptions) => ({
+export const redactOptions = (options: CacheOptions): CacheOptions => ({
   ...options,
   cacheOptions:
     options.cacheOptions.type === 'redis'
-      ? redis.redactOptions(options.cacheOptions as RedisOptions)
+      ? redis.redactOptions(options.cacheOptions as redis.RedisOptions)
       : local.redactOptions(options.cacheOptions),
 })
 
-export const withCache: Middleware<CacheOptions> = async (execute, options = defaultOptions()) => {
+export const withCache: Middleware = async (execute, options = defaultOptions()) => {
   // If disabled noop
   if (!options.enabled) return (data: AdapterRequest) => execute(data)
 

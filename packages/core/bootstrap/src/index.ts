@@ -1,14 +1,33 @@
-import { logger, Requester } from '@chainlink/external-adapter'
-import { AdapterHealthCheck, AdapterRequest, Execute, ExecuteSync } from '@chainlink/types'
-import * as aws from './lib/aws'
+import { combineReducers, Reducer, Store } from 'redux'
+import { logger } from '@chainlink/external-adapter'
+import {
+  AdapterHealthCheck,
+  AdapterRequest,
+  Execute,
+  ExecuteSync,
+  Middleware,
+} from '@chainlink/types'
 import { defaultOptions, redactOptions, withCache } from './lib/cache'
-import { actions, store } from './lib/cache-warmer'
+import * as aws from './lib/aws'
 import * as gcp from './lib/gcp'
-import { withRateLimit } from './lib/rate-limit'
+import * as cacheWarmer from './lib/cache-warmer'
+import * as rateLimit from './lib/rate-limit'
 import * as server from './lib/server'
 import * as util from './lib/util'
+import { configureStore } from './lib/store'
+import { Requester } from '@chainlink/external-adapter'
 
-export type Middleware<O = any> = (execute: Execute, options?: O) => Promise<Execute>
+const rootReducer: Reducer = combineReducers({
+  cacheWarmer: cacheWarmer.reducer.rootReducer,
+  rateLimit: rateLimit.reducer.rootReducer,
+})
+
+// Init store
+const initState = { cacheWarmer: {}, rateLimit: {} }
+export const store = configureStore(rootReducer, initState, [cacheWarmer.epics.epicMiddleware])
+
+// Run epics
+cacheWarmer.epics.epicMiddleware.run(cacheWarmer.epics.rootEpic)
 
 // Try to initialize, pass through on error
 const skipOnError = (middleware: Middleware) => async (execute: Execute) => {
@@ -50,7 +69,15 @@ const withLogger: Middleware = async (execute) => async (input: AdapterRequest) 
   }
 }
 
-const middleware = [withLogger, skipOnError(withCache), withRateLimit, withStatusCode]
+const middleware = [
+  withLogger,
+  skipOnError(withCache),
+  rateLimit.withRateLimit({
+    getState: () => store.getState().rateLimit,
+    dispatch: (a) => store.dispatch(a),
+  } as Store),
+  withStatusCode,
+]
 
 // Init all middleware, and return a wrapped execute fn
 const withMiddleware = async (execute: Execute) => {
@@ -76,7 +103,11 @@ const executeSync = (execute: Execute): ExecuteSync => {
       // and we have caching enabled
       if (util.parseBool(process.env.CACHE_ENABLED) && util.parseBool(process.env.WARMUP_ENABLED)) {
         store.dispatch(
-          actions.warmupSubscribed({ data, executeFn: executeWithMiddleware, id: data.id }),
+          cacheWarmer.actions.warmupSubscribed({
+            id: data.id,
+            executeFn: executeWithMiddleware,
+            data,
+          }),
         )
       }
       return callback(result.statusCode, result)
