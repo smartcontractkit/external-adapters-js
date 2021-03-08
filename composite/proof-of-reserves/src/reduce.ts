@@ -1,10 +1,9 @@
-import reduceAdapter from '@chainlink/reduce-adapter'
-import { AdapterResponse, Config } from '@chainlink/types'
-import { callAdapter, makeRequestFactory } from './adapter'
+import reduce from '@chainlink/reduce-adapter'
+import { AdapterResponse } from '@chainlink/types'
+import { callAdapter } from './adapter'
 
 // Get reduce balances as total balance
-export const runReduceAdapter = async (config: Config, input: AdapterResponse) => {
-  const execute = makeRequestFactory(config, reduceAdapter.NAME)
+export const runReduceAdapter = async (input: AdapterResponse) => {
   const next = {
     id: input.jobRunID,
     data: {
@@ -15,5 +14,5 @@ export const runReduceAdapter = async (config: Config, input: AdapterResponse) =
       valuePath: 'balance',
     },
   }
-  return callAdapter(execute, next, '_onReduce')
+  return callAdapter(reduce.execute, next, '_onReduce')
 }
