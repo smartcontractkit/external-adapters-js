@@ -21,7 +21,7 @@ import {
   warmupUnsubscribed,
 } from './actions'
 import { WARMUP_REQUEST_ID, Config, get } from './config'
-import { RootState } from './reducer'
+import { RootState } from '../../index'
 import { getSubscriptionKey } from './util'
 
 export interface EpicDependencies {
@@ -41,7 +41,7 @@ export const warmupSubscriber: Epic<AnyAction, AnyAction, RootState, EpicDepende
     filter(([{ key }, state]) => {
       // if subscription does not exist, then continue
       // this check doesnt work because state is already set!
-      return !state.subscriptions[key].isDuplicate
+      return !state.cacheWarmer.subscriptions[key].isDuplicate
     }),
     // on a subscribe action being dispatched, spin up a long lived interval if one doesnt exist yet
     mergeMap(([{ key }]) =>
@@ -68,7 +68,7 @@ export const warmupRequestHandler: Epic<AnyAction, AnyAction, RootState> = (acti
     // fetch our required state to make a request to warm up an adapter
     withLatestFrom(state$),
     map(([action, state]) => ({
-      requestData: state.subscriptions[action.payload.key],
+      requestData: state.cacheWarmer.subscriptions[action.payload.key],
       key: action.payload.key,
     })),
     // make the request
@@ -96,7 +96,8 @@ export const warmupUnsubscriber: Epic<AnyAction, AnyAction, RootState, EpicDepen
     filter(warmupFailed.match),
     withLatestFrom(state$),
     filter(
-      ([{ payload }, state]) => state.warmups[payload.key].errorCount >= config.unhealthyThreshold,
+      ([{ payload }, state]) =>
+        state.cacheWarmer.warmups[payload.key].errorCount >= config.unhealthyThreshold,
     ),
     map(([{ payload }]) => warmupUnsubscribed({ key: payload.key })),
   )
