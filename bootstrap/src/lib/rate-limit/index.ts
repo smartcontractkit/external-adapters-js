@@ -1,23 +1,54 @@
+import hash from 'object-hash'
 import { AdapterRequest } from '@chainlink/types'
 import { Middleware } from '../..'
 import { requestObserved } from './actions'
-import rootReducer, { Heartbeat, IntervalNames, Intervals } from './reducer'
+import rootReducer, {
+  Heartbeat,
+  Heartbeats,
+  IntervalNames,
+  Intervals,
+  selectObserved,
+} from './reducer'
 import { configureStore } from './store'
-import { getParticipantId, getMaxReqAllowed, getParticipantCost } from './util'
+import * as config from './config'
+import { WARMUP_REQUEST_ID } from '../cache-warmer/config'
 
-export * as actions from './actions'
+export const { store } = configureStore(rootReducer)
 
-const { store } = configureStore(rootReducer)
-
-export const getThroughput = (interval: IntervalNames, input?: AdapterRequest): Heartbeat[] => {
-  const { heartbeats } = store.getState()
-
-  if (input) {
-    const participantId = getParticipantId(input)
-    return heartbeats.participants[participantId]?.[interval] || []
-  }
-  return heartbeats.total[interval] || []
+export const computeThroughput = (
+  state: Heartbeats,
+  interval: IntervalNames,
+  id: string,
+): number => {
+  // All observed in interval
+  const observedRequests = selectObserved(state, interval)
+  const throughput = observedRequests.length + 1
+  const cost = getAverageCost(observedRequests) || 1
+  // All of type observed in interval
+  const observedRequestsOfType = selectObserved(state, interval, id)
+  const throughputOfType = observedRequestsOfType.length + 1
+  const costOfType = getAverageCost(observedRequestsOfType) || 1
+  // Compute max throughput by weight
+  const weight = (throughputOfType * costOfType) / (throughput * cost)
+  return maxThroughput(weight)
 }
+
+const getAverageCost = (requests: Heartbeat[]): number => {
+  if (!requests || requests.length === 0) return 0
+  return requests.reduce((totalCost, h) => totalCost + h.cost, 0) / requests.length
+}
+
+const maxThroughput = (weight: number): number => {
+  const maxAllowedCapacity = 0.9 * config.get().totalCapacity // Interval.Minute
+  return weight * maxAllowedCapacity
+}
+
+/**
+ * Returns hash of the input request payload excluding some volatile paths
+ *
+ * @param request payload
+ */
+const makeId = (request: AdapterRequest): string => hash(request, config.get().hashOpts)
 
 /**
  * Calculate maxAge to keep the item cached so we allow the specified throughput.
@@ -29,18 +60,13 @@ const maxAgeFor = (throughput: number, interval: number) =>
   throughput <= 0 ? interval : Math.floor(interval / throughput)
 
 export const withRateLimit: Middleware = async (execute) => async (input) => {
-  const totalReqPerMin = getThroughput(IntervalNames.MINUTE)
-  const participantReqPerMin = getThroughput(IntervalNames.MINUTE, input)
-  const cost = getParticipantCost(participantReqPerMin)
-  const maxReqPerMin = getMaxReqAllowed(
-    totalReqPerMin.length + 1,
-    participantReqPerMin.length + 1,
-    cost,
-  )
-  const maxAge = maxAgeFor(maxReqPerMin, Intervals[IntervalNames.MINUTE])
+  const state = store.getState()
+  const { heartbeats } = state
+  const requestTypeId = makeId(input)
+  const maxThroughput = computeThroughput(heartbeats, IntervalNames.MINUTE, requestTypeId)
+  const maxAge = maxAgeFor(maxThroughput, Intervals[IntervalNames.MINUTE])
   const result = await execute({ ...input, data: { ...input.data, maxAge } })
-  store.dispatch(requestObserved(input, result.data.cost))
+  if (input.id !== WARMUP_REQUEST_ID)
+    store.dispatch(requestObserved(makeId(input), result.data.cost))
   return result
 }
-
-export { store }
