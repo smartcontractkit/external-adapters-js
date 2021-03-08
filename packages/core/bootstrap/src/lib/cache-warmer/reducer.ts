@@ -92,4 +92,3 @@ export const rootReducer = combineReducers({
   subscriptions: subscriptionsReducer,
   warmups: warmupReducer,
 })
-export type RootState = ReturnType<typeof rootReducer>

@@ -11,6 +11,6 @@ export interface RequestObservedPayload extends ActionBase {
 export const requestObserved = createAction(
   'RL/REQUEST_OBSERVED',
   (typeId: string, cost = DEFAULT_COST) => ({
-    payload: toActionPayload({ typeId, cost }),
+    payload: toActionPayload({ typeId, cost }) as RequestObservedPayload,
   }),
 )
