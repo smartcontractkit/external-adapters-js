@@ -31,8 +31,8 @@
     "test": "echo \"Error: no test specified\"",
     "test:unit": "echo \"Error: no test specified\"",
     "test:integration": "echo \"Error: no test specified\"",
-    "server": "node -e 'require(\"./index.js\").server()'",
-    "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
+    "server": "node -e 'require(\"./index.js\").handlers.server()'",
+    "server:dist": "node -e 'require(\"./dist/index.js\").handlers.server()'",
     "start": "yarn server:dist"
   },
   "devDependencies": {

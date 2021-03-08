@@ -1,5 +1,11 @@
 import { logger } from '@chainlink/external-adapter'
-import { AdapterRequest, ExecuteWithConfig, Config, ExecuteFactory } from '@chainlink/types'
+import {
+  AdapterRequest,
+  ExecuteWithConfig,
+  Config,
+  ExecuteFactory,
+  Execute,
+} from '@chainlink/types'
 import { Validator, Requester } from '@chainlink/external-adapter'
 import { makeConfig, makeOptions, getURL } from './config'
 import { runProtocolAdapter } from './protocol'
@@ -11,7 +17,7 @@ export const makeRequestFactory = (config: Config, prefix: string) => async (
 ) => Requester.request({ ...config.api, method: 'post', url: getURL(prefix, true), data: input })
 
 // Run, log, throw on error
-export const callAdapter = async (execute: any, input: AdapterRequest, tag: string) => {
+export const callAdapter = async (execute: Execute, input: AdapterRequest, tag: string) => {
   const output = await execute(input)
   logger.debug(tag, { output })
   return output
@@ -33,7 +39,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
 
   const protocolOutput = await runProtocolAdapter(jobRunID, protocol, input.data, config)
   const balanceOutput = await runBalanceAdapter(indexer, config, protocolOutput)
-  const reduceOutput = await runReduceAdapter(config, balanceOutput)
+  const reduceOutput = await runReduceAdapter(balanceOutput)
   return reduceOutput
 }
 
