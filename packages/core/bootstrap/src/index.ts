@@ -1,4 +1,4 @@
-import { combineReducers, Reducer, Store } from 'redux'
+import { combineReducers, Store } from 'redux'
 import { logger } from '@chainlink/external-adapter'
 import {
   AdapterHealthCheck,
@@ -17,10 +17,11 @@ import * as util from './lib/util'
 import { configureStore } from './lib/store'
 import { Requester } from '@chainlink/external-adapter'
 
-const rootReducer: Reducer = combineReducers({
+const rootReducer = combineReducers({
   cacheWarmer: cacheWarmer.reducer.rootReducer,
   rateLimit: rateLimit.reducer.rootReducer,
 })
+export type RootState = ReturnType<typeof rootReducer>
 
 // Init store
 const initState = { cacheWarmer: {}, rateLimit: {} }
