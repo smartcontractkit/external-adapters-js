@@ -1,8 +1,8 @@
+import * as dotenv from 'dotenv'
+import { util } from '@chainlink/ea-bootstrap'
 import { PriceUpdateParams } from 'dock/types'
 
-require('dotenv').config()
-
-const { MinGasPrice, MaxGas } = process.env
+dotenv.config()
 
 export const median = (numbers: number[]): number => {
   let mid: number
@@ -50,7 +50,7 @@ export const priceUpdateNeeded = (
 export const writePriceToChain = async (
   web3: any,
   aggrAddr: string,
-  aggrABI: object,
+  aggrABI: string,
   oracleAddr: string,
   signer: any,
   priceUpdate: PriceUpdateParams,
@@ -76,6 +76,9 @@ export const writePriceToChain = async (
   console.log(`Updating on chain price to ${priceUpdate.currentPrice}`)
   const nextRoundId = oracleState._roundId
   const encoded = aggrContract.methods.submit(nextRoundId, normalizedPrice).encodeABI()
+
+  const MinGasPrice = util.getEnv('MinGasPrice') as string
+  const MaxGas = util.getEnv('MaxGas') as string
 
   const txn = await signer.signTransaction({
     to: aggrAddr,

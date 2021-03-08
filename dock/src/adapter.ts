@@ -1,8 +1,8 @@
-import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
+import { Validator, AdapterError } from '@chainlink/external-adapter'
 import Web3 from 'web3'
 import { Execute, ExecuteFactory, Config, AdapterRequest } from '@chainlink/types'
 import { ExecuteWithJobId, PriceUpdateParams } from 'dock/types'
-import { makeConfig, logConfig, makeCMCConfig, makeDockConfig, minimumAnswers } from './config'
+import { makeConfig, makeCMCConfig, makeDockConfig, minimumAnswers } from './config'
 import { cryptocompare, coingecko, coinmarketcap } from './endpoint'
 import { median, writePriceToChain } from './util'
 
@@ -160,9 +160,6 @@ const executeMedianPrice: ExecuteWithJobId = async (request, jobRunID) => {
 export const execute: Execute = async (request) => {
   const validator = new Validator(request, inputParams)
   if (validator.error) throw validator.error
-
-  // Requester.logConfig(config)
-  // logConfig(config)
 
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || WRITE_MEDIAN_PRICE

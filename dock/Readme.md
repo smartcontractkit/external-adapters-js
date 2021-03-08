@@ -1,6 +1,6 @@
 # Price feed adapter
 
-Fetches price from exchanges, takes median and writes them to chain. All the actions are written as small tasks.
+Fetches price for Dock/USD pair from 3 sources, Coinmarketcap, Cryptocompare and Coingecko. Takes median and writes them to chain. All the actions are written as small tasks.
 
 ## To get price for DOCK/USD pair
 

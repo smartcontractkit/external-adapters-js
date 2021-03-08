@@ -15,8 +15,8 @@ declare module 'dock/types' {
     ORACLE_ADDRESS: string
     // Address of the aggregator contract
     AGGREGATOR_ADDRESS: string
-    // ABI of the aggregator contract
-    AGGREGATOR_ABI: object
+    // ABI of the aggregator contract as JSON
+    AGGREGATOR_ABI: string
   }
 
   export type PriceUpdateParams = {
