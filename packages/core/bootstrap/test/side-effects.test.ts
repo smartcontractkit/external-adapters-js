@@ -1,20 +1,20 @@
 import { AdapterRequest } from '@chainlink/types'
 import { expect } from 'chai'
+import { stub } from 'sinon'
 import { DeepPartial } from 'redux'
 import { ActionsObservable, StateObservable } from 'redux-observable'
 import { of, Subject, throwError } from 'rxjs'
-import { RunHelpers } from 'rxjs/internal/testing/TestScheduler'
 import { TestScheduler } from 'rxjs/testing'
-import { stub } from 'sinon'
+import { RunHelpers } from 'rxjs/internal/testing/TestScheduler'
 import * as actions from '../src/lib/cache-warmer/actions'
 import { get } from '../src/lib/cache-warmer/config'
 import { RootState, SubscriptionState } from '../src/lib/cache-warmer/reducer'
 import {
+  EpicDependencies,
   warmupRequestHandler,
   warmupSubscriber,
   warmupUnsubscriber,
 } from '../src/lib/cache-warmer/side-effects'
-import { EpicDependencies } from '../src/lib/cache-warmer/store'
 
 let scheduler: TestScheduler
 
