@@ -16,7 +16,7 @@ The adapter takes the following environment variables:
 | :-------: | :-----------------------------------------: | :-------------------------------------------: | :------------------------: | :---------: |
 |    ✅     |                `CHECK_TYPE`                 |   The provider to check if a market is open   | `schedule`, `tradinghours` |             |
 |    🟡     | `CHECK_API_KEY` (when using `tradinghours`) |  An API key when needed by a check provider   |                            |             |
-|    ✅     |             `DATA_PROVIDER_URL`             | The adapter URL for the price data provider   | `finnhub`, `fcsapi`        |             |
+|    ✅     |             `DATA_PROVIDER_URL`             | The URL location for the price data provider adapter |                     |             |
 |    ✅     |                  `RPC_URL`                  | ETH RPC URL to read the reference data value  |                            |             |
 
 ## Input Params
@@ -26,18 +26,39 @@ The adapter takes the following environment variables:
 |    ✅     |  `referenceContract`, `contract`  |                 The Aggregator contract to call for its latest round's price                  |         |             |
 |    ✅     |            `multiply`             | To handle big numbers, the amount to divide the output from reading the reference contract by |         |             |
 |    🟡     |            `schedule`             |                   A schedule of market times to check whether they are open                   |         |             |
-|    ✅     |                                   |                         Any params required by the underlying adapter                         |         |             |
+
+Additionally the underlying adapter may have parameters.
+
+For example Finnhub uses the following:
+
+| Required? |               Name                |                                          Description                                          | Options | Defaults to |
+| :-------: | :-------------------------------: | :-------------------------------------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     |     `base`, `asset` or `from`     |                                 The target currency to query                                  |         |             |
+|    🟡     |            `endpoint`             |                                     The endpoint to call                                      |         |             |
 
 An example schedule looks like:
 
-```bash
+```json
 {
-    timezone: 'Europe/Oslo',
-    hours: {
-        monday: ['24:00-24:01'],
+    "timezone": "Europe/Oslo",
+    "hours": {
+        "monday": ["00:00-24:00"],
+        "tuesday": ["00:00-24:00"],
+        "wednesday": ["00:00-24:00"],
+        "thursday": ["00:00-24:00"],
+        "friday": ["00:00-24:00"],
+        "saturday": ["00:00-24:00"],
+        "sunday": ["00:00-24:00"]
     },
-    holidays: [],
- }
+    "holidays": [
+        {
+            "year": 2020,
+            "month": 5,
+            "day": 8,
+            "hours": "12:00-24:00"
+        }
+    ]
+}
 ```
 
 ## Running this adapter
