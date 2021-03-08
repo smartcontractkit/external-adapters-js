@@ -1,6 +1,7 @@
-import { Execute } from '@chainlink/types'
 import { expect } from 'chai'
 import { useFakeTimers } from 'sinon'
+import { createStore } from 'redux'
+import { Execute } from '@chainlink/types'
 import * as rateLimit from '../src/lib/rate-limit'
 
 const counterFrom = (i = 0): Execute => async (request) => {
@@ -25,23 +26,25 @@ describe('Rate Limit', () => {
     })
 
     it(`Requests are stored`, async () => {
-      const execute = await rateLimit.withRateLimit(counterFrom(0))
+      const store = createStore(rateLimit.reducer.rootReducer, {})
+      const execute = await rateLimit.withRateLimit(store)(counterFrom(0))
       for (let i = 0; i <= 5; i++) {
         await execute({ id: String(i), data: {} })
       }
 
-      const { heartbeats } = rateLimit.store.getState()
+      const { heartbeats } = store.getState()
       expect(heartbeats.total.DAY.length).to.equal(6)
     })
 
     it(`Requests are windowed stored`, async () => {
-      const execute = await rateLimit.withRateLimit(counterFrom(0))
+      const store = createStore(rateLimit.reducer.rootReducer, {})
+      const execute = await rateLimit.withRateLimit(store)(counterFrom(0))
       for (let i = 0; i <= 5; i++) {
         await execute({ id: String(i), data: {} })
       }
 
-      const { heartbeats } = rateLimit.store.getState()
-      expect(heartbeats.total.DAY.length).to.equal(12)
+      const { heartbeats } = store.getState()
+      expect(heartbeats.total.DAY.length).to.equal(6)
     })
   })
 })
