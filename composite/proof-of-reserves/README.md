@@ -4,7 +4,7 @@ This composite adapter first queries a list of custodial contracts of a protocol
 
 ## Configuration
 
-Each request to this composite adapter uses three underlying adapters, therefore their location needs to be defined.
+Each request to this composite adapter uses two underlying adapters, therefore their location needs to be defined.
 
 At least one of each of the following categories must be set as an environment variable:
 
@@ -26,12 +26,6 @@ At least one of each of the following categories must be set as an environment v
    |           |    `BTC_COM_DATA_PROVIDER_URL`     |    The location of a BTC.com external adapter     |         |             |
    |           |   `CRYPTOAPIS_DATA_PROVIDER_URL`   |  The location of a Crypto APIs external adapter   |         |             |
    |           |    `SOCHAIN_DATA_PROVIDER_URL`     |    The location of a SoChain external adapter     |         |             |
-
-3. A reducer adapter to reduce the balances to one total result
-
-   | Required? |            Name             |                Description                 | Options | Defaults to |
-   | :-------: | :-------------------------: | :----------------------------------------: | :-----: | :---------: |
-   |           | `REDUCER_DATA_PROVIDER_URL` | The location of a Reducer external adapter |         |             |
 
 ## Running this adapter
 
