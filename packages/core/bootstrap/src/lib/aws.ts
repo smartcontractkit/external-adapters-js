@@ -48,7 +48,7 @@ export const initHandlerREST = (execute: ExecuteSync) => (
   event: any,
   _context: any,
   callback: any,
-) => {
+): void => {
   if (!isContentTypeSupported(event)) {
     return callback(null, UNSUPPORTED_MEDIA_TYPE_RESPONSE)
   }
@@ -66,7 +66,7 @@ export const initHandlerHTTP = (execute: ExecuteSync) => (
   event: any,
   _context: any,
   callback: any,
-) => {
+): void => {
   if (!isContentTypeSupported(event)) {
     return callback(null, UNSUPPORTED_MEDIA_TYPE_RESPONSE)
   }

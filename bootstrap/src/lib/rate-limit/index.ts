@@ -1,19 +1,20 @@
 import hash from 'object-hash'
-import { AdapterRequest } from '@chainlink/types'
-import { Middleware } from '../..'
+import { Store } from 'redux'
+import { AdapterRequest, Middleware } from '@chainlink/types'
+import { WARMUP_REQUEST_ID } from '../cache-warmer/config'
 import { requestObserved } from './actions'
-import rootReducer, {
+import {
   Heartbeat,
   Heartbeats,
   IntervalNames,
   Intervals,
+  RootState,
   selectObserved,
 } from './reducer'
-import { configureStore } from './store'
 import * as config from './config'
-import { WARMUP_REQUEST_ID } from '../cache-warmer/config'
 
-export const { store } = configureStore(rootReducer)
+export * as reducer from './reducer'
+export * as actions from './actions'
 
 export const computeThroughput = (
   state: Heartbeats,
@@ -59,7 +60,9 @@ const makeId = (request: AdapterRequest): string => hash(request, config.get().h
 const maxAgeFor = (throughput: number, interval: number) =>
   throughput <= 0 ? interval : Math.floor(interval / throughput)
 
-export const withRateLimit: Middleware = async (execute) => async (input) => {
+export const withRateLimit = (store: Store<RootState>): Middleware => async (execute) => async (
+  input,
+) => {
   const state = store.getState()
   const { heartbeats } = state
   const requestTypeId = makeId(input)
