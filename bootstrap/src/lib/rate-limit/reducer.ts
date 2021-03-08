@@ -20,10 +20,6 @@ export interface Heartbeat {
   timestamp: number
 }
 
-export interface StateTree {
-  heartbeats: Heartbeats
-}
-
 export interface Heartbeats {
   total: {
     [interval: string]: Heartbeat[]
@@ -80,6 +76,7 @@ export const selectObserved = (
   id?: string,
 ): Heartbeat[] => (id ? state.participants[id]?.[interval] || [] : state.total[interval] || [])
 
-export default combineReducers({
+export const rootReducer = combineReducers({
   heartbeats: heartbeatReducer,
 })
+export type RootState = ReturnType<typeof rootReducer>

@@ -65,6 +65,8 @@ declare module '@chainlink/types' {
   }
 
   /* BOOTSTRAP */
+  export type Middleware = (execute: Execute, ...args: any) => Promise<Execute>
+
   export type ExecuteSync = (input: AdapterRequest, callback: Callback) => void
 
   export type Execute = (input: AdapterRequest) => Promise<AdapterResponse>
