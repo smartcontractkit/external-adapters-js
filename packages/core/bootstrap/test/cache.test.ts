@@ -1,9 +1,8 @@
 import { expect } from 'chai'
 import { useFakeTimers } from 'sinon'
-import { withCache, CacheImplOptions, defaultOptions } from '../src/lib/cache'
-import { LocalLRUCache } from '../src/lib/cache/local'
-import { CacheOptions } from '../src/lib/cache'
 import { Execute } from '@chainlink/types'
+import { withCache, CacheOptions, CacheImplOptions, defaultOptions } from '../src/lib/cache'
+import { LocalLRUCache } from '../src/lib/cache/local'
 
 const callAndExpect = async (fn: any, n: number, result: any) => {
   while (n--) {

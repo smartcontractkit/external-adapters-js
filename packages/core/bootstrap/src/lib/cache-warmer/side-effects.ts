@@ -1,5 +1,5 @@
 import { AnyAction } from 'redux'
-import { combineEpics, Epic } from 'redux-observable'
+import { combineEpics, createEpicMiddleware, Epic } from 'redux-observable'
 import { from, interval, merge, of, race } from 'rxjs'
 import {
   catchError,
@@ -20,10 +20,13 @@ import {
   warmupSubscriptionTimeoutReset,
   warmupUnsubscribed,
 } from './actions'
-import { WARMUP_REQUEST_ID } from './config'
+import { WARMUP_REQUEST_ID, Config, get } from './config'
 import { RootState } from './reducer'
-import { EpicDependencies } from './store'
 import { getSubscriptionKey } from './util'
+
+export interface EpicDependencies {
+  config: Config
+}
 
 export const warmupSubscriber: Epic<AnyAction, AnyAction, RootState, EpicDependencies> = (
   action$,
@@ -129,3 +132,7 @@ export const warmupUnsubscriber: Epic<AnyAction, AnyAction, RootState, EpicDepen
 }
 
 export const rootEpic = combineEpics(warmupSubscriber, warmupUnsubscriber, warmupRequestHandler)
+
+export const epicMiddleware = createEpicMiddleware<any, any, RootState, EpicDependencies>({
+  dependencies: { config: get() },
+})
