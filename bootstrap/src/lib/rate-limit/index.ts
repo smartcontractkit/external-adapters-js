@@ -49,7 +49,7 @@ const maxThroughput = (weight: number): number => {
  *
  * @param request payload
  */
-const makeId = (request: AdapterRequest): string => hash(request, config.get().hashOpts)
+export const makeId = (request: AdapterRequest): string => hash(request, config.get().hashOpts)
 
 /**
  * Calculate maxAge to keep the item cached so we allow the specified throughput.
@@ -69,7 +69,8 @@ export const withRateLimit = (store: Store<RootState>): Middleware => async (exe
   const maxThroughput = computeThroughput(heartbeats, IntervalNames.MINUTE, requestTypeId)
   const maxAge = maxAgeFor(maxThroughput, Intervals[IntervalNames.MINUTE])
   const result = await execute({ ...input, data: { ...input.data, maxAge } })
-  if (input.id !== WARMUP_REQUEST_ID)
-    store.dispatch(requestObserved(makeId(input), result.data.cost))
+  if (input.id !== WARMUP_REQUEST_ID) {
+    store.dispatch(requestObserved(requestTypeId, result.data.cost))
+  }
   return result
 }
