@@ -31,7 +31,6 @@
     "typescript": "^3.9.7"
   },
   "dependencies": {
-    "axios": "^0.21.1",
     "@chainlink/reference-data-reader": "^0.0.3",
     "market-closure": "^0.1.2"
   }

@@ -1,6 +1,5 @@
 import { Requester } from '@chainlink/external-adapter'
-import { AdapterRequest, AdapterResponse } from '@chainlink/types'
-import { AxiosRequestConfig } from 'axios'
+import { AdapterRequest, AdapterResponse, AxiosRequestConfig } from '@chainlink/types'
 
 export type PriceAdapter = (input: AdapterRequest) => Promise<AdapterResponse>
 
