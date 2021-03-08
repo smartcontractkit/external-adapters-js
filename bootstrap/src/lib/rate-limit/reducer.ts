@@ -46,7 +46,7 @@ const initialHeartbeatsState: Heartbeats = {
 const heartbeatReducer = createReducer<Heartbeats>(initialHeartbeatsState, (builder) => {
   builder.addCase(requestObserved, (state, action) => {
     const heartbeat: Heartbeat = {
-      id: action.payload.requestId,
+      id: action.payload.typeId,
       cost: action.payload.cost,
       timestamp: Date.parse(action.payload.createdAt),
     }
