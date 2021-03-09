@@ -21,7 +21,6 @@ const rootReducer = combineReducers({
   cacheWarmer: cacheWarmer.reducer.rootReducer,
   rateLimit: rateLimit.reducer.rootReducer,
 })
-export type RootState = ReturnType<typeof rootReducer>
 
 // Init store
 const initState = { cacheWarmer: {}, rateLimit: {} }
