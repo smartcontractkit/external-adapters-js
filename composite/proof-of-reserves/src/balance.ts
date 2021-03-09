@@ -24,6 +24,7 @@ export type Indexer = typeof adapters[number]['NAME']
 // Get balances for address set
 export const runBalanceAdapter = async (
   indexer: Indexer,
+  confirmations: number,
   config: Config,
   input: AdapterResponse,
 ) => {
@@ -34,7 +35,7 @@ export const runBalanceAdapter = async (
       result: input.data.result,
       dataPath: 'result',
       endpoint: 'balance',
-      confirmations: 6,
+      confirmations,
     },
   }
   return callAdapter(execute, next, '_onBalance')
