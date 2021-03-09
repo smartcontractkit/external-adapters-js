@@ -87,7 +87,8 @@
       "ethwrite",
       "geodb",
       "therundown",
-      "tradingeconomics-stream"
+      "tradingeconomics-stream",
+      "dnsproof"
     ]
   },
   "2-step": {
