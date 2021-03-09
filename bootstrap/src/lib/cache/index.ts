@@ -150,8 +150,6 @@ export const withCache: Middleware = async (execute, options = defaultOptions())
 
     if (entry) {
       if (maxAge >= 0) {
-        logger.debug(`Cache: GET ${key}`, entry)
-        if (maxAge !== entry.maxAge) await _cacheOnSuccess(entry)
         return { jobRunID: data.id, ...entry }
       }
       logger.debug(`Cache: SKIP(maxAge < 0)`)
