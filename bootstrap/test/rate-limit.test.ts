@@ -58,7 +58,7 @@ describe('Rate Limit Middleware', () => {
       await execute(input)
     })
 
-    it('Max Age is calculated on every request', async () => {
+    it('Max Age keeps the same for same requests', async () => {
       const store = createStore(rateLimit.reducer.rootReducer, {})
       const withRateLimit = rateLimit.withRateLimit(store)
 
@@ -188,6 +188,4 @@ describe('Rate Limit Middleware', () => {
       }
     })
   })
-
-  context('Throughput Calculations', () => { })
 })
