@@ -90,7 +90,8 @@
     "harmony",
     "tiingo",
     "ethwrite",
-    "geodb"
+    "geodb",
+    "ratelimits"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",
