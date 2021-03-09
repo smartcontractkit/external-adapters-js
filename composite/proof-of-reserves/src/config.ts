@@ -4,6 +4,8 @@ import { adapters as ProtocolAdapters, Protocol } from './protocol'
 import { adapters as BalanceAdapters, Indexer } from './balance'
 import { util } from '@chainlink/ea-bootstrap'
 
+export const DEFAULT_CONFIRMATIONS = 6
+
 export const makeConfig = (prefix?: string): Config => Requester.getDefaultConfig(prefix)
 
 export const ENV_DATA_PROVIDER_URL = 'DATA_PROVIDER_URL'
