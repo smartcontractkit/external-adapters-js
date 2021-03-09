@@ -12,6 +12,7 @@ const customParams = {
 
 const convertId: Record<string, string> = {
   FNX: 'FNX2',
+  AMP: 'AMP2',
 }
 
 export const execute = async (config: Config, request: AdapterRequest) => {
