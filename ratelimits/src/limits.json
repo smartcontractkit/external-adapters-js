@@ -286,6 +286,7 @@
       "note":"200k/mo on the free tier (with API key) unauthenticated request limits aren't specified"
     },
     {
+      "rateLimit1s": 10000,
       "tierName":"allyoucaneat",
       "note":"no limits specified for paid tier besides 'unlimited', may need to contact support for more details"
     }
@@ -414,6 +415,7 @@
   ],
   "ethwrite":[
     {
+      "rateLimit1s": 10000,
       "tierName":"default",
       "note":"should be using own node"
     }
@@ -482,15 +484,18 @@
     {
       "rateLimit1h":10.4,
       "tierName":"free",
-      "note":"only mentions daily limit"
+      "note":"only mentions daily limit and calls the plan 'limited' no other limiting mentioned for other plans"
     },
     {
+      "rateLimit1s":10,
       "tierName":"starter"
     },
     {
+      "rateLimit1s":10,
       "tierName":"teams"
     },
     {
+      "rateLimit1s":10,
       "tierName":"business"
     }
   ],
@@ -513,6 +518,7 @@
   ],
   "kaiko":[
     {
+      "rateLimit1s": 10000,
       "tierName":"default",
       "note":"claims no rate limits"
     }
@@ -592,6 +598,7 @@
       "note":"1 req/s, presumably allows for bursts"
     },
     {
+      "rateLimit1s":10000,
       "tierName":"paid"
     }
   ],
@@ -624,6 +631,7 @@
       "tierName":"enterprise"
     },
     {
+      "rateLimit1s":10000,
       "tierName":"unlimited"
     }
   ],
@@ -643,12 +651,15 @@
       "note":"only mentions monthly limits"
     },
     {
+      "rateLimit1s":10000,
       "tierName":"starter"
     },
     {
+      "rateLimit1s":10000,
       "tierName":"developer"
     },
     {
+      "rateLimit1s":10000,
       "tierName":"advanced"
     }
   ],
@@ -730,13 +741,16 @@
   ],
   "tradingeconomics":[
     {
+      "rateLimit1s":10000,
       "tierName":"standard",
       "note":"couldn't find mention of api limits"
     },
     {
+      "rateLimit1s":10000,
       "tierName":"professional"
     },
     {
+      "rateLimit1s":10000,
       "tierName":"enterpride"
     }
   ],
