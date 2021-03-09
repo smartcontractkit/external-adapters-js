@@ -66,12 +66,12 @@ const customParams = {
 export const execute: ExecuteWithConfig<CustomConfig> = async (request, config) => {
   Requester.logConfig(config)
 
+  const validator = new Validator(request, customParams)
+  if (validator.error) throw validator.error
+
   const caver = new Caver(config.url)
   const keyring = caver.wallet.keyring.createFromPrivateKey(config.apiKey)
   caver.wallet.add(keyring)
-
-  const validator = new Validator(request, customParams)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
 
