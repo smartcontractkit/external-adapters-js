@@ -1,25 +1,23 @@
-# Chainlink External Adapter for dnsproof
-
-A template to be used as an example for new [External Adapters](https://github.com/smartcontractkit/external-adapters-js)
+# Chainlink External Adapter for DNSProof
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |           Options            | Defaults to |
-| :-------: | :------: | :-----------------: | :--------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [example](#dnsproof-Endpoint) |   example   |
+| Required? |   Name   |     Description     |             Options              | Defaults to |
+| :-------: | :------: | :-----------------: | :------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [dns-proof](#DNS-Proof-Endpoint) |  dns-proof  |
 
 ---
 
-## dnsproof Endpoint
+## DNS Proof Endpoint
 
-An example endpoint description
+Checks Google DNS and returns whether or not a domain is owned by an Ethereum address
 
 ### Input Params
 
-| Required? |            Name            |               Description                |       Options       | Defaults to |
-| :-------: | :------------------------: | :--------------------------------------: | :-----------------: | :---------: |
-|    ✅     | `base`, `from`, or `coin`  |   The symbol of the currency to query    | `BTC`, `ETH`, `USD` |             |
-|    ✅     | `quote`, `to`, or `market` | The symbol of the currency to convert to | `BTC`, `ETH`, `USD` |             |
+| Required? |   Name    |     Description      | Options | Defaults to |
+| :-------: | :-------: | :------------------: | :-----: | :---------: |
+|    ✅     | `domain`  | The domain to check  |         |             |
+|    ✅     | `address` | The address to check |         |             |
 
 ### Sample Input
 
@@ -27,8 +25,8 @@ An example endpoint description
 {
   "id": "1",
   "data": {
-    "base": "ETH",
-    "quote": "USD"
+    "domain": "www5.infernos.io",
+    "address": "0x4d3407ddfdeb3feb4e8a167484701aced7056826"
   }
 }
 ```
@@ -39,9 +37,42 @@ An example endpoint description
 {
   "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
   "data": {
-    "price": 77777.77,
-    "result": 77777.77
+    "Status": 0,
+    "TC": false,
+    "RD": true,
+    "RA": true,
+    "AD": false,
+    "CD": false,
+    "Question": [{ "name": "www5.infernos.io.", "type": 16 }],
+    "Answer": [
+      {
+        "name": "www5.infernos.io.",
+        "type": 16,
+        "TTL": 17,
+        "data": "\"0x2ffb3d72fa6af12af5d378df0697a2bf9f45652e\""
+      },
+      {
+        "name": "www5.infernos.io.",
+        "type": 16,
+        "TTL": 17,
+        "data": "\"0x4d3407ddfdeb3feb4e8a167484701aced7056826\""
+      },
+      {
+        "name": "www5.infernos.io.",
+        "type": 16,
+        "TTL": 17,
+        "data": "\"0xeb9abc589734ce8051f089cf3498e230456a85dd\""
+      },
+      {
+        "name": "www5.infernos.io.",
+        "type": 16,
+        "TTL": 17,
+        "data": "\"0xf75519f611776c22275474151a04183665b7feDe\""
+      }
+    ],
+    "result": true
   },
+  "result": true,
   "statusCode": 200
 }
 ```
