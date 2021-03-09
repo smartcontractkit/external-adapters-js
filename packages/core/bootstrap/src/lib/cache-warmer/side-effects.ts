@@ -21,14 +21,14 @@ import {
   warmupUnsubscribed,
 } from './actions'
 import { WARMUP_REQUEST_ID, Config, get } from './config'
-import { RootState } from '../../index'
+import { RootState } from './reducer'
 import { getSubscriptionKey } from './util'
 
 export interface EpicDependencies {
   config: Config
 }
 
-export const warmupSubscriber: Epic<AnyAction, AnyAction, RootState, EpicDependencies> = (
+export const warmupSubscriber: Epic<AnyAction, AnyAction, any, EpicDependencies> = (
   action$,
   state$,
   { config },
@@ -61,7 +61,7 @@ export const warmupSubscriber: Epic<AnyAction, AnyAction, RootState, EpicDepende
 /**
  * Handle warmup response request events
  */
-export const warmupRequestHandler: Epic<AnyAction, AnyAction, RootState> = (action$, state$) =>
+export const warmupRequestHandler: Epic<AnyAction, AnyAction, any> = (action$, state$) =>
   action$.pipe(
     // this pipeline will execute when we have a request to warm up an adapter
     filter(warmupRequested.match),
@@ -87,7 +87,7 @@ export const warmupRequestHandler: Epic<AnyAction, AnyAction, RootState> = (acti
   )
 
 // we can combine this into one of the above epics if we have performance issues later on
-export const warmupUnsubscriber: Epic<AnyAction, AnyAction, RootState, EpicDependencies> = (
+export const warmupUnsubscriber: Epic<AnyAction, AnyAction, any, EpicDependencies> = (
   action$,
   state$,
   { config },
@@ -134,6 +134,6 @@ export const warmupUnsubscriber: Epic<AnyAction, AnyAction, RootState, EpicDepen
 
 export const rootEpic = combineEpics(warmupSubscriber, warmupUnsubscriber, warmupRequestHandler)
 
-export const epicMiddleware = createEpicMiddleware<any, any, RootState, EpicDependencies>({
+export const epicMiddleware = createEpicMiddleware<any, any, any, EpicDependencies>({
   dependencies: { config: get() },
 })
