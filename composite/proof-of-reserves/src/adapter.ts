@@ -7,7 +7,7 @@ import {
   Execute,
 } from '@chainlink/types'
 import { Validator, Requester } from '@chainlink/external-adapter'
-import { makeConfig, makeOptions, getURL } from './config'
+import { makeConfig, makeOptions, getURL, DEFAULT_CONFIRMATIONS } from './config'
 import { runProtocolAdapter } from './protocol'
 import { runBalanceAdapter } from './balance'
 import { runReduceAdapter } from './reduce'
@@ -26,6 +26,7 @@ export const callAdapter = async (execute: Execute, input: AdapterRequest, tag: 
 const inputParams = {
   protocol: true,
   indexer: true,
+  confirmations: false,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, config) => {
@@ -36,9 +37,10 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const jobRunID = validator.validated.jobRunID
   const protocol = validator.validated.data.protocol.toUpperCase()
   const indexer = validator.validated.data.indexer.toUpperCase()
+  const confirmations = validator.validated.data.confirmations || DEFAULT_CONFIRMATIONS
 
   const protocolOutput = await runProtocolAdapter(jobRunID, protocol, input.data, config)
-  const balanceOutput = await runBalanceAdapter(indexer, config, protocolOutput)
+  const balanceOutput = await runBalanceAdapter(indexer, confirmations, config, protocolOutput)
   const reduceOutput = await runReduceAdapter(balanceOutput)
   return reduceOutput
 }
