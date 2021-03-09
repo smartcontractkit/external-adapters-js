@@ -19,6 +19,7 @@ const presetTickers: { [ticker: string]: string } = {
   FNX: 'finnexus',
   UNI: 'uniswap',
   GRT: 'the-graph',
+  LINA: 'linear',
 }
 
 const convertFromTicker = async (config: Config, ticker: string, coinId: string) => {

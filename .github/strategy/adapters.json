@@ -85,7 +85,9 @@
       "harmony",
       "tiingo",
       "ethwrite",
-      "geodb"
+      "geodb",
+      "therundown",
+      "tradingeconomics-stream"
     ]
   },
   "2-step": {

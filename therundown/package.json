@@ -1,12 +1,13 @@
 {
-  "name": "@chainlink/trueusd-adapter",
-  "version": "0.0.3",
-  "description": "Chainlink TrueUSD adapter.",
+  "name": "@chainlink/therundown-adapter",
+  "version": "0.0.1",
+  "description": "Chainlink therundown adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
-    "oracle"
+    "oracle",
+    "therundown"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

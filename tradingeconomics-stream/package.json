@@ -1,12 +1,13 @@
 {
-  "name": "@chainlink/trueusd-adapter",
+  "name": "@chainlink/tradingeconomics-stream-adapter",
   "version": "0.0.3",
-  "description": "Chainlink TrueUSD adapter.",
+  "description": "Chainlink tradingeconomics-stream adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
-    "oracle"
+    "oracle",
+    "tradingeconomics-stream"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -17,6 +18,7 @@
     "url": "https://github.com/smartcontractkit/external-adapters-js",
     "type": "git"
   },
+  "author": "Jonas Hals <jonas@smartcontract.com>",
   "license": "MIT",
   "scripts": {
     "prepublishOnly": "yarn build && yarn test:unit",
@@ -41,5 +43,8 @@
     "ts-node": "^8.10.2",
     "typescript": "^3.9.7"
   },
-  "dependencies": {}
+  "dependencies": {
+    "express": "^4.17.1",
+    "tradingeconomics-stream": "^0.2.0"
+  }
 }

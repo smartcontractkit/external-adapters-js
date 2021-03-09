@@ -94,4 +94,4 @@ export type ExecuteHandlers = ReturnType<typeof expose>
 const cacheOptions = defaultOptions()
 if (cacheOptions.enabled) logger.info('Cache enabled: ', redactOptions(cacheOptions))
 
-export { util }
+export { util, server }
