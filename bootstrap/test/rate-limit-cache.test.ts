@@ -1,15 +1,44 @@
 import { expect } from 'chai'
 import { useFakeTimers } from 'sinon'
-import { createStore } from 'redux'
-import { Execute } from '@chainlink/types'
+import { createStore, combineReducers, Store } from 'redux'
+import { Execute, AdapterRequest } from '@chainlink/types'
 import * as rateLimit from '../src/lib/rate-limit'
 import { withCache } from '../src/lib/cache'
+import * as cacheWarmer from '../src/lib/cache-warmer'
+import { configureStore } from '../src/lib/store'
 
 const withMiddleware = async (execute: Execute, middlewares: any[]) => {
   for (let i = 0; i < middlewares.length; i++) {
     execute = await middlewares[i](execute)
   }
   return execute
+}
+
+const makeExecuteWithWarmer = async (execute: Execute) => {
+  const initState = { cacheWarmer: {}, rateLimit: {} }
+  const rootReducer = combineReducers({
+    cacheWarmer: cacheWarmer.reducer.rootReducer,
+    rateLimit: rateLimit.reducer.rootReducer,
+  })
+  cacheWarmer.epics.epicMiddleware.run(cacheWarmer.epics.rootEpic)
+  const store = configureStore(rootReducer, initState, [cacheWarmer.epics.epicMiddleware])
+  const executeWithMiddleware = await withMiddleware(execute, [
+    withCache,
+    rateLimit.withRateLimit({
+      getState: () => store.getState().rateLimit,
+      dispatch: (a) => store.dispatch(a),
+    } as Store),
+  ])
+  return async (data: AdapterRequest) => {
+    await executeWithMiddleware(data)
+    store.dispatch(
+      cacheWarmer.actions.warmupSubscribed({
+        id: data.id,
+        executeFn: executeWithMiddleware,
+        data,
+      } as cacheWarmer.actions.WarmupSubscribedPayload),
+    )
+  }
 }
 
 const dataProviderMock = (
@@ -123,6 +152,7 @@ describe('Rate Limit/Cache - Integration', () => {
           clock.tick(timeBetweenRequests)
         }
 
+        console.log('WITH COST:', cost, dataProvider.totalRequestsReceived())
         expect(dataProvider.totalRequestsReceived()[0]).to.be.greaterThan(capacity)
         expect(dataProvider.totalRequestsReceived()[1]).to.be.lessThan(capacity)
         clock.restore()
@@ -154,8 +184,39 @@ describe('Rate Limit/Cache - Integration', () => {
       expect(dataProvider.totalRequestsReceived()[2]).to.be.lessThan(capacity)
     })
 
-    it('Newcomers spend a minute to get stable max age', () => {
-      return
+    it('Single Feed with Cache warmer stay under capacity', async () => {
+      const dataProvider = dataProviderMock()
+      const executeWithWarmer = await makeExecuteWithWarmer(dataProvider.execute)
+
+      const secsInMin = 60
+      for (let i = 0; i < secsInMin; i++) {
+        const input = { id: '6', data: { warmer1: 1 } }
+        await executeWithWarmer(input)
+        clock.tick(1000)
+      }
+
+      expect(dataProvider.requestsReceived()).to.be.lessThan(capacity)
+    })
+
+    it('Composite feeds requests with warmer go over capacity on initialization, then stabilize', async () => {
+      const dataProvider = dataProviderMock()
+      const executeWithWarmer = await makeExecuteWithWarmer(dataProvider.execute)
+
+      const timeBetweenRequests = 500
+      const feedsNumber = 5
+      // Requests made in 3 mins
+      for (let i = 0; i < (1000 / timeBetweenRequests) * 180; i++) {
+        const feedId = i % feedsNumber
+        for (let internalReq = 0; internalReq < 10; internalReq++) {
+          const input = { id: '6', data: { warmerComposite1: feedId, quote: internalReq } }
+          await executeWithWarmer(input)
+        }
+        clock.tick(timeBetweenRequests)
+      }
+
+      expect(dataProvider.totalRequestsReceived()[0]).to.be.greaterThan(capacity)
+      expect(dataProvider.totalRequestsReceived()[1]).to.be.lessThan(capacity)
+      expect(dataProvider.totalRequestsReceived()[2]).to.be.lessThan(capacity)
     })
   })
 })
