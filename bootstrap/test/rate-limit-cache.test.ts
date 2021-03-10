@@ -12,7 +12,9 @@ const withMiddleware = async (execute: Execute, middlewares: any[]) => {
   return execute
 }
 
-const dataProviderMock = (): {
+const dataProviderMock = (
+  cost = 1,
+): {
   totalRequestsReceived: () => number[]
   requestsReceived: () => number
   execute: Execute
@@ -29,15 +31,13 @@ const dataProviderMock = (): {
         lastMinute = now
         requestsInMin = 0
       }
-      requestsInMin++
+      requestsInMin = requestsInMin + 1 * cost
       requestsReceivedPerMin[lastMinute] = requestsInMin
       return {
         jobRunID: request.id,
         data: {
-          jobRunID: request.id,
-          statusCode: 200,
-          data: request,
           result: requestsInMin,
+          cost,
         },
         result: requestsInMin,
         statusCode: 200,
@@ -64,24 +64,27 @@ describe('Rate Limit/Cache - Integration', () => {
     })
 
     it('Single feed requests stay under capacity', async () => {
-      const store = createStore(rateLimit.reducer.rootReducer, {})
-      const dataProvider = dataProviderMock()
-      const executeWithMiddleware = await withMiddleware(dataProvider.execute, [
-        withCache,
-        rateLimit.withRateLimit(store),
-      ])
+      for (let cost = 1; cost < 4; cost++) {
+        const store = createStore(rateLimit.reducer.rootReducer, {})
+        const dataProvider = dataProviderMock(cost)
+        const executeWithMiddleware = await withMiddleware(dataProvider.execute, [
+          withCache,
+          rateLimit.withRateLimit(store),
+        ])
 
-      const secsInMin = 60
-      for (let i = 0; i < secsInMin; i++) {
-        const input = { id: '6', data: { base: 1 } }
-        await executeWithMiddleware(input)
-        clock.tick(1000)
+        const secsInMin = 60
+        for (let i = 0; i < secsInMin; i++) {
+          const input = { id: '6', data: { test1: 1 } }
+          await executeWithMiddleware(input)
+          clock.tick(1000)
+        }
+
+        expect(dataProvider.requestsReceived()).to.be.lessThan(capacity)
       }
-
-      expect(dataProvider.requestsReceived()).to.be.lessThan(capacity)
+      clock.restore()
     })
 
-    it('Multiple feed requests stay under capacity', async () => {
+    it('Multiple feed with no cost requests stay under capacity', async () => {
       const store = createStore(rateLimit.reducer.rootReducer, {})
       const dataProvider = dataProviderMock()
       const executeWithMiddleware = await withMiddleware(dataProvider.execute, [
@@ -93,7 +96,7 @@ describe('Rate Limit/Cache - Integration', () => {
       const feedsNumber = 10
       for (let i = 0; i < (1000 / timeBetweenRequests) * 60; i++) {
         const feedId = i % feedsNumber
-        const input = { id: '6', data: { base: feedId } }
+        const input = { id: '6', data: { multiple1: feedId } }
         await executeWithMiddleware(input)
         clock.tick(timeBetweenRequests)
       }
@@ -101,29 +104,32 @@ describe('Rate Limit/Cache - Integration', () => {
       expect(dataProvider.requestsReceived()).to.be.lessThan(capacity)
     })
 
-    it('Composite feeds requests initialization go over capacity', async () => {
-      const store = createStore(rateLimit.reducer.rootReducer, {})
-      const dataProvider = dataProviderMock()
-      const executeWithMiddleware = await withMiddleware(dataProvider.execute, [
-        withCache,
-        rateLimit.withRateLimit(store),
-      ])
+    it('Multiple feed with high costs go over capacity on initialization, then stabilize', async () => {
+      for (let cost = 2; cost < 4; cost++) {
+        clock = useFakeTimers()
+        const store = createStore(rateLimit.reducer.rootReducer, {})
+        const dataProvider = dataProviderMock(cost)
+        const executeWithMiddleware = await withMiddleware(dataProvider.execute, [
+          withCache,
+          rateLimit.withRateLimit(store),
+        ])
 
-      const timeBetweenRequests = 500
-      const feedsNumber = 5
-      for (let i = 0; i < (1000 / timeBetweenRequests) * 60; i++) {
-        const feedId = i % feedsNumber
-        for (let internalReq = 0; internalReq < 10; internalReq++) {
-          const input = { id: '6', data: { base: feedId, quote: internalReq } }
+        const timeBetweenRequests = 500
+        const feedsNumber = 10
+        for (let i = 0; i < (1000 / timeBetweenRequests) * 120; i++) {
+          const feedId = i % feedsNumber
+          const input = { id: '6', data: { [`multiple_cost:${cost}`]: feedId } }
           await executeWithMiddleware(input)
+          clock.tick(timeBetweenRequests)
         }
-        clock.tick(timeBetweenRequests)
-      }
 
-      expect(dataProvider.requestsReceived()).to.be.greaterThan(capacity)
+        expect(dataProvider.totalRequestsReceived()[0]).to.be.greaterThan(capacity)
+        expect(dataProvider.totalRequestsReceived()[1]).to.be.lessThan(capacity)
+        clock.restore()
+      }
     })
 
-    it('Composite feeds requests stay under capacity after initialization', async () => {
+    it('Composite feeds requests go over capacity on initialization, then stabilize', async () => {
       const store = createStore(rateLimit.reducer.rootReducer, {})
       const dataProvider = dataProviderMock()
       const executeWithMiddleware = await withMiddleware(dataProvider.execute, [
@@ -137,13 +143,19 @@ describe('Rate Limit/Cache - Integration', () => {
       for (let i = 0; i < (1000 / timeBetweenRequests) * 180; i++) {
         const feedId = i % feedsNumber
         for (let internalReq = 0; internalReq < 10; internalReq++) {
-          const input = { id: '6', data: { base: feedId, quote: internalReq } }
+          const input = { id: '6', data: { composite1: feedId, quote: internalReq } }
           await executeWithMiddleware(input)
         }
         clock.tick(timeBetweenRequests)
       }
 
+      expect(dataProvider.totalRequestsReceived()[0]).to.be.greaterThan(capacity)
+      expect(dataProvider.totalRequestsReceived()[1]).to.be.lessThan(capacity)
       expect(dataProvider.totalRequestsReceived()[2]).to.be.lessThan(capacity)
+    })
+
+    it('Newcomers spend a minute to get stable max age', () => {
+      return
     })
   })
 })
