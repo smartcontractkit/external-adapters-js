@@ -24,7 +24,9 @@ beforeEach(() => {
   })
 })
 
-function stateStream(initialState: DeepPartial<RootState>): StateObservable<RootState> {
+function stateStream(initialState: {
+  cacheWarmer: DeepPartial<RootState>
+}): StateObservable<RootState> {
   return new StateObservable<RootState>(new Subject(), initialState as any)
 }
 
@@ -59,9 +61,11 @@ context('side effect tests', () => {
           c: actions.warmupSubscribed({ executeFn: stub(), ...adapterRequest2 }),
         })
         const state$ = stateStream({
-          subscriptions: {
-            [key1]: { isDuplicate: false },
-            [key2]: { isDuplicate: false },
+          cacheWarmer: {
+            subscriptions: {
+              [key1]: { isDuplicate: false },
+              [key2]: { isDuplicate: false },
+            },
           },
         })
 
@@ -82,7 +86,9 @@ context('side effect tests', () => {
         const action$ = actionStream(hot, 'a ', {
           a: actions.warmupSubscribed({ executeFn: stub(), ...adapterRequest1 }),
         })
-        const state$ = stateStream({ subscriptions: { [key1]: { isDuplicate: true } } })
+        const state$ = stateStream({
+          cacheWarmer: { subscriptions: { [key1]: { isDuplicate: true } } },
+        })
         const output$ = warmupSubscriber(action$, state$, epicDependencies)
         expectObservable(output$, '^ 40s !').toBe('', {})
       })
@@ -102,7 +108,9 @@ context('side effect tests', () => {
           isDuplicate: false,
         }
         const state$ = stateStream({
-          subscriptions: { [key1]: subscriptionState },
+          cacheWarmer: {
+            subscriptions: { [key1]: subscriptionState },
+          },
         })
 
         const output$ = warmupRequestHandler(action$, state$, null)
@@ -124,7 +132,9 @@ context('side effect tests', () => {
           isDuplicate: false,
         }
         const state$ = stateStream({
-          subscriptions: { [key1]: subscriptionState },
+          cacheWarmer: {
+            subscriptions: { [key1]: subscriptionState },
+          },
         })
 
         const output$ = warmupRequestHandler(action$, state$, null)
@@ -147,11 +157,13 @@ context('side effect tests', () => {
           }),
         })
         const state$ = stateStream({
-          warmups: {
-            [key1]: {
-              error: null,
-              errorCount: 0,
-              successCount: 0,
+          cacheWarmer: {
+            warmups: {
+              [key1]: {
+                error: null,
+                errorCount: 0,
+                successCount: 0,
+              },
             },
           },
         })
@@ -168,11 +180,13 @@ context('side effect tests', () => {
           }),
         })
         const state$ = stateStream({
-          warmups: {
-            [key1]: {
-              error: null,
-              errorCount: 3,
-              successCount: 0,
+          cacheWarmer: {
+            warmups: {
+              [key1]: {
+                error: null,
+                errorCount: 3,
+                successCount: 0,
+              },
             },
           },
         })
@@ -188,7 +202,7 @@ context('side effect tests', () => {
           a: actions.warmupSubscribed({ executeFn: stub(), ...adapterRequest1 }),
           b: actions.warmupSubscribed({ executeFn: stub(), ...adapterRequest2 }),
         })
-        const state$ = stateStream({})
+        const state$ = stateStream({ cacheWarmer: {} })
         const output$ = warmupUnsubscriber(action$, state$, epicDependencies)
         expectObservable(output$, '^ 120m !').toBe('50m -- a 9m 59s 998ms b 40m - a', {
           a: actions.warmupSubscriptionTimeoutReset({ key: key1 }),
