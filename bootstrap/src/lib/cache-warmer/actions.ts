@@ -1,7 +1,7 @@
 import { AdapterRequest, Execute } from '@chainlink/types'
 import { createAction } from '@reduxjs/toolkit'
 
-interface WarmupSubscribedPayload extends AdapterRequest {
+export interface WarmupSubscribedPayload extends AdapterRequest {
   executeFn: Execute
 }
 interface WarmupUnsubscribedPayload {
