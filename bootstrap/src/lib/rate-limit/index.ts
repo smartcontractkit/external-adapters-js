@@ -24,14 +24,13 @@ export const computeThroughput = (
   // All observed in interval
   const observedRequests = selectObserved(state, interval)
   const throughput = observedRequests.length + 1
-  const cost = getAverageCost(observedRequests) || 1
   // All of type observed in interval
   const observedRequestsOfType = selectObserved(state, interval, id)
   const throughputOfType = observedRequestsOfType.length + 1
   const costOfType = getAverageCost(observedRequestsOfType) || 1
   // Compute max throughput by weight
-  const weight = (throughputOfType * costOfType) / (throughput * cost)
-  return maxThroughput(weight)
+  const weight = throughputOfType / throughput
+  return maxThroughput(weight, costOfType)
 }
 
 const getAverageCost = (requests: Heartbeat[]): number => {
@@ -39,8 +38,8 @@ const getAverageCost = (requests: Heartbeat[]): number => {
   return requests.reduce((totalCost, h) => totalCost + h.cost, 0) / requests.length
 }
 
-const maxThroughput = (weight: number): number => {
-  const maxAllowedCapacity = 0.9 * config.get().totalCapacity // Interval.Minute
+const maxThroughput = (weight: number, cost: number): number => {
+  const maxAllowedCapacity = (0.9 * config.get().totalCapacity) / cost // Interval.Minute
   return weight * maxAllowedCapacity
 }
 
@@ -63,6 +62,7 @@ const maxAgeFor = (throughput: number, interval: number) =>
 export const withRateLimit = (store: Store<RootState>): Middleware => async (execute) => async (
   input,
 ) => {
+  if (!config.get().totalCapacity) return await execute(input)
   const state = store.getState()
   const { heartbeats } = state
   const requestTypeId = makeId(input)
