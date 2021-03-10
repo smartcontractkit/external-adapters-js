@@ -1,21 +1,21 @@
 import { getDefaultConfig } from '@chainlink/external-adapter'
 import { util } from '@chainlink/ea-bootstrap'
 import { getDataProvider, PriceAdapter } from './dataProvider'
-import { Check, getCheckImpl, getCheckProvider } from './checks'
+
+export type GetPriceAdapter = (name: string) => PriceAdapter
 
 export type Config = {
-  priceAdapter: PriceAdapter
-  checkAdapter: Check
+  getPriceAdapter: GetPriceAdapter
 }
 
 export const makeConfig = (prefix = ''): Config => {
-  const dataProviderUrl = util.getRequiredEnv('DATA_PROVIDER_URL', prefix)
-  const defaultConfig = getDefaultConfig(prefix)
-  defaultConfig.api.baseURL = dataProviderUrl
-  defaultConfig.api.method = 'post'
-
-  return {
-    priceAdapter: getDataProvider(defaultConfig.api),
-    checkAdapter: getCheckImpl(getCheckProvider()),
+  const getPriceAdapter: GetPriceAdapter = (name) => {
+    const dataProviderUrl = util.getRequiredEnv('DATA_PROVIDER_URL', name.toUpperCase())
+    const defaultConfig = getDefaultConfig(prefix)
+    defaultConfig.api.baseURL = dataProviderUrl
+    defaultConfig.api.method = 'post'
+    return getDataProvider(defaultConfig.api)
   }
+
+  return { getPriceAdapter }
 }

@@ -14,15 +14,16 @@ The adapter takes the following environment variables:
 
 | Required? |                    Name                     |                  Description                  |          Options           | Defaults to |
 | :-------: | :-----------------------------------------: | :-------------------------------------------: | :------------------------: | :---------: |
-|    ✅     |                `CHECK_TYPE`                 |   The provider to check if a market is open   | `schedule`, `tradinghours` |             |
 |    🟡     | `CHECK_API_KEY` (when using `tradinghours`) |  An API key when needed by a check provider   |                            |             |
-|    ✅     |             `DATA_PROVIDER_URL`             | The URL location for the price data provider adapter |                     |             |
+|    ✅     |             `{NAME}_DATA_PROVIDER_URL`       | The URL location for the price data provider adapter when `source={NAME}` |                     |             |
 |    ✅     |                  `RPC_URL`                  | ETH RPC URL to read the reference data value  |                            |             |
 
 ## Input Params
 
 | Required? |               Name                |                                          Description                                          | Options | Defaults to |
 | :-------: | :-------------------------------: | :-------------------------------------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     |              `check`              |   The provider to check if a market is open                                | `schedule`, `tradinghours` |             |
+|    ✅     |              `source`              |   The source data provider for the price                                 |  |             |
 |    ✅     |  `referenceContract`, `contract`  |                 The Aggregator contract to call for its latest round's price                  |         |             |
 |    ✅     |            `multiply`             | To handle big numbers, the amount to divide the output from reading the reference contract by |         |             |
 |    🟡     |            `schedule`             |                   A schedule of market times to check whether they are open                   |         |             |

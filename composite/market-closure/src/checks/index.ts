@@ -13,8 +13,7 @@ export enum CheckProvider {
 const isCheckProvider = (envVar?: string): envVar is CheckProvider =>
   Object.values(CheckProvider).includes(envVar as any)
 
-export const getCheckProvider = (): CheckProvider | undefined => {
-  const check = process.env.CHECK_TYPE
+export const getCheckProvider = (check: string): CheckProvider | undefined => {
   return isCheckProvider(check) ? (check as CheckProvider) : undefined
 }
 
