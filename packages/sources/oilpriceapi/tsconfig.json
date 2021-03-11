@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "typeRoots": ["../../../node_modules/@types", "../../core/types", "./types"],
+    "composite": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["dist", "**/*.spec.ts", "**/*.test.ts"],
+  "references": [{ "path": "../../core/external-adapter" }, { "path": "../../core/bootstrap" }]
+}
