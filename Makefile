@@ -23,21 +23,18 @@ new:
 	sed -i 's/Example/$(adapter)/' $(adapter)/README.md
 
 clean:
-	rm -rf $(adapter)/dist
+	rm -rf packages/$(adapter)/dist
 
 deps: clean
 	# Restore all dependencies
 	yarn
 	# Call the build script for the adapter if defined (TypeScript adapters have this extra build/compile step)
 	# We use `wsrun` to build workspace dependencies in topological order (TODO: use native `yarn workspaces foreach -pt run setup` with Yarn 2)
-	yarn wsrun -mre -p @chainlink/ea-bootstrap -t setup
-	yarn wsrun -mre -p @chainlink/ea-factories -t setup
-	yarn wsrun -mre -p @chainlink/external-adapter -t setup
 	yarn wsrun -mre -p @chainlink/$(if $(name),$(name),$(adapter))-adapter -t setup
 	yarn --frozen-lockfile --production
 
 build:
-	npx @vercel/ncc@0.25.1 build $(adapter) -o $(adapter)/dist
+	npx @vercel/ncc@0.25.1 build packages/$(adapter) -o packages/$(adapter)/dist
 
 clean-2-step:
 	rm -rf 2-step/$(adapter)
