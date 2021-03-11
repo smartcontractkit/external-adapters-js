@@ -30,7 +30,7 @@ const makeExecuteWithWarmer = async (execute: Execute) => {
     } as Store),
   ])
   return async (data: AdapterRequest) => {
-    await executeWithMiddleware(data)
+    const result = await executeWithMiddleware(data)
     store.dispatch(
       cacheWarmer.actions.warmupSubscribed({
         id: data.id,
@@ -38,6 +38,7 @@ const makeExecuteWithWarmer = async (execute: Execute) => {
         data,
       } as cacheWarmer.actions.WarmupSubscribedPayload),
     )
+    return result
   }
 }
 
@@ -54,7 +55,7 @@ const dataProviderMock = (
   return {
     totalRequestsReceived: () => requestsReceivedPerMin,
     requestsReceived: () => requestsInMin,
-    execute: async (request) => {
+    execute: async (request): Promise<any> => {
       const now = new Date().getMinutes()
       if (now !== lastMinute) {
         lastMinute = now
@@ -67,6 +68,7 @@ const dataProviderMock = (
         data: {
           result: requestsInMin,
           cost,
+          rateLimitMaxAge: request.data?.rateLimitMaxAge,
         },
         result: requestsInMin,
         statusCode: 200,
@@ -77,6 +79,9 @@ const dataProviderMock = (
 
 describe('Rate Limit/Cache - Integration', () => {
   const capacity = 50
+  const hourCapacity = 50 * 60
+  const MAXIMUM_MAX_AGE = 1000 * 60 * 2
+
   before(() => {
     process.env.RATE_LIMIT_CAPACITY = String(capacity)
     process.env.CACHE_ENABLED = String(true)
@@ -152,7 +157,7 @@ describe('Rate Limit/Cache - Integration', () => {
           clock.tick(timeBetweenRequests)
         }
 
-        console.log('WITH COST:', cost, dataProvider.totalRequestsReceived())
+        console.log(dataProvider.totalRequestsReceived())
         expect(dataProvider.totalRequestsReceived()[0]).to.be.greaterThan(capacity)
         expect(dataProvider.totalRequestsReceived()[1]).to.be.lessThan(capacity)
         clock.restore()
@@ -179,6 +184,7 @@ describe('Rate Limit/Cache - Integration', () => {
         clock.tick(timeBetweenRequests)
       }
 
+      console.log(dataProvider.totalRequestsReceived())
       expect(dataProvider.totalRequestsReceived()[0]).to.be.greaterThan(capacity)
       expect(dataProvider.totalRequestsReceived()[1]).to.be.lessThan(capacity)
       expect(dataProvider.totalRequestsReceived()[2]).to.be.lessThan(capacity)
@@ -213,10 +219,81 @@ describe('Rate Limit/Cache - Integration', () => {
         }
         clock.tick(timeBetweenRequests)
       }
-
+      console.log(dataProvider.totalRequestsReceived())
       expect(dataProvider.totalRequestsReceived()[0]).to.be.greaterThan(capacity)
       expect(dataProvider.totalRequestsReceived()[1]).to.be.lessThan(capacity)
       expect(dataProvider.totalRequestsReceived()[2]).to.be.lessThan(capacity)
+    })
+
+    // This overpasses the initialization by more than the rest
+    it('Burst feeds requests stay under capacity', async () => {
+      const store = createStore(rateLimit.reducer.rootReducer, {})
+      const dataProvider = dataProviderMock()
+      const executeWithMiddleware = await withMiddleware(dataProvider.execute, [
+        withCache,
+        rateLimit.withRateLimit(store),
+      ])
+
+      const timeBetweenRequests = 500
+      const feedsNumber = 5
+      // Requests made in 3 mins
+      for (let i = 0; i < (1000 / timeBetweenRequests) * 180; i++) {
+        const feedId = i % feedsNumber
+        await Promise.all(
+          new Array(10).fill('').map(async (_, internalReq) => {
+            const input = { id: '6', data: { burst1: feedId, quote: internalReq } }
+            return await executeWithMiddleware(input)
+          }),
+        )
+        clock.tick(timeBetweenRequests)
+      }
+
+      console.log(dataProvider.totalRequestsReceived())
+      expect(dataProvider.totalRequestsReceived()[0]).to.be.greaterThan(capacity)
+      expect(dataProvider.totalRequestsReceived()[1]).to.be.lte(capacity)
+      expect(dataProvider.totalRequestsReceived()[2]).to.be.lte(capacity)
+    })
+
+    it('3 h simulation', async () => {
+      const dataProvider = dataProviderMock()
+      const executeWithWarmer = await makeExecuteWithWarmer(dataProvider.execute)
+
+      // 120 Feeds: 3 Composite, rest are single feeds
+      const totalFeeds = 120
+      const composite = 3
+      const feeds: AdapterRequest[][] = new Array(totalFeeds).fill('').map((_, feedId) => {
+        if (feedId % (totalFeeds / composite) === 0) {
+          return new Array(10).fill('').map((_, internalReq) => {
+            return { id: '6', data: { singleFeed: feedId, quote: internalReq } }
+          })
+        }
+        return [{ id: '6', data: { singleFeed: feedId, quote: 1 } }]
+      })
+
+      const _getRandomFeed = () => {
+        return feeds[Math.floor(Math.random() * feeds.length)]
+      }
+
+      const timeBetweenRequests = 1000
+      let maximumHitCounter = 0
+      for (let i = 0; i < (1000 / timeBetweenRequests) * 3 * 60 * 60; i++) {
+        const feed = _getRandomFeed()
+        for (let i = 0; i < feed.length; i++) {
+          const input = feed[i]
+          const response = await executeWithWarmer(input)
+          if (response.data.rateLimitMaxAge && response.data.rateLimitMaxAge > MAXIMUM_MAX_AGE) {
+            maximumHitCounter++
+          }
+        }
+        clock.tick(timeBetweenRequests)
+      }
+      console.log('MAX HIT:', maximumHitCounter)
+      console.log('Req RECEIVED:', dataProvider.totalRequestsReceived())
+      const requestsReceived = dataProvider.totalRequestsReceived()
+      requestsReceived.forEach((req) => {
+        expect(req).to.be.lte(capacity)
+      })
+      expect(maximumHitCounter).to.be.equal(0)
     })
   })
 })
