@@ -1,20 +1,16 @@
 import { BigNumber, ethers } from 'ethers'
 import registryAbi from '../abi/IRegistry.json'
 import assetAllocationAbi from '../abi/IAssetAllocation.json'
-import erc20 from '@openzeppelin/contracts/build/contracts/ERC20.json'
 import { types } from '@chainlink/token-allocation-adapter'
 
-export type GetAllocations = (
-  registry: ethers.Contract,
-  decimalsOf: (address: string) => Promise<number>,
-) => () => Promise<types.TokenAllocations>
+export type GetAllocations = (registry: ethers.Contract) => () => Promise<types.TokenAllocations>
 
-const getAllocations: GetAllocations = (registry, decimalsOf) => async () => {
-  const tokenAddresses = await registry.getTokenAddresses()
+const getAllocations: GetAllocations = (registry) => async () => {
+  const allocationIds = await registry.getAssetAllocationIds()
   const [components, balances, decimals]: any = await Promise.all([
-    Promise.all(tokenAddresses.map((address: string) => registry.symbolOf(address))),
-    Promise.all(tokenAddresses.map((address: string) => registry.balanceOf(address))),
-    Promise.all(tokenAddresses.map(async (address: string) => decimalsOf(address))),
+    Promise.all(allocationIds.map((id: string) => registry.symbolOf(id))),
+    Promise.all(allocationIds.map((id: string) => registry.balanceOf(id))),
+    Promise.all(allocationIds.map((id: string) => registry.decimalsOf(id))),
   ])
 
   return components.map((symbol: string, i: number) => ({
@@ -38,11 +34,8 @@ const makeRegistry = async (address: string, rpcUrl: string): Promise<Registry> 
     provider,
   )
 
-  const _getERC20 = (address: string) => new ethers.Contract(address, erc20.abi, provider)
-  const _decimalsOf = (address: string) => _getERC20(address).decimals()
-
   return {
-    getAllocations: getAllocations(chainlinkRegistry, _decimalsOf),
+    getAllocations: getAllocations(chainlinkRegistry),
   }
 }
 
