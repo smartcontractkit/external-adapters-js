@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "typeRoots": ["../../../node_modules/@types", "../../core/types", "./types"]
+  },
+  "include": ["src/**/*"],
+  "exclude": ["dist", "**/*.spec.ts", "**/*.test.ts"],
+  "references": [
+    { "path": "../../sources/helpers/reference-data-reader" },
+    { "path": "../../sources/xbto" },
+    { "path": "../../sources/dxfeed" },
+    { "path": "../../sources/genesis-volatility" },
+    { "path": "../../sources/oilpriceapi" },
+    { "path": "../../sources/deribit" }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "name": "@chainlink/nomics-adapter",
+  "version": "0.0.3",
+  "description": "Chainlink nomics adapter.",
+  "keywords": [
+    "Chainlink",
+    "LINK",
+    "blockchain",
+    "oracle",
+    "nomics"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "url": "https://github.com/smartcontractkit/external-adapters-js",
+    "type": "git"
+  },
+  "license": "MIT",
+  "scripts": {
+    "prepublishOnly": "yarn build && yarn test:unit",
+    "setup": "yarn build",
+    "build": "tsc -b",
+    "lint": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix",
+    "test": "mocha --exit --timeout 0 -r ts-node/register 'test/**/*.test.ts'",
+    "test:unit": "mocha --exit --grep @integration --invert -r ts-node/register 'test/**/*.test.ts'",
+    "test:integration": "mocha --exit --timeout 0 --grep @integration -r ts-node/register 'test/**/*.test.ts'",
+    "server": "node -e 'require(\"./index.js\").server()'",
+    "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
+    "start": "yarn server:dist"
+  },
+  "devDependencies": {},
+  "dependencies": {}
+}
