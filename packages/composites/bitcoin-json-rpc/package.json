@@ -1,0 +1,29 @@
+{
+  "name": "@chainlink/bitcoin-json-rpc-adapter",
+  "version": "0.0.2",
+  "description": "",
+  "author": "Evangelos Barakos (evangelos@smartcontract.com)",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "prepublishOnly": "yarn build && yarn test:unit",
+    "setup": "yarn build",
+    "build": "tsc -b",
+    "lint": "eslint --ignore-path ../../.eslintignore . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint --ignore-path ../../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix",
+    "test": "mocha --exit -r ts-node/register 'test/**/*.test.ts'",
+    "test:unit": "mocha --exit --grep @integration --invert -r ts-node/register 'test/**/*.test.ts'",
+    "test:integration": "mocha --exit --grep @integration -r ts-node/register 'test/**/*.test.ts'",
+    "server": "node -e 'require(\"./index.js\").server()'",
+    "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
+    "start": "yarn server:dist"
+  },
+  "devDependencies": {},
+  "dependencies": {
+    "@chainlink/json-rpc-adapter": "^0.0.4"
+  }
+}
