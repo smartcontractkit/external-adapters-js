@@ -169,7 +169,7 @@ export const getHashOpts = (): Required<Parameters<typeof objectHash>>['1'] => (
   algorithm: 'sha1',
   encoding: 'hex',
   excludeKeys: (props: string) =>
-    ['id', 'maxAge', 'meta']
+    ['id', 'maxAge', 'meta', 'rateLimitMaxAge']
       .concat((process.env.CACHE_KEY_IGNORED_PROPS || '').split(',').filter((k) => k))
       .includes(props),
 })
