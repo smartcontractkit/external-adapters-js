@@ -1,0 +1,35 @@
+{
+  "name": "@chainlink/external-adapter",
+  "version": "0.2.8",
+  "description": "Helpers for creating Chainlink External Adapters",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "url": "https://github.com/smartcontractkit/external-adapters-js",
+    "type": "git"
+  },
+  "scripts": {
+    "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
+    "prepublishOnly": "yarn build && yarn test",
+    "setup": "yarn clean && yarn build",
+    "build": "tsc -b",
+    "lint": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix",
+    "test": "mocha --exit --timeout 0 -r ts-node/register 'test/**/*.test.ts'",
+    "test:unit": "mocha --exit --timeout 0 --grep @integration --invert -r ts-node/register 'test/**/*.test.ts'",
+    "test:integration": "mocha --exit --timeout 0 --grep @integration -r ts-node/register 'test/**/*.test.ts'"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@google-cloud/logging-winston": "^4.0.1",
+    "axios": "^0.21.1",
+    "uuid": "^8.3.0",
+    "winston": "^3.3.3"
+  },
+  "devDependencies": {
+    "@types/uuid": "^8.3.0"
+  }
+}
