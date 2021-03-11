@@ -16,7 +16,7 @@ const getAllocations: GetAllocations = (registry) => async () => {
   return components.map((symbol: string, i: number) => ({
     symbol,
     balance: BigNumber.from(balances[i]),
-    decimals: decimals[i],
+    decimals: BigNumber.from(decimals[i]),
   }))
 }
 
