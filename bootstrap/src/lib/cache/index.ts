@@ -7,12 +7,14 @@ import * as redis from './redis'
 
 const DEFAULT_CACHE_TYPE = 'local'
 const DEFAULT_CACHE_KEY_GROUP = uuid()
-const DEFAULT_CACHE_KEY_IGNORED_PROPS = ['id', 'maxAge', 'meta']
+const DEFAULT_CACHE_KEY_IGNORED_PROPS = ['id', 'maxAge', 'meta', 'rateLimitMaxAge']
 // Request coalescing
 const DEFAULT_RC_INTERVAL = 100
 const DEFAULT_RC_INTERVAL_MAX = 1000
 const DEFAULT_RC_INTERVAL_COEFFICIENT = 2
 const DEFAULT_RC_ENTROPY_MAX = 0
+
+const MAXIMUM_MAX_AGE = 1000 * 60 * 2
 
 const env = process.env
 export const defaultOptions = () => ({
@@ -95,16 +97,31 @@ export const withCache: Middleware = async (execute, options = defaultOptions())
     logger.debug(`Request coalescing: DEL ${key}`)
   }
 
-  const _getMaxAge = (data: AdapterRequest): any => {
-    if (!data || !data.data) return cache.options.maxAge
-    if (isNaN(data.data.maxAge as number)) return cache.options.maxAge
-    return Number(data.data.maxAge) || cache.options.maxAge
+  const _getRateLimitMaxAge = (data: AdapterRequest): number | undefined => {
+    if (!data || !data.data) return
+    if (isNaN(data.data.rateLimitMaxAge as number)) return
+    const maxAge = Number(data.data.rateLimitMaxAge)
+    if (maxAge) {
+      return maxAge > MAXIMUM_MAX_AGE ? MAXIMUM_MAX_AGE : maxAge
+    }
+    return
+  }
+
+  const _getDefaultMaxAge = (data: AdapterRequest): any => {
+    const rlMaxAge = _getRateLimitMaxAge(data)
+    return rlMaxAge || cache.options.maxAge
+  }
+
+  const _getRequestMaxAge = (data: AdapterRequest): number | undefined => {
+    if (!data || !data.data) return
+    if (isNaN(data.data.maxAge as number)) return
+    return Number(data.data.maxAge)
   }
 
   const _executeWithCache = async (data: AdapterRequest) => {
     const key = _getKey(data)
     const coalescingKey = _getCoalescingKey(key)
-    const maxAge = _getMaxAge(data)
+    const maxAge = _getRequestMaxAge(data) || _getDefaultMaxAge(data)
     // Add successful result to cache
     const _cacheOnSuccess = async ({ statusCode, data, result }: AdapterResponse) => {
       if (statusCode === 200) {
@@ -150,6 +167,9 @@ export const withCache: Middleware = async (execute, options = defaultOptions())
 
     if (entry) {
       if (maxAge >= 0) {
+        logger.debug(`Cache: GET ${key}`, entry)
+        const reqMaxAge = _getRequestMaxAge(data)
+        if (reqMaxAge && reqMaxAge !== entry.maxAge) await _cacheOnSuccess(entry)
         return { jobRunID: data.id, ...entry }
       }
       logger.debug(`Cache: SKIP(maxAge < 0)`)

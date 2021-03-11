@@ -66,9 +66,9 @@ export const withRateLimit = (store: Store<RootState>): Middleware => async (exe
   const state = store.getState()
   const { heartbeats } = state
   const requestTypeId = makeId(input)
-  const maxThroughput = computeThroughput(heartbeats, IntervalNames.MINUTE, requestTypeId)
+  const maxThroughput = computeThroughput(heartbeats, IntervalNames.HOUR, requestTypeId)
   const maxAge = maxAgeFor(maxThroughput, Intervals[IntervalNames.MINUTE])
-  const result = await execute({ ...input, data: { ...input.data, maxAge } })
+  const result = await execute({ ...input, data: { ...input.data, rateLimitMaxAge: maxAge } })
   if (input.id !== WARMUP_REQUEST_ID) {
     store.dispatch(requestObserved(requestTypeId, result.data.cost))
   }
