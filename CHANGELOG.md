@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Updated support for `DIGG/BTC` in Kaiko and Amberdata
 - Updated base URL for GeoDB
 - CMC now uses preset IDs instead of preset slugs
+- Added support for `tradermade` in `outlier-detection` composite adapter
 
 ## [0.2.0-rc.1] - 2021-2-4
 
