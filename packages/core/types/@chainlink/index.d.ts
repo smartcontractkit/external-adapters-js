@@ -43,8 +43,8 @@ declare module '@chainlink/types' {
   export type AdapterResponse = {
     jobRunID: string
     statusCode: number
-    data: any
-    result: any
+    data: any // Response data, holds "result" for Flux Monitor. Correct way.
+    result: any // Result for OCR
   }
 
   /* ERRORS */
