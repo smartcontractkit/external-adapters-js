@@ -1,110 +1,140 @@
 import { assert } from 'chai'
 import { isMarketClosed } from '../src/checks/schedule'
-import { Schedule } from 'market-closure'
+import { rejects } from 'assert'
+import { AdapterRequest } from '@chainlink/types'
 
-describe('isMarketClosed', () => {
+describe('isMarketClosed Schedule', () => {
   context('successful calls', () => {
+    const jobID = 'abc123'
+
     const requests = [
       {
         name: 'empty schedule',
-        schedule: {},
+        input: { id: jobID, data: { schedule: {} } },
         expect: false,
       },
       {
         name: 'full schedule',
-        schedule: {
-          timezone: 'Europe/Oslo',
-          hours: {
-            monday: ['00:00-24:00'],
-            tuesday: ['00:00-24:00'],
-            wednesday: ['00:00-24:00'],
-            thursday: ['00:00-24:00'],
-            friday: ['00:00-24:00'],
-            saturday: ['00:00-24:00'],
-            sunday: ['00:00-24:00'],
-          },
-          holidays: [
-            {
-              year: 2020,
-              month: 5,
-              day: 8,
-              hours: '24:00-24:01',
+        input: {
+          id: jobID,
+          data: {
+            schedule: {
+              timezone: 'Europe/Oslo',
+              hours: {
+                monday: ['00:00-24:00'],
+                tuesday: ['00:00-24:00'],
+                wednesday: ['00:00-24:00'],
+                thursday: ['00:00-24:00'],
+                friday: ['00:00-24:00'],
+                saturday: ['00:00-24:00'],
+                sunday: ['00:00-24:00'],
+              },
+              holidays: [
+                {
+                  year: 2020,
+                  month: 5,
+                  day: 8,
+                  hours: '24:00-24:01',
+                },
+              ],
             },
-          ],
+          },
         },
         expect: false,
       },
       {
         name: 'full schedule always closed',
-        schedule: {
-          timezone: 'Europe/Oslo',
-          hours: {
-            monday: ['24:00-24:01'],
-            tuesday: ['24:00-24:01'],
-            wednesday: ['24:00-24:01'],
-            thursday: ['24:00-24:01'],
-            friday: ['24:00-24:01'],
-            saturday: ['24:00-24:01'],
-            sunday: ['24:00-24:01'],
+        input: {
+          id: jobID,
+          data: {
+            schedule: {
+              timezone: 'Europe/Oslo',
+              hours: {
+                monday: ['24:00-24:01'],
+                tuesday: ['24:00-24:01'],
+                wednesday: ['24:00-24:01'],
+                thursday: ['24:00-24:01'],
+                friday: ['24:00-24:01'],
+                saturday: ['24:00-24:01'],
+                sunday: ['24:00-24:01'],
+              },
+              holidays: [],
+            },
           },
-          holidays: [],
         },
         expect: true,
       },
       {
         name: 'empty schedule always open',
-        schedule: {
-          timezone: 'Europe/Oslo',
-          hours: {},
-          holidays: [],
+        input: {
+          id: jobID,
+          data: {
+            schedule: {
+              timezone: 'Europe/Oslo',
+              hours: {},
+              holidays: [],
+            },
+          },
         },
         expect: false,
       },
       {
         name: 'always empty with hours set',
-        schedule: {
-          timezone: 'Europe/Oslo',
-          hours: {
-            monday: ['24:00-24:01'],
+        input: {
+          id: jobID,
+          data: {
+            schedule: {
+              timezone: 'Europe/Oslo',
+              hours: {
+                monday: ['24:00-24:01'],
+              },
+              holidays: [],
+            },
           },
-          holidays: [],
         },
         expect: true,
       },
     ]
 
-    requests.forEach((req) => {
-      it(`${req.name}`, () => {
-        const halted = isMarketClosed(req.schedule as Schedule)
+    for (const req of requests) {
+      it(`${req.name}`, async () => {
+        const halted = await isMarketClosed(req.input as AdapterRequest)
         assert.equal(halted, req.expect)
       })
-    })
+    }
   })
 
   context('failing calls', () => {
+    const jobID = 'abc123'
+
     const requests = [
       {
         name: 'missing timezone',
-        schedule: {
-          timezone: '',
-          hours: {
-            monday: ['00:00-24:00'],
-            tuesday: ['00:00-24:00'],
-            wednesday: ['00:00-24:00'],
-            thursday: ['00:00-24:00'],
-            friday: ['00:00-24:00'],
-            saturday: ['00:00-24:00'],
-            sunday: ['00:00-24:00'],
+        input: {
+          id: jobID,
+          data: {
+            schedule: {
+              timezone: '',
+              hours: {
+                monday: ['00:00-24:00'],
+                tuesday: ['00:00-24:00'],
+                wednesday: ['00:00-24:00'],
+                thursday: ['00:00-24:00'],
+                friday: ['00:00-24:00'],
+                saturday: ['00:00-24:00'],
+                sunday: ['00:00-24:00'],
+              },
+              holidays: [],
+            },
           },
-          holidays: [],
         },
       },
     ]
 
-    requests.forEach((req) => {
+    for (const req of requests) {
       it(`${req.name}`, async () => {
-        assert.throw(() => isMarketClosed(req.schedule as Schedule), Error)
+        await rejects(isMarketClosed(req.input as AdapterRequest))
       })
-    })
+    }
   })
 })
