@@ -3,13 +3,27 @@ import { AdapterRequest } from '@chainlink/types'
 import { AdapterError } from '@chainlink/external-adapter'
 import { assertSuccess } from '@chainlink/adapter-test-helpers'
 import { makeExecute } from '../src'
-import { Check } from '../src/checks'
 import { PriceAdapter } from '../src/dataProvider'
+import { Config } from '../src/config'
 
 const result = 123
 
-const adapter = (success: boolean): PriceAdapter => {
-  if (!success) {
+const scheduleAlwaysClosed = {
+  timezone: 'Europe/Oslo',
+  hours: {
+    monday: ['24:00-24:01'],
+    tuesday: ['24:00-24:01'],
+    wednesday: ['24:00-24:01'],
+    thursday: ['24:00-24:01'],
+    friday: ['24:00-24:01'],
+    saturday: ['24:00-24:01'],
+    sunday: ['24:00-24:01'],
+  },
+  holidays: [],
+}
+
+const adapter = (type: string): PriceAdapter => {
+  if (type !== 'success') {
     return async (input: AdapterRequest) => {
       throw new AdapterError({ jobRunID: input.id })
     }
@@ -25,12 +39,9 @@ const adapter = (success: boolean): PriceAdapter => {
   }
 }
 
-const check = (halted: boolean): Check => async () => halted
-
-const makeMockConfig = (halted = false, priceSuccess = true) => {
+const makeMockConfig = (): Config => {
   return {
-    priceAdapter: adapter(priceSuccess),
-    checkAdapter: check(halted),
+    getPriceAdapter: adapter,
   }
 }
 
@@ -41,13 +52,30 @@ describe('executeWithAdapters', () => {
     const requests = [
       {
         name: 'successful adapter call',
-        input: { id: jobID, data: { asset: 'FTSE', contract: '0x00', multiply: 1 } },
+        input: {
+          id: jobID,
+          data: {
+            asset: 'FTSE',
+            contract: '0x00',
+            multiply: 1,
+            source: 'success',
+            check: 'schedule',
+            schedule: {},
+          },
+        },
       },
       {
         name: 'trading halted, use meta data',
         input: {
           id: jobID,
-          data: { asset: 'FTSE', contract: '0x00', multiply: 1 },
+          data: {
+            asset: 'FTSE',
+            contract: '0x00',
+            multiply: 1,
+            source: 'fails',
+            check: 'schedule',
+            schedule: scheduleAlwaysClosed,
+          },
           meta: { latestAnswer: result },
         },
         halted: true,
@@ -56,7 +84,7 @@ describe('executeWithAdapters', () => {
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
-        const execute = makeExecute(makeMockConfig(req.halted))
+        const execute = makeExecute(makeMockConfig())
         const data = await execute(req.input as AdapterRequest)
         assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
         assert.equal(data.result, result)
