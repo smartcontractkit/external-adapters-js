@@ -1,14 +1,29 @@
 import { assert } from 'chai'
-import { Execute, AdapterRequest } from '@chainlink/types'
+import { AdapterRequest } from '@chainlink/types'
 import { AdapterError } from '@chainlink/external-adapter'
 import { assertSuccess } from '@chainlink/adapter-test-helpers'
-import { executeWithAdapters } from '../src/adapter'
-import { Check } from '../src/checks'
+import { makeExecute } from '../src'
+import { PriceAdapter } from '../src/dataProvider'
+import { Config } from '../src/config'
 
 const result = 123
 
-const adapter = (success = true): Execute => {
-  if (!success) {
+const scheduleAlwaysClosed = {
+  timezone: 'Europe/Oslo',
+  hours: {
+    monday: ['24:00-24:01'],
+    tuesday: ['24:00-24:01'],
+    wednesday: ['24:00-24:01'],
+    thursday: ['24:00-24:01'],
+    friday: ['24:00-24:01'],
+    saturday: ['24:00-24:01'],
+    sunday: ['24:00-24:01'],
+  },
+  holidays: [],
+}
+
+const adapter = (type: string): PriceAdapter => {
+  if (type !== 'success') {
     return async (input: AdapterRequest) => {
       throw new AdapterError({ jobRunID: input.id })
     }
@@ -24,7 +39,11 @@ const adapter = (success = true): Execute => {
   }
 }
 
-const check = (halted = false): Check => async () => halted
+const makeMockConfig = (): Config => {
+  return {
+    getPriceAdapter: adapter,
+  }
+}
 
 describe('executeWithAdapters', () => {
   context('successful calls', () => {
@@ -33,25 +52,40 @@ describe('executeWithAdapters', () => {
     const requests = [
       {
         name: 'successful adapter call',
-        input: { id: jobID, data: { asset: 'FTSE', contract: '0x00', multiply: 1 } },
-        adapter: adapter(),
-        check: check(),
+        input: {
+          id: jobID,
+          data: {
+            asset: 'FTSE',
+            contract: '0x00',
+            multiply: 1,
+            source: 'success',
+            check: 'schedule',
+            schedule: {},
+          },
+        },
       },
       {
         name: 'trading halted, use meta data',
         input: {
           id: jobID,
-          data: { asset: 'FTSE', contract: '0x00', multiply: 1 },
+          data: {
+            asset: 'FTSE',
+            contract: '0x00',
+            multiply: 1,
+            source: 'fails',
+            check: 'schedule',
+            schedule: scheduleAlwaysClosed,
+          },
           meta: { latestAnswer: result },
         },
-        adapter: adapter(),
-        check: check(true),
+        halted: true,
       },
     ]
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
-        const data = await executeWithAdapters(req.input as AdapterRequest, req.adapter, req.check)
+        const execute = makeExecute(makeMockConfig())
+        const data = await execute(req.input as AdapterRequest)
         assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
         assert.equal(data.result, result)
         assert.equal(data.data.result, result)

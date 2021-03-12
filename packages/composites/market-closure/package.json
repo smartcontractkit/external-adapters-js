@@ -22,8 +22,6 @@
   },
   "devDependencies": {},
   "dependencies": {
-    "@chainlink/fcsapi-adapter": "^0.0.3",
-    "@chainlink/finnhub-adapter": "^0.0.3",
     "@chainlink/reference-data-reader": "^0.0.3",
     "market-closure": "^0.1.2"
   }
