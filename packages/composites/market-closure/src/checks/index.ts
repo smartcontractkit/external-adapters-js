@@ -1,9 +1,9 @@
-import { isMarketClosedFactory as schedule } from './schedule'
-import { isMarketClosedFactory as th } from './tradinghours'
+import { isMarketClosed as schedule } from './schedule'
+import { isMarketClosed as th } from './tradinghours'
 import { AdapterRequest } from '@chainlink/types'
 
 // We check for something and get yes/no answer
-export type Check = () => Promise<boolean>
+export type Check = (input: AdapterRequest) => Promise<boolean>
 
 export enum CheckProvider {
   Schedule = 'schedule',
@@ -13,23 +13,20 @@ export enum CheckProvider {
 const isCheckProvider = (envVar?: string): envVar is CheckProvider =>
   Object.values(CheckProvider).includes(envVar as any)
 
-export const getCheckProvider = (): CheckProvider | undefined => {
-  const check = process.env.CHECK_TYPE
+export const getCheckProvider = (check: string): CheckProvider | undefined => {
   return isCheckProvider(check) ? (check as CheckProvider) : undefined
 }
 
-export const getCheckImpl = (type: CheckProvider | undefined, input: AdapterRequest): Check => {
+export const getCheckImpl = (type: CheckProvider | undefined): Check => {
   switch (type) {
     case CheckProvider.Schedule:
-      return schedule(input)
+      return schedule
     case CheckProvider.TradingHours:
-      return async () => {
+      return async (input) => {
         try {
-          const isMarketClosed = th(input)
-          return await isMarketClosed()
+          return await th(input)
         } catch (e) {
-          const isMarketClosed = schedule(input)
-          return await isMarketClosed()
+          return await schedule(input)
         }
       }
     default:
