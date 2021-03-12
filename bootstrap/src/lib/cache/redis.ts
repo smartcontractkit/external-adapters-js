@@ -107,8 +107,21 @@ export class RedisCache {
    *
    * The alternative is to use: `context.callbackWaitsForEmtpyEventLoop = false`
    */
-  async close() {
-    // No further commands will be processed
-    this.client.end(true)
+  close() {
+    if (!this.client) {
+        return Promise.resolve()
+    }
+
+    return new Promise(resolve => {
+        setTimeout(resolve, 5000) // Force quit after 5 seconds
+
+        // The quit method does not reliably resolve, so we have to resort to the `end´ event
+        this.client.once('end', () => {
+            logger.debug('Redis cache shutdown complete')
+            resolve()
+        })
+
+        this.client.quit()
+    })
   }
 }

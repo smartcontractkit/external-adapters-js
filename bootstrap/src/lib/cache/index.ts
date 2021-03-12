@@ -169,9 +169,19 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
 
   // Middleware wrapped execute fn which cleans up after
   return async (input) => {
-    const result = await _executeWithCache(input)
-    // Clean the connection
-    await cache.close()
-    return result
+    try {
+        const result = await _executeWithCache(input)    
+        
+        // Clean the connection
+        await cache.close()
+        
+        return result
+    }
+    catch (err) {
+        // Close the cache connection in any case
+        await cache.close()
+        // Re-Throw Error
+        throw err
+    }
   }
 }
