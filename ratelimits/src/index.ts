@@ -43,7 +43,7 @@ const findTier = (provider: string, tier?: number, tierName?: string): DeclaredT
   const matchedTier =
     tier !== undefined
       ? limits[provider][tier]
-      : limits[provider].find((element: Record<string, unknown>) => element.tierName === tierName)
+      : (Limits[provider] as DeclaredTier[]).find( element => element.tierName === tierName )
   if (matchedTier === undefined) {
     throw Error("tier or tierName doesn't match provider spec in limits.json")
   }
