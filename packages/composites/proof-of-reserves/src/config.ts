@@ -22,11 +22,17 @@ export const makeOptions = () => {
   }
   for (const a of ProtocolAdapters) {
     const url = getURL(a.NAME)
-    if (url) options.protocol.push(a.NAME)
+    if (url) {
+      options.protocol.push(a.NAME)
+      options.protocol.push(a.NAME.toLowerCase())
+    }
   }
   for (const a of BalanceAdapters) {
     const url = getURL(a.NAME)
-    if (url) options.indexer.push(a.NAME)
+    if (url) {
+      options.indexer.push(a.NAME)
+      options.indexer.push(a.NAME.toLowerCase())
+    }
   }
   return options
 }
