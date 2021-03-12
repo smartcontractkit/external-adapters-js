@@ -37,15 +37,15 @@
   },
   "devDependencies": {},
   "dependencies": {
-    "@chainlink/amberdata-adapter": "^0.0.3",
-    "@chainlink/blockchain.com-adapter": "^0.0.3",
-    "@chainlink/blockchair-adapter": "^0.0.3",
-    "@chainlink/blockcypher-adapter": "^0.0.3",
-    "@chainlink/btc.com-adapter": "^0.0.1",
-    "@chainlink/cryptoapis-adapter": "^0.0.3",
-    "@chainlink/reduce-adapter": "^0.0.3",
-    "@chainlink/renvm-address-set-adapter": "^0.0.3",
-    "@chainlink/sochain-adapter": "^0.0.1",
-    "@chainlink/wbtc-address-set-adapter": "^0.0.3"
+    "@chainlink/amberdata-adapter": "*",
+    "@chainlink/blockchain.com-adapter": "*",
+    "@chainlink/blockchair-adapter": "*",
+    "@chainlink/blockcypher-adapter": "*",
+    "@chainlink/btc.com-adapter": "*",
+    "@chainlink/cryptoapis-adapter": "*",
+    "@chainlink/reduce-adapter": "*",
+    "@chainlink/renvm-address-set-adapter": "*",
+    "@chainlink/sochain-adapter": "*",
+    "@chainlink/wbtc-address-set-adapter": "*"
   }
 }
