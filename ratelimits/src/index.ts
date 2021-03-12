@@ -67,5 +67,3 @@ export const getRateLimit = (
     minute: quota,
   }
 }
-
-console.log(getRateLimit('blockchair', 5, undefined))
