@@ -12,30 +12,30 @@ If the market is closed, the adapter will fetch the latest on-chain value from t
 
 The adapter takes the following environment variables:
 
-| Required? |                    Name                     |                  Description                  |          Options           | Defaults to |
-| :-------: | :-----------------------------------------: | :-------------------------------------------: | :------------------------: | :---------: |
-|    🟡     | `CHECK_API_KEY` (when using `tradinghours`) |  An API key when needed by a check provider   |                            |             |
-|    ✅     |             `{NAME}_DATA_PROVIDER_URL`       | The URL location for the price data provider adapter when `source={NAME}` |                     |             |
-|    ✅     |                  `RPC_URL`                  | ETH RPC URL to read the reference data value  |                            |             |
+| Required? |                     Name                    |                                 Description                                 | Options | Defaults to |
+| :-------: | :-----------------------------------------: | :-------------------------------------------------------------------------: | :-----: | :---------: |
+|     🟡    | `CHECK_API_KEY` (when using `tradinghours`) |                  An API key when needed by a check provider                 |         |             |
+|     ✅     |         `{SOURCE}_DATA_PROVIDER_URL`        | The URL location for the price data provider adapter when `source={SOURCE}` |         |             |
+|     ✅     |                  `RPC_URL`                  |                 ETH RPC URL to read the reference data value                |         |             |
 
 ## Input Params
 
-| Required? |               Name                |                                          Description                                          | Options | Defaults to |
-| :-------: | :-------------------------------: | :-------------------------------------------------------------------------------------------: | :-----: | :---------: |
-|    ✅     |              `check`              |   The provider to check if a market is open                                | `schedule`, `tradinghours` |             |
-|    ✅     |              `source`              |   The source data provider for the price                                 |  |             |
-|    ✅     |  `referenceContract`, `contract`  |                 The Aggregator contract to call for its latest round's price                  |         |             |
-|    ✅     |            `multiply`             | To handle big numbers, the amount to divide the output from reading the reference contract by |         |             |
-|    🟡     |            `schedule`             |                   A schedule of market times to check whether they are open                   |         |             |
+| Required? |               Name              |                                          Description                                          |           Options          | Defaults to |
+| :-------: | :-----------------------------: | :-------------------------------------------------------------------------------------------: | :------------------------: | :---------: |
+|     ✅     |             `check`             |                           The provider to check if a market is open                           | `schedule`, `tradinghours` |             |
+|     ✅     |             `source`            |                             The source data provider for the price                            |                            |             |
+|     ✅     | `referenceContract`, `contract` |                  The Aggregator contract to call for its latest round's price                 |                            |             |
+|     ✅     |            `multiply`           | To handle big numbers, the amount to divide the output from reading the reference contract by |                            |             |
+|     🟡    |            `schedule`           |                   A schedule of market times to check whether they are open                   |                            |             |
 
-Additionally the underlying adapter may have parameters.
+Additionally, the underlying adapter may have parameters.
 
 For example Finnhub uses the following:
 
-| Required? |               Name                |                                          Description                                          | Options | Defaults to |
-| :-------: | :-------------------------------: | :-------------------------------------------------------------------------------------------: | :-----: | :---------: |
-|    ✅     |     `base`, `asset` or `from`     |                                 The target currency to query                                  |         |             |
-|    🟡     |            `endpoint`             |                                     The endpoint to call                                      |         |             |
+| Required? |            Name           |          Description         | Options | Defaults to |
+| :-------: | :-----------------------: | :--------------------------: | :-----: | :---------: |
+|     ✅     | `base`, `asset` or `from` | The target currency to query |         |             |
+|     🟡    |         `endpoint`        |     The endpoint to call     |         |             |
 
 An example schedule looks like:
 
@@ -66,7 +66,8 @@ An example schedule looks like:
 
 ### Local
 
-Ensure that the project's dependencies are installed and that the code is compiled by running the following command from the external-adapters respository root:
+Ensure that the project's dependencies are installed and that the code is compiled by running the following command from
+the external-adapters repository root:
 
 ```bash
 yarn && yarn setup
