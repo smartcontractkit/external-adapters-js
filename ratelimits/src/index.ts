@@ -1,5 +1,5 @@
 import Limits from './limits.json'
-const limits: Record<string, any> = Limits // ugly solution to dynamically reference JSON properties
+type provider = keyof typeof Limits;
 
 const BURST_UNDEFINED_QUOTA_MULTIPLE = 2
 
