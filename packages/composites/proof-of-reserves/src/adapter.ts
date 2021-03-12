@@ -5,6 +5,7 @@ import {
   Config,
   ExecuteFactory,
   Execute,
+  AdapterResponse,
 } from '@chainlink/types'
 import { Validator, Requester } from '@chainlink/external-adapter'
 import { makeConfig, makeOptions, getURL, DEFAULT_CONFIRMATIONS } from './config'
@@ -12,9 +13,17 @@ import { runProtocolAdapter } from './protocol'
 import { runBalanceAdapter } from './balance'
 import { runReduceAdapter } from './reduce'
 
-export const makeRequestFactory: any = (config: Config, prefix: string) => async (
+export const makeRequestFactory = (config: Config, prefix: string): Execute => async (
   input: AdapterRequest,
-) => Requester.request({ ...config.api, method: 'post', url: getURL(prefix, true), data: input })
+) =>
+  (
+    await Requester.request({
+      ...config.api,
+      method: 'post',
+      url: getURL(prefix, true),
+      data: input,
+    })
+  ).data as AdapterResponse
 
 // Run, log, throw on error
 export const callAdapter = async (execute: Execute, input: AdapterRequest, tag: string) => {
