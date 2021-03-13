@@ -20,13 +20,15 @@ declare module '@chainlink/types' {
   export type Callback = (statusCode: number, data?: any) => void
   export type AdapterHealthCheck = (callback: Callback) => any
 
-  export { AxiosRequestConfig } from 'axios'
+  import type { AxiosRequestConfig } from 'axios'
+  export type AxiosRequestConfig = AxiosRequestConfig
+
   export type Config = {
     apiKey?: string
     network?: string
     returnRejectedPromiseOnError?: Boolean
     verbose?: boolean
-    api: Partial<AxiosRequestConfig>
+    api: AxiosRequestConfig
   }
 
   /* RESPONSES */
@@ -104,8 +106,6 @@ declare module '@chainlink/types' {
 
 }
 
-// declare module '@chainlink/ea-bootstrap'
-// declare module '@chainlink/external-adapter'
 declare module 'synthetix'
 declare module 'object-path'
 declare module 'lodash'
