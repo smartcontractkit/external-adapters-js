@@ -173,3 +173,34 @@ export const getHashOpts = (): Required<Parameters<typeof objectHash>>['1'] => (
       .concat((process.env.CACHE_KEY_IGNORED_PROPS || '').split(',').filter((k) => k))
       .includes(props),
 })
+/**
+ * @description
+ * Builds a permutation set from a list of options
+ *
+ * @param options The options to create a permutation from
+ * @param delimiter (Optional) Joins the permutation results to a string
+ *
+ * @returns Array of permutations
+ */
+
+export const permutator = (options: string[], delimiter?: string): string[] | string[][] => {
+  const permuations: string[][] = []
+
+  const permute = (arr: string[], m: string[] = []) => {
+    if (arr.length === 0) {
+      permuations.push(m)
+      return
+    }
+    for (let i = 0; i < arr.length; i++) {
+      let curr = arr.slice()
+      let next = curr.splice(i, 1)
+      permute(curr.slice(), m.concat(next))
+    }
+  }
+
+  permute(options)
+
+  const join = (perms: string[][]) => perms.map((p) => p.join(delimiter))
+
+  return typeof delimiter === 'string' ? join(permuations) : permuations
+}
