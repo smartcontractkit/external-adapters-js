@@ -28,7 +28,7 @@ export class Requester {
         return await _retry(n - 1)
       }
 
-      let response
+      let response: AxiosResponse
       try {
         response = await axios(config)
       } catch (error) {
