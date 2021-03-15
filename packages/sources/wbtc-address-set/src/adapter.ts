@@ -1,4 +1,3 @@
-import { AxiosResponse } from 'axios'
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { ExecuteWithConfig, ExecuteFactory, Config } from '@chainlink/types'
 import { makeConfig } from './config'
@@ -42,23 +41,17 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
   const jobRunID = validator.validated.id
 
-  const reqConfig = { ...config.api }
-  const out: AxiosResponse<APIMembersResponse> = await Requester.request(reqConfig)
+  const options = { ...config.api }
+  const response = await Requester.request<APIMembersResponse>(options)
 
-  const addresses = out.data.result
+  const result = response.data.result
     .filter((member) => member.token === 'wbtc')
     .flatMap((member) => member.addresses)
     .filter((a) => a.chain === 'btc' && a.type == 'custodial' && a.balance)
     .map((a) => ({ ...a, coin: 'btc', chain: 'mainnet' }))
 
-  return Requester.success(
-    jobRunID,
-    {
-      data: { response: out.data, result: addresses },
-      status: 200,
-    },
-    config.verbose,
-  )
+  const output = { ...response, data: { ...response.data, result } }
+  return Requester.success(jobRunID, output, config.verbose)
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {

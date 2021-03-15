@@ -8,7 +8,7 @@ export const makeConfig = (prefix?: string): Config => {
   const config = Requester.getDefaultConfig(prefix, true)
   config.api = {
     ...config.api,
-    baseURL: config.api.baseUrl || DEFAULT_BASE_URL,
+    baseURL: config.api.baseURL || DEFAULT_BASE_URL,
   }
   return config
 }
