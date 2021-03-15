@@ -1,6 +1,6 @@
 import { Requester } from '@chainlink/external-adapter'
 import { util } from '@chainlink/ea-bootstrap'
-import { AxiosRequestConfig, Config as BaseConfig } from '@chainlink/types'
+import { RequestConfig, Config as BaseConfig } from '@chainlink/types'
 import { adapters as SourceAdapters } from './source'
 import { adapters as CheckAdapters } from './check'
 
@@ -9,8 +9,8 @@ export const DEFAULT_ONCHAIN_THRESHOLD = 0
 
 export const ENV_DATA_PROVIDER_URL = 'DATA_PROVIDER_URL'
 
-export type SourceRequestOptions = { [source: string]: AxiosRequestConfig }
-export type CheckRequestOptions = { [check: string]: AxiosRequestConfig }
+export type SourceRequestOptions = { [source: string]: RequestConfig }
+export type CheckRequestOptions = { [check: string]: RequestConfig }
 
 export type Config = BaseConfig & {
   sources: SourceRequestOptions

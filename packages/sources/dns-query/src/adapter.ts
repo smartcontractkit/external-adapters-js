@@ -27,13 +27,13 @@ const execute: ExecuteWithConfig<Config> = async (input, config) => {
     Accept: 'application/dns-json',
   }
 
-  const result = await Requester.request({
+  const result = await Requester.request<DNSQueryResponse>({
     url: config.api?.url,
     headers,
     params,
   })
 
-  const data: DNSQueryResponse = { ...result.data }
+  const data = { ...result.data }
 
   return Requester.success(
     jobRunID,
