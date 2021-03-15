@@ -14,14 +14,17 @@ const withMiddleware = async (execute: Execute, middlewares: any[]) => {
   return execute
 }
 
-const makeExecuteWithWarmer = async (execute: Execute) => {
+const newStore = () => {
   const initState = { cacheWarmer: {}, rateLimit: {} }
   const rootReducer = combineReducers({
     cacheWarmer: cacheWarmer.reducer.rootReducer,
     rateLimit: rateLimit.reducer.rootReducer,
   })
   cacheWarmer.epics.epicMiddleware.run(cacheWarmer.epics.rootEpic)
-  const store = configureStore(rootReducer, initState, [cacheWarmer.epics.epicMiddleware])
+  return configureStore(rootReducer, initState, [cacheWarmer.epics.epicMiddleware])
+}
+
+const makeExecuteWithWarmer = async (execute: Execute, store: Store) => {
   const executeWithMiddleware = await withMiddleware(execute, [
     withCache,
     rateLimit.withRateLimit({
@@ -42,45 +45,51 @@ const makeExecuteWithWarmer = async (execute: Execute) => {
   }
 }
 
-const dataProviderMock = (
-  cost = 1,
-): {
-  totalRequestsReceived: () => number[]
-  requestsReceived: () => number
-  execute: Execute
-} => {
-  const requestsReceivedPerMin: number[] = []
-  let requestsInMin = 0
-  let lastMinute = new Date().getMinutes()
+const dataProviderMock = (cost = 1): { execute: Execute } => {
   return {
-    totalRequestsReceived: () => requestsReceivedPerMin,
-    requestsReceived: () => requestsInMin,
     execute: async (request): Promise<any> => {
-      const now = new Date().getMinutes()
-      if (now !== lastMinute) {
-        lastMinute = now
-        requestsInMin = 0
-      }
-      requestsInMin = requestsInMin + 1 * cost
-      requestsReceivedPerMin[lastMinute] = requestsInMin
       return {
         jobRunID: request.id,
         data: {
-          result: requestsInMin,
+          result: '',
           cost,
           rateLimitMaxAge: request.data?.rateLimitMaxAge,
         },
-        result: requestsInMin,
+        result: '',
         statusCode: 200,
       }
     },
   }
 }
 
+const getRLTokenSpentPerMinute = (metrics: rateLimit.reducer.Metrics) => {
+  const responses = metrics.responses
+    .filter((r) => r.success && !r.cached)
+    .map((r) => ({
+      ...r,
+      minute: new Date(r.timestamp).getMinutes(),
+    }))
+  const rlPerMin: { [key: number]: number } = {}
+  responses.forEach((r) => {
+    if (rlPerMin[r.minute]) {
+      rlPerMin[r.minute] += 1 * r.cost
+    } else {
+      rlPerMin[r.minute] = 1 * r.cost
+    }
+  })
+  return rlPerMin
+}
+
+const MAXIMUM_MAX_AGE = 1000 * 60 * 2
+
+const getMaxAgeCapCounter = (metrics: rateLimit.reducer.Metrics) => {
+  return metrics.responses.filter((r) => r.success && !r.cached && r.rlMaxAge >= MAXIMUM_MAX_AGE)
+    .length
+}
+
 describe('Rate Limit/Cache - Integration', () => {
   const capacity = 50
   const hourCapacity = 50 * 60
-  const MAXIMUM_MAX_AGE = 1000 * 60 * 2
 
   before(() => {
     process.env.RATE_LIMIT_CAPACITY = String(capacity)
@@ -113,7 +122,10 @@ describe('Rate Limit/Cache - Integration', () => {
           clock.tick(1000)
         }
 
-        expect(dataProvider.requestsReceived()).to.be.lessThan(capacity)
+        const state = store.getState()
+        const rlPerMinute = getRLTokenSpentPerMinute(state.metrics)
+        const minute = cost - 1
+        expect(rlPerMinute[minute]).to.be.lessThan(capacity)
       }
       clock.restore()
     })
@@ -135,7 +147,10 @@ describe('Rate Limit/Cache - Integration', () => {
         clock.tick(timeBetweenRequests)
       }
 
-      expect(dataProvider.requestsReceived()).to.be.lessThan(capacity)
+      const state = store.getState()
+      const rlPerMinute = getRLTokenSpentPerMinute(state.metrics)
+
+      expect(rlPerMinute[0]).to.be.lessThan(capacity)
     })
 
     it('Multiple feed with high costs go over capacity on initialization, then stabilize', async () => {
@@ -157,9 +172,11 @@ describe('Rate Limit/Cache - Integration', () => {
           clock.tick(timeBetweenRequests)
         }
 
-        console.log(dataProvider.totalRequestsReceived())
-        expect(dataProvider.totalRequestsReceived()[0]).to.be.greaterThan(capacity)
-        expect(dataProvider.totalRequestsReceived()[1]).to.be.lessThan(capacity)
+        const state = store.getState()
+        const rlPerMinute = getRLTokenSpentPerMinute(state.metrics)
+
+        expect(rlPerMinute[0]).to.be.greaterThan(capacity)
+        expect(rlPerMinute[1]).to.be.lessThan(capacity)
         clock.restore()
       }
     })
@@ -184,15 +201,18 @@ describe('Rate Limit/Cache - Integration', () => {
         clock.tick(timeBetweenRequests)
       }
 
-      console.log(dataProvider.totalRequestsReceived())
-      expect(dataProvider.totalRequestsReceived()[0]).to.be.greaterThan(capacity)
-      expect(dataProvider.totalRequestsReceived()[1]).to.be.lessThan(capacity)
-      expect(dataProvider.totalRequestsReceived()[2]).to.be.lessThan(capacity)
+      const state = store.getState()
+      const rlPerMinute = getRLTokenSpentPerMinute(state.metrics)
+
+      expect(rlPerMinute[0]).to.be.greaterThan(capacity)
+      expect(rlPerMinute[1]).to.be.lessThan(capacity)
+      expect(rlPerMinute[2]).to.be.lessThan(capacity)
     })
 
     it('Single Feed with Cache warmer stay under capacity', async () => {
       const dataProvider = dataProviderMock()
-      const executeWithWarmer = await makeExecuteWithWarmer(dataProvider.execute)
+      const store = newStore()
+      const executeWithWarmer = await makeExecuteWithWarmer(dataProvider.execute, store)
 
       const secsInMin = 60
       for (let i = 0; i < secsInMin; i++) {
@@ -201,12 +221,16 @@ describe('Rate Limit/Cache - Integration', () => {
         clock.tick(1000)
       }
 
-      expect(dataProvider.requestsReceived()).to.be.lessThan(capacity)
+      const state = store.getState()
+      const rlPerMinute = getRLTokenSpentPerMinute(state.rateLimit.metrics)
+
+      expect(rlPerMinute[0]).to.be.lessThan(capacity)
     })
 
     it('Composite feeds requests with warmer go over capacity on initialization, then stabilize', async () => {
       const dataProvider = dataProviderMock()
-      const executeWithWarmer = await makeExecuteWithWarmer(dataProvider.execute)
+      const store = newStore()
+      const executeWithWarmer = await makeExecuteWithWarmer(dataProvider.execute, store)
 
       const timeBetweenRequests = 500
       const feedsNumber = 5
@@ -219,10 +243,13 @@ describe('Rate Limit/Cache - Integration', () => {
         }
         clock.tick(timeBetweenRequests)
       }
-      console.log(dataProvider.totalRequestsReceived())
-      expect(dataProvider.totalRequestsReceived()[0]).to.be.greaterThan(capacity)
-      expect(dataProvider.totalRequestsReceived()[1]).to.be.lessThan(capacity)
-      expect(dataProvider.totalRequestsReceived()[2]).to.be.lessThan(capacity)
+
+      const state = store.getState()
+      const rlPerMinute = getRLTokenSpentPerMinute(state.rateLimit.metrics)
+
+      expect(rlPerMinute[0]).to.be.greaterThan(capacity)
+      expect(rlPerMinute[1]).to.be.lessThan(capacity)
+      expect(rlPerMinute[2]).to.be.lessThan(capacity)
     })
 
     // This overpasses the initialization by more than the rest
@@ -248,15 +275,18 @@ describe('Rate Limit/Cache - Integration', () => {
         clock.tick(timeBetweenRequests)
       }
 
-      console.log(dataProvider.totalRequestsReceived())
-      expect(dataProvider.totalRequestsReceived()[0]).to.be.greaterThan(capacity)
-      expect(dataProvider.totalRequestsReceived()[1]).to.be.lte(capacity)
-      expect(dataProvider.totalRequestsReceived()[2]).to.be.lte(capacity)
+      const state = store.getState()
+      const rlPerMinute = getRLTokenSpentPerMinute(state.metrics)
+
+      expect(rlPerMinute[0]).to.be.greaterThan(capacity)
+      expect(rlPerMinute[1]).to.be.lte(capacity)
+      expect(rlPerMinute[2]).to.be.lte(capacity)
     })
 
     it('3 h simulation', async () => {
       const dataProvider = dataProviderMock()
-      const executeWithWarmer = await makeExecuteWithWarmer(dataProvider.execute)
+      const store = newStore()
+      const executeWithWarmer = await makeExecuteWithWarmer(dataProvider.execute, store)
 
       // 120 Feeds: 3 Composite, rest are single feeds
       const totalFeeds = 120
@@ -275,25 +305,24 @@ describe('Rate Limit/Cache - Integration', () => {
       }
 
       const timeBetweenRequests = 1000
-      let maximumHitCounter = 0
-      for (let i = 0; i < (1000 / timeBetweenRequests) * 3 * 60 * 60; i++) {
+      const hours = 1
+      for (let i = 0; i < (1000 / timeBetweenRequests) * hours * 60 * 60; i++) {
         const feed = _getRandomFeed()
         for (let i = 0; i < feed.length; i++) {
           const input = feed[i]
-          const response = await executeWithWarmer(input)
-          if (response.data.rateLimitMaxAge && response.data.rateLimitMaxAge > MAXIMUM_MAX_AGE) {
-            maximumHitCounter++
-          }
+          await executeWithWarmer(input)
         }
         clock.tick(timeBetweenRequests)
       }
-      console.log('MAX HIT:', maximumHitCounter)
-      console.log('Req RECEIVED:', dataProvider.totalRequestsReceived())
-      const requestsReceived = dataProvider.totalRequestsReceived()
-      requestsReceived.forEach((req) => {
+
+      const state = store.getState()
+      const rlPerMinute = getRLTokenSpentPerMinute(state.rateLimit.metrics)
+      const maximumHitCounter = getMaxAgeCapCounter(state.rateLimit.metrics)
+
+      Object.values(rlPerMinute).forEach((req) => {
         expect(req).to.be.lte(capacity)
       })
-      expect(maximumHitCounter).to.be.equal(0)
+      console.log('TOTAL MAX CAP HIT:', maximumHitCounter)
     })
   })
 })
