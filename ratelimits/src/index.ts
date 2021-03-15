@@ -1,7 +1,6 @@
-import Limits from './limits.json'
-type provider = keyof typeof Limits;
-
-const BURST_UNDEFINED_QUOTA_MULTIPLE = 2
+import limits from './limits.json'
+const Limits: Record<string, any> = limits // ugly solution to dynamically reference JSON properties
+import * as config from './config'
 
 export interface ProviderRateLimit {
   burst: number
@@ -33,33 +32,33 @@ const calculateLimits = (declaredTier: DeclaredTier) => {
   if (declaredTier.rateLimit1s) {
     burst = declaredTier.rateLimit1s
   } else {
-    burst = (quota / 60) * BURST_UNDEFINED_QUOTA_MULTIPLE
+    burst = (quota / 60) * config.BURST_UNDEFINED_QUOTA_MULTIPLE
   }
+
+  if (burst < 0) burst = 1000000 // currently using -1 to define unlimited
+  if (quota < 0) quota = 1000000 // currently using -1 to define unlimited
 
   return [burst, quota]
 }
 
-const findTier = (provider: string, tier?: number, tierName?: string): DeclaredTier => {
-  const matchedTier =
-    tier !== undefined
-      ? limits[provider][tier]
-      : (Limits[provider] as DeclaredTier[]).find( element => element.tierName === tierName )
+const findTier = (provider: string, tier: number | string): DeclaredTier => {
+  const matchedTier = Number.isInteger(Number(tier))
+    ? Limits[provider][Number(tier)]
+    : (Limits[provider] as DeclaredTier[]).find((element) => element.tierName === tier)
   if (matchedTier === undefined) {
-    throw Error("tier or tierName doesn't match provider spec in limits.json")
+    console.log(
+      `[provider, tier]: [${provider}, ${tier}] doesn't match any provider spec in limits.json`,
+    )
   }
   return matchedTier
 }
 
-export const getRateLimit = (
-  provider: string,
-  tier?: number,
-  tierName?: string,
-): ProviderRateLimit => {
-  if (tier === undefined && tierName === undefined) {
-    throw Error('tier or tierName must be provided')
-  }
-  const declaredTier = findTier(provider, tier, tierName)
-  const [burst, quota] = calculateLimits(declaredTier)
+export const getRateLimit = (provider: string, tier: number | string): ProviderRateLimit => {
+  const declaredTier = findTier(provider, tier)
+  const [burst, quota] =
+    declaredTier !== undefined
+      ? calculateLimits(declaredTier)
+      : [config.DEFAULT_SECOND_RATELIMIT, config.DEFAULT_MINUTE_RATELIMIT]
   return {
     burst: burst,
     quota: quota,

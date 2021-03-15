@@ -8,21 +8,23 @@ describe('ratelimits', () => {
     for (const [provider, tiers] of Object.entries(limits)) {
       it(`${provider} outputs ProviderRateLimits without errors`, () => {
         tiers.forEach(function (tier: ratelimits.DeclaredTier, index: number) {
-          let limits = ratelimits.getRateLimit(provider, index, undefined)
+          let limits = ratelimits.getRateLimit(provider, index)
           expect(limits.burst).to.be.above(0)
           expect(limits.quota).to.be.above(0)
-          limits = ratelimits.getRateLimit(provider, undefined, tier.tierName)
+          limits = ratelimits.getRateLimit(provider, tier.tierName)
           expect(limits.burst).to.be.above(0)
           expect(limits.quota).to.be.above(0)
         })
       })
     }
   })
-  context('all providers have at least one tier declared', () => {
-    for (const [provider, tiers] of Object.entries(limits)) {
-      it(`${provider} has tiers defined`, () => {
-        expect(tiers, `${provider} needs to define at least one tier`).to.not.be.empty
-      })
-    }
-  })
+  // test below commented out until we decide how to handle providers without declared limits
+
+  // context('all providers have at least one tier declared', () => {
+  //   for (const [provider, tiers] of Object.entries(limits)) {
+  //     it(`${provider} has tiers defined`, () => {
+  //       expect(tiers, `${provider} needs to define at least one tier`).to.not.be.empty
+  //     })
+  //   }
+  // })
 })

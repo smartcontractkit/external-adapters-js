@@ -29,7 +29,7 @@ Each provider is defined within limits.json as so
 ```
 - Each Object in the provider's array corresponds to a "tier" offered, in ascending order by price.
 - Valid rateLimit definitions are `rateLimit1s`, `rateLimit1m`, and `rateLimit1h`, corresponding to the closest time-based
-limit providers declare, 1 second, 1 minute, and 1 hour, respectively, currently using 10,000 /s to reflect unlimited. 
+limit providers declare, 1 second, 1 minute, and 1 hour, respectively, currently using `-1` to reflect unlimited. 
 - Where declared, `tierName` should reflect the
 provider's own terminology.
 
@@ -41,7 +41,9 @@ For Example, if Emmick's Empricial Evidence Emporium offers the following plans:
 "big data dude": 
     {"30 minute request limit": 100, "API calls per 5 minutes": 50},
 "CHONKY BYTES BOI": 
-    {"daily limit":  "240", "API calls per second": "try and crash us!"}
+    {"daily limit":  "240", "API calls per second": "try and crash us!"},
+"floaty facts fanatic": 
+    {"monthly limit": 50000}
 }
 ```
 Its entry would look like:
@@ -50,7 +52,7 @@ Its entry would look like:
     {
       "ratelimit1s": 1,
       "rateLimit1h": 1,
-      "tierName":"smaldatating"
+      "tierName":"smoldatating"
     },
     {
       "rateLimit1m": 10
@@ -62,6 +64,10 @@ Its entry would look like:
       "rateLimit1h":10,
       "tierName":"chonkybytesboi"
     },
+    {
+      "rateLimit1h": 69.444
+      "tierName":"floatyfactsfanatic"
+    }
   ],
 ```
 
