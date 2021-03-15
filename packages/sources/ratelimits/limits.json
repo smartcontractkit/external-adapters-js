@@ -1,0 +1,937 @@
+{
+  "1forge":
+  [
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 208.33,
+      "tierName": "starter"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 4166.66,
+      "tierName": "premium"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 41666.66,
+      "tierName": "business"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 416666.66,
+      "tierName": "business+"
+    }
+  ],
+  "alphachain":
+  [
+    { "rateLimit1s": -1,
+      "rateLimit1m": 10,
+      "rateLimit1h": -1,
+      "tierName": "basic"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": 50,
+      "rateLimit1h": -1,
+      "tierName": "pro"
+    }
+  ],
+  "alphavantage":
+  [
+    { "rateLimit1s": -1,
+      "rateLimit1m": 5,
+      "rateLimit1h": 20.83,
+      "tierName": "free"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": 75,
+      "rateLimit1h": -1,
+      "tierName": "49.99"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": 150,
+      "rateLimit1h": -1,
+      "tierName": "99.99"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": 300,
+      "rateLimit1h": -1,
+      "tierName": "149.99"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": 600,
+      "rateLimit1h": -1,
+      "tierName": "199.99"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": 1200,
+      "rateLimit1h": -1,
+      "tierName": "249.99"
+    }
+  ],
+  "amberdata":
+  [
+    { "rateLimit1s": 1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 83.33,
+      "tierName": "free"
+    },
+    { "rateLimit1s": 15,
+      "rateLimit1m": -1,
+      "rateLimit1h": 12500,
+      "tierName": "on-demand"
+    }
+  ],
+  "anyblock":
+  [
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 120,
+      "tierName": "lite"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": 120,
+      "rateLimit1h": -1,
+      "tierName": "basic"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": 500,
+      "rateLimit1h": -1,
+      "tierName": "pro"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": 6000,
+      "rateLimit1h": -1,
+      "tierName": "enterprise"
+    }
+  ],
+  "binance-dex":
+  [
+    { "rateLimit1s": 5,
+      "rateLimit1m": -1,
+      "rateLimit1h": -1,
+      "tierName": "free",
+      "note": "different endpoints have different limits, this is for /api/v1/ticker/24hr which we currently use"
+    }
+  ],
+  "bitex":
+  [
+    { "rateLimit1s": 5,
+      "rateLimit1m": -1,
+      "rateLimit1h": -1,
+      "tierName": "free"
+    }
+  ],
+  "bitso":
+  [
+    { "rateLimit1s": -1,
+      "rateLimit1m": 60,
+      "rateLimit1h": 120,
+      "tierName": "public"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": 300,
+      "rateLimit1h": -1,
+      "tierName": "private"
+    }
+  ],
+  "blockchain.com":
+  [
+    { "rateLimit1s": -1,
+      "rateLimit1m": 1200,
+      "rateLimit1h": -1,
+      "tierName": "global"
+    }
+  ],
+  "blockchair":
+  [
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 41.666666667,
+      "tierName": "free"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 52.08,
+      "tierName": "specialist1250"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 104.16,
+      "tierName": "specialist2500"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 156.25,
+      "tierName": "specialist3750"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 208.33,
+      "tierName": "specialist5000"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 1041.66,
+      "tierName": "enterprise25000"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 2083.33,
+      "tierName": "enterprise50000"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 3125,
+      "tierName": "enterprise75000"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 4166.66,
+      "tierName": "enterprise100000"
+    }
+  ],
+  "blockcypher":
+  [
+    { "rateLimit1s": 3,
+      "rateLimit1m": -1,
+      "rateLimit1h": 200,
+      "tierName": "free"
+    },
+    { "rateLimit1s": 5,
+      "rateLimit1m": -1,
+      "rateLimit1h": 208.33,
+      "tierName": "prototype"
+    },
+    { "rateLimit1s": 8,
+      "rateLimit1m": -1,
+      "rateLimit1h": 458.33,
+      "tierName": "beta"
+    },
+    { "rateLimit1s": 12,
+      "rateLimit1m": -1,
+      "rateLimit1h": 1000,
+      "tierName": "production"
+    },
+    { "rateLimit1s": 15,
+      "rateLimit1m": -1,
+      "rateLimit1h": 2083.33,
+      "tierName": "business"
+    },
+    { "rateLimit1s": 22,
+      "rateLimit1m": -1,
+      "rateLimit1h": 5000,
+      "tierName": "leader"
+    },
+    { "rateLimit1s": 25,
+      "rateLimit1m": -1,
+      "rateLimit1h": 10416.66,
+      "tierName": "babyunicorn"
+    }
+  ],
+  "bravenewcoin":
+  [
+
+  ],
+  "btc.com":
+  [
+
+  ],
+  "cfbenchmarks":
+  [
+
+  ],
+  "coinapi":
+  [
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 4.16,
+      "tierName": "free"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 41.66,
+      "tierName": "startup"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 416.66,
+      "tierName": "streamer"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 4166.66,
+      "tierName": "professional"
+    }
+  ],
+  "coinbase":
+  [
+    { "rateLimit1s": 6,
+      "rateLimit1m": 180,
+      "rateLimit1h": -1,
+      "tierName": "public"
+    },
+    { "rateLimit1s": 10,
+      "rateLimit1m": 300,
+      "rateLimit1h": -1,
+      "tierName": "private"
+    }
+  ],
+  "coincodex":
+  [
+
+  ],
+  "coingecko":
+  [
+    { "rateLimit1s": 10,
+      "rateLimit1m": 100,
+      "rateLimit1h": -1,
+      "tierName": "free",
+      "note": "1s found in ToS, 1m found at https://www.coingecko.com/en/api"
+    }
+  ],
+  "coinlore":
+  [
+
+  ],
+  "coinmarketcap":
+  [
+    { "rateLimit1s": -1,
+      "rateLimit1m": 30,
+      "rateLimit1h": 13.698630137,
+      "tierName": "free",
+      "note": "10k credits/month, 730h in a month, ignoring daily limits since they're soft caps"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": 30,
+      "rateLimit1h": 54.794520548,
+      "tierName": "hobbyist"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": 30,
+      "rateLimit1h": 164.383561644,
+      "tierName": "startup"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": 60,
+      "rateLimit1h": 684.931506849,
+      "tierName": "standard"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": 90,
+      "rateLimit1h": 4109.589041096,
+      "tierName": "professional"
+    }
+  ],
+  "coinpaprika":
+  [
+    { "rateLimit1s": -1,
+      "rateLimit1m": 600,
+      "rateLimit1h": 34246.5,
+      "tierName": "free",
+      "note": "600/m and 25M/mo for free"
+    }
+  ],
+  "coinranking":
+  [
+    { "rateLimit1s": 5,
+      "rateLimit1m": -1,
+      "rateLimit1h": 273.97260274,
+      "tierName": "free",
+      "note": "200k/mo on the free tier (with API key) unauthenticated request limits aren't specified"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": -1,
+      "tierName": "allyoucaneat",
+      "note": "no limits specified for paid tier besides 'unlimited', may need to contact support for more details"
+    }
+  ],
+  "conflux":
+  [
+
+  ],
+  "covid-tracker":
+  [
+
+  ],
+  "cryptoapis":
+  [
+    { "rateLimit1s": 3,
+      "rateLimit1m": -1,
+      "rateLimit1h": 20.83,
+      "tierName": "free"
+    },
+    { "rateLimit1s": 10,
+      "rateLimit1m": -1,
+      "rateLimit1h": 104.166666667,
+      "tierName": "growth"
+    },
+    { "rateLimit1s": 20,
+      "rateLimit1m": -1,
+      "rateLimit1h": 312.5,
+      "tierName": "startup"
+    },
+    { "rateLimit1s": 30,
+      "rateLimit1m": -1,
+      "rateLimit1h": 937.5,
+      "tierName": "partnership"
+    },
+    { "rateLimit1s": 40,
+      "rateLimit1m": -1,
+      "rateLimit1h": 2812.5,
+      "tierName": "professional"
+    }
+  ],
+  "cryptocompare":
+  [
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 136.98,
+      "tierName": "free",
+      "note": "only mentions monthly limit"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 342.46,
+      "tierName": "professional"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 1027.39,
+      "tierName": "corporate"
+    }
+  ],
+  "cryptoid":
+  [
+
+  ],
+  "cryptomkt":
+  [
+    { "rateLimit1s": -1,
+      "rateLimit1m": 10,
+      "rateLimit1h": -1,
+      "tierName": "free",
+      "note": "only mentions minute limit"
+    }
+  ],
+  "currencylayer":
+  [
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 0.342,
+      "tierName": "free",
+      "note": "only mentions monthly limit"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 13.69,
+      "tierName": "basic"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 136.98,
+      "tierName": "professional"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 684.93,
+      "tierName": "business"
+    }
+  ],
+  "deribit":
+  [
+    { "rateLimit1s": 100,
+      "rateLimit1m": 1200,
+      "rateLimit1h": -1,
+      "tierName": "free",
+      "note": "for non-matching requests: https://www.deribit.com/pages/information/rate-limits"
+    }
+  ],
+  "dns-query":
+  [
+    { "rateLimit1s": 100,
+      "rateLimit1m": -1,
+      "rateLimit1h": -1,
+      "tierName": "free",
+      "note": "cloudflare @ 100, google @ 1500"
+    }
+  ],
+  "dxfeed":
+  [
+
+  ],
+  "dxfeed-secondary":
+  [
+
+  ],
+  "dydx-stark":
+  [
+    { "rateLimit1s": 10,
+      "rateLimit1m": -1,
+      "rateLimit1h": -1,
+      "tierName": "free",
+      "note": "100req/10s"
+    }
+  ],
+  "eodhistoricaldata":
+  [
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 4166.66,
+      "tierName": "all",
+      "note": "all feeds have the same limit"
+    }
+  ],
+  "etherchain":
+  [
+
+  ],
+  "ethgasstation":
+  [
+    { "rateLimit1s": -1,
+      "rateLimit1m": 120,
+      "rateLimit1h": -1,
+      "tierName": "free",
+      "note": "could be off, no mention on their site but found here: https://github.com/ethgasstation/ethgasstation-api/blob/ec36f7dd78fccbb6a67ddffc0e12ac1150db8e80/settings.docker.conf"
+    }
+  ],
+  "ethwrite":
+  [
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": -1,
+      "tierName": "default",
+      "note": "should be using own node"
+    }
+  ],
+  "fcsapi":
+  [
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 6.8493,
+      "tierName": "free",
+      "note": "only mentions monthly limit"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 13.69,
+      "tierName": "basic"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 68.493,
+      "tierName": "standard"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 164.38,
+      "tierName": "pro"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 684.93,
+      "tierName": "proplus"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 1369.86,
+      "tierName": "corporate"
+    }
+  ],
+  "finage":
+  [
+
+  ],
+  "finnhub":
+  [
+    { "rateLimit1s": -1,
+      "rateLimit1m": 60,
+      "rateLimit1h": -1,
+      "tierName": "free"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": 300,
+      "rateLimit1h": -1,
+      "tierName": "all-in-one",
+      "note": "limit is for market data, not fundamental data"
+    }
+  ],
+  "fixer":
+  [
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 1.369,
+      "tierName": "free",
+      "note": "only mentions monthly limit"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 13.69,
+      "tierName": "basic"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 136.98,
+      "tierName": "professional"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 684.93,
+      "tierName": "professionalplus"
+    }
+  ],
+  "fmpcloud":
+  [
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 10.4,
+      "tierName": "free",
+      "note": "only mentions daily limit"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": -1,
+      "tierName": "starter"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": -1,
+      "tierName": "teams"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": -1,
+      "tierName": "business"
+    }
+  ],
+  "genesis-volatility":
+  [
+
+  ],
+  "google-finance":
+  [
+
+  ],
+  "harmony":
+  [
+
+  ],
+  "iex-cloud":
+  [
+    { "rateLimit1s": 200,
+      "rateLimit1m": 6000,
+      "rateLimit1h": -1,
+      "tierName": "default",
+      "note": "mentions per second limit and allowing bursts but doesn't specify burst limit"
+    }
+  ],
+  "kaiko":
+  [
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": -1,
+      "tierName": "default",
+      "note": "claims no rate limits"
+    }
+  ],
+  "lcx":
+  [
+
+  ],
+  "linkpool":
+  [
+
+  ],
+  "lition":
+  [
+
+  ],
+  "marketstack":
+  [
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 1.369,
+      "tierName": "free",
+      "note": "only mentions monthly limit"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 13.69,
+      "tierName": "basic"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 136.9,
+      "tierName": "professional"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 684.93,
+      "tierName": "business"
+    }
+  ],
+  "messari":
+  [
+    { "rateLimit1s": -1,
+      "rateLimit1m": 20,
+      "rateLimit1h": 41.666,
+      "tierName": "nokey",
+      "note": "only specifies limits with and without a key"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": 30,
+      "rateLimit1h": 83.333,
+      "tierName": "apikey"
+    }
+  ],
+  "metalsapi":
+  [
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 0.068,
+      "tierName": "free",
+      "note": "only mentions monthly limits"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 0.684,
+      "tierName": "starter"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 13.69,
+      "tierName": "basic"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 136.98,
+      "tierName": "professional"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 684.93,
+      "tierName": "professionalplus"
+    }
+  ],
+  "nikkei":
+  [
+
+  ],
+  "nomics":
+  [
+    { "rateLimit1s": 2,
+      "rateLimit1m": 60,
+      "rateLimit1h": -1,
+      "tierName": "free",
+      "note": "1 req/s, presumably allows for bursts"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": -1,
+      "tierName": "paid"
+    }
+  ],
+  "oilpriceapi":
+  [
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 13.69,
+      "tierName": "hobby",
+      "note": "only mentions monthly limits"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 136.9,
+      "tierName": "business"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 684.93,
+      "tierName": "enterprise"
+    }
+  ],
+  "onchain":
+  [
+
+  ],
+  "openexchangerates":
+  [
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 13.69,
+      "tierName": "developer",
+      "note": "only mentions monthly limits"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 136.9,
+      "tierName": "enterprise"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": -1,
+      "tierName": "unlimited"
+    }
+  ],
+  "orchid-bandwidth":
+  [
+
+  ],
+  "paxos":
+  [
+
+  ],
+  "poa-gasprice":
+  [
+
+  ],
+  "polygon":
+  [
+    { "rateLimit1s": -1,
+      "rateLimit1m": 5,
+      "rateLimit1h": -1,
+      "tierName": "free",
+      "note": "only mentions monthly limits"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": -1,
+      "tierName": "starter"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": -1,
+      "tierName": "developer"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": -1,
+      "tierName": "advanced"
+    }
+  ],
+  "renvm-address-set":
+  [
+
+  ],
+  "satoshitango":
+  [
+    { "rateLimit1s": -1,
+      "rateLimit1m": 6,
+      "rateLimit1h": -1,
+      "tierName": "free",
+      "note": "60req/10m or IP gets banned"
+    }
+  ],
+  "sochain":
+  [
+    { "rateLimit1s": -1,
+      "rateLimit1m": 300,
+      "rateLimit1h": -1,
+      "tierName": "free"
+    }
+  ],
+  "stasis":
+  [
+
+  ],
+  "taapi":
+  [
+    { "rateLimit1s": -1,
+      "rateLimit1m": 1,
+      "rateLimit1h": -1,
+      "tierName": "free"
+    },
+    { "rateLimit1s": 1,
+      "rateLimit1m": -1,
+      "rateLimit1h": -1,
+      "tierName": "basic"
+    },
+    { "rateLimit1s": 10,
+      "rateLimit1m": -1,
+      "rateLimit1h": -1,
+      "tierName": "pro"
+    },
+    { "rateLimit1s": 20,
+      "rateLimit1m": -1,
+      "rateLimit1h": -1,
+      "tierName": "expert"
+    },
+    { "rateLimit1s": 50,
+      "rateLimit1m": -1,
+      "rateLimit1h": -1,
+      "tierName": "privatevps"
+    }
+  ],
+  "tiingo":
+  [
+    { "rateLimit1s": -1,
+      "rateLimit1m": 8.33,
+      "rateLimit1h": 833.33,
+      "tierName": "starter"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": 333.33,
+      "rateLimit1h": 6000,
+      "tierName": "power"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": 666,
+      "rateLimit1h": 16666.666,
+      "tierName": "commercial"
+    }
+  ],
+  "tradermade":
+  [
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 1.369,
+      "tierName": "basic"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 13.69,
+      "tierName": "professional"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 68.49,
+      "tierName": "business"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": 342.46,
+      "tierName": "advanced"
+    }
+  ],
+  "tradingeconomics":
+  [
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": -1,
+      "tierName": "standard",
+      "note": "couldn't find mention of api limits"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": -1,
+      "tierName": "professional"
+    },
+    { "rateLimit1s": -1,
+      "rateLimit1m": -1,
+      "rateLimit1h": -1,
+      "tierName": "enterpride"
+    }
+  ],
+  "trueusd":
+  [
+
+  ],
+  "wbtc-address-set":
+  [
+
+  ],
+  "xbto":
+  [
+
+  ]
+}

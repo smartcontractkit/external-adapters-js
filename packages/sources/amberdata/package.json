@@ -1,0 +1,29 @@
+{
+  "name": "@chainlink/amberdata-adapter",
+  "version": "0.0.3",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "scripts": {
+    "prepublishOnly": "yarn build && yarn test:unit",
+    "setup": "yarn build",
+    "build": "tsc -b",
+    "lint": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix",
+    "test": "yarn test:unit && yarn test:integration",
+    "test:unit": "mocha --exit --grep @integration --invert -r ts-node/register 'test/**/*.test.ts'",
+    "test:integration": "mocha --timeout 5000 --exit --grep @integration -r ts-node/register 'test/**/*.test.ts'",
+    "server": "node -e 'require(\"./index.js\").server()'",
+    "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
+    "start": "yarn server:dist"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "repository": {
+    "url": "https://github.com/smartcontractkit/external-adapters-js",
+    "type": "git"
+  },
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ]
+}
