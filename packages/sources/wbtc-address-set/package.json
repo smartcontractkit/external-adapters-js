@@ -37,7 +37,5 @@
     "start": "yarn server:dist"
   },
   "devDependencies": {},
-  "dependencies": {
-    "axios": "^0.21.1"
-  }
+  "dependencies": {}
 }
