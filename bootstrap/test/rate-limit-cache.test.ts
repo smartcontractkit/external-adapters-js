@@ -176,7 +176,7 @@ describe('Rate Limit/Cache - Integration', () => {
         const rlPerMinute = getRLTokenSpentPerMinute(state.metrics)
 
         expect(rlPerMinute[0]).to.be.greaterThan(capacity)
-        expect(rlPerMinute[1]).to.be.lessThan(capacity)
+        expect(rlPerMinute[1]).to.be.lte(capacity)
         clock.restore()
       }
     })
@@ -283,7 +283,7 @@ describe('Rate Limit/Cache - Integration', () => {
       expect(rlPerMinute[2]).to.be.lte(capacity)
     })
 
-    it('3 h simulation', async () => {
+    it('1 h simulation', async () => {
       const dataProvider = dataProviderMock()
       const store = newStore()
       const executeWithWarmer = await makeExecuteWithWarmer(dataProvider.execute, store)
@@ -318,11 +318,11 @@ describe('Rate Limit/Cache - Integration', () => {
       const state = store.getState()
       const rlPerMinute = getRLTokenSpentPerMinute(state.rateLimit.metrics)
       const maximumHitCounter = getMaxAgeCapCounter(state.rateLimit.metrics)
+      console.log('TOTAL MAX CAP HIT:', maximumHitCounter)
 
       Object.values(rlPerMinute).forEach((req) => {
         expect(req).to.be.lte(capacity)
       })
-      console.log('TOTAL MAX CAP HIT:', maximumHitCounter)
     })
   })
 })
