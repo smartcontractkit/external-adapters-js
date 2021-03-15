@@ -87,7 +87,8 @@
       "ethwrite",
       "geodb",
       "therundown",
-      "tradingeconomics-stream"
+      "tradingeconomics-stream",
+      "watchsignals"
     ]
   },
   "2-step": {
