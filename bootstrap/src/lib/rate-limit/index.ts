@@ -12,6 +12,7 @@ import {
   selectObserved,
 } from './reducer'
 import * as config from './config'
+import { logger } from '@chainlink/external-adapter'
 
 export * as reducer from './reducer'
 export * as actions from './actions'
@@ -30,6 +31,8 @@ export const computeThroughput = (
   const costOfType = getAverageCost(observedRequestsOfType) || 1
   // Compute max throughput by weight
   const weight = throughputOfType / throughput
+  // const capacityLeft = getRemainingCapacity(state, interval, costOfType)
+  // return maxThroughputWithLeftCapacity(weight, capacityLeft)
   return maxThroughput(weight, costOfType)
 }
 
@@ -38,8 +41,25 @@ const getAverageCost = (requests: Heartbeat[]): number => {
   return requests.reduce((totalCost, h) => totalCost + h.cost, 0) / requests.length
 }
 
+const getRemainingCapacity = (state: Heartbeats, interval: IntervalNames, cost: number): number => {
+  const safeCapacity = 0.9 * (config.get().totalCapacity / cost)
+  const observedRequests = selectObserved(state, interval)
+  const remainingCapacity = safeCapacity - observedRequests.length
+  if (remainingCapacity <= 0) {
+    logger.error('Rate Limit: Data Provider tokens not available')
+    return 1
+  }
+  if (remainingCapacity <= 0.1 * safeCapacity) {
+    logger.warn('Rate Limit: Data Provider tokens about to run out')
+  }
+  return safeCapacity - observedRequests.length
+}
+
+const maxThroughputWithLeftCapacity = (weight: number, capacity: number): number => {
+  return weight * capacity
+}
+
 const maxThroughput = (weight: number, cost: number): number => {
-  // total capacity minus capaccity left. We are always at the end of the time window
   const maxAllowedCapacity = 0.9 * (config.get().totalCapacity / cost) // Interval.Minute
   return weight * maxAllowedCapacity
 }
@@ -57,7 +77,7 @@ export const makeId = (request: AdapterRequest): string => hash(request, config.
  * @param throughput number of allowed requests in interval
  * @param interval time window in ms
  */
-const maxAgeFor = (throughput: number, interval: number) =>
+export const maxAgeFor = (throughput: number, interval: number) =>
   throughput <= 0 ? interval : Math.floor(interval / throughput)
 
 export const withRateLimit = (store: Store<RootState>): Middleware => async (execute) => async (
