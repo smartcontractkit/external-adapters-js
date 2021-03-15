@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import { useFakeTimers } from 'sinon'
-import { createStore } from 'redux'
-import { Execute } from '@chainlink/types'
+import { createStore, Store } from 'redux'
+import { Execute, AdapterRequest } from '@chainlink/types'
 import * as rateLimit from '../src/lib/rate-limit'
 import { IntervalNames, Intervals, selectObserved } from '../src/lib/rate-limit/reducer'
 
@@ -35,6 +35,14 @@ const expectRequestToLessThan = (field: string, expected: any): Execute => async
   }
 }
 
+const getMaxAge = (store: Store, input: AdapterRequest) => {
+  const requestTypeId = rateLimit.makeId(input)
+  const state = store.getState()
+  const { heartbeats } = state
+  const maxThroughput = rateLimit.computeThroughput(heartbeats, IntervalNames.HOUR, requestTypeId)
+  return rateLimit.maxAgeFor(maxThroughput, Intervals[IntervalNames.MINUTE])
+}
+
 describe('Rate Limit Middleware', () => {
   const capacity = 50
   before(() => {
@@ -53,18 +61,24 @@ describe('Rate Limit Middleware', () => {
 
     it('Max Age is added to the request', async () => {
       const store = createStore(rateLimit.reducer.rootReducer, {})
-      const execute = await rateLimit.withRateLimit(store)(expectRequestToBe('maxAge', 1333))
       const input = { id: '6', data: { base: 1 } }
+
+      const execute = await rateLimit.withRateLimit(store)(
+        expectRequestToBe('rateLimitMaxAge', getMaxAge(store, input)),
+      )
       await execute(input)
     })
 
-    it('Max Age keeps the same for same requests', async () => {
+    it('Max Age increases on every request', async () => {
       const store = createStore(rateLimit.reducer.rootReducer, {})
       const withRateLimit = rateLimit.withRateLimit(store)
 
-      const execute = await withRateLimit(expectRequestToBe('maxAge', 1333))
       for (let i = 0; i <= 5; i++) {
-        await execute({ id: String(i), data: { base: 1 } })
+        const input = { id: String(i), data: { base: 1 } }
+        const execute = await withRateLimit(
+          expectRequestToBe('rateLimitMaxAge', getMaxAge(store, input)),
+        )
+        await execute(input)
       }
     })
 
@@ -73,19 +87,20 @@ describe('Rate Limit Middleware', () => {
       const withRateLimit = rateLimit.withRateLimit(store)
 
       for (let i = 1; i <= 5; i++) {
-        const weight = 1 / i
-        const max = 0.9 * capacity * weight
-        const expectedMaxAge = Math.floor(Intervals.MINUTE / max)
-        const execute = await withRateLimit(expectRequestToBe('maxAge', expectedMaxAge))
-        await execute({ id: String(i), data: { base: i } })
+        const input = { id: String(i), data: { base: i } }
+        const execute = await withRateLimit(
+          expectRequestToBe('rateLimitMaxAge', getMaxAge(store, input)),
+        )
+        await execute(input)
       }
 
+      const input = { id: '1', data: { base: 1 } }
       // After passing the first minute, the max age should be reduced due to expired participants
       clock.tick(Intervals.MINUTE + 1)
       let execute = await withRateLimit(counterFrom(0))
       await execute({ id: '1', data: { base: 1 } })
 
-      execute = await withRateLimit(expectRequestToBe('maxAge', 1333))
+      execute = await withRateLimit(expectRequestToBe('rateLimitMaxAge', getMaxAge(store, input)))
       await execute({ id: '1', data: { base: 1 } })
     })
 
@@ -99,15 +114,15 @@ describe('Rate Limit Middleware', () => {
         await execute({ id: String(i), data: { base: isUnique ? uniquePair : i } })
       }
 
-      const weight = 1 / 11
-      const max = 0.9 * capacity * weight
-      const singleParticipantsMaxAge = Math.floor(Intervals.MINUTE / max)
+      const input = { id: '1', data: { base: 11 } }
+      let execute = await withRateLimit(
+        expectRequestToBe('rateLimitMaxAge', getMaxAge(store, input)),
+      )
+      await execute(input)
 
-      let execute = await withRateLimit(expectRequestToBe('maxAge', singleParticipantsMaxAge))
-      await execute({ id: '1', data: { base: 11 } })
-
-      execute = await withRateLimit(expectRequestToLessThan('maxAge', singleParticipantsMaxAge))
-      await execute({ id: '1', data: { base: uniquePair } })
+      const input2 = { id: '1', data: { base: uniquePair } }
+      execute = await withRateLimit(expectRequestToBe('rateLimitMaxAge', getMaxAge(store, input2)))
+      await execute(input2)
     })
   })
 
