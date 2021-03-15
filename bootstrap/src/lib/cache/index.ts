@@ -15,6 +15,7 @@ const DEFAULT_RC_INTERVAL_COEFFICIENT = 2
 const DEFAULT_RC_ENTROPY_MAX = 0
 
 const MAXIMUM_MAX_AGE = 1000 * 60 * 2
+const ERROR_MAX_AGE = 1000 * 60
 
 const env = process.env
 export const defaultOptions = () => ({
@@ -101,10 +102,14 @@ export const withCache: Middleware = async (execute, options = defaultOptions())
     if (!data || !data.data) return
     if (isNaN(data.data.rateLimitMaxAge as number)) return
     const maxAge = Number(data.data.rateLimitMaxAge)
-    if (maxAge) {
+    if (maxAge && maxAge > ERROR_MAX_AGE) {
+      logger.error(`Cache: Max Age is getting max values: ${maxAge} ms`)
       return maxAge > MAXIMUM_MAX_AGE ? MAXIMUM_MAX_AGE : maxAge
     }
-    return
+    if (maxAge && maxAge > options.cacheOptions.maxAge) {
+      logger.warn(`Cache: Max Age is getting high values: ${maxAge} ms`)
+    }
+    return maxAge
   }
 
   const _getDefaultMaxAge = (data: AdapterRequest): any => {
@@ -170,7 +175,9 @@ export const withCache: Middleware = async (execute, options = defaultOptions())
         logger.debug(`Cache: GET ${key}`, entry)
         const reqMaxAge = _getRequestMaxAge(data)
         if (reqMaxAge && reqMaxAge !== entry.maxAge) await _cacheOnSuccess(entry)
-        return { jobRunID: data.id, ...entry }
+        // TODO: ttl to be determined
+        const metrics = { maxAgeSet: entry.maxAge, ttl: 30 }
+        return { jobRunID: data.id, ...entry, metrics }
       }
       logger.debug(`Cache: SKIP(maxAge < 0)`)
     }
