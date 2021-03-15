@@ -1,5 +1,6 @@
 import { createReducer, combineReducers } from '@reduxjs/toolkit'
-import { requestObserved } from './actions'
+import { WARMUP_REQUEST_ID } from '../cache-warmer/config'
+import { successfulRequestObserved, responseObserved, requestObserved } from './actions'
 
 export enum IntervalNames {
   SEC = 'SEC',
@@ -44,7 +45,7 @@ const initialHeartbeatsState: Heartbeats = {
 }
 
 const heartbeatReducer = createReducer<Heartbeats>(initialHeartbeatsState, (builder) => {
-  builder.addCase(requestObserved, (state, action) => {
+  builder.addCase(successfulRequestObserved, (state, action) => {
     const heartbeat: Heartbeat = {
       id: action.payload.typeId,
       cost: action.payload.cost,
@@ -70,6 +71,66 @@ const heartbeatReducer = createReducer<Heartbeats>(initialHeartbeatsState, (buil
   })
 })
 
+interface RequestMetric {
+  id: string
+  data: any
+  timestamp: number
+  isWarmup: boolean
+}
+
+interface ResponseMetric {
+  id: string
+  data: any
+  success: boolean
+  timestamp: number
+  rlMaxAge: number
+  latency: number[]
+  cost: number
+  cached: boolean
+  maxAgeSet?: number
+  ttl?: number // Compare TTL with MaxAge Cap
+}
+
+export interface Metrics {
+  requests: RequestMetric[]
+  responses: ResponseMetric[]
+}
+
+const initialMetricsState: Metrics = {
+  requests: [],
+  responses: [],
+}
+
+const metricsReducer = createReducer<Metrics>(initialMetricsState, (builder) => {
+  builder.addCase(requestObserved, (state, action) => {
+    const request: RequestMetric = {
+      id: action.payload.typeId,
+      data: action.payload.data,
+      timestamp: Date.parse(action.payload.createdAt),
+      isWarmup: action.payload.data.id === WARMUP_REQUEST_ID,
+    }
+    state.requests.push(request)
+    return state
+  })
+
+  builder.addCase(responseObserved, (state, action) => {
+    const response: ResponseMetric = {
+      id: action.payload.typeId,
+      timestamp: Date.parse(action.payload.createdAt),
+      success: action.payload.success,
+      data: action.payload.data,
+      rlMaxAge: action.payload.rlMaxAge,
+      latency: action.payload.latency,
+      cost: action.payload.cost,
+      cached: action.payload.cached,
+      maxAgeSet: action.payload.maxAgeSet,
+      ttl: action.payload.ttl,
+    }
+    state.responses.push(response)
+    return state
+  })
+})
+
 export const selectObserved = (
   state: Heartbeats,
   interval: IntervalNames,
@@ -78,5 +139,6 @@ export const selectObserved = (
 
 export const rootReducer = combineReducers({
   heartbeats: heartbeatReducer,
+  metrics: metricsReducer,
 })
 export type RootState = ReturnType<typeof rootReducer>
