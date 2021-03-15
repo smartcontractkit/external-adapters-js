@@ -17,20 +17,6 @@ declare module '@chainlink/types' {
     meta?: AdapterRequestMeta
   }
 
-  export type Callback = (statusCode: number, data?: any) => void
-  export type AdapterHealthCheck = (callback: Callback) => any
-
-  import type { AxiosRequestConfig } from 'axios'
-  export type AxiosRequestConfig = AxiosRequestConfig
-
-  export type Config = {
-    apiKey?: string
-    network?: string
-    returnRejectedPromiseOnError?: Boolean
-    verbose?: boolean
-    api: AxiosRequestConfig
-  }
-
   /* RESPONSES */
   export type DataResponse<R, P> = {
     result: R
@@ -69,6 +55,19 @@ declare module '@chainlink/types' {
 
   /* BOOTSTRAP */
   export type Middleware = (execute: Execute, ...args: any) => Promise<Execute>
+  export type Callback = (statusCode: number, data?: any) => void
+  export type AdapterHealthCheck = (callback: Callback) => any
+
+  import type { RequestConfig } from '@chainlink/ea-bootstrap'
+  export type RequestConfig = RequestConfig
+
+  export type Config = {
+    apiKey?: string
+    network?: string
+    returnRejectedPromiseOnError?: Boolean
+    verbose?: boolean
+    api: RequestConfig
+  }
 
   export type ExecuteSync = (input: AdapterRequest, callback: Callback) => void
 

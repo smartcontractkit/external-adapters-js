@@ -44,7 +44,7 @@ const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const reqConfig = {
     ...config.api,
     url,
-    method: 'GET',
+    method: 'GET' as any,
     headers,
     data,
   }
