@@ -4,7 +4,7 @@ import { AdapterRequest } from '@chainlink/types'
 import { assert } from 'chai'
 import { makeExecute } from '../src/adapter'
 
-xdescribe('execute', () => {
+describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
 
@@ -12,23 +12,15 @@ xdescribe('execute', () => {
     const requests = [
       {
         name: 'id not supplied',
-        testData: { data: { market: 'BTC' } },
+        testData: { data: { base: 'BTC' } },
       },
       {
         name: 'id is supplied',
-        testData: { id: jobID, data: { market: 'ETH' } },
-      },
-      {
-        name: 'to',
-        testData: { id: jobID, data: { to: 'BTC' } },
-      },
-      {
-        name: 'quote',
-        testData: { id: jobID, data: { quote: 'BTC' } },
+        testData: { id: jobID, data: { base: 'ETH' } },
       },
       {
         name: 'global marketcap',
-        testData: { id: jobID, data: { endpoint: 'globalmarketcap', quote: 'USD' } },
+        testData: { id: jobID, data: { endpoint: 'globalmarketcap', base: 'USD' } },
       },
     ]
 
@@ -42,30 +34,11 @@ xdescribe('execute', () => {
     })
   })
 
-  context('validation error', () => {
-    const requests = [
-      {
-        name: 'market not supplied',
-        testData: { id: jobID, data: {} },
-      },
-    ]
-    requests.forEach((req) => {
-      it(`${req.name}`, async () => {
-        try {
-          await execute(req.testData as AdapterRequest)
-        } catch (error) {
-          const errorResp = Requester.errored(jobID, error)
-          assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
-        }
-      })
-    })
-  })
-
   context('error calls @integration', () => {
     const requests = [
       {
         name: 'unknown market',
-        testData: { id: jobID, data: { market: 'not_real' } },
+        testData: { id: jobID, data: { base: 'not_real' } },
       },
     ]
 
