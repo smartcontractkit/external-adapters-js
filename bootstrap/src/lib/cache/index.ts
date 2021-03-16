@@ -175,9 +175,7 @@ export const withCache: Middleware = async (execute, options = defaultOptions())
         logger.debug(`Cache: GET ${key}`, entry)
         const reqMaxAge = _getRequestMaxAge(data)
         if (reqMaxAge && reqMaxAge !== entry.maxAge) await _cacheOnSuccess(entry)
-        // TODO: ttl to be determined
-        const metrics = { maxAgeSet: entry.maxAge, ttl: 30 }
-        return { jobRunID: data.id, ...entry, metrics }
+        return { jobRunID: data.id, ...entry }
       }
       logger.debug(`Cache: SKIP(maxAge < 0)`)
     }

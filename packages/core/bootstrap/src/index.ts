@@ -16,6 +16,8 @@ import * as server from './lib/server'
 import * as util from './lib/util'
 import { configureStore } from './lib/store'
 import { Requester } from '@chainlink/external-adapter'
+import * as metrics from './lib/metrics'
+import { WARMUP_REQUEST_ID } from './lib/cache-warmer/config'
 
 const rootReducer = combineReducers({
   cacheWarmer: cacheWarmer.reducer.rootReducer,
@@ -69,6 +71,27 @@ const withLogger: Middleware = async (execute) => async (input: AdapterRequest) 
   }
 }
 
+const withMetrics: Middleware = async (execute) => async (input: AdapterRequest) => {
+  try {
+    const start = Date.now()
+    metrics.httpRequestsTotal.inc()
+    if (input.id === WARMUP_REQUEST_ID) {
+      metrics.cacheWarmerRequests.inc()
+    }
+    const result = await execute(input)
+    result.data.maxAge !== undefined
+      ? metrics.httpRequestsCacheHits.inc()
+      : metrics.httpRequestsDataProviderHits.inc()
+
+    metrics.httpRequestDurationSeconds.observe((Date.now() - start) / 1000)
+    return result
+  } catch (error) {
+    // Counter errored responses?
+    logger.debug(error)
+    throw error
+  }
+}
+
 const middleware = [
   withLogger,
   skipOnError(withCache),
@@ -77,6 +100,7 @@ const middleware = [
     dispatch: (a) => store.dispatch(a),
   } as Store),
   withStatusCode,
+  withMetrics,
 ]
 
 // Init all middleware, and return a wrapped execute fn
