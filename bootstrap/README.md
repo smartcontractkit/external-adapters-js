@@ -2,6 +2,9 @@
 
 Bootstrap an external adapter with this package
 
+## Server config
+- `BASE_URL`: Optional string, Set a base url that is used for setting up routes on the external adapter. Ex. Typically a external adapter is served on the root, so you would make requests to `/`, setting `BASE_URL` to `/coingecko` would instead have requests made to `/coingecko`. Useful when multiple external adapters are being hosted under the same domain, and path mapping is being used to route between them.
+
 ## Caching
 
 To cache data, every adapter using the `bootstrap` package, has access to a simple LRU cache that will cache successful 200 responses using SHA1 hash of input as a key.
