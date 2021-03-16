@@ -1,0 +1,68 @@
+import limits from './limits.json'
+const Limits: Record<string, any> = limits // ugly solution to dynamically reference JSON properties
+import * as config from './config'
+
+export interface ProviderRateLimit {
+  burst: number
+  quota: number
+  second: number
+  minute: number
+}
+
+export type DeclaredTier = {
+  rateLimit1s?: number
+  rateLimit1m?: number
+  rateLimit1h?: number
+  tierName: string
+}
+
+const calculateLimits = (declaredTier: DeclaredTier) => {
+  let quota: number
+  if (declaredTier.rateLimit1h) {
+    quota = declaredTier.rateLimit1h / 60 // quota is based on per-minute
+  } else if (declaredTier.rateLimit1m) {
+    quota = declaredTier.rateLimit1m
+  } else if (declaredTier.rateLimit1s) {
+    quota = declaredTier.rateLimit1s * 60
+  } else {
+    throw Error('at least one of the rateLimits must be defined')
+  }
+
+  let burst: number
+  if (declaredTier.rateLimit1s) {
+    burst = declaredTier.rateLimit1s
+  } else {
+    burst = (quota / 60) * config.BURST_UNDEFINED_QUOTA_MULTIPLE
+  }
+
+  if (burst < 0) burst = 1000000 // currently using -1 to define unlimited
+  if (quota < 0) quota = 1000000 // currently using -1 to define unlimited
+
+  return [burst, quota]
+}
+
+const findTier = (provider: string, tier: number | string): DeclaredTier => {
+  const matchedTier = Number.isInteger(Number(tier))
+    ? Limits[provider][Number(tier)]
+    : (Limits[provider] as DeclaredTier[]).find((element) => element.tierName === tier)
+  if (matchedTier === undefined) {
+    console.log(
+      `[provider, tier]: [${provider}, ${tier}] doesn't match any provider spec in limits.json`,
+    )
+  }
+  return matchedTier
+}
+
+export const getRateLimit = (provider: string, tier: number | string): ProviderRateLimit => {
+  const declaredTier = findTier(provider, tier)
+  const [burst, quota] =
+    declaredTier !== undefined
+      ? calculateLimits(declaredTier)
+      : [config.DEFAULT_SECOND_RATELIMIT, config.DEFAULT_MINUTE_RATELIMIT]
+  return {
+    burst: burst,
+    quota: quota,
+    second: burst,
+    minute: quota,
+  }
+}
