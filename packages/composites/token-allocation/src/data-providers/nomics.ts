@@ -38,7 +38,7 @@ export const getPrices = async (
 
   const prices = await getPriceData(symbols, quote)
   const pricesMap = new Map()
-  for (const p of prices) {
+  for (const p of Object.values(prices)) {
     pricesMap.set(p.symbol.toUpperCase(), p)
   }
 
@@ -68,7 +68,7 @@ export const getMarketCaps = async (
 
   const prices = await getPriceData(symbols, quote)
   const pricesMap = new Map()
-  for (const p of prices) {
+  for (const p of Object.values(prices)) {
     pricesMap.set(p.symbol.toUpperCase(), p)
   }
 

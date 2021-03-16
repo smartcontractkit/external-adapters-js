@@ -78,7 +78,9 @@ export class Validator {
         throw new AdapterError({ jobRunID: this.validated.id, statusCode: 400, message })
       }
       if (!options.includes(param)) {
-        const message = `${param} is not a supported ${key} option. Must be one of ${options}`
+        const message = `${param} is not a supported ${key} option. Must be one of ${options.join(
+          ' || ',
+        )}`
         throw new AdapterError({ jobRunID: this.validated.id, statusCode: 400, message })
       }
     }

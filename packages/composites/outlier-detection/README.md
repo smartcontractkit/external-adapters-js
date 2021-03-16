@@ -11,11 +11,11 @@ The adapter takes the following environment variables:
 
 1. A data source adapter
 
-   | Required? |                 Name                  |                      Description                      | Options | Defaults to |
-   | :-------: | :-----------------------------------: | :---------------------------------------------------: | :-----: | :---------: |
-   |           |       `XBTO_DATA_PROVIDER_URL`        |        The location of a XBTO external adapter        |         |             |
-   |           | `GENESISVOLATILITY_DATA_PROVIDER_URL` | The location of a Genesis Volatility external adapter |         |             |
-   |           |      `DXFEED_DATA_PROVIDER_URL`       |       The location of a DXFeed external adapter       |         |             |
+   | Required? |                  Name                  |                      Description                      | Options | Defaults to |
+   | :-------: | :------------------------------------: | :---------------------------------------------------: | :-----: | :---------: |
+   |           |        `XBTO_DATA_PROVIDER_URL`        |        The location of a XBTO external adapter        |         |             |
+   |           | `GENESIS_VOLATILITY_DATA_PROVIDER_URL` | The location of a Genesis Volatility external adapter |         |             |
+   |           |       `DXFEED_DATA_PROVIDER_URL`       |       The location of a DXFeed external adapter       |         |             |
 
    2. A check adapter
 
@@ -71,12 +71,15 @@ docker run -p 8080:8080 --env-file="~/PATH_TO_ENV" -it outlier-detection-adapter
 
 ### Input Params
 
-| Required? |        Name         |                                                                    Description                                                                    |              Options               | Defaults to |
-| :-------: | :-----------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------: | :---------: |
-|    ✅     |      `source`       | The source external adapter to use. Multiple sources can be through a `,` delimiter. (e.g. `xbto,dxfeed`) , `xbto`, `genesisvolatility`, `dxfeed` |                                    |
-|    🟡     |       `check`       |                    The check external adapter to use. Multiple checks can be through a `,` delimiter. (e.g. `deribit,dxfeed`)                     | `deribit`, `oilpriceapi`, `dxfeed` |             |
-|    🟡     |  `check_threshold`  |                                       Set a percentage deviation threshold against the check data sources.                                        |                                    |   0 (off)   |
-|    🟡     | `onchain_threshold` |                                         Set a percentage deviation threshold against the on-chain value.                                          |                                    |   0 (off)   |
+| Required? |              Name               |                                                                    Description                                                                    |              Options               | Defaults to |
+| :-------: | :-----------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------: | :---------: |
+|    ✅     | `referenceContract`, `contract` |                                             The smart contract to read the reference data value from                                              |                                    |             |
+|    ✅     |           `multiply`            |                                                  The amount to multiply the referenced value by                                                   |                                    |
+|    ✅     |            `source`             | The source external adapter to use. Multiple sources can be through a `,` delimiter. (e.g. `xbto,dxfeed`) , `xbto`, `genesisvolatility`, `dxfeed` |                                    |
+|    ✅     |             `asset`             |                                                      The ticker to query the data source for                                                      |                                    |
+|    🟡     |             `check`             |                    The check external adapter to use. Multiple checks can be through a `,` delimiter. (e.g. `deribit,dxfeed`)                     | `deribit`, `oilpriceapi`, `dxfeed` |             |
+|    🟡     |        `check_threshold`        |                                       Set a percentage deviation threshold against the check data sources.                                        |                                    |   0 (off)   |
+|    🟡     |       `onchain_threshold`       |                                         Set a percentage deviation threshold against the on-chain value.                                          |                                    |   0 (off)   |
 
 ### Sample Input
 
