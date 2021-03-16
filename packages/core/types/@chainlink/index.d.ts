@@ -58,7 +58,7 @@ declare module '@chainlink/types' {
   export type Callback = (statusCode: number, data?: any) => void
   export type AdapterHealthCheck = (callback: Callback) => any
 
-  import type { RequestConfig } from '@chainlink/ea-bootstrap'
+  import type { RequestConfig } from '@chainlink/external-adapter'
   export type RequestConfig = RequestConfig
 
   export type Config = {
