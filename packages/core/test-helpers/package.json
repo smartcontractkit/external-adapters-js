@@ -32,12 +32,12 @@
   "devDependencies": {
     "@types/chai": "^4.2.14",
     "@types/mocha": "^7.0.2",
+    "@types/moxios": "^0.4.10",
     "@types/sinon": "^9.0.8",
     "chai": "^4.2.0",
     "hardhat": "^2.0.8",
     "mocha": "^7.1.2",
-    "sinon": "^9.0.3",
-    "ts-node": "^8.10.2",
-    "typescript": "^3.9.7"
+    "moxios": "^0.4.0",
+    "sinon": "^9.0.3"
   }
 }
