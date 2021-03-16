@@ -18,7 +18,7 @@ The default is to use the Chainlink `dominance` behavior.
 | Required? |  Name   |                                   Description                                   |   Options    | Defaults to |
 | :-------: | :-----: | :-----------------------------------------------------------------------------: | :----------: | :---------: |
 |           | `field` |     The object path to access the value that will be returned as the result     |              |     `d`     |
-|           | `base`  | When using a field of `d`, the currency to prefix the field with (e.g. `btc_d`) | `btc`, `eth` |    `btc`    |
+|           | `base`  | When using a field of `d`, the currency to prefix the field with (e.g. `usd_d`) | `btc`, `eth` |    `btc`    |
 
 ### Sample Input
 
