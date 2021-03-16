@@ -15,6 +15,7 @@ export class Requester {
     retries = 3,
     delay = 1000,
   ) {
+    console.log(22, config)
     if (typeof config === 'string') config = { url: config }
     if (typeof config.timeout === 'undefined') {
       const timeout = Number(process.env.TIMEOUT)
