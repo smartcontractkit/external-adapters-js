@@ -21,14 +21,14 @@ export type Config = BaseConfig & {
 export const makeConfig = (prefix = ''): Config => {
   const sources: SourceRequestOptions = {}
   for (const a of SourceAdapters) {
-    const url = getURL(a.NAME.toLowerCase())
+    const url = getURL(a.NAME.toUpperCase())
     if (url) {
       sources[a.NAME] = makeRequestOptions(prefix, url)
     }
   }
   const checks: CheckRequestOptions = {}
   for (const a of CheckAdapters) {
-    const url = getURL(a.NAME.toLowerCase())
+    const url = getURL(a.NAME.toUpperCase())
     if (url) {
       checks[a.NAME] = makeRequestOptions(prefix, url)
     }
@@ -37,11 +37,11 @@ export const makeConfig = (prefix = ''): Config => {
   return { sources, checks, api: {} }
 }
 
-export const makeRequestOptions = (prefix: string, url: string) => {
+export const makeRequestOptions = (prefix: string, url: string): RequestConfig => {
   const defaultConfig = Requester.getDefaultConfig(prefix)
   return {
     ...defaultConfig.api,
-    method: 'post' as any,
+    method: 'post',
     url,
   }
 }

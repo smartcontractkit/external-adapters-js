@@ -1,7 +1,7 @@
 // Hardhat configuration
 // See (https://hardhat.org/config/) for more details.
 
-const { TESTING_PRIVATE_KEY } = require('./test-helpers/src/hardhat_config.json')
+const { TESTING_PRIVATE_KEY } = require('./packages/core/test-helpers/src/hardhat_config.json')
 
 module.exports = {
   defaultNetwork: 'hardhat',

@@ -4,9 +4,10 @@
     "outDir": "dist",
     "rootDir": "src",
     "typeRoots": ["../../../node_modules/@types", "../types", "./types"],
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "composite": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "src/hardhat_config.json"],
   "exclude": ["dist", "**/*.spec.ts", "**/*.test.ts"],
   "references": [{ "path": "../external-adapter" }]
 }
