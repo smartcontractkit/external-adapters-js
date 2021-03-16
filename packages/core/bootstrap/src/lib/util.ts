@@ -2,6 +2,7 @@ import { AdapterImplementation } from '@chainlink/types'
 import { v4 as uuidv4 } from 'uuid'
 import { Decimal } from 'decimal.js'
 import objectHash from 'object-hash'
+import { flatMap, values } from 'lodash'
 
 export const isObject = (o: unknown): boolean =>
   o !== null && typeof o === 'object' && Array.isArray(o) === false
@@ -175,6 +176,39 @@ export const getHashOpts = (): Required<Parameters<typeof objectHash>>['1'] => (
 })
 /**
  * @description
+ *  Calculates all possible permutations without repetition of a certain size.
+ *
+ * @param collection A collection of distinct values to calculate the permutations from.
+ * @param n The number of values to combine.
+ *
+ * @returns Array of permutations
+ */
+
+const permutations = (collection: any, n: any) => {
+  let array = values(collection)
+  if (array.length < n) {
+    return []
+  }
+  let recur = (array: any, n: any) => {
+    if (--n < 0) {
+      return [[]]
+    }
+    let permutations: any[] = []
+    array.forEach((value: any, index: any, array: any) => {
+      array = array.slice()
+      array.splice(index, 1)
+      recur(array, n).forEach((permutation) => {
+        permutation.unshift(value)
+        permutations.push(permutation)
+      })
+    })
+    return permutations
+  }
+  return recur(array, n)
+}
+
+/**
+ * @description
  * Builds a permutation set from a list of options
  *
  * @param options The options to create a permutation from
@@ -184,23 +218,7 @@ export const getHashOpts = (): Required<Parameters<typeof objectHash>>['1'] => (
  */
 
 export const permutator = (options: string[], delimiter?: string): string[] | string[][] => {
-  const permuations: string[][] = []
-
-  const permute = (arr: string[], m: string[] = []) => {
-    if (arr.length === 0) {
-      permuations.push(m)
-      return
-    }
-    for (let i = 0; i < arr.length; i++) {
-      let curr = arr.slice()
-      let next = curr.splice(i, 1)
-      permute(curr.slice(), m.concat(next))
-    }
-  }
-
-  permute(options)
-
-  const join = (perms: string[][]) => perms.map((p) => p.join(delimiter))
-
-  return typeof delimiter === 'string' ? join(permuations) : permuations
+  const output: string[][] = flatMap(options, (v, i, a) => permutations(a, i + 1))
+  const join = (combos: string[][]) => combos.map((p) => p.join(delimiter))
+  return typeof delimiter === 'string' ? join(output) : output
 }

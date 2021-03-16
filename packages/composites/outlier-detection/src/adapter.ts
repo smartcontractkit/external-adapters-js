@@ -15,11 +15,13 @@ import {
   SourceRequestOptions,
   CheckRequestOptions,
 } from './config'
+import { AxiosResponse } from 'axios'
 
 const customParams = {
   referenceContract: ['referenceContract', 'contract'],
   multiply: true,
   source: true,
+  asset: true,
   check: false,
   check_threshold: false,
   onchain_threshold: false,
@@ -32,7 +34,7 @@ const execute: ExecuteWithConfig<Config> = async (input, config) => {
 
   const jobRunID = validator.validated.jobRunID
   const source = validator.validated.data.source.toUpperCase()
-  const check = validator.validated.data.check.toUpperCase()
+  const check = validator.validated.data.check?.toUpperCase()
   const check_threshold = validator.validated.data.check_threshold || DEFAULT_CHECK_THRESHOLD
   const onchain_threshold = validator.validated.data.onchain_threshold || DEFAULT_ONCHAIN_THRESHOLD
   const { referenceContract, multiply } = validator.validated.data
@@ -66,20 +68,21 @@ const getExecuteMedian = async (
   adapters: string,
   request: AdapterRequest,
 ): Promise<number> => {
-  const responses = await Promise.allSettled<Promise<AdapterResponse>>(
+  const responses = await Promise.allSettled(
     adapters.split(',').map(
       async (a) =>
-        (
-          await Requester.request({
-            ...options[a],
-            data: request,
-          })
-        ).data,
+        await Requester.request({
+          ...options[a],
+          data: request,
+        }),
     ),
   )
   const values = responses
     .filter((result) => result.status === 'fulfilled' && 'value' in result)
-    .map((result) => (result as PromiseFulfilledResult<AdapterResponse>).value.result)
+    .map(
+      (result) =>
+        (result as PromiseFulfilledResult<AxiosResponse<Record<string, any>>>).value.data.result,
+    )
   if (values.length === 0) throw Error('Unable to fetch value from any of the data providers')
   return median(values)
 }
