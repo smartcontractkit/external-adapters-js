@@ -87,34 +87,12 @@ export const withRateLimit = (store: Store<RootState>): Middleware => async (exe
   const state = store.getState()
   const { heartbeats } = state
   const requestTypeId = makeId(input)
-  store.dispatch(requestObserved(requestTypeId, input))
-
   const maxThroughput = computeThroughput(heartbeats, IntervalNames.HOUR, requestTypeId)
   const maxAge = maxAgeFor(maxThroughput, Intervals[IntervalNames.MINUTE])
-  const start = process.hrtime()
-  try {
-    const result: any = await execute({
-      ...input,
-      data: { ...input.data, rateLimitMaxAge: maxAge },
-    })
-    const { metrics, ...adapterResult } = result
-    store.dispatch(
-      responseObserved(
-        requestTypeId,
-        result,
-        true,
-        maxAge,
-        process.hrtime(start),
-        result.data.cost,
-        metrics,
-      ),
-    )
-    if (input.id !== WARMUP_REQUEST_ID) {
-      store.dispatch(successfulRequestObserved(requestTypeId, result.data.cost))
-    }
-    return adapterResult
-  } catch (e) {
-    store.dispatch(responseObserved(requestTypeId, e, false, maxAge, process.hrtime(start)))
-    throw e
+  const result = await execute({ ...input, data: { ...input.data, rateLimitMaxAge: maxAge } })
+  if (input.id !== WARMUP_REQUEST_ID) {
+    // prometheus warmer hit
+    store.dispatch(successfulRequestObserved(requestTypeId, result.data.cost))
   }
+  return result
 }
