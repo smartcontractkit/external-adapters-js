@@ -107,7 +107,7 @@ jobs:
           role-to-assume: ${{ secrets.AWS_PUBLICECR_ROLE_ARN }}
           role-duration-seconds: 1200
       - name: Authenticate to public ECR
-        run: aws ecr-public get-login-password | docker login --username AWS --password-stdin public.ecr.aws
+        run: aws ecr-public get-login-password | docker login --username AWS --password-stdin public.ecr.aws/${{ env.publicecr-name }}
         env:
           AWS_DEFAULT_REGION: us-east-1 # https://docs.aws.amazon.com/AmazonECR/latest/public/public-registries.html#public-registry-auth
       - name: Create a public ECR repository if does not exist
