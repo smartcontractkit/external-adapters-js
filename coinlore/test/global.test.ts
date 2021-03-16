@@ -1,10 +1,10 @@
-import { assert } from 'chai'
+import { assertError, assertSuccess } from '@chainlink/adapter-test-helpers'
 import { Requester } from '@chainlink/external-adapter'
-import { assertSuccess, assertError } from '@chainlink/adapter-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
+import { assert } from 'chai'
 import { makeExecute } from '../src/adapter'
 
-describe('execute', () => {
+xdescribe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
 
