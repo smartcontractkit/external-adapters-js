@@ -5,6 +5,12 @@ Bootstrap an external adapter with this package
 ## Server config
 - `BASE_URL`: Optional string, Set a base url that is used for setting up routes on the external adapter. Ex. Typically a external adapter is served on the root, so you would make requests to `/`, setting `BASE_URL` to `/coingecko` would instead have requests made to `/coingecko`. Useful when multiple external adapters are being hosted under the same domain, and path mapping is being used to route between them.
 
+## Metrics
+A metrics server can be exposed which returns prometheus compatible data on the `/metrics` endpoint on the specified port. Note that this feature is ONLY available when running this application as an http server. Please note that this feature is EXPERIMENTAL.
+- `EXPERIMENTAL_METRICS_ENABLED`: Optional bool, defaults to `false`. Set to `true` to enable metrics collection.
+- `METRICS_PORT`: Optional number, defaults to `9080`, set to change the port the `/metrics` endpoint is served on
+- `METRICS_NAME`: Optional string, defaults to 'N/A', set to apply a label of `NAME` to each metric
+
 ## Caching
 
 To cache data, every adapter using the `bootstrap` package, has access to a simple LRU cache that will cache successful 200 responses using SHA1 hash of input as a key.
