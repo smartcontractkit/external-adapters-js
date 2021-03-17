@@ -48,6 +48,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `iex-cloud` to get stock and crypto market data from IEX Cloud
   - `cfbenchmarks` to get crypto benchmarks and indices
   - `dxfeed-secondary` to handle secondary mappings for the TSLA symbol
+  - `klaytn` to query to Klaytn chain.
   - `harmony` to write transactions to the Harmony blockchain
   - `tiingo` to get end-of-day stock price data from Tiingo
   - `geodb` to get location data from GeoDB
