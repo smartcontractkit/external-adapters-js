@@ -36,6 +36,7 @@
     "@chainlink/deribit-adapter": "^0.0.1",
     "@chainlink/genesis-volatility-adapter": "^0.0.3",
     "@chainlink/xbto-adapter": "^0.0.3",
-    "@chainlink/dxfeed-adapter": "^0.0.3"
+    "@chainlink/dxfeed-adapter": "^0.0.3",
+    "@chainlink/tradermade-adapter": "^0.0.4"
   }
 }

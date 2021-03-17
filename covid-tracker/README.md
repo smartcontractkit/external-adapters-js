@@ -1,25 +1,34 @@
 # Chainlink COVID Tracker External Adapter
 
-## Country Data API (default)
+Notice: The COVID Tracking Project is ending all data collection on March 7, 2021. The existing API will continue to work until May 2021, but will only include data up to March 7, 2021.
 
-### Endpoint
+### Input Parameters
 
-https://api.covidtracking.com/v1/us/current.json
+| Required? |   Name   |     Description     |      Options       | Defaults to |
+| :-------: | :------: | :-----------------: | :----------------: | :---------: |
+|           | endpoint | The endpoint to use | [us](#US-Endpoint) |     us      |
+
+---
+
+## US Endpoint
 
 ### Input Params
 
-- `location`: The location to retrieve data on (required, one of "usa")
-- `field`: The data field to return. Must be in camel case style. (required, see Current US Values on https://covidtracking.com/data/api for a full list)
-- `date`: The date to query formatted by `[YEAR][MONTH][DAY]` e.g. `20201012`, if not given defaults to the most recent date with available data (optional)
-- `endpoint`: The endpoint to use (optional, defaults to "country", one of "country")
+| Required? |  Name   |                               Description                               | Options |             Defaults to              |
+| :-------: | :-----: | :---------------------------------------------------------------------: | :-----: | :----------------------------------: |
+|           | `field` | The object path to access the value that will be returned as the result |         |               `death`                |
+|           | `date`  |  The date to query formatted by `[YEAR][MONTH][DAY]` (e.g. `20201012`)  |         | Most recent date with available data |
 
-### Example Usage
+### Sample Input
 
 ```json
-{ "field": "death", "location": "usa" }
+{
+  "id": "1",
+  "data": { "field": "death", "location": "usa" }
+}
 ```
 
-#### Output
+### Sample Output
 
 ```json
 {

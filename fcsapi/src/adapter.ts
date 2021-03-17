@@ -34,7 +34,7 @@ export const execute: Execute = async (input) => {
     endpoint = commonKeys[symbol].endpoint
     symbol = commonKeys[symbol].id
   }
-  const url = `https://fcsapi.com/api-v2/${endpoint}`
+  const url = `https://fcsapi.com/api-v3/${endpoint}`
   const access_key = util.getRandomRequiredEnv('API_KEY') // eslint-disable-line camelcase
 
   const params = {
@@ -48,6 +48,6 @@ export const execute: Execute = async (input) => {
   }
 
   const response = await Requester.request(config, customError)
-  response.data.result = Requester.validateResultNumber(response.data, ['response', 0, 'price'])
+  response.data.result = Requester.validateResultNumber(response.data, ['response', 0, 'c'])
   return Requester.success(jobRunID, response)
 }

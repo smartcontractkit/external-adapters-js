@@ -1,15 +1,16 @@
 import { logger } from '@chainlink/external-adapter'
-import { toObjectWithNumbers } from './util'
+import { AdapterHealthCheck, AdapterResponse, ExecuteSync } from '@chainlink/types'
 import express from 'express'
 import {
   HTTP_ERROR_NOT_IMPLEMENTED,
   HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE,
   HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE_MESSAGE,
 } from './errors'
-import { ExecuteSync, AdapterResponse, AdapterHealthCheck } from '@chainlink/types'
+import { toObjectWithNumbers } from './util'
 
 const app = express()
 const port = process.env.EA_PORT || 8080
+const baseUrl = process.env.BASE_URL || '/'
 
 export const HEADER_CONTENT_TYPE = 'Content-Type'
 export const CONTENT_TYPE_APPLICATION_JSON = 'application/json'
@@ -24,7 +25,7 @@ export const initHandler = (
 ) => (): void => {
   app.use(express.json())
 
-  app.post('/', (req, res) => {
+  app.post(baseUrl, (req, res) => {
     if (!req.is(CONTENT_TYPE_APPLICATION_JSON)) {
       return res
         .status(HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE)
@@ -39,7 +40,7 @@ export const initHandler = (
     })
   })
 
-  app.get('/health', (_, res) => {
+  app.get(`${baseUrl}/health`, (_, res) => {
     logger.debug('Health check request')
     checkHealth((status: number, result: AdapterResponse) => {
       logger.debug(`Health check result [${status}]: `, { output: result })
