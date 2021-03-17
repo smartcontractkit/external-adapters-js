@@ -41,24 +41,6 @@ const presetIds: { [symbol: string]: number } = {
   '1INCH': 8104,
 }
 
-// Defaults we use when there are multiple currencies with the same symbol
-const presetSlugs: Record<string, string> = {
-  COMP: 'compound',
-  BNT: 'bancor',
-  RCN: 'ripio-credit-network',
-  UNI: 'uniswap',
-  CRV: 'curve-dao-token',
-  FNX: 'finnexus',
-  ETC: 'ethereum-classic',
-  BAT: 'basic-attention-token',
-  CRO: 'crypto-com-coin',
-  LEO: 'unus-sed-leo',
-  FTT: 'ftx-token',
-  HT: 'huobi-token',
-  OKB: 'okb',
-  KCS: 'kucoin-token',
-}
-
 const priceParams = {
   base: ['base', 'from', 'coin', 'sym', 'symbol'],
   convert: ['quote', 'to', 'market', 'convert'],
@@ -88,9 +70,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   } else if (slug) {
     params.slug = slug
   } else {
-    const slugForSymbol = presetSlugs[symbol]
-    if (slugForSymbol) {
-      params.slug = slugForSymbol
+    const idForSymbol = presetIds[symbol]
+    if (idForSymbol) {
+      params.id = String(idForSymbol)
     } else {
       params.symbol = symbol
     }
