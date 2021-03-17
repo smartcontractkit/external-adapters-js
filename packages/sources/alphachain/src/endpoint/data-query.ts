@@ -42,11 +42,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   }
 
   const response = await Requester.request(options, customError)
-  const result = Requester.validateResultNumber(response.data, [field])
+  response.data.result = Requester.validateResultNumber(response.data, [field])
 
-  return Requester.success(jobRunID, {
-    data: config.verbose ? { ...response.data, result } : { result },
-    result,
-    status: 200,
-  })
+  return Requester.success(jobRunID, response, config.verbose)
 }
