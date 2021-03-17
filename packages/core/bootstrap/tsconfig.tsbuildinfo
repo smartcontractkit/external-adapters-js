@@ -212,8 +212,8 @@
         "affectsGlobalScope": false
       },
       "../external-adapter/dist/requester.d.ts": {
-        "version": "a4c01a9f913b3a04c458fa24c5d36d0f48aac1aacecf92d4957ad14b60280db0",
-        "signature": "a4c01a9f913b3a04c458fa24c5d36d0f48aac1aacecf92d4957ad14b60280db0",
+        "version": "59874ce031a4517e1b4bf894c1faf6b26e82e564f643f6d4bc06e1bd48bd0bad",
+        "signature": "59874ce031a4517e1b4bf894c1faf6b26e82e564f643f6d4bc06e1bd48bd0bad",
         "affectsGlobalScope": false
       },
       "../external-adapter/dist/validator.d.ts": {
@@ -527,8 +527,8 @@
         "affectsGlobalScope": false
       },
       "./src/lib/cache/redis.ts": {
-        "version": "7d5241b6a55f95da4ca9c51baabb744f4de068ba624f90fb442906a3196d5d26",
-        "signature": "4e540928629d39ead8528b53f8c2cd9613b155683acc0a143ccebbbf2cd56b70",
+        "version": "24766c8a64aedd4a7f7f4e1d5483c771d34490cfea42710e5e8dcc06897bcb91",
+        "signature": "a454bffed36bd4b5801e0c2768fd30461c0c64f15b96c8a7693428a318ed81d0",
         "affectsGlobalScope": false
       },
       "./src/lib/cache/index.ts": {
@@ -582,8 +582,8 @@
         "affectsGlobalScope": false
       },
       "./src/lib/server.ts": {
-        "version": "5febc51ad90f130fdc1cbcd2b3f701313d91eabcbfd2ab614e800a3606367895",
-        "signature": "d72543011861c4b5209105b4ca561d34f581722c28cb7642a3bc3c9c65fe48c3",
+        "version": "bd7f192edc3cad0bbd0210431c76abbcef1d3a18ffc78500bd7e912c663728e6",
+        "signature": "24892d965c173a61c56c92013ff01b9598ba74bc8ac343bb0e4edd902ad213a8",
         "affectsGlobalScope": false
       },
       "./src/lib/aws.ts": {
@@ -1617,8 +1617,8 @@
         "affectsGlobalScope": false
       },
       "./src/index.ts": {
-        "version": "450c5a4b58d971f2173bbc36165f20f4ee03a0bd7c082e00a66365eafb4cc18b",
-        "signature": "0f248b29f119c81392fea6a7ce67b5524209170fba926b9303658a81176c46b8",
+        "version": "e7a4375386b40a47e29d649be77af79885dfd219c056070c10f6fee3e92b893f",
+        "signature": "80d9b4dcdf2a08c92fc42c85d2b13e0f4331d862c17fda81dd560fa02925aaed",
         "affectsGlobalScope": false
       },
       "./src/lib/maxAge.ts": {
@@ -4287,6 +4287,7 @@
       "./src/index.ts": [
         "../../../node_modules/redux/index.d.ts",
         "../types/@chainlink/index.d.ts",
+        "./src/lib/server.ts",
         "./src/lib/util.ts"
       ],
       "./src/lib/aws.ts": [

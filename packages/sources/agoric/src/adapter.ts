@@ -70,7 +70,6 @@ const executeImpl: ExecuteWithConfig<Config> = async (request, config) => {
 
   return Requester.success(jobRunID, {
     data: { result },
-    result,
     status: 200,
   })
 }
