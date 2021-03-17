@@ -55,10 +55,6 @@ export const execute = async (config: Config, request: AdapterRequest) => {
   }
 
   const response = await Requester.request(reqConfig, customError)
-  const result = Requester.validateResultNumber(response.data[0], resultPaths[path])
-  return Requester.success(jobRunID, {
-    data: config.verbose ? { ...response.data, result } : { result },
-    result,
-    status: 200,
-  })
+  response.data.result = Requester.validateResultNumber(response.data[0], resultPaths[path])
+  return Requester.success(jobRunID, response, config.verbose)
 }

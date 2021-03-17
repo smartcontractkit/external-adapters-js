@@ -44,11 +44,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     return [key, result]
   })
 
-  const result = marketCaps[0][1]
-
-  return Requester.success(jobRunID, {
-    data: config.verbose ? { ...response.data, result } : { result },
-    result,
-    status: 200,
-  })
+  response.data.result = marketCaps[0][1]
+  return Requester.success(jobRunID, response, config.verbose)
 }

@@ -38,11 +38,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const coinData = response.data.payload.find(
     (asset: Record<string, any>) => asset.symbol.toUpperCase() === coin.toUpperCase(),
   )
-  const result = Requester.validateResultNumber(coinData, [path])
+  response.data.result = Requester.validateResultNumber(coinData, [path])
 
-  return Requester.success(jobRunID, {
-    data: config.verbose ? { ...response.data, result } : { result },
-    result,
-    status: 200,
-  })
+  return Requester.success(jobRunID, response, config.verbose)
 }

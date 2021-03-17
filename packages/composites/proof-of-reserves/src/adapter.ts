@@ -12,7 +12,7 @@ import { runProtocolAdapter } from './protocol'
 import { runBalanceAdapter } from './balance'
 import { runReduceAdapter } from './reduce'
 
-export const makeRequestFactory = (config: Config, prefix: string) => async (
+export const makeRequestFactory: any = (config: Config, prefix: string) => async (
   input: AdapterRequest,
 ) => Requester.request({ ...config.api, method: 'post', url: getURL(prefix, true), data: input })
 

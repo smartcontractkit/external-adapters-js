@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/external-adapter'
+import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 
 export const NAME = 'total-score'
@@ -30,14 +30,14 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const response = await Requester.request(reqConfig)
 
   if (response.data.score.event_status !== 'STATUS_FINAL') {
-    return Requester.errored(jobRunID, 'Match status is not final')
+    throw new AdapterError({
+      jobRunID,
+      message: 'Match status is not final',
+      statusCode: 400,
+    })
   }
 
-  const result = parseInt(response.data.score.score_away) + parseInt(response.data.score.score_home)
-
-  return Requester.success(jobRunID, {
-    data: config.verbose ? { ...response.data, result } : { result },
-    result,
-    status: 200,
-  })
+  response.data.result =
+    parseInt(response.data.score.score_away) + parseInt(response.data.score.score_home)
+  return Requester.success(jobRunID, response, config.verbose)
 }
