@@ -102,11 +102,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     [Paths.MarketCap]: ['data', key, 'quote', convert, 'market_cap'],
   }
 
-  const result = Requester.validateResultNumber(response.data, resultPaths[path])
-
-  return Requester.success(jobRunID, {
-    data: config.verbose ? { ...response.data, result } : { result },
-    result,
-    status: 200,
-  })
+  response.data.result = Requester.validateResultNumber(response.data, resultPaths[path])
+  return Requester.success(jobRunID, response, config.verbose)
 }

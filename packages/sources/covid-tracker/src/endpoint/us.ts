@@ -60,11 +60,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
       message: 'Date not found in response data',
       statusCode: 400,
     })
-  const result = Requester.validateResultNumber(day, [field])
-
-  return Requester.success(jobRunID, {
-    data: config.verbose ? { ...response.data, result } : { result },
-    result,
-    status: 200,
-  })
+  response.data.result = Requester.validateResultNumber(day, [field])
+  return Requester.success(jobRunID, response, config.verbose)
 }

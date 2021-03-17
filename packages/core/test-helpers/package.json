@@ -19,7 +19,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "clean": "rm -rf dist",
+    "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
     "prepublishOnly": "yarn && yarn build",
     "setup": "yarn clean && yarn build",
     "build": "tsc -b",
