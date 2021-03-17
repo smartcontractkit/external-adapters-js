@@ -176,24 +176,14 @@
         "signature": "89bf2b7a601b73ea4311eda9c41f86a58994fec1bee3b87c4a14d68d9adcdcbd",
         "affectsGlobalScope": true
       },
-      "../../../node_modules/decimal.js/decimal.d.ts": {
-        "version": "eae8cc8dc2a626108eb092a5e70bc6298fa63221e7172ff1730b713338310006",
-        "signature": "eae8cc8dc2a626108eb092a5e70bc6298fa63221e7172ff1730b713338310006",
-        "affectsGlobalScope": false
-      },
-      "../../core/bootstrap/dist/lib/util.d.ts": {
-        "version": "7ffe02682473deb436712f2e254b8bdbf530b3263634732bcace6a2064925fb8",
-        "signature": "7ffe02682473deb436712f2e254b8bdbf530b3263634732bcace6a2064925fb8",
-        "affectsGlobalScope": false
-      },
-      "../../core/bootstrap/dist/index.d.ts": {
-        "version": "badd42c971ee74af85a395bb55a66cdb63c30ae676868528063cadbb159c7d64",
-        "signature": "badd42c971ee74af85a395bb55a66cdb63c30ae676868528063cadbb159c7d64",
+      "../../../node_modules/axios/index.d.ts": {
+        "version": "e7df7eb51c5090db4bdcdbf9efe053530dff0e33796f40b08b1a3be6c3a351d0",
+        "signature": "e7df7eb51c5090db4bdcdbf9efe053530dff0e33796f40b08b1a3be6c3a351d0",
         "affectsGlobalScope": false
       },
       "../../core/types/@chainlink/index.d.ts": {
-        "version": "48ccca80817a82545060d94156b6debbe2da6555c05ac09eff5a466dd96ab6d9",
-        "signature": "48ccca80817a82545060d94156b6debbe2da6555c05ac09eff5a466dd96ab6d9",
+        "version": "2d3ce92844778a11a157faa7c58bda0f32098a344f913aa48d5ad724ff1705f1",
+        "signature": "2d3ce92844778a11a157faa7c58bda0f32098a344f913aa48d5ad724ff1705f1",
         "affectsGlobalScope": false
       },
       "../../core/external-adapter/node_modules/axios/index.d.ts": {
@@ -212,8 +202,8 @@
         "affectsGlobalScope": false
       },
       "../../core/external-adapter/dist/requester.d.ts": {
-        "version": "1501c4dd554d8f06a59bed71709baac95f602696528fb5bc5a314cab415bd3d3",
-        "signature": "1501c4dd554d8f06a59bed71709baac95f602696528fb5bc5a314cab415bd3d3",
+        "version": "59874ce031a4517e1b4bf894c1faf6b26e82e564f643f6d4bc06e1bd48bd0bad",
+        "signature": "59874ce031a4517e1b4bf894c1faf6b26e82e564f643f6d4bc06e1bd48bd0bad",
         "affectsGlobalScope": false
       },
       "../../core/external-adapter/dist/validator.d.ts": {
@@ -237,8 +227,8 @@
         "affectsGlobalScope": false
       },
       "../../../node_modules/@types/node/child_process.d.ts": {
-        "version": "674bedbfd2004e233e2a266a3d2286e524f0d58787a98522d834d6ccda1d215a",
-        "signature": "674bedbfd2004e233e2a266a3d2286e524f0d58787a98522d834d6ccda1d215a",
+        "version": "89a3409a743c2a408d02bd68255a61d8416225b76c2c66d8e2e74dad3e00bc5d",
+        "signature": "89a3409a743c2a408d02bd68255a61d8416225b76c2c66d8e2e74dad3e00bc5d",
         "affectsGlobalScope": false
       },
       "../../../node_modules/@types/node/cluster.d.ts": {
@@ -297,8 +287,8 @@
         "affectsGlobalScope": false
       },
       "../../../node_modules/@types/node/http2.d.ts": {
-        "version": "9aff68f1b847b846d3d50a58c9f8f99389bedd0258d1b1c201f11b97ecfd36f8",
-        "signature": "9aff68f1b847b846d3d50a58c9f8f99389bedd0258d1b1c201f11b97ecfd36f8",
+        "version": "4c260129d649d69f0608cd123e7016e61364b553a5ca2de9b66b0398594959cf",
+        "signature": "4c260129d649d69f0608cd123e7016e61364b553a5ca2de9b66b0398594959cf",
         "affectsGlobalScope": false
       },
       "../../../node_modules/@types/node/https.d.ts": {
@@ -486,6 +476,41 @@
         "signature": "bb2a3d1e093d2c0ef6ead5749de10caedf63597513a14c98c2ea51d8654d6f33",
         "affectsGlobalScope": false
       },
+      "../../../node_modules/symbol-observable/index.d.ts": {
+        "version": "7ccece60f62968f5765383f1f5322ace6937e42c3a2068834ac214fe24f9b7bc",
+        "signature": "7ccece60f62968f5765383f1f5322ace6937e42c3a2068834ac214fe24f9b7bc",
+        "affectsGlobalScope": true
+      },
+      "../../../node_modules/redux/index.d.ts": {
+        "version": "dc7b63bcdfaf08b68a9fabeab720173481db52014bbb40314f5a6757387b6516",
+        "signature": "dc7b63bcdfaf08b68a9fabeab720173481db52014bbb40314f5a6757387b6516",
+        "affectsGlobalScope": false
+      },
+      "../../core/bootstrap/dist/lib/server.d.ts": {
+        "version": "24892d965c173a61c56c92013ff01b9598ba74bc8ac343bb0e4edd902ad213a8",
+        "signature": "24892d965c173a61c56c92013ff01b9598ba74bc8ac343bb0e4edd902ad213a8",
+        "affectsGlobalScope": false
+      },
+      "../../../node_modules/decimal.js/decimal.d.ts": {
+        "version": "eae8cc8dc2a626108eb092a5e70bc6298fa63221e7172ff1730b713338310006",
+        "signature": "eae8cc8dc2a626108eb092a5e70bc6298fa63221e7172ff1730b713338310006",
+        "affectsGlobalScope": false
+      },
+      "../../../node_modules/@types/object-hash/index.d.ts": {
+        "version": "a84c95e04a7387764e5c9f03a1bb1083ffa1166254a517398524630e918f8627",
+        "signature": "a84c95e04a7387764e5c9f03a1bb1083ffa1166254a517398524630e918f8627",
+        "affectsGlobalScope": false
+      },
+      "../../core/bootstrap/dist/lib/util.d.ts": {
+        "version": "7e02ffb557026fda20dc713b7e26f22e33a6ebb78882f57dfac15bf25e2950ad",
+        "signature": "7e02ffb557026fda20dc713b7e26f22e33a6ebb78882f57dfac15bf25e2950ad",
+        "affectsGlobalScope": false
+      },
+      "../../core/bootstrap/dist/index.d.ts": {
+        "version": "80d9b4dcdf2a08c92fc42c85d2b13e0f4331d862c17fda81dd560fa02925aaed",
+        "signature": "80d9b4dcdf2a08c92fc42c85d2b13e0f4331d862c17fda81dd560fa02925aaed",
+        "affectsGlobalScope": false
+      },
       "./src/adapter.ts": {
         "version": "af5f9e7947b906267ef22e2a090d96e666b2a3d131b3673671f25c5c30d41054",
         "signature": "d2b59dac6a2e7ddcbe20eb6723f540409ea3ecc7cd52d6288915598e5ae9687b",
@@ -493,7 +518,7 @@
       },
       "./src/index.ts": {
         "version": "dbd0c1bdf6faaef7e5ba0c407e85c44eb8983f88561a930f771801dd9164b8f4",
-        "signature": "2150aae598845cb29ab9e5d2d985dea0b1dc372c8c42b6064d63d772018aa78c",
+        "signature": "8d0c4c81e91ed051e0bf7449af37a53fd8105a423ef8d241df2223ac91af1380",
         "affectsGlobalScope": false
       },
       "../../../node_modules/@types/bchaddrjs/index.d.ts": {
@@ -562,8 +587,8 @@
         "affectsGlobalScope": false
       },
       "../../../node_modules/@types/express-serve-static-core/index.d.ts": {
-        "version": "e41a1ce538d71d5a3389b7fc2e39c15a4972f0d4cb14bf2fe8cda8c361150028",
-        "signature": "e41a1ce538d71d5a3389b7fc2e39c15a4972f0d4cb14bf2fe8cda8c361150028",
+        "version": "1630272009eb17f1577a172cce36619460d96a6df7ad24153897f7836e19f992",
+        "signature": "1630272009eb17f1577a172cce36619460d96a6df7ad24153897f7836e19f992",
         "affectsGlobalScope": true
       },
       "../../../node_modules/@types/mime/index.d.ts": {
@@ -621,11 +646,6 @@
         "signature": "f24768499dab9a34c0aff9c9e3fbfe5117001bfabba4a1db01a17df086d6a606",
         "affectsGlobalScope": true
       },
-      "../../../node_modules/@types/object-hash/index.d.ts": {
-        "version": "a84c95e04a7387764e5c9f03a1bb1083ffa1166254a517398524630e918f8627",
-        "signature": "a84c95e04a7387764e5c9f03a1bb1083ffa1166254a517398524630e918f8627",
-        "affectsGlobalScope": false
-      },
       "../../../node_modules/@types/object-path/index.d.ts": {
         "version": "dc74f9253ba01502aa3e08af9c00908fdb5b1fc297c576afd307d972ee6a5c91",
         "signature": "dc74f9253ba01502aa3e08af9c00908fdb5b1fc297c576afd307d972ee6a5c91",
@@ -644,16 +664,6 @@
       "../../../node_modules/@types/redis/index.d.ts": {
         "version": "c6f0fb24005dfe5c741b2f0877bcd2e3a7602907f0233caf581a791d4da2c753",
         "signature": "c6f0fb24005dfe5c741b2f0877bcd2e3a7602907f0233caf581a791d4da2c753",
-        "affectsGlobalScope": false
-      },
-      "../../../node_modules/symbol-observable/index.d.ts": {
-        "version": "7ccece60f62968f5765383f1f5322ace6937e42c3a2068834ac214fe24f9b7bc",
-        "signature": "7ccece60f62968f5765383f1f5322ace6937e42c3a2068834ac214fe24f9b7bc",
-        "affectsGlobalScope": true
-      },
-      "../../../node_modules/redux/index.d.ts": {
-        "version": "dc7b63bcdfaf08b68a9fabeab720173481db52014bbb40314f5a6757387b6516",
-        "signature": "dc7b63bcdfaf08b68a9fabeab720173481db52014bbb40314f5a6757387b6516",
         "affectsGlobalScope": false
       },
       "../../../node_modules/@types/redux-logger/index.d.ts": {
@@ -1075,10 +1085,16 @@
         "../../../node_modules/winston-transport/index.d.ts"
       ],
       "../../core/bootstrap/dist/index.d.ts": [
+        "../../../node_modules/redux/index.d.ts",
+        "../../core/bootstrap/dist/lib/server.d.ts",
         "../../core/bootstrap/dist/lib/util.d.ts",
         "../../core/types/@chainlink/index.d.ts"
       ],
+      "../../core/bootstrap/dist/lib/server.d.ts": [
+        "../../core/types/@chainlink/index.d.ts"
+      ],
       "../../core/bootstrap/dist/lib/util.d.ts": [
+        "../../../node_modules/@types/object-hash/index.d.ts",
         "../../../node_modules/decimal.js/decimal.d.ts",
         "../../core/types/@chainlink/index.d.ts"
       ],
@@ -1109,7 +1125,7 @@
         "../../core/types/@chainlink/index.d.ts"
       ],
       "../../core/types/@chainlink/index.d.ts": [
-        "../../core/bootstrap/dist/index.d.ts"
+        "../../../node_modules/axios/index.d.ts"
       ],
       "./src/adapter.ts": [
         "../../core/bootstrap/dist/index.d.ts",
@@ -1456,10 +1472,16 @@
         "../../../node_modules/winston-transport/index.d.ts"
       ],
       "../../core/bootstrap/dist/index.d.ts": [
+        "../../../node_modules/redux/index.d.ts",
+        "../../core/bootstrap/dist/lib/server.d.ts",
         "../../core/bootstrap/dist/lib/util.d.ts",
         "../../core/types/@chainlink/index.d.ts"
       ],
+      "../../core/bootstrap/dist/lib/server.d.ts": [
+        "../../core/types/@chainlink/index.d.ts"
+      ],
       "../../core/bootstrap/dist/lib/util.d.ts": [
+        "../../../node_modules/@types/object-hash/index.d.ts",
         "../../../node_modules/decimal.js/decimal.d.ts",
         "../../core/types/@chainlink/index.d.ts"
       ],
@@ -1490,7 +1512,7 @@
         "../../core/types/@chainlink/index.d.ts"
       ],
       "../../core/types/@chainlink/index.d.ts": [
-        "../../core/bootstrap/dist/index.d.ts"
+        "../../../node_modules/axios/index.d.ts"
       ],
       "./src/adapter.ts": [
         "../../core/types/@chainlink/index.d.ts"
@@ -1585,6 +1607,7 @@
       "../../../node_modules/@types/yargs-parser/index.d.ts",
       "../../../node_modules/@types/yargs/index.d.ts",
       "../../../node_modules/@types/yauzl/index.d.ts",
+      "../../../node_modules/axios/index.d.ts",
       "../../../node_modules/base-x/src/index.d.ts",
       "../../../node_modules/decimal.js/decimal.d.ts",
       "../../../node_modules/logform/index.d.ts",
@@ -1630,6 +1653,7 @@
       "../../../node_modules/winston/lib/winston/config/index.d.ts",
       "../../../node_modules/winston/lib/winston/transports/index.d.ts",
       "../../core/bootstrap/dist/index.d.ts",
+      "../../core/bootstrap/dist/lib/server.d.ts",
       "../../core/bootstrap/dist/lib/util.d.ts",
       "../../core/external-adapter/dist/config.d.ts",
       "../../core/external-adapter/dist/errors.d.ts",
