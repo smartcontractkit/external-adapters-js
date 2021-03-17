@@ -61,16 +61,19 @@ export class RedisCache {
   _get: any
   _set: any
   _del: any
+  _quit: any
 
   constructor(options: RedisOptions) {
     this.options = options
     const client = createClient({ ...options, retry_strategy: retryStrategy })
     client.on('error', (err) => logger.error('Error connecting to Redis. ', err))
+    client.on('end', () => logger.error('Redis connection ended.'))
 
     this._auth = promisify(client.auth).bind(client)
     this._get = promisify(client.get).bind(client)
     this._set = promisify(client.set).bind(client)
     this._del = promisify(client.del).bind(client)
+    this._quit = promisify(client.quit).bind(client)
     this.client = client
   }
 
@@ -108,7 +111,16 @@ export class RedisCache {
    * The alternative is to use: `context.callbackWaitsForEmtpyEventLoop = false`
    */
   async close() {
-    // No further commands will be processed
-    this.client.end(true)
+    if (!this.client) return
+
+    try {
+      // No further commands will be processed
+      const res = await timeout(this._quit(), this.options.timeout)
+      logger.debug(`Redis connection shutdown completed with: ${res}`)
+    } catch (err) {
+      logger.error(`Redis connection shutdown failed with: ${err}`)
+    } finally {
+      this.client.removeAllListeners()
+    }
   }
 }
