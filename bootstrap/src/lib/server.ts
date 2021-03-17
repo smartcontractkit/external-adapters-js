@@ -1,5 +1,5 @@
 import { logger } from '@chainlink/external-adapter'
-import { toObjectWithNumbers } from './util'
+import * as client from 'prom-client'
 import express from 'express'
 import {
   HTTP_ERROR_NOT_IMPLEMENTED,
@@ -7,6 +7,7 @@ import {
   HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE_MESSAGE,
 } from './errors'
 import { ExecuteSync, AdapterResponse, AdapterHealthCheck } from '@chainlink/types'
+import { toObjectWithNumbers } from './util'
 
 const app = express()
 const port = process.env.EA_PORT || 8080
@@ -22,6 +23,8 @@ export const initHandler = (
   execute: ExecuteSync,
   checkHealth = notImplementedHealthCheck,
 ) => (): void => {
+  setupMetricsServer()
+
   app.use(express.json())
 
   app.post('/', (req, res) => {
@@ -52,4 +55,15 @@ export const initHandler = (
   process.on('SIGINT', () => {
     process.exit()
   })
+}
+
+function setupMetricsServer() {
+  const metricsApp = express()
+  const metricsPort = process.env.METRICS_PORT || 9080
+
+  metricsApp.get('/metrics', async (_, res) => {
+    res.send(await client.register.metrics())
+  })
+
+  metricsApp.listen(metricsPort, () => logger.info(`Monitoring listening on port ${metricsPort}!`))
 }

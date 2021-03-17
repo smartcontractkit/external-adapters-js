@@ -45,6 +45,7 @@ declare module '@chainlink/types' {
     statusCode: number
     data: any
     result: any
+    maxAge?: number
   }
 
   /* ERRORS */
