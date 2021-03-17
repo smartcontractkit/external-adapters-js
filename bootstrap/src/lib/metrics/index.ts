@@ -1,4 +1,5 @@
 import * as client from 'prom-client'
+import { parseBool } from '../util'
 
 client.collectDefaultMetrics()
 client.register.setDefaultLabels(
@@ -7,7 +8,7 @@ client.register.setDefaultLabels(
   // to refactor with full type coverage support
   { app_name: process.env.METRICS_NAME || 'N/A', app_version: 'N/A' },
 )
-export const METRICS_ENABLED = !!process.env.EXPERIMENTAL_METRICS_ENABLED
+export const METRICS_ENABLED = parseBool(process.env.EXPERIMENTAL_METRICS_ENABLED)
 
 export enum HttpRequestType {
   CACHE_HIT = 'cacheHit',
