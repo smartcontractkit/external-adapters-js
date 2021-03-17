@@ -106,6 +106,13 @@ export class Requester {
     return new AdapterError({ jobRunID, statusCode, message: error }).toJSONResponse()
   }
 
+  /**
+   * Conforms the .request() response to the expected Chainlink response structure
+   *
+   * @param jobRunID The amount of retries that have passed
+   * @param response The interval in ms
+   * @param verbose The maximum back-off in ms
+   */
   static success(
     jobRunID = '1',
     response: Partial<AxiosResponse>,

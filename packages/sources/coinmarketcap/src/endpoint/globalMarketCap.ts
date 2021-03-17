@@ -24,15 +24,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     params,
   }
   const response = await Requester.request(options)
-  const result = Requester.validateResultNumber(response.data, [
+  response.data.result = Requester.validateResultNumber(response.data, [
     'data',
     'quote',
     convert,
     'total_market_cap',
   ])
-  return Requester.success(jobRunID, {
-    data: config.verbose ? { ...response.data, result } : { result },
-    result,
-    status: 200,
-  })
+  return Requester.success(jobRunID, response, config.verbose)
 }

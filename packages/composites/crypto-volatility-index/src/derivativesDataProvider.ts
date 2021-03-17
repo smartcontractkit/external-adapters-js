@@ -44,7 +44,7 @@ export const getDerivativesData = async (
   logger.debug('currencyValues:', currencyValues)
   const optionsData = await Promise.all(
     cryptoCurrencies.map(async (currency: string, index: number) => {
-      return await getOptionsData(currency, currencyValues[index])
+      return await getOptionsData(currency, new Decimal(currencyValues[index]))
     }),
   )
   // Return derivatives data mapped by currency

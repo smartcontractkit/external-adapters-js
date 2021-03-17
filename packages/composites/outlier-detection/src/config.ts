@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { util } from '@chainlink/ea-bootstrap'
 import { Execute } from '@chainlink/types'
 import { getSourceDataProviders, getSourceImpl } from './source'
@@ -35,26 +34,4 @@ export const makeConfig = (prefix = ''): Config => {
   }
 
   return { sourceAdapters, checkAdapters, threshold }
-=======
-import { getDefaultConfig } from '@chainlink/external-adapter'
-import { util } from '@chainlink/ea-bootstrap'
-import { getDataProvider, PriceAdapter } from './dataProvider'
-
-export type GetPriceAdapter = (name: string) => PriceAdapter
-
-export type Config = {
-  getPriceAdapter: GetPriceAdapter
-}
-
-export const makeConfig = (prefix = ''): Config => {
-  const getPriceAdapter: GetPriceAdapter = (name) => {
-    const dataProviderUrl = util.getRequiredEnv('DATA_PROVIDER_URL', name.toUpperCase())
-    const defaultConfig = getDefaultConfig(prefix)
-    defaultConfig.api.baseURL = dataProviderUrl
-    defaultConfig.api.method = 'post'
-    return getDataProvider(defaultConfig.api)
-  }
-
-  return { getPriceAdapter }
->>>>>>> 8f063916... MarketClosure data reliance (#344)
 }
