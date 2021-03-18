@@ -1,4 +1,5 @@
 import hash from 'object-hash'
+import { logger } from '@chainlink/external-adapter'
 import { Store } from 'redux'
 import { AdapterRequest, Middleware } from '@chainlink/types'
 import { successfulRequestObserved } from './actions'
@@ -12,11 +13,16 @@ import {
 } from './reducer'
 import * as config from './config'
 import * as metrics from './metrics'
-import { logger } from '@chainlink/external-adapter'
-
 export * as reducer from './reducer'
 export * as actions from './actions'
 
+/**
+ * Calculates how much capacity a participant deserves based on its weight on the adapter
+ * 
+ * @param state Redux Heartbeats state
+ * @param interval Time window size to get heartbeats
+ * @param id Participant ID to get participants heartbeats
+ */
 export const computeThroughput = (
   state: Heartbeats,
   interval: IntervalNames,
@@ -31,7 +37,6 @@ export const computeThroughput = (
   const costOfType = getAverageCost(observedRequestsOfType) || 1
   // Compute max throughput by weight
   const weight = throughputOfType / throughput
-  // const capacityLeft = getRemainingCapacity(state, interval, costOfType)
   return maxThroughput(weight, costOfType)
 }
 
@@ -40,18 +45,19 @@ const getAverageCost = (requests: Heartbeat[]): number => {
   return requests.reduce((totalCost, h) => totalCost + h.cost, 0) / requests.length
 }
 
-const getRemainingCapacity = (state: Heartbeats, interval: IntervalNames, cost: number): number => {
-  const safeCapacity = 0.9 * (config.get().totalCapacity / cost)
-  const observedRequests = selectObserved(state, interval)
-  const remainingCapacity = safeCapacity - observedRequests.length
+const logRemainingCapacity = (state: Heartbeats, interval: IntervalNames): void => {
+  const dataProviderRequests = selectObserved(state, interval).filter((h) => !h.isCacheHit)
+  const cost = getAverageCost(dataProviderRequests) || 1
+  const capacity = config.get().totalCapacity / cost
+  const remainingCapacity = capacity - dataProviderRequests.length
   if (remainingCapacity <= 0) {
     logger.error('Rate Limit: Data Provider tokens not available')
-    return 1
+    return
   }
-  if (remainingCapacity <= 0.1 * safeCapacity) {
+  if (remainingCapacity <= 0.1 * capacity) {
     logger.warn('Rate Limit: Data Provider tokens about to run out')
+    return
   }
-  return safeCapacity - observedRequests.length
 }
 
 const maxThroughput = (weight: number, cost: number): number => {
@@ -79,7 +85,7 @@ export const withRateLimit = (store: Store<RootState>): Middleware => async (exe
   input,
 ) => {
   if (!config.get().totalCapacity) return await execute(input)
-  const state = store.getState()
+  let state = store.getState()
   const { heartbeats } = state
   const requestTypeId = makeId(input)
   const maxThroughput = computeThroughput(heartbeats, IntervalNames.HOUR, requestTypeId)
@@ -87,6 +93,8 @@ export const withRateLimit = (store: Store<RootState>): Middleware => async (exe
   const result = await execute({ ...input, data: { ...input.data, rateLimitMaxAge: maxAge } })
 
   store.dispatch(successfulRequestObserved(input, result))
+  state = store.getState()
+  logRemainingCapacity(state.heartbeats, IntervalNames.MINUTE)
 
   const isCacheHit = !!result.maxAge
   if (!isCacheHit) {
