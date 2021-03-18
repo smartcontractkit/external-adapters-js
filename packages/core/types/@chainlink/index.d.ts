@@ -45,6 +45,7 @@ declare module '@chainlink/types' {
     statusCode: number
     data: any // Response data, holds "result" for Flux Monitor. Correct way.
     result: any // Result for OCR
+    maxAge?: number
   }
 
   /* ERRORS */
@@ -80,7 +81,7 @@ declare module '@chainlink/types' {
 
   export type ConfigFactory = (prefix?: string) => Config
 
-  import type { ExecuteHandlers } from '../../packages/bootstrap/src'
+  import type { ExecuteHandlers } from '@chainlink/ea-bootstrap'
   export type AdapterImplementation = {
     NAME: string
     makeExecute: ExecuteFactory<Config>
