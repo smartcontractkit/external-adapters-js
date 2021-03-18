@@ -62,9 +62,9 @@ const dataProviderMock = (cost = 1): { execute: Execute } => {
   }
 }
 
-const getRLTokenSpentPerMinute = (metrics: rateLimit.reducer.Metrics) => {
-  const responses = metrics.responses
-    .filter((r) => r.success && !r.cached)
+const getRLTokenSpentPerMinute = (hearbeats: rateLimit.reducer.Heartbeats) => {
+  const responses = hearbeats.total[rateLimit.reducer.IntervalNames.DAY]
+    .filter((r) => !r.isCacheHit)
     .map((r) => ({
       ...r,
       minute: new Date(r.timestamp).getMinutes(),
@@ -80,16 +80,8 @@ const getRLTokenSpentPerMinute = (metrics: rateLimit.reducer.Metrics) => {
   return rlPerMin
 }
 
-const MAXIMUM_MAX_AGE = 1000 * 60 * 2
-
-const getMaxAgeCapCounter = (metrics: rateLimit.reducer.Metrics) => {
-  return metrics.responses.filter((r) => r.success && !r.cached && r.rlMaxAge >= MAXIMUM_MAX_AGE)
-    .length
-}
-
 describe('Rate Limit/Cache - Integration', () => {
   const capacity = 50
-  const hourCapacity = 50 * 60
 
   before(() => {
     process.env.RATE_LIMIT_CAPACITY = String(capacity)
@@ -123,7 +115,7 @@ describe('Rate Limit/Cache - Integration', () => {
         }
 
         const state = store.getState()
-        const rlPerMinute = getRLTokenSpentPerMinute(state.metrics)
+        const rlPerMinute = getRLTokenSpentPerMinute(state.heartbeats)
         const minute = cost - 1
         expect(rlPerMinute[minute]).to.be.lessThan(capacity)
       }
@@ -148,7 +140,7 @@ describe('Rate Limit/Cache - Integration', () => {
       }
 
       const state = store.getState()
-      const rlPerMinute = getRLTokenSpentPerMinute(state.metrics)
+      const rlPerMinute = getRLTokenSpentPerMinute(state.heartbeats)
 
       expect(rlPerMinute[0]).to.be.lessThan(capacity)
     })
@@ -173,7 +165,7 @@ describe('Rate Limit/Cache - Integration', () => {
         }
 
         const state = store.getState()
-        const rlPerMinute = getRLTokenSpentPerMinute(state.metrics)
+        const rlPerMinute = getRLTokenSpentPerMinute(state.heartbeats)
 
         expect(rlPerMinute[0]).to.be.greaterThan(capacity)
         expect(rlPerMinute[1]).to.be.lte(capacity)
@@ -202,7 +194,7 @@ describe('Rate Limit/Cache - Integration', () => {
       }
 
       const state = store.getState()
-      const rlPerMinute = getRLTokenSpentPerMinute(state.metrics)
+      const rlPerMinute = getRLTokenSpentPerMinute(state.heartbeats)
 
       expect(rlPerMinute[0]).to.be.greaterThan(capacity)
       expect(rlPerMinute[1]).to.be.lessThan(capacity)
@@ -222,7 +214,7 @@ describe('Rate Limit/Cache - Integration', () => {
       }
 
       const state = store.getState()
-      const rlPerMinute = getRLTokenSpentPerMinute(state.rateLimit.metrics)
+      const rlPerMinute = getRLTokenSpentPerMinute(state.heartbeats)
 
       expect(rlPerMinute[0]).to.be.lessThan(capacity)
     })
@@ -245,7 +237,7 @@ describe('Rate Limit/Cache - Integration', () => {
       }
 
       const state = store.getState()
-      const rlPerMinute = getRLTokenSpentPerMinute(state.rateLimit.metrics)
+      const rlPerMinute = getRLTokenSpentPerMinute(state.heartbeats)
 
       expect(rlPerMinute[0]).to.be.greaterThan(capacity)
       expect(rlPerMinute[1]).to.be.lessThan(capacity)
@@ -276,7 +268,7 @@ describe('Rate Limit/Cache - Integration', () => {
       }
 
       const state = store.getState()
-      const rlPerMinute = getRLTokenSpentPerMinute(state.metrics)
+      const rlPerMinute = getRLTokenSpentPerMinute(state.heartbeats)
 
       expect(rlPerMinute[0]).to.be.greaterThan(capacity)
       expect(rlPerMinute[1]).to.be.lte(capacity)
@@ -316,9 +308,7 @@ describe('Rate Limit/Cache - Integration', () => {
       }
 
       const state = store.getState()
-      const rlPerMinute = getRLTokenSpentPerMinute(state.rateLimit.metrics)
-      const maximumHitCounter = getMaxAgeCapCounter(state.rateLimit.metrics)
-      console.log('TOTAL MAX CAP HIT:', maximumHitCounter)
+      const rlPerMinute = getRLTokenSpentPerMinute(state.heartbeats)
 
       Object.values(rlPerMinute).forEach((req) => {
         expect(req).to.be.lte(capacity)
