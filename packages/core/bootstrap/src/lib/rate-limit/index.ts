@@ -1,8 +1,7 @@
 import hash from 'object-hash'
 import { Store } from 'redux'
 import { AdapterRequest, Middleware } from '@chainlink/types'
-import { WARMUP_REQUEST_ID } from '../cache-warmer/config'
-import { successfulRequestObserved, requestObserved, responseObserved } from './actions'
+import { successfulRequestObserved } from './actions'
 import {
   Heartbeat,
   Heartbeats,
@@ -12,6 +11,7 @@ import {
   selectObserved,
 } from './reducer'
 import * as config from './config'
+import * as metrics from './metrics'
 import { logger } from '@chainlink/external-adapter'
 
 export * as reducer from './reducer'
@@ -32,7 +32,6 @@ export const computeThroughput = (
   // Compute max throughput by weight
   const weight = throughputOfType / throughput
   // const capacityLeft = getRemainingCapacity(state, interval, costOfType)
-  // return maxThroughputWithLeftCapacity(weight, capacityLeft)
   return maxThroughput(weight, costOfType)
 }
 
@@ -53,10 +52,6 @@ const getRemainingCapacity = (state: Heartbeats, interval: IntervalNames, cost: 
     logger.warn('Rate Limit: Data Provider tokens about to run out')
   }
   return safeCapacity - observedRequests.length
-}
-
-const maxThroughputWithLeftCapacity = (weight: number, capacity: number): number => {
-  return weight * capacity
 }
 
 const maxThroughput = (weight: number, cost: number): number => {
@@ -90,9 +85,15 @@ export const withRateLimit = (store: Store<RootState>): Middleware => async (exe
   const maxThroughput = computeThroughput(heartbeats, IntervalNames.HOUR, requestTypeId)
   const maxAge = maxAgeFor(maxThroughput, Intervals[IntervalNames.MINUTE])
   const result = await execute({ ...input, data: { ...input.data, rateLimitMaxAge: maxAge } })
-  if (input.id !== WARMUP_REQUEST_ID) {
-    // prometheus warmer hit
-    store.dispatch(successfulRequestObserved(requestTypeId, result.data.cost))
+
+  store.dispatch(successfulRequestObserved(input, result))
+
+  const isCacheHit = !!result.maxAge
+  if (!isCacheHit) {
+    metrics.rateLimitCreditsSpentTotal
+      .labels({ id: input.id, participantId: requestTypeId })
+      .inc(result.data.cost || 1)
   }
+
   return result
 }
