@@ -99,7 +99,7 @@ export const withRateLimit = (store: Store<RootState>): Middleware => async (exe
   const isCacheHit = !!result.maxAge
   if (!isCacheHit) {
     metrics.rateLimitCreditsSpentTotal
-      .labels({ id: input.id, participantId: requestTypeId })
+      .labels({ id: input.id, participantId: requestTypeId, experimental: 'true' })
       .inc(result.data.cost || 1)
   }
 
