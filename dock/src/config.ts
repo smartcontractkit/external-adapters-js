@@ -1210,4 +1210,4 @@ const AGGREGATOR_ABI = [
     stateMutability: 'view',
     type: 'function',
   },
-];
+]

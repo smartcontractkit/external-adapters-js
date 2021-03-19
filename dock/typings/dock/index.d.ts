@@ -14,11 +14,11 @@ declare module 'dock/types' {
     // Oracle address. Used for reading oracle's last submission before when writing to chain.
     ORACLE_ADDRESS: string
     // Address of the proxy contract
-    PROXY_ADDRESS: string,
+    PROXY_ADDRESS: string
     // ABI of the proxy contract
-    PROXY_ABI: Array<Record<string, any>>,
+    PROXY_ABI: Array<Record<string, any>>
     // ABI of the aggregator contract
-    AGGREGATOR_ABI: Array<Record<string, any>>,
+    AGGREGATOR_ABI: Array<Record<string, any>>
   }
 
   export type PriceUpdateParams = {
