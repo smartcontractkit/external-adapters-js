@@ -33,5 +33,14 @@
     "start": "yarn server:dist"
   },
   "devDependencies": {},
-  "dependencies": {}
+  "dependencies": {
+    "@chainlink/amberdata-adapter": "*",
+    "@chainlink/coinapi-adapter": "*",
+    "@chainlink/coingecko-adapter": "*",
+    "@chainlink/coinmarketcap-adapter": "*",
+    "@chainlink/coinpaprika-adapter": "*",
+    "@chainlink/cryptocompare-adapter": "*",
+    "@chainlink/kaiko-adapter": "*",
+    "@chainlink/nomics-adapter": "*"
+  }
 }
