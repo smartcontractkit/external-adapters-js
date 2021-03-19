@@ -34,7 +34,8 @@ const writeToChain = async (request: AdapterRequest, jobRunID: string, price: nu
   const signer = web3.eth.accounts.privateKeyToAccount(config.ORACLE_SK)
   const blockNumber = await writePriceToChain(
     web3,
-    config.AGGREGATOR_ADDRESS,
+    config.PROXY_ADDRESS,
+    config.PROXY_ABI,
     config.AGGREGATOR_ABI,
     config.ORACLE_ADDRESS,
     signer,

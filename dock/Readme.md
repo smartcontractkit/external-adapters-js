@@ -69,6 +69,5 @@ MaxGas = <Maximum allowed gas for a txn>
 NODE_ENDPOINT=<TCP endpoint of the blockchain node>
 ORACLE_SK=<Secret key for Oracle's account>
 ORACLE_ADDRESS=<EVM address of the Oracle>
-AGGREGATOR_ADDRESS=<EVM address of the price aggregator contract>
-AGGREGATOR_ABI=<ABI of the price aggregator contract>
+PROXY_ADDRESS=<EVM address of the proxy to price aggregator contract>
 ```

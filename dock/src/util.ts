@@ -49,12 +49,16 @@ export const priceUpdateNeeded = (
 
 export const writePriceToChain = async (
   web3: any,
-  aggrAddr: string,
-  aggrABI: string,
+  proxyAddr: string,
+  proxyABI: Array<Record<string, any>>,
+  aggrABI: Array<Record<string, any>>,
   oracleAddr: string,
   signer: any,
   priceUpdate: PriceUpdateParams,
 ): Promise<number | undefined> => {
+  const proxy = new web3.eth.Contract(proxyABI, proxyAddr);
+  const aggrAddr = await proxy.methods.aggregator().call();
+
   const aggrContract = new web3.eth.Contract(aggrABI, aggrAddr)
   const oracleState = await aggrContract.methods.oracleRoundState(oracleAddr, 0).call()
   if (!oracleState._eligibleToSubmit) {
