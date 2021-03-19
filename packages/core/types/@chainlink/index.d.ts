@@ -58,8 +58,9 @@ declare module '@chainlink/types' {
   export type Callback = (statusCode: number, data?: any) => void
   export type AdapterHealthCheck = (callback: Callback) => any
 
-  import type { RequestConfig } from '@chainlink/external-adapter'
-  export type RequestConfig = RequestConfig
+  // TODO: fix circular dependency
+  // import type { RequestConfig } from '@chainlink/external-adapter'
+  export type RequestConfig = any
 
   export type Config = {
     apiKey?: string
@@ -82,7 +83,9 @@ declare module '@chainlink/types' {
 
   export type ConfigFactory = (prefix?: string) => Config
 
-  import type { ExecuteHandlers } from '@chainlink/ea-bootstrap'
+  // TODO: fix circular dependency
+  // import type { ExecuteHandlers } from '@chainlink/ea-bootstrap'
+  type ExecuteHandlers = any
   export type AdapterImplementation = {
     NAME: string
     makeExecute: ExecuteFactory<Config>
