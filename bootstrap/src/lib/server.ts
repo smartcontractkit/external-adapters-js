@@ -1,15 +1,18 @@
 import { logger } from '@chainlink/external-adapter'
-import { toObjectWithNumbers } from './util'
+import { AdapterHealthCheck, AdapterResponse, ExecuteSync } from '@chainlink/types'
 import express from 'express'
+import * as client from 'prom-client'
 import {
   HTTP_ERROR_NOT_IMPLEMENTED,
   HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE,
   HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE_MESSAGE,
 } from './errors'
-import { ExecuteSync, AdapterResponse, AdapterHealthCheck } from '@chainlink/types'
+import { METRICS_ENABLED } from './metrics'
+import { toObjectWithNumbers } from './util'
 
 const app = express()
 const port = process.env.EA_PORT || 8080
+const baseUrl = process.env.BASE_URL || '/'
 
 export const HEADER_CONTENT_TYPE = 'Content-Type'
 export const CONTENT_TYPE_APPLICATION_JSON = 'application/json'
@@ -22,9 +25,12 @@ export const initHandler = (
   execute: ExecuteSync,
   checkHealth = notImplementedHealthCheck,
 ) => (): void => {
+  if (METRICS_ENABLED) {
+    setupMetricsServer()
+  }
   app.use(express.json())
 
-  app.post('/', (req, res) => {
+  app.post(baseUrl, (req, res) => {
     if (!req.is(CONTENT_TYPE_APPLICATION_JSON)) {
       return res
         .status(HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE)
@@ -39,7 +45,7 @@ export const initHandler = (
     })
   })
 
-  app.get('/health', (_, res) => {
+  app.get(`${baseUrl}/health`, (_, res) => {
     logger.debug('Health check request')
     checkHealth((status: number, result: AdapterResponse) => {
       logger.debug(`Health check result [${status}]: `, { output: result })
@@ -48,8 +54,18 @@ export const initHandler = (
   })
 
   app.listen(port, () => logger.info(`Listening on port ${port}!`))
-
   process.on('SIGINT', () => {
     process.exit()
   })
+}
+
+function setupMetricsServer() {
+  const metricsApp = express()
+  const metricsPort = process.env.METRICS_PORT || 9080
+
+  metricsApp.get('/metrics', async (_, res) => {
+    res.send(await client.register.metrics())
+  })
+
+  metricsApp.listen(metricsPort, () => logger.info(`Monitoring listening on port ${metricsPort}!`))
 }

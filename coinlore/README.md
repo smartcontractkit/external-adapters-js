@@ -1,19 +1,38 @@
 # Chainlink External Adapter for Coin Lore
 
-## Global API
+### Input Parameters
 
-### Endpoint
+| Required? |   Name   |     Description     |          Options           | Defaults to |
+| :-------: | :------: | :-----------------: | :------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [global](#Global-Endpoint) |   global    |
 
-https://api.coinlore.net/api/global/
+There are two Chainlink "endpoint" behaviors (`dominance` and `globalmarketcap`) that use the `global` API endpoint.
+The default is to use the Chainlink `dominance` behavior.
 
-Use the `API_DEFAULT_ENDPOINT` env variable to set the default API endpoint to use (either `dominance` or `globalmarketcap`). Defaults to `dominance`.
+---
+
+## Global Endpoint
 
 ### Input Params
 
-- `market`, `to`, `quote`: The coin to query (required)
-- `endpoint`: The endpoint to use (defaults to "dominance", one of "dominance")
+| Required? |  Name   |                                   Description                                   |   Options    | Defaults to |
+| :-------: | :-----: | :-----------------------------------------------------------------------------: | :----------: | :---------: |
+|           | `field` |     The object path to access the value that will be returned as the result     |              |     `d`     |
+|           | `base`  | When using a field of `d`, the currency to prefix the field with (e.g. `btc_d`) | `btc`, `eth` |    `btc`    |
 
-### Output
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "base": "eth",
+    "field": "d"
+  }
+}
+```
+
+### Sample Output
 
 ```json
 {
@@ -30,9 +49,9 @@ Use the `API_DEFAULT_ENDPOINT` env variable to set the default API endpoint to u
     "avg_change_percent": "-0.23",
     "volume_ath": 281440138896.8489,
     "mcap_ath": 825596367558,
-    "result": 60.17
+    "result": 11.87
   },
-  "result": 60.17,
+  "result": 11.87,
   "statusCode": 200
 }
 ```
