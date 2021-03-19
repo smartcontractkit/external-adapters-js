@@ -34,5 +34,8 @@
     "start": "yarn server:dist"
   },
   "devDependencies": {},
-  "dependencies": {}
+  "dependencies": {
+    "@chainlink/external-adapter": "*",
+    "@chainlink/ea-bootstrap": "*"
+  }
 }
