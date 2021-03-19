@@ -1,4 +1,5 @@
 import { BigNumberish } from 'ethers'
+import { RequestConfig } from '@chainlink/types'
 
 export type TokenAllocation = {
   symbol: string
@@ -27,8 +28,10 @@ export type PriceAdapter = {
   ) => Promise<ResponsePayload>
 }
 
+export type SourceRequestOptions = { [source: string]: RequestConfig }
+
 export type Config = {
-  priceAdapter: PriceAdapter
+  sources: SourceRequestOptions
   defaultMethod: string
   defaultQuote: string
 }
