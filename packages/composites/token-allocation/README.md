@@ -6,18 +6,50 @@ The adapter calculates the total value in the currency selected for the selected
 
 The adapter takes the following environment variables:
 
-- `DATA_PROVIDER_URL`: The adapter URL for the price data provider
-- `DEFAULT_QUOTE` (Optional): Currency that the price will be fetched by default. `USD` used by default
-- `DEFAULT_METHOD` (Optional): Method that will be used. Accepts `price` and `marketCap`. `price` by default.
+To be functional at least one of the following underyling adapter locations will need to be provided.
+
+| Required? |               Name                |                   Description                    | Options | Defaults to |
+| :-------: | :-------------------------------: | :----------------------------------------------: | :-----: | :---------: |
+|           |   `AMBERDATA_DATA_PROVIDER_URL`   |  The location of an Amberdata external adapter   |         |             |
+|           |    `COINAPI_DATA_PROVIDER_URL`    |    The location of a CoinAPI external adapter    |         |             |
+|           |   `COINGECKO_DATA_PROVIDER_URL`   |   The location of a CoinGecko external adapter   |         |             |
+|           | `COINMARKETCAP_DATA_PROVIDER_URL` | The location of a CoinMarketCap external adapter |         |             |
+|           |  `COINPAPRIKA_DATA_PROVIDER_URL`  |  The location of a CoinPaprika external adapter  |         |             |
+|           | `CRYPTOCOMPARE_DATA_PROVIDER_URL` | The location of a CryptoCompare external adapter |         |             |
+|           |     `KAIKO_DATA_PROVIDER_URL`     |     The location of a Kaiko external adapter     |         |             |
+|           |    `NOMICS_DATA_PROVIDER_URL`     |    The location of a Nomics external adapter     |         |             |
+
+Optionally the default behavior of the composite adapter can be configured
+
+| Required? |       Name       |                     Description                     |       Options        | Defaults to |
+| :-------: | :--------------: | :-------------------------------------------------: | :------------------: | :---------: |
+|           | `DEFAULT_QUOTE`  | Currency that the price will be fetched by default. |                      |    `USD`    |
+|           | `DEFAULT_METHOD` |         Method that will be used by default         | `price`, `marketCap` |   `price`   |
+
+## Running
+
+See the [Composite Adapter README](../README.md) for more information on how to get started.
 
 ## Input Params
 
-- `allocations`: Array of allocations, being each allocation:
-  - `symbol`: Token symbol
-  - `balance` (optional): Token balance. `1e18` by default
-  - `decimals` (optional): Token decimals. `18` by default
-- `quote` (optional). Currency we want the price on. `DEFAULT_QUOTE` by default
-- `method` (optional). Method we want the total value calculation be based on. Accepts `price` and `marketCap`. `DEFAULT_QUOTE` by default
+| Required? |     Name      |                       Description                       |                                                 Options                                                 |                Defaults to                |
+| :-------: | :-----------: | :-----------------------------------------------------: | :-----------------------------------------------------------------------------------------------------: | :---------------------------------------: |
+|    ✅     |   `source`    |               The data provider to query                | `amberdata`, `coinapi`, `coingecko`, `coinmarketcap`, `coinpaprika`, `cryptocompare`, `kaiko`, `nomics` |                                           |
+|           |    `quote`    |             Currency we want the price on.              |                                                                                                         | The `DEFAULT_QUOTE` environment variable  |
+|           |   `method`    | Method we want the total value calculation be based on. |                                          `price`, `marketCap`                                           | The `DEFAULT_METHOD` environment variable |
+|    ✅     | `allocations` |      Array of allocations, being each allocation:       |                                                                                                         |
+
+<div align="center">
+
+| Required |    Name    |  Description   | Default |
+| :------: | :--------: | :------------: | :-----: |
+|    ✅    |  `symbol`  |  Token symbol  |         |
+|          | `balance`  | Token balance  | `1e18`  |
+|          | `decimals` | Token decimals |  `18`   |
+
+</div>
+
+### Sample Input
 
 ```json
 {
@@ -40,7 +72,7 @@ The adapter takes the following environment variables:
 }
 ```
 
-## Output
+### Sample Output
 
 ```json
 {
