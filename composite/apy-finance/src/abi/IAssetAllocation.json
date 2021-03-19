@@ -2,9 +2,9 @@
   {
     "inputs": [
       {
-        "internalType": "address",
-        "name": "token",
-        "type": "address"
+        "internalType": "bytes32",
+        "name": "allocationId",
+        "type": "bytes32"
       }
     ],
     "name": "balanceOf",
@@ -19,13 +19,32 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "getTokenAddresses",
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "allocationId",
+        "type": "bytes32"
+      }
+    ],
+    "name": "decimalsOf",
     "outputs": [
       {
-        "internalType": "address[]",
+        "internalType": "uint256",
         "name": "",
-        "type": "address[]"
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getAssetAllocationIds",
+    "outputs": [
+      {
+        "internalType": "bytes32[]",
+        "name": "",
+        "type": "bytes32[]"
       }
     ],
     "stateMutability": "view",
@@ -34,9 +53,9 @@
   {
     "inputs": [
       {
-        "internalType": "address",
-        "name": "token",
-        "type": "address"
+        "internalType": "bytes32",
+        "name": "allocationId",
+        "type": "bytes32"
       }
     ],
     "name": "symbolOf",
