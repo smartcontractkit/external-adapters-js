@@ -50,11 +50,11 @@ const logRemainingCapacity = (state: Heartbeats, interval: IntervalNames): void 
   const capacity = config.get().totalCapacity / cost
   const remainingCapacity = capacity - dataProviderRequests.length
   if (remainingCapacity <= 0) {
-    logger.error('Rate Limit: Data Provider tokens not available')
+    logger.debug('Rate Limit: Data Provider tokens not available')
     return
   }
   if (remainingCapacity <= 0.1 * capacity) {
-    logger.warn('Rate Limit: Data Provider tokens about to run out')
+    logger.debug('Rate Limit: Data Provider tokens about to run out')
     return
   }
 }
@@ -95,12 +95,7 @@ export const withRateLimit = (store: Store<RootState>): Middleware => async (exe
   state = store.getState()
   logRemainingCapacity(state.heartbeats, IntervalNames.MINUTE)
 
-  const isCacheHit = !!result.maxAge
-  if (!isCacheHit) {
-    metrics.rateLimitCreditsSpentTotal
-      .labels({ id: input.id, participantId: requestTypeId, experimental: 'true' })
-      .inc(result.data.cost || 1)
-  }
+  metrics.observeMetrics(input.id, requestTypeId, result)
 
   return result
 }

@@ -36,6 +36,12 @@ export class LocalLRUCache {
     return this.client.del(key)
   }
 
+  ttl(key: string) {
+    const exists = this.client.get(key)
+    if (exists) return 1
+    return undefined
+  }
+
   close() {
     // noop
   }

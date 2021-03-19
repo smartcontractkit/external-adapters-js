@@ -14,7 +14,7 @@ const DEFAULT_RC_INTERVAL_MAX = 1000
 const DEFAULT_RC_INTERVAL_COEFFICIENT = 2
 const DEFAULT_RC_ENTROPY_MAX = 0
 
-const MAXIMUM_MAX_AGE = 1000 * 60 * 2
+export const MAXIMUM_MAX_AGE = 1000 * 60 * 2
 const ERROR_MAX_AGE = 1000 * 60
 
 const env = process.env
@@ -175,7 +175,8 @@ export const withCache: Middleware = async (execute, options = defaultOptions())
         logger.debug(`Cache: GET ${key}`, entry)
         const reqMaxAge = _getRequestMaxAge(data)
         if (reqMaxAge && reqMaxAge !== entry.maxAge) await _cacheOnSuccess(entry)
-        return { jobRunID: data.id, ...entry }
+        const ttl = await cache.ttl(key)
+        return { jobRunID: data.id, ...entry, ttl }
       }
       logger.debug(`Cache: SKIP(maxAge < 0)`)
     }
@@ -192,7 +193,7 @@ export const withCache: Middleware = async (execute, options = defaultOptions())
   return async (input) => {
     const result = await _executeWithCache(input)
     // Clean the connection
-    await cache.close()
+    // await cache.close()
     return result
   }
 }
