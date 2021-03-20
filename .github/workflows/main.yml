@@ -93,5 +93,4 @@ jobs:
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('./yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
-      - run: ${{ matrix.adapter.cmd }}
       - run: ${{ matrix.adapter.docker }}
