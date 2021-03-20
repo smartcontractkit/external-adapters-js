@@ -34,3 +34,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
   return Requester.success(jobRunID, response, config.verbose)
 }
+
+{ "type": "subscribe", "product_ids": [ "ETH-USD" ], "channels": [ "ticker" ] }
+{ "type": "subscribe", "product_ids": [ "BTC-USD" ], "channels": [ "ticker" ] }

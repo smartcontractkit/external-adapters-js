@@ -8,8 +8,6 @@ import {
   Middleware,
 } from '@chainlink/types'
 import { defaultOptions, redactOptions, withCache } from './lib/cache'
-import * as aws from './lib/aws'
-import * as gcp from './lib/gcp'
 import * as cacheWarmer from './lib/cache-warmer'
 import * as rateLimit from './lib/rate-limit'
 import * as server from './lib/server'
@@ -122,13 +120,6 @@ export const expose = (execute: Execute, checkHealth?: AdapterHealthCheck) => {
   const _execute = executeSync(execute)
   return {
     server: server.initHandler(_execute, checkHealth),
-    gcpHandler: gcp.initHandler(_execute),
-    // Backwards compatibility for old gcpHandler
-    gcpservice: gcp.initHandler(_execute),
-    // Default index.handler for AWS Lambda
-    handler: aws.initHandlerREST(_execute),
-    awsHandlerREST: aws.initHandlerREST(_execute),
-    awsHandlerHTTP: aws.initHandlerHTTP(_execute),
   }
 }
 export type ExecuteHandlers = ReturnType<typeof expose>
