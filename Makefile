@@ -3,9 +3,6 @@ check?=schedule
 docker:
 	docker build --build-arg adapter=$(adapter) --build-arg name=$(name) -f Dockerfile . -t $(repo)$(if $(name),$(name),$(adapter))-adapter $(if $(tag), -t $(repo)$(tag), )
 
-zip: deps build
-	(cd $(adapter)/dist && zip $(if $(name),$(name),$(adapter))-adapter.zip index.js)
-
 new:
 	mkdir $(adapter)
 	cp -R example/* $(adapter)
@@ -36,9 +33,6 @@ deps: clean
 build:
 	npx @vercel/ncc@0.25.1 build packages/$(adapter) -o packages/$(adapter)/dist
 
-clean-2-step:
-	rm -rf 2-step/$(adapter)
-
 build-2-step:
 	cp -r $(adapter) 2-step/
 	if [ -f "2-step/$(adapter)/dist/adapter.js" ]; then \
@@ -53,6 +47,3 @@ build-2-step:
 
 docker-2-step:
 	docker build --no-cache --build-arg adapter=$(adapter) -f Dockerfile-2Step . -t $(repo)$(adapter)-2-step-adapter
-
-zip-2-step: deps clean-2-step build-2-step
-	(cd 2-step/$(adapter)/dist && zip $(adapter)-2-step-adapter.zip index.js)
