@@ -27,10 +27,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
       request.data.path = price.Paths.MarketCap
       return await price.execute(config, request)
     }
-    case 'marketcap': {
-      request.data.path = price.Paths.MarketCap
-      return await price.execute(config, request)
-    }
     default: {
       throw new AdapterError({
         jobRunID,
