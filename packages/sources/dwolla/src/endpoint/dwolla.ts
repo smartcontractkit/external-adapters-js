@@ -156,18 +156,3 @@ export const execute = async (req: JobRequest): Promise<Response> => {
       })
   })
 }
-
-// createRequest() wrapper for GCP
-export const gcpservice = async (req: any = {}, res: any): Promise<any> => {
-  const response = await execute(<JobRequest>req.body)
-  res.status(response.statusCode).send(response)
-}
-
-// createRequest() wrapper for AWS Lambda
-export const handler = async (
-  event: JobRequest,
-  context: any = {},
-  callback: { (error: any, result: any): void },
-): Promise<any> => {
-  callback(null, await execute(event))
-}
