@@ -27,13 +27,3 @@ Then run it with:
 ```bash
 docker run -p 8080:8080 -e API_KEY='YOUR_API_KEY' -e RPC_URL='YOUR_RPC_URL' -it finnhub-2-step-adapter:latest
 ```
-
-## Serverless
-
-Create the zip:
-
-```bash
-make zip-2-step adapter=finnhub
-```
-
-The zip will be created as `./2-step/$check/dist/$adapter-2-step-adapter.zip`.
