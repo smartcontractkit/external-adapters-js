@@ -15,7 +15,7 @@ export type CheckRequestOptions = { [check: string]: RequestConfig }
 export type Config = BaseConfig & {
   sources: SourceRequestOptions
   checks: CheckRequestOptions
-  api: {}
+  api: any
 }
 
 export const makeConfig = (prefix = ''): Config => {

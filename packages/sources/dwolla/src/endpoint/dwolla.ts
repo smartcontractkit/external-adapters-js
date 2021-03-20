@@ -36,7 +36,7 @@ const ENDPOINT =
   ENV.toLowerCase() === 'sandbox' ? 'https://api-sandbox.dwolla.com' : 'https://api.dwolla.com'
 const FUNDING_SOURCE = process.env.FUNDING_SOURCE || ''
 
-let client: any = new dwolla.Client({
+const client: any = new dwolla.Client({
   key: process.env.DWOLLA_APP_KEY || '',
   secret: process.env.DWOLLA_APP_SECRET || '',
   environment: (ENV as 'sandbox' | 'production') || undefined,
@@ -73,7 +73,7 @@ const sendTransfer = async (data: SendRequest) => {
       return reject({ statusCode: 400, data: 'missing required parameters' })
     }
 
-    let transferRequest = {
+    const transferRequest = {
       _links: {
         source: {
           href: ENDPOINT + '/funding-sources/' + convertToLongUUID(data.source || FUNDING_SOURCE),
@@ -92,8 +92,8 @@ const sendTransfer = async (data: SendRequest) => {
       .client()
       .then((appToken: any) => appToken.post('transfers', transferRequest))
       .then((res: any) => {
-        let location = res.headers.get('location')
-        let parts = location.split('/')
+        const location = res.headers.get('location')
+        const parts = location.split('/')
         return resolve({
           statusCode: res.status,
           data: {
@@ -115,12 +115,13 @@ export const createRequest = async (input: JobRequest) => {
     const method = process.env.API_METHOD || data.method || ''
     switch (method.toLowerCase()) {
       case 'sendtransfer':
-        sendTransfer(<SendRequest>data)
+        sendTransfer(data as SendRequest)
           .then(resolve)
           .catch(reject)
         break
       case 'gettransfer':
-        let getData = <GetRequest>data
+        // eslint-disable-next-line no-case-declarations
+        const getData = data as GetRequest
         if (!('transfer_id' in getData))
           return reject({ statusCode: 400, data: 'missing required parameters' })
 
@@ -139,7 +140,7 @@ export const createRequest = async (input: JobRequest) => {
 
 export const execute = async (req: JobRequest): Promise<Response> => {
   return new Promise<Response>((resolve) => {
-    let response = <Response>{ jobRunID: req.id || '' }
+    const response = <Response>{ jobRunID: req.id || '' }
     createRequest(req)
       .then(({ statusCode, data }: any) => {
         response.status = 'success'
@@ -158,7 +159,7 @@ export const execute = async (req: JobRequest): Promise<Response> => {
 
 // createRequest() wrapper for GCP
 export const gcpservice = async (req: any = {}, res: any): Promise<any> => {
-  let response = await execute(<JobRequest>req.body)
+  const response = await execute(<JobRequest>req.body)
   res.status(response.statusCode).send(response)
 }
 
