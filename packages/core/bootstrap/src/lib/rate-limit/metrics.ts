@@ -4,7 +4,7 @@ import { MAXIMUM_MAX_AGE } from '../cache'
 
 enum CacheTypes {
   Redis = 'redis',
-  Local = 'local'
+  Local = 'local',
 }
 
 export const rateLimitCreditsSpentTotal = new client.Counter({
@@ -17,7 +17,7 @@ export const rateLimitDataStaleness = new client.Histogram({
   name: 'rate_limit_data_staleness',
   help: 'Observes the staleness of the data returned',
   labelNames: ['job_run_id', 'experimental', 'cache_type'] as const,
-  buckets: [0, 1000, 5000, 10000, 30000, 60000, 90000, MAXIMUM_MAX_AGE] // ms
+  buckets: [0, 1000, 5000, 10000, 30000, 60000, 90000, MAXIMUM_MAX_AGE], // ms
 })
 
 export const observeMetrics = (id: string, requestTypeId: string, result: AdapterResponse) => {
@@ -26,15 +26,13 @@ export const observeMetrics = (id: string, requestTypeId: string, result: Adapte
 
   const isCacheHit = !!result.maxAge
   if (!isCacheHit) {
-    rateLimitCreditsSpentTotal
-      .labels(defaultLabels)
-      .inc(result.data.cost || 1)
+    rateLimitCreditsSpentTotal.labels(defaultLabels).inc(result.data.cost || 1)
   }
 
   const ttl = Number((result as any).ttl)
   let staleness = 0
   if (result.maxAge && ttl) {
-    staleness = result.maxAge - (ttl * 1000)
+    staleness = result.maxAge - ttl * 1000
   }
   rateLimitDataStaleness.labels({ ...defaultLabels, cache_type: cacheType }).observe(staleness)
 }
