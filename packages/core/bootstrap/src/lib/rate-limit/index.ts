@@ -18,7 +18,6 @@ export * as actions from './actions'
 
 /**
  * Calculates how much capacity a participant deserves based on its weight on the adapter
- * 
  * @param state Redux Heartbeats state
  * @param interval Time window size to get heartbeats
  * @param id Participant ID to get participants heartbeats

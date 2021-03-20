@@ -19,11 +19,12 @@
   },
   "license": "MIT",
   "scripts": {
+    "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
     "prepublishOnly": "yarn build && yarn test:unit",
-    "setup": "yarn build",
+    "setup": "yarn clean && yarn build",
     "build": "tsc -b",
-    "lint": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx",
-    "lint:fix": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix",
+    "lint": "eslint --ignore-path ../../../.eslintignore . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint --ignore-path ../../../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix",
     "test": "mocha --exit --timeout 10000 -r ts-node/register 'test/**/*.test.ts'",
     "test:unit": "mocha --exit --grep @integration --invert -r ts-node/register 'test/**/*.test.ts'",
     "test:integration": "mocha --exit --timeout 3000 --grep @integration -r ts-node/register 'test/**/*.test.ts'"
