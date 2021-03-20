@@ -174,26 +174,23 @@ export const getHashOpts = (): Required<Parameters<typeof objectHash>>['1'] => (
       .concat((process.env.CACHE_KEY_IGNORED_PROPS || '').split(',').filter((k) => k))
       .includes(props),
 })
+
 /**
- * @description
- *  Calculates all possible permutations without repetition of a certain size.
+ * @description Calculates all possible permutations without repetition of a certain size.
  *
  * @param collection A collection of distinct values to calculate the permutations from.
  * @param n The number of values to combine.
  *
  * @returns Array of permutations
  */
-
 const permutations = (collection: any, n: any) => {
-  let array = values(collection)
-  if (array.length < n) {
-    return []
-  }
-  let recur = (array: any, n: any) => {
-    if (--n < 0) {
-      return [[]]
-    }
-    let permutations: any[] = []
+  const array = values(collection)
+  if (array.length < n) return []
+
+  const recur = (array: any, n: any) => {
+    if (--n < 0) return [[]]
+
+    const permutations: any[] = []
     array.forEach((value: any, index: any, array: any) => {
       array = array.slice()
       array.splice(index, 1)
@@ -216,7 +213,6 @@ const permutations = (collection: any, n: any) => {
  *
  * @returns Array of permutations
  */
-
 export const permutator = (options: string[], delimiter?: string): string[] | string[][] => {
   const output: string[][] = flatMap(options, (v, i, a) => permutations(a, i + 1))
   const join = (combos: string[][]) => combos.map((p) => p.join(delimiter))

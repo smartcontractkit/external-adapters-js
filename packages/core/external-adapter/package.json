@@ -16,8 +16,8 @@
     "prepublishOnly": "yarn build && yarn test",
     "setup": "yarn clean && yarn build",
     "build": "tsc -b",
-    "lint": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx",
-    "lint:fix": "eslint --ignore-path ../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix",
+    "lint": "eslint --ignore-path ../../../.eslintignore . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint --ignore-path ../../../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix",
     "test": "mocha --exit --timeout 0 -r ts-node/register 'test/**/*.test.ts'",
     "test:unit": "mocha --exit --timeout 0 --grep @integration --invert -r ts-node/register 'test/**/*.test.ts'",
     "test:integration": "mocha --exit --timeout 0 --grep @integration -r ts-node/register 'test/**/*.test.ts'"
