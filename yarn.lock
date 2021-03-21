@@ -2025,6 +2025,7 @@ __metadata:
     "@types/remote-redux-devtools": ^0.5.4
     "@types/sinon": ^9.0.11
     "@types/uuid": ^8.3.0
+    "@types/ws": ^7.4.1
     axios: ^0.21.1
     decimal.js: ^10.2.1
     express: ^4.17.1
@@ -2044,6 +2045,7 @@ __metadata:
     typescript: ^4.2.3
     uuid: ^8.3.0
     winston: ^3.3.3
+    ws: ^7.4.4
   languageName: unknown
   linkType: soft
 
@@ -6253,6 +6255,15 @@ __metadata:
   dependencies:
     "@types/ethereum-protocol": "*"
   checksum: f265f2572eac46d2c3434447ee2b2387b3df14e2499a6f65703fb5f5040c657ff556e3700c2755ec7ec4f45e467c5c59da36f85979ad7ce7df5468b82726f3f6
+  languageName: node
+  linkType: hard
+
+"@types/ws@npm:^7.4.1":
+  version: 7.4.1
+  resolution: "@types/ws@npm:7.4.1"
+  dependencies:
+    "@types/node": "*"
+  checksum: 69a752f6ffd809d170098e84bad046fa6589d9485e8e5292d2c48f8b8014b6b58779e4fac07a808895de79f595032ef055bb36b41945c6e1cc9d63010a0f50fb
   languageName: node
   linkType: hard
 
