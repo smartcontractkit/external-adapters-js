@@ -14,7 +14,11 @@ import { nanoid } from '@reduxjs/toolkit'
 import { composeWithDevTools } from 'remote-redux-devtools'
 import { isDebug, isDebugLogLevel } from '../util'
 
-export const toActionPayload = <A extends ActionBase>(data: any): A => ({
+export const asAction = <T>() => (p: T) => ({
+  payload: toActionPayload<T>(p),
+})
+
+export const toActionPayload = <T>(data: T): ActionBase & T => ({
   id: nanoid(),
   createdAt: new Date().toISOString(),
   ...data,

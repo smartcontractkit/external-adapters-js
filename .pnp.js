@@ -3641,6 +3641,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/remote-redux-devtools", "npm:0.5.4"],
             ["@types/sinon", "npm:9.0.11"],
             ["@types/uuid", "npm:8.3.0"],
+            ["@types/ws", "npm:7.4.1"],
             ["axios", "npm:0.21.1"],
             ["decimal.js", "npm:10.2.1"],
             ["express", "npm:4.17.1"],
@@ -3659,7 +3660,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["tslib", "npm:2.2.0"],
             ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"],
             ["uuid", "npm:8.3.2"],
-            ["winston", "npm:3.3.3"]
+            ["winston", "npm:3.3.3"],
+            ["ws", "virtual:f71f7016e7c1d52e021501ba212e8595b8d9f3269d44118a187b96ea99a2cb720fa2b055d6c6f8e1a500b78f52943833aa961b8aadf57d1f3d0ae0a19697af15#npm:7.4.4"]
           ],
           "linkType": "SOFT",
         }]
@@ -7975,6 +7977,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@types/web3-provider-engine", "npm:14.0.0"],
             ["@types/ethereum-protocol", "npm:1.0.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@types/ws", [
+        ["npm:7.4.1", {
+          "packageLocation": "./.yarn/cache/@types-ws-npm-7.4.1-fa5d4e240b-69a752f6ff.zip/node_modules/@types/ws/",
+          "packageDependencies": [
+            ["@types/ws", "npm:7.4.1"],
+            ["@types/node", "npm:14.14.37"]
           ],
           "linkType": "HARD",
         }]
