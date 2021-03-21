@@ -64,6 +64,7 @@ const defaultCacheBuilder = () => {
     }
   }
 }
+
 // Options without sensitive data
 export const redactOptions = (options: CacheOptions): CacheOptions => ({
   ...options,
