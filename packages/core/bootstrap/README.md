@@ -3,6 +3,7 @@
 Bootstrap an external adapter with this package
 
 ## Server config
+
 - `BASE_URL`: Optional string, Set a base url that is used for setting up routes on the external adapter. Ex. Typically a external adapter is served on the root, so you would make requests to `/`, setting `BASE_URL` to `/coingecko` would instead have requests made to `/coingecko`. Useful when multiple external adapters are being hosted under the same domain, and path mapping is being used to route between them.
 
 ## Metrics
@@ -97,3 +98,5 @@ To configure caching these environment variables are available:
 - `REQUEST_COALESCING_INTERVAL_MAX`: Optional number, defaults to `1000`. Maximum back-off in milliseconds.
 - `REQUEST_COALESCING_INTERVAL_COEFFICIENT`: Optional number, defaults to `2`. A coefficient as the base multiplier for exponential back-off interval function.
 - `REQUEST_COALESCING_ENTROPY_MAX`: Optional number, defaults to `0`. Amount of random delay (entropy) in milliseconds that will be added to requests. Avoids issue where the request coalescing key won't be set before multiple other instances in a burst try to access the same key.
+
+## WebSockets
