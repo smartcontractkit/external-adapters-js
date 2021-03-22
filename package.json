@@ -14,6 +14,7 @@
     "covid-tracker",
     "messari",
     "coinlore",
+    "agoric",
     "trueusd",
     "cryptoid",
     "blockchair",
@@ -90,7 +91,9 @@
     "harmony",
     "tiingo",
     "ethwrite",
-    "geodb"
+    "geodb",
+    "therundown",
+    "tradingeconomics-stream"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",

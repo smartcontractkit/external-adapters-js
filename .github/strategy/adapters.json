@@ -7,6 +7,7 @@
     "image_name": "__ADAPTER__-adapter",
     "adapter": [
       "1forge",
+      "agoric",
       "alphachain",
       "alphavantage",
       "amberdata",
@@ -84,7 +85,9 @@
       "harmony",
       "tiingo",
       "ethwrite",
-      "geodb"
+      "geodb",
+      "therundown",
+      "tradingeconomics-stream"
     ]
   },
   "2-step": {

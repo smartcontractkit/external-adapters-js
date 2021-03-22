@@ -1,10 +1,11 @@
-import { Requester, logger } from '@chainlink/external-adapter'
-import { withCache, defaultOptions, redactOptions } from './lib/cache'
-import * as util from './lib/util'
-import * as server from './lib/server'
-import * as gcp from './lib/gcp'
+import { logger, Requester } from '@chainlink/external-adapter'
+import { AdapterHealthCheck, AdapterRequest, Execute, ExecuteSync } from '@chainlink/types'
 import * as aws from './lib/aws'
-import { ExecuteSync, AdapterRequest, Execute, AdapterHealthCheck } from '@chainlink/types'
+import { defaultOptions, redactOptions, withCache } from './lib/cache'
+import * as gcp from './lib/gcp'
+import * as metrics from './lib/metrics'
+import * as server from './lib/server'
+import * as util from './lib/util'
 
 export type Middleware<O = any> = (execute: Execute, options?: O) => Promise<Execute>
 
@@ -48,7 +49,40 @@ const withLogger: Middleware = async (execute) => async (input: AdapterRequest) 
   }
 }
 
-const middleware = [withLogger, skipOnError(withCache), withStatusCode]
+const withMetrics: Middleware = async (execute) => async (input: AdapterRequest) => {
+  const recordMetrics = () => {
+    const labels: Parameters<typeof metrics.httpRequestsTotal.labels>[0] = {
+      method: 'POST',
+    }
+    const end = metrics.httpRequestDurationSeconds.startTimer()
+
+    return (statusCode?: number, type?: metrics.HttpRequestType) => {
+      labels.type = type
+      labels.status_code = metrics.normalizeStatusCode(statusCode)
+      end()
+      metrics.httpRequestsTotal.labels(labels).inc()
+    }
+  }
+
+  const record = recordMetrics()
+  try {
+    const result = await execute(input)
+    record(
+      result.statusCode,
+      result.data.maxAge || (result as any).maxAge
+        ? metrics.HttpRequestType.CACHE_HIT
+        : metrics.HttpRequestType.DATA_PROVIDER_HIT,
+    )
+    return result
+  } catch (error) {
+    record()
+    throw error
+  }
+}
+
+const middleware = [withLogger, skipOnError(withCache), withStatusCode].concat(
+  metrics.METRICS_ENABLED ? [withMetrics] : [],
+)
 
 // Init all middleware, and return a wrapped execute fn
 const withMiddleware = async (execute: Execute) => {
@@ -94,4 +128,4 @@ export type ExecuteHandlers = ReturnType<typeof expose>
 const cacheOptions = defaultOptions()
 if (cacheOptions.enabled) logger.info('Cache enabled: ', redactOptions(cacheOptions))
 
-export { util }
+export { util, server }

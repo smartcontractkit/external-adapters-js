@@ -1,12 +1,16 @@
 # Chainlink External Adapter for Lition
 
-## Price API
+### Input Parameters
+
+| Required? |   Name   |     Description     |          Options           | Defaults to |
+| :-------: | :------: | :-----------------: | :------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [energy](#Energy-Endpoint) |   energy    |
+
+---
+
+## Energy Endpoint
 
 Returns the price in Euros per MWh
-
-### Endpoint
-
-https://staking.lition.io/api/v1/energy/source/1/date/2020-10-07/hour/15/
 
 ### Sources
 
@@ -18,17 +22,22 @@ https://staking.lition.io/api/v1/energy/source/1/date/2020-10-07/hour/15/
 
 ### Input Params
 
-- `source`: The provider to retrieve price data from (required, e.g. "1", "2", or "3")
-- `date`: The date to query formatted by `[YEAR]-[MONTH]-[DAY]` e.g. `2020-10-12`, if not provided defaults to the current UTC date (optional)
-- `hour`: The hour to query (0-23), if not provided defaults to the current UTC hour (optional)
+| Required? |   Name   |                                Description                                |  Options   |     Defaults to      |
+| :-------: | :------: | :-----------------------------------------------------------------------: | :--------: | :------------------: |
+|    ✅     | `source` |     The provider to retrieve price data from (e.g. "1", "2", or "3")      |            |                      |
+|           |  `date`  | The date to query formatted by `[YEAR]-[MONTH]-[DAY]` (e.g. `2020-10-12`) |            | The current UTC date |
+|           |  `hour`  |                             The hour to query                             | `0` - `23` | The current UTC hour |
 
-### Example Usage
+### Sample Input
 
 ```json
-{ "source": "1" }
+{
+  "id": "1",
+  "data": { "source": "1" }
+}
 ```
 
-#### Output
+### Sample Output
 
 ```json
 {
