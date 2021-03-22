@@ -11,6 +11,7 @@ import { defaultOptions, redactOptions, withCache } from './lib/cache'
 import * as cacheWarmer from './lib/cache-warmer'
 import * as rateLimit from './lib/rate-limit'
 import * as server from './lib/server'
+import * as metrics from './lib/metrics'
 import * as util from './lib/util'
 import { configureStore } from './lib/store'
 import { Requester } from '@chainlink/external-adapter'
@@ -67,6 +68,37 @@ const withLogger: Middleware = async (execute) => async (input: AdapterRequest) 
   }
 }
 
+const withMetrics: Middleware = async (execute) => async (input: AdapterRequest) => {
+  const recordMetrics = () => {
+    const labels: Parameters<typeof metrics.httpRequestsTotal.labels>[0] = {
+      method: 'POST',
+    }
+    const end = metrics.httpRequestDurationSeconds.startTimer()
+
+    return (statusCode?: number, type?: metrics.HttpRequestType) => {
+      labels.type = type
+      labels.status_code = metrics.normalizeStatusCode(statusCode)
+      end()
+      metrics.httpRequestsTotal.labels(labels).inc()
+    }
+  }
+
+  const record = recordMetrics()
+  try {
+    const result = await execute(input)
+    record(
+      result.statusCode,
+      result.data.maxAge || (result as any).maxAge
+        ? metrics.HttpRequestType.CACHE_HIT
+        : metrics.HttpRequestType.DATA_PROVIDER_HIT,
+    )
+    return result
+  } catch (error) {
+    record()
+    throw error
+  }
+}
+
 const middleware = [
   withLogger,
   skipOnError(withCache),
@@ -75,7 +107,7 @@ const middleware = [
     dispatch: (a) => store.dispatch(a),
   } as Store),
   withStatusCode,
-]
+].concat(metrics.METRICS_ENABLED ? [withMetrics] : [])
 
 // Init all middleware, and return a wrapped execute fn
 const withMiddleware = async (execute: Execute) => {
