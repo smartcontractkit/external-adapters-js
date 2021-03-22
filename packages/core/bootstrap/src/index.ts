@@ -98,6 +98,15 @@ const withMetrics: Middleware = async (execute) => async (input: AdapterRequest)
   }
 }
 
+const withDebug: Middleware = async (execute) => async (input: AdapterRequest) => {
+  const result = await execute(input)
+  if (!util.isDebug()) {
+    const { debug, ...rest } = result
+    return rest
+  }
+  return result
+}
+
 const middleware = [
   withLogger,
   skipOnError(withCache),
@@ -106,6 +115,7 @@ const middleware = [
     dispatch: (a) => store.dispatch(a),
   } as Store),
   withStatusCode,
+  withDebug,
 ].concat(metrics.METRICS_ENABLED ? [withMetrics] : [])
 
 // Init all middleware, and return a wrapped execute fn

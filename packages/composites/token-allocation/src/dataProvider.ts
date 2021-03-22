@@ -32,7 +32,10 @@ const getPrices = (apiConfig: any) => async (
 ): Promise<ResponsePayload> => {
   const results = await Promise.all(
     symbols.map(async (base) => {
-      const data = { id: jobRunID, data: { base, quote, endpoint: withMarketCap ? 'marketcap' : 'price' } }
+      const data = {
+        id: jobRunID,
+        data: { base, quote, endpoint: withMarketCap ? 'marketcap' : 'price' },
+      }
       const response = await Requester.request({ ...apiConfig, data: data })
       return response.data.result
     }),

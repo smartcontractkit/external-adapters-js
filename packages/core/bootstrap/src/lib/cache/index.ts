@@ -4,6 +4,7 @@ import { logger } from '../external-adapter'
 import { parseBool, uuid, delay, exponentialBackOffMs, getWithCoalescing } from '../util'
 import * as local from './local'
 import * as redis from './redis'
+import * as metrics from './metrics'
 
 const DEFAULT_CACHE_TYPE = 'local'
 const DEFAULT_CACHE_KEY_GROUP = uuid()
@@ -126,6 +127,7 @@ export const withCache: Middleware = async (execute, options = defaultOptions())
   const _executeWithCache = async (data: AdapterRequest) => {
     const key = _getKey(data)
     const coalescingKey = _getCoalescingKey(key)
+    const endMetrics = metrics.observeMetrics(data.id, key)
     const maxAge = _getRequestMaxAge(data) || _getDefaultMaxAge(data)
     // Add successful result to cache
     const _cacheOnSuccess = async ({ statusCode, data, result }: AdapterResponse) => {
@@ -175,8 +177,19 @@ export const withCache: Middleware = async (execute, options = defaultOptions())
         logger.debug(`Cache: GET ${key}`, entry)
         const reqMaxAge = _getRequestMaxAge(data)
         if (reqMaxAge && reqMaxAge !== entry.maxAge) await _cacheOnSuccess(entry)
-        const ttl = await cache.ttl(key)
-        return { jobRunID: data.id, ...entry, ttl }
+        const ttl = await cache.pttl(key)
+        const staleness = entry.maxAge - ttl
+        const debug = {
+          cacheHit: true,
+          staleness,
+          cachePerformance: endMetrics(staleness),
+          providerCost: 0,
+        }
+        return {
+          jobRunID: data.id,
+          ...entry,
+          debug,
+        }
       }
       logger.debug(`Cache: SKIP(maxAge < 0)`)
     }
@@ -186,7 +199,12 @@ export const withCache: Middleware = async (execute, options = defaultOptions())
 
     const result = await execute(data)
     await _cacheOnSuccess(result)
-    return result
+    const debug = {
+      staleness: 0,
+      cachePerformance: endMetrics(),
+      providerCost: result.data.cost || 1,
+    }
+    return { ...result, debug }
   }
 
   // Middleware wrapped execute fn which cleans up after

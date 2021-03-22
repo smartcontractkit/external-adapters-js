@@ -62,7 +62,7 @@ export class RedisCache {
   _set: any
   _del: any
   _quit: any
-  _ttl: any
+  _pttl: any
 
   constructor(options: RedisOptions) {
     this.options = options
@@ -75,7 +75,7 @@ export class RedisCache {
     this._set = promisify(client.set).bind(client)
     this._del = promisify(client.del).bind(client)
     this._quit = promisify(client.quit).bind(client)
-    this._ttl = promisify(client.ttl).bind(client)
+    this._pttl = promisify(client.pttl).bind(client)
     this.client = client
   }
 
@@ -104,8 +104,9 @@ export class RedisCache {
     return timeout(this._del(key), this.options.timeout)
   }
 
-  async ttl(key: string) {
-    return timeout(this._ttl(key), this.options.timeout)
+  async pttl(key: string) {
+    // TTL in ms
+    return timeout(this._pttl(key), this.options.timeout)
   }
 
   /**

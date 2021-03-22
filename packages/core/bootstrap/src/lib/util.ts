@@ -175,6 +175,14 @@ export const getHashOpts = (): Required<Parameters<typeof objectHash>>['1'] => (
       .includes(props),
 })
 
+export const isDebug = (): boolean => {
+  return (
+    parseBool(process.env.DEBUG) ||
+    process.env.NODE_ENV === 'development' ||
+    process.env.LOG_LEVEL === 'debug'
+  )
+}
+
 /**
  * @description Calculates all possible permutations without repetition of a certain size.
  *
@@ -214,7 +222,7 @@ const permutations = (collection: any, n: any) => {
  * @returns Array of permutations
  */
 export const permutator = (options: string[], delimiter?: string): string[] | string[][] => {
-  const output: string[][] = flatMap(options, (v, i, a) => permutations(a, i + 1))
+  const output: string[][] = flatMap(options, (v: any, i: any, a: any) => permutations(a, i + 1))
   const join = (combos: string[][]) => combos.map((p) => p.join(delimiter))
   return typeof delimiter === 'string' ? join(output) : output
 }

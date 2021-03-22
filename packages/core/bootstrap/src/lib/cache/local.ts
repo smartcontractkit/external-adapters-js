@@ -36,7 +36,7 @@ export class LocalLRUCache {
     return this.client.del(key)
   }
 
-  ttl(key: string) {
+  pttl(key: string) {
     // Get LRU internal 'cache' symbol
     const _isCacheSymbol = (sym: symbol) => sym.toString().includes('cache')
     const cacheSymbol = Object.getOwnPropertySymbols(this.client).find(_isCacheSymbol)
@@ -48,7 +48,7 @@ export class LocalLRUCache {
     if (!hit) return 0
 
     // Return ttl >= 0
-    const ttl = hit.now + (hit.maxAge || 0) - Date.now()
+    const ttl = hit.value?.now + (hit.value?.maxAge || 0) - Date.now()
     return ttl < 0 ? 0 : ttl
   }
 

@@ -68,7 +68,12 @@ const toValidAllocations = (allocations: any[]): TokenAllocations => {
   })
 }
 
-const computePrice = async (sourceConfig: any, allocations: TokenAllocations, quote: string) => {
+const computePrice = async (
+  jobRunID: string,
+  config: Config,
+  allocations: TokenAllocations,
+  quote: string,
+) => {
   const symbols = (allocations as TokenAllocations).map((t) => t.symbol)
   const payload = await sourceConfig.getPrices(symbols, quote)
 
@@ -77,7 +82,8 @@ const computePrice = async (sourceConfig: any, allocations: TokenAllocations, qu
 }
 
 const computeMarketCap = async (
-  sourceConfig: any,
+  jobRunID: string,
+  config: Config,
   allocations: TokenAllocations,
   quote: string,
 ) => {
