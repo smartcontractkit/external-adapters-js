@@ -19,13 +19,18 @@
   },
   "license": "MIT",
   "scripts": {
-    "clean": "echo \"Skipping clean...\"",
-    "server": "node -e 'require(\"./index.js\").server()'",
+    "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
+    "prepublishOnly": "yarn build && yarn test:unit",
+    "setup": "yarn clean && yarn build",
+    "build": "tsc -b",
     "lint": "eslint --ignore-path ../../../.eslintignore . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint --ignore-path ../../../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix",
-    "test": "yarn _mocha --timeout 0",
-    "test:unit": "yarn _mocha --grep @integration --invert --timeout 0",
-    "test:integration": "yarn _mocha --grep @integration --timeout 0"
+    "test": "mocha --exit --timeout 0 -r ts-node/register 'test/**/*.test.ts'",
+    "test:unit": "mocha --exit --grep @integration --invert -r ts-node/register 'test/**/*.test.ts'",
+    "test:integration": "mocha --exit --timeout 0 --grep @integration -r ts-node/register 'test/**/*.test.ts'",
+    "server": "node -e 'require(\"./index.js\").server()'",
+    "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
+    "start": "yarn server:dist"
   },
   "dependencies": {}
 }
