@@ -1,6 +1,6 @@
-import { Requester, Validator } from '@chainlink/external-adapter'
-import { ExecuteWithConfig } from '@chainlink/types'
-import { CustomConfig } from '../config'
+import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
+import { ExecuteWithConfig, AdapterResponse } from '@chainlink/types'
+import { Config } from '../config'
 import TeClient from 'tradingeconomics-stream'
 
 export const NAME = 'markets'
@@ -14,7 +14,7 @@ const commonSymbols: Record<string, string> = {
   FTSE: 'UKX:IND',
 }
 
-const _executeHTTP = async (jobRunID: any, symbol: string, config: CustomConfig) => {
+const _executeHTTP = async (jobRunID: any, symbol: string, config: Config) => {
   const url = `markets/symbol/${symbol}`
 
   const options = {
@@ -23,17 +23,13 @@ const _executeHTTP = async (jobRunID: any, symbol: string, config: CustomConfig)
   }
 
   const response = await Requester.request(options)
-  const result = Requester.validateResultNumber(response.data[0], ['Last'])
+  response.data.result = Requester.validateResultNumber(response.data[0], ['Last'])
 
-  return Requester.success(jobRunID, {
-    data: config.verbose ? { ...response.data, result } : { result },
-    result,
-    status: 200,
-  })
+  return Requester.success(jobRunID, response, config.verbose)
 }
 
-const _executeWS = async (jobRunID: any, symbol: string, config: CustomConfig) =>
-  new Promise((resolve, reject) => {
+const _executeWS = async (jobRunID: any, symbol: string, config: Config) =>
+  new Promise<AdapterResponse>((resolve, reject) => {
     const client = new TeClient({
       url: 'ws://stream.tradingeconomics.com/',
       key: config.apiClientKey,
@@ -52,14 +48,8 @@ const _executeWS = async (jobRunID: any, symbol: string, config: CustomConfig) =
         data: msg,
         status: 200,
       }
-      const result = Requester.validateResultNumber(response.data, ['price'])
-      resolve(
-        Requester.success(jobRunID, {
-          data: config.verbose ? { ...response.data, result } : { result },
-          result,
-          status: 200,
-        }),
-      )
+      response.data.result = Requester.validateResultNumber(response.data, ['price'])
+      resolve(Requester.success(jobRunID, response, config.verbose))
     })
 
     // In case we don't get a response from the WS stream
@@ -82,7 +72,7 @@ const _executeWS = async (jobRunID: any, symbol: string, config: CustomConfig) =
     setTimeout(_checkTimeout, timeout)
   })
 
-export const execute: ExecuteWithConfig<CustomConfig> = async (request, config) => {
+export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 
@@ -95,6 +85,11 @@ export const execute: ExecuteWithConfig<CustomConfig> = async (request, config) 
   try {
     const ws = await _executeWS(jobRunID, symbol, config)
     if (ws) return ws
+    throw new AdapterError({
+      jobRunID,
+      message: 'Websocket Timed Out',
+      statusCode: 500,
+    })
   } catch {
     return await _executeHTTP(jobRunID, symbol, config)
   }
