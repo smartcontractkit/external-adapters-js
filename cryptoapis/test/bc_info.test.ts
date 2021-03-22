@@ -1,5 +1,5 @@
 import { assert } from 'chai'
-import { Requester } from '@chainlink/external-adapter'
+import { Requester, AdapterError } from '@chainlink/external-adapter'
 import { assertSuccess, assertError } from '@chainlink/adapter-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
 import { makeExecute } from '../src/adapter'
@@ -11,32 +11,24 @@ describe('bc_info endpoint', () => {
   context('successful calls @integration', () => {
     const requests = [
       {
-        name: 'BTC difficulty',
-        testData: {
-          id: jobID,
-          data: { blockchain: 'BTC', endpoint: 'difficulty' },
-        },
+        name: 'id not supplied',
+        testData: { data: { blockchain: 'BTC', endpoint: 'difficulty' } },
       },
       {
-        name: 'BTC testnet difficulty',
-        testData: {
-          id: jobID,
-          data: { blockchain: 'BTC', network: 'testnet', endpoint: 'difficulty' },
-        },
+        name: 'blockchain difficulty with endpoint',
+        testData: { id: jobID, data: { blockchain: 'BTC', endpoint: 'difficulty' } },
       },
       {
-        name: 'BTC height',
-        testData: {
-          id: jobID,
-          data: { blockchain: 'BTC', endpoint: 'height' },
-        },
+        name: 'coing difficulty with endpoint',
+        testData: { id: jobID, data: { coin: 'BTC', endpoint: 'difficulty' } },
       },
       {
-        name: 'BTC testnet height',
-        testData: {
-          id: jobID,
-          data: { blockchain: 'BTC', network: 'testnet', endpoint: 'height' },
-        },
+        name: 'blockchain height',
+        testData: { id: jobID, data: { blockchain: 'BTC', endpoint: 'height' } },
+      },
+      {
+        name: 'coin height',
+        testData: { id: jobID, data: { coin: 'BTC', endpoint: 'height' } },
       },
     ]
 
@@ -54,13 +46,10 @@ describe('bc_info endpoint', () => {
     const requests = [
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },
+      //this is validation request in this case, since of the default behaviour
       {
         name: 'unknown blockchain',
         testData: { id: jobID, data: { blockchain: 'not_real' } },
-      },
-      {
-        name: 'unknown network',
-        testData: { id: jobID, data: { blockchain: 'BTC', network: 'not_real' } },
       },
     ]
 
@@ -69,7 +58,7 @@ describe('bc_info endpoint', () => {
         try {
           await execute(req.testData as AdapterRequest)
         } catch (error) {
-          const errorResp = Requester.errored(jobID, error)
+          const errorResp = Requester.errored(jobID, new AdapterError(error))
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
         }
       })
