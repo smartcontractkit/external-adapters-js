@@ -21,6 +21,7 @@ export type TokenAllocations = TokenAllocation[]
 
 export type PriceAdapter = {
   getPrices: (
+    jobRunID: string,
     baseSymbols: string[],
     quote: string,
     withMarketCap?: boolean,
