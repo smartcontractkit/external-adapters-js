@@ -14,5 +14,5 @@ export const observeMetrics = (
 ): void => {
   const defaultLabels = { job_run_id: id, participant_id: requestTypeId, experimental: 'true' }
 
-  rateLimitCreditsSpentTotal.labels(defaultLabels).inc(result.debug.providerCost || 1)
+  rateLimitCreditsSpentTotal.labels(defaultLabels).inc(result.debug.providerCost)
 }

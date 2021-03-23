@@ -182,7 +182,7 @@ export const withCache: Middleware = async (execute, options = defaultOptions())
         const debug = {
           cacheHit: true,
           staleness,
-          cachePerformance: endMetrics(staleness),
+          performance: endMetrics(true, staleness),
           providerCost: 0,
         }
         return {
@@ -201,7 +201,7 @@ export const withCache: Middleware = async (execute, options = defaultOptions())
     await _cacheOnSuccess(result)
     const debug = {
       staleness: 0,
-      cachePerformance: endMetrics(),
+      performance: endMetrics(false, 0),
       providerCost: result.data.cost || 1,
     }
     return { ...result, debug }

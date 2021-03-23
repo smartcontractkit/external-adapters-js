@@ -11,6 +11,7 @@ export const cacheExecutionDurationSeconds = new client.Histogram({
   help: 'A histogram bucket of the distribution of cache execution durations',
   // we should tune these as we collect data, this is the default
   // bucket distribution that prom comes with
+  labelNames: ['job_run_id', 'participant_id', 'cache_type', 'cache_hit', 'experimental'] as const,
   buckets: [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10],
 })
 
@@ -23,11 +24,16 @@ export const cacheDataStaleness = new client.Histogram({
 
 export const observeMetrics = (id: string, participantId: string) => {
   const cacheType = process.env.CACHE_TYPE === 'redis' ? CacheTypes.Redis : CacheTypes.Local
-  const defaultLabels = { job_run_id: id, participant_id: participantId, experimental: 'true' }
+  const defaultLabels = {
+    job_run_id: id,
+    participant_id: participantId,
+    experimental: 'true',
+    cache_type: cacheType,
+  }
 
   const end = cacheExecutionDurationSeconds.startTimer()
-  return (staleness = 0): number => {
-    cacheDataStaleness.labels({ ...defaultLabels, cache_type: cacheType }).observe(staleness)
-    return end()
+  return (cacheHit: boolean, staleness = 0): number => {
+    cacheDataStaleness.labels({ ...defaultLabels }).observe(staleness)
+    return end({ ...defaultLabels, cache_hit: String(cacheHit) })
   }
 }

@@ -20,6 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - CMC now uses preset IDs instead of preset slugs
 - Added support for `tradermade` in `outlier-detection` composite adapter
 - Added a per-provider ratelimit reference
+- Added Prometheus metrics
 
 ### Fixed
 
