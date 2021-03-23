@@ -177,7 +177,7 @@ export const withCache: Middleware = async (execute, options = defaultOptions())
         logger.debug(`Cache: GET ${key}`, entry)
         const reqMaxAge = _getRequestMaxAge(data)
         if (reqMaxAge && reqMaxAge !== entry.maxAge) await _cacheOnSuccess(entry)
-        const ttl = await cache.pttl(key)
+        const ttl = await cache.ttl(key)
         const staleness = entry.maxAge - ttl
         const debug = {
           cacheHit: true,

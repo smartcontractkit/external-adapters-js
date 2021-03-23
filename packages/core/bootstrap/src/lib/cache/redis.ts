@@ -104,7 +104,7 @@ export class RedisCache {
     return timeout(this._del(key), this.options.timeout)
   }
 
-  async pttl(key: string) {
+  async ttl(key: string) {
     // TTL in ms
     return timeout(this._pttl(key), this.options.timeout)
   }

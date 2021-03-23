@@ -36,7 +36,7 @@ export class LocalLRUCache {
     return this.client.del(key)
   }
 
-  pttl(key: string) {
+  ttl(key: string) {
     // Get LRU internal 'cache' symbol
     const _isCacheSymbol = (sym: symbol) => sym.toString().includes('cache')
     const cacheSymbol = Object.getOwnPropertySymbols(this.client).find(_isCacheSymbol)
