@@ -204,7 +204,7 @@ export const withCache: Middleware = async (execute, options = defaultOptions())
       performance: endMetrics(false, 0),
       providerCost: result.data.cost || 1,
     }
-    return { ...result, debug }
+    return { ...result, debug: { ...debug, ...result.debug } }
   }
 
   // Middleware wrapped execute fn which cleans up after

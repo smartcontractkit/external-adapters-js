@@ -28,10 +28,10 @@ export const computeThroughput = (
   id: string,
 ): number => {
   // All observed in interval
-  const observedRequests = selectObserved(state, interval)
+  const observedRequests = selectObserved(state, interval).filter((h) => !h.isWarmup)
   const throughput = observedRequests.length + 1
   // All of type observed in interval
-  const observedRequestsOfType = selectObserved(state, interval, id)
+  const observedRequestsOfType = selectObserved(state, interval, id).filter((h) => !h.isWarmup)
   const throughputOfType = observedRequestsOfType.length + 1
   const costOfType = getAverageCost(observedRequestsOfType) || 1
   // Compute max throughput by weight
@@ -47,14 +47,16 @@ const getAverageCost = (requests: Heartbeat[]): number => {
 const logRemainingCapacity = (state: Heartbeats, interval: IntervalNames): void => {
   const dataProviderRequests = selectObserved(state, interval).filter((h) => !h.isCacheHit)
   const cost = getAverageCost(dataProviderRequests) || 1
-  const capacity = config.get().totalCapacity / cost
-  const remainingCapacity = capacity - dataProviderRequests.length
+  const capacity = config.get().totalCapacity
+  const totalReq = dataProviderRequests.length * cost
+  const remainingCapacity = capacity - totalReq
+  const message = `Rate Limit: ${totalReq} requests made in the last minute. Capacity of ${capacity} requests/min is set`
   if (remainingCapacity <= 0) {
-    logger.debug('Rate Limit: Data Provider tokens not available')
+    logger.error(message)
     return
   }
   if (remainingCapacity <= 0.1 * capacity) {
-    logger.debug('Rate Limit: Data Provider tokens about to run out')
+    logger.warn(message)
     return
   }
 }

@@ -175,12 +175,14 @@ export const getHashOpts = (): Required<Parameters<typeof objectHash>>['1'] => (
       .includes(props),
 })
 
+// Helper to identify if debug mode is running
 export const isDebug = (): boolean => {
-  return (
-    parseBool(process.env.DEBUG) ||
-    process.env.NODE_ENV === 'development' ||
-    process.env.LOG_LEVEL === 'debug'
-  )
+  return parseBool(process.env.DEBUG) || process.env.NODE_ENV === 'development'
+}
+
+// Helper to identify if debug log level is set
+export const isDebugLogLevel = (): boolean => {
+  return process.env.LOG_LEVEL === 'debug'
 }
 
 /**
