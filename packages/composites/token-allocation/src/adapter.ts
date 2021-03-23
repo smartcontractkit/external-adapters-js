@@ -1,7 +1,7 @@
 import { AdapterResponse, Execute, AdapterRequest } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { DEFAULT_TOKEN_BALANCE, DEFAULT_TOKEN_DECIMALS, makeConfig, makeOptions } from './config'
-import { TokenAllocations, Config, ResponsePayload } from './types'
+import { TokenAllocations, Config, ResponsePayload, PriceAdapter } from './types'
 import { Decimal } from 'decimal.js'
 import { AdapterError } from '@chainlink/external-adapter'
 import { BigNumber } from 'ethers'
@@ -68,17 +68,21 @@ const toValidAllocations = (allocations: any[]): TokenAllocations => {
   })
 }
 
-const computePrice = async (request: any, allocations: TokenAllocations, quote: string) => {
+const computePrice = async (sourceConfig: any, allocations: TokenAllocations, quote: string) => {
   const symbols = (allocations as TokenAllocations).map((t) => t.symbol)
-  const payload = await request.getPrices(symbols, quote)
+  const payload = await sourceConfig.getPrices(symbols, quote)
 
   const result = priceTotalValue(allocations, quote, payload)
   return { payload, result }
 }
 
-const computeMarketCap = async (request: any, allocations: TokenAllocations, quote: string) => {
+const computeMarketCap = async (
+  sourceConfig: any,
+  allocations: TokenAllocations,
+  quote: string,
+) => {
   const symbols = (allocations as TokenAllocations).map((t) => t.symbol)
-  const payload = await request.getPrices(symbols, quote, true)
+  const payload = await sourceConfig.getPrices(symbols, quote, true)
 
   const result = marketCapTotalValue(allocations, quote, payload)
   return { payload, result }
@@ -99,8 +103,8 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
   const jobRunID = validator.validated.id
   const { quote = config.defaultQuote, method = config.defaultMethod } = validator.validated.data
   const allocations = toValidAllocations(validator.validated.data.allocations)
-  const source = validator.validated.data.source
-  const request = config.sources[source]
+  const source: string = validator.validated.data.source.toLowerCase()
+  const sourceConfig = config.sources[source]
 
   const _success = (payload: ResponsePayload, result: number) =>
     Requester.success(jobRunID, {
@@ -111,11 +115,11 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
   switch (method.toLowerCase()) {
     case 'price':
       // eslint-disable-next-line no-case-declarations
-      const price = await computePrice(request, allocations, quote)
+      const price = await computePrice(sourceConfig, allocations, quote)
       return _success(price.payload, price.result)
     case 'marketcap':
       // eslint-disable-next-line no-case-declarations
-      const marketCap = await computeMarketCap(request, allocations, quote)
+      const marketCap = await computeMarketCap(sourceConfig, allocations, quote)
       return _success(marketCap.payload, marketCap.result)
     default:
       throw new AdapterError({

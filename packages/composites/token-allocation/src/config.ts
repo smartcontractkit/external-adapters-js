@@ -18,12 +18,13 @@ export const makeConfig = (prefix = ''): Config => {
   const sources: SourceRequestOptions = {}
 
   for (const a of adapters) {
-    const url = getURL(a.NAME.toUpperCase())
+    const name = a.NAME.toLowerCase()
+    const url = getURL(name)
     if (url) {
       const defaultConfig = getDefaultConfig(prefix)
       defaultConfig.api.baseURL = url
       defaultConfig.api.method = 'post'
-      sources[a.NAME] = getDataProvider(defaultConfig.api)
+      sources[name] = getDataProvider(defaultConfig.api)
     }
   }
 
