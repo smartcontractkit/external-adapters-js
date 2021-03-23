@@ -144,7 +144,8 @@ const executeSync = (execute: Execute): ExecuteSync => {
         store.dispatch(
           cacheWarmer.actions.warmupSubscribed({
             id: data.id,
-            executeFn: executeWithMiddleware,
+            // We need to initilialize the middleware on every beat to open a connection with the cache
+            executeFn: async (input) => await (await withMiddleware(execute))(input),
             data,
           }),
         )

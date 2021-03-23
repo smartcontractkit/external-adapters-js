@@ -211,7 +211,7 @@ export const withCache: Middleware = async (execute, options = defaultOptions())
   return async (input) => {
     const result = await _executeWithCache(input)
     // Clean the connection
-    // await cache.close()
+    await cache.close()
     return result
   }
 }
