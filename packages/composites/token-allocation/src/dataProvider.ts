@@ -24,8 +24,7 @@ export const adapters: AdapterImplementation[] = [
 
 export type Source = typeof adapters[number]['NAME']
 
-const getPrices = (apiConfig: any) => async (
-  jobRunID: string,
+const getPrices = (apiConfig: any) => (jobRunID: string) => async (
   symbols: string[],
   quote: string,
   withMarketCap = false,

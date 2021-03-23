@@ -19,13 +19,14 @@ export type ResponsePayload = {
 
 export type TokenAllocations = TokenAllocation[]
 
+export type GetPrices = (
+  baseSymbols: string[],
+  quote: string,
+  withMarketCap?: boolean,
+) => Promise<ResponsePayload>
+
 export type PriceAdapter = {
-  getPrices: (
-    jobRunID: string,
-    baseSymbols: string[],
-    quote: string,
-    withMarketCap?: boolean,
-  ) => Promise<ResponsePayload>
+  getPrices: (jobRunId: string) => GetPrices
 }
 
 export type SourceRequestOptions = { [source: string]: PriceAdapter }
