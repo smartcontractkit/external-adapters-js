@@ -67,7 +67,8 @@ See the [Composite Adapter README](../README.md) for more information on how to 
       }
     ],
     "quote": "USD",
-    "method": "price"
+    "method": "price",
+    "source": "coingecko"
   }
 }
 ```
