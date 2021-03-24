@@ -1,5 +1,5 @@
 import hash from 'object-hash'
-import { logger } from '@chainlink/external-adapter'
+import { logger } from '../external-adapter'
 import { Store } from 'redux'
 import { AdapterRequest, Middleware } from '@chainlink/types'
 import { successfulRequestObserved } from './actions'
