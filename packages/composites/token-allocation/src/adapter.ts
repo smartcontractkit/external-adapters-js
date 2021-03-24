@@ -5,6 +5,7 @@ import { TokenAllocations, Config, ResponsePayload, GetPrices } from './types'
 import { Decimal } from 'decimal.js'
 import { AdapterError } from '@chainlink/ea-bootstrap'
 import { BigNumber } from 'ethers'
+import { getPriceProvider } from './dataProvider'
 
 export const priceTotalValue = (
   allocations: TokenAllocations,
@@ -112,7 +113,7 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
       data: { sources: [], payload, result },
     })
 
-  const getPrices = config.priceAdapter.getPrices(jobRunID)
+  const getPrices = getPriceProvider(config.providerConfig.api, jobRunID)
   switch (method.toLowerCase()) {
     case 'price':
       // eslint-disable-next-line no-case-declarations

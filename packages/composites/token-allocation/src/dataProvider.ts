@@ -1,6 +1,6 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { PriceAdapter, ResponsePayload } from './types'
-import { AdapterImplementation } from '@chainlink/types'
+import { AdapterImplementation, RequestConfig } from '@chainlink/types'
 // data provider external adapters
 import Amberdata from '@chainlink/amberdata-adapter'
 import CoinApi from '@chainlink/coinapi-adapter'
@@ -24,7 +24,7 @@ export const adapters: AdapterImplementation[] = [
 
 export type Source = typeof adapters[number]['NAME']
 
-const getPrices = (apiConfig: any) => (jobRunID: string) => async (
+export const getPriceProvider = (apiConfig: RequestConfig, jobRunID: string) => async (
   symbols: string[],
   quote: string,
   withMarketCap = false,
@@ -50,10 +50,4 @@ const getPrices = (apiConfig: any) => (jobRunID: string) => async (
   })
 
   return Object.fromEntries(payloadEntries)
-}
-
-export const getDataProvider = (apiConfig: any): PriceAdapter => {
-  return {
-    getPrices: getPrices(apiConfig),
-  }
 }

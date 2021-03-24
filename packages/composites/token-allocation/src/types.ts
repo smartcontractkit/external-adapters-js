@@ -1,3 +1,4 @@
+import { Config as DefaultConfig } from '@chainlink/types'
 import { BigNumberish } from 'ethers'
 
 export type TokenAllocation = {
@@ -33,6 +34,7 @@ export type SourceRequestOptions = { [source: string]: PriceAdapter }
 
 export type Config = {
   sources: SourceRequestOptions
+  providerConfig: DefaultConfig
   defaultMethod: string
   defaultQuote: string
 }

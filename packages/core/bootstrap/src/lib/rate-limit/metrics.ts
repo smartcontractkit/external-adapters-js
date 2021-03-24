@@ -1,4 +1,3 @@
-import { AdapterResponse } from '@chainlink/types'
 import * as client from 'prom-client'
 
 export const rateLimitCreditsSpentTotal = new client.Counter({
@@ -6,17 +5,3 @@ export const rateLimitCreditsSpentTotal = new client.Counter({
   help: 'The number of data provider credits the adapter is consuming',
   labelNames: ['job_run_id', 'participant_id', 'experimental'] as const,
 })
-
-export const observeMetrics = (
-  id: string,
-  requestTypeId: string,
-  result: AdapterResponse,
-): void => {
-  const defaultLabels = { job_run_id: id, participant_id: requestTypeId, experimental: 'true' }
-
-  let cost = Number(result.debug?.providerCost)
-  if (isNaN(cost)) {
-    cost = 1
-  }
-  rateLimitCreditsSpentTotal.labels(defaultLabels).inc(cost)
-}

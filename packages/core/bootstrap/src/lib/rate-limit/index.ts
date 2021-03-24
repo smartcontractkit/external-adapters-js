@@ -97,7 +97,16 @@ export const withRateLimit = (store: Store<RootState>): Middleware => async (exe
   state = store.getState()
   logRemainingCapacity(state.heartbeats, IntervalNames.MINUTE)
 
-  metrics.observeMetrics(input.id, requestTypeId, result)
+  const defaultLabels = {
+    job_run_id: input.id,
+    participant_id: requestTypeId,
+    experimental: 'true',
+  }
+  let cost = Number(result.debug?.providerCost)
+  if (isNaN(cost)) {
+    cost = 1
+  }
+  metrics.rateLimitCreditsSpentTotal.labels(defaultLabels).inc(cost)
 
   return result
 }

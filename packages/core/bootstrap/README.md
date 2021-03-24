@@ -11,6 +11,12 @@ A metrics server can be exposed which returns prometheus compatible data on the 
 - `METRICS_PORT`: Optional number, defaults to `9080`, set to change the port the `/metrics` endpoint is served on
 - `METRICS_NAME`: Optional string, defaults to 'N/A', set to apply a label of `NAME` to each metric
 
+### Development
+
+To run Prometheus and Grafana with development setup:
+```
+yarn dev:metrics
+```
 ## Caching
 
 To cache data, every adapter using the `bootstrap` package, has access to a simple LRU cache that will cache successful 200 responses using SHA1 hash of input as a key.

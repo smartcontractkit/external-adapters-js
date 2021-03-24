@@ -1,6 +1,4 @@
-import { util } from '@chainlink/ea-bootstrap'
-import { Requester } from '@chainlink/ea-bootstrap'
-import { getDataProvider } from './dataProvider'
+import { util, Requester } from '@chainlink/ea-bootstrap'
 import { Config, SourceRequestOptions } from './types'
 import { adapters } from './dataProvider'
 
@@ -30,6 +28,7 @@ export const makeConfig = (prefix = ''): Config => {
 
   return {
     sources,
+    providerConfig: defaultConfig,
     defaultMethod: util.getEnv('DEFAULT_METHOD', prefix) || 'price',
     defaultQuote: util.getEnv('DEFAULT_QUOTE') || 'USD',
   }

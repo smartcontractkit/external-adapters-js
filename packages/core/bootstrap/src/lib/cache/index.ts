@@ -188,7 +188,10 @@ export const withCache: Middleware = async (execute, options = defaultOptions())
         return {
           jobRunID: data.id,
           ...entry,
-          debug,
+          debug: {
+            ...(entry.debug || {}),
+            ...debug,
+          },
         }
       }
       logger.debug(`Cache: SKIP(maxAge < 0)`)

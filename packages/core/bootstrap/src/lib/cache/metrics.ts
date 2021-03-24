@@ -6,8 +6,8 @@ enum CacheTypes {
   Local = 'local',
 }
 
-export const cache_execution_duration_miliseconds = new client.Histogram({
-  name: 'cache_execution_duration_miliseconds',
+export const cache_execution_duration_seconds = new client.Histogram({
+  name: 'cache_execution_duration_seconds',
   help: 'A histogram bucket of the distribution of cache execution durations',
   labelNames: ['job_run_id', 'participant_id', 'cache_type', 'cache_hit', 'experimental'] as const,
   // default bucket distribution that prom comes with in ms
@@ -30,14 +30,9 @@ export const observeMetrics = (id: string, participantId: string) => {
     cache_type: cacheType,
   }
 
-  const start = process.hrtime()
+  const end = cache_execution_duration_seconds.startTimer()
   return (cacheHit: boolean, staleness = 0): number => {
-    const delta = process.hrtime(start)
-    const ms = (delta[0] + delta[1] / 1e9) * 1000
     cache_data_staleness.labels({ ...defaultLabels }).observe(staleness)
-    cache_execution_duration_miliseconds
-      .labels({ ...defaultLabels, cache_hit: String(cacheHit) })
-      .observe(ms)
-    return ms
+    return end({ ...defaultLabels, cache_hit: String(cacheHit) })
   }
 }
