@@ -17,7 +17,7 @@ describe('execute', () => {
       },
       {
         name: 'symbol',
-        testData: { id: jobID, data: { symbol: 'BTC' } },
+        testData: { id: jobID, data: { symbol: 'ETH' } },
       },
     ]
 
@@ -25,8 +25,8 @@ describe('execute', () => {
       it(`${req.name}`, async () => {
         const data = await execute(req.testData as AdapterRequest)
         assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
-        assert.isAbove(data.result, 0)
-        assert.isAbove(data.data.result, 0)
+        assert.isNumber(data.result)
+        assert.isNumber(data.data.result)
       })
     })
   })
