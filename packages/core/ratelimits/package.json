@@ -1,5 +1,5 @@
 {
-  "name": "@chainlink/ratelimits",
+  "name": "@chainlink/ea-ratelimits",
   "version": "0.0.1",
   "description": "Chainlink Data Provider Ratelimit package",
   "keywords": [
