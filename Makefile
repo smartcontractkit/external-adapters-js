@@ -19,31 +19,23 @@ new:
 	  | tee $(adapter)/package.json > /dev/null
 	sed -i 's/Example/$(adapter)/' $(adapter)/README.md
 
-clean:
-	rm -rf packages/$(adapter)/dist
-
-deps: clean
-	# Restore all dependencies
-	yarn
-	# Call the build script for the adapter if defined (TypeScript adapters have this extra build/compile step)
-	# We use `wsrun` to build workspace dependencies in topological order (TODO: use native `yarn workspaces foreach -pt run setup` with Yarn 2)
-	yarn wsrun -mre -p @chainlink/$(if $(name),$(name),$(adapter))-adapter -t setup
+deps:
+	##########################
+	# Clean up previous builds
+	##########################
+	yarn workspace @chainlink/${name}-adapter clean
+	######################
+	# Install dependencies
+	######################
+	yarn install
+	#######################################
+	# Compile TypeScript code to JavaScript
+	#######################################
+	yarn workspace @chainlink/${name}-adapter setup
 	yarn --frozen-lockfile --production
 
 build:
+	#######################################
+	# Compile JavaScript to a single file
+	#######################################
 	npx @vercel/ncc@0.25.1 build packages/$(adapter) -o packages/$(adapter)/dist
-
-build-2-step:
-	cp -r $(adapter) 2-step/
-	if [ -f "2-step/$(adapter)/dist/adapter.js" ]; then \
-		mv 2-step/$(adapter)/dist/adapter.js 2-step/$(adapter)/priceAdapter.js; \
-	else mv 2-step/$(adapter)/adapter.js 2-step/$(adapter)/priceAdapter.js; \
-	fi
-	cp 2-step/adapter.js 2-step/$(adapter)
-	cp -r helpers 2-step/helpers
-	npx @vercel/ncc@0.25.1 build 2-step/$(adapter) -o 2-step/$(adapter)/dist
-	rm 2-step/$(adapter)/priceAdapter.js
-	rm 2-step/$(adapter)/adapter.js
-
-docker-2-step:
-	docker build --no-cache --build-arg adapter=$(adapter) -f Dockerfile-2Step . -t $(repo)$(adapter)-2-step-adapter
