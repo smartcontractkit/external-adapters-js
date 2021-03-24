@@ -1,5 +1,4 @@
 import { combineReducers, Store } from 'redux'
-import { logger } from '@chainlink/external-adapter'
 import {
   AdapterHealthCheck,
   AdapterRequest,
@@ -9,12 +8,12 @@ import {
 } from '@chainlink/types'
 import { defaultOptions, redactOptions, withCache } from './lib/cache'
 import * as cacheWarmer from './lib/cache-warmer'
+import * as ea from './lib/external-adapter'
+import * as metrics from './lib/metrics'
 import * as rateLimit from './lib/rate-limit'
 import * as server from './lib/server'
-import * as metrics from './lib/metrics'
 import * as util from './lib/util'
 import { configureStore } from './lib/store'
-import { Requester } from '@chainlink/external-adapter'
 
 const rootReducer = combineReducers({
   cacheWarmer: cacheWarmer.reducer.rootReducer,
@@ -33,7 +32,7 @@ const skipOnError = (middleware: Middleware) => async (execute: Execute) => {
   try {
     return await middleware(execute)
   } catch (error) {
-    logger.warn(`${middleware.name} middleware initialization error! Passing through. `, error)
+    ea.logger.warn(`${middleware.name} middleware initialization error! Passing through. `, error)
     return execute
   }
 }
@@ -57,13 +56,13 @@ const withStatusCode: Middleware = async (execute) => async (input) => {
 
 // Log adapter input & output data
 const withLogger: Middleware = async (execute) => async (input: AdapterRequest) => {
-  logger.debug('Input: ', { input })
+  ea.logger.debug('Input: ', { input })
   try {
     const result = await execute(input)
-    logger.debug(`Output: [${result.statusCode}]: `, { output: result.data })
+    ea.logger.debug(`Output: [${result.statusCode}]: `, { output: result.data })
     return result
   } catch (error) {
-    logger.error(error.toString(), { stack: error.stack })
+    ea.logger.error(error.toString(), { stack: error.stack })
     throw error
   }
 }
@@ -142,7 +141,7 @@ const executeSync = (execute: Execute): ExecuteSync => {
       }
       return callback(result.statusCode, result)
     } catch (error) {
-      return callback(error.statusCode || 500, Requester.errored(data.id, error))
+      return callback(error.statusCode || 500, ea.Requester.errored(data.id, error))
     }
   }
 }
@@ -158,6 +157,6 @@ export type ExecuteHandlers = ReturnType<typeof expose>
 
 // Log cache default options once
 const cacheOptions = defaultOptions()
-if (cacheOptions.enabled) logger.info('Cache enabled: ', redactOptions(cacheOptions))
+if (cacheOptions.enabled) ea.logger.info('Cache enabled: ', redactOptions(cacheOptions))
 
-export { util, server }
+export { ea, util, server }
