@@ -1,6 +1,23 @@
 {
-  "adapters": {
-    "docker": "make docker adapter=__ADAPTER__",
+  "core": {
+    "docker": "make docker adapter=core/__ADAPTER__ name=__ADAPTER__",
+    "image_name": "__ADAPTER__-adapter",
+    "adapter": [
+      "bootstrap",
+      "external-adapter",
+      "factories",
+      "ratelimits",
+      "reference-data-reader",
+      "test-helpers"
+    ]
+  },
+  "examples": {
+    "docker": "make docker adapter=examples/__ADAPTER__ name=__ADAPTER__",
+    "image_name": "__ADAPTER__-adapter",
+    "adapter": ["source", "composite"]
+  },
+  "sources": {
+    "docker": "make docker adapter=sources/__ADAPTER__ name=__ADAPTER__",
     "image_name": "__ADAPTER__-adapter",
     "adapter": [
       "1forge",
@@ -17,7 +34,6 @@
       "blockchain.com",
       "blockchair",
       "blockcypher",
-      "bootstrap",
       "bravenewcoin",
       "coinapi",
       "coinbase",
@@ -40,8 +56,6 @@
       "eodhistoricaldata",
       "etherchain",
       "ethgasstation",
-      "example",
-      "external-adapter",
       "fcsapi",
       "finage",
       "finnhub",
@@ -87,8 +101,8 @@
       "tradingeconomics-stream"
     ]
   },
-  "composite": {
-    "docker": "make docker adapter=composite/__ADAPTER__ name=__ADAPTER__",
+  "composites": {
+    "docker": "make docker adapter=composites/__ADAPTER__ name=__ADAPTER__",
     "image_name": "__ADAPTER__-adapter",
     "adapter": [
       "proof-of-reserves",
