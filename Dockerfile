@@ -12,7 +12,7 @@ ARG adapter
 EXPOSE 8080
 WORKDIR /home/node/app
 
-COPY --from=builder /home/node/app/$adapter/dist ./
-COPY --from=builder /home/node/app/$adapter/package.json ./
+COPY --from=builder /home/node/app/packages/$adapter/dist ./
+COPY --from=builder /home/node/app/packages/$adapter/package.json ./
 
 CMD ["yarn", "server"]
