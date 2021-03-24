@@ -20,6 +20,8 @@ const presetTickers: { [ticker: string]: string } = {
   UNI: 'uniswap',
   GRT: 'the-graph',
   LINA: 'linear',
+  FTT: 'ftx-token',
+  MDX: 'mdex',
 }
 
 const convertFromTicker = async (config: Config, ticker: string, coinId: string) => {
