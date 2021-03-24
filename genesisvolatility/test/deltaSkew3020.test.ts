@@ -5,6 +5,7 @@ import { AdapterRequest } from '@chainlink/types'
 import { makeExecute } from '../src/adapter'
 
 describe('execute', () => {
+  process.env.API_KEY = process.env.API_KEY ?? 'test_API_key'
   const jobID = '1'
   const execute = makeExecute()
 
@@ -12,19 +13,11 @@ describe('execute', () => {
     const requests = [
       {
         name: 'id not supplied',
-        testData: { data: { base: 'ETH', quote: 'USD' } },
+        testData: { data: { symbol: 'BTC' } },
       },
       {
-        name: 'base/quote',
-        testData: { id: jobID, data: { base: 'ETH', quote: 'USD' } },
-      },
-      {
-        name: 'from/to',
-        testData: { id: jobID, data: { from: 'ETH', to: 'USD' } },
-      },
-      {
-        name: 'coin/market',
-        testData: { id: jobID, data: { coin: 'ETH', market: 'USD' } },
+        name: 'symbol',
+        testData: { id: jobID, data: { symbol: 'BTC' } },
       },
     ]
 
@@ -42,14 +35,6 @@ describe('execute', () => {
     const requests = [
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },
-      {
-        name: 'base not supplied',
-        testData: { id: jobID, data: { quote: 'USD' } },
-      },
-      {
-        name: 'quote not supplied',
-        testData: { id: jobID, data: { base: 'ETH' } },
-      },
     ]
 
     requests.forEach((req) => {
@@ -67,12 +52,8 @@ describe('execute', () => {
   context('error calls @integration', () => {
     const requests = [
       {
-        name: 'unknown base',
-        testData: { id: jobID, data: { base: 'not_real', quote: 'USD' } },
-      },
-      {
-        name: 'unknown quote',
-        testData: { id: jobID, data: { base: 'ETH', quote: 'not_real' } },
+        name: 'unknown symbol',
+        testData: { id: jobID, data: { symbol: 'not_real' } },
       },
     ]
 
