@@ -15,7 +15,7 @@
     "clean": "yarn workspaces run clean",
     "lint": "yarn workspaces run lint",
     "lint:fix": "yarn workspaces run lint:fix",
-    "setup": "yarn wsrun -mre -t setup",
+    "setup": "yarn workspaces foreach -pt run setup",
     "test": "yarn workspaces run test",
     "test:unit": "yarn workspaces run test:unit",
     "test:integration": "yarn workspaces run test:integration",
@@ -43,12 +43,6 @@
     "eslint-plugin-standard": "^4.0.1",
     "prettier": "^2.0.5",
     "ts-node": "^8.10.2",
-    "typescript": "^3.9.7",
-    "wsrun": "^5.2.4"
-  },
-  "resolutions": {
-    "**/lodash": "^4.17.20",
-    "**/elliptic": "^6.5.3",
-    "**/minimist": "^1.2.5"
+    "typescript": "^3.9.7"
   }
 }
