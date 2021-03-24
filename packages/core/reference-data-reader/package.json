@@ -1,5 +1,5 @@
 {
-  "name": "@chainlink/reference-data-reader",
+  "name": "@chainlink/ea-reference-data-reader",
   "version": "0.0.4",
   "description": "",
   "main": "dist/index.js",
