@@ -1,4 +1,4 @@
-import { logger } from '@chainlink/external-adapter'
+import { logger } from '../external-adapter'
 import { promisify } from 'util'
 import { timeout } from 'promise-timeout'
 import { createClient, ClientOpts, RedisClient } from 'redis'
