@@ -1,6 +1,6 @@
 import hash from 'object-hash'
 import { AdapterRequest, AdapterResponse, Middleware } from '@chainlink/types'
-import { logger } from '@chainlink/external-adapter'
+import { logger } from '../external-adapter'
 import { parseBool, uuid, delay, exponentialBackOffMs, getWithCoalescing } from '../util'
 import * as local from './local'
 import * as redis from './redis'

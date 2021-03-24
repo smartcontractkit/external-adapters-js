@@ -21,7 +21,9 @@
     "test:integration": "mocha --exit --timeout 0 --grep @integration -r ts-node/register 'test/**/*.test.ts'"
   },
   "dependencies": {
+    "@google-cloud/logging-winston": "^4.0.1",
     "@reduxjs/toolkit": "^1.5.0",
+    "axios": "^0.21.1",
     "express": "^4.17.1",
     "lru-cache": "^6.0.0",
     "object-hash": "^2.0.3",
@@ -33,7 +35,8 @@
     "redux-observable": "^1.2.0",
     "remote-redux-devtools": "^0.5.16",
     "rxjs": "^6.6.3",
-    "uuid": "^8.3.0"
+    "uuid": "^8.3.0",
+    "winston": "^3.3.3"
   },
   "devDependencies": {
     "@types/express": "^4.17.11",
