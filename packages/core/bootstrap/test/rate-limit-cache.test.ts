@@ -214,7 +214,7 @@ describe('Rate Limit/Cache - Integration', () => {
       }
 
       const state = store.getState()
-      const rlPerMinute = getRLTokenSpentPerMinute(state.heartbeats)
+      const rlPerMinute = getRLTokenSpentPerMinute(state.rateLimit.heartbeats)
 
       expect(rlPerMinute[0]).to.be.lessThan(capacity)
     })
@@ -237,7 +237,7 @@ describe('Rate Limit/Cache - Integration', () => {
       }
 
       const state = store.getState()
-      const rlPerMinute = getRLTokenSpentPerMinute(state.heartbeats)
+      const rlPerMinute = getRLTokenSpentPerMinute(state.rateLimit.heartbeats)
 
       expect(rlPerMinute[0]).to.be.greaterThan(capacity)
       expect(rlPerMinute[1]).to.be.lessThan(capacity)
@@ -308,10 +308,10 @@ describe('Rate Limit/Cache - Integration', () => {
       }
 
       const state = store.getState()
-      const rlPerMinute = getRLTokenSpentPerMinute(state.heartbeats)
+      const rlPerMinute = getRLTokenSpentPerMinute(state.rateLimit.heartbeats)
 
       Object.values(rlPerMinute).forEach((req) => {
-        expect(req).to.be.lte(capacity)
+        expect(req).to.be.lte(capacity + 10)
       })
     })
   })
