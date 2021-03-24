@@ -1,1 +1,1 @@
-export * as conversion from './conversion'
+export * as price from './price'

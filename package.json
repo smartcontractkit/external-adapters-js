@@ -14,6 +14,7 @@
     "covid-tracker",
     "messari",
     "coinlore",
+    "agoric",
     "trueusd",
     "cryptoid",
     "blockchair",
@@ -24,7 +25,6 @@
     "orchid-bandwidth",
     "genesis-volatility",
     "metalsapi",
-    "bravenewcoin-vwap",
     "dxfeed",
     "dxfeed-secondary",
     "tradingeconomics",
@@ -56,20 +56,12 @@
     "oilpriceapi",
     "openexchangerates",
     "polygon",
-    "google-finance",
     "etherchain",
     "poa-gasprice",
     "anyblock-gasprice",
     "anyblock-uniswap-vwap",
     "ethgasstation",
     "amberdata-gasprice",
-    "synth-index/coinapi",
-    "synth-index/coingecko",
-    "synth-index/coinmarketcap",
-    "synth-index/coinpaprika",
-    "synth-index/bravenewcoin",
-    "synth-index/cryptocompare",
-    "synth-index/amberdata",
     "wbtc-address-set",
     "renvm-address-set",
     "blockchain.com",
@@ -95,7 +87,14 @@
     "dydx-stark",
     "iex-cloud",
     "cfbenchmarks",
-    "harmony"
+    "conflux",
+    "harmony",
+    "tiingo",
+    "ethwrite",
+    "geodb",
+    "therundown",
+    "tradingeconomics-stream",
+    "dnsproof"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",
@@ -114,7 +113,6 @@
     "decimal.js": "^10.2.0",
     "ethers": "^5.0.26",
     "express": "^4.17.0",
-    "synthetix": "^2.29.3",
     "web3": "^1.2.11"
   },
   "devDependencies": {
@@ -129,6 +127,7 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "prettier": "^2.0.5",
+    "ts-node": "^8.10.2",
     "wsrun": "^5.2.4"
   },
   "resolutions": {

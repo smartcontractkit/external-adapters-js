@@ -7,6 +7,7 @@ const customError = (data: any) => data.result === 'error'
 const customParams = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
+  includes: false,
 }
 
 const convertId: Record<string, string> = {
@@ -22,13 +23,18 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const jobRunID = validator.validated.id
   let base = validator.validated.data.base.toLowerCase()
   const quote = validator.validated.data.quote.toLowerCase()
+  const includes = validator.validated.data.includes || []
 
   // Correct common tickers that are misidentified
   base = convertId[base] || base
 
+  let inverse = false
   let url = `/spot_exchange_rate/${base}/${quote}`
   if (quote === 'eth') {
     url = `/spot_direct_exchange_rate/${base}/${quote}`
+  } else if (includes.length > 0 && base === 'digg' && includes[0].toLowerCase() === 'wbtc') {
+    inverse = true
+    url = `/spot_direct_exchange_rate/wbtc/digg`
   }
 
   // provide a reasonable interval to fetch only recent results
@@ -52,11 +58,15 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   }
 
   const response = await Requester.request(requestConfig, customError)
-  const result = Requester.validateResultNumber(
+  let result = Requester.validateResultNumber(
     // sometimes, the most recent(fraction of a second) data contain null price
     response.data.data.filter((x: any) => x.price !== null),
     [0, 'price'],
   )
+  if (inverse && result != 0) {
+    result = 1 / result
+  }
+
   return Requester.success(jobRunID, {
     data: {
       ...response.data,

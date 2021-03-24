@@ -1,15 +1,15 @@
 # Chainlink External Adapter for Anyblock Analytics Gas Price
 
-## Input Params
+## Gas Price Endpoint
 
-- `speed`: The speed for gas price to get. Available choices:
-  - `slow`
-  - `standard` (default)
-  - `fast`
-  - `instant`
-- `endpoint`: The endpoint to use (optional, default: latest-minimum-gasprice)
+### Input Params
 
-## Output Format
+| Required? |    Name    |    Description    |              Options               |        Defaults to        |
+| :-------: | :--------: | :---------------: | :--------------------------------: | :-----------------------: |
+|    🟡     |  `speed`   | The desired speed | `slow`,`standard`,`fast`,`instant` |        `standard`         |
+|    🟡     | `endpoint` |                   |                                    | `latest-minimum-gasprice` |
+
+## Output
 
 ```json
 {

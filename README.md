@@ -156,7 +156,7 @@ $input.json('$')
 ### Install to GCP
 
 - In Functions, create a new function, choose to ZIP upload
-- Select Node.js 10 for the Runtime
+- Select Node.js 12 for the Runtime
 - Click Browse and select the `$adapter-adapter.zip` file
 - Select a Storage Bucket to keep the zip in
 - Function to execute: gcpHandler

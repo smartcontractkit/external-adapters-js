@@ -52,13 +52,21 @@ jobs:
         run: ${{ matrix.adapter.cmd }}
       - name: Build Docker containers
         run: ${{ matrix.adapter.docker }} repo="public.ecr.aws/${{ env.publicecr-name }}/adapters/"
-      - name: Configure AWS Credentials
+      - name: Configure AWS prod Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - name: Upload to prod S3
+        run: aws s3 cp ${{ matrix.adapter.asset_path }} s3://adaptor-source-cl/${{ matrix.adapter.asset_name }}
+      - name: Configure staging AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_STAGING }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY_STAGING }}
           aws-region: ${{ secrets.AWS_REGION }}
-      - name: Upload to S3
+      - name: Upload to staging S3
         run: aws s3 cp ${{ matrix.adapter.asset_path }} s3://adaptor-source-cl-staging/${{ matrix.adapter.asset_name }}
       - name: Authenticate to public ECR
         run: aws ecr-public get-login-password | docker login --username AWS --password-stdin public.ecr.aws

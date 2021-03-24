@@ -1,25 +1,38 @@
-# Chainlink Coinbase External Adapter
+# Chainlink External Adapter for Coinbase
 
-https://developers.coinbase.com/api/v2#prices
+Query information from [Coinbase's API](https://developers.coinbase.com/api/v2)
 
-## Input Params
+### Input Parameters
 
-- `base`, `from`, `coin`: The coin to query (required)
-- `quote`, `to`, `market`: The currency to convert to (required)
+| Required? |   Name   |     Description     |         Options          | Defaults to |
+| :-------: | :------: | :-----------------: | :----------------------: | :---------: |
+|           | endpoint | The endpoint to use | [price](#Price-Endpoint) |    price    |
 
-## Endpoint
+---
 
-```
-https://api.coinbase.com/v2/prices/BTC-USD/spot
-```
+## Price Endpoint
 
-## Output
+### Input Params
+
+| Required? |            Name            |               Description                |       Options       | Defaults to |
+| :-------: | :------------------------: | :--------------------------------------: | :-----------------: | :---------: |
+|    ✅     | `base`, `from`, or `coin`  |   The symbol of the currency to query    | `BTC`, `ETH`, `USD` |             |
+|    ✅     | `quote`, `to`, or `market` | The symbol of the currency to convert to | `BTC`, `ETH`, `USD` |             |
+
+### Output
 
 ```json
 {
+  "jobRunID": "1",
   "data": {
-    "amount": "1015.00",
-    "currency": "USD"
-  }
+    "data": {
+      "base": "BTC",
+      "currency": "USD",
+      "amount": "46823.85"
+    },
+    "result": 46823.85
+  },
+  "result": 46823.85,
+  "statusCode": 200
 }
 ```

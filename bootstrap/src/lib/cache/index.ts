@@ -3,8 +3,9 @@ import hash from 'object-hash'
 import * as local from './local'
 import * as redis from './redis'
 import { parseBool, uuid, delay, exponentialBackOffMs, getWithCoalescing } from '../util'
-import { ExecuteWrappedResponse, AdapterRequest, WrappedAdapterResponse } from '@chainlink/types'
+import { AdapterRequest, AdapterResponse } from '@chainlink/types'
 import { RedisOptions } from './redis'
+import { Middleware } from '../../index'
 
 const DEFAULT_CACHE_TYPE = 'local'
 const DEFAULT_CACHE_KEY_GROUP = uuid()
@@ -70,10 +71,7 @@ export const redactOptions = (options: CacheOptions) => ({
       : local.redactOptions(options.cacheOptions),
 })
 
-export const withCache = async (
-  execute: ExecuteWrappedResponse,
-  options: CacheOptions = defaultOptions(),
-) => {
+export const withCache: Middleware<CacheOptions> = async (execute, options = defaultOptions()) => {
   // If disabled noop
   if (!options.enabled) return (data: AdapterRequest) => execute(data)
 
@@ -110,9 +108,9 @@ export const withCache = async (
     const coalescingKey = _getCoalescingKey(key)
     const maxAge = _getMaxAge(data)
     // Add successful result to cache
-    const _cacheOnSuccess = async ({ statusCode, data }: WrappedAdapterResponse) => {
+    const _cacheOnSuccess = async ({ statusCode, data, result }: AdapterResponse) => {
       if (statusCode === 200) {
-        const entry = { statusCode, data, maxAge }
+        const entry = { statusCode, data, result, maxAge }
         await cache.set(key, entry, maxAge)
         logger.debug(`Cache: SET ${key}`, entry)
         // Notify pending requests by removing the in-flight mark
@@ -156,7 +154,7 @@ export const withCache = async (
       if (maxAge >= 0) {
         logger.debug(`Cache: GET ${key}`, entry)
         if (maxAge !== entry.maxAge) await _cacheOnSuccess(entry)
-        return entry
+        return { jobRunID: data.id, ...entry }
       }
       logger.debug(`Cache: SKIP(maxAge < 0)`)
     }
@@ -170,8 +168,8 @@ export const withCache = async (
   }
 
   // Middleware wrapped execute fn which cleans up after
-  return async (data: AdapterRequest) => {
-    const result = await _executeWithCache(data)
+  return async (input) => {
+    const result = await _executeWithCache(input)
     // Clean the connection
     await cache.close()
     return result

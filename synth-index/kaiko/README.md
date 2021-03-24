@@ -1,1 +1,0 @@
-# Kaiko Synthetix Index
