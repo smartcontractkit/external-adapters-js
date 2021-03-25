@@ -88,8 +88,9 @@
       "geodb",
       "therundown",
       "tradingeconomics-stream",
+      "watchsignals",
       "dnsproof",
-      "watchsignals"
+      "genesisvolatility"
     ]
   },
   "2-step": {

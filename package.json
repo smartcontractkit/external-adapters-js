@@ -94,8 +94,9 @@
     "geodb",
     "therundown",
     "tradingeconomics-stream",
+    "watchsignals",
     "dnsproof",
-    "watchsignals"
+    "genesisvolatility"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",
