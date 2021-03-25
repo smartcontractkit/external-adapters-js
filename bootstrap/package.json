@@ -9,9 +9,8 @@
   ],
   "license": "MIT",
   "scripts": {
-    "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
     "prepublishOnly": "yarn build && yarn test",
-    "setup": "yarn clean && yarn build",
+    "setup": "yarn build",
     "build": "tsc -b",
     "dev:remotedev": "node ./scripts/remotedev.js",
     "lint": "eslint --ignore-path ../../../.eslintignore . --ext .ts,.tsx",
@@ -46,6 +45,10 @@
     "@types/redux-logger": "^3.0.8",
     "@types/remote-redux-devtools": "^0.5.4",
     "@types/uuid": "^8.3.0",
-    "remotedev-server": "^0.3.1"
+    "remotedev-server": "^0.3.1",
+    "@typescript-eslint/eslint-plugin": "^3.9.0",
+    "@typescript-eslint/parser": "^3.9.0",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.7"
   }
 }
