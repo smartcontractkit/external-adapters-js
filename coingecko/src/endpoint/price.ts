@@ -1,5 +1,5 @@
-import { Requester, Validator } from '@chainlink/external-adapter'
-import { ExecuteWithConfig, Config } from '@chainlink/types'
+import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
+import { ExecuteWithConfig, Config, Override } from '@chainlink/types'
 
 export const NAME = 'price'
 
@@ -11,27 +11,11 @@ const customError = (data: any) => {
 const customParams = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
+  overrides: false,
   coinid: false,
 }
 
-const presetTickers: { [ticker: string]: string } = {
-  COMP: 'compound-governance-token',
-  FNX: 'finnexus',
-  UNI: 'uniswap',
-  GRT: 'the-graph',
-  LINA: 'linear',
-  FTT: 'ftx-token',
-  MDX: 'mdex',
-}
-
-const convertFromTicker = async (config: Config, ticker: string, coinId: string) => {
-  if (typeof coinId !== 'undefined') return coinId.toLowerCase()
-
-  // Correct common tickers that are misidentified
-  if (ticker in presetTickers) {
-    return presetTickers[ticker]
-  }
-
+const getCoinId = async (config: Config, symbol: string): Promise<string> => {
   const url = '/coins/list'
 
   const options = {
@@ -40,14 +24,17 @@ const convertFromTicker = async (config: Config, ticker: string, coinId: string)
   }
 
   const response = await Requester.request(options, customError)
-
-  const coin = response.data.find((x: any) => x.symbol.toLowerCase() === ticker.toLowerCase())
+  const coin = response.data.find((x: any) => x.symbol.toLowerCase() === symbol.toLowerCase())
 
   if (typeof coin === 'undefined') {
-    return undefined
+    throw new Error('Coin id not found')
   }
 
   return coin.id.toLowerCase()
+}
+
+const getOverrideSymbol = (overrides: Override | undefined, symbol: string): string | undefined => {
+  return overrides?.get('coingecko')?.get(symbol.toLowerCase())
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
@@ -56,14 +43,23 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
   const jobRunID = validator.validated.id
   const symbol = validator.validated.data.base
-  const coinid = validator.validated.data.coinid
-  const url = '/simple/price'
-  const market = validator.validated.data.quote
-  const coin = await convertFromTicker(config, symbol, coinid)
+  const quote = validator.validated.data.quote
+  const overrides = validator.validated.data.overrides as Override | undefined
+  const coinid = validator.validated.data.coinid as string | undefined
 
+  let coin = coinid?.toLowerCase() || getOverrideSymbol(overrides, symbol)
+  if (!coin) {
+    try {
+      coin = await getCoinId(config, symbol)
+    } catch (e) {
+      throw new AdapterError({ jobRunID, statusCode: 400, message: e.message })
+    }
+  }
+
+  const url = '/simple/price'
   const params = {
     ids: coin,
-    vs_currencies: market,
+    vs_currencies: quote,
   }
 
   const options = {
@@ -75,7 +71,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const response = await Requester.request(options, customError)
   const result = Requester.validateResultNumber(response.data, [
     coin.toLowerCase(),
-    market.toLowerCase(),
+    quote.toLowerCase(),
   ])
 
   return Requester.success(jobRunID, {

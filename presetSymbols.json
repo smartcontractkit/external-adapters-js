@@ -1,0 +1,11 @@
+{
+  "coingecko": {
+    "COMP": "compound-governance-token",
+    "FNX": "finnexus",
+    "UNI": "uniswap",
+    "grt": "the-graph",
+    "LINA": "linear",
+    "FTT": "ftx-token",
+    "MDX": "mdex"
+  }
+}
