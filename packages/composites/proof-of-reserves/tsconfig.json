@@ -12,6 +12,7 @@
     { "path": "../../sources/amberdata" },
     { "path": "../../sources/blockchain.com" },
     { "path": "../../sources/blockchair" },
+    { "path": "../../sources/blockcypher" },
     { "path": "../../sources/btc.com" },
     { "path": "../../sources/cryptoapis" },
     { "path": "../../sources/renvm-address-set" },
