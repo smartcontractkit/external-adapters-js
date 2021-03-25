@@ -22,7 +22,6 @@ export const execute: Execute = async (input) => {
   const result = await calculate(oracleAddress, multiply, heartbeatMinutes, isAdaptive)
   return Requester.success(jobRunID, {
     data: { result },
-    result,
     status: 200,
   })
 }
