@@ -1,4 +1,4 @@
-import { Validator, AdapterError } from '@chainlink/ea-bootstrap'
+import { Validator, Requester, AdapterError } from '@chainlink/ea-bootstrap'
 import { AdapterResponse, Execute, AdapterRequest } from '@chainlink/types'
 import * as ta from '@chainlink/token-allocation-adapter'
 import snx from 'synthetix'
@@ -7,7 +7,9 @@ import Decimal from 'decimal.js'
 
 const customParams = {
   base: ['base', 'asset', 'from'],
+  source: true,
   network: false,
+  quote: false,
 }
 
 type Synth = {
@@ -48,6 +50,7 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
 
+  const jobRunID = validator.validated.id
   const { base, network = config.defaultNetwork } = validator.validated.data
 
   const synths: Synth[] = snx.getSynths({ network: network.toLowerCase() })
@@ -58,8 +61,15 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
   if (!synth) throw new AdapterError({ message: `Synth not found`, statusCode: 400 })
 
   const allocations = getAllocations(synth)
-  const _execute = ta.makeExecute(config.taConfig)
-  return await _execute({ id: validator.validated.id, data: { ...input.data, allocations } })
+
+  const response = await Requester.request({
+    ...config.taConfig,
+    data: {
+      id: jobRunID,
+      data: { ...validator.validated.data, allocations },
+    },
+  })
+  return Requester.success(jobRunID, response)
 }
 
 export const makeExecute = (config?: Config): Execute => {

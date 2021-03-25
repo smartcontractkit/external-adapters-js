@@ -96,7 +96,6 @@ describe(outlier_detection.NAME, () => {
   })
 
   useUnderlying([...sources, ...checks])
-  before(() => ({}))
 
   context('successful calls', () => {
     const jobID = '1'
