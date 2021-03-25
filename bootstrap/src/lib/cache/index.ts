@@ -1,20 +1,21 @@
-import { logger } from '@chainlink/external-adapter'
 import hash from 'object-hash'
+import { AdapterRequest, AdapterResponse, Middleware } from '@chainlink/types'
+import { logger } from '@chainlink/external-adapter'
+import { parseBool, uuid, delay, exponentialBackOffMs, getWithCoalescing } from '../util'
 import * as local from './local'
 import * as redis from './redis'
-import { parseBool, uuid, delay, exponentialBackOffMs, getWithCoalescing } from '../util'
-import { AdapterRequest, AdapterResponse } from '@chainlink/types'
-import { RedisOptions } from './redis'
-import { Middleware } from '../../index'
 
 const DEFAULT_CACHE_TYPE = 'local'
 const DEFAULT_CACHE_KEY_GROUP = uuid()
-const DEFAULT_CACHE_KEY_IGNORED_PROPS = ['id', 'maxAge', 'meta']
+const DEFAULT_CACHE_KEY_IGNORED_PROPS = ['id', 'maxAge', 'meta', 'rateLimitMaxAge']
 // Request coalescing
 const DEFAULT_RC_INTERVAL = 100
 const DEFAULT_RC_INTERVAL_MAX = 1000
 const DEFAULT_RC_INTERVAL_COEFFICIENT = 2
 const DEFAULT_RC_ENTROPY_MAX = 0
+
+const MAXIMUM_MAX_AGE = 1000 * 60 * 2
+const ERROR_MAX_AGE = 1000 * 60
 
 const env = process.env
 export const defaultOptions = () => ({
@@ -56,7 +57,7 @@ const defaultCacheBuilder = () => {
   return (options: CacheImplOptions) => {
     switch (options.type) {
       case 'redis':
-        return redis.RedisCache.build(options as RedisOptions)
+        return redis.RedisCache.build(options as redis.RedisOptions)
       default:
         return localLRUCache || (localLRUCache = new local.LocalLRUCache(options))
     }
@@ -67,11 +68,11 @@ export const redactOptions = (options: CacheOptions): CacheOptions => ({
   ...options,
   cacheOptions:
     options.cacheOptions.type === 'redis'
-      ? redis.redactOptions(options.cacheOptions as RedisOptions)
+      ? redis.redactOptions(options.cacheOptions as redis.RedisOptions)
       : local.redactOptions(options.cacheOptions),
 })
 
-export const withCache: Middleware<CacheOptions> = async (execute, options = defaultOptions()) => {
+export const withCache: Middleware = async (execute, options = defaultOptions()) => {
   // If disabled noop
   if (!options.enabled) return (data: AdapterRequest) => execute(data)
 
@@ -97,16 +98,35 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
     logger.debug(`Request coalescing: DEL ${key}`)
   }
 
-  const _getMaxAge = (data: AdapterRequest): any => {
-    if (!data || !data.data) return cache.options.maxAge
-    if (isNaN(data.data.maxAge as number)) return cache.options.maxAge
-    return Number(data.data.maxAge) || cache.options.maxAge
+  const _getRateLimitMaxAge = (data: AdapterRequest): number | undefined => {
+    if (!data || !data.data) return
+    if (isNaN(data.data.rateLimitMaxAge as number)) return
+    const maxAge = Number(data.data.rateLimitMaxAge)
+    if (maxAge && maxAge > ERROR_MAX_AGE) {
+      logger.error(`Cache: Max Age is getting max values: ${maxAge} ms`)
+      return maxAge > MAXIMUM_MAX_AGE ? MAXIMUM_MAX_AGE : maxAge
+    }
+    if (maxAge && maxAge > options.cacheOptions.maxAge) {
+      logger.warn(`Cache: Max Age is getting high values: ${maxAge} ms`)
+    }
+    return maxAge
+  }
+
+  const _getDefaultMaxAge = (data: AdapterRequest): any => {
+    const rlMaxAge = _getRateLimitMaxAge(data)
+    return rlMaxAge || cache.options.maxAge
+  }
+
+  const _getRequestMaxAge = (data: AdapterRequest): number | undefined => {
+    if (!data || !data.data) return
+    if (isNaN(data.data.maxAge as number)) return
+    return Number(data.data.maxAge)
   }
 
   const _executeWithCache = async (data: AdapterRequest) => {
     const key = _getKey(data)
     const coalescingKey = _getCoalescingKey(key)
-    const maxAge = _getMaxAge(data)
+    const maxAge = _getRequestMaxAge(data) || _getDefaultMaxAge(data)
     // Add successful result to cache
     const _cacheOnSuccess = async ({ statusCode, data, result }: AdapterResponse) => {
       if (statusCode === 200) {
@@ -153,7 +173,8 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
     if (entry) {
       if (maxAge >= 0) {
         logger.debug(`Cache: GET ${key}`, entry)
-        if (maxAge !== entry.maxAge) await _cacheOnSuccess(entry)
+        const reqMaxAge = _getRequestMaxAge(data)
+        if (reqMaxAge && reqMaxAge !== entry.maxAge) await _cacheOnSuccess(entry)
         return { jobRunID: data.id, ...entry }
       }
       logger.debug(`Cache: SKIP(maxAge < 0)`)
@@ -169,11 +190,9 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
 
   // Middleware wrapped execute fn which cleans up after
   return async (input) => {
-    try {
-      return await _executeWithCache(input)
-    } finally {
-      // Close the cache connection in any case
-      await cache.close()
-    }
+    const result = await _executeWithCache(input)
+    // Clean the connection
+    await cache.close()
+    return result
   }
 }

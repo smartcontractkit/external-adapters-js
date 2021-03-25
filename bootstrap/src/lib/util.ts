@@ -1,6 +1,8 @@
 import { AdapterImplementation } from '@chainlink/types'
 import { v4 as uuidv4 } from 'uuid'
 import { Decimal } from 'decimal.js'
+import objectHash from 'object-hash'
+import { flatMap, values } from 'lodash'
 
 export const isObject = (o: unknown): boolean =>
   o !== null && typeof o === 'object' && Array.isArray(o) === false
@@ -18,7 +20,7 @@ export const toObjectWithNumbers = (obj: any) => {
 }
 
 // pick a random string from env var after splitting with the delimiter ("a&b&c" "&" -> choice(["a","b","c"]))
-export const getRandomEnv = (name: string, delimiter = ',', prefix = '') => {
+export const getRandomEnv = (name: string, delimiter = ',', prefix = ''): string | undefined => {
   const val = getEnv(name, prefix)
   if (!val) return val
   const items = val.split(delimiter)
@@ -26,7 +28,11 @@ export const getRandomEnv = (name: string, delimiter = ',', prefix = '') => {
 }
 
 // pick a random string from env var after splitting with the delimiter ("a&b&c" "&" -> choice(["a","b","c"]))
-export const getRandomRequiredEnv = (name: string, delimiter = ',', prefix = '') => {
+export const getRandomRequiredEnv = (
+  name: string,
+  delimiter = ',',
+  prefix = '',
+): string | undefined => {
   const val = getRequiredEnv(name, prefix)
   const items = val.split(delimiter)
   return items[Math.floor(Math.random() * items.length)]
@@ -159,3 +165,56 @@ export const toFixedMax = (num: number | string | Decimal, decimals: number): st
     .replace(/(\.\d*?[1-9])0+$/g, '$1')
     // remove decimal part if all zeros (or only decimal point)
     .replace(/\.0*$/g, '')
+
+export const getHashOpts = (): Required<Parameters<typeof objectHash>>['1'] => ({
+  algorithm: 'sha1',
+  encoding: 'hex',
+  excludeKeys: (props: string) =>
+    ['id', 'maxAge', 'meta', 'rateLimitMaxAge']
+      .concat((process.env.CACHE_KEY_IGNORED_PROPS || '').split(',').filter((k) => k))
+      .includes(props),
+})
+
+/**
+ * @description Calculates all possible permutations without repetition of a certain size.
+ *
+ * @param collection A collection of distinct values to calculate the permutations from.
+ * @param n The number of values to combine.
+ *
+ * @returns Array of permutations
+ */
+const permutations = (collection: any, n: any) => {
+  const array = values(collection)
+  if (array.length < n) return []
+
+  const recur = (array: any, n: any) => {
+    if (--n < 0) return [[]]
+
+    const permutations: any[] = []
+    array.forEach((value: any, index: any, array: any) => {
+      array = array.slice()
+      array.splice(index, 1)
+      recur(array, n).forEach((permutation) => {
+        permutation.unshift(value)
+        permutations.push(permutation)
+      })
+    })
+    return permutations
+  }
+  return recur(array, n)
+}
+
+/**
+ * @description
+ * Builds a permutation set from a list of options
+ *
+ * @param options The options to create a permutation from
+ * @param delimiter (Optional) Joins the permutation results to a string
+ *
+ * @returns Array of permutations
+ */
+export const permutator = (options: string[], delimiter?: string): string[] | string[][] => {
+  const output: string[][] = flatMap(options, (v, i, a) => permutations(a, i + 1))
+  const join = (combos: string[][]) => combos.map((p) => p.join(delimiter))
+  return typeof delimiter === 'string' ? join(output) : output
+}

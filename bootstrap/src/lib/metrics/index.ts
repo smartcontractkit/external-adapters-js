@@ -56,3 +56,20 @@ export function normalizeStatusCode(status?: number): string {
   }
   return '5XX'
 }
+export const cacheWarmerRequests = new client.Counter({
+  name: 'cache_warmer_requests',
+  help: 'The number of requests caused by the warmer',
+  labelNames: ['method', 'statusCode', 'apiKey', 'retry'] as const,
+})
+
+export const httpRequestsCacheHits = new client.Counter({
+  name: 'http_requests_cache_hits',
+  help: 'The number of http requests that hit the cache',
+  labelNames: ['method', 'statusCode', 'apiKey', 'retry'] as const,
+})
+
+export const httpRequestsDataProviderHits = new client.Counter({
+  name: 'http_requests_data_provider_hits',
+  help: 'The number of http requests that hit the provider',
+  labelNames: ['method', 'statusCode', 'apiKey', 'retry'] as const,
+})

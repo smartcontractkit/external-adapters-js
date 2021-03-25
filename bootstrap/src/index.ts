@@ -1,13 +1,32 @@
-import { logger, Requester } from '@chainlink/external-adapter'
-import { AdapterHealthCheck, AdapterRequest, Execute, ExecuteSync } from '@chainlink/types'
-import * as aws from './lib/aws'
+import { combineReducers, Store } from 'redux'
+import { logger } from '@chainlink/external-adapter'
+import {
+  AdapterHealthCheck,
+  AdapterRequest,
+  Execute,
+  ExecuteSync,
+  Middleware,
+} from '@chainlink/types'
 import { defaultOptions, redactOptions, withCache } from './lib/cache'
-import * as gcp from './lib/gcp'
-import * as metrics from './lib/metrics'
+import * as cacheWarmer from './lib/cache-warmer'
+import * as rateLimit from './lib/rate-limit'
 import * as server from './lib/server'
+import * as metrics from './lib/metrics'
 import * as util from './lib/util'
+import { configureStore } from './lib/store'
+import { Requester } from '@chainlink/external-adapter'
 
-export type Middleware<O = any> = (execute: Execute, options?: O) => Promise<Execute>
+const rootReducer = combineReducers({
+  cacheWarmer: cacheWarmer.reducer.rootReducer,
+  rateLimit: rateLimit.reducer.rootReducer,
+})
+
+// Init store
+const initState = { cacheWarmer: {}, rateLimit: {} }
+export const store = configureStore(rootReducer, initState, [cacheWarmer.epics.epicMiddleware])
+
+// Run epics
+cacheWarmer.epics.epicMiddleware.run(cacheWarmer.epics.rootEpic)
 
 // Try to initialize, pass through on error
 const skipOnError = (middleware: Middleware) => async (execute: Execute) => {
@@ -80,9 +99,15 @@ const withMetrics: Middleware = async (execute) => async (input: AdapterRequest)
   }
 }
 
-const middleware = [withLogger, skipOnError(withCache), withStatusCode].concat(
-  metrics.METRICS_ENABLED ? [withMetrics] : [],
-)
+const middleware = [
+  withLogger,
+  skipOnError(withCache),
+  rateLimit.withRateLimit({
+    getState: () => store.getState().rateLimit,
+    dispatch: (a) => store.dispatch(a),
+  } as Store),
+  withStatusCode,
+].concat(metrics.METRICS_ENABLED ? [withMetrics] : [])
 
 // Init all middleware, and return a wrapped execute fn
 const withMiddleware = async (execute: Execute) => {
@@ -99,12 +124,26 @@ const executeSync = (execute: Execute): ExecuteSync => {
   // const initMiddleware = withMiddleware(execute)
 
   // Return sync function
-  return (data: AdapterRequest, callback: any) => {
+  return async (data: AdapterRequest, callback: any) => {
     // We init on every call because of cache connection broken state issue
-    return withMiddleware(execute)
-      .then((executeWithMiddleware) => executeWithMiddleware(data))
-      .then((result) => callback(result.statusCode, result))
-      .catch((error) => callback(error.statusCode || 500, Requester.errored(data.id, error)))
+    try {
+      const executeWithMiddleware = await withMiddleware(execute)
+      const result = await executeWithMiddleware(data)
+      // only consider registering a warmup request if the original one was successful
+      // and we have caching enabled
+      if (util.parseBool(process.env.CACHE_ENABLED) && util.parseBool(process.env.WARMUP_ENABLED)) {
+        store.dispatch(
+          cacheWarmer.actions.warmupSubscribed({
+            id: data.id,
+            executeFn: executeWithMiddleware,
+            data,
+          }),
+        )
+      }
+      return callback(result.statusCode, result)
+    } catch (error) {
+      return callback(error.statusCode || 500, Requester.errored(data.id, error))
+    }
   }
 }
 
@@ -113,13 +152,6 @@ export const expose = (execute: Execute, checkHealth?: AdapterHealthCheck) => {
   const _execute = executeSync(execute)
   return {
     server: server.initHandler(_execute, checkHealth),
-    gcpHandler: gcp.initHandler(_execute),
-    // Backwards compatibility for old gcpHandler
-    gcpservice: gcp.initHandler(_execute),
-    // Default index.handler for AWS Lambda
-    handler: aws.initHandlerREST(_execute),
-    awsHandlerREST: aws.initHandlerREST(_execute),
-    awsHandlerHTTP: aws.initHandlerHTTP(_execute),
   }
 }
 export type ExecuteHandlers = ReturnType<typeof expose>

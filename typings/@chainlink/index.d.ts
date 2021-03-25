@@ -17,18 +17,6 @@ declare module '@chainlink/types' {
     meta?: AdapterRequestMeta
   }
 
-  export type Callback = (statusCode: number, data?: any) => void
-  export type AdapterHealthCheck = (callback: Callback) => any
-
-  import { AxiosRequestConfig } from 'axios'
-  export type Config = {
-    apiKey?: string
-    network?: string
-    returnRejectedPromiseOnError?: Boolean
-    verbose?: boolean
-    api: Partial<AxiosRequestConfig>
-  }
-
   /* RESPONSES */
   export type DataResponse<R, P> = {
     result: R
@@ -43,8 +31,9 @@ declare module '@chainlink/types' {
   export type AdapterResponse = {
     jobRunID: string
     statusCode: number
-    data: any
-    result: any
+    data: any // Response data, holds "result" for Flux Monitor. Correct way.
+    result: any // Result for OCR
+    maxAge?: number
   }
 
   /* ERRORS */
@@ -65,6 +54,21 @@ declare module '@chainlink/types' {
   }
 
   /* BOOTSTRAP */
+  export type Middleware = (execute: Execute, ...args: any) => Promise<Execute>
+  export type Callback = (statusCode: number, data?: any) => void
+  export type AdapterHealthCheck = (callback: Callback) => any
+
+  import type { RequestConfig } from '@chainlink/external-adapter'
+  export type RequestConfig = RequestConfig
+
+  export type Config = {
+    apiKey?: string
+    network?: string
+    returnRejectedPromiseOnError?: Boolean
+    verbose?: boolean
+    api: RequestConfig
+  }
+
   export type ExecuteSync = (input: AdapterRequest, callback: Callback) => void
 
   export type Execute = (input: AdapterRequest) => Promise<AdapterResponse>
@@ -78,10 +82,10 @@ declare module '@chainlink/types' {
 
   export type ConfigFactory = (prefix?: string) => Config
 
-  import type { ExecuteHandlers } from '@chainlink/ea-bootstrap/src'
+  import type { ExecuteHandlers } from '@chainlink/ea-bootstrap'
   export type AdapterImplementation = {
     NAME: string
-    makeExecute: ExecuteFactory
+    makeExecute: ExecuteFactory<Config>
     makeConfig: ConfigFactory
   } & ExecuteHandlers
 
@@ -96,7 +100,6 @@ declare module '@chainlink/types' {
     warning?: string
   }
 }
-declare module '@chainlink/ea-bootstrap'
-declare module '@chainlink/external-adapter'
+
 declare module 'synthetix'
 declare module 'object-path'
