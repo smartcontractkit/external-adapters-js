@@ -1,5 +1,5 @@
 import objectPath from 'object-path'
-import { Requester, Validator } from '@chainlink/external-adapter'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { util } from '@chainlink/ea-bootstrap'
 import { Execute } from '@chainlink/types'
 import { Decimal } from 'decimal.js'

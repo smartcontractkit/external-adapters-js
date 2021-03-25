@@ -1,5 +1,5 @@
 import { Execute } from '@chainlink/types'
-import { Requester, Validator } from '@chainlink/external-adapter'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { util } from '@chainlink/ea-bootstrap'
 
 const customError = (data: any) => {

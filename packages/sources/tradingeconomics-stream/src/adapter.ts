@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/external-adapter'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { TEClient } from 'tradingeconomics-stream'
 import { AdapterRequest } from '@chainlink/types'
 import { Config, makeConfig } from './config'
@@ -6,7 +6,7 @@ import { Config, makeConfig } from './config'
 const prices: { [symbol: string]: number } = {}
 
 const subscribe = (asset: string, config: Config) => {
-  const client = new TEClient({
+  const client: any = new TEClient({
     ...config,
     reconnect: true,
   })

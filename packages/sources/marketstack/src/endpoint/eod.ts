@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/external-adapter'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { AdapterRequest, Config } from '@chainlink/types'
 import { DEFAULT_INTERVAL, DEFAULT_LIMIT } from '../config'
 

@@ -1,4 +1,4 @@
-import { logger } from '@chainlink/external-adapter'
+import { logger } from './external-adapter'
 import { AdapterHealthCheck, AdapterResponse, ExecuteSync } from '@chainlink/types'
 import express from 'express'
 import * as client from 'prom-client'

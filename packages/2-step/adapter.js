@@ -1,4 +1,4 @@
-const { Requester, Validator, logger } = require('@chainlink/external-adapter')
+const { Requester, Validator, Logger } = require('@chainlink/ea-bootstrap')
 const { getContractPrice } = require('../helpers/eth-adapter-helper')
 const adapterExecute = require('./priceAdapter').execute
 
@@ -40,7 +40,7 @@ const execute = (input, callback) => {
     return callback(400, Requester.errored(jobRunID, 'invalid dividend'))
   }
 
-  logger.debug('Getting value from contract: ' + contract)
+  Logger.debug('Getting value from contract: ' + contract)
   getContractPrice(contract)
     .then((price) => {
       price = price / multiply

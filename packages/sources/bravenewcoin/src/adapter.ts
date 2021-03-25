@@ -1,4 +1,4 @@
-import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
+import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
 import { makeConfig, DEFAULT_ENDPOINT } from './config'
 import { price, vwap } from './endpoint'

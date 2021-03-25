@@ -1,6 +1,6 @@
 import { ethers } from 'ethers'
 import { balance } from '@chainlink/ea-factories'
-import { Requester } from '@chainlink/external-adapter'
+import { Requester } from '@chainlink/ea-bootstrap'
 import { Account, Config } from '@chainlink/types'
 import { isCoinType, isChainType } from '.'
 
