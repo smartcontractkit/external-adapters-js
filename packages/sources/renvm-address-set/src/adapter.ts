@@ -7,7 +7,7 @@ import {
   LockAndMintParams,
 } from '@renproject/interfaces'
 import { resolveInToken, getTokenName } from '@renproject/utils'
-import { Requester, Validator } from '@chainlink/external-adapter'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, ExecuteFactory, Config } from '@chainlink/types'
 import { makeConfig, DEFAULT_NETWORK, DEFAULT_TOKEN_OR_CONTRACT } from './config'
 import { btc } from './coins'

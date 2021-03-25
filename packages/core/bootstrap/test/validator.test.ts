@@ -1,5 +1,5 @@
 import { assert } from 'chai'
-import { Validator } from '../src/validator'
+import { Validator } from '../src/lib/external-adapter/validator'
 
 describe('Validator', () => {
   describe('without required params', () => {

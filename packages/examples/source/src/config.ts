@@ -1,4 +1,4 @@
-import { Requester } from '@chainlink/external-adapter'
+import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
 export const NAME = 'EXAMPLE' // This should be filled in with a name corresponding to the data provider using UPPERCASE and _underscores_.

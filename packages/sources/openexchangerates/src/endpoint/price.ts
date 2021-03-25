@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/external-adapter'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 

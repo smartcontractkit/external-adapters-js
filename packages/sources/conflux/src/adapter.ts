@@ -1,4 +1,4 @@
-import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
+import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
 import { AdapterRequest, Execute, AdapterResponse } from '@chainlink/types'
 import { makeConfig, DEFAULT_ENDPOINT, Config } from './config'
 import { conflux } from './endpoint'

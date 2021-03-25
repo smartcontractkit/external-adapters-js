@@ -1,5 +1,5 @@
 import types from '@chainlink/types'
-import { Requester, logger } from '@chainlink/external-adapter'
+import { Requester, Logger } from '@chainlink/ea-bootstrap'
 import { util } from '@chainlink/ea-bootstrap'
 
 export const DEFAULT_API_ENDPOINT = 'https://api.s0.t.hmny.io'
@@ -31,5 +31,5 @@ export const makeConfig = (prefix?: string): Config => {
 const redact = (config: Config) => ({ ...config, apiKey: '*****', privateKey: '*****' })
 
 export function logConfig(config: Config): void {
-  logger.debug('Adapter configuration:', { config: config && redact(config) })
+  Logger.debug('Adapter configuration:', { config: config && redact(config) })
 }

@@ -1,4 +1,4 @@
-import { Validator } from '@chainlink/external-adapter'
+import { Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 import * as dxfeed from '@chainlink/dxfeed-adapter'
 import { NAME as AdapterName } from '../config'

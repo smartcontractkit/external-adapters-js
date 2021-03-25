@@ -1,5 +1,5 @@
 import { Config, ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
-import { Requester, Validator } from '@chainlink/external-adapter'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { makeConfig, NAME } from './config'
 
 const customParams = {

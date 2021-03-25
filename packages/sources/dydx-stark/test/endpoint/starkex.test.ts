@@ -1,6 +1,6 @@
 import { assert } from 'chai'
 import * as starkwareCrypto from '@authereum/starkware-crypto'
-import { AdapterError } from '@chainlink/external-adapter'
+import { AdapterError } from '@chainlink/ea-bootstrap'
 import {
   PriceDataPoint,
   getKeyPair,

@@ -1,6 +1,6 @@
 import { balance } from '@chainlink/ea-factories'
 import { Config } from '@chainlink/types'
-import { Requester } from '@chainlink/external-adapter'
+import { Requester } from '@chainlink/ea-bootstrap'
 import { isChainType, isCoinType, BLOCKCHAINS } from '.'
 
 export const Name = 'balance'

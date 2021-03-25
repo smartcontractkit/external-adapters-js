@@ -1,4 +1,4 @@
-import { Requester } from '@chainlink/external-adapter'
+import { Requester } from '@chainlink/ea-bootstrap'
 import { AdapterRequest } from '@chainlink/types'
 
 export type PriceAdapter = (input: AdapterRequest) => Promise<any>

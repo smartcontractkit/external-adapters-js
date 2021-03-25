@@ -1,5 +1,5 @@
 import { util } from '@chainlink/ea-bootstrap'
-import { getDefaultConfig } from '@chainlink/external-adapter'
+import { Requester } from '@chainlink/ea-bootstrap'
 import { getDataProvider } from './dataProvider'
 import { Config, SourceRequestOptions } from './types'
 import { adapters } from './dataProvider'
@@ -21,7 +21,7 @@ export const makeConfig = (prefix = ''): Config => {
     const name = a.NAME.toLowerCase()
     const url = getURL(name)
     if (url) {
-      const defaultConfig = getDefaultConfig(prefix)
+      const defaultConfig = Requester.getDefaultConfig(prefix)
       defaultConfig.api.baseURL = url
       defaultConfig.api.method = 'post'
       sources[name] = getDataProvider(defaultConfig.api)
