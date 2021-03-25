@@ -33,30 +33,6 @@ jobs:
       - run: yarn lint
       - run: yarn test:unit
 
-  test-example:
-    needs: [run-basic-checks]
-    name: Test example adapter
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2-beta
-        with:
-          node-version: '12.x'
-      - run: yarn install
-      - name: Cache node modules
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.npm
-            ~/.cache
-            **/node_modules
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('./yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-      - run: yarn setup
-      - run: yarn test:example-start-server&
-      - run: yarn test:example
-
   # Read build strategy matrix of adapters, from a json file
   matrix-adapters:
     runs-on: ubuntu-latest
