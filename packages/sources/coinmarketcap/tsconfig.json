@@ -4,7 +4,8 @@
     "outDir": "dist",
     "rootDir": "src",
     "types": ["mocha"],
-    "typeRoots": ["../../../node_modules/@types", "../../core/types", "./types"]
+    "typeRoots": ["../../../node_modules/@types", "../../core/types", "./types"],
+    "composite": true
   },
   "include": ["src/**/*"],
   "exclude": ["dist", "**/*.spec.ts", "**/*.test.ts"],
