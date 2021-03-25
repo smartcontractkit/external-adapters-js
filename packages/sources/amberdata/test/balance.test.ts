@@ -1,5 +1,5 @@
 import { makeExecute } from '../src/adapter'
-import { shouldBehaveLikeBalanceAdapter } from '@chainlink/adapter-test-helpers'
+import { shouldBehaveLikeBalanceAdapter } from '@chainlink/ea-test-helpers'
 
 process.env.API_KEY = process.env.API_KEY ?? 'test_api_key'
 

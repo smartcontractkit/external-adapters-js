@@ -3,11 +3,12 @@
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "src",
-    "typeRoots": ["../../../node_modules/@types", "../types", "./types"],
+    "types": ["mocha"],
+    "typeRoots": ["../types", "./types"],
     "resolveJsonModule": true,
     "composite": true
   },
   "include": ["src/**/*", "src/hardhat_config.json"],
   "exclude": ["dist", "**/*.spec.ts", "**/*.test.ts"],
-  "references": [{ "path": "../external-adapter" }]
+  "references": [{ "path": "../bootstrap" }]
 }

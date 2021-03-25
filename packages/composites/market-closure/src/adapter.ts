@@ -1,6 +1,6 @@
 import { AdapterRequest, AdapterResponse, Execute } from '@chainlink/types'
-import { Requester, Validator } from '@chainlink/external-adapter'
-import { getLatestAnswer } from '@chainlink/reference-data-reader'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { getLatestAnswer } from '@chainlink/ea-reference-data-reader'
 import { Config, makeConfig } from './config'
 import { getCheckImpl, getCheckProvider } from './checks'
 

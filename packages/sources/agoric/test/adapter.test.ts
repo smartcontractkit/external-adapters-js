@@ -1,6 +1,6 @@
 import { assert } from 'chai'
-import { Requester } from '@chainlink/external-adapter'
-import { assertSuccess, assertError } from '@chainlink/adapter-test-helpers'
+import { Requester } from '@chainlink/ea-bootstrap'
+import { assertSuccess, assertError } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
 import { Action, makeExecute } from '../src/adapter'
 import { makeConfig } from '../src/config'
@@ -130,7 +130,8 @@ describe('execute', () => {
             }
           })
 
-          server = app.listen(port, resolve)
+          server = app.listen(port)
+          resolve(true)
         }),
     )
 

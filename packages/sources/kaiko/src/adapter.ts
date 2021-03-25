@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/external-adapter'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
 import { DEFAULT_INTERVAL, DEFAULT_SORT, DEFAULT_MILLISECONDS, makeConfig } from './config'
 

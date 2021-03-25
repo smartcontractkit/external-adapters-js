@@ -1,4 +1,4 @@
-import { Requester } from '@chainlink/external-adapter'
+import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 import { adapters as ProtocolAdapters, Protocol } from './protocol'
 import { adapters as BalanceAdapters, Indexer } from './balance'

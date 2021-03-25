@@ -1,11 +1,11 @@
 import { assert } from 'chai'
-import { Requester } from '@chainlink/external-adapter'
+import { Requester } from '@chainlink/ea-bootstrap'
 import {
   assertSuccess,
   assertError,
   startChain,
   TESTING_PRIVATE_KEY,
-} from '@chainlink/adapter-test-helpers'
+} from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
 import { makeExecute } from '../src/adapter'
 import { abi, deploy } from './helpers'
