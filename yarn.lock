@@ -3759,6 +3759,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@tsconfig/node12": ^1.0.7
     decimal.js: ^10.2.0
     eslint: ^7.22.0
+    eslint-config-prettier: ^8.1.0
     eslint-config-standard: ^16.0.2
     eslint-plugin-import: ^2.22.1
     eslint-plugin-node: ^11.1.0
@@ -9956,6 +9957,17 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   version: 4.0.0
   resolution: "escape-string-regexp@npm:4.0.0"
   checksum: c747be8d5ff7873127e3e0cffe7d2206a37208077fa9c30a3c1bb4f26bebd081c8c24d5fba7a99449f9d20670bea3dc5e1b6098b0f074b099bd38766271a272f
+  languageName: node
+  linkType: hard
+
+"eslint-config-prettier@npm:^8.1.0":
+  version: 8.1.0
+  resolution: "eslint-config-prettier@npm:8.1.0"
+  peerDependencies:
+    eslint: ">=7.0.0"
+  bin:
+    eslint-config-prettier: bin/cli.js
+  checksum: 409d3a071f8228d4c958a6a9be9d5ec2b357ce21b7b6cbb137096cade2c31f008a0a3c3533dee8979c0cd944f220a959710b30fd86f8b96f0ef1f4f557d740b3
   languageName: node
   linkType: hard
 
