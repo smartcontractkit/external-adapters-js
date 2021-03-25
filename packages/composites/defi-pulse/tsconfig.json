@@ -9,5 +9,9 @@
   },
   "include": ["src/**/*", "src/**/*.json"],
   "exclude": ["dist", "**/*.spec.ts", "**/*.test.ts"],
-  "references": [{ "path": "../../core/bootstrap" }, { "path": "../token-allocation" }]
+  "references": [
+    { "path": "../../core/bootstrap" },
+    { "path": "../../core/test-helpers" },
+    { "path": "../token-allocation" }
+  ]
 }

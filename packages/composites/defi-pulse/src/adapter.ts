@@ -1,7 +1,6 @@
-import { Validator } from '@chainlink/ea-bootstrap'
+import { Validator, Requester } from '@chainlink/ea-bootstrap'
 import { AdapterResponse, AdapterRequest, Execute } from '@chainlink/types'
 import { getAllocations } from './index-allocations'
-import * as TokenAllocation from '@chainlink/token-allocation-adapter'
 import { makeConfig, Config } from './config'
 
 const customParams = {
@@ -9,6 +8,8 @@ const customParams = {
   asset: false,
   address: true,
   adapter: true,
+  source: true,
+  quote: false,
 }
 
 export const execute = async (input: AdapterRequest, config: Config): Promise<AdapterResponse> => {
@@ -25,8 +26,14 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
     config.network,
   )
 
-  const _execute = TokenAllocation.makeExecute()
-  return await _execute({ id: jobRunID, data: { ...input.data, allocations } })
+  const response = await Requester.request({
+    ...config.taConfig,
+    data: {
+      id: jobRunID,
+      data: { ...validator.validated.data, allocations },
+    },
+  })
+  return Requester.success(jobRunID, response)
 }
 
 export const makeExecute = (config?: Config): Execute => {
