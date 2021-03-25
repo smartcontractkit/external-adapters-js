@@ -1,7 +1,8 @@
-*.zip
+# Build artifacts
+packages/**/*.zip
 dist
-.DS_Store
 **/tsconfig.tsbuildinfo
+.DS_Store
 
 # Yarn 2
 .yarn/*
