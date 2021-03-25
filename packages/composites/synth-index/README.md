@@ -10,7 +10,7 @@ To be functional the location of a running Token Allocation composite adapter mu
 
 | Required? |                 Name                 |                     Description                      | Options | Defaults to |
 | :-------: | :----------------------------------: | :--------------------------------------------------: | :-----: | :---------: |
-|           | `TOKEN_ALLOCATION_DATA_PROVIDER_URL` | The location of a Token Allocation composite adapter |         |             |
+|    ✅     | `TOKEN_ALLOCATION_DATA_PROVIDER_URL` | The location of a Token Allocation composite adapter |         |             |
 
 Optionally the default behavior of the composite adapter can be configured
 
@@ -29,8 +29,8 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 | :-------: | :-----------------------: | :---------------------------------: | :-----------------------------------------------------------------------------------------------------: | :---------------: |
 |    ✅     |         `source`          |     The data provider to query      | `amberdata`, `coinapi`, `coingecko`, `coinmarketcap`, `coinpaprika`, `cryptocompare`, `kaiko`, `nomics` |                   |
 |    ✅     | `base`, `asset` or `from` |     Synthx Index asset to fetch     |                                                                                                         |                   |
-|    ✅     |         `network`         |     Synthx Index asset to fetch     |                                                                                                         | `DEFAULT_NETWORK` |
-|    ✅     |          `quote`          | Currency that we want the price on. |                                                                                                         |  `DEFAULT_QUOTE`  |
+|           |         `network`         |     Synthx Index asset to fetch     |                                                                                                         | `DEFAULT_NETWORK` |
+|           |          `quote`          | Currency that we want the price on. |                                                                                                         |  `DEFAULT_QUOTE`  |
 
 ### Sample Input
 

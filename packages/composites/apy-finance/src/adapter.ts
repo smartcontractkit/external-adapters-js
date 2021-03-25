@@ -1,18 +1,29 @@
-import { Validator } from '@chainlink/ea-bootstrap'
+import { Validator, Requester } from '@chainlink/ea-bootstrap'
 import { AdapterResponse, Execute, AdapterRequest } from '@chainlink/types'
-import * as TokenAllocation from '@chainlink/token-allocation-adapter'
 import makeRegistry from './registry'
 import { makeConfig, Config } from './config'
 
+const customParams = {
+  source: true,
+  quote: false,
+}
+
 export const execute = async (input: AdapterRequest, config: Config): Promise<AdapterResponse> => {
-  const validator = new Validator(input)
+  const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
 
+  const jobRunID = validator.validated.id
   const registry = await makeRegistry(config.registryAddr, config.rpcUrl)
   const allocations = await registry.getAllocations()
 
-  const _execute = TokenAllocation.makeExecute()
-  return await _execute({ id: validator.validated.id, data: { ...input.data, allocations } })
+  const response = await Requester.request({
+    ...config.taConfig,
+    data: {
+      id: jobRunID,
+      data: { ...validator.validated.data, allocations },
+    },
+  })
+  return Requester.success(jobRunID, response)
 }
 
 export const makeExecute = (config?: Config): Execute => {

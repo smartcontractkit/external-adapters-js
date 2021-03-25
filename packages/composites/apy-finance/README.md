@@ -6,16 +6,39 @@ The adapter calculates APY Finance total value locked
 
 The adapter takes the following environment variables:
 
-- `RPC_URL`: Blockchain RPC endpoint to get the needed on-chain data
-- `REGISTRY_ADDRESS`: Address Registry contract address used to query the Chainlink Registry
-- `DATA_PROVIDER_URL`: The adapter URL for the price data provider
-- `DEFAULT_QUOTE` (Optional): Currency that the price will be fetched by default. `USD` used by default
+To be functional the location of a running Token Allocation composite adapter must be configured.
+
+| Required? |                 Name                 |                       Description                       | Options | Defaults to |
+| :-------: | :----------------------------------: | :-----------------------------------------------------: | :-----: | :---------: |
+|    ✅     | `TOKEN_ALLOCATION_DATA_PROVIDER_URL` |  The location of a Token Allocation composite adapter   |         |             |
+|    ✅     |              `RPC_URL`               | Blockchain RPC endpoint to get the needed on-chain data |         |             |
+|    ✅     |          `REGISTRY_ADDRESS`          |                                                         |         |             |
+
+Optionally the default behavior of the composite adapter can be configured
+
+| Required? |      Name       |                     Description                     | Options | Defaults to |
+| :-------: | :-------------: | :-------------------------------------------------: | :-----: | :---------: |
+|           | `DEFAULT_QUOTE` | Currency that the price will be fetched by default. |         |    `USD`    |
 
 ## Input Params
 
-- `quote` (optional). Currency we want the price on. `DEFAULT_QUOTE` by default
+| Required? |   Name   |             Description             |                                                 Options                                                 |   Defaults to   |
+| :-------: | :------: | :---------------------------------: | :-----------------------------------------------------------------------------------------------------: | :-------------: |
+|    ✅     | `source` |     The data provider to query      | `amberdata`, `coinapi`, `coingecko`, `coinmarketcap`, `coinpaprika`, `cryptocompare`, `kaiko`, `nomics` |                 |
+|           | `quote`  | Currency that we want the price on. |                                                                                                         | `DEFAULT_QUOTE` |
 
-## Output
+### Sample Input
+
+```json
+{
+  "jobID": "1",
+  "data": {
+    "source": "coingecko"
+  }
+}
+```
+
+### Sample Output
 
 ```json
 {
