@@ -1,4 +1,4 @@
-import { Validator, AdapterError } from '@chainlink/external-adapter'
+import { Validator, AdapterError } from '@chainlink/ea-bootstrap'
 import { AdapterResponse, Execute, AdapterRequest } from '@chainlink/types'
 import * as ta from '@chainlink/token-allocation-adapter'
 import snx from 'synthetix'

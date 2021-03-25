@@ -1,6 +1,6 @@
 import { assert } from 'chai'
-import { Requester, AdapterError } from '@chainlink/external-adapter'
-import { assertSuccess, assertError } from '@chainlink/adapter-test-helpers'
+import { Requester, AdapterError } from '@chainlink/ea-bootstrap'
+import { assertSuccess, assertError } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
 import { makeExecute } from '../src/adapter'
 

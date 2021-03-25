@@ -1,4 +1,4 @@
-import { Validator, AdapterError } from '@chainlink/external-adapter'
+import { Validator, AdapterError } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
 import { Config, makeConfig, logConfig, DEFAULT_ENDPOINT } from './config'
 import { send } from './endpoint'

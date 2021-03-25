@@ -1,4 +1,4 @@
-import { Requester } from '@chainlink/external-adapter'
+import { Requester } from '@chainlink/ea-bootstrap'
 import { PriceAdapter, ResponsePayload } from './types'
 import { AdapterImplementation } from '@chainlink/types'
 // data provider external adapters

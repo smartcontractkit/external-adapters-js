@@ -1,4 +1,4 @@
-import { Validator } from '@chainlink/external-adapter'
+import { Validator } from '@chainlink/ea-bootstrap'
 import { AdapterResponse, AdapterRequest, Execute } from '@chainlink/types'
 import { getAllocations } from './index-allocations'
 import * as TokenAllocation from '@chainlink/token-allocation-adapter'

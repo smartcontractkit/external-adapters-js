@@ -3,10 +3,10 @@
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "src",
+    "types": ["mocha", "node", "@chainlink"],
     "typeRoots": ["../../../node_modules/@types", "../types", "./types"],
     "composite": true
   },
   "include": ["src/**/*"],
-  "exclude": ["dist", "**/*.spec.ts", "**/*.test.ts"],
-  "references": [{ "path": "../external-adapter" }]
+  "exclude": ["dist", "**/*.spec.ts", "**/*.test.ts"]
 }

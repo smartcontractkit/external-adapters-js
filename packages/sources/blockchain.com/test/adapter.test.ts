@@ -3,7 +3,7 @@ import { Requester } from '@chainlink/external-adapter'
 import { assertSuccess, assertError } from '@chainlink/adapter-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
 import { makeExecute } from '../src/adapter'
-import { shouldBehaveLikeBalanceAdapter } from '@chainlink/adapter-test-helpers'
+import { shouldBehaveLikeBalanceAdapter } from '@chainlink/ea-test-helpers'
 
 shouldBehaveLikeBalanceAdapter(makeExecute(), ['bitcoin_mainnet', 'bitcoin_testnet'])
 

@@ -8,7 +8,7 @@ import {
 } from '@chainlink/types'
 import { defaultOptions, redactOptions, withCache } from './lib/cache'
 import * as cacheWarmer from './lib/cache-warmer'
-import * as ea from './lib/external-adapter'
+import { Requester, Validator, AdapterError, logger as Logger } from './lib/external-adapter'
 import * as metrics from './lib/metrics'
 import * as rateLimit from './lib/rate-limit'
 import * as server from './lib/server'
@@ -32,7 +32,7 @@ const skipOnError = (middleware: Middleware) => async (execute: Execute) => {
   try {
     return await middleware(execute)
   } catch (error) {
-    ea.logger.warn(`${middleware.name} middleware initialization error! Passing through. `, error)
+    Logger.warn(`${middleware.name} middleware initialization error! Passing through. `, error)
     return execute
   }
 }
@@ -56,13 +56,13 @@ const withStatusCode: Middleware = async (execute) => async (input) => {
 
 // Log adapter input & output data
 const withLogger: Middleware = async (execute) => async (input: AdapterRequest) => {
-  ea.logger.debug('Input: ', { input })
+  Logger.debug('Input: ', { input })
   try {
     const result = await execute(input)
-    ea.logger.debug(`Output: [${result.statusCode}]: `, { output: result.data })
+    Logger.debug(`Output: [${result.statusCode}]: `, { output: result.data })
     return result
   } catch (error) {
-    ea.logger.error(error.toString(), { stack: error.stack })
+    Logger.error(error.toString(), { stack: error.stack })
     throw error
   }
 }
@@ -141,7 +141,7 @@ const executeSync = (execute: Execute): ExecuteSync => {
       }
       return callback(result.statusCode, result)
     } catch (error) {
-      return callback(error.statusCode || 500, ea.Requester.errored(data.id, error))
+      return callback(error.statusCode || 500, Requester.errored(data.id, error))
     }
   }
 }
@@ -157,6 +157,6 @@ export type ExecuteHandlers = ReturnType<typeof expose>
 
 // Log cache default options once
 const cacheOptions = defaultOptions()
-if (cacheOptions.enabled) ea.logger.info('Cache enabled: ', redactOptions(cacheOptions))
+if (cacheOptions.enabled) Logger.info('Cache enabled: ', redactOptions(cacheOptions))
 
-export { ea, util, server }
+export { Requester, Validator, AdapterError, Logger, util, server }
