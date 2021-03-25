@@ -1,6 +1,5 @@
 import { expose } from '@chainlink/ea-bootstrap'
 import { makeExecute } from './adapter'
+import { makeConfig, NAME } from './config'
 
-const NAME = 'COINMARKETCAP'
-
-export = { NAME, makeExecute, ...expose(makeExecute()) }
+export = { NAME, makeConfig, makeExecute, ...expose(makeExecute()) }

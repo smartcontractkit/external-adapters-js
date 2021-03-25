@@ -1,6 +1,8 @@
 import { Requester } from '@chainlink/external-adapter'
 import { Config } from '@chainlink/types'
 
+export const NAME = 'NOMICS'
+
 export const DEFAULT_ENDPOINT = 'price'
 export const DEFAULT_API_ENDPOINT = 'https://api.nomics.com/v1'
 

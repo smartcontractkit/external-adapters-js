@@ -1,5 +1,6 @@
 import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
 import { ExecuteWithConfig, Config, Override } from '@chainlink/types'
+import { NAME as AdapterName } from '../config'
 
 export const NAME = 'price'
 
@@ -33,8 +34,8 @@ const getCoinId = async (config: Config, symbol: string): Promise<string> => {
   return coin.id.toLowerCase()
 }
 
-const getOverrideSymbol = (overrides: Override | undefined, symbol: string): string | undefined => {
-  return overrides?.get('coingecko')?.get(symbol.toLowerCase())
+const overrideSymbol = (overrides: Override | undefined, symbol: string): string | undefined => {
+  return overrides?.get(AdapterName.toLowerCase())?.get(symbol.toLowerCase())
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
@@ -47,7 +48,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const overrides = validator.validated.data.overrides as Override | undefined
   const coinid = validator.validated.data.coinid as string | undefined
 
-  let coin = coinid?.toLowerCase() || getOverrideSymbol(overrides, symbol)
+  let coin = coinid?.toLowerCase() || overrideSymbol(overrides, symbol)
   if (!coin) {
     try {
       coin = await getCoinId(config, symbol)

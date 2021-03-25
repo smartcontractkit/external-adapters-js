@@ -1,6 +1,12 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
-import { DEFAULT_INTERVAL, DEFAULT_SORT, DEFAULT_MILLISECONDS, makeConfig } from './config'
+import { Config, ExecuteWithConfig, ExecuteFactory, Override } from '@chainlink/types'
+import {
+  DEFAULT_INTERVAL,
+  DEFAULT_SORT,
+  DEFAULT_MILLISECONDS,
+  makeConfig,
+  NAME as AdapterName,
+} from './config'
 
 const customError = (data: any) => data.result === 'error'
 
@@ -8,10 +14,13 @@ const customParams = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
   includes: false,
+  overrides: false,
 }
 
-const convertId: Record<string, string> = {
-  uni: 'uniswap',
+const overrideSymbol = (overrides: Override | undefined, symbol: string): string => {
+  const newSymbol = overrides?.get(AdapterName.toLowerCase())?.get(symbol.toLowerCase())
+  if (newSymbol) return newSymbol
+  return symbol
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
@@ -21,12 +30,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   Requester.logConfig(config)
 
   const jobRunID = validator.validated.id
-  let base = validator.validated.data.base.toLowerCase()
+  const base = overrideSymbol(
+    validator.validated.data.overrides,
+    validator.validated.data.base,
+  ).toLowerCase()
   const quote = validator.validated.data.quote.toLowerCase()
   const includes = validator.validated.data.includes || []
-
-  // Correct common tickers that are misidentified
-  base = convertId[base] || base
 
   let inverse = false
   let url = `/spot_exchange_rate/${base}/${quote}`

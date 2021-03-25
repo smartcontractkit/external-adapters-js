@@ -1,8 +1,9 @@
 import { Requester } from '@chainlink/external-adapter'
 import { Config } from '@chainlink/types'
 
-export const DEFAULT_ENDPOINT = 'price'
+export const NAME = 'COINMARKETCAP'
 
+export const DEFAULT_ENDPOINT = 'price'
 const DEFAULT_API_ENDPOINT = 'https://pro-api.coinmarketcap.com/v1/'
 
 export const makeConfig = (prefix?: string): Config => {

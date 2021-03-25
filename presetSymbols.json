@@ -7,5 +7,18 @@
     "LINA": "linear",
     "FTT": "ftx-token",
     "MDX": "mdex"
+  },
+  "nomics": {
+    "FNX": "FNX2",
+    "AMP": "AMP2",
+    "WING": "WING2",
+    "FTT": "FTXTOKEN",
+    "MDX": "MDX2"
+  },
+  "coinpaprika": {
+    "GRT": "grt-the-graph"
+  },
+  "kaiko": {
+    "uni": "uniswap"
   }
 }

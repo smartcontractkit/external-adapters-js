@@ -1,8 +1,9 @@
 import { Requester } from '@chainlink/external-adapter'
 import { Config } from '@chainlink/types'
 
-export const DEFAULT_API_ENDPOINT = 'https://web3api.io'
+export const NAME = 'AMBERDATA'
 
+export const DEFAULT_API_ENDPOINT = 'https://web3api.io'
 export const DEFAULT_ENDPOINT = 'price'
 
 export const makeConfig = (prefix = ''): Config => {
