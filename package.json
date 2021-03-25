@@ -18,9 +18,7 @@
     "setup": "yarn workspaces foreach -ptv run setup",
     "test": "yarn workspaces foreach -pv run test",
     "test:unit": "yarn workspaces foreach -pv run test:unit",
-    "test:integration": "yarn workspaces foreach -pv run test:integration",
-    "test:example": "yarn workspace @chainlink/example-source-adapter test",
-    "test:example-start-server": "node ./helpers/server.js"
+    "test:integration": "yarn workspaces foreach -pv run test:integration"
   },
   "dependencies": {
     "decimal.js": "^10.2.0",
