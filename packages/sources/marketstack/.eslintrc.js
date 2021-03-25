@@ -1,3 +1,3 @@
 module.exports = {
-  ...require('../../.eslintrc.ts.js'),
+  ...require('../../../.eslintrc.ts.js'),
 }
