@@ -4,8 +4,8 @@ import {
   ExecuteFactory,
   ExecuteWithConfig,
 } from '@chainlink/types'
-import { Requester, Validator } from '@chainlink/external-adapter'
-import { getLatestAnswer } from '@chainlink/reference-data-reader'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { getLatestAnswer } from '@chainlink/ea-reference-data-reader'
 import {
   Config,
   makeConfig,

@@ -1,5 +1,5 @@
 import { assert } from 'chai'
-import { Requester } from '@chainlink/external-adapter'
+import { Requester } from '@chainlink/ea-bootstrap'
 import { AdapterRequest, Execute } from '@chainlink/types'
 
 export function assertError(statusCode: any, data: any, expectedJobId: any) {

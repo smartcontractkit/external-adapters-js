@@ -20,9 +20,21 @@
     "test:integration": "echo \"Error: no test specified\""
   },
   "dependencies": {
+    "@chainlink/ea-bootstrap": "*",
     "object-path": "^0.11.4"
   },
   "devDependencies": {
-    "@types/object-path": "^0.11.0"
+    "@types/chai": "^4.2.15",
+    "@types/mocha": "^8.2.2",
+    "@types/node": "^14.14.35",
+    "@types/object-path": "^0.11.0",
+    "@types/sinon": "^9.0.11",
+    "@typescript-eslint/eslint-plugin": "^4.19.0",
+    "@typescript-eslint/parser": "^4.19.0",
+    "chai": "^4.3.4",
+    "mocha": "^8.3.2",
+    "sinon": "^10.0.0",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.3"
   }
 }

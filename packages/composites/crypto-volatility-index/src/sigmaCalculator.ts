@@ -1,4 +1,4 @@
-import { logger } from '@chainlink/external-adapter'
+import { Logger } from '@chainlink/ea-bootstrap'
 import { Decimal } from 'decimal.js'
 import moment from 'moment'
 import { CurrencyDerivativesData, OptionData } from './derivativesDataProvider'
@@ -86,7 +86,7 @@ export class SigmaCalculator {
       .times(S)
       .minus((F.div(K0).minus(1)).pow(2)).div(T)) // prettier-ignore
 
-    logger.debug(`Sigma:${sigma.toString()}`)
+    Logger.debug(`Sigma:${sigma.toString()}`)
     return sigma
   }
 

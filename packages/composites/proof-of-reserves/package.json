@@ -36,17 +36,33 @@
     "server:dist": "node -e 'require(\"./dist/index.js\").handlers.server()'",
     "start": "yarn server:dist"
   },
-  "devDependencies": {},
   "dependencies": {
-    "@chainlink/amberdata-adapter": "^0.0.4",
-    "@chainlink/blockchain.com-adapter": "^0.0.4",
-    "@chainlink/blockchair-adapter": "^0.0.4",
-    "@chainlink/blockcypher-adapter": "^0.0.4",
-    "@chainlink/btc.com-adapter": "^0.0.2",
-    "@chainlink/cryptoapis-adapter": "^0.0.4",
-    "@chainlink/reduce-adapter": "^0.0.4",
-    "@chainlink/renvm-address-set-adapter": "^0.0.4",
-    "@chainlink/sochain-adapter": "^0.0.2",
-    "@chainlink/wbtc-address-set-adapter": "^0.0.4"
+    "@chainlink/amberdata-adapter": "*",
+    "@chainlink/blockchain.com-adapter": "*",
+    "@chainlink/blockchair-adapter": "*",
+    "@chainlink/blockcypher-adapter": "*",
+    "@chainlink/btc.com-adapter": "*",
+    "@chainlink/cryptoapis-adapter": "*",
+    "@chainlink/ea-bootstrap": "*",
+    "@chainlink/ea-test-helpers": "*",
+    "@chainlink/reduce-adapter": "*",
+    "@chainlink/renvm-address-set-adapter": "*",
+    "@chainlink/sochain-adapter": "*",
+    "@chainlink/wbtc-address-set-adapter": "*",
+    "decimal.js": "^10.2.1",
+    "ethers": "^5.0.32"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.15",
+    "@types/mocha": "^8.2.2",
+    "@types/node": "^14.14.35",
+    "@types/sinon": "^9.0.11",
+    "@typescript-eslint/eslint-plugin": "^4.19.0",
+    "@typescript-eslint/parser": "^4.19.0",
+    "chai": "^4.3.4",
+    "mocha": "^8.3.2",
+    "sinon": "^10.0.0",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.3"
   }
 }

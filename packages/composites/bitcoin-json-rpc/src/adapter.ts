@@ -1,6 +1,6 @@
 import JSONRPC from '@chainlink/json-rpc-adapter'
 import { Config, ExecuteWithConfig, ExecuteFactory, AdapterRequest } from '@chainlink/types'
-import { Validator, Requester } from '@chainlink/external-adapter'
+import { Validator, Requester } from '@chainlink/ea-bootstrap'
 import { DEFAULT_ENDPOINT, makeConfig } from './config'
 
 const inputParams = {

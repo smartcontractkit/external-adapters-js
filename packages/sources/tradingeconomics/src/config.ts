@@ -1,4 +1,4 @@
-import { Requester } from '@chainlink/external-adapter'
+import { Requester } from '@chainlink/ea-bootstrap'
 import { Config as BaseConfig } from '@chainlink/types'
 import { util } from '@chainlink/ea-bootstrap'
 

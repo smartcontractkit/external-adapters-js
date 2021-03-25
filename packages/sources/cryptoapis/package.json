@@ -18,9 +18,12 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
+    "@chainlink/ea-bootstrap": "*",
+    "@chainlink/ea-factories": "*",
+    "@chainlink/ea-test-helpers": "*",
+    "ethers": "^5.0.32",
     "object-path": "^0.11.4"
   },
-  "devDependencies": {},
   "repository": {
     "url": "https://github.com/smartcontractkit/external-adapters-js",
     "type": "git"
@@ -28,5 +31,18 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist"
-  ]
+  ],
+  "devDependencies": {
+    "@types/chai": "^4.2.15",
+    "@types/mocha": "^8.2.2",
+    "@types/node": "^14.14.35",
+    "@types/sinon": "^9.0.11",
+    "@typescript-eslint/eslint-plugin": "^4.19.0",
+    "@typescript-eslint/parser": "^4.19.0",
+    "chai": "^4.3.4",
+    "mocha": "^8.3.2",
+    "sinon": "^10.0.0",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.3"
+  }
 }

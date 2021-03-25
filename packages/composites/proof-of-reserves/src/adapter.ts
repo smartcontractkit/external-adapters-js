@@ -1,4 +1,4 @@
-import { logger } from '@chainlink/external-adapter'
+import { Logger } from '@chainlink/ea-bootstrap'
 import {
   AdapterRequest,
   ExecuteWithConfig,
@@ -7,7 +7,7 @@ import {
   Execute,
   AdapterResponse,
 } from '@chainlink/types'
-import { Validator, Requester } from '@chainlink/external-adapter'
+import { Validator, Requester } from '@chainlink/ea-bootstrap'
 import { makeConfig, makeOptions, getURL, DEFAULT_CONFIRMATIONS } from './config'
 import { runProtocolAdapter } from './protocol'
 import { runBalanceAdapter } from './balance'
@@ -28,7 +28,7 @@ export const makeRequestFactory = (config: Config, prefix: string): Execute => a
 // Run, log, throw on error
 export const callAdapter = async (execute: Execute, input: AdapterRequest, tag: string) => {
   const output = await execute(input)
-  logger.debug(tag, { output })
+  Logger.debug(tag, { output })
   return output
 }
 

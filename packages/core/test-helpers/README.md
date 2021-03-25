@@ -11,5 +11,5 @@ yarn add @chainlink/adapter-test-helpers
 ## Usage
 
 ```javascript
-const { assertSuccess, assertError } = require('@chainlink/adapter-test-helpers')
+const { assertSuccess, assertError } = require('@chainlink/ea-test-helpers')
 ```

@@ -1,4 +1,4 @@
-import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
+import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, AdapterResponse } from '@chainlink/types'
 import { Config } from '../config'
 import TeClient from 'tradingeconomics-stream'
