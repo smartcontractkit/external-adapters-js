@@ -32,7 +32,6 @@ deps:
 	# Compile TypeScript code to JavaScript
 	#######################################
 	yarn workspace @chainlink/${name} setup
-	yarn --frozen-lockfile --production
 
 build:
 	#######################################
