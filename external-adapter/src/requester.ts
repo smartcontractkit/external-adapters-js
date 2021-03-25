@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
+import axios, { AxiosResponse, AxiosRequestConfig } from 'axios'
 import { AdapterError } from './errors'
 import { logger } from './logger'
 import { getDefaultConfig, logConfig } from './config'
@@ -6,8 +6,15 @@ import { AdapterResponse, AdapterErrorResponse } from '@chainlink/types'
 
 const getFalse = () => false
 
+export type RequestConfig = AxiosRequestConfig
+
 export class Requester {
-  static async request(config: AxiosRequestConfig, customError?: any, retries = 3, delay = 1000) {
+  static async request<T extends Record<string, any>>(
+    config: RequestConfig,
+    customError?: any,
+    retries = 3,
+    delay = 1000,
+  ) {
     if (typeof config === 'string') config = { url: config }
     if (typeof config.timeout === 'undefined') {
       const timeout = Number(process.env.TIMEOUT)
@@ -21,14 +28,14 @@ export class Requester {
       customError = getFalse
     }
 
-    const _retry = async (n: number): Promise<AxiosResponse> => {
+    const _retry = async (n: number): Promise<AxiosResponse<T>> => {
       const _delayRetry = async (message: string) => {
         logger.warn(message)
         await new Promise((resolve) => setTimeout(resolve, delay))
         return await _retry(n - 1)
       }
 
-      let response
+      let response: AxiosResponse<T>
       try {
         response = await axios(config)
       } catch (error) {
@@ -106,12 +113,23 @@ export class Requester {
     return new AdapterError({ jobRunID, statusCode, message: error }).toJSONResponse()
   }
 
-  static success(jobRunID = '1', response: AxiosResponse): AdapterResponse {
+  /**
+   * Conforms the .request() response to the expected Chainlink response structure
+   *
+   * @param jobRunID The amount of retries that have passed
+   * @param response The interval in ms
+   * @param verbose The maximum back-off in ms
+   */
+  static success(
+    jobRunID = '1',
+    response: Partial<AxiosResponse>,
+    verbose = false,
+  ): AdapterResponse {
     return {
       jobRunID,
-      data: response.data,
+      data: verbose ? response.data : { result: response.data?.result },
       result: response.data?.result,
-      statusCode: response.status,
+      statusCode: response.status || 200,
     }
   }
 

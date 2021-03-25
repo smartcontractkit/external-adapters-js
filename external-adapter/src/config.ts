@@ -1,4 +1,4 @@
-import { util } from '@chainlink/ea-bootstrap'
+import { getRandomRequiredEnv, getRandomEnv, getEnv } from './util'
 import { Config } from '@chainlink/types'
 import { logger } from './logger'
 
@@ -22,16 +22,16 @@ const cloneNoSecrets = (config: Config): Config =>
 
 export function getDefaultConfig(prefix = '', requireKey = false): Config {
   const apiKey = requireKey
-    ? util.getRandomRequiredEnv(ENV_API_KEY, ',', prefix)
-    : util.getRandomEnv(ENV_API_KEY, ',', prefix)
-  const timeout = util.getEnv(ENV_API_TIMEOUT, prefix)
+    ? getRandomRequiredEnv(ENV_API_KEY, ',', prefix)
+    : getRandomEnv(ENV_API_KEY, ',', prefix)
+  const timeout = getEnv(ENV_API_TIMEOUT, prefix)
   return {
     apiKey,
-    verbose: !!util.getEnv(ENV_API_VERBOSE, prefix),
+    verbose: !!getEnv(ENV_API_VERBOSE, prefix),
     api: {
       withCredentials: !!apiKey,
-      baseURL: util.getEnv(ENV_API_ENDPOINT, prefix),
-      timeout: parseInt(timeout) || DEFAULT_API_TIMEOUT,
+      baseURL: getEnv(ENV_API_ENDPOINT, prefix),
+      timeout: parseInt(timeout || '') || DEFAULT_API_TIMEOUT,
       headers: {
         common: {
           'Cache-Control': 'no-cache, no-store, must-revalidate',
