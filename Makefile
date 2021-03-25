@@ -23,7 +23,7 @@ deps:
 	##########################
 	# Clean up previous builds
 	##########################
-	yarn workspace @chainlink/${name}-adapter clean
+	yarn workspace @chainlink/${name} clean
 	######################
 	# Install dependencies
 	######################
@@ -31,7 +31,7 @@ deps:
 	#######################################
 	# Compile TypeScript code to JavaScript
 	#######################################
-	yarn workspace @chainlink/${name}-adapter setup
+	yarn workspace @chainlink/${name} setup
 	yarn --frozen-lockfile --production
 
 build:
