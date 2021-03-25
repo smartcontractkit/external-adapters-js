@@ -1,5 +1,5 @@
 import { assert } from 'chai'
-import { Requester } from '../src/requester'
+import { Requester } from '../src/lib/external-adapter/requester'
 import { Server } from './helpers/server'
 
 describe('Requester', () => {

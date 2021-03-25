@@ -59,7 +59,7 @@ declare module '@chainlink/types' {
   export type AdapterHealthCheck = (callback: Callback) => any
 
   // TODO: fix circular dependency
-  // import type { RequestConfig } from '@chainlink/external-adapter'
+  // import type { RequestConfig } from '@chainlink/ea-bootstrap'
   export type RequestConfig = any
 
   export type Config = {

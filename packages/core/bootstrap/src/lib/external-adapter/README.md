@@ -11,7 +11,7 @@ yarn add @chainlink/external-adapter
 ## Usage
 
 ```javascript
-const { Requester, Validator } = require('@chainlink/external-adapter')
+const { Requester, Validator } = require('@chainlink/ea-bootstrap')
 ```
 
 ## Validator

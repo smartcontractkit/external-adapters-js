@@ -1,6 +1,5 @@
-import { Requester } from '@chainlink/external-adapter'
+import { Requester, util } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
-import { util } from '@chainlink/ea-bootstrap'
 
 export const DEFAULT_ENDPOINT = 'price'
 

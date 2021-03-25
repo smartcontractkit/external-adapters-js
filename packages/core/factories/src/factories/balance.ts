@@ -6,8 +6,7 @@ import {
   SequenceResponseData,
 } from '@chainlink/types'
 import objectPath from 'object-path'
-import { Validator, AdapterError } from '@chainlink/external-adapter'
-import { util } from '@chainlink/ea-bootstrap'
+import { Validator, AdapterError, util } from '@chainlink/ea-bootstrap'
 
 const DEFAULT_DATA_PATH = 'result'
 const DEFAULT_CONFIRMATIONS = 6

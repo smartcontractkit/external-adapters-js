@@ -1,7 +1,7 @@
 import { BigNumber } from 'ethers'
 
 import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
-import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
+import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
 
 import { makeConfig } from './config'
 
@@ -80,8 +80,8 @@ const tryExecuteLogError = (
   try {
     return await execute(request, config)
   } catch (e) {
-    const queryId = request.data?.request_id
-    const rest = { queryId }
+    const queryId: any = request.data?.request_id
+    const rest: any = { queryId }
 
     await Requester.request(
       {

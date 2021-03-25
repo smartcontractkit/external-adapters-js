@@ -1,4 +1,4 @@
-import { AdapterError, Requester, logger } from '@chainlink/external-adapter'
+import { AdapterError, Requester, Logger } from '@chainlink/ea-bootstrap'
 import moment from 'moment'
 import { Decimal } from 'decimal.js'
 
@@ -41,7 +41,7 @@ export const getDerivativesData = async (
     }),
   )
 
-  logger.debug('currencyValues:', currencyValues)
+  Logger.debug('currencyValues:', currencyValues)
   const optionsData = await Promise.all(
     cryptoCurrencies.map(async (currency: string, index: number) => {
       return await getOptionsData(currency, new Decimal(currencyValues[index]))
@@ -93,8 +93,8 @@ const getOptionsData = async (currency: string, exchangeRate: Decimal) => {
 
     const { e1, e2 } = findNearMonthExpirations(calls)
 
-    logger.debug(`e1:${e1},e2:${e2}`)
-    logger.debug(`exchangeRate:${exchangeRate}`)
+    Logger.debug(`e1:${e1},e2:${e2}`)
+    Logger.debug(`exchangeRate:${exchangeRate}`)
 
     return {
       e1: moment(e1, 'DDMMYYYY'),
@@ -106,8 +106,8 @@ const getOptionsData = async (currency: string, exchangeRate: Decimal) => {
       exchangeRate,
     }
   } catch (error) {
-    logger.error(error)
-    logger.error(error.stack)
+    Logger.error(error)
+    Logger.error(error.stack)
     throw new AdapterError(error)
   }
 }
@@ -132,7 +132,7 @@ function findNearMonthExpirations(calls: Record<string, Array<OptionData>>) {
   })
 
   if (!e2) throw new Error('Could not find an expiration date after a full month')
-  logger.debug(`e1:${toDate(e1)} e2:${toDate(<moment.Moment>e2)}`)
+  Logger.debug(`e1:${toDate(e1)} e2:${toDate(<moment.Moment>e2)}`)
   return { e1: toDate(e1), e2: toDate(<moment.Moment>e2) }
 }
 
