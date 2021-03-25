@@ -1,56 +1,59 @@
 import { logger } from '@chainlink/external-adapter'
-import { AdapterRequest, AdapterResponse, Execute } from '@chainlink/types'
-import reduceAdapter from '@chainlink/reduce-adapter'
-import { getImpl as getProtocolImpl, getProtocol } from './protocol'
-import { getImpl as getBalanceImpl, getBitcoinIndexer } from './balance'
+import {
+  AdapterRequest,
+  ExecuteWithConfig,
+  Config,
+  ExecuteFactory,
+  Execute,
+  AdapterResponse,
+} from '@chainlink/types'
+import { Validator, Requester } from '@chainlink/external-adapter'
+import { makeConfig, makeOptions, getURL, DEFAULT_CONFIRMATIONS } from './config'
+import { runProtocolAdapter } from './protocol'
+import { runBalanceAdapter } from './balance'
+import { runReduceAdapter } from './reduce'
+
+export const makeRequestFactory = (config: Config, prefix: string): Execute => async (
+  input: AdapterRequest,
+) =>
+  (
+    await Requester.request({
+      ...config.api,
+      method: 'post',
+      url: getURL(prefix, true),
+      data: input,
+    })
+  ).data as AdapterResponse
 
 // Run, log, throw on error
-const runAdapter = async (execute: Execute, input: AdapterRequest, tag: string) => {
+export const callAdapter = async (execute: Execute, input: AdapterRequest, tag: string) => {
   const output = await execute(input)
   logger.debug(tag, { output })
   return output
 }
 
-// Get address set for protocol
-const runProtocolAdapter = async (input: AdapterRequest) => {
-  const execute = getProtocolImpl({ type: getProtocol() })
-  return runAdapter(execute, input, '_onProtocol')
+const inputParams = {
+  protocol: true,
+  indexer: true,
+  confirmations: false,
 }
 
-// Get balances for address set
-const runBalanceAdapter = async (input: AdapterResponse) => {
-  const execute = getBalanceImpl({ type: getBitcoinIndexer() })
-  const next = {
-    id: input.jobRunID,
-    data: {
-      result: input.data.result,
-      dataPath: 'result',
-      endpoint: 'balance',
-      confirmations: 6,
-    },
-  }
-  return runAdapter(execute, next, '_onBalance')
-}
+export const execute: ExecuteWithConfig<Config> = async (input, config) => {
+  const paramOptions = makeOptions()
+  const validator = new Validator(input, inputParams, paramOptions)
+  if (validator.error) throw validator.error
 
-// Get reduce balances as total balance
-const runReduceAdapter = async (input: AdapterResponse) => {
-  const execute = reduceAdapter.execute
-  const next = {
-    id: input.jobRunID,
-    data: {
-      result: input.data.result,
-      reducer: 'sum',
-      initialValue: 0,
-      dataPath: 'result',
-      valuePath: 'balance',
-    },
-  }
-  return runAdapter(execute, next, '_onReduce')
-}
+  const jobRunID = validator.validated.jobRunID
+  const protocol = validator.validated.data.protocol.toUpperCase()
+  const indexer = validator.validated.data.indexer.toUpperCase()
+  const confirmations = validator.validated.data.confirmations || DEFAULT_CONFIRMATIONS
 
-export const execute: Execute = async (input) => {
-  const protocolOutput = await runProtocolAdapter(input)
-  const balanceOutput = await runBalanceAdapter(protocolOutput)
+  const protocolOutput = await runProtocolAdapter(jobRunID, protocol, input.data, config)
+  const balanceOutput = await runBalanceAdapter(indexer, confirmations, config, protocolOutput)
   const reduceOutput = await runReduceAdapter(balanceOutput)
   return reduceOutput
+}
+
+export const makeExecute: ExecuteFactory<Config> = (config) => {
+  return async (request) => execute(request, config || makeConfig())
 }

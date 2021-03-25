@@ -1,48 +1,61 @@
-import { AdapterRequest, AdapterResponse, Execute } from '@chainlink/types'
+import {
+  AdapterRequest,
+  AdapterResponse,
+  ExecuteFactory,
+  ExecuteWithConfig,
+} from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { getLatestAnswer } from '@chainlink/reference-data-reader'
-import { Config, makeConfig } from './config'
+import {
+  Config,
+  makeConfig,
+  makeOptions,
+  DEFAULT_CHECK_THRESHOLD,
+  DEFAULT_ONCHAIN_THRESHOLD,
+  SourceRequestOptions,
+  CheckRequestOptions,
+} from './config'
+import { AxiosResponse } from 'axios'
 
 const customParams = {
   referenceContract: ['referenceContract', 'contract'],
   multiply: true,
+  source: true,
+  asset: true,
+  check: false,
+  check_threshold: false,
+  onchain_threshold: false,
 }
 
-export const makeExecute = (config?: Config): Execute => {
-  return async (request: AdapterRequest) => execute(request, config || makeConfig())
-}
-
-const execute = async (input: AdapterRequest, config: Config): Promise<AdapterResponse> => {
-  const validator = new Validator(input, customParams)
+const execute: ExecuteWithConfig<Config> = async (input, config) => {
+  const paramOptions = makeOptions(config)
+  const validator = new Validator(input, customParams, paramOptions)
   if (validator.error) throw validator.error
 
-  if (!config.threshold) {
-    throw new Error('config is missing threshold values')
-  }
-
-  const jobRunID = validator.validated.id
+  const jobRunID = validator.validated.jobRunID
+  const source = validator.validated.data.source.toUpperCase()
+  const check = validator.validated.data.check?.toUpperCase()
+  const check_threshold = validator.validated.data.check_threshold || DEFAULT_CHECK_THRESHOLD
+  const onchain_threshold = validator.validated.data.onchain_threshold || DEFAULT_ONCHAIN_THRESHOLD
   const { referenceContract, multiply } = validator.validated.data
 
   const onchainValue = await getLatestAnswer(referenceContract, multiply, input.meta)
 
-  if (config.sourceAdapters.length === 0) {
-    throw Error('No source adapters provided')
-  }
-  const sourceMedian = await getExecuteMedian(config.sourceAdapters, input)
+  const sourceMedian = await getExecuteMedian(config.sources, source, input)
 
-  if (config.threshold.onchain > 0) {
-    if (difference(sourceMedian, onchainValue) > config.threshold.onchain) {
+  if (onchain_threshold > 0) {
+    if (difference(sourceMedian, onchainValue) > onchain_threshold) {
       return success(jobRunID, onchainValue)
     }
   }
 
-  if (config.threshold.checks > 0) {
-    if (config.checkAdapters.length === 0) {
+  if (check_threshold > 0) {
+    if (!check) {
       throw Error('No check adapters provided')
     }
 
-    const checkMedian = await getExecuteMedian(config.checkAdapters, input)
-    if (difference(sourceMedian, checkMedian) > config.threshold.checks) {
+    const checkMedian = await getExecuteMedian(config.checks, check, input)
+    if (difference(sourceMedian, checkMedian) > check_threshold) {
       return success(jobRunID, onchainValue)
     }
   }
@@ -50,11 +63,26 @@ const execute = async (input: AdapterRequest, config: Config): Promise<AdapterRe
   return success(jobRunID, sourceMedian)
 }
 
-const getExecuteMedian = async (executes: Execute[], request: AdapterRequest): Promise<number> => {
-  const responses = await Promise.allSettled(executes.map((execute) => execute(request)))
+const getExecuteMedian = async (
+  options: SourceRequestOptions | CheckRequestOptions,
+  adapters: string,
+  request: AdapterRequest,
+): Promise<number> => {
+  const responses = await Promise.allSettled(
+    adapters.split(',').map(
+      async (a) =>
+        await Requester.request({
+          ...options[a],
+          data: request,
+        }),
+    ),
+  )
   const values = responses
     .filter((result) => result.status === 'fulfilled' && 'value' in result)
-    .map((result) => (result as PromiseFulfilledResult<AdapterResponse>).value.result)
+    .map(
+      (result) =>
+        (result as PromiseFulfilledResult<AxiosResponse<Record<string, any>>>).value.data.result,
+    )
   if (values.length === 0) throw Error('Unable to fetch value from any of the data providers')
   return median(values)
 }
@@ -72,6 +100,10 @@ const difference = (a: number, b: number): number => {
 }
 
 const success = (jobRunID: string, result: number): AdapterResponse => {
-  const response = { data: { result }, result, status: 200 }
+  const response = { data: { result }, status: 200 }
   return Requester.success(jobRunID, response)
+}
+
+export const makeExecute: ExecuteFactory<Config> = (config) => {
+  return async (request) => execute(request, config || makeConfig())
 }

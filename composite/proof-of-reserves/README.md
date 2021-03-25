@@ -4,27 +4,28 @@ This composite adapter first queries a list of custodial contracts of a protocol
 
 ## Configuration
 
-The feed takes the following environment variables:
+Each request to this composite adapter uses two underlying adapters, therefore their location needs to be defined.
 
-| Required? |                              Name                               |            Description             |                                            Options                                            | Defaults to |
-| :-------: | :-------------------------------------------------------------: | :--------------------------------: | :-------------------------------------------------------------------------------------------: | :---------: |
-|    ✅     |                       `PROTOCOL_ADAPTER`                        |         The protocol type          |                                        `renvm`, `wbtc`                                        |             |
-|    ✅     |                      `BTC_INDEXER_ADAPTER`                      |      BTC indexer adapter type      | `amberdata`, `blockchain_com`, `blockcypher`. `blockchair`, `btc_com`,`cryptoapis`, `sochain` |             |
-|    🟡     | `*_API_KEY` (where \* is the capitalized `BTC_INDEXER_ADAPTER`) | The API key for an indexer adapter |                          (e.g. BLOCKCYPHER_API_KEY="34234dmmd313" )                           |             |
+At least one of each of the following categories must be set as an environment variable:
 
-Each protocol may need additional configuration:
+1. A protocol adapter to retrieve custodial addresses
 
-### RENVM
+   | Required? |           Name            |               Description                | Options | Defaults to |
+   | :-------: | :-----------------------: | :--------------------------------------: | :-----: | :---------: |
+   |           | `WBTC_DATA_PROVIDER_URL`  | The location of a WBTC external adapter  |         |             |
+   |           | `RENVM_DATA_PROVIDER_URL` | The location of a RenVM external adapter |         |             |
 
-| Required? |      Name       |    Description     |             Options              | Defaults to |
-| :-------: | :-------------: | :----------------: | :------------------------------: | :---------: |
-|    ✅     | `RENVM_NETWORK` | The network to use | `mainnet`, `chaosnet`, `testnet` |             |
+2. An indexer adapter to retrieve account balances for each custodial address
 
-### WBTC
-
-| Required? |        Name         |          Description          |         Options          | Defaults to |
-| :-------: | :-----------------: | :---------------------------: | :----------------------: | :---------: |
-|    ✅     | `WBTC_API_ENDPOINT` | The endpoint to query WBTC at | (e.g. "https://api..." ) |             |
+   | Required? |                Name                |                    Description                    | Options | Defaults to |
+   | :-------: | :--------------------------------: | :-----------------------------------------------: | :-----: | :---------: |
+   |           |   `AMBERDATA_DATA_PROVIDER_URL`    |   The location of an Amberdata external adapter   |         |             |
+   |           | `BLOCKCHAIN_COM_DATA_PROVIDER_URL` | The location of a Blockchain.com external adapter |         |             |
+   |           |  `BLOCKCYPHER_DATA_PROVIDER_URL`   |  The location of a Blockcypher external adapter   |         |             |
+   |           |   `BLOCKCHAIR_DATA_PROVIDER_URL`   |   The location of a Blockchair external adapter   |         |             |
+   |           |    `BTC_COM_DATA_PROVIDER_URL`     |    The location of a BTC.com external adapter     |         |             |
+   |           |   `CRYPTOAPIS_DATA_PROVIDER_URL`   |  The location of a Crypto APIs external adapter   |         |             |
+   |           |    `SOCHAIN_DATA_PROVIDER_URL`     |    The location of a SoChain external adapter     |         |             |
 
 ## Running this adapter
 
@@ -35,6 +36,8 @@ Ensure that the project's dependencies are installed and that the code is compil
 ```bash
 yarn && yarn setup
 ```
+
+Run the underlying external adapters and set their locations as environment variables.
 
 Change directories into proof-of-reserves and start the server:
 
@@ -52,30 +55,31 @@ make docker adapter=composite/proof-of-reserves name=proof-of-reserves
 
 The naming convention for Docker containers will be `$(name)-adapter`.
 
+Run the underlying external adapters and set their locations as environment variables (it is convenient to do this in a file that is fed into the run command).
+
+(Note: Docker environment file string values do not use " or ' quote marks)
+
 Then run it with:
 
 ```bash
 docker run -p 8080:8080 --env-file="~/PATH_TO_ENV" -it proof-of-reserves-adapter:latest
 ```
 
-(Note: Docker environment file string values do not use " or ' quote marks)
+### Input Params
 
-### Serverless
+| Required? |      Name       |                                             Description                                              |                                            Options                                            | Defaults to |
+| :-------: | :-------------: | :--------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------: | :---------: |
+|    ✅     |   `protocol`    |                                 The protocol external adapter to use                                 |                                        `renvm`, `wbtc`                                        |             |
+|    ✅     |    `indexer`    |                                 The indexer external adapter to use                                  | `amberdata`, `blockchain_com`, `blockcypher`. `blockchair`, `btc_com`,`cryptoapis`, `sochain` |             |
+|    🟡     | `confirmations` | The number of confirmations required for a transaction to be counted when getting an address balance |                                                                                               |      6      |
 
-Create the zip:
+Additionally the first underlying adapter in the sequence, in this case the protocol adapter, may have parameters.
 
-```bash
-make zip adapter=composite/proof-of-reserves name=proof-of-reserves
-```
+For example RenVM uses the following:
 
-The zip will be created as `./$(adapter)/dist/$(name)-adapter.zip`.
+| Required? |       Name        |                  Description                   |                         Options                         | Defaults to |
+| :-------: | :---------------: | :--------------------------------------------: | :-----------------------------------------------------: | :---------: |
+|           |     `network`     |          The RenVM network to talk to          |            `mainnet`, `chaosnet`, `testnet`             |  `testnet`  |
+|           | `tokenOrContract` | The token or contract to return an address for | `RenTokens`, `RenContract`, `Asset`, `BTC` `ZEC`, `BCH` |    `BTC`    |
 
-## Sample Request
-
-Requests to this composite adapter will be the same as for the underlying protocol adapter.
-
-For example this might look like:
-
-```bash
-curl --header "Content-Type: application/json"   --request POST   --data '{"data":{"network":"mainnet"}}'   http://localhost:8080
-```
+Please check the protocol external adapter's README for more information.
