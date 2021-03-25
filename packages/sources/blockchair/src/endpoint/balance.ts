@@ -1,5 +1,5 @@
 import { balance } from '@chainlink/ea-factories'
-import { Requester } from '@chainlink/external-adapter'
+import { Requester } from '@chainlink/ea-bootstrap'
 import { Config, Account } from '@chainlink/types'
 import { COINS, isCoinType, isChainType } from '.'
 

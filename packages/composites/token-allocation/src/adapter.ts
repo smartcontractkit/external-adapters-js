@@ -1,9 +1,9 @@
 import { AdapterResponse, Execute, AdapterRequest } from '@chainlink/types'
-import { Requester, Validator } from '@chainlink/external-adapter'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { DEFAULT_TOKEN_BALANCE, DEFAULT_TOKEN_DECIMALS, makeConfig, makeOptions } from './config'
 import { TokenAllocations, Config, ResponsePayload, PriceAdapter } from './types'
 import { Decimal } from 'decimal.js'
-import { AdapterError } from '@chainlink/external-adapter'
+import { AdapterError } from '@chainlink/ea-bootstrap'
 import { BigNumber } from 'ethers'
 
 export const priceTotalValue = (

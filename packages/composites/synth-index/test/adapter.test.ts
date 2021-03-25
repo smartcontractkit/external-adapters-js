@@ -1,5 +1,5 @@
-import { Requester } from '@chainlink/external-adapter'
-import { assertError } from '@chainlink/adapter-test-helpers'
+import { Requester } from '@chainlink/ea-bootstrap'
+import { assertError } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
 import { makeExecute } from '../src/adapter'
 import * as ta from '@chainlink/token-allocation-adapter'

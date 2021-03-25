@@ -1,5 +1,5 @@
 import { assert } from 'chai'
-import { assertSuccess } from '@chainlink/adapter-test-helpers'
+import { assertSuccess } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
 import { makeExecute } from '../src/adapter'
 

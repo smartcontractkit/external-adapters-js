@@ -1,4 +1,4 @@
-import { Requester } from '@chainlink/external-adapter'
+import { Requester } from '@chainlink/ea-bootstrap'
 
 export const host = 'bravenewcoin.p.rapidapi.com'
 export const apiHeaders = {

@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/external-adapter'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { AdapterRequest, AdapterResponse } from '@chainlink/types'
 import { Conflux } from 'js-conflux-sdk'
 import { ethers } from 'ethers'

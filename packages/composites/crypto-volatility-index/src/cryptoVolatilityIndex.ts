@@ -1,5 +1,5 @@
-import { logger } from '@chainlink/external-adapter'
-import { getRpcLatestRound } from '@chainlink/reference-data-reader'
+import { Logger } from '@chainlink/ea-bootstrap'
+import { getRpcLatestRound } from '@chainlink/ea-reference-data-reader'
 import { getDerivativesData, CurrencyDerivativesData } from './derivativesDataProvider'
 import { SigmaCalculator } from './sigmaCalculator'
 import { Decimal } from 'decimal.js'
@@ -25,7 +25,7 @@ export const calculate = async (
     ? toOnChainValue(weightedCVI, multiply)
     : await applySmoothing(weightedCVI, oracleAddress, multiply, heartbeatMinutes)
 
-  logger.info(`CVI: ${cvi}`)
+  Logger.info(`CVI: ${cvi}`)
   validateIndex(cvi)
   return cvi
 }
@@ -61,7 +61,7 @@ const calculateWeighted = async (vixData: Array<Decimal>) => {
   }, new Decimal(0))
 
   const weighted = Number(weightedVix.toFixed())
-  logger.debug(`Weighted volatility index:${weighted}`)
+  Logger.debug(`Weighted volatility index:${weighted}`)
   return weighted
 }
 
@@ -93,7 +93,7 @@ const applySmoothing = async (
   const updatedAt = roundData.updatedAt.mul(1000).toNumber()
 
   if (latestIndex.lte(0)) {
-    logger.warn('No on-chain index value found - Is first run of adapter?')
+    Logger.warn('No on-chain index value found - Is first run of adapter?')
     return weightedCVI
   }
 
@@ -104,7 +104,7 @@ const applySmoothing = async (
   }
   const l = lambda(dtSeconds, heartBeatMinutes)
   const smoothed = latestIndex.mul(new Decimal(1 - l)).add(new Decimal(weightedCVI).mul(l))
-  logger.debug(`Previous value:${latestIndex}, updatedAt:${updatedAt}, dtSeconds:${dtSeconds}`)
+  Logger.debug(`Previous value:${latestIndex}, updatedAt:${updatedAt}, dtSeconds:${dtSeconds}`)
   return smoothed.toNumber()
 }
 

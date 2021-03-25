@@ -1,7 +1,7 @@
 import assert from 'assert'
 import { ethers, BigNumber } from 'ethers'
 import * as starkwareCrypto from '@authereum/starkware-crypto'
-import { logger, AdapterError } from '@chainlink/external-adapter'
+import { Logger, AdapterError } from '@chainlink/ea-bootstrap'
 import { util } from '@chainlink/ea-bootstrap'
 import { Decimal } from 'decimal.js'
 
@@ -57,9 +57,9 @@ export const requireNormalizedPrice = (price: number | string): string => {
     // TODO: more precision loss detection with floats
     const overSafeValue = price > Number.MAX_SAFE_INTEGER
     if (overSafeValue || _tooMuchPrecision(price))
-      logger.warn(`${WARN_PRECISION_LOSS_NUMBER} Got: ${price}`)
+      Logger.warn(`${WARN_PRECISION_LOSS_NUMBER} Got: ${price}`)
   } else if (_tooMuchPrecision(price)) {
-    logger.warn(`${WARN_PRECISION_LOSS_STRING} Got: ${price}`)
+    Logger.warn(`${WARN_PRECISION_LOSS_STRING} Got: ${price}`)
   }
 
   return _normalize(price).toFixed(0)
