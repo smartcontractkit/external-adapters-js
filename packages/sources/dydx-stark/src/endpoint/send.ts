@@ -1,6 +1,6 @@
 import objectPath from 'object-path'
 import { ExecuteWithConfig } from '@chainlink/types'
-import { Requester, Validator, logger } from '@chainlink/external-adapter'
+import { Requester, Validator, Logger } from '@chainlink/ea-bootstrap'
 import { Config, DEFAULT_DATA_PATH } from '../config'
 import { PriceDataPoint, requireNormalizedPrice, getPricePayload } from './starkex'
 
@@ -31,7 +31,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   }
   const payload = await getPricePayload(config.privateKey, config.starkMessage, priceData)
 
-  logger.debug('Sending payload: ', { payload })
+  Logger.debug('Sending payload: ', { payload })
 
   const options = {
     ...config.api,

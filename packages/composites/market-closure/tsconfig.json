@@ -3,6 +3,7 @@
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "src",
+    "types": ["node", "market-closure", "mocha"],
     "typeRoots": ["../../../node_modules/@types", "../../core/types", "./types"]
   },
   "include": ["src/**/*"],

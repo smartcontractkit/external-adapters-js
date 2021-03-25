@@ -1,4 +1,4 @@
-// import { Requester, Validator } from '@chainlink/external-adapter'
+// import { Requester, Validator } from '@chainlink/ea-bootstrap'
 // import { ExecuteWithConfig, Config, ResponsePayload } from '@chainlink/types'
 
 // export const PRICE_NAME = 'multi'

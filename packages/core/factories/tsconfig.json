@@ -3,10 +3,11 @@
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "src",
+    "types": ["mocha"],
     "typeRoots": ["../../../node_modules/@types", "../types", "./types"],
     "composite": true
   },
   "include": ["src/**/*"],
   "exclude": ["dist", "**/*.spec.ts", "**/*.test.ts"],
-  "references": [{ "path": "../external-adapter" }, { "path": "../bootstrap" }]
+  "references": [{ "path": "../bootstrap" }]
 }

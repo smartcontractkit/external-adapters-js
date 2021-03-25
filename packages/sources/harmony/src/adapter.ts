@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/external-adapter'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
 import { Harmony } from '@harmony-js/core'
 import { getAddress, hexToByteArray, hexlify, concat } from '@harmony-js/crypto'

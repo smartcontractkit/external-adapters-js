@@ -3,9 +3,11 @@
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "src",
+    "types": ["mocha"],
     "typeRoots": ["../../../node_modules/@types", "../../core/types", "./types"],
     "resolveJsonModule": true
   },
   "include": ["src/**/*", "src/**/*.json"],
-  "exclude": ["dist", "**/*.spec.ts", "**/*.test.ts"]
+  "exclude": ["dist", "**/*.spec.ts", "**/*.test.ts"],
+  "references": [{ "path": "../../core/bootstrap" }]
 }
