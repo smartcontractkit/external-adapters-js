@@ -1,23 +1,16 @@
 {
   "core": {
-    "docker": "make docker adapter=core/__ADAPTER__ name=__ADAPTER__",
+    "docker": "make docker adapter=core/__ADAPTER__ name=ea-__ADAPTER__",
     "image_name": "__ADAPTER__-adapter",
-    "adapter": [
-      "bootstrap",
-      "external-adapter",
-      "factories",
-      "ratelimits",
-      "reference-data-reader",
-      "test-helpers"
-    ]
+    "adapter": ["bootstrap", "factories", "ratelimits", "reference-data-reader", "test-helpers"]
   },
   "examples": {
-    "docker": "make docker adapter=examples/__ADAPTER__ name=__ADAPTER__",
+    "docker": "make docker adapter=examples/__ADAPTER__ name=example-__ADAPTER__-adapter",
     "image_name": "__ADAPTER__-adapter",
-    "adapter": ["source", "composite"]
+    "adapter": ["composite", "source"]
   },
   "sources": {
-    "docker": "make docker adapter=sources/__ADAPTER__ name=__ADAPTER__",
+    "docker": "make docker adapter=sources/__ADAPTER__ name=__ADAPTER__-adapter",
     "image_name": "__ADAPTER__-adapter",
     "adapter": [
       "1forge",
@@ -35,6 +28,7 @@
       "blockchair",
       "blockcypher",
       "bravenewcoin",
+      "cfbenchmarks",
       "coinapi",
       "coinbase",
       "coincodex",
@@ -43,6 +37,7 @@
       "coinmarketcap",
       "coinpaprika",
       "coinranking",
+      "conflux",
       "covid-tracker",
       "cryptoapis",
       "cryptocompare",
@@ -53,15 +48,20 @@
       "dns-query",
       "dxfeed",
       "dxfeed-secondary",
+      "dydx-stark",
       "eodhistoricaldata",
       "etherchain",
       "ethgasstation",
+      "ethwrite",
       "fcsapi",
       "finage",
       "finnhub",
       "fixer",
       "fmpcloud",
       "genesis-volatility",
+      "geodb",
+      "harmony",
+      "iex-cloud",
       "json-rpc",
       "kaiko",
       "lcx",
@@ -84,37 +84,30 @@
       "satoshitango",
       "stasis",
       "taapi",
+      "therundown",
+      "tiingo",
       "tradermade",
       "tradingeconomics",
+      "tradingeconomics-stream",
       "trueusd",
       "wbtc-address-set",
-      "xbto",
-      "dydx-stark",
-      "iex-cloud",
-      "cfbenchmarks",
-      "conflux",
-      "harmony",
-      "tiingo",
-      "ethwrite",
-      "geodb",
-      "therundown",
-      "tradingeconomics-stream"
+      "xbto"
     ]
   },
   "composites": {
-    "docker": "make docker adapter=composites/__ADAPTER__ name=__ADAPTER__",
+    "docker": "make docker adapter=composites/__ADAPTER__ name=__ADAPTER__-adapter",
     "image_name": "__ADAPTER__-adapter",
     "adapter": [
-      "proof-of-reserves",
-      "market-closure",
+      "apy-finance",
+      "bitcoin-json-rpc",
+      "crypto-volatility-index",
       "defi-pulse",
       "dns-record-check",
+      "market-closure",
       "outlier-detection",
-      "apy-finance",
-      "crypto-volatility-index",
-      "bitcoin-json-rpc",
-      "token-allocation",
-      "synth-index"
+      "proof-of-reserves",
+      "synth-index",
+      "token-allocation"
     ]
   }
 }
