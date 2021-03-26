@@ -41,13 +41,13 @@ export class Validator {
   }
 
   validateOverrides() {
-    if (!this.input.data?.overrides) {
-      this.validated.overrides = this.formatOverride(presetSymbols)
-      return
-    }
     try {
+      if (!this.input.data?.overrides) {
+        this.validated.overrides = this.formatOverride(presetSymbols)
+        return
+      }
       this.validated.overrides = this.formatOverride(
-        merge(presetSymbols, this.input.data.overrides),
+        merge({ ...presetSymbols }, this.input.data.overrides),
       )
     } catch (e) {
       this.parseError(e)
