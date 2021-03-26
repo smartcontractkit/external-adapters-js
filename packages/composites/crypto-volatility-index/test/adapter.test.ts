@@ -2,11 +2,14 @@ import { assert } from 'chai'
 import { Requester } from '@chainlink/ea-bootstrap'
 import { assertSuccess, assertError } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
-import { execute } from '../src/adapter'
+import { makeExecute } from '../src/adapter'
 
 describe('execute', () => {
+  const execute = makeExecute()
   const jobID = '1'
   const contractAddress = '0x0BD102ef50a6a133B38Bf3Bd3d40cE36cc1aB5A8'
+  process.env.TOKEN_ALLOCATION_DATA_PROVIDER_URL = 'http://localhost'
+
   context('successful calls @integration', () => {
     const requests = [
       {
