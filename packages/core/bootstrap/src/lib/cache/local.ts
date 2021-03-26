@@ -36,6 +36,22 @@ export class LocalLRUCache {
     return this.client.del(key)
   }
 
+  ttl(key: string) {
+    // Get LRU internal 'cache' symbol
+    const _isCacheSymbol = (sym: symbol) => sym.toString().includes('cache')
+    const cacheSymbol = Object.getOwnPropertySymbols(this.client).find(_isCacheSymbol)
+    if (!cacheSymbol) return 0
+
+    // Get raw LRU entry
+    const cacheMap: Map<any, any> = (this.client as any)[cacheSymbol]
+    const hit = cacheMap.get(key)
+    if (!hit) return 0
+
+    // Return ttl >= 0
+    const ttl = hit.value?.now + (hit.value?.maxAge || 0) - Date.now()
+    return ttl < 0 ? 0 : ttl
+  }
+
   close() {
     // noop
   }
