@@ -1,6 +1,8 @@
 import { Requester } from '@chainlink/external-adapter'
 import { Config } from '@chainlink/types'
 
+export const NAME = 'TRADERMADE'
+
 export const makeConfig = (prefix?: string): Config => {
   const config = Requester.getDefaultConfig(prefix)
   config.api.baseURL = config.api.baseURL || 'https://marketdata.tradermade.com/api/v1/live'

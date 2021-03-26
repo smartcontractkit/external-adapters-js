@@ -1,5 +1,6 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { AdapterRequest, Config } from '@chainlink/types'
+import { NAME as AdapterName } from '../config'
 
 export const NAME = 'price'
 
@@ -10,27 +11,17 @@ const customParams = {
   quote: ['quote', 'to', 'market', 'convert'],
 }
 
-const convertId: Record<string, string> = {
-  FNX: 'FNX2',
-  AMP: 'AMP2',
-  WING: 'WING2',
-  FTT: 'FTXTOKEN',
-  MDX: 'MDX2',
-}
-
 export const execute = async (config: Config, request: AdapterRequest) => {
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 
-  let ids = validator.validated.data.base.toUpperCase()
+  const symbol = validator.overrideSymbol(AdapterName)
   const convert = validator.validated.data.quote.toUpperCase()
   const jobRunID = validator.validated.id
   const url = `/currencies/ticker`
-  // Correct common tickers that are misidentified
-  ids = convertId[ids] || ids
 
   const params = {
-    ids,
+    ids: symbol.toUpperCase(),
     convert,
     key: config.apiKey,
   }

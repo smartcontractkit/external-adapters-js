@@ -25,8 +25,9 @@
 | Required? |               Name               |             Description             | Options | Defaults to |
 | :-------: | :------------------------------: | :---------------------------------: | :-----: | :---------: |
 |    ✅     | `base`, `from`, `coin`, `market` | The symbol of the currency to query |         |             |
+|    🟡     |   `overrides`   | If base provided is found in overrides, that will be used  | [Format](../presetSymbols.json)|             |
 
-The `base` param handles the following symbol conversions:
+`overrides` should contain the following symbol conversions:
 
 ```bash
 N225 ➡️ 'NKY.IND:TEI'

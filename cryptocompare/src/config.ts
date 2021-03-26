@@ -1,6 +1,8 @@
 import { Requester } from '@chainlink/external-adapter'
 import { Config } from '@chainlink/types'
 
+export const NAME = 'CRYPTOCOMPARE'
+
 export const DEFAULT_ENDPOINT = 'price'
 export const DEFAULT_API_ENDPOINT = 'https://min-api.cryptocompare.com'
 

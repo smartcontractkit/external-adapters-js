@@ -30,6 +30,7 @@ Get FOREX price conversions
 |    ✅     | `quote`, `to`, or `market` |   The symbol of the currency to convert to   | `BTC`, `ETH`, `USD` |             |
 |    🟡     |          `amount`          |     The amount of the `base` to convert      |                     |      1      |
 |    🟡     |        `precision`         | The number of significant figures to include |                     |      4      |
+|    🟡     |   `overrides`   | If base provided is found in overrides, that will be used  | [Format](../presetSymbols.json)|             |
 
 ### Output
 

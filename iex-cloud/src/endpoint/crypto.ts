@@ -1,5 +1,6 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
+import { NAME as AdapterName } from '../config'
 
 export const NAME = 'crypto'
 
@@ -13,7 +14,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const base = validator.validated.data.base
+  const base = validator.overrideSymbol(AdapterName)
   const quote = validator.validated.data.quote
   const url = `crypto/${base.toUpperCase()}${quote.toUpperCase()}/quote`
 

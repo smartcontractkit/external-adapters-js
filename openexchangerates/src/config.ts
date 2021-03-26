@@ -1,6 +1,8 @@
 import { Requester } from '@chainlink/external-adapter'
 import { Config } from '@chainlink/types'
 
+export const NAME = 'OPEN-EXCHANGE-RATES'
+
 export const DEFAULT_ENDPOINT = 'price'
 export const DEFAULT_API_ENDPOINT = 'https://openexchangerates.org/api/'
 

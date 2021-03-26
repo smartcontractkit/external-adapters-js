@@ -1,5 +1,6 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
+import { NAME as AdapterName } from '../config'
 
 export const NAME = 'price'
 
@@ -9,11 +10,8 @@ const customParams = {
   base: ['base', 'from', 'coin', 'market'],
 }
 
-const commonSymbols: { [key: string]: string } = {
-  N225: 'NKY.IND:TEI',
-  FTSE: 'UKX.IND:TEI',
-  TSLA: 'TSLA:BFX',
-  WTI: 'USO/USD:AFX',
+const quoteEventSymbols: { [key: string]: boolean } = {
+  'USO/USD:AFX': true,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
@@ -21,16 +19,14 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
+  const symbol = validator.overrideSymbol(AdapterName).toUpperCase()
+  const events = quoteEventSymbols[symbol] ? 'Quote' : 'Trade'
+
   const url = 'events.json'
-  let symbols = validator.validated.data.base.toUpperCase()
-  if (symbols in commonSymbols) {
-    symbols = commonSymbols[symbols]
-  }
-  const events = symbols === commonSymbols['WTI'] ? 'Quote' : 'Trade'
 
   const params = {
     events,
-    symbols,
+    symbols: symbol,
   }
 
   const options = {
@@ -41,8 +37,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
   const response = await Requester.request(options, customError)
 
-  const quotePath = ['Quote', symbols, 'bidPrice']
-  const tradePath = ['Trade', symbols, 'price']
+  const quotePath = ['Quote', symbol, 'bidPrice']
+  const tradePath = ['Trade', symbol, 'price']
   const result = Requester.validateResultNumber(
     response.data,
     events === 'Quote' ? quotePath : tradePath,

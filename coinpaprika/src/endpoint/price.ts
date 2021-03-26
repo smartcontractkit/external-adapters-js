@@ -1,5 +1,6 @@
-import { Requester, Validator } from '@chainlink/external-adapter'
+import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
+import { NAME as AdapterName } from '../config'
 
 export const NAME = 'price'
 
@@ -9,13 +10,7 @@ const inputParams = {
   coinid: false,
 }
 
-const presetTickers: { [ticker: string]: string } = {
-  GRT: 'grt-the-graph',
-}
-
-const convertFromTicker = async (ticker: string, coinId: string | undefined) => {
-  if (typeof coinId !== 'undefined') return coinId.toLowerCase()
-
+const getCoinId = async (ticker: string): Promise<string> => {
   const response = await Requester.request({
     url: 'https://api.coinpaprika.com/v1/coins',
   })
@@ -25,7 +20,9 @@ const convertFromTicker = async (ticker: string, coinId: string | undefined) => 
       (x: { symbol: string; rank: number }) =>
         x.symbol.toLowerCase() === ticker.toLowerCase() && x.rank !== 0,
     )
-  // if (!coin) return callback('Could not find coin', null)
+  if (typeof coin?.id === 'undefined') {
+    throw new Error('Coin id not found')
+  }
   return coin.id.toLowerCase()
 }
 
@@ -34,16 +31,24 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const symbol = validator.validated.data.base
-  const coin = await convertFromTicker(
-    symbol,
-    validator.validated.data.coinid || presetTickers[symbol],
-  )
-  const url = `v1/tickers/${coin}`
-  const market = validator.validated.data.quote
+  const symbol = validator.overrideSymbol(AdapterName)
+  const quote = validator.validated.data.quote
+  const coinid = validator.validated.data.coinid as string | undefined
+
+  // If coinid was provided or base was overridden, that symbol will be fetched
+  let coin = coinid || (symbol !== validator.validated.data.base && symbol)
+  if (!coin) {
+    try {
+      coin = await getCoinId(symbol)
+    } catch (e) {
+      throw new AdapterError({ jobRunID, statusCode: 400, message: e.message })
+    }
+  }
+
+  const url = `v1/tickers/${coin.toLowerCase()}`
 
   const params = {
-    quotes: market.toUpperCase(),
+    quotes: quote.toUpperCase(),
   }
 
   const options = {
@@ -55,7 +60,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const response = await Requester.request(options)
   const result = Requester.validateResultNumber(response.data, [
     'quotes',
-    market.toUpperCase(),
+    quote.toUpperCase(),
     'price',
   ])
 

@@ -1,5 +1,6 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { Config, ExecuteWithConfig } from '@chainlink/types'
+import { NAME as AdapterName } from '../config'
 
 export const NAME = 'price'
 
@@ -14,7 +15,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
   const jobRunID = validator.validated.id
   const url = 'latest.json'
-  const base = validator.validated.data.base
+  const base = validator.overrideSymbol(AdapterName)
   const to = validator.validated.data.quote
 
   const params = {

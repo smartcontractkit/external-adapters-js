@@ -1,5 +1,6 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
+import { NAME as AdapterName } from '../config'
 
 export const NAME = 'price'
 
@@ -17,12 +18,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || 'price'
   const url = `/data/${endpoint}`
-  const fsym = validator.validated.data.base.toUpperCase()
-  const tsyms = validator.validated.data.quote.toUpperCase()
+  const symbol = validator.overrideSymbol(AdapterName)
+  const quote = validator.validated.data.quote.toUpperCase()
 
   const params = {
-    fsym,
-    tsyms,
+    fsym: symbol.toUpperCase(),
+    tsyms: quote,
   }
 
   const options = {
@@ -32,7 +33,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   }
 
   const response = await Requester.request(options, customError)
-  const result = Requester.validateResultNumber(response.data, [tsyms])
+  const result = Requester.validateResultNumber(response.data, [quote])
 
   return Requester.success(jobRunID, {
     data: config.verbose ? { ...response.data, result } : { result },

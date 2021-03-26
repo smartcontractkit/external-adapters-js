@@ -1,5 +1,6 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
+import { NAME as AdapterName } from '../config'
 
 export const NAME = 'price'
 
@@ -19,7 +20,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const from = validator.validated.data.base.toUpperCase()
+  const from = validator.overrideSymbol(AdapterName).toUpperCase()
   const to = validator.validated.data.quote.toUpperCase()
   const amount = validator.validated.data.amount || 1
   const precision = validator.validated.data.precision || 4
