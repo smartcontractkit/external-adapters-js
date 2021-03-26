@@ -1,5 +1,6 @@
 import objectHash from 'object-hash'
-import { getHashOpts } from '../util'
+import { getHashOpts, getEnv } from '../util'
+import { getRateLimit } from '@chainlink/ea-ratelimits'
 
 export interface Config {
   /**
@@ -15,8 +16,12 @@ export interface Config {
 }
 
 export function get(): Config {
+  const capacity = parseInt(getEnv('RATE_LIMIT_CAPACITY') || '')
+  const provider = getEnv('API_PROVIDER') || ''
+  const tier = parseInt(getEnv('API_TIER') || '')
+  const providerConfig = getRateLimit(provider, tier)
   return {
     hashOpts: getHashOpts(),
-    totalCapacity: parseInt(process.env.RATE_LIMIT_CAPACITY || ''),
+    totalCapacity: capacity || providerConfig?.quota,
   }
 }
