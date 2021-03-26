@@ -71,7 +71,10 @@ export class Validator {
       })
     }
     if (!this.validated.overrides) return defaultSymbol
-    return this.validated.overrides.get(adapter.toLowerCase())?.get(defaultSymbol.toLowerCase()) || defaultSymbol
+    return (
+      this.validated.overrides.get(adapter.toLowerCase())?.get(defaultSymbol.toLowerCase()) ||
+      defaultSymbol
+    )
   }
 
   formatOverride = (param: any): Override => {
