@@ -2,8 +2,9 @@ import { Requester } from '@chainlink/external-adapter'
 import { Config } from '@chainlink/types'
 import { util } from '@chainlink/ea-bootstrap'
 
-export const DEFAULT_ENDPOINT = 'price'
+export const NAME = 'DXFEED'
 
+export const DEFAULT_ENDPOINT = 'price'
 export const DEMO_ENDPOINT = 'https://tools.dxfeed.com/webservice/rest'
 
 export const makeConfig = (prefix?: string): Config => {

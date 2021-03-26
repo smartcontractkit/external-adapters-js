@@ -20,5 +20,22 @@
   },
   "kaiko": {
     "uni": "uniswap"
+  },
+  "dxfeed": {
+    "N225": "NKY.IND:TEI",
+    "FTSE": "UKX.IND:TEI",
+    "TSLA": "TSLA:BFX",
+    "WTI": "USO/USD:AFX"
+  },
+  "dxfeed_secondary": {},
+  "finage": {
+    "FTSE": "UK100",
+    "N225": "JAP225"
+  },
+  "tradermade": {
+    "FTSE": "UK100",
+    "N225": "JPN225",
+    "WTI": "OIL",
+    "BRENT": "UKOIL"
   }
 }

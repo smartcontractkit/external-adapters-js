@@ -1,17 +1,10 @@
 import { Config, ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { makeConfig } from './config'
+import { makeConfig, NAME } from './config'
 
 const customParams = {
-  symbol: ['base', 'from', 'symbol', 'market'],
+  base: ['base', 'from', 'symbol', 'market'],
   to: false,
-}
-
-const commonKeys: Record<string, string> = {
-  FTSE: 'UK100',
-  N225: 'JPN225',
-  WTI: 'OIL',
-  BRENT: 'UKOIL',
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, config) => {
@@ -21,9 +14,9 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   Requester.logConfig(config)
 
   const jobRunID = validator.validated.id
-  const symbol = validator.validated.data.symbol.toUpperCase()
+  const symbol = validator.overrideSymbol(NAME).toUpperCase()
   const to = (validator.validated.data.to || '').toUpperCase()
-  const currency = (commonKeys[symbol] || symbol) + to
+  const currency = symbol + to
 
   const params = {
     ...config.api.params,

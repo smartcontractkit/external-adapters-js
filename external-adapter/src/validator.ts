@@ -34,7 +34,7 @@ export class Validator {
         }
       }
     } catch (error) {
-      this.throwInvalidInput(error)
+      this.parseError(error)
     }
   }
 
@@ -43,11 +43,11 @@ export class Validator {
     try {
       this.validated.overrides = this.formatOverride(this.input.data.overrides)
     } catch (e) {
-      this.throwInvalidInput(e)
+      this.parseError(e)
     }
   }
 
-  throwInvalidInput(error: any) {
+  parseError(error: any) {
     const message = 'Error validating input.'
     if (error instanceof AdapterError) this.error = error
     else
