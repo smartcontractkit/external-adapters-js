@@ -1,12 +1,13 @@
 # Chainlink Defi Pulse Index Adapter
 
 The adapter combines real-time DPI allocation data from on-chain with off-chain price sources in order to calculate an accurate price for the DPI.
+
 ## NOTICE
 
 As explained before, this adapter makes use of some onchain data. The current implementation is fetching data directly from SetToken contracts (https://etherscan.io/address/0x78733fa5e70e3ab61dc49d93921b289e4b667093#code). Note that this implementation won't work in other networks unless we deploy a copy of the contract.
 
-The correct implementation should use SetProtocol.js typed library instead to fetch data directly from the SetToken contract directly. 
-The ChainlinkAdapter.getAllocations(ISetToken _setToken) should be reimplemented in JS in order to use it.
+The correct implementation should use SetProtocol.js typed library instead to fetch data directly from the SetToken contract directly.
+The ChainlinkAdapter.getAllocations(ISetToken \_setToken) should be reimplemented in JS in order to use it.
 
 [Go to current Implementation](./src/index-allocations/index.ts)
 
@@ -14,19 +15,39 @@ The ChainlinkAdapter.getAllocations(ISetToken _setToken) should be reimplemented
 
 The adapter takes the following environment variables:
 
-- `DATA_PROVIDER_URL`: The adapter URL for the price data provider
 - `RPC_URL`: Blockchain RPC endpoint to get the needed on-chain data
 - `DEFAULT_QUOTE` (Optional): Currency that the price will be fetched by default. `USD` used by default
 
-## Input Params
+This composite adapter executes the code from the Token Allocation composite adapter. As such the same configuration and input parameters apply to this adapter. See [../token-allocation/README.md](../token-allocation/README.md) for more details.
 
-- `address`: Address of the SetToken (required)
-- `adapter`: Address of the adapter contract (required)
-- `name`: Index Name (optional)
-- `asset`: Asset name (optional)
-- `quote` (optional). Currency we want the price on. `DEFAULT_QUOTE` by default
+## Running
 
-## Output
+See the [Composite Adapter README](../README.md) for more information on how to get started.
+
+### Input Params
+
+| Required? |   Name    |           Description           | Options | Defaults to |
+| :-------: | :-------: | :-----------------------------: | :-----: | :---------: |
+|    ✅     | `address` |     Address of the SetToken     |         |             |
+|    ✅     | `adapter` | Address of the adapter contract |         |             |
+|           |  `name`   |           Index name            |         |             |
+|           |  `asset`  |           Asset name            |         |             |
+
+### Sample Input
+
+```json
+{
+  "jobID": "1",
+  "data": {
+    "source": "coingecko",
+    "address": "0x...",
+    "adapter": "0x..."
+  }
+}
+```
+
+### Sample Output
+
 ```json
 {
   "jobRunID": "1",
