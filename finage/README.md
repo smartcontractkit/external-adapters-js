@@ -1,28 +1,28 @@
-# Chainlink External Adapter for Finage
+# Chainlink Polygon External Adapter
 
-## Input Params
+This adapter is for [Finage.co.uk](https://finage.co.uk/) and supports the crypto endpoint.
 
-- `base`, `from`, or `symbol`: The symbol of the asset to query
+### Environment Variables
 
-## Output
+| Required? |  Name   |                                   Description                                    | Options | Defaults to |
+| :-------: | :-----: | :------------------------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     | API_KEY | An API key that can be obtained from [here](https://finage.co.uk/) |         |             |
+
+
+## Price Endpoint
+
+Get FOREX price conversions
+
+### Input Params
+
+| Required? |            Name            |                 Description                  |       Options       | Defaults to |
+| :-------: | :------------------------: | :------------------------------------------: | :-----------------: | :---------: |
+|    ✅     | `base`, `from`, or `coin`  |     The symbol of the currency to query      | `BTC`, `ETH`, `USD` |             |
+|    ✅     | `quote`, `to`, or `market` |   The symbol of the currency to convert to   | `BTC`, `ETH`, `USD` |             |
+
+
+### Output
 
 ```json
-{
-   "jobRunID":"1",
-   "data":{
-      "currencies":[
-         {
-            "name":"UK100",
-            "value":6395.5,
-            "change":61,
-            "difference":0.96
-         }
-      ],
-      "lastUpdate":"2020-11-27T17:07:02",
-      "lastUpdate_Timestamp":"1606496822",
-      "result":6395.5
-   },
-   "result":6395.5,
-   "statusCode":200
-}
+{"symbol":"BTCUSD","price":"57333.52000000"}
 ```

@@ -2,32 +2,26 @@ import { assert } from 'chai'
 import { Requester } from '@chainlink/external-adapter'
 import { assertSuccess, assertError } from '@chainlink/adapter-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
-import { execute } from '../src/adapter'
+import { makeExecute } from '../src/adapter'
 
 describe('execute', () => {
   const jobID = '1'
+  const execute = makeExecute()
+  process.env.API_KEY = process.env.API_KEY ?? 'test_api_key'
 
   context('successful calls @integration', () => {
     const requests = [
       {
         name: 'id not supplied',
-        testData: { data: { symbol: 'FTSE' } },
+        testData: { data: { base: 'GBP', quote: 'USD' } },
       },
       {
-        name: 'symbol FTSE',
-        testData: { id: jobID, data: { symbol: 'FTSE' } },
+        name: 'base/quote',
+        testData: { id: jobID, data: { base: 'GBP', quote: 'USD' } },
       },
       {
-        name: 'symbol N225',
-        testData: { id: jobID, data: { symbol: 'N225' } },
-      },
-      {
-        name: 'from',
-        testData: { id: jobID, data: { from: 'FTSE' } },
-      },
-      {
-        name: 'endpoint stock',
-        testData: { id: jobID, data: { base: 'TSLA', endpoint: 'stock' } },
+        name: 'from/to',
+        testData: { id: jobID, data: { from: 'GBP', to: 'USD' } },
       },
     ]
 
@@ -45,6 +39,14 @@ describe('execute', () => {
     const requests = [
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },
+      {
+        name: 'base not supplied',
+        testData: { id: jobID, data: { quote: 'USD' } },
+      },
+      {
+        name: 'quote not supplied',
+        testData: { id: jobID, data: { base: 'GBP' } },
+      },
     ]
 
     requests.forEach((req) => {
@@ -62,8 +64,12 @@ describe('execute', () => {
   context('error calls @integration', () => {
     const requests = [
       {
-        name: 'unknown symbol',
-        testData: { id: jobID, data: { base: 'not_real' } },
+        name: 'unknown base',
+        testData: { id: jobID, data: { base: 'not_real', quote: 'USD' } },
+      },
+      {
+        name: 'unknown quote',
+        testData: { id: jobID, data: { base: 'GBP', quote: 'not_real' } },
       },
     ]
 
