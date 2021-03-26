@@ -4,16 +4,24 @@ The adapter calculates a Synthetix Index value in the currency selected
 
 ## Configuration
 
-- `DATA_PROVIDER_URL`: The adapter URL for the price data provider
 - `DEFAULT_NETWORK` (Optional). Network to fetch the Synth Index
 - `DEFAULT_QUOTE` (Optional): Currency that the price will be fetched by default. `USD` used by default
 
+This composite adapter executes the code from the Token Allocation composite adapter. As such the same configuration and input parameters apply to this adapter. See [../token-allocation/README.md](../token-allocation/README.md) for more details.
+
+## Running
+
+See the [Composite Adapter README](../README.md) for more information on how to get started.
+
 ## Input Params
 
-- `base`, `asset` or `from`: Synthx Index asset to fetch
-- `network` (optional): Network to fetch. `mainnet` by default
-- `quote` (optional). Currency we want the price on. `DEFAULT_QUOTE` by default
+| Required? |           Name            |             Description             | Options |    Defaults to    |
+| :-------: | :-----------------------: | :---------------------------------: | :-----: | :---------------: |
+|    ✅     | `base`, `asset` or `from` |     Synthx Index asset to fetch     |         |                   |
+|           |         `network`         |     Synthx Index asset to fetch     |         | `DEFAULT_NETWORK` |
+|           |          `quote`          | Currency that we want the price on. |         |  `DEFAULT_QUOTE`  |
 
+### Sample Input
 
 ```json
 {
@@ -24,7 +32,7 @@ The adapter calculates a Synthetix Index value in the currency selected
 }
 ```
 
-## Output
+### Sample Output
 
 ```json
 {
