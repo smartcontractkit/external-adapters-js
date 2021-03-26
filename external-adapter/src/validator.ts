@@ -61,17 +61,17 @@ export class Validator {
     this.errored = Requester.errored(this.validated.id, this.error)
   }
 
-  overrideSymbol = (adapter: string): string => {
-    const symbol = this.validated.data.base
-    if (!symbol) {
+  overrideSymbol = (adapter: string, symbol?: string): string => {
+    const defaultSymbol = symbol || this.validated.data.base
+    if (!defaultSymbol) {
       throw new AdapterError({
         jobRunID: this.validated.id,
         statusCode: 400,
         message: `Required parameter not supplied: base`,
       })
     }
-    if (!this.validated.overrides) return symbol
-    return this.validated.overrides.get(adapter.toLowerCase())?.get(symbol.toLowerCase()) || symbol
+    if (!this.validated.overrides) return defaultSymbol
+    return this.validated.overrides.get(adapter.toLowerCase())?.get(defaultSymbol.toLowerCase()) || defaultSymbol
   }
 
   formatOverride = (param: any): Override => {

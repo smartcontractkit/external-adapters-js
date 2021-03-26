@@ -1,5 +1,5 @@
 import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
-import { ExecuteWithConfig, Config, Override } from '@chainlink/types'
+import { ExecuteWithConfig, Config } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
 export const NAME = 'price'
@@ -33,21 +33,17 @@ const getCoinId = async (config: Config, symbol: string): Promise<string> => {
   return coin.id.toLowerCase()
 }
 
-const overrideSymbol = (overrides: Override | undefined, symbol: string): string | undefined => {
-  return overrides?.get(AdapterName.toLowerCase())?.get(symbol.toLowerCase())
-}
-
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const symbol = validator.validated.data.base
+  const symbol = validator.overrideSymbol(AdapterName)
   const quote = validator.validated.data.quote
-  const overrides = validator.validated.overrides as Override | undefined
   const coinid = validator.validated.data.coinid as string | undefined
 
-  let coin = coinid?.toLowerCase() || overrideSymbol(overrides, symbol)
+  // If coinid was provided or base was overridden, that symbol will be fetched
+  let coin = coinid?.toLowerCase() || (symbol !== validator.validated.data.base && symbol)
   if (!coin) {
     try {
       coin = await getCoinId(config, symbol)

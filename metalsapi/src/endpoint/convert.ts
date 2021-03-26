@@ -1,5 +1,6 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { AdapterRequest, Config } from '@chainlink/types'
+import { NAME as AdapterName } from '../config'
 
 export const Name = 'convert'
 
@@ -15,10 +16,12 @@ export const execute = async (config: Config, request: AdapterRequest) => {
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 
-  const from = validator.validated.data.base.toUpperCase()
+  const from = validator.overrideSymbol(AdapterName).toUpperCase()
   const to = validator.validated.data.quote.toUpperCase()
   const amount = validator.validated.data.amount || 1
   const url = `convert`
+
+  console.log('FROM', from)
 
   const params = {
     access_key: config.apiKey,
