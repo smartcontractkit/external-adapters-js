@@ -1,10 +1,10 @@
 import { AdapterResponse, Execute, AdapterRequest } from '@chainlink/types'
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { DEFAULT_TOKEN_BALANCE, DEFAULT_TOKEN_DECIMALS, makeConfig, makeOptions } from './config'
-import { TokenAllocations, Config, ResponsePayload, PriceAdapter } from './types'
+import { TokenAllocations, Config, ResponsePayload, GetPrices } from './types'
 import { Decimal } from 'decimal.js'
-import { AdapterError } from '@chainlink/ea-bootstrap'
+import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { BigNumber } from 'ethers'
+import { getPriceProvider } from './dataProvider'
 
 export const priceTotalValue = (
   allocations: TokenAllocations,
@@ -68,21 +68,21 @@ const toValidAllocations = (allocations: any[]): TokenAllocations => {
   })
 }
 
-const computePrice = async (sourceConfig: any, allocations: TokenAllocations, quote: string) => {
+const computePrice = async (getPrices: GetPrices, allocations: TokenAllocations, quote: string) => {
   const symbols = (allocations as TokenAllocations).map((t) => t.symbol)
-  const payload = await sourceConfig.getPrices(symbols, quote)
+  const payload = await getPrices(symbols, quote)
 
   const result = priceTotalValue(allocations, quote, payload)
   return { payload, result }
 }
 
 const computeMarketCap = async (
-  sourceConfig: any,
+  getPrices: GetPrices,
   allocations: TokenAllocations,
   quote: string,
 ) => {
   const symbols = (allocations as TokenAllocations).map((t) => t.symbol)
-  const payload = await sourceConfig.getPrices(symbols, quote, true)
+  const payload = await getPrices(symbols, quote, true)
 
   const result = marketCapTotalValue(allocations, quote, payload)
   return { payload, result }
@@ -112,14 +112,15 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
       data: { sources: [], payload, result },
     })
 
+  const getPrices = getPriceProvider(sourceConfig.api, jobRunID)
   switch (method.toLowerCase()) {
     case 'price':
       // eslint-disable-next-line no-case-declarations
-      const price = await computePrice(sourceConfig, allocations, quote)
+      const price = await computePrice(getPrices, allocations, quote)
       return _success(price.payload, price.result)
     case 'marketcap':
       // eslint-disable-next-line no-case-declarations
-      const marketCap = await computeMarketCap(sourceConfig, allocations, quote)
+      const marketCap = await computeMarketCap(getPrices, allocations, quote)
       return _success(marketCap.payload, marketCap.result)
     default:
       throw new AdapterError({
