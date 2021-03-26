@@ -4,6 +4,7 @@ import { RequestConfig } from '@chainlink/types'
 
 export type Config = {
   taConfig: RequestConfig
+  api: any
 }
 
 export const DEFAULT_MULTIPLY = 1000000
@@ -15,5 +16,6 @@ export const makeConfig = (prefix = ''): Config => {
   defaultConfig.api.method = 'post'
   return {
     taConfig: defaultConfig.api,
+    api: {},
   }
 }

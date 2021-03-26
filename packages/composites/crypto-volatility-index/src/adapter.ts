@@ -1,4 +1,9 @@
-import { AdapterResponse, AdapterRequest, Execute } from '@chainlink/types'
+import {
+  AdapterResponse,
+  AdapterRequest,
+  ExecuteWithConfig,
+  ExecuteFactory,
+} from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { calculate } from './cryptoVolatilityIndex'
 import { makeConfig, Config } from './config'
@@ -12,9 +17,9 @@ const customParams = {
   quote: false,
 }
 
-export const execute: Execute = async (
-  config: Config,
+export const execute: ExecuteWithConfig<Config> = async (
   input: AdapterRequest,
+  config: Config,
 ): Promise<AdapterResponse> => {
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
@@ -28,6 +33,6 @@ export const execute: Execute = async (
   })
 }
 
-export const makeExecute = (config?: Config): Execute => {
-  return async (request: AdapterRequest) => execute(config || makeConfig(), request)
+export const makeExecute: ExecuteFactory<Config> = (config?) => {
+  return async (request) => execute(request, config || makeConfig())
 }
