@@ -1,8 +1,9 @@
+import { AdapterErrorResponse, Override } from '@chainlink/types'
+import { util } from '@chainlink/ea-bootstrap'
+import { merge } from 'lodash'
 import { AdapterError } from './errors'
 import { Requester } from './requester'
 import { logger } from './logger'
-import { AdapterErrorResponse, Override } from '@chainlink/types'
-import { util } from '@chainlink/ea-bootstrap'
 import presetSymbols from './overrides/presetSymbols.json'
 
 export class Validator {
@@ -45,10 +46,9 @@ export class Validator {
       return
     }
     try {
-      this.validated.overrides = this.formatOverride({
-        ...presetSymbols,
-        ...this.input.data.overrides,
-      })
+      this.validated.overrides = this.formatOverride(
+        merge(presetSymbols, this.input.data.overrides),
+      )
     } catch (e) {
       this.parseError(e)
     }
