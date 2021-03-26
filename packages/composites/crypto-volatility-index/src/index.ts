@@ -1,4 +1,7 @@
 import { expose } from '@chainlink/ea-bootstrap'
-import { execute } from './adapter'
+import { makeExecute } from './adapter'
+import { makeConfig } from './config'
 
-export = { execute, ...expose(execute) }
+const NAME = 'CRYPTO_VOLATILITY_INDEX'
+
+export = { NAME, makeExecute, makeConfig, ...expose(makeExecute()) }

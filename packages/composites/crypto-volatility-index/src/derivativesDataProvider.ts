@@ -72,6 +72,7 @@ const getOptionsData = async (currency: string, exchangeRate: Decimal) => {
   }
 
   try {
+    // TODO: send request to Deribit source EA
     const response = await Requester.request(config)
     const result = response.data.result
     const calls: Record<string, Array<OptionData>> = {}

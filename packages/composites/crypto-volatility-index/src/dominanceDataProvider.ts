@@ -1,11 +1,8 @@
-import * as TokenAllocation from '@chainlink/token-allocation-adapter'
-import { Execute } from '@chainlink/types'
+import { Requester } from '@chainlink/ea-bootstrap'
+import { AdapterRequest } from '@chainlink/types'
+import { Config } from './config'
 
-export const getDominanceAdapter = (): Execute => {
-  const config = TokenAllocation.makeConfig()
-  config.defaultMethod = 'marketCap'
-  return TokenAllocation.makeExecute(config)
-}
+const cryptoCurrencies = ['BTC', 'ETH']
 
 export const dominanceByCurrency = (
   response: Record<string, any>,
@@ -20,4 +17,26 @@ export const dominanceByCurrency = (
       return [symbol, marketCap! / result]
     }),
   )
+}
+
+export const getDominanceByCurrency = async (jobRunID: number, config: Config, inputData: any) => {
+  const allocations = cryptoCurrencies.map((symbol) => {
+    return { symbol }
+  })
+  const quote = 'USD'
+  const input: AdapterRequest = {
+    id: '123',
+    data: {
+      allocations,
+      quote,
+    },
+  }
+  const dominanceData = await Requester.request({
+    ...config.taConfig,
+    data: {
+      id: jobRunID,
+      data: { ...inputData, allocations },
+    },
+  })
+  return dominanceByCurrency(dominanceData.data, quote)
 }
