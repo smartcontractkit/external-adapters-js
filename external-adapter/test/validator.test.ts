@@ -124,9 +124,6 @@ describe('Validator', () => {
   })
 
   it('overrides input is formatted', () => {
-    const params = {
-      overrides: true,
-    }
     const input = {
       id: '1',
       data: {
@@ -137,16 +134,13 @@ describe('Validator', () => {
         },
       },
     }
-    const validator = new Validator(input, params)
+    const validator = new Validator(input)
     const expected = new Map(Object.entries(input.data.overrides))
-    assert.equal(validator.validated.data.overrides?.size, expected.size)
-    assert.equal(validator.validated.data.overrides.get('coingecko').get('uni'), 'uniswap')
+    assert.equal(validator.validated.overrides?.size, expected.size)
+    assert.equal(validator.validated.overrides.get('coingecko').get('uni'), 'uniswap')
   })
 
   it('errors if overrides is not properly formatted', () => {
-    const params = {
-      overrides: true,
-    }
     const input = {
       id: '1',
       data: {
@@ -155,7 +149,7 @@ describe('Validator', () => {
         },
       },
     }
-    const validator = new Validator(input, params)
+    const validator = new Validator(input)
     assert.exists(validator.error)
     assert.equal(validator?.error?.statusCode, 400)
     assert.equal(validator?.error?.status, 'errored')

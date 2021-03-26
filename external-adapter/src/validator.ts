@@ -34,23 +34,31 @@ export class Validator {
         }
       }
     } catch (error) {
-      const message = 'Error validating input.'
-      if (error instanceof AdapterError) this.error = error
-      else
-        this.error = new AdapterError({
-          jobRunID: this.validated.id,
-          statusCode: 400,
-          message,
-          cause: error,
-        })
-      logger.error(message, { error: this.error })
-      this.errored = Requester.errored(this.validated.id, this.error)
+      this.throwInvalidInput(error)
     }
   }
 
-  validateOverrides = () => {
-    if (!this.input.data.overrides) return
-    this.validated.overrides = this.formatOverride(this.input.data.overrides)
+  validateOverrides() {
+    if (!this.input.data?.overrides) return
+    try {
+      this.validated.overrides = this.formatOverride(this.input.data.overrides)
+    } catch (e) {
+      this.throwInvalidInput(e)
+    }
+  }
+
+  throwInvalidInput(error: any) {
+    const message = 'Error validating input.'
+    if (error instanceof AdapterError) this.error = error
+    else
+      this.error = new AdapterError({
+        jobRunID: this.validated.id,
+        statusCode: 400,
+        message,
+        cause: error,
+      })
+    logger.error(message, { error: this.error })
+    this.errored = Requester.errored(this.validated.id, this.error)
   }
 
   overrideSymbol = (adapter: string): string => {
@@ -68,7 +76,7 @@ export class Validator {
 
   formatOverride = (param: any): Override => {
     const _throwInvalid = () => {
-      const message = `"overrides" parameter supplied with wrong format`
+      const message = `Parameter supplied with wrong format: "overrides"`
       throw new AdapterError({ jobRunID: this.validated.id, statusCode: 400, message })
     }
     if (!util.isObject(param)) _throwInvalid()

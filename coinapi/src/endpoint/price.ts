@@ -16,9 +16,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const symbol = validator.overrideSymbol(AdapterName)
-  const quote = validator.validated.data.quote
-  const url = `exchangerate/${symbol.toUpperCase()}/${quote.toUpperCase()}`
+  const symbol = validator.overrideSymbol(AdapterName).toUpperCase()
+  const quote = validator.validated.data.quote.toUpperCase()
+  const url = `exchangerate/${symbol}/${quote}`
 
   const options = {
     ...config.api,
