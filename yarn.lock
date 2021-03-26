@@ -1343,6 +1343,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/ea-bootstrap@workspace:packages/core/bootstrap"
   dependencies:
+    "@chainlink/ea-ratelimits": "*"
     "@google-cloud/logging-winston": ^4.0.1
     "@reduxjs/toolkit": ^1.5.0
     "@types/chai": ^4.2.15
@@ -1422,7 +1423,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ea-ratelimits@workspace:packages/core/ratelimits":
+"@chainlink/ea-ratelimits@*, @chainlink/ea-ratelimits@workspace:packages/core/ratelimits":
   version: 0.0.0-use.local
   resolution: "@chainlink/ea-ratelimits@workspace:packages/core/ratelimits"
   dependencies:
