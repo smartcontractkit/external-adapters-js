@@ -8,5 +8,6 @@
     "composite": true
   },
   "include": ["src/**/*"],
-  "exclude": ["dist", "**/*.spec.ts", "**/*.test.ts"]
+  "exclude": ["dist", "**/*.spec.ts", "**/*.test.ts"],
+  "references": [{ "path": "../ratelimits" }]
 }

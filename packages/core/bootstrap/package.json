@@ -21,6 +21,7 @@
     "test:integration": "mocha --exit --timeout 0 --grep @integration -r ts-node/register 'test/**/*.test.ts'"
   },
   "dependencies": {
+    "@chainlink/ea-ratelimits": "*",
     "@google-cloud/logging-winston": "^4.0.1",
     "@reduxjs/toolkit": "^1.5.0",
     "axios": "^0.21.1",
