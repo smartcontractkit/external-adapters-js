@@ -6,16 +6,35 @@ The adapter calculates APY Finance total value locked
 
 The adapter takes the following environment variables:
 
-- `RPC_URL`: Blockchain RPC endpoint to get the needed on-chain data
-- `REGISTRY_ADDRESS`: Address Registry contract address used to query the Chainlink Registry
-- `DATA_PROVIDER_URL`: The adapter URL for the price data provider
-- `DEFAULT_QUOTE` (Optional): Currency that the price will be fetched by default. `USD` used by default
+| Required? |        Name        |                       Description                       | Options | Defaults to |
+| :-------: | :----------------: | :-----------------------------------------------------: | :-----: | :---------: |
+|    ✅     |     `RPC_URL`      | Blockchain RPC endpoint to get the needed on-chain data |         |             |
+|    ✅     | `REGISTRY_ADDRESS` |                                                         |         |             |
 
-## Input Params
+Optionally the default behavior of the composite adapter can be configured
 
-- `quote` (optional). Currency we want the price on. `DEFAULT_QUOTE` by default
+| Required? |      Name       |                     Description                     | Options | Defaults to |
+| :-------: | :-------------: | :-------------------------------------------------: | :-----: | :---------: |
+|           | `DEFAULT_QUOTE` | Currency that the price will be fetched by default. |         |    `USD`    |
 
-## Output
+This composite adapter executes the code from the Token Allocation composite adapter. As such the same configuration and input parameters apply to this adapter. See [../token-allocation/README.md](../token-allocation/README.md) for more details.
+
+## Running
+
+See the [Composite Adapter README](../README.md) for more information on how to get started.
+
+### Sample Input
+
+```json
+{
+  "jobID": "1",
+  "data": {
+    "source": "coingecko"
+  }
+}
+```
+
+### Sample Output
 
 ```json
 {
