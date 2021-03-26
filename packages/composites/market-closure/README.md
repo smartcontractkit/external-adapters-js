@@ -18,7 +18,11 @@ The adapter takes the following environment variables:
 |    ✅     |        `{SOURCE}_DATA_PROVIDER_URL`         | The URL location for the price data provider adapter when `source={SOURCE}` |         |             |
 |    ✅     |                  `RPC_URL`                  |                ETH RPC URL to read the reference data value                 |         |             |
 
-## Input Params
+## Running
+
+See the [Composite Adapter README](../README.md) for more information on how to get started.
+
+### Input Params
 
 | Required? |              Name               |                                          Description                                          |          Options           | Defaults to |
 | :-------: | :-----------------------------: | :-------------------------------------------------------------------------------------------: | :------------------------: | :---------: |
@@ -62,37 +66,6 @@ An example schedule looks like:
 }
 ```
 
-## Running this adapter
+### Sample Input
 
-### Local
-
-Ensure that the project's dependencies are installed and that the code is compiled by running the following command from
-the external-adapters repository root:
-
-```bash
-yarn && yarn setup
-```
-
-Change directories into market-closure and start the server:
-
-```bash
-cd composite/market-closure && yarn start
-```
-
-### Docker
-
-To build a Docker container for a specific `$(adapter)`, run the following command from repository root:
-
-```bash
-make docker adapter=composite/market-closure name=market-closure
-```
-
-The naming convention for Docker containers will be `$(name)-adapter`.
-
-Then run it with:
-
-```bash
-docker run -p 8080:8080 --env-file="~/PATH_TO_ENV" -it market-closure-adapter:latest
-```
-
-(Note: Docker environment file string values do not use " or ' quote marks)
+### Sample Output
