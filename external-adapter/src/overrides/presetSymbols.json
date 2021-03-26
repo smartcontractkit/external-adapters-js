@@ -25,9 +25,21 @@
     "N225": "NKY.IND:TEI",
     "FTSE": "UKX.IND:TEI",
     "TSLA": "TSLA:BFX",
-    "WTI": "USO/USD:AFX"
+    "WTI": "USO/USD:AFX",
+    "NFLX": "NFLX:BFX",
+    "GOOGL": "GOOGL:BFX",
+    "AAPL": "AAPL:BFX",
+    "AMZN": "AMZN:BFX"
   },
-  "dxfeed_secondary": {},
+  "dxfeed_secondary": {
+    "NFLX": "NFLX.US:TEI",
+    "GOOGL": "GOOGL.US:TEI",
+    "AAPL": "AAPL.US:TEI",
+    "AMZN": "AMZN.US:TEI",
+    "N225": "NKY.IND:TEI",
+    "FTSE": "UKX.IND:TEI",
+    "TSLA": "TSLA.US:TEI"
+  },
   "finage": {
     "FTSE": "UK100",
     "N225": "JAP225"

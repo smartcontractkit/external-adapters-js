@@ -1,5 +1,6 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
+import { NAME as AdapterName } from '../config'
 
 export const NAME = 'example' // This should be filled in with a lowercase name corresponding to the API endpoint
 
@@ -16,7 +17,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const base = validator.validated.data.base
+  const base = validator.overrideSymbol(AdapterName)
   const quote = validator.validated.data.quote
   const field = validator.validated.data.field || 'price'
   const url = `price`

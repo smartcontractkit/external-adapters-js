@@ -3,6 +3,7 @@ import { Requester } from './requester'
 import { logger } from './logger'
 import { AdapterErrorResponse, Override } from '@chainlink/types'
 import { util } from '@chainlink/ea-bootstrap'
+import presetSymbols from './overrides/presetSymbols.json'
 
 export class Validator {
   input: any
@@ -39,9 +40,15 @@ export class Validator {
   }
 
   validateOverrides() {
-    if (!this.input.data?.overrides) return
+    if (!this.input.data?.overrides) {
+      this.validated.overrides = this.formatOverride(presetSymbols)
+      return
+    }
     try {
-      this.validated.overrides = this.formatOverride(this.input.data.overrides)
+      this.validated.overrides = this.formatOverride({
+        ...presetSymbols,
+        ...this.input.data.overrides,
+      })
     } catch (e) {
       this.parseError(e)
     }
