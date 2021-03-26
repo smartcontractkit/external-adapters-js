@@ -42,9 +42,10 @@ const calculateLimits = (declaredTier: DeclaredTier) => {
 }
 
 const findTier = (provider: string, tier: number | string): DeclaredTier => {
+  provider = provider.toLowerCase()
   const matchedTier = Number.isInteger(Number(tier))
-    ? Limits[provider][Number(tier)]
-    : (Limits[provider] as DeclaredTier[]).find((element) => element.tierName === tier)
+    ? Limits[provider]?.[Number(tier)]
+    : (Limits[provider] as DeclaredTier[])?.find((element) => element.tierName === tier)
   if (matchedTier === undefined) {
     console.log(
       `[provider, tier]: [${provider}, ${tier}] doesn't match any provider spec in limits.json`,
