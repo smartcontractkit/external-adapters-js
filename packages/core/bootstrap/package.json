@@ -14,6 +14,7 @@
     "setup": "yarn clean && yarn build",
     "build": "tsc -b",
     "dev:remotedev": "node ./scripts/remotedev.js",
+    "dev:metrics": "docker-compose up -d",
     "lint": "eslint --ignore-path ../../../.eslintignore . --ext .ts,.tsx",
     "lint:fix": "eslint --ignore-path ../../../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix",
     "test": "yarn run mocha --exit --timeout 0 -r ts-node/register 'test/**/*.test.ts'",
