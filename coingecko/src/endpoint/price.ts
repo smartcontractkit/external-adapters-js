@@ -12,7 +12,6 @@ const customError = (data: any) => {
 const customParams = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
-  overrides: false,
   coinid: false,
 }
 
@@ -45,7 +44,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const jobRunID = validator.validated.id
   const symbol = validator.validated.data.base
   const quote = validator.validated.data.quote
-  const overrides = validator.validated.data.overrides as Override | undefined
+  const overrides = validator.validated.overrides as Override | undefined
   const coinid = validator.validated.data.coinid as string | undefined
 
   let coin = coinid?.toLowerCase() || overrideSymbol(overrides, symbol)

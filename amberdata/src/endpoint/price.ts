@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { ExecuteWithConfig, Config, Override } from '@chainlink/types'
+import { ExecuteWithConfig, Config } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
 export const Name = 'price'
@@ -16,14 +16,7 @@ const addressMapping: { [symbol: string]: string } = {
 const customParams = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
-  overrides: false,
   includes: false,
-}
-
-const overrideSymbol = (overrides: Override | undefined, symbol: string): string => {
-  const newSymbol = overrides?.get(AdapterName.toLowerCase())?.get(symbol.toLowerCase())
-  if (newSymbol) return newSymbol
-  return symbol
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, config) => {
@@ -31,7 +24,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   if (validator.error) throw validator.error
   const jobRunID = validator.validated.id
 
-  const coin = overrideSymbol(validator.validated.data.overrides, validator.validated.data.base)
+  const coin = validator.overrideSymbol(AdapterName)
   const market = validator.validated.data.quote
   const includes = validator.validated.data.includes || []
 

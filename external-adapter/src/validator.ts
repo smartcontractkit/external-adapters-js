@@ -2,9 +2,7 @@ import { AdapterError } from './errors'
 import { Requester } from './requester'
 import { logger } from './logger'
 import { AdapterErrorResponse, Override } from '@chainlink/types'
-
-const isObject = (o: unknown): boolean =>
-  o !== null && typeof o === 'object' && Array.isArray(o) === false
+import { util } from '@chainlink/ea-bootstrap'
 
 export class Validator {
   input: any
@@ -18,6 +16,7 @@ export class Validator {
     this.customParams = customParams
     this.validated = { data: {} }
     this.validateInput()
+    this.validateOverrides()
   }
 
   validateInput() {
@@ -31,7 +30,7 @@ export class Validator {
         } else if (this.customParams[key] === true) {
           this.validateRequiredParam(this.input.data[key], key)
         } else if (typeof this.input.data[key] !== 'undefined') {
-          this.validated.data[key] = this.getKeyFormat(key)(this.input.data[key])
+          this.validated.data[key] = this.input.data[key]
         }
       }
     } catch (error) {
@@ -49,14 +48,32 @@ export class Validator {
     }
   }
 
-  formatOverride = (key: string) => (param: any): Override => {
+  validateOverrides = () => {
+    if (!this.input.data.overrides) return
+    this.validated.overrides = this.formatOverride(this.input.data.overrides)
+  }
+
+  overrideSymbol = (adapter: string): string => {
+    const symbol = this.validated.data.base
+    if (!symbol) {
+      throw new AdapterError({
+        jobRunID: this.validated.id,
+        statusCode: 400,
+        message: `Required parameter not supplied: base`,
+      })
+    }
+    if (!this.validated.overrides) return symbol
+    return this.validated.overrides.get(adapter.toLowerCase())?.get(symbol.toLowerCase()) || symbol
+  }
+
+  formatOverride = (param: any): Override => {
     const _throwInvalid = () => {
-      const message = `Required parameter supplied with wrong format: ${key}`
+      const message = `"overrides" parameter supplied with wrong format`
       throw new AdapterError({ jobRunID: this.validated.id, statusCode: 400, message })
     }
-    if (!isObject(param)) _throwInvalid()
+    if (!util.isObject(param)) _throwInvalid()
 
-    const _isValid = Object.values(param).every(isObject)
+    const _isValid = Object.values(param).every(util.isObject)
     if (!_isValid) _throwInvalid()
 
     const _keyToLowerCase = (entry: [string, any]): [string, any] => {
@@ -69,22 +86,12 @@ export class Validator {
     )
   }
 
-  getKeyFormat(key: string) {
-    switch (key.toLowerCase()) {
-      case 'overrides': {
-        return this.formatOverride(key)
-      }
-      default:
-        return (param: any) => param
-    }
-  }
-
   validateRequiredParam(param: any, key: string) {
     if (typeof param === 'undefined') {
       const message = `Required parameter not supplied: ${key}`
       throw new AdapterError({ jobRunID: this.validated.id, statusCode: 400, message })
     } else {
-      this.validated.data[key] = this.getKeyFormat(key)(param)
+      this.validated.data[key] = param
     }
   }
 

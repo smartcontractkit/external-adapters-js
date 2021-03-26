@@ -8,7 +8,6 @@ const inputParams = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
   coinid: false,
-  overrides: false,
 }
 
 const getCoinId = async (ticker: string): Promise<string> => {
@@ -38,7 +37,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const jobRunID = validator.validated.id
   const symbol = validator.validated.data.base
   const quote = validator.validated.data.quote
-  const overrides = validator.validated.data.overrides as Override | undefined
+  const overrides = validator.validated.overrides as Override | undefined
   const coinid = validator.validated.data.coinid as string | undefined
 
   let coin = coinid || overrideSymbol(overrides, symbol)
@@ -50,7 +49,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     }
   }
 
-  console.log('COIN:', coin)
   const url = `v1/tickers/${coin.toLowerCase()}`
 
   const params = {

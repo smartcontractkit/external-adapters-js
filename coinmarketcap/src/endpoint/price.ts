@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { ExecuteWithConfig, Config, Override } from '@chainlink/types'
+import { ExecuteWithConfig, Config } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
 export const NAME = 'price'
@@ -38,17 +38,10 @@ const presetIds: { [symbol: string]: number } = {
 }
 
 const priceParams = {
-  symbol: ['base', 'from', 'coin', 'sym', 'symbol'],
+  base: ['base', 'from', 'coin', 'sym', 'symbol'],
   convert: ['quote', 'to', 'market', 'convert'],
-  overrides: false,
   cid: false,
   slug: false,
-}
-
-const overrideSymbol = (overrides: Override | undefined, symbol: string): string => {
-  const newSymbol = overrides?.get(AdapterName.toLowerCase())?.get(symbol.toLowerCase())
-  if (newSymbol) return newSymbol
-  return symbol
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
@@ -58,7 +51,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
   const jobRunID = validator.validated.id
 
-  const symbol = overrideSymbol(validator.validated.data.overrides, validator.validated.data.symbol)
+  const symbol = validator.overrideSymbol(AdapterName)
   // CMC allows a coin name to be specified instead of a symbol
   const slug = validator.validated.data.slug
   // CMC allows a coin ID to be specified instead of a symbol
@@ -99,7 +92,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   }
 
   const key = params.id || _keyForSlug(response.data, params.slug || '') || params.symbol
-  const path = ['data', key, 'quote', convert, 'price']
+  const path = ['data', key.toUpperCase(), 'quote', convert.toUpperCase(), 'price']
 
   const result = Requester.validateResultNumber(response.data, path)
 

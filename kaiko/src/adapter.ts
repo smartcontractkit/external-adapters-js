@@ -14,13 +14,6 @@ const customParams = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
   includes: false,
-  overrides: false,
-}
-
-const overrideSymbol = (overrides: Override | undefined, symbol: string): string => {
-  const newSymbol = overrides?.get(AdapterName.toLowerCase())?.get(symbol.toLowerCase())
-  if (newSymbol) return newSymbol
-  return symbol
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
@@ -30,10 +23,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   Requester.logConfig(config)
 
   const jobRunID = validator.validated.id
-  const base = overrideSymbol(
-    validator.validated.data.overrides,
-    validator.validated.data.base,
-  ).toLowerCase()
+  const base = validator.overrideSymbol(AdapterName).toLowerCase()
   const quote = validator.validated.data.quote.toLowerCase()
   const includes = validator.validated.data.includes || []
 
