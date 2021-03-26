@@ -123,6 +123,16 @@ describe('Validator', () => {
     assert.isUndefined(validator.error)
   })
 
+  it('default overrides input is loaded', () => {
+    const input = {
+      id: '1',
+      data: {},
+    }
+    const validator = new Validator(input)
+    assert.isAbove(validator.validated.overrides?.size, 1)
+    assert.equal(validator.validated.overrides.get('coingecko').get('uni'), 'uniswap')
+  })
+
   it('overrides input is formatted', () => {
     const input = {
       id: '1',
@@ -135,8 +145,6 @@ describe('Validator', () => {
       },
     }
     const validator = new Validator(input)
-    const expected = new Map(Object.entries(input.data.overrides))
-    assert.equal(validator.validated.overrides?.size, expected.size)
     assert.equal(validator.validated.overrides.get('coingecko').get('uni'), 'uniswap')
   })
 
