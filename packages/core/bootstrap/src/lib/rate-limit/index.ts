@@ -28,10 +28,10 @@ export const computeThroughput = (
   id: string,
 ): number => {
   // All observed in interval
-  const observedRequests = selectObserved(state, interval)
+  const observedRequests = selectObserved(state, interval).filter((h) => !h.isWarmup)
   const throughput = observedRequests.length + 1
   // All of type observed in interval
-  const observedRequestsOfType = selectObserved(state, interval, id)
+  const observedRequestsOfType = selectObserved(state, interval, id).filter((h) => !h.isWarmup)
   const throughputOfType = observedRequestsOfType.length + 1
   const costOfType = getAverageCost(observedRequestsOfType) || 1
   // Compute max throughput by weight
@@ -47,14 +47,16 @@ const getAverageCost = (requests: Heartbeat[]): number => {
 const logRemainingCapacity = (state: Heartbeats, interval: IntervalNames): void => {
   const dataProviderRequests = selectObserved(state, interval).filter((h) => !h.isCacheHit)
   const cost = getAverageCost(dataProviderRequests) || 1
-  const capacity = config.get().totalCapacity / cost
-  const remainingCapacity = capacity - dataProviderRequests.length
+  const capacity = config.get().totalCapacity
+  const totalReq = dataProviderRequests.length * cost
+  const remainingCapacity = capacity - totalReq
+  const message = `Rate Limit: ${totalReq} requests made in the last minute. Capacity of ${capacity} requests/min is set`
   if (remainingCapacity <= 0) {
-    logger.error('Rate Limit: Data Provider tokens not available')
+    logger.error(message)
     return
   }
   if (remainingCapacity <= 0.1 * capacity) {
-    logger.warn('Rate Limit: Data Provider tokens about to run out')
+    logger.warn(message)
     return
   }
 }
@@ -95,12 +97,13 @@ export const withRateLimit = (store: Store<RootState>): Middleware => async (exe
   state = store.getState()
   logRemainingCapacity(state.heartbeats, IntervalNames.MINUTE)
 
-  const isCacheHit = !!result.maxAge
-  if (!isCacheHit) {
-    metrics.rateLimitCreditsSpentTotal
-      .labels({ id: input.id, participantId: requestTypeId, experimental: 'true' })
-      .inc(result.data.cost || 1)
+  const defaultLabels = {
+    job_run_id: input.id,
+    participant_id: requestTypeId,
+    experimental: 'true',
   }
+  const cost = Number(result.debug?.providerCost) || 1
+  metrics.rateLimitCreditsSpentTotal.labels(defaultLabels).inc(cost)
 
   return result
 }
