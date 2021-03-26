@@ -1,9 +1,8 @@
 import { AdapterResponse, Execute, AdapterRequest } from '@chainlink/types'
-import { Requester, Validator } from '@chainlink/external-adapter'
-import { DEFAULT_TOKEN_BALANCE, DEFAULT_TOKEN_DECIMALS, makeConfig } from './config'
+import { DEFAULT_TOKEN_BALANCE, DEFAULT_TOKEN_DECIMALS, makeConfig, makeOptions } from './config'
 import { TokenAllocations, Config, ResponsePayload, GetPrices } from './types'
 import { Decimal } from 'decimal.js'
-import { AdapterError } from '@chainlink/ea-bootstrap'
+import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { BigNumber } from 'ethers'
 import { getPriceProvider } from './dataProvider'
 
@@ -113,7 +112,7 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
       data: { sources: [], payload, result },
     })
 
-  const getPrices = getPriceProvider(config.providerConfig.api, jobRunID)
+  const getPrices = getPriceProvider(sourceConfig.api, jobRunID)
   switch (method.toLowerCase()) {
     case 'price':
       // eslint-disable-next-line no-case-declarations

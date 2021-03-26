@@ -1,28 +1,6 @@
 import { Requester } from '@chainlink/ea-bootstrap'
-import { PriceAdapter, ResponsePayload } from './types'
-import { AdapterImplementation, RequestConfig } from '@chainlink/types'
-// data provider external adapters
-import Amberdata from '@chainlink/amberdata-adapter'
-import CoinApi from '@chainlink/coinapi-adapter'
-import CoinGecko from '@chainlink/coingecko-adapter'
-import CoinMarketCap from '@chainlink/coinmarketcap-adapter'
-import CoinPaprika from '@chainlink/coinpaprika-adapter'
-import CryptoCompare from '@chainlink/cryptocompare-adapter'
-import Kaiko from '@chainlink/kaiko-adapter'
-import Nomics from '@chainlink/nomics-adapter'
-
-export const adapters: AdapterImplementation[] = [
-  Amberdata,
-  CoinApi,
-  CoinGecko,
-  CoinMarketCap,
-  CoinPaprika,
-  CryptoCompare,
-  Kaiko,
-  Nomics,
-]
-
-export type Source = typeof adapters[number]['NAME']
+import { RequestConfig } from '@chainlink/types'
+import { ResponsePayload } from './types'
 
 export const getPriceProvider = (apiConfig: RequestConfig, jobRunID: string) => async (
   symbols: string[],

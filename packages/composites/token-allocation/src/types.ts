@@ -26,15 +26,10 @@ export type GetPrices = (
   withMarketCap?: boolean,
 ) => Promise<ResponsePayload>
 
-export type PriceAdapter = {
-  getPrices: (jobRunId: string) => GetPrices
-}
-
-export type SourceRequestOptions = { [source: string]: PriceAdapter }
+export type SourceRequestOptions = { [source: string]: DefaultConfig }
 
 export type Config = {
   sources: SourceRequestOptions
-  providerConfig: DefaultConfig
   defaultMethod: string
   defaultQuote: string
 }

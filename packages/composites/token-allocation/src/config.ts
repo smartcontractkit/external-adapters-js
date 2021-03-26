@@ -1,6 +1,27 @@
 import { util, Requester } from '@chainlink/ea-bootstrap'
+import { AdapterImplementation } from '@chainlink/types'
+import Amberdata from '@chainlink/amberdata-adapter'
+import CoinApi from '@chainlink/coinapi-adapter'
+import CoinGecko from '@chainlink/coingecko-adapter'
+import CoinMarketCap from '@chainlink/coinmarketcap-adapter'
+import CoinPaprika from '@chainlink/coinpaprika-adapter'
+import CryptoCompare from '@chainlink/cryptocompare-adapter'
+import Kaiko from '@chainlink/kaiko-adapter'
+import Nomics from '@chainlink/nomics-adapter'
 import { Config, SourceRequestOptions } from './types'
-import { adapters } from './dataProvider'
+
+export const adapters: AdapterImplementation[] = [
+  Amberdata,
+  CoinApi,
+  CoinGecko,
+  CoinMarketCap,
+  CoinPaprika,
+  CryptoCompare,
+  Kaiko,
+  Nomics,
+]
+
+export type Source = typeof adapters[number]['NAME']
 
 export const DEFAULT_TOKEN_DECIMALS = 18
 export const DEFAULT_TOKEN_BALANCE = 1
@@ -16,19 +37,18 @@ export const makeConfig = (prefix = ''): Config => {
   const sources: SourceRequestOptions = {}
 
   for (const a of adapters) {
-    const name = a.NAME.toLowerCase()
-    const url = getURL(name)
+    const name = a.NAME
+    const url = getURL(name.toUpperCase())
     if (url) {
       const defaultConfig = Requester.getDefaultConfig(prefix)
       defaultConfig.api.baseURL = url
       defaultConfig.api.method = 'post'
-      sources[name] = getDataProvider(defaultConfig.api)
+      sources[name.toLowerCase()] = defaultConfig
     }
   }
 
   return {
     sources,
-    providerConfig: defaultConfig,
     defaultMethod: util.getEnv('DEFAULT_METHOD', prefix) || 'price',
     defaultQuote: util.getEnv('DEFAULT_QUOTE') || 'USD',
   }
