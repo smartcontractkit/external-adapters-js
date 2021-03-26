@@ -28,6 +28,7 @@ Returns the exchange rate from a currency's current price to a given currency
 | :-------: | :------------------------: | :--------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
 |    ✅     | `base`, `from`, or `coin`  |   The symbol of the currency to query    | [Physical Currency list](https://www.alphavantage.co/physical_currency_list/) or [Cryptocurrency list](https://www.alphavantage.co/digital_currency_list/) |             |
 |    ✅     | `quote`, `to`, or `market` | The symbol of the currency to convert to | [Physical Currency list](https://www.alphavantage.co/physical_currency_list/) or [Cryptocurrency list](https://www.alphavantage.co/digital_currency_list/) |             |
+|    🟡     |   `overrides`   | If base provided is found in overrides, that will be used  | [Format](../presetSymbols.json)|             |
 
 ### Output
 
