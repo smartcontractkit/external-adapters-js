@@ -33,7 +33,6 @@
   },
   "dxfeed_secondary": {
     "NFLX": "NFLX.US:TEI",
-    "GOOGL": "GOOGL.US:TEI",
     "AAPL": "AAPL.US:TEI",
     "AMZN": "AMZN.US:TEI",
     "N225": "NKY.IND:TEI",
