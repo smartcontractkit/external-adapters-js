@@ -31,43 +31,9 @@ The adapter takes the following environment variables:
       | :-------: | :-------: | :---------------: | :-----: | :---------: |
       |           | `RPC_URL` | Ethereum provider |         |             |
 
-## Running this adapter
+## Running
 
-### Local
-
-Ensure that the project's dependencies are installed and that the code is compiled by running the following command from the external-adapters respository root:
-
-```bash
-yarn && yarn setup
-```
-
-Run the underlying external adapters and set their locations as environment variables.
-
-Change directories into outlier-detection and start the server:
-
-```bash
-cd composite/outlier-detection && yarn start
-```
-
-### Docker
-
-To build a Docker container for a specific `$(adapter)`, run the following command from repository root:
-
-```bash
-make docker adapter=composite/outlier-detection name=outlier-detection
-```
-
-The naming convention for Docker containers will be `$(name)-adapter`.
-
-Run the underlying external adapters and set their locations as environment variables (it is convenient to do this in a file that is fed into the run command).
-
-(Note: Docker environment file string values do not use " or ' quote marks)
-
-Then run it with:
-
-```bash
-docker run -p 8080:8080 --env-file="~/PATH_TO_ENV" -it outlier-detection-adapter:latest
-```
+See the [Composite Adapter README](../README.md) for more information on how to get started.
 
 ### Input Params
 
