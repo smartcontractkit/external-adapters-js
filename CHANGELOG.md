@@ -21,6 +21,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Added support for `tradermade` in `outlier-detection` composite adapter
 - Added support for `overrides` param in price adapters
 - Added a per-provider ratelimit reference
+- Added Prometheus metrics
 
 ### Fixed
 

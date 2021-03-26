@@ -34,6 +34,7 @@ declare module '@chainlink/types' {
     data: any // Response data, holds "result" for Flux Monitor. Correct way.
     result: any // Result for OCR
     maxAge?: number
+    debug?: any
   }
 
   /* ERRORS */
