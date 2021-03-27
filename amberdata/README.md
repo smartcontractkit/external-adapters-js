@@ -23,7 +23,7 @@ Gets the [latest spot VWAP price](https://docs.amberdata.io/reference#spot-price
 
 - `base`, `from`, or `coin`: The asset to query
 - `quote`, `to`, or `market`: The currency to convert to
-- `overrides`: (not required) If base provided is found in overrides, that will be used. [Format](../presetSymbols.json)
+- `overrides`: (not required) If base provided is found in overrides, that will be used. [Format](../external-adapter/src/overrides/presetSymbols.json)
 
 ### Output
 

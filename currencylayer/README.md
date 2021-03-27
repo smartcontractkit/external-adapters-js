@@ -25,7 +25,7 @@
 |    ✅     | `base`, `from`, `coin`  |   The symbol of the currency to query    |         |             |
 |    ✅     | `quote`, `to`, `market` | The symbol of the currency to convert to |         |             |
 |    🟡     |        `amount`         |        An amount of the currency         |         |      1      |
-|    🟡     |   `overrides`   | If base provided is found in overrides, that will be used  | [Format](../presetSymbols.json)|             |
+|    🟡     |   `overrides`   | If base provided is found in overrides, that will be used  | [Format](../external-adapter/src/overrides/presetSymbols.json)|             |
 
 ### Output
 

@@ -5,7 +5,7 @@
 - `base`, `from`, `coin`, `asset` or `symbol`: The symbol to query
 - `quote`, `to`, or `market`: The symbol to convert to (required when endpoint is "crypto")
 - `endpoint`: The endpoint to query, one of "stock" or "crypto". Default: stock.
-- `overrides`: (not required) If base provided is found in overrides, that will be used. [Format](../presetSymbols.json)
+- `overrides`: (not required) If base provided is found in overrides, that will be used. [Format](../external-adapter/src/overrides/presetSymbols.json)
 
 ## Output
 
