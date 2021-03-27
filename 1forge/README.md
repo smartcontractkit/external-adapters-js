@@ -27,7 +27,7 @@
 |    ✅     | `base`, `from` |      The symbol of the currency to query      | [List](https://1forge.com/currency-list) |             |
 |    ✅     | `quote`, `to`  |   The symbol of the currency to convert to    | [List](https://1forge.com/currency-list) |             |
 |    🟡     |   `quantity`   | An additional amount of the original currency |                                          |             |
-|    🟡     |   `overrides`   | If base provided is found in overrides, that will be used  | [Format](../presetSymbols.json)|             |
+|    🟡     |   `overrides`   | If base provided is found in overrides, that will be used  | [Format](../external-adapter/src/overrides/presetSymbols.json)|             |
 
 
 ### Output

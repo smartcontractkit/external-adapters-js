@@ -28,7 +28,7 @@ https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest
 |    ✅     | `quote`, `to`, `market`, `convert` |        The symbol of the currency to convert to        |         |             |
 |    🟡     |               `cid`                |  The CMC coin ID (optional to use in place of `base`)  |         |             |
 |    🟡     |               `slug`               | The CMC coin name (optional to use in place of `base`) |         |             |
-|    🟡     |   `overrides`   | If base provided is found in overrides, that will be used  | [Format](../presetSymbols.json)|             |
+|    🟡     |   `overrides`   | If base provided is found in overrides, that will be used  | [Format](../external-adapter/src/overrides/presetSymbols.json)|             |
 
 ### Output
 

@@ -19,7 +19,7 @@ Query the price from [Coingecko](https://api.coingecko.com/api/v3/simple/price)
 |  🟡 (if not using `base`)  |          `coinid`          |  The CoinGecko id of the coin to query   | [See list here](https://www.coingecko.com/api/documentations/v3#/coins/get_coins_list) |             |
 | 🟡 (if not using `coinid`) | `base`, `from`, or `coin`  |   The symbol of the currency to query    |                                           ↑                                            |             |
 |             ✅             | `quote`, `to`, or `market` | The symbol of the currency to convert to |                                           ↑                                            |             |
-|    🟡     |   `overrides`   | If base provided is found in overrides, that will be used  | [Format](../presetSymbols.json)|             |
+|    🟡     |   `overrides`   | If base provided is found in overrides, that will be used  | [Format](../external-adapter/src/overrides/presetSymbols.json)|             |
 
 ### Output
 
