@@ -2061,7 +2061,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/core/ratelimits/",
           "packageDependencies": [
             ["@chainlink/ea-ratelimits", "workspace:packages/core/ratelimits"],
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@types/chai", "npm:4.2.15"],
             ["@types/mocha", "npm:8.2.2"],
             ["@types/node", "npm:14.14.35"],

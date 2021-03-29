@@ -1427,7 +1427,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/ea-ratelimits@workspace:packages/core/ratelimits"
   dependencies:
-    "@chainlink/ea-bootstrap": "*"
     "@types/chai": ^4.2.15
     "@types/mocha": ^8.2.2
     "@types/node": ^14.14.35

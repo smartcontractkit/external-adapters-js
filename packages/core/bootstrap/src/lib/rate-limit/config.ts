@@ -21,8 +21,9 @@ export interface Config {
 }
 
 export function get(): Config {
+  const enabled = parseBool(getEnv('EXPERIMENTAL_RATE_LIMIT_ENABLED'))
   let capacity = parseInt(getEnv('RATE_LIMIT_CAPACITY') || '')
-  if (!capacity) {
+  if (!capacity && enabled) {
     const provider = getEnv('RATE_LIMIT_API_PROVIDER') || ''
     const tier = getEnv('RATE_LIMIT_API_TIER') || ''
     const providerConfig = getRateLimit(provider, tier)
@@ -31,6 +32,6 @@ export function get(): Config {
   return {
     hashOpts: getHashOpts(),
     totalCapacity: capacity,
-    enabled: parseBool(getEnv('EXPERIMENTAL_RATE_LIMIT_ENABLED')),
+    enabled,
   }
 }
