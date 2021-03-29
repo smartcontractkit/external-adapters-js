@@ -1,3 +1,4 @@
+import { Logger } from '@chainlink/ea-bootstrap'
 import limits from './limits.json'
 const Limits: Record<string, any> = limits // ugly solution to dynamically reference JSON properties
 import * as config from './config'
@@ -45,7 +46,7 @@ const findTier = (providerName: string, tier: number | string): DeclaredTier | u
   const tierIndex = Number(tier)
   const provider: DeclaredTier[] = Limits[providerName.toLowerCase()]
   if (!provider) {
-    console.log(`Rate Limit: Provider with name ${providerName} not found`)
+    Logger.warn(`Rate Limit: Provider with name ${providerName} not found`)
     return
   }
   const plan = Number.isInteger(tierIndex)
@@ -60,7 +61,7 @@ export const getRateLimit = (
 ): ProviderRateLimit | undefined => {
   const declaredTier = findTier(provider, tier)
   if (!declaredTier) {
-    console.log(
+    Logger.warn(
       `Rate Limit: Provider: "${provider}" and Tier: "${tier}" doesn't match any provider spec in limits.json`,
     )
     return
@@ -74,7 +75,7 @@ export const getRateLimit = (
       minute: quota,
     }
   } catch (e) {
-    console.log(`Rate Limit: ${e.message}`)
+    Logger.warn(`Rate Limit: ${e.message}`)
     return
   }
 }
