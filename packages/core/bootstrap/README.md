@@ -11,8 +11,14 @@ A metrics server can be exposed which returns prometheus compatible data on the 
 - `METRICS_PORT`: Optional number, defaults to `9080`, set to change the port the `/metrics` endpoint is served on
 - `METRICS_NAME`: Optional string, defaults to 'N/A', set to apply a label of `NAME` to each metric
 
+## Rate Limit
+To avoid hitting rate limit issues with the data provider subscription, a rate limit capacity per minute can be set:  
+- Option 1, manual capacity setting:
+   - `RATE_LIMIT_CAPACITY`: Maximum capacity on requests per minute
+- Option 2, capacity by reference. Check your plan [here]('../ratelimits/src/limits.json') and use it with the following configuration:
+   - `API_PROVIDER`: Name of the provider
+   - `API_TIER`: Plan you are subscribed to
 ### Development
-
 To run Prometheus and Grafana with development setup:
 ```
 yarn dev:metrics

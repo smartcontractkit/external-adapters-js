@@ -13,15 +13,24 @@ export interface Config {
    * Hashing options for differentiating requests
    */
   hashOpts: Required<Parameters<typeof objectHash>>['1']
+
+  /**
+   * Determines if Rate Limit option is activated
+   */
+  enabled: boolean
 }
 
 export function get(): Config {
-  const capacity = parseInt(getEnv('RATE_LIMIT_CAPACITY') || '')
-  const provider = getEnv('API_PROVIDER') || ''
-  const tier = parseInt(getEnv('API_TIER') || '')
-  const providerConfig = getRateLimit(provider, tier)
+  let capacity = parseInt(getEnv('RATE_LIMIT_CAPACITY') || '')
+  if (!capacity) {
+    const provider = getEnv('API_PROVIDER') || ''
+    const tier = getEnv('API_TIER') || ''
+    const providerConfig = getRateLimit(provider, tier)
+    capacity = Number(providerConfig?.quota)
+  }
   return {
     hashOpts: getHashOpts(),
-    totalCapacity: capacity || providerConfig?.quota,
+    totalCapacity: capacity,
+    enabled: !!capacity
   }
 }
