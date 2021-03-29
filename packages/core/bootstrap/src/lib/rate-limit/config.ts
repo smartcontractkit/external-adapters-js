@@ -31,6 +31,6 @@ export function get(): Config {
   return {
     hashOpts: getHashOpts(),
     totalCapacity: capacity,
-    enabled: !!capacity
+    enabled: !!capacity,
   }
 }
