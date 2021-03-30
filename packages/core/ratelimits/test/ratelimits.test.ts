@@ -9,11 +9,11 @@ describe('ratelimits', () => {
       it(`${provider} outputs ProviderRateLimits without errors`, () => {
         tiers.forEach(function (tier: ratelimits.DeclaredTier, index: number) {
           let limits = ratelimits.getRateLimit(provider, index)
-          expect(limits.burst).to.be.above(0)
-          expect(limits.quota).to.be.above(0)
+          expect(limits?.burst).to.be.above(0)
+          expect(limits?.quota).to.be.above(0)
           limits = ratelimits.getRateLimit(provider, tier.tierName)
-          expect(limits.burst).to.be.above(0)
-          expect(limits.quota).to.be.above(0)
+          expect(limits?.burst).to.be.above(0)
+          expect(limits?.quota).to.be.above(0)
         })
       })
     }
