@@ -84,6 +84,10 @@ describe('Rate Limit/Cache - Integration', () => {
   const capacity = 50
 
   before(() => {
+    process.env.DEBUG = String(false)
+    process.env.LOG_LEVEL = String(false)
+    process.env.NODE_ENV = 'no-debug'
+
     process.env.EXPERIMENTAL_RATE_LIMIT_ENABLED = String(true)
     process.env.RATE_LIMIT_CAPACITY = String(capacity)
     process.env.CACHE_ENABLED = String(true)
@@ -147,31 +151,28 @@ describe('Rate Limit/Cache - Integration', () => {
     })
 
     it('Multiple feed with high costs go over capacity on initialization, then stabilize', async () => {
-      for (let cost = 2; cost < 4; cost++) {
-        clock = useFakeTimers()
-        const store = createStore(rateLimit.reducer.rootReducer, {})
-        const dataProvider = dataProviderMock(cost)
-        const executeWithMiddleware = await withMiddleware(dataProvider.execute, [
-          withCache,
-          rateLimit.withRateLimit(store),
-        ])
+      const cost = 2
+      const store = createStore(rateLimit.reducer.rootReducer, {})
+      const dataProvider = dataProviderMock(cost)
+      const executeWithMiddleware = await withMiddleware(dataProvider.execute, [
+        withCache,
+        rateLimit.withRateLimit(store),
+      ])
 
-        const timeBetweenRequests = 500
-        const feedsNumber = 10
-        for (let i = 0; i < (1000 / timeBetweenRequests) * 120; i++) {
-          const feedId = i % feedsNumber
-          const input = { id: '6', data: { [`multiple_cost:${cost}`]: feedId } }
-          await executeWithMiddleware(input)
-          clock.tick(timeBetweenRequests)
-        }
-
-        const state = store.getState()
-        const rlPerMinute = getRLTokenSpentPerMinute(state.heartbeats)
-
-        expect(rlPerMinute[0]).to.be.greaterThan(capacity)
-        expect(rlPerMinute[1]).to.be.lte(capacity)
-        clock.restore()
+      const timeBetweenRequests = 500
+      const feedsNumber = 10
+      for (let i = 0; i < (1000 / timeBetweenRequests) * 120; i++) {
+        const feedId = i % feedsNumber
+        const input = { id: '6', data: { [`multiple_cost:${cost}`]: feedId } }
+        await executeWithMiddleware(input)
+        clock.tick(timeBetweenRequests)
       }
+
+      const state = store.getState()
+      const rlPerMinute = getRLTokenSpentPerMinute(state.heartbeats)
+
+      expect(rlPerMinute[0]).to.be.greaterThan(capacity)
+      expect(rlPerMinute[1]).to.be.lte(capacity)
     })
 
     it('Composite feeds requests go over capacity on initialization, then stabilize', async () => {
@@ -245,7 +246,6 @@ describe('Rate Limit/Cache - Integration', () => {
       expect(rlPerMinute[2]).to.be.lessThan(capacity)
     })
 
-    // This overpasses the initialization by more than the rest
     it('Burst feeds requests stay under capacity', async () => {
       const store = createStore(rateLimit.reducer.rootReducer, {})
       const dataProvider = dataProviderMock()
