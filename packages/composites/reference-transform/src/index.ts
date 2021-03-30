@@ -4,4 +4,6 @@ import { makeConfig } from './config'
 
 const NAME = 'REFERENCE_TRANSFORM'
 
-export = { NAME, makeConfig, makeExecute, ...expose(makeExecute()) }
+const handlers = expose(makeExecute())
+
+export = { NAME, makeConfig, makeExecute, handlers }
