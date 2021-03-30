@@ -85,7 +85,6 @@
     "@chainlink/currencylayer-adapter": "*",
     "@chainlink/deribit-adapter": "*",
     "@chainlink/dns-query-adapter": "*",
-    "@chainlink/dwolla-adapter": "*",
     "@chainlink/dxfeed-adapter": "*",
     "@chainlink/dxfeed-secondary-adapter": "*",
     "@chainlink/dydx-stark-adapter": "*",
