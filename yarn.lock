@@ -2980,35 +2980,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    mocha: ^8.3.2
-    sinon: ^10.0.0
-    tradingeconomics-stream: ^0.1.2
-    ts-node: ^9.1.1
-    typescript: ^4.2.3
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/tradingeconomics-stream-adapter@workspace:packages/sources/tradingeconomics-stream":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/tradingeconomics-stream-adapter@workspace:packages/sources/tradingeconomics-stream"
-  dependencies:
-    "@chainlink/ea-bootstrap": "*"
-    "@chainlink/ea-test-helpers": "*"
-    "@types/chai": ^4.2.15
-    "@types/mocha": ^8.2.2
-    "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    chai: ^4.3.4
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     express: ^4.17.1
     mocha: ^8.3.2
     prettier: ^2.0.5
@@ -8497,7 +8468,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^7.22.0, eslint@npm:^7.3.1":
+"eslint@npm:^7.22.0":
   version: 7.22.0
   resolution: "eslint@npm:7.22.0"
   dependencies:
@@ -15924,16 +15895,6 @@ resolve@1.17.0:
     psl: ^1.1.28
     punycode: ^2.1.1
   checksum: bf5d6fac5ce0bebc5876cb9b9a79d3d9ea21c9e4099f3d3e64701d6ba170a052cb88cece6737ec2473bac4f0a4f6c75d46ec17985be8587c6bbdd38d91625cb4
-  languageName: node
-  linkType: hard
-
-"tradingeconomics-stream@npm:^0.1.2":
-  version: 0.1.2
-  resolution: "tradingeconomics-stream@npm:0.1.2"
-  dependencies:
-    eslint: ^7.3.1
-    ws: ^7.3.0
-  checksum: 3be89c80d908e6272108435fd6b6422234166257ba9ebad4d0624e83864d644ecba73bf80ef9b028e2616df021a6ca3baba1e7946a7546bde3593df07e3f7e83
   languageName: node
   linkType: hard
 
