@@ -107,6 +107,7 @@
       "market-closure",
       "outlier-detection",
       "proof-of-reserves",
+      "reference-transform",
       "synth-index",
       "token-allocation"
     ]
