@@ -403,10 +403,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/tradingeconomics"
       },
       {
-        "name": "@chainlink/tradingeconomics-stream-adapter",
-        "reference": "workspace:packages/sources/tradingeconomics-stream"
-      },
-      {
         "name": "@chainlink/trueusd-adapter",
         "reference": "workspace:packages/sources/trueusd"
       },
@@ -518,7 +514,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/token-allocation-adapter", ["workspace:packages/composites/token-allocation"]],
       ["@chainlink/tradermade-adapter", ["workspace:packages/sources/tradermade"]],
       ["@chainlink/tradingeconomics-adapter", ["workspace:packages/sources/tradingeconomics"]],
-      ["@chainlink/tradingeconomics-stream-adapter", ["workspace:packages/sources/tradingeconomics-stream"]],
       ["@chainlink/trueusd-adapter", ["workspace:packages/sources/trueusd"]],
       ["@chainlink/wbtc-address-set-adapter", ["workspace:packages/sources/wbtc-address-set"]],
       ["@chainlink/xbto-adapter", ["workspace:packages/sources/xbto"]]
@@ -3712,37 +3707,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-import", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:2.22.1"],
             ["eslint-plugin-node", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:11.1.0"],
             ["eslint-plugin-prettier", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:3.3.1"],
-            ["eslint-plugin-promise", "npm:4.3.1"],
-            ["eslint-plugin-standard", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:5.0.0"],
-            ["mocha", "npm:8.3.2"],
-            ["sinon", "npm:10.0.0"],
-            ["tradingeconomics-stream", "npm:0.1.2"],
-            ["ts-node", "virtual:fcf61c8e75f938a09199821fff6696e5874226ab97fd24e2f61d250311df64c3b4699aa2ad8f53682997dac846f03f01c457dfba557e549fbae4a05d8b608c22#npm:9.1.1"],
-            ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
-          ],
-          "linkType": "SOFT",
-        }]
-      ]],
-      ["@chainlink/tradingeconomics-stream-adapter", [
-        ["workspace:packages/sources/tradingeconomics-stream", {
-          "packageLocation": "./packages/sources/tradingeconomics-stream/",
-          "packageDependencies": [
-            ["@chainlink/tradingeconomics-stream-adapter", "workspace:packages/sources/tradingeconomics-stream"],
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
-            ["@types/chai", "npm:4.2.15"],
-            ["@types/mocha", "npm:8.2.2"],
-            ["@types/node", "npm:14.14.35"],
-            ["@types/sinon", "npm:9.0.11"],
-            ["@typescript-eslint/eslint-plugin", "virtual:fcf61c8e75f938a09199821fff6696e5874226ab97fd24e2f61d250311df64c3b4699aa2ad8f53682997dac846f03f01c457dfba557e549fbae4a05d8b608c22#npm:4.19.0"],
-            ["@typescript-eslint/parser", "virtual:fcf61c8e75f938a09199821fff6696e5874226ab97fd24e2f61d250311df64c3b4699aa2ad8f53682997dac846f03f01c457dfba557e549fbae4a05d8b608c22#npm:4.19.0"],
-            ["chai", "npm:4.3.4"],
-            ["eslint", "npm:7.22.0"],
-            ["eslint-config-prettier", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:8.1.0"],
-            ["eslint-config-standard", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:16.0.2"],
-            ["eslint-plugin-import", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:2.22.1"],
-            ["eslint-plugin-node", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:11.1.0"],
-            ["eslint-plugin-prettier", "virtual:fcf61c8e75f938a09199821fff6696e5874226ab97fd24e2f61d250311df64c3b4699aa2ad8f53682997dac846f03f01c457dfba557e549fbae4a05d8b608c22#npm:3.3.1"],
             ["eslint-plugin-promise", "npm:4.3.1"],
             ["eslint-plugin-standard", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:5.0.0"],
             ["express", "npm:4.17.1"],
@@ -18191,15 +18155,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["tradingeconomics-stream", [
-        ["npm:0.1.2", {
-          "packageLocation": "./.yarn/cache/tradingeconomics-stream-npm-0.1.2-70b8993948-3be89c80d9.zip/node_modules/tradingeconomics-stream/",
-          "packageDependencies": [
-            ["tradingeconomics-stream", "npm:0.1.2"],
-            ["eslint", "npm:7.22.0"],
-            ["ws", "virtual:23acb9bdb76d72e18ad541aae322c140389222cefa7bbc47edba5a0723e4b39eb9e0e9de71024f1302064fce4eee8c5635e75004d7421a2abb8b212d5cb24362#npm:7.4.4"]
-          ],
-          "linkType": "HARD",
-        }],
         ["npm:0.2.0", {
           "packageLocation": "./.yarn/cache/tradingeconomics-stream-npm-0.2.0-72ee74b78c-5092459987.zip/node_modules/tradingeconomics-stream/",
           "packageDependencies": [
