@@ -8,6 +8,7 @@
     "packages/examples/*",
     "packages/sources/*",
     "packages/sources/helpers/*",
+    "packages/targets/*",
     "packages/composites/*",
     "packages/2-step/*"
   ],

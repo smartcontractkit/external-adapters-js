@@ -38,7 +38,6 @@
       "coinmarketcap",
       "coinpaprika",
       "coinranking",
-      "conflux",
       "covid-tracker",
       "cryptoapis",
       "cryptocompare",
@@ -49,11 +48,9 @@
       "dns-query",
       "dxfeed",
       "dxfeed-secondary",
-      "dydx-stark",
       "eodhistoricaldata",
       "etherchain",
       "ethgasstation",
-      "ethwrite",
       "fcsapi",
       "finage",
       "finnhub",
@@ -95,6 +92,15 @@
       "unibit",
       "wbtc-address-set",
       "xbto"
+    ]
+  },
+  "targets": {
+    "docker": "make docker adapter=targets/__ADAPTER__ name=__ADAPTER__-adapter",
+    "image_name": "__ADAPTER__-adapter",
+    "adapter": [
+      "conflux",
+      "dydx-stark",
+      "ethwrite"
     ]
   },
   "composites": {
