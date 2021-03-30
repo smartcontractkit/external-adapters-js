@@ -1,5 +1,5 @@
 import { util, Requester } from '@chainlink/ea-bootstrap'
-import legos from '@chainlink/ea-legos'
+import legos from '@chainlink/ea'
 import { Config as DefaultConfig } from '@chainlink/types'
 
 export type Config = {
