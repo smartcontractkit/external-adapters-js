@@ -38,32 +38,43 @@ const calculateLimits = (declaredTier: DeclaredTier) => {
   if (burst < 0) burst = 1000000 // currently using -1 to define unlimited
   if (quota < 0) quota = 1000000 // currently using -1 to define unlimited
 
-  return [burst, quota]
+  return { burst, quota }
 }
 
-const findTier = (provider: string, tier: number | string): DeclaredTier => {
-  provider = provider.toLowerCase()
-  const matchedTier = Number.isInteger(Number(tier))
-    ? Limits[provider]?.[Number(tier)]
-    : (Limits[provider] as DeclaredTier[])?.find((element) => element.tierName === tier)
-  if (matchedTier === undefined) {
-    console.log(
-      `[provider, tier]: [${provider}, ${tier}] doesn't match any provider spec in limits.json`,
-    )
+const findTier = (providerName: string, tier: number | string): DeclaredTier | undefined => {
+  const tierIndex = Number(tier)
+  const provider: DeclaredTier[] = Limits[providerName.toLowerCase()]
+  if (!provider) {
+    console.log(`Rate Limit: Provider with name ${providerName} not found`)
+    return
   }
-  return matchedTier
+  const plan = Number.isInteger(tierIndex)
+    ? provider[tierIndex]
+    : provider.find((e) => e.tierName === tier)
+  return plan
 }
 
-export const getRateLimit = (provider: string, tier: number | string): ProviderRateLimit => {
+export const getRateLimit = (
+  provider: string,
+  tier: number | string,
+): ProviderRateLimit | undefined => {
   const declaredTier = findTier(provider, tier)
-  const [burst, quota] =
-    declaredTier !== undefined
-      ? calculateLimits(declaredTier)
-      : [config.DEFAULT_SECOND_RATELIMIT, config.DEFAULT_MINUTE_RATELIMIT]
-  return {
-    burst: burst,
-    quota: quota,
-    second: burst,
-    minute: quota,
+  if (!declaredTier) {
+    console.log(
+      `Rate Limit: Provider: "${provider}" and Tier: "${tier}" doesn't match any provider spec in limits.json`,
+    )
+    return
+  }
+  try {
+    const { burst, quota } = calculateLimits(declaredTier)
+    return {
+      burst: burst,
+      quota: quota,
+      second: burst,
+      minute: quota,
+    }
+  } catch (e) {
+    console.log(`Rate Limit: ${e.message}`)
+    return
   }
 }
