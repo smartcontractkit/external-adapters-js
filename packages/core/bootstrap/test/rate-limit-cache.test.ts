@@ -84,6 +84,7 @@ describe('Rate Limit/Cache - Integration', () => {
   const capacity = 50
 
   before(() => {
+    process.env.EXPERIMENTAL_RATE_LIMIT_ENABLED = String(true)
     process.env.RATE_LIMIT_CAPACITY = String(capacity)
     process.env.CACHE_ENABLED = String(true)
   })
