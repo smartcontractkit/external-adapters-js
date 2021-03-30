@@ -25,7 +25,7 @@ const sendFulfillment = async (
     gasPrice: 1,
   }
 
-  return await provider.sendTransaction(tx)
+  return await provider.sendTransaction(tx).executed()
 }
 
 // const customError = (data: any) => data.Response === 'Error'

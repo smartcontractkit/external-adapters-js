@@ -53,9 +53,9 @@
     regenerator-runtime "^0.13.4"
 
 "@babel/runtime@^7.8.4":
-  version "7.13.9"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.13.9.tgz#97dbe2116e2630c489f22e0656decd60aaa1fcee"
-  integrity sha512-aY2kU+xgJ3dJ1eU6FMB9EH8dIe8dmusF1xEku52joLvw6eAFN0AI+WxCLDnpev2LEejWBAy2sBvBOBAjI3zmvA==
+  version "7.13.2"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.13.2.tgz#9511c87d2808b2cf5fb9e9c5cf0d1ab789d75499"
+  integrity sha512-U9plpxyudmZNYe12YI6cXyeWTWYCTq2u1h+C0XVtC3+BoiuzTh1BHlMJgxMrbKTombYkf7wQGqoxYkptFehuZw==
   dependencies:
     regenerator-runtime "^0.13.4"
 
@@ -3845,7 +3845,7 @@ eslint-visitor-keys@^2.0.0:
   resolved "https://registry.yarnpkg.com/eslint-visitor-keys/-/eslint-visitor-keys-2.0.0.tgz#21fdc8fbcd9c795cc0321f0563702095751511a8"
   integrity sha512-QudtT6av5WXels9WjIM7qz1XD1cWGvX4gGXvp/zBn9nXG02D0utdU3Em2m/QjTnrsk6bBjmCygl3rmj118msQQ==
 
-eslint@^7.2.0, eslint@^7.3.1:
+eslint@^7.2.0, eslint@^7.20.0, eslint@^7.3.1:
   version "7.20.0"
   resolved "https://registry.yarnpkg.com/eslint/-/eslint-7.20.0.tgz#db07c4ca4eda2e2316e7aa57ac7fc91ec550bdc7"
   integrity sha512-qGi0CTcOGP2OtCQBgWZlQjcTuP0XkIpYFj25XtRTQSHC+umNnp7UMshr2G8SLsRFYDdAPFeHOsiteadmMH02Yw==
@@ -5505,9 +5505,9 @@ jest-changed-files@^24.9.0:
     throat "^4.0.0"
 
 js-conflux-sdk@^1.5.11:
-  version "1.5.12"
-  resolved "https://registry.yarnpkg.com/js-conflux-sdk/-/js-conflux-sdk-1.5.12.tgz#9f79205ec6903401cb9a1deaa03cd62d83eec70d"
-  integrity sha512-xSYIQwcReiF89zeDOiy6kg+ojYDxrWE+9tBT7h64NHHgM51BvU9VrFGj1s/VEDi766WJ9zrlVkB3SRZzXpHcsA==
+  version "1.5.11"
+  resolved "https://registry.yarnpkg.com/js-conflux-sdk/-/js-conflux-sdk-1.5.11.tgz#8c3bbc0b8e64739b3b076ba48005acb7d98b6358"
+  integrity sha512-eN8T12pOa1OAiaCzXhR+nq0dPLfYHq85wdTlg25H+xix3SXOJ+Xl46Ht/K5cpF3U4as2u9g3gYV5RRIsI/Bp/g==
   dependencies:
     "@babel/runtime" "^7.8.4"
     big.js "^5.2.2"
@@ -5903,7 +5903,7 @@ lodash.sum@^4.0.2:
   resolved "https://registry.yarnpkg.com/lodash.sum/-/lodash.sum-4.0.2.tgz#ad90e397965d803d4f1ff7aa5b2d0197f3b4637b"
   integrity sha1-rZDjl5ZdgD1PH/eqWy0Bl/O0Y3s=
 
-lodash@=3.10.1, lodash@^4.17.11, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.21, lodash@^4.17.4:
+lodash@=3.10.1, lodash@^4.17.11, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.4:
   version "4.17.20"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.20.tgz#b44a9b6297bcb698f1c51a3545a2b3b368d59c52"
   integrity sha512-PlhdFcillOINfeV7Ni6oF1TAEayyZBoZ8bcshTHqOYJYlrqzRK5hagpagky5o4HfCzzd1TRkXPMFq6cKk9rGmA==
