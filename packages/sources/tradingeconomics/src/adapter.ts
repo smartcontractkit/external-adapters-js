@@ -38,14 +38,14 @@ const commonSymbols: { [symbol: string]: string } = {
 }
 
 export const execute = async (input: AdapterRequest, config: Config) => {
+  const validator = new Validator(input, customParams)
+  if (validator.error) throw validator.error
+
   // First start background service
   if (!isServiceStarted) {
     startService(config)
     isServiceStarted = true
   }
-
-  const validator = new Validator(input, customParams)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   let symbol = validator.validated.data.base.toUpperCase()
