@@ -870,9 +870,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/conflux-adapter@workspace:packages/sources/conflux":
+"@chainlink/conflux-adapter@workspace:packages/targets/conflux":
   version: 0.0.0-use.local
-  resolution: "@chainlink/conflux-adapter@workspace:packages/sources/conflux"
+  resolution: "@chainlink/conflux-adapter@workspace:packages/targets/conflux"
   dependencies:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-test-helpers": "*"
@@ -1349,9 +1349,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/dydx-stark-adapter@workspace:packages/sources/dydx-stark":
+"@chainlink/dydx-stark-adapter@workspace:packages/targets/dydx-stark":
   version: 0.0.0-use.local
-  resolution: "@chainlink/dydx-stark-adapter@workspace:packages/sources/dydx-stark"
+  resolution: "@chainlink/dydx-stark-adapter@workspace:packages/targets/dydx-stark"
   dependencies:
     "@authereum/starkware-crypto": ^1.9.7-beta.7
     "@chainlink/ea-bootstrap": "*"
@@ -1641,9 +1641,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ethwrite-adapter@workspace:packages/sources/ethwrite":
+"@chainlink/ethwrite-adapter@workspace:packages/targets/ethwrite":
   version: 0.0.0-use.local
-  resolution: "@chainlink/ethwrite-adapter@workspace:packages/sources/ethwrite"
+  resolution: "@chainlink/ethwrite-adapter@workspace:packages/targets/ethwrite"
   dependencies:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-test-helpers": "*"
