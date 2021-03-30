@@ -35,9 +35,9 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 
 | Required? |      Name       |                                             Description                                              |                                            Options                                            | Defaults to |
 | :-------: | :-------------: | :--------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------: | :---------: |
-|    ✅     |   `protocol`    |                                 The protocol external adapter to use                                 |                                        `renvm`, `wbtc`                                        |             |
-|    ✅     |    `indexer`    |                                 The indexer external adapter to use                                  | `amberdata`, `blockchain_com`, `blockcypher`. `blockchair`, `btc_com`,`cryptoapis`, `sochain` |             |
-|    🟡     | `confirmations` | The number of confirmations required for a transaction to be counted when getting an address balance |                                                                                               |      6      |
+|     ✅     |   `protocol`    |                                 The protocol external adapter to use                                 |                                        `renvm`, `wbtc`                                        |             |
+|     ✅     |    `indexer`    |                                 The indexer external adapter to use                                  | `amberdata`, `blockchain_com`, `blockcypher`. `blockchair`, `btc_com`,`cryptoapis`, `sochain` |             |
+|     🟡     | `confirmations` | The number of confirmations required for a transaction to be counted when getting an address balance |                                                                                               |      6      |
 
 Additionally the first underlying adapter in the sequence, in this case the protocol adapter, may have parameters.
 
