@@ -1934,9 +1934,93 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ea-legos@*, @chainlink/ea-legos@workspace:packages/core/legos":
+"@chainlink/ea-ratelimits@*, @chainlink/ea-ratelimits@workspace:packages/core/ratelimits":
   version: 0.0.0-use.local
-  resolution: "@chainlink/ea-legos@workspace:packages/core/legos"
+  resolution: "@chainlink/ea-ratelimits@workspace:packages/core/ratelimits"
+  dependencies:
+    "@types/chai": ^4.2.15
+    "@types/mocha": ^8.2.2
+    "@types/node": ^14.14.35
+    "@types/sinon": ^9.0.11
+    "@typescript-eslint/eslint-plugin": ^4.19.0
+    "@typescript-eslint/parser": ^4.19.0
+    chai: ^4.3.4
+    eslint: ^7.22.0
+    eslint-config-prettier: ^8.1.0
+    eslint-config-standard: ^16.0.2
+    eslint-plugin-import: ^2.22.1
+    eslint-plugin-node: ^11.1.0
+    eslint-plugin-prettier: ^3.3.1
+    eslint-plugin-promise: ^4.3.1
+    eslint-plugin-standard: ^5.0.0
+    mocha: ^8.3.2
+    sinon: ^10.0.0
+    ts-node: ^9.1.1
+    typescript: ^4.2.3
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/ea-reference-data-reader@*, @chainlink/ea-reference-data-reader@workspace:packages/core/reference-data-reader":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/ea-reference-data-reader@workspace:packages/core/reference-data-reader"
+  dependencies:
+    "@chainlink/contracts": ^0.0.11
+    "@chainlink/ea-bootstrap": "*"
+    "@types/chai": ^4.2.15
+    "@types/mocha": ^8.2.2
+    "@types/node": ^14.14.35
+    "@types/sinon": ^9.0.11
+    "@typescript-eslint/eslint-plugin": ^4.19.0
+    "@typescript-eslint/parser": ^4.19.0
+    chai: ^4.3.4
+    eslint: ^7.22.0
+    eslint-config-prettier: ^8.1.0
+    eslint-config-standard: ^16.0.2
+    eslint-plugin-import: ^2.22.1
+    eslint-plugin-node: ^11.1.0
+    eslint-plugin-prettier: ^3.3.1
+    eslint-plugin-promise: ^4.3.1
+    eslint-plugin-standard: ^5.0.0
+    ethers: ^4.0.48
+    mocha: ^8.3.2
+    sinon: ^10.0.0
+    ts-node: ^9.1.1
+    typescript: ^4.2.3
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/ea-test-helpers@*, @chainlink/ea-test-helpers@workspace:packages/core/test-helpers":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/ea-test-helpers@workspace:packages/core/test-helpers"
+  dependencies:
+    "@chainlink/ea-bootstrap": "*"
+    "@types/chai": ^4.2.15
+    "@types/mocha": ^8.2.2
+    "@types/node": ^14.14.35
+    "@types/sinon": ^9.0.11
+    "@typescript-eslint/eslint-plugin": ^4.19.0
+    "@typescript-eslint/parser": ^4.19.0
+    chai: ^4.3.4
+    eslint: ^7.22.0
+    eslint-config-prettier: ^8.1.0
+    eslint-config-standard: ^16.0.2
+    eslint-plugin-import: ^2.22.1
+    eslint-plugin-node: ^11.1.0
+    eslint-plugin-prettier: ^3.3.1
+    eslint-plugin-promise: ^4.3.1
+    eslint-plugin-standard: ^5.0.0
+    hardhat: ^2.0.8
+    mocha: ^8.3.2
+    prettier: ^2.0.5
+    sinon: ^10.0.0
+    ts-node: ^9.1.1
+    typescript: ^4.2.3
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/ea@*, @chainlink/ea@workspace:packages/core/legos":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/ea@workspace:packages/core/legos"
   dependencies:
     "@chainlink/1forge-adapter": "*"
     "@chainlink/agoric-adapter": "*"
@@ -2642,8 +2726,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/reference-transform-adapter@workspace:packages/composites/reference-transform"
   dependencies:
+    "@chainlink/ea": "*"
     "@chainlink/ea-bootstrap": "*"
-    "@chainlink/ea-legos": "*"
     "@chainlink/ea-reference-data-reader": "*"
     "@types/chai": ^4.2.15
     "@types/mocha": ^8.2.2
