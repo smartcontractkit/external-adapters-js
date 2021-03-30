@@ -28,8 +28,8 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 
 | Required? |   Name    |           Description           | Options | Defaults to |
 | :-------: | :-------: | :-----------------------------: | :-----: | :---------: |
-|    ✅     | `address` |     Address of the SetToken     |         |             |
-|    ✅     | `adapter` | Address of the adapter contract |         |             |
+|     ✅     | `address` |     Address of the SetToken     |         |             |
+|     ✅     | `adapter` | Address of the adapter contract |         |             |
 |           |  `name`   |           Index name            |         |             |
 |           |  `asset`  |           Asset name            |         |             |
 
