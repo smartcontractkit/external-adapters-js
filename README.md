@@ -50,13 +50,16 @@ yarn start
 
 Take `bravenewcoin` as an example.
 
-First create the image.
+First create the image. Use the provided `docker` script with two arguments:
+
+- adapter - the path to adapter from `./packages`
+- name - the name of the folder that contains the external adapter
 
 ```bash
-make docker adapter=bravenewcoin
+yarn docker sources bravenewcoin
 ```
 
-The naming convention for Docker containers will be `$adapter-adapter`.
+The naming convention for Docker containers will be contain the `-adapter` suffix.
 
 Then run it with:
 
@@ -103,15 +106,22 @@ Optionally `data` parameters can also be passed via a query string added to the 
 
 ### Create a new adapter
 
-Run the command below to have the [example](./example) directory cloned using the name you provide for \$adapter:
+To get started from one of the example adapters seen in [examples](./packages/examples) use the `new` script with two arguments:
 
-```bash
-make new adapter=my-adapter-name
+- `type` - the name of the template to use
+- `name` - what to call the new adapter
+
+```
+yarn new [template type] [name of adapter]
+```
+
+For example
+
+```
+yarn new source my-new-adapter
 ```
 
 _If on a Mac, this requires `gnu-sed` to be installed and set as the default for the command `sed`._
-
-### Structure
 
 ### Test
 
