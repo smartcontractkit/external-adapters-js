@@ -1,5 +1,5 @@
 {
-  "name": "@chainlink/ea-legos",
+  "name": "@chainlink/ea",
   "version": "0.0.1",
   "description": "Build with composable Chainlink External Adapters",
   "keywords": [

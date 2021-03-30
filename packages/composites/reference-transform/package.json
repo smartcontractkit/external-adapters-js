@@ -35,8 +35,8 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
+    "@chainlink/ea": "*",
     "@chainlink/ea-bootstrap": "*",
-    "@chainlink/ea-legos": "*",
     "@chainlink/ea-reference-data-reader": "*"
   },
   "devDependencies": {
