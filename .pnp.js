@@ -191,10 +191,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/coinranking"
       },
       {
-        "name": "@chainlink/conflux-adapter",
-        "reference": "workspace:packages/sources/conflux"
-      },
-      {
         "name": "@chainlink/covid-tracker-adapter",
         "reference": "workspace:packages/sources/covid-tracker"
       },
@@ -239,10 +235,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/dxfeed-secondary"
       },
       {
-        "name": "@chainlink/dydx-stark-adapter",
-        "reference": "workspace:packages/sources/dydx-stark"
-      },
-      {
         "name": "@chainlink/eodhistoricaldata-adapter",
         "reference": "workspace:packages/sources/eodhistoricaldata"
       },
@@ -253,10 +245,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {
         "name": "@chainlink/ethgasstation-adapter",
         "reference": "workspace:packages/sources/ethgasstation"
-      },
-      {
-        "name": "@chainlink/ethwrite-adapter",
-        "reference": "workspace:packages/sources/ethwrite"
       },
       {
         "name": "@chainlink/fcsapi-adapter",
@@ -413,6 +401,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {
         "name": "@chainlink/xbto-adapter",
         "reference": "workspace:packages/sources/xbto"
+      },
+      {
+        "name": "@chainlink/conflux-adapter",
+        "reference": "workspace:packages/targets/conflux"
+      },
+      {
+        "name": "@chainlink/dydx-stark-adapter",
+        "reference": "workspace:packages/targets/dydx-stark"
+      },
+      {
+        "name": "@chainlink/ethwrite-adapter",
+        "reference": "workspace:packages/targets/ethwrite"
       }
     ],
     "enableTopLevelFallback": true,
@@ -445,7 +445,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/coinmarketcap-adapter", ["workspace:packages/sources/coinmarketcap"]],
       ["@chainlink/coinpaprika-adapter", ["workspace:packages/sources/coinpaprika"]],
       ["@chainlink/coinranking-adapter", ["workspace:packages/sources/coinranking"]],
-      ["@chainlink/conflux-adapter", ["workspace:packages/sources/conflux"]],
+      ["@chainlink/conflux-adapter", ["workspace:packages/targets/conflux"]],
       ["@chainlink/covid-tracker-adapter", ["workspace:packages/sources/covid-tracker"]],
       ["@chainlink/crypto-volatility-index-adapter", ["workspace:packages/composites/crypto-volatility-index"]],
       ["@chainlink/cryptoapis-adapter", ["workspace:packages/sources/cryptoapis"]],
@@ -460,7 +460,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/dwolla-adapter", ["workspace:packages/sources/dwolla"]],
       ["@chainlink/dxfeed-adapter", ["workspace:packages/sources/dxfeed"]],
       ["@chainlink/dxfeed-secondary-adapter", ["workspace:packages/sources/dxfeed-secondary"]],
-      ["@chainlink/dydx-stark-adapter", ["workspace:packages/sources/dydx-stark"]],
+      ["@chainlink/dydx-stark-adapter", ["workspace:packages/targets/dydx-stark"]],
       ["@chainlink/ea-bootstrap", ["workspace:packages/core/bootstrap"]],
       ["@chainlink/ea-factories", ["workspace:packages/core/factories"]],
       ["@chainlink/ea-ratelimits", ["workspace:packages/core/ratelimits"]],
@@ -469,7 +469,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/eodhistoricaldata-adapter", ["workspace:packages/sources/eodhistoricaldata"]],
       ["@chainlink/etherchain-adapter", ["workspace:packages/sources/etherchain"]],
       ["@chainlink/ethgasstation-adapter", ["workspace:packages/sources/ethgasstation"]],
-      ["@chainlink/ethwrite-adapter", ["workspace:packages/sources/ethwrite"]],
+      ["@chainlink/ethwrite-adapter", ["workspace:packages/targets/ethwrite"]],
       ["@chainlink/example-composite-adapter", ["workspace:packages/examples/composite"]],
       ["@chainlink/example-source-adapter", ["workspace:packages/examples/source"]],
       ["@chainlink/external-adapters-js", ["workspace:."]],
@@ -1473,10 +1473,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@chainlink/conflux-adapter", [
-        ["workspace:packages/sources/conflux", {
-          "packageLocation": "./packages/sources/conflux/",
+        ["workspace:packages/targets/conflux", {
+          "packageLocation": "./packages/targets/conflux/",
           "packageDependencies": [
-            ["@chainlink/conflux-adapter", "workspace:packages/sources/conflux"],
+            ["@chainlink/conflux-adapter", "workspace:packages/targets/conflux"],
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@types/chai", "npm:4.2.15"],
@@ -1972,10 +1972,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@chainlink/dydx-stark-adapter", [
-        ["workspace:packages/sources/dydx-stark", {
-          "packageLocation": "./packages/sources/dydx-stark/",
+        ["workspace:packages/targets/dydx-stark", {
+          "packageLocation": "./packages/targets/dydx-stark/",
           "packageDependencies": [
-            ["@chainlink/dydx-stark-adapter", "workspace:packages/sources/dydx-stark"],
+            ["@chainlink/dydx-stark-adapter", "workspace:packages/targets/dydx-stark"],
             ["@authereum/starkware-crypto", "npm:1.9.7-beta.7"],
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
@@ -2282,10 +2282,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@chainlink/ethwrite-adapter", [
-        ["workspace:packages/sources/ethwrite", {
-          "packageLocation": "./packages/sources/ethwrite/",
+        ["workspace:packages/targets/ethwrite", {
+          "packageLocation": "./packages/targets/ethwrite/",
           "packageDependencies": [
-            ["@chainlink/ethwrite-adapter", "workspace:packages/sources/ethwrite"],
+            ["@chainlink/ethwrite-adapter", "workspace:packages/targets/ethwrite"],
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@types/chai", "npm:4.2.15"],
