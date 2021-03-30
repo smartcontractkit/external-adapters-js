@@ -11,7 +11,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - New adapters:
   - `agoric` to push results to the Agoric blockchain
   - `therundown` to get sports score data from TheRundown
-  - `tradingeconomics-stream` to get stream data from TradingEconomics
 
 ### Changed
 
@@ -21,6 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Added support for `tradermade` in `outlier-detection` composite adapter
 - Added a per-provider ratelimit reference
 - Added Prometheus metrics
+- `tradingeconomics` will now get stream data from TradingEconomics using a persistent WS connection
 
 ### Fixed
 
