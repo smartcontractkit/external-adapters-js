@@ -67,7 +67,7 @@ export const execute = async (
   //   value = String(Math.round(Number(value)*Number(request.data.times)))
   // }
 
-  const txHash = await sendFulfillment(
+  const {transactionHash: txHash} = await sendFulfillment(
     provider,
     account,
     address,
