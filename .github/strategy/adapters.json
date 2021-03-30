@@ -91,7 +91,7 @@
     ]
   },
   "targets": {
-    "docker": "make docker targets __ADAPTER__",
+    "docker": "yarn docker targets __ADAPTER__",
     "image_name": "__ADAPTER__-adapter",
     "adapter": ["conflux", "dydx-stark", "ethwrite"]
   },
