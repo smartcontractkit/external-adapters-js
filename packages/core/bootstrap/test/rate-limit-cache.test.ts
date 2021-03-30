@@ -1,11 +1,12 @@
 import { expect } from 'chai'
-import { useFakeTimers } from 'sinon'
+import { useFakeTimers, stub } from 'sinon'
 import { createStore, combineReducers, Store } from 'redux'
 import { Execute, AdapterRequest } from '@chainlink/types'
 import * as rateLimit from '../src/lib/rate-limit'
 import { withCache } from '../src/lib/cache'
 import * as cacheWarmer from '../src/lib/cache-warmer'
 import { configureStore } from '../src/lib/store'
+import { logger } from '../src/lib/external-adapter'
 
 const withMiddleware = async (execute: Execute, middlewares: any[]) => {
   for (let i = 0; i < middlewares.length; i++) {
@@ -82,15 +83,26 @@ const getRLTokenSpentPerMinute = (hearbeats: rateLimit.reducer.Heartbeats) => {
 
 describe('Rate Limit/Cache - Integration', () => {
   const capacity = 50
+  let logWarnStub: any
+  let logErrorStub: any
 
   before(() => {
+    process.env.EXPERIMENTAL_RATE_LIMIT_ENABLED = String(true)
+    process.env.RATE_LIMIT_CAPACITY = String(capacity)
+    process.env.CACHE_ENABLED = String(true)
+
+    // Log is too heavy on this tests
     process.env.DEBUG = String(false)
     process.env.LOG_LEVEL = String(false)
     process.env.NODE_ENV = 'no-debug'
 
-    process.env.EXPERIMENTAL_RATE_LIMIT_ENABLED = String(true)
-    process.env.RATE_LIMIT_CAPACITY = String(capacity)
-    process.env.CACHE_ENABLED = String(true)
+    logWarnStub = stub(logger, 'warn')
+    logErrorStub = stub(logger, 'error')
+  })
+
+  after(() => {
+    logWarnStub.reset()
+    logErrorStub.reset()
   })
 
   context('', () => {

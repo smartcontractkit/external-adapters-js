@@ -1,6 +1,7 @@
 import objectHash from 'object-hash'
-import { getHashOpts, getEnv, parseBool } from '../util'
 import { getRateLimit } from '@chainlink/ea-ratelimits'
+import { getHashOpts, getEnv, parseBool } from '../util'
+import { logger } from '../external-adapter'
 
 export interface Config {
   /**
@@ -28,10 +29,13 @@ export function get(): Config {
     const tier = getEnv('RATE_LIMIT_API_TIER') || ''
     const providerConfig = getRateLimit(provider, tier)
     capacity = Number(providerConfig?.quota)
+    if (!capacity) {
+      logger.warn('Rate Limit: Feature is enabled, but no capacity specified')
+    }
   }
   return {
     hashOpts: getHashOpts(),
     totalCapacity: capacity,
-    enabled,
+    enabled: enabled && !!capacity,
   }
 }
