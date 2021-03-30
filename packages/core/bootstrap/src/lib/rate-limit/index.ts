@@ -85,7 +85,7 @@ export const maxAgeFor = (throughput: number, interval: number) =>
 export const withRateLimit = (store: Store<RootState>): Middleware => async (execute) => async (
   input,
 ) => {
-  if (!config.get().totalCapacity) return await execute(input)
+  if (!config.get().enabled) return await execute(input)
   let state = store.getState()
   const { heartbeats } = state
   const requestTypeId = makeId(input)
