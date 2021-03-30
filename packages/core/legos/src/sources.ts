@@ -23,7 +23,6 @@ import * as coinlore from '@chainlink/coinlore-adapter'
 import * as coinmarketcap from '@chainlink/coinmarketcap-adapter'
 import * as coinpaprika from '@chainlink/coinpaprika-adapter'
 import * as coinranking from '@chainlink/coinranking-adapter'
-import * as conflux from '@chainlink/conflux-adapter'
 import * as covid_tracker from '@chainlink/covid-tracker-adapter'
 import * as cryptoapis from '@chainlink/cryptoapis-adapter'
 import * as cryptocompare from '@chainlink/cryptocompare-adapter'
@@ -34,10 +33,8 @@ import * as deribit from '@chainlink/deribit-adapter'
 import * as dns_query from '@chainlink/dns-query-adapter'
 import * as dxfeed from '@chainlink/dxfeed-adapter'
 import * as dxfeed_secondary from '@chainlink/dxfeed-secondary-adapter'
-import * as dydx_stark from '@chainlink/dydx-stark-adapter'
 import * as etherchain from '@chainlink/etherchain-adapter'
 import * as ethgasstation from '@chainlink/ethgasstation-adapter'
-import * as ethwrite from '@chainlink/ethwrite-adapter'
 import * as fcsapi from '@chainlink/fcsapi-adapter'
 import * as finage from '@chainlink/finage-adapter'
 import * as finnhub from '@chainlink/finnhub-adapter'
@@ -103,7 +100,6 @@ export default {
   coinmarketcap,
   coinpaprika,
   coinranking,
-  conflux,
   covid_tracker,
   cryptoapis,
   cryptocompare,
@@ -114,10 +110,8 @@ export default {
   dns_query,
   dxfeed,
   dxfeed_secondary,
-  dydx_stark,
   etherchain,
   ethgasstation,
-  ethwrite,
   fcsapi,
   finage,
   finnhub,
