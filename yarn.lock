@@ -4326,7 +4326,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   languageName: unknown
   linkType: soft
 
-"@chainlink/dwolla-adapter@*, @chainlink/dwolla-adapter@workspace:packages/sources/dwolla":
+"@chainlink/dwolla-adapter@workspace:packages/sources/dwolla":
   version: 0.0.0-use.local
   resolution: "@chainlink/dwolla-adapter@workspace:packages/sources/dwolla"
   dependencies:
@@ -4482,7 +4482,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@chainlink/currencylayer-adapter": "*"
     "@chainlink/deribit-adapter": "*"
     "@chainlink/dns-query-adapter": "*"
-    "@chainlink/dwolla-adapter": "*"
     "@chainlink/dxfeed-adapter": "*"
     "@chainlink/dxfeed-secondary-adapter": "*"
     "@chainlink/dydx-stark-adapter": "*"

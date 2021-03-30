@@ -32,7 +32,6 @@ import * as cryptomkt from '@chainlink/cryptomkt-adapter'
 import * as currencylayer from '@chainlink/currencylayer-adapter'
 import * as deribit from '@chainlink/deribit-adapter'
 import * as dns_query from '@chainlink/dns-query-adapter'
-import * as dwolla from '@chainlink/dwolla-adapter'
 import * as dxfeed from '@chainlink/dxfeed-adapter'
 import * as dxfeed_secondary from '@chainlink/dxfeed-secondary-adapter'
 import * as dydx_stark from '@chainlink/dydx-stark-adapter'
@@ -113,7 +112,6 @@ export default {
   currencylayer,
   deribit,
   dns_query,
-  dwolla,
   dxfeed,
   dxfeed_secondary,
   dydx_stark,

@@ -25,6 +25,7 @@
     { "path": "../../sources/blockchair" },
     { "path": "../../sources/blockcypher" },
     { "path": "../../sources/bravenewcoin" },
+    { "path": "../../sources/btc.com" },
     { "path": "../../sources/cfbenchmarks" },
     { "path": "../../sources/coinapi" },
     { "path": "../../sources/coinbase" },
