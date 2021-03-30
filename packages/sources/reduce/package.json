@@ -26,9 +26,9 @@
     "build": "tsc -b",
     "lint": "eslint --ignore-path ../../../.eslintignore . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint --ignore-path ../../../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix",
-    "test": "echo \"Error: no test specified\"",
-    "test:unit": "echo \"Error: no test specified\"",
-    "test:integration": "echo \"Error: no test specified\"",
+    "test": "echo \"No tests specified\"",
+    "test:unit": "echo \"No tests specified\"",
+    "test:integration": "echo \"No tests specified\"",
     "server": "node -e 'require(\"./index.js\").server()'",
     "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
     "start": "yarn server:dist"
@@ -56,6 +56,7 @@
     "eslint-plugin-promise": "^4.3.1",
     "eslint-plugin-standard": "^5.0.0",
     "mocha": "^8.3.2",
+    "prettier": "^2.0.5",
     "sinon": "^10.0.0",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.3"

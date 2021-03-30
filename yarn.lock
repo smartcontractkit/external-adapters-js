@@ -89,6 +89,7 @@ __metadata:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -120,6 +121,7 @@ __metadata:
     ethers: ^5.0.32
     express: ^4.17.1
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -148,6 +150,7 @@ __metadata:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -176,6 +179,7 @@ __metadata:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -205,6 +209,7 @@ __metadata:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -233,6 +238,7 @@ __metadata:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -261,6 +267,7 @@ __metadata:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -289,6 +296,7 @@ __metadata:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -320,6 +328,7 @@ __metadata:
     eslint-plugin-standard: ^5.0.0
     ethers: 5.0.32
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -348,6 +357,7 @@ __metadata:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -377,6 +387,7 @@ __metadata:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -406,6 +417,7 @@ __metadata:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -435,6 +447,7 @@ __metadata:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -465,6 +478,7 @@ __metadata:
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
     object-path: ^0.11.4
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -495,6 +509,7 @@ __metadata:
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
     object-path: ^0.11.4
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -526,6 +541,7 @@ __metadata:
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
     object-path: ^0.11.4
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -554,6 +570,7 @@ __metadata:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -584,6 +601,7 @@ __metadata:
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
     object-path: ^0.11.4
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -612,6 +630,7 @@ __metadata:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -640,6 +659,7 @@ __metadata:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -668,6 +688,7 @@ __metadata:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -696,6 +717,7 @@ __metadata:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -724,6 +746,7 @@ __metadata:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -753,6 +776,7 @@ __metadata:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -781,6 +805,7 @@ __metadata:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -809,6 +834,7 @@ __metadata:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -837,6 +863,7 @@ __metadata:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -867,6 +894,7 @@ __metadata:
     ethers: ^5.0.32
     js-conflux-sdk: ^1.5.11
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -3435,6 +3463,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -3467,6 +3496,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
     moment: ^2.29.1
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -3498,6 +3528,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     ethers: ^5.0.32
     mocha: ^8.3.2
     object-path: ^0.11.4
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -3526,6 +3557,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -3554,6 +3586,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -3582,6 +3615,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -3610,6 +3644,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -3640,6 +3675,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-standard: ^5.0.0
     ethers: ^5.0.32
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -3668,6 +3704,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -3696,6 +3733,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -3725,6 +3763,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -3754,6 +3793,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -3782,6 +3822,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -3811,6 +3852,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -3843,6 +3885,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     ethers: ^5.0.32
     mocha: ^8.3.2
     object-path: ^0.11.5
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -3887,6 +3930,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     lru-cache: ^6.0.0
     mocha: ^8.3.2
     object-hash: ^2.0.3
+    prettier: ^2.0.5
     prom-client: ^13.1.0
     promise-timeout: ^1.3.0
     redis: ^3.0.2
@@ -3927,6 +3971,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
     object-path: ^0.11.4
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -3953,6 +3998,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -3982,6 +4028,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-standard: ^5.0.0
     ethers: ^4.0.48
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -4039,6 +4086,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -4067,6 +4115,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -4095,6 +4144,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -4124,6 +4174,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-standard: ^5.0.0
     ethers: ^5.0.32
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -4151,6 +4202,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -4179,6 +4231,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -4228,6 +4281,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -4256,6 +4310,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -4284,6 +4339,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -4312,6 +4368,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -4340,6 +4397,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -4368,6 +4426,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -4396,6 +4455,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -4428,6 +4488,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-standard: ^5.0.0
     ethers: 5.0.26
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     tslib: ^2.1.0
@@ -4457,6 +4518,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -4485,6 +4547,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -4513,6 +4576,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -4541,6 +4605,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -4569,6 +4634,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -4597,6 +4663,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -4629,6 +4696,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-standard: ^5.0.0
     market-closure: ^0.1.2
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -4657,6 +4725,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -4685,6 +4754,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -4713,6 +4783,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -4741,6 +4812,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -4769,6 +4841,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -4797,6 +4870,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -4825,6 +4899,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -4853,6 +4928,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -4881,6 +4957,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -4916,6 +4993,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -4944,6 +5022,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -4972,6 +5051,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -5000,6 +5080,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -5040,6 +5121,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-standard: ^5.0.0
     ethers: ^5.0.32
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -5070,6 +5152,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
     object-path: ^0.11.4
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -5102,6 +5185,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -5130,6 +5214,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -5161,6 +5246,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     ethers: ^5.0.32
     mocha: ^8.3.2
     object-path: ^0.11.4
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -5189,6 +5275,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -5219,6 +5306,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     synthetix: 2.39.2
     ts-node: ^9.1.1
@@ -5248,6 +5336,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -5276,6 +5365,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -5304,6 +5394,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -5342,6 +5433,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-standard: ^5.0.0
     ethers: ^5.0.32
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -5370,6 +5462,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -5428,6 +5521,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-standard: ^5.0.0
     express: ^4.17.1
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     tradingeconomics-stream: ^0.2.0
     ts-node: ^9.1.1
@@ -5457,6 +5551,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -5485,6 +5580,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
@@ -5513,6 +5609,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     mocha: ^8.3.2
+    prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
     typescript: ^4.2.3
