@@ -1,4 +1,3 @@
-import { expect } from 'chai'
 import { useFakeTimers, stub } from 'sinon'
 import { createStore, combineReducers, Store } from 'redux'
 import { Execute, AdapterRequest } from '@chainlink/types'
@@ -134,7 +133,7 @@ describe('Rate Limit/Cache - Integration', () => {
         const state = store.getState()
         const rlPerMinute = getRLTokenSpentPerMinute(state.heartbeats)
         const minute = cost - 1
-        expect(rlPerMinute[minute]).to.be.lessThan(capacity)
+        expect(rlPerMinute[minute]).toBeLessThan(capacity)
       }
       clock.restore()
     })
@@ -159,7 +158,7 @@ describe('Rate Limit/Cache - Integration', () => {
       const state = store.getState()
       const rlPerMinute = getRLTokenSpentPerMinute(state.heartbeats)
 
-      expect(rlPerMinute[0]).to.be.lessThan(capacity)
+      expect(rlPerMinute[0]).toBeLessThan(capacity)
     })
 
     it(
@@ -185,8 +184,8 @@ describe('Rate Limit/Cache - Integration', () => {
         const state = store.getState()
         const rlPerMinute = getRLTokenSpentPerMinute(state.heartbeats)
 
-        expect(rlPerMinute[0]).to.be.greaterThan(capacity)
-        expect(rlPerMinute[1]).to.be.lte(capacity)
+        expect(rlPerMinute[0]).toBeGreaterThan(capacity)
+        expect(rlPerMinute[1]).toBeLessThanOrEqual(capacity)
       }
     )
 
@@ -215,9 +214,9 @@ describe('Rate Limit/Cache - Integration', () => {
         const state = store.getState()
         const rlPerMinute = getRLTokenSpentPerMinute(state.heartbeats)
 
-        expect(rlPerMinute[0]).to.be.greaterThan(capacity)
-        expect(rlPerMinute[1]).to.be.lessThan(capacity)
-        expect(rlPerMinute[2]).to.be.lessThan(capacity)
+        expect(rlPerMinute[0]).toBeGreaterThan(capacity)
+        expect(rlPerMinute[1]).toBeLessThan(capacity)
+        expect(rlPerMinute[2]).toBeLessThan(capacity)
       }
     )
 
@@ -236,7 +235,7 @@ describe('Rate Limit/Cache - Integration', () => {
       const state = store.getState()
       const rlPerMinute = getRLTokenSpentPerMinute(state.rateLimit.heartbeats)
 
-      expect(rlPerMinute[0]).to.be.lessThan(capacity)
+      expect(rlPerMinute[0]).toBeLessThan(capacity)
     })
 
     it(
@@ -261,9 +260,9 @@ describe('Rate Limit/Cache - Integration', () => {
         const state = store.getState()
         const rlPerMinute = getRLTokenSpentPerMinute(state.rateLimit.heartbeats)
 
-        expect(rlPerMinute[0]).to.be.greaterThan(capacity)
-        expect(rlPerMinute[1]).to.be.lessThan(capacity)
-        expect(rlPerMinute[2]).to.be.lessThan(capacity)
+        expect(rlPerMinute[0]).toBeGreaterThan(capacity)
+        expect(rlPerMinute[1]).toBeLessThan(capacity)
+        expect(rlPerMinute[2]).toBeLessThan(capacity)
       }
     )
 
@@ -292,9 +291,9 @@ describe('Rate Limit/Cache - Integration', () => {
       const state = store.getState()
       const rlPerMinute = getRLTokenSpentPerMinute(state.heartbeats)
 
-      expect(rlPerMinute[0]).to.be.greaterThan(capacity)
-      expect(rlPerMinute[1]).to.be.lte(capacity)
-      expect(rlPerMinute[2]).to.be.lte(capacity)
+      expect(rlPerMinute[0]).toBeGreaterThan(capacity)
+      expect(rlPerMinute[1]).toBeLessThanOrEqual(capacity)
+      expect(rlPerMinute[2]).toBeLessThanOrEqual(capacity)
     })
 
     // it('1 h simulation', async () => {

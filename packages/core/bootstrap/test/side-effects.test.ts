@@ -1,5 +1,4 @@
 import { AdapterRequest } from '@chainlink/types'
-import { expect } from 'chai'
 import { stub } from 'sinon'
 import { DeepPartial } from 'redux'
 import { ActionsObservable, StateObservable } from 'redux-observable'
@@ -20,7 +19,7 @@ let scheduler: TestScheduler
 
 beforeEach(() => {
   scheduler = new TestScheduler((actual, expected) => {
-    expect(actual).to.deep.equal(expected)
+    expect(actual).toEqual(expected)
   })
 })
 

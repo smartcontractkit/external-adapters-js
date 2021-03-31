@@ -1,4 +1,3 @@
-import { expect } from 'chai'
 import { useFakeTimers } from 'sinon'
 import { createStore, Store } from 'redux'
 import { Execute, AdapterRequest } from '@chainlink/types'
@@ -16,7 +15,7 @@ const counterFrom = (i = 0): Execute => async (request) => {
 }
 
 const expectRequestToBe = (field: string, expected: any): Execute => async (request) => {
-  expect(request.data[field]).to.equal(expected)
+  expect(request.data[field]).toBe(expected)
   return {
     jobRunID: request.id,
     data: { jobRunID: request.id, statusCode: 200, data: request, result: '' },
@@ -73,30 +72,27 @@ describe('Rate Limit Middleware', () => {
       }
     })
 
-    it(
-      'Max Age is re-calculated on every request based on hearbeats per minute',
-      async () => {
-        const store = createStore(rateLimit.reducer.rootReducer, {})
-        const withRateLimit = rateLimit.withRateLimit(store)
+    it('Max Age is re-calculated on every request based on hearbeats per minute', async () => {
+      const store = createStore(rateLimit.reducer.rootReducer, {})
+      const withRateLimit = rateLimit.withRateLimit(store)
 
-        for (let i = 1; i <= 5; i++) {
-          const input = { id: String(i), data: { base: i } }
-          const execute = await withRateLimit(
-            expectRequestToBe('rateLimitMaxAge', getMaxAge(store, input)),
-          )
-          await execute(input)
-        }
-
-        const input = { id: '1', data: { base: 1 } }
-        // After passing the first minute, the max age should be reduced due to expired participants
-        clock.tick(Intervals.MINUTE + 1)
-        let execute = await withRateLimit(counterFrom(0))
-        await execute({ id: '1', data: { base: 1 } })
-
-        execute = await withRateLimit(expectRequestToBe('rateLimitMaxAge', getMaxAge(store, input)))
-        await execute({ id: '1', data: { base: 1 } })
+      for (let i = 1; i <= 5; i++) {
+        const input = { id: String(i), data: { base: i } }
+        const execute = await withRateLimit(
+          expectRequestToBe('rateLimitMaxAge', getMaxAge(store, input)),
+        )
+        await execute(input)
       }
-    )
+
+      const input = { id: '1', data: { base: 1 } }
+      // After passing the first minute, the max age should be reduced due to expired participants
+      clock.tick(Intervals.MINUTE + 1)
+      let execute = await withRateLimit(counterFrom(0))
+      await execute({ id: '1', data: { base: 1 } })
+
+      execute = await withRateLimit(expectRequestToBe('rateLimitMaxAge', getMaxAge(store, input)))
+      await execute({ id: '1', data: { base: 1 } })
+    })
 
     it('Max Age is lower on recurrent participants', async () => {
       const store = createStore(rateLimit.reducer.rootReducer, {})
@@ -138,17 +134,17 @@ describe('Rate Limit Middleware', () => {
           await execute({ id: String(i), data: {} })
         }
         let state = store.getState()
-        expect(selectObserved(state.heartbeats, intervalName as IntervalNames).length).to.equal(6)
+        expect(selectObserved(state.heartbeats, intervalName as IntervalNames).length).toBe(6)
 
         clock.tick(interval - 1)
         await execute({ id: '6', data: {} })
         state = store.getState()
-        expect(selectObserved(state.heartbeats, intervalName as IntervalNames).length).to.equal(7)
+        expect(selectObserved(state.heartbeats, intervalName as IntervalNames).length).toBe(7)
 
         clock.tick(2)
         await execute({ id: '6', data: {} })
         state = store.getState()
-        expect(selectObserved(state.heartbeats, intervalName as IntervalNames).length).to.equal(2)
+        expect(selectObserved(state.heartbeats, intervalName as IntervalNames).length).toBe(2)
       }
     })
 
@@ -167,7 +163,7 @@ describe('Rate Limit Middleware', () => {
             intervalName as IntervalNames,
             rateLimit.makeId({ id: '1', data: { base: 1 } }),
           ).length,
-        ).to.equal(1)
+        ).toBe(1)
 
         const input = { id: '5', data: { base: 5 } }
         await execute(input)
@@ -175,7 +171,7 @@ describe('Rate Limit Middleware', () => {
         expect(
           selectObserved(state.heartbeats, intervalName as IntervalNames, rateLimit.makeId(input))
             .length,
-        ).to.equal(2)
+        ).toBe(2)
 
         // Just before the first sec/minute/hour/day requests should be still stored
         clock.tick(interval - 1)
@@ -184,7 +180,7 @@ describe('Rate Limit Middleware', () => {
         expect(
           selectObserved(state.heartbeats, intervalName as IntervalNames, rateLimit.makeId(input))
             .length,
-        ).to.equal(3)
+        ).toBe(3)
 
         // Right after the first sec/minute/hour/day, first request should have been expired
         clock.tick(2)
@@ -193,7 +189,7 @@ describe('Rate Limit Middleware', () => {
         expect(
           selectObserved(state.heartbeats, intervalName as IntervalNames, rateLimit.makeId(input))
             .length,
-        ).to.equal(2)
+        ).toBe(2)
       }
     })
   })

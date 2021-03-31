@@ -1,4 +1,3 @@
-import { expect } from 'chai'
 import { useFakeTimers } from 'sinon'
 import { Execute } from '@chainlink/types'
 import { withCache, CacheOptions, CacheImplOptions, defaultOptions } from '../src/lib/cache'
@@ -7,7 +6,7 @@ import { LocalLRUCache } from '../src/lib/cache/local'
 const callAndExpect = async (fn: any, n: number, result: any) => {
   while (n--) {
     const { data } = await fn(0)
-    if (n === 0) expect(data.result).to.equal(result)
+    if (n === 0) expect(data.result).toBe(result)
   }
 }
 
@@ -34,7 +33,7 @@ describe('cache', () => {
 
       it(`configures env options with cache enabled: false`, () => {
         const options = defaultOptions()
-        expect(options).to.have.property('enabled', false)
+        expect(options).toHaveProperty('enabled', false)
       })
     })
 
@@ -45,12 +44,12 @@ describe('cache', () => {
 
       it(`configures env options with cache enabled: true`, () => {
         const options = defaultOptions()
-        expect(options).to.have.property('enabled', true)
+        expect(options).toHaveProperty('enabled', true)
       })
 
       it(`configures env options with default maxAge: 1000 * 30`, () => {
         const options = defaultOptions()
-        expect(options.cacheOptions).to.have.property('maxAge', 1000 * 30)
+        expect(options.cacheOptions).toHaveProperty('maxAge', 1000 * 30)
       })
     })
   })

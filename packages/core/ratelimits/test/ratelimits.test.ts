@@ -1,4 +1,3 @@
-import { expect } from 'chai'
 import Limits from '../src/limits.json'
 import * as ratelimits from '../src/index'
 const limits: Record<string, any> = Limits // ugly solution to dynamically reference JSON properties
@@ -9,11 +8,11 @@ describe('ratelimits', () => {
       it(`${provider} outputs ProviderRateLimits without errors`, () => {
         tiers.forEach(function (tier: ratelimits.DeclaredTier, index: number) {
           let limits = ratelimits.getRateLimit(provider, index)
-          expect(limits?.burst).to.be.above(0)
-          expect(limits?.quota).to.be.above(0)
+          expect(limits?.burst).toBeGreaterThan(0)
+          expect(limits?.quota).toBeGreaterThan(0)
           limits = ratelimits.getRateLimit(provider, tier.tierName)
-          expect(limits?.burst).to.be.above(0)
-          expect(limits?.quota).to.be.above(0)
+          expect(limits?.burst).toBeGreaterThan(0)
+          expect(limits?.quota).toBeGreaterThan(0)
         })
       })
     }
