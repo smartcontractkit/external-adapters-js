@@ -15,7 +15,7 @@ Composite adapters rely on other external adapters to retrieve their own provide
 Ensure that the project's dependencies are installed and that the code is compiled by running the following command from the external-adapters respository root:
 
 ```bash
-yarn && yarn setup
+yarn && yarn build
 ```
 
 Run the underlying external adapters and set their locations as environment variables.
