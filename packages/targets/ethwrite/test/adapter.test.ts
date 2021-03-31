@@ -1,14 +1,14 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import {
-  assertSuccess,
   assertError,
+  assertSuccess,
   startChain,
   TESTING_PRIVATE_KEY,
 } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
+import { ethers } from 'ethers'
 import { makeExecute } from '../src/adapter'
 import { abi, deploy } from './helpers'
-import { ethers } from 'ethers'
 
 // using DELAYED ROOT SUITE in order to start the chain and deploy the contract
 setTimeout(async function () {
@@ -64,7 +64,7 @@ setTimeout(async function () {
           assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
           expect(data.jobRunID).toEqual(jobID)
           expect(req.uncodedResult).toEqual(contractReadResultUint.toNumber())
-          assert.isNotEmpty(data.data)
+          expect(Object.keys(data.data)).toBeGreaterThan(0)
         })
       })
     })
@@ -106,7 +106,7 @@ setTimeout(async function () {
           assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
           expect(data.jobRunID).toEqual(jobID)
           expect(req.uncodedResult).toEqual(contractReadResultInt.toNumber())
-          assert.isNotEmpty(data.data)
+          expect(Object.keys(data.data)).toBeGreaterThan(0)
         })
       })
     })
@@ -135,8 +135,10 @@ setTimeout(async function () {
 
           assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
           expect(data.jobRunID).toEqual(jobID)
-          expect(req.uncodedResult).toEqual(ethers.utils.parseBytes32String(contractReadResultBytes))
-          assert.isNotEmpty(data.data)
+          expect(req.uncodedResult).toEqual(
+            ethers.utils.parseBytes32String(contractReadResultBytes),
+          )
+          expect(Object.keys(data.data)).toBeGreaterThan(0)
         })
       })
     })

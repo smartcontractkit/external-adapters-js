@@ -1,5 +1,5 @@
 import { Requester } from '@chainlink/ea-bootstrap'
-import { assertSuccess, assertError } from '@chainlink/ea-test-helpers'
+import { assertError, assertSuccess } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
 import { execute } from '../src/adapter'
 
@@ -23,7 +23,9 @@ describe('execute', () => {
         assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
         expect((data.result as unknown) as number).toBeGreaterThan(0)
         expect((data.data.result as unknown) as number).toBeGreaterThan(0)
-        if (req.testData?.data?.debug) assert.isNotEmpty(data.data.raw)
+        if (req.testData?.data?.debug) {
+          expect(data.data.raw).toBeTruthy()
+        }
       })
     })
   })

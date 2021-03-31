@@ -1,5 +1,5 @@
 import { Requester } from '@chainlink/ea-bootstrap'
-import { assertSuccess, assertError } from '@chainlink/ea-test-helpers'
+import { assertError, assertSuccess } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
 import { makeExecute } from '../src/adapter'
 
@@ -42,7 +42,7 @@ describe('execute', () => {
         assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
         expect(data.result).toBeGreaterThan(0)
         expect(data.data.result).toBeGreaterThan(0)
-      }).timeout(30000)
+      }, 30000)
     })
   })
 
@@ -214,7 +214,7 @@ describe('execute', () => {
           const errorResp = Requester.errored(jobID, error)
           assertError({ expected: 500, actual: errorResp.statusCode }, errorResp, jobID)
         }
-      }).timeout(30000)
+      }, 30000)
     })
   })
 })

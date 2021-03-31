@@ -1,4 +1,4 @@
-import { assertSuccess, assertError } from '@chainlink/ea-test-helpers'
+import { assertError, assertSuccess } from '@chainlink/ea-test-helpers'
 import { execute } from '../src/adapter'
 
 /**
@@ -7,7 +7,7 @@ import { execute } from '../src/adapter'
  */
 
 describe('AION client @integration', () => {
-  this.timeout(5000)
+  jest.setTimeout(5000)
   const jobID = '278c97ffadb54a5bbb93cfec5f7b5503'
 
   describe('Unrecognized method', () => {

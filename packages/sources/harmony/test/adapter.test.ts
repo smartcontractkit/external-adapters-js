@@ -52,7 +52,7 @@ describe('execute', () => {
       it(`${req.name}`, () => {
         execute(req.testData as AdapterRequest).then((data) => {
           assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
-          assert.isNotEmpty(data.data)
+          expect(Object.keys(data.data)).toBeGreaterThan(0)
         })
       })
     })

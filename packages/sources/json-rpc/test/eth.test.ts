@@ -1,4 +1,4 @@
-import { assertSuccess, assertError } from '@chainlink/ea-test-helpers'
+import { assertError, assertSuccess } from '@chainlink/ea-test-helpers'
 import { execute } from '../src/adapter'
 
 /**
@@ -6,8 +6,8 @@ import { execute } from '../src/adapter'
  * Not all supported methods have a test case, just enough to display capability.
  */
 
-describe('Ethereum client @integration', async () => {
-  this.timeout(5000)
+describe('Ethereum client @integration', () => {
+  jest.setTimeout(5000)
   const jobID = '278c97ffadb54a5bbb93cfec5f7b5503'
 
   describe('Unrecognized method', () => {

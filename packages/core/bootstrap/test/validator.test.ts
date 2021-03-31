@@ -9,8 +9,8 @@ describe('Validator', () => {
     it('errors if no input data is supplied', () => {
       const validator = new Validator({}, params)
       expect(validator.validated.id).toEqual('1')
-      assert.isEmpty(validator.validated.data)
-      assert.exists(validator.error)
+      expect(validator.validated.data).toEqual({})
+      expect(validator.error).toBeTruthy()
       expect(validator?.error?.statusCode).toEqual(400)
       expect(validator?.error?.status).toEqual('errored')
     })
@@ -55,8 +55,8 @@ describe('Validator', () => {
     it('errors if no input is provided', () => {
       const validator = new Validator({}, params)
       expect(validator.validated.id).toEqual('1')
-      assert.isEmpty(validator.validated.data)
-      assert.exists(validator.error)
+      expect(validator.validated.data).toEqual({})
+      expect(validator.error).toBeTruthy()
       expect(validator?.error?.statusCode).toEqual(400)
       expect(validator?.error?.status).toEqual('errored')
     })
@@ -71,8 +71,8 @@ describe('Validator', () => {
 
       const validator = new Validator(input, params)
       expect(validator.validated.id).toEqual(input.id)
-      assert.isEmpty(validator.validated.data)
-      assert.exists(validator?.error)
+      expect(validator.validated.data).toEqual({})
+      expect(validator?.error).toBeTruthy()
       expect(validator?.error?.statusCode).toEqual(400)
       expect(validator?.error?.status).toEqual('errored')
     })
@@ -87,7 +87,7 @@ describe('Validator', () => {
 
       const validator = new Validator(input, params)
       expect(validator.validated.id).toEqual(input.id)
-      assert.exists(validator.error)
+      expect(validator.error).toBeTruthy()
       expect(validator?.error?.statusCode).toEqual(400)
       expect(validator?.error?.status).toEqual('errored')
     })

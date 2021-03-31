@@ -5,16 +5,16 @@ export function assertError(statusCode: any, data: any, expectedJobId: any) {
   expect(statusCode.actual).toEqual(statusCode.expected)
   expect(data.jobRunID).toEqual(expectedJobId)
   expect(data.status).toEqual('errored')
-  assert.exists(data.error)
-  assert.exists(data.error.name)
-  assert.exists(data.error.message)
+  expect(data.error).toBeTruthy()
+  expect(data.error.name).toBeTruthy()
+  expect(data.error.message).toBeTruthy()
 }
 
 export function assertSuccess(statusCode: any, data: any, expectedJobId: any) {
   expect(statusCode.actual).toEqual(statusCode.expected)
   expect(data.jobRunID).toEqual(expectedJobId)
-  assert.notExists(data.error)
-  assert.isNotEmpty(data.data)
+  expect(data.error).toBeFalsy()
+  expect(data.data).toBeTruthy()
   expect(data.result).toEqual(data.data.result)
 }
 
