@@ -4,7 +4,7 @@
     "outDir": "dist",
     "rootDir": "src",
 
-    "typeRoots": ["../../../node_modules/@types", "../types", "./types"],
+    ,
     "composite": true
   },
   "include": ["src/**/*"],
