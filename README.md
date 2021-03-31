@@ -134,15 +134,23 @@ Coming Soon
 The following section details mechanisms that reduce the number of API calls made from external adapters.
 
 ### Caching
-Caching allows for the EA to consistently poll APIs at certain intervals, and new requests to the EA are retrieved from the cache.
+Caching allows for the EA to store successful responses and facilitate faster future response times.
+
+To enable, the following environment variables must be set:
+```bash
+export CACHE_ENABLED=true
+```
+
+See [/bootstrap](./packages/core/bootstrap#caching) for more details and configuration options.
+
+#### Cache Warming
+An additional functionality is cache warming which will poll APIs at certain intervals to keep the cache up to date.
 
 To enable, the following environment variables must be set:
 ```bash
 export CACHE_ENABLED=true EXPERIMENTAL_WARMUP_ENABLED=true
 ```
 The cache will begin polling once the first request has been received.
-
-See [/bootstrap](./packages/core/bootstrap#caching) for more details and configuration options.
 
 ### Rate Limiting
 Rate limiting prevents hitting rate limit issues with data providers. To enable use the following environment keys:
@@ -153,11 +161,11 @@ export EXPERIMENTAL_RATE_LIMIT_ENABLED=true CACHE_ENABLED=true
 There are two options for rate limiting:
 1. Manual setting (example shown for limit at 10 requests/minute)
 ```bash
-RATE_LIMIT_CAPACITY=60
+export RATE_LIMIT_CAPACITY=60
 ```
 2. Limits by provider data (example for Coingecko free tier)
 ```bash
-RATE_LIMIT_API_PROVIDER=coingecko RATE_LIMIT_API_TIER=free
+export RATE_LIMIT_API_PROVIDER=coingecko RATE_LIMIT_API_TIER=free
 ```
 Preset tiers/plans can be found [here](./packages/core/ratelimits/src/limits.json) and use the corresponding `provider` and `tierName`.
 
@@ -176,4 +184,4 @@ The external adapter will then randomly rotate the keys. Over time this should b
 
 ## Composite external adapters
 
-To achieve more advanced functionality multiple external adapters can be chained together. See [/composite](./packages/composites) for more details.
+To achieve more advanced functionality multiple external adapters can be chained together. See [/composites](./packages/composites) for more details.
