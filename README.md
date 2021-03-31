@@ -36,7 +36,12 @@ Runs the setup step for all adapters. Typically this step just compiles TypeScri
 
 ### Running Locally
 
-External adapters should be run as long-lived processes. Two ways to run them locally are:
+External adapters should be run as long-lived processes. They can be found under various folders:
+* [`packages/sources`](./packages/sources): adapters for reading data from API sources
+* [`packages/targets`](./packages/targets): adapters for writing data
+* [`packages/composites`](./packages/composites): chaining multiple adapters for advanced functionality
+
+Two ways to run them locally are:
 
 #### HTTP server
 
