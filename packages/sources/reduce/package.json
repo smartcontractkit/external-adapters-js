@@ -38,7 +38,8 @@
     "@chainlink/ea-bootstrap": "*",
     "@chainlink/ea-test-helpers": "*",
     "decimal.js": "^10.2.1",
-    "object-path": "^0.11.4"
+    "object-path": "^0.11.4",
+    "tslib": "^2.1.0"
   },
   "devDependencies": {
     "@chainlink/types": "0.0.1",

@@ -38,7 +38,8 @@
     "@chainlink/ea-bootstrap": "*",
     "@chainlink/ea-test-helpers": "*",
     "ethers": "^5.0.32",
-    "js-conflux-sdk": "^1.5.11"
+    "js-conflux-sdk": "^1.5.11",
+    "tslib": "^2.1.0"
   },
   "devDependencies": {
     "@chainlink/types": "0.0.1",

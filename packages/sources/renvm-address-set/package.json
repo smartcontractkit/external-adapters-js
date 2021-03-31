@@ -43,7 +43,8 @@
     "@renproject/interfaces": "^1.0.3",
     "@renproject/ren": "^1.0.7",
     "@renproject/utils": "^1.0.7",
-    "bitcoinjs-lib": "^5.1.10"
+    "bitcoinjs-lib": "^5.1.10",
+    "tslib": "^2.1.0"
   },
   "devDependencies": {
     "@chainlink/types": "0.0.1",

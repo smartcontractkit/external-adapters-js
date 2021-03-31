@@ -28,7 +28,8 @@
     "@chainlink/ea-test-helpers": "*",
     "@chainlink/fcsapi-adapter": "^0.0.4",
     "@chainlink/finnhub-adapter": "^0.0.4",
-    "market-closure": "^0.1.2"
+    "market-closure": "^0.1.2",
+    "tslib": "^2.1.0"
   },
   "devDependencies": {
     "@chainlink/types": "0.0.1",
