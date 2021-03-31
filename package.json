@@ -9,10 +9,10 @@
   "scripts": {
     "new": "ts-node ./scripts/new.ts",
     "docker": "ts-node ./scripts/docker.ts",
-    "clean": "yarn workspaces foreach -pv run clean",
+    "clean": "tsc -b --clean  ./packages/tsconfig.json",
     "lint": "yarn workspaces foreach -pv run lint",
     "lint:fix": "yarn workspaces foreach -pv run lint:fix",
-    "setup": "yarn workspaces foreach -ptv run setup",
+    "setup": "tsc -b ./packages/tsconfig.json ",
     "test": "yarn workspaces foreach -pv run test",
     "test:unit": "yarn workspaces foreach -pv run test:unit",
     "test:integration": "yarn workspaces foreach -pv run test:integration"
