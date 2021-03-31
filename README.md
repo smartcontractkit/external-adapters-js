@@ -40,9 +40,11 @@ External adapters should be run as long-lived processes. Two ways to run them lo
 
 #### HTTP server
 
-Use the start command while in the directory of the adapter that you would like to run:
+Use the start command while in the directory of the adapter that you would like to run:  
+(example for [coingecko](./packages/sources/coingecko) shown)
 
 ```bash
+cd packages/sources/coingecko
 yarn start
 ```
 
@@ -123,16 +125,52 @@ Coming Soon
 <!-- TODO: container based deployment documentation -->
 
 ## Performance
+The following section details mechanisms that reduce the number of API calls made from external adapters.
 
 ### Caching
+Caching allows for the EA to store successful responses and facilitate faster future response times.
+
+To enable, the following environment variables must be set:
+```bash
+export CACHE_ENABLED=true
+```
+
+See [/bootstrap](./packages/core/bootstrap#caching) for more details and configuration options.
+
+#### Cache Warming
+An additional functionality is cache warming which will poll APIs at certain intervals to keep the cache up to date.
+
+To enable, the following environment variables must be set:
+```bash
+export CACHE_ENABLED=true EXPERIMENTAL_WARMUP_ENABLED=true
+```
+The cache will begin polling once the first request has been received.
 
 ### Rate Limiting
+Rate limiting prevents hitting rate limit issues with data providers. To enable use the following environment keys:
+```bash
+export EXPERIMENTAL_RATE_LIMIT_ENABLED=true CACHE_ENABLED=true
+```
+
+There are two options for rate limiting:
+1. Manual setting (example shown for limit at 10 requests/minute)
+```bash
+export RATE_LIMIT_CAPACITY=60
+```
+2. Limits by provider data (example for Coingecko free tier)
+```bash
+export RATE_LIMIT_API_PROVIDER=coingecko RATE_LIMIT_API_TIER=free
+```
+Preset tiers/plans can be found [here](./packages/core/ratelimits/src/limits.json) and use the corresponding `provider` and `tierName`.
+
+
+See [/bootstrap](./packages/core/bootstrap#rate-limit) for more details on setup and [/ratelimits](./packages/core/ratelimits) for adding new providers to the preset plans.
 
 ### Multiple API Key Support
 
 In order to use multiple API keys for an adapter, simply comma delimit the keys where you define the environment variable. This will work for an arbitrary number of keys.
 
-```
+```bash
 API_KEY=myapikey1,myapikey2,myapikey3
 ```
 
@@ -140,4 +178,4 @@ The external adapter will then randomly rotate the keys. Over time this should b
 
 ## Composite external adapters
 
-To achieve more advanced functionality multiple external adapters can be chained together. See [/composite](./composite/README) for more details.
+To achieve more advanced functionality multiple external adapters can be chained together. See [/composites](./packages/composites) for more details.
