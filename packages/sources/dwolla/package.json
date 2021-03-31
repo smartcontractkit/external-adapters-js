@@ -37,7 +37,8 @@
   "dependencies": {
     "@chainlink/ea-bootstrap": "*",
     "@chainlink/ea-test-helpers": "*",
-    "dwolla-v2": "^3.2.0"
+    "dwolla-v2": "^3.2.0",
+    "tslib": "^2.1.0"
   },
   "devDependencies": {
     "@chainlink/types": "0.0.1",

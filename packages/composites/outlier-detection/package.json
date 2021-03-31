@@ -31,7 +31,8 @@
     "@chainlink/genesis-volatility-adapter": "*",
     "@chainlink/oilpriceapi-adapter": "*",
     "@chainlink/xbto-adapter": "*",
-    "axios": "^0.21.1"
+    "axios": "^0.21.1",
+    "tslib": "^2.1.0"
   },
   "devDependencies": {
     "@chainlink/types": "0.0.1",
