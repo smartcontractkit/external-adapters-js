@@ -25,7 +25,8 @@
   "dependencies": {
     "@chainlink/contracts": "^0.0.11",
     "@chainlink/ea-bootstrap": "*",
-    "ethers": "^4.0.48"
+    "ethers": "^4.0.48",
+    "tslib": "^2.1.0"
   },
   "devDependencies": {
     "@chainlink/types": "0.0.1",

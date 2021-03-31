@@ -37,7 +37,8 @@
   "dependencies": {
     "@chainlink/dxfeed-adapter": "0.0.4",
     "@chainlink/ea-bootstrap": "*",
-    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/ea-test-helpers": "*",
+    "tslib": "^2.1.0"
   },
   "devDependencies": {
     "@chainlink/types": "0.0.1",

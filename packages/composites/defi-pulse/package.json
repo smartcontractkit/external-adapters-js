@@ -37,7 +37,8 @@
     "@chainlink/ea-bootstrap": "*",
     "@chainlink/ea-test-helpers": "*",
     "@chainlink/token-allocation-adapter": "^0.0.2",
-    "ethers": "^5.0.32"
+    "ethers": "^5.0.32",
+    "tslib": "^2.1.0"
   },
   "devDependencies": {
     "@chainlink/types": "0.0.1",
