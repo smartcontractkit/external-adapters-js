@@ -1785,7 +1785,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/external-adapters-js@workspace:."
   dependencies:
-    "@tsconfig/node12": ^1.0.7
     "@types/node": ^14.14.35
     decimal.js: ^10.2.0
     eslint: ^7.22.0
