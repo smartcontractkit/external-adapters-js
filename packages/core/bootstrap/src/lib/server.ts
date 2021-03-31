@@ -1,4 +1,3 @@
-import { logger } from './external-adapter'
 import { AdapterHealthCheck, AdapterResponse, ExecuteSync } from '@chainlink/types'
 import express from 'express'
 import * as client from 'prom-client'
@@ -7,6 +6,7 @@ import {
   HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE,
   HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE_MESSAGE,
 } from './errors'
+import { logger } from './external-adapter'
 import { METRICS_ENABLED } from './metrics'
 import { toObjectWithNumbers } from './util'
 
@@ -40,7 +40,7 @@ export const initHandler = (
       ...(req.body.data || {}),
       ...toObjectWithNumbers(req.query),
     }
-    execute(req.body, (status, result) => {
+    return execute(req.body, (status, result) => {
       res.status(status).json(result)
     })
   })

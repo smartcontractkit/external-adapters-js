@@ -1,7 +1,7 @@
-import bcypher from 'blockcypher'
 import { balance } from '@chainlink/ea-factories'
 import { Config } from '@chainlink/types'
-import { CoinType, ChainType, isCoinType, isChainType } from '.'
+import bcypher from 'blockcypher'
+import { ChainType, CoinType, isChainType, isCoinType } from '.'
 
 export const Name = 'balance'
 
