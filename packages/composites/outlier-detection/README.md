@@ -9,7 +9,7 @@ If all checks passes, the adapter returns the median from the source data provid
 
 The adapter takes the following environment variables:
 
-1. A data source adapter
+1. A data source adapter (requires at least 1)
 
    | Required? |                  Name                  |                      Description                      | Options | Defaults to |
    | :-------: | :------------------------------------: | :---------------------------------------------------: | :-----: | :---------: |
@@ -17,7 +17,7 @@ The adapter takes the following environment variables:
    |           | `GENESIS_VOLATILITY_DATA_PROVIDER_URL` | The location of a Genesis Volatility external adapter |         |             |
    |           |       `DXFEED_DATA_PROVIDER_URL`       |       The location of a DXFeed external adapter       |         |             |
 
-   2. A check adapter
+2. A check adapter (requires at least 1)
 
    | Required? |                Name                 |                   Description                    | Options | Defaults to |
    | :-------: | :---------------------------------: | :----------------------------------------------: | :-----: | :---------: |
@@ -25,11 +25,11 @@ The adapter takes the following environment variables:
    |           | `OILPRICEAPI_COM_DATA_PROVIDER_URL` | The location of a Oil Price API external adapter |         |             |
    |           |     `DXFEED_DATA_PROVIDER_URL`      |    The location of a DXFeed external adapter     |         |             |
 
-   3. An ETH RPC URL to read the reference data value. Required by runlog requests.
+3. An ETH RPC URL to read the reference data value. Required by runlog requests.
 
-      | Required? |   Name    |    Description    | Options | Defaults to |
-      | :-------: | :-------: | :---------------: | :-----: | :---------: |
-      |           | `RPC_URL` | Ethereum provider |         |             |
+   | Required? |   Name    |    Description    | Options | Defaults to |
+   | :-------: | :-------: | :---------------: | :-----: | :---------: |
+   |           | `RPC_URL` | Ethereum provider |         |             |
 
 ## Running
 
@@ -37,15 +37,15 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 
 ### Input Params
 
-| Required? |              Name               |                                                                    Description                                                                    |              Options               | Defaults to |
-| :-------: | :-----------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------: | :---------: |
-|    ✅     | `referenceContract`, `contract` |                                             The smart contract to read the reference data value from                                              |                                    |             |
-|    ✅     |           `multiply`            |                                                  The amount to multiply the referenced value by                                                   |                                    |
-|    ✅     |            `source`             | The source external adapter to use. Multiple sources can be through a `,` delimiter. (e.g. `xbto,dxfeed`) , `xbto`, `genesisvolatility`, `dxfeed` |                                    |
-|    ✅     |             `asset`             |                                                      The ticker to query the data source for                                                      |                                    |
-|    🟡     |             `check`             |                    The check external adapter to use. Multiple checks can be through a `,` delimiter. (e.g. `deribit,dxfeed`)                     | `deribit`, `oilpriceapi`, `dxfeed` |             |
-|    🟡     |        `check_threshold`        |                                       Set a percentage deviation threshold against the check data sources.                                        |                                    |   0 (off)   |
-|    🟡     |       `onchain_threshold`       |                                         Set a percentage deviation threshold against the on-chain value.                                          |                                    |   0 (off)   |
+| Required? |                    Name                     |                                                Description                                                 |                Options                | Defaults to |
+| :-------: | :-----------------------------------------: | :--------------------------------------------------------------------------------------------------------: | :-----------------------------------: | :---------: |
+|    ✅     |       `referenceContract`, `contract`       |                          The smart contract to read the reference data value from                          |                                       |             |
+|    ✅     |                 `multiply`                  |                               The amount to multiply the referenced value by                               |                                       |
+|    ✅     |                  `source`                   | The source external adapter to use. Multiple sources can be through a `,` delimiter. (e.g. `xbto,dxfeed`)  | `xbto`, `genesisvolatility`, `dxfeed` |
+|    ✅     |                   `asset`                   |                                  The ticker to query the data source for                                   |                                       |
+|           | `check` | The check external adapter to use. Multiple checks can be through a `,` delimiter. (e.g. `deribit,dxfeed`). Required if `check_threshold` is used |  `deribit`, `oilpriceapi`, `dxfeed`   |             |
+|           |              `check_threshold`              |                    Set a percentage deviation threshold against the check data sources.                    |                                       |   0 (off)   |
+|           |             `onchain_threshold`             |                      Set a percentage deviation threshold against the on-chain value.                      |                                       |   0 (off)   |
 
 ### Sample Input
 

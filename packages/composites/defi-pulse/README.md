@@ -15,9 +15,12 @@ The ChainlinkAdapter.getAllocations(ISetToken \_setToken) should be reimplemente
 
 The adapter takes the following environment variables:
 
-- `RPC_URL`: Blockchain RPC endpoint to get the needed on-chain data
-- `DEFAULT_QUOTE` (Optional): Currency that the price will be fetched by default. `USD` used by default
+| Required? |      Name       |                       Description                       | Options | Defaults to |
+| :-------: | :-------------: | :-----------------------------------------------------: | :-----: | :---------: |
+|    ✅     |    `RPC_URL`    | Blockchain RPC endpoint to get the needed on-chain data |         |             |
+|           | `DEFAULT_QUOTE` |         Currency that the price will be fetched         |         |    `USD`    |
 
+**Additional environment variables must be set according to the Token Allocation adapter.**
 This composite adapter executes the code from the Token Allocation composite adapter. As such the same configuration and input parameters apply to this adapter. See [../token-allocation/README.md](../token-allocation/README.md) for more details.
 
 ## Running
@@ -28,8 +31,8 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 
 | Required? |   Name    |           Description           | Options | Defaults to |
 | :-------: | :-------: | :-----------------------------: | :-----: | :---------: |
-|     ✅     | `address` |     Address of the SetToken     |         |             |
-|     ✅     | `adapter` | Address of the adapter contract |         |             |
+|    ✅     | `address` |     Address of the SetToken     |         |             |
+|    ✅     | `adapter` | Address of the adapter contract |         |             |
 |           |  `name`   |           Index name            |         |             |
 |           |  `asset`  |           Asset name            |         |             |
 
