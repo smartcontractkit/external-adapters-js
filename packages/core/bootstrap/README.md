@@ -16,7 +16,7 @@ To avoid hitting rate limit issues with the data provider subscription, a rate l
 - `EXPERIMENTAL_RATE_LIMIT_ENABLED`: Optional bool for enabling Rate Limit functionality
 - Option 1, manual capacity setting:
    - `RATE_LIMIT_CAPACITY`: Maximum capacity on requests per minute
-- Option 2, capacity by reference. Check your plan [here]('../ratelimits/src/limits.json') and use it with the following configuration:
+- Option 2, capacity by reference. Check your plan [here](../ratelimits/src/limits.json) and use it with the following configuration:
    - `RATE_LIMIT_API_PROVIDER`: Name of the provider
    - `RATE_LIMIT_API_TIER`: Plan you are subscribed to
 ### Development
