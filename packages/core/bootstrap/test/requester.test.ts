@@ -1,4 +1,3 @@
-import { assert } from 'chai'
 import { Requester } from '../src/lib/external-adapter/requester'
 import { Server } from './helpers/server'
 
@@ -19,13 +18,13 @@ describe('Requester', () => {
 
   const server = new Server()
 
-  before(() => {
+  beforeAll(() => {
     server.start()
   })
 
   beforeEach(() => {
     server.reset()
-    assert.equal(server.errorCount, 0)
+    expect(server.errorCount).toEqual(0)
   })
 
   describe('Requester.request', () => {
@@ -33,10 +32,10 @@ describe('Requester', () => {
       options.url = errorUrl
       try {
         await Requester.request(options, 1, 0)
-        assert.fail('expected error')
+        expect(false).toBe(true)
       } catch (error) {
-        assert.equal(server.errorCount, 1)
-        assert.equal(error.message, errorMessage)
+        expect(server.errorCount).toEqual(1)
+        expect(error.message).toEqual(errorMessage)
       }
     })
 
@@ -44,78 +43,78 @@ describe('Requester', () => {
       options.url = errorUrl
       try {
         await Requester.request(options, 9, 0)
-        assert.fail('expected error')
+        expect(false).toBe(true)
       } catch (error) {
-        assert.equal(server.errorCount, 9)
-        assert.equal(error.message, errorMessage)
+        expect(server.errorCount).toEqual(9)
+        expect(error.message).toEqual(errorMessage)
       }
     })
 
     it('retries errored statuses', async () => {
       options.url = errorTwiceUrl
       const { data } = await Requester.request(options, 3, 0)
-      assert.equal(server.errorCount, 2)
-      assert.equal(data.result, 'success')
-      assert.equal(data.value, 1)
+      expect(server.errorCount).toEqual(2)
+      expect(data.result).toEqual('success')
+      expect(data.value).toEqual(1)
     })
 
     it('retries custom errors', async () => {
       options.url = customErrorUrl
       try {
         await Requester.request(options, customError, 3, 0)
-        assert.fail('expected error')
+        expect(false).toBe(true)
       } catch (error) {
-        assert.equal(server.errorCount, 3)
-        assert.equal(error.message, customErrorMessage)
+        expect(server.errorCount).toEqual(3)
+        expect(error.message).toEqual(customErrorMessage)
       }
     })
 
     it('returns the result from an endpoint', async () => {
       options.url = successUrl
       const { data } = await Requester.request(options)
-      assert.equal(server.errorCount, 0)
-      assert.equal(data.result, 'success')
-      assert.equal(data.value, 1)
+      expect(server.errorCount).toEqual(0)
+      expect(data.result).toEqual('success')
+      expect(data.value).toEqual(1)
     })
 
     it('accepts optional customError param', async () => {
       options.url = successUrl
       const { data } = await Requester.request(options, customError)
-      assert.equal(server.errorCount, 0)
-      assert.equal(data.result, 'success')
-      assert.equal(data.value, 1)
+      expect(server.errorCount).toEqual(0)
+      expect(data.result).toEqual('success')
+      expect(data.value).toEqual(1)
     })
 
     it('accepts optional retries param with customError', async () => {
       options.url = successUrl
       const { data } = await Requester.request(options, customError, 1)
-      assert.equal(server.errorCount, 0)
-      assert.equal(data.result, 'success')
-      assert.equal(data.value, 1)
+      expect(server.errorCount).toEqual(0)
+      expect(data.result).toEqual('success')
+      expect(data.value).toEqual(1)
     })
 
     it('accepts optional retries param without customError', async () => {
       options.url = successUrl
       const { data } = await Requester.request(options, 1)
-      assert.equal(server.errorCount, 0)
-      assert.equal(data.result, 'success')
-      assert.equal(data.value, 1)
+      expect(server.errorCount).toEqual(0)
+      expect(data.result).toEqual('success')
+      expect(data.value).toEqual(1)
     })
 
     it('accepts optional delay param with customError', async () => {
       options.url = successUrl
       const { data } = await Requester.request(options, customError, 1, 0)
-      assert.equal(server.errorCount, 0)
-      assert.equal(data.result, 'success')
-      assert.equal(data.value, 1)
+      expect(server.errorCount).toEqual(0)
+      expect(data.result).toEqual('success')
+      expect(data.value).toEqual(1)
     })
 
     it('accepts optional delay param without customError', async () => {
       options.url = successUrl
       const { data } = await Requester.request(options, 1, 0)
-      assert.equal(server.errorCount, 0)
-      assert.equal(data.result, 'success')
-      assert.equal(data.value, 1)
+      expect(server.errorCount).toEqual(0)
+      expect(data.result).toEqual('success')
+      expect(data.value).toEqual(1)
     })
   })
 
@@ -123,24 +122,24 @@ describe('Requester', () => {
     it('returns the desired value', async () => {
       options.url = successUrl
       const { data } = await Requester.request(options, 1, 0)
-      assert.equal(server.errorCount, 0)
-      assert.equal(data.result, 'success')
-      assert.equal(data.value, 1)
+      expect(server.errorCount).toEqual(0)
+      expect(data.result).toEqual('success')
+      expect(data.value).toEqual(1)
       const result = Requester.validateResultNumber(data, ['value'])
-      assert.equal(result, 1)
+      expect(result).toEqual(1)
     })
 
     it('errors if the value is not a number', async () => {
       options.url = successUrl
       const { data } = await Requester.request(options, 1, 0)
-      assert.equal(server.errorCount, 0)
-      assert.equal(data.result, 'success')
-      assert.equal(data.value, 1)
+      expect(server.errorCount).toEqual(0)
+      expect(data.result).toEqual('success')
+      expect(data.value).toEqual(1)
       try {
         Requester.validateResultNumber(data, ['result'])
-        assert.fail('expected error')
+        expect(false).toBe(true)
       } catch (error) {
-        assert.equal(error.message, 'Invalid result')
+        expect(error.message).toEqual('Invalid result')
       }
     })
   })
@@ -149,47 +148,47 @@ describe('Requester', () => {
     it('returns the desired value', async () => {
       options.url = successUrl
       const { data } = await Requester.request(options, 1, 0)
-      assert.equal(server.errorCount, 0)
-      assert.equal(data.result, 'success')
-      assert.equal(data.value, 1)
+      expect(server.errorCount).toEqual(0)
+      expect(data.result).toEqual('success')
+      expect(data.value).toEqual(1)
       const result = Requester.getResult(data, ['value'])
-      assert.equal(result, 1)
+      expect(result).toEqual(1)
     })
 
     it('does not error if the value is not a number', async () => {
       options.url = successUrl
       const { data } = await Requester.request(options, 1, 0)
-      assert.equal(server.errorCount, 0)
-      assert.equal(data.result, 'success')
-      assert.equal(data.value, 1)
+      expect(server.errorCount).toEqual(0)
+      expect(data.result).toEqual('success')
+      expect(data.value).toEqual(1)
       const result = Requester.getResult(data, ['result'])
-      assert.equal(result, 'success')
+      expect(result).toEqual('success')
     })
 
     it('returns undefined if the input is not data', async () => {
       options.url = successUrl
       const response = await Requester.request(options, 1, 0)
-      assert.equal(server.errorCount, 0)
-      assert.equal(response.data.result, 'success')
-      assert.equal(response.data.value, 1)
+      expect(server.errorCount).toEqual(0)
+      expect(response.data.result).toEqual('success')
+      expect(response.data.value).toEqual(1)
       const result = Requester.getResult(response, ['result'])
-      assert.equal(typeof result, 'undefined')
+      expect(typeof result).toEqual('undefined')
     })
   })
 
   describe('Requester.errored', () => {
     it('returns a Chainlink error when no params are supplied', () => {
       const error = Requester.errored()
-      assert.equal(error.jobRunID, '1')
-      assert.equal(error.status, 'errored')
-      assert.equal(error.error.message, 'An error occurred.')
+      expect(error.jobRunID).toEqual('1')
+      expect(error.status).toEqual('errored')
+      expect(error.error.message).toEqual('An error occurred.')
     })
 
     it('returns a Chainlink error when no data is supplied', () => {
       const error = Requester.errored('abc123')
-      assert.equal(error.jobRunID, 'abc123')
-      assert.equal(error.status, 'errored')
-      assert.equal(error.error.message, 'An error occurred.')
+      expect(error.jobRunID).toEqual('abc123')
+      expect(error.status).toEqual('errored')
+      expect(error.error.message).toEqual('An error occurred.')
     })
   })
 
@@ -198,14 +197,14 @@ describe('Requester', () => {
       options.url = successUrl
       const response = await Requester.request(options, 1, 0)
       const result = Requester.success('1', response)
-      assert.equal(result.jobRunID, '1')
-      assert.equal(result.result, 'success')
-      assert.equal(result.data.result, 'success')
-      assert.equal(result.statusCode, 200)
+      expect(result.jobRunID).toEqual('1')
+      expect(result.result).toEqual('success')
+      expect(result.data.result).toEqual('success')
+      expect(result.statusCode).toEqual(200)
     })
   })
 
-  after((done) => {
+  afterAll((done) => {
     server.stop(done)
   })
 })

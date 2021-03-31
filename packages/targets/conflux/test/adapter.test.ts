@@ -12,7 +12,7 @@ describe('execute', () => {
   const jobID = 'fd26a90e0aa84040bc6b4d6f5036a23a'
   const execute = makeExecute({ rpcUrl: '', privateKey: '', networkId: 1, api: {} })
 
-  context('validation error', () => {
+  describe('validation error', () => {
     const requests = [
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },
@@ -41,7 +41,7 @@ describe('execute', () => {
     })
   })
 
-  context('error calls @integration', () => {
+  describe('error calls @integration', () => {
     const requests = [
       {
         name: 'invalid id',

@@ -5,7 +5,7 @@ import moment from 'moment'
 import { expect } from 'chai'
 
 describe('sigma calculator', () => {
-  context('data handling', () => {
+  describe('data handling', () => {
     it('sorts strikes prices correctly', () => {
       const fixture1: CurrencyDerivativesData = {
         e1: moment(),

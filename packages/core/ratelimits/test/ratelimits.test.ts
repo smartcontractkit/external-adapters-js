@@ -4,7 +4,7 @@ import * as ratelimits from '../src/index'
 const limits: Record<string, any> = Limits // ugly solution to dynamically reference JSON properties
 
 describe('ratelimits', () => {
-  context('all provider tiers are working', () => {
+  describe('all provider tiers are working', () => {
     for (const [provider, tiers] of Object.entries(limits)) {
       it(`${provider} outputs ProviderRateLimits without errors`, () => {
         tiers.forEach(function (tier: ratelimits.DeclaredTier, index: number) {

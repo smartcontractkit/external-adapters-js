@@ -35,12 +35,12 @@ const getMaxAge = (store: Store, input: AdapterRequest) => {
 
 describe('Rate Limit Middleware', () => {
   const capacity = 50
-  before(() => {
+  beforeAll(() => {
     process.env.EXPERIMENTAL_RATE_LIMIT_ENABLED = String(true)
     process.env.RATE_LIMIT_CAPACITY = String(capacity)
   })
 
-  context('Max Age Calculation', () => {
+  describe('Max Age Calculation', () => {
     let clock: sinon.SinonFakeTimers
     beforeEach(() => {
       clock = useFakeTimers()
@@ -73,27 +73,30 @@ describe('Rate Limit Middleware', () => {
       }
     })
 
-    it('Max Age is re-calculated on every request based on hearbeats per minute', async () => {
-      const store = createStore(rateLimit.reducer.rootReducer, {})
-      const withRateLimit = rateLimit.withRateLimit(store)
+    it(
+      'Max Age is re-calculated on every request based on hearbeats per minute',
+      async () => {
+        const store = createStore(rateLimit.reducer.rootReducer, {})
+        const withRateLimit = rateLimit.withRateLimit(store)
 
-      for (let i = 1; i <= 5; i++) {
-        const input = { id: String(i), data: { base: i } }
-        const execute = await withRateLimit(
-          expectRequestToBe('rateLimitMaxAge', getMaxAge(store, input)),
-        )
-        await execute(input)
+        for (let i = 1; i <= 5; i++) {
+          const input = { id: String(i), data: { base: i } }
+          const execute = await withRateLimit(
+            expectRequestToBe('rateLimitMaxAge', getMaxAge(store, input)),
+          )
+          await execute(input)
+        }
+
+        const input = { id: '1', data: { base: 1 } }
+        // After passing the first minute, the max age should be reduced due to expired participants
+        clock.tick(Intervals.MINUTE + 1)
+        let execute = await withRateLimit(counterFrom(0))
+        await execute({ id: '1', data: { base: 1 } })
+
+        execute = await withRateLimit(expectRequestToBe('rateLimitMaxAge', getMaxAge(store, input)))
+        await execute({ id: '1', data: { base: 1 } })
       }
-
-      const input = { id: '1', data: { base: 1 } }
-      // After passing the first minute, the max age should be reduced due to expired participants
-      clock.tick(Intervals.MINUTE + 1)
-      let execute = await withRateLimit(counterFrom(0))
-      await execute({ id: '1', data: { base: 1 } })
-
-      execute = await withRateLimit(expectRequestToBe('rateLimitMaxAge', getMaxAge(store, input)))
-      await execute({ id: '1', data: { base: 1 } })
-    })
+    )
 
     it('Max Age is lower on recurrent participants', async () => {
       const store = createStore(rateLimit.reducer.rootReducer, {})
@@ -117,7 +120,7 @@ describe('Rate Limit Middleware', () => {
     })
   })
 
-  context('Request Storing', () => {
+  describe('Request Storing', () => {
     let clock: sinon.SinonFakeTimers
     beforeEach(() => {
       clock = useFakeTimers()

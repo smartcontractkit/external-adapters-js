@@ -6,11 +6,11 @@ import { execute } from '../src/adapter'
  * Not all supported methods have a test case, just enough to display capability.
  */
 
-describe('Zilliqa client @integration', function () {
+describe('Zilliqa client @integration', () => {
   this.timeout(5000)
   const jobID = '278c97ffadb54a5bbb93cfec5f7b5503'
 
-  context('Unrecognized method', () => {
+  describe('Unrecognized method', () => {
     const req = {
       id: jobID,
       data: {
@@ -24,7 +24,7 @@ describe('Zilliqa client @integration', function () {
     })
   })
 
-  context('GetNetworkId', () => {
+  describe('GetNetworkId', () => {
     const req = {
       id: jobID,
       data: {
@@ -39,7 +39,7 @@ describe('Zilliqa client @integration', function () {
     })
   })
 
-  context('GetBalance', () => {
+  describe('GetBalance', () => {
     const req = {
       id: jobID,
       data: {
@@ -54,7 +54,7 @@ describe('Zilliqa client @integration', function () {
     })
   })
 
-  context('GetBalance', () => {
+  describe('GetBalance', () => {
     const req = {
       id: jobID,
       data: {
@@ -63,13 +63,16 @@ describe('Zilliqa client @integration', function () {
       },
     }
 
-    it('Get balance should return error as address is not created.', async () => {
-      const resp = await execute(req)
-      assertSuccess({ expected: 200, actual: resp.statusCode }, resp.data, jobID)
-    })
+    it(
+      'Get balance should return error as address is not created.',
+      async () => {
+        const resp = await execute(req)
+        assertSuccess({ expected: 200, actual: resp.statusCode }, resp.data, jobID)
+      }
+    )
   })
 
-  context('GetSmartContractState', () => {
+  describe('GetSmartContractState', () => {
     const req = {
       id: jobID,
       data: {

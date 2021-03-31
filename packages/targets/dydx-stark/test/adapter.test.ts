@@ -7,7 +7,7 @@ describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
 
-  context('validation error', () => {
+  describe('validation error', () => {
     const requests = [
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },

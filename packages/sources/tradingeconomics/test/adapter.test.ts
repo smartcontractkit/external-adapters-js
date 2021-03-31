@@ -1,4 +1,3 @@
-import { assert } from 'chai'
 import { Requester } from '@chainlink/ea-bootstrap'
 import { assertSuccess, assertError } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
@@ -11,7 +10,7 @@ describe('execute', () => {
   if (!process.env.API_CLIENT_SECRET) process.env.API_CLIENT_SECRET = 'test_client_secret'
   if (!process.env.SYMBOLS) process.env.SYMBOLS = 'test_symbols'
 
-  context('successful calls @integration', () => {
+  describe('successful calls @integration', () => {
     const requests = [
       { name: 'id not supplied', testData: { data: { base: 'FTSE' } } },
       { name: 'base', testData: { id: jobID, data: { base: 'FTSE' } } },
@@ -22,13 +21,13 @@ describe('execute', () => {
       it(`${req.name}`, async () => {
         const data = await execute(req.testData as AdapterRequest)
         assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
-        assert.isAbove(data.result, 0)
-        assert.isAbove(data.data.result, 0)
+        expect(data.result).toBeGreaterThan(0)
+        expect(data.data.result).toBeGreaterThan(0)
       })
     })
   })
 
-  context('validation error', () => {
+  describe('validation error', () => {
     const requests = [
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },
@@ -47,7 +46,7 @@ describe('execute', () => {
     })
   })
 
-  context('error calls @integration', () => {
+  describe('error calls @integration', () => {
     const requests = [
       {
         name: 'unknown base',

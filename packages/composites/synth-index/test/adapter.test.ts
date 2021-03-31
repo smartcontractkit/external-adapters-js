@@ -16,7 +16,7 @@ describe('execute', () => {
   process.env.DATA_PROVIDER_URL = 'ignoreable'
   const execute = makeExecute(makeMockConfig())
 
-  context('validation error', () => {
+  describe('validation error', () => {
     const requests = [
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },
@@ -38,7 +38,7 @@ describe('execute', () => {
     })
   })
 
-  context('error calls @integration', () => {
+  describe('error calls @integration', () => {
     const requests = [
       {
         name: 'invalid asset',

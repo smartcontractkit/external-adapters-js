@@ -1,4 +1,3 @@
-import { assert } from 'chai'
 import { Validator } from '../src/lib/external-adapter/validator'
 
 describe('Validator', () => {
@@ -9,11 +8,11 @@ describe('Validator', () => {
 
     it('errors if no input data is supplied', () => {
       const validator = new Validator({}, params)
-      assert.equal(validator.validated.id, '1')
+      expect(validator.validated.id).toEqual('1')
       assert.isEmpty(validator.validated.data)
       assert.exists(validator.error)
-      assert.equal(validator?.error?.statusCode, 400)
-      assert.equal(validator?.error?.status, 'errored')
+      expect(validator?.error?.statusCode).toEqual(400)
+      expect(validator?.error?.status).toEqual('errored')
     })
 
     it('does not error if optional params are included', () => {
@@ -25,9 +24,9 @@ describe('Validator', () => {
       }
 
       const validator = new Validator(input, params)
-      assert.equal(validator.validated.id, input.id)
-      assert.equal(validator.validated.data.endpoint, input.data.endpoint)
-      assert.isUndefined(validator.error)
+      expect(validator.validated.id).toEqual(input.id)
+      expect(validator.validated.data.endpoint).toEqual(input.data.endpoint)
+      expect(validator.error).not.toBeDefined()
     })
 
     it('does not error if input data is excluded', () => {
@@ -36,14 +35,14 @@ describe('Validator', () => {
       }
 
       const validator = new Validator(input)
-      assert.equal(validator.validated.id, input.id)
-      assert.isUndefined(validator.error)
+      expect(validator.validated.id).toEqual(input.id)
+      expect(validator.error).not.toBeDefined()
     })
 
     it('does not error if input data and params are excluded', () => {
       const validator = new Validator()
-      assert.equal(validator.validated.id, '1')
-      assert.isUndefined(validator.error)
+      expect(validator.validated.id).toEqual('1')
+      expect(validator.error).not.toBeDefined()
     })
   })
 
@@ -55,11 +54,11 @@ describe('Validator', () => {
 
     it('errors if no input is provided', () => {
       const validator = new Validator({}, params)
-      assert.equal(validator.validated.id, '1')
+      expect(validator.validated.id).toEqual('1')
       assert.isEmpty(validator.validated.data)
       assert.exists(validator.error)
-      assert.equal(validator?.error?.statusCode, 400)
-      assert.equal(validator?.error?.status, 'errored')
+      expect(validator?.error?.statusCode).toEqual(400)
+      expect(validator?.error?.status).toEqual('errored')
     })
 
     it('errors if an array param is not provided', () => {
@@ -71,11 +70,11 @@ describe('Validator', () => {
       }
 
       const validator = new Validator(input, params)
-      assert.equal(validator.validated.id, input.id)
+      expect(validator.validated.id).toEqual(input.id)
       assert.isEmpty(validator.validated.data)
       assert.exists(validator?.error)
-      assert.equal(validator?.error?.statusCode, 400)
-      assert.equal(validator?.error?.status, 'errored')
+      expect(validator?.error?.statusCode).toEqual(400)
+      expect(validator?.error?.status).toEqual('errored')
     })
 
     it('errors if a boolean param is not provided', () => {
@@ -87,10 +86,10 @@ describe('Validator', () => {
       }
 
       const validator = new Validator(input, params)
-      assert.equal(validator.validated.id, input.id)
+      expect(validator.validated.id).toEqual(input.id)
       assert.exists(validator.error)
-      assert.equal(validator?.error?.statusCode, 400)
-      assert.equal(validator?.error?.status, 'errored')
+      expect(validator?.error?.statusCode).toEqual(400)
+      expect(validator?.error?.status).toEqual('errored')
     })
 
     it('does not error if required params are included', () => {
@@ -103,10 +102,10 @@ describe('Validator', () => {
       }
 
       const validator = new Validator(input, params)
-      assert.equal(validator.validated.id, input.id)
-      assert.equal(validator.validated.data.endpoint, input.data.endpoint)
-      assert.equal(validator.validated.data.keys, input.data.one)
-      assert.isUndefined(validator.error)
+      expect(validator.validated.id).toEqual(input.id)
+      expect(validator.validated.data.endpoint).toEqual(input.data.endpoint)
+      expect(validator.validated.data.keys).toEqual(input.data.one)
+      expect(validator.error).not.toBeDefined()
     })
   })
 
@@ -119,7 +118,7 @@ describe('Validator', () => {
       },
     }
     const validator = new Validator(input)
-    assert.equal(validator.validated.id, input.id)
-    assert.isUndefined(validator.error)
+    expect(validator.validated.id).toEqual(input.id)
+    expect(validator.error).not.toBeDefined()
   })
 })

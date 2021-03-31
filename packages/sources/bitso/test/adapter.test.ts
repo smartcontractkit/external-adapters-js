@@ -1,4 +1,3 @@
-import { assert } from 'chai'
 import { Requester } from '@chainlink/ea-bootstrap'
 import { assertSuccess, assertError } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
@@ -8,7 +7,7 @@ describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
 
-  context('successful calls @integration', () => {
+  describe('successful calls @integration', () => {
     const requests = [
       { name: 'id not supplied', testData: { data: { base: 'BTC', quote: 'ARS' } } },
       { name: 'base/quote', testData: { id: jobID, data: { base: 'BTC', quote: 'ARS' } } },
@@ -20,13 +19,13 @@ describe('execute', () => {
       it(`${req.name}`, async () => {
         const data = await execute(req.testData as AdapterRequest)
         assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
-        assert.isAbove(data.result, 0)
-        assert.isAbove(data.data.result, 0)
+        expect(data.result).toBeGreaterThan(0)
+        expect(data.data.result).toBeGreaterThan(0)
       })
     })
   })
 
-  context('validation error', () => {
+  describe('validation error', () => {
     const requests = [
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },
@@ -46,7 +45,7 @@ describe('execute', () => {
     })
   })
 
-  context('error calls @integration', () => {
+  describe('error calls @integration', () => {
     const requests = [
       { name: 'unknown base', testData: { id: jobID, data: { base: 'not_real', quote: 'ARS' } } },
       { name: 'unknown quote', testData: { id: jobID, data: { base: 'BTC', quote: 'not_real' } } },

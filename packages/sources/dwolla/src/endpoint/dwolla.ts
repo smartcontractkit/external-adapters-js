@@ -46,7 +46,7 @@ const client: any = new dwolla.Client({
 // into xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx format
 const convertToLongUUID = (uuid: string): string => {
   if (uuid.length != 32) return uuid
-  return uuid.replace(/(.{8})(.{4})(.{4})(.{4})(.{12})/, '$1-$2-$3-$4-$5')
+  return uuid.replace(/(.{8})(.{4})(.{4})(.{4})(.{12})/, '$1-$2-$3-$4-$5');
 }
 
 const getTransfer = async (id: string) => {
@@ -101,12 +101,12 @@ const sendTransfer = async (data: SendRequest) => {
             // Convert to xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
             result: parts[parts.length - 1].replace(/-/g, ''),
           },
-        })
+        });
       })
       .catch((err: any) => {
         reject({ statusCode: err.status, data: err.body.message })
       })
-  })
+  });
 }
 
 export const createRequest = async (input: JobRequest) => {

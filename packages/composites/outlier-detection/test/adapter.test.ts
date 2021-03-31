@@ -1,4 +1,3 @@
-import { assert } from 'chai'
 import sinon, { createSandbox } from 'sinon'
 import { assertSuccess, assertError } from '@chainlink/ea-test-helpers'
 import { Requester } from '@chainlink/ea-bootstrap'
@@ -68,10 +67,10 @@ const setupEnvironment = (adapters: AdapterImplementation[]) => {
 // const cleanupServices = (services: any[]) => {}
 const useUnderlying = (adapters: AdapterImplementation[]) => {
   // let services: any = []
-  return before(() => {
+  return beforeAll(() => {
     setupEnvironment(adapters)
     // services = startServices(adapters)
-  })
+  });
   // after: () => {
   //   cleanupEnvironment(adapters)
   //   cleanupServices(services)
@@ -96,9 +95,9 @@ describe(outlier_detection.NAME, () => {
   })
 
   useUnderlying([...sources, ...checks])
-  before(() => ({}))
+  beforeAll(() => ({}))
 
-  context('successful calls', () => {
+  describe('successful calls', () => {
     const jobID = '1'
 
     const requests = [
@@ -189,13 +188,13 @@ describe(outlier_detection.NAME, () => {
         }
         const data = await execute(req.input)
         assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
-        assert.equal(data.result, req.output)
-        assert.equal(data.data.result, req.output)
+        expect(data.result).toEqual(req.output)
+        expect(data.data.result).toEqual(req.output)
       })
     })
   })
 
-  context('validation error', () => {
+  describe('validation error', () => {
     const jobID = '2'
 
     const requests = [

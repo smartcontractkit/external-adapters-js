@@ -10,7 +10,7 @@ describe('incorrect app config', () => {
     }
   })
 
-  context(`when ${ENV_API_KEY} is set`, () => {
+  describe(`when ${ENV_API_KEY} is set`, () => {
     it(`configures app with ${ENV_API_KEY} key`, () => {
       process.env[ENV_API_KEY] = 'dummy.key'
       const config = Requester.getDefaultConfig()
@@ -18,7 +18,7 @@ describe('incorrect app config', () => {
     })
   })
 
-  context(`when ${ENV_API_ENDPOINT} is set`, () => {
+  describe(`when ${ENV_API_ENDPOINT} is set`, () => {
     it(`configures app with ${ENV_API_ENDPOINT} endpoint`, () => {
       process.env[ENV_API_ENDPOINT] = 'dummy.endpoint'
       const config = Requester.getDefaultConfig()
@@ -27,7 +27,7 @@ describe('incorrect app config', () => {
     })
   })
 
-  context(`when ${ENV_API_TIMEOUT} is set`, () => {
+  describe(`when ${ENV_API_TIMEOUT} is set`, () => {
     it(`configures app with ${ENV_API_TIMEOUT} endpoint`, () => {
       process.env[ENV_API_TIMEOUT] = '4'
       const config = Requester.getDefaultConfig()
@@ -36,7 +36,7 @@ describe('incorrect app config', () => {
     })
   })
 
-  context('when no env is set', () => {
+  describe('when no env is set', () => {
     it(`has default values`, () => {
       const config = Requester.getDefaultConfig()
       expect(config).to.have.property('apiKey', undefined)

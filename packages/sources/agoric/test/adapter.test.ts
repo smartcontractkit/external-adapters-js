@@ -1,4 +1,3 @@
-import { assert } from 'chai'
 import { Requester } from '@chainlink/ea-bootstrap'
 import { assertSuccess, assertError } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
@@ -104,7 +103,7 @@ describe('execute', () => {
     },
   ]
 
-  context('POST to localhost @integration', async () => {
+  describe('POST to localhost @integration', async () => {
     let reqIndex: number
     let sends: Action[] = []
     let server: Server
@@ -114,28 +113,26 @@ describe('execute', () => {
     const execute = makeExecute(makeConfig('AGORICTEST'))
     delete process.env.AG_SOLO_ORACLE_URL
 
-    before(
-      () =>
-        new Promise((resolve) => {
-          const app = express()
-          app.use(express.json())
-          app.post('/api/oracle', (req, res) => {
-            const a = (req.body as unknown) as Action
-            sends.push(a)
-            const { queryId } = (a.data as { queryId?: string }) || {}
-            if (a.type === 'oracleServer/reply' && queryId === 'bad') {
-              res.status(500).json({ ok: false, rej: `invalid queryId ${queryId}` })
-            } else {
-              res.status(200).json(requests[reqIndex].receive)
-            }
-          })
+    beforeAll(() =>
+      new Promise((resolve) => {
+        const app = express()
+        app.use(express.json())
+        app.post('/api/oracle', (req, res) => {
+          const a = (req.body as unknown) as Action
+          sends.push(a)
+          const { queryId } = (a.data as { queryId?: string }) || {}
+          if (a.type === 'oracleServer/reply' && queryId === 'bad') {
+            res.status(500).json({ ok: false, rej: `invalid queryId ${queryId}` })
+          } else {
+            res.status(200).json(requests[reqIndex].receive)
+          }
+        })
 
-          server = app.listen(port)
-          resolve(true)
-        }),
-    )
+        server = app.listen(port)
+        resolve(true)
+      }))
 
-    after(() => {
+    afterAll(() => {
       server.close()
     })
 
@@ -151,7 +148,7 @@ describe('execute', () => {
           const errorResp = Requester.errored(jobID, error)
           assertError({ expected: req.status, actual: errorResp.statusCode }, errorResp, jobID)
         }
-        assert.deepEqual(sends, req.sends)
+        expect(sends).toEqual(req.sends)
       })
     })
   })

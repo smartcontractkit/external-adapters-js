@@ -1,4 +1,3 @@
-import { assert } from 'chai'
 import { assertSuccess } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
 import { makeExecute } from '../src/adapter'
@@ -11,7 +10,7 @@ describe('execute', () => {
   const uint256FuncId = '0xd2282dc5'
   const execute = makeExecute()
 
-  context('successful calls @integration', () => {
+  describe('successful calls @integration', () => {
     const requests = [
       {
         name: 'when writing uint256 to a contract',

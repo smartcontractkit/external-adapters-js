@@ -6,11 +6,11 @@ import { execute } from '../src/adapter'
  * Not all supported methods have a test case, just enough to display capability.
  */
 
-describe('Ethereum client @integration', async function () {
+describe('Ethereum client @integration', async () => {
   this.timeout(5000)
   const jobID = '278c97ffadb54a5bbb93cfec5f7b5503'
 
-  context('Unrecognized method', () => {
+  describe('Unrecognized method', () => {
     const req = {
       id: jobID,
       data: {
@@ -24,7 +24,7 @@ describe('Ethereum client @integration', async function () {
     })
   })
 
-  context('eth_getBalance', () => {
+  describe('eth_getBalance', () => {
     const req = {
       id: jobID,
       data: {
@@ -39,7 +39,7 @@ describe('Ethereum client @integration', async function () {
     })
   })
 
-  context('eth_syncing', () => {
+  describe('eth_syncing', () => {
     const req = {
       id: jobID,
       data: {
@@ -53,7 +53,7 @@ describe('Ethereum client @integration', async function () {
     })
   })
 
-  context('eth_gasPrice', () => {
+  describe('eth_gasPrice', () => {
     const req = {
       id: jobID,
       data: {
@@ -67,7 +67,7 @@ describe('Ethereum client @integration', async function () {
     })
   })
 
-  context('eth_blockNumber', () => {
+  describe('eth_blockNumber', () => {
     const req = {
       id: jobID,
       data: {
@@ -81,7 +81,7 @@ describe('Ethereum client @integration', async function () {
     })
   })
 
-  context('eth_getBalance', () => {
+  describe('eth_getBalance', () => {
     const req = {
       id: jobID,
       data: {
@@ -96,7 +96,7 @@ describe('Ethereum client @integration', async function () {
     })
   })
 
-  context('eth_getStorageAt', () => {
+  describe('eth_getStorageAt', () => {
     const req = {
       id: jobID,
       data: {
@@ -111,7 +111,7 @@ describe('Ethereum client @integration', async function () {
     })
   })
 
-  context('eth_call', () => {
+  describe('eth_call', () => {
     const req = {
       id: jobID,
       data: {
@@ -132,7 +132,7 @@ describe('Ethereum client @integration', async function () {
     })
   })
 
-  context('eth_getTransactionByHash', () => {
+  describe('eth_getTransactionByHash', () => {
     const req = {
       id: jobID,
       data: {
@@ -147,7 +147,7 @@ describe('Ethereum client @integration', async function () {
     })
   })
 
-  context('eth_getTransactionReceipt', () => {
+  describe('eth_getTransactionReceipt', () => {
     const req = {
       id: jobID,
       data: {
@@ -167,7 +167,7 @@ describe('Ethereum client @integration', async function () {
    * disabled for the standard test suite.
    */
 
-  context('eth_sign', () => {
+  describe('eth_sign', () => {
     const req = {
       id: jobID,
       data: {
@@ -182,7 +182,7 @@ describe('Ethereum client @integration', async function () {
     })
   })
 
-  context('eth_getProof', () => {
+  describe('eth_getProof', () => {
     const req = {
       id: jobID,
       data: {
@@ -204,7 +204,7 @@ describe('Ethereum client @integration', async function () {
     })
   })
 
-  context('eth_sendTransaction', () => {
+  describe('eth_sendTransaction', () => {
     const req = {
       id: jobID,
       data: {
@@ -225,7 +225,7 @@ describe('Ethereum client @integration', async function () {
     })
   })
 
-  context('eth_sendRawTransaction', () => {
+  describe('eth_sendRawTransaction', () => {
     const req = {
       id: jobID,
       data: {

@@ -6,11 +6,11 @@ import { execute } from '../src/adapter'
  * Not all supported methods have a test case, just enough to display capability.
  */
 
-describe('Bitcoin client @integration', function () {
+describe('Bitcoin client @integration', () => {
   this.timeout(5000)
   const jobID = '278c97ffadb54a5bbb93cfec5f7b5503'
 
-  context('Unrecognized method', () => {
+  describe('Unrecognized method', () => {
     const req = {
       id: jobID,
       data: {
@@ -24,7 +24,7 @@ describe('Bitcoin client @integration', function () {
     })
   })
 
-  context('getinfo', () => {
+  describe('getinfo', () => {
     const req = {
       id: jobID,
       data: {

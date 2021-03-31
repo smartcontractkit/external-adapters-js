@@ -1,4 +1,3 @@
-import { assert } from 'chai'
 import { Requester } from '@chainlink/ea-bootstrap'
 import {
   assertSuccess,
@@ -21,14 +20,14 @@ setTimeout(async function () {
 
   describe('execute', async () => {
     const execute = makeExecute({ rpcUrl, privateKey: TESTING_PRIVATE_KEY, api: {} })
-    after(async () => {
+    afterAll(async () => {
       await chain.close()
     })
     const jobID = '278c97ffadb54a5bbb93cfec5f7b5503'
     const bytes32FuncId = '0xc2b12a73'
     const int256FuncId = '0xa53b1c1e'
     const uint256FuncId = '0xd2282dc5'
-    context('successfully writes uint', async () => {
+    describe('successfully writes uint', async () => {
       const requests = [
         {
           name: 'without already encoded integer',
@@ -63,14 +62,14 @@ setTimeout(async function () {
           const data = await execute(req.testData as AdapterRequest)
           const contractReadResultUint = await contract.getUint256()
           assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
-          assert.equal(data.jobRunID, jobID)
-          assert.equal(req.uncodedResult, contractReadResultUint.toNumber())
+          expect(data.jobRunID).toEqual(jobID)
+          expect(req.uncodedResult).toEqual(contractReadResultUint.toNumber())
           assert.isNotEmpty(data.data)
         })
       })
     })
 
-    context('successfully writes int', async () => {
+    describe('successfully writes int', async () => {
       const requests = [
         {
           name: 'with already encoded negative number',
@@ -105,14 +104,14 @@ setTimeout(async function () {
           const data = await execute(req.testData as AdapterRequest)
           const contractReadResultInt = await contract.getInt256()
           assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
-          assert.equal(data.jobRunID, jobID)
-          assert.equal(req.uncodedResult, contractReadResultInt.toNumber())
+          expect(data.jobRunID).toEqual(jobID)
+          expect(req.uncodedResult).toEqual(contractReadResultInt.toNumber())
           assert.isNotEmpty(data.data)
         })
       })
     })
 
-    context('successfully writes bytes32', async () => {
+    describe('successfully writes bytes32', async () => {
       const uncodedResult = 'hello world'
       const requests = [
         {
@@ -135,14 +134,14 @@ setTimeout(async function () {
           const contractReadResultBytes = await contract.getBytes32()
 
           assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
-          assert.equal(data.jobRunID, jobID)
-          assert.equal(req.uncodedResult, ethers.utils.parseBytes32String(contractReadResultBytes))
+          expect(data.jobRunID).toEqual(jobID)
+          expect(req.uncodedResult).toEqual(ethers.utils.parseBytes32String(contractReadResultBytes))
           assert.isNotEmpty(data.data)
         })
       })
     })
 
-    context('validation error', () => {
+    describe('validation error', () => {
       const requests = [
         { name: 'empty body', testData: {} },
         { name: 'empty data', testData: { data: {} } },
@@ -160,7 +159,7 @@ setTimeout(async function () {
       })
     })
 
-    context('error calls @integration', () => {
+    describe('error calls @integration', () => {
       const requests = [
         {
           name: 'with sending string while int datatype and func',

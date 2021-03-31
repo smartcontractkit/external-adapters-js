@@ -1,4 +1,3 @@
-import { assert } from 'chai'
 import { Requester } from '@chainlink/ea-bootstrap'
 import { assertError } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
@@ -12,7 +11,7 @@ describe('execute', () => {
   process.env.DATA_PROVIDER_URL = 'ignoreable'
   const execute = makeExecute(makeConfig(''))
 
-  context('validation error', () => {
+  describe('validation error', () => {
     const requests = [
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },
@@ -34,7 +33,7 @@ describe('execute', () => {
     })
   })
 
-  context('error calls @integration', () => {
+  describe('error calls @integration', () => {
     const requests = [
       {
         name: 'invalid units',
@@ -57,7 +56,7 @@ describe('execute', () => {
     })
   })
 
-  context('calculate total price value', () => {
+  describe('calculate total price value', () => {
     const allocations: TokenAllocations = [
       {
         symbol: 'wBTC',
@@ -90,7 +89,7 @@ describe('execute', () => {
       }
       const value = priceTotalValue(allocations, 'USD', data)
       const expectedValue = 11
-      assert.strictEqual(value, expectedValue)
+      expect(value).toBe(expectedValue)
     })
 
     it('price value is correct #2', () => {
@@ -112,7 +111,7 @@ describe('execute', () => {
       }
       const value = priceTotalValue(allocations, 'USD', data)
       const expectedValue = 34.1
-      assert.strictEqual(value, expectedValue)
+      expect(value).toBe(expectedValue)
     })
   })
 })

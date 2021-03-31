@@ -11,7 +11,7 @@ import { makeExecute } from '../src/adapter'
 describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
-  context('successful calls @integration', () => {
+  describe('successful calls @integration', () => {
     const requests = [
       {
         name: 'get height with endpoint convention',
@@ -51,7 +51,7 @@ describe('execute', () => {
     })
   })
 
-  context('error calls @integration', () => {
+  describe('error calls @integration', () => {
     const requests = [
       {
         name: 'endpoint not existing',

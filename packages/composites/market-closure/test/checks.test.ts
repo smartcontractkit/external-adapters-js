@@ -1,8 +1,7 @@
-import { assert } from 'chai'
 import { CheckProvider, getCheckImpl } from '../src/checks'
 
 describe('checkWithSchedule', () => {
-  context('successful calls @integration', () => {
+  describe('successful calls @integration', () => {
     const requests = [
       {
         name: 'successful check tradinghours',
@@ -60,7 +59,7 @@ describe('checkWithSchedule', () => {
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         const check = getCheckImpl(req.check)
-        assert.isBoolean(await check(req.input))
+        expect(typeof await check(req.input)).toBe('boolean')
       })
     })
   })
