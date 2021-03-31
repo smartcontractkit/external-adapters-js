@@ -1733,6 +1733,7 @@ __metadata:
   resolution: "@chainlink/external-adapters-js@workspace:."
   dependencies:
     "@tsconfig/node12": ^1.0.7
+    "@types/node": ^14.14.35
     decimal.js: ^10.2.0
     eslint: ^7.22.0
     eslint-config-prettier: ^8.1.0
@@ -1745,6 +1746,9 @@ __metadata:
     ethers: ^5.0.26
     express: ^4.17.0
     prettier: ^2.0.5
+    shelljs: ^0.8.4
+    ts-node: ^9.1.1
+    typescript: ^4.2.3
     web3: ^1.2.11
   languageName: unknown
   linkType: soft
@@ -9921,7 +9925,7 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"glob@npm:7.1.6, glob@npm:^7.1.3, glob@npm:^7.1.4":
+"glob@npm:7.1.6, glob@npm:^7.0.0, glob@npm:^7.1.3, glob@npm:^7.1.4":
   version: 7.1.6
   resolution: "glob@npm:7.1.6"
   dependencies:
@@ -10707,7 +10711,7 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"interpret@npm:^1.1.0":
+"interpret@npm:^1.0.0, interpret@npm:^1.1.0":
   version: 1.4.0
   resolution: "interpret@npm:1.4.0"
   checksum: f15725d76206525546f559030ddc967db025c6db904eb8798a70ec3c07e42c5537c5cbc73a15eafd4ae5cdabad35601abf8878261c03dcc8217747e8037575fe
@@ -14907,6 +14911,19 @@ resolve@1.17.0:
   version: 3.0.0
   resolution: "shebang-regex@npm:3.0.0"
   checksum: ea18044ffaf18129ced5a246660a9171a7dff98999aaa9de8abb237d8a7711d8a1f76e16881399994ee429156717ce1c6a50c665bb18a4d55a7f80b9125b1f7d
+  languageName: node
+  linkType: hard
+
+"shelljs@npm:^0.8.4":
+  version: 0.8.4
+  resolution: "shelljs@npm:0.8.4"
+  dependencies:
+    glob: ^7.0.0
+    interpret: ^1.0.0
+    rechoir: ^0.6.2
+  bin:
+    shjs: bin/shjs
+  checksum: bdf68e3c2a8a6d191dde3be2800bfcfd688c126344ccaf6cf7024cdaf824d0d3523b8e514cd52264f739cbabd2b0569637dd5a8183377347225af918e03ff5dc
   languageName: node
   linkType: hard
 
