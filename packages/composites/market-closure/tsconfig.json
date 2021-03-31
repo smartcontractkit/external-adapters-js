@@ -2,9 +2,7 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": "src",
-    "types": ["node", "market-closure", "mocha"],
-    "typeRoots": ["../../../node_modules/@types", "../../core/types", "./types"]
+    "rootDir": "src"
   },
   "include": ["src/**/*"],
   "exclude": ["dist", "**/*.spec.ts", "**/*.test.ts"],
