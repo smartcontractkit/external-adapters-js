@@ -3,8 +3,6 @@
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "src",
-
-    "typeRoots": ["../../../node_modules/@types", "../types", "./types"],
     "resolveJsonModule": true,
     "composite": true
   },
