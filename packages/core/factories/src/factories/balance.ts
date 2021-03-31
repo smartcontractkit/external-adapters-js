@@ -1,12 +1,12 @@
+import { AdapterError, util, Validator } from '@chainlink/ea-bootstrap'
 import {
-  ExecuteFactory,
+  Account,
   Config,
   DataResponse,
-  Account,
+  ExecuteFactory,
   SequenceResponseData,
 } from '@chainlink/types'
 import objectPath from 'object-path'
-import { Validator, AdapterError, util } from '@chainlink/ea-bootstrap'
 
 const DEFAULT_DATA_PATH = 'result'
 const DEFAULT_CONFIRMATIONS = 6
@@ -100,7 +100,7 @@ export const make: ExecuteFactory<BalanceConfig> = (config) => async (input) => 
 
   const data: SequenceResponseData<Account> = {
     responses: responses.map((r: any) => r.payload),
-    result: accounts.map((a, i) => responseLookup[`${a.address}-${a.coin}-${a.chain}`] || a),
+    result: accounts.map((a) => responseLookup[`${a.address}-${a.coin}-${a.chain}`] || a),
   }
 
   if (!config.verbose) delete data.responses

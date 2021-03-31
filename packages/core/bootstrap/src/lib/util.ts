@@ -1,8 +1,8 @@
 import { AdapterImplementation } from '@chainlink/types'
-import { v4 as uuidv4 } from 'uuid'
 import { Decimal } from 'decimal.js'
-import objectHash from 'object-hash'
 import { flatMap, values } from 'lodash'
+import objectHash from 'object-hash'
+import { v4 as uuidv4 } from 'uuid'
 
 export const isObject = (o: unknown): boolean =>
   o !== null && typeof o === 'object' && Array.isArray(o) === false
@@ -66,7 +66,7 @@ export const getWithCoalescing = async ({
   get,
   isInFlight,
   retries = 5,
-  interval = (retryCount) => 100,
+  interval = () => 100,
 }: {
   get: (retryCount: number) => unknown
   isInFlight: (retryCount: number) => unknown
@@ -224,7 +224,7 @@ const permutations = (collection: any, n: any) => {
  * @returns Array of permutations
  */
 export const permutator = (options: string[], delimiter?: string): string[] | string[][] => {
-  const output: string[][] = flatMap(options, (v: any, i: any, a: any) => permutations(a, i + 1))
+  const output: string[][] = flatMap(options, (_: any, i: any, a: any) => permutations(a, i + 1))
   const join = (combos: string[][]) => combos.map((p) => p.join(delimiter))
   return typeof delimiter === 'string' ? join(output) : output
 }

@@ -1,6 +1,7 @@
-import limits from './limits.json'
-const Limits: Record<string, any> = limits // ugly solution to dynamically reference JSON properties
 import * as config from './config'
+import limits from './limits.json'
+
+const Limits: Record<string, any> = limits // ugly solution to dynamically reference JSON properties
 
 export interface ProviderRateLimit {
   burst: number

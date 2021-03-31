@@ -1,10 +1,9 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { AdapterResponse, Execute, AdapterRequest } from '@chainlink/types'
-import { makeConfig, Config } from './config'
+import { AdapterRequest, AdapterResponse, Execute } from '@chainlink/types'
 
 const customParams = {}
 
-export const execute = async (input: AdapterRequest, config: Config): Promise<AdapterResponse> => {
+export const execute = async (input: AdapterRequest): Promise<AdapterResponse> => {
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
 
@@ -14,6 +13,6 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
   return Requester.success(jobRunID, response)
 }
 
-export const makeExecute = (config?: Config): Execute => {
-  return async (request: AdapterRequest) => execute(request, config || makeConfig())
+export const makeExecute = (): Execute => {
+  return async (request: AdapterRequest) => execute(request)
 }

@@ -1,6 +1,6 @@
-import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, ExecuteFactory, Config } from '@chainlink/types'
-import { makeConfig, DEFAULT_ENDPOINT } from './config'
+import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Config, ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
+import { DEFAULT_ENDPOINT, makeConfig } from './config'
 import { attestations } from './endpoint'
 
 const inputParams = {
@@ -22,7 +22,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
       const validator = new Validator(request, attestations.inputParams)
       if (validator.error) throw validator.error
 
-      result = await attestations.execute(config, request, validator.validated.data)
+      result = await attestations.execute(config, validator.validated.data)
       break
     }
     default: {
