@@ -1,12 +1,6 @@
-import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Config, ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
 import { makeConfig } from './config'
-
-const customError = (data: any) => {
-  if (Object.keys(data).length < 1) return true
-  if (!('health' in data) || !data.health) return true
-  return false
-}
 
 const customParams = {
   speed: false,

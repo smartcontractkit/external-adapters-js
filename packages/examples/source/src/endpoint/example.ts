@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config } from '@chainlink/types'
+import { Config, ExecuteWithConfig } from '@chainlink/types'
 
 export const NAME = 'example' // This should be filled in with a lowercase name corresponding to the API endpoint
 
@@ -18,7 +18,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const jobRunID = validator.validated.id
   const base = validator.validated.data.base
   const quote = validator.validated.data.quote
-  const field = validator.validated.data.field || 'price'
   const url = `price`
 
   const params = {

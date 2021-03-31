@@ -1,5 +1,5 @@
-import { ExecuteFactory, Execute, Config } from '@chainlink/types'
+import { Config, Execute, ExecuteFactory } from '@chainlink/types'
 // TODO make new Config type for implementation factories
-export const make: ExecuteFactory<Config> = (config) => {
+export const make: ExecuteFactory<Config> = () => {
   return {} as Execute // Placeholder
 }

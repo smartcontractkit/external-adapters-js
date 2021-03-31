@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config } from '@chainlink/types'
+import { Config, ExecuteWithConfig } from '@chainlink/types'
 import { authenticate, convert, getAssetId } from '../helpers'
 
 export const NAME = 'price'
@@ -9,7 +9,7 @@ const customParams = {
   quote: ['quote', 'to', 'market'],
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, config) => {
+export const execute: ExecuteWithConfig<Config> = async (request) => {
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 
