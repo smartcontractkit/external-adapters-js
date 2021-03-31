@@ -7,7 +7,7 @@ WORKDIR /home/node/app
 COPY . .
 RUN yarn workspace $package clean
 RUN yarn
-RUN yarn workspace $package setup
+RUN yarn workspace $package build
 RUN npx @vercel/ncc@0.25.1 build packages/$type/$name -o packages/$type/$name/dist
 
 FROM node:12-alpine
