@@ -10,8 +10,11 @@ The CVI's calculation is based on the classic approach of the Black-Scholes opti
 
 The CVI calculation requires the following environment variables:
 
-- `RPC_URL`: Blockchain RPC endpoint to get the needed on-chain data
+| Required? |   Name    |                       Description                       | Options | Defaults to |
+| :-------: | :-------: | :-----------------------------------------------------: | :-----: | :---------: |
+|    ✅     | `RPC_URL` | Blockchain RPC endpoint to get the needed on-chain data |         |             |
 
+**Additional environment variables must be set according to the Token Allocation adapter.**
 This composite adapter executes the code from the Token Allocation composite adapter. As such the same configuration and input parameters apply to this adapter. See [../token-allocation/README.md](../token-allocation/README.md) for more details.
 
 **The chosen data provider must support MarketCap.**

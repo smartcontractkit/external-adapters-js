@@ -30,24 +30,23 @@ Optionally the default behavior of the composite adapter can be configured
 
 See the [Composite Adapter README](../README.md) for more information on how to get started.
 
-## Input Params
+### Input Params
 
 | Required? |     Name      |                       Description                       |                                                 Options                                                 |                Defaults to                |
 | :-------: | :-----------: | :-----------------------------------------------------: | :-----------------------------------------------------------------------------------------------------: | :---------------------------------------: |
 |    ✅     |   `source`    |               The data provider to query                | `amberdata`, `coinapi`, `coingecko`, `coinmarketcap`, `coinpaprika`, `cryptocompare`, `kaiko`, `nomics` |                                           |
 |           |    `quote`    |             Currency we want the price on.              |                                                                                                         | The `DEFAULT_QUOTE` environment variable  |
 |           |   `method`    | Method we want the total value calculation be based on. |                                          `price`, `marketCap`                                           | The `DEFAULT_METHOD` environment variable |
-|    ✅     | `allocations` |      Array of allocations, being each allocation:       |                                                                                                         |
+|    ✅     | `allocations` |      Array of allocations (see below)       |                                                                                                         |
 
-<div align="center">
+#### Allocation Params
+Parameters for each allocation in the `allocations` array
 
 | Required |    Name    |  Description   | Default |
 | :------: | :--------: | :------------: | :-----: |
 |    ✅    |  `symbol`  |  Token symbol  |         |
 |          | `balance`  | Token balance  | `1e18`  |
 |          | `decimals` | Token decimals |  `18`   |
-
-</div>
 
 ### Sample Input
 

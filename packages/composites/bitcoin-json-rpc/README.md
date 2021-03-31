@@ -6,7 +6,9 @@ The adapter provides an interface for retrieving data from the Bitcoin blockchai
 
 The adapter takes the following environment variables:
 
-- `RPC_URL` (Optional): Blockchain RPC endpoint that defaults to `"http://localhost:8545"`
+| Required? |   Name    |       Description       | Options |       Defaults to       |
+| :-------: | :-------: | :---------------------: | :-----: | :---------------------: |
+|           | `RPC_URL` | Blockchain RPC endpoint |         | `http://localhost:8545` |
 
 Other common `RPC_URL` endpoints:
 
@@ -28,6 +30,7 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 |           | `endpoint` | Parameter to query for |         | `difficulty` |
 
 ### Sample Input
+
 ```json
 {
   "jobID": "1",

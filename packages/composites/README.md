@@ -18,12 +18,16 @@ Ensure that the project's dependencies are installed and that the code is compil
 yarn && yarn build
 ```
 
-Run the underlying external adapters and set their locations as environment variables.
+Run the underlying external adapters and set their locations as environment variables. For example, using the [proof-of-reserves](./proof-of-reservers) composite adapter with the [WBTC](../sources/wbtc-address-set) and [blockchain.com](../sources/blockchain.com) adapters.
+
+```bash
+export WBTC_DATA_PROVIDER_URL=localhost:3000 BLOCKCHAIN_COM_DATA_PROVIDER_URL=localhost:3001
+```
 
 Change directories into proof-of-reserves and start the server:
 
 ```bash
-cd composite/proof-of-reserves && yarn start
+cd composites/proof-of-reserves && yarn start
 ```
 
 ### Docker
