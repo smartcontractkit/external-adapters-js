@@ -64,6 +64,7 @@ function setupMetricsServer() {
   const metricsPort = process.env.METRICS_PORT || 9080
 
   metricsApp.get('/metrics', async (_, res) => {
+    res.type('txt')
     res.send(await client.register.metrics())
   })
 
