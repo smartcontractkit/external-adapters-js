@@ -13,6 +13,8 @@
     "packages/2-step/*"
   ],
   "scripts": {
+    "new": "ts-node ./scripts/new.ts",
+    "docker": "ts-node ./scripts/docker.ts",
     "clean": "yarn workspaces foreach -pv run clean",
     "lint": "yarn workspaces foreach -pv run lint",
     "lint:fix": "yarn workspaces foreach -pv run lint:fix",
@@ -29,6 +31,7 @@
   },
   "devDependencies": {
     "@tsconfig/node12": "^1.0.7",
+    "@types/node": "^14.14.35",
     "eslint": "^7.22.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-config-standard": "^16.0.2",
@@ -37,7 +40,10 @@
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-promise": "^4.3.1",
     "eslint-plugin-standard": "^5.0.0",
-    "prettier": "^2.0.5"
+    "prettier": "^2.0.5",
+    "shelljs": "^0.8.4",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.3"
   },
   "prettier": {
     "semi": false,
