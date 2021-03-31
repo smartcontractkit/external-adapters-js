@@ -2,21 +2,40 @@
 
 DNS Record Check lets query DNS over HTTPS (DoH) and check whether some record provided exists
 
-## Input Params
-
-- `record` (required): Record to check, eg: "adex-publisher"
+## Configuration
 
 This adapter relies on [`dns-query`](../../dns-query/README.md) adapter. Required `dns-query` input params and configuration apply to this adapter as well.
 
-## Output
+## Running
+
+See the [Composite Adapter README](../README.md) for more information on how to get started.
+
+### Input Params
+
+| Required? |   Name   |             Description              | Options | Defaults to |
+| :-------: | :------: | :----------------------------------: | :-----: | :---------: |
+|    ✅     | `record` | name of record, eg: "adex-publisher" |         |             |
+
+### Sample Input
 
 ```json
 {
-    "jobRunID": "1",
-    "data": {
-        "result": true
-    },
-    "result": true,
-    "statusCode": 200
+  "jobID": "1",
+  "data": {
+    "record": "adex-publisher"
+  }
+}
+```
+
+### Sample Output
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "result": true
+  },
+  "result": true,
+  "statusCode": 200
 }
 ```

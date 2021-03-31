@@ -1,14 +1,43 @@
 # Bitcoin JSON-RPC Blockchain info adapter for Chainlink
 
-- Takes optional connection to RPC endpoint (set via `RPC_URL` environment variable)
+The adapter provides an interface for retrieving data from the Bitcoin blockchain.
 
-## Input Params
+## Configuration
 
-Returns blockchain info stats, by calling `"method": "getblockchainfo"`. It relies on `json-rpc` adapter.
+The adapter takes the following environment variables:
+
+- `RPC_URL` (Optional): Blockchain RPC endpoint that defaults to `"http://localhost:8545"`
+
+Other common `RPC_URL` endpoints:
+
+- bitcoind: http://localhost:8332
+- btcd: http://localhost:8334
+
+This composite adapter incorporates the [`json-rpc`](../../sources/json-rpc) adapter by calling `"method": "getblockchainfo"`.
+
+## Running
+
+See the [Composite Adapter README](../README.md) for more information on how to get started.
 
 - `endpoint`: The parameter to query for. Default: "difficulty"
 
-## Output
+### Input Params
+
+| Required? |    Name    |      Description       | Options | Defaults to  |
+| :-------: | :--------: | :--------------------: | :-----: | :----------: |
+|           | `endpoint` | Parameter to query for |         | `difficulty` |
+
+### Sample Input
+```json
+{
+  "jobID": "1",
+  "data": {
+    "endpoint": "difficulty"
+  }
+}
+```
+
+### Sample Output
 
 ```json
 {
@@ -62,16 +91,6 @@ Returns blockchain info stats, by calling `"method": "getblockchainfo"`. It reli
   "statusCode": 200
 }
 ```
-
-## Install
-
-Install dependencies
-
-```bash
-yarn
-```
-
-Set the `RPC_URL` environment variable to your client URL.
 
 ## Testing
 
