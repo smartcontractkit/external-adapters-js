@@ -43,7 +43,8 @@
     "@chainlink/ea-factories": "*",
     "@chainlink/ea-test-helpers": "*",
     "blockcypher": "^0.3.0",
-    "object-path": "^0.11.4"
+    "object-path": "^0.11.4",
+    "tslib": "^2.1.0"
   },
   "devDependencies": {
     "@chainlink/types": "0.0.1",
