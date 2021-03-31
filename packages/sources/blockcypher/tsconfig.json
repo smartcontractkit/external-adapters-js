@@ -7,5 +7,9 @@
   },
   "include": ["src/**/*"],
   "exclude": ["dist", "**/*.spec.ts", "**/*.test.ts"],
-  "references": [{ "path": "../../core/bootstrap" }, { "path": "../../core/factories" }]
+  "references": [
+    { "path": "../../core/test-helpers" },
+    { "path": "../../core/bootstrap" },
+    { "path": "../../core/factories" }
+  ]
 }
