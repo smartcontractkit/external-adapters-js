@@ -7,6 +7,7 @@
   "include": ["src/**/*"],
   "exclude": ["dist", "**/*.spec.ts", "**/*.test.ts"],
   "references": [
+    { "path": "../../core/test-helpers" },
     { "path": "../../sources/amberdata" },
     { "path": "../../sources/blockchain.com" },
     { "path": "../../sources/blockchair" },
