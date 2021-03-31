@@ -4,13 +4,7 @@
   "license": "MIT",
   "private": true,
   "workspaces": [
-    "packages/core/*",
-    "packages/examples/*",
-    "packages/sources/*",
-    "packages/sources/helpers/*",
-    "packages/targets/*",
-    "packages/composites/*",
-    "packages/2-step/*"
+    "packages/**/*"
   ],
   "scripts": {
     "new": "ts-node ./scripts/new.ts",

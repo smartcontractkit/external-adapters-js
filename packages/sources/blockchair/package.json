@@ -5,7 +5,8 @@
   "main": "dist/index.js",
   "scripts": {
     "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
-    "prepublishOnly": "yarn build && yarn test:unit",
+    "prepublish": "yarn test:unit",
+    "prepack": "yarn build",
     "setup": "yarn clean && yarn build",
     "build": "tsc -b",
     "lint": "eslint --ignore-path ../../../.eslintignore . --ext .js,.jsx,.ts,.tsx",
@@ -32,6 +33,7 @@
     "dist"
   ],
   "devDependencies": {
+    "@chainlink/types": "0.0.1",
     "@types/chai": "^4.2.15",
     "@types/mocha": "^8.2.2",
     "@types/node": "^14.14.35",
