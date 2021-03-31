@@ -14,7 +14,7 @@ The adapter takes the following environment variables:
 
 | Required? |                    Name                     |                                 Description                                 | Options | Defaults to |
 | :-------: | :-----------------------------------------: | :-------------------------------------------------------------------------: | :-----: | :---------: |
-|    🟡     | `CHECK_API_KEY` (when using `tradinghours`) |                 An API key when needed by a check provider                  |         |             |
+|           | `CHECK_API_KEY` (when using `tradinghours`) |                 An API key when needed by a check provider                  |         |             |
 |    ✅     |        `{SOURCE}_DATA_PROVIDER_URL`         | The URL location for the price data provider adapter when `source={SOURCE}` |         |             |
 |    ✅     |                  `RPC_URL`                  |                ETH RPC URL to read the reference data value                 |         |             |
 
@@ -30,7 +30,7 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 |    ✅     |            `source`             |                            The source data provider for the price                             |                            |             |
 |    ✅     | `referenceContract`, `contract` |                 The Aggregator contract to call for its latest round's price                  |                            |             |
 |    ✅     |           `multiply`            | To handle big numbers, the amount to divide the output from reading the reference contract by |                            |             |
-|    🟡     |           `schedule`            |                   A schedule of market times to check whether they are open                   |                            |             |
+|           |           `schedule`            |                   A schedule of market times to check whether they are open                   |                            |             |
 
 Additionally, the underlying adapter may have parameters.
 
@@ -39,7 +39,7 @@ For example Finnhub uses the following:
 | Required? |           Name            |         Description          | Options | Defaults to |
 | :-------: | :-----------------------: | :--------------------------: | :-----: | :---------: |
 |    ✅     | `base`, `asset` or `from` | The target currency to query |         |             |
-|    🟡     |        `endpoint`         |     The endpoint to call     |         |             |
+|           |        `endpoint`         |     The endpoint to call     |         |             |
 
 An example schedule looks like:
 
