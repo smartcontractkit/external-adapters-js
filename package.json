@@ -24,7 +24,6 @@
     "web3": "^1.2.11"
   },
   "devDependencies": {
-    "@tsconfig/node12": "^1.0.7",
     "@types/node": "^14.14.35",
     "eslint": "^7.22.0",
     "eslint-config-prettier": "^8.1.0",
