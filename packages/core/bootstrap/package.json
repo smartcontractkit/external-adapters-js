@@ -12,7 +12,6 @@
     "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
     "prepublish": "yarn test",
     "prepack": "yarn build",
-    "setup": "yarn clean && yarn build",
     "build": "tsc -b",
     "dev:remotedev": "./scripts/remotedev.sh",
     "dev:metrics": "docker-compose up -d",

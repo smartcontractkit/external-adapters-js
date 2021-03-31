@@ -21,7 +21,6 @@
   "scripts": {
     "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
     "prepublishOnly": "yarn && yarn build",
-    "setup": "yarn clean && yarn build",
     "build": "tsc -b",
     "lint": "eslint --ignore-path ../../../.eslintignore . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint --ignore-path ../../../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix",
