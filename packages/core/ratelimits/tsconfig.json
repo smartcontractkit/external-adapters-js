@@ -3,7 +3,7 @@
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "src",
-    "types": ["mocha"],
+
     "typeRoots": ["../../../node_modules/@types", "../types", "./types"],
     "resolveJsonModule": true,
     "composite": true
