@@ -1,4 +1,4 @@
-FROM node:12 as builder
+FROM node:14 as builder
 ARG type
 ARG name
 ARG package
@@ -10,7 +10,7 @@ RUN yarn
 RUN yarn workspace $package build
 RUN npx @vercel/ncc@0.25.1 build packages/$type/$name -o packages/$type/$name/dist
 
-FROM node:12-alpine
+FROM node:14-alpine
 ARG type
 ARG name
 EXPOSE 8080
