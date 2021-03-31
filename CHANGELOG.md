@@ -22,6 +22,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Added a per-provider ratelimit reference
 - Added Prometheus metrics
 - `tradingeconomics` will now get stream data from TradingEconomics using a persistent WS connection
+- `make` commands are now TypeScript files that can be run through yarn scripts
 
 ### Fixed
 

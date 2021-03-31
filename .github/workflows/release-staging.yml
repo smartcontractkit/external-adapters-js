@@ -49,7 +49,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
       - name: Build Docker containers
-        run: ${{ matrix.adapter.docker }} repo="public.ecr.aws/${{ env.publicecr-name }}/adapters/"
+        run: ${{ matrix.adapter.docker }} public.ecr.aws/${{ env.publicecr-name }}/adapters/
       - name: Configure staging AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
