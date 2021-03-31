@@ -1,6 +1,6 @@
-import { MarketClosure, Schedule } from 'market-closure'
-import { AdapterRequest } from '@chainlink/types'
 import { Validator } from '@chainlink/ea-bootstrap'
+import { AdapterRequest } from '@chainlink/types'
+import { MarketClosure, Schedule } from 'market-closure'
 
 const customParams = {
   schedule: false,
