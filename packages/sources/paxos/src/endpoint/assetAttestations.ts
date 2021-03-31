@@ -1,5 +1,5 @@
 import { Requester } from '@chainlink/ea-bootstrap'
-import { AdapterRequest, Config } from '@chainlink/types'
+import { Config } from '@chainlink/types'
 import { BASE_URL } from '../config'
 
 export const Name = 'assetAttestation'
@@ -38,11 +38,7 @@ const toAttestation = async (config: Config, asset: string): Promise<Attestation
   }
 }
 
-export const execute = async (
-  config: Config,
-  request: AdapterRequest,
-  data: RequestData,
-): Promise<Attestation> => {
+export const execute = async (config: Config, data: RequestData): Promise<Attestation> => {
   const asset = data.asset
 
   if (!asset) throw Error('asset must be provided')
