@@ -1,6 +1,6 @@
-import { assert } from 'chai'
-import { successes, validationErrors, serverErrors } from '../helpers'
 import { Execute } from '@chainlink/types'
+import { assert } from 'chai'
+import { serverErrors, successes, validationErrors } from '../helpers'
 
 function base(execute: Execute) {
   describe('it should behave like a balance adapter', () => {
@@ -245,8 +245,6 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
 
   ethereum_mainnet: (execute) => {
     describe('it should support ethereum mainnet', () => {
-      const jobID = '1'
-
       const assertions = (request: any, response: any) => {
         const numAddr = request?.testData?.data?.result.length
         assert.isAbove(Number(response.data.result.length), 0)
@@ -282,8 +280,6 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
 
   ethereum_testnet: (execute) => {
     describe('it should support ethereum testnet', () => {
-      const jobID = '1'
-
       const assertions = (request: any, response: any) => {
         const numAddr = request?.testData?.data?.result.length
         assert.isAbove(Number(response.data.result.length), 0)
@@ -319,8 +315,6 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
 
   bitcoin_cash_mainnet: (execute) => {
     describe('it should support bitcoin cash mainnet', () => {
-      const jobID = '1'
-
       const assertions = (request: any, response: any) => {
         const numAddr = request?.testData?.data?.result.length
         assert.isAbove(Number(response.data.result.length), 0)
@@ -356,8 +350,6 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
 
   bitcoin_cash_testnet: (execute) => {
     describe('it should support bitcoin cash testnet', () => {
-      const jobID = '1'
-
       const assertions = (request: any, response: any) => {
         const numAddr = request?.testData?.data?.result.length
         assert.isAbove(Number(response.data.result.length), 0)
@@ -393,8 +385,6 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
 
   bitcoin_sv_mainnet: (execute) => {
     describe('it should support bitcoin sv mainnet', () => {
-      const jobID = '1'
-
       const assertions = (request: any, response: any) => {
         const numAddr = request?.testData?.data?.result.length
         assert.isAbove(Number(response.data.result.length), 0)
@@ -430,8 +420,6 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
 
   bitcoin_sv_testnet: (execute) => {
     describe('it should support bitcoin sv testnet', () => {
-      const jobID = '1'
-
       const assertions = (request: any, response: any) => {
         const numAddr = request?.testData?.data?.result.length
         assert.isAbove(Number(response.data.result.length), 0)
@@ -467,8 +455,6 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
 
   litecoin_mainnet: (execute) => {
     describe('it should support litecoin mainnet', () => {
-      const jobID = '1'
-
       const assertions = (request: any, response: any) => {
         const numAddr = request?.testData?.data?.result.length
         assert.isAbove(Number(response.data.result.length), 0)
@@ -504,8 +490,6 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
 
   litecoin_testnet: (execute) => {
     describe('it should support litecoin testnet', () => {
-      const jobID = '1'
-
       const assertions = (request: any, response: any) => {
         const numAddr = request?.testData?.data?.result.length
         assert.isAbove(Number(response.data.result.length), 0)
@@ -541,8 +525,6 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
 
   zcash_mainnet: (execute) => {
     describe('it should support zcash mainnet', () => {
-      const jobID = '1'
-
       const assertions = (request: any, response: any) => {
         const numAddr = request?.testData?.data?.result.length
         assert.isAbove(Number(response.data.result.length), 0)
@@ -578,8 +560,6 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
 
   zcash_testnet: (execute) => {
     describe('it should support zcash testnet', () => {
-      const jobID = '1'
-
       const assertions = (request: any, response: any) => {
         const numAddr = request?.testData?.data?.result.length
         assert.isAbove(Number(response.data.result.length), 0)
@@ -615,8 +595,6 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
 
   doge_mainnet: (execute) => {
     describe('it should support doge mainnet', () => {
-      const jobID = '1'
-
       const assertions = (request: any, response: any) => {
         const numAddr = request?.testData?.data?.result.length
         assert.isAbove(Number(response.data.result.length), 0)
@@ -652,8 +630,6 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
 
   doge_testnet: (execute) => {
     describe('it should support doge testnet', () => {
-      const jobID = '1'
-
       const assertions = (request: any, response: any) => {
         const numAddr = request?.testData?.data?.result.length
         assert.isAbove(Number(response.data.result.length), 0)
@@ -689,8 +665,6 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
 
   zilliqa_mainnet: (execute) => {
     describe('it should support zilliqa mainnet', () => {
-      const jobID = '1'
-
       const assertions = (request: any, response: any) => {
         const numAddr = request?.testData?.data?.result.length
         assert.isAbove(Number(response.data.result.length), 0)
@@ -726,8 +700,6 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
 
   zilliqa_testnet: (execute) => {
     describe('it should support zilliqa testnet', () => {
-      const jobID = '1'
-
       const assertions = (request: any, response: any) => {
         const numAddr = request?.testData?.data?.result.length
         assert.isAbove(Number(response.data.result.length), 0)
@@ -763,8 +735,6 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
 
   dash_mainnet: (execute) => {
     describe('it should support dash mainnet', () => {
-      const jobID = '1'
-
       const assertions = (request: any, response: any) => {
         const numAddr = request?.testData?.data?.result.length
         assert.isAbove(Number(response.data.result.length), 0)
@@ -800,8 +770,6 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
 
   dash_testnet: (execute) => {
     describe('it should support dash testnet', () => {
-      const jobID = '1'
-
       const assertions = (request: any, response: any) => {
         const numAddr = request?.testData?.data?.result.length
         assert.isAbove(Number(response.data.result.length), 0)
@@ -837,8 +805,6 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
 
   ethereum_classic_mainnet: (execute) => {
     describe('it should support ethereum_classic mainnet', () => {
-      const jobID = '1'
-
       const assertions = (request: any, response: any) => {
         const numAddr = request?.testData?.data?.result.length
         assert.isAbove(Number(response.data.result.length), 0)
@@ -874,8 +840,6 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
 
   ethereum_classic_testnet: (execute) => {
     describe('it should support ethereum_classic testnet', () => {
-      const jobID = '1'
-
       const assertions = (request: any, response: any) => {
         const numAddr = request?.testData?.data?.result.length
         assert.isAbove(Number(response.data.result.length), 0)
@@ -911,8 +875,6 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
 
   groestlcoin_mainnet: (execute) => {
     describe('it should support groestlcoin mainnet', () => {
-      const jobID = '1'
-
       const assertions = (request: any, response: any) => {
         const numAddr = request?.testData?.data?.result.length
         assert.isAbove(Number(response.data.result.length), 0)

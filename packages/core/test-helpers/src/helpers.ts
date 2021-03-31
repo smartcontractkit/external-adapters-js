@@ -1,6 +1,6 @@
-import { assert } from 'chai'
 import { Requester } from '@chainlink/ea-bootstrap'
 import { AdapterRequest, Execute } from '@chainlink/types'
+import { assert } from 'chai'
 
 export function assertError(statusCode: any, data: any, expectedJobId: any) {
   assert.equal(statusCode.actual, statusCode.expected)
