@@ -4,9 +4,26 @@
 
 The adapter takes the following environment variables:
 
-- `API_ENDPOINT`: wBTC endpoint to call
+| Required? |      Name      |      Description      | Options | Defaults to |
+| :-------: | :------------: | :-------------------: | :-----: | :---------: |
+|    ✅     | `API_ENDPOINT` | wBTC endpoint to call |         |             |
 
-## Output
+## Running
+
+### Input Params
+
+No input parameters.
+
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {}
+}
+```
+
+### Sample Output
 
 ```json
 {

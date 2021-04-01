@@ -4,22 +4,35 @@
 
 The adapter takes the following environment variables:
 
-- `API_KEY`: Optional blockcypher.com API key to use
+| Required? |   Name    |          Description           | Options | Defaults to |
+| :-------: | :-------: | :----------------------------: | :-----: | :---------: |
+|           | `API_KEY` | blockcypher.com API key to use |         |             |
 
-## Input Params
+### Input Params
 
-- `endpoint`: Optional endpoint param, defaults to `balance`
+| Required? |   Name   |     Description     | Options | Defaults to |
+| :-------: | :------: | :-----------------: | :-----: | :---------: |
+|           | endpoint | The endpoint to use |         |  `balance`  |
 
-### Balance endpoint
+## Balance endpoint
 
-- `dataPath`: Optional path where to find the addresses array, defaults to `result`
-- `confirmations`: Optional confirmations param, defaults to `6`
+### Input Params
 
-Address object:
+| Required? |      Name       |                                 Description                                 | Options | Defaults to |
+| :-------: | :-------------: | :-------------------------------------------------------------------------: | :-----: | :---------: |
+|           |   `dataPath`    |                   Path where to find the addresses array                    |         |  `result`   |
+|           | `confirmations` |                           Confirmations parameter                           |         |      6      |
+|           |   `addresses`   | Array of addresses to query (this may also be under the `result` parameter) |         |             |
 
-- `address`: Address to query
-- `coin`: Optional currency to query, defaults to `btc`
-- `chain`: Optional chain to query, defaults to `mainnet`
+Addresses is an an array of objects that contain the following information:
+
+| Required? |   Name    |    Description    | Options | Defaults to |
+| :-------: | :-------: | :---------------: | :-----: | :---------: |
+|    ✅     | `address` | Address to query  |         |             |
+|           |  `coin`   | Currency to query |         |    `btc`    |
+|           |  `chain`  |  Chain to query   |         |  `mainnet`  |
+
+### Sample Input
 
 ```json
 {
@@ -60,7 +73,7 @@ Address object:
 }
 ```
 
-### Output
+### Sample Output
 
 ```json
 {

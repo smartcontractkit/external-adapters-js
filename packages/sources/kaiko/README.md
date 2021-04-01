@@ -16,7 +16,19 @@
 |    ✅     | `quote`, `to`, or `market` | The symbol of the currency to convert to |         |             |
 |    🟡     |   `overrides`   | If base provided is found in overrides, that will be used  | [Format](../external-adapter/src/overrides/presetSymbols.json)|             |
 
-### Output
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "base": "ETH",
+    "quote": "USD"
+  }
+}
+```
+
+### Sample Output
 
 ```json
 {
