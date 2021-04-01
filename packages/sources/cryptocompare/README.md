@@ -10,9 +10,9 @@
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |                                     Options                                      | Defaults to |
-| :-------: | :------: | :-----------------: | :------------------------------------------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [price](#Price-Endpoint), [multi](#Multi-Endpoint), [price](#Marketcap-Endpoint) |   `price`   |
+| Required? |   Name   |     Description     |                          Options                           | Defaults to |
+| :-------: | :------: | :-----------------: | :--------------------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [price](#Price-Endpoint), [marketcap](#Marketcap-Endpoint) |   `price`   |
 
 ---
 
@@ -26,11 +26,23 @@
 |    ✅     | `quote`, `to`, `market` | The symbol of the currency to convert to |         |             |
 |    🟡     |   `overrides`   | If base provided is found in overrides, that will be used  | [Format](../external-adapter/src/overrides/presetSymbols.json)|             |
 
-### Output
+### Sample Input
 
 ```json
 {
-  "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
+  "id": "1",
+  "data": {
+    "base": "ETH",
+    "quote": "USD"
+  }
+}
+```
+
+### Sample Output
+
+```json
+{
+  "jobRunID": "1",
   "data": {
     "USD": 164.02,
     "result": 164.02
@@ -48,6 +60,8 @@
 |    ✅     | `base`, `from`, `coin`  |   The symbol of the currency to query    |         |             |
 |    ✅     | `quote`, `to`, `market` | The symbol of the currency to convert to |         |             |
 
+### Sample Input
+
 ```json
 {
   "jobId": "1",
@@ -59,7 +73,7 @@
 }
 ```
 
-### Output
+### Sample Output
 
 ```json
 {

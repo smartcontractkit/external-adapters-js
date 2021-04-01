@@ -1,17 +1,19 @@
 # Chainlink External Adapter for Amberdata
 
-## Configuration
+### Environment Variables
 
 The adapter takes the following environment variables:
 
-- `API_KEY`: Optional API key to use
-- `API_TIMEOUT`: Optional timeout param, defaults to `30000`
+| Required? |     Name      |    Description    | Options | Defaults to |
+| :-------: | :-----------: | :---------------: | :-----: | :---------: |
+|           |   `API_KEY`   |  API key to use   |         |             |
+|           | `API_TIMEOUT` | Timeout parameter |         |   `30000`   |
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |                                         Options                                          | Defaults to |
-| :-------: | :------: | :-----------------: | :--------------------------------------------------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [price](#Price-Endpoint), [balance](#Balance-Endpoint), [marketcap](#MarketCap-Endpoint) |    price    |
+| Required? |    Name    |     Description     |                                         Options                                          | Defaults to |
+| :-------: | :--------: | :-----------------: | :--------------------------------------------------------------------------------------: | :---------: |
+|           | `endpoint` | The endpoint to use | [price](#Price-Endpoint), [balance](#Balance-Endpoint), [marketcap](#MarketCap-Endpoint) |   `price`   |
 
 ---
 
@@ -21,11 +23,25 @@ Gets the [latest spot VWAP price](https://docs.amberdata.io/reference#spot-price
 
 ### Input Params
 
-- `base`, `from`, or `coin`: The asset to query
-- `quote`, `to`, or `market`: The currency to convert to
-- `overrides`: (not required) If base provided is found in overrides, that will be used. [Format](../external-adapter/src/overrides/presetSymbols.json)
+| Required? |            Name            |                        Description                        |                            Options                             | Defaults to |
+| :-------: | :------------------------: | :-------------------------------------------------------: | :------------------------------------------------------------: | :---------: |
+|    ✅     | `base`, `from`, or `coin`  |            The symbol of the currency to query            |                                                                |             |
+|    ✅     | `quote`, `to`, or `market` |         The symbol of the currency to convert to          |                                                                |             |
+|           |        `overrides`         | If base provided is found in overrides, that will be used | [Format](../external-adapter/src/overrides/presetSymbols.json) |             |
 
-### Output
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "base": "LINK",
+    "quote": "USD"
+  }
+}
+```
+
+### Sample Output
 
 ```json
 {
@@ -51,23 +67,27 @@ Gets the [latest spot VWAP price](https://docs.amberdata.io/reference#spot-price
 
 ### Input Params
 
-- `dataPath`: Optional path where to find the addresses array, defaults to `result`
-- `confirmations`: Optional confirmations param, defaults to `6`
+| Required? |      Name       |                                 Description                                 | Options | Defaults to |
+| :-------: | :-------------: | :-------------------------------------------------------------------------: | :-----: | :---------: |
+|           |   `dataPath`    |                   Path where to find the addresses array                    |         |  `result`   |
+|           | `confirmations` |                           Confirmations parameter                           |         |      6      |
+|           |   `addresses`   | Array of addresses to query (this may also be under the `result` parameter) |         |             |
 
-- `addresses`: Addresses to query
+Addresses is an an array of objects that contain the following information:
 
-  {
+| Required? |   Name    |                 Description                  |                  Options                  | Defaults to |
+| :-------: | :-------: | :------------------------------------------: | :---------------------------------------: | :---------: |
+|    ✅     | `address` |               Address to query               |                                           |             |
+|           |  `coin`   |              Currency to query               | `btc`. `eth`, `bch`, `ltc`, `btsv`, `zec` |    `btc`    |
+|           |  `chain`  | Chain to query (Ethereum testnet is Rinkeby) |           `mainnet`, `testnet`            |  `mainnet`  |
 
-  - `address`: Address to query
-  - `coin`: Optional currency to query, defaults to `btc`, one of `(btc|eth|bch|ltc|btsv|zec)`
-  - `chain`: Optional chain to query, defaults to `mainnet`, one of `(mainnet|testnet)` when querying ethereum. Returns Rinkeby data.
-
-  }
+### Sample Input
 
 ```json
 {
   "id": "1",
   "data": {
+    "endpoint": "balance",
     "addresses": [
       {
         "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1"
@@ -81,7 +101,7 @@ Gets the [latest spot VWAP price](https://docs.amberdata.io/reference#spot-price
 }
 ```
 
-### Output
+### Sample Output
 
 ```json
 {
@@ -154,9 +174,23 @@ Gets the asset USD Market Cap from Amberdata.
 
 ### Input Params
 
-- `base`, `from`, or `coin`: The asset to query
+| Required? |           Name            |           Description            | Options | Defaults to |
+| :-------: | :-----------------------: | :------------------------------: | :-----: | :---------: |
+|    ✅     | `base`, `from`, or `coin` | The symbol of the asset to query |         |             |
 
-### Output
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "marketcap",
+    "base": "ETH"
+  }
+}
+```
+
+### Sample Output
 
 ```json
 {
