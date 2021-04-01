@@ -45,7 +45,7 @@ export const getFeedId = (input: AdapterRequest): string => {
       logger.debug('Unable to validate feed name')
       return JSON.stringify(input)
     }
-    return `${validator.validated.data.base}/${validator.validated.data.quote}`
+    return `${validator.validated.data.base.toUpperCase()}/${validator.validated.data.quote.toUpperCase()}`
   } catch (e) {
     return JSON.stringify(input)
   }

@@ -1,7 +1,3 @@
-import { AdapterRequest } from '@chainlink/types'
-import { logger } from './logger'
-import { Validator } from './validator'
-
 // pick a random string from env var after splitting with the delimiter ("a&b&c" "&" -> choice(["a","b","c"]))
 export const getRandomEnv = (name: string, delimiter = ',', prefix = '') => {
   const val = getEnv(name, prefix)

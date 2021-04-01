@@ -20,8 +20,8 @@ describe('Bootstrap/Metrics Utils', () => {
       const input: AdapterRequest = {
         id: '1',
         data: {
-          symbol: 'ETH',
-          to: 'USD',
+          symbol: 'eth',
+          to: 'usd',
         },
       }
       let feedName = util.getFeedId(input)
@@ -31,7 +31,7 @@ describe('Bootstrap/Metrics Utils', () => {
         id: '1',
         data: {
           asset: 'ETH',
-          to: 'USD',
+          to: 'usd',
         },
       }
       feedName = util.getFeedId(input2)
@@ -40,7 +40,7 @@ describe('Bootstrap/Metrics Utils', () => {
       const input3: AdapterRequest = {
         id: '1',
         data: {
-          symbol: 'ETH',
+          symbol: 'eth',
           convert: 'USD',
         },
       }
