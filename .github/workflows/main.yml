@@ -12,7 +12,7 @@ env:
 jobs:
   run-basic-checks:
     name: Run linters and unit tests
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, sdlc-ghr-prod]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
