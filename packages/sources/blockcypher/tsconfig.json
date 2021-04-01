@@ -3,7 +3,9 @@
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "src",
-    "composite": true
+    "paths": {
+      "*": ["./types/*"]
+    }
   },
   "include": ["src/**/*"],
   "exclude": ["dist", "**/*.spec.ts", "**/*.test.ts"],
