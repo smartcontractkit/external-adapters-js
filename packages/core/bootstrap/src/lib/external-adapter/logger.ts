@@ -1,18 +1,6 @@
-import { createLogger, format, Logger, transports } from 'winston'
-const { combine, timestamp, json, prettyPrint } = format
 import { v4 as uuidv4 } from 'uuid'
-import { LoggingWinston } from '@google-cloud/logging-winston'
-
-const detectLogger = (logger: Logger) => {
-  // GCP Functions are special in that they need an extra transport
-  // in order to log. The environment variable GCP_PROJECT should
-  // always be present for any GCP Function.
-  if (process.env.GCP_PROJECT) {
-    logger.add(new LoggingWinston())
-    logger.info('Added logging for GCP Functions')
-  }
-  return logger
-}
+import { createLogger, format, transports } from 'winston'
+const { combine, timestamp, json, prettyPrint } = format
 
 // We generate an UUID per instance and add it to the logs
 const uuid = () => {
@@ -25,13 +13,11 @@ const instanceId = format((info) => {
   return info
 })
 
-export const logger = detectLogger(
-  createLogger({
-    level: process.env.LOG_LEVEL || 'info',
-    format:
-      process.env.NODE_ENV === 'development'
-        ? combine(instanceId(), timestamp(), json(), prettyPrint())
-        : combine(instanceId(), timestamp(), json()),
-    transports: [new transports.Console()],
-  }),
-)
+export const logger = createLogger({
+  level: process.env.LOG_LEVEL || 'info',
+  format:
+    process.env.NODE_ENV === 'development'
+      ? combine(instanceId(), timestamp(), json(), prettyPrint())
+      : combine(instanceId(), timestamp(), json()),
+  transports: [new transports.Console()],
+})
