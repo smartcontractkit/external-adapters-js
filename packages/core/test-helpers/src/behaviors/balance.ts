@@ -1,5 +1,4 @@
 import { Execute } from '@chainlink/types'
-import { assert } from 'chai'
 import { serverErrors, successes, validationErrors } from '../helpers'
 
 function base(execute: Execute) {
@@ -135,10 +134,10 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
 
       const assertions = (request: any, response: any) => {
         const numAddr = request?.testData?.data?.result.length
-        assert.isAbove(Number(response.data.result.length), 0)
-        assert.isAbove(Number(response.result.length), 0)
-        assert.equal(Number(response.data.result.length), numAddr)
-        assert.equal(Number(response.result.length), numAddr)
+        expect(Number(response.data.result.length)).toBeGreaterThan(0)
+        expect(Number(response.result.length)).toBeGreaterThan(0)
+        expect(Number(response.data.result.length)).toEqual(numAddr)
+        expect(Number(response.result.length)).toEqual(numAddr)
       }
 
       successes(
@@ -212,10 +211,10 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
 
       const assertions = (request: any, response: any) => {
         const numAddr = request?.testData?.data?.result.length
-        assert.isAbove(Number(response.data.result.length), 0)
-        assert.isAbove(Number(response.result.length), 0)
-        assert.equal(Number(response.data.result.length), numAddr)
-        assert.equal(Number(response.result.length), numAddr)
+        expect(Number(response.data.result.length)).toBeGreaterThan(0)
+        expect(Number(response.result.length)).toBeGreaterThan(0)
+        expect(Number(response.data.result.length)).toEqual(numAddr)
+        expect(Number(response.result.length)).toEqual(numAddr)
       }
 
       successes(
@@ -247,10 +246,10 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
     describe('it should support ethereum mainnet', () => {
       const assertions = (request: any, response: any) => {
         const numAddr = request?.testData?.data?.result.length
-        assert.isAbove(Number(response.data.result.length), 0)
-        assert.isAbove(Number(response.result.length), 0)
-        assert.equal(Number(response.data.result.length), numAddr)
-        assert.equal(Number(response.result.length), numAddr)
+        expect(Number(response.data.result.length)).toBeGreaterThan(0)
+        expect(Number(response.result.length)).toBeGreaterThan(0)
+        expect(Number(response.data.result.length)).toEqual(numAddr)
+        expect(Number(response.result.length)).toEqual(numAddr)
       }
 
       successes(
@@ -282,10 +281,10 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
     describe('it should support ethereum testnet', () => {
       const assertions = (request: any, response: any) => {
         const numAddr = request?.testData?.data?.result.length
-        assert.isAbove(Number(response.data.result.length), 0)
-        assert.isAbove(Number(response.result.length), 0)
-        assert.equal(Number(response.data.result.length), numAddr)
-        assert.equal(Number(response.result.length), numAddr)
+        expect(Number(response.data.result.length)).toBeGreaterThan(0)
+        expect(Number(response.result.length)).toBeGreaterThan(0)
+        expect(Number(response.data.result.length)).toEqual(numAddr)
+        expect(Number(response.result.length)).toEqual(numAddr)
       }
 
       successes(
@@ -317,10 +316,10 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
     describe('it should support bitcoin cash mainnet', () => {
       const assertions = (request: any, response: any) => {
         const numAddr = request?.testData?.data?.result.length
-        assert.isAbove(Number(response.data.result.length), 0)
-        assert.isAbove(Number(response.result.length), 0)
-        assert.equal(Number(response.data.result.length), numAddr)
-        assert.equal(Number(response.result.length), numAddr)
+        expect(Number(response.data.result.length)).toBeGreaterThan(0)
+        expect(Number(response.result.length)).toBeGreaterThan(0)
+        expect(Number(response.data.result.length)).toEqual(numAddr)
+        expect(Number(response.result.length)).toEqual(numAddr)
       }
 
       successes(
@@ -352,10 +351,10 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
     describe('it should support bitcoin cash testnet', () => {
       const assertions = (request: any, response: any) => {
         const numAddr = request?.testData?.data?.result.length
-        assert.isAbove(Number(response.data.result.length), 0)
-        assert.isAbove(Number(response.result.length), 0)
-        assert.equal(Number(response.data.result.length), numAddr)
-        assert.equal(Number(response.result.length), numAddr)
+        expect(Number(response.data.result.length)).toBeGreaterThan(0)
+        expect(Number(response.result.length)).toBeGreaterThan(0)
+        expect(Number(response.data.result.length)).toEqual(numAddr)
+        expect(Number(response.result.length)).toEqual(numAddr)
       }
 
       successes(
@@ -387,10 +386,10 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
     describe('it should support bitcoin sv mainnet', () => {
       const assertions = (request: any, response: any) => {
         const numAddr = request?.testData?.data?.result.length
-        assert.isAbove(Number(response.data.result.length), 0)
-        assert.isAbove(Number(response.result.length), 0)
-        assert.equal(Number(response.data.result.length), numAddr)
-        assert.equal(Number(response.result.length), numAddr)
+        expect(Number(response.data.result.length)).toBeGreaterThan(0)
+        expect(Number(response.result.length)).toBeGreaterThan(0)
+        expect(Number(response.data.result.length)).toEqual(numAddr)
+        expect(Number(response.result.length)).toEqual(numAddr)
       }
 
       successes(
@@ -422,10 +421,10 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
     describe('it should support bitcoin sv testnet', () => {
       const assertions = (request: any, response: any) => {
         const numAddr = request?.testData?.data?.result.length
-        assert.isAbove(Number(response.data.result.length), 0)
-        assert.isAbove(Number(response.result.length), 0)
-        assert.equal(Number(response.data.result.length), numAddr)
-        assert.equal(Number(response.result.length), numAddr)
+        expect(Number(response.data.result.length)).toBeGreaterThan(0)
+        expect(Number(response.result.length)).toBeGreaterThan(0)
+        expect(Number(response.data.result.length)).toEqual(numAddr)
+        expect(Number(response.result.length)).toEqual(numAddr)
       }
 
       successes(
@@ -457,10 +456,10 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
     describe('it should support litecoin mainnet', () => {
       const assertions = (request: any, response: any) => {
         const numAddr = request?.testData?.data?.result.length
-        assert.isAbove(Number(response.data.result.length), 0)
-        assert.isAbove(Number(response.result.length), 0)
-        assert.equal(Number(response.data.result.length), numAddr)
-        assert.equal(Number(response.result.length), numAddr)
+        expect(Number(response.data.result.length)).toBeGreaterThan(0)
+        expect(Number(response.result.length)).toBeGreaterThan(0)
+        expect(Number(response.data.result.length)).toEqual(numAddr)
+        expect(Number(response.result.length)).toEqual(numAddr)
       }
 
       successes(
@@ -492,10 +491,10 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
     describe('it should support litecoin testnet', () => {
       const assertions = (request: any, response: any) => {
         const numAddr = request?.testData?.data?.result.length
-        assert.isAbove(Number(response.data.result.length), 0)
-        assert.isAbove(Number(response.result.length), 0)
-        assert.equal(Number(response.data.result.length), numAddr)
-        assert.equal(Number(response.result.length), numAddr)
+        expect(Number(response.data.result.length)).toBeGreaterThan(0)
+        expect(Number(response.result.length)).toBeGreaterThan(0)
+        expect(Number(response.data.result.length)).toEqual(numAddr)
+        expect(Number(response.result.length)).toEqual(numAddr)
       }
 
       successes(
@@ -527,10 +526,10 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
     describe('it should support zcash mainnet', () => {
       const assertions = (request: any, response: any) => {
         const numAddr = request?.testData?.data?.result.length
-        assert.isAbove(Number(response.data.result.length), 0)
-        assert.isAbove(Number(response.result.length), 0)
-        assert.equal(Number(response.data.result.length), numAddr)
-        assert.equal(Number(response.result.length), numAddr)
+        expect(Number(response.data.result.length)).toBeGreaterThan(0)
+        expect(Number(response.result.length)).toBeGreaterThan(0)
+        expect(Number(response.data.result.length)).toEqual(numAddr)
+        expect(Number(response.result.length)).toEqual(numAddr)
       }
 
       successes(
@@ -562,10 +561,10 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
     describe('it should support zcash testnet', () => {
       const assertions = (request: any, response: any) => {
         const numAddr = request?.testData?.data?.result.length
-        assert.isAbove(Number(response.data.result.length), 0)
-        assert.isAbove(Number(response.result.length), 0)
-        assert.equal(Number(response.data.result.length), numAddr)
-        assert.equal(Number(response.result.length), numAddr)
+        expect(Number(response.data.result.length)).toBeGreaterThan(0)
+        expect(Number(response.result.length)).toBeGreaterThan(0)
+        expect(Number(response.data.result.length)).toEqual(numAddr)
+        expect(Number(response.result.length)).toEqual(numAddr)
       }
 
       successes(
@@ -597,10 +596,10 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
     describe('it should support doge mainnet', () => {
       const assertions = (request: any, response: any) => {
         const numAddr = request?.testData?.data?.result.length
-        assert.isAbove(Number(response.data.result.length), 0)
-        assert.isAbove(Number(response.result.length), 0)
-        assert.equal(Number(response.data.result.length), numAddr)
-        assert.equal(Number(response.result.length), numAddr)
+        expect(Number(response.data.result.length)).toBeGreaterThan(0)
+        expect(Number(response.result.length)).toBeGreaterThan(0)
+        expect(Number(response.data.result.length)).toEqual(numAddr)
+        expect(Number(response.result.length)).toEqual(numAddr)
       }
 
       successes(
@@ -632,10 +631,10 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
     describe('it should support doge testnet', () => {
       const assertions = (request: any, response: any) => {
         const numAddr = request?.testData?.data?.result.length
-        assert.isAbove(Number(response.data.result.length), 0)
-        assert.isAbove(Number(response.result.length), 0)
-        assert.equal(Number(response.data.result.length), numAddr)
-        assert.equal(Number(response.result.length), numAddr)
+        expect(Number(response.data.result.length)).toBeGreaterThan(0)
+        expect(Number(response.result.length)).toBeGreaterThan(0)
+        expect(Number(response.data.result.length)).toEqual(numAddr)
+        expect(Number(response.result.length)).toEqual(numAddr)
       }
 
       successes(
@@ -667,10 +666,10 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
     describe('it should support zilliqa mainnet', () => {
       const assertions = (request: any, response: any) => {
         const numAddr = request?.testData?.data?.result.length
-        assert.isAbove(Number(response.data.result.length), 0)
-        assert.isAbove(Number(response.result.length), 0)
-        assert.equal(Number(response.data.result.length), numAddr)
-        assert.equal(Number(response.result.length), numAddr)
+        expect(Number(response.data.result.length)).toBeGreaterThan(0)
+        expect(Number(response.result.length)).toBeGreaterThan(0)
+        expect(Number(response.data.result.length)).toEqual(numAddr)
+        expect(Number(response.result.length)).toEqual(numAddr)
       }
 
       successes(
@@ -702,10 +701,10 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
     describe('it should support zilliqa testnet', () => {
       const assertions = (request: any, response: any) => {
         const numAddr = request?.testData?.data?.result.length
-        assert.isAbove(Number(response.data.result.length), 0)
-        assert.isAbove(Number(response.result.length), 0)
-        assert.equal(Number(response.data.result.length), numAddr)
-        assert.equal(Number(response.result.length), numAddr)
+        expect(Number(response.data.result.length)).toBeGreaterThan(0)
+        expect(Number(response.result.length)).toBeGreaterThan(0)
+        expect(Number(response.data.result.length)).toEqual(numAddr)
+        expect(Number(response.result.length)).toEqual(numAddr)
       }
 
       successes(
@@ -737,10 +736,10 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
     describe('it should support dash mainnet', () => {
       const assertions = (request: any, response: any) => {
         const numAddr = request?.testData?.data?.result.length
-        assert.isAbove(Number(response.data.result.length), 0)
-        assert.isAbove(Number(response.result.length), 0)
-        assert.equal(Number(response.data.result.length), numAddr)
-        assert.equal(Number(response.result.length), numAddr)
+        expect(Number(response.data.result.length)).toBeGreaterThan(0)
+        expect(Number(response.result.length)).toBeGreaterThan(0)
+        expect(Number(response.data.result.length)).toEqual(numAddr)
+        expect(Number(response.result.length)).toEqual(numAddr)
       }
 
       successes(
@@ -772,10 +771,10 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
     describe('it should support dash testnet', () => {
       const assertions = (request: any, response: any) => {
         const numAddr = request?.testData?.data?.result.length
-        assert.isAbove(Number(response.data.result.length), 0)
-        assert.isAbove(Number(response.result.length), 0)
-        assert.equal(Number(response.data.result.length), numAddr)
-        assert.equal(Number(response.result.length), numAddr)
+        expect(Number(response.data.result.length)).toBeGreaterThan(0)
+        expect(Number(response.result.length)).toBeGreaterThan(0)
+        expect(Number(response.data.result.length)).toEqual(numAddr)
+        expect(Number(response.result.length)).toEqual(numAddr)
       }
 
       successes(
@@ -807,10 +806,10 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
     describe('it should support ethereum_classic mainnet', () => {
       const assertions = (request: any, response: any) => {
         const numAddr = request?.testData?.data?.result.length
-        assert.isAbove(Number(response.data.result.length), 0)
-        assert.isAbove(Number(response.result.length), 0)
-        assert.equal(Number(response.data.result.length), numAddr)
-        assert.equal(Number(response.result.length), numAddr)
+        expect(Number(response.data.result.length)).toBeGreaterThan(0)
+        expect(Number(response.result.length)).toBeGreaterThan(0)
+        expect(Number(response.data.result.length)).toEqual(numAddr)
+        expect(Number(response.result.length)).toEqual(numAddr)
       }
 
       successes(
@@ -842,10 +841,10 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
     describe('it should support ethereum_classic testnet', () => {
       const assertions = (request: any, response: any) => {
         const numAddr = request?.testData?.data?.result.length
-        assert.isAbove(Number(response.data.result.length), 0)
-        assert.isAbove(Number(response.result.length), 0)
-        assert.equal(Number(response.data.result.length), numAddr)
-        assert.equal(Number(response.result.length), numAddr)
+        expect(Number(response.data.result.length)).toBeGreaterThan(0)
+        expect(Number(response.result.length)).toBeGreaterThan(0)
+        expect(Number(response.data.result.length)).toEqual(numAddr)
+        expect(Number(response.result.length)).toEqual(numAddr)
       }
 
       successes(
@@ -877,10 +876,10 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
     describe('it should support groestlcoin mainnet', () => {
       const assertions = (request: any, response: any) => {
         const numAddr = request?.testData?.data?.result.length
-        assert.isAbove(Number(response.data.result.length), 0)
-        assert.isAbove(Number(response.result.length), 0)
-        assert.equal(Number(response.data.result.length), numAddr)
-        assert.equal(Number(response.result.length), numAddr)
+        expect(Number(response.data.result.length)).toBeGreaterThan(0)
+        expect(Number(response.result.length)).toBeGreaterThan(0)
+        expect(Number(response.data.result.length)).toEqual(numAddr)
+        expect(Number(response.result.length)).toEqual(numAddr)
       }
 
       successes(

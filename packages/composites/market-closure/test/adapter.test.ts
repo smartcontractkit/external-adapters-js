@@ -1,4 +1,3 @@
-import { assert } from 'chai'
 import { AdapterRequest } from '@chainlink/types'
 import { AdapterError } from '@chainlink/ea-bootstrap'
 import { assertSuccess } from '@chainlink/ea-test-helpers'
@@ -46,7 +45,7 @@ const makeMockConfig = (): Config => {
 }
 
 describe('executeWithAdapters', () => {
-  context('successful calls', () => {
+  describe('successful calls', () => {
     const jobID = 'abc123'
 
     const requests = [
@@ -87,8 +86,8 @@ describe('executeWithAdapters', () => {
         const execute = makeExecute(makeMockConfig())
         const data = await execute(req.input as AdapterRequest)
         assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
-        assert.equal(data.result, result)
-        assert.equal(data.data.result, result)
+        expect(data.result).toEqual(result)
+        expect(data.data.result).toEqual(result)
       })
     })
   })
