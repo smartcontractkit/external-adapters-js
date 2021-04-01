@@ -15,19 +15,19 @@ export class Server {
   }
 
   start() {
-    this.app.get('/', (req, res) => {
+    this.app.get('/', (_, res) => {
       res.status(200).json({
         result: 'success',
         value: 1,
       })
     })
 
-    this.app.get('/error', (req, res) => {
+    this.app.get('/error', (_, res) => {
       this.errorCount++
       res.status(500).send('There was an error')
     })
 
-    this.app.get('/errorsTwice', (req, res) => {
+    this.app.get('/errorsTwice', (_, res) => {
       if (this.errorCount >= 2) {
         res.status(200).json({
           result: 'success',
@@ -39,7 +39,7 @@ export class Server {
       }
     })
 
-    this.app.get('/customError', (req, res) => {
+    this.app.get('/customError', (_, res) => {
       this.errorCount++
       res.status(200).json({
         result: 'error',

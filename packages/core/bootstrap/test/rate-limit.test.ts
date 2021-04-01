@@ -25,16 +25,6 @@ const expectRequestToBe = (field: string, expected: any): Execute => async (requ
   }
 }
 
-const expectRequestToLessThan = (field: string, expected: any): Execute => async (request) => {
-  expect(request.data[field]).to.be.lessThan(expected)
-  return {
-    jobRunID: request.id,
-    data: { jobRunID: request.id, statusCode: 200, data: request, result: '' },
-    result: '',
-    statusCode: 200,
-  }
-}
-
 const getMaxAge = (store: Store, input: AdapterRequest) => {
   const requestTypeId = rateLimit.makeId(input)
   const state = store.getState()
