@@ -49,25 +49,3 @@ export const getRequiredEnv = (name: string, prefix = ''): string => {
   if (!val) throw new RequiredEnvError(getEnvName(name, prefix))
   return val
 }
-
-/**
- * Get feed id name based on input params
- * @param input The adapter input request
- * @returns {string}
- */
-export const getFeedId = (input: AdapterRequest): string => {
-  const commonFeedParams = {
-    base: ['base', 'from', 'coin', 'symbol', 'asset'],
-    quote: ['quote', 'to', 'convert'],
-  }
-  try {
-    const validator = new Validator(input, commonFeedParams)
-    if (validator.error) {
-      logger.debug('Unable to validate feed name')
-      return validator.validated.id
-    }
-    return `${validator.validated.data.base}/${validator.validated.data.quote}`
-  } catch (e) {
-    return '1'
-  }
-}

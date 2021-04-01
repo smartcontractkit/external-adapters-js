@@ -1,10 +1,10 @@
 import { AdapterRequest } from '@chainlink/types'
 import { expect } from 'chai'
-import * as util from '../../src/lib/external-adapter/util'
+import * as util from '../../src/lib/metrics/util'
 
-describe('Bootstrap/External Adapter', () => {
-  describe('Get Feed Name', () => {
-    it(`Gets the correct feed name with valid input`, () => {
+describe('Bootstrap/Metrics Utils', () => {
+  describe('Get Feed ID', () => {
+    it(`Gets the correct feed id with valid input`, () => {
       const input: AdapterRequest = {
         id: '1',
         data: {
@@ -16,7 +16,7 @@ describe('Bootstrap/External Adapter', () => {
       expect(feedName).to.be.eq('ETH/USD')
     })
 
-    it(`Gets the correct feed name with any base/quote combination`, () => {
+    it(`Gets the correct feed id with any base/quote combination`, () => {
       const input: AdapterRequest = {
         id: '1',
         data: {
@@ -48,22 +48,22 @@ describe('Bootstrap/External Adapter', () => {
       expect(feedName).to.be.eq('ETH/USD')
     })
 
-    it(`Returns jobId if no match`, () => {
+    it(`Returns stringify input if no match`, () => {
       const input: AdapterRequest = {
         id: '10',
         data: {},
       }
       const feedName = util.getFeedId(input)
-      expect(feedName).to.be.eq('10')
+      expect(feedName).to.be.eq(JSON.stringify(input))
     })
 
-    it(`Returns jobID as 1 if anything match`, () => {
+    it(`Returns stringify input if anything match`, () => {
       const input: AdapterRequest = {
         id: String(),
         data: {},
       }
       const feedName = util.getFeedId(input)
-      expect(feedName).to.be.eq('1')
+      expect(feedName).to.be.eq(JSON.stringify(input))
     })
   })
 })

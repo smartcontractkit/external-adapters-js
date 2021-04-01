@@ -14,7 +14,6 @@ import * as rateLimit from './lib/rate-limit'
 import * as server from './lib/server'
 import * as util from './lib/util'
 import { configureStore } from './lib/store'
-import { getFeedId } from './lib/external-adapter/util'
 
 const rootReducer = combineReducers({
   cacheWarmer: cacheWarmer.reducer.rootReducer,
@@ -77,7 +76,7 @@ const withMetrics: Middleware = async (execute) => async (input: AdapterRequest)
 
     return (statusCode?: number, type?: metrics.HttpRequestType) => {
       labels.type = type
-      labels.status_code = metrics.normalizeStatusCode(statusCode)
+      labels.status_code = metrics.util.normalizeStatusCode(statusCode)
       end()
       metrics.httpRequestsTotal.labels(labels).inc()
     }
@@ -101,7 +100,7 @@ const withMetrics: Middleware = async (execute) => async (input: AdapterRequest)
 
 export const withDebug: Middleware = async (execute) => async (input: AdapterRequest) => {
   const debug = {
-    feedId: getFeedId(input),
+    feedId: metrics.util.getFeedId(input),
   }
   const result = await execute({ ...input, debug })
   if (!util.isDebug()) {
