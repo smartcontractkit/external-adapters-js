@@ -1,17 +1,16 @@
 import * as shell from 'shelljs'
-
-const log = { red: (text: string) => console.log('\x1b[31m%s\x1b[0m', text) }
+import { logRed } from './utils'
 
 const ADAPTER_TYPES = ['composite', 'source']
 
-;(() => {
+function main() {
   const type: string = process.argv[2]
-  if (!type) return log.red('Missing first argument: type')
+  if (!type) return logRed('Missing first argument: type')
   if (!ADAPTER_TYPES.includes(type))
-    return log.red(`Type must be one of: ${ADAPTER_TYPES.join(', ')}`)
+    return logRed(`Type must be one of: ${ADAPTER_TYPES.join(', ')}`)
 
   const n: string = process.argv[3]
-  if (!n) return log.red('Missing second argument: name')
+  if (!n) return logRed('Missing second argument: name')
 
   // check if jq is installed (jq used later to modify json files)
   const jq: string = shell.exec('command -v jq').toString()
