@@ -19,16 +19,6 @@
 {
   "id": "1",
   "data": {
-    "symbol": "ETH",
-    "result": "oneDayIv"
-  }
-}
-```
-
-```json
-{
-  "id": "1",
-  "data": {
     "coin": "ETH",
     "days": 1
   }
