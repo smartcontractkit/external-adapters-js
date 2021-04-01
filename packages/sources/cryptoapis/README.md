@@ -2,18 +2,18 @@
 
 ### Environment Variables
 
-| Required? |    Name     |                                 Description                                 | Options | Defaults to |
-| :-------: | :---------: | :-------------------------------------------------------------------------: | :-----: | :---------: |
-|    ✅     |   API_KEY   | An API key that can be obtained from [here](https://cryptoapis.io/pricing/) |         |             |
-|           | API_TIMEOUT |                              Timeout parameter                              |         |   `30000`   |
+| Required? |    Name     |                             Description                             | Options | Defaults to |
+| :-------: | :---------: | :-----------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     |   API_KEY   | An API key that can be obtained from [here](https://cryptoapis.io/) |         |             |
+|           | API_TIMEOUT |                          Timeout parameter                          |         |   `30000`   |
 
 ---
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |                  Options                   | Defaults to |
-| :-------: | :------: | :-----------------: | :----------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [price], [difficulty], [height], [balance] |   `price`   |
+| Required? |   Name   |     Description     |                                                               Options                                                               | Defaults to |
+| :-------: | :------: | :-----------------: | :---------------------------------------------------------------------------------------------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [price](#Price-Endpoint), [difficulty](#Difficulty-&-Height-Endpoint), [height](#Difficulty-&-Height-Endpoint), [balance](#Balance) |   `price`   |
 
 ---
 
@@ -27,10 +27,22 @@ https://docs.cryptoapis.io/rest-apis/crypto-market-data-apis/index#exchange-rate
 | :-------: | :--------------------------------: | :----------------------------------------------------: | :-----: | :---------: |
 |    ✅     |   `base`, `from`, `coin`, `sym`    |          The symbol of the currency to query           |         |             |
 |    ✅     | `quote`, `to`, `market`, `convert` |        The symbol of the currency to convert to        |         |             |
-|    🟡     |               `cid`                |  The CMC coin ID (optional to use in place of `base`)  |         |             |
-|    🟡     |               `slug`               | The CMC coin name (optional to use in place of `base`) |         |             |
+|           |               `cid`                |  The CMC coin ID (optional to use in place of `base`)  |         |             |
+|           |               `slug`               | The CMC coin name (optional to use in place of `base`) |         |             |
 
-### Output
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "base": "BTC",
+    "quote": "USD"
+  }
+}
+```
+
+### Sample Output
 
 ```json
 {
@@ -62,7 +74,19 @@ https://docs.cryptoapis.io/rest-apis/blockchain-as-a-service-apis/common/index#c
 |    ✅     | `blockchain`, `coin`, `market` | The blockchain to retrieve info for | `BTC`, `ETH`, `LTC`, `ETC`, `BCH`, `DOGE`, `DASH`. |             |
 |           |           `network`            |     The blockchain network name     |                `mainnet`, `testnet`                |  `mainnet`  |
 
-### Output
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "difficulty",
+    "blockchain": "BTC"
+  }
+}
+```
+
+### Sample Output
 
 ```json
 {
@@ -91,23 +115,27 @@ https://docs.cryptoapis.io/rest-apis/blockchain-as-a-service-apis/common/index#c
 
 https://docs.cryptoapis.io/rest-apis/blockchain-as-a-service-apis/btc/index#btc-address-info-endpoint
 
-- `dataPath`: Optional path where to find the addresses array, defaults to `result`
-- `confirmations`: Optional confirmations param, defaults to `6`
+| Required? |      Name       |                                 Description                                 | Options | Defaults to |
+| :-------: | :-------------: | :-------------------------------------------------------------------------: | :-----: | :---------: |
+|           |   `dataPath`    |                   Path where to find the addresses array                    |         |  `result`   |
+|           | `confirmations` |                           Confirmations parameter                           |         |      6      |
+|           |   `addresses`   | Array of addresses to query (this may also be under the `result` parameter) |         |             |
 
-- `addresses`: Addresses to query
+Addresses is an an array of objects that contain the following information:
 
-  {
+| Required? |   Name    |                 Description                  |                  Options                  | Defaults to |
+| :-------: | :-------: | :------------------------------------------: | :---------------------------------------: | :---------: |
+|    ✅     | `address` |               Address to query               |                                           |             |
+|           |  `coin`   |              Currency to query               | `btc`. `eth`, `bch`, `ltc`, `btsv`, `zec` |    `btc`    |
+|           |  `chain`  | Chain to query (Ethereum testnet is Rinkeby) |           `mainnet`, `testnet`            |  `mainnet`  |
 
-  - `address`: Address to query
-  - `coin`: Optional currency to query, defaults to `btc`, one of `(btc|eth|etc|bch|ltc|dash|doge|btcv|zil)`
-  - `chain`: Optional chain to query, defaults to `mainnet`, one of `(mainnet|testnet)`
-
-  }
+### Sample Input
 
 ```json
 {
   "id": "1",
   "data": {
+    "endpoint": "balance",
     "addresses": [
       {
         "address": "n4VQ5YdHf7hLQ2gWQYYrcxoE5B7nWuDFNF",
@@ -119,7 +147,7 @@ https://docs.cryptoapis.io/rest-apis/blockchain-as-a-service-apis/btc/index#btc-
 }
 ```
 
-### Output
+### Sample Output
 
 ```json
 {
