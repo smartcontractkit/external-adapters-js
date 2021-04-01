@@ -13,9 +13,6 @@
   "scripts": {
     "lint": "echo \"No lint needed\"",
     "lint:fix": "echo \"No lint:fix needed\"",
-    "clean": "echo \"No clean needed\"",
-    "test": "echo \"No tests specified\"",
-    "test:unit": "echo \"No tests specified\"",
-    "test:integration": "echo \"No tests specified\""
+    "clean": "echo \"No clean needed\""
   }
 }

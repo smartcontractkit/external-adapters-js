@@ -1,4 +1,3 @@
-import { assert } from 'chai'
 import * as starkwareCrypto from '@authereum/starkware-crypto'
 import { AdapterError } from '@chainlink/ea-bootstrap'
 import {
@@ -9,7 +8,7 @@ import {
 } from '../../src/endpoint/starkex'
 
 describe('starkex', () => {
-  context('getKeyPair', () => {
+  describe('getKeyPair', () => {
     type KeyPairTest = {
       name: string
       testData: {
@@ -35,12 +34,12 @@ describe('starkex', () => {
         const keyPair = await getKeyPair(t.testData.privateKey, t.testData.starkMessage)
         const pk = starkwareCrypto.getStarkPublicKey(keyPair)
         const pkNormalized = '0x' + pk.substr(3)
-        assert.equal(pkNormalized, t.testData.expected)
+        expect(pkNormalized).toEqual(t.testData.expected)
       })
     })
   })
 
-  context('requireNormalizedPrice', () => {
+  describe('requireNormalizedPrice', () => {
     type PriceNormalizationTest = {
       name: string
       testData: {
@@ -225,17 +224,17 @@ describe('starkex', () => {
       it(`${t.name}`, async () => {
         try {
           const normalizedPrice = requireNormalizedPrice(t.testData.price)
-          assert.equal(normalizedPrice, t.testData.expected)
-          assert.isFalse(t.testData.error)
+          expect(normalizedPrice).toEqual(t.testData.expected)
+          expect(t.testData.error).toBe(false)
         } catch (err) {
           if (!(err instanceof AdapterError)) throw err
-          assert.isTrue(t.testData.error)
+          expect(t.testData.error).toBe(true)
         }
       })
     })
   })
 
-  context('getPricePayload', () => {
+  describe('getPricePayload', () => {
     type PricePayloadTest = {
       name: string
       testData: {
@@ -278,9 +277,9 @@ describe('starkex', () => {
           t.testData.starkMessage,
           t.testData.data,
         )
-        assert.equal(payload.starkKey, t.testData.expected.starkKey)
-        assert.equal(payload.signatureR, t.testData.expected.signatureR)
-        assert.equal(payload.signatureS, t.testData.expected.signatureS)
+        expect(payload.starkKey).toEqual(t.testData.expected.starkKey)
+        expect(payload.signatureR).toEqual(t.testData.expected.signatureR)
+        expect(payload.signatureS).toEqual(t.testData.expected.signatureS)
       })
     })
   })

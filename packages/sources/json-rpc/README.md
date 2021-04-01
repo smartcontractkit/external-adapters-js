@@ -69,24 +69,26 @@ RPC Address and Port Defaults:
 
 For Ethereum and any Geth clone (should work with Parity as well):
 
+Make sure you run these commands from the ROOT of this monorepo.
+
 ```bash
-npm run test:eth
+yarn test json-rpc/test/integration/eth
 ```
 
 For Bitcoin:
 
 ```bash
-npm run test:btc
+yarn test json-rpc/test/integration/btc
 ```
 
 For AION:
 
 ```bash
-npm run test:aion
+yarn test json-rpc/test/integration/aion
 ```
 
 For Zilliqa:
 
 ```bash
-npm run test:zilliqa
+RPC_URL=https://dev-api.zilliqa.com yarn test json-rpc/test/integration/zilliqa
 ```

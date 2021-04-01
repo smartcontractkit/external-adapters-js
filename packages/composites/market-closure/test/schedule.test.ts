@@ -1,10 +1,9 @@
-import { assert } from 'chai'
 import { isMarketClosed } from '../src/checks/schedule'
 import { rejects } from 'assert'
 import { AdapterRequest } from '@chainlink/types'
 
 describe('isMarketClosed Schedule', () => {
-  context('successful calls', () => {
+  describe('successful calls', () => {
     const jobID = 'abc123'
 
     const requests = [
@@ -99,12 +98,12 @@ describe('isMarketClosed Schedule', () => {
     for (const req of requests) {
       it(`${req.name}`, async () => {
         const halted = await isMarketClosed(req.input as AdapterRequest)
-        assert.equal(halted, req.expect)
+        expect(halted).toEqual(req.expect)
       })
     }
   })
 
-  context('failing calls', () => {
+  describe('failing calls', () => {
     const jobID = 'abc123'
 
     const requests = [
