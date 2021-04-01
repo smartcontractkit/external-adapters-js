@@ -1,5 +1,4 @@
 import * as client from 'prom-client'
-import { MAXIMUM_MAX_AGE } from './index'
 
 enum CacheTypes {
   Redis = 'redis',
@@ -10,15 +9,14 @@ export const cache_execution_duration_seconds = new client.Histogram({
   name: 'cache_execution_duration_seconds',
   help: 'A histogram bucket of the distribution of cache execution durations',
   labelNames: ['job_run_id', 'participant_id', 'cache_type', 'cache_hit', 'experimental'] as const,
-  // default bucket distribution that prom comes with in ms
-  buckets: [5, 10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000],
+  buckets: [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10],
 })
 
-export const cache_data_staleness = new client.Histogram({
-  name: 'cache_data_staleness',
+export const cache_data_staleness_seconds = new client.Histogram({
+  name: 'cache_data_staleness_seconds',
   help: 'Observes the staleness of the data returned',
   labelNames: ['job_run_id', 'participant_id', 'cache_type', 'experimental'] as const,
-  buckets: [0, 1000, 5000, 10000, 30000, 60000, 90000, MAXIMUM_MAX_AGE], // ms
+  buckets: [0, 1, 5, 10, 30, 60, 90, 120],
 })
 
 export const observeMetrics = (id: string, participantId: string) => {
@@ -32,7 +30,7 @@ export const observeMetrics = (id: string, participantId: string) => {
 
   const end = cache_execution_duration_seconds.startTimer()
   return (cacheHit: boolean, staleness = 0): number => {
-    cache_data_staleness.labels({ ...defaultLabels }).observe(staleness)
+    cache_data_staleness_seconds.labels({ ...defaultLabels }).observe(staleness)
     return end({ ...defaultLabels, cache_hit: String(cacheHit) })
   }
 }
