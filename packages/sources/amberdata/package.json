@@ -5,14 +5,10 @@
   "main": "dist/index.js",
   "scripts": {
     "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
-    "prepublish": "yarn test:unit",
     "prepack": "yarn build",
     "build": "tsc -b",
     "lint": "eslint --ignore-path ../../../.eslintignore . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint --ignore-path ../../../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix",
-    "test": "yarn test:unit && yarn test:integration",
-    "test:unit": "mocha --exit --grep @integration --invert -r ts-node/register 'test/**/*.test.ts'",
-    "test:integration": "mocha --timeout 5000 --exit --grep @integration -r ts-node/register 'test/**/*.test.ts'",
     "server": "node -e 'require(\"./index.js\").server()'",
     "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
     "start": "yarn server:dist"
