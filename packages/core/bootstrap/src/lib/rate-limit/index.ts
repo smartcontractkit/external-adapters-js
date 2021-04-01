@@ -102,7 +102,7 @@ export const withRateLimit = (store: Store<RootState>): Middleware => async (exe
     participant_id: requestTypeId,
     experimental: 'true',
   }
-  const cost = Number(result.debug?.providerCost)
+  const cost = parseInt(result.debug?.providerCost)
   metrics.rateLimitCreditsSpentTotal.labels(defaultLabels).inc(isNaN(cost) ? 1 : cost)
 
   return result
