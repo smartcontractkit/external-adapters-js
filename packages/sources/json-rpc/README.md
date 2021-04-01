@@ -1,7 +1,6 @@
 # General JSON-RPC External Adapter for Chainlink
 
 - Should work for any JSON RPC supported endpoint (includes tests for a few major projects which support JSON RPC commands)
-- Supports AWS Lambda and GCP Functions
 - Blockchain clients can sign and send transactions if wallet is unlocked
 - Takes optional connection to RPC endpoint (set via `RPC_URL` environment variable)
 
