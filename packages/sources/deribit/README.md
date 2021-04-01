@@ -1,20 +1,35 @@
 # Chainlink External Adapter for Deribit
 
-## Input Params
+### Input Params
 
-- `base`, `from`, or `coin`: The symbol of the currency to query
+<!-- - `base`, `from`, or `coin`: The symbol of the currency to query
 - `quote`, `to`, or `market`: The symbol of the currency to convert to
-- `endpoint`: Optional endpoint param
+- `endpoint`: Optional endpoint param -->
 
-## Output
+| Required? |           Name            |             Description             | Options | Defaults to |
+| :-------: | :-----------------------: | :---------------------------------: | :-----: | :---------: |
+|    ✅     | `base`, `from`, or `coin` | The symbol of the currency to query |         |             |
+
+### Sample Input
 
 ```json
 {
- "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
- "data": {
-  "price": 77777.77,
-  "result": 77777.77
- },
- "statusCode": 200
+  "id": "1",
+  "data": {
+    "base": "ETH"
+  }
+}
+```
+
+## Sample Output
+
+```json
+{
+  "jobRunID": "1",
+  "result": 66.5046281503906,
+  "statusCode": 200,
+  "data": {
+    "result": 66.5046281503906
+  }
 }
 ```
