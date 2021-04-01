@@ -2,9 +2,9 @@
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |                                                                     Options                                                                      | Defaults to |
-| :-------: | :------: | :-----------------: | :----------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [price](#Price-Endpoint), [dominance](#Dominance-Endpoint), [globalmarketcap](#Market-Capitalization-Endpoint), [marketcap](#Marketcap-Endpoint) |   `price`   |
+| Required? |   Name   |     Description     |                                                                         Options                                                                         | Defaults to |
+| :-------: | :------: | :-----------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [price](#Price-Endpoint), [dominance](#Dominance-Endpoint), [globalmarketcap](#Global-Market-Capitalization-Endpoint), [marketcap](#Marketcap-Endpoint) |   `price`   |
 
 ---
 
@@ -21,7 +21,19 @@ https://api.coinpaprika.com/v1/tickers/`{COIN}`
 |    🟡     |        `coinid`         | The coin ID (optional to use in place of `base`) |         |             |
 |    🟡     |   `overrides`   | If base provided is found in overrides, that will be used  | [Format](../external-adapter/src/overrides/presetSymbols.json)|             |
 
-### Output
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "base": "ETH",
+    "quote": "USD"
+  }
+}
+```
+
+### Sample Output
 
 ```json
 {
@@ -71,7 +83,19 @@ Returns Bitcoin's dominance from the [global endpoint](https://api.coinpaprika.c
 | :-------: | :---------------------: | :---------------------------------: | :-----: | :---------: |
 |    ✅     | `quote`, `to`, `market` | The symbol of the currency to query |  `BTC`  |             |
 
-### Output
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "dominance",
+    "market": "BTC"
+  }
+}
+```
+
+### Sample Output
 
 ```json
 {
@@ -97,7 +121,7 @@ Returns Bitcoin's dominance from the [global endpoint](https://api.coinpaprika.c
 }
 ```
 
-## Market Capitalization Endpoint
+## Global Market Capitalization Endpoint
 
 Returns the global market capitilization from the [global endpoint](https://api.coinpaprika.com/v1/global)
 
@@ -107,7 +131,17 @@ Returns the global market capitilization from the [global endpoint](https://api.
 | :-------: | :---------------------: | :---------------------------------: | :-----: | :---------: |
 |    ✅     | `quote`, `to`, `market` | The symbol of the currency to query |  `USD`  |             |
 
-### Output
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "globalmarketcap",
+    "market": "USD"
+  }
+}
+```
+
+### Sample Output
 
 ```json
 {
@@ -143,9 +177,22 @@ Fetch one or multiple market cap assets
 | :-------: | :---------------------: | :----------------------------------------------: | :-----: | :---------: |
 |    ✅     | `base`, `from`, `coin`  |       The symbol of the currency to query        |         |             |
 |    ✅     | `quote`, `to`, `market` |     The symbol of the currency to convert to     |         |             |
-|    🟡     |        `coinid`         | The coin ID (optional to use in place of `base`) |         |             |
+|           |        `coinid`         | The coin ID (optional to use in place of `base`) |         |             |
 
-### Output
+### Sample Input
+
+```json
+{
+  "jobId": "1",
+  "data": {
+    "endpoint": "marketcap",
+    "base": "ETH",
+    "quote": "USD"
+  }
+}
+```
+
+### Sample Output
 
 ```json
 {

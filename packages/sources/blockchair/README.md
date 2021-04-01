@@ -1,18 +1,36 @@
 # Chainlink External Adapter for Blockchair
 
-## Configuration
+### Environment Variables
 
 The adapter takes the following environment variables:
 
-- `API_KEY`: Optional Blochair API key to use
-- `API_TIMEOUT`: Optional timeout param, defaults to `30000`
+| Required? |     Name      |        Description        | Options | Defaults to |
+| :-------: | :-----------: | :-----------------------: | :-----: | :---------: |
+|           |   `API_KEY`   | Blockchair API key to use |         |             |
+|           | `API_TIMEOUT` |   API timeout parameter   |         |   `30000`   |
 
-## Input Params
+### Input Params
 
 - `blockchain` or `coin`: The blockchain to get stats from
 - `endpoint`: The parameter to query for. Default: "difficulty"
 
-### Output
+| Required? |          Name          |           Description            | Options | Defaults to  |
+| :-------: | :--------------------: | :------------------------------: | :-----: | :----------: |
+|    ✅     | `blockchain` or `coin` | The blockchain to get stats from |         |              |
+|           |       `endpoint`       |    The parameter to query for    |         | `difficulty` |
+
+### Sample Input
+
+```json
+{
+  "id": 1,
+  "data": {
+    "blockchain": "BTC"
+  }
+}
+```
+
+### Sample Output
 
 ```json
 {

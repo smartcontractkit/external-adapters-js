@@ -1,29 +1,38 @@
 # Chainlink External Adapters to query address balance from SoChain
 
-## Configuration
+### Environment Variables
 
 The adapter takes the following environment variables:
 
-- `API_TIMEOUT`: Optional timeout param, defaults to `30000`
+| Required? |     Name      |    Description    | Options | Defaults to |
+| :-------: | :-----------: | :---------------: | :-----: | :---------: |
+|           | `API_TIMEOUT` | Timeout parameter |         |   `30000`   |
 
-## Input Params
+### Input Params
 
-- `endpoint`: Optional endpoint param, defaults to `balance`
+| Required? |    Name    |     Description     | Options | Defaults to |
+| :-------: | :--------: | :-----------------: | :-----: | :---------: |
+|           | `endpoint` | The endpoint to use |         |  `balance`  |
 
-### Balance endpoint
+## Balance Essndpoint
 
-- `dataPath`: Optional path where to find the addresses array, defaults to `result`
-- `confirmations`: Optional confirmations param, defaults to `6`
+### Input Params
 
-- `addresses`: Addresses to query
+| Required? |      Name       |                                 Description                                 | Options | Defaults to |
+| :-------: | :-------------: | :-------------------------------------------------------------------------: | :-----: | :---------: |
+|           |   `dataPath`    |                   Path where to find the addresses array                    |         |  `result`   |
+|           | `confirmations` |                           Confirmations parameter                           |         |      6      |
+|           |   `addresses`   | Array of addresses to query (this may also be under the `result` parameter) |         |             |
 
-  {
+Addresses is an an array of objects that contain the following information:
 
-  - `address`: Address to query
-  - `coin`: Optional currency to query, defaults to `btc`, one of `(btc|dash|doge|ltc|zec)`
-  - `chain`: Optional chain to query, defaults to `mainnet`, one of `(mainnet|testnet)`
+| Required? |   Name    |                 Description                  |                  Options                  | Defaults to |
+| :-------: | :-------: | :------------------------------------------: | :---------------------------------------: | :---------: |
+|    ✅     | `address` |               Address to query               |                                           |             |
+|           |  `coin`   |              Currency to query               | `btc`. `eth`, `bch`, `ltc`, `btsv`, `zec` |    `btc`    |
+|           |  `chain`  | Chain to query (Ethereum testnet is Rinkeby) |           `mainnet`, `testnet`            |  `mainnet`  |
 
-  }
+### Sample Input
 
 ```json
 {
@@ -65,7 +74,7 @@ The adapter takes the following environment variables:
 }
 ```
 
-### Output
+### Sample Output
 
 ```json
 {

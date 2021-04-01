@@ -42,6 +42,8 @@ External adapters should be run as long-lived processes. They can be found under
 - [`packages/targets`](./packages/targets): adapters for writing data
 - [`packages/composites`](./packages/composites): chaining multiple adapters for advanced functionality
 
+Note that each adapter may have required environment variables. Please see the respective adapter folder for more information.
+
 Two ways to run them locally are:
 
 #### HTTP server

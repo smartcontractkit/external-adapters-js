@@ -26,7 +26,19 @@
 |    ✅     | `quote`, `to`, or `market` | The symbol of the currency to convert to | [List](https://docs.coinapi.io/#list-all-assets) |             |
 |    🟡     |   `overrides`   | If base provided is found in overrides, that will be used  | [Format](../external-adapter/src/overrides/presetSymbols.json)|             |
 
-### Output
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "base": "ETH",
+    "quote": "USD"
+  }
+}
+```
+
+### Sample Output
 
 ```json
 {
