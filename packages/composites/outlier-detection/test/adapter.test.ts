@@ -70,7 +70,7 @@ const useUnderlying = (adapters: AdapterImplementation[]) => {
   return beforeAll(() => {
     setupEnvironment(adapters)
     // services = startServices(adapters)
-  });
+  })
   // after: () => {
   //   cleanupEnvironment(adapters)
   //   cleanupServices(services)
