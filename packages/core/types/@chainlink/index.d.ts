@@ -105,5 +105,4 @@ declare module '@chainlink/types' {
   }
 }
 
-declare module 'synthetix'
 declare module 'object-path'
