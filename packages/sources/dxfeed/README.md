@@ -6,7 +6,7 @@
 | :-------: | :----------: | :--------------------------: | :-----: | :----------------------------------------: |
 |    ✅     | API_USERNAME |                              |         |                                            |
 |    ✅     | API_PASSWORD |                              |         |                                            |
-|    🟡     | API_ENDPOINT | The endpoint for your dxFeed |         | `https://tools.dxfeed.com/webservice/rest` |
+|           | API_ENDPOINT | The endpoint for your dxFeed |         | `https://tools.dxfeed.com/webservice/rest` |
 
 ---
 
@@ -35,7 +35,18 @@ TSLA ➡️ 'TSLA:BFX'
 TSLAX ➡️ 'TSLA.US:TEI'
 ```
 
-### Output
+### Sample Input
+
+```json
+{
+  "id": 1,
+  "data": {
+    "base": "FTSE"
+  }
+}
+```
+
+### Sample Output
 
 ```json
 {
