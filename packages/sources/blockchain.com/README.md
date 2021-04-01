@@ -4,20 +4,35 @@
 
 The adapter takes the following environment variables:
 
-- `API_KEY`: Optional blockchain.com API key to use
-- `API_TIMEOUT`: Optional timeout param, defaults to `30000`
+| Required? |     Name      |          Description          | Options | Defaults to |
+| :-------: | :-----------: | :---------------------------: | :-----: | :---------: |
+|           |   `API_KEY`   | blockchain.com API key to use |         |             |
+|           | `API_TIMEOUT` |     API timeout parameter     |         |   `30000`   |
 
-## Input Params
+### Input Params
 
-- `endpoint`: Optional endpoint param, defaults to `balance`
+| Required? |   Name   |     Description     | Options | Defaults to |
+| :-------: | :------: | :-----------------: | :-----: | :---------: |
+|           | endpoint | The endpoint to use |         |  `balance`  |
 
-### Balance endpoint
+## Balance endpoint
 
-- `addresses`: Addresses to query
-  - `address`: Address to query
-  - `coin`: Optional currency to query, defaults to `btc`
-  - `chain`: Optional chain to query, defaults to `mainnet`
-- `confirmations`: Optional confirmations param, defaults to `6`
+### Input Params
+
+| Required? |      Name       |        Description         | Options | Defaults to |
+| :-------: | :-------------: | :------------------------: | :-----: | :---------: |
+|    ✅     |   `addresses`   | List of addresses to query |         |             |
+|           | `confirmations` |   Confirmation parameter   |         |     `6`     |
+
+Each item in the `addresses` list can contain the following parameters:
+
+| Required? |   Name    |    Description    | Options | Defaults to |
+| :-------: | :-------: | :---------------: | :-----: | :---------: |
+|    ✅     | `address` | Address to query  |         |             |
+|           |  `coin`   | Currency to query |         |    `btc`    |
+|           |  `chain`  |  Chain to query   |         |  `mainnet`  |
+
+### Sample Input
 
 ```json
 {
@@ -58,7 +73,7 @@ The adapter takes the following environment variables:
 }
 ```
 
-### Output
+### Sample Output
 
 ```json
 {

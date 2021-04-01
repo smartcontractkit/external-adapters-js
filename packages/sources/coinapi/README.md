@@ -25,7 +25,19 @@
 |    ✅     | `base`, `from`, or `coin`  |   The symbol of the currency to query    | [List](https://docs.coinapi.io/#list-all-assets) |             |
 |    ✅     | `quote`, `to`, or `market` | The symbol of the currency to convert to | [List](https://docs.coinapi.io/#list-all-assets) |             |
 
-### Output
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "base": "ETH",
+    "quote": "USD"
+  }
+}
+```
+
+### Sample Output
 
 ```json
 {

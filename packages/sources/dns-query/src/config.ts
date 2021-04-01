@@ -2,12 +2,12 @@ import { util } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
 export enum DNSProviders {
-  Cloudfare = 'cloudfare',
+  Cloudflare = 'cloudflare',
   Google = 'google',
 }
 
 export const endpoints: Record<string, string> = {
-  [DNSProviders.Cloudfare]: 'https://cloudflare-dns.com/dns-query',
+  [DNSProviders.Cloudflare]: 'https://cloudflare-dns.com/dns-query',
   [DNSProviders.Google]: 'https://dns.google/resolve',
 }
 

@@ -1,9 +1,15 @@
 # Chainlink External Adapters to query RenVM address set
 
-## Input Params
+## Running
 
-- `network`: Optional param, specify what RenVM network you are talking to (`"mainnet" | "chaosnet" | "testnet"`). Defaults to `testnet`.
-- `tokenOrContract`: Optional param, token or contract to return an address for (`RenTokens | RenContract | Asset | ("BTC" | "ZEC" | "BCH")`). Defaults to `BTC`.
+### Input Params
+
+| Required? |   Name    | Description | Options | Defaults to |
+| :-------: | :-------: | :---------: | :-----: | :---------: |
+|         | `network` |    specify what RenVM network you are talking to         |    `mainnet`, `chaosnet`, `testnet`     |   `testnet`     |
+|         |     `tokenOrContract`      |     token or contract to return an address for        |         |      `BTC`       |
+
+### Sample Input
 
 ```json
 {
@@ -15,7 +21,7 @@
 }
 ```
 
-## Output
+### Sample Output
 
 ```json
 {

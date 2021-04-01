@@ -16,11 +16,23 @@ Query the price from [Coingecko](https://api.coingecko.com/api/v3/simple/price)
 
 |         Required?          |            Name            |               Description                |                                        Options                                         | Defaults to |
 | :------------------------: | :------------------------: | :--------------------------------------: | :------------------------------------------------------------------------------------: | :---------: |
-|  🟡 (if not using `base`)  |          `coinid`          |  The CoinGecko id of the coin to query   | [See list here](https://www.coingecko.com/api/documentations/v3#/coins/get_coins_list) |             |
-| 🟡 (if not using `coinid`) | `base`, `from`, or `coin`  |   The symbol of the currency to query    |                                           ↑                                            |             |
+|  (✅ if not using `base`)  |          `coinid`          |  The CoinGecko id of the coin to query   | [See list here](https://www.coingecko.com/api/documentations/v3#/coins/get_coins_list) |             |
+| (✅ if not using `coinid`) | `base`, `from`, or `coin`  |   The symbol of the currency to query    |                                           ↑                                            |             |
 |             ✅             | `quote`, `to`, or `market` | The symbol of the currency to convert to |                                           ↑                                            |             |
 
-### Output
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "base": "ETH",
+    "quote": "USD"
+  }
+}
+```
+
+### Sample Output
 
 ```json
 {
@@ -46,7 +58,19 @@ Query the global market cap from [Coingecko](https://api.coingecko.com/api/v3/gl
 | :-------: | :-------------------------------: | :-----------------------------: | :----------------------------------------------------------: | :---------: |
 |    ✅     | `market`, `to`, `quote` or `coin` | The ticker of the coin to query | [Supported tickers](https://api.coingecko.com/api/v3/global) |             |
 
-### Output
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "globalmarketcap",
+    "coin": "ETH",
+  }
+}
+```
+
+### Sample Output
 
 ```json
 {
@@ -114,7 +138,19 @@ Query the market dominance percentage from [Coingecko](https://api.coingecko.com
 | :-------: | :-------------------------------: | :-----------------------------: | :----------------------------------------------------------: | :---------: |
 |    ✅     | `market`, `to`, `quote` or `coin` | The ticker of the coin to query | [Supported tickers](https://api.coingecko.com/api/v3/global) |             |
 
-### Output
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "dominance",
+    "coin": "ETH",
+  }
+}
+```
+
+### Sample Output
 
 ```json
 {
@@ -180,21 +216,24 @@ Query the Market Cap for the requested assets
 
 |         Required?          |            Name            |                  Description                   |                                        Options                                         | Defaults to |
 | :------------------------: | :------------------------: | :--------------------------------------------: | :------------------------------------------------------------------------------------: | :---------: |
-|  🟡 (if not using `base`)  |          `coinid`          |     The CoinGecko id of the coin to query      | [See list here](https://www.coingecko.com/api/documentations/v3#/coins/get_coins_list) |             |
-| 🟡 (if not using `coinid`) | `base`, `from`, or `coin`  |      The symbol of the currency to query       |                                           ↑                                            |             |
+|  (✅ if not using `base`)  |          `coinid`          |     The CoinGecko id of the coin to query      | [See list here](https://www.coingecko.com/api/documentations/v3#/coins/get_coins_list) |             |
+| (✅ if not using `coinid`) | `base`, `from`, or `coin`  |      The symbol of the currency to query       |                                           ↑                                            |             |
 |             ✅             | `quote`, `to`, or `market` | The symbol of the currency to fecth market cap |                                           ↑                                            |             |
+
+### Sample Input
 
 ```json
 {
   "jobId": "1",
   "data": {
+    "endpoint": "marketcap",
     "base": "ETH",
     "quote": "USD"
   }
 }
 ```
 
-### Output
+### Sample Output
 
 ```json
 {

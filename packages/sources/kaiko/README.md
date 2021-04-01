@@ -15,7 +15,19 @@
 |    ✅     | `base`, `from`, or `coin`  |   The symbol of the currency to query    |         |             |
 |    ✅     | `quote`, `to`, or `market` | The symbol of the currency to convert to |         |             |
 
-### Output
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "base": "ETH",
+    "quote": "USD"
+  }
+}
+```
+
+### Sample Output
 
 ```json
 {
