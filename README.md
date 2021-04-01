@@ -37,9 +37,10 @@ Runs the setup step for all adapters. Typically this step just compiles TypeScri
 ### Running Locally
 
 External adapters should be run as long-lived processes. They can be found under various folders:
-* [`packages/sources`](./packages/sources): adapters for reading data from API sources
-* [`packages/targets`](./packages/targets): adapters for writing data
-* [`packages/composites`](./packages/composites): chaining multiple adapters for advanced functionality
+
+- [`packages/sources`](./packages/sources): adapters for reading data from API sources
+- [`packages/targets`](./packages/targets): adapters for writing data
+- [`packages/composites`](./packages/composites): chaining multiple adapters for advanced functionality
 
 Two ways to run them locally are:
 
@@ -59,8 +60,16 @@ Take `bravenewcoin` as an example.
 
 First create the image. Use the provided `docker` script with two arguments:
 
-- adapter - the path to adapter from `./packages`
-- name - the name of the folder that contains the external adapter
+```bash
+yarn docker [adapter-type] [adapter-name]
+```
+
+|   Parameter    |                 Description                  |              Options               |
+| :------------: | :------------------------------------------: | :--------------------------------: |
+| `adapter-type` |      path to adapter from `./packages`       | `composites`, `sources`, `targets` |
+| `adapter-name` | name of the folder that contains the adapter |  `bravenewcoin`, `coingecko`, ...  |
+
+`bravenewcoin` example:
 
 ```bash
 yarn docker sources bravenewcoin
@@ -115,12 +124,14 @@ Optionally `data` parameters can also be passed via a query string added to the 
 
 To get started from one of the example adapters seen in [examples](./packages/examples) use the `new` script with two arguments:
 
-- `type` - the name of the template to use
-- `name` - what to call the new adapter
+```bash
+yarn new [template-type] [name-of-adapter]
+```
 
-```
-yarn new [template type] [name of adapter]
-```
+|     Parameter     |           Description           |         Options         |
+| :---------------: | :-----------------------------: | :---------------------: |
+|  `template-type`  | the name of the template to use | `composites`, `sources` |
+| `name-of-adapter` |  what to call the new adapter   |      user-defined       |
 
 For example
 
