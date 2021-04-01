@@ -26,10 +26,22 @@ https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest
 | :-------: | :--------------------------------: | :-----------------------------------------------------: | :-----: | :---------: |
 |    ✅     |   `base`, `from`, `coin`, `sym`    | The symbol or array of symbols of the currency to query |         |             |
 |    ✅     | `quote`, `to`, `market`, `convert` |        The symbol of the currency to convert to         |         |             |
-|    🟡     |               `cid`                |  The CMC coin ID (optional to use in place of `base`)   |         |             |
-|    🟡     |               `slug`               | The CMC coin name (optional to use in place of `base`)  |         |             |
+|           |               `cid`                |  The CMC coin ID (optional to use in place of `base`)   |         |             |
+|           |               `slug`               | The CMC coin name (optional to use in place of `base`)  |         |             |
 
-### Output
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "base": "ETH",
+    "quote": "USD"
+  }
+}
+```
+
+### Sample Output
 
 ```json
 {
@@ -88,7 +100,19 @@ https://pro-api.coinmarketcap.com/v1/global-metrics/quotes/latest
 | :-------: | :---------------------: | :---------------------------------: | :----------: | :---------: |
 |    ✅     | `quote`, `to`, `market` | The symbol of the currency to query | `BTC`, `ETH` |             |
 
-### Output
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "dominance",
+    "market": "ETH"
+  }
+}
+```
+
+### Sample Output
 
 ```json
 {
@@ -151,7 +175,19 @@ https://pro-api.coinmarketcap.com/v1/global-metrics/quotes/latest
 | :-------: | :---------------------: | :---------------------------------: | :-----: | :---------: |
 |    ✅     | `quote`, `to`, `market` | The symbol of the currency to query |  `USD`  |             |
 
-### Output
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "globalmarketcap",
+    "market": "USD",
+  }
+}
+```
+
+### Sample Output
 
 ```json
 {
@@ -214,10 +250,23 @@ https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest
 | :-------: | :--------------------------------: | :----------------------------------------------------: | :-----: | :---------: |
 |    ✅     |   `base`, `from`, `coin`, `sym`    |          The symbol of the currency to query           |         |             |
 |    ✅     | `quote`, `to`, `market`, `convert` |        The symbol of the currency to convert to        |         |             |
-|    🟡     |               `cid`                |  The CMC coin ID (optional to use in place of `base`)  |         |             |
-|    🟡     |               `slug`               | The CMC coin name (optional to use in place of `base`) |         |             |
+|           |               `cid`                |  The CMC coin ID (optional to use in place of `base`)  |         |             |
+|           |               `slug`               | The CMC coin name (optional to use in place of `base`) |         |             |
 
-### Output
+### Sample Input
+
+```json
+{
+  "jobId": "1",
+  "data": {
+    "endpoint": "marketcap",
+    "base": "ETH",
+    "quote": "USD"
+  }
+}
+```
+
+### Sample Output
 
 ```json
 {

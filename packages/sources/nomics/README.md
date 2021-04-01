@@ -10,9 +10,9 @@
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |                                                        Options                                                        | Defaults to |
-| :-------: | :------: | :-----------------: | :-------------------------------------------------------------------------------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [price](#Price-Endpoint), [globalmarketcap](#Global-Market-Capitalization-Endpoint), [marketcap](#Marketcap-Endpoint) |    price    |
+| Required? |    Name    |     Description     |                                                        Options                                                        | Defaults to |
+| :-------: | :--------: | :-----------------: | :-------------------------------------------------------------------------------------------------------------------: | :---------: |
+|           | `endpoint` | The endpoint to use | [price](#Price-Endpoint), [globalmarketcap](#Global-Market-Capitalization-Endpoint), [marketcap](#Marketcap-Endpoint) |   `price`   |
 
 ---
 
@@ -25,7 +25,19 @@
 |    ✅     |   `base`, `from`, `coin`, `ids`   |   The symbol of the currency to query    |         |             |
 |    ✅     | `quote`, `to`,`market`, `convert` | The symbol of the currency to convert to |         |             |
 
-## Output
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "base": "ETH",
+    "quote": "USD"
+  }
+}
+```
+
+### Sample Output
 
 ```json
 {
@@ -98,7 +110,18 @@
 
 ## Global Market Capitalization Endpoint
 
-## Output
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "globalmarketcap"
+  }
+}
+```
+
+### Sample Output
 
 ```json
 {
@@ -349,7 +372,19 @@ Fetch the market cap of the requested asset
 |    ✅     |   `base`, `from`, `coin`, `ids`   |   The symbol of the currency to query    |         |             |
 |    ✅     | `quote`, `to`,`market`, `convert` | The symbol of the currency to convert to |         |             |
 
-## Output
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "base": "ETH",
+    "quote": "USD"
+  }
+}
+```
+
+### Sample Output
 
 ```json
 {
