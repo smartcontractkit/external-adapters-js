@@ -19,7 +19,6 @@
   },
   "dependencies": {
     "@chainlink/ea-ratelimits": "*",
-    "@google-cloud/logging-winston": "^4.0.1",
     "@reduxjs/toolkit": "^1.5.0",
     "axios": "^0.21.1",
     "decimal.js": "^10.2.1",
