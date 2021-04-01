@@ -7306,6 +7306,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@nomiclabs/ethereumjs-vm", "npm:4.2.2"],
             ["async", "npm:2.6.3"],
             ["async-eventemitter", "npm:0.2.4"],
+            ["bn.js", "npm:5.2.0"],
             ["core-js-pure", "npm:3.9.1"],
             ["ethereumjs-account", "npm:3.0.0"],
             ["ethereumjs-block", "npm:2.2.2"],
@@ -7316,6 +7317,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["fake-merkle-patricia-tree", "npm:1.0.1"],
             ["functional-red-black-tree", "npm:1.0.1"],
             ["merkle-patricia-tree", "npm:3.0.0"],
+            ["rlp", "npm:2.2.6"],
             ["rustbn.js", "npm:0.2.0"],
             ["safe-buffer", "npm:5.2.1"],
             ["util.promisify", "npm:1.1.1"]
@@ -12800,6 +12802,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["ethereumjs-blockchain", "npm:4.0.4"],
             ["async", "npm:2.6.3"],
+            ["bn.js", "npm:5.2.0"],
             ["ethashjs", "npm:0.0.8"],
             ["ethereumjs-block", "npm:2.2.2"],
             ["ethereumjs-common", "npm:1.5.2"],
