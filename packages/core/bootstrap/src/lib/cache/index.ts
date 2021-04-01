@@ -127,7 +127,7 @@ export const withCache: Middleware = async (execute, options = defaultOptions())
   const _executeWithCache = async (data: AdapterRequest) => {
     const key = _getKey(data)
     const coalescingKey = _getCoalescingKey(key)
-    const endMetrics = metrics.observeMetrics(data.id, key)
+    const endMetrics = metrics.observeMetrics(data.id, key, data.debug?.feedId)
     const maxAge = _getRequestMaxAge(data) || _getDefaultMaxAge(data)
     // Add successful result to cache
     const _cacheOnSuccess = async ({ statusCode, data, result }: AdapterResponse) => {

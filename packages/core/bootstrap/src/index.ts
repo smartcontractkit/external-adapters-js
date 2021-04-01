@@ -14,6 +14,7 @@ import * as rateLimit from './lib/rate-limit'
 import * as server from './lib/server'
 import * as util from './lib/util'
 import { configureStore } from './lib/store'
+import { getFeedId } from './lib/external-adapter/util'
 
 const rootReducer = combineReducers({
   cacheWarmer: cacheWarmer.reducer.rootReducer,
@@ -98,8 +99,11 @@ const withMetrics: Middleware = async (execute) => async (input: AdapterRequest)
   }
 }
 
-const withDebug: Middleware = async (execute) => async (input: AdapterRequest) => {
-  const result = await execute(input)
+export const withDebug: Middleware = async (execute) => async (input: AdapterRequest) => {
+  const debug = {
+    feedId: getFeedId(input),
+  }
+  const result = await execute({ ...input, debug })
   if (!util.isDebug()) {
     const { debug, ...rest } = result
     return rest
@@ -115,8 +119,7 @@ const middleware = [
     dispatch: (a) => store.dispatch(a),
   } as Store),
   withStatusCode,
-  withDebug,
-].concat(metrics.METRICS_ENABLED ? [withMetrics] : [])
+].concat(metrics.METRICS_ENABLED ? [withMetrics, withDebug] : [withDebug])
 
 // Init all middleware, and return a wrapped execute fn
 const withMiddleware = async (execute: Execute) => {

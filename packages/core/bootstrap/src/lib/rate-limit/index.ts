@@ -99,6 +99,7 @@ export const withRateLimit = (store: Store<RootState>): Middleware => async (exe
 
   const defaultLabels = {
     job_run_id: input.id,
+    feed_id: input.debug?.feedId,
     participant_id: requestTypeId,
     experimental: 'true',
   }

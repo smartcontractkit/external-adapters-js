@@ -15,6 +15,7 @@ declare module '@chainlink/types' {
     id: string
     data: Record<string, unknown>
     meta?: AdapterRequestMeta
+    debug?: any
   }
 
   /* RESPONSES */
