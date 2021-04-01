@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `agoric` to push results to the Agoric blockchain
   - `therundown` to get sports score data from TheRundown
   - `tradingeconomics-stream` to get stream data from TradingEconomics
+  - `watchsignals` to get watch price data from WatchSignals
 
 ### Changed
 
