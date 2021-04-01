@@ -1,2 +1,2 @@
 // Declare missing type definitions
-declare module 'contracts'
+declare module '@chainlink/contracts'

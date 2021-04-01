@@ -3,7 +3,9 @@
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "src",
-    "resolveJsonModule": true
+    "paths": {
+      "*": ["./types/*"]
+    }
   },
   "include": ["src/**/*", "src/**/*.json"],
   "exclude": ["dist", "**/*.spec.ts", "**/*.test.ts"],
