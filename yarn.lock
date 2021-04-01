@@ -1273,7 +1273,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -1305,7 +1304,6 @@ __metadata:
     eslint-plugin-standard: ^5.0.0
     ethers: ^5.0.32
     express: ^4.17.1
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -1334,7 +1332,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -1363,7 +1360,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -1393,7 +1389,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -1422,7 +1417,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -1451,7 +1445,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -1480,7 +1473,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -1512,7 +1504,6 @@ __metadata:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     ethers: 5.0.32
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -1541,7 +1532,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -1571,7 +1561,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -1601,7 +1590,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -1631,7 +1619,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -1661,7 +1648,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     object-path: ^0.11.4
     prettier: ^2.0.5
     sinon: ^10.0.0
@@ -1692,7 +1678,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     object-path: ^0.11.4
     prettier: ^2.0.5
     sinon: ^10.0.0
@@ -1724,7 +1709,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     object-path: ^0.11.4
     prettier: ^2.0.5
     sinon: ^10.0.0
@@ -1754,7 +1738,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -1784,7 +1767,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     object-path: ^0.11.4
     prettier: ^2.0.5
     sinon: ^10.0.0
@@ -1814,7 +1796,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -1843,7 +1824,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -1872,7 +1852,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -1901,7 +1880,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -1930,7 +1908,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -1960,7 +1937,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -1989,7 +1965,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -2018,7 +1993,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -2047,7 +2021,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -2077,7 +2050,6 @@ __metadata:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     ethers: ^5.0.32
-    jest: ^26.6.3
     js-conflux-sdk: ^1.5.11
     prettier: ^2.0.5
     sinon: ^10.0.0
@@ -2137,7 +2109,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -2169,7 +2140,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     moment: ^2.29.1
     prettier: ^2.0.5
     sinon: ^10.0.0
@@ -2201,7 +2171,6 @@ __metadata:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     ethers: ^5.0.32
-    jest: ^26.6.3
     object-path: ^0.11.4
     prettier: ^2.0.5
     sinon: ^10.0.0
@@ -2231,7 +2200,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -2260,7 +2228,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -2289,7 +2256,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -2318,7 +2284,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -2349,7 +2314,6 @@ __metadata:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     ethers: ^5.0.32
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -2378,7 +2342,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -2407,7 +2370,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -2437,7 +2399,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -2467,7 +2428,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -2496,7 +2456,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -2526,7 +2485,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -2558,7 +2516,6 @@ __metadata:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     ethers: ^5.0.32
-    jest: ^26.6.3
     object-path: ^0.11.5
     prettier: ^2.0.5
     sinon: ^10.0.0
@@ -2601,7 +2558,6 @@ __metadata:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     express: ^4.17.1
-    jest: ^26.6.3
     lodash: ^4.17.21
     lru-cache: ^6.0.0
     object-hash: ^2.0.3
@@ -2643,7 +2599,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     object-path: ^0.11.4
     prettier: ^2.0.5
     sinon: ^10.0.0
@@ -2671,7 +2626,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -2701,7 +2655,6 @@ __metadata:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     ethers: ^4.0.48
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -2730,7 +2683,6 @@ __metadata:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     hardhat: ^2.0.8
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -2759,7 +2711,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -2788,7 +2739,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -2817,7 +2767,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -2847,7 +2796,6 @@ __metadata:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     ethers: ^5.0.32
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -2875,7 +2823,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -2904,7 +2851,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -2964,7 +2910,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -2993,7 +2938,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -3022,7 +2966,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -3051,7 +2994,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -3080,7 +3022,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -3109,7 +3050,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -3138,7 +3078,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -3171,7 +3110,6 @@ __metadata:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     ethers: 5.0.26
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -3200,7 +3138,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -3229,7 +3166,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -3258,7 +3194,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -3287,7 +3222,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -3316,7 +3250,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -3345,7 +3278,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -3377,7 +3309,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     market-closure: ^0.1.2
     prettier: ^2.0.5
     sinon: ^10.0.0
@@ -3407,7 +3338,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -3436,7 +3366,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -3465,7 +3394,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -3494,7 +3422,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -3523,7 +3450,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -3552,7 +3478,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -3581,7 +3506,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -3610,7 +3534,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -3639,7 +3562,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -3675,7 +3597,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -3704,7 +3625,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -3733,7 +3653,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -3762,7 +3681,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -3803,7 +3721,6 @@ __metadata:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     ethers: ^5.0.32
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -3833,7 +3750,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     object-path: ^0.11.4
     prettier: ^2.0.5
     sinon: ^10.0.0
@@ -3867,7 +3783,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -3896,7 +3811,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -3927,7 +3841,6 @@ __metadata:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     ethers: ^5.0.32
-    jest: ^26.6.3
     object-path: ^0.11.4
     prettier: ^2.0.5
     sinon: ^10.0.0
@@ -3957,7 +3870,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -3988,7 +3900,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     synthetix: 2.39.2
@@ -4018,7 +3929,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -4047,7 +3957,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -4076,7 +3985,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -4115,7 +4023,6 @@ __metadata:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     ethers: ^5.0.32
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -4144,7 +4051,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -4174,7 +4080,6 @@ __metadata:
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
     express: ^4.17.1
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     tradingeconomics-stream: ^0.2.0
@@ -4204,7 +4109,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -4239,7 +4143,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -4268,7 +4171,6 @@ __metadata:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    jest: ^26.6.3
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
