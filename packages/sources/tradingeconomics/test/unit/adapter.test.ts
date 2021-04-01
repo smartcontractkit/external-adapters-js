@@ -6,23 +6,15 @@ import { makeExecute } from '../../src/adapter'
 describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
+  if (!process.env.API_CLIENT_KEY) process.env.API_CLIENT_KEY = 'test_client_key'
+  if (!process.env.API_CLIENT_SECRET) process.env.API_CLIENT_SECRET = 'test_client_secret'
+  if (!process.env.SYMBOLS) process.env.SYMBOLS = 'test_symbols'
 
   describe('validation error', () => {
     const requests = [
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },
-      {
-        name: 'asset not supplied',
-        testData: { id: jobID, data: { dataPath: 'price', price: 1 } },
-      },
-      {
-        name: 'price not a supplied',
-        testData: { id: jobID, data: { asset: 'BTCUSD' } },
-      },
-      {
-        name: 'price not a number',
-        testData: { id: jobID, data: { asset: 'BTCUSD', dataPath: 'price', price: 'aaa' } },
-      },
+      { name: 'base not supplied', testData: { id: jobID, data: {} } },
     ]
 
     requests.forEach((req) => {
@@ -31,7 +23,7 @@ describe('execute', () => {
           await execute(req.testData as AdapterRequest)
         } catch (error) {
           const errorResp = Requester.errored(jobID, error)
-          assertError({ expected: 500, actual: errorResp.statusCode }, errorResp, jobID)
+          assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
         }
       })
     })
