@@ -5379,7 +5379,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/babel__preset-env": ^7
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    decimal.js: ^10.2.0
     eslint: ^7.22.0
     eslint-config-prettier: ^8.1.0
     eslint-config-standard: ^16.0.2
@@ -5388,14 +5387,11 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-promise: ^4.3.1
     eslint-plugin-standard: ^5.0.0
-    ethers: ^5.0.26
-    express: ^4.17.0
     jest: ^26.6.3
     prettier: ^2.0.5
     shelljs: ^0.8.4
     ts-node: ^9.1.1
     typescript: ^4.2.3
-    web3: ^1.2.11
   languageName: unknown
   linkType: soft
 
@@ -11231,7 +11227,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   languageName: node
   linkType: hard
 
-"decimal.js@npm:^10.2.0, decimal.js@npm:^10.2.1":
+"decimal.js@npm:^10.2.1":
   version: 10.2.1
   resolution: "decimal.js@npm:10.2.1"
   checksum: ba28b27bb8aca6bbb73fbdb51d759961d9ff82218c4aa737b4f4826dee4244618a61c410201bb152950c4915e3d82a86211d1c2a4e23f805ee577574ba115e59
@@ -12621,9 +12617,15 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   linkType: hard
 >>>>>>> d7b55109... Remove @google-cloud/logging-winston
 
+<<<<<<< HEAD
 "bitgo-utxo-lib@https://github.com/ren-forks/bitgo-utxo-lib#7939387dda1199956fcb9d720a9493ce12cf013e":
   version: 1.9.0
   resolution: "bitgo-utxo-lib@https://github.com/ren-forks/bitgo-utxo-lib.git#commit=7939387dda1199956fcb9d720a9493ce12cf013e"
+=======
+"ethers@npm:5.0.32, ethers@npm:^5.0.32":
+  version: 5.0.32
+  resolution: "ethers@npm:5.0.32"
+>>>>>>> 7a4e97c9... Remove unused workspace deps
   dependencies:
     bech32: 0.0.3
     bigi: ^1.4.0
@@ -12802,9 +12804,82 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   resolution: "braces@npm:3.0.2"
   dependencies:
 <<<<<<< HEAD
+<<<<<<< HEAD
     fill-range: ^7.0.1
   checksum: f3493181c3e91a1333d3c9afc9b3263a3f62f4ced0b033c372efc1373b48a7699557f4e04026b232a8556e043ca5360a9d3008c33852350138d4b0ea57558b8d
 =======
+=======
+    "@jest/types": ^26.6.2
+    ansi-styles: ^4.0.0
+    jest-get-type: ^26.3.0
+    jest-matcher-utils: ^26.6.2
+    jest-message-util: ^26.6.2
+    jest-regex-util: ^26.0.0
+  checksum: a4ec4cbafac8b05eb02a8af5f086dede84a3a701abbfdafeadca24a1d286bd07035b32b2864a6ff012a733009beb0b96c10469b40832c5ee0d2dd0bb6b50a5b0
+  languageName: node
+  linkType: hard
+
+"express@npm:^4.14.0, express@npm:^4.17.1":
+  version: 4.17.1
+  resolution: "express@npm:4.17.1"
+  dependencies:
+    accepts: ~1.3.7
+    array-flatten: 1.1.1
+    body-parser: 1.19.0
+    content-disposition: 0.5.3
+    content-type: ~1.0.4
+    cookie: 0.4.0
+    cookie-signature: 1.0.6
+    debug: 2.6.9
+    depd: ~1.1.2
+    encodeurl: ~1.0.2
+    escape-html: ~1.0.3
+    etag: ~1.8.1
+    finalhandler: ~1.1.2
+    fresh: 0.5.2
+    merge-descriptors: 1.0.1
+    methods: ~1.1.2
+    on-finished: ~2.3.0
+    parseurl: ~1.3.3
+    path-to-regexp: 0.1.7
+    proxy-addr: ~2.0.5
+    qs: 6.7.0
+    range-parser: ~1.2.1
+    safe-buffer: 5.1.2
+    send: 0.17.1
+    serve-static: 1.14.1
+    setprototypeof: 1.1.1
+    statuses: ~1.5.0
+    type-is: ~1.6.18
+    utils-merge: 1.0.1
+    vary: ~1.1.2
+  checksum: c4b470d623152c148e874b08d4afc35ea9498547c31a6ff6dae767ae11e3a59508a299732e9f45bfa2885685fbe2b75ca360862977798dfcec28ff2a4260eab2
+  languageName: node
+  linkType: hard
+
+"ext@npm:^1.1.2":
+  version: 1.4.0
+  resolution: "ext@npm:1.4.0"
+  dependencies:
+    type: ^2.0.0
+  checksum: c94102371fecdee9f48d1acac2d0e49d49906af457c79d1d7cf1a0a14317ed3e4c99cd8a2e6f9a00e93d54306ee2872e2542edd0aa58bccc4fc72aa429ef215c
+  languageName: node
+  linkType: hard
+
+"extend-shallow@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "extend-shallow@npm:2.0.1"
+  dependencies:
+    is-extendable: ^0.1.0
+  checksum: 03dbbba8b9711409442428f4e0f80a92f86862a4d2559fa9629dd7080e85cacc6311c84ebea8b22b5ff40d3ef6475bbf534f098b77b7624448276708e60fa248
+  languageName: node
+  linkType: hard
+
+"extend-shallow@npm:^3.0.0, extend-shallow@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "extend-shallow@npm:3.0.2"
+  dependencies:
+>>>>>>> 7a4e97c9... Remove unused workspace deps
     assign-symbols: ^1.0.0
     is-extendable: ^1.0.1
   checksum: 5301c5070b98bef2413524046c3478cdce1a6bc112b44af2d4bdbfca59daabad49eb04c14e55375963db45f4ef6f43530d71a2c1c862a72d08eb165c77a13767
@@ -25284,7 +25359,7 @@ typescript@^4.2.3:
   languageName: node
   linkType: hard
 
-"web3@npm:^1.0.0-beta.34, web3@npm:^1.2.11, web3@npm:^1.2.9":
+"web3@npm:^1.0.0-beta.34, web3@npm:^1.2.9":
   version: 1.3.4
   resolution: "web3@npm:1.3.4"
   dependencies:
