@@ -81,6 +81,8 @@ RPC Address and Port Defaults:
 
 - BTC: (bitcoind) http://localhost:8332 (btcd) http://localhost:8334
 
+Make sure you run these commands from the ROOT of this monorepo.
+
 ```bash
-yarn test
+yarn test bitcoin-json-rpc
 ```

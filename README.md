@@ -123,10 +123,34 @@ _If on a Mac, this requires `gnu-sed` to be installed and set as the default for
 
 In order to test adapters locally, you may need to set an `$API_KEY` environment variable for the given API.
 
+Make sure you run these commands from the ROOT of this monorepo.
+
 ```bash
-cd $adapter
-yarn test
+# Build all packages
+yarn setup
+
+# Run all unit tests
+yarn test unit
+
+# Run all integration tests
+yarn test integration
+
+adapter=myadapter # Your adapter name, coinmarketcap, coingecko, etc
+
+# Run integration tests for that adapter
+yarn test $adapter/test/integration
+
+# Run unit tests for that adapter
+yarn test $adapter/test/unit
+
+# Run a specific test for that adapter
+yarn test $adapter/test/unit/my-specific-test.test.ts
+
+# Run a tests in watch mode, re-running tests that have code changes or dependency changes in them
+yarn test --watch $adapter/test/unit
 ```
+
+For more information, see the [Jest docs.](https://jestjs.io/docs/cli)
 
 ## Deployment
 
@@ -135,12 +159,15 @@ Coming Soon
 <!-- TODO: container based deployment documentation -->
 
 ## Performance
+
 The following section details mechanisms that reduce the number of API calls made from external adapters.
 
 ### Caching
+
 Caching allows for the EA to store successful responses and facilitate faster future response times.
 
 To enable, the following environment variables must be set:
+
 ```bash
 export CACHE_ENABLED=true
 ```
@@ -148,31 +175,40 @@ export CACHE_ENABLED=true
 See [/bootstrap](./packages/core/bootstrap#caching) for more details and configuration options.
 
 #### Cache Warming
+
 An additional functionality is cache warming which will poll APIs at certain intervals to keep the cache up to date.
 
 To enable, the following environment variables must be set:
+
 ```bash
 export CACHE_ENABLED=true EXPERIMENTAL_WARMUP_ENABLED=true
 ```
+
 The cache will begin polling once the first request has been received.
 
 ### Rate Limiting
+
 Rate limiting prevents hitting rate limit issues with data providers. To enable use the following environment keys:
+
 ```bash
 export EXPERIMENTAL_RATE_LIMIT_ENABLED=true CACHE_ENABLED=true
 ```
 
 There are two options for rate limiting:
+
 1. Manual setting (example shown for limit at 10 requests/minute)
+
 ```bash
 export RATE_LIMIT_CAPACITY=60
 ```
+
 2. Limits by provider data (example for Coingecko free tier)
+
 ```bash
 export RATE_LIMIT_API_PROVIDER=coingecko RATE_LIMIT_API_TIER=free
 ```
-Preset tiers/plans can be found [here](./packages/core/ratelimits/src/limits.json) and use the corresponding `provider` and `tierName`.
 
+Preset tiers/plans can be found [here](./packages/core/ratelimits/src/limits.json) and use the corresponding `provider` and `tierName`.
 
 See [/bootstrap](./packages/core/bootstrap#rate-limit) for more details on setup and [/ratelimits](./packages/core/ratelimits) for adding new providers to the preset plans.
 
