@@ -95,6 +95,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/examples/source"
       },
       {
+        "name": "scripts",
+        "reference": "workspace:packages/scripts"
+      },
+      {
         "name": "@chainlink/1forge-adapter",
         "reference": "workspace:packages/sources/1forge"
       },
@@ -521,7 +525,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/trueusd-adapter", ["workspace:packages/sources/trueusd"]],
       ["@chainlink/types", ["workspace:packages/core/types/@chainlink"]],
       ["@chainlink/wbtc-address-set-adapter", ["workspace:packages/sources/wbtc-address-set"]],
-      ["@chainlink/xbto-adapter", ["workspace:packages/sources/xbto"]]
+      ["@chainlink/xbto-adapter", ["workspace:packages/sources/xbto"]],
+      ["scripts", ["workspace:packages/scripts"]]
     ],
     "fallbackPool": [
     ],
@@ -539,6 +544,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/babel__preset-env", "npm:7.9.1"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.35"],
+            ["@vercel/ncc", "npm:0.27.0"],
             ["eslint", "npm:7.22.0"],
             ["eslint-config-prettier", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:8.1.0"],
             ["eslint-config-standard", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:16.0.2"],
@@ -549,7 +555,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-standard", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:5.0.0"],
             ["jest", "npm:26.6.3"],
             ["prettier", "npm:2.2.1"],
-            ["shelljs", "npm:0.8.4"],
             ["ts-node", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:9.1.1"],
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
@@ -4402,6 +4407,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/babel__preset-env", "npm:7.9.1"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.35"],
+            ["@vercel/ncc", "npm:0.27.0"],
             ["eslint", "npm:7.22.0"],
             ["eslint-config-prettier", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:8.1.0"],
             ["eslint-config-standard", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:16.0.2"],
@@ -4412,7 +4418,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-standard", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:5.0.0"],
             ["jest", "npm:26.6.3"],
             ["prettier", "npm:2.2.1"],
-            ["shelljs", "npm:0.8.4"],
             ["ts-node", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:9.1.1"],
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
@@ -7793,6 +7798,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["@types/glob", [
+        ["npm:7.1.3", {
+          "packageLocation": "./.yarn/cache/@types-glob-npm-7.1.3-44516e2aab-633bf1dda9.zip/node_modules/@types/glob/",
+          "packageDependencies": [
+            ["@types/glob", "npm:7.1.3"],
+            ["@types/minimatch", "npm:3.0.4"],
+            ["@types/node", "npm:14.14.35"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["@types/graceful-fs", [
         ["npm:4.1.5", {
           "packageLocation": "./.yarn/cache/@types-graceful-fs-npm-4.1.5-91d62e1050-ab79ec306d.zip/node_modules/@types/graceful-fs/",
@@ -7894,6 +7910,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-mime-npm-1.3.2-ea71878ab3-c354bc1356.zip/node_modules/@types/mime/",
           "packageDependencies": [
             ["@types/mime", "npm:1.3.2"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@types/minimatch", [
+        ["npm:3.0.4", {
+          "packageLocation": "./.yarn/cache/@types-minimatch-npm-3.0.4-f1932169cb-abbe7031d8.zip/node_modules/@types/minimatch/",
+          "packageDependencies": [
+            ["@types/minimatch", "npm:3.0.4"]
           ],
           "linkType": "HARD",
         }]
@@ -8076,6 +8101,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["@types/shelljs", [
+        ["npm:0.8.8", {
+          "packageLocation": "./.yarn/cache/@types-shelljs-npm-0.8.8-848c4354d1-faf9d4aa31.zip/node_modules/@types/shelljs/",
+          "packageDependencies": [
+            ["@types/shelljs", "npm:0.8.8"],
+            ["@types/glob", "npm:7.1.3"],
+            ["@types/node", "npm:14.14.35"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["@types/sinon", [
         ["npm:9.0.11", {
           "packageLocation": "./.yarn/cache/@types-sinon-npm-9.0.11-231734b808-c84ccbd5ac.zip/node_modules/@types/sinon/",
@@ -8119,6 +8155,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@types/web3-provider-engine", "npm:14.0.0"],
             ["@types/ethereum-protocol", "npm:1.0.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@types/yaml", [
+        ["npm:1.9.6", {
+          "packageLocation": "./.yarn/cache/@types-yaml-npm-1.9.6-25a1e52ff0-ac5a1a38a6.zip/node_modules/@types/yaml/",
+          "packageDependencies": [
+            ["@types/yaml", "npm:1.9.6"],
+            ["yaml", "npm:1.10.2"]
           ],
           "linkType": "HARD",
         }]
@@ -8306,6 +8352,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@typescript-eslint/visitor-keys", "npm:4.19.0"],
             ["@typescript-eslint/types", "npm:4.19.0"],
             ["eslint-visitor-keys", "npm:2.0.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@vercel/ncc", [
+        ["npm:0.27.0", {
+          "packageLocation": "./.yarn/cache/@vercel-ncc-npm-0.27.0-dcc909a2db-ce8fbde305.zip/node_modules/@vercel/ncc/",
+          "packageDependencies": [
+            ["@vercel/ncc", "npm:0.27.0"],
+            ["node-gyp", "npm:7.1.2"]
           ],
           "linkType": "HARD",
         }]
@@ -18830,6 +18886,21 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["scripts", [
+        ["workspace:packages/scripts", {
+          "packageLocation": "./packages/scripts/",
+          "packageDependencies": [
+            ["scripts", "workspace:packages/scripts"],
+            ["@types/shelljs", "npm:0.8.8"],
+            ["@types/yaml", "npm:1.9.6"],
+            ["shelljs", "npm:0.8.4"],
+            ["tslib", "npm:2.1.0"],
+            ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"],
+            ["yaml", "npm:1.10.2"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
       ["scrypt-js", [
         ["npm:2.0.3", {
           "packageLocation": "./.yarn/cache/scrypt-js-npm-2.0.3-99c3fab3f2-574ec87c0a.zip/node_modules/scrypt-js/",
@@ -22494,6 +22565,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/yallist-npm-4.0.0-b493d9e907-a2960ef879.zip/node_modules/yallist/",
           "packageDependencies": [
             ["yallist", "npm:4.0.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["yaml", [
+        ["npm:1.10.2", {
+          "packageLocation": "./.yarn/cache/yaml-npm-1.10.2-0e780aebdf-8d72062ea3.zip/node_modules/yaml/",
+          "packageDependencies": [
+            ["yaml", "npm:1.10.2"]
           ],
           "linkType": "HARD",
         }]

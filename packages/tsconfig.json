@@ -3,6 +3,9 @@
   "include": [],
   "references": [
     {
+      "path": "./scripts"
+    },
+    {
       "path": "./composites/apy-finance"
     },
     {
