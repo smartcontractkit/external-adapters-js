@@ -14911,7 +14911,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["growl", "npm:1.10.5"],
             ["he", "npm:1.2.0"],
             ["js-yaml", "npm:3.13.1"],
-            ["lodash", "npm:4.17.21"],
             ["log-symbols", "npm:3.0.0"],
             ["minimatch", "npm:3.0.4"],
             ["mkdirp", "npm:0.5.5"],
@@ -14920,7 +14919,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["object.assign", "npm:4.1.0"],
             ["strip-json-comments", "npm:2.0.1"],
             ["supports-color", "npm:6.0.0"],
-            ["ts-node", "virtual:612e500d6d9d9c332d8475cbf619d8fa9fe7de63ec445b4de39cc68ccfbc77429a4327f46d9b5572a19ca0de9f285af134301bc8843c271b7712b6d1256451cc#npm:9.1.1"],
             ["which", "npm:1.3.1"],
             ["wide-align", "npm:1.1.3"],
             ["yargs", "npm:13.3.2"],
@@ -18548,25 +18546,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["make-error", "npm:1.3.6"],
             ["source-map-support", "npm:0.5.19"],
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"],
-            ["yn", "npm:3.1.1"]
-          ],
-          "packagePeers": [
-            "@types/typescript",
-            "typescript"
-          ],
-          "linkType": "HARD",
-        }],
-        ["virtual:612e500d6d9d9c332d8475cbf619d8fa9fe7de63ec445b4de39cc68ccfbc77429a4327f46d9b5572a19ca0de9f285af134301bc8843c271b7712b6d1256451cc#npm:9.1.1", {
-          "packageLocation": "./.yarn/$$virtual/ts-node-virtual-217905242b/0/cache/ts-node-npm-9.1.1-4ad31da228-a90db4a342.zip/node_modules/ts-node/",
-          "packageDependencies": [
-            ["ts-node", "virtual:612e500d6d9d9c332d8475cbf619d8fa9fe7de63ec445b4de39cc68ccfbc77429a4327f46d9b5572a19ca0de9f285af134301bc8843c271b7712b6d1256451cc#npm:9.1.1"],
-            ["@types/typescript", null],
-            ["arg", "npm:4.1.3"],
-            ["create-require", "npm:1.1.1"],
-            ["diff", "npm:4.0.2"],
-            ["make-error", "npm:1.3.6"],
-            ["source-map-support", "npm:0.5.19"],
-            ["typescript", null],
             ["yn", "npm:3.1.1"]
           ],
           "packagePeers": [
