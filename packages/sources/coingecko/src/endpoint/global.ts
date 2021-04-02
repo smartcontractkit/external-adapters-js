@@ -1,6 +1,23 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 
+/**
+ * @swagger
+ *
+ * /login:
+ *   post:
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: username
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: password
+ *         in: formData
+ *         required: true
+ *         type: string
+ */
 export const NAME = 'global'
 
 const customError = (data: any) => {
