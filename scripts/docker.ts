@@ -1,4 +1,4 @@
-const shell = require('shelljs')
+import * as shell from 'shelljs'
 
 const log = { red: (text: string) => console.log('\x1b[31m%s\x1b[0m', text) }
 
@@ -16,10 +16,10 @@ const ADAPTER_TYPES = ['composites', 'sources', 'core', 'examples', 'targets']
   const repo: string = process.argv[4] || ''
   const tag: string = process.argv[5]
 
-  const package = JSON.parse(shell.cat(`packages/${type}/${n}/package.json`)).name
+  const pkg = JSON.parse(shell.cat(`packages/${type}/${n}/package.json`)).name
   shell.exec(
-    `docker build --build-arg type=${type} --build-arg name=${n} --build-arg package=${package} -f Dockerfile . -t ${repo}${n}-adapter ${
-      tag ? `-t ${repo}${package}${tag}` : ''
+    `docker build --build-arg type=${type} --build-arg name=${n} --build-arg package=${pkg} -f Dockerfile . -t ${repo}${n}-adapter ${
+      tag ? `-t ${repo}${pkg}${tag}` : ''
     }`,
   )
 })()
