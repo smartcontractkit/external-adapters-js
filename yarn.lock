@@ -1263,16 +1263,6 @@ __metadata:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -1292,16 +1282,6 @@ __metadata:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     ethers: ^5.0.32
     express: ^4.17.1
     prettier: ^2.0.5
@@ -1322,16 +1302,6 @@ __metadata:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -1350,16 +1320,6 @@ __metadata:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -1379,16 +1339,6 @@ __metadata:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -1407,16 +1357,6 @@ __metadata:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -1435,16 +1375,6 @@ __metadata:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -1463,16 +1393,6 @@ __metadata:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -1493,16 +1413,6 @@ __metadata:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     ethers: 5.0.32
     prettier: ^2.0.5
     sinon: ^10.0.0
@@ -1522,16 +1432,6 @@ __metadata:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -1551,16 +1451,6 @@ __metadata:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -1580,16 +1470,6 @@ __metadata:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -1609,16 +1489,6 @@ __metadata:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -1638,16 +1508,6 @@ __metadata:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     object-path: ^0.11.4
     prettier: ^2.0.5
     sinon: ^10.0.0
@@ -1668,16 +1528,6 @@ __metadata:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     object-path: ^0.11.4
     prettier: ^2.0.5
     sinon: ^10.0.0
@@ -1698,17 +1548,7 @@ __metadata:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
     blockcypher: ^0.3.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     object-path: ^0.11.4
     prettier: ^2.0.5
     sinon: ^10.0.0
@@ -1728,16 +1568,6 @@ __metadata:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -1757,16 +1587,6 @@ __metadata:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     object-path: ^0.11.4
     prettier: ^2.0.5
     sinon: ^10.0.0
@@ -1786,16 +1606,6 @@ __metadata:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -1814,16 +1624,6 @@ __metadata:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -1842,16 +1642,6 @@ __metadata:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -1870,16 +1660,6 @@ __metadata:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -1898,16 +1678,6 @@ __metadata:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -1927,16 +1697,6 @@ __metadata:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -1955,16 +1715,6 @@ __metadata:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -1983,16 +1733,6 @@ __metadata:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -2011,16 +1751,6 @@ __metadata:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -2039,16 +1769,6 @@ __metadata:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     ethers: ^5.0.32
     js-conflux-sdk: ^1.5.11
     prettier: ^2.0.5
@@ -4609,16 +4329,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -4639,17 +4349,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
     decimal.js: ^10.2.1
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     moment: ^2.29.1
     prettier: ^2.0.5
     sinon: ^10.0.0
@@ -4670,16 +4370,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     ethers: ^5.0.32
     object-path: ^0.11.4
     prettier: ^2.0.5
@@ -4700,16 +4390,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -4728,16 +4408,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -4756,16 +4426,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -4784,16 +4444,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -4813,16 +4463,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     ethers: ^5.0.32
     prettier: ^2.0.5
     sinon: ^10.0.0
@@ -4842,16 +4482,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -4870,16 +4500,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -4899,16 +4519,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -4927,17 +4537,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
     dwolla-v2: ^3.2.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -4956,16 +4556,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -4985,16 +4575,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -5014,17 +4594,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
     decimal.js: ^10.2.1
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     ethers: ^5.0.32
     object-path: ^0.11.5
     prettier: ^2.0.5
@@ -5054,18 +4624,8 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/remote-redux-devtools": ^0.5.4
     "@types/sinon": ^9.0.11
     "@types/uuid": ^8.3.0
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
     axios: ^0.21.1
     decimal.js: ^10.2.1
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     express: ^4.17.1
     lodash: ^4.17.21
     lru-cache: ^6.0.0
@@ -5098,16 +4658,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/node": ^14.14.35
     "@types/object-path": ^0.11.0
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     object-path: ^0.11.4
     prettier: ^2.0.5
     sinon: ^10.0.0
@@ -5125,16 +4675,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -5153,16 +4693,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     ethers: ^4.0.48
     prettier: ^2.0.5
     sinon: ^10.0.0
@@ -5181,16 +4711,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     hardhat: ^2.0.8
     prettier: ^2.0.5
     sinon: ^10.0.0
@@ -5210,16 +4730,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -5238,16 +4748,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -5266,16 +4766,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -5294,16 +4784,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     ethers: ^5.0.32
     prettier: ^2.0.5
     sinon: ^10.0.0
@@ -5322,16 +4802,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -5350,16 +4820,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -5377,16 +4837,13 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@babel/preset-typescript": ^7.13.0
     "@types/babel__core": ^7
     "@types/babel__preset-env": ^7
+    "@types/eslint": ^7
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    eslint: ^7.22.0
+    "@typescript-eslint/eslint-plugin": ^4.20.0
+    "@typescript-eslint/parser": ^4.20.0
+    eslint: ^7.23.0
     eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     jest: ^26.6.3
     prettier: ^2.0.5
     shelljs: ^0.8.4
@@ -5405,16 +4862,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -5433,16 +4880,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -5461,16 +4898,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -5489,16 +4916,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -5517,16 +4934,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -5545,16 +4952,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -5573,16 +4970,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -5604,16 +4991,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     ethers: 5.0.26
     prettier: ^2.0.5
     sinon: ^10.0.0
@@ -5633,16 +5010,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -5661,16 +5028,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -5689,16 +5046,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -5717,16 +5064,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -5745,16 +5082,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -5773,16 +5100,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -5804,16 +5121,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     market-closure: ^0.1.2
     prettier: ^2.0.5
     sinon: ^10.0.0
@@ -5833,16 +5140,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -5861,16 +5158,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -5889,16 +5176,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -5917,16 +5194,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -5945,16 +5212,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -5973,16 +5230,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -6001,16 +5248,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -6029,16 +5266,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -6057,16 +5284,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -6091,17 +5308,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
     axios: ^0.21.1
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -6120,16 +5327,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -6148,16 +5345,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -6176,16 +5363,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -6214,17 +5391,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
     decimal.js: ^10.2.1
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     ethers: ^5.0.32
     prettier: ^2.0.5
     sinon: ^10.0.0
@@ -6244,17 +5411,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
     decimal.js: ^10.2.1
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     object-path: ^0.11.4
     prettier: ^2.0.5
     sinon: ^10.0.0
@@ -6277,17 +5434,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
     bitcoinjs-lib: ^5.1.10
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -6306,16 +5453,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -6335,16 +5472,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     ethers: ^5.0.32
     object-path: ^0.11.4
     prettier: ^2.0.5
@@ -6365,16 +5492,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -6394,17 +5511,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
     decimal.js: ^10.2.1
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     synthetix: 2.39.2
@@ -6424,16 +5531,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -6452,16 +5549,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -6480,16 +5567,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -6516,17 +5593,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
     decimal.js: ^10.2.1
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     ethers: ^5.0.32
     prettier: ^2.0.5
     sinon: ^10.0.0
@@ -6546,16 +5613,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -6574,16 +5631,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     express: ^4.17.1
     prettier: ^2.0.5
     sinon: ^10.0.0
@@ -6604,16 +5651,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -6638,16 +5675,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -6666,16 +5693,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
-    "@typescript-eslint/eslint-plugin": ^4.19.0
-    "@typescript-eslint/parser": ^4.19.0
-    eslint: ^7.22.0
-    eslint-config-prettier: ^8.1.0
-    eslint-config-standard: ^16.0.2
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-promise: ^4.3.1
-    eslint-plugin-standard: ^5.0.0
     prettier: ^2.0.5
     sinon: ^10.0.0
     ts-node: ^9.1.1
@@ -8538,6 +7555,23 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   languageName: node
   linkType: hard
 
+"@types/eslint@npm:^7":
+  version: 7.2.8
+  resolution: "@types/eslint@npm:7.2.8"
+  dependencies:
+    "@types/estree": "*"
+    "@types/json-schema": "*"
+  checksum: 6b46e394c212e93bafae63852373284a1e2d4282a0eeb70783fa7e51cbb7d8768b4ee51092035e4a53dbd8b86c93586bc84ccc4fc25cb7c0e3dca49b656a513f
+  languageName: node
+  linkType: hard
+
+"@types/estree@npm:*":
+  version: 0.0.47
+  resolution: "@types/estree@npm:0.0.47"
+  checksum: 28cba548c7b61855f4ff0c20146512e71fb578253e3cb24baf1acf660c626a8a271f99848e8a8c4e0e87f177cfce28e8d1fcecb65a4aad4a92ba48fd73179289
+  languageName: node
+  linkType: hard
+
 "@types/ethereum-protocol@npm:*":
   version: 1.0.1
   resolution: "@types/ethereum-protocol@npm:1.0.1"
@@ -8614,17 +7648,10 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   languageName: node
   linkType: hard
 
-"@types/json-schema@npm:^7.0.3":
+"@types/json-schema@npm:*, @types/json-schema@npm:^7.0.3":
   version: 7.0.7
   resolution: "@types/json-schema@npm:7.0.7"
   checksum: b9d2c509fa4e0b82f58e73f5e6ab76c60ff1884ba41bb82f37fb1cece226d4a3e5a62fedf78a43da0005373a6713d9abe61c1e592906402c41c08ad6ab26d52b
-  languageName: node
-  linkType: hard
-
-"@types/json5@npm:^0.0.29":
-  version: 0.0.29
-  resolution: "@types/json5@npm:0.0.29"
-  checksum: 66e9ac0143ec521522c7bb670301e9836ee886207eeed1aab6d4854a1b19b404ab3a54cd8d449f9b1f13acc357f540be96f8ac2d1e86e301eab52ae0f9a4066f
   languageName: node
   linkType: hard
 
@@ -8868,12 +7895,12 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/eslint-plugin@npm:^4.19.0":
-  version: 4.19.0
-  resolution: "@typescript-eslint/eslint-plugin@npm:4.19.0"
+"@typescript-eslint/eslint-plugin@npm:^4.20.0":
+  version: 4.20.0
+  resolution: "@typescript-eslint/eslint-plugin@npm:4.20.0"
   dependencies:
-    "@typescript-eslint/experimental-utils": 4.19.0
-    "@typescript-eslint/scope-manager": 4.19.0
+    "@typescript-eslint/experimental-utils": 4.20.0
+    "@typescript-eslint/scope-manager": 4.20.0
     debug: ^4.1.1
     functional-red-black-tree: ^1.0.1
     lodash: ^4.17.15
@@ -8886,66 +7913,66 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 49280836614c8143f8a7a873fe7f41c022e4b4c680b2c23bc98cd106a4ec8ae58c856f034c0eb172f38d8ae6e858a3d0f0ea4c384f9859e7a745056c5f20de8a
+  checksum: b458d6a83df8c78d6d099a4c4f7a796c17171fc321cdc1651bb2ef6db5990d45ad9a656be9b15015f5ce2c36538089bd82917839e426d91133a3fb4f6a7efcad
   languageName: node
   linkType: hard
 
-"@typescript-eslint/experimental-utils@npm:4.19.0":
-  version: 4.19.0
-  resolution: "@typescript-eslint/experimental-utils@npm:4.19.0"
+"@typescript-eslint/experimental-utils@npm:4.20.0":
+  version: 4.20.0
+  resolution: "@typescript-eslint/experimental-utils@npm:4.20.0"
   dependencies:
     "@types/json-schema": ^7.0.3
-    "@typescript-eslint/scope-manager": 4.19.0
-    "@typescript-eslint/types": 4.19.0
-    "@typescript-eslint/typescript-estree": 4.19.0
+    "@typescript-eslint/scope-manager": 4.20.0
+    "@typescript-eslint/types": 4.20.0
+    "@typescript-eslint/typescript-estree": 4.20.0
     eslint-scope: ^5.0.0
     eslint-utils: ^2.0.0
   peerDependencies:
     eslint: "*"
-  checksum: aac92241f5a73e6fb77270a106b8509ff6124873b16faeb1e2f48d492beb9f03cddd069d44c0e184a0621d315751224c957b40e52e25cf9d8bf0b358400316fc
+  checksum: 924fbf03378f85f44202c2373fac0cdb89cd9d3024229279945bb75a73564c94a87fe878371ac52a77723fd18a5f5de5fb57ac13f2cf0e4f17127d24c1d76ea0
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:^4.19.0":
-  version: 4.19.0
-  resolution: "@typescript-eslint/parser@npm:4.19.0"
+"@typescript-eslint/parser@npm:^4.20.0":
+  version: 4.20.0
+  resolution: "@typescript-eslint/parser@npm:4.20.0"
   dependencies:
-    "@typescript-eslint/scope-manager": 4.19.0
-    "@typescript-eslint/types": 4.19.0
-    "@typescript-eslint/typescript-estree": 4.19.0
+    "@typescript-eslint/scope-manager": 4.20.0
+    "@typescript-eslint/types": 4.20.0
+    "@typescript-eslint/typescript-estree": 4.20.0
     debug: ^4.1.1
   peerDependencies:
     eslint: ^5.0.0 || ^6.0.0 || ^7.0.0
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: eb9033469250ca0db08442c0a504cb57db5541fd31d2036d6822bca9966f638fba199eb32b31d9574534c302ffc0ebba65c4dba62dddbe56a2c85df0a5c6597a
+  checksum: 0d6d23e8603a893929b6f62dd5088585950d4f20cf83e890bb867cbea7e77291a3a5d850da7851e7949c9e7e8d1d5bbf0bc35b8ba6abd7eed3443be441d930c0
   languageName: node
   linkType: hard
 
-"@typescript-eslint/scope-manager@npm:4.19.0":
-  version: 4.19.0
-  resolution: "@typescript-eslint/scope-manager@npm:4.19.0"
+"@typescript-eslint/scope-manager@npm:4.20.0":
+  version: 4.20.0
+  resolution: "@typescript-eslint/scope-manager@npm:4.20.0"
   dependencies:
-    "@typescript-eslint/types": 4.19.0
-    "@typescript-eslint/visitor-keys": 4.19.0
-  checksum: 746c74e40428e7a291832cb87fd96534a6cd081dbb9b4d83bbffa3486ab5e8ac59bacdef82d349e903c77c07f0ff784e3b2abc69022efc0f8f0cb445b91251a5
+    "@typescript-eslint/types": 4.20.0
+    "@typescript-eslint/visitor-keys": 4.20.0
+  checksum: 4e5b33cc7e31e37fd87c4af9d28fa1e9ab88681c7f80add98dbbee3ea725f05b448306f738aeb89788404cca3ef3cac75ad3ad7a03a90a9008cd4157ec069ae1
   languageName: node
   linkType: hard
 
-"@typescript-eslint/types@npm:4.19.0":
-  version: 4.19.0
-  resolution: "@typescript-eslint/types@npm:4.19.0"
-  checksum: 86378fece710a598683dc172ede1a871290b15329dc60c13674a1d18d9c41a51c4194b8a35f1a253d2ee2b7fc222b4d449329fc68d512e425f36e9b7fd3626bb
+"@typescript-eslint/types@npm:4.20.0":
+  version: 4.20.0
+  resolution: "@typescript-eslint/types@npm:4.20.0"
+  checksum: fa059ca3abcd375a56057491dac8565311a2822828a4177024de0a70bdd5959d57f0d8a8d2b8082427ade85cc61c512238d804197a2f789aac95263b4bdfccfa
   languageName: node
   linkType: hard
 
-"@typescript-eslint/typescript-estree@npm:4.19.0":
-  version: 4.19.0
-  resolution: "@typescript-eslint/typescript-estree@npm:4.19.0"
+"@typescript-eslint/typescript-estree@npm:4.20.0":
+  version: 4.20.0
+  resolution: "@typescript-eslint/typescript-estree@npm:4.20.0"
   dependencies:
-    "@typescript-eslint/types": 4.19.0
-    "@typescript-eslint/visitor-keys": 4.19.0
+    "@typescript-eslint/types": 4.20.0
+    "@typescript-eslint/visitor-keys": 4.20.0
     debug: ^4.1.1
     globby: ^11.0.1
     is-glob: ^4.0.1
@@ -8954,17 +7981,17 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 446457f2532f24c12740ffe24453a4ad32c3fc2a4e35c6dd8b8d8cb114c925d37084c4541a7723cd22ccdd83f205bc513134a2db0b6304900609f5acf2f69665
+  checksum: bed950e86750fab653fe2e8bbe161d52fbae56d13405bbf02983dfc5c6c26708b05b6cc8d8a4332e8d070b34c66d59d05c96f04174ff5a844754068f9c185a4e
   languageName: node
   linkType: hard
 
-"@typescript-eslint/visitor-keys@npm:4.19.0":
-  version: 4.19.0
-  resolution: "@typescript-eslint/visitor-keys@npm:4.19.0"
+"@typescript-eslint/visitor-keys@npm:4.20.0":
+  version: 4.20.0
+  resolution: "@typescript-eslint/visitor-keys@npm:4.20.0"
   dependencies:
-    "@typescript-eslint/types": 4.19.0
+    "@typescript-eslint/types": 4.20.0
     eslint-visitor-keys: ^2.0.0
-  checksum: d9cf3501ae69796850dcdadde7fdaa1f3fc27d54a380396cc6b67706f7d6329b0c35db9b23d96c83a4196a915681129fa6b324383fcee88f413e06f7d05edf16
+  checksum: 6d6e4932408454479764a5f9de6fc865556f366c10bee3adc1fcf1316c9e6f7b387adc1bc8bd91317f5439c8f7c5d3290c36b3ec98bfd54eb759c9ae1414c674
   languageName: node
   linkType: hard
 
@@ -9313,19 +8340,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   languageName: node
   linkType: hard
 
-"array-includes@npm:^3.1.1":
-  version: 3.1.3
-  resolution: "array-includes@npm:3.1.3"
-  dependencies:
-    call-bind: ^1.0.2
-    define-properties: ^1.1.3
-    es-abstract: ^1.18.0-next.2
-    get-intrinsic: ^1.1.1
-    is-string: ^1.0.5
-  checksum: 0610b361162071ef8749827f3a6e171da03ac14a518d4d45a513b6c22a7c5017c55dcbea4d34d699ef006f1f148aa52e6d437e0101c93996da736d0055add173
-  languageName: node
-  linkType: hard
-
 "array-union@npm:^2.1.0":
   version: 2.1.0
   resolution: "array-union@npm:2.1.0"
@@ -9344,17 +8358,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   version: 0.3.2
   resolution: "array-unique@npm:0.3.2"
   checksum: 7139dbbcaf48325224593f2f7a400b123b310c53365b4a1d49916928082ad862117a1e6d411c926ec540e9408786bbd1cf90805609040568059156d1d09feb70
-  languageName: node
-  linkType: hard
-
-"array.prototype.flat@npm:^1.2.3":
-  version: 1.2.4
-  resolution: "array.prototype.flat@npm:1.2.4"
-  dependencies:
-    call-bind: ^1.0.0
-    define-properties: ^1.1.3
-    es-abstract: ^1.18.0-next.1
-  checksum: b4936e68f8bb4ed8d6bf12eff4e19e93f263ee6ff66b0e394be275c0b168e2a4889740f105799ec1d19631e93020fba528534ca34dd0538e24d2a90043ebc6b0
   languageName: node
   linkType: hard
 
@@ -10858,13 +9861,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   languageName: node
   linkType: hard
 
-"contains-path@npm:^0.1.0":
-  version: 0.1.0
-  resolution: "contains-path@npm:0.1.0"
-  checksum: 59920a59a0c7d1244235d76b8cfd2b2e7a8dcc463fa578ef9d4d5a5a73eeb14d75dada6b21188e0b35f2474ae9efd10c3698372e674db9c6a904b281998b97d6
-  languageName: node
-  linkType: hard
-
 "content-disposition@npm:0.5.3":
   version: 0.5.3
   resolution: "content-disposition@npm:0.5.3"
@@ -11172,7 +10168,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   languageName: node
   linkType: hard
 
-"debug@npm:2.6.9, debug@npm:^2.2.0, debug@npm:^2.3.3, debug@npm:^2.6.9":
+"debug@npm:2.6.9, debug@npm:^2.2.0, debug@npm:^2.3.3":
   version: 2.6.9
   resolution: "debug@npm:2.6.9"
   dependencies:
@@ -11501,16 +10497,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   dependencies:
     path-type: ^4.0.0
   checksum: 687fa3bd604f264042f325d9460e1298447fb32782f30cddc47cb302b742684d13e8ffce4c6f455e0ae92099d71e29f72387379c10b8fd3f6f1bf8992d7c0997
-  languageName: node
-  linkType: hard
-
-"doctrine@npm:1.5.0":
-  version: 1.5.0
-  resolution: "doctrine@npm:1.5.0"
-  dependencies:
-    esutils: ^2.0.2
-    isarray: ^1.0.0
-  checksum: aaffea02f963b8b07a78b1e27d7cef29be65d31be2c6681cb2872c2fb3781e14615bd05d4dff6036f75dcf3f191216058409fbfec805d3a7277a8647cd5bdee1
   languageName: node
   linkType: hard
 
@@ -11866,7 +10852,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   languageName: node
   linkType: hard
 
-"error-ex@npm:^1.2.0, error-ex@npm:^1.3.1":
+"error-ex@npm:^1.3.1":
   version: 1.3.2
   resolution: "error-ex@npm:1.3.2"
   dependencies:
@@ -12000,120 +10986,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   languageName: node
   linkType: hard
 
-"eslint-config-standard@npm:^16.0.2":
-  version: 16.0.2
-  resolution: "eslint-config-standard@npm:16.0.2"
-  peerDependencies:
-    eslint: ^7.12.1
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-promise: ^4.2.1
-  checksum: 9db750eab1fb190deed50cd1b52df94f517142b6bc73edc38d22dc1ccb28ee628d969028017536d65301fbd15daf1487d7b7420f7c2689477f73bb213f6a25fc
-  languageName: node
-  linkType: hard
-
-"eslint-import-resolver-node@npm:^0.3.4":
-  version: 0.3.4
-  resolution: "eslint-import-resolver-node@npm:0.3.4"
-  dependencies:
-    debug: ^2.6.9
-    resolve: ^1.13.1
-  checksum: 825e34e662c988ece8229e6956a95f12d2fa19265b429e3e3db14e58bfe72e270c999cda0cfc690793ed6e6a3e49ffa8df0e0a8842d668a1f0f7de5ae1aa36f9
-  languageName: node
-  linkType: hard
-
-"eslint-module-utils@npm:^2.6.0":
-  version: 2.6.0
-  resolution: "eslint-module-utils@npm:2.6.0"
-  dependencies:
-    debug: ^2.6.9
-    pkg-dir: ^2.0.0
-  checksum: f584af176480a702eedcdb3f610797f8b8d1293c3835ed71fadb579ec28400b91ded5283729418f63d48dc27c6358bd66f2bd839614d565a1b78d3c3440ee8f7
-  languageName: node
-  linkType: hard
-
-"eslint-plugin-es@npm:^3.0.0":
-  version: 3.0.1
-  resolution: "eslint-plugin-es@npm:3.0.1"
-  dependencies:
-    eslint-utils: ^2.0.0
-    regexpp: ^3.0.0
-  peerDependencies:
-    eslint: ">=4.19.1"
-  checksum: 11b3229c3c7126d24dea1df90ec6b7966f8a269fc95fa24ae1b868fb676474cdb7e5144076aefca99cb1d3e9c89e6d0ae72d4874242d0987f210e0ee7e7f6896
-  languageName: node
-  linkType: hard
-
-"eslint-plugin-import@npm:^2.22.1":
-  version: 2.22.1
-  resolution: "eslint-plugin-import@npm:2.22.1"
-  dependencies:
-    array-includes: ^3.1.1
-    array.prototype.flat: ^1.2.3
-    contains-path: ^0.1.0
-    debug: ^2.6.9
-    doctrine: 1.5.0
-    eslint-import-resolver-node: ^0.3.4
-    eslint-module-utils: ^2.6.0
-    has: ^1.0.3
-    minimatch: ^3.0.4
-    object.values: ^1.1.1
-    read-pkg-up: ^2.0.0
-    resolve: ^1.17.0
-    tsconfig-paths: ^3.9.0
-  peerDependencies:
-    eslint: ^2 || ^3 || ^4 || ^5 || ^6 || ^7.2.0
-  checksum: 35ae09ceae6f0fe239f6b72e134d58d74762ad1ed0f57aa989affb856354e46bc082bb6df9399b624989107efb9ab9af2c91c08f03c0c70c5cb46a37676591ec
-  languageName: node
-  linkType: hard
-
-"eslint-plugin-node@npm:^11.1.0":
-  version: 11.1.0
-  resolution: "eslint-plugin-node@npm:11.1.0"
-  dependencies:
-    eslint-plugin-es: ^3.0.0
-    eslint-utils: ^2.0.0
-    ignore: ^5.1.1
-    minimatch: ^3.0.4
-    resolve: ^1.10.1
-    semver: ^6.1.0
-  peerDependencies:
-    eslint: ">=5.16.0"
-  checksum: 634e03613a4aa0ffd5ccf0807a375840a915797781a4e5d44fb1c4d331cd2a5e6b3da41924a0d6a2123c1a51626db032a038210153fbba6a0012e0b7c7f26499
-  languageName: node
-  linkType: hard
-
-"eslint-plugin-prettier@npm:^3.3.1":
-  version: 3.3.1
-  resolution: "eslint-plugin-prettier@npm:3.3.1"
-  dependencies:
-    prettier-linter-helpers: ^1.0.0
-  peerDependencies:
-    eslint: ">=5.0.0"
-    prettier: ">=1.13.0"
-  peerDependenciesMeta:
-    eslint-config-prettier:
-      optional: true
-  checksum: cf35b0f0e9ef30782fe82913db92f6874181723d77f0c4613f9d69c87069f73d0dc420ef850ebc844613c00a8e87eb9762a36b7d028334c5c7b091763118347b
-  languageName: node
-  linkType: hard
-
-"eslint-plugin-promise@npm:^4.3.1":
-  version: 4.3.1
-  resolution: "eslint-plugin-promise@npm:4.3.1"
-  checksum: 01aa61c2bea6cfd2e612cda9aaaf079c7652503dd613248a251c99b58414245ee999a8f5ca0a15f62c6b1605aca4dcbace272d67f22d79aac3f698547eb75d9a
-  languageName: node
-  linkType: hard
-
-"eslint-plugin-standard@npm:^5.0.0":
-  version: 5.0.0
-  resolution: "eslint-plugin-standard@npm:5.0.0"
-  peerDependencies:
-    eslint: ">=5.0.0"
-  checksum: b51a7e87ae38d2ddd4e04b546fb72ca4e93c14789f028c751a0b31375ec40619281e84d386833419c3ded8911dafa56d0a2645f88510abbd37edaac7d77337a0
-  languageName: node
-  linkType: hard
-
 "eslint-scope@npm:^5.0.0, eslint-scope@npm:^5.1.1":
   version: 5.1.1
   resolution: "eslint-scope@npm:5.1.1"
@@ -12147,9 +11019,9 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   languageName: node
   linkType: hard
 
-"eslint@npm:^7.22.0":
-  version: 7.22.0
-  resolution: "eslint@npm:7.22.0"
+"eslint@npm:^7.23.0":
+  version: 7.23.0
+  resolution: "eslint@npm:7.23.0"
   dependencies:
     "@babel/code-frame": 7.12.11
     "@eslint/eslintrc": ^0.4.0
@@ -12190,7 +11062,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     v8-compile-cache: ^2.0.3
   bin:
     eslint: bin/eslint.js
-  checksum: 9be0a215b6b1e2941318b3e0c11ada8ba9a4adacf5960ab916d07f1d619828af40cba00e8ed7d151b8c715ba8ea81f4c2a56e46a2558d9795788b4f410a95ec4
+  checksum: f444869506eb0b53fdc6f6f6508b9f5daed51034af0289e6b201f996e7f2d06134f765ef598568269d2a0575dc9da5d3308bd2716f795b789d92e7febb654aab
   languageName: node
   linkType: hard
 
@@ -12922,6 +11794,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   languageName: node
   linkType: hard
 
+<<<<<<< HEAD
 "browserify-cipher@npm:^1.0.0, browserify-cipher@npm:^1.0.1":
   version: 1.0.1
   resolution: "browserify-cipher@npm:1.0.1"
@@ -12936,6 +11809,11 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
 "browserify-des@npm:^1.0.0":
   version: 1.0.2
   resolution: "browserify-des@npm:1.0.2"
+=======
+"fast-glob@npm:^3.1.1":
+  version: 3.2.5
+  resolution: "fast-glob@npm:3.2.5"
+>>>>>>> a128d356... Simplify eslint config
   dependencies:
     cipher-base: ^1.0.1
     des.js: ^1.0.0
@@ -13087,9 +11965,15 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   languageName: node
   linkType: hard
 
+<<<<<<< HEAD
 "buffer@npm:^5.0.5, buffer@npm:^5.2.1, buffer@npm:^5.5.0, buffer@npm:^5.6.0":
   version: 5.7.1
   resolution: "buffer@npm:5.7.1"
+=======
+"find-up@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "find-up@npm:2.1.0"
+>>>>>>> a128d356... Simplify eslint config
   dependencies:
     base64-js: ^1.3.1
     ieee754: ^1.1.13
@@ -14102,10 +12986,17 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   languageName: node
   linkType: hard
 
+<<<<<<< HEAD
 "delayed-stream@npm:~1.0.0":
   version: 1.0.0
   resolution: "delayed-stream@npm:1.0.0"
   checksum: d9dfb0a7c79fd308fada9db2cf29d1ff22047ceb50dd78f7e3c173567909b438f418259cb76a6d9c9f513e88ef41d3a14154f618741ec8368c3efeff616d0c9f
+=======
+"ignore@npm:^5.1.4":
+  version: 5.1.8
+  resolution: "ignore@npm:5.1.8"
+  checksum: b08e3d5b5d94eca13475f29a5d47d221060e9cdd7e38d7647088e29d90130669a970fecbc4cdb41b8fa295c6673740c729d3dc05dadc381f593efb42282cbf9f
+>>>>>>> a128d356... Simplify eslint config
   languageName: node
   linkType: hard
 
@@ -14705,6 +13596,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   languageName: node
   linkType: hard
 
+<<<<<<< HEAD
 "eslint-config-prettier@npm:^8.1.0":
   version: 8.1.0
   resolution: "eslint-config-prettier@npm:8.1.0"
@@ -14713,6 +13605,12 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   bin:
     eslint-config-prettier: bin/cli.js
   checksum: 409d3a071f8228d4c958a6a9be9d5ec2b357ce21b7b6cbb137096cade2c31f008a0a3c3533dee8979c0cd944f220a959710b30fd86f8b96f0ef1f4f557d740b3
+=======
+"isarray@npm:1.0.0, isarray@npm:~1.0.0":
+  version: 1.0.0
+  resolution: "isarray@npm:1.0.0"
+  checksum: b0ff31a290e783f7b3fb73f2951ee7fc2946dc197b05f73577dc77f87dc3be2e0f66007bedf069123d4e5c4b691e7c89a241f6ca06f0c0f4765cdac5aa4b4047
+>>>>>>> a128d356... Simplify eslint config
   languageName: node
   linkType: hard
 
@@ -15589,6 +14487,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   languageName: node
   linkType: hard
 
+<<<<<<< HEAD
 "fast-json-stable-stringify@npm:^2.0.0":
   version: 2.1.0
   resolution: "fast-json-stable-stringify@npm:2.1.0"
@@ -15600,6 +14499,16 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   version: 2.0.6
   resolution: "fast-levenshtein@npm:2.0.6"
   checksum: a2d03af3088b0397633e007fb3010ecfa4f91cae2116d2385653c59396a1b31467641afa672a79e6f82218518670dc144128378124e711e35dbf90bc82846f22
+=======
+"json5@npm:^2.1.2":
+  version: 2.2.0
+  resolution: "json5@npm:2.2.0"
+  dependencies:
+    minimist: ^1.2.5
+  bin:
+    json5: lib/cli.js
+  checksum: 07b1f90c2801dc52df2b0ac8d606cc400a85cda79130e754780fa2ab9805d0fb85a0e61b6a5cdd68e88e5d0c8f9109ec415af08283175556cdccaa8563853908
+>>>>>>> a128d356... Simplify eslint config
   languageName: node
   linkType: hard
 
@@ -15929,6 +14838,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   languageName: node
   linkType: hard
 
+<<<<<<< HEAD
 "fs-extra@npm:^7.0.1":
   version: 7.0.1
   resolution: "fs-extra@npm:7.0.1"
@@ -15943,6 +14853,11 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
 "fs-minipass@npm:^1.2.5":
   version: 1.2.7
   resolution: "fs-minipass@npm:1.2.7"
+=======
+"locate-path@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "locate-path@npm:2.0.0"
+>>>>>>> a128d356... Simplify eslint config
   dependencies:
     minipass: ^2.6.0
   checksum: eb59a93065f25457e5d1d10a064e22565e704b03140d5ef86a71a57155b13aa645811126fed2a5a282df8dc9c40df9c9d696f6b2d93c181071a971221d0a454b
@@ -19523,10 +18438,22 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+<<<<<<< HEAD
 "is-natural-number@npm:^4.0.1":
   version: 4.0.1
   resolution: "is-natural-number@npm:4.0.1"
   checksum: 8b0f8a5f5c7848f612eeef4f6e0b75c1f80a80ee32d5521fd7cd32be794b7adf748223094f4704079771d9e10a80745fce339e206a67a70d132243056b97f80c
+=======
+"normalize-package-data@npm:^2.5.0":
+  version: 2.5.0
+  resolution: "normalize-package-data@npm:2.5.0"
+  dependencies:
+    hosted-git-info: ^2.1.4
+    resolve: ^1.10.0
+    semver: 2 || 3 || 4 || 5
+    validate-npm-package-license: ^3.0.1
+  checksum: 97d4d6b061cab51425ddb05c38d126d7a1a2a6f2c9949bef2b5ad7ef19c005df12099ea442e4cb09190929b7770008f94f87b10342a66f739acf92a7ebb9d9f2
+>>>>>>> a128d356... Simplify eslint config
   languageName: node
   linkType: hard
 
@@ -19729,6 +18656,7 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+<<<<<<< HEAD
 "js-tokens@npm:^3.0.0 || ^4.0.0, js-tokens@npm:^4.0.0":
   version: 4.0.0
   resolution: "js-tokens@npm:4.0.0"
@@ -19745,6 +18673,12 @@ fsevents@~2.3.1:
   bin:
     js-yaml: bin/js-yaml.js
   checksum: 277157fdf235757b71cfbf24f6bef57576a26d9b4cf89b63d89c9044da7b0f9d16c3629c8b5fd549ae343523727a0df1598794e9a4429763cee4e17056ff8523
+=======
+"obliterator@npm:^1.6.1":
+  version: 1.6.1
+  resolution: "obliterator@npm:1.6.1"
+  checksum: c2a85c1c77c7224b9670b0a8229dcefaf8378e9f87f5e4b0bb900eef38370b3025e6041f1184377844d02bf92df8ec60b9a3d12964782153842be49bb153d1fb
+>>>>>>> a128d356... Simplify eslint config
   languageName: node
   linkType: hard
 
@@ -20014,6 +18948,7 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+<<<<<<< HEAD
 "level-errors@npm:^1.0.3":
   version: 1.1.2
   resolution: "level-errors@npm:1.1.2"
@@ -20026,6 +18961,11 @@ fsevents@~2.3.1:
 "level-errors@npm:^2.0.0, level-errors@npm:~2.0.0":
   version: 2.0.1
   resolution: "level-errors@npm:2.0.1"
+=======
+"parse-json@npm:^5.0.0":
+  version: 5.2.0
+  resolution: "parse-json@npm:5.2.0"
+>>>>>>> a128d356... Simplify eslint config
   dependencies:
     errno: ~0.1.1
   checksum: 74dbf642313f4ccd8736092daad482c133bfba2a1ded8e622be5b75c8d358627daab2f7684c404ded7147b16caa8bbc2509772c95f86b2fddcaa75651e0ac665
@@ -20161,6 +19101,7 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+<<<<<<< HEAD
 "locate-path@npm:^2.0.0":
   version: 2.0.0
   resolution: "locate-path@npm:2.0.0"
@@ -20178,6 +19119,12 @@ fsevents@~2.3.1:
     p-locate: ^3.0.0
     path-exists: ^3.0.0
   checksum: 0b6bf0c1bb09021499f6198ed6a4ae367e8224e2493a74cc7bc5f4e6eca9ed880a5f7fdfb4d57b7e21d3e289c3abfe152cd510cacb1d03049f9d81d9a7d302ca
+=======
+"path-type@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "path-type@npm:4.0.0"
+  checksum: ef5835f2eb47e4d06004c7ec7bd51175c0455eaecd5ee99a9774bca5ef43242616e25b44ccc0ba86a0bf42b9f197550fcc0dfa7580e5ff9dca53c035e9bd86a9
+>>>>>>> a128d356... Simplify eslint config
   languageName: node
   linkType: hard
 
@@ -20211,10 +19158,17 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+<<<<<<< HEAD
 "lodash.escaperegexp@npm:^4.1.2":
   version: 4.1.2
   resolution: "lodash.escaperegexp@npm:4.1.2"
   checksum: 475d069cdacfe279e0e2c72109821f38fc59ba44c88ddc2d96cdf5364e8ada2cd1dd73195df05893ab185fe4f503e9657f1e50e31dff624594c91ba1316f40e1
+=======
+"pify@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "pify@npm:2.3.0"
+  checksum: d5758aa570bbd5969c62b5f745065006827ef4859b32af302e3df2bb5978e6c1e50c2360d7ffefa102e451084f4530115c84570c185ba5153ee9871c977fe278
+>>>>>>> a128d356... Simplify eslint config
   languageName: node
   linkType: hard
 
@@ -20246,6 +19200,7 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+<<<<<<< HEAD
 "lodash.snakecase@npm:^4.1.1":
   version: 4.1.1
   resolution: "lodash.snakecase@npm:4.1.1"
@@ -20257,6 +19212,14 @@ fsevents@~2.3.1:
   version: 4.0.2
   resolution: "lodash.sum@npm:4.0.2"
   checksum: bd1f4a4fdbc46b002f188bb825533e86b8c9997ef1ebbb5522e1b50788faef8356b819ab44deed0c3e89f61b13493a54b59a1fef038d9517cc848b885dfd9d34
+=======
+"pkg-dir@npm:^4.2.0":
+  version: 4.2.0
+  resolution: "pkg-dir@npm:4.2.0"
+  dependencies:
+    find-up: ^4.0.0
+  checksum: 1956ebf3cf5cc36a5d20e93851fcadd5a786774eb08667078561e72e0ab8ace91fc36a028d5305f0bfe7c89f9bf51886e2a3c8cb2c2620accfa3feb8da3c256b
+>>>>>>> a128d356... Simplify eslint config
   languageName: node
   linkType: hard
 
@@ -20299,6 +19262,7 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+<<<<<<< HEAD
 "logform@npm:^2.1.2, logform@npm:^2.2.0":
   version: 2.2.0
   resolution: "logform@npm:2.2.0"
@@ -20316,6 +19280,14 @@ fsevents@~2.3.1:
   version: 4.0.0
   resolution: "long@npm:4.0.0"
   checksum: 9cebc1ee8b9ea15278c977f61250ac41becdf7216104905f0d198c147ed2a7a090a2d83bb212878d3dc3ccb0199e6428862f848ec4b0ecfeab4dfe24eccf21b3
+=======
+"prettier@npm:^2.0.5":
+  version: 2.2.1
+  resolution: "prettier@npm:2.2.1"
+  bin:
+    prettier: bin-prettier.js
+  checksum: 92c6c9f4b87eba1f28466edee57dd18c80d00b858edda77d46d1950d20e6e302b68ee255fc91133ba931e63c4577b5ae30da194d9626a8f3c0177778b91bf056
+>>>>>>> a128d356... Simplify eslint config
   languageName: node
   linkType: hard
 
@@ -20624,6 +19596,7 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+<<<<<<< HEAD
 "min-document@npm:^2.19.0":
   version: 2.19.0
   resolution: "min-document@npm:2.19.0"
@@ -20652,6 +19625,28 @@ fsevents@~2.3.1:
   version: 1.0.1
   resolution: "minimalistic-crypto-utils@npm:1.0.1"
   checksum: 736067bddd0e5036a1a4943abe7b63eb1dd0115ad87588420310d26a3d56fc4cd4694b7077fa102956c88d3922dbf7cbc5b7ffe749f27441d13c3e1b1133ab40
+=======
+"read-pkg-up@npm:^7.0.1":
+  version: 7.0.1
+  resolution: "read-pkg-up@npm:7.0.1"
+  dependencies:
+    find-up: ^4.1.0
+    read-pkg: ^5.2.0
+    type-fest: ^0.8.1
+  checksum: b8f97cc1f8235ce752b10b7b6423b0460411b4a6046186de8980429bbad8709537a4d6fac6e35a97c8630d19bab29d9013644cc5296be2d5043db3e40094b0cc
+  languageName: node
+  linkType: hard
+
+"read-pkg@npm:^5.2.0":
+  version: 5.2.0
+  resolution: "read-pkg@npm:5.2.0"
+  dependencies:
+    "@types/normalize-package-data": ^2.4.0
+    normalize-package-data: ^2.5.0
+    parse-json: ^5.0.0
+    type-fest: ^0.6.0
+  checksum: 641102f0955f64304f97ed388bfe3b7ce55d74b1ffe1be06be1ae75479ce4910aa7177460d1982af6963f80b293a25f25d593a52a4328d941fd9b7d89fde2dbf
+>>>>>>> a128d356... Simplify eslint config
   languageName: node
   linkType: hard
 
@@ -21113,10 +20108,20 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+<<<<<<< HEAD
 "normalize-url@npm:^4.1.0":
   version: 4.5.0
   resolution: "normalize-url@npm:4.5.0"
   checksum: 09794941dbe5c7b91caf6f3cd1ae167c27f6d09793e4a03601a68b62de7e8ee9e5de21a246130cdbab98b01481de292f9556d492444a527648f9cf1220e4b0df
+=======
+"resolve@^1.1.6, resolve@^1.10.0, resolve@^1.14.2, resolve@^1.18.1":
+  version: 1.20.0
+  resolution: "resolve@npm:1.20.0"
+  dependencies:
+    is-core-module: ^2.2.0
+    path-parse: ^1.0.6
+  checksum: 0f5206d454b30e74d9b2d575b5f8aedf443c4d8b90b84cdf79474ade29bb459075220da3127b682896872a16022ed65cc4db09e0f23849654144d3d75c65cd1b
+>>>>>>> a128d356... Simplify eslint config
   languageName: node
   linkType: hard
 
@@ -21132,9 +20137,15 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+<<<<<<< HEAD
 "nth-check@npm:^1.0.2":
   version: 1.0.2
   resolution: "nth-check@npm:1.0.2"
+=======
+"resolve@patch:resolve@^1.1.6#builtin<compat/resolve>, resolve@patch:resolve@^1.10.0#builtin<compat/resolve>, resolve@patch:resolve@^1.14.2#builtin<compat/resolve>, resolve@patch:resolve@^1.18.1#builtin<compat/resolve>":
+  version: 1.20.0
+  resolution: "resolve@patch:resolve@npm%3A1.20.0#builtin<compat/resolve>::version=1.20.0&hash=3388aa"
+>>>>>>> a128d356... Simplify eslint config
   dependencies:
     boolbase: ~1.0.0
   checksum: 88a58b8b6289344749102019422705e8e6fa870d55e4bd4c71f860105ea5b8145ae71657f6edd6df953964081f52d65936a3eec4af1d9ee42122e42d293b2abe
@@ -22483,7 +21494,7 @@ scrypt-js@3.0.1, scrypt-js@^3.0.0, scrypt-js@^3.0.1:
   languageName: node
   linkType: hard
 
-"semver@npm:^6.0.0, semver@npm:^6.1.0, semver@npm:^6.1.1, semver@npm:^6.1.2, semver@npm:^6.3.0":
+"semver@npm:^6.0.0, semver@npm:^6.1.1, semver@npm:^6.1.2, semver@npm:^6.3.0":
   version: 6.3.0
   resolution: "semver@npm:6.3.0"
   bin:
@@ -23168,13 +22179,6 @@ scrypt-js@3.0.1, scrypt-js@^3.0.0, scrypt-js@^3.0.1:
   languageName: node
   linkType: hard
 
-"strip-bom@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "strip-bom@npm:3.0.0"
-  checksum: 361dd1dd08ae626940061570d20bcf73909d0459734b8880eb3d14176aa28f41cf85d13af036c323ce739e04ef3930a71b516950c5985b318bae3757ecb2974c
-  languageName: node
-  linkType: hard
-
 "strip-bom@npm:^4.0.0":
   version: 4.0.0
   resolution: "strip-bom@npm:4.0.0"
@@ -23691,18 +22695,6 @@ scrypt-js@3.0.1, scrypt-js@^3.0.0, scrypt-js@^3.0.1:
     ts-node-transpile-only: dist/bin-transpile.js
     ts-script: dist/bin-script-deprecated.js
   checksum: a90db4a342872cd0e7a80babdfcb15d2f7c06e700d735003098f7cc79db575c3380580c58a19ae0d0eaab553af083651d4237060c92170e6f8ac4e64693113ea
-  languageName: node
-  linkType: hard
-
-"tsconfig-paths@npm:^3.9.0":
-  version: 3.9.0
-  resolution: "tsconfig-paths@npm:3.9.0"
-  dependencies:
-    "@types/json5": ^0.0.29
-    json5: ^1.0.1
-    minimist: ^1.2.0
-    strip-bom: ^3.0.0
-  checksum: 5383ba626b3ac70e08094b9dfd1e30ce82878407b6c8db8cd84279cc7c7340d5f53f67dbeb8174a233c082a068322a6b00ec8514b96d9a80a453e0476dc116d2
   languageName: node
   linkType: hard
 
