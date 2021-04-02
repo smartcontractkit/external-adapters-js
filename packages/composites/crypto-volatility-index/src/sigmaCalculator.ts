@@ -21,7 +21,7 @@ export class SigmaCalculator {
 
     const weighted = (t1.times(t2.minus(tm)).times(sigma1).minus((t2.times((t1.minus(tm)).times(sigma2)))))
       .div((t2.minus(t1)))
-      .div(tm) // prettier-ignore
+      .div(tm) 
 
     return weighted
   }
