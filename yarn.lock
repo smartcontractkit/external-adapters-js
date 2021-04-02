@@ -1262,10 +1262,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -1281,12 +1277,8 @@ __metadata:
     "@types/express": ^4.17.11
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
     ethers: ^5.0.32
     express: ^4.17.1
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -1301,10 +1293,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -1319,10 +1307,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -1338,10 +1322,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -1356,10 +1336,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -1374,10 +1350,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -1392,10 +1364,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -1412,11 +1380,7 @@ __metadata:
     "@openzeppelin/contracts": ^3.3.0
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
     ethers: 5.0.32
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -1431,10 +1395,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -1450,10 +1410,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -1469,10 +1425,6 @@ __metadata:
     "@types/express": ^4.17.6
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -1488,10 +1440,6 @@ __metadata:
     "@types/express": ^4.17.6
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -1507,11 +1455,7 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
     object-path: ^0.11.4
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -1527,11 +1471,7 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
     object-path: ^0.11.4
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -1547,12 +1487,8 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
     blockcypher: ^0.3.0
     object-path: ^0.11.4
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -1567,10 +1503,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -1586,11 +1518,7 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
     object-path: ^0.11.4
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -1605,10 +1533,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -1623,10 +1547,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -1641,10 +1561,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -1659,10 +1575,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -1677,10 +1589,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -1696,10 +1604,6 @@ __metadata:
     "@types/express": ^4.17.6
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -1714,10 +1618,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -1732,10 +1632,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -1750,10 +1646,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -1768,12 +1660,8 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
     ethers: ^5.0.32
     js-conflux-sdk: ^1.5.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -1818,10 +1706,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -1838,12 +1722,8 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
     decimal.js: ^10.2.1
     moment: ^2.29.1
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -1859,12 +1739,8 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
     ethers: ^5.0.32
     object-path: ^0.11.4
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -1879,10 +1755,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -1897,10 +1769,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -1915,10 +1783,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -1933,10 +1797,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -1952,11 +1812,7 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
     ethers: ^5.0.32
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -1971,10 +1827,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -1989,10 +1841,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2008,10 +1856,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2026,11 +1870,7 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
     dwolla-v2: ^3.2.0
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2045,10 +1885,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2064,10 +1900,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2083,13 +1915,9 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
     decimal.js: ^10.2.1
     ethers: ^5.0.32
     object-path: ^0.11.5
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2120,7 +1948,6 @@ __metadata:
     lodash: ^4.17.21
     lru-cache: ^6.0.0
     object-hash: ^2.0.3
-    prettier: ^2.0.5
     prom-client: ^13.1.0
     promise-timeout: ^1.3.0
     redis: ^3.0.2
@@ -2130,7 +1957,6 @@ __metadata:
     remote-redux-devtools: ^0.5.16
     rxjs: ^6.6.3
     sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
     uuid: ^8.3.0
@@ -2147,11 +1973,7 @@ __metadata:
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     "@types/object-path": ^0.11.0
-    "@types/sinon": ^9.0.11
     object-path: ^0.11.4
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2164,10 +1986,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2182,11 +2000,7 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
     ethers: ^4.0.48
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2200,11 +2014,7 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
     hardhat: ^2.0.8
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2219,10 +2029,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2237,10 +2043,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2255,10 +2057,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2273,11 +2071,7 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
     ethers: ^5.0.32
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2291,10 +2085,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2309,10 +2099,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2351,10 +2137,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2369,10 +2151,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2387,10 +2165,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2405,10 +2179,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2423,10 +2193,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2441,10 +2207,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2459,10 +2221,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2480,11 +2238,7 @@ __metadata:
     "@harmony-js/utils": ^0.1.56
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
     ethers: 5.0.26
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2499,10 +2253,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2517,10 +2267,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2535,10 +2281,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2553,10 +2295,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2571,10 +2309,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2589,10 +2323,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2610,11 +2340,7 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
     market-closure: ^0.1.2
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2629,10 +2355,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2647,10 +2369,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2665,10 +2383,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2683,10 +2397,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2701,10 +2411,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2719,10 +2425,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2737,10 +2439,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2755,10 +2453,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2773,10 +2467,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2799,9 +2489,7 @@ __metadata:
     "@types/node": ^14.14.35
     "@types/sinon": ^9.0.11
     axios: ^0.21.1
-    prettier: ^2.0.5
     sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2816,10 +2504,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2834,10 +2518,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2852,10 +2532,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2880,12 +2556,8 @@ __metadata:
     "@chainlink/wbtc-address-set-adapter": "*"
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
     decimal.js: ^10.2.1
     ethers: ^5.0.32
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2900,12 +2572,8 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
     decimal.js: ^10.2.1
     object-path: ^0.11.4
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2923,11 +2591,7 @@ __metadata:
     "@renproject/utils": ^1.0.7
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
     bitcoinjs-lib: ^5.1.10
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2942,10 +2606,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2961,12 +2621,8 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
     ethers: ^5.0.32
     object-path: ^0.11.4
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2981,10 +2637,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -3000,12 +2652,8 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
     decimal.js: ^10.2.1
-    prettier: ^2.0.5
-    sinon: ^10.0.0
     synthetix: 2.39.2
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -3020,10 +2668,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -3038,10 +2682,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -3056,10 +2696,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -3082,12 +2718,8 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
     decimal.js: ^10.2.1
     ethers: ^5.0.32
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -3102,10 +2734,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -3120,12 +2748,8 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
     express: ^4.17.1
-    prettier: ^2.0.5
-    sinon: ^10.0.0
     tradingeconomics-stream: ^0.2.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -3140,10 +2764,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -3164,10 +2784,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -3182,10 +2798,6 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    "@types/sinon": ^9.0.11
-    prettier: ^2.0.5
-    sinon: ^10.0.0
-    ts-node: ^9.1.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
