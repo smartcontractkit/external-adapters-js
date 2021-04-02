@@ -66,7 +66,7 @@ declare module '@chainlink/types' {
   export type Config = {
     apiKey?: string
     network?: string
-    returnRejectedPromiseOnError?: Boolean
+    returnRejectedPromiseOnError?: boolean
     verbose?: boolean
     api: RequestConfig
   }
