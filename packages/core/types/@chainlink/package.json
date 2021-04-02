@@ -11,8 +11,6 @@
   },
   "license": "MIT",
   "scripts": {
-    "lint": "echo \"No lint needed\"",
-    "lint:fix": "echo \"No lint:fix needed\"",
     "clean": "echo \"No clean needed\""
   }
 }

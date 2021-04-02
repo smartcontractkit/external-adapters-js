@@ -13,9 +13,7 @@
     "prepack": "yarn build",
     "build": "tsc -b",
     "dev:remotedev": "./scripts/remotedev.sh",
-    "dev:metrics": "docker-compose up -d",
-    "lint": "eslint --ignore-path ../../../.eslintignore . --ext .ts,.tsx",
-    "lint:fix": "eslint --ignore-path ../../../.eslintignore . --ext .js,.jsx,.ts,.tsx --fix"
+    "dev:metrics": "docker-compose up -d"
   },
   "dependencies": {
     "@chainlink/ea-ratelimits": "*",
@@ -52,16 +50,6 @@
     "@types/remote-redux-devtools": "^0.5.4",
     "@types/sinon": "^9.0.11",
     "@types/uuid": "^8.3.0",
-    "@typescript-eslint/eslint-plugin": "^4.19.0",
-    "@typescript-eslint/parser": "^4.19.0",
-    "eslint": "^7.22.0",
-    "eslint-config-prettier": "^8.1.0",
-    "eslint-config-standard": "^16.0.2",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^3.3.1",
-    "eslint-plugin-promise": "^4.3.1",
-    "eslint-plugin-standard": "^5.0.0",
     "prettier": "^2.0.5",
     "sinon": "^10.0.0",
     "ts-node": "^9.1.1",
