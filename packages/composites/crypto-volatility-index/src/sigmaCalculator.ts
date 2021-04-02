@@ -19,9 +19,12 @@ export class SigmaCalculator {
     const t1 = new Decimal(e1.diff(now, 'days') * secondsInDay)
     const t2 = new Decimal(e2.diff(now, 'days') * secondsInDay)
 
-    const weighted = (t1.times(t2.minus(tm)).times(sigma1).minus((t2.times((t1.minus(tm)).times(sigma2)))))
-      .div((t2.minus(t1)))
-      .div(tm) 
+    const weighted = t1
+      .times(t2.minus(tm))
+      .times(sigma1)
+      .minus(t2.times(t1.minus(tm).times(sigma2)))
+      .div(t2.minus(t1))
+      .div(tm)
 
     return weighted
   }
@@ -49,7 +52,6 @@ export class SigmaCalculator {
         } else if (idx === calls.length - 1) {
           dK = strikePrice.minus(calls[idx - 1].strikePrice)
         } else {
-          // eslint-disable-next-line prettier/prettier
           dK = calls[idx + 1].strikePrice.minus(calls[idx - 1].strikePrice).div(2)
         }
 
@@ -70,7 +72,6 @@ export class SigmaCalculator {
         } else if (idx === puts.length - 1) {
           dK = puts[idx - 1].strikePrice.minus(strikePrice)
         } else {
-          // eslint-disable-next-line prettier/prettier
           dK = puts[idx - 1].strikePrice.minus(puts[idx + 1].strikePrice).div(2)
         }
 

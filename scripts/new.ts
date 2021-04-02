@@ -1,4 +1,4 @@
-const shell = require('shelljs')
+import * as shell from 'shelljs'
 
 const log = { red: (text: string) => console.log('\x1b[31m%s\x1b[0m', text) }
 
