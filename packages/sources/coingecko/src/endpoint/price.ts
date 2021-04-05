@@ -2,6 +2,56 @@ import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
+/**
+ * @swagger
+ * endpoints:
+ *  price:
+ *    properties:
+ *      - coinid
+ *      - base
+ *      - from
+ *      - coin
+ *      - quote
+ *      - to
+ *      - market
+ *    required:
+ *      - oneOf:
+ *        - coinid
+ *        - oneOf:
+ *            - base
+ *            - from
+ *            - coin
+ *      - oneOf:
+ *        - quote
+ *        - to
+ *        - market
+ */
+
+ /**
+  * @swagger
+  * endpoints:
+  *  price:
+  *    properties:
+  *      - coinid
+  *      - base
+  *      - from
+  *      - coin
+  *      - quote
+  *      - to
+  *      - market
+  *    required:
+  *      - oneOf:
+  *        - coinid
+  *        - oneOf:
+  *            - base
+  *            - from
+  *            - coin
+  *      - oneOf:
+  *        - quote
+  *        - to
+  *        - market
+  */
+
 export const NAME = 'price'
 
 const customError = (data: any) => {
