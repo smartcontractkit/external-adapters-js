@@ -17,7 +17,7 @@ function main() {
 
   const pkg = JSON.parse(shell.cat(`packages/${type}/${n}/package.json`)).name
   shell.exec(
-    `docker build --build-arg type=${type} --build-arg name=${n} --build-arg package=${pkg} -f Dockerfile . -t ${repo}${n}-adapter ${
+    `docker build --build-arg location=packages/${type}/${n} --build-arg package=${pkg} -f Dockerfile . -t ${repo}${n}-adapter ${
       tag ? `-t ${repo}${pkg}${tag}` : ''
     }`,
   )
