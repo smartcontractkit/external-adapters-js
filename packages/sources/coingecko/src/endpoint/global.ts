@@ -3,21 +3,37 @@ import { ExecuteWithConfig, Config } from '@chainlink/types'
 
 /**
  * @swagger
- *
- * /login:
- *   post:
- *     produces:
- *       - application/json
- *     parameters:
- *       - name: username
- *         in: formData
- *         required: true
- *         type: string
- *       - name: password
- *         in: formData
- *         required: true
- *         type: string
+ * endpoints:
+ *  globalmarketcap:
+ *    properties:
+ *      - market
+ *      - to
+ *      - quote
+ *      - coin
+ *    required:
+ *      - oneOf:
+ *        - market
+ *        - to
+ *        - quote
+ *        - coin
  */
+
+ /**
+  * @swagger
+  * endpoints:
+  *  dominance:
+  *    properties:
+  *      - market
+  *      - to
+  *      - quote
+  *      - coin
+  *    required:
+  *      - oneOf:
+  *        - market
+  *        - to
+  *        - quote
+  *        - coin
+  */
 export const NAME = 'global'
 
 const customError = (data: any) => {
