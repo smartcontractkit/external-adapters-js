@@ -2006,6 +2006,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/ea-scripts@workspace:packages/scripts":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/ea-scripts@workspace:packages/scripts"
+  dependencies:
+    "@types/shelljs": ^0
+    "@types/yaml": ^1
+    shelljs: ^0.8.4
+    tslib: ^2.1.0
+    typescript: ^4.2.3
+    yaml: ^1.10.2
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/ea-test-helpers@*, @chainlink/ea-test-helpers@workspace:packages/core/test-helpers":
   version: 0.0.0-use.local
   resolution: "@chainlink/ea-test-helpers@workspace:packages/core/test-helpers"
@@ -4943,6 +4956,7 @@ __metadata:
   version: 1.1.2
   resolution: "@tootallnate/once@npm:1.1.2"
   checksum: d030f3fb14e0373dbf5005d8f696ff34fda87bf56744bea611fc737449bfc0687ebcb28ee8ba4c6624877f51b18d701c0d417d793f406006a192f4721911d048
+<<<<<<< HEAD
   languageName: node
   linkType: hard
 
@@ -4953,6 +4967,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+=======
+  languageName: node
+  linkType: hard
+
+"@truffle/blockchain-utils@npm:^0.0.28":
+  version: 0.0.28
+  resolution: "@truffle/blockchain-utils@npm:0.0.28"
+  checksum: 2ca796a31f32ba9fc10eab36632d2b822c82f7fa82dd8ef041665eb5b224aaecb3e938b4bc992982519cbaadb43b7a3bed423b79413615eca5e719bd98bd4a71
+  languageName: node
+  linkType: hard
+
+>>>>>>> 9b16f327... Fix docker script
 "@truffle/codec@npm:^0.10.2":
   version: 0.10.2
   resolution: "@truffle/codec@npm:0.10.2"
@@ -8397,9 +8423,15 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.3.649":
+<<<<<<< HEAD
   version: 1.3.708
   resolution: "electron-to-chromium@npm:1.3.708"
   checksum: e54f7833a65818d97e44b56a8ead9f805dcc8604bdd10907f97784882f5a37754fe38a588549ea9d328b16a27ab4dbec0d88cc5fddbfe59e3a4e74169d9d7eaa
+=======
+  version: 1.3.707
+  resolution: "electron-to-chromium@npm:1.3.707"
+  checksum: 9bd9e7174d197c35137e0906dfab8cf5cedeea056341a8105ef7f9b1c7d6ea7c4dd72d84b419f19f0ef804f836c0999e84f00a5c57dd6c0e08203bdc8130e8d6
+>>>>>>> 9b16f327... Fix docker script
   languageName: node
   linkType: hard
 
@@ -15035,19 +15067,6 @@ resolve@1.17.0:
   checksum: aaf0866c14a7f4c48cfee51d60d628e82125e42b1225ef59b64eed323f4927728617851b1981ee76aaa312e82609fc2b94cc4184a2c7b804734b101f1a54d5f2
   languageName: node
   linkType: hard
-
-"scripts@workspace:packages/scripts":
-  version: 0.0.0-use.local
-  resolution: "scripts@workspace:packages/scripts"
-  dependencies:
-    "@types/shelljs": ^0
-    "@types/yaml": ^1
-    shelljs: ^0.8.4
-    tslib: ^2.1.0
-    typescript: ^4.2.3
-    yaml: ^1.10.2
-  languageName: unknown
-  linkType: soft
 
 "scrypt-js@npm:2.0.3":
   version: 2.0.3

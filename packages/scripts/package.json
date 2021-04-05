@@ -1,5 +1,6 @@
 {
-  "name": "scripts",
+  "name": "@chainlink/ea-scripts",
+  "version": "0.0.1",
   "dependencies": {
     "shelljs": "^0.8.4",
     "tslib": "^2.1.0",
