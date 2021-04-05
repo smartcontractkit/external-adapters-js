@@ -3,6 +3,30 @@ import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
 import { makeConfig, DEFAULT_ENDPOINT } from './config'
 import { price, global } from './endpoint'
 
+/**
+ * @swagger
+ * /:
+ *  post:
+ *    requestBody:
+ *      description: request body for EA
+ *      schema:
+ *        properties:
+ *          endpoint:
+ *            type: string
+ *            default: price
+ *            enum:
+ *              - price
+ *              - globalmarketcap
+ *              - dominance
+ *              - marketcap
+ *        required:
+ *          oneOf:
+ *            - $ref: '#/endpoints/price'
+ *            - $ref: '#/endpoints/globalmarketcap'
+ *            - $ref: '#/endpoints/dominance'
+ *            - $ref: '#/endpoints/marketcap'
+ */
+
 const inputParams = {
   endpoint: false,
 }
