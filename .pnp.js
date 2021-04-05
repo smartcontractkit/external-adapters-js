@@ -554,12 +554,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/babel__preset-env", "npm:7.9.1"],
             ["@types/eslint", "npm:7.2.8"],
             ["@types/jest", "npm:26.0.22"],
+<<<<<<< HEAD
             ["@types/node", "npm:14.14.37"],
             ["@typescript-eslint/eslint-plugin", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:4.21.0"],
             ["@typescript-eslint/parser", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:4.21.0"],
             ["eslint", "npm:7.23.0"],
+=======
+            ["@types/node", "npm:14.14.35"],
+            ["@typescript-eslint/eslint-plugin", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:4.20.0"],
+            ["@typescript-eslint/parser", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:4.20.0"],
+>>>>>>> 63a868b6... Refresh lock from install
             ["@vercel/ncc", "npm:0.27.0"],
-            ["eslint", "npm:7.22.0"],
+            ["eslint", "npm:7.23.0"],
             ["eslint-config-prettier", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:8.1.0"],
             ["jest", "npm:26.6.3"],
             ["prettier", "npm:2.2.1"],
@@ -3750,12 +3756,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/babel__preset-env", "npm:7.9.1"],
             ["@types/eslint", "npm:7.2.8"],
             ["@types/jest", "npm:26.0.22"],
+<<<<<<< HEAD
             ["@types/node", "npm:14.14.37"],
             ["@typescript-eslint/eslint-plugin", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:4.21.0"],
             ["@typescript-eslint/parser", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:4.21.0"],
             ["eslint", "npm:7.23.0"],
+=======
+            ["@types/node", "npm:14.14.35"],
+            ["@typescript-eslint/eslint-plugin", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:4.20.0"],
+            ["@typescript-eslint/parser", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:4.20.0"],
+>>>>>>> 63a868b6... Refresh lock from install
             ["@vercel/ncc", "npm:0.27.0"],
-            ["eslint", "npm:7.22.0"],
+            ["eslint", "npm:7.23.0"],
             ["eslint-config-prettier", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:8.1.0"],
             ["jest", "npm:26.6.3"],
             ["prettier", "npm:2.2.1"],
