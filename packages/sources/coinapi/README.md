@@ -20,11 +20,11 @@
 
 ### Input Params
 
-| Required? |            Name            |               Description                |                     Options                      | Defaults to |
-| :-------: | :------------------------: | :--------------------------------------: | :----------------------------------------------: | :---------: |
-|    ✅     | `base`, `from`, or `coin`  |   The symbol of the currency to query    | [List](https://docs.coinapi.io/#list-all-assets) |             |
-|    ✅     | `quote`, `to`, or `market` | The symbol of the currency to convert to | [List](https://docs.coinapi.io/#list-all-assets) |             |
-|    🟡     |   `overrides`   | If base provided is found in overrides, that will be used  | [Format](../external-adapter/src/overrides/presetSymbols.json)|             |
+| Required? |            Name            |                        Description                        |                                       Options                                        | Defaults to |
+| :-------: | :------------------------: | :-------------------------------------------------------: | :----------------------------------------------------------------------------------: | :---------: |
+|    ✅     | `base`, `from`, or `coin`  |            The symbol of the currency to query            |                   [List](https://docs.coinapi.io/#list-all-assets)                   |             |
+|    ✅     | `quote`, `to`, or `market` |         The symbol of the currency to convert to          |                   [List](https://docs.coinapi.io/#list-all-assets)                   |             |
+|    🟡     |        `overrides`         | If base provided is found in overrides, that will be used | [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json) |             |
 
 ### Sample Input
 
