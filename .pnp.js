@@ -554,20 +554,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/babel__preset-env", "npm:7.9.1"],
             ["@types/eslint", "npm:7.2.8"],
             ["@types/jest", "npm:26.0.22"],
-<<<<<<< HEAD
-<<<<<<< HEAD
             ["@types/node", "npm:14.14.37"],
             ["@typescript-eslint/eslint-plugin", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:4.21.0"],
             ["@typescript-eslint/parser", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:4.21.0"],
-            ["eslint", "npm:7.23.0"],
-=======
-            ["@types/node", "npm:14.14.35"],
-=======
-            ["@types/node", "npm:14.14.37"],
->>>>>>> 9b16f327... Fix docker script
-            ["@typescript-eslint/eslint-plugin", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:4.20.0"],
-            ["@typescript-eslint/parser", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:4.20.0"],
->>>>>>> 63a868b6... Refresh lock from install
             ["@vercel/ncc", "npm:0.27.0"],
             ["eslint", "npm:7.23.0"],
             ["eslint-config-prettier", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:8.1.0"],
@@ -2720,11 +2709,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -2759,11 +2744,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -2779,11 +2760,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -2800,11 +2777,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -2820,11 +2793,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -2840,11 +2809,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -2860,11 +2825,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -2899,11 +2860,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -2920,11 +2877,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -2941,11 +2894,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/express", "npm:4.17.11"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -2962,11 +2911,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/express", "npm:4.17.11"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -3037,11 +2982,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -3075,11 +3016,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -3095,11 +3032,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -3115,11 +3048,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -3135,11 +3064,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -3155,11 +3080,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -3176,11 +3097,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/express", "npm:4.17.11"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -3196,11 +3113,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -3216,11 +3129,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -3236,11 +3145,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -3294,11 +3199,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -3353,11 +3254,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -3373,11 +3270,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -3393,11 +3286,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -3413,11 +3302,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -3435,11 +3320,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
             ["ethers", "npm:5.1.0"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -3455,11 +3336,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -3475,11 +3352,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -3496,11 +3369,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -3533,11 +3402,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -3554,11 +3419,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -3741,11 +3602,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -3776,7 +3633,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/shelljs", "npm:0.8.8"],
             ["@types/yaml", "npm:1.9.6"],
             ["shelljs", "npm:0.8.4"],
-            ["tslib", "npm:2.1.0"],
+            ["tslib", "npm:2.2.0"],
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"],
             ["yaml", "npm:1.10.2"]
           ],
@@ -3809,11 +3666,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -3829,11 +3682,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -3849,11 +3698,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -3870,11 +3715,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
             ["ethers", "npm:5.1.0"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -3889,11 +3730,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -3909,11 +3746,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -3931,20 +3764,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/babel__preset-env", "npm:7.9.1"],
             ["@types/eslint", "npm:7.2.8"],
             ["@types/jest", "npm:26.0.22"],
-<<<<<<< HEAD
-<<<<<<< HEAD
             ["@types/node", "npm:14.14.37"],
             ["@typescript-eslint/eslint-plugin", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:4.21.0"],
             ["@typescript-eslint/parser", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:4.21.0"],
-            ["eslint", "npm:7.23.0"],
-=======
-            ["@types/node", "npm:14.14.35"],
-=======
-            ["@types/node", "npm:14.14.37"],
->>>>>>> 9b16f327... Fix docker script
-            ["@typescript-eslint/eslint-plugin", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:4.20.0"],
-            ["@typescript-eslint/parser", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:4.20.0"],
->>>>>>> 63a868b6... Refresh lock from install
             ["@vercel/ncc", "npm:0.27.0"],
             ["eslint", "npm:7.23.0"],
             ["eslint-config-prettier", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:8.1.0"],
@@ -3966,11 +3788,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -3986,11 +3804,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -4006,11 +3820,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -4026,11 +3836,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -4046,11 +3852,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -4066,11 +3868,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -4086,11 +3884,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -4126,11 +3920,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -4146,11 +3936,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -4166,11 +3952,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -4186,11 +3968,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -4206,11 +3984,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -4226,11 +4000,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -4266,11 +4036,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -4286,11 +4052,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -4306,11 +4068,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -4326,11 +4084,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -4346,11 +4100,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -4366,11 +4116,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -4386,11 +4132,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -4406,11 +4148,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -4426,11 +4164,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -4471,11 +4205,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -4491,11 +4221,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -4511,11 +4237,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -4543,11 +4265,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:14.14.37"],
             ["decimal.js", "npm:10.2.1"],
             ["ethers", "npm:5.1.0"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -4618,11 +4336,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -4657,11 +4371,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -4696,11 +4406,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -4716,11 +4422,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -4736,11 +4438,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -4766,11 +4464,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:14.14.37"],
             ["decimal.js", "npm:10.2.1"],
             ["ethers", "npm:5.1.0"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -4786,11 +4480,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -4824,11 +4514,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -4853,11 +4539,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -4873,11 +4555,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.37"],
-<<<<<<< HEAD
             ["tslib", "npm:2.2.0"],
-=======
-            ["tslib", "npm:2.1.0"],
->>>>>>> 9b16f327... Fix docker script
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -5685,7 +5363,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ethersproject/strings", "npm:5.1.0"],
             ["@ethersproject/transactions", "npm:5.1.0"],
             ["@ethersproject/web", "npm:5.1.0"],
-<<<<<<< HEAD
             ["bech32", "npm:1.1.4"],
             ["ws", "virtual:0fd7ab4db5b1d3999b8c6b73a3759e324c2d493248ce759e747097b0395d109031ca6c4caa8a1e24b6c5e7bd559c7176d245fbd42a849f70098b60b12aa2ad41#npm:7.2.3"]
           ],
@@ -5714,36 +5391,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ethersproject/web", "npm:5.1.0"],
             ["bech32", "npm:1.1.4"],
             ["ws", "virtual:0fd7ab4db5b1d3999b8c6b73a3759e324c2d493248ce759e747097b0395d109031ca6c4caa8a1e24b6c5e7bd559c7176d245fbd42a849f70098b60b12aa2ad41#npm:7.2.3"]
-=======
-            ["bech32", "npm:1.1.4"],
-            ["ws", "virtual:0fd7ab4db5b1d3999b8c6b73a3759e324c2d493248ce759e747097b0395d109031ca6c4caa8a1e24b6c5e7bd559c7176d245fbd42a849f70098b60b12aa2ad41#npm:7.2.3"]
-          ],
-          "linkType": "HARD",
-        }],
-        ["npm:5.1.0", {
-          "packageLocation": "./.yarn/cache/@ethersproject-providers-npm-5.1.0-0fd7ab4db5-83fe9c59df.zip/node_modules/@ethersproject/providers/",
-          "packageDependencies": [
-            ["@ethersproject/providers", "npm:5.1.0"],
-            ["@ethersproject/abstract-provider", "npm:5.1.0"],
-            ["@ethersproject/abstract-signer", "npm:5.1.0"],
-            ["@ethersproject/address", "npm:5.1.0"],
-            ["@ethersproject/basex", "npm:5.1.0"],
-            ["@ethersproject/bignumber", "npm:5.1.0"],
-            ["@ethersproject/bytes", "npm:5.1.0"],
-            ["@ethersproject/constants", "npm:5.1.0"],
-            ["@ethersproject/hash", "npm:5.1.0"],
-            ["@ethersproject/logger", "npm:5.1.0"],
-            ["@ethersproject/networks", "npm:5.1.0"],
-            ["@ethersproject/properties", "npm:5.1.0"],
-            ["@ethersproject/random", "npm:5.1.0"],
-            ["@ethersproject/rlp", "npm:5.1.0"],
-            ["@ethersproject/sha2", "npm:5.1.0"],
-            ["@ethersproject/strings", "npm:5.1.0"],
-            ["@ethersproject/transactions", "npm:5.1.0"],
-            ["@ethersproject/web", "npm:5.1.0"],
-            ["bech32", "npm:1.1.4"],
-            ["ws", "virtual:0fd7ab4db5b1d3999b8c6b73a3759e324c2d493248ce759e747097b0395d109031ca6c4caa8a1e24b6c5e7bd559c7176d245fbd42a849f70098b60b12aa2ad41#npm:7.2.3"]
->>>>>>> 9b16f327... Fix docker script
           ],
           "linkType": "HARD",
         }]
@@ -7236,7 +6883,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@types/cbor", "npm:2.0.0"],
             ["@types/node", "npm:14.14.37"]
-<<<<<<< HEAD
           ],
           "linkType": "HARD",
         }]
@@ -7246,8 +6892,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-chai-npm-4.2.16-6136112368-8e9c49718b.zip/node_modules/@types/chai/",
           "packageDependencies": [
             ["@types/chai", "npm:4.2.16"]
-=======
->>>>>>> 9b16f327... Fix docker script
           ],
           "linkType": "HARD",
         }]
@@ -9292,11 +8936,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["browserslist", "npm:4.16.3"],
             ["caniuse-lite", "npm:1.0.30001207"],
             ["colorette", "npm:1.2.2"],
-<<<<<<< HEAD
-            ["electron-to-chromium", "npm:1.3.708"],
-=======
             ["electron-to-chromium", "npm:1.3.707"],
->>>>>>> 9b16f327... Fix docker script
             ["escalade", "npm:3.1.1"],
             ["node-releases", "npm:1.1.71"]
           ],
@@ -11039,17 +10679,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["electron-to-chromium", [
-<<<<<<< HEAD
-        ["npm:1.3.708", {
-          "packageLocation": "./.yarn/cache/electron-to-chromium-npm-1.3.708-297b351125-e54f7833a6.zip/node_modules/electron-to-chromium/",
-          "packageDependencies": [
-            ["electron-to-chromium", "npm:1.3.708"]
-=======
         ["npm:1.3.707", {
           "packageLocation": "./.yarn/cache/electron-to-chromium-npm-1.3.707-2b96b62b6c-9bd9e7174d.zip/node_modules/electron-to-chromium/",
           "packageDependencies": [
             ["electron-to-chromium", "npm:1.3.707"]
->>>>>>> 9b16f327... Fix docker script
           ],
           "linkType": "HARD",
         }]
@@ -20636,11 +20269,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         ["npm:1.3.5", {
           "packageLocation": "./.yarn/unplugged/web3-bzz-npm-1.3.5-664eaffeea/node_modules/web3-bzz/",
           "packageDependencies": [
-<<<<<<< HEAD
             ["web3-bzz", "npm:1.3.5"],
-=======
-            ["web3-bzz", "npm:1.3.4"],
->>>>>>> 9b16f327... Fix docker script
             ["@types/node", "npm:12.20.7"],
             ["got", "npm:9.6.0"],
             ["swarm-js", "npm:0.1.40"],
@@ -20779,11 +20408,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         ["npm:1.3.5", {
           "packageLocation": "./.yarn/cache/web3-core-method-npm-1.3.5-c11ddb2dd5-077384ef54.zip/node_modules/web3-core-method/",
           "packageDependencies": [
-<<<<<<< HEAD
             ["web3-core-method", "npm:1.3.5"],
-=======
-            ["web3-core-method", "npm:1.3.4"],
->>>>>>> 9b16f327... Fix docker script
             ["@ethersproject/transactions", "npm:5.1.0"],
             ["underscore", "npm:1.9.1"],
             ["web3-core-helpers", "npm:1.3.5"],
@@ -21328,7 +20953,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         ["npm:1.3.5", {
           "packageLocation": "./.yarn/cache/web3-eth-personal-npm-1.3.5-572c2baddb-97d19bb83a.zip/node_modules/web3-eth-personal/",
           "packageDependencies": [
-<<<<<<< HEAD
             ["web3-eth-personal", "npm:1.3.5"],
             ["@types/node", "npm:12.20.7"],
             ["web3-core", "npm:1.3.5"],
@@ -21336,15 +20960,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["web3-core-method", "npm:1.3.5"],
             ["web3-net", "npm:1.3.5"],
             ["web3-utils", "npm:1.3.5"]
-=======
-            ["web3-eth-personal", "npm:1.3.4"],
-            ["@types/node", "npm:12.20.7"],
-            ["web3-core", "npm:1.3.4"],
-            ["web3-core-helpers", "npm:1.3.4"],
-            ["web3-core-method", "npm:1.3.4"],
-            ["web3-net", "npm:1.3.4"],
-            ["web3-utils", "npm:1.3.4"]
->>>>>>> 9b16f327... Fix docker script
           ],
           "linkType": "HARD",
         }],

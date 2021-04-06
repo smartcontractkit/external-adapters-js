@@ -35,4 +35,6 @@ function main() {
   // changing README to use the adapter name instead of example
   const n_cap: string = n[0].toUpperCase()+n.slice(1)
   shell.sed('-i', 'Example', n_cap,`packages/${type}s/${n}/README.md`)
-})()
+}
+
+main()
