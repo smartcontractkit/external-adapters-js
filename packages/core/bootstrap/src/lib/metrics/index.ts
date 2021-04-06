@@ -1,5 +1,6 @@
 import * as client from 'prom-client'
 import { parseBool } from '../util'
+export * as util from './util'
 
 client.collectDefaultMetrics()
 client.register.setDefaultLabels(
@@ -29,33 +30,6 @@ export const httpRequestDurationSeconds = new client.Histogram({
   buckets: [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10],
 })
 
-/**
- * Normalizes http status codes.
- *
- * Returns strings in the format (2|3|4|5)XX.
- *
- * @author https://github.com/joao-fontenele/express-prometheus-middleware
- * @param {!number} status - status code of the requests
- * @returns {string} the normalized status code.
- */
-export function normalizeStatusCode(status?: number): string {
-  if (!status) {
-    return '5XX'
-  }
-
-  if (status >= 200 && status < 300) {
-    return '2XX'
-  }
-
-  if (status >= 300 && status < 400) {
-    return '3XX'
-  }
-
-  if (status >= 400 && status < 500) {
-    return '4XX'
-  }
-  return '5XX'
-}
 export const cacheWarmerRequests = new client.Counter({
   name: 'cache_warmer_requests',
   help: 'The number of requests caused by the warmer',

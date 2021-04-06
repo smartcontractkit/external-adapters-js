@@ -1,6 +1,7 @@
 import { AdapterRequest, Execute } from '@chainlink/types'
 import { combineReducers, Store } from 'redux'
 import { useFakeTimers } from 'sinon'
+import { withDebug } from '../../../src'
 import { withCache } from '../../../src/lib/cache'
 import * as cacheWarmer from '../../../src/lib/cache-warmer'
 import * as rateLimit from '../../../src/lib/rate-limit'
@@ -30,6 +31,7 @@ export const makeExecuteWithWarmer = async (execute: Execute, store: Store) => {
       getState: () => store.getState().rateLimit,
       dispatch: (a) => store.dispatch(a),
     } as Store),
+    withDebug
   ])
   return async (data: AdapterRequest) => {
     const result = await executeWithMiddleware(data)
