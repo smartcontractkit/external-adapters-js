@@ -22,12 +22,12 @@ This adapter is for [Fixer.io](https://fixer.io/) and supports the convert endpo
 
 ### Input Params
 
-| Required? |          Name           |               Description                | Options | Defaults to |
-| :-------: | :---------------------: | :--------------------------------------: | :-----: | :---------: |
-|    ✅     | `base`, `from`, `coin`  |   The symbol of the currency to query    |         |             |
-|    ✅     | `quote`, `to`, `market` | The symbol of the currency to convert to |         |             |
-|    🟡     |        `amount`         |      The amount of `base` currency       |         |      1      |
-|    🟡     |   `overrides`   | If base provided is found in overrides, that will be used  | [Format](../external-adapter/src/overrides/presetSymbols.json)|             |
+| Required? |          Name           |                        Description                        |                                       Options                                        | Defaults to |
+| :-------: | :---------------------: | :-------------------------------------------------------: | :----------------------------------------------------------------------------------: | :---------: |
+|    ✅     | `base`, `from`, `coin`  |            The symbol of the currency to query            |                                                                                      |             |
+|    ✅     | `quote`, `to`, `market` |         The symbol of the currency to convert to          |                                                                                      |             |
+|    🟡     |        `amount`         |               The amount of `base` currency               |                                                                                      |      1      |
+|    🟡     |       `overrides`       | If base provided is found in overrides, that will be used | [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json) |             |
 
 ## Output
 

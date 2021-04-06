@@ -4,8 +4,8 @@ Use this adapter for connecting to [AlphaVantage's API](https://www.alphavantage
 
 ### Environment Variables
 
-| Required? |  Name   |                                      Description                                      | Options | Defaults to |
-| :-------: | :-----: | :-----------------------------------------------------------------------------------: | :-----: | :---------: |
+| Required? |  Name   |                                        Description                                        | Options | Defaults to |
+| :-------: | :-----: | :---------------------------------------------------------------------------------------: | :-----: | :---------: |
 |    ✅     | API_KEY | An API key that can be obtained from [here](https://www.alphavantage.co/support/#api-key) |         |             |
 
 ---
@@ -24,11 +24,11 @@ Returns the exchange rate from a currency's current price to a given currency
 
 ### Input Params
 
-| Required? |            Name            |               Description                |                                                                          Options                                                                           | Defaults to |
-| :-------: | :------------------------: | :--------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
-|    ✅     | `base`, `from`, or `coin`  |   The symbol of the currency to query    | [Physical Currency list](https://www.alphavantage.co/physical_currency_list/) or [Cryptocurrency list](https://www.alphavantage.co/digital_currency_list/) |             |
-|    ✅     | `quote`, `to`, or `market` | The symbol of the currency to convert to | [Physical Currency list](https://www.alphavantage.co/physical_currency_list/) or [Cryptocurrency list](https://www.alphavantage.co/digital_currency_list/) |             |
-|    🟡     |   `overrides`   | If base provided is found in overrides, that will be used  | [Format](../external-adapter/src/overrides/presetSymbols.json)|             |
+| Required? |            Name            |                        Description                        |                                                                          Options                                                                           | Defaults to |
+| :-------: | :------------------------: | :-------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
+|    ✅     | `base`, `from`, or `coin`  |            The symbol of the currency to query            | [Physical Currency list](https://www.alphavantage.co/physical_currency_list/) or [Cryptocurrency list](https://www.alphavantage.co/digital_currency_list/) |             |
+|    ✅     | `quote`, `to`, or `market` |         The symbol of the currency to convert to          | [Physical Currency list](https://www.alphavantage.co/physical_currency_list/) or [Cryptocurrency list](https://www.alphavantage.co/digital_currency_list/) |             |
+|    🟡     |        `overrides`         | If base provided is found in overrides, that will be used |                                    [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json)                                    |             |
 
 ### Output
 
