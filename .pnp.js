@@ -4226,9 +4226,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@paypal/payouts-sdk", "npm:1.1.0"],
             ["@types/jest", "npm:26.0.22"],
-            ["@types/node", "npm:14.14.35"],
+            ["@types/node", "npm:14.14.37"],
             ["@types/paypal__payouts-sdk", "npm:1.0.1"],
-            ["tslib", "npm:2.1.0"],
+            ["tslib", "npm:2.2.0"],
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
           "linkType": "SOFT",
