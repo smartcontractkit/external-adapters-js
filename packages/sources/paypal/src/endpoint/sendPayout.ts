@@ -58,7 +58,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const paypal_req = new paypal.payouts.PayoutsPostRequest()
   paypal_req.requestBody(params)
 
-  let response;
+  let response
   try {
     response = await config.api.client.execute(paypal_req)
   } catch (e) {

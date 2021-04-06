@@ -1,35 +1,43 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig } from '@chainlink/types'
+import * as paypal from '@paypal/payouts-sdk'
 
 export const NAME = 'getpayout'
 
-const customError = (data: any) => data.Response === 'Error'
-
 const customParams = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
-  field: false,
+  payout_id: true,
+  type: false,
+}
+
+const paramOptions = {
+  type: ['ITEM', 'BATCH'],
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-  const validator = new Validator(request, customParams)
+  const validator = new Validator(request, customParams, paramOptions)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const base = validator.validated.data.base
-  const quote = validator.validated.data.quote
-  const url = `price`
+  const payout_id: string = validator.validated.data.payout_id
+  const type = validator.validated.data.type || 'BATCH'
 
-  const params = {
-    base,
-    quote,
-    api_key: config.apiKey,
+  let paypal_req
+  switch (type) {
+    case 'BATCH':
+      paypal_req = new paypal.payouts.PayoutsItemGetRequest(payout_id)
+      break
+    case 'ITEM':
+      paypal_req = new paypal.payouts.PayoutsGetRequest(payout_id)
+      break
+    default:
+      throw Requester.errored(jobRunID, 'Invalid payout type')
   }
 
-  const options = { ...config.api, params, url }
-
-  const response = await Requester.request(options, customError)
-  response.data.result = Requester.validateResultNumber(response.data, ['price'])
-
+  let response
+  try {
+    response = await config.api.client.execute(paypal_req)
+  } catch (e) {
+    throw Requester.errored(jobRunID, JSON.parse(e.message))
+  }
   return Requester.success(jobRunID, response, config.verbose)
 }
