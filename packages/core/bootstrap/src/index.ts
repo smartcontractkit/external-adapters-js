@@ -76,7 +76,7 @@ const withMetrics: Middleware = async (execute) => async (input: AdapterRequest)
 
     return (statusCode?: number, type?: metrics.HttpRequestType) => {
       labels.type = type
-      labels.status_code = metrics.normalizeStatusCode(statusCode)
+      labels.status_code = metrics.util.normalizeStatusCode(statusCode)
       end()
       metrics.httpRequestsTotal.labels(labels).inc()
     }
@@ -98,8 +98,11 @@ const withMetrics: Middleware = async (execute) => async (input: AdapterRequest)
   }
 }
 
-const withDebug: Middleware = async (execute) => async (input: AdapterRequest) => {
-  const result = await execute(input)
+export const withDebug: Middleware = async (execute) => async (input: AdapterRequest) => {
+  const debug = {
+    feedId: metrics.util.getFeedId(input),
+  }
+  const result = await execute({ ...input, debug })
   if (!util.isDebug()) {
     const { debug, ...rest } = result
     return rest
@@ -115,8 +118,7 @@ const middleware = [
     dispatch: (a) => store.dispatch(a),
   } as Store),
   withStatusCode,
-  withDebug,
-].concat(metrics.METRICS_ENABLED ? [withMetrics] : [])
+].concat(metrics.METRICS_ENABLED ? [withMetrics, withDebug] : [withDebug])
 
 // Init all middleware, and return a wrapped execute fn
 const withMiddleware = async (execute: Execute) => {
