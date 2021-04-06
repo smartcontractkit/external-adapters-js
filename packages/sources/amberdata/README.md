@@ -23,11 +23,11 @@ Gets the [latest spot VWAP price](https://docs.amberdata.io/reference#spot-price
 
 ### Input Params
 
-| Required? |            Name            |                        Description                        |                            Options                             | Defaults to |
-| :-------: | :------------------------: | :-------------------------------------------------------: | :------------------------------------------------------------: | :---------: |
-|    ✅     | `base`, `from`, or `coin`  |            The symbol of the currency to query            |                                                                |             |
-|    ✅     | `quote`, `to`, or `market` |         The symbol of the currency to convert to          |                                                                |             |
-|           |        `overrides`         | If base provided is found in overrides, that will be used | [Format](../external-adapter/src/overrides/presetSymbols.json) |             |
+| Required? |            Name            |                        Description                        |                                       Options                                        | Defaults to |
+| :-------: | :------------------------: | :-------------------------------------------------------: | :----------------------------------------------------------------------------------: | :---------: |
+|    ✅     | `base`, `from`, or `coin`  |            The symbol of the currency to query            |                                                                                      |             |
+|    ✅     | `quote`, `to`, or `market` |         The symbol of the currency to convert to          |                                                                                      |             |
+|           |        `overrides`         | If base provided is found in overrides, that will be used | [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json) |             |
 
 ### Sample Input
 

@@ -24,13 +24,13 @@ Get FOREX price conversions
 
 ### Input Params
 
-| Required? |            Name            |                 Description                  |       Options       | Defaults to |
-| :-------: | :------------------------: | :------------------------------------------: | :-----------------: | :---------: |
-|    ✅     | `base`, `from`, or `coin`  |     The symbol of the currency to query      | `BTC`, `ETH`, `USD` |             |
-|    ✅     | `quote`, `to`, or `market` |   The symbol of the currency to convert to   | `BTC`, `ETH`, `USD` |             |
-|    🟡     |          `amount`          |     The amount of the `base` to convert      |                     |      1      |
-|    🟡     |        `precision`         | The number of significant figures to include |                     |      4      |
-|    🟡     |   `overrides`   | If base provided is found in overrides, that will be used  | [Format](../external-adapter/src/overrides/presetSymbols.json)|             |
+| Required? |            Name            |                        Description                        |                                       Options                                        | Defaults to |
+| :-------: | :------------------------: | :-------------------------------------------------------: | :----------------------------------------------------------------------------------: | :---------: |
+|    ✅     | `base`, `from`, or `coin`  |            The symbol of the currency to query            |                                 `BTC`, `ETH`, `USD`                                  |             |
+|    ✅     | `quote`, `to`, or `market` |         The symbol of the currency to convert to          |                                 `BTC`, `ETH`, `USD`                                  |             |
+|    🟡     |          `amount`          |            The amount of the `base` to convert            |                                                                                      |      1      |
+|    🟡     |        `precision`         |       The number of significant figures to include        |                                                                                      |      4      |
+|    🟡     |        `overrides`         | If base provided is found in overrides, that will be used | [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json) |             |
 
 ### Output
 

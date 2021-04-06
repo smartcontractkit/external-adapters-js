@@ -22,13 +22,12 @@
 
 ### Input Params
 
-| Required? |      Name      |                  Description                  |                 Options                  | Defaults to |
-| :-------: | :------------: | :-------------------------------------------: | :--------------------------------------: | :---------: |
-|    ✅     | `base`, `from` |      The symbol of the currency to query      | [List](https://1forge.com/currency-list) |             |
-|    ✅     | `quote`, `to`  |   The symbol of the currency to convert to    | [List](https://1forge.com/currency-list) |             |
-|    🟡     |   `quantity`   | An additional amount of the original currency |                                          |             |
-|    🟡     |   `overrides`   | If base provided is found in overrides, that will be used  | [Format](../external-adapter/src/overrides/presetSymbols.json)|             |
-
+| Required? |      Name      |                        Description                        |                                       Options                                        | Defaults to |
+| :-------: | :------------: | :-------------------------------------------------------: | :----------------------------------------------------------------------------------: | :---------: |
+|    ✅     | `base`, `from` |            The symbol of the currency to query            |                       [List](https://1forge.com/currency-list)                       |             |
+|    ✅     | `quote`, `to`  |         The symbol of the currency to convert to          |                       [List](https://1forge.com/currency-list)                       |             |
+|    🟡     |   `quantity`   |       An additional amount of the original currency       |                                                                                      |             |
+|    🟡     |  `overrides`   | If base provided is found in overrides, that will be used | [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json) |             |
 
 ### Output
 
