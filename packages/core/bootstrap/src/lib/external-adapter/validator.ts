@@ -1,10 +1,10 @@
 import { AdapterErrorResponse, Override } from '@chainlink/types'
-import { util } from '@chainlink/ea-bootstrap'
-import { merge } from 'lodash'
+import presetSymbols from './overrides/presetSymbols.json'
 import { AdapterError } from './errors'
 import { Requester } from './requester'
 import { logger } from './logger'
-import presetSymbols from './overrides/presetSymbols.json'
+import { merge } from 'lodash'
+import { isObject } from '../util'
 
 export class Validator {
   input: any
@@ -96,9 +96,9 @@ export class Validator {
       const message = `Parameter supplied with wrong format: "overrides"`
       throw new AdapterError({ jobRunID: this.validated.id, statusCode: 400, message })
     }
-    if (!util.isObject(param)) _throwInvalid()
+    if (!isObject(param)) _throwInvalid()
 
-    const _isValid = Object.values(param).every(util.isObject)
+    const _isValid = Object.values(param).every(isObject)
     if (!_isValid) _throwInvalid()
 
     const _keyToLowerCase = (entry: [string, any]): [string, any] => {
