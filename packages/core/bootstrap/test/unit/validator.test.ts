@@ -128,8 +128,8 @@ describe('Validator', () => {
       data: {},
     }
     const validator = new Validator(input)
-    assert.isAbove(validator.validated.overrides?.size, 1)
-    assert.equal(validator.validated.overrides.get('coingecko').get('uni'), 'uniswap')
+    expect(validator.validated.overrides?.size).toBeGreaterThan(1)
+    expect(validator.validated.overrides.get('coingecko').get('uni')).toEqual('uniswap')
   })
 
   it('overrides input is formatted', () => {
@@ -144,7 +144,7 @@ describe('Validator', () => {
       },
     }
     const validator = new Validator(input)
-    assert.equal(validator.validated.overrides.get('coingecko').get('uni'), 'uniswap')
+    expect(validator.validated.overrides.get('coingecko').get('uni')).toEqual('uniswap')
   })
 
   it('errors if overrides is not properly formatted', () => {
@@ -157,8 +157,8 @@ describe('Validator', () => {
       },
     }
     const validator = new Validator(input)
-    assert.exists(validator.error)
-    assert.equal(validator?.error?.statusCode, 400)
-    assert.equal(validator?.error?.status, 'errored')
+    expect(validator.error).toBeTruthy()
+    expect(validator?.error?.statusCode).toEqual(400)
+    expect(validator?.error?.status).toEqual('errored')
   })
 })
