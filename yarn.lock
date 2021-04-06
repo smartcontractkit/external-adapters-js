@@ -2625,7 +2625,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/poa-gasprice-adapter@workspace:packages/sources/poa-gasprice":
+"@chainlink/poa-gasprice-adapter@*, @chainlink/poa-gasprice-adapter@workspace:packages/sources/poa-gasprice":
   version: 0.0.0-use.local
   resolution: "@chainlink/poa-gasprice-adapter@workspace:packages/sources/poa-gasprice"
   dependencies:
