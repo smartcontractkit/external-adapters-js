@@ -1,5 +1,6 @@
 import { createStore } from 'redux'
 import { stub } from 'sinon'
+import { withDebug } from '../../../src'
 import { withCache } from '../../../src/lib/cache'
 import { logger } from '../../../src/lib/external-adapter'
 import * as rateLimit from '../../../src/lib/rate-limit'
@@ -44,6 +45,7 @@ describe('Rate Limit/Cache - Integration', () => {
       const executeWithMiddleware = await withMiddleware(dataProvider.execute, [
         withCache,
         rateLimit.withRateLimit(store),
+        withDebug,
       ])
 
       const secsInMin = 60
@@ -69,6 +71,7 @@ describe('Rate Limit/Cache - Integration', () => {
     const executeWithMiddleware = await withMiddleware(dataProvider.execute, [
       withCache,
       rateLimit.withRateLimit(store),
+      withDebug,
     ])
 
     const timeBetweenRequests = 500
@@ -96,6 +99,7 @@ describe('Rate Limit/Cache - Integration', () => {
     const executeWithMiddleware = await withMiddleware(dataProvider.execute, [
       withCache,
       rateLimit.withRateLimit(store),
+      withDebug,
     ])
 
     const timeBetweenRequests = 500

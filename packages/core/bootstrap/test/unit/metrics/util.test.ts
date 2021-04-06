@@ -1,6 +1,5 @@
 import { AdapterRequest } from '@chainlink/types'
-import { expect } from 'chai'
-import * as util from '../../src/lib/metrics/util'
+import * as util from '../../../src/lib/metrics/util'
 
 describe('Bootstrap/Metrics Utils', () => {
   describe('Get Feed ID', () => {
@@ -13,7 +12,7 @@ describe('Bootstrap/Metrics Utils', () => {
         },
       }
       const feedName = util.getFeedId(input)
-      expect(feedName).to.be.eq('ETH/USD')
+      expect(feedName).toBe('ETH/USD')
     })
 
     it(`Gets the correct feed id with any base/quote combination`, () => {
@@ -25,7 +24,7 @@ describe('Bootstrap/Metrics Utils', () => {
         },
       }
       let feedName = util.getFeedId(input)
-      expect(feedName).to.be.eq('ETH/USD')
+      expect(feedName).toBe('ETH/USD')
 
       const input2: AdapterRequest = {
         id: '1',
@@ -35,7 +34,7 @@ describe('Bootstrap/Metrics Utils', () => {
         },
       }
       feedName = util.getFeedId(input2)
-      expect(feedName).to.be.eq('ETH/USD')
+      expect(feedName).toBe('ETH/USD')
 
       const input3: AdapterRequest = {
         id: '1',
@@ -45,7 +44,7 @@ describe('Bootstrap/Metrics Utils', () => {
         },
       }
       feedName = util.getFeedId(input3)
-      expect(feedName).to.be.eq('ETH/USD')
+      expect(feedName).toBe('ETH/USD')
     })
 
     it(`Returns stringify input if no match`, () => {
@@ -54,7 +53,7 @@ describe('Bootstrap/Metrics Utils', () => {
         data: {},
       }
       const feedName = util.getFeedId(input)
-      expect(feedName).to.be.eq(JSON.stringify(input))
+      expect(feedName).toBe(JSON.stringify(input))
     })
 
     it(`Returns stringify input if anything match`, () => {
@@ -63,7 +62,7 @@ describe('Bootstrap/Metrics Utils', () => {
         data: {},
       }
       const feedName = util.getFeedId(input)
-      expect(feedName).to.be.eq(JSON.stringify(input))
+      expect(feedName).toBe(JSON.stringify(input))
     })
   })
 })
