@@ -15,7 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 1,
+  "id": 10,
   "links": [],
   "panels": [
     {
@@ -39,7 +39,7 @@
         "y": 0
       },
       "hiddenSeries": false,
-      "id": 10,
+      "id": 2,
       "legend": {
         "avg": false,
         "current": false,
@@ -66,7 +66,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(cache_execution_duration_seconds_sum{cache_hit=\"true\"}[5m])) / sum(rate(cache_execution_duration_seconds_count{cache_hit=\"true\"}[5m]))",
+          "expr": "sum(rate(rate_limit_credits_spent_total[5m]) * 60)",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -76,7 +76,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Average Cache response time in Secs",
+      "title": "Spent RL Credits per Minute",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -92,7 +92,6 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:326",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -101,7 +100,6 @@
           "show": true
         },
         {
-          "$$hashKey": "object:327",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -189,7 +187,6 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:88",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -198,7 +195,6 @@
           "show": true
         },
         {
-          "$$hashKey": "object:89",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -218,6 +214,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "Prometheus",
+      "description": "Compares the requests per jobId that hit the provider. If Cache warmer is active, should make all the work while the warmer subscription is active",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -233,7 +230,7 @@
         "y": 9
       },
       "hiddenSeries": false,
-      "id": 8,
+      "id": 16,
       "legend": {
         "avg": false,
         "current": false,
@@ -260,9 +257,10 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(cache_data_staleness_sum[5m]))\n/\nsum(rate(cache_data_staleness_count[5m]))",
+          "expr": "sum(rate(rate_limit_credits_spent_total{}[5m]) * 60) by (job_run_id)",
           "interval": "",
           "legendFormat": "",
+          "queryType": "randomWalk",
           "refId": "A"
         }
       ],
@@ -270,7 +268,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Average Data Staleness",
+      "title": "Provider Hits per minute/jobId",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -286,7 +284,6 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:148",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -295,7 +292,6 @@
           "show": true
         },
         {
-          "$$hashKey": "object:149",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -330,7 +326,7 @@
         "y": 9
       },
       "hiddenSeries": false,
-      "id": 2,
+      "id": 18,
       "legend": {
         "avg": false,
         "current": false,
@@ -357,9 +353,10 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(rate_limit_credits_spent_total[5m]) * 60)",
+          "expr": "sum(rate(rate_limit_credits_spent_total[5m]) * 60) by (feed_id)",
           "interval": "",
           "legendFormat": "",
+          "queryType": "randomWalk",
           "refId": "A"
         }
       ],
@@ -367,7 +364,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Spent RL Credits per Minute",
+      "title": "Provider Hits per Feed",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -383,7 +380,6 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:22",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -392,7 +388,196 @@
           "show": true
         },
         {
-          "$$hashKey": "object:23",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 18
+      },
+      "hiddenSeries": false,
+      "id": 8,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.4.5",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(rate(cache_data_staleness_seconds_sum[5m]))\n/\nsum(rate(cache_data_staleness_seconds_count[5m]))",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Average Data Staleness",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 18
+      },
+      "hiddenSeries": false,
+      "id": 10,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.4.5",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(rate(cache_execution_duration_seconds_sum{cache_hit=\"true\"}[5m])) / sum(rate(cache_execution_duration_seconds_count{cache_hit=\"true\"}[5m]))",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Average Cache response time in Secs",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -415,12 +600,12 @@
     "list": []
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "EA Rate Limit",
-  "uid": "x6eZixwMk",
-  "version": 3
+  "uid": "x6eZixwMka",
+  "version": 5
 }
