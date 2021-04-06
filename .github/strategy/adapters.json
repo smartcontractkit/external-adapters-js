@@ -2,12 +2,21 @@
   "core": {
     "docker": "yarn docker core __ADAPTER__",
     "image_name": "__ADAPTER__-adapter",
-    "adapter": ["bootstrap", "factories", "ratelimits", "reference-data-reader", "test-helpers"]
+    "adapter": [
+      "bootstrap",
+      "factories",
+      "ratelimits",
+      "reference-data-reader",
+      "test-helpers"
+    ]
   },
   "examples": {
     "docker": "yarn docker examples __ADAPTER__",
     "image_name": "__ADAPTER__-adapter",
-    "adapter": ["composite", "source"]
+    "adapter": [
+      "composite",
+      "source"
+    ]
   },
   "sources": {
     "docker": "yarn docker sources __ADAPTER__",
@@ -88,13 +97,18 @@
       "tradingeconomics",
       "trueusd",
       "wbtc-address-set",
-      "xbto"
+      "xbto",
+      "paypal"
     ]
   },
   "targets": {
     "docker": "yarn docker targets __ADAPTER__",
     "image_name": "__ADAPTER__-adapter",
-    "adapter": ["conflux", "dydx-stark", "ethwrite"]
+    "adapter": [
+      "conflux",
+      "dydx-stark",
+      "ethwrite"
+    ]
   },
   "composites": {
     "docker": "yarn docker composites __ADAPTER__",
