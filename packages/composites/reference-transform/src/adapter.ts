@@ -23,6 +23,7 @@ const transform = (offchain: number, onchain: number, operator: string, dividend
     }
     return dividend / divisor
   }
+  throw new Error('Invalid operator')
 }
 
 export const execute = async (input: AdapterRequest, config: Config): Promise<AdapterResponse> => {
