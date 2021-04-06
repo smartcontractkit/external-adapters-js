@@ -359,6 +359,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/paxos"
       },
       {
+        "name": "@chainlink/paypal-adapter",
+        "reference": "workspace:packages/sources/paypal"
+      },
+      {
         "name": "@chainlink/poa-gasprice-adapter",
         "reference": "workspace:packages/sources/poa-gasprice"
       },
@@ -517,6 +521,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/orchid-bandwidth-adapter", ["workspace:packages/sources/orchid-bandwidth"]],
       ["@chainlink/outlier-detection-adapter", ["workspace:packages/composites/outlier-detection"]],
       ["@chainlink/paxos-adapter", ["workspace:packages/sources/paxos"]],
+      ["@chainlink/paypal-adapter", ["workspace:packages/sources/paypal"]],
       ["@chainlink/poa-gasprice-adapter", ["workspace:packages/sources/poa-gasprice"]],
       ["@chainlink/polygon-adapter", ["workspace:packages/sources/polygon"]],
       ["@chainlink/proof-of-reserves-adapter", ["workspace:packages/composites/proof-of-reserves"]],
@@ -4211,6 +4216,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT",
         }]
       ]],
+      ["@chainlink/paypal-adapter", [
+        ["workspace:packages/sources/paypal", {
+          "packageLocation": "./packages/sources/paypal/",
+          "packageDependencies": [
+            ["@chainlink/paypal-adapter", "workspace:packages/sources/paypal"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@paypal/payouts-sdk", "npm:1.1.0"],
+            ["@types/jest", "npm:26.0.22"],
+            ["@types/node", "npm:14.14.35"],
+            ["@types/paypal__payouts-sdk", "npm:1.0.1"],
+            ["tslib", "npm:2.1.0"],
+            ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
       ["@chainlink/poa-gasprice-adapter", [
         ["workspace:packages/sources/poa-gasprice", {
           "packageLocation": "./packages/sources/poa-gasprice/",
@@ -6288,6 +6311,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["@paypal/payouts-sdk", [
+        ["npm:1.1.0", {
+          "packageLocation": "./.yarn/cache/@paypal-payouts-sdk-npm-1.1.0-328a137cf4-f9093a8ea1.zip/node_modules/@paypal/payouts-sdk/",
+          "packageDependencies": [
+            ["@paypal/payouts-sdk", "npm:1.1.0"],
+            ["@paypal/paypalhttp", "npm:1.0.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@paypal/paypalhttp", [
+        ["npm:1.0.0", {
+          "packageLocation": "./.yarn/cache/@paypal-paypalhttp-npm-1.0.0-ee94fd2c21-2ce1afae93.zip/node_modules/@paypal/paypalhttp/",
+          "packageDependencies": [
+            ["@paypal/paypalhttp", "npm:1.0.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["@reduxjs/toolkit", [
         ["npm:1.5.1", {
           "packageLocation": "./.yarn/cache/@reduxjs-toolkit-npm-1.5.1-dc553c0c72-6d485fc8ff.zip/node_modules/@reduxjs/toolkit/",
@@ -7144,6 +7186,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-object-path-npm-0.11.0-763f09c71d-7b101b447f.zip/node_modules/@types/object-path/",
           "packageDependencies": [
             ["@types/object-path", "npm:0.11.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@types/paypal__payouts-sdk", [
+        ["npm:1.0.1", {
+          "packageLocation": "./.yarn/cache/@types-paypal__payouts-sdk-npm-1.0.1-80a833d1ca-ea751ccab2.zip/node_modules/@types/paypal__payouts-sdk/",
+          "packageDependencies": [
+            ["@types/paypal__payouts-sdk", "npm:1.0.1"]
           ],
           "linkType": "HARD",
         }]

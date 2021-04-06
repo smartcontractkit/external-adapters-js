@@ -5119,7 +5119,23 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   languageName: unknown
   linkType: soft
 
-"@chainlink/poa-gasprice-adapter@*, @chainlink/poa-gasprice-adapter@workspace:packages/sources/poa-gasprice":
+"@chainlink/paypal-adapter@workspace:packages/sources/paypal":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/paypal-adapter@workspace:packages/sources/paypal"
+  dependencies:
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.0.1
+    "@paypal/payouts-sdk": ^1.1.0
+    "@types/jest": ^26.0.22
+    "@types/node": ^14.14.35
+    "@types/paypal__payouts-sdk": ^1
+    tslib: ^2.1.0
+    typescript: ^4.2.3
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/poa-gasprice-adapter@workspace:packages/sources/poa-gasprice":
   version: 0.0.0-use.local
   resolution: "@chainlink/poa-gasprice-adapter@workspace:packages/sources/poa-gasprice"
   dependencies:
@@ -7138,6 +7154,22 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   languageName: node
   linkType: hard
 
+"@paypal/payouts-sdk@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@paypal/payouts-sdk@npm:1.1.0"
+  dependencies:
+    "@paypal/paypalhttp": ^1.0.0
+  checksum: f9093a8ea14113981ea9fc7610a1ef89aaf225f81e0c2b8f7f2b5bed196e500e2aebba16eeafc72939b6f0b42b36663864240e70cae29317ac8b0556d23673dd
+  languageName: node
+  linkType: hard
+
+"@paypal/paypalhttp@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@paypal/paypalhttp@npm:1.0.0"
+  checksum: 2ce1afae9369ec68d7ee3dd1e13877f3e40d081494e361f18993918f007f1dba09c9a5a30ed9f0c211fc50746a7993a7a5d029a79fd161ad95422346a6b463e1
+  languageName: node
+  linkType: hard
+
 "@reduxjs/toolkit@npm:^1.5.0":
   version: 1.5.1
   resolution: "@reduxjs/toolkit@npm:1.5.1"
@@ -7906,6 +7938,13 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   version: 0.11.0
   resolution: "@types/object-path@npm:0.11.0"
   checksum: 7b101b447fde1846ae2c489e801fae55f2bdbf9d67d99de758c7ea73c0c5e91b924d3f6a4ae2ab1a5c70145f34fe5729b964bad5d08d1939003c516abcbcbf2b
+  languageName: node
+  linkType: hard
+
+"@types/paypal__payouts-sdk@npm:^1":
+  version: 1.0.1
+  resolution: "@types/paypal__payouts-sdk@npm:1.0.1"
+  checksum: ea751ccab293692a1fe742c793e7eee6efb748b652934e616ed7c06d69a9aeb1aea80dda38f66af6db9e6402196f2d0c35b8cf2a78665f7923e4780dca06f1ce
   languageName: node
   linkType: hard
 
