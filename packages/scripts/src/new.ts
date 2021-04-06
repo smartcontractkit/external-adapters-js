@@ -14,7 +14,7 @@ function main() {
 
   // check if jq is installed (jq used later to modify json files)
   const jq: string = shell.exec('command -v jq').toString()
-  if (!jq) return log.red('jq is not installed')
+  if (!jq) return logRed('jq is not installed')
 
   // copying files and adding to adapter lists
   shell.mkdir(`packages/${type}s/${n}`)
@@ -33,8 +33,8 @@ function main() {
     .to(`packages/${type}s/${n}/package.json`)
 
   // changing README to use the adapter name instead of example
-  const n_cap: string = n[0].toUpperCase()+n.slice(1)
-  shell.sed('-i', 'Example', n_cap,`packages/${type}s/${n}/README.md`)
+  const n_cap: string = n[0].toUpperCase() + n.slice(1)
+  shell.sed('-i', 'Example', n_cap, `packages/${type}s/${n}/README.md`)
 }
 
 main()
