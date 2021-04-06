@@ -14,12 +14,12 @@ https://api.coinpaprika.com/v1/tickers/`{COIN}`
 
 ### Input Params
 
-| Required? |          Name           |                   Description                    | Options | Defaults to |
-| :-------: | :---------------------: | :----------------------------------------------: | :-----: | :---------: |
-|    ✅     | `base`, `from`, `coin`  |       The symbol of the currency to query        |         |             |
-|    ✅     | `quote`, `to`, `market` |     The symbol of the currency to convert to     |         |             |
-|    🟡     |        `coinid`         | The coin ID (optional to use in place of `base`) |         |             |
-|    🟡     |   `overrides`   | If base provided is found in overrides, that will be used  | [Format](../external-adapter/src/overrides/presetSymbols.json)|             |
+| Required? |          Name           |                        Description                        |                                       Options                                        | Defaults to |
+| :-------: | :---------------------: | :-------------------------------------------------------: | :----------------------------------------------------------------------------------: | :---------: |
+|    ✅     | `base`, `from`, `coin`  |            The symbol of the currency to query            |                                                                                      |             |
+|    ✅     | `quote`, `to`, `market` |         The symbol of the currency to convert to          |                                                                                      |             |
+|    🟡     |        `coinid`         |     The coin ID (optional to use in place of `base`)      |                                                                                      |             |
+|    🟡     |       `overrides`       | If base provided is found in overrides, that will be used | [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json) |             |
 
 ### Sample Input
 
