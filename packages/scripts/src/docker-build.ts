@@ -14,7 +14,7 @@ const r = s
   .filter(Boolean)
   .map((v) => JSON.parse(v))
   .map(({ location, name }: WorkspacePackage) => {
-    let oas = s.cat(`${location}/oas.json`).toString()
+    const oas = s.cat(`${location}/oas.json`).toString()
     const envVars =
       oas && Object.keys(JSON.parse(oas)?.securityDefinitions?.['environment-variables'])
     return {
