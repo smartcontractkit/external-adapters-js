@@ -7,8 +7,12 @@ const inputParams = {
   endpoint: false,
 }
 
+const paramOptions = {
+  endpoint: ['getpayout', 'sendpayout'],
+}
+
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-  const validator = new Validator(request, inputParams)
+  const validator = new Validator(request, inputParams, paramOptions)
   if (validator.error) throw validator.error
 
   Requester.logConfig(config)
