@@ -13,13 +13,16 @@ const ADAPTER_TYPES = ['composite', 'source']
   const n: string = process.argv[3]
   if (!n) return log.red('Missing second argument: name')
 
+  // check if jq is installed (jq used later to modify json files)
+  const jq: string = shell.exec('command -v jq').toString()
+  if (!jq) return log.red('jq is not installed')
+
+  // copying files and adding to adapter lists
   shell.mkdir(`packages/${type}s/${n}`)
   shell.cp('-R', `packages/examples/${type}/*`, `packages/${type}s/${n}`)
-  // cp -R will not copy hidden & special files, so we copy manualy
-  shell.cp(`packages/examples/${type}/.eslintrc.js`, `packages/${type}s/${n}`)
   shell
     .cat('.github/strategy/adapters.json')
-    .exec(`jq '.${type}.adapter += ["${n}"]'`)
+    .exec(`jq '.${type}s.adapter += ["${n}"]'`)
     .exec('tee .github/strategy/adapters.json')
     .to('.github/strategy/adapters.json')
   shell
@@ -29,5 +32,8 @@ const ADAPTER_TYPES = ['composite', 'source']
     )
     .exec(`tee packages/${type}s/${n}/package.json`)
     .to(`packages/${type}s/${n}/package.json`)
-  shell.sed('-i', `s/Example/${n}/`, `packages/${type}s/${n}/README.md`)
+
+  // changing README to use the adapter name instead of example
+  const n_cap: string = n[0].toUpperCase()+n.slice(1)
+  shell.sed('-i', 'Example', n_cap,`packages/${type}s/${n}/README.md`)
 })()
