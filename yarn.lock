@@ -8475,12 +8475,12 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   linkType: hard
 
 "anymatch@npm:^3.0.3, anymatch@npm:~3.1.1":
-  version: 3.1.1
-  resolution: "anymatch@npm:3.1.1"
+  version: 3.1.2
+  resolution: "anymatch@npm:3.1.2"
   dependencies:
     normalize-path: ^3.0.0
     picomatch: ^2.0.4
-  checksum: cf61bbaf7f34d9f94dd966230b7a7f8f1f24e3e2185540741a2561118e108206d85101ee2fc9876cd756475dbe6573d84d91115c3abdbf53a64e26a5f1f06b67
+  checksum: cd6c08eb8d435741a9de6f5695c75cfba747a50772929ca588235535c6a57d37f2c2b34057768f015fd92abb88108b122ed2e399faac6ae30363a8ca0b6107d0
   languageName: node
   linkType: hard
 
@@ -10920,9 +10920,9 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   linkType: hard
 
 "electron-to-chromium@npm:^1.3.649":
-  version: 1.3.707
-  resolution: "electron-to-chromium@npm:1.3.707"
-  checksum: 9bd9e7174d197c35137e0906dfab8cf5cedeea056341a8105ef7f9b1c7d6ea7c4dd72d84b419f19f0ef804f836c0999e84f00a5c57dd6c0e08203bdc8130e8d6
+  version: 1.3.709
+  resolution: "electron-to-chromium@npm:1.3.709"
+  checksum: b340cf246b731a1ee5adeaa3fa225cfff1a954a0431b33e17b1c6f2fd367e5c1c002d9d7e9e5871af0defb0d82619788f10dd05f45c8506312748a11018b28d2
   languageName: node
   linkType: hard
 
