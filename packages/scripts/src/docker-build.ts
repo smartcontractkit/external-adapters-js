@@ -13,12 +13,18 @@ const r = s
   .split('\n')
   .filter(Boolean)
   .map((v) => JSON.parse(v))
-  .map(({ location, name }: WorkspacePackage) => ({
-    location,
-    name,
-    descopedName: name.replace(scope, ''),
-    type: location.split('/')[1],
-  }))
+  .map(({ location, name }: WorkspacePackage) => {
+    let oas = s.cat(`${location}/oas.json`).toString()
+    const envVars =
+      oas && Object.keys(JSON.parse(oas)?.securityDefinitions?.['environment-variables'])
+    return {
+      location,
+      name,
+      descopedName: name.replace(scope, ''),
+      type: location.split('/')[1],
+      environment: envVars || [],
+    }
+  })
   .filter((v) => VALID_ADAPTER_TYPES.includes(v.type))
 
 interface Service {
@@ -28,6 +34,7 @@ interface Service {
     dockerfile: string
     args: Record<string, string>
   }
+  environment: string[]
 }
 
 interface Dockerfile {
@@ -49,6 +56,7 @@ function makeDockerComposeFile(packages: typeof r): Dockerfile {
             package: next.name,
           },
         },
+        environment: next.environment,
       }
 
       return prev
