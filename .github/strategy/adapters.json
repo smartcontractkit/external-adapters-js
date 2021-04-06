@@ -90,7 +90,8 @@
       "tradingeconomics-stream",
       "watchsignals",
       "dnsproof",
-      "genesisvolatility"
+      "genesisvolatility",
+      "ciphertrace"
     ]
   },
   "2-step": {
