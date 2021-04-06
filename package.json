@@ -93,7 +93,8 @@
     "ethwrite",
     "geodb",
     "therundown",
-    "tradingeconomics-stream"
+    "tradingeconomics-stream",
+    "blockstream"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",
