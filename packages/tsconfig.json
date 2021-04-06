@@ -27,6 +27,9 @@
       "path": "./composites/proof-of-reserves"
     },
     {
+      "path": "./composites/reference-transform"
+    },
+    {
       "path": "./composites/synth-index"
     },
     {
@@ -37,6 +40,9 @@
     },
     {
       "path": "./core/factories"
+    },
+    {
+      "path": "./core/legos"
     },
     {
       "path": "./core/ratelimits"

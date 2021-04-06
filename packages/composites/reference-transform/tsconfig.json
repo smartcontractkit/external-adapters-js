@@ -3,8 +3,9 @@
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "src",
-    "types": ["mocha"],
-    "typeRoots": ["../../../node_modules/@types", "../../core/types", "./types"]
+    "paths": {
+      "*": ["./types/*"]
+    }
   },
   "include": ["src/**/*"],
   "exclude": ["dist", "**/*.spec.ts", "**/*.test.ts"],
