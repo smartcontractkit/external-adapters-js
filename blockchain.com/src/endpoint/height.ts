@@ -20,7 +20,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const result = response.data
 
   return Requester.success(jobRunID, {
-    data: config.verbose ? { ...response.data, result } : { result },
+    data: { result },
     result,
     status: 200,
   })
