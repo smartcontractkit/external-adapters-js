@@ -29,6 +29,6 @@ export const makeConfig = (prefix = ''): Config => {
   }
   const client = new paypal.core.PayPalHttpClient(environment)
   const config = Requester.getDefaultConfig(prefix)
-  config.api.client = { ...client }
+  config.api = {...config.api, client}
   return config
 }
