@@ -1,13 +1,12 @@
 import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
 import { ExecuteWithConfig, ExecuteFactory, Config } from '@chainlink/types'
 import { makeConfig, DEFAULT_ENDPOINT } from './config'
-import { balance, difficulty, height } from './endpoint'
+import { blocks } from './endpoint'
 
 const inputParams = {
   endpoint: false,
 }
 
-// Export function to integrate with Chainlink node
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const validator = new Validator(request, inputParams)
   if (validator.error) throw validator.error
@@ -18,14 +17,13 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
 
   switch (endpoint) {
-    case balance.Name: {
-      return balance.makeExecute(config)(request)
+    case 'difficulty': {
+      request.data.field = 'difficulty'
+      return await blocks.execute(request, config)
     }
-    case difficulty.Name: {
-      return difficulty.execute(request, config)
-    }
-    case height.Name: {
-      return height.execute(request, config)
+    case 'height': {
+      request.data.field = 'height'
+      return await blocks.execute(request, config)
     }
     default: {
       throw new AdapterError({

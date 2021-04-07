@@ -3,31 +3,31 @@ import { Requester } from '@chainlink/external-adapter'
 import { assertSuccess, assertError } from '@chainlink/adapter-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
 import { makeExecute } from '../src/adapter'
-import { shouldBehaveLikeBalanceAdapter } from '@chainlink/adapter-test-helpers'
 
-shouldBehaveLikeBalanceAdapter(makeExecute(), ['bitcoin_mainnet', 'bitcoin_testnet'])
-
-describe('endpoints: difficulty & height', () => {
+describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
 
   context('successful calls @integration', () => {
     const requests = [
       {
+        name: 'empty data',
+        testData: { data: {} },
+      },
+      {
+        name: 'id not supplied (endpoint height)',
+        testData: {
+          data: {
+            endpoint: 'height',
+          },
+        },
+      },
+      {
         name: 'endpoint difficulty',
         testData: {
           id: jobID,
           data: {
             endpoint: 'difficulty',
-          },
-        },
-      },
-      {
-        name: 'endpoint height',
-        testData: {
-          id: jobID,
-          data: {
-            endpoint: 'height',
           },
         },
       },
