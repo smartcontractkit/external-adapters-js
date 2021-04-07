@@ -7,10 +7,10 @@
     "packages/**/*"
   ],
   "scripts": {
-    "new": "ts-node ./scripts/new.ts",
-    "docker": "ts-node ./scripts/docker.ts",
+    "new": "ts-node ./packages/scripts/src/new.ts",
+    "docker": "ts-node ./packages/scripts/src/docker.ts",
     "bundle": "ncc build",
-    "docgen": "ts-node ./scripts/docgen.ts",
+    "docgen": "ts-node ./packages/scripts/src/docgen.ts",
     "clean": "tsc -b --clean  ./packages/tsconfig.json",
     "lint": "eslint --ext ts .",
     "lint:fix": "yarn lint --fix",
