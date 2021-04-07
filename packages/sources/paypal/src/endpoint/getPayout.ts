@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig } from '@chainlink/types'
 import * as paypal from '@paypal/payouts-sdk'
 
@@ -30,7 +30,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
       paypal_req = new paypal.payouts.PayoutsItemGetRequest(payout_id)
       break
     default:
-      throw Requester.errored(jobRunID, 'Invalid payout type')
+      throw new AdapterError({
+        jobRunID,
+        message: `Payout type ${type} not supported.`,
+        statusCode: 400,
+      })
   }
 
   let response
