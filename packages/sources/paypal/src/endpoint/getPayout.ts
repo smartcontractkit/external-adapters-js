@@ -24,10 +24,10 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   let paypal_req
   switch (type) {
     case 'BATCH':
-      paypal_req = new paypal.payouts.PayoutsItemGetRequest(payout_id)
+      paypal_req = new paypal.payouts.PayoutsGetRequest(payout_id)
       break
     case 'ITEM':
-      paypal_req = new paypal.payouts.PayoutsGetRequest(payout_id)
+      paypal_req = new paypal.payouts.PayoutsItemGetRequest(payout_id)
       break
     default:
       throw Requester.errored(jobRunID, 'Invalid payout type')
@@ -37,7 +37,13 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   try {
     response = await config.api.client.execute(paypal_req)
   } catch (e) {
-    throw Requester.errored(jobRunID, JSON.parse(e.message))
+    throw Requester.errored(jobRunID, e)
   }
-  return Requester.success(jobRunID, response, config.verbose)
+
+  return {
+    jobRunID,
+    data: config.verbose ? response : { result: response.result },
+    result: response.result,
+    statusCode: response.statusCode || 200,
+  }
 }
