@@ -42,5 +42,7 @@
     "ts-node": "^8.10.2",
     "typescript": "^3.9.7"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.11.0"
+  }
 }

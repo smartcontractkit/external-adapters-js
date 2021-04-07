@@ -1,33 +1,32 @@
 # Chainlink External Adapter for ciphertrace
 
-A template to be used as an example for new [External Adapters](https://github.com/smartcontractkit/external-adapters-js)
-
 ### Environment Variables
 
-| Required? |  Name   |                            Description                             | Options | Defaults to |
-| :-------: | :-----: | :----------------------------------------------------------------: | :-----: | :---------: |
-|    🟡     | API_KEY | An API key that can be obtained from the data provider's dashboard |         |             |
+| Required? |      Name      |                      Description                       | Options | Defaults to |
+| :-------: | :------------: | :----------------------------------------------------: | :-----: | :---------: |
+|    ✅     | AWS_ACCESS_KEY | An API key that can be obtained from the data provider |         |             |
+|    ✅     | AWS_SECRET_KEY | An API key that can be obtained from the data provider |         |             |
 
 ---
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |           Options            | Defaults to |
-| :-------: | :------: | :-----------------: | :--------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [example](#ciphertrace-Endpoint) |   example   |
+| Required? |   Name   |     Description     |                  Options                   |  Defaults to   |
+| :-------: | :------: | :-----------------: | :----------------------------------------: | :------------: |
+|           | endpoint | The endpoint to use | [lookup-address](#Lookup-Address-Endpoint) | lookup-address |
 
 ---
 
-## ciphertrace Endpoint
+## Lookup Address Endpoint
 
-An example endpoint description
+Checks if an address has been blacklisted on a specific network
 
 ### Input Params
 
-| Required? |            Name            |               Description                |       Options       | Defaults to |
-| :-------: | :------------------------: | :--------------------------------------: | :-----------------: | :---------: |
-|    ✅     | `base`, `from`, or `coin`  |   The symbol of the currency to query    | `BTC`, `ETH`, `USD` |             |
-|    ✅     | `quote`, `to`, or `market` | The symbol of the currency to convert to | `BTC`, `ETH`, `USD` |             |
+| Required? |       Name       |            Description             | Options | Defaults to |
+| :-------: | :--------------: | :--------------------------------: | :-----: | :---------: |
+|           |    `network`     | The network the address belongs to |  `ETH`  |    `ETH`    |
+|    ✅     | `lookup_address` |       The address to lookup        |         |             |
 
 ### Sample Input
 
@@ -35,8 +34,8 @@ An example endpoint description
 {
   "id": "1",
   "data": {
-    "base": "ETH",
-    "quote": "USD"
+    "network": "ETH",
+    "lookup_address": "0x514910771af9ca656af840dff83e8264ecf986ca"
   }
 }
 ```
@@ -47,9 +46,9 @@ An example endpoint description
 {
   "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
   "data": {
-    "price": 77777.77,
-    "result": 77777.77
+    "result": false
   },
+  "result": false,
   "statusCode": 200
 }
 ```
