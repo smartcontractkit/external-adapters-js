@@ -13,7 +13,7 @@ interface OASpec {
   }
 }
 
-function generate_spec(p) {
+function generate_spec(p: any) {
   const obj: OASpec = { openapi: '3.0.0', info: { title: p.name, version: p.version } }
   if (p.license) {
     obj.info.license = { name: p.license }
@@ -32,7 +32,7 @@ const ADAPTER_TYPES = ['composite', 'source', 'target']
   if (!n) return log.red('Missing second argument: name')
 
   // reused filepath
-  const adapter_filepath: string = `packages/${type}s/${n}`
+  const adapter_filepath = `packages/${type}s/${n}`
 
   // parse the package.json file
   const package_data: string = shell.cat(`${adapter_filepath}/package.json`).toString()
@@ -40,15 +40,17 @@ const ADAPTER_TYPES = ['composite', 'source', 'target']
 
   // create the definition.json file
   const definition: OASpec = generate_spec(package_obj)
-  const def_filepath: string = `${adapter_filepath}/definition_temp.json`
+  const def_filepath = `${adapter_filepath}/definition_temp.json`
   shell.ShellString(JSON.stringify(definition)).to(def_filepath)
 
   //generate OAS spec using code comments (uses swagger-jsdoc)
-  const oas_filepath: string = `${adapter_filepath}/oas.json`
+  const oas_filepath = `${adapter_filepath}/oas.json`
   // -d: base definition file
   // $(find ...): finds all files in /src file to search for comments
   // -o: outputs to specific file
-  shell.exec(`npx swagger-jsdoc@6 -d ${def_filepath} $(find ${adapter_filepath}/src -type f) -o ${oas_filepath}`)
+  shell.exec(
+    `npx swagger-jsdoc@6 -d ${def_filepath} $(find ${adapter_filepath}/src -type f) -o ${oas_filepath}`,
+  )
 
   //remove definition file
   shell.rm(def_filepath)
