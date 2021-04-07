@@ -12,7 +12,7 @@
 
 | Required? |   Name   |     Description     |            Options             | Defaults to |
 | :-------: | :------: | :-----------------: | :----------------------------: | :---------: |
-|           | endpoint | The endpoint to use | difficulty, height             |             |
+|           | endpoint | The endpoint to use | difficulty, height             |        difficulty     |
 
 ---
 
