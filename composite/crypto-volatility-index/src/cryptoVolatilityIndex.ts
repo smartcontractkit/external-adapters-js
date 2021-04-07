@@ -20,6 +20,7 @@ export const calculate = async (
   const volatilityIndexData = await calculateVixValues(derivativesData)
   // Apply weights to calculate the Crypto Vix
   const weightedCVI = await calculateWeighted(volatilityIndexData)
+  logger.info(`weightedCVI: [${weightedCVI}], volatilityIndexData: ${volatilityIndexData} `)
   // Smooth CVI with previous on-chain value if exists
   const cvi = !isAdaptive
     ? toOnChainValue(weightedCVI, multiply)
@@ -31,7 +32,7 @@ export const calculate = async (
 }
 
 const calculateVixValues = async (derivativesData: Record<string, CurrencyDerivativesData>) => {
-  const now = moment().utc()
+  const now = moment().utc().unix();
   const sigmaCalculator = new SigmaCalculator()
   const vixValues = cryptoCurrencies.map((currency) => {
     sigmaCalculator.sortByStrikePrice(derivativesData[currency])
