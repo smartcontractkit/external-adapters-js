@@ -62,7 +62,13 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   try {
     response = await config.api.client.execute(paypal_req)
   } catch (e) {
-    throw Requester.errored(jobRunID, JSON.parse(e.message))
+    throw Requester.errored(jobRunID, e)
   }
-  return Requester.success(jobRunID, response, config.verbose)
+
+  return {
+    jobRunID,
+    data: config.verbose ? response : { result: response.result },
+    result: response.result,
+    statusCode: response.statusCode || 200,
+  }
 }
