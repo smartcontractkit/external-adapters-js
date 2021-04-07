@@ -7,7 +7,7 @@
     "LINK",
     "blockchain",
     "oracle",
-    "ethgasstation"
+    "blockstream"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
