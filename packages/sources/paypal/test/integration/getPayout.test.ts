@@ -5,34 +5,39 @@ import { makeExecute } from '../../src/adapter'
 
 describe('execute', () => {
   const jobID = '1'
+  process.env.MODE = 'sandbox'
   const execute = makeExecute()
+
+  const batch_id = process.env.PAYOUT_ID_BATCH ?? 'DNPMSBKRYB4AN'
+  const item_id = process.env.PAYOUT_ID_ITEM ?? 'Y7L245ABZLPZU'
 
   describe('successful calls @integration', () => {
     const requests = [
       {
         name: 'id not supplied',
-        testData: { data: { base: 'ETH', quote: 'USD' } },
+        testData: { data: { endpoint: 'getpayout', payout_id: batch_id } },
       },
       {
-        name: 'base/quote',
-        testData: { id: jobID, data: { base: 'ETH', quote: 'USD' } },
+        name: 'type not supplied',
+        testData: { id: jobID, data: { endpoint: 'getpayout', payout_id: batch_id } },
       },
       {
-        name: 'from/to',
-        testData: { id: jobID, data: { from: 'ETH', to: 'USD' } },
+        name: 'BATCH type supplied',
+        testData: {
+          id: jobID,
+          data: { endpoint: 'getpayout', payout_id: batch_id, type: 'BATCH' },
+        },
       },
       {
-        name: 'coin/market',
-        testData: { id: jobID, data: { coin: 'ETH', market: 'USD' } },
+        name: 'ITEM type supplied',
+        testData: { id: jobID, data: { endpoint: 'getpayout', payout_id: item_id, type: 'ITEM' } },
       },
     ]
 
-    requests.forEach((req) => {
+    requests.forEach(req => {
       it(`${req.name}`, async () => {
         const data = await execute(req.testData as AdapterRequest)
         assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
-        expect(data.result).toBeGreaterThan(0)
-        expect(data.data.result).toBeGreaterThan(0)
       })
     })
   })
@@ -40,16 +45,16 @@ describe('execute', () => {
   describe('error calls @integration', () => {
     const requests = [
       {
-        name: 'unknown base',
-        testData: { id: jobID, data: { base: 'not_real', quote: 'USD' } },
+        name: 'unknown BATCH',
+        testData: { id: jobID, data: { endpoint: 'getpayout', payout_id: 'not_real', type: 'BATCH' } },
       },
       {
-        name: 'unknown quote',
-        testData: { id: jobID, data: { base: 'ETH', quote: 'not_real' } },
+        name: 'unknown ITEM',
+        testData: { id: jobID, data: { endpoint: 'getpayout', payout_id: 'not_real', type: 'ITEM' } },
       },
     ]
 
-    requests.forEach((req) => {
+    requests.forEach(req => {
       it(`${req.name}`, async () => {
         try {
           await execute(req.testData as AdapterRequest)
