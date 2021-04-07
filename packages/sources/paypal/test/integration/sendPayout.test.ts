@@ -8,8 +8,8 @@ describe('execute', () => {
   process.env.MODE = 'sandbox'
   const execute = makeExecute()
 
-  const amount: string = '0.01'
-  const receiver: string = 'test@test.com'
+  const amount = '0.01'
+  const receiver = 'test@test.com'
 
   describe('successful calls @integration', () => {
     const requests = [
