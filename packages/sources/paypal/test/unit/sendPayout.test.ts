@@ -7,21 +7,31 @@ describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
 
+  process.env.CLIENT_ID = process.env.CLIENT_ID ?? 'test_client_id'
+  process.env.CLIENT_SECRET = process.env.CLIENT_SECRET ?? 'test_client_secret'
+
   describe('validation error', () => {
     const requests = [
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },
       {
-        name: 'base not supplied',
-        testData: { id: jobID, data: { quote: 'USD' } },
+        name: 'amount not supplied',
+        testData: { id: jobID, data: { receiver: 'test' } },
       },
       {
-        name: 'quote not supplied',
-        testData: { id: jobID, data: { base: 'ETH' } },
+        name: 'receiver not supplied',
+        testData: { id: jobID, data: { amount: '10' } },
+      },
+      {
+        name: 'recipient_type not valid',
+        testData: {
+          id: jobID,
+          data: { amount: '10', receiver: 'test', recipient_type: 'TWITTER' },
+        },
       },
     ]
 
-    requests.forEach((req) => {
+    requests.forEach(req => {
       it(`${req.name}`, async () => {
         try {
           await execute(req.testData as AdapterRequest)
