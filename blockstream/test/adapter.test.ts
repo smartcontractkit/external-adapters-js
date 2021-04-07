@@ -16,19 +16,20 @@ describe('execute', () => {
         testData: { data: {} },
       },
       {
-        name: 'id not supplied',
+        name: 'id not supplied (endpoint height)',
         testData: {
           data: {
-            endpoint: 'ethgasAPI',
-            speed: 'fast',
+            endpoint: 'height',
           },
         },
       },
       {
-        name: 'speed is average',
+        name: 'endpoint difficulty',
         testData: {
           id: jobID,
-          data: { speed: 'average' },
+          data: {
+            endpoint: 'difficulty',
+          },
         },
       },
     ]
@@ -66,10 +67,10 @@ describe('execute', () => {
   context('error calls @integration', () => {
     const requests = [
       {
-        name: 'unknown speed',
+        name: 'unknown endpoint',
         testData: {
           id: jobID,
-          data: { speed: 'not_real' },
+          data: { endpoint: 'not_real' },
         },
       },
     ]
@@ -80,7 +81,7 @@ describe('execute', () => {
           await execute(req.testData as AdapterRequest)
         } catch (error) {
           const errorResp = Requester.errored(jobID, error)
-          assertError({ expected: 500, actual: errorResp.statusCode }, errorResp, jobID)
+          assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
         }
       })
     })

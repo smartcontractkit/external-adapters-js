@@ -14,6 +14,7 @@ export const DEFAULT_ENDPOINT = 'balance'
 export const getBaseURL = (chain: ChainType): string => {
   switch (chain) {
     case 'mainnet':
+    default:
       return API_ENDPOINT_MAIN
     case 'testnet':
       return API_ENDPOINT_TEST

@@ -2,7 +2,7 @@ import { Requester } from '@chainlink/external-adapter'
 import { Config } from '@chainlink/types'
 
 export const DEFAULT_ENDPOINT = 'difficulty'
-export const DEFAULT_API_ENDPOINT = 'https://blockstream.info'
+export const DEFAULT_API_ENDPOINT = 'https://blockstream.info/api'
 
 export const makeConfig = (prefix?: string): Config => {
   const config = Requester.getDefaultConfig(prefix, true)
