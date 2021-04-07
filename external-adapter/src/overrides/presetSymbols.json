@@ -29,7 +29,8 @@
     "NFLX": "NFLX:BFX",
     "GOOGL": "GOOGL:BFX",
     "AAPL": "AAPL:BFX",
-    "AMZN": "AMZN:BFX"
+    "AMZN": "AMZN:BFX",
+    "FB": "FB:BFX"
   },
   "dxfeed_secondary": {
     "NFLX": "NFLX.US:TEI",
@@ -37,7 +38,8 @@
     "AMZN": "AMZN.US:TEI",
     "N225": "NKY.IND:TEI",
     "FTSE": "UKX.IND:TEI",
-    "TSLA": "TSLA.US:TEI"
+    "TSLA": "TSLA.US:TEI",
+    "FB": "FB.US:TEI"
   },
   "finage": {
     "FTSE": "UK100",
