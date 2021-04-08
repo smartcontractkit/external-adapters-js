@@ -1,5 +1,13 @@
 # Chainlink External Adapter for Anyblock Analytics Gas Price
 
+### Environment Variables
+
+The adapter takes the following environment variables:
+
+| Required? |   Name    |     Description      | Options | Defaults to |
+| :-------: | :-------: | :------------------: | :-----: | :---------: |
+|           | `API_KEY` | Bitex API key to use |         |             |
+
 ## Gas Price Endpoint
 
 ### Input Params

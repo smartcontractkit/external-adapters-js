@@ -6,7 +6,7 @@ The adapter takes the following environment variables:
 
 | Required? |     Name      |    Description    | Options | Defaults to |
 | :-------: | :-----------: | :---------------: | :-----: | :---------: |
-|           |   `API_KEY`   |  API key to use   |         |             |
+|    ✅     |   `API_KEY`   |  API key to use   |         |             |
 |           | `API_TIMEOUT` | Timeout parameter |         |   `30000`   |
 
 ### Input Parameters
