@@ -13,13 +13,15 @@
     "AMP": "AMP2",
     "WING": "WING2",
     "FTT": "FTXTOKEN",
-    "MDX": "MDX2"
+    "MDX": "MDX2",
+    "RAI": "RAI3"
   },
   "coinpaprika": {
     "GRT": "grt-the-graph"
   },
   "kaiko": {
-    "uni": "uniswap"
+    "uni": "uniswap",
+    "RAI": "RAIR"
   },
   "dxfeed": {
     "N225": "NKY.IND:TEI",
