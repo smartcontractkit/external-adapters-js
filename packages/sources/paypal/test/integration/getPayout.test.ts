@@ -18,6 +18,10 @@ describe('execute', () => {
         testData: { data: { endpoint: 'getpayout', payout_id: batch_id } },
       },
       {
+        name: 'read endpoint used',
+        testData: { data: { endpoint: 'read', payout_id: batch_id } },
+      },
+      {
         name: 'type not supplied',
         testData: { id: jobID, data: { endpoint: 'getpayout', payout_id: batch_id } },
       },

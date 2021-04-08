@@ -8,7 +8,7 @@ const inputParams = {
 }
 
 const paramOptions = {
-  endpoint: ['getpayout', 'sendpayout'],
+  endpoint: [sendPayout.NAME, getPayout.NAME, 'read', 'write'],
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
@@ -21,9 +21,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
 
   switch (endpoint.toLowerCase()) {
+    case 'write':
     case sendPayout.NAME: {
       return await sendPayout.execute(request, config)
     }
+    case 'read':
     case getPayout.NAME: {
       return await getPayout.execute(request, config)
     }

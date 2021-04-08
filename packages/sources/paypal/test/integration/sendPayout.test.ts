@@ -29,6 +29,13 @@ describe('execute', () => {
         },
       },
       {
+        name: 'write supplied',
+        testData: {
+          id: jobID,
+          data: { endpoint: 'write', amount, receiver },
+        },
+      },
+      {
         name: 'optional parameters supplied',
         testData: {
           id: jobID,
