@@ -1,11 +1,21 @@
 # Chainlink External Adapter for cryptoID
 
+### Configuration
+
+The adapter takes the following environment variables:
+
+| Required? |  Name   | Description | Options | Defaults to |
+| :-------: | :-----: | :---------: | :-----: | :---------: |
+|           | API_KEY |             |         |             |
+
+---
+
 ## Input Params
 
 - `blockchain` or `coin`: The blockchain name (required).
 - `endpoint`: The requested data point. One of (`difficulty`|`height`). Defaults: `difficulty`.
 
-## Output
+## Sample Output
 
 ```json
 {

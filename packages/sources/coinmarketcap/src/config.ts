@@ -1,6 +1,15 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
+/**
+ * @swagger
+ * securityDefinitions:
+ *  environment-variables:
+ *    API_KEY:
+ *      required: true
+ *
+ */
+
 export const NAME = 'COINMARKETCAP'
 
 export const DEFAULT_ENDPOINT = 'price'

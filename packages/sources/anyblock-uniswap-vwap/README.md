@@ -1,14 +1,26 @@
-# Chainlink External Adapter using Anyblock Analytics service to calculate the volume weighted average price (VWAP) for any Uniswap asset
+# Chainlink External Adapter for Anyblock Analytics
 
-You must provide the api key using the env variable `API_KEY`!
+Service to calculate the volume weighted average price (VWAP) for any Uniswap asset
 
-## Input Params
+### Environment Variables
 
-- `address`: Uniswap pool **checksum address** (required)
-- `debug`: Switch to show `raw` trade values (optional, default: false)
-- `roundDay` Switch to round the start and end to midnight UTC (optional, default: false)
-- `start`: Epoch timestamp in seconds (optional, default: \$now - 24h)
-- `end`: Epoch timestamp in seconds (optional, default: \$now)
+The adapter takes the following environment variables:
+
+| Required? |   Name    |     Description      | Options | Defaults to |
+| :-------: | :-------: | :------------------: | :-----: | :---------: |
+|    ✅     | `API_KEY` | Bitex API key to use |         |             |
+
+### Input Params
+
+| Required? |    Name    |                    Description                     | Options | Defaults to  |
+| :-------: | :--------: | :------------------------------------------------: | :-----: | :----------: |
+|    ✅     | `address`  |         Uniswap pool **checksum address**          |         |              |
+|           |  `debug`   |         Switch to show `raw` trade values          |         |   `false`    |
+|           | `roundDay` | TSwitch to round the start and end to midnight UTC |         |   `false`    |
+|           |  `start`   |             Epoch timestamp in seconds             |         | `$now - 24h` |
+|           |   `end`    |             Epoch timestamp in seconds             |         |    `$now`    |
+
+### Sample Input
 
 Uniswap Offshift (XTF) example:
 
@@ -22,7 +34,7 @@ Uniswap Offshift (XTF) example:
 }
 ```
 
-## Output Format
+### Sample Output
 
 ```json
 {

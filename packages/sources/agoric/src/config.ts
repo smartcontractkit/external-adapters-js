@@ -2,6 +2,15 @@ import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 import { util } from '@chainlink/ea-bootstrap'
 
+/**
+ * @swagger
+ * securityDefinitions:
+ *  environment-variables:
+ *    API_KEY:
+ *      required: false
+ *
+ */
+
 export const DEFAULT_API_ENDPOINT = 'http://localhost:8000/api/oracle'
 
 // This environment variable is needed for the Hack the Orb oracle

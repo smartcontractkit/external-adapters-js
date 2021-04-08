@@ -6,6 +6,7 @@ import { makeExecute } from '../../src/adapter'
 describe('price endpoint', () => {
   const jobID = '1'
   const execute = makeExecute()
+  process.env.API_KEY = process.env.API_KEY ?? 'test_api_key'
 
   describe('successful calls @integration', () => {
     const requests = [
