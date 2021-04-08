@@ -2,10 +2,10 @@
 
 ### Environment Variables
 
-| Required? |      Name      |                      Description                       | Options | Defaults to |
-| :-------: | :------------: | :----------------------------------------------------: | :-----: | :---------: |
-|    ✅     | AWS_ACCESS_KEY | An API key that can be obtained from the data provider |         |             |
-|    ✅     | AWS_SECRET_KEY | An API key that can be obtained from the data provider |         |             |
+| Required? |    Name    |                      Description                       | Options | Defaults to |
+| :-------: | :--------: | :----------------------------------------------------: | :-----: | :---------: |
+|    ✅     | ACCESS_KEY | An API key that can be obtained from the data provider |         |             |
+|    ✅     | SECRET_KEY | An API key that can be obtained from the data provider |         |             |
 
 ---
 

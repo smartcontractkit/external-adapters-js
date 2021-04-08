@@ -17,8 +17,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const jobRunID = validator.validated.id
   const network = validator.validated.data.network || 'ETH'
   const lookupAddress = validator.validated.data.lookup_address
-  const accessKeyId = util.getEnv('AWS_ACCESS_KEY')
-  const secretAccessKey = util.getEnv('AWS_SECRET_KEY')
+  const accessKeyId = util.getEnv('ACCESS_KEY')
+  const secretAccessKey = util.getEnv('SECRET_KEY')
 
   const client = new S3Client({
     region: 'us-east-2',
