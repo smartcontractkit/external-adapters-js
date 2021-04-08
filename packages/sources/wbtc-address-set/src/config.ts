@@ -1,6 +1,14 @@
 import { util } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
+/**
+ * @swagger
+ * securityDefinitions:
+ *  environment-variables:
+ *    API_ENDPOINT:
+ *      required: true
+ */
+
 export const ENV_API_ENDPOINT = 'API_ENDPOINT'
 
 export const makeConfig = (prefix = ''): Config => ({

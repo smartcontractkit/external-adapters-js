@@ -2,6 +2,23 @@ import types from '@chainlink/types'
 import { Requester, Logger } from '@chainlink/ea-bootstrap'
 import { util } from '@chainlink/ea-bootstrap'
 
+/**
+ * @swagger
+ * securityDefinitions:
+ *  environment-variables:
+ *    API_ENDPOINT:
+ *      required: false
+ *      default: https://api.s0.t.hmny.io
+ *    PRIVATE_KEY:
+ *      required: true
+ *    CHAIN_ID:
+ *      required: false
+ *      default: 1
+ *    GAS_LIMIT:
+ *      required: false
+ *      default: 6721900
+ */
+
 export const DEFAULT_API_ENDPOINT = 'https://api.s0.t.hmny.io'
 export const DEFAULT_CHAIN_ID = 1
 export const DEFAULT_GAS_LIMIT = 6721900

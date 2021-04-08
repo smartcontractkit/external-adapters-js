@@ -1,5 +1,23 @@
 import { util } from '@chainlink/ea-bootstrap'
 
+/**
+ * @swagger
+ * securityDefinitions:
+ *  environment-variables:
+ *    API_URL:
+ *      required: false
+ *      default: ws://stream.tradingeconomics.com/
+ *    API_CLIENT_KEY:
+ *      required: true
+ *    API_CLIENT_SECRET:
+ *      required: true
+ *    SYMBOLS:
+ *      required: true
+ *    RECONNECT_TIMEOUT:
+ *      required: false
+ *      default: 3000
+ */
+
 export type Config = {
   url: string
   key: string
