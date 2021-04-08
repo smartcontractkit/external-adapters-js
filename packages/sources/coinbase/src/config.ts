@@ -1,5 +1,5 @@
 import { Requester } from '@chainlink/ea-bootstrap'
-import { Config } from '@chainlink/types'
+import { Config, WSSubscriptionHandler } from '@chainlink/types'
 
 /**
  * @swagger
@@ -15,4 +15,23 @@ export const makeConfig = (prefix?: string): Config => {
   const config = Requester.getDefaultConfig(prefix)
   config.api.baseURL = config.api.baseURL || DEFAULT_API_ENDPOINT
   return config
+}
+
+export const makeWSHandler = (): WSSubscriptionHandler => {
+  return {
+    connection: {
+      url: 'ws://localhost:5050' // TODO: Necessary?
+    },
+    subscribe: (input) => {
+      return `${input.data.base}_${input.data.quote}`
+    },
+    parse: (wsResponse: any): any | undefined => {
+      // TODO: parses to find the relevant info from the wsResponse
+      console.log('PARSING WS MESSAGE:', wsResponse)
+      if (wsResponse.price) {
+        return wsResponse.price
+      }
+      return 
+    }
+  }
 }

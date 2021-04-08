@@ -102,6 +102,15 @@ declare module '@chainlink/types' {
     warning?: string
   }
 
+  export type WSSubscriptionHandler = {
+    connection: {
+      url: string
+    }
+    subscribe: (input: AdapterRequest) => any
+    parse: (any) => number | string
+  }
+
+
   /* INPUT TYPE VALIDATIONS */
   export type Override = Map<string, Map<string, string>>
 

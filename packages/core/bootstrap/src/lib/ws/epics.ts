@@ -25,6 +25,7 @@ import {
   messageReceived,
   WSConfigPayload,
   WSSubscriptionPayload,
+  messageProcessed
 } from './actions'
 import {
   ws_connection_active,
@@ -57,7 +58,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
         WebSocketCtor: WebSocketCtor as any, // TODO: fix types don't match
       })
 
-      const { config } = payload
+      const { config, wsHandler } = payload
       // Stream of WS connected & disconnected events
       const open$ = openObserver.pipe(map((event) => connected({ event, config } as any)))
       const close$ = closeObserver.pipe(map((event) => disconnected({ event, config } as any)))
@@ -121,8 +122,18 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
         }),
       )
 
+      const messages$ = action$.pipe(
+        filter(messageReceived.match),
+        map((action) => {
+          const response = wsHandler.parse(action.payload.message)
+          console.log('Response coming from WS:', response)
+          action.payload.message = response
+          return messageProcessed(action.payload) // Can messageProcessed pipe it to the cache?
+        })
+      )
+
       // Merge all & unsubscribe ws connection when a matching unsubscribe comes in
-      const ws$ = merge(open$, close$, disconnect$, subscription$).pipe(
+      const ws$ = merge(open$, close$, disconnect$, subscription$, messages$).pipe(
         takeUntil(
           action$.pipe(
             // TODO: not seeing unsubscribe events because of this
