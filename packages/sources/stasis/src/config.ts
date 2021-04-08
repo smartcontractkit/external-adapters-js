@@ -1,0 +1,5 @@
+/**
+ * @swagger
+ * securityDefinitions:
+ *  environment-variables: {}
+ */

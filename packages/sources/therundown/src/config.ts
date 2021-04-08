@@ -1,6 +1,17 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
+/**
+ * @swagger
+ * securityDefinitions:
+ *  environment-variables:
+ *    API_KEY:
+ *      required: true
+ *    API_ENDPOINT:
+ *       required: false
+ *       default: https://therundown-therundown-v1.p.rapidapi.com/
+ */
+
 export const DEFAULT_ENDPOINT = 'total-score'
 export const DEFAULT_BASE_URL = 'https://therundown-therundown-v1.p.rapidapi.com/'
 

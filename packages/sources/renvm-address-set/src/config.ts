@@ -2,6 +2,14 @@ import { util } from '@chainlink/ea-bootstrap'
 import { RenNetwork, isRenNetwork } from '@renproject/interfaces'
 import { Config } from '@chainlink/types'
 
+/**
+ * @swagger
+ * securityDefinitions:
+ *  environment-variables:
+ *    API_ENDPOINT:
+ *      required: true
+ */
+
 export const ENV_NETWORK = 'NETWORK'
 export const ENV_API_ENDPOINT = 'API_ENDPOINT'
 

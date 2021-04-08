@@ -1,6 +1,15 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
+/**
+ * @swagger
+ * securityDefinitions:
+ *  environment-variables:
+ *    API_ENDPOINT:
+ *      required: false
+ *      default: https://chainlink.orchid.com/0
+ */
+
 export const DEFAULT_ENDPOINT = 'bandwidth'
 export const DEFAULT_BASE_URL = 'https://chainlink.orchid.com/0'
 
