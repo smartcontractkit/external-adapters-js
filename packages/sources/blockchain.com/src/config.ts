@@ -2,6 +2,15 @@ import { util } from '@chainlink/ea-bootstrap'
 import { ChainType } from './endpoint'
 import { Config } from '@chainlink/types'
 
+/**
+ * @swagger
+ * securityDefinitions:
+ *  environment-variables:
+ *    API_KEY:
+ *      required: false
+ *
+ */
+
 export const ENV_API_KEY = 'API_KEY'
 export const ENV_API_TIMEOUT = 'API_TIMEOUT'
 

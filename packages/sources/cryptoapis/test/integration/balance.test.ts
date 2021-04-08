@@ -1,6 +1,8 @@
 import { shouldBehaveLikeBalanceAdapter } from '@chainlink/ea-test-helpers'
 import { makeExecute } from '../../src/adapter'
 
+process.env.API_KEY = process.env.API_KEY ?? 'test_api_key'
+
 shouldBehaveLikeBalanceAdapter(makeExecute(), [
   'bitcoin_mainnet',
   'bitcoin_testnet',

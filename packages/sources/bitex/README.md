@@ -1,5 +1,13 @@
 # Chainlink External Adapter for Bitex
 
+### Environment Variables
+
+The adapter takes the following environment variables:
+
+| Required? |   Name    |     Description      | Options | Defaults to |
+| :-------: | :-------: | :------------------: | :-----: | :---------: |
+|    ✅     | `API_KEY` | Bitex API key to use |         |             |
+
 ### Input Parameters
 
 | Required? |   Name   |     Description     |           Options            | Defaults to |

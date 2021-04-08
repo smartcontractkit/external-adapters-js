@@ -2,6 +2,17 @@ import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 import { util } from '@chainlink/ea-bootstrap'
 
+/**
+ * @swagger
+ * securityDefinitions:
+ *  environment-variables:
+ *    API_USERNAME:
+ *      required: true
+ *    API_PASSWORD:
+ *      required: true
+ *
+ */
+
 export const DEFAULT_ENDPOINT = 'values'
 
 export const makeConfig = (prefix?: string): Config => {
