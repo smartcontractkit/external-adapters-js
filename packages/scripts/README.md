@@ -39,6 +39,9 @@ Comments are:
  *  environment-variables:
  *    API_KEY:
  *      required: true
+ *    API_ENDPOINT:
+ *      required: false
+ *      default: https://some_endpoint.com
  */
 ```
 Additional environment variables can be added similar to `API_KEY`. If no environment variables are needed the comment can be not included or can be written with an empty object (see below).

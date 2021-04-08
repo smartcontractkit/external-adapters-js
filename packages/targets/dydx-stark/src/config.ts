@@ -3,6 +3,21 @@ import { Requester, Logger } from '@chainlink/ea-bootstrap'
 import { util } from '@chainlink/ea-bootstrap'
 import { send } from './endpoint'
 
+/**
+ * @swagger
+ * securityDefinitions:
+ *  environment-variables:
+ *    API_ENDPOINT:
+ *       required: false
+ *       default: https://api.stage.dydx.exchange/v3/price
+ *    PRIVATE_KEY:
+ *      required: true
+ *    STARK_MESSAGE:
+ *      required: true
+ *    ORACLE_NAME:
+ *      required: true
+ */
+
 export const DEFAULT_DATA_PATH = 'result'
 export const DEFAULT_ENDPOINT = send.NAME
 
