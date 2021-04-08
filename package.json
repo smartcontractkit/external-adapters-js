@@ -10,14 +10,14 @@
     "new": "ts-node ./packages/scripts/src/new.ts",
     "docker": "ts-node ./packages/scripts/src/docker.ts",
     "bundle": "ncc build",
-    "docgen": "ts-node ./packages/scripts/dist/docgen.js",
-    "docgen:all": "yarn docgen --all",
     "clean": "tsc -b --clean  ./packages/tsconfig.json",
     "lint": "eslint --ext ts .",
     "lint:fix": "yarn lint --fix",
     "setup": "tsc -b ./packages/tsconfig.json ",
     "test": "jest",
-    "generate:docker-compose": "ts-node ./packages/scripts/src/docker-build"
+    "generate:docker-compose": "ts-node ./packages/scripts/src/docker-build",
+    "generate:oas": "ts-node ./packages/scripts/dist/docgen.js",
+    "generate:oas:all": "yarn generate:oas --all"
   },
   "dependencies": {
     "@babel/core": "^7.13.14",
