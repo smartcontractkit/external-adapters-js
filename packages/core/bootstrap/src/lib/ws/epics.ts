@@ -1,6 +1,6 @@
 import { AnyAction } from 'redux'
 import { combineEpics, createEpicMiddleware, Epic } from 'redux-observable'
-import { merge, Subject } from 'rxjs'
+import { merge, of, Subject } from 'rxjs'
 import {
   endWith,
   filter,
@@ -10,6 +10,7 @@ import {
   takeUntil,
   tap,
   withLatestFrom,
+  catchError
 } from 'rxjs/operators'
 import { webSocket } from 'rxjs/webSocket'
 import WebSocket from 'ws'
@@ -46,7 +47,9 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
     }),
     // on a connect action being dispatched, open a new WS connection if one doesn't exist yet
     mergeMap(([{ connectionKey, payload }]) => {
-      const { url, protocol } = payload.config.connectionInfo
+      const { config, wsHandler } = payload
+      const { connection: { url, protocol } } = wsHandler
+      // const { url, protocol } = config.connectionInfo
       const openObserver = new Subject()
       const closeObserver = new Subject()
       const WebSocketCtor = WebSocket
@@ -58,7 +61,6 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
         WebSocketCtor: WebSocketCtor as any, // TODO: fix types don't match
       })
 
-      const { config, wsHandler } = payload
       // Stream of WS connected & disconnected events
       const open$ = openObserver.pipe(map((event) => connected({ event, config } as any)))
       const close$ = closeObserver.pipe(map((event) => disconnected({ event, config } as any)))
@@ -129,6 +131,11 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
           console.log('Response coming from WS:', response)
           action.payload.message = response
           return messageProcessed(action.payload) // Can messageProcessed pipe it to the cache?
+        }),
+        catchError((error) => {
+          console.log('Error getting message:', error)
+          // TODO: Send unsubscription
+          return of({ type: 'ERROR', payload: error.message })
         })
       )
 

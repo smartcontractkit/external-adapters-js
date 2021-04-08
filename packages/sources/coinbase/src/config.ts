@@ -1,5 +1,7 @@
-import { Requester } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { logger } from '@chainlink/ea-bootstrap/src/lib/external-adapter'
 import { Config, WSSubscriptionHandler } from '@chainlink/types'
+import { customParams } from './endpoint/price'
 
 /**
  * @swagger
@@ -20,18 +22,32 @@ export const makeConfig = (prefix?: string): Config => {
 export const makeWSHandler = (): WSSubscriptionHandler => {
   return {
     connection: {
-      url: 'ws://localhost:5050' // TODO: Necessary?
+      url: 'wss://ws-feed.pro.coinbase.com', // TODO: Necessary?
     },
     subscribe: (input) => {
-      return `${input.data.base}_${input.data.quote}`
-    },
-    parse: (wsResponse: any): any | undefined => {
-      // TODO: parses to find the relevant info from the wsResponse
-      console.log('PARSING WS MESSAGE:', wsResponse)
-      if (wsResponse.price) {
-        return wsResponse.price
+      const validator = new Validator(input, customParams)
+      if (validator.error) {
+        // Validation failed, empty subscription will have no effect
+        return ''
       }
-      return 
+      const symbol = validator.validated.data.symbol.toUpperCase()
+      const convert = validator.validated.data.convert.toUpperCase()
+      const subscriptionMsg = { type: 'subscribe', channels: ['ticker'], product_ids: [`${symbol}-${convert}`] }
+      return subscriptionMsg
+    },
+    parse: (wsResponse: any): number => {
+      if (wsResponse.type === 'error') {
+        throw new Error(wsResponse.message)
+      }
+      if (wsResponse.type === 'subscriptions') {
+        logger.debug('Subscription confirmed')
+        // TODO: What to do here
+        return 0
+      }
+      const result = Requester.validateResultNumber(wsResponse, ['price'])
+      console.log('PRICE FROM WS:', result)
+      return result
+
     }
   }
 }

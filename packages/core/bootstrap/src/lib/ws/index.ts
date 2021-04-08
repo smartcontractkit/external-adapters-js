@@ -24,7 +24,7 @@ export const withWebSockets = (store: Store<RootState>) => (wsHandler?: WSSubscr
   const wsConfig = envLoad_WSConfig()
   store.dispatch(connect({ config: wsConfig, wsHandler }))
 
-  const subscribeMsg = { message: wsHandler.subscribe(input) } // { type: 'subscribe', channels: ['ticker'], product_ids }
+  const subscribeMsg = wsHandler.subscribe(input)
   const subscriptionInfo = { key: product_id }
   const { connectionInfo } = wsConfig
 
