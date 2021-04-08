@@ -4,12 +4,9 @@ import { Config } from '@chainlink/types'
 /**
  * @swagger
  * securityDefinitions:
- *  environment-variables: {}
+ *  environment-variables:
+ *
  */
-
-// to declare other environment variables use:
-//  *    API_KEY:
-//  *      required: false/true
 
 export const NAME = 'COINGECKO'
 

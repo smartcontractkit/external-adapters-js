@@ -1,6 +1,15 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
+/**
+ * @swagger
+ * securityDefinitions:
+ *  environment-variables:
+ *    API_KEY:
+ *      required: true
+ *
+ */
+
 export const NAME = 'AMBERDATA'
 
 export const DEFAULT_API_ENDPOINT = 'https://web3api.io'

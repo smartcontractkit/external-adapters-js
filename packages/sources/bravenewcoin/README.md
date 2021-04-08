@@ -6,12 +6,14 @@
 | :-------: | :------: | :-----------------: | :--------------------------: | :---------: |
 |           | endpoint | The endpoint to use | [example](#Example-Endpoint) |   example   |
 
-## Environment Variables
+### Configuration
 
-- `API_KEY`: Your RapidAPI API key
-- `CLIENT_ID`: Your RapidAPI client ID
+The adapter takes the following environment variables:
 
-Credentials can be obtained from [this](https://rapidapi.com/BraveNewCoin/api/bravenewcoin?endpoint=apiendpoint_d040b5cb-b6da-4628-bb86-fef663f635dc) page (requires being logged in).
+| Required? |    Name     | Description | Options | Defaults to |
+| :-------: | :---------: | :---------: | :-----: | :---------: |
+|    ✅     |  `API_KEY`  |             |         |             |
+|    ✅     | `CLIENT_ID` |             |         |             |
 
 ---
 
@@ -26,7 +28,7 @@ Credentials can be obtained from [this](https://rapidapi.com/BraveNewCoin/api/br
 |    ✅     | `base`, `from`, or `coin`  |   The symbol of the currency to query    | `BTC`, `ETH`, `USD` |             |
 |    ✅     | `quote`, `to`, or `market` | The symbol of the currency to convert to | `BTC`, `ETH`, `USD` |
 
-### Output
+### Sample Output
 
 ```json
 {
@@ -53,7 +55,7 @@ Credentials can be obtained from [this](https://rapidapi.com/BraveNewCoin/api/br
 |           |                            `indexType`                             |                                                      Restrict the OHLCV results to the index type.                                                      | `MWA`, `GWA` |    `GWA`    |
 |           |                            `timestamp`                             | Retrieve all daily OHLCV records from the timestamp provided. All dates are stored in UTC. Timestamp strings should be in the form YYYY-MM-DDThh:mm:ssZ |              |             |
 
-### Output
+### Sample Output
 
 ```json
 {
