@@ -11,6 +11,7 @@
     "docker": "ts-node ./packages/scripts/src/docker.ts",
     "bundle": "ncc build",
     "docgen": "ts-node ./packages/scripts/dist/docgen.js",
+    "docgen:all": "yarn docgen --all",
     "clean": "tsc -b --clean  ./packages/tsconfig.json",
     "lint": "eslint --ext ts .",
     "lint:fix": "yarn lint --fix",

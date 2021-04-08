@@ -22,16 +22,7 @@ function generate_spec(p: any) {
   return obj
 }
 
-const ADAPTER_TYPES = ['composite', 'source', 'target']
-;(() => {
-  const type: string = process.argv[2]
-  if (!type) return log.red('Missing first argument: type')
-  if (!ADAPTER_TYPES.includes(type))
-    return log.red(`Type must be one of: ${ADAPTER_TYPES.join(', ')}`)
-
-  const n: string = process.argv[3]
-  if (!n) return log.red('Missing second argument: name')
-
+function generate_OAS(type: string, n: string) {
   // reused filepath
   const adapter_filepath = `packages/${type}s/${n}`
 
@@ -44,10 +35,44 @@ const ADAPTER_TYPES = ['composite', 'source', 'target']
 
   // generate OAS spec using code comments (uses swagger-jsdoc)
   const oas_filepath = `${adapter_filepath}/oas.json`
-  const apis_str = shell.exec(`find ${adapter_filepath}/src -type f`).toString() //get all files in the src folder
-  const apis: ReadonlyArray<string> = apis_str.split('\n').slice(0, -1) //split into array
+  const apis = shell.ls(`${adapter_filepath}/src/**/*.ts`) //recursive filepath searching
   const oas = swaggerJsdoc({ definition, apis })
 
   // write spec to file
   shell.ShellString(JSON.stringify(oas)).to(oas_filepath)
+}
+
+const ADAPTER_TYPES = ['composite', 'source', 'target']
+;(() => {
+  if (process.argv.includes('--all')) {
+    console.log("Generating OAS.json for all EAs")
+
+    // run for each adapter type
+    ADAPTER_TYPES.forEach(type => {
+      // get EA name
+      const out = shell.ls('-d', `packages/${type}s/*/`)
+      const n_list = out.map(n => n.split("/")[2]) // retrieve folder name from full path
+
+      // run for each adapter for each type
+      n_list.forEach(n => {
+        try {
+          generate_OAS(type, n)
+        }
+        catch(e) {
+          log.red(`Failed to generate OAS.json for ${type}/${n}`)
+        }
+      })
+    });
+    return
+  }
+
+  const type: string = process.argv[2]
+  if (!type) return log.red('Missing first argument: type')
+  if (!ADAPTER_TYPES.includes(type))
+    return log.red(`Type must be one of: ${ADAPTER_TYPES.join(', ')}`)
+
+  const n: string = process.argv[3]
+  if (!n) return log.red('Missing second argument: name')
+
+  generate_OAS(type, n)
 })()
