@@ -21,7 +21,7 @@ The adapter takes the following environment variables:
 
 | Required? |      Name       |        Description         | Options | Defaults to |
 | :-------: | :-------------: | :------------------------: | :-----: | :---------: |
-|    ✅     |   `addresses`   | List of addresses to query |         |             |
+|    ✅     |    `result`     | List of addresses to query |         |             |
 |           | `confirmations` |   Confirmation parameter   |         |     `6`     |
 
 Each item in the `addresses` list can contain the following parameters:
@@ -38,7 +38,7 @@ Each item in the `addresses` list can contain the following parameters:
 {
   "id": "1",
   "data": {
-    "addresses": [
+    "result": [
       {
         "address": "3D8DJLwUXFfZvE8yJRu729MZ8uLy25SuLz",
         "coin": "btc"

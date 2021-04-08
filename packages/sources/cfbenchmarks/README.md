@@ -1,23 +1,27 @@
 # Chainlink External Adapter for cfbenchmarks
 
-## Configuration
+### Configuration
 
-`API_USERNAME`: Your API username
-`API_PASSWORD`: Your API password
+The adapter takes the following environment variables:
+
+| Required? |      Name      | Description | Options | Defaults to |
+| :-------: | :------------: | :---------: | :-----: | :---------: |
+|    ✅     | `API_USERNAME` |             |         |             |
+|    ✅     | `API_PASSWORD` |             |         |             |
 
 ## Input Params
 
 - `index`: The ID of the index to query
 
-## Output
+## Sample Output
 
 ```json
 {
-  "jobRunID":"1",
-  "data":{
-    "result":30363.12
+  "jobRunID": "1",
+  "data": {
+    "result": 30363.12
   },
-  "result":30363.12,
-  "statusCode":200
+  "result": 30363.12,
+  "statusCode": 200
 }
 ```

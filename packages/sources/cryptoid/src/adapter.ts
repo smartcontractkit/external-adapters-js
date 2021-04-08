@@ -32,7 +32,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     baseURL: config.api.baseURL || `https://${blockchain}.cryptoid.info/${blockchain}/api.dws`,
   }
   const response = await Requester.request(reqConfig)
-  response.data.result = response.data
+  response.data = { result: response.data }
 
   return Requester.success(jobRunID, response, config.verbose)
 }
