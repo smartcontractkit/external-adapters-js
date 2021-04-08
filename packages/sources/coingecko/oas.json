@@ -3,43 +3,24 @@
   "info": {
     "title": "@chainlink/coingecko-adapter",
     "version": "0.0.3",
-    "license": {
-      "name": "MIT"
-    }
+    "license": { "name": "MIT" }
   },
   "paths": {
     "endpoints": {
       "price": {
         "properties": ["coinid", "base", "from", "coin", "quote", "to", "market"],
         "required": [
-          {
-            "oneOf": [
-              "coinid",
-              {
-                "oneOf": ["base", "from", "coin"]
-              }
-            ]
-          },
-          {
-            "oneOf": ["quote", "to", "market"]
-          }
+          { "oneOf": ["coinid", { "oneOf": ["base", "from", "coin"] }] },
+          { "oneOf": ["quote", "to", "market"] }
         ]
       },
       "globalmarketcap": {
         "properties": ["market", "to", "quote", "coin"],
-        "required": [
-          {
-            "oneOf": ["market", "to", "quote", "coin"]
-          }
-        ]
+        "required": [{ "oneOf": ["market", "to", "quote", "coin"] }]
       },
       "dominance": {
         "properties": ["market", "to", "quote", "coin"],
-        "required": [
-          {
-            "oneOf": ["market", "to", "quote", "coin"]
-          }
-        ]
+        "required": [{ "oneOf": ["market", "to", "quote", "coin"] }]
       }
     },
     "/": {
@@ -56,18 +37,10 @@
             },
             "required": {
               "oneOf": [
-                {
-                  "$ref": "#/endpoints/price"
-                },
-                {
-                  "$ref": "#/endpoints/globalmarketcap"
-                },
-                {
-                  "$ref": "#/endpoints/dominance"
-                },
-                {
-                  "$ref": "#/endpoints/marketcap"
-                }
+                { "$ref": "#/endpoints/price" },
+                { "$ref": "#/endpoints/globalmarketcap" },
+                { "$ref": "#/endpoints/dominance" },
+                { "$ref": "#/endpoints/marketcap" }
               ]
             }
           }
