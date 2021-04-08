@@ -1,4 +1,5 @@
 import * as shell from 'shelljs'
+import swaggerJsdoc from 'swagger-jsdoc'
 
 const log = { red: (text: string) => console.log('\x1b[31m%s\x1b[0m', text) }
 
@@ -40,18 +41,13 @@ const ADAPTER_TYPES = ['composite', 'source', 'target']
 
   // create the definition.json file
   const definition: OASpec = generate_spec(package_obj)
-  const def_filepath = `${adapter_filepath}/definition_temp.json`
-  shell.ShellString(JSON.stringify(definition)).to(def_filepath)
 
-  //generate OAS spec using code comments (uses swagger-jsdoc)
+  // generate OAS spec using code comments (uses swagger-jsdoc)
   const oas_filepath = `${adapter_filepath}/oas.json`
-  // -d: base definition file
-  // $(find ...): finds all files in /src file to search for comments
-  // -o: outputs to specific file
-  shell.exec(
-    `npx swagger-jsdoc@6 -d ${def_filepath} $(find ${adapter_filepath}/src -type f) -o ${oas_filepath}`,
-  )
+  const apis_str = shell.exec(`find ${adapter_filepath}/src -type f`).toString() //get all files in the src folder
+  const apis: ReadonlyArray<string> = apis_str.split('\n').slice(0, -1) //split into array
+  const oas = swaggerJsdoc({ definition, apis })
 
-  //remove definition file
-  shell.rm(def_filepath)
+  // write spec to file
+  shell.ShellString(JSON.stringify(oas)).to(oas_filepath)
 })()
