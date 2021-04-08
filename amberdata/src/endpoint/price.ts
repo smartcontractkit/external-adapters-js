@@ -11,6 +11,8 @@ const customError = (data: any) => {
 const addressMapping: { [symbol: string]: string } = {
   DIGG: '0x798d1be841a82a273720ce31c822c61a67a601c3',
   WBTC: '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599',
+  RAI: '0x03ab458634910aad20ef5f1c8ee96f1d6ac54919',
+  WETH: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
 }
 
 const customParams = {
@@ -35,8 +37,8 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
 
   if (
     includes.length > 0 &&
-    includes[0].toLowerCase() === 'wbtc' &&
-    coin.toLowerCase() === 'digg'
+    ((includes[0].toLowerCase() === 'wbtc' && coin.toLowerCase() === 'digg') ||
+    (includes[0].toLowerCase() === 'weth' && coin.toLowerCase() === 'rai'))
   ) {
     const fromAddress = addressMapping[coin.toUpperCase()]
     const toAddress = addressMapping[includes[0].toUpperCase()]
