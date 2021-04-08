@@ -96,7 +96,8 @@
     "tradingeconomics-stream",
     "watchsignals",
     "dnsproof",
-    "genesisvolatility"
+    "genesisvolatility",
+    "ciphertrace"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",
