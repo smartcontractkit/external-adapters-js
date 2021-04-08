@@ -5,6 +5,47 @@ __metadata:
   version: 4
   cacheKey: 7
 
+"@apidevtools/json-schema-ref-parser@npm:^9.0.6":
+  version: 9.0.7
+  resolution: "@apidevtools/json-schema-ref-parser@npm:9.0.7"
+  dependencies:
+    "@jsdevtools/ono": ^7.1.3
+    call-me-maybe: ^1.0.1
+    js-yaml: ^3.13.1
+  checksum: 2daf465e5d9c3ab15c3bdafa1577c4d7fdb65ecfc9a71e165110aed773e0dea2651ba1b9ddd1714421b4fe8f33c6469641fa01b2ede2ecd004b1813f07f6d443
+  languageName: node
+  linkType: hard
+
+"@apidevtools/openapi-schemas@npm:^2.0.4":
+  version: 2.0.4
+  resolution: "@apidevtools/openapi-schemas@npm:2.0.4"
+  checksum: 83ce121166698f5cd3b5d0175715f404cf7cbe8afea6966cb80b4e115751764582fbed2ae0586a57497c3201af1796b2fb1382d81c98542a9bc6a77f59febed0
+  languageName: node
+  linkType: hard
+
+"@apidevtools/swagger-methods@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "@apidevtools/swagger-methods@npm:3.0.2"
+  checksum: 33e49da22dc6668e51aee11cc9634d3039a24da8e0e8edf7a889ff72e3882905ac222a8970be5e41918d66286e20027f849ff665a7f540563f887a5cec85befb
+  languageName: node
+  linkType: hard
+
+"@apidevtools/swagger-parser@npm:10.0.2":
+  version: 10.0.2
+  resolution: "@apidevtools/swagger-parser@npm:10.0.2"
+  dependencies:
+    "@apidevtools/json-schema-ref-parser": ^9.0.6
+    "@apidevtools/openapi-schemas": ^2.0.4
+    "@apidevtools/swagger-methods": ^3.0.2
+    "@jsdevtools/ono": ^7.1.3
+    call-me-maybe: ^1.0.1
+    z-schema: ^4.2.3
+  peerDependencies:
+    openapi-types: ">=7"
+  checksum: 7009a50e6cad6b7482687295784c79bd869f28a535631c82e3d6fe9ec4e33755867972922ba5cb480b6f62f7ac417d4837a8a5e62fd353c76209ee05608cda3d
+  languageName: node
+  linkType: hard
+
 "@authereum/starkware-crypto@npm:^1.9.7-beta.7":
   version: 1.9.7-beta.7
   resolution: "@authereum/starkware-crypto@npm:1.9.7-beta.7"
@@ -4535,8 +4576,10 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   resolution: "@chainlink/ea-scripts@workspace:packages/scripts"
   dependencies:
     "@types/shelljs": ^0
+    "@types/swagger-jsdoc": ^6
     "@types/yaml": ^1
     shelljs: ^0.8.4
+    swagger-jsdoc: 6.1.0
     tslib: ^2.1.0
     typescript: ^4.2.3
     yaml: ^1.10.2
@@ -7065,6 +7108,13 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   languageName: node
   linkType: hard
 
+"@jsdevtools/ono@npm:^7.1.3":
+  version: 7.1.3
+  resolution: "@jsdevtools/ono@npm:7.1.3"
+  checksum: 0caf54c25db1e5bc7e7f0ccc4c6ff543067fe8d165bf3a1005381273c6e6bb68d03e12fa9a8ffbe99247293fc80a578c0d1afa69161bfba86ed6ff0c19319b88
+  languageName: node
+  linkType: hard
+
 "@nodelib/fs.scandir@npm:2.1.4":
   version: 2.1.4
   resolution: "@nodelib/fs.scandir@npm:2.1.4"
@@ -8497,6 +8547,13 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   version: 2.0.0
   resolution: "@types/stack-utils@npm:2.0.0"
   checksum: 662312302e07685c99a1c45c6753eb997b31d2af66e646c5937f62d593a63a111289503d0b06a8d1e6f3922b67fc2ed94889d84653a08861a7fee67b81ce5b92
+  languageName: node
+  linkType: hard
+
+"@types/swagger-jsdoc@npm:^6":
+  version: 6.0.0
+  resolution: "@types/swagger-jsdoc@npm:6.0.0"
+  checksum: 47ecf8c15ed13ba558bb913d9982924b7787de104cd9c31c02c7acb528c65badcbc8adbef05cd3e2f2b04fd3eef58d935c34c8dd41bff252bed8fd5011b77712
   languageName: node
   linkType: hard
 
@@ -10193,6 +10250,13 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   languageName: node
   linkType: hard
 
+"call-me-maybe@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "call-me-maybe@npm:1.0.1"
+  checksum: 07e1afb493ed945c6b053940881d46ece2ab04e1862e7cd8c483e8651e9831a70b31098e6be321a897b7e702d34b6417301280efda98c5e663a608baaf95d2f4
+  languageName: node
+  linkType: hard
+
 "callsites@npm:^3.0.0":
   version: 3.1.0
   resolution: "callsites@npm:3.1.0"
@@ -10753,7 +10817,14 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   languageName: node
   linkType: hard
 
-"commander@npm:^2.8.1":
+"commander@npm:6.2.0":
+  version: 6.2.0
+  resolution: "commander@npm:6.2.0"
+  checksum: c78501cd98e6ad66839004adc27940f5fc1a0102b306fbbc177965101d586cf6dd2e01bdffd64f99f2d4862101f24e602e3e4baa641b6f6a11c01ec5c900e412
+  languageName: node
+  linkType: hard
+
+"commander@npm:^2.7.1, commander@npm:^2.8.1":
   version: 2.20.3
   resolution: "commander@npm:2.20.3"
   checksum: b73428e97de7624323f81ba13f8ed9271de487017432d18b4da3f07cfc528ad754bbd199004bd5d14e0ccd67d1fdfe0ec8dbbd4c438b401df3c4cc387bfd1daa
@@ -11621,7 +11692,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   languageName: node
   linkType: hard
 
-"doctrine@npm:^3.0.0":
+"doctrine@npm:3.0.0, doctrine@npm:^3.0.0":
   version: 3.0.0
   resolution: "doctrine@npm:3.0.0"
   dependencies:
@@ -19954,6 +20025,7 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+<<<<<<< HEAD
 "gaxios@npm:^4.0.0":
   version: 4.2.0
   resolution: "gaxios@npm:4.2.0"
@@ -19964,6 +20036,19 @@ fsevents@~2.3.1:
     is-stream: ^2.0.0
     node-fetch: ^2.3.0
   checksum: 96ba840591124efcfc1d3047b82302143ee0a0d4102201c691e5e5a4579fb341fcd539074ede201de252c9374b78b2d9cb9e61bf9db5051183b543f6befcee67
+=======
+"lodash.mergewith@npm:^4.6.2":
+  version: 4.6.2
+  resolution: "lodash.mergewith@npm:4.6.2"
+  checksum: 3561b63cebc629721ab4c016627fc54929ee33cdef1854b4a15ade71dd8eb5f2fc602830efe5395aed41c607d65e2cce356667116aa7156b82468594b42ab95f
+  languageName: node
+  linkType: hard
+
+"lodash.partition@npm:^4.6.0":
+  version: 4.6.0
+  resolution: "lodash.partition@npm:4.6.0"
+  checksum: ab5e0c3496bdac7ceda58846c5c7d143be41e683ab26069b54611917d26cedd6778aecbcd7e36efb52bb9814687a0bdad1af5f33ebee49061965661f28586dd2
+>>>>>>> 27851662... removed npx usage from docgen.ts
   languageName: node
   linkType: hard
 
@@ -29540,6 +29625,13 @@ zen-observable@^0.8.0:
   languageName: node
   linkType: hard
 
+"yaml@npm:2.0.0-1":
+  version: 2.0.0-1
+  resolution: "yaml@npm:2.0.0-1"
+  checksum: 72b06754d1e801604c1b2008980b801e586d7647eafaed8bdaf66f4dda12d62846e43cfceea3fe38806454818ceb5c126fbc6ad0cce3f39526b54ac323593719
+  languageName: node
+  linkType: hard
+
 "yargs-parser@npm:13.1.2, yargs-parser@npm:^13.1.2":
   version: 13.1.2
   resolution: "yargs-parser@npm:13.1.2"
@@ -29649,6 +29741,7 @@ zen-observable@^0.8.0:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> ff8bd171... Rebuild cached deps
 
@@ -29686,3 +29779,22 @@ zen-observable@^0.8.0:
 >>>>>>> ff8bd171... Rebuild cached deps
 =======
 >>>>>>> 951c15af... Bring in workspace changes
+=======
+
+"z-schema@npm:^4.2.3":
+  version: 4.2.3
+  resolution: "z-schema@npm:4.2.3"
+  dependencies:
+    commander: ^2.7.1
+    lodash.get: ^4.4.2
+    lodash.isequal: ^4.5.0
+    validator: ^12.0.0
+  dependenciesMeta:
+    commander:
+      optional: true
+  bin:
+    z-schema: ./bin/z-schema
+  checksum: 2932b9530278336286d1c312271575c7995c6dbf90a25533d7bdb89e2c7413a94415b270b827098fe067fb84c9af4a6f1071c61badf4ea8690b1875b77aa7d15
+  languageName: node
+  linkType: hard
+>>>>>>> 27851662... removed npx usage from docgen.ts
