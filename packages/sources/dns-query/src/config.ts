@@ -7,7 +7,7 @@ import { Config } from '@chainlink/types'
  *  environment-variables:
  *    DNS_PROVIDER:
  *      required: true
- *    CUSTOM_ENDPOINT
+ *    CUSTOM_ENDPOINT:
  *      required: false
  *
  */
