@@ -1,14 +1,13 @@
-import { assert } from 'chai'
-import { Requester } from '@chainlink/external-adapter'
-import { assertSuccess, assertError } from '@chainlink/adapter-test-helpers'
+import { Requester } from '@chainlink/ea-bootstrap'
+import { assertSuccess, assertError } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
-import { makeExecute } from '../src/adapter'
+import { makeExecute } from '../../src/adapter'
 
 describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
 
-  context('successful calls @integration', () => {
+  describe('successful calls @integration', () => {
     const requests = [
       {
         name: 'empty data',
@@ -37,13 +36,13 @@ describe('execute', () => {
       it(`${req.name}`, async () => {
         const data = await execute(req.testData as AdapterRequest)
         assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
-        assert.isAbove(data.result, 0)
-        assert.isAbove(data.data.result, 0)
+        expect(data.result).toBeGreaterThan(0)
+        expect(data.data.result).toBeGreaterThan(0)
       })
     })
   })
 
-  context('validation error', () => {
+  describe('validation error', () => {
     const requests = [
       {
         name: 'empty body',
@@ -63,7 +62,7 @@ describe('execute', () => {
     })
   })
 
-  context('error calls @integration', () => {
+  describe('error calls @integration', () => {
     const requests = [
       {
         name: 'unknown endpoint',
