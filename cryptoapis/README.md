@@ -4,7 +4,7 @@
 
 | Required? |    Name     |                                 Description                                 | Options | Defaults to |
 | :-------: | :---------: | :-------------------------------------------------------------------------: | :-----: | :---------: |
-|    ✅     |   API_KEY   | An API key that can be obtained from [here](https://coinmarketcap.com/api/) |         |             |
+|    ✅     |   API_KEY   | An API key that can be obtained from [here](https://cryptoapis.io/pricing/) |         |             |
 |           | API_TIMEOUT |                              Timeout parameter                              |         |   `30000`   |
 
 ---
