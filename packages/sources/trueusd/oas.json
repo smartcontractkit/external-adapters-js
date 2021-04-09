@@ -1,0 +1,21 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "@chainlink/trueusd-adapter",
+    "version": "0.0.3",
+    "license": {
+      "name": "MIT"
+    }
+  },
+  "paths": {},
+  "securityDefinitions": {
+    "environment-variables": {
+      "API_ENDPOINT": {
+        "required": false,
+        "default": "https://core-api.real-time-attest.trustexplorer.io"
+      }
+    }
+  },
+  "components": {},
+  "tags": []
+}

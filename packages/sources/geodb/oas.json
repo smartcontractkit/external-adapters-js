@@ -1,0 +1,21 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "@chainlink/geodb-adapter",
+    "version": "0.0.1",
+    "license": {
+      "name": "MIT"
+    }
+  },
+  "paths": {},
+  "securityDefinitions": {
+    "environment-variables": {
+      "API_ENDPOINT": {
+        "required": false,
+        "default": "http://35.195.237.123:8000/"
+      }
+    }
+  },
+  "components": {},
+  "tags": []
+}

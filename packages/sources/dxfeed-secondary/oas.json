@@ -1,0 +1,27 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "@chainlink/dxfeed-secondary-adapter",
+    "version": "0.0.1",
+    "license": {
+      "name": "MIT"
+    }
+  },
+  "paths": {},
+  "securityDefinitions": {
+    "environment-variables": {
+      "API_USERNAME": {
+        "required": true
+      },
+      "API_PASSWORD": {
+        "required": true
+      },
+      "API_ENDPOINT": {
+        "required": false,
+        "default": "https://tools.dxfeed.com/webservice/rest"
+      }
+    }
+  },
+  "components": {},
+  "tags": []
+}

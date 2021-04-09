@@ -1,0 +1,21 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "@chainlink/poa-gasprice-adapter",
+    "version": "0.0.3",
+    "license": {
+      "name": "MIT"
+    }
+  },
+  "paths": {},
+  "securityDefinitions": {
+    "environment-variables": {
+      "API_ENDPOINT": {
+        "required": false,
+        "default": "https://gasprice.poa.network/"
+      }
+    }
+  },
+  "components": {},
+  "tags": []
+}
