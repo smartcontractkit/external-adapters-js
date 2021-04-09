@@ -2,6 +2,22 @@ import { Requester, util, AdapterError } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 import * as paypal from '@paypal/payouts-sdk'
 
+/**
+ * @swagger
+ * securityDefinitions:
+ *  environment-variables:
+ *    CLIENT_ID:
+ *      required: true
+ *    CLIENT_SECRET:
+ *      required: true
+ *    MODE:
+ *      required: false
+ *      default: sandbox
+ *      enum:
+ *        - sandbox
+ *        - live
+ */
+
 export const DEFAULT_ENDPOINT = 'sendpayout'
 export const DEFAULT_MODE = 'sandbox'
 

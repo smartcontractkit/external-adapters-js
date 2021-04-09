@@ -2,6 +2,16 @@ import { util, Requester } from '@chainlink/ea-bootstrap'
 import legos from '@chainlink/ea'
 import { Config as DefaultConfig } from '@chainlink/types'
 
+/**
+ * @swagger
+ * securityDefinitions:
+ *  environment-variables:
+ *    (SOURCE)_DATA_PROVIDER_URL:
+ *      required: true
+ *    RPC_URL:
+ *      required: true
+ */
+
 export type Config = {
   sources: { [name: string]: DefaultConfig }
 }

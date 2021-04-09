@@ -10,6 +10,31 @@ import Kaiko from '@chainlink/kaiko-adapter'
 import Nomics from '@chainlink/nomics-adapter'
 import { Config, SourceRequestOptions } from './types'
 
+/**
+ * @swagger
+ * securityDefinitions:
+ *  environment-variables:
+ *    adapter:
+ *      oneOf:
+ *        - AMBERDATA_DATA_PROVIDER_URL
+ *        - COINAPI_DATA_PROVIDER_URL
+ *        - COINGECKO_DATA_PROVIDER_URL
+ *        - COINMARKETCAP_DATA_PROVIDER_URL
+ *        - COINPAPRIKA_DATA_PROVIDER_URL
+ *        - CRYPTOCOMPARE_DATA_PROVIDER_URL
+ *        - KAIKO_DATA_PROVIDER_URL
+ *        - NOMICS_DATA_PROVIDER_URL
+ *    DEFAULT_QUOTE:
+ *      required: false
+ *      default: USD
+ *    DEFAULT_METHOD:
+ *      required: false
+ *      default: price
+ *      enum:
+ *        - price
+ *        - marketcap
+ */
+
 export const adapters: AdapterImplementation[] = [
   Amberdata,
   CoinApi,
