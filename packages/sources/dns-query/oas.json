@@ -1,0 +1,23 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "@chainlink/dns-query-adapter",
+    "version": "0.0.1",
+    "license": {
+      "name": "MIT"
+    }
+  },
+  "paths": {},
+  "securityDefinitions": {
+    "environment-variables": {
+      "DNS_PROVIDER": {
+        "required": true
+      },
+      "CUSTOM_ENDPOINT": {
+        "required": false
+      }
+    }
+  },
+  "components": {},
+  "tags": []
+}

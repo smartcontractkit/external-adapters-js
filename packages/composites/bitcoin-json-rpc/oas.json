@@ -1,0 +1,21 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "@chainlink/bitcoin-json-rpc-adapter",
+    "version": "0.0.1",
+    "license": {
+      "name": "MIT"
+    }
+  },
+  "paths": {},
+  "securityDefinitions": {
+    "environment-variables": {
+      "RPC_URL": {
+        "required": false,
+        "default": "http://localhost:8545"
+      }
+    }
+  },
+  "components": {},
+  "tags": []
+}

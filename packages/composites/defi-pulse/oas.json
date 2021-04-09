@@ -1,0 +1,24 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "@chainlink/defi-pulse-adapter",
+    "version": "0.0.3",
+    "license": {
+      "name": "MIT"
+    }
+  },
+  "paths": {},
+  "securityDefinitions": {
+    "environment-variables": {
+      "RPC_URL": {
+        "required": true
+      },
+      "DEFAULT_QUOTE": {
+        "required": false,
+        "default": "USD"
+      }
+    }
+  },
+  "components": {},
+  "tags": []
+}

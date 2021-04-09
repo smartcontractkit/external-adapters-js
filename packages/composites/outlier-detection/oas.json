@@ -1,0 +1,34 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "@chainlink/outlier-detection-adapter",
+    "version": "0.0.1",
+    "license": {
+      "name": "MIT"
+    }
+  },
+  "paths": {},
+  "securityDefinitions": {
+    "environment-variables": {
+      "source-adapter": {
+        "oneOf": [
+          "XBTO_DATA_PROVIDER_URL",
+          "GENESIS_VOLATILITY_DATA_PROVIDER_URL",
+          "DXFEED_DATA_PROVIDER_URL"
+        ]
+      },
+      "check-adapter": {
+        "oneOf": [
+          "DERIBIT_DATA_PROVIDER_URL",
+          "OILPRICEAPI_COM_DATA_PROVIDER_URL",
+          "DXFEED_DATA_PROVIDER_URL"
+        ]
+      },
+      "RPC_URL": {
+        "required": false
+      }
+    }
+  },
+  "components": {},
+  "tags": []
+}
