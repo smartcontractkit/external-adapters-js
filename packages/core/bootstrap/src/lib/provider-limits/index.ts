@@ -42,11 +42,7 @@ export const getRateLimit = (
   if (!providerLimit) {
     logger.info(`Rate Limit: Provider: "${provider}" and Tier: "${tier}" doesn't match any provider spec in limits.json`)
   }
-  const rateLimit = calculateRateLimit(providerLimit as HTTPTier)
-  return {
-    second: rateLimit.second,
-    minute: rateLimit.minute
-  }
+  return calculateRateLimit(providerLimit as HTTPTier)
 }
 
 export const getWSLimits = (
@@ -63,7 +59,7 @@ export const getWSLimits = (
 const getProviderLimits = (provider: string, tier: string, protocol: string): HTTPTier | WSTier | undefined => {
   const parsedLimits = parseLimits(limits)
   const providerLimit = parsedLimits[provider.toLowerCase()]
-  return protocol === 'http' ? providerLimit?.http[tier.toLowerCase()] :  providerLimit?.ws[tier.toLowerCase()]
+  return protocol === 'http' ? providerLimit?.http[tier.toLowerCase()] : providerLimit?.ws[tier.toLowerCase()]
 }
 
 const parseLimits = (limits: any): Limits => {
@@ -97,14 +93,8 @@ const calculateRateLimit = (providerLimit?: HTTPTier): ProviderRateLimit => {
   } else if (providerLimit?.rateLimit1s) {
     quota = providerLimit?.rateLimit1s * 60
   }
-
-  let burst = (quota / 60) * BURST_UNDEFINED_QUOTA_MULTIPLE
-  if (providerLimit?.rateLimit1s) {
-    burst = providerLimit?.rateLimit1s
-  }
-
   return {
-    second: burst,
+    second: providerLimit?.rateLimit1s || (quota / 60) * BURST_UNDEFINED_QUOTA_MULTIPLE,
     minute: quota
   }
 }
