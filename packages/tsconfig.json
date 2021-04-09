@@ -105,6 +105,9 @@
       "path": "./sources/blockcypher"
     },
     {
+      "path": "./sources/blockstream"
+    },
+    {
       "path": "./sources/bravenewcoin"
     },
     {

@@ -163,6 +163,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/blockcypher"
       },
       {
+        "name": "@chainlink/blockstream-adapter",
+        "reference": "workspace:packages/sources/blockstream"
+      },
+      {
         "name": "@chainlink/bravenewcoin-adapter",
         "reference": "workspace:packages/sources/bravenewcoin"
       },
@@ -454,6 +458,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/blockchain.com-adapter", ["workspace:packages/sources/blockchain.com"]],
       ["@chainlink/blockchair-adapter", ["workspace:packages/sources/blockchair"]],
       ["@chainlink/blockcypher-adapter", ["workspace:packages/sources/blockcypher"]],
+      ["@chainlink/blockstream-adapter", ["workspace:packages/sources/blockstream"]],
       ["@chainlink/bravenewcoin-adapter", ["workspace:packages/sources/bravenewcoin"]],
       ["@chainlink/btc.com-adapter", ["workspace:packages/sources/btc.com"]],
       ["@chainlink/cfbenchmarks-adapter", ["workspace:packages/sources/cfbenchmarks"]],
@@ -2971,6 +2976,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:14.14.37"],
             ["blockcypher", "npm:0.3.0"],
             ["object-path", "npm:0.11.5"],
+            ["tslib", "npm:2.2.0"],
+            ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/blockstream-adapter", [
+        ["workspace:packages/sources/blockstream", {
+          "packageLocation": "./packages/sources/blockstream/",
+          "packageDependencies": [
+            ["@chainlink/blockstream-adapter", "workspace:packages/sources/blockstream"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:26.0.22"],
+            ["@types/node", "npm:14.14.37"],
             ["tslib", "npm:2.2.0"],
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
           ],
