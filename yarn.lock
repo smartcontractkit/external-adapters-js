@@ -4575,6 +4575,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   version: 0.0.0-use.local
   resolution: "@chainlink/ea-scripts@workspace:packages/scripts"
   dependencies:
+    "@types/jest": ^26.0.22
     "@types/shelljs": ^0
     "@types/swagger-jsdoc": ^6
     "@types/yaml": ^1

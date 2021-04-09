@@ -1,0 +1,2297 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`docker compose file generation image name generation should generate aws ecr dockerfile images 1`] = `
+Object {
+  "services": Object {
+    "1forge-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/1forge",
+          "package": "@chainlink/1forge-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/1forge-adapter:develop-0.0.3",
+    },
+    "agoric-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/agoric",
+          "package": "@chainlink/agoric-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/agoric-adapter:develop-0.0.1",
+    },
+    "alphachain-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/alphachain",
+          "package": "@chainlink/alphachain-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/alphachain-adapter:develop-0.0.3",
+    },
+    "alphavantage-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/alphavantage",
+          "package": "@chainlink/alphavantage-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/alphavantage-adapter:develop-0.0.3",
+    },
+    "amberdata-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/amberdata",
+          "package": "@chainlink/amberdata-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/amberdata-adapter:develop-0.0.3",
+    },
+    "amberdata-gasprice-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/amberdata-gasprice",
+          "package": "@chainlink/amberdata-gasprice-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/amberdata-gasprice-adapter:develop-0.0.3",
+    },
+    "anyblock-gasprice-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/anyblock-gasprice",
+          "package": "@chainlink/anyblock-gasprice-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/anyblock-gasprice-adapter:develop-0.0.3",
+    },
+    "anyblock-uniswap-vwap-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/anyblock-uniswap-vwap",
+          "package": "@chainlink/anyblock-uniswap-vwap-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/anyblock-uniswap-vwap-adapter:develop-0.0.3",
+    },
+    "apy-finance-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/composites/apy-finance",
+          "package": "@chainlink/apy-finance-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/apy-finance-adapter:develop-0.0.2",
+    },
+    "binance-dex-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/binance-dex",
+          "package": "@chainlink/binance-dex-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/binance-dex-adapter:develop-0.0.3",
+    },
+    "bitcoin-json-rpc-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/composites/bitcoin-json-rpc",
+          "package": "@chainlink/bitcoin-json-rpc-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/bitcoin-json-rpc-adapter:develop-0.0.1",
+    },
+    "bitex-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/bitex",
+          "package": "@chainlink/bitex-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/bitex-adapter:develop-0.0.3",
+    },
+    "bitso-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/bitso",
+          "package": "@chainlink/bitso-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/bitso-adapter:develop-0.0.3",
+    },
+    "blockchain.com-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/blockchain.com",
+          "package": "@chainlink/blockchain.com-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/blockchain.com-adapter:develop-0.0.3",
+    },
+    "blockchair-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/blockchair",
+          "package": "@chainlink/blockchair-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/blockchair-adapter:develop-0.0.3",
+    },
+    "blockcypher-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/blockcypher",
+          "package": "@chainlink/blockcypher-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/blockcypher-adapter:develop-0.0.3",
+    },
+    "bravenewcoin-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/bravenewcoin",
+          "package": "@chainlink/bravenewcoin-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/bravenewcoin-adapter:develop-0.0.3",
+    },
+    "btc.com-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/btc.com",
+          "package": "@chainlink/btc.com-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/btc.com-adapter:develop-0.0.1",
+    },
+    "cfbenchmarks-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/cfbenchmarks",
+          "package": "@chainlink/cfbenchmarks-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/cfbenchmarks-adapter:develop-0.0.1",
+    },
+    "coinapi-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/coinapi",
+          "package": "@chainlink/coinapi-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/coinapi-adapter:develop-0.0.3",
+    },
+    "coinbase-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/coinbase",
+          "package": "@chainlink/coinbase-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/coinbase-adapter:develop-0.0.3",
+    },
+    "coincodex-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/coincodex",
+          "package": "@chainlink/coincodex-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/coincodex-adapter:develop-0.0.3",
+    },
+    "coingecko-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/coingecko",
+          "package": "@chainlink/coingecko-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/coingecko-adapter:develop-0.0.3",
+    },
+    "coinlore-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/coinlore",
+          "package": "@chainlink/coinlore-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/coinlore-adapter:develop-0.0.3",
+    },
+    "coinmarketcap-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/coinmarketcap",
+          "package": "@chainlink/coinmarketcap-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/coinmarketcap-adapter:develop-0.0.4",
+    },
+    "coinpaprika-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/coinpaprika",
+          "package": "@chainlink/coinpaprika-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/coinpaprika-adapter:develop-0.0.2",
+    },
+    "coinranking-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/coinranking",
+          "package": "@chainlink/coinranking-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/coinranking-adapter:develop-0.0.3",
+    },
+    "conflux-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/targets/conflux",
+          "package": "@chainlink/conflux-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/conflux-adapter:develop-0.0.2",
+    },
+    "covid-tracker-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/covid-tracker",
+          "package": "@chainlink/covid-tracker-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/covid-tracker-adapter:develop-0.0.3",
+    },
+    "crypto-volatility-index-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/composites/crypto-volatility-index",
+          "package": "@chainlink/crypto-volatility-index-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/crypto-volatility-index-adapter:develop-0.0.1",
+    },
+    "cryptoapis-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/cryptoapis",
+          "package": "@chainlink/cryptoapis-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/cryptoapis-adapter:develop-0.0.3",
+    },
+    "cryptocompare-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/cryptocompare",
+          "package": "@chainlink/cryptocompare-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/cryptocompare-adapter:develop-0.0.3",
+    },
+    "cryptoid-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/cryptoid",
+          "package": "@chainlink/cryptoid-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/cryptoid-adapter:develop-0.0.3",
+    },
+    "cryptomkt-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/cryptomkt",
+          "package": "@chainlink/cryptomkt-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/cryptomkt-adapter:develop-0.0.3",
+    },
+    "currencylayer-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/currencylayer",
+          "package": "@chainlink/currencylayer-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/currencylayer-adapter:develop-0.0.3",
+    },
+    "defi-pulse-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/composites/defi-pulse",
+          "package": "@chainlink/defi-pulse-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/defi-pulse-adapter:develop-0.0.3",
+    },
+    "deribit-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/deribit",
+          "package": "@chainlink/deribit-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/deribit-adapter:develop-0.0.1",
+    },
+    "dns-query-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/dns-query",
+          "package": "@chainlink/dns-query-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/dns-query-adapter:develop-0.0.1",
+    },
+    "dns-record-check-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/composites/dns-record-check",
+          "package": "@chainlink/dns-record-check-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/dns-record-check-adapter:develop-0.0.1",
+    },
+    "dwolla-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/dwolla",
+          "package": "@chainlink/dwolla-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/dwolla-adapter:develop-0.0.1",
+    },
+    "dxfeed-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/dxfeed",
+          "package": "@chainlink/dxfeed-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/dxfeed-adapter:develop-0.0.3",
+    },
+    "dxfeed-secondary-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/dxfeed-secondary",
+          "package": "@chainlink/dxfeed-secondary-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/dxfeed-secondary-adapter:develop-0.0.1",
+    },
+    "dydx-stark-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/targets/dydx-stark",
+          "package": "@chainlink/dydx-stark-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/dydx-stark-adapter:develop-0.0.1",
+    },
+    "eodhistoricaldata-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/eodhistoricaldata",
+          "package": "@chainlink/eodhistoricaldata-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/eodhistoricaldata-adapter:develop-0.0.3",
+    },
+    "etherchain-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/etherchain",
+          "package": "@chainlink/etherchain-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/etherchain-adapter:develop-0.0.3",
+    },
+    "ethgasstation-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/ethgasstation",
+          "package": "@chainlink/ethgasstation-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/ethgasstation-adapter:develop-0.0.3",
+    },
+    "ethwrite-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/targets/ethwrite",
+          "package": "@chainlink/ethwrite-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/ethwrite-adapter:develop-0.0.2",
+    },
+    "example-composite-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/examples/composite",
+          "package": "@chainlink/example-composite-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/example-composite-adapter:develop-0.0.1",
+    },
+    "example-source-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/examples/source",
+          "package": "@chainlink/example-source-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/example-source-adapter:develop-0.0.1",
+    },
+    "fcsapi-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/fcsapi",
+          "package": "@chainlink/fcsapi-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/fcsapi-adapter:develop-0.0.3",
+    },
+    "finage-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/finage",
+          "package": "@chainlink/finage-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/finage-adapter:develop-0.0.3",
+    },
+    "finnhub-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/finnhub",
+          "package": "@chainlink/finnhub-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/finnhub-adapter:develop-0.0.3",
+    },
+    "fixer-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/fixer",
+          "package": "@chainlink/fixer-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/fixer-adapter:develop-0.0.3",
+    },
+    "fmpcloud-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/fmpcloud",
+          "package": "@chainlink/fmpcloud-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/fmpcloud-adapter:develop-0.0.3",
+    },
+    "genesis-volatility-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/genesis-volatility",
+          "package": "@chainlink/genesis-volatility-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/genesis-volatility-adapter:develop-0.0.3",
+    },
+    "geodb-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/geodb",
+          "package": "@chainlink/geodb-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/geodb-adapter:develop-0.0.1",
+    },
+    "harmony-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/harmony",
+          "package": "@chainlink/harmony-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/harmony-adapter:develop-0.0.1",
+    },
+    "iex-cloud-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/iex-cloud",
+          "package": "@chainlink/iex-cloud-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/iex-cloud-adapter:develop-0.0.1",
+    },
+    "json-rpc-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/json-rpc",
+          "package": "@chainlink/json-rpc-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/json-rpc-adapter:develop-0.0.3",
+    },
+    "kaiko-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/kaiko",
+          "package": "@chainlink/kaiko-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/kaiko-adapter:develop-0.0.3",
+    },
+    "lcx-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/lcx",
+          "package": "@chainlink/lcx-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/lcx-adapter:develop-0.0.3",
+    },
+    "linkpool-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/linkpool",
+          "package": "@chainlink/linkpool-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/linkpool-adapter:develop-0.0.3",
+    },
+    "lition-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/lition",
+          "package": "@chainlink/lition-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/lition-adapter:develop-0.0.3",
+    },
+    "market-closure-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/composites/market-closure",
+          "package": "@chainlink/market-closure-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/market-closure-adapter:develop-0.0.3",
+    },
+    "marketstack-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/marketstack",
+          "package": "@chainlink/marketstack-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/marketstack-adapter:develop-0.0.3",
+    },
+    "messari-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/messari",
+          "package": "@chainlink/messari-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/messari-adapter:develop-0.0.3",
+    },
+    "metalsapi-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/metalsapi",
+          "package": "@chainlink/metalsapi-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/metalsapi-adapter:develop-0.0.3",
+    },
+    "nikkei-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/nikkei",
+          "package": "@chainlink/nikkei-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/nikkei-adapter:develop-0.0.3",
+    },
+    "nomics-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/nomics",
+          "package": "@chainlink/nomics-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/nomics-adapter:develop-0.0.3",
+    },
+    "oilpriceapi-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/oilpriceapi",
+          "package": "@chainlink/oilpriceapi-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/oilpriceapi-adapter:develop-0.0.3",
+    },
+    "onchain-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/onchain",
+          "package": "@chainlink/onchain-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/onchain-adapter:develop-0.0.3",
+    },
+    "openexchangerates-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/openexchangerates",
+          "package": "@chainlink/openexchangerates-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/openexchangerates-adapter:develop-0.0.3",
+    },
+    "orchid-bandwidth-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/orchid-bandwidth",
+          "package": "@chainlink/orchid-bandwidth-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/orchid-bandwidth-adapter:develop-0.0.3",
+    },
+    "outlier-detection-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/composites/outlier-detection",
+          "package": "@chainlink/outlier-detection-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/outlier-detection-adapter:develop-0.0.1",
+    },
+    "paxos-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/paxos",
+          "package": "@chainlink/paxos-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/paxos-adapter:develop-0.0.1",
+    },
+    "paypal-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/paypal",
+          "package": "@chainlink/paypal-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/paypal-adapter:develop-0.0.1",
+    },
+    "poa-gasprice-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/poa-gasprice",
+          "package": "@chainlink/poa-gasprice-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/poa-gasprice-adapter:develop-0.0.3",
+    },
+    "polygon-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/polygon",
+          "package": "@chainlink/polygon-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/polygon-adapter:develop-0.0.3",
+    },
+    "proof-of-reserves-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/composites/proof-of-reserves",
+          "package": "@chainlink/proof-of-reserves-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/proof-of-reserves-adapter:develop-0.0.3",
+    },
+    "reduce-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/reduce",
+          "package": "@chainlink/reduce-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/reduce-adapter:develop-0.0.3",
+    },
+    "reference-transform-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/composites/reference-transform",
+          "package": "@chainlink/reference-transform-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/reference-transform-adapter:develop-0.0.1",
+    },
+    "renvm-address-set-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/renvm-address-set",
+          "package": "@chainlink/renvm-address-set-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/renvm-address-set-adapter:develop-0.0.3",
+    },
+    "satoshitango-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/satoshitango",
+          "package": "@chainlink/satoshitango-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/satoshitango-adapter:develop-0.0.3",
+    },
+    "sochain-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/sochain",
+          "package": "@chainlink/sochain-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/sochain-adapter:develop-0.0.1",
+    },
+    "stasis-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/stasis",
+          "package": "@chainlink/stasis-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/stasis-adapter:develop-0.0.3",
+    },
+    "synth-index-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/composites/synth-index",
+          "package": "@chainlink/synth-index-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/synth-index-adapter:develop-0.0.1",
+    },
+    "taapi-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/taapi",
+          "package": "@chainlink/taapi-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/taapi-adapter:develop-0.0.3",
+    },
+    "therundown-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/therundown",
+          "package": "@chainlink/therundown-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/therundown-adapter:develop-0.0.1",
+    },
+    "tiingo-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/tiingo",
+          "package": "@chainlink/tiingo-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/tiingo-adapter:develop-0.0.1",
+    },
+    "token-allocation-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/composites/token-allocation",
+          "package": "@chainlink/token-allocation-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/token-allocation-adapter:develop-0.0.1",
+    },
+    "tradermade-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/tradermade",
+          "package": "@chainlink/tradermade-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/tradermade-adapter:develop-0.0.4",
+    },
+    "tradingeconomics-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/tradingeconomics",
+          "package": "@chainlink/tradingeconomics-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/tradingeconomics-adapter:develop-0.0.4",
+    },
+    "trueusd-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/trueusd",
+          "package": "@chainlink/trueusd-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/trueusd-adapter:develop-0.0.3",
+    },
+    "wbtc-address-set-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/wbtc-address-set",
+          "package": "@chainlink/wbtc-address-set-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/wbtc-address-set-adapter:develop-0.0.3",
+    },
+    "xbto-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/xbto",
+          "package": "@chainlink/xbto-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "public.ecr.aws/chainlink-staging/adapters/xbto-adapter:develop-0.0.3",
+    },
+  },
+  "version": "3.9",
+}
+`;
+
+exports[`docker compose file generation image name generation should generate base dockerfile images 1`] = `
+Object {
+  "services": Object {
+    "1forge-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/1forge",
+          "package": "@chainlink/1forge-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "1forge-adapter:latest-0.0.3",
+    },
+    "agoric-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/agoric",
+          "package": "@chainlink/agoric-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "agoric-adapter:latest-0.0.1",
+    },
+    "alphachain-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/alphachain",
+          "package": "@chainlink/alphachain-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "alphachain-adapter:latest-0.0.3",
+    },
+    "alphavantage-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/alphavantage",
+          "package": "@chainlink/alphavantage-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "alphavantage-adapter:latest-0.0.3",
+    },
+    "amberdata-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/amberdata",
+          "package": "@chainlink/amberdata-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "amberdata-adapter:latest-0.0.3",
+    },
+    "amberdata-gasprice-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/amberdata-gasprice",
+          "package": "@chainlink/amberdata-gasprice-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "amberdata-gasprice-adapter:latest-0.0.3",
+    },
+    "anyblock-gasprice-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/anyblock-gasprice",
+          "package": "@chainlink/anyblock-gasprice-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "anyblock-gasprice-adapter:latest-0.0.3",
+    },
+    "anyblock-uniswap-vwap-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/anyblock-uniswap-vwap",
+          "package": "@chainlink/anyblock-uniswap-vwap-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "anyblock-uniswap-vwap-adapter:latest-0.0.3",
+    },
+    "apy-finance-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/composites/apy-finance",
+          "package": "@chainlink/apy-finance-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "apy-finance-adapter:latest-0.0.2",
+    },
+    "binance-dex-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/binance-dex",
+          "package": "@chainlink/binance-dex-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "binance-dex-adapter:latest-0.0.3",
+    },
+    "bitcoin-json-rpc-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/composites/bitcoin-json-rpc",
+          "package": "@chainlink/bitcoin-json-rpc-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "bitcoin-json-rpc-adapter:latest-0.0.1",
+    },
+    "bitex-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/bitex",
+          "package": "@chainlink/bitex-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "bitex-adapter:latest-0.0.3",
+    },
+    "bitso-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/bitso",
+          "package": "@chainlink/bitso-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "bitso-adapter:latest-0.0.3",
+    },
+    "blockchain.com-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/blockchain.com",
+          "package": "@chainlink/blockchain.com-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "blockchain.com-adapter:latest-0.0.3",
+    },
+    "blockchair-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/blockchair",
+          "package": "@chainlink/blockchair-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "blockchair-adapter:latest-0.0.3",
+    },
+    "blockcypher-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/blockcypher",
+          "package": "@chainlink/blockcypher-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "blockcypher-adapter:latest-0.0.3",
+    },
+    "bravenewcoin-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/bravenewcoin",
+          "package": "@chainlink/bravenewcoin-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "bravenewcoin-adapter:latest-0.0.3",
+    },
+    "btc.com-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/btc.com",
+          "package": "@chainlink/btc.com-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "btc.com-adapter:latest-0.0.1",
+    },
+    "cfbenchmarks-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/cfbenchmarks",
+          "package": "@chainlink/cfbenchmarks-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "cfbenchmarks-adapter:latest-0.0.1",
+    },
+    "coinapi-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/coinapi",
+          "package": "@chainlink/coinapi-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "coinapi-adapter:latest-0.0.3",
+    },
+    "coinbase-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/coinbase",
+          "package": "@chainlink/coinbase-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "coinbase-adapter:latest-0.0.3",
+    },
+    "coincodex-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/coincodex",
+          "package": "@chainlink/coincodex-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "coincodex-adapter:latest-0.0.3",
+    },
+    "coingecko-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/coingecko",
+          "package": "@chainlink/coingecko-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "coingecko-adapter:latest-0.0.3",
+    },
+    "coinlore-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/coinlore",
+          "package": "@chainlink/coinlore-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "coinlore-adapter:latest-0.0.3",
+    },
+    "coinmarketcap-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/coinmarketcap",
+          "package": "@chainlink/coinmarketcap-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "coinmarketcap-adapter:latest-0.0.4",
+    },
+    "coinpaprika-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/coinpaprika",
+          "package": "@chainlink/coinpaprika-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "coinpaprika-adapter:latest-0.0.2",
+    },
+    "coinranking-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/coinranking",
+          "package": "@chainlink/coinranking-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "coinranking-adapter:latest-0.0.3",
+    },
+    "conflux-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/targets/conflux",
+          "package": "@chainlink/conflux-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "conflux-adapter:latest-0.0.2",
+    },
+    "covid-tracker-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/covid-tracker",
+          "package": "@chainlink/covid-tracker-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "covid-tracker-adapter:latest-0.0.3",
+    },
+    "crypto-volatility-index-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/composites/crypto-volatility-index",
+          "package": "@chainlink/crypto-volatility-index-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "crypto-volatility-index-adapter:latest-0.0.1",
+    },
+    "cryptoapis-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/cryptoapis",
+          "package": "@chainlink/cryptoapis-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "cryptoapis-adapter:latest-0.0.3",
+    },
+    "cryptocompare-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/cryptocompare",
+          "package": "@chainlink/cryptocompare-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "cryptocompare-adapter:latest-0.0.3",
+    },
+    "cryptoid-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/cryptoid",
+          "package": "@chainlink/cryptoid-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "cryptoid-adapter:latest-0.0.3",
+    },
+    "cryptomkt-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/cryptomkt",
+          "package": "@chainlink/cryptomkt-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "cryptomkt-adapter:latest-0.0.3",
+    },
+    "currencylayer-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/currencylayer",
+          "package": "@chainlink/currencylayer-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "currencylayer-adapter:latest-0.0.3",
+    },
+    "defi-pulse-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/composites/defi-pulse",
+          "package": "@chainlink/defi-pulse-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "defi-pulse-adapter:latest-0.0.3",
+    },
+    "deribit-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/deribit",
+          "package": "@chainlink/deribit-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "deribit-adapter:latest-0.0.1",
+    },
+    "dns-query-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/dns-query",
+          "package": "@chainlink/dns-query-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "dns-query-adapter:latest-0.0.1",
+    },
+    "dns-record-check-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/composites/dns-record-check",
+          "package": "@chainlink/dns-record-check-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "dns-record-check-adapter:latest-0.0.1",
+    },
+    "dwolla-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/dwolla",
+          "package": "@chainlink/dwolla-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "dwolla-adapter:latest-0.0.1",
+    },
+    "dxfeed-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/dxfeed",
+          "package": "@chainlink/dxfeed-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "dxfeed-adapter:latest-0.0.3",
+    },
+    "dxfeed-secondary-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/dxfeed-secondary",
+          "package": "@chainlink/dxfeed-secondary-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "dxfeed-secondary-adapter:latest-0.0.1",
+    },
+    "dydx-stark-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/targets/dydx-stark",
+          "package": "@chainlink/dydx-stark-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "dydx-stark-adapter:latest-0.0.1",
+    },
+    "eodhistoricaldata-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/eodhistoricaldata",
+          "package": "@chainlink/eodhistoricaldata-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "eodhistoricaldata-adapter:latest-0.0.3",
+    },
+    "etherchain-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/etherchain",
+          "package": "@chainlink/etherchain-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "etherchain-adapter:latest-0.0.3",
+    },
+    "ethgasstation-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/ethgasstation",
+          "package": "@chainlink/ethgasstation-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "ethgasstation-adapter:latest-0.0.3",
+    },
+    "ethwrite-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/targets/ethwrite",
+          "package": "@chainlink/ethwrite-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "ethwrite-adapter:latest-0.0.2",
+    },
+    "example-composite-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/examples/composite",
+          "package": "@chainlink/example-composite-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "example-composite-adapter:latest-0.0.1",
+    },
+    "example-source-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/examples/source",
+          "package": "@chainlink/example-source-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "example-source-adapter:latest-0.0.1",
+    },
+    "fcsapi-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/fcsapi",
+          "package": "@chainlink/fcsapi-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "fcsapi-adapter:latest-0.0.3",
+    },
+    "finage-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/finage",
+          "package": "@chainlink/finage-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "finage-adapter:latest-0.0.3",
+    },
+    "finnhub-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/finnhub",
+          "package": "@chainlink/finnhub-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "finnhub-adapter:latest-0.0.3",
+    },
+    "fixer-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/fixer",
+          "package": "@chainlink/fixer-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "fixer-adapter:latest-0.0.3",
+    },
+    "fmpcloud-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/fmpcloud",
+          "package": "@chainlink/fmpcloud-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "fmpcloud-adapter:latest-0.0.3",
+    },
+    "genesis-volatility-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/genesis-volatility",
+          "package": "@chainlink/genesis-volatility-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "genesis-volatility-adapter:latest-0.0.3",
+    },
+    "geodb-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/geodb",
+          "package": "@chainlink/geodb-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "geodb-adapter:latest-0.0.1",
+    },
+    "harmony-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/harmony",
+          "package": "@chainlink/harmony-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "harmony-adapter:latest-0.0.1",
+    },
+    "iex-cloud-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/iex-cloud",
+          "package": "@chainlink/iex-cloud-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "iex-cloud-adapter:latest-0.0.1",
+    },
+    "json-rpc-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/json-rpc",
+          "package": "@chainlink/json-rpc-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "json-rpc-adapter:latest-0.0.3",
+    },
+    "kaiko-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/kaiko",
+          "package": "@chainlink/kaiko-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "kaiko-adapter:latest-0.0.3",
+    },
+    "lcx-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/lcx",
+          "package": "@chainlink/lcx-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "lcx-adapter:latest-0.0.3",
+    },
+    "linkpool-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/linkpool",
+          "package": "@chainlink/linkpool-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "linkpool-adapter:latest-0.0.3",
+    },
+    "lition-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/lition",
+          "package": "@chainlink/lition-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "lition-adapter:latest-0.0.3",
+    },
+    "market-closure-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/composites/market-closure",
+          "package": "@chainlink/market-closure-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "market-closure-adapter:latest-0.0.3",
+    },
+    "marketstack-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/marketstack",
+          "package": "@chainlink/marketstack-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "marketstack-adapter:latest-0.0.3",
+    },
+    "messari-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/messari",
+          "package": "@chainlink/messari-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "messari-adapter:latest-0.0.3",
+    },
+    "metalsapi-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/metalsapi",
+          "package": "@chainlink/metalsapi-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "metalsapi-adapter:latest-0.0.3",
+    },
+    "nikkei-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/nikkei",
+          "package": "@chainlink/nikkei-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "nikkei-adapter:latest-0.0.3",
+    },
+    "nomics-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/nomics",
+          "package": "@chainlink/nomics-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "nomics-adapter:latest-0.0.3",
+    },
+    "oilpriceapi-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/oilpriceapi",
+          "package": "@chainlink/oilpriceapi-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "oilpriceapi-adapter:latest-0.0.3",
+    },
+    "onchain-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/onchain",
+          "package": "@chainlink/onchain-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "onchain-adapter:latest-0.0.3",
+    },
+    "openexchangerates-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/openexchangerates",
+          "package": "@chainlink/openexchangerates-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "openexchangerates-adapter:latest-0.0.3",
+    },
+    "orchid-bandwidth-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/orchid-bandwidth",
+          "package": "@chainlink/orchid-bandwidth-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "orchid-bandwidth-adapter:latest-0.0.3",
+    },
+    "outlier-detection-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/composites/outlier-detection",
+          "package": "@chainlink/outlier-detection-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "outlier-detection-adapter:latest-0.0.1",
+    },
+    "paxos-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/paxos",
+          "package": "@chainlink/paxos-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "paxos-adapter:latest-0.0.1",
+    },
+    "paypal-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/paypal",
+          "package": "@chainlink/paypal-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "paypal-adapter:latest-0.0.1",
+    },
+    "poa-gasprice-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/poa-gasprice",
+          "package": "@chainlink/poa-gasprice-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "poa-gasprice-adapter:latest-0.0.3",
+    },
+    "polygon-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/polygon",
+          "package": "@chainlink/polygon-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "polygon-adapter:latest-0.0.3",
+    },
+    "proof-of-reserves-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/composites/proof-of-reserves",
+          "package": "@chainlink/proof-of-reserves-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "proof-of-reserves-adapter:latest-0.0.3",
+    },
+    "reduce-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/reduce",
+          "package": "@chainlink/reduce-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "reduce-adapter:latest-0.0.3",
+    },
+    "reference-transform-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/composites/reference-transform",
+          "package": "@chainlink/reference-transform-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "reference-transform-adapter:latest-0.0.1",
+    },
+    "renvm-address-set-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/renvm-address-set",
+          "package": "@chainlink/renvm-address-set-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "renvm-address-set-adapter:latest-0.0.3",
+    },
+    "satoshitango-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/satoshitango",
+          "package": "@chainlink/satoshitango-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "satoshitango-adapter:latest-0.0.3",
+    },
+    "sochain-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/sochain",
+          "package": "@chainlink/sochain-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "sochain-adapter:latest-0.0.1",
+    },
+    "stasis-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/stasis",
+          "package": "@chainlink/stasis-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "stasis-adapter:latest-0.0.3",
+    },
+    "synth-index-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/composites/synth-index",
+          "package": "@chainlink/synth-index-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "synth-index-adapter:latest-0.0.1",
+    },
+    "taapi-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/taapi",
+          "package": "@chainlink/taapi-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "taapi-adapter:latest-0.0.3",
+    },
+    "therundown-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/therundown",
+          "package": "@chainlink/therundown-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "therundown-adapter:latest-0.0.1",
+    },
+    "tiingo-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/tiingo",
+          "package": "@chainlink/tiingo-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "tiingo-adapter:latest-0.0.1",
+    },
+    "token-allocation-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/composites/token-allocation",
+          "package": "@chainlink/token-allocation-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "token-allocation-adapter:latest-0.0.1",
+    },
+    "tradermade-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/tradermade",
+          "package": "@chainlink/tradermade-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "tradermade-adapter:latest-0.0.4",
+    },
+    "tradingeconomics-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/tradingeconomics",
+          "package": "@chainlink/tradingeconomics-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "tradingeconomics-adapter:latest-0.0.4",
+    },
+    "trueusd-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/trueusd",
+          "package": "@chainlink/trueusd-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "trueusd-adapter:latest-0.0.3",
+    },
+    "wbtc-address-set-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/wbtc-address-set",
+          "package": "@chainlink/wbtc-address-set-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "wbtc-address-set-adapter:latest-0.0.3",
+    },
+    "xbto-adapter": Object {
+      "build": Object {
+        "args": Object {
+          "location": "packages/sources/xbto",
+          "package": "@chainlink/xbto-adapter",
+        },
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+      },
+      "environment": Array [],
+      "image": "xbto-adapter:latest-0.0.3",
+    },
+  },
+  "version": "3.9",
+}
+`;
