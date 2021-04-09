@@ -1,0 +1,25 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "@chainlink/synth-index-adapter",
+    "version": "0.0.1",
+    "license": {
+      "name": "MIT"
+    }
+  },
+  "paths": {},
+  "securityDefinitions": {
+    "environment-variables": {
+      "DEFAULT_NETWORK": {
+        "required": false,
+        "default": "mainnet"
+      },
+      "DEFAULT_QUOTE": {
+        "required": false,
+        "default": "USD"
+      }
+    }
+  },
+  "components": {},
+  "tags": []
+}

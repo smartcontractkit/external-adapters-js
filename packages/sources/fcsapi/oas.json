@@ -1,0 +1,20 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "@chainlink/fcsapi-adapter",
+    "version": "0.0.3",
+    "license": {
+      "name": "MIT"
+    }
+  },
+  "paths": {},
+  "securityDefinitions": {
+    "environment-variables": {
+      "API_KEY": {
+        "required": true
+      }
+    }
+  },
+  "components": {},
+  "tags": []
+}

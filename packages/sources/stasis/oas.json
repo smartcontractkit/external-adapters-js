@@ -1,0 +1,13 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "@chainlink/stasis-adapter",
+    "version": "0.0.3",
+    "license": {
+      "name": "MIT"
+    }
+  },
+  "paths": {},
+  "components": {},
+  "tags": []
+}
