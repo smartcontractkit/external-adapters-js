@@ -133,18 +133,17 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
             // Send to cache?
             const execute: Execute = () => { return Promise.resolve(wsHandler.toAdapterResponse(response)) }
             const cache = await withCache(execute)
-            // TODO: Set max age to override cache
-            // const input = {
-            //   ...action.payload.input,
-            //   data: {
-            //     ...action.payload.input.data,
-            //     maxAge: -1
-            //   },
-            //   debug: {
-            //     ws: true
-            //   }
-            // }
-            cache(action.payload.input)
+            const input = {
+              ...action.payload.input,
+              data: {
+                ...action.payload.input.data,
+                maxAge: -1
+              },
+              debug: {
+                ws: true
+              }
+            }
+            cache(input)
         }),
         filter(() => false),
         catchError((error) => {
