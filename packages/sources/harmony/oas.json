@@ -1,0 +1,32 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "@chainlink/harmony-adapter",
+    "version": "0.0.1",
+    "license": {
+      "name": "MIT"
+    }
+  },
+  "paths": {},
+  "securityDefinitions": {
+    "environment-variables": {
+      "API_ENDPOINT": {
+        "required": false,
+        "default": "https://api.s0.t.hmny.io"
+      },
+      "PRIVATE_KEY": {
+        "required": true
+      },
+      "CHAIN_ID": {
+        "required": false,
+        "default": 1
+      },
+      "GAS_LIMIT": {
+        "required": false,
+        "default": 6721900
+      }
+    }
+  },
+  "components": {},
+  "tags": []
+}
