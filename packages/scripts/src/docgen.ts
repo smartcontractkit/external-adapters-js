@@ -35,33 +35,32 @@ function generate_OAS(type: string, n: string) {
   // generate OAS spec using code comments (uses swagger-jsdoc)
   const oas_filepath = `${adapter_filepath}/oas.json`
   const apis = shell.ls(`${adapter_filepath}/src/**/*.ts`) //recursive filepath searching
-  const oas = swaggerJsdoc({ definition, apis })
+  const oas = swaggerJsdoc({ definition, apis, failOnErrors: true })
 
   // write spec to file
-  shell.ShellString(JSON.stringify(oas)).to(oas_filepath)
+  shell.ShellString(JSON.stringify(oas, null, 2)).to(oas_filepath)
 }
 
 const ADAPTER_TYPES = ['composite', 'source', 'target']
 ;(() => {
   if (process.argv.includes('--all')) {
-    console.log("Generating OAS.json for all EAs")
+    console.log('Generating OAS.json for all EAs')
 
     // run for each adapter type
     ADAPTER_TYPES.forEach(type => {
       // get EA name
       const out = shell.ls('-d', `packages/${type}s/*/`)
-      const n_list = out.map(n => n.split("/")[2]) // retrieve folder name from full path
+      const n_list = out.map(n => n.split('/')[2]) // retrieve folder name from full path
 
       // run for each adapter for each type
       n_list.forEach(n => {
         try {
           generate_OAS(type, n)
-        }
-        catch(e) {
-          logRed(`Failed to generate OAS.json for ${type}/${n}`)
+        } catch (e) {
+          logRed(`Failed to generate OAS.json for ${type}/${n}:\n${e}`)
         }
       })
-    });
+    })
     return
   }
 
