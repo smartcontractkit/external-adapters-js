@@ -1,31 +1,19 @@
 import * as fs from 'fs'
-import * as s from 'shelljs'
 import * as yaml from 'yaml'
+import { getWorkspacePackages, WorkspacePackages } from './workspace'
 
-interface WorkspacePackage {
-  location: string
-  name: string
+export function writeFile(): void {
+  fs.writeFileSync('docker-compose.generated.yaml', generateFile())
 }
-const VALID_ADAPTER_TYPES = ['composites', 'sources', 'examples', 'targets']
-const scope = '@chainlink/'
-const r = s
-  .exec('yarn workspaces list --json')
-  .split('\n')
-  .filter(Boolean)
-  .map((v) => JSON.parse(v))
-  .map(({ location, name }: WorkspacePackage) => {
-    const oas = s.cat(`${location}/oas.json`).toString()
-    const envVars =
-      oas && Object.keys(JSON.parse(oas)?.securityDefinitions?.['environment-variables'])
-    return {
-      location,
-      name,
-      descopedName: name.replace(scope, ''),
-      type: location.split('/')[1],
-      environment: envVars || [],
-    }
-  })
-  .filter((v) => VALID_ADAPTER_TYPES.includes(v.type))
+export function generateFile(): string {
+  const tag = process.env.TAG || 'latest'
+  const prefix = process.env.IMAGE_PREFIX || ''
+  return yaml.stringify(generateFileJSON({ prefix, tag }), { merge: true })
+}
+
+export function generateFileJSON(imageNameConfig: ImageNameConfig): Dockerfile {
+  return makeDockerComposeFile(getWorkspacePackages(), imageNameConfig)
+}
 
 interface Service {
   image: string
@@ -42,12 +30,20 @@ interface Dockerfile {
   services: Record<string, Service>
 }
 
-function makeDockerComposeFile(packages: typeof r): Dockerfile {
+export interface ImageNameConfig {
+  tag: string
+  prefix: string
+}
+
+function makeDockerComposeFile(
+  packages: WorkspacePackages,
+  imageNameConfig: ImageNameConfig,
+): Dockerfile {
   return {
     version: '3.9',
     services: packages.reduce<Record<string, Service>>((prev, next) => {
       prev[next.descopedName] = {
-        image: `${next.descopedName}${getTag()}`,
+        image: generateImageName(next.descopedName, next.version, imageNameConfig),
         build: {
           context: '.',
           dockerfile: './Dockerfile',
@@ -64,12 +60,10 @@ function makeDockerComposeFile(packages: typeof r): Dockerfile {
   }
 }
 
-function getTag() {
-  const tag = process.env.TAG || 'latest'
-  return `:${tag}`
+function generateImageName(
+  descopedName: string,
+  version: string,
+  { prefix, tag }: ImageNameConfig,
+) {
+  return `${prefix}${descopedName}:${tag}-${version}`
 }
-
-fs.writeFileSync(
-  'docker-compose.generated.yaml',
-  yaml.stringify(makeDockerComposeFile(r), { merge: true }),
-)

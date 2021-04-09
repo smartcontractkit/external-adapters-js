@@ -3,7 +3,9 @@ import { logRed } from './utils'
 
 const ADAPTER_TYPES = ['composites', 'sources', 'core', 'examples', 'targets']
 
-function main() {
+// yarn docker sources amberdata public.ecr.aws/${{ env.publicecr-name }}/adapters/
+// public.ecr.aws/chainlink-staging/adapters/@chainlink/1forge-adapter:
+export function generateDockerFile(): void {
   const type: string = process.argv[2]
   if (!type) return logRed('Missing first argument: type')
   if (!ADAPTER_TYPES.includes(type))
@@ -16,11 +18,9 @@ function main() {
   const tag: string = process.argv[5]
 
   const pkg = JSON.parse(shell.cat(`packages/${type}/${n}/package.json`)).name
+  const fullTag = `${repo}${n}-adapter`
+  const name = `${tag ? `-t ${repo}${pkg}${tag}` : ''}`
   shell.exec(
-    `docker build --build-arg location=packages/${type}/${n} --build-arg package=${pkg} -f Dockerfile . -t ${repo}${n}-adapter ${
-      tag ? `-t ${repo}${pkg}${tag}` : ''
-    }`,
+    `docker build --build-arg location=packages/${type}/${n} --build-arg package=${pkg} -f Dockerfile . -t ${fullTag} ${name} `,
   )
 }
-
-main()

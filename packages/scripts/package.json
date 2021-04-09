@@ -8,6 +8,7 @@
     "yaml": "^1.10.2"
   },
   "devDependencies": {
+    "@types/jest": "^26.0.22",
     "@types/shelljs": "^0",
     "@types/swagger-jsdoc": "^6",
     "@types/yaml": "^1",
