@@ -11,7 +11,8 @@ import {
   takeUntil,
   tap,
   withLatestFrom,
-  catchError
+  catchError,
+  skip
 } from 'rxjs/operators'
 import { webSocket } from 'rxjs/webSocket'
 import WebSocket from 'ws'
@@ -105,6 +106,8 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
               () => true,
             )
             .pipe(
+               // Ignore subscription confirmation message
+              skip(1),
               map((message) => messageReceived(_wsSubscriptionPayload(message))),
               takeUntil(
                 // unsubscribe or disconnected

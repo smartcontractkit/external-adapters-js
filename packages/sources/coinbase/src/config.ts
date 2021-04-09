@@ -1,4 +1,4 @@
-import { Requester, Validator, Logger } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config, WSSubscriptionHandler } from '@chainlink/types'
 import { customParams } from './endpoint/price'
 
@@ -11,6 +11,7 @@ import { customParams } from './endpoint/price'
 
 export const DEFAULT_ENDPOINT = 'price'
 export const DEFAULT_API_ENDPOINT = 'https://api.coinbase.com'
+export const DEFAULT_WS_API_ENDPOINT = 'wss://ws-feed.pro.coinbase.com'
 
 export const makeConfig = (prefix?: string): Config => {
   const config = Requester.getDefaultConfig(prefix)
@@ -21,7 +22,7 @@ export const makeConfig = (prefix?: string): Config => {
 export const makeWSHandler = (): WSSubscriptionHandler => {
   return {
     connection: {
-      url: 'wss://ws-feed.pro.coinbase.com', // TODO: Necessary?
+      url: DEFAULT_WS_API_ENDPOINT, // TODO: Necessary?
     },
     subscribe: (input) => {
       const validator = new Validator(input, customParams)
@@ -37,11 +38,6 @@ export const makeWSHandler = (): WSSubscriptionHandler => {
     parse: (wsResponse: any): number => {
       if (wsResponse.type === 'error') {
         throw new Error(wsResponse.message)
-      }
-      if (wsResponse.type === 'subscriptions') {
-        Logger.debug('Subscription confirmed')
-        // TODO: What to do here
-        return 0
       }
       const result = Requester.validateResultNumber(wsResponse, ['price'])
       return result

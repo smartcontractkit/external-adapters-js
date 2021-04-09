@@ -104,8 +104,8 @@ declare module '@chainlink/types' {
 
   export type WSSubscriptionHandler = {
     connection: {
-      url: string
-      protocol?: string
+      url: string | any
+      protocol?: any
     }
     subscribe: (input: AdapterRequest) => any
     parse: (any) => number | string
