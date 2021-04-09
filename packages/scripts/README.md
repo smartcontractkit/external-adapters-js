@@ -17,11 +17,11 @@ Script used to generate an OpenAPI Specification (OAS) from code comments for ea
 The following functions can be run from the root EA directory:
 
 ```bash
-# for generating a single OAS file: yarn docgen <adapter-type> <adapter-name>
-yarn docgen source coingecko
+# for generating a single OAS file: yarn generate:oas <adapter-type> <adapter-name>
+yarn generate:oas source coingecko
 
 # for generating OAS file for all EAs
-yarn docgen:all
+yarn generate:oas:all
 ```
 
 #### Code Comment Structure
@@ -50,6 +50,36 @@ Additional environment variables can be added similar to `API_KEY`. If no enviro
  * @swagger
  * securityDefinitions:
  *  environment-variables: {}
+ */
+```
+If an environment variable can be dynamically named, use parentheses to indicate. `{}` will throw an error.
+```
+/**
+ * @swagger
+ * securityDefinitions:
+ *  environment-variables:
+ *    (SOURCE)_DATA_PROVIDER_URL:
+ *      required: true
+ */
+```
+Additionally, `oneOf` can be used to indicate a list of environment variables where at least one must be present. The example below shows the EA requires a source adapter and requires one of `XBTO`, `GENESIS_VOLATILITY`, or `DXFEED` provider URLS to be present.
+```
+/**
+ * @swagger
+ * securityDefinitions:
+ *  environment-variables:
+ *    source-adapter:
+ *      oneOf:
+ *        - XBTO_DATA_PROVIDER_URL
+ *        - GENESIS_VOLATILITY_DATA_PROVIDER_URL
+ *        - DXFEED_DATA_PROVIDER_URL
+ *    check-adapter:
+ *      oneOf:
+ *        - DERIBIT_DATA_PROVIDER_URL
+ *        - OILPRICEAPI_COM_DATA_PROVIDER_URL
+ *        - DXFEED_DATA_PROVIDER_URL
+ *    RPC_URL:
+ *      required: false
  */
 ```
 
