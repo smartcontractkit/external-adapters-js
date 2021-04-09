@@ -3717,6 +3717,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/scripts/",
           "packageDependencies": [
             ["@chainlink/ea-scripts", "workspace:packages/scripts"],
+            ["@types/jest", "npm:26.0.22"],
             ["@types/shelljs", "npm:0.8.8"],
             ["@types/swagger-jsdoc", "npm:6.0.0"],
             ["@types/yaml", "npm:1.9.6"],
