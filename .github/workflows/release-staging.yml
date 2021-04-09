@@ -1,15 +1,35 @@
+name: Release Staging
+
 on:
   push:
     branches:
       - develop
-
-name: Release Staging
 
 env:
   cache-name: staging-ci
   publicecr-name: chainlink-staging
 
 jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Setup Node.js
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+      - name: Install dependencies
+        run: yarn
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npx semantic-release
+
   # Read build strategy matrix of adapters, from a json file
   matrix-adapters:
     runs-on: ubuntu-latest
