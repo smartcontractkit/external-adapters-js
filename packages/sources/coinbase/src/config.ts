@@ -1,5 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { logger } from '@chainlink/ea-bootstrap/src/lib/external-adapter'
+import { Requester, Validator, Logger } from '@chainlink/ea-bootstrap'
 import { Config, WSSubscriptionHandler } from '@chainlink/types'
 import { customParams } from './endpoint/price'
 
@@ -40,14 +39,16 @@ export const makeWSHandler = (): WSSubscriptionHandler => {
         throw new Error(wsResponse.message)
       }
       if (wsResponse.type === 'subscriptions') {
-        logger.debug('Subscription confirmed')
+        Logger.debug('Subscription confirmed')
         // TODO: What to do here
         return 0
       }
       const result = Requester.validateResultNumber(wsResponse, ['price'])
-      console.log('PRICE FROM WS:', result)
       return result
 
+    },
+    toAdapterResponse: (result: any) => {
+      return Requester.success('1', { data: { result } })
     }
   }
 }

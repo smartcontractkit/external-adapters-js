@@ -8,7 +8,7 @@ import * as metrics from './metrics'
 
 const DEFAULT_CACHE_TYPE = 'local'
 const DEFAULT_CACHE_KEY_GROUP = uuid()
-const DEFAULT_CACHE_KEY_IGNORED_PROPS = ['id', 'maxAge', 'meta', 'rateLimitMaxAge']
+const DEFAULT_CACHE_KEY_IGNORED_PROPS = ['id', 'maxAge', 'meta', 'rateLimitMaxAge', 'debug']
 // Request coalescing
 const DEFAULT_RC_INTERVAL = 100
 const DEFAULT_RC_INTERVAL_MAX = 1000

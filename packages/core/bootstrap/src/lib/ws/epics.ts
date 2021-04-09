@@ -1,3 +1,4 @@
+import { Execute } from '@chainlink/types'
 import { AnyAction } from 'redux'
 import { combineEpics, createEpicMiddleware, Epic } from 'redux-observable'
 import { merge, of, Subject } from 'rxjs'
@@ -14,6 +15,7 @@ import {
 } from 'rxjs/operators'
 import { webSocket } from 'rxjs/webSocket'
 import WebSocket from 'ws'
+import { withCache } from '../cache'
 import {
   connect,
   connected,
@@ -26,7 +28,6 @@ import {
   messageReceived,
   WSConfigPayload,
   WSSubscriptionPayload,
-  messageProcessed
 } from './actions'
 import {
   ws_connection_active,
@@ -90,6 +91,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
             connectionInfo: payload.connectionInfo,
             subscriptionInfo: payload.subscriptionInfo,
             message,
+            input: payload.input
           })
           // At first subscribe ws connection is established.
           // When there is no more subscribers to root Subject, socket connection closes.
@@ -126,12 +128,25 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
 
       const messages$ = action$.pipe(
         filter(messageReceived.match),
-        map((action) => {
-          const response = wsHandler.parse(action.payload.message)
-          console.log('Response coming from WS:', response)
-          action.payload.message = response
-          return messageProcessed(action.payload) // Can messageProcessed pipe it to the cache?
+        tap(async (action) => {
+            const response = wsHandler.parse(action.payload.message)
+            // Send to cache?
+            const execute: Execute = () => { return Promise.resolve(wsHandler.toAdapterResponse(response)) }
+            const cache = await withCache(execute)
+            // TODO: Set max age to override cache
+            // const input = {
+            //   ...action.payload.input,
+            //   data: {
+            //     ...action.payload.input.data,
+            //     maxAge: -1
+            //   },
+            //   debug: {
+            //     ws: true
+            //   }
+            // }
+            cache(action.payload.input)
         }),
+        filter(() => false),
         catchError((error) => {
           console.log('Error getting message:', error)
           // TODO: Send unsubscription

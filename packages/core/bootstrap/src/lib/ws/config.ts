@@ -1,4 +1,4 @@
-import { getEnv, getRequiredEnv, parseBool } from '../util'
+import { getEnv, parseBool } from '../util'
 import { WSConfig, WSConnectionInfo } from './types'
 
 const ENV_WS_ENABLED = 'EXPERIMENTAL_WS_ENABLED'
@@ -29,7 +29,7 @@ export const WS_ENABLED = parseBool(getEnv(ENV_WS_ENABLED))
 
 /** Load WSConnectionInfo from environment variables */
 export const envLoad_WSConnectionInfo = (prefix = ''): WSConnectionInfo => {
-  const url = getRequiredEnv(ENV_WS_CONNECTION_URL, prefix)
+  const url = getEnv(ENV_WS_CONNECTION_URL, prefix) || '' // TODO: Some adapters don't support WS
   const protocol = getEnv(ENV_WS_CONNECTION_PROTOCOL, prefix) // TODO: load array
   const key = getEnv(ENV_WS_CONNECTION_KEY, prefix) || url // TODO: generate key
   return { key, url, protocol }

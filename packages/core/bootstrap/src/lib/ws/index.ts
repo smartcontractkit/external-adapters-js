@@ -33,6 +33,7 @@ export const withWebSockets = (store: Store<RootState>) => (wsHandler?: WSSubscr
     connectionInfo,
     subscriptionInfo,
     message,
+    input,
   })
 
   store.dispatch(subscribe(_wsSubscriptionPayload(subscribeMsg)))

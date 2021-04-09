@@ -109,6 +109,7 @@ declare module '@chainlink/types' {
     }
     subscribe: (input: AdapterRequest) => any
     parse: (any) => number | string
+    toAdapterResponse: (any) => any
   }
 
 

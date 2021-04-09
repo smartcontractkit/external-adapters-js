@@ -1,4 +1,4 @@
-import { WSSubscriptionHandler } from '@chainlink/types'
+import { AdapterRequest, WSSubscriptionHandler } from '@chainlink/types'
 import { createAction } from '@reduxjs/toolkit'
 import { asAction } from '../store'
 import { WSConnectionInfo, WSConfig, WSSubscriptionInfo } from './types'
@@ -24,6 +24,7 @@ export interface WSSubscriptionPayload {
   connectionInfo: WSConnectionInfo
   subscriptionInfo: WSSubscriptionInfo
   message: unknown
+  input: AdapterRequest
 }
 
 export const subscribe = createAction('WS/SUBSCRIBE!', asAction<WSSubscriptionPayload>())
@@ -32,9 +33,5 @@ export const unsubscribe = createAction('WS/UNSUBSCRIBE!', asAction<WSSubscripti
 export const unsubscribed = createAction('WS/UNSUBSCRIBED', asAction<WSSubscriptionPayload>())
 export const messageReceived = createAction(
   'WS/MESSAGE_RECEIVED!',
-  asAction<WSSubscriptionPayload>(),
-)
-export const messageProcessed = createAction(
-  'WS/MESSAGE_PROCESSED',
   asAction<WSSubscriptionPayload>(),
 )
