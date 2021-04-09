@@ -1,0 +1,23 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "@chainlink/cfbenchmarks-adapter",
+    "version": "0.0.1",
+    "license": {
+      "name": "MIT"
+    }
+  },
+  "paths": {},
+  "securityDefinitions": {
+    "environment-variables": {
+      "API_USERNAME": {
+        "required": true
+      },
+      "API_PASSWORD": {
+        "required": true
+      }
+    }
+  },
+  "components": {},
+  "tags": []
+}

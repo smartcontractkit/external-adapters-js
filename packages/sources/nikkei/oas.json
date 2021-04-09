@@ -1,0 +1,21 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "@chainlink/nikkei-adapter",
+    "version": "0.0.3",
+    "license": {
+      "name": "MIT"
+    }
+  },
+  "paths": {},
+  "securityDefinitions": {
+    "environment-variables": {
+      "API_ENDPOINT": {
+        "required": false,
+        "default": "https://indexes.nikkei.co.jp/en/nkave/'"
+      }
+    }
+  },
+  "components": {},
+  "tags": []
+}
