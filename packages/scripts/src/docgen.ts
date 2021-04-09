@@ -41,19 +41,19 @@ function generate_OAS(type: string, n: string) {
   shell.ShellString(JSON.stringify(oas, null, 2)).to(oas_filepath)
 }
 
-const ADAPTER_TYPES = ['composite', 'source', 'target']
+const ADAPTER_TYPES = ['composite', 'source', 'target', 'example']
 ;(() => {
   if (process.argv.includes('--all')) {
     console.log('Generating OAS.json for all EAs')
 
     // run for each adapter type
-    ADAPTER_TYPES.forEach(type => {
+    ADAPTER_TYPES.forEach((type) => {
       // get EA name
       const out = shell.ls('-d', `packages/${type}s/*/`)
-      const n_list = out.map(n => n.split('/')[2]) // retrieve folder name from full path
+      const n_list = out.map((n) => n.split('/')[2]) // retrieve folder name from full path
 
       // run for each adapter for each type
-      n_list.forEach(n => {
+      n_list.forEach((n) => {
         try {
           generate_OAS(type, n)
         } catch (e) {
