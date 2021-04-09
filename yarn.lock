@@ -10387,31 +10387,30 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   languageName: node
   linkType: hard
 
-"cheerio-select-tmp@npm:^0.1.0":
-  version: 0.1.1
-  resolution: "cheerio-select-tmp@npm:0.1.1"
+"cheerio-select@npm:^1.3.0":
+  version: 1.3.0
+  resolution: "cheerio-select@npm:1.3.0"
   dependencies:
-    css-select: ^3.1.2
-    css-what: ^4.0.0
-    domelementtype: ^2.1.0
-    domhandler: ^4.0.0
-    domutils: ^2.4.4
-  checksum: 6e9331f38749ac5a63aad4fd98baeac4cbd810600f1bcf5ed483034d800313c31a11d1227af672184487105a69dacf899752aa0902e5a9c94ee69e8d209d51f6
+    css-select: ^4.0.0
+    css-what: ^5.0.0
+    domelementtype: ^2.2.0
+    domhandler: ^4.1.0
+    domutils: ^2.5.2
+  checksum: 15f328a51f19a61739e36eb8d7aa3e8faf17dfcfaf2ce5d4d6011e7eadd364b9e316ab103bbfe069618846884e07b800393189b889a22ed52bd64a10b3e1eee8
   languageName: node
   linkType: hard
 
 "cheerio@npm:^1.0.0-rc.2":
-  version: 1.0.0-rc.5
-  resolution: "cheerio@npm:1.0.0-rc.5"
+  version: 1.0.0-rc.6
+  resolution: "cheerio@npm:1.0.0-rc.6"
   dependencies:
-    cheerio-select-tmp: ^0.1.0
-    dom-serializer: ~1.2.0
-    domhandler: ^4.0.0
-    entities: ~2.1.0
-    htmlparser2: ^6.0.0
-    parse5: ^6.0.0
-    parse5-htmlparser2-tree-adapter: ^6.0.0
-  checksum: 9e5c762323c3e3b56027a2e638aab6afa28191df399a57e517300a31b35e8b1665c588ab15baf9cb3a7f7ea7de7446e0e4d975cc3386027c2eb06c8ec5ed0b0d
+    cheerio-select: ^1.3.0
+    dom-serializer: ^1.3.1
+    domhandler: ^4.1.0
+    htmlparser2: ^6.1.0
+    parse5: ^6.0.1
+    parse5-htmlparser2-tree-adapter: ^6.0.1
+  checksum: 75778a0f749972322a36107622ed5b9d1888dc7bc01809bb1f94ef9b095a410ae8ca91a91a66c23682cc1742ef0d3346040c24306aa89cdcfdcc64f2e42ff628
   languageName: node
   linkType: hard
 
@@ -11183,16 +11182,16 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   languageName: node
   linkType: hard
 
-"css-select@npm:^3.1.2":
-  version: 3.1.2
-  resolution: "css-select@npm:3.1.2"
+"css-select@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "css-select@npm:4.0.0"
   dependencies:
     boolbase: ^1.0.0
-    css-what: ^4.0.0
-    domhandler: ^4.0.0
-    domutils: ^2.4.3
+    css-what: ^5.0.0
+    domhandler: ^4.1.0
+    domutils: ^2.5.1
     nth-check: ^2.0.0
-  checksum: c06346140ea596220896980b8ce62e7dbc9fc4c902a0858d97ba933f538aecc96fed57967c15793faf76f2a6bab5385650d0a3637e07f498f75c39ce2c9764ab
+  checksum: bd81703a12515e3a29de95f7d2e481333dfb6c6d85c2d5c2951fb163527195b8060291e7c7df5f9d8ac6e360bbedbc3f899e21088683dd836771c3f00a38c0f6
   languageName: node
   linkType: hard
 
@@ -11203,10 +11202,10 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   languageName: node
   linkType: hard
 
-"css-what@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "css-what@npm:4.0.0"
-  checksum: 2116d25ed233597bfe0b2fb50b56076f5dfc1665f602f8a367bbaa8d086ce91c188d92a47118fa0daf35118456b0a0e537241f89b34b4d98161d63da63740471
+"css-what@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "css-what@npm:5.0.0"
+  checksum: e41b63a3ebed7bbf6fc97ace63c06ddad44da3399a65e2d8075715ffe1a24aceb223badbf219c93aa7c64938872964b9f8fe5854379c6f089b306b5e9e91867b
   languageName: node
   linkType: hard
 
@@ -11703,7 +11702,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   languageName: node
   linkType: hard
 
-"dom-serializer@npm:^1.0.1":
+"dom-serializer@npm:^1.0.1, dom-serializer@npm:^1.3.1":
   version: 1.3.1
   resolution: "dom-serializer@npm:1.3.1"
   dependencies:
@@ -11711,17 +11710,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     domhandler: ^4.0.0
     entities: ^2.0.0
   checksum: b5260cc10372a0a36661c429fa4bf351930ee130ca4370bad99a9440bda34f43e592190e6bff060957d1f38f11945991fe95a6fb043ef99dcdd8107e8c31d755
-  languageName: node
-  linkType: hard
-
-"dom-serializer@npm:~1.2.0":
-  version: 1.2.0
-  resolution: "dom-serializer@npm:1.2.0"
-  dependencies:
-    domelementtype: ^2.0.1
-    domhandler: ^4.0.0
-    entities: ^2.0.0
-  checksum: 77e3bff86555c853af8a5f87f7433bdaf47fd377ed201b74c465c08445daf3832380acfe25276e6806ffad87ea42e57d4fb992021aef83c5dfae2d352b90860b
   languageName: node
   linkType: hard
 
@@ -11739,7 +11727,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   languageName: node
   linkType: hard
 
-"domelementtype@npm:^2.0.1, domelementtype@npm:^2.1.0, domelementtype@npm:^2.2.0":
+"domelementtype@npm:^2.0.1, domelementtype@npm:^2.2.0":
   version: 2.2.0
   resolution: "domelementtype@npm:2.2.0"
   checksum: 70af22cd69a8e0c0cd4fbbba0459991aacb015f60765050b4a6d1750fd201b4bd4fd1e6922e945200f9cc725cd61be1cd393a3b9b576187759e3b046f33a4a30
@@ -11783,7 +11771,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   languageName: node
   linkType: hard
 
-"domutils@npm:^2.4.3, domutils@npm:^2.4.4":
+"domutils@npm:^2.5.1, domutils@npm:^2.5.2":
   version: 2.5.2
   resolution: "domutils@npm:2.5.2"
   dependencies:
@@ -11880,9 +11868,9 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   linkType: hard
 
 "electron-to-chromium@npm:^1.3.649":
-  version: 1.3.710
-  resolution: "electron-to-chromium@npm:1.3.710"
-  checksum: ad363a68f39cecd94483bcd2b0b52e027fe5fdbc8d9623135a2e354a644d80bbe60c4a4e88aa1e505e63ccd18146124ada6dd54c10e62a7fecccdfdf34fb0046
+  version: 1.3.711
+  resolution: "electron-to-chromium@npm:1.3.711"
+  checksum: a623be1026305d91fac94334f027c0a38e1e166301869864522a9567f357c59ddf21cdc612ee4d38891f218989f6f4732a910d82ac5175d4e6e45cce0daac7f7
   languageName: node
   linkType: hard
 
@@ -12037,13 +12025,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   version: 2.2.0
   resolution: "entities@npm:2.2.0"
   checksum: ebd62621a15a13f4e914322cf8b1d4aeb224fa5365910d8899615835dada8b1349dea77bbcd4db2eea100845de313c46303accafece669d929d64ebcc90f4517
-  languageName: node
-  linkType: hard
-
-"entities@npm:~2.1.0":
-  version: 2.1.0
-  resolution: "entities@npm:2.1.0"
-  checksum: 91d5330633b97df881bcd02e233d32067876d45abdc7c75cf058ded524d8b22f8dc7a3965813d6982ceeba918abdbd9029a0459759ee5f6f98ec953a4786612f
   languageName: node
   linkType: hard
 
@@ -13984,6 +13965,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 "conflux-address-js@npm:^1.0.4":
   version: 1.0.4
   resolution: "conflux-address-js@npm:1.0.4"
@@ -13995,6 +13977,9 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
 =======
 "glob@npm:^7.0.0, glob@npm:^7.1.1, glob@npm:^7.1.2, glob@npm:^7.1.3, glob@npm:^7.1.4, glob@npm:^7.1.6":
 >>>>>>> 2940e561... Add semantic-release & semantic-release-monorepo
+=======
+"glob@npm:7.1.6, glob@npm:^7.0.0, glob@npm:^7.1.1, glob@npm:^7.1.2, glob@npm:^7.1.3, glob@npm:^7.1.4, glob@npm:^7.1.6":
+>>>>>>> e8aada5e... Rebuild deps
   version: 7.1.6
   resolution: "glob@npm:7.1.6"
 >>>>>>> ff8bd171... Rebuild cached deps
@@ -14027,6 +14012,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   languageName: node
   linkType: hard
 
+<<<<<<< HEAD
 "content-hash@npm:^2.5.2":
   version: 2.5.2
   resolution: "content-hash@npm:2.5.2"
@@ -14043,6 +14029,14 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   version: 1.0.4
   resolution: "content-type@npm:1.0.4"
   checksum: ff6e19cbf281c23d5608723a6dc60ac97e2280bd4d21602511283112321e6c1555895e395555e367672b54a0f1585276284b7c3c8be313aca73902ac2f2609fd
+=======
+"globals@npm:^13.6.0":
+  version: 13.8.0
+  resolution: "globals@npm:13.8.0"
+  dependencies:
+    type-fest: ^0.20.2
+  checksum: de85e5dc899ebd77414cc026e806d0bfd2c102ba23d08a2516c960a5e324433d3f1c124465a35b5b1d948448a7008bad85f823a9bcd8d54664d8a0cbcaab0091
+>>>>>>> e8aada5e... Rebuild deps
   languageName: node
   linkType: hard
 
@@ -14567,6 +14561,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   languageName: node
   linkType: hard
 
+<<<<<<< HEAD
 "decompress-targz@npm:^4.0.0":
   version: 4.1.1
   resolution: "decompress-targz@npm:4.1.1"
@@ -14575,6 +14570,17 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     file-type: ^5.2.0
     is-stream: ^1.1.0
   checksum: 473f69d84b78e7df9faaa44450b496b82cbd5e42ef0d080e06319350cbc38e12289526ceb0df225f8ffa723926d8e8f37787adeb3be5a093d579e6e23a3ea2c9
+=======
+"htmlparser2@npm:^6.1.0":
+  version: 6.1.0
+  resolution: "htmlparser2@npm:6.1.0"
+  dependencies:
+    domelementtype: ^2.0.1
+    domhandler: ^4.0.0
+    domutils: ^2.5.2
+    entities: ^2.0.0
+  checksum: 37b0b2c0ae99aed0537f6373a6ad3dc6f19fddfd10799a75e76213458a0f754bbd3a829f075d175c9f5e3c70c7e354cb5a1dd1b582cee90e28a0845a96d524dc
+>>>>>>> e8aada5e... Rebuild deps
   languageName: node
   linkType: hard
 
@@ -15274,12 +15280,16 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   checksum: aafaf69d1220f8351dd827a7c0d87981bf799b5e122839e46db86efee01025c2eba299c5b41fe1683f83237da2a9a9d252f236364d9d223e5b07da494dc5ae24
 =======
 "is-docker@npm:^2.0.0":
-  version: 2.2.0
-  resolution: "is-docker@npm:2.2.0"
+  version: 2.2.1
+  resolution: "is-docker@npm:2.2.1"
   bin:
     is-docker: cli.js
+<<<<<<< HEAD
   checksum: 18deebbc7ffa9c60abdd6797cd840cfabe4384f19c54d810aad68cbe644227056a83f9fdc7d8446e1654e95f39cb70ccda4fca59a3a8663e29bc931157ad32de
 >>>>>>> ff8bd171... Rebuild cached deps
+=======
+  checksum: 7dbd6eecfe91984ef28ee80b13bd20ce4b27c1645542ae714a3976c881f7d166a3dcddb8b4f67c22285c4505f0b0e585a3b12feb4518b17f86b8a15b9f55c718
+>>>>>>> e8aada5e... Rebuild deps
   languageName: node
   linkType: hard
 
@@ -19980,6 +19990,7 @@ fsevents@~2.3.1:
   linkType: hard
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 "gauge@npm:~2.7.3":
   version: 2.7.4
   resolution: "gauge@npm:2.7.4"
@@ -19995,6 +20006,15 @@ fsevents@~2.3.1:
   checksum: b136dbeb8e40acaaddab6c71c9f34d3c9aa104efc538c8c0ddcd74b25efb8daeb8dca24a9b30626b477d66beccd3dee8dd31e25eb4c7c97ec58a3f1a82914be1
 =======
 =======
+=======
+"lodash.isequal@npm:^4.5.0":
+  version: 4.5.0
+  resolution: "lodash.isequal@npm:4.5.0"
+  checksum: 5b47e094641c18a915497343894c66f7da6aebb9aaa2a3fcc5643455aaf29d19df60ebbed664c8374fb959c8b4ce96810ee6becd8a71ac58c6c2ca8d29762947
+  languageName: node
+  linkType: hard
+
+>>>>>>> e8aada5e... Rebuild deps
 "lodash.ismatch@npm:^4.4.0":
   version: 4.4.0
   resolution: "lodash.ismatch@npm:4.4.0"
@@ -20702,6 +20722,7 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+<<<<<<< HEAD
 "hash.js@npm:1.1.3":
   version: 1.1.3
   resolution: "hash.js@npm:1.1.3"
@@ -20709,6 +20730,15 @@ fsevents@~2.3.1:
     inherits: ^2.0.3
     minimalistic-assert: ^1.0.0
   checksum: b61aef3fb3cbac526e45a6ba2852765e8f2269ddbea87cb3ca5cf4cbae5ce40c859dd7e15ab983b9c99dba423a6f3500b8a804eef47a8b1922ba2fd646e5886e
+=======
+"micromatch@npm:^4.0.2":
+  version: 4.0.3
+  resolution: "micromatch@npm:4.0.3"
+  dependencies:
+    braces: ^3.0.1
+    picomatch: ^2.2.1
+  checksum: 66376ca60a6c0ae62b22383ae4d825304b7500a7151aff2fe4c52e60dcfe988fcb3e7903418e8790ee419e02212ddf12b280ef1238f769c3fbfa5f685ec8bb6d
+>>>>>>> e8aada5e... Rebuild deps
   languageName: node
   linkType: hard
 
@@ -22649,9 +22679,15 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+<<<<<<< HEAD
 "level-iterator-stream@npm:~3.0.0":
   version: 3.0.1
   resolution: "level-iterator-stream@npm:3.0.1"
+=======
+"parse5-htmlparser2-tree-adapter@npm:^6.0.1":
+  version: 6.0.1
+  resolution: "parse5-htmlparser2-tree-adapter@npm:6.0.1"
+>>>>>>> e8aada5e... Rebuild deps
   dependencies:
     inherits: ^2.0.1
     readable-stream: ^2.3.6
@@ -22660,6 +22696,7 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+<<<<<<< HEAD
 "level-mem@npm:^3.0.1":
   version: 3.0.1
   resolution: "level-mem@npm:3.0.1"
@@ -22667,6 +22704,12 @@ fsevents@~2.3.1:
     level-packager: ~4.0.0
     memdown: ~3.0.0
   checksum: bfdffef38de8708c15974e7770cb3fe643fa157469746286e5f838aa41ca7d344d6a69194f9868bae23d92a67b8388724dd0c1199917a5485711ae1ee33bf74b
+=======
+"parse5@npm:6.0.1, parse5@npm:^6.0.1":
+  version: 6.0.1
+  resolution: "parse5@npm:6.0.1"
+  checksum: e312014edd76a6dc2eac35248ad53477b2594a7b92b7a00f66169483bb87c3d1d36660daddeb720457418dfe0893eb3ad1043085047fc3699167afa6834cb4c4
+>>>>>>> e8aada5e... Rebuild deps
   languageName: node
   linkType: hard
 
@@ -22827,12 +22870,24 @@ fsevents@~2.3.1:
 =======
 >>>>>>> 951c15af... Bring in workspace changes
 "pbkdf2@npm:^3.0.17, pbkdf2@npm:^3.0.3, pbkdf2@npm:^3.0.9":
+<<<<<<< HEAD
   version: 3.1.1
   resolution: "pbkdf2@npm:3.1.1"
 >>>>>>> ff8bd171... Rebuild cached deps
   dependencies:
     p-locate: ^5.0.0
   checksum: 4c379638152e0e5fda9a8cc07005702f81fcb9899db0f66d691ac1e64193dea670af14e96c50f14d82d45959daa4c400cb712c158cffe22ae265bfc1b1e3a221
+=======
+  version: 3.1.2
+  resolution: "pbkdf2@npm:3.1.2"
+  dependencies:
+    create-hash: ^1.1.2
+    create-hmac: ^1.1.4
+    ripemd160: ^2.0.1
+    safe-buffer: ^5.0.1
+    sha.js: ^2.4.8
+  checksum: 12ac46c71db0613f5e45824d65598a31b4fb09bb860cde8024919778be7971468f2c6b010250d5bc9907a247f85580b560fd5b78b09263d207e8bdf3963c83c7
+>>>>>>> e8aada5e... Rebuild deps
   languageName: node
   linkType: hard
 
@@ -22850,10 +22905,17 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+<<<<<<< HEAD
 "lodash.defaults@npm:^4.2.0":
   version: 4.2.0
   resolution: "lodash.defaults@npm:4.2.0"
   checksum: fde72e71f7b7ece10c24e43dd601574168467d50bc76687302d40de341d5cb8e35b100105d938458747d2ad5f20d8bb736e62523ef39d1a8b40f7307c50f10ac
+=======
+"picomatch@npm:^2.0.4, picomatch@npm:^2.2.1":
+  version: 2.2.2
+  resolution: "picomatch@npm:2.2.2"
+  checksum: 20fa75e0a58b39d83425b3db68744d5f6f361fd4fd66ec7745d884036d502abba0d553a637703af79939b844164b13e60eea339ccb043d7fbd74c3da2592b864
+>>>>>>> e8aada5e... Rebuild deps
   languageName: node
   linkType: hard
 
@@ -26650,7 +26712,7 @@ scrypt-js@3.0.1, scrypt-js@^3.0.0, scrypt-js@^3.0.1:
   languageName: node
   linkType: hard
 
-"supports-hyperlinks@npm:^2.0.0":
+"supports-hyperlinks@npm:^2.0.0, supports-hyperlinks@npm:^2.1.0":
   version: 2.2.0
   resolution: "supports-hyperlinks@npm:2.2.0"
   dependencies:
@@ -26660,13 +26722,28 @@ scrypt-js@3.0.1, scrypt-js@^3.0.0, scrypt-js@^3.0.1:
   languageName: node
   linkType: hard
 
-"supports-hyperlinks@npm:^2.1.0":
-  version: 2.2.0
-  resolution: "supports-hyperlinks@npm:2.2.0"
+"swagger-jsdoc@npm:6.1.0":
+  version: 6.1.0
+  resolution: "swagger-jsdoc@npm:6.1.0"
   dependencies:
-    has-flag: ^4.0.0
-    supports-color: ^7.0.0
-  checksum: 91af5f206c55fe38c5acacafca8e13bee8ddf59f817178d3cb83388bd85d3ec181a59c446439b63aafa0375e579a7e8d8ec044a0ed1143137ba12f303eb76c6a
+    commander: 6.2.0
+    doctrine: 3.0.0
+    glob: 7.1.6
+    lodash.mergewith: ^4.6.2
+    swagger-parser: 10.0.2
+    yaml: 2.0.0-1
+  bin:
+    swagger-jsdoc: bin/swagger-jsdoc.js
+  checksum: ece197eefed6d5cd24dbddaa30a7f26817375f9a002cff2434813e1f2c75b380007ee17a91a810f448580a67ce8d7600eae18ef9a000ba4dfc680fcfbcebbd13
+  languageName: node
+  linkType: hard
+
+"swagger-parser@npm:10.0.2":
+  version: 10.0.2
+  resolution: "swagger-parser@npm:10.0.2"
+  dependencies:
+    "@apidevtools/swagger-parser": 10.0.2
+  checksum: 072361451e49a88561e4b9e635927a85884e0ac6e8c5e684020362a4a63658004c78564f0bd9245b16998f98825cb2bb23f3a0bf77fa0ccdae31197d45cc8c98
   languageName: node
   linkType: hard
 
@@ -27385,9 +27462,9 @@ typescript@^4.2.3:
   linkType: hard
 
 "underscore@npm:^1.8.3":
-  version: 1.12.1
-  resolution: "underscore@npm:1.12.1"
-  checksum: b53ae924fe3608ac7875a0eec20988611a02dc174bad40680dbb9fe994c40fc457b6d4f618f8b9af930c31549809c27f70dddccd83957a32bab27b1eea858c1b
+  version: 1.13.0
+  resolution: "underscore@npm:1.13.0"
+  checksum: 8a10d1ff0a7923549b4cddd3aad5c801eab574b515e7d66208cc95542be2a1f4bf149e3ba1b955ac7da938d0a4179f2221d082660bb54c6a694f655caa65aab5
   languageName: node
   linkType: hard
 
@@ -27727,6 +27804,13 @@ typescript@^4.2.3:
   dependencies:
     builtins: ^1.0.3
   checksum: 3c5a5b154a32d141a8fff660e4cdfcbd359bfafb1fc544772d50fb04377bea2eb7073bd49d914309c21c1fd19af68849e8022791573b88fc6413560a8dcf5016
+  languageName: node
+  linkType: hard
+
+"validator@npm:^12.0.0":
+  version: 12.2.0
+  resolution: "validator@npm:12.2.0"
+  checksum: e5f79e631bf10873c5028f181fe1ec4d856d08dade447bf73a77c1afb548bb3385d11b09e358f5138d3550bedd3422bb36ec1ff85c1edc21f2df38da1e53a076
   languageName: node
   linkType: hard
 
