@@ -4,7 +4,14 @@
     "outDir": "dist",
     "rootDir": "src"
   },
-  "include": ["src/**/*", "src/lib/external-adapter/overrides/presetSymbols.json"],
-  "exclude": ["dist", "**/*.spec.ts", "**/*.test.ts"],
-  "references": [{ "path": "../ratelimits" }]
+  "include": [
+    "src/**/*",
+    "src/**/*.json"
+  ],
+  "exclude": [
+    "dist",
+    "**/*.spec.ts",
+    "**/*.test.ts"
+  ],
+  "references": []
 }
