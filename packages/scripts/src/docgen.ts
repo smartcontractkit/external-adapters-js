@@ -61,6 +61,9 @@ const ADAPTER_TYPES = ['composite', 'source', 'target']
         }
       })
     })
+
+    // format using prettier
+    shell.exec('yarn prettier --write "./**/oas.json"')
     return
   }
 
