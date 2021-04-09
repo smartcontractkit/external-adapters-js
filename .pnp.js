@@ -79,10 +79,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/core/legos"
       },
       {
-        "name": "@chainlink/ea-ratelimits",
-        "reference": "workspace:packages/core/ratelimits"
-      },
-      {
         "name": "@chainlink/ea-reference-data-reader",
         "reference": "workspace:packages/core/reference-data-reader"
       },
@@ -501,7 +497,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/ea", ["workspace:packages/core/legos"]],
       ["@chainlink/ea-bootstrap", ["workspace:packages/core/bootstrap"]],
       ["@chainlink/ea-factories", ["workspace:packages/core/factories"]],
-      ["@chainlink/ea-ratelimits", ["workspace:packages/core/ratelimits"]],
       ["@chainlink/ea-reference-data-reader", ["workspace:packages/core/reference-data-reader"]],
       ["@chainlink/ea-scripts", ["workspace:packages/scripts"]],
       ["@chainlink/ea-test-helpers", ["workspace:packages/core/test-helpers"]],
@@ -3679,7 +3674,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/core/bootstrap/",
           "packageDependencies": [
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
-            ["@chainlink/ea-ratelimits", "workspace:packages/core/ratelimits"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@reduxjs/toolkit", "npm:1.5.1"],
             ["@types/express", "npm:4.17.11"],
@@ -3730,20 +3724,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:14.14.41"],
             ["@types/object-path", "npm:0.11.0"],
             ["object-path", "npm:0.11.5"],
-            ["tslib", "npm:2.2.0"],
-            ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"]
-          ],
-          "linkType": "SOFT",
-        }]
-      ]],
-      ["@chainlink/ea-ratelimits", [
-        ["workspace:packages/core/ratelimits", {
-          "packageLocation": "./packages/core/ratelimits/",
-          "packageDependencies": [
-            ["@chainlink/ea-ratelimits", "workspace:packages/core/ratelimits"],
-            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
-            ["@types/jest", "npm:26.0.22"],
-            ["@types/node", "npm:14.14.41"],
             ["tslib", "npm:2.2.0"],
             ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"]
           ],

@@ -1,0 +1,20 @@
+{
+  "[provider-name]": {
+    "http": {
+      "[plan-name]": {
+        "rateLimit1s": 1,
+        "rateLimit1m": 30,
+        "rateLimit1h": 200
+      },
+      "premium": {
+        "rateLimit1s": 10,
+        "rateLimit1m": 300,
+        "rateLimit1h": 2000
+      }
+    },
+    "ws": {
+      "connections": 1,
+      "subscriptions": 10
+    }
+  }
+}
