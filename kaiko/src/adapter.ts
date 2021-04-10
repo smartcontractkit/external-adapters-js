@@ -29,13 +29,13 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
   let inverse = false
   let url = `/spot_exchange_rate/${base}/${quote}`
-  if (includes.length === 0 && quote === 'eth') {
-    url = `/spot_direct_exchange_rate/${base}/${quote}`
-  } else if (includes.length > 0 && base === 'digg' && includes[0].toLowerCase() === 'wbtc') {
+  if (includes.length > 0 && base === 'digg' && includes[0].toLowerCase() === 'wbtc') {
     inverse = true
     url = `/spot_direct_exchange_rate/wbtc/digg`
   } else if (includes.length > 0 && includes[0].toLowerCase() === 'weth') {
     url = `/spot_direct_exchange_rate/${base}/weth`
+  } else if (quote === 'eth') {
+    url = `/spot_direct_exchange_rate/${base}/${quote}`
   }
 
   // provide a reasonable interval to fetch only recent results
