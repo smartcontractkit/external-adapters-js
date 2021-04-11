@@ -21,6 +21,7 @@ interface Service {
     context: string
     dockerfile: string
     args: Record<string, string>
+    labels: Record<string, string>
   }
   environment: string[]
 }
@@ -33,6 +34,10 @@ interface Dockerfile {
 export interface ImageNameConfig {
   tag: string
   prefix: string
+}
+
+export enum DockerLabels {
+  EA_TYPE = 'com.chainlinklabs.external-adapter-type',
 }
 
 function makeDockerComposeFile(
@@ -50,6 +55,9 @@ function makeDockerComposeFile(
           args: {
             location: next.location,
             package: next.name,
+          },
+          labels: {
+            [DockerLabels.EA_TYPE]: next.type,
           },
         },
         environment: next.environment,

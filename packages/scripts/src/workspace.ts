@@ -5,13 +5,17 @@ import * as s from 'shelljs'
 interface WorkspacePackage {
   location: string
   name: string
+  descopedName: string
+  type: string
+  environment: string[]
+  version: string
 }
 
 const VALID_ADAPTER_TYPES = ['composites', 'sources', 'examples', 'targets']
 const scope = '@chainlink/'
 
 export type WorkspacePackages = ReturnType<typeof getWorkspacePackages>
-export function getWorkspacePackages() {
+export function getWorkspacePackages(): WorkspacePackage[] {
   return s
     .exec('yarn workspaces list --json')
     .split('\n')

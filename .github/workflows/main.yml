@@ -32,13 +32,11 @@ jobs:
       matrix: ${{ steps.create-matrix.outputs.result }}
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/github-script@v3
-        name: Create job matrix
-        id: create-matrix
+      - uses: actions/setup-node@v2
         with:
-          script: |
-            const script = require(`${process.env.GITHUB_WORKSPACE}/.github/scripts/matrix.js`)
-            return script()
+          node-version: '14.x'
+      - name: Generate job matrix
+        run: yarn generate:gha:matrix
 
   build-adapters:
     needs: [run-basic-checks, matrix-adapters]
@@ -51,4 +49,8 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '14.x'
-      - run: ${{ matrix.adapter.docker }}
+      - name: Install yarn deps
+        run: yarn install --frozen-lockfile --production
+      - name: Generate docker-compose file
+        run: yarn generate:docker-compose
+      - run: docker-compose -f docker-compose.generated.yaml build ${{ matrix.adapter.name }}
