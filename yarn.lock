@@ -5,6 +5,34 @@ __metadata:
   version: 4
   cacheKey: 7
 
+"@actions/core@npm:^1.2.6":
+  version: 1.2.6
+  resolution: "@actions/core@npm:1.2.6"
+  checksum: 984c7d5ae95c02f62f69549a9d5cfbc0db0b035f519775301b397c167791ceee269fb504cb622da541d1fa305ee4ad3fc30d017c6407045aa4eb6809eee4c549
+  languageName: node
+  linkType: hard
+
+"@actions/github@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "@actions/github@npm:4.0.0"
+  dependencies:
+    "@actions/http-client": ^1.0.8
+    "@octokit/core": ^3.0.0
+    "@octokit/plugin-paginate-rest": ^2.2.3
+    "@octokit/plugin-rest-endpoint-methods": ^4.0.0
+  checksum: 49d606acd5b74a2f3e41c76d5a5d54341943e43b79cb94639c6c01d228263a4a287ac43d02d6c872336ab02962d0a7904b1a821bb5d5966498a78c954e34c3f2
+  languageName: node
+  linkType: hard
+
+"@actions/http-client@npm:^1.0.8":
+  version: 1.0.11
+  resolution: "@actions/http-client@npm:1.0.11"
+  dependencies:
+    tunnel: 0.0.6
+  checksum: ccd0ae6ce99662e31daf1f5cb6b5130cc10ac9a3d4f2de74c54031cf13cd191dbbf0719e60e74f724f073f27af4cb9f393218d92f7f70c0b6e23bb1962c386e3
+  languageName: node
+  linkType: hard
+
 "@apidevtools/json-schema-ref-parser@npm:^9.0.6":
   version: 9.0.7
   resolution: "@apidevtools/json-schema-ref-parser@npm:9.0.7"
@@ -2065,6 +2093,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/ea-scripts@workspace:packages/scripts"
   dependencies:
+    "@actions/core": ^1.2.6
+    "@actions/github": ^4.0.0
     "@types/jest": ^26.0.22
     "@types/shelljs": ^0
     "@types/swagger-jsdoc": ^6
@@ -4812,7 +4842,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@octokit/core@npm:^3.2.3":
+"@octokit/core@npm:^3.0.0, @octokit/core@npm:^3.2.3":
   version: 3.4.0
   resolution: "@octokit/core@npm:3.4.0"
   dependencies:
@@ -4856,7 +4886,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@octokit/plugin-paginate-rest@npm:^2.6.2":
+"@octokit/plugin-paginate-rest@npm:^2.2.3, @octokit/plugin-paginate-rest@npm:^2.6.2":
   version: 2.13.3
   resolution: "@octokit/plugin-paginate-rest@npm:2.13.3"
   dependencies:
@@ -4885,6 +4915,18 @@ __metadata:
   peerDependencies:
     "@octokit/core": ">=3"
   checksum: bd9a3ebd8164d8a1ecc1d10d41f00852763afef19acce816a05b4ab1e3200ae3738e87d6c2e6a8123940421bfcf43d371a4d734ce12021bf7ba675fd72617f92
+  languageName: node
+  linkType: hard
+
+"@octokit/plugin-rest-endpoint-methods@npm:^4.0.0":
+  version: 4.15.0
+  resolution: "@octokit/plugin-rest-endpoint-methods@npm:4.15.0"
+  dependencies:
+    "@octokit/types": ^6.13.0
+    deprecation: ^2.3.1
+  peerDependencies:
+    "@octokit/core": ">=3"
+  checksum: ab550414d557d7a37635c103938623fd58f1dc27d2baa19d7f5c40c9b072050b265d16224a57ba42266294c30786bd8ccb55a968afbb77b20b0d185ae2cb0e7d
   languageName: node
   linkType: hard
 
@@ -18818,6 +18860,13 @@ resolve@1.17.0:
   dependencies:
     safe-buffer: ^5.0.1
   checksum: 03db75a4f994fee610d3485c492e95105ed265a9fecd49d14c98e9982f973ecc0220d0c1bc264e37802e423a1274bb63788a873e4e07009408ae3ac517347fd7
+  languageName: node
+  linkType: hard
+
+"tunnel@npm:0.0.6":
+  version: 0.0.6
+  resolution: "tunnel@npm:0.0.6"
+  checksum: 78fbb1a55a44fc8de6a497923bf7bf6e7b14b396e0ddaf11fe624ab7f646a0d2ada03f6dcb4a80940faed9649e30d229114f218e8906badd12ded2323a6f666b
   languageName: node
   linkType: hard
 

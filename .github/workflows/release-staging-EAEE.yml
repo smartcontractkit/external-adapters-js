@@ -3,8 +3,8 @@ name: Release Staging
 on:
   push:
     branches:
-      - develop
-
+      - epic/EAEE
+  workflow_dispatch:
 env:
   cache-name: staging-ci
   publicecr-name: chainlink-staging
@@ -19,7 +19,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Setup Node.js
-      - uses: actions/setup-node@v2
+        uses: actions/setup-node@v2
         with:
           node-version: '14.x'
       - name: Install dependencies
@@ -37,13 +37,11 @@ jobs:
       matrix: ${{ steps.create-matrix.outputs.result }}
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/github-script@v3
-        name: Create job matrix
-        id: create-matrix
+      - uses: actions/setup-node@v2
         with:
-          script: |
-            const script = require(`${process.env.GITHUB_WORKSPACE}/.github/scripts/matrix.js`)
-            return script()
+          node-version: '14.x'
+      - name: Generate job matrix
+        run: yarn generate:gha:matrix
 
   publish-artifacts:
     needs: [matrix-adapters]
@@ -58,8 +56,13 @@ jobs:
           node-version: '14.x'
       - name: Install yarn deps
         run: yarn install --frozen-lockfile --production
+      - name: Generate docker-compose file
+        run: yarn generate:docker-compose
+        env:
+          TAG: EAEE
+          IMAGE_PREFIX: public.ecr.aws/${{ env.publicecr-name }}/adapters/
       - name: Build Docker containers
-        run: ${{ matrix.adapter.docker }} public.ecr.aws/${{ env.publicecr-name }}/adapters/
+        run: docker-compose -f docker-compose.generated.yaml build ${{ matrix.adapter.name }}
       - name: Configure staging AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -69,6 +72,9 @@ jobs:
       - name: Authenticate to public ECR
         run: aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/${{ env.publicecr-name }}
       - name: Create a public ECR repository if does not exist
-        run: aws ecr-public create-repository --region us-east-1 --repository-name adapters/${{ matrix.adapter.image_name }} || true
+        run: aws ecr-public create-repository --region us-east-1 --repository-name adapters/${{ matrix.adapter.name }} || true
       - name: Push to public ECR
-        run: docker push public.ecr.aws/${{ env.publicecr-name }}/adapters/${{ matrix.adapter.image_name }}
+        run: docker push ${{ matrix.adapter.image_name }}
+        env:
+          TAG: EAEE
+          IMAGE_PREFIX: public.ecr.aws/${{ env.publicecr-name }}/adapters/

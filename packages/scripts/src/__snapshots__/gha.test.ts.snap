@@ -1,0 +1,975 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`job matrix generation should generate a job matrix consumable by gha 1`] = `
+Object {
+  "adapter": Array [
+    Object {
+      "image_name": "apy-finance-adapter:latest-0.0.2",
+      "name": "apy-finance-adapter",
+      "type": "composites",
+    },
+    Object {
+      "image_name": "bitcoin-json-rpc-adapter:latest-0.0.1",
+      "name": "bitcoin-json-rpc-adapter",
+      "type": "composites",
+    },
+    Object {
+      "image_name": "crypto-volatility-index-adapter:latest-0.0.1",
+      "name": "crypto-volatility-index-adapter",
+      "type": "composites",
+    },
+    Object {
+      "image_name": "defi-pulse-adapter:latest-0.0.3",
+      "name": "defi-pulse-adapter",
+      "type": "composites",
+    },
+    Object {
+      "image_name": "dns-record-check-adapter:latest-0.0.1",
+      "name": "dns-record-check-adapter",
+      "type": "composites",
+    },
+    Object {
+      "image_name": "market-closure-adapter:latest-0.0.3",
+      "name": "market-closure-adapter",
+      "type": "composites",
+    },
+    Object {
+      "image_name": "outlier-detection-adapter:latest-0.0.1",
+      "name": "outlier-detection-adapter",
+      "type": "composites",
+    },
+    Object {
+      "image_name": "proof-of-reserves-adapter:latest-0.0.3",
+      "name": "proof-of-reserves-adapter",
+      "type": "composites",
+    },
+    Object {
+      "image_name": "reference-transform-adapter:latest-0.0.1",
+      "name": "reference-transform-adapter",
+      "type": "composites",
+    },
+    Object {
+      "image_name": "synth-index-adapter:latest-0.0.1",
+      "name": "synth-index-adapter",
+      "type": "composites",
+    },
+    Object {
+      "image_name": "token-allocation-adapter:latest-0.0.1",
+      "name": "token-allocation-adapter",
+      "type": "composites",
+    },
+    Object {
+      "image_name": "example-composite-adapter:latest-0.0.1",
+      "name": "example-composite-adapter",
+      "type": "examples",
+    },
+    Object {
+      "image_name": "example-source-adapter:latest-0.0.1",
+      "name": "example-source-adapter",
+      "type": "examples",
+    },
+    Object {
+      "image_name": "1forge-adapter:latest-0.0.3",
+      "name": "1forge-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "agoric-adapter:latest-0.0.1",
+      "name": "agoric-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "alphachain-adapter:latest-0.0.3",
+      "name": "alphachain-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "alphavantage-adapter:latest-0.0.3",
+      "name": "alphavantage-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "amberdata-adapter:latest-0.0.3",
+      "name": "amberdata-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "amberdata-gasprice-adapter:latest-0.0.3",
+      "name": "amberdata-gasprice-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "anyblock-gasprice-adapter:latest-0.0.3",
+      "name": "anyblock-gasprice-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "anyblock-uniswap-vwap-adapter:latest-0.0.3",
+      "name": "anyblock-uniswap-vwap-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "binance-dex-adapter:latest-0.0.3",
+      "name": "binance-dex-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "bitex-adapter:latest-0.0.3",
+      "name": "bitex-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "bitso-adapter:latest-0.0.3",
+      "name": "bitso-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "blockchain.com-adapter:latest-0.0.3",
+      "name": "blockchain.com-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "blockchair-adapter:latest-0.0.3",
+      "name": "blockchair-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "blockcypher-adapter:latest-0.0.3",
+      "name": "blockcypher-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "blockstream-adapter:latest-0.0.1",
+      "name": "blockstream-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "bravenewcoin-adapter:latest-0.0.3",
+      "name": "bravenewcoin-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "btc.com-adapter:latest-0.0.1",
+      "name": "btc.com-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "cfbenchmarks-adapter:latest-0.0.1",
+      "name": "cfbenchmarks-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "coinapi-adapter:latest-0.0.3",
+      "name": "coinapi-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "coinbase-adapter:latest-0.0.3",
+      "name": "coinbase-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "coincodex-adapter:latest-0.0.3",
+      "name": "coincodex-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "coingecko-adapter:latest-0.0.3",
+      "name": "coingecko-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "coinlore-adapter:latest-0.0.3",
+      "name": "coinlore-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "coinmarketcap-adapter:latest-0.0.4",
+      "name": "coinmarketcap-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "coinpaprika-adapter:latest-0.0.2",
+      "name": "coinpaprika-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "coinranking-adapter:latest-0.0.3",
+      "name": "coinranking-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "covid-tracker-adapter:latest-0.0.3",
+      "name": "covid-tracker-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "cryptoapis-adapter:latest-0.0.3",
+      "name": "cryptoapis-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "cryptocompare-adapter:latest-0.0.3",
+      "name": "cryptocompare-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "cryptoid-adapter:latest-0.0.3",
+      "name": "cryptoid-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "cryptomkt-adapter:latest-0.0.3",
+      "name": "cryptomkt-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "currencylayer-adapter:latest-0.0.3",
+      "name": "currencylayer-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "deribit-adapter:latest-0.0.1",
+      "name": "deribit-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "dns-query-adapter:latest-0.0.1",
+      "name": "dns-query-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "dwolla-adapter:latest-0.0.1",
+      "name": "dwolla-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "dxfeed-adapter:latest-0.0.3",
+      "name": "dxfeed-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "dxfeed-secondary-adapter:latest-0.0.1",
+      "name": "dxfeed-secondary-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "eodhistoricaldata-adapter:latest-0.0.3",
+      "name": "eodhistoricaldata-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "etherchain-adapter:latest-0.0.3",
+      "name": "etherchain-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "ethgasstation-adapter:latest-0.0.3",
+      "name": "ethgasstation-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "fcsapi-adapter:latest-0.0.3",
+      "name": "fcsapi-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "finage-adapter:latest-0.0.3",
+      "name": "finage-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "finnhub-adapter:latest-0.0.3",
+      "name": "finnhub-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "fixer-adapter:latest-0.0.3",
+      "name": "fixer-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "fmpcloud-adapter:latest-0.0.3",
+      "name": "fmpcloud-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "genesis-volatility-adapter:latest-0.0.3",
+      "name": "genesis-volatility-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "geodb-adapter:latest-0.0.1",
+      "name": "geodb-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "harmony-adapter:latest-0.0.1",
+      "name": "harmony-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "iex-cloud-adapter:latest-0.0.1",
+      "name": "iex-cloud-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "json-rpc-adapter:latest-0.0.3",
+      "name": "json-rpc-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "kaiko-adapter:latest-0.0.3",
+      "name": "kaiko-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "lcx-adapter:latest-0.0.3",
+      "name": "lcx-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "linkpool-adapter:latest-0.0.3",
+      "name": "linkpool-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "lition-adapter:latest-0.0.3",
+      "name": "lition-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "marketstack-adapter:latest-0.0.3",
+      "name": "marketstack-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "messari-adapter:latest-0.0.3",
+      "name": "messari-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "metalsapi-adapter:latest-0.0.3",
+      "name": "metalsapi-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "nikkei-adapter:latest-0.0.3",
+      "name": "nikkei-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "nomics-adapter:latest-0.0.3",
+      "name": "nomics-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "oilpriceapi-adapter:latest-0.0.3",
+      "name": "oilpriceapi-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "onchain-adapter:latest-0.0.3",
+      "name": "onchain-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "openexchangerates-adapter:latest-0.0.3",
+      "name": "openexchangerates-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "orchid-bandwidth-adapter:latest-0.0.3",
+      "name": "orchid-bandwidth-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "paxos-adapter:latest-0.0.1",
+      "name": "paxos-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "paypal-adapter:latest-0.0.1",
+      "name": "paypal-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "poa-gasprice-adapter:latest-0.0.3",
+      "name": "poa-gasprice-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "polygon-adapter:latest-0.0.3",
+      "name": "polygon-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "reduce-adapter:latest-0.0.3",
+      "name": "reduce-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "renvm-address-set-adapter:latest-0.0.3",
+      "name": "renvm-address-set-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "satoshitango-adapter:latest-0.0.3",
+      "name": "satoshitango-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "sochain-adapter:latest-0.0.1",
+      "name": "sochain-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "stasis-adapter:latest-0.0.3",
+      "name": "stasis-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "taapi-adapter:latest-0.0.3",
+      "name": "taapi-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "therundown-adapter:latest-0.0.1",
+      "name": "therundown-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "tiingo-adapter:latest-0.0.1",
+      "name": "tiingo-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "tradermade-adapter:latest-0.0.4",
+      "name": "tradermade-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "tradingeconomics-adapter:latest-0.0.4",
+      "name": "tradingeconomics-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "trueusd-adapter:latest-0.0.3",
+      "name": "trueusd-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "wbtc-address-set-adapter:latest-0.0.3",
+      "name": "wbtc-address-set-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "xbto-adapter:latest-0.0.3",
+      "name": "xbto-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "conflux-adapter:latest-0.0.2",
+      "name": "conflux-adapter",
+      "type": "targets",
+    },
+    Object {
+      "image_name": "dydx-stark-adapter:latest-0.0.1",
+      "name": "dydx-stark-adapter",
+      "type": "targets",
+    },
+    Object {
+      "image_name": "ethwrite-adapter:latest-0.0.2",
+      "name": "ethwrite-adapter",
+      "type": "targets",
+    },
+  ],
+}
+`;
+
+exports[`job matrix generation should generate a job matrix suitable for pushing to ecr 1`] = `
+Object {
+  "adapter": Array [
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/apy-finance-adapter:EAEE-0.0.2",
+      "name": "apy-finance-adapter",
+      "type": "composites",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/bitcoin-json-rpc-adapter:EAEE-0.0.1",
+      "name": "bitcoin-json-rpc-adapter",
+      "type": "composites",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/crypto-volatility-index-adapter:EAEE-0.0.1",
+      "name": "crypto-volatility-index-adapter",
+      "type": "composites",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/defi-pulse-adapter:EAEE-0.0.3",
+      "name": "defi-pulse-adapter",
+      "type": "composites",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/dns-record-check-adapter:EAEE-0.0.1",
+      "name": "dns-record-check-adapter",
+      "type": "composites",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/market-closure-adapter:EAEE-0.0.3",
+      "name": "market-closure-adapter",
+      "type": "composites",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/outlier-detection-adapter:EAEE-0.0.1",
+      "name": "outlier-detection-adapter",
+      "type": "composites",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/proof-of-reserves-adapter:EAEE-0.0.3",
+      "name": "proof-of-reserves-adapter",
+      "type": "composites",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/reference-transform-adapter:EAEE-0.0.1",
+      "name": "reference-transform-adapter",
+      "type": "composites",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/synth-index-adapter:EAEE-0.0.1",
+      "name": "synth-index-adapter",
+      "type": "composites",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/token-allocation-adapter:EAEE-0.0.1",
+      "name": "token-allocation-adapter",
+      "type": "composites",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/example-composite-adapter:EAEE-0.0.1",
+      "name": "example-composite-adapter",
+      "type": "examples",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/example-source-adapter:EAEE-0.0.1",
+      "name": "example-source-adapter",
+      "type": "examples",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/1forge-adapter:EAEE-0.0.3",
+      "name": "1forge-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/agoric-adapter:EAEE-0.0.1",
+      "name": "agoric-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/alphachain-adapter:EAEE-0.0.3",
+      "name": "alphachain-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/alphavantage-adapter:EAEE-0.0.3",
+      "name": "alphavantage-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/amberdata-adapter:EAEE-0.0.3",
+      "name": "amberdata-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/amberdata-gasprice-adapter:EAEE-0.0.3",
+      "name": "amberdata-gasprice-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/anyblock-gasprice-adapter:EAEE-0.0.3",
+      "name": "anyblock-gasprice-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/anyblock-uniswap-vwap-adapter:EAEE-0.0.3",
+      "name": "anyblock-uniswap-vwap-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/binance-dex-adapter:EAEE-0.0.3",
+      "name": "binance-dex-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/bitex-adapter:EAEE-0.0.3",
+      "name": "bitex-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/bitso-adapter:EAEE-0.0.3",
+      "name": "bitso-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/blockchain.com-adapter:EAEE-0.0.3",
+      "name": "blockchain.com-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/blockchair-adapter:EAEE-0.0.3",
+      "name": "blockchair-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/blockcypher-adapter:EAEE-0.0.3",
+      "name": "blockcypher-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/blockstream-adapter:EAEE-0.0.1",
+      "name": "blockstream-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/bravenewcoin-adapter:EAEE-0.0.3",
+      "name": "bravenewcoin-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/btc.com-adapter:EAEE-0.0.1",
+      "name": "btc.com-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/cfbenchmarks-adapter:EAEE-0.0.1",
+      "name": "cfbenchmarks-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/coinapi-adapter:EAEE-0.0.3",
+      "name": "coinapi-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/coinbase-adapter:EAEE-0.0.3",
+      "name": "coinbase-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/coincodex-adapter:EAEE-0.0.3",
+      "name": "coincodex-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/coingecko-adapter:EAEE-0.0.3",
+      "name": "coingecko-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/coinlore-adapter:EAEE-0.0.3",
+      "name": "coinlore-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/coinmarketcap-adapter:EAEE-0.0.4",
+      "name": "coinmarketcap-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/coinpaprika-adapter:EAEE-0.0.2",
+      "name": "coinpaprika-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/coinranking-adapter:EAEE-0.0.3",
+      "name": "coinranking-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/covid-tracker-adapter:EAEE-0.0.3",
+      "name": "covid-tracker-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/cryptoapis-adapter:EAEE-0.0.3",
+      "name": "cryptoapis-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/cryptocompare-adapter:EAEE-0.0.3",
+      "name": "cryptocompare-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/cryptoid-adapter:EAEE-0.0.3",
+      "name": "cryptoid-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/cryptomkt-adapter:EAEE-0.0.3",
+      "name": "cryptomkt-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/currencylayer-adapter:EAEE-0.0.3",
+      "name": "currencylayer-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/deribit-adapter:EAEE-0.0.1",
+      "name": "deribit-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/dns-query-adapter:EAEE-0.0.1",
+      "name": "dns-query-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/dwolla-adapter:EAEE-0.0.1",
+      "name": "dwolla-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/dxfeed-adapter:EAEE-0.0.3",
+      "name": "dxfeed-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/dxfeed-secondary-adapter:EAEE-0.0.1",
+      "name": "dxfeed-secondary-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/eodhistoricaldata-adapter:EAEE-0.0.3",
+      "name": "eodhistoricaldata-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/etherchain-adapter:EAEE-0.0.3",
+      "name": "etherchain-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/ethgasstation-adapter:EAEE-0.0.3",
+      "name": "ethgasstation-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/fcsapi-adapter:EAEE-0.0.3",
+      "name": "fcsapi-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/finage-adapter:EAEE-0.0.3",
+      "name": "finage-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/finnhub-adapter:EAEE-0.0.3",
+      "name": "finnhub-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/fixer-adapter:EAEE-0.0.3",
+      "name": "fixer-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/fmpcloud-adapter:EAEE-0.0.3",
+      "name": "fmpcloud-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/genesis-volatility-adapter:EAEE-0.0.3",
+      "name": "genesis-volatility-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/geodb-adapter:EAEE-0.0.1",
+      "name": "geodb-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/harmony-adapter:EAEE-0.0.1",
+      "name": "harmony-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/iex-cloud-adapter:EAEE-0.0.1",
+      "name": "iex-cloud-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/json-rpc-adapter:EAEE-0.0.3",
+      "name": "json-rpc-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/kaiko-adapter:EAEE-0.0.3",
+      "name": "kaiko-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/lcx-adapter:EAEE-0.0.3",
+      "name": "lcx-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/linkpool-adapter:EAEE-0.0.3",
+      "name": "linkpool-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/lition-adapter:EAEE-0.0.3",
+      "name": "lition-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/marketstack-adapter:EAEE-0.0.3",
+      "name": "marketstack-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/messari-adapter:EAEE-0.0.3",
+      "name": "messari-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/metalsapi-adapter:EAEE-0.0.3",
+      "name": "metalsapi-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/nikkei-adapter:EAEE-0.0.3",
+      "name": "nikkei-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/nomics-adapter:EAEE-0.0.3",
+      "name": "nomics-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/oilpriceapi-adapter:EAEE-0.0.3",
+      "name": "oilpriceapi-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/onchain-adapter:EAEE-0.0.3",
+      "name": "onchain-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/openexchangerates-adapter:EAEE-0.0.3",
+      "name": "openexchangerates-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/orchid-bandwidth-adapter:EAEE-0.0.3",
+      "name": "orchid-bandwidth-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/paxos-adapter:EAEE-0.0.1",
+      "name": "paxos-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/paypal-adapter:EAEE-0.0.1",
+      "name": "paypal-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/poa-gasprice-adapter:EAEE-0.0.3",
+      "name": "poa-gasprice-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/polygon-adapter:EAEE-0.0.3",
+      "name": "polygon-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/reduce-adapter:EAEE-0.0.3",
+      "name": "reduce-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/renvm-address-set-adapter:EAEE-0.0.3",
+      "name": "renvm-address-set-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/satoshitango-adapter:EAEE-0.0.3",
+      "name": "satoshitango-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/sochain-adapter:EAEE-0.0.1",
+      "name": "sochain-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/stasis-adapter:EAEE-0.0.3",
+      "name": "stasis-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/taapi-adapter:EAEE-0.0.3",
+      "name": "taapi-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/therundown-adapter:EAEE-0.0.1",
+      "name": "therundown-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/tiingo-adapter:EAEE-0.0.1",
+      "name": "tiingo-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/tradermade-adapter:EAEE-0.0.4",
+      "name": "tradermade-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/tradingeconomics-adapter:EAEE-0.0.4",
+      "name": "tradingeconomics-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/trueusd-adapter:EAEE-0.0.3",
+      "name": "trueusd-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/wbtc-address-set-adapter:EAEE-0.0.3",
+      "name": "wbtc-address-set-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/xbto-adapter:EAEE-0.0.3",
+      "name": "xbto-adapter",
+      "type": "sources",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/conflux-adapter:EAEE-0.0.2",
+      "name": "conflux-adapter",
+      "type": "targets",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/dydx-stark-adapter:EAEE-0.0.1",
+      "name": "dydx-stark-adapter",
+      "type": "targets",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/ethwrite-adapter:EAEE-0.0.2",
+      "name": "ethwrite-adapter",
+      "type": "targets",
+    },
+  ],
+}
+`;
