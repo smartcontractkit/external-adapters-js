@@ -66,9 +66,6 @@
       "path": "./sources/1forge"
     },
     {
-      "path": "./sources/agoric"
-    },
-    {
       "path": "./sources/alphachain"
     },
     {
@@ -204,9 +201,6 @@
       "path": "./sources/geodb"
     },
     {
-      "path": "./sources/harmony"
-    },
-    {
       "path": "./sources/iex-cloud"
     },
     {
@@ -300,6 +294,9 @@
       "path": "./sources/xbto"
     },
     {
+      "path": "./targets/agoric"
+    },
+    {
       "path": "./targets/conflux"
     },
     {
@@ -307,6 +304,9 @@
     },
     {
       "path": "./targets/ethwrite"
-    }
+    },
+    {
+      "path": "./targets/harmony"
+    },
   ]
 }

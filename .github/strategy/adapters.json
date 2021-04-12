@@ -23,7 +23,6 @@
     "image_name": "__ADAPTER__-adapter",
     "adapter": [
       "1forge",
-      "agoric",
       "alphachain",
       "alphavantage",
       "amberdata",
@@ -67,7 +66,6 @@
       "fmpcloud",
       "genesis-volatility",
       "geodb",
-      "harmony",
       "iex-cloud",
       "json-rpc",
       "kaiko",
@@ -105,9 +103,11 @@
     "docker": "yarn docker targets __ADAPTER__",
     "image_name": "__ADAPTER__-adapter",
     "adapter": [
+      "agoric",
       "conflux",
       "dydx-stark",
-      "ethwrite"
+      "ethwrite",
+      "harmony"
     ]
   },
   "composites": {
