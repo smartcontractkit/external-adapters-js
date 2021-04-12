@@ -7,6 +7,7 @@ const customParams = {
   multiply: false,
   heartbeatMinutes: false,
   isAdaptive: false,
+  lambda: false,
 }
 
 export const execute: Execute = async (input) => {
@@ -18,8 +19,9 @@ export const execute: Execute = async (input) => {
   const multiply = validator.validated.data.multiply || 1000000
   const heartbeatMinutes = validator.validated.data.heartbeatMinutes || 60
   const isAdaptive = validator.validated.data.isAdaptive as boolean
+  const lambda =  validator.validated.data.lambda || 0.1
 
-  const result = await calculate(oracleAddress, multiply, heartbeatMinutes, isAdaptive)
+  const result = await calculate(oracleAddress, multiply, heartbeatMinutes, isAdaptive, lambda)
   return Requester.success(jobRunID, {
     data: { result },
     result,

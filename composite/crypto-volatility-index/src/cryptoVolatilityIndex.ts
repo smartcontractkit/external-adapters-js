@@ -13,6 +13,7 @@ export const calculate = async (
   multiply: number,
   heartbeatMinutes: number,
   isAdaptive: boolean,
+  lambda: number,
 ): Promise<number> => {
   // Get all of the required derivatives data for the calculations, for all the relevant currencies
   const derivativesData = await getDerivativesData(cryptoCurrencies)
@@ -24,7 +25,7 @@ export const calculate = async (
   // Smooth CVI with previous on-chain value if exists
   const cvi = !isAdaptive
     ? toOnChainValue(weightedCVI, multiply)
-    : await applySmoothing(weightedCVI, oracleAddress, multiply, heartbeatMinutes)
+    : await applySmoothing(weightedCVI, oracleAddress, multiply, heartbeatMinutes, lambda)
 
   logger.info(`CVI: ${cvi}`)
   validateIndex(cvi)
@@ -88,6 +89,7 @@ const applySmoothing = async (
   oracleAddress: string,
   multiply: number,
   heartBeatMinutes: number,
+  lambdaValue: number
 ): Promise<number> => {
   const roundData = await getRpcLatestRound(oracleAddress)
   const latestIndex = new Decimal(roundData.answer.toString()).div(multiply)
@@ -103,17 +105,16 @@ const applySmoothing = async (
   if (dtSeconds < 0) {
     throw new Error('invalid time, please check the node clock')
   }
-  const l = lambda(dtSeconds, heartBeatMinutes)
+  const l = lambda(dtSeconds, heartBeatMinutes, lambdaValue)
   const smoothed = latestIndex.mul(new Decimal(1 - l)).add(new Decimal(weightedCVI).mul(l))
   logger.debug(`Previous value:${latestIndex}, updatedAt:${updatedAt}, dtSeconds:${dtSeconds}`)
   return smoothed.toNumber()
 }
 
 const LAMBDA_MIN = 0.01
-const LAMBDA_K = 0.1
-const lambda = function (t: number, heartBeatMinutes: number) {
+const lambda = function (t: number, heartBeatMinutes: number, lambdaValue: number) {
   const T = moment.duration(heartBeatMinutes, 'minutes').asSeconds()
-  return LAMBDA_MIN + (LAMBDA_K * Math.min(t, T)) / T
+  return LAMBDA_MIN + (lambdaValue * Math.min(t, T)) / T
 }
 
 const MAX_INDEX = 200
