@@ -48,7 +48,7 @@ export const getRateLimit = (
 export const getWSLimits = (
   provider: string,
   tier: string,
-): WSTier | undefined => {
+): WSTier => {
   const providerLimit = getProviderLimits(provider, tier, 'ws')
   if (!providerLimit) {
     logger.info(`WS Limit: Provider: "${provider}" and Tier: "${tier}" doesn't match any provider spec in limits.json`)

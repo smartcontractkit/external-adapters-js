@@ -62,7 +62,20 @@
         "rateLimit1h": 12500
       }
     },
-    "ws": {}
+    "ws": {
+      "free": {
+        "connections": 1,
+        "subscriptions": 10
+      },
+      "on-demand": {
+        "connections": 2,
+        "subscriptions": -1
+      },
+      "enterprise": {
+        "connections": 2,
+        "subscriptions": -1
+      }
+    }
   },
   "anyblock": {
     "http": {
@@ -210,7 +223,26 @@
         "rateLimit1h": 4166.66
       }
     },
-    "ws": {}
+    "ws": {
+      "free": {
+        "connections": 0,
+        "subscriptions": 0,
+        "tickerSupport": false
+      },
+      "startup": {
+        "connections": 1,
+        "subscriptions": -1,
+        "tickerSupport": false
+      },
+      "streamer": {
+        "connections": 1,
+        "subscriptions": -1
+      },
+      "professional": {
+        "connections": 1,
+        "subscriptions": -1
+      }
+    }
   },
   "coinbase": {
     "http": {
@@ -223,7 +255,13 @@
         "rateLimit1m": 300
       }
     },
-    "ws": {}
+    "ws": {
+      "public": {
+        "connections": 1,
+        "subscriptions": 100,
+        "note": "Connections: 1 per 4 seconds per IP; Messages: 100 per second per IP.(https://docs.pro.coinbase.com/#overview34)"
+      }
+    }
   },
   "coincodex": {
     "http": {},
@@ -339,7 +377,20 @@
         "rateLimit1h": 1027.39
       }
     },
-    "ws": {}
+    "ws": {
+      "free": {
+        "connections": -1,
+        "subscriptions": 50
+      },
+      "professional": {
+        "connections": -1,
+        "subscriptions": 500
+      },
+      "corporate": {
+        "connections": -1,
+        "subscriptions": 500
+      }
+    }
   },
   "cryptoid": {
     "http": {},
@@ -544,7 +595,17 @@
         "note": "claims no rate limits"
       }
     },
-    "ws": {}
+    "ws": {
+      "pro": {
+        "connections": 1,
+        "subscriptions": -1,
+        "note": "limited. https://www.kaiko.com/pages/kaiko-pricing"
+      },
+      "enterprise": {
+        "connections": -1,
+        "subscriptions": -1
+      }
+    }
   },
   "lcx": {
     "http": {},
@@ -774,17 +835,31 @@
   "tradingeconomics": {
     "http": {
       "standard": {
-        "rateLimit1s": -1,
-        "note": "couldn't find mention of api limits"
+        "rateLimit1h": 500,
+        "note": "http://api.tradingeconomics.com/documentation/Limits"
       },
       "professional": {
-        "rateLimit1s": -1
+        "rateLimit1h": 800
       },
-      "enterpride": {
-        "rateLimit1s": -1
+      "enterprise": {
+        "rateLimit1h": 100
       }
     },
-    "ws": {}
+    "ws": {
+      "standard": {
+        "connections": 1,
+        "subscriptions": -1,
+        "note": "No limit mention. http://api.tradingeconomics.com/documentation/Streaming"
+      },
+      "professional": {
+        "connections": 1,
+        "subscriptions": -1
+      },
+      "enterprise": {
+        "connections": 1,
+        "subscriptions": -1
+      }
+    }
   },
   "trueusd": {
     "http": {},
