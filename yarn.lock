@@ -1308,9 +1308,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/agoric-adapter@*, @chainlink/agoric-adapter@workspace:packages/sources/agoric":
+"@chainlink/agoric-adapter@*, @chainlink/agoric-adapter@workspace:packages/targets/agoric":
   version: 0.0.0-use.local
-  resolution: "@chainlink/agoric-adapter@workspace:packages/sources/agoric"
+  resolution: "@chainlink/agoric-adapter@workspace:packages/targets/agoric"
   dependencies:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-test-helpers": "*"
@@ -4897,9 +4897,9 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   languageName: unknown
   linkType: soft
 
-"@chainlink/harmony-adapter@*, @chainlink/harmony-adapter@workspace:packages/sources/harmony":
+"@chainlink/harmony-adapter@*, @chainlink/harmony-adapter@workspace:packages/targets/harmony":
   version: 0.0.0-use.local
-  resolution: "@chainlink/harmony-adapter@workspace:packages/sources/harmony"
+  resolution: "@chainlink/harmony-adapter@workspace:packages/targets/harmony"
   dependencies:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-test-helpers": "*"

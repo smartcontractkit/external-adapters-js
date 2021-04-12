@@ -111,10 +111,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/1forge"
       },
       {
-        "name": "@chainlink/agoric-adapter",
-        "reference": "workspace:packages/sources/agoric"
-      },
-      {
         "name": "@chainlink/alphachain-adapter",
         "reference": "workspace:packages/sources/alphachain"
       },
@@ -295,10 +291,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/geodb"
       },
       {
-        "name": "@chainlink/harmony-adapter",
-        "reference": "workspace:packages/sources/harmony"
-      },
-      {
         "name": "@chainlink/iex-cloud-adapter",
         "reference": "workspace:packages/sources/iex-cloud"
       },
@@ -427,6 +419,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/xbto"
       },
       {
+        "name": "@chainlink/agoric-adapter",
+        "reference": "workspace:packages/targets/agoric"
+      },
+      {
         "name": "@chainlink/conflux-adapter",
         "reference": "workspace:packages/targets/conflux"
       },
@@ -437,13 +433,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {
         "name": "@chainlink/ethwrite-adapter",
         "reference": "workspace:packages/targets/ethwrite"
+      },
+      {
+        "name": "@chainlink/harmony-adapter",
+        "reference": "workspace:packages/targets/harmony"
       }
     ],
     "enableTopLevelFallback": true,
     "ignorePatternData": "(^(?:\\.yarn\\/sdks(?:\\/(?!\\.)(?:(?:(?!(?:^|\\/)\\.).)*?)|$))$)",
     "fallbackExclusionList": [
       ["@chainlink/1forge-adapter", ["workspace:packages/sources/1forge"]],
-      ["@chainlink/agoric-adapter", ["workspace:packages/sources/agoric"]],
+      ["@chainlink/agoric-adapter", ["workspace:packages/targets/agoric"]],
       ["@chainlink/alphachain-adapter", ["workspace:packages/sources/alphachain"]],
       ["@chainlink/alphavantage-adapter", ["workspace:packages/sources/alphavantage"]],
       ["@chainlink/amberdata-adapter", ["workspace:packages/sources/amberdata"]],
@@ -507,7 +507,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/fmpcloud-adapter", ["workspace:packages/sources/fmpcloud"]],
       ["@chainlink/genesis-volatility-adapter", ["workspace:packages/sources/genesis-volatility"]],
       ["@chainlink/geodb-adapter", ["workspace:packages/sources/geodb"]],
-      ["@chainlink/harmony-adapter", ["workspace:packages/sources/harmony"]],
+      ["@chainlink/harmony-adapter", ["workspace:packages/targets/harmony"]],
       ["@chainlink/iex-cloud-adapter", ["workspace:packages/sources/iex-cloud"]],
       ["@chainlink/json-rpc-adapter", ["workspace:packages/sources/json-rpc"]],
       ["@chainlink/kaiko-adapter", ["workspace:packages/sources/kaiko"]],
@@ -2787,10 +2787,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@chainlink/agoric-adapter", [
-        ["workspace:packages/sources/agoric", {
-          "packageLocation": "./packages/sources/agoric/",
+        ["workspace:packages/targets/agoric", {
+          "packageLocation": "./packages/targets/agoric/",
           "packageDependencies": [
-            ["@chainlink/agoric-adapter", "workspace:packages/sources/agoric"],
+            ["@chainlink/agoric-adapter", "workspace:packages/targets/agoric"],
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
@@ -3538,7 +3538,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@chainlink/ea", "workspace:packages/core/legos"],
             ["@chainlink/1forge-adapter", "workspace:packages/sources/1forge"],
-            ["@chainlink/agoric-adapter", "workspace:packages/sources/agoric"],
+            ["@chainlink/agoric-adapter", "workspace:packages/targets/agoric"],
             ["@chainlink/alphachain-adapter", "workspace:packages/sources/alphachain"],
             ["@chainlink/alphavantage-adapter", "workspace:packages/sources/alphavantage"],
             ["@chainlink/amberdata-adapter", "workspace:packages/sources/amberdata"],
@@ -3581,7 +3581,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/fmpcloud-adapter", "workspace:packages/sources/fmpcloud"],
             ["@chainlink/genesis-volatility-adapter", "workspace:packages/sources/genesis-volatility"],
             ["@chainlink/geodb-adapter", "workspace:packages/sources/geodb"],
-            ["@chainlink/harmony-adapter", "workspace:packages/sources/harmony"],
+            ["@chainlink/harmony-adapter", "workspace:packages/targets/harmony"],
             ["@chainlink/iex-cloud-adapter", "workspace:packages/sources/iex-cloud"],
             ["@chainlink/json-rpc-adapter", "workspace:packages/sources/json-rpc"],
             ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],
@@ -3984,10 +3984,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@chainlink/harmony-adapter", [
-        ["workspace:packages/sources/harmony", {
-          "packageLocation": "./packages/sources/harmony/",
+        ["workspace:packages/targets/harmony", {
+          "packageLocation": "./packages/targets/harmony/",
           "packageDependencies": [
-            ["@chainlink/harmony-adapter", "workspace:packages/sources/harmony"],
+            ["@chainlink/harmony-adapter", "workspace:packages/targets/harmony"],
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],

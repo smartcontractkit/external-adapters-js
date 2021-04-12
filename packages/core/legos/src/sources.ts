@@ -1,5 +1,4 @@
 import * as _1forge from '@chainlink/1forge-adapter'
-import * as agoric from '@chainlink/agoric-adapter'
 import * as alphachain from '@chainlink/alphachain-adapter'
 import * as alphavantage from '@chainlink/alphavantage-adapter'
 import * as amberdata from '@chainlink/amberdata-adapter'
@@ -42,7 +41,6 @@ import * as fixer from '@chainlink/fixer-adapter'
 import * as fmpcloud from '@chainlink/fmpcloud-adapter'
 import * as genesis_adapter from '@chainlink/genesis-volatility-adapter'
 import * as geodb from '@chainlink/geodb-adapter'
-import * as harmony from '@chainlink/harmony-adapter'
 import * as iex_adapter from '@chainlink/iex-cloud-adapter'
 import * as json_adapter from '@chainlink/json-rpc-adapter'
 import * as kaiko from '@chainlink/kaiko-adapter'
@@ -76,7 +74,6 @@ import * as xbto from '@chainlink/xbto-adapter'
 
 export default {
   _1forge,
-  agoric,
   alphachain,
   alphavantage,
   amberdata,
@@ -119,7 +116,6 @@ export default {
   fmpcloud,
   genesis_adapter,
   geodb,
-  harmony,
   iex_adapter,
   json_adapter,
   kaiko,
