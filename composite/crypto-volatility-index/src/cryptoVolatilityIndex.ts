@@ -33,7 +33,7 @@ export const calculate = async (
 }
 
 const calculateVixValues = async (derivativesData: Record<string, CurrencyDerivativesData>) => {
-  const now = moment().utc().unix();
+  const now = moment().utc().unix()
   const sigmaCalculator = new SigmaCalculator()
   const vixValues = cryptoCurrencies.map((currency) => {
     sigmaCalculator.sortByStrikePrice(derivativesData[currency])
@@ -89,7 +89,7 @@ const applySmoothing = async (
   oracleAddress: string,
   multiply: number,
   heartBeatMinutes: number,
-  lambdaValue: number
+  lambdaValue: number,
 ): Promise<number> => {
   const roundData = await getRpcLatestRound(oracleAddress)
   const latestIndex = new Decimal(roundData.answer.toString()).div(multiply)

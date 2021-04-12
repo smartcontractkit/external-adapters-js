@@ -97,11 +97,14 @@ const getOptionsData = async (currency: string, exchangeRate: Decimal) => {
     const calls: Record<number, Array<OptionData>> = {}
     const puts: Record<number, Array<OptionData>> = {}
     const instruments = await getInstrumentData(currency)
-    const hourAgo = moment().utc().subtract(1, 'hours').unix() * 1000;
+    const hourAgo = moment().utc().subtract(1, 'hours').unix() * 1000
 
     result.map(convertToOptionData).forEach((optionData: OptionData) => {
       const { instrumentName, expiration, type } = optionData
-      if (olderThanHour(instrumentName, hourAgo, instruments) && moment.unix(expiration).weekday() == 5) {
+      if (
+        olderThanHour(instrumentName, hourAgo, instruments) &&
+        moment.unix(expiration).weekday() == 5
+      ) {
         if (type === 'C') {
           if (!calls[expiration]) calls[expiration] = []
           calls[expiration].push(optionData)
@@ -136,7 +139,7 @@ const getOptionsData = async (currency: string, exchangeRate: Decimal) => {
 }
 
 function findNearMonthExpirations(calls: Record<number, Array<OptionData>>) {
-  const e30 = moment().utc().add(30, 'days').subtract(expirationHour, 'hours').unix();
+  const e30 = moment().utc().add(30, 'days').subtract(expirationHour, 'hours').unix()
   let e1: number | undefined
   let e2: number | undefined
 
