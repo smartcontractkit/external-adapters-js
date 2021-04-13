@@ -13,10 +13,11 @@ interface JobMatrix {
  * docker images
  */
 export function getJobMatrix(): JobMatrix {
-  const tag = process.env.TAG || 'latest'
+  const branch = process.env.BRANCH || ''
   const prefix = process.env.IMAGE_PREFIX || ''
+  const useLatest = !!process.env.LATEST
 
-  const dockerfile = generateFileJSON({ prefix, tag })
+  const dockerfile = generateFileJSON({ prefix, branch, useLatest })
   const adapter = Object.entries(dockerfile.services).map(([k, v]) => {
     return {
       name: k,
