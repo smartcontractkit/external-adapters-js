@@ -6,7 +6,6 @@ on:
       - epic/EAEE
   workflow_dispatch:
 env:
-  cache-name: staging-ci
   publicecr-name: chainlink-staging
 
 jobs:
@@ -45,6 +44,7 @@ jobs:
         run: yarn generate:gha:matrix
         env:
           TAG: EAEE
+          LATEST: true
           IMAGE_PREFIX: public.ecr.aws/${{ env.publicecr-name }}/adapters/
 
   publish-artifacts:
@@ -64,6 +64,7 @@ jobs:
         run: yarn generate:docker-compose
         env:
           TAG: EAEE
+          LATEST: true
           IMAGE_PREFIX: public.ecr.aws/${{ env.publicecr-name }}/adapters/
       - name: Build Docker containers
         run: docker-compose -f docker-compose.generated.yaml build ${{ matrix.adapter.name }}
