@@ -1,6 +1,8 @@
+import * as chalk from 'chalk'
 import * as shell from 'shelljs'
 import swaggerJsdoc from 'swagger-jsdoc'
-import { logRed } from './utils'
+const { red } = chalk
+const { log } = console
 
 interface OASpec {
   openapi: string
@@ -57,7 +59,7 @@ const ADAPTER_TYPES = ['composite', 'source', 'target', 'example']
         try {
           generate_OAS(type, n)
         } catch (e) {
-          logRed(`Failed to generate OAS.json for ${type}/${n}:\n${e}`)
+          log(red(`Failed to generate OAS.json for ${type}/${n}:\n${e}`))
         }
       })
     })
@@ -68,12 +70,12 @@ const ADAPTER_TYPES = ['composite', 'source', 'target', 'example']
   }
 
   const type: string = process.argv[2]
-  if (!type) return logRed('Missing first argument: type')
+  if (!type) return log(red('Missing first argument: type'))
   if (!ADAPTER_TYPES.includes(type))
-    return logRed(`Type must be one of: ${ADAPTER_TYPES.join(', ')}`)
+    return log(red(`Type must be one of: ${ADAPTER_TYPES.join(', ')}`))
 
   const n: string = process.argv[3]
-  if (!n) return logRed('Missing second argument: name')
+  if (!n) return log(red('Missing second argument: name'))
 
   generate_OAS(type, n)
 })()
