@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/adapter-test-helpers",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Helpers for testing Chainlink External Adapters.",
   "keywords": [
     "Chainlink",
@@ -35,10 +35,10 @@
     "@typescript-eslint/eslint-plugin": "^3.9.0",
     "@typescript-eslint/parser": "^3.9.0",
     "chai": "^4.2.0",
+    "hardhat": "^2.0.8",
     "mocha": "^7.1.2",
     "sinon": "^9.0.3",
     "ts-node": "^8.10.2",
-    "typescript": "^3.9.7",
-    "hardhat": "^2.0.8"
+    "typescript": "^3.9.7"
   }
 }

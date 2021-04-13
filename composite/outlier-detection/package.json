@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/outlier-detection-adapter",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Chainlink Outlier Detection adapter.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -31,12 +31,12 @@
     "typescript": "^3.9.7"
   },
   "dependencies": {
-    "@chainlink/reference-data-reader": "^0.0.3",
-    "@chainlink/oilpriceapi-adapter": "^0.0.3",
     "@chainlink/deribit-adapter": "^0.0.1",
-    "@chainlink/genesis-volatility-adapter": "^0.0.3",
-    "@chainlink/xbto-adapter": "^0.0.3",
     "@chainlink/dxfeed-adapter": "^0.0.3",
-    "@chainlink/tradermade-adapter": "^0.0.4"
+    "@chainlink/genesis-volatility-adapter": "^0.0.3",
+    "@chainlink/oilpriceapi-adapter": "^0.0.3",
+    "@chainlink/reference-data-reader": "^0.0.3",
+    "@chainlink/tradermade-adapter": "^0.0.4",
+    "@chainlink/xbto-adapter": "^0.0.3"
   }
 }

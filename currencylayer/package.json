@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/currencylayer-adapter",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Chainlink currencylayer adapter.",
   "keywords": [
     "Chainlink",
