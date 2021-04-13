@@ -43,7 +43,7 @@ jobs:
         id: create-matrix
         run: yarn generate:gha:matrix
         env:
-          TAG: EAEE
+          BRANCH: EAEE
           LATEST: true
           IMAGE_PREFIX: public.ecr.aws/${{ env.publicecr-name }}/adapters/
 
@@ -63,7 +63,7 @@ jobs:
       - name: Generate docker-compose file
         run: yarn generate:docker-compose
         env:
-          TAG: EAEE
+          BRANCH: EAEE
           LATEST: true
           IMAGE_PREFIX: public.ecr.aws/${{ env.publicecr-name }}/adapters/
       - name: Build Docker containers
