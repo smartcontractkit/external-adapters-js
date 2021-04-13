@@ -8,17 +8,16 @@
   ],
   "scripts": {
     "new": "ts-node ./packages/scripts/src/new.ts",
-    "docker": "ts-node ./packages/scripts/src/docker.ts",
     "bundle": "ncc build",
     "clean": "tsc -b --clean  ./packages/tsconfig.json",
     "lint": "eslint --ext ts .",
     "lint:fix": "yarn lint --fix",
     "setup": "tsc -b ./packages/tsconfig.json ",
     "test": "jest",
-    "generate:docker-compose": "ts-node ./packages/scripts/src/docker-build-print",
+    "generate:docker-compose": "ts-node ./packages/scripts/src/docker-build",
     "generate:oas": "ts-node ./packages/scripts/dist/docgen.js",
     "generate:oas:all": "yarn generate:oas --all",
-    "generate:gha:matrix": "ts-node ./packages/scripts/src/gha-print"
+    "generate:gha:matrix": "ts-node ./packages/scripts/src/gha"
   },
   "dependencies": {
     "@babel/core": "^7.13.14",

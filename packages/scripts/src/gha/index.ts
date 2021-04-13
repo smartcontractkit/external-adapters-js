@@ -1,3 +1,3 @@
 import { setOutput } from '@actions/core'
-import { getJobMatrix } from './gha'
+import { getJobMatrix } from './lib'
 setOutput('result', getJobMatrix())

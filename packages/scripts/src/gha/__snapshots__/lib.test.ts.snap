@@ -74,11 +74,6 @@ Object {
       "type": "sources",
     },
     Object {
-      "image_name": "agoric-adapter:latest-0.0.1",
-      "name": "agoric-adapter",
-      "type": "sources",
-    },
-    Object {
       "image_name": "alphachain-adapter:latest-0.0.3",
       "name": "alphachain-adapter",
       "type": "sources",
@@ -304,11 +299,6 @@ Object {
       "type": "sources",
     },
     Object {
-      "image_name": "harmony-adapter:latest-0.0.1",
-      "name": "harmony-adapter",
-      "type": "sources",
-    },
-    Object {
       "image_name": "iex-cloud-adapter:latest-0.0.1",
       "name": "iex-cloud-adapter",
       "type": "sources",
@@ -469,6 +459,11 @@ Object {
       "type": "sources",
     },
     Object {
+      "image_name": "agoric-adapter:latest-0.0.1",
+      "name": "agoric-adapter",
+      "type": "targets",
+    },
+    Object {
       "image_name": "conflux-adapter:latest-0.0.2",
       "name": "conflux-adapter",
       "type": "targets",
@@ -481,6 +476,11 @@ Object {
     Object {
       "image_name": "ethwrite-adapter:latest-0.0.2",
       "name": "ethwrite-adapter",
+      "type": "targets",
+    },
+    Object {
+      "image_name": "harmony-adapter:latest-0.0.1",
+      "name": "harmony-adapter",
       "type": "targets",
     },
   ],
@@ -558,11 +558,6 @@ Object {
     Object {
       "image_name": "public.ecr.aws/chainlink-staging/adapters/1forge-adapter:EAEE-0.0.3",
       "name": "1forge-adapter",
-      "type": "sources",
-    },
-    Object {
-      "image_name": "public.ecr.aws/chainlink-staging/adapters/agoric-adapter:EAEE-0.0.1",
-      "name": "agoric-adapter",
       "type": "sources",
     },
     Object {
@@ -791,11 +786,6 @@ Object {
       "type": "sources",
     },
     Object {
-      "image_name": "public.ecr.aws/chainlink-staging/adapters/harmony-adapter:EAEE-0.0.1",
-      "name": "harmony-adapter",
-      "type": "sources",
-    },
-    Object {
       "image_name": "public.ecr.aws/chainlink-staging/adapters/iex-cloud-adapter:EAEE-0.0.1",
       "name": "iex-cloud-adapter",
       "type": "sources",
@@ -956,6 +946,11 @@ Object {
       "type": "sources",
     },
     Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/agoric-adapter:EAEE-0.0.1",
+      "name": "agoric-adapter",
+      "type": "targets",
+    },
+    Object {
       "image_name": "public.ecr.aws/chainlink-staging/adapters/conflux-adapter:EAEE-0.0.2",
       "name": "conflux-adapter",
       "type": "targets",
@@ -968,6 +963,11 @@ Object {
     Object {
       "image_name": "public.ecr.aws/chainlink-staging/adapters/ethwrite-adapter:EAEE-0.0.2",
       "name": "ethwrite-adapter",
+      "type": "targets",
+    },
+    Object {
+      "image_name": "public.ecr.aws/chainlink-staging/adapters/harmony-adapter:EAEE-0.0.1",
+      "name": "harmony-adapter",
       "type": "targets",
     },
   ],

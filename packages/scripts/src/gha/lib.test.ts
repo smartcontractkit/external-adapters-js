@@ -1,4 +1,4 @@
-import { getJobMatrix } from './gha'
+import { getJobMatrix } from './lib'
 
 describe('job matrix generation', () => {
   it('should generate a job matrix consumable by gha', () => {
