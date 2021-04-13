@@ -55,7 +55,7 @@ function main() {
       .to(`${legos_path}/package.json`)
 
     // updating loegs/src/sources.ts
-    let output = shell.cat(`${legos_path}/src/sources.ts`).split('\n')
+    const output = shell.cat(`${legos_path}/src/sources.ts`).split('\n')
     const insert_index = output.indexOf('')
     output.splice(insert_index, 0, `import * as ${n} from '@chainlink/${n}-adapter'`) // insert import statement
     output.splice(-2, 0, `  ${n},`) // insert in the export default object
