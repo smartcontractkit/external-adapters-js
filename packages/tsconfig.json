@@ -294,6 +294,9 @@
       "path": "./sources/xbto"
     },
     {
+      "path": "./sources/paypal"
+    },
+    {
       "path": "./targets/agoric"
     },
     {

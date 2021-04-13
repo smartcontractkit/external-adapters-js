@@ -10,6 +10,7 @@ import * as bitex from '@chainlink/bitex-adapter'
 import * as bitso from '@chainlink/bitso-adapter'
 import * as blockchain_com from '@chainlink/blockchain.com-adapter'
 import * as blockchair from '@chainlink/blockchair-adapter'
+import * as blockstream from '@chainlink/blockstream-adapter'
 import * as blockcypher from '@chainlink/blockcypher-adapter'
 import * as bravenewcoin from '@chainlink/bravenewcoin-adapter'
 import * as btc_com from '@chainlink/btc.com-adapter'
@@ -30,8 +31,10 @@ import * as cryptomkt from '@chainlink/cryptomkt-adapter'
 import * as currencylayer from '@chainlink/currencylayer-adapter'
 import * as deribit from '@chainlink/deribit-adapter'
 import * as dns_query from '@chainlink/dns-query-adapter'
+import * as dwolla from '@chainlink/dwolla-adapter'
 import * as dxfeed from '@chainlink/dxfeed-adapter'
 import * as dxfeed_secondary from '@chainlink/dxfeed-secondary-adapter'
+import * as eodhistoricaldata from '@chainlink/eodhistoricaldata-adapter'
 import * as etherchain from '@chainlink/etherchain-adapter'
 import * as ethgasstation from '@chainlink/ethgasstation-adapter'
 import * as fcsapi from '@chainlink/fcsapi-adapter'
@@ -57,11 +60,13 @@ import * as onchain from '@chainlink/onchain-adapter'
 import * as openexchangerates from '@chainlink/openexchangerates-adapter'
 import * as orchid_adapter from '@chainlink/orchid-bandwidth-adapter'
 import * as paxos from '@chainlink/paxos-adapter'
+import * as paypal from '@chainlink/paypal-adapter'
 import * as poa_adapter from '@chainlink/poa-gasprice-adapter'
 import * as polygon from '@chainlink/polygon-adapter'
 import * as reduce from '@chainlink/reduce-adapter'
 import * as renvm_adapter_address from '@chainlink/renvm-address-set-adapter'
 import * as satoshitango from '@chainlink/satoshitango-adapter'
+import * as sochain from '@chainlink/sochain-adapter'
 import * as stasis from '@chainlink/stasis-adapter'
 import * as taapi from '@chainlink/taapi-adapter'
 import * as therundown from '@chainlink/therundown-adapter'
@@ -86,6 +91,7 @@ export default {
   blockchain_com,
   blockchair,
   blockcypher,
+  blockstream,
   bravenewcoin,
   btc_com,
   cfbenchmarks,
@@ -105,8 +111,10 @@ export default {
   currencylayer,
   deribit,
   dns_query,
+  dwolla,
   dxfeed,
   dxfeed_secondary,
+  eodhistoricaldata,
   etherchain,
   ethgasstation,
   fcsapi,
@@ -132,11 +140,13 @@ export default {
   openexchangerates,
   orchid_adapter,
   paxos,
+  paypal,
   poa_adapter,
   polygon,
   reduce,
   renvm_adapter_address,
   satoshitango,
+  sochain,
   stasis,
   taapi,
   therundown,

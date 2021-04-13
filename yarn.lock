@@ -1563,7 +1563,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/blockstream-adapter@workspace:packages/sources/blockstream":
+"@chainlink/blockstream-adapter@*, @chainlink/blockstream-adapter@workspace:packages/sources/blockstream":
   version: 0.0.0-use.local
   resolution: "@chainlink/blockstream-adapter@workspace:packages/sources/blockstream"
   dependencies:
@@ -1944,7 +1944,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/dwolla-adapter@workspace:packages/sources/dwolla":
+"@chainlink/dwolla-adapter@*, @chainlink/dwolla-adapter@workspace:packages/sources/dwolla":
   version: 0.0.0-use.local
   resolution: "@chainlink/dwolla-adapter@workspace:packages/sources/dwolla"
   dependencies:
@@ -2140,6 +2140,7 @@ __metadata:
     "@chainlink/blockchain.com-adapter": "*"
     "@chainlink/blockchair-adapter": "*"
     "@chainlink/blockcypher-adapter": "*"
+    "@chainlink/blockstream-adapter": "*"
     "@chainlink/bravenewcoin-adapter": "*"
     "@chainlink/btc.com-adapter": "*"
     "@chainlink/cfbenchmarks-adapter": "*"
@@ -2159,8 +2160,10 @@ __metadata:
     "@chainlink/currencylayer-adapter": "*"
     "@chainlink/deribit-adapter": "*"
     "@chainlink/dns-query-adapter": "*"
+    "@chainlink/dwolla-adapter": "*"
     "@chainlink/dxfeed-adapter": "*"
     "@chainlink/dxfeed-secondary-adapter": "*"
+    "@chainlink/eodhistoricaldata-adapter": "*"
     "@chainlink/etherchain-adapter": "*"
     "@chainlink/ethgasstation-adapter": "*"
     "@chainlink/fcsapi-adapter": "*"
@@ -2187,11 +2190,13 @@ __metadata:
     "@chainlink/openexchangerates-adapter": "*"
     "@chainlink/orchid-bandwidth-adapter": "*"
     "@chainlink/paxos-adapter": "*"
+    "@chainlink/paypal-adapter": "*"
     "@chainlink/poa-gasprice-adapter": "*"
     "@chainlink/polygon-adapter": "*"
     "@chainlink/reduce-adapter": "*"
     "@chainlink/renvm-address-set-adapter": "*"
     "@chainlink/satoshitango-adapter": "*"
+    "@chainlink/sochain-adapter": "*"
     "@chainlink/stasis-adapter": "*"
     "@chainlink/taapi-adapter": "*"
     "@chainlink/therundown-adapter": "*"
@@ -2209,7 +2214,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/eodhistoricaldata-adapter@workspace:packages/sources/eodhistoricaldata":
+"@chainlink/eodhistoricaldata-adapter@*, @chainlink/eodhistoricaldata-adapter@workspace:packages/sources/eodhistoricaldata":
   version: 0.0.0-use.local
   resolution: "@chainlink/eodhistoricaldata-adapter@workspace:packages/sources/eodhistoricaldata"
   dependencies:
@@ -2704,7 +2709,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/paypal-adapter@workspace:packages/sources/paypal":
+"@chainlink/paypal-adapter@*, @chainlink/paypal-adapter@workspace:packages/sources/paypal":
   version: 0.0.0-use.local
   resolution: "@chainlink/paypal-adapter@workspace:packages/sources/paypal"
   dependencies:

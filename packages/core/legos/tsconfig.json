@@ -83,6 +83,10 @@
     { "path": "../../sources/tradingeconomics" },
     { "path": "../../sources/trueusd" },
     { "path": "../../sources/wbtc-address-set" },
-    { "path": "../../sources/xbto" }
+    { "path": "../../sources/xbto" },
+    { "path": "../../sources/blockstream" },
+    { "path": "../../sources/dwolla" },
+    { "path": "../../sources/paypal" },
+    { "path": "../../sources/sochain" }
   ]
 }
