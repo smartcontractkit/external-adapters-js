@@ -1,10 +1,13 @@
 import * as fs from 'fs'
+import { join } from 'path'
 import * as yaml from 'yaml'
 import { getWorkspacePackages, WorkspacePackages } from './workspace'
 
 export function writeFile(): void {
-  fs.writeFileSync('docker-compose.generated.yaml', generateFile())
+  const path = process.env.GITHUB_WORKSPACE || ''
+  fs.writeFileSync(join(path, 'docker-compose.generated.yaml'), generateFile())
 }
+
 export function generateFile(): string {
   const tag = process.env.TAG || 'latest'
   const prefix = process.env.IMAGE_PREFIX || ''
