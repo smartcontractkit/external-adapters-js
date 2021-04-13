@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/cryptomkt-adapter",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Chainlink cryptomkt adapter.",
   "keywords": [
     "Chainlink",

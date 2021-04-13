@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/dxfeed-secondary-adapter",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Chainlink dxfeed secondary adapter.",
   "keywords": [
     "Chainlink",
@@ -43,6 +43,6 @@
     "typescript": "^3.9.7"
   },
   "dependencies": {
-    "@chainlink/dxfeed-adapter": "0.0.3"
+    "@chainlink/dxfeed-adapter": "0.0.4"
   }
 }

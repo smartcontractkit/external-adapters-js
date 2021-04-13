@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/nikkei-adapter",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Chainlink nikkei adapter.",
   "keywords": [
     "Chainlink",

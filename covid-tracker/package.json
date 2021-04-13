@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/covid-tracker-adapter",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Chainlink COVID tracker adapter.",
   "keywords": [
     "Chainlink",

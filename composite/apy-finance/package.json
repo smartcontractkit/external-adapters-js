@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/apy-finance-adapter",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Chainlink APY Finance TVL adapter",
   "keywords": [
     "Chainlink",
@@ -42,7 +42,7 @@
     "typescript": "^3.9.7"
   },
   "dependencies": {
-    "@chainlink/token-allocation-adapter": "^0.0.1",
+    "@chainlink/token-allocation-adapter": "^0.0.2",
     "@openzeppelin/contracts": "^3.3.0"
   }
 }

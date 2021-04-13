@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/defi-pulse-adapter",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Chainlink defi pulse adapter",
   "keywords": [
     "Chainlink",
@@ -42,6 +42,6 @@
     "typescript": "^3.9.7"
   },
   "dependencies": {
-    "@chainlink/token-allocation-adapter": "^0.0.1"
+    "@chainlink/token-allocation-adapter": "^0.0.2"
   }
 }
