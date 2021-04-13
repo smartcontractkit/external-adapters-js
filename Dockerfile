@@ -4,7 +4,6 @@ ARG package
 WORKDIR /home/node/app
 
 COPY . .
-RUN yarn workspace $package clean
 RUN yarn
 RUN yarn workspace $package build
 RUN yarn bundle $location -o $location/bundle
