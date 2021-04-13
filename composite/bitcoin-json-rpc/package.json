@@ -32,6 +32,6 @@
     "typescript": "^3.9.7"
   },
   "dependencies": {
-    "@chainlink/json-rpc-adapter": "^0.0.3"
+    "@chainlink/json-rpc-adapter": "^0.0.4"
   }
 }

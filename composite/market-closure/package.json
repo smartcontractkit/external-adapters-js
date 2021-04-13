@@ -31,9 +31,9 @@
     "typescript": "^3.9.7"
   },
   "dependencies": {
-    "@chainlink/fcsapi-adapter": "^0.0.3",
-    "@chainlink/finnhub-adapter": "^0.0.3",
-    "@chainlink/reference-data-reader": "^0.0.3",
+    "@chainlink/fcsapi-adapter": "^0.0.4",
+    "@chainlink/finnhub-adapter": "^0.0.4",
+    "@chainlink/reference-data-reader": "^0.0.4",
     "market-closure": "^0.1.2"
   }
 }
