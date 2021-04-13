@@ -51,7 +51,7 @@ jobs:
         with:
           node-version: '14.x'
       - name: Install yarn deps
-        run: yarn install --frozen-lockfile --production
+        run: yarn
       - name: Generate docker-compose file
         run: yarn generate:docker-compose
       - run: docker-compose -f docker-compose.generated.yaml build ${{ matrix.adapter.name }}
