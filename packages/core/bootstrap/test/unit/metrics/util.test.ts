@@ -64,5 +64,15 @@ describe('Bootstrap/Metrics Utils', () => {
       const feedName = util.getFeedId(input)
       expect(feedName).toBe(JSON.stringify(input))
     })
+
+    it(`Does not throw error if pricefeed parameters are missing`, () => {
+      const input: AdapterRequest = {
+        id: String(),
+        data: {},
+      }
+      expect(() => {
+        util.getFeedId(input)
+      }).not.toThrow()
+    })
   })
 })
