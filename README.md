@@ -58,42 +58,37 @@ yarn start
 
 #### Docker
 
-Take `bravenewcoin` as an example.
+All of the external-adapters have a service that is created when the repo's docker-compose file is generated.
 
-First create the image. Use the provided `docker` script with two arguments:
-
-```bash
-yarn docker [adapter-type] [adapter-name]
+```sh
+yarn generate:docker-compose
 ```
 
-|   Parameter    |                 Description                  |              Options               |
-| :------------: | :------------------------------------------: | :--------------------------------: |
-| `adapter-type` |      path to adapter from `./packages`       | `composites`, `sources`, `targets` |
-| `adapter-name` | name of the folder that contains the adapter |  `bravenewcoin`, `coingecko`, ...  |
+Take `bravenewcoin-adapter` as an example.
 
-`bravenewcoin` example:
+First create the image. Use the provided `docker-compose.generated.yaml` file along with `docker-compose build`:
 
-```bash
-yarn docker sources bravenewcoin
+```sh
+docker-compose -f docker-compose.generated.yaml build adapter-name
 ```
 
-The naming convention for Docker containers will be contain the `-adapter` suffix.
+|   Parameter    |                 Description                  |                                       Options                                        |
+| :------------: | :------------------------------------------: | :----------------------------------------------------------------------------------: |
+| `adapter-name` | name of the folder that contains the adapter | See `docker-compose.generated.yaml` for list of services that can be used as options |
+
+`bravenewcoin-adapter` example:
+
+```bash
+docker-compose -f docker-compose.generated.yaml build bravenewcoin-adapter
+```
 
 Then run it with:
 
 ```bash
-docker run -p 8080:8080 -e API_KEY='YOUR_API_KEY' -it bravenewcoin-adapter:latest
+docker-compose -f docker-compose.generated.yaml run -p 8080:8080 -e API_KEY='YOUR_API_KEY' -it bravenewcoin-adapter
 ```
-
-TIP: If there are a large amount of environment variables it may be more convenient to pass a file.
 
 (Docker environment file string values do not use " or ' quote marks)
-
-Then run it with:
-
-```bash
-docker run -p 8080:8080 --env-file="~/PATH_TO_ENV" -it proof-of-reserves-adapter:latest
-```
 
 ### Input
 
