@@ -3,6 +3,7 @@
 ## Input Params
 
 - `base`, `from`, or `symbol`: The symbol of the asset to query
+- `overrides`: (not required) If base provided is found in overrides, that will be used. [Format](../external-adapter/src/overrides/presetSymbols.json)
 
 ## Output
 

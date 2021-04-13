@@ -65,13 +65,6 @@ declare module '@chainlink/types' {
   }
 
   /* BOOTSTRAP */
-  // TODO: clean this ASAP
-  export type WrappedAdapterResponse = {
-    statusCode: number
-    data: AdapterResponse | AdapterErrorResponse
-  }
-  export type ExecuteWrappedResponse = (input: AdapterRequest) => Promise<WrappedAdapterResponse>
-
   export type ExecuteSync = (input: AdapterRequest, callback: Callback) => void
 
   export type Execute = (input: AdapterRequest) => Promise<AdapterResponse>
@@ -102,7 +95,13 @@ declare module '@chainlink/types' {
     chain?: string
     warning?: string
   }
+
+  /* INPUT TYPE VALIDATIONS */
+  export type Override = Map<string, Map<string, string>>
+
 }
 declare module '@chainlink/ea-bootstrap'
 declare module '@chainlink/external-adapter'
+declare module 'synthetix'
 declare module 'object-path'
+declare module 'lodash'

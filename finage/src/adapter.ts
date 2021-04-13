@@ -2,15 +2,12 @@ import { Execute } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { util } from '@chainlink/ea-bootstrap'
 
+export const NAME = 'Finage'
+
 const customParams = {
-  symbol: ['base', 'from', 'symbol'],
+  base: ['base', 'from', 'symbol'],
   to: false,
   endpoint: false,
-}
-
-const commonKeys: Record<string, string> = {
-  FTSE: 'UK100',
-  N225: 'JAP225',
 }
 
 export const execute: Execute = async (input) => {
@@ -20,9 +17,9 @@ export const execute: Execute = async (input) => {
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || ''
   let url = `https://api.finage.co.uk/last/${endpoint}`
-  const symbol = validator.validated.data.symbol.toUpperCase()
+  const symbol = validator.overrideSymbol(NAME).toUpperCase()
   const to = (validator.validated.data.to || '').toUpperCase()
-  const currencies = (commonKeys[symbol] || symbol) + to
+  const currencies = symbol + to
   const apikey = util.getRandomRequiredEnv('API_KEY')
   let params
   let responsePath

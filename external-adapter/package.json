@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/external-adapter",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "description": "Helpers for creating Chainlink External Adapters",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -26,6 +26,7 @@
   "dependencies": {
     "@google-cloud/logging-winston": "^4.0.1",
     "axios": "^0.21.1",
+    "lodash": "^4.17.21",
     "uuid": "^8.3.0",
     "winston": "^3.3.3"
   },

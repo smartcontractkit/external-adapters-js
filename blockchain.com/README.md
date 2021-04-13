@@ -1,4 +1,4 @@
-# Chainlink External Adapters to query BTC address balance from blockchain.com
+# Chainlink External Adapter for blockchain.com
 
 ## Configuration
 
@@ -58,7 +58,7 @@ The adapter takes the following environment variables:
 }
 ```
 
-### Output
+#### Output
 
 ```json
 {
@@ -154,5 +154,57 @@ The adapter takes the following environment variables:
     }
   ],
   "statusCode": 200
+}
+```
+
+### Difficulty endpoint
+
+- `chain`: Optional chain to query, defaults to `mainnet`
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "difficulty"
+  }
+}
+```
+
+#### Output
+
+```json
+{
+    "jobRunID": "1",
+    "data": {
+        "result": 23137439666472
+    },
+    "result": 23137439666472,
+    "statusCode": 200
+}
+```
+
+### Height endpoint
+
+- `chain`: Optional chain to query, defaults to `mainnet`
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "height"
+  }
+}
+```
+
+#### Output
+
+```json
+{
+    "jobRunID": "1",
+    "data": {
+        "result": 678212
+    },
+    "result": 678212,
+    "statusCode": 200
 }
 ```

@@ -1,6 +1,5 @@
-import { expose, util } from '@chainlink/ea-bootstrap'
-import { execute } from './adapter'
+import { expose } from '@chainlink/ea-bootstrap'
+import { makeExecute } from './adapter'
+import { makeConfig, NAME } from './config'
 
-const NAME = 'Tradermade'
-
-export = { NAME, execute, ...expose(util.wrapExecute(execute)) }
+export = { NAME, makeExecute, makeConfig, ...expose(makeExecute()) }

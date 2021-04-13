@@ -1,1 +1,0 @@
-# Coingecko Synthetix Index

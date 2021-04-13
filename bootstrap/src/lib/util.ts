@@ -1,11 +1,4 @@
-import {
-  Execute,
-  ExecuteSync,
-  AdapterRequest,
-  AdapterResponse,
-  WrappedAdapterResponse,
-  AdapterImplementation,
-} from '@chainlink/types'
+import { AdapterImplementation } from '@chainlink/types'
 import { v4 as uuidv4 } from 'uuid'
 import { Decimal } from 'decimal.js'
 
@@ -25,6 +18,14 @@ export const toObjectWithNumbers = (obj: any) => {
 }
 
 // pick a random string from env var after splitting with the delimiter ("a&b&c" "&" -> choice(["a","b","c"]))
+export const getRandomEnv = (name: string, delimiter = ',', prefix = '') => {
+  const val = getEnv(name, prefix)
+  if (!val) return val
+  const items = val.split(delimiter)
+  return items[Math.floor(Math.random() * items.length)]
+}
+
+// pick a random string from env var after splitting with the delimiter ("a&b&c" "&" -> choice(["a","b","c"]))
 export const getRandomRequiredEnv = (name: string, delimiter = ',', prefix = '') => {
   const val = getRequiredEnv(name, prefix)
   const items = val.split(delimiter)
@@ -36,14 +37,6 @@ export const uuid = (): string => {
   if (!process.env.UUID) process.env.UUID = uuidv4()
   return process.env.UUID
 }
-
-export const toAsync = (
-  execute: ExecuteSync,
-  data: AdapterRequest,
-): Promise<WrappedAdapterResponse> =>
-  new Promise((resolve) =>
-    execute(data, (statusCode: number, data: AdapterResponse) => resolve({ statusCode, data })),
-  )
 
 export const delay = (ms: number): Promise<number> =>
   new Promise((resolve) => setTimeout(resolve, ms))
@@ -118,18 +111,6 @@ export const getRequiredEnv = (name: string, prefix = ''): string => {
   const val = getEnv(name, prefix)
   if (!val) throw new RequiredEnvError(getEnvName(name, prefix))
   return val
-}
-
-// TODO: clean this ASAP
-// @see WrappedAdapterResponse
-export const wrapExecute = (execute: Execute) => async (
-  request: AdapterRequest,
-): Promise<WrappedAdapterResponse> => {
-  const resp = await execute(request)
-  return {
-    statusCode: resp.statusCode,
-    data: resp,
-  }
 }
 
 /**

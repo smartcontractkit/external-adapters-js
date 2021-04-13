@@ -1,11 +1,22 @@
 # Chainlink Kaiko External Adapter
 
-## Input Params
+### Environment Variables
 
-- `base`, `from`, or `coin`: The symbol of the currency to query
-- `quote`, `to`, or `market`: The symbol of the currency to convert to
+| Required? |  Name   |                                 Description                                 | Options | Defaults to |
+| :-------: | :-----: | :-------------------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     | API_KEY | An API key that can be obtained from [here](https://www.coinapi.io/pricing) |         |             |
 
-## Output
+---
+
+### Input Params
+
+| Required? |            Name            |               Description                | Options | Defaults to |
+| :-------: | :------------------------: | :--------------------------------------: | :-----: | :---------: |
+|    ✅     | `base`, `from`, or `coin`  |   The symbol of the currency to query    |         |             |
+|    ✅     | `quote`, `to`, or `market` | The symbol of the currency to convert to |         |             |
+|    🟡     |   `overrides`   | If base provided is found in overrides, that will be used  | [Format](../external-adapter/src/overrides/presetSymbols.json)|             |
+
+### Output
 
 ```json
 {

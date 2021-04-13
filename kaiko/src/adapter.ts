@@ -1,16 +1,19 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
-import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
-import { DEFAULT_INTERVAL, DEFAULT_SORT, DEFAULT_MILLISECONDS, makeConfig } from './config'
+import { Config, ExecuteWithConfig, ExecuteFactory, Override } from '@chainlink/types'
+import {
+  DEFAULT_INTERVAL,
+  DEFAULT_SORT,
+  DEFAULT_MILLISECONDS,
+  makeConfig,
+  NAME as AdapterName,
+} from './config'
 
 const customError = (data: any) => data.result === 'error'
 
 const customParams = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
-}
-
-const convertId: Record<string, string> = {
-  uni: 'uniswap',
+  includes: false,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
@@ -20,14 +23,18 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   Requester.logConfig(config)
 
   const jobRunID = validator.validated.id
-  let base = validator.validated.data.base.toLowerCase()
+  const base = validator.overrideSymbol(AdapterName).toLowerCase()
   const quote = validator.validated.data.quote.toLowerCase()
+  const includes = validator.validated.data.includes || []
 
-  // Correct common tickers that are misidentified
-  base = convertId[base] || base
-
+  let inverse = false
   let url = `/spot_exchange_rate/${base}/${quote}`
-  if (quote === 'eth') {
+  if (includes.length > 0 && base === 'digg' && includes[0].toLowerCase() === 'wbtc') {
+    inverse = true
+    url = `/spot_direct_exchange_rate/wbtc/digg`
+  } else if (includes.length > 0 && includes[0].toLowerCase() === 'weth') {
+    url = `/spot_direct_exchange_rate/${base}/weth`
+  } else if (quote === 'eth') {
     url = `/spot_direct_exchange_rate/${base}/${quote}`
   }
 
@@ -52,11 +59,15 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   }
 
   const response = await Requester.request(requestConfig, customError)
-  const result = Requester.validateResultNumber(
+  let result = Requester.validateResultNumber(
     // sometimes, the most recent(fraction of a second) data contain null price
     response.data.data.filter((x: any) => x.price !== null),
     [0, 'price'],
   )
+  if (inverse && result != 0) {
+    result = 1 / result
+  }
+
   return Requester.success(jobRunID, {
     data: {
       ...response.data,

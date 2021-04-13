@@ -2,12 +2,14 @@ import { Execute } from '@chainlink/types'
 import * as OilpriceAPI from '@chainlink/oilpriceapi-adapter'
 import * as Deribit from '@chainlink/deribit-adapter'
 import * as dxFeed from '@chainlink/dxfeed-adapter'
+import * as Tradermade from '@chainlink/tradermade-adapter'
 import { util } from '@chainlink/ea-bootstrap'
 
 export enum CheckDataProvider {
   OilpriceAPI = 'oilpriceapi',
   Deribit = 'deribit',
   dxFeed = 'dxfeed',
+  Tradermade = 'tradermade',
 }
 
 export const ENV_CHECK_ADAPTERS = 'CHECK_ADAPTERS'
@@ -31,6 +33,8 @@ export const getCheckImpl = (type: CheckDataProvider): Execute => {
       return Deribit.makeExecute(Deribit.makeConfig(prefix))
     case CheckDataProvider.dxFeed:
       return dxFeed.makeExecute(dxFeed.makeConfig(prefix))
+    case CheckDataProvider.Tradermade:
+      return Tradermade.makeExecute(Tradermade.makeConfig(prefix))
     default:
       throw Error(`Unknown source data provider adapter type: ${type}`)
   }

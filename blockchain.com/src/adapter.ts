@@ -1,7 +1,7 @@
 import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
 import { ExecuteWithConfig, ExecuteFactory, Config } from '@chainlink/types'
 import { makeConfig, DEFAULT_ENDPOINT } from './config'
-import { balance } from './endpoint'
+import { balance, difficulty, height } from './endpoint'
 
 const inputParams = {
   endpoint: false,
@@ -20,6 +20,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   switch (endpoint) {
     case balance.Name: {
       return balance.makeExecute(config)(request)
+    }
+    case difficulty.Name: {
+      return difficulty.execute(request, config)
+    }
+    case height.Name: {
+      return height.execute(request, config)
     }
     default: {
       throw new AdapterError({

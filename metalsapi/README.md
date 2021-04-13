@@ -1,10 +1,31 @@
 # Chainlink External Adapter for [MetalsAPI](https://metals-api.com/documentation#convertcurrency)
 
-## Input Params
+### Environment Variables
 
-- `base` or `from`: The symbol of the currency to query
-- `quote` or `to`: The symbol of the currency to convert to
-- `endpoint`: Optional endpoint param
+| Required? |  Name   | Description | Options | Defaults to |
+| :-------: | :-----: | :---------: | :-----: | :---------: |
+|    ✅     | API_KEY |             |         |             |
+
+---
+
+### Input Parameters
+
+| Required? |   Name   |     Description     |         Options          | Defaults to |
+| :-------: | :------: | :-----------------: | :----------------------: | :---------: |
+|           | endpoint | The endpoint to use | [price](#Price-Endpoint) |    price    |
+
+---
+
+## Price Endpoint
+
+### Input Params
+
+| Required? |            Name            |               Description                | Options | Defaults to |
+| :-------: | :------------------------: | :--------------------------------------: | :-----: | :---------: |
+|    ✅     | `base`, `from`, or `coin`  |   The symbol of the currency to query    |         |             |
+|    ✅     | `quote`, `to`, or `market` | The symbol of the currency to convert to |         |             |
+|    🟡     |          `amount`          |    The amount fo the `base` currency     |         |      1      |
+|    🟡     |   `overrides`   | If base provided is found in overrides, that will be used  | [Format](../external-adapter/src/overrides/presetSymbols.json)|             |
 
 ## Output
 

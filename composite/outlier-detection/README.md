@@ -9,8 +9,8 @@ If all checks passes, the adapter returns the median from the source data provid
 
 The adapter takes the following environment variables:
 
-- `SOURCE_ADAPTERS`: Required list of data source adapters. One or multiple of: `xbto|genesisvolatility|dxfeed`
-- `CHECK_ADAPTERS`: List of adapters to check against. One or multiple of: `deribit|oilpriceapi|dxfeed`
+- `SOURCE_ADAPTERS`: Required list of data source adapters. One or multiple of: `xbto|genesisvolatility|dxfeed|tradermade`
+- `CHECK_ADAPTERS`: List of adapters to check against. One or multiple of: `deribit|oilpriceapi|dxfeed|tradermade`
 - `CHECK_THRESHOLD`: Set a percentage deviation threshold against the check data sources. Set to 0 or empty to not
 perform this check.
 - `ONCHAIN_THRESHOLD`: Set a percentage deviation threshold against the on-chain value. Set to 0 or empty to not
@@ -27,11 +27,11 @@ E.g. dxFeed endpoint URL:
 ```ebnf
 # E.g.: SOURCE_ADAPTERS=xbto,dxfeed
 <SOURCE_ADAPTERS> ::= <source> ( "," <source> )*
-<source> ::= "xbto" | "genesisvolatility" | "dxfeed"
+<source> ::= "xbto" | "genesisvolatility" | "dxfeed" | "tradermade"
 
 # E.g.: CHECK_ADAPTERS=oilpriceapi,dxfeed
 <CHECK_ADAPTERS> ::= <check> ( "," <check> )*
-<check> ::= "deribit" | "oilpriceapi" | "dxfeed"
+<check> ::= "deribit" | "oilpriceapi" | "dxfeed" | "tradermade"
 ```
 
 ## Run

@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/crypto-volatility-index-adapter",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "The Crypto volatility index (CVI)",
   "keywords": [
     "Chainlink",
@@ -40,8 +40,8 @@
     "typescript": "^3.9.7"
   },
   "dependencies": {
-    "moment": "^2.29.1",
-    "@chainlink/reference-data-reader": "^0.0.3",
-    "@chainlink/token-allocation-adapter": "^0.0.1"
+    "@chainlink/reference-data-reader": "^0.0.4",
+    "@chainlink/token-allocation-adapter": "^0.0.2",
+    "moment": "^2.29.1"
   }
 }

@@ -18,3 +18,14 @@ export type ResponsePayload = {
     }
   }
 }
+
+export type PriceAdapter = {
+  getPrices: (baseSymbols: string[], quote: string) => Promise<Record<string, number>>
+  getMarketCaps: (baseSymbols: string[], quote: string) => Promise<Record<string, number>>
+}
+
+export type Config = {
+  priceAdapter: PriceAdapter
+  defaultMethod: string
+  defaultQuote: string
+}

@@ -43,28 +43,23 @@ _If on a Mac, this requires `gnu-sed` to be installed and set as the default for
 
 ### Input
 
-This is an example, a JSON body the adapter will receive when plugged into the Chainlink node pipeline:
+When flux monitor or OCR jobs post to external adapters, the request body looks as follows:
 
 ```json
 {
   "id": "2cae6a10e5184aa685c3428964b02418",
   "data": { "from": "ETH", "to": "USD" },
   "meta": {
-    "availableFunds": 99900000000000000000,
-    "eligibleToSubmit": true,
     "latestAnswer": 39307000000,
-    "oracleCount": 1,
-    "paymentAmount": 100000000000000000,
-    "reportableRoundID": 2,
-    "startedAt": 0,
-    "timeout": 0
+    "updatedAt": 1616448197,
   }
 }
 ```
 
-When the FluxMonitor posts to External Adapters, it will include the `RoundState` as the "meta" field in the request, serialized to a JSON object with lower camelCase keys.
+The `updatedAt` field is a unix timestamp representing when the `latestAnswer` was computed. 
 
 Optionally `data` parameters can also be passed via a query string like: `{ENDPOINT}?from=ETH&to=USD`
+
 ## Docker
 
 To build a Docker container for a specific `$adapter`, use the following example:
@@ -156,7 +151,7 @@ $input.json('$')
 ### Install to GCP
 
 - In Functions, create a new function, choose to ZIP upload
-- Select Node.js 10 for the Runtime
+- Select Node.js 12 for the Runtime
 - Click Browse and select the `$adapter-adapter.zip` file
 - Select a Storage Bucket to keep the zip in
 - Function to execute: gcpHandler

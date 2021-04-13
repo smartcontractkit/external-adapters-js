@@ -1,15 +1,36 @@
 import { Requester } from '@chainlink/external-adapter'
 
-// Defaults we use when there are multiple currencies with the same symbol
-const presetSlugs: Record<string, string> = {
-  COMP: 'compound',
-  BNT: 'bancor',
-  RCN: 'ripio-credit-network',
-  UNI: 'uniswap',
-  CRV: 'curve-dao-token',
-  FNX: 'finnexus',
-  ETC: 'ethereum-classic',
-  BAT: 'basic-attention-token',
+// Coin IDs fetched from the ID map: https://coinmarketcap.com/api/documentation/v1/#operation/getV1CryptocurrencyMap
+const presetIds: { [symbol: string]: number } = {
+  COMP: 5692,
+  BNT: 1727,
+  RCN: 2096,
+  UNI: 7083,
+  CRV: 6538,
+  FNX: 5712,
+  ETC: 1321,
+  BAT: 1697,
+  CRO: 3635,
+  LEO: 3957,
+  FTT: 4195,
+  HT: 2502,
+  OKB: 3897,
+  KCS: 2087,
+  BTC: 1,
+  ETH: 1027,
+  BNB: 1839,
+  LINK: 1975,
+  BCH: 1831,
+  MKR: 1518,
+  AAVE: 7278,
+  UMA: 5617,
+  SNX: 2586,
+  REN: 2539,
+  KNC: 1982,
+  SUSHI: 6758,
+  YFI: 5864,
+  BAL: 5728,
+  '1INCH': 8104,
 }
 
 const getPriceData = async (assets: string[], convert: string) => {
@@ -28,15 +49,15 @@ const getPriceData = async (assets: string[], convert: string) => {
   }
 
   // We map some symbols as slugs
-  const slugs = assets.map((s) => presetSlugs[s]).filter(Boolean)
-  const symbols = assets.filter((s) => !presetSlugs[s])
+  const ids = assets.map((s) => presetIds[s]).filter(Boolean)
+  const symbols = assets.filter((s) => !presetIds[s])
 
   let data: Record<string, any> = {}
 
   // We need to make two separate requests, one querying slugs
-  if (slugs.length > 0) {
-    const slugPrices = await _getPriceData({ slug: slugs.join(), convert })
-    data = { ...data, ...slugPrices.data }
+  if (ids.length > 0) {
+    const idPrices = await _getPriceData({ id: ids.join(), convert })
+    data = { ...data, ...idPrices.data }
   }
 
   // The other one querying symbols

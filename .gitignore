@@ -2,3 +2,4 @@ node_modules/
 *.zip
 dist
 .DS_Store
+cache
