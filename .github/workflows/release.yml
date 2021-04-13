@@ -7,7 +7,6 @@ on:
 name: Release
 
 env:
-  cache-name: release-ci
   publicecr-name: z0b1w9r9
 
 jobs:
@@ -46,13 +45,14 @@ jobs:
       matrix: ${{ steps.create-matrix.outputs.result }}
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/github-script@v3
-        name: Create job matrix
-        id: create-matrix
+      - uses: actions/setup-node@v2
         with:
-          script: |
-            const script = require(`${process.env.GITHUB_WORKSPACE}/.github/scripts/matrix.js`)
-            return script()
+          node-version: '14.x'
+      - name: Generate job matrix
+        id: create-matrix
+        run: yarn generate:gha:matrix
+        env:
+          IMAGE_PREFIX: public.ecr.aws/${{ env.publicecr-name }}/adapters/
 
   publish-artifacts:
     needs: [release, matrix-adapters]
@@ -66,9 +66,13 @@ jobs:
         with:
           node-version: '14.x'
       - name: Install yarn deps
-        run: yarn install --frozen-lockfile --production
+        run: yarn
+      - name: Generate docker-compose file
+        run: yarn generate:docker-compose
+        env:
+          IMAGE_PREFIX: public.ecr.aws/${{ env.publicecr-name }}/adapters/
       - name: Build Docker containers
-        run: ${{ matrix.adapter.docker }} public.ecr.aws/${{ env.publicecr-name }}/adapters/
+        run: docker-compose -f docker-compose.generated.yaml build ${{ matrix.adapter.name }}
       - name: Configure AWS Credentials for SDLC Public ECR
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -80,6 +84,6 @@ jobs:
       - name: Authenticate to public ECR
         run: aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/${{ env.publicecr-name }}
       - name: Create a public ECR repository if does not exist
-        run: aws ecr-public create-repository --region us-east-1 --repository-name adapters/${{ matrix.adapter.image_name }} || true
+        run: aws ecr-public create-repository --region us-east-1 --repository-name adapters/${{ matrix.adapter.name }} || true
       - name: Push to public ECR
-        run: docker push public.ecr.aws/${{ env.publicecr-name }}/adapters/${{ matrix.adapter.image_name }}
+        run: docker push ${{ matrix.adapter.image_name }}
