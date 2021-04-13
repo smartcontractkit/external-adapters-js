@@ -41,6 +41,7 @@ jobs:
         with:
           node-version: '14.x'
       - name: Generate job matrix
+        id: create-matrix
         run: yarn generate:gha:matrix
 
   publish-artifacts:
