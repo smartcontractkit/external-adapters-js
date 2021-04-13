@@ -3755,6 +3755,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/shelljs", "npm:0.8.8"],
             ["@types/swagger-jsdoc", "npm:6.0.0"],
             ["@types/yaml", "npm:1.9.6"],
+            ["chalk", "npm:4.1.0"],
             ["shelljs", "npm:0.8.4"],
             ["swagger-jsdoc", "npm:6.1.0"],
             ["tslib", "npm:2.2.0"],

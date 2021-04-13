@@ -1,20 +1,22 @@
+import * as chalk from 'chalk'
 import * as shell from 'shelljs'
-import { logRed } from './utils'
+const { red } = chalk
+const { log } = console
 
 const ADAPTER_TYPES = ['composite', 'source']
 
 function main() {
   const type: string = process.argv[2]
-  if (!type) return logRed('Missing first argument: type')
+  if (!type) return log(red('Missing first argument: type'))
   if (!ADAPTER_TYPES.includes(type))
-    return logRed(`Type must be one of: ${ADAPTER_TYPES.join(', ')}`)
+    return log(red(`Type must be one of: ${ADAPTER_TYPES.join(', ')}`))
 
   const n: string = process.argv[3]
-  if (!n) return logRed('Missing second argument: name')
+  if (!n) return log(red('Missing second argument: name'))
 
   // check if jq is installed (jq used later to modify json files)
   const jq: string = shell.exec('command -v jq').toString()
-  if (!jq) return logRed('jq is not installed')
+  if (!jq) return log(red('jq is not installed'))
 
   // copying files and adding to adapter lists
   shell.mkdir(`packages/${type}s/${n}`)

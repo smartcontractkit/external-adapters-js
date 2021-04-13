@@ -4,6 +4,7 @@
   "dependencies": {
     "@actions/core": "^1.2.6",
     "@actions/github": "^4.0.0",
+    "chalk": "^4.1.0",
     "shelljs": "^0.8.4",
     "swagger-jsdoc": "6.1.0",
     "tslib": "^2.1.0",
