@@ -8,6 +8,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+### Changed
+
+## [0.2.0] - 2021-4-13
+
+### Added
+
 - New adapters:
   - `agoric` to push results to the Agoric blockchain
   - `therundown` to get sports score data from TheRundown
