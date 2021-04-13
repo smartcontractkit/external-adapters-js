@@ -22,12 +22,12 @@ jobs:
         with:
           node-version: '14.x'
       - name: Install dependencies
-        run: yarn --production=false
+        run: yarn
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npx semantic-release
+        run: yarn semantic-release -e semantic-release-monorepo
 
   # Read build strategy matrix of adapters, from a json file
   matrix-adapters:
