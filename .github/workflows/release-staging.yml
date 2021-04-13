@@ -43,6 +43,9 @@ jobs:
       - name: Generate job matrix
         id: create-matrix
         run: yarn generate:gha:matrix
+        env:
+          TAG: EAEE
+          IMAGE_PREFIX: public.ecr.aws/${{ env.publicecr-name }}/adapters/
 
   publish-artifacts:
     needs: [matrix-adapters]
@@ -76,6 +79,3 @@ jobs:
         run: aws ecr-public create-repository --region us-east-1 --repository-name adapters/${{ matrix.adapter.name }} || true
       - name: Push to public ECR
         run: docker push ${{ matrix.adapter.image_name }}
-        env:
-          TAG: EAEE
-          IMAGE_PREFIX: public.ecr.aws/${{ env.publicecr-name }}/adapters/
