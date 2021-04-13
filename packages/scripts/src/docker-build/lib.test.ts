@@ -1,4 +1,4 @@
-import { generateFileJSON, ImageNameConfig } from './docker-build'
+import { generateFileJSON, ImageNameConfig } from './lib'
 describe('docker compose file generation', () => {
   const nullImageNameConfig: ImageNameConfig = {
     prefix: '',

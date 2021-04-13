@@ -1,7 +1,7 @@
 import * as fs from 'fs'
 import { join } from 'path'
 import * as yaml from 'yaml'
-import { getWorkspacePackages, WorkspacePackages } from './workspace'
+import { getWorkspacePackages, WorkspacePackages } from '../workspace'
 
 export function writeFile(): void {
   const path = process.env.GITHUB_WORKSPACE || ''
