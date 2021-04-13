@@ -4609,6 +4609,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@types/shelljs": ^0
     "@types/swagger-jsdoc": ^6
     "@types/yaml": ^1
+    chalk: ^4.1.0
     shelljs: ^0.8.4
     swagger-jsdoc: 6.1.0
     tslib: ^2.1.0
