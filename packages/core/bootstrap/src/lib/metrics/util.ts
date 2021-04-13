@@ -39,14 +39,20 @@ export const getFeedId = (input: AdapterRequest): string => {
     base: ['base', 'from', 'coin', 'symbol', 'asset'],
     quote: ['quote', 'to', 'convert'],
   }
-  try {
+
+  // check if string is within array
+  function includesCheck(param: string) {
+    return Object.keys(input.data).includes(param)
+  }
+
+  // run through validdator if input.data object has keys that match potential base and quote parameters
+  if (commonFeedParams.base.some(includesCheck) && commonFeedParams.quote.some(includesCheck)) {
     const validator = new Validator(input, commonFeedParams)
     if (validator.error) {
       logger.debug('Unable to validate feed name')
       return JSON.stringify(input)
     }
     return `${validator.validated.data.base.toUpperCase()}/${validator.validated.data.quote.toUpperCase()}`
-  } catch (e) {
-    return JSON.stringify(input)
   }
+  return JSON.stringify(input)
 }
