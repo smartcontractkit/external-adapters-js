@@ -9,9 +9,11 @@ export function writeFile(): void {
 }
 
 export function generateFile(): string {
-  const tag = process.env.TAG || 'latest'
+  const branch = process.env.BRANCH || ''
   const prefix = process.env.IMAGE_PREFIX || ''
-  return yaml.stringify(generateFileJSON({ prefix, tag }), { merge: true })
+  const useLatest = !!process.env.LATEST
+
+  return yaml.stringify(generateFileJSON({ prefix, branch, useLatest }), { merge: true })
 }
 
 export function generateFileJSON(imageNameConfig: ImageNameConfig): Dockerfile {
@@ -35,8 +37,9 @@ interface Dockerfile {
 }
 
 export interface ImageNameConfig {
-  tag: string
+  branch: string
   prefix: string
+  useLatest: boolean
 }
 
 export enum DockerLabels {
@@ -74,7 +77,9 @@ function makeDockerComposeFile(
 function generateImageName(
   descopedName: string,
   version: string,
-  { prefix, tag }: ImageNameConfig,
+  { prefix, branch, useLatest }: ImageNameConfig,
 ) {
-  return `${prefix}${descopedName}:${tag}-${version}`
+  const tag = [branch, useLatest ? 'latest' : version].filter(Boolean).join('-')
+
+  return `${prefix}${descopedName}:${tag}`
 }
