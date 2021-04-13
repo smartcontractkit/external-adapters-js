@@ -1,4 +1,4 @@
-import { DockerLabels, generateFileJSON } from './docker-build'
+import { DockerLabels, generateFileJSON } from '../docker-build/lib'
 
 interface JobMatrix {
   adapter: {
