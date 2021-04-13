@@ -18,9 +18,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `agoric` to push results to the Agoric blockchain
   - `therundown` to get sports score data from TheRundown
   - `tradingeconomics-stream` to get stream data from TradingEconomics
+  - `blockstream` to get Bitcoin height and difficulty
+- Basic prometheus metrics endpoint
 
 ### Changed
 
+- Remaining non-2-step adapters migrated to TS
 - Updated support for `DIGG/BTC` in Kaiko and Amberdata
 - Updated base URL for GeoDB
 - CMC now uses preset IDs instead of preset slugs
