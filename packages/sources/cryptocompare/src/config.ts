@@ -36,7 +36,7 @@ export const makeWSHandler = (config: Config): WSSubscriptionHandler => {
   }
   return {
     connection: {
-      url: DEFAULT_WS_API_ENDPOINT,
+      url: config.api.baseWsURL || DEFAULT_WS_API_ENDPOINT,
       protocol: { params: { api_key: config.apiKey } }
     },
     subscribe: (input) => {
@@ -48,7 +48,7 @@ export const makeWSHandler = (config: Config): WSSubscriptionHandler => {
       const quote = validator.validated.data.quote.toUpperCase()
       return {
         action: 'SubAdd',
-        subs: [`${subscriptions.ticker}~*~${base}~${quote}`]
+        subs: [`${subscriptions.aggregate}~*~${base}~${quote}`]
       }
     },
     filter: (message) => {

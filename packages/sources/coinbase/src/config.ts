@@ -19,10 +19,10 @@ export const makeConfig = (prefix?: string): Config => {
   return config
 }
 
-export const makeWSHandler = (): WSSubscriptionHandler => {
+export const makeWSHandler = (config: Config): WSSubscriptionHandler => {
   return {
     connection: {
-      url: DEFAULT_WS_API_ENDPOINT, // TODO: Necessary?
+      url: config.api.baseWsURL || DEFAULT_WS_API_ENDPOINT
     },
     subscribe: (input) => {
       const validator = new Validator(input, customParams)

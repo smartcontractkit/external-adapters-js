@@ -29,7 +29,7 @@ export const makeWSHandler = (): WSSubscriptionHandler => {
   const config = makeConfig()
   return {
     connection: {
-      url: DEFAULT_WS_API_ENDPOINT,
+      url: config.api.baseWsURL || DEFAULT_WS_API_ENDPOINT,
       protocol: { headers: { ...config.api.headers }}
     },
     subscribe: (input) => {

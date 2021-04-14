@@ -29,7 +29,7 @@ export const WS_ENABLED = parseBool(getEnv(ENV_WS_ENABLED))
 
 /** Load WSConnectionInfo from environment variables */
 export const envLoad_WSConnectionInfo = (prefix = ''): WSConnectionInfo => {
-  const url = getEnv(ENV_WS_CONNECTION_URL, prefix) || '' // TODO: Some adapters don't support WS
+  const url = getEnv(ENV_WS_CONNECTION_URL, prefix) || '' // TODO: Some adapters don't support WS. Moved URL into defaultConfig
   const protocol = getEnv(ENV_WS_CONNECTION_PROTOCOL, prefix) // TODO: load array
   const key = getEnv(ENV_WS_CONNECTION_KEY, prefix) || url // TODO: generate key
   return { key, url, protocol }
