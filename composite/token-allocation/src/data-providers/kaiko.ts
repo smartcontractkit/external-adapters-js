@@ -10,7 +10,7 @@ const getPriceData = async (symbol: string, currency: string) => {
     interval: '1m',
   }
   const headers = {
-    'X-Api-Key': util.getRequiredEnv('API_KEY'),
+    'X-Api-Key': util.getRandomRequiredEnv('API_KEY'),
     'User-Agent': 'Chainlink',
   }
   const timeout = 5000

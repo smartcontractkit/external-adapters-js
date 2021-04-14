@@ -4,7 +4,7 @@ import { util } from '@chainlink/ea-bootstrap'
 const getPriceData = async (symbol: string) => {
   const url = `https://web3api.io/api/v2/market/tokens/prices/${symbol.toLowerCase()}/latest`
   const headers = {
-    'X-API-KEY': util.getRequiredEnv('API_KEY'),
+    'X-API-KEY': util.getRandomRequiredEnv('API_KEY'),
   }
   const config = {
     url,

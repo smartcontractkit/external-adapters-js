@@ -1,4 +1,5 @@
 import { Requester } from '@chainlink/external-adapter'
+import { util } from '@chainlink/ea-bootstrap'
 
 // Coin IDs fetched from the ID map: https://coinmarketcap.com/api/documentation/v1/#operation/getV1CryptocurrencyMap
 const presetIds: { [symbol: string]: number } = {
@@ -37,7 +38,7 @@ const getPriceData = async (assets: string[], convert: string) => {
   const _getPriceData = async (params: any): Promise<any> => {
     const url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest'
     const headers = {
-      'X-CMC_PRO_API_KEY': process.env.API_KEY,
+      'X-CMC_PRO_API_KEY': util.getRandomRequiredEnv('API_KEY'),
     }
     const config = {
       url,
