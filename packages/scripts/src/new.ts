@@ -8,7 +8,7 @@ function readJson(filepath: string) {
   return JSON.parse(shell.cat(filepath))
 }
 
-function writeJson(filepath: string, data: object) {
+function writeJson(filepath: string, data: any) {
   shell.ShellString(JSON.stringify(data, null, 2)).to(filepath)
 }
 
