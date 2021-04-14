@@ -25,7 +25,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   }
 
   const response = await Requester.request(options, customError)
-  response.data.result = Requester.validateResultNumber(response.data.result_data, [symbol, 0, 'close'])
+  response.data.result = Requester.validateResultNumber(response.data.result_data, [
+    symbol,
+    0,
+    'close',
+  ])
 
   return Requester.success(jobRunID, response, config.verbose)
 }

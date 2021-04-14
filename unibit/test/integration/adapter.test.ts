@@ -9,7 +9,8 @@ describe('execute', () => {
   const execute = makeExecute()
 
   before(function () {
-    if (!process.env.API_KEY || process.env.API_KEY == 'test_api_key') throw new Error('API_KEY is required!')
+    if (!process.env.API_KEY || process.env.API_KEY == 'test_api_key')
+      throw new Error('API_KEY is required!')
   })
 
   context('successful calls @integration', () => {
