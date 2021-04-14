@@ -11,7 +11,7 @@ interface WorkspacePackage {
   version: string
 }
 
-const VALID_ADAPTER_TYPES = ['composites', 'sources', 'examples', 'targets']
+export const VALID_ADAPTER_TYPES = ['composites', 'sources', 'examples', 'targets']
 const scope = '@chainlink/'
 
 export type WorkspacePackages = ReturnType<typeof getWorkspacePackages>

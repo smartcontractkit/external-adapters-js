@@ -6,6 +6,24 @@
       "path": "./scripts"
     },
     {
+      "path": "./core/bootstrap"
+    },
+    {
+      "path": "./core/factories"
+    },
+    {
+      "path": "./core/legos"
+    },
+    {
+      "path": "./core/ratelimits"
+    },
+    {
+      "path": "./core/reference-data-reader"
+    },
+    {
+      "path": "./core/test-helpers"
+    },
+    {
       "path": "./composites/apy-finance"
     },
     {
@@ -37,24 +55,6 @@
     },
     {
       "path": "./composites/token-allocation"
-    },
-    {
-      "path": "./core/bootstrap"
-    },
-    {
-      "path": "./core/factories"
-    },
-    {
-      "path": "./core/legos"
-    },
-    {
-      "path": "./core/ratelimits"
-    },
-    {
-      "path": "./core/reference-data-reader"
-    },
-    {
-      "path": "./core/test-helpers"
     },
     {
       "path": "./examples/composite"
@@ -249,6 +249,9 @@
       "path": "./sources/paxos"
     },
     {
+      "path": "./sources/paypal"
+    },
+    {
       "path": "./sources/poa-gasprice"
     },
     {
@@ -292,9 +295,6 @@
     },
     {
       "path": "./sources/xbto"
-    },
-    {
-      "path": "./sources/paypal"
     },
     {
       "path": "./targets/agoric"

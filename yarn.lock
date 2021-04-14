@@ -1336,7 +1336,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/agoric-adapter@*, @chainlink/agoric-adapter@workspace:packages/targets/agoric":
+"@chainlink/agoric-adapter@workspace:packages/targets/agoric":
   version: 0.0.0-use.local
   resolution: "@chainlink/agoric-adapter@workspace:packages/targets/agoric"
   dependencies:
@@ -4637,7 +4637,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   resolution: "@chainlink/ea@workspace:packages/core/legos"
   dependencies:
     "@chainlink/1forge-adapter": "*"
-    "@chainlink/agoric-adapter": "*"
     "@chainlink/alphachain-adapter": "*"
     "@chainlink/alphavantage-adapter": "*"
     "@chainlink/amberdata-adapter": "*"
@@ -4683,7 +4682,6 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
     "@chainlink/fmpcloud-adapter": "*"
     "@chainlink/genesis-volatility-adapter": "*"
     "@chainlink/geodb-adapter": "*"
-    "@chainlink/harmony-adapter": "*"
     "@chainlink/iex-cloud-adapter": "*"
     "@chainlink/json-rpc-adapter": "*"
     "@chainlink/kaiko-adapter": "*"
@@ -4936,7 +4934,7 @@ bitcore-lib@^8.20.3, bitcore-lib@^8.25.7:
   languageName: unknown
   linkType: soft
 
-"@chainlink/harmony-adapter@*, @chainlink/harmony-adapter@workspace:packages/targets/harmony":
+"@chainlink/harmony-adapter@workspace:packages/targets/harmony":
   version: 0.0.0-use.local
   resolution: "@chainlink/harmony-adapter@workspace:packages/targets/harmony"
   dependencies:
