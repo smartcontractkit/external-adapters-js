@@ -17,7 +17,8 @@
     "generate:docker-compose": "ts-node ./packages/scripts/src/docker-build",
     "generate:oas": "ts-node ./packages/scripts/dist/docgen.js",
     "generate:oas:all": "yarn generate:oas --all",
-    "generate:gha:matrix": "ts-node ./packages/scripts/src/gha"
+    "generate:gha:matrix": "ts-node ./packages/scripts/src/gha",
+    "postinstall": "husky install"
   },
   "dependencies": {
     "@babel/core": "^7.13.14",
@@ -37,6 +38,8 @@
     "@types/eslint": "^7",
     "@types/node": "^14.14.35",
     "@types/semantic-release": "^17",
+    "commitizen": "^4.2.3",
+    "husky": "^6.0.0",
     "prettier": "^2.0.5",
     "semantic-release": "^17.4.2",
     "semantic-release-monorepo": "^7.0.4",
@@ -56,5 +59,10 @@
       "develop"
     ],
     "extends": "semantic-release-monorepo"
+  },
+  "husky": {
+    "hooks": {
+      "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true"
+    }
   }
 }
