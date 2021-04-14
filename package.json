@@ -97,7 +97,8 @@
     "watchsignals",
     "dnsproof",
     "genesisvolatility",
-    "ciphertrace"
+    "ciphertrace",
+    "bookmakerratings"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",
