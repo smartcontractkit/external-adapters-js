@@ -31,7 +31,6 @@
   },
   "dependencies": {
     "@chainlink/1forge-adapter": "*",
-    "@chainlink/agoric-adapter": "*",
     "@chainlink/alphachain-adapter": "*",
     "@chainlink/alphavantage-adapter": "*",
     "@chainlink/amberdata-adapter": "*",
@@ -77,7 +76,6 @@
     "@chainlink/fmpcloud-adapter": "*",
     "@chainlink/genesis-volatility-adapter": "*",
     "@chainlink/geodb-adapter": "*",
-    "@chainlink/harmony-adapter": "*",
     "@chainlink/iex-cloud-adapter": "*",
     "@chainlink/json-rpc-adapter": "*",
     "@chainlink/kaiko-adapter": "*",

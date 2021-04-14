@@ -3573,7 +3573,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@chainlink/ea", "workspace:packages/core/legos"],
             ["@chainlink/1forge-adapter", "workspace:packages/sources/1forge"],
-            ["@chainlink/agoric-adapter", "workspace:packages/targets/agoric"],
             ["@chainlink/alphachain-adapter", "workspace:packages/sources/alphachain"],
             ["@chainlink/alphavantage-adapter", "workspace:packages/sources/alphavantage"],
             ["@chainlink/amberdata-adapter", "workspace:packages/sources/amberdata"],
@@ -3619,7 +3618,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/fmpcloud-adapter", "workspace:packages/sources/fmpcloud"],
             ["@chainlink/genesis-volatility-adapter", "workspace:packages/sources/genesis-volatility"],
             ["@chainlink/geodb-adapter", "workspace:packages/sources/geodb"],
-            ["@chainlink/harmony-adapter", "workspace:packages/targets/harmony"],
             ["@chainlink/iex-cloud-adapter", "workspace:packages/sources/iex-cloud"],
             ["@chainlink/json-rpc-adapter", "workspace:packages/sources/json-rpc"],
             ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],
