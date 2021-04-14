@@ -1,33 +1,31 @@
-# Chainlink External Adapter for bookmakerratings
-
-A template to be used as an example for new [External Adapters](https://github.com/smartcontractkit/external-adapters-js)
+# Chainlink External Adapter for BookMaker Ratings
 
 ### Environment Variables
 
-| Required? |  Name   |                            Description                             | Options | Defaults to |
-| :-------: | :-----: | :----------------------------------------------------------------: | :-----: | :---------: |
-|    🟡     | API_KEY | An API key that can be obtained from the data provider's dashboard |         |             |
+| Required? |     Name      |                              Description                               | Options | Defaults to |
+| :-------: | :-----------: | :--------------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     | AUTH_USERNAME | An authentication username that can be obtained from the data provider |         |             |
+|    ✅     | AUTH_PASSWORD | An authentication password that can be obtained from the data provider |         |             |
 
 ---
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |           Options            | Defaults to |
-| :-------: | :------: | :-----------------: | :--------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [example](#bookmakerratings-Endpoint) |   example   |
+| Required? |   Name   |     Description     |             Options              | Defaults to |
+| :-------: | :------: | :-----------------: | :------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [game-odds](#Game-Odds-Endpoint) |  game-odds  |
 
 ---
 
-## bookmakerratings Endpoint
+## Game Odds Endpoint
 
-An example endpoint description
+Gets the odds on the outcomes for the selected game (returns [home odds, away odds])
 
 ### Input Params
 
-| Required? |            Name            |               Description                |       Options       | Defaults to |
-| :-------: | :------------------------: | :--------------------------------------: | :-----------------: | :---------: |
-|    ✅     | `base`, `from`, or `coin`  |   The symbol of the currency to query    | `BTC`, `ETH`, `USD` |             |
-|    ✅     | `quote`, `to`, or `market` | The symbol of the currency to convert to | `BTC`, `ETH`, `USD` |             |
+| Required? |   Name    |     Description      | Options | Defaults to |
+| :-------: | :-------: | :------------------: | :-----: | :---------: |
+|    ✅     | `gameIds` | The game ID to query |         |             |
 
 ### Sample Input
 
@@ -35,8 +33,7 @@ An example endpoint description
 {
   "id": "1",
   "data": {
-    "base": "ETH",
-    "quote": "USD"
+    "gameIds": "1589487"
   }
 }
 ```
@@ -47,9 +44,64 @@ An example endpoint description
 {
   "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
   "data": {
-    "price": 77777.77,
-    "result": 77777.77
+    "odds": [
+      [
+        1589487,
+        null,
+        null,
+        {
+          "1533336033": [9, 180, 1, 1, 0, { "1": [1.236] }, "0", 1],
+          "1533336034": [9, 181, 1, 1, 0, { "1": [4.105] }, "0", 1]
+        },
+        null,
+        [],
+        [],
+        [],
+        0
+      ]
+    ],
+    "externalRbIds": {
+      "1": 513072,
+      "2": 510742,
+      "3": 510821,
+      "4": 726203,
+      "5": 666278,
+      "6": null,
+      "7": 890119,
+      "8": 1026500,
+      "9": null,
+      "10": 309556,
+      "11": 309559,
+      "12": 309546,
+      "13": 1083548,
+      "14": null,
+      "15": null,
+      "16": 460086,
+      "17": 738474,
+      "18": 309562,
+      "19": 309795,
+      "20": 1176540,
+      "21": 956512,
+      "22": 751562,
+      "23": 309680,
+      "24": 542539,
+      "25": 309627,
+      "26": null,
+      "27": null,
+      "28": null,
+      "29": null,
+      "31": 816504,
+      "32": 309519,
+      "33": null,
+      "34": null,
+      "35": 1774637,
+      "36": null,
+      "37": null
+    },
+    "version": 1618441288,
+    "result": [1.236, 4.105]
   },
+  "result": [1.236, 4.105],
   "statusCode": 200
 }
 ```
