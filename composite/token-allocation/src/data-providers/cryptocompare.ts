@@ -6,7 +6,7 @@ const getPriceData = async (symbols: string, currency: string) => {
   const params = {
     tsyms: currency.toUpperCase(),
     fsyms: symbols,
-    api_key: util.getRequiredEnv('API_KEY'),
+    api_key: util.getRandomRequiredEnv('API_KEY'),
   }
   const config = {
     url,
