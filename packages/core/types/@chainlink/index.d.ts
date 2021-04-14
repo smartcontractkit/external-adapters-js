@@ -108,8 +108,9 @@ declare module '@chainlink/types' {
       protocol?: any
     }
     subscribe: (input: AdapterRequest) => any
-    parse: (any) => number | string
-    toAdapterResponse: (any) => any
+    parse: (message: any) => number | string
+    toAdapterResponse: (message: any) => any
+    filter: (message: any) => boolean
   }
 
 

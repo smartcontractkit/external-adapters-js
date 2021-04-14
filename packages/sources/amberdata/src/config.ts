@@ -42,6 +42,11 @@ export const makeWSHandler = (): WSSubscriptionHandler => {
       const quote = validator.validated.data.quote.toLowerCase()
       return { id: 1, method: 'subscribe', params: ['market:tickers', { pair: `${base}_${quote}` }] }
     },
+    filter: (message: any) => {
+      // https://github.com/web3data/web3data-js/blob/5b177803cb168dcaed0a8a6e2b2fbd835b82e0f9/src/websocket.js#L43
+      if (typeof message.result === 'boolean') throw new Error('Unsubscription received')
+      return typeof message.result === 'string'
+    },
     parse: (wsResponse: any): number => {
       const result = Requester.validateResultNumber(wsResponse, ['params', 'result', 'last'])
       return result

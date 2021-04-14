@@ -12,11 +12,12 @@ import {
   tap,
   withLatestFrom,
   catchError,
-  skip
+  switchMap
 } from 'rxjs/operators'
 import { webSocket } from 'rxjs/webSocket'
 import WebSocket from 'ws'
 import { withCache } from '../cache'
+import { logger } from '../external-adapter'
 import {
   connect,
   connected,
@@ -36,6 +37,8 @@ import {
   ws_subscription_active,
   ws_subscription_total,
 } from './metrics'
+
+const debug = (message: any, withParams = false) => tap((value: any) => withParams ? console.log(message, value) : console.log(message))
 
 export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state$) =>
   action$.pipe(
@@ -106,14 +109,13 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
               () => true,
             )
             .pipe(
-               // Ignore subscription confirmation message
-              skip(1),
               map((message) => messageReceived(_wsSubscriptionPayload(message))),
               takeUntil(
                 // unsubscribe or disconnected
                 merge(
                   action$.pipe(
                     filter(unsubscribe.match),
+                    debug('We never enter here...'),
                     filter((a) => a.payload.subscriptionInfo.key === subscriptionKey),
                     tap(_setUnsubscribeMsg),
                   ),
@@ -131,29 +133,34 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
 
       const messages$ = action$.pipe(
         filter(messageReceived.match),
-        tap(async (action) => {
-            const response = wsHandler.parse(action.payload.message)
-            // Send to cache?
-            const execute: Execute = () => { return Promise.resolve(wsHandler.toAdapterResponse(response)) }
-            const cache = await withCache(execute)
-            const input = {
-              ...action.payload.input,
-              data: {
-                ...action.payload.input.data,
-                maxAge: -1
-              },
-              debug: {
-                ws: true
+        mergeMap((action) => 
+          of(action).pipe(
+            filter((action) => !wsHandler.filter(action.payload.message)),
+            switchMap(async (action) => {
+              const response = wsHandler.parse(action.payload.message)
+              const execute: Execute = () => { return Promise.resolve(wsHandler.toAdapterResponse(response)) }
+              const cache = await withCache(execute)
+              const input = {
+                ...action.payload.input,
+                data: {
+                  ...action.payload.input.data,
+                  maxAge: -1
+                },
+                debug: {
+                  ws: true
+                }
               }
-            }
-            cache(input)
-        }),
-        filter(() => false),
-        catchError((error) => {
-          console.log('Error getting message:', error)
-          // TODO: Send unsubscription
-          return of({ type: 'ERROR', payload: error.message })
-        })
+              cache(input)
+              return action
+            }),
+            catchError((error) => {
+              logger.error(`WS: ${error.message}`)
+              // TODO: Unsubscribe doesn't go through
+              return of(unsubscribe(action.payload))
+            })
+          )
+        ),
+        filter(() => false)
       )
 
       // Merge all & unsubscribe ws connection when a matching unsubscribe comes in

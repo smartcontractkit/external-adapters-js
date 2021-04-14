@@ -35,11 +35,13 @@ export const makeWSHandler = (): WSSubscriptionHandler => {
       const subscriptionMsg = { type: 'subscribe', channels: ['ticker'], product_ids: [`${symbol}-${convert}`] }
       return subscriptionMsg
     },
-    parse: (wsResponse: any): number => {
-      if (wsResponse.type === 'error') {
-        throw new Error(wsResponse.message)
-      }
-      const result = Requester.validateResultNumber(wsResponse, ['price'])
+    filter: (message: any) => {
+      // Ignore everything is not a ticker message. Throw an error on incoming errors.
+      if (message.type === 'error') throw new Error(message.message)
+      return message.type !== 'ticker'
+    },
+    parse: (message: any): number => {
+      const result = Requester.validateResultNumber(message, ['price'])
       return result
 
     },

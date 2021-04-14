@@ -49,18 +49,18 @@ export const subscriptionsReducer = createReducer<SubscriptionsState>(
   initSubscriptionsState,
   (builder) => {
     builder.addCase(actions.subscribed, (state, action) => {
-      // Add connection
+      // Add subscription
       const { key } = action.payload.subscriptionInfo
       state.active[key] = true
-      // Increment num of active connections
+      // Increment num of active subscriptions
       state.total++
     })
 
     builder.addCase(actions.unsubscribed, (state, action) => {
-      // Remove connection
+      // Remove subscription
       const { key } = action.payload.subscriptionInfo
       delete state.active[key]
-      // Decrement num of active connections
+      // Decrement num of active subscriptions
       state.total--
     })
   },
