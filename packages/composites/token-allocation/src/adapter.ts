@@ -107,10 +107,14 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
   const sourceConfig = config.sources[source]
 
   const _success = (payload: ResponsePayload, result: number) =>
-    Requester.success(jobRunID, {
-      status: 200,
-      data: { sources: [], payload, result },
-    })
+    Requester.success(
+      jobRunID,
+      {
+        status: 200,
+        data: { sources: [], payload, result },
+      },
+      true,
+    )
 
   const getPrices = getPriceProvider(sourceConfig.api, jobRunID)
   switch (method.toLowerCase()) {
