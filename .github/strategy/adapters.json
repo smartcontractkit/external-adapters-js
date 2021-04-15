@@ -88,7 +88,10 @@
       "ethwrite",
       "geodb",
       "therundown",
-      "tradingeconomics-stream"
+      "tradingeconomics-stream",
+      "unibit",
+      "intrinio",
+      "twelvedata"
     ]
   },
   "2-step": {
