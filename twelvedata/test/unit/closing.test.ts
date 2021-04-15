@@ -15,7 +15,10 @@ describe('execute', () => {
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },
       { name: 'base not supplied', testData: { id: jobID, data: {} } },
-      { name: 'endpoint supplied, base not supplied', testData: { id: jobID, data: {endpoint: 'closing'} } },
+      {
+        name: 'endpoint supplied, base not supplied',
+        testData: { id: jobID, data: { endpoint: 'closing' } },
+      },
     ]
 
     requests.forEach((req) => {
