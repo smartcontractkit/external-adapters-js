@@ -41,8 +41,8 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
     includes.length > 0 &&
     ((includes[0].toLowerCase() === 'wbtc' && coin.toLowerCase() === 'digg') ||
       (includes[0].toLowerCase() === 'weth' && coin.toLowerCase() === 'rai') || 
-        (includes[0].toLowerCase() === 'weth' && coin.toLowerCase() === 'rgt') ||
-          (includes[0].toLowerCase() === 'weth' && coin.toLowerCase() === 'rari'))
+      (includes[0].toLowerCase() === 'weth' && coin.toLowerCase() === 'rgt') ||
+      (includes[0].toLowerCase() === 'weth' && coin.toLowerCase() === 'rari'))
   ) {
     const fromAddress = addressMapping[coin.toUpperCase()]
     const toAddress = addressMapping[includes[0].toUpperCase()]
