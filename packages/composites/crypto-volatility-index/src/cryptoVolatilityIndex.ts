@@ -9,17 +9,21 @@ import { AdapterRequest } from '@chainlink/types'
 const cryptoCurrencies = ['BTC', 'ETH']
 
 export const calculate = async (
-  oracleAddress: string,
-  multiply: number,
-  heartbeatMinutes: number,
-  isAdaptive: boolean,
+  validated: Record<string, any>,
+  requestParams: any,
 ): Promise<number> => {
+  const {
+    contract: oracleAddress,
+    multiply = 1000000,
+    heartbeatMinutes = 60,
+    isAdaptive,
+  } = validated.data
   // Get all of the required derivatives data for the calculations, for all the relevant currencies
   const derivativesData = await getDerivativesData(cryptoCurrencies)
   // Calculate vix values for all currencies
   const volatilityIndexData = await calculateVixValues(derivativesData)
   // Apply weights to calculate the Crypto Vix
-  const weightedCVI = await calculateWeighted(volatilityIndexData)
+  const weightedCVI = await calculateWeighted(volatilityIndexData, validated.id, requestParams)
   // Smooth CVI with previous on-chain value if exists
   const cvi = !isAdaptive
     ? toOnChainValue(weightedCVI, multiply)
@@ -49,8 +53,8 @@ const calculateVixValues = async (derivativesData: Record<string, CurrencyDeriva
   return vixValues
 }
 
-const calculateWeighted = async (vixData: Array<Decimal>) => {
-  const dominanceByCurrency = await getDominanceByCurrency()
+const calculateWeighted = async (vixData: Array<Decimal>, id: string, requestParams: any) => {
+  const dominanceByCurrency = await getDominanceByCurrency(id, requestParams)
   const weightedVix = cryptoCurrencies.reduce((vix, currency, idx) => {
     const dominance = dominanceByCurrency[currency]
     if (!dominance) throw new Error(`No dominance found for currency ${currency}`)
@@ -65,15 +69,16 @@ const calculateWeighted = async (vixData: Array<Decimal>) => {
   return weighted
 }
 
-const getDominanceByCurrency = async () => {
+const getDominanceByCurrency = async (id: string, requestParams: any) => {
   const dominanceAdapter = await getDominanceAdapter()
   const allocations = cryptoCurrencies.map((symbol) => {
     return { symbol }
   })
   const quote = 'USD'
   const input: AdapterRequest = {
-    id: '123',
+    id: id,
     data: {
+      ...requestParams,
       allocations,
       quote,
     },
