@@ -13,6 +13,8 @@ const addressMapping: { [symbol: string]: string } = {
   WBTC: '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599',
   RAI: '0x03ab458634910aad20ef5f1c8ee96f1d6ac54919',
   WETH: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
+  RGT: '0xD291E7a03283640FDc51b121aC401383A46cC623',
+  RARI: '0xFca59Cd816aB1eaD66534D82bc21E7515cE441CF',
 }
 
 const customParams = {
