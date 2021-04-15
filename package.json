@@ -94,7 +94,8 @@
     "geodb",
     "therundown",
     "tradingeconomics-stream",
-    "blockstream"
+    "blockstream",
+    "dock"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",
