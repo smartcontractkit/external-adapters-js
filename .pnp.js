@@ -570,6 +570,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@typescript-eslint/parser", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:4.21.0"],
             ["@vercel/ncc", "npm:0.27.0"],
             ["commitizen", "npm:4.2.3"],
+            ["cz-conventional-changelog", "npm:3.3.0"],
             ["eslint", "npm:7.23.0"],
             ["eslint-config-prettier", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:8.1.0"],
             ["husky", "npm:6.0.0"],
@@ -3897,6 +3898,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@typescript-eslint/parser", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:4.21.0"],
             ["@vercel/ncc", "npm:0.27.0"],
             ["commitizen", "npm:4.2.3"],
+            ["cz-conventional-changelog", "npm:3.3.0"],
             ["eslint", "npm:7.23.0"],
             ["eslint-config-prettier", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:8.1.0"],
             ["husky", "npm:6.0.0"],
@@ -11260,6 +11262,20 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/cz-conventional-changelog-npm-3.2.0-0d6f8e98f5-8fce253c2c.zip/node_modules/cz-conventional-changelog/",
           "packageDependencies": [
             ["cz-conventional-changelog", "npm:3.2.0"],
+            ["@commitlint/load", "npm:12.1.1"],
+            ["chalk", "npm:2.4.2"],
+            ["commitizen", "npm:4.2.3"],
+            ["conventional-commit-types", "npm:3.0.0"],
+            ["lodash.map", "npm:4.6.0"],
+            ["longest", "npm:2.0.1"],
+            ["word-wrap", "npm:1.2.3"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:3.3.0", {
+          "packageLocation": "./.yarn/cache/cz-conventional-changelog-npm-3.3.0-46c1d2629a-aa696ecb99.zip/node_modules/cz-conventional-changelog/",
+          "packageDependencies": [
+            ["cz-conventional-changelog", "npm:3.3.0"],
             ["@commitlint/load", "npm:12.1.1"],
             ["chalk", "npm:2.4.2"],
             ["commitizen", "npm:4.2.3"],

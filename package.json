@@ -18,7 +18,8 @@
     "generate:oas": "ts-node ./packages/scripts/dist/docgen.js",
     "generate:oas:all": "yarn generate:oas --all",
     "generate:gha:matrix": "ts-node ./packages/scripts/src/gha",
-    "postinstall": "husky install"
+    "postinstall": "husky install",
+    "cm": "cz"
   },
   "dependencies": {
     "@babel/core": "^7.13.14",
@@ -39,6 +40,7 @@
     "@types/node": "^14.14.35",
     "@types/semantic-release": "^17",
     "commitizen": "^4.2.3",
+    "cz-conventional-changelog": "^3.3.0",
     "husky": "^6.0.0",
     "prettier": "^2.0.5",
     "semantic-release": "^17.4.2",
@@ -60,9 +62,9 @@
     ],
     "extends": "semantic-release-monorepo"
   },
-  "husky": {
-    "hooks": {
-      "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true"
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
     }
   }
 }

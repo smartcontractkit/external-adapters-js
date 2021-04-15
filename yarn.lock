@@ -2310,6 +2310,7 @@ __metadata:
     "@typescript-eslint/parser": ^4.20.0
     "@vercel/ncc": ^0.27.0
     commitizen: ^4.2.3
+    cz-conventional-changelog: ^3.3.0
     eslint: ^7.23.0
     eslint-config-prettier: ^8.1.0
     husky: ^6.0.0
@@ -8896,6 +8897,24 @@ __metadata:
     "@commitlint/load":
       optional: true
   checksum: 8fce253c2c99181994ea16f52606ec1e23d710fc04f928560c5918ae686b07b58384fd49173212a378643397c2b05008fc55fc27a865412a1771bc4377957f3f
+  languageName: node
+  linkType: hard
+
+"cz-conventional-changelog@npm:^3.3.0":
+  version: 3.3.0
+  resolution: "cz-conventional-changelog@npm:3.3.0"
+  dependencies:
+    "@commitlint/load": ">6.1.1"
+    chalk: ^2.4.1
+    commitizen: ^4.0.3
+    conventional-commit-types: ^3.0.0
+    lodash.map: ^4.5.1
+    longest: ^2.0.1
+    word-wrap: ^1.0.3
+  dependenciesMeta:
+    "@commitlint/load":
+      optional: true
+  checksum: aa696ecb99ecb667d6d73bac40f5966eb53dd7e2fcd85d4254cec1ae041fd6c3579c4447a382668c607433ec6540a590154603bf0062062e9e10aa48066cc75d
   languageName: node
   linkType: hard
 
