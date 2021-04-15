@@ -17,10 +17,15 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const jobRunID = validator.validated.id
   const symbol = validator.overrideSymbol(AdapterName).toUpperCase()
 
-  const url = `historical/?tickers=${symbol}&accessKey=${config.apiKey}`
+  const url = 'historical'
+  const params = {
+    tickers: symbol,
+    accessKey: config.apiKey,
+  }
 
   const options = {
     ...config.api,
+    params,
     url,
   }
 

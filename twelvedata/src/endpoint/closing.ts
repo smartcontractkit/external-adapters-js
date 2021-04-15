@@ -17,10 +17,15 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const jobRunID = validator.validated.id
   const symbol = validator.overrideSymbol(AdapterName).toUpperCase()
 
-  const url = `eod?symbol=${symbol}&apikey=${config.apiKey}`
+  const url = `eod`
+  const params = {
+    symbol,
+    apikey: config.apiKey,
+  }
 
   const options = {
     ...config.api,
+    params,
     url,
   }
 
