@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/external-adapter'
+import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
 import IntrinioRealtime from 'intrinio-realtime'
 import { AdapterRequest } from '@chainlink/types'
 import { Config, makeConfig, PROVIDER_OPTIONS } from './config'
@@ -14,7 +14,6 @@ const subscribe = (assets: string[], config: Config) => {
   client.join(assets)
 
   client.onQuote((quote: any) => {
-    console.log(quote)
     // https://github.com/intrinio/intrinio-realtime-node-sdk
     // handle different responses from different providers
     switch (config.provider) {
@@ -43,7 +42,7 @@ const subscribe = (assets: string[], config: Config) => {
 }
 
 export const startService = (config: Config): void => {
-  const symbols = config.symbols.split(',')
+  const symbols = config.symbols.toUpperCase().split(',')
   subscribe(symbols, config)
 }
 
@@ -52,11 +51,18 @@ const customParams = {
 }
 
 export const execute = async (input: AdapterRequest, config: Config) => {
+  const symbols = config.symbols.toUpperCase().split(',')
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const symbol = validator.validated.data.base.toUpperCase()
+
+  if (!symbols.includes(symbol))
+    throw new AdapterError({
+      jobRunID,
+      message: `Requested ${symbol} not in SYMBOLS environment variable`,
+    })
 
   const price = Number(prices[symbol].bid + prices[symbol].ask) / 2
   const response = {
