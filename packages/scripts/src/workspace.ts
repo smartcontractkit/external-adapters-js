@@ -2,7 +2,7 @@ import * as fs from 'fs'
 import { join } from 'path'
 import * as s from 'shelljs'
 
-interface WorkspacePackage {
+export interface WorkspacePackage {
   location: string
   name: string
   descopedName: string
@@ -15,7 +15,8 @@ export const VALID_ADAPTER_TYPES = ['composites', 'sources', 'examples', 'target
 const scope = '@chainlink/'
 
 export type WorkspacePackages = ReturnType<typeof getWorkspacePackages>
-export function getWorkspacePackages(): WorkspacePackage[] {
+export function getWorkspacePackages(additionalTypes: string[] = []): WorkspacePackage[] {
+  const adapterTypes = VALID_ADAPTER_TYPES.concat(additionalTypes)
   return s
     .exec('yarn workspaces list --json')
     .split('\n')
@@ -35,5 +36,5 @@ export function getWorkspacePackages(): WorkspacePackage[] {
         version: pkg.version,
       }
     })
-    .filter((v) => VALID_ADAPTER_TYPES.includes(v.type))
+    .filter((v) => adapterTypes.includes(v.type))
 }

@@ -7,7 +7,7 @@
     "packages/**/*"
   ],
   "scripts": {
-    "new": "ts-node ./packages/scripts/src/new.ts",
+    "new": "ts-node ./packages/scripts/src/new",
     "bundle": "ncc build",
     "clean": "tsc -b --clean  ./packages/tsconfig.json",
     "lint": "eslint --ext ts .",
