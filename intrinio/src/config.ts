@@ -1,5 +1,7 @@
 import { util } from '@chainlink/ea-bootstrap'
 
+export const NAME = 'INTRINIO'
+
 export const PROVIDER_OPTIONS = ['iex', 'quodd', 'fxcm']
 
 export type Config = {

@@ -96,7 +96,8 @@
     "tradingeconomics-stream",
     "blockstream",
     "unibit",
-    "intrinio"
+    "intrinio",
+    "twelvedata"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",

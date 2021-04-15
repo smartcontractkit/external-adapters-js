@@ -90,7 +90,8 @@
       "therundown",
       "tradingeconomics-stream",
       "unibit",
-      "intrinio"
+      "intrinio",
+      "twelvedata"
     ]
   },
   "2-step": {

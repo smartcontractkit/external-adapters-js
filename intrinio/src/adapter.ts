@@ -64,7 +64,10 @@ export const execute = async (input: AdapterRequest, config: Config) => {
       message: `Requested ${symbol} not in SYMBOLS environment variable`,
     })
 
-  const price = Number(prices[symbol].bid + prices[symbol].ask) / 2
+  const bid = Requester.validateResultNumber(prices, [symbol, 'bid'])
+  const ask = Requester.validateResultNumber(prices, [symbol, 'ask'])
+  const price = (bid + ask) / 2
+
   const response = {
     data: {
       result: price,
