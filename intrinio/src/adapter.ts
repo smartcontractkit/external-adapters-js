@@ -17,13 +17,13 @@ const subscribe = (assets: string[], config: Config) => {
     // https://github.com/intrinio/intrinio-realtime-node-sdk
     // handle different responses from different providers
     switch (config.provider) {
-      case PROVIDER_OPTIONS[1]: //quodd
+      case PROVIDER_OPTIONS[1]: //quodd (untested data provider)
         prices[quote.ticker] = {
           bid: quote?.bid_price_4d || prices[quote.ticker].bid,
           ask: quote?.ask_price_4d || prices[quote.ticker].ask,
         }
         break
-      case PROVIDER_OPTIONS[2]: //fxcm
+      case PROVIDER_OPTIONS[2]: //fxcm (untested data provider)
         prices[quote.code] = {
           bid: quote.bid_price,
           ask: quote.ask_price,

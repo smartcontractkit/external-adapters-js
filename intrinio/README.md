@@ -10,6 +10,8 @@ This adapter uses the Intrinio WS stream
 |    ✅     |   `SYMBOLS`    |                        A comma delimited list of symbols to fetch prices for. E.g: "MSFT,AAPL"                         |                        |             |
 |           | `API_PROVIDER` | Intrinio allows subscription to different [channels/resources](https://github.com/intrinio/intrinio-realtime-node-sdk) | `iex`, `quodd`, `fxcm` |    `iex`    |
 
+**NOTE: `quodd` and `fxcm` have not been tested. `iex` is the recommended (and default) websocket subscription**
+
 ### Input Params
 
 | Required? |            Name            |           Description            |     Options      | Defaults to |
