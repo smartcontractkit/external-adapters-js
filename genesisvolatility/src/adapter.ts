@@ -1,7 +1,7 @@
 import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
 import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
 import { makeConfig, DEFAULT_ENDPOINT } from './config'
-import { deltaSkew3020 } from './endpoint'
+import { deltaSkew3020, atmIv } from './endpoint'
 
 const inputParams = {
   endpoint: false,
@@ -19,6 +19,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   switch (endpoint.toLowerCase()) {
     case deltaSkew3020.NAME: {
       return await deltaSkew3020.execute(request, config)
+    }
+    case atmIv.NAME: {
+      return await atmIv.execute(request, config)
     }
     default: {
       throw new AdapterError({
