@@ -3,13 +3,14 @@ import Web3 from 'web3'
 import { Execute, ExecuteFactory, Config, AdapterRequest } from '@chainlink/types'
 import { ExecuteWithJobId, PriceUpdateParams } from 'dock/types'
 import { makeConfig, makeCMCConfig, makeDockConfig, minimumAnswers } from './config'
-import { cryptocompare, coingecko, coinmarketcap } from './endpoint'
+import { cryptocompare, coingecko, coinmarketcap, binance } from './endpoint'
 import { median, writePriceToChain } from './util'
 
 export const MEDIAN_PRICE = 'median_price'
 export const WRITE_CC_PRICE = `write_${cryptocompare.NAME}`
 export const WRITE_CG_PRICE = `write_${coingecko.NAME}`
 export const WRITE_CMC_PRICE = `write_${coinmarketcap.NAME}`
+export const WRITE_BN_PRICE = `write_${binance.NAME}`
 export const WRITE_MEDIAN_PRICE = `write_${MEDIAN_PRICE}`
 
 const inputParams = {
@@ -57,17 +58,23 @@ const executeWriteCmc: ExecuteWithJobId = async (request, jobRunID) => {
 
 // Writes price of DOCK/USD from cryptocompare on chain
 const executeWriteCc: ExecuteWithJobId = async (request, jobRunID) => {
-  const priceCmc = (await executeCc(request, jobRunID)).result
-  return writeToChain(request, jobRunID, priceCmc)
+  const priceCc = (await executeCc(request, jobRunID)).result
+  return writeToChain(request, jobRunID, priceCc)
 }
 
 // Writes price of DOCK/USD from coingecko on chain
 const executeWriteCg: ExecuteWithJobId = async (request, jobRunID) => {
-  const priceCmc = (await executeCg(request, jobRunID)).result
-  return writeToChain(request, jobRunID, priceCmc)
+  const priceCg = (await executeCg(request, jobRunID)).result
+  return writeToChain(request, jobRunID, priceCg)
 }
 
-// Writes meidan price of DOCK/USD on chain
+// Writes price of DOCK/USD from binance on chain
+const executeWriteBn: ExecuteWithJobId = async (request, jobRunID) => {
+  const priceBn = (await executeBn(request, jobRunID)).result
+  return writeToChain(request, jobRunID, priceBn)
+}
+
+// Writes median price of DOCK/USD on chain
 const executeWriteMedianPrice: ExecuteWithJobId = async (request, jobRunID) => {
   const priceCmc = (await executeMedianPrice(request, jobRunID)).result
   return writeToChain(request, jobRunID, priceCmc)
@@ -115,6 +122,20 @@ const executeCg: ExecuteWithJobId = async (request, jobRunID) => {
   }
 }
 
+// Gets price of DOCK/USD from binance
+const executeBn: ExecuteWithJobId = async (request, jobRunID) => {
+  const config = makeConfig()
+  try {
+    return binance.execute(request, config)
+  } catch (e) {
+    throw new AdapterError({
+      jobRunID,
+      message: `Error while executing ${binance.NAME} job: ${e}`,
+      statusCode: 500,
+    })
+  }
+}
+
 // Gets median price of DOCK/USD after getting prices from coinmarketcap, cryptocompare, coingecko
 const executeMedianPrice: ExecuteWithJobId = async (request, jobRunID) => {
   const prices = []
@@ -137,6 +158,12 @@ const executeMedianPrice: ExecuteWithJobId = async (request, jobRunID) => {
     prices.push(priceCc)
   } catch (e) {
     console.warn(`Job ${jobRunID}: Could not fetch price for Cryptocompare. Error ${e}`)
+  }
+  try {
+    const priceBn = (await executeBn(request, jobRunID)).result
+    prices.push(priceBn)
+  } catch (e) {
+    console.warn(`Job ${jobRunID}: Could not fetch price for Binance. Error ${e}`)
   }
 
   const min = minimumAnswers()
@@ -178,6 +205,10 @@ export const execute: Execute = async (request) => {
       return executeCmc(request, jobRunID)
     }
 
+    case binance.NAME: {
+      return executeBn(request, jobRunID)
+    }
+
     case MEDIAN_PRICE: {
       return executeMedianPrice(request, jobRunID)
     }
@@ -192,6 +223,10 @@ export const execute: Execute = async (request) => {
 
     case WRITE_CMC_PRICE: {
       return executeWriteCmc(request, jobRunID)
+    }
+
+    case WRITE_BN_PRICE: {
+      return executeWriteBn(request, jobRunID)
     }
 
     case WRITE_MEDIAN_PRICE: {
