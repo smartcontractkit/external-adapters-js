@@ -1,6 +1,6 @@
 import * as chalk from 'chalk'
 import * as shell from 'shelljs'
-const { red, blue, bold } = chalk
+const { red, blue } = chalk
 const { log } = console
 import { getWorkspacePackages, WorkspacePackage } from '../workspace'
 import * as path from 'path'
