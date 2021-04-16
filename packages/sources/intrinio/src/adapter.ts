@@ -1,4 +1,4 @@
-import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
+import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
 import IntrinioRealtime from 'intrinio-realtime'
 import { AdapterRequest } from '@chainlink/types'
 import { Config, makeConfig, PROVIDER_OPTIONS } from './config'
