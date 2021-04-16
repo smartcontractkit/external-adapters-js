@@ -20,6 +20,7 @@ export const makeConfig = (prefix?: string): Config => {
 }
 
 export const makeWSHandler = (config: Config): WSSubscriptionHandler => {
+  // Store some state here?
   return {
     connection: {
       url: config.api.baseWsURL || DEFAULT_WS_API_ENDPOINT
@@ -35,9 +36,14 @@ export const makeWSHandler = (config: Config): WSSubscriptionHandler => {
       const subscriptionMsg = { type: 'subscribe', channels: ['ticker'], product_ids: [`${symbol}-${convert}`] }
       return subscriptionMsg
     },
+    subsFromMessage: (message) => {
+      return { type: 'subscribe', channels: ['ticker'], product_ids: [`${message.product_id}`] }
+    },
+    unsubscribe: () => '', // Maybe store the subs ID in order to unsubscribe?
+    isError: (message: any) => message.type === 'error',
     filter: (message: any) => {
       // Ignore everything is not a ticker message. Throw an error on incoming errors.
-      if (message.type === 'error') throw new Error(message.message)
+      if (message.type === 'error') throw new Error(message.message)// Ideally should be pure
       return message.type !== 'ticker'
     },
     parse: (message: any): number => {

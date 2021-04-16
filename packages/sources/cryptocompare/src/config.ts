@@ -51,10 +51,12 @@ export const makeWSHandler = (config: Config): WSSubscriptionHandler => {
         subs: [`${subscriptions.aggregate}~*~${base}~${quote}`]
       }
     },
+    unsubscribe: () => '', // Maybe store the subs ID in order to unsubscribe?
+    subsFromMessage: () => '',
+    isError: (message: any) => Number(message.TYPE) > 400,
     filter: (message) => {
-      // Ignore everything is not from the wanted channels. Throws on error messages
+      // Ignore everything is not from the wanted channels
       const code = Number(message.TYPE)
-      if (code > 400) throw new Error(`${NAME}: ${message.INFO}`)
       return code !== subscriptions.ticker || code !== subscriptions.aggregate
     },
     parse: (wsResponse: any): number => {

@@ -16,32 +16,23 @@ export const withWebSockets = (store: Store<RootState>) => (wsHandler?: WSSubscr
 ) => {
   if (!wsHandler) return await execute(input)
   // TODO: Warmer
-  // const { connect, subscribe, unsubscribe, disconnect } = actions
   const { connect, subscribe } = actions
 
-  const product_id = `${input.data.from}-${input.data.to}`
-  // const product_ids = [product_id]
   const wsConfig = envLoad_WSConfig()
   store.dispatch(connect({ config: wsConfig, wsHandler }))
 
-  const subscribeMsg = wsHandler.subscribe(input)
-  const subscriptionInfo = { key: product_id }
+  const subscriptionMsg = wsHandler.subscribe(input)
   const { connectionInfo } = wsConfig
 
   // Helper function to build actions
   const _wsSubscriptionPayload = (message: any) => ({
     connectionInfo,
-    subscriptionInfo,
+    subscriptionMsg,
     message,
     input,
   })
 
-  store.dispatch(subscribe(_wsSubscriptionPayload(subscribeMsg)))
-
-  // TODO: Uncomment
-  // const unsubscribeMsg = { type: 'unsubscribe', channels: [{ name: 'ticker', product_ids }] }
-  // setTimeout(() => store.dispatch(unsubscribe(_wsSubscriptionPayload(unsubscribeMsg))), 5000)
-  // setTimeout(() => store.dispatch(disconnect({ connectionInfo })), 7000)
+  store.dispatch(subscribe(_wsSubscriptionPayload(subscriptionMsg)))
 
   return await execute(input)
 }

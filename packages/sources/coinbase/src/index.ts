@@ -4,4 +4,4 @@ import { makeConfig, makeWSHandler } from './config'
 
 const NAME = 'COINBASE'
 
-export = { NAME, makeExecute, makeConfig, ...expose(makeExecute(), makeWSHandler()) }
+export = { NAME, makeExecute, makeConfig, ...expose(makeExecute(), makeWSHandler(makeConfig())) }

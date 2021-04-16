@@ -48,11 +48,13 @@ export const makeWSHandler = (config: Config): WSSubscriptionHandler => {
         subscribe_filter_asset_id: [base, quote]
       }
     },
+    unsubscribe: () => '',
+    subsFromMessage: () => '',
+    isError: () => false,
     filter: () => true,
     parse: (wsResponse: any): number => {
       const result = Requester.validateResultNumber(wsResponse, ['rate'])
       return result
-
     },
     toAdapterResponse: (result: any) => {
       return Requester.success('1', { data: { result } })

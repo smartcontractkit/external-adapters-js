@@ -104,13 +104,16 @@ declare module '@chainlink/types' {
 
   export type WSSubscriptionHandler = {
     connection: {
-      url: string | any
+      url: string
       protocol?: any
     }
     subscribe: (input: AdapterRequest) => any
+    unsubscribe: (input: any) => any
     parse: (message: any) => number | string
     toAdapterResponse: (message: any) => any
     filter: (message: any) => boolean
+    isError: (message: any) => boolean
+    subsFromMessage: (message: any) => any
   }
 
 

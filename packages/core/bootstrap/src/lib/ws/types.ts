@@ -7,11 +7,6 @@ export interface WSConnectionInfo {
   protocol?: string | Array<string>
 }
 
-export interface WSSubscriptionInfo {
-  /** The key to identify this subscription */
-  key: string
-}
-
 export interface WSConfig {
   /** Info about the connection */
   connectionInfo: WSConnectionInfo

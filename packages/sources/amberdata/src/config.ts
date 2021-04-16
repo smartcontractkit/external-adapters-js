@@ -25,8 +25,7 @@ export const makeConfig = (prefix = ''): Config => {
   return config
 }
 
-export const makeWSHandler = (): WSSubscriptionHandler => {
-  const config = makeConfig()
+export const makeWSHandler = (config: Config): WSSubscriptionHandler => {
   return {
     connection: {
       url: config.api.baseWsURL || DEFAULT_WS_API_ENDPOINT,
@@ -42,6 +41,11 @@ export const makeWSHandler = (): WSSubscriptionHandler => {
       const quote = validator.validated.data.quote.toLowerCase()
       return { id: 1, method: 'subscribe', params: ['market:tickers', { pair: `${base}_${quote}` }] }
     },
+    unsubscribe: () => {
+      return ''
+    },
+    subsFromMessage: () => '',
+    isError: (message) => typeof message.result === 'boolean',
     filter: (message: any) => {
       // https://github.com/web3data/web3data-js/blob/5b177803cb168dcaed0a8a6e2b2fbd835b82e0f9/src/websocket.js#L43
       if (typeof message.result === 'boolean') throw new Error('Unsubscription received')
