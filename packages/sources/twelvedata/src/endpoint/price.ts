@@ -1,8 +1,8 @@
-import { Requester, Validator } from '@chainlink/external-adapter'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
-export const NAME = 'closing'
+export const NAME = 'price'
 
 const customError = (data: any) => data.Response === 'Error'
 
@@ -17,7 +17,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const jobRunID = validator.validated.id
   const symbol = validator.overrideSymbol(AdapterName).toUpperCase()
 
-  const url = `eod`
+  const url = `price`
   const params = {
     symbol,
     apikey: config.apiKey,
@@ -30,7 +30,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   }
 
   const response = await Requester.request(options, customError)
-  response.data.result = Requester.validateResultNumber(response.data, ['close'])
+  response.data.result = Requester.validateResultNumber(response.data, ['price'])
 
   return Requester.success(jobRunID, response, config.verbose)
 }

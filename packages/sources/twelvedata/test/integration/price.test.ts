@@ -1,6 +1,5 @@
-import { assert } from 'chai'
-import { Requester } from '@chainlink/external-adapter'
-import { assertSuccess, assertError } from '@chainlink/adapter-test-helpers'
+import { Requester } from '@chainlink/ea-bootstrap'
+import { assertError, assertSuccess } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
 import { makeExecute } from '../../src/adapter'
 
@@ -8,33 +7,33 @@ describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
 
-  before(function () {
+  beforeAll(function () {
     if (!process.env.API_KEY || process.env.API_KEY == 'test_api_key')
       throw new Error('API_KEY is required!')
   })
 
-  context('successful calls @integration', () => {
+  describe('successful calls @integration', () => {
     const requests = [
-      { name: 'id not supplied', testData: { data: { base: 'VXX' } } },
-      { name: 'base', testData: { id: jobID, data: { base: 'VXX' } } },
-      { name: 'from', testData: { id: jobID, data: { from: 'VXX' } } },
+      { name: 'id not supplied', testData: { data: { endpoint: 'price', base: 'VXX' } } },
+      { name: 'base', testData: { id: jobID, data: { endpoint: 'price', base: 'VXX' } } },
+      { name: 'from', testData: { id: jobID, data: { endpoint: 'price', from: 'VXX' } } },
     ]
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         const data = await execute(req.testData as AdapterRequest)
         assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
-        assert.isAbove(data.result, 0)
-        assert.isAbove(data.data.result, 0)
+        expect(data.result).toBeGreaterThan(0)
+        expect(data.data.result).toBeGreaterThan(0)
       })
     })
   })
 
-  context('error calls @integration', () => {
+  describe('error calls @integration', () => {
     const requests = [
       {
         name: 'unknown base',
-        testData: { id: jobID, data: { base: 'not_real' } },
+        testData: { id: jobID, data: { endpoint: 'price', base: 'not_real' } },
       },
     ]
 
