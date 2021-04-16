@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "@chainlink/json-rpc-adapter",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "license": {
       "name": "MIT"
     }

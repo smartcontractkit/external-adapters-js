@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "@chainlink/conflux-adapter",
-    "version": "0.0.3",
+    "title": "@chainlink/intrinio-adapter",
+    "version": "0.0.1",
     "license": {
       "name": "MIT"
     }
@@ -10,13 +10,13 @@
   "paths": {},
   "securityDefinitions": {
     "environment-variables": {
-      "RPC_URL": {
+      "API_PROVIDER": {
+        "required": false
+      },
+      "API_KEY": {
         "required": true
       },
-      "NETWORK_ID": {
-        "required": true
-      },
-      "PRIVATE_KEY": {
+      "SYMBOLS": {
         "required": true
       }
     }

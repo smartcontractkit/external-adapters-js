@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "@chainlink/tradermade-adapter",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "license": {
       "name": "MIT"
     }

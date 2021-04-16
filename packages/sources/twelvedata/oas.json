@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "@chainlink/conflux-adapter",
-    "version": "0.0.3",
+    "title": "@chainlink/twelvedata-adapter",
+    "version": "0.0.1",
     "license": {
       "name": "MIT"
     }
@@ -10,13 +10,7 @@
   "paths": {},
   "securityDefinitions": {
     "environment-variables": {
-      "RPC_URL": {
-        "required": true
-      },
-      "NETWORK_ID": {
-        "required": true
-      },
-      "PRIVATE_KEY": {
+      "API_KEY": {
         "required": true
       }
     }
