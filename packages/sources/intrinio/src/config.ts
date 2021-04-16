@@ -11,7 +11,7 @@ export type Config = {
 }
 
 export const makeConfig = (prefix?: string): Config => {
-  let provider = util.getEnv('API_PROVIDER', prefix)
+  let provider = util.getEnv('API_PROVIDER', prefix) || ''
   if (!PROVIDER_OPTIONS.includes(provider)) {
     provider = PROVIDER_OPTIONS[0]
   }

@@ -7,8 +7,8 @@ import { makeConfig } from './config'
 const executeSync = (execute: Execute): ExecuteSync => {
   return (data: AdapterRequest, callback: any) => {
     return execute(data)
-      .then((result) => callback(result.statusCode, result))
-      .catch((error) =>
+      .then((result: any) => callback(result.statusCode, result))
+      .catch((error: any) =>
         callback(error.statusCode || 500, bootstrap.Requester.errored(data.id, error)),
       )
   }

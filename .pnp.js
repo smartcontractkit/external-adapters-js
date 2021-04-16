@@ -4966,7 +4966,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ethereumjs/common", "npm:2.2.0"],
             ["@ethereumjs/tx", "npm:3.1.3"],
             ["async-eventemitter", "npm:0.2.4"],
-            ["bn.js", "npm:5.2.0"],
             ["core-js-pure", "npm:3.10.1"],
             ["debug", "virtual:2bcc47d217f870e3d52f0e55493dc34fd3da852877f7db32fa2940cc320151746026495daf6a34a974488cf5a949d93be1e2dc1ffba036faf081a9b15fcd2252#npm:2.6.9"],
             ["ethereumjs-util", "npm:7.0.10"],
