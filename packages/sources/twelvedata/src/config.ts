@@ -1,5 +1,13 @@
-import { Requester } from '@chainlink/external-adapter'
+import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
+
+/**
+ * @swagger
+ * securityDefinitions:
+ *  environment-variables:
+ *    API_KEY:
+ *      required: true
+ */
 
 export const NAME = 'TWELVEDATA'
 
