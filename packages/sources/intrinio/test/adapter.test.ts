@@ -1,13 +1,13 @@
-import { Requester } from '@chainlink/external-adapter'
-import { assertError } from '@chainlink/adapter-test-helpers'
+import { Requester } from '@chainlink/ea-bootstrap'
+import { assertError } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
-import { makeExecute } from '../src/adapter'
+import { makeExecute } from '../../src/adapter'
 
 describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute({ key: '', symbols: '', provider: '' })
 
-  context('validation error', () => {
+  describe('validation error', () => {
     const requests = [
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },
