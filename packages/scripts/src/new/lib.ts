@@ -62,7 +62,7 @@ function copyFiles(type: string, n: string) {
   shell.sed('-i', 'Example', nCap, `packages/${type}s/${n}/README.md`)
 }
 
-function tsconfGenerate(packages: WorkspacePackage[], filepath: string, slice: number = 0) {
+function tsconfGenerate(packages: WorkspacePackage[], filepath: string, slice = 0) {
   return packages.map((w: WorkspacePackage) => {
     return { path: path.relative(filepath, w.location).slice(slice) } //removes first '.'
   })
