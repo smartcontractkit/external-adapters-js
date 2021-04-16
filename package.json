@@ -15,7 +15,7 @@
     "setup": "tsc -b ./packages/tsconfig.json ",
     "test": "jest",
     "generate:docker-compose": "ts-node ./packages/scripts/src/docker-build",
-    "generate:oas": "ts-node ./packages/scripts/dist/docgen.js",
+    "generate:oas": "ts-node ./packages/scripts/dist/scripts/src/docgen.js",
     "generate:oas:all": "yarn generate:oas --all",
     "generate:gha:matrix": "ts-node ./packages/scripts/src/gha",
     "postinstall": "husky install",

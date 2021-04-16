@@ -1,6 +1,7 @@
 import * as chalk from 'chalk'
 import * as shell from 'shelljs'
-const { red } = chalk
+const { red, blue, bold } = chalk
+const { log } = console
 import { getWorkspacePackages, WorkspacePackage } from '../workspace'
 import * as path from 'path'
 
@@ -9,10 +10,6 @@ const ADAPTER_TYPES = ['composite', 'source']
 interface Inputs {
   type: string
   n: string
-}
-
-function readJson(filepath: string) {
-  return JSON.parse(shell.cat(filepath))
 }
 
 function writeJson(data: any) {
@@ -33,15 +30,15 @@ function writeJson(data: any) {
 
 function checks(): Inputs {
   const type: string = process.argv[2]
-  if (!type) throw red('Missing first argument: type')
-  if (!ADAPTER_TYPES.includes(type)) throw red(`Type must be one of: ${ADAPTER_TYPES.join(', ')}`)
+  if (!type) throw red.bold('Missing first argument: type')
+  if (!ADAPTER_TYPES.includes(type)) throw red.bold(`Type must be one of: ${ADAPTER_TYPES.join(', ')}`)
 
   const n: string = process.argv[3]
-  if (!n) throw red('Missing second argument: name')
+  if (!n) throw red.bold('Missing second argument: name')
 
   // check if jq is installed (jq used later to modify json files)
   const jq: string = shell.exec('command -v jq').toString()
-  if (!jq) throw red('jq is not installed')
+  if (!jq) throw red.bold('jq is not installed')
 
   return { type, n }
 }
@@ -71,7 +68,7 @@ function tsconfGenerate(packages: WorkspacePackage[], filepath: string, slice: n
   })
 }
 
-function generate(type: string) {
+async function generate(type: string) {
   let writeData = {} // data struct for writing
 
   // pull latest workspace data after files have been generated
@@ -81,7 +78,7 @@ function generate(type: string) {
 
   // add to packages/tsconfig.json
   const tsconfigPath = 'packages/tsconfig.json'
-  const tsconfig = readJson(tsconfigPath)
+  const tsconfig = await import(path.relative(__dirname, tsconfigPath))
   tsconfig.references = tsconfGenerate(currentWorkspace, tsconfigPath, 1)
   writeData = { ...writeData, [tsconfigPath]: tsconfig }
 
@@ -90,12 +87,14 @@ function generate(type: string) {
     const legosPath = 'packages/core/legos'
 
     // update legos/tsconfig.json
-    const legoTsconfig = readJson(`${legosPath}/tsconfig.json`)
+    const legoTsconfigPath = `${legosPath}/tsconfig.json`
+    const legoTsconfig = await import(path.relative(__dirname, legoTsconfigPath))
     legoTsconfig.references = tsconfGenerate(adapterList, legosPath)
-    writeData = { ...writeData, [`${legosPath}/tsconfig.json`]: legoTsconfig }
+    writeData = { ...writeData, [legoTsconfigPath]: legoTsconfig }
 
     // update legos/package.json
-    const legoPackage = readJson(`${legosPath}/package.json`)
+    const legoPackagePath = `${legosPath}/package.json`
+    const legoPackage = await import(path.relative(__dirname, legoPackagePath))
     const otherPackages = Object.keys(legoPackage.dependencies)
       .filter(k => !(k.includes('@chainlink') && k.includes('adapter')))
       .reduce((obj, key) => {
@@ -104,11 +103,12 @@ function generate(type: string) {
     legoPackage.dependencies = adapterList.reduce((obj, adapter) => {
       return { ...obj, [adapter.name]: '*' }
     }, otherPackages)
-    writeData = { ...writeData, [`${legosPath}/package.json`]: legoPackage }
+    writeData = { ...writeData, [legoPackagePath]: legoPackage }
 
     // updating legos/src/sources.ts
     // (not using workspaces because some have custom/non-standardized naming structures)
-    let output = shell.cat(`${legosPath}/src/sources.ts`).split('\n')
+    const legoSourcePath = `${legosPath}/src/sources.ts`
+    let output = shell.cat(legoSourcePath).split('\n')
     const index = output.indexOf('')
     const importEa = output.slice(0, index)
     const exportEa = output.slice(index).filter(e => e !== '' && e !== '}' && !e.includes('{'))
@@ -116,9 +116,7 @@ function generate(type: string) {
     // checks adapter list for newly generated adapters and adds to the list if not already present
     adapterList.forEach(a => {
       if (!importEa.join().includes(a.name)) {
-        const name = a.name
-          .replace('@chainlink/', '')
-          .replace('-adapter', '')
+        const name = a.name.replace('@chainlink/', '').replace('-adapter', '')
         const nameNoDash = name.replace(/-/g, '_') // /g to apply to whole string not just first instance
 
         importEa.push(`import * as ${nameNoDash} from '@chainlink/${name}-adapter'`)
@@ -127,13 +125,21 @@ function generate(type: string) {
     })
 
     output = [...importEa.sort(), '', 'export default {', ...exportEa.sort(), '}'] // create new file with alphabetically sorted EAs
-    writeData = { ...writeData, [`${legosPath}/src/sources.ts`]: output.join('\n') }
+    writeData = { ...writeData, [legoSourcePath]: output.join('\n') }
   }
   return writeData
 }
 
-export function main() {
+export async function main() {
+  log(blue.bold('Running input checks'))
   const inputs: Inputs = checks()
+
+  log(blue.bold(`Copying example ${inputs.type} adapter to ${inputs.type}/${inputs.n}`))
   copyFiles(inputs.type, inputs.n)
-  writeJson(generate(inputs.type))
+
+  log(blue.bold('Regenerating tsconfig and lego files'))
+  const data = await generate(inputs.type)
+
+  log(blue.bold('Resolving workspace and running prettier'))
+  writeJson(data)
 }
