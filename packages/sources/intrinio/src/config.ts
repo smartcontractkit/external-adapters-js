@@ -1,5 +1,17 @@
 import { util } from '@chainlink/ea-bootstrap'
 
+/**
+ * @swagger
+ * securityDefinitions:
+ *  environment-variables:
+ *    API_PROVIDER:
+ *      required: false
+ *    API_KEY:
+ *      required: true
+ *    SYMBOLS:
+ *      required: true
+ */
+
 export const NAME = 'INTRINIO'
 
 export const PROVIDER_OPTIONS = ['iex', 'quodd', 'fxcm']

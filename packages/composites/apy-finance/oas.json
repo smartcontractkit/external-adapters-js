@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "@chainlink/apy-finance-adapter",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "license": {
       "name": "MIT"
     }
