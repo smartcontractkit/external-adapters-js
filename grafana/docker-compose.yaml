@@ -1,0 +1,28 @@
+version: '3.9'
+services:
+  grafana:
+    image: grafana/grafana
+    ports:
+      - '3000:3000'
+
+  grizzly:
+    build:
+      context: ../
+      dockerfile: ./grafana/Dockerfile
+    entrypoint: ['sleep', '99999999']
+    volumes:
+      - './dashboards:/dashboards'
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./generated/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - '9090:9090'
+
+volumes:
+  prometheus_data:
+  grafana_data:

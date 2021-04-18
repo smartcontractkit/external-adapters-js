@@ -53,7 +53,7 @@ jobs:
         run: yarn generate:gha:matrix
 
   publish-grafana:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, sdlc-ghr-prod]
     name: Publish grafana boards
     steps:
       - uses: actions/checkout@v2
@@ -62,16 +62,18 @@ jobs:
           go-version: '^1.13.1' # The Go version to download (if necessary) and use.
       - name: Install jsonnet bundler
         run: GO111MODULE="on" go get github.com/jsonnet-bundler/jsonnet-bundler/cmd/jb
+      - name: Install deps
+        run: jb install
+        working-directory: ./grafana
       - name: Install grizzly
         run: curl -fSL -o "grr" "https://github.com/grafana/grizzly/releases/download/v0.1.0/grr-linux-amd64" && chmod a+x "grr"
-      - run: cd grafana
+        working-directory: ./grafana
       - name: Setup preview with an hour expiry
-        run: ./grr preview -e 3600 ./dashboard.jsonnet > output.txt
+        run: OUTPUT=$(./grr preview -e 3600 ./dashboard.jsonnet) > $GITHUB_ENV
         env:
           GRAFANA_URL: ${{ secrets.GRAFANA_URL }}
           GRAFANA_TOKEN: ${{ secrets.GRAFANA_TOKEN }}
-      - name: Set env
-        run: echo "OUTPUT=$(cat output.txt)" >> $GITHUB_ENV
+        working-directory: ./grafana
       - uses: actions/github-script@v3
         env:
           output: ${{ env.OUTPUT }}
