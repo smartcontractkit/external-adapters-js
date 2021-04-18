@@ -4,7 +4,7 @@ import { assertSuccess, assertError } from '@chainlink/adapter-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
 import { makeExecute } from '../src/adapter'
 
-describe('delta-skew-3020 endpoint', () => {
+describe('atm-iv endpoint', () => {
   process.env.API_KEY = process.env.API_KEY ?? 'test_API_key'
   const jobID = '1'
   const execute = makeExecute()
@@ -13,11 +13,11 @@ describe('delta-skew-3020 endpoint', () => {
     const requests = [
       {
         name: 'id not supplied',
-        testData: { data: { symbol: 'BTC' } },
+        testData: { data: { symbol: 'ETH', day: 'tenDayIv', endpoint: 'atm-iv' } },
       },
       {
-        name: 'symbol',
-        testData: { id: jobID, data: { symbol: 'ETH' } },
+        name: 'symbol/day',
+        testData: { id: jobID, data: { symbol: 'ETH', day: 'tenDayIv', endpoint: 'atm-iv' } },
       },
     ]
 
@@ -35,6 +35,8 @@ describe('delta-skew-3020 endpoint', () => {
     const requests = [
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },
+      { name: 'empty symbol', testData: { data: { day: 'tenDayIv', endpoint: 'atm-iv' } } },
+      { name: 'empty day', testData: { data: { symbol: 'ETH', endpoint: 'atm-iv' } } },
     ]
 
     requests.forEach((req) => {
@@ -53,7 +55,11 @@ describe('delta-skew-3020 endpoint', () => {
     const requests = [
       {
         name: 'unknown symbol',
-        testData: { id: jobID, data: { symbol: 'not_real' } },
+        testData: { id: jobID, data: { symbol: 'not_real', day: 'tenDayIv', endpoint: 'atm-iv' } },
+      },
+      {
+        name: 'unknown day',
+        testData: { id: jobID, data: { symbol: 'ETH', day: 'not_real', endpoint: 'atm-iv' } },
       },
     ]
 
