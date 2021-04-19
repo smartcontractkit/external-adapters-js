@@ -2173,6 +2173,7 @@ __metadata:
     "@chainlink/genesis-volatility-adapter": "*"
     "@chainlink/geodb-adapter": "*"
     "@chainlink/iex-cloud-adapter": "*"
+    "@chainlink/intrinio-adapter": "*"
     "@chainlink/json-rpc-adapter": "*"
     "@chainlink/kaiko-adapter": "*"
     "@chainlink/lcx-adapter": "*"
@@ -2181,6 +2182,7 @@ __metadata:
     "@chainlink/marketstack-adapter": "*"
     "@chainlink/messari-adapter": "*"
     "@chainlink/metalsapi-adapter": "*"
+    "@chainlink/mistertango-adapter": "*"
     "@chainlink/nikkei-adapter": "*"
     "@chainlink/nomics-adapter": "*"
     "@chainlink/oilpriceapi-adapter": "*"
@@ -2202,6 +2204,8 @@ __metadata:
     "@chainlink/tradermade-adapter": "*"
     "@chainlink/tradingeconomics-adapter": "*"
     "@chainlink/trueusd-adapter": "*"
+    "@chainlink/twelvedata-adapter": "*"
+    "@chainlink/unibit-adapter": "*"
     "@chainlink/wbtc-address-set-adapter": "*"
     "@chainlink/xbto-adapter": "*"
     "@types/chai": ^4.2.15
@@ -2456,7 +2460,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/intrinio-adapter@workspace:packages/sources/intrinio":
+"@chainlink/intrinio-adapter@*, @chainlink/intrinio-adapter@workspace:packages/sources/intrinio":
   version: 0.0.0-use.local
   resolution: "@chainlink/intrinio-adapter@workspace:packages/sources/intrinio"
   dependencies:
@@ -2597,6 +2601,24 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
+    tslib: ^2.1.0
+    typescript: ^4.2.3
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/mistertango-adapter@*, @chainlink/mistertango-adapter@workspace:packages/sources/mistertango":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/mistertango-adapter@workspace:packages/sources/mistertango"
+  dependencies:
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.0.1
+    "@types/crypto-js": ^4
+    "@types/jest": ^26.0.22
+    "@types/node": ^14.14.35
+    crypto-js: ^4.0.0
+    microseconds: ^0.2.0
+    querystring: ^0.2.1
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -3014,7 +3036,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/twelvedata-adapter@workspace:packages/sources/twelvedata":
+"@chainlink/twelvedata-adapter@*, @chainlink/twelvedata-adapter@workspace:packages/sources/twelvedata":
   version: 0.0.0-use.local
   resolution: "@chainlink/twelvedata-adapter@workspace:packages/sources/twelvedata"
   dependencies:
@@ -3034,7 +3056,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/unibit-adapter@workspace:packages/sources/unibit":
+"@chainlink/unibit-adapter@*, @chainlink/unibit-adapter@workspace:packages/sources/unibit":
   version: 0.0.0-use.local
   resolution: "@chainlink/unibit-adapter@workspace:packages/sources/unibit"
   dependencies:
@@ -5848,6 +5870,13 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: 6f712a0408ed119a42037bcbc38c12e053d3ffe11337221a3966c9e29a21c8455e331fe2116c426361c0b2c0e44cb3fb1f83594326e42ba34ce4723d726b7d30
+  languageName: node
+  linkType: hard
+
+"@types/crypto-js@npm:^4":
+  version: 4.0.1
+  resolution: "@types/crypto-js@npm:4.0.1"
+  checksum: 6b81c4d064931ef697a8896f09e1290cfb2e59420522f7f6ce443646f768d25a767e15763853007eae8abfb298c6853bdb17fb2c894ed7ddf651337912526d7a
   languageName: node
   linkType: hard
 
@@ -8925,6 +8954,13 @@ __metadata:
   version: 3.3.0
   resolution: "crypto-js@npm:3.3.0"
   checksum: 7cf8de489f9f25084a3b22cc6e944e2e11e03b6374777a7a554739ee27e3b35d5dfdac490e0a66bc191c9ecbbea13ad716f59345657335b39d95f9bc19c40ac5
+  languageName: node
+  linkType: hard
+
+"crypto-js@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "crypto-js@npm:4.0.0"
+  checksum: fdd1415b9e4b317f6ac7f055a00495dabea6aa93ab82ccd63866b0a76d2da9587942764816a8a7976cb23b8bbfd7eea23ccb852b3fef218d166cc5db8c008ab3
   languageName: node
   linkType: hard
 
@@ -14701,6 +14737,13 @@ fsevents@~2.1.1:
   languageName: node
   linkType: hard
 
+"microseconds@npm:^0.2.0":
+  version: 0.2.0
+  resolution: "microseconds@npm:0.2.0"
+  checksum: eec9a89f0eaa6c68fb90bc8cf3171924fbfd752d90df22b80660b1b31657817e123658e8a3f5522cf05ac3d3801bdd65a830ef17f7ceed94b4ed9f2467ee7c60
+  languageName: node
+  linkType: hard
+
 "miller-rabin@npm:^4.0.0":
   version: 4.0.1
   resolution: "miller-rabin@npm:4.0.1"
@@ -16675,7 +16718,7 @@ fsevents@~2.1.1:
   languageName: node
   linkType: hard
 
-"querystring@npm:^0.2.0":
+"querystring@npm:^0.2.0, querystring@npm:^0.2.1":
   version: 0.2.1
   resolution: "querystring@npm:0.2.1"
   checksum: 59d27ec60ed6f9cd4d8ddf6413c1b8dc624ff3f148ed085267e714c08d931d3dae987bfd1ecc5d75cf8d6708bc1d081341b8745c4383c0e8525c8eb3125959cd

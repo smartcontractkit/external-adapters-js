@@ -152,6 +152,9 @@
       "path": "../../sources/iex-cloud"
     },
     {
+      "path": "../../sources/intrinio"
+    },
+    {
       "path": "../../sources/json-rpc"
     },
     {
@@ -174,6 +177,9 @@
     },
     {
       "path": "../../sources/metalsapi"
+    },
+    {
+      "path": "../../sources/mistertango"
     },
     {
       "path": "../../sources/nikkei"
@@ -237,6 +243,12 @@
     },
     {
       "path": "../../sources/trueusd"
+    },
+    {
+      "path": "../../sources/twelvedata"
+    },
+    {
+      "path": "../../sources/unibit"
     },
     {
       "path": "../../sources/wbtc-address-set"

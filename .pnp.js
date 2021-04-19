@@ -331,6 +331,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/metalsapi"
       },
       {
+        "name": "@chainlink/mistertango-adapter",
+        "reference": "workspace:packages/sources/mistertango"
+      },
+      {
         "name": "@chainlink/nikkei-adapter",
         "reference": "workspace:packages/sources/nikkei"
       },
@@ -531,6 +535,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/marketstack-adapter", ["workspace:packages/sources/marketstack"]],
       ["@chainlink/messari-adapter", ["workspace:packages/sources/messari"]],
       ["@chainlink/metalsapi-adapter", ["workspace:packages/sources/metalsapi"]],
+      ["@chainlink/mistertango-adapter", ["workspace:packages/sources/mistertango"]],
       ["@chainlink/nikkei-adapter", ["workspace:packages/sources/nikkei"]],
       ["@chainlink/nomics-adapter", ["workspace:packages/sources/nomics"]],
       ["@chainlink/oilpriceapi-adapter", ["workspace:packages/sources/oilpriceapi"]],
@@ -3634,6 +3639,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/genesis-volatility-adapter", "workspace:packages/sources/genesis-volatility"],
             ["@chainlink/geodb-adapter", "workspace:packages/sources/geodb"],
             ["@chainlink/iex-cloud-adapter", "workspace:packages/sources/iex-cloud"],
+            ["@chainlink/intrinio-adapter", "workspace:packages/sources/intrinio"],
             ["@chainlink/json-rpc-adapter", "workspace:packages/sources/json-rpc"],
             ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],
             ["@chainlink/lcx-adapter", "workspace:packages/sources/lcx"],
@@ -3642,6 +3648,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/marketstack-adapter", "workspace:packages/sources/marketstack"],
             ["@chainlink/messari-adapter", "workspace:packages/sources/messari"],
             ["@chainlink/metalsapi-adapter", "workspace:packages/sources/metalsapi"],
+            ["@chainlink/mistertango-adapter", "workspace:packages/sources/mistertango"],
             ["@chainlink/nikkei-adapter", "workspace:packages/sources/nikkei"],
             ["@chainlink/nomics-adapter", "workspace:packages/sources/nomics"],
             ["@chainlink/oilpriceapi-adapter", "workspace:packages/sources/oilpriceapi"],
@@ -3663,6 +3670,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/tradermade-adapter", "workspace:packages/sources/tradermade"],
             ["@chainlink/tradingeconomics-adapter", "workspace:packages/sources/tradingeconomics"],
             ["@chainlink/trueusd-adapter", "workspace:packages/sources/trueusd"],
+            ["@chainlink/twelvedata-adapter", "workspace:packages/sources/twelvedata"],
+            ["@chainlink/unibit-adapter", "workspace:packages/sources/unibit"],
             ["@chainlink/wbtc-address-set-adapter", "workspace:packages/sources/wbtc-address-set"],
             ["@chainlink/xbto-adapter", "workspace:packages/sources/xbto"],
             ["@types/chai", "npm:4.2.16"],
@@ -4238,6 +4247,26 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.41"],
+            ["tslib", "npm:2.2.0"],
+            ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/mistertango-adapter", [
+        ["workspace:packages/sources/mistertango", {
+          "packageLocation": "./packages/sources/mistertango/",
+          "packageDependencies": [
+            ["@chainlink/mistertango-adapter", "workspace:packages/sources/mistertango"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/crypto-js", "npm:4.0.1"],
+            ["@types/jest", "npm:26.0.22"],
+            ["@types/node", "npm:14.14.41"],
+            ["crypto-js", "npm:4.0.0"],
+            ["microseconds", "npm:0.2.0"],
+            ["querystring", "npm:0.2.1"],
             ["tslib", "npm:2.2.0"],
             ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"]
           ],
@@ -7761,6 +7790,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@types/connect", "npm:3.4.34"],
             ["@types/node", "npm:14.14.41"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@types/crypto-js", [
+        ["npm:4.0.1", {
+          "packageLocation": "./.yarn/cache/@types-crypto-js-npm-4.0.1-4f7dc14813-6b81c4d064.zip/node_modules/@types/crypto-js/",
+          "packageDependencies": [
+            ["@types/crypto-js", "npm:4.0.1"]
           ],
           "linkType": "HARD",
         }]
@@ -11319,6 +11357,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/crypto-js-npm-3.3.0-5b307000b5-7cf8de489f.zip/node_modules/crypto-js/",
           "packageDependencies": [
             ["crypto-js", "npm:3.3.0"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:4.0.0", {
+          "packageLocation": "./.yarn/cache/crypto-js-npm-4.0.0-cc8d8715a9-fdd1415b9e.zip/node_modules/crypto-js/",
+          "packageDependencies": [
+            ["crypto-js", "npm:4.0.0"]
           ],
           "linkType": "HARD",
         }]
@@ -17723,6 +17768,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["micromatch", "npm:4.0.4"],
             ["braces", "npm:3.0.2"],
             ["picomatch", "npm:2.2.3"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["microseconds", [
+        ["npm:0.2.0", {
+          "packageLocation": "./.yarn/cache/microseconds-npm-0.2.0-dbdb8ab8bb-eec9a89f0e.zip/node_modules/microseconds/",
+          "packageDependencies": [
+            ["microseconds", "npm:0.2.0"]
           ],
           "linkType": "HARD",
         }]
