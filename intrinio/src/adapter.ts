@@ -47,7 +47,7 @@ export const startService = (config: Config): void => {
 }
 
 const customParams = {
-  base: ['base', 'from', 'coin', 'market', 'asset'],
+  base: ['base', 'from', 'coin', 'asset'],
 }
 
 export const execute = async (input: AdapterRequest, config: Config) => {

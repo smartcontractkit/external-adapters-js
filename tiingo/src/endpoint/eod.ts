@@ -4,7 +4,7 @@ import { ExecuteWithConfig, Config } from '@chainlink/types'
 export const NAME = 'eod'
 
 const customParams = {
-  ticker: ['ticker', 'base', 'from', 'coin', 'market'],
+  ticker: ['ticker', 'base', 'from', 'coin'],
   field: false,
 }
 

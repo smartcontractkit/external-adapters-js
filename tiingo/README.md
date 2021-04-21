@@ -24,7 +24,7 @@ https://api.tiingo.com/documentation/end-of-day
 
 | Required? |                     Name                      |        Description        | Options | Defaults to |
 | :-------: | :-------------------------------------------: | :-----------------------: | :-----: | :---------: |
-|    ✅     | `ticker`, `base`, `from`, `coin`, or `market` | The stock ticker to query |         |             |
+|    ✅     | `ticker`, `base`, `from`, or `coin` | The stock ticker to query |         |             |
 |           |                    `field`                    |    The value to return    |         |   `close`   |
 
 ### Sample Input

@@ -16,7 +16,7 @@ This adapter uses the Intrinio WS stream
 
 | Required? |                   Name                    |           Description            |     Options      | Defaults to |
 | :-------: | :---------------------------------------: | :------------------------------: | :--------------: | :---------: |
-|    ✅     | `base`, `from`, `asset`, `coin`, `market` | The symbol of the asset to query | one of `SYMBOLS` |             |
+|    ✅     | `base`, `from`, `asset`, `coin` | The symbol of the asset to query | one of `SYMBOLS` |             |
 
 ### Sample Input
 
