@@ -45,9 +45,6 @@
       "path": "./core/legos"
     },
     {
-      "path": "./core/ratelimits"
-    },
-    {
       "path": "./core/reference-data-reader"
     },
     {
