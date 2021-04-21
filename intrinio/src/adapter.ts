@@ -31,10 +31,10 @@ const subscribe = (assets: string[], config: Config) => {
         break
       case PROVIDER_OPTIONS[0]: //iex
       default:
-        if (quote.type == 'last') return
+        if (quote.type != 'last') return //only using the `last` price (saved in both bid & ask slot so average works out to be equal)
         prices[quote.ticker] = {
-          ...prices[quote.ticker],
-          [quote.type]: quote.price,
+          bid: quote.price,
+          ask: quote.price,
         }
         break
     }
@@ -47,7 +47,7 @@ export const startService = (config: Config): void => {
 }
 
 const customParams = {
-  base: ['base', 'from', 'asset'],
+  base: ['base', 'from', 'coin', 'asset'],
 }
 
 export const execute = async (input: AdapterRequest, config: Config) => {
