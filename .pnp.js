@@ -3708,7 +3708,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"],
             ["uuid", "npm:8.3.2"],
             ["winston", "npm:3.3.3"],
-            ["ws", "virtual:f71f7016e7c1d52e021501ba212e8595b8d9f3269d44118a187b96ea99a2cb720fa2b055d6c6f8e1a500b78f52943833aa961b8aadf57d1f3d0ae0a19697af15#npm:7.4.4"]
+            ["ws", "virtual:96f830aa00e802bc5a154b8d3361f6261e39d08e377c906761083bf0dd084f2a41a9375c987f6fb155fcbbdd63ddf1061595aa30ca4ee8bdf024a2171b18287e#npm:7.4.4"]
           ],
           "linkType": "SOFT",
         }]
@@ -8225,7 +8225,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-ws-npm-7.4.1-fa5d4e240b-69a752f6ff.zip/node_modules/@types/ws/",
           "packageDependencies": [
             ["@types/ws", "npm:7.4.1"],
-            ["@types/node", "npm:14.14.37"]
+            ["@types/node", "npm:14.14.41"]
           ],
           "linkType": "HARD",
         }]

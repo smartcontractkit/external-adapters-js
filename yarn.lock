@@ -2063,7 +2063,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ea-reference-data-reader@*, @chainlink/ea-reference-data-reader@workspace:packages/core/reference-data-reader":
+"@chainlink/ea-reference-data-reader@*, @chainlink/ea-reference-data-reader@^0.0.4, @chainlink/ea-reference-data-reader@workspace:packages/core/reference-data-reader":
   version: 0.0.0-use.local
   resolution: "@chainlink/ea-reference-data-reader@workspace:packages/core/reference-data-reader"
   dependencies:

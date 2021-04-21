@@ -33,14 +33,17 @@ describe('Provider Limits', () => {
       expect(limit.second).toBe(10/60/60 * 2)
     })
 
-    it('default rate limit if no tier match', () => {
-      const limit = limits.getRateLimit('amberdata', 'non-existent')
-      expect(limit.minute).toBe(limits.DEFAULT_MINUTE_RATE_LIMIT)
+    it('rate limit throws if no tier match', () => {
+      expect(() => {
+        limits.getRateLimit('amberdata', 'non-existent')
+      }).toThrow(Error)
     })
 
-    it('default rate limit if no provider match', () => {
-      const limit = limits.getRateLimit('non-existent', 'non-existent')
-      expect(limit.minute).toBe(limits.DEFAULT_MINUTE_RATE_LIMIT)
+    it('rate limit throws if no provider match', () => {
+      expect(() => {
+        limits.getRateLimit('non-existent', 'non-existent')
+      }).toThrow(Error)
+      
     })
 
     it('gets the correct ws limits', () => {
@@ -49,16 +52,16 @@ describe('Provider Limits', () => {
       expect(limit.subscriptions).toBe(20)
     })
 
-    it('default WS limit if no tier match', () => {
-      const limit = limits.getWSLimits('amberdata', 'non-existent')
-      expect(limit.connections).toBe(limits.DEFAULT_WS_CONNECTIONS)
-      expect(limit.subscriptions).toBe(limits.DEFAULT_WS_SUBSCRIPTIONS)
+    it('WS limit throws if no tier match', () => {
+      expect(() => {
+        limits.getWSLimits('amberdata', 'non-existent')
+      }).toThrow(Error)
     })
 
-    it('default WS limit if no provider match', () => {
-      const limit = limits.getWSLimits('non-existent', 'non-existent')
-      expect(limit.connections).toBe(limits.DEFAULT_WS_CONNECTIONS)
-      expect(limit.subscriptions).toBe(limits.DEFAULT_WS_SUBSCRIPTIONS)
+    it('WS limit throws if no provider match', () => {
+      expect(() => {
+        limits.getWSLimits('non-existent', 'non-existent')
+      }).toThrow(Error)
     })
 
     afterAll(() => {

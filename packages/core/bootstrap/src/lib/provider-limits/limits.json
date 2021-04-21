@@ -380,6 +380,7 @@
     "ws": {
       "free": {
         "connections": -1,
+        "tickerSupport": false,
         "subscriptions": 50
       },
       "professional": {

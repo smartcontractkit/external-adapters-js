@@ -40,7 +40,9 @@ export const getRateLimit = (
 ): ProviderRateLimit => {
   const providerLimit = getProviderLimits(provider, tier, 'http')
   if (!providerLimit) {
-    logger.info(`Rate Limit: Provider: "${provider}" and Tier: "${tier}" doesn't match any provider spec in limits.json`)
+    const msg = `Rate Limit: Provider: "${provider}" and Tier: "${tier}" doesn't match any provider spec in limits.json`
+    logger.warn(msg)
+    throw new Error(msg)
   }
   return calculateRateLimit(providerLimit as HTTPTier)
 }
@@ -51,7 +53,9 @@ export const getWSLimits = (
 ): WSTier => {
   const providerLimit = getProviderLimits(provider, tier, 'ws')
   if (!providerLimit) {
-    logger.info(`WS Limit: Provider: "${provider}" and Tier: "${tier}" doesn't match any provider spec in limits.json`)
+    const msg = `WS Limit: Provider: "${provider}" and Tier: "${tier}" doesn't match any provider spec in limits.json`
+    logger.warn(msg)
+    throw new Error(msg)
   }
   return calculateWSLimits(providerLimit as WSTier)
 }
@@ -70,31 +74,31 @@ const parseLimits = (limits: any): Limits => {
   }))
   const _formatProvider = _mapObject((entry: any[]) => {
     const [providerName, protocol] = entry
-    const http = _formatProtocol(protocol?.http)
+    const http = _formatProtocol(protocol.http)
     const ws = _formatProtocol(protocol?.ws)
     return [providerName.toLowerCase(), { http, ws }]
   })
+
+  
   return _formatProvider(limits)
 }
 
-const calculateWSLimits = (providerLimit?: WSTier): WSTier => {
+const calculateWSLimits = (providerLimit: WSTier): WSTier => {
   return {
-    connections: providerLimit?.connections || DEFAULT_WS_CONNECTIONS,
-    subscriptions: providerLimit?.subscriptions || DEFAULT_WS_SUBSCRIPTIONS,
+    connections: providerLimit.connections,
+    subscriptions: providerLimit.subscriptions
   }
 }
 
-const calculateRateLimit = (providerLimit?: HTTPTier): ProviderRateLimit => {
-  let quota = DEFAULT_MINUTE_RATE_LIMIT
-  if (providerLimit?.rateLimit1h) {
+const calculateRateLimit = (providerLimit: HTTPTier): ProviderRateLimit => {
+  let quota = providerLimit.rateLimit1m
+  if (!quota && providerLimit?.rateLimit1h) {
     quota = providerLimit?.rateLimit1h / 60
-  } else if (providerLimit?.rateLimit1m) {
-    quota = providerLimit?.rateLimit1m
-  } else if (providerLimit?.rateLimit1s) {
+  } else if (!quota && providerLimit?.rateLimit1s) {
     quota = providerLimit?.rateLimit1s * 60
   }
   return {
-    second: providerLimit?.rateLimit1s || (quota / 60) * BURST_UNDEFINED_QUOTA_MULTIPLE,
-    minute: quota
+    second: providerLimit?.rateLimit1s || (quota as number / 60) * BURST_UNDEFINED_QUOTA_MULTIPLE,
+    minute: quota as number
   }
 }

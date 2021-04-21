@@ -49,7 +49,7 @@ Each provider is defined within [limits.json](./src/lib/provider-limits/limits.j
 ```
 Being:
 - __provider-name__: The provider name. E.g. "amberdata" or "coinmarketcap"
-- __plan-name__: The provider plan name. Used as a indentifier for the plan. E.g. "free" or "premium"
+- __plan-name__: The provider plan name. Used as a identifier for the plan. E.g. "free" or "premium"
 - There are two protocols with different limit types:
    - __http__: With `rateLimit1s`, `rateLimit1m`, `rateLimit1h`, which stands for requests per second/minute/hour respectively. If only one is provided, the rest would be calculated based on it. 
    - __ws__: Websocket limits, which acceps: `connections` and `subscriptions`. If websockets are not supported on the provider, can be left empty as `ws: {}`

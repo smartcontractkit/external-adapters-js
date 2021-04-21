@@ -27,10 +27,11 @@ export function get(): Config {
   if (!capacity && enabled) {
     const provider = getEnv('RATE_LIMIT_API_PROVIDER') || ''
     const tier = getEnv('RATE_LIMIT_API_TIER') || ''
-    const providerConfig = getRateLimit(provider, tier)
-    capacity = Number(providerConfig.minute)
-    if (!capacity) {
-      logger.warn('Rate Limit: Feature is enabled, but no capacity specified')
+    try {
+      const providerConfig = getRateLimit(provider, tier)
+      capacity = Number(providerConfig.minute)
+    } catch (e) {
+      logger.error(e.message)
     }
   }
   return {
