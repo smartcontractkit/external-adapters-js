@@ -16,7 +16,7 @@
     "prepack": "yarn build",
     "build": "tsc -b",
     "server": "node -e 'require(\"./index.js\").server()'",
-    "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
+    "server:dist": "yarn node -e 'require(\"./dist/index.js\").server()'",
     "start": "yarn server:dist"
   },
   "dependencies": {

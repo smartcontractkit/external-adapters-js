@@ -6,6 +6,8 @@ const ENV_API_KEY = 'API_KEY'
 const ENV_API_ENDPOINT = 'API_ENDPOINT'
 const ENV_API_TIMEOUT = 'API_TIMEOUT'
 const ENV_API_VERBOSE = 'API_VERBOSE'
+const ENV_WS_API_ENDPOINT = 'WS_API_ENDPOINT'
+
 const DEFAULT_API_TIMEOUT = 30000
 
 export const constants = {
@@ -31,6 +33,7 @@ export function getDefaultConfig(prefix = '', requireKey = false): Config {
     api: {
       withCredentials: !!apiKey,
       baseURL: getEnv(ENV_API_ENDPOINT, prefix),
+      baseWsURL: getEnv(ENV_WS_API_ENDPOINT, prefix),
       timeout: parseInt(timeout || '') || DEFAULT_API_TIMEOUT,
       headers: {
         common: {

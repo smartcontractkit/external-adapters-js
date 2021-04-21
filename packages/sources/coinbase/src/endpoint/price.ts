@@ -3,7 +3,7 @@ import { ExecuteWithConfig, Config } from '@chainlink/types'
 
 export const NAME = 'price'
 
-const customParams = {
+export const customParams = {
   symbol: ['base', 'from', 'coin', 'sym', 'symbol'],
   convert: ['quote', 'to', 'market', 'convert'],
 }

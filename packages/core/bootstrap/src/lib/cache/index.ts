@@ -8,7 +8,7 @@ import * as metrics from './metrics'
 
 const DEFAULT_CACHE_TYPE = 'local'
 const DEFAULT_CACHE_KEY_GROUP = uuid()
-const DEFAULT_CACHE_KEY_IGNORED_PROPS = ['id', 'maxAge', 'meta', 'rateLimitMaxAge']
+const DEFAULT_CACHE_KEY_IGNORED_PROPS = ['id', 'maxAge', 'meta', 'rateLimitMaxAge', 'debug']
 // Request coalescing
 const DEFAULT_RC_INTERVAL = 100
 const DEFAULT_RC_INTERVAL_MAX = 1000
@@ -129,10 +129,13 @@ export const withCache: Middleware = async (execute, options = defaultOptions())
     const key = _getKey(data)
     const coalescingKey = _getCoalescingKey(key)
     const endMetrics = metrics.observeMetrics(data.id, key, data.debug?.feedId)
-    const maxAge = _getRequestMaxAge(data) || _getDefaultMaxAge(data)
+    let maxAge = _getRequestMaxAge(data) || _getDefaultMaxAge(data)
     // Add successful result to cache
     const _cacheOnSuccess = async ({ statusCode, data, result }: AdapterResponse) => {
       if (statusCode === 200) {
+        if (maxAge < 0) {
+          maxAge = _getDefaultMaxAge(data)
+        }
         const entry = { statusCode, data, result, maxAge }
         await cache.set(key, entry, maxAge)
         logger.debug(`Cache: SET ${key}`, entry)
