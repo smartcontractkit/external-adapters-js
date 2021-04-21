@@ -18,6 +18,7 @@
     "generate:oas": "ts-node ./packages/scripts/dist/scripts/src/docgen.js",
     "generate:oas:all": "yarn generate:oas --all",
     "generate:gha:matrix": "ts-node ./packages/scripts/src/gha",
+    "generate:o": "ts-node ./packages/scripts/src/workspace",
     "postinstall": "husky install",
     "cm": "cz"
   },
