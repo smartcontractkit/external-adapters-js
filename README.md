@@ -221,9 +221,9 @@ export RATE_LIMIT_CAPACITY=60
 export RATE_LIMIT_API_PROVIDER=coingecko RATE_LIMIT_API_TIER=free
 ```
 
-Preset tiers/plans can be found [here](./packages/core/ratelimits/src/limits.json) and use the corresponding `provider` and `tierName`.
+Preset tiers/plans can be found [here](./packages/core/bootstrap/src/lib/provider-limits/limits.json) and use the corresponding `provider` and `tierName`.
 
-See [/bootstrap](./packages/core/bootstrap#rate-limit) for more details on setup and [/ratelimits](./packages/core/ratelimits) for adding new providers to the preset plans.
+See [/bootstrap](./packages/core/bootstrap/README.md#rate-limit) for more details on setup and [/provider-limits](./packages/core/bootstrap/README.md#provider-limits) for adding new providers to the preset plans.
 
 ### Multiple API Key Support
 
