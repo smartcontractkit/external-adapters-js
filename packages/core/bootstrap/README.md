@@ -17,9 +17,42 @@ To avoid hitting rate limit issues with the data provider subscription, a rate l
 - `EXPERIMENTAL_RATE_LIMIT_ENABLED`: Optional bool for enabling Rate Limit functionality
 - Option 1, manual capacity setting:
    - `RATE_LIMIT_CAPACITY`: Maximum capacity on requests per minute
-- Option 2, capacity by reference. Check your plan [here](../ratelimits/src/limits.json) and use it with the following configuration:
+- Option 2, capacity by reference. Check your plan [here](./src/lib/provider-limits/limits.json) and use it with the following configuration:
    - `RATE_LIMIT_API_PROVIDER`: Name of the provider
    - `RATE_LIMIT_API_TIER`: Plan you are subscribed to
+
+### Provider Limits
+Each provider is defined within [limits.json](./src/lib/provider-limits/limits.json) as so:
+```json
+{
+  "[provider-name]": {
+    "http": {
+      "[plan-name]": {
+        "rateLimit1s": 1,
+        "rateLimit1m": 30,
+        "rateLimit1h": 200
+      },
+      "premium": {
+        "rateLimit1s": 10,
+        "rateLimit1m": 300,
+        "rateLimit1h": 2000
+      }
+    },
+    "ws": {
+      "[plan-name]": {
+         "connections": 1,
+         "subscriptions": 10
+      }
+    }
+  }, {...}
+}
+```
+Being:
+- __provider-name__: The provider name. E.g. "amberdata" or "coinmarketcap"
+- __plan-name__: The provider plan name. Used as a identifier for the plan. E.g. "free" or "premium"
+- There are two protocols with different limit types:
+   - __http__: With `rateLimit1s`, `rateLimit1m`, `rateLimit1h`, which stands for requests per second/minute/hour respectively. If only one is provided, the rest would be calculated based on it. 
+   - __ws__: Websocket limits, which acceps: `connections` and `subscriptions`. If websockets are not supported on the provider, can be left empty as `ws: {}`
 ### Development
 To run Prometheus and Grafana with development setup:
 ```

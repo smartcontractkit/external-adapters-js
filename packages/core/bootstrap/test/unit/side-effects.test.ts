@@ -13,7 +13,7 @@ import {
   warmupRequestHandler,
   warmupSubscriber,
   warmupUnsubscriber,
-} from '../../src/lib/cache-warmer/side-effects'
+} from '../../src/lib/cache-warmer/epics'
 
 let scheduler: TestScheduler
 
