@@ -17,7 +17,7 @@ const addressMapping: { [symbol: string]: string } = {
   RARI: '0xFca59Cd816aB1eaD66534D82bc21E7515cE441CF',
 }
 
-const customParams = {
+export const customParams = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
   includes: false,

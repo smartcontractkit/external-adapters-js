@@ -1,10 +1,10 @@
 import { combineReducers, Store } from 'redux'
 import {
-  AdapterHealthCheck,
   AdapterRequest,
   Execute,
   ExecuteSync,
   Middleware,
+  WSSubscriptionHandler
 } from '@chainlink/types'
 import { defaultOptions, redactOptions, withCache } from './lib/cache'
 import * as cacheWarmer from './lib/cache-warmer'
@@ -122,16 +122,8 @@ export const withDebug: Middleware = async (execute) => async (input: AdapterReq
   return result
 }
 
-const middleware = [
-  withLogger,
-  ws.withWebSockets(storeSlice('ws')),
-  skipOnError(withCache),
-  rateLimit.withRateLimit(storeSlice('rateLimit')),
-  withStatusCode,
-].concat(metrics.METRICS_ENABLED ? [withMetrics, withDebug] : [withDebug])
-
 // Init all middleware, and return a wrapped execute fn
-const withMiddleware = async (execute: Execute) => {
+const withMiddleware = async (execute: Execute, middleware: Middleware[]) => {
   // Init and wrap middleware one by one
   for (let i = 0; i < middleware.length; i++) {
     execute = await middleware[i](execute)
@@ -140,15 +132,22 @@ const withMiddleware = async (execute: Execute) => {
 }
 
 // Execution helper async => sync
-const executeSync = (execute: Execute): ExecuteSync => {
+const executeSync = (execute: Execute, wsHandler?: WSSubscriptionHandler): ExecuteSync => {
   // TODO: Try to init middleware only once
   // const initMiddleware = withMiddleware(execute)
+  const middleware = [
+    withLogger,
+    ws.withWebSockets(storeSlice('ws'))(wsHandler),
+    skipOnError(withCache),
+    rateLimit.withRateLimit(storeSlice('rateLimit')),
+    withStatusCode,
+  ].concat(metrics.METRICS_ENABLED ? [withMetrics, withDebug] : [withDebug])
 
   // Return sync function
   return async (data: AdapterRequest, callback: any) => {
     // We init on every call because of cache connection broken state issue
     try {
-      const executeWithMiddleware = await withMiddleware(execute)
+      const executeWithMiddleware = await withMiddleware(execute, middleware)
       const result = await executeWithMiddleware(data)
       // only consider registering a warmup request if the original one was successful
       // and we have caching enabled
@@ -160,7 +159,7 @@ const executeSync = (execute: Execute): ExecuteSync => {
           cacheWarmer.actions.warmupSubscribed({
             id: data.id,
             // We need to initilialize the middleware on every beat to open a connection with the cache
-            executeFn: async (input) => await (await withMiddleware(execute))(input),
+            executeFn: async (input) => await (await withMiddleware(execute, middleware))(input),
             data,
           }),
         )
@@ -172,15 +171,11 @@ const executeSync = (execute: Execute): ExecuteSync => {
   }
 }
 
-export const expose = (
-  execute: Execute,
-  checkHealth?: AdapterHealthCheck,
-  // wsHandler?: WSSubscriptionHandler,
-) => {
+export const expose = (execute: Execute, wsHandler?: WSSubscriptionHandler) => {
   // Add middleware to the execution flow
-  const _execute = executeSync(execute)
+  const _execute = executeSync(execute, wsHandler)
   return {
-    server: server.initHandler(_execute, checkHealth),
+    server: server.initHandler(_execute),
   }
 }
 export type ExecuteHandlers = ReturnType<typeof expose>

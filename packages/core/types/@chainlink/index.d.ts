@@ -102,6 +102,45 @@ declare module '@chainlink/types' {
     warning?: string
   }
 
+  export interface WSSubscriptionHandler {
+    /**
+     * Connection information
+     */
+    connection: {
+      url: string
+      protocol?: any
+    }
+    /**
+     * Gets the subscription message necessary to subscribe to the feed channel
+     */
+    subscribe: (input: AdapterRequest) => any
+    /**
+     * Gets the unsubscription message necessary to unsubscribe to the feed channel
+     */
+    unsubscribe: (input: any) => any
+    /**
+     * Gets the response from the incoming message
+     */
+    parse: (message: any) => number | string
+    /**
+     * Filter any message that is not from a subscribed channel
+     */
+    filter: (message: any) => boolean
+    /**
+     * Determines if the incoming message is an error
+     */
+    isError: (message: any) => boolean
+    /**
+     * Based on the incoming message, returns its corresponding subscription message
+     */
+    subsFromMessage: (message: any) => any
+    /**
+     * Optional. If defined, the response will be formatted using this function
+     */
+    toAdapterResponse?: (message: any) => any
+  }
+
+
   /* INPUT TYPE VALIDATIONS */
   export type Override = Map<string, Map<string, string>>
 
