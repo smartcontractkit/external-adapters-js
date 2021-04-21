@@ -1,7 +1,7 @@
 import { AdapterRequest, Middleware, WSSubscriptionHandler } from '@chainlink/types'
 import { Store } from 'redux'
 import { RootState } from './reducer'
-import { envLoad_WSConfig } from './config'
+import { getWSConfig } from './config'
 import * as actions from './actions'
 
 export * as types from './types'
@@ -10,7 +10,6 @@ export * as actions from './actions'
 export * as reducer from './reducer'
 export * as epics from './epics'
 
-// TODO: WebSockets
 export const withWebSockets = (store: Store<RootState>) => (wsHandler?: WSSubscriptionHandler): Middleware => async (execute) => async (
   input: AdapterRequest,
 ) => {
@@ -18,7 +17,7 @@ export const withWebSockets = (store: Store<RootState>) => (wsHandler?: WSSubscr
   // TODO: Warmer
   const { connect, subscribe } = actions
 
-  const wsConfig = envLoad_WSConfig()
+  const wsConfig = getWSConfig()
   store.dispatch(connect({ config: wsConfig, wsHandler }))
 
   const subscriptionMsg = wsHandler.subscribe(input)
@@ -26,7 +25,10 @@ export const withWebSockets = (store: Store<RootState>) => (wsHandler?: WSSubscr
 
   // Helper function to build actions
   const _wsSubscriptionPayload = (message: any) => ({
-    connectionInfo,
+    connectionInfo: {
+      key: connectionInfo.key,
+      url: wsHandler.connection.url
+    },
     subscriptionMsg,
     message,
     input,

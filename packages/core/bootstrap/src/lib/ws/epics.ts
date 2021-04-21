@@ -48,8 +48,6 @@ const deserializer = (message: any) => {
   }
 }
 
-const debug = (message: any, withParams = false) => tap((value: any) => withParams ? console.log(message, value) : console.log(message))
-
 export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state$) =>
   action$.pipe(
     filter(connect.match),
@@ -121,7 +119,6 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
                 merge(
                   action$.pipe(
                     filter(unsubscribe.match), // TODO: Test this
-                    debug('We never enter here...'),
                     filter((a) => getSubsId(a.payload.subscriptionMsg) === subscriptionKey),
                     // tap(_setUnsubscribeMsg),
                   ),
@@ -191,7 +188,7 @@ export const metricsEpic: Epic<AnyAction, AnyAction, any, any> = (action$) =>
       // Build connection labels
       const _connectionLabels = (p: WSConfigPayload) => ({
         key: p.config.connectionInfo.key,
-        url: p.config.connectionInfo.url,
+        url: p.wsHandler?.connection.url,
         experimental: 'true',
       })
 

@@ -1,15 +1,9 @@
-export interface WSConnectionInfo {
-  /** The key to identify this connection */
-  key: string
-  /** The url of the socket server to connect to */
-  url: string
-  /** The protocol to use to connect */
-  protocol?: string | Array<string>
-}
 
 export interface WSConfig {
   /** Info about the connection */
-  connectionInfo: WSConnectionInfo
+  connectionInfo: {
+    key: string
+  }
   /** Maximum amount of parallel connections */
   connectionLimit: number
   /** Number of ms if no data received this connection is considered dead */
@@ -28,14 +22,7 @@ export interface WSConfig {
   subscriptionPriorityList?: Array<string>
 }
 
-export interface WSSubscriptionHandler<T> {
-  /** The WS connection to use */
-  connect: () => WSConnectionInfo
-  /** A function to generate the subscription message to be sent to the server. */
-  subscribeMsg: () => any
-  /** A function to generate the unsubscription message to be sent to the server at teardown. */
-  unsubscribeMsg: () => any
-  /** A predicate for selecting the appropriate messages from the server for the output stream. */
-  filterMsg: (value: T) => boolean
-  // mapMsgToResponse: (r: AdapterRequest, msg: unknown) => AdapterResponse
+export interface WSConnectionInfo {
+  key: string
+  url: string
 }

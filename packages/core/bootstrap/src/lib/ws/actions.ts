@@ -1,7 +1,7 @@
 import { AdapterRequest, WSSubscriptionHandler } from '@chainlink/types'
 import { createAction } from '@reduxjs/toolkit'
 import { asAction } from '../store'
-import { WSConnectionInfo, WSConfig } from './types'
+import { WSConfig, WSConnectionInfo } from './types'
 
 /** CONNECTIONS */
 export interface WSConfigPayload {
