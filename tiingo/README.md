@@ -22,10 +22,10 @@ https://api.tiingo.com/documentation/end-of-day
 
 ### Input Params
 
-| Required? |   Name   |        Description        | Options | Defaults to |
-| :-------: | :------: | :-----------------------: | :-----: | :---------: |
-|    ✅     | `ticker` | The stock ticker to query |         |             |
-|           | `field`  |    The value to return    |         |   `close`   |
+| Required? |                     Name                      |        Description        | Options | Defaults to |
+| :-------: | :-------------------------------------------: | :-----------------------: | :-----: | :---------: |
+|    ✅     | `ticker`, `base`, `from`, or `coin` | The stock ticker to query |         |             |
+|           |                    `field`                    |    The value to return    |         |   `close`   |
 
 ### Sample Input
 
