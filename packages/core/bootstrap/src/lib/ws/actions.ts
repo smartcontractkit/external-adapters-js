@@ -23,16 +23,17 @@ export const disconnect = createAction('WS/DISCONNECT!', asAction<WSConnectionPa
 export interface WSSubscriptionPayload {
   connectionInfo: WSConnectionInfo
   subscriptionMsg: any
-  message: unknown
   input: AdapterRequest
 }
 
 export interface WSMessage {
   message: unknown
+  subscriptionKey: string
 }
 
 export const subscribe = createAction('WS/SUBSCRIBE!', asAction<WSSubscriptionPayload>())
 export const subscribed = createAction('WS/SUBSCRIBED', asAction<WSSubscriptionPayload>())
 export const unsubscribe = createAction('WS/UNSUBSCRIBE!', asAction<WSSubscriptionPayload>())
 export const unsubscribed = createAction('WS/UNSUBSCRIBED', asAction<WSSubscriptionPayload>())
+export const unsubscribedAll = createAction('WS/UNSUBSCRIBED_ALL', asAction())
 export const messageReceived = createAction('WS/MESSAGE_RECEIVED!', asAction<WSMessage>())

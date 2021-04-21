@@ -26,6 +26,7 @@ export const makeConfig = (prefix = ''): Config => {
 }
 
 export const makeWSHandler = (config: Config): WSSubscriptionHandler => {
+  const getSubscription = (pair: string) => ({ id: 1, method: 'subscribe', params: ['market:tickers', { pair }] })
   return {
     connection: {
       url: config.api.baseWsURL || DEFAULT_WS_API_ENDPOINT,
@@ -39,25 +40,19 @@ export const makeWSHandler = (config: Config): WSSubscriptionHandler => {
       }
       const base = validator.overrideSymbol(NAME).toLowerCase()
       const quote = validator.validated.data.quote.toLowerCase()
-      return { id: 1, method: 'subscribe', params: ['market:tickers', { pair: `${base}_${quote}` }] }
+      return getSubscription(`${base}_${quote}`)
     },
     unsubscribe: () => {
       return ''
     },
-    subsFromMessage: () => '',
+    subsFromMessage: (message) => getSubscription(message?.params?.result?.pair),
+    // https://github.com/web3data/web3data-js/blob/5b177803cb168dcaed0a8a6e2b2fbd835b82e0f9/src/websocket.js#L43
     isError: (message) => typeof message.result === 'boolean',
-    filter: (message: any) => {
-      // https://github.com/web3data/web3data-js/blob/5b177803cb168dcaed0a8a6e2b2fbd835b82e0f9/src/websocket.js#L43
-      if (typeof message.result === 'boolean') throw new Error('Unsubscription received')
-      return typeof message.result === 'string'
-    },
+    filter: (message: any) => !!message.params,
     parse: (wsResponse: any): number => {
       const result = Requester.validateResultNumber(wsResponse, ['params', 'result', 'last'])
       return result
 
-    },
-    toAdapterResponse: (result: any) => {
-      return Requester.success('1', { data: { result } })
     }
   }
 }

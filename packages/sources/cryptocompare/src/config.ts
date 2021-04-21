@@ -34,10 +34,12 @@ export const makeWSHandler = (config: Config): WSSubscriptionHandler => {
     ticker: 2,
     aggregate: 5
   }
+  const getSubscription = (pair: string) => ({ action: 'SubAdd', subs: [`${subscriptions.aggregate}~CCCAGG~${pair}`] })
+  const withApiKey = (url: string, apiKey: string) => `${url}?api_key=${apiKey}`
   return {
     connection: {
-      url: config.api.baseWsURL || DEFAULT_WS_API_ENDPOINT,
-      protocol: { params: { api_key: config.apiKey } }
+      url: withApiKey(config.api.baseWsURL || DEFAULT_WS_API_ENDPOINT, config.apiKey || ''),
+      protocol: { query: { api_key: config.apiKey } }
     },
     subscribe: (input) => {
       const validator = new Validator(input, endpoint.price.customParams)
@@ -46,26 +48,16 @@ export const makeWSHandler = (config: Config): WSSubscriptionHandler => {
       }
       const base = validator.overrideSymbol(NAME).toUpperCase()
       const quote = validator.validated.data.quote.toUpperCase()
-      return {
-        action: 'SubAdd',
-        subs: [`${subscriptions.aggregate}~*~${base}~${quote}`]
-      }
+      return getSubscription(`${base}~${quote}`)
     },
     unsubscribe: () => '', // Maybe store the subs ID in order to unsubscribe?
-    subsFromMessage: () => '',
-    isError: (message: any) => Number(message.TYPE) > 400,
+    subsFromMessage: (message) => getSubscription(`${message?.FROMSYMBOL}~${message?.TOSYMBOL}`),
+    isError: (message: any) => Number(message.TYPE) > 400 && Number(message.TYPE) < 900,
     filter: (message) => {
       // Ignore everything is not from the wanted channels
       const code = Number(message.TYPE)
-      return code !== subscriptions.ticker || code !== subscriptions.aggregate
+      return code === subscriptions.ticker || code === subscriptions.aggregate
     },
-    parse: (wsResponse: any): number => {
-      const result = Requester.validateResultNumber(wsResponse, ['rate'])
-      return result
-
-    },
-    toAdapterResponse: (result: any) => {
-      return Requester.success('1', { data: { result } })
-    }
+    parse: (wsResponse: any): number => Number(wsResponse?.PRICE)
   }
 }

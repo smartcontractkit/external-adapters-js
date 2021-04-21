@@ -28,6 +28,7 @@ export const makeConfig = (prefix?: string): Config => {
   return config
 }
 
+// TODO: Needs to be tested
 export const makeWSHandler = (config: Config): WSSubscriptionHandler => {
   return {
     connection: {
@@ -55,9 +56,6 @@ export const makeWSHandler = (config: Config): WSSubscriptionHandler => {
     parse: (wsResponse: any): number => {
       const result = Requester.validateResultNumber(wsResponse, ['rate'])
       return result
-    },
-    toAdapterResponse: (result: any) => {
-      return Requester.success('1', { data: { result } })
     }
   }
 }

@@ -20,7 +20,7 @@ export const makeConfig = (prefix?: string): Config => {
 }
 
 export const makeWSHandler = (config: Config): WSSubscriptionHandler => {
-  // Store some state here?
+  const getSubscription = (productId: string) =>  ({ type: 'subscribe', channels: ['ticker'], product_ids: [productId] })
   return {
     connection: {
       url: config.api.baseWsURL || DEFAULT_WS_API_ENDPOINT
@@ -33,26 +33,18 @@ export const makeWSHandler = (config: Config): WSSubscriptionHandler => {
       }
       const symbol = validator.validated.data.symbol.toUpperCase()
       const convert = validator.validated.data.convert.toUpperCase()
-      const subscriptionMsg = { type: 'subscribe', channels: ['ticker'], product_ids: [`${symbol}-${convert}`] }
-      return subscriptionMsg
+      // return { message: `${symbol}_${convert}` }
+      return getSubscription(`${symbol}-${convert}`)
     },
-    subsFromMessage: (message) => {
-      return { type: 'subscribe', channels: ['ticker'], product_ids: [`${message.product_id}`] }
-    },
+    subsFromMessage: (message) => getSubscription(`${message?.product_id}`),
     unsubscribe: () => '', // Maybe store the subs ID in order to unsubscribe?
     isError: (message: any) => message.type === 'error',
-    filter: (message: any) => {
-      // Ignore everything is not a ticker message. Throw an error on incoming errors.
-      if (message.type === 'error') throw new Error(message.message)// Ideally should be pure
-      return message.type !== 'ticker'
-    },
+    // Ignore everything is not a ticker message. Throw an error on incoming errors.
+    filter: (message: any) => message.type === 'ticker',
     parse: (message: any): number => {
       const result = Requester.validateResultNumber(message, ['price'])
       return result
 
-    },
-    toAdapterResponse: (result: any) => {
-      return Requester.success('1', { data: { result } })
     }
   }
 }

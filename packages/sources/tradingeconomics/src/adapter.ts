@@ -28,7 +28,7 @@ export const startService = (config: Config): void => {
   }
 }
 
-const customParams = {
+export const customParams = {
   base: ['base', 'from', 'asset'],
 }
 

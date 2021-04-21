@@ -23,7 +23,7 @@ export const connectionsReducer = createReducer<ConnectionsState>(
   initConnectionsState,
   (builder) => {
     builder.addCase(actions.connected, (state, action) => {
-      logger.debug('WS: New connection')
+      logger.info('WS: New connection')
       // Add connection
       const { key } = action.payload.config.connectionInfo
       state.active[key] = action.payload.config
@@ -32,7 +32,7 @@ export const connectionsReducer = createReducer<ConnectionsState>(
     })
 
     builder.addCase(actions.disconnected, (state, action) => {
-      logger.debug('WS: Disconnection')
+      logger.info('WS: Disconnection')
       // Remove connection
       const { key } = action.payload.config.connectionInfo
       delete state.active[key]
@@ -60,7 +60,7 @@ export const subscriptionsReducer = createReducer<SubscriptionsState>(
   initSubscriptionsState,
   (builder) => {
     builder.addCase(actions.subscribed, (state, action) => {
-      logger.debug('WS: New subscription')
+      logger.info(`WS: New subscription ${JSON.stringify(action.payload.subscriptionMsg)}`)
       // Add subscription
       const key = getSubsId(action.payload.subscriptionMsg)
       state.active[key] = true
@@ -70,12 +70,18 @@ export const subscriptionsReducer = createReducer<SubscriptionsState>(
     })
 
     builder.addCase(actions.unsubscribed, (state, action) => {
-      logger.debug('WS: Unsubscription')
+      logger.info(`WS: Unsubscription ${JSON.stringify(action.payload.subscriptionMsg)}`)
       // Remove subscription
       const key = getSubsId(action.payload.subscriptionMsg)
       delete state.active[key]
       // Decrement num of active subscriptions
       state.total--
+    })
+
+    builder.addCase(actions.unsubscribedAll, (state) => {
+      logger.info(`WS: Removing every subscription`)
+      state.active = {}
+      state.total = 0
     })
   },
 )
