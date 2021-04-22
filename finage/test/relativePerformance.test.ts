@@ -13,11 +13,11 @@ describe('execute', () => {
     const requests = [
       {
         name: 'id not supplied',
-        testData: { data: { symbol: 'AAPL', endpoint: 'sector-performance' } },
+        testData: { data: { symbol: 'AAPL', endpoint: 'relative-performance' } },
       },
       {
         name: 'symbol',
-        testData: { id: jobID, data: { symbol: 'AAPL', endpoint: 'sector-performance' } },
+        testData: { id: jobID, data: { symbol: 'AAPL', endpoint: 'relative-performance' } },
       },
     ]
 
@@ -25,8 +25,8 @@ describe('execute', () => {
       it(`${req.name}`, async () => {
         const data = await execute(req.testData as AdapterRequest)
         assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
-        assert.isAbove(data.result, 0)
-        assert.isAbove(data.data.result, 0)
+        assert.isNumber(data.result)
+        assert.isNumber(data.data.result)
       })
     })
   })
@@ -34,7 +34,7 @@ describe('execute', () => {
   context('validation error', () => {
     const requests = [
       { name: 'empty body', testData: {} },
-      { name: 'empty data', testData: { data: {} } },
+      { name: 'empty symbol', testData: { id: jobID, data: { endpoint: 'relative-performance' } } },
     ]
 
     requests.forEach((req) => {
@@ -53,7 +53,7 @@ describe('execute', () => {
     const requests = [
       {
         name: 'unknown symbol',
-        testData: { id: jobID, data: { symbol: 'not_real', endpoint: 'sector-performance' } },
+        testData: { id: jobID, data: { symbol: 'not_real', endpoint: 'relative-performance' } },
       },
     ]
 

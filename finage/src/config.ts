@@ -1,7 +1,7 @@
 import { Requester } from '@chainlink/external-adapter'
 import { Config } from '@chainlink/types'
 
-export const DEFAULT_ENDPOINT = 'price'
+export const DEFAULT_ENDPOINT = 'relative-performance'
 export const DEFAULT_BASE_URL = 'https://api.finage.co.uk/'
 
 export const makeConfig = (prefix?: string): Config => {
