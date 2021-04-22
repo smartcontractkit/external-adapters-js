@@ -1,10 +1,13 @@
 import { ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
-import { Validator } from '@chainlink/external-adapter'
-import { Requester } from '@chainlink/external-adapter'
+import { Validator, Requester, AdapterError } from '@chainlink/external-adapter'
 import { makeConfig, Config, DEFAULT_DATA_PATH, DEFAULT_REDUCER } from './config'
 
 const customParams = {
   reducer: false,
+}
+
+const paramOptions = {
+  reducer: ['sum', 'product', 'min', 'max', 'average', 'median'],
 }
 
 const execute: ExecuteWithConfig<Config> = async (input, config) => {
@@ -12,7 +15,14 @@ const execute: ExecuteWithConfig<Config> = async (input, config) => {
   if (validator.error) throw validator.error
 
   const id = validator.validated.id
-  const reducer = validator.validated.reducer || DEFAULT_REDUCER
+  const reducer = validator.validated.data.reducer || DEFAULT_REDUCER
+  if (!paramOptions.reducer.includes(reducer.toLowerCase()))
+    // parameter check
+    throw new AdapterError({
+      jobRunID: id,
+      message: `${reducer} is not a valid reducer parameter`,
+      statusCode: 400,
+    })
   const data = input // passing unvalidated data to directly to EAs for validation (allows for this composite to handle more general cases)
   const aggregateData: number[] = []
   const dataProviders = Object.keys(config.endpoints)
@@ -47,13 +57,20 @@ const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const response = await Requester.request(reduceOptions)
 
   // return data with individual responses from each EA
-  return Requester.success(id, {
-    ...response,
-    data: {
-      result: response.data.result,
-      providers:  dataProviders.reduce((obj, key, index) => ({ ...obj, [key.toLowerCase()]: aggregateData[index] }), {})
-    }
-  }, config.verbose)
+  return Requester.success(
+    id,
+    {
+      ...response,
+      data: {
+        result: Number(response.data.result),
+        providers: dataProviders.reduce(
+          (obj, key, index) => ({ ...obj, [key.toLowerCase()]: aggregateData[index] }),
+          {},
+        ),
+      },
+    },
+    config.verbose,
+  )
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config?: Config) => (input) =>

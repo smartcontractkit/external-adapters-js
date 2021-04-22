@@ -21,7 +21,10 @@ export const makeConfig = (prefix = ''): Config => {
   dataProviders.forEach((p: string) => {
     config.endpoints = {
       ...config.endpoints,
-      [p.toUpperCase()]: util.getRequiredEnv(ENV_DATA_PROVIDER_URL, p.toUpperCase()),
+      [p.toUpperCase()]: util.getRequiredEnv(
+        ENV_DATA_PROVIDER_URL,
+        p.toUpperCase().replace('-', '_'),
+      ),
     }
   })
 
@@ -30,7 +33,10 @@ export const makeConfig = (prefix = ''): Config => {
   if (dataPaths) {
     dataPaths.split(',').forEach((p: string) => {
       const pSplit = p.split(':')
-      config.customPaths[pSplit[0].toUpperCase()] = pSplit[0].split('/')
+      config.customPaths = {
+        ...config.customPaths,
+        [pSplit[0].toUpperCase()]: pSplit[1].split('/'),
+      }
     })
   }
 
