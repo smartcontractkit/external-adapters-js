@@ -1,57 +1,35 @@
-import { Execute } from '@chainlink/types'
-import { Requester, Validator } from '@chainlink/external-adapter'
-import { util } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
+import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
+import { makeConfig, DEFAULT_ENDPOINT } from './config'
+import { relativePerformance } from './endpoint'
 
-const customParams = {
-  symbol: ['base', 'from', 'symbol'],
-  to: false,
+const inputParams = {
   endpoint: false,
 }
 
-const commonKeys: Record<string, string> = {
-  FTSE: 'UK100',
-  N225: 'JAP225',
-}
-
-export const execute: Execute = async (input) => {
-  const validator = new Validator(input, customParams)
+export const execute: ExecuteWithConfig<Config> = async (request, config) => {
+  const validator = new Validator(request, inputParams)
   if (validator.error) throw validator.error
 
+  Requester.logConfig(config)
+
   const jobRunID = validator.validated.id
-  const endpoint = validator.validated.data.endpoint || ''
-  let url = `https://api.finage.co.uk/last/${endpoint}`
-  const symbol = validator.validated.data.symbol.toUpperCase()
-  const to = (validator.validated.data.to || '').toUpperCase()
-  const currencies = (commonKeys[symbol] || symbol) + to
-  const apikey = util.getRandomRequiredEnv('API_KEY')
-  let params
-  let responsePath
+  const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
 
   switch (endpoint) {
-    case 'stock': {
-      url = `${url}/${symbol}`
-      responsePath = ['bid']
-      params = {
-        apikey,
-      }
-      break
+    case relativePerformance.NAME: {
+      return await relativePerformance.execute(request, config)
     }
     default: {
-      responsePath = ['currencies', 0, 'value']
-      params = {
-        currencies,
-        apikey,
-      }
-      break
+      throw new AdapterError({
+        jobRunID,
+        message: `Endpoint ${endpoint} not supported.`,
+        statusCode: 400,
+      })
     }
   }
+}
 
-  const config = {
-    url,
-    params,
-  }
-
-  const response = await Requester.request(config)
-  response.data.result = Requester.validateResultNumber(response.data, responsePath)
-  return Requester.success(jobRunID, response)
+export const makeExecute: ExecuteFactory<Config> = (config) => {
+  return async (request) => execute(request, config || makeConfig())
 }

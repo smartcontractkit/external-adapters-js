@@ -2,32 +2,22 @@ import { assert } from 'chai'
 import { Requester } from '@chainlink/external-adapter'
 import { assertSuccess, assertError } from '@chainlink/adapter-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
-import { execute } from '../src/adapter'
+import { makeExecute } from '../src/adapter'
 
 describe('execute', () => {
+  process.env.API_KEY = process.env.API_KEY ?? 'test_API_key'
   const jobID = '1'
+  const execute = makeExecute()
 
   context('successful calls @integration', () => {
     const requests = [
       {
         name: 'id not supplied',
-        testData: { data: { symbol: 'FTSE' } },
+        testData: { data: { symbol: 'AAPL', endpoint: 'relative-performance' } },
       },
       {
-        name: 'symbol FTSE',
-        testData: { id: jobID, data: { symbol: 'FTSE' } },
-      },
-      {
-        name: 'symbol N225',
-        testData: { id: jobID, data: { symbol: 'N225' } },
-      },
-      {
-        name: 'from',
-        testData: { id: jobID, data: { from: 'FTSE' } },
-      },
-      {
-        name: 'endpoint stock',
-        testData: { id: jobID, data: { base: 'TSLA', endpoint: 'stock' } },
+        name: 'symbol',
+        testData: { id: jobID, data: { symbol: 'AAPL', endpoint: 'relative-performance' } },
       },
     ]
 
@@ -35,8 +25,8 @@ describe('execute', () => {
       it(`${req.name}`, async () => {
         const data = await execute(req.testData as AdapterRequest)
         assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
-        assert.isAbove(data.result, 0)
-        assert.isAbove(data.data.result, 0)
+        assert.isNumber(data.result)
+        assert.isNumber(data.data.result)
       })
     })
   })
@@ -44,7 +34,7 @@ describe('execute', () => {
   context('validation error', () => {
     const requests = [
       { name: 'empty body', testData: {} },
-      { name: 'empty data', testData: { data: {} } },
+      { name: 'empty symbol', testData: { id: jobID, data: { endpoint: 'relative-performance' } } },
     ]
 
     requests.forEach((req) => {
@@ -63,7 +53,7 @@ describe('execute', () => {
     const requests = [
       {
         name: 'unknown symbol',
-        testData: { id: jobID, data: { base: 'not_real' } },
+        testData: { id: jobID, data: { symbol: 'not_real', endpoint: 'relative-performance' } },
       },
     ]
 
