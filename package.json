@@ -97,7 +97,8 @@
     "blockstream",
     "unibit",
     "intrinio",
-    "twelvedata"
+    "twelvedata",
+    "aggregator"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",

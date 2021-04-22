@@ -126,7 +126,8 @@
       "crypto-volatility-index",
       "bitcoin-json-rpc",
       "token-allocation",
-      "synth-index"
+      "synth-index",
+      "aggregator"
     ]
   }
 }
