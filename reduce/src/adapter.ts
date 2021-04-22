@@ -41,7 +41,7 @@ export const execute: Execute = async (request) => {
   const _get = (val: unknown): number => objectPath.get(val, path)
 
   // Filter undesired values
-  inputData = inputData.filter((val) => !!_get(val))
+  inputData = inputData.filter((val) => !isNaN(_get(val)))
 
   // Check if all items are numbers
   const _isNumber = (val: unknown): boolean => !isNaN(_get(val))
@@ -54,20 +54,20 @@ export const execute: Execute = async (request) => {
     case 'sum': {
       result = inputData.reduce((acc, val) => {
         return acc.plus(new Decimal(_get(val)))
-      }, new Decimal(data.initialValue) || new Decimal(0))
+      }, new Decimal(data.initialValue || 0))
       break
     }
     case 'product': {
       result = inputData.reduce(
         (acc, val) => acc.mul(new Decimal(_get(val))),
-        new Decimal(data.initialValue) || new Decimal(1),
+        new Decimal(data.initialValue || 1),
       )
       break
     }
     case 'average': {
       result = inputData.reduce(
         (acc, val, _, { length }) => acc.plus(new Decimal(_get(val)).div(new Decimal(length))),
-        new Decimal(data.initialValue) || new Decimal(0),
+        new Decimal(data.initialValue || 0),
       )
       break
     }
@@ -83,14 +83,14 @@ export const execute: Execute = async (request) => {
     case 'min': {
       result = inputData.reduce(
         (acc, val) => Decimal.min(acc, new Decimal(_get(val))),
-        new Decimal(data.initialValue) || new Decimal(Number.MAX_VALUE),
+        new Decimal(data.initialValue || Number.MAX_VALUE),
       )
       break
     }
     case 'max': {
       result = inputData.reduce(
         (acc, val) => Decimal.max(acc, new Decimal(_get(val))),
-        new Decimal(data.initialValue) || new Decimal(Number.MIN_VALUE),
+        new Decimal(data.initialValue || Number.MIN_VALUE),
       )
       break
     }
