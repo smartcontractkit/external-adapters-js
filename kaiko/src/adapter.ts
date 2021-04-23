@@ -32,6 +32,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (includes.length > 0 && base === 'digg' && includes[0].toLowerCase() === 'wbtc') {
     inverse = true
     url = `/spot_direct_exchange_rate/wbtc/digg`
+  } else if (includes.length > 0 && base === 'rgt' && includes[0].toLowerCase() === 'weth') {
+    inverse = true
+    url = `/spot_direct_exchange_rate/weth/rgt`
+  } else if (includes.length > 0 && base === 'rari' && includes[0].toLowerCase() === 'weth') {
+    inverse = true
+    url = `/spot_direct_exchange_rate/weth/rari`
   } else if (includes.length > 0 && includes[0].toLowerCase() === 'weth') {
     url = `/spot_direct_exchange_rate/${base}/weth`
   } else if (quote === 'eth') {
