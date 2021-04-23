@@ -1,7 +1,7 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
 import { makeConfig, DEFAULT_ENDPOINT } from './config'
-import { eod } from './endpoint'
+import { eod, iex } from './endpoint'
 
 const inputParams = {
   endpoint: false,
@@ -15,7 +15,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
 
-  switch (endpoint) {
+  switch (endpoint.toLowerCase()) {
+    case 'price':
+    case iex.NAME:
+      return await iex.execute(request, config)
+
     case eod.NAME:
     default: {
       return await eod.execute(request, config)
