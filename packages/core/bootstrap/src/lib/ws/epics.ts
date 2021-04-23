@@ -10,12 +10,13 @@ import {
   startWith,
   takeUntil,
   tap,
-  withLatestFrom,
+  withLatestFrom
 } from 'rxjs/operators'
 import { webSocket } from 'rxjs/webSocket'
 import WebSocket from 'ws'
 import { withCache } from '../cache'
 import { logger, Requester } from '../external-adapter'
+import { getFeedId } from '../metrics/util'
 import {
   connect,
   connected,
@@ -26,9 +27,10 @@ import {
   unsubscribe,
   unsubscribed,
   messageReceived,
+  unsubscribedAll,
   WSConfigPayload,
   WSSubscriptionPayload,
-  unsubscribedAll,
+  WSMessagePayload,
 } from './actions'
 import {
   ws_connection_active,
@@ -76,14 +78,14 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
       })
       
       // Stream of WS connected & disconnected events
-      const open$ = openObserver.pipe(map((event) => connected({ event, config } as any)))
+      const open$ = openObserver.pipe(map(() => connected({ config, wsHandler })))
       // Before disconecting, we make sure the subscription state is clean
-      const close$ = closeObserver.pipe(mergeMap((event) => of(unsubscribedAll({}), disconnected({ event, config } as any))))
+      const close$ = closeObserver.pipe(mergeMap(() => of(unsubscribedAll({}), disconnected({ config, wsHandler }))))
 
       // Close the WS connection on disconnect
       const disconnect$ = action$.pipe(
         filter(disconnect.match),
-        filter(({ payload }) => payload.connectionInfo.key === connectionKey),
+        filter(({ payload }) => payload.config.connectionInfo.key === connectionKey),
         tap(() => wsSubject.closed || wsSubject.complete()),
         filter(() => false), // do not duplicate events
       )
@@ -182,44 +184,45 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
     }),
   )
 
-export const metricsEpic: Epic<AnyAction, AnyAction, any, any> = (action$) =>
+export const metricsEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state$) =>
   action$.pipe(
-    tap((a) => {
-      // Build connection labels
-      const _connectionLabels = (p: WSConfigPayload) => ({
-        key: p.config.connectionInfo.key,
-        url: p.wsHandler?.connection.url,
-        experimental: 'true',
+    withLatestFrom(state$),
+    tap(([action, state]) => {
+      const connectionLabels = (payload: WSConfigPayload) => ({ 
+        key: payload.config.connectionInfo.key, 
+        url: payload.wsHandler.connection.url 
       })
+      const subscriptionLabels = (payload: WSSubscriptionPayload) => ({ 
+          connection_key: payload.connectionInfo.key, 
+          connection_url: payload.connectionInfo.url, 
+          feed_id: getFeedId(payload.input), 
+          subscription_key: getSubsId(payload.subscriptionMsg) 
+        })
+      const messageLabels = (payload: WSMessagePayload) => ({
+          feed_id: getFeedId({ ...state.ws.subscriptions.input[action.payload.subscriptionKey] }),
+          subscription_key: payload.subscriptionKey,
+        })
 
-      // Build subscription labels
-      const _subscriptionLabels = (p: WSSubscriptionPayload) => ({
-        connection_key: p.connectionInfo.key,
-        connection_url: p.connectionInfo.url,
-        subscription_key: getSubsId(p.subscriptionMsg),
-        experimental: 'true',
-      })
-
-      // Match event of interest
-      switch (a.type) {
+      switch (action.type) {
         case connected.type:
-          ws_connection_active.labels(_connectionLabels(a.payload)).inc()
+          ws_connection_active.labels(connectionLabels(action.payload)).inc()
           break
         case disconnected.type:
-          ws_connection_active.labels(_connectionLabels(a.payload)).dec()
+          ws_connection_active.labels(connectionLabels(action.payload)).dec()
           break
         case subscribed.type:
-          ws_subscription_total.labels(_subscriptionLabels(a.payload)).inc()
-          ws_subscription_active.labels(_subscriptionLabels(a.payload)).inc()
+          ws_subscription_total.labels(subscriptionLabels(action.payload)).inc()
+          ws_subscription_active.labels(subscriptionLabels(action.payload)).inc()
           break
         case unsubscribed.type:
-          ws_subscription_active.labels(_subscriptionLabels(a.payload)).dec()
+          ws_subscription_active.labels(subscriptionLabels(action.payload)).dec()
           break
         case messageReceived.type:
-          ws_message_total.labels({ experimental: 'TODO: Message labels' }).inc()
+          ws_message_total.labels(messageLabels(action.payload)).inc()
           break
       }
     }),
+    map(([action]) => action),
     filter(() => false), // do not duplicate events
   )
 
