@@ -16,13 +16,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
 
   switch (endpoint.toLowerCase()) {
-    case 'stock':
-    case iex.NAME:
-      return await iex.execute(request, config)
-
     case eod.NAME:
-    default: {
       return await eod.execute(request, config)
+
+    case iex.NAME:
+    default: {
+      return await iex.execute(request, config)
     }
   }
 }

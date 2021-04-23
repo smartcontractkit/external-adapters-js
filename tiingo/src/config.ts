@@ -1,7 +1,7 @@
 import { Requester } from '@chainlink/external-adapter'
 import { Config } from '@chainlink/types'
 
-export const DEFAULT_ENDPOINT = 'eod'
+export const DEFAULT_ENDPOINT = 'iex'
 export const DEFAULT_BASE_URL = 'https://api.tiingo.com'
 
 export const makeConfig = (prefix?: string): Config => {
