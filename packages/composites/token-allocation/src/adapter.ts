@@ -6,6 +6,8 @@ import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { BigNumber } from 'ethers'
 import { getPriceProvider } from './dataProvider'
 
+Decimal.set({ precision: 100 })
+
 export const priceTotalValue = (
   allocations: TokenAllocations,
   quote: string,
