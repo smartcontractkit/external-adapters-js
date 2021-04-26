@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { WSSubscriptionHandler, Config } from '@chainlink/types'
+import { WSSubscriptionHandler, Config, AdapterRequest } from '@chainlink/types'
 import * as endpoint from './endpoint'
 /**
  * @swagger
@@ -34,23 +34,24 @@ export const makeWSHandler = (config: Config): WSSubscriptionHandler => {
     ticker: 2,
     aggregate: 5
   }
-  const getSubscription = (pair: string) => ({ action: 'SubAdd', subs: [`${subscriptions.aggregate}~CCCAGG~${pair}`] })
+  const getPair = (input: AdapterRequest): string => {
+    const validator = new Validator(input, endpoint.price.customParams)
+    if (validator.error) {
+      return ''
+    }
+    const base = validator.overrideSymbol(NAME).toUpperCase()
+    const quote = validator.validated.data.quote.toUpperCase()
+    return `${base}~${quote}`
+  }
+  const getSubscription = (pair: string, subscribe = true) => ({ action: subscribe ? 'SubAdd' : 'SubRemove', subs: [`${subscriptions.aggregate}~CCCAGG~${pair}`] })
   const withApiKey = (url: string, apiKey: string) => `${url}?api_key=${apiKey}`
   return {
     connection: {
       url: withApiKey(config.api.baseWsURL || DEFAULT_WS_API_ENDPOINT, config.apiKey || ''),
       protocol: { query: { api_key: config.apiKey } }
     },
-    subscribe: (input) => {
-      const validator = new Validator(input, endpoint.price.customParams)
-      if (validator.error) {
-        return 
-      }
-      const base = validator.overrideSymbol(NAME).toUpperCase()
-      const quote = validator.validated.data.quote.toUpperCase()
-      return getSubscription(`${base}~${quote}`)
-    },
-    unsubscribe: () => '', // Maybe store the subs ID in order to unsubscribe?
+    subscribe: (input) => getSubscription(getPair(input)),
+    unsubscribe: (input) => getSubscription(getPair(input), false),
     subsFromMessage: (message) => getSubscription(`${message?.FROMSYMBOL}~${message?.TOSYMBOL}`),
     isError: (message: any) => Number(message.TYPE) > 400 && Number(message.TYPE) < 900,
     filter: (message) => {
