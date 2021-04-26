@@ -23,14 +23,18 @@ export interface WSSubscriptionPayload {
   input: AdapterRequest
 }
 
-export interface WSMessagePayload {
-  message: unknown
-  subscriptionKey: string
-}
+
 
 export const subscribe = createAction('WS/SUBSCRIBE!', asAction<WSSubscriptionPayload>())
 export const subscribed = createAction('WS/SUBSCRIBED', asAction<WSSubscriptionPayload>())
 export const unsubscribe = createAction('WS/UNSUBSCRIBE!', asAction<WSSubscriptionPayload>())
 export const unsubscribed = createAction('WS/UNSUBSCRIBED', asAction<WSSubscriptionPayload>())
-export const unsubscribedAll = createAction('WS/UNSUBSCRIBED_ALL', asAction())
+
+/** MESSAGEs */
+export interface WSMessagePayload {
+  message: unknown
+  subscriptionKey: string
+}
+
 export const messageReceived = createAction('WS/MESSAGE_RECEIVED!', asAction<WSMessagePayload>())
+export const heartbeat = createAction('WS/HEARTBEAT', asAction<WSSubscriptionPayload>())
