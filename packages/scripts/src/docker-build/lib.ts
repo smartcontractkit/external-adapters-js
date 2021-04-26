@@ -1,22 +1,23 @@
 import * as fs from 'fs'
 import { join } from 'path'
 import * as yaml from 'yaml'
+import { flattenAllSchemas, FlattenedSchema } from '../schema-flatten/lib'
 import { getWorkspacePackages, WorkspacePackages } from '../workspace'
 
-export function writeFile(): void {
+export async function writeFile(): Promise<void> {
   const path = process.env.GITHUB_WORKSPACE || ''
-  fs.writeFileSync(join(path, 'docker-compose.generated.yaml'), generateFile())
+  fs.writeFileSync(join(path, 'docker-compose.generated.yaml'), await generateFile())
 }
 
-export function generateFile(): string {
+export async function generateFile(): Promise<string> {
   const branch = process.env.BRANCH || ''
   const prefix = process.env.IMAGE_PREFIX || ''
   const useLatest = !!process.env.LATEST
 
-  return yaml.stringify(generateFileJSON({ prefix, branch, useLatest }), { merge: true })
+  return yaml.stringify(await generateFileJSON({ prefix, branch, useLatest }), { merge: true })
 }
 
-export function generateFileJSON(imageNameConfig: ImageNameConfig): Dockerfile {
+export async function generateFileJSON(imageNameConfig: ImageNameConfig): Promise<Dockerfile> {
   return makeDockerComposeFile(getWorkspacePackages(), imageNameConfig)
 }
 
@@ -46,10 +47,19 @@ export enum DockerLabels {
   EA_TYPE = 'com.chainlinklabs.external-adapter-type',
 }
 
-function makeDockerComposeFile(
+async function makeDockerComposeFile(
   packages: WorkspacePackages,
   imageNameConfig: ImageNameConfig,
-): Dockerfile {
+): Promise<Dockerfile> {
+  const flattenedSchemas = await flattenAllSchemas()
+  const flattenedSchemasByLocation = flattenedSchemas.reduce<Record<string, FlattenedSchema>>(
+    (prev, next) => {
+      prev[next.location] = next
+      return prev
+    },
+    {},
+  )
+
   return {
     version: '3.9',
     services: packages.reduce<Record<string, Service>>((prev, next) => {
@@ -66,7 +76,11 @@ function makeDockerComposeFile(
             [DockerLabels.EA_TYPE]: next.type,
           },
         },
-        environment: next.environment,
+        environment: Object.entries(flattenedSchemasByLocation[next.location]?.schema ?? {}).map(
+          ([k, v]: [any, any]) => {
+            return `${v.originalKey}=$\{${k}}`
+          },
+        ),
       }
 
       return prev

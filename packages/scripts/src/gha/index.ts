@@ -1,3 +1,7 @@
 import { setOutput } from '@actions/core'
 import { getJobMatrix } from './lib'
-setOutput('result', getJobMatrix())
+
+async function main() {
+  setOutput('result', await getJobMatrix())
+}
+main()
