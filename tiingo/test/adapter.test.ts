@@ -23,6 +23,14 @@ describe('execute', () => {
         name: 'ticker & field',
         testData: { id: jobID, data: { ticker: 'aapl', field: 'open' } },
       },
+      {
+        name: 'iex endpoint',
+        testData: { id: jobID, data: { ticker: 'aapl', endpoint: 'price' } },
+      },
+      {
+        name: 'price endpoint',
+        testData: { id: jobID, data: { ticker: 'aapl', endpoint: 'price' } },
+      },
     ]
 
     requests.forEach((req) => {
