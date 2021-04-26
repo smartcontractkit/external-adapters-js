@@ -5,7 +5,9 @@
     "@actions/core": "^1.2.6",
     "@actions/github": "^4.0.0",
     "chalk": "^4.1.0",
+    "json-schema-ref-parser": "^9.0.7",
     "shelljs": "^0.8.4",
+    "snake-case": "^3.0.4",
     "swagger-jsdoc": "6.1.0",
     "tslib": "^2.1.0",
     "yaml": "^1.10.2"

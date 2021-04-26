@@ -33,7 +33,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@apidevtools/json-schema-ref-parser@npm:^9.0.6":
+"@apidevtools/json-schema-ref-parser@npm:9.0.7, @apidevtools/json-schema-ref-parser@npm:^9.0.6":
   version: 9.0.7
   resolution: "@apidevtools/json-schema-ref-parser@npm:9.0.7"
   dependencies:
@@ -2089,7 +2089,9 @@ __metadata:
     "@types/swagger-jsdoc": ^6
     "@types/yaml": ^1
     chalk: ^4.1.0
+    json-schema-ref-parser: ^9.0.7
     shelljs: ^0.8.4
+    snake-case: ^3.0.4
     swagger-jsdoc: 6.1.0
     tslib: ^2.1.0
     typescript: ^4.2.3
@@ -9593,6 +9595,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dot-case@npm:^3.0.4":
+  version: 3.0.4
+  resolution: "dot-case@npm:3.0.4"
+  dependencies:
+    no-case: ^3.0.4
+    tslib: ^2.0.3
+  checksum: 2d93626464927f533eaa66ba8c9b3a2dede6a324b5020fb90c46779ed629d50542f642aaac578e035e5cb141473c5f2c50eac232a8d8bf820ab471358d7bf587
+  languageName: node
+  linkType: hard
+
 "dot-prop@npm:^5.1.0":
   version: 5.3.0
   resolution: "dot-prop@npm:5.3.0"
@@ -13637,6 +13649,15 @@ fsevents@~2.1.1:
   languageName: node
   linkType: hard
 
+"json-schema-ref-parser@npm:^9.0.7":
+  version: 9.0.7
+  resolution: "json-schema-ref-parser@npm:9.0.7"
+  dependencies:
+    "@apidevtools/json-schema-ref-parser": 9.0.7
+  checksum: 2c9ebbc359b29198ad27866f3f7b9ea692f6bd6fa9e76d9333cec216c97c8b026d3548b59d91b3b5b83363d0ffb220c1706115f84645d1f7155216704bddcd06
+  languageName: node
+  linkType: hard
+
 "json-schema-traverse@npm:^0.4.1":
   version: 0.4.1
   resolution: "json-schema-traverse@npm:0.4.1"
@@ -14359,6 +14380,15 @@ fsevents@~2.1.1:
   bin:
     loose-envify: cli.js
   checksum: 5c3b47bbe5f597a3889fb001a3a98aaea2a3fafa48089c19034de1e0121bf57dbee609d184478514d74d5c5a7e9cfa3d846343455e5123b060040d46c39e91dc
+  languageName: node
+  linkType: hard
+
+"lower-case@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "lower-case@npm:2.0.2"
+  dependencies:
+    tslib: ^2.0.3
+  checksum: aabaca9cef65f7564a1005b625664527e4d169e363101e65773f8f6ff2fdcf09884a3bc02990cd7a62cf05f3538114af25ee7bef553f1ca3208c8a77ac75cbfa
   languageName: node
   linkType: hard
 
@@ -15237,6 +15267,16 @@ fsevents@~2.1.1:
     just-extend: ^4.0.2
     path-to-regexp: ^1.7.0
   checksum: 87b37725d9e0e6dc951caa40685f8726d028ac48ca87e71773cbb705e2736e084cc3087530a92b9ebe87163212ee477d37318875984b1093f79bae600ce6d7c4
+  languageName: node
+  linkType: hard
+
+"no-case@npm:^3.0.4":
+  version: 3.0.4
+  resolution: "no-case@npm:3.0.4"
+  dependencies:
+    lower-case: ^2.0.2
+    tslib: ^2.0.3
+  checksum: 84db4909caec37504c6655f995a004067f8733be8cd8d849f1578661b60a1685e086325fa4e1a5e8ce94e7416c1d0f037e2a00f635a14457183de80ab4fc7612
   languageName: node
   linkType: hard
 
@@ -18073,6 +18113,16 @@ resolve@1.17.0:
   languageName: node
   linkType: hard
 
+"snake-case@npm:^3.0.4":
+  version: 3.0.4
+  resolution: "snake-case@npm:3.0.4"
+  dependencies:
+    dot-case: ^3.0.4
+    tslib: ^2.0.3
+  checksum: f087328861d81e6476996b837b91f9daaa063fd03cb2f0cd35276c5aaa03e7ac7acfd94721028ae5119193a6fc0a9c91123ea7a43e59650f076dac06428c8bf2
+  languageName: node
+  linkType: hard
+
 "snapdragon-node@npm:^2.0.1":
   version: 2.1.1
   resolution: "snapdragon-node@npm:2.1.1"
@@ -19210,7 +19260,7 @@ resolve@1.17.0:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.1.0":
+"tslib@npm:^2.0.3, tslib@npm:^2.1.0":
   version: 2.2.0
   resolution: "tslib@npm:2.2.0"
   checksum: 2d35468c470410871c5246e43f12dcb6d0fc363b617c176f26443b9530e5c5ee8448966892a42956168d8f495da7865bda33dfe82c26c91991e28999974a618f

@@ -12,12 +12,12 @@ interface JobMatrix {
  * Create a job matrix that allows our build pipeline to create and push
  * docker images
  */
-export function getJobMatrix(): JobMatrix {
+export async function getJobMatrix(): Promise<JobMatrix> {
   const branch = process.env.BRANCH || ''
   const prefix = process.env.IMAGE_PREFIX || ''
   const useLatest = !!process.env.LATEST
 
-  const dockerfile = generateFileJSON({ prefix, branch, useLatest })
+  const dockerfile = await generateFileJSON({ prefix, branch, useLatest })
   const adapter = Object.entries(dockerfile.services).map(([k, v]) => {
     return {
       name: k,
