@@ -18,8 +18,6 @@
     "generate:oas": "ts-node-transpile-only ./packages/scripts/dist/scripts/src/docgen.js",
     "generate:oas:all": "yarn generate:oas --all",
     "generate:gha:matrix": "ts-node-transpile-only ./packages/scripts/src/gha",
-    "generate:schemas": "ts-node-transpile-only ./packages/scripts/src/env-gen",
-    "flatten:schemas": "ts-node-transpile-only ./packages/scripts/src/schema-flatten",
     "postinstall": "husky install",
     "cm": "cz"
   },
