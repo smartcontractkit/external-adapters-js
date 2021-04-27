@@ -1,5 +1,9 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
+<<<<<<< HEAD
 import { ExecuteWithConfig, Config, AxiosResponse } from '@chainlink/types'
+=======
+import { ExecuteWithConfig, Config } from '@chainlink/types'
+>>>>>>> 0811378c... perf: bring back batch requests for price endpoint symbols of TA source adapters
 import { NAME as AdapterName } from '../config'
 
 export const NAME = 'price'
@@ -9,7 +13,11 @@ export enum Paths {
   MarketCap = 'marketcap',
 }
 
+<<<<<<< HEAD
 interface ResponseSchema {
+=======
+type PriceResponse = {
+>>>>>>> 0811378c... perf: bring back batch requests for price endpoint symbols of TA source adapters
   id: string
   currency: string
   symbol: string
@@ -141,10 +149,30 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     [Paths.MarketCap]: ['market_cap'],
   }
 
+<<<<<<< HEAD
   const response = await Requester.request<ResponseSchema[]>(reqConfig, customError)
 
   if (Array.isArray(symbol)) return handleBatchedRequest(jobRunID, response, resultPaths, path)
 
   const result = Requester.validateResultNumber(response.data[0], resultPaths[path])
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
+=======
+  const response = await Requester.request<
+    PriceResponse & { result?: number; results?: { [symbol: string]: number } }
+  >(reqConfig, customError)
+
+  if (Array.isArray(symbol)) {
+    const payload: Record<string, number> = {}
+    for (const i in response.data) {
+      const entry = response.data[i]
+      payload[entry.symbol] = Requester.validateResultNumber(response.data[i], resultPaths[path])
+    }
+
+    ;(response.data as any) = { results: payload }
+    return Requester.success(jobRunID, response, true)
+  }
+
+  response.data.result = Requester.validateResultNumber(response.data[0], resultPaths[path])
+  return Requester.success(jobRunID, response, config.verbose)
+>>>>>>> 0811378c... perf: bring back batch requests for price endpoint symbols of TA source adapters
 }
