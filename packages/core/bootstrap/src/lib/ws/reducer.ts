@@ -90,4 +90,5 @@ export const rootReducer = combineReducers({
   connections: connectionsReducer,
   subscriptions: subscriptionsReducer,
 })
+
 export type RootState = ReturnType<typeof rootReducer>
