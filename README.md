@@ -132,6 +132,14 @@ yarn new source my-new-adapter
 
 _If on a Mac, this requires `gnu-sed` to be installed and set as the default for the command `sed`._
 
+### Common Patterns
+
+- For handling big numbers the `BigNumber.js` dependency should be used for integer operations, and `Decimal` for floating point operations. By default decimal.js uses a precision of 20. As we could lose some precision with really large numbers, it should be updated to a higher precision before usage:
+
+```
+Decimal.set({ precision: 100 })
+```
+
 ### Test
 
 In order to test adapters locally, you may need to set an `$API_KEY` environment variable for the given API.
