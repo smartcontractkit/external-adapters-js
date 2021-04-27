@@ -7,7 +7,7 @@ import {
   AdapterRequest,
 } from '@chainlink/types'
 import { makeConfig, DEFAULT_ENDPOINT, NAME, DEFAULT_WS_API_ENDPOINT } from './config'
-import { price, marketCap } from './endpoint'
+import { price } from './endpoint'
 
 const inputParams = {
   endpoint: false,
@@ -27,7 +27,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
       return await price.execute(request, config)
     }
     case 'marketcap': {
-      return await marketCap.execute(request, config)
+      request.data.path = price.Paths.MarketCap
+      return await price.execute(request, config)
     }
     default: {
       throw new AdapterError({

@@ -27,7 +27,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     case price.Name: {
       return price.execute(request, config)
     }
-    case token.TokenEndpoints.MarketCap: {
+    case 'marketcap': {
       return token.execute(request, config)
     }
     case balance.Name: {

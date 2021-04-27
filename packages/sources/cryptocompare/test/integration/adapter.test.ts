@@ -42,6 +42,30 @@ describe('execute', () => {
     })
   })
 
+  describe('successful batch calls @integration', () => {
+    const requests = [
+      {
+        name: 'multiple fsyms',
+        testData: { id: jobID, data: { fsym: ['ETH', 'BTC'], tsyms: 'USD' } },
+      },
+      {
+        name: 'market cap',
+        testData: {
+          id: jobID,
+          data: { fsym: 'ETH', tsyms: 'USD', endpoint: 'marketcap' },
+        },
+      },
+    ]
+
+    requests.forEach((req) => {
+      it(`${req.name}`, async () => {
+        const data = await execute(req.testData as AdapterRequest)
+        assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
+        expect(Object.keys(data.data.results).length).toBeGreaterThan(0)
+      })
+    })
+  })
+
   describe('validation error', () => {
     const requests = [
       { name: 'empty body', testData: {} },

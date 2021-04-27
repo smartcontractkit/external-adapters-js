@@ -14,7 +14,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const base = validator.overrideSymbol(AdapterName)
+  const base = validator.overrideSymbol(AdapterName) as string
   const quote = validator.validated.data.quote
   const url = `crypto/${base.toUpperCase()}${quote.toUpperCase()}/quote`
 

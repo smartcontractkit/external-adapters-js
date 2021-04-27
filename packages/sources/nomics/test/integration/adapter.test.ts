@@ -46,28 +46,26 @@ describe('execute', () => {
     })
   })
 
-  describe('validation error', () => {
+  describe('successful batch calls @integration', () => {
     const requests = [
-      { name: 'empty body', testData: {} },
-      { name: 'empty data', testData: { data: {} } },
       {
-        name: 'base not supplied',
-        testData: { id: jobID, data: { quote: 'USD' } },
+        name: 'price endpoint - multiple symbols',
+        testData: { id: jobID, data: { ids: ['ETH', 'BTC'], convert: 'USD' } },
       },
       {
-        name: 'quote not supplied',
-        testData: { id: jobID, data: { base: 'ETH' } },
+        name: 'marketcap endpoint - multiple symbols',
+        testData: {
+          id: jobID,
+          data: { ids: ['ETH', 'BTC'], convert: 'USD', endpoint: 'marketcap' },
+        },
       },
     ]
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
-        try {
-          await execute(req.testData as AdapterRequest)
-        } catch (error) {
-          const errorResp = Requester.errored(jobID, error)
-          assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
-        }
+        const data = await execute(req.testData as AdapterRequest)
+        assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
+        expect(Object.keys(data.data.results).length).toBeGreaterThan(0)
       })
     })
   })

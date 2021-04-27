@@ -42,6 +42,23 @@ describe('execute', () => {
     })
   })
 
+  describe('successful batch calls @integration', () => {
+    const requests = [
+      {
+        name: 'supports multiple symbols',
+        testData: { id: jobID, data: { sym: ['ETH', 'BTC'], convert: 'USD' } },
+      },
+    ]
+
+    requests.forEach((req) => {
+      it(`${req.name}`, async () => {
+        const data = await execute(req.testData as AdapterRequest)
+        assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
+        expect(Object.keys(data.data.results).length).toBeGreaterThan(0)
+      })
+    })
+  })
+
   describe('validation error', () => {
     const requests = [
       { name: 'empty body', testData: {} },

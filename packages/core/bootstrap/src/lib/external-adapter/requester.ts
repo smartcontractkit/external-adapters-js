@@ -116,9 +116,9 @@ export class Requester {
   /**
    * Conforms the .request() response to the expected Chainlink response structure
    *
-   * @param jobRunID The amount of retries that have passed
-   * @param response The interval in ms
-   * @param verbose The maximum back-off in ms
+   * @param jobRunID
+   * @param response The response data object
+   * @param verbose Return full response data (optional, default: false)
    */
   static success(
     jobRunID = '1',
