@@ -1,39 +1,6 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config } from '@chainlink/types'
+import { Config, ExecuteWithConfig } from '@chainlink/types'
 
-/**
- * @swagger
- * endpoints:
- *  globalmarketcap:
- *    properties:
- *      - market
- *      - to
- *      - quote
- *      - coin
- *    required:
- *      - oneOf:
- *        - market
- *        - to
- *        - quote
- *        - coin
- */
-
- /**
-  * @swagger
-  * endpoints:
-  *  dominance:
-  *    properties:
-  *      - market
-  *      - to
-  *      - quote
-  *      - coin
-  *    required:
-  *      - oneOf:
-  *        - market
-  *        - to
-  *        - quote
-  *        - coin
-  */
 export const NAME = 'global'
 
 const customError = (data: any) => {
