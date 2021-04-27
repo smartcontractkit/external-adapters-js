@@ -1,13 +1,6 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
-/**
- * @swagger
- * securityDefinitions:
- *  environment-variables:
- *
- */
-
 export const DEFAULT_API_ENDPOINT = 'https://chain.api.btc.com'
 
 export const DEFAULT_ENDPOINT = 'balance'

@@ -1,15 +1,6 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
-/**
- * @swagger
- * securityDefinitions:
- *  environment-variables:
- *    API_ENDPOINT:
- *      required: false
- *      default: https://sochain.com
- */
-
 export const DEFAULT_API_ENDPOINT = 'https://sochain.com'
 
 export const DEFAULT_ENDPOINT = 'balance'

@@ -1,13 +1,6 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
-/**
- * @swagger
- * securityDefinitions:
- *  environment-variables:
- *
- */
-
 export const NAME = 'COINPAPRIKA'
 
 export const DEFAULT_ENDPOINT = 'price'

@@ -1,14 +1,6 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { MakeWSHandler, Config, AdapterRequest } from '@chainlink/types'
+import { AdapterRequest, Config, MakeWSHandler } from '@chainlink/types'
 import * as endpoint from './endpoint'
-/**
- * @swagger
- * securityDefinitions:
- *  environment-variables:
- *    API_KEY:
- *      required: true
- *
- */
 
 export const NAME = 'CRYPTOCOMPARE'
 
@@ -32,7 +24,7 @@ export const WSHandlerFactory = (config?: Config): MakeWSHandler => {
   const subscriptions = {
     trade: 0,
     ticker: 2,
-    aggregate: 5
+    aggregate: 5,
   }
   const getPair = (input: AdapterRequest) => {
     const validator = new Validator(input, endpoint.price.customParams)
@@ -50,12 +42,16 @@ export const WSHandlerFactory = (config?: Config): MakeWSHandler => {
     const defaultConfig = config || makeConfig()
     return {
       connection: {
-        url: withApiKey(defaultConfig.api.baseWsURL || DEFAULT_WS_API_ENDPOINT, defaultConfig.apiKey || ''),
-        protocol: { query: { api_key: defaultConfig.apiKey } }
+        url: withApiKey(
+          defaultConfig.api.baseWsURL || DEFAULT_WS_API_ENDPOINT,
+          defaultConfig.apiKey || '',
+        ),
+        protocol: { query: { api_key: defaultConfig.apiKey } },
       },
       subscribe: (input) => getSubscription('SubAdd', getPair(input)),
       unsubscribe: (input) => getSubscription('SubRemove', getPair(input)),
-      subsFromMessage: (message) => getSubscription('SubAdd', `${message?.FROMSYMBOL}~${message?.TOSYMBOL}`),
+      subsFromMessage: (message) =>
+        getSubscription('SubAdd', `${message?.FROMSYMBOL}~${message?.TOSYMBOL}`),
       isError: (message: any) => Number(message.TYPE) > 400 && Number(message.TYPE) < 900,
       filter: (message) => {
         // Ignore everything is not from the wanted channels
@@ -66,7 +62,7 @@ export const WSHandlerFactory = (config?: Config): MakeWSHandler => {
       toResponse: (message: any) => {
         const result = Requester.validateResultNumber(message, ['PRICE'])
         return Requester.success('1', { data: { result } })
-      }
+      },
     }
   }
 }

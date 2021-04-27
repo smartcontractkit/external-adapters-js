@@ -1,39 +1,14 @@
-import { util, Requester } from '@chainlink/ea-bootstrap'
-import { AdapterImplementation } from '@chainlink/types'
 import Amberdata from '@chainlink/amberdata-adapter'
 import CoinApi from '@chainlink/coinapi-adapter'
 import CoinGecko from '@chainlink/coingecko-adapter'
 import CoinMarketCap from '@chainlink/coinmarketcap-adapter'
 import CoinPaprika from '@chainlink/coinpaprika-adapter'
 import CryptoCompare from '@chainlink/cryptocompare-adapter'
+import { Requester, util } from '@chainlink/ea-bootstrap'
 import Kaiko from '@chainlink/kaiko-adapter'
 import Nomics from '@chainlink/nomics-adapter'
+import { AdapterImplementation } from '@chainlink/types'
 import { Config, SourceRequestOptions } from './types'
-
-/**
- * @swagger
- * securityDefinitions:
- *  environment-variables:
- *    adapter:
- *      oneOf:
- *        - AMBERDATA_DATA_PROVIDER_URL
- *        - COINAPI_DATA_PROVIDER_URL
- *        - COINGECKO_DATA_PROVIDER_URL
- *        - COINMARKETCAP_DATA_PROVIDER_URL
- *        - COINPAPRIKA_DATA_PROVIDER_URL
- *        - CRYPTOCOMPARE_DATA_PROVIDER_URL
- *        - KAIKO_DATA_PROVIDER_URL
- *        - NOMICS_DATA_PROVIDER_URL
- *    DEFAULT_QUOTE:
- *      required: false
- *      default: USD
- *    DEFAULT_METHOD:
- *      required: false
- *      default: price
- *      enum:
- *        - price
- *        - marketcap
- */
 
 export const adapters: AdapterImplementation[] = [
   Amberdata,

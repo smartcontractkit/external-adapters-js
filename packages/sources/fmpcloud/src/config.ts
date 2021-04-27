@@ -1,17 +1,6 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
-/**
- * @swagger
- * securityDefinitions:
- *  environment-variables:
- *    API_KEY:
- *      required: true
- *    API_ENDPOINT:
- *      required: false
- *      default: https://fmpcloud.io
- */
-
 export const DEFAULT_ENDPOINT = 'quote'
 export const DEFAULT_API_ENDPOINT = 'https://fmpcloud.io'
 

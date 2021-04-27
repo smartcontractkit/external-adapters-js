@@ -1,26 +1,7 @@
-import { Requester } from '@chainlink/ea-bootstrap'
-import { util } from '@chainlink/ea-bootstrap'
-import { RequestConfig, Config as BaseConfig } from '@chainlink/types'
-import { adapters as SourceAdapters } from './source'
+import { Requester, util } from '@chainlink/ea-bootstrap'
+import { Config as BaseConfig, RequestConfig } from '@chainlink/types'
 import { adapters as CheckAdapters } from './check'
-
-/**
- * @swagger
- * securityDefinitions:
- *  environment-variables:
- *    source-adapter:
- *      oneOf:
- *        - XBTO_DATA_PROVIDER_URL
- *        - GENESIS_VOLATILITY_DATA_PROVIDER_URL
- *        - DXFEED_DATA_PROVIDER_URL
- *    check-adapter:
- *      oneOf:
- *        - DERIBIT_DATA_PROVIDER_URL
- *        - OILPRICEAPI_COM_DATA_PROVIDER_URL
- *        - DXFEED_DATA_PROVIDER_URL
- *    RPC_URL:
- *      required: false
- */
+import { adapters as SourceAdapters } from './source'
 
 export const DEFAULT_CHECK_THRESHOLD = 0
 export const DEFAULT_ONCHAIN_THRESHOLD = 0

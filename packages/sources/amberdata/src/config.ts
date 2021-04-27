@@ -2,15 +2,6 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { AdapterRequest, Config, MakeWSHandler } from '@chainlink/types'
 import * as endpoint from './endpoint'
 
-/**
- * @swagger
- * securityDefinitions:
- *  environment-variables:
- *    API_KEY:
- *      required: true
- *
- */
-
 export const NAME = 'AMBERDATA'
 
 export const DEFAULT_API_ENDPOINT = 'https://web3api.io'

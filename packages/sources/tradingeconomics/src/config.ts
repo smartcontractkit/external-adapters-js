@@ -1,19 +1,6 @@
-import { util, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { MakeWSHandler, Config as config, AdapterResponse } from '@chainlink/types'
+import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterResponse, Config as config, MakeWSHandler } from '@chainlink/types'
 import { customParams } from './adapter'
-
-/**
- * @swagger
- * securityDefinitions:
- *  environment-variables:
- *    API_URL:
- *      required: false
- *      default: ws://stream.tradingeconomics.com/
- *    API_CLIENT_KEY:
- *      required: true
- *    API_CLIENT_SECRET:
- *      required: true
- */
 
 export type Config = config & {
   client: {
@@ -57,7 +44,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
           defaultConfig.client.secret || '',
         ),
       },
-      subscribe: input => {
+      subscribe: (input) => {
         const validator = new Validator(input, customParams)
         if (validator.error) {
           return
@@ -66,9 +53,9 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
         return getSubscription(base)
       },
       unsubscribe: () => undefined,
-      subsFromMessage: message => getSubscription(message?.s),
+      subsFromMessage: (message) => getSubscription(message?.s),
       isError: (message: any) => Number(message.TYPE) > 400 && Number(message.TYPE) < 900,
-      filter: message => {
+      filter: (message) => {
         return message.topic && message.topic !== 'keepalive'
       },
       toResponse: (wsResponse: any): AdapterResponse =>

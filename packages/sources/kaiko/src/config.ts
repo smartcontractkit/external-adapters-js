@@ -1,17 +1,6 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
-/**
- * @swagger
- * securityDefinitions:
- *  environment-variables:
- *    API_KEY:
- *      required: true
- *    API_ENDPOINT:
- *      required: false
- *      default: https://us.market-api.kaiko.io/v2/data/trades.v1
- */
-
 export const NAME = 'KAIKO'
 
 export const DEFAULT_INTERVAL = '1m'
