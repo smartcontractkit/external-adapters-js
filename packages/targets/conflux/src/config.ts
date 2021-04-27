@@ -1,17 +1,5 @@
 import { util } from '@chainlink/ea-bootstrap'
 
-/**
- * @swagger
- * securityDefinitions:
- *  environment-variables:
- *    RPC_URL:
- *      required: true
- *    NETWORK_ID:
- *      required: true
- *    PRIVATE_KEY:
- *      required: true
- */
-
 export const DEFAULT_ENDPOINT = 'conflux'
 
 export type Config = {

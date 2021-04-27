@@ -1,13 +1,6 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
-/**
- * @swagger
- * securityDefinitions:
- *  environment-variables:
- *
- */
-
 export const DEFAULT_API_ENDPOINT = 'dex-asiapacific'
 export const DEFAULT_DATA_ENDPOINT = 'v1/ticker/24hr'
 

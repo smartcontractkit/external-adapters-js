@@ -1,18 +1,5 @@
 import { util } from '@chainlink/ea-bootstrap'
 
-/**
- * @swagger
- * securityDefinitions:
- *  environment-variables:
- *    RPC_URL:
- *      required: true
- *    NETWORK:
- *      required: false
- *      default: mainnet
- *    PRIVATE_KEY:
- *      required: true
- */
-
 export type Config = {
   rpcUrl: string
   network?: string

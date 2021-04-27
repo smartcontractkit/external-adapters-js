@@ -1,15 +1,6 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
-/**
- * @swagger
- * securityDefinitions:
- *  environment-variables:
- *    API_KEY:
- *      required: false
- *
- */
-
 export const DEFAULT_API_ENDPOINT = 'https://api.anyblock.tools'
 
 export const makeConfig = (prefix = ''): Config => {

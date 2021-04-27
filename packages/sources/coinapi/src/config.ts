@@ -2,14 +2,6 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config, MakeWSHandler } from '@chainlink/types'
 import * as endpoint from './endpoint'
 
-/**
- * @swagger
- * securityDefinitions:
- *  environment-variables:
- *    API_KEY:
- *      required: true
- */
-
 export const NAME = 'COINAPI'
 
 export const DEFAULT_ENDPOINT = 'price'

@@ -2,13 +2,6 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { AdapterRequest, Config, MakeWSHandler } from '@chainlink/types'
 import { customParams } from './endpoint/price'
 
-/**
- * @swagger
- * securityDefinitions:
- *  environment-variables:
- *
- */
-
 export const DEFAULT_ENDPOINT = 'price'
 export const DEFAULT_API_ENDPOINT = 'https://api.coinbase.com'
 export const DEFAULT_WS_API_ENDPOINT = 'wss://ws-feed.pro.coinbase.com'

@@ -1,17 +1,6 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
-/**
- * @swagger
- * securityDefinitions:
- *  environment-variables:
- *    API_KEY:
- *      required: true
- *    API_ENDPOINT:
- *      required: false
- *      default: https://data.fixer.io
- */
-
 export const NAME = 'FIXER'
 
 export const DEFAULT_ENDPOINT = 'convert'

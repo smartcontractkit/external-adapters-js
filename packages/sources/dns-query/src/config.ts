@@ -1,17 +1,6 @@
 import { util } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
-/**
- * @swagger
- * securityDefinitions:
- *  environment-variables:
- *    DNS_PROVIDER:
- *      required: true
- *    CUSTOM_ENDPOINT:
- *      required: false
- *
- */
-
 export enum DNSProviders {
   Cloudflare = 'cloudflare',
   Google = 'google',

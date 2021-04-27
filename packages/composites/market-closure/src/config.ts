@@ -1,18 +1,5 @@
-import { Requester } from '@chainlink/ea-bootstrap'
-import { util } from '@chainlink/ea-bootstrap'
+import { Requester, util } from '@chainlink/ea-bootstrap'
 import { getDataProvider, PriceAdapter } from './dataProvider'
-
-/**
- * @swagger
- * securityDefinitions:
- *  environment-variables:
- *    DATA_PROVIDER_URL:
- *      required: true
- *    CHECK_API_KEY:
- *      required: false
- *    (SOURCE)_DATA_PROVIDER_URL:
- *      required: true
- */
 
 export type GetPriceAdapter = (name: string) => PriceAdapter
 

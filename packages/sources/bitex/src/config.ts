@@ -1,15 +1,6 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
-/**
- * @swagger
- * securityDefinitions:
- *  environment-variables:
- *    API_KEY:
- *      required: true
- *
- */
-
 export const DEFAULT_ENDPOINT = 'tickers'
 export const DEFAULT_BASE_URL = 'https://bitex.la/api'
 
