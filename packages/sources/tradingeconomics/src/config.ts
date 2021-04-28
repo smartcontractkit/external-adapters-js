@@ -13,11 +13,6 @@ import { customParams } from './adapter'
  *      required: true
  *    API_CLIENT_SECRET:
  *      required: true
- *    SYMBOLS:
- *      required: true
- *    RECONNECT_TIMEOUT:
- *      required: false
- *      default: 3000
  */
 
 export type Config = config & {

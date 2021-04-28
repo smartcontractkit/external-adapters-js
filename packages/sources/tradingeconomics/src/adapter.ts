@@ -28,7 +28,13 @@ export const execute = async (input: AdapterRequest, config: Config) => {
     c: `${config.client.key}:${config.client.secret}`,
   }
 
-  const response = await Requester.request({ url, params })
+  const request = {
+    ...config.api,
+    url,
+    params
+  }
+
+  const response = await Requester.request(request)
   if (!response.data || response.data.length < 1) {
     throw new Error('no result for query')
   }
