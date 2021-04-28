@@ -37,9 +37,10 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 |    ✅     |   `source`    |               The data provider to query                | `amberdata`, `coinapi`, `coingecko`, `coinmarketcap`, `coinpaprika`, `cryptocompare`, `kaiko`, `nomics` |                                           |
 |           |    `quote`    |             Currency we want the price on.              |                                                                                                         | The `DEFAULT_QUOTE` environment variable  |
 |           |   `method`    | Method we want the total value calculation be based on. |                                          `price`, `marketCap`                                           | The `DEFAULT_METHOD` environment variable |
-|    ✅     | `allocations` |      Array of allocations (see below)       |                                                                                                         |
+|    ✅     | `allocations` |            Array of allocations (see below)             |                                                                                                         |
 
 #### Allocation Params
+
 Parameters for each allocation in the `allocations` array
 
 | Required |    Name    |  Description   | Default |
