@@ -54,7 +54,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
   const getPair = (input: AdapterRequest) => {
     const validator = new Validator(input, price.customParams)
     if (validator.error) return
-    const base = validator.overrideSymbol(NAME).toUpperCase()
+    const base = (validator.overrideSymbol(NAME) as string).toUpperCase()
     const quote = validator.validated.data.quote.toUpperCase()
     return `${base}~${quote}`
   }

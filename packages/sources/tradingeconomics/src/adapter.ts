@@ -64,7 +64,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
         if (validator.error) {
           return
         }
-        const base = validator.overrideSymbol(NAME).toUpperCase()
+        const base = (validator.overrideSymbol(NAME) as string).toUpperCase()
         return getSubscription(base)
       },
       unsubscribe: () => undefined,

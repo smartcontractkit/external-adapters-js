@@ -8,6 +8,15 @@ const getFalse = () => false
 
 export type RequestConfig = AxiosRequestConfig
 
+type AxiosResponseWithResult<T> = AxiosResponse<
+  T & { result?: number; results?: { [fsym: string]: number } }
+>
+type AxiosResponseWithResultResponse<T> = AxiosResponse<{
+  payload: T
+  result?: number
+  results?: { [fsym: string]: number }
+}>
+
 export class Requester {
   static async request<T extends Record<string, any>>(
     config: RequestConfig,
@@ -93,6 +102,27 @@ export class Requester {
     return path.reduce((o, n) => o[n], data)
   }
 
+  /**
+   * Extend a typed Axios response with results
+   * @param response Axios response
+   * @param result a single result value
+   * @param results multiple results for internal batch requests
+   */
+
+  static withResult<T>(
+    response: AxiosResponse<T>,
+    result?: number,
+    results?: { [fsym: string]: number },
+  ): AxiosResponseWithResult<T> | AxiosResponseWithResultResponse<T> {
+    const isObj = Object.prototype.toString.call(response.data) === '[object Object]'
+    const responseWithResult = isObj
+      ? (response as AxiosResponseWithResult<T>)
+      : ({ ...response, data: { payload: response.data } } as AxiosResponseWithResultResponse<T>)
+    if (result) responseWithResult.data.result = result
+    if (results) responseWithResult.data.results = results
+    return responseWithResult
+  }
+
   static errored(
     jobRunID = '1',
     error?: AdapterError | Error | string,
@@ -115,7 +145,6 @@ export class Requester {
 
   /**
    * Conforms the .request() response to the expected Chainlink response structure
-   *
    * @param jobRunID
    * @param response The response data object
    * @param verbose Return full response data (optional, default: false)

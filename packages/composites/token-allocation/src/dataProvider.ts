@@ -14,7 +14,10 @@ export const getPriceProvider = (
   source: string,
   apiConfig: RequestConfig,
 ) => async (symbols: string[], quote: string, withMarketCap = false): Promise<ResponsePayload> => {
-  if (batchingSupport[source.toUpperCase()]) {
+  if (
+    batchingSupport[source.toUpperCase()] ||
+    (source.toUpperCase() === 'COINAPI' && quote.toUpperCase() === 'USD') // Special case for CoinAPI which only can batch USD quotes
+  ) {
     const data = {
       id: jobRunID,
       data: { base: symbols, quote, endpoint: withMarketCap ? 'marketcap' : 'price' },

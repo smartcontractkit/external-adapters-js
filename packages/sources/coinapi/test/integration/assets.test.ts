@@ -12,23 +12,15 @@ describe('execute', () => {
     const requests = [
       {
         name: 'id not supplied',
-        testData: { data: { base: 'ETH', quote: 'BTC' } },
-      },
-      {
-        name: 'base/quote',
-        testData: { id: jobID, data: { base: 'ETH', quote: 'BTC' } },
+        testData: { data: { base: 'ETH', endpoint: 'assets' } },
       },
       {
         name: 'from/to',
-        testData: { id: jobID, data: { from: 'ETH', to: 'BTC' } },
+        testData: { id: jobID, data: { from: 'ETH', endpoint: 'assets' } },
       },
       {
         name: 'coin/market',
-        testData: { id: jobID, data: { coin: 'ETH', market: 'BTC' } },
-      },
-      {
-        name: 'coin/market lowercase',
-        testData: { id: jobID, data: { coin: 'eth', market: 'BTC' } },
+        testData: { id: jobID, data: { coin: 'ETH', endpoint: 'assets' } },
       },
     ]
 
@@ -42,15 +34,28 @@ describe('execute', () => {
     })
   })
 
+  describe('successful batch calls @integration', () => {
+    const requests = [
+      {
+        name: 'multiple bases',
+        testData: { id: jobID, data: { base: ['ETH', 'BTC'], endpoint: 'assets' } },
+      },
+    ]
+
+    requests.forEach((req) => {
+      it(`${req.name}`, async () => {
+        const data = await execute(req.testData as AdapterRequest)
+        assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
+        expect(Object.keys(data.data.results).length).toBeGreaterThan(0)
+      })
+    })
+  })
+
   describe('validation error', () => {
     const requests = [
       {
         name: 'base not supplied',
-        testData: { id: jobID, data: { quote: 'BTC' } },
-      },
-      {
-        name: 'quote not supplied',
-        testData: { id: jobID, data: { base: 'ETH' } },
+        testData: { id: jobID, data: { quote: 'USD', endpoint: 'assets' } },
       },
     ]
 
@@ -70,11 +75,7 @@ describe('execute', () => {
     const requests = [
       {
         name: 'unknown base',
-        testData: { id: jobID, data: { base: 'not_real', quote: 'BTC' } },
-      },
-      {
-        name: 'unknown quote',
-        testData: { id: jobID, data: { base: 'ETH', quote: 'not_real' } },
+        testData: { id: jobID, data: { base: 'not_real', quote: 'USD' } },
       },
     ]
 

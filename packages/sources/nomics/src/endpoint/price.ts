@@ -126,9 +126,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     [Paths.MarketCap]: ['market_cap'],
   }
 
-  const response = await Requester.request<
-    PriceResponse & { result?: number; results?: { [symbol: string]: number } }
-  >(reqConfig, customError)
+  const response = await Requester.request<PriceResponse>(reqConfig, customError)
 
   if (Array.isArray(symbol)) {
     const payload: Record<string, number> = {}
@@ -141,6 +139,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     return Requester.success(jobRunID, response, true)
   }
 
-  response.data.result = Requester.validateResultNumber(response.data[0], resultPaths[path])
-  return Requester.success(jobRunID, response, config.verbose)
+  const result = Requester.validateResultNumber(response.data[0], resultPaths[path])
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

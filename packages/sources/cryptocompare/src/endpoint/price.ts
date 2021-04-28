@@ -141,21 +141,17 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     params,
   }
 
-  const response = await Requester.request<
-    PriceResponse & { result?: number; results?: { [fsym: string]: number } }
-  >(options, customError)
+  const response = await Requester.request<PriceResponse>(options, customError)
 
   if (Array.isArray(symbol)) {
     const payload: Record<string, number> = {}
     for (const fsym in response.data.RAW) {
       payload[fsym] = Requester.validateResultNumber(response.data, ['RAW', fsym, quote, path])
     }
-
-    response.data.results = payload
-    return Requester.success(jobRunID, response, true)
+    return Requester.success(jobRunID, Requester.withResult(response, undefined, payload), true)
   }
 
-  response.data.result = Requester.validateResultNumber(response.data, ['RAW', symbol, quote, path])
+  const result = Requester.validateResultNumber(response.data, ['RAW', symbol, quote, path])
 
-  return Requester.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }
