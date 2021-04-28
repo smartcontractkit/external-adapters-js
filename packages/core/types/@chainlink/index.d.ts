@@ -106,6 +106,7 @@ declare module '@chainlink/types' {
   export type MakeWSHandler = () => WSSubscriptionHandler
 
   export interface WSSubscriptionHandler {
+    init?: (WSSubscriptionHandler) => Promise
     /**
      * Connection information
      */
