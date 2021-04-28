@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { MakeWSHandler, Config } from '@chainlink/types'
+import { MakeWSHandler, Config, AdapterRequest } from '@chainlink/types'
 import { customParams } from './adapter'
 import IntrinioRealtime from 'intrinio-realtime'
 
@@ -24,6 +24,15 @@ export const makeConfig = (prefix?: string): Config => {
 
 export const makeWSHandler = (config?: Config): MakeWSHandler => {
   // https://github.com/intrinio/intrinio-realtime-node-sdk
+
+  const getBase = (input: AdapterRequest): string => {
+    const validator = new Validator(input, customParams)
+    if (validator.error) {
+      return ''
+    }
+    return validator.overrideSymbol(NAME).toUpperCase()
+  }
+
   return () => {
     const defaultConfig = config || makeConfig()
 
@@ -45,15 +54,8 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       connection: {
         url: '',
       },
-      subscribe: input => {
-        const validator = new Validator(input, customParams)
-        if (validator.error) {
-          return
-        }
-        const base = validator.overrideSymbol(NAME).toUpperCase()
-        return ws._makeJoinMessage(base)
-      },
-      unsubscribe: () => '',
+      subscribe: input => ws._makeJoinMessage(getBase(input)),
+      unsubscribe: (input) => ws._makeLeaveMessage(getBase(input)),
       subsFromMessage: message => ws._makeJoinMessage(message.payload.ticker),
       isError: (message: any) => Number(message.TYPE) > 400 && Number(message.TYPE) < 900,
       filter: message => message.event == 'quote' && message.payload?.type == 'last',
