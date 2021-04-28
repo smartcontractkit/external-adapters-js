@@ -102,6 +102,9 @@ declare module '@chainlink/types' {
     warning?: string
   }
 
+
+  export type MakeWSHandler = () => WSSubscriptionHandler
+
   export interface WSSubscriptionHandler {
     /**
      * Connection information

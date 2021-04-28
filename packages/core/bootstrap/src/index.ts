@@ -4,7 +4,7 @@ import {
   Execute,
   ExecuteSync,
   Middleware,
-  WSSubscriptionHandler
+  MakeWSHandler
 } from '@chainlink/types'
 import { defaultOptions, redactOptions, withCache } from './lib/cache'
 import * as cacheWarmer from './lib/cache-warmer'
@@ -132,13 +132,13 @@ const withMiddleware = async (execute: Execute, middleware: Middleware[]) => {
 }
 
 // Execution helper async => sync
-const executeSync = (execute: Execute, wsHandler?: WSSubscriptionHandler): ExecuteSync => {
+const executeSync = (execute: Execute, makeWsHandler?: MakeWSHandler): ExecuteSync => {
   // TODO: Try to init middleware only once
   // const initMiddleware = withMiddleware(execute)
   const middleware = [
     withLogger,
     skipOnError(withCache),
-    ws.withWebSockets(storeSlice('ws'))(wsHandler),
+    ws.withWebSockets(storeSlice('ws'))(makeWsHandler),
     rateLimit.withRateLimit(storeSlice('rateLimit')),
     withStatusCode,
   ].concat(metrics.METRICS_ENABLED ? [withMetrics, withDebug] : [withDebug])
@@ -171,9 +171,9 @@ const executeSync = (execute: Execute, wsHandler?: WSSubscriptionHandler): Execu
   }
 }
 
-export const expose = (execute: Execute, wsHandler?: WSSubscriptionHandler) => {
+export const expose = (execute: Execute, makeWsHandler?: MakeWSHandler) => {
   // Add middleware to the execution flow
-  const _execute = executeSync(execute, wsHandler)
+  const _execute = executeSync(execute, makeWsHandler)
   return {
     server: server.initHandler(_execute),
   }
