@@ -4,7 +4,7 @@ import * as Parser from 'json-schema-ref-parser'
 import * as path from 'path'
 import { snakeCase } from 'snake-case'
 import { getWorkspacePackages } from '../workspace'
-import { collisionIgnoreMap, collisionPackageTypeMap, forceRenameMap } from './config'
+import { collisionPackageTypeMap, forceRenameMap, getCollisionIgnoreMapFrom } from './config'
 
 export async function writeAllFlattenedSchemas() {
   const data = await flattenAllSchemas()
@@ -28,33 +28,42 @@ export interface FlattenedSchema {
  */
 export async function flattenAllSchemas(): Promise<FlattenedSchema[]> {
   const resolve = createChainlinkLabsResolver()
+  const workspacePackages = getWorkspacePackages(['core'])
+  const bootstrapPackage = workspacePackages.find((p) => p.descopedName === 'ea-bootstrap')
+  if (!bootstrapPackage) {
+    throw Error('Could not find bootstrap package to generate collisionIgnoreMap')
+  }
 
   const pkgs = await Promise.all(
-    getWorkspacePackages().map(async (p) => {
-      const { environment, location } = p
-      if (!environment) {
-        return
-      }
-
-      const schema = await Parser.default.dereference(environment.$id, {
-        resolve,
-      })
-
-      try {
-        return {
-          schema: flattenAllOf(
-            schema,
-            p.type,
-            collisionIgnoreMap,
-            forceRenameMap,
-            collisionPackageTypeMap,
-          ),
-          location,
+    workspacePackages
+      .filter((p) => p.type !== 'core')
+      .map(async (p) => {
+        const { environment, location } = p
+        if (!environment) {
+          return
         }
-      } catch (e) {
-        throw Error(`Errors incurred while processing package:${location}: ${e.message}`)
-      }
-    }),
+
+        const schema = await Parser.default.dereference(environment.$id, {
+          resolve,
+        })
+
+        const collisionIgnoreMap = getCollisionIgnoreMapFrom(bootstrapPackage)
+
+        try {
+          return {
+            schema: flattenAllOf(
+              schema,
+              p.type,
+              collisionIgnoreMap,
+              forceRenameMap,
+              collisionPackageTypeMap,
+            ),
+            location,
+          }
+        } catch (e) {
+          throw Error(`Errors incurred while processing package:${location}: ${e.message}`)
+        }
+      }),
   )
 
   return pkgs.filter((obj): obj is FlattenedSchema => !!obj)

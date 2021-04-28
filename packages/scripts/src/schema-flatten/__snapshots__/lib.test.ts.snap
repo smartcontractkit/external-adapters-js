@@ -14,6 +14,10 @@ Array [
         "originalKey": "RPC_URL",
         "type": "string",
       },
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -86,6 +90,10 @@ Array [
         "originalKey": "CRYPTOCOMPARE_DATA_PROVIDER_URL",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
       "DEFAULT_METHOD": Object {
         "default": "price",
         "enum": Array [
@@ -98,6 +106,10 @@ Array [
       "DEFAULT_QUOTE": Object {
         "default": "USD",
         "originalKey": "DEFAULT_QUOTE",
+        "type": "string",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
         "type": "string",
       },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
@@ -116,12 +128,20 @@ Array [
         "originalKey": "KAIKO_DATA_PROVIDER_URL",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "NOMICS_DATA_PROVIDER_URL": Object {
@@ -164,6 +184,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -177,6 +205,10 @@ Array [
   Object {
     "location": "packages/composites/bitcoin-json-rpc",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -229,6 +261,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -247,12 +287,20 @@ Array [
         "originalKey": "RPC_URL",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -287,6 +335,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -302,6 +358,10 @@ Array [
     "schema": Object {
       "AMBERDATA_DATA_PROVIDER_URL": Object {
         "originalKey": "AMBERDATA_DATA_PROVIDER_URL",
+        "type": "string",
+      },
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
         "type": "string",
       },
       "CACHE_ENABLED": Object {
@@ -376,6 +436,10 @@ Array [
         "originalKey": "CRYPTOCOMPARE_DATA_PROVIDER_URL",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
       "DEFAULT_METHOD": Object {
         "default": "price",
         "enum": Array [
@@ -388,6 +452,10 @@ Array [
       "DEFAULT_QUOTE": Object {
         "default": "USD",
         "originalKey": "DEFAULT_QUOTE",
+        "type": "string",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
         "type": "string",
       },
       "EA_REFERENCE_DATA_READER_RPC_URL": Object {
@@ -410,12 +478,20 @@ Array [
         "originalKey": "KAIKO_DATA_PROVIDER_URL",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "NOMICS_DATA_PROVIDER_URL": Object {
@@ -454,6 +530,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -469,6 +553,10 @@ Array [
     "schema": Object {
       "AMBERDATA_DATA_PROVIDER_URL": Object {
         "originalKey": "AMBERDATA_DATA_PROVIDER_URL",
+        "type": "string",
+      },
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
         "type": "string",
       },
       "CACHE_ENABLED": Object {
@@ -543,6 +631,10 @@ Array [
         "originalKey": "CRYPTOCOMPARE_DATA_PROVIDER_URL",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
       "DEFAULT_METHOD": Object {
         "default": "price",
         "enum": Array [
@@ -562,6 +654,10 @@ Array [
         "originalKey": "RPC_URL",
         "type": "string",
       },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -578,12 +674,20 @@ Array [
         "originalKey": "KAIKO_DATA_PROVIDER_URL",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "NOMICS_DATA_PROVIDER_URL": Object {
@@ -622,6 +726,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -635,6 +747,10 @@ Array [
   Object {
     "location": "packages/composites/dns-record-check",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -691,8 +807,16 @@ Array [
         "originalKey": "CUSTOM_ENDPOINT",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
       "DNS_PROVIDER": Object {
         "originalKey": "DNS_PROVIDER",
+        "type": "string",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
         "type": "string",
       },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
@@ -707,12 +831,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -745,6 +877,14 @@ Array [
       },
       "REQUEST_COALESCING_INTERVAL_MAX": Object {
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
+        "type": "string",
+      },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
         "type": "string",
       },
       "WARMUP_SUBSCRIPTION_TTL": Object {
@@ -857,6 +997,10 @@ Array [
   Object {
     "location": "packages/composites/reference-transform",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -909,6 +1053,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EA_REFERENCE_DATA_READER_RPC_URL": Object {
         "originalKey": "RPC_URL",
         "type": "string",
@@ -925,12 +1077,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -970,6 +1130,14 @@ Array [
         "originalKey": "SOURCE_DATA_PROVIDER_URL",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -985,6 +1153,10 @@ Array [
     "schema": Object {
       "AMBERDATA_DATA_PROVIDER_URL": Object {
         "originalKey": "AMBERDATA_DATA_PROVIDER_URL",
+        "type": "string",
+      },
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
         "type": "string",
       },
       "CACHE_ENABLED": Object {
@@ -1058,6 +1230,10 @@ Array [
       "CRYPTOCOMPARE_DATA_PROVIDER_URL": Object {
         "originalKey": "CRYPTOCOMPARE_DATA_PROVIDER_URL",
         "type": "string",
+      },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
       },
       "DEFAULT_METHOD": Object {
         "default": "price",
@@ -1078,6 +1254,10 @@ Array [
         "originalKey": "DEFAULT_QUOTE",
         "type": "string",
       },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -1094,12 +1274,20 @@ Array [
         "originalKey": "KAIKO_DATA_PROVIDER_URL",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "NOMICS_DATA_PROVIDER_URL": Object {
@@ -1138,6 +1326,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -1153,6 +1349,10 @@ Array [
     "schema": Object {
       "AMBERDATA_DATA_PROVIDER_URL": Object {
         "originalKey": "AMBERDATA_DATA_PROVIDER_URL",
+        "type": "string",
+      },
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
         "type": "string",
       },
       "CACHE_ENABLED": Object {
@@ -1227,6 +1427,10 @@ Array [
         "originalKey": "CRYPTOCOMPARE_DATA_PROVIDER_URL",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
       "DEFAULT_METHOD": Object {
         "default": "price",
         "enum": Array [
@@ -1239,6 +1443,10 @@ Array [
       "DEFAULT_QUOTE": Object {
         "default": "USD",
         "originalKey": "DEFAULT_QUOTE",
+        "type": "string",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
         "type": "string",
       },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
@@ -1257,12 +1465,20 @@ Array [
         "originalKey": "KAIKO_DATA_PROVIDER_URL",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "NOMICS_DATA_PROVIDER_URL": Object {
@@ -1301,6 +1517,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -1314,6 +1538,10 @@ Array [
   Object {
     "location": "packages/examples/composite",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -1366,6 +1594,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXAMPLE_COMPOSITE_ADAPTER_RPC_URL": Object {
         "format": "uri",
         "originalKey": "RPC_URL",
@@ -1383,12 +1619,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "OPTION": Object {
@@ -1428,6 +1672,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -1441,6 +1693,10 @@ Array [
   Object {
     "location": "packages/examples/source",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -1493,6 +1749,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -1505,12 +1769,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -1545,6 +1817,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -1558,6 +1838,10 @@ Array [
   Object {
     "location": "packages/sources/1forge",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -1610,6 +1894,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -1622,12 +1914,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "ONEFORGE_ADAPTER_API_KEY": Object {
@@ -1666,6 +1966,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -1681,6 +1989,10 @@ Array [
     "schema": Object {
       "ALPHACHAIN_ADAPTER_API_KEY": Object {
         "originalKey": "API_KEY",
+        "type": "string",
+      },
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
         "type": "string",
       },
       "CACHE_ENABLED": Object {
@@ -1735,6 +2047,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -1747,12 +2067,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -1785,6 +2113,14 @@ Array [
       },
       "REQUEST_COALESCING_INTERVAL_MAX": Object {
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
+        "type": "string",
+      },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
         "type": "string",
       },
       "WARMUP_SUBSCRIPTION_TTL": Object {
@@ -1804,6 +2140,10 @@ Array [
         "originalKey": "API_KEY",
         "type": "string",
       },
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -1856,6 +2196,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -1868,12 +2216,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -1906,6 +2262,14 @@ Array [
       },
       "REQUEST_COALESCING_INTERVAL_MAX": Object {
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
+        "type": "string",
+      },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
         "type": "string",
       },
       "WARMUP_SUBSCRIPTION_TTL": Object {
@@ -1925,6 +2289,10 @@ Array [
         "originalKey": "API_KEY",
         "type": "string",
       },
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -1977,6 +2345,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -1989,12 +2365,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -2027,6 +2411,14 @@ Array [
       },
       "REQUEST_COALESCING_INTERVAL_MAX": Object {
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
+        "type": "string",
+      },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
         "type": "string",
       },
       "WARMUP_SUBSCRIPTION_TTL": Object {
@@ -2046,6 +2438,10 @@ Array [
         "originalKey": "API_KEY",
         "type": "string",
       },
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -2098,6 +2494,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -2110,12 +2514,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -2148,6 +2560,14 @@ Array [
       },
       "REQUEST_COALESCING_INTERVAL_MAX": Object {
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
+        "type": "string",
+      },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
         "type": "string",
       },
       "WARMUP_SUBSCRIPTION_TTL": Object {
@@ -2167,6 +2587,10 @@ Array [
         "originalKey": "API_KEY",
         "type": "string",
       },
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -2219,6 +2643,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -2231,12 +2663,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -2269,6 +2709,14 @@ Array [
       },
       "REQUEST_COALESCING_INTERVAL_MAX": Object {
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
+        "type": "string",
+      },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
         "type": "string",
       },
       "WARMUP_SUBSCRIPTION_TTL": Object {
@@ -2288,6 +2736,10 @@ Array [
         "originalKey": "API_KEY",
         "type": "string",
       },
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -2340,6 +2792,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -2352,12 +2812,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -2390,6 +2858,14 @@ Array [
       },
       "REQUEST_COALESCING_INTERVAL_MAX": Object {
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
+        "type": "string",
+      },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
         "type": "string",
       },
       "WARMUP_SUBSCRIPTION_TTL": Object {
@@ -2405,6 +2881,21 @@ Array [
   Object {
     "location": "packages/sources/binance-dex",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
+      "BINANCE_DEX_ADAPTER_API_ENDPOINT": Object {
+        "enum": Array [
+          "dex-asiapacific",
+          "dex-european",
+          "dex-atlantic",
+          "testnet-dex-atlantic",
+          "testnet-dex-asiapacific",
+        ],
+        "originalKey": "API_ENDPOINT",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -2457,6 +2948,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -2469,12 +2968,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -2509,6 +3016,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -2522,6 +3037,10 @@ Array [
   Object {
     "location": "packages/sources/bitex",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "BITEX_ADAPTER_API_KEY": Object {
         "originalKey": "API_KEY",
         "type": "string",
@@ -2578,6 +3097,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -2590,12 +3117,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -2630,6 +3165,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -2643,6 +3186,10 @@ Array [
   Object {
     "location": "packages/sources/bitso",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -2695,6 +3242,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -2707,12 +3262,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -2747,6 +3310,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -2760,6 +3331,10 @@ Array [
   Object {
     "location": "packages/sources/blockchain.com",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "BLOCKCHAIN_COM_ADAPTER_API_KEY": Object {
         "originalKey": "API_KEY",
         "type": "string",
@@ -2816,6 +3391,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -2828,12 +3411,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -2868,6 +3459,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -2881,6 +3480,10 @@ Array [
   Object {
     "location": "packages/sources/blockchair",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "BLOCKCHAIR_ADAPTER_API_KEY": Object {
         "originalKey": "API_KEY",
         "type": "string",
@@ -2937,6 +3540,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -2949,12 +3560,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -2987,6 +3606,14 @@ Array [
       },
       "REQUEST_COALESCING_INTERVAL_MAX": Object {
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
+        "type": "string",
+      },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
         "type": "string",
       },
       "WARMUP_SUBSCRIPTION_TTL": Object {
@@ -3002,6 +3629,10 @@ Array [
   Object {
     "location": "packages/sources/blockcypher",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -3054,6 +3685,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -3066,12 +3705,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -3104,6 +3751,14 @@ Array [
       },
       "REQUEST_COALESCING_INTERVAL_MAX": Object {
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
+        "type": "string",
+      },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
         "type": "string",
       },
       "WARMUP_SUBSCRIPTION_TTL": Object {
@@ -3119,6 +3774,10 @@ Array [
   Object {
     "location": "packages/sources/blockstream",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -3171,6 +3830,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -3183,12 +3850,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -3223,6 +3898,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -3236,6 +3919,10 @@ Array [
   Object {
     "location": "packages/sources/bravenewcoin",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "BRAVENEWCOIN_ADAPTER_API_KEY": Object {
         "originalKey": "API_KEY",
         "type": "string",
@@ -3296,6 +3983,14 @@ Array [
         "originalKey": "CLIENT_ID",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -3308,12 +4003,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -3348,6 +4051,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -3361,6 +4072,10 @@ Array [
   Object {
     "location": "packages/sources/btc.com",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -3413,6 +4128,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -3425,12 +4148,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -3465,6 +4196,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -3478,6 +4217,10 @@ Array [
   Object {
     "location": "packages/sources/cfbenchmarks",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -3538,6 +4281,14 @@ Array [
         "originalKey": "API_USERNAME",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -3550,12 +4301,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -3590,6 +4349,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -3603,6 +4370,10 @@ Array [
   Object {
     "location": "packages/sources/coinapi",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -3659,6 +4430,14 @@ Array [
         "originalKey": "API_KEY",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -3671,12 +4450,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -3709,6 +4496,14 @@ Array [
       },
       "REQUEST_COALESCING_INTERVAL_MAX": Object {
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
+        "type": "string",
+      },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
         "type": "string",
       },
       "WARMUP_SUBSCRIPTION_TTL": Object {
@@ -3724,6 +4519,10 @@ Array [
   Object {
     "location": "packages/sources/coinbase",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -3776,6 +4575,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -3788,12 +4595,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -3826,6 +4641,14 @@ Array [
       },
       "REQUEST_COALESCING_INTERVAL_MAX": Object {
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
+        "type": "string",
+      },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
         "type": "string",
       },
       "WARMUP_SUBSCRIPTION_TTL": Object {
@@ -3841,6 +4664,10 @@ Array [
   Object {
     "location": "packages/sources/coincodex",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -3893,6 +4720,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -3905,12 +4740,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -3943,6 +4786,14 @@ Array [
       },
       "REQUEST_COALESCING_INTERVAL_MAX": Object {
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
+        "type": "string",
+      },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
         "type": "string",
       },
       "WARMUP_SUBSCRIPTION_TTL": Object {
@@ -3958,6 +4809,10 @@ Array [
   Object {
     "location": "packages/sources/coingecko",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -4010,6 +4865,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -4022,12 +4885,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -4060,6 +4931,14 @@ Array [
       },
       "REQUEST_COALESCING_INTERVAL_MAX": Object {
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
+        "type": "string",
+      },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
         "type": "string",
       },
       "WARMUP_SUBSCRIPTION_TTL": Object {
@@ -4075,6 +4954,10 @@ Array [
   Object {
     "location": "packages/sources/coinlore",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -4127,6 +5010,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -4139,12 +5030,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -4179,6 +5078,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -4192,6 +5099,10 @@ Array [
   Object {
     "location": "packages/sources/coinmarketcap",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -4248,6 +5159,14 @@ Array [
         "originalKey": "API_KEY",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -4260,12 +5179,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -4300,6 +5227,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -4313,6 +5248,10 @@ Array [
   Object {
     "location": "packages/sources/coinpaprika",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -4365,6 +5304,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -4377,12 +5324,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -4417,6 +5372,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -4430,6 +5393,10 @@ Array [
   Object {
     "location": "packages/sources/coinranking",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -4486,6 +5453,14 @@ Array [
         "originalKey": "API_KEY",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -4498,12 +5473,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -4538,6 +5521,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -4551,6 +5542,10 @@ Array [
   Object {
     "location": "packages/sources/covid-tracker",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -4603,6 +5598,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -4615,12 +5618,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -4655,6 +5666,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -4668,6 +5687,10 @@ Array [
   Object {
     "location": "packages/sources/cryptoapis",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -4724,6 +5747,14 @@ Array [
         "originalKey": "API_KEY",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -4736,12 +5767,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -4776,6 +5815,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -4789,6 +5836,10 @@ Array [
   Object {
     "location": "packages/sources/cryptocompare",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -4845,6 +5896,14 @@ Array [
         "originalKey": "API_KEY",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -4857,12 +5916,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -4897,6 +5964,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -4910,6 +5985,10 @@ Array [
   Object {
     "location": "packages/sources/cryptoid",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -4966,6 +6045,14 @@ Array [
         "originalKey": "API_KEY",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -4978,12 +6065,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -5018,6 +6113,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -5031,6 +6134,10 @@ Array [
   Object {
     "location": "packages/sources/cryptomkt",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -5083,6 +6190,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -5095,12 +6210,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -5135,6 +6258,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -5148,6 +6279,10 @@ Array [
   Object {
     "location": "packages/sources/currencylayer",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -5204,6 +6339,14 @@ Array [
         "originalKey": "API_KEY",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -5216,12 +6359,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -5256,6 +6407,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -5269,6 +6428,10 @@ Array [
   Object {
     "location": "packages/sources/deribit",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -5321,6 +6484,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -5333,12 +6504,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -5373,6 +6552,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -5386,6 +6573,10 @@ Array [
   Object {
     "location": "packages/sources/dns-query",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -5442,8 +6633,16 @@ Array [
         "originalKey": "CUSTOM_ENDPOINT",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
       "DNS_PROVIDER": Object {
         "originalKey": "DNS_PROVIDER",
+        "type": "string",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
         "type": "string",
       },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
@@ -5458,12 +6657,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -5496,6 +6703,14 @@ Array [
       },
       "REQUEST_COALESCING_INTERVAL_MAX": Object {
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
+        "type": "string",
+      },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
         "type": "string",
       },
       "WARMUP_SUBSCRIPTION_TTL": Object {
@@ -5511,6 +6726,10 @@ Array [
   Object {
     "location": "packages/sources/dwolla",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -5563,6 +6782,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -5575,12 +6802,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -5613,6 +6848,14 @@ Array [
       },
       "REQUEST_COALESCING_INTERVAL_MAX": Object {
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
+        "type": "string",
+      },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
         "type": "string",
       },
       "WARMUP_SUBSCRIPTION_TTL": Object {
@@ -5628,6 +6871,10 @@ Array [
   Object {
     "location": "packages/sources/dxfeed",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -5680,6 +6927,10 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
       "DXFEED_ADAPTER_API_ENDPOINT": Object {
         "default": "https://tools.dxfeed.com/webservice/rest",
         "originalKey": "API_ENDPOINT",
@@ -5691,6 +6942,10 @@ Array [
       },
       "DXFEED_ADAPTER_API_USERNAME": Object {
         "originalKey": "API_USERNAME",
+        "type": "string",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
         "type": "string",
       },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
@@ -5705,12 +6960,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -5743,6 +7006,14 @@ Array [
       },
       "REQUEST_COALESCING_INTERVAL_MAX": Object {
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
+        "type": "string",
+      },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
         "type": "string",
       },
       "WARMUP_SUBSCRIPTION_TTL": Object {
@@ -5758,6 +7029,10 @@ Array [
   Object {
     "location": "packages/sources/dxfeed-secondary",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -5810,6 +7085,10 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
       "DXFEED_ADAPTER_API_ENDPOINT": Object {
         "default": "https://tools.dxfeed.com/webservice/rest",
         "originalKey": "API_ENDPOINT",
@@ -5821,6 +7100,10 @@ Array [
       },
       "DXFEED_ADAPTER_API_USERNAME": Object {
         "originalKey": "API_USERNAME",
+        "type": "string",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
         "type": "string",
       },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
@@ -5835,12 +7118,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -5875,6 +7166,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -5888,6 +7187,10 @@ Array [
   Object {
     "location": "packages/sources/eodhistoricaldata",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -5938,6 +7241,14 @@ Array [
       },
       "CACHE_UPDATE_AGE_ON_GET": Object {
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
+        "type": "string",
+      },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
         "type": "string",
       },
       "EODHISTORICALDATA_ADAPTER_API_ENDPOINT": Object {
@@ -5961,12 +7272,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -6001,6 +7320,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -6014,6 +7341,10 @@ Array [
   Object {
     "location": "packages/sources/etherchain",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -6064,6 +7395,14 @@ Array [
       },
       "CACHE_UPDATE_AGE_ON_GET": Object {
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
+        "type": "string",
+      },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
         "type": "string",
       },
       "ETHERCHAIN_ADAPTER_API_ENDPOINT": Object {
@@ -6083,12 +7422,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -6123,6 +7470,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -6136,6 +7491,10 @@ Array [
   Object {
     "location": "packages/sources/ethgasstation",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -6186,6 +7545,14 @@ Array [
       },
       "CACHE_UPDATE_AGE_ON_GET": Object {
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
+        "type": "string",
+      },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
         "type": "string",
       },
       "ETHGASSTATION_ADAPTER_API_ENDPOINT": Object {
@@ -6209,12 +7576,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -6249,6 +7624,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -6262,6 +7645,10 @@ Array [
   Object {
     "location": "packages/sources/fcsapi",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -6312,6 +7699,14 @@ Array [
       },
       "CACHE_UPDATE_AGE_ON_GET": Object {
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
+        "type": "string",
+      },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
         "type": "string",
       },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
@@ -6330,12 +7725,20 @@ Array [
         "originalKey": "API_KEY",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -6370,6 +7773,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -6383,6 +7794,10 @@ Array [
   Object {
     "location": "packages/sources/finage",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -6433,6 +7848,14 @@ Array [
       },
       "CACHE_UPDATE_AGE_ON_GET": Object {
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
+        "type": "string",
+      },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
         "type": "string",
       },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
@@ -6451,12 +7874,20 @@ Array [
         "originalKey": "API_KEY",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -6491,6 +7922,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -6504,6 +7943,10 @@ Array [
   Object {
     "location": "packages/sources/finnhub",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -6554,6 +7997,14 @@ Array [
       },
       "CACHE_UPDATE_AGE_ON_GET": Object {
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
+        "type": "string",
+      },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
         "type": "string",
       },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
@@ -6572,12 +8023,20 @@ Array [
         "originalKey": "API_KEY",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -6612,6 +8071,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -6625,6 +8092,10 @@ Array [
   Object {
     "location": "packages/sources/fixer",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -6675,6 +8146,14 @@ Array [
       },
       "CACHE_UPDATE_AGE_ON_GET": Object {
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
+        "type": "string",
+      },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
         "type": "string",
       },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
@@ -6698,12 +8177,20 @@ Array [
         "originalKey": "API_KEY",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -6738,6 +8225,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -6751,6 +8246,10 @@ Array [
   Object {
     "location": "packages/sources/fmpcloud",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -6801,6 +8300,14 @@ Array [
       },
       "CACHE_UPDATE_AGE_ON_GET": Object {
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
+        "type": "string",
+      },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
         "type": "string",
       },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
@@ -6824,12 +8331,20 @@ Array [
         "originalKey": "API_KEY",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -6864,6 +8379,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -6877,6 +8400,10 @@ Array [
   Object {
     "location": "packages/sources/genesis-volatility",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -6927,6 +8454,14 @@ Array [
       },
       "CACHE_UPDATE_AGE_ON_GET": Object {
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
+        "type": "string",
+      },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
         "type": "string",
       },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
@@ -6945,12 +8480,20 @@ Array [
         "originalKey": "API_KEY",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -6985,6 +8528,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -6998,6 +8549,10 @@ Array [
   Object {
     "location": "packages/sources/geodb",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -7048,6 +8603,14 @@ Array [
       },
       "CACHE_UPDATE_AGE_ON_GET": Object {
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
+        "type": "string",
+      },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
         "type": "string",
       },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
@@ -7067,12 +8630,20 @@ Array [
         "originalKey": "API_ENDPOINT",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -7107,6 +8678,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -7120,6 +8699,10 @@ Array [
   Object {
     "location": "packages/sources/iex-cloud",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -7170,6 +8753,14 @@ Array [
       },
       "CACHE_UPDATE_AGE_ON_GET": Object {
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
+        "type": "string",
+      },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
         "type": "string",
       },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
@@ -7193,12 +8784,20 @@ Array [
         "originalKey": "API_KEY",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -7233,6 +8832,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -7248,6 +8855,10 @@ Array [
     "schema": Object {
       "API_PROVIDER": Object {
         "originalKey": "API_PROVIDER",
+        "type": "string",
+      },
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
         "type": "string",
       },
       "CACHE_ENABLED": Object {
@@ -7302,6 +8913,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -7318,12 +8937,20 @@ Array [
         "originalKey": "API_KEY",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -7362,6 +8989,14 @@ Array [
         "originalKey": "SYMBOLS",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -7375,6 +9010,10 @@ Array [
   Object {
     "location": "packages/sources/json-rpc",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -7427,6 +9066,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -7445,12 +9092,20 @@ Array [
         "originalKey": "RPC_URL",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -7485,6 +9140,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -7498,6 +9161,10 @@ Array [
   Object {
     "location": "packages/sources/kaiko",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -7548,6 +9215,14 @@ Array [
       },
       "CACHE_UPDATE_AGE_ON_GET": Object {
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
+        "type": "string",
+      },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
         "type": "string",
       },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
@@ -7571,12 +9246,20 @@ Array [
         "originalKey": "API_KEY",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -7611,6 +9294,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -7624,6 +9315,10 @@ Array [
   Object {
     "location": "packages/sources/lcx",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -7674,6 +9369,14 @@ Array [
       },
       "CACHE_UPDATE_AGE_ON_GET": Object {
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
+        "type": "string",
+      },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
         "type": "string",
       },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
@@ -7692,12 +9395,20 @@ Array [
         "originalKey": "API_KEY",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -7732,6 +9443,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -7745,6 +9464,10 @@ Array [
   Object {
     "location": "packages/sources/linkpool",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -7795,6 +9518,14 @@ Array [
       },
       "CACHE_UPDATE_AGE_ON_GET": Object {
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
+        "type": "string",
+      },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
         "type": "string",
       },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
@@ -7813,12 +9544,20 @@ Array [
         "originalKey": "API_KEY",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -7853,6 +9592,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -7866,6 +9613,10 @@ Array [
   Object {
     "location": "packages/sources/lition",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -7916,6 +9667,14 @@ Array [
       },
       "CACHE_UPDATE_AGE_ON_GET": Object {
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
+        "type": "string",
+      },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
         "type": "string",
       },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
@@ -7935,12 +9694,20 @@ Array [
         "originalKey": "API_ENDPOINT",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -7975,6 +9742,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -7988,6 +9763,10 @@ Array [
   Object {
     "location": "packages/sources/marketstack",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -8040,6 +9819,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -8050,6 +9837,10 @@ Array [
       },
       "EXPERIMENTAL_WARMUP_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+        "type": "string",
+      },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
         "type": "string",
       },
       "MARKETSTACK_ADAPTER_API_ENDPOINT": Object {
@@ -8069,6 +9860,10 @@ Array [
         "originalKey": "METRICS_PORT",
         "type": "string",
       },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
+        "type": "string",
+      },
       "RATE_LIMIT_API_PROVIDER": Object {
         "originalKey": "RATE_LIMIT_API_PROVIDER",
         "type": "string",
@@ -8101,6 +9896,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -8114,6 +9917,10 @@ Array [
   Object {
     "location": "packages/sources/messari",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -8166,6 +9973,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -8176,6 +9991,10 @@ Array [
       },
       "EXPERIMENTAL_WARMUP_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+        "type": "string",
+      },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
         "type": "string",
       },
       "MESSARI_ADAPTER_API_ENDPOINT": Object {
@@ -8195,6 +10014,10 @@ Array [
         "originalKey": "METRICS_PORT",
         "type": "string",
       },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
+        "type": "string",
+      },
       "RATE_LIMIT_API_PROVIDER": Object {
         "originalKey": "RATE_LIMIT_API_PROVIDER",
         "type": "string",
@@ -8227,6 +10050,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -8240,6 +10071,10 @@ Array [
   Object {
     "location": "packages/sources/metalsapi",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -8292,6 +10127,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -8302,6 +10145,10 @@ Array [
       },
       "EXPERIMENTAL_WARMUP_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+        "type": "string",
+      },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
         "type": "string",
       },
       "METALSAPI_ADAPTER_API_ENDPOINT": Object {
@@ -8321,6 +10168,10 @@ Array [
         "originalKey": "METRICS_PORT",
         "type": "string",
       },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
+        "type": "string",
+      },
       "RATE_LIMIT_API_PROVIDER": Object {
         "originalKey": "RATE_LIMIT_API_PROVIDER",
         "type": "string",
@@ -8351,6 +10202,14 @@ Array [
       },
       "REQUEST_COALESCING_INTERVAL_MAX": Object {
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
+        "type": "string",
+      },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
         "type": "string",
       },
       "WARMUP_SUBSCRIPTION_TTL": Object {
@@ -8366,6 +10225,10 @@ Array [
   Object {
     "location": "packages/sources/nikkei",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -8418,6 +10281,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -8428,6 +10299,10 @@ Array [
       },
       "EXPERIMENTAL_WARMUP_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+        "type": "string",
+      },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
         "type": "string",
       },
       "METRICS_NAME": Object {
@@ -8441,6 +10316,10 @@ Array [
       "NIKKEI_ADAPTER_API_ENDPOINT": Object {
         "default": "https://indexes.nikkei.co.jp/en/nkave/'",
         "originalKey": "API_ENDPOINT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -8475,6 +10354,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -8488,6 +10375,10 @@ Array [
   Object {
     "location": "packages/sources/nomics",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -8540,6 +10431,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -8552,12 +10451,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "NOMICS_ADAPTER_API_ENDPOINT": Object {
@@ -8601,6 +10508,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -8614,6 +10529,10 @@ Array [
   Object {
     "location": "packages/sources/oilpriceapi",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -8666,6 +10585,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -8678,12 +10605,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "OILPRICEAPI_ADAPTER_API_KEY": Object {
@@ -8722,6 +10657,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -8735,6 +10678,10 @@ Array [
   Object {
     "location": "packages/sources/onchain",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -8787,6 +10734,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -8799,12 +10754,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "ONCHAIN_ADAPTER_API_KEY": Object {
@@ -8843,6 +10806,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -8856,6 +10827,10 @@ Array [
   Object {
     "location": "packages/sources/openexchangerates",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -8908,6 +10883,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -8920,12 +10903,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "OPENEXCHANGERATES_ADAPTER_API_ENDPOINT": Object {
@@ -8969,6 +10960,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -8982,6 +10981,10 @@ Array [
   Object {
     "location": "packages/sources/orchid-bandwidth",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -9034,6 +11037,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -9046,12 +11057,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "ORCHID_BANDWIDTH_ADAPTER_API_ENDPOINT": Object {
@@ -9091,6 +11110,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -9104,6 +11131,10 @@ Array [
   Object {
     "location": "packages/sources/paxos",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -9156,6 +11187,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -9168,12 +11207,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -9208,6 +11255,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -9221,6 +11276,10 @@ Array [
   Object {
     "location": "packages/sources/paypal",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -9281,6 +11340,14 @@ Array [
         "originalKey": "CLIENT_SECRET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -9291,6 +11358,10 @@ Array [
       },
       "EXPERIMENTAL_WARMUP_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+        "type": "string",
+      },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
         "type": "string",
       },
       "METRICS_NAME": Object {
@@ -9308,6 +11379,10 @@ Array [
           "live",
         ],
         "originalKey": "MODE",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -9342,6 +11417,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -9355,6 +11438,10 @@ Array [
   Object {
     "location": "packages/sources/poa-gasprice",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -9407,6 +11494,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -9419,12 +11514,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "POA_GASPRICE_ADAPTER_API_ENDPOINT": Object {
@@ -9464,6 +11567,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -9477,6 +11588,10 @@ Array [
   Object {
     "location": "packages/sources/polygon",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -9529,6 +11644,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -9541,12 +11664,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "POLYGON_ADAPTER_API_ENDPOINT": Object {
@@ -9590,6 +11721,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -9603,6 +11742,10 @@ Array [
   Object {
     "location": "packages/sources/reduce",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -9655,6 +11798,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -9667,12 +11818,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -9707,6 +11866,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -9720,6 +11887,10 @@ Array [
   Object {
     "location": "packages/sources/renvm-address-set",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -9772,6 +11943,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -9784,12 +11963,25 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NETWORK": Object {
+        "default": "testnet",
+        "originalKey": "NETWORK",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -9828,6 +12020,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -9841,6 +12041,10 @@ Array [
   Object {
     "location": "packages/sources/satoshitango",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -9893,6 +12097,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -9905,12 +12117,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -9950,6 +12170,14 @@ Array [
         "originalKey": "API_ENDPOINT",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -9963,6 +12191,10 @@ Array [
   Object {
     "location": "packages/sources/sochain",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -10015,6 +12247,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -10027,12 +12267,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -10072,6 +12320,14 @@ Array [
         "originalKey": "API_ENDPOINT",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -10085,6 +12341,10 @@ Array [
   Object {
     "location": "packages/sources/stasis",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -10137,6 +12397,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -10149,12 +12417,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -10189,6 +12465,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -10202,6 +12486,10 @@ Array [
   Object {
     "location": "packages/sources/taapi",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -10254,6 +12542,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -10266,12 +12562,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -10310,6 +12614,14 @@ Array [
         "originalKey": "API_KEY",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -10323,6 +12635,10 @@ Array [
   Object {
     "location": "packages/sources/therundown",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -10375,6 +12691,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -10387,12 +12711,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -10436,6 +12768,14 @@ Array [
         "originalKey": "API_KEY",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -10449,6 +12789,10 @@ Array [
   Object {
     "location": "packages/sources/tiingo",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -10501,6 +12845,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -10513,12 +12865,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -10562,6 +12922,14 @@ Array [
         "originalKey": "API_KEY",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -10575,6 +12943,10 @@ Array [
   Object {
     "location": "packages/sources/tradermade",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -10627,6 +12999,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -10639,12 +13019,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -10679,6 +13067,10 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
       "TRADERMADE_ADAPTER_API_ENDPOINT": Object {
         "default": "https://marketdata.tradermade.com/api/v1/live",
         "originalKey": "API_ENDPOINT",
@@ -10686,6 +13078,10 @@ Array [
       },
       "TRADERMADE_ADAPTER_API_KEY": Object {
         "originalKey": "API_KEY",
+        "type": "string",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
         "type": "string",
       },
       "WARMUP_SUBSCRIPTION_TTL": Object {
@@ -10713,6 +13109,10 @@ Array [
         "default": "ws://stream.tradingeconomics.com/",
         "format": "uri",
         "originalKey": "API_URL",
+        "type": "string",
+      },
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
         "type": "string",
       },
       "CACHE_ENABLED": Object {
@@ -10767,6 +13167,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -10779,12 +13187,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -10828,6 +13244,14 @@ Array [
         "originalKey": "SYMBOLS",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -10841,6 +13265,10 @@ Array [
   Object {
     "location": "packages/sources/trueusd",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -10893,6 +13321,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -10905,12 +13341,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -10945,9 +13389,17 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
       "TRUEUSD_ADAPTER_API_ENDPOINT": Object {
         "default": "https://core-api.real-time-attest.trustexplorer.io",
         "originalKey": "API_ENDPOINT",
+        "type": "string",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
         "type": "string",
       },
       "WARMUP_SUBSCRIPTION_TTL": Object {
@@ -10963,6 +13415,10 @@ Array [
   Object {
     "location": "packages/sources/twelvedata",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -11015,6 +13471,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -11027,12 +13491,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -11067,8 +13539,16 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
       "TWELVEDATA_ADAPTER_API_KEY": Object {
         "originalKey": "API_KEY",
+        "type": "string",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
         "type": "string",
       },
       "WARMUP_SUBSCRIPTION_TTL": Object {
@@ -11084,6 +13564,10 @@ Array [
   Object {
     "location": "packages/sources/unibit",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -11136,6 +13620,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -11148,12 +13640,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -11188,8 +13688,16 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
       "UNIBIT_ADAPTER_API_KEY": Object {
         "originalKey": "API_KEY",
+        "type": "string",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
         "type": "string",
       },
       "WARMUP_SUBSCRIPTION_TTL": Object {
@@ -11205,6 +13713,10 @@ Array [
   Object {
     "location": "packages/sources/wbtc-address-set",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -11257,6 +13769,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -11269,12 +13789,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -11307,6 +13835,14 @@ Array [
       },
       "REQUEST_COALESCING_INTERVAL_MAX": Object {
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
+        "type": "string",
+      },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
         "type": "string",
       },
       "WARMUP_SUBSCRIPTION_TTL": Object {
@@ -11326,6 +13862,10 @@ Array [
   Object {
     "location": "packages/sources/xbto",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -11378,6 +13918,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -11390,12 +13938,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -11428,6 +13984,14 @@ Array [
       },
       "REQUEST_COALESCING_INTERVAL_MAX": Object {
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
+        "type": "string",
+      },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
         "type": "string",
       },
       "WARMUP_SUBSCRIPTION_TTL": Object {
@@ -11451,6 +14015,10 @@ Array [
         "originalKey": "API_KEY",
         "type": "string",
       },
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -11503,6 +14071,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -11515,12 +14091,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -11555,6 +14139,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -11568,6 +14160,10 @@ Array [
   Object {
     "location": "packages/targets/conflux",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -11625,6 +14221,14 @@ Array [
         "originalKey": "RPC_URL",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -11637,6 +14241,10 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
@@ -11647,6 +14255,10 @@ Array [
       },
       "NETWORK_ID": Object {
         "originalKey": "NETWORK_ID",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "PRIVATE_KEY": Object {
@@ -11685,6 +14297,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -11698,6 +14318,10 @@ Array [
   Object {
     "location": "packages/targets/dydx-stark",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -11750,9 +14374,17 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
       "DYDX_STARK_ADAPTER_API_ENDPOINT": Object {
         "default": "https://api.stage.dydx.exchange/v3/price",
         "originalKey": "API_ENDPOINT",
+        "type": "string",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
         "type": "string",
       },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
@@ -11767,12 +14399,20 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "ORACLE_NAME": Object {
@@ -11819,6 +14459,14 @@ Array [
         "originalKey": "STARK_MESSAGE",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -11832,6 +14480,10 @@ Array [
   Object {
     "location": "packages/targets/ethwrite",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -11884,6 +14536,14 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "ETHWRITE_ADAPTER_RPC_URL": Object {
         "format": "uri",
         "originalKey": "RPC_URL",
@@ -11901,6 +14561,10 @@ Array [
         "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
@@ -11912,6 +14576,10 @@ Array [
       "NETWORK": Object {
         "default": "mainnet",
         "originalKey": "NETWORK",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "PRIVATE_KEY": Object {
@@ -11950,6 +14618,14 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
+        "type": "string",
+      },
       "WARMUP_SUBSCRIPTION_TTL": Object {
         "originalKey": "WARMUP_SUBSCRIPTION_TTL",
         "type": "string",
@@ -11963,6 +14639,10 @@ Array [
   Object {
     "location": "packages/targets/harmony",
     "schema": Object {
+      "BASE_URL": Object {
+        "originalKey": "BASE_URL",
+        "type": "string",
+      },
       "CACHE_ENABLED": Object {
         "originalKey": "CACHE_ENABLED",
         "type": "string",
@@ -12020,6 +14700,14 @@ Array [
         "originalKey": "CHAIN_ID",
         "type": "number",
       },
+      "DEBUG": Object {
+        "originalKey": "DEBUG",
+        "type": "boolean",
+      },
+      "EA_PORT": Object {
+        "originalKey": "EA_PORT",
+        "type": "string",
+      },
       "EXPERIMENTAL_METRICS_ENABLED": Object {
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
@@ -12042,12 +14730,20 @@ Array [
         "originalKey": "API_ENDPOINT",
         "type": "string",
       },
+      "LOG_LEVEL": Object {
+        "originalKey": "LOG_LEVEL",
+        "type": "string",
+      },
       "METRICS_NAME": Object {
         "originalKey": "METRICS_NAME",
         "type": "string",
       },
       "METRICS_PORT": Object {
         "originalKey": "METRICS_PORT",
+        "type": "string",
+      },
+      "NODE_ENV": Object {
+        "originalKey": "NODE_ENV",
         "type": "string",
       },
       "PRIVATE_KEY": Object {
@@ -12084,6 +14780,14 @@ Array [
       },
       "REQUEST_COALESCING_INTERVAL_MAX": Object {
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
+        "type": "string",
+      },
+      "TIMEOUT": Object {
+        "originalKey": "TIMEOUT",
+        "type": "number",
+      },
+      "UUID": Object {
+        "originalKey": "UUID",
         "type": "string",
       },
       "WARMUP_SUBSCRIPTION_TTL": Object {
