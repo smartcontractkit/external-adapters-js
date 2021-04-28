@@ -1,5 +1,5 @@
 import { util, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { WSSubscriptionHandler, Config as config } from '@chainlink/types'
+import { MakeWSHandler, Config as config } from '@chainlink/types'
 import { customParams } from './adapter'
 
 /**
@@ -40,34 +40,38 @@ export const makeConfig = (prefix?: string): Config => {
   }
 }
 
-export const makeWSHandler = (config: Config): WSSubscriptionHandler => {
+export const makeWSHandler = (config?: Config): MakeWSHandler => {
   // http://api.tradingeconomics.com/documentation/Streaming
   // https://github.com/boxhock/tradingeconomics-nodejs-stream/blob/master/src/index.ts
   const withApiKey = (url: string, key: string, secret: string) => `${url}?client=${key}:${secret}`
   const getSubscription = (to: string) => ({ topic: 'subscribe', to })
 
-  return {
-    connection: {
-      url: withApiKey(
-        config.api.baseWsURL || DEFAULT_WS_API_ENDPOINT,
-        config.client.key || '',
-        config.client.secret || '',
-      ),
-    },
-    subscribe: input => {
-      const validator = new Validator(input, customParams)
-      if (validator.error) {
-        return
-      }
-      const base = validator.overrideSymbol(NAME).toUpperCase()
-      return getSubscription(base)
-    },
-    unsubscribe: () => '',
-    subsFromMessage: () => '',
-    isError: (message: any) => Number(message.TYPE) > 400 && Number(message.TYPE) < 900,
-    filter: message => {
-      return message.topic && message.topic !== 'keepalive'
-    },
-    parse: (wsResponse: any): number => Number(wsResponse?.price),
+  return () => {
+    const defaultConfig = config || makeConfig()
+
+    return {
+      connection: {
+        url: withApiKey(
+          defaultConfig.api.baseWsURL || DEFAULT_WS_API_ENDPOINT,
+          defaultConfig.client.key || '',
+          defaultConfig.client.secret || '',
+        ),
+      },
+      subscribe: input => {
+        const validator = new Validator(input, customParams)
+        if (validator.error) {
+          return
+        }
+        const base = validator.overrideSymbol(NAME).toUpperCase()
+        return getSubscription(base)
+      },
+      unsubscribe: () => '',
+      subsFromMessage: (message) => getSubscription(message?.s),
+      isError: (message: any) => Number(message.TYPE) > 400 && Number(message.TYPE) < 900,
+      filter: message => {
+        return message.topic && message.topic !== 'keepalive'
+      },
+      parse: (wsResponse: any): number => Number(wsResponse?.price),
+    }
   }
 }
