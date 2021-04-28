@@ -16,6 +16,9 @@ export const withWebSockets = (store: Store<RootState>) => (wsHandler?: WSSubscr
   if (!wsHandler) return await execute(input)
   // TODO: Warmer
   const wsConfig = getWSConfig()
+  if (wsHandler.init !== undefined) {
+    await wsHandler.init(wsHandler)
+  }
   store.dispatch(connect({ config: wsConfig, wsHandler }))
 
   const subscriptionMsg = wsHandler.subscribe(input)

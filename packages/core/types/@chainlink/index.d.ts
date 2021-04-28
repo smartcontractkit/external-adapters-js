@@ -103,6 +103,7 @@ declare module '@chainlink/types' {
   }
 
   export interface WSSubscriptionHandler {
+    init?: (WSSubscriptionHandler) => Promise
     /**
      * Connection information
      */
