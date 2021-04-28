@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { WSSubscriptionHandler, Config, AdapterRequest } from '@chainlink/types'
+import { MakeWSHandler, Config, AdapterRequest } from '@chainlink/types'
 import * as endpoint from './endpoint'
 /**
  * @swagger
@@ -27,7 +27,7 @@ export const makeConfig = (prefix?: string): Config => {
   return config
 }
 
-export const makeWSHandler = (config: Config): WSSubscriptionHandler => {
+export const makeWSHandler = (config?: Config): MakeWSHandler => {
   // https://min-api.cryptocompare.com/documentation/websockets
   const subscriptions = {
     trade: 0,
@@ -45,20 +45,23 @@ export const makeWSHandler = (config: Config): WSSubscriptionHandler => {
   }
   const getSubscription = (pair: string, subscribe = true) => ({ action: subscribe ? 'SubAdd' : 'SubRemove', subs: [`${subscriptions.aggregate}~CCCAGG~${pair}`] })
   const withApiKey = (url: string, apiKey: string) => `${url}?api_key=${apiKey}`
-  return {
-    connection: {
-      url: withApiKey(config.api.baseWsURL || DEFAULT_WS_API_ENDPOINT, config.apiKey || ''),
-      protocol: { query: { api_key: config.apiKey } }
-    },
-    subscribe: (input) => getSubscription(getPair(input)),
-    unsubscribe: (input) => getSubscription(getPair(input), false),
-    subsFromMessage: (message) => getSubscription(`${message?.FROMSYMBOL}~${message?.TOSYMBOL}`),
-    isError: (message: any) => Number(message.TYPE) > 400 && Number(message.TYPE) < 900,
-    filter: (message) => {
-      // Ignore everything is not from the wanted channels
-      const code = Number(message.TYPE)
-      return code === subscriptions.ticker || code === subscriptions.aggregate
-    },
-    parse: (wsResponse: any): number => Number(wsResponse?.PRICE)
-  }
+  return () => {
+    const defaultConfig = config || makeConfig()
+    return {
+      connection: {
+        url: withApiKey(defaultConfig.api.baseWsURL || DEFAULT_WS_API_ENDPOINT, defaultConfig.apiKey || ''),
+        protocol: { query: { api_key: defaultConfig.apiKey } }
+      },
+      subscribe: (input) => getSubscription(getPair(input)),
+      unsubscribe: (input) => getSubscription(getPair(input), false),
+      subsFromMessage: (message) => getSubscription(`${message?.FROMSYMBOL}~${message?.TOSYMBOL}`),
+      isError: (message: any) => Number(message.TYPE) > 400 && Number(message.TYPE) < 900,
+      filter: (message) => {
+        // Ignore everything is not from the wanted channels
+        const code = Number(message.TYPE)
+        return code === subscriptions.ticker || code === subscriptions.aggregate
+      },
+      parse: (wsResponse: any): number => Number(wsResponse?.PRICE)
+    }
+}
 }
