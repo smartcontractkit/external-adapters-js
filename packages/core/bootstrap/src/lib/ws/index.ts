@@ -2,7 +2,7 @@ import { AdapterRequest, Middleware, WSSubscriptionHandler } from '@chainlink/ty
 import { Store } from 'redux'
 import { RootState } from './reducer'
 import { getWSConfig } from './config'
-import * as actions from './actions'
+import { connect, subscribe, heartbeat } from './actions'
 
 export * as types from './types'
 export * as config from './config'
@@ -15,8 +15,6 @@ export const withWebSockets = (store: Store<RootState>) => (wsHandler?: WSSubscr
 ) => {
   if (!wsHandler) return await execute(input)
   // TODO: Warmer
-  const { connect, subscribe } = actions
-
   const wsConfig = getWSConfig()
   store.dispatch(connect({ config: wsConfig, wsHandler }))
 
@@ -35,6 +33,7 @@ export const withWebSockets = (store: Store<RootState>) => (wsHandler?: WSSubscr
   })
 
   store.dispatch(subscribe(_wsSubscriptionPayload(subscriptionMsg)))
+  store.dispatch(heartbeat(_wsSubscriptionPayload(subscriptionMsg)))
 
   return await execute(input)
 }

@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, WSSubscriptionHandler } from '@chainlink/types'
+import { AdapterRequest, Config, WSSubscriptionHandler } from '@chainlink/types'
 import * as endpoint from './endpoint'
 
 /**
@@ -26,33 +26,36 @@ export const makeConfig = (prefix = ''): Config => {
 }
 
 export const makeWSHandler = (config: Config): WSSubscriptionHandler => {
+  const subscriptions: any = {}
+  const getPair = (input: AdapterRequest): string => {
+    const validator = new Validator(input, endpoint.price.customParams)
+    if (validator.error) {
+      return ''
+    }
+    const base = validator.overrideSymbol(NAME).toLowerCase()
+    const quote = validator.validated.data.quote.toLowerCase()
+    return `${base}_${quote}`
+  }
   const getSubscription = (pair: string) => ({ id: 1, method: 'subscribe', params: ['market:tickers', { pair }] })
+  const getUnsubscription = (pair: string) => ({ id: 1, method: 'unsubscribe', params: [subscriptions[pair]] })
   return {
     connection: {
       url: config.api.baseWsURL || DEFAULT_WS_API_ENDPOINT,
       protocol: { headers: { ...config.api.headers }}
     },
-    subscribe: (input) => {
-      // TODO: What to do with different enpoints? Should every endpoint have its own WS Handler?
-      const validator = new Validator(input, endpoint.price.customParams)
-      if (validator.error) {
-        return 
-      }
-      const base = validator.overrideSymbol(NAME).toLowerCase()
-      const quote = validator.validated.data.quote.toLowerCase()
-      return getSubscription(`${base}_${quote}`)
+    subscribe: (input) =>  getSubscription(getPair(input)),
+    unsubscribe: (input) =>  getUnsubscription(getPair(input)),
+    subsFromMessage: (message) => {
+      const pair = message?.params?.result?.pair
+      subscriptions[pair] = message?.params?.subscription
+      return getSubscription(message?.params?.result?.pair)
     },
-    unsubscribe: () => {
-      return ''
-    },
-    subsFromMessage: (message) => getSubscription(message?.params?.result?.pair),
     // https://github.com/web3data/web3data-js/blob/5b177803cb168dcaed0a8a6e2b2fbd835b82e0f9/src/websocket.js#L43
-    isError: (message) => typeof message.result === 'boolean',
+    isError: () => false, // Amberdata never receives error types?
     filter: (message: any) => !!message.params,
     parse: (wsResponse: any): number => {
       const result = Requester.validateResultNumber(wsResponse, ['params', 'result', 'last'])
       return result
-
     }
   }
 }

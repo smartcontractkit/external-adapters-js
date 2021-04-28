@@ -7,7 +7,6 @@ import { getHashOpts } from '../util'
 import { logger } from '../external-adapter'
 
 export const getSubsId = (subscriptionMsg: any): string => hash(subscriptionMsg, getHashOpts())
-
 export interface ConnectionsState {
   /** Map of all connections by key */
   active: {
@@ -44,17 +43,13 @@ export const connectionsReducer = createReducer<ConnectionsState>(
 
 export interface SubscriptionsState {
   /** Map of all subscriptions by key */
-  active: {
-    [key: string]: boolean
+  [key: string]: {
+    active: boolean
+    input: AdapterRequest
   }
-  input: {
-    [key: string]: AdapterRequest
-  }
-  /** Number of active subscriptions */
-  total: number
 }
 
-const initSubscriptionsState: SubscriptionsState = { active: {}, input: {}, total: 0 }
+const initSubscriptionsState: SubscriptionsState = {}
 
 export const subscriptionsReducer = createReducer<SubscriptionsState>(
   initSubscriptionsState,
@@ -63,25 +58,23 @@ export const subscriptionsReducer = createReducer<SubscriptionsState>(
       logger.info(`WS: New subscription ${JSON.stringify(action.payload.subscriptionMsg)}`)
       // Add subscription
       const key = getSubsId(action.payload.subscriptionMsg)
-      state.active[key] = true
-      state.input[key] = { ...action.payload.input }
-      // Increment num of active subscriptions
-      state.total++
+      state[key] = {
+        active: true,
+        input: { ...action.payload.input },
+      }
     })
 
     builder.addCase(actions.unsubscribed, (state, action) => {
       logger.info(`WS: Unsubscription ${JSON.stringify(action.payload.subscriptionMsg)}`)
       // Remove subscription
       const key = getSubsId(action.payload.subscriptionMsg)
-      delete state.active[key]
-      // Decrement num of active subscriptions
-      state.total--
+      delete state[key]
     })
 
-    builder.addCase(actions.unsubscribedAll, (state) => {
+    builder.addCase(actions.disconnected, (state) => {
       logger.info(`WS: Removing every subscription`)
-      state.active = {}
-      state.total = 0
+      state = {}
+      return state
     })
   },
 )

@@ -137,8 +137,8 @@ const executeSync = (execute: Execute, wsHandler?: WSSubscriptionHandler): Execu
   // const initMiddleware = withMiddleware(execute)
   const middleware = [
     withLogger,
-    ws.withWebSockets(storeSlice('ws'))(wsHandler),
     skipOnError(withCache),
+    ws.withWebSockets(storeSlice('ws'))(wsHandler),
     rateLimit.withRateLimit(storeSlice('rateLimit')),
     withStatusCode,
   ].concat(metrics.METRICS_ENABLED ? [withMetrics, withDebug] : [withDebug])
