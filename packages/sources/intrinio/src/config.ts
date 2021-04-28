@@ -1,7 +1,7 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { WSSubscriptionHandler, Config } from '@chainlink/types'
+import { MakeWSHandler, Config } from '@chainlink/types'
 import { customParams } from './adapter'
-var IntrinioRealtime = require('intrinio-realtime')
+import IntrinioRealtime from 'intrinio-realtime'
 
 /**
  * @swagger
@@ -22,44 +22,42 @@ export const makeConfig = (prefix?: string): Config => {
   return config
 }
 
-export const makeWSHandler = (config: Config): WSSubscriptionHandler => {
+export const makeWSHandler = (config?: Config): MakeWSHandler => {
   // https://github.com/intrinio/intrinio-realtime-node-sdk
-  const ws = new IntrinioRealtime({
-    api_key: config.apiKey,
-    provider: 'iex',
-  })
-  return {
-    init: obj =>
-      new Promise(async (res, rej) => {
-        try {
-          await ws._refreshToken()
-          obj.connection.url = ws._makeSocketUrl()
-          res(0)
-        } catch (e) {
-          rej()
+  return () => {
+    const defaultConfig = config || makeConfig()
+
+    const ws = new IntrinioRealtime({
+      api_key: defaultConfig.apiKey,
+      provider: 'iex',
+    })
+
+    return {
+      init: obj =>
+        new Promise((res, rej) => {
+          ws._refreshToken()
+            .then(() => {
+              obj.connection.url = ws._makeSocketUrl()
+              res(0)
+            })
+            .catch((e: any) => rej(e))
+        }),
+      connection: {
+        url: '',
+      },
+      subscribe: input => {
+        const validator = new Validator(input, customParams)
+        if (validator.error) {
+          return
         }
-      }),
-    connection: {
-      url: '',
-    },
-    subscribe: input => {
-      const validator = new Validator(input, customParams)
-      if (validator.error) {
-        return
-      }
-      const base = validator.overrideSymbol(NAME).toUpperCase()
-      return ws._makeJoinMessage(base)
-    },
-    unsubscribe: () => '',
-    subsFromMessage: message => ws._makeJoinMessage(message.payload.ticker),
-    isError: (message: any) => Number(message.TYPE) > 400 && Number(message.TYPE) < 900,
-    filter: message => {
-      console.log('filter', message)
-      return message.event == 'quote' && message.payload?.type == 'last'
-    },
-    parse: (wsResponse: any): number => {
-      console.log('parse', wsResponse)
-      return Number(wsResponse?.payload?.price)
-    },
+        const base = validator.overrideSymbol(NAME).toUpperCase()
+        return ws._makeJoinMessage(base)
+      },
+      unsubscribe: () => '',
+      subsFromMessage: message => ws._makeJoinMessage(message.payload.ticker),
+      isError: (message: any) => Number(message.TYPE) > 400 && Number(message.TYPE) < 900,
+      filter: message => message.event == 'quote' && message.payload?.type == 'last',
+      parse: (wsResponse: any): number => Number(wsResponse?.payload?.price),
+    }
   }
 }
