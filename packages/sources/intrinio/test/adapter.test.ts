@@ -5,7 +5,7 @@ import { makeExecute } from '../src/adapter'
 
 describe('execute', () => {
   const jobID = '1'
-  const execute = makeExecute({ key: '', symbols: '', provider: '' })
+  const execute = makeExecute()
 
   describe('validation error', () => {
     const requests = [
