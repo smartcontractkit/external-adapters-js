@@ -113,8 +113,13 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
               () => payload.subscriptionMsg,
               () => wsHandler.unsubscribe(payload.input),
               (message) => {
+                /**
+                 * If the error in on the subscription, next requests will try to subscribe
+                 * If the error happens during a subscription, and is only eventual, can be ignored
+                 * If the error happens during a subscription, and the subscription stop receiving messages, the unresponsiveTimeout will take care of it (unsubs/subs)
+                 */
                 if (wsHandler.isError(message)) {
-                  logger.warn(`WS: Subscription Error: ${JSON.stringify(message)}`)
+                  logger.error(`WS: Subscription Error: ${JSON.stringify(message)}`)
                   return false
                 }
                 return getSubsId(wsHandler.subsFromMessage(message)) === subscriptionKey
@@ -123,6 +128,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
             .pipe(
               withLatestFrom(state$),
               map(([message, state]) => {
+                // TODO: Use merge map to not discard the first message
                 if (!state.ws.subscriptions[subscriptionKey]?.active) {
                   return subscribed(payload)
                 }
@@ -170,7 +176,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
           await cache(input)
           return action
         }),
-        catchError((error) => of(error).pipe(log(error.message))),
+        catchError((error) => of(error).pipe(log(`WS: ${error.message}`))),
         filter(() => false)
       )
 
