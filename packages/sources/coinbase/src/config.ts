@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, WSSubscriptionHandler } from '@chainlink/types'
+import { AdapterRequest, Config, WSSubscriptionHandler } from '@chainlink/types'
 import { customParams } from './endpoint/price'
 
 /**
@@ -20,24 +20,24 @@ export const makeConfig = (prefix?: string): Config => {
 }
 
 export const makeWSHandler = (config: Config): WSSubscriptionHandler => {
-  const getSubscription = (productId: string) =>  ({ type: 'subscribe', channels: ['ticker'], product_ids: [productId] })
+  const getSubscription = (productId: string, subscribe = true) =>  ({ type: subscribe ? 'subscribe' : 'unsubscribe', channels: ['ticker'], product_ids: [productId] })
+  const getProductId = (input: AdapterRequest) => {
+    const validator = new Validator(input, customParams)
+    if (validator.error) {
+      // Validation failed, empty subscription will have no effect
+      return ''
+    }
+    const symbol = validator.validated.data.symbol.toUpperCase()
+    const convert = validator.validated.data.convert.toUpperCase()
+    return `${symbol}-${convert}`
+  }
   return {
     connection: {
       url: config.api.baseWsURL || DEFAULT_WS_API_ENDPOINT
     },
-    subscribe: (input) => {
-      const validator = new Validator(input, customParams)
-      if (validator.error) {
-        // Validation failed, empty subscription will have no effect
-        return ''
-      }
-      const symbol = validator.validated.data.symbol.toUpperCase()
-      const convert = validator.validated.data.convert.toUpperCase()
-      // return { message: `${symbol}_${convert}` }
-      return getSubscription(`${symbol}-${convert}`)
-    },
+    subscribe: (input) => getSubscription(getProductId(input)),
+    unsubscribe: (input) => getSubscription(getProductId(input), false),
     subsFromMessage: (message) => getSubscription(`${message?.product_id}`),
-    unsubscribe: () => '', // Maybe store the subs ID in order to unsubscribe?
     isError: (message: any) => message.type === 'error',
     // Ignore everything is not a ticker message. Throw an error on incoming errors.
     filter: (message: any) => message.type === 'ticker',

@@ -133,3 +133,13 @@ To configure caching these environment variables are available:
 - `REQUEST_COALESCING_ENTROPY_MAX`: Optional number, defaults to `0`. Amount of random delay (entropy) in milliseconds that will be added to requests. Avoids issue where the request coalescing key won't be set before multiple other instances in a burst try to access the same key.
 
 ## WebSockets
+
+- Adapters who interact with data providers that support websockets will be able to use them offering a WS interface. Each adapter will have its corresponding WS documentation.
+- Only one WS connection will be opened and used.
+- On every different request, the adapter will subscribe to the corresponding channel.
+- From the moment the subscription is confirmed, the adapter will start receiving messages with the relevant information, __piping this information to the cache__. On future requests, the adapter will always have __fresh data saved on cache__. If there is no data available in cache, the adapter will continue with its default execution.
+- Subscriptions have an expiration time. If no new incoming requests ask for this information during this time, the subscription will be cancelled. 
+    - `WS_SUBSCRIPTION_TTL`: Subscription expiration time in ms. `70000` by default
+- Subscriptions have an unresponsive expiration time. If the adapter doesn't receive messages from an open subscription during this time, a resubscription will be tried.
+    - `WS_SUBSCRIPTION_UNRESPONSIVE_TTL`: Unresponsive subscription expiration time in ms. `70000` by default
+- For the websockets to be effective, __caching needs to be enabled__
