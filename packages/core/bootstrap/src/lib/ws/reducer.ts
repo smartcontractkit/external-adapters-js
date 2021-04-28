@@ -46,7 +46,6 @@ export interface SubscriptionsState {
   [key: string]: {
     active: boolean
     input: AdapterRequest
-    lastSeen: number
   }
 }
 
@@ -62,9 +61,7 @@ export const subscriptionsReducer = createReducer<SubscriptionsState>(
       state[key] = {
         active: true,
         input: { ...action.payload.input },
-        lastSeen: Date.now()
       }
-      // Increment num of active subscriptions
     })
 
     builder.addCase(actions.unsubscribed, (state, action) => {
@@ -77,14 +74,7 @@ export const subscriptionsReducer = createReducer<SubscriptionsState>(
     builder.addCase(actions.disconnected, (state) => {
       logger.info(`WS: Removing every subscription`)
       state = {}
-    })
-
-    builder.addCase(actions.heartbeat, (state, action) => {
-      logger.debug(`WS: New request`)
-      const key = getSubsId(action.payload.subscriptionMsg)
-      if (state[key]) {
-        state[key].lastSeen = Date.now()
-      }
+      return state
     })
   },
 )

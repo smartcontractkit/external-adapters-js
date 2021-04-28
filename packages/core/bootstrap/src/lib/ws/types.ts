@@ -18,6 +18,8 @@ export interface WSConfig {
   subscriptionLimit: number
   /** Number of ms if no requests for data received this subscription is considered dead */
   subscriptionTTL: number
+  /** Number of ms if no messages received for an active subscription, this subscription should unsubscribe or resubscribe */
+  subscriptionUnresponsiveTTL: number
   /** List of subscription keys that will have priority (reserved capacity) */
   subscriptionPriorityList?: Array<string>
 }
