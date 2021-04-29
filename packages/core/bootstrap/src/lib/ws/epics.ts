@@ -41,7 +41,7 @@ import {
 } from './metrics'
 import { getSubsId } from './reducer'
 
-const log = (message: any, withInput = false) => tap((input: any) => { withInput ? logger.info(`${message}: ${input}`) : logger.info(message) })
+const log = (message: any, withInput = false) => tap((input: any) => { withInput ? logger.info(`${message}: ${JSON.stringify(input)}`) : logger.info(message) })
 
 // Rxjs deserializer defaults to JSON.parse. We need to handle errors from non-parsable messages
 const deserializer = (message: any) => {
@@ -82,14 +82,14 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
       
       // Stream of WS connected & disconnected events
       const open$ = openObserver.pipe(
-        log('WS: New connection'),
-        map(() => connected({ config, wsHandler }))
+        map(() => connected({ config, wsHandler })),
+        log('WS: New connection')
       )
       // Before disconecting, we make sure the subscription state is clean
       const close$ = closeObserver.pipe(
+        map(() => disconnected({ config, wsHandler })),
         log('WS: Disconnection'),
-        log(`WS: Removing every subscription`),
-        map(() => disconnected({ config, wsHandler }))
+        log(`WS: Removing every subscription`)
       )
 
       // Close the WS connection on disconnect
@@ -187,7 +187,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
             await cache(input)
             return action
           } catch (e) {
-            logger.error(`WS: ${e.message}`)
+            logger.error(`WS: Cache error: ${e.message}`)
             return action
           }
         }),
@@ -196,7 +196,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
 
       const heartbeat$ = action$.pipe(
         filter(heartbeat.match),
-        map(({ payload }) => ({ payload, subscriptionKey: getSubsId(payload.subscriptionMsg) })),
+        map((action) => ({ ...action, subscriptionKey: getSubsId(action.payload.subscriptionMsg) })),
       )
       // Once a request happens, a subscription timeout starts. If no more requests ask for this susbcription before the time runs out, it will be unsubscribed
       const unsubscribeOnTimeout$ = heartbeat$.pipe(
@@ -206,8 +206,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
           // which deactivates the current timer
           const reset$ = heartbeat$.pipe(
             filter(({ subscriptionKey: keyB }) => subscriptionKey === keyB),
-            take(1),
-            filter(() => false)
+            take(1)
           )
     
           // start the current unsubscription timer
@@ -215,7 +214,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
     
           // if a re-subscription comes in before timeout emits, then we emit nothing
           // else we unsubscribe from the current subscription
-          return race(reset$, timeout$)
+          return race(reset$, timeout$).pipe(filter((a) => !heartbeat.match(a)))
         }),
       )
 
@@ -234,7 +233,6 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
           const reset$ = messageReceived$.pipe(
             filter(({ payload }) => subscriptionKey === payload.subscriptionKey),
             take(1),
-            filter(() => false)
           )
     
           const action = {
@@ -248,10 +246,11 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
 
           const timeout$ = of(unsubscribe(action), subscribe(action)).pipe(
             delay(config.subscriptionUnresponsiveTTL),
-            log('WS: Resubscription due to unresponsive channel')
+            log('WS: Resubscription due to unresponsive channel'),
+            take(1)
           )
     
-          return race(reset$, timeout$)
+          return race(reset$, timeout$).pipe(filter((a) => !messageReceived.match(a)))
         }),
       )
 
