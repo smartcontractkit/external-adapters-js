@@ -60,7 +60,8 @@ export const WSHandlerFactory = (config?: Config): MakeWSHandler => {
       filter: (message) => {
         // Ignore everything is not from the wanted channels
         const code = Number(message.TYPE)
-        return code === subscriptions.ticker || code === subscriptions.aggregate
+        const flag = Number(message.FLAGS) // flags = 4 (means price unchanged, PRICE parameter not included)
+        return (code === subscriptions.ticker || code === subscriptions.aggregate) && flag !== 4
       },
       toResponse: (message: any) => {
         const result = Requester.validateResultNumber(message, ['PRICE'])
