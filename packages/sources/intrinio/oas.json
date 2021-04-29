@@ -10,13 +10,7 @@
   "paths": {},
   "securityDefinitions": {
     "environment-variables": {
-      "API_PROVIDER": {
-        "required": false
-      },
       "API_KEY": {
-        "required": true
-      },
-      "SYMBOLS": {
         "required": true
       }
     }

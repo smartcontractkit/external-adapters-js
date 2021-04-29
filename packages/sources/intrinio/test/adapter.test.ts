@@ -5,7 +5,8 @@ import { makeExecute } from '../src/adapter'
 
 describe('execute', () => {
   const jobID = '1'
-  const execute = makeExecute({ key: '', symbols: '', provider: '' })
+  const execute = makeExecute()
+  process.env.API_KEY = process.env.API_KEY || 'not_real'
 
   describe('validation error', () => {
     const requests = [

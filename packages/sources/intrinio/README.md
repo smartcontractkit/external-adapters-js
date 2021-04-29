@@ -4,13 +4,11 @@ This adapter uses the Intrinio WS stream
 
 ### Environment variables
 
-| Required? |      Name      |                                                      Description                                                       |        Options         | Defaults to |
-| :-------: | :------------: | :--------------------------------------------------------------------------------------------------------------------: | :--------------------: | :---------: |
-|    ✅     |   `API_KEY`    |                                                  Your API client key                                                   |                        |             |
-|    ✅     |   `SYMBOLS`    |                        A comma delimited list of symbols to fetch prices for. E.g: "MSFT,AAPL"                         |                        |             |
-|           | `API_PROVIDER` | Intrinio allows subscription to different [channels/resources](https://github.com/intrinio/intrinio-realtime-node-sdk) | `iex`, `quodd`, `fxcm` |    `iex`    |
+| Required? |   Name    |     Description     | Options | Defaults to |
+| :-------: | :-------: | :-----------------: | :-----: | :---------: |
+|    ✅     | `API_KEY` | Your API client key |         |             |
 
-**NOTE: `quodd` and `fxcm` have not been tested. `iex` is the recommended (and default) websocket subscription**
+**NOTE: `iex` is the default (and only) websocket subscription**
 
 ### Input Params
 

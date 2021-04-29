@@ -103,7 +103,7 @@ declare module '@chainlink/types' {
   }
 
 
-  export type MakeWSHandler = () => WSSubscriptionHandler
+  export type MakeWSHandler = () => WSSubscriptionHandler | Promise<WSSubscriptionHandler>
 
   export interface WSSubscriptionHandler {
     /**
