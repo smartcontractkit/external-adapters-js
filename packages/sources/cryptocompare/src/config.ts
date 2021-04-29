@@ -27,23 +27,24 @@ export const makeConfig = (prefix?: string): Config => {
   return config
 }
 
-export const makeWSHandler = (config?: Config): MakeWSHandler => {
+export const WSHandlerFactory = (config?: Config): MakeWSHandler => {
   // https://min-api.cryptocompare.com/documentation/websockets
   const subscriptions = {
     trade: 0,
     ticker: 2,
     aggregate: 5
   }
-  const getPair = (input: AdapterRequest): string => {
+  const getPair = (input: AdapterRequest) => {
     const validator = new Validator(input, endpoint.price.customParams)
-    if (validator.error) {
-      return ''
-    }
+    if (validator.error) return
     const base = validator.overrideSymbol(NAME).toUpperCase()
     const quote = validator.validated.data.quote.toUpperCase()
     return `${base}~${quote}`
   }
-  const getSubscription = (pair: string, subscribe = true) => ({ action: subscribe ? 'SubAdd' : 'SubRemove', subs: [`${subscriptions.aggregate}~CCCAGG~${pair}`] })
+  const getSubscription = (action: 'SubAdd' | 'SubRemove', pair?: string) => {
+    if (!pair) return
+    return { action, subs: [`${subscriptions.aggregate}~CCCAGG~${pair}`] }
+  }
   const withApiKey = (url: string, apiKey: string) => `${url}?api_key=${apiKey}`
   return () => {
     const defaultConfig = config || makeConfig()
@@ -52,16 +53,19 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
         url: withApiKey(defaultConfig.api.baseWsURL || DEFAULT_WS_API_ENDPOINT, defaultConfig.apiKey || ''),
         protocol: { query: { api_key: defaultConfig.apiKey } }
       },
-      subscribe: (input) => getSubscription(getPair(input)),
-      unsubscribe: (input) => getSubscription(getPair(input), false),
-      subsFromMessage: (message) => getSubscription(`${message?.FROMSYMBOL}~${message?.TOSYMBOL}`),
+      subscribe: (input) => getSubscription('SubAdd', getPair(input)),
+      unsubscribe: (input) => getSubscription('SubRemove', getPair(input)),
+      subsFromMessage: (message) => getSubscription('SubAdd', `${message?.FROMSYMBOL}~${message?.TOSYMBOL}`),
       isError: (message: any) => Number(message.TYPE) > 400 && Number(message.TYPE) < 900,
       filter: (message) => {
         // Ignore everything is not from the wanted channels
         const code = Number(message.TYPE)
         return code === subscriptions.ticker || code === subscriptions.aggregate
       },
-      parse: (wsResponse: any): number => Number(wsResponse?.PRICE)
+      toResponse: (message: any) => {
+        const result = Requester.validateResultNumber(message, ['PRICE'])
+        return Requester.success('1', { data: { result } })
+      }
     }
-}
+  }
 }
