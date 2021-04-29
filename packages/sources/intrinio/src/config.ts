@@ -52,10 +52,8 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       subsFromMessage: message => ws._makeJoinMessage(message.payload.ticker),
       isError: (message: any) => Number(message.TYPE) > 400 && Number(message.TYPE) < 900,
       filter: message => message.event == 'quote' && message.payload?.type == 'last',
-      toResponse: (wsResponse: any): AdapterResponse => {
-        wsResponse = { ...wsResponse, result: wsResponse?.payload?.price }
-        return Requester.success(undefined, { data: wsResponse })
-      },
+      toResponse: (wsResponse: any): AdapterResponse =>
+        Requester.success(undefined, { data: { result: wsResponse?.payload?.price } }),
     }
   }
 }
