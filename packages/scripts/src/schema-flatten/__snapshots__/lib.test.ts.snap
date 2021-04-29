@@ -8853,10 +8853,6 @@ Array [
   Object {
     "location": "packages/sources/intrinio",
     "schema": Object {
-      "API_PROVIDER": Object {
-        "originalKey": "API_PROVIDER",
-        "type": "string",
-      },
       "BASE_URL": Object {
         "originalKey": "BASE_URL",
         "type": "string",
@@ -8983,10 +8979,6 @@ Array [
       },
       "REQUEST_COALESCING_INTERVAL_MAX": Object {
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
-        "type": "string",
-      },
-      "SYMBOLS": Object {
-        "originalKey": "SYMBOLS",
         "type": "string",
       },
       "TIMEOUT": Object {
@@ -13215,11 +13207,6 @@ Array [
         "originalKey": "RATE_LIMIT_CAPACITY",
         "type": "string",
       },
-      "RECONNECT_TIMEOUT": Object {
-        "default": 3000,
-        "originalKey": "RECONNECT_TIMEOUT",
-        "type": "number",
-      },
       "REQUEST_COALESCING_ENABLED": Object {
         "originalKey": "REQUEST_COALESCING_ENABLED",
         "type": "string",
@@ -13238,10 +13225,6 @@ Array [
       },
       "REQUEST_COALESCING_INTERVAL_MAX": Object {
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
-        "type": "string",
-      },
-      "SYMBOLS": Object {
-        "originalKey": "SYMBOLS",
         "type": "string",
       },
       "TIMEOUT": Object {
