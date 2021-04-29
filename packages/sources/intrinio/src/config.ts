@@ -33,7 +33,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
     return validator.overrideSymbol(NAME).toUpperCase()
   }
 
-  return () => {
+  return async () => {
     const defaultConfig = config || makeConfig()
 
     const ws = new IntrinioRealtime({
@@ -41,18 +41,11 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       provider: 'iex',
     })
 
+    await ws._refreshToken()
+
     return {
-      init: obj =>
-        new Promise((res, rej) => {
-          ws._refreshToken()
-            .then(() => {
-              obj.connection.url = ws._makeSocketUrl()
-              res(0)
-            })
-            .catch((e: any) => rej(e))
-        }),
       connection: {
-        url: '',
+        url: ws._makeSocketUrl(),
       },
       subscribe: input => ws._makeJoinMessage(getBase(input)),
       unsubscribe: (input) => ws._makeLeaveMessage(getBase(input)),
