@@ -32,7 +32,6 @@
     "@chainlink/ea-bootstrap": "*",
     "@chainlink/ea-test-helpers": "*",
     "express": "^4.17.1",
-    "tradingeconomics-stream": "^0.2.0",
     "tslib": "^2.1.0"
   },
   "devDependencies": {
