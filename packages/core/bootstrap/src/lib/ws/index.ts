@@ -15,7 +15,7 @@ export const withWebSockets = (store: Store<RootState>, makeWsHandler?: MakeWSHa
 ) => {
   if (!makeWsHandler) return await execute(input)
   // TODO: Warmer
-  const wsHandler = makeWsHandler()
+  const wsHandler = await makeWsHandler()
   const wsConfig = getWSConfig()
   store.dispatch(connect({ config: wsConfig, wsHandler }))
 
