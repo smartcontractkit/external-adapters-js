@@ -6,6 +6,7 @@ import { WSConfig, WSConnectionInfo } from './types'
 /** CONNECTIONS */
 export interface WSConfigPayload {
   config: WSConfig
+  // TODO: wsHandler should not be sent as an event
   wsHandler: WSSubscriptionHandler
 }
 
@@ -34,7 +35,6 @@ export const unsubscribed = createAction('WS/UNSUBSCRIBED', asAction<WSSubscript
 export interface WSMessagePayload {
   message: unknown
   subscriptionKey: string
-  input: AdapterRequest
 }
 
 export const messageReceived = createAction('WS/MESSAGE_RECEIVED', asAction<WSMessagePayload>())

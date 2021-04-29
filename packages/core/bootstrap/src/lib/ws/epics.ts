@@ -81,9 +81,16 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
       })
       
       // Stream of WS connected & disconnected events
-      const open$ = openObserver.pipe(map(() => connected({ config, wsHandler })))
+      const open$ = openObserver.pipe(
+        log('WS: New connection'),
+        map(() => connected({ config, wsHandler }))
+      )
       // Before disconecting, we make sure the subscription state is clean
-      const close$ = closeObserver.pipe(map(() => disconnected({ config, wsHandler })))
+      const close$ = closeObserver.pipe(
+        log('WS: Disconnection'),
+        log(`WS: Removing every subscription`),
+        map(() => disconnected({ config, wsHandler }))
+      )
 
       // Close the WS connection on disconnect
       const disconnect$ = action$.pipe(
@@ -124,14 +131,14 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
             )
             .pipe(
               withLatestFrom(state$),
-              map(([message, state]) => {
-                // TODO: Use merge map to not discard the first message
+              mergeMap(([message, state]) => {
                 if (!state.ws.subscriptions[subscriptionKey]?.active) {
-                  return subscribed(payload)
+                  return of(subscribed(payload), messageReceived({ message, subscriptionKey })).pipe(
+                    log(`WS: New subscription ${JSON.stringify(payload.subscriptionMsg)}`),
+                    take(1),
+                  )
                 }
-                const input = state.ws.subscriptions[subscriptionKey]?.input || {}
-                if (!input) logger.warn(`WS: Could not find subscription from incoming message`)
-                return messageReceived({ message, subscriptionKey, input })
+                return of(messageReceived({ message, subscriptionKey }))
               }),
               takeUntil(
                 // unsubscribe or disconnected
@@ -139,6 +146,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
                   action$.pipe(
                     filter(unsubscribe.match),
                     filter((a) => getSubsId(a.payload.subscriptionMsg) === subscriptionKey),
+                    log(`WS: Unsubscription ${JSON.stringify(payload.subscriptionMsg)}`),
                   ),
                   action$.pipe(
                     filter(disconnected.match),
@@ -154,6 +162,12 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
       const messages$ = action$.pipe(
         filter(messageReceived.match),
         filter((action) => wsHandler.filter(action.payload.message)),
+        withLatestFrom(state$),
+        map(([action, state]) => {
+          const input = state.ws.subscriptions[action.payload.subscriptionKey]?.input || {}
+          if (!input) logger.warn(`WS: Could not find subscription from incoming message`)
+          return { ...action, input }
+        }),
         mergeMap(async (action) => {
           try {
             const response = wsHandler.toResponse(action.payload.message)
@@ -161,9 +175,9 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
             const execute: Execute = () => Promise.resolve(response)
             const cache = await withCache(execute)
             const input = {
-              ...action.payload.input,
+              ...action.input,
               data: {
-                ...action.payload.input.data,
+                ...action.input.data,
                 maxAge: -1 // Force cache set
               },
               debug: {
@@ -210,7 +224,13 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
       )
 
       const unresponsiveOnTimeout$ = messageReceived$.pipe(
-        mergeMap(({ payload: { input, subscriptionKey } }) => {
+        withLatestFrom(state$),
+        map(([action, state]) => {
+          const input = state.ws.subscriptions[action.payload.subscriptionKey]?.input || {}
+          if (!input) logger.warn(`WS: Could not find subscription from incoming message`)
+          return { ...action, input }
+        }),
+        mergeMap(({ payload: { subscriptionKey }, input }) => {
           const reset$ = messageReceived$.pipe(
             filter(({ payload }) => subscriptionKey === payload.subscriptionKey),
             take(1),
