@@ -48,7 +48,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => () => {
         const quote = validator.validated.data.quote.toLowerCase()
         return getSubscription([base, quote])
       },
-      unsubscribe: () => '',
+      unsubscribe: () => undefined,
       subsFromMessage: (message) => getSubscription([message.asset_id_base, message.asset_id_quote]),
       isError: () => false,
       filter: (message) => message?.type === 'exrate',
