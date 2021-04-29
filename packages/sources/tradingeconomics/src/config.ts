@@ -66,15 +66,13 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
         return getSubscription(base)
       },
       unsubscribe: () => undefined,
-      subsFromMessage: (message) => getSubscription(message?.s),
+      subsFromMessage: message => getSubscription(message?.s),
       isError: (message: any) => Number(message.TYPE) > 400 && Number(message.TYPE) < 900,
       filter: message => {
         return message.topic && message.topic !== 'keepalive'
       },
-      toResponse: (wsResponse: any): AdapterResponse => {
-        wsResponse = { ...wsResponse, result: wsResponse?.price }
-        return Requester.success(undefined, { data: wsResponse })
-      },
+      toResponse: (wsResponse: any): AdapterResponse =>
+        Requester.success(undefined, { data: { result: wsResponse?.price } }),
     }
   }
 }
