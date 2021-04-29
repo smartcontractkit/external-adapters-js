@@ -39,11 +39,16 @@ const subscribe = (assets: string[], config: Config) => {
         break
     }
   })
+  return client
 }
 
-export const startService = (config: Config): void => {
+export const startService = (config: Config) => {
   const symbols = config.symbols.toUpperCase().split(',')
-  subscribe(symbols, config)
+  return subscribe(symbols, config)
+}
+
+export const stopService = (client: any): void => {
+  client.destroy()
 }
 
 const customParams = {
