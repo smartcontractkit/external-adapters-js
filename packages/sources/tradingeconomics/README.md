@@ -22,7 +22,7 @@ This adapter uses the Tradingeconomics WS stream
 {
   "id": "1",
   "data": {
-    "base": "aapl:us"
+    "base": "EURUSD:CUR"
   }
 }
 ```
@@ -32,10 +32,10 @@ This adapter uses the Tradingeconomics WS stream
 ```json
 {
   "jobRunID": "1",
-  "result": 134.65,
+  "result": 1.21066,
   "statusCode": 200,
   "data": {
-    "result": 134.65
+    "result": 1.21066
   }
 }
 ```

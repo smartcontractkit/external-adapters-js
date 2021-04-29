@@ -1,5 +1,5 @@
 import { util, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { MakeWSHandler, Config as config } from '@chainlink/types'
+import { MakeWSHandler, Config as config, AdapterResponse } from '@chainlink/types'
 import { customParams } from './adapter'
 
 /**
@@ -65,13 +65,16 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
         const base = validator.overrideSymbol(NAME).toUpperCase()
         return getSubscription(base)
       },
-      unsubscribe: () => '',
+      unsubscribe: () => undefined,
       subsFromMessage: (message) => getSubscription(message?.s),
       isError: (message: any) => Number(message.TYPE) > 400 && Number(message.TYPE) < 900,
       filter: message => {
         return message.topic && message.topic !== 'keepalive'
       },
-      parse: (wsResponse: any): number => Number(wsResponse?.price),
+      toResponse: (wsResponse: any): AdapterResponse => {
+        wsResponse = { ...wsResponse, result: wsResponse?.price }
+        return Requester.success(undefined, { data: wsResponse })
+      },
     }
   }
 }
