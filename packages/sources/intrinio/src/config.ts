@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { MakeWSHandler, Config, AdapterRequest } from '@chainlink/types'
+import { MakeWSHandler, Config, AdapterRequest, AdapterResponse } from '@chainlink/types'
 import { customParams } from './adapter'
 import IntrinioRealtime from 'intrinio-realtime'
 
@@ -48,11 +48,14 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
         url: ws._makeSocketUrl(),
       },
       subscribe: input => ws._makeJoinMessage(getBase(input)),
-      unsubscribe: (input) => ws._makeLeaveMessage(getBase(input)),
+      unsubscribe: input => ws._makeLeaveMessage(getBase(input)),
       subsFromMessage: message => ws._makeJoinMessage(message.payload.ticker),
       isError: (message: any) => Number(message.TYPE) > 400 && Number(message.TYPE) < 900,
       filter: message => message.event == 'quote' && message.payload?.type == 'last',
-      parse: (wsResponse: any): number => Number(wsResponse?.payload?.price),
+      toResponse: (wsResponse: any): AdapterResponse => {
+        wsResponse = { ...wsResponse, result: wsResponse?.payload?.price }
+        return Requester.success(undefined, { data: wsResponse })
+      },
     }
   }
 }
