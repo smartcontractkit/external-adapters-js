@@ -9,21 +9,25 @@ local template = grafana.template;
 /**
  * Constants
  */
-local name = 'external_adapters_staging';
-local cortex = 'cortex-staging-monitors';
+local prometheusJobName = std.extVar('prometheusJobName');
+local cortexDataSource = std.extVar('cortexDataSource');
+local dashboardConfig = {
+  title: std.extVar('dashboardTitle'),
+  uid: std.extVar('dashboardUid'),
+};
 
 /**
  * Templates
  */
-local jobTempl = template.custom('job', query=name, current=name, hide=true);
+local jobTempl = template.custom('job', query=prometheusJobName, current=prometheusJobName, hide=true);
 local serviceTempl = template.new(
   'service',
-  datasource=cortex,
+  datasource=cortexDataSource,
   query='http_request_duration_seconds_bucket',
   multi=true,
   sort=1,
   current='all',
-  regex='/.*service="(.*)"/',
+  regex='/.*job="' + prometheusJobName + '".*service="(.*)"/',
   includeAll=true,
   refresh='load'
 );
@@ -34,7 +38,7 @@ local templates = [jobTempl, serviceTempl];
  */
 local totalHttpRequestsPanel = graphPanel.new(
   title='${service}-http-requests-total',
-  datasource=cortex,
+  datasource=cortexDataSource,
 ).addTarget(
   prometheus.target(
     'rate(http_requests_total{job="$job", service=~"$service.*"}[1m])',
@@ -43,7 +47,7 @@ local totalHttpRequestsPanel = graphPanel.new(
 );
 local httpRequestDurationAverage = graphPanel.new(
   title='http-request-duration-average',
-  datasource=cortex,
+  datasource=cortexDataSource,
 ).addTarget(
   prometheus.target(
     'rate(http_request_duration_seconds_sum{job="$job",service=~"$service.*"}[5m])/rate(http_request_duration_seconds_count{job="$job",service=~"$service.*"}[5m])',
@@ -52,7 +56,7 @@ local httpRequestDurationAverage = graphPanel.new(
 );
 local httpRequestDurationHeatmap = heatmapPanel.new(
   title='${service}-http-request-duration-heatmap',
-  datasource=cortex,
+  datasource=cortexDataSource,
   dataFormat='tsbuckets',
   color_colorScheme='interpolateInferno',
   maxDataPoints=25,
@@ -66,8 +70,8 @@ local httpRequestDurationHeatmap = heatmapPanel.new(
 );
 local panelSize1 = {
   gridPos+: {
-    w: 24, // The dashboard width is divided into 24 sections, we want to take up the entire row
-    h: 10, // Height is 30 px per unit
+    w: 24,  // The dashboard width is divided into 24 sections, we want to take up the entire row
+    h: 10,  // Height is 30 px per unit
   },
 };
 local panels = [
@@ -79,10 +83,10 @@ local panels = [
 
 {
   grafanaDashboards:: {
-    [name]:
+    [prometheusJobName]:
       dashboard.new(
-        'External Adapters Staging',
-        uid='REEEE',
+        dashboardConfig.title,
+        uid=dashboardConfig.uid,
         editable=true,
         schemaVersion=26
       )
