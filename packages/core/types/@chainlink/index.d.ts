@@ -116,15 +116,15 @@ declare module '@chainlink/types' {
     /**
      * Gets the subscription message necessary to subscribe to the feed channel
      */
-    subscribe: (input: AdapterRequest) => any
+    subscribe: (input: AdapterRequest) => any | undefined
     /**
      * Gets the unsubscription message necessary to unsubscribe to the feed channel
      */
-    unsubscribe: (input: any) => any
+    unsubscribe: (input: any) => any | undefined
     /**
-     * Gets the response from the incoming message
+     * Gets the response from the incoming message and formats it into an AdapterResponse
      */
-    parse: (message: any) => number | string
+    toResponse: (message: any) => AdapterResponse
     /**
      * Filter any message that is not from a subscribed channel
      */
@@ -137,10 +137,6 @@ declare module '@chainlink/types' {
      * Based on the incoming message, returns its corresponding subscription message
      */
     subsFromMessage: (message: any) => any
-    /**
-     * Optional. If defined, the response will be formatted using this function
-     */
-    toAdapterResponse?: (message: any) => any
   }
 
 

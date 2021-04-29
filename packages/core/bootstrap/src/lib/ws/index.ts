@@ -10,7 +10,7 @@ export * as actions from './actions'
 export * as reducer from './reducer'
 export * as epics from './epics'
 
-export const withWebSockets = (store: Store<RootState>) => (makeWsHandler?: MakeWSHandler): Middleware => async (execute) => async (
+export const withWebSockets = (store: Store<RootState>, makeWsHandler?: MakeWSHandler): Middleware => async (execute) => async (
   input: AdapterRequest,
 ) => {
   if (!makeWsHandler) return await execute(input)
@@ -20,6 +20,7 @@ export const withWebSockets = (store: Store<RootState>) => (makeWsHandler?: Make
   store.dispatch(connect({ config: wsConfig, wsHandler }))
 
   const subscriptionMsg = wsHandler.subscribe(input)
+  if (!subscriptionMsg) return await execute(input)
   const { connectionInfo } = wsConfig
 
   // Helper function to build actions

@@ -29,7 +29,6 @@ export const subscribe = createAction('WS/SUBSCRIBE!', asAction<WSSubscriptionPa
 export const subscribed = createAction('WS/SUBSCRIBED', asAction<WSSubscriptionPayload>())
 export const unsubscribe = createAction('WS/UNSUBSCRIBE!', asAction<WSSubscriptionPayload>())
 export const unsubscribed = createAction('WS/UNSUBSCRIBED', asAction<WSSubscriptionPayload>())
-export const subscriptionReset = createAction('WS/SUBSCRIPTION_RESET!', asAction())
 
 /** MESSAGEs */
 export interface WSMessagePayload {
@@ -38,5 +37,5 @@ export interface WSMessagePayload {
   input: AdapterRequest
 }
 
-export const messageReceived = createAction('WS/MESSAGE_RECEIVED!', asAction<WSMessagePayload>())
+export const messageReceived = createAction('WS/MESSAGE_RECEIVED', asAction<WSMessagePayload>())
 export const heartbeat = createAction('WS/HEARTBEAT', asAction<WSSubscriptionPayload>())

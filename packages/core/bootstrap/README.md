@@ -135,8 +135,8 @@ To configure caching these environment variables are available:
 ## WebSockets
 
 - Adapters who interact with data providers that support websockets will be able to use them offering a WS interface. Each adapter will have its corresponding WS documentation.
-- Only one WS connection will be opened and used.
-- On every different request, the adapter will subscribe to the corresponding channel.
+- Multiple subscription channels are multiplexed over one connection.
+- For every type of request, the adapter will subscribe to the corresponding channel.
 - From the moment the subscription is confirmed, the adapter will start receiving messages with the relevant information, __piping this information to the cache__. On future requests, the adapter will always have __fresh data saved on cache__. If there is no data available in cache, the adapter will continue with its default execution.
 - Subscriptions have an expiration time. If no new incoming requests ask for this information during this time, the subscription will be cancelled. 
     - `WS_SUBSCRIPTION_TTL`: Subscription expiration time in ms. `70000` by default

@@ -25,19 +25,23 @@ export const makeConfig = (prefix = ''): Config => {
   return config
 }
 
-export const makeWSHandler = (defaultConfig?: Config): MakeWSHandler => {
+export const WSHandlerFactory = (defaultConfig?: Config): MakeWSHandler => {
   const subscriptions: any = {}
-  const getPair = (input: AdapterRequest): string => {
+  const getPair = (input: AdapterRequest) => {
     const validator = new Validator(input, endpoint.price.customParams)
-    if (validator.error) {
-      return ''
-    }
+    if (validator.error) return
     const base = validator.overrideSymbol(NAME).toLowerCase()
     const quote = validator.validated.data.quote.toLowerCase()
     return `${base}_${quote}`
   }
-  const getSubscription = (pair: string) => ({ id: 1, method: 'subscribe', params: ['market:tickers', { pair }] })
-  const getUnsubscription = (pair: string) => ({ id: 1, method: 'unsubscribe', params: [subscriptions[pair]] })
+  const getSubscription = (pair?: string) => {
+    if (!pair) return
+    return { id: 1, method: 'subscribe', params: ['market:tickers', { pair }] }
+  }
+  const getUnsubscription = (pair?: string) => {
+    if (!pair) return
+    return { id: 1, method: 'unsubscribe', params: [subscriptions[pair]] }
+  }
   return () => {
     const config = defaultConfig || makeConfig()
     return {
@@ -55,9 +59,9 @@ export const makeWSHandler = (defaultConfig?: Config): MakeWSHandler => {
       // https://github.com/web3data/web3data-js/blob/5b177803cb168dcaed0a8a6e2b2fbd835b82e0f9/src/websocket.js#L43
       isError: () => false, // Amberdata never receives error types?
       filter: (message: any) => !!message.params,
-      parse: (wsResponse: any): number => {
-        const result = Requester.validateResultNumber(wsResponse, ['params', 'result', 'last'])
-        return result
+      toResponse: (message: any) => {
+        const result = Requester.validateResultNumber(message, ['params', 'result', 'last'])
+        return Requester.success('1', { data: { result } })
       }
     }
   }

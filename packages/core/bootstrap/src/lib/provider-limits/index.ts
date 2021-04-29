@@ -1,4 +1,3 @@
-import { logger } from '../external-adapter'
 import limits from './limits.json'
 
 export const DEFAULT_MINUTE_RATE_LIMIT = 60 
@@ -40,9 +39,7 @@ export const getRateLimit = (
 ): ProviderRateLimit => {
   const providerLimit = getProviderLimits(provider, tier, 'http')
   if (!providerLimit) {
-    const msg = `Rate Limit: Provider: "${provider}" and Tier: "${tier}" doesn't match any provider spec in limits.json`
-    logger.warn(msg)
-    throw new Error(msg)
+    throw new Error(`Rate Limit: Provider: "${provider}" and Tier: "${tier}" doesn't match any provider spec in limits.json`)
   }
   return calculateRateLimit(providerLimit as HTTPTier)
 }
@@ -53,9 +50,7 @@ export const getWSLimits = (
 ): WSTier => {
   const providerLimit = getProviderLimits(provider, tier, 'ws')
   if (!providerLimit) {
-    const msg = `WS Limit: Provider: "${provider}" and Tier: "${tier}" doesn't match any provider spec in limits.json`
-    logger.warn(msg)
-    throw new Error(msg)
+    throw new Error(`WS Limit: Provider: "${provider}" and Tier: "${tier}" doesn't match any provider spec in limits.json`)
   }
   return calculateWSLimits(providerLimit as WSTier)
 }

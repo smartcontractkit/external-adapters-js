@@ -3,12 +3,10 @@ import { AnyAction } from 'redux'
 import { combineEpics, createEpicMiddleware, Epic } from 'redux-observable'
 import { merge, Subject, of, race } from 'rxjs'
 import {
-  catchError,
   delay,
   endWith,
   filter,
   map,
-  mapTo,
   mergeMap,
   take,
   takeUntil,
@@ -18,7 +16,7 @@ import {
 import { webSocket } from 'rxjs/webSocket'
 import WebSocket from 'ws'
 import { withCache } from '../cache'
-import { logger, Requester } from '../external-adapter'
+import { logger } from '../external-adapter'
 import { getFeedId } from '../metrics/util'
 import {
   connect,
@@ -33,7 +31,6 @@ import {
   WSConfigPayload,
   WSSubscriptionPayload,
   WSMessagePayload,
-  subscriptionReset,
   heartbeat,
 } from './actions'
 import {
@@ -158,25 +155,28 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
         filter(messageReceived.match),
         filter((action) => wsHandler.filter(action.payload.message)),
         mergeMap(async (action) => {
-          const response = wsHandler.parse(action.payload.message)
-          if (!response) return action
-          const adapterResponse = wsHandler.toAdapterResponse || ((result: any) => Requester.success('1', { data: { result } }))
-          const execute: Execute = () => Promise.resolve(adapterResponse(response))
-          const cache = await withCache(execute)
-          const input = {
-            ...action.payload.input,
-            data: {
-              ...action.payload.input.data,
-              maxAge: -1
-            },
-            debug: {
-              ws: true
+          try {
+            const response = wsHandler.toResponse(action.payload.message)
+            if (!response) return action
+            const execute: Execute = () => Promise.resolve(response)
+            const cache = await withCache(execute)
+            const input = {
+              ...action.payload.input,
+              data: {
+                ...action.payload.input.data,
+                maxAge: -1 // Force cache set
+              },
+              debug: {
+                ws: true
+              }
             }
+            await cache(input)
+            return action
+          } catch (e) {
+            logger.error(`WS: ${e.message}`)
+            return action
           }
-          await cache(input)
-          return action
         }),
-        catchError((error) => of(error).pipe(log(`WS: ${error.message}`))),
         filter(() => false)
       )
 
@@ -193,7 +193,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
           const reset$ = heartbeat$.pipe(
             filter(({ subscriptionKey: keyB }) => subscriptionKey === keyB),
             take(1),
-            mapTo(subscriptionReset({})),
+            filter(() => false)
           )
     
           // start the current unsubscription timer
@@ -214,7 +214,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
           const reset$ = messageReceived$.pipe(
             filter(({ payload }) => subscriptionKey === payload.subscriptionKey),
             take(1),
-            mapTo(subscriptionReset({})),
+            filter(() => false)
           )
     
           const action = {

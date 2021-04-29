@@ -6,7 +6,14 @@ import { WSConfig } from './types'
 import { getHashOpts } from '../util'
 import { logger } from '../external-adapter'
 
-export const getSubsId = (subscriptionMsg: any): string => hash(subscriptionMsg, getHashOpts())
+export const getSubsId = (subscriptionMsg: Record<string, unknown>): string => { 
+  try {
+    return hash(subscriptionMsg, getHashOpts())
+  } catch (e) {
+    logger.error('WS: Cannot get subscription id')
+    return ''
+  }
+}
 export interface ConnectionsState {
   /** Map of all connections by key */
   active: {

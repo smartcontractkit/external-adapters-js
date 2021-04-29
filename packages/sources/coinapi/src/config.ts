@@ -43,9 +43,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => () => {
       },
       subscribe: (input) => {
         const validator = new Validator(input, endpoint.price.customParams)
-        if (validator.error) {
-          return 
-        }
+        if (validator.error) return
         const base = validator.overrideSymbol(NAME).toLowerCase()
         const quote = validator.validated.data.quote.toLowerCase()
         return getSubscription([base, quote])
@@ -54,9 +52,9 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => () => {
       subsFromMessage: (message) => getSubscription([message.asset_id_base, message.asset_id_quote]),
       isError: () => false,
       filter: (message) => message?.type === 'exrate',
-      parse: (wsResponse: any): number => {
-        const result = Requester.validateResultNumber(wsResponse, ['rate'])
-        return result
+      toResponse: (message) => {
+        const result = Requester.validateResultNumber(message, ['rate'])
+        return Requester.success('1', { data: { result } })
       }
     }
   }

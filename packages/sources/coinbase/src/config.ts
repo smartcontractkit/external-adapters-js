@@ -19,14 +19,14 @@ export const makeConfig = (prefix?: string): Config => {
   return config
 }
 
-export const makeWSHandler = (config?: Config): MakeWSHandler => {
-  const getSubscription = (productId: string, subscribe = true) =>  ({ type: subscribe ? 'subscribe' : 'unsubscribe', channels: ['ticker'], product_ids: [productId] })
+export const WSHandlerFactory = (config?: Config): MakeWSHandler => {
+  const getSubscription = (productId?: string, subscribe = true) =>  {
+    if (!productId) return
+    return { type: subscribe ? 'subscribe' : 'unsubscribe', channels: ['ticker'], product_ids: [productId] }
+  }
   const getProductId = (input: AdapterRequest) => {
     const validator = new Validator(input, customParams)
-    if (validator.error) {
-      // Validation failed, empty subscription will have no effect
-      return ''
-    }
+    if (validator.error) return
     const symbol = validator.validated.data.symbol.toUpperCase()
     const convert = validator.validated.data.convert.toUpperCase()
     return `${symbol}-${convert}`
@@ -43,10 +43,9 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       isError: (message: any) => message.type === 'error',
       // Ignore everything is not a ticker message. Throw an error on incoming errors.
       filter: (message: any) => message.type === 'ticker',
-      parse: (message: any): number => {
+      toResponse: (message: any) => {
         const result = Requester.validateResultNumber(message, ['price'])
-        return result
-
+        return Requester.success('1', { data: { result } })
       }
     }
   }
