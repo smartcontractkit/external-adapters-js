@@ -4,16 +4,8 @@ import { combineReducers, createReducer } from '@reduxjs/toolkit'
 import * as actions from './actions'
 import { WSConfig } from './types'
 import { getHashOpts } from '../util'
-import { logger } from '../external-adapter'
 
-export const getSubsId = (subscriptionMsg: Record<string, unknown>): string => { 
-  try {
-    return hash(subscriptionMsg, getHashOpts())
-  } catch (e) {
-    logger.error('WS: Cannot get subscription id')
-    return ''
-  }
-}
+export const getSubsId = (subscriptionMsg = {}): string => hash(subscriptionMsg, getHashOpts())
 export interface ConnectionsState {
   /** Map of all connections by key */
   active: {
