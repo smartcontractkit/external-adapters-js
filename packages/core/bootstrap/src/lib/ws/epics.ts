@@ -163,33 +163,29 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
         filter(messageReceived.match),
         filter((action) => wsHandler.filter(action.payload.message)),
         withLatestFrom(state$),
-        map(([action, state]) => {
-          const input = state.ws.subscriptions[action.payload.subscriptionKey]?.input || {}
-          if (!input) logger.warn(`WS: Could not find subscription from incoming message`)
-          return { ...action, input }
-        }),
-        mergeMap(async (action) => {
+        mergeMap(async ([action, state]) => {
           try {
+            const input = state.ws.subscriptions[action.payload.subscriptionKey]?.input || {}
+            if (!input) logger.warn(`WS: Could not find subscription from incoming message`)
             const response = wsHandler.toResponse(action.payload.message)
             if (!response) return action
             const execute: Execute = () => Promise.resolve(response)
             const cache = await withCache(execute)
-            const input = {
-              ...action.input,
+            const wsResponse = {
+              ...input,
               data: {
-                ...action.input.data,
+                ...input.data,
                 maxAge: -1 // Force cache set
               },
               debug: {
                 ws: true
               }
             }
-            await cache(input)
-            return action
+            await cache(wsResponse)
           } catch (e) {
             logger.error(`WS: Cache error: ${e.message}`)
-            return action
           }
+          return action
         }),
         filter(() => false)
       )
@@ -224,12 +220,9 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
 
       const unresponsiveOnTimeout$ = messageReceived$.pipe(
         withLatestFrom(state$),
-        map(([action, state]) => {
-          const input = state.ws.subscriptions[action.payload.subscriptionKey]?.input || {}
+        mergeMap(([{ payload: { subscriptionKey } }, state]) => {
+          const input = state.ws.subscriptions[subscriptionKey]?.input || {}
           if (!input) logger.warn(`WS: Could not find subscription from incoming message`)
-          return { ...action, input }
-        }),
-        mergeMap(({ payload: { subscriptionKey }, input }) => {
           const reset$ = messageReceived$.pipe(
             filter(({ payload }) => subscriptionKey === payload.subscriptionKey),
             take(1),
@@ -246,8 +239,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
 
           const timeout$ = of(unsubscribe(action), subscribe(action)).pipe(
             delay(config.subscriptionUnresponsiveTTL),
-            log('WS: Resubscription due to unresponsive channel'),
-            take(1)
+            log('WS: Resubscription due to unresponsive channel')
           )
     
           return race(reset$, timeout$).pipe(filter((a) => !messageReceived.match(a)))
