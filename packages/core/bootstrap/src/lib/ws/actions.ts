@@ -10,9 +10,14 @@ export interface WSConfigPayload {
   wsHandler: WSSubscriptionHandler
 }
 
+export interface WSErrorPayload {
+  connectionInfo: WSConnectionInfo
+  message: string
+}
+
 export const connect = createAction('WS/CONNECT!', asAction<WSConfigPayload>())
 export const connected = createAction('WS/CONNECTED', asAction<WSConfigPayload>())
-export const connectionError = createAction('WS/CONNECTION_ERROR', asAction<WSConfigPayload>())
+export const connectionError = createAction('WS/CONNECTION_ERROR', asAction<WSErrorPayload>())
 export const disconnected = createAction('WS/DISCONNECTED', asAction<WSConfigPayload>())
 
 export const disconnect = createAction('WS/DISCONNECT!', asAction<WSConfigPayload>())

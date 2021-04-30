@@ -11,11 +11,14 @@ export interface ConnectionsState {
   active: {
     [key: string]: WSConfig
   }
+  connecting: {
+    [key: string]: number // Filter if its more than one
+  }
   /** Number of active connections */
   total: number
 }
 
-const initConnectionsState: ConnectionsState = { active: {}, total: 0 }
+const initConnectionsState: ConnectionsState = { active: {}, connecting: {}, total: 0 }
 
 export const connectionsReducer = createReducer<ConnectionsState>(
   initConnectionsState,
@@ -24,8 +27,21 @@ export const connectionsReducer = createReducer<ConnectionsState>(
       // Add connection
       const { key } = action.payload.config.connectionInfo
       state.active[key] = action.payload.config
+      state.connecting[key] = 0
       // Increment num of active connections
       state.total++
+    })
+
+    builder.addCase(actions.connect, (state, action) => {
+      // Add connection
+      const { key } = action.payload.config.connectionInfo
+      state.connecting[key] = !isNaN(Number(state.connecting[key])) ? state.connecting[key] + 1 : 1
+    })
+
+    builder.addCase(actions.connectionError, (state, action) => {
+      // Add connection
+      state.connecting[action.payload.connectionInfo.key] = 0
+      delete state.active[action.payload.connectionInfo.key]
     })
 
     builder.addCase(actions.disconnected, (state, action) => {

@@ -3,6 +3,7 @@ import { AnyAction } from 'redux'
 import { combineEpics, createEpicMiddleware, Epic } from 'redux-observable'
 import { merge, Subject, of, race } from 'rxjs'
 import {
+  catchError,
   delay,
   endWith,
   filter,
@@ -32,12 +33,15 @@ import {
   WSSubscriptionPayload,
   WSMessagePayload,
   heartbeat,
+  connectionError,
+  WSErrorPayload,
 } from './actions'
 import {
   ws_connection_active,
   ws_message_total,
   ws_subscription_active,
   ws_subscription_total,
+  ws_connection_errors
 } from './metrics'
 import { getSubsId } from './reducer'
 
@@ -59,9 +63,10 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
     map(({ payload }) => ({ payload, connectionKey: payload.config.connectionInfo.key })),
     // check if the connection already exists, then noop
     withLatestFrom(state$),
+    // GEt track of connection status from the state
     filter(([{ connectionKey }, state]) => {
-      // if connection does not exist, then continue
-      return !state.ws.connections.active[connectionKey]
+      // If there is not an active connection and we are not loading any, lets it pass
+      return !state.ws.connections.active[connectionKey] && state.ws.connections.connecting[connectionKey] <= 1
     }),
     // on a connect action being dispatched, open a new WS connection if one doesn't exist yet
     mergeMap(([{ connectionKey, payload }]) => {
@@ -156,7 +161,11 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
               ),
               endWith(unsubscribed(payload)),
             )
-          )
+        ),
+        catchError((e) => {
+          logger.error(e)
+          return of(connectionError({ connectionInfo: { key: connectionKey, url }, message: e.message }))
+        })
       )
 
       const messages$ = action$.pipe(
@@ -272,19 +281,27 @@ export const metricsEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
         url: payload.wsHandler.connection.url 
       })
       const subscriptionLabels = (payload: WSSubscriptionPayload) => ({ 
-          connection_key: payload.connectionInfo.key, 
-          connection_url: payload.connectionInfo.url, 
-          feed_id: getFeedId({ ...payload.input }), 
-          subscription_key: getSubsId(payload.subscriptionMsg) 
-        })
+        connection_key: payload.connectionInfo.key, 
+        connection_url: payload.connectionInfo.url, 
+        feed_id: getFeedId({ ...payload.input }), 
+        subscription_key: getSubsId(payload.subscriptionMsg) 
+      })
       const messageLabels = (payload: WSMessagePayload) => ({
-          feed_id: getFeedId({ ...state.ws.subscriptions[action.payload.subscriptionKey]?.input }),
-          subscription_key: payload.subscriptionKey,
-        })
+        feed_id: getFeedId({ ...state.ws.subscriptions[action.payload.subscriptionKey]?.input }),
+        subscription_key: payload.subscriptionKey,
+      })
+      const connectionErrorLabels = (payload: WSErrorPayload) => ({ 
+        key: payload.connectionInfo.key, 
+        url: payload.connectionInfo.url,
+        message: payload.message
+      })
 
       switch (action.type) {
         case connected.type:
           ws_connection_active.labels(connectionLabels(action.payload)).inc()
+          break
+        case connectionError.type:
+          ws_connection_errors.labels(connectionErrorLabels(action.payload)).inc()
           break
         case disconnected.type:
           ws_connection_active.labels(connectionLabels(action.payload)).dec()
