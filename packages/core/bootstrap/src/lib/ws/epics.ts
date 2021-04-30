@@ -66,7 +66,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
     // GEt track of connection status from the state
     filter(([{ connectionKey }, state]) => {
       // If there is not an active connection and we are not loading any, lets it pass
-      return !state.ws.connections.active[connectionKey] && state.ws.connections.connecting[connectionKey] < 1
+      return !state.ws.connections.active[connectionKey] && state.ws.connections.connecting[connectionKey] <= 1
     }),
     // on a connect action being dispatched, open a new WS connection if one doesn't exist yet
     mergeMap(([{ connectionKey, payload }]) => {
