@@ -14,7 +14,7 @@ export const withWebSockets = (store: Store<RootState>, makeWsHandler?: MakeWSHa
   input: AdapterRequest,
 ) => {
   if (!makeWsHandler) return await execute(input)
-  // TODO: Warmer
+
   const wsHandler = await makeWsHandler()
   const wsConfig = getWSConfig()
   store.dispatch(connect({ config: wsConfig, wsHandler }))
@@ -23,19 +23,17 @@ export const withWebSockets = (store: Store<RootState>, makeWsHandler?: MakeWSHa
   if (!subscriptionMsg) return await execute(input)
   const { connectionInfo } = wsConfig
 
-  // Helper function to build actions
-  const _wsSubscriptionPayload = (message: any) => ({
+  const subscriptionPayload = {
     connectionInfo: {
       key: connectionInfo.key,
       url: wsHandler.connection.url
     },
     subscriptionMsg,
-    message,
     input,
-  })
+  }
 
-  store.dispatch(subscribe(_wsSubscriptionPayload(subscriptionMsg)))
-  store.dispatch(heartbeat(_wsSubscriptionPayload(subscriptionMsg)))
+  store.dispatch(subscribe(subscriptionPayload))
+  store.dispatch(heartbeat(subscriptionPayload))
 
   return await execute(input)
 }
