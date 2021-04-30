@@ -9,7 +9,7 @@ export const ws_connection_active = new client.Gauge({
 export const ws_connection_errors = new client.Counter({
   name: 'ws_connection_errors',
   help: 'The number of connection errors',
-  labelNames: ['key', 'url', 'experimental'] as const,
+  labelNames: ['key', 'url', 'message', 'experimental'] as const,
 })
 
 export const ws_connection_retries = new client.Counter({
