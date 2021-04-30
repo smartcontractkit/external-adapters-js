@@ -15,6 +15,7 @@ local dashboardConfig = {
   title: std.extVar('dashboardTitle'),
   uid: std.extVar('dashboardUid'),
 };
+local instanceFilter = 'job="$job", service=~"$service.*"';
 
 /**
  * Templates
@@ -37,25 +38,25 @@ local templates = [jobTempl, serviceTempl];
  * Panels
  */
 local totalHttpRequestsPanel = graphPanel.new(
-  title='${service}-http-requests-total',
+  title='Http requests / second',
   datasource=cortexDataSource,
 ).addTarget(
   prometheus.target(
-    'rate(http_requests_total{job="$job", service=~"$service.*"}[1m])',
+    'rate(http_requests_total{' + instanceFilter + '}[$__rate_interval])',
     legendFormat='{{app_name}}-{{status_code}}-{{type}}'
   )
 );
 local httpRequestDurationAverage = graphPanel.new(
-  title='http-request-duration-average',
+  title='Average http request duration',
   datasource=cortexDataSource,
 ).addTarget(
   prometheus.target(
-    'rate(http_request_duration_seconds_sum{job="$job",service=~"$service.*"}[5m])/rate(http_request_duration_seconds_count{job="$job",service=~"$service.*"}[5m])',
+    'rate(http_request_duration_seconds_sum{' + instanceFilter + '}[$__rate_interval])/rate(http_request_duration_seconds_count{' + instanceFilter + '}[$__rate_interval])',
     legendFormat='{{app_name}}',
   )
 );
 local httpRequestDurationHeatmap = heatmapPanel.new(
-  title='${service}-http-request-duration-heatmap',
+  title='Http request duration heatmap',
   datasource=cortexDataSource,
   dataFormat='tsbuckets',
   color_colorScheme='interpolateInferno',
@@ -63,34 +64,91 @@ local httpRequestDurationHeatmap = heatmapPanel.new(
   yAxis_logBase=2
 ).addTarget(
   prometheus.target(
-    'sum(increase(http_request_duration_seconds_bucket{job="$job",service=~"$service.*"}[$__interval])) by (le)',
+    'sum(increase(http_request_duration_seconds_bucket{' + instanceFilter + '}[$__interval])) by (le)',
     legendFormat='{{le}}',
     format='heatmap',
   )
 );
+
+local wsConnectionActiveGraph = graphPanel.new(
+  title='Active websocket connections',
+  datasource=cortexDataSource,
+).addTarget(
+  prometheus.target(
+    'ws_connection_active{' + instanceFilter + '}',
+    legendFormat='{{app_name}} | Key:{{key}}',
+  ),
+);
+
+local wsConnectionErrorsGraph = graphPanel.new(
+  title='Websocket connection errors',
+  datasource=cortexDataSource,
+).addTarget(
+  prometheus.target(
+    'ws_connection_errors{' + instanceFilter + '}',
+    legendFormat='{{app_name}} | Key:{{key}}',
+  ),
+);
+
+local wsConnectionRetriesGraph = graphPanel.new(
+  title='Websocket connection retries',
+  datasource=cortexDataSource,
+).addTarget(
+  prometheus.target(
+    'ws_connection_retries{' + instanceFilter + '}',
+    legendFormat='{{app_name}} | Key:{{key}}',
+  )
+);
+
+local wsActiveSubscriptions = graphPanel.new(
+  title='Active websocket subscriptions',
+  datasource=cortexDataSource
+).addTarget(
+  prometheus.target(
+    'ws_subscription_active{' + instanceFilter + '}',
+    legendFormat='{{app_name}} | ConnKey: {{ connection_key }} ConnUrl: {{ connection_url }} FeedId: {{feed_id}} SubKey: {{ subscription_key }}'
+  )
+);
+
+local wsMessagesPerSecondGraph = graphPanel.new(
+  title='Websocket messages received / second',
+  datasource=cortexDataSource,
+).addTarget(
+  prometheus.target(
+    'rate(ws_message_total{' + instanceFilter + '}[$__rate_interval])',
+    legendFormat='{{app_name}} | ConnKey: {{ connection_key }} ConnUrl: {{ connection_url }} FeedId: {{feed_id}} SubKey: {{ subscription_key }}'
+  )
+);
+
+
 local panelSize1 = {
   gridPos+: {
     w: 24,  // The dashboard width is divided into 24 sections, we want to take up the entire row
     h: 10,  // Height is 30 px per unit
   },
 };
+
 local panels = [
   totalHttpRequestsPanel + panelSize1,
   httpRequestDurationAverage + panelSize1,
   httpRequestDurationHeatmap + panelSize1,
+  wsConnectionActiveGraph + panelSize1,
+  wsConnectionErrorsGraph + panelSize1,
+  wsConnectionRetriesGraph + panelSize1,
+  wsActiveSubscriptions + panelSize1,
+  wsMessagesPerSecondGraph + panelSize1,
 ];
 
 
 {
-  grafanaDashboards:: {
-    [prometheusJobName]:
-      dashboard.new(
-        dashboardConfig.title,
-        uid=dashboardConfig.uid,
-        editable=true,
-        schemaVersion=26
-      )
-      .addTemplates(templates)
-      .addPanels(panels),
-  },
+  dashboard: dashboard.new(
+    dashboardConfig.title,
+    uid=dashboardConfig.uid,
+    editable=true,
+    schemaVersion=26
+  )
+             .addTemplates(templates)
+             .addPanels(panels),
+
+  name: prometheusJobName,
 }
