@@ -102,47 +102,29 @@ declare module '@chainlink/types' {
     warning?: string
   }
 
-
-  export type MakeWSHandler = () => WSSubscriptionHandler | Promise<WSSubscriptionHandler>
-
-  export interface WSSubscriptionHandler {
-    /**
-     * Connection information
-     */
+  export type MakeWSHandler = () => WSHandler | Promise<WSHandler>
+  export interface WSHandler {
+    // Connection information
     connection: {
       url: string
       protocol?: any
     }
-    /**
-     * Gets the subscription message necessary to subscribe to the feed channel
-     */
+    // Get the subscription message necessary to subscribe to the feed channel
     subscribe: (input: AdapterRequest) => any | undefined
-    /**
-     * Gets the unsubscription message necessary to unsubscribe to the feed channel
-     */
+    // Get unsubscribe message necessary to unsubscribe to the feed channel
     unsubscribe: (input: any) => any | undefined
-    /**
-     * Gets the response from the incoming message and formats it into an AdapterResponse
-     */
+    // Map to response from the incoming message and formats it into an AdapterResponse
     toResponse: (message: any) => AdapterResponse
-    /**
-     * Filter any message that is not from a subscribed channel
-     */
+    // Filter any message that is not from a subscribed channel
     filter: (message: any) => boolean
-    /**
-     * Determines if the incoming message is an error
-     */
+    // Determines if the incoming message is an error
     isError: (message: any) => boolean
-    /**
-     * Based on the incoming message, returns its corresponding subscription message
-     */
+    // Based on the incoming message, returns its corresponding subscription message
     subsFromMessage: (message: any) => any
   }
 
-
   /* INPUT TYPE VALIDATIONS */
   export type Override = Map<string, Map<string, string>>
-
 }
 
 declare module 'object-path'
