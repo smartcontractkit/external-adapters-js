@@ -16,7 +16,6 @@ const ENV_WS_SUBSCRIPTION_TTL = 'WS_SUBSCRIPTION_TTL'
 const ENV_WS_SUBSCRIPTION_UNRESPONSIVE_TTL = 'WS_SUBSCRIPTION_UNRESPONSIVE_TTL'
 const ENV_WS_SUBSCRIPTION_PRIORITY_LIST = 'WS_SUBSCRIPTION_PRIORITY_LIST'
 
-
 // WSConfig defaults
 const DEFAULT_WS_CONNECTION_LIMIT = 1
 const DEFAULT_WS_CONNECTION_TTL = 70000
@@ -42,6 +41,8 @@ export const getWSConfig = (prefix = ''): WSConfig => ({
   subscriptionLimit:
     Number(getEnv(ENV_WS_SUBSCRIPTION_LIMIT, prefix)) || DEFAULT_WS_SUBSCRIPTION_LIMIT,
   subscriptionTTL: Number(getEnv(ENV_WS_SUBSCRIPTION_TTL, prefix)) || DEFAULT_WS_SUBSCRIPTION_TTL,
-  subscriptionUnresponsiveTTL: Number(getEnv(ENV_WS_SUBSCRIPTION_UNRESPONSIVE_TTL, prefix)) || DEFAULT_WS_SUBSCRIPTION_UNRESPONSIVE_TTL,
+  subscriptionUnresponsiveTTL:
+    Number(getEnv(ENV_WS_SUBSCRIPTION_UNRESPONSIVE_TTL, prefix)) ||
+    DEFAULT_WS_SUBSCRIPTION_UNRESPONSIVE_TTL,
   subscriptionPriorityList: (getEnv(ENV_WS_SUBSCRIPTION_PRIORITY_LIST) || []) as Array<string>, // TODO: load array
 })

@@ -15,13 +15,13 @@ export const execute = async (input: AdapterRequest, config: Config) => {
 
   const url = `securities/${symbol}/prices/realtime`
   const params = {
-    api_key: config.apiKey
+    api_key: config.apiKey,
   }
 
   const request = {
     ...config.api,
     url,
-    params
+    params,
   }
 
   const response = await Requester.request(request)

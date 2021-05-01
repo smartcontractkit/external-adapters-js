@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
+### Removed
+
+- Removed custom `tradingeconomics-stream` as WS support is not included into `tradingeconomics` adapter
+
 ## [0.2.0] - 2021-4-13
 
 ### Added

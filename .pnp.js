@@ -4669,7 +4669,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.41"],
             ["express", "npm:4.17.1"],
-            ["tradingeconomics-stream", "npm:0.2.0"],
             ["tslib", "npm:2.2.0"],
             ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"]
           ],
@@ -22681,16 +22680,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["tr46", "npm:2.0.2"],
             ["punycode", "npm:2.1.1"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["tradingeconomics-stream", [
-        ["npm:0.2.0", {
-          "packageLocation": "./.yarn/cache/tradingeconomics-stream-npm-0.2.0-72ee74b78c-5092459987.zip/node_modules/tradingeconomics-stream/",
-          "packageDependencies": [
-            ["tradingeconomics-stream", "npm:0.2.0"],
-            ["ws", "virtual:96f830aa00e802bc5a154b8d3361f6261e39d08e377c906761083bf0dd084f2a41a9375c987f6fb155fcbbdd63ddf1061595aa30ca4ee8bdf024a2171b18287e#npm:7.4.4"]
           ],
           "linkType": "HARD",
         }]

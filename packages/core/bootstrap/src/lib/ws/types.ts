@@ -1,4 +1,3 @@
-
 export interface WSConfig {
   /** Info about the connection */
   connectionInfo: {
