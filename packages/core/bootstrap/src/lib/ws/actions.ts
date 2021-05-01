@@ -1,4 +1,4 @@
-import { AdapterRequest, WSSubscriptionHandler } from '@chainlink/types'
+import { AdapterRequest, WSHandler } from '@chainlink/types'
 import { createAction } from '@reduxjs/toolkit'
 import { asAction } from '../store'
 import { WSConfig, WSConnectionInfo } from './types'
@@ -7,7 +7,7 @@ import { WSConfig, WSConnectionInfo } from './types'
 export interface WSConfigPayload {
   config: WSConfig
   // TODO: wsHandler should not be sent as an event
-  wsHandler: WSSubscriptionHandler
+  wsHandler: WSHandler
 }
 
 export interface WSErrorPayload {
