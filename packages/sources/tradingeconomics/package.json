@@ -7,7 +7,7 @@
     "LINK",
     "blockchain",
     "oracle",
-    "tradingeconomics-stream"
+    "tradingeconomics"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

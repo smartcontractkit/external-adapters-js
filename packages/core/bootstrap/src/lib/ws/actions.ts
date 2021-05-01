@@ -29,8 +29,6 @@ export interface WSSubscriptionPayload {
   input: AdapterRequest
 }
 
-
-
 export const subscribe = createAction('WS/SUBSCRIBE!', asAction<WSSubscriptionPayload>())
 export const subscribed = createAction('WS/SUBSCRIBED', asAction<WSSubscriptionPayload>())
 export const unsubscribe = createAction('WS/UNSUBSCRIBE!', asAction<WSSubscriptionPayload>())
