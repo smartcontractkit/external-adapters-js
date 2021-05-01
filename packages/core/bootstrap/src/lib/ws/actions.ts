@@ -41,4 +41,3 @@ export interface WSMessagePayload {
 }
 
 export const messageReceived = createAction('WS/MESSAGE_RECEIVED', asAction<WSMessagePayload>())
-export const heartbeat = createAction('WS/HEARTBEAT', asAction<WSSubscriptionPayload>())
