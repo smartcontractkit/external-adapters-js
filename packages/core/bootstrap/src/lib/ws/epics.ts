@@ -33,7 +33,6 @@ import {
   WSConfigPayload,
   WSSubscriptionPayload,
   WSMessagePayload,
-  heartbeat,
   WSErrorPayload,
 } from './actions'
 import {
@@ -45,7 +44,8 @@ import {
 } from './metrics'
 import { getSubsId } from './reducer'
 
-// Rxjs deserializer defaults to JSON.parse. We need to handle errors from non-parsable messages
+// Rxjs deserializer defaults to JSON.parse.
+// We need to handle errors from non-parsable messages
 const deserializer = (message: any) => {
   try {
     return JSON.parse(message.data)
@@ -96,9 +96,11 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
         filter(() => false), // do not duplicate events
       )
 
+      // Subscription requests
+      const subscriptions$ = action$.pipe(filter(subscribe.match))
+
       // Multiplex subscriptions
-      const subscription$ = action$.pipe(
-        filter(subscribe.match),
+      const multiplexSubscriptions$ = subscriptions$.pipe(
         filter(({ payload }) => payload.connectionInfo.key === connectionKey),
         map(({ payload }) => ({ payload, subscriptionKey: getSubsId(payload.subscriptionMsg) })),
         withLatestFrom(state$),
@@ -157,8 +159,11 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
         }),
       )
 
-      const messages$ = action$.pipe(
-        filter(messageReceived.match),
+      // All received messages
+      const message$ = action$.pipe(filter(messageReceived.match))
+
+      // Save all received messages to cache
+      const withCache$ = message$.pipe(
         filter((action) => wsHandler.filter(action.payload.message)),
         withLatestFrom(state$),
         mergeMap(async ([action, state]) => {
@@ -183,41 +188,31 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
         filter(() => false),
       )
 
-      const heartbeat$ = action$.pipe(
-        filter(heartbeat.match),
-        map((action) => ({
-          ...action,
-          subscriptionKey: getSubsId(action.payload.subscriptionMsg),
-        })),
-      )
-
       // Once a request happens, a subscription timeout starts. If no more requests ask for
       // this subscription before the time runs out, it will be unsubscribed
-      const unsubscribeOnTimeout$ = heartbeat$.pipe(
+      const unsubscribeOnTimeout$ = subscriptions$.pipe(
         // when a subscription comes in
-        mergeMap(({ payload, subscriptionKey }) => {
+        // TODO: we need to filter duplicated subscriptions here
+        mergeMap(({ payload }) => {
+          const subscriptionKey = getSubsId(payload.subscriptionMsg)
           // we look for matching subscriptions of the same type
           // which deactivates the current timer
-          const reset$ = heartbeat$.pipe(
-            filter(({ subscriptionKey: keyB }) => subscriptionKey === keyB),
+          const reset$ = subscriptions$.pipe(
+            filter(({ payload }) => subscriptionKey === getSubsId(payload.subscriptionMsg)),
             take(1),
           )
-
           // start the current unsubscription timer
           const timeout$ = of(unsubscribe({ ...payload })).pipe(
             delay(config.subscriptionTTL),
             tap(() => logger.info('WS: unsubscribe (inactive feed)')),
           )
-
           // if a re-subscription comes in before timeout emits, then we emit nothing
           // else we unsubscribe from the current subscription
-          return race(reset$, timeout$).pipe(filter((a) => !heartbeat.match(a)))
+          return race(reset$, timeout$).pipe(filter((a) => !subscribe.match(a)))
         }),
       )
 
-      const messageReceived$ = action$.pipe(filter(messageReceived.match))
-
-      const unresponsiveOnTimeout$ = messageReceived$.pipe(
+      const unsubscribeOnNoResponse$ = message$.pipe(
         withLatestFrom(state$),
         mergeMap(
           ([
@@ -229,7 +224,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
             const input = state.ws.subscriptions[subscriptionKey]?.input || {}
             if (!input) logger.warn(`WS: Could not find subscription from incoming message`)
 
-            const reset$ = messageReceived$.pipe(
+            const reset$ = message$.pipe(
               filter(({ payload }) => subscriptionKey === payload.subscriptionKey),
               take(1),
             )
@@ -251,14 +246,14 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
       )
 
       // Merge all & unsubscribe ws connection when a matching unsubscribe comes in
-      const unsubscriptions$ = merge(unsubscribeOnTimeout$, unresponsiveOnTimeout$)
+      const unsubscribe$ = merge(unsubscribeOnTimeout$, unsubscribeOnNoResponse$)
       const ws$ = merge(
         open$,
         close$,
         disconnect$,
-        subscription$,
-        messages$,
-        unsubscriptions$,
+        multiplexSubscriptions$,
+        unsubscribe$,
+        withCache$,
       ).pipe(
         takeUntil(
           action$.pipe(
@@ -282,6 +277,11 @@ export const metricsEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
         key: payload.config.connectionInfo.key,
         url: payload.wsHandler.connection.url,
       })
+      const connectionErrorLabels = (payload: WSErrorPayload) => ({
+        key: payload.connectionInfo.key,
+        url: payload.connectionInfo.url,
+        message: payload.message,
+      })
       const subscriptionLabels = (payload: WSSubscriptionPayload) => ({
         connection_key: payload.connectionInfo.key,
         connection_url: payload.connectionInfo.url,
@@ -291,11 +291,6 @@ export const metricsEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
       const messageLabels = (payload: WSMessagePayload) => ({
         feed_id: getFeedId({ ...state.ws.subscriptions[action.payload.subscriptionKey]?.input }),
         subscription_key: payload.subscriptionKey,
-      })
-      const connectionErrorLabels = (payload: WSErrorPayload) => ({
-        key: payload.connectionInfo.key,
-        url: payload.connectionInfo.url,
-        message: payload.message,
       })
 
       switch (action.type) {
