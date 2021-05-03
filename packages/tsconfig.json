@@ -36,6 +36,9 @@
       "path": "./composites/token-allocation"
     },
     {
+      "path": "./composites/augur"
+    },
+    {
       "path": "./core/bootstrap"
     },
     {
