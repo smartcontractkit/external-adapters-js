@@ -1,7 +1,7 @@
 import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
 import { DEFAULT_ENDPOINT, makeConfig } from './config'
-import { global, price } from './endpoint'
+import { global, price, coins } from './endpoint'
 
 const inputParams = {
   endpoint: false,
@@ -29,6 +29,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     case 'dominance':
       request.data.path = 'market_cap_percentage'
       return await global.execute(request, config)
+
+    case coins.NAME:
+      return await coins.execute(request, config)
 
     default:
       throw new AdapterError({

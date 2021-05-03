@@ -1,11 +1,5 @@
 import { combineReducers, Store } from 'redux'
-import {
-  AdapterRequest,
-  Execute,
-  ExecuteSync,
-  Middleware,
-  MakeWSHandler
-} from '@chainlink/types'
+import { AdapterRequest, Execute, ExecuteSync, Middleware, MakeWSHandler } from '@chainlink/types'
 import { defaultOptions, redactOptions, withCache } from './lib/cache'
 import * as cacheWarmer from './lib/cache-warmer'
 import { Requester, Validator, AdapterError, logger as Logger } from './lib/external-adapter'
@@ -177,4 +171,4 @@ export type ExecuteHandlers = ReturnType<typeof expose>
 const cacheOptions = defaultOptions()
 if (cacheOptions.enabled) Logger.info('Cache enabled: ', redactOptions(cacheOptions))
 
-export { Requester, Validator, AdapterError, Logger, util, server }
+export { Requester, Validator, AdapterError, Logger, util, server, executeSync }

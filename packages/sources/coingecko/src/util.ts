@@ -1,5 +1,5 @@
-import { Config } from '@chainlink/types'
-import { Requester } from '@chainlink/ea-bootstrap'
+import { makeExecute } from './adapter'
+import { executeSync } from '@chainlink/ea-bootstrap'
 
 type CoinsListResponse = {
   id: string
@@ -7,18 +7,26 @@ type CoinsListResponse = {
   name: string
 }[]
 
-const customError = (data: any) => {
-  if (Object.keys(data).length === 0) return true
-  return false
-}
-
-export const getCoinIds = async (config: Config): Promise<CoinsListResponse> => {
-  const url = '/coins/list'
-  const options = {
-    ...config.api,
-    url,
-  }
-  return (await Requester.request(options, customError)).data as CoinsListResponse
+export const getCoinIds = (): Promise<any> => {
+  return new Promise((resolve, reject) => {
+    const execute = makeExecute()
+    const executeWithMiddleware = executeSync(execute)
+    const options = {
+      data: {
+        endpoint: 'coins',
+      },
+      method: 'post',
+      id: '1',
+    }
+    try {
+      executeWithMiddleware(options, (_, data) => {
+        console.log(data)
+        resolve(data.data)
+      })
+    } catch (error) {
+      reject(error)
+    }
+  })
 }
 
 export const getSymbolsToIds = (
