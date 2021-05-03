@@ -36,9 +36,10 @@ export const connectionsReducer = createReducer<ConnectionsState>(
       // Add connection
       const { key } = action.payload.config.connectionInfo
       const isActive = !!state.active[key]
-      if (!isActive) {
-        state.connecting[key] = !isNaN(Number(state.connecting[key])) ? state.connecting[key] + 1 : 1
-      }
+      if (isActive) return
+      
+      const isConnecting = !isNaN(Number(state.connecting[key]))
+      state.connecting[key] = isConnecting ? state.connecting[key] + 1 : 1
     })
 
     builder.addCase(actions.connectionError, (state, action) => {
