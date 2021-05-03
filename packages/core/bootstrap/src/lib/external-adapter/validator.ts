@@ -15,9 +15,9 @@ export class Validator {
   errored: AdapterErrorResponse | undefined
 
   constructor(input = {}, customParams = {}, options = {}) {
-    this.input = input
-    this.customParams = customParams
-    this.options = options
+    this.input = { ...input }
+    this.customParams = { ...customParams }
+    this.options = { ...options }
     this.validated = { data: {} }
     this.validateInput()
     this.validateOverrides()
