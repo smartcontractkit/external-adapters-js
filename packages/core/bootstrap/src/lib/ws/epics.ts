@@ -204,7 +204,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
           // start the current unsubscription timer
           const timeout$ = of(unsubscribe({ ...payload })).pipe(
             delay(config.subscriptionTTL),
-            tap(() => logger.info('WS: unsubscribe (inactive feed)')),
+            tap(() => logger.info('WS: unsubscribe (inactive feed)', { payload: payload.subscriptionMsg})),
           )
           // if a re-subscription comes in before timeout emits, then we emit nothing
           // else we unsubscribe from the current subscription
@@ -237,7 +237,12 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
 
             const timeout$ = of(unsubscribe(action), subscribe(action)).pipe(
               delay(config.subscriptionUnresponsiveTTL),
-              tap(() => logger.info('WS: unsubscribe -> subscribe (unresponsive channel)')),
+              withLatestFrom(state$),
+              map(([action, state]) => ({ ...action, isActive: state.ws.subscriptions[subscriptionKey]?.active })),
+              // Filters by active subscription. 
+              // The timeout could think we don't receive messages because of unresponsiveness, and it's actually unsubscribed
+              filter(({ isActive }) => isActive),
+              tap(() => logger.info('WS: unsubscribe -> subscribe (unresponsive channel)', { payload: action.subscriptionMsg })),
             )
 
             return race(reset$, timeout$).pipe(filter((a) => !messageReceived.match(a)))
