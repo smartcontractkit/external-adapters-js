@@ -15,7 +15,7 @@ scrape_configs:
     static_configs:
     ## Development only
     # Linux
-    # - targets: ['localhost:9080']
+    # - targets: ['172.17.0.1:9080']
     # Windows
     # - targets: ['docker.for.win.host.internal:9080']
     # Mac
