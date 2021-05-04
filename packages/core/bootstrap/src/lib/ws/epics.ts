@@ -302,9 +302,9 @@ export const metricsEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
       const subscriptionErrorLabels = (payload: WSSubscriptionErrorPayload) => ({
         connection_key: payload.connectionInfo.key,
         connection_url: payload.connectionInfo.url,
-        feed_id: payload.input && getFeedId({ ...payload.input }),
+        feed_id: payload.input ? getFeedId({ ...payload.input }) : 'N/A',
         message: payload.reason,
-        subscription_key: payload.subscriptionMsg && getSubsId(payload.subscriptionMsg),
+        subscription_key: payload.subscriptionMsg ? getSubsId(payload.subscriptionMsg) : 'N/A',
       })
       const messageLabels = (payload: WSMessagePayload) => ({
         feed_id: getFeedId({ ...state.ws.subscriptions[action.payload.subscriptionKey]?.input }),
