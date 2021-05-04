@@ -111,7 +111,8 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
         withLatestFrom(state$),
         filter(([{ subscriptionKey }, state]) => {
           const isActiveSubscription = !!state.ws.subscriptions[subscriptionKey]?.active
-          return !isActiveSubscription
+          const isSubscribing = state.ws.subscriptions[subscriptionKey]?.subscribing > 1
+          return !isActiveSubscription && !isSubscribing
         }),
         // on a subscribe action being dispatched, open a new WS subscription if one doesn't exist yet
         mergeMap(([{ subscriptionKey, payload }]) =>
