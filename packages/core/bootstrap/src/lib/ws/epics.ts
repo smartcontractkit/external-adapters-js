@@ -126,7 +126,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
                  * If the error happens during a subscription, and the subscription stop receiving messages, the unresponsiveTimeout will take care of it (unsubs/subs)
                  */
                 if (wsHandler.isError(message)) {
-                  errorObserver.next(subscriptionError({ reason: message, connectionInfo: { key: connectionKey, url } }))
+                  errorObserver.next(subscriptionError({ reason: JSON.stringify(message), connectionInfo: { key: connectionKey, url } }))
                   return false
                 }
                 return getSubsId(wsHandler.subsFromMessage(message)) === subscriptionKey
