@@ -1,7 +1,7 @@
 import { Execute } from '@chainlink/types'
 import { AnyAction } from 'redux'
 import { combineEpics, createEpicMiddleware, Epic } from 'redux-observable'
-import { merge, Subject, of, race } from 'rxjs'
+import { merge, Subject, of, race, Observable } from 'rxjs'
 import {
   catchError,
   delay,
@@ -77,6 +77,8 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
 
       const openObserver = new Subject()
       const closeObserver = new Subject()
+      const errorObserver = new Subject()
+      const error$ = errorObserver.asObservable() as Observable<AnyAction>
       const WebSocketCtor = WebSocket
       const wsSubject = webSocket({
         url,
@@ -124,7 +126,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
                  * If the error happens during a subscription, and the subscription stop receiving messages, the unresponsiveTimeout will take care of it (unsubs/subs)
                  */
                 if (wsHandler.isError(message)) {
-                  logger.error('WS: Subscription Error', { wsMessage: message })
+                  errorObserver.next(subscriptionError({ reason: message, connectionInfo: { key: connectionKey, url } }))
                   return false
                 }
                 return getSubsId(wsHandler.subsFromMessage(message)) === subscriptionKey
@@ -157,7 +159,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
         catchError((e) => {
           logger.error(e)
           return of(
-            connectionError({ connectionInfo: { key: connectionKey, url }, message: e.message }),
+            connectionError({ connectionInfo: { key: connectionKey, url }, reason: e.message }),
           )
         }),
       )
@@ -238,7 +240,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
               connectionInfo: { key: connectionKey, url },
             }
 
-            const timeout$ = of(subscriptionError({ ...action, message: 'WS: unsubscribe -> subscribe (unresponsive channel)' }), unsubscribe(action), subscribe(action)).pipe(
+            const timeout$ = of(subscriptionError({ ...action, reason: 'WS: unsubscribe -> subscribe (unresponsive channel)' }), unsubscribe(action), subscribe(action)).pipe(
               delay(config.subscriptionUnresponsiveTTL),
               withLatestFrom(state$),
               map(([action, state]) => ({ ...action, isActive: state.ws.subscriptions[subscriptionKey]?.active })),
@@ -262,6 +264,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
         multiplexSubscriptions$,
         unsubscribe$,
         withCache$,
+        error$,
       ).pipe(
         takeUntil(
           action$.pipe(
@@ -288,7 +291,7 @@ export const metricsEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
       const connectionErrorLabels = (payload: WSErrorPayload) => ({
         key: payload.connectionInfo.key,
         url: payload.connectionInfo.url,
-        message: payload.message,
+        message: payload.reason,
       })
       const subscriptionLabels = (payload: WSSubscriptionPayload) => ({
         connection_key: payload.connectionInfo.key,
@@ -299,9 +302,9 @@ export const metricsEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
       const subscriptionErrorLabels = (payload: WSSubscriptionErrorPayload) => ({
         connection_key: payload.connectionInfo.key,
         connection_url: payload.connectionInfo.url,
-        feed_id: getFeedId({ ...payload.input }),
-        message: payload.message,
-        subscription_key: getSubsId(payload.subscriptionMsg),
+        feed_id: payload.input && getFeedId({ ...payload.input }),
+        message: payload.reason,
+        subscription_key: payload.subscriptionMsg && getSubsId(payload.subscriptionMsg),
       })
       const messageLabels = (payload: WSMessagePayload) => ({
         feed_id: getFeedId({ ...state.ws.subscriptions[action.payload.subscriptionKey]?.input }),
@@ -315,7 +318,7 @@ export const metricsEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
           break
         case connectionError.type:
           ws_connection_errors.labels(connectionErrorLabels(action.payload)).inc()
-          logger.info('WS: connection_error', { payload: action.payload })
+          logger.error('WS: connection_error', { payload: action.payload })
           break
         case disconnected.type:
           ws_connection_active.labels(connectionLabels(action.payload)).dec()
@@ -328,7 +331,7 @@ export const metricsEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
           break
         case subscriptionError.type:
           ws_subscription_errors.labels(subscriptionErrorLabels(action.payload)).inc()
-          logger.info('WS: subscription error', { payload: action.payload })
+          logger.error('WS: subscription error', { payload: action.payload })
           break
         case unsubscribed.type:
           ws_subscription_active.labels(subscriptionLabels(action.payload)).dec()

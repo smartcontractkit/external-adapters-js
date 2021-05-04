@@ -12,7 +12,7 @@ export interface WSConfigPayload {
 
 export interface WSErrorPayload {
   connectionInfo: WSConnectionInfo
-  message: string
+  reason: string
 }
 
 export const connect = createAction('WS/CONNECT!', asAction<WSConfigPayload>())
@@ -30,8 +30,8 @@ export interface WSSubscriptionPayload {
 }
 
 export interface WSSubscriptionErrorPayload extends WSErrorPayload {
-  subscriptionMsg: any
-  input: AdapterRequest
+  subscriptionMsg?: any
+  input?: AdapterRequest
 }
 
 export const subscribe = createAction('WS/SUBSCRIBE!', asAction<WSSubscriptionPayload>())
