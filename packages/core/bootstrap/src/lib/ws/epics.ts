@@ -27,6 +27,7 @@ import {
   disconnected,
   subscribe,
   subscribed,
+  subscriptionError,
   unsubscribe,
   unsubscribed,
   messageReceived,
@@ -34,6 +35,7 @@ import {
   WSSubscriptionPayload,
   WSMessagePayload,
   WSErrorPayload,
+  WSSubscriptionErrorPayload,
 } from './actions'
 import {
   ws_connection_active,
@@ -41,6 +43,7 @@ import {
   ws_subscription_active,
   ws_subscription_total,
   ws_message_total,
+  ws_subscription_errors,
 } from './metrics'
 import { getSubsId } from './reducer'
 
@@ -235,7 +238,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
               connectionInfo: { key: connectionKey, url },
             }
 
-            const timeout$ = of(unsubscribe(action), subscribe(action)).pipe(
+            const timeout$ = of(subscriptionError({ ...action, message: 'WS: unsubscribe -> subscribe (unresponsive channel)' }), unsubscribe(action), subscribe(action)).pipe(
               delay(config.subscriptionUnresponsiveTTL),
               withLatestFrom(state$),
               map(([action, state]) => ({ ...action, isActive: state.ws.subscriptions[subscriptionKey]?.active })),
@@ -293,6 +296,13 @@ export const metricsEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
         feed_id: getFeedId({ ...payload.input }),
         subscription_key: getSubsId(payload.subscriptionMsg),
       })
+      const subscriptionErrorLabels = (payload: WSSubscriptionErrorPayload) => ({
+        connection_key: payload.connectionInfo.key,
+        connection_url: payload.connectionInfo.url,
+        feed_id: getFeedId({ ...payload.input }),
+        message: payload.message,
+        subscription_key: getSubsId(payload.subscriptionMsg),
+      })
       const messageLabels = (payload: WSMessagePayload) => ({
         feed_id: getFeedId({ ...state.ws.subscriptions[action.payload.subscriptionKey]?.input }),
         subscription_key: payload.subscriptionKey,
@@ -315,6 +325,10 @@ export const metricsEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
           ws_subscription_total.labels(subscriptionLabels(action.payload)).inc()
           ws_subscription_active.labels(subscriptionLabels(action.payload)).inc()
           logger.info('WS: subscribed', { payload: action.payload })
+          break
+        case subscriptionError.type:
+          ws_subscription_errors.labels(subscriptionErrorLabels(action.payload)).inc()
+          logger.info('WS: subscription error', { payload: action.payload })
           break
         case unsubscribed.type:
           ws_subscription_active.labels(subscriptionLabels(action.payload)).dec()

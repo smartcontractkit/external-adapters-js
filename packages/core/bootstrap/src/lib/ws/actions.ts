@@ -29,8 +29,14 @@ export interface WSSubscriptionPayload {
   input: AdapterRequest
 }
 
+export interface WSSubscriptionErrorPayload extends WSErrorPayload {
+  subscriptionMsg: any
+  input: AdapterRequest
+}
+
 export const subscribe = createAction('WS/SUBSCRIBE!', asAction<WSSubscriptionPayload>())
 export const subscribed = createAction('WS/SUBSCRIBED', asAction<WSSubscriptionPayload>())
+export const subscriptionError = createAction('WS/SUBSCRIPTION_ERROR', asAction<WSSubscriptionErrorPayload>())
 export const unsubscribe = createAction('WS/UNSUBSCRIBE!', asAction<WSSubscriptionPayload>())
 export const unsubscribed = createAction('WS/UNSUBSCRIBED', asAction<WSSubscriptionPayload>())
 

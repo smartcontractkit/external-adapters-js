@@ -42,6 +42,19 @@ export const ws_subscription_total = new client.Counter({
   ] as const,
 })
 
+export const ws_subscription_errors = new client.Counter({
+  name: 'ws_subscription_errors',
+  help: 'The number of subscriptions errors',
+  labelNames: [
+    'connection_key',
+    'connection_url',
+    'feed_id',
+    'subscription_key',
+    'message',
+    'experimental',
+  ] as const,
+})
+
 export const ws_message_total = new client.Counter({
   name: 'ws_message_total',
   help: 'The number of messages received in total',
