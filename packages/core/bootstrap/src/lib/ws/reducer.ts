@@ -33,7 +33,6 @@ export const connectionsReducer = createReducer<ConnectionsState>(
     })
 
     builder.addCase(actions.connect, (state, action) => {
-      // Add connection
       const { key } = action.payload.config.connectionInfo
       const isActive = !!state.active[key]
       if (isActive) return
@@ -43,7 +42,6 @@ export const connectionsReducer = createReducer<ConnectionsState>(
     })
 
     builder.addCase(actions.connectionError, (state, action) => {
-      // Add connection
       state.connecting[action.payload.connectionInfo.key] = 0
       delete state.active[action.payload.connectionInfo.key]
     })
@@ -62,6 +60,7 @@ export interface SubscriptionsState {
   /** Map of all subscriptions by key */
   [key: string]: {
     active: boolean
+    subscribing: number
     input: AdapterRequest
   }
 }
@@ -76,6 +75,20 @@ export const subscriptionsReducer = createReducer<SubscriptionsState>(
       const key = getSubsId(action.payload.subscriptionMsg)
       state[key] = {
         active: true,
+        subscribing: 0,
+        input: { ...action.payload.input },
+      }
+    })
+
+    builder.addCase(actions.subscribe, (state, action) => {
+      const key = getSubsId(action.payload.subscriptionMsg)
+      const isActive = state[key]?.active
+      if (isActive) return
+
+      const isSubscribing = state[key]?.subscribing
+      state[key] = {
+        active: false,
+        subscribing: isSubscribing ? state[key].subscribing + 1 : 1,
         input: { ...action.payload.input },
       }
     })
