@@ -15,6 +15,7 @@ scrape_configs:
     static_configs:
     ## Development only
     # Linux
+    # In the case of the `bridge` network, Docker subnet is 172.17.0.0/16, and 172.17.0.1 is allocated for the gateway.
     # - targets: ['172.17.0.1:9080']
     # Windows
     # - targets: ['docker.for.win.host.internal:9080']
