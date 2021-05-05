@@ -99,8 +99,10 @@ export const packCreation = (
 ): string => {
   const encoded = ethers.utils.defaultAbiCoder.encode(
     ['uint128', 'uint16', 'uint16', 'uint32', 'int16', 'uint16'],
-    [eventIdToNum(eventId), homeTeamId, awayTeamId, Math.floor(startTime / 1000), homeSpread, totalScore] // TODO: Clarify with them that they need UNIX
+    [eventIdToNum(eventId), homeTeamId, awayTeamId, Math.floor(startTime / 1000), Math.round(homeSpread), totalScore]
   )
+  // TODO: Clarify if homeSpread should be floor()/ceil()/round()
+  // TODO: Clarify with them that they need UNIX for startTime
   const buf = Buffer.from(encoded.substr(2), 'hex')
 
   const mapping = [16, 2, 2, 4, 2, 2]

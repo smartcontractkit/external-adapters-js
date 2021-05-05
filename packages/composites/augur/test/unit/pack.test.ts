@@ -18,7 +18,7 @@ describe('packCreation', () => {
         homeTeamId: 2929,
         awayTeamId: 2928,
         startTime: Date.parse("2020-02-02T23:30:00Z"),
-        homeSpread: -1,
+        homeSpread: -1.5,
         totalScore: 0 // TODO: Clarify with them
       },
       expect: "0x000000009a35b8986a76eaaea364be331cb453ec0b710b705e375b78ffff0000"
