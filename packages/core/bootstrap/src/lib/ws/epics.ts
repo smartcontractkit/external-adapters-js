@@ -1,7 +1,7 @@
 import { Execute } from '@chainlink/types'
 import { AnyAction } from 'redux'
 import { combineEpics, createEpicMiddleware, Epic } from 'redux-observable'
-import { merge, Subject, of, race, Observable } from 'rxjs'
+import { merge, Subject, of, race, Observable, EMPTY } from 'rxjs'
 import {
   catchError,
   delay,
@@ -122,7 +122,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
               () => wsHandler.unsubscribe(payload.input),
               (message) => {
                 /**
-                 * If the error in on the subscription, next requests will try to subscribe
+                 * If the error happens on the subscription, it will be on subscribing state and eventually unresponsiveTimeout will take care of it (unsubs/subs)
                  * If the error happens during a subscription, and is only eventual, can be ignored
                  * If the error happens during a subscription, and the subscription stop receiving messages, the unresponsiveTimeout will take care of it (unsubs/subs)
                  */
@@ -244,11 +244,14 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
             const timeout$ = of(subscriptionError({ ...action, reason: 'WS: unsubscribe -> subscribe (unresponsive channel)' }), unsubscribe(action), subscribe(action)).pipe(
               delay(config.subscriptionUnresponsiveTTL),
               withLatestFrom(state$),
-              map(([action, state]) => ({ ...action, isActive: state.ws.subscriptions[subscriptionKey]?.active })),
               // Filters by active subscription. 
               // The timeout could think we don't receive messages because of unresponsiveness, and it's actually unsubscribed
-              filter(({ isActive }) => isActive),
-              tap(() => logger.info('WS: unsubscribe -> subscribe (unresponsive channel)', { payload: action.subscriptionMsg })),
+              // isSubscribing is considered too as we want to trigger an unsubscription from a hung channel
+              mergeMap(([action, state]) => {
+                const isActive = !!state.ws.subscriptions[subscriptionKey]?.active 
+                const isSubscribing = !!(state.ws.subscriptions[subscriptionKey]?.subscribing > 0)
+                return isActive || isSubscribing ? of(action) : EMPTY
+              })
             )
 
             return race(reset$, timeout$).pipe(filter((a) => !messageReceived.match(a)))
@@ -334,10 +337,13 @@ export const metricsEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
           ws_subscription_errors.labels(subscriptionErrorLabels(action.payload)).inc()
           logger.error('WS: subscription error', { payload: action.payload })
           break
-        case unsubscribed.type:
-          ws_subscription_active.labels(subscriptionLabels(action.payload)).dec()
-          logger.info('WS: unsubscribed', { payload: action.payload })
+        case unsubscribed.type: {
+          if (state.ws.subscriptions[getSubsId(action.payload.subscriptionMsg)]?.wasEverActive) {
+            ws_subscription_active.labels(subscriptionLabels(action.payload)).dec()
+            logger.info('WS: unsubscribed', { payload: action.payload })
+          }
           break
+        }
         case messageReceived.type:
           ws_message_total.labels(messageLabels(action.payload)).inc()
           break
