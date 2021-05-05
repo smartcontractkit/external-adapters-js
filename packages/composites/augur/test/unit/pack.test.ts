@@ -18,10 +18,10 @@ describe('packCreation', () => {
         homeTeamId: 2929,
         awayTeamId: 2928,
         startTime: Date.parse("2020-02-02T23:30:00Z"),
-        homeSpread: -1.5,
+        homeSpread: -4.499,
         totalScore: 0 // TODO: Clarify with them
       },
-      expect: "0x9a35b8986a76eaaea364be331cb453ec0b710b705e375b78ffff000000000000"
+      expect: "0x9a35b8986a76eaaea364be331cb453ec0b710b705e375b78ffd3000000000000"
     },
   ]
 
@@ -53,7 +53,7 @@ describe('packResolution', () => {
         homeScore: 31,
         awayScore: 20
       },
-      expect: "0x9a35b8986a76eaaea364be331cb453ec02001f00140000000000000000000000"
+      expect: "0x9a35b8986a76eaaea364be331cb453ec02013600c80000000000000000000000"
     },
   ]
 

@@ -81,7 +81,7 @@ export const packResolution = (
 ): string => {
   const encoded = ethers.utils.defaultAbiCoder.encode(
     ['uint128', 'uint8', 'uint16', 'uint16'],
-    [eventIdToNum(eventId), eventStatus, homeScore, awayScore]
+    [eventIdToNum(eventId), eventStatus, Math.round(homeScore*10), Math.round(awayScore*10)]
   )
 
   const mapping = [16, 1, 2, 2]
