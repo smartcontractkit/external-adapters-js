@@ -26,6 +26,7 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 |    ✅     | `contractAddress`  |   The contract address to interact with    |  |             |
 |    ✅     | `daysInAdvance`  | Create only: number of days in advance to create events for |  |             |
 |    ✅     | `startBuffer`  | Create only: number of seconds in the future the event has to be to create |  |             |
+|    ✅     | `affiliateIds`  | Create only: prioritized array of affiliate ids to use |  |             |
 
 ### Sample Input
 
@@ -37,6 +38,7 @@ See the [Composite Adapter README](../README.md) for more information on how to 
     "sportId": 2,
     "daysInAdvance": 7,
     "startBuffer": 60,
+    "affiliateIds": [9, 3],
     "contractAddress": "0xB0bA59d42Fb0f9305F06FC0e2C4e2fe64A5bd39F"
   }
 }

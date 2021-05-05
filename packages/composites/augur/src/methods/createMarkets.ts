@@ -9,7 +9,8 @@ const createParams = {
   sportId: true,
   daysInAdvance: true,
   startBuffer: true,
-  contractAddress: true
+  contractAddress: true,
+  affiliateIds: true
 }
 
 const addDays = (date: Date, days: number): Date => {
@@ -25,6 +26,8 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const daysInAdvance = validator.validated.data.daysInAdvance
   const startBuffer = validator.validated.data.startBuffer
   const contractAddress = validator.validated.data.contractAddress
+  const affiliateIds: number[] = validator.validated.data.affiliateIds
+  const getAffiliateId = (event: Event) => affiliateIds.find((id) => !!event.lines && id in event.lines)
 
   const contract = new ethers.Contract(contractAddress, ABI, config.wallet)
 
@@ -41,8 +44,6 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
     params.data.date = addDays(params.data.date, 1)
 
     const response = await theRundownExec(params)
-    console.debug(response)
-
     events.push(...response.result as Event[])
   }
 
@@ -50,11 +51,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
     const date = Date.parse(event.event_date)
     if ((date - Date.now()) / 1000 < startBuffer) return false
 
-    if (!event.lines) return false
-    // We need affiliate IDs 9 or 3
-    if (!('9' in event.lines || '3' in event.lines)) return false
-
-    return true
+    return !!getAffiliateId(event)
   })
 
   const packed = filtered.map((event) => {
@@ -66,12 +63,12 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
 
     const startTime = Date.parse(event.event_date)
 
-    let affiliateId = 3
-    if (!event.lines) return undefined
-    // Pick affiliate ID 9 as primary
-    if ('9' in event.lines) affiliateId = 9
+    const affiliateId = getAffiliateId(event)
+    if (!affiliateId) return undefined
 
-    const homeSpread = event.lines[affiliateId].spread.point_spread_home
+    const homeSpread = event.lines?.[affiliateId].spread.point_spread_home
+    if (!homeSpread) return undefined
+
     const totalScore = 0 // TODO: Wait for them to update doc
 
     return packCreation(event.event_id, homeTeam.team_id, awayTeam.team_id, startTime, homeSpread, totalScore)
