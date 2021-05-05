@@ -60,6 +60,8 @@ export interface SubscriptionsState {
   /** Map of all subscriptions by key */
   [key: string]: {
     active: boolean
+    wasEverActive?: boolean
+    unsubscribed?: boolean
     subscribing: number
     input: AdapterRequest
   }
@@ -75,6 +77,8 @@ export const subscriptionsReducer = createReducer<SubscriptionsState>(
       const key = getSubsId(action.payload.subscriptionMsg)
       state[key] = {
         active: true,
+        wasEverActive: true,
+        unsubscribed: false,
         subscribing: 0,
         input: { ...action.payload.input },
       }
@@ -96,7 +100,9 @@ export const subscriptionsReducer = createReducer<SubscriptionsState>(
     builder.addCase(actions.unsubscribed, (state, action) => {
       // Remove subscription
       const key = getSubsId(action.payload.subscriptionMsg)
-      delete state[key]
+      
+      state[key].active = false
+      state[key].unsubscribed = true
     })
 
     builder.addCase(actions.disconnected, (state) => {
