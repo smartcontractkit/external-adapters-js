@@ -2,7 +2,7 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig } from '@chainlink/types'
 import { Config } from '../config'
 import * as TheRundown from '@chainlink/therundown-adapter'
-import { ABI, Event, eventIdToNum } from './index'
+import { ABI, Event, eventIdToNum, bytesMappingToHexStr } from './index'
 import { ethers } from 'ethers'
 
 const createParams = {
@@ -100,14 +100,6 @@ export const packCreation = (
   )
   // TODO: Clarify if homeSpread should be floor()/ceil()/round()
   // TODO: Clarify with them that they need UNIX for startTime
-  const buf = Buffer.from(encoded.substr(2), 'hex')
-
   const mapping = [16, 2, 2, 4, 2, 2]
-  let finalStr = '0x'
-  for (let i = 0; i < mapping.length; i++) {
-    const offset = 32 * (i+1)
-    finalStr += buf.slice(offset - mapping[i], offset).toString('hex')
-  }
-
-  return ethers.utils.hexZeroPad(finalStr, 32)
+  return bytesMappingToHexStr(mapping, encoded)
 }

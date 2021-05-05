@@ -74,3 +74,18 @@ export const ABI = [
 ]
 
 export const eventIdToNum = (eventId: string): BigNumber => BigNumber.from(`0x${eventId}`)
+
+export const bytesMappingToHexStr = (mapping: number[], encoded: string): string => {
+  const buf = Buffer.from(encoded.substr(2), 'hex')
+
+  // Get only the mapped amount of bytes
+  const elems = mapping.map((bytes, index) => {
+    const offset = 32 * (index+1)
+    return buf.slice(offset - bytes, offset)
+  })
+
+  // Right pad string to get 32 bytes
+  const missingBytes = 32 - mapping.reduce((sum, bytes) => sum + bytes)
+  elems.push(...new Array(missingBytes).fill(new Uint8Array(1).fill(0)))
+  return `0x${Buffer.concat(elems).toString('hex')}`
+}

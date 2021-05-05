@@ -21,7 +21,7 @@ describe('packCreation', () => {
         homeSpread: -1.5,
         totalScore: 0 // TODO: Clarify with them
       },
-      expect: "0x000000009a35b8986a76eaaea364be331cb453ec0b710b705e375b78ffff0000"
+      expect: "0x9a35b8986a76eaaea364be331cb453ec0b710b705e375b78ffff000000000000"
     },
   ]
 
@@ -53,7 +53,7 @@ describe('packResolution', () => {
         homeScore: 31,
         awayScore: 20
       },
-      expect: "0x00000000000000000000009a35b8986a76eaaea364be331cb453ec02001f0014"
+      expect: "0x9a35b8986a76eaaea364be331cb453ec02001f00140000000000000000000000"
     },
   ]
 
