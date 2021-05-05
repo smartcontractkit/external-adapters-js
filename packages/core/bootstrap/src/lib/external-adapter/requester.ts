@@ -118,7 +118,7 @@ export class Requester {
     const responseWithResult = isObj
       ? (response as AxiosResponseWithResult<T>)
       : ({ ...response, data: { payload: response.data } } as AxiosResponseWithResultResponse<T>)
-    if (result) responseWithResult.data.result = result
+    responseWithResult.data.result &&= result
     if (results) responseWithResult.data.results = results
     return responseWithResult
   }
