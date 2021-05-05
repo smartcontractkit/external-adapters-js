@@ -119,7 +119,7 @@ export class Requester {
       ? (response as AxiosResponseWithResult<T>)
       : ({ ...response, data: { payload: response.data } } as AxiosResponseWithResultResponse<T>)
     responseWithResult.data.result &&= result
-    if (results) responseWithResult.data.results = results
+    responseWithResult.data.results &&= results
     return responseWithResult
   }
 
