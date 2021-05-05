@@ -1,3 +1,5 @@
+import { BigNumber } from 'ethers'
+
 export * as resolveMarkets from './resolveMarkets'
 export * as createMarkets from './createMarkets'
 
@@ -70,3 +72,5 @@ export const ABI = [
     type: "function"
   }
 ]
+
+export const eventIdToNum = (eventId: string): BigNumber => BigNumber.from(`0x${eventId}`)

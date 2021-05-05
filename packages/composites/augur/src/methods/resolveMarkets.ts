@@ -2,8 +2,8 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig } from '@chainlink/types'
 import { Config } from '../config'
 import * as TheRundown from '@chainlink/therundown-adapter'
-import { ABI, Event } from './index'
-import { BigNumber, ethers } from 'ethers'
+import { ABI, Event, eventIdToNum } from './index'
+import { ethers } from 'ethers'
 
 const resolveParams = {
   sportId: true,
@@ -22,7 +22,6 @@ const eventStatus: { [key: string]: number } = {
   'STATUS_CANCELED': 4
 }
 
-// Should run every 2h. NOTE: Needs to run 30 mins before/after createMarket to avoid nonce collision
 export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const validator = new Validator(input, resolveParams)
   if (validator.error) throw validator.error
@@ -59,14 +58,12 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
     const status = eventStatus[event.score.event_status]
     if (!status) return undefined
 
-    return packResolution(BigNumber.from(`0x${event.event_id}`), status, event.score.score_home, event.score.score_away)
-  })
+    return packResolution(event.event_id, status, event.score.score_home, event.score.score_away)
+  }).filter((event) => !!event)
 
   let nonce = await config.wallet.getTransactionCount() + 1
   for (let i = 0; i < packed.length; i++) {
-    if (!packed[i]) continue
-
-    const eventId = BigNumber.from(`0x${filtered[i].event_id}`)
+    const eventId = eventIdToNum(filtered[i].event_id)
     const isResolved = await contract.isEventResolved(eventId)
     if (isResolved) continue
 
@@ -76,14 +73,24 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   return Requester.success(input.id, {})
 }
 
-const packResolution = (
-  eventId: ethers.BigNumber,
+export const packResolution = (
+  eventId: string,
   eventStatus: number,
   homeScore: number,
   awayScore: number
 ): string => {
-  return ethers.utils.defaultAbiCoder.encode(
+  const encoded = ethers.utils.defaultAbiCoder.encode(
     ['uint128', 'uint8', 'uint16', 'uint16'],
-    [eventId, eventStatus, homeScore, awayScore]
+    [eventIdToNum(eventId), eventStatus, homeScore, awayScore]
   )
+  const buf = Buffer.from(encoded.substr(2), 'hex')
+
+  const mapping = [16, 1, 2, 2]
+  let finalStr = '0x'
+  for (let i = 0; i < mapping.length; i++) {
+    const offset = 32 * (i+1)
+    finalStr += buf.slice(offset - mapping[i], offset).toString('hex')
+  }
+
+  return ethers.utils.hexZeroPad(finalStr, 32)
 }

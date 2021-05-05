@@ -1,10 +1,6 @@
 # Chainlink Augur Composite Adapter
 
-A template to be used as an example for new [Composite External Adapters](../../composites)
-
-(please fill out with corresponding information)
-
-An example composite adapter description
+Composite adapter to handle Augur market creation and resolution
 
 ## Configuration
 
@@ -12,8 +8,10 @@ The adapter takes the following environment variables:
 
 | Required? |   Name    |         Description          | Options | Defaults to |
 | :-------: | :-------: | :--------------------------: | :-----: | :---------: |
-|    ✅     | `RPC_URL` | Augur _required_ parameter |         |             |
-|           | `OPTION`  | Augur _optional_ parameter |         |   `true`    |
+|    ✅     | `RPC_URL` | RPC URL for the ETH node |         |             |
+|    ✅     | `PRIVATE_KEY` | Private key of the account to use for on-chain txs |         |             |
+
+Any configuration params for The Rundown are also required.
 
 ## Running
 
@@ -23,8 +21,11 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 
 | Required? |            Name            |               Description                |       Options       | Defaults to |
 | :-------: | :------------------------: | :--------------------------------------: | :-----------------: | :---------: |
-|    ✅     | `base`, `from`, or `coin`  |   The symbol of the currency to query    | `BTC`, `ETH`, `USD` |             |
-|    ✅     | `quote`, `to`, or `market` | The symbol of the currency to convert to | `BTC`, `ETH`, `USD` |             |
+|    ✅     | `method`  |   The method to call    | `resolve`, `create` |             |
+|    ✅     | `sportId`  |   The sportId to call for    |  |             |
+|    ✅     | `contractAddress`  |   The contract address to interact with    |  |             |
+|    ✅     | `daysInAdvance`  | Create only: number of days in advance to create events for |  |             |
+|    ✅     | `startBuffer`  | Create only: number of seconds in the future the event has to be to create |  |             |
 
 ### Sample Input
 
@@ -32,8 +33,11 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 {
   "id": "1",
   "data": {
-    "base": "ETH",
-    "quote": "USD"
+    "method": "resolve",
+    "sportId": 2,
+    "daysInAdvance": 7,
+    "startBuffer": 60,
+    "contractAddress": "0xB0bA59d42Fb0f9305F06FC0e2C4e2fe64A5bd39F"
   }
 }
 ```
@@ -43,10 +47,7 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 ```json
 {
   "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
-  "data": {
-    "price": 77777.77,
-    "result": 77777.77
-  },
+  "data": {},
   "statusCode": 200
 }
 ```
