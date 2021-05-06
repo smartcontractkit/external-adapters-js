@@ -244,11 +244,11 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
             const timeout$ = of(subscriptionError({ ...action, reason: 'WS: unsubscribe -> subscribe (unresponsive channel)' }), unsubscribe(action), subscribe(action)).pipe(
               delay(config.subscriptionUnresponsiveTTL),
               withLatestFrom(state$),
-              // Filters by active subscription. 
+              // Filters by active subscription.
               // The timeout could think we don't receive messages because of unresponsiveness, and it's actually unsubscribed
               // isSubscribing is considered too as we want to trigger an unsubscription from a hung channel
               mergeMap(([action, state]) => {
-                const isActive = !!state.ws.subscriptions[subscriptionKey]?.active 
+                const isActive = !!state.ws.subscriptions[subscriptionKey]?.active
                 const isSubscribing = !!(state.ws.subscriptions[subscriptionKey]?.subscribing > 0)
                 return isActive || isSubscribing ? of(action) : EMPTY
               })
@@ -325,8 +325,10 @@ export const metricsEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
           logger.error('WS: connection_error', { payload: action.payload })
           break
         case disconnected.type:
-          ws_connection_active.labels(connectionLabels(action.payload)).dec()
-          logger.info('WS: disconnected', { payload: action.payload })
+          if (state.ws.connections.wasEverConnected[connectionLabels(action.payload).key]) {
+            ws_connection_active.labels(connectionLabels(action.payload)).dec()
+            logger.info('WS: disconnected', { payload: action.payload })
+          }
           break
         case subscribed.type:
           ws_subscription_total.labels(subscriptionLabels(action.payload)).inc()
