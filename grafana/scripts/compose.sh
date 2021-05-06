@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -ex
 # Generate prom file
 arr=("$@")
 function join_by {
@@ -8,6 +8,6 @@ function join_by {
   echo "$*"
 }
 
-./generate-prom-config.sh "$(join_by , "${arr[@]}")"
+./scripts/generate-prom-config.sh "$(join_by , "${arr[@]}")"
 
-docker-compose -f ./docker-compose.yaml -f ../docker-compose.generated.yaml up "${arr[@]}" grafana grizzly prometheus
+docker-compose -f ./docker-compose.yaml -f ../docker-compose.generated.yaml up --build grizzly grafana prometheus "${arr[@]}"
