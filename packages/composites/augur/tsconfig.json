@@ -6,5 +6,9 @@
   },
   "include": ["src/**/*"],
   "exclude": ["dist", "**/*.spec.ts", "**/*.test.ts"],
-  "references": [{ "path": "../../core/test-helpers" }, { "path": "../../core/bootstrap" }]
+  "references": [
+    { "path": "../../core/test-helpers" },
+    { "path": "../../core/bootstrap" },
+    { "path": "../../sources/therundown" }
+  ]
 }
