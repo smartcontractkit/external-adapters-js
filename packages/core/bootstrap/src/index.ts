@@ -136,16 +136,15 @@ const executeSync = (execute: Execute, makeWsHandler?: MakeWSHandler): ExecuteSy
   // TODO: Try to init middleware only once
   // const initMiddleware = withMiddleware(execute)
   const warmerMiddleware = [
-    withLogger,
     skipOnError(withCache),
     rateLimit.withRateLimit(storeSlice('rateLimit')),
     withStatusCode,
-  ].concat(metrics.METRICS_ENABLED ? [withMetrics, withDebug] : [withDebug])
+  ].concat(metrics.METRICS_ENABLED ? [withMetrics] : [])
 
   const middleware = [
     withLogger,
     skipOnError(withCache),
-    cacheWarmer.withCacheWarmer(storeSlice('cacheWarmer'), warmerMiddleware, { store: storeSlice('ws'), makeWSHandler: makeWsHandler }),
+    cacheWarmer.withCacheWarmer(storeSlice('cacheWarmer'), warmerMiddleware, { store: storeSlice('ws'), makeWSHandler: makeWsHandler })(execute),
     ws.withWebSockets(storeSlice('ws'), makeWsHandler),
     rateLimit.withRateLimit(storeSlice('rateLimit')),
     withStatusCode,
