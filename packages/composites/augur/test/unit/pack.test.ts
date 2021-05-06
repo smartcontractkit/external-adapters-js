@@ -19,9 +19,9 @@ describe('packCreation', () => {
         awayTeamId: 2928,
         startTime: Date.parse("2020-02-02T23:30:00Z"),
         homeSpread: -4.499,
-        totalScore: 0 // TODO: Clarify with them
+        totalScore: 53
       },
-      expect: "0x9a35b8986a76eaaea364be331cb453ec0b710b705e375b78ffd3000000000000"
+      expect: "0x9a35b8986a76eaaea364be331cb453ec0b710b705e375b78ffd3021200000000"
     },
   ]
 

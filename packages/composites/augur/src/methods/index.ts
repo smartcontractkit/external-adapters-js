@@ -14,6 +14,9 @@ export interface Event {
       spread: {
         point_spread_home: number
       }
+      total: {
+        total_over: number
+      }
     }
   }
   score: {

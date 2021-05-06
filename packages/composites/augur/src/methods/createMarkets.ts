@@ -67,9 +67,8 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
     if (!affiliateId) return undefined
 
     const homeSpread = event.lines?.[affiliateId].spread.point_spread_home
-    if (!homeSpread) return undefined
-
-    const totalScore = 0 // TODO: Wait for them to update doc
+    const totalScore = event.lines?.[affiliateId].total.total_over
+    if (!homeSpread || !totalScore) return undefined
 
     return packCreation(event.event_id, homeTeam.team_id, awayTeam.team_id, startTime, homeSpread, totalScore)
   }).filter((event) => !!event)
