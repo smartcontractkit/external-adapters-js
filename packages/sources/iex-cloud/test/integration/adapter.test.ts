@@ -29,6 +29,10 @@ describe('execute', () => {
         name: 'crypto coin/market',
         testData: { id: jobID, data: { coin: 'ETH', market: 'USD', endpoint: 'crypto' } },
       },
+      {
+        name: 'EOD',
+        testData: { id: jobID, data: { symbol: 'VXX', endpoint: 'eod' } },
+      },
     ]
 
     requests.forEach((req) => {

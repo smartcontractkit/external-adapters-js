@@ -20,6 +20,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     case price.NAME:
       return await price.execute(request, config)
     case closing.NAME:
+    case closing.ALT_NAME:
       return await closing.execute(request, config)
     default:
       throw new AdapterError({
