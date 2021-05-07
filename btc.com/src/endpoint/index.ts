@@ -1,4 +1,5 @@
 export * as balance from './balance'
+export * as block from './block'
 
 export const COIN_KEYS = ['btc'] as const
 export type CoinType = typeof COIN_KEYS[number]

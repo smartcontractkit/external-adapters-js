@@ -50,7 +50,7 @@
     "@chainlink/blockchain.com-adapter": "^0.0.4",
     "@chainlink/blockchair-adapter": "^0.0.4",
     "@chainlink/blockcypher-adapter": "^0.0.4",
-    "@chainlink/btc.com-adapter": "^0.0.2",
+    "@chainlink/btc.com-adapter": "^0.0.3",
     "@chainlink/cryptoapis-adapter": "^0.0.4",
     "@chainlink/reduce-adapter": "^0.0.4",
     "@chainlink/renvm-address-set-adapter": "^0.0.4",

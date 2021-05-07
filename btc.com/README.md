@@ -1,29 +1,36 @@
-# Chainlink External Adapters to query address balance from BTC.com
+# Chainlink External Adapters for BTC.com
 
-## Configuration
+### Input Parameters
 
-The adapter takes the following environment variables:
+| Required? |   Name   |              Description              |                              Options                              | Defaults to |
+| :-------: | :------: | :-----------------------------------: | :---------------------------------------------------------------: | :---------: |
+|           | endpoint | The Chainlink unified endpoint to use | [balance](#Balance), [height](#Height), [difficulty](#Difficulty) |  `balance`  |
 
-- `API_TIMEOUT`: Optional timeout param, defaults to `30000`
+---
 
-## Input Params
+## BTC.com Address Endpoint
 
-- `endpoint`: Optional endpoint param, defaults to `balance`
+https://btc.com/api-doc#Address
 
-### Balance endpoint
+### Balance
 
-- `dataPath`: Optional path where to find the addresses array, defaults to `result`
-- `confirmations`: Optional confirmations param, defaults to `6`
+### Input Params
 
-- `addresses`: Addresses to query
+| Required? |      Name       |               Description                | Options | Defaults to |
+| :-------: | :-------------: | :--------------------------------------: | :-----: | :---------: |
+|    ✅     |    `result`     |       Array of addresses to query        |         |             |
+|           |   `dataPath`    |  Path where to find the addresses array  |         |  `result`   |
+|           | `confirmations` | The symbol of the currency to convert to |         |     `6`     |
 
-  {
+`result` is an an array of objects that contain the following information:
 
-  - `address`: Address to query
-  - `coin`: Optional currency to query, defaults to `btc`
-  - `chain`: Optional chain to query, defaults to `mainnet`
+| Required? |   Name    |                 Description                  |                  Options                  | Defaults to |
+| :-------: | :-------: | :------------------------------------------: | :---------------------------------------: | :---------: |
+|    ✅     | `address` |               Address to query               |                                           |             |
+|           |  `coin`   |              Currency to query               | `btc`. `eth`, `bch`, `ltc`, `btsv`, `zec` |    `btc`    |
+|           |  `chain`  | Chain to query (Ethereum testnet is Rinkeby) |           `mainnet`, `testnet`            |  `mainnet`  |
 
-  }
+### Sample Input
 
 ```json
 {
@@ -44,7 +51,7 @@ The adapter takes the following environment variables:
 }
 ```
 
-### Output
+### Sample Output
 
 ```json
 {
@@ -116,5 +123,57 @@ The adapter takes the following environment variables:
     }
   ],
   "statusCode": 200
+}
+```
+
+## BTC.com Block Endpoint
+
+https://btc.com/api-doc#Block
+
+### Height
+
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {}
+}
+```
+
+### Sample Output
+
+```json
+{
+  "jobRunID": "1",
+  "result": 20608845737768,
+  "statusCode": 200,
+  "data": {
+    "result": 20608845737768
+  }
+}
+```
+
+### Difficulty
+
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {}
+}
+```
+
+### Sample Output
+
+```json
+{
+  "jobRunID": "1",
+  "result": 682452,
+  "statusCode": 200,
+  "data": {
+    "result": 682452
+  }
 }
 ```
