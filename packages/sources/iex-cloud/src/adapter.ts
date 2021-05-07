@@ -1,7 +1,7 @@
 import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
 import { makeConfig, DEFAULT_ENDPOINT } from './config'
-import { stock, crypto } from './endpoint'
+import { stock, crypto, eod } from './endpoint'
 
 const inputParams = {
   endpoint: false,
@@ -22,6 +22,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     }
     case crypto.NAME: {
       return await crypto.execute(request, config)
+    }
+    case eod.NAME: {
+      return await eod.execute(request, config)
     }
     default: {
       throw new AdapterError({
