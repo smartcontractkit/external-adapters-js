@@ -2,26 +2,18 @@ import hash from 'object-hash'
 import { AdapterRequest } from '@chainlink/types'
 import { combineReducers, createReducer } from '@reduxjs/toolkit'
 import * as actions from './actions'
-import { WSConfig } from './types'
 import { getHashOpts } from '../util'
 
 export const getSubsId = (subscriptionMsg = {}): string => hash(subscriptionMsg, getHashOpts())
 export interface ConnectionsState {
-  /** Map of all connections by key */
-  active: {
-    [key: string]: WSConfig
+  [key: string]: {
+    active: boolean
+    connecting: number
+    wasEverConnected?: boolean
   }
-  connecting: {
-    [key: string]: number // Filter if its more than one
-  }
-  wasEverConnected: {
-    [key: string]: boolean
-  }
-  /** Number of active connections */
-  total: number
 }
 
-const initConnectionsState: ConnectionsState = { active: {}, connecting: {}, wasEverConnected: {}, total: 0 }
+const initConnectionsState: ConnectionsState = {}
 
 export const connectionsReducer = createReducer<ConnectionsState>(
   initConnectionsState,
@@ -29,34 +21,35 @@ export const connectionsReducer = createReducer<ConnectionsState>(
     builder.addCase(actions.connected, (state, action) => {
       // Add connection
       const { key } = action.payload.config.connectionInfo
-      state.active[key] = action.payload.config
-      state.connecting[key] = 0
-      state.wasEverConnected[key] = true
-      // Increment num of active connections
-      state.total++
+      state[key] = {
+        active: true,
+        connecting: 0,
+        wasEverConnected: true
+      }
     })
 
     builder.addCase(actions.connect, (state, action) => {
       const { key } = action.payload.config.connectionInfo
-      const isActive = !!state.active[key]
+      const isActive = state[key]?.active
       if (isActive) return
 
-      const isConnecting = !isNaN(Number(state.connecting[key]))
-      state.connecting[key] = isConnecting ? state.connecting[key] + 1 : 1
+      const isConnecting = !isNaN(Number(state[key]?.connecting))
+      state[key] = {
+        active: false,
+        connecting: isConnecting ? state[key].connecting + 1 : 1
+      }
     })
 
     builder.addCase(actions.connectionError, (state, action) => {
-      state.connecting[action.payload.connectionInfo.key] = 0
-      delete state.active[action.payload.connectionInfo.key]
+      state[action.payload.connectionInfo.key].connecting = 0
+      state[action.payload.connectionInfo.key].active = false
     })
 
     builder.addCase(actions.disconnected, (state, action) => {
       // Remove connection
       const { key } = action.payload.config.connectionInfo
-      delete state.active[key]
-      state.connecting[key] = 0 // turn off connecting
-      // Decrement num of active connections
-      if (state.wasEverConnected[key]) state.total--
+      state[key].active = false
+      state[key].connecting = 0 // turn off connecting
     })
   },
 )
