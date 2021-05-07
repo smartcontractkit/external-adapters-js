@@ -14,11 +14,14 @@ export interface ConnectionsState {
   connecting: {
     [key: string]: number // Filter if its more than one
   }
+  wasEverConnected: {
+    [key: string]: boolean
+  }
   /** Number of active connections */
   total: number
 }
 
-const initConnectionsState: ConnectionsState = { active: {}, connecting: {}, total: 0 }
+const initConnectionsState: ConnectionsState = { active: {}, connecting: {}, wasEverConnected: {}, total: 0 }
 
 export const connectionsReducer = createReducer<ConnectionsState>(
   initConnectionsState,
@@ -28,6 +31,7 @@ export const connectionsReducer = createReducer<ConnectionsState>(
       const { key } = action.payload.config.connectionInfo
       state.active[key] = action.payload.config
       state.connecting[key] = 0
+      state.wasEverConnected[key] = true
       // Increment num of active connections
       state.total++
     })
@@ -36,7 +40,7 @@ export const connectionsReducer = createReducer<ConnectionsState>(
       const { key } = action.payload.config.connectionInfo
       const isActive = !!state.active[key]
       if (isActive) return
-      
+
       const isConnecting = !isNaN(Number(state.connecting[key]))
       state.connecting[key] = isConnecting ? state.connecting[key] + 1 : 1
     })
@@ -50,8 +54,9 @@ export const connectionsReducer = createReducer<ConnectionsState>(
       // Remove connection
       const { key } = action.payload.config.connectionInfo
       delete state.active[key]
+      state.connecting[key] = 0 // turn off connecting
       // Decrement num of active connections
-      state.total--
+      if (state.wasEverConnected[key]) state.total--
     })
   },
 )
@@ -100,7 +105,7 @@ export const subscriptionsReducer = createReducer<SubscriptionsState>(
     builder.addCase(actions.unsubscribed, (state, action) => {
       // Remove subscription
       const key = getSubsId(action.payload.subscriptionMsg)
-      
+
       state[key].active = false
       state[key].unsubscribed = true
     })
