@@ -288,24 +288,25 @@ export const metricsEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
   action$.pipe(
     withLatestFrom(state$),
     tap(([action, state]) => {
+      const redactParams = (url: string) => (url.split('?')[0])
       const connectionLabels = (payload: WSConfigPayload) => ({
         key: payload.config.connectionInfo.key,
-        url: payload.wsHandler.connection.url,
+        url: redactParams(payload.wsHandler.connection.url),
       })
       const connectionErrorLabels = (payload: WSErrorPayload) => ({
         key: payload.connectionInfo.key,
-        url: payload.connectionInfo.url,
+        url: redactParams(payload.connectionInfo.url),
         message: payload.reason,
       })
       const subscriptionLabels = (payload: WSSubscriptionPayload) => ({
         connection_key: payload.connectionInfo.key,
-        connection_url: payload.connectionInfo.url,
+        connection_url: redactParams(payload.connectionInfo.url),
         feed_id: getFeedId({ ...payload.input }),
         subscription_key: getSubsId(payload.subscriptionMsg),
       })
       const subscriptionErrorLabels = (payload: WSSubscriptionErrorPayload) => ({
         connection_key: payload.connectionInfo.key,
-        connection_url: payload.connectionInfo.url,
+        connection_url: redactParams(payload.connectionInfo.url),
         feed_id: payload.input ? getFeedId({ ...payload.input }) : 'N/A',
         message: payload.reason,
         subscription_key: payload.subscriptionMsg ? getSubsId(payload.subscriptionMsg) : 'N/A',
