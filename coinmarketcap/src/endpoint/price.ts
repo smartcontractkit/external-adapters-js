@@ -35,6 +35,7 @@ const presetIds: { [symbol: string]: number } = {
   YFI: 5864,
   BAL: 5728,
   '1INCH': 8104,
+  RAI2: 8525,
 }
 
 const priceParams = {
