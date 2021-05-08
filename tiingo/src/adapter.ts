@@ -1,7 +1,7 @@
 import { Requester, Validator } from '@chainlink/external-adapter'
 import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
 import { makeConfig, DEFAULT_ENDPOINT } from './config'
-import { eod, iex } from './endpoint'
+import { eod, iex, top } from './endpoint'
 
 const inputParams = {
   endpoint: false,
@@ -20,9 +20,13 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
       return await eod.execute(request, config)
 
     case iex.NAME:
-    default: {
+    case 'stock':
       return await iex.execute(request, config)
-    }
+
+    case top.NAME:
+    case 'crypto':
+    default:
+      return await top.execute(request, config)
   }
 }
 
