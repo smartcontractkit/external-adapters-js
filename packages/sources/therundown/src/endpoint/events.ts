@@ -17,6 +17,13 @@ export interface ResponseSchema {
   }[]
 }
 
+const formatDate = (date: Date): string => {
+  const pad = (n: number) => n<10 ? '0'+n : n
+  return date.getUTCFullYear()+'-'
+    + pad(date.getUTCMonth()+1)+'-'
+    + pad(date.getUTCDate())
+}
+
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
@@ -25,7 +32,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const sportId = validator.validated.data.sportId
   const date = validator.validated.data.date
   const status = validator.validated.data.status
-  const url = `/sports/${sportId}/events/${date}`
+  const url = `/sports/${sportId}/events/${formatDate(date)}`
 
   const reqConfig = {
     ...config.api,
