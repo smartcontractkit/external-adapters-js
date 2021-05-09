@@ -1,5 +1,5 @@
-import { Execute } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterRequest, AdapterResponse, Execute } from '@chainlink/types'
 import { calculate } from './cryptoVolatilityIndex'
 
 const customParams = {
@@ -7,19 +7,23 @@ const customParams = {
   multiply: false,
   heartbeatMinutes: false,
   isAdaptive: false,
+  cryptoCurrencies: false,
+  deviationThreshold: false,
+  lambdaMin: false,
+  lambdaK: false,
 }
 
-export const execute: Execute = async (input) => {
+export const execute = async (input: AdapterRequest): Promise<AdapterResponse> => {
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
 
-  const jobRunID = validator.validated.id
+  const jobRunID = validator.validated.jobRunID
 
   const result = await calculate(validator.validated, input.data)
-  return Requester.success(jobRunID, {
-    data: { result },
-    status: 200,
-  })
+  const response = { data: { result }, status: 200 }
+  return Requester.success(jobRunID, response)
 }
 
-export default execute
+export const makeExecute = (): Execute => {
+  return async (request: AdapterRequest) => execute(request)
+}

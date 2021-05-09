@@ -25,12 +25,16 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 
 ### Input Params
 
-| Required? |             Name              |                                              Description                                              | Options | Defaults to |
-| :-------: | :---------------------------: | :---------------------------------------------------------------------------------------------------: | :-----: | :---------: |
-|    ✅     | `contractAddress`, `contract` |                The address of the on-chain crypto volatility index aggregator contract                |         |             |
-|           |          `heartBeat`          |                                    Address of the adapter contract                                    |         |    `180`    |
-|           |          `heartBeat`          |          Multiply amount for the on-chain value, which also determines the result precision           |         |  `1000000`  |
-|           |         `isAdaptive`          | Indicates whether the calculation result should be adaptively smoothed with its latest on-chain value |         |   `true`    |
+| Required? |             Name              |                                              Description                                              | Options |   Defaults to    |
+| :-------: | :---------------------------: | :---------------------------------------------------------------------------------------------------: | :-----: | :--------------: |
+|    ✅     | `contractAddress`, `contract` |                The address of the on-chain crypto volatility index aggregator contract                |         |                  |
+|           |          `heartBeat`          |                                    Address of the adapter contract                                    |         |       `60`       |
+|           |          `heartBeat`          |          Multiply amount for the on-chain value, which also determines the result precision           |         |      `1e18`      |
+|           |         `isAdaptive`          | Indicates whether the calculation result should be adaptively smoothed with its latest on-chain value |         |      `true`      |
+|           |      `cryptoCurrencies`       |                             which curencies to use to calculate the index                             |         | `['BTC', 'ETH']` |
+|           |     `deviationThreshold`      |                                the threshold for smoothing calculation                                |         |      `0.11`      |
+|           |          `lambdaMin`          |                          Lambda min value for adaptive smoothing calculation                          |         |     `0.031`      |
+|           |           `lambdaK`           |                           Lambda K value for adaptive smoothing calculation                           |         |      `0.31`      |
 
 ### Sample Input
 

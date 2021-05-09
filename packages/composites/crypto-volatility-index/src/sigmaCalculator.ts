@@ -1,42 +1,41 @@
 import { Logger } from '@chainlink/ea-bootstrap'
 import { Decimal } from 'decimal.js'
-import moment from 'moment'
 import { CurrencyDerivativesData, OptionData } from './derivativesDataProvider'
 
 export type SigmaData = {
-  e1: moment.Moment
-  e2: moment.Moment
+  e1: number
+  e2: number
   sigma1: Decimal
   sigma2: Decimal
-  now: moment.Moment
+  now: number
 }
 
 export class SigmaCalculator {
   weightedSigma(sigmaData: SigmaData): Decimal {
     const { e1, e2, sigma1, sigma2, now } = sigmaData
-    const secondsInDay = 60 * 60 * 24
-    const tm = new Decimal(secondsInDay * 30)
-    const t1 = new Decimal(e1.diff(now, 'days') * secondsInDay)
-    const t2 = new Decimal(e2.diff(now, 'days') * secondsInDay)
+    const tm = new Decimal(60 * 60 * 24 * 30)
+    const t1 = new Decimal(e1 - now)
+    const t2 = new Decimal(e2 - now)
 
-    const weighted = t1
-      .times(t2.minus(tm))
-      .times(sigma1)
-      .minus(t2.times(t1.minus(tm).times(sigma2)))
-      .div(t2.minus(t1))
-      .div(tm)
+    const weighted = (t1.times(t2.minus(tm)).times(sigma1).minus((t2.times((t1.minus(tm)).times(sigma2)))))
+      .div((t2.minus(t1)))
+      .div(tm) // prettier-ignore
 
     return weighted
   }
 
+  T(nowTime: number, e: number): number {
+    return (e - nowTime) / (365 * 24 * 60 * 60)
+  }
+
   oneSigma(
-    expiration: moment.Moment,
+    expiration: number,
     exchangeRate: Decimal,
     calls: Array<OptionData>,
     puts: Array<OptionData>,
-    now: moment.Moment,
+    now: number,
   ): Decimal {
-    const T = expiration.diff(now.startOf('day'), 'days') / 365.0 //TODO: Change to seconds
+    const T = this.T(now, expiration)
     const r = new Decimal(0)
     let S = new Decimal(0)
     let dK = new Decimal(0)
@@ -55,7 +54,7 @@ export class SigmaCalculator {
           dK = calls[idx + 1].strikePrice.minus(calls[idx - 1].strikePrice).div(2)
         }
 
-        S = S.plus(dK.times(midPrice).times(exchangeRate).div(strikePrice.pow(2)))
+        S = S.plus(dK.times(midPrice).div(strikePrice.pow(2)))
       } else {
         K0c = strikePrice
       }
@@ -75,7 +74,7 @@ export class SigmaCalculator {
           dK = puts[idx - 1].strikePrice.minus(puts[idx + 1].strikePrice).div(2)
         }
 
-        S = S.plus(dK.times(midPrice).times(exchangeRate).div(strikePrice.pow(2)))
+        S = S.plus(dK.times(midPrice).div(strikePrice.pow(2)))
       } else {
         K0p = strikePrice
       }
@@ -85,6 +84,7 @@ export class SigmaCalculator {
     const sigma = (new Decimal(2)
       .times(new Decimal(Math.exp(Number(r.mul(T).toFixed()))))
       .times(S)
+      .times(exchangeRate)
       .minus((F.div(K0).minus(1)).pow(2)).div(T)) // prettier-ignore
 
     Logger.debug(`Sigma:${sigma.toString()}`)
