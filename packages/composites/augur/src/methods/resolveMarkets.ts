@@ -64,8 +64,15 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   let nonce = await config.wallet.getTransactionCount()
   for (let i = 0; i < packed.length; i++) {
     const eventId = eventIdToNum(filtered[i].event_id)
-    const isResolved = await contract.isEventResolved(eventId)
-    if (isResolved) continue
+
+    try {
+      const isResolved = await contract.isEventResolved(eventId)
+      if (isResolved) continue
+    } catch (e) {
+      // Skip if contract call fails, this is likely a
+      // market that wasn't created
+      continue
+    }
 
     await contract.trustedResolveMarkets(packed[i], { nonce: nonce++ })
   }
