@@ -61,7 +61,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
     return packResolution(event.event_id, status, event.score.score_home, event.score.score_away)
   }).filter((event) => !!event)
 
-  let nonce = await config.wallet.getTransactionCount() + 1
+  let nonce = await config.wallet.getTransactionCount()
   for (let i = 0; i < packed.length; i++) {
     const eventId = eventIdToNum(filtered[i].event_id)
     const isResolved = await contract.isEventResolved(eventId)
