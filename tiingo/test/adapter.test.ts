@@ -31,6 +31,10 @@ describe('execute', () => {
         name: 'eod endpoint',
         testData: { id: jobID, data: { ticker: 'aapl', endpoint: 'eod' } },
       },
+      {
+        name: 'top endpoint',
+        testData: { id: jobID, data: { base: 'btc', quote: 'usd', endpoint: 'top' } },
+      },
     ]
 
     requests.forEach((req) => {
