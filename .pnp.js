@@ -39,6 +39,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/composites/crypto-volatility-index"
       },
       {
+        "name": "@chainlink/curio-adapter",
+        "reference": "workspace:packages/composites/curio"
+      },
+      {
         "name": "@chainlink/defi-pulse-adapter",
         "reference": "workspace:packages/composites/defi-pulse"
       },
@@ -261,6 +265,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {
         "name": "@chainlink/ethgasstation-adapter",
         "reference": "workspace:packages/sources/ethgasstation"
+      },
+      {
+        "name": "@chainlink/expert-car-broker-adapter",
+        "reference": "workspace:packages/sources/expert-car-broker"
       },
       {
         "name": "@chainlink/fcsapi-adapter",
@@ -490,6 +498,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/cryptocompare-adapter", ["workspace:packages/sources/cryptocompare"]],
       ["@chainlink/cryptoid-adapter", ["workspace:packages/sources/cryptoid"]],
       ["@chainlink/cryptomkt-adapter", ["workspace:packages/sources/cryptomkt"]],
+      ["@chainlink/curio-adapter", ["workspace:packages/composites/curio"]],
       ["@chainlink/currencylayer-adapter", ["workspace:packages/sources/currencylayer"]],
       ["@chainlink/defi-pulse-adapter", ["workspace:packages/composites/defi-pulse"]],
       ["@chainlink/deribit-adapter", ["workspace:packages/sources/deribit"]],
@@ -511,6 +520,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/ethwrite-adapter", ["workspace:packages/targets/ethwrite"]],
       ["@chainlink/example-composite-adapter", ["workspace:packages/examples/composite"]],
       ["@chainlink/example-source-adapter", ["workspace:packages/examples/source"]],
+      ["@chainlink/expert-car-broker-adapter", ["workspace:packages/sources/expert-car-broker"]],
       ["@chainlink/external-adapters-js", ["workspace:."]],
       ["@chainlink/fcsapi-adapter", ["workspace:packages/sources/fcsapi"]],
       ["@chainlink/finage-adapter", ["workspace:packages/sources/finage"]],
@@ -3446,6 +3456,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT",
         }]
       ]],
+      ["@chainlink/curio-adapter", [
+        ["workspace:packages/composites/curio", {
+          "packageLocation": "./packages/composites/curio/",
+          "packageDependencies": [
+            ["@chainlink/curio-adapter", "workspace:packages/composites/curio"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/expert-car-broker-adapter", "workspace:packages/sources/expert-car-broker"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:26.0.22"],
+            ["@types/node", "npm:14.14.41"],
+            ["axios", "npm:0.21.1"],
+            ["tslib", "npm:2.2.0"],
+            ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
       ["@chainlink/currencylayer-adapter", [
         ["workspace:packages/sources/currencylayer", {
           "packageLocation": "./packages/sources/currencylayer/",
@@ -3643,6 +3670,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/eodhistoricaldata-adapter", "workspace:packages/sources/eodhistoricaldata"],
             ["@chainlink/etherchain-adapter", "workspace:packages/sources/etherchain"],
             ["@chainlink/ethgasstation-adapter", "workspace:packages/sources/ethgasstation"],
+            ["@chainlink/expert-car-broker-adapter", "workspace:packages/sources/expert-car-broker"],
             ["@chainlink/fcsapi-adapter", "workspace:packages/sources/fcsapi"],
             ["@chainlink/finage-adapter", "workspace:packages/sources/finage"],
             ["@chainlink/finnhub-adapter", "workspace:packages/sources/finnhub"],
@@ -3651,6 +3679,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/genesis-volatility-adapter", "workspace:packages/sources/genesis-volatility"],
             ["@chainlink/geodb-adapter", "workspace:packages/sources/geodb"],
             ["@chainlink/iex-cloud-adapter", "workspace:packages/sources/iex-cloud"],
+            ["@chainlink/intrinio-adapter", "workspace:packages/sources/intrinio"],
             ["@chainlink/json-rpc-adapter", "workspace:packages/sources/json-rpc"],
             ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],
             ["@chainlink/lcx-adapter", "workspace:packages/sources/lcx"],
@@ -3680,6 +3709,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/tradermade-adapter", "workspace:packages/sources/tradermade"],
             ["@chainlink/tradingeconomics-adapter", "workspace:packages/sources/tradingeconomics"],
             ["@chainlink/trueusd-adapter", "workspace:packages/sources/trueusd"],
+            ["@chainlink/twelvedata-adapter", "workspace:packages/sources/twelvedata"],
+            ["@chainlink/unibit-adapter", "workspace:packages/sources/unibit"],
             ["@chainlink/wbtc-address-set-adapter", "workspace:packages/sources/wbtc-address-set"],
             ["@chainlink/xbto-adapter", "workspace:packages/sources/xbto"],
             ["@types/chai", "npm:4.2.16"],
@@ -3893,6 +3924,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/examples/source/",
           "packageDependencies": [
             ["@chainlink/example-source-adapter", "workspace:packages/examples/source"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:26.0.22"],
+            ["@types/node", "npm:14.14.41"],
+            ["tslib", "npm:2.2.0"],
+            ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/expert-car-broker-adapter", [
+        ["workspace:packages/sources/expert-car-broker", {
+          "packageLocation": "./packages/sources/expert-car-broker/",
+          "packageDependencies": [
+            ["@chainlink/expert-car-broker-adapter", "workspace:packages/sources/expert-car-broker"],
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
