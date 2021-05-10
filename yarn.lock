@@ -1460,7 +1460,7 @@ __metadata:
   resolution: "@chainlink/augur-adapter@workspace:packages/composites/augur"
   dependencies:
     "@chainlink/ea-bootstrap": "*"
-    "@chainlink/therundown-adapter": "workspace:packages/sources/therundown"
+    "@chainlink/therundown-adapter": ^0.0.2
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
@@ -1886,6 +1886,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/curio-adapter@workspace:packages/composites/curio":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/curio-adapter@workspace:packages/composites/curio"
+  dependencies:
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/expert-car-broker-adapter": 0.0.4
+    "@chainlink/types": 0.0.1
+    "@types/jest": ^26.0.22
+    "@types/node": ^14.14.35
+    axios: ^0.21.1
+    tslib: ^2.1.0
+    typescript: ^4.2.3
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/currencylayer-adapter@*, @chainlink/currencylayer-adapter@workspace:packages/sources/currencylayer":
   version: 0.0.0-use.local
   resolution: "@chainlink/currencylayer-adapter@workspace:packages/sources/currencylayer"
@@ -2171,6 +2186,7 @@ __metadata:
     "@chainlink/eodhistoricaldata-adapter": "*"
     "@chainlink/etherchain-adapter": "*"
     "@chainlink/ethgasstation-adapter": "*"
+    "@chainlink/expert-car-broker-adapter": "*"
     "@chainlink/fcsapi-adapter": "*"
     "@chainlink/finage-adapter": "*"
     "@chainlink/finnhub-adapter": "*"
@@ -2179,6 +2195,7 @@ __metadata:
     "@chainlink/genesis-volatility-adapter": "*"
     "@chainlink/geodb-adapter": "*"
     "@chainlink/iex-cloud-adapter": "*"
+    "@chainlink/intrinio-adapter": "*"
     "@chainlink/json-rpc-adapter": "*"
     "@chainlink/kaiko-adapter": "*"
     "@chainlink/lcx-adapter": "*"
@@ -2208,6 +2225,8 @@ __metadata:
     "@chainlink/tradermade-adapter": "*"
     "@chainlink/tradingeconomics-adapter": "*"
     "@chainlink/trueusd-adapter": "*"
+    "@chainlink/twelvedata-adapter": "*"
+    "@chainlink/unibit-adapter": "*"
     "@chainlink/wbtc-address-set-adapter": "*"
     "@chainlink/xbto-adapter": "*"
     "@types/chai": ^4.2.15
@@ -2291,6 +2310,20 @@ __metadata:
 "@chainlink/example-source-adapter@workspace:packages/examples/source":
   version: 0.0.0-use.local
   resolution: "@chainlink/example-source-adapter@workspace:packages/examples/source"
+  dependencies:
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.0.1
+    "@types/jest": ^26.0.22
+    "@types/node": ^14.14.35
+    tslib: ^2.1.0
+    typescript: ^4.2.3
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/expert-car-broker-adapter@*, @chainlink/expert-car-broker-adapter@0.0.4, @chainlink/expert-car-broker-adapter@workspace:packages/sources/expert-car-broker":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/expert-car-broker-adapter@workspace:packages/sources/expert-car-broker"
   dependencies:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-test-helpers": "*"
@@ -2462,7 +2495,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/intrinio-adapter@workspace:packages/sources/intrinio":
+"@chainlink/intrinio-adapter@*, @chainlink/intrinio-adapter@workspace:packages/sources/intrinio":
   version: 0.0.0-use.local
   resolution: "@chainlink/intrinio-adapter@workspace:packages/sources/intrinio"
   dependencies:
@@ -2924,7 +2957,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/therundown-adapter@*, @chainlink/therundown-adapter@workspace:packages/sources/therundown":
+"@chainlink/therundown-adapter@*, @chainlink/therundown-adapter@^0.0.2, @chainlink/therundown-adapter@workspace:packages/sources/therundown":
   version: 0.0.0-use.local
   resolution: "@chainlink/therundown-adapter@workspace:packages/sources/therundown"
   dependencies:
@@ -3019,7 +3052,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/twelvedata-adapter@workspace:packages/sources/twelvedata":
+"@chainlink/twelvedata-adapter@*, @chainlink/twelvedata-adapter@workspace:packages/sources/twelvedata":
   version: 0.0.0-use.local
   resolution: "@chainlink/twelvedata-adapter@workspace:packages/sources/twelvedata"
   dependencies:
@@ -3039,7 +3072,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/unibit-adapter@workspace:packages/sources/unibit":
+"@chainlink/unibit-adapter@*, @chainlink/unibit-adapter@workspace:packages/sources/unibit":
   version: 0.0.0-use.local
   resolution: "@chainlink/unibit-adapter@workspace:packages/sources/unibit"
   dependencies:

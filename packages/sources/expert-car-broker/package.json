@@ -1,12 +1,13 @@
 {
-  "name": "@chainlink/example-source-adapter",
+  "name": "@chainlink/expert-car-broker-adapter",
   "version": "0.0.1",
-  "description": "Chainlink example source adapter.",
+  "description": "Chainlink expert-car-broker adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
-    "oracle"
+    "oracle",
+    "expert-car-broker"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
