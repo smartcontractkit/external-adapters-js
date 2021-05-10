@@ -1,58 +1,65 @@
 import hash from 'object-hash'
 import { AdapterRequest } from '@chainlink/types'
-import { combineReducers, createReducer } from '@reduxjs/toolkit'
+import { combineReducers, createReducer, isAnyOf } from '@reduxjs/toolkit'
 import * as actions from './actions'
 import { getHashOpts } from '../util'
 
 export const getSubsId = (subscriptionMsg = {}): string => hash(subscriptionMsg, getHashOpts())
 export interface ConnectionsState {
-  [key: string]: {
-    active: boolean
-    connecting: number
-    wasEverConnected?: boolean
+  total: number
+  all: {
+    [key: string]: {
+      active: boolean
+      connecting: number
+      wasEverConnected?: boolean
+    }
   }
 }
 
-const initConnectionsState: ConnectionsState = {}
+const initConnectionsState: ConnectionsState = { total: 0, all: {} }
 
-export const connectionsReducer = createReducer<ConnectionsState>(
-  initConnectionsState,
-  (builder) => {
-    builder.addCase(actions.connected, (state, action) => {
-      // Add connection
-      const { key } = action.payload.config.connectionInfo
-      state[key] = {
-        active: true,
-        connecting: 0,
-        wasEverConnected: true
-      }
-    })
+export const connectionsReducer = createReducer<ConnectionsState>(initConnectionsState, builder => {
+  builder.addCase(actions.connected, (state, action) => {
+    // Add connection
+    const { key } = action.payload.config.connectionInfo
+    state.all[key] = {
+      active: true,
+      connecting: 0,
+      wasEverConnected: true,
+    }
+  })
 
-    builder.addCase(actions.connect, (state, action) => {
-      const { key } = action.payload.config.connectionInfo
-      const isActive = state[key]?.active
-      if (isActive) return
+  builder.addCase(actions.connect, (state, action) => {
+    const { key } = action.payload.config.connectionInfo
+    const isActive = state.all[key]?.active
+    if (isActive) return
 
-      const isConnecting = !isNaN(Number(state[key]?.connecting))
-      state[key] = {
-        active: false,
-        connecting: isConnecting ? state[key].connecting + 1 : 1
-      }
-    })
+    const isConnecting = !isNaN(Number(state.all[key]?.connecting))
+    state.all[key] = {
+      active: false,
+      connecting: isConnecting ? state.all[key].connecting + 1 : 1,
+    }
+  })
 
-    builder.addCase(actions.connectionError, (state, action) => {
-      state[action.payload.connectionInfo.key].connecting = 0
-      state[action.payload.connectionInfo.key].active = false
-    })
+  builder.addCase(actions.connectionError, (state, action) => {
+    state.all[action.payload.connectionInfo.key].connecting = 0
+    state.all[action.payload.connectionInfo.key].active = false
+  })
 
-    builder.addCase(actions.disconnected, (state, action) => {
-      // Remove connection
-      const { key } = action.payload.config.connectionInfo
-      state[key].active = false
-      state[key].connecting = 0 // turn off connecting
-    })
-  },
-)
+  builder.addCase(actions.disconnected, (state, action) => {
+    // Remove connection
+    const { key } = action.payload.config.connectionInfo
+    state.all[key].active = false
+    state.all[key].connecting = 0 // turn off connecting
+  })
+
+  builder.addMatcher(
+    isAnyOf(actions.connect, actions.connected, actions.connectionError, actions.disconnected),
+    state => {
+      state.total = Object.values(state.all).filter(s => s?.active).length
+    },
+  )
+})
 
 export interface SubscriptionsState {
   /** Map of all subscriptions by key */
@@ -69,7 +76,7 @@ const initSubscriptionsState: SubscriptionsState = {}
 
 export const subscriptionsReducer = createReducer<SubscriptionsState>(
   initSubscriptionsState,
-  (builder) => {
+  builder => {
     builder.addCase(actions.subscribed, (state, action) => {
       // Add subscription
       const key = getSubsId(action.payload.subscriptionMsg)
@@ -103,7 +110,7 @@ export const subscriptionsReducer = createReducer<SubscriptionsState>(
       state[key].unsubscribed = true
     })
 
-    builder.addCase(actions.disconnected, (state) => {
+    builder.addCase(actions.disconnected, state => {
       state = {}
       return state
     })
