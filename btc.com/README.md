@@ -4,6 +4,8 @@
 
 The adapter takes the following environment variables:
 
+- `API_KEY`
+- `API_SECRET`
 - `API_TIMEOUT`: Optional timeout param, defaults to `30000`
 
 ## Input Params

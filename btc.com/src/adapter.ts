@@ -1,6 +1,6 @@
 import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
-import { ExecuteWithConfig, ExecuteFactory, Config } from '@chainlink/types'
-import { makeConfig, DEFAULT_ENDPOINT } from './config'
+import { ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
+import { makeConfig, Config, DEFAULT_ENDPOINT } from './config'
 import { balance } from './endpoint'
 
 const inputParams = {
@@ -18,7 +18,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
 
   switch (endpoint) {
-    case balance.Name: {
+    case balance.NAME: {
       return balance.makeExecute(config)(request)
     }
     default: {

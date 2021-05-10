@@ -1,10 +1,4 @@
-import {
-  ExecuteFactory,
-  Config,
-  DataResponse,
-  Account,
-  SequenceResponseData,
-} from '@chainlink/types'
+import { Execute, Config, DataResponse, Account, SequenceResponseData } from '@chainlink/types'
 import objectPath from 'object-path'
 import { Validator, AdapterError } from '@chainlink/external-adapter'
 import { util } from '@chainlink/ea-bootstrap'
@@ -17,14 +11,20 @@ const ERROR_MISSING_ADDRESS = 'No Operation: address param is missing'
 
 export type IsSupported = (coin: string, chain: string) => boolean
 export type BalancesResponse = DataResponse<Account[], any>
-export type GetBalance = (account: Account, config: BalanceConfig) => Promise<BalancesResponse>
-export type GetBalances = (accounts: Account[], config: BalanceConfig) => Promise<BalancesResponse>
+export type GetBalance<C extends Config = Config> = (
+  account: Account,
+  config: BalanceConfig<C>,
+) => Promise<BalancesResponse>
+export type GetBalances<C extends Config = Config> = (
+  accounts: Account[],
+  config: BalanceConfig<C>,
+) => Promise<BalancesResponse>
 
-export type BalanceConfig = Config & {
+export type BalanceConfig<C extends Config = Config> = C & {
   confirmations?: number
   isSupported: IsSupported
-  getBalance?: GetBalance
-  getBalances?: GetBalances
+  getBalance?: GetBalance<C>
+  getBalances?: GetBalances<C>
 }
 
 const requireArray = (jobRunID: string, dataPath: string, data: any) => {
@@ -41,7 +41,11 @@ const requireArray = (jobRunID: string, dataPath: string, data: any) => {
   return inputData
 }
 
-const toValidAccount = (jobRunID: string, account: Account, config: BalanceConfig): Account => {
+const toValidAccount = <C extends Config>(
+  jobRunID: string,
+  account: Account,
+  config: BalanceConfig<C>,
+): Account => {
   // Is it possible to process?
   if (!account.address)
     throw new AdapterError({
@@ -64,7 +68,10 @@ const toValidAccount = (jobRunID: string, account: Account, config: BalanceConfi
   return accNoWarning
 }
 
-const toGetBalances = (getBalance?: GetBalance) => (accounts: Account[], config: BalanceConfig) => {
+const toGetBalances = <C extends Config>(getBalance?: GetBalance<C>) => (
+  accounts: Account[],
+  config: BalanceConfig<C>,
+) => {
   if (!getBalance) throw new Error('Get Balance function not supplied')
   return accounts.map((acc) => getBalance(acc, config))
 }
@@ -74,7 +81,9 @@ const inputParams = {
   confirmations: false,
 }
 
-export const make: ExecuteFactory<BalanceConfig> = (config) => async (input) => {
+export const make = <C extends Config = Config>(config: BalanceConfig<C>): Execute => async (
+  input,
+) => {
   const validator = new Validator(input, inputParams)
   if (validator.error) throw validator.error
   if (!config) throw new Error('No configuration supplied')
@@ -88,12 +97,13 @@ export const make: ExecuteFactory<BalanceConfig> = (config) => async (input) => 
     toValidAccount(jobRunID, acc, config),
   )
   const accountsToProcess = accounts.filter((acc) => !acc.warning)
-
-  const getBalances = config.getBalances || toGetBalances(config.getBalance)
+  const getBalances = config.getBalances || toGetBalances<C>(config.getBalance)
 
   const key = (acc: Account) => `${acc.coin}-${acc.chain}`
   const groups = Array.from(util.groupBy(accountsToProcess, key).values())
-  const requests = groups.flatMap((group) => getBalances(group as Account[], config))
+  const requests = groups.flatMap((group) => {
+    return getBalances(group as Account[], config)
+  })
   const responses = await Promise.all(requests)
   const responseLookup = Object.fromEntries<Account>(
     responses.flatMap((r) => r.result).map((a) => [`${a.address}-${a.coin}-${a.chain}`, a]),

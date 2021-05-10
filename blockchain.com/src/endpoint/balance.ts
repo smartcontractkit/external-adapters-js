@@ -1,29 +1,38 @@
 import { balance } from '@chainlink/ea-factories'
 import { Requester } from '@chainlink/external-adapter'
-import { Config } from '@chainlink/types'
+import { Config, Account } from '@chainlink/types'
 import { getBaseURL } from '../config'
 import { ChainType, isCoinType, isChainType } from '.'
 
-export const Name = 'balance'
+export const NAME = 'balance'
 
-const getBalanceURI = (address: string, confirmations: number) =>
-  `/q/addressbalance/${address}?confirmations=${confirmations}`
+const getBalanceURI = (addresses: string[]) => `balance?active=${addresses.join(',')}`
 
-const getBalance: balance.GetBalance = async (account, config) => {
-  const reqConfig = {
+const getBalances: balance.GetBalances = async (accounts, config) => {
+  const addresses = accounts.map((a) => a.address)
+  const { chain } = accounts[0]
+
+  const options: any = {
     ...config.api,
-    baseURL: config.api.baseURL || getBaseURL(account.chain as ChainType),
-    url: getBalanceURI(account.address, config.confirmations as number),
+    baseURL: config.api.baseURL || getBaseURL(chain as ChainType),
+    url: getBalanceURI(addresses),
   }
 
-  const response = await Requester.request(reqConfig)
+  const response = await Requester.request(options)
+
+  const toResultWithBalance = (acc: Account) => ({
+    ...acc,
+    balance: String(response.data[acc.address].final_balance),
+  })
+
+  const resultWithBalance = accounts.map(toResultWithBalance)
 
   return {
     payload: response.data,
-    result: [{ ...account, balance: String(response.data) }],
+    result: resultWithBalance,
   }
 }
 
 const isSupported: balance.IsSupported = (coin, chain) => isChainType(chain) && isCoinType(coin)
 
-export const makeExecute = (config: Config) => balance.make({ ...config, getBalance, isSupported })
+export const makeExecute = (config: Config) => balance.make({ ...config, getBalances, isSupported })

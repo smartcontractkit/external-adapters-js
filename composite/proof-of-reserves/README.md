@@ -11,6 +11,7 @@ The feed takes the following environment variables:
 |    ✅     |                       `PROTOCOL_ADAPTER`                        |         The protocol type          |                                        `renvm`, `wbtc`                                        |             |
 |    ✅     |                      `BTC_INDEXER_ADAPTER`                      |      BTC indexer adapter type      | `amberdata`, `blockchain_com`, `blockcypher`. `blockchair`, `btc_com`,`cryptoapis`, `sochain` |             |
 |    🟡     | `*_API_KEY` (where \* is the capitalized `BTC_INDEXER_ADAPTER`) | The API key for an indexer adapter |                          (e.g. BLOCKCYPHER_API_KEY="34234dmmd313" )                           |             |
+|           |
 
 Each protocol may need additional configuration:
 
@@ -25,6 +26,20 @@ Each protocol may need additional configuration:
 | Required? |        Name         |          Description          |         Options          | Defaults to |
 | :-------: | :-----------------: | :---------------------------: | :----------------------: | :---------: |
 |    ✅     | `WBTC_API_ENDPOINT` | The endpoint to query WBTC at | (e.g. "https://api..." ) |             |
+
+Each indexer may take additional configuration:
+
+### Blockcypher
+
+| Required? |             Name             |                                                                    Description                                                                    | Options | Defaults to |
+| :-------: | :--------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
+|           | `BLOCKCYPHER_API_RATE_LIMIT` | Provide the plan rate limit to throttle the amount of requests that are sent per second. This is useful for using a lower tier subscription plan. |         |             |
+
+### BTC_COM
+
+| Required? |                                 Name                                 |                   Description                    | Options | Defaults to |
+| :-------: | :------------------------------------------------------------------: | :----------------------------------------------: | :-----: | :---------: |
+|    🟡     | `BTC_COM_API_SECRET` (only when using `BTC_INDEXER_ADAPTER=btc_com`) | An API secret set up through BTC.com's dashboard |
 
 ## Running this adapter
 

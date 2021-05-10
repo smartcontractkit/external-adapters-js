@@ -1,7 +1,9 @@
 import bcypher from 'blockcypher'
 import { balance } from '@chainlink/ea-factories'
-import { Config } from '@chainlink/types'
+import { Account } from '@chainlink/types'
+import { Config } from '../config'
 import { CoinType, ChainType, isCoinType, isChainType } from '.'
+import { util } from '@chainlink/ea-bootstrap'
 
 export const Name = 'balance'
 
@@ -28,25 +30,45 @@ const getChainId = (coin: CoinType, chain: ChainType): string => {
   }
 }
 
-const getBalance: balance.GetBalance = async (account, config) => {
-  const chainId = getChainId(account.coin as CoinType, account.chain as ChainType)
-  const api = new bcypher(account.coin, chainId, config.apiKey)
+const getBalances: balance.GetBalances<Config> = async (accounts, config) => {
+  const addresses = accounts.map((a) => a.address)
+  const { coin, chain } = accounts[0]
+  const chainId = getChainId(coin as CoinType, chain as ChainType)
+  const api = new bcypher(coin, chainId, config.apiKey)
   const params = { confirmations: config.confirmations }
-  const _getAddrBal = (): Promise<AddressBalance> =>
-    new Promise((resolve, reject) => {
-      api.getAddrBal(account.address, params, (error: Error, body: AddressBalance) =>
-        error ? reject(error) : resolve(body),
+
+  const _getAddrBal = (addrs: string[]) =>
+    new Promise<AddressBalance[]>((resolve, reject) => {
+      api.getAddrBal(
+        addrs.join(';'),
+        params,
+        (error: Error, body: AddressBalance | AddressBalance[]) => {
+          const data = addrs.length > 1 ? (body as AddressBalance[]) : [body as AddressBalance]
+          error ? reject(error) : resolve(data)
+        },
       )
     })
 
-  const response = await _getAddrBal()
+  const response = config.ratelimit
+    ? await util.throttle(config.ratelimit, addresses, _getAddrBal)
+    : await _getAddrBal(addresses)
+
+  const addrLookup: { [key: string]: AddressBalance } = {}
+  response.forEach((r: any) => (addrLookup[r.address] = r))
+
+  const addBalance = (acc: Account) => ({
+    ...acc,
+    balance: String(addrLookup[acc.address].final_balance),
+  })
+  const resultWithBalance = accounts.map(addBalance)
 
   return {
     payload: response,
-    result: [{ ...account, balance: String(response.balance) }],
+    result: resultWithBalance,
   }
 }
 
 const isSupported: balance.IsSupported = (coin, chain) => isChainType(chain) && isCoinType(coin)
 
-export const makeExecute = (config: Config) => balance.make({ ...config, getBalance, isSupported })
+export const makeExecute = (config: Config) =>
+  balance.make<Config>({ ...config, getBalances, isSupported })

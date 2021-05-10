@@ -1,6 +1,6 @@
 import { Requester, Validator, AdapterError } from '@chainlink/external-adapter'
-import { ExecuteWithConfig, ExecuteFactory, Config } from '@chainlink/types'
-import { makeConfig, DEFAULT_ENDPOINT } from './config'
+import { ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
+import { makeConfig, DEFAULT_ENDPOINT, Config } from './config'
 import { balance } from './endpoint'
 
 const inputParams = {
