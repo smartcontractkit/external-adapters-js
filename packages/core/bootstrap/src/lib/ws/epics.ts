@@ -64,8 +64,8 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
     map(({ payload }) => ({ payload, connectionKey: payload.config.connectionInfo.key })),
     withLatestFrom(state$),
     filter(([{ connectionKey }, state]) => {
-      const isActiveConnection = state.ws.connections.all[connectionKey].active
-      const isConnecting = state.ws.connections.all[connectionKey].connecting > 1
+      const isActiveConnection = state.ws.connections.all[connectionKey]?.active
+      const isConnecting = state.ws.connections.all[connectionKey]?.connecting > 1
       return !isActiveConnection && !isConnecting
     }),
     // on a connect action being dispatched, open a new WS connection if one doesn't exist yet
@@ -325,7 +325,7 @@ export const metricsEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
           logger.error('WS: connection_error', { payload: action.payload })
           break
         case disconnected.type:
-          if (state.ws.connections.all[connectionLabels(action.payload).key].wasEverConnected) {
+          if (state.ws.connections.all[connectionLabels(action.payload).key]?.wasEverConnected) {
             ws_connection_active.labels(connectionLabels(action.payload)).dec()
             logger.info('WS: disconnected', { payload: action.payload })
           }
