@@ -110,8 +110,8 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
         map(({ payload }) => ({ payload, subscriptionKey: getSubsId(payload.subscriptionMsg) })),
         withLatestFrom(state$),
         filter(([{ subscriptionKey }, state]) => {
-          const isActiveSubscription = !!state.ws.subscriptions[subscriptionKey]?.active
-          const isSubscribing = state.ws.subscriptions[subscriptionKey]?.subscribing > 1
+          const isActiveSubscription = !!state.ws.subscriptions.all[subscriptionKey]?.active
+          const isSubscribing = state.ws.subscriptions.all[subscriptionKey]?.subscribing > 1
           return !isActiveSubscription && !isSubscribing
         }),
         // on a subscribe action being dispatched, open a new WS subscription if one doesn't exist yet
@@ -136,7 +136,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
             .pipe(
               withLatestFrom(state$),
               mergeMap(([message, state]) => {
-                const isActiveSubscription = !!state.ws.subscriptions[subscriptionKey]?.active
+                const isActiveSubscription = !!state.ws.subscriptions.all[subscriptionKey]?.active
                 if (!isActiveSubscription) {
                   return of(subscribed(payload), messageReceived({ message, subscriptionKey }))
                 }
@@ -174,7 +174,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
         withLatestFrom(state$),
         mergeMap(async ([action, state]) => {
           try {
-            const input = state.ws.subscriptions[action.payload.subscriptionKey]?.input || {}
+            const input = state.ws.subscriptions.all[action.payload.subscriptionKey]?.input || {}
             if (!input) logger.warn(`WS: Could not find subscription from incoming message`)
             const response = wsHandler.toResponse(action.payload.message)
             if (!response) return action
@@ -227,7 +227,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
             },
             state,
           ]) => {
-            const input = state.ws.subscriptions[subscriptionKey]?.input || {}
+            const input = state.ws.subscriptions.all[subscriptionKey]?.input || {}
             if (!input) logger.warn(`WS: Could not find subscription from incoming message`)
 
             const reset$ = message$.pipe(
@@ -248,8 +248,8 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
               // The timeout could think we don't receive messages because of unresponsiveness, and it's actually unsubscribed
               // isSubscribing is considered too as we want to trigger an unsubscription from a hung channel
               mergeMap(([action, state]) => {
-                const isActive = !!state.ws.subscriptions[subscriptionKey]?.active
-                const isSubscribing = !!(state.ws.subscriptions[subscriptionKey]?.subscribing > 0)
+                const isActive = !!state.ws.subscriptions.all[subscriptionKey]?.active
+                const isSubscribing = !!(state.ws.subscriptions.all[subscriptionKey]?.subscribing > 0)
                 return isActive || isSubscribing ? of(action) : EMPTY
               })
             )
@@ -311,7 +311,7 @@ export const metricsEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
         subscription_key: payload.subscriptionMsg ? getSubsId(payload.subscriptionMsg) : 'N/A',
       })
       const messageLabels = (payload: WSMessagePayload) => ({
-        feed_id: getFeedId({ ...state.ws.subscriptions[action.payload.subscriptionKey]?.input }),
+        feed_id: getFeedId({ ...state.ws.subscriptions.all[action.payload.subscriptionKey]?.input }),
         subscription_key: payload.subscriptionKey,
       })
 
@@ -340,7 +340,7 @@ export const metricsEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
           logger.error('WS: subscription error', { payload: action.payload })
           break
         case unsubscribed.type: {
-          if (state.ws.subscriptions[getSubsId(action.payload.subscriptionMsg)]?.wasEverActive) {
+          if (state.ws.subscriptions.all[getSubsId(action.payload.subscriptionMsg)]?.wasEverActive) {
             ws_subscription_active.labels(subscriptionLabels(action.payload)).dec()
             logger.info('WS: unsubscribed', { payload: action.payload })
           }

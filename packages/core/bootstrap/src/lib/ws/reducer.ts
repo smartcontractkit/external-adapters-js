@@ -63,16 +63,19 @@ export const connectionsReducer = createReducer<ConnectionsState>(initConnection
 
 export interface SubscriptionsState {
   /** Map of all subscriptions by key */
-  [key: string]: {
-    active: boolean
-    wasEverActive?: boolean
-    unsubscribed?: boolean
-    subscribing: number
-    input: AdapterRequest
+  total: number
+  all: {
+    [key: string]: {
+      active: boolean
+      wasEverActive?: boolean
+      unsubscribed?: boolean
+      subscribing: number
+      input: AdapterRequest
+    }
   }
 }
 
-const initSubscriptionsState: SubscriptionsState = {}
+const initSubscriptionsState: SubscriptionsState = { total: 0, all: {} }
 
 export const subscriptionsReducer = createReducer<SubscriptionsState>(
   initSubscriptionsState,
@@ -80,7 +83,7 @@ export const subscriptionsReducer = createReducer<SubscriptionsState>(
     builder.addCase(actions.subscribed, (state, action) => {
       // Add subscription
       const key = getSubsId(action.payload.subscriptionMsg)
-      state[key] = {
+      state.all[key] = {
         active: true,
         wasEverActive: true,
         unsubscribed: false,
@@ -91,13 +94,13 @@ export const subscriptionsReducer = createReducer<SubscriptionsState>(
 
     builder.addCase(actions.subscribe, (state, action) => {
       const key = getSubsId(action.payload.subscriptionMsg)
-      const isActive = state[key]?.active
+      const isActive = state.all[key]?.active
       if (isActive) return
 
-      const isSubscribing = state[key]?.subscribing
-      state[key] = {
+      const isSubscribing = state.all[key]?.subscribing
+      state.all[key] = {
         active: false,
-        subscribing: isSubscribing ? state[key].subscribing + 1 : 1,
+        subscribing: isSubscribing ? state.all[key].subscribing + 1 : 1,
         input: { ...action.payload.input },
       }
     })
@@ -106,14 +109,21 @@ export const subscriptionsReducer = createReducer<SubscriptionsState>(
       // Remove subscription
       const key = getSubsId(action.payload.subscriptionMsg)
 
-      state[key].active = false
-      state[key].unsubscribed = true
+      state.all[key].active = false
+      state.all[key].unsubscribed = true
     })
 
     builder.addCase(actions.disconnected, state => {
-      state = {}
+      state.all = {}
       return state
     })
+
+    builder.addMatcher(
+      isAnyOf(actions.subscribe, actions.subscribed, actions.unsubscribed),
+      state => {
+        state.total = Object.values(state.all).filter(s => s?.active).length
+      },
+    )
   },
 )
 
