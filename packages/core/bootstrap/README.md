@@ -182,7 +182,7 @@ To configure caching these environment variables are available:
 
 ## Metrics
 
-A metrics server can be exposed which returns prometheus compatible data on the `/metrics` endpoint on the specified port.
+A metrics server can be exposed which returns prometheus compatible data on the `$BASE_URL/metrics` endpoint on the specified port.
 Note that this feature is ONLY available when running this application as an http server.
 
 \*Please note that this feature is EXPERIMENTAL.
