@@ -9,10 +9,10 @@ import {
   Reducer,
   Store,
 } from 'redux'
-import logger from 'redux-logger'
+import { createLogger } from 'redux-logger'
 import { nanoid } from '@reduxjs/toolkit'
 import { composeWithDevTools } from 'remote-redux-devtools'
-import { isDebug, isDebugLogLevel } from '../util'
+import { isDebug, isDebugLogLevel, redact } from '../util'
 
 export const asAction = <T>() => (p: T) => ({
   payload: toActionPayload<T>(p),
@@ -34,6 +34,14 @@ export function configureStore(
   preloadedState: PreloadedState<any> = {},
   middleware: Middleware<unknown, any, Dispatch<AnyAction>>[] = [],
 ): Store {
+  // https://github.com/LogRocket/redux-logger
+  // create logger where each state/action/error is passed through redact
+  const logger = createLogger({
+    stateTransformer: redact,
+    actionTransformer: redact,
+    errorTransformer: redact,
+  })
+
   if (isDebug() || isDebugLogLevel()) middleware.push(logger)
   const middlewareEnhancer = applyMiddleware(...middleware)
 
