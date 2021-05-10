@@ -46,6 +46,7 @@ import {
   ws_subscription_errors,
 } from './metrics'
 import { getSubsId } from './reducer'
+import { redact } from '../util'
 
 // Rxjs deserializer defaults to JSON.parse.
 // We need to handle errors from non-parsable messages
@@ -288,25 +289,24 @@ export const metricsEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
   action$.pipe(
     withLatestFrom(state$),
     tap(([action, state]) => {
-      const redactParams = (url: string) => (url.split('?')[0])
       const connectionLabels = (payload: WSConfigPayload) => ({
         key: payload.config.connectionInfo.key,
-        url: redactParams(payload.wsHandler.connection.url),
+        url: payload.wsHandler.connection.url,
       })
       const connectionErrorLabels = (payload: WSErrorPayload) => ({
         key: payload.connectionInfo.key,
-        url: redactParams(payload.connectionInfo.url),
+        url: payload.connectionInfo.url,
         message: payload.reason,
       })
       const subscriptionLabels = (payload: WSSubscriptionPayload) => ({
         connection_key: payload.connectionInfo.key,
-        connection_url: redactParams(payload.connectionInfo.url),
+        connection_url: payload.connectionInfo.url,
         feed_id: getFeedId({ ...payload.input }),
         subscription_key: getSubsId(payload.subscriptionMsg),
       })
       const subscriptionErrorLabels = (payload: WSSubscriptionErrorPayload) => ({
         connection_key: payload.connectionInfo.key,
-        connection_url: redactParams(payload.connectionInfo.url),
+        connection_url: payload.connectionInfo.url,
         feed_id: payload.input ? getFeedId({ ...payload.input }) : 'N/A',
         message: payload.reason,
         subscription_key: payload.subscriptionMsg ? getSubsId(payload.subscriptionMsg) : 'N/A',
@@ -315,6 +315,8 @@ export const metricsEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
         feed_id: getFeedId({ ...state.ws.subscriptions[action.payload.subscriptionKey]?.input }),
         subscription_key: payload.subscriptionKey,
       })
+
+      action.payload = redact(action.payload) // use redact function in util file before payload is passed onward
 
       switch (action.type) {
         case connected.type:

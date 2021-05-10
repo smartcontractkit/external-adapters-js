@@ -3709,6 +3709,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/redux-logger", "npm:3.0.8"],
             ["@types/remote-redux-devtools", "npm:0.5.4"],
             ["@types/sinon", "npm:9.0.11"],
+            ["@types/traverse", "npm:0.6.32"],
             ["@types/uuid", "npm:8.3.0"],
             ["@types/ws", "npm:7.4.1"],
             ["axios", "npm:0.21.1"],
@@ -3726,6 +3727,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["remote-redux-devtools", "npm:0.5.16"],
             ["rxjs", "npm:6.6.7"],
             ["sinon", "npm:10.0.0"],
+            ["traverse", "npm:0.6.6"],
             ["tslib", "npm:2.2.0"],
             ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"],
             ["uuid", "npm:8.3.2"],
@@ -8305,6 +8307,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-swagger-jsdoc-npm-6.0.0-de59ebe20a-47ecf8c15e.zip/node_modules/@types/swagger-jsdoc/",
           "packageDependencies": [
             ["@types/swagger-jsdoc", "npm:6.0.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@types/traverse", [
+        ["npm:0.6.32", {
+          "packageLocation": "./.yarn/cache/@types-traverse-npm-0.6.32-65de3f0296-113ed2f06e.zip/node_modules/@types/traverse/",
+          "packageDependencies": [
+            ["@types/traverse", "npm:0.6.32"]
           ],
           "linkType": "HARD",
         }]

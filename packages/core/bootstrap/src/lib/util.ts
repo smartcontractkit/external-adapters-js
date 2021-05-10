@@ -3,6 +3,8 @@ import { Decimal } from 'decimal.js'
 import { flatMap, values } from 'lodash'
 import objectHash from 'object-hash'
 import { v4 as uuidv4 } from 'uuid'
+import traverse from 'traverse'
+import querystring from 'querystring'
 
 export const isObject = (o: unknown): boolean =>
   o !== null && typeof o === 'object' && Array.isArray(o) === false
@@ -45,7 +47,7 @@ export const uuid = (): string => {
 }
 
 export const delay = (ms: number): Promise<number> =>
-  new Promise((resolve) => setTimeout(resolve, ms))
+  new Promise(resolve => setTimeout(resolve, ms))
 
 /**
  * Return a value used for exponential backoff in milliseconds.
@@ -132,7 +134,7 @@ export const getRequiredEnv = (name: string, prefix = ''): string => {
  */
 export function groupBy<K, V>(list: Array<V>, keyGetter: (input: V) => K): Map<K, Array<V>> {
   const map = new Map<K, Array<V>>()
-  list.forEach((item) => {
+  list.forEach(item => {
     const key = keyGetter(item)
     const collection = map.get(key)
     if (!collection) {
@@ -171,7 +173,7 @@ export const getHashOpts = (): Required<Parameters<typeof objectHash>>['1'] => (
   encoding: 'hex',
   excludeKeys: (props: string) =>
     ['id', 'maxAge', 'meta', 'rateLimitMaxAge']
-      .concat((process.env.CACHE_KEY_IGNORED_PROPS || '').split(',').filter((k) => k))
+      .concat((process.env.CACHE_KEY_IGNORED_PROPS || '').split(',').filter(k => k))
       .includes(props),
 })
 
@@ -204,7 +206,7 @@ const permutations = (collection: any, n: any) => {
     array.forEach((value: any, index: any, array: any) => {
       array = array.slice()
       array.splice(index, 1)
-      recur(array, n).forEach((permutation) => {
+      recur(array, n).forEach(permutation => {
         permutation.unshift(value)
         permutations.push(permutation)
       })
@@ -225,6 +227,52 @@ const permutations = (collection: any, n: any) => {
  */
 export const permutator = (options: string[], delimiter?: string): string[] | string[][] => {
   const output: string[][] = flatMap(options, (_: any, i: any, a: any) => permutations(a, i + 1))
-  const join = (combos: string[][]) => combos.map((p) => p.join(delimiter))
+  const join = (combos: string[][]) => combos.map(p => p.join(delimiter))
   return typeof delimiter === 'string' ? join(output) : output
+}
+
+/**
+ * @description
+ * Redacts secrets from JSON object (https://github.com/winstonjs/winston/issues/1079#issuecomment-825115754)
+ *
+ * @param obj The object to redact secrets from
+ *
+ * @returns redacted object
+ */
+export const redact = (obj: any): any => {
+  const copyObj = (obj: any): any => JSON.parse(JSON.stringify(obj))
+
+  // regex keys
+  const sensitiveKeys = [
+    /cookie/i,
+    /passw(or)?d/i,
+    /^pw$/,
+    /^pass$/i,
+    /secret/i,
+    /token/i,
+    /api[-._]?key/i,
+  ]
+
+  function redactSub(object: any) {
+    const copy = copyObj(object) // deep copy w/o another library
+    traverse(copy).forEach(function redactor(val) {
+      const isSensitiveKey = sensitiveKeys.some(regex => regex.test(this.key || '')) // check if key indicates sensitive value
+      const containsSensitiveKey = sensitiveKeys.some(regex => regex.test(val)) // check if value contains sensitive params (most common in URLs)
+
+      // if it is a URL with a sensitive parameter, redact
+      if (containsSensitiveKey && (val.startsWith('http') || val.startsWith('ws'))) {
+        const parsedUrl = copyObj(querystring.parse(val))
+        const stringified = querystring.stringify(redactSub(parsedUrl)) // recursive
+        this.update(querystring.unescape(stringified))
+        return
+      }
+
+      if (isSensitiveKey || containsSensitiveKey) {
+        this.update('[REDACTED]')
+      }
+    })
+    return copy
+  }
+
+  return redactSub(obj)
 }

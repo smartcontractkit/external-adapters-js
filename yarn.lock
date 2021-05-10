@@ -1460,7 +1460,7 @@ __metadata:
   resolution: "@chainlink/augur-adapter@workspace:packages/composites/augur"
   dependencies:
     "@chainlink/ea-bootstrap": "*"
-    "@chainlink/therundown-adapter": "workspace:packages/sources/therundown"
+    "@chainlink/therundown-adapter": ^0.0.2
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
@@ -2038,6 +2038,7 @@ __metadata:
     "@types/redux-logger": ^3.0.8
     "@types/remote-redux-devtools": ^0.5.4
     "@types/sinon": ^9.0.11
+    "@types/traverse": ^0
     "@types/uuid": ^8.3.0
     "@types/ws": ^7.4.1
     axios: ^0.21.1
@@ -2055,6 +2056,7 @@ __metadata:
     remote-redux-devtools: ^0.5.16
     rxjs: ^6.6.3
     sinon: ^10.0.0
+    traverse: ^0.6.6
     tslib: ^2.1.0
     typescript: ^4.2.3
     uuid: ^8.3.0
@@ -2924,7 +2926,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/therundown-adapter@*, @chainlink/therundown-adapter@workspace:packages/sources/therundown":
+"@chainlink/therundown-adapter@*, @chainlink/therundown-adapter@^0.0.2, @chainlink/therundown-adapter@workspace:packages/sources/therundown":
   version: 0.0.0-use.local
   resolution: "@chainlink/therundown-adapter@workspace:packages/sources/therundown"
   dependencies:
@@ -6332,6 +6334,13 @@ __metadata:
   version: 6.0.0
   resolution: "@types/swagger-jsdoc@npm:6.0.0"
   checksum: 47ecf8c15ed13ba558bb913d9982924b7787de104cd9c31c02c7acb528c65badcbc8adbef05cd3e2f2b04fd3eef58d935c34c8dd41bff252bed8fd5011b77712
+  languageName: node
+  linkType: hard
+
+"@types/traverse@npm:^0":
+  version: 0.6.32
+  resolution: "@types/traverse@npm:0.6.32"
+  checksum: 113ed2f06ecb811d2bcc68a479f10717086176c8efff43a0d3e95fc06755901b98776c614aaea5bbf2fca7e6048d934bc54a5ec020547b677907d0ff9e5c141e
   languageName: node
   linkType: hard
 
@@ -19308,7 +19317,7 @@ resolve@1.17.0:
   languageName: node
   linkType: hard
 
-"traverse@npm:~0.6.6":
+"traverse@npm:^0.6.6, traverse@npm:~0.6.6":
   version: 0.6.6
   resolution: "traverse@npm:0.6.6"
   checksum: f2bfaae69246bc1b630ad51d44be0a2a953be1650f754c299e5a05e4f00e4b493aa6c37a98410f9c2c902a21bef7f1ab10a9cdb9b9e8ee8813e1a9e95074dafd
