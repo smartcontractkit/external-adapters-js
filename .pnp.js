@@ -39,10 +39,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/composites/crypto-volatility-index"
       },
       {
-        "name": "@chainlink/curio-adapter",
-        "reference": "workspace:packages/composites/curio"
-      },
-      {
         "name": "@chainlink/defi-pulse-adapter",
         "reference": "workspace:packages/composites/defi-pulse"
       },
@@ -498,7 +494,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/cryptocompare-adapter", ["workspace:packages/sources/cryptocompare"]],
       ["@chainlink/cryptoid-adapter", ["workspace:packages/sources/cryptoid"]],
       ["@chainlink/cryptomkt-adapter", ["workspace:packages/sources/cryptomkt"]],
-      ["@chainlink/curio-adapter", ["workspace:packages/composites/curio"]],
       ["@chainlink/currencylayer-adapter", ["workspace:packages/sources/currencylayer"]],
       ["@chainlink/defi-pulse-adapter", ["workspace:packages/composites/defi-pulse"]],
       ["@chainlink/deribit-adapter", ["workspace:packages/sources/deribit"]],
@@ -3450,23 +3445,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.41"],
-            ["tslib", "npm:2.2.0"],
-            ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"]
-          ],
-          "linkType": "SOFT",
-        }]
-      ]],
-      ["@chainlink/curio-adapter", [
-        ["workspace:packages/composites/curio", {
-          "packageLocation": "./packages/composites/curio/",
-          "packageDependencies": [
-            ["@chainlink/curio-adapter", "workspace:packages/composites/curio"],
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
-            ["@chainlink/expert-car-broker-adapter", "workspace:packages/sources/expert-car-broker"],
-            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
-            ["@types/jest", "npm:26.0.22"],
-            ["@types/node", "npm:14.14.41"],
-            ["axios", "npm:0.21.1"],
             ["tslib", "npm:2.2.0"],
             ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"]
           ],
