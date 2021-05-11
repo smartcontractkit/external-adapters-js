@@ -3,6 +3,7 @@ import { util } from '@chainlink/ea-bootstrap'
 
 const nomicsIds: Record<string, string> = {
   FTT: 'FTXTOKEN',
+  KNC: 'KNC3',
 }
 
 const getPriceData = async (symbols: string, currency: string) => {
@@ -44,6 +45,8 @@ export const getPrices = async (
 
   const entries = baseSymbols.map((symbol) => {
     const data = pricesMap.get(symbol.toUpperCase())
+    console.log('symbol', symbol)
+    console.log('data', data)
     return [symbol, toAssetPrice(data)]
   })
 
