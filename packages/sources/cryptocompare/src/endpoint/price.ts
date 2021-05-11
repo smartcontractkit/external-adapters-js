@@ -10,11 +10,7 @@ export enum Paths {
   MarketCap = 'MKTCAP',
 }
 
-<<<<<<< HEAD
 interface ResponseSchema {
-=======
-type PriceResponse = {
->>>>>>> 0811378c... perf: bring back batch requests for price endpoint symbols of TA source adapters
   RAW: {
     [fsym: string]: {
       [tsym: string]: {

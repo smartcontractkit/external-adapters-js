@@ -3,17 +3,14 @@ import { Config, ExecuteWithConfig } from '@chainlink/types'
 
 export const NAME = 'coins'
 
-export type CoinsResponse = { id: string; symbol: string; name: string }[]
-
-const customError = (data: any) => {
-  if (Object.keys(data).length === 0) return true
-  return false
+export interface CoinsResponse {
+  id: string
+  symbol: string
+  name: string
 }
 
-const customParams = {}
-
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-  const validator = new Validator(request, customParams)
+  const validator = new Validator(request)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
@@ -22,6 +19,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     ...config.api,
     url,
   }
-  const response = await Requester.request<CoinsResponse>(options, customError)
+  const response = await Requester.request<CoinsResponse[]>(options)
   return Requester.success(jobRunID, response, true)
 }

@@ -2,7 +2,7 @@ import { makeExecute } from './adapter'
 import { executeSync } from '@chainlink/ea-bootstrap'
 import { CoinsResponse } from './endpoint/coins'
 
-export const getCoinIds = (id: string): Promise<CoinsResponse> => {
+export const getCoinIds = (id: string): Promise<CoinsResponse[]> => {
   return new Promise((resolve, reject) => {
     const execute = makeExecute()
     const executeWithMiddleware = executeSync(execute)
@@ -25,7 +25,7 @@ export const getCoinIds = (id: string): Promise<CoinsResponse> => {
 
 export const getSymbolsToIds = (
   symbols: string[],
-  coinList: CoinsResponse,
+  coinList: CoinsResponse[],
 ): Record<string, string> => {
   const idToSymbol: Record<string, string> = {}
   symbols.forEach((symbol) => {
