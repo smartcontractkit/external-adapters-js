@@ -34,7 +34,6 @@ export const censor = (v: string) => {
 
 export const logger = pino({
   level: process.env.LOG_LEVEL || 'info',
-  // timestamp: true, // default enabled
   prettyPrint: process.env.NODE_ENV === 'development',
   prettifier: require('pino-pretty'),
   formatters: {
