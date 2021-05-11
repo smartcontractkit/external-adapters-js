@@ -2,12 +2,13 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
+// Should also be supported for "EOD"
 export const NAME = 'historical'
 
 const customError = (data: any) => data.Response === 'Error'
 
 const customParams = {
-  base: ['base', 'from', 'coin', 'market'],
+  base: ['base', 'from', 'coin', 'market', 'symbol'],
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {

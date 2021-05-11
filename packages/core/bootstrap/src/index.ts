@@ -123,7 +123,7 @@ export const withDebug: Middleware = async (execute) => async (input: AdapterReq
 }
 
 // Init all middleware, and return a wrapped execute fn
-const withMiddleware = async (execute: Execute, middleware: Middleware[]) => {
+export const withMiddleware = async (execute: Execute, middleware: Middleware[]) => {
   // Init and wrap middleware one by one
   for (let i = 0; i < middleware.length; i++) {
     execute = await middleware[i](execute)
@@ -135,9 +135,16 @@ const withMiddleware = async (execute: Execute, middleware: Middleware[]) => {
 const executeSync = (execute: Execute, makeWsHandler?: MakeWSHandler): ExecuteSync => {
   // TODO: Try to init middleware only once
   // const initMiddleware = withMiddleware(execute)
+  const warmerMiddleware = [
+    skipOnError(withCache),
+    rateLimit.withRateLimit(storeSlice('rateLimit')),
+    withStatusCode,
+  ].concat(metrics.METRICS_ENABLED ? [withMetrics] : [])
+
   const middleware = [
     withLogger,
     skipOnError(withCache),
+    cacheWarmer.withCacheWarmer(storeSlice('cacheWarmer'), warmerMiddleware, { store: storeSlice('ws'), makeWSHandler: makeWsHandler })(execute),
     ws.withWebSockets(storeSlice('ws'), makeWsHandler),
     rateLimit.withRateLimit(storeSlice('rateLimit')),
     withStatusCode,
@@ -149,21 +156,7 @@ const executeSync = (execute: Execute, makeWsHandler?: MakeWSHandler): ExecuteSy
     try {
       const executeWithMiddleware = await withMiddleware(execute, middleware)
       const result = await executeWithMiddleware(data)
-      // only consider registering a warmup request if the original one was successful
-      // and we have caching enabled
-      if (
-        util.parseBool(process.env.CACHE_ENABLED) &&
-        util.parseBool(process.env.EXPERIMENTAL_WARMUP_ENABLED)
-      ) {
-        store.dispatch(
-          cacheWarmer.actions.warmupSubscribed({
-            id: data.id,
-            // We need to initilialize the middleware on every beat to open a connection with the cache
-            executeFn: async (input) => await (await withMiddleware(execute, middleware))(input),
-            data,
-          }),
-        )
-      }
+
       return callback(result.statusCode, result)
     } catch (error) {
       return callback(error.statusCode || 500, Requester.errored(data.id, error))

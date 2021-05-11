@@ -4,6 +4,20 @@ This section contains packages that represent composite adapters that use data f
 
 They are published to NPM under the `@chainlink` organization.
 
+## List
+
+[APY Finance](./apy-finance/README.md)
+[Bitcoin JSON RPC](./bitcoin-json-rpc/README.md)
+[Crypto Volatility Index](./crypto-volatility-index/README.md)
+[DeFi Pulse](./defi-pulse/README.md)
+[DNS Record Check](./dns-record-check/README.md)
+[Market Closure](./market-closure/README.md)
+[Outlier Detection](./outlier-detection/README.md)
+[Proof of Reserves](./proof-of-reserves/README.md)
+[Reference Transform](./reference-transform/README.md)
+[Synth Index](./synth-index/README.md)
+[Token Allocation](./token-allocation/README.md)
+
 ## Service Discovery
 
 Composite adapters rely on other external adapters to retrieve their own provider specific data. In setting up a composite adapter the locations of these underlying external adapters will need to be set as environment variables using `[name]_DATA_PROVIDER_URL`. See the specific composite adapter's documentation for further details.

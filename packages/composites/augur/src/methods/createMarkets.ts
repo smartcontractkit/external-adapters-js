@@ -70,10 +70,10 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
     const totalScore = event.lines?.[affiliateId].total.total_over
     if (!homeSpread || !totalScore) return undefined
 
-    return packCreation(event.event_id, homeTeam.team_id, awayTeam.team_id, startTime, homeSpread, totalScore)
+    return packCreation(event.event_id, homeTeam.team_normalized_id, awayTeam.team_normalized_id, startTime, homeSpread, totalScore)
   }).filter((event) => !!event)
 
-  let nonce = await config.wallet.getTransactionCount() + 1
+  let nonce = await config.wallet.getTransactionCount()
   for (let i = 0; i < packed.length; i++) {
     const eventId = eventIdToNum(filtered[i].event_id)
     const isRegistered = await contract.isEventRegistered(eventId)
