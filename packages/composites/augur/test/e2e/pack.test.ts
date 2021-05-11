@@ -9,7 +9,9 @@ describe('packCreation', () => {
         awayTeamId: 0,
         startTime: 0,
         homeSpread: 0,
-        totalScore: 0
+        totalScore: 0,
+        createSpread: false,
+        createTotalScore: false
       },
       expect: "0x0000000000000000000000000000000000000000000000000000000000000000"
     },
@@ -19,16 +21,18 @@ describe('packCreation', () => {
         awayTeamId: 2928,
         startTime: Date.parse("2020-02-02T23:30:00Z"),
         homeSpread: -4.499,
-        totalScore: 53
+        totalScore: 53,
+        createSpread: true,
+        createTotalScore: true
       },
-      expect: "0x9a35b8986a76eaaea364be331cb453ec0b710b705e375b78ffd3021200000000"
+      expect: "0x9a35b8986a76eaaea364be331cb453ec0b710b705e375b78ffd3021203000000"
     },
   ]
 
   requests.forEach((req) => {
     it(`${req.name}`, async () => {
       const p = req.testData
-      const got = create.packCreation(p.eventId, p.homeTeamId, p.awayTeamId, p.startTime, p.homeSpread, p.totalScore)
+      const got = create.packCreation(p.eventId, p.homeTeamId, p.awayTeamId, p.startTime, p.homeSpread, p.totalScore, p.createSpread, p.createTotalScore)
       expect(got).toEqual(req.expect)
 
       const bytes = Buffer.from(got.substr(2), 'hex').byteLength
