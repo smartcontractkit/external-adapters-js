@@ -31,7 +31,7 @@ const coingeckoBlacklist = [
   'compound-coin',
   'uni-coin',
   'unicorn-token',
-  'kyber-network-crystal' // TEMP blacklisted due to no volume
+  'kyber-network-crystal', // TEMP blacklisted due to no volume
 ]
 
 const toAssetPrice = (data: Record<string, any>, currency: string) => {
@@ -86,7 +86,7 @@ export const getMarketCaps = async (
 const getIdtoSymbol = (symbols: string[], coinList: any) => {
   const idToSymbol: Record<string, string> = {
     // Pre-set IDs here
-    "kyber-network": "KNC"
+    'kyber-network': 'KNC',
   }
   symbols.forEach((symbol) => {
     const coin = coinList.find(

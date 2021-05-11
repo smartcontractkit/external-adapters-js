@@ -45,8 +45,6 @@ export const getPrices = async (
 
   const entries = baseSymbols.map((symbol) => {
     const data = pricesMap.get(symbol.toUpperCase())
-    console.log('symbol', symbol)
-    console.log('data', data)
     return [symbol, toAssetPrice(data)]
   })
 

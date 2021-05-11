@@ -1,7 +1,7 @@
 import { Requester } from '@chainlink/external-adapter'
 
-const directIds: {[key: string]: string} = {
-  "CREAM": "cream-cream"
+const directIds: { [key: string]: string } = {
+  CREAM: 'cream-cream',
 }
 
 const getPriceData = async (currency: string) => {
@@ -57,7 +57,7 @@ export const getPrices = async (
   // For coins not included in main list, check if we can query the ID
   for (const symbol of baseSymbols) {
     const key = symbol.toUpperCase()
-    if (!!priceMap.get(key) || !directIds[key]) continue;
+    if (!!priceMap.get(key) || !directIds[key]) continue
     priceMap.set(symbol.toUpperCase(), await getPriceDataFromId(directIds[key], quote))
   }
 
