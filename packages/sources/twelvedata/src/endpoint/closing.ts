@@ -3,11 +3,12 @@ import { ExecuteWithConfig, Config } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
 export const NAME = 'closing'
+export const ALT_NAME = 'eod'
 
 const customError = (data: any) => data.Response === 'Error'
 
 const customParams = {
-  base: ['base', 'from', 'coin', 'market'],
+  base: ['base', 'from', 'coin', 'market', 'symbol'],
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {

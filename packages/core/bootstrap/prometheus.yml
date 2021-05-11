@@ -1,6 +1,6 @@
 # my global config
 global:
-  scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  scrape_interval: 15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
   evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
 
 # A scrape configuration containing exactly one endpoint to scrape:
@@ -13,11 +13,11 @@ scrape_configs:
     # scheme defaults to 'http'.
 
     static_configs:
-    ## Development only
-    # Linux
-    # In the case of the `bridge` network, Docker subnet is 172.17.0.0/16, and 172.17.0.1 is allocated for the gateway.
-    # - targets: ['172.17.0.1:9080']
-    # Windows
-    # - targets: ['docker.for.win.host.internal:9080']
-    # Mac
-    - targets: ['docker.for.mac.host.internal:9080']
+      ## Development only
+      # Linux
+      # In the case of the `bridge` network, Docker subnet is 172.17.0.0/16, and 172.17.0.1 is allocated for the gateway.
+      # - targets: ['172.17.0.1:9080']
+      # Windows
+      # - targets: ['docker.for.win.host.internal:9080']
+      # Mac
+      - targets: ['docker.for.mac.host.internal:9080']

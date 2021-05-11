@@ -28,6 +28,10 @@ describe('execute', () => {
         name: 'endpoint stock',
         testData: { id: jobID, data: { base: 'TSLA', endpoint: 'stock' } },
       },
+      {
+        name: 'endpoint eod',
+        testData: { id: jobID, data: { symbol: 'VXX', endpoint: 'eod' } },
+      },
     ]
 
     requests.forEach((req) => {

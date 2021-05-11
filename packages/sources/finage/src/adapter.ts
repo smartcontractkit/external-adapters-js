@@ -10,13 +10,15 @@ const customParams = {
   endpoint: false,
 }
 
+const baseUrl = 'https://api.finage.co.uk'
+
 export const execute: Execute = async (input) => {
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || ''
-  let url = `https://api.finage.co.uk/last/${endpoint}`
+  let url = `${baseUrl}/last/${endpoint}`
   const symbol = validator.overrideSymbol(NAME).toUpperCase()
   const to = (validator.validated.data.to || '').toUpperCase()
   const currencies = symbol + to
@@ -28,6 +30,14 @@ export const execute: Execute = async (input) => {
     case 'stock': {
       url = `${url}/${symbol}`
       responsePath = ['bid']
+      params = {
+        apikey,
+      }
+      break
+    }
+    case 'eod': {
+      url = `${baseUrl}/agg/stock/prev-close/${symbol}`
+      responsePath = ['results', 0, 'c']
       params = {
         apikey,
       }
