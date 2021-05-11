@@ -67,6 +67,18 @@ export const ABI = [
   },
   {
     inputs: [
+      {
+        internalType: "uint256", name: "_eventId", type: "uint256" },
+    ],
+    name: "getEventMarkets",
+    outputs: [
+      { internalType: "uint256[3]", name: "", type: "uint256[3]" },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
       { internalType: "bytes32", name: "_payload", type: "bytes32" }
     ],
     name: "trustedResolveMarkets",
