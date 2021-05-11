@@ -1,4 +1,7 @@
 export * as balance from './balance'
+export * as difficulty from './difficulty'
+export * as height from './height'
+
 
 export const COIN_KEYS = ['btc'] as const
 export type CoinType = typeof COIN_KEYS[number]
