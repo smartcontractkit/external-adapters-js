@@ -3,10 +3,9 @@ import { AdapterError } from './errors'
 import { logger } from './logger'
 import { getDefaultConfig, logConfig } from './config'
 import { AdapterResponse, AdapterErrorResponse, RequestConfig } from '@chainlink/types'
-import { type } from '../util'
+import { deepType } from '../util'
 
 const getFalse = () => false
-
 
 export class Requester {
   static async request<T extends Record<string, any>>(
@@ -105,15 +104,15 @@ export class Requester {
     result?: number,
     results?: { [fsym: string]: number },
   ): AxiosResponseWithLiftedResult<T> | AxiosResponseWithPayloadAndLiftedResult<T> {
-    const isObj = type(response.data) === '[object Object]'
+    const isObj = deepType(response.data) === 'object'
     const output = isObj
       ? (response as AxiosResponseWithLiftedResult<T>)
       : ({
           ...response,
           data: { payload: response.data },
         } as AxiosResponseWithPayloadAndLiftedResult<T>)
-    output.data.result &&= result
-    output.data.results &&= results
+    if (result) output.data.result = result
+    if (results) output.data.results = results
     return output
   }
 
@@ -235,7 +234,7 @@ type AxiosResponseWithLiftedResult<T> = AxiosResponse<T & LiftedResult>
 /**
  * An Axios response that has response data that is not an object
  * needs to be transformed into an object to hold the result or results fields.
- * 
- * The original response data will be store under the key of payload. 
+ *
+ * The original response data will be store under the key of payload.
  */
 type AxiosResponseWithPayloadAndLiftedResult<T> = AxiosResponse<{ payload: T } & LiftedResult>

@@ -236,22 +236,22 @@ export const permutator = (options: string[], delimiter?: string): string[] | st
  * @url
  * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof#real-world_usage
  *
- * @param obj The value to type check
+ * @param value The value to type check
  * @param fullClass (Optional) Whether to use polyfill for checking null
  *
  * @returns String describing type of obj
  */
-export function type(obj: any, fullClass?: boolean): string {
+export function deepType(value: unknown, fullClass?: boolean): string {
   // get toPrototypeString() of obj (handles all types)
   // Early JS environments return '[object Object]' for null, so it's best to directly check for it.
   if (fullClass) {
-    return obj === null ? '[object Null]' : Object.prototype.toString.call(obj)
+    return value === null ? '[object Null]' : Object.prototype.toString.call(value)
   }
-  if (obj == null) {
-    return (obj + '').toLowerCase()
+  if (value == null) {
+    return (value + '').toLowerCase()
   } // implicit toString() conversion
 
-  const deepType = Object.prototype.toString.call(obj).slice(8, -1).toLowerCase()
+  const deepType = Object.prototype.toString.call(value).slice(8, -1).toLowerCase()
   if (deepType === 'generatorfunction') {
     return 'function'
   }
@@ -262,7 +262,7 @@ export function type(obj: any, fullClass?: boolean): string {
 
   return deepType.match(/^(array|bigint|date|error|function|generator|regexp|symbol)$/)
     ? deepType
-    : typeof obj === 'object' || typeof obj === 'function'
+    : typeof value === 'object' || typeof value === 'function'
     ? 'object'
-    : typeof obj
+    : typeof value
 }

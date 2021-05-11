@@ -1,6 +1,12 @@
 import express, { Application } from 'express'
 import { Server as HTTPServer } from 'http'
 
+export const SUCCESS_RESPONSE = {
+  result: 'success',
+  value: 1,
+}
+export const SUCCESS_ARRAY_RESPONSE = ['1']
+
 export class Server {
   app: Application
   port: number
@@ -14,12 +20,13 @@ export class Server {
     this.errorCount = 0
   }
 
-  start() {
+  start(): void {
     this.app.get('/', (_, res) => {
-      res.status(200).json({
-        result: 'success',
-        value: 1,
-      })
+      res.status(200).json(SUCCESS_RESPONSE)
+    })
+
+    this.app.get('/successArray', (_, res) => {
+      res.status(200).send(SUCCESS_ARRAY_RESPONSE)
     })
 
     this.app.get('/error', (_, res) => {
@@ -50,11 +57,11 @@ export class Server {
     this.server = this.app.listen(this.port)
   }
 
-  stop(callback?: (err?: Error | undefined) => void) {
+  stop(callback?: (err?: Error | undefined) => void): void {
     if (this.server) this.server.close(callback)
   }
 
-  reset() {
+  reset(): void {
     this.errorCount = 0
   }
 }
