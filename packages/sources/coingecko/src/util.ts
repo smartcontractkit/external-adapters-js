@@ -2,24 +2,24 @@ import { makeExecute } from './adapter'
 import { executeSync } from '@chainlink/ea-bootstrap'
 import { CoinsResponse } from './endpoint/coins'
 
-export const getCoinIds = (id: string): Promise<CoinsResponse[]> => {
+export function getCoinIds(id: string): Promise<CoinsResponse[]> {
+  const execute = makeExecute()
+  const executeWithMiddleware = executeSync(execute)
+  const options = {
+    data: {
+      endpoint: 'coins',
+    },
+    method: 'post',
+    id,
+  }
   return new Promise((resolve, reject) => {
-    const execute = makeExecute()
-    const executeWithMiddleware = executeSync(execute)
-    const options = {
-      data: {
-        endpoint: 'coins',
-      },
-      method: 'post',
-      id,
-    }
-    try {
-      executeWithMiddleware(options, (_, data) => {
-        resolve(data.data)
-      })
-    } catch (error) {
-      reject(error)
-    }
+    executeWithMiddleware(options, (_, result) => {
+      if (result.error) {
+        reject(result)
+      } else {
+        resolve(result.data)
+      }
+    })
   })
 }
 
