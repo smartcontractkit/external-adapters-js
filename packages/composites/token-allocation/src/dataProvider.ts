@@ -59,6 +59,7 @@ export const getPriceProvider = (
     })
     return Object.fromEntries(payloadEntries)
   }
+
   const results = await Promise.all(
     symbols.map(async (base) => {
       const data = {
