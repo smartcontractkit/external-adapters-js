@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config } from '@chainlink/types'
+import { ExecuteWithConfig, Config, AxiosResponse } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
 export const NAME = 'price'
@@ -10,7 +10,7 @@ export enum Paths {
   MarketCap = 'MKTCAP',
 }
 
-type PriceResponse = {
+interface ResponseSchema {
   RAW: {
     [fsym: string]: {
       [tsym: string]: {
@@ -112,12 +112,23 @@ type PriceResponse = {
   }
 }
 
-const customError = (data: any) => data.Response === 'Error'
-
 export const customParams = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
   path: false,
+}
+
+const handleBatchedRequest = (
+  jobRunID: string,
+  response: AxiosResponse<ResponseSchema[]>,
+  quote: string,
+  path: string,
+) => {
+  const payload: Record<string, number> = {}
+  for (const fsym in response.data.RAW) {
+    payload[fsym] = Requester.validateResultNumber(response.data, ['RAW', fsym, quote, path])
+  }
+  return Requester.success(jobRunID, Requester.withResult(response, undefined, payload), true)
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
@@ -141,15 +152,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     params,
   }
 
-  const response = await Requester.request<PriceResponse>(options, customError)
+  const response = await Requester.request<ResponseSchema>(options)
 
-  if (Array.isArray(symbol)) {
-    const payload: Record<string, number> = {}
-    for (const fsym in response.data.RAW) {
-      payload[fsym] = Requester.validateResultNumber(response.data, ['RAW', fsym, quote, path])
-    }
-    return Requester.success(jobRunID, Requester.withResult(response, undefined, payload), true)
-  }
+  if (Array.isArray(symbol)) return handleBatchedRequest(jobRunID, response, quote, path)
 
   const result = Requester.validateResultNumber(response.data, ['RAW', symbol, quote, path])
 

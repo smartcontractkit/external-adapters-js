@@ -1,6 +1,6 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../config'
-import { ExecuteWithConfig, Config } from '@chainlink/types'
+import { ExecuteWithConfig, Config, AxiosResponse } from '@chainlink/types'
 
 export const NAME = 'price'
 
@@ -51,6 +51,27 @@ const priceParams = {
   path: false,
 }
 
+const handleBatchedRequest = (
+  jobRunID: string,
+  response: AxiosResponse,
+  convert: string,
+  path: string,
+) => {
+  const payload: Record<string, number> = {}
+  for (const key in response.data.data) {
+    payload[key] = Requester.validateResultNumber(response.data, [
+      'data',
+      key,
+      'quote',
+      convert,
+      path,
+    ])
+  }
+  response.data.results = payload
+  response.data.cost = Requester.validateResultNumber(response.data, ['status', 'credit_count'])
+  return Requester.success(jobRunID, response, true)
+}
+
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const url = 'cryptocurrency/quotes/latest'
   const validator = new Validator(request, priceParams)
@@ -98,21 +119,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   }
   const response = await Requester.request(options)
 
-  if (Array.isArray(symbol)) {
-    const payload: Record<string, number> = {}
-    for (const key in response.data.data) {
-      payload[key] = Requester.validateResultNumber(response.data, [
-        'data',
-        key,
-        'quote',
-        convert,
-        path,
-      ])
-    }
-    response.data.results = payload
-    response.data.cost = Requester.validateResultNumber(response.data, ['status', 'credit_count'])
-    return Requester.success(jobRunID, response, true)
-  }
+  if (Array.isArray(symbol)) return handleBatchedRequest(jobRunID, response, convert, path)
 
   // CMC API currently uses ID as key in response, when querying with "slug" param
   const _keyForSlug = (data: any, slug: string) => {

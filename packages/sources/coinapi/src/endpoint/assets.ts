@@ -1,10 +1,10 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config } from '@chainlink/types'
+import { ExecuteWithConfig, Config, AxiosResponse } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
 export const NAME = 'assets'
 
-export type AssetsResponse = {
+export interface ResponseSchema {
   asset_id: string
   name: string
   type_is_crypto: number
@@ -22,13 +22,23 @@ export type AssetsResponse = {
   volume_1mth_usd: number
   price_usd: number
   id_icon: string
-}[]
-
-const customError = (data: AssetsResponse) => data.length === 0
+}
 
 const customParams = {
   base: ['base', 'from', 'coin'],
   path: false,
+}
+
+const handleBatchedRequest = (
+  jobRunID: string,
+  response: AxiosResponse<ResponseSchema[]>,
+  path: string,
+) => {
+  const payload: Record<string, number> = {}
+  for (const asset of response.data) {
+    payload[asset.asset_id] = Requester.validateResultNumber(asset, [path])
+  }
+  return Requester.success(jobRunID, Requester.withResult(response, undefined, payload), true)
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
@@ -40,7 +50,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const symbol = validator.overrideSymbol(AdapterName)
   const url = `assets`
   const params = {
-    filter_asset_id: (Array.isArray(symbol) ? symbol : [symbol]).join(','),
+    filter_asset_id: Array.isArray(symbol) ? symbol.join(',') : symbol,
   }
 
   const options = {
@@ -49,15 +59,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     params: { ...config.api.params, ...params },
   }
 
-  const response = await Requester.request<AssetsResponse>(options, customError)
+  const response = await Requester.request<ResponseSchema[]>(options)
 
-  if (Array.isArray(symbol)) {
-    const payload: Record<string, number> = {}
-    for (const asset of response.data) {
-      payload[asset.asset_id] = Requester.validateResultNumber(asset, [path])
-    }
-    return Requester.success(jobRunID, Requester.withResult(response, undefined, payload), true)
-  }
+  if (Array.isArray(symbol)) return handleBatchedRequest(jobRunID, response, path)
 
   const result = Requester.validateResultNumber(response.data[0], [path])
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)

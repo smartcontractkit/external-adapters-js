@@ -228,3 +228,41 @@ export const permutator = (options: string[], delimiter?: string): string[] | st
   const join = (combos: string[][]) => combos.map((p) => p.join(delimiter))
   return typeof delimiter === 'string' ? join(output) : output
 }
+
+/**
+ * @description
+ * Check existing (non-undefined) value for its type.
+ *
+ * @url
+ * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof#real-world_usage
+ *
+ * @param obj The value to type check
+ * @param fullClass (Optional) Whether to use polyfill for checking null
+ *
+ * @returns String describing type of obj
+ */
+export function type(obj: any, fullClass?: boolean): string {
+  // get toPrototypeString() of obj (handles all types)
+  // Early JS environments return '[object Object]' for null, so it's best to directly check for it.
+  if (fullClass) {
+    return obj === null ? '[object Null]' : Object.prototype.toString.call(obj)
+  }
+  if (obj == null) {
+    return (obj + '').toLowerCase()
+  } // implicit toString() conversion
+
+  const deepType = Object.prototype.toString.call(obj).slice(8, -1).toLowerCase()
+  if (deepType === 'generatorfunction') {
+    return 'function'
+  }
+
+  // Prevent overspecificity (for example, [object HTMLDivElement], etc).
+  // Account for functionish Regexp (Android <=2.3), functionish <object> element (Chrome <=57, Firefox <=52), etc.
+  // String.prototype.match is universally supported.
+
+  return deepType.match(/^(array|bigint|date|error|function|generator|regexp|symbol)$/)
+    ? deepType
+    : typeof obj === 'object' || typeof obj === 'function'
+    ? 'object'
+    : typeof obj
+}

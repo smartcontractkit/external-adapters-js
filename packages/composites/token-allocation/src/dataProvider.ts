@@ -9,15 +9,38 @@ const batchingSupport: { [name: string]: boolean } = {
   NOMICS: true,
 }
 
+const supportsBatch = (source: string, quote: string) =>
+  batchingSupport[source.toUpperCase()] ||
+  // CoinAPI can only batch USD quotes
+  (source.toUpperCase() === 'COINAPI' && quote.toUpperCase() === 'USD')
+
+/**
+ * @description
+ * A factory that returns a function for getting price or marketcap data from a provider.
+ * If the data provider supports batching then it will be sent as a batch request.
+ * The response data is normalized to the type ResponsePayload regardless of the type of request.
+ *
+ * @returns
+ * ```
+ * {
+ *    [symbol: string]: {
+ *        quote: {
+ *            [symbol: string]: {
+ *                price?: number | undefined;
+ *                marketCap?: number | undefined;
+ *            };
+ *        };
+ *    };
+ *}
+ * ```
+ */
+
 export const getPriceProvider = (
   jobRunID: string,
   source: string,
   apiConfig: RequestConfig,
 ) => async (symbols: string[], quote: string, withMarketCap = false): Promise<ResponsePayload> => {
-  if (
-    batchingSupport[source.toUpperCase()] ||
-    (source.toUpperCase() === 'COINAPI' && quote.toUpperCase() === 'USD') // Special case for CoinAPI which only can batch USD quotes
-  ) {
+  if (supportsBatch(source, quote)) {
     const data = {
       id: jobRunID,
       data: { base: symbols, quote, endpoint: withMarketCap ? 'marketcap' : 'price' },
@@ -36,6 +59,7 @@ export const getPriceProvider = (
     })
     return Object.fromEntries(payloadEntries)
   }
+
   const results = await Promise.all(
     symbols.map(async (base) => {
       const data = {

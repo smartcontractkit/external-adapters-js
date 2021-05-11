@@ -8,7 +8,7 @@ describe('execute', () => {
   const execute = makeExecute()
   process.env.API_KEY = process.env.API_KEY ?? 'test_api_key'
 
-  describe('successful calls @integration', () => {
+  describe('successful calls', () => {
     const requests = [
       {
         name: 'id not supplied',
@@ -42,7 +42,7 @@ describe('execute', () => {
     })
   })
 
-  describe('successful batch calls @integration', () => {
+  describe('successful batch calls', () => {
     const requests = [
       {
         name: 'supports multiple symbols',
@@ -85,7 +85,7 @@ describe('execute', () => {
     })
   })
 
-  describe('error calls @integration', () => {
+  describe('error calls', () => {
     const requests = [
       {
         name: 'unknown base',

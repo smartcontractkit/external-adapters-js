@@ -8,7 +8,7 @@ describe('price endpoint', () => {
   const execute = makeExecute()
   process.env.API_KEY = process.env.API_KEY ?? 'test_api_key'
 
-  describe('successful calls @integration', () => {
+  describe('successful calls', () => {
     const requests = [
       {
         name: 'supports multiple symbols',
@@ -26,7 +26,7 @@ describe('price endpoint', () => {
     })
   })
 
-  describe('successful batch calls @integration', () => {
+  describe('successful batch calls', () => {
     const requests = [
       {
         name: 'supports multiple symbols',
@@ -69,7 +69,7 @@ describe('price endpoint', () => {
     })
   })
 
-  describe('error calls @integration', () => {
+  describe('error calls', () => {
     const requests = [
       {
         name: 'unknown base',

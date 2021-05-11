@@ -1,21 +1,12 @@
-import axios, { AxiosResponse, AxiosRequestConfig } from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import { AdapterError } from './errors'
 import { logger } from './logger'
 import { getDefaultConfig, logConfig } from './config'
-import { AdapterResponse, AdapterErrorResponse } from '@chainlink/types'
+import { AdapterResponse, AdapterErrorResponse, RequestConfig } from '@chainlink/types'
+import { type } from '../util'
 
 const getFalse = () => false
 
-export type RequestConfig = AxiosRequestConfig
-
-type AxiosResponseWithResult<T> = AxiosResponse<
-  T & { result?: number; results?: { [fsym: string]: number } }
->
-type AxiosResponseWithResultResponse<T> = AxiosResponse<{
-  payload: T
-  result?: number
-  results?: { [fsym: string]: number }
-}>
 
 export class Requester {
   static async request<T extends Record<string, any>>(
@@ -23,7 +14,7 @@ export class Requester {
     customError?: any,
     retries = 3,
     delay = 1000,
-  ) {
+  ): Promise<AxiosResponse<T>> {
     if (typeof config === 'string') config = { url: config }
     if (typeof config.timeout === 'undefined') {
       const timeout = Number(process.env.TIMEOUT)
@@ -103,24 +94,27 @@ export class Requester {
   }
 
   /**
-   * Extend a typed Axios response with results
-   * @param response Axios response
-   * @param result a single result value
-   * @param results multiple results for internal batch requests
+   * Extend a typed Axios response with a single result or group of results
+   * @param response Axios response object
+   * @param result (optional) a single result value
+   * @param results (optional) a group of results from a batch request
    */
 
   static withResult<T>(
     response: AxiosResponse<T>,
     result?: number,
     results?: { [fsym: string]: number },
-  ): AxiosResponseWithResult<T> | AxiosResponseWithResultResponse<T> {
-    const isObj = Object.prototype.toString.call(response.data) === '[object Object]'
-    const responseWithResult = isObj
-      ? (response as AxiosResponseWithResult<T>)
-      : ({ ...response, data: { payload: response.data } } as AxiosResponseWithResultResponse<T>)
-    responseWithResult.data.result &&= result
-    responseWithResult.data.results &&= results
-    return responseWithResult
+  ): AxiosResponseWithLiftedResult<T> | AxiosResponseWithPayloadAndLiftedResult<T> {
+    const isObj = type(response.data) === '[object Object]'
+    const output = isObj
+      ? (response as AxiosResponseWithLiftedResult<T>)
+      : ({
+          ...response,
+          data: { payload: response.data },
+        } as AxiosResponseWithPayloadAndLiftedResult<T>)
+    output.data.result &&= result
+    output.data.results &&= results
+    return output
   }
 
   static errored(
@@ -167,3 +161,81 @@ export class Requester {
 
   static toVendorName = <K, V>(key: K, names: { [key: string]: V }): V => names[String(key)]
 }
+
+/**
+ * Contained within the body of an api response
+ * from a request that asked for a single data point
+ *
+ * @example Request Parameters
+ * ```
+ * {
+ *  "data": {
+ *      "base": "ETH",
+ *      "quote": "USD"
+ *   }
+ *}
+ * ```
+ */
+interface SingleResult {
+  result?: number
+}
+
+/**
+ * Contained within the body of an api response
+ * from a request that asked for multiple data points
+ *
+ * @example Request Parameters
+ * ```
+ * {
+ *  "data": {
+ *      "base": "ETH,BTC",
+ *      "quote": "USD"
+ *   }
+ *}
+ * ```
+ */
+interface BatchedResult {
+  /**
+   * A mapping of token symbol to its result
+   */
+  results?: {
+    [symbol: string]: number
+  }
+}
+
+/**
+ * A lifted result is derived from a raw response,
+ * where the response payload will be slightly normalized,
+ * "lifting" nested data into the root object
+ *
+ * @example
+ * ```ts
+ * // Raw response payload
+ * {
+ *  payload: {
+ *   data: {
+ *     nested: {
+ *      result: {}
+ *     }
+ *   }
+ *  }
+ * // lifted
+ *
+ * {
+ *  data: { results: {}}
+ * }
+ * ```
+ */
+type LiftedResult = SingleResult & BatchedResult
+
+/**
+ * An Axios response with a result or results added to the response data.
+ */
+type AxiosResponseWithLiftedResult<T> = AxiosResponse<T & LiftedResult>
+/**
+ * An Axios response that has response data that is not an object
+ * needs to be transformed into an object to hold the result or results fields.
+ * 
+ * The original response data will be store under the key of payload. 
+ */
+type AxiosResponseWithPayloadAndLiftedResult<T> = AxiosResponse<{ payload: T } & LiftedResult>

@@ -1,5 +1,5 @@
 import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig } from '@chainlink/types'
+import { Config, ExecuteWithConfig, AxiosResponse } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 import { getCoinIds, getSymbolsToIds } from '../util'
 
@@ -22,6 +22,27 @@ const customParams = {
   path: false,
 }
 
+const handleBatchedRequest = (
+  jobRunID: string,
+  response: AxiosResponse,
+  path: string,
+  param: { [key: string]: string },
+  quote: string,
+  idToSymbol: Record<string, string>,
+) => {
+  const payload: Record<string, number> = {}
+  for (const key in response.data) {
+    const symbol = idToSymbol?.[key]
+    if (symbol)
+      payload[symbol] = Requester.validateResultNumber(response.data, [
+        key,
+        param[path] || quote.toLowerCase(),
+      ])
+  }
+  response.data.results = payload
+  return Requester.success(jobRunID, response, true)
+}
+
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
@@ -31,7 +52,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const quote = validator.validated.data.quote
   const coinid = validator.validated.data.coinid
 
-  let idToSymbol
+  let idToSymbol = {}
   let ids = coinid
   if (!ids) {
     try {
@@ -66,19 +87,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
   const response = await Requester.request(options, customError)
 
-  if (Array.isArray(symbol)) {
-    const payload: Record<string, number> = {}
-    for (const key in response.data) {
-      const symbol = idToSymbol?.[key]
-      if (symbol)
-        payload[symbol] = Requester.validateResultNumber(response.data, [
-          key,
-          param[path] || quote.toLowerCase(),
-        ])
-    }
-    response.data.results = payload
-    return Requester.success(jobRunID, response, true)
-  }
+  if (Array.isArray(symbol))
+    return handleBatchedRequest(jobRunID, response, path, param, quote, idToSymbol)
 
   response.data.result = Requester.validateResultNumber(response.data, [
     ids.toLowerCase(),
