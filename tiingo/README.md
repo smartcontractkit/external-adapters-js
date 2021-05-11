@@ -10,9 +10,9 @@
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |                                            Options                                            | Defaults to |
-| :-------: | :------: | :-----------------: | :-------------------------------------------------------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [`eod`](#EOD-Endpoint), [`iex` or `stock`](#IEX-Endpoint), [`top` or `crypto`](#Top-Endpoint) |  `crypto`   |
+| Required? |   Name   |     Description     |                                                           Options                                                           | Defaults to |
+| :-------: | :------: | :-----------------: | :-------------------------------------------------------------------------------------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [`eod`](#EOD-Endpoint), [`iex` or `stock`](#IEX-Endpoint), [`top`](#Top-Endpoint), [`prices` or `crypto`](#Prices-Endpoint) |  `crypto`   |
 
 ---
 
@@ -96,6 +96,49 @@ https://api.tiingo.com/documentation/iex
 The top of order book endpoint from:
 
 https://api.tiingo.com/documentation/crypto
+
+### Input Params
+
+| Required? |            Name            |                Description                 | Options | Defaults to |
+| :-------: | :------------------------: | :----------------------------------------: | :-----: | :---------: |
+|    ✅     | `base`, `from`, or `coin`  |     The cryptocurrency symbol to query     |         |             |
+|    ✅     | `quote`, `to`, or `market` | The output currency to return the price in |         |             |
+|           |          `field`           |            The value to return             |         | `lastPrice` |
+
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "base": "btc",
+    "quote": "usd"
+  }
+}
+```
+
+### Sample Output
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "result": 130.27
+  },
+  "result": 130.27,
+  "statusCode": 200
+}
+```
+
+---
+
+## Prices Endpoint
+
+Crypto prices endpoint from:
+
+https://api.tiingo.com/documentation/crypto
+
+This endpoint does a VWAP of all the exchanges on the current day and across base tokens.
 
 ### Input Params
 
