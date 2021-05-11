@@ -1,7 +1,7 @@
 import { Execute } from '@chainlink/types'
 import { AnyAction } from 'redux'
 import { combineEpics, createEpicMiddleware, Epic } from 'redux-observable'
-import { merge, Subject, of, race, Observable, EMPTY } from 'rxjs'
+import { merge, Subject, of, race, Observable, EMPTY, from } from 'rxjs'
 import {
   catchError,
   delay,
@@ -45,7 +45,7 @@ import {
   ws_message_total,
   ws_subscription_errors,
 } from './metrics'
-import { getSubsId } from './reducer'
+import { getSubsId, SubscriptionsState } from './reducer'
 
 // Rxjs deserializer defaults to JSON.parse.
 // We need to handle errors from non-parsable messages
@@ -91,7 +91,21 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
 
       // Stream of WS connected & disconnected events
       const open$ = openObserver.pipe(map(() => connected({ config, wsHandler })))
-      const close$ = closeObserver.pipe(map(() => disconnected({ config, wsHandler })))
+      const close$ = closeObserver.pipe(
+        withLatestFrom(state$),
+        mergeMap(([_, state]) => {
+          const activeSubs = Object.entries(state.ws.subscriptions as SubscriptionsState).filter(([_, info]) => info?.active).map(([_, info]) => ({ 
+            connectionInfo: {
+              url,
+              key: config.connectionInfo.key
+            },
+            subscriptionMsg: wsHandler.subscribe(info.input),
+            input: info.input
+          } as WSSubscriptionPayload))
+          const toUnsubscribed = (payload: WSSubscriptionPayload) => unsubscribed(payload)
+          return from([...activeSubs.map(toUnsubscribed), disconnected({ config, wsHandler })])
+        })
+      )
 
       // Close the WS connection on disconnect
       const disconnect$ = action$.pipe(
