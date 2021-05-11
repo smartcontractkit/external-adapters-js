@@ -3708,6 +3708,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@reduxjs/toolkit", "npm:1.5.1"],
             ["@types/express", "npm:4.17.11"],
+            ["@types/fast-redact", "npm:2.0.0"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/lodash", "npm:4.14.168"],
             ["@types/lru-cache", "npm:5.1.0"],
@@ -3725,6 +3726,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["axios", "npm:0.21.1"],
             ["decimal.js", "npm:10.2.1"],
             ["express", "npm:4.17.1"],
+            ["fast-redact", "npm:3.0.1"],
             ["lodash", "npm:4.17.21"],
             ["lru-cache", "npm:6.0.0"],
             ["object-hash", "npm:2.1.1"],
@@ -7931,6 +7933,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:14.14.41"],
             ["@types/qs", "npm:6.9.6"],
             ["@types/range-parser", "npm:1.2.3"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@types/fast-redact", [
+        ["npm:2.0.0", {
+          "packageLocation": "./.yarn/cache/@types-fast-redact-npm-2.0.0-8446ea12d8-34a40a0690.zip/node_modules/@types/fast-redact/",
+          "packageDependencies": [
+            ["@types/fast-redact", "npm:2.0.0"]
           ],
           "linkType": "HARD",
         }]

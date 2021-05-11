@@ -17,7 +17,7 @@ import {
 import { webSocket } from 'rxjs/webSocket'
 import WebSocket from 'ws'
 import { withCache } from '../cache'
-import { logger } from '../external-adapter'
+import { logger, censor } from '../external-adapter'
 import { getFeedId } from '../metrics/util'
 import {
   connect,
@@ -94,7 +94,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
       const close$ = closeObserver.pipe(
         withLatestFrom(state$),
         mergeMap(([_, state]) => {
-          const activeSubs = Object.entries(state.ws.subscriptions as SubscriptionsState).filter(([_, info]) => info?.active).map(([_, info]) => ({ 
+          const activeSubs = Object.entries(state.ws.subscriptions as SubscriptionsState).filter(([_, info]) => info?.active).map(([_, info]) => ({
             connectionInfo: {
               url,
               key: config.connectionInfo.key
@@ -304,22 +304,22 @@ export const metricsEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
     tap(([action, state]) => {
       const connectionLabels = (payload: WSConfigPayload) => ({
         key: payload.config.connectionInfo.key,
-        url: payload.wsHandler.connection.url,
+        url: censor(payload.wsHandler.connection.url),
       })
       const connectionErrorLabels = (payload: WSErrorPayload) => ({
         key: payload.connectionInfo.key,
-        url: payload.connectionInfo.url,
+        url: censor(payload.connectionInfo.url),
         message: payload.reason,
       })
       const subscriptionLabels = (payload: WSSubscriptionPayload) => ({
         connection_key: payload.connectionInfo.key,
-        connection_url: payload.connectionInfo.url,
+        connection_url: censor(payload.connectionInfo.url),
         feed_id: getFeedId({ ...payload.input }),
         subscription_key: getSubsId(payload.subscriptionMsg),
       })
       const subscriptionErrorLabels = (payload: WSSubscriptionErrorPayload) => ({
         connection_key: payload.connectionInfo.key,
-        connection_url: payload.connectionInfo.url,
+        connection_url: censor(payload.connectionInfo.url),
         feed_id: payload.input ? getFeedId({ ...payload.input }) : 'N/A',
         message: payload.reason,
         subscription_key: payload.subscriptionMsg ? getSubsId(payload.subscriptionMsg) : 'N/A',

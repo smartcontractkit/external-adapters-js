@@ -2028,6 +2028,7 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@reduxjs/toolkit": ^1.5.0
     "@types/express": ^4.17.11
+    "@types/fast-redact": ^2.0.0
     "@types/jest": ^26.0.22
     "@types/lodash": ^4.14.168
     "@types/lru-cache": ^5.1.0
@@ -2045,6 +2046,7 @@ __metadata:
     axios: ^0.21.1
     decimal.js: ^10.2.1
     express: ^4.17.1
+    fast-redact: ^3.0.1
     lodash: ^4.17.21
     lru-cache: ^6.0.0
     object-hash: ^2.0.3
@@ -6009,6 +6011,13 @@ __metadata:
     "@types/qs": "*"
     "@types/serve-static": "*"
   checksum: 2818120a0fd8b7982215864929cdc6cd14942dd44849f93054fe2a90b4233dff67aadc34c73b5937922a02c688b0263d00a4807aa2e59307ac859a1458d73669
+  languageName: node
+  linkType: hard
+
+"@types/fast-redact@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@types/fast-redact@npm:2.0.0"
+  checksum: 34a40a0690cb09241f851aceeab6b0ea011614f490d09eae79ff95907dcaabf4d0fb5676396c07606b39c8de2d254d1aed8c4f0069c8ed995362e6c8e3339794
   languageName: node
   linkType: hard
 
@@ -11092,7 +11101,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-redact@npm:^3.0.0":
+"fast-redact@npm:^3.0.0, fast-redact@npm:^3.0.1":
   version: 3.0.1
   resolution: "fast-redact@npm:3.0.1"
   checksum: f8b3d39a6073506a474ef049702b6a98d9b2d2e24bf573760fc0a7bd4bb61c9bf7c55129f650bb812410dda94e3b8c0043fb4a2034064028751ab354844a4fb1

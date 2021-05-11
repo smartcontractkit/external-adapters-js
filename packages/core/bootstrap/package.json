@@ -20,6 +20,7 @@
     "axios": "^0.21.1",
     "decimal.js": "^10.2.1",
     "express": "^4.17.1",
+    "fast-redact": "^3.0.1",
     "lodash": "^4.17.21",
     "lru-cache": "^6.0.0",
     "object-hash": "^2.0.3",
@@ -40,6 +41,7 @@
   "devDependencies": {
     "@chainlink/types": "0.0.1",
     "@types/express": "^4.17.11",
+    "@types/fast-redact": "^2.0.0",
     "@types/jest": "^26.0.22",
     "@types/lodash": "^4.14.168",
     "@types/lru-cache": "^5.1.0",

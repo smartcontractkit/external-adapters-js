@@ -1,7 +1,38 @@
 import { uuid } from '../util'
 import pino from 'pino'
 
-export const loggerNew = pino({
+export const paths = [
+  'payload.wsHandler.connection.protocol.query.api_key',
+  'payload.connectionInfo.url',
+  'payload.wsHandler.connection.url',
+]
+
+const sensitiveKeys = [
+  /cookie/i,
+  /passw(or)?d/i,
+  /^pw$/,
+  /^pass$/i,
+  /secret/i,
+  /token/i,
+  /api[-._]?key/i,
+]
+
+export const censor = (v: string) => {
+  try {
+    const url = new URL(v)
+    url.searchParams.forEach((_, name) => {
+      if (sensitiveKeys.some(rx => rx.test(name))) {
+        url.searchParams.set(name, 'REDACTED')
+      }
+    })
+    return url.toString()
+  } catch {
+    // if not a URL
+    return '[REDACTED]'
+  }
+}
+
+export const logger = pino({
   level: process.env.LOG_LEVEL || 'info',
   // timestamp: true, // default enabled
   prettyPrint: process.env.NODE_ENV === 'development',
@@ -17,6 +48,7 @@ export const loggerNew = pino({
       const length = inputArgs.length
       const arg1 = inputArgs.shift()
       if (length >= 2) {
+        // if input includes message string + data object
         const arg2 = inputArgs.shift()
 
         // add instanceId if not present
@@ -27,6 +59,8 @@ export const loggerNew = pino({
       return method.apply(this, [arg1, ...inputArgs])
     },
   },
+  redact: {
+    paths,
+    censor,
+  },
 })
-
-export const logger = loggerNew
