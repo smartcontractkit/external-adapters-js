@@ -6,6 +6,9 @@
       "path": "./composites/apy-finance"
     },
     {
+      "path": "./composites/augur"
+    },
+    {
       "path": "./composites/bitcoin-json-rpc"
     },
     {
@@ -34,9 +37,6 @@
     },
     {
       "path": "./composites/token-allocation"
-    },
-    {
-      "path": "./composites/augur"
     },
     {
       "path": "./core/bootstrap"
@@ -180,6 +180,9 @@
       "path": "./sources/ethgasstation"
     },
     {
+      "path": "./sources/expert-car-broker"
+    },
+    {
       "path": "./sources/fcsapi"
     },
     {
@@ -202,6 +205,9 @@
     },
     {
       "path": "./sources/iex-cloud"
+    },
+    {
+      "path": "./sources/intrinio"
     },
     {
       "path": "./sources/json-rpc"
@@ -289,6 +295,12 @@
     },
     {
       "path": "./sources/trueusd"
+    },
+    {
+      "path": "./sources/twelvedata"
+    },
+    {
+      "path": "./sources/unibit"
     },
     {
       "path": "./sources/wbtc-address-set"
