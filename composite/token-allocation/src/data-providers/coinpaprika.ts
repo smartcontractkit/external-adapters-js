@@ -1,7 +1,24 @@
 import { Requester } from '@chainlink/external-adapter'
 
+const directIds: {[key: string]: string} = {
+  "CREAM": "cream-cream"
+}
+
 const getPriceData = async (currency: string) => {
   const url = 'https://api.coinpaprika.com/v1/tickers'
+  const params = {
+    quotes: currency.toUpperCase(),
+  }
+  const config = {
+    url,
+    params,
+  }
+  const response = await Requester.request(config)
+  return response.data
+}
+
+const getPriceDataFromId = async (coinId: string, currency: string) => {
+  const url = `https://api.coinpaprika.com/v1/tickers/${coinId}`
   const params = {
     quotes: currency.toUpperCase(),
   }
@@ -35,6 +52,13 @@ export const getPrices = async (
     if (!priceMap.get(key)) {
       priceMap.set(key, price)
     }
+  }
+
+  // For coins not included in main list, check if we can query the ID
+  for (const symbol of baseSymbols) {
+    const key = symbol.toUpperCase()
+    if (!!priceMap.get(key) || !directIds[key]) continue;
+    priceMap.set(symbol.toUpperCase(), await getPriceDataFromId(directIds[key], quote))
   }
 
   const entries = baseSymbols.map((symbol) => {
