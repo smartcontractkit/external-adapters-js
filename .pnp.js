@@ -3720,6 +3720,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/sinon", "npm:9.0.11"],
             ["@types/uuid", "npm:8.3.0"],
             ["@types/ws", "npm:7.4.1"],
+            ["ajv", "npm:8.3.0"],
             ["axios", "npm:0.21.1"],
             ["decimal.js", "npm:10.2.1"],
             ["express", "npm:4.17.1"],
@@ -8789,6 +8790,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/ajv-npm-8.1.0-d9b202be9f-d946a17d0f.zip/node_modules/ajv/",
           "packageDependencies": [
             ["ajv", "npm:8.1.0"],
+            ["fast-deep-equal", "npm:3.1.3"],
+            ["json-schema-traverse", "npm:1.0.0"],
+            ["require-from-string", "npm:2.0.2"],
+            ["uri-js", "npm:4.4.1"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:8.3.0", {
+          "packageLocation": "./.yarn/cache/ajv-npm-8.3.0-0782868326-95a98cc9cb.zip/node_modules/ajv/",
+          "packageDependencies": [
+            ["ajv", "npm:8.3.0"],
             ["fast-deep-equal", "npm:3.1.3"],
             ["json-schema-traverse", "npm:1.0.0"],
             ["require-from-string", "npm:2.0.2"],
