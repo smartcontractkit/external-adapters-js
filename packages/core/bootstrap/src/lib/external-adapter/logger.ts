@@ -1,11 +1,8 @@
 import { uuid } from '../util'
 import pino from 'pino'
+import { wsRedactPaths } from '../ws/config'
 
-export const paths = [
-  'payload.wsHandler.connection.protocol.query.api_key',
-  'payload.connectionInfo.url',
-  'payload.wsHandler.connection.url',
-]
+export const paths = [...wsRedactPaths]
 
 const sensitiveKeys = [
   /cookie/i,

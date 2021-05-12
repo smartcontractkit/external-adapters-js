@@ -14,7 +14,7 @@ import { nanoid } from '@reduxjs/toolkit'
 import { composeWithDevTools } from 'remote-redux-devtools'
 import { isDebug, isDebugLogLevel } from '../util'
 import fastRedact from 'fast-redact'
-import {paths, censor} from '../external-adapter'
+import { paths, censor } from '../external-adapter'
 
 export const asAction = <T>() => (p: T) => ({
   payload: toActionPayload<T>(p),
@@ -31,7 +31,7 @@ export interface ActionBase {
   createdAt: string
 }
 
-const redact = fastRedact({paths, censor})
+const redact = fastRedact({ paths, censor })
 
 export function configureStore(
   rootReducer: Reducer,
