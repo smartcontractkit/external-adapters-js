@@ -24,7 +24,7 @@ export interface Event {
     score_home: number
     score_away: number
   }
-  teams: {
+  teams?: {
     is_away: boolean
     is_home: boolean
     team_normalized_id: number

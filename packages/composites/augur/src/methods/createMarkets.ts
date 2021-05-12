@@ -49,31 +49,28 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
 
   // filter markets and build payloads for market creation
   const packed = [];
-  for (let i = 0; i < events.length; i++) {
-    const event = events[i];
+  for (const event of events) {
     const startTime = Date.parse(event.event_date)
     if ((startTime - Date.now()) / 1000 < startBuffer) continue // markets would end too soon
 
     // skip if data is missing
     const affiliateId = getAffiliateId(event)
-    if (!affiliateId) continue
-    const homeTeam = event.teams.find(team => team.is_home)
-    if (!homeTeam) continue
-    const awayTeam = event.teams.find(team => team.is_away)
-    if (!awayTeam) continue
+    const homeTeam = event.teams?.find(team => team.is_home)
+    const awayTeam = event.teams?.find(team => team.is_away)
+    if (!affiliateId || !homeTeam || !awayTeam) continue
 
     const eventId = eventIdToNum(event.event_id)
-    const [ headToHeadMarket, spreadMarket, totalScoreMarket]: [number, number, number] = await contract.getEventMarkets(eventId);
+    const [headToHeadMarket, spreadMarket, totalScoreMarket]: [number, number, number] = await contract.getEventMarkets(eventId)
 
     // only create spread and totalScore markets if lines exist; always create headToHead market
     let homeSpread = event.lines?.[affiliateId].spread.point_spread_home
     let totalScore = event.lines?.[affiliateId].total.total_over
-    const createSpread = typeof homeSpread !== "undefined";
-    const createTotalScore = typeof totalScore !== "undefined";
-    homeSpread = homeSpread || 0;
-    totalScore = totalScore || 0;
+    const createSpread = !!homeSpread
+    const createTotalScore = !!totalScore
+    homeSpread = homeSpread || 0
+    totalScore = totalScore || 0
     const canCreate = (!headToHeadMarket) || (!spreadMarket && createSpread) || (!totalScoreMarket && createTotalScore)
-    if (!canCreate) continue;
+    if (!canCreate) continue
 
     packed.push(packCreation(event.event_id, homeTeam.team_normalized_id, awayTeam.team_normalized_id, startTime, homeSpread, totalScore, createSpread, createTotalScore))
   }
