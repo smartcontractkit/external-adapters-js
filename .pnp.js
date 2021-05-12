@@ -39,10 +39,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/composites/crypto-volatility-index"
       },
       {
-        "name": "@chainlink/curio-adapter",
-        "reference": "workspace:packages/composites/curio"
-      },
-      {
         "name": "@chainlink/defi-pulse-adapter",
         "reference": "workspace:packages/composites/defi-pulse"
       },
@@ -498,7 +494,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/cryptocompare-adapter", ["workspace:packages/sources/cryptocompare"]],
       ["@chainlink/cryptoid-adapter", ["workspace:packages/sources/cryptoid"]],
       ["@chainlink/cryptomkt-adapter", ["workspace:packages/sources/cryptomkt"]],
-      ["@chainlink/curio-adapter", ["workspace:packages/composites/curio"]],
       ["@chainlink/currencylayer-adapter", ["workspace:packages/sources/currencylayer"]],
       ["@chainlink/defi-pulse-adapter", ["workspace:packages/composites/defi-pulse"]],
       ["@chainlink/deribit-adapter", ["workspace:packages/sources/deribit"]],
@@ -3456,23 +3451,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT",
         }]
       ]],
-      ["@chainlink/curio-adapter", [
-        ["workspace:packages/composites/curio", {
-          "packageLocation": "./packages/composites/curio/",
-          "packageDependencies": [
-            ["@chainlink/curio-adapter", "workspace:packages/composites/curio"],
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
-            ["@chainlink/expert-car-broker-adapter", "workspace:packages/sources/expert-car-broker"],
-            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
-            ["@types/jest", "npm:26.0.22"],
-            ["@types/node", "npm:14.14.41"],
-            ["axios", "npm:0.21.1"],
-            ["tslib", "npm:2.2.0"],
-            ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"]
-          ],
-          "linkType": "SOFT",
-        }]
-      ]],
       ["@chainlink/currencylayer-adapter", [
         ["workspace:packages/sources/currencylayer", {
           "packageLocation": "./packages/sources/currencylayer/",
@@ -3742,6 +3720,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/sinon", "npm:9.0.11"],
             ["@types/uuid", "npm:8.3.0"],
             ["@types/ws", "npm:7.4.1"],
+            ["ajv", "npm:8.3.0"],
             ["axios", "npm:0.21.1"],
             ["decimal.js", "npm:10.2.1"],
             ["express", "npm:4.17.1"],
@@ -8811,6 +8790,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/ajv-npm-8.1.0-d9b202be9f-d946a17d0f.zip/node_modules/ajv/",
           "packageDependencies": [
             ["ajv", "npm:8.1.0"],
+            ["fast-deep-equal", "npm:3.1.3"],
+            ["json-schema-traverse", "npm:1.0.0"],
+            ["require-from-string", "npm:2.0.2"],
+            ["uri-js", "npm:4.4.1"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:8.3.0", {
+          "packageLocation": "./.yarn/cache/ajv-npm-8.3.0-0782868326-95a98cc9cb.zip/node_modules/ajv/",
+          "packageDependencies": [
+            ["ajv", "npm:8.3.0"],
             ["fast-deep-equal", "npm:3.1.3"],
             ["json-schema-traverse", "npm:1.0.0"],
             ["require-from-string", "npm:2.0.2"],
