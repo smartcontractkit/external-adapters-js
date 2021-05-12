@@ -56,7 +56,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   let ids = coinid
   if (!ids) {
     try {
-      const coinIds = await getCoinIds(config)
+      const coinIds = await getCoinIds(jobRunID)
       const symbols = Array.isArray(symbol) ? symbol : [symbol]
       idToSymbol = getSymbolsToIds(symbols, coinIds)
       ids = Object.keys(idToSymbol).join(',')

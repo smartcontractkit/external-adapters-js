@@ -23,16 +23,11 @@ export function getCoinIds(id: string): Promise<CoinsResponse[]> {
   })
 }
 
-export const getSymbolsToIds = (
-  symbols: string[],
-  coinList: CoinsResponse[],
-): Record<string, string> => {
-  const idToSymbol: Record<string, string> = {}
-  symbols.forEach((symbol) => {
-    const coin = coinList.find((d) => d.symbol.toLowerCase() === symbol.toLowerCase())
-    if (coin && coin.id) {
-      idToSymbol[coin.id] = symbol
-    }
-  })
-  return idToSymbol
+export const getSymbolToId = (symbol: string, coinList: CoinsResponse[]): string => {
+  const coin = coinList.find(
+    ({ symbol: coinSymbol, rank }) =>
+      coinSymbol.toLowerCase() === symbol.toLowerCase() && rank !== 0,
+  )
+  if (coin && coin.id) return coin.id.toLowerCase()
+  throw new Error('Coin id not found')
 }
