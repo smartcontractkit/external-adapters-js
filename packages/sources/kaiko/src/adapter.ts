@@ -23,7 +23,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   Requester.logConfig(config)
 
   const jobRunID = validator.validated.id
-  const base = validator.overrideSymbol(AdapterName).toLowerCase()
+  const base = (validator.overrideSymbol(AdapterName) as string).toLowerCase()
   const quote = validator.validated.data.quote.toLowerCase()
   const includes = validator.validated.data.includes || []
 

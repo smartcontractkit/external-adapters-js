@@ -75,7 +75,7 @@ export class Validator {
     this.errored = Requester.errored(this.validated.id, this.error)
   }
 
-  overrideSymbol = (adapter: string, symbol?: string): string => {
+  overrideSymbol = (adapter: string, symbol?: string | string[]): string | string[] => {
     const defaultSymbol = symbol || this.validated.data.base
     if (!defaultSymbol) {
       throw new AdapterError({
@@ -85,10 +85,18 @@ export class Validator {
       })
     }
     if (!this.validated.overrides) return defaultSymbol
-    return (
-      this.validated.overrides.get(adapter.toLowerCase())?.get(defaultSymbol.toLowerCase()) ||
-      defaultSymbol
-    )
+    if (!Array.isArray(defaultSymbol))
+      return (
+        this.validated.overrides.get(adapter.toLowerCase())?.get(defaultSymbol.toLowerCase()) ||
+        defaultSymbol
+      )
+    const multiple: string[] = []
+    for (const sym in defaultSymbol) {
+      const overrided = this.validated.overrides.get(adapter.toLowerCase())?.get(sym.toLowerCase())
+      if (!overrided) return defaultSymbol
+      multiple.push(overrided)
+    }
+    return multiple
   }
 
   formatOverride = (param: any): Override => {

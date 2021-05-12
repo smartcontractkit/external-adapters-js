@@ -11,11 +11,18 @@ declare module '@chainlink/types' {
     startedAt?: number
     timeout?: number
   }
+  export type Debug = {
+    feedId?: string
+    cacheHit?: boolean
+    staleness?: number
+    performance?: number
+    providerCost?: nnumber
+  }
   export type AdapterRequest = {
     id: string
     data: Record<string, unknown>
     meta?: AdapterRequestMeta
-    debug?: any
+    debug?: AdapterRequestDebug
   }
 
   /* RESPONSES */
@@ -35,7 +42,7 @@ declare module '@chainlink/types' {
     data: any // Response data, holds "result" for Flux Monitor. Correct way.
     result: any // Result for OCR
     maxAge?: number
-    debug?: any
+    debug?: Debug
   }
 
   /* ERRORS */
@@ -60,7 +67,7 @@ declare module '@chainlink/types' {
   export type Callback = (statusCode: number, data?: any) => void
   export type AdapterHealthCheck = (callback: Callback) => any
 
-  export type RequestConfig = any
+  export type { RequestConfig, AxiosResponse } from 'axios'
 
   export type Config = {
     apiKey?: string

@@ -1,11 +1,11 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { AdapterRequest, Config } from '@chainlink/types'
+import { ExecuteWithConfig, Config } from '@chainlink/types'
 
 export const NAME = 'globalmarketcap'
 
 const customError = (data: any) => data.Response === 'Error'
 
-export const execute = async (config: Config, request: AdapterRequest) => {
+export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const validator = new Validator(request, {})
   if (validator.error) throw validator.error
   const jobRunID = validator.validated.id

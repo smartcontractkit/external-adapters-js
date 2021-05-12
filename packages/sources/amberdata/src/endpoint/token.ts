@@ -7,19 +7,15 @@ const customError = (data: any) => {
   return Object.keys(data.payload).length === 0
 }
 
-export enum TokenEndpoints {
-  MarketCap = 'marketcap',
-  TotalSupply = 'totalsupply',
-}
-
-const paths: Record<TokenEndpoints, string> = {
-  [TokenEndpoints.MarketCap]: 'marketCapUSD',
-  [TokenEndpoints.TotalSupply]: 'totalSupply',
+// Bridging the Chainlink endpoint to the response data key
+export enum Paths {
+  TotalSupply = 'totalSupply',
+  MarketCap = 'marketCapUSD',
 }
 
 const customParams = {
   base: ['base', 'from', 'coin'],
-  endpoint: true,
+  path: false,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, config) => {
@@ -28,8 +24,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const jobRunID = validator.validated.id
 
   const coin = validator.validated.data.base
-  const endpoint: TokenEndpoints = validator.validated.data.endpoint
-  const path = paths[endpoint] || 'marketCapUSD'
+  const path = validator.validated.data.path || Paths.MarketCap
   const url = `/api/v2/market/tokens/prices/${coin.toLowerCase()}/latest`
 
   const reqConfig = { ...config.api, url }

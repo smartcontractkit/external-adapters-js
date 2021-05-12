@@ -8,7 +8,7 @@ describe('execute', () => {
   const execute = makeExecute()
   process.env.API_KEY = process.env.API_KEY ?? 'test_api_key'
 
-  describe('successful calls @integration', () => {
+  describe('successful calls', () => {
     const requests = [
       {
         name: 'id not supplied',
@@ -42,6 +42,30 @@ describe('execute', () => {
     })
   })
 
+  describe('successful batch calls', () => {
+    const requests = [
+      {
+        name: 'multiple fsyms',
+        testData: { id: jobID, data: { fsym: ['ETH', 'BTC'], tsyms: 'USD' } },
+      },
+      {
+        name: 'market cap',
+        testData: {
+          id: jobID,
+          data: { fsym: 'ETH', tsyms: 'USD', endpoint: 'marketcap' },
+        },
+      },
+    ]
+
+    requests.forEach((req) => {
+      it(`${req.name}`, async () => {
+        const data = await execute(req.testData as AdapterRequest)
+        assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
+        expect(Object.keys(data.data.results).length).toBeGreaterThan(0)
+      })
+    })
+  })
+
   describe('validation error', () => {
     const requests = [
       { name: 'empty body', testData: {} },
@@ -68,7 +92,7 @@ describe('execute', () => {
     })
   })
 
-  describe('error calls @integration', () => {
+  describe('error calls', () => {
     const requests = [
       {
         name: 'unknown base',

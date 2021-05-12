@@ -118,7 +118,7 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
       true,
     )
 
-  const getPrices = getPriceProvider(sourceConfig.api, jobRunID)
+  const getPrices = getPriceProvider(jobRunID, source, sourceConfig.api)
   switch (method.toLowerCase()) {
     case 'price':
       // eslint-disable-next-line no-case-declarations
