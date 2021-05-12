@@ -55,8 +55,8 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
 
     // skip if data is missing
     const affiliateId = getAffiliateId(event)
-    const homeTeam = event.teams?.find(team => team.is_home)
-    const awayTeam = event.teams?.find(team => team.is_away)
+    const homeTeam = event.teams_normalized.find(team => team.is_home)
+    const awayTeam = event.teams_normalized.find(team => team.is_away)
     if (!affiliateId || !homeTeam || !awayTeam) continue
 
     const eventId = eventIdToNum(event.event_id)
@@ -72,7 +72,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
     const canCreate = (!headToHeadMarket) || (!spreadMarket && createSpread) || (!totalScoreMarket && createTotalScore)
     if (!canCreate) continue
 
-    packed.push(packCreation(event.event_id, homeTeam.team_normalized_id, awayTeam.team_normalized_id, startTime, homeSpread, totalScore, createSpread, createTotalScore))
+    packed.push(packCreation(event.event_id, homeTeam.team_id, awayTeam.team_id, startTime, homeSpread, totalScore, createSpread, createTotalScore))
   }
 
   let nonce = await config.wallet.getTransactionCount()
