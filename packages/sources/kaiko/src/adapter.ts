@@ -1,11 +1,20 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, ExecuteFactory, Includes, IncludePair } from '@chainlink/types'
+import {
+  Config,
+  ExecuteWithConfig,
+  ExecuteFactory,
+  Includes,
+  IncludePair,
+  MakeWSHandler,
+  AdapterRequest,
+} from '@chainlink/types'
 import {
   DEFAULT_INTERVAL,
   DEFAULT_SORT,
   DEFAULT_MILLISECONDS,
   makeConfig,
   NAME as AdapterName,
+  DEFAULT_WS_API_ENDPOINT,
 } from './config'
 
 const customError = (data: any) => data.result === 'error'
@@ -123,4 +132,72 @@ const getIncludes = (
     }
   }
   return presetIncludes
+}
+
+type MessageType = 'info' | 'error' | 'update'
+
+interface Message {
+  event: MessageType
+  payload: Record<string, any>
+}
+
+interface UpdateMessage extends Message {
+  event: 'info'
+  payload: {
+    subscription: {
+      topic: string
+      data_version: string
+      exchange: string
+      instrument_class: string
+      instrument: string
+    }
+    data: {
+      timestamp: number
+      trade_id: string
+      price: string
+      amount: string
+      taker_side_sell: boolean
+    }[]
+  }
+}
+
+export const makeWSHandler = (config?: Config): MakeWSHandler => {
+  const getSubscription = (instrumentCode?: string, subscribe = true) => {
+    if (!instrumentCode) return
+    return {
+      command: subscribe ? 'subscribe' : 'unsubscribe',
+      args: {
+        subscriptions: {
+          topic: 'trades_ws',
+          pattern: `*:spot:${instrumentCode}`,
+          // "data_version": <data_version> // Defaults to latest version
+        },
+      },
+    }
+  }
+  const getInstrument = (input: AdapterRequest) => {
+    const validator = new Validator(input, customParams)
+    if (validator.error) return
+    const base = validator.validated.data.base.toUpperCase()
+    const quote = validator.validated.data.quote.toUpperCase()
+    return `${base}-${quote}`
+  }
+  return () => {
+    const defaultConfig = config || makeConfig()
+    return {
+      connection: {
+        url: defaultConfig.api.baseWsURL || DEFAULT_WS_API_ENDPOINT,
+      },
+      subscribe: (input) => getSubscription(getInstrument(input)),
+      unsubscribe: (input) => getSubscription(getInstrument(input), false),
+      isError: (message: Message) => message.event === 'error',
+      filter: (message: Message) => message.event === 'update',
+      subsFromMessage: (message: UpdateMessage) =>
+        getSubscription(message?.payload?.subscription?.instrument),
+      toResponse: (message: UpdateMessage) => {
+        const result = Requester.validateResultNumber(message.payload, ['data', 0, 'price'])
+        return Requester.success('1', { data: { result } })
+      },
+    }
+  }
 }
