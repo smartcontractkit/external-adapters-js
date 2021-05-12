@@ -1,13 +1,13 @@
 {
   "name": "@chainlink/prospectnow-adapter",
   "version": "0.0.3",
-  "description": "Chainlink prospectnow adapter.",
+  "description": "Chainlink ProspectNow adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
     "oracle",
-    "prospectnow"
+    "ProspectNow"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

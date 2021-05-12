@@ -98,7 +98,8 @@
     "dnsproof",
     "genesisvolatility",
     "ciphertrace",
-    "bookmakerratings"
+    "bookmakerratings",
+    "prospectnow"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",
