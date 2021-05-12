@@ -178,8 +178,8 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
   const getInstrument = (input: AdapterRequest) => {
     const validator = new Validator(input, customParams)
     if (validator.error) return
-    const base = validator.validated.data.base.toUpperCase()
-    const quote = validator.validated.data.quote.toUpperCase()
+    const base = validator.validated.data.base.toLowerCase()
+    const quote = validator.validated.data.quote.toLowerCase()
     return `${base}-${quote}`
   }
   return () => {
@@ -187,6 +187,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
     return {
       connection: {
         url: defaultConfig.api.baseWsURL || DEFAULT_WS_API_ENDPOINT,
+        protocol: ['api_key', defaultConfig?.apiKey],
       },
       subscribe: (input) => getSubscription(getInstrument(input)),
       unsubscribe: (input) => getSubscription(getInstrument(input), false),
