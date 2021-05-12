@@ -46,3 +46,9 @@ export const getWSConfig = (prefix = ''): WSConfig => ({
     DEFAULT_WS_SUBSCRIPTION_UNRESPONSIVE_TTL,
   subscriptionPriorityList: (getEnv(ENV_WS_SUBSCRIPTION_PRIORITY_LIST) || []) as Array<string>, // TODO: load array
 })
+
+export const wsRedactPaths = [
+  'payload.wsHandler.connection.protocol.query.api_key',
+  'payload.connectionInfo.url',
+  'payload.wsHandler.connection.url',
+]
