@@ -12,23 +12,23 @@ describe('execute', () => {
     const requests = [
       {
         name: 'id not supplied',
-        testData: { data: { base: 'ETH', quote: 'USD' } },
+        testData: { data: { base: 'ETH', quote: 'BTC' } },
       },
       {
         name: 'base/quote',
-        testData: { id: jobID, data: { base: 'ETH', quote: 'USD' } },
+        testData: { id: jobID, data: { base: 'ETH', quote: 'BTC' } },
       },
       {
         name: 'from/to',
-        testData: { id: jobID, data: { from: 'ETH', to: 'USD' } },
+        testData: { id: jobID, data: { from: 'ETH', to: 'BTC' } },
       },
       {
         name: 'coin/market',
-        testData: { id: jobID, data: { coin: 'ETH', market: 'USD' } },
+        testData: { id: jobID, data: { coin: 'ETH', market: 'BTC' } },
       },
       {
         name: 'coin/market lowercase',
-        testData: { id: jobID, data: { coin: 'eth', market: 'usd' } },
+        testData: { id: jobID, data: { coin: 'eth', market: 'BTC' } },
       },
     ]
 
@@ -44,11 +44,9 @@ describe('execute', () => {
 
   describe('validation error', () => {
     const requests = [
-      { name: 'empty body', testData: {} },
-      { name: 'empty data', testData: { data: {} } },
       {
         name: 'base not supplied',
-        testData: { id: jobID, data: { quote: 'USD' } },
+        testData: { id: jobID, data: { quote: 'BTC' } },
       },
       {
         name: 'quote not supplied',
@@ -72,7 +70,7 @@ describe('execute', () => {
     const requests = [
       {
         name: 'unknown base',
-        testData: { id: jobID, data: { base: 'not_real', quote: 'USD' } },
+        testData: { id: jobID, data: { base: 'not_real', quote: 'BTC' } },
       },
       {
         name: 'unknown quote',

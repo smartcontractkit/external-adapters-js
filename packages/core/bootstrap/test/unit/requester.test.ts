@@ -1,10 +1,12 @@
 import { Requester } from '../../src/lib/external-adapter/requester'
-import { Server } from '../helpers/server'
+import { Server, SUCCESS_ARRAY_RESPONSE } from '../helpers/server'
 
 describe('Requester', () => {
   const errorMessage = 'Request failed with status code 500'
   const customErrorMessage = 'Could not retrieve valid data: {"result":"error","value":1}'
   const successUrl = 'http://localhost:18080'
+  const successArrayUrl = 'http://localhost:18080/successArray'
+  const successStringUrl = 'http://localhost:18080/successString'
   const errorUrl = 'http://localhost:18080/error'
   const errorTwiceUrl = 'http://localhost:18080/errorsTwice'
   const customErrorUrl = 'http://localhost:18080/customError'
@@ -201,6 +203,31 @@ describe('Requester', () => {
       expect(result.result).toEqual('success')
       expect(result.data.result).toEqual('success')
       expect(result.statusCode).toEqual(200)
+    })
+  })
+
+  describe('Requester.withResult', () => {
+    it('Adds a single result from JSON response', async () => {
+      options.url = successUrl
+      const response = await Requester.request(options)
+      const result = Requester.validateResultNumber(response.data, ['value'])
+      const withResult = Requester.withResult(response, result)
+      expect(withResult.data.result).toEqual(1)
+    })
+    it('Adds a single result from Array response', async () => {
+      options.url = successArrayUrl
+      const response = await Requester.request(options)
+      const result = Requester.validateResultNumber(response.data, [0])
+      const withResult = Requester.withResult(response, result)
+      expect(withResult.data.result).toEqual(1)
+      expect(withResult.data.payload).toEqual(SUCCESS_ARRAY_RESPONSE)
+    })
+    it('Adds results', async () => {
+      options.url = successUrl
+      const response = await Requester.request(options)
+      const mockResults = { BTC: 50000, ETH: 3000 }
+      const withResult = Requester.withResult(response, undefined, mockResults)
+      expect(withResult.data.results).toEqual(mockResults)
     })
   })
 

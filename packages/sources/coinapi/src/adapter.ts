@@ -1,7 +1,7 @@
 import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, ExecuteFactory, MakeWSHandler } from '@chainlink/types'
 import { makeConfig, DEFAULT_ENDPOINT, NAME, DEFAULT_WS_API_ENDPOINT } from './config'
-import { price } from './endpoint'
+import { price, assets } from './endpoint'
 
 const inputParams = {
   endpoint: false,
@@ -18,7 +18,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
   switch (endpoint) {
     case price.NAME: {
+      const quote = validator.validated.data.quote
+      if (quote?.toUpperCase() === 'USD') return await assets.execute(request, config)
       return await price.execute(request, config)
+    }
+    case assets.NAME: {
+      return await assets.execute(request, config)
     }
     default: {
       throw new AdapterError({
@@ -50,7 +55,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => () => {
     subscribe: (input) => {
       const validator = new Validator(input, price.customParams)
       if (validator.error) return
-      const base = validator.overrideSymbol(NAME).toLowerCase()
+      const base = (validator.overrideSymbol(NAME) as string).toLowerCase()
       const quote = validator.validated.data.quote.toLowerCase()
       return getSubscription([base, quote])
     },

@@ -8,7 +8,7 @@ describe('dominane endpoint', () => {
   const execute = makeExecute()
   process.env.API_KEY = process.env.API_KEY ?? 'test_api_key'
 
-  describe('successful calls @integration', () => {
+  describe('successful calls', () => {
     const requests = [
       {
         name: 'BTC dominance',
@@ -54,7 +54,7 @@ describe('dominane endpoint', () => {
     })
   })
 
-  describe('error calls @integration', () => {
+  describe('error calls', () => {
     const requests = [
       {
         name: 'unknown market',

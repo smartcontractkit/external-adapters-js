@@ -1,11 +1,13 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../config'
-import { ExecuteWithConfig, Config } from '@chainlink/types'
+import { ExecuteWithConfig, Config, AxiosResponse } from '@chainlink/types'
 
 export const NAME = 'price'
+
+// Bridging the Chainlink endpoint to the response data key
 export enum Paths {
   Price = 'price',
-  MarketCap = 'marketcap',
+  MarketCap = 'market_cap',
 }
 
 // Coin IDs fetched from the ID map: https://coinmarketcap.com/api/documentation/v1/#operation/getV1CryptocurrencyMap
@@ -49,6 +51,27 @@ const priceParams = {
   path: false,
 }
 
+const handleBatchedRequest = (
+  jobRunID: string,
+  response: AxiosResponse,
+  convert: string,
+  path: string,
+) => {
+  const payload: Record<string, number> = {}
+  for (const key in response.data.data) {
+    payload[key] = Requester.validateResultNumber(response.data, [
+      'data',
+      key,
+      'quote',
+      convert,
+      path,
+    ])
+  }
+  response.data.results = payload
+  response.data.cost = Requester.validateResultNumber(response.data, ['status', 'credit_count'])
+  return Requester.success(jobRunID, response, true)
+}
+
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const url = 'cryptocurrency/quotes/latest'
   const validator = new Validator(request, priceParams)
@@ -61,20 +84,31 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   // CMC allows a coin ID to be specified instead of a symbol
   const cid = validator.validated.data.cid || ''
   // Free CMCPro API only supports a single symbol to convert
-  const convert = validator.validated.data.convert
+  const convert = validator.validated.data.convert.toUpperCase()
   const path = validator.validated.data.path || Paths.Price
-
   const params: Record<string, string> = { convert }
   if (cid) {
     params.id = cid
   } else if (slug) {
     params.slug = slug
+  } else if (Array.isArray(symbol)) {
+    let hasIds = true
+    const idsForSymbols = symbol.map((symbol) => {
+      const idForSymbol = presetIds[symbol]
+      if (!idForSymbol) hasIds = false
+      return idForSymbol
+    })
+    if (hasIds) {
+      params.id = idsForSymbols.join(',')
+    } else {
+      params.symbol = symbol.map((s) => s.toUpperCase()).join(',')
+    }
   } else {
     const idForSymbol = presetIds[symbol]
     if (idForSymbol) {
       params.id = String(idForSymbol)
     } else {
-      params.symbol = symbol
+      params.symbol = symbol.toUpperCase()
     }
   }
 
@@ -84,6 +118,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     params,
   }
   const response = await Requester.request(options)
+
+  if (Array.isArray(symbol)) return handleBatchedRequest(jobRunID, response, convert, path)
 
   // CMC API currently uses ID as key in response, when querying with "slug" param
   const _keyForSlug = (data: any, slug: string) => {
@@ -97,11 +133,13 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   }
 
   const key = params.id || _keyForSlug(response.data, params.slug || '') || params.symbol
-  const resultPaths: { [key: string]: string[] } = {
-    [Paths.Price]: ['data', key, 'quote', convert, 'price'],
-    [Paths.MarketCap]: ['data', key, 'quote', convert, 'market_cap'],
-  }
 
-  response.data.result = Requester.validateResultNumber(response.data, resultPaths[path])
+  response.data.result = Requester.validateResultNumber(response.data, [
+    'data',
+    key,
+    'quote',
+    convert,
+    path,
+  ])
   return Requester.success(jobRunID, response, config.verbose)
 }

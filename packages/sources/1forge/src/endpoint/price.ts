@@ -16,7 +16,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
   const jobRunID = validator.validated.id
   const url = `/convert`
-  const from = validator.overrideSymbol(AdapterName).toUpperCase()
+  const from = (validator.overrideSymbol(AdapterName) as string).toUpperCase()
   const to = validator.validated.data.quote.toUpperCase()
   const quantity = validator.validated.data.quantity || 1
 

@@ -1,13 +1,85 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { AdapterRequest, Config } from '@chainlink/types'
+import { ExecuteWithConfig, Config, AxiosResponse } from '@chainlink/types'
+import { NAME as AdapterName } from '../config'
 
 export const NAME = 'price'
+
 export enum Paths {
   Price = 'price',
   MarketCap = 'marketcap',
 }
 
-const customError = (data: any) => data.Response === 'Error'
+interface ResponseSchema {
+  id: string
+  currency: string
+  symbol: string
+  name: string
+  logo_url: string
+  status: string
+  price: string
+  price_date: string
+  price_timestamp: string
+  circulating_supply: string
+  max_supply: string
+  market_cap: string
+  num_exchanges: string
+  num_pairs: string
+  num_pairs_unmapped: string
+  first_candle: string
+  first_trade: string
+  first_order_book: string
+  rank: string
+  rank_delta: string
+  high: string
+  high_timestamp: string
+  '1d': {
+    volume: string
+    price_change: string
+    price_change_pct: string
+    volume_change: string
+    volume_change_pct: string
+    market_cap_change: string
+    market_cap_change_pct: string
+  }
+  '7d': {
+    volume: string
+    price_change: string
+    price_change_pct: string
+    volume_change: string
+    volume_change_pct: string
+    market_cap_change: string
+    market_cap_change_pct: string
+  }
+  '30d': {
+    volume: string
+    price_change: string
+    price_change_pct: string
+    volume_change: string
+    volume_change_pct: string
+    market_cap_change: string
+    market_cap_change_pct: string
+  }
+  '365d': {
+    volume: string
+    price_change: string
+    price_change_pct: string
+    volume_change: string
+    volume_change_pct: string
+    market_cap_change: string
+    market_cap_change_pct: string
+  }
+  ytd: {
+    volume: string
+    price_change: string
+    price_change_pct: string
+    volume_change: string
+    volume_change_pct: string
+    market_cap_change: string
+    market_cap_change_pct: string
+  }
+}
+
+const customError = (data: ResponseSchema[]) => data.length === 0
 
 const customParams = {
   base: ['base', 'from', 'coin', 'ids'],
@@ -22,13 +94,27 @@ const convertId: Record<string, string> = {
   FTT: 'FTXTOKEN',
 }
 
-export const execute = async (config: Config, request: AdapterRequest) => {
+const handleBatchedRequest = (
+  jobRunID: string,
+  response: AxiosResponse<ResponseSchema[]>,
+  resultPaths: { [key: string]: string[] },
+  path: string,
+) => {
+  const payload: Record<string, number> = {}
+  for (const i in response.data) {
+    const entry = response.data[i]
+    payload[entry.symbol] = Requester.validateResultNumber(response.data[i], resultPaths[path])
+  }
+
+  return Requester.success(jobRunID, Requester.withResult(response, undefined, payload), true)
+}
+
+export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 
-  // @Rodrigo - const symbol = validator.overrideSymbol(AdapterName)
-  const base = validator.validated.data.base
-  const symbols = Array.isArray(base) ? base : [base]
+  const symbol = validator.overrideSymbol(AdapterName)
+  const symbols = Array.isArray(symbol) ? symbol : [symbol]
   const convert = validator.validated.data.quote.toUpperCase()
   const jobRunID = validator.validated.id
   const path = validator.validated.data.path || Paths.Price
@@ -55,7 +141,10 @@ export const execute = async (config: Config, request: AdapterRequest) => {
     [Paths.MarketCap]: ['market_cap'],
   }
 
-  const response = await Requester.request(reqConfig, customError)
-  response.data.result = Requester.validateResultNumber(response.data[0], resultPaths[path])
-  return Requester.success(jobRunID, response, config.verbose)
+  const response = await Requester.request<ResponseSchema[]>(reqConfig, customError)
+
+  if (Array.isArray(symbol)) return handleBatchedRequest(jobRunID, response, resultPaths, path)
+
+  const result = Requester.validateResultNumber(response.data[0], resultPaths[path])
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

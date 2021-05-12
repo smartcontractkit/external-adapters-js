@@ -18,14 +18,14 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
   switch (endpoint.toLowerCase()) {
     case globalmarketcap.NAME: {
-      return await globalmarketcap.execute(config, request)
+      return await globalmarketcap.execute(request, config)
     }
     case price.NAME: {
-      return await price.execute(config, request)
+      return await price.execute(request, config)
     }
     case 'marketcap': {
       request.data.path = price.Paths.MarketCap
-      return await price.execute(config, request)
+      return await price.execute(request, config)
     }
     default: {
       throw new AdapterError({
