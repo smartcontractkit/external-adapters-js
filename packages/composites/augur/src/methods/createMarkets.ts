@@ -60,7 +60,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
     if (!affiliateId || !homeTeam || !awayTeam) continue
 
     const eventId = eventIdToNum(event.event_id)
-    const [headToHeadMarket, spreadMarket, totalScoreMarket]: [number, number, number] = await contract.getEventMarkets(eventId)
+    const [headToHeadMarket, spreadMarket, totalScoreMarket]: [ethers.BigNumber, ethers.BigNumber, ethers.BigNumber] = await contract.getEventMarkets(eventId)
 
     // only create spread and totalScore markets if lines exist; always create headToHead market
     let homeSpread = event.lines?.[affiliateId].spread.point_spread_home
@@ -69,7 +69,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
     const createTotalScore = !!totalScore
     homeSpread = homeSpread || 0
     totalScore = totalScore || 0
-    const canCreate = (!headToHeadMarket) || (!spreadMarket && createSpread) || (!totalScoreMarket && createTotalScore)
+    const canCreate = headToHeadMarket.isZero() || (spreadMarket.isZero() && createSpread) || (totalScoreMarket.isZero() && createTotalScore)
     if (!canCreate) continue
 
     packed.push(packCreation(event.event_id, homeTeam.team_id, awayTeam.team_id, startTime, homeSpread, totalScore, createSpread, createTotalScore))
