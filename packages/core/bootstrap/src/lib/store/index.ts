@@ -9,12 +9,8 @@ import {
   Reducer,
   Store,
 } from 'redux'
-import { createLogger } from 'redux-logger'
 import { nanoid } from '@reduxjs/toolkit'
 import { composeWithDevTools } from 'remote-redux-devtools'
-import { isDebug, isDebugLogLevel } from '../util'
-import fastRedact from 'fast-redact'
-import { paths, censor } from '../external-adapter'
 
 export const asAction = <T>() => (p: T) => ({
   payload: toActionPayload<T>(p),
@@ -31,19 +27,11 @@ export interface ActionBase {
   createdAt: string
 }
 
-const redact = fastRedact({ paths, censor })
-
 export function configureStore(
   rootReducer: Reducer,
   preloadedState: PreloadedState<any> = {},
   middleware: Middleware<unknown, any, Dispatch<AnyAction>>[] = [],
 ): Store {
-  if (isDebug() || isDebugLogLevel()) {
-    const logger = createLogger({
-      actionTransformer: obj => JSON.parse(redact(obj)),
-    })
-    middleware.push(logger)
-  }
   const middlewareEnhancer = applyMiddleware(...middleware)
 
   const enhancers = [middlewareEnhancer]
