@@ -37,23 +37,14 @@ describe('execute', () => {
       {
         name: 'empty body',
         testData: {},
-        error: {
-          statusCode: 500,
-        },
       },
       {
         name: 'empty data',
         testData: { data: {} },
-        error: {
-          statusCode: 500,
-        },
       },
       {
         name: 'invalid zip',
         testData: { id: jobID, data: { propertyZip: '123123412309' } },
-        error: {
-          statusCode: 400,
-        },
       },
     ]
 
@@ -62,18 +53,18 @@ describe('execute', () => {
         try {
           await execute(req.testData as AdapterRequest)
         } catch (error) {
-          const errorResp = Requester.errored(jobID, error, req.error.statusCode)
+          const errorResp = Requester.errored(jobID, error)
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
         }
       })
     })
   })
 
-  context.skip('error calls @integration', () => {
+  context('error calls @integration', () => {
     const requests = [
       {
-        name: 'invalid zip',
-        testData: { id: jobID, data: { propertyZip: '' } },
+        name: 'invalid zip - DNE',
+        testData: { id: jobID, data: { propertyZip: 80085 } },
       },
     ]
 
