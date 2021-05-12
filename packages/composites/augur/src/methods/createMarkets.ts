@@ -47,38 +47,36 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
     events.push(...response.result as Event[])
   }
 
-  const filtered = events.filter(event => {
-    const date = Date.parse(event.event_date)
-    if ((date - Date.now()) / 1000 < startBuffer) return false
-
-    return !!getAffiliateId(event)
-  })
-
-  const packed = filtered.map((event) => {
-    const homeTeam = event.teams.find(team => team.is_home)
-    if (!homeTeam) return undefined
-
-    const awayTeam = event.teams.find(team => team.is_away)
-    if (!awayTeam) return undefined
-
+  // filter markets and build payloads for market creation
+  const packed = [];
+  for (const event of events) {
     const startTime = Date.parse(event.event_date)
+    if ((startTime - Date.now()) / 1000 < startBuffer) continue // markets would end too soon
 
+    // skip if data is missing
     const affiliateId = getAffiliateId(event)
-    if (!affiliateId) return undefined
+    const homeTeam = event.teams_normalized.find(team => team.is_home)
+    const awayTeam = event.teams_normalized.find(team => team.is_away)
+    if (!affiliateId || !homeTeam || !awayTeam) continue
 
-    const homeSpread = event.lines?.[affiliateId].spread.point_spread_home
-    const totalScore = event.lines?.[affiliateId].total.total_over
-    if (!homeSpread || !totalScore) return undefined
+    const eventId = eventIdToNum(event.event_id)
+    const [headToHeadMarket, spreadMarket, totalScoreMarket]: [number, number, number] = await contract.getEventMarkets(eventId)
 
-    return packCreation(event.event_id, homeTeam.team_normalized_id, awayTeam.team_normalized_id, startTime, homeSpread, totalScore)
-  }).filter((event) => !!event)
+    // only create spread and totalScore markets if lines exist; always create headToHead market
+    let homeSpread = event.lines?.[affiliateId].spread.point_spread_home
+    let totalScore = event.lines?.[affiliateId].total.total_over
+    const createSpread = !!homeSpread
+    const createTotalScore = !!totalScore
+    homeSpread = homeSpread || 0
+    totalScore = totalScore || 0
+    const canCreate = (!headToHeadMarket) || (!spreadMarket && createSpread) || (!totalScoreMarket && createTotalScore)
+    if (!canCreate) continue
+
+    packed.push(packCreation(event.event_id, homeTeam.team_id, awayTeam.team_id, startTime, homeSpread, totalScore, createSpread, createTotalScore))
+  }
 
   let nonce = await config.wallet.getTransactionCount()
   for (let i = 0; i < packed.length; i++) {
-    const eventId = eventIdToNum(filtered[i].event_id)
-    const isRegistered = await contract.isEventRegistered(eventId)
-    if (isRegistered) continue
-
     await contract.createMarket(packed[i], { nonce: nonce++ })
   }
 
@@ -91,20 +89,30 @@ export const packCreation = (
   awayTeamId: number,
   startTime: number,
   homeSpread: number,
-  totalScore: number
+  totalScore: number,
+  createSpread: boolean,
+  createTotalScore: boolean,
 ): string => {
   const encoded = ethers.utils.defaultAbiCoder.encode(
-    ['uint128', 'uint16', 'uint16', 'uint32', 'int16', 'uint16'],
+    ['uint128', 'uint16', 'uint16', 'uint32', 'int16', 'uint16', 'uint8'],
     [
       eventIdToNum(eventId),
       homeTeamId,
       awayTeamId,
       Math.floor(startTime / 1000),
       Math.round(homeSpread*10),
-      Math.round(totalScore*10)
+      Math.round(totalScore*10),
+      packCreationFlags(createSpread, createTotalScore)
     ]
   )
 
-  const mapping = [16, 2, 2, 4, 2, 2]
+  const mapping = [16, 2, 2, 4, 2, 2, 1]
   return bytesMappingToHexStr(mapping, encoded)
+}
+
+const packCreationFlags = (createSpread: boolean, createTotalScore: boolean): number => {
+  let flags = 0b00000000;
+  if (createSpread) flags += 0b00000001;
+  if (createTotalScore) flags += 0b00000010;
+  return flags;
 }

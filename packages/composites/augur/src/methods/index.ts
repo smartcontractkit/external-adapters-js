@@ -24,10 +24,10 @@ export interface Event {
     score_home: number
     score_away: number
   }
-  teams: {
+  teams_normalized: {
     is_away: boolean
     is_home: boolean
-    team_normalized_id: number
+    team_id: number
   }[]
 }
 
@@ -64,6 +64,18 @@ export const ABI = [
     ],
     stateMutability: "view",
     type: "function"
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256", name: "_eventId", type: "uint256" },
+    ],
+    name: "getEventMarkets",
+    outputs: [
+      { internalType: "uint256[3]", name: "", type: "uint256[3]" },
+    ],
+    stateMutability: "view",
+    type: "function",
   },
   {
     inputs: [
