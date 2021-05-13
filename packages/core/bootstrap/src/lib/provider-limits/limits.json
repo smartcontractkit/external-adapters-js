@@ -822,7 +822,16 @@
         "rateLimit1h": 16666.666
       }
     },
-    "ws": {}
+    "ws": {
+      "starter": {
+        "connections": -1,
+        "subscriptions": -1
+      },
+      "power": {
+        "connections": -1,
+        "subscriptions": -1
+      }
+    }
   },
   "tradermade": {
     "http": {
