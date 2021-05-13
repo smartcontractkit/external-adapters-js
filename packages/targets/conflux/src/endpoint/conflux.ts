@@ -25,7 +25,7 @@ const sendFulfillment = async (
     gasPrice: 1,
   }
 
-  return await provider.sendTransaction(tx)
+  return await provider.sendTransaction(tx).executed()
 }
 
 // const customError = (data: any) => data.Response === 'Error'
@@ -66,8 +66,8 @@ export const execute = async (
   // if (request.data.times !== undefined) {
   //   value = String(Math.round(Number(value)*Number(request.data.times)))
   // }
-
-  const txHash = await sendFulfillment(
+  // @ts-ignore
+  const { transactionHash: txHash } = await sendFulfillment(
     provider,
     account,
     address,
