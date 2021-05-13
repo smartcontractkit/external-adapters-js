@@ -8,31 +8,28 @@ describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
 
-  describe('successful calls @integration', () => {
+  describe('successful calls', () => {
     const requests = [
       {
-        name: 'id not supplied',
-        testData: { data: { base: 'btc', quote: 'usd' } },
+        name: 'empty data',
+        testData: { data: {} },
       },
       {
-        name: 'ticker',
-        testData: { id: jobID, data: { base: 'btc', quote: 'usd' } },
+        name: 'id not supplied (endpoint height)',
+        testData: {
+          data: {
+            endpoint: 'height',
+          },
+        },
       },
       {
-        name: 'ticker & field',
-        testData: { id: jobID, data: { endpoint: 'iex', ticker: 'aapl', field: 'open' } },
-      },
-      {
-        name: 'iex endpoint',
-        testData: { id: jobID, data: { ticker: 'aapl', endpoint: 'stock' } },
-      },
-      {
-        name: 'eod endpoint',
-        testData: { id: jobID, data: { ticker: 'aapl', endpoint: 'eod' } },
-      },
-      {
-        name: 'top endpoint',
-        testData: { id: jobID, data: { base: 'btc', quote: 'usd', endpoint: 'top' } },
+        name: 'endpoint difficulty',
+        testData: {
+          id: jobID,
+          data: {
+            endpoint: 'difficulty',
+          },
+        },
       },
     ]
 
@@ -48,11 +45,9 @@ describe('execute', () => {
 
   describe('validation error', () => {
     const requests = [
-      { name: 'empty body', testData: {} },
-      { name: 'empty data', testData: { data: {} } },
       {
-        name: 'ticker not supplied',
-        testData: { id: jobID, data: { field: 'open' } },
+        name: 'empty body',
+        testData: {},
       },
     ]
 
@@ -68,15 +63,14 @@ describe('execute', () => {
     })
   })
 
-  describe('error calls @integration', () => {
+  describe('error calls', () => {
     const requests = [
       {
-        name: 'unknown ticker',
-        testData: { id: jobID, data: { endpoint: 'iex', ticker: 'not_real' } },
-      },
-      {
-        name: 'unknown field',
-        testData: { id: jobID, data: { endpoint: 'iex', ticker: 'aapl', field: 'not_real' } },
+        name: 'unknown endpoint',
+        testData: {
+          id: jobID,
+          data: { endpoint: 'not_real' },
+        },
       },
     ]
 

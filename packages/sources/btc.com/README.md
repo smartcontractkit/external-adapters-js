@@ -1,36 +1,34 @@
-# Chainlink External Adapters to query address balance from BTC.com
-
-### Environment Variables
-
-The adapter takes the following environment variables:
-
-| Required? |     Name      |    Description    | Options | Defaults to |
-| :-------: | :-----------: | :---------------: | :-----: | :---------: |
-|           | `API_TIMEOUT` | Timeout parameter |         |   `30000`   |
+# Chainlink External Adapters for BTC.com
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     | Options | Defaults to |
-| :-------: | :------: | :-----------------: | :-----: | :---------: |
-|           | endpoint | The endpoint to use |         |  `balance`  |
+| Required? |   Name   |              Description              |                              Options                              | Defaults to |
+| :-------: | :------: | :-----------------------------------: | :---------------------------------------------------------------: | :---------: |
+|           | endpoint | The Chainlink unified endpoint to use | [balance](#Balance), [height](#Height), [difficulty](#Difficulty) |  `balance`  |
 
-## Balance Endpoint
+---
+
+## BTC.com Address Endpoint
+
+https://btc.com/api-doc#Address
+
+### Balance
 
 ### Input Params
 
-| Required? |      Name       |                                 Description                                 | Options | Defaults to |
-| :-------: | :-------------: | :-------------------------------------------------------------------------: | :-----: | :---------: |
-|           |   `dataPath`    |                   Path where to find the addresses array                    |         |  `result`   |
-|           | `confirmations` |                           Confirmations parameter                           |         |      6      |
-|           |   `addresses`   | Array of addresses to query (this may also be under the `result` parameter) |         |             |
+| Required? |      Name       |               Description                | Options | Defaults to |
+| :-------: | :-------------: | :--------------------------------------: | :-----: | :---------: |
+|    ✅     |    `result`     |       Array of addresses to query        |         |             |
+|           |   `dataPath`    |  Path where to find the addresses array  |         |  `result`   |
+|           | `confirmations` | The symbol of the currency to convert to |         |     `6`     |
 
-Addresses is an an array of objects that contain the following information:
+`result` is an an array of objects that contain the following information:
 
-| Required? |   Name    |                 Description                  | Options | Defaults to |
-| :-------: | :-------: | :------------------------------------------: | :-----: | :---------: |
-|    ✅     | `address` |               Address to query               |         |             |
-|           |  `coin`   |              Currency to query               |         |    `btc`    |
-|           |  `chain`  | Chain to query (Ethereum testnet is Rinkeby) |         |  `mainnet`  |
+| Required? |   Name    |                 Description                  |                  Options                  | Defaults to |
+| :-------: | :-------: | :------------------------------------------: | :---------------------------------------: | :---------: |
+|    ✅     | `address` |               Address to query               |                                           |             |
+|           |  `coin`   |              Currency to query               | `btc`. `eth`, `bch`, `ltc`, `btsv`, `zec` |    `btc`    |
+|           |  `chain`  | Chain to query (Ethereum testnet is Rinkeby) |           `mainnet`, `testnet`            |  `mainnet`  |
 
 ### Sample Input
 
@@ -125,5 +123,57 @@ Addresses is an an array of objects that contain the following information:
     }
   ],
   "statusCode": 200
+}
+```
+
+## BTC.com Block Endpoint
+
+https://btc.com/api-doc#Block
+
+### Height
+
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {}
+}
+```
+
+### Sample Output
+
+```json
+{
+  "jobRunID": "1",
+  "result": 20608845737768,
+  "statusCode": 200,
+  "data": {
+    "result": 20608845737768
+  }
+}
+```
+
+### Difficulty
+
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {}
+}
+```
+
+### Sample Output
+
+```json
+{
+  "jobRunID": "1",
+  "result": 682452,
+  "statusCode": 200,
+  "data": {
+    "result": 682452
+  }
 }
 ```

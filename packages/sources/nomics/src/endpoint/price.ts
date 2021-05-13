@@ -92,6 +92,7 @@ const convertId: Record<string, string> = {
   AMP: 'AMP2',
   WING: 'WING2',
   FTT: 'FTXTOKEN',
+  KNC: 'KNC3',
 }
 
 const handleBatchedRequest = (
