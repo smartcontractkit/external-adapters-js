@@ -41,10 +41,13 @@ export class SigmaCalculator {
     let dK = new Decimal(0)
     let F = new Decimal(0)
     let K0c = new Decimal(0)
+    const compareCalls: Decimal[] = calls.map((c) => c.midPrice ?? new Decimal(0))
     calls.forEach((call: OptionData, idx: number) => {
       const { strikePrice, midPrice, underlyingPrice } = call
       if (strikePrice.gt(underlyingPrice)) {
         if (!midPrice) return
+        const prevMax: Decimal = Decimal.max(...compareCalls.slice(Math.max(0, idx - 10), idx))
+        if (idx > 3 && !prevMax.isZero() && midPrice.greaterThan(prevMax.mul(2))) return
         F = underlyingPrice
         if (idx === 0) {
           dK = calls[idx + 1].strikePrice.minus(strikePrice)
@@ -61,10 +64,13 @@ export class SigmaCalculator {
     })
 
     let K0p = new Decimal(0)
+    const comparePuts: Decimal[] = puts.map((p) => p.midPrice ?? new Decimal(0))
     puts.forEach((put: OptionData, idx: number) => {
       const { strikePrice, midPrice, underlyingPrice } = put
       if (strikePrice.lt(underlyingPrice)) {
         if (!midPrice) return
+        const prevMax: Decimal = Decimal.max(...comparePuts.slice(Math.max(0, idx - 10), idx))
+        if (idx > 3 && !prevMax.isZero() && midPrice.greaterThan(prevMax.mul(2))) return
         F = underlyingPrice
         if (idx === 0) {
           dK = strikePrice.minus(puts[idx + 1].strikePrice)
