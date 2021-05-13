@@ -66,7 +66,6 @@ export const execute = async (
   // if (request.data.times !== undefined) {
   //   value = String(Math.round(Number(value)*Number(request.data.times)))
   // }
-  // @ts-ignore
   const { transactionHash: txHash } = await sendFulfillment(
     provider,
     account,
