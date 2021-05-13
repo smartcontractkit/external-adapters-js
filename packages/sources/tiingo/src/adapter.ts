@@ -1,7 +1,7 @@
-import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
 import { makeConfig, DEFAULT_ENDPOINT } from './config'
-import { eod } from './endpoint'
+import { eod, iex, top, prices } from './endpoint'
 
 const inputParams = {
   endpoint: false,
@@ -13,20 +13,23 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
   Requester.logConfig(config)
 
-  const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
 
-  switch (endpoint) {
-    case eod.NAME: {
+  switch (endpoint.toLowerCase()) {
+    case eod.NAME:
       return await eod.execute(request, config)
-    }
-    default: {
-      throw new AdapterError({
-        jobRunID,
-        message: `Endpoint ${endpoint} not supported.`,
-        statusCode: 400,
-      })
-    }
+
+    case iex.NAME:
+    case 'stock':
+      return await iex.execute(request, config)
+
+    case top.NAME:
+      return await top.execute(request, config)
+
+    case prices.NAME:
+    case 'crypto':
+    default:
+      return await prices.execute(request, config)
   }
 }
 

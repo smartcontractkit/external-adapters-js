@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/external-adapter'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 
 export const NAME = 'top'
@@ -53,16 +53,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   }
 
   const response = await Requester.request(options, customError)
-  const result = Requester.validateResultNumber(response.data as ResponseSchema[], [
+  response.data.result = Requester.validateResultNumber(response.data as ResponseSchema[], [
     0,
     'topOfBookData',
     0,
     field,
   ])
 
-  return Requester.success(jobRunID, {
-    data: config.verbose ? { ...response.data, result } : { result },
-    result,
-    status: 200,
-  })
+  return Requester.success(jobRunID, response, config.verbose)
 }

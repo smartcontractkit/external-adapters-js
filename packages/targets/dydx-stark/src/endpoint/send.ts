@@ -20,7 +20,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const { asset, ...data } = validator.validated.data
 
   const dataPath = data.dataPath || DEFAULT_DATA_PATH
-  const price = <number | string>objectPath.get(data, dataPath)
+  let price = <number | string>objectPath.get(data, dataPath)
+
+  /* Remove me May 10th 2021 */
+  if (!price) price = <number | string>objectPath.get(request, dataPath)
+  /**************************/
 
   const priceData: PriceDataPoint = {
     oracleName: config.oracleName,
