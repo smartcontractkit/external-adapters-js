@@ -86,8 +86,8 @@ const customParams = {
 }
 
 export const makeWSHandler = (config?: Config): MakeWSHandler => {
-  const defaultConfig = config || makeConfig()
   const getSubscription = (pair: string | undefined, subscribe = true) => {
+    const defaultConfig = config || makeConfig()
     if (!pair) return
     return {
       eventName: subscribe ? 'subscribe' : 'unsubscribe',
@@ -106,6 +106,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
     return `${base}${quote}`
   }
   return () => {
+    const defaultConfig = config || makeConfig()
     return {
       connection: {
         url: defaultConfig.api.baseWsURL || DEFAULT_WS_API_ENDPOINT,
