@@ -516,7 +516,12 @@
     "ws": {}
   },
   "finage": {
-    "http": {},
+    "http": {
+      "professionalstocksusstockmarket": {
+        "rateLimit1s": -1,
+        "note": "No rate limit"
+      }
+    },
     "ws": {}
   },
   "finnhub": {
@@ -581,10 +586,13 @@
   },
   "iex-cloud": {
     "http": {
-      "default": {
-        "rateLimit1s": 200,
-        "rateLimit1m": 6000,
-        "note": "mentions per second limit and allowing bursts but doesn't specify burst limit"
+      "individual": {
+        "rateLimit1h": 6944.44444444,
+        "note": "only mentions monthly limit"
+      },
+      "business": {
+        "rateLimit1h": 208333.333333,
+        "note": "only mentions monthly limit"
       }
     },
     "ws": {}
@@ -864,6 +872,60 @@
   },
   "trueusd": {
     "http": {},
+    "ws": {}
+  },
+  "twelvedata": {
+    "http": {
+      "basic": {
+        "rateLimit1m": 8,
+        "rateLimit1h": 33.3333333333,
+        "note": "800 API requests/day"
+      },
+      "grow1": {
+        "rateLimit1m": 55
+      },
+      "grow2": {
+        "rateLimit1m": 144
+      },
+      "grow3": {
+        "rateLimit1m": 377
+      },
+      "pro1": {
+        "rateLimit1m": 610
+      },
+      "pro2": {
+        "rateLimit1m": 987
+      },
+      "pro3": {
+        "rateLimit1m": 1597
+      },
+      "enterprise1": {
+        "rateLimit1h": 2584
+      },
+      "enterprise2": {
+        "rateLimit1h": 4181
+      },
+      "enterprise3": {
+        "rateLimit1h": 10946
+      }
+    },
+    "ws": {}
+  },
+  "unibit": {
+    "http": {
+      "freetrial": {
+        "rateLimit1h": 69.44,
+        "note": "only mentions monthly limit"
+      },
+      "starter": {
+        "rateLimit1h": 13888.8888889,
+        "note": "only mentions monthly limit"
+      },
+      "pro": {
+        "rateLimit1h": 41666.6666667,
+        "note": "only mentions monthly limit"
+      }
+    },
     "ws": {}
   },
   "wbtc-address-set": {
