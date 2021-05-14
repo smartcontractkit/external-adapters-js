@@ -83,6 +83,13 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   return Requester.success(input.id, {})
 }
 
+/**
+ * TheRundown API returns `0.0001` as a special case which should
+ * be treated as the value is `undefined`. This function transforms
+ * `0.0001` to `undefined`, and leaves `val` unchanged otherwise.
+ * @param {number} val - The value returned from the API
+ * @return {number|undefined} Transformed `val`
+ */
 const transformSpecialNone = (val?: number) => val === 0.0001 ? undefined : val
 
 export const packCreation = (
