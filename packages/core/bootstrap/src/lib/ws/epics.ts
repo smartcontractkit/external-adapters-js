@@ -75,6 +75,17 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
         connection: { url, protocol },
       } = wsHandler
 
+      const connectionMeta = (payload: WSConfigPayload) => ({
+        key: payload.config.connectionInfo.key,
+        url: censor(payload.wsHandler.connection.url),
+      })
+      const subscriptionMeta = (payload: WSSubscriptionPayload) => ({
+        connection_key: payload.connectionInfo.key,
+        connection_url: censor(payload.connectionInfo.url),
+        feed_id: getFeedId({ ...payload.input }),
+        subscription_key: getSubsId(payload.subscriptionMsg),
+      })
+
       const openObserver = new Subject()
       const closeObserver = new Subject()
       const errorObserver = new Subject()
@@ -90,7 +101,10 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
       })
 
       // Stream of WS connected & disconnected events
-      const open$ = openObserver.pipe(map(() => connected({ config, wsHandler })))
+      const open$ = openObserver.pipe(
+        map(() => connected({ config, wsHandler })),
+        tap((action) => logger.info('WS: Connected', connectionMeta(action.payload)))
+      )
       const close$ = closeObserver.pipe(
         withLatestFrom(state$),
         mergeMap(([_, state]) => {
@@ -112,6 +126,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
         filter(disconnect.match),
         filter(({ payload }) => payload.config.connectionInfo.key === connectionKey),
         tap(() => wsSubject.closed || wsSubject.complete()),
+        tap((action) => logger.info('WS: Disconnected', connectionMeta(action.payload))),
         filter(() => false), // do not duplicate events
       )
 
@@ -152,6 +167,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
               mergeMap(([message, state]) => {
                 const isActiveSubscription = !!state.ws.subscriptions.all[subscriptionKey]?.active
                 if (!isActiveSubscription) {
+                  logger.info('WS: Subscribed', subscriptionMeta(payload))
                   return of(subscribed(payload), messageReceived({ message, subscriptionKey }))
                 }
                 return of(messageReceived({ message, subscriptionKey }))
@@ -161,6 +177,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
                   action$.pipe(
                     filter(unsubscribe.match),
                     filter((a) => getSubsId(a.payload.subscriptionMsg) === subscriptionKey),
+                    tap((a) => logger.info('WS: Unsubscribed', subscriptionMeta(a.payload))),
                   ),
                   action$.pipe(
                     filter(disconnected.match),
@@ -200,6 +217,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
               debug: { ws: true },
             }
             await cache(wsResponse)
+            logger.debug("WS: Saved result", { input, result: response.result })
           } catch (e) {
             logger.error(`WS: Cache error: ${e.message}`)
           }
@@ -224,7 +242,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
           // start the current unsubscription timer
           const timeout$ = of(unsubscribe({ ...payload })).pipe(
             delay(config.subscriptionTTL),
-            tap(() => logger.info('WS: unsubscribe (inactive feed)', { payload: payload.subscriptionMsg})),
+            tap(() => logger.debug('WS: unsubscribe (inactive feed)', { payload: payload.subscriptionMsg})),
           )
           // if a re-subscription comes in before timeout emits, then we emit nothing
           // else we unsubscribe from the current subscription
@@ -288,6 +306,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
           action$.pipe(
             // TODO: not seeing unsubscribe events because of this
             filter(disconnected.match),
+            tap((action) => logger.info('WS: Disconnected', connectionMeta(action.payload))),
             filter((a) => a.payload.config.connectionInfo.key === connectionKey),
           ),
         ),
@@ -332,31 +351,25 @@ export const metricsEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
       switch (action.type) {
         case connected.type:
           ws_connection_active.labels(connectionLabels(action.payload)).inc()
-          logger.info('WS: connected', { payload: action.payload })
           break
         case connectionError.type:
           ws_connection_errors.labels(connectionErrorLabels(action.payload)).inc()
-          logger.error('WS: connection_error', { payload: action.payload })
           break
         case disconnected.type:
           if (state.ws.connections.all[connectionLabels(action.payload).key]?.wasEverConnected) {
             ws_connection_active.labels(connectionLabels(action.payload)).dec()
-            logger.info('WS: disconnected', { payload: action.payload })
           }
           break
         case subscribed.type:
           ws_subscription_total.labels(subscriptionLabels(action.payload)).inc()
           ws_subscription_active.labels(subscriptionLabels(action.payload)).inc()
-          logger.info('WS: subscribed', { payload: action.payload })
           break
         case subscriptionError.type:
           ws_subscription_errors.labels(subscriptionErrorLabels(action.payload)).inc()
-          logger.error('WS: subscription error', { payload: action.payload })
           break
         case unsubscribed.type: {
           if (state.ws.subscriptions.all[getSubsId(action.payload.subscriptionMsg)]?.wasEverActive) {
             ws_subscription_active.labels(subscriptionLabels(action.payload)).dec()
-            logger.info('WS: unsubscribed', { payload: action.payload })
           }
           break
         }
