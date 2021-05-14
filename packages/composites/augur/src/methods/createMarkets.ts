@@ -63,10 +63,10 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
     const [headToHeadMarket, spreadMarket, totalScoreMarket]: [ethers.BigNumber, ethers.BigNumber, ethers.BigNumber] = await contract.getEventMarkets(eventId)
 
     // only create spread and totalScore markets if lines exist; always create headToHead market
-    let homeSpread = event.lines?.[affiliateId].spread.point_spread_home
-    let totalScore = event.lines?.[affiliateId].total.total_over
-    const createSpread = !!homeSpread
-    const createTotalScore = !!totalScore
+    let homeSpread = transformSpecialNone(event.lines?.[affiliateId].spread.point_spread_home)
+    let totalScore = transformSpecialNone(event.lines?.[affiliateId].total.total_over)
+    const createSpread = homeSpread !== undefined
+    const createTotalScore = totalScore !== undefined
     homeSpread = homeSpread || 0
     totalScore = totalScore || 0
     const canCreate = headToHeadMarket.isZero() || (spreadMarket.isZero() && createSpread) || (totalScoreMarket.isZero() && createTotalScore)
@@ -82,6 +82,15 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
 
   return Requester.success(input.id, {})
 }
+
+/**
+ * TheRundown API returns `0.0001` as a special case which should
+ * be treated as the value is `undefined`. This function transforms
+ * `0.0001` to `undefined`, and leaves `val` unchanged otherwise.
+ * @param {number} val - The value returned from the API
+ * @return {number|undefined} Transformed `val`
+ */
+const transformSpecialNone = (val?: number) => val === 0.0001 ? undefined : val
 
 export const packCreation = (
   eventId: string,
