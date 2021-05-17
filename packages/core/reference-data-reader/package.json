@@ -1,0 +1,30 @@
+{
+  "name": "@chainlink/ea-reference-data-reader",
+  "version": "0.0.4",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": "https://github.com/smartcontractkit/external-adapters-js",
+  "author": "Jonas Hals <jonas@smartcontract.com>",
+  "license": "MIT",
+  "scripts": {
+    "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
+    "prepack": "yarn build",
+    "build": "tsc -b",
+    "server": "node -e 'require(\"./index.js\").server()'",
+    "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
+    "start": "yarn server:dist"
+  },
+  "dependencies": {
+    "@chainlink/contracts": "^0.0.11",
+    "@chainlink/ea-bootstrap": "*",
+    "ethers": "^4.0.48",
+    "tslib": "^2.1.0"
+  },
+  "devDependencies": {
+    "@chainlink/types": "0.0.1",
+    "@types/jest": "^26.0.22",
+    "@types/node": "^14.14.35",
+    "typescript": "^4.2.3"
+  }
+}

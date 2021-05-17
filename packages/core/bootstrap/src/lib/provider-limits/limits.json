@@ -1,0 +1,952 @@
+{
+  "1forge": {
+    "http": {
+      "starter": {
+        "rateLimit1h": 208.33
+      },
+      "premium": {
+        "rateLimit1h": 4166.66
+      },
+      "business": {
+        "rateLimit1h": 41666.66
+      },
+      "business+": {
+        "rateLimit1h": 416666.66
+      }
+    },
+    "ws": {}
+  },
+  "alphachain": {
+    "http": {
+      "basic": {
+        "rateLimit1m": 10
+      },
+      "pro": {
+        "rateLimit1m": 50
+      }
+    },
+    "ws": {}
+  },
+  "alphavantage": {
+    "http": {
+      "free": {
+        "rateLimit1m": 5,
+        "rateLimit1h": 20.83
+      },
+      "49.99": {
+        "rateLimit1m": 75
+      },
+      "99.99": {
+        "rateLimit1m": 150
+      },
+      "149.99": {
+        "rateLimit1m": 300
+      },
+      "199.99": {
+        "rateLimit1m": 600
+      },
+      "249.99": {
+        "rateLimit1m": 1200
+      }
+    },
+    "ws": {}
+  },
+  "amberdata": {
+    "http": {
+      "free": {
+        "rateLimit1s": 1,
+        "rateLimit1h": 83.33
+      },
+      "on-demand": {
+        "rateLimit1s": 15,
+        "rateLimit1h": 12500
+      }
+    },
+    "ws": {
+      "free": {
+        "connections": 1,
+        "subscriptions": 10
+      },
+      "on-demand": {
+        "connections": 2,
+        "subscriptions": -1
+      },
+      "enterprise": {
+        "connections": 2,
+        "subscriptions": -1
+      }
+    }
+  },
+  "anyblock": {
+    "http": {
+      "lite": {
+        "rateLimit1h": 120
+      },
+      "basic": {
+        "rateLimit1m": 120
+      },
+      "pro": {
+        "rateLimit1m": 500
+      },
+      "enterprise": {
+        "rateLimit1m": 6000
+      }
+    },
+    "ws": {}
+  },
+  "binance-dex": {
+    "http": {
+      "free": {
+        "rateLimit1s": 5,
+        "note": "different endpoints have different limits, this is for /api/v1/ticker/24hr which we currently use"
+      }
+    },
+    "ws": {}
+  },
+  "bitex": {
+    "http": {
+      "free": {
+        "rateLimit1s": 5
+      }
+    },
+    "ws": {}
+  },
+  "bitso": {
+    "http": {
+      "public": {
+        "rateLimit1m": 60,
+        "rateLimit1h": 120
+      },
+      "private": {
+        "rateLimit1m": 300
+      }
+    },
+    "ws": {}
+  },
+  "blockchain.com": {
+    "http": {
+      "global": {
+        "rateLimit1m": 1200
+      }
+    },
+    "ws": {}
+  },
+  "blockchair": {
+    "http": {
+      "free": {
+        "rateLimit1h": 41.666666667
+      },
+      "specialist1250": {
+        "rateLimit1h": 52.08
+      },
+      "specialist2500": {
+        "rateLimit1h": 104.16
+      },
+      "specialist3750": {
+        "rateLimit1h": 156.25
+      },
+      "specialist5000": {
+        "rateLimit1h": 208.33
+      },
+      "enterprise25000": {
+        "rateLimit1h": 1041.66
+      },
+      "enterprise50000": {
+        "rateLimit1h": 2083.33
+      },
+      "enterprise75000": {
+        "rateLimit1h": 3125
+      },
+      "enterprise100000": {
+        "rateLimit1h": 4166.66
+      }
+    },
+    "ws": {}
+  },
+  "blockcypher": {
+    "http": {
+      "free": {
+        "rateLimit1s": 3,
+        "rateLimit1h": 200
+      },
+      "prototype": {
+        "rateLimit1s": 5,
+        "rateLimit1h": 208.33
+      },
+      "beta": {
+        "rateLimit1s": 8,
+        "rateLimit1h": 458.33
+      },
+      "production": {
+        "rateLimit1s": 12,
+        "rateLimit1h": 1000
+      },
+      "business": {
+        "rateLimit1s": 15,
+        "rateLimit1h": 2083.33
+      },
+      "leader": {
+        "rateLimit1s": 22,
+        "rateLimit1h": 5000
+      },
+      "babyunicorn": {
+        "rateLimit1s": 25,
+        "rateLimit1h": 10416.66
+      }
+    },
+    "ws": {}
+  },
+  "bravenewcoin": {
+    "http": {},
+    "ws": {}
+  },
+  "btc.com": {
+    "http": {},
+    "ws": {}
+  },
+  "cfbenchmarks": {
+    "http": {},
+    "ws": {}
+  },
+  "coinapi": {
+    "http": {
+      "free": {
+        "rateLimit1h": 4.16
+      },
+      "startup": {
+        "rateLimit1h": 41.66
+      },
+      "streamer": {
+        "rateLimit1h": 416.66
+      },
+      "professional": {
+        "rateLimit1h": 4166.66
+      }
+    },
+    "ws": {
+      "free": {
+        "connections": 0,
+        "subscriptions": 0,
+        "tickerSupport": false
+      },
+      "startup": {
+        "connections": 1,
+        "subscriptions": -1,
+        "tickerSupport": false
+      },
+      "streamer": {
+        "connections": 1,
+        "subscriptions": -1
+      },
+      "professional": {
+        "connections": 1,
+        "subscriptions": -1
+      }
+    }
+  },
+  "coinbase": {
+    "http": {
+      "public": {
+        "rateLimit1s": 6,
+        "rateLimit1m": 180
+      },
+      "private": {
+        "rateLimit1s": 10,
+        "rateLimit1m": 300
+      }
+    },
+    "ws": {
+      "public": {
+        "connections": 1,
+        "subscriptions": 100,
+        "note": "Connections: 1 per 4 seconds per IP; Messages: 100 per second per IP.(https://docs.pro.coinbase.com/#overview34)"
+      }
+    }
+  },
+  "coincodex": {
+    "http": {},
+    "ws": {}
+  },
+  "coingecko": {
+    "http": {
+      "free": {
+        "rateLimit1s": 10,
+        "rateLimit1m": 100,
+        "note": "1s found in ToS, 1m found at https://www.coingecko.com/en/api"
+      }
+    },
+    "ws": {}
+  },
+  "coinlore": {
+    "http": {},
+    "ws": {}
+  },
+  "coinmarketcap": {
+    "http": {
+      "free": {
+        "rateLimit1m": 30,
+        "rateLimit1h": 13.698630137,
+        "note": "10k credits/month, 730h in a month, ignoring daily limits since they're soft caps"
+      },
+      "hobbyist": {
+        "rateLimit1m": 30,
+        "rateLimit1h": 54.794520548
+      },
+      "startup": {
+        "rateLimit1m": 30,
+        "rateLimit1h": 164.383561644
+      },
+      "standard": {
+        "rateLimit1m": 60,
+        "rateLimit1h": 684.931506849
+      },
+      "professional": {
+        "rateLimit1m": 90,
+        "rateLimit1h": 4109.589041096
+      }
+    },
+    "ws": {}
+  },
+  "coinpaprika": {
+    "http": {
+      "free": {
+        "rateLimit1m": 600,
+        "rateLimit1h": 34246.5,
+        "note": "600/m and 25M/mo for free"
+      }
+    },
+    "ws": {}
+  },
+  "coinranking": {
+    "http": {
+      "free": {
+        "rateLimit1s": 5,
+        "rateLimit1h": 273.97260274,
+        "note": "200k/mo on the free tier (with API key) unauthenticated request limits aren't specified"
+      },
+      "allyoucaneat": {
+        "rateLimit1s": -1,
+        "note": "no limits specified for paid tier besides 'unlimited', may need to contact support for more details"
+      }
+    },
+    "ws": {}
+  },
+  "conflux": {
+    "http": {},
+    "ws": {}
+  },
+  "covid-tracker": {
+    "http": {},
+    "ws": {}
+  },
+  "cryptoapis": {
+    "http": {
+      "free": {
+        "rateLimit1s": 3,
+        "rateLimit1h": 20.83
+      },
+      "growth": {
+        "rateLimit1s": 10,
+        "rateLimit1h": 104.166666667
+      },
+      "startup": {
+        "rateLimit1s": 20,
+        "rateLimit1h": 312.5
+      },
+      "partnership": {
+        "rateLimit1s": 30,
+        "rateLimit1h": 937.5
+      },
+      "professional": {
+        "rateLimit1s": 40,
+        "rateLimit1h": 2812.5
+      }
+    },
+    "ws": {}
+  },
+  "cryptocompare": {
+    "http": {
+      "free": {
+        "rateLimit1h": 136.98,
+        "note": "only mentions monthly limit"
+      },
+      "professional": {
+        "rateLimit1h": 342.46
+      },
+      "corporate": {
+        "rateLimit1h": 1027.39
+      }
+    },
+    "ws": {
+      "free": {
+        "connections": -1,
+        "tickerSupport": false,
+        "subscriptions": 50
+      },
+      "professional": {
+        "connections": -1,
+        "subscriptions": 500
+      },
+      "corporate": {
+        "connections": -1,
+        "subscriptions": 500
+      }
+    }
+  },
+  "cryptoid": {
+    "http": {},
+    "ws": {}
+  },
+  "cryptomkt": {
+    "http": {
+      "free": {
+        "rateLimit1m": 10,
+        "note": "only mentions minute limit"
+      }
+    },
+    "ws": {}
+  },
+  "currencylayer": {
+    "http": {
+      "free": {
+        "rateLimit1h": 0.342,
+        "note": "only mentions monthly limit"
+      },
+      "basic": {
+        "rateLimit1h": 13.69
+      },
+      "professional": {
+        "rateLimit1h": 136.98
+      },
+      "business": {
+        "rateLimit1h": 684.93
+      }
+    },
+    "ws": {}
+  },
+  "deribit": {
+    "http": {
+      "free": {
+        "rateLimit1s": 100,
+        "rateLimit1m": 1200,
+        "note": "for non-matching requests: https://www.deribit.com/pages/information/rate-limits"
+      }
+    },
+    "ws": {}
+  },
+  "dns-query": {
+    "http": {
+      "free": {
+        "rateLimit1s": 100,
+        "note": "cloudflare @ 100, google @ 1500"
+      }
+    },
+    "ws": {}
+  },
+  "dxfeed": {
+    "http": {},
+    "ws": {}
+  },
+  "dxfeed-secondary": {
+    "http": {},
+    "ws": {}
+  },
+  "dydx-stark": {
+    "http": {
+      "free": {
+        "rateLimit1s": 10,
+        "note": "100req/10s"
+      }
+    },
+    "ws": {}
+  },
+  "eodhistoricaldata": {
+    "http": {
+      "all": {
+        "rateLimit1h": 4166.66,
+        "note": "all feeds have the same limit"
+      }
+    },
+    "ws": {}
+  },
+  "etherchain": {
+    "http": {},
+    "ws": {}
+  },
+  "ethgasstation": {
+    "http": {
+      "free": {
+        "rateLimit1m": 120,
+        "note": "could be off, no mention on their site but found here: https://github.com/ethgasstation/ethgasstation-api/blob/ec36f7dd78fccbb6a67ddffc0e12ac1150db8e80/settings.docker.conf"
+      }
+    },
+    "ws": {}
+  },
+  "ethwrite": {
+    "http": {
+      "default": {
+        "rateLimit1s": -1,
+        "note": "should be using own node"
+      }
+    },
+    "ws": {}
+  },
+  "fcsapi": {
+    "http": {
+      "free": {
+        "rateLimit1h": 6.8493,
+        "note": "only mentions monthly limit"
+      },
+      "basic": {
+        "rateLimit1h": 13.69
+      },
+      "standard": {
+        "rateLimit1h": 68.493
+      },
+      "pro": {
+        "rateLimit1h": 164.38
+      },
+      "proplus": {
+        "rateLimit1h": 684.93
+      },
+      "corporate": {
+        "rateLimit1h": 1369.86
+      }
+    },
+    "ws": {}
+  },
+  "finage": {
+    "http": {
+      "professionalstocksusstockmarket": {
+        "rateLimit1s": -1,
+        "note": "No rate limit"
+      }
+    },
+    "ws": {}
+  },
+  "finnhub": {
+    "http": {
+      "free": {
+        "rateLimit1m": 60
+      },
+      "all-in-one": {
+        "rateLimit1m": 300,
+        "note": "limit is for market data, not fundamental data"
+      }
+    },
+    "ws": {}
+  },
+  "fixer": {
+    "http": {
+      "free": {
+        "rateLimit1h": 1.369,
+        "note": "only mentions monthly limit"
+      },
+      "basic": {
+        "rateLimit1h": 13.69
+      },
+      "professional": {
+        "rateLimit1h": 136.98
+      },
+      "professionalplus": {
+        "rateLimit1h": 684.93
+      }
+    },
+    "ws": {}
+  },
+  "fmpcloud": {
+    "http": {
+      "free": {
+        "rateLimit1h": 10.4,
+        "note": "only mentions daily limit and calls the plan 'limited' no other limiting mentioned for other plans"
+      },
+      "starter": {
+        "rateLimit1s": 10
+      },
+      "teams": {
+        "rateLimit1s": 10
+      },
+      "business": {
+        "rateLimit1s": 10
+      }
+    },
+    "ws": {}
+  },
+  "genesis-volatility": {
+    "http": {},
+    "ws": {}
+  },
+  "google-finance": {
+    "http": {},
+    "ws": {}
+  },
+  "harmony": {
+    "http": {},
+    "ws": {}
+  },
+  "iex-cloud": {
+    "http": {
+      "individual": {
+        "rateLimit1h": 6944.44444444,
+        "note": "only mentions monthly limit"
+      },
+      "business": {
+        "rateLimit1h": 208333.333333,
+        "note": "only mentions monthly limit"
+      }
+    },
+    "ws": {}
+  },
+  "kaiko": {
+    "http": {
+      "default": {
+        "rateLimit1s": -1,
+        "note": "claims no rate limits"
+      }
+    },
+    "ws": {
+      "pro": {
+        "connections": 1,
+        "subscriptions": -1,
+        "note": "limited. https://www.kaiko.com/pages/kaiko-pricing"
+      },
+      "enterprise": {
+        "connections": -1,
+        "subscriptions": -1
+      }
+    }
+  },
+  "lcx": {
+    "http": {},
+    "ws": {}
+  },
+  "linkpool": {
+    "http": {},
+    "ws": {}
+  },
+  "lition": {
+    "http": {},
+    "ws": {}
+  },
+  "marketstack": {
+    "http": {
+      "free": {
+        "rateLimit1h": 1.369,
+        "note": "only mentions monthly limit"
+      },
+      "basic": {
+        "rateLimit1h": 13.69
+      },
+      "professional": {
+        "rateLimit1h": 136.9
+      },
+      "business": {
+        "rateLimit1h": 684.93
+      }
+    },
+    "ws": {}
+  },
+  "messari": {
+    "http": {
+      "nokey": {
+        "rateLimit1m": 20,
+        "rateLimit1h": 41.666,
+        "note": "only specifies limits with and without a key"
+      },
+      "apikey": {
+        "rateLimit1m": 30,
+        "rateLimit1h": 83.333
+      }
+    },
+    "ws": {}
+  },
+  "metalsapi": {
+    "http": {
+      "free": {
+        "rateLimit1h": 0.068,
+        "note": "only mentions monthly limits"
+      },
+      "starter": {
+        "rateLimit1h": 0.684
+      },
+      "basic": {
+        "rateLimit1h": 13.69
+      },
+      "professional": {
+        "rateLimit1h": 136.98
+      },
+      "professionalplus": {
+        "rateLimit1h": 684.93
+      }
+    },
+    "ws": {}
+  },
+  "nikkei": {
+    "http": {},
+    "ws": {}
+  },
+  "nomics": {
+    "http": {
+      "free": {
+        "rateLimit1s": 2,
+        "rateLimit1m": 60,
+        "note": "1 req/s, presumably allows for bursts"
+      },
+      "paid": {
+        "rateLimit1s": -1
+      }
+    },
+    "ws": {}
+  },
+  "oilpriceapi": {
+    "http": {
+      "hobby": {
+        "rateLimit1h": 13.69,
+        "note": "only mentions monthly limits"
+      },
+      "business": {
+        "rateLimit1h": 136.9
+      },
+      "enterprise": {
+        "rateLimit1h": 684.93
+      }
+    },
+    "ws": {}
+  },
+  "onchain": {
+    "http": {},
+    "ws": {}
+  },
+  "openexchangerates": {
+    "http": {
+      "developer": {
+        "rateLimit1h": 13.69,
+        "note": "only mentions monthly limits"
+      },
+      "enterprise": {
+        "rateLimit1h": 136.9
+      },
+      "unlimited": {
+        "rateLimit1s": -1
+      }
+    },
+    "ws": {}
+  },
+  "orchid-bandwidth": {
+    "http": {},
+    "ws": {}
+  },
+  "paxos": {
+    "http": {},
+    "ws": {}
+  },
+  "poa-gasprice": {
+    "http": {},
+    "ws": {}
+  },
+  "polygon": {
+    "http": {
+      "free": {
+        "rateLimit1m": 5,
+        "note": "only mentions monthly limits"
+      },
+      "starter": {
+        "rateLimit1s": -1
+      },
+      "developer": {
+        "rateLimit1s": -1
+      },
+      "advanced": {
+        "rateLimit1s": -1
+      }
+    },
+    "ws": {}
+  },
+  "renvm-address-set": {
+    "http": {},
+    "ws": {}
+  },
+  "satoshitango": {
+    "http": {
+      "free": {
+        "rateLimit1m": 6,
+        "note": "60req/10m or IP gets banned"
+      }
+    },
+    "ws": {}
+  },
+  "sochain": {
+    "http": {
+      "free": {
+        "rateLimit1m": 300
+      }
+    },
+    "ws": {}
+  },
+  "stasis": {
+    "http": {},
+    "ws": {}
+  },
+  "taapi": {
+    "http": {
+      "free": {
+        "rateLimit1m": 1
+      },
+      "basic": {
+        "rateLimit1s": 1
+      },
+      "pro": {
+        "rateLimit1s": 10
+      },
+      "expert": {
+        "rateLimit1s": 20
+      },
+      "privatevps": {
+        "rateLimit1s": 50
+      }
+    },
+    "ws": {}
+  },
+  "tiingo": {
+    "http": {
+      "starter": {
+        "rateLimit1m": 8.33,
+        "rateLimit1h": 833.33
+      },
+      "power": {
+        "rateLimit1m": 333.33,
+        "rateLimit1h": 6000
+      },
+      "commercial": {
+        "rateLimit1m": 666,
+        "rateLimit1h": 16666.666
+      }
+    },
+    "ws": {
+      "starter": {
+        "connections": -1,
+        "subscriptions": -1
+      },
+      "power": {
+        "connections": -1,
+        "subscriptions": -1
+      },
+      "commercial": {
+        "connections": -1,
+        "subscriptions": -1
+      }
+    }
+  },
+  "tradermade": {
+    "http": {
+      "basic": {
+        "rateLimit1h": 1.369
+      },
+      "professional": {
+        "rateLimit1h": 13.69
+      },
+      "business": {
+        "rateLimit1h": 68.49
+      },
+      "advanced": {
+        "rateLimit1h": 342.46
+      }
+    },
+    "ws": {}
+  },
+  "tradingeconomics": {
+    "http": {
+      "standard": {
+        "rateLimit1h": 500,
+        "note": "http://api.tradingeconomics.com/documentation/Limits"
+      },
+      "professional": {
+        "rateLimit1h": 800
+      },
+      "enterprise": {
+        "rateLimit1h": 100
+      }
+    },
+    "ws": {
+      "standard": {
+        "connections": 1,
+        "subscriptions": -1,
+        "note": "No limit mention. http://api.tradingeconomics.com/documentation/Streaming"
+      },
+      "professional": {
+        "connections": 1,
+        "subscriptions": -1
+      },
+      "enterprise": {
+        "connections": 1,
+        "subscriptions": -1
+      }
+    }
+  },
+  "trueusd": {
+    "http": {},
+    "ws": {}
+  },
+  "twelvedata": {
+    "http": {
+      "basic": {
+        "rateLimit1m": 8,
+        "rateLimit1h": 33.3333333333,
+        "note": "800 API requests/day"
+      },
+      "grow1": {
+        "rateLimit1m": 55
+      },
+      "grow2": {
+        "rateLimit1m": 144
+      },
+      "grow3": {
+        "rateLimit1m": 377
+      },
+      "pro1": {
+        "rateLimit1m": 610
+      },
+      "pro2": {
+        "rateLimit1m": 987
+      },
+      "pro3": {
+        "rateLimit1m": 1597
+      },
+      "enterprise1": {
+        "rateLimit1h": 2584
+      },
+      "enterprise2": {
+        "rateLimit1h": 4181
+      },
+      "enterprise3": {
+        "rateLimit1h": 10946
+      }
+    },
+    "ws": {}
+  },
+  "unibit": {
+    "http": {
+      "freetrial": {
+        "rateLimit1h": 69.44,
+        "note": "only mentions monthly limit"
+      },
+      "starter": {
+        "rateLimit1h": 13888.8888889,
+        "note": "only mentions monthly limit"
+      },
+      "pro": {
+        "rateLimit1h": 41666.6666667,
+        "note": "only mentions monthly limit"
+      }
+    },
+    "ws": {}
+  },
+  "wbtc-address-set": {
+    "http": {},
+    "ws": {}
+  },
+  "xbto": {
+    "http": {},
+    "ws": {}
+  }
+}

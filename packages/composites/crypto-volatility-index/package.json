@@ -1,0 +1,42 @@
+{
+  "name": "@chainlink/crypto-volatility-index-adapter",
+  "version": "0.0.2",
+  "description": "The Crypto volatility index (CVI)",
+  "keywords": [
+    "Chainlink",
+    "LINK",
+    "COTI",
+    "CVI",
+    "blockchain",
+    "oracle"
+  ],
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
+    "prepack": "yarn build",
+    "build": "tsc -b",
+    "server": "node -e 'require(\"./index.js\").server()'",
+    "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
+    "start": "yarn server:dist"
+  },
+  "dependencies": {
+    "@chainlink/ea-bootstrap": "*",
+    "@chainlink/ea-reference-data-reader": "^0.0.4",
+    "@chainlink/ea-test-helpers": "*",
+    "@chainlink/token-allocation-adapter": "^0.0.2",
+    "decimal.js": "^10.2.1",
+    "moment": "^2.29.1",
+    "tslib": "^2.1.0"
+  },
+  "devDependencies": {
+    "@chainlink/types": "0.0.1",
+    "@types/jest": "^26.0.22",
+    "@types/node": "^14.14.35",
+    "typescript": "^4.2.3"
+  }
+}

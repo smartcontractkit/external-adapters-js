@@ -1,0 +1,11 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+BRANCH_NAME=$(git branch | grep '*' | sed 's/* //')
+if [[ $BRANCH_NAME =~ "no branch" ]]; then
+  echo "You are rebasing, skipping hook"
+
+  exit 0
+fi
+
+exec </dev/tty && yarn run cz --hook || true

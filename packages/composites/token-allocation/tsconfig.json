@@ -1,0 +1,21 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src"
+  },
+  "include": ["src/**/*"],
+  "exclude": ["dist", "**/*.spec.ts", "**/*.test.ts"],
+  "references": [
+    { "path": "../../core/test-helpers" },
+    { "path": "../../core/bootstrap" },
+    { "path": "../../sources/amberdata" },
+    { "path": "../../sources/coinapi" },
+    { "path": "../../sources/coingecko" },
+    { "path": "../../sources/coinmarketcap" },
+    { "path": "../../sources/coinpaprika" },
+    { "path": "../../sources/cryptocompare" },
+    { "path": "../../sources/kaiko" },
+    { "path": "../../sources/nomics" }
+  ]
+}

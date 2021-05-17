@@ -1,13 +1,27 @@
 {
-  "adapters": {
-    "cmd": "make zip adapter=__ADAPTER__",
-    "docker": "make docker adapter=__ADAPTER__",
-    "asset_path": "./__ADAPTER__/dist/__ADAPTER__-adapter.zip",
-    "asset_name": "__ADAPTER__-adapter.zip",
+  "core": {
+    "docker": "yarn docker core __ADAPTER__",
+    "image_name": "__ADAPTER__-adapter",
+    "adapter": [
+      "bootstrap",
+      "factories",
+      "reference-data-reader",
+      "test-helpers"
+    ]
+  },
+  "examples": {
+    "docker": "yarn docker examples __ADAPTER__",
+    "image_name": "__ADAPTER__-adapter",
+    "adapter": [
+      "composite",
+      "source"
+    ]
+  },
+  "sources": {
+    "docker": "yarn docker sources __ADAPTER__",
     "image_name": "__ADAPTER__-adapter",
     "adapter": [
       "1forge",
-      "agoric",
       "alphachain",
       "alphavantage",
       "amberdata",
@@ -20,8 +34,10 @@
       "blockchain.com",
       "blockchair",
       "blockcypher",
-      "bootstrap",
+      "blockstream",
       "bravenewcoin",
+      "btc.com",
+      "cfbenchmarks",
       "coinapi",
       "coinbase",
       "coincodex",
@@ -38,19 +54,21 @@
       "currencylayer",
       "deribit",
       "dns-query",
+      "dwolla",
       "dxfeed",
       "dxfeed-secondary",
       "eodhistoricaldata",
       "etherchain",
       "ethgasstation",
-      "example",
-      "external-adapter",
       "fcsapi",
       "finage",
       "finnhub",
       "fixer",
       "fmpcloud",
       "genesis-volatility",
+      "geodb",
+      "iex-cloud",
+      "intrinio",
       "json-rpc",
       "kaiko",
       "lcx",
@@ -66,16 +84,22 @@
       "openexchangerates",
       "orchid-bandwidth",
       "paxos",
+      "paypal",
       "poa-gasprice",
       "polygon",
       "reduce",
       "renvm-address-set",
       "satoshitango",
+      "sochain",
       "stasis",
       "taapi",
+      "therundown",
+      "tiingo",
       "tradermade",
       "tradingeconomics",
       "trueusd",
+      "twelvedata",
+      "unibit",
       "wbtc-address-set",
       "xbto",
       "dydx-stark",
@@ -91,39 +115,32 @@
       "dnsproof"
     ]
   },
-  "2-step": {
-    "docker": "make docker-2-step adapter=__ADAPTER__",
-    "cmd": "make zip-2-step adapter=__ADAPTER__",
-    "asset_path": "./2-step/__ADAPTER__/dist/__ADAPTER__-2-step-adapter.zip",
-    "asset_name": "__ADAPTER__-2-step-adapter.zip",
-    "image_name": "__ADAPTER__-2-step-adapter",
-    "adapter": [
-      "amberdata",
-      "bravenewcoin",
-      "coinapi",
-      "coingecko",
-      "coinmarketcap",
-      "coinpaprika",
-      "cryptocompare"
-    ]
-  },
-  "composite": {
-    "docker": "make docker adapter=composite/__ADAPTER__ name=__ADAPTER__",
-    "cmd": "make zip adapter=composite/__ADAPTER__ name=__ADAPTER__",
-    "asset_path": "./composite/__ADAPTER__/dist/__ADAPTER__-adapter.zip",
-    "asset_name": "__ADAPTER__-adapter.zip",
+  "targets": {
+    "docker": "yarn docker targets __ADAPTER__",
     "image_name": "__ADAPTER__-adapter",
     "adapter": [
-      "proof-of-reserves",
-      "market-closure",
+      "agoric",
+      "conflux",
+      "dydx-stark",
+      "ethwrite",
+      "harmony"
+    ]
+  },
+  "composites": {
+    "docker": "yarn docker composites __ADAPTER__",
+    "image_name": "__ADAPTER__-adapter",
+    "adapter": [
+      "apy-finance",
+      "bitcoin-json-rpc",
+      "crypto-volatility-index",
       "defi-pulse",
       "dns-record-check",
+      "market-closure",
       "outlier-detection",
-      "apy-finance",
-      "crypto-volatility-index",
-      "bitcoin-json-rpc",
-      "token-allocation",
-      "synth-index"
+      "proof-of-reserves",
+      "reference-transform",
+      "synth-index",
+      "token-allocation"
     ]
   }
 }

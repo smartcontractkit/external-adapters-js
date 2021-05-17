@@ -12,50 +12,18 @@ env:
 jobs:
   run-basic-checks:
     name: Run linters and unit tests
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, sdlc-ghr-prod]
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2-beta
+      - uses: actions/setup-node@v2
         with:
-          node-version: '12.x'
-      - name: Cache node modules
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.npm
-            ~/.cache
-            **/node_modules
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('./yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
+          node-version: '14.x'
+      - name: Install Yarn
+        run: npm install -g yarn
       - run: yarn install
       - run: yarn setup
       - run: yarn lint
-      - run: yarn test:unit
-
-  test-example:
-    needs: [run-basic-checks]
-    name: Test example adapter
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2-beta
-        with:
-          node-version: '12.x'
-      - run: yarn install
-      - name: Cache node modules
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.npm
-            ~/.cache
-            **/node_modules
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('./yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-      - run: yarn setup
-      - run: yarn test:example-start-server&
-      - run: yarn test:example
+      - run: yarn test unit
 
   # Read build strategy matrix of adapters, from a json file
   matrix-adapters:
@@ -64,13 +32,12 @@ jobs:
       matrix: ${{ steps.create-matrix.outputs.result }}
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/github-script@v3
-        name: Create job matrix
-        id: create-matrix
+      - uses: actions/setup-node@v2
         with:
-          script: |
-            const script = require(`${process.env.GITHUB_WORKSPACE}/.github/scripts/matrix.js`)
-            return script()
+          node-version: '14.x'
+      - name: Generate job matrix
+        id: create-matrix
+        run: yarn generate:gha:matrix
 
   build-adapters:
     needs: [run-basic-checks, matrix-adapters]
@@ -80,18 +47,11 @@ jobs:
       matrix: ${{fromJson(needs.matrix-adapters.outputs.matrix)}}
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2-beta
+      - uses: actions/setup-node@v2
         with:
-          node-version: '12.x'
-      - name: Cache node modules
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.npm
-            ~/.cache
-            **/node_modules
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('./yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-      - run: ${{ matrix.adapter.cmd }}
-      - run: ${{ matrix.adapter.docker }}
+          node-version: '14.x'
+      - name: Install yarn deps
+        run: yarn
+      - name: Generate docker-compose file
+        run: yarn generate:docker-compose
+      - run: docker-compose -f docker-compose.generated.yaml build ${{ matrix.adapter.name }}

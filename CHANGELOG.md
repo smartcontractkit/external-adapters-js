@@ -8,17 +8,48 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+- Added support for EOD close prices on Finage, IEX Cloud, Twelvedata, Tiingo and Unibit
+
+- New adapters:
+  - `expert-car-broker` to get car prices
+
+### Changed
+- Conflux adapter sending transaction optimization
+
+### Removed
+
+- Removed custom `tradingeconomics-stream` as WS support is not included into `tradingeconomics` adapter
+
+## [0.2.0] - 2021-4-13
+
+### Added
+
 - New adapters:
   - `agoric` to push results to the Agoric blockchain
   - `therundown` to get sports score data from TheRundown
   - `tradingeconomics-stream` to get stream data from TradingEconomics
   - `dnsproof` to check if an Ethereum address owns a domain
+  - `blockstream` to get Bitcoin height and difficulty
+- Basic prometheus metrics endpoint
 
 ### Changed
 
+- Remaining non-2-step adapters migrated to TS
 - Updated support for `DIGG/BTC` in Kaiko and Amberdata
 - Updated base URL for GeoDB
 - CMC now uses preset IDs instead of preset slugs
+- Added support for `tradermade` in `outlier-detection` composite adapter
+- Added support for `overrides` param in price adapters
+- Added a per-provider ratelimit reference
+- Added Prometheus metrics
+- `tradingeconomics` will now get stream data from TradingEconomics using a persistent WS connection
+- `make` commands are now TypeScript files that can be run through yarn scripts
+
+### Fixed
+
+### Removed
+
+- Removed serverless support (AWS Lambda & GPC Functions).
 
 ## [0.2.0-rc.1] - 2021-2-4
 

@@ -1,0 +1,22 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src"
+  },
+  "include": ["src/**/*"],
+  "exclude": ["dist", "**/*.spec.ts", "**/*.test.ts"],
+  "references": [
+    { "path": "../../core/test-helpers" },
+    { "path": "../../sources/amberdata" },
+    { "path": "../../sources/blockchain.com" },
+    { "path": "../../sources/blockchair" },
+    { "path": "../../sources/blockcypher" },
+    { "path": "../../sources/btc.com" },
+    { "path": "../../sources/cryptoapis" },
+    { "path": "../../sources/renvm-address-set" },
+    { "path": "../../sources/reduce" },
+    { "path": "../../sources/sochain" },
+    { "path": "../../sources/wbtc-address-set" }
+  ]
+}

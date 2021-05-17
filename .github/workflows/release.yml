@@ -7,7 +7,6 @@ on:
 name: Release
 
 env:
-  cache-name: release-ci
   publicecr-name: z0b1w9r9
 
 jobs:
@@ -46,58 +45,34 @@ jobs:
       matrix: ${{ steps.create-matrix.outputs.result }}
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/github-script@v3
-        name: Create job matrix
-        id: create-matrix
+      - uses: actions/setup-node@v2
         with:
-          script: |
-            const script = require(`${process.env.GITHUB_WORKSPACE}/.github/scripts/matrix.js`)
-            return script()
+          node-version: '14.x'
+      - name: Generate job matrix
+        id: create-matrix
+        run: yarn generate:gha:matrix
+        env:
+          IMAGE_PREFIX: public.ecr.aws/${{ env.publicecr-name }}/adapters/
 
   publish-artifacts:
     needs: [release, matrix-adapters]
     runs-on: ubuntu-latest
-    name: (${{ matrix.adapter.type }}) Publish ${{ matrix.adapter.name }} adapter zip and Docker image
+    name: (${{ matrix.adapter.type }}) Publish ${{ matrix.adapter.name }} adapter Docker image
     strategy:
       matrix: ${{fromJson(needs.matrix-adapters.outputs.matrix)}}
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2-beta
+      - uses: actions/setup-node@v2
         with:
-          node-version: '12.x'
+          node-version: '14.x'
       - name: Install yarn deps
-        run: yarn install --frozen-lockfile --production
-      - name: Cache node modules
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.npm
-            ~/.cache
-            **/node_modules
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('./yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-      - name: Build
-        run: ${{ matrix.adapter.cmd }}
-      - name: Build Docker containers
-        run: ${{ matrix.adapter.docker }} repo="public.ecr.aws/${{ env.publicecr-name }}/adapters/"
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
+        run: yarn
+      - name: Generate docker-compose file
+        run: yarn generate:docker-compose
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.release.outputs.release_url }}
-          asset_path: ${{ matrix.adapter.asset_path }}
-          asset_name: ${{ needs.release.outputs.asset_prefix }}-${{ matrix.adapter.asset_name }}
-          asset_content_type: application/zip
-      - name: Configure AWS Credentials for Prod S3
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
-      - name: Upload to S3
-        run: aws s3 cp ${{ matrix.adapter.asset_path }} s3://adaptor-source-cl/${{ matrix.adapter.asset_name }}
+          IMAGE_PREFIX: public.ecr.aws/${{ env.publicecr-name }}/adapters/
+      - name: Build Docker containers
+        run: docker-compose -f docker-compose.generated.yaml build ${{ matrix.adapter.name }}
       - name: Configure AWS Credentials for SDLC Public ECR
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -107,12 +82,8 @@ jobs:
           role-to-assume: ${{ secrets.AWS_PUBLICECR_ROLE_ARN }}
           role-duration-seconds: 1200
       - name: Authenticate to public ECR
-        run: aws ecr-public get-login-password | docker login --username AWS --password-stdin public.ecr.aws
-        env:
-          AWS_DEFAULT_REGION: us-east-1 # https://docs.aws.amazon.com/AmazonECR/latest/public/public-registries.html#public-registry-auth
+        run: aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/${{ env.publicecr-name }}
       - name: Create a public ECR repository if does not exist
-        run: aws ecr-public create-repository --repository-name adapters/${{ matrix.adapter.image_name }} || true
-        env:
-          AWS_DEFAULT_REGION: us-east-1
+        run: aws ecr-public create-repository --region us-east-1 --repository-name adapters/${{ matrix.adapter.name }} || true
       - name: Push to public ECR
-        run: docker push public.ecr.aws/${{ env.publicecr-name }}/adapters/${{ matrix.adapter.image_name }}
+        run: docker push ${{ matrix.adapter.image_name }}

@@ -1,0 +1,56 @@
+{
+  "name": "@chainlink/proof-of-reserves-adapter",
+  "version": "0.0.4",
+  "description": "Chainlink BTC Proof of Reserves composite adapter. Combines multiple adapters to find total balance in custody for wBTC or renBTC.",
+  "keywords": [
+    "Chainlink",
+    "LINK",
+    "BTC",
+    "Bitcoin",
+    "blockchain",
+    "oracle",
+    "Proof of Reserves"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "url": "https://github.com/smartcontractkit/external-adapters-js",
+    "type": "git"
+  },
+  "author": "Kristijan Rebernisak <kristijan.rebernisak@smartcontract.com>",
+  "license": "MIT",
+  "scripts": {
+    "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
+    "prepack": "yarn build",
+    "build": "tsc -b",
+    "server": "node -e 'require(\"./index.js\").handlers.server()'",
+    "server:dist": "node -e 'require(\"./dist/index.js\").handlers.server()'",
+    "start": "yarn server:dist"
+  },
+  "dependencies": {
+    "@chainlink/amberdata-adapter": "*",
+    "@chainlink/blockchain.com-adapter": "*",
+    "@chainlink/blockchair-adapter": "*",
+    "@chainlink/blockcypher-adapter": "*",
+    "@chainlink/btc.com-adapter": "*",
+    "@chainlink/cryptoapis-adapter": "*",
+    "@chainlink/ea-bootstrap": "*",
+    "@chainlink/ea-test-helpers": "*",
+    "@chainlink/reduce-adapter": "*",
+    "@chainlink/renvm-address-set-adapter": "*",
+    "@chainlink/sochain-adapter": "*",
+    "@chainlink/wbtc-address-set-adapter": "*",
+    "decimal.js": "^10.2.1",
+    "ethers": "^5.0.32",
+    "tslib": "^2.1.0"
+  },
+  "devDependencies": {
+    "@chainlink/types": "0.0.1",
+    "@types/jest": "^26.0.22",
+    "@types/node": "^14.14.35",
+    "typescript": "^4.2.3"
+  }
+}
