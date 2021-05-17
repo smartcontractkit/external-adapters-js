@@ -23,6 +23,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     case crypto.NAME: {
       return await crypto.execute(request, config)
     }
+    case 'eod':
     case eod.NAME: {
       return await eod.execute(request, config)
     }
