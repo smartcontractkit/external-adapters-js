@@ -1,7 +1,7 @@
 import { getEnv, parseBool } from '../util'
 import { WSConfig } from './types'
 
-const ENV_WS_ENABLED = 'EXPERIMENTAL_WS_ENABLED'
+const ENV_WS_ENABLED = 'WS_ENABLED'
 
 // WSConnectionInfo
 const ENV_WS_CONNECTION_KEY = 'WS_CONNECTION_KEY'
@@ -25,10 +25,9 @@ const DEFAULT_WS_SUBSCRIPTION_LIMIT = 10
 const DEFAULT_WS_SUBSCRIPTION_TTL = 70000
 const DEFAULT_WS_SUBSCRIPTION_UNRESPONSIVE_TTL = 70000
 
-export const WS_ENABLED = parseBool(getEnv(ENV_WS_ENABLED))
-
 /** Load WSConfig from environment variables */
 export const getWSConfig = (prefix = ''): WSConfig => ({
+  enabled: parseBool(getEnv(ENV_WS_ENABLED)),
   connectionInfo: {
     key: getEnv(ENV_WS_CONNECTION_KEY, prefix) || '1',
   },

@@ -14,10 +14,10 @@ export const withWebSockets = (
   store: Store<RootState>,
   makeWsHandler?: MakeWSHandler,
 ): Middleware => async (execute) => async (input: AdapterRequest) => {
-  if (!makeWsHandler) return await execute(input)
+  const wsConfig = getWSConfig()
+  if (!makeWsHandler || !wsConfig.enabled) return await execute(input) // ignore middleware if conditions are met
 
   const wsHandler = await makeWsHandler()
-  const wsConfig = getWSConfig()
   store.dispatch(connect({ config: wsConfig, wsHandler }))
 
   const subscriptionMsg = wsHandler.subscribe(input)
