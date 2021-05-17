@@ -1,4 +1,6 @@
 export interface WSConfig {
+  /** Websockets enabled or disabled*/
+  enabled: boolean
   /** Info about the connection */
   connectionInfo: {
     key: string
