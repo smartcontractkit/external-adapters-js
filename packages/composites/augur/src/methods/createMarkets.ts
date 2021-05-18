@@ -4,6 +4,7 @@ import { Config } from '../config'
 import * as TheRundown from '@chainlink/therundown-adapter'
 import { ABI, Event, eventIdToNum, bytesMappingToHexStr } from './index'
 import { ethers } from 'ethers'
+import { Logger } from '@chainlink/ea-bootstrap'
 
 const createParams = {
   sportId: true,
@@ -47,17 +48,27 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
     events.push(...response.result as Event[])
   }
 
+  Logger.debug(`Augur: Got ${events.length} events from data provider`)
+  let skipStartBuffer = 0, skipAffiliateTeams = 0, cantCreate = 0
+
   // filter markets and build payloads for market creation
   const packed = [];
   for (const event of events) {
     const startTime = Date.parse(event.event_date)
-    if ((startTime - Date.now()) / 1000 < startBuffer) continue // markets would end too soon
+    if ((startTime - Date.now()) / 1000 < startBuffer) {
+      // markets would end too soon
+      skipStartBuffer++
+      continue
+    }
 
     // skip if data is missing
     const affiliateId = getAffiliateId(event)
     const homeTeam = event.teams_normalized.find(team => team.is_home)
     const awayTeam = event.teams_normalized.find(team => team.is_away)
-    if (!affiliateId || !homeTeam || !awayTeam) continue
+    if (!affiliateId || !homeTeam || !awayTeam) {
+      skipAffiliateTeams++
+      continue
+    }
 
     const eventId = eventIdToNum(event.event_id)
     const [headToHeadMarket, spreadMarket, totalScoreMarket]: [ethers.BigNumber, ethers.BigNumber, ethers.BigNumber] = await contract.getEventMarkets(eventId)
@@ -70,14 +81,23 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
     homeSpread = homeSpread || 0
     totalScore = totalScore || 0
     const canCreate = headToHeadMarket.isZero() || (spreadMarket.isZero() && createSpread) || (totalScoreMarket.isZero() && createTotalScore)
-    if (!canCreate) continue
+    if (!canCreate) {
+      cantCreate++
+      continue
+    }
 
     packed.push(packCreation(event.event_id, homeTeam.team_id, awayTeam.team_id, startTime, homeSpread, totalScore, createSpread, createTotalScore))
   }
 
+  Logger.debug(`Augur: Prepared to create ${packed.length} events`)
+  Logger.debug(`Augur: Skipping ${skipStartBuffer} due to startBuffer`)
+  Logger.debug(`Augur: Skipping ${skipAffiliateTeams} due to no affiliate ID match/no teams`)
+  Logger.debug(`Augur: Skipping ${cantCreate} due to no market to create`)
+
   let nonce = await config.wallet.getTransactionCount()
   for (let i = 0; i < packed.length; i++) {
-    await contract.createMarket(packed[i], { nonce: nonce++ })
+    const tx = await contract.createMarket(packed[i], { nonce: nonce++ })
+    Logger.debug(`Created tx: ${tx.hash}`)
   }
 
   return Requester.success(input.id, {})
