@@ -67,7 +67,7 @@ declare module '@chainlink/types' {
   export type Callback = (statusCode: number, data?: any) => void
   export type AdapterHealthCheck = (callback: Callback) => any
 
-  export type { RequestConfig, AxiosResponse } from 'axios'
+  export type { AxiosResponse, RequestConfig } from 'axios'
 
   export type Config = {
     apiKey?: string
@@ -113,6 +113,9 @@ declare module '@chainlink/types' {
   export interface WSHandler {
     // Connection information
     connection: {
+      /**
+       * WS connection url
+       */
       url: string
       protocol?: any
     }

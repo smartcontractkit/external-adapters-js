@@ -1,8 +1,10 @@
-import hash from 'object-hash'
-import { logger } from '../external-adapter'
-import { Store } from 'redux'
 import { AdapterRequest, Middleware } from '@chainlink/types'
+import hash from 'object-hash'
+import { Store } from 'redux'
+import { logger } from '../external-adapter'
 import { successfulRequestObserved } from './actions'
+import * as config from './config'
+import * as metrics from './metrics'
 import {
   Heartbeat,
   Heartbeats,
@@ -11,10 +13,8 @@ import {
   RootState,
   selectObserved,
 } from './reducer'
-import * as config from './config'
-import * as metrics from './metrics'
-export * as reducer from './reducer'
 export * as actions from './actions'
+export * as reducer from './reducer'
 
 /**
  * Calculates how much capacity a participant deserves based on its weight on the adapter
@@ -82,29 +82,29 @@ export const makeId = (request: AdapterRequest): string => hash(request, config.
 export const maxAgeFor = (throughput: number, interval: number) =>
   throughput <= 0 ? interval : Math.floor(interval / throughput)
 
-export const withRateLimit = (store: Store<RootState>): Middleware => async (execute) => async (
-  input,
-) => {
-  if (!config.get().enabled) return await execute(input)
-  let state = store.getState()
-  const { heartbeats } = state
-  const requestTypeId = makeId(input)
-  const maxThroughput = computeThroughput(heartbeats, IntervalNames.HOUR, requestTypeId)
-  const maxAge = maxAgeFor(maxThroughput, Intervals[IntervalNames.MINUTE])
-  const result = await execute({ ...input, data: { ...input.data, rateLimitMaxAge: maxAge } })
+export const withRateLimit =
+  (store: Store<RootState>): Middleware =>
+  async (execute) =>
+  async (input) => {
+    if (!config.get().enabled) return await execute(input)
+    let state = store.getState()
+    const { heartbeats } = state
+    const requestTypeId = makeId(input)
+    const maxThroughput = computeThroughput(heartbeats, IntervalNames.HOUR, requestTypeId)
+    const maxAge = maxAgeFor(maxThroughput, Intervals[IntervalNames.MINUTE])
+    const result = await execute({ ...input, data: { ...input.data, rateLimitMaxAge: maxAge } })
 
-  store.dispatch(successfulRequestObserved(input, result))
-  state = store.getState()
-  logRemainingCapacity(state.heartbeats, IntervalNames.MINUTE)
+    store.dispatch(successfulRequestObserved(input, result))
+    state = store.getState()
+    logRemainingCapacity(state.heartbeats, IntervalNames.MINUTE)
 
-  const defaultLabels = {
-    job_run_id: input.id,
-    feed_id: input.debug?.feedId,
-    participant_id: requestTypeId,
-    experimental: 'true',
+    const defaultLabels = {
+      feed_id: input.debug?.feedId,
+      participant_id: requestTypeId,
+      experimental: 'true',
+    }
+    const cost = parseInt(result.debug?.providerCost)
+    metrics.rateLimitCreditsSpentTotal.labels(defaultLabels).inc(isNaN(cost) ? 1 : cost)
+
+    return result
   }
-  const cost = parseInt(result.debug?.providerCost)
-  metrics.rateLimitCreditsSpentTotal.labels(defaultLabels).inc(isNaN(cost) ? 1 : cost)
-
-  return result
-}

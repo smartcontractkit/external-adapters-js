@@ -149,8 +149,10 @@ export function groupBy<K, V>(list: Array<V>, keyGetter: (input: V) => K): Map<K
  *
  * @param name string adapter name
  */
-export const byName = (name?: string) => (a: AdapterImplementation): boolean =>
-  a.NAME.toUpperCase() === name?.toUpperCase()
+export const byName =
+  (name?: string) =>
+  (a: AdapterImplementation): boolean =>
+    a.NAME.toUpperCase() === name?.toUpperCase()
 
 /**
  * Covert number to max number of decimals, trim trailing zeros
@@ -166,13 +168,18 @@ export const toFixedMax = (num: number | string | Decimal, decimals: number): st
     // remove decimal part if all zeros (or only decimal point)
     .replace(/\.0*$/g, '')
 
+/** Common keys within adapter requests that should be ignored to generate a stable key*/
+export const excludableAdapterRequestProperties = [
+  'id',
+  'maxAge',
+  'meta',
+  'rateLimitMaxAge',
+].concat((process.env.CACHE_KEY_IGNORED_PROPS || '').split(',').filter((k) => k))
+
 export const getHashOpts = (): Required<Parameters<typeof objectHash>>['1'] => ({
   algorithm: 'sha1',
   encoding: 'hex',
-  excludeKeys: (props: string) =>
-    ['id', 'maxAge', 'meta', 'rateLimitMaxAge']
-      .concat((process.env.CACHE_KEY_IGNORED_PROPS || '').split(',').filter((k) => k))
-      .includes(props),
+  excludeKeys: (props: string) => excludableAdapterRequestProperties.includes(props),
 })
 
 // Helper to identify if debug mode is running
