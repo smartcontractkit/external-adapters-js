@@ -2333,6 +2333,7 @@ __metadata:
     "@babel/core": ^7.13.14
     "@babel/preset-env": ^7.13.12
     "@babel/preset-typescript": ^7.13.0
+    "@semantic-release/commit-analyzer": ^8.0.1
     "@types/babel__core": ^7
     "@types/babel__preset-env": ^7
     "@types/eslint": ^7
@@ -5481,7 +5482,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@semantic-release/commit-analyzer@npm:^8.0.0":
+"@semantic-release/commit-analyzer@npm:^8.0.0, @semantic-release/commit-analyzer@npm:^8.0.1":
   version: 8.0.1
   resolution: "@semantic-release/commit-analyzer@npm:8.0.1"
   dependencies:
