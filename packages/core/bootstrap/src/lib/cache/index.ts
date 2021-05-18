@@ -1,10 +1,10 @@
-import hash from 'object-hash'
 import { AdapterRequest, AdapterResponse, Middleware } from '@chainlink/types'
+import hash from 'object-hash'
 import { logger } from '../external-adapter'
-import { parseBool, uuid, delay, exponentialBackOffMs, getWithCoalescing } from '../util'
+import { delay, exponentialBackOffMs, getWithCoalescing, parseBool, uuid } from '../util'
 import * as local from './local'
-import * as redis from './redis'
 import * as metrics from './metrics'
+import * as redis from './redis'
 
 const DEFAULT_CACHE_TYPE = 'local'
 const DEFAULT_CACHE_KEY_GROUP = uuid()
@@ -128,7 +128,10 @@ export const withCache: Middleware = async (execute, options = defaultOptions())
   const _executeWithCache = async (data: AdapterRequest) => {
     const key = _getKey(data)
     const coalescingKey = _getCoalescingKey(key)
-    const endMetrics = metrics.observeMetrics(data.id, key, data.debug?.feedId)
+    const endMetrics = metrics.beginObserveCacheExecutionDuration({
+      participantId: key,
+      feedId: data.debug?.feedId,
+    })
     let maxAge = _getRequestMaxAge(data) || _getDefaultMaxAge(data)
     // Add successful result to cache
     const _cacheOnSuccess = async ({ statusCode, data, result }: AdapterResponse) => {

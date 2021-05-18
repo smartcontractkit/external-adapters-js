@@ -26,22 +26,21 @@ const DEFAULT_WS_SUBSCRIPTION_TTL = 70000
 const DEFAULT_WS_SUBSCRIPTION_UNRESPONSIVE_TTL = 70000
 
 /** Load WSConfig from environment variables */
-export const getWSConfig = (prefix = ''): WSConfig => ({
+export const getWSConfig = (): WSConfig => ({
   enabled: parseBool(getEnv(ENV_WS_ENABLED)),
   connectionInfo: {
-    key: getEnv(ENV_WS_CONNECTION_KEY, prefix) || '1',
+    key: getEnv(ENV_WS_CONNECTION_KEY) || '1',
   },
-  connectionLimit: Number(getEnv(ENV_WS_CONNECTION_LIMIT, prefix)) || DEFAULT_WS_CONNECTION_LIMIT,
-  connectionTTL: Number(getEnv(ENV_WS_CONNECTION_TTL, prefix)) || DEFAULT_WS_CONNECTION_TTL,
+  connectionLimit: Number(getEnv(ENV_WS_CONNECTION_LIMIT)) || DEFAULT_WS_CONNECTION_LIMIT,
+  connectionTTL: Number(getEnv(ENV_WS_CONNECTION_TTL)) || DEFAULT_WS_CONNECTION_TTL,
   connectionRetryLimit:
-    Number(getEnv(ENV_WS_CONNECTION_RETRY_LIMIT, prefix)) || DEFAULT_WS_CONNECTION_RETRY_LIMIT,
+    Number(getEnv(ENV_WS_CONNECTION_RETRY_LIMIT)) || DEFAULT_WS_CONNECTION_RETRY_LIMIT,
   connectionRetryDelay:
-    Number(getEnv(ENV_WS_CONNECTION_RETRY_DELAY, prefix)) || DEFAULT_WS_CONNECTION_RETRY_DELAY,
-  subscriptionLimit:
-    Number(getEnv(ENV_WS_SUBSCRIPTION_LIMIT, prefix)) || DEFAULT_WS_SUBSCRIPTION_LIMIT,
-  subscriptionTTL: Number(getEnv(ENV_WS_SUBSCRIPTION_TTL, prefix)) || DEFAULT_WS_SUBSCRIPTION_TTL,
+    Number(getEnv(ENV_WS_CONNECTION_RETRY_DELAY)) || DEFAULT_WS_CONNECTION_RETRY_DELAY,
+  subscriptionLimit: Number(getEnv(ENV_WS_SUBSCRIPTION_LIMIT)) || DEFAULT_WS_SUBSCRIPTION_LIMIT,
+  subscriptionTTL: Number(getEnv(ENV_WS_SUBSCRIPTION_TTL)) || DEFAULT_WS_SUBSCRIPTION_TTL,
   subscriptionUnresponsiveTTL:
-    Number(getEnv(ENV_WS_SUBSCRIPTION_UNRESPONSIVE_TTL, prefix)) ||
+    Number(getEnv(ENV_WS_SUBSCRIPTION_UNRESPONSIVE_TTL)) ||
     DEFAULT_WS_SUBSCRIPTION_UNRESPONSIVE_TTL,
   subscriptionPriorityList: (getEnv(ENV_WS_SUBSCRIPTION_PRIORITY_LIST) || []) as Array<string>, // TODO: load array
 })

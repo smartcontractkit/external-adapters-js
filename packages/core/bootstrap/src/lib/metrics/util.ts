@@ -1,5 +1,6 @@
-import { logger, Validator } from '../external-adapter'
 import { AdapterRequest } from '@chainlink/types'
+import { logger, Validator } from '../external-adapter'
+import { excludableAdapterRequestProperties } from '../util'
 
 /**
  * Normalizes http status codes.
@@ -45,18 +46,33 @@ export const getFeedId = (input: AdapterRequest): string => {
     return Object.keys(input.data).includes(param)
   }
 
-  // run through validdator if input.data object has keys that match potential base and quote parameters
+  // run through validator if input.data object has keys that match potential base and quote parameters
   if (commonFeedParams.base.some(includesCheck) && commonFeedParams.quote.some(includesCheck)) {
-    const validator = new Validator(input, commonFeedParams)
-    if (validator.error) {
+    const validationResult = new Validator(input, commonFeedParams)
+    if (validationResult.error) {
       logger.debug('Unable to validate feed name')
       return JSON.stringify(input)
     }
-    if (
-      typeof validator.validated.data.base === 'string' &&
-      typeof validator.validated.data.quote === 'string'
-    )
-      return `${validator.validated.data.base.toUpperCase()}/${validator.validated.data.quote.toUpperCase()}`
+
+    const { base, quote } = validationResult.validated.data
+    /**
+     * With batched requests, the base can either be an array of bases, or a single base.
+     * Quotes are currently only a string
+     */
+    if (Array.isArray(base)) {
+      const bases = `[${base.map((b: string) => b.toUpperCase()).join('|')}]`
+      return typeof quote === 'string' ? `${bases}/${quote.toUpperCase()}` : bases
+    }
+
+    if (typeof base === 'string') {
+      const upperBase = base.toUpperCase()
+      return typeof quote === 'string' ? `${upperBase}/${quote.toUpperCase()}` : upperBase
+    }
   }
-  return JSON.stringify(input)
+
+  const entries = Object.keys(input)
+    .filter((prop) => !excludableAdapterRequestProperties.includes(prop))
+    .map((k) => [k, input[k as keyof AdapterRequest]])
+
+  return JSON.stringify(Object.fromEntries(entries))
 }
