@@ -18,6 +18,7 @@ const addressMapping: { [symbol: string]: string } = {
   SFI: '0xb753428af26e81097e7fd17f40c88aaa3e04902c',
   LDO: '0x5a98fcbea516cf06857215779fd812ca3bef1b32',
   VSP: '0x1b40183EFB4Dd766f11bDa7A7c3AD8982e998421',
+  FRAX: '0x853d955aCEf822Db058eb8505911ED77F175b99e',
 }
 
 const customParams = {
@@ -48,6 +49,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
       (includes[0].toLowerCase() === 'weth' && coin.toLowerCase() === 'rari') ||
       (includes[0].toLowerCase() === 'weth' && coin.toLowerCase() === 'ldo') ||
       (includes[0].toLowerCase() === 'weth' && coin.toLowerCase() === 'vsp') ||
+      (includes[0].toLowerCase() === 'weth' && coin.toLowerCase() === 'frax') ||
       (includes[0].toLowerCase() === 'weth' && coin.toLowerCase() === 'sfi'))
   ) {
     const fromAddress = addressMapping[coin.toUpperCase()]
