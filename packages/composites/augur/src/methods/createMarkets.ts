@@ -65,7 +65,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
     const affiliateId = getAffiliateId(event)
     const homeTeam = event.teams_normalized.find(team => team.is_home)
     const awayTeam = event.teams_normalized.find(team => team.is_away)
-    if (!affiliateId || !homeTeam || !awayTeam) {
+    if (!homeTeam || !awayTeam) {
       skipAffiliateTeams++
       continue
     }
@@ -74,8 +74,8 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
     const [headToHeadMarket, spreadMarket, totalScoreMarket]: [ethers.BigNumber, ethers.BigNumber, ethers.BigNumber] = await contract.getEventMarkets(eventId)
 
     // only create spread and totalScore markets if lines exist; always create headToHead market
-    let homeSpread = transformSpecialNone(event.lines?.[affiliateId].spread.point_spread_home)
-    let totalScore = transformSpecialNone(event.lines?.[affiliateId].total.total_over)
+    let homeSpread = transformSpecialNone(affiliateId && event.lines?.[affiliateId].spread.point_spread_home)
+    let totalScore = transformSpecialNone(affiliateId && event.lines?.[affiliateId].total.total_over)
     const createSpread = homeSpread !== undefined
     const createTotalScore = totalScore !== undefined
     homeSpread = homeSpread || 0
