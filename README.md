@@ -416,6 +416,17 @@ The External Adapter will do some processing, often request data from an API, an
 Decimal.set({ precision: 100 })
 ```
 
+### Common Issues
+
+#### .husky/prepare-commit-msg: 5: [[: not found
+
+If developing on an Ubuntu based Linux distro you may experience this error.
+Our husky hooks use `sh`. On Ubuntu this symlinks to `dash`, a light version of bash, that has different syntax. This needs to be switched to `bash` using the following command and choosing `no`:
+
+```bash
+sudo dpkg-reconfigure dash
+```
+
 ### Testing
 
 In order to test adapters locally, you may need to set an `$API_KEY` environment variable for the given API or other required environment variables.
