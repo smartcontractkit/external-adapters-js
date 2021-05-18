@@ -53,21 +53,21 @@ describe('Bootstrap/Metrics Utils', () => {
         data: {},
       }
       const feedName = util.getFeedId(input)
-      expect(feedName).toBe(JSON.stringify(input))
+      expect(feedName).toMatchInlineSnapshot(`"{\\"data\\":{}}"`)
     })
 
     it(`Returns stringify input if anything match`, () => {
       const input: AdapterRequest = {
-        id: String(),
+        id: '',
         data: {},
       }
       const feedName = util.getFeedId(input)
-      expect(feedName).toBe(JSON.stringify(input))
+      expect(feedName).toMatchInlineSnapshot(`"{\\"data\\":{}}"`)
     })
 
     it(`Does not throw error if pricefeed parameters are missing`, () => {
       const input: AdapterRequest = {
-        id: String(),
+        id: '',
         data: {},
       }
       expect(() => {
