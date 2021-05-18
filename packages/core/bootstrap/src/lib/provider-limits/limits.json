@@ -368,13 +368,18 @@
     "http": {
       "free": {
         "rateLimit1h": 136.98,
+        "rateLimit1m": 100000,
         "note": "only mentions monthly limit"
       },
       "professional": {
-        "rateLimit1h": 342.46
+        "rateLimit1h": 342.46,
+        "rateLimit1m": 250000,
+        "note": "only mentions monthly limit"
       },
       "corporate": {
-        "rateLimit1h": 1027.39
+        "rateLimit1h": 1027.39,
+        "rateLimit1m": 750000,
+        "note": "only mentions monthly limit"
       }
     },
     "ws": {
@@ -810,16 +815,16 @@
   "tiingo": {
     "http": {
       "starter": {
-        "rateLimit1m": 8.33,
-        "rateLimit1h": 833.33
+        "rateLimit1h": 500,
+        "rateLimit1d": 20000
       },
       "power": {
-        "rateLimit1m": 333.33,
-        "rateLimit1h": 6000
+        "rateLimit1h": 20000,
+        "rateLimit1d": 50000
       },
       "commercial": {
-        "rateLimit1m": 666,
-        "rateLimit1h": 16666.666
+        "rateLimit1h": 20000,
+        "rateLimit1d": 400000
       }
     },
     "ws": {
