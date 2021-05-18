@@ -8,6 +8,7 @@ export function getCoinIds(id: string): Promise<CoinsResponse[]> {
   const options = {
     data: {
       endpoint: 'coins',
+      maxAge: 60 * 60 * 1000, // 1 hour
     },
     method: 'post',
     id,
