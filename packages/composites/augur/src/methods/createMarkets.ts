@@ -49,7 +49,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   }
 
   Logger.debug(`Augur: Got ${events.length} events from data provider`)
-  let skipStartBuffer = 0, skipAffiliateTeams = 0, cantCreate = 0
+  let skipStartBuffer = 0, skipNoTeams = 0, cantCreate = 0
 
   // filter markets and build payloads for market creation
   const packed = [];
@@ -66,7 +66,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
     const homeTeam = event.teams_normalized.find(team => team.is_home)
     const awayTeam = event.teams_normalized.find(team => team.is_away)
     if (!homeTeam || !awayTeam) {
-      skipAffiliateTeams++
+      skipNoTeams++
       continue
     }
 
@@ -89,10 +89,10 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
     packed.push(packCreation(event.event_id, homeTeam.team_id, awayTeam.team_id, startTime, homeSpread, totalScore, createSpread, createTotalScore))
   }
 
-  Logger.debug(`Augur: Prepared to create ${packed.length} events`)
   Logger.debug(`Augur: Skipping ${skipStartBuffer} due to startBuffer`)
-  Logger.debug(`Augur: Skipping ${skipAffiliateTeams} due to no affiliate ID match/no teams`)
+  Logger.debug(`Augur: Skipping ${skipNoTeams} due to no teams`)
   Logger.debug(`Augur: Skipping ${cantCreate} due to no market to create`)
+  Logger.debug(`Augur: Prepared to create ${packed.length} events`)
 
   let nonce = await config.wallet.getTransactionCount()
   for (let i = 0; i < packed.length; i++) {
