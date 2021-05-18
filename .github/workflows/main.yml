@@ -10,8 +10,8 @@ env:
   cache-name: main-ci
 
 jobs:
-  run-basic-checks:
-    name: Run linters and unit tests
+  packages:
+    name: Verify dependency package archives
     runs-on: [self-hosted, sdlc-ghr-prod]
     steps:
       - uses: actions/checkout@v2
@@ -20,6 +20,17 @@ jobs:
           node-version: '14.x'
       - name: Install Yarn
         run: npm install -g yarn
+      - name: Re-download dependencies & verify checksum
+        run: yarn install --check-cache
+
+  run-basic-checks:
+    name: Run linters and unit tests
+    runs-on: [self-hosted, sdlc-ghr-prod]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
       - run: yarn install
       - run: yarn setup
       - run: yarn lint
