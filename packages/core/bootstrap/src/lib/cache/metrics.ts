@@ -19,6 +19,11 @@ export const cache_data_staleness_seconds = new client.Histogram({
   buckets: [0, 1, 5, 10, 30, 60, 90, 120],
 })
 
+export const redis_connections_open = new client.Counter({
+  name: 'redis_connections_open',
+  help: 'The number of redis connections that are open',
+})
+
 interface CacheExecutionDurationParams {
   participantId: string
   feedId: string
