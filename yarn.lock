@@ -1460,6 +1460,7 @@ __metadata:
   resolution: "@chainlink/augur-adapter@workspace:packages/composites/augur"
   dependencies:
     "@chainlink/ea-bootstrap": "*"
+    "@chainlink/sportsdataio-adapter": ^0.0.1
     "@chainlink/therundown-adapter": ^0.0.2
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
@@ -2923,7 +2924,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/sportsdataio-adapter@*, @chainlink/sportsdataio-adapter@workspace:packages/sources/sportsdataio":
+"@chainlink/sportsdataio-adapter@*, @chainlink/sportsdataio-adapter@^0.0.1, @chainlink/sportsdataio-adapter@workspace:packages/sources/sportsdataio":
   version: 0.0.0-use.local
   resolution: "@chainlink/sportsdataio-adapter@workspace:packages/sources/sportsdataio"
   dependencies:

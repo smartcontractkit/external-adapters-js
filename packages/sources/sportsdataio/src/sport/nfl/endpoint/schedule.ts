@@ -1,13 +1,11 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig } from '@chainlink/types'
-import { NAME as AdapterName } from '../../../config'
+import { ExecuteWithConfig } from '@chainlink/types'
+import { Config } from '../../../config'
 
-export const NAME = 'scores'
+export const NAME = 'schedule'
 
 const customParams = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
-  field: false,
+  season: true
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
@@ -15,20 +13,17 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const base = validator.overrideSymbol(AdapterName)
-  const quote = validator.validated.data.quote
-  const url = `price`
+  const season = validator.validated.data.season
+  const url = `/nfl/scores/json/Schedules/${season}`
 
   const params = {
-    base,
-    quote,
-    api_key: config.apiKey,
+    key: config.nflScoresKey
   }
 
   const options = { ...config.api, params, url }
 
   const response = await Requester.request(options)
-  response.data.result = Requester.validateResultNumber(response.data, ['price'])
+  response.data.result = response.data
 
   return Requester.success(jobRunID, response, config.verbose)
 }

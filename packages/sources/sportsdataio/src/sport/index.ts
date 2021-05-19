@@ -1,1 +1,2 @@
-export * as MMA from './mma/index'
+export * as MMA from './mma'
+export * as NFL from './nfl'

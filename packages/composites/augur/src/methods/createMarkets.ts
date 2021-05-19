@@ -1,23 +1,14 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig } from '@chainlink/types'
 import { Config } from '../config'
-import * as TheRundown from '@chainlink/therundown-adapter'
-import { ABI, Event, eventIdToNum, bytesMappingToHexStr } from './index'
+import { bytesMappingToHexStr, ABI, sportDataProviderMapping } from './index'
 import { ethers } from 'ethers'
 import { Logger } from '@chainlink/ea-bootstrap'
+import { theRundown, sportsdataio } from '../dataProviders'
 
 const createParams = {
-  sportId: true,
-  daysInAdvance: true,
-  startBuffer: true,
+  sport: true,
   contractAddress: true,
-  affiliateIds: true
-}
-
-const addDays = (date: Date, days: number): Date => {
-  const newDate = new Date(date)
-  newDate.setDate(date.getDate() + days)
-  return newDate
 }
 
 const TBD_TEAM_ID = 2756;
@@ -26,82 +17,20 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const validator = new Validator(input, createParams)
   if (validator.error) throw validator.error
 
-  const sportId = validator.validated.data.sportId
-  const daysInAdvance = validator.validated.data.daysInAdvance
-  const startBuffer = validator.validated.data.startBuffer
+  const sport = validator.validated.data.sport
   const contractAddress = validator.validated.data.contractAddress
-  const affiliateIds: number[] = validator.validated.data.affiliateIds
-  const getAffiliateId = (event: Event) => affiliateIds.find((id) => !!event.lines && id in event.lines)
-
   const contract = new ethers.Contract(contractAddress, ABI, config.wallet)
+  input.data.contract = contract
 
-  const params = { id: input.id, data: {
-    sportId,
-    status: 'STATUS_SCHEDULED',
-    date: new Date(),
-    endpoint: 'events'
-  }}
-  const theRundownExec = TheRundown.makeExecute()
-
-  const events = []
-  for (let i = 0; i < daysInAdvance; i++) {
-    params.data.date = addDays(params.data.date, 1)
-
-    const response = await theRundownExec(params)
-    events.push(...response.result as Event[])
+  let packed: string[] = []
+  if (sportDataProviderMapping['theRundown'].includes(sport.toUpperCase())) {
+    packed = (await theRundown.create(input)).result
+  } else if (sportDataProviderMapping['sportsdataio'].includes(sport.toUpperCase())) {
+    packed = (await sportsdataio.create(input)).result
+  } else {
+    throw Error(`Unknown data provider for sport ${sport}`)
   }
 
-  Logger.debug(`Augur: Got ${events.length} events from data provider`)
-  let skipStartBuffer = 0, skipNoTeams = 0, cantCreate = 0, skipTBDTeams = 0
-
-  // filter markets and build payloads for market creation
-  const packed = [];
-  for (const event of events) {
-    const startTime = Date.parse(event.event_date)
-    if ((startTime - Date.now()) / 1000 < startBuffer) {
-      // markets would end too soon
-      skipStartBuffer++
-      continue
-    }
-
-    // skip if data is missing
-    const affiliateId = getAffiliateId(event)
-    const homeTeam = event.teams_normalized.find(team => team.is_home)
-    const awayTeam = event.teams_normalized.find(team => team.is_away)
-    if (!homeTeam || !awayTeam) {
-      skipNoTeams++
-      continue
-    }
-
-    // skip if a team hasn't been announced yet
-    if (homeTeam.team_id === TBD_TEAM_ID || awayTeam.team_id === TBD_TEAM_ID) {
-      skipTBDTeams++
-      continue
-    }
-
-    const eventId = eventIdToNum(event.event_id)
-    const [headToHeadMarket, spreadMarket, totalScoreMarket]: [ethers.BigNumber, ethers.BigNumber, ethers.BigNumber] = await contract.getEventMarkets(eventId)
-
-    // only create spread and totalScore markets if lines exist; always create headToHead market
-    let homeSpread = transformSpecialNone(affiliateId && event.lines?.[affiliateId].spread.point_spread_home)
-    let totalScore = transformSpecialNone(affiliateId && event.lines?.[affiliateId].total.total_over)
-    const createSpread = homeSpread !== undefined
-    const createTotalScore = totalScore !== undefined
-    homeSpread = homeSpread || 0
-    totalScore = totalScore || 0
-    const canCreate = headToHeadMarket.isZero() || (spreadMarket.isZero() && createSpread) || (totalScoreMarket.isZero() && createTotalScore)
-    if (!canCreate) {
-      cantCreate++
-      continue
-    }
-
-    packed.push(packCreation(event.event_id, homeTeam.team_id, awayTeam.team_id, startTime, homeSpread, totalScore, createSpread, createTotalScore))
-  }
-
-  Logger.debug(`Augur: Skipping ${skipStartBuffer} due to startBuffer`)
-  Logger.debug(`Augur: Skipping ${skipNoTeams} due to no teams`)
-  Logger.debug(`Augur: Skipping ${skipTBDTeams} due to TBD teams`)
-  Logger.debug(`Augur: Skipping ${cantCreate} due to no market to create`)
   Logger.debug(`Augur: Prepared to create ${packed.length} events`)
 
   let failed = 0
@@ -126,17 +55,8 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   return Requester.success(input.id, {})
 }
 
-/**
- * TheRundown API returns `0.0001` as a special case which should
- * be treated as the value is `undefined`. This function transforms
- * `0.0001` to `undefined`, and leaves `val` unchanged otherwise.
- * @param {number} val - The value returned from the API
- * @return {number|undefined} Transformed `val`
- */
-const transformSpecialNone = (val?: number) => val === 0.0001 ? undefined : val
-
 export const packCreation = (
-  eventId: string,
+  eventId: ethers.BigNumber,
   homeTeamId: number,
   awayTeamId: number,
   startTime: number,
@@ -148,7 +68,7 @@ export const packCreation = (
   const encoded = ethers.utils.defaultAbiCoder.encode(
     ['uint128', 'uint16', 'uint16', 'uint32', 'int16', 'uint16', 'uint8'],
     [
-      eventIdToNum(eventId),
+      eventId,
       homeTeamId,
       awayTeamId,
       Math.floor(startTime / 1000),
