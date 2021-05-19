@@ -34,6 +34,8 @@
   },
   "devDependencies": {
     "@semantic-release/commit-analyzer": "^8.0.1",
+    "@semantic-release/npm": "^7.1.3",
+    "@semantic-release/release-notes-generator": "^9.0.2",
     "@types/babel__core": "^7",
     "@types/babel__preset-env": "^7",
     "@types/eslint": "^7",
