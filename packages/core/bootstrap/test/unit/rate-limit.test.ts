@@ -15,7 +15,7 @@ const counterFrom = (i = 0): Execute => async (request) => {
 }
 
 const expectRequestToBe = (field: string, expected: any): Execute => async (request) => {
-  expect(request.data[field]).toBe(expected)
+  expect(request[field]).toBe(expected)
   return {
     jobRunID: request.id,
     data: { jobRunID: request.id, statusCode: 200, data: request, result: '' },

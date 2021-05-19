@@ -23,6 +23,7 @@ declare module '@chainlink/types' {
     data: Record<string, unknown>
     meta?: AdapterRequestMeta
     debug?: AdapterRequestDebug
+    rateLimitMaxAge?: number
   }
 
   /* RESPONSES */

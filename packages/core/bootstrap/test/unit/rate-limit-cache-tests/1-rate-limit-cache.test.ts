@@ -140,6 +140,7 @@ describe('Rate Limit/Cache - Integration', () => {
   })
 
   // it('1 h simulation', async () => {
+  //   const [clock, restoreClock] = setupClock()
   //   const dataProvider = dataProviderMock()
   //   const store = newStore()
   //   const executeWithWarmer = await makeExecuteWithWarmer(dataProvider.execute, store)
@@ -147,7 +148,7 @@ describe('Rate Limit/Cache - Integration', () => {
   //   // 120 Feeds: 3 Composite, rest are single feeds
   //   const totalFeeds = 120
   //   const composite = 3
-  //   const feeds: AdapterRequest[][] = new Array(totalFeeds).fill('').map((_, feedId) => {
+  //   const feeds = new Array(totalFeeds).fill('').map((_, feedId) => {
   //     if (feedId % (totalFeeds / composite) === 0) {
   //       return new Array(10).fill('').map((_, internalReq) => {
   //         return { id: '6', data: { singleFeed: feedId, quote: internalReq } }
@@ -174,8 +175,9 @@ describe('Rate Limit/Cache - Integration', () => {
   //   const state = store.getState()
   //   const rlPerMinute = getRLTokenSpentPerMinute(state.rateLimit.heartbeats)
 
-  // Object.values(rlPerMinute).forEach((req) => {
-  //   expect(req).to.be.lte(capacity + 10)
-  // })
+  //   Object.values(rlPerMinute).forEach((req) => {
+  //     expect(req).toBeLessThan(capacity + 10)
+  //   })
+  //   restoreClock()
   // })
 })

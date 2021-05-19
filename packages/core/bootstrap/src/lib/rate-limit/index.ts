@@ -92,7 +92,7 @@ export const withRateLimit =
     const requestTypeId = makeId(input)
     const maxThroughput = computeThroughput(heartbeats, IntervalNames.HOUR, requestTypeId)
     const maxAge = maxAgeFor(maxThroughput, Intervals[IntervalNames.MINUTE])
-    const result = await execute({ ...input, data: { ...input.data, rateLimitMaxAge: maxAge } })
+    const result = await execute({ ...input, rateLimitMaxAge: maxAge })
 
     store.dispatch(successfulRequestObserved(input, result))
     state = store.getState()

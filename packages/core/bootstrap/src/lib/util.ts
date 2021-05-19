@@ -173,6 +173,7 @@ export const excludableAdapterRequestProperties = [
   'id',
   'maxAge',
   'meta',
+  'debug',
   'rateLimitMaxAge',
 ].concat((process.env.CACHE_KEY_IGNORED_PROPS || '').split(',').filter((k) => k))
 
