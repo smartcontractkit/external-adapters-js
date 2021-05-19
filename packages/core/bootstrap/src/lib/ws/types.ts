@@ -26,6 +26,8 @@ export interface WSConfig {
   subscriptionUnresponsiveTTL: number
   /** List of subscription keys that will have priority (reserved capacity) */
   subscriptionPriorityList?: Array<string>
+  /** To avoid overloading the cache a throttle amount can be given in ms */
+  cacheThrottle: number
 }
 
 export interface WSConnectionInfo {
