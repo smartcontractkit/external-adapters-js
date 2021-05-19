@@ -4663,6 +4663,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@semantic-release/release-notes-generator", "virtual:5281e57f68c18021afff1806ad08464d37d7dc54ca4293651f4cee7b8b27b1da7e5e6f615c547ee6766c3bec751b604638cdfd41f5abea13e1b76a3cbab4597e#npm:9.0.2"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.41"],
             ["tslib", "npm:2.2.0"],
@@ -7459,6 +7460,29 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["lodash", "npm:4.17.21"],
             ["read-pkg-up", "npm:7.0.1"],
             ["semantic-release", "npm:17.4.2"]
+          ],
+          "packagePeers": [
+            "@types/semantic-release",
+            "semantic-release"
+          ],
+          "linkType": "HARD",
+        }],
+        ["virtual:5281e57f68c18021afff1806ad08464d37d7dc54ca4293651f4cee7b8b27b1da7e5e6f615c547ee6766c3bec751b604638cdfd41f5abea13e1b76a3cbab4597e#npm:9.0.2", {
+          "packageLocation": "./.yarn/$$virtual/@semantic-release-release-notes-generator-virtual-a93025ded9/0/cache/@semantic-release-release-notes-generator-npm-9.0.2-d0bf6057fd-05562d2df6.zip/node_modules/@semantic-release/release-notes-generator/",
+          "packageDependencies": [
+            ["@semantic-release/release-notes-generator", "virtual:5281e57f68c18021afff1806ad08464d37d7dc54ca4293651f4cee7b8b27b1da7e5e6f615c547ee6766c3bec751b604638cdfd41f5abea13e1b76a3cbab4597e#npm:9.0.2"],
+            ["@types/semantic-release", null],
+            ["conventional-changelog-angular", "npm:5.0.12"],
+            ["conventional-changelog-writer", "npm:4.1.0"],
+            ["conventional-commits-filter", "npm:2.0.7"],
+            ["conventional-commits-parser", "npm:3.2.1"],
+            ["debug", "virtual:d444bb897083f4b3c77c519e62903ce98f423c9242db2b2df43709c1c422a3ddb295add4dd8f06922dd1aa4ec24bac04e5f8026475fe7935afebb3cf46abbc1c#npm:4.3.2"],
+            ["get-stream", "npm:5.2.0"],
+            ["import-from", "npm:3.0.0"],
+            ["into-stream", "npm:6.0.0"],
+            ["lodash", "npm:4.17.21"],
+            ["read-pkg-up", "npm:7.0.1"],
+            ["semantic-release", null]
           ],
           "packagePeers": [
             "@types/semantic-release",
