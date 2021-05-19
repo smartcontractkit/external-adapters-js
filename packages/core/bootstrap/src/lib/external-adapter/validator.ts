@@ -1,10 +1,10 @@
 import { AdapterErrorResponse, Override } from '@chainlink/types'
-import presetSymbols from './overrides/presetSymbols.json'
-import { AdapterError } from './errors'
-import { Requester } from './requester'
-import { logger } from './logger'
 import { merge } from 'lodash'
 import { isObject } from '../util'
+import { AdapterError } from './errors'
+import { logger } from './logger'
+import presetSymbols from './overrides/presetSymbols.json'
+import { Requester } from './requester'
 
 export class Validator {
   input: any
@@ -43,7 +43,11 @@ export class Validator {
         }
       }
     } catch (error) {
-      this.parseError(error)
+      this.parseError(error, {
+        input: this.input,
+        options: this.options,
+        customParams: this.customParams,
+      })
     }
   }
 
@@ -57,11 +61,15 @@ export class Validator {
         merge({ ...presetSymbols }, this.input.data.overrides),
       )
     } catch (e) {
-      this.parseError(e)
+      this.parseError(e, {
+        input: this.input,
+        options: this.options,
+        customParams: this.customParams,
+      })
     }
   }
 
-  parseError(error: any) {
+  parseError(error: any, context: any) {
     const message = 'Error validating input.'
     if (error instanceof AdapterError) this.error = error
     else
@@ -71,7 +79,7 @@ export class Validator {
         message,
         cause: error,
       })
-    logger.error(message, { error: this.error })
+    logger.error(message, { error: this.error, context })
     this.errored = Requester.errored(this.validated.id, this.error)
   }
 
