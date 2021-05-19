@@ -102,8 +102,8 @@ export const withCache: Middleware = async (execute, options = defaultOptions())
 
   const _getRateLimitMaxAge = (data: AdapterRequest): number | undefined => {
     if (!data || !data.data) return
-    if (isNaN(data.data.rateLimitMaxAge as number)) return
-    const maxAge = Number(data.data.rateLimitMaxAge)
+    if (isNaN(data.rateLimitMaxAge as number)) return
+    const maxAge = Number(data.rateLimitMaxAge)
     if (maxAge && maxAge > ERROR_MAX_AGE) {
       logger.error(`Cache: Max Age is getting max values: ${maxAge} ms`)
       return maxAge > MAXIMUM_MAX_AGE ? MAXIMUM_MAX_AGE : maxAge
