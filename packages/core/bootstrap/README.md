@@ -153,7 +153,7 @@ Being:
 - **plan-name**: The provider plan name. Used as a identifier for the plan. E.g. "free" or "premium"
 - There are two protocols with different limit types:
   - **http**: With `rateLimit1s`, `rateLimit1m`, `rateLimit1h`, which stands for requests per second/minute/hour respectively. If only one is provided, the rest would be calculated based on it.
-  - **ws**: Websocket limits, which acceps: `connections` and `subscriptions`. If websockets are not supported on the provider, can be left empty as `ws: {}`
+  - **ws**: Websocket limits, which accepts: `connections` and `subscriptions`. If websockets are not supported on the provider, can be left empty as `ws: {}`
 
 ### Cache Warming
 
