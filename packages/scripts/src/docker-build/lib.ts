@@ -68,7 +68,7 @@ async function makeDockerComposeFile(
         image: generateImageName(next.descopedName, next.version, imageNameConfig),
         ports: [`${8080 + i}:8080`],
         build: {
-          context: '..', // Handle dynamic context
+          context: '.', // Handle dynamic context
           dockerfile: './Dockerfile',
           args: {
             location: next.location,
