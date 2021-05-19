@@ -52,41 +52,6 @@ jobs:
         id: create-matrix
         run: yarn generate:gha:matrix
 
-  publish-grafana:
-    runs-on: [self-hosted, sdlc-ghr-prod]
-    name: Publish grafana boards
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-go@v2
-        with:
-          go-version: '^1.13.1' # The Go version to download (if necessary) and use.
-      - name: Install jsonnet bundler
-        run: GO111MODULE="on" go get github.com/jsonnet-bundler/jsonnet-bundler/cmd/jb
-      - name: Install deps
-        run: jb install
-        working-directory: ./grafana
-      - name: Install grizzly
-        run: curl -fSL -o "grr" "https://github.com/grafana/grizzly/releases/download/v0.1.0/grr-linux-amd64" && chmod a+x "grr"
-        working-directory: ./grafana
-      - name: Setup preview with an hour expiry
-        run: OUTPUT=$(./grr preview -e 3600 ./dashboard.jsonnet) > $GITHUB_ENV
-        env:
-          GRAFANA_URL: ${{ secrets.GRAFANA_URL }}
-          GRAFANA_TOKEN: ${{ secrets.GRAFANA_TOKEN }}
-        working-directory: ./grafana
-      - uses: actions/github-script@v3
-        env:
-          output: ${{ env.OUTPUT }}
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            github.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: process.env.OUTPUT
-            })
-
   build-adapters:
     needs: [run-basic-checks, matrix-adapters]
     name: (${{ matrix.adapter.type }}) Build ${{matrix.adapter.name}} adapter
