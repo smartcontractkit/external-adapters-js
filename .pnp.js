@@ -581,6 +581,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/preset-env", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.13.15"],
             ["@babel/preset-typescript", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.13.0"],
             ["@semantic-release/commit-analyzer", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:8.0.1"],
+            ["@semantic-release/release-notes-generator", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:9.0.2"],
             ["@types/babel__core", "npm:7.1.14"],
             ["@types/babel__preset-env", "npm:7.9.1"],
             ["@types/eslint", "npm:7.2.10"],
@@ -3945,6 +3946,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/preset-env", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.13.15"],
             ["@babel/preset-typescript", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.13.0"],
             ["@semantic-release/commit-analyzer", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:8.0.1"],
+            ["@semantic-release/release-notes-generator", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:9.0.2"],
             ["@types/babel__core", "npm:7.1.14"],
             ["@types/babel__preset-env", "npm:7.9.1"],
             ["@types/eslint", "npm:7.2.10"],
@@ -4663,7 +4665,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
-            ["@semantic-release/release-notes-generator", "virtual:5281e57f68c18021afff1806ad08464d37d7dc54ca4293651f4cee7b8b27b1da7e5e6f615c547ee6766c3bec751b604638cdfd41f5abea13e1b76a3cbab4597e#npm:9.0.2"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.41"],
             ["tslib", "npm:2.2.0"],
@@ -7467,11 +7468,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["virtual:5281e57f68c18021afff1806ad08464d37d7dc54ca4293651f4cee7b8b27b1da7e5e6f615c547ee6766c3bec751b604638cdfd41f5abea13e1b76a3cbab4597e#npm:9.0.2", {
-          "packageLocation": "./.yarn/$$virtual/@semantic-release-release-notes-generator-virtual-a93025ded9/0/cache/@semantic-release-release-notes-generator-npm-9.0.2-d0bf6057fd-05562d2df6.zip/node_modules/@semantic-release/release-notes-generator/",
+        ["virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:9.0.2", {
+          "packageLocation": "./.yarn/$$virtual/@semantic-release-release-notes-generator-virtual-c5b203bbf9/0/cache/@semantic-release-release-notes-generator-npm-9.0.2-d0bf6057fd-05562d2df6.zip/node_modules/@semantic-release/release-notes-generator/",
           "packageDependencies": [
-            ["@semantic-release/release-notes-generator", "virtual:5281e57f68c18021afff1806ad08464d37d7dc54ca4293651f4cee7b8b27b1da7e5e6f615c547ee6766c3bec751b604638cdfd41f5abea13e1b76a3cbab4597e#npm:9.0.2"],
-            ["@types/semantic-release", null],
+            ["@semantic-release/release-notes-generator", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:9.0.2"],
+            ["@types/semantic-release", "npm:17.2.0"],
             ["conventional-changelog-angular", "npm:5.0.12"],
             ["conventional-changelog-writer", "npm:4.1.0"],
             ["conventional-commits-filter", "npm:2.0.7"],
@@ -7482,7 +7483,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["into-stream", "npm:6.0.0"],
             ["lodash", "npm:4.17.21"],
             ["read-pkg-up", "npm:7.0.1"],
-            ["semantic-release", null]
+            ["semantic-release", "npm:17.4.2"]
           ],
           "packagePeers": [
             "@types/semantic-release",
