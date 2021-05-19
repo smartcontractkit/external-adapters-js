@@ -14,3 +14,4 @@ dist
 !.yarn/versions
 node_modules
 *generated*
+vendor

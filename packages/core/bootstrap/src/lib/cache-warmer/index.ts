@@ -1,10 +1,10 @@
-
 import { AdapterRequest, Execute, MakeWSHandler, Middleware } from '@chainlink/types'
 import { Store } from 'redux'
 import { RootState } from './reducer'
 import * as actions from './actions'
 import { getSubscriptionKey } from './util'
 import { getSubsId, RootState as WSState } from '../ws/reducer'
+import { getWSConfig } from '../ws/config'
 import { withMiddleware } from '../../index'
 import * as util from '../util'
 
@@ -17,11 +17,18 @@ interface WSInput {
   makeWSHandler?: MakeWSHandler
 }
 
-export const withCacheWarmer = (warmerStore: Store<RootState>, middleware: Middleware[], ws: WSInput) => (rawExecute: Execute): Middleware => async (execute) => async (input: AdapterRequest) => {
-  const isWarmerActive = util.parseBool(process.env.CACHE_ENABLED) && util.parseBool(process.env.EXPERIMENTAL_WARMUP_ENABLED)
+export const withCacheWarmer = (
+  warmerStore: Store<RootState>,
+  middleware: Middleware[],
+  ws: WSInput,
+) => (rawExecute: Execute): Middleware => async (execute) => async (input: AdapterRequest) => {
+  const isWarmerActive =
+    util.parseBool(process.env.CACHE_ENABLED) &&
+    util.parseBool(process.env.EXPERIMENTAL_WARMUP_ENABLED)
   if (!isWarmerActive) return await execute(input)
 
-  if (ws.makeWSHandler) {
+  const wsConfig = getWSConfig()
+  if (wsConfig.enabled && ws.makeWSHandler) {
     // If WS is available, and there is an active subscription, warmer should not be active
     const wsHandler = await ws.makeWSHandler()
     const wsSubscriptionKey = getSubsId(wsHandler.subscribe(input))

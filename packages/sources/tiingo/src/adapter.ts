@@ -118,7 +118,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       subsFromMessage: (message: UpdateMessage) => message.data && getSubscription(message.data[1]),
       toResponse: (message: UpdateMessage) => {
         const result = Requester.validateResultNumber(message.data, [5])
-        return Requester.success('1', { data: { result, test: 1 } }, true)
+        return Requester.success('1', { data: { result } }, true)
       },
     }
   }

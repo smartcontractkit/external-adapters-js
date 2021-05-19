@@ -54,13 +54,26 @@ export type CacheImplOptions = ReturnType<typeof defaultCacheOptions>
 // TODO: Revisit this after we stop to reinitialize middleware on every request
 // We store the local LRU cache instance, so it's not reinitialized on every request
 let localLRUCache: local.LocalLRUCache
+let cache: redis.RedisCache | local.LocalLRUCache
+
 const defaultCacheBuilder = () => {
-  return (options: CacheImplOptions) => {
+  return async (options: CacheImplOptions) => {
     switch (options.type) {
-      case 'redis':
-        return redis.RedisCache.build(options as redis.RedisOptions)
-      default:
-        return localLRUCache || (localLRUCache = new local.LocalLRUCache(options))
+      case 'redis': {
+        if (!cache) {
+          cache = await redis.RedisCache.build(options as redis.RedisOptions)
+        }
+        return cache
+      }
+
+      default: {
+        if (!cache) {
+          cache = await Promise.resolve(
+            localLRUCache || (localLRUCache = new local.LocalLRUCache(options)),
+          )
+        }
+        return cache
+      }
     }
   }
 }
@@ -219,11 +232,6 @@ export const withCache: Middleware = async (execute, options = defaultOptions())
 
   // Middleware wrapped execute fn which cleans up after
   return async (input) => {
-    try {
-      return await _executeWithCache(input)
-    } finally {
-      // Close the cache connection in any case
-      await cache.close()
-    }
+    return await _executeWithCache(input)
   }
 }
