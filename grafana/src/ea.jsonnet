@@ -37,13 +37,40 @@ local templates = [jobTempl, serviceTempl];
 /**
  * Panels
  */
+local cpuUsagePanel = graphPanel.new(
+  title='Cpu usage percent',
+  datasource=cortexDataSource,
+).addTarget(
+  prometheus.target(
+    'sum(rate(process_cpu_seconds_total{' + instanceFilter + '}[$__rate_interval])) * 100'
+  )
+);
+
+local redisConnectionsOpen = graphPanel.new(
+  title='Redis connections open',
+  datasource=cortexDataSource,
+).addTarget(
+  prometheus.target(
+    'redis_connections_open{' + instanceFilter + '}'
+  )
+);
+
+local heapUsedPanel = graphPanel.new(
+  title='Heap usage MB',
+  datasource=cortexDataSource,
+).addTarget(
+  prometheus.target(
+    'nodejs_heap_size_used_bytes{' + instanceFilter + '} / 1000 / 1000'
+  )
+);
+
 local totalHttpRequestsPanel = graphPanel.new(
   title='Http requests / second',
   datasource=cortexDataSource,
 ).addTarget(
   prometheus.target(
     'rate(http_requests_total{' + instanceFilter + '}[$__rate_interval])',
-    legendFormat='{{app_name}}-{{status_code}}-{{type}}'
+    legendFormat='{{app_name}}-{{status_code}}-{{type}}-cacheWamer:{{isCacheWarming}}'
   )
 );
 local httpRequestDurationAverage = graphPanel.new(
@@ -129,6 +156,9 @@ local panelSize1 = {
 };
 
 local panels = [
+  cpuUsagePanel + panelSize1,
+  redisConnectionsOpen + panelSize1,
+  heapUsedPanel + panelSize1,
   totalHttpRequestsPanel + panelSize1,
   httpRequestDurationAverage + panelSize1,
   httpRequestDurationHeatmap + panelSize1,
