@@ -5,10 +5,10 @@ local promTemplate(targets) = {
   },
   scrape_configs: [
     {
-      job_name: 'ea-prometheus',
+      job_name: 'external_adapters_local',
       static_configs: [
         {
-          targets: [ x + ':9080' for x in std.split(targets,',')],
+          targets: [x + ':9080' for x in std.split(targets, ',')],
         },
       ],
     },
