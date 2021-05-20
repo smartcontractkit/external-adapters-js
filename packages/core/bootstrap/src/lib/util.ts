@@ -169,18 +169,27 @@ export const toFixedMax = (num: number | string | Decimal, decimals: number): st
     .replace(/\.0*$/g, '')
 
 /** Common keys within adapter requests that should be ignored to generate a stable key*/
-export const excludableAdapterRequestProperties = [
+export const excludableAdapterRequestProperties: Record<string, true> = [
   'id',
   'maxAge',
   'meta',
   'debug',
   'rateLimitMaxAge',
-].concat((process.env.CACHE_KEY_IGNORED_PROPS || '').split(',').filter((k) => k))
+]
+  .concat((process.env.CACHE_KEY_IGNORED_PROPS || '').split(',').filter((k) => k))
+  .reduce((prev, next) => {
+    prev[next] = true
+    return prev
+  }, {} as Record<string, true>)
 
 export const getHashOpts = (): Required<Parameters<typeof objectHash>>['1'] => ({
   algorithm: 'sha1',
   encoding: 'hex',
-  excludeKeys: (props: string) => excludableAdapterRequestProperties.includes(props),
+  unorderedSets: false,
+  respectType: false,
+  respectFunctionProperties: false,
+  respectFunctionNames: false,
+  excludeKeys: (props: string) => excludableAdapterRequestProperties[props],
 })
 
 // Helper to identify if debug mode is running
