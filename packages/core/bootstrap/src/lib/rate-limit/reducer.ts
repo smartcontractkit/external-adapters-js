@@ -4,17 +4,13 @@ import { WARMUP_REQUEST_ID } from '../cache-warmer/config'
 import { successfulRequestObserved } from './actions'
 
 export enum IntervalNames {
-  SEC = 'SEC',
   MINUTE = 'MINUTE',
   HOUR = 'HOUR',
-  DAY = 'DAY',
 }
 
 export const Intervals: { [key: string]: number } = {
-  [IntervalNames.SEC]: 1000,
   [IntervalNames.MINUTE]: 60 * 1000,
   [IntervalNames.HOUR]: 60 * 60 * 1000,
-  [IntervalNames.DAY]: 24 * 60 * 60 * 1000,
 }
 export interface Heartbeat {
   id: string
@@ -36,10 +32,8 @@ export interface Heartbeats {
 }
 
 const initialIntervalsState = () => ({
-  SEC: [],
   MINUTE: [],
   HOUR: [],
-  DAY: [],
 })
 
 const initialHeartbeatsState: Heartbeats = {

@@ -64,7 +64,7 @@ export const dataProviderMock = (cost = 1): { execute: Execute } => {
 }
 
 export const getRLTokenSpentPerMinute = (hearbeats: rateLimit.reducer.Heartbeats) => {
-  const responses = hearbeats.total[rateLimit.reducer.IntervalNames.DAY]
+  const responses = hearbeats.total[rateLimit.reducer.IntervalNames.HOUR]
     .filter((r) => !r.isCacheHit)
     .map((r) => ({
       ...r,
