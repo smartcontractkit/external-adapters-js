@@ -127,70 +127,70 @@ describe('Rate Limit Middleware', () => {
     })
 
     it(`Total requests are windowed stored`, async () => {
-      for (const [intervalName, interval] of Object.entries(Intervals)) {
-        const store = createStore(rateLimit.reducer.rootReducer, {})
-        const execute = await rateLimit.withRateLimit(store)(counterFrom(0))
-        for (let i = 0; i <= 5; i++) {
-          await execute({ id: String(i), data: {} })
-        }
-        let state = store.getState()
-        expect(selectObserved(state.heartbeats, intervalName as IntervalNames).length).toBe(6)
-
-        clock.tick(interval - 1)
-        await execute({ id: '6', data: {} })
-        state = store.getState()
-        expect(selectObserved(state.heartbeats, intervalName as IntervalNames).length).toBe(7)
-
-        clock.tick(2)
-        await execute({ id: '6', data: {} })
-        state = store.getState()
-        expect(selectObserved(state.heartbeats, intervalName as IntervalNames).length).toBe(2)
+      const intervalName = IntervalNames.HOUR
+      const interval = Intervals[intervalName]
+      const store = createStore(rateLimit.reducer.rootReducer, {})
+      const execute = await rateLimit.withRateLimit(store)(counterFrom(0))
+      for (let i = 0; i <= 5; i++) {
+        await execute({ id: String(i), data: {} })
       }
+      let state = store.getState()
+      expect(selectObserved(state.heartbeats, intervalName as IntervalNames).length).toBe(6)
+
+      clock.tick(interval - 1)
+      await execute({ id: '6', data: {} })
+      state = store.getState()
+      expect(selectObserved(state.heartbeats, intervalName as IntervalNames).length).toBe(7)
+
+      clock.tick(2)
+      await execute({ id: '6', data: {} })
+      state = store.getState()
+      expect(selectObserved(state.heartbeats, intervalName as IntervalNames).length).toBe(2)
     })
 
     it(`Participant requests are windowed stored`, async () => {
-      for (const [intervalName, interval] of Object.entries(Intervals)) {
-        const store = createStore(rateLimit.reducer.rootReducer, {})
-        const execute = await rateLimit.withRateLimit(store)(counterFrom(0))
-        for (let i = 0; i <= 5; i++) {
-          await execute({ id: String(i), data: { base: i } })
-        }
-
-        let state = store.getState()
-        expect(
-          selectObserved(
-            state.heartbeats,
-            intervalName as IntervalNames,
-            rateLimit.makeId({ id: '1', data: { base: 1 } }),
-          ).length,
-        ).toBe(1)
-
-        const input = { id: '5', data: { base: 5 } }
-        await execute(input)
-        state = store.getState()
-        expect(
-          selectObserved(state.heartbeats, intervalName as IntervalNames, rateLimit.makeId(input))
-            .length,
-        ).toBe(2)
-
-        // Just before the first sec/minute/hour/day requests should be still stored
-        clock.tick(interval - 1)
-        await execute(input)
-        state = store.getState()
-        expect(
-          selectObserved(state.heartbeats, intervalName as IntervalNames, rateLimit.makeId(input))
-            .length,
-        ).toBe(3)
-
-        // Right after the first sec/minute/hour/day, first request should have been expired
-        clock.tick(2)
-        await execute(input)
-        state = store.getState()
-        expect(
-          selectObserved(state.heartbeats, intervalName as IntervalNames, rateLimit.makeId(input))
-            .length,
-        ).toBe(2)
+      const intervalName = IntervalNames.HOUR
+      const interval = Intervals[intervalName]
+      const store = createStore(rateLimit.reducer.rootReducer, {})
+      const execute = await rateLimit.withRateLimit(store)(counterFrom(0))
+      for (let i = 0; i <= 5; i++) {
+        await execute({ id: String(i), data: { base: i } })
       }
+
+      let state = store.getState()
+      expect(
+        selectObserved(
+          state.heartbeats,
+          intervalName as IntervalNames,
+          rateLimit.makeId({ id: '1', data: { base: 1 } }),
+        ).length,
+      ).toBe(1)
+
+      const input = { id: '5', data: { base: 5 } }
+      await execute(input)
+      state = store.getState()
+      expect(
+        selectObserved(state.heartbeats, intervalName as IntervalNames, rateLimit.makeId(input))
+          .length,
+      ).toBe(2)
+
+      // Just before the first sec/minute/hour/day requests should be still stored
+      clock.tick(interval - 1)
+      await execute(input)
+      state = store.getState()
+      expect(
+        selectObserved(state.heartbeats, intervalName as IntervalNames, rateLimit.makeId(input))
+          .length,
+      ).toBe(3)
+
+      // Right after the first sec/minute/hour/day, first request should have been expired
+      clock.tick(2)
+      await execute(input)
+      state = store.getState()
+      expect(
+        selectObserved(state.heartbeats, intervalName as IntervalNames, rateLimit.makeId(input))
+          .length,
+      ).toBe(2)
     })
   })
 })
