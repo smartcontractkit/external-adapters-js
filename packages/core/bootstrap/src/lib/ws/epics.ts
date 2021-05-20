@@ -87,7 +87,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
       })
 
       const openObserver = new Subject()
-      const closeObserver = new Subject()
+      const closeObserver = new Subject<CloseEvent>()
       const errorObserver = new Subject()
       const error$ = errorObserver.asObservable() as Observable<AnyAction>
       const WebSocketCtor = WebSocket
@@ -107,7 +107,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
       )
       const close$ = closeObserver.pipe(
         withLatestFrom(state$),
-        mergeMap(([_, state]) => {
+        mergeMap(([closeContext, state]) => {
           const activeSubs = Object.entries(state.ws.subscriptions as SubscriptionsState)
             .filter(([_, info]) => info?.active)
             .map(
@@ -122,6 +122,14 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
                 } as WSSubscriptionPayload),
             )
           const toUnsubscribed = (payload: WSSubscriptionPayload) => unsubscribed(payload)
+          logger.info('Closing websocket connection', {
+            context: {
+              type: closeContext.type,
+              wasClean: closeContext.wasClean,
+              reason: closeContext.reason,
+              code: closeContext.code,
+            },
+          })
           return from([...activeSubs.map(toUnsubscribed), disconnected({ config, wsHandler })])
         }),
       )
@@ -161,12 +169,12 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
                  * If the error happens during a subscription, and the subscription stop receiving messages, the unresponsiveTimeout will take care of it (unsubs/subs)
                  */
                 if (wsHandler.isError(message)) {
-                  errorObserver.next(
-                    subscriptionError({
-                      reason: JSON.stringify(message),
-                      connectionInfo: { key: connectionKey, url },
-                    }),
-                  )
+                  const error = {
+                    reason: JSON.stringify(message),
+                    connectionInfo: { key: connectionKey, url },
+                  }
+                  logger.error('WS: Error', error)
+                  errorObserver.next(subscriptionError(error))
                   return false
                 }
                 return getSubsId(wsHandler.subsFromMessage(message)) === subscriptionKey
