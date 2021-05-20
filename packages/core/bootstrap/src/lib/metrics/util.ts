@@ -71,7 +71,7 @@ export const getFeedId = (input: AdapterRequest): string => {
   }
 
   const entries = Object.keys(input)
-    .filter((prop) => !excludableAdapterRequestProperties.includes(prop))
+    .filter((prop) => !excludableAdapterRequestProperties[prop])
     .map((k) => [k, input[k as keyof AdapterRequest]])
 
   return JSON.stringify(Object.fromEntries(entries))

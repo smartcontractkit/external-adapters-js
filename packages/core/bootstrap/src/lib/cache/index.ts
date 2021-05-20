@@ -1,14 +1,20 @@
 import { AdapterRequest, AdapterResponse, Middleware } from '@chainlink/types'
 import hash from 'object-hash'
 import { logger } from '../external-adapter'
-import { delay, exponentialBackOffMs, getWithCoalescing, parseBool, uuid } from '../util'
+import {
+  delay,
+  exponentialBackOffMs,
+  getHashOpts,
+  getWithCoalescing,
+  parseBool,
+  uuid,
+} from '../util'
 import * as local from './local'
 import * as metrics from './metrics'
 import * as redis from './redis'
 
 const DEFAULT_CACHE_TYPE = 'local'
 const DEFAULT_CACHE_KEY_GROUP = uuid()
-const DEFAULT_CACHE_KEY_IGNORED_PROPS = ['id', 'maxAge', 'meta', 'rateLimitMaxAge', 'debug']
 // Request coalescing
 const DEFAULT_RC_INTERVAL = 100
 const DEFAULT_RC_INTERVAL_MAX = 1000
@@ -25,10 +31,6 @@ export const defaultOptions = () => ({
   cacheBuilder: defaultCacheBuilder(),
   key: {
     group: env.CACHE_KEY_GROUP || DEFAULT_CACHE_KEY_GROUP,
-    ignored: [
-      ...DEFAULT_CACHE_KEY_IGNORED_PROPS,
-      ...(env.CACHE_KEY_IGNORED_PROPS || '').split(',').filter((k) => k), // no empty keys
-    ],
   },
   // Request coalescing
   requestCoalescing: {
@@ -94,11 +96,7 @@ export const withCache: Middleware = async (execute, options = defaultOptions())
   const cache = await options.cacheBuilder(options.cacheOptions)
 
   // Algorithm we use to derive entry key
-  const hashOptions = {
-    algorithm: 'sha1',
-    encoding: 'hex',
-    excludeKeys: (props: string) => options.key.ignored.includes(props),
-  }
+  const hashOptions = getHashOpts()
 
   const _getKey = (data: AdapterRequest) => `${options.key.group}:${hash(data, hashOptions)}`
   const _getCoalescingKey = (key: string) => `inFlight:${key}`
