@@ -116,11 +116,14 @@ export const withCache: Middleware = async (execute, options = defaultOptions())
     if (isNaN(data.rateLimitMaxAge as number)) return
     const maxAge = Number(data.rateLimitMaxAge)
     if (maxAge && maxAge > ERROR_MAX_AGE) {
-      logger.error(`Cache: Max Age is getting max values: ${maxAge} ms`)
+      logger.error(
+        `Cache: Key TTL ERROR_MAX_AGE: Max Age is getting max values: ${maxAge} ms`,
+        data,
+      )
       return maxAge > MAXIMUM_MAX_AGE ? MAXIMUM_MAX_AGE : maxAge
     }
     if (maxAge && maxAge > options.cacheOptions.maxAge) {
-      logger.warn(`Cache: Max Age is getting high values: ${maxAge} ms`)
+      logger.warn(`Cache: Max Age is getting high values: ${maxAge} ms`, data)
     }
     return maxAge
   }
