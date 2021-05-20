@@ -7,13 +7,13 @@ import { TestScheduler } from 'rxjs/testing'
 import { stub } from 'sinon'
 import * as actions from '../../src/lib/cache-warmer/actions'
 import { get } from '../../src/lib/cache-warmer/config'
-import { RootState, SubscriptionState } from '../../src/lib/cache-warmer/reducer'
 import {
   EpicDependencies,
   warmupRequestHandler,
   warmupSubscriber,
   warmupUnsubscriber,
 } from '../../src/lib/cache-warmer/epics'
+import { RootState, SubscriptionState } from '../../src/lib/cache-warmer/reducer'
 
 let scheduler: TestScheduler
 
@@ -43,8 +43,8 @@ let epicDependencies: EpicDependencies
 describe('side effect tests', () => {
   const adapterRequest1: AdapterRequest = { data: {}, id: '0' }
   const adapterRequest2: AdapterRequest = { data: { foo: 'bar' }, id: '0' }
-  const key1 = '9edd30b0fcfdbee42b28943fa89ddccf785cc6b4'
-  const key2 = '2491d2db6dc4d71f5a2da1b3bd4f25f6afc441b2'
+  const key1 = '9f7f5d41cda1b19294354fe636cad6c40d9b0e41'
+  const key2 = '553279571362b8072c206da5665629f22ac085c5'
   beforeEach(() => {
     epicDependencies = { config: get() }
   })
