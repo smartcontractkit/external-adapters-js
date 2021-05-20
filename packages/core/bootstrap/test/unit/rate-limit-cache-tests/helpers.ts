@@ -65,17 +65,17 @@ export const dataProviderMock = (cost = 1): { execute: Execute } => {
 
 export const getRLTokenSpentPerMinute = (hearbeats: rateLimit.reducer.Heartbeats) => {
   const responses = hearbeats.total[rateLimit.reducer.IntervalNames.HOUR]
-    .filter((r) => !r.isCacheHit)
+    .filter((r) => !r.h)
     .map((r) => ({
       ...r,
-      minute: new Date(r.timestamp).getMinutes(),
+      minute: new Date(r.t).getMinutes(),
     }))
   const rlPerMin: { [key: number]: number } = {}
   responses.forEach((r) => {
     if (rlPerMin[r.minute]) {
-      rlPerMin[r.minute] += 1 * r.cost
+      rlPerMin[r.minute] += 1 * r.c
     } else {
-      rlPerMin[r.minute] = 1 * r.cost
+      rlPerMin[r.minute] = 1 * r.c
     }
   })
   return rlPerMin

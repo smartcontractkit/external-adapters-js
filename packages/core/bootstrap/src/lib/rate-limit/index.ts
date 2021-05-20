@@ -27,10 +27,10 @@ export const computeThroughput = (
   id: string,
 ): number => {
   // All observed in interval
-  const observedRequests = selectObserved(state, interval).filter((h) => !h.isWarmup)
+  const observedRequests = selectObserved(state, interval).filter((h) => !h.w)
   const throughput = observedRequests.length + 1
   // All of type observed in interval
-  const observedRequestsOfType = selectObserved(state, interval, id).filter((h) => !h.isWarmup)
+  const observedRequestsOfType = selectObserved(state, interval, id).filter((h) => !h.w)
   const throughputOfType = observedRequestsOfType.length + 1
   const costOfType = getAverageCost(observedRequestsOfType) || 1
   // Compute max throughput by weight
@@ -40,7 +40,7 @@ export const computeThroughput = (
 
 const getAverageCost = (requests: Heartbeat[]): number => {
   if (!requests || requests.length === 0) return 0
-  return requests.reduce((totalCost, h) => totalCost + h.cost, 0) / requests.length
+  return requests.reduce((totalCost, h) => totalCost + h.c, 0) / requests.length
 }
 
 
