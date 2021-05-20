@@ -17,7 +17,6 @@ export class AdapterError extends Error {
     cause,
   }: Partial<AdapterError>) {
     super(message)
-    Error.captureStackTrace(this, AdapterError)
 
     this.jobRunID = jobRunID
     this.status = status
