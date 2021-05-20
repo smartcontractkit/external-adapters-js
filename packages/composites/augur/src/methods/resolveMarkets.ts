@@ -2,7 +2,7 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig } from '@chainlink/types'
 import { Config } from '../config'
 import * as TheRundown from '@chainlink/therundown-adapter'
-import { ABI, Event, eventIdToNum, bytesMappingToHexStr } from './index'
+import { ABI, Event, eventIdToNum, bytesMappingToHexStr, numToEventId } from './index'
 import { ethers } from 'ethers'
 
 const resolveParams = {
@@ -11,8 +11,9 @@ const resolveParams = {
 }
 
 const subDays = (date: Date, days: number): Date => {
-  date.setDate(date.getDate() - days)
-  return date
+  const newDate = new Date(date)
+  newDate.setDate(date.getDate() - days)
+  return newDate
 }
 
 const eventStatus: { [key: string]: number } = {
@@ -22,59 +23,58 @@ const eventStatus: { [key: string]: number } = {
   'STATUS_CANCELED': 4
 }
 
+const statusCompleted = [
+  'STATUS_CANCELED',
+  'STATUS_FINAL',
+  'STATUS_POSTPONED'
+]
+
 export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const validator = new Validator(input, resolveParams)
   if (validator.error) throw validator.error
 
-  const sportId = validator.validated.data.sportId
   const contractAddress = validator.validated.data.contractAddress
 
   const contract = new ethers.Contract(contractAddress, ABI, config.wallet)
 
-  const params = { id: input.id, data: {
-      sportId,
-      date: new Date(),
-      endpoint: 'events'
-    }}
   const theRundownExec = TheRundown.makeExecute()
 
-  const events = []
-  for (let i = 0; i < 2; i++) {
-    params.data.date = subDays(params.data.date, i)
-
-    const response = await theRundownExec(params)
-    events.push(...response.result as Event[])
+  const eventIDs: ethers.BigNumber[] = await contract.listResolvableEvents();
+  const events: Event[] = [];
+  for (const event of eventIDs) {
+    const response = await theRundownExec({
+      id: input.id,
+      data: {
+        endpoint: 'events',
+        eventID: numToEventId(event)
+      }
+    });
+    events.push(response.result as Event);
   }
 
-  const statusCompleted = [
-    'STATUS_CANCELED',
-    'STATUS_FINAL',
-    'STATUS_POSTPONED'
-  ]
+  // Filters out events that aren't yet ready to resolve.
+  const eventReadyToResolve = events
+    .filter(({ score: { event_status } }) => statusCompleted.includes(event_status))
 
-  const filtered = events.filter(({ score: { event_status }}) => statusCompleted.includes(event_status))
-
-  const packed = filtered.map((event) => {
+  // Build the bytes32 arguments to resolve the events.
+  const packed = eventReadyToResolve.map((event) => {
     const status = eventStatus[event.score.event_status]
-    if (!status) return undefined
-
     return packResolution(event.event_id, status, event.score.score_home, event.score.score_away)
-  }).filter((event) => !!event)
+  })
 
-  let nonce = await config.wallet.getTransactionCount()
-  for (let i = 0; i < packed.length; i++) {
-    const eventId = eventIdToNum(filtered[i].event_id)
+  let nonce = (await config.wallet.getTransactionCount()) + 1
+  for (let i = 0; i < eventReadyToResolve.length; i++) {
+    const eventId = eventIdToNum(eventReadyToResolve[i].event_id)
 
     try {
-      const isResolved = await contract.isEventResolved(eventId)
-      if (isResolved) continue
+      // This call both resolves markets and finalizes their resolution.
+      await contract.trustedResolveMarkets(packed[i], { nonce })
+      nonce++ // update after tx succeeds so that gas estimation failures do not increment nonce
     } catch (e) {
-      // Skip if contract call fails, this is likely a
-      // market that wasn't created
-      continue
+      // Failures are (now) unexpected. Still, log the event id to make debugging easier.
+      console.error(`Failed to resolve markets for "${eventId}"`);
+      throw e;
     }
-
-    await contract.trustedResolveMarkets(packed[i], { nonce: nonce++ })
   }
 
   return Requester.success(input.id, {})

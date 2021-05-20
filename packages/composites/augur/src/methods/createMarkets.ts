@@ -19,6 +19,8 @@ const addDays = (date: Date, days: number): Date => {
   return date
 }
 
+const TBD_TEAM_ID = 2756;
+
 export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const validator = new Validator(input, createParams)
   if (validator.error) throw validator.error
@@ -49,7 +51,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   }
 
   Logger.debug(`Augur: Got ${events.length} events from data provider`)
-  let skipStartBuffer = 0, skipNoTeams = 0, cantCreate = 0
+  let skipStartBuffer = 0, skipNoTeams = 0, cantCreate = 0, skipTBDTeams = 0
 
   // filter markets and build payloads for market creation
   const packed = [];
@@ -67,6 +69,12 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
     const awayTeam = event.teams_normalized.find(team => team.is_away)
     if (!homeTeam || !awayTeam) {
       skipNoTeams++
+      continue
+    }
+
+    // skip if a team hasn't been announced yet
+    if (homeTeam.team_id === TBD_TEAM_ID || awayTeam.team_id === TBD_TEAM_ID) {
+      skipTBDTeams++
       continue
     }
 
@@ -91,6 +99,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
 
   Logger.debug(`Augur: Skipping ${skipStartBuffer} due to startBuffer`)
   Logger.debug(`Augur: Skipping ${skipNoTeams} due to no teams`)
+  Logger.debug(`Augur: Skipping ${skipTBDTeams} due to TBD teams`)
   Logger.debug(`Augur: Skipping ${cantCreate} due to no market to create`)
   Logger.debug(`Augur: Prepared to create ${packed.length} events`)
 
