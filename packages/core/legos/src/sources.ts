@@ -47,6 +47,7 @@ import * as fixer from '@chainlink/fixer-adapter'
 import * as fmpcloud from '@chainlink/fmpcloud-adapter'
 import * as genesis_adapter from '@chainlink/genesis-volatility-adapter'
 import * as geodb from '@chainlink/geodb-adapter'
+import * as google_bigquery from '@chainlink/google-bigquery-adapter'
 import * as graphql from '@chainlink/graphql-adapter'
 import * as iex_adapter from '@chainlink/iex-cloud-adapter'
 import * as intrinio from '@chainlink/intrinio-adapter'
@@ -137,6 +138,7 @@ export default {
   fmpcloud,
   genesis_adapter,
   geodb,
+  google_bigquery,
   graphql,
   iex_adapter,
   intrinio,

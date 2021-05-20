@@ -225,6 +225,9 @@
       "path": "./sources/geodb"
     },
     {
+      "path": "./sources/google-bigquery"
+    },
+    {
       "path": "./sources/graphql"
     },
     {
