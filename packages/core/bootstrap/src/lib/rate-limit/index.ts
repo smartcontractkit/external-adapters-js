@@ -1,7 +1,6 @@
 import { AdapterRequest, Middleware } from '@chainlink/types'
 import hash from 'object-hash'
 import { Store } from 'redux'
-import { logger } from '../external-adapter'
 import { successfulRequestObserved } from './actions'
 import * as config from './config'
 import * as metrics from './metrics'
@@ -44,22 +43,6 @@ const getAverageCost = (requests: Heartbeat[]): number => {
   return requests.reduce((totalCost, h) => totalCost + h.cost, 0) / requests.length
 }
 
-const logRemainingCapacity = (state: Heartbeats, interval: IntervalNames): void => {
-  const dataProviderRequests = selectObserved(state, interval).filter((h) => !h.isCacheHit)
-  const cost = getAverageCost(dataProviderRequests) || 1
-  const capacity = config.get().totalCapacity
-  const totalReq = dataProviderRequests.length * cost
-  const remainingCapacity = capacity - totalReq
-  const message = `Rate Limit: ${totalReq} requests made in the last minute. Capacity of ${capacity} requests/min is set`
-  if (remainingCapacity <= 0) {
-    logger.error(message)
-    return
-  }
-  if (remainingCapacity <= 0.1 * capacity) {
-    logger.warn(message)
-    return
-  }
-}
 
 const maxThroughput = (weight: number, cost: number): number => {
   const maxAllowedCapacity = 0.9 * (config.get().totalCapacity / cost) // Interval.Minute
@@ -96,7 +79,6 @@ export const withRateLimit =
 
     store.dispatch(successfulRequestObserved(input, result))
     state = store.getState()
-    logRemainingCapacity(state.heartbeats, IntervalNames.MINUTE)
 
     const defaultLabels = {
       feed_id: input.debug?.feedId,
