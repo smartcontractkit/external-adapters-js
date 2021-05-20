@@ -202,6 +202,8 @@ yarn dev:metrics
 
 Adapters who interact with data providers that support websockets will be able to use them offering a WS interface. Each adapter will have its corresponding WS documentation.
 
+When Websockets are enabled they will take precedence over the Cache Warmer, topping up the cache from the stream of data it recieves.
+
 Multiple subscription channels are multiplexed over one connection.
 
 For every type of request, the adapter will subscribe to the corresponding channel.
@@ -210,7 +212,9 @@ From the moment the subscription is confirmed, the adapter will start receiving 
 
 | Required? |                Name                |                                                                             Description                                                                              | Options | Defaults to |
 | :-------: | :--------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
+|           |            `WS_ENABLED`            |                                                                     Toggle usage of websockets.                                                                      |         |   `false`   |
 |           |       `WS_SUBSCRIPTION_TTL`        |            Subscription expiration time in ms. If no new incoming requests ask for this information during this time, the subscription will be cancelled.            |         |   `70000`   |
 |           | `WS_SUBSCRIPTION_UNRESPONSIVE_TTL` | Unresponsive subscription expiration time in ms. If the adapter doesn't receive messages from an open subscription during this time, a resubscription will be tried. |         |   `70000`   |
+|           |        `WS_CACHE_THROTTLE`         |                                              To avoid overloading the cache a throttle can be supplied in milliseconds.                                              |         |     `1`     |
 
 \*For the websockets to be effective, **caching needs to be enabled**
