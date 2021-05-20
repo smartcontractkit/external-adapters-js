@@ -88,6 +88,7 @@ export const warmupReducer = createReducer<RequestState>({}, (builder) => {
     subscription.successCount++
     subscription.error = null
     subscription.errorCount = 0
+    return state
   })
 
   builder.addCase(actions.warmupFailed, (state, action) => {
@@ -103,6 +104,7 @@ export const warmupReducer = createReducer<RequestState>({}, (builder) => {
     subscription.error = action.payload.error
     subscription.errorCount++
     subscription.successCount = 0
+    return state
   })
 
   builder.addCase(actions.warmupUnsubscribed, (state, action) => {
