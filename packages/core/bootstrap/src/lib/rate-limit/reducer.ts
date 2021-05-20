@@ -15,7 +15,7 @@ export const Intervals: { [key: string]: number } = {
 export interface Heartbeat {
   id: string
   cost: number
-  timestamp: number
+  t: number
   isCacheHit: boolean
   isWarmup: boolean
 }
@@ -48,7 +48,7 @@ const heartbeatReducer = createReducer<Heartbeats>(initialHeartbeatsState, (buil
     const heartbeat: Heartbeat = {
       id: makeId(action.payload.input),
       cost: action.payload.response.data.cost || DEFAULT_COST,
-      timestamp: Date.parse(action.payload.createdAt),
+      t: Date.parse(action.payload.createdAt),
       isWarmup: action.payload.input.id === WARMUP_REQUEST_ID,
       isCacheHit: !!action.payload.response.maxAge,
     }
@@ -57,16 +57,20 @@ const heartbeatReducer = createReducer<Heartbeats>(initialHeartbeatsState, (buil
     // Init if first time seeing this id
     if (!state.participants[id]) state.participants[id] = initialIntervalsState()
 
-    for (const [intervalName, interval] of Object.entries(Intervals)) {
+    const storedIntervals = [IntervalNames.HOUR]
+
+    for (const intervalName of storedIntervals) {
       state.total[intervalName].push(heartbeat)
       state.participants[id][intervalName].push(heartbeat)
 
-      const window = heartbeat.timestamp - interval
-      const _inWindow = (h: Heartbeat) => h.timestamp >= window
+      const window = heartbeat.t - Intervals[intervalName]
+      const _inWindow = (h: Heartbeat) => h.t >= window
 
       state.total[intervalName] = state.total[intervalName].filter(_inWindow)
       state.participants[id][intervalName] = state.participants[id][intervalName].filter(_inWindow)
     }
+
+
 
     return state
   })
