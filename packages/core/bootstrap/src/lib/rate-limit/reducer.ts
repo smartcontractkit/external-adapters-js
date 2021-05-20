@@ -12,12 +12,26 @@ export const Intervals: { [key: string]: number } = {
   [IntervalNames.MINUTE]: 60 * 1000,
   [IntervalNames.HOUR]: 60 * 60 * 1000,
 }
+
+// Shortened names to reduce memory usage
 export interface Heartbeat {
   id: string
-  cost: number
+  /**
+   * Cost
+   */
+  c: number
+  /**
+   * Timestamp
+   */
   t: number
-  isCacheHit: boolean
-  isWarmup: boolean
+  /**
+   * isCacheHit
+   */
+  h: boolean
+  /**
+   * isWarmupHit
+   */
+  w: boolean
 }
 
 export interface Heartbeats {
@@ -47,10 +61,10 @@ const heartbeatReducer = createReducer<Heartbeats>(initialHeartbeatsState, (buil
   builder.addCase(successfulRequestObserved, (state, action) => {
     const heartbeat: Heartbeat = {
       id: makeId(action.payload.input),
-      cost: action.payload.response.data.cost || DEFAULT_COST,
+      c: action.payload.response.data.cost || DEFAULT_COST,
       t: Date.parse(action.payload.createdAt),
-      isWarmup: action.payload.input.id === WARMUP_REQUEST_ID,
-      isCacheHit: !!action.payload.response.maxAge,
+      w: action.payload.input.id === WARMUP_REQUEST_ID,
+      h: !!action.payload.response.maxAge,
     }
 
     const { id } = heartbeat
