@@ -1,4 +1,4 @@
-import { Execute } from '@chainlink/types'
+import { AdapterRequest, Execute } from '@chainlink/types'
 import { AnyAction } from 'redux'
 import { combineEpics, createEpicMiddleware, Epic } from 'redux-observable'
 import { EMPTY, from, merge, Observable, of, race, Subject } from 'rxjs'
@@ -217,11 +217,24 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
           try {
             const input = state.ws.subscriptions.all[action.payload.subscriptionKey]?.input || {}
             if (!input) logger.warn(`WS: Could not find subscription from incoming message`)
+
+            /**
+             * Wrap the payload so that the cache middleware treats it as if
+             * it is calling out to the underlying API, which immediately resolves
+             * to the websocket message here instead.
+             *
+             * This results in the cache middleware storing the payload message as a
+             * cache value, with the following `wsResponse` as the cache key
+             */
             const response = wsHandler.toResponse(action.payload.message)
             if (!response) return action
             const execute: Execute = () => Promise.resolve(response)
             const cache = await withCache(execute)
-            const wsResponse = {
+            /**
+             * Create an adapter request we send to the cache middleware
+             * so it uses the following object for setting cache keys
+             */
+            const wsResponse: AdapterRequest = {
               ...input,
               data: { ...input.data, maxAge: -1 }, // Force cache set
               debug: { ws: true },
@@ -293,15 +306,15 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
               unsubscribe(action),
               subscribe(action),
             ).pipe(
+              delay(config.subscriptionUnresponsiveTTL),
               tap((a) => {
                 if (subscriptionError.match(a)) {
                   logger.error(
-                    '[unsubscribeOnNoResponse] Resubscribing due to unresponsive subscription,this happens when a subscription does not receive a message for longer than the subscriptionUnresponsiveTTL value',
+                    '[unsubscribeOnNoResponse] Resubscribing due to unresponsive subscription, this happens when a subscription does not receive a message for longer than the subscriptionUnresponsiveTTL value',
                     { feedId: a.payload.input ? getFeedId(a.payload.input) : 'undefined' },
                   )
                 }
               }),
-              delay(config.subscriptionUnresponsiveTTL),
               withLatestFrom(state$),
               // Filters by active subscription.
               // The timeout could think we don't receive messages because of unresponsiveness, and it's actually unsubscribed
