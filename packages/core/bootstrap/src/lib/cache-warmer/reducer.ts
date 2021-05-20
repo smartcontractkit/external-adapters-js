@@ -1,5 +1,6 @@
 import { AdapterRequest, Execute } from '@chainlink/types'
 import { combineReducers, createReducer } from '@reduxjs/toolkit'
+import { logger } from '../external-adapter'
 import * as actions from './actions'
 import { getSubscriptionKey } from './util'
 
@@ -67,23 +68,47 @@ export interface RequestState {
 export const warmupReducer = createReducer<RequestState>({}, (builder) => {
   builder.addCase(actions.warmupRequested, (state, action) => {
     if (!state[action.payload.key]) {
+      logger.info('[warmupReducer] Creating subscription', {
+        warmupSubscriptionKey: action.payload.key,
+      })
       state[action.payload.key] = { error: null, successCount: 0, errorCount: 0 }
     }
   })
 
   builder.addCase(actions.warmupFulfilled, (state, action) => {
-    state[action.payload.key].successCount++
-    state[action.payload.key].error = null
-    state[action.payload.key].errorCount = 0
+    const { key } = action.payload
+    const subscription = state[key]
+    if (!subscription) {
+      logger.error(
+        '[warmupReducer] Attempted to fulfill warmup request for a non-existing subscription',
+        { warmupSubscriptionKey: key },
+      )
+      return state
+    }
+    subscription.successCount++
+    subscription.error = null
+    subscription.errorCount = 0
   })
 
   builder.addCase(actions.warmupFailed, (state, action) => {
-    state[action.payload.key].error = action.payload.error
-    state[action.payload.key].errorCount++
-    state[action.payload.key].successCount = 0
+    const { key } = action.payload
+    const subscription = state[key]
+    if (!subscription) {
+      logger.error(
+        '[warmupReducer] Attempted to fulfill warmup request for a non-existing subscription',
+        { warmupSubscriptionKey: key },
+      )
+      return state
+    }
+    subscription.error = action.payload.error
+    subscription.errorCount++
+    subscription.successCount = 0
   })
 
   builder.addCase(actions.warmupUnsubscribed, (state, action) => {
+    logger.info('[warmupReducer] Deleting subscription', {
+      warmupSubscriptionKey: action.payload.key,
+    })
     delete state[action.payload.key]
   })
 })
