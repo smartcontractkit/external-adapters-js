@@ -1,9 +1,9 @@
+import { AdapterErrorResponse, AdapterResponse, RequestConfig } from '@chainlink/types'
 import axios, { AxiosResponse } from 'axios'
+import { deepType } from '../util'
+import { getDefaultConfig, logConfig } from './config'
 import { AdapterError } from './errors'
 import { logger } from './logger'
-import { getDefaultConfig, logConfig } from './config'
-import { AdapterResponse, AdapterErrorResponse, RequestConfig } from '@chainlink/types'
-import { deepType } from '../util'
 
 const getFalse = () => false
 
@@ -77,12 +77,12 @@ export class Requester {
     const result = this.getResult(data, path)
     if (typeof result === 'undefined') {
       const message = 'Result could not be found in path'
-      logger.error(message)
+      logger.error(message, { data, path })
       throw new AdapterError({ message })
     }
     if (Number(result) === 0 || isNaN(Number(result))) {
       const message = 'Invalid result'
-      logger.error(message)
+      logger.error(message, { data, path })
       throw new AdapterError({ message })
     }
     return Number(result)
