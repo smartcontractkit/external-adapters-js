@@ -1,7 +1,7 @@
 import { Execute } from '@chainlink/types'
 import { AnyAction } from 'redux'
 import { combineEpics, createEpicMiddleware, Epic } from 'redux-observable'
-import { merge, Subject, of, race, Observable, EMPTY, from } from 'rxjs'
+import { EMPTY, from, merge, Observable, of, race, Subject } from 'rxjs'
 import {
   catchError,
   delay,
@@ -17,7 +17,7 @@ import {
 import { webSocket } from 'rxjs/webSocket'
 import WebSocket from 'ws'
 import { withCache } from '../cache'
-import { logger, censor } from '../external-adapter'
+import { censor, logger } from '../external-adapter'
 import { getFeedId } from '../metrics/util'
 import {
   connect,
@@ -25,25 +25,25 @@ import {
   connectionError,
   disconnect,
   disconnected,
+  messageReceived,
   subscribe,
   subscribed,
   subscriptionError,
   unsubscribe,
   unsubscribed,
-  messageReceived,
   WSConfigPayload,
-  WSSubscriptionPayload,
-  WSMessagePayload,
   WSErrorPayload,
+  WSMessagePayload,
   WSSubscriptionErrorPayload,
+  WSSubscriptionPayload,
 } from './actions'
 import {
   ws_connection_active,
   ws_connection_errors,
-  ws_subscription_active,
-  ws_subscription_total,
   ws_message_total,
+  ws_subscription_active,
   ws_subscription_errors,
+  ws_subscription_total,
 } from './metrics'
 import { getSubsId, SubscriptionsState } from './reducer'
 
@@ -103,22 +103,27 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
       // Stream of WS connected & disconnected events
       const open$ = openObserver.pipe(
         map(() => connected({ config, wsHandler })),
-        tap((action) => logger.info('WS: Connected', connectionMeta(action.payload)))
+        tap((action) => logger.info('WS: Connected', connectionMeta(action.payload))),
       )
       const close$ = closeObserver.pipe(
         withLatestFrom(state$),
         mergeMap(([_, state]) => {
-          const activeSubs = Object.entries(state.ws.subscriptions as SubscriptionsState).filter(([_, info]) => info?.active).map(([_, info]) => ({
-            connectionInfo: {
-              url,
-              key: config.connectionInfo.key
-            },
-            subscriptionMsg: wsHandler.subscribe(info.input),
-            input: info.input
-          } as WSSubscriptionPayload))
+          const activeSubs = Object.entries(state.ws.subscriptions as SubscriptionsState)
+            .filter(([_, info]) => info?.active)
+            .map(
+              ([_, info]) =>
+                ({
+                  connectionInfo: {
+                    url,
+                    key: config.connectionInfo.key,
+                  },
+                  subscriptionMsg: wsHandler.subscribe(info.input),
+                  input: info.input,
+                } as WSSubscriptionPayload),
+            )
           const toUnsubscribed = (payload: WSSubscriptionPayload) => unsubscribed(payload)
           return from([...activeSubs.map(toUnsubscribed), disconnected({ config, wsHandler })])
-        })
+        }),
       )
 
       // Close the WS connection on disconnect
@@ -156,7 +161,12 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
                  * If the error happens during a subscription, and the subscription stop receiving messages, the unresponsiveTimeout will take care of it (unsubs/subs)
                  */
                 if (wsHandler.isError(message)) {
-                  errorObserver.next(subscriptionError({ reason: JSON.stringify(message), connectionInfo: { key: connectionKey, url } }))
+                  errorObserver.next(
+                    subscriptionError({
+                      reason: JSON.stringify(message),
+                      connectionInfo: { key: connectionKey, url },
+                    }),
+                  )
                   return false
                 }
                 return getSubsId(wsHandler.subsFromMessage(message)) === subscriptionKey
@@ -217,7 +227,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
               debug: { ws: true },
             }
             await cache(wsResponse)
-            logger.debug("WS: Saved result", { input, result: response.result })
+            logger.debug('WS: Saved result', { input, result: response.result })
           } catch (e) {
             logger.error(`WS: Cache error: ${e.message}`)
           }
@@ -242,7 +252,9 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
           // start the current unsubscription timer
           const timeout$ = of(unsubscribe({ ...payload })).pipe(
             delay(config.subscriptionTTL),
-            tap(() => logger.debug('WS: unsubscribe (inactive feed)', { payload: payload.subscriptionMsg})),
+            tap(() =>
+              logger.debug('WS: unsubscribe (inactive feed)', { payload: payload.subscriptionMsg }),
+            ),
           )
           // if a re-subscription comes in before timeout emits, then we emit nothing
           // else we unsubscribe from the current subscription
@@ -273,7 +285,22 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
               connectionInfo: { key: connectionKey, url },
             }
 
-            const timeout$ = of(subscriptionError({ ...action, reason: 'WS: unsubscribe -> subscribe (unresponsive channel)' }), unsubscribe(action), subscribe(action)).pipe(
+            const timeout$ = of(
+              subscriptionError({
+                ...action,
+                reason: 'WS: unsubscribe -> subscribe (unresponsive channel)',
+              }),
+              unsubscribe(action),
+              subscribe(action),
+            ).pipe(
+              tap((a) => {
+                if (subscriptionError.match(a)) {
+                  logger.error(
+                    '[unsubscribeOnNoResponse] Resubscribing due to unresponsive subscription,this happens when a subscription does not receive a message for longer than the subscriptionUnresponsiveTTL value',
+                    { feedId: a.payload.input ? getFeedId(a.payload.input) : 'undefined' },
+                  )
+                }
+              }),
               delay(config.subscriptionUnresponsiveTTL),
               withLatestFrom(state$),
               // Filters by active subscription.
@@ -281,9 +308,11 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
               // isSubscribing is considered too as we want to trigger an unsubscription from a hung channel
               mergeMap(([action, state]) => {
                 const isActive = !!state.ws.subscriptions.all[subscriptionKey]?.active
-                const isSubscribing = !!(state.ws.subscriptions.all[subscriptionKey]?.subscribing > 0)
+                const isSubscribing = !!(
+                  state.ws.subscriptions.all[subscriptionKey]?.subscribing > 0
+                )
                 return isActive || isSubscribing ? of(action) : EMPTY
-              })
+              }),
             )
 
             return race(reset$, timeout$).pipe(filter((a) => !messageReceived.match(a)))
@@ -344,7 +373,9 @@ export const metricsEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
         subscription_key: payload.subscriptionMsg ? getSubsId(payload.subscriptionMsg) : 'N/A',
       })
       const messageLabels = (payload: WSMessagePayload) => ({
-        feed_id: getFeedId({ ...state.ws.subscriptions.all[action.payload.subscriptionKey]?.input }),
+        feed_id: getFeedId({
+          ...state.ws.subscriptions.all[action.payload.subscriptionKey]?.input,
+        }),
         subscription_key: payload.subscriptionKey,
       })
 
@@ -368,7 +399,9 @@ export const metricsEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
           ws_subscription_errors.labels(subscriptionErrorLabels(action.payload)).inc()
           break
         case unsubscribed.type: {
-          if (state.ws.subscriptions.all[getSubsId(action.payload.subscriptionMsg)]?.wasEverActive) {
+          if (
+            state.ws.subscriptions.all[getSubsId(action.payload.subscriptionMsg)]?.wasEverActive
+          ) {
             ws_subscription_active.labels(subscriptionLabels(action.payload)).dec()
           }
           break
