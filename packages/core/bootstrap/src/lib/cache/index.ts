@@ -116,10 +116,7 @@ export const withCache: Middleware = async (execute, options = defaultOptions())
     if (isNaN(data.rateLimitMaxAge as number)) return
     const maxAge = Number(data.rateLimitMaxAge)
     if (maxAge && maxAge > ERROR_MAX_AGE) {
-      logger.error(
-        `Cache: Key TTL ERROR_MAX_AGE: Max Age is getting max values: ${maxAge} ms`,
-        data,
-      )
+      logger.warn(`Cache: Key TTL ERROR_MAX_AGE: Max Age is getting max values: ${maxAge} ms`, data)
       return maxAge > MAXIMUM_MAX_AGE ? MAXIMUM_MAX_AGE : maxAge
     }
     if (maxAge && maxAge > options.cacheOptions.maxAge) {
@@ -155,7 +152,7 @@ export const withCache: Middleware = async (execute, options = defaultOptions())
         }
         const entry = { statusCode, data, result, maxAge }
         await cache.set(key, entry, maxAge)
-        logger.debug(`Cache: SET ${key}`, entry)
+        logger.trace(`Cache: SET ${key}`, entry)
         // Notify pending requests by removing the in-flight mark
         await _delInFlightMarker(coalescingKey)
       }
@@ -195,7 +192,7 @@ export const withCache: Middleware = async (execute, options = defaultOptions())
 
     if (entry) {
       if (maxAge >= 0) {
-        logger.debug(`Cache: GET ${key}`, entry)
+        logger.trace(`Cache: GET ${key}`, entry)
         const reqMaxAge = _getRequestMaxAge(data)
         if (reqMaxAge && reqMaxAge !== entry.maxAge) await _cacheOnSuccess(entry)
         const ttl = await cache.ttl(key)
@@ -215,7 +212,7 @@ export const withCache: Middleware = async (execute, options = defaultOptions())
           },
         }
       }
-      logger.debug(`Cache: SKIP(maxAge < 0)`)
+      logger.trace(`Cache: SKIP(maxAge < 0)`)
     }
 
     // Initiate request coalescing by adding the in-flight mark
