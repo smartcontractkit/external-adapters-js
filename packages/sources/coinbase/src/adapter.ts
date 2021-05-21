@@ -1,12 +1,12 @@
-import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
+import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
 import {
   AdapterRequest,
   Config,
-  ExecuteWithConfig,
   ExecuteFactory,
+  ExecuteWithConfig,
   MakeWSHandler,
 } from '@chainlink/types'
-import { makeConfig, DEFAULT_ENDPOINT, DEFAULT_WS_API_ENDPOINT } from './config'
+import { DEFAULT_ENDPOINT, DEFAULT_WS_API_ENDPOINT, makeConfig } from './config'
 import { price } from './endpoint'
 
 const inputParams = {
@@ -50,7 +50,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
     }
   }
   const getProductId = (input: AdapterRequest) => {
-    const validator = new Validator(input, price.customParams)
+    const validator = new Validator(input, price.customParams, {}, false)
     if (validator.error) return
     const symbol = validator.validated.data.symbol.toUpperCase()
     const convert = validator.validated.data.convert.toUpperCase()
