@@ -92,7 +92,8 @@
       "dnsproof",
       "genesisvolatility",
       "ciphertrace",
-      "bookmakerratings"
+      "bookmakerratings",
+      "smartzip"
     ]
   },
   "2-step": {

@@ -99,7 +99,8 @@
     "genesisvolatility",
     "ciphertrace",
     "bookmakerratings",
-    "prospectnow"
+    "prospectnow",
+    "smartzip"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint",
