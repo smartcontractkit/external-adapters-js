@@ -115,6 +115,10 @@ export const withCache: Middleware = async (execute, options = defaultOptions())
     if (!data || !data.data) return
     if (isNaN(data.rateLimitMaxAge as number)) return
     const maxAge = Number(data.rateLimitMaxAge)
+    return maxAge
+  }
+
+  const _logRL = (maxAge: number, data: AdapterRequest) => {
     if (maxAge && maxAge > ERROR_MAX_AGE) {
       logger.error(
         `Cache: Key TTL ERROR_MAX_AGE: Max Age is getting max values: ${maxAge} ms`,
@@ -125,7 +129,6 @@ export const withCache: Middleware = async (execute, options = defaultOptions())
     if (maxAge && maxAge > options.cacheOptions.maxAge) {
       logger.warn(`Cache: Max Age is getting high values: ${maxAge} ms`, data)
     }
-    return maxAge
   }
 
   const _getDefaultMaxAge = (data: AdapterRequest): any => {
@@ -217,6 +220,8 @@ export const withCache: Middleware = async (execute, options = defaultOptions())
       }
       logger.debug(`Cache: SKIP(maxAge < 0)`)
     }
+
+    _logRL(maxAge, data)
 
     // Initiate request coalescing by adding the in-flight mark
     await _setInFlightMarker(coalescingKey, maxAge)
