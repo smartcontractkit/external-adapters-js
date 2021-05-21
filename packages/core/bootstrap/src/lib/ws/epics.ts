@@ -248,7 +248,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
               debug: { ws: true },
             }
             await cache(wsResponse)
-            logger.debug('WS: Saved result', { input, result: response.result })
+            logger.trace('WS: Saved result', { input, result: response.result })
           } catch (e) {
             logger.error(`WS: Cache error: ${e.message}`)
           }
