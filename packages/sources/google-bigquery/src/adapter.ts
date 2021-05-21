@@ -13,13 +13,15 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const validator = new Validator(request, inputParams)
   if (validator.error) throw validator.error
 
+  Requester.logConfig(config)
+
   const jobRunID = validator.validated.id
   const query = validator.validated.data.query
   const params = validator.validated.data.params || []
   const location = validator.validated.data.location || config.location
 
   const bqOptions: BigQueryOptions = {
-    projectId:
+    ...config,
     location,
   }
 

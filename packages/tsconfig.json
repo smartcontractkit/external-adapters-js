@@ -27,6 +27,9 @@
       "path": "./composites/dxdao"
     },
     {
+      "path": "./composites/google-weather"
+    },
+    {
       "path": "./composites/linear-finance"
     },
     {

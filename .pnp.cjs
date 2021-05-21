@@ -55,6 +55,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/composites/dxdao"
       },
       {
+        "name": "@chainlink/google-weather-adapter",
+        "reference": "workspace:packages/composites/google-weather"
+      },
+      {
         "name": "@chainlink/linear-finance-adapter",
         "reference": "workspace:packages/composites/linear-finance"
       },
@@ -585,6 +589,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/genesis-volatility-adapter", ["workspace:packages/sources/genesis-volatility"]],
       ["@chainlink/geodb-adapter", ["workspace:packages/sources/geodb"]],
       ["@chainlink/google-bigquery-adapter", ["workspace:packages/sources/google-bigquery"]],
+      ["@chainlink/google-weather-adapter", ["workspace:packages/composites/google-weather"]],
       ["@chainlink/graphql-adapter", ["workspace:packages/sources/graphql"]],
       ["@chainlink/harmony-adapter", ["workspace:packages/targets/harmony"]],
       ["@chainlink/iex-cloud-adapter", ["workspace:packages/sources/iex-cloud"]],
@@ -4339,6 +4344,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@google-cloud/bigquery", "npm:5.7.0"],
+            ["@types/jest", "npm:26.0.24"],
+            ["@types/node", "npm:14.17.7"],
+            ["tslib", "npm:2.3.0"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/google-weather-adapter", [
+        ["workspace:packages/composites/google-weather", {
+          "packageLocation": "./packages/composites/google-weather/",
+          "packageDependencies": [
+            ["@chainlink/google-weather-adapter", "workspace:packages/composites/google-weather"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/google-bigquery-adapter", "workspace:packages/sources/google-bigquery"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
             ["tslib", "npm:2.3.0"],

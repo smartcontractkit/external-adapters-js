@@ -1,0 +1,89 @@
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterRequest, AdapterResponse, Execute } from '@chainlink/types'
+import * as BigQuery from '@chainlink/google-bigquery-adapter'
+
+const customParams = {
+  lat: true,
+  long: true,
+  dateFrom: true,
+  dateTo: true,
+  mode: true,
+  column: true,
+}
+
+export const execute = async (input: AdapterRequest): Promise<AdapterResponse> => {
+  const validator = new Validator(input, customParams)
+  if (validator.error) throw validator.error
+
+  const jobRunID = validator.validated.jobRunID
+  const lat = validator.validated.data.lat
+  const long = validator.validated.data.long
+  const dateFrom = validator.validated.data.dateFrom
+  const dateTo = validator.validated.data.dateTo
+  const mode = validator.validated.data.mode
+  const column = validator.validated.data.column
+
+  const queryBuilder = new QueryBuilder(lat, long, dateFrom, dateTo, mode, column)
+
+  const bigQuery = BigQuery.makeExecute(BigQuery.makeConfig())
+  const response = await bigQuery({ id: jobRunID, data: queryBuilder.toQuery() })
+  const result = Requester.validateResultNumber(response.result, [0, "result"])
+  return Requester.success(jobRunID, { data: { result } })
+}
+
+export const makeExecute = (): Execute => {
+  return async (request: AdapterRequest) => execute(request)
+}
+
+type Mode = 'SUM' | 'AVG'
+
+class QueryBuilder {
+  private readonly lat: number
+  private readonly long: number
+  private readonly dateFrom: string
+  private readonly dateTo: string
+  private readonly mode: Mode
+  private readonly column: string
+  private table = 'gcp-pdp-weather-dev.geo_weather.NOAA_GFS0P25'
+
+  constructor(lat: number, long: number, dateFrom: string, dateTo: string, mode: Mode, column: string, table?: string) {
+    this.lat = lat
+    this.long = long
+    this.dateFrom = dateFrom
+    this.dateTo = dateTo
+    this.mode = mode
+    this.column = column
+    if (table !== undefined) this.table = table
+  }
+
+  private select() {
+    switch (this.mode) {
+      case 'AVG':
+        return `AVG(${this.column})`
+      case 'SUM':
+        return `SUM(${this.column})`
+    }
+  }
+
+  public toQuery(): { query: string, params: { [key: string]: string | number }} {
+    return {
+      query: [
+        `SELECT ${this.select()} AS result`,
+        `FROM \`${this.table}\` AS w`,
+        'WHERE',
+        'ST_EQUALS(w.geography,',
+        `(SELECT geography FROM \`${this.table}\``,
+        'ORDER BY ST_DISTANCE(ST_GEOGPOINT(@lat, @long), geography)',
+        'LIMIT 1))',
+        'AND forecast_time >= DATE(@dateFrom)',
+        'AND forecast_time < DATE(@dateTo)'
+      ].join('\n'),
+      params: {
+        lat: this.lat,
+        long: this.long,
+        dateFrom: this.dateFrom,
+        dateTo: this.dateTo
+      }
+    }
+  }
+}

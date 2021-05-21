@@ -1,4 +1,5 @@
 import { util } from '@chainlink/ea-bootstrap'
+import { RequestConfig } from '@chainlink/types'
 
 export const NAME = 'GOOGLE_BIGQUERY'
 
@@ -10,7 +11,7 @@ export type Config = {
   maxRetries: number
   location?: string
 
-  api: undefined
+  api: RequestConfig
 }
 
 export const makeConfig = (prefix?: string): Config => ({
@@ -19,5 +20,5 @@ export const makeConfig = (prefix?: string): Config => ({
   autoRetry: util.parseBool(util.getEnv('AUTO_RETRY', prefix) || true),
   maxRetries: parseInt(util.getEnv('MAX_RETRIES', prefix) || '3'),
   location: util.getEnv('LOCATION', prefix),
-  api: undefined
+  api: {}
 })
