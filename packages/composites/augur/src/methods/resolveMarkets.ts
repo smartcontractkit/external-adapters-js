@@ -16,14 +16,6 @@ const subDays = (date: Date, days: number): Date => {
   return newDate
 }
 
-const TWO_HOURS_ms = 1000 * 60 * 60 * 2
-
-// The `past` argument can be in the future without issue.
-const timeHasPassed = (present: Date, past: Date, milliseconds: number): boolean => {
-  const msPassed = Number(present) - Number(past)
-  return msPassed >= milliseconds
-}
-
 const eventStatus: { [key: string]: number } = {
   'STATUS_SCHEDULED': 1,
   'STATUS_FINAL': 2,
@@ -63,8 +55,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   ]
 
   const filtered = events
-    .filter(({ score: { event_status }}) => statusCompleted.includes(event_status))
-    .filter(({ event_date }) => timeHasPassed(today, new Date(Date.parse(event_date)), TWO_HOURS_ms))
+    .filter(({ score: { event_status } }) => statusCompleted.includes(event_status))
 
   const packed = filtered.map((event) => {
     const status = eventStatus[event.score.event_status]
@@ -73,20 +64,20 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
     return packResolution(event.event_id, status, event.score.score_home, event.score.score_away)
   }).filter((event) => !!event)
 
-  let nonce = await config.wallet.getTransactionCount()
+  let nonce = (await config.wallet.getTransactionCount()) + 1
   for (let i = 0; i < packed.length; i++) {
     const eventId = eventIdToNum(filtered[i].event_id)
 
-    try {
-      const isResolved = await contract.isEventResolved(eventId)
-      if (isResolved) continue
-    } catch (e) {
-      // Skip if contract call fails, this is likely a
-      // market that wasn't created
-      continue
-    }
+    // this should never fail due to contract state
+    const isResolved = await contract.isEventResolved(eventId)
+    if (isResolved) continue
 
-    await contract.trustedResolveMarkets(packed[i], { nonce: nonce++ })
+    try {
+      await contract.trustedResolveMarkets(packed[i], { nonce })
+      nonce++ // update after tx succeeds so that gas estimation failures do not increment nonce
+    } catch (e) {
+      // Failed during gas estimation so market probably does not exist.
+    }
   }
 
   return Requester.success(input.id, {})
