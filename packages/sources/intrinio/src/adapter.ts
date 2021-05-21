@@ -39,7 +39,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
   // https://github.com/intrinio/intrinio-realtime-node-sdk
 
   const getBase = (input: AdapterRequest): string => {
-    const validator = new Validator(input, customParams)
+    const validator = new Validator(input, customParams, {}, false)
     if (validator.error) {
       return ''
     }

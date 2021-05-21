@@ -14,16 +14,16 @@ export class Validator {
   error: AdapterError | undefined
   errored: AdapterErrorResponse | undefined
 
-  constructor(input = {}, customParams = {}, options = {}) {
+  constructor(input = {}, customParams = {}, options = {}, shouldLogError = true) {
     this.input = { ...input }
     this.customParams = { ...customParams }
     this.options = { ...options }
     this.validated = { data: {} }
-    this.validateInput()
-    this.validateOverrides()
+    this.validateInput(shouldLogError)
+    this.validateOverrides(shouldLogError)
   }
 
-  validateInput() {
+  validateInput(shouldLogError: boolean) {
     this.input.id = this.input.id || '1'
     this.validated.id = this.input.id
 
@@ -43,15 +43,19 @@ export class Validator {
         }
       }
     } catch (error) {
-      this.parseError(error, {
-        input: this.input,
-        options: this.options,
-        customParams: this.customParams,
-      })
+      this.parseError(
+        error,
+        {
+          input: this.input,
+          options: this.options,
+          customParams: this.customParams,
+        },
+        shouldLogError,
+      )
     }
   }
 
-  validateOverrides() {
+  validateOverrides(shouldLogError: boolean) {
     try {
       if (!this.input.data?.overrides) {
         this.validated.overrides = this.formatOverride(presetSymbols)
@@ -61,15 +65,19 @@ export class Validator {
         merge({ ...presetSymbols }, this.input.data.overrides),
       )
     } catch (e) {
-      this.parseError(e, {
-        input: this.input,
-        options: this.options,
-        customParams: this.customParams,
-      })
+      this.parseError(
+        e,
+        {
+          input: this.input,
+          options: this.options,
+          customParams: this.customParams,
+        },
+        shouldLogError,
+      )
     }
   }
 
-  parseError(error: any, context: any) {
+  parseError(error: any, context: any, shouldLogError: boolean) {
     const message = 'Error validating input.'
     if (error instanceof AdapterError) this.error = error
     else
@@ -79,7 +87,9 @@ export class Validator {
         message,
         cause: error,
       })
-    logger.error(message, { error: this.error, context })
+    if (shouldLogError) {
+      logger.error(message, { error: this.error, context })
+    }
     this.errored = Requester.errored(this.validated.id, this.error)
   }
 
