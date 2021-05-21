@@ -146,7 +146,10 @@ export class RedisCache {
       return result
     } catch (e) {
       if (e instanceof TimeoutError) {
-        logger.error('Redis method timed out', { fnName, context })
+        logger.error(
+          'Redis method timed out, consider increasing CACHE_REDIS_TIMEOUT or increasing your redis instance performance',
+          { fnName, context },
+        )
         throw e
       }
       logger.error('Redis method error', { fnName, context })
