@@ -1,6 +1,6 @@
 import { AnyAction } from 'redux'
 import { combineEpics, createEpicMiddleware, Epic } from 'redux-observable'
-import { from, interval, merge, of, race } from 'rxjs'
+import { from, merge, of, race, timer } from 'rxjs'
 import {
   catchError,
   delay,
@@ -39,12 +39,12 @@ export const warmupSubscriber: Epic<AnyAction, AnyAction, any, EpicDependencies>
     withLatestFrom(state$),
     filter(([{ key }, state]) => {
       // if subscription does not exist, then continue
-      // this check doesnt work because state is already set!
+      // TODO: this check doesnt work because state is already set!
       return !state.cacheWarmer.subscriptions[key].isDuplicate
     }),
     // on a subscribe action being dispatched, spin up a long lived interval if one doesnt exist yet
     mergeMap(([{ key }]) =>
-      interval(config.warmupInterval).pipe(
+      timer(0, config.warmupInterval).pipe(
         mapTo(warmupRequested({ key })),
         // unsubscribe our warmup algo when a matching unsubscribe comes in
         takeUntil(
