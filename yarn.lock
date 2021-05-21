@@ -1607,6 +1607,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/bob@workspace:packages/composites/bob":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/bob@workspace:packages/composites/bob"
+  dependencies:
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/json-rpc-adapter": ^0.0.4
+    "@chainlink/types": 0.0.1
+    "@types/jest": ^26.0.22
+    "@types/node": ^14.14.35
+    ethers: ^5.2.0
+    tslib: ^2.1.0
+    typescript: ^4.2.3
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/bravenewcoin-adapter@*, @chainlink/bravenewcoin-adapter@workspace:packages/sources/bravenewcoin":
   version: 0.0.0-use.local
   resolution: "@chainlink/bravenewcoin-adapter@workspace:packages/sources/bravenewcoin"

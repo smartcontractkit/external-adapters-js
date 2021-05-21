@@ -35,6 +35,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/composites/bitcoin-json-rpc"
       },
       {
+        "name": "@chainlink/bob",
+        "reference": "workspace:packages/composites/bob"
+      },
+      {
         "name": "@chainlink/crypto-volatility-index-adapter",
         "reference": "workspace:packages/composites/crypto-volatility-index"
       },
@@ -489,6 +493,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/blockchair-adapter", ["workspace:packages/sources/blockchair"]],
       ["@chainlink/blockcypher-adapter", ["workspace:packages/sources/blockcypher"]],
       ["@chainlink/blockstream-adapter", ["workspace:packages/sources/blockstream"]],
+      ["@chainlink/bob", ["workspace:packages/composites/bob"]],
       ["@chainlink/bravenewcoin-adapter", ["workspace:packages/sources/bravenewcoin"]],
       ["@chainlink/btc.com-adapter", ["workspace:packages/sources/btc.com"]],
       ["@chainlink/cfbenchmarks-adapter", ["workspace:packages/sources/cfbenchmarks"]],
@@ -3161,6 +3166,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.41"],
+            ["tslib", "npm:2.2.0"],
+            ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/bob", [
+        ["workspace:packages/composites/bob", {
+          "packageLocation": "./packages/composites/bob/",
+          "packageDependencies": [
+            ["@chainlink/bob", "workspace:packages/composites/bob"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/json-rpc-adapter", "workspace:packages/sources/json-rpc"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:26.0.22"],
+            ["@types/node", "npm:14.14.41"],
+            ["ethers", "npm:5.2.0"],
             ["tslib", "npm:2.2.0"],
             ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"]
           ],
