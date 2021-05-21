@@ -11,8 +11,17 @@ const resolveParams = {
 }
 
 const subDays = (date: Date, days: number): Date => {
-  date.setDate(date.getDate() - days)
-  return date
+  const newDate = new Date(date)
+  newDate.setDate(date.getDate() - days)
+  return newDate
+}
+
+const TWO_HOURS_ms = 1000 * 60 * 60 * 2
+
+// The `past` argument can be in the future without issue.
+const timeHasPassed = (present: Date, past: Date, milliseconds: number): boolean => {
+  const msPassed = Number(present) - Number(past)
+  return msPassed >= milliseconds
 }
 
 const eventStatus: { [key: string]: number } = {
@@ -38,9 +47,10 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
     }}
   const theRundownExec = TheRundown.makeExecute()
 
+  const today = new Date();
   const events = []
   for (let i = 0; i < 2; i++) {
-    params.data.date = subDays(params.data.date, i)
+    params.data.date = subDays(today, i)
 
     const response = await theRundownExec(params)
     events.push(...response.result as Event[])
@@ -52,7 +62,9 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
     'STATUS_POSTPONED'
   ]
 
-  const filtered = events.filter(({ score: { event_status }}) => statusCompleted.includes(event_status))
+  const filtered = events
+    .filter(({ score: { event_status }}) => statusCompleted.includes(event_status))
+    .filter(({ event_date }) => timeHasPassed(today, new Date(Date.parse(event_date)), TWO_HOURS_ms))
 
   const packed = filtered.map((event) => {
     const status = eventStatus[event.score.event_status]
