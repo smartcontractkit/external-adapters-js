@@ -1,3 +1,4 @@
+import { nanoid } from '@reduxjs/toolkit'
 import {
   AnyAction,
   applyMiddleware,
@@ -9,12 +10,13 @@ import {
   Reducer,
   Store,
 } from 'redux'
-import { nanoid } from '@reduxjs/toolkit'
 import { composeWithDevTools } from 'remote-redux-devtools'
 
-export const asAction = <T>() => (p: T) => ({
-  payload: toActionPayload<T>(p),
-})
+export const asAction =
+  <T>() =>
+  (p: T) => ({
+    payload: toActionPayload<T>(p),
+  })
 
 export const toActionPayload = <T>(data: T): ActionBase & T => ({
   id: nanoid(),
@@ -37,7 +39,11 @@ export function configureStore(
   const enhancers = [middlewareEnhancer]
   const composedEnhancers: any =
     process.env.NODE_ENV === 'development'
-      ? composeWithDevTools({ realtime: true, port: 8000 })(...enhancers)
+      ? composeWithDevTools({
+          realtime: true,
+          port: 8000,
+          actionsBlacklist: ['WS/MESSAGE_RECEIVED'],
+        })(...enhancers)
       : compose(...enhancers)
 
   // Create a store with the root reducer function being the one exposed by the manager.
