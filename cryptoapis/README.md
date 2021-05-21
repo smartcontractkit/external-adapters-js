@@ -1,20 +1,34 @@
-# Chainlink External Adapter for CryptoAPIs
+# Chainlink CryptoAPIs External Adapter
 
-## Configuration
+### Environment Variables
 
-The adapter takes the following environment variables:
+| Required? |    Name     |                                 Description                                 | Options | Defaults to |
+| :-------: | :---------: | :-------------------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     |   API_KEY   | An API key that can be obtained from [here](https://coinmarketcap.com/api/) |         |             |
+|           | API_TIMEOUT |                              Timeout parameter                              |         |   `30000`   |
 
-- `API_KEY`: Optional Blochair API key to use
-- `API_TIMEOUT`: Optional timeout param, defaults to `30000`
+---
 
-## Input Params
+### Input Parameters
 
-- `endpoint`: The requested data point. One of (`price`|`difficulty`|`height`|`balance`). Defaults: `price`.
+| Required? |   Name   |     Description     |                  Options                   | Defaults to |
+| :-------: | :------: | :-----------------: | :----------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [price], [difficulty], [height], [balance] |   `price`   |
 
-### Price
+---
 
-- `base`, `from`, or `coin`: The symbol or ID of the coin to query (required).
-- `quote`, `to`, or `market`: The symbol or ID of the market to convert to (required).
+## Price Endpoint
+
+https://docs.cryptoapis.io/rest-apis/crypto-market-data-apis/index#exchange-rates
+
+### Input Params
+
+| Required? |                Name                |                      Description                       | Options | Defaults to |
+| :-------: | :--------------------------------: | :----------------------------------------------------: | :-----: | :---------: |
+|    ✅     |   `base`, `from`, `coin`, `sym`    |          The symbol of the currency to query           |         |             |
+|    ✅     | `quote`, `to`, `market`, `convert` |        The symbol of the currency to convert to        |         |             |
+|    🟡     |               `cid`                |  The CMC coin ID (optional to use in place of `base`)  |         |             |
+|    🟡     |               `slug`               | The CMC coin name (optional to use in place of `base`) |         |             |
 
 ### Output
 
@@ -37,10 +51,16 @@ The adapter takes the following environment variables:
 }
 ```
 
-### Difficulty
+## Difficulty & Height Endpoint
 
-- `blockchain` or `coin`: The blockchain name (required).
-- `network`: The blockchain network name. Default: `mainnet`
+https://docs.cryptoapis.io/rest-apis/blockchain-as-a-service-apis/common/index#common
+
+### Input Params
+
+| Required? |              Name              |             Description             |                      Options                       | Defaults to |
+| :-------: | :----------------------------: | :---------------------------------: | :------------------------------------------------: | :---------: |
+|    ✅     | `blockchain`, `coin`, `market` | The blockchain to retrieve info for | `BTC`, `ETH`, `LTC`, `ETC`, `BCH`, `DOGE`, `DASH`. |             |
+|           |           `network`            |     The blockchain network name     |                `mainnet`, `testnet`                |  `mainnet`  |
 
 ### Output
 
@@ -63,36 +83,6 @@ The adapter takes the following environment variables:
     "result": 20607418304385.63
   },
   "result": 20607418304385.63,
-  "statusCode": 200
-}
-```
-
-### Height
-
-- `blockchain` or `coin`: The blockchain name (required).
-- `network`: The blockchain network name. Default: `mainnet`
-
-### Output
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "payload": {
-      "difficulty": 20607418304385.63,
-      "headers": 666185,
-      "chain": "main",
-      "chainWork": "000000000000000000000000000000000000000018255ab714d1a15ffccd987e",
-      "mediantime": 1610721116,
-      "blocks": 666185,
-      "bestBlockHash": "0000000000000000000cc82b0a9a6e290cd13721a1abf88fdebb37fdc927308e",
-      "currency": "BTC",
-      "transactions": 606560353,
-      "verificationProgress": 0.9999935897991173
-    },
-    "result": 666185
-  },
-  "result": 666185,
   "statusCode": 200
 }
 ```

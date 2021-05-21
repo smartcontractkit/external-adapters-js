@@ -1,17 +1,32 @@
 # Chainlink External Adapter for Messari
 
-## Assets API
+### Input Parameters
 
-### Endpoint
+| Required? |   Name   |     Description     |          Options           | Defaults to |
+| :-------: | :------: | :-----------------: | :------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [assets](#Assets-Endpoint) |   assets    |
 
-https://data.messari.io/api/v1/assets/ethereum/metrics
+---
+
+## Assets Endpoint
 
 ### Input Params
 
-- `market`, `to`, or `quote`: The symbol of the currency to query
-- `endpoint`: Optional endpoint param (defaults to "dominance", one of "dominance")
+| Required? |          Name           |                                                             Description                                                             | Options |               Defaults to               |
+| :-------: | :---------------------: | :---------------------------------------------------------------------------------------------------------------------------------: | :-----: | :-------------------------------------: |
+|    ✅     | `market`, `to`, `quote` |                                                 The symbol of the currency to query                                                 |         |                                         |
+|           |         `field`         | The object path to access the value that will be returned as the result. Deeply nested values can be accessed with a `.` delimiter. |         | `marketcap.marketcap_dominance_percent` |
 
-### Output
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": { "coin": "BTC", "market": "ARS" }
+}
+```
+
+### Sample Output
 
 ```json
 {

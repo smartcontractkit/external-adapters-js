@@ -2,6 +2,14 @@
 
 A template to be used as an example for new [External Adapters](https://github.com/smartcontractkit/external-adapters-js)
 
+### Environment Variables
+
+| Required? |  Name   |                            Description                             | Options | Defaults to |
+| :-------: | :-----: | :----------------------------------------------------------------: | :-----: | :---------: |
+|    🟡     | API_KEY | An API key that can be obtained from the data provider's dashboard |         |             |
+
+---
+
 ### Input Parameters
 
 | Required? |   Name   |     Description     |           Options            | Defaults to |

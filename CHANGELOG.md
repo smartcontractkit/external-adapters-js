@@ -13,12 +13,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `therundown` to get sports score data from TheRundown
   - `tradingeconomics-stream` to get stream data from TradingEconomics
   - `dnsproof` to check if an Ethereum address owns a domain
+  - `watchsignals` to get watch price data from WatchSignals
 
 ### Changed
 
 - Updated support for `DIGG/BTC` in Kaiko and Amberdata
 - Updated base URL for GeoDB
 - CMC now uses preset IDs instead of preset slugs
+- Added support for `tradermade` in `outlier-detection` composite adapter
 
 ## [0.2.0-rc.1] - 2021-2-4
 

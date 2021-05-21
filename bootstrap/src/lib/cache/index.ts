@@ -63,7 +63,7 @@ const defaultCacheBuilder = () => {
   }
 }
 // Options without sensitive data
-export const redactOptions = (options: CacheOptions) => ({
+export const redactOptions = (options: CacheOptions): CacheOptions => ({
   ...options,
   cacheOptions:
     options.cacheOptions.type === 'redis'
@@ -169,9 +169,11 @@ export const withCache: Middleware<CacheOptions> = async (execute, options = def
 
   // Middleware wrapped execute fn which cleans up after
   return async (input) => {
-    const result = await _executeWithCache(input)
-    // Clean the connection
-    await cache.close()
-    return result
+    try {
+      return await _executeWithCache(input)
+    } finally {
+      // Close the cache connection in any case
+      await cache.close()
+    }
   }
 }

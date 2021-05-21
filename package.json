@@ -94,7 +94,12 @@
     "geodb",
     "therundown",
     "tradingeconomics-stream",
+    "watchsignals",
     "dnsproof",
+    "genesisvolatility",
+    "ciphertrace",
+    "bookmakerratings",
+    "prospectnow",
     "smartzip"
   ],
   "scripts": {

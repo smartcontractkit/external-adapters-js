@@ -88,7 +88,11 @@
       "geodb",
       "therundown",
       "tradingeconomics-stream",
+      "watchsignals",
       "dnsproof",
+      "genesisvolatility",
+      "ciphertrace",
+      "bookmakerratings",
       "smartzip"
     ]
   },
