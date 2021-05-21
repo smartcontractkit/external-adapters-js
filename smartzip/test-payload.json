@@ -1,0 +1,6 @@
+{
+  "request": {
+    "endpoint": "property-details",
+    "property_id": "100000000000"
+  }
+}
