@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig } from '@chainlink/types'
 import { Config } from '../config'
 import * as TheRundown from '@chainlink/therundown-adapter'
@@ -77,6 +77,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
       nonce++ // update after tx succeeds so that gas estimation failures do not increment nonce
     } catch (e) {
       // Failed during gas estimation so market probably does not exist.
+      Logger.error(e)
     }
   }
 
