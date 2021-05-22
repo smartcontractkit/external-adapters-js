@@ -41,7 +41,8 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
 
   const today = new Date();
   const events = []
-  for (let i = 0; i < 2; i++) {
+  // today, yesterday, two days ago
+  for (let i = 0; i < 3; i++) {
     params.data.date = subDays(today, i)
 
     const response = await theRundownExec(params)
