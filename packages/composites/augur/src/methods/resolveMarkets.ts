@@ -54,8 +54,12 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
     'STATUS_POSTPONED'
   ]
 
+  Logger.debug(`Augur: received ${events.length} events`)
+
   const filtered = events
     .filter(({ score: { event_status } }) => statusCompleted.includes(event_status))
+
+  Logger.debug(`Augur: skipped ${events.length-filtered.length} events due to not completed status`)
 
   const packed = filtered.map((event) => {
     const status = eventStatus[event.score.event_status]
@@ -64,22 +68,39 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
     return packResolution(event.event_id, status, event.score.score_home, event.score.score_away)
   }).filter((event) => !!event)
 
+  Logger.debug(`Augur: skipped ${filtered.length-packed.length} events due to unknown status`)
+
+  Logger.debug(`Augur: resolving ${packed.length} markets`)
+
+  let failed = 0
+  let alreadyResolved = 0
+  let succeeded = 0
+
   let nonce = (await config.wallet.getTransactionCount()) + 1
   for (let i = 0; i < packed.length; i++) {
     const eventId = eventIdToNum(filtered[i].event_id)
 
     // this should never fail due to contract state
     const isResolved = await contract.isEventResolved(eventId)
-    if (isResolved) continue
+    if (isResolved) {
+      alreadyResolved++
+      continue
+    }
 
     try {
       await contract.trustedResolveMarkets(packed[i], { nonce })
       nonce++ // update after tx succeeds so that gas estimation failures do not increment nonce
+      succeeded++
     } catch (e) {
       // Failed during gas estimation so market probably does not exist.
+      failed++
       Logger.error(e)
     }
   }
+
+  Logger.debug(`Augur: ${succeeded} resolved markets`)
+  Logger.debug(`Augur: ${alreadyResolved} markets were already resolved`)
+  Logger.debug(`Augur: ${failed} markets failed to resolve`)
 
   return Requester.success(input.id, {})
 }
