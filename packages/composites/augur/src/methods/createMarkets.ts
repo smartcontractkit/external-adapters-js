@@ -15,8 +15,9 @@ const createParams = {
 }
 
 const addDays = (date: Date, days: number): Date => {
-  date.setDate(date.getDate() + days)
-  return date
+  const newDate = new Date(date)
+  newDate.setDate(date.getDate() + days)
+  return newDate
 }
 
 const TBD_TEAM_ID = 2756;
