@@ -2,7 +2,7 @@ import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig } from '@chainlink/types'
 import { Config } from '../config'
 import * as TheRundown from '@chainlink/therundown-adapter'
-import { ABI, Event, eventIdToNum, bytesMappingToHexStr } from './index'
+import { ABI, Event, eventIdToNum, bytesMappingToHexStr, numToEventId } from './index'
 import { ethers } from 'ethers'
 
 const resolveParams = {
@@ -23,85 +23,65 @@ const eventStatus: { [key: string]: number } = {
   'STATUS_CANCELED': 4
 }
 
+const statusCompleted = [
+  'STATUS_CANCELED',
+  'STATUS_FINAL',
+  'STATUS_POSTPONED'
+]
+
 export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const validator = new Validator(input, resolveParams)
   if (validator.error) throw validator.error
 
-  const sportId = validator.validated.data.sportId
   const contractAddress = validator.validated.data.contractAddress
 
   const contract = new ethers.Contract(contractAddress, ABI, config.wallet)
 
-  const params = { id: input.id, data: {
-      sportId,
-      date: new Date(),
-      endpoint: 'events'
-    }}
   const theRundownExec = TheRundown.makeExecute()
 
-  const today = new Date();
-  const events = []
-  // today, yesterday, two days ago
-  for (let i = 0; i < 3; i++) {
-    params.data.date = subDays(today, i)
-
-    const response = await theRundownExec(params)
-    events.push(...response.result as Event[])
+  const eventIDs: ethers.BigNumber[] = await contract.listResolvableEvents();
+  const events: Event[] = [];
+  for (const event of eventIDs) {
+    const response = await theRundownExec({
+      id: input.id,
+      data: {
+        endpoint: 'events',
+        eventID: numToEventId(event)
+      }
+    });
+    events.push(response.result as Event);
   }
 
-  const statusCompleted = [
-    'STATUS_CANCELED',
-    'STATUS_FINAL',
-    'STATUS_POSTPONED'
-  ]
-
-  Logger.debug(`Augur: received ${events.length} events`)
-
-  const filtered = events
+  // Filters out events that aren't yet ready to resolve.
+  const eventReadyToResolve = events
     .filter(({ score: { event_status } }) => statusCompleted.includes(event_status))
 
-  Logger.debug(`Augur: skipped ${events.length-filtered.length} events due to not completed status`)
-
-  const packed = filtered.map((event) => {
+  // Build the bytes32 arguments to resolve the events.
+  const packed = eventReadyToResolve.map((event) => {
     const status = eventStatus[event.score.event_status]
-    if (!status) return undefined
-
     return packResolution(event.event_id, status, event.score.score_home, event.score.score_away)
-  }).filter((event) => !!event)
+  })
 
-  Logger.debug(`Augur: skipped ${filtered.length-packed.length} events due to unknown status`)
-
-  Logger.debug(`Augur: resolving ${packed.length} markets`)
-
-  let failed = 0
-  let alreadyResolved = 0
   let succeeded = 0
-
+  let failed = 0
   let nonce = await config.wallet.getTransactionCount()
-  for (let i = 0; i < packed.length; i++) {
-    const eventId = eventIdToNum(filtered[i].event_id)
-
-    // this should never fail due to contract state
-    const isResolved = await contract.isEventResolved(eventId)
-    if (isResolved) {
-      alreadyResolved++
-      continue
-    }
+  for (let i = 0; i < eventReadyToResolve.length; i++) {
+    const eventId = eventIdToNum(eventReadyToResolve[i].event_id)
 
     try {
-      const tx = await contract.trustedResolveMarkets(packed[i], { nonce })
-      Logger.debug(`Created tx: ${tx.hash}`)
+      // This call both resolves markets and finalizes their resolution.
+      await contract.trustedResolveMarkets(packed[i], { nonce })
       nonce++ // update after tx succeeds so that gas estimation failures do not increment nonce
       succeeded++
     } catch (e) {
-      // Failed during gas estimation so market probably does not exist.
+      // Failures are (now) unexpected. Still, log the event id to make debugging easier.
       failed++
-      Logger.error(e)
+      Logger.error(`Failed to resolve markets for "${eventId}"`)
+      throw e;
     }
   }
 
   Logger.debug(`Augur: ${succeeded} resolved markets`)
-  Logger.debug(`Augur: ${alreadyResolved} markets were already resolved`)
   Logger.debug(`Augur: ${failed} markets failed to resolve`)
 
   return Requester.success(input.id, {})

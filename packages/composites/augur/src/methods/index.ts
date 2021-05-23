@@ -56,17 +56,6 @@ export const ABI = [
   },
   {
     inputs: [
-      { internalType: "uint256", name: "_eventId", type: "uint256" }
-    ],
-    name: "isEventResolved",
-    outputs: [
-      { internalType: "bool", name: "", type: "bool" }
-    ],
-    stateMutability: "view",
-    type: "function"
-  },
-  {
-    inputs: [
       {
         internalType: "uint256", name: "_eventId", type: "uint256" },
     ],
@@ -85,10 +74,24 @@ export const ABI = [
     outputs: [],
     stateMutability: "nonpayable",
     type: "function"
-  }
+  },
+  {
+    inputs: [],
+    name: "listResolvableEvents",
+    outputs: [
+      {
+        internalType: "uint256[]",
+        name: "",
+        type: "uint256[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
 ]
 
 export const eventIdToNum = (eventId: string): BigNumber => BigNumber.from(`0x${eventId}`)
+export const numToEventId = (num: BigNumber): string => num.toHexString().slice(2);
 
 export const bytesMappingToHexStr = (mapping: number[], encoded: string): string => {
   const buf = Buffer.from(encoded.substr(2), 'hex')
