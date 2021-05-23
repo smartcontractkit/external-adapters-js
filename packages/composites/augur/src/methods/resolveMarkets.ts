@@ -76,7 +76,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   let alreadyResolved = 0
   let succeeded = 0
 
-  let nonce = (await config.wallet.getTransactionCount()) + 1
+  let nonce = await config.wallet.getTransactionCount()
   for (let i = 0; i < packed.length; i++) {
     const eventId = eventIdToNum(filtered[i].event_id)
 
