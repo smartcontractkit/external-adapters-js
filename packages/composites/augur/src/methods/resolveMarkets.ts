@@ -88,7 +88,8 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
     }
 
     try {
-      await contract.trustedResolveMarkets(packed[i], { nonce })
+      const tx = await contract.trustedResolveMarkets(packed[i], { nonce })
+      Logger.debug(`Created tx: ${tx.hash}`)
       nonce++ // update after tx succeeds so that gas estimation failures do not increment nonce
       succeeded++
     } catch (e) {
