@@ -104,11 +104,24 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   Logger.debug(`Augur: Skipping ${cantCreate} due to no market to create`)
   Logger.debug(`Augur: Prepared to create ${packed.length} events`)
 
+  let failed = 0
+  let succeeded = 0
+
   let nonce = await config.wallet.getTransactionCount()
   for (let i = 0; i < packed.length; i++) {
-    const tx = await contract.createMarket(packed[i], { nonce: nonce++ })
-    Logger.debug(`Created tx: ${tx.hash}`)
+    try {
+      const tx = await contract.createMarket(packed[i], { nonce })
+      Logger.debug(`Created tx: ${tx.hash}`)
+      nonce++
+      succeeded++
+    } catch (e) {
+      failed++
+      Logger.error(e)
+    }
   }
+
+  Logger.debug(`Augur: ${succeeded} created markets`)
+  Logger.debug(`Augur: ${failed} markets failed to create`)
 
   return Requester.success(input.id, {})
 }
