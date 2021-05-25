@@ -51,7 +51,9 @@ export const getPriceProvider = (
       const val = {
         quote: {
           [quote]: {
-            [withMarketCap ? 'marketCap' : 'price']: response.data.results[quote.toUpperCase()],
+            [withMarketCap ? 'marketCap' : 'price']: response.data.data.results[
+              symbol.toUpperCase()
+            ],
           },
         },
       }
@@ -59,6 +61,7 @@ export const getPriceProvider = (
     })
     return Object.fromEntries(payloadEntries)
   }
+
   const results = await Promise.all(
     symbols.map(async (base) => {
       const data = {
