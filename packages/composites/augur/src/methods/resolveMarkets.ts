@@ -10,12 +10,6 @@ const resolveParams = {
   contractAddress: true
 }
 
-const subDays = (date: Date, days: number): Date => {
-  const newDate = new Date(date)
-  newDate.setDate(date.getDate() - days)
-  return newDate
-}
-
 const eventStatus: { [key: string]: number } = {
   'STATUS_SCHEDULED': 1,
   'STATUS_FINAL': 2,
