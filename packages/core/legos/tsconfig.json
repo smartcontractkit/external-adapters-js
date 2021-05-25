@@ -32,6 +32,9 @@
       "path": "../../sources/anyblock-uniswap-vwap"
     },
     {
+      "path": "../../sources/binance"
+    },
+    {
       "path": "../../sources/binance-dex"
     },
     {

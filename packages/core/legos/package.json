@@ -37,6 +37,7 @@
     "@chainlink/amberdata-gasprice-adapter": "*",
     "@chainlink/anyblock-gasprice-adapter": "*",
     "@chainlink/anyblock-uniswap-vwap-adapter": "*",
+    "@chainlink/binance-adapter": "*",
     "@chainlink/binance-dex-adapter": "*",
     "@chainlink/bitex-adapter": "*",
     "@chainlink/bitso-adapter": "*",

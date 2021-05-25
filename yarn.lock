@@ -1470,6 +1470,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/binance-adapter@*, @chainlink/binance-adapter@workspace:packages/sources/binance":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/binance-adapter@workspace:packages/sources/binance"
+  dependencies:
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.0.1
+    "@types/jest": ^26.0.22
+    "@types/node": ^14.14.35
+    tslib: ^2.1.0
+    typescript: ^4.2.3
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/binance-dex-adapter@*, @chainlink/binance-dex-adapter@workspace:packages/sources/binance-dex":
   version: 0.0.0-use.local
   resolution: "@chainlink/binance-dex-adapter@workspace:packages/sources/binance-dex"
@@ -2145,6 +2159,7 @@ __metadata:
     "@chainlink/amberdata-gasprice-adapter": "*"
     "@chainlink/anyblock-gasprice-adapter": "*"
     "@chainlink/anyblock-uniswap-vwap-adapter": "*"
+    "@chainlink/binance-adapter": "*"
     "@chainlink/binance-dex-adapter": "*"
     "@chainlink/bitex-adapter": "*"
     "@chainlink/bitso-adapter": "*"

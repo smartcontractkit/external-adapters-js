@@ -135,6 +135,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/anyblock-uniswap-vwap"
       },
       {
+        "name": "@chainlink/binance-adapter",
+        "reference": "workspace:packages/sources/binance"
+      },
+      {
         "name": "@chainlink/binance-dex-adapter",
         "reference": "workspace:packages/sources/binance-dex"
       },
@@ -468,6 +472,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/anyblock-uniswap-vwap-adapter", ["workspace:packages/sources/anyblock-uniswap-vwap"]],
       ["@chainlink/apy-finance-adapter", ["workspace:packages/composites/apy-finance"]],
       ["@chainlink/augur-adapter", ["workspace:packages/composites/augur"]],
+      ["@chainlink/binance-adapter", ["workspace:packages/sources/binance"]],
       ["@chainlink/binance-dex-adapter", ["workspace:packages/sources/binance-dex"]],
       ["@chainlink/bitcoin-json-rpc-adapter", ["workspace:packages/composites/bitcoin-json-rpc"]],
       ["@chainlink/bitex-adapter", ["workspace:packages/sources/bitex"]],
@@ -2997,6 +3002,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT",
         }]
       ]],
+      ["@chainlink/binance-adapter", [
+        ["workspace:packages/sources/binance", {
+          "packageLocation": "./packages/sources/binance/",
+          "packageDependencies": [
+            ["@chainlink/binance-adapter", "workspace:packages/sources/binance"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:26.0.22"],
+            ["@types/node", "npm:14.14.41"],
+            ["tslib", "npm:2.2.0"],
+            ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
       ["@chainlink/binance-dex-adapter", [
         ["workspace:packages/sources/binance-dex", {
           "packageLocation": "./packages/sources/binance-dex/",
@@ -3620,6 +3641,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/amberdata-gasprice-adapter", "workspace:packages/sources/amberdata-gasprice"],
             ["@chainlink/anyblock-gasprice-adapter", "workspace:packages/sources/anyblock-gasprice"],
             ["@chainlink/anyblock-uniswap-vwap-adapter", "workspace:packages/sources/anyblock-uniswap-vwap"],
+            ["@chainlink/binance-adapter", "workspace:packages/sources/binance"],
             ["@chainlink/binance-dex-adapter", "workspace:packages/sources/binance-dex"],
             ["@chainlink/bitex-adapter", "workspace:packages/sources/bitex"],
             ["@chainlink/bitso-adapter", "workspace:packages/sources/bitso"],
