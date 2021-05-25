@@ -126,7 +126,12 @@ const handleBatchedRequest = (
 ) => {
   const payload: Record<string, number> = {}
   for (const fsym in response.data.RAW) {
-    payload[fsym] = Requester.validateResultNumber(response.data, ['RAW', fsym, quote, path])
+    payload[fsym.toUpperCase()] = Requester.validateResultNumber(response.data, [
+      'RAW',
+      fsym,
+      quote,
+      path,
+    ])
   }
   return Requester.success(jobRunID, Requester.withResult(response, undefined, payload), true)
 }

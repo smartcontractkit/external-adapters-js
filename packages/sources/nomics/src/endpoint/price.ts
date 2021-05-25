@@ -104,7 +104,10 @@ const handleBatchedRequest = (
   const payload: Record<string, number> = {}
   for (const i in response.data) {
     const entry = response.data[i]
-    payload[entry.symbol] = Requester.validateResultNumber(response.data[i], resultPaths[path])
+    payload[entry.symbol.toUpperCase()] = Requester.validateResultNumber(
+      response.data[i],
+      resultPaths[path],
+    )
   }
 
   return Requester.success(jobRunID, Requester.withResult(response, undefined, payload), true)

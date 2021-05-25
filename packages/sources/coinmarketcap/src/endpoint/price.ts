@@ -60,7 +60,7 @@ const handleBatchedRequest = (
 ) => {
   const payload: Record<string, number> = {}
   for (const key in response.data.data) {
-    payload[key] = Requester.validateResultNumber(response.data, [
+    payload[key.toUpperCase()] = Requester.validateResultNumber(response.data, [
       'data',
       key,
       'quote',
