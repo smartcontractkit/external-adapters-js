@@ -36,7 +36,7 @@ const handleBatchedRequest = (
 ) => {
   const payload: Record<string, number> = {}
   for (const asset of response.data) {
-    payload[asset.asset_id] = Requester.validateResultNumber(asset, [path])
+    payload[asset.asset_id.toUpperCase()] = Requester.validateResultNumber(asset, [path])
   }
   return Requester.success(jobRunID, Requester.withResult(response, undefined, payload), true)
 }

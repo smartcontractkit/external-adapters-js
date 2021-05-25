@@ -34,7 +34,7 @@ const handleBatchedRequest = (
   for (const key in response.data) {
     const symbol = idToSymbol?.[key]
     if (symbol)
-      payload[symbol] = Requester.validateResultNumber(response.data, [
+      payload[symbol.toUpperCase()] = Requester.validateResultNumber(response.data, [
         key,
         param[path] || quote.toLowerCase(),
       ])
