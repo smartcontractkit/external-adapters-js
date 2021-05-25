@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - New adapters:
   - `expert-car-broker` to get car prices
+  - `binance` to get binance market data
 
 ### Changed
 - Conflux adapter sending transaction optimization

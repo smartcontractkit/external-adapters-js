@@ -5,6 +5,7 @@ import * as amberdata from '@chainlink/amberdata-adapter'
 import * as amberdata_gasprice from '@chainlink/amberdata-gasprice-adapter'
 import * as anyblock_gasprice from '@chainlink/anyblock-gasprice-adapter'
 import * as anyblock_uniswap_vwap from '@chainlink/anyblock-uniswap-vwap-adapter'
+import * as binance from '@chainlink/binance-adapter'
 import * as binance_dex from '@chainlink/binance-dex-adapter'
 import * as bitex from '@chainlink/bitex-adapter'
 import * as bitso from '@chainlink/bitso-adapter'
@@ -89,6 +90,7 @@ export default {
   amberdata_gasprice,
   anyblock_gasprice,
   anyblock_uniswap_vwap,
+  binance,
   binance_dex,
   bitex,
   bitso,
