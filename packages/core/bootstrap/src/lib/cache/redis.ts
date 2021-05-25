@@ -1,5 +1,5 @@
 import { timeout, TimeoutError } from 'promise-timeout'
-import { ClientOpts, createClient, RedisClient } from 'redis'
+import Redis, { RedisOptions as BaseRedisOptions, Redis as TRedis, Cluster } from 'ioredis'
 import { promisify } from 'util'
 import { logger } from '../external-adapter'
 import { redis_connections_open } from './metrics'
@@ -8,56 +8,59 @@ import { redis_connections_open } from './metrics'
 const DEFAULT_CACHE_REDIS_HOST = '127.0.0.1' // IP address of the Redis server
 const DEFAULT_CACHE_REDIS_PORT = 6379 // Port of the Redis server
 const DEFAULT_CACHE_REDIS_PATH = undefined // The UNIX socket string of the Redis server
-const DEFAULT_CACHE_REDIS_URL = undefined // The URL of the Redis server
 const DEFAULT_CACHE_REDIS_PASSWORD = undefined // The password required for redis auth
 const DEFAULT_CACHE_REDIS_TIMEOUT = 500 // Timeout in ms
+const DEFAULT_CACHE_REDIS_NODES = undefined // List of nodes of the cluster to connect to
 // Options
 const DEFAULT_CACHE_MAX_AGE = 1000 * 30 // Maximum age in ms
 
 const env = process.env
 
-export type RedisOptions = ClientOpts & { maxAge: number; timeout: number }
+export interface RedisOptions extends BaseRedisOptions {
+  maxAge: number
+  timeout: number
+  nodes: RedisOptions[] | undefined
+}
 
-export const defaultOptions = (): RedisOptions => ({
-  host: env.CACHE_REDIS_HOST || DEFAULT_CACHE_REDIS_HOST,
-  port: Number(env.CACHE_REDIS_PORT) || DEFAULT_CACHE_REDIS_PORT,
-  path: env.CACHE_REDIS_PATH || DEFAULT_CACHE_REDIS_PATH,
-  url: env.CACHE_REDIS_URL || DEFAULT_CACHE_REDIS_URL,
-  password: env.CACHE_REDIS_PASSWORD || DEFAULT_CACHE_REDIS_PASSWORD,
-  maxAge: Number(env.CACHE_MAX_AGE) || DEFAULT_CACHE_MAX_AGE,
-  timeout: Number(env.CACHE_REDIS_TIMEOUT) || DEFAULT_CACHE_REDIS_TIMEOUT,
-})
+export const defaultOptions = (): RedisOptions => {
+  let nodes = DEFAULT_CACHE_REDIS_NODES
+  try {
+    if (env.CACHE_REDIS_NODES) nodes = JSON.parse(env.CACHE_REDIS_NODES)
+  } catch {
+    //
+  }
+
+  return {
+    host: env.CACHE_REDIS_HOST || DEFAULT_CACHE_REDIS_HOST,
+    port: Number(env.CACHE_REDIS_PORT) || DEFAULT_CACHE_REDIS_PORT,
+    path: env.CACHE_REDIS_PATH || DEFAULT_CACHE_REDIS_PATH,
+    password: env.CACHE_REDIS_PASSWORD || DEFAULT_CACHE_REDIS_PASSWORD,
+    maxAge: Number(env.CACHE_MAX_AGE) || DEFAULT_CACHE_MAX_AGE,
+    timeout: Number(env.CACHE_REDIS_TIMEOUT) || DEFAULT_CACHE_REDIS_TIMEOUT,
+    nodes,
+  }
+}
 
 // Options without sensitive data
 export const redactOptions = (opts: RedisOptions) => {
   if (opts.password) opts.password = opts.password.replace(/.+/g, '*****')
-  if (opts.url) opts.url = opts.url.replace(/:\/\/.+@/g, '://*****@')
+  if (opts.path) opts.path = opts.path.replace(/:\/\/.+@/g, '://*****@')
   return opts
 }
 
-const retryStrategy = (options: any) => {
-  logger.warn('Redis retry strategy activated.', options)
-  if (options.error && options.error.code === 'ECONNREFUSED') {
-    // End reconnecting on a specific error and flush all commands with
-    // a individual error
-    return new Error('The server refused the connection')
-  }
-  if (options.total_retry_time > 1000 * 60 * 60) {
-    // End reconnecting after a specific timeout and flush all commands
-    // with a individual error
-    return new Error('Retry time exhausted')
-  }
-  if (options.attempt > 10) {
+const retryStrategy = (times: number) => {
+  logger.warn('Redis retry strategy activated.')
+  if (times > 10) {
     // End reconnecting with built in error
     return undefined
   }
   // reconnect after
-  return Math.min(options.attempt * 100, 3000)
+  return Math.min(times * 100, 3000)
 }
 
 export class RedisCache {
   options: RedisOptions
-  client: RedisClient
+  client: TRedis | Cluster
   _auth: any
   _get: any
   _set: any
@@ -67,7 +70,10 @@ export class RedisCache {
 
   constructor(options: RedisOptions) {
     this.options = options
-    const client = createClient({ ...options, retry_strategy: retryStrategy })
+    const client = options.nodes
+      ? new Redis.Cluster(options.nodes, { redisOptions: options })
+      : new Redis({ ...options, retryStrategy })
+
     client.on('error', (err) => logger.error('Error connecting to Redis. ', err))
     client.on('end', () => logger.error('Redis connection ended.'))
 

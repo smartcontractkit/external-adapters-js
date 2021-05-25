@@ -3735,6 +3735,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@reduxjs/toolkit", "npm:1.5.1"],
             ["@types/express", "npm:4.17.11"],
             ["@types/fast-redact", "npm:2.0.0"],
+            ["@types/ioredis", "npm:4.26.4"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/lodash", "npm:4.14.168"],
             ["@types/lru-cache", "npm:5.1.0"],
@@ -3754,6 +3755,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["decimal.js", "npm:10.2.1"],
             ["express", "npm:4.17.1"],
             ["fast-redact", "npm:3.0.1"],
+            ["ioredis", "npm:4.27.3"],
             ["lodash", "npm:4.17.21"],
             ["lru-cache", "npm:6.0.0"],
             ["object-hash", "npm:2.1.1"],
@@ -8110,6 +8112,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["@types/ioredis", [
+        ["npm:4.26.4", {
+          "packageLocation": "./.yarn/cache/@types-ioredis-npm-4.26.4-eeb37feb17-0138b8c3c2.zip/node_modules/@types/ioredis/",
+          "packageDependencies": [
+            ["@types/ioredis", "npm:4.26.4"],
+            ["@types/node", "npm:14.14.41"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["@types/istanbul-lib-coverage", [
         ["npm:2.0.3", {
           "packageLocation": "./.yarn/cache/@types-istanbul-lib-coverage-npm-2.0.3-67a37eb00a-d6f6dbf66d.zip/node_modules/@types/istanbul-lib-coverage/",
@@ -11041,6 +11053,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["clone-response", "npm:1.0.2"],
             ["mimic-response", "npm:1.0.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["cluster-key-slot", [
+        ["npm:1.1.0", {
+          "packageLocation": "./.yarn/cache/cluster-key-slot-npm-1.1.0-c895b3234e-3b41b06942.zip/node_modules/cluster-key-slot/",
+          "packageDependencies": [
+            ["cluster-key-slot", "npm:1.1.0"]
           ],
           "linkType": "HARD",
         }]
@@ -15554,6 +15575,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["io-ts", "npm:1.10.4"],
             ["fp-ts", "npm:1.19.5"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["ioredis", [
+        ["npm:4.27.3", {
+          "packageLocation": "./.yarn/cache/ioredis-npm-4.27.3-899bb9a141-f7080a5912.zip/node_modules/ioredis/",
+          "packageDependencies": [
+            ["ioredis", "npm:4.27.3"],
+            ["cluster-key-slot", "npm:1.1.0"],
+            ["debug", "virtual:d444bb897083f4b3c77c519e62903ce98f423c9242db2b2df43709c1c422a3ddb295add4dd8f06922dd1aa4ec24bac04e5f8026475fe7935afebb3cf46abbc1c#npm:4.3.2"],
+            ["denque", "npm:1.5.0"],
+            ["lodash.defaults", "npm:4.2.0"],
+            ["lodash.flatten", "npm:4.4.0"],
+            ["p-map", "npm:2.1.0"],
+            ["redis-commands", "npm:1.7.0"],
+            ["redis-errors", "npm:1.2.0"],
+            ["redis-parser", "npm:3.0.0"],
+            ["standard-as-callback", "npm:2.1.0"]
           ],
           "linkType": "HARD",
         }]
@@ -22290,6 +22330,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["stacktrace-parser", "npm:0.1.10"],
             ["type-fest", "npm:0.7.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["standard-as-callback", [
+        ["npm:2.1.0", {
+          "packageLocation": "./.yarn/cache/standard-as-callback-npm-2.1.0-8e47620bd4-4d02327de6.zip/node_modules/standard-as-callback/",
+          "packageDependencies": [
+            ["standard-as-callback", "npm:2.1.0"]
           ],
           "linkType": "HARD",
         }]

@@ -80,14 +80,14 @@ For example, if the `CACHE_KEY_IGNORED_PROPS=timestamp` is set, these requests w
 
 ### Redis
 
-| Required? |          Name          |                                                                   Description                                                                   | Options | Defaults to |
-| :-------: | :--------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
-|           |   `CACHE_REDIS_HOST`   |                                                         IP address of the Redis server.                                                         |         | `127.0.0.1` |
-|           |   `CACHE_REDIS_PORT`   |                                                            Port of the Redis server.                                                            |         |   `6379`    |
-|           |   `CACHE_REDIS_PATH`   |                                                   The UNIX socket string of the Redis server.                                                   |         |  undefined  |
-|           |   `CACHE_REDIS_URL`    | The URL of the Redis server. Format: `[redis[s]:]//[[user][:password@]][host][:port][/db-number][?db=db-number[&password=bar[&option=value]]]`. |         |  undefined  |
-|           | `CACHE_REDIS_PASSWORD` |                                                      The password required for redis auth.                                                      |         |   `null`    |
-|           | `CACHE_REDIS_TIMEOUT`  |                                      The timeout in ms if connection to Redis errors or is not responding.                                      |         |    `500`    |
+| Required? |          Name          |                                                     Description                                                      | Options | Defaults to |
+| :-------: | :--------------------: | :------------------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
+|           |   `CACHE_REDIS_HOST`   |                                           IP address of the Redis server.                                            |         | `127.0.0.1` |
+|           |   `CACHE_REDIS_PORT`   |                                              Port of the Redis server.                                               |         |   `6379`    |
+|           |   `CACHE_REDIS_PATH`   |                     Local domain socket path. If set the port, host and family will be ignored.                      |         |  undefined  |
+|           | `CACHE_REDIS_PASSWORD` |                                        The password required for redis auth.                                         |         |   `null`    |
+|           | `CACHE_REDIS_TIMEOUT`  |                        The timeout in ms if connection to Redis errors or is not responding.                         |         |    `500`    |
+|           |  `CACHE_REDIS_NODES`   | To enable a Redis Cluster, an array of the nodes to connect to can be passed (e.g. [{ port: number, host: string }]) |         |  undefined  |
 
 For local development run a Redis Docker container:
 
