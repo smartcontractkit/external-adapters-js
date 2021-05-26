@@ -180,6 +180,22 @@ export const withCache: Middleware = async (execute, options: CacheOptions = def
         await cache.setResponse(key, entry, maxAge)
         observe.cacheSet({ statusCode, maxAge })
         logger.trace(`Cache: SET ${key}`, entry)
+        // Individually cache batch requests
+        if (data?.results) {
+          for (const batchParticipant of Object.values<[AdapterRequest, number]>(data.results)) {
+            const [request, result] = batchParticipant
+            const maxAgeBatchParticipant = _getRequestMaxAge(request) || _getDefaultMaxAge(request)
+            const keyBatchParticipant = _getKey(request)
+            const entryBatchParticipant = {
+              statusCode,
+              data: { result },
+              result,
+              maxAge: maxAgeBatchParticipant,
+            }
+            await cache.set(keyBatchParticipant, entryBatchParticipant, maxAgeBatchParticipant)
+            logger.trace(`Cache Split Batch: SET ${keyBatchParticipant}`, entryBatchParticipant)
+          }
+        }
         // Notify pending requests by removing the in-flight mark
         await _delInFlightMarker(coalescingKey)
       }

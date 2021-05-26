@@ -1,6 +1,6 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../config'
-import { ExecuteWithConfig, Config, AxiosResponse } from '@chainlink/types'
+import { ExecuteWithConfig, Config, AxiosResponse, AdapterRequest } from '@chainlink/types'
 
 export const NAME = 'price'
 
@@ -54,19 +54,17 @@ const priceParams = {
 
 const handleBatchedRequest = (
   jobRunID: string,
+  request: AdapterRequest,
   response: AxiosResponse,
   convert: string,
   path: string,
 ) => {
-  const payload: Record<string, number> = {}
+  const payload: Record<string, [AdapterRequest, number]> = {}
   for (const key in response.data.data) {
-    payload[key.toUpperCase()] = Requester.validateResultNumber(response.data, [
-      'data',
-      key,
-      'quote',
-      convert,
-      path,
-    ])
+    payload[key.toUpperCase()] = [
+      { ...request, data: { ...request.data, base: key.toUpperCase() } },
+      Requester.validateResultNumber(response.data, ['data', key, 'quote', convert, path]),
+    ]
   }
   response.data.results = payload
   response.data.cost = Requester.validateResultNumber(response.data, ['status', 'credit_count'])
@@ -120,7 +118,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   }
   const response = await Requester.request(options)
 
-  if (Array.isArray(symbol)) return handleBatchedRequest(jobRunID, response, convert, path)
+  if (Array.isArray(symbol)) return handleBatchedRequest(jobRunID, request, response, convert, path)
 
   // CMC API currently uses ID as key in response, when querying with "slug" param
   const _keyForSlug = (data: any, slug: string) => {
