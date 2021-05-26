@@ -1,10 +1,10 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Execute } from '@chainlink/types'
 import * as TheRundown from '@chainlink/therundown-adapter'
 import { eventIdToNum, sportIdMapping } from '../methods'
 import { ethers } from 'ethers'
-import { packCreation } from '../methods/createMarkets'
-import { packResolution } from '../methods/resolveMarkets'
+import { CreateEvent } from '../methods/createMarkets'
+import { ResolveEvent } from '../methods/resolveMarkets'
 
 interface TheRundownEvent {
   event_id: string
@@ -34,6 +34,8 @@ interface TheRundownEvent {
   }[]
 }
 
+const TBD_TEAM_ID = 2756
+
 const createParams = {
   sport: true,
   daysInAdvance: true,
@@ -43,8 +45,9 @@ const createParams = {
 }
 
 const addDays = (date: Date, days: number): Date => {
-  date.setDate(date.getDate() + days)
-  return date
+  const newDate = new Date(date)
+  newDate.setDate(date.getDate() + days)
+  return newDate
 }
 
 export const create: Execute = async (input) => {
@@ -64,7 +67,7 @@ export const create: Execute = async (input) => {
       date: new Date(),
       endpoint: 'events'
     }}
-  const theRundownExec = TheRundown.makeExecute()
+  const theRundownExec = TheRundown.makeExecute(TheRundown.makeConfig(TheRundown.NAME))
 
   const events = []
   for (let i = 0; i < daysInAdvance; i++) {
@@ -74,36 +77,69 @@ export const create: Execute = async (input) => {
     events.push(...response.result as TheRundownEvent[])
   }
 
+  Logger.debug(`Augur theRundown: Got ${events.length} events from data provider`)
+  let skipStartBuffer = 0, skipNoTeams = 0, cantCreate = 0, skipTBDTeams = 0
+
   // filter markets and build payloads for market creation
-  const packed = [];
+  const eventsToCreate: CreateEvent[] = []
   for (const event of events) {
     const startTime = Date.parse(event.event_date)
-    if ((startTime - Date.now()) / 1000 < startBuffer) continue // markets would end too soon
+    if ((startTime - Date.now()) / 1000 < startBuffer) {
+      // markets would end too soon
+      skipStartBuffer++
+      continue
+    }
 
     // skip if data is missing
     const affiliateId = getAffiliateId(event)
     const homeTeam = event.teams_normalized.find(team => team.is_home)
     const awayTeam = event.teams_normalized.find(team => team.is_away)
-    if (!affiliateId || !homeTeam || !awayTeam) continue
+    if (!homeTeam || !awayTeam) {
+      skipNoTeams++
+      continue
+    }
+
+    // skip if a team hasn't been announced yet
+    if (homeTeam.team_id === TBD_TEAM_ID || awayTeam.team_id === TBD_TEAM_ID) {
+      skipTBDTeams++
+      continue
+    }
 
     const eventId = eventIdToNum(event.event_id)
     const [headToHeadMarket, spreadMarket, totalScoreMarket]: [ethers.BigNumber, ethers.BigNumber, ethers.BigNumber] = await contract.getEventMarkets(eventId)
 
     // only create spread and totalScore markets if lines exist; always create headToHead market
-    let homeSpread = transformSpecialNone(event.lines?.[affiliateId].spread.point_spread_home)
-    let totalScore = transformSpecialNone(event.lines?.[affiliateId].total.total_over)
+    let homeSpread = transformSpecialNone(affiliateId && event.lines?.[affiliateId].spread.point_spread_home)
+    let totalScore = transformSpecialNone(affiliateId && event.lines?.[affiliateId].total.total_over)
     const createSpread = homeSpread !== undefined
     const createTotalScore = totalScore !== undefined
     homeSpread = homeSpread || 0
     totalScore = totalScore || 0
     const canCreate = headToHeadMarket.isZero() || (spreadMarket.isZero() && createSpread) || (totalScoreMarket.isZero() && createTotalScore)
-    if (!canCreate) continue
+    if (!canCreate) {
+      cantCreate++
+      continue
+    }
 
-    packed.push(packCreation(eventId, homeTeam.team_id, awayTeam.team_id, startTime, homeSpread, totalScore, createSpread, createTotalScore))
+    eventsToCreate.push({
+      id: eventId,
+      homeTeamId: homeTeam.team_id,
+      awayTeamId: awayTeam.team_id,
+      startTime,
+      homeSpread,
+      totalScore,
+      createSpread,
+      createTotalScore
+    })
   }
 
+  Logger.debug(`Augur theRundown: Skipping ${skipStartBuffer} due to startBuffer`)
+  Logger.debug(`Augur theRundown: Skipping ${skipNoTeams} due to no teams`)
+  Logger.debug(`Augur theRundown: Skipping ${skipTBDTeams} due to TBD teams`)
+  Logger.debug(`Augur theRundown: Skipping ${cantCreate} due to no market to create`)
+
   return Requester.success(input.id, {
-    data: { result: packed }
+    data: { result: eventsToCreate }
   })
 }
 
@@ -124,52 +160,24 @@ const eventStatus: { [key: string]: number } = {
 }
 
 const resolveParams = {
-  sportId: true
-}
-
-const subDays = (date: Date, days: number): Date => {
-  date.setDate(date.getDate() - days)
-  return date
+  eventId: true
 }
 
 export const resolve: Execute = async (input) => {
   const validator = new Validator(input, resolveParams)
   if (validator.error) throw validator.error
 
-  const sportId = validator.validated.data.sportId
-
-  const params = { id: input.id, data: {
-      sportId,
-      date: new Date(),
-      endpoint: 'events'
-    }}
   const theRundownExec = TheRundown.makeExecute()
+  const response = (await theRundownExec(input)).result as TheRundownEvent
 
-  const events = []
-  for (let i = 0; i < 2; i++) {
-    params.data.date = subDays(params.data.date, i)
-
-    const response = await theRundownExec(params)
-    events.push(...response.result as TheRundownEvent[])
+  const event: ResolveEvent = {
+    id: eventIdToNum(response.event_id),
+    status: eventStatus[response.score.event_status],
+    homeScore: response.score.score_home,
+    awayScore: response.score.score_away
   }
 
-  const statusCompleted = [
-    'STATUS_CANCELED',
-    'STATUS_FINAL',
-    'STATUS_POSTPONED'
-  ]
-
-  const filtered = events.filter(({ score: { event_status }}) => statusCompleted.includes(event_status))
-
-  const packed = filtered.map((event) => {
-    const status = eventStatus[event.score.event_status]
-    if (!status) return undefined
-
-    return packResolution(eventIdToNum(event.event_id), status, event.score.score_home, event.score.score_away)
-  }).filter((event) => !!event)
-
   return Requester.success(input.id, {
-    data: { result: packed }
+    data: { result: event }
   })
 }
-

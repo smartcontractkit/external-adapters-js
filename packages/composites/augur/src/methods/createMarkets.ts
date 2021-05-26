@@ -1,9 +1,8 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig } from '@chainlink/types'
 import { Config } from '../config'
 import { bytesMappingToHexStr, ABI, sportDataProviderMapping } from './index'
 import { ethers } from 'ethers'
-import { Logger } from '@chainlink/ea-bootstrap'
 import { theRundown, sportsdataio } from '../dataProviders'
 
 const createParams = {
@@ -11,7 +10,16 @@ const createParams = {
   contractAddress: true,
 }
 
-const TBD_TEAM_ID = 2756;
+export interface CreateEvent {
+  id: ethers.BigNumber
+  homeTeamId: number
+  awayTeamId: number
+  startTime: number
+  homeSpread: number
+  totalScore: number
+  createSpread: boolean
+  createTotalScore: boolean
+}
 
 export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const validator = new Validator(input, createParams)
@@ -22,14 +30,16 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const contract = new ethers.Contract(contractAddress, ABI, config.wallet)
   input.data.contract = contract
 
-  let packed: string[] = []
+  let events: CreateEvent[] = []
   if (sportDataProviderMapping['theRundown'].includes(sport.toUpperCase())) {
-    packed = (await theRundown.create(input)).result
+    events = (await theRundown.create(input)).result
   } else if (sportDataProviderMapping['sportsdataio'].includes(sport.toUpperCase())) {
-    packed = (await sportsdataio.create(input)).result
+    events = (await sportsdataio.create(input)).result
   } else {
     throw Error(`Unknown data provider for sport ${sport}`)
   }
+
+  const packed = events.map(packCreation)
 
   Logger.debug(`Augur: Prepared to create ${packed.length} events`)
 
@@ -55,26 +65,17 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   return Requester.success(input.id, {})
 }
 
-export const packCreation = (
-  eventId: ethers.BigNumber,
-  homeTeamId: number,
-  awayTeamId: number,
-  startTime: number,
-  homeSpread: number,
-  totalScore: number,
-  createSpread: boolean,
-  createTotalScore: boolean,
-): string => {
+const packCreation = (event: CreateEvent): string => {
   const encoded = ethers.utils.defaultAbiCoder.encode(
     ['uint128', 'uint16', 'uint16', 'uint32', 'int16', 'uint16', 'uint8'],
     [
-      eventId,
-      homeTeamId,
-      awayTeamId,
-      Math.floor(startTime / 1000),
-      Math.round(homeSpread*10),
-      Math.round(totalScore*10),
-      packCreationFlags(createSpread, createTotalScore)
+      event.id,
+      event.homeTeamId,
+      event.awayTeamId,
+      Math.floor(event.startTime / 1000),
+      Math.round(event.homeSpread*10),
+      Math.round(event.totalScore*10),
+      packCreationFlags(event.createSpread, event.createTotalScore)
     ]
   )
 

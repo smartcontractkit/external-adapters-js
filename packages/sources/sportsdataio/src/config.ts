@@ -1,7 +1,7 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
 import { Config as ChainlinkConfig } from '@chainlink/types'
 
-export const NAME = 'SPORTSDATAIO' // This should be filled in with a name corresponding to the data provider using UPPERCASE and _underscores_.
+export const NAME = 'SPORTSDATAIO'
 
 export const DEFAULT_SPORT = 'nfl'
 export const DEFAULT_ENDPOINT = 'scores'

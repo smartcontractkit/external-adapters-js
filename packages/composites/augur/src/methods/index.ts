@@ -87,5 +87,5 @@ export const sportIdMapping: { [sport: string]: number } = {
 
 export const sportDataProviderMapping: { [dataProvider: string]: string[] } = {
   theRundown: ['MLB', 'NBA'],
-  sportsdataio: ['MMA']
+  sportsdataio: ['NFL']
 }

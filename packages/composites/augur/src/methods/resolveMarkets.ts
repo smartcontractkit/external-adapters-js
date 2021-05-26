@@ -16,7 +16,7 @@ const eventStatus: { [key: string]: number } = {
   'STATUS_CANCELED': 4
 }
 
-export interface Event {
+export interface ResolveEvent {
   id: ethers.BigNumber
   status: number
   homeScore: number
@@ -27,6 +27,7 @@ const statusCompleted = [
   eventStatus['STATUS_CANCELED'],
   eventStatus['STATUS_FINAL'],
   eventStatus['STATUS_POSTPONED']
+  // TODO: What about other statuses in sportsdataio?
 ]
 
 const tryGetEvent = async (dataProviders: Execute[], req: AdapterRequest): Promise<AdapterResponse> => {
@@ -50,7 +51,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const contract = new ethers.Contract(contractAddress, ABI, config.wallet)
 
   const eventIDs: ethers.BigNumber[] = await contract.listResolvableEvents()
-  const events: Event[] = []
+  const events: ResolveEvent[] = []
   for (const event of eventIDs) {
     try {
       const response = await tryGetEvent([theRundown.resolve, sportsdataio.resolve], {
@@ -60,7 +61,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
           eventId: numToEventId(event)
         }
       })
-      events.push(response.result as Event)
+      events.push(response.result as ResolveEvent)
     } catch (e) {
       Logger.error(e)
     }
@@ -71,8 +72,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
     .filter(({ status }) => statusCompleted.includes(status))
 
   // Build the bytes32 arguments to resolve the events.
-  const packed = eventReadyToResolve
-    .map((event) => packResolution(event.id, event.status, event.homeScore, event.awayScore))
+  const packed = eventReadyToResolve.map(packResolution)
 
   let nonce = await config.wallet.getTransactionCount()
   for (let i = 0; i < eventReadyToResolve.length; i++) {
@@ -86,15 +86,10 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   return Requester.success(input.id, {})
 }
 
-export const packResolution = (
-  eventId: ethers.BigNumber,
-  eventStatus: number,
-  homeScore: number,
-  awayScore: number
-): string => {
+const packResolution = (event: ResolveEvent): string => {
   const encoded = ethers.utils.defaultAbiCoder.encode(
     ['uint128', 'uint8', 'uint16', 'uint16'],
-    [eventId, eventStatus, Math.round(homeScore*10), Math.round(awayScore*10)]
+    [event.id, event.status, Math.round(event.homeScore*10), Math.round(event.awayScore*10)]
   )
 
   const mapping = [16, 1, 2, 2]
