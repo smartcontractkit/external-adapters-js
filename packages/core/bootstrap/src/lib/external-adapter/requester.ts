@@ -1,4 +1,9 @@
-import { AdapterErrorResponse, AdapterResponse, RequestConfig } from '@chainlink/types'
+import {
+  AdapterErrorResponse,
+  AdapterResponse,
+  RequestConfig,
+  AdapterRequest,
+} from '@chainlink/types'
 import axios, { AxiosResponse } from 'axios'
 import { deepType } from '../util'
 import { getDefaultConfig, logConfig } from './config'
@@ -102,7 +107,9 @@ export class Requester {
   static withResult<T>(
     response: AxiosResponse<T>,
     result?: number,
-    results?: { [fsym: string]: number },
+    results?: {
+      [symbol: string]: [AdapterRequest, number]
+    },
   ): AxiosResponseWithLiftedResult<T> | AxiosResponseWithPayloadAndLiftedResult<T> {
     const isObj = deepType(response.data) === 'object'
     const output = isObj
@@ -195,10 +202,14 @@ interface SingleResult {
  */
 interface BatchedResult {
   /**
-   * A mapping of token symbol to its result
+   * A mapping of token symbol to:
+   * [
+   *    its input parameters as a single request (used in caching),
+   *    its result
+   * ]
    */
   results?: {
-    [symbol: string]: number
+    [symbol: string]: [AdapterRequest, number]
   }
 }
 

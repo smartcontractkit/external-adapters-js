@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, AxiosResponse } from '@chainlink/types'
+import { ExecuteWithConfig, Config, AxiosResponse, AdapterRequest } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
 export const NAME = 'price'
@@ -120,18 +120,17 @@ export const customParams = {
 
 const handleBatchedRequest = (
   jobRunID: string,
+  request: AdapterRequest,
   response: AxiosResponse<ResponseSchema[]>,
   quote: string,
   path: string,
 ) => {
-  const payload: Record<string, number> = {}
+  const payload: Record<string, [AdapterRequest, number]> = {}
   for (const fsym in response.data.RAW) {
-    payload[fsym.toUpperCase()] = Requester.validateResultNumber(response.data, [
-      'RAW',
-      fsym,
-      quote,
-      path,
-    ])
+    payload[fsym.toUpperCase()] = [
+      { ...request, data: { ...request.data, base: fsym.toUpperCase() } },
+      Requester.validateResultNumber(response.data, ['RAW', fsym, quote, path]),
+    ]
   }
   return Requester.success(jobRunID, Requester.withResult(response, undefined, payload), true)
 }
@@ -159,7 +158,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
   const response = await Requester.request<ResponseSchema>(options)
 
-  if (Array.isArray(symbol)) return handleBatchedRequest(jobRunID, response, quote, path)
+  if (Array.isArray(symbol)) return handleBatchedRequest(jobRunID, request, response, quote, path)
 
   const result = Requester.validateResultNumber(response.data, ['RAW', symbol, quote, path])
 
