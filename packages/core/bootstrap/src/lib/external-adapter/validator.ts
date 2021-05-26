@@ -109,10 +109,10 @@ export class Validator {
         defaultSymbol
       )
     const multiple: string[] = []
-    for (const sym in defaultSymbol) {
+    for (const sym of defaultSymbol) {
       const overrided = this.validated.overrides.get(adapter.toLowerCase())?.get(sym.toLowerCase())
-      if (!overrided) return defaultSymbol
-      multiple.push(overrided)
+      if (!overrided) multiple.push(sym)
+      else multiple.push(overrided)
     }
     return multiple
   }

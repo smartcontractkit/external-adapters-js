@@ -25,6 +25,8 @@ export function getCoinIds(id: string): Promise<CoinsResponse[]> {
 }
 
 export const getSymbolToId = (symbol: string, coinList: CoinsResponse[]): string => {
+  const isId = coinList.find(({ id }) => id.toLowerCase() === symbol.toLowerCase())
+  if (isId && isId.id) return isId.id.toLowerCase()
   const coin = coinList.find(
     ({ symbol: coinSymbol, rank }) =>
       coinSymbol.toLowerCase() === symbol.toLowerCase() && rank !== 0,
