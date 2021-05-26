@@ -28,22 +28,20 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   if (validator.error) throw validator.error
 
   const contractAddress = validator.validated.data.contractAddress
-
   const contract = new ethers.Contract(contractAddress, ABI, config.wallet)
-
   const theRundownExec = TheRundown.makeExecute()
 
-  const eventIDs: ethers.BigNumber[] = await contract.listResolvableEvents();
-  const events: Event[] = [];
+  const eventIDs: ethers.BigNumber[] = await contract.listResolvableEvents()
+  const events: Event[] = []
   for (const event of eventIDs) {
     const response = await theRundownExec({
       id: input.id,
       data: {
-        endpoint: 'events',
-        eventID: numToEventId(event)
+        endpoint: 'event',
+        eventId: numToEventId(event)
       }
-    });
-    events.push(response.result as Event);
+    })
+    events.push(response.result as Event)
   }
 
   // Filters out events that aren't yet ready to resolve.
@@ -56,27 +54,15 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
     return packResolution(event.event_id, status, event.score.score_home, event.score.score_away)
   })
 
-  let succeeded = 0
-  let failed = 0
   let nonce = await config.wallet.getTransactionCount()
   for (let i = 0; i < eventReadyToResolve.length; i++) {
     const eventId = eventIdToNum(eventReadyToResolve[i].event_id)
+    Logger.info(`Augur: resolving event "${eventId}"`)
 
-    try {
-      // This call both resolves markets and finalizes their resolution.
-      await contract.trustedResolveMarkets(packed[i], { nonce })
-      nonce++ // update after tx succeeds so that gas estimation failures do not increment nonce
-      succeeded++
-    } catch (e) {
-      // Failures are (now) unexpected. Still, log the event id to make debugging easier.
-      failed++
-      Logger.error(`Failed to resolve markets for "${eventId}"`)
-      throw e;
-    }
+    // This call both resolves markets and finalizes their resolution.
+    const tx = await contract.trustedResolveMarkets(packed[i], { nonce: nonce++ })
+    Logger.info(`Augur: Created tx: ${tx.hash}`)
   }
-
-  Logger.debug(`Augur: ${succeeded} resolved markets`)
-  Logger.debug(`Augur: ${failed} markets failed to resolve`)
 
   return Requester.success(input.id, {})
 }
