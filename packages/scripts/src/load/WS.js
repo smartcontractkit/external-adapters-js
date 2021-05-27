@@ -7,6 +7,13 @@ export default [
   },
 
   {
+    name: 'ETH/BNB',
+    id: '86f45dcc-90db-4c39-b385-53945c5a9a30',
+    method: 'POST',
+    data: '{\n "data": {\n  "from": "ETH",\n  "to": "BNB"\n }\n}',
+  },
+
+  {
     name: 'ETH/USD',
     id: 'a16f830b-f51c-4c5f-8a00-772c8f0715e5',
     method: 'POST',
