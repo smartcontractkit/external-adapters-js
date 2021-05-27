@@ -368,17 +368,17 @@
     "http": {
       "free": {
         "rateLimit1h": 136.98,
-        "rateLimit1m": 100000,
+        "rateLimit1mo": 100000,
         "note": "only mentions monthly limit"
       },
       "professional": {
         "rateLimit1h": 342.46,
-        "rateLimit1m": 250000,
+        "rateLimit1mo": 250000,
         "note": "only mentions monthly limit"
       },
       "corporate": {
         "rateLimit1h": 1027.39,
-        "rateLimit1m": 750000,
+        "rateLimit1mo": 750000,
         "note": "only mentions monthly limit"
       }
     },
