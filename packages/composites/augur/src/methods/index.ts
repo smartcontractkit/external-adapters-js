@@ -3,34 +3,6 @@ import { BigNumber } from 'ethers'
 export * as resolveMarkets from './resolveMarkets'
 export * as createMarkets from './createMarkets'
 
-export interface Event {
-  event_id: string
-  event_date: string
-  lines?: {
-    [key: string]: {
-      affiliate: {
-        affiliate_id: number
-      }
-      spread: {
-        point_spread_home: number
-      }
-      total: {
-        total_over: number
-      }
-    }
-  }
-  score: {
-    event_status: string
-    score_home: number
-    score_away: number
-  }
-  teams_normalized: {
-    is_away: boolean
-    is_home: boolean
-    team_id: number
-  }[]
-}
-
 export const ABI = [
   {
     inputs: [
@@ -56,17 +28,6 @@ export const ABI = [
   },
   {
     inputs: [
-      { internalType: "uint256", name: "_eventId", type: "uint256" }
-    ],
-    name: "isEventResolved",
-    outputs: [
-      { internalType: "bool", name: "", type: "bool" }
-    ],
-    stateMutability: "view",
-    type: "function"
-  },
-  {
-    inputs: [
       {
         internalType: "uint256", name: "_eventId", type: "uint256" },
     ],
@@ -85,10 +46,24 @@ export const ABI = [
     outputs: [],
     stateMutability: "nonpayable",
     type: "function"
-  }
+  },
+  {
+    inputs: [],
+    name: "listResolvableEvents",
+    outputs: [
+      {
+        internalType: "uint256[]",
+        name: "",
+        type: "uint256[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
 ]
 
 export const eventIdToNum = (eventId: string): BigNumber => BigNumber.from(`0x${eventId}`)
+export const numToEventId = (num: BigNumber): string => num.toHexString().slice(2);
 
 export const bytesMappingToHexStr = (mapping: number[], encoded: string): string => {
   const buf = Buffer.from(encoded.substr(2), 'hex')
@@ -103,4 +78,14 @@ export const bytesMappingToHexStr = (mapping: number[], encoded: string): string
   const missingBytes = 32 - mapping.reduce((sum, bytes) => sum + bytes)
   elems.push(...new Array(missingBytes).fill(new Uint8Array(1).fill(0)))
   return `0x${Buffer.concat(elems).toString('hex')}`
+}
+
+export const sportIdMapping: { [sport: string]: number } = {
+  MLB: 3,
+  NBA: 4,
+}
+
+export const sportDataProviderMapping: { [dataProvider: string]: string[] } = {
+  theRundown: ['MLB', 'NBA'],
+  sportsdataio: ['NFL']
 }

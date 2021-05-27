@@ -395,6 +395,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/sochain"
       },
       {
+        "name": "@chainlink/sportsdataio-adapter",
+        "reference": "workspace:packages/sources/sportsdataio"
+      },
+      {
         "name": "@chainlink/stasis-adapter",
         "reference": "workspace:packages/sources/stasis"
       },
@@ -558,6 +562,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/renvm-address-set-adapter", ["workspace:packages/sources/renvm-address-set"]],
       ["@chainlink/satoshitango-adapter", ["workspace:packages/sources/satoshitango"]],
       ["@chainlink/sochain-adapter", ["workspace:packages/sources/sochain"]],
+      ["@chainlink/sportsdataio-adapter", ["workspace:packages/sources/sportsdataio"]],
       ["@chainlink/stasis-adapter", ["workspace:packages/sources/stasis"]],
       ["@chainlink/synth-index-adapter", ["workspace:packages/composites/synth-index"]],
       ["@chainlink/taapi-adapter", ["workspace:packages/sources/taapi"]],
@@ -2991,6 +2996,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@chainlink/augur-adapter", "workspace:packages/composites/augur"],
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/sportsdataio-adapter", "workspace:packages/sources/sportsdataio"],
             ["@chainlink/therundown-adapter", "workspace:packages/sources/therundown"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
@@ -3706,6 +3712,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/renvm-address-set-adapter", "workspace:packages/sources/renvm-address-set"],
             ["@chainlink/satoshitango-adapter", "workspace:packages/sources/satoshitango"],
             ["@chainlink/sochain-adapter", "workspace:packages/sources/sochain"],
+            ["@chainlink/sportsdataio-adapter", "workspace:packages/sources/sportsdataio"],
             ["@chainlink/stasis-adapter", "workspace:packages/sources/stasis"],
             ["@chainlink/taapi-adapter", "workspace:packages/sources/taapi"],
             ["@chainlink/therundown-adapter", "workspace:packages/sources/therundown"],
@@ -4610,6 +4617,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:14.14.41"],
             ["ethers", "npm:5.1.0"],
             ["object-path", "npm:0.11.5"],
+            ["tslib", "npm:2.2.0"],
+            ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/sportsdataio-adapter", [
+        ["workspace:packages/sources/sportsdataio", {
+          "packageLocation": "./packages/sources/sportsdataio/",
+          "packageDependencies": [
+            ["@chainlink/sportsdataio-adapter", "workspace:packages/sources/sportsdataio"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:26.0.22"],
+            ["@types/node", "npm:14.14.41"],
             ["tslib", "npm:2.2.0"],
             ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"]
           ],

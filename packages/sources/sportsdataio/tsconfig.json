@@ -9,7 +9,6 @@
   "references": [
     { "path": "../../core/test-helpers" },
     { "path": "../../core/bootstrap" },
-    { "path": "../../sources/therundown" },
-    { "path": "../../sources/sportsdataio" }
+    { "path": "../../core/test-helpers" }
   ]
 }

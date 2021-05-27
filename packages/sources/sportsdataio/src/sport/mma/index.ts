@@ -1,27 +1,24 @@
-import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
-import { makeConfig, DEFAULT_ENDPOINT } from './config'
-import { totalScore, events, event } from './endpoint'
+import { AdapterError, Validator } from '@chainlink/ea-bootstrap'
+import { Config, ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
+import { DEFAULT_ENDPOINT, makeConfig } from '../../config'
+import { schedule, event } from './endpoint'
+
+export const NAME = 'mma'
 
 const inputParams = {
-  endpoint: false,
+  endpoint: true,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const validator = new Validator(request, inputParams)
   if (validator.error) throw validator.error
 
-  Requester.logConfig(config)
-
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
 
-  switch (endpoint) {
-    case totalScore.NAME: {
-      return await totalScore.execute(request, config)
-    }
-    case events.NAME: {
-      return await events.execute(request, config)
+  switch (endpoint.toLowerCase()) {
+    case schedule.NAME: {
+      return await schedule.execute(request, config)
     }
     case event.NAME: {
       return await event.execute(request, config)
