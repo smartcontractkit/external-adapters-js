@@ -27,6 +27,6 @@ export const execute = async (request: AdapterRequest, config: Config): Promise<
   }
 }
 
-export const makeExecute = (): Execute => {
-  return async (request: AdapterRequest) => execute(request)
+export const makeExecute = (config?: Config): Execute => {
+  return async (request: AdapterRequest) => execute(request, config || makeConfig())
 }
