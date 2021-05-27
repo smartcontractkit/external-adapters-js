@@ -1,6 +1,6 @@
 import { Execute, AdapterResponse, AdapterRequest } from '@chainlink/types'
 import { Validator, AdapterError } from '@chainlink/ea-bootstrap'
-import { DEFAULT_ENDPOINT } from './config'
+import { DEFAULT_ENDPOINT, makeConfig, Config } from './config'
 import { format } from './endpoint'
 
 const inputParams = {
@@ -8,14 +8,14 @@ const inputParams = {
 }
 
 // Export function to integrate with Chainlink node
-export const execute = async (request: AdapterRequest): Promise<AdapterResponse> => {
+export const execute = async (request: AdapterRequest, config: Config): Promise<AdapterResponse> => {
   const validator = new Validator(request, inputParams)
   if (validator.error) throw validator.error
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
   switch (endpoint.toLowerCase()) {
     case format.NAME: {
-      return format.execute(request)
+      return format.execute(request, config)
     }
     default: {
       throw new AdapterError({
@@ -27,6 +27,6 @@ export const execute = async (request: AdapterRequest): Promise<AdapterResponse>
   }
 }
 
-export const makeExecute = (): Execute => {
-  return async (request: AdapterRequest) => execute(request)
+export const makeExecute = (config?: Config): Execute => {
+  return async (request: AdapterRequest) => execute(request, config || makeConfig())
 }

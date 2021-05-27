@@ -1607,9 +1607,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/bob@workspace:packages/composites/bob":
+"@chainlink/bob-adapter@workspace:packages/composites/bob":
   version: 0.0.0-use.local
-  resolution: "@chainlink/bob@workspace:packages/composites/bob"
+  resolution: "@chainlink/bob-adapter@workspace:packages/composites/bob"
   dependencies:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-test-helpers": "*"
