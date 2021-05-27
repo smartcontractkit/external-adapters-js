@@ -9,6 +9,7 @@ The adapter takes the following environment variables:
 | Required? |   Name    |         Description          | Options | Defaults to |
 | :-------: | :-------: | :--------------------------: | :-----: | :---------: |
 |    ✅     | `RPC_URL` | Vesper _required_ parameter |         |             |
+|   | `CONTROLLER_ADDRESS` | The Vesper controller address |         | `0xa4F1671d3Aee73C05b552d57f2d16d3cfcBd0217` |
 
 **Additional environment variables must be set according to the Token Allocation adapter.**
 This composite adapter executes the code from the Token Allocation composite adapter. As such the same configuration and input parameters apply to this adapter. See [../token-allocation/README.md](../token-allocation/README.md) for more details.
@@ -19,10 +20,6 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 
 ### Input Params
 
-| Required? |            Name            |               Description                |       Options       | Defaults to |
-| :-------: | :------------------------: | :--------------------------------------: | :-----------------: | :---------: |
-|    ✅     | `controller`  |   The address of the controller contract    |  |             |
-
 **Additional environment input params must be set according to the Token Allocation adapter.**
 This composite adapter executes the code from the Token Allocation composite adapter. As such the same configuration and input parameters apply to this adapter. See [../token-allocation/README.md](../token-allocation/README.md) for more details.
 
@@ -32,7 +29,6 @@ This composite adapter executes the code from the Token Allocation composite ada
 {
   "id": "1",
   "data": {
-    "controller": "0xa4F1671d3Aee73C05b552d57f2d16d3cfcBd0217",
     "quote": "USD",
     "source": "coinpaprika"
   }
@@ -43,11 +39,56 @@ This composite adapter executes the code from the Token Allocation composite ada
 
 ```json
 {
-  "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
+  "jobRunID": "1",
+  "result": 761952596.3326263,
+  "statusCode": 200,
   "data": {
-    "price": 77777.77,
-    "result": 77777.77
-  },
-  "statusCode": 200
+    "sources": [],
+    "payload": {
+      "WETH": {
+        "quote": {
+          "USD": {
+            "price": 2807.38
+          }
+        }
+      },
+      "WBTC": {
+        "quote": {
+          "USD": {
+            "price": 39282
+          }
+        }
+      },
+      "USDC": {
+        "quote": {
+          "USD": {
+            "price": 1
+          }
+        }
+      },
+      "DAI": {
+        "quote": {
+          "USD": {
+            "price": 1
+          }
+        }
+      },
+      "VSP": {
+        "quote": {
+          "USD": {
+            "price": 18.53
+          }
+        }
+      },
+      "LINK": {
+        "quote": {
+          "USD": {
+            "price": 33.69
+          }
+        }
+      }
+    },
+    "result": 761952596.3326263
+  }
 }
 ```
