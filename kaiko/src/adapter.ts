@@ -38,6 +38,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   } else if (includes.length > 0 && base === 'rari' && includes[0].toLowerCase() === 'weth') {
     inverse = true
     url = `/spot_direct_exchange_rate/weth/rari`
+  } else if (includes.length > 0 && base === 'tribe' && includes[0].toLowerCase() === 'weth') {
+    inverse = true
+    url = `/spot_direct_exchange_rate/weth/tribe`
   } else if (includes.length > 0 && includes[0].toLowerCase() === 'weth') {
     url = `/spot_direct_exchange_rate/${base}/weth`
   } else if (quote === 'eth') {
