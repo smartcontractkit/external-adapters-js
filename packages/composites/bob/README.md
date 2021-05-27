@@ -22,7 +22,15 @@ This composite adapter incorporates the [`json-rpc`](../../sources/json-rpc) ada
 
 See the [Composite Adapter README](../README.md) for more information on how to get started.
 
-- `endpoint`: The parameter to query for. Default: "difficulty"
+---
+
+## Endpoints
+- `endpoint`: The parameter to query for. Default: "format"
+- Currently, there is only one "endpoint:" format. This adapter was designed so that adding new internal endpoints would be easy to implement.
+
+### Format Endpoint:
+
+---
 
 ### Input Params
 
@@ -36,15 +44,14 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 ```json
 {
   "jobID": "1",
-  "data": { 
-    "chainId": 1, 
-    "blockNumber": 1500000 
-  },  
+  "data": {
+    "chainId": 1,
+    "blockNumber": 1500000
+  },
 }
 ```
 
 ### Sample Output
-# double quote these
 ```json
 {
       "jobRunID": "1",

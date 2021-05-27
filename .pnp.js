@@ -35,7 +35,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/composites/bitcoin-json-rpc"
       },
       {
-        "name": "@chainlink/bob",
+        "name": "@chainlink/bob-adapter",
         "reference": "workspace:packages/composites/bob"
       },
       {
@@ -497,7 +497,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/blockchair-adapter", ["workspace:packages/sources/blockchair"]],
       ["@chainlink/blockcypher-adapter", ["workspace:packages/sources/blockcypher"]],
       ["@chainlink/blockstream-adapter", ["workspace:packages/sources/blockstream"]],
-      ["@chainlink/bob", ["workspace:packages/composites/bob"]],
+      ["@chainlink/bob-adapter", ["workspace:packages/composites/bob"]],
       ["@chainlink/bravenewcoin-adapter", ["workspace:packages/sources/bravenewcoin"]],
       ["@chainlink/btc.com-adapter", ["workspace:packages/sources/btc.com"]],
       ["@chainlink/cfbenchmarks-adapter", ["workspace:packages/sources/cfbenchmarks"]],
@@ -4684,11 +4684,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT",
         }]
       ]],
-      ["@chainlink/bob", [
+      ["@chainlink/bob-adapter", [
         ["workspace:packages/composites/bob", {
           "packageLocation": "./packages/composites/bob/",
           "packageDependencies": [
-            ["@chainlink/bob", "workspace:packages/composites/bob"],
+            ["@chainlink/bob-adapter", "workspace:packages/composites/bob"],
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/json-rpc-adapter", "workspace:packages/sources/json-rpc"],
