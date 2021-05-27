@@ -380,6 +380,10 @@
         "rateLimit1h": 1027.39,
         "rateLimit1mo": 750000,
         "note": "only mentions monthly limit"
+      },
+      "enterprise-lite": {
+        "rateLimit1h": 2083,
+        "rateLimit1mo": 1500000
       }
     },
     "ws": {
@@ -393,6 +397,10 @@
         "subscriptions": 500
       },
       "corporate": {
+        "connections": -1,
+        "subscriptions": 500
+      },
+      "enterprise-lite": {
         "connections": -1,
         "subscriptions": 500
       }
