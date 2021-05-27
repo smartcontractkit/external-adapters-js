@@ -39,6 +39,9 @@
       "path": "./composites/token-allocation"
     },
     {
+      "path": "./composites/vesper"
+    },
+    {
       "path": "./core/bootstrap"
     },
     {
