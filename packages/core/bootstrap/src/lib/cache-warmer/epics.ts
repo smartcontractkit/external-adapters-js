@@ -39,8 +39,8 @@ export const warmupSubscriber: Epic<AnyAction, AnyAction, any, EpicDependencies>
     withLatestFrom(state$),
     filter(([{ key }, state]) => {
       // if subscription does not exist, then continue
-      // TODO: this check doesnt work because state is already set!
-      return !state.cacheWarmer.subscriptions[key].isDuplicate
+      // this check doesnt work because state is already set!
+      return !state.cacheWarmer.subscriptions[key]?.isDuplicate
     }),
     // on a subscribe action being dispatched, spin up a long lived interval if one doesnt exist yet
     mergeMap(([{ key }]) =>
@@ -96,7 +96,7 @@ export const warmupUnsubscriber: Epic<AnyAction, AnyAction, any, EpicDependencie
     withLatestFrom(state$),
     filter(
       ([{ payload }, state]) =>
-        state.cacheWarmer.warmups[payload.key].errorCount >= config.unhealthyThreshold,
+        state.cacheWarmer.warmups[payload.key]?.errorCount ?? 0 >= config.unhealthyThreshold,
     ),
     map(([{ payload }]) => warmupUnsubscribed({ key: payload.key })),
   )
