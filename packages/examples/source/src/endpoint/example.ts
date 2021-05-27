@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig } from '@chainlink/types'
+import { Config, AdapterRequest, AdapterResponse } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
 export const NAME = 'example' // This should be filled in with a lowercase name corresponding to the API endpoint
@@ -12,7 +12,7 @@ const customParams = {
   field: false,
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, config) => {
+export const execute = async (request: AdapterRequest, config: Config): Promise<AdapterResponse> => {
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 
