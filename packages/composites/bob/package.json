@@ -1,8 +1,8 @@
 {
-  "name": "@chainlink/bob",
-  "version": "0.0.2",
+  "name": "@chainlink/bob-adapter",
+  "version": "0.0.1",
   "description": "",
-  "author": "Evangelos Barakos (evangelos@smartcontract.com) Silas Lenihan (silas@smartcontract.com)",
+  "author": "Silas Lenihan (silas@smartcontract.com)",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
