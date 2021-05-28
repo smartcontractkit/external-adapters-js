@@ -31,7 +31,7 @@ export const withCacheWarmer = (
   if (!isWarmerActive) return await execute(input)
 
   const wsConfig = getWSConfig()
-  const warmupSubscribedPayload = {
+  const warmupSubscribedPayload: actions.WarmupSubscribedPayload = {
     id: input.id,
     // We need to initilialize the middleware on every beat to open a connection with the cache
     // Wrapping `rawExecute` as `execute` is already wrapped with the default middleware. Warmer doesn't need every default middleware
@@ -63,6 +63,28 @@ export const withCacheWarmer = (
 
   // In case WS is not available, or WS has no active subscription, warmer should be active
   const result = await execute(input)
+
+  // If a batch request, start placeholder subscriptions for split individual requests
+  if (result?.data?.results) {
+    const children: { [childKey: string]: number } = {}
+    const parentKey = getSubscriptionKey(warmupSubscribedPayload)
+
+    for (const batchParticipant of Object.values<[AdapterRequest, number]>(result.data.results)) {
+      const [request] = batchParticipant
+      const warmupSubscribedPayloadChild: actions.WarmupSubscribedPayload = {
+        id: input.id,
+        executeFn: async (input: AdapterRequest) =>
+          await (await withMiddleware(rawExecute, middleware))(input),
+        data: omit(request, ['debug', 'rateLimitMaxAge']),
+        parent: parentKey,
+      }
+      const childKey = getSubscriptionKey(warmupSubscribedPayloadChild)
+      children[childKey] = 1
+      warmerStore.dispatch(actions.warmupSubscribed(warmupSubscribedPayloadChild))
+    }
+    warmupSubscribedPayload.children = children
+  }
+
   // Dispatch subscription only if execute was succesful
   warmerStore.dispatch(actions.warmupSubscribed(warmupSubscribedPayload))
   return result
