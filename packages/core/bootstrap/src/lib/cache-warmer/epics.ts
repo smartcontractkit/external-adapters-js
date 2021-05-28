@@ -37,7 +37,12 @@ export const warmupSubscriber: Epic<AnyAction, AnyAction, any, EpicDependencies>
     map(({ payload }) => ({ payload, key: getSubscriptionKey(payload) })),
     // check if the subscription already exists, then noop
     withLatestFrom(state$),
-    filter(([{ key }, state]) => {
+    filter(([{ payload, key }, state]) => {
+      console.log('warmupSubscriber', key, payload)
+
+      // if a child, register, but don't warm
+      if (payload.parent) return false
+
       // if subscription does not exist, then continue
       // this check doesnt work because state is already set!
       return !state.cacheWarmer.subscriptions[key]?.isDuplicate
@@ -114,7 +119,10 @@ export const warmupUnsubscriber: Epic<AnyAction, AnyAction, any, EpicDependencie
       // we look for matching subscriptions of the same type
       // which deactivates the current timer
       const reset$ = keyedSubscription$.pipe(
-        filter(({ key: keyB }) => key === keyB),
+        filter(({ key: keyB, payload }) => {
+          console.log(key, keyB, payload)
+          return key === keyB || Object.keys(payload?.children || {}).includes(keyB)
+        }),
         take(1),
         mapTo(warmupSubscriptionTimeoutReset({ key })),
       )

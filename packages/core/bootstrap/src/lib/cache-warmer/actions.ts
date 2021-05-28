@@ -3,6 +3,8 @@ import { createAction } from '@reduxjs/toolkit'
 
 export interface WarmupSubscribedPayload extends AdapterRequest {
   executeFn: Execute
+  parent?: string
+  children?: { [childKey: string]: number }
 }
 interface WarmupUnsubscribedPayload {
   key: string

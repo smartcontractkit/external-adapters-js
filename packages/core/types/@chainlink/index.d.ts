@@ -18,6 +18,7 @@ declare module '@chainlink/types' {
     staleness?: number
     performance?: number
     providerCost?: number
+    batchable?: string
   }
 
   /**

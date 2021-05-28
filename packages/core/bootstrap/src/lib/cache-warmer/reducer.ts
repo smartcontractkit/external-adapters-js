@@ -26,6 +26,16 @@ export interface SubscriptionData {
    * the reducers are always executed before epics are
    */
   isDuplicate: boolean
+  /**
+   * If a subscription is being warmed by a parent batch request
+   * This will hold the subscription key of the parent
+   */
+  parent?: string
+  /**
+   * If a subscription is warming multiple other requests
+   * This will hold a map of the subscription key to the last time it was seen
+   */
+  children?: { [childKey: string]: number }
 }
 
 export interface SubscriptionState {
@@ -34,11 +44,14 @@ export interface SubscriptionState {
 
 export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builder) => {
   builder.addCase(actions.warmupSubscribed, (state, action) => {
-    state[getSubscriptionKey(action.payload)] = {
+    const key = getSubscriptionKey(action.payload)
+    state[key] = {
       origin: action.payload,
       executeFn: action.payload.executeFn,
       startedAt: Date.now(),
-      isDuplicate: !!state[getSubscriptionKey(action.payload)],
+      isDuplicate: !!state[key],
+      parent: action.payload.parent || state[key]?.parent,
+      children: action.payload.children,
     }
   })
 
