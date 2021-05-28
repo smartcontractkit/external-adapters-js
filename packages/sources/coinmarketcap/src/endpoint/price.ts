@@ -140,5 +140,5 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     convert,
     path,
   ])
-  return Requester.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, response, config.verbose, 'base')
 }
