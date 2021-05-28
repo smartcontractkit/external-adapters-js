@@ -16,6 +16,7 @@ import {
   warmupFailed,
   warmupFulfilled,
   warmupRequested,
+  warmupStopped,
   warmupSubscribed,
   warmupSubscriptionTimeoutReset,
   warmupUnsubscribed,
@@ -34,15 +35,15 @@ export const warmupSubscriber: Epic<AnyAction, AnyAction, any, EpicDependencies>
 ) =>
   action$.pipe(
     filter(warmupSubscribed.match),
-    map(({ payload }) => ({ payload, key: getSubscriptionKey(payload) })),
+    map(({ payload }) => ({
+      payload,
+      key: getSubscriptionKey(payload),
+    })),
     // check if the subscription already exists, then noop
     withLatestFrom(state$),
     filter(([{ payload, key }, state]) => {
-      console.log('warmupSubscriber', key, payload)
-
       // if a child, register, but don't warm
       if (payload.parent) return false
-
       // if subscription does not exist, then continue
       // this check doesnt work because state is already set!
       return !state.cacheWarmer.subscriptions[key]?.isDuplicate
@@ -54,7 +55,7 @@ export const warmupSubscriber: Epic<AnyAction, AnyAction, any, EpicDependencies>
         // unsubscribe our warmup algo when a matching unsubscribe comes in
         takeUntil(
           action$.pipe(
-            filter(warmupUnsubscribed.match),
+            filter(warmupUnsubscribed.match || warmupStopped.match),
             filter((a) => a.payload.key === key),
           ),
         ),
@@ -119,10 +120,7 @@ export const warmupUnsubscriber: Epic<AnyAction, AnyAction, any, EpicDependencie
       // we look for matching subscriptions of the same type
       // which deactivates the current timer
       const reset$ = keyedSubscription$.pipe(
-        filter(({ key: keyB, payload }) => {
-          console.log(key, keyB, payload)
-          return key === keyB || Object.keys(payload?.children || {}).includes(keyB)
-        }),
+        filter(({ key: keyB }) => key === keyB),
         take(1),
         mapTo(warmupSubscriptionTimeoutReset({ key })),
       )
@@ -136,7 +134,15 @@ export const warmupUnsubscriber: Epic<AnyAction, AnyAction, any, EpicDependencie
     }),
   )
 
-  return merge(unsubscribeOnFailure$, unsubscribeOnTimeout$)
+  const stopOnBatch$ = keyedSubscription$.pipe(
+    // when a subscription comes in, if it has children
+    filter(({ payload }) => !!payload?.children),
+    mergeMap(({ payload }) =>
+      Object.keys(payload?.children || {}).map((child) => warmupStopped({ key: child })),
+    ),
+  )
+
+  return merge(unsubscribeOnFailure$, unsubscribeOnTimeout$, stopOnBatch$)
 }
 
 export const rootEpic = combineEpics(warmupSubscriber, warmupUnsubscriber, warmupRequestHandler)

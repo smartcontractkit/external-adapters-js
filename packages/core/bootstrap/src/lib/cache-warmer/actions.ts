@@ -9,6 +9,9 @@ export interface WarmupSubscribedPayload extends AdapterRequest {
 interface WarmupUnsubscribedPayload {
   key: string
 }
+interface WarmupStoppedPayload {
+  key: string
+}
 interface WarmupSubscriptionTimeoutResetPayload {
   key: string
 }
@@ -18,6 +21,7 @@ export const warmupSubscriptionTimeoutReset = createAction<WarmupSubscriptionTim
   'WARMUP/SUBSCRIPTION_TIMEOUT_RESET',
 )
 export const warmupUnsubscribed = createAction<WarmupUnsubscribedPayload>('WARMUP/UNSUBSCRIBED')
+export const warmupStopped = createAction<WarmupStoppedPayload>('WARMUP/STOPPED')
 
 interface WarmupRequestedPayload {
   /**
