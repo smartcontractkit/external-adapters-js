@@ -96,5 +96,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     ids.toLowerCase(),
     param[path] || quote.toLowerCase(),
   ])
-  return Requester.success(jobRunID, response, config.verbose)
+
+  return Requester.success(jobRunID, response, config.verbose, 'base')
 }

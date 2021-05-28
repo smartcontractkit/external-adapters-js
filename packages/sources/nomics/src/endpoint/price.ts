@@ -152,5 +152,5 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     return handleBatchedRequest(jobRunID, request, response, resultPaths, path)
 
   const result = Requester.validateResultNumber(response.data[0], resultPaths[path])
-  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose, 'base')
 }
