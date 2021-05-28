@@ -126,6 +126,13 @@ export const warmupReducer = createReducer<RequestState>({}, (builder) => {
     })
     delete state[action.payload.key]
   })
+
+  builder.addCase(actions.warmupStopped, (state, action) => {
+    logger.info('[warmupReducer] Stopping subscription', {
+      warmupSubscriptionKey: action.payload.key,
+    })
+    delete state[action.payload.key]
+  })
 })
 
 export const rootReducer = combineReducers({
