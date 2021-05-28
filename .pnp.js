@@ -107,6 +107,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/examples/source"
       },
       {
+        "name": "k6",
+        "reference": "workspace:packages/k6"
+      },
+      {
         "name": "@chainlink/ea-scripts",
         "reference": "workspace:packages/scripts"
       },
@@ -581,7 +585,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/unibit-adapter", ["workspace:packages/sources/unibit"]],
       ["@chainlink/vesper-adapter", ["workspace:packages/composites/vesper"]],
       ["@chainlink/wbtc-address-set-adapter", ["workspace:packages/sources/wbtc-address-set"]],
-      ["@chainlink/xbto-adapter", ["workspace:packages/sources/xbto"]]
+      ["@chainlink/xbto-adapter", ["workspace:packages/sources/xbto"]],
+      ["k6", ["workspace:packages/k6"]]
     ],
     "fallbackPool": [
     ],
@@ -8569,6 +8574,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-json-schema-npm-7.0.7-95fb8178d7-b9d2c509fa.zip/node_modules/@types/json-schema/",
           "packageDependencies": [
             ["@types/json-schema", "npm:7.0.7"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@types/k6", [
+        ["npm:0.32.0", {
+          "packageLocation": "./.yarn/cache/@types-k6-npm-0.32.0-fce249d7d1-091f3ccba4.zip/node_modules/@types/k6/",
+          "packageDependencies": [
+            ["@types/k6", "npm:0.32.0"]
           ],
           "linkType": "HARD",
         }]
@@ -17533,6 +17547,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["just-extend", "npm:4.2.1"]
           ],
           "linkType": "HARD",
+        }]
+      ]],
+      ["k6", [
+        ["workspace:packages/k6", {
+          "packageLocation": "./packages/k6/",
+          "packageDependencies": [
+            ["k6", "workspace:packages/k6"],
+            ["@types/k6", "npm:0.32.0"],
+            ["tslib", "npm:2.2.0"]
+          ],
+          "linkType": "SOFT",
         }]
       ]],
       ["keccak", [

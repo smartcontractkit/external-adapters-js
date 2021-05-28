@@ -1,0 +1,9 @@
+{
+  "name": "k6",
+  "devDependencies": {
+    "@types/k6": "^0.32.0"
+  },
+  "dependencies": {
+    "tslib": "^2.2.0"
+  }
+}
