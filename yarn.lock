@@ -6580,6 +6580,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/k6@npm:^0.32.0":
+  version: 0.32.0
+  resolution: "@types/k6@npm:0.32.0"
+  checksum: 091f3ccba485951832a270b0134c095898924ef34f2887b2b81f0ac1e34c0b75ac91fbc2f3cda2602a5e74ed0d1bba5b46ef27ee0925fa5cf63bb8579fada36e
+  languageName: node
+  linkType: hard
+
 "@types/keyv@npm:^3.1.1":
   version: 3.1.1
   resolution: "@types/keyv@npm:3.1.1"
@@ -14566,6 +14573,15 @@ fsevents@~2.1.1:
   languageName: node
   linkType: hard
 
+"k6@workspace:packages/k6":
+  version: 0.0.0-use.local
+  resolution: "k6@workspace:packages/k6"
+  dependencies:
+    "@types/k6": ^0.32.0
+    tslib: ^2.2.0
+  languageName: unknown
+  linkType: soft
+
 "keccak256@npm:^1.0.2":
   version: 1.0.2
   resolution: "keccak256@npm:1.0.2"
@@ -20037,7 +20053,7 @@ resolve@1.17.0:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.0.3, tslib@npm:^2.1.0":
+"tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.2.0":
   version: 2.2.0
   resolution: "tslib@npm:2.2.0"
   checksum: 2d35468c470410871c5246e43f12dcb6d0fc363b617c176f26443b9530e5c5ee8448966892a42956168d8f495da7865bda33dfe82c26c91991e28999974a618f
