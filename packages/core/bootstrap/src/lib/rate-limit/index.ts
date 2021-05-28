@@ -10,7 +10,8 @@ import {
   IntervalNames,
   Intervals,
   RootState,
-  selectObserved,
+  selectParticiantsHeartbeatsFor,
+  selectTotalNumberOfHeartbeatsFor,
 } from './reducer'
 export * as actions from './actions'
 export * as reducer from './reducer'
@@ -27,15 +28,15 @@ export const computeThroughput = (
   id: string,
 ): number => {
   // All observed in interval
-  const observedRequests = selectObserved(state, interval).filter((h) => !h.w)
-  const throughput = observedRequests.length + 1
+  const totalThroughtput = selectTotalNumberOfHeartbeatsFor(state, interval)
   // All of type observed in interval
-  const observedRequestsOfType = selectObserved(state, interval, id).filter((h) => !h.w)
-  const throughputOfType = observedRequestsOfType.length + 1
-  const costOfType = getAverageCost(observedRequestsOfType) || 1
+  const observedRequestsOfParticipant = selectParticiantsHeartbeatsFor(state, interval, id)
+  const throughputOfParticipant = observedRequestsOfParticipant.length + 1
+  const costOfParticipant = getAverageCost(observedRequestsOfParticipant) || 1
   // Compute max throughput by weight
-  const weight = throughputOfType / throughput
-  return maxThroughput(weight, costOfType)
+  const weight = throughputOfParticipant / totalThroughtput
+
+  return maxThroughput(weight, costOfParticipant)
 }
 
 const getAverageCost = (requests: Heartbeat[]): number => {
@@ -43,9 +44,8 @@ const getAverageCost = (requests: Heartbeat[]): number => {
   return requests.reduce((totalCost, h) => totalCost + h.c, 0) / requests.length
 }
 
-
 const maxThroughput = (weight: number, cost: number): number => {
-  const maxAllowedCapacity = 0.9 * (config.get().totalCapacity / cost) // Interval.Minute
+  const maxAllowedCapacity = 0.9 * (config.get().totalCapacity / cost)
   return weight * maxAllowedCapacity
 }
 

@@ -2,27 +2,36 @@ import { AdapterRequest, Execute } from '@chainlink/types'
 import { createStore, Store } from 'redux'
 import { useFakeTimers } from 'sinon'
 import * as rateLimit from '../../src/lib/rate-limit'
-import { IntervalNames, Intervals, selectObserved } from '../../src/lib/rate-limit/reducer'
+import {
+  IntervalNames,
+  Intervals,
+  selectParticiantsHeartbeatsFor,
+  selectTotalNumberOfHeartbeatsFor,
+} from '../../src/lib/rate-limit/reducer'
 
-const counterFrom = (i = 0): Execute => async (request) => {
-  const result = i++
-  return {
-    jobRunID: request.id,
-    data: { jobRunID: request.id, statusCode: 200, data: request, result },
-    result,
-    statusCode: 200,
+const counterFrom =
+  (i = 0): Execute =>
+  async (request) => {
+    const result = i++
+    return {
+      jobRunID: request.id,
+      data: { jobRunID: request.id, statusCode: 200, data: request, result },
+      result,
+      statusCode: 200,
+    }
   }
-}
 
-const expectRequestToBe = (field: string, expected: any): Execute => async (request) => {
-  expect(request[field]).toBe(expected)
-  return {
-    jobRunID: request.id,
-    data: { jobRunID: request.id, statusCode: 200, data: request, result: '' },
-    result: '',
-    statusCode: 200,
+const expectRequestToBe =
+  (field: string, expected: any): Execute =>
+  async (request) => {
+    expect(request[field]).toBe(expected)
+    return {
+      jobRunID: request.id,
+      data: { jobRunID: request.id, statusCode: 200, data: request, result: '' },
+      result: '',
+      statusCode: 200,
+    }
   }
-}
 
 const getMaxAge = (store: Store, input: AdapterRequest) => {
   const requestTypeId = rateLimit.makeId(input)
@@ -135,17 +144,17 @@ describe('Rate Limit Middleware', () => {
         await execute({ id: String(i), data: {} })
       }
       let state = store.getState()
-      expect(selectObserved(state.heartbeats, intervalName as IntervalNames).length).toBe(6)
+      expect(selectTotalNumberOfHeartbeatsFor(state.heartbeats, intervalName)).toBe(7)
 
       clock.tick(interval - 1)
       await execute({ id: '6', data: {} })
       state = store.getState()
-      expect(selectObserved(state.heartbeats, intervalName as IntervalNames).length).toBe(7)
+      expect(selectTotalNumberOfHeartbeatsFor(state.heartbeats, intervalName)).toBe(8)
 
       clock.tick(2)
       await execute({ id: '6', data: {} })
       state = store.getState()
-      expect(selectObserved(state.heartbeats, intervalName as IntervalNames).length).toBe(2)
+      expect(selectTotalNumberOfHeartbeatsFor(state.heartbeats, intervalName)).toBe(3)
     })
 
     it(`Participant requests are windowed stored`, async () => {
@@ -159,9 +168,9 @@ describe('Rate Limit Middleware', () => {
 
       let state = store.getState()
       expect(
-        selectObserved(
+        selectParticiantsHeartbeatsFor(
           state.heartbeats,
-          intervalName as IntervalNames,
+          intervalName,
           rateLimit.makeId({ id: '1', data: { base: 1 } }),
         ).length,
       ).toBe(1)
@@ -170,7 +179,7 @@ describe('Rate Limit Middleware', () => {
       await execute(input)
       state = store.getState()
       expect(
-        selectObserved(state.heartbeats, intervalName as IntervalNames, rateLimit.makeId(input))
+        selectParticiantsHeartbeatsFor(state.heartbeats, intervalName, rateLimit.makeId(input))
           .length,
       ).toBe(2)
 
@@ -179,7 +188,7 @@ describe('Rate Limit Middleware', () => {
       await execute(input)
       state = store.getState()
       expect(
-        selectObserved(state.heartbeats, intervalName as IntervalNames, rateLimit.makeId(input))
+        selectParticiantsHeartbeatsFor(state.heartbeats, intervalName, rateLimit.makeId(input))
           .length,
       ).toBe(3)
 
@@ -188,7 +197,7 @@ describe('Rate Limit Middleware', () => {
       await execute(input)
       state = store.getState()
       expect(
-        selectObserved(state.heartbeats, intervalName as IntervalNames, rateLimit.makeId(input))
+        selectParticiantsHeartbeatsFor(state.heartbeats, intervalName, rateLimit.makeId(input))
           .length,
       ).toBe(2)
     })
