@@ -1,5 +1,5 @@
 import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
-import { Config, Execute, AdapterRequest, AdapterResponse } from '@chainlink/types'
+import { Config, Execute, AdapterRequest, ExecuteWithConfig } from '@chainlink/types'
 import { makeConfig, DEFAULT_ENDPOINT } from './config'
 import { example } from './endpoint'
 
@@ -7,7 +7,7 @@ const inputParams = {
   endpoint: false,
 }
 
-export const execute = async (request: AdapterRequest, config: Config): Promise<AdapterResponse> => {
+export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const validator = new Validator(request, inputParams)
   if (validator.error) throw validator.error
 
