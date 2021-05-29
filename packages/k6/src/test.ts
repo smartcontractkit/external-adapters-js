@@ -1,18 +1,14 @@
 import { check, sleep } from 'k6'
 import http from 'k6/http'
 import { Rate } from 'k6/metrics'
-import config from './config'
-import requestsNonWS from './non-WS'
-import requestsWS from './WS'
-
-const { GROUP_COUNT, ADAPTERS } = config
+import { ADAPTERS, GROUP_COUNT, httpPayloadsByAdapter, wsPayloads } from './config/index'
 
 export let options = {
   vus: 1,
   duration: '12h',
   batch:
-    (requestsWS.length * ADAPTERS.length +
-      Object.values(requestsNonWS).reduce((total, group) => group.length + total, 0)) *
+    (wsPayloads.length * ADAPTERS.length +
+      Object.values(httpPayloadsByAdapter).reduce((total, group) => group.length + total, 0)) *
     GROUP_COUNT,
   thresholds: {
     http_req_failed: ['rate<0.01'], // http errors should be less than 1%
@@ -29,7 +25,7 @@ interface LoadTestGroupUrls {
 }
 
 function getLoadTestGroupsUrls(): LoadTestGroupUrls {
-  if (__ENV.LOCAL) {
+  if (__ENV.LOCAL_ADAPTER_NAME) {
     /**
      * Local environment only handles a single endpoint
      */
@@ -51,7 +47,7 @@ function getLoadTestGroupsUrls(): LoadTestGroupUrls {
   }
 }
 
-const buildRequests = () => {
+function buildRequests() {
   const batchRequests: Parameters<typeof http.batch>[0] = {}
   const params = {
     headers: {
@@ -62,7 +58,7 @@ const buildRequests = () => {
   for (const [loadTestGroup, adaptersByAdapterName] of Object.entries(urls)) {
     for (const [adapterName, url] of Object.entries(adaptersByAdapterName)) {
       if (__ENV.WS_ENABLED) {
-        for (const payload of requestsWS) {
+        for (const payload of wsPayloads) {
           batchRequests[`Group-${loadTestGroup}-${adapterName}-${payload.name}`] = {
             method: payload.method,
             url,
@@ -72,7 +68,7 @@ const buildRequests = () => {
         }
       }
 
-      for (const payload of requestsNonWS[adapterName as keyof typeof requestsNonWS]) {
+      for (const payload of httpPayloadsByAdapter[adapterName]) {
         batchRequests[`Group-${loadTestGroup}-${adapterName}-${payload.name}`] = {
           method: payload.method,
           url,

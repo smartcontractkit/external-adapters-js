@@ -1,4 +1,6 @@
-export default [
+import { Payload } from './types'
+
+export const wsPayloads: Payload[] = [
   {
     name: 'BTC/USD',
     id: '86f45dcc-90db-4c39-b385-53945c5a9a30',
