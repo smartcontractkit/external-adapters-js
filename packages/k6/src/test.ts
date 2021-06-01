@@ -3,7 +3,7 @@ import http from 'k6/http'
 import { Rate } from 'k6/metrics'
 import { ADAPTERS, GROUP_COUNT, httpPayloadsByAdapter, wsPayloads } from './config/index'
 
-export let options = {
+export const options = {
   vus: 1,
   duration: '12h',
   batch:
@@ -16,7 +16,7 @@ export let options = {
   },
 }
 
-export let errorRate = new Rate('errors')
+export const errorRate = new Rate('errors')
 
 interface LoadTestGroupUrls {
   [loadTestGroup: string]: {
