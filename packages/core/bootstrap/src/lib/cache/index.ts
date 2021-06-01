@@ -21,8 +21,9 @@ const DEFAULT_RC_INTERVAL_MAX = 1000
 const DEFAULT_RC_INTERVAL_COEFFICIENT = 2
 const DEFAULT_RC_ENTROPY_MAX = 0
 
-export const MAXIMUM_MAX_AGE = 1000 * 60 * 2
-const ERROR_MAX_AGE = 1000 * 60
+export const MAXIMUM_MAX_AGE = 1000 * 60 * 2 // 2 minutes
+const ERROR_MAX_AGE = 1000 * 60 // 1 minute
+export const MINIMUM_AGE = 1000 * 60 * 0.5 // 30 seconds
 
 const env = process.env
 export const defaultOptions = () => ({
@@ -43,6 +44,7 @@ export const defaultOptions = () => ({
     // Add entropy to absorb bursts
     entropyMax: Number(env.REQUEST_COALESCING_ENTROPY_MAX) || DEFAULT_RC_ENTROPY_MAX,
   },
+  minimumAge: Number(env.CACHE_MIN_AGE) || MINIMUM_AGE,
 })
 export type CacheOptions = ReturnType<typeof defaultOptions>
 
@@ -89,7 +91,7 @@ export const redactOptions = (options: CacheOptions): CacheOptions => ({
       : local.redactOptions(options.cacheOptions),
 })
 
-export const withCache: Middleware = async (execute, options = defaultOptions()) => {
+export const withCache: Middleware = async (execute, options: CacheOptions = defaultOptions()) => {
   // If disabled noop
   if (!options.enabled) return (data: AdapterRequest) => execute(data)
 
@@ -144,6 +146,7 @@ export const withCache: Middleware = async (execute, options = defaultOptions())
       feedId: data.debug?.feedId,
     })
     let maxAge = _getRequestMaxAge(data) || _getDefaultMaxAge(data)
+    if (maxAge < options.minimumAge) maxAge = options.minimumAge
     // Add successful result to cache
     const _cacheOnSuccess = async ({ statusCode, data, result }: AdapterResponse) => {
       if (statusCode === 200) {
