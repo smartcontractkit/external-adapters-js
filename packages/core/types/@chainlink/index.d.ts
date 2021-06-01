@@ -16,7 +16,7 @@ declare module '@chainlink/types' {
     cacheHit?: boolean
     staleness?: number
     performance?: number
-    providerCost?: nnumber
+    providerCost?: number
   }
   export type AdapterRequest = {
     id: string

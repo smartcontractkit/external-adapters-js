@@ -211,7 +211,7 @@ From the moment the subscription is confirmed, the adapter will start receiving 
 
 | Required? |                Name                |                                                                             Description                                                                              | Options | Defaults to |
 | :-------: | :--------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
-|           |       `WS_SUBSCRIPTION_TTL`        |            Subscription expiration time in ms. If no new incoming requests ask for this information during this time, the subscription will be cancelled.            |         |   `70000`   |
-|           | `WS_SUBSCRIPTION_UNRESPONSIVE_TTL` | Unresponsive subscription expiration time in ms. If the adapter doesn't receive messages from an open subscription during this time, a resubscription will be tried. |         |   `70000`   |
+|           |       `WS_SUBSCRIPTION_TTL`        |            Subscription expiration time in ms. If no new incoming requests ask for this information during this time, the subscription will be cancelled.            |         |  `120000`   |
+|           | `WS_SUBSCRIPTION_UNRESPONSIVE_TTL` | Unresponsive subscription expiration time in ms. If the adapter doesn't receive messages from an open subscription during this time, a resubscription will be tried. |         |  `120000`   |
 
 \*For the websockets to be effective, **caching needs to be enabled**
