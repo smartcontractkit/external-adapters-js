@@ -11,7 +11,7 @@ declare module '@chainlink/types' {
     startedAt?: number
     timeout?: number
   }
-  export type Debug = {
+  export type AdapterRequestDebug = {
     feedId?: string
     cacheHit?: boolean
     staleness?: number
@@ -43,7 +43,7 @@ declare module '@chainlink/types' {
     data: any // Response data, holds "result" for Flux Monitor. Correct way.
     result: any // Result for OCR
     maxAge?: number
-    debug?: Debug
+    debug?: AdapterRequestDebug
   }
 
   /* ERRORS */
