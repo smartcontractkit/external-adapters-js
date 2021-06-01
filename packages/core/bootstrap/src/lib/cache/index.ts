@@ -119,7 +119,7 @@ export const withCache: Middleware = async (execute, options: CacheOptions = def
     const feedId = data?.debug?.feedId
     const maxAge = Number(data.rateLimitMaxAge)
     if (maxAge && maxAge > ERROR_MAX_AGE) {
-      logger.debug(
+      logger.warn(
         `${
           feedId && feedId[0] !== '{' ? `[${feedId}]` : ''
         } Cache: Caclulated Max Age of ${maxAge} ms exceeds system maximum Max Age of ${MAXIMUM_MAX_AGE} ms`,
@@ -128,7 +128,7 @@ export const withCache: Middleware = async (execute, options: CacheOptions = def
       return maxAge > MAXIMUM_MAX_AGE ? MAXIMUM_MAX_AGE : maxAge
     }
     if (maxAge && maxAge > options.cacheOptions.maxAge) {
-      logger.debug(
+      logger.warn(
         `${
           feedId && feedId[0] !== '{' ? `[${feedId}]` : ''
         } Cache: Calculated Max Age of ${maxAge} ms exceeds configured Max Age of ${
@@ -156,16 +156,16 @@ export const withCache: Middleware = async (execute, options: CacheOptions = def
     const coalescingKey = _getCoalescingKey(key)
     const endMetrics = metrics.beginObserveCacheExecutionDuration({
       participantId: key,
-      feedId: data.debug?.feedId || 'unknown',
+      feedId: data.debug?.feedId,
     })
     let maxAge = _getRequestMaxAge(data) || _getDefaultMaxAge(data)
-    if (maxAge < options.minimumAge) maxAge = options.minimumAge
     // Add successful result to cache
     const _cacheOnSuccess = async ({ statusCode, data, result }: AdapterResponse) => {
       if (statusCode === 200) {
         if (maxAge < 0) {
           maxAge = _getDefaultMaxAge(data)
         }
+        if (maxAge < options.minimumAge) maxAge = options.minimumAge
         const entry = { statusCode, data, result, maxAge }
         await cache.set(key, entry, maxAge)
         logger.trace(`Cache: SET ${key}`, entry)
