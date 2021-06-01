@@ -1,1 +1,1 @@
-docker run -p 9000:9000 -e PORT=9000  jhen0409/remotedev-server
+docker run -p 8000:8000 -e PORT=8000  jhen0409/remotedev-server
