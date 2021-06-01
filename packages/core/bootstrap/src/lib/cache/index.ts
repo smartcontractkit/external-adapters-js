@@ -116,13 +116,26 @@ export const withCache: Middleware = async (execute, options: CacheOptions = def
   const _getRateLimitMaxAge = (data: AdapterRequest): number | undefined => {
     if (!data || !data.data) return
     if (isNaN(data.rateLimitMaxAge as number)) return
+    const feedId = data?.debug?.feedId
     const maxAge = Number(data.rateLimitMaxAge)
     if (maxAge && maxAge > ERROR_MAX_AGE) {
-      logger.warn(`Cache: Key TTL ERROR_MAX_AGE: Max Age is getting max values: ${maxAge} ms`, data)
+      logger.debug(
+        `${
+          feedId && feedId[0] !== '{' ? `[${feedId}]` : ''
+        } Cache: Caclulated Max Age of ${maxAge} ms exceeds system maximum Max Age of ${MAXIMUM_MAX_AGE} ms`,
+        data,
+      )
       return maxAge > MAXIMUM_MAX_AGE ? MAXIMUM_MAX_AGE : maxAge
     }
     if (maxAge && maxAge > options.cacheOptions.maxAge) {
-      logger.warn(`Cache: Max Age is getting high values: ${maxAge} ms`, data)
+      logger.debug(
+        `${
+          feedId && feedId[0] !== '{' ? `[${feedId}]` : ''
+        } Cache: Calculated Max Age of ${maxAge} ms exceeds configured Max Age of ${
+          options.cacheOptions.maxAge
+        } ms`,
+        data,
+      )
     }
     return maxAge
   }
@@ -143,7 +156,7 @@ export const withCache: Middleware = async (execute, options: CacheOptions = def
     const coalescingKey = _getCoalescingKey(key)
     const endMetrics = metrics.beginObserveCacheExecutionDuration({
       participantId: key,
-      feedId: data.debug?.feedId,
+      feedId: data.debug?.feedId || 'unknown',
     })
     let maxAge = _getRequestMaxAge(data) || _getDefaultMaxAge(data)
     if (maxAge < options.minimumAge) maxAge = options.minimumAge
