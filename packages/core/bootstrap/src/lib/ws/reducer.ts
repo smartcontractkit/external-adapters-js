@@ -21,7 +21,7 @@ const initConnectionsState: ConnectionsState = { total: 0, all: {} }
 export const connectionsReducer = createReducer<ConnectionsState>(
   initConnectionsState,
   (builder) => {
-    builder.addCase(actions.connected, (state, action) => {
+    builder.addCase(actions.connectFulfilled, (state, action) => {
       // Add connection
       const { key } = action.payload.config.connectionInfo
       state.all[key] = {
@@ -31,7 +31,7 @@ export const connectionsReducer = createReducer<ConnectionsState>(
       }
     })
 
-    builder.addCase(actions.connect, (state, action) => {
+    builder.addCase(actions.connectRequested, (state, action) => {
       const { key } = action.payload.config.connectionInfo
       const isActive = state.all[key]?.active
       if (isActive) return
@@ -43,12 +43,12 @@ export const connectionsReducer = createReducer<ConnectionsState>(
       }
     })
 
-    builder.addCase(actions.connectionError, (state, action) => {
+    builder.addCase(actions.connectFailed, (state, action) => {
       state.all[action.payload.connectionInfo.key].connecting = 0
       state.all[action.payload.connectionInfo.key].active = false
     })
 
-    builder.addCase(actions.disconnected, (state, action) => {
+    builder.addCase(actions.disconnectFulfilled, (state, action) => {
       // Remove connection
       const { key } = action.payload.config.connectionInfo
       state.all[key].active = false
@@ -56,7 +56,12 @@ export const connectionsReducer = createReducer<ConnectionsState>(
     })
 
     builder.addMatcher(
-      isAnyOf(actions.connect, actions.connected, actions.connectionError, actions.disconnected),
+      isAnyOf(
+        actions.connectRequested,
+        actions.connectFulfilled,
+        actions.connectFailed,
+        actions.disconnectFulfilled,
+      ),
       (state) => {
         state.total = Object.values(state.all).filter((s) => s?.active).length
       },
@@ -83,6 +88,18 @@ const initSubscriptionsState: SubscriptionsState = { total: 0, all: {} }
 export const subscriptionsReducer = createReducer<SubscriptionsState>(
   initSubscriptionsState,
   (builder) => {
+    builder.addCase(actions.subscribeFulfilled, (state, action) => {
+      // Add subscription
+      const key = getSubsId(action.payload.subscriptionMsg)
+      state.all[key] = {
+        active: true,
+        wasEverActive: true,
+        unsubscribed: false,
+        subscribing: 0,
+        input: { ...action.payload.input },
+      }
+    })
+
     builder.addCase(actions.subscribeRequested, (state, action) => {
       const key = getSubsId(action.payload.subscriptionMsg)
       const isActive = state.all[key]?.active
@@ -96,18 +113,6 @@ export const subscriptionsReducer = createReducer<SubscriptionsState>(
       }
     })
 
-    builder.addCase(actions.subscribeFulfilled, (state, action) => {
-      // Add subscription
-      const key = getSubsId(action.payload.subscriptionMsg)
-      state.all[key] = {
-        active: true,
-        wasEverActive: true,
-        unsubscribed: false,
-        subscribing: 0,
-        input: { ...action.payload.input },
-      }
-    })
-
     builder.addCase(actions.unsubscribeFulfilled, (state, action) => {
       // Remove subscription
       const key = getSubsId(action.payload.subscriptionMsg)
@@ -116,7 +121,7 @@ export const subscriptionsReducer = createReducer<SubscriptionsState>(
       state.all[key].unsubscribed = true
     })
 
-    builder.addCase(actions.disconnected, (state) => {
+    builder.addCase(actions.disconnectFulfilled, (state) => {
       state.all = {}
       return state
     })

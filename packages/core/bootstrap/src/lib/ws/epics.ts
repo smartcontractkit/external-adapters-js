@@ -20,11 +20,11 @@ import { withCache } from '../cache'
 import { censor, logger } from '../external-adapter'
 import { getFeedId } from '../metrics/util'
 import {
-  connect,
-  connected,
-  connectionError,
-  disconnect,
-  disconnected,
+  connectFailed,
+  connectFulfilled,
+  connectRequested,
+  disconnectFulfilled,
+  disconnectRequested,
   messageReceived,
   subscribeFulfilled,
   subscribeRequested,
@@ -60,7 +60,7 @@ const deserializer = (message: any) => {
 
 export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (action$, state$) =>
   action$.pipe(
-    filter(connect.match),
+    filter(connectRequested.match),
     map(({ payload }) => ({ payload, connectionKey: payload.config.connectionInfo.key })),
     withLatestFrom(state$),
     filter(([{ connectionKey }, state]) => {
@@ -102,7 +102,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
 
       // Stream of WS connected & disconnected events
       const open$ = openObserver.pipe(
-        map(() => connected({ config, wsHandler })),
+        map(() => connectFulfilled({ config, wsHandler })),
         tap((action) => logger.info('WS: Connected', connectionMeta(action.payload))),
       )
       const close$ = closeObserver.pipe(
@@ -130,13 +130,16 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
               code: closeContext.code,
             },
           })
-          return from([...activeSubs.map(toUnsubscribed), disconnected({ config, wsHandler })])
+          return from([
+            ...activeSubs.map(toUnsubscribed),
+            disconnectFulfilled({ config, wsHandler }),
+          ])
         }),
       )
 
       // Close the WS connection on disconnect
       const disconnect$ = action$.pipe(
-        filter(disconnect.match),
+        filter(disconnectRequested.match),
         filter(({ payload }) => payload.config.connectionInfo.key === connectionKey),
         tap(() => wsSubject.closed || wsSubject.complete()),
         tap((action) => logger.info('WS: Disconnected', connectionMeta(action.payload))),
@@ -201,7 +204,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
                     tap((a) => logger.info('WS: Unsubscribed', subscriptionMeta(a.payload))),
                   ),
                   action$.pipe(
-                    filter(disconnected.match),
+                    filter(disconnectFulfilled.match),
                     filter((a) => a.payload.config.connectionInfo.key === connectionKey),
                   ),
                 ),
@@ -212,7 +215,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
         catchError((e) => {
           logger.error(e)
           return of(
-            connectionError({ connectionInfo: { key: connectionKey, url }, reason: e.message }),
+            connectFailed({ connectionInfo: { key: connectionKey, url }, reason: e.message }),
           )
         }),
       )
@@ -359,7 +362,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
         takeUntil(
           action$.pipe(
             // TODO: not seeing unsubscribe events because of this
-            filter(disconnected.match),
+            filter(disconnectFulfilled.match),
             tap((action) => logger.info('WS: Disconnected', connectionMeta(action.payload))),
             filter((a) => a.payload.config.connectionInfo.key === connectionKey),
           ),
@@ -405,13 +408,13 @@ export const metricsEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
       })
 
       switch (action.type) {
-        case connected.type:
+        case connectFulfilled.type:
           ws_connection_active.labels(connectionLabels(action.payload)).inc()
           break
-        case connectionError.type:
+        case connectFailed.type:
           ws_connection_errors.labels(connectionErrorLabels(action.payload)).inc()
           break
-        case disconnected.type:
+        case disconnectFulfilled.type:
           if (state.ws.connections.all[connectionLabels(action.payload).key]?.wasEverConnected) {
             ws_connection_active.labels(connectionLabels(action.payload)).dec()
           }
