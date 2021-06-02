@@ -1,7 +1,7 @@
 import JSONRPC from '@chainlink/json-rpc-adapter'
-import { AdapterRequest, AdapterResponse } from '@chainlink/types'
+import { ExecuteWithConfig } from '@chainlink/types'
 import { Validator, Requester } from '@chainlink/ea-bootstrap'
-import { DEFAULT_RPC_URL, Config } from '../config'
+import { DEFAULT_RPC_URL, ExtendedConfig } from '../config'
 import { ethers } from 'ethers'
 
 export const NAME = 'format'
@@ -13,7 +13,7 @@ export const inputParams = {
 }
 
 
-export const execute = async (request: AdapterRequest, config: Config): Promise<AdapterResponse> => {
+export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, config) => {
     const validator = new Validator(request, inputParams)
     if (validator.error) throw validator.error
     const url = config.RPC_URL || validator.validated.data.url || DEFAULT_RPC_URL
