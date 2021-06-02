@@ -10,12 +10,6 @@ The adapter takes the following environment variables:
 | :-------: | :-------: | :---------------------: | :-----: | :---------------------: |
 |           | `RPC_URL` | Blockchain RPC endpoint |         | `http://localhost:8545` |
 
-Other common `RPC_URL` endpoints:
-
-- bitcoind: http://localhost:8332
-- btcd: http://localhost:8334
-
-
 This composite adapter incorporates the [`json-rpc`](../../sources/json-rpc) adapter by calling `"method": "getblockchainfo"`.
 
 ## Running
@@ -29,7 +23,7 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 - Currently, there is only one "endpoint:" format. This adapter was designed so that adding new internal endpoints would be easy to implement.
 
 ### Format Endpoint:
-
+The format endpoint encodes the chainId, block hash, and block receiptsRoot as bytes and returns that without a 0x prefix.
 ---
 
 ### Input Params
@@ -67,12 +61,8 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 
 Testing is dependent on the type of node you're connecting to. You can set a local environment variable `RPC_URL` to point to an RPC connection. Otherwise, the adapter will default to `"http://localhost:8545"`.
 
-RPC Address and Port Defaults:
-
-- BTC: (bitcoind) http://localhost:8332 (btcd) http://localhost:8334
-
 Make sure you run these commands from the ROOT of this monorepo.
 
 ```bash
-yarn test bitcoin-json-rpc
+yarn test bob-adapter
 ```
