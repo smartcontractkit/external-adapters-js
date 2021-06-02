@@ -75,7 +75,7 @@ declare module '@chainlink/types' {
     network?: string
     returnRejectedPromiseOnError?: boolean
     verbose?: boolean
-    api: RequestConfig
+    api?: RequestConfig
   }
 
   export type ExecuteSync = (input: AdapterRequest, callback: Callback) => void

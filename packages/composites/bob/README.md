@@ -1,6 +1,6 @@
 # Bob adapter for Chainlink
 
-The adapter provides an interface for retrieving data from the Bitcoin blockchain.
+The adapter provides an interface for retrieving data from the source blockchain.
 
 ## Configuration
 
