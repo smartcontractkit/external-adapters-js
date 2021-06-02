@@ -43,7 +43,6 @@ export const withCacheWarmer = (
   if (wsConfig.enabled && ws.makeWSHandler) {
     // If WS is available, and there is an active subscription, warmer should not be active
     const wsHandler = await ws.makeWSHandler()
-    console.log(input)
     const wsSubscriptionKey = getSubsId(wsHandler.subscribe(input))
     const cacheWarmerKey = getSubscriptionKey(warmupSubscribedPayload)
 
