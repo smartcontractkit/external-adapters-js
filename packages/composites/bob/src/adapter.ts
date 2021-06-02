@@ -1,4 +1,4 @@
-import { ExecuteFactory, ExecuteWithConfig, AdapterRequest } from '@chainlink/types'
+import { ExecuteFactory, ExecuteWithConfig} from '@chainlink/types'
 import { Validator, AdapterError } from '@chainlink/ea-bootstrap'
 import { DEFAULT_ENDPOINT, makeConfig, ExtendedConfig } from './config'
 import { format } from './endpoint'
