@@ -10,8 +10,8 @@ The adapter takes the following environment variables:
 | :-------: | :-------: | :--------------------------: | :-----: | :---------: |
 |    ✅     | `RPC_URL` | RPC URL for the ETH node |         |             |
 |    ✅     | `PRIVATE_KEY` | Private key of the account to use for on-chain txs |         |             |
-
-Any configuration params for The Rundown are also required.
+|          | `THERUNDOWN_*` | Configuration variables for The Rundown: [See README](../../sources/therundown/README.md) | | |
+|          | `SPORTSDATAIO_*` | Configuration variables for Sportsdataio: [See README](../../sources/sportsdataio/README.md) | | |
 
 ## Running
 
@@ -22,11 +22,11 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 | Required? |            Name            |               Description                |       Options       | Defaults to |
 | :-------: | :------------------------: | :--------------------------------------: | :-----------------: | :---------: |
 |    ✅     | `method`  |   The method to call    | `resolve`, `create` |             |
-|    ✅     | `sportId`  |   The sportId to call for    |  |             |
+|    ✅     | `sport`  |   The sport to call for    | `NFL`, `NBA`, `MLB` |             |
 |    ✅     | `contractAddress`  |   The contract address to interact with    |  |             |
 |    ✅     | `daysInAdvance`  | Create only: number of days in advance to create events for |  |             |
 |    ✅     | `startBuffer`  | Create only: number of seconds in the future the event has to be to create |  |             |
-|    ✅     | `affiliateIds`  | Create only: prioritized array of affiliate ids to use |  |             |
+|         | `affiliateIds`  | Create only: prioritized array of affiliate ids to use |  |             |
 
 ### Sample Input
 
@@ -35,7 +35,7 @@ See the [Composite Adapter README](../README.md) for more information on how to 
   "id": "1",
   "data": {
     "method": "resolve",
-    "sportId": 2,
+    "sport": "NBA",
     "daysInAdvance": 7,
     "startBuffer": 60,
     "affiliateIds": [9, 3],
