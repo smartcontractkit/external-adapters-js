@@ -155,6 +155,7 @@ export const withCache: Middleware = async (execute, options: CacheOptions = def
     const key = _getKey(data)
     const coalescingKey = _getCoalescingKey(key)
     const endMetrics = metrics.beginObserveCacheExecutionDuration({
+      isFromWs: data.debug?.ws,
       participantId: key,
       feedId: data.debug?.feedId,
     })
