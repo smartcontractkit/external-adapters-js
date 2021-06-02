@@ -1,4 +1,4 @@
-import { Execute, AdapterResponse, AdapterRequest } from '@chainlink/types'
+import { ExecuteFactory, AdapterResponse, AdapterRequest } from '@chainlink/types'
 import { Validator, AdapterError } from '@chainlink/ea-bootstrap'
 import { DEFAULT_ENDPOINT, makeConfig, Config } from './config'
 import { format } from './endpoint'
@@ -27,6 +27,6 @@ export const execute = async (request: AdapterRequest, config: Config): Promise<
   }
 }
 
-export const makeExecute = (config?: Config): Execute => {
-  return async (request: AdapterRequest) => execute(request, config || makeConfig())
+export const makeExecute: ExecuteFactory<Config> = (config) => {
+  return async (request) => execute(request, config || makeConfig())
 }
