@@ -1,6 +1,6 @@
 import { AdapterRequest, MakeWSHandler, Middleware } from '@chainlink/types'
 import { Store } from 'redux'
-import { connect, subscribe, WSSubscriptionPayload } from './actions'
+import { connect, subscribeRequested, WSSubscriptionPayload } from './actions'
 import { getWSConfig } from './config'
 import { RootState } from './reducer'
 
@@ -32,6 +32,6 @@ export const withWebSockets =
       input,
     }
 
-    store.dispatch(subscribe(subscriptionPayload))
+    store.dispatch(subscribeRequested(subscriptionPayload))
     return await execute(input)
   }
