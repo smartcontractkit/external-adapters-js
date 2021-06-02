@@ -1,8 +1,5 @@
 import { util } from '@chainlink/ea-bootstrap'
-
-export type Config = {
-  RPC_URL: string,
-}
+import { Config } from '@chainlink/types'
 
 export const DEFAULT_RPC_URL = 'http://localhost:8545'
 export const DEFAULT_ENDPOINT = 'format'
