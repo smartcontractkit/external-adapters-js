@@ -69,7 +69,7 @@ describe('side effect tests', () => {
         })
 
         const output$ = warmupSubscriber(action$, state$, epicDependencies)
-        expectObservable(output$, '^ 35s !').toBe('a b 14998ms a b 14998ms a b', {
+        expectObservable(output$, '^ 35s !').toBe('a b 14999ms a b 14999ms a b', {
           a: actions.warmupRequested({
             key: key1,
           }),

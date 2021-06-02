@@ -93,7 +93,7 @@ describe('Rate Limit/Cache - Integration', () => {
   it('Multiple feed with high costs go over capacity on initialization, then stabilize', async () => {
     const [clock, restoreClock] = setupClock()
 
-    const cost = 2
+    const cost = 4
     const store = createStore(rateLimit.reducer.rootReducer, {})
     const dataProvider = dataProviderMock(cost)
     const executeWithMiddleware = await withMiddleware(dataProvider.execute, [
