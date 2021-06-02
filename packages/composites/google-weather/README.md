@@ -30,7 +30,7 @@ env PROJECT_ID=gcp-pdp-weather-dev yarn start
 |    ✅     | `long`  |   The longitude of the position to fetch data for    |  | |
 |    ✅     | `dateFrom`  |   The date to query data from (inclusive)    |  | |
 |    ✅     | `dateTo`  |   The date to query data to (exclusive)    |  | |
-|    ✅     | `mode`  | What mode to aggregate data in | `AVG`, `SUM` | |
+|    ✅     | `method`  | Which method to use to aggregate data in | `AVG`, `SUM` | |
 |    ✅     | `field`  | Which column to fetch data from | `temperature_2m_above_ground`, `specific_humidity_2m_above_ground`, `relative_humidity_2m_above_ground`, `u_component_of_wind_10m_above_ground`, `v_component_of_wind_10m_above_ground`, `total_precipitation_surface`, `precipitable_water_entire_atmosphere`, `total_cloud_cover_entire_atmosphere`, `downward_shortwave_radiation_flux` | |
 
 ## Examples
@@ -47,7 +47,7 @@ Input:
     "long": 80.75,
     "dateFrom": "2021-04-01",
     "dateTo": "2021-05-01",
-    "mode": "AVG",
+    "method": "AVG",
     "column": "temperature_2m_above_ground"
   }
 }
@@ -78,7 +78,7 @@ Input:
     "long": 80.75,
     "dateFrom": "2021-04-01",
     "dateTo": "2021-05-01",
-    "mode": "SUM",
+    "method": "SUM",
     "column": "total_precipitation_surface"
   }
 }

@@ -7,7 +7,7 @@ const customParams = {
   long: true,
   dateFrom: true,
   dateTo: true,
-  mode: true,
+  method: true,
   column: true,
 }
 
@@ -20,10 +20,10 @@ export const execute = async (input: AdapterRequest): Promise<AdapterResponse> =
   const long = validator.validated.data.long
   const dateFrom = validator.validated.data.dateFrom
   const dateTo = validator.validated.data.dateTo
-  const mode = validator.validated.data.mode
+  const method = validator.validated.data.method
   const column = validator.validated.data.column
 
-  const queryBuilder = new QueryBuilder(lat, long, dateFrom, dateTo, mode, column)
+  const queryBuilder = new QueryBuilder(lat, long, dateFrom, dateTo, method, column)
 
   const bigQuery = BigQuery.makeExecute(BigQuery.makeConfig())
   const response = await bigQuery({ id: jobRunID, data: queryBuilder.toQuery() })
@@ -35,29 +35,29 @@ export const makeExecute = (): Execute => {
   return async (request: AdapterRequest) => execute(request)
 }
 
-type Mode = 'SUM' | 'AVG'
+type Method = 'SUM' | 'AVG'
 
 class QueryBuilder {
   private readonly lat: number
   private readonly long: number
   private readonly dateFrom: string
   private readonly dateTo: string
-  private readonly mode: Mode
+  private readonly method: Method
   private readonly column: string
   private table = 'gcp-pdp-weather-dev.geo_weather.NOAA_GFS0P25'
 
-  constructor(lat: number, long: number, dateFrom: string, dateTo: string, mode: Mode, column: string, table?: string) {
+  constructor(lat: number, long: number, dateFrom: string, dateTo: string, method: Method, column: string, table?: string) {
     this.lat = lat
     this.long = long
     this.dateFrom = dateFrom
     this.dateTo = dateTo
-    this.mode = mode
+    this.method = method
     this.column = column
     if (table !== undefined) this.table = table
   }
 
   private select() {
-    switch (this.mode) {
+    switch (this.method) {
       case 'AVG':
         return `AVG(${this.column})`
       case 'SUM':
