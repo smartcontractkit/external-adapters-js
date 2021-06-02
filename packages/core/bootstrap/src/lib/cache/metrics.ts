@@ -26,7 +26,7 @@ export const redis_connections_open = new client.Counter({
 
 interface CacheExecutionDurationParams {
   participantId: string
-  feedId: string
+  feedId?: string
 }
 
 type EndObserveCacheExecutionDuration = (cacheHit: boolean, staleness?: number) => number

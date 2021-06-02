@@ -21,8 +21,9 @@ const DEFAULT_RC_INTERVAL_MAX = 1000
 const DEFAULT_RC_INTERVAL_COEFFICIENT = 2
 const DEFAULT_RC_ENTROPY_MAX = 0
 
-export const MAXIMUM_MAX_AGE = 1000 * 60 * 2
-const ERROR_MAX_AGE = 1000 * 60
+export const MAXIMUM_MAX_AGE = 1000 * 60 * 2 // 2 minutes
+const ERROR_MAX_AGE = 1000 * 60 // 1 minute
+export const MINIMUM_AGE = 1000 * 60 * 0.5 // 30 seconds
 
 const env = process.env
 export const defaultOptions = () => ({
@@ -43,6 +44,7 @@ export const defaultOptions = () => ({
     // Add entropy to absorb bursts
     entropyMax: Number(env.REQUEST_COALESCING_ENTROPY_MAX) || DEFAULT_RC_ENTROPY_MAX,
   },
+  minimumAge: Number(env.CACHE_MIN_AGE) || MINIMUM_AGE,
 })
 export type CacheOptions = ReturnType<typeof defaultOptions>
 
@@ -89,7 +91,7 @@ export const redactOptions = (options: CacheOptions): CacheOptions => ({
       : local.redactOptions(options.cacheOptions),
 })
 
-export const withCache: Middleware = async (execute, options = defaultOptions()) => {
+export const withCache: Middleware = async (execute, options: CacheOptions = defaultOptions()) => {
   // If disabled noop
   if (!options.enabled) return (data: AdapterRequest) => execute(data)
 
@@ -114,13 +116,26 @@ export const withCache: Middleware = async (execute, options = defaultOptions())
   const _getRateLimitMaxAge = (data: AdapterRequest): number | undefined => {
     if (!data || !data.data) return
     if (isNaN(data.rateLimitMaxAge as number)) return
+    const feedId = data?.debug?.feedId
     const maxAge = Number(data.rateLimitMaxAge)
     if (maxAge && maxAge > ERROR_MAX_AGE) {
-      logger.warn(`Cache: Key TTL ERROR_MAX_AGE: Max Age is getting max values: ${maxAge} ms`, data)
+      logger.warn(
+        `${
+          feedId && feedId[0] !== '{' ? `[${feedId}]` : ''
+        } Cache: Caclulated Max Age of ${maxAge} ms exceeds system maximum Max Age of ${MAXIMUM_MAX_AGE} ms`,
+        data,
+      )
       return maxAge > MAXIMUM_MAX_AGE ? MAXIMUM_MAX_AGE : maxAge
     }
     if (maxAge && maxAge > options.cacheOptions.maxAge) {
-      logger.warn(`Cache: Max Age is getting high values: ${maxAge} ms`, data)
+      logger.warn(
+        `${
+          feedId && feedId[0] !== '{' ? `[${feedId}]` : ''
+        } Cache: Calculated Max Age of ${maxAge} ms exceeds configured Max Age of ${
+          options.cacheOptions.maxAge
+        } ms`,
+        data,
+      )
     }
     return maxAge
   }
@@ -150,6 +165,7 @@ export const withCache: Middleware = async (execute, options = defaultOptions())
         if (maxAge < 0) {
           maxAge = _getDefaultMaxAge(data)
         }
+        if (maxAge < options.minimumAge) maxAge = options.minimumAge
         const entry = { statusCode, data, result, maxAge }
         await cache.set(key, entry, maxAge)
         logger.trace(`Cache: SET ${key}`, entry)
