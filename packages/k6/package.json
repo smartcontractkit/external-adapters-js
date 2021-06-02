@@ -21,6 +21,7 @@
   },
   "scripts": {
     "build": "yarn webpack",
-    "test": "k6 run dist/test.js"
+    "test": "yarn build && k6 run dist/test.js",
+    "test:cryptocompare": "yarn build && k6 run dist/testCryptocompare.js"
   }
 }

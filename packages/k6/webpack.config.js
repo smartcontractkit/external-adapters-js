@@ -6,6 +6,7 @@ module.exports = {
   context: path.join(__dirname, 'src'),
   entry: {
     test: './test.ts',
+    testCryptocompare: './test-cryptocompare.ts',
   },
   output: {
     path: path.join(__dirname, 'dist'),
