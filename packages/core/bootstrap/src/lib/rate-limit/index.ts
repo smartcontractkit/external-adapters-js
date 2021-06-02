@@ -65,28 +65,27 @@ export const makeId = (request: AdapterRequest): string => hash(request, config.
 export const maxAgeFor = (throughput: number, interval: number) =>
   throughput <= 0 ? interval : Math.floor(interval / throughput)
 
-export const withRateLimit =
-  (store: Store<RootState>): Middleware =>
-  async (execute) =>
-  async (input) => {
-    if (!config.get().enabled) return await execute(input)
-    let state = store.getState()
-    const { heartbeats } = state
-    const requestTypeId = makeId(input)
-    const maxThroughput = computeThroughput(heartbeats, IntervalNames.HOUR, requestTypeId)
-    const maxAge = maxAgeFor(maxThroughput, Intervals[IntervalNames.MINUTE])
-    const result = await execute({ ...input, rateLimitMaxAge: maxAge })
+export const withRateLimit = (store: Store<RootState>): Middleware => async (execute) => async (
+  input,
+) => {
+  if (!config.get().enabled) return await execute(input)
+  let state = store.getState()
+  const { heartbeats } = state
+  const requestTypeId = makeId(input)
+  const maxThroughput = computeThroughput(heartbeats, IntervalNames.HOUR, requestTypeId)
+  const maxAge = maxAgeFor(maxThroughput, Intervals[IntervalNames.MINUTE])
+  const result = await execute({ ...input, rateLimitMaxAge: maxAge })
 
-    store.dispatch(successfulRequestObserved(input, result))
-    state = store.getState()
+  store.dispatch(successfulRequestObserved(input, result))
+  state = store.getState()
 
-    const defaultLabels = {
-      feed_id: input.debug?.feedId,
-      participant_id: requestTypeId,
-      experimental: 'true',
-    }
-    const cost = parseInt(result.debug?.providerCost)
-    metrics.rateLimitCreditsSpentTotal.labels(defaultLabels).inc(isNaN(cost) ? 1 : cost)
-
-    return result
+  const defaultLabels = {
+    feed_id: input.debug?.feedId,
+    participant_id: requestTypeId,
+    experimental: 'true',
   }
+  const cost = result.debug?.providerCost || 1
+  metrics.rateLimitCreditsSpentTotal.labels(defaultLabels).inc(isNaN(cost) ? 1 : cost)
+
+  return result
+}

@@ -12,7 +12,7 @@ const DEFAULT_CACHE_REDIS_URL = undefined // The URL of the Redis server
 const DEFAULT_CACHE_REDIS_PASSWORD = undefined // The password required for redis auth
 const DEFAULT_CACHE_REDIS_TIMEOUT = 500 // Timeout in ms
 // Options
-const DEFAULT_CACHE_MAX_AGE = 1000 * 30 // Maximum age in ms
+const DEFAULT_CACHE_MAX_AGE = 1000 * 60 * 2 // 2 minutes
 
 const env = process.env
 
