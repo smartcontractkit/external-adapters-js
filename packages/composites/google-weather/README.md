@@ -8,6 +8,12 @@ point that is closest to the coordinates given in the request.
 
 This adapter takes the configuration variables from the [Google BigQuery adapter](../../sources/google-bigquery/README.md).
 
+In addition, it takes the following environment variables:
+
+| Required? |  Name   |                                                        Description                                                         | Options | Defaults to |
+| :-------: | :-----: | :------------------------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
+|           | `TABLE` | Which BigQuery table to query |         | `gcp-pdp-weather-dev.geo_weather.NOAA_GFS0P25` |
+
 ## Running
 
 See the [Composite Adapter README](../README.md) for more information on how to get started.

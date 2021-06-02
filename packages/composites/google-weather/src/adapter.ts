@@ -1,6 +1,7 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { AdapterRequest, AdapterResponse, Execute } from '@chainlink/types'
+import { ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
 import * as BigQuery from '@chainlink/google-bigquery-adapter'
+import { Config, makeConfig } from './config'
 
 const customParams = {
   lat: true,
@@ -11,7 +12,7 @@ const customParams = {
   column: true,
 }
 
-export const execute = async (input: AdapterRequest): Promise<AdapterResponse> => {
+export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
 
@@ -23,7 +24,7 @@ export const execute = async (input: AdapterRequest): Promise<AdapterResponse> =
   const method = validator.validated.data.method
   const column = validator.validated.data.column
 
-  const queryBuilder = new QueryBuilder(lat, long, dateFrom, dateTo, method, column)
+  const queryBuilder = new QueryBuilder(lat, long, dateFrom, dateTo, method, column, config.table)
 
   const bigQuery = BigQuery.makeExecute(BigQuery.makeConfig())
   const response = await bigQuery({ id: jobRunID, data: queryBuilder.toQuery() })
@@ -31,8 +32,8 @@ export const execute = async (input: AdapterRequest): Promise<AdapterResponse> =
   return Requester.success(jobRunID, { data: { result } })
 }
 
-export const makeExecute = (): Execute => {
-  return async (request: AdapterRequest) => execute(request)
+export const makeExecute: ExecuteFactory<Config> = (config) => {
+  return async (request) => execute(request, config || makeConfig())
 }
 
 type Method = 'SUM' | 'AVG'
@@ -44,16 +45,16 @@ class QueryBuilder {
   private readonly dateTo: string
   private readonly method: Method
   private readonly column: string
-  private table = 'gcp-pdp-weather-dev.geo_weather.NOAA_GFS0P25'
+  private readonly table: string
 
-  constructor(lat: number, long: number, dateFrom: string, dateTo: string, method: Method, column: string, table?: string) {
+  constructor(lat: number, long: number, dateFrom: string, dateTo: string, method: Method, column: string, table: string) {
     this.lat = lat
     this.long = long
     this.dateFrom = dateFrom
     this.dateTo = dateTo
     this.method = method
     this.column = column
-    if (table !== undefined) this.table = table
+    this.table = table
   }
 
   private select() {
