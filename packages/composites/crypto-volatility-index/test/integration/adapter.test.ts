@@ -7,7 +7,6 @@ jest.setTimeout(10000)
 describe('execute', () => {
   const jobID = '1'
   const contractAddress = '0x1B58B67B2b2Df71b4b0fb6691271E83A0fa36aC5'
-  process.env.COINGECKO_DATA_PROVIDER_URL = 'http://localhost:3000'
   describe('successful calls @integration', () => {
     const requests = [
       {
