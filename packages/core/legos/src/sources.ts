@@ -87,7 +87,6 @@ export default {
   alphachain,
   alphavantage,
   amberdata,
-  amberdata_gasprice,
   anyblock_gasprice,
   anyblock_uniswap_vwap,
   binance,
