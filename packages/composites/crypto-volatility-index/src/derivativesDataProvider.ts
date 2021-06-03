@@ -33,6 +33,11 @@ export type CurrencyDerivativesData = {
   exchangeRate: Decimal
 }
 
+export type InstrumentData = {
+  instrument_name: string
+  creation_timestamp: number
+}
+
 export const getDerivativesData = async (
   cryptoCurrencies: Array<string>,
 ): Promise<Record<string, CurrencyDerivativesData>> => {
@@ -74,12 +79,14 @@ const getInstrumentData = async (currency: string) => {
   return response.data.result
 }
 
-const olderThanHour = (instrumentName: string, hourAgo: number, instruments: any): boolean => {
-  for (const i in instruments) {
-    if (instruments[i].instrument_name === instrumentName) {
-      if (hourAgo > instruments[i].creation_timestamp) {
-        return true
-      } else return false
+const olderThanHour = (
+  instrumentName: string,
+  hourAgo: number,
+  instruments: Array<InstrumentData>,
+): boolean => {
+  for (const instrument of instruments) {
+    if (instrument.instrument_name === instrumentName) {
+      return hourAgo > instrument.creation_timestamp
     }
   }
   return false
@@ -96,7 +103,7 @@ const getOptionsData = async (currency: string, exchangeRate: Decimal) => {
     const result = response.data.result
     const calls: Record<number, Array<OptionData>> = {}
     const puts: Record<number, Array<OptionData>> = {}
-    const instruments = await getInstrumentData(currency)
+    const instruments: Array<InstrumentData> = await getInstrumentData(currency)
     const hourAgo = moment().utc().subtract(1, 'hours').unix() * 1000
 
     result.map(convertToOptionData).forEach((optionData: OptionData) => {

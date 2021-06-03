@@ -28,8 +28,8 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 | Required? |             Name              |                                              Description                                              | Options |   Defaults to    |
 | :-------: | :---------------------------: | :---------------------------------------------------------------------------------------------------: | :-----: | :--------------: |
 |    ✅     | `contractAddress`, `contract` |                The address of the on-chain crypto volatility index aggregator contract                |         |                  |
-|           |          `heartBeat`          |                                    Address of the adapter contract                                    |         |       `60`       |
-|           |          `heartBeat`          |          Multiply amount for the on-chain value, which also determines the result precision           |         |      `1e18`      |
+|           |          `heartBeat`          |                                       Interval between updates                                        |         |       `60`       |
+|           |          `multiply`           |          Multiply amount for the on-chain value, which also determines the result precision           |         |      `1e18`      |
 |           |         `isAdaptive`          | Indicates whether the calculation result should be adaptively smoothed with its latest on-chain value |         |      `true`      |
 |           |      `cryptoCurrencies`       |                             which curencies to use to calculate the index                             |         | `['BTC', 'ETH']` |
 |           |     `deviationThreshold`      |                                the threshold for smoothing calculation                                |         |      `0.11`      |

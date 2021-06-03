@@ -1,6 +1,6 @@
 import { expose } from '@chainlink/ea-bootstrap'
-import { makeExecute } from './adapter'
+import { execute } from './adapter'
 
 const NAME = 'CRYPTO_VOLATILITY_INDEX'
 
-export = { NAME, makeExecute, ...expose(makeExecute()) }
+export = { NAME, execute, ...expose(execute) }
