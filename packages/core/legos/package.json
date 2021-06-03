@@ -89,6 +89,7 @@
     "@chainlink/marketstack-adapter": "*",
     "@chainlink/messari-adapter": "*",
     "@chainlink/metalsapi-adapter": "*",
+    "@chainlink/ncfx-adapter": "*",
     "@chainlink/nikkei-adapter": "*",
     "@chainlink/nomics-adapter": "*",
     "@chainlink/oilpriceapi-adapter": "*",
