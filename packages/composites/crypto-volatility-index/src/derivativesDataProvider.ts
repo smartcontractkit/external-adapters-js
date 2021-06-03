@@ -5,8 +5,8 @@ import { Decimal } from 'decimal.js'
 const EXCHANGE_URL = `https://www.deribit.com/api/v2/public`
 const currencyEndpoint = `${EXCHANGE_URL}/get_index`
 const bookDataEndpoint = `${EXCHANGE_URL}/get_book_summary_by_currency`
-
-const DATE_FORMAT = 'DDMMYYYY'
+const instrumentEndpoint = `${EXCHANGE_URL}/get_instruments`
+const expirationHour = 8
 
 export type DeribitOptionDataResponse = {
   instrument_name: string
@@ -15,21 +15,27 @@ export type DeribitOptionDataResponse = {
 }
 
 export type OptionData = {
+  instrumentName: string
   strikePrice: Decimal
   midPrice: Decimal | undefined
   underlyingPrice: Decimal
-  expiration: moment.Moment
+  expiration: number
   type: string
 }
 
 export type CurrencyDerivativesData = {
-  e1: moment.Moment
-  e2: moment.Moment
+  e1: number
+  e2: number
   callsE1: Array<OptionData>
   callsE2: Array<OptionData>
   putsE1: Array<OptionData>
   putsE2: Array<OptionData>
   exchangeRate: Decimal
+}
+
+export type InstrumentData = {
+  instrument_name: string
+  creation_timestamp: number
 }
 
 export const getDerivativesData = async (
@@ -59,10 +65,31 @@ const getCurrencyData = async (currency: string) => {
     url: currencyEndpoint,
     params: { currency },
   }
-
   const response = await Requester.request(config)
   const path = ['result', currency]
   return Requester.validateResultNumber(response.data, path)
+}
+
+const getInstrumentData = async (currency: string) => {
+  const config = {
+    url: instrumentEndpoint,
+    params: { currency },
+  }
+  const response = await Requester.request(config)
+  return response.data.result
+}
+
+const olderThanHour = (
+  instrumentName: string,
+  hourAgo: number,
+  instruments: Array<InstrumentData>,
+): boolean => {
+  for (const instrument of instruments) {
+    if (instrument.instrument_name === instrumentName) {
+      return hourAgo > instrument.creation_timestamp
+    }
+  }
+  return false
 }
 
 const getOptionsData = async (currency: string, exchangeRate: Decimal) => {
@@ -74,20 +101,26 @@ const getOptionsData = async (currency: string, exchangeRate: Decimal) => {
   try {
     const response = await Requester.request(config)
     const result = response.data.result
-    const calls: Record<string, Array<OptionData>> = {}
-    const puts: Record<string, Array<OptionData>> = {}
+    const calls: Record<number, Array<OptionData>> = {}
+    const puts: Record<number, Array<OptionData>> = {}
+    const instruments: Array<InstrumentData> = await getInstrumentData(currency)
+    const hourAgo = moment().utc().subtract(1, 'hours').unix() * 1000
 
     result.map(convertToOptionData).forEach((optionData: OptionData) => {
-      const { expiration, type } = optionData
-      const expirationDate = moment(expiration, 'DDMMMYY').format(DATE_FORMAT)
-      if (type === 'C') {
-        if (!calls[expirationDate]) calls[expirationDate] = []
-        calls[expirationDate].push(optionData)
-      } else if (type === 'P') {
-        if (!puts[expirationDate]) puts[expirationDate] = []
-        puts[expirationDate].push(optionData)
-      } else {
-        throw new Error(`Invalid option type:${type}`)
+      const { instrumentName, expiration, type } = optionData
+      if (
+        olderThanHour(instrumentName, hourAgo, instruments) &&
+        moment.unix(expiration).weekday() == 5
+      ) {
+        if (type === 'C') {
+          if (!calls[expiration]) calls[expiration] = []
+          calls[expiration].push(optionData)
+        } else if (type === 'P') {
+          if (!puts[expiration]) puts[expiration] = []
+          puts[expiration].push(optionData)
+        } else {
+          throw new Error(`Invalid option type:${type}`)
+        }
       }
     })
 
@@ -97,8 +130,8 @@ const getOptionsData = async (currency: string, exchangeRate: Decimal) => {
     Logger.debug(`exchangeRate:${exchangeRate}`)
 
     return {
-      e1: moment(e1, 'DDMMYYYY'),
-      e2: moment(e2, 'DDMMYYYY'),
+      e1: e1 + expirationHour * 60 * 60,
+      e2: e2 + expirationHour * 60 * 60,
       callsE1: calls[e1],
       callsE2: calls[e2],
       putsE1: puts[e1],
@@ -112,42 +145,40 @@ const getOptionsData = async (currency: string, exchangeRate: Decimal) => {
   }
 }
 
-function findNearMonthExpirations(calls: Record<string, Array<OptionData>>) {
-  const e30 = moment().startOf('day').add(30, 'days')
-  let e1 = moment()
-  let e2: moment.Moment | undefined
+function findNearMonthExpirations(calls: Record<number, Array<OptionData>>) {
+  const e30 = moment().utc().add(30, 'days').subtract(expirationHour, 'hours').unix()
+  let e1: number | undefined
+  let e2: number | undefined
 
   // Find last expiration before a full month && first expiration after a full month
   Object.keys(calls).forEach((expirationDate) => {
-    const e = moment(expirationDate, DATE_FORMAT)
-    if (e.isBefore(e30)) {
-      if (e.isAfter(e1)) {
+    const e = +expirationDate
+    if (e <= e30) {
+      if (!e1 || e1 < e) {
         e1 = e
       }
-    } else if (e.isAfter(e30)) {
-      if (!e2 || e.isBefore(e2)) {
+    } else if (e > e30) {
+      if (!e2 || e2 > e) {
         e2 = e
       }
     }
   })
 
+  if (!e1) throw new Error('Could not find an expiration date before a full month')
   if (!e2) throw new Error('Could not find an expiration date after a full month')
-  Logger.debug(`e1:${toDate(e1)} e2:${toDate(<moment.Moment>e2)}`)
-  return { e1: toDate(e1), e2: toDate(<moment.Moment>e2) }
-}
-
-function toDate(moment: moment.Moment) {
-  return moment.format(DATE_FORMAT)
+  Logger.debug(`e1:${e1} e2:${e2}`)
+  return { e1, e2 }
 }
 
 function convertToOptionData(option: DeribitOptionDataResponse) {
   const { instrument_name, mid_price, underlying_price } = option
   const [, expiration, strikePrice, type] = instrument_name.split('-')
   const optionData: OptionData = {
+    instrumentName: instrument_name,
     strikePrice: new Decimal(strikePrice),
     midPrice: mid_price ? new Decimal(mid_price) : undefined,
     underlyingPrice: new Decimal(underlying_price),
-    expiration: moment(expiration, 'DDMMMYY'),
+    expiration: moment.utc(expiration, 'DDMMMYY').unix(),
     type,
   }
 

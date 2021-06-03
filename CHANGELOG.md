@@ -19,6 +19,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 - Conflux adapter sending transaction optimization
 
+- Improved time resolution from days to seconds and smooth-out the effect of added strikes for `crypto-volatility-index` adapter
+
 ### Removed
 
 - Removed custom `tradingeconomics-stream` as WS support is not included into `tradingeconomics` adapter
