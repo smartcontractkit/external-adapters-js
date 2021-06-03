@@ -1,7 +1,5 @@
 import { expose } from '@chainlink/ea-bootstrap'
-import { makeExecute } from './adapter'
-import { makeConfig } from './config'
+import { makeExecute, makeWSHandler } from './adapter'
+import { NAME, makeConfig } from './config'
 
-const NAME = 'TIINGO'
-
-export = { NAME, makeExecute, makeConfig, ...expose(makeExecute()) }
+export = { NAME, makeExecute, makeConfig, ...expose(makeExecute(), makeWSHandler()) }

@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "@chainlink/ea-bootstrap": "*",
+    "@chainlink/sportsdataio-adapter": "^0.0.1",
     "@chainlink/therundown-adapter": "^0.0.2",
     "ethers": "5.1.4",
     "tslib": "^2.1.0"

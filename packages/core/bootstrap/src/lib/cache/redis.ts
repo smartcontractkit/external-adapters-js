@@ -1,7 +1,8 @@
-import { logger } from '../external-adapter'
+import { timeout, TimeoutError } from 'promise-timeout'
+import { ClientOpts, createClient, RedisClient } from 'redis'
 import { promisify } from 'util'
-import { timeout } from 'promise-timeout'
-import { createClient, ClientOpts, RedisClient } from 'redis'
+import { logger } from '../external-adapter'
+import { redis_connections_open } from './metrics'
 
 // Connection
 const DEFAULT_CACHE_REDIS_HOST = '127.0.0.1' // IP address of the Redis server
@@ -11,7 +12,7 @@ const DEFAULT_CACHE_REDIS_URL = undefined // The URL of the Redis server
 const DEFAULT_CACHE_REDIS_PASSWORD = undefined // The password required for redis auth
 const DEFAULT_CACHE_REDIS_TIMEOUT = 500 // Timeout in ms
 // Options
-const DEFAULT_CACHE_MAX_AGE = 1000 * 30 // Maximum age in ms
+const DEFAULT_CACHE_MAX_AGE = 1000 * 60 * 2 // 2 minutes
 
 const env = process.env
 
@@ -79,12 +80,16 @@ export class RedisCache {
     this.client = client
   }
 
-  async connect() {
+  private async connect() {
     if (!this.options.password) return
-    return timeout(this._auth(this.options.password), this.options.timeout)
+    return this.contextualTimeout(this._auth(this.options.password), 'connect', {
+      includedPassword: !!this.options.password,
+    })
   }
 
   static async build(options: RedisOptions) {
+    logger.info('Creating new redis client instance...')
+    redis_connections_open.inc()
     const cache = new RedisCache(options)
     await cache.connect()
     return cache
@@ -92,21 +97,25 @@ export class RedisCache {
 
   async set(key: string, value: any, maxAge: number) {
     const entry = JSON.stringify(value)
-    return timeout(this._set(key, entry, 'PX', maxAge), this.options.timeout)
+    return this.contextualTimeout(this._set(key, entry, 'PX', maxAge), 'set', {
+      key,
+      value,
+      maxAge,
+    })
   }
 
   async get(key: string) {
-    const entry: string = await timeout(this._get(key), this.options.timeout)
+    const entry: string = await this.contextualTimeout(this._get(key), 'get', { key })
     return JSON.parse(entry)
   }
 
   async del(key: string) {
-    return timeout(this._del(key), this.options.timeout)
+    return this.contextualTimeout(this._del(key), 'del', { key })
   }
 
   async ttl(key: string) {
     // TTL in ms
-    return timeout(this._pttl(key), this.options.timeout)
+    return this.contextualTimeout(this._pttl(key), 'ttl', { key })
   }
 
   /**
@@ -122,12 +131,29 @@ export class RedisCache {
 
     try {
       // No further commands will be processed
-      const res = await timeout(this._quit(), this.options.timeout)
+      const res = await this.contextualTimeout(this._quit(), 'close', {
+        clientExists: !!this.client,
+      })
       logger.debug(`Redis connection shutdown completed with: ${res}`)
-    } catch (err) {
-      logger.error(`Redis connection shutdown failed with: ${err}`)
     } finally {
       this.client.removeAllListeners()
+    }
+  }
+
+  async contextualTimeout(promise: Promise<any>, fnName: string, context: any) {
+    try {
+      const result = await timeout(promise, this.options.timeout)
+      return result
+    } catch (e) {
+      if (e instanceof TimeoutError) {
+        logger.error(
+          'Redis method timed out, consider increasing CACHE_REDIS_TIMEOUT or increasing your redis instance performance',
+          { fnName, context },
+        )
+        throw e
+      }
+      logger.error('Redis method error', { fnName, context })
+      throw e
     }
   }
 }

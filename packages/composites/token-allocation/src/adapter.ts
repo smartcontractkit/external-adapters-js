@@ -118,16 +118,16 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
       true,
     )
 
-  const getPrices = getPriceProvider(sourceConfig.api, jobRunID)
+  const getPrices = getPriceProvider(jobRunID, source, sourceConfig.api)
   switch (method.toLowerCase()) {
-    case 'price':
-      // eslint-disable-next-line no-case-declarations
+    case 'price': {
       const price = await computePrice(getPrices, allocations, quote)
       return _success(price.payload, price.result)
-    case 'marketcap':
-      // eslint-disable-next-line no-case-declarations
+    }
+    case 'marketcap': {
       const marketCap = await computeMarketCap(getPrices, allocations, quote)
       return _success(marketCap.payload, marketCap.result)
+    }
     default:
       throw new AdapterError({
         jobRunID,

@@ -1,7 +1,7 @@
 import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
 import { makeConfig, DEFAULT_ENDPOINT } from './config'
-import { totalScore, events } from './endpoint'
+import { totalScore, events, event } from './endpoint'
 
 const inputParams = {
   endpoint: false,
@@ -22,6 +22,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     }
     case events.NAME: {
       return await events.execute(request, config)
+    }
+    case event.NAME: {
+      return await event.execute(request, config)
     }
     default: {
       throw new AdapterError({

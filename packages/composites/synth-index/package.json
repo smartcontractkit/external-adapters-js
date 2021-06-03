@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/synth-index-adapter",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Chainlink Synth Index adapter",
   "keywords": [
     "Chainlink",
@@ -29,7 +29,7 @@
   "dependencies": {
     "@chainlink/ea-bootstrap": "*",
     "@chainlink/ea-test-helpers": "*",
-    "@chainlink/token-allocation-adapter": "^0.0.2",
+    "@chainlink/token-allocation-adapter": "^0.0.3",
     "decimal.js": "^10.2.1",
     "synthetix": "2.39.2",
     "tslib": "^2.1.0"

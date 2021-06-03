@@ -1,20 +1,15 @@
+import { AdapterRequest, Execute, ExecuteSync, MakeWSHandler, Middleware } from '@chainlink/types'
 import { combineReducers, Store } from 'redux'
-import {
-  AdapterRequest,
-  Execute,
-  ExecuteSync,
-  Middleware,
-  MakeWSHandler
-} from '@chainlink/types'
 import { defaultOptions, redactOptions, withCache } from './lib/cache'
 import * as cacheWarmer from './lib/cache-warmer'
-import { Requester, Validator, AdapterError, logger as Logger } from './lib/external-adapter'
+import { WARMUP_REQUEST_ID } from './lib/cache-warmer/config'
+import { AdapterError, logger as Logger, Requester, Validator } from './lib/external-adapter'
 import * as metrics from './lib/metrics'
 import * as rateLimit from './lib/rate-limit'
-import * as ws from './lib/ws'
 import * as server from './lib/server'
-import * as util from './lib/util'
 import { configureStore } from './lib/store'
+import * as util from './lib/util'
+import * as ws from './lib/ws'
 
 const rootReducer = combineReducers({
   cacheWarmer: cacheWarmer.reducer.rootReducer,
@@ -82,6 +77,7 @@ const withLogger: Middleware = async (execute) => async (input: AdapterRequest) 
 const withMetrics: Middleware = async (execute) => async (input: AdapterRequest) => {
   const recordMetrics = () => {
     const labels: Parameters<typeof metrics.httpRequestsTotal.labels>[0] = {
+      isCacheWarming: String(input.id === WARMUP_REQUEST_ID),
       method: 'POST',
     }
     const end = metrics.httpRequestDurationSeconds.startTimer()
@@ -144,7 +140,10 @@ const executeSync = (execute: Execute, makeWsHandler?: MakeWSHandler): ExecuteSy
   const middleware = [
     withLogger,
     skipOnError(withCache),
-    cacheWarmer.withCacheWarmer(storeSlice('cacheWarmer'), warmerMiddleware, { store: storeSlice('ws'), makeWSHandler: makeWsHandler })(execute),
+    cacheWarmer.withCacheWarmer(storeSlice('cacheWarmer'), warmerMiddleware, {
+      store: storeSlice('ws'),
+      makeWSHandler: makeWsHandler,
+    })(execute),
     ws.withWebSockets(storeSlice('ws'), makeWsHandler),
     rateLimit.withRateLimit(storeSlice('rateLimit')),
     withStatusCode,
@@ -177,4 +176,4 @@ export type ExecuteHandlers = ReturnType<typeof expose>
 const cacheOptions = defaultOptions()
 if (cacheOptions.enabled) Logger.info('Cache enabled: ', redactOptions(cacheOptions))
 
-export { Requester, Validator, AdapterError, Logger, util, server }
+export { Requester, Validator, AdapterError, Logger, util, server, executeSync }

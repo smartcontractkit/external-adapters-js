@@ -1,6 +1,7 @@
 import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig } from '@chainlink/types'
+import { Config, ExecuteWithConfig, AxiosResponse } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
+import { getCoinIds, getSymbolsToIds } from '../util'
 
 export const NAME = 'price'
 
@@ -21,22 +22,25 @@ const customParams = {
   path: false,
 }
 
-const getCoinId = async (config: Config, symbol: string): Promise<string> => {
-  const url = '/coins/list'
-
-  const options = {
-    ...config.api,
-    url,
+const handleBatchedRequest = (
+  jobRunID: string,
+  response: AxiosResponse,
+  path: string,
+  param: { [key: string]: string },
+  quote: string,
+  idToSymbol: Record<string, string>,
+) => {
+  const payload: Record<string, number> = {}
+  for (const key in response.data) {
+    const symbol = idToSymbol?.[key]
+    if (symbol)
+      payload[symbol.toUpperCase()] = Requester.validateResultNumber(response.data, [
+        key,
+        param[path] || quote.toLowerCase(),
+      ])
   }
-
-  const response = await Requester.request(options, customError)
-  const coin = response.data.find((x: any) => x.symbol.toLowerCase() === symbol.toLowerCase())
-
-  if (typeof coin === 'undefined') {
-    throw new Error('Coin id not found')
-  }
-
-  return coin.id.toLowerCase()
+  response.data.results = payload
+  return Requester.success(jobRunID, response, true)
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
@@ -44,15 +48,18 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const symbol = validator.overrideSymbol(AdapterName)
+  const symbol = validator.overrideSymbol(AdapterName) as string
   const quote = validator.validated.data.quote
   const coinid = validator.validated.data.coinid
 
-  // If coinid was provided or base was overridden, that symbol will be fetched
-  let coin = coinid?.toLowerCase() || (symbol !== validator.validated.data.base && symbol)
-  if (!coin) {
+  let idToSymbol = {}
+  let ids = coinid
+  if (!ids) {
     try {
-      coin = await getCoinId(config, symbol)
+      const coinIds = await getCoinIds(jobRunID)
+      const symbols = Array.isArray(symbol) ? symbol : [symbol]
+      idToSymbol = getSymbolsToIds(symbols, coinIds)
+      ids = Object.keys(idToSymbol).join(',')
     } catch (e) {
       throw new AdapterError({ jobRunID, statusCode: 400, message: e.message })
     }
@@ -62,7 +69,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const path: string = validator.validated.data.path || Paths.Price
 
   const params = {
-    ids: coin,
+    ids,
     vs_currencies: quote,
     include_market_cap: path === Paths.MarketCap,
   }
@@ -79,8 +86,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   }
 
   const response = await Requester.request(options, customError)
+
+  if (Array.isArray(symbol))
+    return handleBatchedRequest(jobRunID, response, path, param, quote, idToSymbol)
+
   response.data.result = Requester.validateResultNumber(response.data, [
-    coin.toLowerCase(),
+    ids.toLowerCase(),
     param[path] || quote.toLowerCase(),
   ])
   return Requester.success(jobRunID, response, config.verbose)

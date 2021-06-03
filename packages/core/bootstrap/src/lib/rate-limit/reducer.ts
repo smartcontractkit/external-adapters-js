@@ -1,32 +1,38 @@
-import { createReducer, combineReducers } from '@reduxjs/toolkit'
+import { combineReducers, createReducer } from '@reduxjs/toolkit'
 import { makeId } from '.'
 import { WARMUP_REQUEST_ID } from '../cache-warmer/config'
 import { successfulRequestObserved } from './actions'
 
 export enum IntervalNames {
-  SEC = 'SEC',
   MINUTE = 'MINUTE',
   HOUR = 'HOUR',
-  DAY = 'DAY',
 }
 
 export const Intervals: { [key: string]: number } = {
-  [IntervalNames.SEC]: 1000,
   [IntervalNames.MINUTE]: 60 * 1000,
   [IntervalNames.HOUR]: 60 * 60 * 1000,
-  [IntervalNames.DAY]: 24 * 60 * 60 * 1000,
 }
+
+// Shortened names to reduce memory usage
 export interface Heartbeat {
   id: string
-  cost: number
-  timestamp: number
-  isCacheHit: boolean
-  isWarmup: boolean
+  /**
+   * Cost
+   */
+  c: number
+  /**
+   * Timestamp
+   */
+  t: number
+  /**
+   * isCacheHit
+   */
+  h: boolean
 }
 
 export interface Heartbeats {
   total: {
-    [interval: string]: Heartbeat[]
+    [interval: string]: number
   }
   participants: {
     [participantId: string]: {
@@ -35,15 +41,8 @@ export interface Heartbeats {
   }
 }
 
-const initialIntervalsState = () => ({
-  SEC: [],
-  MINUTE: [],
-  HOUR: [],
-  DAY: [],
-})
-
 const initialHeartbeatsState: Heartbeats = {
-  total: initialIntervalsState(),
+  total: {},
   participants: {},
 }
 
@@ -53,36 +52,99 @@ const heartbeatReducer = createReducer<Heartbeats>(initialHeartbeatsState, (buil
   builder.addCase(successfulRequestObserved, (state, action) => {
     const heartbeat: Heartbeat = {
       id: makeId(action.payload.input),
-      cost: action.payload.response.data.cost || DEFAULT_COST,
-      timestamp: Date.parse(action.payload.createdAt),
-      isWarmup: action.payload.input.id === WARMUP_REQUEST_ID,
-      isCacheHit: !!action.payload.response.maxAge,
+      c: action.payload.response.data.cost || DEFAULT_COST,
+      t: Date.parse(action.payload.createdAt),
+      h: !!action.payload.response.maxAge,
     }
-
     const { id } = heartbeat
     // Init if first time seeing this id
-    if (!state.participants[id]) state.participants[id] = initialIntervalsState()
+    if (!state.participants[id]) {
+      state.participants[id] = {
+        HOUR: [],
+      }
+    }
+    const storedIntervals = [IntervalNames.HOUR]
 
-    for (const [intervalName, interval] of Object.entries(Intervals)) {
-      state.total[intervalName].push(heartbeat)
-      state.participants[id][intervalName].push(heartbeat)
+    for (const intervalName of storedIntervals) {
+      const prevLength = state.participants[id][intervalName].length
+      /**
+       * We skip adding warmup requests to state since
+       * we dont use them anyway, but we still want to
+       * re-compute throughtput on every incoming request
+       */
+      const isWarmupRequest = action.payload.input.id === WARMUP_REQUEST_ID
+      if (!isWarmupRequest) {
+        state.participants[id][intervalName] = state.participants[id][intervalName].concat([
+          heartbeat,
+        ])
+      }
 
-      const window = heartbeat.timestamp - interval
-      const _inWindow = (h: Heartbeat) => h.timestamp >= window
-
-      state.total[intervalName] = state.total[intervalName].filter(_inWindow)
-      state.participants[id][intervalName] = state.participants[id][intervalName].filter(_inWindow)
+      // remove all heartbeats that are older than the current interval
+      const window = heartbeat.t - Intervals[intervalName]
+      const isInWindow = (h: Heartbeat) => h.t >= window
+      state.participants[id][intervalName] = sortedFilter(
+        state.participants[id][intervalName],
+        isInWindow,
+      )
+      const newLength = state.participants[id][intervalName].length
+      /**
+       * We update our total observed heartbeats by the diff of this participants heartbeats length.
+       * Ex. Let us have 5 observed heartbeats within the current hour interval across all
+       * participants, then state.total[intervalName] = 5.
+       * Let us have 3 observed heartbeats in the current participant, where 2 have just become stale,
+       * since they are over an hour old.
+       *
+       * Then we have the following:
+       * state.total[intervalName] = state.total[intervalName] + (newLength - prevLength)
+       * state.total[HOUR] = state.total[HOUR] + (newLength - prevLength)
+       * state.total[HOUR] = 5 + (1 - 3)
+       * state.total[HOUR] = 5 + -2
+       * state.total[HOUR] = 3
+       */
+      state.total[intervalName] = (state.total[intervalName] ?? 0) + (newLength - prevLength)
     }
 
     return state
   })
 })
 
-export const selectObserved = (
+/**
+ * Remove stale heartbeat entries from an array.
+ * This function assumes that the array is sorted by timestamp,
+ * where the oldest entry lives in the 0th index, and the newest entry
+ * lives in the arr.length-1th index
+ * @param heartbeats The heartbeats to filter
+ * @param filter The windowing function to apply
+ */
+function sortedFilter(
+  heartbeats: Heartbeat[],
+  windowingFunction: (h: Heartbeat) => boolean,
+): Heartbeat[] {
+  // if we want a higher performance implementation
+  // we can later resort to a custom array class that is circular
+  // so we can amortize expensive operations like resizing, and make
+  // operations like moving the head index much quicker
+  const firstNonStaleHeartbeatIndex = heartbeats.findIndex(windowingFunction)
+  if (firstNonStaleHeartbeatIndex === -1) {
+    return []
+  }
+
+  return heartbeats.slice(firstNonStaleHeartbeatIndex)
+}
+
+export function selectTotalNumberOfHeartbeatsFor(
   state: Heartbeats,
   interval: IntervalNames,
-  id?: string,
-): Heartbeat[] => (id ? state.participants[id]?.[interval] || [] : state.total[interval] || [])
+): number {
+  return (state.total[interval] ?? 0) + 1
+}
+export function selectParticiantsHeartbeatsFor(
+  state: Heartbeats,
+  interval: IntervalNames,
+  id: string,
+) {
+  return state.participants[id]?.[interval] ?? []
+}
 
 export const rootReducer = combineReducers({
   heartbeats: heartbeatReducer,

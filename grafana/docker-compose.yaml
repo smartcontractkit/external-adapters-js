@@ -1,0 +1,40 @@
+version: '3.9'
+services:
+  redis:
+    image: redis
+    ports:
+      - '6379:6379'
+
+  remotedev:
+    image: jhen0409/remotedev-server
+    ports:
+      - '8000:8000'
+
+  grafana:
+    image: grafana/grafana
+    environment:
+      - GF_INSTALL_PLUGINS=redis-app
+    ports:
+      - '3000:3000'
+
+  grizzly:
+    build:
+      context: ../
+      dockerfile: ./grafana/Dockerfile
+    entrypoint: ['sleep', '99999999']
+    volumes:
+      - './:/dashboards'
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./generated/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - '9090:9090'
+
+volumes:
+  prometheus_data:
+  grafana_data:

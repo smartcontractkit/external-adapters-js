@@ -19,7 +19,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const symbol = validator.overrideSymbol(AdapterName).toUpperCase()
+  const symbol = (validator.overrideSymbol(AdapterName) as string).toUpperCase()
   const events = quoteEventSymbols[symbol] ? 'Quote' : 'Trade'
 
   const url = 'events.json'

@@ -1,7 +1,7 @@
 import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, ExecuteFactory, Config } from '@chainlink/types'
 import { makeConfig, DEFAULT_ENDPOINT } from './config'
-import { balance } from './endpoint'
+import { balance, block } from './endpoint'
 
 const inputParams = {
   endpoint: false,
@@ -17,9 +17,17 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
 
-  switch (endpoint) {
+  switch (endpoint.toLowerCase()) {
     case balance.Name: {
       return balance.makeExecute(config)(request)
+    }
+    case 'difficulty': {
+      request.data.field = 'difficulty'
+      return block.execute(request, config)
+    }
+    case 'height': {
+      request.data.field = 'height'
+      return block.execute(request, config)
     }
     default: {
       throw new AdapterError({

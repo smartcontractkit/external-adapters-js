@@ -1,10 +1,10 @@
 import { AdapterErrorResponse, Override } from '@chainlink/types'
-import presetSymbols from './overrides/presetSymbols.json'
-import { AdapterError } from './errors'
-import { Requester } from './requester'
-import { logger } from './logger'
 import { merge } from 'lodash'
 import { isObject } from '../util'
+import { AdapterError } from './errors'
+import { logger } from './logger'
+import presetSymbols from './overrides/presetSymbols.json'
+import { Requester } from './requester'
 
 export class Validator {
   input: any
@@ -14,16 +14,16 @@ export class Validator {
   error: AdapterError | undefined
   errored: AdapterErrorResponse | undefined
 
-  constructor(input = {}, customParams = {}, options = {}) {
+  constructor(input = {}, customParams = {}, options = {}, shouldLogError = true) {
     this.input = { ...input }
     this.customParams = { ...customParams }
     this.options = { ...options }
     this.validated = { data: {} }
-    this.validateInput()
-    this.validateOverrides()
+    this.validateInput(shouldLogError)
+    this.validateOverrides(shouldLogError)
   }
 
-  validateInput() {
+  validateInput(shouldLogError: boolean) {
     this.input.id = this.input.id || '1'
     this.validated.id = this.input.id
 
@@ -43,11 +43,19 @@ export class Validator {
         }
       }
     } catch (error) {
-      this.parseError(error)
+      this.parseError(
+        error,
+        {
+          input: this.input,
+          options: this.options,
+          customParams: this.customParams,
+        },
+        shouldLogError,
+      )
     }
   }
 
-  validateOverrides() {
+  validateOverrides(shouldLogError: boolean) {
     try {
       if (!this.input.data?.overrides) {
         this.validated.overrides = this.formatOverride(presetSymbols)
@@ -57,11 +65,19 @@ export class Validator {
         merge({ ...presetSymbols }, this.input.data.overrides),
       )
     } catch (e) {
-      this.parseError(e)
+      this.parseError(
+        e,
+        {
+          input: this.input,
+          options: this.options,
+          customParams: this.customParams,
+        },
+        shouldLogError,
+      )
     }
   }
 
-  parseError(error: any) {
+  parseError(error: any, context: any, shouldLogError: boolean) {
     const message = 'Error validating input.'
     if (error instanceof AdapterError) this.error = error
     else
@@ -71,11 +87,13 @@ export class Validator {
         message,
         cause: error,
       })
-    logger.error(message, { error: this.error })
+    if (shouldLogError) {
+      logger.error(message, { error: this.error, context })
+    }
     this.errored = Requester.errored(this.validated.id, this.error)
   }
 
-  overrideSymbol = (adapter: string, symbol?: string): string => {
+  overrideSymbol = (adapter: string, symbol?: string | string[]): string | string[] => {
     const defaultSymbol = symbol || this.validated.data.base
     if (!defaultSymbol) {
       throw new AdapterError({
@@ -85,10 +103,18 @@ export class Validator {
       })
     }
     if (!this.validated.overrides) return defaultSymbol
-    return (
-      this.validated.overrides.get(adapter.toLowerCase())?.get(defaultSymbol.toLowerCase()) ||
-      defaultSymbol
-    )
+    if (!Array.isArray(defaultSymbol))
+      return (
+        this.validated.overrides.get(adapter.toLowerCase())?.get(defaultSymbol.toLowerCase()) ||
+        defaultSymbol
+      )
+    const multiple: string[] = []
+    for (const sym of defaultSymbol) {
+      const overrided = this.validated.overrides.get(adapter.toLowerCase())?.get(sym.toLowerCase())
+      if (!overrided) multiple.push(sym)
+      else multiple.push(overrided)
+    }
+    return multiple
   }
 
   formatOverride = (param: any): Override => {

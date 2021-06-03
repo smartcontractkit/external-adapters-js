@@ -5,6 +5,7 @@ import * as amberdata from '@chainlink/amberdata-adapter'
 import * as amberdata_gasprice from '@chainlink/amberdata-gasprice-adapter'
 import * as anyblock_gasprice from '@chainlink/anyblock-gasprice-adapter'
 import * as anyblock_uniswap_vwap from '@chainlink/anyblock-uniswap-vwap-adapter'
+import * as binance from '@chainlink/binance-adapter'
 import * as binance_dex from '@chainlink/binance-dex-adapter'
 import * as bitex from '@chainlink/bitex-adapter'
 import * as bitso from '@chainlink/bitso-adapter'
@@ -37,6 +38,7 @@ import * as dxfeed_secondary from '@chainlink/dxfeed-secondary-adapter'
 import * as eodhistoricaldata from '@chainlink/eodhistoricaldata-adapter'
 import * as etherchain from '@chainlink/etherchain-adapter'
 import * as ethgasstation from '@chainlink/ethgasstation-adapter'
+import * as expert_car_broker from '@chainlink/expert-car-broker-adapter'
 import * as fcsapi from '@chainlink/fcsapi-adapter'
 import * as finage from '@chainlink/finage-adapter'
 import * as finnhub from '@chainlink/finnhub-adapter'
@@ -45,6 +47,7 @@ import * as fmpcloud from '@chainlink/fmpcloud-adapter'
 import * as genesis_adapter from '@chainlink/genesis-volatility-adapter'
 import * as geodb from '@chainlink/geodb-adapter'
 import * as iex_adapter from '@chainlink/iex-cloud-adapter'
+import * as intrinio from '@chainlink/intrinio-adapter'
 import * as json_adapter from '@chainlink/json-rpc-adapter'
 import * as kaiko from '@chainlink/kaiko-adapter'
 import * as lcx from '@chainlink/lcx-adapter'
@@ -67,6 +70,7 @@ import * as reduce from '@chainlink/reduce-adapter'
 import * as renvm_adapter_address from '@chainlink/renvm-address-set-adapter'
 import * as satoshitango from '@chainlink/satoshitango-adapter'
 import * as sochain from '@chainlink/sochain-adapter'
+import * as sportsdataio from '@chainlink/sportsdataio-adapter'
 import * as stasis from '@chainlink/stasis-adapter'
 import * as taapi from '@chainlink/taapi-adapter'
 import * as therundown from '@chainlink/therundown-adapter'
@@ -74,6 +78,8 @@ import * as tiingo from '@chainlink/tiingo-adapter'
 import * as tradermade from '@chainlink/tradermade-adapter'
 import * as tradingeconomics from '@chainlink/tradingeconomics-adapter'
 import * as trueusd from '@chainlink/trueusd-adapter'
+import * as twelvedata from '@chainlink/twelvedata-adapter'
+import * as unibit from '@chainlink/unibit-adapter'
 import * as wbtc_adapter_address from '@chainlink/wbtc-address-set-adapter'
 import * as xbto from '@chainlink/xbto-adapter'
 
@@ -85,6 +91,7 @@ export default {
   amberdata_gasprice,
   anyblock_gasprice,
   anyblock_uniswap_vwap,
+  binance,
   binance_dex,
   bitex,
   bitso,
@@ -117,6 +124,7 @@ export default {
   eodhistoricaldata,
   etherchain,
   ethgasstation,
+  expert_car_broker,
   fcsapi,
   finage,
   finnhub,
@@ -125,6 +133,7 @@ export default {
   genesis_adapter,
   geodb,
   iex_adapter,
+  intrinio,
   json_adapter,
   kaiko,
   lcx,
@@ -147,6 +156,7 @@ export default {
   renvm_adapter_address,
   satoshitango,
   sochain,
+  sportsdataio,
   stasis,
   taapi,
   therundown,
@@ -154,6 +164,8 @@ export default {
   tradermade,
   tradingeconomics,
   trueusd,
+  twelvedata,
+  unibit,
   wbtc_adapter_address,
   xbto,
 }

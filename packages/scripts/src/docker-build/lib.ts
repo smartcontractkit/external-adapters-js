@@ -29,6 +29,7 @@ interface Service {
     args: Record<string, string>
     labels: Record<string, string>
   }
+  ports: string[]
   environment: string[]
 }
 
@@ -62,11 +63,12 @@ async function makeDockerComposeFile(
 
   return {
     version: '3.9',
-    services: packages.reduce<Record<string, Service>>((prev, next) => {
+    services: packages.reduce<Record<string, Service>>((prev, next, i) => {
       prev[next.descopedName] = {
         image: generateImageName(next.descopedName, next.version, imageNameConfig),
+        ports: [`${8080 + i}:8080`],
         build: {
-          context: '.',
+          context: '.', // Handle dynamic context
           dockerfile: './Dockerfile',
           args: {
             location: next.location,

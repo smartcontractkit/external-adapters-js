@@ -1,22 +1,29 @@
-import hash from 'object-hash'
 import { AdapterRequest, AdapterResponse, Middleware } from '@chainlink/types'
+import hash from 'object-hash'
 import { logger } from '../external-adapter'
-import { parseBool, uuid, delay, exponentialBackOffMs, getWithCoalescing } from '../util'
+import {
+  delay,
+  exponentialBackOffMs,
+  getHashOpts,
+  getWithCoalescing,
+  parseBool,
+  uuid,
+} from '../util'
 import * as local from './local'
-import * as redis from './redis'
 import * as metrics from './metrics'
+import * as redis from './redis'
 
 const DEFAULT_CACHE_TYPE = 'local'
 const DEFAULT_CACHE_KEY_GROUP = uuid()
-const DEFAULT_CACHE_KEY_IGNORED_PROPS = ['id', 'maxAge', 'meta', 'rateLimitMaxAge', 'debug']
 // Request coalescing
 const DEFAULT_RC_INTERVAL = 100
 const DEFAULT_RC_INTERVAL_MAX = 1000
 const DEFAULT_RC_INTERVAL_COEFFICIENT = 2
 const DEFAULT_RC_ENTROPY_MAX = 0
 
-export const MAXIMUM_MAX_AGE = 1000 * 60 * 2
-const ERROR_MAX_AGE = 1000 * 60
+export const MAXIMUM_MAX_AGE = 1000 * 60 * 2 // 2 minutes
+const ERROR_MAX_AGE = 1000 * 60 // 1 minute
+export const MINIMUM_AGE = 1000 * 60 * 0.5 // 30 seconds
 
 const env = process.env
 export const defaultOptions = () => ({
@@ -25,10 +32,6 @@ export const defaultOptions = () => ({
   cacheBuilder: defaultCacheBuilder(),
   key: {
     group: env.CACHE_KEY_GROUP || DEFAULT_CACHE_KEY_GROUP,
-    ignored: [
-      ...DEFAULT_CACHE_KEY_IGNORED_PROPS,
-      ...(env.CACHE_KEY_IGNORED_PROPS || '').split(',').filter((k) => k), // no empty keys
-    ],
   },
   // Request coalescing
   requestCoalescing: {
@@ -41,6 +44,7 @@ export const defaultOptions = () => ({
     // Add entropy to absorb bursts
     entropyMax: Number(env.REQUEST_COALESCING_ENTROPY_MAX) || DEFAULT_RC_ENTROPY_MAX,
   },
+  minimumAge: Number(env.CACHE_MIN_AGE) || MINIMUM_AGE,
 })
 export type CacheOptions = ReturnType<typeof defaultOptions>
 
@@ -54,13 +58,26 @@ export type CacheImplOptions = ReturnType<typeof defaultCacheOptions>
 // TODO: Revisit this after we stop to reinitialize middleware on every request
 // We store the local LRU cache instance, so it's not reinitialized on every request
 let localLRUCache: local.LocalLRUCache
+let cache: redis.RedisCache | local.LocalLRUCache
+
 const defaultCacheBuilder = () => {
-  return (options: CacheImplOptions) => {
+  return async (options: CacheImplOptions) => {
     switch (options.type) {
-      case 'redis':
-        return redis.RedisCache.build(options as redis.RedisOptions)
-      default:
-        return localLRUCache || (localLRUCache = new local.LocalLRUCache(options))
+      case 'redis': {
+        if (!cache) {
+          cache = await redis.RedisCache.build(options as redis.RedisOptions)
+        }
+        return cache
+      }
+
+      default: {
+        if (!cache) {
+          cache = await Promise.resolve(
+            localLRUCache || (localLRUCache = new local.LocalLRUCache(options)),
+          )
+        }
+        return cache
+      }
     }
   }
 }
@@ -74,18 +91,14 @@ export const redactOptions = (options: CacheOptions): CacheOptions => ({
       : local.redactOptions(options.cacheOptions),
 })
 
-export const withCache: Middleware = async (execute, options = defaultOptions()) => {
+export const withCache: Middleware = async (execute, options: CacheOptions = defaultOptions()) => {
   // If disabled noop
   if (!options.enabled) return (data: AdapterRequest) => execute(data)
 
   const cache = await options.cacheBuilder(options.cacheOptions)
 
   // Algorithm we use to derive entry key
-  const hashOptions = {
-    algorithm: 'sha1',
-    encoding: 'hex',
-    excludeKeys: (props: string) => options.key.ignored.includes(props),
-  }
+  const hashOptions = getHashOpts()
 
   const _getKey = (data: AdapterRequest) => `${options.key.group}:${hash(data, hashOptions)}`
   const _getCoalescingKey = (key: string) => `inFlight:${key}`
@@ -102,14 +115,27 @@ export const withCache: Middleware = async (execute, options = defaultOptions())
 
   const _getRateLimitMaxAge = (data: AdapterRequest): number | undefined => {
     if (!data || !data.data) return
-    if (isNaN(data.data.rateLimitMaxAge as number)) return
-    const maxAge = Number(data.data.rateLimitMaxAge)
+    if (isNaN(data.rateLimitMaxAge as number)) return
+    const feedId = data?.debug?.feedId
+    const maxAge = Number(data.rateLimitMaxAge)
     if (maxAge && maxAge > ERROR_MAX_AGE) {
-      logger.error(`Cache: Max Age is getting max values: ${maxAge} ms`)
+      logger.warn(
+        `${
+          feedId && feedId[0] !== '{' ? `[${feedId}]` : ''
+        } Cache: Caclulated Max Age of ${maxAge} ms exceeds system maximum Max Age of ${MAXIMUM_MAX_AGE} ms`,
+        data,
+      )
       return maxAge > MAXIMUM_MAX_AGE ? MAXIMUM_MAX_AGE : maxAge
     }
     if (maxAge && maxAge > options.cacheOptions.maxAge) {
-      logger.warn(`Cache: Max Age is getting high values: ${maxAge} ms`)
+      logger.warn(
+        `${
+          feedId && feedId[0] !== '{' ? `[${feedId}]` : ''
+        } Cache: Calculated Max Age of ${maxAge} ms exceeds configured Max Age of ${
+          options.cacheOptions.maxAge
+        } ms`,
+        data,
+      )
     }
     return maxAge
   }
@@ -128,7 +154,10 @@ export const withCache: Middleware = async (execute, options = defaultOptions())
   const _executeWithCache = async (data: AdapterRequest) => {
     const key = _getKey(data)
     const coalescingKey = _getCoalescingKey(key)
-    const endMetrics = metrics.observeMetrics(data.id, key, data.debug?.feedId)
+    const endMetrics = metrics.beginObserveCacheExecutionDuration({
+      participantId: key,
+      feedId: data.debug?.feedId,
+    })
     let maxAge = _getRequestMaxAge(data) || _getDefaultMaxAge(data)
     // Add successful result to cache
     const _cacheOnSuccess = async ({ statusCode, data, result }: AdapterResponse) => {
@@ -136,9 +165,10 @@ export const withCache: Middleware = async (execute, options = defaultOptions())
         if (maxAge < 0) {
           maxAge = _getDefaultMaxAge(data)
         }
+        if (maxAge < options.minimumAge) maxAge = options.minimumAge
         const entry = { statusCode, data, result, maxAge }
         await cache.set(key, entry, maxAge)
-        logger.debug(`Cache: SET ${key}`, entry)
+        logger.trace(`Cache: SET ${key}`, entry)
         // Notify pending requests by removing the in-flight mark
         await _delInFlightMarker(coalescingKey)
       }
@@ -178,7 +208,7 @@ export const withCache: Middleware = async (execute, options = defaultOptions())
 
     if (entry) {
       if (maxAge >= 0) {
-        logger.debug(`Cache: GET ${key}`, entry)
+        logger.trace(`Cache: GET ${key}`, entry)
         const reqMaxAge = _getRequestMaxAge(data)
         if (reqMaxAge && reqMaxAge !== entry.maxAge) await _cacheOnSuccess(entry)
         const ttl = await cache.ttl(key)
@@ -198,7 +228,7 @@ export const withCache: Middleware = async (execute, options = defaultOptions())
           },
         }
       }
-      logger.debug(`Cache: SKIP(maxAge < 0)`)
+      logger.trace(`Cache: SKIP(maxAge < 0)`)
     }
 
     // Initiate request coalescing by adding the in-flight mark
@@ -216,9 +246,6 @@ export const withCache: Middleware = async (execute, options = defaultOptions())
 
   // Middleware wrapped execute fn which cleans up after
   return async (input) => {
-    const result = await _executeWithCache(input)
-    // Clean the connection
-    await cache.close()
-    return result
+    return await _executeWithCache(input)
   }
 }

@@ -16,7 +16,7 @@ export const execute = async (config: Config, request: AdapterRequest) => {
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 
-  const from = validator.overrideSymbol(AdapterName).toUpperCase()
+  const from = (validator.overrideSymbol(AdapterName) as string).toUpperCase()
   const to = validator.validated.data.quote.toUpperCase()
   const amount = validator.validated.data.amount || 1
   const url = `convert`

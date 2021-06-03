@@ -8,7 +8,7 @@ describe('execute', () => {
   const execute = makeExecute()
   process.env.API_KEY = process.env.API_KEY ?? 'test_api_key'
 
-  describe('successful calls @integration', () => {
+  describe('successful calls', () => {
     const requests = [
       {
         name: 'market dominance',
@@ -50,7 +50,7 @@ describe('execute', () => {
     })
   })
 
-  describe('error calls @integration', () => {
+  describe('error calls', () => {
     const requests = [
       {
         name: 'dominance unknown market',

@@ -1,110 +1,91 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig } from '@chainlink/types'
 import { Config } from '../config'
-import * as TheRundown from '@chainlink/therundown-adapter'
-import { ABI, Event, eventIdToNum, bytesMappingToHexStr } from './index'
+import { bytesMappingToHexStr, ABI, sportDataProviderMapping } from './index'
 import { ethers } from 'ethers'
+import { theRundown, sportsdataio } from '../dataProviders'
 
 const createParams = {
-  sportId: true,
-  daysInAdvance: true,
-  startBuffer: true,
+  sport: true,
   contractAddress: true,
-  affiliateIds: true
 }
 
-const addDays = (date: Date, days: number): Date => {
-  date.setDate(date.getDate() + days)
-  return date
+export interface CreateEvent {
+  id: ethers.BigNumber
+  homeTeamId: number
+  awayTeamId: number
+  startTime: number
+  homeSpread: number
+  totalScore: number
+  createSpread: boolean
+  createTotalScore: boolean
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const validator = new Validator(input, createParams)
   if (validator.error) throw validator.error
 
-  const sportId = validator.validated.data.sportId
-  const daysInAdvance = validator.validated.data.daysInAdvance
-  const startBuffer = validator.validated.data.startBuffer
+  const sport = validator.validated.data.sport
   const contractAddress = validator.validated.data.contractAddress
-  const affiliateIds: number[] = validator.validated.data.affiliateIds
-  const getAffiliateId = (event: Event) => affiliateIds.find((id) => !!event.lines && id in event.lines)
-
   const contract = new ethers.Contract(contractAddress, ABI, config.wallet)
+  input.data.contract = contract
 
-  const params = { id: input.id, data: {
-    sportId,
-    status: 'STATUS_SCHEDULED',
-    date: new Date(),
-    endpoint: 'events'
-  }}
-  const theRundownExec = TheRundown.makeExecute()
-
-  const events = []
-  for (let i = 0; i < daysInAdvance; i++) {
-    params.data.date = addDays(params.data.date, 1)
-
-    const response = await theRundownExec(params)
-    events.push(...response.result as Event[])
+  let events: CreateEvent[] = []
+  if (sportDataProviderMapping['theRundown'].includes(sport.toUpperCase())) {
+    events = (await theRundown.create(input)).result
+  } else if (sportDataProviderMapping['sportsdataio'].includes(sport.toUpperCase())) {
+    events = (await sportsdataio.create(input)).result
+  } else {
+    throw Error(`Unknown data provider for sport ${sport}`)
   }
 
-  const filtered = events.filter(event => {
-    const date = Date.parse(event.event_date)
-    if ((date - Date.now()) / 1000 < startBuffer) return false
+  const packed = events.map(packCreation)
 
-    return !!getAffiliateId(event)
-  })
+  Logger.debug(`Augur: Prepared to create ${packed.length} events`)
 
-  const packed = filtered.map((event) => {
-    const homeTeam = event.teams.find(team => team.is_home)
-    if (!homeTeam) return undefined
+  let failed = 0
+  let succeeded = 0
 
-    const awayTeam = event.teams.find(team => team.is_away)
-    if (!awayTeam) return undefined
-
-    const startTime = Date.parse(event.event_date)
-
-    const affiliateId = getAffiliateId(event)
-    if (!affiliateId) return undefined
-
-    const homeSpread = event.lines?.[affiliateId].spread.point_spread_home
-    const totalScore = event.lines?.[affiliateId].total.total_over
-    if (!homeSpread || !totalScore) return undefined
-
-    return packCreation(event.event_id, homeTeam.team_id, awayTeam.team_id, startTime, homeSpread, totalScore)
-  }).filter((event) => !!event)
-
-  let nonce = await config.wallet.getTransactionCount() + 1
+  let nonce = await config.wallet.getTransactionCount()
   for (let i = 0; i < packed.length; i++) {
-    const eventId = eventIdToNum(filtered[i].event_id)
-    const isRegistered = await contract.isEventRegistered(eventId)
-    if (isRegistered) continue
-
-    await contract.createMarket(packed[i], { nonce: nonce++ })
+    try {
+      const tx = await contract.createMarket(packed[i], { nonce })
+      Logger.debug(`Created tx: ${tx.hash}`)
+      nonce++
+      succeeded++
+    } catch (e) {
+      failed++
+      Logger.error(e)
+    }
   }
+
+  Logger.debug(`Augur: ${succeeded} created markets`)
+  Logger.debug(`Augur: ${failed} markets failed to create`)
 
   return Requester.success(input.id, {})
 }
 
-export const packCreation = (
-  eventId: string,
-  homeTeamId: number,
-  awayTeamId: number,
-  startTime: number,
-  homeSpread: number,
-  totalScore: number
-): string => {
+const packCreation = (event: CreateEvent): string => {
   const encoded = ethers.utils.defaultAbiCoder.encode(
-    ['uint128', 'uint16', 'uint16', 'uint32', 'int16', 'uint16'],
+    ['uint128', 'uint16', 'uint16', 'uint32', 'int16', 'uint16', 'uint8'],
     [
-      eventIdToNum(eventId),
-      homeTeamId,
-      awayTeamId,
-      Math.floor(startTime / 1000),
-      Math.round(homeSpread*10),
-      Math.round(totalScore*10)
+      event.id,
+      event.homeTeamId,
+      event.awayTeamId,
+      Math.floor(event.startTime / 1000),
+      Math.round(event.homeSpread*10),
+      Math.round(event.totalScore*10),
+      packCreationFlags(event.createSpread, event.createTotalScore)
     ]
   )
 
-  const mapping = [16, 2, 2, 4, 2, 2]
+  const mapping = [16, 2, 2, 4, 2, 2, 1]
   return bytesMappingToHexStr(mapping, encoded)
+}
+
+const packCreationFlags = (createSpread: boolean, createTotalScore: boolean): number => {
+  let flags = 0b00000000;
+  if (createSpread) flags += 0b00000001;
+  if (createTotalScore) flags += 0b00000010;
+  return flags;
 }

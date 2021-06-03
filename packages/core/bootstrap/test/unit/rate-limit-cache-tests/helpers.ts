@@ -31,7 +31,7 @@ export const makeExecuteWithWarmer = async (execute: Execute, store: Store) => {
       getState: () => store.getState().rateLimit,
       dispatch: (a) => store.dispatch(a),
     } as Store),
-    withDebug
+    withDebug,
   ])
   return async (data: AdapterRequest) => {
     const result = await executeWithMiddleware(data)
@@ -64,18 +64,21 @@ export const dataProviderMock = (cost = 1): { execute: Execute } => {
 }
 
 export const getRLTokenSpentPerMinute = (hearbeats: rateLimit.reducer.Heartbeats) => {
-  const responses = hearbeats.total[rateLimit.reducer.IntervalNames.DAY]
-    .filter((r) => !r.isCacheHit)
+  const allResponses = Object.keys(hearbeats.participants).flatMap(
+    (id) => hearbeats.participants[id][rateLimit.reducer.IntervalNames.HOUR],
+  )
+  const responses = allResponses
+    .filter((r) => !r.h)
     .map((r) => ({
       ...r,
-      minute: new Date(r.timestamp).getMinutes(),
+      minute: new Date(r.t).getMinutes(),
     }))
   const rlPerMin: { [key: number]: number } = {}
   responses.forEach((r) => {
     if (rlPerMin[r.minute]) {
-      rlPerMin[r.minute] += 1 * r.cost
+      rlPerMin[r.minute] += 1 * r.c
     } else {
-      rlPerMin[r.minute] = 1 * r.cost
+      rlPerMin[r.minute] = 1 * r.c
     }
   })
   return rlPerMin

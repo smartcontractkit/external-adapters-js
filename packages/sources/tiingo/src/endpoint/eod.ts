@@ -4,7 +4,7 @@ import { ExecuteWithConfig, Config } from '@chainlink/types'
 export const NAME = 'eod'
 
 const customParams = {
-  ticker: ['base', 'from', 'symbol', 'ticker'],
+  ticker: ['ticker', 'base', 'from', 'coin'],
   field: false,
 }
 
@@ -15,7 +15,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const jobRunID = validator.validated.id
   const ticker = validator.validated.data.ticker
   const field = validator.validated.data.field || 'close'
-  const url = `daily/${ticker.toLowerCase()}/prices`
+  const url = `/tiingo/daily/${ticker.toLowerCase()}/prices`
 
   const reqConfig = {
     ...config.api,

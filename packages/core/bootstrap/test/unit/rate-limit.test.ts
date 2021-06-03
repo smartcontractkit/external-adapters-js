@@ -2,27 +2,36 @@ import { AdapterRequest, Execute } from '@chainlink/types'
 import { createStore, Store } from 'redux'
 import { useFakeTimers } from 'sinon'
 import * as rateLimit from '../../src/lib/rate-limit'
-import { IntervalNames, Intervals, selectObserved } from '../../src/lib/rate-limit/reducer'
+import {
+  IntervalNames,
+  Intervals,
+  selectParticiantsHeartbeatsFor,
+  selectTotalNumberOfHeartbeatsFor,
+} from '../../src/lib/rate-limit/reducer'
 
-const counterFrom = (i = 0): Execute => async (request) => {
-  const result = i++
-  return {
-    jobRunID: request.id,
-    data: { jobRunID: request.id, statusCode: 200, data: request, result },
-    result,
-    statusCode: 200,
+const counterFrom =
+  (i = 0): Execute =>
+  async (request) => {
+    const result = i++
+    return {
+      jobRunID: request.id,
+      data: { jobRunID: request.id, statusCode: 200, data: request, result },
+      result,
+      statusCode: 200,
+    }
   }
-}
 
-const expectRequestToBe = (field: string, expected: any): Execute => async (request) => {
-  expect(request.data[field]).toBe(expected)
-  return {
-    jobRunID: request.id,
-    data: { jobRunID: request.id, statusCode: 200, data: request, result: '' },
-    result: '',
-    statusCode: 200,
+const expectRequestToBe =
+  (field: string, expected: any): Execute =>
+  async (request) => {
+    expect(request[field]).toBe(expected)
+    return {
+      jobRunID: request.id,
+      data: { jobRunID: request.id, statusCode: 200, data: request, result: '' },
+      result: '',
+      statusCode: 200,
+    }
   }
-}
 
 const getMaxAge = (store: Store, input: AdapterRequest) => {
   const requestTypeId = rateLimit.makeId(input)
@@ -127,70 +136,70 @@ describe('Rate Limit Middleware', () => {
     })
 
     it(`Total requests are windowed stored`, async () => {
-      for (const [intervalName, interval] of Object.entries(Intervals)) {
-        const store = createStore(rateLimit.reducer.rootReducer, {})
-        const execute = await rateLimit.withRateLimit(store)(counterFrom(0))
-        for (let i = 0; i <= 5; i++) {
-          await execute({ id: String(i), data: {} })
-        }
-        let state = store.getState()
-        expect(selectObserved(state.heartbeats, intervalName as IntervalNames).length).toBe(6)
-
-        clock.tick(interval - 1)
-        await execute({ id: '6', data: {} })
-        state = store.getState()
-        expect(selectObserved(state.heartbeats, intervalName as IntervalNames).length).toBe(7)
-
-        clock.tick(2)
-        await execute({ id: '6', data: {} })
-        state = store.getState()
-        expect(selectObserved(state.heartbeats, intervalName as IntervalNames).length).toBe(2)
+      const intervalName = IntervalNames.HOUR
+      const interval = Intervals[intervalName]
+      const store = createStore(rateLimit.reducer.rootReducer, {})
+      const execute = await rateLimit.withRateLimit(store)(counterFrom(0))
+      for (let i = 0; i <= 5; i++) {
+        await execute({ id: String(i), data: {} })
       }
+      let state = store.getState()
+      expect(selectTotalNumberOfHeartbeatsFor(state.heartbeats, intervalName)).toBe(7)
+
+      clock.tick(interval - 1)
+      await execute({ id: '6', data: {} })
+      state = store.getState()
+      expect(selectTotalNumberOfHeartbeatsFor(state.heartbeats, intervalName)).toBe(8)
+
+      clock.tick(2)
+      await execute({ id: '6', data: {} })
+      state = store.getState()
+      expect(selectTotalNumberOfHeartbeatsFor(state.heartbeats, intervalName)).toBe(3)
     })
 
     it(`Participant requests are windowed stored`, async () => {
-      for (const [intervalName, interval] of Object.entries(Intervals)) {
-        const store = createStore(rateLimit.reducer.rootReducer, {})
-        const execute = await rateLimit.withRateLimit(store)(counterFrom(0))
-        for (let i = 0; i <= 5; i++) {
-          await execute({ id: String(i), data: { base: i } })
-        }
-
-        let state = store.getState()
-        expect(
-          selectObserved(
-            state.heartbeats,
-            intervalName as IntervalNames,
-            rateLimit.makeId({ id: '1', data: { base: 1 } }),
-          ).length,
-        ).toBe(1)
-
-        const input = { id: '5', data: { base: 5 } }
-        await execute(input)
-        state = store.getState()
-        expect(
-          selectObserved(state.heartbeats, intervalName as IntervalNames, rateLimit.makeId(input))
-            .length,
-        ).toBe(2)
-
-        // Just before the first sec/minute/hour/day requests should be still stored
-        clock.tick(interval - 1)
-        await execute(input)
-        state = store.getState()
-        expect(
-          selectObserved(state.heartbeats, intervalName as IntervalNames, rateLimit.makeId(input))
-            .length,
-        ).toBe(3)
-
-        // Right after the first sec/minute/hour/day, first request should have been expired
-        clock.tick(2)
-        await execute(input)
-        state = store.getState()
-        expect(
-          selectObserved(state.heartbeats, intervalName as IntervalNames, rateLimit.makeId(input))
-            .length,
-        ).toBe(2)
+      const intervalName = IntervalNames.HOUR
+      const interval = Intervals[intervalName]
+      const store = createStore(rateLimit.reducer.rootReducer, {})
+      const execute = await rateLimit.withRateLimit(store)(counterFrom(0))
+      for (let i = 0; i <= 5; i++) {
+        await execute({ id: String(i), data: { base: i } })
       }
+
+      let state = store.getState()
+      expect(
+        selectParticiantsHeartbeatsFor(
+          state.heartbeats,
+          intervalName,
+          rateLimit.makeId({ id: '1', data: { base: 1 } }),
+        ).length,
+      ).toBe(1)
+
+      const input = { id: '5', data: { base: 5 } }
+      await execute(input)
+      state = store.getState()
+      expect(
+        selectParticiantsHeartbeatsFor(state.heartbeats, intervalName, rateLimit.makeId(input))
+          .length,
+      ).toBe(2)
+
+      // Just before the first sec/minute/hour/day requests should be still stored
+      clock.tick(interval - 1)
+      await execute(input)
+      state = store.getState()
+      expect(
+        selectParticiantsHeartbeatsFor(state.heartbeats, intervalName, rateLimit.makeId(input))
+          .length,
+      ).toBe(3)
+
+      // Right after the first sec/minute/hour/day, first request should have been expired
+      clock.tick(2)
+      await execute(input)
+      state = store.getState()
+      expect(
+        selectParticiantsHeartbeatsFor(state.heartbeats, intervalName, rateLimit.makeId(input))
+          .length,
+      ).toBe(2)
     })
   })
 })

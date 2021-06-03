@@ -5,6 +5,29 @@ import { NAME as AdapterName } from '../config'
 // Should also be supported for "EOD"
 export const NAME = 'historical'
 
+export interface ResponseSchema {
+  meta_data: {
+    api_name: string
+    num_total_data_points: number
+    credit_cost: number
+    start_date: string
+    end_date: string
+  }
+  result_data: {
+    [ticker: string]: [
+      {
+        date: string
+        volume: number
+        high: number
+        low: number
+        adj_close: number
+        close: number
+        open: number
+      },
+    ]
+  }
+}
+
 const customError = (data: any) => data.Response === 'Error'
 
 const customParams = {
@@ -16,7 +39,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const symbol = validator.overrideSymbol(AdapterName).toUpperCase()
+  const symbol = (validator.overrideSymbol(AdapterName) as string).toUpperCase()
 
   const url = 'historical'
   const params = {
@@ -36,6 +59,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     0,
     'close',
   ])
+  response.data.cost = 10
 
   return Requester.success(jobRunID, response, config.verbose)
 }

@@ -1,8 +1,9 @@
-import { AdapterHealthCheck, AdapterResponse, ExecuteSync } from '@chainlink/types'
+import { ExecuteSync } from '@chainlink/types'
 import express from 'express'
+import { join } from 'path'
 import * as client from 'prom-client'
+import { loadTestPayload } from './config/test-payload-loader'
 import {
-  HTTP_ERROR_NOT_IMPLEMENTED,
   HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE,
   HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE_MESSAGE,
 } from './errors'
@@ -18,13 +19,7 @@ export const HEADER_CONTENT_TYPE = 'Content-Type'
 export const CONTENT_TYPE_APPLICATION_JSON = 'application/json'
 export const CONTENT_TYPE_TEXT_PLAIN = 'text/plain'
 
-const notImplementedHealthCheck: AdapterHealthCheck = (callback) =>
-  callback(HTTP_ERROR_NOT_IMPLEMENTED)
-
-export const initHandler = (
-  execute: ExecuteSync,
-  checkHealth = notImplementedHealthCheck,
-) => (): void => {
+export const initHandler = (execute: ExecuteSync) => (): void => {
   if (METRICS_ENABLED) {
     setupMetricsServer()
   }
@@ -45,10 +40,13 @@ export const initHandler = (
     })
   })
 
-  app.get(`${baseUrl}/health`, (_, res) => {
-    logger.debug('Health check request')
-    checkHealth((status: number, result: AdapterResponse) => {
-      logger.debug(`Health check result [${status}]: `, { output: result })
+  const testPayload = loadTestPayload()
+  app.get(join(baseUrl, 'health'), (_, res) => {
+    if (testPayload.isDefault) {
+      return res.status(200).send('OK')
+    }
+
+    return execute({ data: testPayload.request, id: '1' }, (status, result) => {
       res.status(status).json(result)
     })
   })

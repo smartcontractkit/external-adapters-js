@@ -8,7 +8,7 @@ describe('execute', () => {
   const execute = makeExecute()
   process.env.API_KEY = process.env.API_KEY ?? 'test_api_key'
 
-  describe('successful calls @integration', () => {
+  describe('successful calls', () => {
     const requests = [
       {
         name: 'id not supplied',
@@ -46,33 +46,31 @@ describe('execute', () => {
     })
   })
 
-  describe('validation error', () => {
+  describe('successful batch calls', () => {
     const requests = [
-      { name: 'empty body', testData: {} },
-      { name: 'empty data', testData: { data: {} } },
       {
-        name: 'base not supplied',
-        testData: { id: jobID, data: { quote: 'USD' } },
+        name: 'price endpoint - multiple symbols',
+        testData: { id: jobID, data: { ids: ['ETH', 'BTC'], convert: 'USD' } },
       },
       {
-        name: 'quote not supplied',
-        testData: { id: jobID, data: { base: 'ETH' } },
+        name: 'marketcap endpoint - multiple symbols',
+        testData: {
+          id: jobID,
+          data: { ids: ['ETH', 'BTC'], convert: 'USD', endpoint: 'marketcap' },
+        },
       },
     ]
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
-        try {
-          await execute(req.testData as AdapterRequest)
-        } catch (error) {
-          const errorResp = Requester.errored(jobID, error)
-          assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
-        }
+        const data = await execute(req.testData as AdapterRequest)
+        assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
+        expect(Object.keys(data.data.results).length).toBeGreaterThan(0)
       })
     })
   })
 
-  describe('error calls @integration', () => {
+  describe('error calls', () => {
     const requests = [
       {
         name: 'unknown base',

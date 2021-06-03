@@ -32,7 +32,7 @@ export function get(): Config {
   return {
     hashOpts: getHashOpts(),
     unhealthyThreshold: Number(process.env.WARMUP_UNHEALTHY_THRESHOLD) || 3,
-    warmupInterval: (Number(process.env.CACHE_MAX_AGE) || 30_000) / 2,
+    warmupInterval: (Number(process.env.CACHE_MAX_AGE) || 30_000) / 2 + 1,
     subscriptionTTL: Number(process.env.WARMUP_SUBSCRIPTION_TTL) || 60 * 1000 * 60, // default 1h
   }
 }

@@ -14,7 +14,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   Requester.logConfig(config)
 
   const jobRunID = validator.validated.id
-  const symbol = validator.overrideSymbol(NAME).toUpperCase()
+  const symbol = (validator.overrideSymbol(NAME) as string).toUpperCase()
   const to = (validator.validated.data.to || '').toUpperCase()
   const currency = symbol + to
 

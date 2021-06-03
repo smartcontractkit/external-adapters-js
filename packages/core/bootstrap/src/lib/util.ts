@@ -149,8 +149,10 @@ export function groupBy<K, V>(list: Array<V>, keyGetter: (input: V) => K): Map<K
  *
  * @param name string adapter name
  */
-export const byName = (name?: string) => (a: AdapterImplementation): boolean =>
-  a.NAME.toUpperCase() === name?.toUpperCase()
+export const byName =
+  (name?: string) =>
+  (a: AdapterImplementation): boolean =>
+    a.NAME.toUpperCase() === name?.toUpperCase()
 
 /**
  * Covert number to max number of decimals, trim trailing zeros
@@ -166,13 +168,28 @@ export const toFixedMax = (num: number | string | Decimal, decimals: number): st
     // remove decimal part if all zeros (or only decimal point)
     .replace(/\.0*$/g, '')
 
+/** Common keys within adapter requests that should be ignored to generate a stable key*/
+export const excludableAdapterRequestProperties: Record<string, true> = [
+  'id',
+  'maxAge',
+  'meta',
+  'debug',
+  'rateLimitMaxAge',
+]
+  .concat((process.env.CACHE_KEY_IGNORED_PROPS || '').split(',').filter((k) => k))
+  .reduce((prev, next) => {
+    prev[next] = true
+    return prev
+  }, {} as Record<string, true>)
+
 export const getHashOpts = (): Required<Parameters<typeof objectHash>>['1'] => ({
   algorithm: 'sha1',
   encoding: 'hex',
-  excludeKeys: (props: string) =>
-    ['id', 'maxAge', 'meta', 'rateLimitMaxAge']
-      .concat((process.env.CACHE_KEY_IGNORED_PROPS || '').split(',').filter((k) => k))
-      .includes(props),
+  unorderedSets: false,
+  respectType: false,
+  respectFunctionProperties: false,
+  respectFunctionNames: false,
+  excludeKeys: (props: string) => excludableAdapterRequestProperties[props],
 })
 
 // Helper to identify if debug mode is running
@@ -227,4 +244,42 @@ export const permutator = (options: string[], delimiter?: string): string[] | st
   const output: string[][] = flatMap(options, (_: any, i: any, a: any) => permutations(a, i + 1))
   const join = (combos: string[][]) => combos.map((p) => p.join(delimiter))
   return typeof delimiter === 'string' ? join(output) : output
+}
+
+/**
+ * @description
+ * Check existing (non-undefined) value for its type.
+ *
+ * @url
+ * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof#real-world_usage
+ *
+ * @param value The value to type check
+ * @param fullClass (Optional) Whether to use polyfill for checking null
+ *
+ * @returns String describing type of obj
+ */
+export function deepType(value: unknown, fullClass?: boolean): string {
+  // get toPrototypeString() of obj (handles all types)
+  // Early JS environments return '[object Object]' for null, so it's best to directly check for it.
+  if (fullClass) {
+    return value === null ? '[object Null]' : Object.prototype.toString.call(value)
+  }
+  if (value == null) {
+    return (value + '').toLowerCase()
+  } // implicit toString() conversion
+
+  const deepType = Object.prototype.toString.call(value).slice(8, -1).toLowerCase()
+  if (deepType === 'generatorfunction') {
+    return 'function'
+  }
+
+  // Prevent overspecificity (for example, [object HTMLDivElement], etc).
+  // Account for functionish Regexp (Android <=2.3), functionish <object> element (Chrome <=57, Firefox <=52), etc.
+  // String.prototype.match is universally supported.
+
+  return deepType.match(/^(array|bigint|date|error|function|generator|regexp|symbol)$/)
+    ? deepType
+    : typeof value === 'object' || typeof value === 'function'
+    ? 'object'
+    : typeof value
 }

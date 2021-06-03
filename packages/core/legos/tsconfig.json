@@ -32,6 +32,9 @@
       "path": "../../sources/anyblock-uniswap-vwap"
     },
     {
+      "path": "../../sources/binance"
+    },
+    {
       "path": "../../sources/binance-dex"
     },
     {
@@ -128,6 +131,9 @@
       "path": "../../sources/ethgasstation"
     },
     {
+      "path": "../../sources/expert-car-broker"
+    },
+    {
       "path": "../../sources/fcsapi"
     },
     {
@@ -150,6 +156,9 @@
     },
     {
       "path": "../../sources/iex-cloud"
+    },
+    {
+      "path": "../../sources/intrinio"
     },
     {
       "path": "../../sources/json-rpc"
@@ -218,6 +227,9 @@
       "path": "../../sources/sochain"
     },
     {
+      "path": "../../sources/sportsdataio"
+    },
+    {
       "path": "../../sources/stasis"
     },
     {
@@ -237,6 +249,12 @@
     },
     {
       "path": "../../sources/trueusd"
+    },
+    {
+      "path": "../../sources/twelvedata"
+    },
+    {
+      "path": "../../sources/unibit"
     },
     {
       "path": "../../sources/wbtc-address-set"

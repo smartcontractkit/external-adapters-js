@@ -1,13 +1,13 @@
-import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
+import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
 import {
   AdapterRequest,
-  ExecuteWithConfig,
-  ExecuteFactory,
-  MakeWSHandler,
   Config,
+  ExecuteFactory,
+  ExecuteWithConfig,
+  MakeWSHandler,
 } from '@chainlink/types'
-import { makeConfig, DEFAULT_ENDPOINT, DEFAULT_WS_API_ENDPOINT, NAME } from './config'
-import { price, balance, token } from './endpoint'
+import { DEFAULT_ENDPOINT, DEFAULT_WS_API_ENDPOINT, makeConfig, NAME } from './config'
+import { balance, price, token } from './endpoint'
 
 const inputParams = {
   endpoint: false,
@@ -27,7 +27,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     case price.Name: {
       return price.execute(request, config)
     }
-    case token.TokenEndpoints.MarketCap: {
+    case 'marketcap': {
       return token.execute(request, config)
     }
     case balance.Name: {
@@ -50,9 +50,9 @@ export const makeExecute: ExecuteFactory<Config> = (config) => {
 export const makeWSHandler = (defaultConfig?: Config): MakeWSHandler => {
   const subscriptions: any = {}
   const getPair = (input: AdapterRequest) => {
-    const validator = new Validator(input, price.customParams)
+    const validator = new Validator(input, price.customParams, {}, false)
     if (validator.error) return
-    const base = validator.overrideSymbol(NAME).toLowerCase()
+    const base = (validator.overrideSymbol(NAME) as string).toLowerCase()
     const quote = validator.validated.data.quote.toLowerCase()
     return `${base}_${quote}`
   }
