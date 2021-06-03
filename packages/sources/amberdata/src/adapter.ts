@@ -33,8 +33,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     case balance.Name: {
       return balance.makeExecute(config)(request)
     }
-    case gasprice.Name: {
-      return gasprice.makeExecute(config)(request)
+    case gasprice.NAME: {
+      return gasprice.execute(config)(request)
     }
     default: {
       throw new AdapterError({
