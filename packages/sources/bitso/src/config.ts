@@ -1,6 +1,8 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
+export const NAME = 'BITSO'
+
 export const DEFAULT_ENDPOINT = 'ticker'
 export const DEFAULT_BASE_URL = 'https://api.bitso.com/v3'
 

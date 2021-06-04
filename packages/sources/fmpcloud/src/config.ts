@@ -1,14 +1,16 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
+export const NAME = 'FMPCLOUD'
+
 export const DEFAULT_ENDPOINT = 'quote'
-export const DEFAULT_API_ENDPOINT = 'https://fmpcloud.io'
+export const DEFAULT_BASE_URL = 'https://fmpcloud.io'
 
 export const makeConfig = (prefix?: string): Config => {
   const config = Requester.getDefaultConfig(prefix, true)
   config.api = {
     ...config.api,
-    baseURL: config.api.baseURL || DEFAULT_API_ENDPOINT,
+    baseURL: config.api.baseURL || DEFAULT_BASE_URL,
     params: {
       apikey: config.apiKey,
     },

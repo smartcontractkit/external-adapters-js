@@ -1,6 +1,8 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
+export const NAME = 'BLOCKSTREAM'
+
 export const DEFAULT_ENDPOINT = 'difficulty'
 export const DEFAULT_API_ENDPOINT = 'https://blockstream.info/api'
 

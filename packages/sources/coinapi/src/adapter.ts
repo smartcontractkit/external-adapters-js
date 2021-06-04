@@ -16,7 +16,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
 
-  switch (endpoint) {
+  switch (endpoint.toLowerCase()) {
     case price.NAME: {
       const quote = validator.validated.data.quote
       if (quote?.toUpperCase() === 'USD') return await assets.execute(request, config)

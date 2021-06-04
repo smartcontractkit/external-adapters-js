@@ -1,6 +1,6 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
-import { BASE_URL } from '../config'
+import { DEFAULT_BASE_URL } from '../config'
 
 export const Name = 'assetAttestation'
 
@@ -26,7 +26,7 @@ const getAttestationURI = (asset: string) => `/asset-attestations/${asset.toUppe
 
 const toAttestation = async (config: Config, asset: string): Promise<Attestation> => {
   const url = getAttestationURI(asset)
-  const reqConfig = { ...config.api, baseURL: BASE_URL, url }
+  const reqConfig = { ...config.api, baseURL: DEFAULT_BASE_URL, url }
 
   const response = await Requester.request(reqConfig, customError)
   return {
