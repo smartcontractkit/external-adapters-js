@@ -3,6 +3,8 @@ import { Config } from '@chainlink/types'
 
 export const NAME = 'BLOCKCHAIN_COM'
 
+export const NAME = 'BLOCKCHAIN_COM'
+
 export const ENV_API_KEY = 'API_KEY'
 export const ENV_API_TIMEOUT = 'API_TIMEOUT'
 
