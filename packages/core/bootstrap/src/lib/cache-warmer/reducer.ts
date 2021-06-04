@@ -3,6 +3,7 @@ import { combineReducers, createReducer } from '@reduxjs/toolkit'
 import { logger } from '../external-adapter'
 import * as actions from './actions'
 import { getSubscriptionKey } from './util'
+import { union } from 'lodash'
 
 /**
  * Metadata about a request
@@ -44,7 +45,7 @@ export interface SubscriptionState {
 
 export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builder) => {
   builder.addCase(actions.warmupSubscribed, (state, action) => {
-    const key = getSubscriptionKey(action.payload)
+    const key = action.payload.key || getSubscriptionKey(action.payload)
     state[key] = {
       origin: action.payload,
       executeFn: action.payload.executeFn,
@@ -57,6 +58,19 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
 
   builder.addCase(actions.warmupUnsubscribed, (state, action) => {
     delete state[action.payload.key]
+  })
+
+  builder.addCase(actions.warmupJoinGroup, (state, action) => {
+    state[action.payload.parent].children = {
+      ...state[action.payload.parent].children,
+      ...action.payload.children,
+    }
+    for (const child in action.payload.children) {
+      state[action.payload.parent].origin.data[action.payload.batchable] = union(
+        state[action.payload.parent].origin.data[action.payload.batchable],
+        [state[child].origin.data[action.payload.batchable]],
+      )
+    }
   })
 })
 
