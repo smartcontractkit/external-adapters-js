@@ -29,10 +29,11 @@ describe('sigma calculator', () => {
 
 function _createOptionWithStrike(strikePrice: number, type: string): OptionData {
   return {
+    instrumentName: '',
     strikePrice: new Decimal(strikePrice),
     midPrice: new Decimal(0),
     underlyingPrice: new Decimal(0),
-    expiration: moment(),
+    expiration: moment().utc().unix(),
     type,
   }
 }
