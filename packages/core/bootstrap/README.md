@@ -10,12 +10,12 @@ Detailed here is optional configuration that can be provided to any EA through e
 
 1. [Server configuration](#Server-configuration)
 2. [Performance](#Performance)
-   - [Caching](#Caching)
-   - [Redis](#Redis)
-   - [Rate Limiting](#Rate-Limiting)
-     - [Provider Limits](#Provider-Limits)
-   - [Cache Warming](#Cache-Warming)
-   - [Request Coalescing](#Request-Coalescing)
+    - [Caching](#Caching)
+    - [Redis](#Redis)
+    - [Rate Limiting](#Rate-Limiting)
+        - [Provider Limits](#Provider-Limits)
+    - [Cache Warming](#Cache-Warming)
+    - [Request Coalescing](#Request-Coalescing)
 3. [Metrics](#Metrics)
 4. [Websockets](#Websockets)
 
@@ -140,8 +140,8 @@ Each provider is defined within [limits.json](./src/lib/provider-limits/limits.j
     },
     "ws": {
       "[plan-name]": {
-         "connections": 1,
-         "subscriptions": 10
+        "connections": 1,
+        "subscriptions": 10
       }
     }
   }, {...}
@@ -153,8 +153,8 @@ Being:
 - **provider-name**: The provider name. E.g. "amberdata" or "coinmarketcap"
 - **plan-name**: The provider plan name. Used as a identifier for the plan. E.g. "free" or "premium"
 - There are two protocols with different limit types:
-  - **http**: With `rateLimit1s`, `rateLimit1m`, `rateLimit1h`, which stands for requests per second/minute/hour respectively. If only one is provided, the rest would be calculated based on it.
-  - **ws**: Websocket limits, which accepts: `connections` and `subscriptions`. If websockets are not supported on the provider, can be left empty as `ws: {}`
+    - **http**: With `rateLimit1s`, `rateLimit1m`, `rateLimit1h`, which stands for requests per second/minute/hour respectively. If only one is provided, the rest would be calculated based on it.
+    - **ws**: Websocket limits, which accepts: `connections` and `subscriptions`. If websockets are not supported on the provider, can be left empty as `ws: {}`
 
 ### Cache Warming
 
@@ -211,6 +211,7 @@ From the moment the subscription is confirmed, the adapter will start receiving 
 
 | Required? |                Name                |                                                                             Description                                                                              | Options | Defaults to |
 | :-------: | :--------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
+|           |            `WS_ENABLED`            |                                               Set this to `true` to enable WS support (on adapters that support this).                                               |         |   `false`   |
 |           |       `WS_SUBSCRIPTION_TTL`        |            Subscription expiration time in ms. If no new incoming requests ask for this information during this time, the subscription will be cancelled.            |         |  `120000`   |
 |           | `WS_SUBSCRIPTION_UNRESPONSIVE_TTL` | Unresponsive subscription expiration time in ms. If the adapter doesn't receive messages from an open subscription during this time, a resubscription will be tried. |         |  `120000`   |
 
