@@ -1,6 +1,8 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
+export const NAME = 'cfbenchmarks'
+
 export const DEFAULT_ENDPOINT = 'values'
 
 export const makeConfig = (prefix?: string): Config => {

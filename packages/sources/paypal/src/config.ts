@@ -2,6 +2,8 @@ import { AdapterError, Requester, util } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 import * as paypal from '@paypal/payouts-sdk'
 
+export const NAME = 'PAYPAL'
+
 export const DEFAULT_ENDPOINT = 'sendpayout'
 export const DEFAULT_MODE = 'sandbox'
 

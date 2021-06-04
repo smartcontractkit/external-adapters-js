@@ -1,6 +1,8 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
+export const NAME = 'THERUNDOWN'
+
 export const DEFAULT_ENDPOINT = 'total-score'
 export const DEFAULT_BASE_URL = 'https://therundown-therundown-v1.p.rapidapi.com/'
 

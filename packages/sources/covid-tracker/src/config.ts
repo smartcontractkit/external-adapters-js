@@ -1,6 +1,8 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
+export const NAME = 'COVID_TRACKER'
+
 export const DEFAULT_ENDPOINT = 'us'
 export const DEFAULT_BASE_URL = 'https://api.covidtracking.com/v1'
 

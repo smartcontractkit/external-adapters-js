@@ -1,6 +1,8 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
+export const NAME = 'BITEX'
+
 export const DEFAULT_ENDPOINT = 'tickers'
 export const DEFAULT_BASE_URL = 'https://bitex.la/api'
 

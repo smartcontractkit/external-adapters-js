@@ -1,6 +1,8 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
+export const NAME = 'LITION'
+
 export const DEFAULT_ENDPOINT = 'energy'
 export const DEFAULT_BASE_URL = 'https://staking.lition.io/api/v1'
 

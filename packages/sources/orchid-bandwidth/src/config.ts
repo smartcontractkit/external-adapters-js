@@ -1,6 +1,8 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
+export const NAME = 'ORCHID_BANDWIDTH'
+
 export const DEFAULT_ENDPOINT = 'bandwidth'
 export const DEFAULT_BASE_URL = 'https://chainlink.orchid.com/0'
 

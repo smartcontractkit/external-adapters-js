@@ -1,6 +1,8 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
+export const NAME = 'DWOLLA'
+
 export const DEFAULT_ENDPOINT = 'example'
 
 export const makeConfig = (prefix?: string): Config => {
