@@ -3,8 +3,9 @@ export * from './ws'
 
 export const GROUP_COUNT = 1
 
+export type AdapterNames = 'nomics' | 'cryptocompare' | 'tiingo'
 interface AdapterConfig {
-  name: string
+  name: AdapterNames
   /**
    * How many seconds to wait inbetween each call to this adapter
    */

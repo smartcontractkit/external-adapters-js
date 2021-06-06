@@ -1,15 +1,17 @@
 import { check, sleep } from 'k6'
 import http from 'k6/http'
 import { Rate } from 'k6/metrics'
-import { ADAPTERS, GROUP_COUNT, httpPayloadsByAdapter, wsPayloads } from './config/index'
+import {
+  AdapterNames,
+  ADAPTERS,
+  GROUP_COUNT,
+  httpPayloadsByAdapter,
+  wsPayloads,
+} from './config/index'
 
 export const options = {
   vus: 1,
   duration: '12h',
-  batch:
-    (wsPayloads.length * ADAPTERS.length +
-      Object.values(httpPayloadsByAdapter).reduce((total, group) => group.length + total, 0)) *
-    GROUP_COUNT,
   thresholds: {
     http_req_failed: ['rate<0.01'], // http errors should be less than 1%
     http_req_duration: ['p(95)<200'], // 95% of requests should be below 200ms
@@ -73,7 +75,7 @@ function buildRequests() {
         }
       }
 
-      for (const payload of httpPayloadsByAdapter[adapterName]) {
+      for (const payload of httpPayloadsByAdapter[adapterName as AdapterNames]) {
         batchRequests[`Group-${loadTestGroup}-${adapterName}-${payload.name}`] = {
           method: payload.method,
           url,
