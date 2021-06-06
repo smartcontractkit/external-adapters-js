@@ -16,6 +16,7 @@ export const options = {
   },
 }
 
+let currIteration = 0
 export const errorRate = new Rate('errors')
 
 interface LoadTestGroupUrls {
@@ -38,9 +39,13 @@ function getLoadTestGroupsUrls(): LoadTestGroupUrls {
     const loadTestGroup = Array(GROUP_COUNT)
       .fill(null)
       .map((_, i) => `https://adapters-ecs-dydx-${i + 1}.staging.org.devnet.tools`)
+
+    const adaptersToMap = ADAPTERS.filter((a) => currIteration % a.secondsPerCall === 0).map(
+      (a) => a.name,
+    )
     const adaptersPerLoadTestGroup = loadTestGroup.map(
       (u, i) =>
-        [i, Object.fromEntries(ADAPTERS.map((a) => [a, `${u}/${a}/call`] as const))] as const,
+        [i, Object.fromEntries(adaptersToMap.map((a) => [a, `${u}/${a}/call`] as const))] as const,
     )
 
     return Object.fromEntries(adaptersPerLoadTestGroup)
@@ -85,6 +90,7 @@ function buildRequests() {
 const batchRequests = buildRequests()
 
 export default () => {
+  currIteration++
   const responses = http.batch(batchRequests)
   for (const [name, response] of Object.entries(responses)) {
     const result = check(response, {
@@ -94,5 +100,5 @@ export default () => {
     errorRate.add(!result)
   }
 
-  sleep(60) // Wait 60 seconds
+  sleep(1)
 }
