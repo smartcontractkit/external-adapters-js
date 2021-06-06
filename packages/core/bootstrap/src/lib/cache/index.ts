@@ -10,8 +10,10 @@ import {
   uuid,
 } from '../util'
 import * as local from './local'
+import { LocalOptions } from './local'
 import * as metrics from './metrics'
 import * as redis from './redis'
+import { CacheEntry } from './types'
 
 const DEFAULT_CACHE_TYPE = 'local'
 const DEFAULT_CACHE_KEY_GROUP = uuid()
@@ -48,10 +50,10 @@ export const defaultOptions = () => ({
 })
 export type CacheOptions = ReturnType<typeof defaultOptions>
 
-const defaultCacheOptions = () => {
+const defaultCacheOptions = (): LocalOptions | redis.RedisOptions => {
   const type = env.CACHE_TYPE || DEFAULT_CACHE_TYPE
   const options = type === 'redis' ? redis.defaultOptions() : local.defaultOptions()
-  return { ...options, type }
+  return options
 }
 export type CacheImplOptions = ReturnType<typeof defaultCacheOptions>
 
@@ -104,7 +106,7 @@ export const withCache: Middleware = async (execute, options: CacheOptions = def
   const _getCoalescingKey = (key: string) => `inFlight:${key}`
   const _setInFlightMarker = async (key: string, maxAge: number) => {
     if (!options.requestCoalescing.enabled) return
-    await cache.set(key, true, maxAge)
+    await cache.setFlightMarker(key, maxAge)
     logger.debug(`Request coalescing: SET ${key}`)
   }
   const _delInFlightMarker = async (key: string) => {
@@ -122,7 +124,7 @@ export const withCache: Middleware = async (execute, options: CacheOptions = def
       logger.warn(
         `${
           feedId && feedId[0] !== '{' ? `[${feedId}]` : ''
-        } Cache: Caclulated Max Age of ${maxAge} ms exceeds system maximum Max Age of ${MAXIMUM_MAX_AGE} ms`,
+        } Cache: Calculated Max Age of ${maxAge} ms exceeds system maximum Max Age of ${MAXIMUM_MAX_AGE} ms`,
         data,
       )
       return maxAge > MAXIMUM_MAX_AGE ? MAXIMUM_MAX_AGE : maxAge
@@ -140,35 +142,43 @@ export const withCache: Middleware = async (execute, options: CacheOptions = def
     return maxAge
   }
 
-  const _getDefaultMaxAge = (data: AdapterRequest): any => {
-    const rlMaxAge = _getRateLimitMaxAge(data)
+  const _getDefaultMaxAge = (adapterRequest: AdapterRequest) => {
+    const rlMaxAge = _getRateLimitMaxAge(adapterRequest)
     return rlMaxAge || cache.options.maxAge
   }
 
-  const _getRequestMaxAge = (data: AdapterRequest): number | undefined => {
-    if (!data || !data.data) return
-    if (isNaN(data.data.maxAge as number)) return
-    return Number(data.data.maxAge)
+  const _getRequestMaxAge = (adapterRequest: AdapterRequest): number | undefined => {
+    if (!adapterRequest || !adapterRequest.data) return
+    if (isNaN(adapterRequest.data.maxAge as number)) return
+
+    return Number(adapterRequest.data.maxAge)
   }
 
-  const _executeWithCache = async (data: AdapterRequest) => {
-    const key = _getKey(data)
+  const _executeWithCache = async (adapterRequest: AdapterRequest) => {
+    const key = _getKey(adapterRequest)
     const coalescingKey = _getCoalescingKey(key)
-    const endMetrics = metrics.beginObserveCacheExecutionDuration({
-      isFromWs: data.debug?.ws,
+    const observe = metrics.beginObserveCacheMetrics({
+      isFromWs: !!adapterRequest.debug?.ws,
       participantId: key,
-      feedId: data.debug?.feedId,
+      feedId: adapterRequest.debug?.feedId,
     })
-    let maxAge = _getRequestMaxAge(data) || _getDefaultMaxAge(data)
+    let maxAge = _getRequestMaxAge(adapterRequest) || _getDefaultMaxAge(adapterRequest)
     // Add successful result to cache
-    const _cacheOnSuccess = async ({ statusCode, data, result }: AdapterResponse) => {
+    const _cacheOnSuccess = async ({
+      statusCode,
+      data,
+      result,
+    }: Pick<AdapterResponse, 'statusCode' | 'data' | 'result'>) => {
       if (statusCode === 200) {
         if (maxAge < 0) {
           maxAge = _getDefaultMaxAge(data)
         }
         if (maxAge < options.minimumAge) maxAge = options.minimumAge
-        const entry = { statusCode, data, result, maxAge }
-        await cache.set(key, entry, maxAge)
+
+        const entry: CacheEntry = { statusCode, data, result, maxAge }
+        // we should observe non-200 entries too
+        await cache.setResponse(key, entry, maxAge)
+        observe.cacheSet({ statusCode, maxAge })
         logger.trace(`Cache: SET ${key}`, entry)
         // Notify pending requests by removing the in-flight mark
         await _delInFlightMarker(coalescingKey)
@@ -178,7 +188,7 @@ export const withCache: Middleware = async (execute, options: CacheOptions = def
     const _getWithCoalescing = () =>
       getWithCoalescing({
         get: async (retryCount: number) => {
-          const entry = await cache.get(key)
+          const entry = await cache.getResponse(key)
           if (entry) logger.debug(`Request coalescing: GET on retry #${retryCount}`)
           return entry
         },
@@ -189,8 +199,8 @@ export const withCache: Middleware = async (execute, options: CacheOptions = def
             const randomMs = Math.random() * options.requestCoalescing.entropyMax
             await delay(randomMs)
           }
-          const inFlight = await cache.get(coalescingKey)
-          logger.debug(`Request coalescing: CHECK inFlight:${!!inFlight} on retry #${retryCount}`)
+          const inFlight = await cache.getFlightMarker(coalescingKey)
+          logger.debug(`Request coalescing: CHECK inFlight:${inFlight} on retry #${retryCount}`)
           return inFlight
         },
         retries: 5,
@@ -203,30 +213,37 @@ export const withCache: Middleware = async (execute, options: CacheOptions = def
           ),
       })
 
-    const entry = options.requestCoalescing.enabled
+    const cachedAdapterResponse = options.requestCoalescing.enabled
       ? await _getWithCoalescing()
-      : await cache.get(key)
+      : await cache.getResponse(key)
 
-    if (entry) {
+    if (cachedAdapterResponse) {
       if (maxAge >= 0) {
-        logger.trace(`Cache: GET ${key}`, entry)
-        const reqMaxAge = _getRequestMaxAge(data)
-        if (reqMaxAge && reqMaxAge !== entry.maxAge) await _cacheOnSuccess(entry)
+        logger.trace(`Cache: GET ${key}`, cachedAdapterResponse)
+        const reqMaxAge = _getRequestMaxAge(adapterRequest)
+        // force update the max age of the current cached entry if its been set
+        // in the adapter request
+        if (reqMaxAge && reqMaxAge !== cachedAdapterResponse.maxAge) {
+          await _cacheOnSuccess(cachedAdapterResponse)
+        }
         const ttl = await cache.ttl(key)
-        const staleness = (entry.maxAge - ttl) / 1000
+        // TODO: isnt this a bug? cachedAdapterResponse.maxAge will be different
+        // if the above conditional gets executed!
+        const staleness = (cachedAdapterResponse.maxAge - ttl) / 1000
         const debug = {
           cacheHit: true,
           staleness,
-          performance: endMetrics(true, staleness),
+          performance: observe.stalenessAndExecutionTime(true, staleness),
           providerCost: 0,
         }
+
+        // we should be smarter about this in the future
+        // and allow path configuration if result is not a number or string
+        observe.cacheGet({ value: cachedAdapterResponse.result })
         return {
-          jobRunID: data.id,
-          ...entry,
-          debug: {
-            ...(entry.debug || {}),
-            ...debug,
-          },
+          jobRunID: adapterRequest.id,
+          ...cachedAdapterResponse,
+          debug,
         }
       }
       logger.trace(`Cache: SKIP(maxAge < 0)`)
@@ -235,11 +252,11 @@ export const withCache: Middleware = async (execute, options: CacheOptions = def
     // Initiate request coalescing by adding the in-flight mark
     await _setInFlightMarker(coalescingKey, maxAge)
 
-    const result = await execute(data)
+    const result = await execute(adapterRequest)
     await _cacheOnSuccess(result)
     const debug = {
       staleness: 0,
-      performance: endMetrics(false, 0),
+      performance: observe.stalenessAndExecutionTime(false, 0),
       providerCost: result.data.cost || 1,
     }
     return { ...result, debug: { ...debug, ...result.debug } }

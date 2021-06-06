@@ -3,6 +3,7 @@ import { ClientOpts, createClient, RedisClient } from 'redis'
 import { promisify } from 'util'
 import { logger } from '../external-adapter'
 import { redis_connections_open } from './metrics'
+import { CacheEntry } from './types'
 
 // Connection
 const DEFAULT_CACHE_REDIS_HOST = '127.0.0.1' // IP address of the Redis server
@@ -16,9 +17,10 @@ const DEFAULT_CACHE_MAX_AGE = 1000 * 60 * 2 // 2 minutes
 
 const env = process.env
 
-export type RedisOptions = ClientOpts & { maxAge: number; timeout: number }
+export type RedisOptions = ClientOpts & { maxAge: number; timeout: number; type: 'redis' }
 
 export const defaultOptions = (): RedisOptions => ({
+  type: 'redis',
   host: env.CACHE_REDIS_HOST || DEFAULT_CACHE_REDIS_HOST,
   port: Number(env.CACHE_REDIS_PORT) || DEFAULT_CACHE_REDIS_PORT,
   path: env.CACHE_REDIS_PATH || DEFAULT_CACHE_REDIS_PATH,
@@ -95,7 +97,7 @@ export class RedisCache {
     return cache
   }
 
-  async set(key: string, value: any, maxAge: number) {
+  async setResponse(key: string, value: CacheEntry, maxAge: number) {
     const entry = JSON.stringify(value)
     return this.contextualTimeout(this._set(key, entry, 'PX', maxAge), 'set', {
       key,
@@ -104,8 +106,22 @@ export class RedisCache {
     })
   }
 
-  async get(key: string) {
+  // TODO: We should have seperate services for response entries, and coalescing support
+  async setFlightMarker(key: string, maxAge: number) {
+    return this.contextualTimeout(this._set(key, true, 'PX', maxAge), 'set', {
+      key,
+      maxAge,
+    })
+  }
+
+  async getResponse(key: string): Promise<CacheEntry | undefined> {
     const entry: string = await this.contextualTimeout(this._get(key), 'get', { key })
+    return JSON.parse(entry)
+  }
+
+  async getFlightMarker(key: string): Promise<boolean> {
+    const entry: string = await this.contextualTimeout(this._get(key), 'get', { key })
+
     return JSON.parse(entry)
   }
 
@@ -113,7 +129,7 @@ export class RedisCache {
     return this.contextualTimeout(this._del(key), 'del', { key })
   }
 
-  async ttl(key: string) {
+  async ttl(key: string): Promise<number> {
     // TTL in ms
     return this.contextualTimeout(this._pttl(key), 'ttl', { key })
   }
