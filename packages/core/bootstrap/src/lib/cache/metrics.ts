@@ -1,51 +1,18 @@
 import * as client from 'prom-client'
-
-enum CacheTypes {
-  Redis = 'redis',
-  Local = 'local',
-}
-
-export const cache_execution_duration_seconds = new client.Histogram({
-  name: 'cache_execution_duration_seconds',
-  help: 'A histogram bucket of the distribution of cache execution durations',
-  labelNames: [
-    'participant_id',
-    'feed_id',
-    'cache_type',
-    'cache_hit',
-    'experimental',
-    'is_from_ws',
-  ] as const,
-  buckets: [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10],
-})
-
-export const cache_data_staleness_seconds = new client.Histogram({
-  name: 'cache_data_staleness_seconds',
-  help: 'Observes the staleness of the data returned',
-  labelNames: ['participant_id', 'feed_id', 'cache_type', 'experimental', 'is_from_ws'] as const,
-  buckets: [0, 1, 5, 10, 30, 60, 90, 120],
-})
-
-export const redis_connections_open = new client.Counter({
-  name: 'redis_connections_open',
-  help: 'The number of redis connections that are open',
-})
+import { normalizeStatusCode } from '../metrics/util'
 
 interface CacheExecutionDurationParams {
   participantId: string
   feedId?: string
-  isFromWs?: boolean
+  isFromWs: boolean
 }
-
-type EndObserveCacheExecutionDuration = (cacheHit: boolean, staleness?: number) => number
-
-export const beginObserveCacheExecutionDuration = ({
+export const beginObserveCacheMetrics = ({
   participantId,
   feedId,
   isFromWs,
-}: CacheExecutionDurationParams): EndObserveCacheExecutionDuration => {
+}: CacheExecutionDurationParams) => {
   const cacheType = process.env.CACHE_TYPE === 'redis' ? CacheTypes.Redis : CacheTypes.Local
-  const defaultLabels = {
+  const base = {
     feed_id: feedId,
     participant_id: participantId,
     experimental: 'true',
@@ -53,9 +20,81 @@ export const beginObserveCacheExecutionDuration = ({
     is_from_ws: String(isFromWs),
   }
 
-  const end = cache_execution_duration_seconds.startTimer()
-  return (cacheHit: boolean, staleness = 0): number => {
-    cache_data_staleness_seconds.labels({ ...defaultLabels }).observe(staleness)
-    return end({ ...defaultLabels, cache_hit: String(cacheHit) })
+  const recordCacheExecutionDuration = cache_execution_duration_seconds.startTimer()
+  return {
+    stalenessAndExecutionTime(cacheHit: boolean, staleness = 0) {
+      cache_data_staleness_seconds.labels(base).set(staleness)
+      return recordCacheExecutionDuration({ ...base, cache_hit: String(cacheHit) })
+    },
+
+    cacheGet({ value }: { value: unknown }) {
+      if (typeof value === 'number' || typeof value === 'string') {
+        const parsedValue = Number(value)
+        if (!Number.isNaN(parsedValue) && Number.isFinite(parsedValue)) {
+          cache_data_get_values.labels(base).set(parsedValue)
+        }
+      }
+      cache_data_get_count.labels(base).inc()
+    },
+
+    cacheSet({ statusCode, maxAge }: { statusCode: number; maxAge: number }) {
+      cache_data_set_count.labels({ ...base, status_code: normalizeStatusCode(statusCode) }).inc()
+      cache_data_max_age.labels(base).set(maxAge)
+    },
   }
 }
+
+export const redis_connections_open = new client.Counter({
+  name: 'redis_connections_open',
+  help: 'The number of redis connections that are open',
+})
+
+enum CacheTypes {
+  Redis = 'redis',
+  Local = 'local',
+}
+
+const baseLabels = [
+  'feed_id',
+  'participant_id',
+  'cache_type',
+  'is_from_ws',
+  'experimental',
+] as const
+
+const cache_execution_duration_seconds = new client.Histogram({
+  name: 'cache_execution_duration_seconds',
+  help: 'A histogram bucket of the distribution of cache execution durations',
+  labelNames: [...baseLabels, 'cache_hit'] as const,
+  buckets: [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10],
+})
+
+const cache_data_get_count = new client.Counter({
+  name: 'cache_data_get_count',
+  help: 'A counter that increments every time a value is fetched from the cache',
+  labelNames: baseLabels,
+})
+
+const cache_data_get_values = new client.Gauge({
+  name: 'cache_data_get_values',
+  help: 'A gauge keeping track of values being fetched from cache',
+  labelNames: baseLabels,
+})
+
+const cache_data_max_age = new client.Gauge({
+  name: 'cache_data_max_age',
+  help: 'A gauge tracking the max age of stored values in the cache',
+  labelNames: baseLabels,
+})
+
+const cache_data_set_count = new client.Counter({
+  name: 'cache_data_set_count',
+  help: 'A counter that increments every time a value is set to the cache',
+  labelNames: [...baseLabels, 'status_code'],
+})
+
+const cache_data_staleness_seconds = new client.Gauge({
+  name: 'cache_data_staleness_seconds',
+  help: 'Observes the staleness of the data returned',
+  labelNames: baseLabels,
+})

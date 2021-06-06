@@ -3,6 +3,7 @@ import { Decimal } from 'decimal.js'
 import { flatMap, values } from 'lodash'
 import objectHash from 'object-hash'
 import { v4 as uuidv4 } from 'uuid'
+import { CacheEntry } from './cache/types'
 
 export const isObject = (o: unknown): boolean =>
   o !== null && typeof o === 'object' && Array.isArray(o) === false
@@ -68,18 +69,18 @@ export const getWithCoalescing = async ({
   retries = 5,
   interval = () => 100,
 }: {
-  get: (retryCount: number) => unknown
-  isInFlight: (retryCount: number) => unknown
+  get: (retryCount: number) => Promise<CacheEntry | undefined>
+  isInFlight: (retryCount: number) => Promise<boolean>
   retries: number
   interval: (retryCount: number) => number
 }) => {
-  const _self = async (_retries: number): Promise<null | any> => {
-    if (_retries === 0) return null
+  const _self = async (_retries: number): Promise<undefined | CacheEntry> => {
+    if (_retries === 0) return
     const retryCount = retries - _retries + 1
     const entry = await get(retryCount)
     if (entry) return entry
     const inFlight = await isInFlight(retryCount)
-    if (!inFlight) return null
+    if (!inFlight) return
     await delay(interval(retryCount))
     return await _self(_retries - 1)
   }

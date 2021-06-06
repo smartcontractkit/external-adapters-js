@@ -1,5 +1,6 @@
 import LRU from 'lru-cache'
 import { parseBool } from '../util'
+import { CacheEntry } from './types'
 
 // Options
 const DEFAULT_CACHE_MAX_ITEMS = 500
@@ -7,29 +8,50 @@ const DEFAULT_CACHE_MAX_AGE = 1000 * 60 * 2 // 2 minutes
 const DEFAULT_CACHE_UPDATE_AGE_ON_GET = false
 
 const env = process.env
-export const defaultOptions = () => ({
-  max: Number(env.CACHE_MAX_ITEMS) || DEFAULT_CACHE_MAX_ITEMS,
-  maxAge: Number(env.CACHE_MAX_AGE) || DEFAULT_CACHE_MAX_AGE,
-  updateAgeOnGet: parseBool(env.CACHE_UPDATE_AGE_ON_GET) || DEFAULT_CACHE_UPDATE_AGE_ON_GET,
-})
+export interface LocalOptions {
+  type: 'local'
+  max: number
+  maxAge: number
+  updateAgeOnGet: boolean
+}
+export const defaultOptions = (): LocalOptions =>
+  ({
+    type: 'local',
+    max: Number(env.CACHE_MAX_ITEMS) || DEFAULT_CACHE_MAX_ITEMS,
+    maxAge: Number(env.CACHE_MAX_AGE) || DEFAULT_CACHE_MAX_AGE,
+    updateAgeOnGet: parseBool(env.CACHE_UPDATE_AGE_ON_GET) || DEFAULT_CACHE_UPDATE_AGE_ON_GET,
+  } as const)
 // Options without sensitive data
 export const redactOptions = (opts: any) => opts
 
+type CacheOptions = Omit<
+  LRU.Options<string, CacheEntry | boolean>,
+  'max' | 'maxAge' | 'updateAgeOnGet'
+> &
+  ReturnType<typeof defaultOptions>
 export class LocalLRUCache {
-  options: LRU.Options<unknown, unknown>
-  client: LRU<unknown, unknown>
+  options: CacheOptions
+  client: LRU<string, CacheEntry | boolean>
 
-  constructor(options: LRU.Options<unknown, unknown>) {
+  constructor(options: CacheOptions) {
     this.options = options
     this.client = new LRU(options)
   }
 
-  set(key: string, value: any, maxAge: number) {
+  setResponse(key: string, value: any, maxAge: number) {
     return this.client.set(key, value, maxAge)
   }
 
-  get(key: string) {
-    return this.client.get(key)
+  setFlightMarker(key: string, maxAge: number) {
+    return this.client.set(key, true, maxAge)
+  }
+
+  async getResponse(key: string): Promise<CacheEntry | undefined> {
+    return this.client.get(key) as CacheEntry | undefined
+  }
+
+  async getFlightMarker(key: string): Promise<boolean> {
+    return this.client.get(key) as boolean
   }
 
   del(key: string) {
