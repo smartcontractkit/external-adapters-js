@@ -10,12 +10,12 @@ Detailed here is optional configuration that can be provided to any EA through e
 
 1. [Server configuration](#Server-configuration)
 2. [Performance](#Performance)
-    - [Caching](#Caching)
-    - [Redis](#Redis)
-    - [Rate Limiting](#Rate-Limiting)
-        - [Provider Limits](#Provider-Limits)
-    - [Cache Warming](#Cache-Warming)
-    - [Request Coalescing](#Request-Coalescing)
+   - [Caching](#Caching)
+   - [Redis](#Redis)
+   - [Rate Limiting](#Rate-Limiting)
+     - [Provider Limits](#Provider-Limits)
+   - [Cache Warming](#Cache-Warming)
+   - [Request Coalescing](#Request-Coalescing)
 3. [Metrics](#Metrics)
 4. [Websockets](#Websockets)
 
@@ -153,8 +153,8 @@ Being:
 - **provider-name**: The provider name. E.g. "amberdata" or "coinmarketcap"
 - **plan-name**: The provider plan name. Used as a identifier for the plan. E.g. "free" or "premium"
 - There are two protocols with different limit types:
-    - **http**: With `rateLimit1s`, `rateLimit1m`, `rateLimit1h`, which stands for requests per second/minute/hour respectively. If only one is provided, the rest would be calculated based on it.
-    - **ws**: Websocket limits, which accepts: `connections` and `subscriptions`. If websockets are not supported on the provider, can be left empty as `ws: {}`
+  - **http**: With `rateLimit1s`, `rateLimit1m`, `rateLimit1h`, which stands for requests per second/minute/hour respectively. If only one is provided, the rest would be calculated based on it.
+  - **ws**: Websocket limits, which accepts: `connections` and `subscriptions`. If websockets are not supported on the provider, can be left empty as `ws: {}`
 
 ### Cache Warming
 
@@ -183,15 +183,17 @@ To configure caching these environment variables are available:
 
 ## Metrics
 
-A metrics server can be exposed which returns prometheus compatible data on the `$BASE_URL/metrics` endpoint on the specified port.
+A metrics server can be exposed which returns prometheus compatible data on the metrics endpoint on the specified port.
+When enabled, a metrics endpoint is opened on `/metrics`, which can be prepended with the `BASE_URL` if `METRICS_USE_BASE_URL` is enabled.
 
 \*Please note that this feature is EXPERIMENTAL.
 
-| Required? |              Name              |                  Description                  | Options | Defaults to |
-| :-------: | :----------------------------: | :-------------------------------------------: | :-----: | :---------: |
-|           | `EXPERIMENTAL_METRICS_ENABLED` |  Set to `true` to enable metrics collection.  |         |   `false`   |
-|           |         `METRICS_PORT`         | The port the `/metrics` endpoint is served on |         |   `9080`    |
-|           |         `METRICS_NAME`         |    set to apply a label of to each metric.    |         |  undefined  |
+| Required? |              Name              |                                  Description                                   | Options | Defaults to |
+| :-------: | :----------------------------: | :----------------------------------------------------------------------------: | :-----: | :---------: |
+|           | `EXPERIMENTAL_METRICS_ENABLED` |                  Set to `true` to enable metrics collection.                   |         |   `false`   |
+|           |     `METRICS_USE_BASE_URL`     | Set to "true" to have the internal metrics endpoint use the supplied base url. |         |   `false`   |
+|           |         `METRICS_PORT`         |                   The port the metrics endpoint is served on                   |         |   `9080`    |
+|           |         `METRICS_NAME`         |                    set to apply a label of to each metric.                     |         |  undefined  |
 
 To run Prometheus and Grafana with development setup:
 

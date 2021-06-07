@@ -57,21 +57,12 @@ export const initHandler = (execute: ExecuteSync) => (): void => {
   })
 }
 
-const appendUrl = (url: string, suffix: string) => {
-  if (url.endsWith('/') && suffix.startsWith('/')) {
-    return `${url}${suffix.substr(1)}`
-  } else if (!url.endsWith('/') && !suffix.startsWith('/')) {
-    return `${url}/${suffix}`
-  } else {
-    return `${url}${suffix}`
-  }
-}
-
 function setupMetricsServer() {
   const metricsApp = express()
   const metricsPort = process.env.METRICS_PORT || 9080
+  const endpoint = process.env.METRICS_USE_BASE_URL ? join(baseUrl, 'metrics') : '/metrics'
 
-  metricsApp.get(appendUrl(baseUrl, '/metrics'), async (_, res) => {
+  metricsApp.get(endpoint, async (_, res) => {
     res.type('txt')
     res.send(await client.register.metrics())
   })
