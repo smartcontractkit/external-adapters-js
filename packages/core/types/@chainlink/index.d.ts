@@ -12,6 +12,7 @@ declare module '@chainlink/types' {
     timeout?: number
   }
   export type AdapterRequestDebug = {
+    ws?: boolean
     feedId?: string
     cacheHit?: boolean
     staleness?: number

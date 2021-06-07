@@ -15,12 +15,17 @@ export interface WSErrorPayload {
   reason: string
 }
 
-export const connect = createAction('WS/CONNECT!', asAction<WSConfigPayload>())
-export const connected = createAction('WS/CONNECTED', asAction<WSConfigPayload>())
-export const connectionError = createAction('WS/CONNECTION_ERROR', asAction<WSErrorPayload>())
-export const disconnected = createAction('WS/DISCONNECTED', asAction<WSConfigPayload>())
-
-export const disconnect = createAction('WS/DISCONNECT!', asAction<WSConfigPayload>())
+export const connectRequested = createAction('WS/CONNECT_REQUESTED', asAction<WSConfigPayload>())
+export const connectFulfilled = createAction('WS/CONNECT_FULFILLED', asAction<WSConfigPayload>())
+export const connectFailed = createAction('WS/CONNECTION_FAILED', asAction<WSErrorPayload>())
+export const disconnectFulfilled = createAction(
+  'WS/DISCONNECT_FULFILLED',
+  asAction<WSConfigPayload>(),
+)
+export const disconnectRequested = createAction(
+  'WS/DISCONNECT_REQUESTED',
+  asAction<WSConfigPayload>(),
+)
 
 /** SUBSCRIPTIONS */
 export interface WSSubscriptionPayload {
@@ -34,11 +39,26 @@ export interface WSSubscriptionErrorPayload extends WSErrorPayload {
   input?: AdapterRequest
 }
 
-export const subscribe = createAction('WS/SUBSCRIBE!', asAction<WSSubscriptionPayload>())
-export const subscribed = createAction('WS/SUBSCRIBED', asAction<WSSubscriptionPayload>())
-export const subscriptionError = createAction('WS/SUBSCRIPTION_ERROR', asAction<WSSubscriptionErrorPayload>())
-export const unsubscribe = createAction('WS/UNSUBSCRIBE!', asAction<WSSubscriptionPayload>())
-export const unsubscribed = createAction('WS/UNSUBSCRIBED', asAction<WSSubscriptionPayload>())
+export const subscribeRequested = createAction(
+  'WS/SUBSCRIBE_REQUESTED',
+  asAction<WSSubscriptionPayload>(),
+)
+export const subscribeFulfilled = createAction(
+  'WS/SUBSCRIBE_FULFILLED',
+  asAction<WSSubscriptionPayload>(),
+)
+export const subscriptionError = createAction(
+  'WS/SUBSCRIPTION_ERROR',
+  asAction<WSSubscriptionErrorPayload>(),
+)
+export const unsubscribeRequested = createAction(
+  'WS/UNSUBSCRIBE_REQUESTED',
+  asAction<WSSubscriptionPayload>(),
+)
+export const unsubscribeFulfilled = createAction(
+  'WS/UNSUBSCRIBE_FULFILLED',
+  asAction<WSSubscriptionPayload>(),
+)
 
 /** MESSAGEs */
 export interface WSMessagePayload {

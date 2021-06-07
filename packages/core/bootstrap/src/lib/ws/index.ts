@@ -1,6 +1,6 @@
 import { AdapterRequest, MakeWSHandler, Middleware } from '@chainlink/types'
 import { Store } from 'redux'
-import { connect, subscribe, WSSubscriptionPayload } from './actions'
+import { connectRequested, subscribeRequested, WSSubscriptionPayload } from './actions'
 import { getWSConfig } from './config'
 import { RootState } from './reducer'
 
@@ -18,7 +18,7 @@ export const withWebSockets =
     if (!makeWsHandler || !wsConfig.enabled) return await execute(input) // ignore middleware if conditions are met
 
     const wsHandler = await makeWsHandler()
-    store.dispatch(connect({ config: wsConfig, wsHandler }))
+    store.dispatch(connectRequested({ config: wsConfig, wsHandler }))
 
     const subscriptionMsg = wsHandler.subscribe(input)
     if (!subscriptionMsg) return await execute(input)
@@ -32,6 +32,6 @@ export const withWebSockets =
       input,
     }
 
-    store.dispatch(subscribe(subscriptionPayload))
+    store.dispatch(subscribeRequested(subscriptionPayload))
     return await execute(input)
   }
