@@ -8,7 +8,7 @@ Each request to this composite adapter uses two underlying adapters, therefore t
 
 At least one of each of the following categories must be set as an environment variable:
 
-1. A protocol adapter to retrieve custodial addresses
+1. A protocol adapter to retrieve custodial addresses (if not using `list`)
 
    | Required? |           Name            |               Description                | Options | Defaults to |
    | :-------: | :-----------------------: | :--------------------------------------: | :-----: | :---------: |
@@ -35,9 +35,10 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 
 | Required? |      Name       |                                             Description                                              |                                            Options                                            | Defaults to |
 | :-------: | :-------------: | :--------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------: | :---------: |
-|     ✅     |   `protocol`    |                                 The protocol external adapter to use                                 |                                        `renvm`, `wbtc`                                        |             |
-|     ✅     |    `indexer`    |                                 The indexer external adapter to use                                  | `amberdata`, `blockchain_com`, `blockcypher`. `blockchair`, `btc_com`,`cryptoapis`, `sochain` |             |
-|          | `confirmations` | The number of confirmations required for a transaction to be counted when getting an address balance |                                                                                               |      6      |
+|    ✅     |   `protocol`    |                                 The protocol external adapter to use                                 |                                    `renvm`, `wbtc`, `list`                                    |             |
+|    ✅     |    `indexer`    |                                 The indexer external adapter to use                                  | `amberdata`, `blockchain_com`, `blockcypher`. `blockchair`, `btc_com`,`cryptoapis`, `sochain` |             |
+|           | `confirmations` | The number of confirmations required for a transaction to be counted when getting an address balance |                                                                                               |      6      |
+|           |   `addresses`   |           An array of addresses to get the balance from, when "protocol" is set to `list`            |                                                                                               |             |
 
 Additionally the first underlying adapter in the sequence, in this case the protocol adapter, may have parameters.
 
