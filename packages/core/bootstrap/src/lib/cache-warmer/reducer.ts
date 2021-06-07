@@ -1,9 +1,9 @@
 import { AdapterRequest, Execute } from '@chainlink/types'
 import { combineReducers, createReducer } from '@reduxjs/toolkit'
+import { union } from 'lodash'
 import { logger } from '../external-adapter'
 import * as actions from './actions'
 import { getSubscriptionKey } from './util'
-import { union } from 'lodash'
 
 /**
  * Metadata about a request
@@ -12,7 +12,7 @@ export interface SubscriptionData {
   /**
    * The original request data that triggered this subscription
    */
-  origin: AdapterRequest
+  origin: AdapterRequest['data']
   /**
    * The wrapped execute function that was used to service the request
    */
@@ -44,15 +44,16 @@ export interface SubscriptionState {
 }
 
 export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builder) => {
-  builder.addCase(actions.warmupSubscribed, (state, action) => {
-    const key = action.payload.key || getSubscriptionKey(action.payload)
+  builder.addCase(actions.warmupSubscribed, (state, { payload }) => {
+    const key = payload.key || getSubscriptionKey(payload)
+
     state[key] = {
-      origin: action.payload,
-      executeFn: action.payload.executeFn,
-      startedAt: Date.now(),
+      origin: payload.data,
+      executeFn: payload.executeFn,
+      startedAt: state[key]?.startedAt ?? Date.now(),
       isDuplicate: !!state[key],
-      parent: action.payload.parent || state[key]?.parent,
-      children: action.payload.children,
+      parent: payload.parent || state[key]?.parent,
+      children: payload.children,
     }
   })
 
@@ -60,15 +61,16 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
     delete state[action.payload.key]
   })
 
-  builder.addCase(actions.warmupJoinGroup, (state, action) => {
-    state[action.payload.parent].children = {
-      ...state[action.payload.parent].children,
-      ...action.payload.children,
+  builder.addCase(actions.warmupJoinGroup, (state, { payload }) => {
+    const parent = state[payload.parent]
+    parent.children = {
+      ...parent.children,
+      ...payload.children,
     }
-    for (const child in action.payload.children) {
-      state[action.payload.parent].origin.data[action.payload.batchable] = union(
-        state[action.payload.parent].origin.data[action.payload.batchable],
-        [state[child].origin.data[action.payload.batchable]],
+    for (const child in payload.children) {
+      state[payload.parent].origin[payload.batchable] = union(
+        state[payload.parent].origin[payload.batchable],
+        [state[child].origin[payload.batchable]],
       )
     }
   })
@@ -153,4 +155,5 @@ export const rootReducer = combineReducers({
   subscriptions: subscriptionsReducer,
   warmups: warmupReducer,
 })
-export type RootState = ReturnType<typeof rootReducer>
+
+export type CacheWarmerState = ReturnType<typeof rootReducer>

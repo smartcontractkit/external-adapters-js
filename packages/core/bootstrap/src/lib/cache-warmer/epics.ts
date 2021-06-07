@@ -1,7 +1,8 @@
 import { AdapterRequest } from '@chainlink/types'
+import { omit } from 'lodash'
 import { AnyAction } from 'redux'
 import { combineEpics, createEpicMiddleware, Epic } from 'redux-observable'
-import { from, merge, of, race, timer, partition } from 'rxjs'
+import { from, merge, of, partition, race, timer } from 'rxjs'
 import {
   catchError,
   delay,
@@ -13,6 +14,7 @@ import {
   takeUntil,
   withLatestFrom,
 } from 'rxjs/operators'
+import { RootState } from '../..'
 import {
   warmupExecute,
   warmupFailed,
@@ -26,38 +28,39 @@ import {
 } from './actions'
 import { Config, get, WARMUP_REQUEST_ID } from './config'
 import { getSubscriptionKey } from './util'
-import { SubscriptionData } from './reducer'
-import { omit } from 'lodash'
-import { actions } from '.'
 // export * as actions from './actions'
 
 export interface EpicDependencies {
   config: Config
 }
 
-export const executeHandler: Epic<AnyAction, AnyAction, any, EpicDependencies> = (
+export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependencies> = (
   action$,
   state$,
 ) => {
-  const warmupExecute$ = action$.pipe(filter(warmupExecute.match), withLatestFrom(state$))
+  const warmupExecute$ = action$.pipe(filter(warmupExecute.match))
 
   const [batchExecute$, execute$] = partition(
     warmupExecute$,
-    ([val]) => !!val.payload.result?.debug?.batchable,
+    (val) => !!val.payload.result?.debug?.batchable,
   )
 
   const subscribeBatch$ = batchExecute$.pipe(
-    map(([{ payload }, state]) => {
-      const warmupSubscribedPayload: actions.WarmupSubscribedPayload = payload
+    withLatestFrom(state$),
+    mergeMap(([{ payload }, state]) => {
+      const actionsToDispatch: AnyAction[] = []
+      // cast action
+      const warmupSubscribedAction = warmupSubscribed({ ...payload })
+      // Check if a batch warmer subscription already exists, if it doesnt
+      // then generate a new key by omitting the data property
+      const batchWarmerSubscriptionKey = Object.entries(state.cacheWarmer.subscriptions).find(
+        ([, subscriptionState]) => {
+          const isBatchWarmerSubscription = subscriptionState.children
+          const isMatchingSubscription = subscriptionState.executeFn === payload.executeFn
 
-      // Check if a batch warmer already exists
-      const batchWarmer = (Object.entries<SubscriptionData>(state.cacheWarmer.subscriptions).find(
-        ([_, subscriptionState]) =>
-          subscriptionState.children && subscriptionState.executeFn === payload.executeFn,
-      ) || [null, null])[0]
-
-      // If no batch warmer exists, generate a new key by omitting the data property
-      const parentKey = batchWarmer || getSubscriptionKey(omit(payload, ['data']))
+          return isBatchWarmerSubscription && isMatchingSubscription
+        },
+      )?.[0]
 
       const children: { [childKey: string]: number } = {}
       // If result was from a batch request, start placeholder subscriptions for split individual requests
@@ -69,46 +72,50 @@ export const executeHandler: Epic<AnyAction, AnyAction, any, EpicDependencies> =
           const warmupSubscribedPayloadChild = {
             ...payload,
             data: omit(request, ['debug', 'rateLimitMaxAge']),
-            parent: parentKey,
+            parent: batchWarmerSubscriptionKey ?? getSubscriptionKey(omit(payload, ['data'])),
           }
           const childKey = getSubscriptionKey(warmupSubscribedPayloadChild)
           children[childKey] = Date.now()
-          warmupSubscribed(warmupSubscribedPayloadChild)
+          warmupSubscribedAction.payload.children = children
+          actionsToDispatch.push(warmupSubscribedAction)
         }
-        warmupSubscribedPayload.children = children
       }
 
       // If batch warmer already exists join it by combining in children
-      if (batchWarmer) {
+      if (batchWarmerSubscriptionKey) {
         // Turn an individual request into a child by starting a placeholder subscription
         if (payload.result?.data?.result) {
-          warmupSubscribedPayload.parent = parentKey
-          const childKey = getSubscriptionKey(warmupSubscribedPayload)
+          warmupSubscribedAction.payload.parent = batchWarmerSubscriptionKey
+          const childKey = getSubscriptionKey(payload)
           children[childKey] = Date.now()
-          warmupSubscribed(warmupSubscribedPayload)
+          actionsToDispatch.push(warmupSubscribedAction)
         }
 
-        return warmupJoinGroup({
-          parent: parentKey,
-          children: children,
-          batchable: payload.result.debug.batchable,
-        })
+        actionsToDispatch.push(
+          warmupJoinGroup({
+            parent: batchWarmerSubscriptionKey,
+            children,
+            batchable: payload.result.debug.batchable,
+          }),
+        )
       }
-      // If batch warmer does not exist, start it by using parentKey
+      // If batch warmer does not exist, start it by using batchWarmerSubscriptionKey
       else {
         // Turn an individual request into a batch warmer
         if (payload.debug?.batchable && !Array.isArray(payload.data[payload.debug?.batchable])) {
-          warmupSubscribedPayload.data[payload.debug?.batchable] = [
-            warmupSubscribedPayload.data[payload.debug?.batchable],
+          warmupSubscribedAction.payload.data[payload.debug?.batchable] = [
+            warmupSubscribedAction.payload.data[payload.debug?.batchable],
           ]
         }
-        warmupSubscribedPayload.key = parentKey
-        return warmupSubscribed(warmupSubscribedPayload)
+        warmupSubscribedAction.payload.key = batchWarmerSubscriptionKey
+        actionsToDispatch.push(warmupSubscribedAction)
       }
+
+      return from(actionsToDispatch)
     }),
   )
 
-  const subscribeIndividual$ = execute$.pipe(mapTo(warmupSubscribed))
+  const subscribeIndividual$ = execute$.pipe(map(({ payload }) => warmupSubscribed(payload)))
 
   return merge(subscribeBatch$, subscribeIndividual$)
 }
@@ -166,7 +173,7 @@ export const warmupRequestHandler: Epic<AnyAction, AnyAction, any> = (action$, s
       from(
         requestData.executeFn({
           id: WARMUP_REQUEST_ID,
-          data: { ...(requestData.origin.data.data as any) }, // TODO: this data attribute should not be nested
+          data: { ...(requestData.origin.data as any) }, // TODO: this data attribute should not be nested
           // don't pass a stale `meta` to force data refresh
         }),
       ).pipe(
