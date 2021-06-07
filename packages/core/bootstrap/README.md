@@ -10,12 +10,12 @@ Detailed here is optional configuration that can be provided to any EA through e
 
 1. [Server configuration](#Server-configuration)
 2. [Performance](#Performance)
-    - [Caching](#Caching)
-    - [Redis](#Redis)
-    - [Rate Limiting](#Rate-Limiting)
-        - [Provider Limits](#Provider-Limits)
-    - [Cache Warming](#Cache-Warming)
-    - [Request Coalescing](#Request-Coalescing)
+   - [Caching](#Caching)
+   - [Redis](#Redis)
+   - [Rate Limiting](#Rate-Limiting)
+     - [Provider Limits](#Provider-Limits)
+   - [Cache Warming](#Cache-Warming)
+   - [Request Coalescing](#Request-Coalescing)
 3. [Metrics](#Metrics)
 4. [Websockets](#Websockets)
 
@@ -23,18 +23,19 @@ Detailed here is optional configuration that can be provided to any EA through e
 
 ## Server configuration
 
-| Required? |       Name        |                                                                                                                                                                                           Description                                                                                                                                                                                           |     Options     |     Defaults to      |
-| :-------: | :---------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------------: | :------------------: |
-|           |    `BASE_URL`     | Set a base url that is used for setting up routes on the external adapter. Ex. Typically a external adapter is served on the root, so you would make requests to `/`, setting `BASE_URL` to `/coingecko` would instead have requests made to `/coingecko`. Useful when multiple external adapters are being hosted under the same domain, and path mapping is being used to route between them. |                 |         `/`          |
-|           |     `EA_PORT`     |                                                                                                                                                                        The port to run the external adapter's server on                                                                                                                                                                         |                 |        `8080`        |
-|           |      `UUID`       |                                                                                                                                                                 A universally unique identifier that is used to identify the EA                                                                                                                                                                 |                 | (generated randomly) |
-|           |      `DEBUG`      |                                                                                                                                                                                       Toggles debug mode.                                                                                                                                                                                       |                 |       `false`        |
-|           |    `NODE_ENV`     |                                                                                                                                          Toggles development mode. When set to developement the log messages will be prettified to be more read-able.                                                                                                                                           |  `development`  |      undefined       |
-|           |    `LOG_LEVEL`    |                                                                                                                                               The [winston](https://github.com/winstonjs/winston) log level. Set to debug for full log messages.                                                                                                                                                | `info`, `debug` |        `info`        |
-|           |   `API_TIMEOUT`   |                                                                                                                                                      The number of milliseconds a request can be pending before returning a timeout error.                                                                                                                                                      |                 |       `30000`        |
-|           |  `API_ENDPOINT`   |                                                                                                                                                                              Override the base URL within the EA.                                                                                                                                                                               |                 |    Defined in EA     |
-|           | `WS_API_ENDPOINT` |                                                                                                                                                                         Override the base websocket URL within the EA.                                                                                                                                                                          |                 |    Defined in EA     |
-|           |   `API_VERBOSE`   |                                                                                                                              Toggle whether the response from the EA should contain just the results or also include the full response body from the queried API.                                                                                                                               |                 |       `false`        |
+| Required? |          Name          |                                                                                                                                                                                           Description                                                                                                                                                                                           |     Options     |     Defaults to      |
+| :-------: | :--------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------------: | :------------------: |
+|           |       `BASE_URL`       | Set a base url that is used for setting up routes on the external adapter. Ex. Typically a external adapter is served on the root, so you would make requests to `/`, setting `BASE_URL` to `/coingecko` would instead have requests made to `/coingecko`. Useful when multiple external adapters are being hosted under the same domain, and path mapping is being used to route between them. |                 |         `/`          |
+|           | `METRICS_USE_BASE_URL` |                                                                                                                                                         Set to "true" to have the internal metrics endpoint use the supplied base url.                                                                                                                                                          |                 |       `false`        |
+|           |       `EA_PORT`        |                                                                                                                                                                        The port to run the external adapter's server on                                                                                                                                                                         |                 |        `8080`        |
+|           |         `UUID`         |                                                                                                                                                                 A universally unique identifier that is used to identify the EA                                                                                                                                                                 |                 | (generated randomly) |
+|           |        `DEBUG`         |                                                                                                                                                                                       Toggles debug mode.                                                                                                                                                                                       |                 |       `false`        |
+|           |       `NODE_ENV`       |                                                                                                                                          Toggles development mode. When set to developement the log messages will be prettified to be more read-able.                                                                                                                                           |  `development`  |      undefined       |
+|           |      `LOG_LEVEL`       |                                                                                                                                               The [winston](https://github.com/winstonjs/winston) log level. Set to debug for full log messages.                                                                                                                                                | `info`, `debug` |        `info`        |
+|           |     `API_TIMEOUT`      |                                                                                                                                                      The number of milliseconds a request can be pending before returning a timeout error.                                                                                                                                                      |                 |       `30000`        |
+|           |     `API_ENDPOINT`     |                                                                                                                                                                              Override the base URL within the EA.                                                                                                                                                                               |                 |    Defined in EA     |
+|           |   `WS_API_ENDPOINT`    |                                                                                                                                                                         Override the base websocket URL within the EA.                                                                                                                                                                          |                 |    Defined in EA     |
+|           |     `API_VERBOSE`      |                                                                                                                              Toggle whether the response from the EA should contain just the results or also include the full response body from the queried API.                                                                                                                               |                 |       `false`        |
 
 ## Performance
 
@@ -153,8 +154,8 @@ Being:
 - **provider-name**: The provider name. E.g. "amberdata" or "coinmarketcap"
 - **plan-name**: The provider plan name. Used as a identifier for the plan. E.g. "free" or "premium"
 - There are two protocols with different limit types:
-    - **http**: With `rateLimit1s`, `rateLimit1m`, `rateLimit1h`, which stands for requests per second/minute/hour respectively. If only one is provided, the rest would be calculated based on it.
-    - **ws**: Websocket limits, which accepts: `connections` and `subscriptions`. If websockets are not supported on the provider, can be left empty as `ws: {}`
+  - **http**: With `rateLimit1s`, `rateLimit1m`, `rateLimit1h`, which stands for requests per second/minute/hour respectively. If only one is provided, the rest would be calculated based on it.
+  - **ws**: Websocket limits, which accepts: `connections` and `subscriptions`. If websockets are not supported on the provider, can be left empty as `ws: {}`
 
 ### Cache Warming
 
@@ -183,15 +184,15 @@ To configure caching these environment variables are available:
 
 ## Metrics
 
-A metrics server can be exposed which returns prometheus compatible data on the `$BASE_URL/metrics` endpoint on the specified port.
+A metrics server can be exposed which returns prometheus compatible data on the metrics endpoint on the specified port.
 
 \*Please note that this feature is EXPERIMENTAL.
 
-| Required? |              Name              |                  Description                  | Options | Defaults to |
-| :-------: | :----------------------------: | :-------------------------------------------: | :-----: | :---------: |
-|           | `EXPERIMENTAL_METRICS_ENABLED` |  Set to `true` to enable metrics collection.  |         |   `false`   |
-|           |         `METRICS_PORT`         | The port the `/metrics` endpoint is served on |         |   `9080`    |
-|           |         `METRICS_NAME`         |    set to apply a label of to each metric.    |         |  undefined  |
+| Required? |              Name              |                 Description                 | Options | Defaults to |
+| :-------: | :----------------------------: | :-----------------------------------------: | :-----: | :---------: |
+|           | `EXPERIMENTAL_METRICS_ENABLED` | Set to `true` to enable metrics collection. |         |   `false`   |
+|           |         `METRICS_PORT`         | The port the metrics endpoint is served on  |         |   `9080`    |
+|           |         `METRICS_NAME`         |   set to apply a label of to each metric.   |         |  undefined  |
 
 To run Prometheus and Grafana with development setup:
 
