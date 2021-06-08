@@ -179,6 +179,9 @@
       "path": "../../sources/intrinio"
     },
     {
+      "path": "../../sources/ipfs"
+    },
+    {
       "path": "../../sources/json-rpc"
     },
     {

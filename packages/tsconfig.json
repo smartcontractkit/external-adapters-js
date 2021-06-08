@@ -24,6 +24,9 @@
       "path": "./composites/dns-record-check"
     },
     {
+      "path": "./composites/dydx-rewards"
+    },
+    {
       "path": "./composites/dxdao"
     },
     {
@@ -250,6 +253,9 @@
     },
     {
       "path": "./sources/intrinio"
+    },
+    {
+      "path": "./sources/ipfs"
     },
     {
       "path": "./sources/json-rpc"
