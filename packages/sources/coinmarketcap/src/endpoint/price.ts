@@ -68,7 +68,7 @@ const handleBatchedRequest = (
   }
   response.data.results = payload
   response.data.cost = Requester.validateResultNumber(response.data, ['status', 'credit_count'])
-  return Requester.success(jobRunID, response, true)
+  return Requester.success(jobRunID, response, true, 'base')
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
