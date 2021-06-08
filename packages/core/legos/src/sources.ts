@@ -55,6 +55,7 @@ import * as google_bigquery from '@chainlink/google-bigquery-adapter'
 import * as graphql from '@chainlink/graphql-adapter'
 import * as iex_adapter from '@chainlink/iex-cloud-adapter'
 import * as intrinio from '@chainlink/intrinio-adapter'
+import * as ipfs from '@chainlink/ipfs-adapter'
 import * as json_adapter from '@chainlink/json-rpc-adapter'
 import * as kaiko from '@chainlink/kaiko-adapter'
 import * as layer2_sequencer_health from '@chainlink/layer2-sequencer-health-adapter'
@@ -156,6 +157,7 @@ export default {
   graphql,
   iex_adapter,
   intrinio,
+  ipfs,
   json_adapter,
   kaiko,
   layer2_sequencer_health,
