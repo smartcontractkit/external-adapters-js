@@ -12,7 +12,7 @@
     "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
     "prepack": "yarn build",
     "build": "tsc -b",
-    "dev:remotedev": "sh ./remotedev.sh",
+    "dev:remotedev": "./remotedev.sh",
     "dev:metrics": "docker-compose up -d"
   },
   "dependencies": {

@@ -7,5 +7,8 @@ const conf = get()
 export function getSubscriptionKey(
   request: WarmupSubscribedPayload | WarmupExecutePayload,
 ): string {
-  return hash(omit(request, ['parent', 'children']), conf.hashOpts)
+  return hash(
+    omit(request, ['id', 'parent', 'children', 'data.debug', 'data.rateLimitMaxAge', 'result']),
+    conf.hashOpts,
+  )
 }
