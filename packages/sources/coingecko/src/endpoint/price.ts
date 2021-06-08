@@ -41,7 +41,7 @@ const handleBatchedRequest = (
       ]
   }
   response.data.results = payload
-  return Requester.success(jobRunID, response, true)
+  return Requester.success(jobRunID, response, true, 'base')
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
