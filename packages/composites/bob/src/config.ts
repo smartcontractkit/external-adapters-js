@@ -10,6 +10,6 @@ export const DEFAULT_ENDPOINT = 'format'
 
 export const makeConfig = (): ExtendedConfig => {
     return {
-        RPC_URL: util.getRequiredEnv('RPC_URL')
+        RPC_URL: util.getEnv('RPC_URL')
     }
 }

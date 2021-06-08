@@ -1,6 +1,7 @@
-import { Execute } from '@chainlink/types'
+import { ExecuteWithConfig, ExecuteFactory, Config} from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { util } from '@chainlink/ea-bootstrap'
+import { makeConfig } from './config'
 
 const customError = (data: any) => {
   return data.msg !== 'Successfully'
@@ -23,8 +24,9 @@ const customParams = {
   endpoint: false,
 }
 
-export const execute: Execute = async (input) => {
-  const validator = new Validator(input, customParams)
+// TODO: Run tests with valid API Key, current API Key is expired.
+export const execute: ExecuteWithConfig<Config> = async (request, config) => {
+  const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
@@ -34,7 +36,6 @@ export const execute: Execute = async (input) => {
     endpoint = commonKeys[symbol].endpoint
     symbol = commonKeys[symbol].id
   }
-  const url = `https://fcsapi.com/api-v3/${endpoint}`
   const access_key = util.getRandomRequiredEnv('API_KEY') // eslint-disable-line camelcase
 
   const params = {
@@ -42,12 +43,18 @@ export const execute: Execute = async (input) => {
     id: symbol,
   }
 
-  const config = {
-    url,
+  const options = {
+    ...config.api,
     params,
+    baseUrl: config.api.baseURL,
+    url: endpoint
   }
 
-  const response = await Requester.request(config, customError)
+  const response = await Requester.request(options, customError)
   response.data.result = Requester.validateResultNumber(response.data, ['response', 0, 'c'])
   return Requester.success(jobRunID, response)
+}
+
+export const makeExecute: ExecuteFactory<Config> = (config) => {
+  return async (request) => execute(request, config || makeConfig())
 }
