@@ -8,14 +8,21 @@ enum CacheTypes {
 export const cache_execution_duration_seconds = new client.Histogram({
   name: 'cache_execution_duration_seconds',
   help: 'A histogram bucket of the distribution of cache execution durations',
-  labelNames: ['participant_id', 'feed_id', 'cache_type', 'cache_hit', 'experimental'] as const,
+  labelNames: [
+    'participant_id',
+    'feed_id',
+    'cache_type',
+    'cache_hit',
+    'experimental',
+    'is_from_ws',
+  ] as const,
   buckets: [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10],
 })
 
 export const cache_data_staleness_seconds = new client.Histogram({
   name: 'cache_data_staleness_seconds',
   help: 'Observes the staleness of the data returned',
-  labelNames: ['participant_id', 'feed_id', 'cache_type', 'experimental'] as const,
+  labelNames: ['participant_id', 'feed_id', 'cache_type', 'experimental', 'is_from_ws'] as const,
   buckets: [0, 1, 5, 10, 30, 60, 90, 120],
 })
 
@@ -27,6 +34,7 @@ export const redis_connections_open = new client.Counter({
 interface CacheExecutionDurationParams {
   participantId: string
   feedId?: string
+  isFromWs?: boolean
 }
 
 type EndObserveCacheExecutionDuration = (cacheHit: boolean, staleness?: number) => number
@@ -34,6 +42,7 @@ type EndObserveCacheExecutionDuration = (cacheHit: boolean, staleness?: number) 
 export const beginObserveCacheExecutionDuration = ({
   participantId,
   feedId,
+  isFromWs,
 }: CacheExecutionDurationParams): EndObserveCacheExecutionDuration => {
   const cacheType = process.env.CACHE_TYPE === 'redis' ? CacheTypes.Redis : CacheTypes.Local
   const defaultLabels = {
@@ -41,6 +50,7 @@ export const beginObserveCacheExecutionDuration = ({
     participant_id: participantId,
     experimental: 'true',
     cache_type: cacheType,
+    is_from_ws: String(isFromWs),
   }
 
   const end = cache_execution_duration_seconds.startTimer()
