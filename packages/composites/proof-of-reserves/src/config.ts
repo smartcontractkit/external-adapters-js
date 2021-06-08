@@ -1,7 +1,7 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 import { adapters as BalanceAdapters, Indexer } from './balance'
-import { adapters as ProtocolAdapters, Protocol } from './protocol'
+import { adapters as ProtocolAdapters, LIST_ADAPTER, Protocol } from './protocol'
 
 export const DEFAULT_CONFIRMATIONS = 6
 
@@ -25,6 +25,8 @@ export const makeOptions = () => {
       options.protocol.push(a.NAME)
       options.protocol.push(a.NAME.toLowerCase())
     }
+    options.protocol.push(LIST_ADAPTER)
+    options.protocol.push(LIST_ADAPTER.toLowerCase())
   }
   for (const a of BalanceAdapters) {
     const url = getURL(a.NAME)
