@@ -62,16 +62,25 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
   })
 
   builder.addCase(actions.warmupJoinGroup, (state, { payload }) => {
-    const parent = state[payload.parent]
-    parent.children = {
-      ...parent.children,
-      ...payload.children,
-    }
-    for (const child in payload.children) {
-      state[payload.parent].origin[payload.batchable] = union(
-        state[payload.parent].origin[payload.batchable],
-        [state[child].origin[payload.batchable]],
-      )
+    const childOrigins = Object.keys(payload.children).map(
+      (child) => (state[child].origin.data as any)[payload.batchable],
+    )
+    state[payload.parent] = {
+      ...state[payload.parent],
+      children: {
+        ...state[payload.parent].children,
+        ...payload.children,
+      },
+      origin: {
+        ...state[payload.parent].origin,
+        data: {
+          ...(state[payload.parent].origin.data as any),
+          [payload.batchable]: union(
+            (state[payload.parent].origin.data as any)[payload.batchable],
+            childOrigins,
+          ),
+        },
+      },
     }
   })
 })

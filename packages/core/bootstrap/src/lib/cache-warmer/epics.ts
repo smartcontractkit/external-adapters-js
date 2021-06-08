@@ -28,7 +28,6 @@ import {
 } from './actions'
 import { Config, get, WARMUP_REQUEST_ID } from './config'
 import { getSubscriptionKey } from './util'
-// export * as actions from './actions'
 
 export interface EpicDependencies {
   config: Config
@@ -39,7 +38,6 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
   state$,
 ) => {
   const warmupExecute$ = action$.pipe(filter(warmupExecute.match))
-
   const [batchExecute$, execute$] = partition(
     warmupExecute$,
     (val) => !!val.payload.result?.debug?.batchable,
@@ -49,48 +47,50 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
     withLatestFrom(state$),
     mergeMap(([{ payload }, state]) => {
       const actionsToDispatch: AnyAction[] = []
-      // cast action
-      const warmupSubscribedAction = warmupSubscribed({ ...payload })
-      // Check if a batch warmer subscription already exists, if it doesnt
-      // then generate a new key by omitting the data property
-      const batchWarmerSubscriptionKey = Object.entries(state.cacheWarmer.subscriptions).find(
+
+      const existingBatchWarmer = Object.entries(state.cacheWarmer.subscriptions).find(
         ([, subscriptionState]) => {
           const isBatchWarmerSubscription = subscriptionState.children
-          const isMatchingSubscription = subscriptionState.executeFn === payload.executeFn
-
+          const isMatchingSubscription =
+            subscriptionState.executeFn.toString() === payload.executeFn.toString()
           return isBatchWarmerSubscription && isMatchingSubscription
         },
-      )?.[0]
+      )
 
+      // If there is no existing batch warmer,
+      // A new key is created by omitting the data field
+      // We want the key to be consistent. Otherwise it would change on every new child
+      const batchWarmerSubscriptionKey =
+        existingBatchWarmer?.[0] ?? getSubscriptionKey(omit(payload, ['data']))
+
+      // Start placeholder subscriptions for children
       const children: { [childKey: string]: number } = {}
-      // If result was from a batch request, start placeholder subscriptions for split individual requests
+      // If result was from a batch request
       if (payload.result?.data?.results) {
-        for (const batchParticipant of Object.values<[AdapterRequest, number]>(
+        for (const [request] of Object.values<[AdapterRequest, number]>(
           payload.result.data.results,
         )) {
-          const [request] = batchParticipant
           const warmupSubscribedPayloadChild = {
             ...payload,
-            data: omit(request, ['debug', 'rateLimitMaxAge']),
-            parent: batchWarmerSubscriptionKey ?? getSubscriptionKey(omit(payload, ['data'])),
+            data: request,
+            parent: batchWarmerSubscriptionKey,
           }
           const childKey = getSubscriptionKey(warmupSubscribedPayloadChild)
           children[childKey] = Date.now()
-          warmupSubscribedAction.payload.children = children
-          actionsToDispatch.push(warmupSubscribedAction)
+          actionsToDispatch.push(warmupSubscribed(warmupSubscribedPayloadChild))
         }
+      } else {
+        const warmupSubscribedPayloadChild = {
+          ...payload,
+          parent: batchWarmerSubscriptionKey,
+        }
+        const childKey = getSubscriptionKey(payload)
+        children[childKey] = Date.now()
+        actionsToDispatch.push(warmupSubscribed(warmupSubscribedPayloadChild))
       }
 
-      // If batch warmer already exists join it by combining in children
-      if (batchWarmerSubscriptionKey) {
-        // Turn an individual request into a child by starting a placeholder subscription
-        if (payload.result?.data?.result) {
-          warmupSubscribedAction.payload.parent = batchWarmerSubscriptionKey
-          const childKey = getSubscriptionKey(payload)
-          children[childKey] = Date.now()
-          actionsToDispatch.push(warmupSubscribedAction)
-        }
-
+      // If batch warmer already exists join it by adding children to request data
+      if (existingBatchWarmer) {
         actionsToDispatch.push(
           warmupJoinGroup({
             parent: batchWarmerSubscriptionKey,
@@ -99,15 +99,26 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
           }),
         )
       }
-      // If batch warmer does not exist, start it by using batchWarmerSubscriptionKey
+      // If batch warmer does not exist, start it
       else {
-        // Turn an individual request into a batch warmer
-        if (payload.debug?.batchable && !Array.isArray(payload.data[payload.debug?.batchable])) {
-          warmupSubscribedAction.payload.data[payload.debug?.batchable] = [
-            warmupSubscribedAction.payload.data[payload.debug?.batchable],
-          ]
-        }
-        warmupSubscribedAction.payload.key = batchWarmerSubscriptionKey
+        const batchKey = payload.result.debug?.batchable
+        const warmupSubscribedAction =
+          batchKey && !Array.isArray(payload.result.data[batchKey])
+            ? // If incoming request isn't an array, transform into one
+              // So the request is used as a batch request
+              warmupSubscribed({
+                ...payload,
+                data: {
+                  ...payload.data,
+                  data: {
+                    ...(payload.data.data as any),
+                    [batchKey]: [(payload.data as any).data[batchKey]],
+                  },
+                },
+                key: batchWarmerSubscriptionKey,
+                children,
+              })
+            : warmupSubscribed({ ...payload, key: batchWarmerSubscriptionKey, children })
         actionsToDispatch.push(warmupSubscribedAction)
       }
 
@@ -129,7 +140,7 @@ export const warmupSubscriber: Epic<AnyAction, AnyAction, any, EpicDependencies>
     filter(warmupSubscribed.match),
     map(({ payload }) => ({
       payload,
-      key: getSubscriptionKey(payload),
+      key: payload.key || getSubscriptionKey(payload),
     })),
     withLatestFrom(state$),
     // check if the subscription already exists, then noop
