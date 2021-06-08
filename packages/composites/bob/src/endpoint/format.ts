@@ -12,6 +12,28 @@ export const inputParams = {
     blockNumber: true
 }
 
+interface ResponseSchema {
+  difficulty: string
+  extraData: string
+  gasLimit: string
+  gasUsed: string
+  hash: string
+  logsBloom: string
+  miner: string
+  mixHash: string
+  nonce: string
+  number: string
+  parentHash: string
+  receiptsRoot: string
+  sha3Uncles: string
+  size: string
+  stateRoot: string
+  timestamp: string
+  totalDifficulty: string
+  transactions: string[]
+  transactionsRoot: string
+  uncles: string[]
+}
 
 export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, config) => {
     const validator = new Validator(request, inputParams)
@@ -25,7 +47,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, config
 
     const block = await provider.getBlock(blockNumber)
 
-    const response = await JSONRPC.execute({
+    const response = await JSONRPC.execute<ResponseSchema[]>({
       ...request,
       data: { ...request.data, method: 'eth_getBlockByHash', params: [block.hash, false] },
     })
