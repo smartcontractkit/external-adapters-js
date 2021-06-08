@@ -5,6 +5,7 @@ import * as cacheWarmer from './lib/cache-warmer'
 import { WARMUP_REQUEST_ID } from './lib/cache-warmer/config'
 import { AdapterError, logger as Logger, Requester, Validator } from './lib/external-adapter'
 import * as metrics from './lib/metrics'
+import { getFeedId } from './lib/metrics/util'
 import * as rateLimit from './lib/rate-limit'
 import * as server from './lib/server'
 import { configureStore } from './lib/store'
@@ -77,8 +78,9 @@ const withLogger: Middleware = async (execute) => async (input: AdapterRequest) 
 const withMetrics: Middleware = async (execute) => async (input: AdapterRequest) => {
   const recordMetrics = () => {
     const labels: Parameters<typeof metrics.httpRequestsTotal.labels>[0] = {
-      isCacheWarming: String(input.id === WARMUP_REQUEST_ID),
+      is_cache_warming: String(input.id === WARMUP_REQUEST_ID),
       method: 'POST',
+      feed_id: getFeedId(input),
     }
     const end = metrics.httpRequestDurationSeconds.startTimer()
 

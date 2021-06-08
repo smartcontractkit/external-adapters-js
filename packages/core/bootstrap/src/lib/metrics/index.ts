@@ -19,7 +19,7 @@ export enum HttpRequestType {
 export const httpRequestsTotal = new client.Counter({
   name: 'http_requests_total',
   help: 'The number of http requests this external adapter has serviced for its entire uptime',
-  labelNames: ['method', 'status_code', 'retry', 'type', 'isCacheWarming'] as const,
+  labelNames: ['method', 'status_code', 'retry', 'type', 'is_cache_warming', 'feed_id'] as const,
 })
 
 export const httpRequestDurationSeconds = new client.Histogram({
