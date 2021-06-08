@@ -1,16 +1,12 @@
-import { Requester, util } from '@chainlink/ea-bootstrap'
+import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
-export interface ExtendedConfig extends Config {
-  RPC_URL?: string
-}
+export const NAME = 'JSON-RPC'
 
-export const DEFAULT_RPC_URL = 'http://localhost:8545'
+export const DEFAULT_BASE_URL = 'http://localhost:8545'
 
-export const makeConfig = (prefix?: string): ExtendedConfig => {
-  const RPC_URL = util.getEnv('RPC_URL', prefix)
-  return {
-    ...Requester.getDefaultConfig(prefix),
-    RPC_URL,
-  }
+export const makeConfig = (prefix?: string): Config => {
+  const config = Requester.getDefaultConfig(prefix, true)
+  config.api.baseURL = config.api.baseURL || DEFAULT_BASE_URL
+  return config
 }

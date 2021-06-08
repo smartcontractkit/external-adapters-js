@@ -1,6 +1,6 @@
-import { Execute } from '@chainlink/types'
+import { ExecuteWithConfig, ExecuteFactory, Config} from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { util } from '@chainlink/ea-bootstrap'
+import { makeConfig } from './config'
 
 const customError = (data: any) => data.Response === 'Error'
 
@@ -12,26 +12,30 @@ const commonKeys: Record<string, string> = {
   brent: 'BRN',
 }
 
-export const execute: Execute = async (input) => {
-  const validator = new Validator(input, customParams)
+export const execute: ExecuteWithConfig<Config> = async (request, config) => {
+  const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   let market = validator.validated.data.market.toLowerCase()
   if (market in commonKeys) market = commonKeys[market]
 
-  const url = `https://api.onchain.com.au/api/Quote/oil/${market}`
+  const url = `${config.api.baseURL}${market}`
 
   const headers = {
-    'x-api-key': util.getRandomRequiredEnv('API_KEY'),
+    'x-api-key': config.apiKey,
   }
 
-  const config = {
+  const options = {
     url,
     headers,
   }
 
-  const response = await Requester.request(config, customError)
+  const response = await Requester.request(options, customError)
   response.data.result = Requester.validateResultNumber(response.data, ['price'])
   return Requester.success(jobRunID, response)
+}
+
+export const makeExecute: ExecuteFactory<Config> = (config) => {
+  return async (request) => execute(request, config || makeConfig())
 }
