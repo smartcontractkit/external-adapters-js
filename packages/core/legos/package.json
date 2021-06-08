@@ -87,6 +87,7 @@
     "@chainlink/graphql-adapter": "*",
     "@chainlink/iex-cloud-adapter": "*",
     "@chainlink/intrinio-adapter": "*",
+    "@chainlink/ipfs-adapter": "*",
     "@chainlink/json-rpc-adapter": "*",
     "@chainlink/kaiko-adapter": "*",
     "@chainlink/layer2-sequencer-health-adapter": "*",
