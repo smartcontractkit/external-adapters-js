@@ -6,7 +6,7 @@ import { execute } from '../src/adapter'
 
 describe('execute', () => {
   const jobID = '1'
-  const contractAddress = '0x0BD102ef50a6a133B38Bf3Bd3d40cE36cc1aB5A8'
+  const contractAddress = '0x1B58B67B2b2Df71b4b0fb6691271E83A0fa36aC5'
   context('successful calls @integration', () => {
     const requests = [
       {

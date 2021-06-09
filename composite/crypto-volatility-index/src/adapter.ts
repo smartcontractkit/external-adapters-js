@@ -1,5 +1,5 @@
-import { Execute } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/external-adapter'
+import { AdapterRequest, Execute } from '@chainlink/types'
 import { calculate } from './cryptoVolatilityIndex'
 
 const customParams = {
@@ -7,24 +7,21 @@ const customParams = {
   multiply: false,
   heartbeatMinutes: false,
   isAdaptive: false,
+  cryptoCurrencies: false,
+  deviationThreshold: false,
+  lambdaMin: false,
+  lambdaK: false,
 }
 
-export const execute: Execute = async (input) => {
+export const execute: Execute = async (input: AdapterRequest) => {
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const oracleAddress = validator.validated.data.contract
-  const multiply = validator.validated.data.multiply || 1000000
-  const heartbeatMinutes = validator.validated.data.heartbeatMinutes || 60
-  const isAdaptive = validator.validated.data.isAdaptive as boolean
 
-  const result = await calculate(oracleAddress, multiply, heartbeatMinutes, isAdaptive)
-  return Requester.success(jobRunID, {
-    data: { result },
-    result,
-    status: 200,
-  })
+  const result = await calculate(validator.validated, input.data)
+  const response = { data: { result }, status: 200 }
+  return Requester.success(jobRunID, response)
 }
 
 export default execute

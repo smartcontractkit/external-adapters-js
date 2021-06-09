@@ -8,8 +8,8 @@ describe('sigma calculator', () => {
   context('data handling', () => {
     it('sorts strikes prices correctly', () => {
       const fixture1: CurrencyDerivativesData = {
-        e1: moment(),
-        e2: moment(),
+        e1: moment().utc().unix(),
+        e2: moment().utc().unix(),
         callsE1: [_createOptionWithStrike(500, 'C'), _createOptionWithStrike(400, 'C')],
         callsE2: [_createOptionWithStrike(500, 'C'), _createOptionWithStrike(400, 'C')],
         putsE1: [_createOptionWithStrike(400, 'P'), _createOptionWithStrike(500, 'P')],
@@ -30,10 +30,11 @@ describe('sigma calculator', () => {
 
 function _createOptionWithStrike(strikePrice: number, type: string): OptionData {
   return {
+    instrumentName: '',
     strikePrice: new Decimal(strikePrice),
     midPrice: new Decimal(0),
     underlyingPrice: new Decimal(0),
-    expiration: moment(),
+    expiration: moment().utc().unix(),
     type,
   }
 }
