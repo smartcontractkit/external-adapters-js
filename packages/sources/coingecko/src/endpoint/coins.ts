@@ -18,6 +18,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const options = {
     ...config.api,
     url,
+    params: {
+      x_cg_pro_api_key: config.apiKey,
+    },
   }
   const response = await Requester.request<CoinsResponse[]>(options)
   return Requester.success(jobRunID, response, true)
