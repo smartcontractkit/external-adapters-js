@@ -47,7 +47,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, config
 
     const block = await provider.getBlock(blockNumber)
 
-    const response = await JSONRPC.execute<ResponseSchema[]>({
+    const response = await JSONRPC.execute({
       ...request,
       data: { ...request.data, method: 'eth_getBlockByHash', params: [block.hash, false] },
     })
@@ -56,6 +56,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, config
       ['uint8', 'bytes32', 'bytes32'],
       [chainId, response.data.result.hash, response.data.result.receiptsRoot]
     )
+    response.data = response.data as ResponseSchema
     response.data.result = response.data.result.slice(2)
     return Requester.success(jobRunID, response)
   }
