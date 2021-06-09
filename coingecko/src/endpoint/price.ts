@@ -21,6 +21,9 @@ const getCoinId = async (config: Config, symbol: string): Promise<string> => {
   const options = {
     ...config.api,
     url,
+    params: {
+      x_cg_pro_api_key: config.apiKey,
+    },
   }
 
   const response = await Requester.request(options, customError)
@@ -56,6 +59,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const params = {
     ids: coin,
     vs_currencies: quote,
+    x_cg_pro_api_key: config.apiKey,
   }
 
   const options = {
