@@ -8,7 +8,7 @@ const inputParams = {
 }
 
 // Export function to integrate with Chainlink node
-export const execute: Execute = async (request) => {
+export const execute: Execute = async (request: any) => {
   const validator = new Validator(request, inputParams)
   if (validator.error) throw validator.error
 
