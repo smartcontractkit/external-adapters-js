@@ -10,20 +10,20 @@ services:
     ports:
       - '8000:8000'
 
+  # https://github.com/grafana/grafana/blob/main/Dockerfile
   grafana:
     image: grafana/grafana
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - grafana_home:/usr/share/grafana
+      - grafana_logs:/var/log/grafana
+      - grafana_plugins:/var/lib/grafana/plugins
+      - ./config/grafana.ini:/etc/grafana/grafana.ini
+      - ./config/provisioning:/etc/grafana/provisioning
     environment:
       - GF_INSTALL_PLUGINS=redis-app
     ports:
       - '3000:3000'
-
-  grizzly:
-    build:
-      context: ../
-      dockerfile: ./grafana/Dockerfile
-    entrypoint: ['sleep', '99999999']
-    volumes:
-      - './:/dashboards'
 
   prometheus:
     image: prom/prometheus
@@ -38,3 +38,6 @@ services:
 volumes:
   prometheus_data:
   grafana_data:
+  grafana_home:
+  grafana_logs:
+  grafana_plugins:
