@@ -11,7 +11,7 @@ datasources:
     # <string, required> access mode. proxy or direct (Server or Browser in the UI). Required
     access: proxy
     # <string> url
-    url: http://prometheus:9090
+    url: http://localhost:9090
     # <bool> mark as default datasource. Max one per org
     isDefault: true
     version: 1
