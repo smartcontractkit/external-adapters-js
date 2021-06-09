@@ -2,7 +2,9 @@
 local grafana = import 'grafonnet/grafana.libsonnet';
 local dashboard = grafana.dashboard;
 local graphPanel = grafana.graphPanel;
+local statPanel = grafana.statPanel;
 local heatmapPanel = grafana.heatmapPanel;
+local barGaugePanel = grafana.barGaugePanel;
 local prometheus = grafana.prometheus;
 local template = grafana.template;
 
@@ -44,6 +46,7 @@ local cpuUsagePanel = graphPanel.new(
 ).addTarget(
   prometheus.target(
     'sum(rate(process_cpu_seconds_total{' + instanceFilter + '}' + interval + ')) * 100',
+    legendFormat='{{app_name}}'
   )
 );
 
@@ -54,6 +57,7 @@ local redisConnectionsOpen = graphPanel.new(
 ).addTarget(
   prometheus.target(
     'redis_connections_open{' + instanceFilter + '}',
+    legendFormat='{{app_name}}'
   )
 );
 
@@ -64,6 +68,7 @@ local heapUsedPanel = graphPanel.new(
 ).addTarget(
   prometheus.target(
     'nodejs_heap_size_used_bytes{' + instanceFilter + '} / 1000 / 1000',
+    legendFormat='{{app_name}}'
   )
 );
 
@@ -76,6 +81,7 @@ local httpRequestsPerMinutePanel = graphPanel.new(
   sort='decreasing',
   datasource=cortexDataSource,
   stack=true,
+  legend_hideZero=true,
   legend_alignAsTable=true,
   legend_rightSide=true,
   legend_current=true,
@@ -112,6 +118,13 @@ local httpRequestsPerMinutePerFeedPanel = graphPanel.new(
   title='Http requests / minute per feed',
   sort='decreasing',
   datasource=cortexDataSource,
+  stack=true,
+  legend_alignAsTable=true,
+  legend_rightSide=true,
+  legend_current=true,
+  legend_values=true,
+  legend_sort='current',
+  legend_sortDesc=true
 ).addTarget(
   prometheus.target(
     httpsRequestsPerMinuteSumQuery + 'by (feed_id)',
@@ -201,7 +214,7 @@ local wsActiveSubscriptions = graphPanel.new(
 ).addTarget(
   prometheus.target(
     'ws_subscription_active{' + instanceFilter + '}',
-    legendFormat='{{app_name}} | ConnKey: {{ connection_key }} ConnUrl: {{ connection_url }} FeedId: {{feed_id}} SubKey: {{ subscription_key }}'
+    legendFormat='{{app_name}} | ConnKey: {{ connection_key }} ConnUrl: {{ connection_url }} FeedId: {{feed_id}}'
   )
 );
 
@@ -219,22 +232,15 @@ local wsMessagesPerSecondGraph = graphPanel.new(
 ).addTarget(
   prometheus.target(
     'rate(ws_message_total{' + instanceFilter + '}' + interval + ')',
-    legendFormat='{{app_name}} | ConnKey: {{ connection_key }} ConnUrl: {{ connection_url }} FeedId: {{feed_id}} SubKey: {{ subscription_key }}'
+    legendFormat='{{app_name}} | ConnKey: {{ connection_key }} ConnUrl: {{ connection_url }} FeedId: {{feed_id}}'
   )
 );
 
-local cacheFeedValues = graphPanel.new(
+local cacheFeedValues = statPanel.new(
   title='Cached feed values',
-  sort='decreasing',
   datasource=cortexDataSource,
-  logBase1Y=2,
-  legend_alignAsTable=true,
-  legend_rightSide=true,
-  legend_current=true,
-  legend_sort='current',
-  legend_sortDesc=true,
-  legend_sideWidth=400,
-  decimals=3,
+  reducerFunction='lastNotNull',
+  unit='short'
 ).addTarget(
   prometheus.target(
     'cache_data_get_values{' + instanceFilter + '}',
@@ -242,32 +248,63 @@ local cacheFeedValues = graphPanel.new(
   )
 );
 
-local cacheMaxAgeSeconds = graphPanel.new(
-  title='Max age per cache entry',
-  sort='decreasing',
-  datasource=cortexDataSource,
-).addTarget(
-  prometheus.target(
-    'cache_data_max_age{' + instanceFilter + '}/1000',
-    legendFormat='{{feed_id}}',
-  )
-);
+local barGaugeConfig = {
+  fieldConfig+: {
+    defaults+: {
+      color: {
+        mode: 'continuous-GrYlRd',
+      },
+    },
+  },
+  options: {
+    reduceOptions: {
+      values: false,
+      calcs: [
+        'lastNotNull',
+      ],
+      fields: '',
+    },
+    orientation: 'horizontal',
+    text: {},
+    displayMode: 'gradient',
+    showUnfilled: true,
+  },
+};
 
-local cacheStalenessSeconds = graphPanel.new(
-  title='Staleness per cache entry',
-  sort='decreasing',
+local cacheMaxAgeSeconds = barGaugePanel.new(
+  title='Max age per cache entry',
   datasource=cortexDataSource,
 ).addTarget(
   prometheus.target(
-    'cache_data_staleness_seconds{' + instanceFilter + '}',
+    'sort_desc(cache_data_max_age{' + instanceFilter + '}/1000) != 0',
+    instant=true,
     legendFormat='{{feed_id}}',
   )
-);
+) + barGaugeConfig;
+
+local cacheStalenessSeconds = barGaugePanel.new(
+  title='Staleness per cache entry',
+  datasource=cortexDataSource,
+).addTarget(
+  prometheus.target(
+    'sort_desc(cache_data_staleness_seconds{' + instanceFilter + '}) != 0',
+    instant=true,
+    legendFormat='{{feed_id}}',
+  )
+) + barGaugeConfig;
 
 local cacheEntrySetsPerSecond = graphPanel.new(
   title='Cache entry sets per second',
   sort='decreasing',
+  stack=true,
   datasource=cortexDataSource,
+  legend_hideZero=true,
+  legend_alignAsTable=true,
+  legend_rightSide=true,
+  legend_current=true,
+  legend_sort='current',
+  legend_sortDesc=true,
+  legend_values=true,
 ).addTarget(
   prometheus.target(
     'rate(cache_data_set_count{' + instanceFilter + '}' + interval + ')',
@@ -279,7 +316,14 @@ local cacheEntrySetsPerSecond = graphPanel.new(
 local cacheEntryGetsPerSecond = graphPanel.new(
   title='Cache entry gets per second',
   sort='decreasing',
+  stack=true,
   datasource=cortexDataSource,
+  legend_alignAsTable=true,
+  legend_rightSide=true,
+  legend_current=true,
+  legend_sort='current',
+  legend_sortDesc=true,
+  legend_values=true,
 ).addTarget(
   prometheus.target(
     'rate(cache_data_get_count{' + instanceFilter + '}' + interval + ')',
@@ -459,7 +503,8 @@ local panels = httpPanels + usagePanels + wsPanels + cachePanels;
     dashboardConfig.title,
     uid=dashboardConfig.uid,
     editable=true,
-    schemaVersion=26
+    schemaVersion=26,
+    refresh='5s',
   )
              .addTemplates(templates)
              .addPanels(panels),
