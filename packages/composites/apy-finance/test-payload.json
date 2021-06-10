@@ -1,5 +1,5 @@
 {
- "request": {
-  "quote": "USD"
- }
+  "request": {
+    "source": "coinmarketcap"
+  }
 }
