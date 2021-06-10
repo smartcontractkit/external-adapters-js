@@ -7,6 +7,7 @@ local heatmapPanel = grafana.heatmapPanel;
 local barGaugePanel = grafana.barGaugePanel;
 local prometheus = grafana.prometheus;
 local template = grafana.template;
+local layout = import './layout.libsonnet';
 
 /**
  * Constants
@@ -331,172 +332,72 @@ local cacheEntryGetsPerSecond = graphPanel.new(
   )
 );
 
-local fullPanel = {
-  gridPos+: {
-    w: 24,  // The dashboard width is divided into 24 sections
-    h: 10,  // Height is 30 px per unit
+local grid = [
+  {
+    panels: [
+      cpuUsagePanel { size:: 1 },
+      heapUsedPanel { size:: 1 },
+    ],
+    height: 7.5,
   },
-};
-
-local halfPanel = {
-  gridPos+: {
-    w: 24 / 2,  // The dashboard width is divided into 24 sections
-    h: 10,  // Height is 30 px per unit
+  {
+    panels: [httpRequestsPerMinutePanel { size:: 1 }],
+    height: 7.5,
   },
-};
-
-local thirdPanel = {
-  gridPos+: {
-    w: 24 / 3,  // The dashboard width is divided into 24 sections
-    h: 10,  // Height is 30 px per unit
+  {
+    panels: [
+      httpRequestDurationAverageSeconds { size:: 1 },
+      httpRequestDurationSecondsHeatmap { size:: 1 },
+    ],
+    height: 7.5,
   },
-};
-
-local quarterPanel = {
-  gridPos+: {
-    w: 24 / 4,  // The dashboard width is divided into 24 sections
-    h: 10,  // Height is 30 px per unit
+  {
+    panels: [
+      httpRequestsPerMinutePerTypePanel { size:: 1 },
+      httpRequestsPerMinutePerStatusPanel { size:: 1 },
+      httpRequestsPerMinutePerFeedPanel { size:: 1 },
+      httpRequestsPerMinutePerCacheTypePanel { size:: 1 },
+    ],
+    height: 7.5,
   },
-};
-
-
-local row1 = {
-  gridPos+: {
-    y: 0,
+  {
+    panels: [
+      redisConnectionsOpen { size:: 1 },
+      wsConnectionActiveGraph { size:: 1 },
+      wsConnectionErrorsGraph { size:: 1 },
+      wsConnectionRetriesGraph { size:: 1 },
+    ],
+    height: 7.5,
   },
-};
-
-local httpPanels = [
-  httpRequestDurationAverageSeconds + fullPanel + {
-    gridPos+: {
-      x: 0,
-      y: 0,
-    },
+  {
+    panels: [
+      wsActiveSubscriptions { size:: 1 },
+      wsMessagesPerSecondGraph { size:: 1 },
+    ],
+    height: 7.5,
   },
-  httpRequestsPerMinutePanel + fullPanel + {
-    gridPos+: {
-      x: 0,
-      y: 10,
-    },
+  {
+    panels: [
+      cacheFeedValues { size:: 1 },
+    ],
+    height: 12.5,
   },
-  httpRequestDurationSecondsHeatmap + fullPanel + {
-    gridPos+: {
-      x: 0,
-      y: 20,
-    },
+  {
+    panels: [
+      cacheMaxAgeSeconds { size:: 1 },
+      cacheStalenessSeconds { size:: 1 },
+    ],
+    height: 7.5,
   },
-  httpRequestsPerMinutePerTypePanel + quarterPanel + {
-    gridPos+: {
-      x: 0,
-      y: 30,
-    },
-  },
-  httpRequestsPerMinutePerStatusPanel + quarterPanel + {
-    gridPos+: {
-      x: 6,
-      y: 30,
-    },
-  },
-  httpRequestsPerMinutePerFeedPanel + quarterPanel + {
-    gridPos+: {
-      x: 12,
-      y: 30,
-    },
-  },
-  httpRequestsPerMinutePerCacheTypePanel + quarterPanel + {
-    gridPos+: {
-      x: 24,
-      y: 30,
-    },
+  {
+    panels: [
+      cacheEntrySetsPerSecond { size:: 1 },
+      cacheEntryGetsPerSecond { size:: 1 },
+    ],
+    height: 7.5,
   },
 ];
 
-local usagePanels = [
-  cpuUsagePanel + halfPanel + {
-    gridPos+: {
-      x: 0,
-      y: 40,
-    },
-  },
-  heapUsedPanel + halfPanel + {
-    gridPos+: {
-      x: 12,
-      y: 40,
-    },
-  },
-];
-
-local wsPanels = [
-  wsActiveSubscriptions + halfPanel + {
-    gridPos+: {
-      y: 50,
-      x: 0,
-    },
-  },
-  wsMessagesPerSecondGraph + halfPanel + {
-    gridPos+: {
-      x: 12,
-      y: 50,
-    },
-  },
-  wsConnectionActiveGraph + thirdPanel + {
-    gridPos+: {
-      x: 0,
-      y: 60,
-    },
-  },
-  wsConnectionErrorsGraph + thirdPanel + {
-    gridPos+: {
-      x: 8,
-      y: 60,
-    },
-  },
-  wsConnectionRetriesGraph + thirdPanel + {
-    gridPos+: {
-      x: 16,
-      y: 60,
-    },
-  },
-];
-
-local cachePanels = [
-  redisConnectionsOpen + fullPanel + {
-    gridPos+: {
-      y: 70,
-    },
-  },
-  cacheFeedValues + fullPanel + {
-    gridPos+: {
-      y: 70,
-    },
-  },
-  cacheMaxAgeSeconds + halfPanel + {
-    gridPos+: {
-      x: 0,
-      y: 80,
-    },
-  },
-  cacheStalenessSeconds + halfPanel + {
-    gridPos+: {
-      x: 12,
-      y: 80,
-    },
-  },
-  cacheEntrySetsPerSecond + halfPanel + {
-    gridPos+: {
-      x: 0,
-      y: 90,
-    },
-  },
-  cacheEntryGetsPerSecond + halfPanel + {
-    gridPos+: {
-      x: 12,
-      y: 90,
-    },
-  },
-];
-
-local panels = httpPanels + usagePanels + wsPanels + cachePanels;
 
 {
   dashboard: dashboard.new(
@@ -507,7 +408,7 @@ local panels = httpPanels + usagePanels + wsPanels + cachePanels;
     refresh='5s',
   )
              .addTemplates(templates)
-             .addPanels(panels),
+             .addPanels(layout.createGrid(grid)),
 
   name: prometheusJobName,
 }
