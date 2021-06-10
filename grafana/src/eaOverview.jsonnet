@@ -15,8 +15,8 @@ local layout = import './layout.libsonnet';
 local prometheusJobName = std.extVar('prometheusJobName');
 local cortexDataSource = std.extVar('cortexDataSource');
 local dashboardConfig = {
-  title: std.extVar('dashboardTitle'),
-  uid: std.extVar('dashboardUid'),
+  title: std.extVar('overviewDashboardTitle'),
+  uid: std.extVar('overviewDashboardUid'),
 };
 local instanceFilter = 'job="$job",service=~"$service.*"';
 
@@ -28,9 +28,11 @@ local serviceTempl = template.new(
   'service',
   datasource=cortexDataSource,
   query='http_request_duration_seconds_bucket',
-  multi=false,
+  multi=true,
   sort=1,
+  current='All',
   regex='/.*job="' + prometheusJobName + '".*service="(.*)"/',
+  includeAll=true,
   refresh='load'
 );
 local templates = [jobTempl, serviceTempl];
@@ -44,7 +46,7 @@ local cpuUsagePanel = graphPanel.new(
   datasource=cortexDataSource,
 ).addTarget(
   prometheus.target(
-    'sum(rate(process_cpu_seconds_total{' + instanceFilter + '}' + interval + ')) * 100',
+    'sum(rate(process_cpu_seconds_total{' + instanceFilter + '}' + interval + ')* 100) by (app_name)',
     legendFormat='{{app_name}}'
   )
 );
@@ -55,7 +57,7 @@ local redisConnectionsOpen = graphPanel.new(
   datasource=cortexDataSource,
 ).addTarget(
   prometheus.target(
-    'redis_connections_open{' + instanceFilter + '}',
+    'sum(redis_connections_open{' + instanceFilter + '}) by (app_name)',
     legendFormat='{{app_name}}'
   )
 );
@@ -66,7 +68,7 @@ local heapUsedPanel = graphPanel.new(
   datasource=cortexDataSource,
 ).addTarget(
   prometheus.target(
-    'nodejs_heap_size_used_bytes{' + instanceFilter + '} / 1000 / 1000',
+    'sum(nodejs_heap_size_used_bytes{' + instanceFilter + '} / 1000 / 1000) by (app_name)',
     legendFormat='{{app_name}}'
   )
 );
@@ -74,33 +76,14 @@ local heapUsedPanel = graphPanel.new(
 local httpsRequestsPerMinuteQuery = 'rate(http_requests_total{' + instanceFilter + '}' + interval + ') * 60 ';
 local httpsRequestsPerMinuteSumQuery = 'sum(' + httpsRequestsPerMinuteQuery + ')';
 
-
-local httpRequestsPerMinutePanel = graphPanel.new(
-  title='Http requests / minute',
-  sort='decreasing',
-  datasource=cortexDataSource,
-  stack=true,
-  legend_hideZero=true,
-  legend_alignAsTable=true,
-  legend_rightSide=true,
-  legend_current=true,
-  legend_values=true,
-  legend_sort='current',
-  legend_sortDesc=true
-).addTarget(
-  prometheus.target(
-    httpsRequestsPerMinuteQuery,
-    legendFormat='{{app_name}} {{feed_id}} {{status_code}} {{type}} CacheWarmer:{{is_cache_warming}}'
-  )
-);
 local httpRequestsPerMinutePerTypePanel = graphPanel.new(
   title='Http requests / minute per type',
   sort='decreasing',
   datasource=cortexDataSource,
 ).addTarget(
   prometheus.target(
-    httpsRequestsPerMinuteSumQuery + 'by (type)',
-    legendFormat='{{type}}'
+    httpsRequestsPerMinuteSumQuery + 'by (type, app_name)',
+    legendFormat='{{app_name}} {{type}}'
   )
 );
 local httpRequestsPerMinutePerStatusPanel = graphPanel.new(
@@ -109,8 +92,8 @@ local httpRequestsPerMinutePerStatusPanel = graphPanel.new(
   datasource=cortexDataSource,
 ).addTarget(
   prometheus.target(
-    httpsRequestsPerMinuteSumQuery + 'by (status_code)',
-    legendFormat='{{status_code}}'
+    httpsRequestsPerMinuteSumQuery + 'by (status_code, app_name)',
+    legendFormat='{{app_name}} {{status_code}}'
   )
 );
 local httpRequestsPerMinutePerFeedPanel = graphPanel.new(
@@ -126,8 +109,8 @@ local httpRequestsPerMinutePerFeedPanel = graphPanel.new(
   legend_sortDesc=true
 ).addTarget(
   prometheus.target(
-    httpsRequestsPerMinuteSumQuery + 'by (feed_id)',
-    legendFormat='{{feed_id}}'
+    httpsRequestsPerMinuteSumQuery + 'by (feed_id, app_name)',
+    legendFormat='{{app_name}} {{feed_id}}'
   )
 );
 local httpRequestsPerMinutePerCacheTypePanel = graphPanel.new(
@@ -136,73 +119,58 @@ local httpRequestsPerMinutePerCacheTypePanel = graphPanel.new(
   datasource=cortexDataSource,
 ).addTarget(
   prometheus.target(
-    httpsRequestsPerMinuteSumQuery + 'by (is_cache_warming)',
-    legendFormat='CacheWarmer:{{is_cache_warming}}'
+    httpsRequestsPerMinuteSumQuery + 'by (is_cache_warming, app_name)',
+    legendFormat='{{app_name}} CacheWarmer:{{is_cache_warming}}'
   )
 );
 
 
 local httpRequestDurationAverageSeconds = graphPanel.new(
-  title='Average http request duration seconds',
+  title='Average http request duration seconds per EA',
   datasource=cortexDataSource,
   sort='decreasing',
 ).addTarget(
   prometheus.target(
-    'rate(http_request_duration_seconds_sum{' + instanceFilter + '}' + interval + ')/rate(http_request_duration_seconds_count{' + instanceFilter + '}' + interval + ')',
+    'sum(rate(http_request_duration_seconds_sum{' + instanceFilter + '}' + interval + ')/rate(http_request_duration_seconds_count{' + instanceFilter + '}' + interval + ')) by (app_name)',
     legendFormat='{{app_name}}',
-  )
-);
-local httpRequestDurationSecondsHeatmap = heatmapPanel.new(
-  title='Http request duration seconds heatmap',
-  datasource=cortexDataSource,
-  dataFormat='tsbuckets',
-  color_colorScheme='interpolateInferno',
-  maxDataPoints=25,
-  yAxis_logBase=2,
-).addTarget(
-  prometheus.target(
-    'sum(increase(http_request_duration_seconds_bucket{' + instanceFilter + '}[$__interval])) by (le)',
-    legendFormat='{{le}}',
-    format='heatmap',
   )
 );
 
 local wsConnectionActiveGraph = graphPanel.new(
-  title='Active websocket connections',
+  title='Active websocket connections per EA',
   sort='decreasing',
   datasource=cortexDataSource,
 ).addTarget(
   prometheus.target(
-    'ws_connection_active{' + instanceFilter + '}',
-    legendFormat='{{app_name}} | Key:{{key}}',
+    'sum(ws_connection_active{' + instanceFilter + '}) by (app_name)',
+    legendFormat='{{app_name}}',
   ),
 );
 
 local wsConnectionErrorsGraph = graphPanel.new(
-  title='Websocket connection errors',
+  title='Websocket connection errors per EA',
   sort='decreasing',
   datasource=cortexDataSource,
 ).addTarget(
   prometheus.target(
-    'ws_connection_errors{' + instanceFilter + '}',
-    legendFormat='{{app_name}} | Key:{{key}}',
+    'sum(ws_connection_errors{' + instanceFilter + '}) by (app_name)',
+    legendFormat='{{app_name}}',
   ),
 );
 
 local wsConnectionRetriesGraph = graphPanel.new(
-  title='Websocket connection retries',
+  title='Websocket connection retries per EA',
   sort='decreasing',
   datasource=cortexDataSource,
 ).addTarget(
   prometheus.target(
-    'ws_connection_retries{' + instanceFilter + '}',
-
-    legendFormat='{{app_name}} | Key:{{key}}',
+    'sum(ws_connection_retries{' + instanceFilter + '}) by (app_name)',
+    legendFormat='{{app_name}}',
   )
 );
 
 local wsActiveSubscriptions = graphPanel.new(
-  title='Active websocket subscriptions',
+  title='Active websocket subscriptions per EA',
   sort='decreasing',
   stack=true,
   legend_alignAsTable=true,
@@ -212,8 +180,8 @@ local wsActiveSubscriptions = graphPanel.new(
   datasource=cortexDataSource
 ).addTarget(
   prometheus.target(
-    'ws_subscription_active{' + instanceFilter + '}',
-    legendFormat='{{app_name}} | ConnKey: {{ connection_key }} ConnUrl: {{ connection_url }} FeedId: {{feed_id}}'
+    'sum(ws_subscription_active{' + instanceFilter + '}) by (app_name)',
+    legendFormat='{{app_name}}'
   )
 );
 
@@ -230,67 +198,11 @@ local wsMessagesPerSecondGraph = graphPanel.new(
   legend_sortDesc=true
 ).addTarget(
   prometheus.target(
-    'rate(ws_message_total{' + instanceFilter + '}' + interval + ')',
-    legendFormat='{{app_name}} | ConnKey: {{ connection_key }} ConnUrl: {{ connection_url }} FeedId: {{feed_id}}'
+    'sum(rate(ws_message_total{' + instanceFilter + '}' + interval + ')) by (app_name)',
+    legendFormat='{{app_name}}'
   )
 );
 
-local cacheFeedValues = statPanel.new(
-  title='Cached feed values',
-  datasource=cortexDataSource,
-  reducerFunction='lastNotNull',
-  unit='short'
-).addTarget(
-  prometheus.target(
-    'cache_data_get_values{' + instanceFilter + '}',
-    legendFormat='{{feed_id}}',
-  )
-);
-
-local barGaugeConfig = {
-  fieldConfig+: {
-    defaults+: {
-      color: {
-        mode: 'continuous-GrYlRd',
-      },
-    },
-  },
-  options: {
-    reduceOptions: {
-      values: false,
-      calcs: [
-        'lastNotNull',
-      ],
-      fields: '',
-    },
-    orientation: 'horizontal',
-    text: {},
-    displayMode: 'gradient',
-    showUnfilled: true,
-  },
-};
-
-local cacheMaxAgeSeconds = barGaugePanel.new(
-  title='Max age per cache entry',
-  datasource=cortexDataSource,
-).addTarget(
-  prometheus.target(
-    'sort_desc(cache_data_max_age{' + instanceFilter + '}/1000) != 0',
-    instant=true,
-    legendFormat='{{feed_id}}',
-  )
-) + barGaugeConfig;
-
-local cacheStalenessSeconds = barGaugePanel.new(
-  title='Staleness per cache entry',
-  datasource=cortexDataSource,
-).addTarget(
-  prometheus.target(
-    'sort_desc(cache_data_staleness_seconds{' + instanceFilter + '}) != 0',
-    instant=true,
-    legendFormat='{{feed_id}}',
-  )
-) + barGaugeConfig;
 
 local cacheEntrySetsPerSecond = graphPanel.new(
   title='Cache entry sets per second',
@@ -306,8 +218,8 @@ local cacheEntrySetsPerSecond = graphPanel.new(
   legend_values=true,
 ).addTarget(
   prometheus.target(
-    'rate(cache_data_set_count{' + instanceFilter + '}' + interval + ')',
-    legendFormat='{{feed_id}}',
+    'sum(rate(cache_data_set_count{' + instanceFilter + '}' + interval + ')) by (app_name)',
+    legendFormat='{{app_name}}',
   )
 );
 
@@ -325,8 +237,8 @@ local cacheEntryGetsPerSecond = graphPanel.new(
   legend_values=true,
 ).addTarget(
   prometheus.target(
-    'rate(cache_data_get_count{' + instanceFilter + '}' + interval + ')',
-    legendFormat='{{feed_id}}',
+    'sum(rate(cache_data_get_count{' + instanceFilter + '}' + interval + ')) by (app_name)',
+    legendFormat='{{app_name}}',
   )
 );
 
@@ -336,27 +248,27 @@ local grid = [
       cpuUsagePanel { size:: 1 },
       heapUsedPanel { size:: 1 },
     ],
-    height: 7.5,
+    height: 10,
   },
   {
-    panels: [httpRequestsPerMinutePanel { size:: 1 }],
-    height: 7.5,
+    panels: [
+      httpRequestsPerMinutePerFeedPanel { size:: 1 },
+    ],
+    height: 15,
   },
   {
     panels: [
       httpRequestDurationAverageSeconds { size:: 1 },
-      httpRequestDurationSecondsHeatmap { size:: 1 },
     ],
-    height: 7.5,
+    height: 10,
   },
   {
     panels: [
       httpRequestsPerMinutePerTypePanel { size:: 1 },
       httpRequestsPerMinutePerStatusPanel { size:: 1 },
-      httpRequestsPerMinutePerFeedPanel { size:: 1 },
       httpRequestsPerMinutePerCacheTypePanel { size:: 1 },
     ],
-    height: 7.5,
+    height: 10,
   },
   {
     panels: [
@@ -365,34 +277,22 @@ local grid = [
       wsConnectionErrorsGraph { size:: 1 },
       wsConnectionRetriesGraph { size:: 1 },
     ],
-    height: 7.5,
+    height: 10,
   },
   {
     panels: [
       wsActiveSubscriptions { size:: 1 },
       wsMessagesPerSecondGraph { size:: 1 },
     ],
-    height: 7.5,
+    height: 10,
   },
-  {
-    panels: [
-      cacheFeedValues { size:: 1 },
-    ],
-    height: 12.5,
-  },
-  {
-    panels: [
-      cacheMaxAgeSeconds { size:: 1 },
-      cacheStalenessSeconds { size:: 1 },
-    ],
-    height: 7.5,
-  },
+
   {
     panels: [
       cacheEntrySetsPerSecond { size:: 1 },
       cacheEntryGetsPerSecond { size:: 1 },
     ],
-    height: 7.5,
+    height: 10,
   },
 ];
 

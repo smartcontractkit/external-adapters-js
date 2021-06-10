@@ -13,4 +13,14 @@ jsonnet \
   -J ./vendor \
   ./src/ea.jsonnet
 
+jsonnet \
+  --ext-str overviewDashboardUid='REEEEEE' \
+  --ext-str overviewDashboardTitle='External Adapters Overview' \
+  --ext-str cortexDataSource='Prometheus' \
+  --ext-str prometheusJobName='external_adapters_local' \
+  -o ./generated/eaOverview.json \
+  -J ./vendor \
+  ./src/eaOverview.jsonnet
+
+
 grr apply ./dashboards.jsonnet
