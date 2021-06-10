@@ -42,10 +42,11 @@ local interval = '[$__rate_interval]';
 local cpuUsagePanel = graphPanel.new(
   title='Cpu usage percent',
   datasource=cortexDataSource,
+  format='percent'
 ).addTarget(
   prometheus.target(
     'sum(rate(process_cpu_seconds_total{' + instanceFilter + '}' + interval + ')) * 100',
-    legendFormat='{{app_name}}'
+    legendFormat='cpu'
   )
 );
 
@@ -53,21 +54,23 @@ local redisConnectionsOpen = graphPanel.new(
   title='Redis connections open',
   sort='decreasing',
   datasource=cortexDataSource,
+  format='conn',
 ).addTarget(
   prometheus.target(
     'redis_connections_open{' + instanceFilter + '}',
-    legendFormat='{{app_name}}'
+    legendFormat='connections open'
   )
 );
 
 local heapUsedPanel = graphPanel.new(
   title='Heap usage MB',
   sort='decreasing',
+  format='decmbytes',
   datasource=cortexDataSource,
 ).addTarget(
   prometheus.target(
     'nodejs_heap_size_used_bytes{' + instanceFilter + '} / 1000 / 1000',
-    legendFormat='{{app_name}}'
+    legendFormat='MB'
   )
 );
 
@@ -79,6 +82,7 @@ local httpRequestsPerMinutePanel = graphPanel.new(
   title='Http requests / minute',
   sort='decreasing',
   datasource=cortexDataSource,
+  format='req/m',
   stack=true,
   legend_hideZero=true,
   legend_alignAsTable=true,
@@ -97,6 +101,7 @@ local httpRequestsPerMinutePerTypePanel = graphPanel.new(
   title='Http requests / minute per type',
   sort='decreasing',
   datasource=cortexDataSource,
+  format='req/m',
 ).addTarget(
   prometheus.target(
     httpsRequestsPerMinuteSumQuery + 'by (type)',
@@ -107,6 +112,7 @@ local httpRequestsPerMinutePerStatusPanel = graphPanel.new(
   title='Http requests / minute per status code',
   sort='decreasing',
   datasource=cortexDataSource,
+  format='req/m',
 ).addTarget(
   prometheus.target(
     httpsRequestsPerMinuteSumQuery + 'by (status_code)',
@@ -117,6 +123,7 @@ local httpRequestsPerMinutePerFeedPanel = graphPanel.new(
   title='Http requests / minute per feed',
   sort='decreasing',
   datasource=cortexDataSource,
+  format='req/m',
   stack=true,
   legend_alignAsTable=true,
   legend_rightSide=true,
@@ -133,6 +140,7 @@ local httpRequestsPerMinutePerFeedPanel = graphPanel.new(
 local httpRequestsPerMinutePerCacheTypePanel = graphPanel.new(
   title='Http requests / minute per cache type',
   sort='decreasing',
+  format='req/m',
   datasource=cortexDataSource,
 ).addTarget(
   prometheus.target(
@@ -144,6 +152,7 @@ local httpRequestsPerMinutePerCacheTypePanel = graphPanel.new(
 
 local httpRequestDurationAverageSeconds = graphPanel.new(
   title='Average http request duration seconds',
+  format='s',
   datasource=cortexDataSource,
   sort='decreasing',
 ).addTarget(
@@ -170,6 +179,7 @@ local httpRequestDurationSecondsHeatmap = heatmapPanel.new(
 local wsConnectionActiveGraph = graphPanel.new(
   title='Active websocket connections',
   sort='decreasing',
+  format='conn',
   datasource=cortexDataSource,
 ).addTarget(
   prometheus.target(
@@ -181,6 +191,7 @@ local wsConnectionActiveGraph = graphPanel.new(
 local wsConnectionErrorsGraph = graphPanel.new(
   title='Websocket connection errors',
   sort='decreasing',
+  format='errors',
   datasource=cortexDataSource,
 ).addTarget(
   prometheus.target(
@@ -192,6 +203,7 @@ local wsConnectionErrorsGraph = graphPanel.new(
 local wsConnectionRetriesGraph = graphPanel.new(
   title='Websocket connection retries',
   sort='decreasing',
+  format='retries',
   datasource=cortexDataSource,
 ).addTarget(
   prometheus.target(
@@ -205,6 +217,7 @@ local wsActiveSubscriptions = graphPanel.new(
   title='Active websocket subscriptions',
   sort='decreasing',
   stack=true,
+  format='subs',
   legend_alignAsTable=true,
   legend_rightSide=true,
   legend_sort='current',
@@ -213,7 +226,7 @@ local wsActiveSubscriptions = graphPanel.new(
 ).addTarget(
   prometheus.target(
     'ws_subscription_active{' + instanceFilter + '}',
-    legendFormat='{{app_name}} | ConnKey: {{ connection_key }} ConnUrl: {{ connection_url }} FeedId: {{feed_id}}'
+    legendFormat='{{app_name}} | ConnKey: {{ connection_key }} ConnUrl: {{ connection_url }} Feed: {{feed_id}}'
   )
 );
 
@@ -221,6 +234,7 @@ local wsMessagesPerSecondGraph = graphPanel.new(
   title='Websocket messages received / second',
   sort='decreasing',
   datasource=cortexDataSource,
+  format='msg/s',
   stack=true,
   legend_alignAsTable=true,
   legend_rightSide=true,
@@ -231,7 +245,7 @@ local wsMessagesPerSecondGraph = graphPanel.new(
 ).addTarget(
   prometheus.target(
     'rate(ws_message_total{' + instanceFilter + '}' + interval + ')',
-    legendFormat='{{app_name}} | ConnKey: {{ connection_key }} ConnUrl: {{ connection_url }} FeedId: {{feed_id}}'
+    legendFormat='{{app_name}} | Feed: {{feed_id}}'
   )
 );
 
@@ -273,6 +287,7 @@ local barGaugeConfig = {
 local cacheMaxAgeSeconds = barGaugePanel.new(
   title='Max age per cache entry',
   datasource=cortexDataSource,
+  unit='s'
 ).addTarget(
   prometheus.target(
     'sort_desc(cache_data_max_age{' + instanceFilter + '}/1000) != 0',
@@ -284,6 +299,7 @@ local cacheMaxAgeSeconds = barGaugePanel.new(
 local cacheStalenessSeconds = barGaugePanel.new(
   title='Staleness per cache entry',
   datasource=cortexDataSource,
+  unit='s'
 ).addTarget(
   prometheus.target(
     'sort_desc(cache_data_staleness_seconds{' + instanceFilter + '}) != 0',
@@ -296,6 +312,7 @@ local cacheEntrySetsPerSecond = graphPanel.new(
   title='Cache entry sets per second',
   sort='decreasing',
   stack=true,
+  format='set/s',
   datasource=cortexDataSource,
   legend_hideZero=true,
   legend_alignAsTable=true,
@@ -317,6 +334,7 @@ local cacheEntryGetsPerSecond = graphPanel.new(
   sort='decreasing',
   stack=true,
   datasource=cortexDataSource,
+  format='get/s',
   legend_alignAsTable=true,
   legend_rightSide=true,
   legend_current=true,
@@ -340,7 +358,7 @@ local grid = [
   },
   {
     panels: [httpRequestsPerMinutePanel { size:: 1 }],
-    height: 7.5,
+    height: 12.5,
   },
   {
     panels: [
