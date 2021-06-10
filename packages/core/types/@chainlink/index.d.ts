@@ -11,19 +11,28 @@ declare module '@chainlink/types' {
     startedAt?: number
     timeout?: number
   }
-  export type AdapterRequestDebug = {
+
+  export type AdapterDebug = {
     ws?: boolean
-    feedId?: string
     cacheHit?: boolean
     staleness?: number
     performance?: number
     providerCost?: number
   }
+
+  /**
+   * Meta info that pertains to exposing metrics
+   */
+  export interface AdapterMetricsMeta {
+    feedId: string
+  }
+
   export type AdapterRequest = {
     id: string
     data: Record<string, unknown>
     meta?: AdapterRequestMeta
-    debug?: AdapterRequestDebug
+    metricsMeta?: AdapterMetricsMeta
+    debug?: AdapterDebug
     rateLimitMaxAge?: number
   }
 
@@ -44,7 +53,8 @@ declare module '@chainlink/types' {
     data: any // Response data, holds "result" for Flux Monitor. Correct way.
     result: any // Result for OCR
     maxAge?: number
-    debug?: AdapterRequestDebug
+    metricsMeta?: AdapterMetricsMeta
+    debug?: AdapterDebug
   }
 
   /* ERRORS */

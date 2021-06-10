@@ -118,7 +118,7 @@ export const withCache: Middleware = async (execute, options: CacheOptions = def
   const _getRateLimitMaxAge = (data: AdapterRequest): number | undefined => {
     if (!data || !data.data) return
     if (isNaN(data.rateLimitMaxAge as number)) return
-    const feedId = data?.debug?.feedId
+    const feedId = data?.metricsMeta?.feedId
     const maxAge = Number(data.rateLimitMaxAge)
     if (maxAge && maxAge > ERROR_MAX_AGE) {
       logger.warn(
@@ -154,13 +154,13 @@ export const withCache: Middleware = async (execute, options: CacheOptions = def
     return Number(adapterRequest.data.maxAge)
   }
 
-  const _executeWithCache = async (adapterRequest: AdapterRequest) => {
+  const _executeWithCache = async (adapterRequest: AdapterRequest): Promise<AdapterResponse> => {
     const key = _getKey(adapterRequest)
     const coalescingKey = _getCoalescingKey(key)
     const observe = metrics.beginObserveCacheMetrics({
       isFromWs: !!adapterRequest.debug?.ws,
       participantId: key,
-      feedId: adapterRequest.debug?.feedId,
+      feedId: adapterRequest.metricsMeta?.feedId || 'N/A',
     })
     let maxAge = _getRequestMaxAge(adapterRequest) || _getDefaultMaxAge(adapterRequest)
     // Add successful result to cache
@@ -240,11 +240,13 @@ export const withCache: Middleware = async (execute, options: CacheOptions = def
         // we should be smarter about this in the future
         // and allow path configuration if result is not a number or string
         observe.cacheGet({ value: cachedAdapterResponse.result })
-        return {
+        const response: AdapterResponse = {
           jobRunID: adapterRequest.id,
           ...cachedAdapterResponse,
           debug,
         }
+
+        return response
       }
       logger.trace(`Cache: SKIP(maxAge < 0)`)
     }
