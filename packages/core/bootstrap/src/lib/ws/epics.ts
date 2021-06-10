@@ -252,7 +252,8 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
             const wsResponse: AdapterRequest = {
               ...input,
               data: { ...input.data, maxAge: -1 }, // Force cache set
-              debug: { ws: true, feedId: getFeedId(input) },
+              debug: { ws: true },
+              metricsMeta: { feedId: getFeedId(input) },
             }
             await cache(wsResponse)
             logger.trace('WS: Saved result', { input, result: response.result })

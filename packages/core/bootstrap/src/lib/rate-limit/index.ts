@@ -80,7 +80,7 @@ export const withRateLimit = (store: Store<RootState>): Middleware => async (exe
   state = store.getState()
 
   const defaultLabels = {
-    feed_id: input.debug?.feedId,
+    feed_id: input.metricsMeta?.feedId ?? 'N/A',
     participant_id: requestTypeId,
     experimental: 'true',
   }
