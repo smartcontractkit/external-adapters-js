@@ -1,7 +1,7 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
-export const NAME = 'Finnhub'
+export const NAME = 'FINNHUB'
 
 export const DEFAULT_BASE_URL = 'https://finnhub.io/api/v1/'
 export const DEFAULT_ENDPOINT = 'quote'

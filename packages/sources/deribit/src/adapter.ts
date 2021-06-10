@@ -17,7 +17,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const requestConfig = {
     ...config.api,
     params,
-    baseUrl: config.api.baseURL
+    url: 'get_historical_volatility'
   }
 
   const response = await Requester.request(requestConfig)

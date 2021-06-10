@@ -17,7 +17,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const options = {
     ...config.api,
     baseUrl: config.api.baseURL,
-    url: base
+    url: `get_coin/${base}`
   }
 
   const response = await Requester.request(options)

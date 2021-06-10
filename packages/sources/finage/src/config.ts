@@ -1,7 +1,7 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
-export const NAME = 'Finage'
+export const NAME = 'FINAGE'
 
 export const DEFAULT_BASE_URL = 'https://api.finage.co.uk'
 

@@ -22,7 +22,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const url = config.api.baseURL
+  const url = '/graphql'
   const symbol = validator.validated.data.symbol.toUpperCase()
   const daysInput = validator.validated.data.days
   const days = daysConversion[daysInput] || daysInput

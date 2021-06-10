@@ -1,7 +1,7 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
-export const NAME = 'OilpriceAPI'
+export const NAME = 'OILPRICEAPI'
 
 export const DEFAULT_BASE_URL = 'https://api.oilpriceapi.com/v1/'
 

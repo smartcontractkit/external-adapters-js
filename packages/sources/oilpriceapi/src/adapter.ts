@@ -23,7 +23,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || 'prices/latest'
-  const url = `${config.api.baseURL}${endpoint}`
+  const url = endpoint
   const base = validator.validated.data.base.toLowerCase()
   // eslint-disable-next-line camelcase
   const by_code = commonKeys[base] || base

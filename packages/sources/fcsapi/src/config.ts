@@ -1,7 +1,7 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
-export const NAME = 'fcsapi'
+export const NAME = 'FCSAPI'
 
 export const DEFAULT_BASE_URL = 'https://fcsapi.com/api-v3/'
 

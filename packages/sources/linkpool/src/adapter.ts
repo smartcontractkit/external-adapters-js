@@ -21,13 +21,14 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   let market = validator.validated.data.market.toLowerCase()
   if (market in commonKeys) market = commonKeys[market]
 
-  const url = `${config.api.baseURL}${market.toUpperCase()}/sip62`
+  const url = `/futures/${market.toUpperCase()}/sip62`
 
   const headers = {
     'x-api-key': util.getRandomRequiredEnv('API_KEY'),
   }
 
   const options = {
+    ...config.api,
     url,
     headers,
   }

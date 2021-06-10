@@ -9,9 +9,10 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const url = config.api.baseURL
+  const url = '/transparency/eurs-statement'
 
   const options = {
+    ...config.api,
     url,
   }
 

@@ -1,7 +1,7 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
-export const NAME = 'taapi'
+export const NAME = 'TAAPI'
 
 export const DEFAULT_BASE_URL = 'https://api.taapi.io/'
 

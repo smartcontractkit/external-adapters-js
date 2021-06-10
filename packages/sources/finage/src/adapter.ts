@@ -15,9 +15,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || ''
-  let url = `${config.api.baseURL}/last/${endpoint}`
+  let url = `/last/${endpoint}`
   const symbol = (validator.overrideSymbol(NAME) as string).toUpperCase()
-  console.log(symbol)
   const to = (validator.validated.data.to || '').toUpperCase()
   const currencies = symbol + to
   const apikey = util.getRandomRequiredEnv('API_KEY')
@@ -34,7 +33,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
       break
     }
     case 'eod': {
-      url = `${config.api.baseURL}/agg/stock/prev-close/${symbol}`
+      url = `/agg/stock/prev-close/${symbol}`
       responsePath = ['results', 0, 'c']
       params = {
         apikey,
@@ -52,6 +51,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   }
 
   const options = {
+    ...config.api,
     url,
     params,
   }

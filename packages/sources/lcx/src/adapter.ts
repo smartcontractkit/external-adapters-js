@@ -1,6 +1,5 @@
 import { ExecuteWithConfig, ExecuteFactory, Config} from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { util } from '@chainlink/ea-bootstrap'
 import { makeConfig } from './config'
 
 const customParams = {
@@ -16,7 +15,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const jobRunID = validator.validated.id
   const coin = validator.validated.data.base.toUpperCase()
   const currency = validator.validated.data.quote.toUpperCase()
-  const url = config.api.baseURL
 
   const params = {
     coin,
@@ -24,10 +22,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   }
 
   const options = {
-    url,
-    headers: {
-      'api-key': util.getRandomRequiredEnv('API_KEY'),
-    },
+    ...config.api,
     params,
   }
 

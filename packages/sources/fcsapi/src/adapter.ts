@@ -46,7 +46,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const options = {
     ...config.api,
     params,
-    baseUrl: config.api.baseURL,
     url: endpoint
   }
 
