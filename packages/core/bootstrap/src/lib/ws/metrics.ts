@@ -58,13 +58,7 @@ export const ws_subscription_errors = new client.Counter({
 export const ws_message_total = new client.Counter({
   name: 'ws_message_total',
   help: 'The number of messages received in total',
-  labelNames: [
-    'connection_key',
-    'connection_url',
-    'feed_id',
-    'subscription_key',
-    'experimental',
-  ] as const,
+  labelNames: ['feed_id', 'subscription_key', 'experimental'] as const,
 })
 
 // TODO: Message error action
