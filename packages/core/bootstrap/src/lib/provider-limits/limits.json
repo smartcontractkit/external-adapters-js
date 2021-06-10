@@ -60,6 +60,10 @@
       "on-demand": {
         "rateLimit1s": 15,
         "rateLimit1h": 12500
+      },
+      "enterprise": {
+        "rateLimit1s": 60,
+        "rateLimit1h": -1
       }
     },
     "ws": {
