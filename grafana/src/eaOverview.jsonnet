@@ -111,8 +111,7 @@ local httpRequestsPerMinutePerFeedPanel = graphPanel.new(
   legend_min=true,
   legend_max=true,
   legend_avg=true,
-  legend_total=true,
-  legend_sort='total',
+  legend_sort='current',
   legend_sortDesc=true
 ).addTarget(
   prometheus.target(
