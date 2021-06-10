@@ -196,6 +196,12 @@ local wsConnectionActiveGraph = graphPanel.new(
   sort='decreasing',
   format='conn',
   datasource=cortexDataSource,
+  legend_alignAsTable=true,
+  legend_rightSide=true,
+  legend_current=true,
+  legend_values=true,
+  legend_sort='current',
+  legend_sortDesc=true,
 ).addTarget(
   prometheus.target(
     'sum(ws_connection_active{' + instanceFilter + '}) by (app_name)',
