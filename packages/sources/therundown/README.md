@@ -8,9 +8,9 @@
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |               Options                | Defaults to |
-| :-------: | :------: | :-----------------: | :----------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [total-score](#Total-Score-Endpoint) | total-score |
+| Required? |   Name   |     Description     |                                          Options                                           | Defaults to |
+| :-------: | :------: | :-----------------: | :----------------------------------------------------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [total-score](#Total-Score-Endpoint), [event](#Event-Endpoint), [events](#Events-Endpoint) | total-score |
 
 ---
 
@@ -218,3 +218,25 @@ Returns the sum of both teams' scores for a match (match status must be final)
   "statusCode": 200
 }
 ```
+
+## Event Endpoint
+
+Returns data for a specific event
+
+### Input Params
+
+| Required? |   Name    |         Description          | Options | Defaults to |
+| :-------: | :-------: | :--------------------------: | :-----: | :---------: |
+|    ✅     | `eventId` | The ID of the event to query |         |             |
+
+## Events Endpoint
+
+Returns all events within the specified params
+
+### Input Params
+
+| Required? |   Name    |                Description                | Options | Defaults to |
+| :-------: | :-------: | :---------------------------------------: | :-----: | :---------: |
+|    ✅     | `sportId` |  The ID of the sport to get events from   |         |             |
+|    ✅     |  `date`   |        The date to get events from        |         |             |
+|           | `status`  | Optional status param to filter events on |         |             |

@@ -24,6 +24,7 @@ interface TheRundownEvent {
   }
   score: {
     event_status: string
+    event_status_detail: string
     score_home: number
     score_away: number
   }
@@ -78,11 +79,16 @@ export const create: Execute = async (input) => {
   }
 
   Logger.debug(`Augur theRundown: Got ${events.length} events from data provider`)
-  let skipStartBuffer = 0, skipNoTeams = 0, cantCreate = 0, skipTBDTeams = 0
+  let skipTBD = 0, skipStartBuffer = 0, skipNoTeams = 0, cantCreate = 0, skipTBDTeams = 0
 
   // filter markets and build payloads for market creation
   const eventsToCreate: CreateEvent[] = []
   for (const event of events) {
+    if (event.score.event_status_detail.toUpperCase() === 'TBD') {
+      skipTBD++
+      continue
+    }
+
     const startTime = Date.parse(event.event_date)
     if ((startTime - Date.now()) / 1000 < startBuffer) {
       // markets would end too soon
@@ -133,6 +139,7 @@ export const create: Execute = async (input) => {
     })
   }
 
+  Logger.debug(`Augur theRundown: Skipping ${skipTBD} due to TBD status`)
   Logger.debug(`Augur theRundown: Skipping ${skipStartBuffer} due to startBuffer`)
   Logger.debug(`Augur theRundown: Skipping ${skipNoTeams} due to no teams`)
   Logger.debug(`Augur theRundown: Skipping ${skipTBDTeams} due to TBD teams`)
