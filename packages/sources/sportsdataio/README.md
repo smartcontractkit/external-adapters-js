@@ -1,59 +1,79 @@
 # Chainlink External Adapter for Sportsdataio
 
-A template to be used as an example for new [External Adapters](https://github.com/smartcontractkit/external-adapters-js)
-
-(please fill out with corresponding information)
-
-An example adapter description
+Adapter got get data from Sportsdata.io
 
 ### Environment Variables
 
-| Required? |  Name   |                                                        Description                                                         | Options | Defaults to |
-| :-------: | :-----: | :------------------------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
-|           | API_KEY | An API key that can be obtained from the data provider's dashboard (add a ✅ in `Required?` if this parameter is required) |         |             |
+| Required? |        Name        |      Description       | Options | Defaults to |
+| :-------: | :----------------: | :--------------------: | :-----: | :---------: |
+|           | NFL_SCORES_API_KEY | API key for NFL scores |         |             |
+|           | MMA_SCORES_API_KEY | API key for MMA scores |         |             |
 
 ---
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |           Options            | Defaults to |
-| :-------: | :------: | :-----------------: | :--------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [example](#Sportsdataio-Endpoint) |   example   |
+| Required? | Name  |   Description    |   Options   | Defaults to |
+| :-------: | :---: | :--------------: | :---------: | :---------: |
+|           | sport | The sport to use | [nfl](#NFL) |     nfl     |
 
 ---
 
-## Sportsdataio Endpoint
+## NFL
 
-An example endpoint description
+### Input Parameters
 
-### Input Params
+| Required? |   Name   |      Description      |                     Options                      | Defaults to |
+| :-------: | :------: | :-------------------: | :----------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to query | [schedule](#NFL-Schedule), [scores](#NFL-Scores) |  schedule   |
 
-| Required? |            Name            |               Description                |       Options       | Defaults to |
-| :-------: | :------------------------: | :--------------------------------------: | :-----------------: | :---------: |
-|    ✅     | `base`, `from`, or `coin`  |   The symbol of the currency to query    | `BTC`, `ETH`, `USD` |             |
-|    ✅     | `quote`, `to`, or `market` | The symbol of the currency to convert to | `BTC`, `ETH`, `USD` |             |
+### NFL Schedule
 
-### Sample Input
+Get the NFL schedule
 
-```json
-{
-  "id": "1",
-  "data": {
-    "base": "ETH",
-    "quote": "USD"
-  }
-}
-```
+#### Input Parameters
 
-### Sample Output
+| Required? |  Name  |          Description          | Options | Defaults to |
+| :-------: | :----: | :---------------------------: | :-----: | :---------: |
+|    ✅     | season | The season to get events from |         |             |
 
-```json
-{
-  "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
-  "data": {
-    "price": 77777.77,
-    "result": 77777.77
-  },
-  "statusCode": 200
-}
-```
+### NFL Scores
+
+Get NFL scores
+
+#### Input Parameters
+
+| Required? |  Name  |          Description          | Options | Defaults to |
+| :-------: | :----: | :---------------------------: | :-----: | :---------: |
+|    ✅     | season | The season to get scores from |         |             |
+
+---
+
+## MMA
+
+### Input Parameters
+
+| Required? |   Name   |      Description      |                    Options                     | Defaults to |
+| :-------: | :------: | :-------------------: | :--------------------------------------------: | :---------: |
+|    ✅     | endpoint | The endpoint to query | [schedule](#MMA-Schedule), [event](#MMA-Event) |             |
+
+### MMA Schedule
+
+Get the MMA schedule
+
+#### Input Parameters
+
+| Required? |  Name  |          Description          | Options | Defaults to |
+| :-------: | :----: | :---------------------------: | :-----: | :---------: |
+|    ✅     | league | The league to get events from |         |             |
+|    ✅     | season | The season to get events from |         |             |
+
+### MMA Event
+
+Get data on specific MMA event
+
+#### Input Parameters
+
+| Required? |  Name   |      Description      | Options | Defaults to |
+| :-------: | :-----: | :-------------------: | :-----: | :---------: |
+|    ✅     | eventId | The event ID to query |         |             |
