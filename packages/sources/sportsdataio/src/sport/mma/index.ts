@@ -1,6 +1,6 @@
 import { AdapterError, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
-import { DEFAULT_ENDPOINT, makeConfig } from '../../config'
+import { makeConfig } from '../../config'
 import { schedule, event } from './endpoint'
 
 export const NAME = 'mma'
@@ -14,7 +14,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
+  const endpoint = validator.validated.data.endpoint
 
   switch (endpoint.toLowerCase()) {
     case schedule.NAME: {

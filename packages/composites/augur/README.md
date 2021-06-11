@@ -6,12 +6,12 @@ Composite adapter to handle Augur market creation and resolution
 
 The adapter takes the following environment variables:
 
-| Required? |   Name    |         Description          | Options | Defaults to |
-| :-------: | :-------: | :--------------------------: | :-----: | :---------: |
-|    ✅     | `RPC_URL` | RPC URL for the ETH node |         |             |
-|    ✅     | `PRIVATE_KEY` | Private key of the account to use for on-chain txs |         |             |
-|          | `THERUNDOWN_*` | Configuration variables for The Rundown: [See README](../../sources/therundown/README.md) | | |
-|          | `SPORTSDATAIO_*` | Configuration variables for Sportsdataio: [See README](../../sources/sportsdataio/README.md) | | |
+| Required? |       Name       |                                         Description                                          | Options | Defaults to |
+| :-------: | :--------------: | :------------------------------------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     |    `RPC_URL`     |                                   RPC URL for the ETH node                                   |         |             |
+|    ✅     |  `PRIVATE_KEY`   |                      Private key of the account to use for on-chain txs                      |         |             |
+|           |  `THERUNDOWN_*`  |  Configuration variables for The Rundown: [See README](../../sources/therundown/README.md)   |         |             |
+|           | `SPORTSDATAIO_*` | Configuration variables for Sportsdataio: [See README](../../sources/sportsdataio/README.md) |         |             |
 
 ## Running
 
@@ -19,14 +19,14 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 
 ### Input Params
 
-| Required? |            Name            |               Description                |       Options       | Defaults to |
-| :-------: | :------------------------: | :--------------------------------------: | :-----------------: | :---------: |
-|    ✅     | `method`  |   The method to call    | `resolve`, `create` |             |
-|    ✅     | `sport`  |   The sport to call for    | `NFL`, `NBA`, `MLB` |             |
-|    ✅     | `contractAddress`  |   The contract address to interact with    |  |             |
-|    ✅     | `daysInAdvance`  | Create only: number of days in advance to create events for |  |             |
-|    ✅     | `startBuffer`  | Create only: number of seconds in the future the event has to be to create |  |             |
-|         | `affiliateIds`  | Create only: prioritized array of affiliate ids to use |  |             |
+| Required? |       Name        |                                Description                                 |       Options       | Defaults to |
+| :-------: | :---------------: | :------------------------------------------------------------------------: | :-----------------: | :---------: |
+|    ✅     |     `method`      |                             The method to call                             | `resolve`, `create` |             |
+|    ✅     |      `sport`      |                           The sport to call for                            | `NFL`, `NBA`, `MLB` |             |
+|    ✅     | `contractAddress` |                   The contract address to interact with                    |                     |             |
+|    ✅     |  `daysInAdvance`  |        Create only: number of days in advance to create events for         |                     |             |
+|    ✅     |   `startBuffer`   | Create only: number of seconds in the future the event has to be to create |                     |             |
+|           |  `affiliateIds`   |           Create only: prioritized array of affiliate ids to use           |                     |             |
 
 ### Sample Input
 
