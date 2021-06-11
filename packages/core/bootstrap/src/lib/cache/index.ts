@@ -192,7 +192,11 @@ export const withCache: Middleware = async (execute, options: CacheOptions = def
               result,
               maxAge: maxAgeBatchParticipant,
             }
-            await cache.set(keyBatchParticipant, entryBatchParticipant, maxAgeBatchParticipant)
+            await cache.setResponse(
+              keyBatchParticipant,
+              entryBatchParticipant,
+              maxAgeBatchParticipant,
+            )
             logger.trace(`Cache Split Batch: SET ${keyBatchParticipant}`, entryBatchParticipant)
           }
         }
