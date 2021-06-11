@@ -31,12 +31,11 @@ export const withCacheWarmer = (
 
   const wsConfig = getWSConfig()
   const warmupSubscribedPayload: actions.WarmupSubscribedPayload = {
-    id: input.id,
+    ...input,
     // We need to initilialize the middleware on every beat to open a connection with the cache
     // Wrapping `rawExecute` as `execute` is already wrapped with the default middleware. Warmer doesn't need every default middleware
     executeFn: async (input: AdapterRequest) =>
       await (await withMiddleware(rawExecute, middleware))(input),
-    data: input,
   }
 
   if (wsConfig.enabled && ws.makeWSHandler) {
@@ -65,10 +64,9 @@ export const withCacheWarmer = (
   const result = await execute(input)
 
   const warmupExecutePayload: actions.WarmupExecutePayload = {
-    id: input.id,
+    ...input,
     executeFn: async (input: AdapterRequest) =>
       await (await withMiddleware(rawExecute, middleware))(input),
-    data: input,
     result,
   }
   warmerStore.dispatch(actions.warmupExecute(warmupExecutePayload))

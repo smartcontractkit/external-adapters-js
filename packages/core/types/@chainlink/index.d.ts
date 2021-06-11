@@ -28,9 +28,10 @@ declare module '@chainlink/types' {
     feedId: string
   }
 
+  import { BigNumberish } from 'ethers'
   export type AdapterRequest = {
     id: string
-    data: Record<string, unknown>
+    data: Record<string, BigNumberish | BigNumberish[] | { [key: string]: BigNumberish }>
     meta?: AdapterRequestMeta
     metricsMeta?: AdapterMetricsMeta
     debug?: AdapterDebug
