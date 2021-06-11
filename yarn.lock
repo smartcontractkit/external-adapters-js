@@ -16037,6 +16037,16 @@ fsevents@~2.1.1:
   languageName: node
   linkType: hard
 
+"leb128@npm:0.0.5":
+  version: 0.0.5
+  resolution: "leb128@npm:0.0.5"
+  dependencies:
+    bn.js: ^5.0.0
+    buffer-pipe: 0.0.3
+  checksum: 09ac72d801d8653a35019cc1c11fe45eb9e21352f6b1869855acab9f4e8a98c7a83d08bc822bc43fb9d3520674969dab3a61c164ff3f037f89f45c0b162d57fb
+  languageName: node
+  linkType: hard
+
 "level-codec@npm:^9.0.0":
   version: 9.0.2
   resolution: "level-codec@npm:9.0.2"
