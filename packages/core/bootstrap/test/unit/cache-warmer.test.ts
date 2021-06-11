@@ -1,4 +1,4 @@
-import { AdapterRequest } from '@chainlink/types'
+import { AdapterRequest, AdapterResponse } from '@chainlink/types'
 import { DeepPartial } from 'redux'
 import { ActionsObservable, StateObservable } from 'redux-observable'
 import { of, Subject, throwError } from 'rxjs'
@@ -9,6 +9,7 @@ import * as actions from '../../src/lib/cache-warmer/actions'
 import { get } from '../../src/lib/cache-warmer/config'
 import {
   EpicDependencies,
+  executeHandler,
   warmupRequestHandler,
   warmupSubscriber,
   warmupUnsubscriber,
@@ -47,6 +48,185 @@ describe('side effect tests', () => {
   const key2 = '553279571362b8072c206da5665629f22ac085c5'
   beforeEach(() => {
     epicDependencies = { config: get() }
+  })
+
+  const batchableAdapterRequest1: AdapterRequest = {
+    id: '0',
+    data: { foo: 'bar' },
+  }
+  const batchedAdapterRequest1: AdapterRequest = {
+    id: '0',
+    data: { foo: ['bar'] },
+  }
+  const batchableAdapterResponse1: AdapterResponse = {
+    jobRunID: '1',
+    statusCode: 200,
+    data: {
+      result: 1,
+    },
+    result: 1,
+    debug: { batchable: 'foo' },
+  }
+  const batchKeyParent1 = '485ed1ac6499b25e136fa3b001faf58dcdf277e0'
+  const batchKeyChild1 = '553279571362b8072c206da5665629f22ac085c5'
+
+  const batchableAdapterRequest2: AdapterRequest = { id: '0', data: { foo: ['baz'] } }
+  const childAdapterRequest2: AdapterRequest = {
+    id: '0',
+    data: { foo: 'baz' },
+  }
+  const batchableAdapterResponse2: AdapterResponse = {
+    jobRunID: '2',
+    statusCode: 200,
+    data: {
+      results: { foo: [{ foo: 'baz' }, 2] },
+    },
+    result: 2,
+    debug: { batchable: 'foo' },
+  }
+  const batchKeyParent2 = '485ed1ac6499b25e136fa3b001faf58dcdf277e0'
+  const batchKeyChild2 = '1e7a3a909c1023d0a94ceda183d511a37a001cbc'
+
+  describe('executeHandler', () => {
+    it('should start a batch warmer on the first non-batch request', () => {
+      scheduler.run(({ hot, expectObservable }) => {
+        const executeStub = stub()
+        const action$ = actionStream(hot, 'a', {
+          a: actions.warmupExecute({
+            executeFn: executeStub,
+            result: batchableAdapterResponse1,
+            ...batchableAdapterRequest1,
+          }),
+        })
+        const state$ = stateStream({
+          cacheWarmer: {
+            subscriptions: {},
+          },
+        })
+
+        const output$ = executeHandler(action$, state$, epicDependencies)
+        expectObservable(output$).toBe('(a b)', {
+          a: actions.warmupSubscribed({
+            executeFn: executeStub,
+            ...batchableAdapterRequest1,
+            parent: batchKeyParent1,
+          }),
+          b: actions.warmupSubscribed({
+            executeFn: executeStub,
+            ...batchedAdapterRequest1,
+            children: { [batchKeyChild1]: Date.now() + 4 },
+            key: batchKeyParent1,
+          }),
+        })
+      })
+    })
+
+    it('should turn the first batch request into a batch warmer', () => {
+      scheduler.run(({ hot, expectObservable }) => {
+        const executeStub = stub()
+        const action$ = actionStream(hot, 'a', {
+          a: actions.warmupExecute({
+            executeFn: executeStub,
+            result: batchableAdapterResponse2,
+            ...batchableAdapterRequest2,
+          }),
+        })
+        const state$ = stateStream({
+          cacheWarmer: {
+            subscriptions: {},
+          },
+        })
+
+        const output$ = executeHandler(action$, state$, epicDependencies)
+        expectObservable(output$).toBe('(a b)', {
+          a: actions.warmupSubscribed({
+            executeFn: executeStub,
+            ...childAdapterRequest2,
+            parent: batchKeyParent2,
+          }),
+          b: actions.warmupSubscribed({
+            executeFn: executeStub,
+            ...batchableAdapterRequest2,
+            children: { [batchKeyChild2]: Date.now() },
+            key: batchKeyParent1,
+          }),
+        })
+      })
+    })
+
+    it('should join subsequent non-batch requests into a running batch warmer', () => {
+      scheduler.run(({ hot, expectObservable }) => {
+        const executeStub = stub()
+        const action$ = actionStream(hot, 'a', {
+          a: actions.warmupExecute({
+            executeFn: executeStub,
+            result: batchableAdapterResponse1,
+            ...batchableAdapterRequest1,
+          }),
+        })
+        const state$ = stateStream({
+          cacheWarmer: {
+            subscriptions: {
+              [batchKeyParent1]: {
+                children: {},
+                executeFn: executeStub,
+              },
+            },
+          },
+        })
+
+        const output$ = executeHandler(action$, state$, epicDependencies)
+        expectObservable(output$).toBe('(a b)', {
+          a: actions.warmupSubscribed({
+            executeFn: executeStub,
+            ...batchableAdapterRequest1,
+            parent: batchKeyParent1,
+          }),
+          b: actions.warmupJoinGroup({
+            batchable: batchableAdapterResponse1.debug.batchable,
+            children: { [batchKeyChild1]: Date.now() },
+            parent: batchKeyParent1,
+          }),
+        })
+      })
+    })
+
+    it('should join subsequent batch requests into a running batch warmer', () => {
+      scheduler.run(({ hot, expectObservable }) => {
+        const executeStub = stub()
+        const action$ = actionStream(hot, 'a', {
+          a: actions.warmupExecute({
+            executeFn: executeStub,
+            result: batchableAdapterResponse2,
+            ...batchableAdapterRequest2,
+          }),
+        })
+        const state$ = stateStream({
+          cacheWarmer: {
+            subscriptions: {
+              [batchKeyParent2]: {
+                children: {},
+                executeFn: executeStub,
+              },
+            },
+          },
+        })
+
+        const output$ = executeHandler(action$, state$, epicDependencies)
+        expectObservable(output$).toBe('(a b)', {
+          a: actions.warmupSubscribed({
+            executeFn: executeStub,
+            ...childAdapterRequest2,
+            parent: batchKeyParent2,
+          }),
+          b: actions.warmupJoinGroup({
+            batchable: batchableAdapterResponse1.debug.batchable,
+            children: { [batchKeyChild2]: Date.now() },
+            parent: batchKeyParent1,
+          }),
+        })
+      })
+    })
   })
 
   describe('warmupSubscriber', () => {

@@ -1,9 +1,9 @@
-import { AdapterRequest, Execute } from '@chainlink/types'
+import { AdapterRequest, AdapterResponse, Execute } from '@chainlink/types'
 import { createAction } from '@reduxjs/toolkit'
 
 export interface WarmupExecutePayload extends AdapterRequest {
   executeFn: Execute
-  result: any
+  result: AdapterResponse
 }
 export const warmupExecute = createAction<WarmupExecutePayload>('WARMUP/EXECUTE')
 

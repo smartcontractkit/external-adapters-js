@@ -46,6 +46,7 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
   const subscribeBatch$ = batchExecute$.pipe(
     withLatestFrom(state$),
     mergeMap(([{ payload }, state]) => {
+      const payloadNoResult = omit(payload, ['result'])
       const actionsToDispatch: AnyAction[] = []
 
       const existingBatchWarmer = Object.entries(state.cacheWarmer.subscriptions).find(
@@ -61,7 +62,7 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
       // A new key is created by omitting the data field
       // We want the key to be consistent. Otherwise it would change on every new child
       const batchWarmerSubscriptionKey =
-        existingBatchWarmer?.[0] ?? getSubscriptionKey(omit(payload, ['data']))
+        existingBatchWarmer?.[0] ?? getSubscriptionKey(omit(payloadNoResult, ['data']))
 
       // Start placeholder subscriptions for children
       const children: { [childKey: string]: number } = {}
@@ -71,7 +72,7 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
           payload.result.data.results,
         )) {
           const warmupSubscribedPayloadChild = {
-            ...payload,
+            ...payloadNoResult,
             data: request,
             parent: batchWarmerSubscriptionKey,
           }
@@ -81,16 +82,16 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
         }
       } else {
         const warmupSubscribedPayloadChild = {
-          ...payload,
+          ...payloadNoResult,
           parent: batchWarmerSubscriptionKey,
         }
-        const childKey = getSubscriptionKey(payload)
+        const childKey = getSubscriptionKey(warmupSubscribedPayloadChild)
         children[childKey] = Date.now()
         actionsToDispatch.push(warmupSubscribed(warmupSubscribedPayloadChild))
       }
 
       // If batch warmer already exists join it by adding children to request data
-      if (existingBatchWarmer) {
+      if (existingBatchWarmer && payload?.result?.debug?.batchable) {
         actionsToDispatch.push(
           warmupJoinGroup({
             parent: batchWarmerSubscriptionKey,
@@ -103,22 +104,19 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
       else {
         const batchKey = payload.result.debug?.batchable
         const warmupSubscribedAction =
-          batchKey && !Array.isArray(payload.result.data[batchKey])
+          batchKey && !Array.isArray(payload.data[batchKey])
             ? // If incoming request isn't an array, transform into one
               // So the request is used as a batch request
               warmupSubscribed({
-                ...payload,
+                ...payloadNoResult,
                 data: {
-                  ...payload.data,
-                  data: {
-                    ...(payload.data.data as any),
-                    [batchKey]: [(payload.data as any).data[batchKey]],
-                  },
+                  ...payloadNoResult.data,
+                  [batchKey]: [payloadNoResult.data[batchKey]],
                 },
                 key: batchWarmerSubscriptionKey,
                 children,
               })
-            : warmupSubscribed({ ...payload, key: batchWarmerSubscriptionKey, children })
+            : warmupSubscribed({ ...payloadNoResult, key: batchWarmerSubscriptionKey, children })
         actionsToDispatch.push(warmupSubscribedAction)
       }
 
@@ -126,7 +124,9 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
     }),
   )
 
-  const subscribeIndividual$ = execute$.pipe(map(({ payload }) => warmupSubscribed(payload)))
+  const subscribeIndividual$ = execute$.pipe(
+    map(({ payload }) => warmupSubscribed(omit(payload, ['result']))),
+  )
 
   return merge(subscribeBatch$, subscribeIndividual$)
 }
