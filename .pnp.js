@@ -12973,7 +12973,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ]],
       ["bitgo-utxo-lib", [
         ["https://github.com/ren-forks/bitgo-utxo-lib.git#commit=7939387dda1199956fcb9d720a9493ce12cf013e", {
-          "packageLocation": "./.yarn/cache/bitgo-utxo-lib-https-2e944dc801-bcfb0593b5.zip/node_modules/bitgo-utxo-lib/",
+          "packageLocation": "./.yarn/cache/bitgo-utxo-lib-https-2e944dc801-2936344180.zip/node_modules/bitgo-utxo-lib/",
           "packageDependencies": [
             ["bitgo-utxo-lib", "https://github.com/ren-forks/bitgo-utxo-lib.git#commit=7939387dda1199956fcb9d720a9493ce12cf013e"],
             ["bech32", "npm:0.0.3"],
