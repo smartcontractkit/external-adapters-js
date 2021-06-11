@@ -9456,7 +9456,7 @@ __metadata:
   dependenciesMeta:
     secp256k1:
       optional: true
-  checksum: bcfb0593b5ae235fc974d07f08c3cf70959ef297aa43a325a2f4ae18973d95c93f8449ba81c376de0777c8124d9ce5618200d6c63d956c05c756040e5dd18cf1
+  checksum: 29363441803c1ed083ae3150a96bcee98a8dbab96104d03d29515813c4d4910865abe3e30b117112013f1ddac7c3d186648cc5fbf7541c9fd848ebc5627c037a
   languageName: node
   linkType: hard
 
@@ -20692,7 +20692,7 @@ resolve@1.17.0:
   dependencies:
     scryptsy: ^2.1.0
     semver: ^6.3.0
-  checksum: e2eb72648155f225926f35adc317785cd622385c3c7d4bd3ee421bd9b3d732976280a4364e9c5ed23be9427100ec61badcc076ae1b668afe87209dad2051739c
+  checksum: de02c75d35b97de799fae7499ec30fa145280ad7c7150959d1eb47655eca75b418a7d612456ecec5fed2ee466a32a5edf85f5f0ae7c5f4b9773ea4cf207358b1
   languageName: node
   linkType: hard
 
