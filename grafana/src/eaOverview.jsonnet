@@ -35,7 +35,18 @@ local serviceTempl = template.new(
   includeAll=true,
   refresh='load'
 );
-local templates = [jobTempl, serviceTempl];
+local feedTempl = template.new(
+  'feed',
+  datasource=cortexDataSource,
+  query='cache_data_get_values{job="$job"}',
+  multi=true,
+  sort=1,
+  current='All',
+  regex='/feed_id="(.*?)"/',
+  includeAll=true,
+  refresh='load'
+);
+local templates = [jobTempl, serviceTempl, feedTempl];
 
 /**
  * Panels
@@ -115,7 +126,7 @@ local httpRequestsPerMinutePerFeedPanel = graphPanel.new(
   legend_sortDesc=true
 ).addTarget(
   prometheus.target(
-    httpsRequestsPerMinuteSumQuery + 'by (feed_id, app_name)',
+    'sum(rate(http_requests_total{feed_id=~"$feed.*",' + instanceFilter + '}' + interval + ') * 60)' + 'by (feed_id, app_name)',
     legendFormat='{{app_name}} | {{feed_id}}'
   )
 );
@@ -324,6 +335,39 @@ local cacheEntryGetsPerSecond = graphPanel.new(
   )
 );
 
+
+local cacheValues = graphPanel.new(
+  title='$feed Cache values',
+  format='none',
+  datasource=cortexDataSource,
+  legend_alignAsTable=true,
+  legend_rightSide=true,
+  legend_current=true,
+  legend_sort='current',
+  legend_sortDesc=true,
+  legend_values=true,
+  repeat='feed',
+).addSeriesOverride(
+  {
+    alias: '/.*Median.*/',
+    color: 'rgb(255, 255, 255)',
+    fill: 0,
+    linewidth: 2,
+    zindex: 3,
+  }
+).addTargets(
+  [
+    prometheus.target(
+      'quantile(0.5, cache_data_get_values{feed_id=~"$feed.*",job="$job"} ) by (feed_id)',
+      legendFormat='Median',
+    ),
+    prometheus.target(
+      'cache_data_get_values{feed_id=~"$feed.*",' + instanceFilter + '}',
+      legendFormat='{{app_name}}',
+    ),
+  ]
+);
+
 local grid = [
   {
     panels: [
@@ -375,6 +419,10 @@ local grid = [
       cacheEntryGetsPerSecond { size:: 1 },
     ],
     height: 10,
+  },
+  {
+    panels: [cacheValues { size:: 1 }],
+    height: 5,
   },
 ];
 
