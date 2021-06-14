@@ -3,6 +3,7 @@ import {
   AdapterResponse,
   RequestConfig,
   AdapterRequest,
+  AdapterRequestData,
 } from '@chainlink/types'
 import axios, { AxiosResponse } from 'axios'
 import { deepType } from '../util'
@@ -13,7 +14,7 @@ import { logger } from './logger'
 const getFalse = () => false
 
 export class Requester {
-  static async request<T extends Record<string, any>>(
+  static async request<T extends AdapterRequestData>(
     config: RequestConfig,
     customError?: any,
     retries = 3,
@@ -153,14 +154,14 @@ export class Requester {
     jobRunID = '1',
     response: Partial<AxiosResponse>,
     verbose = false,
-    batchable?: string,
+    batchKey?: string,
   ): AdapterResponse {
     return {
       jobRunID,
       data: verbose ? response.data : { result: response.data?.result },
       result: response.data?.result,
       statusCode: response.status || 200,
-      debug: batchable ? { batchable } : undefined,
+      debug: batchKey ? { batchKey } : undefined,
     }
   }
 
