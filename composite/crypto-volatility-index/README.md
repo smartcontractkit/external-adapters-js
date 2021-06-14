@@ -33,7 +33,7 @@ Required `token-allocation` configuration apply to this adapter as well (no extr
 
 To build:
 ```bash
-make docker adapter=crypto-volatility-index
+make docker adapter=composite/crypto-volatility-index name=crypto-volatility-index
 ```
 
 To run:
