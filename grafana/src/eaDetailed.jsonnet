@@ -1,44 +1,23 @@
 // https://grafana.com/docs/grafana/latest/dashboards/json-model/
 local grafana = import 'grafonnet/grafana.libsonnet';
-local dashboard = grafana.dashboard;
 local graphPanel = grafana.graphPanel;
 local statPanel = grafana.statPanel;
 local heatmapPanel = grafana.heatmapPanel;
 local barGaugePanel = grafana.barGaugePanel;
 local prometheus = grafana.prometheus;
-local template = grafana.template;
-local layout = import './layout.libsonnet';
 
-/**
- * Constants
- */
-local prometheusJobName = std.extVar('prometheusJobName');
-local cortexDataSource = std.extVar('cortexDataSource');
-local dashboardConfig = {
-  title: std.extVar('dashboardTitle'),
-  uid: std.extVar('dashboardUid'),
-};
-local instanceFilter = 'job="$job",service=~"$service.*"';
+local shared = import './shared.libsonnet';
+local addSideLegend = shared.helpers.addSideLegend;
 
-/**
- * Templates
- */
-local jobTempl = template.custom('job', query=prometheusJobName, current=prometheusJobName, hide=true);
-local serviceTempl = template.new(
-  'service',
-  datasource=cortexDataSource,
-  query='http_request_duration_seconds_bucket',
-  multi=false,
-  sort=1,
-  regex='/.*job="' + prometheusJobName + '".*service="(.*)"/',
-  refresh='load'
-);
-local templates = [jobTempl, serviceTempl];
+local cortexDataSource = shared.constants.cortexDataSource;
+local instanceFilter = shared.constants.instanceFilter;
+local interval = shared.constants.interval;
+
+local templates = shared.createTemplates(multiService=false);
 
 /**
  * Panels
  */
-local interval = '[$__rate_interval]';
 local cpuUsagePanel = graphPanel.new(
   title='Cpu usage percent',
   datasource=cortexDataSource,
@@ -78,25 +57,19 @@ local httpsRequestsPerMinuteQuery = 'rate(http_requests_total{' + instanceFilter
 local httpsRequestsPerMinuteSumQuery = 'sum(' + httpsRequestsPerMinuteQuery + ')';
 
 
-local httpRequestsPerMinutePanel = graphPanel.new(
+local httpRequestsPerMinutePanel = addSideLegend(graphPanel.new(
   title='Http requests / minute',
   sort='decreasing',
   datasource=cortexDataSource,
   format='req/m',
   stack=true,
-  legend_hideZero=true,
-  legend_alignAsTable=true,
-  legend_rightSide=true,
-  legend_current=true,
-  legend_values=true,
-  legend_sort='current',
-  legend_sortDesc=true
 ).addTarget(
   prometheus.target(
     httpsRequestsPerMinuteQuery,
     legendFormat='{{app_name}} {{feed_id}} {{status_code}} {{type}} CacheWarmer:{{is_cache_warming}}'
   )
-);
+));
+
 local httpRequestsPerMinutePerTypePanel = graphPanel.new(
   title='Http requests / minute per type',
   sort='decreasing',
@@ -108,6 +81,7 @@ local httpRequestsPerMinutePerTypePanel = graphPanel.new(
     legendFormat='{{type}}'
   )
 );
+
 local httpRequestsPerMinutePerStatusPanel = graphPanel.new(
   title='Http requests / minute per status code',
   sort='decreasing',
@@ -119,24 +93,20 @@ local httpRequestsPerMinutePerStatusPanel = graphPanel.new(
     legendFormat='{{status_code}}'
   )
 );
-local httpRequestsPerMinutePerFeedPanel = graphPanel.new(
+
+local httpRequestsPerMinutePerFeedPanel = addSideLegend(graphPanel.new(
   title='Http requests / minute per feed',
   sort='decreasing',
   datasource=cortexDataSource,
   format='req/m',
-  stack=true,
-  legend_alignAsTable=true,
-  legend_rightSide=true,
-  legend_current=true,
-  legend_values=true,
-  legend_sort='current',
-  legend_sortDesc=true
+  stack=true
 ).addTarget(
   prometheus.target(
     httpsRequestsPerMinuteSumQuery + 'by (feed_id)',
     legendFormat='{{feed_id}}'
   )
-);
+));
+
 local httpRequestsPerMinutePerCacheTypePanel = graphPanel.new(
   title='Http requests / minute per cache type',
   sort='decreasing',
@@ -148,7 +118,6 @@ local httpRequestsPerMinutePerCacheTypePanel = graphPanel.new(
     legendFormat='CacheWarmer:{{is_cache_warming}}'
   )
 );
-
 
 local httpRequestDurationAverageSeconds = graphPanel.new(
   title='Average http request duration seconds',
@@ -213,41 +182,31 @@ local wsConnectionRetriesGraph = graphPanel.new(
   )
 );
 
-local wsActiveSubscriptions = graphPanel.new(
+local wsActiveSubscriptions = addSideLegend(graphPanel.new(
   title='Active websocket subscriptions',
   sort='decreasing',
   stack=true,
   format='subs',
-  legend_alignAsTable=true,
-  legend_rightSide=true,
-  legend_sort='current',
-  legend_sortDesc=true,
   datasource=cortexDataSource
 ).addTarget(
   prometheus.target(
     'ws_subscription_active{' + instanceFilter + '}',
     legendFormat='{{app_name}} | ConnKey: {{ connection_key }} ConnUrl: {{ connection_url }} Feed: {{feed_id}}'
   )
-);
+));
 
-local wsMessagesPerSecondGraph = graphPanel.new(
+local wsMessagesPerSecondGraph = addSideLegend(graphPanel.new(
   title='Websocket messages received / second',
   sort='decreasing',
   datasource=cortexDataSource,
   format='msg/s',
   stack=true,
-  legend_alignAsTable=true,
-  legend_rightSide=true,
-  legend_current=true,
-  legend_values=true,
-  legend_sort='current',
-  legend_sortDesc=true
 ).addTarget(
   prometheus.target(
     'rate(ws_message_total{' + instanceFilter + '}' + interval + ')',
     legendFormat='{{app_name}} | Feed: {{feed_id}}'
   )
-);
+));
 
 local cacheFeedValues = statPanel.new(
   title='Cached feed values',
@@ -308,45 +267,32 @@ local cacheStalenessSeconds = barGaugePanel.new(
   )
 ) + barGaugeConfig;
 
-local cacheEntrySetsPerSecond = graphPanel.new(
+local cacheEntrySetsPerSecond = addSideLegend(graphPanel.new(
   title='Cache entry sets per second',
   sort='decreasing',
   stack=true,
   format='set/s',
-  datasource=cortexDataSource,
-  legend_hideZero=true,
-  legend_alignAsTable=true,
-  legend_rightSide=true,
-  legend_current=true,
-  legend_sort='current',
-  legend_sortDesc=true,
-  legend_values=true,
+  datasource=cortexDataSource
 ).addTarget(
   prometheus.target(
     'rate(cache_data_set_count{' + instanceFilter + '}' + interval + ')',
     legendFormat='{{feed_id}}',
   )
-);
+));
 
 
-local cacheEntryGetsPerSecond = graphPanel.new(
+local cacheEntryGetsPerSecond = addSideLegend(graphPanel.new(
   title='Cache entry gets per second',
   sort='decreasing',
   stack=true,
   datasource=cortexDataSource,
   format='get/s',
-  legend_alignAsTable=true,
-  legend_rightSide=true,
-  legend_current=true,
-  legend_sort='current',
-  legend_sortDesc=true,
-  legend_values=true,
 ).addTarget(
   prometheus.target(
     'rate(cache_data_get_count{' + instanceFilter + '}' + interval + ')',
     legendFormat='{{feed_id}}',
   )
-);
+));
 
 local grid = [
   {
@@ -414,15 +360,4 @@ local grid = [
   },
 ];
 
-
-{
-  dashboard: dashboard.new(
-    dashboardConfig.title,
-    uid=dashboardConfig.uid,
-    editable=true,
-    schemaVersion=26,
-    refresh='5s',
-  )
-             .addTemplates(templates)
-             .addPanels(layout.createGrid(grid)),
-}
+shared.helpers.createDashboard(templates, grid)
