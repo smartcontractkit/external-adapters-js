@@ -9,13 +9,13 @@ jsonnet \
   --ext-str dashboardTitle='External Adapters' \
   --ext-str cortexDataSource='Prometheus' \
   --ext-str prometheusJobName='external_adapters_local' \
-  -o ./generated/ea.json \
+  -o ./generated/eaDetailed.json \
   -J ./vendor \
-  ./src/ea.jsonnet
+  ./src/eaDetailed.jsonnet
 
 jsonnet \
-  --ext-str overviewDashboardUid='REEEEEE' \
-  --ext-str overviewDashboardTitle='External Adapters Overview' \
+  --ext-str dashboardUid='REEEEEE' \
+  --ext-str dashboardTitle='External Adapters Overview' \
   --ext-str cortexDataSource='Prometheus' \
   --ext-str prometheusJobName='external_adapters_local' \
   -o ./generated/eaOverview.json \

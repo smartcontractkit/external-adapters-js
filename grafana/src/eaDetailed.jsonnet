@@ -425,6 +425,4 @@ local grid = [
   )
              .addTemplates(templates)
              .addPanels(layout.createGrid(grid)),
-
-  name: prometheusJobName,
 }
