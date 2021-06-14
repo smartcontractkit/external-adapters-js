@@ -58,6 +58,9 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
   })
 
   builder.addCase(actions.warmupUnsubscribed, (state, action) => {
+    for (const childKey of Object.keys(state[action.payload.key].childLastSeenById || {})) {
+      delete state[childKey]
+    }
     delete state[action.payload.key]
   })
 
