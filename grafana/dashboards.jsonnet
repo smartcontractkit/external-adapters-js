@@ -1,8 +1,8 @@
-local ea = import './generated/ea.json';
+local eaDetailed = import './generated/eaDetailed.json';
 local eaOverview = import './generated/eaOverview.json';
 {
   grafanaDashboards:: {
-    [ea.name]: ea.dashboard,
+    'ea-detailed': eaDetailed.dashboard,
     'ea-overview': eaOverview.dashboard,
   },
 }
