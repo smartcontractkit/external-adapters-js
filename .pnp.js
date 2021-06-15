@@ -51,6 +51,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/composites/dns-record-check"
       },
       {
+        "name": "@chainlink/linear-finance-adapter",
+        "reference": "workspace:packages/composites/linear-finance"
+      },
+      {
         "name": "@chainlink/market-closure-adapter",
         "reference": "workspace:packages/composites/market-closure"
       },
@@ -552,6 +556,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/json-rpc-adapter", ["workspace:packages/sources/json-rpc"]],
       ["@chainlink/kaiko-adapter", ["workspace:packages/sources/kaiko"]],
       ["@chainlink/lcx-adapter", ["workspace:packages/sources/lcx"]],
+      ["@chainlink/linear-finance-adapter", ["workspace:packages/composites/linear-finance"]],
       ["@chainlink/linkpool-adapter", ["workspace:packages/sources/linkpool"]],
       ["@chainlink/lition-adapter", ["workspace:packages/sources/lition"]],
       ["@chainlink/market-closure-adapter", ["workspace:packages/composites/market-closure"]],
@@ -5752,6 +5757,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.41"],
+            ["tslib", "npm:2.2.0"],
+            ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/linear-finance-adapter", [
+        ["workspace:packages/composites/linear-finance", {
+          "packageLocation": "./packages/composites/linear-finance/",
+          "packageDependencies": [
+            ["@chainlink/linear-finance-adapter", "workspace:packages/composites/linear-finance"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/token-allocation-adapter", "workspace:packages/composites/token-allocation"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:26.0.22"],
+            ["@types/node", "npm:14.14.41"],
+            ["axios", "npm:0.21.1"],
+            ["csv-parse", "npm:4.16.0"],
+            ["decimal.js", "npm:10.2.1"],
             ["tslib", "npm:2.2.0"],
             ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"]
           ],
@@ -14469,6 +14493,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["cssstyle", "npm:2.3.0"],
             ["cssom", "npm:0.3.8"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["csv-parse", [
+        ["npm:4.16.0", {
+          "packageLocation": "./.yarn/cache/csv-parse-npm-4.16.0-d4fee22e6e-64f23d30a1.zip/node_modules/csv-parse/",
+          "packageDependencies": [
+            ["csv-parse", "npm:4.16.0"]
           ],
           "linkType": "HARD",
         }]

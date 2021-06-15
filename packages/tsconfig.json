@@ -12,6 +12,9 @@
       "path": "./composites/bitcoin-json-rpc"
     },
     {
+      "path": "./composites/bob"
+    },
+    {
       "path": "./composites/crypto-volatility-index"
     },
     {
@@ -19,6 +22,9 @@
     },
     {
       "path": "./composites/dns-record-check"
+    },
+    {
+      "path": "./composites/linear-finance"
     },
     {
       "path": "./composites/market-closure"
