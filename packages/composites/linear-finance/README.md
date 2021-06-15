@@ -1,6 +1,6 @@
 # Chainlink Linear Finance Composite Adapter
 
-This adapter calculates an index value from the symbols and weights as defined in the CSV file.
+This adapter calculates an index value from the symbols and units as defined in the CSV file.
 
 ## Configuration
 
