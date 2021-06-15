@@ -298,22 +298,6 @@ describe('side effect tests', () => {
     })
     it('should handle warmupUnsubscribed action unsubscribing children', () => {
       const executeStub = stub()
-      console.log({
-        [batchKeyParent1]: {
-          origin: batchedAdapterRequest1.data,
-          executeFn: executeStub,
-          startedAt: mockTime,
-          isDuplicate: false,
-          childLastSeenById: { [batchKeyChild1]: mockTime },
-        },
-        [batchKeyChild1]: {
-          origin: batchableAdapterRequest1.data,
-          executeFn: executeStub,
-          startedAt: mockTime,
-          isDuplicate: false,
-          parent: batchKeyParent1,
-        },
-      })
       expect(
         subscriptionsReducer(
           {
@@ -360,7 +344,7 @@ describe('side effect tests', () => {
         })
 
         const output$ = warmupSubscriber(action$, state$, epicDependencies)
-        expectObservable(output$, '^ 35s !').toBe('a b 14999ms a b 14999ms a b', {
+        expectObservable(output$, '^ 35s !').toBe('a b 30998ms a b', {
           a: actions.warmupRequested({
             key: key1,
           }),

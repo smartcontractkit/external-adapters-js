@@ -11,11 +11,11 @@ const callAndExpect = async (fn: any, n: number, result: any) => {
 }
 
 // Helper test function: a stateful counter
-const counterFrom = (i = 0): Execute => async (request) => {
+const counterFrom = (i = 0, data = {}): Execute => async (request) => {
   const result = i++
   return {
     jobRunID: request.id,
-    data: { jobRunID: request.id, statusCode: 200, data: request, result },
+    data: { jobRunID: request.id, statusCode: 200, data: request, result, ...data },
     result,
     statusCode: 200,
   }
@@ -100,28 +100,13 @@ describe('cache', () => {
       await callAndExpect(counter, 3, 0)
     })
 
-    it(`invalidates cache - after default configured maxAge of 2mins`, async () => {
-      const counter = await withCache(counterFrom(0), options)
-      await callAndExpect(counter, 3, 0)
-
-      clock.tick(1000 * 60 + 1000 * 55)
-      await callAndExpect(counter, 1, 0)
-
-      clock.tick(1000 * 5 + 1) // extra 1ms
-      await callAndExpect(counter, 1, 1)
-      await callAndExpect(counter, 1000, 1)
-
-      clock.tick(1000 * 60 * 2 + 1) // extra 1ms
-      await callAndExpect(counter, 1, 2)
-    })
-
-    it(`invalidates cache - after configured maxAge of 35s`, async () => {
-      options.cacheOptions.maxAge = 1000 * 35
+    it(`invalidates cache - after configured minimum maxAge of 35s`, async () => {
+      options.minimumAge = 1000 * 35
 
       const counter = await withCache(counterFrom(0), options)
       await callAndExpect(counter, 3, 0)
 
-      clock.tick(1000 * 30)
+      clock.tick(1000 * 30 + 1)
       await callAndExpect(counter, 1, 0)
 
       clock.tick(1000 * 5 + 1) // extra 1ms
@@ -133,9 +118,7 @@ describe('cache', () => {
     })
 
     it(`will not set a TTL lower than default minimum TTL of 30s`, async () => {
-      options.cacheOptions.maxAge = 1000 * 10
-
-      const counter = await withCache(counterFrom(0), options)
+      const counter = await withCache(counterFrom(0, { maxAge: 1000 * 10 }), options)
       await callAndExpect(counter, 3, 0)
 
       clock.tick(1000 * 5)
