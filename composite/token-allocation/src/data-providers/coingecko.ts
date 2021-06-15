@@ -1,8 +1,27 @@
 import { Requester } from '@chainlink/external-adapter'
+import { util } from '@chainlink/ea-bootstrap'
+
+const getRequest = (): { baseURL: string; params: Record<string, any> } => {
+  const apiKey = util.getEnv('API_KEY')
+  if (!apiKey) {
+    return {
+      baseURL: 'https://api.coingecko.com/api/v3/',
+      params: {},
+    }
+  }
+
+  return {
+    baseURL: 'https://pro-api.coingecko.com/api/v3',
+    params: {
+      x_cg_pro_api_key: apiKey,
+    },
+  }
+}
 
 const getCoinList = async () => {
-  const url = 'https://api.coingecko.com/api/v3/coins/list'
+  const url = '/coins/list'
   const config = {
+    ...getRequest(),
     url,
   }
   const response = await Requester.request(config)
@@ -10,15 +29,17 @@ const getCoinList = async () => {
 }
 
 const getPriceData = async (ids: string, currency: string, marketcap = false) => {
-  const url = 'https://api.coingecko.com/api/v3/simple/price'
-  const params = {
-    ids,
-    vs_currencies: currency.toLowerCase(),
-    include_market_cap: marketcap,
-  }
+  const url = '/simple/price'
+  const { baseURL, params } = getRequest()
   const config = {
+    baseURL,
     url,
-    params,
+    params: {
+      ...params,
+      ids,
+      vs_currencies: currency.toLowerCase(),
+      include_market_cap: marketcap,
+    },
   }
   const response = await Requester.request(config)
   return response.data
