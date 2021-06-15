@@ -150,10 +150,8 @@ export function groupBy<K, V>(list: Array<V>, keyGetter: (input: V) => K): Map<K
  *
  * @param name string adapter name
  */
-export const byName =
-  (name?: string) =>
-  (a: AdapterImplementation): boolean =>
-    a.NAME.toUpperCase() === name?.toUpperCase()
+export const byName = (name?: string) => (a: AdapterImplementation): boolean =>
+  a.NAME.toUpperCase() === name?.toUpperCase()
 
 /**
  * Covert number to max number of decimals, trim trailing zeros
@@ -176,6 +174,7 @@ export const excludableAdapterRequestProperties: Record<string, true> = [
   'meta',
   'debug',
   'rateLimitMaxAge',
+  'metricsMeta',
 ]
   .concat((process.env.CACHE_KEY_IGNORED_PROPS || '').split(',').filter((k) => k))
   .reduce((prev, next) => {
