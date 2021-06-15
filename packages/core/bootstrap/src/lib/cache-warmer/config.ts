@@ -1,5 +1,6 @@
 import objectHash from 'object-hash'
 import { getHashOpts } from '../util'
+import { MINIMUM_AGE } from '../cache/index'
 
 export const WARMUP_REQUEST_ID = '9001'
 
@@ -32,7 +33,7 @@ export function get(): Config {
   return {
     hashOpts: getHashOpts(),
     unhealthyThreshold: Number(process.env.WARMUP_UNHEALTHY_THRESHOLD) || 3,
-    warmupInterval: (Number(process.env.CACHE_MAX_AGE) || 30_000) / 2 + 1,
+    warmupInterval: (Number(process.env.CACHE_MIN_AGE) || MINIMUM_AGE) + 1000,
     subscriptionTTL: Number(process.env.WARMUP_SUBSCRIPTION_TTL) || 60 * 1000 * 60, // default 1h
   }
 }
