@@ -142,16 +142,17 @@ export const withCache: Middleware = async (execute, options: CacheOptions = def
     return maxAge
   }
 
-  const _getDefaultMaxAge = (adapterRequest: AdapterRequest) => {
-    const rlMaxAge = _getRateLimitMaxAge(adapterRequest)
-    return rlMaxAge || cache.options.maxAge
-  }
-
-  const _getRequestMaxAge = (adapterRequest: AdapterRequest): number | undefined => {
+  const _getMaxAgeOverride = (adapterRequest: AdapterRequest): number | undefined => {
     if (!adapterRequest || !adapterRequest.data) return
     if (isNaN(adapterRequest.data.maxAge as number)) return
 
     return Number(adapterRequest.data.maxAge)
+  }
+
+  const _getTTL = (adapterRequest: AdapterRequest) => {
+    const TTL = _getMaxAgeOverride(adapterRequest) || _getRateLimitMaxAge(adapterRequest)
+    if (!TTL || TTL < options.minimumAge) return options.minimumAge
+    return TTL
   }
 
   const _executeWithCache = async (adapterRequest: AdapterRequest): Promise<AdapterResponse> => {
@@ -162,7 +163,7 @@ export const withCache: Middleware = async (execute, options: CacheOptions = def
       participantId: key,
       feedId: adapterRequest.metricsMeta?.feedId || 'N/A',
     })
-    let maxAge = _getRequestMaxAge(adapterRequest) || _getDefaultMaxAge(adapterRequest)
+    const maxAge = _getTTL(adapterRequest)
     // Add successful result to cache
     const _cacheOnSuccess = async ({
       statusCode,
@@ -170,11 +171,6 @@ export const withCache: Middleware = async (execute, options: CacheOptions = def
       result,
     }: Pick<AdapterResponse, 'statusCode' | 'data' | 'result'>) => {
       if (statusCode === 200) {
-        if (maxAge < 0) {
-          maxAge = _getDefaultMaxAge(data)
-        }
-        if (maxAge < options.minimumAge) maxAge = options.minimumAge
-
         const entry: CacheEntry = { statusCode, data, result, maxAge }
         // we should observe non-200 entries too
         await cache.setResponse(key, entry, maxAge)
@@ -184,7 +180,7 @@ export const withCache: Middleware = async (execute, options: CacheOptions = def
         if (data?.results) {
           for (const batchParticipant of Object.values<[AdapterRequest, number]>(data.results)) {
             const [request, result] = batchParticipant
-            const maxAgeBatchParticipant = _getRequestMaxAge(request) || _getDefaultMaxAge(request)
+            const maxAgeBatchParticipant = _getTTL(request)
             const keyBatchParticipant = _getKey(request)
             const entryBatchParticipant = {
               statusCode,
@@ -240,7 +236,7 @@ export const withCache: Middleware = async (execute, options: CacheOptions = def
     if (cachedAdapterResponse) {
       if (maxAge >= 0) {
         logger.trace(`Cache: GET ${key}`, cachedAdapterResponse)
-        const reqMaxAge = _getRequestMaxAge(adapterRequest)
+        const reqMaxAge = _getMaxAgeOverride(adapterRequest)
         // force update the max age of the current cached entry if its been set
         // in the adapter request
         if (reqMaxAge && reqMaxAge !== cachedAdapterResponse.maxAge) {
