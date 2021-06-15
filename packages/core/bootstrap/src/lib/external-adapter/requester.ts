@@ -79,7 +79,7 @@ export class Requester {
     return await _retry(retries)
   }
 
-  static validateResultNumber(data: { [key: string]: any }, path: (string | number)[]) {
+  static validateResultNumber(data: { [key: string]: any }, path: (string | number)[], options?: { inverse?: boolean }) {
     const result = this.getResult(data, path)
     if (typeof result === 'undefined') {
       const message = 'Result could not be found in path'
@@ -91,7 +91,11 @@ export class Requester {
       logger.error(message, { data, path })
       throw new AdapterError({ message })
     }
-    return Number(result)
+    const num = Number(result)
+    if (options?.inverse && num != 0) {
+      return 1 / num
+    }
+    return num
   }
 
   static getResult(data: { [key: string]: any }, path: (string | number)[]): any {

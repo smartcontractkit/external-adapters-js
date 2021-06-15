@@ -1,9 +1,10 @@
 import { AdapterErrorResponse, Override, AdapterRequest, APIEndpoint } from '@chainlink/types'
 import { merge } from 'lodash'
-import { isObject } from '../util'
+import { isArray, isObject } from '../util'
 import { AdapterError } from './errors'
 import { logger } from './logger'
 import presetSymbols from './overrides/presetSymbols.json'
+import presetTokens from './overrides/presetTokens.json'
 import { Requester } from './requester'
 import { inputParameters } from './builder'
 
@@ -22,6 +23,7 @@ export class Validator {
     this.validated = { data: {} }
     this.validateInput(shouldLogError)
     this.validateOverrides(shouldLogError)
+    this.validateTokenOverrides(shouldLogError)
   }
 
   validateInput(shouldLogError: boolean) {
@@ -78,6 +80,50 @@ export class Validator {
     }
   }
 
+  validateTokenOverrides(shouldLogError: boolean) {
+    try {
+      if (!this.input.data?.tokenOverrides) {
+        this.validated.tokenOverrides = this.formatTokenOverrides(presetTokens)
+        return
+      }
+      this.validated.tokenOverrides = this.formatTokenOverrides(
+        merge({ ...presetTokens }, this.input.data.tokenOverrides),
+      )
+    } catch (e) {
+      this.parseError(
+        e,
+        {
+          input: this.input,
+          options: this.options,
+          customParams: this.customParams,
+        },
+        shouldLogError,
+      )
+    }
+  }
+
+  validateIncludeOverrides(shouldLogError: boolean) {
+    try {
+      if (!this.input.data?.includes) {
+        this.validated.includes = this.formatTokenOverrides(presetTokens)
+        return
+      }
+      this.validated.tokenOverrides = this.formatTokenOverrides(
+        merge({ ...presetTokens }, this.input.data.tokenOverrides),
+      )
+    } catch (e) {
+      this.parseError(
+        e,
+        {
+          input: this.input,
+          options: this.options,
+          customParams: this.customParams,
+        },
+        shouldLogError,
+      )
+    }
+  }
+
   parseError(error: any, context: any, shouldLogError: boolean) {
     const message = 'Error validating input.'
     if (error instanceof AdapterError) this.error = error
@@ -118,6 +164,17 @@ export class Validator {
     return multiple
   }
 
+  overrideToken = (symbol: string, network = 'ethereum'): string | undefined => {
+    if (!this.validated.tokenOverrides) return undefined
+    return this.validated.tokenOverrides.get(network.toLowerCase())?.get(symbol.toLowerCase())
+  }
+
+  overrideIncludes = (adapter: string, from: string, to: string, includes: Includes[]): Includes | undefined =>
+    includes.filter(include =>
+      (include.from.toLowerCase() === from.toLowerCase() && include.to.toLowerCase() === to.toLowerCase()) &&
+      (!include.adapters || include.adapters.map(adapter => adapter.toLowerCase()).includes(adapter.toLowerCase()))
+    )[0]
+
   formatOverride = (param: any): Override => {
     const _throwInvalid = () => {
       const message = `Parameter supplied with wrong format: "overrides"`
@@ -126,6 +183,46 @@ export class Validator {
     if (!isObject(param)) _throwInvalid()
 
     const _isValid = Object.values(param).every(isObject)
+    if (!_isValid) _throwInvalid()
+
+    const _keyToLowerCase = (entry: [string, any]): [string, any] => {
+      return [entry[0].toLowerCase(), entry[1]]
+    }
+    return new Map(
+      Object.entries(param)
+        .map(_keyToLowerCase)
+        .map(([key, value]) => [key, new Map(Object.entries(value).map(_keyToLowerCase))]),
+    )
+  }
+
+  formatTokenOverrides = (param: any): Override => {
+    const _throwInvalid = () => {
+      const message = `Parameter supplied with wrong format: "tokenOverrides"`
+      throw new AdapterError({ jobRunID: this.validated.id, statusCode: 400, message })
+    }
+    if (!isObject(param)) _throwInvalid()
+
+    const _isValid = Object.values(param).every(isObject)
+    if (!_isValid) _throwInvalid()
+
+    const _keyToLowerCase = (entry: [string, any]): [string, any] => {
+      return [entry[0].toLowerCase(), entry[1]]
+    }
+    return new Map(
+      Object.entries(param)
+        .map(_keyToLowerCase)
+        .map(([key, value]) => [key, new Map(Object.entries(value).map(_keyToLowerCase))]),
+    )
+  }
+
+  formatIncludeOverrides = (param: any): Override => {
+    const _throwInvalid = () => {
+      const message = `Parameter supplied with wrong format: "includes"`
+      throw new AdapterError({ jobRunID: this.validated.id, statusCode: 400, message })
+    }
+    if (!isArray(param)) _throwInvalid()
+
+    const _isValid = Object.values(param).every(val => isObject(val) || typeof val === 'string')
     if (!_isValid) _throwInvalid()
 
     const _keyToLowerCase = (entry: [string, any]): [string, any] => {
