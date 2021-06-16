@@ -8,8 +8,9 @@ const inputParams = {
     endpoint: false,
 }
 
-const buildSelector = (request: AdapterRequest, config: Config, apiEndpoints: any) => {
-    const validator = new Validator(request, inputParams)
+const buildSelector = (request: AdapterRequest, config: Config, apiEndpoints: any, customParams?: any) => {
+    const params = customParams || inputParams
+    const validator = new Validator(request, params)
     if (validator.error) throw validator.error
 
     Requester.logConfig(config)
@@ -32,13 +33,13 @@ const buildSelector = (request: AdapterRequest, config: Config, apiEndpoints: an
                     statusCode: 400,
                   })
             }
-            throw new AdapterError({
-                jobRunID,
-                message: `Endpoint ${endpoint} not supported.`,
-                statusCode: 400,
-            })
         }
     }
+    throw new AdapterError({
+        jobRunID,
+        message: `Endpoint ${endpoint} not supported.`,
+        statusCode: 400,
+    })
 }
 
 export const Builder = { buildSelector }

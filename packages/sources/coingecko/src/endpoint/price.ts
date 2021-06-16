@@ -3,7 +3,7 @@ import { Config, ExecuteWithConfig, AxiosResponse, AdapterRequest } from '@chain
 import { NAME as AdapterName } from '../config'
 import { getCoinIds, getSymbolsToIds } from '../util'
 
-export const NAME = 'price'
+export const supportedEndpoints = ['price', 'marketcap']
 
 const customError = (data: any) => {
   if (Object.keys(data).length === 0) return true
@@ -59,6 +59,10 @@ const handleBatchedRequest = (
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
+
+  const endpoint = validator.validated.data.endpoint || config. DEFAULT_ENDPOINT
+  if (endpoint.toLowerCase() === 'marketcap')
+    request.data.path = Paths.MarketCap
 
   const jobRunID = validator.validated.id
   const base = validator.overrideSymbol(AdapterName)

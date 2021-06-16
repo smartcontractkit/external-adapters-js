@@ -1,7 +1,7 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig } from '@chainlink/types'
 
-export const NAME = 'global'
+export const supportedEndpoints = ['globalmarketcap', 'dominance']
 
 const customError = (data: any) => {
   if (Object.keys(data).length === 0) return true
@@ -17,10 +17,16 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 
-  const jobRunID = validator.validated.id
+  const endpoint = validator.validated.data.endpoint || config. DEFAULT_ENDPOINT
+  if (endpoint.toLowerCase() === 'globalmarketcap')
+    validator.validated.data.path = 'total_market_cap'
+  if (endpoint.toLowerCase() === 'dominance')
+    validator.validated.data.path = 'market_cap_percentage'
 
+  const jobRunID = validator.validated.id
   const market = validator.validated.data.market.toLowerCase()
   const path = validator.validated.data.path
+  console.log(path)
   const url = '/global'
 
   const options = {
