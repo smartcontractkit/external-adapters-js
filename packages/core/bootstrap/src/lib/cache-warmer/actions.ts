@@ -25,6 +25,11 @@ export interface WarmupSubscribedPayload extends WarmupExecutePayload {
    */
   parent?: string
   /**
+   * If a subscription is being warmed by a parent batch request
+   * This will hold the key of the request data to join
+   */
+  batchKey?: string
+  /**
    * If a subscription is a batch warmer that is warming multiple other requests
    * This will hold a map of the children subscription key to the last time it was seen
    */
@@ -47,6 +52,7 @@ interface WarmupJoinGroupPayload {
 interface WarmupLeaveGroupPayload {
   parent: string
   childLastSeenById: { [childKey: string]: number }
+  batchKey: string
 }
 
 export const warmupSubscribed = createAction<WarmupSubscribedPayload>('WARMUP/SUBSCRIBED')

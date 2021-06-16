@@ -20,6 +20,7 @@ import {
   warmupFailed,
   warmupFulfilled,
   warmupJoinGroup,
+  warmupLeaveGroup,
   warmupRequested,
   warmupStopped,
   warmupSubscribed,
@@ -62,6 +63,7 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
       // We want the key to be consistent. Otherwise it would change on every new child
       const batchWarmerSubscriptionKey =
         existingBatchWarmer?.[0] ?? getSubscriptionKey(omit(payload, ['data']))
+      const batchKey = payload.result?.debug?.batchKey
 
       // Start placeholder subscriptions for children
       const childLastSeenById: { [childKey: string]: number } = {}
@@ -74,6 +76,7 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
             ...payload,
             data: request,
             parent: batchWarmerSubscriptionKey,
+            batchKey,
           }
           const childKey = getSubscriptionKey(warmupSubscribedPayloadChild)
           childLastSeenById[childKey] = Date.now()
@@ -83,6 +86,7 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
         const warmupSubscribedPayloadChild = {
           ...payload,
           parent: batchWarmerSubscriptionKey,
+          batchKey,
         }
         const childKey = getSubscriptionKey(warmupSubscribedPayloadChild)
         childLastSeenById[childKey] = Date.now()
@@ -90,7 +94,6 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
       }
 
       // If batch warmer already exists join it by adding childLastSeenById to request data
-      const batchKey = payload.result?.debug?.batchKey
       if (existingBatchWarmer && batchKey) {
         actionsToDispatch.push(
           warmupJoinGroup({
@@ -243,7 +246,17 @@ export const warmupUnsubscriber: Epic<AnyAction, AnyAction, any, EpicDependencie
     ),
   )
 
-  return merge(unsubscribeOnFailure$, unsubscribeOnTimeout$, stopOnBatch$)
+  const unsubscribeOnBatchEmpty$ = action$.pipe(
+    filter(warmupLeaveGroup.match),
+    withLatestFrom(state$),
+    filter(
+      ([{ payload }, state]) =>
+        state.cacheWarmer.subscriptions[payload.parent].origin[payload.batchKey].length > 0,
+    ),
+    map(([{ payload }]) => warmupUnsubscribed({ key: payload.parent })),
+  )
+
+  return merge(unsubscribeOnFailure$, unsubscribeOnTimeout$, stopOnBatch$, unsubscribeOnBatchEmpty$)
 }
 
 export const rootEpic = combineEpics(

@@ -33,6 +33,11 @@ export interface SubscriptionData {
    */
   parent?: string
   /**
+   * If a subscription is being warmed by a parent batch request
+   * This will hold the key of the request data to join
+   */
+  batchKey?: string
+  /**
    * If a subscription is warming multiple other requests
    * This will hold a map of the subscription key to the last time it was seen
    */
@@ -53,6 +58,7 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
       startedAt: state[key]?.startedAt ?? Date.now(),
       isDuplicate: !!state[key],
       parent: payload.parent || state[key]?.parent,
+      batchKey: payload.batchKey || state[key]?.batchKey,
       childLastSeenById: payload.childLastSeenById,
     }
   })
@@ -77,6 +83,19 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
       [payload.batchKey]: union(
         state[payload.parent].origin[payload.batchKey],
         childBatchableValues,
+      ),
+    }
+  })
+
+  builder.addCase(actions.warmupLeaveGroup, (state, { payload }) => {
+    const childBatchableValues = Object.keys(payload.childLastSeenById).map((child) => {
+      delete state[payload.parent].childLastSeenById?.[child]
+      return state[child].origin[payload.batchKey]
+    })
+    state[payload.parent].origin = {
+      ...state[payload.parent].origin,
+      [payload.batchKey]: state[payload.parent].origin[payload.batchKey].filter((value: unknown) =>
+        childBatchableValues.includes(value),
       ),
     }
   })
