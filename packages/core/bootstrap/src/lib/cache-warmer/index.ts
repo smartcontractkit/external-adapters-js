@@ -36,6 +36,13 @@ export const withCacheWarmer = (
     // Wrapping `rawExecute` as `execute` is already wrapped with the default middleware. Warmer doesn't need every default middleware
     executeFn: async (input: AdapterRequest) =>
       await (await withMiddleware(rawExecute, middleware))(input),
+    // Dummy result
+    result: {
+      jobRunID: '1',
+      statusCode: 200,
+      data: {},
+      result: 1,
+    },
   }
 
   if (wsConfig.enabled && ws.makeWSHandler) {
