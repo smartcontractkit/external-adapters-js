@@ -44,6 +44,12 @@ function actionStream(
 let epicDependencies: EpicDependencies
 describe('side effect tests', () => {
   const mockTime = 1487076708000
+  const adapterResult: AdapterResponse = {
+    jobRunID: '1',
+    statusCode: 200,
+    data: {},
+    result: 1,
+  }
   const adapterRequest1: AdapterRequest = { data: {}, id: '0' }
   const adapterRequest2: AdapterRequest = { data: { foo: 'bar' }, id: '0' }
   const key1 = '9f7f5d41cda1b19294354fe636cad6c40d9b0e41'
@@ -114,12 +120,14 @@ describe('side effect tests', () => {
               executeFn: executeStub,
               ...batchableAdapterRequest1,
               parent: batchKeyParent1,
+              result: batchableAdapterResponse1,
             }),
             b: actions.warmupSubscribed({
               executeFn: executeStub,
               ...batchedAdapterRequest1,
               childLastSeenById: { [batchKeyChild1]: mockTime },
               key: batchKeyParent1,
+              result: batchableAdapterResponse1,
             }),
           })
         })
@@ -147,12 +155,14 @@ describe('side effect tests', () => {
               executeFn: executeStub,
               ...childAdapterRequest2,
               parent: batchKeyParent2,
+              result: batchableAdapterResponse2,
             }),
             b: actions.warmupSubscribed({
               executeFn: executeStub,
               ...batchableAdapterRequest2,
               childLastSeenById: { [batchKeyChild2]: mockTime },
               key: batchKeyParent1,
+              result: batchableAdapterResponse2,
             }),
           })
         })
@@ -188,6 +198,7 @@ describe('side effect tests', () => {
               executeFn: executeStub,
               ...batchableAdapterRequest1,
               parent: batchKeyParent1,
+              result: batchableAdapterResponse1,
             }),
             b: actions.warmupJoinGroup({
               batchKey: batchableAdapterResponse1.debug.batchKey,
@@ -226,6 +237,7 @@ describe('side effect tests', () => {
               executeFn: executeStub,
               ...childAdapterRequest2,
               parent: batchKeyParent2,
+              result: batchableAdapterResponse2,
             }),
             b: actions.warmupJoinGroup({
               batchKey: batchableAdapterResponse1.debug.batchKey,
@@ -325,14 +337,22 @@ describe('side effect tests', () => {
   })
 
   describe('warmupSubscriber', () => {
-    it('should create a warmup subscription and emit a request every 15 seconds, then unsubscribe one of the subscriptions', () => {
+    it('should create a warmup subscription and emit a request every 30 seconds, then unsubscribe one of the subscriptions', () => {
       scheduler.run(({ hot, expectObservable }) => {
         const action$ = actionStream(hot, 'a c 40s b ', {
-          a: actions.warmupSubscribed({ executeFn: stub(), ...adapterRequest1 }),
+          a: actions.warmupSubscribed({
+            executeFn: stub(),
+            ...adapterRequest1,
+            result: adapterResult,
+          }),
           b: actions.warmupUnsubscribed({
             key: key1,
           }),
-          c: actions.warmupSubscribed({ executeFn: stub(), ...adapterRequest2 }),
+          c: actions.warmupSubscribed({
+            executeFn: stub(),
+            ...adapterRequest2,
+            result: adapterResult,
+          }),
         })
         const state$ = stateStream({
           cacheWarmer: {
@@ -344,7 +364,7 @@ describe('side effect tests', () => {
         })
 
         const output$ = warmupSubscriber(action$, state$, epicDependencies)
-        expectObservable(output$, '^ 35s !').toBe('a b 30998ms a b', {
+        expectObservable(output$, '^ 35s !').toBe('a b 29998ms a b', {
           a: actions.warmupRequested({
             key: key1,
           }),
@@ -358,7 +378,11 @@ describe('side effect tests', () => {
     it('should skip creating a subscription if one already exists in state', () => {
       scheduler.run(({ hot, expectObservable }) => {
         const action$ = actionStream(hot, 'a ', {
-          a: actions.warmupSubscribed({ executeFn: stub(), ...adapterRequest1 }),
+          a: actions.warmupSubscribed({
+            executeFn: stub(),
+            ...adapterRequest1,
+            result: adapterResult,
+          }),
         })
         const state$ = stateStream({
           cacheWarmer: { subscriptions: { [key1]: { isDuplicate: true } } },
@@ -473,8 +497,16 @@ describe('side effect tests', () => {
     it('should start a subscription timeout timer that resets on every resubscription for the same key', () => {
       scheduler.run(({ hot, expectObservable }) => {
         const action$ = actionStream(hot, 'a b 50m a 50m a', {
-          a: actions.warmupSubscribed({ executeFn: stub(), ...adapterRequest1 }),
-          b: actions.warmupSubscribed({ executeFn: stub(), ...adapterRequest2 }),
+          a: actions.warmupSubscribed({
+            executeFn: stub(),
+            ...adapterRequest1,
+            result: adapterResult,
+          }),
+          b: actions.warmupSubscribed({
+            executeFn: stub(),
+            ...adapterRequest2,
+            result: adapterResult,
+          }),
         })
         const state$ = stateStream({ cacheWarmer: {} })
         const output$ = warmupUnsubscriber(action$, state$, epicDependencies)
