@@ -17,15 +17,14 @@ const buildSelector = (request: AdapterRequest, config: Config, apiEndpoints: an
 
     const jobRunID = validator.validated.id
     const endpoint = validator.validated.data.endpoint || config.DEFAULT_ENDPOINT
-
     for(const apiEndpoint of apiEndpoints) {
         for(const supportedChainlinkEndpoint of apiEndpoint.supportedEndpoints) {
             if(supportedChainlinkEndpoint.toLowerCase() === endpoint.toLowerCase()) {
-                if(apiEndpoint.makeExecute()) {
-                    return apiEndpoint.makeExecute(request, config)
-                }
-                if (apiEndpoint.execute()){
+                if (typeof apiEndpoint.execute === "function"){
                     return apiEndpoint.execute(request, config)
+                }
+                if(typeof apiEndpoint.makeExecute === "function") {
+                    return apiEndpoint.makeExecute(config)(request)
                 }
                 throw new AdapterError({
                     jobRunID,

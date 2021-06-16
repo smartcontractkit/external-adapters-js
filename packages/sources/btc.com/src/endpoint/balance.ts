@@ -3,7 +3,7 @@ import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 import { isChainType, isCoinType } from '.'
 
-export const Name = 'balance'
+export const supportedEndpoints = ['balance']
 
 const getBalanceURI = (address: string) => `/v3/address/${address}`
 

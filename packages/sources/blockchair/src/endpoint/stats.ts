@@ -3,7 +3,7 @@ import { ExecuteWithConfig, Config } from '@chainlink/types'
 import { COINS } from '.'
 import { DEFAULT_ENDPOINT } from '../config'
 
-export const Name = 'stats'
+export const supportedEndpoints = ['stats','height']
 
 const inputParams = {
   blockchain: ['blockchain', 'coin'],

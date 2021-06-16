@@ -1,8 +1,12 @@
 import { Requester } from '@chainlink/ea-bootstrap'
-import { ConfigFactory } from '@chainlink/types'
+import { Config } from '@chainlink/types'
 
 export const NAME = 'BLOCKCYPHER'
 
 export const DEFAULT_ENDPOINT = 'balance'
 
-export const makeConfig: ConfigFactory = (prefix?) => Requester.getDefaultConfig(prefix)
+export const makeConfig = (prefix = ''): Config => {
+    const config = Requester.getDefaultConfig(prefix, true)
+    config.DEFAULT_ENDPOINT = DEFAULT_ENDPOINT
+    return config
+}

@@ -1,6 +1,8 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 
+export const supportedEndpoints = ['height', 'difficulty']
+
 export interface ResponseSchema {
   data: {
     height: number
@@ -44,7 +46,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const field = validator.validated.data.field || 'difficulty'
+  request.data.field = validator.validated.data.endpoint || config.DEFAULT_ENDPOINT
+  const field = validator.validated.data.field || 'difficulty'  
   const url = `/v3/block/latest`
 
   const options = {

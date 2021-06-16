@@ -3,7 +3,7 @@ import { balance } from '@chainlink/ea-factories'
 import { Config } from '@chainlink/types'
 import { BLOCKCHAINS, isChainType, isCoinType } from '.'
 
-export const Name = 'balance'
+export const supportedEndpoints = ['balance']
 
 const getBalanceURI = (address: string) => `/api/v2/addresses/${address}/account-balances/latest`
 
@@ -21,7 +21,6 @@ const getBalance: balance.GetBalance = async (account, config) => {
       'x-amberdata-blockchain-id': getBlockchainHeader(account.coin),
     },
   }
-
   const response = await Requester.request(reqConfig)
   return {
     payload: response.data,

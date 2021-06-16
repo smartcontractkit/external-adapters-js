@@ -4,7 +4,7 @@ import { Config } from '@chainlink/types'
 import { getBaseURL } from '../config'
 import { ChainType, isCoinType, isChainType } from '.'
 
-export const Name = 'balance'
+export const supportedEndpoints = ['balance']
 
 const getBalanceURI = (address: string, confirmations: number) =>
   `/q/addressbalance/${address}?confirmations=${confirmations}`

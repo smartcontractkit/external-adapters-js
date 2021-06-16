@@ -3,7 +3,7 @@ import { Config } from '@chainlink/types'
 import bcypher from 'blockcypher'
 import { ChainType, CoinType, isChainType, isCoinType } from '.'
 
-export const Name = 'balance'
+export const supportedEndpoints = ['balance']
 
 // blockcypher response type for addr balance query
 type AddressBalance = {
