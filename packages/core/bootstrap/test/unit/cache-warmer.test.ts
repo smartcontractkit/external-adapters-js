@@ -121,6 +121,7 @@ describe('side effect tests', () => {
               ...batchableAdapterRequest1,
               parent: batchKeyParent1,
               result: batchableAdapterResponse1,
+              batchKey: batchableAdapterResponse1.debug.batchKey,
             }),
             b: actions.warmupSubscribed({
               executeFn: executeStub,
@@ -156,6 +157,7 @@ describe('side effect tests', () => {
               ...childAdapterRequest2,
               parent: batchKeyParent2,
               result: batchableAdapterResponse2,
+              batchKey: batchableAdapterResponse2.debug.batchKey,
             }),
             b: actions.warmupSubscribed({
               executeFn: executeStub,
@@ -199,6 +201,7 @@ describe('side effect tests', () => {
               ...batchableAdapterRequest1,
               parent: batchKeyParent1,
               result: batchableAdapterResponse1,
+              batchKey: batchableAdapterResponse1.debug.batchKey,
             }),
             b: actions.warmupJoinGroup({
               batchKey: batchableAdapterResponse1.debug.batchKey,
@@ -238,6 +241,7 @@ describe('side effect tests', () => {
               ...childAdapterRequest2,
               parent: batchKeyParent2,
               result: batchableAdapterResponse2,
+              batchKey: batchableAdapterResponse2.debug.batchKey,
             }),
             b: actions.warmupJoinGroup({
               batchKey: batchableAdapterResponse1.debug.batchKey,
