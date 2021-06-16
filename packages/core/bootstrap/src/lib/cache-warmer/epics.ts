@@ -188,8 +188,7 @@ export const warmupRequestHandler: Epic<AnyAction, AnyAction, any> = (action$, s
       from(
         requestData.executeFn({
           id: WARMUP_REQUEST_ID,
-          data: requestData.origin,
-          // don't pass a stale `meta` to force data refresh
+          data: { ...requestData.origin, maxAge: -1 },
         }),
       ).pipe(
         mapTo(warmupFulfilled({ key })),

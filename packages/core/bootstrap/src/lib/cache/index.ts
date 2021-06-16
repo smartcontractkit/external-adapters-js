@@ -234,14 +234,11 @@ export const withCache: Middleware = async (execute, options: CacheOptions = def
       : await cache.getResponse(key)
 
     if (cachedAdapterResponse) {
-      if (maxAge >= 0) {
+      const reqMaxAge = _getMaxAgeOverride(adapterRequest)
+      if (typeof reqMaxAge === 'number' && reqMaxAge < 0) {
+        logger.trace(`Cache: SKIP(maxAge < 0)`)
+      } else {
         logger.trace(`Cache: GET ${key}`, cachedAdapterResponse)
-        const reqMaxAge = _getMaxAgeOverride(adapterRequest)
-        // force update the max age of the current cached entry if its been set
-        // in the adapter request
-        if (reqMaxAge && reqMaxAge !== cachedAdapterResponse.maxAge) {
-          await _cacheOnSuccess(cachedAdapterResponse)
-        }
         const ttl = await cache.ttl(key)
         // TODO: isnt this a bug? cachedAdapterResponse.maxAge will be different
         // if the above conditional gets executed!
@@ -264,7 +261,6 @@ export const withCache: Middleware = async (execute, options: CacheOptions = def
 
         return response
       }
-      logger.trace(`Cache: SKIP(maxAge < 0)`)
     }
 
     // Initiate request coalescing by adding the in-flight mark
