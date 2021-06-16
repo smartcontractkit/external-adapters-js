@@ -23,6 +23,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const jobRunID = validator.validated.id
   const market = validator.validated.data.market.toLowerCase()
   const path = validator.validated.data.path
+  console.log(path)
   const url = '/global'
 
   const options = {
