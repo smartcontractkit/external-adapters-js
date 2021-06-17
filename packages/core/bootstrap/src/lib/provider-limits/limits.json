@@ -876,6 +876,12 @@
       },
       "advanced": {
         "rateLimit1h": 342.46
+      },
+      "enterprise": {
+        "rateLimit1h": 833.33
+      },
+      "enterprise-xl": {
+        "rateLimit1h": 1736.11
       }
     },
     "ws": {}

@@ -6,7 +6,7 @@ The adapter takes the following environment variables:
 
 | Required? |   Name    |     Description      | Options | Defaults to |
 | :-------: | :-------: | :------------------: | :-----: | :---------: |
-|    ✅     | `API_KEY` | Bitex API key to use |         |             |
+|           | `API_KEY` | Bitex API key to use |         |             |
 
 ### Input Parameters
 
