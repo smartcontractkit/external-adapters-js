@@ -154,14 +154,14 @@ export class Requester {
     jobRunID = '1',
     response: Partial<AxiosResponse>,
     verbose = false,
-    batchKey?: string,
+    batchablePropertyPath?: string,
   ): AdapterResponse {
     return {
       jobRunID,
       data: verbose ? response.data : { result: response.data?.result },
       result: response.data?.result,
       statusCode: response.status || 200,
-      debug: batchKey ? { batchKey } : undefined,
+      debug: batchablePropertyPath ? { batchablePropertyPath } : undefined,
     }
   }
 
