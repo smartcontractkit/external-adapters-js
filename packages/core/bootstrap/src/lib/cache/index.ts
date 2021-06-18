@@ -23,8 +23,7 @@ const DEFAULT_RC_INTERVAL_MAX = 1000
 const DEFAULT_RC_INTERVAL_COEFFICIENT = 2
 const DEFAULT_RC_ENTROPY_MAX = 0
 
-export const MAXIMUM_MAX_AGE = 1000 * 60 * 2 // 2 minutes
-const ERROR_MAX_AGE = 1000 * 60 // 1 minute
+export const WARNING_MAX_AGE = 1000 * 60 * 2 // 2 minutes
 export const MINIMUM_AGE = 1000 * 60 * 0.5 // 30 seconds
 
 const env = process.env
@@ -115,38 +114,36 @@ export const withCache: Middleware = async (execute, options: CacheOptions = def
     logger.debug(`Request coalescing: DEL ${key}`)
   }
 
-  const _getRateLimitMaxAge = (data: AdapterRequest): number | undefined => {
-    if (!data || !data.data) return
-    if (isNaN(data.rateLimitMaxAge as number)) return
-    const feedId = data?.metricsMeta?.feedId
-    const maxAge = Number(data.rateLimitMaxAge)
-    if (maxAge && maxAge > ERROR_MAX_AGE) {
+  const _getRateLimitMaxAge = (adapterRequest: AdapterRequest): number | undefined => {
+    if (!adapterRequest || !adapterRequest.rateLimitMaxAge) return
+    if (isNaN(adapterRequest.rateLimitMaxAge)) return
+    const feedId = adapterRequest?.metricsMeta?.feedId
+    const maxAge = adapterRequest.rateLimitMaxAge
+    if (maxAge > WARNING_MAX_AGE)
+      logger.trace(
+        `${feedId && feedId[0] !== '{' ? `[${feedId}]` : ''} Cache: High data staleness - TTL of ${
+          maxAge / 1000 / 60
+        } minutes`,
+        adapterRequest,
+      )
+    if (maxAge > options.cacheOptions.maxAge) {
       logger.warn(
         `${
           feedId && feedId[0] !== '{' ? `[${feedId}]` : ''
-        } Cache: Calculated Max Age of ${maxAge} ms exceeds system maximum Max Age of ${MAXIMUM_MAX_AGE} ms`,
-        data,
+        } Cache: Calculated TTL exceeds maximum TTL, using maximum of ${
+          options.cacheOptions.maxAge / 1000 / 60
+        } minutes`,
+        adapterRequest,
       )
-      return maxAge > MAXIMUM_MAX_AGE ? MAXIMUM_MAX_AGE : maxAge
-    }
-    if (maxAge && maxAge > options.cacheOptions.maxAge) {
-      logger.warn(
-        `${
-          feedId && feedId[0] !== '{' ? `[${feedId}]` : ''
-        } Cache: Calculated Max Age of ${maxAge} ms exceeds configured Max Age of ${
-          options.cacheOptions.maxAge
-        } ms`,
-        data,
-      )
+      return options.cacheOptions.maxAge
     }
     return maxAge
   }
 
   const _getMaxAgeOverride = (adapterRequest: AdapterRequest): number | undefined => {
     if (!adapterRequest || !adapterRequest.data) return
-    if (isNaN(adapterRequest.data.maxAge as number)) return
-
-    return Number(adapterRequest.data.maxAge)
+    if (isNaN(parseInt(adapterRequest.data.maxAge))) return
+    return parseInt(adapterRequest.data.maxAge)
   }
 
   const _getTTL = (adapterRequest: AdapterRequest) => {
@@ -234,8 +231,8 @@ export const withCache: Middleware = async (execute, options: CacheOptions = def
       : await cache.getResponse(key)
 
     if (cachedAdapterResponse) {
-      const reqMaxAge = _getMaxAgeOverride(adapterRequest)
-      if (typeof reqMaxAge === 'number' && reqMaxAge < 0) {
+      const maxAgeOverride = _getMaxAgeOverride(adapterRequest)
+      if (maxAgeOverride && maxAgeOverride < 0) {
         logger.trace(`Cache: SKIP(maxAge < 0)`)
       } else {
         logger.trace(`Cache: GET ${key}`, cachedAdapterResponse)
