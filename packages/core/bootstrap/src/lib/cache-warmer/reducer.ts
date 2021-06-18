@@ -36,7 +36,7 @@ export interface SubscriptionData {
    * If a subscription is being warmed by a parent batch request
    * This will hold the key of the request data to join
    */
-  batchKey?: string
+  batchablePropertyPath?: string
   /**
    * If a subscription is warming multiple other requests
    * This will hold a map of the subscription key to the last time it was seen
@@ -58,7 +58,7 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
       startedAt: state[key]?.startedAt ?? Date.now(),
       isDuplicate: !!state[key],
       parent: payload.parent || state[key]?.parent,
-      batchKey: payload.batchKey || state[key]?.batchKey,
+      batchablePropertyPath: payload.batchablePropertyPath || state[key]?.batchablePropertyPath,
       childLastSeenById: payload.childLastSeenById,
     }
   })
@@ -72,7 +72,7 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
 
   builder.addCase(actions.warmupJoinGroup, (state, { payload }) => {
     const childBatchableValues = Object.keys(payload.childLastSeenById).map(
-      (child) => state[child].origin[payload.batchKey],
+      (child) => state[child].origin[payload.batchablePropertyPath],
     )
     state[payload.parent].childLastSeenById = {
       ...state[payload.parent].childLastSeenById,
@@ -80,8 +80,8 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
     }
     state[payload.parent].origin = {
       ...state[payload.parent].origin,
-      [payload.batchKey]: union(
-        state[payload.parent].origin[payload.batchKey],
+      [payload.batchablePropertyPath]: union(
+        state[payload.parent].origin[payload.batchablePropertyPath],
         childBatchableValues,
       ),
     }
@@ -90,13 +90,13 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
   builder.addCase(actions.warmupLeaveGroup, (state, { payload }) => {
     const childBatchableValues = Object.keys(payload.childLastSeenById).map((child) => {
       delete state[payload.parent].childLastSeenById?.[child]
-      return state[child].origin[payload.batchKey]
+      return state[child].origin[payload.batchablePropertyPath]
     })
     state[payload.parent].origin = {
       ...state[payload.parent].origin,
-      [payload.batchKey]: state[payload.parent].origin[payload.batchKey].filter((value: unknown) =>
-        childBatchableValues.includes(value),
-      ),
+      [payload.batchablePropertyPath]: state[payload.parent].origin[
+        payload.batchablePropertyPath
+      ].filter((value: unknown) => childBatchableValues.includes(value)),
     }
   })
 })

@@ -59,12 +59,12 @@ export const withCacheWarmer = (
       if (isActiveCWSubsciption) {
         logger.info(`Active WS feed detected: disabling cache warmer for ${getFeedId(input)}`)
         // If there is a Batch WS subscription active, warmup subscription should be removed
-        if (isActiveCWSubsciption.parent && isActiveCWSubsciption.batchKey)
+        if (isActiveCWSubsciption.parent && isActiveCWSubsciption.batchablePropertyPath)
           warmerStore.dispatch(
             actions.warmupLeaveGroup({
               parent: isActiveCWSubsciption.parent,
               childLastSeenById: { [cacheWarmerKey]: Date.now() },
-              batchKey: isActiveCWSubsciption.batchKey,
+              batchablePropertyPath: isActiveCWSubsciption.batchablePropertyPath,
             }),
           )
         warmerStore.dispatch(actions.warmupUnsubscribed({ key: cacheWarmerKey }))
