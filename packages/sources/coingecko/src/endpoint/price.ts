@@ -15,6 +15,12 @@ export enum Paths {
   MarketCap = 'marketcap',
 }
 
+const buildPath = (path: string | Paths, quote: string): string => {
+  if (path === Paths.MarketCap) return `${quote.toLowerCase()}_market_cap`
+  if (path === Paths.Price) return `${quote.toLowerCase()}`
+  throw new Error('Invalid path')
+}
+
 const customParams = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
@@ -27,21 +33,27 @@ const handleBatchedRequest = (
   request: AdapterRequest,
   response: AxiosResponse,
   path: string,
-  param: { [key: string]: string },
-  quote: string,
   idToSymbol: Record<string, string>,
 ) => {
-  const payload: Record<string, [AdapterRequest, number]> = {}
-  for (const key in response.data) {
-    const symbol = idToSymbol?.[key]
-    if (symbol)
-      payload[symbol.toUpperCase()] = [
-        { ...request, data: { ...request.data, base: symbol.toUpperCase() } },
-        Requester.validateResultNumber(response.data, [key, param[path] || quote.toLowerCase()]),
-      ]
+  const payload: [AdapterRequest, number][] = []
+  for (const base in response.data) {
+    for (const quote in response.data[base]) {
+      const symbol = idToSymbol?.[base]
+      if (symbol)
+        payload.push([
+          {
+            ...request,
+            data: { ...request.data, base: symbol.toUpperCase(), quote: quote.toUpperCase() },
+          },
+          Requester.validateResultNumber(response.data, [
+            base,
+            buildPath(path, quote.toLowerCase()),
+          ]),
+        ])
+    }
   }
   response.data.results = payload
-  return Requester.success(jobRunID, response, true, 'base')
+  return Requester.success(jobRunID, response, true, ['base', 'quote'])
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
@@ -67,7 +79,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   }
 
   const url = '/simple/price'
-  const path: string = validator.validated.data.path || Paths.Price
+  const path = (validator.validated.data.path as string) || Paths.Price
 
   const params = {
     ids,
@@ -82,20 +94,15 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     params,
   }
 
-  const param: { [key: string]: string } = {
-    [Paths.MarketCap]: `${quote.toLowerCase()}_market_cap`,
-    [Paths.Price]: `${quote.toLowerCase()}`,
-  }
-
   const response = await Requester.request(options, customError)
 
   if (Array.isArray(symbol))
-    return handleBatchedRequest(jobRunID, request, response, path, param, quote, idToSymbol)
+    return handleBatchedRequest(jobRunID, request, response, path, idToSymbol)
 
   response.data.result = Requester.validateResultNumber(response.data, [
     ids.toLowerCase(),
-    param[path] || quote.toLowerCase(),
+    buildPath(path, quote.toLowerCase()),
   ])
 
-  return Requester.success(jobRunID, response, config.verbose, 'base')
+  return Requester.success(jobRunID, response, config.verbose, ['base', 'quote'])
 }

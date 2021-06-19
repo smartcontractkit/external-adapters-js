@@ -1,5 +1,5 @@
 import { AdapterRequest } from '@chainlink/types'
-import { omit } from 'lodash'
+import { omit, isEqual } from 'lodash'
 import { AnyAction } from 'redux'
 import { combineEpics, createEpicMiddleware, Epic } from 'redux-observable'
 import { from, merge, of, partition, race, timer } from 'rxjs'
@@ -49,12 +49,22 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
     mergeMap(([{ payload }, state]) => {
       const actionsToDispatch: AnyAction[] = []
 
+      const batchablePropertyPath = payload.result?.debug?.batchablePropertyPath
+
       const existingBatchWarmer = Object.entries(state.cacheWarmer.subscriptions).find(
         ([, subscriptionState]) => {
           const isBatchWarmerSubscription = subscriptionState.childLastSeenById
           const isMatchingSubscription =
             subscriptionState.executeFn.toString() === payload.executeFn.toString()
-          return isBatchWarmerSubscription && isMatchingSubscription
+          if (isBatchWarmerSubscription && isMatchingSubscription) {
+            const parentNonBatchableRequestData = omit(
+              subscriptionState.origin,
+              batchablePropertyPath,
+            )
+            const childNonBatchableRequestData = omit(payload?.data, batchablePropertyPath)
+            return isEqual(parentNonBatchableRequestData, childNonBatchableRequestData)
+          }
+          return false
         },
       )
 
@@ -62,8 +72,13 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
       // A new key is created by omitting the data field
       // We want the key to be consistent. Otherwise it would change on every new child
       const batchWarmerSubscriptionKey =
-        existingBatchWarmer?.[0] ?? getSubscriptionKey(omit(payload, ['data']))
-      const batchablePropertyPath = payload.result?.debug?.batchablePropertyPath
+        existingBatchWarmer?.[0] ??
+        getSubscriptionKey(
+          omit(
+            payload,
+            batchablePropertyPath?.map((path) => `data.${path}`),
+          ),
+        )
 
       // Start placeholder subscriptions for children
       const childLastSeenById: { [childKey: string]: number } = {}
@@ -105,21 +120,23 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
       }
       // If batch warmer does not exist, start it
       else {
-        const warmupSubscribedAction =
-          batchablePropertyPath && !Array.isArray(payload.data[batchablePropertyPath])
-            ? // If incoming request isn't an array, transform into one
-              // So the request is used as a batch request
-              warmupSubscribed({
-                ...payload,
-                data: {
-                  ...payload.data,
-                  [batchablePropertyPath]: [payload.data[batchablePropertyPath]],
-                },
-                key: batchWarmerSubscriptionKey,
-                childLastSeenById,
-              })
-            : warmupSubscribed({ ...payload, key: batchWarmerSubscriptionKey, childLastSeenById })
-        actionsToDispatch.push(warmupSubscribedAction)
+        // If incoming batchable request parameters aren't an array, transform into one
+        let batchWarmerData = payload.data
+        for (const path of batchablePropertyPath || []) {
+          if (!Array.isArray(batchWarmerData[path]))
+            batchWarmerData = {
+              ...batchWarmerData,
+              [path]: [batchWarmerData[path]],
+            }
+        }
+        actionsToDispatch.push(
+          warmupSubscribed({
+            ...payload,
+            data: batchWarmerData,
+            key: batchWarmerSubscriptionKey,
+            childLastSeenById,
+          }),
+        )
       }
 
       return from(actionsToDispatch)
@@ -255,11 +272,12 @@ export const warmupUnsubscriber: Epic<AnyAction, AnyAction, any, EpicDependencie
   const unsubscribeOnBatchEmpty$ = action$.pipe(
     filter(warmupLeaveGroup.match),
     withLatestFrom(state$),
-    filter(
-      ([{ payload }, state]) =>
-        state.cacheWarmer.subscriptions[payload.parent].origin[payload.batchablePropertyPath]
-          .length > 0,
-    ),
+    filter(([{ payload }, state]) => {
+      for (const path of payload.batchablePropertyPath) {
+        if (state.cacheWarmer.subscriptions[payload.parent].origin[path].length === 0) return true
+      }
+      return false
+    }),
     map(([{ payload }]) => warmupUnsubscribed({ key: payload.parent })),
   )
 

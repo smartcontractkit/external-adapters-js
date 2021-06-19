@@ -36,7 +36,7 @@ export interface WarmupSubscribedPayload extends WarmupExecutePayload {
    *  }
    * )
    */
-  batchablePropertyPath?: string
+  batchablePropertyPath?: string[]
   /**
    * If a subscription is a batch warmer that is warming multiple other requests
    * This will hold a map of the children subscription key to the last time it was seen
@@ -55,12 +55,12 @@ interface WarmupSubscriptionTimeoutResetPayload {
 interface WarmupJoinGroupPayload {
   parent: string
   childLastSeenById: { [childKey: string]: number }
-  batchablePropertyPath: string
+  batchablePropertyPath: string[]
 }
 interface WarmupLeaveGroupPayload {
   parent: string
   childLastSeenById: { [childKey: string]: number }
-  batchablePropertyPath: string
+  batchablePropertyPath: string[]
 }
 
 export const warmupSubscribed = createAction<WarmupSubscribedPayload>('WARMUP/SUBSCRIBED')
