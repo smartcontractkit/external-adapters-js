@@ -58,6 +58,7 @@ describe('side effect tests', () => {
     epicDependencies = { config: get() }
   })
 
+  const batchKeyParent = '1035571273dbf9378dd38cd70ecbfd232779f9f3'
   const batchableAdapterRequest1: AdapterRequest = {
     id: '0',
     data: { key1: 'foo', key2: 'bar' },
@@ -73,9 +74,8 @@ describe('side effect tests', () => {
       result: 1,
     },
     result: 1,
-    debug: { batchablePropertyPath: 'key1' },
+    debug: { batchablePropertyPath: ['key1'] },
   }
-  const batchKeyParent1 = '485ed1ac6499b25e136fa3b001faf58dcdf277e0'
   const batchKeyChild1 = '9478057e793482736b315c1e2660350c4c6547ec'
 
   const batchableAdapterRequest2: AdapterRequest = { id: '0', data: { key1: ['baz'], key2: 'bar' } }
@@ -87,12 +87,11 @@ describe('side effect tests', () => {
     jobRunID: '2',
     statusCode: 200,
     data: {
-      results: { key1: [{ key1: 'baz', key2: 'bar' }, 2] },
+      results: [[{ key1: 'baz', key2: 'bar' }, 2]],
     },
     result: 2,
-    debug: { batchablePropertyPath: 'key1' },
+    debug: { batchablePropertyPath: ['key1'] },
   }
-  const batchKeyParent2 = '485ed1ac6499b25e136fa3b001faf58dcdf277e0'
   const batchKeyChild2 = '193785b17d2675cf42fea61df6110f85e79c742d'
 
   describe('executeHandler', () => {
@@ -119,7 +118,7 @@ describe('side effect tests', () => {
             a: actions.warmupSubscribed({
               executeFn: executeStub,
               ...batchableAdapterRequest1,
-              parent: batchKeyParent1,
+              parent: batchKeyParent,
               result: batchableAdapterResponse1,
               batchablePropertyPath: batchableAdapterResponse1.debug.batchablePropertyPath,
             }),
@@ -127,7 +126,7 @@ describe('side effect tests', () => {
               executeFn: executeStub,
               ...batchedAdapterRequest1,
               childLastSeenById: { [batchKeyChild1]: mockTime },
-              key: batchKeyParent1,
+              key: batchKeyParent,
               result: batchableAdapterResponse1,
             }),
           })
@@ -155,7 +154,7 @@ describe('side effect tests', () => {
             a: actions.warmupSubscribed({
               executeFn: executeStub,
               ...childAdapterRequest2,
-              parent: batchKeyParent2,
+              parent: batchKeyParent,
               result: batchableAdapterResponse2,
               batchablePropertyPath: batchableAdapterResponse2.debug.batchablePropertyPath,
             }),
@@ -163,7 +162,7 @@ describe('side effect tests', () => {
               executeFn: executeStub,
               ...batchableAdapterRequest2,
               childLastSeenById: { [batchKeyChild2]: mockTime },
-              key: batchKeyParent1,
+              key: batchKeyParent,
               result: batchableAdapterResponse2,
             }),
           })
@@ -186,9 +185,10 @@ describe('side effect tests', () => {
           const state$ = stateStream({
             cacheWarmer: {
               subscriptions: {
-                [batchKeyParent1]: {
+                [batchKeyParent]: {
                   childLastSeenById: {},
                   executeFn: executeStub,
+                  origin: batchedAdapterRequest1.data,
                 },
               },
             },
@@ -199,14 +199,14 @@ describe('side effect tests', () => {
             a: actions.warmupSubscribed({
               executeFn: executeStub,
               ...batchableAdapterRequest1,
-              parent: batchKeyParent1,
+              parent: batchKeyParent,
               result: batchableAdapterResponse1,
               batchablePropertyPath: batchableAdapterResponse1.debug.batchablePropertyPath,
             }),
             b: actions.warmupJoinGroup({
               batchablePropertyPath: batchableAdapterResponse1.debug.batchablePropertyPath,
               childLastSeenById: { [batchKeyChild1]: mockTime },
-              parent: batchKeyParent1,
+              parent: batchKeyParent,
             }),
           })
         })
@@ -226,9 +226,10 @@ describe('side effect tests', () => {
           const state$ = stateStream({
             cacheWarmer: {
               subscriptions: {
-                [batchKeyParent2]: {
+                [batchKeyParent]: {
                   childLastSeenById: {},
                   executeFn: executeStub,
+                  origin: batchedAdapterRequest1.data,
                 },
               },
             },
@@ -239,14 +240,14 @@ describe('side effect tests', () => {
             a: actions.warmupSubscribed({
               executeFn: executeStub,
               ...childAdapterRequest2,
-              parent: batchKeyParent2,
+              parent: batchKeyParent,
               result: batchableAdapterResponse2,
               batchablePropertyPath: batchableAdapterResponse2.debug.batchablePropertyPath,
             }),
             b: actions.warmupJoinGroup({
               batchablePropertyPath: batchableAdapterResponse1.debug.batchablePropertyPath,
               childLastSeenById: { [batchKeyChild2]: mockTime },
-              parent: batchKeyParent1,
+              parent: batchKeyParent,
             }),
           })
         })
@@ -260,7 +261,7 @@ describe('side effect tests', () => {
       expect(
         subscriptionsReducer(
           {
-            [batchKeyParent1]: {
+            [batchKeyParent]: {
               origin: batchedAdapterRequest1.data,
               executeFn: executeStub,
               startedAt: mockTime,
@@ -272,24 +273,24 @@ describe('side effect tests', () => {
               executeFn: executeStub,
               startedAt: mockTime,
               isDuplicate: false,
-              parent: batchKeyParent1,
+              parent: batchKeyParent,
             },
             [batchKeyChild2]: {
               origin: childAdapterRequest2.data,
               executeFn: executeStub,
               startedAt: mockTime,
               isDuplicate: false,
-              parent: batchKeyParent1,
+              parent: batchKeyParent,
             },
           },
           actions.warmupJoinGroup({
             batchablePropertyPath: batchableAdapterResponse1.debug.batchablePropertyPath,
             childLastSeenById: { [batchKeyChild2]: mockTime },
-            parent: batchKeyParent1,
+            parent: batchKeyParent,
           }),
         ),
       ).toEqual({
-        [batchKeyParent1]: {
+        [batchKeyParent]: {
           origin: { key1: ['foo', 'baz'], key2: 'bar' },
           executeFn: executeStub,
           startedAt: mockTime,
@@ -301,14 +302,14 @@ describe('side effect tests', () => {
           executeFn: executeStub,
           startedAt: mockTime,
           isDuplicate: false,
-          parent: batchKeyParent1,
+          parent: batchKeyParent,
         },
         [batchKeyChild2]: {
           origin: childAdapterRequest2.data,
           executeFn: executeStub,
           startedAt: mockTime,
           isDuplicate: false,
-          parent: batchKeyParent1,
+          parent: batchKeyParent,
         },
       })
     })
@@ -317,7 +318,7 @@ describe('side effect tests', () => {
       expect(
         subscriptionsReducer(
           {
-            [batchKeyParent1]: {
+            [batchKeyParent]: {
               origin: batchedAdapterRequest1.data,
               executeFn: executeStub,
               startedAt: mockTime,
@@ -329,11 +330,11 @@ describe('side effect tests', () => {
               executeFn: executeStub,
               startedAt: mockTime,
               isDuplicate: false,
-              parent: batchKeyParent1,
+              parent: batchKeyParent,
             },
           },
           actions.warmupUnsubscribed({
-            key: batchKeyParent1,
+            key: batchKeyParent,
           }),
         ),
       ).toEqual({})

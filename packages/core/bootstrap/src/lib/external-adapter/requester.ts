@@ -108,9 +108,7 @@ export class Requester {
   static withResult<T>(
     response: AxiosResponse<T>,
     result?: number,
-    results?: {
-      [symbol: string]: [AdapterRequest, number]
-    },
+    results?: [AdapterRequest, number][],
   ): AxiosResponseWithLiftedResult<T> | AxiosResponseWithPayloadAndLiftedResult<T> {
     const isObj = deepType(response.data) === 'object'
     const output = isObj
@@ -154,7 +152,7 @@ export class Requester {
     jobRunID = '1',
     response: Partial<AxiosResponse>,
     verbose = false,
-    batchablePropertyPath?: string,
+    batchablePropertyPath?: string[],
   ): AdapterResponse {
     return {
       jobRunID,
@@ -205,15 +203,13 @@ interface SingleResult {
  */
 interface BatchedResult {
   /**
-   * A mapping of token symbol to:
+   * Tuples for
    * [
    *    its input parameters as a single request (used in caching),
    *    its result
    * ]
    */
-  results?: {
-    [symbol: string]: [AdapterRequest, number]
-  }
+  results?: [AdapterRequest, number][]
 }
 
 /**

@@ -35,19 +35,16 @@ const handleBatchedRequest = (
   response: AxiosResponse<ResponseSchema[]>,
   path: string,
 ) => {
-  const payload: Record<string, [AdapterRequest, number]> = {}
+  const payload: [AdapterRequest, number][] = []
   for (const asset of response.data) {
-    payload[asset.asset_id.toUpperCase()] = [
+    payload.push([
       { ...request, data: { ...request.data, base: asset.asset_id.toUpperCase() } },
       Requester.validateResultNumber(asset, [path]),
-    ]
+    ])
   }
-  return Requester.success(
-    jobRunID,
-    Requester.withResult(response, undefined, payload),
-    true,
+  return Requester.success(jobRunID, Requester.withResult(response, undefined, payload), true, [
     'base',
-  )
+  ])
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
@@ -73,5 +70,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (Array.isArray(symbol)) return handleBatchedRequest(jobRunID, request, response, path)
 
   const result = Requester.validateResultNumber(response.data[0], [path])
-  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose, 'base')
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose, [
+    'base',
+  ])
 }

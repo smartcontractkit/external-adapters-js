@@ -9,6 +9,11 @@ export enum Paths {
   MarketCap = 'marketcap',
 }
 
+const resultPaths: { [key: string]: string[] } = {
+  [Paths.Price]: ['price'],
+  [Paths.MarketCap]: ['market_cap'],
+}
+
 interface ResponseSchema {
   id: string
   currency: string
@@ -99,24 +104,20 @@ const handleBatchedRequest = (
   jobRunID: string,
   request: AdapterRequest,
   response: AxiosResponse<ResponseSchema[]>,
-  resultPaths: { [key: string]: string[] },
   path: string,
 ) => {
-  const payload: Record<string, [AdapterRequest, number]> = {}
+  const payload: [AdapterRequest, number][] = []
   for (const i in response.data) {
     const entry = response.data[i]
-    payload[entry.symbol.toUpperCase()] = [
+    payload.push([
       { ...request, data: { ...request.data, base: entry.symbol.toUpperCase() } },
       Requester.validateResultNumber(response.data[i], resultPaths[path]),
-    ]
+    ])
   }
 
-  return Requester.success(
-    jobRunID,
-    Requester.withResult(response, undefined, payload),
-    true,
+  return Requester.success(jobRunID, Requester.withResult(response, undefined, payload), true, [
     'base',
-  )
+  ])
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
@@ -146,16 +147,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     params,
   }
 
-  const resultPaths: { [key: string]: string[] } = {
-    [Paths.Price]: ['price'],
-    [Paths.MarketCap]: ['market_cap'],
-  }
-
   const response = await Requester.request<ResponseSchema[]>(reqConfig, customError)
 
-  if (Array.isArray(symbol))
-    return handleBatchedRequest(jobRunID, request, response, resultPaths, path)
+  if (Array.isArray(symbol)) return handleBatchedRequest(jobRunID, request, response, path)
 
   const result = Requester.validateResultNumber(response.data[0], resultPaths[path])
-  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose, 'base')
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose, [
+    'base',
+  ])
 }

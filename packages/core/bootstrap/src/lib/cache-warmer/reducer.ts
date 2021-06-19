@@ -1,6 +1,5 @@
 import { AdapterRequest, Execute } from '@chainlink/types'
 import { combineReducers, createReducer } from '@reduxjs/toolkit'
-import { union } from 'lodash'
 import { logger } from '../external-adapter'
 import * as actions from './actions'
 import { getSubscriptionKey } from './util'
@@ -36,7 +35,7 @@ export interface SubscriptionData {
    * If a subscription is being warmed by a parent batch request
    * This will hold the key of the request data to join
    */
-  batchablePropertyPath?: string
+  batchablePropertyPath?: string[]
   /**
    * If a subscription is warming multiple other requests
    * This will hold a map of the subscription key to the last time it was seen
@@ -71,32 +70,40 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
   })
 
   builder.addCase(actions.warmupJoinGroup, (state, { payload }) => {
-    const childBatchableValues = Object.keys(payload.childLastSeenById).map(
-      (child) => state[child].origin[payload.batchablePropertyPath],
-    )
     state[payload.parent].childLastSeenById = {
       ...state[payload.parent].childLastSeenById,
       ...payload.childLastSeenById,
     }
-    state[payload.parent].origin = {
-      ...state[payload.parent].origin,
-      [payload.batchablePropertyPath]: union(
-        state[payload.parent].origin[payload.batchablePropertyPath],
-        childBatchableValues,
-      ),
+    for (const childKey in payload.childLastSeenById) {
+      const childRequestData = state[childKey].origin
+      for (const path of payload.batchablePropertyPath) {
+        const uniqueBatchableValue = new Set(state[payload.parent].origin[path])
+        uniqueBatchableValue.add(childRequestData[path])
+        state[payload.parent].origin[path] = [...uniqueBatchableValue]
+      }
     }
   })
 
   builder.addCase(actions.warmupLeaveGroup, (state, { payload }) => {
-    const childBatchableValues = Object.keys(payload.childLastSeenById).map((child) => {
-      delete state[payload.parent].childLastSeenById?.[child]
-      return state[child].origin[payload.batchablePropertyPath]
-    })
+    const childIdsToRemove = Object.keys(payload.childLastSeenById)
+    const filteredChildIds = Object.keys(state[payload.parent].childLastSeenById || {}).filter(
+      (childId) => !childIdsToRemove.includes(childId),
+    )
+    const filteredBatchRequestData = filteredChildIds.reduce((acc, childId) => {
+      for (const path of payload.batchablePropertyPath) {
+        acc[path].add(state[childId].origin[path])
+      }
+      return acc
+    }, Object.fromEntries<Set<string>>(payload.batchablePropertyPath.map((path) => [path, new Set()])))
+    const batchRequestDataArrays = Object.fromEntries(
+      Object.entries(filteredBatchRequestData).map(([path, map]) => [path, [...map]]),
+    )
     state[payload.parent].origin = {
       ...state[payload.parent].origin,
-      [payload.batchablePropertyPath]: state[payload.parent].origin[
-        payload.batchablePropertyPath
-      ].filter((value: unknown) => childBatchableValues.includes(value)),
+      ...batchRequestDataArrays,
+    }
+    for (const childKey in payload.childLastSeenById) {
+      delete state[payload.parent].childLastSeenById?.[childKey]
     }
   })
 })

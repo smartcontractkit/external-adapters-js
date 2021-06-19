@@ -59,16 +59,16 @@ const handleBatchedRequest = (
   convert: string,
   path: string,
 ) => {
-  const payload: Record<string, [AdapterRequest, number]> = {}
+  const payload: [AdapterRequest, number][] = []
   for (const key in response.data.data) {
-    payload[key.toUpperCase()] = [
+    payload.push([
       { ...request, data: { ...request.data, base: key.toUpperCase() } },
       Requester.validateResultNumber(response.data, ['data', key, 'quote', convert, path]),
-    ]
+    ])
   }
   response.data.results = payload
   response.data.cost = Requester.validateResultNumber(response.data, ['status', 'credit_count'])
-  return Requester.success(jobRunID, response, true, 'base')
+  return Requester.success(jobRunID, response, true, ['base'])
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
@@ -140,5 +140,5 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     convert,
     path,
   ])
-  return Requester.success(jobRunID, response, config.verbose, 'base')
+  return Requester.success(jobRunID, response, config.verbose, ['base'])
 }
