@@ -1,6 +1,7 @@
 export * as balance from './balance'
 export * as price from './price'
 export * as token from './token'
+export * as gasprice from './gasprice'
 
 export const COIN_KEYS = ['btc', 'eth', 'bch', 'ltc', 'btsv', 'zec'] as const
 export type CoinType = typeof COIN_KEYS[number]

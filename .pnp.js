@@ -139,10 +139,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/amberdata"
       },
       {
-        "name": "@chainlink/amberdata-gasprice-adapter",
-        "reference": "workspace:packages/sources/amberdata-gasprice"
-      },
-      {
         "name": "@chainlink/anyblock-gasprice-adapter",
         "reference": "workspace:packages/sources/anyblock-gasprice"
       },
@@ -487,7 +483,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/alphachain-adapter", ["workspace:packages/sources/alphachain"]],
       ["@chainlink/alphavantage-adapter", ["workspace:packages/sources/alphavantage"]],
       ["@chainlink/amberdata-adapter", ["workspace:packages/sources/amberdata"]],
-      ["@chainlink/amberdata-gasprice-adapter", ["workspace:packages/sources/amberdata-gasprice"]],
       ["@chainlink/anyblock-gasprice-adapter", ["workspace:packages/sources/anyblock-gasprice"]],
       ["@chainlink/anyblock-uniswap-vwap-adapter", ["workspace:packages/sources/anyblock-uniswap-vwap"]],
       ["@chainlink/apy-finance-adapter", ["workspace:packages/composites/apy-finance"]],
@@ -4450,22 +4445,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT",
         }]
       ]],
-      ["@chainlink/amberdata-gasprice-adapter", [
-        ["workspace:packages/sources/amberdata-gasprice", {
-          "packageLocation": "./packages/sources/amberdata-gasprice/",
-          "packageDependencies": [
-            ["@chainlink/amberdata-gasprice-adapter", "workspace:packages/sources/amberdata-gasprice"],
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
-            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
-            ["@types/jest", "npm:26.0.22"],
-            ["@types/node", "npm:14.14.41"],
-            ["tslib", "npm:2.2.0"],
-            ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"]
-          ],
-          "linkType": "SOFT",
-        }]
-      ]],
       ["@chainlink/anyblock-gasprice-adapter", [
         ["workspace:packages/sources/anyblock-gasprice", {
           "packageLocation": "./packages/sources/anyblock-gasprice/",
@@ -5189,7 +5168,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/alphachain-adapter", "workspace:packages/sources/alphachain"],
             ["@chainlink/alphavantage-adapter", "workspace:packages/sources/alphavantage"],
             ["@chainlink/amberdata-adapter", "workspace:packages/sources/amberdata"],
-            ["@chainlink/amberdata-gasprice-adapter", "workspace:packages/sources/amberdata-gasprice"],
             ["@chainlink/anyblock-gasprice-adapter", "workspace:packages/sources/anyblock-gasprice"],
             ["@chainlink/anyblock-uniswap-vwap-adapter", "workspace:packages/sources/anyblock-uniswap-vwap"],
             ["@chainlink/binance-adapter", "workspace:packages/sources/binance"],

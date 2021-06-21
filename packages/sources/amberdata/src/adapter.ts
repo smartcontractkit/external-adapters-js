@@ -7,7 +7,7 @@ import {
   MakeWSHandler,
 } from '@chainlink/types'
 import { DEFAULT_ENDPOINT, DEFAULT_WS_API_ENDPOINT, makeConfig, NAME } from './config'
-import { balance, price, token } from './endpoint'
+import { balance, price, token, gasprice } from './endpoint'
 
 const inputParams = {
   endpoint: false,
@@ -32,6 +32,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     }
     case balance.Name: {
       return balance.makeExecute(config)(request)
+    }
+    case gasprice.NAME: {
+      return gasprice.execute(request,config)
     }
     default: {
       throw new AdapterError({

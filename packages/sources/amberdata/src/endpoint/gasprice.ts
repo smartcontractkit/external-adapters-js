@@ -9,7 +9,7 @@ const customError = (data: any) => {
 
 const customParams = {
   speed: false,
-  endpoint: false,
+  blockchain: false,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
@@ -18,7 +18,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
   const jobRunID = validator.validated.id
   const speed = validator.validated.data.speed || 'average'
-  const endpoint = validator.validated.data.endpoint || 'ethereum-mainnet'
+  const blockchain = validator.validated.data.blockchain || 'ethereum-mainnet'
   const url = '/api/v2/transactions/gas/predictions'
 
   const options = {
@@ -26,7 +26,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     url,
     headers: {
       ...config.api.headers,
-      'x-amberdata-blockchain-id': endpoint,
+      'x-amberdata-blockchain-id': blockchain,
     },
   }
 

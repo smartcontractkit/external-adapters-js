@@ -6,7 +6,6 @@
 - [AlphaChain](./alphachain/README.md)
 - [Alphavantage](./alphavantage/README.md)
 - [Amberdata](./amberdata/README.md)
-- [Amberdata Gas Price](./amberdata-gasprice/README.md)
 - [Anyblock Gas Price](./anyblock-gasprice/README.md)
 - [Anyblock Uniswap VWAP](./anyblock-uniswap-vwap/README.md)
 - [Binance DEX](./binance-dex/README.md)

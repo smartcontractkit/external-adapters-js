@@ -2,7 +2,6 @@ import * as _1forge from '@chainlink/1forge-adapter'
 import * as alphachain from '@chainlink/alphachain-adapter'
 import * as alphavantage from '@chainlink/alphavantage-adapter'
 import * as amberdata from '@chainlink/amberdata-adapter'
-import * as amberdata_gasprice from '@chainlink/amberdata-gasprice-adapter'
 import * as anyblock_gasprice from '@chainlink/anyblock-gasprice-adapter'
 import * as anyblock_uniswap_vwap from '@chainlink/anyblock-uniswap-vwap-adapter'
 import * as binance from '@chainlink/binance-adapter'
@@ -88,7 +87,6 @@ export default {
   alphachain,
   alphavantage,
   amberdata,
-  amberdata_gasprice,
   anyblock_gasprice,
   anyblock_uniswap_vwap,
   binance,

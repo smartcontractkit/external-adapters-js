@@ -34,7 +34,6 @@
     "@chainlink/alphachain-adapter": "*",
     "@chainlink/alphavantage-adapter": "*",
     "@chainlink/amberdata-adapter": "*",
-    "@chainlink/amberdata-gasprice-adapter": "*",
     "@chainlink/anyblock-gasprice-adapter": "*",
     "@chainlink/anyblock-uniswap-vwap-adapter": "*",
     "@chainlink/binance-adapter": "*",
