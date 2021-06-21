@@ -153,6 +153,9 @@
       "path": "./sources/covid-tracker"
     },
     {
+      "path": "./sources/cpc-rainfall"
+    },
+    {
       "path": "./sources/cryptoapis"
     },
     {

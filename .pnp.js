@@ -231,6 +231,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/covid-tracker"
       },
       {
+        "name": "@chainlink/cpc-rainfall-adapter",
+        "reference": "workspace:packages/sources/cpc-rainfall"
+      },
+      {
         "name": "@chainlink/cryptoapis-adapter",
         "reference": "workspace:packages/sources/cryptoapis"
       },
@@ -515,6 +519,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/coinranking-adapter", ["workspace:packages/sources/coinranking"]],
       ["@chainlink/conflux-adapter", ["workspace:packages/targets/conflux"]],
       ["@chainlink/covid-tracker-adapter", ["workspace:packages/sources/covid-tracker"]],
+      ["@chainlink/cpc-rainfall-adapter", ["workspace:packages/sources/cpc-rainfall"]],
       ["@chainlink/crypto-volatility-index-adapter", ["workspace:packages/composites/crypto-volatility-index"]],
       ["@chainlink/cryptoapis-adapter", ["workspace:packages/sources/cryptoapis"]],
       ["@chainlink/cryptocompare-adapter", ["workspace:packages/sources/cryptocompare"]],
@@ -4940,6 +4945,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT",
         }]
       ]],
+      ["@chainlink/cpc-rainfall-adapter", [
+        ["workspace:packages/sources/cpc-rainfall", {
+          "packageLocation": "./packages/sources/cpc-rainfall/",
+          "packageDependencies": [
+            ["@chainlink/cpc-rainfall-adapter", "workspace:packages/sources/cpc-rainfall"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:26.0.22"],
+            ["@types/node", "npm:14.14.41"],
+            ["tslib", "npm:2.2.0"],
+            ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
       ["@chainlink/crypto-volatility-index-adapter", [
         ["workspace:packages/composites/crypto-volatility-index", {
           "packageLocation": "./packages/composites/crypto-volatility-index/",
@@ -5212,6 +5233,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/coinpaprika-adapter", "workspace:packages/sources/coinpaprika"],
             ["@chainlink/coinranking-adapter", "workspace:packages/sources/coinranking"],
             ["@chainlink/covid-tracker-adapter", "workspace:packages/sources/covid-tracker"],
+            ["@chainlink/cpc-rainfall-adapter", "workspace:packages/sources/cpc-rainfall"],
             ["@chainlink/cryptoapis-adapter", "workspace:packages/sources/cryptoapis"],
             ["@chainlink/cryptocompare-adapter", "workspace:packages/sources/cryptocompare"],
             ["@chainlink/cryptoid-adapter", "workspace:packages/sources/cryptoid"],

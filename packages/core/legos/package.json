@@ -57,6 +57,7 @@
     "@chainlink/coinpaprika-adapter": "*",
     "@chainlink/coinranking-adapter": "*",
     "@chainlink/covid-tracker-adapter": "*",
+    "@chainlink/cpc-rainfall-adapter": "*",
     "@chainlink/cryptoapis-adapter": "*",
     "@chainlink/cryptocompare-adapter": "*",
     "@chainlink/cryptoid-adapter": "*",
