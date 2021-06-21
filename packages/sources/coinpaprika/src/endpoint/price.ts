@@ -25,6 +25,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const validator = new Validator(request, inputParams)
   if (validator.error) throw validator.error
 
+  const endpoint = validator.validated.data.endpoint || config.DEFAULT_ENDPOINT
+  if (endpoint.toLowerCase() === 'marketcap') {
+    validator.validated.data.path = Paths.MarketCap
+  }
+
   const jobRunID = validator.validated.id
   const symbol = validator.overrideSymbol(AdapterName) as string
   const quote = validator.validated.data.quote

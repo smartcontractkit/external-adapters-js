@@ -129,6 +129,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
 
+  const endpoint = validator.validated.data.endpoint || config.DEFAULT_ENDPOINT
+  if (endpoint.toLowerCase() === 'marketcap') {
+    validator.validated.data.path = Paths.MarketCap
+  }
+
   const symbol = validator.overrideSymbol(AdapterName)
   const symbols = Array.isArray(symbol) ? symbol : [symbol]
   const convert = validator.validated.data.quote.toUpperCase()
