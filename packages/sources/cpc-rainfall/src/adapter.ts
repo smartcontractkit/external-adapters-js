@@ -1,33 +1,13 @@
-import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
-import { makeConfig, DEFAULT_ENDPOINT } from './config'
-import { example } from './endpoint'
-
-const inputParams = {
-  endpoint: false,
-}
+import { makeConfig } from './config'
+import { rainfall } from './endpoint'
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-  const validator = new Validator(request, inputParams)
+  const validator = new Validator(request)
   if (validator.error) throw validator.error
-
   Requester.logConfig(config)
-
-  const jobRunID = validator.validated.id
-  const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
-
-  switch (endpoint.toLowerCase()) {
-    case example.NAME: {
-      return await example.execute(request, config)
-    }
-    default: {
-      throw new AdapterError({
-        jobRunID,
-        message: `Endpoint ${endpoint} not supported.`,
-        statusCode: 400,
-      })
-    }
-  }
+  return await rainfall.execute(request, config)
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {
