@@ -32,7 +32,8 @@
     "@chainlink/token-allocation-adapter": "^0.0.3",
     "decimal.js": "^10.2.1",
     "synthetix": "2.39.2",
-    "tslib": "^2.1.0"
+    "tslib": "^2.1.0",
+    "type-fest": "^1.2.1"
   },
   "devDependencies": {
     "@chainlink/types": "0.0.1",

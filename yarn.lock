@@ -3492,6 +3492,7 @@ __metadata:
     decimal.js: ^10.2.1
     synthetix: 2.39.2
     tslib: ^2.1.0
+    type-fest: ^1.2.1
     typescript: ^4.2.3
   languageName: unknown
   linkType: soft
@@ -21786,6 +21787,13 @@ resolve@1.17.0:
   version: 0.8.1
   resolution: "type-fest@npm:0.8.1"
   checksum: f8c4b4249f52e8bea7a4fc55b3653c96c2d547240e4c772e001d02b7cc38b8c3eb493ab9fbe985a76a203cd1aa7044776b728a71ba12bf36e7131f989597885b
+  languageName: node
+  linkType: hard
+
+"type-fest@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "type-fest@npm:1.2.1"
+  checksum: 03c56d304481db8498aca7a093cee5680080da36cd9cc59dc64679c3a296dd6b58b940963ee4ab93e91f02b9d6dec0c41efbb02d3672b4d3ccde5b64f5d3667b
   languageName: node
   linkType: hard
 
