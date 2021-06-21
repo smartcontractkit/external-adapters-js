@@ -9,5 +9,6 @@ export const makeConfig = (prefix?: string): Config => {
   const config = Requester.getDefaultConfig(prefix, true)
   config.api.headers['X-API-Key'] = config.apiKey
   config.api.baseURL = 'https://api.cryptoapis.io'
+  config.DEFAULT_ENDPOINT = DEFAULT_ENDPOINT
   return config
 }

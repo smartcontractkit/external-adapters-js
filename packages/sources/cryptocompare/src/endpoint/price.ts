@@ -2,7 +2,7 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, AxiosResponse, AdapterRequest } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
-export const NAME = 'price'
+export const supportedEndpoints = ['price','marketcap']
 
 // Bridging the Chainlink endpoint to the response data key
 export enum Paths {
@@ -116,6 +116,7 @@ export const inputParameters = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
   path: false,
+  endpoint: false
 }
 
 const handleBatchedRequest = (
@@ -145,6 +146,11 @@ const handleBatchedRequest = (
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
+
+  const endpoint = validator.validated.data.endpoint || config.DEFAULT_ENDPOINT
+  if (endpoint.toLowerCase() === 'marketcap') {
+    validator.validated.data.path = Paths.MarketCap
+  }
 
   const jobRunID = validator.validated.id
   const url = `/data/pricemultifull`

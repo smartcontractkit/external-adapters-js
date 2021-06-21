@@ -1,8 +1,8 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { AdapterRequest, Config } from '@chainlink/types'
+import { ExecuteWithConfig, Config } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
-export const Name = 'convert'
+export const supportedEndpoints = ['convert']
 
 const customError = (data: any) => data.Response === 'Error'
 
@@ -12,7 +12,7 @@ const customParams = {
   amount: false,
 }
 
-export const execute = async (config: Config, request: AdapterRequest) => {
+export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 

@@ -4,7 +4,7 @@ import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 import { isCoinType, isChainType, TESTNET_BLOCKCHAINS } from '.'
 
-export const Name = 'balance'
+export const supportedEndpoints = ['balance']
 
 const getBalanceURI = (address: string, chain: string, coin: string) => {
   if (chain === 'testnet') chain = Requester.toVendorName(coin, TESTNET_BLOCKCHAINS) || chain

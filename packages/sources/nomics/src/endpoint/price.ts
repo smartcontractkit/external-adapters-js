@@ -2,7 +2,7 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, AxiosResponse, AdapterRequest } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
-export const NAME = 'price'
+export const supportedEndpoints = ['price', 'marketcap']
 
 export enum Paths {
   Price = 'price',
@@ -90,6 +90,7 @@ const inputParameters = {
   base: ['base', 'from', 'coin', 'ids'],
   quote: ['quote', 'to', 'market', 'convert'],
   path: false,
+  endpoints: false
 }
 
 const convertId: Record<string, string> = {
@@ -123,6 +124,11 @@ const handleBatchedRequest = (
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
+
+  const endpoint = validator.validated.data.endpoint || config.DEFAULT_ENDPOINT
+  if (endpoint.toLowerCase() === 'marketcap') {
+    validator.validated.data.path = Paths.MarketCap
+  }
 
   const symbol = validator.overrideSymbol(AdapterName)
   const symbols = Array.isArray(symbol) ? symbol : [symbol]

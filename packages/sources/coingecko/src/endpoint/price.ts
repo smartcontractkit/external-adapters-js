@@ -26,6 +26,7 @@ const customParams = {
   quote: ['quote', 'to', 'market'],
   coinid: false,
   path: false,
+  endpoint: false
 }
 
 const handleBatchedRequest = (
