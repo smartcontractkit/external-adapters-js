@@ -18,15 +18,16 @@ describe('execute', () => {
         name: 'no speed param',
         testData: {
           id: jobID,
-          data: { endpoint: 'ethereum-mainnet' },
+          data: { endpoint: 'gasprice', blockchain: 'ethereum-mainnet' },
         },
       },
       {
         name: 'id not supplied',
         testData: {
           data: {
+            endpoint: 'gasprice',
             speed: 'fast',
-            endpoint: 'ethereum-mainnet',
+            blockchain: 'ethereum-mainnet',
           },
         },
       },
@@ -34,7 +35,9 @@ describe('execute', () => {
         name: 'speed is average',
         testData: {
           id: jobID,
-          data: { speed: 'average' },
+          data: {
+            endpoint: 'gasprice',
+            speed: 'average' },
         },
       },
     ]
