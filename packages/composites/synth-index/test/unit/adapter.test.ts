@@ -2,7 +2,7 @@ import { Requester } from '@chainlink/ea-bootstrap'
 import { assertError } from '@chainlink/ea-test-helpers'
 import * as ta from '@chainlink/token-allocation-adapter'
 import { AdapterRequest } from '@chainlink/types'
-import { makeExecute } from '../../src/adapter'
+import { makeExecute, toFixedMax } from '../../src/adapter'
 
 const makeMockConfig = () => {
   return {
@@ -36,5 +36,19 @@ describe('execute', () => {
         }
       })
     })
+  })
+})
+
+describe('toFixedMax', () => {
+  it('should handle trailing zeros', () => {
+    expect(toFixedMax('0.0', 0)).toEqual('0')
+    expect(toFixedMax('0.10', 1)).toEqual('0.1')
+    expect(toFixedMax('0.10', 0)).toEqual('0')
+  })
+
+  it('should handle leading zeros', () => {
+    expect(toFixedMax('00.0', 0)).toEqual('0')
+    expect(toFixedMax('00.10', 1)).toEqual('0.1')
+    expect(toFixedMax('00.10', 0)).toEqual('0')
   })
 })
