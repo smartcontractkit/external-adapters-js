@@ -9,6 +9,7 @@ import {
   parseBool,
   uuid,
 } from '../util'
+import { getMaxAgeOverride, getTTL } from './ttl'
 import * as local from './local'
 import { LocalOptions } from './local'
 import * as metrics from './metrics'
@@ -23,7 +24,6 @@ const DEFAULT_RC_INTERVAL_MAX = 1000
 const DEFAULT_RC_INTERVAL_COEFFICIENT = 2
 const DEFAULT_RC_ENTROPY_MAX = 0
 
-export const WARNING_MAX_AGE = 1000 * 60 * 2 // 2 minutes
 export const MINIMUM_AGE = 1000 * 60 * 0.5 // 30 seconds
 
 const env = process.env
@@ -114,44 +114,6 @@ export const withCache: Middleware = async (execute, options: CacheOptions = def
     logger.debug(`Request coalescing: DEL ${key}`)
   }
 
-  const _getRateLimitMaxAge = (adapterRequest: AdapterRequest): number | undefined => {
-    if (!adapterRequest || !adapterRequest.rateLimitMaxAge) return
-    if (isNaN(adapterRequest.rateLimitMaxAge)) return
-    const feedId = adapterRequest?.metricsMeta?.feedId
-    const maxAge = adapterRequest.rateLimitMaxAge
-    if (maxAge > WARNING_MAX_AGE)
-      logger.trace(
-        `${feedId && feedId[0] !== '{' ? `[${feedId}]` : ''} Cache: High data staleness - TTL of ${
-          maxAge / 1000 / 60
-        } minutes`,
-        adapterRequest,
-      )
-    if (maxAge > options.cacheOptions.maxAge) {
-      logger.warn(
-        `${
-          feedId && feedId[0] !== '{' ? `[${feedId}]` : ''
-        } Cache: Calculated TTL exceeds maximum TTL, using maximum of ${
-          options.cacheOptions.maxAge / 1000 / 60
-        } minutes`,
-        adapterRequest,
-      )
-      return options.cacheOptions.maxAge
-    }
-    return maxAge
-  }
-
-  const _getMaxAgeOverride = (adapterRequest: AdapterRequest): number | undefined => {
-    if (!adapterRequest || !adapterRequest.data) return
-    if (isNaN(parseInt(adapterRequest.data.maxAge))) return
-    return parseInt(adapterRequest.data.maxAge)
-  }
-
-  const _getTTL = (adapterRequest: AdapterRequest) => {
-    const TTL = _getMaxAgeOverride(adapterRequest) || _getRateLimitMaxAge(adapterRequest)
-    if (!TTL || TTL < options.minimumAge) return options.minimumAge
-    return TTL
-  }
-
   const _executeWithCache = async (adapterRequest: AdapterRequest): Promise<AdapterResponse> => {
     const key = _getKey(adapterRequest)
     const coalescingKey = _getCoalescingKey(key)
@@ -160,7 +122,7 @@ export const withCache: Middleware = async (execute, options: CacheOptions = def
       participantId: key,
       feedId: adapterRequest.metricsMeta?.feedId || 'N/A',
     })
-    const maxAge = _getTTL(adapterRequest)
+    const maxAge = getTTL(adapterRequest, options)
     // Add successful result to cache
     const _cacheOnSuccess = async ({
       statusCode,
@@ -182,13 +144,13 @@ export const withCache: Middleware = async (execute, options: CacheOptions = def
         if (data?.results) {
           for (const batchParticipant of Object.values<[AdapterRequest, number]>(data.results)) {
             const [request, result] = batchParticipant
-            const maxAgeBatchParticipant = _getTTL(request)
+            const maxAgeBatchParticipant = getTTL(request, options)
             const keyBatchParticipant = _getKey(request)
             const entryBatchParticipant = {
               statusCode,
               data: { result },
               result,
-              maxAge: maxAgeBatchParticipant,
+              maxAge,
             }
             await cache.setResponse(
               keyBatchParticipant,
@@ -236,7 +198,7 @@ export const withCache: Middleware = async (execute, options: CacheOptions = def
       : await cache.getResponse(key)
 
     if (cachedAdapterResponse) {
-      const maxAgeOverride = _getMaxAgeOverride(adapterRequest)
+      const maxAgeOverride = getMaxAgeOverride(adapterRequest)
       if (maxAgeOverride && maxAgeOverride < 0) {
         logger.trace(`Cache: SKIP(maxAge < 0)`)
       } else {
