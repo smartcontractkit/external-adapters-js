@@ -20,8 +20,13 @@ declare module '@chainlink/types' {
     providerCost?: number
   }
 
+  export interface CallbackApiResponse {
+    success: boolean,
+    error?: string
+  }
+
   export interface CallbackProperty {
-    endpoint: string,
+    endpoint?: string,
     handler: (request: any) => any
     method: "GET" | "POST" | "PATCH"
   }
@@ -99,6 +104,7 @@ declare module '@chainlink/types' {
   export type ExecuteSync = (input: AdapterRequest, callback: Callback) => void
 
   export type Execute = (input: AdapterRequest) => Promise<AdapterResponse>
+  export type ExecuteCallback = (request: any) => Promise<CallbackApiResponse>
 
   export type ExecuteWithConfig<C extends Config> = (
     input: AdapterRequest,

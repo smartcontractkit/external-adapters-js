@@ -19,12 +19,12 @@ export const HEADER_CONTENT_TYPE = 'Content-Type'
 export const CONTENT_TYPE_APPLICATION_JSON = 'application/json'
 export const CONTENT_TYPE_TEXT_PLAIN = 'text/plain'
 
-export const initHandler = (execute: ExecuteSync, callbackFunctions?: CallbackProperty[]) => (): void => {
+export const initHandler = (execute: ExecuteSync, callbackProperties?: CallbackProperty[]) => (): void => {
   if (METRICS_ENABLED) {
     setupMetricsServer()
   }
-  if (callbackFunctions && callbackFunctions.length > 0) {
-    setupCallbackServer(callbackFunctions)
+  if (callbackProperties && callbackProperties.length > 0) {
+    setupCallbackServer(callbackProperties)
   }
   app.use(express.json())
 
@@ -83,7 +83,7 @@ function setupCallbackServer(callbackFunctions: CallbackProperty[]) {
 }
 
 function registerCallbackFunction(callbackServer: any, callbackProperties: CallbackProperty) {
-  const { method, handler, endpoint } = callbackProperties
+  const { method, handler, endpoint = "/" } = callbackProperties
   switch (method) {
     case "POST":
       callbackServer.post(endpoint, handler)

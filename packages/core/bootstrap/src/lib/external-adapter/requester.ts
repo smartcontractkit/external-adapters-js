@@ -1,4 +1,4 @@
-import { AdapterErrorResponse, AdapterResponse, RequestConfig } from '@chainlink/types'
+import { AdapterErrorResponse, AdapterResponse, RequestConfig, CallbackApiResponse } from '@chainlink/types'
 import axios, { AxiosResponse } from 'axios'
 import { deepType } from '../util'
 import { getDefaultConfig, logConfig } from './config'
@@ -154,6 +154,13 @@ export class Requester {
       result: response.data?.result,
       statusCode: response.status || 200,
       pending: isPending
+    }
+  }
+
+  static callbackResponse(isSuccessful: boolean, errorMessage?: string): CallbackApiResponse {
+    return {
+      success: isSuccessful,
+      error: errorMessage
     }
   }
 

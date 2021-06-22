@@ -1,6 +1,7 @@
 import {
   AdapterMetricsMeta,
   AdapterRequest,
+  CallbackProperty,
   Execute,
   ExecuteSync,
   MakeWSHandler,
@@ -174,11 +175,11 @@ const executeSync = (execute: Execute, makeWsHandler?: MakeWSHandler): ExecuteSy
   }
 }
 
-export const expose = (execute: Execute, makeWsHandler?: MakeWSHandler) => {
+export const expose = (execute: Execute, makeWsHandler?: MakeWSHandler, callbackProperties?: CallbackProperty[]) => {
   // Add middleware to the execution flow
   const _execute = executeSync(execute, makeWsHandler)
   return {
-    server: server.initHandler(_execute),
+    server: server.initHandler(_execute, callbackProperties),
   }
 }
 
