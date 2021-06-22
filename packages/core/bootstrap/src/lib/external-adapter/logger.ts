@@ -1,6 +1,7 @@
 import { uuid } from '../util'
 import pino from 'pino'
 import { wsRedactPaths } from '../ws/config'
+import { cloneDeep } from 'lodash'
 
 export const paths = [...wsRedactPaths]
 
@@ -18,7 +19,7 @@ export const censor = (v: string) => {
   try {
     const url = new URL(v)
     url.searchParams.forEach((_, name) => {
-      if (sensitiveKeys.some(rx => rx.test(name))) {
+      if (sensitiveKeys.some((rx) => rx.test(name))) {
         url.searchParams.set(name, 'REDACTED')
       }
     })
@@ -45,7 +46,7 @@ export const logger = pino({
       const arg1 = inputArgs.shift()
       if (length >= 2) {
         // if input includes message string + data object
-        const arg2 = inputArgs.shift()
+        const arg2 = cloneDeep(inputArgs.shift())
 
         // add instanceId if not present
         if (!arg2.instanceId) arg2.instanceId = uuid()

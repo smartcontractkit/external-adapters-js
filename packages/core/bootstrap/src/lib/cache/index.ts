@@ -168,7 +168,12 @@ export const withCache: Middleware = async (execute, options: CacheOptions = def
       result,
     }: Pick<AdapterResponse, 'statusCode' | 'data' | 'result'>) => {
       if (statusCode === 200) {
-        const entry: CacheEntry = { statusCode, data, result, maxAge }
+        const entry: CacheEntry = {
+          statusCode,
+          data,
+          result,
+          maxAge,
+        }
         // we should observe non-200 entries too
         await cache.setResponse(key, entry, maxAge)
         observe.cacheSet({ statusCode, maxAge })
