@@ -50,7 +50,7 @@ function getAllocations(synth: SynthIndex): ta.types.TokenAllocations {
 }
 
 function isSynthIndex(synth: Synth | undefined): synth is SynthIndex {
-  return !synth || !synth?.index
+  return !!(synth && synth.index)
 }
 
 /**
