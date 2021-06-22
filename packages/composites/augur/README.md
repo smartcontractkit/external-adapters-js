@@ -34,7 +34,7 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 {
   "id": "1",
   "data": {
-    "method": "resolve",
+    "method": "create",
     "sport": "NBA",
     "daysInAdvance": 7,
     "startBuffer": 60,

@@ -6,7 +6,13 @@ export * as createMarkets from './createMarkets'
 export const ABI = [
   {
     inputs: [
-      { internalType: "bytes32", name: "_payload", type: "bytes32" }
+      { internalType: "uint256", name: "_id", type: "uint256" },
+      { internalType: "uint256", name: "_homeTeamId", type: "uint256" },
+      { internalType: "uint256", name: "_awayTeamId", type: "uint256" },
+      { internalType: "uint32", name: "_startTime", type: "uint32" },
+      { internalType: "int16", name: "_homeSpread", type: "int16" },
+      { internalType: "uint16", name: "_totalScore", type: "uint16" },
+      { internalType: "uint8", name: "_flags", type: "uint8" }
     ],
     name: "createMarket",
     outputs: [
@@ -78,14 +84,4 @@ export const bytesMappingToHexStr = (mapping: number[], encoded: string): string
   const missingBytes = 32 - mapping.reduce((sum, bytes) => sum + bytes)
   elems.push(...new Array(missingBytes).fill(new Uint8Array(1).fill(0)))
   return `0x${Buffer.concat(elems).toString('hex')}`
-}
-
-export const sportIdMapping: { [sport: string]: number } = {
-  MLB: 3,
-  NBA: 4,
-}
-
-export const sportDataProviderMapping: { [dataProvider: string]: string[] } = {
-  theRundown: ['MLB', 'NBA'],
-  sportsdataio: ['NFL']
 }

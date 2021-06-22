@@ -1,10 +1,17 @@
 import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Execute } from '@chainlink/types'
 import * as TheRundown from '@chainlink/therundown-adapter'
-import { eventIdToNum, sportIdMapping } from '../methods'
+import { eventIdToNum } from '../methods'
 import { ethers } from 'ethers'
 import { CreateEvent } from '../methods/createMarkets'
 import { ResolveEvent } from '../methods/resolveMarkets'
+
+export const SPORTS_SUPPORTED = ['mlb', 'nba']
+
+export const sportIdMapping: { [sport: string]: number } = {
+  MLB: 3,
+  NBA: 4,
+}
 
 interface TheRundownEvent {
   event_id: string

@@ -5,41 +5,138 @@ import { BigNumber, ethers } from 'ethers'
 import { CreateEvent } from '../methods/createMarkets'
 import { ResolveEvent } from '../methods/resolveMarkets'
 
+export const SPORTS_SUPPORTED = ['nfl', 'ncaa-fb']
+
 interface NFLEvent {
-  PointSpread: number
+  PointSpread: number | null
   Date: string | null
+  Day: string
   GlobalGameID: number
   GlobalAwayTeamID: number
   GlobalHomeTeamID: number
   Status: string
 }
 
-type SportsdataioNFLSchedule = NFLEvent[]
+interface CommonSchedule {
+  Date: string
+  GameID: number
+  AwayTeamID: number
+  HomeTeamID: number
+  Status: string
+  PointSpread: number | null
+}
 
-const getNFLSchedule = async (id: string, season: string, sportsdataExec: Execute): Promise<SportsdataioNFLSchedule> => {
+interface NFLScores {
+  Date: string | null
+  Day: string
+  GlobalGameID: number
+  GlobalAwayTeamID: number
+  GlobalHomeTeamID: number
+  Status: string
+  AwayScore: number | null
+  HomeScore: number | null
+}
+
+interface CFBGames {
+  Day: string
+  DateTime: string | null
+  GlobalGameID: number
+  GlobalAwayTeamID: number
+  GlobalHomeTeamID: number
+  Status: string
+  AwayTeamScore: number | null
+  HomeTeamScore: number | null
+  PointSpread: number | null
+}
+
+interface CommonScores {
+  Date: string
+  GameID: number
+  AwayTeamID: number
+  HomeTeamID: number
+  Status: string
+  AwayScore: number | null
+  HomeScore: number | null
+}
+
+const getSchedule = async (id: string, sport: string, season: string, exec: Execute): Promise<CommonSchedule[]> => {
   const input = {
     id,
     data: {
-      sport: 'nfl',
+      sport,
       endpoint: 'schedule',
       season
     }
   }
-  const response = await sportsdataExec(input)
-  return response.result
+  const response = await exec(input)
+  const filtered = (response.result as { GlobalGameID: number }[])
+    .filter(event => event.GlobalGameID != 0)
+
+  switch (sport) {
+    case 'nfl': {
+      return (filtered as NFLEvent[]).map(event => ({
+        Date: event.Date || event.Day,
+        GameID: event.GlobalGameID,
+        AwayTeamID: event.GlobalAwayTeamID,
+        HomeTeamID: event.GlobalHomeTeamID,
+        Status: event.Status,
+        PointSpread: event.PointSpread,
+      }))
+    }
+    case 'ncaa-fb': {
+      return (filtered as CFBGames[]).map(event => ({
+        Date: event.DateTime || event.Day,
+        GameID: event.GlobalGameID,
+        AwayTeamID: event.GlobalAwayTeamID,
+        HomeTeamID: event.GlobalHomeTeamID,
+        Status: event.Status,
+        PointSpread: event.PointSpread
+      }))
+    }
+    default:
+      throw Error(`Unable to format schedule for sport "${sport}"`)
+  }
 }
 
-const getNFLScores = async (id: string, season: string, sportsdataExec: Execute): Promise<NFLScores[]> => {
+const getScores = async (id: string, sport: string, season: string, exec: Execute): Promise<CommonScores[]> => {
   const input = {
     id,
     data: {
-      sport: 'nfl',
+      sport,
       endpoint: 'scores',
       season
     }
   }
-  const response = await sportsdataExec(input)
-  return response.result
+  const response = await exec(input)
+  const filtered = (response.result as { GlobalGameID: number }[])
+    .filter(event => event.GlobalGameID != 0)
+
+  switch (sport) {
+    case 'nfl': {
+      return (filtered as NFLScores[]).map(event => ({
+        Date: event.Date || event.Day,
+        GameID: event.GlobalGameID,
+        AwayTeamID: event.GlobalAwayTeamID,
+        HomeTeamID: event.GlobalHomeTeamID,
+        Status: event.Status,
+        AwayScore: event.AwayScore,
+        HomeScore: event.HomeScore,
+      }))
+    }
+    case 'ncaa-fb': {
+      return (filtered as CFBGames[]).map(event => ({
+        Date: event.DateTime || event.Day,
+        GameID: event.GlobalGameID,
+        AwayTeamID: event.GlobalAwayTeamID,
+        HomeTeamID: event.GlobalHomeTeamID,
+        Status: event.Status,
+        AwayScore: event.AwayTeamScore,
+        HomeScore: event.HomeTeamScore,
+      }))
+    }
+    default:
+      throw Error(`Unable to format scores for sport "${sport}"`)
+  }
 }
 
 const getSeason = () => `${new Date().getFullYear()}REG` // TODO: Sufficient? What if at the end of the year?
@@ -55,8 +152,8 @@ export const create: Execute = async (input) => {
   const validator = new Validator(input, createParams)
   if (validator.error) throw validator.error
 
-  const sport = validator.validated.data.sport
-  if (sport.toUpperCase() !== 'NFL') {
+  const sport = validator.validated.data.sport.toLowerCase()
+  if (!SPORTS_SUPPORTED.includes(sport)) {
     throw Error(`Unknown sport for Sportsdataio: ${sport}`)
   }
 
@@ -66,7 +163,7 @@ export const create: Execute = async (input) => {
 
   const sportsdataioExec = Sportsdataio.makeExecute(Sportsdataio.makeConfig(Sportsdataio.NAME))
 
-  const schedule = await getNFLSchedule(input.id, getSeason(), sportsdataioExec)
+  const schedule = await getSchedule(input.id, sport, getSeason(), sportsdataioExec)
 
   Logger.debug(`Augur sportsdataio: Got ${schedule.length} events from data provider`)
   let skipNullDate = 0, skipStartBuffer = 0, skipDaysInAdvance = 0, cantCreate = 0
@@ -90,7 +187,7 @@ export const create: Execute = async (input) => {
     }
 
     const [headToHeadMarket, spreadMarket, totalScoreMarket]: [ethers.BigNumber, ethers.BigNumber, ethers.BigNumber]
-      = await contract.getEventMarkets(event.GlobalGameID)
+      = await contract.getEventMarkets(event.GameID)
     const canCreate = headToHeadMarket.isZero() || (spreadMarket.isZero() && false) || (totalScoreMarket.isZero() && false)
     if (!canCreate) {
       cantCreate++
@@ -98,9 +195,9 @@ export const create: Execute = async (input) => {
     }
 
     createEvents.push({
-      id: BigNumber.from(event.GlobalGameID),
-      homeTeamId: event.GlobalHomeTeamID,
-      awayTeamId: event.GlobalAwayTeamID,
+      id: BigNumber.from(event.GameID),
+      homeTeamId: event.HomeTeamID,
+      awayTeamId: event.AwayTeamID,
       startTime,
       homeSpread: 0, // TODO: Missing
       totalScore: 0, // TODO: Missing
@@ -119,16 +216,6 @@ export const create: Execute = async (input) => {
   })
 }
 
-interface NFLScores {
-  Date: string
-  GlobalGameID: number
-  GlobalAwayTeamID: number
-  GlobalHomeTeamID: number
-  Status: string
-  AwayScore: number | null
-  HomeScore: number | null
-}
-
 const eventStatus: { [status: string]: number } = {
   'Scheduled': 1,
   'InProgress': 0, // TODO: Clarify???
@@ -144,6 +231,15 @@ const resolveParams = {
   eventId: true,
 }
 
+const findEventScore = async (jobRunID: string, season: string, eventId: number, exec: Execute): Promise<CommonScores> => {
+  for (const sport of SPORTS_SUPPORTED) {
+    const scores = await getScores(jobRunID, sport, season, exec)
+    const event = scores.find((game) => game.GameID === eventId)
+    if (event) return event
+  }
+  throw Error(`Unable to find event ${eventId}`)
+}
+
 export const resolve: Execute = async (input) => {
   const validator = new Validator(input, resolveParams)
   if (validator.error) throw validator.error
@@ -151,11 +247,7 @@ export const resolve: Execute = async (input) => {
   const eventId = Number(validator.validated.data.eventId)
   const sportsdataioExec = Sportsdataio.makeExecute()
 
-  const scores = await getNFLScores(input.id, getSeason(), sportsdataioExec)
-  const event = scores.find((game) => game.GlobalGameID === eventId)
-  if (!event) {
-    throw Error(`Unable to find event ${eventId}`)
-  }
+  const event = await findEventScore(input.id, getSeason(), eventId, sportsdataioExec)
 
   const status = eventStatus[event.Status]
   if (!status) {
@@ -163,7 +255,7 @@ export const resolve: Execute = async (input) => {
   }
 
   const resolveEvent: ResolveEvent = {
-    id: BigNumber.from(event.GlobalGameID),
+    id: BigNumber.from(event.GameID),
     status,
     homeScore: event.HomeScore || 0,
     awayScore: event.AwayScore || 0
