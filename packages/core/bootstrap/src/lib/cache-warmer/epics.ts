@@ -50,23 +50,24 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
   const subscribeBatch$ = batchExecute$.pipe(
     withLatestFrom(state$),
     mergeMap(([{ payload }, state]) => {
-      const batchWarmerSubscriptionKey = selectBatchWarmerSubscriptionKey(state, payload)
-      const batchKey = payload.result?.debug?.batchKey
-      if (!batchKey) {
+      const batchablePropertyPath = payload.result?.debug?.batchablePropertyPath
+      if (!batchablePropertyPath) {
         throw Error(`No batch key found, state invariant violated`)
       }
+
+      const batchWarmerSubscriptionKey = selectBatchWarmerSubscriptionKey(state, payload)
 
       const childSubscriptions = createChildSubscriptionActions(
         payload,
         batchWarmerSubscriptionKey.key,
-        batchKey,
+        batchablePropertyPath,
       )
       const childLastSeenById = Object.fromEntries(
         childSubscriptions.map((c) => [getSubscriptionKey(c.payload), Date.now()] as const),
       )
 
       const parentSubscription = createParentSubscriptionAction(
-        batchKey,
+        batchablePropertyPath,
         batchWarmerSubscriptionKey,
         childLastSeenById,
         payload,
@@ -224,12 +225,12 @@ export const epicMiddleware = createEpicMiddleware<any, any, any, EpicDependenci
 function createChildSubscriptionActions(
   payload: WarmupExecutePayload,
   batchWarmerSubscriptionKey: string,
-  batchKey: string | undefined,
+  batchablePropertyPath: string[] | undefined,
 ): ReturnType<typeof warmupSubscribed>[] {
   const subscriptionPayload: WarmupSubscribedPayload = {
     ...payload,
     parent: batchWarmerSubscriptionKey,
-    batchKey,
+    batchablePropertyPath,
   }
 
   // If result was from a batch request
@@ -246,14 +247,14 @@ function createChildSubscriptionActions(
 }
 
 function createParentSubscriptionAction(
-  batchKey: string,
+  batchablePropertyPath: string[],
   batchWarmerSubscriptionKey: BatchWarmerSubscriptionKey,
   childLastSeenById: { [childKey: string]: number },
   payload: WarmupExecutePayload,
 ) {
   const basePayload = {
     childLastSeenById,
-    batchKey,
+    batchablePropertyPath,
   } as const
 
   // If batch warmer already exists join it by adding childLastSeenById to request data
@@ -271,18 +272,15 @@ function createParentSubscriptionAction(
       key: batchWarmerSubscriptionKey.key,
     }
 
-    // If incoming request isn't an array, transform into one
-    // So the request is sed as a batch request
-    if (!Array.isArray(payload.data[batchKey])) {
-      return warmupSubscribed({
-        ...subscriptionPayload,
-        data: {
-          ...payload.data,
-          [batchKey]: [payload.data[batchKey]],
-        },
-      })
+    let batchWarmerData = { ...payload.data }
+    for (const path of batchablePropertyPath || []) {
+      if (!Array.isArray(batchWarmerData[path]))
+        batchWarmerData = {
+          ...batchWarmerData,
+          [path]: [batchWarmerData[path]],
+        }
     }
 
-    return warmupSubscribed(subscriptionPayload)
+    return warmupSubscribed({ ...subscriptionPayload, data: batchWarmerData })
   }
 }

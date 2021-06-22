@@ -23,24 +23,23 @@ export const selectBatchWarmerSubscriptionKey = createSelector(
   selectCacheWarmerSubscriptions,
   (_state: any, payload: WarmupExecutePayload) => payload,
   (subscriptions, payload) => {
-    const batchWarmerSubscription = Object.entries(subscriptions).find(([, subscriptionState]) => {
-      const isBatchWarmerSubscription = subscriptionState.childLastSeenById
-      const isMatchingSubscription =
-        subscriptionState.executeFn.toString() === payload.executeFn.toString()
-
-      return isBatchWarmerSubscription && isMatchingSubscription
-    })
-
-    if (!batchWarmerSubscription) {
-      return {
-        existingKey: false,
-        key: getSubscriptionKey(omit(payload, ['data'])),
-      }
+    const batchablePropertyPath = payload.result?.debug?.batchablePropertyPath
+    if (!batchablePropertyPath) {
+      throw Error(`No batch key found, state invariant violated`)
     }
 
+    const batchWarmerSubscriptionKey = getSubscriptionKey(
+      omit(
+        payload,
+        batchablePropertyPath?.map((path) => `data.${path}`),
+      ),
+    )
+
+    const batchWarmerSubscription = subscriptions[batchWarmerSubscriptionKey]
+
     return {
-      existingKey: true,
-      key: batchWarmerSubscription[0],
+      existingKey: !!batchWarmerSubscription,
+      key: batchWarmerSubscriptionKey,
     }
   },
 )
