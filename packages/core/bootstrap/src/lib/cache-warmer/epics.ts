@@ -29,6 +29,7 @@ import {
 } from './actions'
 import { Config, get, WARMUP_REQUEST_ID } from './config'
 import { getSubscriptionKey } from './util'
+import { getTTL } from '../cache/ttl'
 
 export interface EpicDependencies {
   config: Config
@@ -170,13 +171,7 @@ export const warmupSubscriber: Epic<AnyAction, AnyAction, any, EpicDependencies>
     }),
     // on a subscribe action being dispatched, spin up a long lived interval if one doesnt exist yet
     mergeMap(([{ payload, key }]) =>
-      timer(
-        0,
-        // If TTL is set from the rate limiter
-        payload?.result?.maxAge ||
-          // Otherwise use MIN_TTL
-          config.warmupInterval,
-      ).pipe(
+      timer(0, getTTL(payload)).pipe(
         mapTo(warmupRequested({ key })),
         // unsubscribe our warmup algo when a matching unsubscribe comes in
         takeUntil(
