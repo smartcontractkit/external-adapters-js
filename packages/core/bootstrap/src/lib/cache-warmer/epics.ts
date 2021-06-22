@@ -1,5 +1,5 @@
 import { AdapterRequest } from '@chainlink/types'
-import { omit, isEqual } from 'lodash'
+import { omit } from 'lodash'
 import { AnyAction } from 'redux'
 import { combineEpics, createEpicMiddleware, Epic } from 'redux-observable'
 import { from, merge, of, partition, race, timer } from 'rxjs'
@@ -52,34 +52,16 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
 
       const batchablePropertyPath = payload.result?.debug?.batchablePropertyPath
 
-      const existingBatchWarmer = Object.entries(state.cacheWarmer.subscriptions).find(
-        ([, subscriptionState]) => {
-          const isBatchWarmerSubscription = subscriptionState.childLastSeenById
-          const isMatchingSubscription =
-            subscriptionState.executeFn.toString() === payload.executeFn.toString()
-          if (isBatchWarmerSubscription && isMatchingSubscription) {
-            const parentNonBatchableRequestData = omit(
-              subscriptionState.origin,
-              batchablePropertyPath,
-            )
-            const childNonBatchableRequestData = omit(payload?.data, batchablePropertyPath)
-            return isEqual(parentNonBatchableRequestData, childNonBatchableRequestData)
-          }
-          return false
-        },
+      // We want the key to be consistent. So we omit batchable paths.
+      // Otherwise it would change on every new child
+      const batchWarmerSubscriptionKey = getSubscriptionKey(
+        omit(
+          payload,
+          batchablePropertyPath?.map((path) => `data.${path}`),
+        ),
       )
 
-      // If there is no existing batch warmer,
-      // A new key is created by omitting the data field
-      // We want the key to be consistent. Otherwise it would change on every new child
-      const batchWarmerSubscriptionKey =
-        existingBatchWarmer?.[0] ??
-        getSubscriptionKey(
-          omit(
-            payload,
-            batchablePropertyPath?.map((path) => `data.${path}`),
-          ),
-        )
+      const existingBatchWarmer = state.cacheWarmer.subscriptions[batchWarmerSubscriptionKey]
 
       // Start placeholder subscriptions for children
       const childLastSeenById: { [childKey: string]: number } = {}
@@ -152,7 +134,6 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
 export const warmupSubscriber: Epic<AnyAction, AnyAction, any, EpicDependencies> = (
   action$,
   state$,
-  { config },
 ) =>
   action$.pipe(
     filter(warmupSubscribed.match),
