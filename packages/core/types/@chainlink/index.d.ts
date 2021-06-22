@@ -20,6 +20,12 @@ declare module '@chainlink/types' {
     providerCost?: number
   }
 
+  export interface CallbackProperty {
+    endpoint: string,
+    handler: (request: any) => any
+    method: "GET" | "POST" | "PATCH"
+  }
+
   /**
    * Meta info that pertains to exposing metrics
    */
@@ -55,6 +61,7 @@ declare module '@chainlink/types' {
     maxAge?: number
     metricsMeta?: AdapterMetricsMeta
     debug?: AdapterDebug
+    pending?: boolean
   }
 
   /* ERRORS */

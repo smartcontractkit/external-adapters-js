@@ -108,9 +108,9 @@ export class Requester {
     const output = isObj
       ? (response as AxiosResponseWithLiftedResult<T>)
       : ({
-          ...response,
-          data: { payload: response.data },
-        } as AxiosResponseWithPayloadAndLiftedResult<T>)
+        ...response,
+        data: { payload: response.data },
+      } as AxiosResponseWithPayloadAndLiftedResult<T>)
     if (result) output.data.result = result
     if (results) output.data.results = results
     return output
@@ -146,12 +146,14 @@ export class Requester {
     jobRunID = '1',
     response: Partial<AxiosResponse>,
     verbose = false,
+    isPending?: boolean
   ): AdapterResponse {
     return {
       jobRunID,
       data: verbose ? response.data : { result: response.data?.result },
       result: response.data?.result,
       statusCode: response.status || 200,
+      pending: isPending
     }
   }
 

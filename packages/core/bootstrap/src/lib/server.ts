@@ -1,4 +1,4 @@
-import { ExecuteSync } from '@chainlink/types'
+import { ExecuteSync, CallbackProperty } from '@chainlink/types'
 import express from 'express'
 import { join } from 'path'
 import * as client from 'prom-client'
@@ -19,9 +19,12 @@ export const HEADER_CONTENT_TYPE = 'Content-Type'
 export const CONTENT_TYPE_APPLICATION_JSON = 'application/json'
 export const CONTENT_TYPE_TEXT_PLAIN = 'text/plain'
 
-export const initHandler = (execute: ExecuteSync) => (): void => {
+export const initHandler = (execute: ExecuteSync, callbackFunctions?: CallbackProperty[]) => (): void => {
   if (METRICS_ENABLED) {
     setupMetricsServer()
+  }
+  if (callbackFunctions && callbackFunctions.length > 0) {
+    setupCallbackServer(callbackFunctions)
   }
   app.use(express.json())
 
@@ -68,4 +71,24 @@ function setupMetricsServer() {
   })
 
   metricsApp.listen(metricsPort, () => logger.info(`Monitoring listening on port ${metricsPort}!`))
+}
+
+function setupCallbackServer(callbackFunctions: CallbackProperty[]) {
+  const callbackServer = express()
+  const callbackPort = process.env.CALLBACK_PORT || 9180
+  for (const callbackProperty of callbackFunctions) {
+    registerCallbackFunction(callbackServer, callbackProperty)
+  }
+  callbackServer.listen(callbackPort, () => logger.info(`Calllback server started on port ${callbackPort}`))
+}
+
+function registerCallbackFunction(callbackServer: any, callbackProperties: CallbackProperty) {
+  const { method, handler, endpoint } = callbackProperties
+  switch (method) {
+    case "POST":
+      callbackServer.post(endpoint, handler)
+      break
+    default:
+      callbackServer.get(endpoint, handler)
+  }
 }

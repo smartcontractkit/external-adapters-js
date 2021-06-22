@@ -20,20 +20,14 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     }
     try {
         const response = await Requester.request(options, customError)
-        return {
-            ...Requester.success(jobRunID, response, config.verbose),
-            pending: true
-        }
+        return Requester.success(jobRunID, response, config.verbose, true)
     } catch (e) {
-        const error = new AdapterError({
+        throw new AdapterError({
             jobRunID,
             message: `There was an error ${e}`,
             statusCode: 500,
-        })
-        return {
-            ...Requester.errored(jobRunID, error),
             pending: false
-        }
+        })
     }
 }
 

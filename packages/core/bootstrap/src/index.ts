@@ -37,10 +37,10 @@ cacheWarmer.epics.epicMiddleware.run(cacheWarmer.epics.rootEpic)
 ws.epics.epicMiddleware.run(ws.epics.rootEpic)
 
 const storeSlice = (slice: any) =>
-  ({
-    getState: () => store.getState()[slice],
-    dispatch: (a) => store.dispatch(a),
-  } as Store)
+({
+  getState: () => store.getState()[slice],
+  dispatch: (a) => store.dispatch(a),
+} as Store)
 
 // Try to initialize, pass through on error
 const skipOnError = (middleware: Middleware) => async (execute: Execute) => {
@@ -181,6 +181,7 @@ export const expose = (execute: Execute, makeWsHandler?: MakeWSHandler) => {
     server: server.initHandler(_execute),
   }
 }
+
 export type ExecuteHandlers = ReturnType<typeof expose>
 
 // Log cache default options once

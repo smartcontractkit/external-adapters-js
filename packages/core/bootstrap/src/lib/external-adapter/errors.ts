@@ -7,6 +7,7 @@ export class AdapterError extends Error {
   name: string
   message: string
   cause: any
+  pending?: boolean
 
   constructor({
     jobRunID = '1',
@@ -14,6 +15,7 @@ export class AdapterError extends Error {
     statusCode = 500,
     name = 'AdapterError',
     message = 'An error occurred.',
+    pending,
     cause,
   }: Partial<AdapterError>) {
     super(message)
@@ -24,6 +26,7 @@ export class AdapterError extends Error {
     this.name = name
     this.message = message
     this.cause = cause
+    this.pending = pending
   }
 
   toJSONResponse(): AdapterErrorResponse {
