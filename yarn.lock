@@ -6819,8 +6819,8 @@ __metadata:
   linkType: hard
 
 "@terra-money/terra.js@npm:^1.3.1":
-  version: 1.8.1
-  resolution: "@terra-money/terra.js@npm:1.8.1"
+  version: 1.8.0
+  resolution: "@terra-money/terra.js@npm:1.8.0"
   dependencies:
     axios: ^0.21.1
     bech32: ^2.0.0
@@ -6834,7 +6834,7 @@ __metadata:
     tmp: ^0.2.1
     utf-8-validate: ^5.0.2
     ws: ^7.4.2
-  checksum: f0af2fdf4d633258321f59c8101f0c05cd42e88c355585e9343655b1f1265e21bce6750cc5d873101690cf2a214ffd58e87c37df5a7bbde3aa656bbe93933b36
+  checksum: 6e7b26793d9a45010c0af1145f8ca85b9550a1d97965a41713a281cc1adaf60fce46655104c31d0181a76d539358fa1fa06e4c45531b5972b27e35af4772ec5b
   languageName: node
   linkType: hard
 
@@ -9146,7 +9146,7 @@ __metadata:
   dependenciesMeta:
     secp256k1:
       optional: true
-  checksum: eb558fe084b8e89027afd6d1648e32298fb2161db5eab941beebcedaf4435418c7d175a3fdf808ba321c01a77178fcdb00ba14de152c61e8e48e013ec3e92ba8
+  checksum: 6f689e72a18eb9447ccf2e60566813f10ef6f89963d7648b84bb52e20dde0537ccce49691ec539a6a8d99493f63bf542221725a592684ffe8c73c92e7340de49
   languageName: node
   linkType: hard
 
@@ -9175,7 +9175,7 @@ __metadata:
   dependenciesMeta:
     secp256k1:
       optional: true
-  checksum: 29363441803c1ed083ae3150a96bcee98a8dbab96104d03d29515813c4d4910865abe3e30b117112013f1ddac7c3d186648cc5fbf7541c9fd848ebc5627c037a
+  checksum: bcfb0593b5ae235fc974d07f08c3cf70959ef297aa43a325a2f4ae18973d95c93f8449ba81c376de0777c8124d9ce5618200d6c63d956c05c756040e5dd18cf1
   languageName: node
   linkType: hard
 
@@ -19982,7 +19982,7 @@ resolve@1.17.0:
   dependencies:
     scryptsy: ^2.1.0
     semver: ^6.3.0
-  checksum: de02c75d35b97de799fae7499ec30fa145280ad7c7150959d1eb47655eca75b418a7d612456ecec5fed2ee466a32a5edf85f5f0ae7c5f4b9773ea4cf207358b1
+  checksum: e2eb72648155f225926f35adc317785cd622385c3c7d4bd3ee421bd9b3d732976280a4364e9c5ed23be9427100ec61badcc076ae1b668afe87209dad2051739c
   languageName: node
   linkType: hard
 
