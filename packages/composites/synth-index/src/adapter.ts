@@ -77,7 +77,7 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
   const { base, network = config.defaultNetwork } = validator.validated.data
   const synthIndex = getSynthIndexFor(network, base)
   if (!synthIndex) {
-    throw new AdapterError({ message: `Index synth not found`, statusCode: 400 })
+    throw new AdapterError({ message: `Index synth not found: ${base}`, statusCode: 400 })
   }
 
   const allocations = getAllocations(synthIndex)
