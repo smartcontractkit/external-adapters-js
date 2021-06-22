@@ -61,7 +61,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const symbol = validator.overrideSymbol(AdapterName) as string
+  const base = validator.overrideSymbol(AdapterName)
   const quote = validator.validated.data.quote
   const coinid = validator.validated.data.coinid
 
@@ -70,7 +70,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (!ids) {
     try {
       const coinIds = await getCoinIds(jobRunID)
-      const symbols = Array.isArray(symbol) ? symbol : [symbol]
+      const symbols = Array.isArray(base) ? base : [base]
       idToSymbol = getSymbolsToIds(symbols, coinIds)
       ids = Object.keys(idToSymbol).join(',')
     } catch (e) {
@@ -83,7 +83,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
   const params = {
     ids,
-    vs_currencies: quote,
+    vs_currencies: Array.isArray(quote) ? quote.join(',') : quote,
     include_market_cap: path === Paths.MarketCap,
     x_cg_pro_api_key: config.apiKey,
   }
@@ -96,7 +96,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
   const response = await Requester.request(options, customError)
 
-  if (Array.isArray(symbol))
+  if (Array.isArray(base) || Array.isArray(quote))
     return handleBatchedRequest(jobRunID, request, response, path, idToSymbol)
 
   response.data.result = Requester.validateResultNumber(response.data, [

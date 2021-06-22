@@ -40,6 +40,5 @@ export const getSymbolsToIds = (
       idToSymbol[coin.id] = symbol
     }
   })
-  console.log(coinList, idToSymbol, symbols)
   return idToSymbol
 }
