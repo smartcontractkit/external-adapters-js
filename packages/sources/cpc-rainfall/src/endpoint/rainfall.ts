@@ -1,14 +1,10 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig } from '@chainlink/types'
-import { APPLICATION_JSON, CALLBACK_URL, CONTENT_TYPE, DEFAULT_SECRET_ID, NAME as AdapterName, RAINFALL_URL, X_API_KEY, X_API_KEY_VALUE } from '../config'
+import { APPLICATION_JSON, CALLBACK_URL, CONTENT_TYPE, DEFAULT_SECRET_ID, RAINFALL_URL, X_API_KEY, X_API_KEY_VALUE } from '../config'
 
 export const NAME = 'rainfall'
 
 const customError = (data: any) => data.Response === 'Error'
-
-interface IDictionary {
-    [T: string]: any
-}
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     const validator = new Validator(request)
@@ -22,12 +18,25 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     }
     try {
         const response = await Requester.request(options, customError)
-        response.pending = true
-        return Requester.success(jobRunID, response, config.verbose)
+        return {
+            ...Requester.success(jobRunID, response, config.verbose),
+            pending: true
+        }
+    } catch (e) {
+        const error = new AdapterError({
+            jobRunID,
+            message: `There was an error ${e}`,
+            statusCode: 500,
+        })
+        return {
+            ...Requester.errored(jobRunID, error),
+            pending: false
+        }
     }
-    catch (e) {
-        // return Requester error
-    }
+}
+
+interface IDictionary {
+    [T: string]: any
 }
 
 const getApiHeaders = (): IDictionary => {
