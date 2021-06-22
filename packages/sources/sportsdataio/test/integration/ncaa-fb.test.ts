@@ -6,33 +6,31 @@ import { makeExecute } from '../../src/adapter'
 describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
+  const sport = 'NCAA-FB'
 
   describe('successful calls @integration', () => {
     const requests = [
       {
         name: 'id not supplied',
-        testData: { data: { base: 'ETH', quote: 'USD' } },
+        testData: { data: { sport, endpoint: 'schedule', season: '2021REG' } },
       },
       {
-        name: 'base/quote',
-        testData: { id: jobID, data: { base: 'ETH', quote: 'USD' } },
+        name: 'schedule',
+        testData: { id: jobID, data: { sport, endpoint: 'schedule', season: '2021REG' } },
       },
       {
-        name: 'from/to',
-        testData: { id: jobID, data: { from: 'ETH', to: 'USD' } },
-      },
-      {
-        name: 'coin/market',
-        testData: { id: jobID, data: { coin: 'ETH', market: 'USD' } },
-      },
+        name: 'scores',
+        testData: { id: jobID, data: { sport, endpoint: 'scores', season: '2021REG' } },
+      }
     ]
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         const data = await execute(req.testData as AdapterRequest)
         assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
-        expect(data.result).toBeGreaterThan(0)
-        expect(data.data.result).toBeGreaterThan(0)
+        console.log(data)
+        expect(data.result.length).toBeGreaterThan(0)
+        expect(data.data.result.length).toBeGreaterThan(0)
       })
     })
   })
@@ -40,12 +38,8 @@ describe('execute', () => {
   describe('error calls @integration', () => {
     const requests = [
       {
-        name: 'unknown base',
-        testData: { id: jobID, data: { base: 'not_real', quote: 'USD' } },
-      },
-      {
-        name: 'unknown quote',
-        testData: { id: jobID, data: { base: 'ETH', quote: 'not_real' } },
+        name: 'unknown season',
+        testData: { id: jobID, data: { sport, endpoint: 'schedule', season: 'not_real' } },
       },
     ]
 
