@@ -2,12 +2,14 @@ import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig } from '@chainlink/types'
 import { APPLICATION_JSON, CALLBACK_URL, CONTENT_TYPE, DEFAULT_SECRET_ID, RAINFALL_URL, X_API_KEY, X_API_KEY_VALUE } from '../config'
 
-export const NAME = 'rainfall'
-
 const customError = (data: any) => data.Response === 'Error'
 
+const customParams = {
+    data: true
+}
+
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-    const validator = new Validator(request)
+    const validator = new Validator(request, customParams)
     if (validator.error) throw validator.error
     const jobRunID = validator.validated.id
     const options = {
@@ -50,11 +52,9 @@ const getApiParams = (validator: any): IDictionary => {
     const requestObj: IDictionary = {
         data: {}
     }
-    if (validator.data) {
-        for (const param of Object.keys(validator.data)) {
-            const paramValue = isFloat(validator.data[param]) ? parseFloat(validator.data[param]) : validator.data[param]
-            requestObj.data[param] = paramValue
-        }
+    for (const param in validator.data) {
+        const paramValue = isFloat(validator.data[param]) ? parseFloat(validator.data[param]) : validator.data[param]
+        requestObj.data[param] = paramValue
     }
     requestObj.data.secret = validator.data.id || DEFAULT_SECRET_ID
     requestObj.data.callback_url = CALLBACK_URL
