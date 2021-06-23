@@ -9,7 +9,7 @@ const customParams = {
   quote: ['quote', 'to', 'market'],
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request) => {
+export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 
@@ -23,5 +23,5 @@ export const execute: ExecuteWithConfig<Config> = async (request) => {
 
   const response = await convert(token, baseAssetId, quoteAssetId)
 
-  return Requester.success(jobRunID, response)
+  return Requester.success(jobRunID, response, config.verbose)
 }

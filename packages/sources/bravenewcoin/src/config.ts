@@ -6,7 +6,7 @@ export const NAME = 'BRAVENEWCOIN'
 export const DEFAULT_ENDPOINT = 'price'
 
 export const makeConfig = (prefix = ''): Config => {
-    const config = Requester.getDefaultConfig(prefix, true)
+    const config = Requester.getDefaultConfig(prefix)
     config.DEFAULT_ENDPOINT = DEFAULT_ENDPOINT
     return config
   }
