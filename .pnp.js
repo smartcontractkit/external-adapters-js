@@ -473,11 +473,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {
         "name": "@chainlink/harmony-adapter",
         "reference": "workspace:packages/targets/harmony"
+      },
+      {
+        "name": "@chainklink/ea-e2e",
+        "reference": "workspace:packages/test/e2e"
       }
     ],
     "enableTopLevelFallback": true,
     "ignorePatternData": "(^(?:\\.yarn\\/sdks(?:\\/(?!\\.)(?:(?:(?!(?:^|\\/)\\.).)*?)|$))$)",
     "fallbackExclusionList": [
+      ["@chainklink/ea-e2e", ["workspace:packages/test/e2e"]],
       ["@chainlink/1forge-adapter", ["workspace:packages/sources/1forge"]],
       ["@chainlink/agoric-adapter", ["workspace:packages/targets/agoric"]],
       ["@chainlink/alphachain-adapter", ["workspace:packages/sources/alphachain"]],
@@ -4361,6 +4366,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["@chainklink/ea-e2e", [
+        ["workspace:packages/test/e2e", {
+          "packageLocation": "./packages/test/e2e/",
+          "packageDependencies": [
+            ["@chainklink/ea-e2e", "workspace:packages/test/e2e"],
+            ["@chainlink/coingecko-adapter", "workspace:packages/sources/coingecko"],
+            ["@chainlink/synth-index-adapter", "workspace:packages/composites/synth-index"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:26.0.23"],
+            ["@types/supertest", "npm:2.0.11"],
+            ["supertest", "npm:6.1.3"],
+            ["tslib", "npm:2.3.0"],
+            ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
       ["@chainlink/1forge-adapter", [
         ["workspace:packages/sources/1forge", {
           "packageLocation": "./packages/sources/1forge/",
@@ -6208,9 +6230,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.41"],
-            ["@types/supertest", "npm:2.0.11"],
             ["decimal.js", "npm:10.2.1"],
-            ["supertest", "npm:6.1.3"],
             ["synthetix", "npm:2.39.2"],
             ["tslib", "npm:2.2.0"],
             ["type-fest", "npm:1.2.1"],
@@ -10228,6 +10248,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-jest-npm-26.0.22-1621c2cb77-4c98ed0585.zip/node_modules/@types/jest/",
           "packageDependencies": [
             ["@types/jest", "npm:26.0.22"],
+            ["jest-diff", "npm:26.6.2"],
+            ["pretty-format", "npm:26.6.2"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:26.0.23", {
+          "packageLocation": "./.yarn/cache/@types-jest-npm-26.0.23-f0d419e70e-a015676b78.zip/node_modules/@types/jest/",
+          "packageDependencies": [
+            ["@types/jest", "npm:26.0.23"],
             ["jest-diff", "npm:26.6.2"],
             ["pretty-format", "npm:26.6.2"]
           ],
@@ -26543,6 +26572,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/tslib-npm-2.2.0-e83a07daa5-2d35468c47.zip/node_modules/tslib/",
           "packageDependencies": [
             ["tslib", "npm:2.2.0"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:2.3.0", {
+          "packageLocation": "./.yarn/cache/tslib-npm-2.3.0-277e75e108-7b4fc9feff.zip/node_modules/tslib/",
+          "packageDependencies": [
+            ["tslib", "npm:2.3.0"]
           ],
           "linkType": "HARD",
         }]
