@@ -7,6 +7,7 @@ import CryptoCompare from '@chainlink/cryptocompare-adapter'
 import { Requester, util } from '@chainlink/ea-bootstrap'
 import Kaiko from '@chainlink/kaiko-adapter'
 import Nomics from '@chainlink/nomics-adapter'
+import Tiingo from '@chainlink/tiingo-adapter'
 import { AdapterImplementation } from '@chainlink/types'
 import { Config, SourceRequestOptions } from './types'
 
@@ -19,6 +20,7 @@ export const adapters: AdapterImplementation[] = [
   CryptoCompare,
   Kaiko,
   Nomics,
+  Tiingo,
 ]
 
 export type Source = typeof adapters[number]['NAME']

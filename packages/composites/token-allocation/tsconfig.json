@@ -16,6 +16,7 @@
     { "path": "../../sources/coinpaprika" },
     { "path": "../../sources/cryptocompare" },
     { "path": "../../sources/kaiko" },
-    { "path": "../../sources/nomics" }
+    { "path": "../../sources/nomics" },
+    { "path": "../../sources/tiingo" }
   ]
 }
