@@ -1,6 +1,6 @@
 import { Builder } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
-import { makeConfig, DEFAULT_ENDPOINT } from './config'
+import { makeConfig } from './config'
 import { energy } from './endpoint'
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {

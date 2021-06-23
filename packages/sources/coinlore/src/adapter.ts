@@ -1,4 +1,4 @@
-import { Builder, Validator } from '@chainlink/ea-bootstrap'
+import { Builder } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
 import { makeConfig } from './config'
 import { global } from './endpoint'

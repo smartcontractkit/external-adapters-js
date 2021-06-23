@@ -1,7 +1,7 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 
-export const NAME = 'ticker'
+export const supportedEndpoints = ['ticker']
 
 const customParams = {
   base: ['base', 'from', 'coin'],

@@ -3,10 +3,6 @@ import { Config, ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
 import { makeConfig } from './config'
 import { attestations } from './endpoint'
 
-const inputParams = {
-  endpoint: false,
-}
-
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const chainlinkEndpoints = [attestations]
   return Builder.buildSelector(request, config, chainlinkEndpoints)

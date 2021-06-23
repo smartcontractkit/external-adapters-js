@@ -2,7 +2,7 @@ import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig } from '@chainlink/types'
 import * as paypal from '@paypal/payouts-sdk'
 
-export const NAME = 'getpayout'
+export const supportedEndpoints = ['getpayout', 'read']
 
 const customParams = {
   payout_id: true,

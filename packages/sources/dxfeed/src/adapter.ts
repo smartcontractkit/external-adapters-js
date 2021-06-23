@@ -1,6 +1,6 @@
 import { Builder } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, ExecuteFactory, Config } from '@chainlink/types'
-import { makeConfig, DEFAULT_ENDPOINT } from './config'
+import { makeConfig } from './config'
 import { price } from './endpoint'
 
 
