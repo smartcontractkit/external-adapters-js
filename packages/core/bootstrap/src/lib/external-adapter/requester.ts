@@ -146,14 +146,14 @@ export class Requester {
     jobRunID = '1',
     response: Partial<AxiosResponse>,
     verbose = false,
-    isPending?: boolean
+    pending?: boolean
   ): AdapterResponse {
     return {
       jobRunID,
       data: verbose ? response.data : { result: response.data?.result },
       result: response.data?.result,
       statusCode: response.status || 200,
-      pending: isPending
+      pending
     }
   }
 

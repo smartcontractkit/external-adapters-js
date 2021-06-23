@@ -6,10 +6,8 @@ export const NAME = 'CPC_RAINFALL' // This should be filled in with a name corre
 export const RAINFALL_URL = 'https://453q3o3us5.execute-api.us-east-1.amazonaws.com/dev/rainfall'
 export const API_KEY = process.env.API_KEY
 export const CHAINLINK_URL = process.env.CHAINLINK_URL || "http://localhost:6688"
-export const CALLBACK_ENDPOINT = ""
+export const CALLBACK_URL = process.env.CALLBACK_URL || ""
 export const INCOMING_TOKEN = process.env.INCOMING_TOKEN || ""
-
-export const X_API_KEY_VALUE = ""
 
 export const DEFAULT_SECRET_ID = 1
 

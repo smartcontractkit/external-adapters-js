@@ -1,24 +1,20 @@
-import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig } from '@chainlink/types'
-import { CALLBACK_ENDPOINT, DEFAULT_SECRET_ID, RAINFALL_URL, X_API_KEY_VALUE } from '../config'
+import { Requester, AdapterError } from '@chainlink/ea-bootstrap'
+import { Config, ExecuteWithConfig, AdapterRequest } from '@chainlink/types'
+import { CALLBACK_URL, DEFAULT_SECRET_ID, RAINFALL_URL, API_KEY } from '../config'
 
 const customError = (data: any) => data.Response === 'Error'
 
-const customParams = {
-    data: true
-}
 
-export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-    const validator = new Validator(request, customParams)
-    if (validator.error) throw validator.error
-    const jobRunID = validator.validated.id
+export const execute: ExecuteWithConfig<Config> = async (request: AdapterRequest, config: Config) => {
+    const jobRunID = request.id || '1'
+    validateAdapterRequestAndEnvVars(request, jobRunID)
     const options = {
         ...config.api,
         headers: {
-            "X-Api-Key": X_API_KEY_VALUE,
+            "X-Api-Key": API_KEY,
             "content-type": "application/json"
         },
-        params: getApiParams(validator),
+        params: getApiParams(request),
         url: RAINFALL_URL,
     }
     try {
@@ -34,6 +30,33 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     }
 }
 
+const validateAdapterRequestAndEnvVars = (request: AdapterRequest, jobRunID: string) => {
+    if (!request.data || Object.keys(request.data).length === 0) {
+        throw new AdapterError({
+            jobRunID,
+            message: "Missing Data",
+            statusCode: 400,
+            pending: false
+        })
+    }
+    if (!API_KEY) {
+        throw new AdapterError({
+            jobRunID,
+            message: "Missing API Key",
+            statusCode: 500,
+            pending: false
+        })
+    }
+    if (!CALLBACK_URL) {
+        throw new AdapterError({
+            jobRunID,
+            message: "Missing Callback URL",
+            statusCode: 500,
+            pending: false
+        })
+    }
+}
+
 interface RainfallApiParams {
     data: {
         [T: string]: number | string
@@ -42,14 +65,14 @@ interface RainfallApiParams {
     callback_url: string
 }
 
-const getApiParams = (validator: any): RainfallApiParams => {
+const getApiParams = (request: any): RainfallApiParams => {
     const requestObj: RainfallApiParams = {
         data: {},
-        secret: validator.data.id || DEFAULT_SECRET_ID,
-        callback_url: CALLBACK_ENDPOINT
+        secret: request.data.id || DEFAULT_SECRET_ID,
+        callback_url: CALLBACK_URL
     }
-    for (const param in validator.data) {
-        const paramValue = isFloat(validator.data[param]) ? parseFloat(validator.data[param]) : validator.data[param]
+    for (const param in request.data) {
+        const paramValue = isFloat(request.data[param]) ? parseFloat(request.data[param]) : request.data[param]
         requestObj.data[param] = paramValue
     }
     return requestObj

@@ -3,36 +3,39 @@ import { assertError, assertSuccess } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
 import { makeExecute } from '../../src/adapter'
 
+const TEST_API_KEY = process.env.API_KEY || "test-api-key"
+const CALLBACK_URL = process.env.CALLBACK_URL || ""
+
 describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
 
+  const data = {
+    'contract_id': 'xRvzgt6EKvneQfNy6',
+    'weather_type': 'low_rainfall',
+    'start_date': 1560211199,
+    'end_date': 1563753599,
+    'notional_amount': 4.5,
+    'exit': 70,
+    'coordinates': '38.50, 280.50',
+    'edge_length': 0.25,
+    'threshold_factor': 112,
+    'secret': jobID
+  }
+
   describe('successful calls @integration', () => {
     const requests = [
       {
-        name: 'id not supplied',
-        testData: { data: { base: 'ETH', quote: 'USD' } },
-      },
-      {
-        name: 'base/quote',
-        testData: { id: jobID, data: { base: 'ETH', quote: 'USD' } },
-      },
-      {
-        name: 'from/to',
-        testData: { id: jobID, data: { from: 'ETH', to: 'USD' } },
-      },
-      {
-        name: 'coin/market',
-        testData: { id: jobID, data: { coin: 'ETH', market: 'USD' } },
-      },
+        name: 'with rainfall data',
+        testData: { data },
+      }
     ]
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         const data = await execute(req.testData as AdapterRequest)
         assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
-        expect(data.result).toBeGreaterThan(0)
-        expect(data.data.result).toBeGreaterThan(0)
+        expect(data.pending).toBe(true)
       })
     })
   })
@@ -40,17 +43,30 @@ describe('execute', () => {
   describe('error calls @integration', () => {
     const requests = [
       {
-        name: 'unknown base',
-        testData: { id: jobID, data: { base: 'not_real', quote: 'USD' } },
+        name: 'null API Key',
+        testData: { data },
+        setup: () => process.env.API_KEY = null
       },
       {
-        name: 'unknown quote',
-        testData: { id: jobID, data: { base: 'ETH', quote: 'not_real' } },
+        name: 'invalid API Key',
+        testData: { data },
+        setup: () => process.env.API_KEY = "invalid-key"
       },
+      {
+        name: "missing Callback URL",
+        testData: { data },
+        setup: () => process.env.CALLBACK_URL = null
+      }
     ]
+
+    afterEach(() => {
+      process.env.API_KEY = TEST_API_KEY
+      process.env.CALLBACK_URL = CALLBACK_URL
+    })
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
+        req.setup && req.setup()
         try {
           await execute(req.testData as AdapterRequest)
         } catch (error) {

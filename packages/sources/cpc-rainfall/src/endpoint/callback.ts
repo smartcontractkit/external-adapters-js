@@ -22,7 +22,7 @@ export const callbackHandler: ExecuteCallback = async (req: any) => {
         await Requester.request(options, customError)
         return Requester.callbackResponse(true)
     } catch (e) {
-        return Requester.callbackResponse(true, `Failed PATCH request: ${e}`)
+        return Requester.callbackResponse(false, `Failed PATCH request: ${e}`)
     }
 }
 
