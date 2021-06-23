@@ -7,6 +7,7 @@ import * as coingecko from './data-providers/coingecko'
 import * as coinapi from './data-providers/coinapi'
 import * as amberdata from './data-providers/amberdata'
 import * as kaiko from './data-providers/kaiko'
+import * as tiingo from './data-providers/tiingo'
 import { Config, PriceAdapter } from './types'
 
 enum DataProvider {
@@ -19,6 +20,7 @@ enum DataProvider {
   Coingecko = 'coingecko',
   Coinapi = 'coinapi',
   Kaiko = 'kaiko',
+  Tiingo = 'tiingo',
 }
 
 const providers: Record<string, PriceAdapter> = {
@@ -30,6 +32,7 @@ const providers: Record<string, PriceAdapter> = {
   [DataProvider.Coingecko]: coingecko,
   [DataProvider.Coinapi]: coinapi,
   [DataProvider.Kaiko]: kaiko,
+  [DataProvider.Tiingo]: tiingo,
 }
 
 export const DEFAULT_TOKEN_DECIMALS = 18

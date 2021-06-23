@@ -22,6 +22,7 @@ The data providers supported and their properties are as follows:
 | cryptocompare | :white_check_mark: | :white_check_mark: | :white_check_mark: |                                 |
 | kaiko         | :white_check_mark: | :white_check_mark: | :x:                | Crypto Quotes are not supported |
 | nomics        | :white_check_mark: | :white_check_mark: | :white_check_mark: |                                 |
+| tiingo        | :white_check_mark: | :white_check_mark: | :x:                |                                 |
 
 ## Input Params
 
