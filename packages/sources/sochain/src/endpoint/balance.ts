@@ -4,7 +4,7 @@ import { Requester } from '@chainlink/ea-bootstrap'
 import { Account, Config } from '@chainlink/types'
 import { isCoinType, isChainType } from '.'
 
-export const Name = 'balance'
+export const supportedEndpoints = ['balance']
 
 const getBalanceURI = (account: Account, confirmations: number) => {
   account.coin = account.coin?.toUpperCase()

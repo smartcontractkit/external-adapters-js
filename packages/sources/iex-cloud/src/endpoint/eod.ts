@@ -2,7 +2,7 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
-export const supportedEndpoints = ['eod-close']
+export const supportedEndpoints = ['eod-close', 'eod']
 
 const customParams = {
   base: ['base', 'from', 'coin', 'asset', 'symbol'],

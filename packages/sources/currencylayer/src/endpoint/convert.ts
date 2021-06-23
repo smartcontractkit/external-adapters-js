@@ -2,7 +2,7 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
-export const supportedEndpoints = ['convert']
+export const supportedEndpoints = ['convert', 'price']
 
 const customError = (data: any) => data.Response === 'Error'
 

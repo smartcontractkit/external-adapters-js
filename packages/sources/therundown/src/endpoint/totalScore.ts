@@ -1,7 +1,7 @@
 import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 
-export const NAME = 'total-score'
+export const supportedEndpoints = ['total-score']
 
 const customParams = {
   matchId: true,
