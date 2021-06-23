@@ -77,18 +77,21 @@ function setupCallbackServer(callbackFunctions: CallbackProperty[]) {
   const callbackServer = express()
   const callbackPort = process.env.CALLBACK_PORT || 9180
   for (const callbackProperty of callbackFunctions) {
-    registerCallbackFunction(callbackServer, callbackProperty)
+    const { method, handler, endpoint = "/" } = callbackProperty
+    const endpointHandler = async (req: any, res: any) => {
+      const { statusCode, data } = await handler(req)
+      res.status(statusCode).send(data)
+    }
+    switch (method) {
+      case "PATCH":
+        callbackServer.patch(endpoint, endpointHandler)
+        break
+      case "POST":
+        callbackServer.post(endpoint, endpointHandler)
+        break
+      default:
+        callbackServer.get(endpoint, endpointHandler)
+    }
   }
   callbackServer.listen(callbackPort, () => logger.info(`Calllback server started on port ${callbackPort}`))
-}
-
-function registerCallbackFunction(callbackServer: any, callbackProperties: CallbackProperty) {
-  const { method, handler, endpoint = "/" } = callbackProperties
-  switch (method) {
-    case "POST":
-      callbackServer.post(endpoint, handler)
-      break
-    default:
-      callbackServer.get(endpoint, handler)
-  }
 }

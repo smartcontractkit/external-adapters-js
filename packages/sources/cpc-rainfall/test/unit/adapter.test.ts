@@ -32,14 +32,19 @@ describe("callback", () => {
   describe("callback validation error", () => {
     const requests = [
       { name: 'null request', request: null },
-      { name: 'empty request', request: {} }
+      {
+        name: 'empty request',
+        request: {
+          body: {}
+        }
+      }
     ]
 
     requests.forEach(req => {
       it(`${req.name}`, async () => {
         const result = await callback.callbackHandler(req)
-        expect(result.success).toBe(false)
-        expect(result.error).not.toBeNull()
+        expect(result.data.success).toBe(false)
+        expect(result.data.error).not.toBeNull()
       })
     })
   })

@@ -21,13 +21,16 @@ declare module '@chainlink/types' {
   }
 
   export interface CallbackApiResponse {
-    success: boolean,
-    error?: string
+    statusCode: number,
+    data: {
+      success: boolean,
+      error?: string
+    }
   }
 
   export interface CallbackProperty {
     endpoint?: string,
-    handler: (request: any) => any
+    handler: (request: any) => Promise<CallbackApiResponse>
     method: "GET" | "POST" | "PATCH"
   }
 

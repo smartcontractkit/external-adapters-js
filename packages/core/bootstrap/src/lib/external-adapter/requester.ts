@@ -157,10 +157,13 @@ export class Requester {
     }
   }
 
-  static callbackResponse(isSuccessful: boolean, errorMessage?: string): CallbackApiResponse {
+  static callbackResponse(statusCode: number, success: boolean, errorMessage?: string): CallbackApiResponse {
     return {
-      success: isSuccessful,
-      error: errorMessage
+      statusCode,
+      data: {
+        success,
+        error: errorMessage
+      }
     }
   }
 
