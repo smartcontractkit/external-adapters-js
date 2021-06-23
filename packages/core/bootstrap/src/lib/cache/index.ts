@@ -122,48 +122,6 @@ export const withCache: Middleware = async (execute, options: CacheOptions = def
       participantId: key,
       feedId: adapterRequest.metricsMeta?.feedId || 'N/A',
     })
-    const maxAge = getTTL(adapterRequest, options)
-    // Add successful result to cache
-    const _cacheOnSuccess = async ({
-      statusCode,
-      data,
-      result,
-    }: Pick<AdapterResponse, 'statusCode' | 'data' | 'result'>) => {
-      if (statusCode === 200) {
-        const entry: CacheEntry = {
-          statusCode,
-          data,
-          result,
-          maxAge,
-        }
-        // we should observe non-200 entries too
-        await cache.setResponse(key, entry, maxAge)
-        observe.cacheSet({ statusCode, maxAge })
-        logger.trace(`Cache: SET ${key}`, entry)
-        // Individually cache batch requests
-        if (data?.results) {
-          for (const batchParticipant of Object.values<[AdapterRequest, number]>(data.results)) {
-            const [request, result] = batchParticipant
-            const maxAgeBatchParticipant = getTTL(request, options)
-            const keyBatchParticipant = _getKey(request)
-            const entryBatchParticipant = {
-              statusCode,
-              data: { result },
-              result,
-              maxAge,
-            }
-            await cache.setResponse(
-              keyBatchParticipant,
-              entryBatchParticipant,
-              maxAgeBatchParticipant,
-            )
-            logger.trace(`Cache Split Batch: SET ${keyBatchParticipant}`, entryBatchParticipant)
-          }
-        }
-        // Notify pending requests by removing the in-flight mark
-        await _delInFlightMarker(coalescingKey)
-      }
-    }
 
     const _getWithCoalescing = () =>
       getWithCoalescing({
@@ -227,11 +185,56 @@ export const withCache: Middleware = async (execute, options: CacheOptions = def
       }
     }
 
+    const maxAge = getTTL(adapterRequest, options)
+
     // Initiate request coalescing by adding the in-flight mark
     await _setInFlightMarker(coalescingKey, maxAge)
 
     const result = await execute(adapterRequest)
+
+    // Add successful result to cache
+    const _cacheOnSuccess = async ({
+      statusCode,
+      data,
+      result,
+    }: Pick<AdapterResponse, 'statusCode' | 'data' | 'result'>) => {
+      if (statusCode === 200) {
+        const entry: CacheEntry = {
+          statusCode,
+          data,
+          result,
+          maxAge,
+        }
+        // we should observe non-200 entries too
+        await cache.setResponse(key, entry, maxAge)
+        observe.cacheSet({ statusCode, maxAge })
+        logger.trace(`Cache: SET ${key}`, entry)
+        // Individually cache batch requests
+        if (data?.results) {
+          for (const batchParticipant of Object.values<[AdapterRequest, number]>(data.results)) {
+            const [request, result] = batchParticipant
+            const maxAgeBatchParticipant = getTTL(request, options)
+            const keyBatchParticipant = _getKey(request)
+            const entryBatchParticipant = {
+              statusCode,
+              data: { result },
+              result,
+              maxAge,
+            }
+            await cache.setResponse(
+              keyBatchParticipant,
+              entryBatchParticipant,
+              maxAgeBatchParticipant,
+            )
+            logger.trace(`Cache Split Batch: SET ${keyBatchParticipant}`, entryBatchParticipant)
+          }
+        }
+        // Notify pending requests by removing the in-flight mark
+        await _delInFlightMarker(coalescingKey)
+      }
+    }
     await _cacheOnSuccess(result)
+
     const debug = {
       staleness: 0,
       performance: observe.stalenessAndExecutionTime(false, 0),
