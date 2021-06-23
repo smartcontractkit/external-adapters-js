@@ -1,5 +1,17 @@
 {
   "request": {
-    "source": "coinmarketcap"
+    "source": "#source#"
+  },
+  "variables": {
+    "#source#": [
+      ["$AMBERDATA_DATA_PROVIDER_URL$", "amberdata"],
+      ["$COINAPI_DATA_PROVIDER_URL$", "coinapi"],
+      ["$COINGECKO_DATA_PROVIDER_URL$", "coingecko"],
+      ["$COINMARKETCAP_DATA_PROVIDER_URL$", "coinmarketcap"],
+      ["$COINPAPRIKA_DATA_PROVIDER_URL$", "coinpaprika"],
+      ["$CRYPTOCOMPARE_DATA_PROVIDER_URL$", "cryptocompare"],
+      ["$KAIKO_DATA_PROVIDER_URL$", "kaiko"],
+      ["$NOMICS_DATA_PROVIDER_URL$", "nomics"]
+    ]
   }
 }
