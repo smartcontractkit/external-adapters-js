@@ -15,14 +15,14 @@ export const callbackHandler: ExecuteCallback = async (req: any) => {
         headers: {
             "Authorization": `Bearer ${INCOMING_TOKEN}`
         },
-        params: {
+        data: {
             data: {
                 pending: false,
                 data: req.body,
             },
             RunId: runId,
         },
-        method: "PATCH"
+        method: "patch"
     }
     try {
         await Requester.request(options, customError)

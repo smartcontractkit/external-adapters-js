@@ -14,8 +14,9 @@ export const execute: ExecuteWithConfig<Config> = async (request: AdapterRequest
             "X-Api-Key": API_KEY,
             "content-type": "application/json"
         },
-        params: getApiParams(request),
+        data: getApiParams(request),
         url: RAINFALL_URL,
+        method: "post"
     }
     try {
         const response = await Requester.request(options, customError)
