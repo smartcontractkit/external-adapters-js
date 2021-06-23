@@ -18,6 +18,7 @@ To be functional at least one of the following underyling adapter locations will
 |           | `CRYPTOCOMPARE_DATA_PROVIDER_URL` | The location of a CryptoCompare external adapter |         |             |
 |           |     `KAIKO_DATA_PROVIDER_URL`     |     The location of a Kaiko external adapter     |         |             |
 |           |    `NOMICS_DATA_PROVIDER_URL`     |    The location of a Nomics external adapter     |         |             |
+|           |    `TIINGO_DATA_PROVIDER_URL`     |    The location of a Tiingo external adapter     |         |             |
 
 Optionally the default behavior of the composite adapter can be configured
 

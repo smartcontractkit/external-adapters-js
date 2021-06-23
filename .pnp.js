@@ -6279,6 +6279,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],
             ["@chainlink/nomics-adapter", "workspace:packages/sources/nomics"],
+            ["@chainlink/tiingo-adapter", "workspace:packages/sources/tiingo"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.41"],
