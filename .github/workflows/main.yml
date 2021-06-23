@@ -20,6 +20,8 @@ jobs:
           node-version: '14.x'
       - name: Install Yarn
         run: npm install -g yarn
+      - name: Use repository Yarn version
+        run: yarn set version from sources
       - name: Re-download dependencies & verify checksum
         run: yarn install --check-cache
 
