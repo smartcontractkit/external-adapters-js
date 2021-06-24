@@ -178,6 +178,7 @@ export const warmupRequestHandler: Epic<AnyAction, AnyAction, any> = (action$, s
       requestData: state.cacheWarmer.subscriptions[action.payload.key],
       key: action.payload.key,
     })),
+    filter(({ requestData }) => !!requestData),
     // make the request
     mergeMap(({ requestData, key }) =>
       from(

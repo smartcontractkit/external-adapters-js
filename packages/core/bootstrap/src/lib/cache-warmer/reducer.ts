@@ -63,30 +63,40 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
   })
 
   builder.addCase(actions.warmupUnsubscribed, (state, action) => {
-    for (const childKey of Object.keys(state[action.payload.key].childLastSeenById || {})) {
+    const children = Object.keys(state[action.payload.key]?.childLastSeenById || {})
+    for (const childKey of children) {
       delete state[childKey]
     }
     delete state[action.payload.key]
   })
 
   builder.addCase(actions.warmupJoinGroup, (state, { payload }) => {
-    state[payload.parent].childLastSeenById = {
-      ...state[payload.parent].childLastSeenById,
+    const batchWarmer = state[payload.parent]
+    if (!batchWarmer) return
+
+    batchWarmer.childLastSeenById = {
+      ...batchWarmer.childLastSeenById,
       ...payload.childLastSeenById,
     }
     for (const childKey in payload.childLastSeenById) {
-      const childRequestData = state[childKey].origin
-      for (const path of payload.batchablePropertyPath) {
-        const uniqueBatchableValue = new Set(state[payload.parent].origin[path])
-        uniqueBatchableValue.add(childRequestData[path])
-        state[payload.parent].origin[path] = [...uniqueBatchableValue]
+      const childRequestData = state[childKey]?.origin
+      if (childRequestData) {
+        for (const path of payload.batchablePropertyPath) {
+          const uniqueBatchableValue = new Set(batchWarmer.origin[path])
+          uniqueBatchableValue.add(childRequestData[path])
+          batchWarmer.origin[path] = [...uniqueBatchableValue]
+        }
       }
     }
   })
 
   builder.addCase(actions.warmupLeaveGroup, (state, { payload }) => {
+    const batchWarmer = state[payload.parent]
+    if (!batchWarmer) return
+
     const childIdsToRemove = Object.keys(payload.childLastSeenById)
-    const filteredChildIds = Object.keys(state[payload.parent].childLastSeenById || {}).filter(
+
+    const filteredChildIds = Object.keys(batchWarmer.childLastSeenById || {}).filter(
       (childId) => !childIdsToRemove.includes(childId),
     )
     const filteredBatchRequestData = filteredChildIds.reduce((acc, childId) => {
@@ -98,12 +108,12 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
     const batchRequestDataArrays = Object.fromEntries(
       Object.entries(filteredBatchRequestData).map(([path, map]) => [path, [...map]]),
     )
-    state[payload.parent].origin = {
-      ...state[payload.parent].origin,
+    batchWarmer.origin = {
+      ...batchWarmer.origin,
       ...batchRequestDataArrays,
     }
     for (const childKey in payload.childLastSeenById) {
-      delete state[payload.parent].childLastSeenById?.[childKey]
+      delete batchWarmer.childLastSeenById?.[childKey]
     }
   })
 })
