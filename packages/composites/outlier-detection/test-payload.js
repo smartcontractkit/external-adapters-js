@@ -21,7 +21,7 @@ function generateTestPayload() {
   const payload = {
     request: {
       contract: '0x0dEaf87519D434DCF74551B2E907aF18D2304946',
-      multiply: 1,
+      multiply: 1e8,
       source: searchEnvironment(sourceEnvironmentVariables),
       asset: searchEnvironment(assetEnvironmentVariables),
     },
