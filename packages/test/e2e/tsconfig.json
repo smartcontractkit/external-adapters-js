@@ -1,9 +1,0 @@
-{
-  "extends": "../../tsconfig.base.json",
-  "compilerOptions": {
-    "outDir": "dist",
-    "rootDir": "test"
-  },
-  "include": ["test/**/*"],
-  "references": [{ "path": "../../sources/coingecko" }, { "path": "../../composites/synth-index" }]
-}
