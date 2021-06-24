@@ -4,6 +4,7 @@ import nock from 'nock'
 import request from 'supertest'
 import { server as startServer } from '../../src/index'
 import { mockCoingeckoResponseFailureRedis, mockCoingeckoResponseSuccess } from './fixtures'
+
 let oldEnv: NodeJS.ProcessEnv
 
 beforeAll(() => {
@@ -19,6 +20,10 @@ afterAll(() => {
   if (process.env.RECORD) {
     nock.recorder.play()
   }
+
+  nock.restore()
+  nock.cleanAll()
+  nock.enableNetConnect()
 })
 
 describe('synth-index X coingecko', () => {
