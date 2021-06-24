@@ -30,6 +30,7 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 {
   "jobID": "1",
   "data": {
+    "source": "coingecko",
     "base": "sDEFI"
   }
 }

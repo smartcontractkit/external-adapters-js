@@ -38,7 +38,7 @@ export function loadTestPayload(): TestPayload {
     let payload
     try {
       payload = require(path.join(process.cwd(), 'test-payload.js'))
-    } catch (error) {
+    } catch {
       payload = require(path.join(process.cwd(), 'test-payload.json'))
     }
 
