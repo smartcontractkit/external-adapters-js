@@ -4372,6 +4372,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@chainklink/ea-e2e", "workspace:packages/test/e2e"],
             ["@chainlink/coingecko-adapter", "workspace:packages/sources/coingecko"],
+            ["@chainlink/nomics-adapter", "workspace:packages/sources/nomics"],
             ["@chainlink/synth-index-adapter", "workspace:packages/composites/synth-index"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.23"],
@@ -6230,7 +6231,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.41"],
+            ["@types/supertest", "npm:2.0.11"],
             ["decimal.js", "npm:10.2.1"],
+            ["nock", "npm:13.1.0"],
+            ["supertest", "npm:6.1.3"],
             ["synthetix", "npm:2.39.2"],
             ["tslib", "npm:2.2.0"],
             ["type-fest", "npm:1.2.1"],
@@ -20753,6 +20757,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["lodash.set", [
+        ["npm:4.3.2", {
+          "packageLocation": "./.yarn/cache/lodash.set-npm-4.3.2-7586c942c2-4dfedacae1.zip/node_modules/lodash.set/",
+          "packageDependencies": [
+            ["lodash.set", "npm:4.3.2"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["lodash.snakecase", [
         ["npm:4.1.1", {
           "packageLocation": "./.yarn/cache/lodash.snakecase-npm-4.1.1-b12cdbecb4-3b3d145759.zip/node_modules/lodash.snakecase/",
@@ -21885,6 +21898,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["no-case", "npm:3.0.4"],
             ["lower-case", "npm:2.0.2"],
             ["tslib", "npm:2.2.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["nock", [
+        ["npm:13.1.0", {
+          "packageLocation": "./.yarn/cache/nock-npm-13.1.0-51764cfbd0-a0191f0ed3.zip/node_modules/nock/",
+          "packageDependencies": [
+            ["nock", "npm:13.1.0"],
+            ["debug", "virtual:d444bb897083f4b3c77c519e62903ce98f423c9242db2b2df43709c1c422a3ddb295add4dd8f06922dd1aa4ec24bac04e5f8026475fe7935afebb3cf46abbc1c#npm:4.3.2"],
+            ["json-stringify-safe", "npm:5.0.1"],
+            ["lodash.set", "npm:4.3.2"],
+            ["propagate", "npm:2.0.1"]
           ],
           "linkType": "HARD",
         }]
@@ -23385,6 +23411,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["promzard", "npm:0.3.0"],
             ["read", "npm:1.0.7"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["propagate", [
+        ["npm:2.0.1", {
+          "packageLocation": "./.yarn/cache/propagate-npm-2.0.1-2074bf76d3-dd67518106.zip/node_modules/propagate/",
+          "packageDependencies": [
+            ["propagate", "npm:2.0.1"]
           ],
           "linkType": "HARD",
         }]

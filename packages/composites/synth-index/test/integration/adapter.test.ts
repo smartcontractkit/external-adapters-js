@@ -1,41 +1,88 @@
-import { Requester } from '@chainlink/ea-bootstrap'
-import { assertError } from '@chainlink/ea-test-helpers'
-import * as ta from '@chainlink/token-allocation-adapter'
 import { AdapterRequest } from '@chainlink/types'
-import { makeExecute } from '../../src/adapter'
+import http from 'http'
+import nock from 'nock'
+import request from 'supertest'
+import { server as startServer } from '../../src/index'
+import { mockCoingeckoResponseFailureRedis, mockCoingeckoResponseSuccess } from './fixtures'
+let oldEnv: NodeJS.ProcessEnv
 
-const makeMockConfig = () => {
-  return {
-    defaultNetwork: 'mainnet',
-    taConfig: ta.makeConfig(''),
+beforeAll(() => {
+  oldEnv = JSON.parse(JSON.stringify(process.env))
+  process.env.COINGECKO_DATA_PROVIDER_URL = 'http://localhost:8081'
+  if (process.env.RECORD) {
+    nock.recorder.rec()
   }
-}
+})
 
-describe('execute', () => {
-  const jobID = '1'
-  process.env.DATA_PROVIDER_URL = 'ignoreable'
-  const execute = makeExecute(makeMockConfig())
+afterAll(() => {
+  process.env = oldEnv
+  if (process.env.RECORD) {
+    nock.recorder.play()
+  }
+})
 
-  describe('error calls @integration', () => {
-    const requests = [
-      {
-        name: 'invalid asset',
-        testData: {
-          id: jobID,
-          data: { asset: 'INVALID_ASSET' },
-        },
+describe('synth-index X coingecko', () => {
+  let server: http.Server
+  const req = request('localhost:8080')
+  beforeAll(async () => {
+    server = await startServer()
+  })
+  afterAll((done) => server.close(done))
+  describe('when making a request to coingecko for sDEFI', () => {
+    const sDEFIRequest: AdapterRequest = {
+      id: '1',
+      data: {
+        base: 'sDEFI',
+        to: 'usd',
+        source: 'coingecko',
       },
-    ]
+    }
 
-    requests.forEach((req) => {
-      it(`${req.name}`, async () => {
-        try {
-          await execute(req.testData as AdapterRequest)
-        } catch (error) {
-          const errorResp = Requester.errored(jobID, error)
-          assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
-        }
+    describe('and coingecko replies with a success', () => {
+      it('should reply with success', async () => {
+        mockCoingeckoResponseSuccess()
+
+        const response = await req
+          .post('/')
+          .send(sDEFIRequest)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+
+        expect(response.body).toMatchSnapshot()
       })
+    })
+    describe('and coingecko replies with an intermittent failure', () => {
+      it('should try 2 times then respond with a 200', async () => {
+        mockCoingeckoResponseFailureRedis(1)
+        mockCoingeckoResponseSuccess()
+
+        const response = await req
+          .post('/')
+          .send(sDEFIRequest)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+
+        expect(response.body).toMatchSnapshot()
+      })
+    })
+    describe('and coingecko replies with a failure repeatedly', () => {
+      it('should try 3 times and then fail', async () => {
+        mockCoingeckoResponseFailureRedis()
+
+        const response = await req
+          .post('/')
+          .send(sDEFIRequest)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(500)
+
+        expect(response.body).toMatchSnapshot()
+      }, 5000)
     })
   })
 })

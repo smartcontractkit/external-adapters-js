@@ -1,0 +1,237 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`synth-index X coingecko when making a request to coingecko for sDEFI and coingecko replies with a failure repeatedly should try 3 times and then fail 1`] = `
+Object {
+  "error": Object {
+    "message": "Request failed with status code 500",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 500,
+}
+`;
+
+exports[`synth-index X coingecko when making a request to coingecko for sDEFI and coingecko replies with a success should reply with success 1`] = `
+Object {
+  "data": Object {
+    "payload": Object {
+      "1INCH": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 2.59,
+          },
+        },
+      },
+      "AAVE": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 204.24,
+          },
+        },
+      },
+      "BAL": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 16.53,
+          },
+        },
+      },
+      "BNT": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 3.05,
+          },
+        },
+      },
+      "COMP": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 238.01,
+          },
+        },
+      },
+      "CRV": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 1.49,
+          },
+        },
+      },
+      "KNC": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 1.33,
+          },
+        },
+      },
+      "MKR": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 2289.72,
+          },
+        },
+      },
+      "REN": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 0.34087,
+          },
+        },
+      },
+      "SNX": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 6.56,
+          },
+        },
+      },
+      "SUSHI": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 6.98,
+          },
+        },
+      },
+      "UMA": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 8.75,
+          },
+        },
+      },
+      "UNI": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 17.55,
+          },
+        },
+      },
+      "YFI": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 30671,
+          },
+        },
+      },
+    },
+    "result": 7693.8044133,
+    "sources": Array [],
+  },
+  "jobRunID": "1",
+  "result": 7693.8044133,
+  "statusCode": 200,
+}
+`;
+
+exports[`synth-index X coingecko when making a request to coingecko for sDEFI and coingecko replies with an intermittent failure should try 2 times then respond with a 200 1`] = `
+Object {
+  "data": Object {
+    "payload": Object {
+      "1INCH": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 2.59,
+          },
+        },
+      },
+      "AAVE": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 204.24,
+          },
+        },
+      },
+      "BAL": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 16.53,
+          },
+        },
+      },
+      "BNT": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 3.05,
+          },
+        },
+      },
+      "COMP": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 238.01,
+          },
+        },
+      },
+      "CRV": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 1.49,
+          },
+        },
+      },
+      "KNC": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 1.33,
+          },
+        },
+      },
+      "MKR": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 2289.72,
+          },
+        },
+      },
+      "REN": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 0.34087,
+          },
+        },
+      },
+      "SNX": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 6.56,
+          },
+        },
+      },
+      "SUSHI": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 6.98,
+          },
+        },
+      },
+      "UMA": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 8.75,
+          },
+        },
+      },
+      "UNI": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 17.55,
+          },
+        },
+      },
+      "YFI": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 30671,
+          },
+        },
+      },
+    },
+    "result": 7693.8044133,
+    "sources": Array [],
+  },
+  "jobRunID": "1",
+  "result": 7693.8044133,
+  "statusCode": 200,
+}
+`;
