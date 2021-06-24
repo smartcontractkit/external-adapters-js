@@ -14,7 +14,7 @@ function generateTestPayload() {
   const payload = {
     request: {
       contract: '0x5c4939a2ab3A2a9f93A518d81d4f8D0Bc6a68980',
-      multiply: 1,
+      multiply: 1e8,
       check: 'tradinghours',
       source: searchEnvironment(environmentVariables),
     },
