@@ -68,9 +68,6 @@ export const ABI = [
   },
 ]
 
-export const eventIdToNum = (eventId: string): BigNumber => BigNumber.from(`0x${eventId}`)
-export const numToEventId = (num: BigNumber): string => num.toHexString().slice(2);
-
 export const bytesMappingToHexStr = (mapping: number[], encoded: string): string => {
   const buf = Buffer.from(encoded.substr(2), 'hex')
 

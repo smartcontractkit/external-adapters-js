@@ -1,10 +1,10 @@
 import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Execute } from '@chainlink/types'
 import * as TheRundown from '@chainlink/therundown-adapter'
-import { eventIdToNum } from '../methods'
 import { ethers } from 'ethers'
 import { CreateEvent } from '../methods/createMarkets'
 import { ResolveEvent } from '../methods/resolveMarkets'
+import { BigNumber } from 'ethers'
 
 export const SPORTS_SUPPORTED = ['mlb', 'nba']
 
@@ -12,6 +12,8 @@ export const sportIdMapping: { [sport: string]: number } = {
   MLB: 3,
   NBA: 4,
 }
+
+const eventIdToNum = (eventId: string): BigNumber => BigNumber.from(`0x${eventId}`)
 
 interface TheRundownEvent {
   event_id: string
@@ -174,15 +176,31 @@ const eventStatus: { [key: string]: number } = {
 }
 
 const resolveParams = {
+  sport: true,
   eventId: true
 }
+
+export const numToEventId = (num: BigNumber): string => num.toHexString().slice(2);
 
 export const resolve: Execute = async (input) => {
   const validator = new Validator(input, resolveParams)
   if (validator.error) throw validator.error
 
   const theRundownExec = TheRundown.makeExecute()
-  const response = (await theRundownExec(input)).result as TheRundownEvent
+
+  const sport = validator.validated.data.sport
+  const sportId = sportIdMapping[sport.toUpperCase()]
+  const eventId = numToEventId(validator.validated.data.eventId)
+
+  const req = {
+    id: input.id,
+    data: {
+      sportId,
+      eventId
+    }
+  }
+
+  const response = (await theRundownExec(req)).result as TheRundownEvent
 
   const event: ResolveEvent = {
     id: eventIdToNum(response.event_id),

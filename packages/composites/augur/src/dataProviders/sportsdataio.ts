@@ -228,16 +228,13 @@ const eventStatus: { [status: string]: number } = {
 }
 
 const resolveParams = {
+  sport: true,
   eventId: true,
 }
 
-const findEventScore = async (jobRunID: string, season: string, eventId: number, exec: Execute): Promise<CommonScores> => {
-  for (const sport of SPORTS_SUPPORTED) {
-    const scores = await getScores(jobRunID, sport, season, exec)
-    const event = scores.find((game) => game.GameID === eventId)
-    if (event) return event
-  }
-  throw Error(`Unable to find event ${eventId}`)
+const findEventScore = async (jobRunID: string, sport: string, season: string, eventId: number, exec: Execute): Promise<CommonScores | undefined> => {
+  const scores = await getScores(jobRunID, sport, season, exec)
+  return scores.find((game) => game.GameID === eventId)
 }
 
 export const resolve: Execute = async (input) => {
@@ -245,9 +242,13 @@ export const resolve: Execute = async (input) => {
   if (validator.error) throw validator.error
 
   const eventId = Number(validator.validated.data.eventId)
+  const sport = validator.validated.data.sport
   const sportsdataioExec = Sportsdataio.makeExecute()
 
-  const event = await findEventScore(input.id, getSeason(), eventId, sportsdataioExec)
+  const event = await findEventScore(input.id, sport, getSeason(), eventId, sportsdataioExec)
+  if (!event) {
+    throw Error(`Unable to find event ${eventId}`)
+  }
 
   const status = eventStatus[event.Status]
   if (!status) {

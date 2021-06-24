@@ -1,12 +1,13 @@
 import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Execute, AdapterResponse, AdapterRequest } from '@chainlink/types'
+import { ExecuteWithConfig, Execute } from '@chainlink/types'
 import { Config } from '../config'
-import { ABI, bytesMappingToHexStr, numToEventId } from './index'
+import { ABI, bytesMappingToHexStr } from './index'
 import { ethers } from 'ethers'
 import { theRundown, sportsdataio } from '../dataProviders'
 
 const resolveParams = {
-  contractAddress: true
+  contractAddress: true,
+  sport: true,
 }
 
 const eventStatus: { [key: string]: number } = {
@@ -30,35 +31,32 @@ const statusCompleted = [
   // TODO: What about other statuses in sportsdataio?
 ]
 
-const tryGetEvent = async (dataProviders: Execute[], req: AdapterRequest): Promise<AdapterResponse> => {
-  let exception
-  for (let i = 0; i < dataProviders.length; i++) {
-    try {
-      return await dataProviders[i](req)
-    } catch (e) {
-      Logger.error(e)
-      exception = e
-    }
-  }
-  throw exception
-}
-
 export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const validator = new Validator(input, resolveParams)
   if (validator.error) throw validator.error
 
+  const sport = validator.validated.data.sport.toLowerCase()
   const contractAddress = validator.validated.data.contractAddress
   const contract = new ethers.Contract(contractAddress, ABI, config.wallet)
 
+  let getEvent: Execute
+  if (theRundown.SPORTS_SUPPORTED.includes(sport)) {
+    getEvent = theRundown.resolve
+  } else if (sportsdataio.SPORTS_SUPPORTED.includes(sport)) {
+    getEvent = sportsdataio.resolve
+  } else {
+    throw Error(`Unknown data provider for sport ${sport}`)
+  }
+
   const eventIDs: ethers.BigNumber[] = await contract.listResolvableEvents()
   const events: ResolveEvent[] = []
-  for (const event of eventIDs) {
+  for (const eventId of eventIDs) {
     try {
-      const response = await tryGetEvent([theRundown.resolve, sportsdataio.resolve], {
+      const response = await getEvent({
         id: input.id,
         data: {
-          endpoint: 'event',
-          eventId: numToEventId(event)
+          sport,
+          eventId
         }
       })
       events.push(response.result as ResolveEvent)
