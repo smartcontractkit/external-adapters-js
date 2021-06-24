@@ -10,7 +10,6 @@ export const ENV_DATA_PROVIDER_URL = 'DATA_PROVIDER_URL'
 
 export const makeConfig = (prefix = ''): Config => {
   const sources: { [name: string]: DefaultConfig } = {}
-  console.log(legos.sources)
   for (const a of legos.sources) {
     const url = util.getEnv(ENV_DATA_PROVIDER_URL, a.toUpperCase())
     if (url) {
