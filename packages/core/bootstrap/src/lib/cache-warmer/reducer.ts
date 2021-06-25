@@ -64,6 +64,13 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
 
   builder.addCase(actions.warmupUnsubscribed, (state, action) => {
     const subscription = state[action.payload.key]
+
+    if (!subscription)
+      console.error(
+        'subscriptionsReducer warmupUnsubscribed - no subscription found',
+        JSON.stringify(state),
+      )
+
     if (subscription.childLastSeenById) {
       const children = Object.keys(subscription.childLastSeenById)
       for (const childKey of children) {
@@ -74,8 +81,16 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
   })
 
   builder.addCase(actions.warmupJoinGroup, (state, { payload }) => {
+    if (!payload)
+      console.error('subscriptionsReducer warmupJoinGroup - no payload', JSON.stringify(state))
+
     const batchWarmer = state[payload.parent]
-    if (!batchWarmer) return
+    if (!batchWarmer) {
+      console.error(
+        'subscriptionsReducer warmupJoinGroup - no batch warmer exists',
+        JSON.stringify(state),
+      )
+    }
 
     batchWarmer.childLastSeenById = {
       ...batchWarmer.childLastSeenById,
@@ -94,10 +109,25 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
   })
 
   builder.addCase(actions.warmupLeaveGroup, (state, { payload }) => {
+    if (!payload)
+      console.error('subscriptionsReducer warmupLeaveGroup - no payload', JSON.stringify(state))
+
     const batchWarmer = state[payload.parent]
-    if (!batchWarmer) return
+    if (!batchWarmer) {
+      console.error(
+        'subscriptionsReducer warmupLeaveGroup - no batch warmer exists',
+        JSON.stringify(state),
+      )
+    }
 
     const childIdsToRemove = Object.keys(payload.childLastSeenById)
+
+    if (!batchWarmer.childLastSeenById) {
+      console.error(
+        'subscriptionsReducer warmupLeaveGroup - no childLastSeenById',
+        JSON.stringify(state),
+      )
+    }
 
     const filteredChildIds = Object.keys(batchWarmer.childLastSeenById || {}).filter(
       (childId) => !childIdsToRemove.includes(childId),
@@ -116,7 +146,13 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
       ...batchRequestDataArrays,
     }
     for (const childKey in payload.childLastSeenById) {
-      delete batchWarmer.childLastSeenById?.[childKey]
+      if (batchWarmer?.childLastSeenById?.[childKey])
+        delete batchWarmer.childLastSeenById?.[childKey]
+      else
+        console.error(
+          'subscriptionsReducer warmupLeaveGroup - no batch warmer exists',
+          JSON.stringify(state),
+        )
     }
   })
 })
