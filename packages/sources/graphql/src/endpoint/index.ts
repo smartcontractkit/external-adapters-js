@@ -1,1 +1,1 @@
-export * as example from './example'
+export * as graphql from "./graphql"
