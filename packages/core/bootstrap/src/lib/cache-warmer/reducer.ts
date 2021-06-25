@@ -71,13 +71,16 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
         JSON.stringify(state),
       )
 
-    if (subscription.childLastSeenById) {
+    delete state[action.payload.key]
+    
+    if (!subscription.childLastSeenById) {
+      return
+    }
       const children = Object.keys(subscription.childLastSeenById)
       for (const childKey of children) {
         delete state[childKey]
       }
-    }
-    delete state[action.payload.key]
+    
   })
 
   builder.addCase(actions.warmupJoinGroup, (state, { payload }) => {
