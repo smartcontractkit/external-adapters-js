@@ -1,4 +1,4 @@
-import { AdapterErrorResponse, AdapterResponse, RequestConfig } from '@chainlink/types'
+import { AdapterErrorResponse, AdapterResponse, RequestConfig, CallbackApiResponse } from '@chainlink/types'
 import axios, { AxiosResponse } from 'axios'
 import { deepType } from '../util'
 import { getDefaultConfig, logConfig } from './config'
@@ -108,9 +108,9 @@ export class Requester {
     const output = isObj
       ? (response as AxiosResponseWithLiftedResult<T>)
       : ({
-          ...response,
-          data: { payload: response.data },
-        } as AxiosResponseWithPayloadAndLiftedResult<T>)
+        ...response,
+        data: { payload: response.data },
+      } as AxiosResponseWithPayloadAndLiftedResult<T>)
     if (result) output.data.result = result
     if (results) output.data.results = results
     return output
@@ -146,12 +146,24 @@ export class Requester {
     jobRunID = '1',
     response: Partial<AxiosResponse>,
     verbose = false,
+    pending?: boolean
   ): AdapterResponse {
     return {
       jobRunID,
       data: verbose ? response.data : { result: response.data?.result },
       result: response.data?.result,
       statusCode: response.status || 200,
+      pending
+    }
+  }
+
+  static callbackResponse(statusCode: number, success: boolean, errorMessage?: string): CallbackApiResponse {
+    return {
+      statusCode,
+      data: {
+        success,
+        error: errorMessage
+      }
     }
   }
 

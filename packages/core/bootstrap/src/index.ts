@@ -1,6 +1,7 @@
 import {
   AdapterMetricsMeta,
   AdapterRequest,
+  CallbackProperty,
   Execute,
   ExecuteSync,
   MakeWSHandler,
@@ -37,10 +38,10 @@ cacheWarmer.epics.epicMiddleware.run(cacheWarmer.epics.rootEpic)
 ws.epics.epicMiddleware.run(ws.epics.rootEpic)
 
 const storeSlice = (slice: any) =>
-  ({
-    getState: () => store.getState()[slice],
-    dispatch: (a) => store.dispatch(a),
-  } as Store)
+({
+  getState: () => store.getState()[slice],
+  dispatch: (a) => store.dispatch(a),
+} as Store)
 
 // Try to initialize, pass through on error
 const skipOnError = (middleware: Middleware) => async (execute: Execute) => {
@@ -174,13 +175,14 @@ const executeSync = (execute: Execute, makeWsHandler?: MakeWSHandler): ExecuteSy
   }
 }
 
-export const expose = (execute: Execute, makeWsHandler?: MakeWSHandler) => {
+export const expose = (execute: Execute, makeWsHandler?: MakeWSHandler, callbackProperties?: CallbackProperty[]) => {
   // Add middleware to the execution flow
   const _execute = executeSync(execute, makeWsHandler)
   return {
-    server: server.initHandler(_execute),
+    server: server.initHandler(_execute, callbackProperties),
   }
 }
+
 export type ExecuteHandlers = ReturnType<typeof expose>
 
 // Log cache default options once

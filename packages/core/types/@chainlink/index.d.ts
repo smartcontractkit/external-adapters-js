@@ -20,6 +20,20 @@ declare module '@chainlink/types' {
     providerCost?: number
   }
 
+  export interface CallbackApiResponse {
+    statusCode: number,
+    data: {
+      success: boolean,
+      error?: string
+    }
+  }
+
+  export interface CallbackProperty {
+    endpoint?: string,
+    handler: (request: any) => Promise<CallbackApiResponse>
+    method: "GET" | "POST" | "PATCH"
+  }
+
   /**
    * Meta info that pertains to exposing metrics
    */
@@ -55,6 +69,7 @@ declare module '@chainlink/types' {
     maxAge?: number
     metricsMeta?: AdapterMetricsMeta
     debug?: AdapterDebug
+    pending?: boolean
   }
 
   /* ERRORS */
@@ -92,6 +107,7 @@ declare module '@chainlink/types' {
   export type ExecuteSync = (input: AdapterRequest, callback: Callback) => void
 
   export type Execute = (input: AdapterRequest) => Promise<AdapterResponse>
+  export type ExecuteCallback = (request: any) => Promise<CallbackApiResponse>
 
   export type ExecuteWithConfig<C extends Config> = (
     input: AdapterRequest,
