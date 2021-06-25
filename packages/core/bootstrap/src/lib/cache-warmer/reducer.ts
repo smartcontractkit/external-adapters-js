@@ -58,14 +58,17 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
       isDuplicate: !!state[key],
       parent: payload.parent || state[key]?.parent,
       batchablePropertyPath: payload.batchablePropertyPath || state[key]?.batchablePropertyPath,
-      childLastSeenById: payload.childLastSeenById,
+      childLastSeenById: payload?.childLastSeenById,
     }
   })
 
   builder.addCase(actions.warmupUnsubscribed, (state, action) => {
-    const children = Object.keys(state[action.payload.key]?.childLastSeenById || {})
-    for (const childKey of children) {
-      delete state[childKey]
+    const subscription = state[action.payload.key]
+    if (subscription.childLastSeenById) {
+      const children = Object.keys(subscription.childLastSeenById)
+      for (const childKey of children) {
+        delete state[childKey]
+      }
     }
     delete state[action.payload.key]
   })
