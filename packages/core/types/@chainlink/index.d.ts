@@ -19,7 +19,6 @@ declare module '@chainlink/types' {
     performance?: number
     providerCost?: number
     batchablePropertyPath?: string[]
-    normalizedRequest?: Record<string, unknown>
   }
 
   /**

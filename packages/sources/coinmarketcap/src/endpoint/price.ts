@@ -59,22 +59,15 @@ const handleBatchedRequest = (
   path: string,
 ) => {
   const payload: [AdapterRequest, number][] = []
-  for (const base in response.data.data) {
-    for (const quote in response.data.data[base].quote) {
-      const nonBatchInput = {
-        ...request,
-        data: { ...request.data, base: base.toUpperCase(), convert: quote.toUpperCase() },
-      }
-      const validated = new Validator(nonBatchInput, inputParameters)
-      payload.push([
-        { endpoint: request.data.endpoint, ...validated.validated.data },
-        Requester.validateResultNumber(response.data, ['data', base, 'quote', quote, path]),
-      ])
-    }
+  for (const key in response.data.data) {
+    payload.push([
+      { ...request, data: { ...request.data, base: key.toUpperCase() } },
+      Requester.validateResultNumber(response.data, ['data', key, 'quote', convert, path]),
+    ])
   }
   response.data.results = payload
   response.data.cost = Requester.validateResultNumber(response.data, ['status', 'credit_count'])
-  return Requester.success(jobRunID, response, true, ['base', 'convert'])
+  return Requester.success(jobRunID, response, true, ['base', 'quote'])
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
@@ -130,7 +123,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const response = await Requester.request(options)
 
   if (Array.isArray(symbol) || Array.isArray(convert))
-    return handleBatchedRequest(jobRunID, request, response, path)
+    return handleBatchedRequest(jobRunID, request, response, convert, path)
 
   // CMC API currently uses ID as key in response, when querying with "slug" param
   const _keyForSlug = (data: any, slug: string) => {
@@ -152,8 +145,5 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     convert,
     path,
   ])
-  return Requester.success(jobRunID, response, config.verbose, ['base', 'convert'], {
-    endpoint: request.data.endpoint,
-    ...validator.validated.data,
-  })
+  return Requester.success(jobRunID, response, config.verbose, ['base', 'quote'])
 }

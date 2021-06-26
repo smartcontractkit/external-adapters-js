@@ -47,7 +47,7 @@ export const getPriceProvider = (
     }
     const response = await Requester.request<AdapterResponse>({
       ...apiConfig,
-      data,
+      data: data,
     })
     const payloadEntries = symbols.map((symbol) => {
       const key = symbol
@@ -55,8 +55,9 @@ export const getPriceProvider = (
         quote: {
           [quote]: {
             [withMarketCap ? 'marketCap' : 'price']: response.data.data.results.find(
-              (result: [AdapterRequest, number]) =>
-                result[0].data.base === symbol && result[0].data.quote === quote,
+              (result: [AdapterRequest, number]) => {
+                result[0].data.base === symbol && result[0].data.quote === quote
+              },
             )[1],
           },
         },

@@ -109,13 +109,8 @@ const handleBatchedRequest = (
   const payload: [AdapterRequest, number][] = []
   for (const i in response.data) {
     const entry = response.data[i]
-    const nonBatchInput = {
-      ...request,
-      data: { ...request.data, base: entry.symbol.toUpperCase() },
-    }
-    const validated = new Validator(nonBatchInput, inputParameters)
     payload.push([
-      { endpoint: request.data.endpoint, ...validated.validated.data },
+      { ...request, data: { ...request.data, base: entry.symbol.toUpperCase() } },
       Requester.validateResultNumber(response.data[i], resultPaths[path]),
     ])
   }
@@ -157,14 +152,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (Array.isArray(symbol)) return handleBatchedRequest(jobRunID, request, response, path)
 
   const result = Requester.validateResultNumber(response.data[0], resultPaths[path])
-  return Requester.success(
-    jobRunID,
-    Requester.withResult(response, result),
-    config.verbose,
-    ['base'],
-    {
-      endpoint: request.data.endpoint,
-      ...validator.validated.data,
-    },
-  )
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose, [
+    'base',
+  ])
 }
