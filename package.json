@@ -8,7 +8,7 @@
   ],
   "scripts": {
     "new": "ts-node-transpile-only ./packages/scripts/src/new",
-    "bundle": "ncc build",
+    "bundle": "ncc -s build",
     "clean": "tsc -b --clean  ./packages/tsconfig.json",
     "lint": "eslint --ext ts .",
     "lint:fix": "yarn lint --fix",

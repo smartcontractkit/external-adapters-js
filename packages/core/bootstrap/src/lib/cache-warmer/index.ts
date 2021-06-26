@@ -7,9 +7,8 @@ import * as util from '../util'
 import { getWSConfig } from '../ws/config'
 import { getSubsId, RootState as WSState } from '../ws/reducer'
 import * as actions from './actions'
-import { RootState } from './reducer'
+import { CacheWarmerState } from './reducer'
 import { getSubscriptionKey } from './util'
-import { omit } from 'lodash'
 
 export * as actions from './actions'
 export * as epics from './epics'
@@ -21,7 +20,7 @@ interface WSInput {
 }
 
 export const withCacheWarmer = (
-  warmerStore: Store<RootState>,
+  warmerStore: Store<CacheWarmerState>,
   middleware: Middleware[],
   ws: WSInput,
 ) => (rawExecute: Execute): Middleware => async (execute) => async (input: AdapterRequest) => {
@@ -31,13 +30,19 @@ export const withCacheWarmer = (
   if (!isWarmerActive) return await execute(input)
 
   const wsConfig = getWSConfig()
-  const warmupSubscribedPayload = {
-    id: input.id,
+  const warmupSubscribedPayload: actions.WarmupSubscribedPayload = {
+    ...input,
     // We need to initilialize the middleware on every beat to open a connection with the cache
     // Wrapping `rawExecute` as `execute` is already wrapped with the default middleware. Warmer doesn't need every default middleware
     executeFn: async (input: AdapterRequest) =>
       await (await withMiddleware(rawExecute, middleware))(input),
-    data: omit(input, ['debug', 'rateLimitMaxAge']),
+    // Dummy result
+    result: {
+      jobRunID: '1',
+      statusCode: 200,
+      data: {},
+      result: 1,
+    },
   }
 
   if (wsConfig.enabled && ws.makeWSHandler) {
@@ -50,10 +55,18 @@ export const withCacheWarmer = (
     const isActiveWSSubscription = ws.store.getState().subscriptions.all[wsSubscriptionKey]?.active
     // If there is a WS subscription active, warmup subscription (if exists) should be removed, and not play for the moment
     const isActiveCWSubsciption = warmerStore.getState().subscriptions[cacheWarmerKey]
-
     if (isActiveWSSubscription) {
       if (isActiveCWSubsciption) {
         logger.info(`Active WS feed detected: disabling cache warmer for ${getFeedId(input)}`)
+        // If there is a Batch WS subscription active, warmup subscription should be removed
+        if (isActiveCWSubsciption.parent && isActiveCWSubsciption.batchablePropertyPath)
+          warmerStore.dispatch(
+            actions.warmupLeaveGroup({
+              parent: isActiveCWSubsciption.parent,
+              childLastSeenById: { [cacheWarmerKey]: Date.now() },
+              batchablePropertyPath: isActiveCWSubsciption.batchablePropertyPath,
+            }),
+          )
         warmerStore.dispatch(actions.warmupUnsubscribed({ key: cacheWarmerKey }))
       }
 
@@ -62,8 +75,16 @@ export const withCacheWarmer = (
   }
 
   // In case WS is not available, or WS has no active subscription, warmer should be active
-  const result = await execute(input)
   // Dispatch subscription only if execute was succesful
-  warmerStore.dispatch(actions.warmupSubscribed(warmupSubscribedPayload))
+  const result = await execute(input)
+
+  const warmupExecutePayload: actions.WarmupExecutePayload = {
+    ...input,
+    executeFn: async (input: AdapterRequest) =>
+      await (await withMiddleware(rawExecute, middleware))(input),
+    result,
+  }
+  warmerStore.dispatch(actions.warmupExecute(warmupExecutePayload))
+
   return result
 }
