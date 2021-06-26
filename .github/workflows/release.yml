@@ -4,10 +4,10 @@ on:
       # On develop, we build and publish containers, with the tag of "develop-latest"
 
       # Ex. A newly build coingecko adapter is built and pushed to ECR.
-      # The ECR registry is reachable at public.ecr.aws/z0b1w9r9/adapters/
+      # The ECR registry is reachable at public.ecr.aws/chainlink/adapters/
 
       # You would be able to pull the coingecko adapter with the following command:
-      # docker pull public.ecr.aws/z0b1w9r9/adapters/coingecko-adapter:develop-latest
+      # docker pull public.ecr.aws/chainlink/adapters/coingecko-adapter:develop-latest
       - develop
 
       # On master, we build and publish containers with the tag of "latest" and another tag of the
@@ -18,11 +18,11 @@ on:
       # coingecko-adapter:latest
       # coingecko-adapter:0.0.5-beta
 
-      # The ECR registry is reachable at public.ecr.aws/z0b1w9r9/adapters/
+      # The ECR registry is reachable at public.ecr.aws/chainlink/adapters/
 
       # You would be able to pull the coingecko adapter with the following commands:
-      # docker pull public.ecr.aws/z0b1w9r9/adapters/coingecko-adapter:latest
-      # docker pull public.ecr.aws/z0b1w9r9/adapters/coingecko-adapter:0.0.5-beta
+      # docker pull public.ecr.aws/chainlink/adapters/coingecko-adapter:latest
+      # docker pull public.ecr.aws/chainlink/adapters/coingecko-adapter:0.0.5-beta
       - master
   # A workflow dispatch would trigger the same behaviour as a push to the master branch
   workflow_dispatch:
@@ -30,7 +30,7 @@ on:
 name: Release
 
 env:
-  publicecr-name: z0b1w9r9
+  publicecr-name: chainlink
 
 jobs:
   # Read build strategy matrix of adapters, from a json file
