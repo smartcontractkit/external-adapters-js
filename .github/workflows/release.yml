@@ -1,10 +1,29 @@
 on:
   push:
     branches:
+      # On develop, we build and publish containers, with the tag of "develop-latest"
+
+      # Ex. A newly build coingecko adapter is built and pushed to ECR.
+      # The ECR registry is reachable at public.ecr.aws/z0b1w9r9/adapters/
+
+      # You would be able to pull the coingecko adapter with the following command:
+      # docker pull public.ecr.aws/z0b1w9r9/adapters/coingecko-adapter:develop-latest
       - develop
-    # Sequence of patterns matched against refs/tags
-    tags:
-      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+
+      # On master, we build and publish containers with the tag of "latest" and another tag of the
+      # adapters version contained within package.json.
+
+      # Ex. If the value of the field "version" in the "package.json" file of the coingecko adapter is "0.0.5-beta",
+      # The "coingecko-adapter" container will be resolvable with the following specifiers:
+      # coingecko-adapter:latest
+      # coingecko-adapter:0.0.5-beta
+
+      # The ECR registry is reachable at public.ecr.aws/z0b1w9r9/adapters/
+
+      # You would be able to pull the coingecko adapter with the following commands:
+      # docker pull public.ecr.aws/z0b1w9r9/adapters/coingecko-adapter:latest
+      # docker pull public.ecr.aws/z0b1w9r9/adapters/coingecko-adapter:0.0.5-beta
+      - master
 
 name: Release
 
@@ -72,7 +91,7 @@ jobs:
   # and a tag of 'latest' from the below jobs.
   # This is only needed for non-develop jobs since the same image needs to be tagged twice
   matrix-adapters-release-latest:
-    if: github.ref == 'refs/heads/develop'
+    if: github.ref != 'refs/heads/develop'
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.create-matrix.outputs.result }}
@@ -89,7 +108,7 @@ jobs:
           IMAGE_PREFIX: public.ecr.aws/${{ env.publicecr-name }}/adapters/
 
   publish-artifacts-release-latest:
-    if: github.ref == 'refs/heads/develop'
+    if: github.ref != 'refs/heads/develop'
     needs: [release, matrix-adapters]
     runs-on: ubuntu-latest
     name: (${{ matrix.adapter.type }}) Publish ${{ matrix.adapter.name }} adapter Docker image
