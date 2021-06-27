@@ -1,0 +1,30 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "@chainlink/mistertango-adapter",
+    "version": "0.0.1",
+    "license": {
+      "name": "MIT"
+    }
+  },
+  "paths": {},
+  "securityDefinitions": {
+    "environment-variables": {
+      "API_KEY": {
+        "required": true
+      },
+      "API_SECRET": {
+        "required": true
+      },
+      "API_USER": {
+        "required": true
+      },
+      "API_URL": {
+        "required": false,
+        "default": "https://publicapi.v2.mistertango.com"
+      }
+    }
+  },
+  "components": {},
+  "tags": []
+}
