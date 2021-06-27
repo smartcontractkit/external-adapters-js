@@ -56,7 +56,8 @@
     "singleQuote": true,
     "printWidth": 100,
     "endOfLine": "auto",
-    "trailingComma": "all"
+    "trailingComma": "all",
+    "arrowParens": "always"
   },
   "release": {
     "branches": [

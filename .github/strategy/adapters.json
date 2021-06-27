@@ -2,20 +2,12 @@
   "core": {
     "docker": "yarn docker core __ADAPTER__",
     "image_name": "__ADAPTER__-adapter",
-    "adapter": [
-      "bootstrap",
-      "factories",
-      "reference-data-reader",
-      "test-helpers"
-    ]
+    "adapter": ["bootstrap", "factories", "reference-data-reader", "test-helpers"]
   },
   "examples": {
     "docker": "yarn docker examples __ADAPTER__",
     "image_name": "__ADAPTER__-adapter",
-    "adapter": [
-      "composite",
-      "source"
-    ]
+    "adapter": ["composite", "source"]
   },
   "sources": {
     "docker": "yarn docker sources __ADAPTER__",
@@ -76,6 +68,7 @@
       "marketstack",
       "messari",
       "metalsapi",
+      "ncfx",
       "nikkei",
       "nomics",
       "oilpriceapi",
@@ -106,13 +99,7 @@
   "targets": {
     "docker": "yarn docker targets __ADAPTER__",
     "image_name": "__ADAPTER__-adapter",
-    "adapter": [
-      "agoric",
-      "conflux",
-      "dydx-stark",
-      "ethwrite",
-      "harmony"
-    ]
+    "adapter": ["agoric", "conflux", "dydx-stark", "ethwrite", "harmony"]
   },
   "composites": {
     "docker": "yarn docker composites __ADAPTER__",

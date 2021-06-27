@@ -16,7 +16,7 @@ function writeJson(data: any) {
   const files = Object.keys(data)
 
   // write to each file
-  files.forEach(f => {
+  files.forEach((f) => {
     let contents = data[f]
     if (f.includes('.json')) {
       contents = JSON.stringify(contents, null, 2)
@@ -31,7 +31,8 @@ function writeJson(data: any) {
 function checks(): Inputs {
   const type: string = process.argv[2]
   if (!type) throw red.bold('Missing first argument: type')
-  if (!ADAPTER_TYPES.includes(type)) throw red.bold(`Type must be one of: ${ADAPTER_TYPES.join(', ')}`)
+  if (!ADAPTER_TYPES.includes(type))
+    throw red.bold(`Type must be one of: ${ADAPTER_TYPES.join(', ')}`)
 
   const n: string = process.argv[3]
   if (!n) throw red.bold('Missing second argument: name')
@@ -68,19 +69,26 @@ function tsconfGenerate(packages: WorkspacePackage[], filepath: string, slice = 
   })
 }
 
-async function generate(type: string) {
+async function generate(type: string, n: string) {
   let writeData = {} // data struct for writing
 
   // pull latest workspace data after files have been generated
   let currentWorkspace: WorkspacePackage[] = getWorkspacePackages(['scripts', 'core']) //using this alphabetizes everything
-  currentWorkspace = currentWorkspace.filter(w => w.name !== '@chainlink/types') //filter out package
-  const adapterList = currentWorkspace.filter(w => w.type === `${type}s`)
+  currentWorkspace = currentWorkspace.filter((w) => w.name !== '@chainlink/types') //filter out package
+  const adapterList = currentWorkspace.filter((w) => w.type === `${type}s`)
 
   // add to packages/tsconfig.json
   const tsconfigPath = 'packages/tsconfig.json'
   const tsconfig = await import(path.relative(__dirname, tsconfigPath))
   tsconfig.references = tsconfGenerate(currentWorkspace, tsconfigPath, 1)
   writeData = { ...writeData, [tsconfigPath]: tsconfig }
+
+  // add to github CI/CD
+  const githubPath = '.github/strategy/adapters.json'
+  const github = await import(path.relative(__dirname, githubPath))
+  github[`${type}s`].adapter.push(n)
+  github[`${type}s`].adapter.sort()
+  writeData = { ...writeData, [githubPath]: github }
 
   // add to ea legos package for source adapters
   if (type === 'source') {
@@ -96,7 +104,7 @@ async function generate(type: string) {
     const legoPackagePath = `${legosPath}/package.json`
     const legoPackage = await import(path.relative(__dirname, legoPackagePath))
     const otherPackages = Object.keys(legoPackage.dependencies)
-      .filter(k => !(k.includes('@chainlink') && k.includes('adapter')))
+      .filter((k) => !(k.includes('@chainlink') && k.includes('adapter')))
       .reduce((obj, key) => {
         return { ...obj, [key]: legoPackage.dependencies[key] }
       }, {}) // capture other dependencies (non-adapter)
@@ -111,10 +119,10 @@ async function generate(type: string) {
     let output = shell.cat(legoSourcePath).split('\n')
     const index = output.indexOf('')
     const importEa = output.slice(0, index)
-    const exportEa = output.slice(index).filter(e => e !== '' && e !== '}' && !e.includes('{'))
+    const exportEa = output.slice(index).filter((e) => e !== '' && e !== '}' && !e.includes('{'))
 
     // checks adapter list for newly generated adapters and adds to the list if not already present
-    adapterList.forEach(a => {
+    adapterList.forEach((a) => {
       if (!importEa.join().includes(a.name)) {
         const name = a.name.replace('@chainlink/', '').replace('-adapter', '')
         const nameNoDash = name.replace(/-/g, '_') // /g to apply to whole string not just first instance
@@ -138,7 +146,7 @@ export async function main() {
   copyFiles(inputs.type, inputs.n)
 
   log(blue.bold('Regenerating tsconfig and lego files'))
-  const data = await generate(inputs.type)
+  const data = await generate(inputs.type, inputs.n)
 
   log(blue.bold('Resolving workspace and running prettier'))
   writeJson(data)
