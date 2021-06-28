@@ -3,7 +3,7 @@ import { ExecuteWithConfig, Config } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 import { assets } from '.'
 
-export const NAME = 'price'
+export const supportedEndpoints = ['price']
 
 const customError = (data: any) => data.Response === 'Error'
 
@@ -25,9 +25,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     )
 
   const jobRunID = validator.validated.id
-  const from = validator.validated.data.from
-  const symbol = (validator.overrideSymbol(AdapterName, from) as string).toUpperCase()
-  const url = `exchangerate/${symbol}/${to}`
+  const symbol = (validator.overrideSymbol(AdapterName) as string).toUpperCase()
+  const quote = validator.validated.data.quote.toUpperCase()
+  if (quote?.toUpperCase() === 'USD') return await assets.execute(request, config)
+
+  const url = `exchangerate/${symbol}/${quote}`
 
   const options = {
     ...config.api,

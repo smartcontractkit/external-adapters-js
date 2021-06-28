@@ -2,7 +2,7 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, AxiosResponse, AdapterRequest } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
-export const NAME = 'assets'
+export const supportedEndpoints = ['assets']
 
 export interface ResponseSchema {
   asset_id: string
