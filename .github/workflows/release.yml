@@ -52,7 +52,7 @@ jobs:
           IMAGE_PREFIX: public.ecr.aws/${{ env.publicecr-name }}/adapters/
 
   publish-artifacts:
-    needs: [release, matrix-adapters]
+    needs: [matrix-adapters]
     runs-on: ubuntu-latest
     name: (${{ matrix.adapter.type }}) Publish ${{ matrix.adapter.name }} adapter Docker image
     strategy:
@@ -111,7 +111,7 @@ jobs:
 
   publish-artifacts-release-latest:
     if: github.ref != 'refs/heads/develop'
-    needs: [release, matrix-adapters]
+    needs: [matrix-adapters]
     runs-on: ubuntu-latest
     name: (${{ matrix.adapter.type }}) Publish ${{ matrix.adapter.name }} adapter Docker image
     strategy:
