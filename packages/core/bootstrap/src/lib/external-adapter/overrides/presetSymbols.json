@@ -6,8 +6,7 @@
     "grt": "the-graph",
     "LINA": "linear",
     "FTT": "ftx-token",
-    "MDX": "mdex",
-    "LINK": "chainlink"
+    "MDX": "mdex"
   },
   "nomics": {
     "FNX": "FNX2",
