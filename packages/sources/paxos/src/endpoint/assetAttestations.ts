@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, AdapterRequest } from '@chainlink/types'
+import { Config, ExecuteWithConfig } from '@chainlink/types'
 import { DEFAULT_BASE_URL } from '../config'
 
 export const supportedEndpoints = ['assetAttestation']

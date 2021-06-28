@@ -3,8 +3,6 @@ import { Config } from '@chainlink/types'
 
 export const NAME = 'BLOCKCYPHER'
 
-export const NAME = 'BLOCKCYPHER'
-
 export const DEFAULT_ENDPOINT = 'balance'
 
 export const COIN_KEYS = ['btc'] as const

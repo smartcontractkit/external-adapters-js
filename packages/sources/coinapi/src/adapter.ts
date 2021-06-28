@@ -2,7 +2,7 @@ import { Builder, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteFactory, ExecuteWithConfig, MakeWSHandler } from '@chainlink/types'
 import { DEFAULT_WS_API_ENDPOINT, makeConfig, NAME } from './config'
 import * as endpoints from './endpoint'
-import { price } from './endpoint'
+import { crypto } from './endpoint'
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   return Builder.buildSelector(request, config, endpoints)
@@ -26,7 +26,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => () => {
       url: defaultConfig.api.baseWsURL || DEFAULT_WS_API_ENDPOINT,
     },
     subscribe: (input) => {
-      const validator = new Validator(input, price.customParams, {}, false)
+      const validator = new Validator(input, crypto.customParams, {}, false)
       if (validator.error) return
       const base = (validator.overrideSymbol(NAME) as string).toLowerCase()
       const quote = validator.validated.data.quote.toLowerCase()

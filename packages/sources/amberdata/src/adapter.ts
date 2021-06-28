@@ -7,7 +7,7 @@ import {
   MakeWSHandler} from '@chainlink/types'
 import { DEFAULT_WS_API_ENDPOINT, makeConfig, NAME } from './config'
 import * as endpoints from './endpoint'
-import { price } from './endpoint'
+import { crypto } from './endpoint'
 
 // Export function to integrate with Chainlink node
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {

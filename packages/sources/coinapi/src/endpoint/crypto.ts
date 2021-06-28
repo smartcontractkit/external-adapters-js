@@ -3,7 +3,7 @@ import { ExecuteWithConfig, Config } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 import { assets } from '.'
 
-export const supportedEndpoints = ['price']
+export const supportedEndpoints = ['crypto', 'price']
 
 const customError = (data: any) => data.Response === 'Error'
 
