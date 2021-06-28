@@ -3,7 +3,14 @@ export * from './ws'
 
 export const GROUP_COUNT = 1
 
-export type AdapterNames = 'nomics' | 'cryptocompare' | 'tiingo'
+export type AdapterNames =
+  | 'nomics'
+  | 'cryptocompare'
+  | 'tiingo'
+  | 'coingecko'
+  | 'coinapi'
+  | 'coinmarketcap'
+
 interface AdapterConfig {
   name: AdapterNames
   /**
@@ -12,7 +19,8 @@ interface AdapterConfig {
   secondsPerCall: number
 }
 export const ADAPTERS: AdapterConfig[] = [
-  { name: 'nomics', secondsPerCall: 10 },
-  { name: 'cryptocompare', secondsPerCall: 1 },
-  { name: 'tiingo', secondsPerCall: 5 },
+  // { name: 'nomics', secondsPerCall: 10 },
+  { name: 'coinapi', secondsPerCall: 10 },
+  // { name: 'cryptocompare', secondsPerCall: 1 },
+  // { name: 'tiingo', secondsPerCall: 5 },
 ]

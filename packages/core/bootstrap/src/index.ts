@@ -25,6 +25,8 @@ const rootReducer = combineReducers({
   ws: ws.reducer.rootReducer,
 })
 
+export type RootState = ReturnType<typeof rootReducer>
+
 // Init store
 const initState = { cacheWarmer: {}, rateLimit: {}, ws: {} }
 export const store = configureStore(rootReducer, initState, [

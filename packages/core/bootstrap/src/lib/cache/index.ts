@@ -9,6 +9,7 @@ import {
   parseBool,
   uuid,
 } from '../util'
+import { getMaxAgeOverride, getTTL } from './ttl'
 import * as local from './local'
 import { LocalOptions } from './local'
 import * as metrics from './metrics'
@@ -23,8 +24,6 @@ const DEFAULT_RC_INTERVAL_MAX = 1000
 const DEFAULT_RC_INTERVAL_COEFFICIENT = 2
 const DEFAULT_RC_ENTROPY_MAX = 0
 
-export const MAXIMUM_MAX_AGE = 1000 * 60 * 2 // 2 minutes
-const ERROR_MAX_AGE = 1000 * 60 // 1 minute
 export const MINIMUM_AGE = 1000 * 60 * 0.5 // 30 seconds
 
 const env = process.env
@@ -115,45 +114,6 @@ export const withCache: Middleware = async (execute, options: CacheOptions = def
     logger.debug(`Request coalescing: DEL ${key}`)
   }
 
-  const _getRateLimitMaxAge = (data: AdapterRequest): number | undefined => {
-    if (!data || !data.data) return
-    if (isNaN(data.rateLimitMaxAge as number)) return
-    const feedId = data?.metricsMeta?.feedId
-    const maxAge = Number(data.rateLimitMaxAge)
-    if (maxAge && maxAge > ERROR_MAX_AGE) {
-      logger.warn(
-        `${
-          feedId && feedId[0] !== '{' ? `[${feedId}]` : ''
-        } Cache: Calculated Max Age of ${maxAge} ms exceeds system maximum Max Age of ${MAXIMUM_MAX_AGE} ms`,
-        data,
-      )
-      return maxAge > MAXIMUM_MAX_AGE ? MAXIMUM_MAX_AGE : maxAge
-    }
-    if (maxAge && maxAge > options.cacheOptions.maxAge) {
-      logger.warn(
-        `${
-          feedId && feedId[0] !== '{' ? `[${feedId}]` : ''
-        } Cache: Calculated Max Age of ${maxAge} ms exceeds configured Max Age of ${
-          options.cacheOptions.maxAge
-        } ms`,
-        data,
-      )
-    }
-    return maxAge
-  }
-
-  const _getDefaultMaxAge = (adapterRequest: AdapterRequest) => {
-    const rlMaxAge = _getRateLimitMaxAge(adapterRequest)
-    return rlMaxAge || cache.options.maxAge
-  }
-
-  const _getRequestMaxAge = (adapterRequest: AdapterRequest): number | undefined => {
-    if (!adapterRequest || !adapterRequest.data) return
-    if (isNaN(adapterRequest.data.maxAge as number)) return
-
-    return Number(adapterRequest.data.maxAge)
-  }
-
   const _executeWithCache = async (adapterRequest: AdapterRequest): Promise<AdapterResponse> => {
     const key = _getKey(adapterRequest)
     const coalescingKey = _getCoalescingKey(key)
@@ -162,28 +122,6 @@ export const withCache: Middleware = async (execute, options: CacheOptions = def
       participantId: key,
       feedId: adapterRequest.metricsMeta?.feedId || 'N/A',
     })
-    let maxAge = _getRequestMaxAge(adapterRequest) || _getDefaultMaxAge(adapterRequest)
-    // Add successful result to cache
-    const _cacheOnSuccess = async ({
-      statusCode,
-      data,
-      result,
-    }: Pick<AdapterResponse, 'statusCode' | 'data' | 'result'>) => {
-      if (statusCode === 200) {
-        if (maxAge < 0) {
-          maxAge = _getDefaultMaxAge(data)
-        }
-        if (maxAge < options.minimumAge) maxAge = options.minimumAge
-
-        const entry: CacheEntry = { statusCode, data, result, maxAge }
-        // we should observe non-200 entries too
-        await cache.setResponse(key, entry, maxAge)
-        observe.cacheSet({ statusCode, maxAge })
-        logger.trace(`Cache: SET ${key}`, entry)
-        // Notify pending requests by removing the in-flight mark
-        await _delInFlightMarker(coalescingKey)
-      }
-    }
 
     const _getWithCoalescing = () =>
       getWithCoalescing({
@@ -218,14 +156,11 @@ export const withCache: Middleware = async (execute, options: CacheOptions = def
       : await cache.getResponse(key)
 
     if (cachedAdapterResponse) {
-      if (maxAge >= 0) {
+      const maxAgeOverride = getMaxAgeOverride(adapterRequest)
+      if (maxAgeOverride && maxAgeOverride < 0) {
+        logger.trace(`Cache: SKIP(maxAge < 0)`)
+      } else {
         logger.trace(`Cache: GET ${key}`, cachedAdapterResponse)
-        const reqMaxAge = _getRequestMaxAge(adapterRequest)
-        // force update the max age of the current cached entry if its been set
-        // in the adapter request
-        if (reqMaxAge && reqMaxAge !== cachedAdapterResponse.maxAge) {
-          await _cacheOnSuccess(cachedAdapterResponse)
-        }
         const ttl = await cache.ttl(key)
         // TODO: isnt this a bug? cachedAdapterResponse.maxAge will be different
         // if the above conditional gets executed!
@@ -248,14 +183,58 @@ export const withCache: Middleware = async (execute, options: CacheOptions = def
 
         return response
       }
-      logger.trace(`Cache: SKIP(maxAge < 0)`)
     }
+
+    const maxAge = getTTL(adapterRequest, options)
 
     // Initiate request coalescing by adding the in-flight mark
     await _setInFlightMarker(coalescingKey, maxAge)
 
     const result = await execute(adapterRequest)
+
+    // Add successful result to cache
+    const _cacheOnSuccess = async ({
+      statusCode,
+      data,
+      result,
+    }: Pick<AdapterResponse, 'statusCode' | 'data' | 'result'>) => {
+      if (statusCode === 200) {
+        const entry: CacheEntry = {
+          statusCode,
+          data,
+          result,
+          maxAge,
+        }
+        // we should observe non-200 entries too
+        await cache.setResponse(key, entry, maxAge)
+        observe.cacheSet({ statusCode, maxAge })
+        logger.trace(`Cache: SET ${key}`, entry)
+        // Individually cache batch requests
+        if (data?.results) {
+          for (const batchParticipant of Object.values<[AdapterRequest, number]>(data.results)) {
+            const [request, result] = batchParticipant
+            const maxAgeBatchParticipant = getTTL(request, options)
+            const keyBatchParticipant = _getKey(request)
+            const entryBatchParticipant = {
+              statusCode,
+              data: { result },
+              result,
+              maxAge,
+            }
+            await cache.setResponse(
+              keyBatchParticipant,
+              entryBatchParticipant,
+              maxAgeBatchParticipant,
+            )
+            logger.trace(`Cache Split Batch: SET ${keyBatchParticipant}`, entryBatchParticipant)
+          }
+        }
+        // Notify pending requests by removing the in-flight mark
+        await _delInFlightMarker(coalescingKey)
+      }
+    }
     await _cacheOnSuccess(result)
+
     const debug = {
       staleness: 0,
       performance: observe.stalenessAndExecutionTime(false, 0),

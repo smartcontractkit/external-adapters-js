@@ -34,7 +34,7 @@ function getLoadTestGroupsUrls(): LoadTestGroupUrls {
      */
     return {
       local: {
-        [__ENV.LOCAL_ADAPTER_NAME]: 'http://localhost:8080',
+        [__ENV.LOCAL_ADAPTER_NAME]: 'http://host.docker.internal:8080',
       },
     }
   } else {
@@ -66,12 +66,22 @@ function buildRequests() {
     for (const [adapterName, url] of Object.entries(adaptersByAdapterName)) {
       if (__ENV.WS_ENABLED) {
         for (const payload of wsPayloads) {
-          batchRequests[`Group-${loadTestGroup}-${adapterName}-${payload.name}`] = {
-            method: payload.method,
-            url,
-            body: payload.data,
-            params,
-          }
+          if (adapterName === 'coinapi') {
+            const body = JSON.parse(payload.data)
+            body.data.endpoint = 'assets'
+            batchRequests[`Group-${loadTestGroup}-${adapterName}-${payload.name}`] = {
+              method: payload.method,
+              url,
+              body,
+              params,
+            }
+          } else
+            batchRequests[`Group-${loadTestGroup}-${adapterName}-${payload.name}`] = {
+              method: payload.method,
+              url,
+              body: payload.data,
+              params,
+            }
         }
       }
 

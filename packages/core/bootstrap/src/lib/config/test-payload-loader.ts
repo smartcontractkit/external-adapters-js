@@ -1,6 +1,6 @@
 import Ajv, { JSONSchemaType } from 'ajv'
-import { readFileSync } from 'fs'
 import { logger } from '../external-adapter'
+import path from 'path'
 
 /**
  * The test payload read in from filesystem
@@ -35,9 +35,14 @@ export function loadTestPayload(): TestPayload {
   const validate = ajv.compile(schema)
 
   try {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const payload = readFileSync('test-payload.json', 'utf-8')
-    const parsedPayload = JSON.parse(payload)
+    let payload
+    try {
+      payload = require(path.join(process.cwd(), 'test-payload.js'))
+    } catch {
+      payload = require(path.join(process.cwd(), 'test-payload.json'))
+    }
+
+    const parsedPayload: Payload = JSON.parse(payload)
     if (!validate(parsedPayload)) {
       throw Error(JSON.stringify(validate?.errors || 'Could not validate schema for test payload'))
     }

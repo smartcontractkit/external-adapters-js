@@ -11,7 +11,7 @@ export interface SubscriptionData {
   /**
    * The original request data that triggered this subscription
    */
-  origin: AdapterRequest
+  origin: AdapterRequest['data']
   /**
    * The wrapped execute function that was used to service the request
    */
@@ -26,6 +26,21 @@ export interface SubscriptionData {
    * the reducers are always executed before epics are
    */
   isDuplicate: boolean
+  /**
+   * If a subscription is being warmed by a parent batch request
+   * This will hold the subscription key of the parent
+   */
+  parent?: string
+  /**
+   * If a subscription is being warmed by a parent batch request
+   * This will hold the key of the request data to join
+   */
+  batchablePropertyPath?: string[]
+  /**
+   * If a subscription is warming multiple other requests
+   * This will hold a map of the subscription key to the last time it was seen
+   */
+  childLastSeenById?: { [childKey: string]: number }
 }
 
 export interface SubscriptionState {
@@ -33,17 +48,90 @@ export interface SubscriptionState {
 }
 
 export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builder) => {
-  builder.addCase(actions.warmupSubscribed, (state, action) => {
-    state[getSubscriptionKey(action.payload)] = {
-      origin: action.payload,
-      executeFn: action.payload.executeFn,
-      startedAt: Date.now(),
-      isDuplicate: !!state[getSubscriptionKey(action.payload)],
+  builder.addCase(actions.warmupSubscribed, (state, { payload }) => {
+    const key = payload.key || getSubscriptionKey(payload)
+
+    state[key] = {
+      origin: payload.data,
+      executeFn: payload.executeFn,
+      startedAt: state[key]?.startedAt ?? Date.now(),
+      isDuplicate: !!state[key],
+      parent: payload.parent || state[key]?.parent,
+      batchablePropertyPath: payload.batchablePropertyPath || state[key]?.batchablePropertyPath,
+      childLastSeenById: payload?.childLastSeenById,
     }
   })
 
   builder.addCase(actions.warmupUnsubscribed, (state, action) => {
-    delete state[action.payload.key]
+    const subscription = state[action.payload.key]
+    if (subscription) {
+      delete state[action.payload.key]
+
+      if (!subscription.childLastSeenById) {
+        return
+      }
+      const children = Object.keys(subscription.childLastSeenById)
+      for (const childKey of children) {
+        delete state[childKey]
+      }
+    }
+  })
+
+  builder.addCase(actions.warmupJoinGroup, (state, { payload }) => {
+    const batchWarmer = state[payload.parent]
+
+    batchWarmer.childLastSeenById = {
+      ...batchWarmer.childLastSeenById,
+      ...payload.childLastSeenById,
+    }
+    for (const childKey in payload.childLastSeenById) {
+      const childRequestData = state[childKey]?.origin
+      if (childRequestData) {
+        for (const path of payload.batchablePropertyPath) {
+          const uniqueBatchableValue = new Set(batchWarmer.origin[path])
+          uniqueBatchableValue.add(childRequestData[path])
+          batchWarmer.origin[path] = [...uniqueBatchableValue]
+        }
+      }
+    }
+  })
+
+  builder.addCase(actions.warmupLeaveGroup, (state, { payload }) => {
+    const batchWarmer = state[payload.parent]
+
+    const childIdsToRemove = Object.keys(payload.childLastSeenById)
+
+    const remainingChildIds = Object.keys(batchWarmer.childLastSeenById || {}).filter(
+      (childId) => !childIdsToRemove.includes(childId),
+    )
+
+    // The request data for a batch request should only contain unique values
+    const requestDataWithUniqueValues = Object.fromEntries<Set<string>>(
+      payload.batchablePropertyPath.map((path) => [path, new Set()]),
+    )
+
+    // Rebuild the request data without the removed children's data
+    const batchRequestData = remainingChildIds.reduce((acc, childId) => {
+      for (const path of payload.batchablePropertyPath) {
+        acc[path].add(state[childId].origin[path])
+      }
+      return acc
+    }, requestDataWithUniqueValues)
+
+    // Transform the sets back into arrays
+    const batchableRequestData = Object.fromEntries(
+      Object.entries(batchRequestData).map(([path, map]) => [path, [...map]]),
+    )
+
+    batchWarmer.origin = {
+      ...batchWarmer.origin,
+      ...batchableRequestData,
+    }
+
+    for (const childKey in payload.childLastSeenById) {
+      if (batchWarmer?.childLastSeenById?.[childKey])
+        delete batchWarmer.childLastSeenById?.[childKey]
+    }
   })
 })
 
@@ -113,10 +201,18 @@ export const warmupReducer = createReducer<RequestState>({}, (builder) => {
     })
     delete state[action.payload.key]
   })
+
+  builder.addCase(actions.warmupStopped, (state, action) => {
+    logger.info('[warmupReducer] Stopping subscription', {
+      warmupSubscriptionKey: action.payload.key,
+    })
+    delete state[action.payload.key]
+  })
 })
 
 export const rootReducer = combineReducers({
   subscriptions: subscriptionsReducer,
   warmups: warmupReducer,
 })
-export type RootState = ReturnType<typeof rootReducer>
+
+export type CacheWarmerState = ReturnType<typeof rootReducer>
