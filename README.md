@@ -449,4 +449,18 @@ yarn test $adapter/test/unit/my-specific-test.test.ts
 yarn test --watch $adapter/test/unit
 ```
 
+#### Adding Integration Test Fixtures
+
+We use `nock` for intercepting HTTP requests in integration tests and returning mock data.
+The [recording](https://github.com/nock/nock#recording) functionality of nock is used when first writing the test to automatically generate accurate fixture data.
+
+For example, take a look at the [synth-index] (./packages/composites/synth-index/test/integration/adapter.test.ts) test to see it in usage. When the `RECORD` environment variable is truthy, nock will proxy HTTP requests and generate fixture data that can be used to contruct the integration test.
+
+The follow steps is the general pattern for writing an integration test.
+
+1. Setup nock to record HTTP requests, see the [synth-index] (./packages/composites/synth-index/test/integration/adapter.test.ts) test for a code sample.
+2. Run the test, using live API endpoints for the external adapter under test to hit, with nock recording on.
+3. Using the generated fixture data from step 2, setup nock to now intercept HTTP requests and return mock data instead.
+4. Now you should have a test that does not do any HTTP requests during execution.
+
 For more information, see the [Jest docs.](https://jestjs.io/docs/cli)
