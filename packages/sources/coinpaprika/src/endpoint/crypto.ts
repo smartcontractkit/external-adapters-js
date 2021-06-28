@@ -3,7 +3,7 @@ import { ExecuteWithConfig, Config } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 import { getCoinIds, getSymbolToId } from '../util'
 
-export const supportedEndpoints = ['price', 'marketcap']
+export const supportedEndpoints = ['crypto', 'marketcap']
 export enum Paths {
   Price = 'price',
   MarketCap = 'marketcap',

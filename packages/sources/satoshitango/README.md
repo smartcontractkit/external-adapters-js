@@ -4,12 +4,12 @@
 
 | Required? |   Name   |     Description     |          Options           | Defaults to |
 | :-------: | :------: | :-----------------: | :------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [ticker](#Ticker-Endpoint) |   ticker    |
+|           | endpoint | The endpoint to use | [crypto](#Crypto-Endpoint) |   crypto    |
 
 ---
 
-## Ticker Endpoint
-
+## Crypto Endpoint
+##### NOTE: the `ticker` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.
 ### Input Params
 
 | Required? |          Name           |                               Description                                | Options | Defaults to |

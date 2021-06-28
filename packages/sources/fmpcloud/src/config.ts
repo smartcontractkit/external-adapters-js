@@ -3,7 +3,7 @@ import { Config } from '@chainlink/types'
 
 export const NAME = 'FMPCLOUD'
 
-export const DEFAULT_ENDPOINT = 'quote'
+export const DEFAULT_ENDPOINT = 'stock'
 export const DEFAULT_BASE_URL = 'https://fmpcloud.io'
 
 export const makeConfig = (prefix?: string): Config => {

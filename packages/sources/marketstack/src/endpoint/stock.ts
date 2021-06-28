@@ -2,7 +2,7 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 import { DEFAULT_INTERVAL, DEFAULT_LIMIT } from '../config'
 
-export const supportedEndpoints = ['eod']
+export const supportedEndpoints = ['stock', 'eod']
 
 const customError = (data: any) => data.Response === 'Error'
 

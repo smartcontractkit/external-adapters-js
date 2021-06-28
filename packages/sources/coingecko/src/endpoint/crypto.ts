@@ -3,7 +3,7 @@ import { Config, ExecuteWithConfig, AxiosResponse, AdapterRequest, EndpointPaths
 import { NAME as AdapterName } from '../config'
 import { getCoinIds, getSymbolsToIds } from '../util'
 
-export const supportedEndpoints = ['price', 'marketcap']
+export const supportedEndpoints = ['crypto', 'price', 'marketcap']
 
 const customError = (data: any) => {
   if (Object.keys(data).length === 0) return true

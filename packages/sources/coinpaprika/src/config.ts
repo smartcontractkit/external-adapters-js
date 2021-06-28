@@ -3,7 +3,7 @@ import { Config } from '@chainlink/types'
 
 export const NAME = 'COINPAPRIKA'
 
-export const DEFAULT_ENDPOINT = 'price'
+export const DEFAULT_ENDPOINT = 'crypto'
 export const DEFAULT_API_ENDPOINT = 'https://api.coinpaprika.com'
 
 export const makeConfig = (prefix?: string): Config => {

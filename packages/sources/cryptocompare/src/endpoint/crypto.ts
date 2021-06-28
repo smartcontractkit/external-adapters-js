@@ -2,7 +2,7 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, AxiosResponse, AdapterRequest } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
-export const supportedEndpoints = ['price','marketcap']
+export const supportedEndpoints = ['crypto','price','marketcap']
 
 // Bridging the Chainlink endpoint to the response data key
 export enum Paths {

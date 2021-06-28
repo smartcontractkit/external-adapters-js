@@ -3,7 +3,7 @@ import { Config } from '@chainlink/types'
 
 export const NAME = 'COINGECKO'
 
-export const DEFAULT_ENDPOINT = 'price'
+export const DEFAULT_ENDPOINT = 'crypto'
 export const DEFAULT_API_ENDPOINT = 'https://api.coingecko.com/api/v3'
 export const PRO_API_ENDPOINT = 'https://pro-api.coingecko.com/api/v3'
 

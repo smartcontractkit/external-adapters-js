@@ -21,7 +21,7 @@ export const makeExecute: ExecuteFactory<Config> = (config) => {
 export const makeWSHandler = (defaultConfig?: Config): MakeWSHandler => {
   const subscriptions: any = {}
   const getPair = (input: AdapterRequest) => {
-    const validator = new Validator(input, price.customParams, {}, false)
+    const validator = new Validator(input, crypto.customParams, {}, false)
     if (validator.error) return
     const base = (validator.overrideSymbol(NAME) as string).toLowerCase()
     const quote = validator.validated.data.quote.toLowerCase()

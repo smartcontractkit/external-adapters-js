@@ -3,7 +3,7 @@ import { Config } from '@chainlink/types'
 
 export const NAME = 'COINMARKETCAP'
 
-export const DEFAULT_ENDPOINT = 'price'
+export const DEFAULT_ENDPOINT = 'crypto'
 const DEFAULT_API_ENDPOINT = 'https://pro-api.coinmarketcap.com/v1/'
 
 export const makeConfig = (prefix?: string): Config => {

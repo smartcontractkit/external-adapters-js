@@ -3,7 +3,7 @@ import { Config } from '@chainlink/types'
 
 export const NAME = 'CRYPTOAPIS'
 
-export const DEFAULT_ENDPOINT = 'price'
+export const DEFAULT_ENDPOINT = 'crypto'
 
 export const COIN_KEYS = ['btc', 'eth', 'etc', 'bch', 'ltc', 'dash', 'doge', 'btcv', 'zil'] as const
 export type CoinType = typeof COIN_KEYS[number]
