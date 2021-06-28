@@ -429,10 +429,10 @@ Make sure you run these commands from the ROOT of this monorepo.
 yarn setup
 
 # Run all unit tests
-yarn test unit
+yarn test:unit
 
 # Run all integration tests
-yarn test integration
+yarn test:integration
 
 adapter=myadapter # Your adapter name, coinmarketcap, coingecko, etc
 
