@@ -47,9 +47,9 @@ describe('cache', () => {
         expect(options).toHaveProperty('enabled', true)
       })
 
-      it(`configures env options with default maxAge: 1000 * 60 * 2`, () => {
+      it(`configures env options with default maxAge: 1000 * 60 * 1.5`, () => {
         const options = defaultOptions()
-        expect(options.cacheOptions).toHaveProperty('maxAge', 1000 * 60 * 2)
+        expect(options.cacheOptions).toHaveProperty('maxAge', 1000 * 60 * 1.5)
       })
     })
   })
