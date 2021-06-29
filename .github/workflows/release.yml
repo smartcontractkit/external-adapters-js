@@ -111,11 +111,11 @@ jobs:
 
   publish-artifacts-release-latest:
     if: github.ref != 'refs/heads/develop'
-    needs: [matrix-adapters]
+    needs: [matrix-adapters-release-latest]
     runs-on: ubuntu-latest
     name: (${{ matrix.adapter.type }}) Publish ${{ matrix.adapter.name }} adapter Docker image
     strategy:
-      matrix: ${{fromJson(needs.matrix-adapters.outputs.matrix)}}
+      matrix: ${{fromJson(needs.matrix-adapters-release-latest.outputs.matrix)}}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
