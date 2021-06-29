@@ -32,12 +32,12 @@ export const getSymbolsToIds = (
   symbols.forEach((symbol) => {
     const coin = coinList.find((d) => d.symbol.toLowerCase() === symbol.toLowerCase())
     if (coin && coin.id) {
-      idToSymbol[coin.id] = coin.id
+      idToSymbol[coin.id] = coin.symbol
       return
     }
     const byId = coinList.find((d) => d.id.toLowerCase() === symbol.toLowerCase())
     if (byId) {
-      idToSymbol[byId.id] = byId.id
+      idToSymbol[byId.id] = byId.symbol
       return
     }
   })

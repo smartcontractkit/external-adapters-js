@@ -54,7 +54,6 @@ describe('synth-index X coingecko', () => {
           .set('Content-Type', 'application/json')
           .expect('Content-Type', /json/)
           .expect(200)
-
         expect(response.body).toMatchSnapshot()
       })
     })

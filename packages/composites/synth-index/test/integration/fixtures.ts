@@ -32,39 +32,210 @@ export function mockCoingeckoResponseSuccess() {
         maxAge: 30000,
         statusCode: 200,
         data: {
-          havven: { usd: 6.56 },
-          uma: { usd: 8.75 },
-          sushi: { usd: 6.98 },
-          aave: { usd: 204.24 },
-          uniswap: { usd: 17.55 },
-          'compound-governance-token': { usd: 238.01 },
-          maker: { usd: 2289.72 },
-          balancer: { usd: 16.53 },
-          bancor: { usd: 3.05 },
-          'curve-dao-token': { usd: 1.49 },
-          '1inch': { usd: 2.59 },
-          'republic-protocol': { usd: 0.34087 },
-          'kyber-network-crystal': { usd: 1.33 },
-          'yearn-finance': { usd: 30671 },
-          results: {
-            SNX: 6.56,
-            UMA: 8.75,
-            SUSHI: 6.98,
-            AAVE: 204.24,
-            UNI: 17.55,
-            COMP: 238.01,
-            MKR: 2289.72,
-            BAL: 16.53,
-            BNT: 3.05,
-            CRV: 1.49,
-            '1INCH': 2.59,
-            REN: 0.34087,
-            KNC: 1.33,
-            YFI: 30671,
+          uniswap: {
+            usd: 18.96,
           },
+          aave: {
+            usd: 247.63,
+          },
+          uma: {
+            usd: 8.91,
+          },
+          havven: {
+            usd: 7.37,
+          },
+          'compound-governance-token': {
+            usd: 317.93,
+          },
+          sushi: {
+            usd: 8.28,
+          },
+          maker: {
+            usd: 2459.65,
+          },
+          balancer: {
+            usd: 20.9,
+          },
+          bancor: {
+            usd: 3.37,
+          },
+          'curve-dao-token': {
+            usd: 1.83,
+          },
+          '1inch': {
+            usd: 2.64,
+          },
+          'republic-protocol': {
+            usd: 0.390388,
+          },
+          'kyber-network-crystal': {
+            usd: 1.52,
+          },
+          'yearn-finance': {
+            usd: 34189,
+          },
+          results: [
+            [
+              {
+                id: '1',
+                data: {
+                  base: 'UNI',
+                  quote: 'USD',
+                  endpoint: 'price',
+                },
+              },
+              18.96,
+            ],
+            [
+              {
+                id: '1',
+                data: {
+                  base: 'AAVE',
+                  quote: 'USD',
+                  endpoint: 'price',
+                },
+              },
+              247.63,
+            ],
+            [
+              {
+                id: '1',
+                data: {
+                  base: 'UMA',
+                  quote: 'USD',
+                  endpoint: 'price',
+                },
+              },
+              8.91,
+            ],
+            [
+              {
+                id: '1',
+                data: {
+                  base: 'SNX',
+                  quote: 'USD',
+                  endpoint: 'price',
+                },
+              },
+              7.37,
+            ],
+            [
+              {
+                id: '1',
+                data: {
+                  base: 'COMP',
+                  quote: 'USD',
+                  endpoint: 'price',
+                },
+              },
+              317.93,
+            ],
+            [
+              {
+                id: '1',
+                data: {
+                  base: 'SUSHI',
+                  quote: 'USD',
+                  endpoint: 'price',
+                },
+              },
+              8.28,
+            ],
+            [
+              {
+                id: '1',
+                data: {
+                  base: 'MKR',
+                  quote: 'USD',
+                  endpoint: 'price',
+                },
+              },
+              2459.65,
+            ],
+            [
+              {
+                id: '1',
+                data: {
+                  base: 'BAL',
+                  quote: 'USD',
+                  endpoint: 'price',
+                },
+              },
+              20.9,
+            ],
+            [
+              {
+                id: '1',
+                data: {
+                  base: 'BNT',
+                  quote: 'USD',
+                  endpoint: 'price',
+                },
+              },
+              3.37,
+            ],
+            [
+              {
+                id: '1',
+                data: {
+                  base: 'CRV',
+                  quote: 'USD',
+                  endpoint: 'price',
+                },
+              },
+              1.83,
+            ],
+            [
+              {
+                id: '1',
+                data: {
+                  base: '1INCH',
+                  quote: 'USD',
+                  endpoint: 'price',
+                },
+              },
+              2.64,
+            ],
+            [
+              {
+                id: '1',
+                data: {
+                  base: 'REN',
+                  quote: 'USD',
+                  endpoint: 'price',
+                },
+              },
+              0.390388,
+            ],
+            [
+              {
+                id: '1',
+                data: {
+                  base: 'KNC',
+                  quote: 'USD',
+                  endpoint: 'price',
+                },
+              },
+              1.52,
+            ],
+            [
+              {
+                id: '1',
+                data: {
+                  base: 'YFI',
+                  quote: 'USD',
+                  endpoint: 'price',
+                },
+              },
+              34189,
+            ],
+          ],
         },
         metricsMeta: {
           feedId: '[COMP|MKR|AAVE|UMA|SNX|REN|UNI|KNC|CRV|SUSHI|YFI|BAL|BNT|1INCH]/USD',
+        },
+        debug: {
+          batchablePropertyPath: ['base', 'quote'],
         },
       },
       [
