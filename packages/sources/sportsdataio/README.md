@@ -8,6 +8,7 @@ Adapter got get data from Sportsdata.io
 | :-------: | :----------------: | :--------------------: | :-----: | :---------: |
 |           | NFL_SCORES_API_KEY | API key for NFL scores |         |             |
 |           | MMA_SCORES_API_KEY | API key for MMA scores |         |             |
+|           | MMA_STATS_API_KEY | API key for MMA stats |         |             |
 |           | CFB_SCORES_API_KEY | API key for CFB scores |         |             |
 
 ---
@@ -56,7 +57,7 @@ Get NFL scores
 
 | Required? |   Name   |      Description      |                    Options                     | Defaults to |
 | :-------: | :------: | :-------------------: | :--------------------------------------------: | :---------: |
-|    ✅     | endpoint | The endpoint to query | [schedule](#MMA-Schedule), [event](#MMA-Event) |             |
+|    ✅     | endpoint | The endpoint to query | [schedule](#MMA-Schedule), [event](#MMA-Event), [fight](#MMA-Fight), [leagues](#MMA-Leagues) |             |
 
 ### MMA Schedule
 
@@ -78,6 +79,24 @@ Get data on specific MMA event
 | Required? |  Name   |      Description      | Options | Defaults to |
 | :-------: | :-----: | :-------------------: | :-----: | :---------: |
 |    ✅     | eventId | The event ID to query |         |             |
+
+### MMA Fight
+
+Get data on specific MMA fight
+
+#### Input Parameters
+
+| Required? |  Name   |      Description      | Options | Defaults to |
+| :-------: | :-----: | :-------------------: | :-----: | :---------: |
+|    ✅     | fightId | The fight ID to query |         |             |
+
+### MMA Leagues
+
+Get list of MMA leagues
+
+#### Input Parameters
+
+_None_
 
 ---
 
