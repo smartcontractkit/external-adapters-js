@@ -1,14 +1,12 @@
-import { Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
-import { Config, makeConfig } from './config'
-import { ethers } from 'ethers'
+import { Validator } from '@chainlink/external-adapter'
+import { Execute, ExecuteWithConfig } from '@chainlink/types'
+import { makeConfig, Config } from './config'
 import { getTokenAllocations } from './tvl'
 import * as TokenAllocation from '@chainlink/token-allocation-adapter'
-
-const customParams = {}
+import { ethers } from 'ethers'
 
 export const execute: ExecuteWithConfig<Config> = async (input, config) => {
-  const validator = new Validator(input, customParams)
+  const validator = new Validator(input)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.jobRunID
@@ -19,6 +17,6 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   return await _execute({ id: jobRunID, data: { ...input.data, allocations } })
 }
 
-export const makeExecute: ExecuteFactory<Config> = (config) => {
+export const makeExecute = (config?: Config): Execute => {
   return async (request) => execute(request, config || makeConfig())
 }

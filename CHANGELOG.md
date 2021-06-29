@@ -18,13 +18,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `linear-finance` to calculate indexes for Linear Finance
 
 ### Changed
-- Conflux adapter sending transaction optimization
 
+- Conflux adapter sending transaction optimization
 - Improved time resolution from days to seconds and smooth-out the effect of added strikes for `crypto-volatility-index` adapter
+- Added a per-provider ratelimit reference
+- Added Prometheus metrics
+- `tradingeconomics` will now get stream data from TradingEconomics using a persistent WS connection
+- `make` commands are now TypeScript files that can be run through yarn scripts
 
 ### Removed
 
 - Removed custom `tradingeconomics-stream` as WS support is not included into `tradingeconomics` adapter
+- Removed serverless support (AWS Lambda & GPC Functions).
 
 ## [0.2.0] - 2021-4-13
 
@@ -45,16 +50,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - CMC now uses preset IDs instead of preset slugs
 - Added support for `tradermade` in `outlier-detection` composite adapter
 - Added support for `overrides` param in price adapters
-- Added a per-provider ratelimit reference
-- Added Prometheus metrics
-- `tradingeconomics` will now get stream data from TradingEconomics using a persistent WS connection
-- `make` commands are now TypeScript files that can be run through yarn scripts
-
-### Fixed
-
-### Removed
-
-- Removed serverless support (AWS Lambda & GPC Functions).
+- Improved time resolution from days to seconds and smooth-out the effect of added strikes for `crypto-volatility-index` adapter
 
 ## [0.2.0-rc.1] - 2021-2-4
 

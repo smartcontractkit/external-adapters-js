@@ -52,9 +52,5 @@
     "N225": "JPN225",
     "WTI": "OIL",
     "BRENT": "UKOIL"
-  },
-  "tradingeconomics": {
-    "N225": "NKY:IND",
-    "FTSE": "UKX:IND"
   }
 }

@@ -1,4 +1,5 @@
-import { Requester, util } from '@chainlink/ea-bootstrap'
+import { util } from '@chainlink/ea-bootstrap'
+import { Requester } from '@chainlink/external-adapter'
 import * as types from '@chainlink/types'
 
 export type Config = types.Config & {
@@ -12,6 +13,6 @@ export const makeConfig = (prefix?: string): Config => {
   return {
     ...Requester.getDefaultConfig(prefix),
     rpcUrl: util.getRequiredEnv('RPC_URL', prefix),
-    controllerAddress: util.getEnv('CONTROLLER_ADDRESS') || DEFAULT_CONTROLLER_ADDRESS
+    controllerAddress: util.getEnv('CONTROLLER_ADDRESS') || DEFAULT_CONTROLLER_ADDRESS,
   }
 }

@@ -4,39 +4,41 @@ The adapter calculates a Synthetix Index value in the currency selected
 
 ## Configuration
 
-| Required? |       Name        |                    Description                     | Options | Defaults to |
-| :-------: | :---------------: | :------------------------------------------------: | :-----: | :---------: |
-|           | `DEFAULT_NETWORK` |          Network to fetch the Synth Index          |         |  `mainnet`  |
-|           |  `DEFAULT_QUOTE`  | Currency that the price will be fetched by default |         |    `USD`    |
+- `DEFAULT_NETWORK` (Optional). Network to fetch the Synth Index
+- `DATA_PROVIDER`: Data provider to use. Options (Notes):
+  - amberdata (Doesn't support crypto quotes)
+  - coinapi
+  - coingecko
+  - coinmarketcap
+  - coinpaprika
+  - cryptocompare
+  - kaiko
+  - nomics
+- `API_KEY`: For those data providers who need an api key
+- `DEFAULT_QUOTE` (Optional): Currency that the price will be fetched by default. `USD` used by default
 
-**Additional environment variables must be set according to the Token Allocation adapter.**
-This composite adapter executes the code from the Token Allocation composite adapter. As such the same configuration and input parameters apply to this adapter. See [../token-allocation/README.md](../token-allocation/README.md) for more details.
-
-## Running
-
-See the [Composite Adapter README](../README.md) for more information on how to get started.
+E.g. if we wish to use CoinMarketCap as data provider, we should run (docker):
+```
+docker run -p 8080:8080 -e DATA_PROVIDER=coinmarketcap -e API_KEY=xxx-xxx -it synth-index-adapter:latest
+```
 
 ## Input Params
 
-| Required? |           Name            |             Description             | Options |    Defaults to    |
-| :-------: | :-----------------------: | :---------------------------------: | :-----: | :---------------: |
-|    ✅     | `base`, `asset` or `from` |     Synthx Index asset to fetch     |         |                   |
-|           |         `network`         |     Synthx Index asset to fetch     |         | `DEFAULT_NETWORK` |
-|           |          `quote`          | Currency that we want the price on. |         |  `DEFAULT_QUOTE`  |
+- `base`, `asset` or `from`: Synthx Index asset to fetch
+- `network` (optional): Network to fetch. `mainnet` by default
+- `quote` (optional). Currency we want the price on. `DEFAULT_QUOTE` by default
 
-### Sample Input
 
 ```json
 {
   "jobID": "1",
   "data": {
-    "source": "coingecko",
     "base": "sDEFI"
   }
 }
 ```
 
-### Sample Output
+## Output
 
 ```json
 {

@@ -1,6 +1,5 @@
 import * as client from 'prom-client'
 import { parseBool } from '../util'
-export * as util from './util'
 
 client.collectDefaultMetrics()
 client.register.setDefaultLabels(
@@ -19,7 +18,7 @@ export enum HttpRequestType {
 export const httpRequestsTotal = new client.Counter({
   name: 'http_requests_total',
   help: 'The number of http requests this external adapter has serviced for its entire uptime',
-  labelNames: ['method', 'status_code', 'retry', 'type', 'is_cache_warming', 'feed_id'] as const,
+  labelNames: ['method', 'status_code', 'retry', 'type'] as const,
 })
 
 export const httpRequestDurationSeconds = new client.Histogram({
@@ -30,20 +29,30 @@ export const httpRequestDurationSeconds = new client.Histogram({
   buckets: [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10],
 })
 
-export const cacheWarmerRequests = new client.Counter({
-  name: 'cache_warmer_requests',
-  help: 'The number of requests caused by the warmer',
-  labelNames: ['method', 'statusCode', 'apiKey', 'retry'] as const,
-})
+/**
+ * Normalizes http status codes.
+ *
+ * Returns strings in the format (2|3|4|5)XX.
+ *
+ * @author https://github.com/joao-fontenele/express-prometheus-middleware
+ * @param {!number} status - status code of the requests
+ * @returns {string} the normalized status code.
+ */
+export function normalizeStatusCode(status?: number): string {
+  if (!status) {
+    return '5XX'
+  }
 
-export const httpRequestsCacheHits = new client.Counter({
-  name: 'http_requests_cache_hits',
-  help: 'The number of http requests that hit the cache',
-  labelNames: ['method', 'statusCode', 'apiKey', 'retry'] as const,
-})
+  if (status >= 200 && status < 300) {
+    return '2XX'
+  }
 
-export const httpRequestsDataProviderHits = new client.Counter({
-  name: 'http_requests_data_provider_hits',
-  help: 'The number of http requests that hit the provider',
-  labelNames: ['method', 'statusCode', 'apiKey', 'retry'] as const,
-})
+  if (status >= 300 && status < 400) {
+    return '3XX'
+  }
+
+  if (status >= 400 && status < 500) {
+    return '4XX'
+  }
+  return '5XX'
+}

@@ -1,17 +1,22 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "src",
-    "paths": {
-      "*": ["./types/*"]
-    }
+    "typeRoots": [
+      "../../node_modules/@types",
+      "../../typings",
+      "./typings"
+    ],
+    "resolveJsonModule": true
   },
-  "include": ["src/**/*", "src/**/*.json"],
-  "exclude": ["dist", "**/*.spec.ts", "**/*.test.ts"],
-  "references": [
-    { "path": "../../core/test-helpers" },
-    { "path": "../../core/bootstrap" },
-    { "path": "../token-allocation" }
+  "include": [
+    "src/**/*",
+    "src/**/*.json"
+  ],
+  "exclude": [
+    "dist",
+    "**/*.spec.ts",
+    "**/*.test.ts"
   ]
 }
