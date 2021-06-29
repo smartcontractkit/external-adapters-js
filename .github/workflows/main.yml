@@ -20,7 +20,7 @@ jobs:
       - name: Re-download dependencies & verify checksum
         run: yarn install --check-cache
 
- run-integration-tests:
+  run-integration-tests:
     name: Run integration tests
     runs-on: [self-hosted, sdlc-ghr-prod]
     steps:
