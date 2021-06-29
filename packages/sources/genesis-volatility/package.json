@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/genesis-volatility-adapter",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "Chainlink Genesis Volatility adapter.",
   "keywords": [
     "Chainlink",
