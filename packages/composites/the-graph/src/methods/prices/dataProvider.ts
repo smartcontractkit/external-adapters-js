@@ -38,7 +38,7 @@ export const getTokenPairPrice = async (jobRunID: string, token0Address: string,
     const req1Pairs = req1Response.result.data.pairs
     if (req1Pairs.length > 0) {
         const highestVolumePair = req1Pairs[0]
-        return highestVolumePair["token0Price"]
+        return highestVolumePair["token1Price"]
     }
 
     // Try reverse token0 and token1
@@ -55,7 +55,7 @@ export const getTokenPairPrice = async (jobRunID: string, token0Address: string,
     const req2Pairs = req2Response.result.data.pairs
     if (req2Pairs.length > 0) {
         const highestVolumePair = req2Pairs[0]
-        return highestVolumePair["token1Price"]
+        return highestVolumePair["token0Price"]
     }
     return null
 }

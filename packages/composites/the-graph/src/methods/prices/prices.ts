@@ -4,8 +4,8 @@ import { Config, USD, USDT, WETH } from "../../config"
 import { getToken, getTokenPairPrice } from "./dataProvider"
 
 const customParams = {
-    token0Symbol: true,
-    token1Symbol: false,
+    baseCoinSymbol: true,
+    quoteCoinSymbol: false,
     dex: false
 }
 
@@ -14,16 +14,16 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
     const validator = new Validator(input, customParams)
     if (validator.error) throw validator.error
     const jobRunID = validator.validated.id
-    const { token0Symbol, token1Symbol = USD } = validator.validated.data
+    const { baseCoinSymbol, quoteCoinSymbol = USD } = validator.validated.data
     const wethToken = await getToken(jobRunID, WETH)
     const wethTokenAddress = wethToken.id
 
     let price
     try {
-        if (token1Symbol === USD) {
-            price = await getTokenPriceInUSD(jobRunID, token0Symbol, wethTokenAddress)
+        if (quoteCoinSymbol === USD) {
+            price = await getTokenPriceInUSD(jobRunID, baseCoinSymbol, wethTokenAddress)
         } else {
-            price = await getToken1PriceInToken0(jobRunID, token0Symbol, token1Symbol, wethTokenAddress)
+            price = await getToken1PriceInToken0(jobRunID, baseCoinSymbol, quoteCoinSymbol, wethTokenAddress)
         }
     } catch (e) {
         throw new AdapterError({ jobRunID, message: `Failed to get price` })
@@ -36,8 +36,8 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
     }, true)
 }
 
-const getTokenPriceInUSD = async (jobRunID: string, token0Symbol: string, wethTokenAddress: string) => {
-    const token0 = await getToken(jobRunID, token0Symbol)
+const getTokenPriceInUSD = async (jobRunID: string, baseCoinSymbol: string, wethTokenAddress: string) => {
+    const token0 = await getToken(jobRunID, baseCoinSymbol)
     const token0PerETH = await getTokenPairPrice(jobRunID, wethTokenAddress, token0.id)
     const usdtToken = await getToken(jobRunID, USDT)
     const ETHPerUSDT = await getTokenPairPrice(jobRunID, usdtToken.id, wethTokenAddress)
@@ -50,9 +50,9 @@ const getTokenPriceInUSD = async (jobRunID: string, token0Symbol: string, wethTo
     // 1) Convert USDT to USD using feeds
 }
 
-const getToken1PriceInToken0 = async (jobRunID: string, token0Symbol: string, token1Symbol: string, wethTokenAddress: string): Promise<number> => {
-    const token0 = await getToken(jobRunID, token0Symbol)
-    const token1 = await getToken(jobRunID, token1Symbol)
+const getToken1PriceInToken0 = async (jobRunID: string, baseCoinSymbol: string, quoteCoinSymbol: string, wethTokenAddress: string): Promise<number> => {
+    const token0 = await getToken(jobRunID, baseCoinSymbol)
+    const token1 = await getToken(jobRunID, quoteCoinSymbol)
     const token1PerToken0 = await getTokenPairPrice(jobRunID, token0.id, token1.id)
     if (token1PerToken0) {
         return token1PerToken0
