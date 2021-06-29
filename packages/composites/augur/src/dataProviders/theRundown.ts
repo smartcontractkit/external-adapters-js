@@ -2,8 +2,8 @@ import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Execute } from '@chainlink/types'
 import * as TheRundown from '@chainlink/therundown-adapter'
 import { ethers } from 'ethers'
-import { CreateEvent } from '../methods/createMarkets'
-import { ResolveEvent } from '../methods/resolveMarkets'
+import { CreateTeamEvent } from '../methods/createMarkets'
+import { ResolveTeam } from '../methods/resolveMarkets'
 import { BigNumber } from 'ethers'
 
 export const SPORTS_SUPPORTED = ['mlb', 'nba']
@@ -91,7 +91,7 @@ export const create: Execute = async (input) => {
   let skipTBD = 0, skipStartBuffer = 0, skipNoTeams = 0, cantCreate = 0, skipTBDTeams = 0
 
   // filter markets and build payloads for market creation
-  const eventsToCreate: CreateEvent[] = []
+  const eventsToCreate: CreateTeamEvent[] = []
   for (const event of events) {
     if (event.score.event_status_detail.toUpperCase() === 'TBD') {
       skipTBD++
@@ -202,7 +202,7 @@ export const resolve: Execute = async (input) => {
 
   const response = (await theRundownExec(req)).result as TheRundownEvent
 
-  const event: ResolveEvent = {
+  const event: ResolveTeam = {
     id: eventIdToNum(response.event_id),
     status: eventStatus[response.score.event_status],
     homeScore: response.score.score_home,

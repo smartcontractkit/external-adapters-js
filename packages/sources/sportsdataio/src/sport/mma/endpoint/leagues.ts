@@ -4,20 +4,15 @@ import { Config } from '../../../config'
 
 export const NAME = 'leagues'
 
-const customParams = {
-  fightId: true,
-}
-
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-  const validator = new Validator(request, customParams)
+  const validator = new Validator(request)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const eventId = validator.validated.data.eventId
-  const url = `/mma/scores/json/Leagues/${eventId}`
+  const url = `/mma/scores/json/Leagues`
 
   const params = {
-    key: config.mmaScoresKey
+    key: config.mmaStatsKey
   }
 
   const options = { ...config.api, params, url }

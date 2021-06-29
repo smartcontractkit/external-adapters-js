@@ -1,34 +1,36 @@
 import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Execute } from '@chainlink/types'
 import { Config } from '../config'
-import { ABI, bytesMappingToHexStr } from './index'
+import { TEAM_ABI, bytesMappingToHexStr, TEAM_SPORTS, FIGHTER_SPORTS } from './index'
 import { ethers } from 'ethers'
 import { theRundown, sportsdataio } from '../dataProviders'
+import mmaABI from '../abis/mma.json'
 
 const resolveParams = {
   contractAddress: true,
   sport: true,
 }
 
-const eventStatus: { [key: string]: number } = {
-  'STATUS_SCHEDULED': 1,
-  'STATUS_FINAL': 2,
-  'STATUS_POSTPONED': 3,
-  'STATUS_CANCELED': 4
-}
-
-export interface ResolveEvent {
+export interface ResolveTeam {
   id: ethers.BigNumber
   status: number
   homeScore: number
   awayScore: number
 }
 
+export interface ResolveFight {
+  id: ethers.BigNumber
+  status: number
+  fighterA: number
+  fighterB: number
+  winnerId?: number
+  draw: boolean
+}
+
 const statusCompleted = [
-  eventStatus['STATUS_CANCELED'],
-  eventStatus['STATUS_FINAL'],
-  eventStatus['STATUS_POSTPONED']
-  // TODO: What about other statuses in sportsdataio?
+  4, // Cancelled
+  2, // Final
+  3 // Postponed
 ]
 
 export const execute: ExecuteWithConfig<Config> = async (input, config) => {
@@ -37,29 +39,40 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
 
   const sport = validator.validated.data.sport.toLowerCase()
   const contractAddress = validator.validated.data.contractAddress
-  const contract = new ethers.Contract(contractAddress, ABI, config.wallet)
+
+  if (TEAM_SPORTS.includes(sport)) {
+    return await resolveTeam(input.id, sport, contractAddress, config)
+  } else if (FIGHTER_SPORTS.includes(sport)) {
+    return await resolveFights(input.id, sport, contractAddress, config)
+  } else {
+    throw Error(`Unable to identify sport "${sport}"`)
+  }
+}
+
+const resolveTeam = async (jobRunID: string, sport: string, contractAddress: string, config: Config) => {
+  const contract = new ethers.Contract(contractAddress, TEAM_ABI, config.wallet)
 
   let getEvent: Execute
   if (theRundown.SPORTS_SUPPORTED.includes(sport)) {
     getEvent = theRundown.resolve
   } else if (sportsdataio.SPORTS_SUPPORTED.includes(sport)) {
-    getEvent = sportsdataio.resolve
+    getEvent = sportsdataio.resolveTeam
   } else {
     throw Error(`Unknown data provider for sport ${sport}`)
   }
 
   const eventIDs: ethers.BigNumber[] = await contract.listResolvableEvents()
-  const events: ResolveEvent[] = []
+  const events: ResolveTeam[] = []
   for (const eventId of eventIDs) {
     try {
       const response = await getEvent({
-        id: input.id,
+        id: jobRunID,
         data: {
           sport,
           eventId
         }
       })
-      events.push(response.result as ResolveEvent)
+      events.push(response.result as ResolveTeam)
     } catch (e) {
       Logger.error(e)
     }
@@ -81,10 +94,80 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
     Logger.info(`Augur: Created tx: ${tx.hash}`)
   }
 
-  return Requester.success(input.id, {})
+  return Requester.success(jobRunID, {})
 }
 
-const packResolution = (event: ResolveEvent): string => {
+const fightStatusMapping: { [key: string]: number } = {
+  'unknown': 0,
+  'home': 1,
+  'away': 2,
+  'draw': 3,
+}
+
+const resolveFights = async (jobRunID: string, sport: string, contractAddress: string, config: Config) => {
+  const contract = new ethers.Contract(contractAddress, mmaABI, config.wallet)
+
+  let getEvent: Execute
+  if (theRundown.SPORTS_SUPPORTED.includes(sport)) {
+    getEvent = theRundown.resolve
+  } else if (sportsdataio.SPORTS_SUPPORTED.includes(sport)) {
+    getEvent = sportsdataio.resolveFight
+  } else {
+    throw Error(`Unknown data provider for sport ${sport}`)
+  }
+
+  const eventIDs: ethers.BigNumber[] = await contract.listResolvableEvents()
+  const events: ResolveFight[] = []
+  for (const eventId of eventIDs) {
+    try {
+      const response = await getEvent({
+        id: jobRunID,
+        data: {
+          sport,
+          eventId
+        }
+      })
+      events.push(response.result as ResolveFight)
+    } catch (e) {
+      Logger.error(e)
+    }
+  }
+
+  // Filters out events that aren't yet ready to resolve.
+  const eventReadyToResolve = events
+    .filter(({ status }) => statusCompleted.includes(status))
+
+  let nonce = await config.wallet.getTransactionCount()
+  for (const fight of eventReadyToResolve) {
+    Logger.info(`Augur: resolving event "${fight.id.toString()}"`)
+
+    let fightStatus = 0
+    if (fight.draw) {
+      fightStatus = fightStatusMapping.draw
+    } else if (fight.winnerId === fight.fighterA) {
+      fightStatus = fightStatusMapping.home
+    } else if (fight.winnerId === fight.fighterB) {
+      fightStatus = fightStatusMapping.away
+    }
+
+    const payload = [
+      fight.id,
+      fight.status,
+      fight.fighterA,
+      fight.fighterB,
+      fightStatus,
+      { nonce: nonce++ }
+    ]
+
+    // This call both resolves markets and finalizes their resolution.
+    const tx = await contract.trustedResolveMarkets(...payload)
+    Logger.info(`Augur: Created tx: ${tx.hash}`)
+  }
+
+  return Requester.success(jobRunID, {})
+}
+
+const packResolution = (event: ResolveTeam): string => {
   const encoded = ethers.utils.defaultAbiCoder.encode(
     ['uint128', 'uint8', 'uint16', 'uint16'],
     [event.id, event.status, Math.round(event.homeScore*10), Math.round(event.awayScore*10)]

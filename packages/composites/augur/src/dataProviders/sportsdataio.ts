@@ -2,10 +2,15 @@ import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Execute } from '@chainlink/types'
 import * as Sportsdataio from '@chainlink/sportsdataio-adapter'
 import { BigNumber, ethers } from 'ethers'
-import { CreateEvent } from '../methods/createMarkets'
-import { ResolveEvent } from '../methods/resolveMarkets'
+import { CreateFighterEvent, CreateTeamEvent } from '../methods/createMarkets'
+import { ResolveFight, ResolveTeam } from '../methods/resolveMarkets'
+import { DateTime } from 'luxon'
 
-export const SPORTS_SUPPORTED = ['nfl', 'ncaa-fb']
+export const SPORTS_SUPPORTED = ['nfl', 'ncaa-fb', 'mma']
+
+const getEpochTime = (dateTime: string, zone = 'America/New_York') => {
+  return DateTime.fromISO(dateTime, { zone }).toMillis()
+}
 
 interface NFLEvent {
   PointSpread: number | null
@@ -17,7 +22,7 @@ interface NFLEvent {
   Status: string
 }
 
-interface CommonSchedule {
+interface TeamSchedule {
   Date: string
   GameID: number
   AwayTeamID: number
@@ -59,7 +64,7 @@ interface CommonScores {
   HomeScore: number | null
 }
 
-const getSchedule = async (id: string, sport: string, season: string, exec: Execute): Promise<CommonSchedule[]> => {
+const getSchedule = async (id: string, sport: string, season: string, exec: Execute): Promise<TeamSchedule[]> => {
   const input = {
     id,
     data: {
@@ -144,11 +149,11 @@ const getSeason = () => `${new Date().getFullYear()}REG` // TODO: Sufficient? Wh
 const createParams = {
   sport: true,
   daysInAdvance: true,
-  startBuffer: true,
+  startBuffer: false,
   contract: true,
 }
 
-export const create: Execute = async (input) => {
+export const createTeam: Execute = async (input) => {
   const validator = new Validator(input, createParams)
   if (validator.error) throw validator.error
 
@@ -163,19 +168,20 @@ export const create: Execute = async (input) => {
 
   const sportsdataioExec = Sportsdataio.makeExecute(Sportsdataio.makeConfig(Sportsdataio.NAME))
 
-  const schedule = await getSchedule(input.id, sport, getSeason(), sportsdataioExec)
+  const schedule = (await getSchedule(input.id, sport, getSeason(), sportsdataioExec))
+    .filter(event => event.Status === "STATUS_SCHEDULED")
 
   Logger.debug(`Augur sportsdataio: Got ${schedule.length} events from data provider`)
   let skipNullDate = 0, skipStartBuffer = 0, skipDaysInAdvance = 0, cantCreate = 0
 
   // filter markets and build payloads for market creation
-  const createEvents: CreateEvent[] = []
+  const createEvents: CreateTeamEvent[] = []
   for (const event of schedule) {
     if (!event.Date) {
       skipNullDate++
       continue
     }
-    const startTime = Date.parse(event.Date)
+    const startTime = getEpochTime(event.Date)
     const diffTime = startTime - Date.now()
     if (diffTime / 1000 < startBuffer) {
       skipStartBuffer++
@@ -216,6 +222,163 @@ export const create: Execute = async (input) => {
   })
 }
 
+interface FightSchedule {
+  Active: boolean
+  DateTime: string
+  EventId: number
+  Status: string
+}
+
+interface FightEvent {
+  Active: boolean
+  DateTime: string
+  Fights: Fight[]
+  Status: string
+}
+
+interface Fight {
+  Active: boolean
+  DateTime?: string
+  FightId: number
+  Fighters: Fighter[]
+  ResultClock: number
+  ResultRound: number
+  Status: string
+}
+
+interface Fighter {
+  Active: boolean
+  FighterId: number
+  FirstName: string
+  LastName: string
+  Moneyline: number
+  Winner: boolean
+}
+
+const getLeagues = async (id: string, sport: string, exec: Execute): Promise<string[]> => {
+  const input = {
+    id,
+    data: {
+      sport,
+      endpoint: 'leagues'
+    }
+  }
+  const response = await exec(input)
+  return (response.result as { Key: string }[]).map(res => res.Key)
+}
+
+const getFightSchedule = async (id: string, sport: string, league: string, season: string, exec: Execute): Promise<FightSchedule[]> => {
+  const input = {
+    id,
+    data: {
+      sport,
+      league,
+      season,
+      endpoint: 'schedule'
+    }
+  }
+  const response = await exec(input)
+  return (response.result as FightSchedule[])
+    .filter(event => event.Active)
+}
+
+const getFights = async (id: string, sport: string, eventId: number, exec: Execute): Promise<Fight[]> => {
+  const input = {
+    id,
+    data: {
+      sport,
+      eventId,
+      endpoint: 'event'
+    }
+  }
+  const response = await exec(input)
+  const fights = (response.result as FightEvent).Fights
+  return fights.filter(fight => fight.Active)
+}
+
+export const createFighter: Execute = async (input) => {
+  const validator = new Validator(input, createParams)
+  if (validator.error) throw validator.error
+
+  const sport = validator.validated.data.sport.toLowerCase()
+  if (!SPORTS_SUPPORTED.includes(sport)) {
+    throw Error(`Unknown sport for Sportsdataio: ${sport}`)
+  }
+
+  const daysInAdvance = validator.validated.data.daysInAdvance
+  const contract: ethers.Contract = validator.validated.data.contract
+
+  const sportsdataioExec = Sportsdataio.makeExecute(Sportsdataio.makeConfig(Sportsdataio.NAME))
+
+  const fights: Fight[] = []
+
+  // TODO: Should only be UFC?
+  const leagues = await getLeagues(input.id, sport, sportsdataioExec)
+  for (const league of leagues) {
+    const schedule = (await getFightSchedule(input.id, sport, league, `${new Date().getFullYear()}`, sportsdataioExec))
+      .filter(event => event.Status === "Scheduled")
+
+    for (const event of schedule) {
+      const eventFights = (await getFights(input.id, sport, event.EventId, sportsdataioExec))
+        .filter(fight => fight.Status === "Scheduled")
+        .map(fight => ({ ...fight, DateTime: event.DateTime }))
+      fights.push(...eventFights)
+    }
+  }
+
+  Logger.debug(`Augur sportsdataio: Got ${fights.length} fights from data provider`)
+  let skipNullDate = 0, skipDaysInAdvance = 0, skipOddNumberFighters = 0, cantCreate = 0
+
+  // filter markets and build payloads for market creation
+  const createEvents: CreateFighterEvent[] = []
+  for (const fight of fights) {
+    if (!fight.DateTime) {
+      skipNullDate++
+      continue
+    }
+    const startTime = getEpochTime(fight.DateTime)
+    const diffTime = startTime - Date.now()
+    if (diffTime / (1000 * 3600 * 24) > daysInAdvance) {
+      skipDaysInAdvance++
+      continue
+    }
+
+    if((await contract.events(fight.FightId)).eventStatus === 0) {
+      cantCreate++
+      continue
+    }
+
+    const fighters = fight.Fighters
+      .filter(fighter => fighter.Active)
+    if (fighters.length !== 2) {
+      skipOddNumberFighters++
+      continue
+    }
+
+    const moneylines = fighters
+      .map(fighter => fighter.Moneyline)
+
+    createEvents.push({
+      id: BigNumber.from(fight.FightId),
+      fighterA: fighters[0].FighterId,
+      fighterAname: `${fighters[0].FirstName} ${fighters[0].LastName}`,
+      fighterB: fighters[1].FighterId,
+      fighterBname: `${fighters[1].FirstName} ${fighters[1].LastName}`,
+      startTime,
+      moneylines
+    })
+  }
+
+  Logger.debug(`Augur sportsdataio: Skipping ${skipNullDate} due to no event date`)
+  Logger.debug(`Augur sportsdataio: Skipping ${skipDaysInAdvance} due to daysInAdvance`)
+  Logger.debug(`Augur sportsdataio: Skipping ${skipOddNumberFighters} due to odd number of fighters`)
+  Logger.debug(`Augur sportsdataio: Skipping ${cantCreate} due to no market to create`)
+
+  return Requester.success(input.id, {
+    data: { result: createEvents }
+  })
+}
+
 const eventStatus: { [status: string]: number } = {
   'Scheduled': 1,
   'InProgress': 0, // TODO: Clarify???
@@ -237,7 +400,7 @@ const findEventScore = async (jobRunID: string, sport: string, season: string, e
   return scores.find((game) => game.GameID === eventId)
 }
 
-export const resolve: Execute = async (input) => {
+export const resolveTeam: Execute = async (input) => {
   const validator = new Validator(input, resolveParams)
   if (validator.error) throw validator.error
 
@@ -255,11 +418,62 @@ export const resolve: Execute = async (input) => {
     throw Error(`Unknown status: ${event.Status}`)
   }
 
-  const resolveEvent: ResolveEvent = {
+  const resolveEvent: ResolveTeam = {
     id: BigNumber.from(event.GameID),
     status,
     homeScore: event.HomeScore || 0,
     awayScore: event.AwayScore || 0
+  }
+
+  return Requester.success(input.id, {
+    data: { result: resolveEvent }
+  })
+}
+
+const getFight = async (id: string, sport: string, fightId: number, exec: Execute): Promise<Fight> => {
+  const input = {
+    id,
+    data: {
+      sport,
+      fightId,
+      endpoint: 'fight'
+    }
+  }
+  const response = await exec(input)
+  return response.result
+}
+
+export const resolveFight: Execute = async (input) => {
+  const validator = new Validator(input, resolveParams)
+  if (validator.error) throw validator.error
+
+  const fightId = Number(validator.validated.data.eventId)
+  const sport = validator.validated.data.sport
+  const sportsdataioExec = Sportsdataio.makeExecute()
+
+  const fight = await getFight(input.id, sport, fightId, sportsdataioExec)
+  if (!fight) {
+    throw Error(`Unable to find fight ${fightId}`)
+  }
+
+  const status = eventStatus[fight.Status]
+  if (!status) {
+    throw Error(`Unknown status: ${fight.Status}`)
+  }
+
+  const winners = fight.Fighters
+    .filter(fighter => fighter.Active && fighter.Winner)
+
+  const draw = winners.length !== 1
+  const winnerId = draw ? 0 : winners[0].FighterId
+
+  const resolveEvent: ResolveFight = {
+    id: BigNumber.from(fight.FightId),
+    status,
+    fighterA: fight.Fighters[0].FighterId,
+    fighterB: fight.Fighters[1].FighterId,
+    winnerId,
+    draw,
   }
 
   return Requester.success(input.id, {
