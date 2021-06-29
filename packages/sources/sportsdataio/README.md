@@ -7,7 +7,6 @@ Adapter got get data from Sportsdata.io
 | Required? |        Name        |      Description       | Options | Defaults to |
 | :-------: | :----------------: | :--------------------: | :-----: | :---------: |
 |           | NFL_SCORES_API_KEY | API key for NFL scores |         |             |
-|           | MMA_SCORES_API_KEY | API key for MMA scores |         |             |
 |           | MMA_STATS_API_KEY | API key for MMA stats |         |             |
 |           | CFB_SCORES_API_KEY | API key for CFB scores |         |             |
 

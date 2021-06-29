@@ -4,7 +4,7 @@
     "outDir": "dist",
     "rootDir": "src"
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "src/abis/mma.json"],
   "exclude": ["dist", "**/*.spec.ts", "**/*.test.ts"],
   "references": [
     { "path": "../../core/test-helpers" },
