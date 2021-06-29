@@ -86,7 +86,7 @@ describe('synth-index X coingecko', () => {
           .expect(500)
 
         expect(response.body).toMatchSnapshot()
-      }, 5000)
+      }, 20000)
     })
   })
 })
