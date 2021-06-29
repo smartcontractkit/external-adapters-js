@@ -47,8 +47,8 @@ jobs:
         id: create-matrix
         run: yarn generate:gha:matrix
         env:
-          BRANCH: ${{ fromJSON('["develop", undefined]')[github.ref == 'refs/heads/develop'] }}
-          LATEST: ${{ fromJSON('[true, undefined]')[github.ref == 'refs/heads/develop'] }}
+          BRANCH: ${{ fromJSON('[undefined, "develop"]')[github.ref == 'refs/heads/develop'] }}
+          LATEST: ${{ fromJSON('[undefined, true]')[github.ref == 'refs/heads/develop'] }}
           IMAGE_PREFIX: public.ecr.aws/${{ env.publicecr-name }}/adapters/
 
   publish-artifacts:
