@@ -4,9 +4,21 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.3.0-rc.1] - 2021-6-30
+
+This release marks the fruition of our recent External Adapter efficiency efforts.
+
+For more details see the public node operator guide [here](https://www.notion.so/chainlink/EA-0-3-0-Migration-Guide-3ac0632093a94f4d9ad7ea9e4fab2693).
 
 ### Added
+
+- New performance improving middleware to the core EA framework:
+
+  - Cache-warming
+  - Rate-limiting
+  - Websockets
+
+- Metrics support
 
 - Added support for EOD close prices on Finage, IEX Cloud, Twelvedata, Tiingo and Unibit
 
