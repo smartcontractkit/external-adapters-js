@@ -47,8 +47,8 @@ jobs:
         id: create-matrix
         run: yarn generate:gha:matrix
         env:
-          BRANCH: ${{ fromJSON('[undefined, "develop"]')[github.ref == 'refs/heads/develop'] }}
-          LATEST: ${{ fromJSON('[undefined, true]')[github.ref == 'refs/heads/develop'] }}
+          BRANCH: ${{ fromJSON('[undefined, "develop"]')[github.ref != 'refs/heads/develop'] }}
+          LATEST: ${{ fromJSON('[undefined, true]')[github.ref != 'refs/heads/develop'] }}
           IMAGE_PREFIX: public.ecr.aws/${{ env.publicecr-name }}/adapters/
 
   publish-artifacts:
@@ -67,8 +67,8 @@ jobs:
       - name: Generate docker-compose file
         run: yarn generate:docker-compose
         env:
-          BRANCH: ${{ fromJSON('[undefined, "develop"]')[github.ref == 'refs/heads/develop'] }}
-          LATEST: ${{ fromJSON('[undefined, true]')[github.ref == 'refs/heads/develop'] }}
+          BRANCH: ${{ fromJSON('[undefined, "develop"]')[github.ref != 'refs/heads/develop'] }}
+          LATEST: ${{ fromJSON('[undefined, true]')[github.ref != 'refs/heads/develop'] }}
           IMAGE_PREFIX: public.ecr.aws/${{ env.publicecr-name }}/adapters/
       - name: Build Docker containers
         run: docker-compose -f docker-compose.generated.yaml build ${{ matrix.adapter.name }}
@@ -93,7 +93,7 @@ jobs:
   # and a tag of 'latest' from the below jobs.
   # This is only needed for non-develop jobs since the same image needs to be tagged twice
   matrix-adapters-release-latest:
-    if: github.ref != 'refs/heads/develop'
+    if: github.ref == 'refs/heads/develop'
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.create-matrix.outputs.result }}
@@ -110,7 +110,7 @@ jobs:
           IMAGE_PREFIX: public.ecr.aws/${{ env.publicecr-name }}/adapters/
 
   publish-artifacts-release-latest:
-    if: github.ref != 'refs/heads/develop'
+    if: github.ref == 'refs/heads/develop'
     needs: [matrix-adapters-release-latest]
     runs-on: ubuntu-latest
     name: (${{ matrix.adapter.type }}) Publish ${{ matrix.adapter.name }} adapter Docker image
