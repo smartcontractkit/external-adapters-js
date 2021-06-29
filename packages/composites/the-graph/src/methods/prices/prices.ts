@@ -1,37 +1,38 @@
-import { AdapterError, Validator, Requester } from '@chainlink/ea-bootstrap'
+import { AdapterError, Validator, Requester, Logger } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig } from '@chainlink/types'
 import { Config, USD, USDT, WETH } from "../../config"
 import { getToken, getTokenPairPrice } from "./dataProvider"
 
 const customParams = {
-    baseCoinTicker: true,
+    baseCoinTicker: false,
     quoteCoinTicker: false,
     dex: false
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, config) => {
-    console.log(`Making requests to ${config.endpoint}`)
+    Logger.info(`Making requests to ${config.endpoint}`)
     const validator = new Validator(input, customParams)
     if (validator.error) throw validator.error
     const jobRunID = validator.validated.id
-    const { baseCoinTicker, quoteCoinTicker = USD } = validator.validated.data
+    const { baseCoinTicker = USD, quoteCoinTicker = USD } = validator.validated.data
 
     if (baseCoinTicker === quoteCoinTicker) {
         throw new AdapterError({ jobRunID, message: "Base and Quote coins must be different" })
     }
 
+    Logger.info(`Fetching quote for ${quoteCoinTicker}/${baseCoinTicker} pair`)
     const wethToken = await getToken(jobRunID, WETH)
     const wethTokenAddress = wethToken.id
 
     let price
     try {
-        if (quoteCoinTicker === USD) {
-            price = await getTokenPriceInUSD(jobRunID, baseCoinTicker, wethTokenAddress)
+        if (baseCoinTicker === USD || quoteCoinTicker === USD) {
+            price = await getTokenPriceInUSD(jobRunID, baseCoinTicker, quoteCoinTicker, wethTokenAddress)
         } else {
-            price = await getToken1PriceInToken0(jobRunID, baseCoinTicker, quoteCoinTicker, wethTokenAddress)
+            price = await getQuotePrice(jobRunID, baseCoinTicker, quoteCoinTicker, wethTokenAddress)
         }
     } catch (e) {
-        throw new AdapterError({ jobRunID, message: "Failed to get price" })
+        throw new AdapterError({ jobRunID, message: `Failed to get price.  Reason "${e}"` })
     }
     return Requester.success(jobRunID, {
         status: 200,
@@ -41,21 +42,25 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
     }, true)
 }
 
-const getTokenPriceInUSD = async (jobRunID: string, baseCoinTicker: string, wethTokenAddress: string) => {
-    const token0 = await getToken(jobRunID, baseCoinTicker)
-    const token0PerETH = await getTokenPairPrice(jobRunID, wethTokenAddress, token0.id)
-    const usdtToken = await getToken(jobRunID, USDT)
-    const ETHPerUSDT = await getTokenPairPrice(jobRunID, usdtToken.id, wethTokenAddress)
-    if (token0PerETH == null || ETHPerUSDT == null) {
-        throw new Error()
+const getTokenPriceInUSD = async (jobRunID: string, baseCoinTicker: string, quoteCoinTicker: string, wethTokenAddress: string) => {
+    const tokenTicker = baseCoinTicker === USD ? quoteCoinTicker : baseCoinTicker
+    const token0PerETH = await getQuotePrice(jobRunID, WETH, tokenTicker, wethTokenAddress)
+    const ETHPerUSDT = await getQuotePrice(jobRunID, USDT, WETH, wethTokenAddress)
+    validateTokenPrices(jobRunID, token0PerETH, ETHPerUSDT, baseCoinTicker, WETH)
+    if (baseCoinTicker === USD) {
+        const token0PerUSDT = (token0PerETH as number) * (ETHPerUSDT as number)
+        return token0PerUSDT
+    } else {
+        const USDTPerEth = 1 / (ETHPerUSDT as number)
+        const ETHPerToken0 = 1 / (token0PerETH as number)
+        const USDTPerToken0 = USDTPerEth * ETHPerToken0
+        return USDTPerToken0
     }
-    const token0PerUSDT = token0PerETH * ETHPerUSDT
-    return token0PerUSDT
     // todo
     // 1) Convert USDT to USD using feeds
 }
 
-const getToken1PriceInToken0 = async (jobRunID: string, baseCoinTicker: string, quoteCoinTicker: string, wethTokenAddress: string): Promise<number> => {
+const getQuotePrice = async (jobRunID: string, baseCoinTicker: string, quoteCoinTicker: string, wethTokenAddress: string): Promise<number> => {
     const token0 = await getToken(jobRunID, baseCoinTicker)
     const token1 = await getToken(jobRunID, quoteCoinTicker)
     const token1PerToken0 = await getTokenPairPrice(jobRunID, token0.id, token1.id)
@@ -64,8 +69,17 @@ const getToken1PriceInToken0 = async (jobRunID: string, baseCoinTicker: string, 
     }
     const ETHPerToken0 = await getTokenPairPrice(jobRunID, token0.id, wethTokenAddress)
     const ETHPerToken1 = await getTokenPairPrice(jobRunID, token1.id, wethTokenAddress)
-    if (ETHPerToken0 == null || ETHPerToken1 == null) {
-        throw new Error()
+    validateTokenPrices(jobRunID, ETHPerToken0, ETHPerToken1, baseCoinTicker, quoteCoinTicker)
+    return (ETHPerToken0 as number) / (ETHPerToken1 as number)
+}
+
+const validateTokenPrices = (jobRunID: string, priceOne: number | null, priceTwo: number | null, priceOneTicker: string, priceTwoTicker: string) => {
+    if (!priceOne || !priceTwo) {
+        if (!priceOne) {
+            throw new AdapterError({ jobRunID, message: `Failed to get price because we could not determine the price of ${priceOneTicker}` })
+        }
+        if (!priceTwo) {
+            throw new AdapterError({ jobRunID, message: `Failed to get price because we could not determine the price of ${priceTwoTicker}` })
+        }
     }
-    return ETHPerToken0 / ETHPerToken1
 }
