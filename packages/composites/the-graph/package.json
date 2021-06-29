@@ -31,6 +31,9 @@
   },
   "dependencies": {
     "@chainlink/ea-bootstrap": "*",
+    "@chainlink/graphql-adapter": "*",
+    "graphql": "^15.5.1",
+    "graphql-tag": "^2.12.5",
     "tslib": "^2.1.0"
   },
   "devDependencies": {
