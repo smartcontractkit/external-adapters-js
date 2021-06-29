@@ -42,6 +42,9 @@
       "path": "./composites/synth-index"
     },
     {
+      "path": "./composites/the-graph"
+    },
+    {
       "path": "./composites/token-allocation"
     },
     {

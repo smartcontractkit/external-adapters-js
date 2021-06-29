@@ -75,6 +75,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/composites/synth-index"
       },
       {
+        "name": "@chainlink/the-graph-adapter",
+        "reference": "workspace:packages/composites/the-graph"
+      },
+      {
         "name": "@chainlink/token-allocation-adapter",
         "reference": "workspace:packages/composites/token-allocation"
       },
@@ -584,6 +588,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/stasis-adapter", ["workspace:packages/sources/stasis"]],
       ["@chainlink/synth-index-adapter", ["workspace:packages/composites/synth-index"]],
       ["@chainlink/taapi-adapter", ["workspace:packages/sources/taapi"]],
+      ["@chainlink/the-graph-adapter", ["workspace:packages/composites/the-graph"]],
       ["@chainlink/therundown-adapter", ["workspace:packages/sources/therundown"]],
       ["@chainlink/tiingo-adapter", ["workspace:packages/sources/tiingo"]],
       ["@chainlink/token-allocation-adapter", ["workspace:packages/composites/token-allocation"]],
@@ -6245,6 +6250,21 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/taapi-adapter", "workspace:packages/sources/taapi"],
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:26.0.22"],
+            ["@types/node", "npm:14.14.41"],
+            ["tslib", "npm:2.2.0"],
+            ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/the-graph-adapter", [
+        ["workspace:packages/composites/the-graph", {
+          "packageLocation": "./packages/composites/the-graph/",
+          "packageDependencies": [
+            ["@chainlink/the-graph-adapter", "workspace:packages/composites/the-graph"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.41"],
