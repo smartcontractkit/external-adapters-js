@@ -1,8 +1,12 @@
 import { Config as DefaultConfig } from "@chainlink/types"
+import { DexSubgraph } from "./types"
+import { uniswapSubgraph } from "./methods/prices/dex"
 
 export type Config = DefaultConfig & {
-  endpoint: string,
-  infuraHost: string
+  infuraHost: string,
+  dexSubgraphs: {
+    [T: string]: DexSubgraph
+  }
 }
 
 export const INFURA_HOST = process.env.INFURA_HOST || ""
@@ -15,11 +19,13 @@ export const ETH = "ETH"
 export const WETH = "WETH"
 export const USDT = "USDT"
 
-export const UNISWAP_V2_GRAPH_ENDPOINT = "https://api.thegraph.com/subgraphs/name/ianlapham/uniswapv2"
+export const UNISWAP = "UNISWAP"
 
 export const makeConfig = (): Config => {
   return {
-    endpoint: UNISWAP_V2_GRAPH_ENDPOINT,
-    infuraHost: INFURA_HOST
+    infuraHost: INFURA_HOST,
+    dexSubgraphs: {
+      [UNISWAP]: uniswapSubgraph.subgraph
+    }
   }
 }

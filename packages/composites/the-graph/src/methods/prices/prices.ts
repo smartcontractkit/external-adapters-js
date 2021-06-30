@@ -1,8 +1,9 @@
 import { AdapterError, Validator, Requester, Logger } from '@chainlink/ea-bootstrap'
-import { Config, USD, USDT, WETH } from "../../config"
+import { Config, USD, USDT, WETH, UNISWAP } from "../../config"
 import { AdapterRequest, AdapterResponse } from "@chainlink/types"
-import { getToken, getTokenPairPrice, getUSDPriceInUSDT } from "./dataProvider"
+import { getUSDPriceInUSDT } from "./dataProvider"
 import { ethers } from "ethers"
+import { DexSubgraph } from "../../types"
 
 const customParams = {
     baseCoinTicker: false,
@@ -11,26 +12,25 @@ const customParams = {
 }
 
 export const execute = async (input: AdapterRequest, config: Config, provider: ethers.providers.Provider): Promise<AdapterResponse> => {
-    Logger.info(`Making requests to ${config.endpoint}`)
     const validator = new Validator(input, customParams)
     if (validator.error) throw validator.error
     const jobRunID = validator.validated.id
-    const { baseCoinTicker = USD, quoteCoinTicker = USD } = validator.validated.data
+    const { baseCoinTicker = USD, quoteCoinTicker = USD, dex = UNISWAP } = validator.validated.data
 
     if (baseCoinTicker === quoteCoinTicker) {
         throw new AdapterError({ jobRunID, message: "Base and Quote coins must be different" })
     }
 
-    Logger.info(`Fetching quote for ${quoteCoinTicker}/${baseCoinTicker} pair`)
-    const wethToken = await getToken(jobRunID, WETH)
+    Logger.info(`Fetching quote for ${quoteCoinTicker}/${baseCoinTicker} pair from ${dex}`)
+    const dexSubgraph = config.dexSubgraphs[dex]
+    const wethToken = await dexSubgraph.getToken(jobRunID, WETH)
     const wethTokenAddress = wethToken.id
-
     let price
     try {
         if (baseCoinTicker === USD || quoteCoinTicker === USD) {
-            price = await getTokenPriceInUSD(jobRunID, baseCoinTicker, quoteCoinTicker, wethTokenAddress, provider)
+            price = await getTokenPriceInUSD(jobRunID, baseCoinTicker, quoteCoinTicker, wethTokenAddress, provider, dexSubgraph)
         } else {
-            price = await getQuotePrice(jobRunID, baseCoinTicker, quoteCoinTicker, wethTokenAddress)
+            price = await getQuotePrice(jobRunID, baseCoinTicker, quoteCoinTicker, wethTokenAddress, dexSubgraph)
         }
     } catch (e) {
         throw new AdapterError({ jobRunID, message: `Failed to get price.  Reason "${e}"` })
@@ -43,10 +43,10 @@ export const execute = async (input: AdapterRequest, config: Config, provider: e
     }, true)
 }
 
-const getTokenPriceInUSD = async (jobRunID: string, baseCoinTicker: string, quoteCoinTicker: string, wethTokenAddress: string, provider: ethers.providers.Provider) => {
+const getTokenPriceInUSD = async (jobRunID: string, baseCoinTicker: string, quoteCoinTicker: string, wethTokenAddress: string, provider: ethers.providers.Provider, dexSubgraph: DexSubgraph) => {
     const tokenTicker = baseCoinTicker === USD ? quoteCoinTicker : baseCoinTicker
-    const token0PerETH = await getQuotePrice(jobRunID, WETH, tokenTicker, wethTokenAddress)
-    const ETHPerUSDT = await getQuotePrice(jobRunID, USDT, WETH, wethTokenAddress)
+    const token0PerETH = await getQuotePrice(jobRunID, WETH, tokenTicker, wethTokenAddress, dexSubgraph)
+    const ETHPerUSDT = await getQuotePrice(jobRunID, USDT, WETH, wethTokenAddress, dexSubgraph)
     validateTokenPrices(jobRunID, token0PerETH, ETHPerUSDT, baseCoinTicker, WETH)
     const USDTPerUSD = await getUSDPriceInUSDT(provider)
     if (baseCoinTicker === USD) {
@@ -61,15 +61,15 @@ const getTokenPriceInUSD = async (jobRunID: string, baseCoinTicker: string, quot
     }
 }
 
-const getQuotePrice = async (jobRunID: string, baseCoinTicker: string, quoteCoinTicker: string, wethTokenAddress: string): Promise<number> => {
-    const token0 = await getToken(jobRunID, baseCoinTicker)
-    const token1 = await getToken(jobRunID, quoteCoinTicker)
-    const token1PerToken0 = await getTokenPairPrice(jobRunID, token0.id, token1.id)
+const getQuotePrice = async (jobRunID: string, baseCoinTicker: string, quoteCoinTicker: string, wethTokenAddress: string, dexSubgraph: DexSubgraph): Promise<number> => {
+    const token0 = await dexSubgraph.getToken(jobRunID, baseCoinTicker)
+    const token1 = await dexSubgraph.getToken(jobRunID, quoteCoinTicker)
+    const token1PerToken0 = await dexSubgraph.getTokenPairPrice(jobRunID, token0.id, token1.id)
     if (token1PerToken0) {
         return token1PerToken0
     }
-    const ETHPerToken0 = await getTokenPairPrice(jobRunID, token0.id, wethTokenAddress)
-    const ETHPerToken1 = await getTokenPairPrice(jobRunID, token1.id, wethTokenAddress)
+    const ETHPerToken0 = await dexSubgraph.getTokenPairPrice(jobRunID, token0.id, wethTokenAddress)
+    const ETHPerToken1 = await dexSubgraph.getTokenPairPrice(jobRunID, token1.id, wethTokenAddress)
     validateTokenPrices(jobRunID, ETHPerToken0, ETHPerToken1, baseCoinTicker, quoteCoinTicker)
     return (ETHPerToken0 as number) / (ETHPerToken1 as number)
 }
