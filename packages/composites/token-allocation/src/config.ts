@@ -53,6 +53,7 @@ export const makeConfig = (prefix = ''): Config => {
     sources,
     defaultMethod: util.getEnv('DEFAULT_METHOD', prefix) || 'price',
     defaultQuote: util.getEnv('DEFAULT_QUOTE') || 'USD',
+    defaultSource: util.getEnv('DEFAULT_SOURCE')
   }
 }
 
