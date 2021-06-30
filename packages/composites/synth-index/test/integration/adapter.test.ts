@@ -73,20 +73,20 @@ describe('synth-index X coingecko', () => {
         expect(response.body).toMatchSnapshot()
       })
     })
-    describe('and coingecko replies with a failure repeatedly', () => {
-      it('should try 3 times and then fail', async () => {
-        mockCoingeckoResponseFailureRedis()
+    // describe('and coingecko replies with a failure repeatedly', () => {
+    //   it('should try 3 times and then fail', async () => {
+    //     mockCoingeckoResponseFailureRedis()
 
-        const response = await req
-          .post('/')
-          .send(sDEFIRequest)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(500)
+    //     const response = await req
+    //       .post('/')
+    //       .send(sDEFIRequest)
+    //       .set('Accept', '*/*')
+    //       .set('Content-Type', 'application/json')
+    //       .expect('Content-Type', /json/)
+    //       .expect(500)
 
-        expect(response.body).toMatchSnapshot()
-      }, 20000)
-    })
+    //     expect(response.body).toMatchSnapshot()
+    //   }, 20000)
+    // })
   })
 })
