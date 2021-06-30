@@ -1,6 +1,7 @@
 import * as graphqlAdapter from "@chainlink/graphql-adapter"
 import { GraphqlAdapterRequest, TokenInformation } from "../../types"
 import { AdapterResponse, AdapterRequest } from "@chainlink/types"
+import { AdapterError } from "@chainlink/ea-bootstrap"
 import { getPairQuery, getTokenQuery } from "../../graphqlQueries"
 import { UNISWAP_V2_GRAPH_ENDPOINT, USDT_USD_AGGREGATOR_V3_ADDRESS } from "../../config"
 import { ethers } from "ethers"
@@ -14,6 +15,10 @@ export const getToken = async (jobRunID: string, symbol: string): Promise<TokenI
         graphqlEndpoint: UNISWAP_V2_GRAPH_ENDPOINT
     }
     const response = await fetchFromGraphqlAdapter(jobRunID, data)
+    if(!response.result.data) {
+        const error = response.result.error || "Failed to get token information"
+        throw new AdapterError({ jobRunID, message: error })
+    }
     const tokens = response.result.data.tokens
     if (tokens.length !== 1) {
         throw new Error()
