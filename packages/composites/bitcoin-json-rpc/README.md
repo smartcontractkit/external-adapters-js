@@ -8,14 +8,14 @@ The adapter takes the following environment variables:
 
 | Required? |   Name    |       Description       | Options |       Defaults to       |
 | :-------: | :-------: | :---------------------: | :-----: | :---------------------: |
-|           | `RPC_URL` | Blockchain RPC endpoint |         | `http://localhost:8545` |
+|           | `RPC_URL` | Blockchain RPC endpoint |         | `http://localhost:8332` |
 
 Other common `RPC_URL` endpoints:
 
 - bitcoind: http://localhost:8332
 - btcd: http://localhost:8334
 
-This composite adapter incorporates the [`json-rpc`](../../sources/json-rpc) adapter by calling `"method": "getblockchainfo"`.
+This composite adapter incorporates the [`json-rpc`](../../sources/json-rpc) adapter by calling `"method": "getblockchaininfo"`.
 
 ## Running
 
@@ -27,7 +27,8 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 
 | Required? |    Name    |      Description       | Options | Defaults to  |
 | :-------: | :--------: | :--------------------: | :-----: | :----------: |
-|           | `endpoint` | Parameter to query for |         | `difficulty` |
+|  | `endpoint` | RPC method to call | `difficulty`, `getblockchaininfo` | `getblockchaininfo` |
+|  | `field` | Parameter to query for |  | `difficulty` |
 
 ### Sample Input
 

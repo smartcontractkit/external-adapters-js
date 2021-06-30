@@ -1,5 +1,6 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Execute } from '@chainlink/types'
+import { Config, ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
+import { DEFAULT_RPC_URL, ExtendedConfig, makeConfig } from './config'
 
 const inputParams = {
   url: false,
@@ -8,16 +9,17 @@ const inputParams = {
 }
 
 // Export function to integrate with Chainlink node
-export const execute: Execute = async (request: any) => {
+export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, config) => {
   const validator = new Validator(request, inputParams)
   if (validator.error) throw validator.error
 
-  const url = process.env.RPC_URL || validator.validated.data.url || 'http://localhost:8545'
+  const jobRunID = validator.validated.id
+  const url = config.RPC_URL || validator.validated.data.url || DEFAULT_RPC_URL
   const method = validator.validated.data.method || ''
   const params = validator.validated.data.params
 
   const data = {
-    id: request.id,
+    id: jobRunID,
     jsonrpc: '2.0',
     method,
     params,
@@ -37,4 +39,8 @@ export const execute: Execute = async (request: any) => {
   if (response.status >= 400) throw response.data.error
 
   return Requester.success(request.id, response)
+}
+
+export const makeExecute: ExecuteFactory<Config> = (config) => {
+  return async (request) => execute(request, config || makeConfig())
 }
