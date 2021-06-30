@@ -11,7 +11,8 @@ export const makeConfig = (prefix?: string): Config => {
   const privateKey = util.getRequiredEnv('PRIVATE_KEY', prefix)
   const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
   const wallet = new ethers.Wallet(privateKey, provider)
-
+	console.log(rpcUrl);
+console.log(privateKey);
   return {
     ...Requester.getDefaultConfig(prefix),
     verbose: true,

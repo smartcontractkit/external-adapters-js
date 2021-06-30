@@ -8,7 +8,9 @@ export const getRandomEnv = (name: string, delimiter = ',', prefix = '') => {
 
 // pick a random string from env var after splitting with the delimiter ("a&b&c" "&" -> choice(["a","b","c"]))
 export const getRandomRequiredEnv = (name: string, delimiter = ',', prefix = '') => {
+  console.log(name)
   const val = getRequiredEnv(name, prefix)
+  console.log(val)
   const items = val.split(delimiter)
   return items[Math.floor(Math.random() * items.length)]
 }
@@ -42,6 +44,7 @@ export class RequiredEnvError extends Error {
  */
 export const getRequiredEnv = (name: string, prefix = ''): string => {
   const val = getEnv(name, prefix)
+  console.log(val)
   if (!val) throw new RequiredEnvError(getEnvName(name, prefix))
   return val
 }

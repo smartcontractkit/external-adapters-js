@@ -53,8 +53,9 @@ const addDays = (date: Date, days: number): Date => {
 
 export const create: Execute = async (input) => {
   const validator = new Validator(input, createParams)
+  console.log("begin")
   if (validator.error) throw validator.error
-
+  console.log("end")
   const sportId = sportIdMapping[validator.validated.data.sport]
   const daysInAdvance = validator.validated.data.daysInAdvance
   const startBuffer = validator.validated.data.startBuffer
@@ -68,7 +69,10 @@ export const create: Execute = async (input) => {
       date: new Date(),
       endpoint: 'events'
     }}
+  
+    console.log(TheRundown.makeConfig(TheRundown.NAME));
   const theRundownExec = TheRundown.makeExecute(TheRundown.makeConfig(TheRundown.NAME))
+
 
   const events = []
   for (let i = 0; i < daysInAdvance; i++) {

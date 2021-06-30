@@ -14,6 +14,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const jobRunID = validator.validated.jobRunID
   const method = validator.validated.data.method
 
+  console.log({config})
   switch (method.toLowerCase()) {
     case 'resolve':
       return resolveMarkets.execute(input, config)

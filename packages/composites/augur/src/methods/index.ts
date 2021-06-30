@@ -5,16 +5,70 @@ export * as createMarkets from './createMarkets'
 
 export const ABI = [
   {
-    inputs: [
-      { internalType: "bytes32", name: "_payload", type: "bytes32" }
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_eventId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_homeTeamId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_awayTeamId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_startTimestamp",
+        "type": "uint256"
+      },
+      {
+        "internalType": "int256",
+        "name": "_homeSpread",
+        "type": "int256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_totalScore",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "_makeSpread",
+        "type": "bool"
+      },
+      {
+        "internalType": "bool",
+        "name": "_makeTotalScore",
+        "type": "bool"
+      }
     ],
-    name: "createMarket",
-    outputs: [
-      { internalType: "uint256[3]", name: "_ids", type: "uint256[3]" }
+    "name": "createMarket",
+    "outputs": [
+      {
+        "internalType": "uint256[3]",
+        "name": "_ids",
+        "type": "uint256[3]"
+      }
     ],
-    stateMutability: "nonpayable",
-    type: "function"
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
+  // {
+  //   inputs: [
+  //     { internalType: "bytes32", name: "_payload", type: "bytes32" }
+  //   ],
+  //   name: "createMarket",
+  //   outputs: [
+  //     { internalType: "uint256[3]", name: "_ids", type: "uint256[3]" }
+  //   ],
+  //   stateMutability: "nonpayable",
+  //   type: "function"
+  // },
   {
     inputs:[
       { internalType: "uint256", name: "_eventId", type: "uint256" }
