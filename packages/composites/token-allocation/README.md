@@ -22,10 +22,11 @@ To be functional at least one of the following underyling adapter locations will
 
 Optionally the default behavior of the composite adapter can be configured
 
-| Required? |       Name       |                     Description                     |       Options        | Defaults to |
-| :-------: | :--------------: | :-------------------------------------------------: | :------------------: | :---------: |
-|           | `DEFAULT_QUOTE`  | Currency that the price will be fetched by default. |                      |    `USD`    |
-|           | `DEFAULT_METHOD` |         Method that will be used by default         | `price`, `marketCap` |   `price`   |
+| Required? |       Name       |                        Description                        |       Options        | Defaults to |
+| :-------: | :--------------: | :-------------------------------------------------------: | :------------------: | :---------: |
+|           | `DEFAULT_QUOTE`  |    Currency that the price will be fetched by default.    |                      |    `USD`    |
+|           | `DEFAULT_METHOD` |            Method that will be used by default            | `price`, `marketCap` |   `price`   |
+|           | `DEFAULT_SOURCE` | The default source to be used if not specified in request |                      |             |
 
 ## Running
 
@@ -33,12 +34,12 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 
 ### Input Params
 
-| Required? |     Name      |                       Description                       |                                                 Options                                                 |                Defaults to                |
-| :-------: | :-----------: | :-----------------------------------------------------: | :-----------------------------------------------------------------------------------------------------: | :---------------------------------------: |
-|    ✅     |   `source`    |               The data provider to query                | `amberdata`, `coinapi`, `coingecko`, `coinmarketcap`, `coinpaprika`, `cryptocompare`, `kaiko`, `nomics` |                                           |
-|           |    `quote`    |             Currency we want the price on.              |                                                                                                         | The `DEFAULT_QUOTE` environment variable  |
-|           |   `method`    | Method we want the total value calculation be based on. |                                          `price`, `marketCap`                                           | The `DEFAULT_METHOD` environment variable |
-|    ✅     | `allocations` |            Array of allocations (see below)             |                                                                                                         |
+| Required? |     Name      |                               Description                                |                                                 Options                                                 |                Defaults to                |
+| :-------: | :-----------: | :----------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------: | :---------------------------------------: |
+|           |   `source`    | The data provider to query. This is required if not specified in config. | `amberdata`, `coinapi`, `coingecko`, `coinmarketcap`, `coinpaprika`, `cryptocompare`, `kaiko`, `nomics` |                                           |
+|           |    `quote`    |                      Currency we want the price on.                      |                                                                                                         | The `DEFAULT_QUOTE` environment variable  |
+|           |   `method`    |         Method we want the total value calculation be based on.          |                                          `price`, `marketCap`                                           | The `DEFAULT_METHOD` environment variable |
+|    ✅     | `allocations` |                     Array of allocations (see below)                     |                                                                                                         |
 
 #### Allocation Params
 
