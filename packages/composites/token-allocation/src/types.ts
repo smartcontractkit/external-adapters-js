@@ -32,4 +32,5 @@ export type Config = {
   sources: SourceRequestOptions
   defaultMethod: string
   defaultQuote: string
+  defaultSource?: string
 }
