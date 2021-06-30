@@ -1,5 +1,4 @@
-import { util } from '@chainlink/ea-bootstrap'
-import { Requester } from '@chainlink/external-adapter'
+import { Requester, util } from '@chainlink/ea-bootstrap'
 import * as types from '@chainlink/types'
 
 export type Config = types.Config & {

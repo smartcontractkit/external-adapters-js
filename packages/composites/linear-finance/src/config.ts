@@ -1,6 +1,5 @@
 import { Config as BaseConfig } from '@chainlink/types'
-import { util } from '@chainlink/ea-bootstrap'
-import { Requester } from '@chainlink/external-adapter'
+import { util, Requester } from '@chainlink/ea-bootstrap'
 
 export const ENV_CSV_URL = 'CSV_URL'
 

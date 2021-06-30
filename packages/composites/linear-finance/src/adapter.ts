@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/external-adapter'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Execute, ExecuteWithConfig } from '@chainlink/types'
 import { makeConfig, Config } from './config'
 import { parseData } from './csv'

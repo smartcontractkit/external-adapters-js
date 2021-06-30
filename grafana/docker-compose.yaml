@@ -1,0 +1,40 @@
+version: '3.9'
+services:
+  redis:
+    image: redis
+    network_mode: host
+
+  remotedev:
+    image: jhen0409/remotedev-server
+    ports:
+      - '8000:8000'
+
+  # https://github.com/grafana/grafana/blob/main/Dockerfile
+  grafana:
+    network_mode: host
+    image: grafana/grafana
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - grafana_home:/usr/share/grafana
+      - grafana_logs:/var/log/grafana
+      - grafana_plugins:/var/lib/grafana/plugins
+      - ./config/grafana.ini:/etc/grafana/grafana.ini
+      - ./config/provisioning:/etc/grafana/provisioning
+    environment:
+      - GF_INSTALL_PLUGINS=redis-app
+
+  prometheus:
+    network_mode: host
+    image: prom/prometheus
+    volumes:
+      - ./generated/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+
+volumes:
+  prometheus_data:
+  grafana_data:
+  grafana_home:
+  grafana_logs:
+  grafana_plugins:
