@@ -41,6 +41,19 @@ describe('execute', () => {
           data: { blockchain: 'BTC', endpoint: 'difficulty' },
         },
       },
+      {
+        name: 'get balances from addresses',
+        testData: {
+          id: jobID,
+          data: {
+            addresses: [
+              "39e7mxbeNmRRnjfy1qkphv1TiMcztZ8VuE",
+              "addr(35ULMyVnFoYaPaMxwHTRmaGdABpAThM4QR)"
+            ],
+            endpoint: 'scantxoutset'
+          },
+        },
+      },
     ]
 
     requests.forEach((req) => {

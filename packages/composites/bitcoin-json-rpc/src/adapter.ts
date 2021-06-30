@@ -2,7 +2,7 @@ import JSONRPC from '@chainlink/json-rpc-adapter'
 import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
 import { Validator, AdapterError } from '@chainlink/ea-bootstrap'
 import { DEFAULT_ENDPOINT } from './config'
-import { getblockchaininfo } from './endpoint'
+import { getblockchaininfo, scantxoutset } from './endpoint'
 
 const inputParams = {
   endpoint: false,
@@ -19,6 +19,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     case 'difficulty':
     case getblockchaininfo.NAME: {
       return getblockchaininfo.execute(request, config)
+    }
+    case scantxoutset.NAME: {
+      return scantxoutset.execute(request, config)
     }
     default: {
       throw new AdapterError({
