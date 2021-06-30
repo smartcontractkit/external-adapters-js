@@ -3534,8 +3534,7 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
-    graphql: ^15.5.1
-    graphql-tag: ^2.12.5
+    ethers: ^5.2.0
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -13783,24 +13782,6 @@ fsevents@~2.1.1:
   version: 4.2.6
   resolution: "graceful-fs@npm:4.2.6"
   checksum: 84d39c7756892553da990a9db7e45f844b3309b37b5a00174cbb4748476f2250c54f24594d4d252f64f085c65c2fdac7c809419bf6d55f0e6e42eb07ac0f5bf2
-  languageName: node
-  linkType: hard
-
-"graphql-tag@npm:^2.12.5":
-  version: 2.12.5
-  resolution: "graphql-tag@npm:2.12.5"
-  dependencies:
-    tslib: ^2.1.0
-  peerDependencies:
-    graphql: ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0
-  checksum: db324292677bfe1f14e29baea6a4953a756a633a20dfe73939b14bc5f647b981087acf1e8a61245480f57da6587b63bab3562f06bddfda59e6c8233f28042dad
-  languageName: node
-  linkType: hard
-
-"graphql@npm:^15.5.1":
-  version: 15.5.1
-  resolution: "graphql@npm:15.5.1"
-  checksum: 509cdc2fc072e7cd1b5a25cf3fe13838d41892b035434f02419c209608f89e323f5234ca7e2bde77e9371e629339cbd8435f1dbc8c250910e4e9ac0babfa6c64
   languageName: node
   linkType: hard
 

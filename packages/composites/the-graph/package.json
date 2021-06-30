@@ -32,6 +32,7 @@
   "dependencies": {
     "@chainlink/ea-bootstrap": "*",
     "@chainlink/graphql-adapter": "*",
+    "ethers": "^5.2.0",
     "tslib": "^2.1.0"
   },
   "devDependencies": {
