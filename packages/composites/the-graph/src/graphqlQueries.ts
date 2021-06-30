@@ -1,7 +1,4 @@
-import gql from 'graphql-tag';
-import { print } from 'graphql/language/printer';
-
-export const getTokenQuery = print(gql`
+export const getTokenQuery = `
     query($symbol: String) {
         tokens(
             where:{
@@ -13,9 +10,9 @@ export const getTokenQuery = print(gql`
         name
         }
     }
-`)
+`
 
-export const getPairQuery = print(gql`
+export const getPairQuery = `
     query($token0ID: String, $token1ID: String) {
         pairs(where: {
             token0: $token0ID,
@@ -25,4 +22,4 @@ export const getPairQuery = print(gql`
             token1Price
         }
     }
-`)
+`
