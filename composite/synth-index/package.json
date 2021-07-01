@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/synth-index-adapter",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Chainlink Synth Index adapter",
   "keywords": [
     "Chainlink",
@@ -43,6 +43,6 @@
   },
   "dependencies": {
     "@chainlink/token-allocation-adapter": "^0.0.2",
-    "synthetix": "2.39.2"
+    "synthetix": "2.45.3"
   }
 }
