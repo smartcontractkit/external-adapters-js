@@ -24,8 +24,8 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 |         |       `intermedaryToken`      |   An intermediary token to use if the base and quote coin pair does not exist in the DEX.       |                     |      WETH       |
 |           |       `dex`                |   The DEX to query data from             |   UNISWAP           |   UNISWAP   |    
 |           | `referenceContract`         |   The smart contract address of a price feed.  This is used if the price from fetched from the DEX needs to be modified    | |             |
-|           | `referenceMagnitude`  |   How much the value from the referenceContract needs to be multiplied or divided by    |      |             |
-|           | `referenceAction`  |   Whether to multiply or divide the DEX result by the result from the `referenceContract`   |  multiply, divide  |      multiply       |
+|           | `referenceContractDivisor`  |   How much the value from the referenceContract needs to be multiplied or divided by    |      |             |
+|           | `referenceModifierAction`  |   Whether to multiply or divide the DEX result by the result from the `referenceContract`   |  multiply, divide  |      multiply       |
 
 ### Sample Input 
 
@@ -66,8 +66,8 @@ combine the two to get the price of USD/UNI.
         "baseCoinTicker": "UNI",
         "quoteCoinTicker": "USDT",
         "referenceContract": "0x3E7d1eAB13ad0104d2750B8863b489D65364e32D",
-        "referenceMagnitude": "100000000",
-        "referenceAction": "divide"
+        "referenceContractDivisor": "100000000",
+        "referenceModifierAction": "divide"
     }
 }
 ```

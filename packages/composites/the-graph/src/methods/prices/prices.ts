@@ -12,7 +12,7 @@ const customParams = {
     dex: false,
     intermediaryToken: false ,
     referenceContract: false,
-    referenceMagnitude: false 
+    referenceContractDivisor: false 
 }
 
 export const execute = async (input: AdapterRequest, config: Config): Promise<AdapterResponse> => {
@@ -24,8 +24,8 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
         quoteCoinTicker, 
         dex = UNISWAP, 
         referenceContract, 
-        referenceMagnitude, 
-        referenceAction = ReferenceModifierAction.MULTIPLY, 
+        referenceContractDivisor, 
+        referenceModifierAction = ReferenceModifierAction.MULTIPLY, 
         intermediaryToken = WETH 
     } = validator.validated.data
     const inputParams: DexQueryInputParams = {
@@ -34,8 +34,8 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
         quoteCoinTicker: quoteCoinTicker.toUpperCase(),
         dex: dex.toUpperCase(),
         referenceContract,
-        referenceMagnitude,
-        referenceAction: referenceAction.toUpperCase() as ReferenceModifierAction,
+        referenceContractDivisor,
+        referenceModifierAction: referenceModifierAction.toUpperCase() as ReferenceModifierAction,
         intermediaryToken: intermediaryToken.toUpperCase(),
     }
     if (baseCoinTicker === quoteCoinTicker) {
@@ -94,11 +94,11 @@ const validateTokenPrices = (jobRunID: string, priceOne: number | null, priceTwo
 }
 
 const modifyResultByFeedResult = async (inputParams: DexQueryInputParams, currentPrice: number): Promise<number> => {
-    const { baseCoinTicker, quoteCoinTicker, referenceContract, referenceMagnitude, referenceAction  } = inputParams
-    Logger.info(`Price of ${quoteCoinTicker}/${baseCoinTicker} is going to be modified by the result returned from ${referenceContract} by ${referenceMagnitude}`)
-    const modifierTokenPrice = await getLatestAnswer(referenceContract, referenceMagnitude)
+    const { baseCoinTicker, quoteCoinTicker, referenceContract, referenceContractDivisor, referenceModifierAction  } = inputParams
+    Logger.info(`Price of ${quoteCoinTicker}/${baseCoinTicker} is going to be modified by the result returned from ${referenceContract} by ${referenceContractDivisor}`)
+    const modifierTokenPrice = await getLatestAnswer(referenceContract, referenceContractDivisor)
     Logger.info(`Feed ${referenceContract} returned a value of ${modifierTokenPrice}`)
-    if(referenceAction === ReferenceModifierAction.DIVIDE) {
+    if(referenceModifierAction === ReferenceModifierAction.DIVIDE) {
         return currentPrice / modifierTokenPrice
     }
     return currentPrice * modifierTokenPrice
