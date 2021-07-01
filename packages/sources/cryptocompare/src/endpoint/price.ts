@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, AxiosResponse } from '@chainlink/types'
+import { ExecuteWithConfig, Config, AxiosResponse, AdapterRequest } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
 export const NAME = 'price'
@@ -120,20 +120,26 @@ export const customParams = {
 
 const handleBatchedRequest = (
   jobRunID: string,
+  request: AdapterRequest,
   response: AxiosResponse<ResponseSchema[]>,
-  quote: string,
   path: string,
 ) => {
-  const payload: Record<string, number> = {}
-  for (const fsym in response.data.RAW) {
-    payload[fsym.toUpperCase()] = Requester.validateResultNumber(response.data, [
-      'RAW',
-      fsym,
-      quote,
-      path,
-    ])
+  const payload: [AdapterRequest, number][] = []
+  for (const base in response.data.RAW) {
+    for (const quote in response.data.RAW[base]) {
+      payload.push([
+        {
+          ...request,
+          data: { ...request.data, base: base.toUpperCase(), quote: quote.toUpperCase() },
+        },
+        Requester.validateResultNumber(response.data, ['RAW', base, quote, path]),
+      ])
+    }
   }
-  return Requester.success(jobRunID, Requester.withResult(response, undefined, payload), true)
+  return Requester.success(jobRunID, Requester.withResult(response, undefined, payload), true, [
+    'base',
+    'quote',
+  ])
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
@@ -143,12 +149,18 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const jobRunID = validator.validated.id
   const url = `/data/pricemultifull`
   const symbol = validator.overrideSymbol(AdapterName)
-  const quote = validator.validated.data.quote.toUpperCase()
+  const quote = validator.validated.data.quote
   const path = validator.validated.data.path || Paths.Price
 
   const params = {
-    fsyms: (Array.isArray(symbol) ? symbol : [symbol]).join(),
-    tsyms: quote,
+    fsyms: (Array.isArray(symbol)
+      ? symbol.map((s) => s.toUpperCase())
+      : [symbol.toUpperCase()]
+    ).join(),
+    tsyms: (Array.isArray(quote)
+      ? quote.map((q) => q.toUpperCase())
+      : [quote.toUpperCase()]
+    ).join(),
   }
 
   const options = {
@@ -159,9 +171,13 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
   const response = await Requester.request<ResponseSchema>(options)
 
-  if (Array.isArray(symbol)) return handleBatchedRequest(jobRunID, response, quote, path)
+  if (Array.isArray(symbol) || Array.isArray(quote))
+    return handleBatchedRequest(jobRunID, request, response, path)
 
   const result = Requester.validateResultNumber(response.data, ['RAW', symbol, quote, path])
 
-  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose, [
+    'base',
+    'quote',
+  ])
 }

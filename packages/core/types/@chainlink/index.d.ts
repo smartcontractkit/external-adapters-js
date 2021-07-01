@@ -18,6 +18,7 @@ declare module '@chainlink/types' {
     staleness?: number
     performance?: number
     providerCost?: number
+    batchablePropertyPath?: string[]
   }
 
   /**
@@ -27,9 +28,14 @@ declare module '@chainlink/types' {
     feedId: string
   }
 
+  import { BigNumberish } from 'ethers'
+  export type AdapterRequestData = Record<
+    string,
+    BigNumberish | BigNumberish[] | AdapterRequestData
+  >
   export type AdapterRequest = {
     id: string
-    data: Record<string, unknown>
+    data: AdapterRequestData
     meta?: AdapterRequestMeta
     metricsMeta?: AdapterMetricsMeta
     debug?: AdapterDebug

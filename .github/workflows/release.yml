@@ -1,43 +1,38 @@
 on:
   push:
-    # Sequence of patterns matched against refs/tags
-    tags:
-      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+    branches:
+      # On develop, we build and publish containers, with the tag of "develop-latest"
+
+      # Ex. A newly build coingecko adapter is built and pushed to ECR.
+      # The ECR registry is reachable at public.ecr.aws/chainlink/adapters/
+
+      # You would be able to pull the coingecko adapter with the following command:
+      # docker pull public.ecr.aws/chainlink/adapters/coingecko-adapter:develop-latest
+      - develop
+
+      # On master, we build and publish containers with the tag of "latest" and another tag of the
+      # adapters version contained within package.json.
+
+      # Ex. If the value of the field "version" in the "package.json" file of the coingecko adapter is "0.0.5-beta",
+      # The "coingecko-adapter" container will be resolvable with the following specifiers:
+      # coingecko-adapter:latest
+      # coingecko-adapter:0.0.5-beta
+
+      # The ECR registry is reachable at public.ecr.aws/chainlink/adapters/
+
+      # You would be able to pull the coingecko adapter with the following commands:
+      # docker pull public.ecr.aws/chainlink/adapters/coingecko-adapter:latest
+      # docker pull public.ecr.aws/chainlink/adapters/coingecko-adapter:0.0.5-beta
+      - master
+  # A workflow dispatch would trigger the same behaviour as a push to the master branch
+  workflow_dispatch:
 
 name: Release
 
 env:
-  publicecr-name: z0b1w9r9
+  publicecr-name: chainlink
 
 jobs:
-  release:
-    name: Create Release
-    runs-on: ubuntu-latest
-    outputs:
-      release_url: ${{ steps.create_release.outputs.upload_url }}
-      asset_prefix: ${{ steps.get_asset_prefix.outputs.prefix }}
-    # TODO: only if tests pass (needs: [test])
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-      - name: Get asset prefix
-        env:
-          TAG_REF_NAME: ${{ github.ref }}
-          REPOSITORY_NAME: ${{ github.repository }}
-        id: get_asset_prefix
-        shell: bash
-        run: |
-          # eg. github.repository = chainlink/ea, github.ref = release/v0.0.1 -> ea-v0.0.1
-          echo ::set-output name=prefix::${REPOSITORY_NAME##*/}-${TAG_REF_NAME##*/v}
-
   # Read build strategy matrix of adapters, from a json file
   matrix-adapters:
     runs-on: ubuntu-latest
@@ -52,10 +47,12 @@ jobs:
         id: create-matrix
         run: yarn generate:gha:matrix
         env:
+          BRANCH: ${{ fromJSON('[undefined, "develop"]')[github.ref == 'refs/heads/develop'] }}
+          LATEST: ${{ fromJSON('[undefined, true]')[github.ref == 'refs/heads/develop'] }}
           IMAGE_PREFIX: public.ecr.aws/${{ env.publicecr-name }}/adapters/
 
   publish-artifacts:
-    needs: [release, matrix-adapters]
+    needs: [matrix-adapters]
     runs-on: ubuntu-latest
     name: (${{ matrix.adapter.type }}) Publish ${{ matrix.adapter.name }} adapter Docker image
     strategy:
@@ -70,6 +67,66 @@ jobs:
       - name: Generate docker-compose file
         run: yarn generate:docker-compose
         env:
+          BRANCH: ${{ fromJSON('[undefined, "develop"]')[github.ref == 'refs/heads/develop'] }}
+          LATEST: ${{ fromJSON('[undefined, true]')[github.ref == 'refs/heads/develop'] }}
+          IMAGE_PREFIX: public.ecr.aws/${{ env.publicecr-name }}/adapters/
+      - name: Build Docker containers
+        run: docker-compose -f docker-compose.generated.yaml build ${{ matrix.adapter.name }}
+      - name: Configure AWS Credentials for SDLC Public ECR
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_PUBLICECR_ACCESSKEY }}
+          aws-secret-access-key: ${{ secrets.AWS_PUBLICECR_SECRETKEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+          role-to-assume: ${{ secrets.AWS_PUBLICECR_ROLE_ARN }}
+          role-duration-seconds: 1200
+      - name: Authenticate to public ECR
+        run: aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/${{ env.publicecr-name }}
+      - name: Create a public ECR repository if does not exist
+        run: aws ecr-public create-repository --region us-east-1 --repository-name adapters/${{ matrix.adapter.name }} || true
+      - name: Push to public ECR
+        run: docker push ${{ matrix.adapter.image_name }}
+
+  # Run the same steps as above, but this is to re-tag release images as latest
+  # So released images have a latest tag on them too.
+  # E.g. Releasing @chainlink/coingecko@0.0.3 will have the tag of 0.0.3 from the above jobs
+  # and a tag of 'latest' from the below jobs.
+  # This is only needed for non-develop jobs since the same image needs to be tagged twice
+  matrix-adapters-release-latest:
+    if: github.ref != 'refs/heads/develop'
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.create-matrix.outputs.result }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+      - name: Generate job matrix
+        id: create-matrix
+        run: yarn generate:gha:matrix
+        env:
+          LATEST: true
+          IMAGE_PREFIX: public.ecr.aws/${{ env.publicecr-name }}/adapters/
+
+  publish-artifacts-release-latest:
+    if: github.ref != 'refs/heads/develop'
+    needs: [matrix-adapters-release-latest]
+    runs-on: ubuntu-latest
+    name: (${{ matrix.adapter.type }}) Publish ${{ matrix.adapter.name }} adapter Docker image
+    strategy:
+      matrix: ${{fromJson(needs.matrix-adapters-release-latest.outputs.matrix)}}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+      - name: Install yarn deps
+        run: yarn
+      - name: Generate docker-compose file
+        run: yarn generate:docker-compose
+        env:
+          LATEST: true
           IMAGE_PREFIX: public.ecr.aws/${{ env.publicecr-name }}/adapters/
       - name: Build Docker containers
         run: docker-compose -f docker-compose.generated.yaml build ${{ matrix.adapter.name }}

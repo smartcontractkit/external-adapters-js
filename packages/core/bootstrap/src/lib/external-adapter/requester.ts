@@ -1,4 +1,10 @@
-import { AdapterErrorResponse, AdapterResponse, RequestConfig } from '@chainlink/types'
+import {
+  AdapterErrorResponse,
+  AdapterResponse,
+  RequestConfig,
+  AdapterRequest,
+  AdapterRequestData,
+} from '@chainlink/types'
 import axios, { AxiosResponse } from 'axios'
 import { deepType } from '../util'
 import { getDefaultConfig, logConfig } from './config'
@@ -8,7 +14,7 @@ import { logger } from './logger'
 const getFalse = () => false
 
 export class Requester {
-  static async request<T extends Record<string, any>>(
+  static async request<T extends AdapterRequestData>(
     config: RequestConfig,
     customError?: any,
     retries = 3,
@@ -102,7 +108,7 @@ export class Requester {
   static withResult<T>(
     response: AxiosResponse<T>,
     result?: number,
-    results?: { [fsym: string]: number },
+    results?: [AdapterRequest, number][],
   ): AxiosResponseWithLiftedResult<T> | AxiosResponseWithPayloadAndLiftedResult<T> {
     const isObj = deepType(response.data) === 'object'
     const output = isObj
@@ -146,12 +152,14 @@ export class Requester {
     jobRunID = '1',
     response: Partial<AxiosResponse>,
     verbose = false,
+    batchablePropertyPath?: string[],
   ): AdapterResponse {
     return {
       jobRunID,
       data: verbose ? response.data : { result: response.data?.result },
       result: response.data?.result,
       statusCode: response.status || 200,
+      debug: batchablePropertyPath ? { batchablePropertyPath } : undefined,
     }
   }
 
@@ -195,11 +203,13 @@ interface SingleResult {
  */
 interface BatchedResult {
   /**
-   * A mapping of token symbol to its result
+   * Tuples for
+   * [
+   *    its input parameters as a single request (used in caching),
+   *    its result
+   * ]
    */
-  results?: {
-    [symbol: string]: number
-  }
+  results?: [AdapterRequest, number][]
 }
 
 /**

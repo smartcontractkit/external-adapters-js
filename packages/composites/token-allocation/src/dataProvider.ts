@@ -1,5 +1,5 @@
 import { Requester } from '@chainlink/ea-bootstrap'
-import { RequestConfig } from '@chainlink/types'
+import { RequestConfig, AdapterRequest, AdapterResponse } from '@chainlink/types'
 import { ResponsePayload } from './types'
 
 const batchingSupport: { [name: string]: boolean } = {
@@ -45,15 +45,19 @@ export const getPriceProvider = (
       id: jobRunID,
       data: { base: symbols, quote, endpoint: withMarketCap ? 'marketcap' : 'price' },
     }
-    const response = await Requester.request({ ...apiConfig, data: data })
+    const response = await Requester.request<AdapterResponse>({
+      ...apiConfig,
+      data: data,
+    })
     const payloadEntries = symbols.map((symbol) => {
       const key = symbol
       const val = {
         quote: {
           [quote]: {
-            [withMarketCap ? 'marketCap' : 'price']: response.data.data.results[
-              symbol.toUpperCase()
-            ],
+            [withMarketCap ? 'marketCap' : 'price']: response.data.data.results.find(
+              (result: [AdapterRequest, number]) =>
+                result[0].data.base === symbol && result[0].data.quote === quote,
+            )[1],
           },
         },
       }
