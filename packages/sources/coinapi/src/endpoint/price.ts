@@ -1,6 +1,7 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
+import { assets } from '.'
 
 export const NAME = 'price'
 
@@ -15,9 +16,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 
+  const quote = validator.validated.data.quote.toUpperCase()
+  // The Assets endpoint supports batch requests for USD quotes. If possible, use it.
+  if (quote?.toUpperCase() === 'USD') return await assets.execute(request, config)
+
   const jobRunID = validator.validated.id
   const symbol = (validator.overrideSymbol(AdapterName) as string).toUpperCase()
-  const quote = validator.validated.data.quote.toUpperCase()
   const url = `exchangerate/${symbol}/${quote}`
 
   const options = {
