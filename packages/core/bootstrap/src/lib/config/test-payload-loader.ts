@@ -36,21 +36,48 @@ export function loadTestPayload(): TestPayload {
 
   try {
     let payload
-    try {
-      payload = require(path.join(process.cwd(), 'test-payload.js'))
-    } catch {
-      payload = require(path.join(process.cwd(), 'test-payload.json'))
-    }
 
-    const parsedPayload: Payload = JSON.parse(payload)
-    if (!validate(parsedPayload)) {
+    const payloadString = resolveDynamicPayload()
+    if (payloadString) payload = JSON.parse(payloadString)
+    else payload = resolveStaticPayload()
+
+    if (!validate(payload)) {
       throw Error(JSON.stringify(validate?.errors || 'Could not validate schema for test payload'))
     }
 
-    return { ...parsedPayload, isDefault: false }
+    return { ...payload, isDefault: false }
   } catch (e) {
     logger.warn(`Could not load payload: ${(e as Error).message}`)
     logger.warn('Falling back to default empty payload')
     return { isDefault: true }
+  }
+}
+
+function resolveDynamicPayload() {
+  /* eslint-disable @typescript-eslint/no-var-requires */
+  try {
+    // Absolute path for JS file
+    return require(path.resolve('.', 'test-payload.js'))
+  } catch {
+    try {
+      // Relative path for JS file
+      return require('./test-payload.js')
+    } catch {
+      return null
+    }
+  }
+}
+
+function resolveStaticPayload() {
+  try {
+    // Absolute path for JSON file
+    return require(path.join(process.cwd(), 'test-payload.json'))
+  } catch {
+    try {
+      // Relative path for JSON file
+      return require('./test-payload.json')
+    } catch {
+      return null
+    }
   }
 }
