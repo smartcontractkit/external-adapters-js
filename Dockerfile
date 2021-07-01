@@ -16,6 +16,6 @@ WORKDIR /home/node/app
 
 COPY --from=builder /home/node/app/$location/bundle ./
 # Wildcards are included to handle cases where this file doesnt exist
-COPY --from=builder /home/node/app/$location/package.json /home/node/app/$location/*test-payload.json* /home/node/app/$location/*test-payload.js* ./
+COPY --from=builder /home/node/app/$location/package.json /home/node/app/$location/*test-payload.js* ./
 
 CMD ["yarn", "server"]
