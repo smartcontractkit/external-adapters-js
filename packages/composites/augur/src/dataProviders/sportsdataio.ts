@@ -255,18 +255,6 @@ interface Fighter {
   Winner: boolean
 }
 
-const getLeagues = async (id: string, sport: string, exec: Execute): Promise<string[]> => {
-  const input = {
-    id,
-    data: {
-      sport,
-      endpoint: 'leagues'
-    }
-  }
-  const response = await exec(input)
-  return (response.result as { Key: string }[]).map(res => res.Key)
-}
-
 const getFightSchedule = async (id: string, sport: string, league: string, season: string, exec: Execute): Promise<FightSchedule[]> => {
   const input = {
     id,
@@ -312,8 +300,7 @@ export const createFighter: Execute = async (input) => {
 
   const fights: Fight[] = []
 
-  // TODO: Should only be UFC?
-  const leagues = await getLeagues(input.id, sport, sportsdataioExec)
+  const leagues = ["UFC"]
   for (const league of leagues) {
     const schedule = (await getFightSchedule(input.id, sport, league, `${new Date().getFullYear()}`, sportsdataioExec))
       .filter(event => event.Status === "Scheduled")

@@ -40,10 +40,8 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const contractAddress = validator.validated.data.contractAddress
 
   if (TEAM_SPORTS.includes(sport)) {
-    console.log('create team??')
     return await createTeam(input.id, sport, contractAddress, input, config)
   } else if (FIGHTER_SPORTS.includes(sport)) {
-    console.log('create fighter')
     return await createFighter(input.id, sport, contractAddress, input, config)
   } else {
     throw Error(`Unable to identify sport "${sport}"`)
