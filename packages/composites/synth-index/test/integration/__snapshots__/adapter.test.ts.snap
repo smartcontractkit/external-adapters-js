@@ -7,107 +7,149 @@ Object {
       "1INCH": Object {
         "quote": Object {
           "USD": Object {
-            "price": 2.64,
+            "price": 2.39,
           },
         },
       },
       "AAVE": Object {
         "quote": Object {
           "USD": Object {
-            "price": 247.63,
+            "price": 235.78,
+          },
+        },
+      },
+      "ALPHA": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 0.44541,
           },
         },
       },
       "BAL": Object {
         "quote": Object {
           "USD": Object {
-            "price": 20.9,
+            "price": 20.31,
           },
         },
       },
       "BNT": Object {
         "quote": Object {
           "USD": Object {
-            "price": 3.37,
+            "price": 3.19,
+          },
+        },
+      },
+      "BOND": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 38.66,
           },
         },
       },
       "COMP": Object {
         "quote": Object {
           "USD": Object {
-            "price": 317.93,
+            "price": 336.69,
+          },
+        },
+      },
+      "CREAM": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 142.07,
           },
         },
       },
       "CRV": Object {
         "quote": Object {
           "USD": Object {
-            "price": 1.83,
+            "price": 1.71,
           },
         },
       },
       "KNC": Object {
         "quote": Object {
           "USD": Object {
-            "price": 1.52,
+            "price": 1.59,
+          },
+        },
+      },
+      "LUNA": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 5.92,
           },
         },
       },
       "MKR": Object {
         "quote": Object {
           "USD": Object {
-            "price": 2459.65,
+            "price": 2565.7,
           },
         },
       },
       "REN": Object {
         "quote": Object {
           "USD": Object {
-            "price": 0.390388,
+            "price": 0.353853,
+          },
+        },
+      },
+      "RUNE": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 6.33,
           },
         },
       },
       "SNX": Object {
         "quote": Object {
           "USD": Object {
-            "price": 7.37,
+            "price": 6.87,
           },
         },
       },
       "SUSHI": Object {
         "quote": Object {
           "USD": Object {
-            "price": 8.28,
+            "price": 7.4,
           },
         },
       },
       "UMA": Object {
         "quote": Object {
           "USD": Object {
-            "price": 8.91,
+            "price": 9.26,
           },
         },
       },
       "UNI": Object {
         "quote": Object {
           "USD": Object {
-            "price": 18.96,
+            "price": 18.05,
           },
         },
       },
       "YFI": Object {
         "quote": Object {
           "USD": Object {
-            "price": 34189,
+            "price": 32468,
+          },
+        },
+      },
+      "ZRX": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 0.697611,
           },
         },
       },
     },
-    "result": 8724.82575892,
+    "result": 8496.3706079905,
     "sources": Array [],
   },
   "jobRunID": "1",
-  "result": 8724.82575892,
+  "result": 8496.3706079905,
   "statusCode": 200,
 }
 `;
@@ -119,107 +161,149 @@ Object {
       "1INCH": Object {
         "quote": Object {
           "USD": Object {
-            "price": 2.64,
+            "price": 2.39,
           },
         },
       },
       "AAVE": Object {
         "quote": Object {
           "USD": Object {
-            "price": 247.63,
+            "price": 235.78,
+          },
+        },
+      },
+      "ALPHA": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 0.44541,
           },
         },
       },
       "BAL": Object {
         "quote": Object {
           "USD": Object {
-            "price": 20.9,
+            "price": 20.31,
           },
         },
       },
       "BNT": Object {
         "quote": Object {
           "USD": Object {
-            "price": 3.37,
+            "price": 3.19,
+          },
+        },
+      },
+      "BOND": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 38.66,
           },
         },
       },
       "COMP": Object {
         "quote": Object {
           "USD": Object {
-            "price": 317.93,
+            "price": 336.69,
+          },
+        },
+      },
+      "CREAM": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 142.07,
           },
         },
       },
       "CRV": Object {
         "quote": Object {
           "USD": Object {
-            "price": 1.83,
+            "price": 1.71,
           },
         },
       },
       "KNC": Object {
         "quote": Object {
           "USD": Object {
-            "price": 1.52,
+            "price": 1.59,
+          },
+        },
+      },
+      "LUNA": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 5.92,
           },
         },
       },
       "MKR": Object {
         "quote": Object {
           "USD": Object {
-            "price": 2459.65,
+            "price": 2565.7,
           },
         },
       },
       "REN": Object {
         "quote": Object {
           "USD": Object {
-            "price": 0.390388,
+            "price": 0.353853,
+          },
+        },
+      },
+      "RUNE": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 6.33,
           },
         },
       },
       "SNX": Object {
         "quote": Object {
           "USD": Object {
-            "price": 7.37,
+            "price": 6.87,
           },
         },
       },
       "SUSHI": Object {
         "quote": Object {
           "USD": Object {
-            "price": 8.28,
+            "price": 7.4,
           },
         },
       },
       "UMA": Object {
         "quote": Object {
           "USD": Object {
-            "price": 8.91,
+            "price": 9.26,
           },
         },
       },
       "UNI": Object {
         "quote": Object {
           "USD": Object {
-            "price": 18.96,
+            "price": 18.05,
           },
         },
       },
       "YFI": Object {
         "quote": Object {
           "USD": Object {
-            "price": 34189,
+            "price": 32468,
+          },
+        },
+      },
+      "ZRX": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 0.697611,
           },
         },
       },
     },
-    "result": 8724.82575892,
+    "result": 8496.3706079905,
     "sources": Array [],
   },
   "jobRunID": "1",
-  "result": 8724.82575892,
+  "result": 8496.3706079905,
   "statusCode": 200,
 }
 `;
