@@ -1,47 +1,36 @@
-# Chainlink External Adapter for Graphql
-
-A template to be used as an example for new [External Adapters](https://github.com/smartcontractkit/external-adapters-js)
-
-(please fill out with corresponding information)
-
-An example adapter description
+# Chainlink External Adapter for GraphQL
 
 ### Environment Variables
 
-| Required? |  Name   |                                                        Description                                                         | Options | Defaults to |
-| :-------: | :-----: | :------------------------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
-|           | API_KEY | An API key that can be obtained from the data provider's dashboard (add a ✅ in `Required?` if this parameter is required) |         |             |
-
----
+No adapter specific environment variables required
 
 ### Input Parameters
 
 | Required? |   Name   |     Description     |           Options            | Defaults to |
 | :-------: | :------: | :-----------------: | :--------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [example](#Graphql-Endpoint) |   example   |
+|    ✅        | graphqlEndpoint | The GraphQL endpoint to make a request to | (#Graphql-Endpoint) |      |
 
 ---
 
 ## Graphql Endpoint
 
-An example endpoint description
-
 ### Input Params
 
 | Required? |            Name            |               Description                |       Options       | Defaults to |
 | :-------: | :------------------------: | :--------------------------------------: | :-----------------: | :---------: |
-|    ✅     | `base`, `from`, or `coin`  |   The symbol of the currency to query    | `BTC`, `ETH`, `USD` |             |
-|    ✅     | `quote`, `to`, or `market` | The symbol of the currency to convert to | `BTC`, `ETH`, `USD` |             |
+|    ✅     | `query`  |   The GraphQL query as a string   |                                    |             |
+|         | `variables` | An object of variables to be passed into the query  |  |             |
 
 ### Sample Input
 
 ```json
 {
-  "id": "1",
-  "data": {
-    "base": "ETH",
-    "quote": "USD"
-  }
+    "jobRunId": 1,
+    "data": {
+        "query":"{\n  token(id:\"0x00000000000045166c45af0fc6e4cf31d9e14b9a\") {\n    id,\n    symbol\n  }\n}\n",
+        "variables": null,
+        "graphqlEndpoint": "https://api.thegraph.com/subgraphs/name/benesjan/uniswap-v3-subgraph"
+    }
 }
 ```
 
@@ -49,11 +38,25 @@ An example endpoint description
 
 ```json
 {
-  "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
-  "data": {
-    "price": 77777.77,
-    "result": 77777.77
-  },
-  "statusCode": 200
+    "jobRunID": "1",
+    "result": {
+        "data": {
+            "token": {
+                "id": "0x00000000000045166c45af0fc6e4cf31d9e14b9a",
+                "symbol": "BID"
+            }
+        }
+    },
+    "statusCode": 200,
+    "data": {
+        "result": {
+            "data": {
+                "token": {
+                    "id": "0x00000000000045166c45af0fc6e4cf31d9e14b9a",
+                    "symbol": "BID"
+                }
+            }
+        }
+    }
 }
 ```
