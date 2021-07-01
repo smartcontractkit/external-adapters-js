@@ -1,8 +1,6 @@
 import * as graphqlAdapter from "@chainlink/graphql-adapter"
 import { GraphqlAdapterRequest } from "../../types"
 import { AdapterResponse, AdapterRequest } from "@chainlink/types"
-import { USDT_USD_AGGREGATOR_V3_ADDRESS } from "../../config"
-import { ethers } from "ethers"
 
 export const fetchFromGraphqlAdapter = async (jobRunID: string, data: GraphqlAdapterRequest): Promise<AdapterResponse> => {
     const graphqlExecute = graphqlAdapter.makeExecute()
@@ -128,9 +126,3 @@ export const aggregatorV3InterfaceABI = [
         "type": "function"
     }
 ]
-
-export const getUSDPriceInUSDT = async (provider: ethers.providers.Provider): Promise<number> => {
-    const priceFeed = new ethers.Contract(USDT_USD_AGGREGATOR_V3_ADDRESS, aggregatorV3InterfaceABI, provider);
-    const feedResponse = await priceFeed.latestRoundData()
-    return feedResponse.answer.toNumber() / 100000000
-}

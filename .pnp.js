@@ -6265,11 +6265,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@chainlink/the-graph-adapter", "workspace:packages/composites/the-graph"],
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-reference-data-reader", "workspace:packages/core/reference-data-reader"],
             ["@chainlink/graphql-adapter", "workspace:packages/sources/graphql"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.41"],
-            ["ethers", "npm:5.2.0"],
             ["tslib", "npm:2.2.0"],
             ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"]
           ],

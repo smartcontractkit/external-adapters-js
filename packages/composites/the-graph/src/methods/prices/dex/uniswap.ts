@@ -22,7 +22,7 @@ export const subgraph: DexSubgraph = {
         }
         const tokens = response.result.data.tokens
         if (tokens.length !== 1) {
-            throw new Error()
+            throw new AdapterError({ jobRunID, message: `Token ${symbol} not found` })
         }
         const token = tokens[0]
         return {
