@@ -4884,15 +4884,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@chainlink/contracts", [
-        ["npm:0.0.10", {
-          "packageLocation": "./.yarn/cache/@chainlink-contracts-npm-0.0.10-398b3f0a33-02266bc236.zip/node_modules/@chainlink/contracts/",
-          "packageDependencies": [
-            ["@chainlink/contracts", "npm:0.0.10"],
-            ["@truffle/contract", "npm:4.3.13"],
-            ["ethers", "npm:4.0.48"]
-          ],
-          "linkType": "HARD",
-        }],
         ["npm:0.0.11", {
           "packageLocation": "./.yarn/cache/@chainlink-contracts-npm-0.0.11-110e846a77-b564adad08.zip/node_modules/@chainlink/contracts/",
           "packageDependencies": [
@@ -6212,7 +6203,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["decimal.js", "npm:10.2.1"],
             ["nock", "npm:13.1.0"],
             ["supertest", "npm:6.1.3"],
-            ["synthetix", "npm:2.39.2"],
+            ["synthetix", "npm:2.45.3"],
             ["tslib", "npm:2.2.0"],
             ["type-fest", "npm:1.2.1"],
             ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"]
@@ -6516,26 +6507,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["js-yaml", "npm:3.14.1"],
             ["minimatch", "npm:3.0.4"],
             ["strip-json-comments", "npm:3.1.1"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["@eth-optimism/contracts", [
-        ["npm:0.0.2-alpha.7", {
-          "packageLocation": "./.yarn/cache/@eth-optimism-contracts-npm-0.0.2-alpha.7-7bc62a3b3d-5a26847ac5.zip/node_modules/@eth-optimism/contracts/",
-          "packageDependencies": [
-            ["@eth-optimism/contracts", "npm:0.0.2-alpha.7"],
-            ["ethers", "npm:5.0.0"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["@eth-optimism/watcher", [
-        ["npm:0.0.1-alpha.8", {
-          "packageLocation": "./.yarn/cache/@eth-optimism-watcher-npm-0.0.1-alpha.8-b007c87839-8babde77c3.zip/node_modules/@eth-optimism/watcher/",
-          "packageDependencies": [
-            ["@eth-optimism/watcher", "npm:0.0.1-alpha.8"],
-            ["ethers", "npm:5.0.0"]
           ],
           "linkType": "HARD",
         }]
@@ -16170,42 +16141,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["npm:5.0.0", {
-          "packageLocation": "./.yarn/cache/ethers-npm-5.0.0-28e7d8116e-3a6fcfefab.zip/node_modules/ethers/",
-          "packageDependencies": [
-            ["ethers", "npm:5.0.0"],
-            ["@ethersproject/abi", "npm:5.1.0"],
-            ["@ethersproject/abstract-provider", "npm:5.1.0"],
-            ["@ethersproject/abstract-signer", "npm:5.1.0"],
-            ["@ethersproject/address", "npm:5.1.0"],
-            ["@ethersproject/base64", "npm:5.1.0"],
-            ["@ethersproject/bignumber", "npm:5.1.0"],
-            ["@ethersproject/bytes", "npm:5.1.0"],
-            ["@ethersproject/constants", "npm:5.1.0"],
-            ["@ethersproject/contracts", "npm:5.1.0"],
-            ["@ethersproject/hash", "npm:5.1.0"],
-            ["@ethersproject/hdnode", "npm:5.1.0"],
-            ["@ethersproject/json-wallets", "npm:5.1.0"],
-            ["@ethersproject/keccak256", "npm:5.1.0"],
-            ["@ethersproject/logger", "npm:5.1.0"],
-            ["@ethersproject/networks", "npm:5.1.0"],
-            ["@ethersproject/pbkdf2", "npm:5.1.0"],
-            ["@ethersproject/properties", "npm:5.1.0"],
-            ["@ethersproject/providers", "npm:5.1.0"],
-            ["@ethersproject/random", "npm:5.1.0"],
-            ["@ethersproject/rlp", "npm:5.1.0"],
-            ["@ethersproject/sha2", "npm:5.1.0"],
-            ["@ethersproject/signing-key", "npm:5.1.0"],
-            ["@ethersproject/solidity", "npm:5.1.0"],
-            ["@ethersproject/strings", "npm:5.1.0"],
-            ["@ethersproject/transactions", "npm:5.1.0"],
-            ["@ethersproject/units", "npm:5.1.0"],
-            ["@ethersproject/wallet", "npm:5.1.0"],
-            ["@ethersproject/web", "npm:5.1.0"],
-            ["@ethersproject/wordlists", "npm:5.1.0"]
-          ],
-          "linkType": "HARD",
-        }],
         ["npm:5.0.26", {
           "packageLocation": "./.yarn/cache/ethers-npm-5.0.26-e841068cad-f73a7f2e0e.zip/node_modules/ethers/",
           "packageDependencies": [
@@ -22548,15 +22483,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
-      ["openzeppelin-solidity", [
-        ["npm:2.3.0", {
-          "packageLocation": "./.yarn/cache/openzeppelin-solidity-npm-2.3.0-ed2d3fa6f6-043fc21279.zip/node_modules/openzeppelin-solidity/",
-          "packageDependencies": [
-            ["openzeppelin-solidity", "npm:2.3.0"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
       ["optionator", [
         ["npm:0.8.3", {
           "packageLocation": "./.yarn/cache/optionator-npm-0.8.3-bc555bc5b7-a5cdced2c9.zip/node_modules/optionator/",
@@ -26043,22 +25969,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["synthetix", [
-        ["npm:2.39.2", {
-          "packageLocation": "./.yarn/cache/synthetix-npm-2.39.2-67eedef932-b66871e503.zip/node_modules/synthetix/",
+        ["npm:2.45.3", {
+          "packageLocation": "./.yarn/cache/synthetix-npm-2.45.3-f9779ffde9-bab78e2112.zip/node_modules/synthetix/",
           "packageDependencies": [
-            ["synthetix", "npm:2.39.2"],
-            ["@chainlink/contracts-0.0.10", [
-              "@chainlink/contracts",
-              "npm:0.0.10"
-            ]],
-            ["@eth-optimism/contracts", "npm:0.0.2-alpha.7"],
-            ["@eth-optimism/watcher", "npm:0.0.1-alpha.8"],
+            ["synthetix", "npm:2.45.3"],
             ["abi-decoder", "npm:2.3.0"],
             ["commander", "npm:5.1.0"],
-            ["openzeppelin-solidity-2.3.0", [
-              "openzeppelin-solidity",
-              "npm:2.3.0"
-            ]],
             ["pretty-error", "npm:2.1.2"],
             ["solidity-parser-antlr", "npm:0.4.11"],
             ["web3-utils", "npm:1.2.2"]
