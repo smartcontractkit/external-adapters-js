@@ -2000,7 +2000,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-test-helpers": "*"
-    "@chainlink/json-rpc-adapter": ^0.0.4
+    "@chainlink/json-rpc-adapter": ^0.0.5
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
@@ -2108,7 +2108,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-test-helpers": "*"
-    "@chainlink/json-rpc-adapter": ^0.0.4
+    "@chainlink/json-rpc-adapter": ^0.0.5
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
@@ -3018,7 +3018,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/json-rpc-adapter@*, @chainlink/json-rpc-adapter@^0.0.4, @chainlink/json-rpc-adapter@workspace:packages/sources/json-rpc":
+"@chainlink/json-rpc-adapter@*, @chainlink/json-rpc-adapter@^0.0.5, @chainlink/json-rpc-adapter@workspace:packages/sources/json-rpc":
   version: 0.0.0-use.local
   resolution: "@chainlink/json-rpc-adapter@workspace:packages/sources/json-rpc"
   dependencies:
