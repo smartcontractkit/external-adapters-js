@@ -12,12 +12,12 @@ describe('execute', () => {
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },
       {
-        name: 'base not supplied',
-        testData: { id: jobID, data: { quote: 'USD' } },
+        name: 'graphqlEndpoint not supplied',
+        testData: { id: jobID, data: { query: "test" } },
       },
       {
-        name: 'quote not supplied',
-        testData: { id: jobID, data: { base: 'ETH' } },
+        name: 'query not supplied',
+        testData: { id: jobID, data: { graphqlEndpoint: "test-endpoint" } },
       },
     ]
 

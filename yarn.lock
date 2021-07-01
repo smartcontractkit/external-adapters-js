@@ -3531,6 +3531,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-reference-data-reader": "*"
+    "@chainlink/ea-test-helpers": "*"
     "@chainlink/graphql-adapter": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22

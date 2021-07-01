@@ -32,6 +32,7 @@
   "dependencies": {
     "@chainlink/ea-bootstrap": "*",
     "@chainlink/ea-reference-data-reader": "*",
+    "@chainlink/ea-test-helpers": "*",
     "@chainlink/graphql-adapter": "*",
     "tslib": "^2.1.0"
   },

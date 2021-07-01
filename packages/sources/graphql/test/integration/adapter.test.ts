@@ -10,20 +10,28 @@ describe('execute', () => {
   describe('successful calls @integration', () => {
     const requests = [
       {
-        name: 'id not supplied',
-        testData: { data: { base: 'ETH', quote: 'USD' } },
+        name: 'request with no variables',
+        testData: { 
+          id: jobID,
+          data: {
+           "query":"{\n  markets(first: 1) {\n    borrowRate\n    cash\n    collateralFactor\n    exchangeRate\n    interestRateModelAddress\n    name\n    reserves\n    supplyRate\n    symbol\n    id\n    totalBorrows\n    totalSupply\n    underlyingAddress\n    underlyingName\n    underlyingPrice\n    underlyingSymbol\n    reserveFactor\n    underlyingPriceUSD\n  }\n}\n",
+           "variables": null,
+           "graphqlEndpoint": "https://api.thegraph.com/subgraphs/name/graphprotocol/compound-v2" 
+          } 
+        },
       },
       {
-        name: 'base/quote',
-        testData: { id: jobID, data: { base: 'ETH', quote: 'USD' } },
-      },
-      {
-        name: 'from/to',
-        testData: { id: jobID, data: { from: 'ETH', to: 'USD' } },
-      },
-      {
-        name: 'coin/market',
-        testData: { id: jobID, data: { coin: 'ETH', market: 'USD' } },
+        name: 'request with variables',
+        testData: { 
+          id: jobID, 
+          data: { 
+            "query":"query($first: Int){\n  markets(first: $first) {\n    borrowRate\n    cash\n    collateralFactor\n    exchangeRate\n    interestRateModelAddress\n    name\n    reserves\n    supplyRate\n    symbol\n    id\n    totalBorrows\n    totalSupply\n    underlyingAddress\n    underlyingName\n    underlyingPrice\n    underlyingSymbol\n    reserveFactor\n    underlyingPriceUSD\n  }\n}\n",
+            "variables": {
+                "first": 1
+            },
+            "graphqlEndpoint": "https://api.thegraph.com/subgraphs/name/graphprotocol/compound-v2"
+          } 
+        },
       },
     ]
 
@@ -31,8 +39,8 @@ describe('execute', () => {
       it(`${req.name}`, async () => {
         const data = await execute(req.testData as AdapterRequest)
         assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
-        expect(data.result).toBeGreaterThan(0)
-        expect(data.data.result).toBeGreaterThan(0)
+        expect(data.result).not.toBeNull()
+        expect(data.data.result).not.toBeNull()
       })
     })
   })
@@ -40,12 +48,41 @@ describe('execute', () => {
   describe('error calls @integration', () => {
     const requests = [
       {
-        name: 'unknown base',
-        testData: { id: jobID, data: { base: 'not_real', quote: 'USD' } },
+        name: 'corrupt graphQL endpoint',
+        testData: { 
+          id: jobID, 
+          data: { 
+            "query":"query($first: Int){\n  markets(first: $first) {\n    borrowRate\n    cash\n    collateralFactor\n    exchangeRate\n    interestRateModelAddress\n    name\n    reserves\n    supplyRate\n    symbol\n    id\n    totalBorrows\n    totalSupply\n    underlyingAddress\n    underlyingName\n    underlyingPrice\n    underlyingSymbol\n    reserveFactor\n    underlyingPriceUSD\n  }\n}\n",
+            "variables": {
+                "first": 1
+            },
+            "graphqlEndpoint": "corrupt-endpoint"
+          } 
+        },
       },
       {
-        name: 'unknown quote',
-        testData: { id: jobID, data: { base: 'ETH', quote: 'not_real' } },
+        name: 'corrupt graphQL query',
+        testData: { 
+          id: jobID, 
+          data: { 
+            "query":"corrupt query",
+            "variables": {
+                "first": 1
+            },
+            "graphqlEndpoint": "corrupt-endpoint"
+          } 
+        },
+      },
+      {
+        name: 'request with missing variable',
+        testData: { 
+          id: jobID, 
+          data: { 
+            "query":"query($first: Int){\n  markets(first: $first) {\n    borrowRate\n    cash\n    collateralFactor\n    exchangeRate\n    interestRateModelAddress\n    name\n    reserves\n    supplyRate\n    symbol\n    id\n    totalBorrows\n    totalSupply\n    underlyingAddress\n    underlyingName\n    underlyingPrice\n    underlyingSymbol\n    reserveFactor\n    underlyingPriceUSD\n  }\n}\n",
+            "variables": null,
+            "graphqlEndpoint": "https://api.thegraph.com/subgraphs/name/graphprotocol/compound-v2"
+          } 
+        },
       },
     ]
 

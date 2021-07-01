@@ -13,11 +13,11 @@ describe('execute', () => {
       { name: 'empty data', testData: { data: {} } },
       {
         name: 'base not supplied',
-        testData: { id: jobID, data: { quote: 'USD' } },
+        testData: { id: jobID, data: { quoteCoinTicker: 'USDT' } },
       },
       {
         name: 'quote not supplied',
-        testData: { id: jobID, data: { base: 'ETH' } },
+        testData: { id: jobID, data: { baseCoinTicker: 'ETH' } },
       },
     ]
 
