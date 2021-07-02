@@ -56,5 +56,9 @@
   "tradingeconomics": {
     "N225": "NKY:IND",
     "FTSE": "UKX:IND"
+  },
+  "coinranking": {
+    "BTC": "Qwsogvtv82FCd",
+    "ETH": "razxDUgYGNAdQ"
   }
 }
