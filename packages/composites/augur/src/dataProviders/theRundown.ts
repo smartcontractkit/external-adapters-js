@@ -64,7 +64,8 @@ export const create: Execute = async (input) => {
   const validator = new Validator(input, createParams)
   if (validator.error) throw validator.error
 
-  const sportId = sportIdMapping[validator.validated.data.sport]
+  const sport = validator.validated.data.sport.toUpperCase()
+  const sportId = sportIdMapping[sport]
   const daysInAdvance = validator.validated.data.daysInAdvance
   const startBuffer = validator.validated.data.startBuffer
   const contract = validator.validated.data.contract
@@ -80,7 +81,7 @@ export const create: Execute = async (input) => {
   const theRundownExec = TheRundown.makeExecute(TheRundown.makeConfig(TheRundown.NAME))
 
   const events = []
-  Logger.debug(`Augur theRundown: Fetching data from therundown for sportId ${params.data.sportId}`)
+  Logger.debug(`Augur theRundown: Fetching data from therundown for ${sport} (${params.data.sportId})`)
   for (let i = 0; i < daysInAdvance; i++) {
     params.data.date = addDays(params.data.date, 1)
     Logger.debug(`Augur theRundown: Fetching data for date ${params.data.date}`)
