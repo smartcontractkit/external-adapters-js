@@ -11,10 +11,10 @@ export type Config = DefaultConfig & {
 
 export const WETH = "WETH"
 export const UNISWAP = "UNISWAP"
-const UNISWAP_V2_SUBGRAPH_ENDPOINT = "https://api.thegraph.com/subgraphs/name/ianlapham/uniswapv2"
+const DEFAULT_UNISWAP_V2_SUBGRAPH_ENDPOINT = "https://api.thegraph.com/subgraphs/name/ianlapham/uniswapv2"
 
-export const makeConfig = (): Config => {
-  const uniswapV2SubgraphEndpoint = util.getEnv("UNISWAP_V2_SUBGRAPH_ENDPOINT") || UNISWAP_V2_SUBGRAPH_ENDPOINT
+export const makeConfig = (prefix?: string): Config => {
+  const uniswapV2SubgraphEndpoint = util.getEnv("UNISWAP_V2_SUBGRAPH_ENDPOINT", prefix) || DEFAULT_UNISWAP_V2_SUBGRAPH_ENDPOINT
   return {
     dexSubgraphs: {
       [UNISWAP]: new uniswapSubgraph.UniswapSubgraph(uniswapV2SubgraphEndpoint)
