@@ -19,8 +19,9 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 | Required? |            Name            |               Description                |       Options       | Defaults to |
 | :-------: | :------------------------: | :--------------------------------------: | :-----------------: | :---------: |
 |           |       `method`             |   What data type to query for            |        price             |     price        |
-|    ✅     |       `baseCoinTicker`      |   The symbol of the base currency       |                     |             |
-|    ✅     |       `quoteCoinTicker`     |   The symbol of the quote currency      |                     |             |
+|    ✅     |       `baseCoinTicker`, `base`, `from`, `coin`     |   The symbol of the base currency       |                     |             |
+|           |       `quoteCoinTicker`, `quote`, `to`, `market`     |   The symbol of the quote currency.  This is required if `theGraphQuote` is blank      |                     |             |
+|           |       `theGraphQuote`     |   The symbol of the quote currency.  This will override `quoteCoinTicker` if supplied      |                     |             |
 |         |       `intermedaryToken`      |   An intermediary token to use if the base and quote coin pair does not exist in the DEX.       |                     |      WETH       |
 |           |       `dex`                |   The DEX to query data from             |   UNISWAP           |   UNISWAP   |    
 |           | `referenceContract`         |   The smart contract address of a price feed.  This is used if the price from fetched from the DEX needs to be modified    | |             |
@@ -81,6 +82,35 @@ combine the two to get the price of USD/UNI.
     "statusCode": 200,
     "data": {
         "result": 18.889804922939742
+    }
+}
+```
+
+### Sample Input to fetch the price of LINK/SUSHI
+
+There currently isn't a pool for LINK/SUSHI in Uniswap so the price needs to be determined through an intermediary token that has a pair with both the base and
+quote tokens.  In this example, the adapter will first fetch the price of SUSHI/WETH and LINK/WETH and then combine the two to get the final result.
+
+```json
+{
+    "jobRunId": 1,
+    "data": {
+        "baseCoinTicker": "SUSHI",
+        "quoteCoinTicker": "LINK",
+        "intermediaryToken": "WETH" // Defaults to WETH
+    }
+}
+```
+
+### Sample Output
+
+```json
+{
+    "jobRunID": "1",
+    "result": 0.4050148172415684,
+    "statusCode": 200,
+    "data": {
+        "result": 0.4050148172415684
     }
 }
 ```

@@ -14,7 +14,7 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
   const method = validator.validated.data.method
   let response
   switch (method) {
-    case prices.PRICE:
+    case prices.NAME:
     default:
       response = await prices.execute(input, config)
   }
@@ -24,4 +24,3 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
 export const makeExecute = (): Execute => {
   return async (request: AdapterRequest) => execute(request, makeConfig())
 }
-

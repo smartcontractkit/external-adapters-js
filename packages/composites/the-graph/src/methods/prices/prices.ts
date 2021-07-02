@@ -1,18 +1,19 @@
-import { AdapterError, Validator, Requester, Logger } from '@chainlink/ea-bootstrap'
+import { Validator, Requester, Logger } from '@chainlink/ea-bootstrap'
 import { Config, WETH, UNISWAP } from "../../config"
 import { AdapterRequest, AdapterResponse } from "@chainlink/types"
 import { DexSubgraph, DexQueryInputParams, ReferenceModifierAction } from "../../types"
 import { getLatestAnswer } from '@chainlink/ea-reference-data-reader'
 
-export const PRICE = "price"
+export const NAME = "price"
 
 const customParams = {
-    baseCoinTicker: true,
-    quoteCoinTicker: true,
+    baseCoinTicker: ["baseCoinTicker", "base", "from", "coin"],
+    quoteCoinTicker: ["quoteCoinTicker", "quote", "to", "market"],
     dex: false,
-    intermediaryToken: false ,
+    intermediaryToken: false,
     referenceContract: false,
-    referenceContractDivisor: false 
+    referenceContractDivisor: false,
+    theGraphQuote: false 
 }
 
 export const execute = async (input: AdapterRequest, config: Config): Promise<AdapterResponse> => {
@@ -26,12 +27,16 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
         referenceContract, 
         referenceContractDivisor, 
         referenceModifierAction = ReferenceModifierAction.MULTIPLY, 
-        intermediaryToken = WETH 
+        intermediaryToken = WETH,
+        theGraphQuote 
     } = validator.validated.data
+    if(!theGraphQuote && !quoteCoinTicker) {
+        throw new Error("quoteCoinTicker cannot be empty if theGraphQuote not supplied")
+    }
     const inputParams: DexQueryInputParams = {
         jobRunID,
         baseCoinTicker: baseCoinTicker.toUpperCase(),
-        quoteCoinTicker: quoteCoinTicker.toUpperCase(),
+        quoteCoinTicker: theGraphQuote ? theGraphQuote.toUpperCase() : quoteCoinTicker.toUpperCase(),
         dex: dex.toUpperCase(),
         referenceContract,
         referenceContractDivisor,
@@ -39,7 +44,7 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
         intermediaryToken: intermediaryToken.toUpperCase(),
     }
     if (baseCoinTicker === quoteCoinTicker) {
-        throw new AdapterError({ jobRunID, message: "Base and Quote coins must be different" })
+        throw new Error("Base and Quote coins must be different")
     }
     Logger.info(`Fetching quote for ${quoteCoinTicker}/${baseCoinTicker} pair from ${dex}`)
     const dexSubgraph = config.dexSubgraphs[dex]
@@ -47,7 +52,7 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
     try {
         price = await getQuotePrice(inputParams, dexSubgraph)
     } catch (e) {
-        throw new AdapterError({ jobRunID, message: `Failed to get price.  Reason "${e}"` })
+        throw new Error(`Failed to get price.  Reason "${e}"` )
     }
     return Requester.success(jobRunID, {
         status: 200,
@@ -78,17 +83,17 @@ const getPriceThroughCommonPair = async (inputParams: DexQueryInputParams, dexSu
     const intermediaryToken = await dexSubgraph.getToken(jobRunID, intermediaryTokenTicker)
     const refTokenPerToken0 = await dexSubgraph.getTokenPairPrice(jobRunID, token0ID, intermediaryToken.id)
     const refTokenPerToken1 = await dexSubgraph.getTokenPairPrice(jobRunID, token1ID, intermediaryToken.id)
-    validateTokenPrices(jobRunID, refTokenPerToken0, refTokenPerToken1, baseCoinTicker, quoteCoinTicker)
+    validateTokenPrices(refTokenPerToken0, refTokenPerToken1, baseCoinTicker, quoteCoinTicker)
     return (refTokenPerToken0 as number) / (refTokenPerToken1 as number)
 }
 
-const validateTokenPrices = (jobRunID: string, priceOne: number | null, priceTwo: number | null, priceOneTicker: string, priceTwoTicker: string) => {
+const validateTokenPrices = (priceOne: number | null, priceTwo: number | null, priceOneTicker: string, priceTwoTicker: string) => {
     if (!priceOne || !priceTwo) {
         if (!priceOne) {
-            throw new AdapterError({ jobRunID, message: `Failed to get price because we could not determine the price of ${priceOneTicker}` })
+            throw new Error(`Failed to get price because we could not determine the price of ${priceOneTicker}`)
         }
         if (!priceTwo) {
-            throw new AdapterError({ jobRunID, message: `Failed to get price because we could not determine the price of ${priceTwoTicker}` })
+            throw new Error(`Failed to get price because we could not determine the price of ${priceTwoTicker}`)
         }
     }
 }

@@ -1,6 +1,5 @@
 import { DexSubgraph, GraphqlAdapterRequest, TokenInformation } from "../../../types"
 import { fetchFromGraphqlAdapter } from "../dataProvider"
-import { AdapterError } from "@chainlink/ea-bootstrap"
 import { getPairQuery, getTokenQuery } from "./graphqlQueries"
 
 const UNISWAP_V2_GRAPH_ENDPOINT = "https://api.thegraph.com/subgraphs/name/ianlapham/uniswapv2"
@@ -18,11 +17,11 @@ export const subgraph: DexSubgraph = {
         const response = await fetchFromGraphqlAdapter(jobRunID, data)
         if(!response.result.data) {
             const error = response.result.error || "Failed to get token information"
-            throw new AdapterError({ jobRunID, message: error })
+            throw new Error(error )
         }
         const tokens = response.result.data.tokens
         if (tokens.length !== 1) {
-            throw new AdapterError({ jobRunID, message: `Token ${symbol} not found` })
+            throw new Error(`Token ${symbol} not found`)
         }
         const token = tokens[0]
         return {

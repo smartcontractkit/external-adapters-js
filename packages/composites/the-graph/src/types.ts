@@ -30,5 +30,5 @@ export interface DexQueryInputParams {
     intermediaryToken: string,
     referenceContract: string 
     referenceContractDivisor: number
-    referenceModifierAction: ReferenceModifierAction
+    referenceModifierAction: ReferenceModifierAction,
 }

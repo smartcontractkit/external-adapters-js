@@ -32,6 +32,36 @@ describe('execute', () => {
           } 
         },
       },
+      {
+        name: 'request with a pair with from/to alias',
+        testData: { 
+          id: jobID, 
+          data: { 
+            "from": "UNI",
+            "to": "LINK"
+          } 
+        },
+      },
+      {
+        name: 'request with a pair with base/quote alias',
+        testData: { 
+          id: jobID, 
+          data: { 
+            "base": "UNI",
+            "quote": "LINK"
+          } 
+        },
+      },
+      {
+        name: 'request with a pair with coin/market alias',
+        testData: { 
+          id: jobID, 
+          data: { 
+            "coin": "UNI",
+            "market": "LINK"
+          } 
+        },
+      },
     ]
 
     requests.forEach((req) => {
