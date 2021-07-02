@@ -2696,6 +2696,7 @@ __metadata:
     "@chainlink/fmpcloud-adapter": "*"
     "@chainlink/genesis-volatility-adapter": "*"
     "@chainlink/geodb-adapter": "*"
+    "@chainlink/graphql-adapter": "*"
     "@chainlink/iex-cloud-adapter": "*"
     "@chainlink/intrinio-adapter": "*"
     "@chainlink/json-rpc-adapter": "*"
@@ -2959,6 +2960,20 @@ __metadata:
 "@chainlink/geodb-adapter@*, @chainlink/geodb-adapter@workspace:packages/sources/geodb":
   version: 0.0.0-use.local
   resolution: "@chainlink/geodb-adapter@workspace:packages/sources/geodb"
+  dependencies:
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.0.1
+    "@types/jest": ^26.0.22
+    "@types/node": ^14.14.35
+    tslib: ^2.1.0
+    typescript: ^4.2.3
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/graphql-adapter@*, @chainlink/graphql-adapter@workspace:packages/sources/graphql":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/graphql-adapter@workspace:packages/sources/graphql"
   dependencies:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-test-helpers": "*"
@@ -3491,6 +3506,22 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.0.1
+    "@types/jest": ^26.0.22
+    "@types/node": ^14.14.35
+    tslib: ^2.1.0
+    typescript: ^4.2.3
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/the-graph-adapter@workspace:packages/composites/the-graph":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/the-graph-adapter@workspace:packages/composites/the-graph"
+  dependencies:
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-reference-data-reader": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/graphql-adapter": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35

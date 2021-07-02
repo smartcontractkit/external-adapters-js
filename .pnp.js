@@ -75,6 +75,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/composites/synth-index"
       },
       {
+        "name": "@chainlink/the-graph-adapter",
+        "reference": "workspace:packages/composites/the-graph"
+      },
+      {
         "name": "@chainlink/token-allocation-adapter",
         "reference": "workspace:packages/composites/token-allocation"
       },
@@ -311,6 +315,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/geodb"
       },
       {
+        "name": "@chainlink/graphql-adapter",
+        "reference": "workspace:packages/sources/graphql"
+      },
+      {
         "name": "@chainlink/iex-cloud-adapter",
         "reference": "workspace:packages/sources/iex-cloud"
       },
@@ -545,6 +553,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/fmpcloud-adapter", ["workspace:packages/sources/fmpcloud"]],
       ["@chainlink/genesis-volatility-adapter", ["workspace:packages/sources/genesis-volatility"]],
       ["@chainlink/geodb-adapter", ["workspace:packages/sources/geodb"]],
+      ["@chainlink/graphql-adapter", ["workspace:packages/sources/graphql"]],
       ["@chainlink/harmony-adapter", ["workspace:packages/targets/harmony"]],
       ["@chainlink/iex-cloud-adapter", ["workspace:packages/sources/iex-cloud"]],
       ["@chainlink/intrinio-adapter", ["workspace:packages/sources/intrinio"]],
@@ -579,6 +588,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/stasis-adapter", ["workspace:packages/sources/stasis"]],
       ["@chainlink/synth-index-adapter", ["workspace:packages/composites/synth-index"]],
       ["@chainlink/taapi-adapter", ["workspace:packages/sources/taapi"]],
+      ["@chainlink/the-graph-adapter", ["workspace:packages/composites/the-graph"]],
       ["@chainlink/therundown-adapter", ["workspace:packages/sources/therundown"]],
       ["@chainlink/tiingo-adapter", ["workspace:packages/sources/tiingo"]],
       ["@chainlink/token-allocation-adapter", ["workspace:packages/composites/token-allocation"]],
@@ -5202,6 +5212,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/fmpcloud-adapter", "workspace:packages/sources/fmpcloud"],
             ["@chainlink/genesis-volatility-adapter", "workspace:packages/sources/genesis-volatility"],
             ["@chainlink/geodb-adapter", "workspace:packages/sources/geodb"],
+            ["@chainlink/graphql-adapter", "workspace:packages/sources/graphql"],
             ["@chainlink/iex-cloud-adapter", "workspace:packages/sources/iex-cloud"],
             ["@chainlink/intrinio-adapter", "workspace:packages/sources/intrinio"],
             ["@chainlink/json-rpc-adapter", "workspace:packages/sources/json-rpc"],
@@ -5626,6 +5637,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:14.14.41"],
             ["tslib", "npm:2.2.0"],
             ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=ddfc1b"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/graphql-adapter", [
+        ["workspace:packages/sources/graphql", {
+          "packageLocation": "./packages/sources/graphql/",
+          "packageDependencies": [
+            ["@chainlink/graphql-adapter", "workspace:packages/sources/graphql"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:26.0.22"],
+            ["@types/node", "npm:14.14.41"],
+            ["tslib", "npm:2.2.0"],
+            ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"]
           ],
           "linkType": "SOFT",
         }]
@@ -6223,6 +6250,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:14.14.41"],
             ["tslib", "npm:2.2.0"],
             ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=ddfc1b"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/the-graph-adapter", [
+        ["workspace:packages/composites/the-graph", {
+          "packageLocation": "./packages/composites/the-graph/",
+          "packageDependencies": [
+            ["@chainlink/the-graph-adapter", "workspace:packages/composites/the-graph"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-reference-data-reader", "workspace:packages/core/reference-data-reader"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/graphql-adapter", "workspace:packages/sources/graphql"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:26.0.22"],
+            ["@types/node", "npm:14.14.41"],
+            ["tslib", "npm:2.2.0"],
+            ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"]
           ],
           "linkType": "SOFT",
         }]
