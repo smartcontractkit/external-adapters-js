@@ -24,4 +24,3 @@ function generateTestPayload() {
 }
 
 module.exports = generateTestPayload()
-  
