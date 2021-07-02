@@ -2,17 +2,20 @@ import { DexSubgraph, GraphqlAdapterRequest, TokenInformation } from "../../../t
 import { fetchFromGraphqlAdapter } from "../dataProvider"
 import { getPairQuery, getTokenQuery } from "./graphqlQueries"
 
-const UNISWAP_V2_GRAPH_ENDPOINT = "https://api.thegraph.com/subgraphs/name/ianlapham/uniswapv2"
+export class UniswapSubgraph implements DexSubgraph {
+    private url: string 
 
-export const subgraph: DexSubgraph = {
-    url: UNISWAP_V2_GRAPH_ENDPOINT,
-    getToken: async (jobRunID: string, symbol: string): Promise<TokenInformation> => {
+    constructor(url: string) {
+        this.url = url 
+    }
+
+    async getToken(jobRunID: string, symbol: string): Promise<TokenInformation> {
         const data: GraphqlAdapterRequest = {
             query: getTokenQuery,
             variables: {
                 symbol
             },
-            graphqlEndpoint: UNISWAP_V2_GRAPH_ENDPOINT
+            graphqlEndpoint: this.url
         }
         const response = await fetchFromGraphqlAdapter(jobRunID, data)
         if(!response.result.data) {
@@ -28,15 +31,16 @@ export const subgraph: DexSubgraph = {
             id: token.id as string,
             decimals: token.decimals as number
         }
-    },
-    getTokenPairPrice: async (jobRunID: string, token0Address: string, token1Address: string): Promise<number | null> => {
+    }
+
+    async getTokenPairPrice(jobRunID: string, token0Address: string, token1Address: string): Promise<number | null> {
         const req1Data: GraphqlAdapterRequest = {
             query: getPairQuery,
             variables: {
                 "token0ID": token0Address,
                 "token1ID": token1Address
             },
-            graphqlEndpoint: UNISWAP_V2_GRAPH_ENDPOINT
+            graphqlEndpoint: this.url
         }
         const req1Response = await fetchFromGraphqlAdapter(jobRunID, req1Data)
         const req1Pairs = req1Response.result.data.pairs
@@ -52,7 +56,7 @@ export const subgraph: DexSubgraph = {
                 "token0ID": token1Address,
                 "token1ID": token0Address
             },
-            graphqlEndpoint: UNISWAP_V2_GRAPH_ENDPOINT
+            graphqlEndpoint: this.url
         }
     
         const req2Response = await fetchFromGraphqlAdapter(jobRunID, req2Data)
