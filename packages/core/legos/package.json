@@ -77,6 +77,7 @@
     "@chainlink/fmpcloud-adapter": "*",
     "@chainlink/genesis-volatility-adapter": "*",
     "@chainlink/geodb-adapter": "*",
+    "@chainlink/graphql-adapter": "*",
     "@chainlink/iex-cloud-adapter": "*",
     "@chainlink/intrinio-adapter": "*",
     "@chainlink/json-rpc-adapter": "*",
