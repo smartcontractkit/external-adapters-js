@@ -106,6 +106,9 @@ export class Validator {
 
   validateIncludeOverrides(shouldLogError: boolean) {
     try {
+      if (!this.input.data || !(this.input.data.to && this.input.data.from)) {
+        return
+      }
       if (!this.input.data?.includes) {
         this.validated.data.includes = this.formatIncludeOverrides(presetIncludes)
         return
@@ -177,7 +180,7 @@ export class Validator {
       (!include.adapters || include.adapters.map(adapter => adapter.toLowerCase()).includes(adapter.toLowerCase()))
     )[0]
     // Search through `presetIncludes` to find matching override for adapter and to/from pairing.
-    for (let pair of presetIncludes) {
+    for (const pair of presetIncludes) {
       if(pair.from === from && pair.to === to) {
         for (let i = 0; i < pair.includes.length; i++) {
           if (pair.includes[i].adapters.includes(adapter.toUpperCase())) {
