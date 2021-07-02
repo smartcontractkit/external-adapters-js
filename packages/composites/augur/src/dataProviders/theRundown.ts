@@ -80,9 +80,10 @@ export const create: Execute = async (input) => {
   const theRundownExec = TheRundown.makeExecute(TheRundown.makeConfig(TheRundown.NAME))
 
   const events = []
+  Logger.debug(`Augur theRundown: Fetching data from therundown for sportId ${params.data.sportId}`)
   for (let i = 0; i < daysInAdvance; i++) {
     params.data.date = addDays(params.data.date, 1)
-
+    Logger.debug(`Augur theRundown: Fetching data for date ${params.data.date}`)
     const response = await theRundownExec(params)
     events.push(...response.result as TheRundownEvent[])
   }
