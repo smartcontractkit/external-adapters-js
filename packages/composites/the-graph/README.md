@@ -20,7 +20,7 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 | :-------: | :------------------------: | :--------------------------------------: | :-----------------: | :---------: |
 |           |       `method`             |   What data type to query for            |        price             |     price        |
 |    ✅     |       `baseCoinTicker`, `base`, `from`, `coin`     |   The symbol of the base currency       |                     |             |
-|           |       `quoteCoinTicker`, `quote`, `to`, `market`     |   The symbol of the quote currency.  This is required if `theGraphQuote` is blank      |                     |             |
+|    ✅      |       `quoteCoinTicker`, `quote`, `to`, `market`     |   The symbol of the quote currency      |                     |             |
 |           |       `theGraphQuote`     |   The symbol of the quote currency.  This will override `quoteCoinTicker` if supplied      |                     |             |
 |         |       `intermedaryToken`      |   An intermediary token to use if the base and quote coin pair does not exist in the DEX.       |                     |      WETH       |
 |           |       `dex`                |   The DEX to query data from             |   UNISWAP           |   UNISWAP   |    
