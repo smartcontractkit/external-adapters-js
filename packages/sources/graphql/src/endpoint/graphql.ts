@@ -26,3 +26,4 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
         throw new AdapterError({ jobRunID, message: `GraphQL request to ${graphqlEndpoint} failed with error ${e}` })
     }
 }
+
