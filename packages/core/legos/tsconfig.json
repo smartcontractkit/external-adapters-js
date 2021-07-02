@@ -152,6 +152,9 @@
       "path": "../../sources/geodb"
     },
     {
+      "path": "../../sources/graphql"
+    },
+    {
       "path": "../../sources/iex-cloud"
     },
     {
