@@ -9,7 +9,7 @@ The adapter takes the following environment variables:
 | Required? |   Name    |         Description          | Options | Defaults to |
 | :-------: | :-------: | :--------------------------: | :-----: | :---------: |
 |    ✅     | `RPC_URL` | The RPC Url to connect to |         |             | 
-|           | `UNISWAP_V2_SUBGRAPH_ENDPOINT` | The Uniswap V3 subgraph endpoint |         |     https://api.thegraph.com/subgraphs/name/ianlapham/uniswapv2        |
+|           | `UNISWAP_V2_SUBGRAPH_ENDPOINT` | The Uniswap V2 subgraph endpoint |         |     https://api.thegraph.com/subgraphs/name/ianlapham/uniswapv2        |
 
 ## Running
 
