@@ -1,27 +1,27 @@
 const environmentVariables = [
    
-  ]
+]
   
-  function searchEnvironment() {
-    for (const { envKey, value } of environmentVariables) {
-      const isSetEnvVar = process.env[envKey]
-      if (isSetEnvVar) return value
-    }
+function searchEnvironment() {
+  for (const { envKey, value } of environmentVariables) {
+    const isSetEnvVar = process.env[envKey]
+    if (isSetEnvVar) return value
   }
-  
-  function generateTestPayload() {
-    const payload = {
-      request: {
-        baseCoinTicker: "UNI",
-        quoteCoinTicker: "USDT",
-        referenceContract: "0x3E7d1eAB13ad0104d2750B8863b489D65364e32D",
-        referenceContractDivisor: "100000000",
-        referenceModifierAction: "divide",
-        source: searchEnvironment(),
-      },
-    }
-    return JSON.stringify(payload)
+}
+
+function generateTestPayload() {
+  const payload = {
+    request: {
+      baseCoinTicker: "UNI",
+      quoteCoinTicker: "USDT",
+      referenceContract: "0x3E7d1eAB13ad0104d2750B8863b489D65364e32D",
+      referenceContractDivisor: "100000000",
+      referenceModifierAction: "divide",
+      source: searchEnvironment(),
+    },
   }
-  
-  module.exports = generateTestPayload()
+  return JSON.stringify(payload)
+}
+
+module.exports = generateTestPayload()
   
