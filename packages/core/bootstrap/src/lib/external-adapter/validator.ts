@@ -5,6 +5,7 @@ import { AdapterError } from './errors'
 import { logger } from './logger'
 import presetSymbols from './overrides/presetSymbols.json'
 import presetTokens from './overrides/presetTokens.json'
+import presetIncludes from './overrides/presetIncludes.json'
 import { Requester } from './requester'
 import { inputParameters } from './builder'
 
@@ -24,6 +25,7 @@ export class Validator {
     this.validateInput(shouldLogError)
     this.validateOverrides(shouldLogError)
     this.validateTokenOverrides(shouldLogError)
+    this.validateIncludeOverrides(shouldLogError)
   }
 
   validateInput(shouldLogError: boolean) {
@@ -105,7 +107,7 @@ export class Validator {
   validateIncludeOverrides(shouldLogError: boolean) {
     try {
       if (!this.input.data?.includes) {
-        this.validated.includes = this.formatTokenOverrides(presetTokens)
+        this.validated.data.includes = this.formatIncludeOverrides(presetIncludes)
         return
       }
       this.validated.tokenOverrides = this.formatTokenOverrides(
@@ -169,11 +171,23 @@ export class Validator {
     return this.validated.tokenOverrides.get(network.toLowerCase())?.get(symbol.toLowerCase())
   }
 
-  overrideIncludes = (adapter: string, from: string, to: string, includes: Includes[]): Includes | undefined =>
+  overrideIncludes = (adapter: string, from: string, to: string, includes: Includes[]): Includes | undefined => {
     includes.filter(include =>
       (include.from.toLowerCase() === from.toLowerCase() && include.to.toLowerCase() === to.toLowerCase()) &&
       (!include.adapters || include.adapters.map(adapter => adapter.toLowerCase()).includes(adapter.toLowerCase()))
     )[0]
+    // Search through `presetIncludes` to find matching override for adapter and to/from pairing.
+    for (let pair of presetIncludes) {
+      if(pair.from === from && pair.to === to) {
+        for (let i = 0; i < pair.includes.length; i++) {
+          if (pair.includes[i].adapters.includes(adapter.toUpperCase())) {
+            return pair.includes[i]
+          }
+        }
+      }
+    }
+    return
+  }
 
   formatOverride = (param: any): Override => {
     const _throwInvalid = () => {
@@ -222,17 +236,10 @@ export class Validator {
     }
     if (!isArray(param)) _throwInvalid()
 
-    const _isValid = Object.values(param).every(val => isObject(val) || typeof val === 'string')
+    const _isValid = Object.values(param).every(val => isObject(val) || typeof val === 'string' )
     if (!_isValid) _throwInvalid()
 
-    const _keyToLowerCase = (entry: [string, any]): [string, any] => {
-      return [entry[0].toLowerCase(), entry[1]]
-    }
-    return new Map(
-      Object.entries(param)
-        .map(_keyToLowerCase)
-        .map(([key, value]) => [key, new Map(Object.entries(value).map(_keyToLowerCase))]),
-    )
+    return param
   }
 
   validateOptionalParam(param: any, key: string, options: any[]) {

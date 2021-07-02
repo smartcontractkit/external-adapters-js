@@ -53,10 +53,10 @@ const getOptions = (validator: Validator): {
 const getIncludesOptions = (validator: Validator, from: string, to: string, includes: string[] | Includes[]) => {
   const include = getIncludes(validator, from, to, includes)
   if (!include) return undefined
-
   if (include.tokens) {
     const fromAddress = validator.overrideToken(include.from)
     const toAddress = validator.overrideToken(include.to)
+
     if (!fromAddress || !toAddress) return undefined
     return {
       ...tokenOptions(fromAddress, toAddress),

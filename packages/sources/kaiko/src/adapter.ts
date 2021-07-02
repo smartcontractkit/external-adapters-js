@@ -25,9 +25,8 @@ const directUrl = (from: string, to: string) =>
   `/spot_direct_exchange_rate/${from.toLowerCase()}/${to.toLowerCase()}`
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-  const validator = new Validator(request, customParams)
+  const validator = new Validator(request, customParams, { name: "kaiko" })
   if (validator.error) throw validator.error
-
   Requester.logConfig(config)
 
   const jobRunID = validator.validated.id
@@ -53,7 +52,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     params,
     timeout: 10000,
   }
-
   const response = await Requester.request(requestConfig, customError)
   response.data.result = Requester.validateResultNumber(
     // sometimes, the most recent(fraction of a second) data contain null price
@@ -86,7 +84,6 @@ const getOptions = (validator: Validator): {
 const getIncludesOptions = (validator: Validator, from: string, to: string, includes: string[] | Includes[]) => {
   const include = getIncludes(validator, from, to, includes)
   if (!include) return undefined
-
   return {
     url: directUrl(include.from, include.to),
     inverse: include.inverse
@@ -103,6 +100,5 @@ const getIncludes = (validator: Validator, from: string, to: string, includes: s
       inverse: false
     }
   }
-
   return validator.overrideIncludes(AdapterName, from, to, includes as Includes[])
 }
