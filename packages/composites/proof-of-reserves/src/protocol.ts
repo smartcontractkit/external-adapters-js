@@ -1,4 +1,4 @@
-import { AdapterImplementation, Config } from '@chainlink/types'
+import { AdapterImplementation, Config, AdapterResponse } from '@chainlink/types'
 import { Requester } from '@chainlink/ea-bootstrap'
 import { callAdapter, makeRequestFactory } from './adapter'
 // protocol adapters
@@ -17,7 +17,7 @@ export const runProtocolAdapter = async (
   protocol: Protocol,
   data: any,
   config: Config,
-) => {
+): Promise<AdapterResponse> => {
   if (protocol === LIST_ADAPTER) return listAdapter(jobRunID, data)
 
   const execute = makeRequestFactory(config, protocol)
@@ -34,5 +34,5 @@ const listAdapter = (jobRunID: string, data: any) => {
   }
 
   const result = data.addresses.map((address: string) => ({ address }))
-  return Requester.success(jobRunID, { data: { result }})
+  return Requester.success(jobRunID, { data: { result } })
 }
