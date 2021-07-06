@@ -6,7 +6,7 @@ export const NAME = 'scantxoutset'
 
 const inputParams = {
   scanobjects: ['addresses', 'scanobjects'],
-  confirmations: false
+  confirmations: false,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
@@ -22,14 +22,19 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
   const params = {
     action: 'start',
-    scanobjects
+    scanobjects,
   }
 
-  const response = await JSONRPC.execute({
-    ...request,
-    data: { ...request.data, method: NAME, params },
-  }, config)
+  const response = await JSONRPC.execute(
+    {
+      ...request,
+      data: { ...request.data, method: NAME, params },
+    },
+    config,
+  )
 
-  response.data.result = Requester.validateResultNumber(response.data, ['result', 'total_amount'])
+  response.data.result = String(
+    Requester.validateResultNumber(response.data, ['result', 'total_amount']),
+  )
   return Requester.success(jobRunID, response)
 }

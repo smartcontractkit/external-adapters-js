@@ -26,6 +26,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, config
   }
 
   const options = {
+    ...config.api,
     url,
     method: 'POST' as any,
     headers: {
