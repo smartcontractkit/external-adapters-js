@@ -7,6 +7,6 @@ export const DEFAULT_ENDPOINT = 'price'
 
 export const makeConfig = (prefix = ''): Config => {
     const config = Requester.getDefaultConfig(prefix)
-    config.DEFAULT_ENDPOINT = DEFAULT_ENDPOINT
+    config.defaultEndpoint = DEFAULT_ENDPOINT
     return config
   }

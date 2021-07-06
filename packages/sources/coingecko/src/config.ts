@@ -12,6 +12,6 @@ export const makeConfig = (prefix?: string): Config => {
   if (!config.api.baseURL) {
     config.api.baseURL = config.apiKey !== undefined ? PRO_API_ENDPOINT : DEFAULT_API_ENDPOINT
   }
-  config.DEFAULT_ENDPOINT = DEFAULT_ENDPOINT
+  config.defaultEndpoint = DEFAULT_ENDPOINT
   return config
 }

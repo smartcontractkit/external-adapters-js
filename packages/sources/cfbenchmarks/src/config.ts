@@ -12,6 +12,6 @@ export const makeConfig = (prefix?: string): Config => {
     username: util.getEnv('API_USERNAME', prefix) || '',
     password: util.getEnv('API_PASSWORD', prefix) || '',
   }
-  config.DEFAULT_ENDPOINT = DEFAULT_ENDPOINT
+  config.defaultEndpoint = DEFAULT_ENDPOINT
   return config
 }

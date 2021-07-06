@@ -9,6 +9,6 @@ export const DEFAULT_URL = 'https://api.twelvedata.com/'
 export const makeConfig = (prefix?: string): Config => {
   const config = Requester.getDefaultConfig(prefix, true)
   config.api.baseURL = config.api.baseURL || DEFAULT_URL
-  config.DEFAULT_ENDPOINT = DEFAULT_ENDPOINT
+  config.defaultEndpoint = DEFAULT_ENDPOINT
   return config
 }

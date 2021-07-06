@@ -7,6 +7,6 @@ export const DEFAULT_ENDPOINT = 'balance'
 
 export const makeConfig = (prefix = ''): Config => {
     const config = Requester.getDefaultConfig(prefix, true)
-    config.DEFAULT_ENDPOINT = DEFAULT_ENDPOINT
+    config.defaultEndpoint = DEFAULT_ENDPOINT
     return config
 }

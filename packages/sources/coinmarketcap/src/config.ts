@@ -12,6 +12,6 @@ export const makeConfig = (prefix?: string): Config => {
   config.api.headers = {
     'X-CMC_PRO_API_KEY': config.apiKey,
   }
-  config.DEFAULT_ENDPOINT = DEFAULT_ENDPOINT
+  config.defaultEndpoint = DEFAULT_ENDPOINT
   return config
 }

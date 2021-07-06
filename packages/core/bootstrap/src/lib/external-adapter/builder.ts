@@ -16,8 +16,9 @@ const buildSelector = (request: AdapterRequest, config: Config, apiEndpoints: an
     Requester.logConfig(config)
 
     const jobRunID = validator.validated.id
-    const endpoint = validator.validated.data.endpoint || config.DEFAULT_ENDPOINT
+    const endpoint = validator.validated.data.endpoint || config.defaultEndpoint
     for(const apiEndpoint of apiEndpoints) {
+        console.log(apiEndpoint.price)
         for(const supportedChainlinkEndpoint of apiEndpoint.supportedEndpoints) {
             if(supportedChainlinkEndpoint.toLowerCase() === endpoint.toLowerCase()) {
                 if (typeof apiEndpoint.execute === "function"){

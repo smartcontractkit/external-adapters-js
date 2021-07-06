@@ -46,7 +46,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  request.data.field = validator.validated.data.endpoint || config.DEFAULT_ENDPOINT
+  request.data.field = validator.validated.data.endpoint || config.defaultEndpoint
   const field = validator.validated.data.field || 'difficulty'
   const url = `/v3/block/latest`
 

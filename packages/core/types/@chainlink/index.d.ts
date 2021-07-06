@@ -93,7 +93,7 @@ declare module '@chainlink/types' {
     returnRejectedPromiseOnError?: boolean
     verbose?: boolean
     api?: RequestConfig
-    DEFAULT_ENDPOINT?: string
+    defaultEndpoint?: string
   }
 
   export type ExecuteSync = (input: AdapterRequest, callback: Callback) => void

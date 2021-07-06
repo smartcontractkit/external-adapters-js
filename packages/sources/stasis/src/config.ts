@@ -1,7 +1,7 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
-export const NAME = 'Stasis'
+export const NAME = 'STASIS'
 
 export const DEFAULT_BASE_URL = 'https://stasis.net'
 

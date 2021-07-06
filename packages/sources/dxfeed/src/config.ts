@@ -17,7 +17,7 @@ export const makeConfig = (prefix?: string): Config => {
   if (username.length > 0 || password.length > 0) {
     config.api.auth = { username, password }
   }
-  config.DEFAULT_ENDPOINT = DEFAULT_ENDPOINT
+  config.defaultEndpoint = DEFAULT_ENDPOINT
 
   return config
 }

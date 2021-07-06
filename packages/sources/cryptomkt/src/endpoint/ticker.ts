@@ -2,7 +2,6 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 
 export const supportedEndpoints = ['ticker']
-const NAME = 'ticker'
 
 const customParams = {
   base: ['base', 'from', 'coin'],
@@ -15,7 +14,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const url = NAME
+  const url = 'ticker'
   const base = validator.validated.data.base.toUpperCase()
   const quote = validator.validated.data.quote.toUpperCase()
   const field = validator.validated.data.field || 'last_price'

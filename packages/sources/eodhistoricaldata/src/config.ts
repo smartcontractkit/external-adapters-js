@@ -13,6 +13,6 @@ export const makeConfig = (prefix?: string): Config => {
     baseURL: config.api.baseURL || DEFAULT_API_ENDPOINT,
     params: { api_token: config.apiKey },
   }
-  config.DEFAULT_ENDPOINT = DEFAULT_ENDPOINT
+  config.defaultEndpoint = DEFAULT_ENDPOINT
   return config
 }

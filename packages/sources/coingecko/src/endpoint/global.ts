@@ -18,7 +18,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 
-  const endpoint = validator.validated.data.endpoint || config.DEFAULT_ENDPOINT
+  const endpoint = validator.validated.data.endpoint || config.defaultEndpoint
   if (endpoint.toLowerCase() === 'globalmarketcap')
     validator.validated.data.path = 'total_market_cap'
   if (endpoint.toLowerCase() === 'dominance')
@@ -27,7 +27,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const jobRunID = validator.validated.id
   const market = validator.validated.data.market.toLowerCase()
   const path = validator.validated.data.path
-  console.log(path)
   const url = '/global'
 
   const options = {
