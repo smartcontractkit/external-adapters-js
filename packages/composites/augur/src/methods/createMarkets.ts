@@ -39,9 +39,12 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const sport = validator.validated.data.sport.toLowerCase()
   const contractAddress = validator.validated.data.contractAddress
 
+  Logger.debug(`Augur: Picking code path for sport ${sport}`)
   if (TEAM_SPORTS.includes(sport)) {
+    Logger.debug(`Augur: Picked TEAM code path for sport`)
     return await createTeam(input.id, sport, contractAddress, input, config)
   } else if (FIGHTER_SPORTS.includes(sport)) {
+    Logger.debug(`Augur: Picked FIGHTER code path for sport`)
     return await createFighter(input.id, sport, contractAddress, input, config)
   } else {
     throw Error(`Unable to identify sport "${sport}"`)
@@ -61,9 +64,12 @@ const createTeam = async (jobRunID: string, sport: string, contractAddress: stri
   }
 
   let events: CreateTeamEvent[] = []
+  Logger.debug(`Augur: Choosing data source for sport ${sport}`)
   if (theRundown.SPORTS_SUPPORTED.includes(sport)) {
+    Logger.debug(`Augur: Chose TheRundown as the data source`)
     events = (await theRundown.create(req)).result
   } else if (sportsdataio.SPORTS_SUPPORTED.includes(sport)) {
+    Logger.debug(`Augur: Chose SportsDataIO as the data source`)
     events = (await sportsdataio.createTeam(req)).result
   } else {
     throw Error(`Unknown data provider for sport ${sport}`)
@@ -84,7 +90,8 @@ const createTeam = async (jobRunID: string, sport: string, contractAddress: stri
       Math.floor(event.startTime / 1000),
       Math.round(event.homeSpread*10),
       Math.round(event.totalScore*10),
-      packCreationFlags(event.createSpread, event.createTotalScore),
+      event.createSpread,
+      event.createTotalScore,
       { nonce }
     ]
     try {
@@ -159,11 +166,4 @@ const createFighter = async (jobRunID: string, sport: string, contractAddress: s
   Logger.debug(`Augur: ${failed} markets failed to create`)
 
   return Requester.success(jobRunID, {})
-}
-
-const packCreationFlags = (createSpread: boolean, createTotalScore: boolean): number => {
-  let flags = 0b00000000;
-  if (createSpread) flags += 0b00000001;
-  if (createTotalScore) flags += 0b00000010;
-  return flags;
 }
