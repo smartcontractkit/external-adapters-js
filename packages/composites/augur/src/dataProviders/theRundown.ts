@@ -186,7 +186,7 @@ export const resolve: Execute = async (input) => {
   const validator = new Validator(input, resolveParams)
   if (validator.error) throw validator.error
 
-  const theRundownExec = TheRundown.makeExecute()
+  const theRundownExec = TheRundown.makeExecute(TheRundown.makeConfig(TheRundown.NAME))
 
   const sport = validator.validated.data.sport
   const sportId = sportIdMapping[sport.toUpperCase()]
