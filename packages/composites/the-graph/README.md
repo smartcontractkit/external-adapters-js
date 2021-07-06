@@ -24,7 +24,7 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 |    ✅      |       `quoteCoinTicker`, `quote`, `to`, `market`     |   The symbol of the quote currency      |                     |             |
 |           |       `theGraphQuote`     |   The symbol of the quote currency.  This will override `quoteCoinTicker` if supplied      |                     |             |
 |         |       `intermedaryToken`      |   An intermediary token to use if the base and quote coin pair does not exist in the DEX.       |                     |      WETH       |
-|           |       `dex`                |   The DEX to query data from             |   UNISWAP           |   UNISWAP   |    
+|    ✅       |       `dex`                |   The DEX to query data from             |   UNISWAP           |      |    
 |           | `referenceContract`         |   The smart contract address of a price feed.  This is used if the price from fetched from the DEX needs to be modified    | |             |
 |           | `referenceContractDivisor`  |   How much the value from the referenceContract needs to be multiplied or divided by    |      |             |
 |           | `referenceModifierAction`  |   Whether to multiply or divide the DEX result by the result from the `referenceContract`   |  multiply, divide  |      multiply       |
@@ -36,7 +36,8 @@ See the [Composite Adapter README](../README.md) for more information on how to 
     "jobRunId": 1,
     "data": {
         "baseCoinTicker": "UNI",
-        "quoteCoinTicker": "LINK"
+        "quoteCoinTicker": "LINK",
+        "dex": "UNISWAP"
     }
 }
 ```
@@ -69,7 +70,8 @@ combine the two to get the price of USD/UNI.
         "quoteCoinTicker": "USDT",
         "referenceContract": "0x3E7d1eAB13ad0104d2750B8863b489D65364e32D",
         "referenceContractDivisor": "100000000",
-        "referenceModifierAction": "divide"
+        "referenceModifierAction": "divide",
+        "dex": "UNISWAP
     }
 }
 ```
@@ -98,7 +100,8 @@ quote tokens.  In this example, the adapter will first fetch the price of SUSHI/
     "data": {
         "baseCoinTicker": "SUSHI",
         "quoteCoinTicker": "LINK",
-        "intermediaryToken": "WETH" // Defaults to WETH
+        "intermediaryToken": "WETH", // Defaults to WETH,
+        "dex": "UNISWAP"
     }
 }
 ```
