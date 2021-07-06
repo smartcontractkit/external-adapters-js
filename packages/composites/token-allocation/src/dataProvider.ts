@@ -47,7 +47,7 @@ export const getPriceProvider = (
     }
     const response = await Requester.request<AdapterResponse>({
       ...apiConfig,
-      data: data,
+      data,
     })
     const payloadEntries = symbols.map((symbol) => {
       const key = symbol
