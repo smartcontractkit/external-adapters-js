@@ -1994,7 +1994,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/bitcoin-json-rpc-adapter@workspace:packages/composites/bitcoin-json-rpc":
+"@chainlink/bitcoin-json-rpc-adapter@*, @chainlink/bitcoin-json-rpc-adapter@workspace:packages/composites/bitcoin-json-rpc":
   version: 0.0.0-use.local
   resolution: "@chainlink/bitcoin-json-rpc-adapter@workspace:packages/composites/bitcoin-json-rpc"
   dependencies:
@@ -3350,6 +3350,7 @@ __metadata:
   resolution: "@chainlink/proof-of-reserves-adapter@workspace:packages/composites/proof-of-reserves"
   dependencies:
     "@chainlink/amberdata-adapter": "*"
+    "@chainlink/bitcoin-json-rpc-adapter": "*"
     "@chainlink/blockchain.com-adapter": "*"
     "@chainlink/blockchair-adapter": "*"
     "@chainlink/blockcypher-adapter": "*"
