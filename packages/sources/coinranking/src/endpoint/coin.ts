@@ -9,6 +9,51 @@ export enum Paths {
   MarketCap = 'marketcap',
 }
 
+export interface ResponseSchema {
+  data: {
+    coin: {
+      "24hVolume": string
+      allTimeHigh: { price: string, timestamp: number }
+      btcPrice: string
+      change: string
+      coinrankingUrl: string
+      color: string
+      description: string
+      iconUrl: string
+      links: { name: string, type: string, url: string }[]
+      lowVolume: boolean
+      marketCap: string
+      name: string
+      numberOfExchanges: number
+      numberOfMarkets: number
+      price: string
+      rank: number
+      sparkline: string[]
+      supply: { confirmed: boolean, total: string, circulating: string }
+      symbol: string
+      tier: number
+      uuid: string
+      websiteUrl: string
+    }
+  }
+  status: string
+}
+
+interface ReferenceCurrenciesResponseSchema {
+  data: {
+    currencies: {
+      iconUrl: string
+      name: string
+      sign: string
+      symbol: string
+      type: string
+      uuid: string
+    }[]
+    stats: { total: number }
+  }
+  status: string
+}
+
 const customParams = {
   base: ['base', 'from', 'coin'],
   coinid: false,
@@ -21,9 +66,9 @@ const referenceSymbolToUuid = async (symbol: string, config: Config): Promise<st
     ...config.api,
     url,
   }
-  const response = await Requester.request(options)
+  const response = await Requester.request<ReferenceCurrenciesResponseSchema>(options)
   const currency = response.data.data.currencies.find(
-    (x: Record<string, unknown>) => (x['symbol'] as string).toLowerCase() === symbol.toLowerCase(),
+    (x) => (x.symbol).toLowerCase() === symbol.toLowerCase(),
   )
   if (!currency) throw Error(`Currency not found for symbol: ${symbol}`)
   return currency.uuid
@@ -60,9 +105,9 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
     [Paths.Price]: ['data', 'coin', 'price'],
     [Paths.MarketCap]: ['data', 'coin', 'marketCap'],
   }
-  const response = await Requester.request(options)
-  response.data.result = Requester.validateResultNumber(response.data, resultPaths[path])
+  const response = await Requester.request<ResponseSchema & { cost?: number }>(options)
   response.data.cost = cost
+  const result = Requester.validateResultNumber(response.data, resultPaths[path])
 
-  return Requester.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }
