@@ -2591,10 +2591,12 @@ __metadata:
   resolution: "@chainlink/google-weather-adapter@workspace:packages/composites/google-weather"
   dependencies:
     "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
     "@chainlink/google-bigquery-adapter": 0.0.1
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
+    geojson-validation: ^1.0.2
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -13407,6 +13409,15 @@ fsevents@~2.1.1:
   version: 1.0.3
   resolution: "get-caller-file@npm:1.0.3"
   checksum: 2b90a7f848896abcebcdc0acc627a435bcf05b9cd280599bc980ebfcdc222416c3df12c24c4845f69adc4346728e8966f70b758f9369f3534182791dfbc25c05
+  languageName: node
+  linkType: hard
+
+"geojson-validation@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "geojson-validation@npm:1.0.2"
+  bin:
+    gjv: bin/gjv
+  checksum: b875ac5d2e6e7f1976c4e66be6f9f1f8baa33250290c4b33aff978a7fa01752fa425b72a79ddac79377adbf90f0ae1dca42fad23f426415fce7e07a2d9fa1c35
   languageName: node
   linkType: hard
 

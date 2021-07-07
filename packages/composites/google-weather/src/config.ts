@@ -1,15 +1,15 @@
 import { util } from '@chainlink/ea-bootstrap'
 import { RequestConfig } from '@chainlink/types'
 
-export const DEFAULT_TABLE = "gcp-pdp-weather-dev.geo_weather.NOAA_GFS0P25"
+export const DEFAULT_DATASET = "bigquery-public-data.noaa_gsod"
 
 export type Config = {
-  table: string
+  dataset: string
 
   api: RequestConfig
 }
 
 export const makeConfig = (prefix = ''): Config => ({
-  table: util.getEnv('TABLE', prefix) || DEFAULT_TABLE,
+  dataset: util.getEnv('DATASET', prefix) || DEFAULT_DATASET,
   api: {}
 })
