@@ -602,6 +602,11 @@
         "internalType": "uint256",
         "name": "startTime",
         "type": "uint256"
+      },
+      {
+        "internalType": "enum MMALinkMarketFactory.EventStatus",
+        "name": "eventStatus",
+        "type": "uint8"
       }
     ],
     "stateMutability": "view",
@@ -628,12 +633,39 @@
         "type": "uint256"
       }
     ],
-    "name": "getEventMarkets",
+    "name": "getEvent",
     "outputs": [
       {
-        "internalType": "uint256[1]",
-        "name": "",
-        "type": "uint256[1]"
+        "components": [
+          {
+            "internalType": "uint256[1]",
+            "name": "markets",
+            "type": "uint256[1]"
+          },
+          {
+            "internalType": "uint256",
+            "name": "homeFighterId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "awayFighterId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "startTime",
+            "type": "uint256"
+          },
+          {
+            "internalType": "enum MMALinkMarketFactory.EventStatus",
+            "name": "eventStatus",
+            "type": "uint8"
+          }
+        ],
+        "internalType": "struct MMALinkMarketFactory.EventDetails",
+        "name": "_event",
+        "type": "tuple"
       }
     ],
     "stateMutability": "view",
@@ -690,9 +722,14 @@
             "internalType": "uint256",
             "name": "creationTimestamp",
             "type": "uint256"
+          },
+          {
+            "internalType": "uint256[]",
+            "name": "initialOdds",
+            "type": "uint256[]"
           }
         ],
-        "internalType": "struct AbstractMarketFactory.Market",
+        "internalType": "struct AbstractMarketFactoryV2.Market",
         "name": "",
         "type": "tuple"
       }
@@ -751,11 +788,6 @@
             "internalType": "enum MMALinkMarketFactory.EventStatus",
             "name": "eventStatus",
             "type": "uint8"
-          },
-          {
-            "internalType": "uint256[3]",
-            "name": "headToHeadWeights",
-            "type": "uint256[3]"
           }
         ],
         "internalType": "struct MMALinkMarketFactory.MarketDetails",
@@ -1080,9 +1112,9 @@
         "type": "uint256"
       },
       {
-        "internalType": "uint256",
+        "internalType": "enum MMALinkMarketFactory.EventStatus",
         "name": "_eventStatus",
-        "type": "uint256"
+        "type": "uint8"
       },
       {
         "internalType": "uint256",
