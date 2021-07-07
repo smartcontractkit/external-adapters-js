@@ -29,15 +29,6 @@ const ABI = [
     type: "function",
   },
   {
-    inputs: [
-      { internalType: "bytes32", name: "_payload", type: "bytes32" }
-    ],
-    name: "trustedResolveMarkets",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function"
-  },
-  {
     inputs: [],
     name: "listResolvableEvents",
     outputs: [
@@ -56,21 +47,36 @@ export const TEAM_ABI = [
   ...ABI,
   {
     inputs: [
-      { internalType: "uint256", name: "_id", type: "uint256" },
-      { internalType: "uint256", name: "_homeTeamId", type: "uint256" },
-      { internalType: "uint256", name: "_awayTeamId", type: "uint256" },
-      { internalType: "uint32", name: "_startTime", type: "uint32" },
-      { internalType: "int16", name: "_homeSpread", type: "int16" },
-      { internalType: "uint16", name: "_totalScore", type: "uint16" },
-      { internalType: "uint8", name: "_flags", type: "uint8" }
+      { internalType: "uint256", name: "_eventId", type: "uint256", },
+      { internalType: "uint256", name: "_homeTeamId", type: "uint256", },
+      { internalType: "uint256", name: "_awayTeamId", type: "uint256", },
+      { internalType: "uint256", name: "_startTimestamp", type: "uint256", },
+      { internalType: "int256", name: "_homeSpread", type: "int256", },
+      { internalType: "uint256", name: "_totalScore", type: "uint256", },
+      { internalType: "bool", name: "_makeSpread", type: "bool", },
+      { internalType: "bool", name: "_makeTotalScore", type: "bool", },
     ],
     name: "createMarket",
     outputs: [
-      { internalType: "uint256[3]", name: "_ids", type: "uint256[3]" }
+      { internalType: "uint256[3]", name: "_ids", type: "uint256[3]", },
     ],
     stateMutability: "nonpayable",
-    type: "function"
-  }
+    type: "function",
+  },
+
+  {
+    inputs: [
+      { internalType: "uint256", name: "_eventId", type: "uint256", },
+      { internalType: "uint256", name: "_eventStatus", type: "uint256", },
+      { internalType: "uint256", name: "_homeScore", type: "uint256", },
+      { internalType: "uint256", name: "_awayScore", type: "uint256", },
+    ],
+    name: "trustedResolveMarkets",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+
 ]
 
 export const bytesMappingToHexStr = (mapping: number[], encoded: string): string => {
