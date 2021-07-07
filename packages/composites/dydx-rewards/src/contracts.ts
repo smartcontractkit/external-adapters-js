@@ -29,28 +29,18 @@ export const MerkleDistributorV1 = [
     stateMutability: 'view',
     type: 'function',
   },
+]
+
+export const OracleRequester = [
   {
-    // TODO: Verify this function signature is correct
     inputs: [
-      {
-        internalType: 'bytes32',
-        name: 'merkleRoot',
-        type: 'bytes32',
-      },
-      {
-        internalType: 'bytes',
-        name: 'ipfsCid',
-        type: 'bytes',
-      },
-      {
-        internalType: 'uint256',
-        name: 'epoch',
-        type: 'uint256',
-      },
+      { internalType: 'bytes32', name: 'merkleRoot', type: 'bytes32' },
+      { internalType: 'bytes', name: 'ipfsCid', type: 'bytes' },
+      { internalType: 'uint256', name: 'epoch', type: 'uint256' },
     ],
-    name: 'proposeRoot',
+    name: 'writeOracleData',
     outputs: [],
-    stateMutability: 'write', // TODO: Correct?
+    stateMutability: 'nonpayable',
     type: 'function',
   },
 ]

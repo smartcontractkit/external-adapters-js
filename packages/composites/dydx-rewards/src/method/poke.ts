@@ -2,7 +2,7 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig } from '@chainlink/types'
 import { Config } from '../config'
 import { ethers } from 'ethers'
-import { MerkleDistributorV1 } from '../contracts'
+import { MerkleDistributorV1, OracleRequester } from '../contracts'
 import {
   AddressRewards,
   getDataForCID,
@@ -21,6 +21,7 @@ const customParams = {
   marketMakerRewardsAmount: true,
   ipnsName: true,
   traderScoreAlpha: true,
+  callbackAddress: true,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, config) => {
@@ -32,7 +33,9 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const marketMakerRewardsAmount = validator.validated.data.marketMakerRewardsAmount
   const ipnsName = validator.validated.data.ipnsName
   const traderScoreAlpha = validator.validated.data.traderScoreAlpha
+  const callbackAddress = validator.validated.data.callbackAddress
 
+  const requesterContract = new ethers.Contract(callbackAddress, OracleRequester, config.wallet)
   const merkleDistributor = new ethers.Contract(
     config.distributorAddress,
     MerkleDistributorV1,
@@ -70,7 +73,12 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
 
   const newIpfsCid = await storeJsonTree(jobRunID, ipfs, jsonTree)
 
-  await merkleDistributor.proposeNewRoot(merkleTree.getRoot().toString('hex'), newIpfsCid, newEpoch)
+  const tx = await requesterContract.writeOracleData(
+    '0x' + merkleTree.getRoot().toString('hex'),
+    newIpfsCid,
+    newEpoch,
+  )
+  await tx.wait()
 
   const response = { data: { result: 1 }, status: 200 }
   return Requester.success(jobRunID, response)
