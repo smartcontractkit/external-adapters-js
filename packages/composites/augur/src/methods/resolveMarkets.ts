@@ -1,7 +1,7 @@
 import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Execute } from '@chainlink/types'
 import { Config } from '../config'
-import { TEAM_ABI, bytesMappingToHexStr, TEAM_SPORTS, FIGHTER_SPORTS } from './index'
+import { TEAM_ABI, TEAM_SPORTS, FIGHTER_SPORTS } from './index'
 import { ethers } from 'ethers'
 import { theRundown, sportsdataio } from '../dataProviders'
 import mmaABI from '../abis/mma.json'
@@ -82,17 +82,33 @@ const resolveTeam = async (jobRunID: string, sport: string, contractAddress: str
   const eventReadyToResolve = events
     .filter(({ status }) => statusCompleted.includes(status))
 
-  // Build the bytes32 arguments to resolve the events.
-  const packed = eventReadyToResolve.map(packResolution)
+  Logger.debug(`Augur: Prepared to resolve ${eventReadyToResolve.length} events`)
+
+  let failed = 0
+  let succeeded = 0
 
   let nonce = await config.wallet.getTransactionCount()
   for (let i = 0; i < eventReadyToResolve.length; i++) {
     Logger.info(`Augur: resolving event "${eventReadyToResolve[i].id}"`)
 
-    // This call both resolves markets and finalizes their resolution.
-    const tx = await contract.trustedResolveMarkets(packed[i], { nonce: nonce++ })
-    Logger.info(`Augur: Created tx: ${tx.hash}`)
+    try {
+      const tx = await contract.trustedResolveMarkets(
+        eventReadyToResolve[i].id,
+        eventReadyToResolve[i].status,
+        eventReadyToResolve[i].homeScore,
+        eventReadyToResolve[i].awayScore,
+        { nonce })
+      Logger.info(`Augur: Created tx: ${tx.hash}`)
+      nonce++
+      succeeded++
+    } catch (e) {
+      failed++
+      Logger.error(e)
+    }
   }
+
+  Logger.debug(`Augur: ${succeeded} resolved markets`)
+  Logger.debug(`Augur: ${failed} markets failed to resolve`)
 
   return Requester.success(jobRunID, {})
 }
@@ -165,14 +181,4 @@ const resolveFights = async (jobRunID: string, sport: string, contractAddress: s
   }
 
   return Requester.success(jobRunID, {})
-}
-
-const packResolution = (event: ResolveTeam): string => {
-  const encoded = ethers.utils.defaultAbiCoder.encode(
-    ['uint128', 'uint8', 'uint16', 'uint16'],
-    [event.id, event.status, Math.round(event.homeScore*10), Math.round(event.awayScore*10)]
-  )
-
-  const mapping = [16, 1, 2, 2]
-  return bytesMappingToHexStr(mapping, encoded)
 }

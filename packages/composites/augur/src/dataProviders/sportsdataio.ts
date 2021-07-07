@@ -8,7 +8,7 @@ import { DateTime } from 'luxon'
 
 export const SPORTS_SUPPORTED = ['nfl', 'ncaa-fb', 'mma']
 
-const getEpochTime = (dateTime: string, zone = 'America/New_York') => {
+const getEpochTime = (dateTime: string, zone = 'America/New_York'): number => {
   return DateTime.fromISO(dateTime, { zone }).toMillis()
 }
 
@@ -330,7 +330,7 @@ export const createFighter: Execute = async (input) => {
       continue
     }
 
-    if((await contract.events(fight.FightId)).eventStatus === 0) {
+    if ((await contract.events(fight.FightId)).eventStatus !== 0) {
       cantCreate++
       continue
     }
