@@ -1,10 +1,11 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { assertError } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
-import { execute } from '../../src/adapter'
+import { makeExecute } from '../../src/adapter'
 
 describe('execute', () => {
   const jobID = '1'
+  const execute = makeExecute()
 
   describe('validation error', () => {
     const requests = [
@@ -13,10 +14,6 @@ describe('execute', () => {
       {
         name: 'base not supplied',
         testData: { id: jobID, data: { quote: 'USD' } },
-      },
-      {
-        name: 'quote not supplied',
-        testData: { id: jobID, data: { base: 'ETH' } },
       },
     ]
 
