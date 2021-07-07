@@ -38,7 +38,11 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.jobRunID
-  const geoJson = validator.validated.data.geoJson as GeoJSON
+  let geoJson = validator.validated.data.geoJson
+  if (typeof geoJson === 'string') {
+    geoJson = JSON.parse(geoJson)
+  }
+
   const dateFrom = validator.validated.data.dateFrom
   const dateTo = validator.validated.data.dateTo
   const method = validator.validated.data.method
