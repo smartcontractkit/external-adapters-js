@@ -37,6 +37,7 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 |    ✅     | marketMakerRewardsAmount |     Maximum rewards distributed each epoch as market maker incentives     |         |             |
 |    ✅     |         ipnsName         | The fixed IPNS name to which all oracle rewards data is published by dYdX |         |             |
 |    ✅     |     traderScoreAlpha     |         Is a parameter used in the calculation of trader rewards          |         |             |
+|    ✅     |     callbackAddress      |                                                                           |         |             |
 
 ### Sample Input
 
