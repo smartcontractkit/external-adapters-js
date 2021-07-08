@@ -3,6 +3,11 @@ import { Config, ExecuteWithConfig } from '@chainlink/types'
 
 export const supportedEndpoints = ['globalmarketcap', 'dominance']
 
+export const endpointPaths = {
+  globalmarketcap: 'total_market_cap',
+  dominance: 'market_cap_percentage'
+}
+
 const customError = (data: any) => {
   if (Object.keys(data).length === 0) return true
   return false

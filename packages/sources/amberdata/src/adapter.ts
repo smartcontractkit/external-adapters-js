@@ -6,12 +6,13 @@ import {
   ExecuteWithConfig,
   MakeWSHandler} from '@chainlink/types'
 import { DEFAULT_WS_API_ENDPOINT, makeConfig, NAME } from './config'
-import { balance, price, token, gasprice } from './endpoint'
+import * as endpoints from './endpoint'
+import { price } from './endpoint'
 
 // Export function to integrate with Chainlink node
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-  const chainlinkEndpoints = [balance, price, token, gasprice]
-  return Builder.buildSelector(request, config, chainlinkEndpoints)
+  console.log(endpoints)
+  return Builder.buildSelector(request, config, endpoints)
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {

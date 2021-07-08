@@ -1,5 +1,5 @@
 import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, AxiosResponse, AdapterRequest } from '@chainlink/types'
+import { Config, ExecuteWithConfig, AxiosResponse, AdapterRequest, EndpointPaths } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 import { getCoinIds, getSymbolsToIds } from '../util'
 
@@ -10,15 +10,17 @@ const customError = (data: any) => {
   return false
 }
 
-export enum Paths {
-  Price = 'price',
-  MarketCap = 'marketcap',
-}
-
-const buildPath = (path: string | Paths, quote: string): string => {
-  if (path === Paths.MarketCap) return `${quote.toLowerCase()}_market_cap`
-  if (path === Paths.Price) return `${quote.toLowerCase()}`
-  throw new Error('Invalid path')
+export const endpointPaths: EndpointPaths = {
+  price: (input: AdapterRequest): string => {
+    const validator = new Validator(input, customParams)
+    const quote = validator.validated.data.quote
+    return `${quote.toLowerCase()}`
+  },
+  marketcap: (input: AdapterRequest): string => {
+    const validator = new Validator(input, customParams)
+    const quote = validator.validated.data.quote
+    return `${quote.toLowerCase()}_market_cap`
+  },
 }
 
 const customParams = {
@@ -48,7 +50,7 @@ const handleBatchedRequest = (
           },
           Requester.validateResultNumber(response.data, [
             base,
-            buildPath(path, quote.toLowerCase()),
+            path,
           ]),
         ])
     }
@@ -61,10 +63,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
 
-  const endpoint = validator.validated.data.endpoint || config.defaultEndpoint
-  if (endpoint.toLowerCase() === 'marketcap')
-    request.data.path = Paths.MarketCap
-
+  const endpoint = validator.validated.data.endpoint
   const jobRunID = validator.validated.id
   const base = validator.overrideSymbol(AdapterName)
   const quote = validator.validated.data.quote
@@ -84,12 +83,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   }
 
   const url = '/simple/price'
-  const path = (validator.validated.data.path as string) || Paths.Price
+  const path: string = validator.validated.data.path
 
   const params = {
     ids,
     vs_currencies: Array.isArray(quote) ? quote.join(',') : quote,
-    include_market_cap: path === Paths.MarketCap,
+    include_market_cap: endpoint === 'marketcap',
     x_cg_pro_api_key: config.apiKey,
   }
 
@@ -106,7 +105,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
   response.data.result = Requester.validateResultNumber(response.data, [
     ids.toLowerCase(),
-    buildPath(path, quote.toLowerCase()),
+    path,
   ])
 
   return Requester.success(jobRunID, response, config.verbose, ['base', 'quote'])

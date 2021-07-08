@@ -107,6 +107,19 @@ declare module '@chainlink/types' {
 
   export type ExecuteFactory<C extends Config> = (config?: C) => Execute
 
+  export interface APIEndpoint {
+    supportedEndpoints: string[]
+    endpointPaths?: EndpointPaths
+    execute?: Execute | ExecuteWithConfig<Config>
+    makeExecute?: ExecuteFactory<Config>
+  }
+
+  type ParsePath = (input: AdapterRequest) => string
+
+  export interface EndpointPaths {
+    [endpoint: string]: ParsePath | string
+  }
+
   export type ConfigFactory = (prefix?: string) => Config
 
   import type { ExecuteHandlers } from '@chainlink/ea-bootstrap'

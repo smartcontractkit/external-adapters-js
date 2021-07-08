@@ -7,11 +7,10 @@ import {
   MakeWSHandler,
 } from '@chainlink/types'
 import { DEFAULT_WS_API_ENDPOINT, makeConfig } from './config'
-import { eod, iex, prices, top } from './endpoint'
+import * as endpoints from './endpoint'
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-  const chainlinkEndpoints = [eod, iex, prices, top]
-  return Builder.buildSelector(request, config, chainlinkEndpoints)
+  return Builder.buildSelector(request, config, endpoints)
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {

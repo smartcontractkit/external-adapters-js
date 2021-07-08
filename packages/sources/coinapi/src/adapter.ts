@@ -1,11 +1,11 @@
 import { Builder, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteFactory, ExecuteWithConfig, MakeWSHandler } from '@chainlink/types'
 import { DEFAULT_WS_API_ENDPOINT, makeConfig, NAME } from './config'
-import { assets, price } from './endpoint'
+import * as endpoints from './endpoint'
+import { price } from './endpoint'
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-  const chainlinkEndpoints = [assets, price]
-  return Builder.buildSelector(request, config, chainlinkEndpoints)
+  return Builder.buildSelector(request, config, endpoints)
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {

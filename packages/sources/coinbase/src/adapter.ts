@@ -8,11 +8,10 @@ import {
 } from '@chainlink/types'
 import { DEFAULT_WS_API_ENDPOINT, makeConfig } from './config'
 import { price } from './endpoint'
-
+import * as endpoints from './endpoint'
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-  const chainlinkEndpoints = [price]
-  return Builder.buildSelector(request, config, chainlinkEndpoints)
+  return Builder.buildSelector(request, config, endpoints)
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {
