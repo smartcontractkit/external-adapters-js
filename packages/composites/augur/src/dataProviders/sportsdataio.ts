@@ -393,7 +393,7 @@ export const resolveTeam: Execute = async (input) => {
 
   const eventId = Number(validator.validated.data.eventId)
   const sport = validator.validated.data.sport
-  const sportsdataioExec = Sportsdataio.makeExecute()
+  const sportsdataioExec = Sportsdataio.makeExecute(Sportsdataio.makeConfig(Sportsdataio.NAME))
 
   const event = await findEventScore(input.id, sport, getSeason(), eventId, sportsdataioExec)
   if (!event) {
@@ -436,7 +436,7 @@ export const resolveFight: Execute = async (input) => {
 
   const fightId = Number(validator.validated.data.eventId)
   const sport = validator.validated.data.sport
-  const sportsdataioExec = Sportsdataio.makeExecute()
+  const sportsdataioExec = Sportsdataio.makeExecute(Sportsdataio.makeConfig(Sportsdataio.NAME))
 
   const fight = await getFight(input.id, sport, fightId, sportsdataioExec)
   if (!fight) {
