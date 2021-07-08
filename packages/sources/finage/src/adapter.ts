@@ -1,34 +1,33 @@
 import { Execute } from '@chainlink/types'
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
 import { util } from '@chainlink/ea-bootstrap'
 
 export const NAME = 'Finage'
 
 const customParams = {
   base: ['base', 'from', 'symbol'],
-  to: false,
   endpoint: false,
 }
 
 const baseUrl = 'https://api.finage.co.uk'
+
+const DEFAULT_ENDPOINT = 'stock'
 
 export const execute: Execute = async (input) => {
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const endpoint = validator.validated.data.endpoint || ''
-  let url = `${baseUrl}/last/${endpoint}`
+  const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
   const symbol = (validator.overrideSymbol(NAME) as string).toUpperCase()
-  const to = (validator.validated.data.to || '').toUpperCase()
-  const currencies = symbol + to
   const apikey = util.getRandomRequiredEnv('API_KEY')
   let params
   let responsePath
+  let url: string
 
   switch (endpoint) {
     case 'stock': {
-      url = `${url}/${symbol}`
+      url = `${baseUrl}/last/stock/${symbol}`
       responsePath = ['bid']
       params = {
         apikey,
@@ -44,12 +43,11 @@ export const execute: Execute = async (input) => {
       break
     }
     default: {
-      responsePath = ['currencies', 0, 'value']
-      params = {
-        currencies,
-        apikey,
-      }
-      break
+      throw new AdapterError({
+        jobRunID,
+        message: `Endpoint ${endpoint} not supported.`,
+        statusCode: 400,
+      })
     }
   }
 
