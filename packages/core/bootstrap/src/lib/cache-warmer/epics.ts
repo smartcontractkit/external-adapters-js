@@ -52,11 +52,16 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
 
       const batchablePropertyPath = payload.result?.debug?.batchablePropertyPath
 
+      const normalizedPayload = {
+        ...payload,
+        data: payload.result?.debug?.normalizedRequest || payload.data,
+      }
+
       // We want the key to be consistent. So we omit batchable paths.
       // Otherwise it would change on every new child
       const batchWarmerSubscriptionKey = getSubscriptionKey(
         omit(
-          payload,
+          normalizedPayload,
           batchablePropertyPath?.map((path) => `data.${path}`),
         ),
       )
@@ -66,12 +71,12 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
       // Start placeholder subscriptions for children
       const childLastSeenById: { [childKey: string]: number } = {}
       // If result was from a batch request
-      if (payload.result?.data?.results) {
+      if (normalizedPayload.result?.data?.results) {
         for (const [request] of Object.values<[AdapterRequest, number]>(
-          payload.result.data.results,
+          normalizedPayload.result.data.results,
         )) {
           const warmupSubscribedPayloadChild = {
-            ...payload,
+            ...normalizedPayload,
             data: request,
             parent: batchWarmerSubscriptionKey,
             batchablePropertyPath,
@@ -82,7 +87,7 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
         }
       } else {
         const warmupSubscribedPayloadChild = {
-          ...payload,
+          ...normalizedPayload,
           parent: batchWarmerSubscriptionKey,
           batchablePropertyPath,
         }
@@ -104,7 +109,7 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
       // If batch warmer does not exist, start it
       else {
         // If incoming batchable request parameters aren't an array, transform into one
-        let batchWarmerData = payload.data
+        let batchWarmerData = normalizedPayload.data
         for (const path of batchablePropertyPath || []) {
           if (!Array.isArray(batchWarmerData[path]))
             batchWarmerData = {
@@ -114,7 +119,7 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
         }
         actionsToDispatch.push(
           warmupSubscribed({
-            ...payload,
+            ...normalizedPayload,
             data: batchWarmerData,
             key: batchWarmerSubscriptionKey,
             childLastSeenById,

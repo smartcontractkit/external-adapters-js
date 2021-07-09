@@ -153,13 +153,18 @@ export class Requester {
     response: Partial<AxiosResponse>,
     verbose = false,
     batchablePropertyPath?: string[],
+    normalizedRequest?: Record<string, unknown>,
   ): AdapterResponse {
+    const debug =
+      batchablePropertyPath || normalizedRequest
+        ? { normalizedRequest, batchablePropertyPath }
+        : undefined
     return {
       jobRunID,
       data: verbose ? response.data : { result: response.data?.result },
       result: response.data?.result,
       statusCode: response.status || 200,
-      debug: batchablePropertyPath ? { batchablePropertyPath } : undefined,
+      debug,
     }
   }
 
