@@ -52,7 +52,13 @@ export const getURL = (prefix: string, required = false) =>
 
 export const makeOptions = ({ sources, checks }: Config) => {
   return {
-    source: util.permutator(Object.keys(sources), ','),
-    check: util.permutator(Object.keys(checks), ','),
+    source: util.permutator(
+      Object.keys(sources).map((value) => value.toLowerCase()),
+      ',',
+    ),
+    check: util.permutator(
+      Object.keys(checks).map((value) => value.toLowerCase()),
+      ',',
+    ),
   }
 }

@@ -1,5 +1,5 @@
 import { Validator, Requester, Logger } from '@chainlink/ea-bootstrap'
-import { Config, WETH, UNISWAP } from "../../config"
+import { Config, WETH } from "../../config"
 import { AdapterRequest, AdapterResponse } from "@chainlink/types"
 import { DexSubgraph, DexQueryInputParams, ReferenceModifierAction } from "../../types"
 import { getLatestAnswer } from '@chainlink/ea-reference-data-reader'
@@ -9,7 +9,7 @@ export const NAME = "price"
 const customParams = {
     baseCoinTicker: ["baseCoinTicker", "base", "from", "coin"],
     quoteCoinTicker: ["quoteCoinTicker", "quote", "to", "market"],
-    dex: false,
+    dex: true,
     intermediaryToken: false,
     referenceContract: false,
     referenceContractDivisor: false,
@@ -23,21 +23,26 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
     const { 
         baseCoinTicker, 
         quoteCoinTicker, 
-        dex = UNISWAP, 
+        dex, 
         referenceContract, 
         referenceContractDivisor, 
         referenceModifierAction = ReferenceModifierAction.MULTIPLY, 
         intermediaryToken = WETH,
         theGraphQuote 
     } = validator.validated.data
-    if(!theGraphQuote && !quoteCoinTicker) {
+    if (!theGraphQuote && !quoteCoinTicker) {
         throw new Error("quoteCoinTicker cannot be empty if theGraphQuote not supplied")
+    }
+    const dexToUpperCase = dex.toUpperCase()
+    const dexSubgraph = config.dexSubgraphs[dexToUpperCase]
+    if (!dexSubgraph) {
+        throw new Error(`${dex} is currently not supported`)
     }
     const inputParams: DexQueryInputParams = {
         jobRunID,
         baseCoinTicker: baseCoinTicker.toUpperCase(),
         quoteCoinTicker: theGraphQuote ? theGraphQuote.toUpperCase() : quoteCoinTicker.toUpperCase(),
-        dex: dex.toUpperCase(),
+        dex: dexToUpperCase,
         referenceContract,
         referenceContractDivisor,
         referenceModifierAction: referenceModifierAction.toUpperCase() as ReferenceModifierAction,
@@ -47,7 +52,6 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
         throw new Error("Base and Quote coins must be different")
     }
     Logger.info(`Fetching quote for ${quoteCoinTicker}/${baseCoinTicker} pair from ${dex}`)
-    const dexSubgraph = config.dexSubgraphs[dex]
     let price
     try {
         price = await getQuotePrice(inputParams, dexSubgraph)

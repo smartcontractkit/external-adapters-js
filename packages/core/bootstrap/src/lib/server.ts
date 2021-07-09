@@ -40,8 +40,10 @@ export const initHandler = (execute: ExecuteSync) => (): Promise<http.Server> =>
     })
   })
 
+  app.get(join(baseUrl, 'health'), (_, res) => res.status(200).send('OK'))
+
   const testPayload = loadTestPayload()
-  app.get(join(baseUrl, 'health'), (_, res) => {
+  app.get(join(baseUrl, 'smoke'), (_, res) => {
     if (testPayload.isDefault) {
       return res.status(200).send('OK')
     }
