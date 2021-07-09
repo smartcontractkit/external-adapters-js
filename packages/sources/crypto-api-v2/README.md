@@ -1,4 +1,4 @@
-# Chainlink CryptoAPIs External Adapter
+# Chainlink CryptoAPIs V2 External Adapter
 
 ### Environment Variables
 
@@ -19,7 +19,7 @@
 
 ## Price Endpoint
 
-https://docs.cryptoapis.io/rest-apis/crypto-market-data-apis/index#exchange-rates
+https://developers.cryptoapis.io/technical-documentation/market-data/exchange-rates/get-exchange-rate-by-asset-symbols
 
 ### Input Params
 
@@ -65,7 +65,7 @@ https://docs.cryptoapis.io/rest-apis/crypto-market-data-apis/index#exchange-rate
 
 ## Difficulty & Height Endpoint
 
-https://docs.cryptoapis.io/rest-apis/blockchain-as-a-service-apis/common/index#common
+ https://developers.cryptoapis.io/technical-documentation/blockchain-data/unified-endpoints/get-latest-mined-block
 
 ### Input Params
 
@@ -113,7 +113,7 @@ https://docs.cryptoapis.io/rest-apis/blockchain-as-a-service-apis/common/index#c
 
 ### Balance
 
-https://docs.cryptoapis.io/rest-apis/blockchain-as-a-service-apis/btc/index#btc-address-info-endpoint
+https://developers.cryptoapis.io/technical-documentation/blockchain-data/unified-endpoints/get-address-details
 
 | Required? |      Name       |                                 Description                                 | Options | Defaults to |
 | :-------: | :-------------: | :-------------------------------------------------------------------------: | :-----: | :---------: |
@@ -126,7 +126,7 @@ Addresses is an an array of objects that contain the following information:
 | Required? |   Name    |                 Description                  |                  Options                  | Defaults to |
 | :-------: | :-------: | :------------------------------------------: | :---------------------------------------: | :---------: |
 |    ✅     | `address` |               Address to query               |                                           |             |
-|           |  `coin`   |              Currency to query               | `btc`. `eth`, `bch`, `ltc`, `btsv`, `zec` |    `btc`    |
+|           |  `coin`   |              Currency to query               | `btc`. `eth`, `bch`, `ltc`, `etc`, `bch`, `dash`, `doge` |    `btc`    |
 |           |  `chain`  | Chain to query (Ethereum testnet is Rinkeby) |           `mainnet`, `testnet`            |  `mainnet`  |
 
 ### Sample Input
