@@ -1,4 +1,3 @@
-import { ethers } from 'ethers'
 import { balance } from '@chainlink/ea-factories'
 import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
@@ -21,8 +20,7 @@ const getBalance: balance.GetBalance = async (account, config) => {
     url: getBalanceURI(account.address, account.chain as string, coin as string),
   }
   const response = await Requester.request(options)
-  // Each BTC has 8 decimal places
-  const balance = ethers.utils.parseUnits(response.data.data.item.confirmedBalance.amount, 8).toString()
+  const balance = response.data.data.item.confirmedBalance.amount
 
   return {
     payload: response.data,

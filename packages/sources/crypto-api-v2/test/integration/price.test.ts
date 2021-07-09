@@ -30,7 +30,7 @@ describe('price endpoint', () => {
         name: 'BTC testnet difficulty',
         testData: {
           id: jobID,
-          data: { blockchain: 'bitcoin', network: 'mainnet', endpoint: 'difficulty' },
+          data: { blockchain: 'btc', network: 'mainnet', endpoint: 'difficulty' },
         },
       },
     ]
