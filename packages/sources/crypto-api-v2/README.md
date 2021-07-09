@@ -19,7 +19,7 @@
 
 ## Price Endpoint
 
-https://developers.cryptoapis.io/technical-documentation/market-data/exchange-rates/get-exchange-rate-by-asset-symbols
+https://docs.cryptoapis.io/rest-apis/crypto-market-data-apis/index#exchange-rates
 
 ### Input Params
 
@@ -65,15 +65,13 @@ https://developers.cryptoapis.io/technical-documentation/market-data/exchange-ra
 
 ## Difficulty & Height Endpoint
 
-https://developers.cryptoapis.io/technical-documentation/blockchain-data/unified-endpoints/get-latest-mined-block
+https://docs.cryptoapis.io/rest-apis/blockchain-as-a-service-apis/common/index#common
 
 ### Input Params
 
-'bitcoin', 'ethereum', 'ethereum-classic', 'bitcoin-cash', 'litecoin', 'dash', 'dogecoin'
-
 | Required? |              Name              |             Description             |                      Options                       | Defaults to |
 | :-------: | :----------------------------: | :---------------------------------: | :------------------------------------------------: | :---------: |
-|    ✅     | `blockchain`, `coin`, `market` | The blockchain to retrieve info for | `bitcoin`, `ethereum`, `ethereum-classic`, `bitcoin-cash`, `litecoin`, `dash`, `dogecoin`. |             |
+|    ✅     | `blockchain`, `coin`, `market` | The blockchain to retrieve info for | `BTC`, `ETH`, `LTC`, `ETC`, `BCH`, `DOGE`, `DASH`. |             |
 |           |           `network`            |     The blockchain network name     |                `mainnet`, `testnet`                |  `mainnet`  |
 
 ### Sample Input
@@ -83,7 +81,7 @@ https://developers.cryptoapis.io/technical-documentation/blockchain-data/unified
   "id": "1",
   "data": {
     "endpoint": "difficulty",
-    "blockchain": "bitcoin"
+    "blockchain": "BTC"
   }
 }
 ```
@@ -115,7 +113,7 @@ https://developers.cryptoapis.io/technical-documentation/blockchain-data/unified
 
 ### Balance
 
-https://developers.cryptoapis.io/technical-documentation/blockchain-data/unified-endpoints/get-address-details
+https://docs.cryptoapis.io/rest-apis/blockchain-as-a-service-apis/btc/index#btc-address-info-endpoint
 
 | Required? |      Name       |                                 Description                                 | Options | Defaults to |
 | :-------: | :-------------: | :-------------------------------------------------------------------------: | :-----: | :---------: |
@@ -128,7 +126,7 @@ Addresses is an an array of objects that contain the following information:
 | Required? |   Name    |                 Description                  |                  Options                  | Defaults to |
 | :-------: | :-------: | :------------------------------------------: | :---------------------------------------: | :---------: |
 |    ✅     | `address` |               Address to query               |                                           |             |
-|           |  `coin`   |              Currency to query               | `bitcoin`. `bitcoin-cash`, `litecoin`, `dogecoin`, `fash`, `ethereum`, `ethereum-classic` |    `bitcoin`    |
+|           |  `coin`   |              Currency to query               | `btc`. `eth`, `bch`, `ltc`, `btsv`, `zec` |    `btc`    |
 |           |  `chain`  | Chain to query (Ethereum testnet is Rinkeby) |           `mainnet`, `testnet`            |  `mainnet`  |
 
 ### Sample Input

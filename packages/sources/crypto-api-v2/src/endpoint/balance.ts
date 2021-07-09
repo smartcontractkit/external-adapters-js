@@ -2,7 +2,7 @@ import { ethers } from 'ethers'
 import { balance } from '@chainlink/ea-factories'
 import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
-import { isCoinType, isChainType, TESTNET_BLOCKCHAINS } from '.'
+import { isCoinType, isChainType, TESTNET_BLOCKCHAINS, BLOCKCHAIN_NAME_MAP } from '.'
 
 export const Name = 'balance'
 
@@ -12,9 +12,13 @@ const getBalanceURI = (address: string, chain: string, coin: string) => {
 }
 
 const getBalance: balance.GetBalance = async (account, config) => {
+  if (!account.coin) {
+    throw new Error(`Account ${account.address} is missing blockchain parameter`)
+  }
+  const coin = BLOCKCHAIN_NAME_MAP[account.coin.toLowerCase()]
   const options = {
     ...config.api,
-    url: getBalanceURI(account.address, account.chain as string, account.coin as string),
+    url: getBalanceURI(account.address, account.chain as string, coin as string),
   }
   const response = await Requester.request(options)
   // Each BTC has 8 decimal places

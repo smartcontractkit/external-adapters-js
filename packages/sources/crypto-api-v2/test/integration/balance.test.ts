@@ -18,7 +18,4 @@ shouldBehaveLikeBalanceAdapter(makeExecute(), [
   'doge_testnet',
   'dash_mainnet',
   'dash_testnet',
-  'bitcoin_sv_mainnet',
-  'bitcoin_sv_testnet',
-  'zilliqa_mainnet',
 ])

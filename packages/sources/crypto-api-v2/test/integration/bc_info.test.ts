@@ -12,23 +12,23 @@ describe('bc_info endpoint', () => {
     const requests = [
       {
         name: 'id not supplied',
-        testData: { data: { blockchain: 'bitcoin', endpoint: 'difficulty' } },
+        testData: { data: { blockchain: 'btc', endpoint: 'difficulty' } },
       },
       {
         name: 'blockchain difficulty with endpoint',
-        testData: { id: jobID, data: { blockchain: 'bitcoin', endpoint: 'difficulty' } },
+        testData: { id: jobID, data: { blockchain: 'btc', endpoint: 'difficulty' } },
       },
       {
         name: 'coing difficulty with endpoint',
-        testData: { id: jobID, data: { coin: 'bitcoin', endpoint: 'difficulty' } },
+        testData: { id: jobID, data: { coin: 'btc', endpoint: 'difficulty' } },
       },
       {
         name: 'blockchain height',
-        testData: { id: jobID, data: { blockchain: 'bitcoin', endpoint: 'height' } },
+        testData: { id: jobID, data: { blockchain: 'btc', endpoint: 'height' } },
       },
       {
         name: 'coin height',
-        testData: { id: jobID, data: { coin: 'bitcoin', endpoint: 'height' } },
+        testData: { id: jobID, data: { coin: 'btc', endpoint: 'height' } },
       },
     ]
 

@@ -1,6 +1,7 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 import { DEFAULT_ENDPOINT } from '../config'
+import { BLOCKCHAIN_NAME_MAP } from "./index"
 
 export const Name = 'bc_info'
 
@@ -27,7 +28,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (!payloadDataPath) {
     throw new Error(`${endpoint} has no payload data path and is invalid`)
   }
-  const url = `/v2/blockchain-data/${blockchain.toLowerCase()}/${network.toLowerCase()}/blocks/last`
+  const url = `/v2/blockchain-data/${BLOCKCHAIN_NAME_MAP[blockchain.toLowerCase()]}/${network.toLowerCase()}/blocks/last`
 
   const reqConfig = { ...config.api, url }
 
