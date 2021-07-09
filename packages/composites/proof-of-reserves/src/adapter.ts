@@ -10,7 +10,7 @@ import {
 import { Validator, Requester } from '@chainlink/ea-bootstrap'
 import { makeConfig, makeOptions, getURL, DEFAULT_CONFIRMATIONS } from './config'
 import { runProtocolAdapter } from './protocol'
-import { runBalanceAdapter } from './balance'
+import { Indexer, runBalanceAdapter } from './balance'
 import { runReduceAdapter } from './reduce'
 
 export const makeRequestFactory = (config: Config, prefix: string): Execute => async (
@@ -45,12 +45,12 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
 
   const jobRunID = validator.validated.jobRunID
   const protocol = validator.validated.data.protocol.toUpperCase()
-  const indexer = validator.validated.data.indexer.toUpperCase()
+  const indexer: Indexer = validator.validated.data.indexer.toUpperCase()
   const confirmations = validator.validated.data.confirmations || DEFAULT_CONFIRMATIONS
 
   const protocolOutput = await runProtocolAdapter(jobRunID, protocol, input.data, config)
   const balanceOutput = await runBalanceAdapter(indexer, confirmations, config, protocolOutput)
-  const reduceOutput = await runReduceAdapter(balanceOutput)
+  const reduceOutput = await runReduceAdapter(indexer, balanceOutput)
   return reduceOutput
 }
 
