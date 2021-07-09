@@ -1,11 +1,12 @@
-import { Requester } from '@chainlink/ea-bootstrap'
+import { AdapterError, Requester } from '@chainlink/ea-bootstrap'
 import { assertError } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
 import { makeExecute } from '../../src/adapter'
 
-describe('execute', () => {
+describe('price endpoint', () => {
   const jobID = '1'
   const execute = makeExecute()
+  process.env.API_KEY = process.env.API_KEY ?? 'test_api_key'
 
   describe('validation error', () => {
     const requests = [
@@ -26,7 +27,7 @@ describe('execute', () => {
         try {
           await execute(req.testData as AdapterRequest)
         } catch (error) {
-          const errorResp = Requester.errored(jobID, error)
+          const errorResp = Requester.errored(jobID, new AdapterError(error))
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
         }
       })
