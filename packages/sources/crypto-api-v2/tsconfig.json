@@ -9,6 +9,6 @@
   "references": [
     { "path": "../../core/test-helpers" },
     { "path": "../../core/bootstrap" },
-    { "path": "../../core/test-helpers" }
+    { "path": "../../core/factories" }
   ]
 }
