@@ -44,7 +44,7 @@ const presetIds: { [symbol: string]: number } = {
   '1INCH': 8104,
 }
 
-const priceParams = {
+const inputParameters = {
   base: ['base', 'from', 'coin', 'sym', 'symbol'],
   convert: ['quote', 'to', 'market', 'convert'],
   cid: false,
@@ -61,8 +61,10 @@ const handleBatchedRequest = (
 ) => {
   const payload: [AdapterRequest, number][] = []
   for (const key in response.data.data) {
+    const nonBatchInput = { ...request, data: { ...request.data, base: key.toUpperCase() } }
+    const validated = new Validator(nonBatchInput, inputParameters)
     payload.push([
-      { ...request, data: { ...request.data, base: key.toUpperCase() } },
+      { endpoint: request.data.endpoint, ...validated.validated.data },
       Requester.validateResultNumber(response.data, ['data', key, 'quote', convert, path]),
     ])
   }
@@ -73,7 +75,7 @@ const handleBatchedRequest = (
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const url = 'cryptocurrency/quotes/latest'
-  const validator = new Validator(request, priceParams)
+  const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
@@ -146,5 +148,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     convert,
     path,
   ])
-  return Requester.success(jobRunID, response, config.verbose, ['base', 'quote'])
+  return Requester.success(jobRunID, response, config.verbose, ['base', 'quote'], {
+    endpoint: request.data.endpoint,
+    ...validator.validated.data,
+  })
 }

@@ -1,4 +1,4 @@
-import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterError, Requester, Validator, Logger } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, AxiosResponse, AdapterRequest } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 import { getCoinIds, getSymbolsToIds } from '../util'
@@ -21,7 +21,7 @@ const buildPath = (path: string | Paths, quote: string): string => {
   throw new Error('Invalid path')
 }
 
-const customParams = {
+const inputParameters = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
   coinid: false,
@@ -39,17 +39,20 @@ const handleBatchedRequest = (
   for (const base in response.data) {
     for (const quote in response.data[base]) {
       const symbol = idToSymbol?.[base]
-      if (symbol)
+      if (symbol) {
+        const nonBatchInput = {
+          ...request,
+          data: { ...request.data, base: symbol.toUpperCase(), quote: quote.toUpperCase() },
+        }
+        const validated = new Validator(nonBatchInput, inputParameters)
         payload.push([
-          {
-            ...request,
-            data: { ...request.data, base: symbol.toUpperCase(), quote: quote.toUpperCase() },
-          },
+          { endpoint: request.data.endpoint, ...validated.validated.data },
           Requester.validateResultNumber(response.data, [
             base,
             buildPath(path, quote.toLowerCase()),
           ]),
         ])
+      } else Logger.debug('WARNING: Symbol not found ', base)
     }
   }
   response.data.results = payload
@@ -57,7 +60,7 @@ const handleBatchedRequest = (
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-  const validator = new Validator(request, customParams)
+  const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
@@ -104,5 +107,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     buildPath(path, quote.toLowerCase()),
   ])
 
-  return Requester.success(jobRunID, response, config.verbose, ['base', 'quote'])
+  return Requester.success(jobRunID, response, config.verbose, ['base', 'quote'], {
+    endpoint: request.data.endpoint,
+    ...validator.validated.data,
+  })
 }
