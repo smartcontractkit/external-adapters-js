@@ -302,9 +302,12 @@ export const createFighter: Execute = async (input) => {
 
   const leagues = ["UFC"]
   for (const league of leagues) {
-    const schedule = (await getFightSchedule(input.id, sport, league, `${new Date().getFullYear()}`, sportsdataioExec))
+    const season = new Date().getFullYear();
+    Logger.debug(`Getting fight schedule for league ${league} in season ${season}.`)
+    const schedule = (await getFightSchedule(input.id, sport, league, `${season}`, sportsdataioExec))
       .filter(event => event.Status === "Scheduled")
 
+    Logger.debug(`Getting ${schedule.length} events from season, then filtering out unscheduled`);
     for (const event of schedule) {
       const eventFights = (await getFights(input.id, sport, event.EventId, sportsdataioExec))
         .filter(fight => fight.Status === "Scheduled")
@@ -438,7 +441,9 @@ export const resolveFight: Execute = async (input) => {
   const sport = validator.validated.data.sport
   const sportsdataioExec = Sportsdataio.makeExecute(Sportsdataio.makeConfig(Sportsdataio.NAME))
 
+  Logger.debug(`Getting fight ${input.id} for sport ${sport}, which has fightId ${fightId}`);
   const fight = await getFight(input.id, sport, fightId, sportsdataioExec)
+
   if (!fight) {
     throw Error(`Unable to find fight ${fightId}`)
   }
