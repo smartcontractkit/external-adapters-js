@@ -47,7 +47,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const result = response.data.result
     .filter((member) => member.token === 'wbtc')
     .flatMap((member) => member.addresses)
-    .filter((a) => a.chain === 'btc' && a.type == 'custodial' && a.balance)
+    .filter((a) => a.type == 'custodial' && a.balance)
     .map((a) => ({ ...a, coin: 'btc', chain: 'mainnet' }))
 
   const output = { ...response, data: { ...response.data, result } }
