@@ -2,59 +2,63 @@
   "coingecko": {
     "COMP": "compound-governance-token",
     "FNX": "finnexus",
-    "UNI": "uniswap",
-    "grt": "the-graph",
-    "LINA": "linear",
     "FTT": "ftx-token",
-    "MDX": "mdex"
+    "LINA": "linear",
+    "MDX": "mdex",
+    "UNI": "uniswap",
+    "grt": "the-graph"
   },
   "nomics": {
-    "FNX": "FNX2",
     "AMP": "AMP2",
-    "WING": "WING2",
+    "FNX": "FNX2",
     "FTT": "FTXTOKEN",
     "MDX": "MDX2",
-    "RAI": "RAI3"
+    "RAI": "RAI3",
+    "WING": "WING2"
   },
   "coinpaprika": {
     "GRT": "grt-the-graph"
   },
   "kaiko": {
-    "uni": "uniswap",
-    "RAI": "RAIR"
+    "RAI": "RAIR",
+    "uni": "uniswap"
   },
   "dxfeed": {
-    "N225": "NKY.IND:TEI",
-    "FTSE": "UKX.IND:TEI",
-    "TSLA": "TSLA:BFX",
-    "WTI": "USO/USD:AFX",
-    "NFLX": "NFLX:BFX",
-    "GOOGL": "GOOGL:BFX",
     "AAPL": "AAPL:BFX",
     "AMZN": "AMZN:BFX",
-    "FB": "FB:BFX"
+    "FB": "FB:BFX",
+    "FTSE": "UKX.IND:TEI",
+    "GOOGL": "GOOGL:BFX",
+    "N225": "NKY.IND:TEI",
+    "NFLX": "NFLX:BFX",
+    "TSLA": "TSLA:BFX",
+    "WTI": "USO/USD:AFX"
   },
   "dxfeed_secondary": {
-    "NFLX": "NFLX.US:TEI",
     "AAPL": "AAPL.US:TEI",
     "AMZN": "AMZN.US:TEI",
-    "N225": "NKY.IND:TEI",
+    "FB": "FB.US:TEI",
     "FTSE": "UKX.IND:TEI",
-    "TSLA": "TSLA.US:TEI",
-    "FB": "FB.US:TEI"
+    "N225": "NKY.IND:TEI",
+    "NFLX": "NFLX.US:TEI",
+    "TSLA": "TSLA.US:TEI"
   },
   "finage": {
     "FTSE": "UK100",
     "N225": "JAP225"
   },
   "tradermade": {
+    "BRENT": "UKOIL",
     "FTSE": "UK100",
     "N225": "JPN225",
-    "WTI": "OIL",
-    "BRENT": "UKOIL"
+    "WTI": "OIL"
   },
   "tradingeconomics": {
-    "N225": "NKY:IND",
-    "FTSE": "UKX:IND"
+    "FTSE": "UKX:IND",
+    "N225": "NKY:IND"
+  },
+  "coinranking": {
+    "BTC": "Qwsogvtv82FCd",
+    "ETH": "razxDUgYGNAdQ"
   }
 }

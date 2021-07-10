@@ -27,7 +27,7 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/dns-query-adapter": "^0.0.2",
+    "@chainlink/dns-query-adapter": "^0.1.0",
     "@chainlink/ea-bootstrap": "*",
     "@chainlink/ea-test-helpers": "*",
     "tslib": "^2.1.0"

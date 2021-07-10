@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "@chainlink/ea-bootstrap": "*",
-    "@chainlink/token-allocation-adapter": "workspace:packages/composites/token-allocation",
+    "@chainlink/token-allocation-adapter": "0.1.0",
     "axios": "^0.21.1",
     "csv-parse": "^4.16.0",
     "decimal.js": "^10.2.1",

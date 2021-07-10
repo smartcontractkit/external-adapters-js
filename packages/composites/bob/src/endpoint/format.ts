@@ -50,7 +50,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, config
     const response = await JSONRPC.execute({
       ...request,
       data: { ...request.data, method: 'eth_getBlockByHash', params: [block.hash, false] },
-    })
+    }, config)
     const coder = new ethers.utils.AbiCoder()
     response.data.result = coder.encode(
       ['uint8', 'bytes32', 'bytes32'],

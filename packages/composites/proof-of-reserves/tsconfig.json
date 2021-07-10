@@ -9,6 +9,7 @@
   "references": [
     { "path": "../../core/test-helpers" },
     { "path": "../../sources/amberdata" },
+    { "path": "../bitcoin-json-rpc" },
     { "path": "../../sources/blockchain.com" },
     { "path": "../../sources/blockchair" },
     { "path": "../../sources/blockcypher" },

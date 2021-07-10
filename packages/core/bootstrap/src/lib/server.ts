@@ -1,5 +1,6 @@
 import { ExecuteSync } from '@chainlink/types'
 import express from 'express'
+import http from 'http'
 import { join } from 'path'
 import * as client from 'prom-client'
 import { loadTestPayload } from './config/test-payload-loader'
@@ -10,7 +11,6 @@ import {
 import { logger } from './external-adapter'
 import { METRICS_ENABLED } from './metrics'
 import { toObjectWithNumbers } from './util'
-
 const app = express()
 const port = process.env.EA_PORT || 8080
 const baseUrl = process.env.BASE_URL || '/'
@@ -19,7 +19,7 @@ export const HEADER_CONTENT_TYPE = 'Content-Type'
 export const CONTENT_TYPE_APPLICATION_JSON = 'application/json'
 export const CONTENT_TYPE_TEXT_PLAIN = 'text/plain'
 
-export const initHandler = (execute: ExecuteSync) => (): void => {
+export const initHandler = (execute: ExecuteSync) => (): Promise<http.Server> => {
   if (METRICS_ENABLED) {
     setupMetricsServer()
   }
@@ -40,8 +40,10 @@ export const initHandler = (execute: ExecuteSync) => (): void => {
     })
   })
 
+  app.get(join(baseUrl, 'health'), (_, res) => res.status(200).send('OK'))
+
   const testPayload = loadTestPayload()
-  app.get(join(baseUrl, 'health'), (_, res) => {
+  app.get(join(baseUrl, 'smoke'), (_, res) => {
     if (testPayload.isDefault) {
       return res.status(200).send('OK')
     }
@@ -51,9 +53,15 @@ export const initHandler = (execute: ExecuteSync) => (): void => {
     })
   })
 
-  app.listen(port, () => logger.info(`Listening on port ${port}!`))
   process.on('SIGINT', () => {
     process.exit()
+  })
+
+  return new Promise((resolve) => {
+    const server = app.listen(port, () => {
+      logger.info(`Listening on port ${port}!`)
+      resolve(server)
+    })
   })
 }
 

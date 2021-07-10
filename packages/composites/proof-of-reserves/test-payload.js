@@ -5,6 +5,7 @@ const protocolEnvironmentVariables = [
 
 const indexerEnvironmentVariables = [
   { envKey: 'AMBERDATA_DATA_PROVIDER_URL', value: 'amberdata' },
+  { envKey: 'BITCOIN_JSON_RPC_DATA_PROVIDER_URL', value: 'bitcoin_json_rpc' },
   { envKey: 'BLOCKCHAIN_COM_DATA_PROVIDER_URL', value: 'blockchain_com' },
   { envKey: 'BLOCKCYPHER_DATA_PROVIDER_URL', value: 'blockcypher' },
   { envKey: 'BLOCKCHAIR_DATA_PROVIDER_URL', value: 'blockchair' },

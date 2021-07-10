@@ -52,7 +52,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
     aggregate: 5,
   }
   const getPair = (input: AdapterRequest) => {
-    const validator = new Validator(input, price.customParams, {}, false)
+    const validator = new Validator(input, price.inputParameters, {}, false)
     if (validator.error) return
     const base = (validator.overrideSymbol(NAME) as string).toUpperCase()
     const quote = validator.validated.data.quote.toUpperCase()
