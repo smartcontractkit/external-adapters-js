@@ -10,28 +10,28 @@ export * as epics from './epics'
 export * as reducer from './reducer'
 export * as types from './types'
 
-export const withWebSockets =
-  (store: Store<RootState>, makeWsHandler?: MakeWSHandler): Middleware =>
-  async (execute) =>
-  async (input: AdapterRequest) => {
-    const wsConfig = getWSConfig()
-    if (!makeWsHandler || !wsConfig.enabled) return await execute(input) // ignore middleware if conditions are met
+export const withWebSockets = (
+  store: Store<RootState>,
+  makeWsHandler?: MakeWSHandler,
+): Middleware => async (execute) => async (input: AdapterRequest) => {
+  const wsConfig = getWSConfig()
+  if (!makeWsHandler || !wsConfig.enabled) return await execute(input) // ignore middleware if conditions are met
 
-    const wsHandler = await makeWsHandler()
-    store.dispatch(connectRequested({ config: wsConfig, wsHandler }))
+  const wsHandler = await makeWsHandler()
+  store.dispatch(connectRequested({ config: wsConfig, wsHandler }))
 
-    const subscriptionMsg = wsHandler.subscribe(input)
-    if (!subscriptionMsg) return await execute(input)
+  const subscriptionMsg = wsHandler.subscribe(input)
+  if (!subscriptionMsg) return await execute(input)
 
-    const subscriptionPayload: WSSubscriptionPayload = {
-      connectionInfo: {
-        key: wsConfig.connectionInfo.key,
-        url: wsHandler.connection.url,
-      },
-      subscriptionMsg,
-      input,
-    }
-
-    store.dispatch(subscribeRequested(subscriptionPayload))
-    return await execute(input)
+  const subscriptionPayload: WSSubscriptionPayload = {
+    connectionInfo: {
+      key: wsConfig.connectionInfo.key,
+      url: wsHandler.connection.url,
+    },
+    subscriptionMsg,
+    input,
   }
+
+  store.dispatch(subscribeRequested(subscriptionPayload))
+  return await execute(input)
+}
