@@ -6,8 +6,8 @@ This adapter calculates an index value from the symbols and units as defined in 
 
 The adapter takes the following environment variables:
 
-| Required? |   Name    |         Description          | Options | Defaults to |
-| :-------: | :-------: | :--------------------------: | :-----: | :---------: |
+| Required? |   Name    |                            Description                             |          Options          | Defaults to |
+| :-------: | :-------: | :----------------------------------------------------------------: | :-----------------------: | :---------: |
 |    ✅     | `CSV_URL` | URL of where to fetch the CSV data. Can be external or local file. | `http(s)://*`, `file://*` |             |
 
 **Additional environment variables must be set according to the Token Allocation adapter.**

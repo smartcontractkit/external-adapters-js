@@ -26,13 +26,13 @@ export const makeExecute = (config?: Config): Execute => {
 const getCsvFile = async (config: Config): Promise<string> => {
   const filePrefix = 'file://'
   if (config.csvURL.startsWith(filePrefix)) {
-    return fs.readFileSync(config.csvURL.substring(filePrefix.length), "utf-8")
+    return fs.readFileSync(config.csvURL.substring(filePrefix.length), 'utf-8')
   }
 
   const options = {
     ...config.api,
-    baseURL: config.csvURL
+    baseURL: config.csvURL,
   }
-  const response = await Requester.request(options) as AxiosResponse<unknown>
+  const response = (await Requester.request(options)) as AxiosResponse<unknown>
   return response.data as string
 }
