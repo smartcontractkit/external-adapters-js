@@ -19,12 +19,18 @@ const buildSelector = (request: AdapterRequest, config: Config, apiEndpoints: Re
     const jobRunID = validator.validated.id
     const endpoint = validator.validated.data.endpoint || config.defaultEndpoint
     for(const apiEndpoint of Object.values(apiEndpoints)) {
-        // const path = apiEndpoint.endpointPaths[endpoint]
-        // request.data.path = path
-        // request.data.path = path(request)
-        // if function => invoke function w/ request or leave path as it is if string
+        // Allow adapter endpoints to dynamically query different endpoint paths
+        if (apiEndpoint.endpointPaths) {
+            const path = apiEndpoint.endpointPaths[endpoint]
+            if (typeof path === "function")
+                request.data.path = path(request)
+            else
+                request.data.path = path
+        }
+        // Iterate through supported endpoints of a given Chainlink endpoint
         for(const supportedChainlinkEndpoint of apiEndpoint.supportedEndpoints) {
             if(supportedChainlinkEndpoint.toLowerCase() === endpoint.toLowerCase()) {
+                // handle functions that use execute and makeExecute
                 if (typeof apiEndpoint.execute === "function"){
                     return apiEndpoint.execute(request, config)
                 }

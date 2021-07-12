@@ -13,11 +13,13 @@ const customError = (data: any) => {
 export const endpointPaths: EndpointPaths = {
   price: (input: AdapterRequest): string => {
     const validator = new Validator(input, customParams)
+    if (validator.error) throw validator.error
     const quote = validator.validated.data.quote
     return `${quote.toLowerCase()}`
   },
   marketcap: (input: AdapterRequest): string => {
     const validator = new Validator(input, customParams)
+    if (validator.error) throw validator.error
     const quote = validator.validated.data.quote
     return `${quote.toLowerCase()}_market_cap`
   },

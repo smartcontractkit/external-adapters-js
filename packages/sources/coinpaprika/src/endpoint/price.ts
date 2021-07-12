@@ -9,6 +9,10 @@ export enum Paths {
   MarketCap = 'marketcap',
 }
 
+export const endpointPaths = {
+  marketcap: Paths.MarketCap
+}
+
 const inputParams = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
@@ -20,11 +24,6 @@ const inputParams = {
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const validator = new Validator(request, inputParams)
   if (validator.error) throw validator.error
-
-  const endpoint = validator.validated.data.endpoint || config.defaultEndpoint
-  if (endpoint.toLowerCase() === 'marketcap') {
-    validator.validated.data.path = Paths.MarketCap
-  }
 
   const jobRunID = validator.validated.id
   const symbol = validator.overrideSymbol(AdapterName) as string

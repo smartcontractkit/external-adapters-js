@@ -15,20 +15,11 @@ const customError = (data: any) => {
 
 const customParams = {
   market: ['quote', 'to', 'market', 'coin'],
-  path: true,
-  endpoint:false
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
-
-  const endpoint = validator.validated.data.endpoint || config.defaultEndpoint
-  if (endpoint.toLowerCase() === 'globalmarketcap')
-    validator.validated.data.path = 'total_market_cap'
-  if (endpoint.toLowerCase() === 'dominance')
-    validator.validated.data.path = 'market_cap_percentage'
-
   const jobRunID = validator.validated.id
   const market = validator.validated.data.market.toLowerCase()
   const path = validator.validated.data.path

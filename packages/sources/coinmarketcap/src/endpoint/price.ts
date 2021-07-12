@@ -10,6 +10,10 @@ export enum Paths {
   MarketCap = 'market_cap',
 }
 
+export const endpointPaths = {
+  marketcap: Paths.MarketCap,
+}
+
 // Coin IDs fetched from the ID map: https://coinmarketcap.com/api/documentation/v1/#operation/getV1CryptocurrencyMap
 const presetIds: { [symbol: string]: number } = {
   COMP: 5692,

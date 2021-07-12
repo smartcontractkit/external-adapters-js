@@ -11,7 +11,6 @@ import { price } from './endpoint'
 
 // Export function to integrate with Chainlink node
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-  console.log(endpoints)
   return Builder.buildSelector(request, config, endpoints)
 }
 
