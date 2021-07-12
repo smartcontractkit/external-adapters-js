@@ -17,15 +17,14 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
 
-  let response
   switch (endpoint) {
     case price.Name: {
-      response = await price.execute(request, config)
+      return await price.execute(request, config)
       break
     }
     case 'difficulty':
     case 'height': {
-      response = await bc_info.execute(request, config)
+      return await bc_info.execute(request, config)
       break
     }
     case balance.Name: {
@@ -39,8 +38,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
       })
     }
   }
-
-  return Requester.success(jobRunID, response)
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {
