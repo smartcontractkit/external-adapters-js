@@ -2,10 +2,7 @@
 
 ### Environment Variables
 
-| Required? |    Name     |                             Description                             | Options | Defaults to |
-| :-------: | :---------: | :-----------------------------------------------------------------: | :-----: | :---------: |
-|    ✅     |   API_KEY   | An API key that can be obtained from [here](https://my.cryptoapis.io/register) |         |             |
-|           | API_TIMEOUT |                          Timeout parameter                          |         |   `30000`   |
+No adapter specific environment variables
 
 ---
 

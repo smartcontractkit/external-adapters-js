@@ -3,7 +3,7 @@ import { AdapterRequest, Execute } from '@chainlink/types'
 
 export function assertError(statusCode: any, data: any, expectedJobId: any) {
   expect(statusCode.actual).toEqual(statusCode.expected)
-  expect(data.jobRunID).toEqual(expectedJobId || '1')
+  expect(data.jobRunID).toEqual(expectedJobId)
   expect(data.status).toEqual('errored')
   expect(data.error).toBeTruthy()
   expect(data.error.name).toBeTruthy()
