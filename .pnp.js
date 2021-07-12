@@ -9806,10 +9806,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@terra-money/terra.js", [
-        ["npm:1.8.1", {
-          "packageLocation": "./.yarn/cache/@terra-money-terra.js-npm-1.8.1-a806bbce7f-f0af2fdf4d.zip/node_modules/@terra-money/terra.js/",
+        ["npm:1.8.0", {
+          "packageLocation": "./.yarn/cache/@terra-money-terra.js-npm-1.8.0-015ccafda1-6e7b26793d.zip/node_modules/@terra-money/terra.js/",
           "packageDependencies": [
-            ["@terra-money/terra.js", "npm:1.8.1"],
+            ["@terra-money/terra.js", "npm:1.8.0"],
             ["axios", "npm:0.21.1"],
             ["bech32", "npm:2.0.0"],
             ["bip32", "npm:2.0.6"],
@@ -9821,7 +9821,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["secp256k1", "npm:4.0.2"],
             ["tmp", "npm:0.2.1"],
             ["utf-8-validate", "npm:5.0.4"],
-            ["ws", "virtual:a806bbce7f17e31301f1f05f641e268273329e5d9a434aa4176c0bc9fe073f104f6e98ea52c4a3cfc3eb6b9b2da0fab481a29b6e739f813d63fa482b1d89aa6e#npm:7.4.6"]
+            ["ws", "virtual:015ccafda127fff0e3410e59079afb7dce2ceb4b15355fa2c9608e11d1d59952fc5af42b698a9e49ddef9ac09301a3d005f929fe26e6338cd3dc27182b915647#npm:7.4.6"]
           ],
           "linkType": "HARD",
         }]
@@ -12630,7 +12630,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ]],
       ["bitgo-utxo-lib", [
         ["https://github.com/ren-forks/bitgo-utxo-lib.git#commit=7939387dda1199956fcb9d720a9493ce12cf013e", {
-          "packageLocation": "./.yarn/cache/bitgo-utxo-lib-https-2e944dc801-2936344180.zip/node_modules/bitgo-utxo-lib/",
+          "packageLocation": "./.yarn/cache/bitgo-utxo-lib-https-2e944dc801-bcfb0593b5.zip/node_modules/bitgo-utxo-lib/",
           "packageDependencies": [
             ["bitgo-utxo-lib", "https://github.com/ren-forks/bitgo-utxo-lib.git#commit=7939387dda1199956fcb9d720a9493ce12cf013e"],
             ["bech32", "npm:0.0.3"],
@@ -12655,7 +12655,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }],
         ["https://github.com/ren-forks/bitgo-utxo-lib.git#commit=b848585e65b42c48b98c207e72d7d3006c9a5da0", {
-          "packageLocation": "./.yarn/cache/bitgo-utxo-lib-https-803e301bda-eb558fe084.zip/node_modules/bitgo-utxo-lib/",
+          "packageLocation": "./.yarn/cache/bitgo-utxo-lib-https-803e301bda-6f689e72a1.zip/node_modules/bitgo-utxo-lib/",
           "packageDependencies": [
             ["bitgo-utxo-lib", "https://github.com/ren-forks/bitgo-utxo-lib.git#commit=b848585e65b42c48b98c207e72d7d3006c9a5da0"],
             ["bech32", "npm:0.0.3"],
@@ -24904,7 +24904,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@glif/filecoin-number", "npm:1.1.0"],
             ["@glif/filecoin-rpc-client", "npm:1.1.0"],
             ["@glif/filecoin-wallet-provider", "npm:1.1.0"],
-            ["@terra-money/terra.js", "npm:1.8.1"],
+            ["@terra-money/terra.js", "npm:1.8.0"],
             ["@types/bchaddrjs", "npm:0.4.0"],
             ["@types/node", "npm:14.14.41"],
             ["@types/types__node", null],
@@ -28832,6 +28832,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "SOFT",
         }],
+        ["virtual:015ccafda127fff0e3410e59079afb7dce2ceb4b15355fa2c9608e11d1d59952fc5af42b698a9e49ddef9ac09301a3d005f929fe26e6338cd3dc27182b915647#npm:7.4.6", {
+          "packageLocation": "./.yarn/$$virtual/ws-virtual-53de7704c8/0/cache/ws-npm-7.4.6-9c9a725604-ffeb626d92.zip/node_modules/ws/",
+          "packageDependencies": [
+            ["ws", "virtual:015ccafda127fff0e3410e59079afb7dce2ceb4b15355fa2c9608e11d1d59952fc5af42b698a9e49ddef9ac09301a3d005f929fe26e6338cd3dc27182b915647#npm:7.4.6"],
+            ["@types/bufferutil", null],
+            ["@types/utf-8-validate", null],
+            ["bufferutil", "npm:4.0.3"],
+            ["utf-8-validate", "npm:5.0.4"]
+          ],
+          "packagePeers": [
+            "@types/bufferutil",
+            "@types/utf-8-validate",
+            "bufferutil",
+            "utf-8-validate"
+          ],
+          "linkType": "HARD",
+        }],
         ["virtual:0fd7ab4db5b1d3999b8c6b73a3759e324c2d493248ce759e747097b0395d109031ca6c4caa8a1e24b6c5e7bd559c7176d245fbd42a849f70098b60b12aa2ad41#npm:7.2.3", {
           "packageLocation": "./.yarn/$$virtual/ws-virtual-45de33831c/0/cache/ws-npm-7.2.3-e2147dfc25-fedf178c29.zip/node_modules/ws/",
           "packageDependencies": [
@@ -28857,23 +28874,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/utf-8-validate", null],
             ["bufferutil", null],
             ["utf-8-validate", null]
-          ],
-          "packagePeers": [
-            "@types/bufferutil",
-            "@types/utf-8-validate",
-            "bufferutil",
-            "utf-8-validate"
-          ],
-          "linkType": "HARD",
-        }],
-        ["virtual:a806bbce7f17e31301f1f05f641e268273329e5d9a434aa4176c0bc9fe073f104f6e98ea52c4a3cfc3eb6b9b2da0fab481a29b6e739f813d63fa482b1d89aa6e#npm:7.4.6", {
-          "packageLocation": "./.yarn/$$virtual/ws-virtual-b812e892a6/0/cache/ws-npm-7.4.6-9c9a725604-ffeb626d92.zip/node_modules/ws/",
-          "packageDependencies": [
-            ["ws", "virtual:a806bbce7f17e31301f1f05f641e268273329e5d9a434aa4176c0bc9fe073f104f6e98ea52c4a3cfc3eb6b9b2da0fab481a29b6e739f813d63fa482b1d89aa6e#npm:7.4.6"],
-            ["@types/bufferutil", null],
-            ["@types/utf-8-validate", null],
-            ["bufferutil", "npm:4.0.3"],
-            ["utf-8-validate", "npm:5.0.4"]
           ],
           "packagePeers": [
             "@types/bufferutil",
