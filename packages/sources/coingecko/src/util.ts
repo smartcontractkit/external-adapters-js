@@ -30,11 +30,6 @@ export const getSymbolsToIds = (
 ): Record<string, string> => {
   const idToSymbol: Record<string, string> = {}
   symbols.forEach((symbol) => {
-    const byId = coinList.find((d) => d.id.toLowerCase() === symbol.toLowerCase())
-    if (byId) {
-      idToSymbol[byId.id] = byId.symbol
-      return
-    }
     const coin = coinList.find((d) => d.symbol.toLowerCase() === symbol.toLowerCase())
     if (coin && coin.id) {
       idToSymbol[coin.id] = coin.symbol

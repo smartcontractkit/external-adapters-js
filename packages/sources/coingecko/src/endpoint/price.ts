@@ -1,4 +1,4 @@
-import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterError, Requester, Validator, Logger } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, AxiosResponse, AdapterRequest, EndpointPaths } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 import { getCoinIds, getSymbolsToIds } from '../util'
@@ -12,20 +12,20 @@ const customError = (data: any) => {
 
 export const endpointPaths: EndpointPaths = {
   price: (input: AdapterRequest): string => {
-    const validator = new Validator(input, customParams)
+    const validator = new Validator(input, inputParameters)
     if (validator.error) throw validator.error
     const quote = validator.validated.data.quote
     return `${quote.toLowerCase()}`
   },
   marketcap: (input: AdapterRequest): string => {
-    const validator = new Validator(input, customParams)
+    const validator = new Validator(input, inputParameters)
     if (validator.error) throw validator.error
     const quote = validator.validated.data.quote
     return `${quote.toLowerCase()}_market_cap`
   },
 }
 
-const customParams = {
+const inputParameters = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
   coinid: false,
@@ -44,17 +44,20 @@ const handleBatchedRequest = (
   for (const base in response.data) {
     for (const quote in response.data[base]) {
       const symbol = idToSymbol?.[base]
-      if (symbol)
+      if (symbol) {
+        const nonBatchInput = {
+          ...request,
+          data: { ...request.data, base: symbol.toUpperCase(), quote: quote.toUpperCase() },
+        }
+        const validated = new Validator(nonBatchInput, inputParameters)
         payload.push([
-          {
-            ...request,
-            data: { ...request.data, base: symbol.toUpperCase(), quote: quote.toUpperCase() },
-          },
+          { endpoint: request.data.endpoint, ...validated.validated.data },
           Requester.validateResultNumber(response.data, [
             base,
             path,
           ]),
         ])
+      } else Logger.debug('WARNING: Symbol not found ', base)
     }
   }
   response.data.results = payload
@@ -110,5 +113,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     path,
   ])
 
-  return Requester.success(jobRunID, response, config.verbose, ['base', 'quote'])
+  return Requester.success(jobRunID, response, config.verbose, ['base', 'quote'], {
+    endpoint: request.data.endpoint,
+    ...validator.validated.data,
+  })
 }

@@ -2,11 +2,15 @@ import { ExecuteWithConfig, Config } from '@chainlink/types'
 import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../config'
 
-export const NAME = 'coin'
+export const supportedEndpoints = ['coin', 'price', 'marketcap']
 
 export enum Paths {
   Price = 'price',
   MarketCap = 'marketcap',
+}
+
+export const endpointPaths = {
+  marketcap: Paths.MarketCap
 }
 
 export interface ResponseSchema {
