@@ -15,7 +15,6 @@ This composite adapter incorporates the [`json-rpc`](../../sources/json-rpc) ada
 ## Running
 
 See the [Composite Adapter README](../README.md) for more information on how to get started.
-
 ---
 
 ## Endpoints

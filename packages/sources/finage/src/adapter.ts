@@ -20,8 +20,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const to = (validator.validated.data.to || '').toUpperCase()
   const currencies = symbol + to
   const apikey = util.getRandomRequiredEnv('API_KEY')
-  let params
   let responsePath
+  let params
 
   switch (endpoint) {
     case 'stock': {
