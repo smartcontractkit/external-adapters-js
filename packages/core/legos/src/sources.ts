@@ -32,6 +32,7 @@ import * as currencylayer from '@chainlink/currencylayer-adapter'
 import * as deribit from '@chainlink/deribit-adapter'
 import * as dns_query from '@chainlink/dns-query-adapter'
 import * as dwolla from '@chainlink/dwolla-adapter'
+import * as dxdao from '@chainlink/dxdao-adapter'
 import * as dxfeed from '@chainlink/dxfeed-adapter'
 import * as dxfeed_secondary from '@chainlink/dxfeed-secondary-adapter'
 import * as eodhistoricaldata from '@chainlink/eodhistoricaldata-adapter'
@@ -118,6 +119,7 @@ export default {
   deribit,
   dns_query,
   dwolla,
+  dxdao,
   dxfeed,
   dxfeed_secondary,
   eodhistoricaldata,

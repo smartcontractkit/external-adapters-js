@@ -64,6 +64,7 @@
     "@chainlink/deribit-adapter": "*",
     "@chainlink/dns-query-adapter": "*",
     "@chainlink/dwolla-adapter": "*",
+    "@chainlink/dxdao-adapter": "*",
     "@chainlink/dxfeed-adapter": "*",
     "@chainlink/dxfeed-secondary-adapter": "*",
     "@chainlink/eodhistoricaldata-adapter": "*",
