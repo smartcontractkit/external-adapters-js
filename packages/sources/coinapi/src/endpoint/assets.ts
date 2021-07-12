@@ -25,7 +25,7 @@ export interface ResponseSchema {
 }
 
 export const inputParameters = {
-  base: ['base', 'from', 'coin'],
+  from: ['base', 'from', 'coin'],
   path: false,
 }
 
@@ -39,7 +39,7 @@ const handleBatchedRequest = (
   for (const asset of response.data) {
     const nonBatchInput = {
       ...request,
-      data: { ...request.data, base: asset.asset_id.toUpperCase() },
+      data: { ...request.data, from: asset.asset_id.toUpperCase() },
     }
     const validated = new Validator(nonBatchInput, inputParameters)
     payload.push([
@@ -48,7 +48,7 @@ const handleBatchedRequest = (
     ])
   }
   return Requester.success(jobRunID, Requester.withResult(response, undefined, payload), true, [
-    'base',
+    'from',
   ])
 }
 
@@ -58,7 +58,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
   const jobRunID = validator.validated.id
   const path = validator.validated.data.path || 'price_usd'
-  const symbol = validator.overrideSymbol(AdapterName)
+  const from = validator.validated.data.from
+  const symbol = validator.overrideSymbol(AdapterName, from)
   const url = `assets`
   const params = {
     filter_asset_id: Array.isArray(symbol) ? symbol.join(',') : symbol,
@@ -79,7 +80,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     jobRunID,
     Requester.withResult(response, result),
     config.verbose,
-    ['base'],
+    ['from'],
     { endpoint: request.data.endpoint, ...validator.validated.data },
   )
 }
