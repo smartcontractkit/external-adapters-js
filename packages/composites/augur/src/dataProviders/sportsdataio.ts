@@ -452,6 +452,9 @@ export const resolveFight: Execute = async (input) => {
   if (!status) {
     throw Error(`Unknown status: ${fight.Status}`)
   }
+  
+  const fighters = fight.Fighters
+      .filter(fighter => fighter.Active)
 
   const winners = fight.Fighters
     .filter(fighter => fighter.Active && fighter.Winner)
@@ -462,8 +465,8 @@ export const resolveFight: Execute = async (input) => {
   const resolveEvent: ResolveFight = {
     id: BigNumber.from(fight.FightId),
     status,
-    fighterA: fight.Fighters[0].FighterId,
-    fighterB: fight.Fighters[1].FighterId,
+    fighterA: fighters[0].FighterId,
+    fighterB: fighters[1].FighterId,
     winnerId,
     draw,
   }
