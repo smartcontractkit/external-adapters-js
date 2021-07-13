@@ -4,10 +4,12 @@ import { AdapterRequest } from '@chainlink/types'
 import { execute } from '../../src/method/write'
 import { makeConfig } from '../../src/config'
 import * as IPFS from 'ipfs'
+import mockOracleRewardsData from '../mock-data/mock-oracle-rewards-data.json'
 
 describe('execute', () => {
   const jobID = '1'
   const config = makeConfig()
+  const mockEpoch0 = new IPFS.CID('QmdJZkigqJfvjya9YQ5qW7mFdNHpxUUsSQFKPDjLrdFfg4')
 
   describe('successful calls @integration', () => {
     const requests = [
@@ -47,6 +49,25 @@ describe('execute', () => {
       {
         name: 'dag',
         testData: { id: jobID, data: { data: { name: 'my object', id: 123 }, type: 'dag' } },
+      },
+      {
+        name: 'json mockOracleRewardsData',
+        testData: { id: jobID, data: { data: mockOracleRewardsData, codec: 'json' } },
+      },
+      {
+        name: 'dag-cbor oracleRewardsDataByEpoch',
+        testData: {
+          id: jobID,
+          data: {
+            data: {
+              latestEpoch: 0,
+              dataByEpoch: {
+                '0': mockEpoch0,
+              },
+            },
+            type: 'dag',
+          },
+        },
       },
     ]
 

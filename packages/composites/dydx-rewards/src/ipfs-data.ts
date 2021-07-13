@@ -35,7 +35,7 @@ export const getDataFromIPNS = async (jobRunID: string, ipfs: Execute, ipnsName:
 }
 
 export const getDataForCID = async (jobRunID: string, ipfs: Execute, cid: string) => {
-  const params = { id: jobRunID, data: { method: 'read', cid, codec: 'dag-cbor' } }
+  const params = { id: jobRunID, data: { method: 'read', cid, codec: 'json' } }
   const response = await ipfs(params)
   return response.result
 }
