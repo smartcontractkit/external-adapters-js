@@ -2126,6 +2126,7 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
+    bignumber.js: ^9.0.1
     ethers: ^5.3.0
     ipfs: ^0.55.3
     merkletreejs: ^0.2.18
