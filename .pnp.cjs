@@ -4088,6 +4088,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
+            ["bignumber.js", "npm:9.0.1"],
             ["ethers", "npm:5.4.6"],
             ["ipfs", "npm:0.55.4"],
             ["merkletreejs", "npm:0.2.24"],
