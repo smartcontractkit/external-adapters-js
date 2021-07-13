@@ -10,5 +10,6 @@ export const makeConfig = (prefix = ''): Config => {
   const config = Requester.getDefaultConfig(prefix, true)
   config.api.headers['x-api-key'] = config.apiKey
   config.api.baseURL = config.api.baseURL || DEFAULT_BASE_URL
+  config.defaultEndpoint = DEFAULT_ENDPOINT
   return config
 }

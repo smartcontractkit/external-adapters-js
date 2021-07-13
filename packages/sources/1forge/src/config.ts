@@ -3,7 +3,7 @@ import { Config } from '@chainlink/types'
 
 export const NAME = '1FORGE'
 
-export const DEFAULT_ENDPOINT = 'price'
+export const DEFAULT_ENDPOINT = 'forex'
 export const DEFAULT_BASE_URL = 'https://api.1forge.com/'
 
 export const makeConfig = (prefix?: string): Config => {
@@ -15,5 +15,6 @@ export const makeConfig = (prefix?: string): Config => {
       api_key: config.apiKey,
     },
   }
+  config.defaultEndpoint = DEFAULT_ENDPOINT
   return config
 }

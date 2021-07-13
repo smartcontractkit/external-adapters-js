@@ -16,5 +16,6 @@ export const makeConfig = (prefix?: string): Config => {
       'x-rapidapi-host': 'therundown-therundown-v1.p.rapidapi.com',
     },
   }
+  config.defaultEndpoint = DEFAULT_ENDPOINT
   return config
 }

@@ -2,7 +2,7 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, AxiosResponse, AdapterRequest } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
-export const NAME = 'assets'
+export const supportedEndpoints = ['assets']
 
 export interface ResponseSchema {
   asset_id: string
@@ -37,18 +37,13 @@ const handleBatchedRequest = (
 ) => {
   const payload: [AdapterRequest, number][] = []
   for (const asset of response.data) {
-    const nonBatchInput = {
-      ...request,
-      data: { ...request.data, from: asset.asset_id.toUpperCase() },
-    }
-    const validated = new Validator(nonBatchInput, inputParameters)
     payload.push([
-      { endpoint: request.data.endpoint, ...validated.validated.data },
+      { ...request, data: { ...request.data, base: asset.asset_id.toUpperCase() } },
       Requester.validateResultNumber(asset, [path]),
     ])
   }
   return Requester.success(jobRunID, Requester.withResult(response, undefined, payload), true, [
-    'from',
+    'base',
   ])
 }
 
@@ -76,11 +71,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (Array.isArray(symbol)) return handleBatchedRequest(jobRunID, request, response, path)
 
   const result = Requester.validateResultNumber(response.data[0], [path])
-  return Requester.success(
-    jobRunID,
-    Requester.withResult(response, result),
-    config.verbose,
-    ['from'],
-    { endpoint: request.data.endpoint, ...validator.validated.data },
-  )
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose, [
+    'base',
+  ])
 }

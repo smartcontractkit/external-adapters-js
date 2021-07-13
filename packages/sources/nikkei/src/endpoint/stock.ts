@@ -1,11 +1,16 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
-import { NAME as AdapterName } from '../config'
 
-export const supportedEndpoints = ['eod-close', 'eod']
+export const supportedEndpoints = ['stock', 'price']
+
+const customError = (data: any) => data.Response === 'Error'
+
+const commonKeys: Record<string, string> = {
+  N225: 'nk225',
+}
 
 const customParams = {
-  base: ['base', 'from', 'coin', 'asset', 'symbol'],
+  base: ['base', 'from', 'coin'],
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
@@ -13,11 +18,14 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const base = validator.overrideSymbol(AdapterName) as string
-  const url = `stock/${base.toUpperCase()}/quote`
+
+  const url = `get_real_data`
+  let idx = validator.validated.data.base.toUpperCase()
+
+  idx = commonKeys[idx] || idx
 
   const params = {
-    token: config.apiKey,
+    idx,
   }
 
   const reqConfig = {
@@ -26,8 +34,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     url,
   }
 
-  const response = await Requester.request(reqConfig)
-  response.data.result = Requester.validateResultNumber(response.data, ['close'])
-
+  const response = await Requester.request(reqConfig, customError)
+  response.data.result = parseFloat(response.data.price.replace(',', ''))
   return Requester.success(jobRunID, response, config.verbose)
 }

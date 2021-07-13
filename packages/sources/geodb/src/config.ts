@@ -12,5 +12,6 @@ export const makeConfig = (prefix?: string): Config => {
     ...config.api,
     baseURL: config.api.baseURL || DEFAULT_BASE_URL,
   }
+  config.defaultEndpoint = DEFAULT_ENDPOINT
   return config
 }

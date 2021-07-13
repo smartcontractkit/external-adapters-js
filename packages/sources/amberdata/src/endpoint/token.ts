@@ -1,7 +1,7 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 
-export const Name = 'token'
+export const supportedEndpoints = ['token']
 
 const customError = (data: any) => {
   return Object.keys(data.payload).length === 0

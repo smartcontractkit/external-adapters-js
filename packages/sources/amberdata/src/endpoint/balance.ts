@@ -1,9 +1,9 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { balance } from '@chainlink/ea-factories'
-import { Config } from '@chainlink/types'
-import { BLOCKCHAINS, isChainType, isCoinType } from '.'
+import { Config, ExecuteFactory } from '@chainlink/types'
+import { BLOCKCHAINS, isChainType, isCoinType } from '../config'
 
-export const Name = 'balance'
+export const supportedEndpoints = ['balance']
 
 const getBalanceURI = (address: string) => `/api/v2/addresses/${address}/account-balances/latest`
 
@@ -21,7 +21,6 @@ const getBalance: balance.GetBalance = async (account, config) => {
       'x-amberdata-blockchain-id': getBlockchainHeader(account.coin),
     },
   }
-
   const response = await Requester.request(reqConfig)
   return {
     payload: response.data,
@@ -31,4 +30,4 @@ const getBalance: balance.GetBalance = async (account, config) => {
 
 const isSupported: balance.IsSupported = (coin, chain) => isChainType(chain) && isCoinType(coin)
 
-export const makeExecute = (config: Config) => balance.make({ ...config, getBalance, isSupported })
+export const makeExecute:ExecuteFactory<Config> = (config?: Config) => balance.make({ ...config, getBalance, isSupported })

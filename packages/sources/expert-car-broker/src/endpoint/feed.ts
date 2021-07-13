@@ -1,7 +1,7 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig } from '@chainlink/types'
 
-export const NAME = 'feed'
+export const supportedEndpoints = ['feed']
 
 const customParams = {
   product: true,

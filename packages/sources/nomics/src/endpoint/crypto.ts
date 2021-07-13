@@ -2,7 +2,7 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, AxiosResponse, AdapterRequest } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
-export const NAME = 'price'
+export const supportedEndpoints = ['crypto', 'price', 'marketcap']
 
 export enum Paths {
   Price = 'price',
@@ -12,6 +12,10 @@ export enum Paths {
 const resultPaths: { [key: string]: string[] } = {
   [Paths.Price]: ['price'],
   [Paths.MarketCap]: ['market_cap'],
+}
+
+export const endpointPaths = {
+  marketcap: Paths.MarketCap
 }
 
 interface ResponseSchema {
@@ -90,6 +94,7 @@ const inputParameters = {
   base: ['base', 'from', 'coin', 'ids'],
   quote: ['quote', 'to', 'market', 'convert'],
   path: false,
+  endpoints: false
 }
 
 const convertId: Record<string, string> = {
@@ -109,13 +114,8 @@ const handleBatchedRequest = (
   const payload: [AdapterRequest, number][] = []
   for (const i in response.data) {
     const entry = response.data[i]
-    const nonBatchInput = {
-      ...request,
-      data: { ...request.data, base: entry.symbol.toUpperCase() },
-    }
-    const validated = new Validator(nonBatchInput, inputParameters)
     payload.push([
-      { endpoint: request.data.endpoint, ...validated.validated.data },
+      { ...request, data: { ...request.data, base: entry.symbol.toUpperCase() } },
       Requester.validateResultNumber(response.data[i], resultPaths[path]),
     ])
   }
@@ -128,6 +128,11 @@ const handleBatchedRequest = (
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
+
+  const endpoint = validator.validated.data.endpoint || config.defaultEndpoint
+  if (endpoint.toLowerCase() === 'marketcap') {
+    validator.validated.data.path = Paths.MarketCap
+  }
 
   const symbol = validator.overrideSymbol(AdapterName)
   const symbols = Array.isArray(symbol) ? symbol : [symbol]
@@ -157,14 +162,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (Array.isArray(symbol)) return handleBatchedRequest(jobRunID, request, response, path)
 
   const result = Requester.validateResultNumber(response.data[0], resultPaths[path])
-  return Requester.success(
-    jobRunID,
-    Requester.withResult(response, result),
-    config.verbose,
-    ['base'],
-    {
-      endpoint: request.data.endpoint,
-      ...validator.validated.data,
-    },
-  )
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose, [
+    'base',
+  ])
 }

@@ -1,16 +1,12 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 
-export const NAME = 'price'
-
-const customError = (data: any) => data.Response === 'Error'
-
-const commonKeys: Record<string, string> = {
-  N225: 'nk225',
-}
+export const supportedEndpoints = ['crypto','tickers']
 
 const customParams = {
   base: ['base', 'from', 'coin'],
+  quote: ['quote', 'to', 'market'],
+  field: false,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
@@ -18,23 +14,22 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
+  const base = validator.validated.data.base
+  const quote = validator.validated.data.quote
+  const field = validator.validated.data.field || 'vwap'
+  const url = `tickers/${base}_${quote}`
 
-  const url = `get_real_data`
-  let idx = validator.validated.data.base.toUpperCase()
-
-  idx = commonKeys[idx] || idx
-
-  const params = {
-    idx,
-  }
-
-  const reqConfig = {
+  const options = {
     ...config.api,
-    params,
     url,
   }
 
-  const response = await Requester.request(reqConfig, customError)
-  response.data.result = parseFloat(response.data.price.replace(',', ''))
+  const response = await Requester.request(options)
+  response.data.result = Requester.validateResultNumber(response.data, [
+    'data',
+    'attributes',
+    field,
+  ])
+
   return Requester.success(jobRunID, response, config.verbose)
 }

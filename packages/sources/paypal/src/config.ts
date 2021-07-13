@@ -32,5 +32,6 @@ export const makeConfig = (prefix = ''): Config => {
   const client = new paypal.core.PayPalHttpClient(environment)
   const config = Requester.getDefaultConfig(prefix)
   config.api = { ...config.api, client }
+  config.defaultEndpoint = DEFAULT_ENDPOINT
   return config
 }

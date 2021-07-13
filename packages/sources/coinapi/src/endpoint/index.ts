@@ -1,2 +1,2 @@
-export * as price from './price'
+export * as crypto from './crypto'
 export * as assets from './assets'

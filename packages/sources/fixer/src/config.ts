@@ -15,5 +15,6 @@ export const makeConfig = (prefix?: string): Config => {
       access_key: config.apiKey,
     },
   }
+  config.defaultEndpoint = DEFAULT_ENDPOINT
   return config
 }

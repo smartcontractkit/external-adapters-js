@@ -1,7 +1,7 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 
-export const NAME = 'coins'
+export const supportedEndpoints = ['coins']
 
 export interface CoinsResponse {
   id: string
