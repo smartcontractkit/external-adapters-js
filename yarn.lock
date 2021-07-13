@@ -1905,23 +1905,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/anyblock-gasprice-adapter@*, @chainlink/anyblock-gasprice-adapter@workspace:packages/sources/anyblock-gasprice":
+"@chainlink/anyblock-adapter@*, @chainlink/anyblock-adapter@workspace:packages/sources/anyblock":
   version: 0.0.0-use.local
-  resolution: "@chainlink/anyblock-gasprice-adapter@workspace:packages/sources/anyblock-gasprice"
-  dependencies:
-    "@chainlink/ea-bootstrap": "*"
-    "@chainlink/ea-test-helpers": "*"
-    "@chainlink/types": 0.0.1
-    "@types/jest": ^26.0.22
-    "@types/node": ^14.14.35
-    tslib: ^2.1.0
-    typescript: ^4.2.3
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/anyblock-uniswap-vwap-adapter@*, @chainlink/anyblock-uniswap-vwap-adapter@workspace:packages/sources/anyblock-uniswap-vwap":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/anyblock-uniswap-vwap-adapter@workspace:packages/sources/anyblock-uniswap-vwap"
+  resolution: "@chainlink/anyblock-adapter@workspace:packages/sources/anyblock"
   dependencies:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-test-helpers": "*"
@@ -2653,8 +2639,7 @@ __metadata:
     "@chainlink/alphachain-adapter": "*"
     "@chainlink/alphavantage-adapter": "*"
     "@chainlink/amberdata-adapter": "*"
-    "@chainlink/anyblock-gasprice-adapter": "*"
-    "@chainlink/anyblock-uniswap-vwap-adapter": "*"
+    "@chainlink/anyblock-adapter": "*"
     "@chainlink/binance-adapter": "*"
     "@chainlink/binance-dex-adapter": "*"
     "@chainlink/bitex-adapter": "*"
@@ -2715,7 +2700,7 @@ __metadata:
     "@chainlink/orchid-bandwidth-adapter": "*"
     "@chainlink/paxos-adapter": "*"
     "@chainlink/paypal-adapter": "*"
-    "@chainlink/poa-gasprice-adapter": "*"
+    "@chainlink/poa-adapter": "*"
     "@chainlink/polygon-adapter": "*"
     "@chainlink/reduce-adapter": "*"
     "@chainlink/renvm-address-set-adapter": "*"
@@ -3317,9 +3302,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/poa-gasprice-adapter@*, @chainlink/poa-gasprice-adapter@workspace:packages/sources/poa-gasprice":
+"@chainlink/poa-adapter@*, @chainlink/poa-adapter@workspace:packages/sources/poa":
   version: 0.0.0-use.local
-  resolution: "@chainlink/poa-gasprice-adapter@workspace:packages/sources/poa-gasprice"
+  resolution: "@chainlink/poa-adapter@workspace:packages/sources/poa"
   dependencies:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-test-helpers": "*"

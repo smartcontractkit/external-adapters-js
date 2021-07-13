@@ -1,13 +1,12 @@
 {
-  "name": "@chainlink/poa-gasprice-adapter",
-  "version": "0.0.4",
-  "description": "Chainlink poa-gasprice adapter.",
+  "name": "@chainlink/anyblock-adapter",
+  "version": "0.0.1",
+  "license": "MIT",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
-    "oracle",
-    "poa-gasprice"
+    "oracle"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -18,7 +17,6 @@
     "url": "https://github.com/smartcontractkit/external-adapters-js",
     "type": "git"
   },
-  "license": "MIT",
   "scripts": {
     "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
     "prepack": "yarn build",

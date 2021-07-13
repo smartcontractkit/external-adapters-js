@@ -7,47 +7,6 @@ describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
 
-  describe('successful calls @integration', () => {
-    const requests = [
-      {
-        name: 'empty data',
-        testData: { data: {} },
-      },
-      {
-        name: 'no speed param',
-        testData: {
-          id: jobID,
-          data: { endpoint: 'latest-minimum-gasprice' },
-        },
-      },
-      {
-        name: 'id not supplied',
-        testData: {
-          data: {
-            endpoint: 'latest-minimum-gasprice',
-            speed: 'fast',
-          },
-        },
-      },
-      {
-        name: 'speed is standard',
-        testData: {
-          id: jobID,
-          data: { speed: 'standard' },
-        },
-      },
-    ]
-
-    requests.forEach((req) => {
-      it(`${req.name}`, async () => {
-        const data = await execute(req.testData as AdapterRequest)
-        assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
-        expect(data.result).toBeGreaterThan(0)
-        expect(data.data.result).toBeGreaterThan(0)
-      })
-    })
-  })
-
   describe('validation error', () => {
     const requests = [
       {

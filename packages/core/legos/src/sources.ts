@@ -2,8 +2,7 @@ import * as _1forge from '@chainlink/1forge-adapter'
 import * as alphachain from '@chainlink/alphachain-adapter'
 import * as alphavantage from '@chainlink/alphavantage-adapter'
 import * as amberdata from '@chainlink/amberdata-adapter'
-import * as anyblock_gasprice from '@chainlink/anyblock-gasprice-adapter'
-import * as anyblock_uniswap_vwap from '@chainlink/anyblock-uniswap-vwap-adapter'
+import * as anyblock from '@chainlink/anyblock-adapter'
 import * as binance from '@chainlink/binance-adapter'
 import * as binance_dex from '@chainlink/binance-dex-adapter'
 import * as bitex from '@chainlink/bitex-adapter'
@@ -64,7 +63,7 @@ import * as openexchangerates from '@chainlink/openexchangerates-adapter'
 import * as orchid_adapter from '@chainlink/orchid-bandwidth-adapter'
 import * as paxos from '@chainlink/paxos-adapter'
 import * as paypal from '@chainlink/paypal-adapter'
-import * as poa_adapter from '@chainlink/poa-gasprice-adapter'
+import * as poa from '@chainlink/poa-adapter'
 import * as polygon from '@chainlink/polygon-adapter'
 import * as reduce from '@chainlink/reduce-adapter'
 import * as renvm_adapter_address from '@chainlink/renvm-address-set-adapter'
@@ -88,8 +87,7 @@ export default {
   alphachain,
   alphavantage,
   amberdata,
-  anyblock_gasprice,
-  anyblock_uniswap_vwap,
+  anyblock,
   binance,
   binance_dex,
   bitex,
@@ -150,7 +148,7 @@ export default {
   orchid_adapter,
   paxos,
   paypal,
-  poa_adapter,
+  poa,
   polygon,
   reduce,
   renvm_adapter_address,

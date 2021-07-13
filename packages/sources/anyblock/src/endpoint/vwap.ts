@@ -1,6 +1,5 @@
-import { Execute } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { util } from '@chainlink/ea-bootstrap'
+import { ExecuteWithConfig, Config } from '@chainlink/types'
 
 const customError = (data: any) => {
   return !data.hits || !data.hits.hits || data.hits.hits.length < 1
@@ -59,11 +58,8 @@ const cleanupDate = (inputDate: string, roundDay: boolean) => {
   return outputDate
 }
 
-// TODO: enable other networks
-const getAnyblockUrl = () => 'https://api.anyblock.tools/ethereum/ethereum/mainnet/es/event/search/'
-
-export const execute: Execute = async (input) => {
-  const validator = new Validator(input, customParams)
+export const execute: ExecuteWithConfig<Config> = async (request, config) => {
+  const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
@@ -74,7 +70,7 @@ export const execute: Execute = async (input) => {
   let start = validator.validated.data.start
   let end = validator.validated.data.end
 
-  const url = getAnyblockUrl()
+  const url = '/ethereum/ethereum/mainnet/es/event/search/'
 
   end = cleanupDate(end, roundDay)
   start = cleanupDate(start, roundDay)
@@ -115,18 +111,13 @@ export const execute: Execute = async (input) => {
     _source: ['timestamp', 'args'],
   }
 
-  const headers = {
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${util.getRandomRequiredEnv('API_KEY')}`,
-  }
-
-  const config = {
+  const options = {
+    ...config.api,
     url,
-    headers,
     data: body,
   }
 
-  const response = await Requester.request(config, customError)
+  const response = await Requester.request(options, customError)
   const vwapResp = buildVWAP(response, debug)
-  return Requester.success(jobRunID, vwapResp)
+  return Requester.success(jobRunID, vwapResp, config.verbose)
 }
