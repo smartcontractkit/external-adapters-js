@@ -452,14 +452,14 @@ export const resolveFight: Execute = async (input) => {
   if (!status) {
     throw Error(`Unknown status: ${fight.Status}`)
   }
-    
+
   const winners = fight.Fighters
     .filter(fighter => fighter.Active && fighter.Winner)
 
   const draw = winners.length !== 1
   let winnerId = 0
   let fighters = fight.Fighters
-  if(!draw) {
+  if (!draw) {
     // The fighters array for an event can contain previous, now non-active fighters,
     // as well as the current active fighters. During the creation code, the non-active
     // fighters are filtered but kept in the same order as the data source provides.
@@ -473,7 +473,7 @@ export const resolveFight: Execute = async (input) => {
     // provide the incorrect fighter ID for fighterA, but in both of these cases the market resolves
     // as `No Contest` so it still ends up giving proper resolution.
     fighters = fighters.filter(fighter => fighter.Active)
-    
+
     // If this is a draw the winnerId is kept as 0 (uninitialized)
     winnerId = winners[0].FighterId
   }
