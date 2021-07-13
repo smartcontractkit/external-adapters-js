@@ -1,11 +1,59 @@
 # Chainlink External Adapter for Finage
 
-## Input Params
+### Input Parameters
 
-- `base`, `from`, or `symbol`: The symbol of the asset to query
-- `overrides`: (not required) If base provided is found in overrides, that will be used. [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json)
+| Required? |   Name   |     Description     |                    Options                     | Defaults to |
+| :-------: | :------: | :-----------------: | :--------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [eod](#EOD-endpoint), [stock](#Stock-endpoint) |   `stock`   |
 
-## Output
+### Configuration
+
+The adapter takes the following environment variables:
+
+| Required? |   Name    | Description | Options | Defaults to |
+| :-------: | :-------: | :---------: | :-----: | :---------: |
+|    ✅     | `API_KEY` |             |         |             |
+
+---
+
+## EOD endpoint
+
+https://finage.co.uk/docs/api/stock-market-previous-close
+
+### Input Params
+
+| Required? |            Name             |             Description             |       Options       | Defaults to |
+| :-------: | :-------------------------: | :---------------------------------: | :-----------------: | :---------: |
+|    ✅     | `base`, `from`, or `symbol` | The symbol of the currency to query | `BTC`, `ETH`, `USD` |             |
+
+### Sample Input
+
+### Sample Output
+
+---
+
+## Stock endpoint
+
+https://finage.co.uk/docs/api/stock-last-quote
+
+### Input Params
+
+| Required? |            Name             |             Description             | Options | Defaults to |
+| :-------: | :-------------------------: | :---------------------------------: | :-----: | :---------: |
+|    ✅     | `base`, `from`, or `symbol` | The symbol of the currency to query |         |             |
+
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "from": "UK100"
+  }
+}
+```
+
+### Sample Output
 
 ```json
 {

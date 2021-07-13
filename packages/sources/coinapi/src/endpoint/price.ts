@@ -8,21 +8,26 @@ export const NAME = 'price'
 const customError = (data: any) => data.Response === 'Error'
 
 export const customParams = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
+  from: ['base', 'from', 'coin'],
+  to: ['quote', 'to', 'market'],
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 
-  const quote = validator.validated.data.quote.toUpperCase()
+  const to = validator.validated.data.to.toUpperCase()
   // The Assets endpoint supports batch requests for USD quotes. If possible, use it.
-  if (quote?.toUpperCase() === 'USD') return await assets.execute(request, config)
+  if (to === 'USD')
+    return await assets.execute(
+      { ...request, data: { ...request.data, endpoint: 'assets' } },
+      config,
+    )
 
   const jobRunID = validator.validated.id
-  const symbol = (validator.overrideSymbol(AdapterName) as string).toUpperCase()
-  const url = `exchangerate/${symbol}/${quote}`
+  const from = validator.validated.data.from
+  const symbol = (validator.overrideSymbol(AdapterName, from) as string).toUpperCase()
+  const url = `exchangerate/${symbol}/${to}`
 
   const options = {
     ...config.api,

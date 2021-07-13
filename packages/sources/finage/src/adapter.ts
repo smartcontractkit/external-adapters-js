@@ -8,13 +8,15 @@ const customParams = {
   endpoint: false,
 }
 
+const DEFAULT_ENDPOINT = 'stock'
+
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const endpoint = validator.validated.data.endpoint || ''
-  let url = `/last/${endpoint}`
+  const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
+  let url: string
   const symbol = (validator.overrideSymbol(NAME) as string).toUpperCase()
   const apikey = util.getRandomRequiredEnv('API_KEY')
   let responsePath

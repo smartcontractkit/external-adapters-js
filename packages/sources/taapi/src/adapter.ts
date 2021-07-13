@@ -18,7 +18,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
   const jobRunID = validator.validated.id
   const indicator = validator.validated.data.indicator
-  const url = `${config.api.baseURL}${indicator}`
+  const url = indicator
   const base = validator.validated.data.base.toUpperCase()
   const quote = validator.validated.data.quote.toUpperCase()
   const symbol = `${base}/${quote}`
@@ -34,6 +34,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   }
 
   const options = {
+    ...config.api,
     url,
     params,
   }
