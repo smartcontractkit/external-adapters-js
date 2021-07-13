@@ -123,6 +123,7 @@ const createFighter = async (jobRunID: string, sport: string, contractAddress: s
     }
   }
 
+  Logger.debug("Creating fighter with req:", req);
   let events: CreateFighterEvent[] = []
   if (theRundown.SPORTS_SUPPORTED.includes(sport)) {
     // Note: currently no fighter sports implemented here
