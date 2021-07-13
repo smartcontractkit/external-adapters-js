@@ -27,6 +27,7 @@ This endpoint fetches the TVL(Total Value Locked) inside a pair that is deployed
 |    ✅     | `wethContractAddress`  |   The WETH contract address on the XDai Chain    |  |             |
 |    ✅     | `pairContractAddress` | The pair contract's address on the XDai Chain |   |             |
 |    ✅     | `xdaiEthUsdPriceFeedAddress` | The ETH-USD price feed address on the XDai Chain |   |             |
+|    ✅     | `shouldReturnInUSD` | Whether or not to return the result in USD.  The adapter will return the result in ETH if this is false |   |     `false`         |
 
 ### Sample Input
 
