@@ -5,7 +5,6 @@ import { makeConfig, NAME } from './config'
 
 const customParams = {
   base: ['base', 'from', 'symbol'],
-  to: false,
   endpoint: false,
 }
 
@@ -17,15 +16,13 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const endpoint = validator.validated.data.endpoint || ''
   let url = `/last/${endpoint}`
   const symbol = (validator.overrideSymbol(NAME) as string).toUpperCase()
-  const to = (validator.validated.data.to || '').toUpperCase()
-  const currencies = symbol + to
   const apikey = util.getRandomRequiredEnv('API_KEY')
   let responsePath
   let params
 
   switch (endpoint) {
     case 'stock': {
-      url = `${url}/${symbol}`
+      url = `${baseUrl}/last/stock/${symbol}`
       responsePath = ['bid']
       params = {
         apikey,
@@ -41,12 +38,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
       break
     }
     default: {
-      responsePath = ['currencies', 0, 'value']
-      params = {
-        currencies,
-        apikey,
-      }
-      break
+      throw new AdapterError({
+        jobRunID,
+        message: `Endpoint ${endpoint} not supported.`,
+        statusCode: 400,
+      })
     }
   }
 
