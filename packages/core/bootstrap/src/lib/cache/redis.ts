@@ -12,6 +12,7 @@ const DEFAULT_CACHE_REDIS_PATH = undefined // The UNIX socket string of the Redi
 const DEFAULT_CACHE_REDIS_URL = undefined // The URL of the Redis server
 const DEFAULT_CACHE_REDIS_PASSWORD = undefined // The password required for redis auth
 const DEFAULT_CACHE_REDIS_TIMEOUT = 500 // Timeout in ms
+const DEFAULT_CACHE_REDIS_INITIAL_DELAY = 30000
 // Options
 const DEFAULT_CACHE_MAX_AGE = 1000 * 60 * 1.5 // 1.5 minutes
 
@@ -28,6 +29,8 @@ export const defaultOptions = (): RedisOptions => ({
   password: env.CACHE_REDIS_PASSWORD || DEFAULT_CACHE_REDIS_PASSWORD,
   maxAge: Number(env.CACHE_MAX_AGE) || DEFAULT_CACHE_MAX_AGE,
   timeout: Number(env.CACHE_REDIS_TIMEOUT) || DEFAULT_CACHE_REDIS_TIMEOUT,
+  connect_timeout: Number(env.CACHE_REDIS_TIMEOUT) || DEFAULT_CACHE_REDIS_TIMEOUT,
+  socket_initial_delay: Number(env.CACHE_REDIS_INITIAL_DELAY) || DEFAULT_CACHE_REDIS_INITIAL_DELAY,
 })
 
 // Options without sensitive data
