@@ -1,7 +1,8 @@
-import { AdapterImplementation, AdapterResponse, Config } from '@chainlink/types'
+import { AdapterImplementation, AdapterResponse, Config, Account } from '@chainlink/types'
 import { callAdapter, makeRequestFactory } from './adapter'
 // balance adapters
 import amberdata from '@chainlink/amberdata-adapter'
+import bitcoinJsonRpc from '@chainlink/bitcoin-json-rpc-adapter'
 import blockchainCom from '@chainlink/blockchain.com-adapter'
 import blockchair from '@chainlink/blockchair-adapter'
 import blockcypher from '@chainlink/blockcypher-adapter'
@@ -11,6 +12,7 @@ import sochain from '@chainlink/sochain-adapter'
 
 export const adapters: AdapterImplementation[] = [
   amberdata,
+  bitcoinJsonRpc,
   blockchainCom,
   blockcypher,
   blockchair,
@@ -27,16 +29,29 @@ export const runBalanceAdapter = async (
   confirmations: number,
   config: Config,
   input: AdapterResponse,
-) => {
+): Promise<AdapterResponse> => {
   const execute = makeRequestFactory(config, indexer)
-  const next = {
+  const next =
+    indexer === bitcoinJsonRpc.NAME
+      ? buildLocalBitcoinNodeRequest(input)
+      : {
+          id: input.jobRunID,
+          data: {
+            result: input.data.result,
+            dataPath: 'result',
+            endpoint: 'balance',
+            confirmations,
+          },
+        }
+  return callAdapter(execute, next, '_onBalance')
+}
+
+const buildLocalBitcoinNodeRequest = (input: AdapterResponse) => {
+  return {
     id: input.jobRunID,
     data: {
-      result: input.data.result,
-      dataPath: 'result',
-      endpoint: 'balance',
-      confirmations,
+      scanobjects: input.data.result.map((result: Account) => result.address),
+      endpoint: 'scantxoutset',
     },
   }
-  return callAdapter(execute, next, '_onBalance')
 }

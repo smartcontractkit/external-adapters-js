@@ -9,15 +9,20 @@ export const makeConfig = (prefix?: string): Config => Requester.getDefaultConfi
 
 export const ENV_DATA_PROVIDER_URL = 'DATA_PROVIDER_URL'
 
-export const getURL = (prefix: string, required = false) =>
+export const getURL = (prefix: string, required = false): string | undefined =>
   required
     ? util.getRequiredEnv(ENV_DATA_PROVIDER_URL, prefix)
     : util.getEnv(ENV_DATA_PROVIDER_URL, prefix)
 
-export const makeOptions = () => {
-  const options = {
-    protocol: [] as Protocol[],
-    indexer: [] as Indexer[],
+export type Options = {
+  protocol: Protocol[]
+  indexer: Indexer[]
+}
+
+export const makeOptions = (): Options => {
+  const options: Options = {
+    protocol: [],
+    indexer: [],
   }
   for (const a of ProtocolAdapters) {
     const url = getURL(a.NAME)

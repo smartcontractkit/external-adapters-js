@@ -86,7 +86,7 @@ interface ResponseSchema {
 
 const customError = (data: ResponseSchema[]) => data.length === 0
 
-const customParams = {
+const inputParameters = {
   base: ['base', 'from', 'coin', 'ids'],
   quote: ['quote', 'to', 'market', 'convert'],
   path: false,
@@ -109,8 +109,13 @@ const handleBatchedRequest = (
   const payload: [AdapterRequest, number][] = []
   for (const i in response.data) {
     const entry = response.data[i]
+    const nonBatchInput = {
+      ...request,
+      data: { ...request.data, base: entry.symbol.toUpperCase() },
+    }
+    const validated = new Validator(nonBatchInput, inputParameters)
     payload.push([
-      { ...request, data: { ...request.data, base: entry.symbol.toUpperCase() } },
+      { endpoint: request.data.endpoint, ...validated.validated.data },
       Requester.validateResultNumber(response.data[i], resultPaths[path]),
     ])
   }
@@ -121,7 +126,7 @@ const handleBatchedRequest = (
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-  const validator = new Validator(request, customParams)
+  const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
 
   const symbol = validator.overrideSymbol(AdapterName)
@@ -152,7 +157,14 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (Array.isArray(symbol)) return handleBatchedRequest(jobRunID, request, response, path)
 
   const result = Requester.validateResultNumber(response.data[0], resultPaths[path])
-  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose, [
-    'base',
-  ])
+  return Requester.success(
+    jobRunID,
+    Requester.withResult(response, result),
+    config.verbose,
+    ['base'],
+    {
+      endpoint: request.data.endpoint,
+      ...validator.validated.data,
+    },
+  )
 }

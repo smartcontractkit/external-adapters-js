@@ -24,8 +24,8 @@ export interface ResponseSchema {
   id_icon: string
 }
 
-const customParams = {
-  base: ['base', 'from', 'coin'],
+export const inputParameters = {
+  from: ['base', 'from', 'coin'],
   path: false,
 }
 
@@ -37,23 +37,29 @@ const handleBatchedRequest = (
 ) => {
   const payload: [AdapterRequest, number][] = []
   for (const asset of response.data) {
+    const nonBatchInput = {
+      ...request,
+      data: { ...request.data, from: asset.asset_id.toUpperCase() },
+    }
+    const validated = new Validator(nonBatchInput, inputParameters)
     payload.push([
-      { ...request, data: { ...request.data, base: asset.asset_id.toUpperCase() } },
+      { endpoint: request.data.endpoint, ...validated.validated.data },
       Requester.validateResultNumber(asset, [path]),
     ])
   }
   return Requester.success(jobRunID, Requester.withResult(response, undefined, payload), true, [
-    'base',
+    'from',
   ])
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-  const validator = new Validator(request, customParams)
+  const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const path = validator.validated.data.path || 'price_usd'
-  const symbol = validator.overrideSymbol(AdapterName)
+  const from = validator.validated.data.from
+  const symbol = validator.overrideSymbol(AdapterName, from)
   const url = `assets`
   const params = {
     filter_asset_id: Array.isArray(symbol) ? symbol.join(',') : symbol,
@@ -70,7 +76,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (Array.isArray(symbol)) return handleBatchedRequest(jobRunID, request, response, path)
 
   const result = Requester.validateResultNumber(response.data[0], [path])
-  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose, [
-    'base',
-  ])
+  return Requester.success(
+    jobRunID,
+    Requester.withResult(response, result),
+    config.verbose,
+    ['from'],
+    { endpoint: request.data.endpoint, ...validator.validated.data },
+  )
 }

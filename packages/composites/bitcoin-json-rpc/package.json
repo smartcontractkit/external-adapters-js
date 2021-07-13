@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/bitcoin-json-rpc-adapter",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "",
   "author": "Evangelos Barakos (evangelos@smartcontract.com)",
   "license": "MIT",
@@ -20,7 +20,7 @@
   "dependencies": {
     "@chainlink/ea-bootstrap": "*",
     "@chainlink/ea-test-helpers": "*",
-    "@chainlink/json-rpc-adapter": "^0.0.4",
+    "@chainlink/json-rpc-adapter": "^0.0.5",
     "tslib": "^2.1.0"
   },
   "devDependencies": {

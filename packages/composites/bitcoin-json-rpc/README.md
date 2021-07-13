@@ -8,14 +8,12 @@ The adapter takes the following environment variables:
 
 | Required? |   Name    |       Description       | Options |       Defaults to       |
 | :-------: | :-------: | :---------------------: | :-----: | :---------------------: |
-|           | `RPC_URL` | Blockchain RPC endpoint |         | `http://localhost:8545` |
+|           | `RPC_URL` | Blockchain RPC endpoint |         | `http://localhost:8332` |
 
 Other common `RPC_URL` endpoints:
 
 - bitcoind: http://localhost:8332
 - btcd: http://localhost:8334
-
-This composite adapter incorporates the [`json-rpc`](../../sources/json-rpc) adapter by calling `"method": "getblockchainfo"`.
 
 ## Running
 
@@ -25,9 +23,20 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 
 ### Input Params
 
-| Required? |    Name    |      Description       | Options | Defaults to  |
-| :-------: | :--------: | :--------------------: | :-----: | :----------: |
-|           | `endpoint` | Parameter to query for |         | `difficulty` |
+| Required? |    Name    |      Description       |                      Options                      |     Defaults to     |
+| :-------: | :--------: | :--------------------: | :-----------------------------------------------: | :-----------------: |
+|           | `endpoint` |   RPC method to call   | `difficulty`, `getblockchaininfo`, `scantxoutset` | `getblockchaininfo` |
+|           |  `field`   | Parameter to query for |                                                   |    `difficulty`     |
+
+## `getblockchaininfo` Endpoint
+
+Calls `"method": "getblockchaininfo"` on the Bitcoin node.
+
+### Input Params
+
+| Required? |  Name   |     Description     | Options | Defaults to  |
+| :-------: | :-----: | :-----------------: | :-----: | :----------: |
+|           | `field` | Parameter to return |         | `difficulty` |
 
 ### Sample Input
 
@@ -92,6 +101,46 @@ See the [Composite Adapter README](../README.md) for more information on how to 
   },
   "result": 665582,
   "statusCode": 200
+}
+```
+
+## `scantxoutset` Endpoint
+
+Calls `"method": "scantxoutset"` on the Bitcoin node and returns the total balance of all supplied addresses.
+
+### Input Params
+
+| Required? |     Name      |        Description         |   Options   | Defaults to |
+| :-------: | :-----------: | :------------------------: | :---------: | :---------: |
+|    ✅     | `scanobjects` | Array of Bitcoin addresses | `addresses` |             |
+
+`scanobjects` is an array of strings of Bitcoin addresses that can be formatted as plain addresses or surrounded by `addr(` and `)`. See example below
+
+### Sample Input
+
+```json
+{
+  "jobID": "1",
+  "data": {
+    "endpoint": "scantxoutset",
+    "scanobjects": [
+      "39e7mxbeNmRRnjfy1qkphv1TiMcztZ8VuE",
+      "addr(35ULMyVnFoYaPaMxwHTRmaGdABpAThM4QR)"
+    ]
+  }
+}
+```
+
+### Sample Output
+
+```json
+{
+  "jobRunID": "1",
+  "result": 105049.28265606,
+  "statusCode": 200,
+  "data": {
+    "result": 105049.28265606
+  }
 }
 ```
 
