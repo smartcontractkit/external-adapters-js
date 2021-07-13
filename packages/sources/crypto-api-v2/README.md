@@ -138,8 +138,8 @@ Addresses is an an array of objects that contain the following information:
 | Required? |   Name    |                 Description                  |                  Options                  | Defaults to |
 | :-------: | :-------: | :------------------------------------------: | :---------------------------------------: | :---------: |
 |    ✅     | `address` |               Address to query               |                                           |             |
-|           |  `coin`   |              Currency to query               | `btc`. `eth`, `bch`, `ltc`, `etc`, `bch`, `dash`, `doge` |    `btc`    |
-|           |  `chain`  | Chain to query (Ethereum testnet is Rinkeby) |           `mainnet`, `testnet`            |  `mainnet`  |
+|           |  `coin`   |              Which blockchain to query from               | `btc`, `eth`, `bch`, `ltc`, `etc`, `bch`, `dash`, `doge` |    `btc`    |
+|           |  `chain`  | Tells the adapter whether to query from mainnet or testnet.  Ethereum uses the Rinkeby testnet and Ethereum Classic uses the Mordor |           `mainnet`, `testnet`            |  `mainnet`  |
 
 ### Sample Input
 
