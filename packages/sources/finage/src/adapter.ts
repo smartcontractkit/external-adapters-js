@@ -1,33 +1,30 @@
-import { Execute } from '@chainlink/types'
+import { ExecuteWithConfig, ExecuteFactory, Config} from '@chainlink/types'
 import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
 import { util } from '@chainlink/ea-bootstrap'
-
-export const NAME = 'Finage'
+import { makeConfig, NAME } from './config'
 
 const customParams = {
   base: ['base', 'from', 'symbol'],
   endpoint: false,
 }
 
-const baseUrl = 'https://api.finage.co.uk'
-
 const DEFAULT_ENDPOINT = 'stock'
 
-export const execute: Execute = async (input) => {
-  const validator = new Validator(input, customParams)
+export const execute: ExecuteWithConfig<Config> = async (request, config) => {
+  const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
+  let url: string
   const symbol = (validator.overrideSymbol(NAME) as string).toUpperCase()
   const apikey = util.getRandomRequiredEnv('API_KEY')
-  let params
   let responsePath
-  let url: string
+  let params
 
   switch (endpoint) {
     case 'stock': {
-      url = `${baseUrl}/last/stock/${symbol}`
+      url = `/last/stock/${symbol}`
       responsePath = ['bid']
       params = {
         apikey,
@@ -35,7 +32,7 @@ export const execute: Execute = async (input) => {
       break
     }
     case 'eod': {
-      url = `${baseUrl}/agg/stock/prev-close/${symbol}`
+      url = `/agg/stock/prev-close/${symbol}`
       responsePath = ['results', 0, 'c']
       params = {
         apikey,
@@ -51,12 +48,17 @@ export const execute: Execute = async (input) => {
     }
   }
 
-  const config = {
+  const options = {
+    ...config.api,
     url,
     params,
   }
 
-  const response = await Requester.request(config)
+  const response = await Requester.request(options)
   response.data.result = Requester.validateResultNumber(response.data, responsePath)
   return Requester.success(jobRunID, response)
+}
+
+export const makeExecute: ExecuteFactory<Config> = (config) => {
+  return async (request) => execute(request, config || makeConfig())
 }

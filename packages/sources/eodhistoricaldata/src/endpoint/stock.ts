@@ -1,22 +1,18 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 
-export const NAME = 'quote'
+export const supportedEndpoints = ['price']
 
 const customError = (data: any) => data.Response === 'Error'
 
 const customParams = {
-  base: ['base', 'asset', 'from'],
+  base: ['base', 'asset', 'from', 'symbol'],
 }
 
 const commonKeys: { [key: string]: string } = {
-  N225: '^N225',
-  FTSE: '^FTSE',
-  AUD: 'AUDUSD',
-  CHF: 'CHFUSD',
-  EUR: 'EURUSD',
-  GBP: 'GBPUSD',
-  JPY: 'JPYUSD',
+  N225: 'N225.INDX',
+  FTSE: 'FTSE.INDX',
+  BZ: 'BZ.COMM',
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
@@ -28,15 +24,21 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (commonKeys[symbol]) {
     symbol = commonKeys[symbol]
   }
-  const url = `/api/v3/quote/${symbol}`
+  const url = `/api/real-time/${symbol}`
+
+  const params = {
+    ...config.api.params,
+    fmt: 'json',
+  }
 
   const options = {
     ...config.api,
     url,
+    params,
   }
 
   const response = await Requester.request(options, customError)
-  response.data.result = Requester.validateResultNumber(response.data, [0, 'price'])
+  response.data.result = Requester.validateResultNumber(response.data, ['close'])
 
   return Requester.success(jobRunID, response, config.verbose)
 }

@@ -1,8 +1,8 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { AdapterRequest, Config } from '@chainlink/types'
+import { ExecuteWithConfig, Config } from '@chainlink/types'
 import { DEFAULT_INTERVAL, DEFAULT_LIMIT } from '../config'
 
-export const NAME = 'eod'
+export const supportedEndpoints = ['stock', 'eod']
 
 const customError = (data: any) => data.Response === 'Error'
 
@@ -12,7 +12,7 @@ const customParams = {
   limit: false,
 }
 
-export const execute = async (config: Config, request: AdapterRequest) => {
+export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 

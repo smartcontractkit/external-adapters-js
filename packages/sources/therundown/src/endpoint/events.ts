@@ -1,7 +1,7 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 
-export const NAME = 'events'
+export const supportedEndpoints = ['events']
 
 const customParams = {
   sportId: true,

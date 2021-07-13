@@ -1,6 +1,8 @@
-import { Execute } from '@chainlink/types'
+import { ExecuteWithConfig, ExecuteFactory, Config} from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { util } from '@chainlink/ea-bootstrap'
+import { makeConfig, DEFAULT_ENDPOINT } from './config'
+
 
 const commonKeys: Record<string, string> = {
   N225: '^N225',
@@ -18,13 +20,13 @@ const customParams = {
   endpoint: false,
 }
 
-export const execute: Execute = async (input) => {
-  const validator = new Validator(input, customParams)
+export const execute: ExecuteWithConfig<Config> = async (request, config) => {
+  const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const endpoint = validator.validated.data.endpoint || 'quote'
-  const url = `https://finnhub.io/api/v1/${endpoint}`
+  const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
+
   let symbol = validator.validated.data.base.toUpperCase()
   if (commonKeys[symbol]) {
     symbol = commonKeys[symbol]
@@ -36,12 +38,17 @@ export const execute: Execute = async (input) => {
     token,
   }
 
-  const config = {
-    url,
+  const options = {
+    ...config.api,
     params,
+    url: endpoint
   }
 
-  const response = await Requester.request(config)
+  const response = await Requester.request(options)
   response.data.result = Requester.validateResultNumber(response.data, ['c'])
   return Requester.success(jobRunID, response)
+}
+
+export const makeExecute: ExecuteFactory<Config> = (config) => {
+  return async (request) => execute(request, config || makeConfig())
 }

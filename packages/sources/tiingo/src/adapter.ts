@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, Builder } from '@chainlink/ea-bootstrap'
 import {
   AdapterRequest,
   Config,
@@ -6,37 +6,11 @@ import {
   ExecuteWithConfig,
   MakeWSHandler,
 } from '@chainlink/types'
-import { DEFAULT_ENDPOINT, DEFAULT_WS_API_ENDPOINT, makeConfig } from './config'
-import { eod, iex, prices, top } from './endpoint'
-
-const inputParams = {
-  endpoint: false,
-}
+import { DEFAULT_WS_API_ENDPOINT, makeConfig } from './config'
+import * as endpoints from './endpoint'
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-  const validator = new Validator(request, inputParams)
-  if (validator.error) throw validator.error
-
-  Requester.logConfig(config)
-
-  const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
-
-  switch (endpoint.toLowerCase()) {
-    case eod.NAME:
-      return await eod.execute(request, config)
-
-    case iex.NAME:
-    case 'stock':
-      return await iex.execute(request, config)
-
-    case top.NAME:
-      return await top.execute(request, config)
-
-    case prices.NAME:
-    case 'crypto':
-    default:
-      return await prices.execute(request, config)
-  }
+  return Builder.buildSelector(request, config, endpoints)
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {

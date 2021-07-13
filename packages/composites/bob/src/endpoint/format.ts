@@ -38,7 +38,7 @@ interface ResponseSchema {
 export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, config) => {
     const validator = new Validator(request, inputParams)
     if (validator.error) throw validator.error
-    const url = config.RPC_URL || validator.validated.data.url || DEFAULT_RPC_URL
+    const url = validator.validated.data.url || config.RPC_URL || DEFAULT_RPC_URL
     const provider = new ethers.providers.JsonRpcProvider(url)
     const jobRunID = validator.validated.id
 

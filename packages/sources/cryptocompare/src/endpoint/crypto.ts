@@ -2,12 +2,16 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, AxiosResponse, AdapterRequest } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
-export const NAME = 'price'
+export const supportedEndpoints = ['crypto','price','marketcap']
 
 // Bridging the Chainlink endpoint to the response data key
 export enum Paths {
   Price = 'PRICE',
   MarketCap = 'MKTCAP',
+}
+
+export const endpointPaths = {
+  marketcap: Paths.MarketCap
 }
 
 interface ResponseSchema {
@@ -116,6 +120,7 @@ export const inputParameters = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
   path: false,
+  endpoint: false
 }
 
 const handleBatchedRequest = (
@@ -127,13 +132,11 @@ const handleBatchedRequest = (
   const payload: [AdapterRequest, number][] = []
   for (const base in response.data.RAW) {
     for (const quote in response.data.RAW[base]) {
-      const nonBatchInput = {
-        ...request,
-        data: { ...request.data, base: base.toUpperCase(), quote: quote.toUpperCase() },
-      }
-      const validated = new Validator(nonBatchInput, inputParameters)
       payload.push([
-        { endpoint: request.data.endpoint, ...validated.validated.data },
+        {
+          ...request,
+          data: { ...request.data, base: base.toUpperCase(), quote: quote.toUpperCase() },
+        },
         Requester.validateResultNumber(response.data, ['RAW', base, quote, path]),
       ])
     }
@@ -147,6 +150,11 @@ const handleBatchedRequest = (
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
+
+  const endpoint = validator.validated.data.endpoint || config.defaultEndpoint
+  if (endpoint.toLowerCase() === 'marketcap') {
+    validator.validated.data.path = Paths.MarketCap
+  }
 
   const jobRunID = validator.validated.id
   const url = `/data/pricemultifull`
@@ -178,14 +186,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
   const result = Requester.validateResultNumber(response.data, ['RAW', symbol, quote, path])
 
-  return Requester.success(
-    jobRunID,
-    Requester.withResult(response, result),
-    config.verbose,
-    ['base', 'quote'],
-    {
-      endpoint: request.data.endpoint,
-      ...validator.validated.data,
-    },
-  )
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose, [
+    'base',
+    'quote',
+  ])
 }

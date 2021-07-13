@@ -1,7 +1,7 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 
-export const NAME = 'iex'
+export const supportedEndpoints = ['iex', 'stock']
 
 const customParams = {
   ticker: ['ticker', 'base', 'from', 'coin'],
@@ -15,7 +15,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const jobRunID = validator.validated.id
   const ticker = validator.validated.data.ticker
   const field = validator.validated.data.field || 'tngoLast'
-  const url = `${NAME}/${ticker}`
+  const url = `iex/${ticker}`
   const options = {
     ...config.api,
     params: {

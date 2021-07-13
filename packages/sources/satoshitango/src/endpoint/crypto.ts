@@ -1,11 +1,12 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 
-export const NAME = 'price'
+export const supportedEndpoints = ['crypto', 'ticker']
 
-export const customParams = {
-  symbol: ['base', 'from', 'coin', 'sym', 'symbol'],
-  convert: ['quote', 'to', 'market', 'convert'],
+const customParams = {
+  base: ['base', 'from', 'coin'],
+  quote: ['quote', 'to', 'market'],
+  field: false,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
@@ -13,24 +14,23 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const symbol = validator.validated.data.symbol
-  const convert = validator.validated.data.convert
-  const currencyPair = `${symbol}-${convert}`.toUpperCase()
-  const url = `/v2/prices/${currencyPair}/spot`
-
-  const params = {
-    symbol,
-    convert,
-  }
+  const base = validator.validated.data.base.toUpperCase()
+  const quote = validator.validated.data.quote.toUpperCase()
+  const url = `ticker/${quote}`
+  const field = validator.validated.data.field || 'bid'
 
   const options = {
     ...config.api,
     url,
-    params,
   }
 
   const response = await Requester.request(options)
-  response.data.result = Requester.validateResultNumber(response.data, ['data', 'amount'])
+  response.data.result = Requester.validateResultNumber(response.data, [
+    'data',
+    'ticker',
+    base,
+    field,
+  ])
 
   return Requester.success(jobRunID, response, config.verbose)
 }
