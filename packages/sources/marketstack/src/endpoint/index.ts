@@ -1,1 +1,1 @@
-export * as eod from './eod'
+export * as stock from './stock'

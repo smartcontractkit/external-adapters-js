@@ -1,6 +1,6 @@
 import * as dwolla from 'dwolla-v2'
 
-export const NAME = 'dwolla'
+export const supportedEndpoints = ['dwolla']
 
 type Response = {
   jobRunID: string

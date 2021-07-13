@@ -10,7 +10,7 @@ import { combineReducers, Store } from 'redux'
 import { defaultOptions, redactOptions, withCache } from './lib/cache'
 import * as cacheWarmer from './lib/cache-warmer'
 import { WARMUP_REQUEST_ID } from './lib/cache-warmer/config'
-import { AdapterError, logger as Logger, Requester, Validator } from './lib/external-adapter'
+import { AdapterError, logger as Logger, Requester, Validator, Builder } from './lib/external-adapter'
 import * as metrics from './lib/metrics'
 import { getFeedId } from './lib/metrics/util'
 import * as rateLimit from './lib/rate-limit'
@@ -189,4 +189,4 @@ export type ExecuteHandlers = ReturnType<typeof expose>
 const cacheOptions = defaultOptions()
 if (cacheOptions.enabled) Logger.info('Cache enabled: ', redactOptions(cacheOptions))
 
-export { Requester, Validator, AdapterError, Logger, util, server, executeSync }
+export { Requester, Validator, AdapterError, Builder, Logger, util, server, executeSync }

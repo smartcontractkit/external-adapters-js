@@ -2,12 +2,16 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../config'
 import { ExecuteWithConfig, Config, AxiosResponse, AdapterRequest } from '@chainlink/types'
 
-export const NAME = 'price'
+export const supportedEndpoints = ['crypto','price','marketcap']
 
 // Bridging the Chainlink endpoint to the response data key
 export enum Paths {
   Price = 'price',
   MarketCap = 'market_cap',
+}
+
+export const endpointPaths = {
+  marketcap: Paths.MarketCap,
 }
 
 // Coin IDs fetched from the ID map: https://coinmarketcap.com/api/documentation/v1/#operation/getV1CryptocurrencyMap
@@ -50,6 +54,7 @@ const inputParameters = {
   cid: false,
   slug: false,
   path: false,
+  endpoint:false
 }
 
 const handleBatchedRequest = (

@@ -2,14 +2,14 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig } from '@chainlink/types'
 import { authenticate, convert, getAssetId } from '../helpers'
 
-export const NAME = 'price'
+export const supportedEndpoints = ['crypto', 'price']
 
 const customParams = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request) => {
+export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 
@@ -23,5 +23,5 @@ export const execute: ExecuteWithConfig<Config> = async (request) => {
 
   const response = await convert(token, baseAssetId, quoteAssetId)
 
-  return Requester.success(jobRunID, response)
+  return Requester.success(jobRunID, response, config.verbose)
 }

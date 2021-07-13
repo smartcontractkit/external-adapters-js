@@ -1,9 +1,9 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
-import { COINS } from '.'
+import { COINS } from '../config'
 import { DEFAULT_ENDPOINT } from '../config'
 
-export const Name = 'stats'
+export const supportedEndpoints = ['stats','height','difficulty']
 
 const inputParams = {
   blockchain: ['blockchain', 'coin'],

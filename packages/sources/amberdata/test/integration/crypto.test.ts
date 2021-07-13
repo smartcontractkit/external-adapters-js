@@ -3,7 +3,7 @@ import { assertError, assertSuccess } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
 import { makeExecute } from '../../src/adapter'
 
-describe('price endpoint', () => {
+describe('crypto endpoint', () => {
   const jobID = '1'
   const execute = makeExecute()
   process.env.API_KEY = process.env.API_KEY ?? 'test_api_key'

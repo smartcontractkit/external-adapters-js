@@ -2,7 +2,7 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 import { authenticate, apiHeaders, getAssetId, host } from '../helpers'
 
-export const NAME = 'vwap'
+export const supportedEndpoints = ['vwap']
 
 const customParams = {
   symbol: ['base', 'from', 'coin', 'symbol', 'assetId', 'indexId', 'asset'],

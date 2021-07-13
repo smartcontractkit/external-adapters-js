@@ -1,7 +1,7 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 
-export const NAME = 'dataquery'
+export const supportedEndpoints = ['dataquery']
 
 const customError = (data: any) => data.status !== '200'
 
