@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "@chainlink/ea-bootstrap": "*",
+    "@chainlink/ea-reference-data-reader": "*",
     "@chainlink/ea-test-helpers": "*",
     "ethers": "^5.4.1",
     "tslib": "^2.1.0"
