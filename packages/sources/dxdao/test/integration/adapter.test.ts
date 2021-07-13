@@ -36,8 +36,8 @@ describe('execute', () => {
       it(`${req.name}`, async () => {
         const data = await execute(req.testData as AdapterRequest)
         assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
-        expect(data.result).toBeGreaterThan(0)
-        expect(data.data.result).toBeGreaterThan(0)
+        expect(data.result).not.toBeFalsy()
+        expect(data.data.result).not.toBeFalsy()
       })
     })
   })
