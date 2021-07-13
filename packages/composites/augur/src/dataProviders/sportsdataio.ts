@@ -302,9 +302,12 @@ export const createFighter: Execute = async (input) => {
 
   const leagues = ["UFC"]
   for (const league of leagues) {
-    const schedule = (await getFightSchedule(input.id, sport, league, `${new Date().getFullYear()}`, sportsdataioExec))
+    const season = new Date().getFullYear();
+    Logger.debug(`Getting fight schedule for league ${league} in season ${season}.`)
+    const schedule = (await getFightSchedule(input.id, sport, league, `${season}`, sportsdataioExec))
       .filter(event => event.Status === "Scheduled")
 
+    Logger.debug(`Getting ${schedule.length} events from season, then filtering out unscheduled`);
     for (const event of schedule) {
       const eventFights = (await getFights(input.id, sport, event.EventId, sportsdataioExec))
         .filter(fight => fight.Status === "Scheduled")
@@ -393,7 +396,7 @@ export const resolveTeam: Execute = async (input) => {
 
   const eventId = Number(validator.validated.data.eventId)
   const sport = validator.validated.data.sport
-  const sportsdataioExec = Sportsdataio.makeExecute()
+  const sportsdataioExec = Sportsdataio.makeExecute(Sportsdataio.makeConfig(Sportsdataio.NAME))
 
   const event = await findEventScore(input.id, sport, getSeason(), eventId, sportsdataioExec)
   if (!event) {
@@ -436,9 +439,11 @@ export const resolveFight: Execute = async (input) => {
 
   const fightId = Number(validator.validated.data.eventId)
   const sport = validator.validated.data.sport
-  const sportsdataioExec = Sportsdataio.makeExecute()
+  const sportsdataioExec = Sportsdataio.makeExecute(Sportsdataio.makeConfig(Sportsdataio.NAME))
 
+  Logger.debug(`Getting fight ${input.id} for sport ${sport}, which has fightId ${fightId}`);
   const fight = await getFight(input.id, sport, fightId, sportsdataioExec)
+
   if (!fight) {
     throw Error(`Unable to find fight ${fightId}`)
   }
@@ -447,18 +452,37 @@ export const resolveFight: Execute = async (input) => {
   if (!status) {
     throw Error(`Unknown status: ${fight.Status}`)
   }
-
+    
   const winners = fight.Fighters
     .filter(fighter => fighter.Active && fighter.Winner)
 
   const draw = winners.length !== 1
-  const winnerId = draw ? 0 : winners[0].FighterId
+  let winnerId = 0
+  let fighters = fight.Fighters
+  if(!draw) {
+    // The fighters array for an event can contain previous, now non-active fighters,
+    // as well as the current active fighters. During the creation code, the non-active
+    // fighters are filtered but kept in the same order as the data source provides.
+    //
+    // In the case where an event is marked Canceled, both the fighters go to `Active = false`
+    // so we need to to only do this filter here if the fight is indeed a draw, or else the
+    // identificaton of fighterA and fighterB below would break.
+    //
+    // In the case where this is a draw, AND there was a change of fighers, setting the default
+    // fighers list to the raw array, and indexing to 0 and 1 could indeed cause this call to
+    // provide the incorrect fighter ID for fighterA, but in both of these cases the market resolves
+    // as `No Contest` so it still ends up giving proper resolution.
+    fighters = fighters.filter(fighter => fighter.Active)
+    
+    // If this is a draw the winnerId is kept as 0 (uninitialized)
+    winnerId = winners[0].FighterId
+  }
 
   const resolveEvent: ResolveFight = {
     id: BigNumber.from(fight.FightId),
     status,
-    fighterA: fight.Fighters[0].FighterId,
-    fighterB: fight.Fighters[1].FighterId,
+    fighterA: fighters[0].FighterId,
+    fighterB: fighters[1].FighterId,
     winnerId,
     draw,
   }

@@ -132,7 +132,9 @@ const resolveFights = async (jobRunID: string, sport: string, contractAddress: s
     throw Error(`Unknown data provider for sport ${sport}`)
   }
 
+  Logger.debug("Augur: Getting list of potentially resolvable events")
   const eventIDs: ethers.BigNumber[] = await contract.listResolvableEvents()
+  Logger.debug(`Augur: Found ${eventIDs.length} potentially resolvable events`)
   const events: ResolveFight[] = []
   for (const eventId of eventIDs) {
     try {
@@ -153,6 +155,9 @@ const resolveFights = async (jobRunID: string, sport: string, contractAddress: s
   const eventReadyToResolve = events
     .filter(({ status }) => statusCompleted.includes(status))
 
+  let failed = 0
+  let succeeded = 0
+
   let nonce = await config.wallet.getTransactionCount()
   for (const fight of eventReadyToResolve) {
     Logger.info(`Augur: resolving event "${fight.id.toString()}"`)
@@ -172,13 +177,24 @@ const resolveFights = async (jobRunID: string, sport: string, contractAddress: s
       fight.fighterA,
       fight.fighterB,
       fightStatus,
-      { nonce: nonce++ }
+      { nonce }
     ]
 
-    // This call both resolves markets and finalizes their resolution.
-    const tx = await contract.trustedResolveMarkets(...payload)
-    Logger.info(`Augur: Created tx: ${tx.hash}`)
+    // This call resolves markets.
+    try {
+      Logger.debug(`Augur: Resolving market with these arguments: ${JSON.stringify(payload)}`)
+      const tx = await contract.trustedResolveMarkets(...payload)
+      Logger.info(`Augur: Created tx: ${tx.hash}`)
+      nonce++
+      succeeded++
+    } catch (e) {
+      failed++
+      Logger.error(e);
+    }
   }
+
+  Logger.debug(`Augur: ${succeeded} resolved markets`)
+  Logger.debug(`Augur: ${failed} markets failed to resolve`)
 
   return Requester.success(jobRunID, {})
 }
