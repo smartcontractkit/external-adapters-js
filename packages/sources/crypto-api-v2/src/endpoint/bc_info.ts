@@ -5,7 +5,7 @@ import { BLOCKCHAIN_NAME_MAP } from "./index"
 
 export const Name = 'bc_info'
 
-interface ResponseSchema {
+export interface ResponseSchema {
   "apiVersion": string,
   "requestId": string,
   "data": {

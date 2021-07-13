@@ -3,7 +3,7 @@ import { ExecuteWithConfig, Config } from '@chainlink/types'
 
 export const Name = 'price'
 
-interface ResponseSchema {
+export interface ResponseSchema {
   "apiVersion": string,
   "requestId": string,
   "data": {
