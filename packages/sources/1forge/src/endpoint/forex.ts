@@ -2,17 +2,12 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
-export const supportedEndpoints = ['price']
-
-const customError = (data: any) => {
-  return data.status === 'ERROR'
-}
+export const supportedEndpoints = ['price', 'forex']
 
 const customParams = {
   base: ['base', 'from'],
   quote: ['quote', 'to'],
-  amount: false,
-  precision: false,
+  quantity: false,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
@@ -20,21 +15,26 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
+  const url = `/convert`
   const from = (validator.overrideSymbol(AdapterName) as string).toUpperCase()
   const to = validator.validated.data.quote.toUpperCase()
-  const amount = validator.validated.data.amount || 1
-  const precision = validator.validated.data.precision || 4
-  const url = `conversion/${from}/${to}`
+  const quantity = validator.validated.data.quantity || 1
 
   const params = {
     ...config.api.params,
-    amount,
-    precision,
+    from,
+    to,
+    quantity,
   }
 
-  const options = { ...config.api, params, url }
+  const options = {
+    ...config.api,
+    url,
+    params,
+  }
 
-  const response = await Requester.request(options, customError)
-  response.data.result = Requester.validateResultNumber(response.data, ['converted'])
+  const response = await Requester.request(options)
+  response.data.result = Requester.validateResultNumber(response.data, ['value'])
+
   return Requester.success(jobRunID, response, config.verbose)
 }

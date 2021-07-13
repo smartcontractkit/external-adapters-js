@@ -1,7 +1,7 @@
 import { Requester, Validator, Builder } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, ExecuteFactory, MakeWSHandler, AdapterRequest } from '@chainlink/types'
 import { makeConfig, DEFAULT_WS_API_ENDPOINT } from './config'
-import { ticker } from './endpoint'
+import { crypto } from './endpoint'
 import * as endpoints from './endpoint'
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
@@ -25,7 +25,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
     }
   }
   const getSymbol = (input: AdapterRequest) => {
-    const validator = new Validator(input, ticker.customParams, {}, false)
+    const validator = new Validator(input, crypto.customParams, {}, false)
     if (validator.error) return
     const symbol = validator.validated.data.base.toUpperCase()
     const convert = validator.validated.data.quote.toUpperCase()

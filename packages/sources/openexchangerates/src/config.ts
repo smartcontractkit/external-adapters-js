@@ -3,7 +3,7 @@ import { Config } from '@chainlink/types'
 
 export const NAME = 'OPEN-EXCHANGE-RATES'
 
-export const DEFAULT_ENDPOINT = 'price'
+export const DEFAULT_ENDPOINT = 'forex'
 export const DEFAULT_BASE_URL = 'https://openexchangerates.org/api/'
 
 export const makeConfig = (prefix = ''): Config => {

@@ -17,6 +17,10 @@ const customParams = {
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
+  const endpoint = validator.validated.data.endpoint || config.defaultEndpoint
+  if (endpoint.toLowerCase() === 'globalmarketcap') {
+    validator.validated.data.field = 'total_mcap'
+  }
 
   const jobRunID = validator.validated.id
   const url = `global`

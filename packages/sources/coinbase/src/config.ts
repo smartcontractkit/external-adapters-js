@@ -3,7 +3,7 @@ import { Config } from '@chainlink/types'
 
 export const NAME = 'COINBASE'
 
-export const DEFAULT_ENDPOINT = 'price'
+export const DEFAULT_ENDPOINT = 'crypto'
 export const DEFAULT_API_ENDPOINT = 'https://api.coinbase.com'
 export const DEFAULT_WS_API_ENDPOINT = 'wss://ws-feed.pro.coinbase.com'
 

@@ -3,7 +3,7 @@ import { Config } from '@chainlink/types'
 
 export const NAME = 'NIKKEI'
 
-export const DEFAULT_ENDPOINT = 'price'
+export const DEFAULT_ENDPOINT = 'stock'
 export const DEFAULT_BASE_URL = 'https://indexes.nikkei.co.jp/en/nkave/'
 
 export const makeConfig = (prefix = ''): Config => {

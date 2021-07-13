@@ -7,7 +7,7 @@ import {
   MakeWSHandler} from '@chainlink/types'
 import { DEFAULT_WS_API_ENDPOINT, makeConfig, NAME } from './config'
 import * as endpoints from './endpoint'
-import { price } from './endpoint'
+import { crypto } from './endpoint'
 
 // Export function to integrate with Chainlink node
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
@@ -21,7 +21,7 @@ export const makeExecute: ExecuteFactory<Config> = (config) => {
 export const makeWSHandler = (defaultConfig?: Config): MakeWSHandler => {
   const subscriptions: any = {}
   const getPair = (input: AdapterRequest) => {
-    const validator = new Validator(input, price.customParams, {}, false)
+    const validator = new Validator(input, crypto.customParams, {}, false)
     if (validator.error) return
     const base = (validator.overrideSymbol(NAME) as string).toLowerCase()
     const quote = validator.validated.data.quote.toLowerCase()

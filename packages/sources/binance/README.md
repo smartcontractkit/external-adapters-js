@@ -6,12 +6,12 @@ Adapter using the public Binance market API for both HTTP(s) and WS.
 
 | Required? |   Name   |     Description     |           Options            | Defaults to |
 | :-------: | :------: | :-----------------: | :--------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [ticker](#Ticker-Endpoint) |   ticker   |
+|           | endpoint | The endpoint to use | [crypto](#Crypto-Endpoint) |   ticker   |
 
 ---
 
-## Ticker Endpoint
-
+## Crypto Endpoint
+##### NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.
 An example endpoint description
 
 ### Input Params

@@ -3573,7 +3573,6 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/kaiko-adapter": "*"
     "@chainlink/nomics-adapter": "*"
-    "@chainlink/tiingo-adapter": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
