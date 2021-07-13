@@ -11,20 +11,25 @@ describe('execute', () => {
     const requests = [
       {
         name: 'id not supplied',
-        testData: { data: { base: 'ETH', quote: 'USD' } },
+        testData: { 
+          data: {
+            "wethContractAddress": "0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1",
+            "pairContractAddress": "0x1bDe964eCd52429004CbC5812C07C28bEC9147e9",
+            "xdaiEthUsdPriceFeedAddress": "0xa767f745331D267c7751297D982b050c93985627"
+          } 
+        },
       },
       {
-        name: 'base/quote',
-        testData: { id: jobID, data: { base: 'ETH', quote: 'USD' } },
-      },
-      {
-        name: 'from/to',
-        testData: { id: jobID, data: { from: 'ETH', to: 'USD' } },
-      },
-      {
-        name: 'coin/market',
-        testData: { id: jobID, data: { coin: 'ETH', market: 'USD' } },
-      },
+        name: 'pair contract address supplied with id',
+        testData: { 
+          jobID: 1,
+          data: {
+            "wethContractAddress": "0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1",
+            "pairContractAddress": "0x1bDe964eCd52429004CbC5812C07C28bEC9147e9",
+            "xdaiEthUsdPriceFeedAddress": "0xa767f745331D267c7751297D982b050c93985627"
+          } 
+        },
+      }
     ]
 
     requests.forEach((req) => {
@@ -40,13 +45,38 @@ describe('execute', () => {
   describe('error calls @integration', () => {
     const requests = [
       {
-        name: 'unknown base',
-        testData: { id: jobID, data: { base: 'not_real', quote: 'USD' } },
+        name: 'invalid wethContractAddress',
+        testData: { 
+          jobID: 1,
+          data: {
+            "wethContractAddress": "invalid-address",
+            "pairContractAddress": "0x1bDe964eCd52429004CbC5812C07C28bEC9147e9",
+            "xdaiEthUsdPriceFeedAddress": "0xa767f745331D267c7751297D982b050c93985627"
+          } 
+        },
       },
       {
-        name: 'unknown quote',
-        testData: { id: jobID, data: { base: 'ETH', quote: 'not_real' } },
+        name: 'invalid pairContractAddress',
+        testData: { 
+          jobID: 1,
+          data: {
+            "wethContractAddress": "0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1",
+            "pairContractAddress": "invalid-address",
+            "xdaiEthUsdPriceFeedAddress": "0xa767f745331D267c7751297D982b050c93985627"
+          } 
+        },
       },
+      {
+        name: 'invalid xdaiEthUsdPriceFeedAddress',
+        testData: { 
+          jobID: 1,
+          data: {
+            "wethContractAddress": "0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1",
+            "pairContractAddress": "0x1bDe964eCd52429004CbC5812C07C28bEC9147e9",
+            "xdaiEthUsdPriceFeedAddress": "invalid-address"
+          } 
+        },
+      }
     ]
 
     requests.forEach((req) => {
