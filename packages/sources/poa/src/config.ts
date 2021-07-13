@@ -1,7 +1,7 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
-export const NAME = 'POA-GAS-PRICE'
+export const NAME = 'POA'
 
 export const DEFAULT_BASE_URL = 'https://gasprice.poa.network/'
 

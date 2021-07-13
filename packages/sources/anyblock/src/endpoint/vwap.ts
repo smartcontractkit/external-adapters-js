@@ -1,6 +1,9 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 
+export const supportedEndpoints = ['vwap']
+
+
 const customError = (data: any) => {
   return !data.hits || !data.hits.hits || data.hits.hits.length < 1
 }
