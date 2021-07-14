@@ -1,9 +1,5 @@
 # Chainlink External Adapter for Dxdao
 
-A template to be used as an example for new [External Adapters](https://github.com/smartcontractkit/external-adapters-js)
-
-(please fill out with corresponding information)
-
 ### Environment Variables
 
 No adapter specific environment variables
