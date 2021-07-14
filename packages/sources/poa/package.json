@@ -1,14 +1,13 @@
 {
-  "name": "@chainlink/anyblock-uniswap-vwap-adapter",
+  "name": "@chainlink/poa-adapter",
   "version": "0.0.4",
-  "description": "Chainlink adapter using Anyblock Analytics service to calculate the volume weighted average price (VWAP) for any Uniswap asset.",
+  "description": "Chainlink poa adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
     "oracle",
-    "Anyblock",
-    "Uniswap"
+    "poa"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

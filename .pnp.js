@@ -143,12 +143,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/amberdata"
       },
       {
-        "name": "@chainlink/anyblock-gasprice-adapter",
-        "reference": "workspace:packages/sources/anyblock-gasprice"
-      },
-      {
-        "name": "@chainlink/anyblock-uniswap-vwap-adapter",
-        "reference": "workspace:packages/sources/anyblock-uniswap-vwap"
+        "name": "@chainlink/anyblock-adapter",
+        "reference": "workspace:packages/sources/anyblock"
       },
       {
         "name": "@chainlink/binance-adapter",
@@ -395,8 +391,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/paypal"
       },
       {
-        "name": "@chainlink/poa-gasprice-adapter",
-        "reference": "workspace:packages/sources/poa-gasprice"
+        "name": "@chainlink/poa-adapter",
+        "reference": "workspace:packages/sources/poa"
       },
       {
         "name": "@chainlink/polygon-adapter",
@@ -495,8 +491,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/alphachain-adapter", ["workspace:packages/sources/alphachain"]],
       ["@chainlink/alphavantage-adapter", ["workspace:packages/sources/alphavantage"]],
       ["@chainlink/amberdata-adapter", ["workspace:packages/sources/amberdata"]],
-      ["@chainlink/anyblock-gasprice-adapter", ["workspace:packages/sources/anyblock-gasprice"]],
-      ["@chainlink/anyblock-uniswap-vwap-adapter", ["workspace:packages/sources/anyblock-uniswap-vwap"]],
+      ["@chainlink/anyblock-adapter", ["workspace:packages/sources/anyblock"]],
       ["@chainlink/apy-finance-adapter", ["workspace:packages/composites/apy-finance"]],
       ["@chainlink/augur-adapter", ["workspace:packages/composites/augur"]],
       ["@chainlink/binance-adapter", ["workspace:packages/sources/binance"]],
@@ -581,7 +576,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/outlier-detection-adapter", ["workspace:packages/composites/outlier-detection"]],
       ["@chainlink/paxos-adapter", ["workspace:packages/sources/paxos"]],
       ["@chainlink/paypal-adapter", ["workspace:packages/sources/paypal"]],
-      ["@chainlink/poa-gasprice-adapter", ["workspace:packages/sources/poa-gasprice"]],
+      ["@chainlink/poa-adapter", ["workspace:packages/sources/poa"]],
       ["@chainlink/polygon-adapter", ["workspace:packages/sources/polygon"]],
       ["@chainlink/proof-of-reserves-adapter", ["workspace:packages/composites/proof-of-reserves"]],
       ["@chainlink/reduce-adapter", ["workspace:packages/sources/reduce"]],
@@ -4460,27 +4455,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT",
         }]
       ]],
-      ["@chainlink/anyblock-gasprice-adapter", [
-        ["workspace:packages/sources/anyblock-gasprice", {
-          "packageLocation": "./packages/sources/anyblock-gasprice/",
+      ["@chainlink/anyblock-adapter", [
+        ["workspace:packages/sources/anyblock", {
+          "packageLocation": "./packages/sources/anyblock/",
           "packageDependencies": [
-            ["@chainlink/anyblock-gasprice-adapter", "workspace:packages/sources/anyblock-gasprice"],
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
-            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
-            ["@types/jest", "npm:26.0.22"],
-            ["@types/node", "npm:14.14.41"],
-            ["tslib", "npm:2.2.0"],
-            ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=ddfc1b"]
-          ],
-          "linkType": "SOFT",
-        }]
-      ]],
-      ["@chainlink/anyblock-uniswap-vwap-adapter", [
-        ["workspace:packages/sources/anyblock-uniswap-vwap", {
-          "packageLocation": "./packages/sources/anyblock-uniswap-vwap/",
-          "packageDependencies": [
-            ["@chainlink/anyblock-uniswap-vwap-adapter", "workspace:packages/sources/anyblock-uniswap-vwap"],
+            ["@chainlink/anyblock-adapter", "workspace:packages/sources/anyblock"],
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
@@ -5192,8 +5171,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/alphachain-adapter", "workspace:packages/sources/alphachain"],
             ["@chainlink/alphavantage-adapter", "workspace:packages/sources/alphavantage"],
             ["@chainlink/amberdata-adapter", "workspace:packages/sources/amberdata"],
-            ["@chainlink/anyblock-gasprice-adapter", "workspace:packages/sources/anyblock-gasprice"],
-            ["@chainlink/anyblock-uniswap-vwap-adapter", "workspace:packages/sources/anyblock-uniswap-vwap"],
+            ["@chainlink/anyblock-adapter", "workspace:packages/sources/anyblock"],
             ["@chainlink/binance-adapter", "workspace:packages/sources/binance"],
             ["@chainlink/binance-dex-adapter", "workspace:packages/sources/binance-dex"],
             ["@chainlink/bitex-adapter", "workspace:packages/sources/bitex"],
@@ -5255,7 +5233,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/orchid-bandwidth-adapter", "workspace:packages/sources/orchid-bandwidth"],
             ["@chainlink/paxos-adapter", "workspace:packages/sources/paxos"],
             ["@chainlink/paypal-adapter", "workspace:packages/sources/paypal"],
-            ["@chainlink/poa-gasprice-adapter", "workspace:packages/sources/poa-gasprice"],
+            ["@chainlink/poa-adapter", "workspace:packages/sources/poa"],
             ["@chainlink/polygon-adapter", "workspace:packages/sources/polygon"],
             ["@chainlink/reduce-adapter", "workspace:packages/sources/reduce"],
             ["@chainlink/renvm-address-set-adapter", "workspace:packages/sources/renvm-address-set"],
@@ -6057,11 +6035,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT",
         }]
       ]],
-      ["@chainlink/poa-gasprice-adapter", [
-        ["workspace:packages/sources/poa-gasprice", {
-          "packageLocation": "./packages/sources/poa-gasprice/",
+      ["@chainlink/poa-adapter", [
+        ["workspace:packages/sources/poa", {
+          "packageLocation": "./packages/sources/poa/",
           "packageDependencies": [
-            ["@chainlink/poa-gasprice-adapter", "workspace:packages/sources/poa-gasprice"],
+            ["@chainlink/poa-adapter", "workspace:packages/sources/poa"],
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
