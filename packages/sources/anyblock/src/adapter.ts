@@ -1,11 +1,11 @@
-import { Requester } from '@chainlink/ea-bootstrap'
+import { Builder } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
 import { makeConfig } from './config'
-import { gasprice } from './endpoint'
+import * as endpoints from './endpoint'
 
+// Export function to integrate with Chainlink node
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-  Requester.logConfig(config)
-  return await gasprice.execute(request, config)
+  return Builder.buildSelector(request, config, endpoints)
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {

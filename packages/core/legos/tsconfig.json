@@ -23,10 +23,7 @@
       "path": "../../sources/amberdata"
     },
     {
-      "path": "../../sources/anyblock-gasprice"
-    },
-    {
-      "path": "../../sources/anyblock-uniswap-vwap"
+      "path": "../../sources/anyblock"
     },
     {
       "path": "../../sources/binance"
@@ -209,7 +206,7 @@
       "path": "../../sources/paypal"
     },
     {
-      "path": "../../sources/poa-gasprice"
+      "path": "../../sources/poa"
     },
     {
       "path": "../../sources/polygon"

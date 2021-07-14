@@ -1,7 +1,7 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 
-export const NAME = 'gasprice'
+export const supportedEndpoints = ['gasprice']
 
 const customError = (data: any) => {
   if (Object.keys(data).length < 1) return true
@@ -11,7 +11,6 @@ const customError = (data: any) => {
 
 const customParams = {
   speed: false,
-  endpoint: false,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
@@ -19,9 +18,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const endpoint = validator.validated.data.endpoint || 'latest-minimum-gasprice'
   const speed = validator.validated.data.speed || 'standard'
-  const url = `/${endpoint}`
+  const url = `/latest-minimum-gasprice`
 
   const options = {
     ...config.api,
