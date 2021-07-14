@@ -28,13 +28,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
   const client = create({ url: config.api.baseURL })
 
+  // If CID is not included, we try to resolve IPNS
   if (!cid) {
-    console.log('resolving IPNS')
     for await (const ipfsCid of client.name.resolve(`/ipns/${ipns}`)) {
-      console.log(ipfsCid)
       cid = ipfsCid.replace('/ipfs/', '')
     }
-    console.log(cid)
   }
 
   const codec = validator.validated.data.codec

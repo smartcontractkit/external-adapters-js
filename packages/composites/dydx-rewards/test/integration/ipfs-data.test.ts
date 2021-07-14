@@ -30,7 +30,7 @@ describe('ipfs data', () => {
 
     const writeParams = {
       id: '1',
-      data: { endpoint: 'write', data: writeData, codec: 'json', cidVersion },
+      data: { method: 'write', data: writeData, codec: 'json', cidVersion },
     }
     const writeResult = await ipfs(writeParams)
     const writeCid = new CID(writeResult.result)
@@ -44,20 +44,17 @@ describe('ipfs data', () => {
 
     const writeParams2 = {
       id: '1',
-      data: { endpoint: 'write', data: writeData2, type: 'dag', cidVersion },
+      data: { method: 'write', data: writeData2, type: 'dag', cidVersion },
     }
     const writeResult2 = await ipfs(writeParams2)
 
-    const readParams = {
-      id: '1',
-      data: { endpoint: 'read', cid: writeResult2.result, type: 'dag' },
-    }
+    const readParams = { id: '1', data: { method: 'read', cid: writeResult2.result, type: 'dag' } }
     const readResult = await ipfs(readParams)
     const result = readResult.result as OracleRewardsDataByEpoch
 
     const readParams2 = {
       id: '1',
-      data: { endpoint: 'read', cid: result.dataByEpoch[123].toV1(), codec: 'json' },
+      data: { method: 'read', cid: result.dataByEpoch[123].toV1(), codec: 'json' },
     }
     const readResult2 = await ipfs(readParams2)
     const finalResponse = readResult2.result as OracleRewardsData

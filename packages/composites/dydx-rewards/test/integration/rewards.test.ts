@@ -1,8 +1,7 @@
 import * as IPFS_Adapter from '@chainlink/ipfs-adapter'
-import { calculateRewards, Input } from '../../src/method/poke'
-import { BigNumber, ethers } from 'ethers'
+import { calculateRewards, deconstructJsonTree, Input } from '../../src/method/poke'
+import { BigNumber } from 'ethers'
 import mockRewards from '../mock-data/rewards.json'
-import { deconstructJsonTree } from '../e2e/merkle.test'
 
 describe('rewards', () => {
   const jobRunID = '1'
@@ -12,19 +11,32 @@ describe('rewards', () => {
     marketMakerRewardsAmount: 2e23,
     ipnsName: 'k51qzi5uqu5dlkb9yviadsfl3uxndbkyhf4n97u1t1np5e9f67zwmjz6yk9m9k',
     traderScoreAlpha: 0.7,
+    newEpoch: BigNumber.from(0),
+    activeRootIpfsCid: 'bafkreigx6x553cdksm5gj2hh2fkhs2csjnmnny3zxp3tcyzevfj3f3ekli',
   }
   const rewards = deconstructJsonTree(mockRewards)
 
   it('should calculate the correct rewards for epoch 0', async () => {
-    const { addressRewards, newEpoch } = await calculateRewards(
-      jobRunID,
-      defaultInput,
-      ethers.constants.HashZero,
-      '',
-      BigNumber.from(0),
-      ipfs,
-    )
+    const addressRewards = await calculateRewards(jobRunID, defaultInput, ipfs)
     expect(addressRewards).toEqual(rewards)
-    expect(newEpoch.toNumber()).toEqual(0)
+  })
+
+  it('should add cumulative rewards after epoch 0', async () => {
+    const input = {
+      ...defaultInput,
+      newEpoch: BigNumber.from(1),
+    }
+
+    // We expect the cumulative rewards for epoch 1 to be twice as much as epoch 0
+    const expectedRewards = Object.keys(rewards).reduce(
+      (obj, addr) => ({
+        ...obj,
+        [addr]: rewards[addr].mul(2),
+      }),
+      {},
+    )
+
+    const addressRewards = await calculateRewards(jobRunID, input, ipfs)
+    expect(addressRewards).toEqual(expectedRewards)
   })
 })
