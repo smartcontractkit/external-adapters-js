@@ -25,7 +25,7 @@ export interface ResponseSchema {
 }
 
 export const inputParameters = {
-  from: ['base', 'from', 'coin'],
+  base: ['base', 'from', 'coin'],
   path: false,
 }
 

@@ -116,6 +116,7 @@ declare module '@chainlink/types' {
     supportedEndpoints: string[]
     endpointPaths?: EndpointPaths
     inputParameters?: InputParameters
+    endpointOverride?: (request: AdapterRequest) => string | null
     execute?: Execute | ExecuteWithConfig<Config>
     makeExecute?: ExecuteFactory<Config>
   }

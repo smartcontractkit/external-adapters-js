@@ -11,6 +11,21 @@ export const inputParameters: InputParameters = {
   endpoint: false,
 }
 
+const findSupportedEndpoint = (
+  apiEndpoints: Record<string, APIEndpoint>,
+  endpoint: string,
+): APIEndpoint | null => {
+  for (const apiEndpoint of Object.values(apiEndpoints)) {
+    // Iterate through supported endpoints of a given Chainlink endpoint
+    for (const supportedChainlinkEndpoint of apiEndpoint.supportedEndpoints) {
+      if (supportedChainlinkEndpoint.toLowerCase() === endpoint.toLowerCase()) {
+        return apiEndpoint
+      }
+    }
+  }
+  return null
+}
+
 const selectEndpoint = (
   request: AdapterRequest,
   config: Config,
@@ -19,29 +34,45 @@ const selectEndpoint = (
 ): APIEndpoint => {
   const params = customParams || inputParameters
   const validator = new Validator(request, params)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || config.defaultEndpoint
-  for (const apiEndpoint of Object.values(apiEndpoints)) {
-    // Allow adapter endpoints to dynamically query different endpoint paths
-    if (apiEndpoint.endpointPaths) {
-      const path = apiEndpoint.endpointPaths[endpoint]
-      if (typeof path === 'function') request.data.path = path(request)
-      else request.data.path = path
-    }
-    // Iterate through supported endpoints of a given Chainlink endpoint
-    for (const supportedChainlinkEndpoint of apiEndpoint.supportedEndpoints) {
-      if (supportedChainlinkEndpoint.toLowerCase() === endpoint.toLowerCase()) {
-        return apiEndpoint
-      }
-    }
+
+  if (!endpoint)
+    throw new AdapterError({
+      jobRunID,
+      message: `Endpoint not supplied and no default found`,
+      statusCode: 400,
+    })
+
+  let apiEndpoint = findSupportedEndpoint(apiEndpoints, endpoint)
+
+  if (!apiEndpoint)
+    throw new AdapterError({
+      jobRunID,
+      message: `Endpoint ${endpoint} not supported.`,
+      statusCode: 400,
+    })
+
+  if (apiEndpoint.endpointOverride) {
+    const overridenEndpoint = apiEndpoint.endpointOverride(request)
+    if (overridenEndpoint) apiEndpoint = findSupportedEndpoint(apiEndpoints, overridenEndpoint)
+    if (!apiEndpoint)
+      throw new AdapterError({
+        jobRunID,
+        message: `Overriden Endpoint ${overridenEndpoint} not supported.`,
+        statusCode: 500,
+      })
   }
-  throw new AdapterError({
-    jobRunID,
-    message: `Endpoint ${endpoint} not supported.`,
-    statusCode: 400,
-  })
+
+  // Allow adapter endpoints to dynamically query different endpoint paths
+  if (apiEndpoint.endpointPaths && request.data) {
+    const path = apiEndpoint.endpointPaths[endpoint]
+    if (typeof path === 'function') request.data.path = path(request)
+    else request.data.path = path
+  }
+
+  return apiEndpoint
 }
 
 const buildSelector = (
@@ -53,6 +84,7 @@ const buildSelector = (
   Requester.logConfig(config)
 
   const apiEndpoint = selectEndpoint(request, config, apiEndpoints, customParams)
+
   if (typeof apiEndpoint.execute === 'function') {
     return apiEndpoint.execute(request, config)
   }

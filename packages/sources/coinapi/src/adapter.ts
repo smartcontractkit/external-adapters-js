@@ -1,5 +1,12 @@
 import { Builder, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteFactory, ExecuteWithConfig, MakeWSHandler } from '@chainlink/types'
+import {
+  Config,
+  ExecuteFactory,
+  ExecuteWithConfig,
+  MakeWSHandler,
+  AdapterRequest,
+  APIEndpoint,
+} from '@chainlink/types'
 import { DEFAULT_WS_API_ENDPOINT, makeConfig, NAME } from './config'
 import * as endpoints from './endpoint'
 import { crypto } from './endpoint'
@@ -11,6 +18,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 export const makeExecute: ExecuteFactory<Config> = (config) => {
   return async (request) => execute(request, config || makeConfig())
 }
+
+export const endpointSelector = (request: AdapterRequest): APIEndpoint =>
+  Builder.selectEndpoint(request, makeConfig(), endpoints)
 
 export const makeWSHandler = (config?: Config): MakeWSHandler => () => {
   const defaultConfig = config || makeConfig()
@@ -26,7 +36,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => () => {
       url: defaultConfig.api.baseWsURL || DEFAULT_WS_API_ENDPOINT,
     },
     subscribe: (input) => {
-      const validator = new Validator(input, crypto.customParams, {}, false)
+      const validator = new Validator(input, crypto.inputParameters, {}, false)
       if (validator.error) return
       const base = (validator.overrideSymbol(NAME) as string).toLowerCase()
       const quote = validator.validated.data.quote.toLowerCase()
