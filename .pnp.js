@@ -235,6 +235,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/cryptoapis"
       },
       {
+        "name": "@chainlink/cryptoapis-v2-adapter",
+        "reference": "workspace:packages/sources/cryptoapis-v2"
+      },
+      {
         "name": "@chainlink/cryptocompare-adapter",
         "reference": "workspace:packages/sources/cryptocompare"
       },
@@ -520,6 +524,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/covid-tracker-adapter", ["workspace:packages/sources/covid-tracker"]],
       ["@chainlink/crypto-volatility-index-adapter", ["workspace:packages/composites/crypto-volatility-index"]],
       ["@chainlink/cryptoapis-adapter", ["workspace:packages/sources/cryptoapis"]],
+      ["@chainlink/cryptoapis-v2-adapter", ["workspace:packages/sources/cryptoapis-v2"]],
       ["@chainlink/cryptocompare-adapter", ["workspace:packages/sources/cryptocompare"]],
       ["@chainlink/cryptoid-adapter", ["workspace:packages/sources/cryptoid"]],
       ["@chainlink/cryptomkt-adapter", ["workspace:packages/sources/cryptomkt"]],
@@ -4959,6 +4964,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT",
         }]
       ]],
+      ["@chainlink/cryptoapis-v2-adapter", [
+        ["workspace:packages/sources/cryptoapis-v2", {
+          "packageLocation": "./packages/sources/cryptoapis-v2/",
+          "packageDependencies": [
+            ["@chainlink/cryptoapis-v2-adapter", "workspace:packages/sources/cryptoapis-v2"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:26.0.22"],
+            ["@types/node", "npm:14.14.41"],
+            ["tslib", "npm:2.2.0"],
+            ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=ddfc1b"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
       ["@chainlink/cryptocompare-adapter", [
         ["workspace:packages/sources/cryptocompare", {
           "packageLocation": "./packages/sources/cryptocompare/",
@@ -5192,6 +5213,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/coinranking-adapter", "workspace:packages/sources/coinranking"],
             ["@chainlink/covid-tracker-adapter", "workspace:packages/sources/covid-tracker"],
             ["@chainlink/cryptoapis-adapter", "workspace:packages/sources/cryptoapis"],
+            ["@chainlink/cryptoapis-v2-adapter", "workspace:packages/sources/cryptoapis-v2"],
             ["@chainlink/cryptocompare-adapter", "workspace:packages/sources/cryptocompare"],
             ["@chainlink/cryptoid-adapter", "workspace:packages/sources/cryptoid"],
             ["@chainlink/cryptomkt-adapter", "workspace:packages/sources/cryptomkt"],
