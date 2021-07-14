@@ -9,8 +9,7 @@ export const NAME = 'TVL'
 const customParams = {
   wethContractAddress: true,
   pairContractAddress: true,
-  xdaiEthUsdPriceFeedAddress: true,
-  shouldReturnInUSD: false
+  xdaiEthUsdPriceFeedAddress: false,
 }
 
 const dxdWethContractAbi = [
@@ -39,14 +38,14 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
    const validator = new Validator(request, customParams)
    if (validator.error) throw validator.error
    const jobRunID = validator.validated.id
-   const { pairContractAddress, wethContractAddress, xdaiEthUsdPriceFeedAddress, shouldReturnInUSD } = validator.validated.data
+   const { pairContractAddress, wethContractAddress, xdaiEthUsdPriceFeedAddress } = validator.validated.data
    const tvlInEth = await getTvlAtAddressInETH(pairContractAddress, wethContractAddress)
    const response = {
       data: {
          result: tvlInEth.toString()
       }
    }
-   if (shouldReturnInUSD) {
+   if (xdaiEthUsdPriceFeedAddress) {
       Logger.info(`Fetching USD/ETH price from XDai price feed address ${xdaiEthUsdPriceFeedAddress}.`)
       // Price feed returns with 8 decimal places
       const USDPerETH = await getRpcLatestAnswer(xdaiEthUsdPriceFeedAddress, 10**8)
