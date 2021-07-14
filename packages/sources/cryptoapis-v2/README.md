@@ -26,10 +26,9 @@ https://developers.cryptoapis.io/technical-documentation/market-data/exchange-ra
 
 | Required? |                Name                |                      Description                       | Options | Defaults to |
 | :-------: | :--------------------------------: | :----------------------------------------------------: | :-----: | :---------: |
-|    ✅     |   `base`, `from`, `coin`, `sym`    |          The symbol of the currency to query           |         |             |
-|    ✅     | `quote`, `to`, `market`, `convert` |        The symbol of the currency to convert to        |         |             |
-|           |               `cid`                |  The CMC coin ID (optional to use in place of `base`)  |         |             |
-|           |               `slug`               | The CMC coin name (optional to use in place of `base`) |         |             |
+|    ✅     |   `base`, `from`, `coin`    |          The symbol of the currency to query           |         |             |
+|    ✅     | `quote`, `to`, `market` |        The symbol of the currency to convert to        |         |             |
+
 
 ### Sample Input
 
