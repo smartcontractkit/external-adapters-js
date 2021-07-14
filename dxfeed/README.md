@@ -6,7 +6,7 @@
 | :-------: | :----------: | :--------------------------: | :-----: | :----------------------------------------: |
 |    ✅     | API_USERNAME |                              |         |                                            |
 |    ✅     | API_PASSWORD |                              |         |                                            |
-|    🟡     | API_ENDPOINT | The endpoint for your dxFeed |         | `https://tools.dxfeed.com/webservice/rest` |
+|           | API_ENDPOINT | The endpoint for your dxFeed |         | `https://tools.dxfeed.com/webservice/rest` |
 
 ---
 
@@ -22,11 +22,12 @@
 
 ### Input Params
 
-| Required? |               Name               |             Description             | Options | Defaults to |
-| :-------: | :------------------------------: | :---------------------------------: | :-----: | :---------: |
-|    ✅     | `base`, `from`, `coin`, `market` | The symbol of the currency to query |         |             |
+| Required? |               Name               |                        Description                        |                                       Options                                        | Defaults to |
+| :-------: | :------------------------------: | :-------------------------------------------------------: | :----------------------------------------------------------------------------------: | :---------: |
+|    ✅     | `base`, `from`, `coin`, `market` |            The symbol of the currency to query            |                                                                                      |             |
+|    🟡     |           `overrides`            | If base provided is found in overrides, that will be used | [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json) |             |
 
-The `base` param handles the following symbol conversions:
+`overrides` should contain the following symbol conversions:
 
 ```bash
 N225 ➡️ 'NKY.IND:TEI'
@@ -35,7 +36,18 @@ TSLA ➡️ 'TSLA:BFX'
 TSLAX ➡️ 'TSLA.US:TEI'
 ```
 
-### Output
+### Sample Input
+
+```json
+{
+  "id": 1,
+  "data": {
+    "base": "FTSE"
+  }
+}
+```
+
+### Sample Output
 
 ```json
 {
