@@ -10,10 +10,6 @@ describe('execute', () => {
   describe('successful calls @integration', () => {
     const requests = [
       {
-        name: 'empty data',
-        testData: { data: {} },
-      },
-      {
         name: 'lokedGold',
         testData: { data: { endpoint: "lockedGold"} },
       },

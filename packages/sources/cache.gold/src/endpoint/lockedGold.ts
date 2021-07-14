@@ -1,7 +1,7 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig } from '@chainlink/types'
 
-export const NAME = 'lockedGold' // This should be filled in with a lowercase name corresponding to the API endpoint
+export const NAME = 'lockedgold' // This should be filled in with a lowercase name corresponding to the API endpoint
 
 const customError = (data: any) => data.Response === 'Error'
 
