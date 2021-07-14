@@ -2,7 +2,7 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../config'
 import { ExecuteWithConfig, Config, AxiosResponse, AdapterRequest } from '@chainlink/types'
 
-export const supportedEndpoints = ['crypto','price','marketcap']
+export const supportedEndpoints = ['crypto', 'price', 'marketcap']
 
 // Bridging the Chainlink endpoint to the response data key
 export enum Paths {
@@ -48,13 +48,13 @@ const presetIds: { [symbol: string]: number } = {
   '1INCH': 8104,
 }
 
-const inputParameters = {
+export const inputParameters = {
   base: ['base', 'from', 'coin', 'sym', 'symbol'],
   convert: ['quote', 'to', 'market', 'convert'],
   cid: false,
   slug: false,
   path: false,
-  endpoint:false
+  endpoint: false,
 }
 
 const handleBatchedRequest = (
@@ -66,17 +66,20 @@ const handleBatchedRequest = (
   const payload: [AdapterRequest, number][] = []
   for (const base in response.data.data) {
     for (const quote in response.data.data[base].quote) {
-      const nonBatchInput = {
-        ...request,
-        data: { ...request.data, base: base.toUpperCase(), convert: quote.toUpperCase() },
-      }
-      const validated = new Validator(nonBatchInput, inputParameters)
       payload.push([
-        { endpoint: request.data.endpoint, ...validated.validated.data },
+        {
+          ...request,
+          data: {
+            ...request.data,
+            base: response.data.data[base].symbol.toUpperCase(),
+            convert: quote.toUpperCase(),
+          },
+        },
         Requester.validateResultNumber(response.data, ['data', base, 'quote', quote, path]),
       ])
     }
   }
+
   response.data.results = payload
   response.data.cost = Requester.validateResultNumber(response.data, ['status', 'credit_count'])
   return Requester.success(jobRunID, response, true, ['base', 'convert'])
@@ -157,8 +160,5 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     convert,
     path,
   ])
-  return Requester.success(jobRunID, response, config.verbose, ['base', 'convert'], {
-    endpoint: request.data.endpoint,
-    ...validator.validated.data,
-  })
+  return Requester.success(jobRunID, response, config.verbose, ['base', 'convert'])
 }

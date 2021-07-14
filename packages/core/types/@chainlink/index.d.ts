@@ -108,9 +108,14 @@ declare module '@chainlink/types' {
 
   export type ExecuteFactory<C extends Config> = (config?: C) => Execute
 
+  export type InputParameter = boolean | string[]
+  export type InputParameters = {
+    [name: string]: InputParameter
+  }
   export interface APIEndpoint {
     supportedEndpoints: string[]
     endpointPaths?: EndpointPaths
+    inputParameters?: InputParameters
     execute?: Execute | ExecuteWithConfig<Config>
     makeExecute?: ExecuteFactory<Config>
   }

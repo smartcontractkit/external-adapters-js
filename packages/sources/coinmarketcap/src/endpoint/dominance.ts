@@ -3,12 +3,12 @@ import { ExecuteWithConfig, Config } from '@chainlink/types'
 
 export const supportedEndpoints = ['dominance']
 
-const dominanceParams = {
+export const inputParameters = {
   market: ['market', 'to', 'quote'],
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-  const validator = new Validator(request, dominanceParams)
+  const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id

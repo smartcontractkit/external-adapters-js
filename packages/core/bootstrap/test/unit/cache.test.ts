@@ -82,12 +82,12 @@ describe('cache', () => {
     })
 
     it(`caches fn result`, async () => {
-      const counter = await withCache(counterFrom(0), options)
+      const counter = await withCache(counterFrom(0), undefined, options)
       await callAndExpect(counter, 3, 0)
     })
 
     it(`caches fn result - while entry still young  (under 30s default)`, async () => {
-      const counter = await withCache(counterFrom(0), options)
+      const counter = await withCache(counterFrom(0), undefined, options)
       await callAndExpect(counter, 3, 0)
       await callAndExpect(counter, 3, 0)
 
@@ -103,7 +103,7 @@ describe('cache', () => {
     it(`invalidates cache - after configured minimum maxAge of 35s`, async () => {
       options.minimumAge = 1000 * 35
 
-      const counter = await withCache(counterFrom(0), options)
+      const counter = await withCache(counterFrom(0), undefined, options)
       await callAndExpect(counter, 3, 0)
 
       clock.tick(1000 * 30 + 1)
@@ -118,7 +118,7 @@ describe('cache', () => {
     })
 
     it(`will not set a TTL lower than default minimum TTL of 30s`, async () => {
-      const counter = await withCache(counterFrom(0, { maxAge: 1000 * 10 }), options)
+      const counter = await withCache(counterFrom(0, { maxAge: 1000 * 10 }), undefined, options)
       await callAndExpect(counter, 3, 0)
 
       clock.tick(1000 * 5)

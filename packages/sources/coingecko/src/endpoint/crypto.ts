@@ -1,5 +1,11 @@
 import { AdapterError, Requester, Validator, Logger } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, AxiosResponse, AdapterRequest, EndpointPaths } from '@chainlink/types'
+import {
+  Config,
+  ExecuteWithConfig,
+  AxiosResponse,
+  AdapterRequest,
+  EndpointPaths,
+} from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 import { getCoinIds, getSymbolsToIds } from '../util'
 
@@ -30,7 +36,7 @@ const inputParameters = {
   quote: ['quote', 'to', 'market'],
   coinid: false,
   path: false,
-  endpoint: false
+  endpoint: false,
 }
 
 const handleBatchedRequest = (
@@ -45,17 +51,12 @@ const handleBatchedRequest = (
     for (const quote in response.data[base]) {
       const symbol = idToSymbol?.[base]
       if (symbol) {
-        const nonBatchInput = {
-          ...request,
-          data: { ...request.data, base: symbol.toUpperCase(), quote: quote.toUpperCase() },
-        }
-        const validated = new Validator(nonBatchInput, inputParameters)
         payload.push([
-          { endpoint: request.data.endpoint, ...validated.validated.data },
-          Requester.validateResultNumber(response.data, [
-            base,
-            path,
-          ]),
+          {
+            ...request,
+            data: { ...request.data, base: symbol.toUpperCase(), quote: quote.toUpperCase() },
+          },
+          Requester.validateResultNumber(response.data, [base, path]),
         ])
       } else Logger.debug('WARNING: Symbol not found ', base)
     }
@@ -108,13 +109,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (Array.isArray(base) || Array.isArray(quote))
     return handleBatchedRequest(jobRunID, request, response, path, idToSymbol)
 
-  response.data.result = Requester.validateResultNumber(response.data, [
-    ids.toLowerCase(),
-    path,
-  ])
+  response.data.result = Requester.validateResultNumber(response.data, [ids.toLowerCase(), path])
 
-  return Requester.success(jobRunID, response, config.verbose, ['base', 'quote'], {
-    endpoint: request.data.endpoint,
-    ...validator.validated.data,
-  })
+  return Requester.success(jobRunID, response, config.verbose, ['base', 'quote'])
 }
