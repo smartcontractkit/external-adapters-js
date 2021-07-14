@@ -10,6 +10,7 @@ describe('execute', () => {
   const jobID = '1'
   const config = makeConfig()
   const mockEpoch0 = new IPFS.CID('QmdJZkigqJfvjya9YQ5qW7mFdNHpxUUsSQFKPDjLrdFfg4')
+  const mockEpoch1 = new IPFS.CID('QmRmAK7teai1Mki1V2zNxmBLXnYVVeJ92DCuEotwHPa98a')
 
   describe('successful calls @integration', () => {
     const requests = [
@@ -55,6 +56,13 @@ describe('execute', () => {
         testData: { id: jobID, data: { data: mockOracleRewardsData, codec: 'json' } },
       },
       {
+        name: 'json mockOracleRewardsData epoch 1',
+        testData: {
+          id: jobID,
+          data: { data: { ...mockOracleRewardsData, epoch: 1 }, codec: 'json' },
+        },
+      },
+      {
         name: 'dag-cbor oracleRewardsDataByEpoch',
         testData: {
           id: jobID,
@@ -63,6 +71,7 @@ describe('execute', () => {
               latestEpoch: 0,
               dataByEpoch: {
                 '0': mockEpoch0,
+                '1': mockEpoch1,
               },
             },
             type: 'dag',

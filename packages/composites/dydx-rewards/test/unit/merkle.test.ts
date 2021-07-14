@@ -1,7 +1,6 @@
 import { ethers } from 'ethers'
-import { constructJsonTree, hashFn, keccakReward } from '../../src/method/poke'
+import { constructJsonTree, deconstructJsonTree, hashFn, keccakReward } from '../../src/method/poke'
 import mockRewards from '../mock-data/rewards.json'
-import { deconstructJsonTree } from '../e2e/merkle.test'
 
 describe('keccakReward', () => {
   const tests = [
