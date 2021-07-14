@@ -2,18 +2,16 @@
 
 The goal of this system is to calculate and publish, via a decentralized network of oracle signers, the DYDX token
 rewards earned by traders using the dYdX layer 2 exchange. Rewards are stored in a Merkle tree, which contains the
-cumulative rewards earned by each user since the start of the distribution program. Each epoch, the Merkle root is
-updated on the `MerkleDistributorV1` smart contract to reflect rewards earned in the last epoch.
+cumulative rewards earned by each user since the start of the distribution program.
 
 ## Configuration
 
 The adapter takes the following environment variables:
 
-| Required? |           Name           |                      Description                      | Options | Defaults to |
-| :-------: | :----------------------: | :---------------------------------------------------: | :-----: | :---------: |
-|    ✅     |      `PRIVATE_KEY`       | Private key of account used to make special callbacks |         |             |
-|    ✅     |        `RPC_URL`         |                  RPC URL of ETH node                  |         |             |
-|    ✅     | `REWARDS_ORACLE_ADDRESS` |        Address of the `RewardsOracle` contract        |         |             |
+| Required? |     Name      |                      Description                      | Options | Defaults to |
+| :-------: | :-----------: | :---------------------------------------------------: | :-----: | :---------: |
+|    ✅     | `PRIVATE_KEY` | Private key of account used to make special callbacks |         |             |
+|    ✅     |   `RPC_URL`   |                  RPC URL of ETH node                  |         |             |
 
 ## Running
 
@@ -38,6 +36,8 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 |    ✅     |         ipnsName         | The fixed IPNS name to which all oracle rewards data is published by dYdX |         |             |
 |    ✅     |     traderScoreAlpha     |         Is a parameter used in the calculation of trader rewards          |         |             |
 |    ✅     |     callbackAddress      |                                                                           |         |             |
+|    ✅     |         newEpoch         |                                                                           |         |             |
+|    ✅     |    activeRootIpfsCid     |                                                                           |         |             |
 
 ### Sample Input
 
@@ -45,10 +45,12 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 {
   "id": "1",
   "data": {
-    "traderRewardsAmount": 1000,
-    "marketMakerRewardsAmount": 1000,
-    "traderScoreAlpha": 1,
-    "ipnsName": "sample"
+    "traderRewardsAmount": 5e23,
+    "marketMakerRewardsAmount": 2e23,
+    "ipnsName": "k51qzi5uqu5dlkb9yviadsfl3uxndbkyhf4n97u1t1np5e9f67zwmjz6yk9m9k",
+    "traderScoreAlpha": 0.7,
+    "newEpoch": 0,
+    "activeRootIpfsCid": "bafkreigx6x553cdksm5gj2hh2fkhs2csjnmnny3zxp3tcyzevfj3f3ekli"
   }
 }
 ```

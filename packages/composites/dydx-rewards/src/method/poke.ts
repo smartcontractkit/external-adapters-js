@@ -2,7 +2,7 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Execute } from '@chainlink/types'
 import { Config } from '../config'
 import { ethers, BigNumber } from 'ethers'
-import { MerkleDistributorV1, OracleRequester } from '../contracts'
+import { OracleRequester } from '../contracts'
 import {
   AddressRewards,
   getDataForCID,
@@ -17,12 +17,22 @@ import * as bn from 'bignumber.js'
 
 export const NAME = 'poke'
 
+export const deconstructJsonTree = (data: MerkleTreeData): AddressRewards => {
+  const res: AddressRewards = {}
+  for (const datum of data) {
+    res[datum[0]] = BigNumber.from(datum[1])
+  }
+  return res
+}
+
 const customParams = {
   traderRewardsAmount: true,
   marketMakerRewardsAmount: true,
   ipnsName: true,
   traderScoreAlpha: true,
   callbackAddress: true,
+  newEpoch: true,
+  activeRootIpfsCid: true,
 }
 
 export interface Input {
@@ -30,6 +40,8 @@ export interface Input {
   marketMakerRewardsAmount: number
   ipnsName: string
   traderScoreAlpha: number
+  newEpoch: BigNumber
+  activeRootIpfsCid: string
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, config) => {
@@ -42,18 +54,10 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const ipnsName = validator.validated.data.ipnsName
   const traderScoreAlpha = validator.validated.data.traderScoreAlpha
   const callbackAddress = validator.validated.data.callbackAddress
+  const newEpoch = BigNumber.from(validator.validated.data.newEpoch)
+  const activeRootIpfsCid = validator.validated.data.activeRootIpfsCid
 
   const requesterContract = new ethers.Contract(callbackAddress, OracleRequester, config.wallet)
-  const merkleDistributor = new ethers.Contract(
-    config.distributorAddress,
-    MerkleDistributorV1,
-    config.wallet,
-  )
-  const { merkleRoot, ipfsCid, epoch } = (await merkleDistributor.getActiveRoot()) as {
-    merkleRoot: string
-    ipfsCid: string
-    epoch: ethers.BigNumber
-  }
 
   const ipfs = IPFS.makeExecute(IPFS.makeConfig(IPFS.NAME))
   const rewardsInput: Input = {
@@ -61,15 +65,10 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
     marketMakerRewardsAmount,
     ipnsName,
     traderScoreAlpha,
+    newEpoch,
+    activeRootIpfsCid,
   }
-  const { addressRewards, newEpoch } = await calculateRewards(
-    jobRunID,
-    rewardsInput,
-    merkleRoot,
-    ipfsCid,
-    epoch,
-    ipfs,
-  )
+  const addressRewards = await calculateRewards(jobRunID, rewardsInput, ipfs)
 
   const merkleTree = constructMerkleTree(addressRewards)
   const jsonTree = constructJsonTree(addressRewards)
@@ -90,33 +89,25 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
 export const calculateRewards = async (
   jobRunID: string,
   input: Input,
-  merkleRoot: string,
-  ipfsCid: string,
-  epoch: BigNumber,
   ipfs: Execute,
-): Promise<{ addressRewards: AddressRewards; newEpoch: BigNumber }> => {
-  let newEpoch = epoch.add(1)
-  if (merkleRoot == ethers.constants.HashZero) {
-    newEpoch = BigNumber.from(0)
-  }
-
-  const epochData = await getDataForEpoch(jobRunID, ipfs, input.ipnsName, newEpoch.toNumber())
+): Promise<AddressRewards> => {
+  const epochData = await getDataForEpoch(jobRunID, ipfs, input.ipnsName, input.newEpoch.toNumber())
 
   const addressRewards: AddressRewards = {}
-  if (newEpoch.isZero()) {
+  if (input.newEpoch.isZero()) {
     calcRetroactiveRewards(epochData, addressRewards)
   }
 
   calcTraderRewards(epochData, addressRewards, input.traderRewardsAmount, input.traderScoreAlpha)
   calcMarketMakerRewards(epochData, addressRewards, input.marketMakerRewardsAmount)
 
-  if (!newEpoch.isZero()) {
-    const cid = ethers.utils.parseBytes32String(ipfsCid)
-    const previousAddressRewards = (await getDataForCID(jobRunID, ipfs, cid)) as AddressRewards
+  if (!input.newEpoch.isZero()) {
+    const previousCumulativeJsonTree = await getDataForCID(jobRunID, ipfs, input.activeRootIpfsCid)
+    const previousAddressRewards = deconstructJsonTree(previousCumulativeJsonTree)
     calcCumulativeRewards(addressRewards, previousAddressRewards)
   }
 
-  return { addressRewards, newEpoch }
+  return addressRewards
 }
 
 const addReward = (
@@ -152,8 +143,6 @@ const calcTraderRewards = (
     (sum, addr) => sum.plus(epochData.averageOpenInterest[addr]),
     new bn.BigNumber(0),
   )
-  //const R = new Decimal(traderRewardsAmount)
-  //const a = traderScoreAlpha
 
   const traderScore: { [address: string]: bn.BigNumber } = {}
   let traderScoreSum = new bn.BigNumber(0)
@@ -161,41 +150,22 @@ const calcTraderRewards = (
   Object.keys(epochData.tradeFeesPaid).forEach((addr) => {
     const f = epochData.tradeFeesPaid[addr]
     const g = epochData.averageOpenInterest[addr] || 0
-    // const score = R * (Math.pow(f / F, a)) * (Math.pow(g / G, 1 - a))
-    //const score = new Decimal((f / F.toNumber()) ** a)
-    //  .mul((g / G.toNumber()) ** (1 - a))
-    // const score = R.mul(f.div(F).pow(a)).mul(g.div(G).pow(new Decimal(1).sub(a)))
     const score = new bn.BigNumber((f / F.toNumber()) ** traderScoreAlpha).times(
       (g / G.toNumber()) ** (1 - traderScoreAlpha),
     )
-    /*const score = new Decimal(new Decimal(f).div(F).pow(traderScoreAlpha))
-      .times(new Decimal(g).div(G).pow(1 - traderScoreAlpha))
-      .round()*/
 
-    //const score = ((new Decimal(f).div(F)).pow(a)).mul((new Decimal(g).div(G)).pow(1-a))
-
-    console.log('score', score)
     traderScore[addr] = score
     traderScoreSum = traderScoreSum.plus(score)
   })
 
   Object.keys(traderScore).forEach((addr) => {
-    // if (traderScore[addr].isZero()) return
-
-    // addReward(addressRewards, addr, Math.floor(R * traderScore[addr] / traderScoreSum))
-    // const dec = Decimal.set({ rounding: Decimal.ROUND_HALF_FLOOR })
-
-    // const reward = new Decimal(R).mul(traderScore[addr]).div(traderScoreSum)
-    // const floored = new dec(reward).round().toNumber()
-    // const floored = new dec(reward).round().toFixed()
-    const floored = new bn.BigNumber(traderRewardsAmount)
+    const reward = new bn.BigNumber(traderRewardsAmount)
       .times(traderScore[addr])
       .div(traderScoreSum)
       .decimalPlaces(0, bn.BigNumber.ROUND_FLOOR)
       .toFixed()
-    console.log('floored', floored)
-    if (floored !== '0') {
-      addReward(addressRewards, addr, floored)
+    if (reward !== '0') {
+      addReward(addressRewards, addr, reward)
     }
   })
 }
@@ -211,21 +181,13 @@ const calcMarketMakerRewards = (
   )
 
   Object.keys(epochData.quoteScore).forEach((addr) => {
-    //const dec = Decimal.set({ rounding: Decimal.ROUND_HALF_FLOOR })
-    //const reward = new Decimal(marketMakerRewardsAmount).mul(epochData.quoteScore[addr]).div(quoteScoreSum)
-    //const floored = new dec(reward).round().toFixed()
-    const floored = new bn.BigNumber(marketMakerRewardsAmount)
+    const reward = new bn.BigNumber(marketMakerRewardsAmount)
       .times(epochData.quoteScore[addr])
       .div(quoteScoreSum)
       .decimalPlaces(0, bn.BigNumber.ROUND_FLOOR)
       .toFixed()
-    /*const floored = new Decimal(marketMakerRewardsAmount)
-      .times(epochData.quoteScore[addr])
-      .div(quoteScoreSum)
-      .round()
-      .toFixed()*/
-    if (floored !== '0') {
-      addReward(addressRewards, addr, floored)
+    if (reward !== '0') {
+      addReward(addressRewards, addr, reward)
     }
   })
 }
