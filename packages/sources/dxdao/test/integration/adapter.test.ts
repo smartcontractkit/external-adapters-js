@@ -29,6 +29,16 @@ describe('execute', () => {
             "xdaiEthUsdPriceFeedAddress": "0xa767f745331D267c7751297D982b050c93985627"
           } 
         },
+      },
+      {
+        name: 'without price feed address',
+        testData: { 
+          jobID: 1,
+          data: {
+            "wethContractAddress": "0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1",
+            "pairContractAddress": "0x1bDe964eCd52429004CbC5812C07C28bEC9147e9"
+          } 
+        },
       }
     ]
 
