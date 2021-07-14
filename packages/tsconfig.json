@@ -153,6 +153,9 @@
       "path": "./sources/cryptoapis"
     },
     {
+      "path": "./sources/cryptoapis-v2"
+    },
+    {
       "path": "./sources/cryptocompare"
     },
     {

@@ -2341,6 +2341,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/cryptoapis-v2-adapter@*, @chainlink/cryptoapis-v2-adapter@workspace:packages/sources/cryptoapis-v2":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/cryptoapis-v2-adapter@workspace:packages/sources/cryptoapis-v2"
+  dependencies:
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-factories": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.0.1
+    "@types/jest": ^26.0.22
+    "@types/node": ^14.14.35
+    ethers: ^5.0.32
+    tslib: ^2.1.0
+    typescript: ^4.2.3
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/cryptocompare-adapter@*, @chainlink/cryptocompare-adapter@workspace:packages/sources/cryptocompare":
   version: 0.0.0-use.local
   resolution: "@chainlink/cryptocompare-adapter@workspace:packages/sources/cryptocompare"
@@ -2661,6 +2677,7 @@ __metadata:
     "@chainlink/coinranking-adapter": "*"
     "@chainlink/covid-tracker-adapter": "*"
     "@chainlink/cryptoapis-adapter": "*"
+    "@chainlink/cryptoapis-v2-adapter": "*"
     "@chainlink/cryptocompare-adapter": "*"
     "@chainlink/cryptoid-adapter": "*"
     "@chainlink/cryptomkt-adapter": "*"
@@ -3558,6 +3575,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/kaiko-adapter": "*"
     "@chainlink/nomics-adapter": "*"
+    "@chainlink/tiingo-adapter": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35

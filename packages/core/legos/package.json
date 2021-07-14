@@ -56,6 +56,7 @@
     "@chainlink/coinranking-adapter": "*",
     "@chainlink/covid-tracker-adapter": "*",
     "@chainlink/cryptoapis-adapter": "*",
+    "@chainlink/cryptoapis-v2-adapter": "*",
     "@chainlink/cryptocompare-adapter": "*",
     "@chainlink/cryptoid-adapter": "*",
     "@chainlink/cryptomkt-adapter": "*",
