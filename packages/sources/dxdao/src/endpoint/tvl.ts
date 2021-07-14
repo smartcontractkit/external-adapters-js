@@ -1,7 +1,6 @@
-import { Requester, Validator, Logger } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, Logger, util } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig } from '@chainlink/types'
 import { getRpcLatestAnswer } from "@chainlink/ea-reference-data-reader"
-import { JSON_RPC_URL } from '../config'
 import { ethers, BigNumber } from 'ethers'
 
 export const NAME = 'TVL'
@@ -55,7 +54,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 }
 
 const getTvlAtAddressInETH = async (pairContractAddress: string, wethContractAddress: string): Promise<BigNumber> => {
-   const provider = new ethers.providers.JsonRpcProvider(JSON_RPC_URL)
+   const jsonRpcUrl = util.getRequiredEnv('RPC_URL')
+   const provider = new ethers.providers.JsonRpcProvider(jsonRpcUrl)
    Logger.info(`Fetching TVL for contract '${pairContractAddress}' using WETH contract address ${wethContractAddress}`)
    const contract = new ethers.Contract(wethContractAddress, dxdWethContractAbi, provider)
    const { _hex: pairBalanceHex } = await contract.balanceOf(pairContractAddress)
