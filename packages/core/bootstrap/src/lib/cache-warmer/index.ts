@@ -1,4 +1,4 @@
-import { AdapterRequest, Execute, MakeWSHandler, Middleware } from '@chainlink/types'
+import { AdapterRequest, Execute, MakeWSHandler, Middleware, APIEndpoint } from '@chainlink/types'
 import { Store } from 'redux'
 import { withMiddleware } from '../../index'
 import { logger } from '../external-adapter'
@@ -9,6 +9,7 @@ import { getSubsId, RootState as WSState } from '../ws/reducer'
 import * as actions from './actions'
 import { CacheWarmerState } from './reducer'
 import { getSubscriptionKey } from './util'
+import { normalizeInput } from '../external-adapter'
 
 export * as actions from './actions'
 export * as epics from './epics'
@@ -23,7 +24,10 @@ export const withCacheWarmer = (
   warmerStore: Store<CacheWarmerState>,
   middleware: Middleware[],
   ws: WSInput,
-) => (rawExecute: Execute): Middleware => async (execute) => async (input: AdapterRequest) => {
+) => (rawExecute: Execute): Middleware => async (
+  execute,
+  endpointSelector?: (request: AdapterRequest) => APIEndpoint,
+) => async (input: AdapterRequest) => {
   const isWarmerActive =
     util.parseBool(process.env.CACHE_ENABLED) &&
     util.parseBool(process.env.EXPERIMENTAL_WARMUP_ENABLED)
@@ -35,7 +39,7 @@ export const withCacheWarmer = (
     // We need to initilialize the middleware on every beat to open a connection with the cache
     // Wrapping `rawExecute` as `execute` is already wrapped with the default middleware. Warmer doesn't need every default middleware
     executeFn: async (input: AdapterRequest) =>
-      await (await withMiddleware(rawExecute, middleware))(input),
+      await (await withMiddleware(rawExecute, middleware, endpointSelector))(input),
     // Dummy result
     result: {
       jobRunID: '1',
@@ -78,10 +82,12 @@ export const withCacheWarmer = (
   // Dispatch subscription only if execute was succesful
   const result = await execute(input)
 
+  const normalizedInput = endpointSelector ? normalizeInput(input, endpointSelector(input)) : input
+
   const warmupExecutePayload: actions.WarmupExecutePayload = {
-    ...input,
+    ...normalizedInput,
     executeFn: async (input: AdapterRequest) =>
-      await (await withMiddleware(rawExecute, middleware))(input),
+      await (await withMiddleware(rawExecute, middleware, endpointSelector))(input),
     result,
   }
   warmerStore.dispatch(actions.warmupExecute(warmupExecutePayload))
