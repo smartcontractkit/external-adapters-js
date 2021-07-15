@@ -25,7 +25,7 @@ export interface ResponseSchema {
 }
 
 export const inputParameters = {
-  from: ['base', 'from', 'coin'],
+  base: ['base', 'from', 'coin'],
   path: false,
 }
 
@@ -38,7 +38,7 @@ const handleBatchedRequest = (
   const payload: [AdapterRequest, number][] = []
   for (const asset of response.data) {
     payload.push([
-      { ...request, data: { ...request.data, base: asset.asset_id.toUpperCase() } },
+      { ...request, data: { ...request.data, base: asset.asset_id.toUpperCase(), quote: 'USD' } },
       Requester.validateResultNumber(asset, [path]),
     ])
   }
