@@ -6,7 +6,7 @@ import {
   AdapterResponse,
   InputParameters,
 } from '@chainlink/types'
-import { Logger } from '../..'
+import { logger } from '../external-adapter'
 
 export const inputParameters: InputParameters = {
   endpoint: false,
@@ -48,8 +48,8 @@ const selectEndpoint = (
 
   let apiEndpoint = findSupportedEndpoint(apiEndpoints, endpoint)
 
-  if (config.defaultEndpoint && endpoint !== config.defaultEndpoint) {
-    Logger.debug(`Endpoint ${endpoint} not found, trying default ${config.defaultEndpoint}`)
+  if (!apiEndpoint && config.defaultEndpoint && endpoint !== config.defaultEndpoint) {
+    logger.debug(`Endpoint ${endpoint} not found, trying default ${config.defaultEndpoint}`)
     apiEndpoint = findSupportedEndpoint(apiEndpoints, config.defaultEndpoint)
   }
 

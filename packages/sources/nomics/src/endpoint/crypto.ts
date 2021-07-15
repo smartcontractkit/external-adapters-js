@@ -113,7 +113,7 @@ const handleBatchedRequest = (
     const entry = response.data[i]
     payload.push([
       { ...request, data: { ...request.data, base: entry.symbol.toUpperCase() } },
-      Requester.validateResultNumber(response.data[i], resultPath),
+      Requester.validateResultNumber(response.data[i], [resultPath]),
     ])
   }
 

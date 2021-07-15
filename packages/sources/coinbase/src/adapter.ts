@@ -28,7 +28,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
     }
   }
   const getProductId = (input: AdapterRequest) => {
-    const validator = new Validator(input, crypto.customParams, {}, false)
+    const validator = new Validator(input, crypto.inputParameters, {}, false)
     if (validator.error) return
     const symbol = validator.validated.data.symbol.toUpperCase()
     const convert = validator.validated.data.convert.toUpperCase()

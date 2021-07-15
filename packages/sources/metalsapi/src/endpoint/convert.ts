@@ -22,8 +22,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const amount = validator.validated.data.amount || 1
   const url = `convert`
 
-  console.log('FROM', from)
-
   const params = {
     access_key: config.apiKey,
     from,
