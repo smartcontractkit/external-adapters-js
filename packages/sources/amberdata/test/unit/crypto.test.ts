@@ -19,11 +19,7 @@ describe('crypto endpoint', () => {
       {
         name: 'quote not supplied',
         testData: { id: jobID, data: { base: 'LINK' } },
-      },
-      // {
-      //   name: 'overrides test',
-      //   testData: { id: jobID, data: { from: 'DIGG', to: 'BTC' } },
-      // },
+      }
     ]
 
     requests.forEach((req) => {

@@ -25,7 +25,7 @@ const directUrl = (from: string, to: string) =>
   `/spot_direct_exchange_rate/${from.toLowerCase()}/${to.toLowerCase()}`
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-  const validator = new Validator(request, customParams, { name: "kaiko" })
+  const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
   Requester.logConfig(config)
 
@@ -53,6 +53,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     timeout: 10000,
   }
   const response = await Requester.request(requestConfig, customError)
+
   response.data.result = Requester.validateResultNumber(
     // sometimes, the most recent(fraction of a second) data contain null price
     response.data.data.filter((x: any) => x.price !== null),

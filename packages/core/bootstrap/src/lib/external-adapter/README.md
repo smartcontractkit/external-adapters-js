@@ -81,6 +81,18 @@ const address = validator.overrideToken("WETH")
 // "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
 ```
 
+### Includes Type:
+
+```typescript
+type Includes = {
+    from: string, // From symbol
+    to: string, // To symbol
+    adapters?: string[], // Array of adapters this applies to
+    inverse?: boolean // If the inverse should be calculated instead
+    tokens?: boolean // If the token addresses should be used instead
+}
+```
+
 ### overrideIncludes
 
 #### Arguments

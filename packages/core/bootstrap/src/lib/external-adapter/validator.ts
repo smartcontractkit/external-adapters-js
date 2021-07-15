@@ -1,4 +1,4 @@
-import { AdapterErrorResponse, Override, AdapterRequest, APIEndpoint } from '@chainlink/types'
+import { AdapterErrorResponse, Override, AdapterRequest, APIEndpoint, Includes } from '@chainlink/types'
 import { merge } from 'lodash'
 import { isArray, isObject } from '../util'
 import { AdapterError } from './errors'
@@ -180,13 +180,12 @@ export class Validator {
       (!include.adapters || include.adapters.map(adapter => adapter.toLowerCase()).includes(adapter.toLowerCase()))
     )[0]
     // Search through `presetIncludes` to find matching override for adapter and to/from pairing.
-    for (const pair of presetIncludes) {
-      if(pair.from === from && pair.to === to) {
-        for (let i = 0; i < pair.includes.length; i++) {
-          if (pair.includes[i].adapters.includes(adapter.toUpperCase())) {
-            return pair.includes[i]
-          }
-        }
+    const pairs = presetIncludes.filter(pair => pair.from.toLowerCase() === from.toLowerCase() && pair.to.toLowerCase() === to.toLowerCase())
+    for (const pair of pairs) {
+      const matchingIncludes = pair.includes
+        .find(include => include.adapters.length === 0 || include.adapters.includes(adapter.toUpperCase()))
+      if (matchingIncludes) {
+        return matchingIncludes
       }
     }
     return

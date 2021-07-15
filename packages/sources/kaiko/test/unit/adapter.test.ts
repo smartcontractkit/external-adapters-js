@@ -19,11 +19,7 @@ describe('execute', () => {
       {
         name: 'quote not supplied',
         testData: { id: jobID, data: { base: 'ETH' } },
-      },
-      // {
-      //   name: 'overrides test',
-      //   testData: { id: jobID, data: { from: 'DIGG', to: 'BTC' } },
-      // },
+      }
     ]
 
     requests.forEach((req) => {
