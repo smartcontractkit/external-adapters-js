@@ -38,7 +38,7 @@ const handleBatchedRequest = (
   const payload: [AdapterRequest, number][] = []
   for (const asset of response.data) {
     payload.push([
-      { ...request, data: { ...request.data, base: asset.asset_id.toUpperCase() } },
+      { ...request, data: { ...request.data, base: asset.asset_id.toUpperCase(), quote: 'USD' } },
       Requester.validateResultNumber(asset, [path]),
     ])
   }
