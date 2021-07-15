@@ -48,7 +48,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
       Logger.info(`Fetching USD/ETH price from XDai price feed address ${xdaiEthUsdPriceFeedAddress}.`)
       // Price feed returns with 8 decimal places
       const USDPerETH = await getRpcLatestAnswer(xdaiEthUsdPriceFeedAddress, 10**8)
-      response.data.result = tvlInEth.mul(BigNumber.from(USDPerETH)).toString()
+      response.data.result = tvlInEth.mul(USDPerETH).toString()
    }
    return Requester.success(jobRunID, response, config.verbose)
 }
@@ -59,6 +59,6 @@ const getTvlAtAddressInETH = async (pairContractAddress: string, wethContractAdd
    Logger.info(`Fetching TVL for contract '${pairContractAddress}' using WETH contract address ${wethContractAddress}`)
    const contract = new ethers.Contract(wethContractAddress, dxdWethContractAbi, provider)
    const { _hex: pairBalanceHex } = await contract.balanceOf(pairContractAddress)
-   const tvlInWei = BigNumber.from(pairBalanceHex).mul(BigNumber.from(2))
-   return tvlInWei.div(BigNumber.from("10000000000000000000"))
+   const tvlInWei = BigNumber.from(pairBalanceHex).mul(2)
+   return tvlInWei.div("10000000000000000000")
 }
