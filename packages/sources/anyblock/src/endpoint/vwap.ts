@@ -1,14 +1,13 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['vwap']
-
 
 const customError = (data: any) => {
   return !data.hits || !data.hits.hits || data.hits.hits.length < 1
 }
 
-const customParams = {
+export const inputParameters: InputParameters = {
   address: true,
   debug: false,
   roundDay: false,
@@ -62,7 +61,7 @@ const cleanupDate = (inputDate: string, roundDay: boolean) => {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-  const validator = new Validator(request, customParams)
+  const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id

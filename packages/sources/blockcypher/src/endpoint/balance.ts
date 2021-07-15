@@ -5,6 +5,8 @@ import { ChainType, CoinType, isChainType, isCoinType } from '../config'
 
 export const supportedEndpoints = ['balance']
 
+export const inputParameters = balance.inputParameters
+
 // blockcypher response type for addr balance query
 type AddressBalance = {
   address: string
@@ -49,4 +51,5 @@ const getBalance: balance.GetBalance = async (account, config) => {
 
 const isSupported: balance.IsSupported = (coin, chain) => isChainType(chain) && isCoinType(coin)
 
-export const makeExecute:ExecuteFactory<Config> = (config?: Config) => balance.make({ ...config, getBalance, isSupported })
+export const makeExecute: ExecuteFactory<Config> = (config?: Config) =>
+  balance.make({ ...config, getBalance, isSupported })

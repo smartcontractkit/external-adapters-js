@@ -1,23 +1,28 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['crypto', 'ticker']
 
-const customParams = {
+export const endpointResultPaths = {
+  crypto: 'bid',
+  ticker: 'bid',
+}
+
+export const inputParameters: InputParameters = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
-  field: false,
+  resultPath: false,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-  const validator = new Validator(request, customParams)
+  const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const base = validator.validated.data.base.toUpperCase()
   const quote = validator.validated.data.quote.toUpperCase()
   const url = `ticker/${quote}`
-  const field = validator.validated.data.field || 'bid'
+  const resultPath = validator.validated.data.resultPath
 
   const options = {
     ...config.api,
@@ -29,7 +34,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     'data',
     'ticker',
     base,
-    field,
+    resultPath,
   ])
 
   return Requester.success(jobRunID, response, config.verbose)

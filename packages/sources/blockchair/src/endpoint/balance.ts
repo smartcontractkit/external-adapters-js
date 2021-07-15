@@ -5,6 +5,8 @@ import { COINS, isCoinType, isChainType } from '../config'
 
 export const supportedEndpoints = ['balance']
 
+export const inputParameters = balance.inputParameters
+
 const getBalanceURI = (addresses: string[], coin: string, chain: string) => {
   coin = Requester.toVendorName(coin, COINS)
   if (chain === 'testnet') coin = `${coin}-${chain}`
@@ -37,4 +39,5 @@ const getBalances: balance.GetBalances = async (accounts, config) => {
 
 const isSupported: balance.IsSupported = (coin, chain) => isChainType(chain) && isCoinType(coin)
 
-export const makeExecute:ExecuteFactory<Config> = (config?: Config) => balance.make({ ...config, getBalances, isSupported })
+export const makeExecute: ExecuteFactory<Config> = (config?: Config) =>
+  balance.make({ ...config, getBalances, isSupported })

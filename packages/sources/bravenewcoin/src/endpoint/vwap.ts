@@ -1,17 +1,17 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 import { authenticate, apiHeaders, getAssetId, host } from '../helpers'
 
 export const supportedEndpoints = ['vwap']
 
-const customParams = {
+export const inputParameters: InputParameters = {
   symbol: ['base', 'from', 'coin', 'symbol', 'assetId', 'indexId', 'asset'],
   indexType: false,
   timestamp: false, // TODO: currently unused, deprecate or utilize me
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-  const validator = new Validator(request, customParams)
+  const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id

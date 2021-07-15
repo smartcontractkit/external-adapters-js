@@ -6,7 +6,7 @@ export const NAME = 'getblockchaininfo'
 const DEFAULT_FIELD = 'difficulty'
 
 const inputParams = {
-  field: false
+  resultPath: false,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
@@ -14,14 +14,19 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const field = validator.validated.data.endpoint == DEFAULT_FIELD
-    ? DEFAULT_FIELD : validator.validated.data.field || DEFAULT_FIELD
+  const resultPath =
+    validator.validated.data.endpoint == DEFAULT_FIELD
+      ? DEFAULT_FIELD
+      : validator.validated.data.resultPath || DEFAULT_FIELD
 
-  const response = await JSONRPC.execute({
-    ...request,
-    data: { ...request.data, method: NAME },
-  }, config)
+  const response = await JSONRPC.execute(
+    {
+      ...request,
+      data: { ...request.data, method: NAME },
+    },
+    config,
+  )
 
-  response.data.result = Requester.validateResultNumber(response.data, ['result', field])
+  response.data.result = Requester.validateResultNumber(response.data, ['result', resultPath])
   return Requester.success(jobRunID, response)
 }

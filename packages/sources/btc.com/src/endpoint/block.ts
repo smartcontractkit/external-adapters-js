@@ -1,7 +1,12 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters, EndpointResultPaths } from '@chainlink/types'
 
 export const supportedEndpoints = ['height', 'difficulty']
+
+export const endpointResultPaths: EndpointResultPaths = {
+  height: 'height',
+  difficulty: 'difficulty',
+}
 
 export interface ResponseSchema {
   data: {
@@ -37,17 +42,16 @@ export interface ResponseSchema {
   status: string
 }
 
-const customParams = {
-  field: false,
+export const inputParameters: InputParameters = {
+  resultPath: false,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-  const validator = new Validator(request, customParams)
+  const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  request.data.field = validator.validated.data.endpoint || config.defaultEndpoint
-  const field = validator.validated.data.field || 'difficulty'
+  const resultPath = validator.validated.data.resultPath
   const url = `/v3/block/latest`
 
   const options = {
@@ -59,7 +63,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
   response.data.result = Requester.validateResultNumber(response.data as ResponseSchema, [
     'data',
-    field,
+    resultPath,
   ])
 
   return Requester.success(jobRunID, response, config.verbose)

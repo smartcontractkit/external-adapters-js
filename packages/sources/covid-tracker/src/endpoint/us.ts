@@ -1,10 +1,14 @@
 import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['us']
 
-const customParams = {
-  field: false,
+export const endpointResultPaths = {
+  us: 'death',
+}
+
+export const inputParameters: InputParameters = {
+  resultPath: false,
   date: false,
 }
 
@@ -32,12 +36,12 @@ const findDay = (payload: any, date: any) => {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-  const validator = new Validator(request, customParams)
+  const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const date = validator.validated.data.date
-  const field = validator.validated.data.field || 'death'
+  const resultPath = validator.validated.data.resultPath
   if (!validDate(date))
     throw new AdapterError({
       jobRunID,
@@ -60,6 +64,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
       message: 'Date not found in response data',
       statusCode: 400,
     })
-  response.data.result = Requester.validateResultNumber(day, [field])
+  response.data.result = Requester.validateResultNumber(day, [resultPath])
   return Requester.success(jobRunID, response, config.verbose)
 }

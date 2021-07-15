@@ -3,7 +3,7 @@ import { Config } from '@chainlink/types'
 
 export const NAME = 'DWOLLA'
 
-export const DEFAULT_ENDPOINT = 'example'
+export const DEFAULT_ENDPOINT = 'dwolla'
 
 export const makeConfig = (prefix?: string): Config => {
   const config = Requester.getDefaultConfig(prefix)

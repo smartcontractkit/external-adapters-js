@@ -1,21 +1,19 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, AxiosResponse, AdapterRequest } from '@chainlink/types'
+import {
+  ExecuteWithConfig,
+  Config,
+  AxiosResponse,
+  AdapterRequest,
+  InputParameters,
+} from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['crypto', 'price', 'marketcap']
 
-export enum Paths {
-  Price = 'price',
-  MarketCap = 'marketcap',
-}
-
-const resultPaths: { [key: string]: string[] } = {
-  [Paths.Price]: ['price'],
-  [Paths.MarketCap]: ['market_cap'],
-}
-
-export const endpointPaths = {
-  marketcap: Paths.MarketCap
+export const endpointResultPaths = {
+  crypto: 'price',
+  price: 'price',
+  marketcap: 'marketc_ap',
 }
 
 interface ResponseSchema {
@@ -90,11 +88,10 @@ interface ResponseSchema {
 
 const customError = (data: ResponseSchema[]) => data.length === 0
 
-const inputParameters = {
+export const inputParameters: InputParameters = {
   base: ['base', 'from', 'coin', 'ids'],
   quote: ['quote', 'to', 'market', 'convert'],
-  path: false,
-  endpoints: false
+  resultPath: false,
 }
 
 const convertId: Record<string, string> = {
@@ -109,14 +106,14 @@ const handleBatchedRequest = (
   jobRunID: string,
   request: AdapterRequest,
   response: AxiosResponse<ResponseSchema[]>,
-  path: string,
+  resultPath: string,
 ) => {
   const payload: [AdapterRequest, number][] = []
   for (const i in response.data) {
     const entry = response.data[i]
     payload.push([
       { ...request, data: { ...request.data, base: entry.symbol.toUpperCase() } },
-      Requester.validateResultNumber(response.data[i], resultPaths[path]),
+      Requester.validateResultNumber(response.data[i], resultPath),
     ])
   }
 
@@ -129,16 +126,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
 
-  const endpoint = validator.validated.data.endpoint || config.defaultEndpoint
-  if (endpoint.toLowerCase() === 'marketcap') {
-    validator.validated.data.path = Paths.MarketCap
-  }
-
   const symbol = validator.overrideSymbol(AdapterName)
   const symbols = Array.isArray(symbol) ? symbol : [symbol]
   const convert = validator.validated.data.quote.toUpperCase()
   const jobRunID = validator.validated.id
-  const path = validator.validated.data.path || Paths.Price
+  const resultPath = validator.validated.data.resultPath
 
   const url = `/currencies/ticker`
   // Correct common tickers that are misidentified
@@ -159,9 +151,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
   const response = await Requester.request<ResponseSchema[]>(reqConfig, customError)
 
-  if (Array.isArray(symbol)) return handleBatchedRequest(jobRunID, request, response, path)
+  if (Array.isArray(symbol)) return handleBatchedRequest(jobRunID, request, response, resultPath)
 
-  const result = Requester.validateResultNumber(response.data[0], resultPaths[path])
+  const result = Requester.validateResultNumber(response.data[0], resultPath)
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose, [
     'base',
   ])

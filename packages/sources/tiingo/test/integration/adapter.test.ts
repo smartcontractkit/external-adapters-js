@@ -20,7 +20,7 @@ describe('execute', () => {
       },
       {
         name: 'ticker & field',
-        testData: { id: jobID, data: { endpoint: 'iex', ticker: 'aapl', field: 'open' } },
+        testData: { id: jobID, data: { endpoint: 'iex', ticker: 'aapl', resultPath: 'open' } },
       },
       {
         name: 'iex endpoint',
@@ -52,7 +52,7 @@ describe('execute', () => {
       { name: 'empty data', testData: { data: {} } },
       {
         name: 'ticker not supplied',
-        testData: { id: jobID, data: { field: 'open' } },
+        testData: { id: jobID, data: { resultPath: 'open' } },
       },
     ]
 
@@ -76,7 +76,7 @@ describe('execute', () => {
       },
       {
         name: 'unknown field',
-        testData: { id: jobID, data: { endpoint: 'iex', ticker: 'aapl', field: 'not_real' } },
+        testData: { id: jobID, data: { endpoint: 'iex', ticker: 'aapl', resultPath: 'not_real' } },
       },
     ]
 

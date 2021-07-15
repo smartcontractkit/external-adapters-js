@@ -6,6 +6,7 @@ import {
   AdapterResponse,
   InputParameters,
 } from '@chainlink/types'
+import { Logger } from '../..'
 
 export const inputParameters: InputParameters = {
   endpoint: false,
@@ -47,6 +48,11 @@ const selectEndpoint = (
 
   let apiEndpoint = findSupportedEndpoint(apiEndpoints, endpoint)
 
+  if (config.defaultEndpoint && endpoint !== config.defaultEndpoint) {
+    Logger.debug(`Endpoint ${endpoint} not found, trying default ${config.defaultEndpoint}`)
+    apiEndpoint = findSupportedEndpoint(apiEndpoints, config.defaultEndpoint)
+  }
+
   if (!apiEndpoint)
     throw new AdapterError({
       jobRunID,
@@ -57,6 +63,8 @@ const selectEndpoint = (
   if (apiEndpoint.endpointOverride) {
     const overridenEndpoint = apiEndpoint.endpointOverride(request)
     if (overridenEndpoint) apiEndpoint = findSupportedEndpoint(apiEndpoints, overridenEndpoint)
+    if (request?.data?.endpoint) request.data.endpoint = overridenEndpoint
+
     if (!apiEndpoint)
       throw new AdapterError({
         jobRunID,
@@ -65,11 +73,11 @@ const selectEndpoint = (
       })
   }
 
-  // Allow adapter endpoints to dynamically query different endpoint paths
-  if (apiEndpoint.endpointPaths && request.data) {
-    const path = apiEndpoint.endpointPaths[endpoint]
-    if (typeof path === 'function') request.data.path = path(request)
-    else request.data.path = path
+  // Allow adapter endpoints to dynamically query different endpoint resultPaths
+  if (apiEndpoint.endpointResultPaths && request.data && !request.data.resultPath) {
+    const resultPath = apiEndpoint.endpointResultPaths[endpoint]
+    if (typeof resultPath === 'function') request.data.resultPath = resultPath(request)
+    else request.data.resultPath = resultPath
   }
 
   return apiEndpoint
