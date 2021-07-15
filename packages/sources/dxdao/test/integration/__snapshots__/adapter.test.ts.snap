@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute with xdaiEthUsdPriceFeedAddress should return success 1`] = `
+Object {
+  "data": Object {
+    "result": "90900",
+  },
+  "debug": undefined,
+  "jobRunID": "1",
+  "result": "90900",
+  "statusCode": 200,
+}
+`;
+
+exports[`execute without xdaiEthUsdPriceFeedAddress should return success 1`] = `
+Object {
+  "data": Object {
+    "result": "45",
+  },
+  "debug": undefined,
+  "jobRunID": "1",
+  "result": "45",
+  "statusCode": 200,
+}
+`;
