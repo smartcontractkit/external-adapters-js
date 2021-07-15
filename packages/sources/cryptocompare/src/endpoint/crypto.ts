@@ -1,17 +1,19 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, AxiosResponse, AdapterRequest } from '@chainlink/types'
+import {
+  ExecuteWithConfig,
+  Config,
+  AxiosResponse,
+  AdapterRequest,
+  InputParameters,
+} from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
-export const supportedEndpoints = ['crypto','price','marketcap']
+export const supportedEndpoints = ['crypto', 'price', 'marketcap']
 
-// Bridging the Chainlink endpoint to the response data key
-export enum Paths {
-  Price = 'PRICE',
-  MarketCap = 'MKTCAP',
-}
-
-export const endpointPaths = {
-  marketcap: Paths.MarketCap
+export const endpointResultPaths = {
+  crypto: 'PRICE',
+  price: 'PRICE',
+  marketcap: 'MKTCAP',
 }
 
 interface ResponseSchema {
@@ -116,18 +118,18 @@ interface ResponseSchema {
   }
 }
 
-export const inputParameters = {
+export const inputParameters: InputParameters = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
-  path: false,
-  endpoint: false
+  resultPath: false,
+  endpoint: false,
 }
 
 const handleBatchedRequest = (
   jobRunID: string,
   request: AdapterRequest,
   response: AxiosResponse<ResponseSchema[]>,
-  path: string,
+  resultPath: string,
 ) => {
   const payload: [AdapterRequest, number][] = []
   for (const base in response.data.RAW) {
@@ -137,7 +139,7 @@ const handleBatchedRequest = (
           ...request,
           data: { ...request.data, base: base.toUpperCase(), quote: quote.toUpperCase() },
         },
-        Requester.validateResultNumber(response.data, ['RAW', base, quote, path]),
+        Requester.validateResultNumber(response.data, ['RAW', base, quote, resultPath]),
       ])
     }
   }
@@ -151,16 +153,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
 
-  const endpoint = validator.validated.data.endpoint || config.defaultEndpoint
-  if (endpoint.toLowerCase() === 'marketcap') {
-    validator.validated.data.path = Paths.MarketCap
-  }
-
   const jobRunID = validator.validated.id
   const url = `/data/pricemultifull`
   const symbol = validator.overrideSymbol(AdapterName)
   const quote = validator.validated.data.quote
-  const path = validator.validated.data.path || Paths.Price
+  const resultPath = validator.validated.data.resultPath
 
   const params = {
     fsyms: (Array.isArray(symbol)
@@ -182,9 +179,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const response = await Requester.request<ResponseSchema>(options)
 
   if (Array.isArray(symbol) || Array.isArray(quote))
-    return handleBatchedRequest(jobRunID, request, response, path)
+    return handleBatchedRequest(jobRunID, request, response, resultPath)
 
-  const result = Requester.validateResultNumber(response.data, ['RAW', symbol, quote, path])
+  const result = Requester.validateResultNumber(response.data, ['RAW', symbol, quote, resultPath])
 
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose, [
     'base',

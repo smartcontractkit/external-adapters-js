@@ -1,9 +1,9 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['dominance']
 
-export const inputParameters = {
+export const inputParameters: InputParameters = {
   market: ['market', 'to', 'quote'],
 }
 

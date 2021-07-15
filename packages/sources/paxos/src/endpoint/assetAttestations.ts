@@ -1,17 +1,17 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig } from '@chainlink/types'
+import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { DEFAULT_BASE_URL } from '../config'
 
 export const supportedEndpoints = ['assetAttestation']
 
 const customError = (data: any) => data.Response === 'Error'
 
-export const inputParams = {
+export const inputParameters: InputParameters = {
   asset: true,
 }
 
 type Attestation = {
-   asset: string
+  asset: string
   auditorName: string
   lastAttestedAt: string
   amount: number
@@ -20,8 +20,8 @@ type Attestation = {
 
 const getAttestationURI = (asset: string) => `/asset-attestations/${asset.toUpperCase()}`
 
-export const execute:ExecuteWithConfig<Config> = async (input, config) => {
-  const validator = new Validator(input, inputParams)
+export const execute: ExecuteWithConfig<Config> = async (input, config) => {
+  const validator = new Validator(input, inputParameters)
   if (validator.error) throw validator.error
   const asset = validator.validated.data.asset
   const jobRunID = validator.validated.id

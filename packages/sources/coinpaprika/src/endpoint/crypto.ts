@@ -1,34 +1,33 @@
 import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config } from '@chainlink/types'
+import { ExecuteWithConfig, Config, AdapterRequest, InputParameters } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 import { getCoinIds, getSymbolToId } from '../util'
 
-export const supportedEndpoints = ['crypto', 'marketcap']
-export enum Paths {
-  Price = 'price',
-  MarketCap = 'marketcap',
+export const supportedEndpoints = ['crypto', 'price', 'marketcap']
+
+const buildPath = (path: string) => (request: AdapterRequest): string => {
+  const validator = new Validator(request, inputParameters)
+  if (validator.error) throw validator.error
+  const quote = validator.validated.data.quote
+  return `quotes.${quote.toUpperCase()}.${path}`
 }
 
-export const endpointPaths = {
-  marketcap: Paths.MarketCap
+export const endpointResultPaths = {
+  crypto: buildPath('price'),
+  marketcap: buildPath('marketcap'),
+  price: buildPath('price'),
 }
 
-const inputParams = {
+export const inputParameters: InputParameters = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
   coinid: false,
-  path: false,
-  endpoint: false
+  resultPath: false,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-  const validator = new Validator(request, inputParams)
+  const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
-
-  const endpoint = validator.validated.data.endpoint || config.defaultEndpoint
-  if (endpoint.toLowerCase() === 'marketcap') {
-    validator.validated.data.path = Paths.MarketCap
-  }
 
   const jobRunID = validator.validated.id
   const symbol = validator.overrideSymbol(AdapterName) as string
@@ -47,8 +46,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   }
 
   const url = `v1/tickers/${coin.toLowerCase()}`
-  const market = validator.validated.data.quote
-  const path = validator.validated.data.path || Paths.Price
+  const resultPath = validator.validated.data.resultPath
 
   const params = {
     quotes: quote.toUpperCase(),
@@ -60,12 +58,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     params,
   }
 
-  const resultPaths: { [key: string]: string[] } = {
-    [Paths.Price]: ['quotes', market.toUpperCase(), 'price'],
-    [Paths.MarketCap]: ['quotes', market.toUpperCase(), 'market_cap'],
-  }
   const response = await Requester.request(options)
-  response.data.result = Requester.validateResultNumber(response.data, resultPaths[path])
+  response.data.result = Requester.validateResultNumber(response.data, resultPath)
   response.data.cost = 2
 
   return Requester.success(jobRunID, response, config.verbose)

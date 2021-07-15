@@ -1,6 +1,11 @@
 import * as dwolla from 'dwolla-v2'
+import { InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['dwolla']
+
+export const inputParameters: InputParameters = {
+  method: false,
+}
 
 type Response = {
   jobRunID: string

@@ -4,7 +4,8 @@ import {
   ExecuteWithConfig,
   AxiosResponse,
   AdapterRequest,
-  EndpointPaths,
+  EndpointResultPaths,
+  InputParameters,
 } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 import { getCoinIds, getSymbolsToIds } from '../util'
@@ -16,26 +17,24 @@ const customError = (data: any) => {
   return false
 }
 
-export const endpointPaths: EndpointPaths = {
-  price: (input: AdapterRequest): string => {
-    const validator = new Validator(input, inputParameters)
-    if (validator.error) throw validator.error
-    const quote = validator.validated.data.quote
-    return `${quote.toLowerCase()}`
-  },
-  marketcap: (input: AdapterRequest): string => {
-    const validator = new Validator(input, inputParameters)
-    if (validator.error) throw validator.error
-    const quote = validator.validated.data.quote
-    return `${quote.toLowerCase()}_market_cap`
-  },
+const buildResultPath = (path: string) => (request: AdapterRequest): string => {
+  const validator = new Validator(request, inputParameters)
+  if (validator.error) throw validator.error
+  const quote = validator.validated.data.quote
+  return `${quote.toLowerCase()}${path}`
 }
 
-const inputParameters = {
+export const endpointResultPaths: EndpointResultPaths = {
+  price: buildResultPath(''),
+  crypto: buildResultPath(''),
+  marketcap: buildResultPath('_market_cap'),
+}
+
+export const inputParameters: InputParameters = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
   coinid: false,
-  path: false,
+  resultPath: false,
   endpoint: false,
 }
 
@@ -43,7 +42,7 @@ const handleBatchedRequest = (
   jobRunID: string,
   request: AdapterRequest,
   response: AxiosResponse,
-  path: string,
+  resultPath: string,
   idToSymbol: Record<string, string>,
 ) => {
   const payload: [AdapterRequest, number][] = []
@@ -56,7 +55,7 @@ const handleBatchedRequest = (
             ...request,
             data: { ...request.data, base: symbol.toUpperCase(), quote: quote.toUpperCase() },
           },
-          Requester.validateResultNumber(response.data, [base, path]),
+          Requester.validateResultNumber(response.data, [base, resultPath]),
         ])
       } else Logger.debug('WARNING: Symbol not found ', base)
     }
@@ -74,7 +73,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const base = validator.overrideSymbol(AdapterName)
   const quote = validator.validated.data.quote
   const coinid = validator.validated.data.coinid
-
   let idToSymbol = {}
   let ids = coinid
   if (!ids) {
@@ -89,7 +87,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   }
 
   const url = '/simple/price'
-  const path: string = validator.validated.data.path
+  const resultPath: string = validator.validated.data.resultPath
 
   const params = {
     ids,
@@ -107,9 +105,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const response = await Requester.request(options, customError)
 
   if (Array.isArray(base) || Array.isArray(quote))
-    return handleBatchedRequest(jobRunID, request, response, path, idToSymbol)
+    return handleBatchedRequest(jobRunID, request, response, resultPath, idToSymbol)
 
-  response.data.result = Requester.validateResultNumber(response.data, [ids.toLowerCase(), path])
+  response.data.result = Requester.validateResultNumber(response.data, [
+    ids.toLowerCase(),
+    resultPath,
+  ])
 
   return Requester.success(jobRunID, response, config.verbose, ['base', 'quote'])
 }

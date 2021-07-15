@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig } from '@chainlink/types'
+import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import * as paypal from '@paypal/payouts-sdk'
 
 export const supportedEndpoints = ['sendpayout', 'write']
@@ -15,12 +15,12 @@ const customParams = {
   email_message: false,
 }
 
-const paramOptions = {
+export const inputParameters: InputParameters = {
   recipient_type: ['EMAIL', 'PHONE', 'PAYPAL_ID'],
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-  const validator = new Validator(request, customParams, paramOptions)
+  const validator = new Validator(request, customParams, inputParameters)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
@@ -35,9 +35,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
   const params = {
     sender_batch_header: {
-      sender_batch_id: Math.random()
-        .toString(36)
-        .substring(9),
+      sender_batch_id: Math.random().toString(36).substring(9),
       email_subject,
       email_message,
       recipient_type,

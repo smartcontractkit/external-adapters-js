@@ -1,8 +1,18 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, AxiosResponse, AdapterRequest } from '@chainlink/types'
+import {
+  ExecuteWithConfig,
+  Config,
+  AxiosResponse,
+  AdapterRequest,
+  InputParameters,
+} from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['assets']
+
+export const endpointResultPaths = {
+  assets: 'assets',
+}
 
 export interface ResponseSchema {
   asset_id: string
@@ -24,22 +34,22 @@ export interface ResponseSchema {
   id_icon: string
 }
 
-export const inputParameters = {
+export const inputParameters: InputParameters = {
   base: ['base', 'from', 'coin'],
-  path: false,
+  resultPath: false,
 }
 
 const handleBatchedRequest = (
   jobRunID: string,
   request: AdapterRequest,
   response: AxiosResponse<ResponseSchema[]>,
-  path: string,
+  resultPath: string,
 ) => {
   const payload: [AdapterRequest, number][] = []
   for (const asset of response.data) {
     payload.push([
       { ...request, data: { ...request.data, base: asset.asset_id.toUpperCase(), quote: 'USD' } },
-      Requester.validateResultNumber(asset, [path]),
+      Requester.validateResultNumber(asset, [resultPath]),
     ])
   }
   return Requester.success(jobRunID, Requester.withResult(response, undefined, payload), true, [
@@ -52,7 +62,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const path = validator.validated.data.path || 'price_usd'
+  const resultPath = validator.validated.data.resultPath
   const from = validator.validated.data.from
   const symbol = validator.overrideSymbol(AdapterName, from)
   const url = `assets`
@@ -68,9 +78,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
   const response = await Requester.request<ResponseSchema[]>(options)
 
-  if (Array.isArray(symbol)) return handleBatchedRequest(jobRunID, request, response, path)
+  if (Array.isArray(symbol)) return handleBatchedRequest(jobRunID, request, response, resultPath)
 
-  const result = Requester.validateResultNumber(response.data[0], [path])
+  const result = Requester.validateResultNumber(response.data[0], [resultPath])
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose, [
     'base',
   ])

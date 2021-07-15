@@ -37,7 +37,6 @@ describe('execute', () => {
           expect(data.result).toBeGreaterThan(0)
           expect(data.data.result).toBeGreaterThan(0)
         } catch (error) {
-          console.log(error)
           const errorResp = Requester.errored(jobID, error)
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
         }

@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, AdapterRequest } from '@chainlink/types'
+import { ExecuteWithConfig, Config, AdapterRequest, InputParameters } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['crypto', 'price']
@@ -14,7 +14,7 @@ export const endpointOverride = (request: AdapterRequest): string | null => {
 
 const customError = (data: any) => data.Response === 'Error'
 
-export const inputParameters = {
+export const inputParameters: InputParameters = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
 }
