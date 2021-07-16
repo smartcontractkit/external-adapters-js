@@ -1,5 +1,5 @@
-import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
-import { makeConfig } from './config'
+import { ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
+import { makeConfig, Config } from './config'
 import { tvl } from './endpoint'
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {

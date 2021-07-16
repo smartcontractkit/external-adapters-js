@@ -28,9 +28,9 @@ This endpoint fetches the TVL(Total Value Locked) inside a pair that is deployed
 | :-------: | :------------------------: | :--------------------------------------: | :-----------------: | :---------: |
 |    ✅     | `wethContractAddress`  |   The WETH contract address on the XDai Chain    |  |             |
 |    ✅     | `pairContractAddress` | The pair contract's address on the XDai Chain |   |             |
-|         | `tokenAllocationSource` | Which source to fetch the Ethereum USD price from |   |             |
+|         | `tokenAllocationSource` | Which source to fetch the Ethereum USD price from.  Including this will return the TVL in USD |   |             |
 
-### Sample Input
+### Sample Input for Fetching TVL In USD
 
 ```json
 {
@@ -48,10 +48,35 @@ This endpoint fetches the TVL(Total Value Locked) inside a pair that is deployed
 ```json
 {
     "jobRunID": 1,
-    "result": 849774.7320901232,
+    "result": "850617.4645129328",
     "statusCode": 200,
     "data": {
-        "result": 849774.7320901232
+        "result": "850617.4645129328"
+    }
+}
+```
+
+### Sample Input for Fetching TVL In Wei
+
+```json
+{
+    "id": 1,
+    "data": {
+        "wethContractAddress": "0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1",
+        "pairContractAddress": "0x1bDe964eCd52429004CbC5812C07C28bEC9147e9"
+    }
+}
+```
+
+### Sample Output
+
+```json
+{
+    "jobRunID": 1,
+    "result": "444975585662999074246",
+    "statusCode": 200,
+    "data": {
+        "result": "444975585662999074246"
     }
 }
 ```

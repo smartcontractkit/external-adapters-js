@@ -1,7 +1,8 @@
-import { Requester, Validator, Logger, util } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, AdapterRequest } from '@chainlink/types'
+import { Requester, Validator, Logger } from '@chainlink/ea-bootstrap'
+import { ExecuteWithConfig, AdapterRequest } from '@chainlink/types'
 import { ethers, BigNumber } from 'ethers'
 import * as TokenAllocation from '@chainlink/token-allocation-adapter'
+import { Config } from '../config'
 
 export const NAME = 'TVL'
 
@@ -38,7 +39,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
    if (validator.error) throw validator.error
    const jobRunID = validator.validated.id
    const { pairContractAddress, wethContractAddress, tokenAllocationSource } = validator.validated.data
-   const tvlInWei = await getTvlAtAddressInWei(pairContractAddress, wethContractAddress)
+   const tvlInWei = await getTvlAtAddressInWei(pairContractAddress, wethContractAddress, config.rpcUrl)
    const response = {
       data: {
          result: tvlInWei.toString()
@@ -53,8 +54,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
    return Requester.success(jobRunID, response, config.verbose)
 }
 
-const getTvlAtAddressInWei = async (pairContractAddress: string, wethContractAddress: string): Promise<BigNumber> => {
-   const jsonRpcUrl = util.getRequiredEnv('RPC_URL')
+const getTvlAtAddressInWei = async (pairContractAddress: string, wethContractAddress: string, jsonRpcUrl: string): Promise<BigNumber> => {
    const provider = new ethers.providers.JsonRpcProvider(jsonRpcUrl)
    Logger.info(`Fetching TVL for contract '${pairContractAddress}' using WETH contract address ${wethContractAddress}`)
    const contract = new ethers.Contract(wethContractAddress, dxdWethContractAbi, provider)

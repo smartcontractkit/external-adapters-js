@@ -1,8 +1,15 @@
-import { Requester } from '@chainlink/ea-bootstrap'
-import { Config } from '@chainlink/types'
+import { Requester, util } from '@chainlink/ea-bootstrap'
+import * as types from '@chainlink/types'
+
+export type Config = types.Config & {
+  rpcUrl: string
+}
 
 export const NAME = 'DX_DAO'
 
 export const makeConfig = (prefix?: string): Config => {
-  return Requester.getDefaultConfig(prefix)
+  return {
+    ...Requester.getDefaultConfig(prefix),
+    rpcUrl: util.getRequiredEnv('RPC_URL')
+  }
 }
