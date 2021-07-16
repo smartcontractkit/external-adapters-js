@@ -1,5 +1,6 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import { NAME as AdapterName } from '../../config'
 
 export const supportedEndpoints = ['prices', 'crypto']
 
@@ -44,7 +45,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const base = validator.validated.data.base.toLowerCase()
+  const base = validator.overrideSymbol(AdapterName)
   const quote = validator.validated.data.quote.toLowerCase()
   const resultPath = validator.validated.data.resultPath
   const url = '/tiingo/crypto/prices'
