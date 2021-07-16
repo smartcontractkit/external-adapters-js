@@ -19,7 +19,7 @@ describe('crypto endpoint', () => {
       {
         name: 'quote not supplied',
         testData: { id: jobID, data: { base: 'LINK' } },
-      },
+      }
     ]
 
     requests.forEach((req) => {

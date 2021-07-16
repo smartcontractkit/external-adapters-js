@@ -176,6 +176,16 @@ declare module '@chainlink/types' {
 
   /* INPUT TYPE VALIDATIONS */
   export type Override = Map<string, Map<string, string>>
+
+  // Includes is an alternative symbol mapping that can be used to represent
+  // the original request, such as wrapped tokens on DEXes.
+  export type Includes = {
+    from: string, // From symbol
+    to: string, // To symbol
+    adapters?: string[], // Array of adapters this applies to
+    inverse?: boolean // If the inverse should be calculated instead
+    tokens?: boolean // If the token addresses should be used instead
+  }
 }
 
 declare module 'object-path'

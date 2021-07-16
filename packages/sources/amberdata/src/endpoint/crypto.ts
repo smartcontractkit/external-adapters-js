@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, Config, Includes, InputParameters } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['crypto', 'price']
@@ -8,17 +8,15 @@ const customError = (data: any) => {
   return Object.keys(data.payload).length === 0
 }
 
-const addressMapping: { [symbol: string]: string } = {
-  DIGG: '0x798d1be841a82a273720ce31c822c61a67a601c3',
-  WBTC: '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599',
-  RAI: '0x03ab458634910aad20ef5f1c8ee96f1d6ac54919',
-  WETH: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
-  RGT: '0xD291E7a03283640FDc51b121aC401383A46cC623',
-  RARI: '0xFca59Cd816aB1eaD66534D82bc21E7515cE441CF',
-  SFI: '0xb753428af26e81097e7fd17f40c88aaa3e04902c',
-  LDO: '0x5a98fcbea516cf06857215779fd812ca3bef1b32',
-  VSP: '0x1b40183EFB4Dd766f11bDa7A7c3AD8982e998421',
-}
+const symbolOptions = (from: string, to: string) => ({
+  url: `/api/v2/market/spot/prices/pairs/${from.toLowerCase()}_${to.toLowerCase()}/latest`,
+  params: { includeCrossRates: true }
+})
+
+const tokenOptions = (from: string, to: string) => ({
+  url: `/api/v2/market/defi/prices/pairs/bases/${from}/quotes/${to}/latest`,
+  params: {}
+})
 
 export const inputParameters: InputParameters = {
   base: ['base', 'from', 'coin'],
@@ -31,34 +29,58 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   if (validator.error) throw validator.error
   const jobRunID = validator.validated.id
 
-  const coin = validator.overrideSymbol(AdapterName) as string
-  const market = validator.validated.data.quote
-  const includes = validator.validated.data.includes || []
-
-  let url = `/api/v2/market/spot/prices/pairs/${coin.toLowerCase()}_${market.toLowerCase()}/latest`
-  let params: { [key: string]: any } = {
-    includeCrossRates: true,
-  }
-
-  if (
-    includes.length > 0 &&
-    ((includes[0].toLowerCase() === 'wbtc' && coin.toLowerCase() === 'digg') ||
-      (includes[0].toLowerCase() === 'weth' && coin.toLowerCase() === 'rai') ||
-      (includes[0].toLowerCase() === 'weth' && coin.toLowerCase() === 'rgt') ||
-      (includes[0].toLowerCase() === 'weth' && coin.toLowerCase() === 'rari') ||
-      (includes[0].toLowerCase() === 'weth' && coin.toLowerCase() === 'ldo') ||
-      (includes[0].toLowerCase() === 'weth' && coin.toLowerCase() === 'vsp') ||
-      (includes[0].toLowerCase() === 'weth' && coin.toLowerCase() === 'sfi'))
-  ) {
-    const fromAddress = addressMapping[coin.toUpperCase()]
-    const toAddress = addressMapping[includes[0].toUpperCase()]
-    url = `/api/v2/market/defi/prices/pairs/bases/${fromAddress}/quotes/${toAddress}/latest`
-    params = {}
-  }
-
+  const { url, params, inverse } = getOptions(validator)
   const reqConfig = { ...config.api, params, url }
 
   const response = await Requester.request(reqConfig, customError)
-  response.data.result = Requester.validateResultNumber(response.data, ['payload', 'price'])
+  response.data.result = Requester.validateResultNumber(response.data, ['payload', 'price'], { inverse })
   return Requester.success(jobRunID, response, config.verbose)
+}
+
+const getOptions = (validator: Validator): {
+  url: string
+  params: Record<string, unknown>,
+  inverse?: boolean
+} => {
+  const base = validator.overrideSymbol(AdapterName) as string
+  const quote = validator.validated.data.quote
+  const includes = validator.validated.data.includes || []
+
+  const includeOptions = getIncludesOptions(validator, base, quote, includes)
+  return includeOptions ?? symbolOptions(base, quote)
+}
+
+const getIncludesOptions = (validator: Validator, from: string, to: string, includes: string[] | Includes[]) => {
+  const include = getIncludes(validator, from, to, includes)
+  if (!include) return undefined
+  if (include.tokens) {
+    const fromAddress = validator.overrideToken(include.from)
+    const toAddress = validator.overrideToken(include.to)
+
+    if (!fromAddress || !toAddress) return undefined
+    return {
+      ...tokenOptions(fromAddress, toAddress),
+      inverse: include.inverse
+    }
+  }
+
+  return {
+    ...symbolOptions(include.from, include.to),
+    inverse: include.inverse
+  }
+}
+
+const getIncludes = (validator: Validator, from: string, to: string, includes: string[] | Includes[]): Includes | undefined => {
+  if (includes.length === 0) return undefined
+
+  if (typeof includes[0] === 'string') {
+    return {
+      from,
+      to: includes[0],
+      inverse: false,
+      tokens: true
+    }
+  }
+
+  return validator.overrideIncludes(AdapterName, from, to, includes as Includes[])
 }

@@ -19,7 +19,7 @@ describe('execute', () => {
       {
         name: 'quote not supplied',
         testData: { id: jobID, data: { base: 'ETH' } },
-      },
+      }
     ]
 
     requests.forEach((req) => {
