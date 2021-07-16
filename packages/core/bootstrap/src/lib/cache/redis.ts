@@ -11,8 +11,7 @@ const DEFAULT_CACHE_REDIS_PORT = 6379 // Port of the Redis server
 const DEFAULT_CACHE_REDIS_PATH = undefined // The UNIX socket string of the Redis server
 const DEFAULT_CACHE_REDIS_URL = undefined // The URL of the Redis server
 const DEFAULT_CACHE_REDIS_PASSWORD = undefined // The password required for redis auth
-const DEFAULT_CACHE_REDIS_TIMEOUT = Number.MAX_SAFE_INTEGER // Timeout in ms
-const DEFAULT_CACHE_REDIS_INITIAL_DELAY = 30000
+const DEFAULT_CACHE_REDIS_TIMEOUT = 500 // Timeout in ms
 // Options
 const DEFAULT_CACHE_MAX_AGE = 1000 * 60 * 1.5 // 1.5 minutes
 
@@ -29,8 +28,6 @@ export const defaultOptions = (): RedisOptions => ({
   password: env.CACHE_REDIS_PASSWORD || DEFAULT_CACHE_REDIS_PASSWORD,
   maxAge: Number(env.CACHE_MAX_AGE) || DEFAULT_CACHE_MAX_AGE,
   timeout: Number(env.CACHE_REDIS_TIMEOUT) || DEFAULT_CACHE_REDIS_TIMEOUT,
-  connect_timeout: Number(env.CACHE_REDIS_TIMEOUT) || DEFAULT_CACHE_REDIS_TIMEOUT,
-  socket_initial_delay: Number(env.CACHE_REDIS_INITIAL_DELAY) || DEFAULT_CACHE_REDIS_INITIAL_DELAY,
 })
 
 // Options without sensitive data
@@ -42,6 +39,11 @@ export const redactOptions = (opts: RedisOptions) => {
 
 const retryStrategy = (options: any) => {
   logger.warn('Redis retry strategy activated.', options)
+  if (options.error && options.error.code === 'ECONNREFUSED') {
+    // End reconnecting on a specific error and flush all commands with
+    // a individual error
+    return 500
+  }
   if (options.total_retry_time > 1000 * 60 * 60) {
     // End reconnecting after a specific timeout and flush all commands
     // with a individual error
@@ -49,12 +51,7 @@ const retryStrategy = (options: any) => {
   }
   if (options.attempt > 10) {
     // End reconnecting with built in error
-    return new Error('Max attempts reached')
-  }
-  if (options.error && options.error.code === 'ECONNREFUSED') {
-    // End reconnecting on a specific error and flush all commands with
-    // a individual error
-    return 500
+    return undefined
   }
   // reconnect after
   return Math.min(options.attempt * 100, 3000)
