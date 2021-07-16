@@ -120,6 +120,9 @@
       "path": "./sources/btc.com"
     },
     {
+      "path": "./sources/cache.gold"
+    },
+    {
       "path": "./sources/cfbenchmarks"
     },
     {

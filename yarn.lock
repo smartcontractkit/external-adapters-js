@@ -2134,6 +2134,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/cache.gold-adapter@*, @chainlink/cache.gold-adapter@workspace:packages/sources/cache.gold":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/cache.gold-adapter@workspace:packages/sources/cache.gold"
+  dependencies:
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.0.1
+    "@types/jest": ^26.0.22
+    "@types/node": ^14.14.35
+    tslib: ^2.1.0
+    typescript: ^4.2.3
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/cfbenchmarks-adapter@*, @chainlink/cfbenchmarks-adapter@workspace:packages/sources/cfbenchmarks":
   version: 0.0.0-use.local
   resolution: "@chainlink/cfbenchmarks-adapter@workspace:packages/sources/cfbenchmarks"
@@ -2668,6 +2682,7 @@ __metadata:
     "@chainlink/blockstream-adapter": "*"
     "@chainlink/bravenewcoin-adapter": "*"
     "@chainlink/btc.com-adapter": "*"
+    "@chainlink/cache.gold-adapter": "*"
     "@chainlink/cfbenchmarks-adapter": "*"
     "@chainlink/coinapi-adapter": "*"
     "@chainlink/coinbase-adapter": "*"
