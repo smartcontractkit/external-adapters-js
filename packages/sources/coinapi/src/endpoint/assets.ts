@@ -11,7 +11,7 @@ import { NAME as AdapterName } from '../config'
 export const supportedEndpoints = ['assets']
 
 export const endpointResultPaths = {
-  assets: 'assets',
+  assets: 'price_usd',
 }
 
 export interface ResponseSchema {
