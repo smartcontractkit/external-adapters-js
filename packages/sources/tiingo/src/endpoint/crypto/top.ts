@@ -41,7 +41,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const base = validator.validated.data.base.toLowerCase()
+  const base = validator.overrideSymbol(AdapterName) as string
   const quote = validator.validated.data.quote.toLowerCase()
   const resultPath = validator.validated.data.resultPath
 
