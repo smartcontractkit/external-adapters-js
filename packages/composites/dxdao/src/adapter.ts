@@ -1,10 +1,8 @@
-import { Requester } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
 import { makeConfig } from './config'
 import { tvl } from './endpoint'
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-  Requester.logConfig(config)
   return await tvl.execute(request, config)
 }
 

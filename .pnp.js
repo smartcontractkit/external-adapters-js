@@ -51,6 +51,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/composites/dns-record-check"
       },
       {
+        "name": "@chainlink/dxdao-adapter",
+        "reference": "workspace:packages/composites/dxdao"
+      },
+      {
         "name": "@chainlink/linear-finance-adapter",
         "reference": "workspace:packages/composites/linear-finance"
       },
@@ -261,10 +265,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {
         "name": "@chainlink/dwolla-adapter",
         "reference": "workspace:packages/sources/dwolla"
-      },
-      {
-        "name": "@chainlink/dxdao-adapter",
-        "reference": "workspace:packages/sources/dxdao"
       },
       {
         "name": "@chainlink/dxfeed-adapter",
@@ -533,7 +533,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/dns-query-adapter", ["workspace:packages/sources/dns-query"]],
       ["@chainlink/dns-record-check-adapter", ["workspace:packages/composites/dns-record-check"]],
       ["@chainlink/dwolla-adapter", ["workspace:packages/sources/dwolla"]],
-      ["@chainlink/dxdao-adapter", ["workspace:packages/sources/dxdao"]],
+      ["@chainlink/dxdao-adapter", ["workspace:packages/composites/dxdao"]],
       ["@chainlink/dxfeed-adapter", ["workspace:packages/sources/dxfeed"]],
       ["@chainlink/dxfeed-secondary-adapter", ["workspace:packages/sources/dxfeed-secondary"]],
       ["@chainlink/dydx-stark-adapter", ["workspace:packages/targets/dydx-stark"]],
@@ -5113,10 +5113,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@chainlink/dxdao-adapter", [
-        ["workspace:packages/sources/dxdao", {
-          "packageLocation": "./packages/sources/dxdao/",
+        ["workspace:packages/composites/dxdao", {
+          "packageLocation": "./packages/composites/dxdao/",
           "packageDependencies": [
-            ["@chainlink/dxdao-adapter", "workspace:packages/sources/dxdao"],
+            ["@chainlink/dxdao-adapter", "workspace:packages/composites/dxdao"],
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/ea-reference-data-reader", "workspace:packages/core/reference-data-reader"],
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
@@ -5222,7 +5222,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/deribit-adapter", "workspace:packages/sources/deribit"],
             ["@chainlink/dns-query-adapter", "workspace:packages/sources/dns-query"],
             ["@chainlink/dwolla-adapter", "workspace:packages/sources/dwolla"],
-            ["@chainlink/dxdao-adapter", "workspace:packages/sources/dxdao"],
             ["@chainlink/dxfeed-adapter", "workspace:packages/sources/dxfeed"],
             ["@chainlink/dxfeed-secondary-adapter", "workspace:packages/sources/dxfeed-secondary"],
             ["@chainlink/eodhistoricaldata-adapter", "workspace:packages/sources/eodhistoricaldata"],

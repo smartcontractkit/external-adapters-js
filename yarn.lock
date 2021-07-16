@@ -2485,9 +2485,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/dxdao-adapter@*, @chainlink/dxdao-adapter@workspace:packages/sources/dxdao":
+"@chainlink/dxdao-adapter@workspace:packages/composites/dxdao":
   version: 0.0.0-use.local
-  resolution: "@chainlink/dxdao-adapter@workspace:packages/sources/dxdao"
+  resolution: "@chainlink/dxdao-adapter@workspace:packages/composites/dxdao"
   dependencies:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-reference-data-reader": 0.0.4
@@ -2699,7 +2699,6 @@ __metadata:
     "@chainlink/deribit-adapter": "*"
     "@chainlink/dns-query-adapter": "*"
     "@chainlink/dwolla-adapter": "*"
-    "@chainlink/dxdao-adapter": "*"
     "@chainlink/dxfeed-adapter": "*"
     "@chainlink/dxfeed-secondary-adapter": "*"
     "@chainlink/eodhistoricaldata-adapter": "*"
