@@ -31,8 +31,8 @@
   },
   "dependencies": {
     "@chainlink/ea-bootstrap": "*",
-    "@chainlink/ea-reference-data-reader": "0.0.4",
     "@chainlink/ea-test-helpers": "*",
+    "@chainlink/token-allocation-adapter": "workspace:packages/composites/token-allocation",
     "ethers": "^5.0.32",
     "tslib": "^2.1.0"
   },

@@ -2,7 +2,13 @@
 
 ### Environment Variables
 
-No adapter specific environment variables
+| Required? |            Name            |               Description                |       Options       | Defaults to |
+| :-------: | :------------------------: | :--------------------------------------: | :-----------------: | :---------: |
+|    ✅     | `RPC_URL`  |   The RPC URL to connect to the XDai chain    |  |             |
+
+This adapter also relies on the Token Allocation adapter to fetch the USD price of ETH.  This requires setting up the environment variables 
+for the token allocation adapter as well.  The instructions for that can be found here https://github.com/smartcontractkit/external-adapters-js/tree/develop/packages/composites/token-allocation.
+
 
 ---
 
@@ -22,7 +28,7 @@ This endpoint fetches the TVL(Total Value Locked) inside a pair that is deployed
 | :-------: | :------------------------: | :--------------------------------------: | :-----------------: | :---------: |
 |    ✅     | `wethContractAddress`  |   The WETH contract address on the XDai Chain    |  |             |
 |    ✅     | `pairContractAddress` | The pair contract's address on the XDai Chain |   |             |
-|         | `xdaiEthUsdPriceFeedAddress` | The ETH-USD price feed address on the XDai Chain |   |             |
+|         | `tokenAllocationSource` | Which source to fetch the Ethereum USD price from |   |             |
 
 ### Sample Input
 
@@ -32,7 +38,7 @@ This endpoint fetches the TVL(Total Value Locked) inside a pair that is deployed
     "data": {
         "wethContractAddress": "0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1",
         "pairContractAddress": "0x1bDe964eCd52429004CbC5812C07C28bEC9147e9",
-        "xdaiEthUsdPriceFeedAddress": "0xa767f745331D267c7751297D982b050c93985627"
+        "tokenAllocationSource": "tiingo"
     }
 }
 ```
@@ -42,10 +48,10 @@ This endpoint fetches the TVL(Total Value Locked) inside a pair that is deployed
 ```json
 {
     "jobRunID": 1,
-    "result": "91218",
+    "result": 849774.7320901232,
     "statusCode": 200,
     "data": {
-        "result": "91218"
+        "result": 849774.7320901232
     }
 }
 ```

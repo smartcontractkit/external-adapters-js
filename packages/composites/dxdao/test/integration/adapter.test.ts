@@ -20,9 +20,11 @@ jest.mock("ethers", () => ({
   }
 }))
 
-jest.mock("@chainlink/ea-reference-data-reader", () => ({
-  ...(jest.requireActual("@chainlink/ea-reference-data-reader")),
-  getRpcLatestAnswer: jest.fn().mockReturnValue(2020)
+jest.mock("@chainlink/token-allocation-adapter", () => ({
+  ...(jest.requireActual("@chainlink/token-allocation-adapter")),
+  makeExecute: jest.fn().mockReturnValue({
+    result: 2000
+  })
 }))
 
 let oldEnv: NodeJS.ProcessEnv

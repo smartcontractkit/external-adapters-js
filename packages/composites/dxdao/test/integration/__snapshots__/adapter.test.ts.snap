@@ -3,11 +3,11 @@
 exports[`execute with xdaiEthUsdPriceFeedAddress should return success 1`] = `
 Object {
   "data": Object {
-    "result": "90900",
+    "result": "451882112393033764758",
   },
   "debug": undefined,
   "jobRunID": "1",
-  "result": "90900",
+  "result": "451882112393033764758",
   "statusCode": 200,
 }
 `;
@@ -15,11 +15,11 @@ Object {
 exports[`execute without xdaiEthUsdPriceFeedAddress should return success 1`] = `
 Object {
   "data": Object {
-    "result": "45",
+    "result": "451882112393033764758",
   },
   "debug": undefined,
   "jobRunID": "1",
-  "result": "45",
+  "result": "451882112393033764758",
   "statusCode": 200,
 }
 `;

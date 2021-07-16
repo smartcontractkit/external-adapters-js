@@ -10,6 +10,6 @@
     { "path": "../../core/test-helpers" },
     { "path": "../../core/bootstrap" },
     { "path": "../../core/test-helpers" },
-    { "path": "../../core/reference-data-reader" }
+    { "path": "../../composites/token-allocation"}
   ]
 }

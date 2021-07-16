@@ -7,6 +7,7 @@ describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
   process.env.RPC_URL = process.env.RPC_URL || "https://rpc.xdaichain.com/"
+  process.env.TIINGO_DATA_PROVIDER_URL = process.env.TIINGO_DATA_PROVIDER_URL
 
   describe('successful calls @e2e', () => {
     const requests = [
@@ -16,7 +17,7 @@ describe('execute', () => {
           data: {
             "wethContractAddress": "0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1",
             "pairContractAddress": "0x1bDe964eCd52429004CbC5812C07C28bEC9147e9",
-            "xdaiEthUsdPriceFeedAddress": "0xa767f745331D267c7751297D982b050c93985627"
+            "tokenAllocationSource": "tiingo"
           } 
         },
       },
@@ -27,12 +28,12 @@ describe('execute', () => {
           data: {
             "wethContractAddress": "0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1",
             "pairContractAddress": "0x1bDe964eCd52429004CbC5812C07C28bEC9147e9",
-            "xdaiEthUsdPriceFeedAddress": "0xa767f745331D267c7751297D982b050c93985627"
-          } 
+            "tokenAllocationSource": "tiingo"
+          }
         },
       },
       {
-        name: 'without price feed address',
+        name: 'without token allocation source',
         testData: { 
           jobID: 1,
           data: {
@@ -61,8 +62,7 @@ describe('execute', () => {
           jobID: 1,
           data: {
             "wethContractAddress": "invalid-address",
-            "pairContractAddress": "0x1bDe964eCd52429004CbC5812C07C28bEC9147e9",
-            "xdaiEthUsdPriceFeedAddress": "0xa767f745331D267c7751297D982b050c93985627"
+            "pairContractAddress": "0x1bDe964eCd52429004CbC5812C07C28bEC9147e9"
           } 
         },
       },
@@ -72,19 +72,7 @@ describe('execute', () => {
           jobID: 1,
           data: {
             "wethContractAddress": "0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1",
-            "pairContractAddress": "invalid-address",
-            "xdaiEthUsdPriceFeedAddress": "0xa767f745331D267c7751297D982b050c93985627"
-          } 
-        },
-      },
-      {
-        name: 'invalid xdaiEthUsdPriceFeedAddress',
-        testData: { 
-          jobID: 1,
-          data: {
-            "wethContractAddress": "0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1",
-            "pairContractAddress": "0x1bDe964eCd52429004CbC5812C07C28bEC9147e9",
-            "xdaiEthUsdPriceFeedAddress": "invalid-address"
+            "pairContractAddress": "invalid-address"
           } 
         },
       }
