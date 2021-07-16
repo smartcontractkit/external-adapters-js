@@ -1,5 +1,6 @@
 import { Config, ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { makeConfig } from './config'
 
 const customParams = {
   symbol: ['base', 'from', 'coin', 'symbol'],
@@ -15,12 +16,13 @@ const daysConversion: Record<number, string> = {
   28: 'twentyEightDayIv',
 }
 
-const execute: ExecuteWithConfig<Config> = async (input, config) => {
-  const validator = new Validator(input, customParams)
+// TODO: Run tests with valid pro tier + API Key
+export const execute: ExecuteWithConfig<Config> = async (request, config) => {
+  const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const url = 'https://app.pinkswantrading.com/graphql'
+  const url = '/graphql'
   const symbol = validator.validated.data.symbol.toUpperCase()
   const daysInput = validator.validated.data.days
   const days = daysConversion[daysInput] || daysInput
@@ -58,8 +60,6 @@ const execute: ExecuteWithConfig<Config> = async (input, config) => {
   ])
   return Requester.success(jobRunID, response)
 }
-
-export const makeConfig = (prefix?: string): Config => Requester.getDefaultConfig(prefix)
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {
   return async (request) => execute(request, config || makeConfig())

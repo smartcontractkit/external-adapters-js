@@ -12,11 +12,12 @@
 
 | Required? |   Name   |     Description     |         Options          | Defaults to |
 | :-------: | :------: | :-----------------: | :----------------------: | :---------: |
-|           | endpoint | The endpoint to use | [price](#Price-Endpoint) |    price    |
+|           | endpoint | The endpoint to use | [forex](#Forex-Endpoint) |    forex    |
 
 ---
 
-## Price Endpoint
+## Forex Endpoint
+##### NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `forex` endpoint instead.
 
 [`/convert`](https://1forge.com/api#convert) - Convert from one currency to another
 

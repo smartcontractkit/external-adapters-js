@@ -1,26 +1,27 @@
-import { ExecuteWithConfig, Config } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../config'
 
-export const NAME = 'coin'
+export const supportedEndpoints = ['coin', 'price', 'marketcap']
 
-export enum Paths {
-  Price = 'price',
-  MarketCap = 'marketcap',
+export const endpointResultPaths = {
+  coin: 'data.coin.price',
+  price: 'data.coin.price',
+  marketcap: 'data.coin.marketCap',
 }
 
 export interface ResponseSchema {
   data: {
     coin: {
-      "24hVolume": string
-      allTimeHigh: { price: string, timestamp: number }
+      '24hVolume': string
+      allTimeHigh: { price: string; timestamp: number }
       btcPrice: string
       change: string
       coinrankingUrl: string
       color: string
       description: string
       iconUrl: string
-      links: { name: string, type: string, url: string }[]
+      links: { name: string; type: string; url: string }[]
       lowVolume: boolean
       marketCap: string
       name: string
@@ -29,7 +30,7 @@ export interface ResponseSchema {
       price: string
       rank: number
       sparkline: string[]
-      supply: { confirmed: boolean, total: string, circulating: string }
+      supply: { confirmed: boolean; total: string; circulating: string }
       symbol: string
       tier: number
       uuid: string
@@ -54,10 +55,10 @@ interface ReferenceCurrenciesResponseSchema {
   status: string
 }
 
-const customParams = {
+export const inputParameters: InputParameters = {
   base: ['base', 'from', 'coin'],
   coinid: false,
-  path: false,
+  resultPath: false,
 }
 
 const referenceSymbolToUuid = async (symbol: string, config: Config): Promise<string> => {
@@ -68,20 +69,20 @@ const referenceSymbolToUuid = async (symbol: string, config: Config): Promise<st
   }
   const response = await Requester.request<ReferenceCurrenciesResponseSchema>(options)
   const currency = response.data.data.currencies.find(
-    (x) => (x.symbol).toLowerCase() === symbol.toLowerCase(),
+    (x) => x.symbol.toLowerCase() === symbol.toLowerCase(),
   )
   if (!currency) throw Error(`Currency not found for symbol: ${symbol}`)
   return currency.uuid
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, config) => {
-  const validator = new Validator(input, customParams)
+  const validator = new Validator(input, inputParameters)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const symbol = validator.overrideSymbol(AdapterName) as string
   const coinid = validator.validated.data.coinid as string | undefined
-  const path = validator.validated.data.path || Paths.Price
+  const resultPath = validator.validated.data.resultPath
 
   // If coinid was provided or base was overridden, that symbol will be fetched
   let coin = coinid || (symbol !== validator.validated.data.base && symbol)
@@ -101,13 +102,9 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
     url,
   }
 
-  const resultPaths: { [key: string]: string[] } = {
-    [Paths.Price]: ['data', 'coin', 'price'],
-    [Paths.MarketCap]: ['data', 'coin', 'marketCap'],
-  }
   const response = await Requester.request<ResponseSchema & { cost?: number }>(options)
   response.data.cost = cost
-  const result = Requester.validateResultNumber(response.data, resultPaths[path])
+  const result = Requester.validateResultNumber(response.data, [resultPath])
 
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

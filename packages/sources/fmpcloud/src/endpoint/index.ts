@@ -1,1 +1,1 @@
-export * as quote from './quote'
+export * as stock from './stock'

@@ -94,6 +94,7 @@ declare module '@chainlink/types' {
     returnRejectedPromiseOnError?: boolean
     verbose?: boolean
     api?: RequestConfig
+    defaultEndpoint?: string
   }
 
   export type ExecuteSync = (input: AdapterRequest, callback: Callback) => void
@@ -106,6 +107,27 @@ declare module '@chainlink/types' {
   ) => Promise<AdapterResponse>
 
   export type ExecuteFactory<C extends Config> = (config?: C) => Execute
+
+  export type RequiredInputParameter = boolean
+  export type InputParameterAliases = string[]
+  export type InputParameters = {
+    [name: string]: RequiredInputParameter | InputParameterAliases
+  }
+
+  export interface APIEndpoint {
+    supportedEndpoints: string[]
+    endpointResultPaths?: EndpointResultPaths
+    inputParameters?: InputParameters
+    endpointOverride?: (request: AdapterRequest) => string | null
+    execute?: Execute | ExecuteWithConfig<Config>
+    makeExecute?: ExecuteFactory<Config>
+  }
+
+  export type MakeResultPath = (input: AdapterRequest) => string
+
+  export interface EndpointResultPaths {
+    [endpoint: string]: MakeResultPath | string
+  }
 
   export type ConfigFactory = (prefix?: string) => Config
 

@@ -1,2 +1,2 @@
 export * as globalmarketcap from './globalmarketcap'
-export * as price from './price'
+export * as crypto from './crypto'

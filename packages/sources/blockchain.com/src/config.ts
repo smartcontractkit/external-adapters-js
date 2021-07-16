@@ -1,6 +1,7 @@
 import { util } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
-import { ChainType } from './endpoint'
+
+export const NAME = 'BLOCKCHAIN_COM'
 
 export const ENV_API_KEY = 'API_KEY'
 export const ENV_API_TIMEOUT = 'API_TIMEOUT'
@@ -10,6 +11,17 @@ export const API_ENDPOINT_TEST = 'https://testnet.blockchain.info/'
 
 export const DEFAULT_TIMEOUT = 30000
 export const DEFAULT_ENDPOINT = 'balance'
+
+export const COIN_KEYS = ['btc'] as const
+export type CoinType = typeof COIN_KEYS[number]
+export function isCoinType(key: string): key is CoinType {
+  return COIN_KEYS.includes(key as CoinType)
+}
+export const CHAIN_KEYS = ['mainnet', 'testnet'] as const
+export type ChainType = typeof CHAIN_KEYS[number]
+export function isChainType(key: string): key is ChainType {
+  return CHAIN_KEYS.includes(key as ChainType)
+}
 
 export const getBaseURL = (chain: ChainType): string => {
   switch (chain) {
@@ -39,4 +51,5 @@ export const makeConfig = (prefix = ''): Config => ({
       key: util.getEnv(ENV_API_KEY, prefix),
     },
   },
+  defaultEndpoint: DEFAULT_ENDPOINT
 })

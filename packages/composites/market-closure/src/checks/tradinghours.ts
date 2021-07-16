@@ -27,6 +27,6 @@ export const isMarketClosed = async (input: AdapterRequest): Promise<boolean> =>
   }
 
   const response = await Requester.request(config)
-  const status = Requester.getResult(response.data, [market, 'status']).toLowerCase()
+  const status = (Requester.getResult(response.data, [market, 'status']) as string).toLowerCase()
   return status !== 'open'
 }

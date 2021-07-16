@@ -5,12 +5,19 @@ import {
   ExecuteSync,
   MakeWSHandler,
   Middleware,
+  APIEndpoint,
 } from '@chainlink/types'
 import { combineReducers, Store } from 'redux'
 import { defaultOptions, redactOptions, withCache } from './lib/cache'
 import * as cacheWarmer from './lib/cache-warmer'
 import { WARMUP_REQUEST_ID } from './lib/cache-warmer/config'
-import { AdapterError, logger as Logger, Requester, Validator } from './lib/external-adapter'
+import {
+  AdapterError,
+  logger as Logger,
+  Requester,
+  Validator,
+  Builder,
+} from './lib/external-adapter'
 import * as metrics from './lib/metrics'
 import { getFeedId } from './lib/metrics/util'
 import * as rateLimit from './lib/rate-limit'
@@ -45,9 +52,12 @@ const storeSlice = (slice: any) =>
   } as Store)
 
 // Try to initialize, pass through on error
-const skipOnError = (middleware: Middleware) => async (execute: Execute) => {
+const skipOnError = (middleware: Middleware) => async (
+  execute: Execute,
+  endpointSelector?: (request: AdapterRequest) => APIEndpoint,
+) => {
   try {
-    return await middleware(execute)
+    return await middleware(execute, endpointSelector)
   } catch (error) {
     Logger.warn(`${middleware.name} middleware initialization error! Passing through. `, error)
     return execute
@@ -132,16 +142,24 @@ export const withDebug: Middleware = async (execute) => async (input: AdapterReq
 }
 
 // Init all middleware, and return a wrapped execute fn
-export const withMiddleware = async (execute: Execute, middleware: Middleware[]) => {
+export const withMiddleware = async (
+  execute: Execute,
+  middleware: Middleware[],
+  endpointSelector?: (request: AdapterRequest) => APIEndpoint,
+) => {
   // Init and wrap middleware one by one
   for (let i = 0; i < middleware.length; i++) {
-    execute = await middleware[i](execute)
+    execute = await middleware[i](execute, endpointSelector)
   }
   return execute
 }
 
 // Execution helper async => sync
-const executeSync = (execute: Execute, makeWsHandler?: MakeWSHandler): ExecuteSync => {
+const executeSync = (
+  execute: Execute,
+  makeWsHandler?: MakeWSHandler,
+  endpointSelector?: (request: AdapterRequest) => APIEndpoint,
+): ExecuteSync => {
   // TODO: Try to init middleware only once
   // const initMiddleware = withMiddleware(execute)
   const warmerMiddleware = [
@@ -166,7 +184,7 @@ const executeSync = (execute: Execute, makeWsHandler?: MakeWSHandler): ExecuteSy
   return async (data: AdapterRequest, callback: any) => {
     // We init on every call because of cache connection broken state issue
     try {
-      const executeWithMiddleware = await withMiddleware(execute, middleware)
+      const executeWithMiddleware = await withMiddleware(execute, middleware, endpointSelector)
       const result = await executeWithMiddleware(data)
 
       return callback(result.statusCode, result)
@@ -176,9 +194,13 @@ const executeSync = (execute: Execute, makeWsHandler?: MakeWSHandler): ExecuteSy
   }
 }
 
-export const expose = (execute: Execute, makeWsHandler?: MakeWSHandler) => {
+export const expose = (
+  execute: Execute,
+  makeWsHandler?: MakeWSHandler,
+  endpointSelector?: (request: AdapterRequest) => APIEndpoint,
+) => {
   // Add middleware to the execution flow
-  const _execute = executeSync(execute, makeWsHandler)
+  const _execute = executeSync(execute, makeWsHandler, endpointSelector)
   return {
     server: server.initHandler(_execute),
   }
@@ -189,4 +211,4 @@ export type ExecuteHandlers = ReturnType<typeof expose>
 const cacheOptions = defaultOptions()
 if (cacheOptions.enabled) Logger.info('Cache enabled: ', redactOptions(cacheOptions))
 
-export { Requester, Validator, AdapterError, Logger, util, server, executeSync }
+export { Requester, Validator, AdapterError, Builder, Logger, util, server, executeSync }

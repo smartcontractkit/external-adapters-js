@@ -1,10 +1,11 @@
-import { AdapterErrorResponse, Override } from '@chainlink/types'
+import { AdapterErrorResponse, Override, AdapterRequest, APIEndpoint } from '@chainlink/types'
 import { merge } from 'lodash'
 import { isObject } from '../util'
 import { AdapterError } from './errors'
 import { logger } from './logger'
 import presetSymbols from './overrides/presetSymbols.json'
 import { Requester } from './requester'
+import { inputParameters } from './builder'
 
 export class Validator {
   input: any
@@ -178,4 +179,19 @@ export class Validator {
       }
     }
   }
+}
+
+export function normalizeInput(request: AdapterRequest, apiEndpoint: APIEndpoint): AdapterRequest {
+  const input = { ...request }
+
+  // if endpoint does not match, an override occurred and we must adjust it
+  if (!apiEndpoint.supportedEndpoints.includes(input.data.endpoint))
+    input.data.endpoint = apiEndpoint.supportedEndpoints[0]
+
+  const fullParameters = { ...inputParameters, ...apiEndpoint.inputParameters }
+  const validator = new Validator(request, fullParameters)
+
+  // remove undefined values
+  const data = JSON.parse(JSON.stringify(validator.validated.data))
+  return { ...request, data }
 }

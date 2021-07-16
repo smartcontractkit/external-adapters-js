@@ -1,6 +1,7 @@
-import { Execute } from '@chainlink/types'
+import { ExecuteWithConfig, ExecuteFactory, Config} from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { util } from '@chainlink/ea-bootstrap'
+import { makeConfig } from './config'
 
 const customParams = {
   indicator: true,
@@ -10,13 +11,14 @@ const customParams = {
   interval: true,
 }
 
-export const execute: Execute = async (input) => {
-  const validator = new Validator(input, customParams)
+// TODO: Run tests with valid pro tier + API Key
+export const execute: ExecuteWithConfig<Config> = async (request, config) => {
+  const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const indicator = validator.validated.data.indicator
-  const url = `https://api.taapi.io/${indicator}`
+  const url = indicator
   const base = validator.validated.data.base.toUpperCase()
   const quote = validator.validated.data.quote.toUpperCase()
   const symbol = `${base}/${quote}`
@@ -31,12 +33,17 @@ export const execute: Execute = async (input) => {
     interval,
   }
 
-  const config = {
+  const options = {
+    ...config.api,
     url,
     params,
   }
 
-  const response = await Requester.request(config)
+  const response = await Requester.request(options)
   response.data.result = Requester.validateResultNumber(response.data, ['value'])
   return Requester.success(jobRunID, response)
+}
+
+export const makeExecute: ExecuteFactory<Config> = (config) => {
+  return async (request) => execute(request, config || makeConfig())
 }

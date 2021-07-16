@@ -11,13 +11,14 @@
 
 | Required? |   Name   |     Description     |                                                                         Options                                                                         | Defaults to |
 | :-------: | :------: | :-----------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [price](#Price-Endpoint), [globalmarketcap](#Global-Market-Capitalization-Endpoint), [dominance](#Dominance-Endpoint), [marketcap](#Marketcap-Endpoint) |    price    |
+|           | endpoint | The endpoint to use | [crypto](#Crypto-Endpoint), [globalmarketcap](#Global-Market-Capitalization-Endpoint), [dominance](#Dominance-Endpoint), [marketcap](#Marketcap-Endpoint) |    price    |
 
 ---
 
-## Price Endpoint
-
-Query the price from [Coingecko](https://api.coingecko.com/api/v3/simple/price)
+## Crypto Endpoint
+##### NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.
+### Input Params
+Query the crypto price from [Coingecko](https://api.coingecko.com/api/v3/simple/price)
 
 ### Input Params
 

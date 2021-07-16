@@ -1,21 +1,26 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters, EndpointResultPaths } from '@chainlink/types'
 
-export const NAME = 'iex'
+export const supportedEndpoints = ['iex', 'stock']
 
-const customParams = {
+export const endpointResultPaths: EndpointResultPaths = {
+  iex: 'tngoLast',
+  stock: 'tngoLast',
+}
+
+export const inputParameters: InputParameters = {
   ticker: ['ticker', 'base', 'from', 'coin'],
-  field: false,
+  resultPath: false,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-  const validator = new Validator(request, customParams)
+  const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const ticker = validator.validated.data.ticker
-  const field = validator.validated.data.field || 'tngoLast'
-  const url = `${NAME}/${ticker}`
+  const resultPath = validator.validated.data.resultPath
+  const url = `iex/${ticker}`
   const options = {
     ...config.api,
     params: {
@@ -26,7 +31,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   }
 
   const response = await Requester.request(options)
-  response.data.result = Requester.validateResultNumber(response.data, [0, field])
+  response.data.result = Requester.validateResultNumber(response.data, [0, resultPath])
 
   return Requester.success(jobRunID, response, config.verbose)
 }

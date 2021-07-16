@@ -10,6 +10,7 @@ import { deepType } from '../util'
 import { getDefaultConfig, logConfig } from './config'
 import { AdapterError } from './errors'
 import { logger } from './logger'
+import objectPath from 'object-path'
 
 const getFalse = () => false
 
@@ -94,8 +95,8 @@ export class Requester {
     return Number(result)
   }
 
-  static getResult(data: { [key: string]: any }, path: (string | number)[]): any {
-    return path.reduce((o, n) => o[n], data)
+  static getResult(data: { [key: string]: unknown }, path: (string | number)[]): unknown {
+    return objectPath.get(data, path)
   }
 
   /**
@@ -153,12 +154,8 @@ export class Requester {
     response: Partial<AxiosResponse>,
     verbose = false,
     batchablePropertyPath?: string[],
-    normalizedRequest?: Record<string, unknown>,
   ): AdapterResponse {
-    const debug =
-      batchablePropertyPath || normalizedRequest
-        ? { normalizedRequest, batchablePropertyPath }
-        : undefined
+    const debug = batchablePropertyPath ? { batchablePropertyPath } : undefined
     return {
       jobRunID,
       data: verbose ? response.data : { result: response.data?.result },

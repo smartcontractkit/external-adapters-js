@@ -1,12 +1,12 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
-export const NAME = 'events'
+export const supportedEndpoints = ['events']
 
-const customParams = {
+export const inputParameters: InputParameters = {
   sportId: true,
   date: true,
-  status: false
+  status: false,
 }
 
 export interface ResponseSchema {
@@ -18,14 +18,12 @@ export interface ResponseSchema {
 }
 
 const formatDate = (date: Date): string => {
-  const pad = (n: number) => n<10 ? '0'+n : n
-  return date.getUTCFullYear()+'-'
-    + pad(date.getUTCMonth()+1)+'-'
-    + pad(date.getUTCDate())
+  const pad = (n: number) => (n < 10 ? '0' + n : n)
+  return date.getUTCFullYear() + '-' + pad(date.getUTCMonth() + 1) + '-' + pad(date.getUTCDate())
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-  const validator = new Validator(request, customParams)
+  const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
@@ -48,7 +46,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
   const response = await Requester.request(reqConfig)
   if (status !== undefined) {
-    response.data.events = (response.data as ResponseSchema).events.filter(({ score: { event_status }}) => event_status === status)
+    response.data.events = (response.data as ResponseSchema).events.filter(
+      ({ score: { event_status } }) => event_status === status,
+    )
   }
   response.data.result = response.data.events
 
