@@ -33,9 +33,11 @@ export const withCacheWarmer = (
     util.parseBool(process.env.EXPERIMENTAL_WARMUP_ENABLED)
   if (!isWarmerActive) return await execute(input)
 
+  const normalizedInput = endpointSelector ? normalizeInput(input, endpointSelector(input)) : input
+
   const wsConfig = getWSConfig()
   const warmupSubscribedPayload: actions.WarmupSubscribedPayload = {
-    ...input,
+    ...normalizedInput,
     // We need to initilialize the middleware on every beat to open a connection with the cache
     // Wrapping `rawExecute` as `execute` is already wrapped with the default middleware. Warmer doesn't need every default middleware
     executeFn: async (input: AdapterRequest) =>
@@ -81,8 +83,6 @@ export const withCacheWarmer = (
   // In case WS is not available, or WS has no active subscription, warmer should be active
   // Dispatch subscription only if execute was succesful
   const result = await execute(input)
-
-  const normalizedInput = endpointSelector ? normalizeInput(input, endpointSelector(input)) : input
 
   const warmupExecutePayload: actions.WarmupExecutePayload = {
     ...normalizedInput,

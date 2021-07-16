@@ -5,6 +5,8 @@ import { BLOCKCHAINS, isChainType, isCoinType } from '../config'
 
 export const supportedEndpoints = ['balance']
 
+export const inputParameters = balance.inputParameters
+
 const getBalanceURI = (address: string) => `/api/v2/addresses/${address}/account-balances/latest`
 
 const getBlockchainHeader = (coin?: string) => {
@@ -30,4 +32,5 @@ const getBalance: balance.GetBalance = async (account, config) => {
 
 const isSupported: balance.IsSupported = (coin, chain) => isChainType(chain) && isCoinType(coin)
 
-export const makeExecute:ExecuteFactory<Config> = (config?: Config) => balance.make({ ...config, getBalance, isSupported })
+export const makeExecute: ExecuteFactory<Config> = (config?: Config) =>
+  balance.make({ ...config, getBalance, isSupported })

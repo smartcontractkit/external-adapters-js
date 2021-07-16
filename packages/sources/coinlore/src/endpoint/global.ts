@@ -1,32 +1,29 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters, EndpointResultPaths } from '@chainlink/types'
 
-export const supportedEndpoints = ['global','globalmarketcap','dominance']
+export const supportedEndpoints = ['global', 'globalmarketcap', 'dominance']
 
-export const endpointPaths = {
-  globalmarketcap: 'total_mcap'
+export const endpointResultPaths: EndpointResultPaths = {
+  globalmarketcap: 'total_mcap',
+  dominance: 'd',
+  global: 'd',
 }
 
-const customParams = {
+export const inputParameters: InputParameters = {
   base: false,
-  field: false,
-  path: false,
-  endpoint: false
+  resultPath: false,
+  endpoint: false,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-  const validator = new Validator(request, customParams)
+  const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
-  const endpoint = validator.validated.data.endpoint || config.defaultEndpoint
-  if (endpoint.toLowerCase() === 'globalmarketcap') {
-    validator.validated.data.field = 'total_mcap'
-  }
 
   const jobRunID = validator.validated.id
   const url = `global`
   const symbol = validator.validated.data.base || 'btc'
-  let field = validator.validated.data.path || 'd'
-  if (field === 'd') field = `${symbol.toLowerCase()}_d`
+  let resultPath = validator.validated.data.resultPath
+  if (resultPath === 'd') resultPath = `${symbol.toLowerCase()}_d`
 
   const options = {
     ...config.api,
@@ -34,6 +31,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   }
 
   const response = await Requester.request(options)
-  response.data.result = Requester.validateResultNumber(response.data[0], [field])
+  response.data.result = Requester.validateResultNumber(response.data[0], [resultPath])
   return Requester.success(jobRunID, response, config.verbose)
 }

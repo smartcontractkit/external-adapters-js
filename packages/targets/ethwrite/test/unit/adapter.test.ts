@@ -108,7 +108,6 @@ describe('execute', () => {
     ]
 
     requests.forEach((req) => {
-      console.log(req)
       it(`${req.name}`, async () => {
         const data = await execute({
           ...req.testData,
@@ -140,7 +139,6 @@ describe('execute', () => {
       },
     ]
     requests.forEach((req) => {
-      console.log(req)
       it(`${req.name}`, async () => {
         const data = await execute({
           ...req.testData,

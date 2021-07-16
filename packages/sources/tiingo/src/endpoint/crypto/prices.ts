@@ -1,7 +1,12 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['prices', 'crypto']
+
+export const endpointResultPaths = {
+  prices: 'fxClose',
+  crypto: 'fxClose',
+}
 
 export interface ResponseSchema {
   ticker: string
@@ -25,23 +30,23 @@ export interface ResponseSchema {
   }[]
 }
 
-const customParams = {
+export const inputParameters: InputParameters = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
-  field: false,
+  resultPath: false,
 }
 
 // When an invalid symbol is given the response body is empty
 const customError = (data: ResponseSchema[]) => !data.length
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-  const validator = new Validator(request, customParams)
+  const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const base = validator.validated.data.base.toLowerCase()
   const quote = validator.validated.data.quote.toLowerCase()
-  const field = validator.validated.data.field || 'fxClose'
+  const resultPath = validator.validated.data.resultPath
   const url = '/tiingo/crypto/prices'
 
   const options = {
@@ -61,7 +66,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     0,
     'priceData',
     0,
-    field,
+    resultPath,
   ])
 
   return Requester.success(jobRunID, response, config.verbose)

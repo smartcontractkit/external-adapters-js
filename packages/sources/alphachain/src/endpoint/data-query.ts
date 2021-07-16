@@ -1,24 +1,24 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['dataquery']
 
 const customError = (data: any) => data.status !== '200'
 
-const customParams = {
+export const inputParameters: InputParameters = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
-  field: false,
+  resultPath: false,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-  const validator = new Validator(request, customParams)
+  const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const base = validator.validated.data.base.toUpperCase()
   const quote = validator.validated.data.quote.toUpperCase()
-  const field = validator.validated.data.field || 'result'
+  const resultPath = validator.validated.data.resultPath || 'result'
   const url = '/data-query'
   const host = 'alpha-chain2.p.rapidapi.com'
   const headers = {
@@ -42,7 +42,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   }
 
   const response = await Requester.request(options, customError)
-  response.data.result = Requester.validateResultNumber(response.data, [field])
+  response.data.result = Requester.validateResultNumber(response.data, [resultPath])
 
   return Requester.success(jobRunID, response, config.verbose)
 }

@@ -2134,6 +2134,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/cache.gold-adapter@*, @chainlink/cache.gold-adapter@workspace:packages/sources/cache.gold":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/cache.gold-adapter@workspace:packages/sources/cache.gold"
+  dependencies:
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.0.1
+    "@types/jest": ^26.0.22
+    "@types/node": ^14.14.35
+    tslib: ^2.1.0
+    typescript: ^4.2.3
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/cfbenchmarks-adapter@*, @chainlink/cfbenchmarks-adapter@workspace:packages/sources/cfbenchmarks":
   version: 0.0.0-use.local
   resolution: "@chainlink/cfbenchmarks-adapter@workspace:packages/sources/cfbenchmarks"
@@ -2547,6 +2561,7 @@ __metadata:
     "@types/lru-cache": ^5.1.0
     "@types/node": ^14.14.35
     "@types/object-hash": ^1.3.4
+    "@types/object-path": ^0.11.0
     "@types/pino": ^6
     "@types/pino-pretty": ^4
     "@types/promise-timeout": ^1.3.0
@@ -2564,6 +2579,7 @@ __metadata:
     lodash: ^4.17.21
     lru-cache: ^6.0.0
     object-hash: ^2.0.3
+    object-path: ^0.11.4
     pino: ^6.11.3
     pino-pretty: ^4.8.0
     prom-client: ^13.1.0
@@ -2666,6 +2682,7 @@ __metadata:
     "@chainlink/blockstream-adapter": "*"
     "@chainlink/bravenewcoin-adapter": "*"
     "@chainlink/btc.com-adapter": "*"
+    "@chainlink/cache.gold-adapter": "*"
     "@chainlink/cfbenchmarks-adapter": "*"
     "@chainlink/coinapi-adapter": "*"
     "@chainlink/coinbase-adapter": "*"

@@ -1,7 +1,9 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig } from '@chainlink/types'
+import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['coins']
+
+export const inputParameters: InputParameters = {}
 
 export interface CoinsResponse {
   id: string

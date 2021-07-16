@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, Includes } from '@chainlink/types'
+import { ExecuteWithConfig, Config, Includes, InputParameters } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['crypto', 'price']
@@ -18,14 +18,14 @@ const tokenOptions = (from: string, to: string) => ({
   params: {}
 })
 
-export const customParams = {
+export const inputParameters: InputParameters = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
   includes: false,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, config) => {
-  const validator = new Validator(input, customParams)
+  const validator = new Validator(input, inputParameters)
   if (validator.error) throw validator.error
   const jobRunID = validator.validated.id
 

@@ -6,6 +6,8 @@ import { isCoinType, isChainType, TESTNET_BLOCKCHAINS } from '../config'
 
 export const supportedEndpoints = ['balance']
 
+export const inputParameters = balance.inputParameters
+
 const getBalanceURI = (address: string, chain: string, coin: string) => {
   if (chain === 'testnet') chain = Requester.toVendorName(coin, TESTNET_BLOCKCHAINS) || chain
   return `/v1/bc/${coin}/${chain}/address/${address}`
@@ -29,4 +31,5 @@ const getBalance: balance.GetBalance = async (account, config) => {
 
 const isSupported: balance.IsSupported = (coin, chain) => isChainType(chain) && isCoinType(coin)
 
-export const makeExecute:ExecuteFactory<Config> = (config?: Config) => balance.make({ ...config, getBalance, isSupported })
+export const makeExecute: ExecuteFactory<Config> = (config?: Config) =>
+  balance.make({ ...config, getBalance, isSupported })

@@ -10,6 +10,7 @@ import { deepType } from '../util'
 import { getDefaultConfig, logConfig } from './config'
 import { AdapterError } from './errors'
 import { logger } from './logger'
+import objectPath from 'object-path'
 
 const getFalse = () => false
 
@@ -98,8 +99,8 @@ export class Requester {
     return num
   }
 
-  static getResult(data: { [key: string]: any }, path: (string | number)[]): any {
-    return path.reduce((o, n) => o[n], data)
+  static getResult(data: { [key: string]: unknown }, path: (string | number)[]): unknown {
+    return objectPath.get(data, path)
   }
 
   /**

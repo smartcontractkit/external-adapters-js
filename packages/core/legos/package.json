@@ -45,6 +45,7 @@
     "@chainlink/blockstream-adapter": "*",
     "@chainlink/bravenewcoin-adapter": "*",
     "@chainlink/btc.com-adapter": "*",
+    "@chainlink/cache.gold-adapter": "*",
     "@chainlink/cfbenchmarks-adapter": "*",
     "@chainlink/coinapi-adapter": "*",
     "@chainlink/coinbase-adapter": "*",

@@ -13,6 +13,7 @@ import * as blockcypher from '@chainlink/blockcypher-adapter'
 import * as blockstream from '@chainlink/blockstream-adapter'
 import * as bravenewcoin from '@chainlink/bravenewcoin-adapter'
 import * as btc_com from '@chainlink/btc.com-adapter'
+import * as cache_gold from '@chainlink/cache.gold-adapter'
 import * as cfbenchmarks from '@chainlink/cfbenchmarks-adapter'
 import * as coinapi from '@chainlink/coinapi-adapter'
 import * as coinbase from '@chainlink/coinbase-adapter'
@@ -99,6 +100,7 @@ export default {
   blockstream,
   bravenewcoin,
   btc_com,
+  cache_gold,
   cfbenchmarks,
   coinapi,
   coinbase,

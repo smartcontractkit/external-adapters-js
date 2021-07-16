@@ -187,6 +187,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/btc.com"
       },
       {
+        "name": "@chainlink/cache.gold-adapter",
+        "reference": "workspace:packages/sources/cache.gold"
+      },
+      {
         "name": "@chainlink/cfbenchmarks-adapter",
         "reference": "workspace:packages/sources/cfbenchmarks"
       },
@@ -506,6 +510,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/bob-adapter", ["workspace:packages/composites/bob"]],
       ["@chainlink/bravenewcoin-adapter", ["workspace:packages/sources/bravenewcoin"]],
       ["@chainlink/btc.com-adapter", ["workspace:packages/sources/btc.com"]],
+      ["@chainlink/cache.gold-adapter", ["workspace:packages/sources/cache.gold"]],
       ["@chainlink/cfbenchmarks-adapter", ["workspace:packages/sources/cfbenchmarks"]],
       ["@chainlink/coinapi-adapter", ["workspace:packages/sources/coinapi"]],
       ["@chainlink/coinbase-adapter", ["workspace:packages/sources/coinbase"]],
@@ -4714,6 +4719,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT",
         }]
       ]],
+      ["@chainlink/cache.gold-adapter", [
+        ["workspace:packages/sources/cache.gold", {
+          "packageLocation": "./packages/sources/cache.gold/",
+          "packageDependencies": [
+            ["@chainlink/cache.gold-adapter", "workspace:packages/sources/cache.gold"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:26.0.22"],
+            ["@types/node", "npm:14.14.41"],
+            ["tslib", "npm:2.2.0"],
+            ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=ddfc1b"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
       ["@chainlink/cfbenchmarks-adapter", [
         ["workspace:packages/sources/cfbenchmarks", {
           "packageLocation": "./packages/sources/cfbenchmarks/",
@@ -5182,6 +5203,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/blockstream-adapter", "workspace:packages/sources/blockstream"],
             ["@chainlink/bravenewcoin-adapter", "workspace:packages/sources/bravenewcoin"],
             ["@chainlink/btc.com-adapter", "workspace:packages/sources/btc.com"],
+            ["@chainlink/cache.gold-adapter", "workspace:packages/sources/cache.gold"],
             ["@chainlink/cfbenchmarks-adapter", "workspace:packages/sources/cfbenchmarks"],
             ["@chainlink/coinapi-adapter", "workspace:packages/sources/coinapi"],
             ["@chainlink/coinbase-adapter", "workspace:packages/sources/coinbase"],
@@ -5274,6 +5296,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/lru-cache", "npm:5.1.0"],
             ["@types/node", "npm:14.14.41"],
             ["@types/object-hash", "npm:1.3.4"],
+            ["@types/object-path", "npm:0.11.0"],
             ["@types/pino", "npm:6.3.8"],
             ["@types/pino-pretty", "npm:4.7.0"],
             ["@types/promise-timeout", "npm:1.3.0"],
@@ -5291,6 +5314,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["lodash", "npm:4.17.21"],
             ["lru-cache", "npm:6.0.0"],
             ["object-hash", "npm:2.1.1"],
+            ["object-path", "npm:0.11.5"],
             ["pino", "npm:6.11.3"],
             ["pino-pretty", "npm:4.8.0"],
             ["prom-client", "npm:13.1.0"],
