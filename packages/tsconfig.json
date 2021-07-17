@@ -24,6 +24,9 @@
       "path": "./composites/dns-record-check"
     },
     {
+      "path": "./composites/dxdao"
+    },
+    {
       "path": "./composites/linear-finance"
     },
     {
