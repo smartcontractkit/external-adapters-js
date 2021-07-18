@@ -1,4 +1,4 @@
-import { AdapterError, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterError, Logger, Validator } from '@chainlink/ea-bootstrap'
 import { AdapterRequest, ExecuteWithConfig, Execute } from '@chainlink/types'
 import { resolveMarkets, createMarkets } from './methods'
 import { Config, makeConfig } from './config'
@@ -14,10 +14,13 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const jobRunID = validator.validated.jobRunID
   const method = validator.validated.data.method
 
+  Logger.debug(`Augur: Choosing method ${method}`)
   switch (method.toLowerCase()) {
     case 'resolve':
+      Logger.debug(`Augur: Chose method resolve`)
       return resolveMarkets.execute(input, config)
     case 'create':
+      Logger.debug(`Augur: Chose method create`)
       return createMarkets.execute(input, config)
     default:
       throw new AdapterError({

@@ -17,7 +17,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const url = `/mma/scores/json/Event/${eventId}`
 
   const params = {
-    key: config.mmaScoresKey
+    key: config.mmaStatsKey
   }
 
   const options = { ...config.api, params, url }
