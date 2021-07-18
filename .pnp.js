@@ -6292,7 +6292,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
+            ["@types/nock", "npm:11.1.0"],
             ["@types/node", "npm:14.14.41"],
+            ["nock", "npm:13.1.0"],
             ["tslib", "npm:2.2.0"],
             ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=ddfc1b"]
           ],
@@ -10447,6 +10449,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-minimist-npm-1.2.1-dc316d808d-3a6f5fe35f.zip/node_modules/@types/minimist/",
           "packageDependencies": [
             ["@types/minimist", "npm:1.2.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@types/nock", [
+        ["npm:11.1.0", {
+          "packageLocation": "./.yarn/cache/@types-nock-npm-11.1.0-01ed73d3fc-09eada0afd.zip/node_modules/@types/nock/",
+          "packageDependencies": [
+            ["@types/nock", "npm:11.1.0"],
+            ["nock", "npm:13.1.1"]
           ],
           "linkType": "HARD",
         }]
@@ -21971,6 +21983,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/nock-npm-13.1.0-51764cfbd0-a0191f0ed3.zip/node_modules/nock/",
           "packageDependencies": [
             ["nock", "npm:13.1.0"],
+            ["debug", "virtual:d444bb897083f4b3c77c519e62903ce98f423c9242db2b2df43709c1c422a3ddb295add4dd8f06922dd1aa4ec24bac04e5f8026475fe7935afebb3cf46abbc1c#npm:4.3.2"],
+            ["json-stringify-safe", "npm:5.0.1"],
+            ["lodash.set", "npm:4.3.2"],
+            ["propagate", "npm:2.0.1"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:13.1.1", {
+          "packageLocation": "./.yarn/cache/nock-npm-13.1.1-470456ef9a-fa118c2c62.zip/node_modules/nock/",
+          "packageDependencies": [
+            ["nock", "npm:13.1.1"],
             ["debug", "virtual:d444bb897083f4b3c77c519e62903ce98f423c9242db2b2df43709c1c422a3ddb295add4dd8f06922dd1aa4ec24bac04e5f8026475fe7935afebb3cf46abbc1c#npm:4.3.2"],
             ["json-stringify-safe", "npm:5.0.1"],
             ["lodash.set", "npm:4.3.2"],

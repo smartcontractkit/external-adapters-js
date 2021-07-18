@@ -1,8 +1,7 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Requester } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig } from '@chainlink/types'
-import { NAME as AdapterName } from '../config'
 
-export const NAME = 'spectral-proxy' // This should be filled in with a lowercase name corresponding to the API endpoint
+export const MacroScoreAPIName = 'spectral-proxy' // This should be filled in with a lowercase name corresponding to the API endpoint
 
 export interface ICustomError {
   Response: string
@@ -34,32 +33,22 @@ export interface IRequestInput {
   data: {
     tokenIdInt: string // numeric
     tickSet: string // numeric
+    jobRunID: string // numeric
   }
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request: IRequestInput, config) => {
-  const validator = new Validator(request, {
-    tokenIdInt: 'tokenIdInt',
-    tickSet: 'tickSet',
-  })
-  if (validator.error) throw validator.error
-
-  const jobRunID = validator.validated.id
-  const url = `https://xzff24vr3m.execute-api.us-east-2.amazonaws.com/default/spectral-proxy/`
-
   const options = {
-    ...config.api,
-    url,
+    url: config.api,
     method: 'POST',
-    data: `{"tokenInt":"${validator.validated.data.tokenIdInt}"}`,
+    data: `{"tokenInt":"${request.data.tokenIdInt}"}`,
     headers: {
       'Content-Type': 'application/json',
-      'x-api-key': config.apiKey,
+      'x-api-key': config.apiKey ?? '',
     },
     timeout: 30000,
   }
   const response = <ScoreRequestResponse>await Requester.request(options, customError)
   response.data[0].result = Requester.validateResultNumber(response.data[0], ['score'])
-
-  return Requester.success(jobRunID, response, config.verbose)
+  return Requester.success(request.data.jobRunID, response, config.verbose)
 }

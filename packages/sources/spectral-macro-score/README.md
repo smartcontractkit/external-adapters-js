@@ -1,46 +1,34 @@
-# Chainlink External Adapter for Spectral-macro-score
+# Chainlink External Adapter for Spectral-MACRO-Score
 
-A template to be used as an example for new [External Adapters](https://github.com/smartcontractkit/external-adapters-js)
-
-(please fill out with corresponding information)
-
-An example adapter description
+Used to retrieve a MACRO Score for a given token ID.
 
 ### Environment Variables
 
-| Required? |  Name   |                                                        Description                                                         | Options | Defaults to |
-| :-------: | :-----: | :------------------------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
-|           | API_KEY | An API key that can be obtained from the data provider's dashboard (add a ✅ in `Required?` if this parameter is required) |         |             |
+| Required? |  Name   |                            Description                             | Options | Defaults to |
+| :-------: | :-----: | :----------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     | API_KEY | An API key that can be obtained from the data provider's dashboard |         |             |
 
 ---
 
-### Input Parameters
+## Spectral-MACRO-Score Endpoint
 
-| Required? |   Name   |     Description     |           Options            | Defaults to |
-| :-------: | :------: | :-----------------: | :--------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [example](#Spectral-macro-score-Endpoint) |   example   |
-
----
-
-## Spectral-macro-score Endpoint
-
-An example endpoint description
+Default endpoint used to retrieve a MACRO Score for a given token ID.
 
 ### Input Params
 
-| Required? |            Name            |               Description                |       Options       | Defaults to |
-| :-------: | :------------------------: | :--------------------------------------: | :-----------------: | :---------: |
-|    ✅     | `base`, `from`, or `coin`  |   The symbol of the currency to query    | `BTC`, `ETH`, `USD` |             |
-|    ✅     | `quote`, `to`, or `market` | The symbol of the currency to convert to | `BTC`, `ETH`, `USD` |             |
+| Required? |     Name     |                             Description                              | Options | Defaults to |
+| :-------: | :----------: | :------------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     | `tokenIdInt` |             The tokenID for the user as an integer value             |         |             |
+|    ✅     |  `tickSet`   | The set of ticks used to compute the MACRO Score as in integer value |         |             |
 
 ### Sample Input
 
 ```json
 {
-  "id": "1",
+  "id": "278c97ffadb54a5bbb93cfec5f7b5503",
   "data": {
-    "base": "ETH",
-    "quote": "USD"
+    "tokenIdInt": "106006608980615540182575301024074047146897433631717113916135614816662076801843",
+    "tickeSet": "1"
   }
 }
 ```
@@ -50,10 +38,18 @@ An example endpoint description
 ```json
 {
   "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
-  "data": {
-    "price": 77777.77,
-    "result": 77777.77
-  },
+  "data": [
+    {
+      "address": "0xa55E01a40557fAB9d87F993d8f5344f1b2408072",
+      "score_aave": "604.77",
+      "score_comp": "300.00",
+      "score": "452.38",
+      "updated_at": "2021-07-18T20:53:54.402553Z",
+      "is_updating_aave": false,
+      "is_updating_comp": false,
+      "result": 452.38
+    }
+  ],
   "statusCode": 200
 }
 ```
