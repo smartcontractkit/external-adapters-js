@@ -70,6 +70,7 @@
 - [RenVM Address Set](./renvm-address-set/README.md)
 - [Satoshitango](./satoshitango/README.md)
 - [Sochain](./sochain/README.md)
+- [Spectral MACRO Score](./spectral-macro-score/README.md)
 - [Stasis](./stasis/README.md)
 - [Taapi](./taapi/README.md)
 - [Therundown](./therundown/README.md)

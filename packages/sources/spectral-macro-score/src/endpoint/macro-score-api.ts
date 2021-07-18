@@ -47,17 +47,16 @@ export const execute: ExecuteWithConfig<Config> = async (request: IRequestInput,
   const jobRunID = validator.validated.id
   const url = `https://xzff24vr3m.execute-api.us-east-2.amazonaws.com/default/spectral-proxy/`
 
-  const params = {
-    // api_key: config.apiKey,
-    api_key: 'XYpX4gaNaCafgAzdBpQyaLrF34N0Qp71N6qOwvSh',
-  }
-
   const options = {
     ...config.api,
-    params,
     url,
     method: 'POST',
     data: `{"tokenInt":"${validator.validated.data.tokenIdInt}"}`,
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': config.apiKey,
+    },
+    timeout: 30000,
   }
   const response = await (<ScoreRequestResponse>Requester.request(options, customError))
   response.data.result = Requester.validateResultNumber(response.data, ['score'])
