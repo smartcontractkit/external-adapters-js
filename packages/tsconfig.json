@@ -18,6 +18,9 @@
       "path": "./composites/crypto-volatility-index"
     },
     {
+      "path": "./composites/curio-median"
+    },
+    {
       "path": "./composites/defi-pulse"
     },
     {
