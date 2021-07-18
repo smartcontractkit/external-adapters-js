@@ -8,6 +8,7 @@ Adapter got get data from Sportsdata.io
 | :-------: | :----------------: | :--------------------: | :-----: | :---------: |
 |           | NFL_SCORES_API_KEY | API key for NFL scores |         |             |
 |           | MMA_SCORES_API_KEY | API key for MMA scores |         |             |
+|           | CFB_SCORES_API_KEY | API key for CFB scores |         |             |
 
 ---
 
@@ -15,7 +16,7 @@ Adapter got get data from Sportsdata.io
 
 | Required? | Name  |   Description    |   Options   | Defaults to |
 | :-------: | :---: | :--------------: | :---------: | :---------: |
-|           | sport | The sport to use | [nfl](#NFL) |     nfl     |
+|           | sport | The sport to use | [nfl](#NFL), [mma](#MMA), [ncaa-fb](#ncaa-fb) |     nfl     |
 
 ---
 
@@ -77,3 +78,27 @@ Get data on specific MMA event
 | Required? |  Name   |      Description      | Options | Defaults to |
 | :-------: | :-----: | :-------------------: | :-----: | :---------: |
 |    ✅     | eventId | The event ID to query |         |             |
+
+---
+
+## NCAA-FB
+
+### Input Parameters
+
+| Required? |   Name   |      Description      |                     Options                      | Defaults to |
+| :-------: | :------: | :-------------------: | :----------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to query | [schedule](#ncaa-fb-schedule), [scores](#ncaa-fb-scores) |  schedule   |
+
+### NCAA-FB Schedule
+
+This endpoint is an alias for [scores](#ncaa-fb-scores).
+
+### NCAA-FB Scores
+
+Get NCAA FB scores
+
+#### Input Parameters
+
+| Required? |  Name  |          Description          | Options | Defaults to |
+| :-------: | :----: | :---------------------------: | :-----: | :---------: |
+|    ✅     | season | The season to get scores from |         |             |
