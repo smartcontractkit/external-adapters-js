@@ -9,5 +9,6 @@ export const DEFAULT_BASE_URL = 'https://xzff24vr3m.execute-api.us-east-2.amazon
 export const makeConfig = (prefix?: string): Config => {
   const config = Requester.getDefaultConfig(prefix)
   config.api.baseURL = config.api.baseURL || DEFAULT_BASE_URL
+  config.verbose = true
   return config
 }

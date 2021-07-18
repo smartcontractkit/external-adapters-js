@@ -25,10 +25,11 @@ describe('execute', () => {
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
-        const data = await execute(req.testData as AdapterRequest)
-        assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
-        expect(parseInt(data.result)).toBeGreaterThan(0)
-        expect(parseInt(data.data.result)).toBeGreaterThan(0)
+        const adapterResponse = await execute(req.testData as AdapterRequest)
+        assertSuccess({ expected: 200, actual: adapterResponse.statusCode }, adapterResponse, jobID)
+        console.log(JSON.stringify(adapterResponse))
+        expect(parseInt(adapterResponse.data[0])).not.toBeNull()
+        expect(parseInt(adapterResponse.data[0].result)).toBeGreaterThan(0)
       }, 40000)
     })
   })

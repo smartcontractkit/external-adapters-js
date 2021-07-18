@@ -25,7 +25,7 @@ export interface RequestResponseResult {
 }
 
 export interface ScoreRequestResponse {
-  data: RequestResponseResult
+  data: RequestResponseResult[]
   status: number
 }
 
@@ -58,8 +58,8 @@ export const execute: ExecuteWithConfig<Config> = async (request: IRequestInput,
     },
     timeout: 30000,
   }
-  const response = await (<ScoreRequestResponse>Requester.request(options, customError))
-  response.data.result = Requester.validateResultNumber(response.data, ['score'])
+  const response = <ScoreRequestResponse>await Requester.request(options, customError)
+  response.data[0].result = Requester.validateResultNumber(response.data[0], ['score'])
 
   return Requester.success(jobRunID, response, config.verbose)
 }
