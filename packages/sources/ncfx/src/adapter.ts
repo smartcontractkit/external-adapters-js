@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, Logger } from '@chainlink/ea-bootstrap'
 import {
   Config,
   ExecuteWithConfig,
@@ -45,6 +45,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       subsFromMessage: (message, subscriptionMsg) => {
         if(Array.isArray(message) && message.length > 0) {
           const pairMessage = message.find(({ currencyPair }) => currencyPair === subscriptionMsg.ccy)
+          if (!pairMessage) Logger.warn(`${subscriptionMsg.ccy} not found in message`)
           return getSubscription('subscribe', `${pairMessage.currencyPair}`)
         }
         return getSubscription('subscribe', `${message}`)
@@ -53,17 +54,16 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       filter: () => {
         return true
       },
-      toResponse: (message: any, input: any) => {
-        console.log(message)
-        if(Array.isArray(message) && message.length > 0) {
-          const { data: { base, quote } } = input 
-          const pair = `${base}/${quote}`
+      toResponse: (message: any, input: AdapterRequest) => {
+        if (Array.isArray(message) && message.length > 0) {
+          const pair = getPair(input)
           const pairMessage = message.find(({ currencyPair }) => currencyPair === pair)
+          if (!pairMessage) Logger.warn(`${pair} not found in message`)
           const result = Requester.validateResultNumber(pairMessage, ['mid'])
           return Requester.success('1', { data: { result } })
         }
-        const result = Requester.validateResultNumber(message, ['PRICE'])
-        return Requester.success('1', { data: { result } })
+        Logger.warn(`${message} is in an unexpected format.  Returning null for now.`)
+        return Requester.success('1', { data: { result: null } })
       },
       onConnect: () => ({
         request: 'login',
