@@ -8,19 +8,9 @@ import {
 } from '@chainlink/types'
 import { makeConfig } from './config'
 
-const inputParams = {
-  endpoint: false,
-}
 
-export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-  const validator = new Validator(request, inputParams)
-  if (validator.error) throw validator.error
-
-  Requester.logConfig(config)
-
-  const jobRunID = validator.validated.id
-
-  return Requester.success(jobRunID, {})
+export const execute: ExecuteWithConfig<Config> = async (_, __) => {
+  throw Error("The NCFX adapter does not support making HTTP requests.  Please wait a few seconds while the adapter sets up the WebSockets connection.")
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {
