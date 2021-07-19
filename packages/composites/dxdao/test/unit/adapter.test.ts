@@ -6,6 +6,10 @@ import { makeExecute } from '../../src/adapter'
 describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
+  
+  beforeAll(() => {
+    process.env.RPC_URL = process.env.RPC_URL || "fake-rpc-url"
+  })
 
   describe('validation error', () => {
     const requests = [
