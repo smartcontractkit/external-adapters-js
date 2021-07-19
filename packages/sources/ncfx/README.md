@@ -10,21 +10,16 @@ An example adapter description
 
 | Required? |  Name   |                                                        Description                                                         | Options | Defaults to |
 | :-------: | :-----: | :------------------------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
-|           | API_KEY | An API key that can be obtained from the data provider's dashboard (add a ✅ in `Required?` if this parameter is required) |         |             |
+|     ✅      | API_USERNAME | The username to the NCFX account |         |             |
+|      ✅     | API_PASSWORD | The password to the NCFX account |         |             |
 
 ---
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |          Options          | Defaults to |
-| :-------: | :------: | :-----------------: | :-----------------------: | :---------: |
-|           | endpoint | The endpoint to use | [example](#Ncfx-Endpoint) |   example   |
+No adapter specific input parameters
 
 ---
-
-## Ncfx Endpoint
-
-An example endpoint description
 
 ### Input Params
 
@@ -49,11 +44,11 @@ An example endpoint description
 
 ```json
 {
-  "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
-  "data": {
-    "price": 77777.77,
-    "result": 77777.77
-  },
-  "statusCode": 200
+    "jobRunID": "1",
+    "result": 1822.9957,
+    "statusCode": 200,
+    "data": {
+        "result": 1822.9957
+    }
 }
 ```

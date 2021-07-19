@@ -1,7 +1,7 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
-export const NAME = 'NCFX' // This should be filled in with a name corresponding to the data provider using UPPERCASE and _underscores_.
+export const NAME = 'NCFX'
 
 export const DEFAULT_ENDPOINT = 'example'
 export const DEFAULT_BASE_URL = 'http://localhost:18081'
