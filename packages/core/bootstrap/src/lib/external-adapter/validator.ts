@@ -1,4 +1,10 @@
-import { AdapterErrorResponse, Override, AdapterRequest, APIEndpoint, Includes } from '@chainlink/types'
+import {
+  AdapterErrorResponse,
+  Override,
+  AdapterRequest,
+  APIEndpoint,
+  Includes,
+} from '@chainlink/types'
 import { merge } from 'lodash'
 import { isArray, isObject } from '../util'
 import { AdapterError } from './errors'
@@ -174,16 +180,30 @@ export class Validator {
     return this.validated.tokenOverrides.get(network.toLowerCase())?.get(symbol.toLowerCase())
   }
 
-  overrideIncludes = (adapter: string, from: string, to: string, includes: Includes[]): Includes | undefined => {
-    includes.filter(include =>
-      (include.from.toLowerCase() === from.toLowerCase() && include.to.toLowerCase() === to.toLowerCase()) &&
-      (!include.adapters || include.adapters.map(adapter => adapter.toLowerCase()).includes(adapter.toLowerCase()))
+  overrideIncludes = (
+    adapter: string,
+    from: string,
+    to: string,
+    includes: Includes[],
+  ): Includes | undefined => {
+    includes.filter(
+      (include) =>
+        include.from.toLowerCase() === from.toLowerCase() &&
+        include.to.toLowerCase() === to.toLowerCase() &&
+        (!include.adapters ||
+          include.adapters.map((adapter) => adapter.toLowerCase()).includes(adapter.toLowerCase())),
     )[0]
     // Search through `presetIncludes` to find matching override for adapter and to/from pairing.
-    const pairs = presetIncludes.filter(pair => pair.from.toLowerCase() === from.toLowerCase() && pair.to.toLowerCase() === to.toLowerCase())
+    const pairs = presetIncludes.filter(
+      (pair) =>
+        pair.from.toLowerCase() === from.toLowerCase() &&
+        pair.to.toLowerCase() === to.toLowerCase(),
+    )
     for (const pair of pairs) {
-      const matchingIncludes = pair.includes
-        .find(include => include.adapters.length === 0 || include.adapters.includes(adapter.toUpperCase()))
+      const matchingIncludes = pair.includes.find(
+        (include) =>
+          include.adapters.length === 0 || include.adapters.includes(adapter.toUpperCase()),
+      )
       if (matchingIncludes) {
         return matchingIncludes
       }
@@ -238,7 +258,7 @@ export class Validator {
     }
     if (!isArray(param)) _throwInvalid()
 
-    const _isValid = Object.values(param).every(val => isObject(val) || typeof val === 'string' )
+    const _isValid = Object.values(param).every((val) => isObject(val) || typeof val === 'string')
     if (!_isValid) _throwInvalid()
 
     return param
@@ -299,5 +319,8 @@ export function normalizeInput(request: AdapterRequest, apiEndpoint: APIEndpoint
 
   // remove undefined values
   const data = JSON.parse(JSON.stringify(validator.validated.data))
+  // remove includes
+  delete data.includes
+
   return { ...request, data }
 }
