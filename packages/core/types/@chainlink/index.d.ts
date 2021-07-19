@@ -167,13 +167,13 @@ declare module '@chainlink/types' {
     // Get unsubscribe message necessary to unsubscribe to the feed channel
     unsubscribe: (input: any) => any | undefined
     // Map to response from the incoming message and formats it into an AdapterResponse
-    toResponse: (message: any) => AdapterResponse
+    toResponse: (message: any, input: any) => AdapterResponse
     // Filter any message that is not from a subscribed channel
     filter: (message: any) => boolean
     // Determines if the incoming message is an error
     isError: (message: any) => boolean
     // Based on the incoming message, returns its corresponding subscription message
-    subsFromMessage: (message: any) => any
+    subsFromMessage: (message: any, subscriptionMsg: any) => any
   }
 
   /* INPUT TYPE VALIDATIONS */

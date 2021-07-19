@@ -36,7 +36,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
   const getPair = (input: AdapterRequest) => {
     const validator = new Validator(input, customParams, {}, false)
     if (validator.error) return
-    const base = validator.validated.data.quote.toUpperCase()
+    const base = validator.validated.data.base.toUpperCase()
     const quote = validator.validated.data.quote.toUpperCase()
     return `${base}/${quote}`
   }
@@ -52,16 +52,26 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       },
       subscribe: (input) => getSubscription('subscribe', getPair(input)),
       unsubscribe: (input) => getSubscription('unsubscribe', getPair(input)),
-      subsFromMessage: (message) => {
-        console.log(message)
-        return getSubscription('subscribe', `${message?.FROMSYMBOL}/${message?.TOSYMBOL}`)
+      subsFromMessage: (message, subscriptionMsg) => {
+        if(Array.isArray(message) && message.length > 0) {
+          const pairMessage = message.find(({ currencyPair }) => currencyPair === subscriptionMsg.ccy)
+          return getSubscription('subscribe', `${pairMessage.currencyPair}`)
+        }
+        return getSubscription('subscribe', `${message}`)
       },
       isError: (message: any) => Number(message.TYPE) > 400 && Number(message.TYPE) < 900,
       filter: () => {
         return true
       },
-      toResponse: (message: any) => {
+      toResponse: (message: any, input: any) => {
         console.log(message)
+        if(Array.isArray(message) && message.length > 0) {
+          const { data: { base, quote } } = input 
+          const pair = `${base}/${quote}`
+          const pairMessage = message.find(({ currencyPair }) => currencyPair === pair)
+          const result = Requester.validateResultNumber(pairMessage, ['mid'])
+          return Requester.success('1', { data: { result } })
+        }
         const result = Requester.validateResultNumber(message, ['PRICE'])
         return Requester.success('1', { data: { result } })
       },
