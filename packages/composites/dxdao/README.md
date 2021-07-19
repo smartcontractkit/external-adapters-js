@@ -28,7 +28,8 @@ This endpoint fetches the TVL(Total Value Locked) inside a pair that is deployed
 | :-------: | :------------------------: | :--------------------------------------: | :-----------------: | :---------: |
 |    ✅     | `wethContractAddress`  |   The WETH contract address on the XDai Chain    |  |             |
 |    ✅     | `pairContractAddress` | The pair contract's address on the XDai Chain |   |             |
-|         | `tokenAllocationSource` | Which source to fetch the Ethereum USD price from.  Including this will return the TVL in USD |   |             |
+
+This adapter also accepts the all parameters that is accepted by the token allocation adapter apart from the allocations array. https://github.com/smartcontractkit/external-adapters-js/tree/develop/packages/composites/token-allocation
 
 ### Sample Input for Fetching TVL In USD
 
@@ -38,7 +39,7 @@ This endpoint fetches the TVL(Total Value Locked) inside a pair that is deployed
     "data": {
         "wethContractAddress": "0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1",
         "pairContractAddress": "0x1bDe964eCd52429004CbC5812C07C28bEC9147e9",
-        "tokenAllocationSource": "tiingo"
+        "source": "tiingo"
     }
 }
 ```
@@ -47,36 +48,21 @@ This endpoint fetches the TVL(Total Value Locked) inside a pair that is deployed
 
 ```json
 {
-    "jobRunID": 1,
-    "result": "850617.4645129328",
+    "jobRunID": "1",
+    "result": 869366.9652747929,
     "statusCode": 200,
     "data": {
-        "result": "850617.4645129328"
-    }
-}
-```
-
-### Sample Input for Fetching TVL In Wei
-
-```json
-{
-    "id": 1,
-    "data": {
-        "wethContractAddress": "0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1",
-        "pairContractAddress": "0x1bDe964eCd52429004CbC5812C07C28bEC9147e9"
-    }
-}
-```
-
-### Sample Output
-
-```json
-{
-    "jobRunID": 1,
-    "result": "444975585662999074246",
-    "statusCode": 200,
-    "data": {
-        "result": "444975585662999074246"
+        "sources": [],
+        "payload": {
+            "WETH": {
+                "quote": {
+                    "USD": {
+                        "price": 1825.6454379957377
+                    }
+                }
+            }
+        },
+        "result": 869366.9652747929
     }
 }
 ```
