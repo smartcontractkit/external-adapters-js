@@ -12,11 +12,6 @@ This composite adapter executes the code from the Token Allocation composite ada
 
 ---
 
-### Input Parameters
-
-**Additional environment input params must be set according to the Token Allocation adapter.**
-This composite adapter executes the code from the Token Allocation composite adapter. As such the same configuration and input parameters apply to this adapter. See [../token-allocation/README.md](../token-allocation/README.md) for more details.
-
 ---
 
 ## Dxdao Endpoint
@@ -28,6 +23,9 @@ This endpoint fetches the TVL(Total Value Locked) inside a pair that is deployed
 | Required? |            Name            |               Description                |       Options       | Defaults to |
 | :-------: | :------------------------: | :--------------------------------------: | :-----------------: | :---------: |
 |    ✅     | `pairContractAddress` | The pair contract's address on the XDai Chain |   |             |
+
+**Additional environment input params must be set according to the Token Allocation adapter.**
+This composite adapter executes the code from the Token Allocation composite adapter. As such the same configuration and input parameters apply to this adapter. See [../token-allocation/README.md](../token-allocation/README.md) for more details.
 
 
 ### Sample Input for Fetching TVL In USD
