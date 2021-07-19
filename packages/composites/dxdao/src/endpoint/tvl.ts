@@ -7,7 +7,6 @@ import { Config } from '../config'
 export const NAME = 'TVL'
 
 const customParams = {
-  wethContractAddress: true,
   pairContractAddress: true,
 }
 
@@ -36,7 +35,8 @@ const dxdWethContractAbi = [
 export const getTokenAllocations = async (request: AdapterRequest, config: Config): Promise<TokenAllocation.types.TokenAllocation[]> => {
    const validator = new Validator(request, customParams)
    if (validator.error) throw validator.error
-   const { pairContractAddress, wethContractAddress } = validator.validated.data
+   const wethContractAddress = config.wethContractAddress
+   const { pairContractAddress } = validator.validated.data
    const tvlInWei = await getTvlAtAddressInWei(pairContractAddress, wethContractAddress, config.rpcUrl)
    return [{
       symbol: "WETH",

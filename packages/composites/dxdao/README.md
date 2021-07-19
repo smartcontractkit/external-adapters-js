@@ -5,6 +5,7 @@
 | Required? |            Name            |               Description                |       Options       | Defaults to |
 | :-------: | :------------------------: | :--------------------------------------: | :-----------------: | :---------: |
 |    ✅     | `RPC_URL`  |   The RPC URL to connect to the XDai chain    |  |             |
+|         | `WETH_CONTRACT_ADDRESS`  |   The WETH contract address on the XDai Chain    |  |     0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1        |      
 
 This adapter also relies on the Token Allocation adapter to fetch the USD price of ETH.  This requires setting up the environment variables 
 for the token allocation adapter as well.  The instructions for that can be found here https://github.com/smartcontractkit/external-adapters-js/tree/develop/packages/composites/token-allocation.
@@ -26,7 +27,6 @@ This endpoint fetches the TVL(Total Value Locked) inside a pair that is deployed
 
 | Required? |            Name            |               Description                |       Options       | Defaults to |
 | :-------: | :------------------------: | :--------------------------------------: | :-----------------: | :---------: |
-|    ✅     | `wethContractAddress`  |   The WETH contract address on the XDai Chain    |  |             |
 |    ✅     | `pairContractAddress` | The pair contract's address on the XDai Chain |   |             |
 
 This adapter also accepts the all parameters that is accepted by the token allocation adapter apart from the allocations array. https://github.com/smartcontractkit/external-adapters-js/tree/develop/packages/composites/token-allocation
