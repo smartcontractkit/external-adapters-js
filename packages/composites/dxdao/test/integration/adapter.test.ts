@@ -1,6 +1,8 @@
 import { AdapterRequest, Execute } from '@chainlink/types'
 import * as dxdaoAdapter from "../../src/index"
-import { ethers } from 'ethers'
+import { ethers, BigNumber } from 'ethers'
+
+const mockBigNum = BigNumber.from(2000)
 
 jest.mock("ethers", () => ({
   ...(jest.requireActual("ethers")),
@@ -11,9 +13,7 @@ jest.mock("ethers", () => ({
     Contract: function() {
       return {
         balanceOf: (____: string) => {
-          return {
-            _hex: '0x0c3f8fe18611f5a7cb'
-          }
+          return mockBigNum
         }
       }
     }

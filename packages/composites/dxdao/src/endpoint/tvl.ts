@@ -49,7 +49,6 @@ const getTvlAtAddressInWei = async (pairContractAddress: string, wethContractAdd
    const provider = new ethers.providers.JsonRpcProvider(jsonRpcUrl)
    Logger.info(`Fetching TVL for contract '${pairContractAddress}' using WETH contract address ${wethContractAddress}`)
    const contract = new ethers.Contract(wethContractAddress, dxdWethContractAbi, provider)
-   const { _hex: pairBalanceHex } = await contract.balanceOf(pairContractAddress)
-   const tvlInWei = BigNumber.from(pairBalanceHex).mul(2)
+   const tvlInWei = (await contract.balanceOf(pairContractAddress)).mul(2)
    return tvlInWei
 }
