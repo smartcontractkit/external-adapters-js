@@ -1,25 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute with xdaiEthUsdPriceFeedAddress should return success 1`] = `
+exports[`execute with source and pair contract addresses correctly provided should return success 1`] = `
 Object {
   "data": Object {
-    "result": "451882112393033764758",
+    "payload": Object {
+      "WETH": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": "2000",
+          },
+        },
+      },
+    },
+    "result": 2000,
+    "sources": Array [],
   },
-  "debug": undefined,
   "jobRunID": "1",
-  "result": "451882112393033764758",
-  "statusCode": 200,
-}
-`;
-
-exports[`execute without xdaiEthUsdPriceFeedAddress should return success 1`] = `
-Object {
-  "data": Object {
-    "result": "451882112393033764758",
-  },
-  "debug": undefined,
-  "jobRunID": "1",
-  "result": "451882112393033764758",
+  "result": 2000,
   "statusCode": 200,
 }
 `;

@@ -4,8 +4,12 @@ import { makeConfig, Config } from './config'
 import { tvl } from './endpoint'
 import * as TokenAllocation from '@chainlink/token-allocation-adapter'
 
+const customParams = {
+  pairContractAddress: true 
+}
+
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-  const validator = new Validator(request)
+  const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
   const jobRunID = validator.validated.jobRunID
   const allocations = await tvl.getTokenAllocations(request, config)

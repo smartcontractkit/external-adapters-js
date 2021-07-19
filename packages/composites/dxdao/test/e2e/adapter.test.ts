@@ -15,9 +15,8 @@ describe('execute', () => {
         name: 'id not supplied',
         testData: { 
           data: {
-            "wethContractAddress": "0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1",
             "pairContractAddress": "0x1bDe964eCd52429004CbC5812C07C28bEC9147e9",
-            "tokenAllocationSource": "tiingo"
+            "source": "tiingo"
           } 
         },
       },
@@ -26,20 +25,9 @@ describe('execute', () => {
         testData: { 
           jobID: 1,
           data: {
-            "wethContractAddress": "0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1",
             "pairContractAddress": "0x1bDe964eCd52429004CbC5812C07C28bEC9147e9",
-            "tokenAllocationSource": "tiingo"
+            "source": "tiingo"
           }
-        },
-      },
-      {
-        name: 'without token allocation source',
-        testData: { 
-          jobID: 1,
-          data: {
-            "wethContractAddress": "0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1",
-            "pairContractAddress": "0x1bDe964eCd52429004CbC5812C07C28bEC9147e9"
-          } 
         },
       }
     ]
@@ -57,25 +45,14 @@ describe('execute', () => {
   describe('error calls @e2e', () => {
     const requests = [
       {
-        name: 'invalid wethContractAddress',
-        testData: { 
-          jobID: 1,
-          data: {
-            "wethContractAddress": "invalid-address",
-            "pairContractAddress": "0x1bDe964eCd52429004CbC5812C07C28bEC9147e9"
-          } 
-        },
-      },
-      {
         name: 'invalid pairContractAddress',
         testData: { 
           jobID: 1,
           data: {
-            "wethContractAddress": "0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1",
             "pairContractAddress": "invalid-address"
           } 
         },
-      }
+      },
     ]
 
     requests.forEach((req) => {
