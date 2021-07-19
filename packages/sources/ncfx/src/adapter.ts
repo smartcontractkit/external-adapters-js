@@ -8,18 +8,19 @@ import {
 } from '@chainlink/types'
 import { makeConfig } from './config'
 
+const customParams = {
+  base: ['base', 'from', 'coin'],
+  quote: ['quote', 'to', 'market'],
+}
 
-export const execute: ExecuteWithConfig<Config> = async (_, __) => {
+export const execute: ExecuteWithConfig<Config> = async (request, __) => {
+  const validator = new Validator(request, customParams)
+  if (validator.error) throw validator.error
   throw Error("The NCFX adapter does not support making HTTP requests.  Please wait a few seconds while the adapter sets up the WebSockets connection.")
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {
   return async (request) => execute(request, config || makeConfig())
-}
-
-const customParams = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
 }
 
 export const makeWSHandler = (config?: Config): MakeWSHandler => {

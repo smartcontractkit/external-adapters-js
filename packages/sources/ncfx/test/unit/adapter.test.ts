@@ -7,6 +7,11 @@ describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
 
+  beforeAll(() => {
+    process.env.API_USERNAME = process.env.API_USERNAME || "test-user"
+    process.env.API_PASSWORD = process.env.API_PASSWORD || "test-pw"
+  })
+
   describe('validation error', () => {
     const requests = [
       { name: 'empty body', testData: {} },
