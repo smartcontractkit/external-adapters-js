@@ -29,13 +29,13 @@ env PROJECT_ID=gcp-pdp-weather-dev yarn start
 
 ### Input Params
 
-| Required? |    Name    |               Description                |              Options              | Defaults to |
-| :-------: | :--------: | :--------------------------------------: | :-------------------------------: | :---------: |
-|    ✅     | `geoJson`  |     A GeoJSON object containing the      |                                   |             |
-|    ✅     | `dateFrom` | The date to query data from (inclusive)  |                                   |             |
-|    ✅     |  `dateTo`  |  The date to query data to (inclusive)   |                                   |             |
-|    ✅     |  `method`  | Which method to use to aggregate data in |    `AVG`, `SUM`, `MIN`, `MAX`     |             |
-|    ✅     |  `field`   |     Which column to fetch data from      | [Data available](#data-available) |             |
+| Required? |    Name    |                        Description                         |              Options              | Defaults to |
+| :-------: | :--------: | :--------------------------------------------------------: | :-------------------------------: | :---------: |
+|    ✅     | `geoJson`  |              A GeoJSON object containing the               |                                   |             |
+|    ✅     | `dateFrom` | The date to query data from (inclusive) in ISO 8601 format |                                   |             |
+|    ✅     |  `dateTo`  |  The date to query data to (inclusive) in ISO 8601 format  |                                   |             |
+|    ✅     |  `method`  |          Which method to use to aggregate data in          |    `AVG`, `SUM`, `MIN`, `MAX`     |             |
+|    ✅     |  `field`   |              Which column to fetch data from               | [Data available](#data-available) |             |
 
 ### GeoJSON data
 

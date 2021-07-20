@@ -48,15 +48,19 @@ describe('execute', () => {
             column: "thunder"
           }
         } },
-      { name: 'SUM(thunder) Point', testData: { id: jobID,
+      {
+        name: 'works with full ISO 8601 date format',
+        testData: {
+          id: jobID,
           data: {
             geoJson: geoJsonPoint,
-            dateFrom: "2021-04-01",
-            dateTo: "2021-05-01",
-            method: "SUM",
-            column: "thunder"
+            dateFrom: "2021-04-01T11:04:49Z",
+            dateTo: "2021-04-20T11:04:49Z",
+            method: "AVG",
+            column: "temp"
           }
-        } }
+        }
+      }
     ]
 
     requests.forEach((req) => {
