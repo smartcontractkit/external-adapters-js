@@ -94,6 +94,7 @@ declare module '@chainlink/types' {
     returnRejectedPromiseOnError?: boolean
     verbose?: boolean
     api?: RequestConfig
+    defaultEndpoint?: string
   }
 
   export type ExecuteSync = (input: AdapterRequest, callback: Callback) => void
@@ -106,6 +107,27 @@ declare module '@chainlink/types' {
   ) => Promise<AdapterResponse>
 
   export type ExecuteFactory<C extends Config> = (config?: C) => Execute
+
+  export type RequiredInputParameter = boolean
+  export type InputParameterAliases = string[]
+  export type InputParameters = {
+    [name: string]: RequiredInputParameter | InputParameterAliases
+  }
+
+  export interface APIEndpoint {
+    supportedEndpoints: string[]
+    endpointResultPaths?: EndpointResultPaths
+    inputParameters?: InputParameters
+    endpointOverride?: (request: AdapterRequest) => string | null
+    execute?: Execute | ExecuteWithConfig<Config>
+    makeExecute?: ExecuteFactory<Config>
+  }
+
+  export type MakeResultPath = (input: AdapterRequest) => string
+
+  export interface EndpointResultPaths {
+    [endpoint: string]: MakeResultPath | string
+  }
 
   export type ConfigFactory = (prefix?: string) => Config
 
@@ -154,6 +176,16 @@ declare module '@chainlink/types' {
 
   /* INPUT TYPE VALIDATIONS */
   export type Override = Map<string, Map<string, string>>
+
+  // Includes is an alternative symbol mapping that can be used to represent
+  // the original request, such as wrapped tokens on DEXes.
+  export type Includes = {
+    from: string, // From symbol
+    to: string, // To symbol
+    adapters?: string[], // Array of adapters this applies to
+    inverse?: boolean // If the inverse should be calculated instead
+    tokens?: boolean // If the token addresses should be used instead
+  }
 }
 
 declare module 'object-path'

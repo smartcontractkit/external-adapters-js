@@ -1,26 +1,30 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig } from '@chainlink/types'
+import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 
-export const NAME = 'global'
+export const supportedEndpoints = ['globalmarketcap', 'dominance']
+
+export const endpointResultPaths = {
+  globalmarketcap: 'total_market_cap',
+  dominance: 'market_cap_percentage',
+}
 
 const customError = (data: any) => {
   if (Object.keys(data).length === 0) return true
   return false
 }
 
-const customParams = {
+export const inputParameters: InputParameters = {
   market: ['quote', 'to', 'market', 'coin'],
-  path: true,
+  resultPath: false,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-  const validator = new Validator(request, customParams)
+  const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
-
   const jobRunID = validator.validated.id
-
   const market = validator.validated.data.market.toLowerCase()
-  const path = validator.validated.data.path
+  const resultPath = validator.validated.data.resultPath
+
   const url = '/global'
 
   const options = {
@@ -32,7 +36,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   }
 
   const response = await Requester.request(options, customError)
-  response.data.result = Requester.validateResultNumber(response.data, ['data', path, market])
+  response.data.result = Requester.validateResultNumber(response.data, ['data', resultPath, market])
 
   return Requester.success(jobRunID, response, config.verbose)
 }

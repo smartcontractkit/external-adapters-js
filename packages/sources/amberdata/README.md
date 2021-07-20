@@ -13,12 +13,12 @@ The adapter takes the following environment variables:
 
 | Required? |    Name    |     Description     |                                         Options                                          | Defaults to |
 | :-------: | :--------: | :-----------------: | :--------------------------------------------------------------------------------------: | :---------: |
-|           | `endpoint` | The endpoint to use | [price](#Price-Endpoint), [balance](#Balance-Endpoint), [marketcap](#MarketCap-Endpoint) |   `price`   |
+|           | `endpoint` | The endpoint to use | [crypto](#Crypto-Endpoint), [balance](#Balance-Endpoint), [marketcap](#MarketCap-Endpoint) |   `crypto`   |
 
 ---
 
-## Price Endpoint
-
+## Crypto Endpoint
+##### NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.
 Gets the [latest spot VWAP price](https://docs.amberdata.io/reference#spot-price-pair-latest) from Amberdata.
 
 ### Input Params

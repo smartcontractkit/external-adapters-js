@@ -12,12 +12,12 @@
 
 | Required? |   Name   |     Description     |                                                                         Options                                                                         | Defaults to |
 | :-------: | :------: | :-----------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [price](#Price-Endpoint), [dominance](#Dominance-Endpoint), [globalmarketcap](#Global-Market-Capitalization-Endpoint), [marketcap](#Marketcap-Endpoint) |   `price`   |
+|           | endpoint | The endpoint to use | [crypto](#Crypto-Endpoint), [dominance](#Dominance-Endpoint), [globalmarketcap](#Global-Market-Capitalization-Endpoint), [marketcap](#Marketcap-Endpoint) |   `crypto`   |
 
 ---
 
 ## Price Endpoint
-
+##### NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.
 https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest
 
 ### Input Params

@@ -11,8 +11,9 @@ const DEFAULT_CACHE_REDIS_PORT = 6379 // Port of the Redis server
 const DEFAULT_CACHE_REDIS_PATH = undefined // The UNIX socket string of the Redis server
 const DEFAULT_CACHE_REDIS_URL = undefined // The URL of the Redis server
 const DEFAULT_CACHE_REDIS_PASSWORD = undefined // The password required for redis auth
-const DEFAULT_CACHE_REDIS_TIMEOUT = 500 // Timeout in ms
-const DEFAULT_CACHE_REDIS_INITIAL_DELAY = 30000
+// const DEFAULT_CACHE_REDIS_CONNECTION_TIMEOUT = 15000 // Timeout per long lived connection in ms
+const DEFAULT_CACHE_REDIS_REQUEST_TIMEOUT = 1000 // Timeout per request in ms
+// const DEFAULT_CACHE_REDIS_INITIAL_DELAY = 30000
 // Options
 const DEFAULT_CACHE_MAX_AGE = 1000 * 60 * 1.5 // 1.5 minutes
 
@@ -28,9 +29,10 @@ export const defaultOptions = (): RedisOptions => ({
   url: env.CACHE_REDIS_URL || DEFAULT_CACHE_REDIS_URL,
   password: env.CACHE_REDIS_PASSWORD || DEFAULT_CACHE_REDIS_PASSWORD,
   maxAge: Number(env.CACHE_MAX_AGE) || DEFAULT_CACHE_MAX_AGE,
-  timeout: Number(env.CACHE_REDIS_TIMEOUT) || DEFAULT_CACHE_REDIS_TIMEOUT,
-  connect_timeout: Number(env.CACHE_REDIS_TIMEOUT) || DEFAULT_CACHE_REDIS_TIMEOUT,
-  socket_initial_delay: Number(env.CACHE_REDIS_INITIAL_DELAY) || DEFAULT_CACHE_REDIS_INITIAL_DELAY,
+  timeout: Number(env.CACHE_REDIS_TIMEOUT) || DEFAULT_CACHE_REDIS_REQUEST_TIMEOUT,
+  // connect_timeout:
+  //   Number(env.CACHE_REDIS_CONNECTION_TIMEOUT) || DEFAULT_CACHE_REDIS_CONNECTION_TIMEOUT,
+  // socket_initial_delay: Number(env.CACHE_REDIS_INITIAL_DELAY) || DEFAULT_CACHE_REDIS_INITIAL_DELAY,
 })
 
 // Options without sensitive data
@@ -45,15 +47,17 @@ const retryStrategy = (options: any) => {
   if (options.error && options.error.code === 'ECONNREFUSED') {
     // End reconnecting on a specific error and flush all commands with
     // a individual error
+    logger.warn('Connection refused.', options)
     return new Error('The server refused the connection')
   }
   if (options.total_retry_time > 1000 * 60 * 60) {
     // End reconnecting after a specific timeout and flush all commands
     // with a individual error
+    logger.warn('Redis retry strategy exhausted.', options)
     return new Error('Retry time exhausted')
   }
   if (options.attempt > 10) {
-    // End reconnecting with built in error
+    logger.warn(`Redis retry attempt #${options.attempt}`, options)
     return undefined
   }
   // reconnect after

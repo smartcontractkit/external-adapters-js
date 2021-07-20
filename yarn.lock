@@ -1905,23 +1905,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/anyblock-gasprice-adapter@*, @chainlink/anyblock-gasprice-adapter@workspace:packages/sources/anyblock-gasprice":
+"@chainlink/anyblock-adapter@*, @chainlink/anyblock-adapter@workspace:packages/sources/anyblock":
   version: 0.0.0-use.local
-  resolution: "@chainlink/anyblock-gasprice-adapter@workspace:packages/sources/anyblock-gasprice"
-  dependencies:
-    "@chainlink/ea-bootstrap": "*"
-    "@chainlink/ea-test-helpers": "*"
-    "@chainlink/types": 0.0.1
-    "@types/jest": ^26.0.22
-    "@types/node": ^14.14.35
-    tslib: ^2.1.0
-    typescript: ^4.2.3
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/anyblock-uniswap-vwap-adapter@*, @chainlink/anyblock-uniswap-vwap-adapter@workspace:packages/sources/anyblock-uniswap-vwap":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/anyblock-uniswap-vwap-adapter@workspace:packages/sources/anyblock-uniswap-vwap"
+  resolution: "@chainlink/anyblock-adapter@workspace:packages/sources/anyblock"
   dependencies:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-test-helpers": "*"
@@ -2148,6 +2134,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/cache.gold-adapter@*, @chainlink/cache.gold-adapter@workspace:packages/sources/cache.gold":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/cache.gold-adapter@workspace:packages/sources/cache.gold"
+  dependencies:
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.0.1
+    "@types/jest": ^26.0.22
+    "@types/node": ^14.14.35
+    tslib: ^2.1.0
+    typescript: ^4.2.3
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/cfbenchmarks-adapter@*, @chainlink/cfbenchmarks-adapter@workspace:packages/sources/cfbenchmarks":
   version: 0.0.0-use.local
   resolution: "@chainlink/cfbenchmarks-adapter@workspace:packages/sources/cfbenchmarks"
@@ -2350,6 +2350,22 @@ __metadata:
     "@types/node": ^14.14.35
     ethers: ^5.0.32
     object-path: ^0.11.4
+    tslib: ^2.1.0
+    typescript: ^4.2.3
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/cryptoapis-v2-adapter@*, @chainlink/cryptoapis-v2-adapter@workspace:packages/sources/cryptoapis-v2":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/cryptoapis-v2-adapter@workspace:packages/sources/cryptoapis-v2"
+  dependencies:
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-factories": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.0.1
+    "@types/jest": ^26.0.22
+    "@types/node": ^14.14.35
+    ethers: ^5.0.32
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -2562,6 +2578,7 @@ __metadata:
     "@types/lru-cache": ^5.1.0
     "@types/node": ^14.14.35
     "@types/object-hash": ^1.3.4
+    "@types/object-path": ^0.11.0
     "@types/pino": ^6
     "@types/pino-pretty": ^4
     "@types/promise-timeout": ^1.3.0
@@ -2579,6 +2596,7 @@ __metadata:
     lodash: ^4.17.21
     lru-cache: ^6.0.0
     object-hash: ^2.0.3
+    object-path: ^0.11.4
     pino: ^6.11.3
     pino-pretty: ^4.8.0
     prom-client: ^13.1.0
@@ -2670,8 +2688,7 @@ __metadata:
     "@chainlink/alphachain-adapter": "*"
     "@chainlink/alphavantage-adapter": "*"
     "@chainlink/amberdata-adapter": "*"
-    "@chainlink/anyblock-gasprice-adapter": "*"
-    "@chainlink/anyblock-uniswap-vwap-adapter": "*"
+    "@chainlink/anyblock-adapter": "*"
     "@chainlink/binance-adapter": "*"
     "@chainlink/binance-dex-adapter": "*"
     "@chainlink/bitex-adapter": "*"
@@ -2682,6 +2699,7 @@ __metadata:
     "@chainlink/blockstream-adapter": "*"
     "@chainlink/bravenewcoin-adapter": "*"
     "@chainlink/btc.com-adapter": "*"
+    "@chainlink/cache.gold-adapter": "*"
     "@chainlink/cfbenchmarks-adapter": "*"
     "@chainlink/coinapi-adapter": "*"
     "@chainlink/coinbase-adapter": "*"
@@ -2693,6 +2711,7 @@ __metadata:
     "@chainlink/coinranking-adapter": "*"
     "@chainlink/covid-tracker-adapter": "*"
     "@chainlink/cryptoapis-adapter": "*"
+    "@chainlink/cryptoapis-v2-adapter": "*"
     "@chainlink/cryptocompare-adapter": "*"
     "@chainlink/cryptoid-adapter": "*"
     "@chainlink/cryptomkt-adapter": "*"
@@ -2732,7 +2751,7 @@ __metadata:
     "@chainlink/orchid-bandwidth-adapter": "*"
     "@chainlink/paxos-adapter": "*"
     "@chainlink/paypal-adapter": "*"
-    "@chainlink/poa-gasprice-adapter": "*"
+    "@chainlink/poa-adapter": "*"
     "@chainlink/polygon-adapter": "*"
     "@chainlink/reduce-adapter": "*"
     "@chainlink/renvm-address-set-adapter": "*"
@@ -3334,9 +3353,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/poa-gasprice-adapter@*, @chainlink/poa-gasprice-adapter@workspace:packages/sources/poa-gasprice":
+"@chainlink/poa-adapter@*, @chainlink/poa-adapter@workspace:packages/sources/poa":
   version: 0.0.0-use.local
-  resolution: "@chainlink/poa-gasprice-adapter@workspace:packages/sources/poa-gasprice"
+  resolution: "@chainlink/poa-adapter@workspace:packages/sources/poa"
   dependencies:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-test-helpers": "*"

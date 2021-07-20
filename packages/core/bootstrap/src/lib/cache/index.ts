@@ -1,6 +1,6 @@
-import { AdapterRequest, AdapterResponse, Middleware } from '@chainlink/types'
+import { AdapterRequest, AdapterResponse, Middleware, APIEndpoint } from '@chainlink/types'
 import hash from 'object-hash'
-import { logger } from '../external-adapter'
+import { logger, normalizeInput } from '../external-adapter'
 import {
   delay,
   exponentialBackOffMs,
@@ -92,7 +92,11 @@ export const redactOptions = (options: CacheOptions): CacheOptions => ({
       : local.redactOptions(options.cacheOptions),
 })
 
-export const withCache: Middleware = async (execute, options: CacheOptions = defaultOptions()) => {
+export const withCache: Middleware = async (
+  execute,
+  endpointSelector?: (request: AdapterRequest) => APIEndpoint,
+  options: CacheOptions = defaultOptions(),
+) => {
   // If disabled noop
   if (!options.enabled) return (data: AdapterRequest) => execute(data)
 
@@ -115,7 +119,10 @@ export const withCache: Middleware = async (execute, options: CacheOptions = def
   }
 
   const _executeWithCache = async (adapterRequest: AdapterRequest): Promise<AdapterResponse> => {
-    const key = _getKey(adapterRequest)
+    const request = endpointSelector
+      ? normalizeInput(adapterRequest, endpointSelector(adapterRequest))
+      : adapterRequest
+    const key = _getKey(request)
     const coalescingKey = _getCoalescingKey(key)
     const observe = metrics.beginObserveCacheMetrics({
       isFromWs: !!adapterRequest.debug?.ws,
@@ -214,7 +221,10 @@ export const withCache: Middleware = async (execute, options: CacheOptions = def
           for (const batchParticipant of Object.values<[AdapterRequest, number]>(data.results)) {
             const [request, result] = batchParticipant
             const maxAgeBatchParticipant = getTTL(request, options)
-            const keyBatchParticipant = _getKey(request)
+            const normalizedRequest = endpointSelector
+              ? normalizeInput(request, endpointSelector(request))
+              : request
+            const keyBatchParticipant = _getKey(normalizedRequest)
             const entryBatchParticipant = {
               statusCode,
               data: { result },

@@ -1,6 +1,12 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
-export const DEFAULT_ENDPOINT = 'price'
+export const NAME = 'BRAVENEWCOIN'
 
-export const makeConfig = (prefix?: string): Config => Requester.getDefaultConfig(prefix)
+export const DEFAULT_ENDPOINT = 'crypto'
+
+export const makeConfig = (prefix = ''): Config => {
+    const config = Requester.getDefaultConfig(prefix)
+    config.defaultEndpoint = DEFAULT_ENDPOINT
+    return config
+  }

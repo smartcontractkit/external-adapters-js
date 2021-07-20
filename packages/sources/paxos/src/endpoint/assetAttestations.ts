@@ -1,16 +1,12 @@
-import { Requester } from '@chainlink/ea-bootstrap'
-import { Config } from '@chainlink/types'
-import { BASE_URL } from '../config'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { DEFAULT_BASE_URL } from '../config'
 
-export const Name = 'assetAttestation'
+export const supportedEndpoints = ['assetAttestation']
 
 const customError = (data: any) => data.Response === 'Error'
 
-type RequestData = {
-  asset: string
-}
-
-export const inputParams = {
+export const inputParameters: InputParameters = {
   asset: true,
 }
 
@@ -24,24 +20,28 @@ type Attestation = {
 
 const getAttestationURI = (asset: string) => `/asset-attestations/${asset.toUpperCase()}`
 
-const toAttestation = async (config: Config, asset: string): Promise<Attestation> => {
-  const url = getAttestationURI(asset)
-  const reqConfig = { ...config.api, baseURL: BASE_URL, url }
+export const execute: ExecuteWithConfig<Config> = async (input, config) => {
+  const validator = new Validator(input, inputParameters)
+  if (validator.error) throw validator.error
+  const asset = validator.validated.data.asset
+  const jobRunID = validator.validated.id
 
-  const response = await Requester.request(reqConfig, customError)
-  return {
+  if (!asset) throw Error('asset must be provided')
+
+  const url = getAttestationURI(asset)
+  const reqConfig = { ...config.api, baseURL: DEFAULT_BASE_URL, url }
+
+  const response = await Requester.request<Attestation>(reqConfig, customError)
+
+  const output = {
     asset: asset,
     auditorName: response.data.auditorName,
     lastAttestedAt: response.data.lastAttestedAt,
     amount: Requester.validateResultNumber(response.data, ['amount']),
     verified: response.data.verified,
   }
-}
 
-export const execute = async (config: Config, data: RequestData): Promise<Attestation> => {
-  const asset = data.asset
+  response.data = output
 
-  if (!asset) throw Error('asset must be provided')
-
-  return await toAttestation(config, asset)
+  return Requester.success(jobRunID, Requester.withResult(response, response.data.amount))
 }
