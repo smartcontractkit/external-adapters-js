@@ -122,10 +122,10 @@ async function fetchResolutionRoundIds(
   )
 }
 
-async function createAndResolveMarkets(roundDataForCoin: RoundDataForCoin, nextWeek: number, contract: ethers.Contract, confg: Config) {
-  let success = 0, failed = 0
+async function createAndResolveMarkets(roundDataForCoins: RoundDataForCoin[], nextWeek: number, contract: ethers.Contract, confg: Config) {
+  let succeded = 0, failed = 0
   let nonce = await config.wallet.getTransactionCount()
-  for(let tx of transactions) {
+  for(let data of roundDataForCoins) {
     try {
       const payload [
         roundDataForCoin.coinId,
@@ -133,12 +133,15 @@ async function createAndResolveMarkets(roundDataForCoin: RoundDataForCoin, nextW
         { nonce }
       ]
       await contract.createAndResolveMarketsForCoin(payload)
-      success++
+      succeded++
       nonce++
     } catch(e) {
       failed++
+      Logger.log(e)
     }
   }
+
+  Logger.log(`Augur: createAndResolveMarkets -- success: ${succeded}, failed: ${failed}`)
 }
 
 async function pokeMarkets(contract: ethers.Contract, config: Config) {
