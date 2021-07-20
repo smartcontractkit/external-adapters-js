@@ -29,13 +29,14 @@ env PROJECT_ID=gcp-pdp-weather-dev yarn start
 
 ### Input Params
 
-| Required? |    Name    |                        Description                         |              Options              | Defaults to |
-| :-------: | :--------: | :--------------------------------------------------------: | :-------------------------------: | :---------: |
-|    ✅     | `geoJson`  |              A GeoJSON object containing the               |                                   |             |
-|    ✅     | `dateFrom` | The date to query data from (inclusive) in ISO 8601 format |                                   |             |
-|    ✅     |  `dateTo`  |  The date to query data to (inclusive) in ISO 8601 format  |                                   |             |
-|    ✅     |  `method`  |          Which method to use to aggregate data in          |    `AVG`, `SUM`, `MIN`, `MAX`     |             |
-|    ✅     |  `field`   |              Which column to fetch data from               | [Data available](#data-available) |             |
+| Required? |    Name    |                                Description                                 |              Options              | Defaults to |
+| :-------: | :--------: | :------------------------------------------------------------------------: | :-------------------------------: | :---------: |
+|    ✅     | `geoJson`  |                      A GeoJSON object containing the                       |                                   |             |
+|    ✅     | `dateFrom` |         The date to query data from (inclusive) in ISO 8601 format         |                                   |             |
+|    ✅     |  `dateTo`  |          The date to query data to (inclusive) in ISO 8601 format          |                                   |             |
+|    ✅     |  `method`  |                  Which method to use to aggregate data in                  |    `AVG`, `SUM`, `MIN`, `MAX`     |             |
+|    ✅     |  `field`   |                      Which column to fetch data from                       | [Data available](#data-available) |             |
+|           |  `units`   | What unit system to return the result in ([conversions](#unit-conversion)) |       `imperial`, `metric`        | `imperial`  |
 
 ### GeoJSON data
 
@@ -96,6 +97,18 @@ Binary columns report if there was an occurrence of that type on the specified d
 - hail
 - thunder
 - tornado_funnel_cloud
+
+## Unit conversion
+
+The adapter supports converting units from imperial to metric.
+
+| Imperial | Metric |
+| -------- | ------ |
+| F        | C      |
+| bar      | hPa    |
+| inches   | mm     |
+| miles    | m      |
+| knots    | m/s    |
 
 ## Examples
 

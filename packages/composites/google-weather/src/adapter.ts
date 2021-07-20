@@ -3,6 +3,7 @@ import { ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
 import * as BigQuery from '@chainlink/google-bigquery-adapter'
 import { Config, makeConfig } from './config'
 import * as gjv from 'geojson-validation'
+import convert from 'convert-units'
 
 export interface Polygon {
   type: "Polygon"
@@ -31,6 +32,7 @@ const customParams = {
   dateTo: true,
   method: true,
   column: true,
+  units: false,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, config) => {
@@ -46,7 +48,8 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const dateFrom = validator.validated.data.dateFrom
   const dateTo = validator.validated.data.dateTo
   const method = validator.validated.data.method
-  const column = validator.validated.data.column
+  const column = validator.validated.data.column.toLowerCase()
+  const units = validator.validated.data.units || 'imperial'
 
   if (!gjv.valid(geoJson)) {
     throw new Error('Provided GeoJSON data is not valid')
@@ -56,8 +59,36 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
 
   const bigQuery = BigQuery.makeExecute(BigQuery.makeConfig())
   const response = await bigQuery({ id: jobRunID, data: queryBuilder.toQuery() })
-  const result = Requester.validateResultNumber(response.result, [0, "result"])
+  const imperialValue = Requester.validateResultNumber(response.result, [0, "result"])
+  const result = convertUnits(column, imperialValue, units)
   return Requester.success(jobRunID, { data: { result } })
+}
+
+const convertUnits = (column: string, value: number, units: string): number => {
+  if (units !== 'metric') return value
+
+  const conv = convert(value)
+  switch (column) {
+    case 'temp':
+    case 'dewp':
+    case 'max':
+    case 'min':
+      return conv.from('F').to('C')
+    case 'slp':
+    case 'stp':
+      return conv.from('bar').to('hPa')
+    case 'visib':
+      return conv.from('mi').to('m')
+    case 'wdsp':
+    case 'gust':
+    case 'mxpsd':
+      return conv.from('knot').to('m/s')
+    case 'prcp':
+    case 'sndp':
+      return conv.from('in').to('mm')
+    default:
+      return value
+  }
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {

@@ -60,6 +60,20 @@ describe('execute', () => {
             column: "temp"
           }
         }
+      },
+      {
+        name: 'converts imperial to metric',
+        testData: {
+          id: jobID,
+          data: {
+            geoJson: geoJsonPoint,
+            dateFrom: "2021-04-01T11:04:49Z",
+            dateTo: "2021-04-20T11:04:49Z",
+            method: "AVG",
+            column: "temp",
+            units: "metric"
+          }
+        }
       }
     ]
 
