@@ -115,7 +115,7 @@ async function fetchResolutionRoundIds(
       }
 
       return {
-        coinId: index+1,
+        coinId: index+1, // add one because getCoins excludes the 0th Coin, which is a placeholder for "no coin"
         roundId: nextRoundData.roundId
       }
     }),
