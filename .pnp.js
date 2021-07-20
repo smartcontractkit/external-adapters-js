@@ -51,6 +51,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/composites/dns-record-check"
       },
       {
+        "name": "@chainlink/dxdao-adapter",
+        "reference": "workspace:packages/composites/dxdao"
+      },
+      {
         "name": "@chainlink/linear-finance-adapter",
         "reference": "workspace:packages/composites/linear-finance"
       },
@@ -534,6 +538,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/dns-query-adapter", ["workspace:packages/sources/dns-query"]],
       ["@chainlink/dns-record-check-adapter", ["workspace:packages/composites/dns-record-check"]],
       ["@chainlink/dwolla-adapter", ["workspace:packages/sources/dwolla"]],
+      ["@chainlink/dxdao-adapter", ["workspace:packages/composites/dxdao"]],
       ["@chainlink/dxfeed-adapter", ["workspace:packages/sources/dxfeed"]],
       ["@chainlink/dxfeed-secondary-adapter", ["workspace:packages/sources/dxfeed-secondary"]],
       ["@chainlink/dydx-stark-adapter", ["workspace:packages/targets/dydx-stark"]],
@@ -5124,6 +5129,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.41"],
             ["dwolla-v2", "npm:3.2.0"],
+            ["tslib", "npm:2.2.0"],
+            ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=ddfc1b"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/dxdao-adapter", [
+        ["workspace:packages/composites/dxdao", {
+          "packageLocation": "./packages/composites/dxdao/",
+          "packageDependencies": [
+            ["@chainlink/dxdao-adapter", "workspace:packages/composites/dxdao"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-reference-data-reader", "workspace:packages/core/reference-data-reader"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/token-allocation-adapter", "workspace:packages/composites/token-allocation"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:26.0.22"],
+            ["@types/node", "npm:14.14.41"],
+            ["ethers", "npm:5.1.0"],
             ["tslib", "npm:2.2.0"],
             ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=ddfc1b"]
           ],

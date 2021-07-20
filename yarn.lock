@@ -2501,6 +2501,23 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/dxdao-adapter@workspace:packages/composites/dxdao":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/dxdao-adapter@workspace:packages/composites/dxdao"
+  dependencies:
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-reference-data-reader": 0.0.4
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/token-allocation-adapter": "workspace:packages/composites/token-allocation"
+    "@chainlink/types": 0.0.1
+    "@types/jest": ^26.0.22
+    "@types/node": ^14.14.35
+    ethers: ^5.0.32
+    tslib: ^2.1.0
+    typescript: ^4.2.3
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/dxfeed-adapter@*, @chainlink/dxfeed-adapter@0.0.4, @chainlink/dxfeed-adapter@workspace:packages/sources/dxfeed":
   version: 0.0.0-use.local
   resolution: "@chainlink/dxfeed-adapter@workspace:packages/sources/dxfeed"
@@ -2613,7 +2630,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ea-reference-data-reader@*, @chainlink/ea-reference-data-reader@^0.0.4, @chainlink/ea-reference-data-reader@workspace:packages/core/reference-data-reader":
+"@chainlink/ea-reference-data-reader@*, @chainlink/ea-reference-data-reader@0.0.4, @chainlink/ea-reference-data-reader@^0.0.4, @chainlink/ea-reference-data-reader@workspace:packages/core/reference-data-reader":
   version: 0.0.0-use.local
   resolution: "@chainlink/ea-reference-data-reader@workspace:packages/core/reference-data-reader"
   dependencies:

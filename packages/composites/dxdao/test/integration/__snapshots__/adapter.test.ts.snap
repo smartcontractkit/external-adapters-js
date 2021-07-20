@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute with source and pair contract addresses correctly provided should return success 1`] = `
+Object {
+  "data": Object {
+    "payload": Object {
+      "WETH": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": "2000",
+          },
+        },
+      },
+    },
+    "result": 2000,
+    "sources": Array [],
+  },
+  "jobRunID": "1",
+  "result": 2000,
+  "statusCode": 200,
+}
+`;
