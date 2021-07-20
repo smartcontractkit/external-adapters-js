@@ -45,10 +45,28 @@ No adapter specific input parameters
 ```json
 {
     "jobRunID": "1",
-    "result": 1822.9957,
+    "result": 1802.8985,
+    "maxAge": 30000,
     "statusCode": 200,
     "data": {
-        "result": 1822.9957
+        "timestamp": "2021-07-20T16:04:27",
+        "currencyPair": "ETH/USD",
+        "bid": 1802.6985,
+        "offer": 1803.0985,
+        "mid": 1802.8985,
+        "changes": [
+            {
+                "period": "1h",
+                "change": 46.603398,
+                "percentage": 2.66
+            },
+            {
+                "period": "1d",
+                "change": -18.76243,
+                "percentage": -1.02
+            }
+        ],
+        "result": 1802.8985
     }
 }
 ```

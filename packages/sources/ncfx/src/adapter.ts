@@ -59,7 +59,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
           const pairMessage = message.find(({ currencyPair }) => currencyPair === pair)
           if (!pairMessage) Logger.warn(`${pair} not found in message`)
           const result = Requester.validateResultNumber(pairMessage, ['mid'])
-          return Requester.success('1', { data: { result } })
+          return Requester.success('1', { data: { ...pairMessage, result } }, defaultConfig.verbose)
         }
         Logger.warn(`${message} is in an unexpected format.  Returning null for now.`)
         return Requester.success('1', { data: { result: null } })
