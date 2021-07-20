@@ -101,7 +101,7 @@ async function fetchResolutionRoundIds(
 
       while (roundData.updatedAt >= resolutionTime) {
         nextRoundData = roundData;
-        roundData = await agregatorProxy.getRoundData(
+        roundData = await aggregatorProxy.getRoundData(
           encodeRoundId(parseRoundId(roundData.roundId) - 1),
         )
       }
