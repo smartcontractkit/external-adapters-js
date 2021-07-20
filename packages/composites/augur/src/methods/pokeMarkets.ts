@@ -16,19 +16,6 @@ function encodeRoundId(rawRoundId: number) {
 function getNextWeekResolutionTimestamp(contract: ethers.Contract) {
   const nowEastern = DateTime.now().setZone('America/New_York')
 
-  const expectedRunTimeSeconds = await contract.nextResolutionTime()
-  if (nowEastern.weekday !== 4) {
-    throw Error(
-      `Augur: cryptoMarkets - attempted poke at invalid time ${nowEastern}, must be Thursday`,
-    )
-  }
-
-  if (nowEastern.hour !== 16) {
-    throw Error(
-      `Augur: cryptoMarkets - attempted poke at invalid time - ${nowEastern}, must be during 4 o'clock hour, eastern`,
-    )
-  }
-
   const contractNextResolutionTime = await contract.nextResolutionTime()
 
   if (contractNextResolutionTime > nowEastern.toSeconds()) {
@@ -37,7 +24,7 @@ function getNextWeekResolutionTimestamp(contract: ethers.Contract) {
     )
   }
 
-  return nowEastern.plus({ week: 1 }).set({ minute: 0, second: 0, millisecond: 0 }).toSeconds()
+  return nowEastern.plus({ week: 1 }).set({ weekday: 4, hour: 16, minute: 0, second: 0, millisecond: 0 }).toSeconds()
 }
 
 
