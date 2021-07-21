@@ -172,6 +172,12 @@ declare module '@chainlink/types' {
     isError: (message: any) => boolean
     // Based on the incoming message, returns its corresponding subscription message
     subsFromMessage: (message: any) => any
+    // Allows for connection info to be set programmatically based on the input request
+    // This is useful for data providers that only allow subscriptions based on URL params
+    programmaticConnectionInfo?: (input: AdapterRequest) => {
+      key: string
+      url: string
+    } | undefined
   }
 
   /* INPUT TYPE VALIDATIONS */

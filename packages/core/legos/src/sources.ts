@@ -21,6 +21,7 @@ import * as coincodex from '@chainlink/coincodex-adapter'
 import * as coingecko from '@chainlink/coingecko-adapter'
 import * as coinlore from '@chainlink/coinlore-adapter'
 import * as coinmarketcap from '@chainlink/coinmarketcap-adapter'
+import * as coinmetrics from '@chainlink/coinmetrics-adapter'
 import * as coinpaprika from '@chainlink/coinpaprika-adapter'
 import * as coinranking from '@chainlink/coinranking-adapter'
 import * as covid_tracker from '@chainlink/covid-tracker-adapter'
@@ -108,6 +109,7 @@ export default {
   coingecko,
   coinlore,
   coinmarketcap,
+  coinmetrics,
   coinpaprika,
   coinranking,
   covid_tracker,
