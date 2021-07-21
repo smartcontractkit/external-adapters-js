@@ -1,9 +1,9 @@
-import { AdapterContext, Middleware, Execute } from '@chainlink/types'
+import { AdapterContext, Middleware, Execute, ExecuteSync } from '@chainlink/types'
 import express from 'express'
 import http from 'http'
 import { join } from 'path'
 import * as client from 'prom-client'
-import { loadTestPayload } from './config/test-payload-loader'
+import { loadTestPayload, Payload } from './config/test-payload-loader'
 import {
   HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE,
   HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE_MESSAGE,
@@ -78,14 +78,25 @@ export const initHandler = (
       return res.status(200).send('OK')
     }
 
-    return executeSync(
-      { data: testPayload.request, id: '1' },
-      executeWithMiddleware,
-      context,
-      (status, result) => {
-        res.status(status).json(result)
-      },
-    )
+    const errors = []
+
+    for (const index in testPayload.requests) {
+      try {
+        await executeSync(
+          { data: testPayload.requests[index], id: index },
+          executeWithMiddleware,
+          context,
+          (status, result) => {
+            if (status === 400) errors.push(result)
+          },
+        )
+      } catch (e) {
+        errors.push(e)
+      }
+    }
+    if (errors.length > 0) return res.status(500).send(errors)
+
+    return res.status(200).send('OK')
   })
 
   process.on('SIGINT', () => {
