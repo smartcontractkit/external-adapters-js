@@ -6,6 +6,7 @@ import { redis_connections_open } from './metrics'
 import { CacheEntry } from './types'
 
 // Connection
+const DEFAULT_WATCH_INTERVAL = 5000
 const DEFAULT_CACHE_REDIS_HOST = '127.0.0.1' // IP address of the Redis server
 const DEFAULT_CACHE_REDIS_PORT = 6379 // Port of the Redis server
 const DEFAULT_CACHE_REDIS_PATH = undefined // The UNIX socket string of the Redis server
@@ -73,6 +74,7 @@ export class RedisCache {
   _del: any
   _quit: any
   _pttl: any
+  watchdog?: ReturnType<typeof setInterval>
 
   constructor(options: RedisOptions) {
     this.options = options
@@ -89,11 +91,49 @@ export class RedisCache {
     this.client = client
   }
 
+  initialize(options: RedisOptions): void {
+    const client = createClient({ ...options, retry_strategy: retryStrategy })
+    client.on('error', (err) => logger.error('Error connecting to Redis. ', err))
+    client.on('end', () => logger.error('Redis connection ended.'))
+
+    this._auth = promisify(client.auth).bind(client)
+    this._get = promisify(client.get).bind(client)
+    this._set = promisify(client.set).bind(client)
+    this._del = promisify(client.del).bind(client)
+    this._quit = promisify(client.quit).bind(client)
+    this._pttl = promisify(client.pttl).bind(client)
+    this.client = client
+  }
+
   private async connect() {
     if (!this.options.password) return
+
     return this.contextualTimeout(this._auth(this.options.password), 'connect', {
       includedPassword: !!this.options.password,
     })
+  }
+
+  async checkHealth() {
+    if (this.client.connected) {
+      return
+    }
+    while (!this.client.connected) {
+      try {
+        this.initialize(this.options)
+      } catch (err) {
+        logger.warn(`Failed to recreate redis client: [${err.message}]`)
+      }
+    }
+  }
+
+  async startWatching() {
+    if (this.watchdog) this.stopWatching()
+    this.watchdog = setInterval(() => this.checkHealth(), DEFAULT_WATCH_INTERVAL)
+  }
+
+  async stopWatching() {
+    if (this.watchdog) clearInterval(this.watchdog)
+    this.watchdog = undefined
   }
 
   static async build(options: RedisOptions) {
@@ -101,6 +141,7 @@ export class RedisCache {
     redis_connections_open.inc()
     const cache = new RedisCache(options)
     await cache.connect()
+    cache.startWatching()
     return cache
   }
 
@@ -154,6 +195,7 @@ export class RedisCache {
 
     try {
       // No further commands will be processed
+      this.stopWatching()
       const res = await this.contextualTimeout(this._quit(), 'close', {
         clientExists: !!this.client,
       })

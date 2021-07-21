@@ -2506,7 +2506,6 @@ __metadata:
   resolution: "@chainlink/dxdao-adapter@workspace:packages/composites/dxdao"
   dependencies:
     "@chainlink/ea-bootstrap": "*"
-    "@chainlink/ea-reference-data-reader": 0.0.4
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/token-allocation-adapter": "workspace:packages/composites/token-allocation"
     "@chainlink/types": 0.0.1
@@ -2630,7 +2629,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ea-reference-data-reader@*, @chainlink/ea-reference-data-reader@0.0.4, @chainlink/ea-reference-data-reader@^0.0.4, @chainlink/ea-reference-data-reader@workspace:packages/core/reference-data-reader":
+"@chainlink/ea-reference-data-reader@*, @chainlink/ea-reference-data-reader@^0.0.4, @chainlink/ea-reference-data-reader@workspace:packages/core/reference-data-reader":
   version: 0.0.0-use.local
   resolution: "@chainlink/ea-reference-data-reader@workspace:packages/core/reference-data-reader"
   dependencies:
