@@ -1,5 +1,10 @@
 # Chainlink External Adapter for Coinmetrics
 
+#### Websocket support
+
+This adapter supports Websockets. Due to the design of the API, each unique pair will be opened as a separate connection
+on the WS API. This may cause unexpected behaviour for a large number of unique pairs.
+
 ### Environment Variables
 
 | Required? |  Name   |                            Description                             | Options | Defaults to |
