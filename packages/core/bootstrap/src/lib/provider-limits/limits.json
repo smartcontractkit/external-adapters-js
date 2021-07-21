@@ -320,6 +320,26 @@
     },
     "ws": {}
   },
+  "coinmetrics": {
+    "http": {
+      "community": {
+        "rateLimit1m": 100
+      },
+      "paid": {
+        "rateLimit1s": 300
+      }
+    },
+    "ws": {
+      "community": {
+        "connections": -1,
+        "subscriptions": -1
+      },
+      "paid": {
+        "connections": -1,
+        "subscriptions": -1
+      }
+    }
+  },
   "coinpaprika": {
     "http": {
       "free": {

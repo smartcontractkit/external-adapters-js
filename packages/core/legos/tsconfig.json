@@ -80,6 +80,9 @@
       "path": "../../sources/coinmarketcap"
     },
     {
+      "path": "../../sources/coinmetrics"
+    },
+    {
       "path": "../../sources/coinpaprika"
     },
     {

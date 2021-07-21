@@ -53,6 +53,7 @@
     "@chainlink/coingecko-adapter": "*",
     "@chainlink/coinlore-adapter": "*",
     "@chainlink/coinmarketcap-adapter": "*",
+    "@chainlink/coinmetrics-adapter": "*",
     "@chainlink/coinpaprika-adapter": "*",
     "@chainlink/coinranking-adapter": "*",
     "@chainlink/covid-tracker-adapter": "*",
