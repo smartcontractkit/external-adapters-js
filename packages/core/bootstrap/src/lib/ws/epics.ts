@@ -100,6 +100,8 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
         WebSocketCtor: WebSocketCtor as any, // TODO: fix types don't match
       })
 
+      wsHandler.onConnect && wsSubject.next(wsHandler.onConnect())
+
       // Stream of WS connected & disconnected events
       const open$ = openObserver.pipe(
         map(() => connectFulfilled({ config, wsHandler })),
@@ -180,7 +182,10 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
                   errorObserver.next(subscriptionError(error))
                   return false
                 }
-                return getSubsId(wsHandler.subsFromMessage(message)) === subscriptionKey
+                return (
+                  getSubsId(wsHandler.subsFromMessage(message, payload.subscriptionMsg)) ===
+                  subscriptionKey
+                )
               },
             )
             .pipe(
@@ -241,7 +246,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
              * This results in the cache middleware storing the payload message as a
              * cache value, with the following `wsResponse` as the cache key
              */
-            const response = wsHandler.toResponse(action.payload.message)
+            const response = wsHandler.toResponse(action.payload.message, input)
             if (!response) return action
             const execute: Execute = () => Promise.resolve(response)
             let context = state.ws.subscriptions.all[action.payload.subscriptionKey]?.context

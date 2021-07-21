@@ -147,6 +147,9 @@
       "path": "./sources/coinmarketcap"
     },
     {
+      "path": "./sources/coinmetrics"
+    },
+    {
       "path": "./sources/coinpaprika"
     },
     {
@@ -253,6 +256,9 @@
     },
     {
       "path": "./sources/metalsapi"
+    },
+    {
+      "path": "./sources/ncfx"
     },
     {
       "path": "./sources/nikkei"

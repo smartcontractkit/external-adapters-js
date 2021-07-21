@@ -18,6 +18,14 @@ export const withWebSockets = (
   if (!makeWsHandler || !wsConfig.enabled) return await execute(input, context) // ignore middleware if conditions are met
 
   const wsHandler = await makeWsHandler()
+  if (wsHandler.programmaticConnectionInfo) {
+    const programmaticConnectionInfo = wsHandler.programmaticConnectionInfo(input)
+    if (programmaticConnectionInfo) {
+      wsConfig.connectionInfo.key = programmaticConnectionInfo.key
+      wsHandler.connection.url = programmaticConnectionInfo.url
+    }
+  }
+
   store.dispatch(connectRequested({ config: wsConfig, wsHandler }))
 
   const subscriptionMsg = wsHandler.subscribe(input)

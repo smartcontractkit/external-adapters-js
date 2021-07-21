@@ -174,18 +174,26 @@ declare module '@chainlink/types' {
       url: string
       protocol?: any
     }
+    // Hook to send a message after connection
+    onConnect?: () => any
     // Get the subscription message necessary to subscribe to the feed channel
     subscribe: (input: AdapterRequest) => any | undefined
     // Get unsubscribe message necessary to unsubscribe to the feed channel
     unsubscribe: (input: any) => any | undefined
     // Map to response from the incoming message and formats it into an AdapterResponse
-    toResponse: (message: any) => AdapterResponse
+    toResponse: (message: any, input: AdapterRequest) => AdapterResponse
     // Filter any message that is not from a subscribed channel
     filter: (message: any) => boolean
     // Determines if the incoming message is an error
     isError: (message: any) => boolean
     // Based on the incoming message, returns its corresponding subscription message
-    subsFromMessage: (message: any) => any
+    subsFromMessage: (message: any, subscriptionMsg: any) => any
+    // Allows for connection info to be set programmatically based on the input request
+    // This is useful for data providers that only allow subscriptions based on URL params
+    programmaticConnectionInfo?: (input: AdapterRequest) => {
+      key: string
+      url: string
+    } | undefined
   }
 
   /* INPUT TYPE VALIDATIONS */

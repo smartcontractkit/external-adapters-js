@@ -21,6 +21,7 @@ import * as coincodex from '@chainlink/coincodex-adapter'
 import * as coingecko from '@chainlink/coingecko-adapter'
 import * as coinlore from '@chainlink/coinlore-adapter'
 import * as coinmarketcap from '@chainlink/coinmarketcap-adapter'
+import * as coinmetrics from '@chainlink/coinmetrics-adapter'
 import * as coinpaprika from '@chainlink/coinpaprika-adapter'
 import * as coinranking from '@chainlink/coinranking-adapter'
 import * as covid_tracker from '@chainlink/covid-tracker-adapter'
@@ -57,6 +58,7 @@ import * as lition from '@chainlink/lition-adapter'
 import * as marketstack from '@chainlink/marketstack-adapter'
 import * as messari from '@chainlink/messari-adapter'
 import * as metalsapi from '@chainlink/metalsapi-adapter'
+import * as ncfx from '@chainlink/ncfx-adapter'
 import * as nikkei from '@chainlink/nikkei-adapter'
 import * as nomics from '@chainlink/nomics-adapter'
 import * as oilpriceapi from '@chainlink/oilpriceapi-adapter'
@@ -108,6 +110,7 @@ export default {
   coingecko,
   coinlore,
   coinmarketcap,
+  coinmetrics,
   coinpaprika,
   coinranking,
   covid_tracker,
@@ -144,6 +147,7 @@ export default {
   marketstack,
   messari,
   metalsapi,
+  ncfx,
   nikkei,
   nomics,
   oilpriceapi,

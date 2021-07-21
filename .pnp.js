@@ -223,6 +223,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/coinmarketcap"
       },
       {
+        "name": "@chainlink/coinmetrics-adapter",
+        "reference": "workspace:packages/sources/coinmetrics"
+      },
+      {
         "name": "@chainlink/coinpaprika-adapter",
         "reference": "workspace:packages/sources/coinpaprika"
       },
@@ -365,6 +369,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {
         "name": "@chainlink/metalsapi-adapter",
         "reference": "workspace:packages/sources/metalsapi"
+      },
+      {
+        "name": "@chainlink/ncfx-adapter",
+        "reference": "workspace:packages/sources/ncfx"
       },
       {
         "name": "@chainlink/nikkei-adapter",
@@ -522,6 +530,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/coingecko-adapter", ["workspace:packages/sources/coingecko"]],
       ["@chainlink/coinlore-adapter", ["workspace:packages/sources/coinlore"]],
       ["@chainlink/coinmarketcap-adapter", ["workspace:packages/sources/coinmarketcap"]],
+      ["@chainlink/coinmetrics-adapter", ["workspace:packages/sources/coinmetrics"]],
       ["@chainlink/coinpaprika-adapter", ["workspace:packages/sources/coinpaprika"]],
       ["@chainlink/coinranking-adapter", ["workspace:packages/sources/coinranking"]],
       ["@chainlink/conflux-adapter", ["workspace:packages/targets/conflux"]],
@@ -577,6 +586,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/marketstack-adapter", ["workspace:packages/sources/marketstack"]],
       ["@chainlink/messari-adapter", ["workspace:packages/sources/messari"]],
       ["@chainlink/metalsapi-adapter", ["workspace:packages/sources/metalsapi"]],
+      ["@chainlink/ncfx-adapter", ["workspace:packages/sources/ncfx"]],
       ["@chainlink/nikkei-adapter", ["workspace:packages/sources/nikkei"]],
       ["@chainlink/nomics-adapter", ["workspace:packages/sources/nomics"]],
       ["@chainlink/oilpriceapi-adapter", ["workspace:packages/sources/oilpriceapi"]],
@@ -4853,6 +4863,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT",
         }]
       ]],
+      ["@chainlink/coinmetrics-adapter", [
+        ["workspace:packages/sources/coinmetrics", {
+          "packageLocation": "./packages/sources/coinmetrics/",
+          "packageDependencies": [
+            ["@chainlink/coinmetrics-adapter", "workspace:packages/sources/coinmetrics"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:26.0.22"],
+            ["@types/node", "npm:14.14.41"],
+            ["tslib", "npm:2.2.0"],
+            ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=ddfc1b"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
       ["@chainlink/coinpaprika-adapter", [
         ["workspace:packages/sources/coinpaprika", {
           "packageLocation": "./packages/sources/coinpaprika/",
@@ -5234,6 +5260,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/coingecko-adapter", "workspace:packages/sources/coingecko"],
             ["@chainlink/coinlore-adapter", "workspace:packages/sources/coinlore"],
             ["@chainlink/coinmarketcap-adapter", "workspace:packages/sources/coinmarketcap"],
+            ["@chainlink/coinmetrics-adapter", "workspace:packages/sources/coinmetrics"],
             ["@chainlink/coinpaprika-adapter", "workspace:packages/sources/coinpaprika"],
             ["@chainlink/coinranking-adapter", "workspace:packages/sources/coinranking"],
             ["@chainlink/covid-tracker-adapter", "workspace:packages/sources/covid-tracker"],
@@ -5270,6 +5297,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/marketstack-adapter", "workspace:packages/sources/marketstack"],
             ["@chainlink/messari-adapter", "workspace:packages/sources/messari"],
             ["@chainlink/metalsapi-adapter", "workspace:packages/sources/metalsapi"],
+            ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],
             ["@chainlink/nikkei-adapter", "workspace:packages/sources/nikkei"],
             ["@chainlink/nomics-adapter", "workspace:packages/sources/nomics"],
             ["@chainlink/oilpriceapi-adapter", "workspace:packages/sources/oilpriceapi"],
@@ -5916,6 +5944,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/metalsapi/",
           "packageDependencies": [
             ["@chainlink/metalsapi-adapter", "workspace:packages/sources/metalsapi"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:26.0.22"],
+            ["@types/node", "npm:14.14.41"],
+            ["tslib", "npm:2.2.0"],
+            ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=ddfc1b"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/ncfx-adapter", [
+        ["workspace:packages/sources/ncfx", {
+          "packageLocation": "./packages/sources/ncfx/",
+          "packageDependencies": [
+            ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
