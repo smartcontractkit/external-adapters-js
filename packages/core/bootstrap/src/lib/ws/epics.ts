@@ -104,7 +104,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
 
       // Stream of WS connected & disconnected events
       const open$ = openObserver.pipe(
-        map(() => connected({ config, wsHandler })),
+        map(() => connectFulfilled({ config, wsHandler })),
         tap((action) => logger.info('WS: Connected', connectionMeta(action.payload))),
       )
       const close$ = closeObserver.pipe(
