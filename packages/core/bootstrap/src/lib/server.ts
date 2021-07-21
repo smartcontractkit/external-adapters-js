@@ -10,7 +10,7 @@ import {
 } from './errors'
 import { logger } from './external-adapter'
 import { METRICS_ENABLED } from './metrics'
-import { CACHE_ENABLED, defaultOptions } from './cache'
+import { defaultOptions } from './cache'
 import { toObjectWithNumbers } from './util'
 import { executeSync, withMiddleware } from '../index'
 
@@ -28,8 +28,8 @@ export const initHandler = (execute: Execute, middleware: Middleware[]) => async
   const context: AdapterContext = {
     cache: null,
   }
-  if (CACHE_ENABLED) {
-    const cacheOptions = defaultOptions()
+  const cacheOptions = defaultOptions()
+  if (cacheOptions.enabled) {
     cacheOptions.instance = await cacheOptions.cacheBuilder(cacheOptions.cacheImplOptions)
     context.cache = cacheOptions
   }

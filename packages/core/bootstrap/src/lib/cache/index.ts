@@ -1,12 +1,6 @@
-import {
-  AdapterContext,
-  AdapterRequest,
-  AdapterResponse,
-  Middleware,
-  APIEndpoint,
-} from '@chainlink/types'
+import { AdapterContext, AdapterRequest, AdapterResponse, Middleware } from '@chainlink/types'
 import hash from 'object-hash'
-import { logger, normalizeInput } from '../external-adapter'
+import { logger } from '../external-adapter'
 import {
   delay,
   exponentialBackOffMs,
@@ -23,7 +17,6 @@ import * as redis from './redis'
 import { CacheEntry } from './types'
 
 const env = process.env
-export const CACHE_ENABLED = parseBool(env.CACHE_ENABLED)
 
 const DEFAULT_CACHE_TYPE = 'local'
 const DEFAULT_CACHE_KEY_GROUP = uuid()
@@ -55,26 +48,28 @@ export interface CacheOptions {
   minimumAge: number
 }
 
-export const defaultOptions = (): CacheOptions => ({
-  enabled: CACHE_ENABLED,
-  cacheImplOptions: defaultCacheImplOptions(),
-  cacheBuilder: defaultCacheBuilder(),
-  key: {
-    group: env.CACHE_KEY_GROUP || DEFAULT_CACHE_KEY_GROUP,
-  },
-  // Request coalescing
-  requestCoalescing: {
-    enabled: parseBool(env.REQUEST_COALESCING_ENABLED),
-    // Capped linear back-off: 100, 200, 400, 800, 1000..
-    interval: Number(env.REQUEST_COALESCING_INTERVAL) || DEFAULT_RC_INTERVAL,
-    intervalMax: Number(env.REQUEST_COALESCING_INTERVAL_MAX) || DEFAULT_RC_INTERVAL_MAX,
-    intervalCoefficient:
-      Number(env.REQUEST_COALESCING_INTERVAL_COEFFICIENT) || DEFAULT_RC_INTERVAL_COEFFICIENT,
-    // Add entropy to absorb bursts
-    entropyMax: Number(env.REQUEST_COALESCING_ENTROPY_MAX) || DEFAULT_RC_ENTROPY_MAX,
-  },
-  minimumAge: Number(env.CACHE_MIN_AGE) || MINIMUM_AGE,
-})
+export const defaultOptions = (): CacheOptions => {
+  return {
+    enabled: parseBool(env.CACHE_ENABLED),
+    cacheImplOptions: defaultCacheImplOptions(),
+    cacheBuilder: defaultCacheBuilder(),
+    key: {
+      group: env.CACHE_KEY_GROUP || DEFAULT_CACHE_KEY_GROUP,
+    },
+    // Request coalescing
+    requestCoalescing: {
+      enabled: parseBool(env.REQUEST_COALESCING_ENABLED),
+      // Capped linear back-off: 100, 200, 400, 800, 1000..
+      interval: Number(env.REQUEST_COALESCING_INTERVAL) || DEFAULT_RC_INTERVAL,
+      intervalMax: Number(env.REQUEST_COALESCING_INTERVAL_MAX) || DEFAULT_RC_INTERVAL_MAX,
+      intervalCoefficient:
+        Number(env.REQUEST_COALESCING_INTERVAL_COEFFICIENT) || DEFAULT_RC_INTERVAL_COEFFICIENT,
+      // Add entropy to absorb bursts
+      entropyMax: Number(env.REQUEST_COALESCING_ENTROPY_MAX) || DEFAULT_RC_ENTROPY_MAX,
+    },
+    minimumAge: Number(env.CACHE_MIN_AGE) || MINIMUM_AGE,
+  }
+}
 
 export type CacheImplOptions = LocalOptions | redis.RedisOptions
 const defaultCacheImplOptions = (): CacheImplOptions => {
@@ -106,17 +101,14 @@ export const redactOptions = (options: CacheOptions): CacheOptions => ({
       : local.redactOptions(options.cacheImplOptions),
 })
 
-export const withCache: Middleware = async (
-  execute,
-  context: AdapterContext,
-  endpointSelector?: (request: AdapterRequest) => APIEndpoint,
-) => {
+export const withCache: Middleware = async (execute, context: AdapterContext) => {
+  // If disabled noop
+  if (!context?.cache?.instance) return (data: AdapterRequest) => execute(data, context)
+
   const {
     cache: options,
     cache: { instance: cache },
   } = context
-  // If disabled noop
-  if (!cache) return (data: AdapterRequest) => execute(data, context)
 
   // Algorithm we use to derive entry key
   const hashOptions = getHashOpts()
@@ -135,10 +127,7 @@ export const withCache: Middleware = async (
   }
 
   const _executeWithCache = async (adapterRequest: AdapterRequest): Promise<AdapterResponse> => {
-    const request = endpointSelector
-      ? normalizeInput(adapterRequest, endpointSelector(adapterRequest))
-      : adapterRequest
-    const key = _getKey(request)
+    const key = _getKey(adapterRequest)
     const coalescingKey = _getCoalescingKey(key)
     const observe = metrics.beginObserveCacheMetrics({
       isFromWs: !!adapterRequest.debug?.ws,
@@ -237,10 +226,7 @@ export const withCache: Middleware = async (
           for (const batchParticipant of Object.values<[AdapterRequest, number]>(data.results)) {
             const [request, result] = batchParticipant
             const maxAgeBatchParticipant = getTTL(request, options)
-            const normalizedRequest = endpointSelector
-              ? normalizeInput(request, endpointSelector(request))
-              : request
-            const keyBatchParticipant = _getKey(normalizedRequest)
+            const keyBatchParticipant = _getKey(request)
             const entryBatchParticipant = {
               statusCode,
               data: { result },
