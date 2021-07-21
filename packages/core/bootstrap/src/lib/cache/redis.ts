@@ -94,7 +94,7 @@ export class RedisCache {
   }
 
   initialize(options: RedisOptions): void {
-    logger.info('Creating new redis client instance...')
+    logger.info('Re-initializing new redis client instance...')
 
     const client = createClient({ ...options, retry_strategy: retryStrategy })
     client.on('error', (err) => logger.error('Error connecting to Redis. ', err))
@@ -142,11 +142,7 @@ export class RedisCache {
   static async build(options: RedisOptions) {
     redis_connections_open.inc()
     const cache = new RedisCache(options)
-    try {
-      await cache.connect()
-    } finally {
-      cache.startWatching()
-    }
+    cache.startWatching()
     return cache
   }
 
