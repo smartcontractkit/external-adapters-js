@@ -1,5 +1,6 @@
 import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Execute } from '@chainlink/types'
+import { AggregatorV2V3InterfaceFactory } from '@chainlink/contracts/ethers/v0.6/AggregatorV2V3InterfaceFactory'
 import { Config } from '../config'
 import { CRYPTO_ABI } from './index'
 import { ethers } from 'ethers'
@@ -75,20 +76,17 @@ async function fetchResolutionRoundIds(
   const coins: Coin[] = await contract.getCoins()
   return Promise.all(
     coins.map(async (coin, index): number => {
-      const aggregatorProxy = new ethers.Contract(
-        coin.priceFeed,
-        EACAggregatorProxyAbi,
-        config.wallet,
-      )
+
+      const aggregator = AggregatorV2V3InterfaceFactory.connect(coin.priceFeed, config.wallet)
 
       // Here we are going to walk backward through rounds to make sure that
       // we pick the *first* update after the passed-in resolutionTime
-      let roundData: RoundData = await aggregatorProxy.latestRoundData()
+      let roundData: RoundData = await aggregator.latestRoundData()
       let nextRoundData: RoundData | null = null
 
       while (roundData.updatedAt >= resolutionTime) {
         nextRoundData = roundData;
-        roundData = await aggregatorProxy.getRoundData(
+        roundData = await aggregator.getRoundData(
           encodeRoundId(parseRoundId(roundData.roundId) - 1),
         )
       }
