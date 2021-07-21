@@ -1,7 +1,7 @@
 {
- "request": {
+ "requests": [{
   "blockchain": "BTC",
   "endpoint": "difficulty",
   "network": "mainnet"
- }
+ }]
 }

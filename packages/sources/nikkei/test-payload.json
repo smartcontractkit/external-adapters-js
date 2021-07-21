@@ -1,5 +1,5 @@
 {
- "request": {
+ "requests": [{
   "from": "N225"
- }
+ }]
 }

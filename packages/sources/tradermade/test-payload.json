@@ -1,6 +1,6 @@
 {
- "request": {
+ "requests": [{
   "from": "ZAR",
   "to": "USD"
- }
+ }]
 }

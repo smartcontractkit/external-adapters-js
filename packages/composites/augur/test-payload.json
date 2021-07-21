@@ -1,10 +1,10 @@
 {
-  "request": {
+  "requests": [{
     "method": "resolve",
     "sport": "NBA",
     "daysInAdvance": 7,
     "startBuffer": 60,
     "affiliateIds": [9, 3],
     "contractAddress": "0xB0bA59d42Fb0f9305F06FC0e2C4e2fe64A5bd39F"
-  }
+  }]
 }

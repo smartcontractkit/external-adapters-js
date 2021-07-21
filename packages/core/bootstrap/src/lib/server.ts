@@ -1,4 +1,5 @@
 import { ExecuteSync } from '@chainlink/types'
+import { Payload } from './config/test-payload-loader'
 import express from 'express'
 import http from 'http'
 import { join } from 'path'
@@ -18,6 +19,13 @@ const baseUrl = process.env.BASE_URL || '/'
 export const HEADER_CONTENT_TYPE = 'Content-Type'
 export const CONTENT_TYPE_APPLICATION_JSON = 'application/json'
 export const CONTENT_TYPE_TEXT_PLAIN = 'text/plain'
+
+type responseResult = {
+  jobRunId: string
+  result: number
+  statusCode: number
+  data: Record<string, number>
+}
 
 export const initHandler = (execute: ExecuteSync) => (): Promise<http.Server> => {
   if (METRICS_ENABLED) {
@@ -47,10 +55,7 @@ export const initHandler = (execute: ExecuteSync) => (): Promise<http.Server> =>
     if (testPayload.isDefault) {
       return res.status(200).send('OK')
     }
-
-    return execute({ data: testPayload.request, id: '1' }, (status, result) => {
-      res.status(status).json(result)
-    })
+    return handlePayloads(testPayload, execute, res)
   })
 
   process.on('SIGINT', () => {
@@ -63,6 +68,28 @@ export const initHandler = (execute: ExecuteSync) => (): Promise<http.Server> =>
       resolve(server)
     })
   })
+}
+
+async function handlePayloads(testPayload: Payload, execute: ExecuteSync, res: any) {
+  const errors = []
+  for (const index in testPayload.requests) {
+    try {
+      let response
+      await execute({ data: testPayload.requests[index], id: index }, (status: number, result: responseResult) => {
+        response = result
+        if (status === 400) {
+          errors.push(response)
+        }
+      })
+    }
+    catch (e) {
+      errors.push(e)
+    }
+  }
+  if (errors.length > 0) {
+    return res.status(500).send(errors)
+  }
+  return res.status(200).send('OK')
 }
 
 function setupMetricsServer() {

@@ -1,6 +1,6 @@
 {
- "request": {
+ "requests": [{
   "from": "JPY",
   "to": "USD"
- }
+ }]
 }
