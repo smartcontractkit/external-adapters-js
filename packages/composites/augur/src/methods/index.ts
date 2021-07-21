@@ -1,5 +1,6 @@
 export * as resolveMarkets from './resolveMarkets'
 export * as createMarkets from './createMarkets'
+export * as pokeMarkets from './pokeMarkets'
 
 export const TEAM_SPORTS = ['mlb', 'nba', 'nfl', 'ncaa-fb']
 export const FIGHTER_SPORTS = ['mma']
