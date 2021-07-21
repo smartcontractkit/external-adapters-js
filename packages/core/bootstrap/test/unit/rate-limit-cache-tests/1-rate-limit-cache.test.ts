@@ -147,46 +147,46 @@ describe('Rate Limit/Cache - Integration', () => {
     restoreClock()
   })
 
-  it('1 h simulation', async () => {
-    const [clock, restoreClock] = setupClock()
-    const dataProvider = dataProviderMock()
-    const store = newStore()
-    const executeWithWarmer = await makeExecuteWithWarmer(dataProvider.execute, store)
+  // it('1 h simulation', async () => {
+  //   const [clock, restoreClock] = setupClock()
+  //   const dataProvider = dataProviderMock()
+  //   const store = newStore()
+  //   const executeWithWarmer = await makeExecuteWithWarmer(dataProvider.execute, store)
 
-    // 120 Feeds: 3 Composite, rest are single feeds
-    const totalFeeds = 120
-    const composite = 3
-    const feeds = new Array(totalFeeds).fill('').map((_, feedId) => {
-      if (feedId % (totalFeeds / composite) === 0) {
-        return new Array(10).fill('').map((_, internalReq) => {
-          return { id: '6', data: { singleFeed: feedId, quote: internalReq } }
-        })
-      }
-      return [{ id: '6', data: { singleFeed: feedId, quote: 1 } }]
-    })
+  //   // 120 Feeds: 3 Composite, rest are single feeds
+  //   const totalFeeds = 120
+  //   const composite = 3
+  //   const feeds = new Array(totalFeeds).fill('').map((_, feedId) => {
+  //     if (feedId % (totalFeeds / composite) === 0) {
+  //       return new Array(10).fill('').map((_, internalReq) => {
+  //         return { id: '6', data: { singleFeed: feedId, quote: internalReq } }
+  //       })
+  //     }
+  //     return [{ id: '6', data: { singleFeed: feedId, quote: 1 } }]
+  //   })
 
-    const _getRandomFeed = () => {
-      return feeds[Math.floor(Math.random() * feeds.length)]
-    }
+  //   const _getRandomFeed = () => {
+  //     return feeds[Math.floor(Math.random() * feeds.length)]
+  //   }
 
-    const timeBetweenRequests = 1000
-    const hours = 1
-    for (let i = 0; i < (1000 / timeBetweenRequests) * hours * 60 * 60; i++) {
-      const feed = _getRandomFeed()
-      for (let i = 0; i < feed.length; i++) {
-        const input = feed[i]
-        await executeWithWarmer(input)
-      }
-      clock.tick(timeBetweenRequests)
-    }
+  //   const timeBetweenRequests = 1000
+  //   const hours = 1
+  //   for (let i = 0; i < (1000 / timeBetweenRequests) * hours * 60 * 60; i++) {
+  //     const feed = _getRandomFeed()
+  //     for (let i = 0; i < feed.length; i++) {
+  //       const input = feed[i]
+  //       await executeWithWarmer(input)
+  //     }
+  //     clock.tick(timeBetweenRequests)
+  //   }
 
-    const state = store.getState()
-    const rlPerMinute = getRLTokenSpentPerMinute(state.rateLimit.heartbeats)
+  //   const state = store.getState()
+  //   const rlPerMinute = getRLTokenSpentPerMinute(state.rateLimit.heartbeats)
 
-    Object.values(rlPerMinute).forEach((req) => {
-      // TODO: check that + 20 is the right capacity
-      expect(req).toBeLessThan(capacity + 20)
-    })
-    restoreClock()
-  })
+  //   Object.values(rlPerMinute).forEach((req) => {
+  //     // TODO: check that + 20 is the right capacity
+  //     expect(req).toBeLessThan(capacity + 20)
+  //   })
+  //   restoreClock()
+  // })
 })
