@@ -9,7 +9,7 @@ const inputParams = {
   confirmations: false,
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, config) => {
+export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
   const validator = new Validator(request, inputParams)
   if (validator.error) throw validator.error
 
@@ -30,6 +30,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
       ...request,
       data: { ...request.data, method: NAME, params },
     },
+    context,
     config,
   )
 

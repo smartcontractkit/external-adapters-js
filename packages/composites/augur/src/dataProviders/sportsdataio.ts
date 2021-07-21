@@ -1,5 +1,5 @@
 import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Execute } from '@chainlink/types'
+import { AdapterContext, Execute } from '@chainlink/types'
 import * as Sportsdataio from '@chainlink/sportsdataio-adapter'
 import { BigNumber, ethers } from 'ethers'
 import { CreateEvent } from '../methods/createMarkets'
@@ -16,29 +16,39 @@ interface NFLEvent {
 
 type SportsdataioNFLSchedule = NFLEvent[]
 
-const getNFLSchedule = async (id: string, season: string, sportsdataExec: Execute): Promise<SportsdataioNFLSchedule> => {
+const getNFLSchedule = async (
+  id: string,
+  season: string,
+  sportsdataExec: Execute,
+  context: AdapterContext,
+): Promise<SportsdataioNFLSchedule> => {
   const input = {
     id,
     data: {
       sport: 'nfl',
       endpoint: 'schedule',
-      season
-    }
+      season,
+    },
   }
-  const response = await sportsdataExec(input)
+  const response = await sportsdataExec(input, context)
   return response.result
 }
 
-const getNFLScores = async (id: string, season: string, sportsdataExec: Execute): Promise<NFLScores[]> => {
+const getNFLScores = async (
+  id: string,
+  season: string,
+  sportsdataExec: Execute,
+  context: AdapterContext,
+): Promise<NFLScores[]> => {
   const input = {
     id,
     data: {
       sport: 'nfl',
       endpoint: 'scores',
-      season
-    }
+      season,
+    },
   }
-  const response = await sportsdataExec(input)
+  const response = await sportsdataExec(input, context)
   return response.result
 }
 
@@ -51,7 +61,7 @@ const createParams = {
   contract: true,
 }
 
-export const create: Execute = async (input) => {
+export const create: Execute = async (input, context) => {
   const validator = new Validator(input, createParams)
   if (validator.error) throw validator.error
 
@@ -66,10 +76,13 @@ export const create: Execute = async (input) => {
 
   const sportsdataioExec = Sportsdataio.makeExecute(Sportsdataio.makeConfig(Sportsdataio.NAME))
 
-  const schedule = await getNFLSchedule(input.id, getSeason(), sportsdataioExec)
+  const schedule = await getNFLSchedule(input.id, getSeason(), sportsdataioExec, context)
 
   Logger.debug(`Augur sportsdataio: Got ${schedule.length} events from data provider`)
-  let skipNullDate = 0, skipStartBuffer = 0, skipDaysInAdvance = 0, cantCreate = 0
+  let skipNullDate = 0,
+    skipStartBuffer = 0,
+    skipDaysInAdvance = 0,
+    cantCreate = 0
 
   // filter markets and build payloads for market creation
   const createEvents: CreateEvent[] = []
@@ -89,9 +102,15 @@ export const create: Execute = async (input) => {
       continue
     }
 
-    const [headToHeadMarket, spreadMarket, totalScoreMarket]: [ethers.BigNumber, ethers.BigNumber, ethers.BigNumber]
-      = await contract.getEventMarkets(event.GlobalGameID)
-    const canCreate = headToHeadMarket.isZero() || (spreadMarket.isZero() && false) || (totalScoreMarket.isZero() && false)
+    const [headToHeadMarket, spreadMarket, totalScoreMarket]: [
+      ethers.BigNumber,
+      ethers.BigNumber,
+      ethers.BigNumber,
+    ] = await contract.getEventMarkets(event.GlobalGameID)
+    const canCreate =
+      headToHeadMarket.isZero() ||
+      (spreadMarket.isZero() && false) ||
+      (totalScoreMarket.isZero() && false)
     if (!canCreate) {
       cantCreate++
       continue
@@ -105,7 +124,7 @@ export const create: Execute = async (input) => {
       homeSpread: 0, // TODO: Missing
       totalScore: 0, // TODO: Missing
       createSpread: false, // TODO: Missing
-      createTotalScore: false // TODO: Missing
+      createTotalScore: false, // TODO: Missing
     })
   }
 
@@ -115,7 +134,7 @@ export const create: Execute = async (input) => {
   Logger.debug(`Augur sportsdataio: Skipping ${cantCreate} due to no market to create`)
 
   return Requester.success(input.id, {
-    data: { result: createEvents }
+    data: { result: createEvents },
   })
 }
 
@@ -130,28 +149,28 @@ interface NFLScores {
 }
 
 const eventStatus: { [status: string]: number } = {
-  'Scheduled': 1,
-  'InProgress': 0, // TODO: Clarify???
-  'Final': 2,
+  Scheduled: 1,
+  InProgress: 0, // TODO: Clarify???
+  Final: 2,
   'F/OT': 0, // TODO: Clarify???
-  'Suspended': 0, // TODO: Clarify???
-  'Postponed': 3,
-  'Delayed': 0, // TODO: Clarify???
-  'Canceled': 4
+  Suspended: 0, // TODO: Clarify???
+  Postponed: 3,
+  Delayed: 0, // TODO: Clarify???
+  Canceled: 4,
 }
 
 const resolveParams = {
   eventId: true,
 }
 
-export const resolve: Execute = async (input) => {
+export const resolve: Execute = async (input, context) => {
   const validator = new Validator(input, resolveParams)
   if (validator.error) throw validator.error
 
   const eventId = Number(validator.validated.data.eventId)
   const sportsdataioExec = Sportsdataio.makeExecute()
 
-  const scores = await getNFLScores(input.id, getSeason(), sportsdataioExec)
+  const scores = await getNFLScores(input.id, getSeason(), sportsdataioExec, context)
   const event = scores.find((game) => game.GlobalGameID === eventId)
   if (!event) {
     throw Error(`Unable to find event ${eventId}`)
@@ -166,10 +185,10 @@ export const resolve: Execute = async (input) => {
     id: BigNumber.from(event.GlobalGameID),
     status,
     homeScore: event.HomeScore || 0,
-    awayScore: event.AwayScore || 0
+    awayScore: event.AwayScore || 0,
   }
 
   return Requester.success(input.id, {
-    data: { result: resolveEvent }
+    data: { result: resolveEvent },
   })
 }

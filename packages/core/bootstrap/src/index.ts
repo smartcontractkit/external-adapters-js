@@ -1,14 +1,16 @@
 import {
   AdapterMetricsMeta,
   AdapterRequest,
+  AdapterContext,
   Execute,
   ExecuteSync,
   MakeWSHandler,
   Middleware,
   APIEndpoint,
+  Callback,
 } from '@chainlink/types'
 import { combineReducers, Store } from 'redux'
-import { defaultOptions, redactOptions, withCache } from './lib/cache'
+import { Cache, withCache } from './lib/cache'
 import * as cacheWarmer from './lib/cache-warmer'
 import { WARMUP_REQUEST_ID } from './lib/cache-warmer/config'
 import {
@@ -17,6 +19,7 @@ import {
   Requester,
   Validator,
   Builder,
+  normalizeInput,
 } from './lib/external-adapter'
 import * as metrics from './lib/metrics'
 import { getFeedId } from './lib/metrics/util'
@@ -25,6 +28,7 @@ import * as server from './lib/server'
 import { configureStore } from './lib/store'
 import * as util from './lib/util'
 import * as ws from './lib/ws'
+import http from 'http'
 
 const rootReducer = combineReducers({
   cacheWarmer: cacheWarmer.reducer.rootReducer,
@@ -54,10 +58,10 @@ const storeSlice = (slice: any) =>
 // Try to initialize, pass through on error
 const skipOnError = (middleware: Middleware) => async (
   execute: Execute,
-  endpointSelector?: (request: AdapterRequest) => APIEndpoint,
+  context: AdapterContext,
 ) => {
   try {
-    return await middleware(execute, endpointSelector)
+    return await middleware(execute, context)
   } catch (error) {
     Logger.warn(`${middleware.name} middleware initialization error! Passing through. `, error)
     return execute
@@ -65,8 +69,8 @@ const skipOnError = (middleware: Middleware) => async (
 }
 
 // Make sure data has the same statusCode as the one we got as a result
-const withStatusCode: Middleware = async (execute) => async (input) => {
-  const { statusCode, data, ...rest } = await execute(input)
+const withStatusCode: Middleware = async (execute, context) => async (input) => {
+  const { statusCode, data, ...rest } = await execute(input, context)
   if (data && typeof data === 'object' && data.statusCode) {
     return {
       ...rest,
@@ -82,10 +86,10 @@ const withStatusCode: Middleware = async (execute) => async (input) => {
 }
 
 // Log adapter input & output data
-const withLogger: Middleware = async (execute) => async (input: AdapterRequest) => {
+const withLogger: Middleware = async (execute, context) => async (input: AdapterRequest) => {
   Logger.debug('Input: ', { input })
   try {
-    const result = await execute(input)
+    const result = await execute(input, context)
     Logger.debug(`Output: [${result.statusCode}]: `, { output: result.data })
     return result
   } catch (error) {
@@ -94,7 +98,7 @@ const withLogger: Middleware = async (execute) => async (input: AdapterRequest) 
   }
 }
 
-const withMetrics: Middleware = async (execute) => async (input: AdapterRequest) => {
+const withMetrics: Middleware = async (execute, context) => async (input: AdapterRequest) => {
   const feedId = getFeedId(input)
   const metricsMeta: AdapterMetricsMeta = {
     feedId: metrics.util.getFeedId(input),
@@ -118,7 +122,7 @@ const withMetrics: Middleware = async (execute) => async (input: AdapterRequest)
 
   const record = recordMetrics()
   try {
-    const result = await execute({ ...input, metricsMeta })
+    const result = await execute({ ...input, metricsMeta }, context)
     record(
       result.statusCode,
       result.data.maxAge || (result as any).maxAge
@@ -132,8 +136,8 @@ const withMetrics: Middleware = async (execute) => async (input: AdapterRequest)
   }
 }
 
-export const withDebug: Middleware = async (execute) => async (input: AdapterRequest) => {
-  const result = await execute(input)
+export const withDebug: Middleware = async (execute, context) => async (input: AdapterRequest) => {
+  const result = await execute(input, context)
   if (!util.isDebug()) {
     const { debug, ...rest } = result
     return rest
@@ -141,34 +145,28 @@ export const withDebug: Middleware = async (execute) => async (input: AdapterReq
   return result
 }
 
-// Init all middleware, and return a wrapped execute fn
-export const withMiddleware = async (
-  execute: Execute,
-  middleware: Middleware[],
+export const withNormalizedInput: (
   endpointSelector?: (request: AdapterRequest) => APIEndpoint,
+) => Middleware = (endpointSelector) => async (execute, context) => async (
+  input: AdapterRequest,
 ) => {
-  // Init and wrap middleware one by one
-  for (let i = 0; i < middleware.length; i++) {
-    execute = await middleware[i](execute, endpointSelector)
-  }
-  return execute
+  const normalizedInput = endpointSelector ? normalizeInput(input, endpointSelector(input)) : input
+  return execute(normalizedInput, context)
 }
 
-// Execution helper async => sync
-const executeSync = (
+export const makeMiddleware = (
   execute: Execute,
   makeWsHandler?: MakeWSHandler,
   endpointSelector?: (request: AdapterRequest) => APIEndpoint,
-): ExecuteSync => {
-  // TODO: Try to init middleware only once
-  // const initMiddleware = withMiddleware(execute)
+): Middleware[] => {
   const warmerMiddleware = [
     skipOnError(withCache),
     rateLimit.withRateLimit(storeSlice('rateLimit')),
     withStatusCode,
+    withNormalizedInput(endpointSelector),
   ].concat(metrics.METRICS_ENABLED ? [withMetrics] : [])
 
-  const middleware = [
+  return [
     withLogger,
     skipOnError(withCache),
     cacheWarmer.withCacheWarmer(storeSlice('cacheWarmer'), warmerMiddleware, {
@@ -178,37 +176,58 @@ const executeSync = (
     ws.withWebSockets(storeSlice('ws'), makeWsHandler),
     rateLimit.withRateLimit(storeSlice('rateLimit')),
     withStatusCode,
+    withNormalizedInput(endpointSelector),
   ].concat(metrics.METRICS_ENABLED ? [withMetrics, withDebug] : [withDebug])
+}
 
-  // Return sync function
-  return async (data: AdapterRequest, callback: any) => {
-    // We init on every call because of cache connection broken state issue
-    try {
-      const executeWithMiddleware = await withMiddleware(execute, middleware, endpointSelector)
-      const result = await executeWithMiddleware(data)
-
-      return callback(result.statusCode, result)
-    } catch (error) {
-      return callback(error.statusCode || 500, Requester.errored(data.id, error))
-    }
+// Wrap raw Execute function with middleware
+export const withMiddleware = async (
+  execute: Execute,
+  context: AdapterContext,
+  middleware: Middleware[],
+): Promise<Execute> => {
+  // Init and wrap middleware one by one
+  for (let i = 0; i < middleware.length; i++) {
+    execute = await middleware[i](execute, context)
   }
+  return execute
+}
+
+// Execution helper async => sync
+export const executeSync: ExecuteSync = async (
+  data: AdapterRequest,
+  execute: Execute,
+  context: AdapterContext,
+  callback: Callback,
+) => {
+  try {
+    const result = await execute(data, context)
+
+    return callback(result.statusCode, result)
+  } catch (error) {
+    return callback(error.statusCode || 500, Requester.errored(data.id, error))
+  }
+}
+
+export type ExternalAdapter = {
+  execute: Execute
+  makeWsHandler?: MakeWSHandler
+  endpointSelector?: (request: AdapterRequest) => APIEndpoint
+}
+
+export type ExecuteHandler = {
+  server: () => Promise<http.Server>
 }
 
 export const expose = (
   execute: Execute,
   makeWsHandler?: MakeWSHandler,
   endpointSelector?: (request: AdapterRequest) => APIEndpoint,
-) => {
-  // Add middleware to the execution flow
-  const _execute = executeSync(execute, makeWsHandler, endpointSelector)
+): ExecuteHandler => {
+  const middleware = makeMiddleware(execute, makeWsHandler, endpointSelector)
   return {
-    server: server.initHandler(_execute),
+    server: server.initHandler(execute, middleware),
   }
 }
-export type ExecuteHandlers = ReturnType<typeof expose>
 
-// Log cache default options once
-const cacheOptions = defaultOptions()
-if (cacheOptions.enabled) Logger.info('Cache enabled: ', redactOptions(cacheOptions))
-
-export { Requester, Validator, AdapterError, Builder, Logger, util, server, executeSync }
+export { Requester, Validator, AdapterError, Builder, Logger, util, server, Cache }

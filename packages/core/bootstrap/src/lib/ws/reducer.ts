@@ -1,4 +1,4 @@
-import { AdapterRequest } from '@chainlink/types'
+import { AdapterContext, AdapterRequest } from '@chainlink/types'
 import { combineReducers, createReducer, isAnyOf } from '@reduxjs/toolkit'
 import hash from 'object-hash'
 import { getHashOpts } from '../util'
@@ -79,6 +79,7 @@ export interface SubscriptionsState {
       unsubscribed?: boolean
       subscribing: number
       input: AdapterRequest
+      context: AdapterContext
     }
   }
 }
@@ -97,6 +98,7 @@ export const subscriptionsReducer = createReducer<SubscriptionsState>(
         unsubscribed: false,
         subscribing: 0,
         input: { ...action.payload.input },
+        context: action.payload.context,
       }
     })
 
@@ -110,6 +112,7 @@ export const subscriptionsReducer = createReducer<SubscriptionsState>(
         active: false,
         subscribing: isSubscribing ? state.all[key].subscribing + 1 : 1,
         input: { ...action.payload.input },
+        context: action.payload.context,
       }
     })
 

@@ -8,7 +8,7 @@ const inputParams = {
 }
 
 // Export function to integrate with Chainlink node
-export const execute: ExecuteWithConfig<Config> = async (request, config) => {
+export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
   const validator = new Validator(request, inputParams)
   if (validator.error) throw validator.error
 
@@ -19,16 +19,16 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 
   switch (endpoint) {
     case price.Name: {
-      return await price.execute(request, config)
+      return await price.execute(request, context, config)
       break
     }
     case 'difficulty':
     case 'height': {
-      return await bc_info.execute(request, config)
+      return await bc_info.execute(request, context, config)
       break
     }
     case balance.Name: {
-      return balance.makeExecute(config)(request)
+      return balance.makeExecute(config)(request, context)
     }
     default: {
       throw new AdapterError({
@@ -41,5 +41,5 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {
-  return async (request) => execute(request, config || makeConfig())
+  return async (request, context) => execute(request, context, config || makeConfig())
 }

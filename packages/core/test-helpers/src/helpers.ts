@@ -1,6 +1,8 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { AdapterRequest, Execute } from '@chainlink/types'
 
+const mockContext = {}
+
 export function assertError(statusCode: any, data: any, expectedJobId: any) {
   expect(statusCode.actual).toEqual(statusCode.expected)
   expect(data.jobRunID).toEqual(expectedJobId)
@@ -23,7 +25,7 @@ function buildErrors(label: string, code: number, requests: any[], execute: Exec
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
-          await execute(req.testData as AdapterRequest)
+          await execute(req.testData as AdapterRequest, mockContext)
         } catch (error) {
           const id = req.testData.id
           const errorResp = Requester.errored(id, error)
@@ -39,7 +41,7 @@ export function successes(requests: any[], execute: Execute, assertions?: any) {
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         const id = req.testData.id || '1'
-        const data = await execute(req.testData as AdapterRequest)
+        const data = await execute(req.testData as AdapterRequest, mockContext)
         assertSuccess({ expected: 200, actual: data.statusCode }, data, id)
         if (assertions) assertions(req, data)
       })

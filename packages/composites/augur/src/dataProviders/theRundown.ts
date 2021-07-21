@@ -42,7 +42,7 @@ const createParams = {
   daysInAdvance: true,
   startBuffer: true,
   contract: true,
-  affiliateIds: true
+  affiliateIds: true,
 }
 
 const addDays = (date: Date, days: number): Date => {
@@ -51,7 +51,7 @@ const addDays = (date: Date, days: number): Date => {
   return newDate
 }
 
-export const create: Execute = async (input) => {
+export const create: Execute = async (input, context) => {
   const validator = new Validator(input, createParams)
   if (validator.error) throw validator.error
 
@@ -60,26 +60,34 @@ export const create: Execute = async (input) => {
   const startBuffer = validator.validated.data.startBuffer
   const contract = validator.validated.data.contract
   const affiliateIds: number[] = validator.validated.data.affiliateIds
-  const getAffiliateId = (event: TheRundownEvent) => affiliateIds.find((id) => !!event.lines && id in event.lines)
+  const getAffiliateId = (event: TheRundownEvent) =>
+    affiliateIds.find((id) => !!event.lines && id in event.lines)
 
-  const params = { id: input.id, data: {
+  const params = {
+    id: input.id,
+    data: {
       sportId,
       status: 'STATUS_SCHEDULED',
       date: new Date(),
-      endpoint: 'events'
-    }}
+      endpoint: 'events',
+    },
+  }
   const theRundownExec = TheRundown.makeExecute(TheRundown.makeConfig(TheRundown.NAME))
 
   const events = []
   for (let i = 0; i < daysInAdvance; i++) {
     params.data.date = addDays(params.data.date, 1)
 
-    const response = await theRundownExec(params)
-    events.push(...response.result as TheRundownEvent[])
+    const response = await theRundownExec(params, context)
+    events.push(...(response.result as TheRundownEvent[]))
   }
 
   Logger.debug(`Augur theRundown: Got ${events.length} events from data provider`)
-  let skipTBD = 0, skipStartBuffer = 0, skipNoTeams = 0, cantCreate = 0, skipTBDTeams = 0
+  let skipTBD = 0,
+    skipStartBuffer = 0,
+    skipNoTeams = 0,
+    cantCreate = 0,
+    skipTBDTeams = 0
 
   // filter markets and build payloads for market creation
   const eventsToCreate: CreateEvent[] = []
@@ -98,8 +106,8 @@ export const create: Execute = async (input) => {
 
     // skip if data is missing
     const affiliateId = getAffiliateId(event)
-    const homeTeam = event.teams_normalized.find(team => team.is_home)
-    const awayTeam = event.teams_normalized.find(team => team.is_away)
+    const homeTeam = event.teams_normalized.find((team) => team.is_home)
+    const awayTeam = event.teams_normalized.find((team) => team.is_away)
     if (!homeTeam || !awayTeam) {
       skipNoTeams++
       continue
@@ -112,16 +120,27 @@ export const create: Execute = async (input) => {
     }
 
     const eventId = eventIdToNum(event.event_id)
-    const [headToHeadMarket, spreadMarket, totalScoreMarket]: [ethers.BigNumber, ethers.BigNumber, ethers.BigNumber] = await contract.getEventMarkets(eventId)
+    const [headToHeadMarket, spreadMarket, totalScoreMarket]: [
+      ethers.BigNumber,
+      ethers.BigNumber,
+      ethers.BigNumber,
+    ] = await contract.getEventMarkets(eventId)
 
     // only create spread and totalScore markets if lines exist; always create headToHead market
-    let homeSpread = transformSpecialNone(affiliateId && event.lines?.[affiliateId].spread.point_spread_home)
-    let totalScore = transformSpecialNone(affiliateId && event.lines?.[affiliateId].total.total_over)
+    let homeSpread = transformSpecialNone(
+      affiliateId && event.lines?.[affiliateId].spread.point_spread_home,
+    )
+    let totalScore = transformSpecialNone(
+      affiliateId && event.lines?.[affiliateId].total.total_over,
+    )
     const createSpread = homeSpread !== undefined
     const createTotalScore = totalScore !== undefined
     homeSpread = homeSpread || 0
     totalScore = totalScore || 0
-    const canCreate = headToHeadMarket.isZero() || (spreadMarket.isZero() && createSpread) || (totalScoreMarket.isZero() && createTotalScore)
+    const canCreate =
+      headToHeadMarket.isZero() ||
+      (spreadMarket.isZero() && createSpread) ||
+      (totalScoreMarket.isZero() && createTotalScore)
     if (!canCreate) {
       cantCreate++
       continue
@@ -135,7 +154,7 @@ export const create: Execute = async (input) => {
       homeSpread,
       totalScore,
       createSpread,
-      createTotalScore
+      createTotalScore,
     })
   }
 
@@ -146,7 +165,7 @@ export const create: Execute = async (input) => {
   Logger.debug(`Augur theRundown: Skipping ${cantCreate} due to no market to create`)
 
   return Requester.success(input.id, {
-    data: { result: eventsToCreate }
+    data: { result: eventsToCreate },
   })
 }
 
@@ -157,34 +176,34 @@ export const create: Execute = async (input) => {
  * @param {number} val - The value returned from the API
  * @return {number|undefined} Transformed `val`
  */
-const transformSpecialNone = (val?: number) => val === 0.0001 ? undefined : val
+const transformSpecialNone = (val?: number) => (val === 0.0001 ? undefined : val)
 
 const eventStatus: { [key: string]: number } = {
-  'STATUS_SCHEDULED': 1,
-  'STATUS_FINAL': 2,
-  'STATUS_POSTPONED': 3,
-  'STATUS_CANCELED': 4
+  STATUS_SCHEDULED: 1,
+  STATUS_FINAL: 2,
+  STATUS_POSTPONED: 3,
+  STATUS_CANCELED: 4,
 }
 
 const resolveParams = {
-  eventId: true
+  eventId: true,
 }
 
-export const resolve: Execute = async (input) => {
+export const resolve: Execute = async (input, context) => {
   const validator = new Validator(input, resolveParams)
   if (validator.error) throw validator.error
 
   const theRundownExec = TheRundown.makeExecute()
-  const response = (await theRundownExec(input)).result as TheRundownEvent
+  const response = (await theRundownExec(input, context)).result as TheRundownEvent
 
   const event: ResolveEvent = {
     id: eventIdToNum(response.event_id),
     status: eventStatus[response.score.event_status],
     homeScore: response.score.score_home,
-    awayScore: response.score.score_away
+    awayScore: response.score.score_away,
   }
 
   return Requester.success(input.id, {
-    data: { result: event }
+    data: { result: event },
   })
 }

@@ -6,10 +6,10 @@ export const NAME = 'schedule'
 
 const customParams = {
   league: true,
-  season: true
+  season: true,
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, config) => {
+export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 
@@ -19,7 +19,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const url = `/mma/scores/json/Schedule/${league}/${season}`
 
   const params = {
-    key: config.mmaScoresKey
+    key: config.mmaScoresKey,
   }
 
   const options = { ...config.api, params, url }

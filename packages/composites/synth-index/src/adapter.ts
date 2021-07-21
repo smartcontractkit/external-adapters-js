@@ -1,6 +1,6 @@
 import { AdapterError, Validator } from '@chainlink/ea-bootstrap'
 import * as ta from '@chainlink/token-allocation-adapter'
-import { AdapterRequest, AdapterResponse, Execute } from '@chainlink/types'
+import { Execute, ExecuteWithConfig } from '@chainlink/types'
 import Decimal from 'decimal.js'
 import snx from 'synthetix'
 import { SetRequired } from 'type-fest'
@@ -70,7 +70,7 @@ export function getSynthIndexFor(network: string, base: string): SynthIndex | un
   return isSynthIndex(synth) ? synth : undefined
 }
 
-export const execute = async (input: AdapterRequest, config: Config): Promise<AdapterResponse> => {
+export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
 
@@ -82,9 +82,12 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
 
   const allocations = getAllocations(synthIndex)
   const _execute = ta.makeExecute(config.taConfig)
-  return await _execute({ id: validator.validated.id, data: { ...input.data, allocations } })
+  return await _execute(
+    { id: validator.validated.id, data: { ...input.data, allocations } },
+    context,
+  )
 }
 
 export const makeExecute = (config?: Config): Execute => {
-  return async (request: AdapterRequest) => execute(request, config || makeConfig())
+  return async (request, context) => execute(request, context, config || makeConfig())
 }

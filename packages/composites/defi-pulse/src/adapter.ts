@@ -1,5 +1,5 @@
 import { Validator } from '@chainlink/ea-bootstrap'
-import { AdapterResponse, AdapterRequest, Execute } from '@chainlink/types'
+import { AdapterResponse, AdapterRequest, Execute, AdapterContext } from '@chainlink/types'
 import { getAllocations } from './index-allocations'
 import * as TokenAllocation from '@chainlink/token-allocation-adapter'
 import { makeConfig, Config } from './config'
@@ -11,7 +11,11 @@ const customParams = {
   adapter: true,
 }
 
-export const execute = async (input: AdapterRequest, config: Config): Promise<AdapterResponse> => {
+export const execute = async (
+  input: AdapterRequest,
+  context: AdapterContext,
+  config: Config,
+): Promise<AdapterResponse> => {
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
 
@@ -26,9 +30,9 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
   )
 
   const _execute = TokenAllocation.makeExecute()
-  return await _execute({ id: jobRunID, data: { ...input.data, allocations } })
+  return await _execute({ id: jobRunID, data: { ...input.data, allocations } }, context)
 }
 
 export const makeExecute = (config?: Config): Execute => {
-  return async (request: AdapterRequest) => execute(request, config || makeConfig())
+  return async (request, context) => execute(request, context, config || makeConfig())
 }

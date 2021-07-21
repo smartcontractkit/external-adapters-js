@@ -21,7 +21,7 @@ export interface CreateEvent {
   createTotalScore: boolean
 }
 
-export const execute: ExecuteWithConfig<Config> = async (input, config) => {
+export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
   const validator = new Validator(input, createParams)
   if (validator.error) throw validator.error
 
@@ -32,9 +32,9 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
 
   let events: CreateEvent[] = []
   if (sportDataProviderMapping['theRundown'].includes(sport.toUpperCase())) {
-    events = (await theRundown.create(input)).result
+    events = (await theRundown.create(input, context)).result
   } else if (sportDataProviderMapping['sportsdataio'].includes(sport.toUpperCase())) {
-    events = (await sportsdataio.create(input)).result
+    events = (await sportsdataio.create(input, context)).result
   } else {
     throw Error(`Unknown data provider for sport ${sport}`)
   }
@@ -73,10 +73,10 @@ const packCreation = (event: CreateEvent): string => {
       event.homeTeamId,
       event.awayTeamId,
       Math.floor(event.startTime / 1000),
-      Math.round(event.homeSpread*10),
-      Math.round(event.totalScore*10),
-      packCreationFlags(event.createSpread, event.createTotalScore)
-    ]
+      Math.round(event.homeSpread * 10),
+      Math.round(event.totalScore * 10),
+      packCreationFlags(event.createSpread, event.createTotalScore),
+    ],
   )
 
   const mapping = [16, 2, 2, 4, 2, 2, 1]
@@ -84,8 +84,8 @@ const packCreation = (event: CreateEvent): string => {
 }
 
 const packCreationFlags = (createSpread: boolean, createTotalScore: boolean): number => {
-  let flags = 0b00000000;
-  if (createSpread) flags += 0b00000001;
-  if (createTotalScore) flags += 0b00000010;
-  return flags;
+  let flags = 0b00000000
+  if (createSpread) flags += 0b00000001
+  if (createTotalScore) flags += 0b00000010
+  return flags
 }

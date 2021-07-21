@@ -6,7 +6,7 @@ import * as TokenAllocation from '@chainlink/token-allocation-adapter'
 import { AxiosResponse } from 'axios'
 import * as fs from 'fs'
 
-export const execute: ExecuteWithConfig<Config> = async (input, config) => {
+export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
   const validator = new Validator(input)
   if (validator.error) throw validator.error
 
@@ -16,23 +16,23 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const allocations = await parseData(csvData)
 
   const _execute = TokenAllocation.makeExecute()
-  return await _execute({ id: jobRunID, data: { ...input.data, allocations } })
+  return await _execute({ id: jobRunID, data: { ...input.data, allocations } }, context)
 }
 
 export const makeExecute = (config?: Config): Execute => {
-  return async (request) => execute(request, config || makeConfig())
+  return async (request, context) => execute(request, context, config || makeConfig())
 }
 
 const getCsvFile = async (config: Config): Promise<string> => {
   const filePrefix = 'file://'
   if (config.csvURL.startsWith(filePrefix)) {
-    return fs.readFileSync(config.csvURL.substring(filePrefix.length), "utf-8")
+    return fs.readFileSync(config.csvURL.substring(filePrefix.length), 'utf-8')
   }
 
   const options = {
     ...config.api,
-    baseURL: config.csvURL
+    baseURL: config.csvURL,
   }
-  const response = await Requester.request(options) as AxiosResponse<unknown>
+  const response = (await Requester.request(options)) as AxiosResponse<unknown>
   return response.data as string
 }

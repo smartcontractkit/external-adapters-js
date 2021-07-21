@@ -10,12 +10,12 @@ const customError = (data: any) => {
 
 const symbolOptions = (from: string, to: string) => ({
   url: `/api/v2/market/spot/prices/pairs/${from.toLowerCase()}_${to.toLowerCase()}/latest`,
-  params: { includeCrossRates: true }
+  params: { includeCrossRates: true },
 })
 
 const tokenOptions = (from: string, to: string) => ({
   url: `/api/v2/market/defi/prices/pairs/bases/${from}/quotes/${to}/latest`,
-  params: {}
+  params: {},
 })
 
 export const inputParameters: InputParameters = {
@@ -24,7 +24,7 @@ export const inputParameters: InputParameters = {
   includes: false,
 }
 
-export const execute: ExecuteWithConfig<Config> = async (input, config) => {
+export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const validator = new Validator(input, inputParameters)
   if (validator.error) throw validator.error
   const jobRunID = validator.validated.id
@@ -33,13 +33,17 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const reqConfig = { ...config.api, params, url }
 
   const response = await Requester.request(reqConfig, customError)
-  response.data.result = Requester.validateResultNumber(response.data, ['payload', 'price'], { inverse })
+  response.data.result = Requester.validateResultNumber(response.data, ['payload', 'price'], {
+    inverse,
+  })
   return Requester.success(jobRunID, response, config.verbose)
 }
 
-const getOptions = (validator: Validator): {
+const getOptions = (
+  validator: Validator,
+): {
   url: string
-  params: Record<string, unknown>,
+  params: Record<string, unknown>
   inverse?: boolean
 } => {
   const base = validator.overrideSymbol(AdapterName) as string
@@ -50,7 +54,12 @@ const getOptions = (validator: Validator): {
   return includeOptions ?? symbolOptions(base, quote)
 }
 
-const getIncludesOptions = (validator: Validator, from: string, to: string, includes: string[] | Includes[]) => {
+const getIncludesOptions = (
+  validator: Validator,
+  from: string,
+  to: string,
+  includes: string[] | Includes[],
+) => {
   const include = getIncludes(validator, from, to, includes)
   if (!include) return undefined
   if (include.tokens) {
@@ -60,17 +69,22 @@ const getIncludesOptions = (validator: Validator, from: string, to: string, incl
     if (!fromAddress || !toAddress) return undefined
     return {
       ...tokenOptions(fromAddress, toAddress),
-      inverse: include.inverse
+      inverse: include.inverse,
     }
   }
 
   return {
     ...symbolOptions(include.from, include.to),
-    inverse: include.inverse
+    inverse: include.inverse,
   }
 }
 
-const getIncludes = (validator: Validator, from: string, to: string, includes: string[] | Includes[]): Includes | undefined => {
+const getIncludes = (
+  validator: Validator,
+  from: string,
+  to: string,
+  includes: string[] | Includes[],
+): Includes | undefined => {
   if (includes.length === 0) return undefined
 
   if (typeof includes[0] === 'string') {
@@ -78,7 +92,7 @@ const getIncludes = (validator: Validator, from: string, to: string, includes: s
       from,
       to: includes[0],
       inverse: false,
-      tokens: true
+      tokens: true,
     }
   }
 

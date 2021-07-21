@@ -13,7 +13,7 @@ const paramOptions = {
   type: ['ITEM', 'BATCH'],
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, config) => {
+export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters, paramOptions)
   if (validator.error) throw validator.error
 

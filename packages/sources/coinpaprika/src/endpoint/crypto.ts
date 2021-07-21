@@ -25,7 +25,7 @@ export const inputParameters: InputParameters = {
   resultPath: false,
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, config) => {
+export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
   const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
 
@@ -38,7 +38,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   let coin = coinid || (symbol !== validator.validated.data.base && symbol)
   if (!coin) {
     try {
-      const coinIds = await getCoinIds(jobRunID)
+      const coinIds = await getCoinIds(context, jobRunID)
       coin = await getSymbolToId(symbol, coinIds)
     } catch (e) {
       throw new AdapterError({ jobRunID, statusCode: 400, message: e.message })

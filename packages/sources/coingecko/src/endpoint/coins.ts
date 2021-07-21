@@ -11,7 +11,7 @@ export interface CoinsResponse {
   name: string
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, config) => {
+export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request)
   if (validator.error) throw validator.error
 

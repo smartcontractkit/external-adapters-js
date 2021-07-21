@@ -7,9 +7,9 @@ import { ethers } from 'ethers'
 export const NAME = 'format'
 
 export const inputParams = {
-    url: false,
-    chainId: true,
-    blockNumber: true
+  url: false,
+  chainId: true,
+  blockNumber: true,
 }
 
 interface ResponseSchema {
@@ -35,28 +35,32 @@ interface ResponseSchema {
   uncles: string[]
 }
 
-export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, config) => {
-    const validator = new Validator(request, inputParams)
-    if (validator.error) throw validator.error
-    const url = validator.validated.data.url || config.RPC_URL || DEFAULT_RPC_URL
-    const provider = new ethers.providers.JsonRpcProvider(url)
-    const jobRunID = validator.validated.id
+export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, context, config) => {
+  const validator = new Validator(request, inputParams)
+  if (validator.error) throw validator.error
+  const url = validator.validated.data.url || config.RPC_URL || DEFAULT_RPC_URL
+  const provider = new ethers.providers.JsonRpcProvider(url)
+  const jobRunID = validator.validated.id
 
-    const chainId = validator.validated.data.chainId
-    const blockNumber = validator.validated.data.blockNumber
+  const chainId = validator.validated.data.chainId
+  const blockNumber = validator.validated.data.blockNumber
 
-    const block = await provider.getBlock(blockNumber)
+  const block = await provider.getBlock(blockNumber)
 
-    const response = await JSONRPC.execute({
+  const response = await JSONRPC.execute(
+    {
       ...request,
       data: { ...request.data, method: 'eth_getBlockByHash', params: [block.hash, false] },
-    }, config)
-    const coder = new ethers.utils.AbiCoder()
-    response.data.result = coder.encode(
-      ['uint8', 'bytes32', 'bytes32'],
-      [chainId, response.data.result.hash, response.data.result.receiptsRoot]
-    )
-    response.data = response.data as ResponseSchema
-    response.data.result = response.data.result.slice(2)
-    return Requester.success(jobRunID, response)
-  }
+    },
+    context,
+    config,
+  )
+  const coder = new ethers.utils.AbiCoder()
+  response.data.result = coder.encode(
+    ['uint8', 'bytes32', 'bytes32'],
+    [chainId, response.data.result.hash, response.data.result.receiptsRoot],
+  )
+  response.data = response.data as ResponseSchema
+  response.data.result = response.data.result.slice(2)
+  return Requester.success(jobRunID, response)
+}

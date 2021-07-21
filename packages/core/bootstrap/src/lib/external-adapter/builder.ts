@@ -5,6 +5,7 @@ import {
   APIEndpoint,
   AdapterResponse,
   InputParameters,
+  AdapterContext,
 } from '@chainlink/types'
 import { logger } from '../external-adapter'
 
@@ -85,6 +86,7 @@ const selectEndpoint = (
 
 const buildSelector = (
   request: AdapterRequest,
+  context: AdapterContext,
   config: Config,
   apiEndpoints: Record<string, APIEndpoint>,
   customParams?: InputParameters,
@@ -94,10 +96,10 @@ const buildSelector = (
   const apiEndpoint = selectEndpoint(request, config, apiEndpoints, customParams)
 
   if (typeof apiEndpoint.execute === 'function') {
-    return apiEndpoint.execute(request, config)
+    return apiEndpoint.execute(request, context, config)
   }
   if (typeof apiEndpoint.makeExecute === 'function') {
-    return apiEndpoint.makeExecute(config)(request)
+    return apiEndpoint.makeExecute(config)(request, context)
   }
   throw new AdapterError({
     message: `Internal error: no execute handler found.`,

@@ -244,7 +244,13 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
             const response = wsHandler.toResponse(action.payload.message)
             if (!response) return action
             const execute: Execute = () => Promise.resolve(response)
-            const cache = await withCache(execute)
+            let context = state.ws.subscriptions.all[action.payload.subscriptionKey]?.context
+            if (!context) {
+              logger.warn(`WS Unsubscribe No Response: Could not find context`)
+              context = {}
+            }
+
+            const cache = await withCache(execute, context)
             /**
              * Create an adapter request we send to the cache middleware
              * so it uses the following object for setting cache keys
@@ -255,7 +261,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
               debug: { ws: true },
               metricsMeta: { feedId: getFeedId(input) },
             }
-            await cache(wsResponse)
+            await cache(wsResponse, context)
             logger.trace('WS: Saved result', { input, result: response.result })
           } catch (e) {
             logger.error(`WS: Cache error: ${e.message}`)
@@ -300,18 +306,28 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
             },
             state,
           ]) => {
-            const input = state.ws.subscriptions.all[subscriptionKey]?.input || {}
-            if (!input) logger.warn(`WS: Could not find subscription from incoming message`)
+            let input = state.ws.subscriptions.all[subscriptionKey]?.input
+            if (!input) {
+              logger.warn(`WS: Could not find subscription from incoming message`)
+              input = {} as AdapterRequest
+            }
 
             const reset$ = message$.pipe(
               filter(({ payload }) => subscriptionKey === payload.subscriptionKey),
               take(1),
             )
 
+            let context = state.ws.subscriptions.all[subscriptionKey]?.context
+            if (!context) {
+              logger.warn(`WS Unsubscribe No Response: Could not find context`)
+              context = {}
+            }
+
             const action = {
               input,
               subscriptionMsg: wsHandler.subscribe(input),
               connectionInfo: { key: connectionKey, url },
+              context,
             }
 
             const timeout$ = of(

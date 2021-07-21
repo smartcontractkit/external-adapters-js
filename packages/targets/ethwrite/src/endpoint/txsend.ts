@@ -26,7 +26,7 @@ const customParams = {
   dataToSend: false,
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, config) => {
+export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl)
   const wallet = new ethers.Wallet(config.privateKey, provider)
 

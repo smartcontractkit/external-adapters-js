@@ -1,4 +1,4 @@
-import { Logger, Requester, util } from '@chainlink/ea-bootstrap'
+import { Requester, util } from '@chainlink/ea-bootstrap'
 import types from '@chainlink/types'
 import { send } from './endpoint'
 
@@ -26,11 +26,4 @@ export const makeConfig = (prefix?: string): Config => {
     starkMessage: util.getRequiredEnv(ENV_STARK_MESSAGE, prefix),
     oracleName: util.getRequiredEnv(ENV_ORACLE_NAME, prefix),
   }
-}
-
-// Config without sensitive data
-const redact = (config: Config) => ({ ...config, apiKey: '*****', privateKey: '*****' })
-
-export function logConfig(config: Config): void {
-  Logger.debug('Adapter configuration:', { config: config && redact(config) })
 }

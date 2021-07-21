@@ -6,6 +6,7 @@ import {
   ExecuteFactory,
   Execute,
   AdapterResponse,
+  AdapterContext,
 } from '@chainlink/types'
 import { Validator, Requester } from '@chainlink/ea-bootstrap'
 import { makeConfig, makeOptions, getURL, DEFAULT_CONFIRMATIONS } from './config'
@@ -26,8 +27,13 @@ export const makeRequestFactory = (config: Config, prefix: string): Execute => a
   ).data as AdapterResponse
 
 // Run, log, throw on error
-export const callAdapter = async (execute: Execute, input: AdapterRequest, tag: string) => {
-  const output = await execute(input)
+export const callAdapter = async (
+  execute: Execute,
+  context: AdapterContext,
+  input: AdapterRequest,
+  tag: string,
+): Promise<AdapterResponse> => {
+  const output = await execute(input, context)
   Logger.debug(tag, { output })
   return output
 }
@@ -38,7 +44,7 @@ const inputParams = {
   confirmations: false,
 }
 
-export const execute: ExecuteWithConfig<Config> = async (input, config) => {
+export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
   const paramOptions = makeOptions()
   const validator = new Validator(input, inputParams, paramOptions)
   if (validator.error) throw validator.error
@@ -48,12 +54,18 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const indexer: Indexer = validator.validated.data.indexer.toUpperCase()
   const confirmations = validator.validated.data.confirmations || DEFAULT_CONFIRMATIONS
 
-  const protocolOutput = await runProtocolAdapter(jobRunID, protocol, input.data, config)
-  const balanceOutput = await runBalanceAdapter(indexer, confirmations, config, protocolOutput)
-  const reduceOutput = await runReduceAdapter(indexer, balanceOutput)
+  const protocolOutput = await runProtocolAdapter(jobRunID, context, protocol, input.data, config)
+  const balanceOutput = await runBalanceAdapter(
+    indexer,
+    context,
+    confirmations,
+    config,
+    protocolOutput,
+  )
+  const reduceOutput = await runReduceAdapter(indexer, context, balanceOutput)
   return reduceOutput
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {
-  return async (request) => execute(request, config || makeConfig())
+  return async (request, context) => execute(request, context, config || makeConfig())
 }

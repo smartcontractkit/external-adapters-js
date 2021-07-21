@@ -27,7 +27,7 @@ const customParams = {
   onchain_threshold: false,
 }
 
-const execute: ExecuteWithConfig<Config> = async (input, config) => {
+const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const paramOptions = makeOptions(config)
   const validator = new Validator(input, customParams, paramOptions)
   if (validator.error) throw validator.error
@@ -105,5 +105,5 @@ const success = (jobRunID: string, result: number): AdapterResponse => {
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {
-  return async (request) => execute(request, config || makeConfig())
+  return async (request, context) => execute(request, context, config || makeConfig())
 }

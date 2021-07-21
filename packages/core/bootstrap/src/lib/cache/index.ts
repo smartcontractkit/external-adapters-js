@@ -1,4 +1,10 @@
-import { AdapterRequest, AdapterResponse, Middleware, APIEndpoint } from '@chainlink/types'
+import {
+  AdapterContext,
+  AdapterRequest,
+  AdapterResponse,
+  Middleware,
+  APIEndpoint,
+} from '@chainlink/types'
 import hash from 'object-hash'
 import { logger, normalizeInput } from '../external-adapter'
 import {
@@ -16,6 +22,9 @@ import * as metrics from './metrics'
 import * as redis from './redis'
 import { CacheEntry } from './types'
 
+const env = process.env
+export const CACHE_ENABLED = parseBool(env.CACHE_ENABLED)
+
 const DEFAULT_CACHE_TYPE = 'local'
 const DEFAULT_CACHE_KEY_GROUP = uuid()
 // Request coalescing
@@ -26,10 +35,29 @@ const DEFAULT_RC_ENTROPY_MAX = 0
 
 export const MINIMUM_AGE = 1000 * 60 * 0.5 // 30 seconds
 
-const env = process.env
-export const defaultOptions = () => ({
-  enabled: parseBool(env.CACHE_ENABLED),
-  cacheOptions: defaultCacheOptions(),
+export type Cache = redis.RedisCache | local.LocalLRUCache
+
+export interface CacheOptions {
+  instance?: Cache
+  enabled: boolean
+  cacheImplOptions: local.LocalOptions | redis.RedisOptions
+  cacheBuilder: (options: CacheImplOptions) => Promise<redis.RedisCache | local.LocalLRUCache>
+  key: {
+    group: string
+  }
+  requestCoalescing: {
+    enabled: boolean
+    interval: number
+    intervalMax: number
+    intervalCoefficient: number
+    entropyMax: number
+  }
+  minimumAge: number
+}
+
+export const defaultOptions = (): CacheOptions => ({
+  enabled: CACHE_ENABLED,
+  cacheImplOptions: defaultCacheImplOptions(),
   cacheBuilder: defaultCacheBuilder(),
   key: {
     group: env.CACHE_KEY_GROUP || DEFAULT_CACHE_KEY_GROUP,
@@ -47,37 +75,23 @@ export const defaultOptions = () => ({
   },
   minimumAge: Number(env.CACHE_MIN_AGE) || MINIMUM_AGE,
 })
-export type CacheOptions = ReturnType<typeof defaultOptions>
 
-const defaultCacheOptions = (): LocalOptions | redis.RedisOptions => {
+export type CacheImplOptions = LocalOptions | redis.RedisOptions
+const defaultCacheImplOptions = (): CacheImplOptions => {
   const type = env.CACHE_TYPE || DEFAULT_CACHE_TYPE
   const options = type === 'redis' ? redis.defaultOptions() : local.defaultOptions()
   return options
 }
-export type CacheImplOptions = ReturnType<typeof defaultCacheOptions>
-
-// TODO: Revisit this after we stop to reinitialize middleware on every request
-// We store the local LRU cache instance, so it's not reinitialized on every request
-let localLRUCache: local.LocalLRUCache
-let cache: redis.RedisCache | local.LocalLRUCache
 
 const defaultCacheBuilder = () => {
   return async (options: CacheImplOptions) => {
     switch (options.type) {
       case 'redis': {
-        if (!cache) {
-          cache = await redis.RedisCache.build(options as redis.RedisOptions)
-        }
-        return cache
+        return await redis.RedisCache.build(options as redis.RedisOptions)
       }
 
       default: {
-        if (!cache) {
-          cache = await Promise.resolve(
-            localLRUCache || (localLRUCache = new local.LocalLRUCache(options)),
-          )
-        }
-        return cache
+        return await Promise.resolve(new local.LocalLRUCache(options))
       }
     }
   }
@@ -86,21 +100,23 @@ const defaultCacheBuilder = () => {
 // Options without sensitive data
 export const redactOptions = (options: CacheOptions): CacheOptions => ({
   ...options,
-  cacheOptions:
-    options.cacheOptions.type === 'redis'
-      ? redis.redactOptions(options.cacheOptions as redis.RedisOptions)
-      : local.redactOptions(options.cacheOptions),
+  cacheImplOptions:
+    options.cacheImplOptions.type === 'redis'
+      ? redis.redactOptions(options.cacheImplOptions as redis.RedisOptions)
+      : local.redactOptions(options.cacheImplOptions),
 })
 
 export const withCache: Middleware = async (
   execute,
+  context: AdapterContext,
   endpointSelector?: (request: AdapterRequest) => APIEndpoint,
-  options: CacheOptions = defaultOptions(),
 ) => {
+  const {
+    cache: options,
+    cache: { instance: cache },
+  } = context
   // If disabled noop
-  if (!options.enabled) return (data: AdapterRequest) => execute(data)
-
-  const cache = await options.cacheBuilder(options.cacheOptions)
+  if (!cache) return (data: AdapterRequest) => execute(data, context)
 
   // Algorithm we use to derive entry key
   const hashOptions = getHashOpts()
@@ -197,7 +213,7 @@ export const withCache: Middleware = async (
     // Initiate request coalescing by adding the in-flight mark
     await _setInFlightMarker(coalescingKey, maxAge)
 
-    const result = await execute(adapterRequest)
+    const result = await execute(adapterRequest, context)
 
     // Add successful result to cache
     const _cacheOnSuccess = async ({

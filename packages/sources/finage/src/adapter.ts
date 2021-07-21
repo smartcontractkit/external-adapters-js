@@ -1,4 +1,4 @@
-import { ExecuteWithConfig, ExecuteFactory, Config} from '@chainlink/types'
+import { ExecuteWithConfig, ExecuteFactory, Config } from '@chainlink/types'
 import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
 import { util } from '@chainlink/ea-bootstrap'
 import { makeConfig, NAME } from './config'
@@ -10,7 +10,7 @@ const customParams = {
 
 const DEFAULT_ENDPOINT = 'stock'
 
-export const execute: ExecuteWithConfig<Config> = async (request, config) => {
+export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 
@@ -60,5 +60,5 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {
-  return async (request) => execute(request, config || makeConfig())
+  return async (request, context) => execute(request, context, config || makeConfig())
 }

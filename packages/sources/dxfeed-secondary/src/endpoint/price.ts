@@ -9,7 +9,7 @@ const customParams = {
   base: ['base', 'from', 'coin', 'market'],
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, config) => {
+export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 
@@ -17,5 +17,5 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   request.data.base = symbol
 
   const exec = dxfeed.makeExecute(config)
-  return exec(request)
+  return exec(request, context)
 }

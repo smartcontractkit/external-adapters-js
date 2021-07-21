@@ -1,5 +1,10 @@
 // Declare missing type definitions
 declare module '@chainlink/types' {
+  import type { CacheOptions } from '@chainlink/ea-bootstrap'
+  export interface AdapterContext {
+    cache?: CacheOptions
+  }
+
   /* REQUESTS */
   export type AdapterRequestMeta = {
     availableFunds?: number
@@ -82,7 +87,11 @@ declare module '@chainlink/types' {
   }
 
   /* BOOTSTRAP */
-  export type Middleware = (execute: Execute, ...args: any) => Promise<Execute>
+  export type Middleware = (
+    execute: Execute,
+    context: AdapterContext,
+    ...args: any
+  ) => Promise<Execute>
   export type Callback = (statusCode: number, data?: any) => void
   export type AdapterHealthCheck = (callback: Callback) => any
 
@@ -97,12 +106,17 @@ declare module '@chainlink/types' {
     defaultEndpoint?: string
   }
 
-  export type ExecuteSync = (input: AdapterRequest, callback: Callback) => void
-
-  export type Execute = (input: AdapterRequest) => Promise<AdapterResponse>
+  export type Execute = (input: AdapterRequest, context: AdapterContext) => Promise<AdapterResponse>
+  export type ExecuteSync = (
+    input: AdapterRequest,
+    execute: Execute,
+    context: AdapterContext,
+    callback: Callback,
+  ) => void
 
   export type ExecuteWithConfig<C extends Config> = (
     input: AdapterRequest,
+    context: AdapterContext,
     config: C,
   ) => Promise<AdapterResponse>
 
@@ -180,9 +194,9 @@ declare module '@chainlink/types' {
   // Includes is an alternative symbol mapping that can be used to represent
   // the original request, such as wrapped tokens on DEXes.
   export type Includes = {
-    from: string, // From symbol
-    to: string, // To symbol
-    adapters?: string[], // Array of adapters this applies to
+    from: string // From symbol
+    to: string // To symbol
+    adapters?: string[] // Array of adapters this applies to
     inverse?: boolean // If the inverse should be calculated instead
     tokens?: boolean // If the token addresses should be used instead
   }

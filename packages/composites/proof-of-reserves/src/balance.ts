@@ -1,4 +1,10 @@
-import { AdapterImplementation, AdapterResponse, Config, Account } from '@chainlink/types'
+import {
+  AdapterImplementation,
+  AdapterResponse,
+  Config,
+  Account,
+  AdapterContext,
+} from '@chainlink/types'
 import { callAdapter, makeRequestFactory } from './adapter'
 // balance adapters
 import amberdata from '@chainlink/amberdata-adapter'
@@ -26,6 +32,7 @@ export type Indexer = typeof adapters[number]['NAME']
 // Get balances for address set
 export const runBalanceAdapter = async (
   indexer: Indexer,
+  context: AdapterContext,
   confirmations: number,
   config: Config,
   input: AdapterResponse,
@@ -43,7 +50,7 @@ export const runBalanceAdapter = async (
             confirmations,
           },
         }
-  return callAdapter(execute, next, '_onBalance')
+  return callAdapter(execute, context, next, '_onBalance')
 }
 
 const buildLocalBitcoinNodeRequest = (input: AdapterResponse) => {

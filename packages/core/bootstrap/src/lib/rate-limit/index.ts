@@ -1,4 +1,4 @@
-import { AdapterRequest, Middleware, APIEndpoint } from '@chainlink/types'
+import { AdapterRequest, Middleware } from '@chainlink/types'
 import hash from 'object-hash'
 import { Store } from 'redux'
 import { successfulRequestObserved } from './actions'
@@ -15,7 +15,6 @@ import {
 } from './reducer'
 export * as actions from './actions'
 export * as reducer from './reducer'
-import { normalizeInput } from '../external-adapter'
 
 /**
  * Calculates how much capacity a participant deserves based on its weight on the adapter
@@ -68,19 +67,17 @@ export const maxAgeFor = (throughput: number, interval: number) =>
 
 export const withRateLimit = (store: Store<RootState>): Middleware => async (
   execute,
-  endpointSelector?: (request: AdapterRequest) => APIEndpoint,
+  context,
 ) => async (input) => {
-  if (!config.get().enabled) return await execute(input)
+  if (!config.get().enabled) return await execute(input, context)
   let state = store.getState()
   const { heartbeats } = state
   const requestTypeId = makeId(input)
   const maxThroughput = computeThroughput(heartbeats, IntervalNames.HOUR, requestTypeId)
   const maxAge = maxAgeFor(maxThroughput, Intervals[IntervalNames.MINUTE])
-  const result = await execute({ ...input, rateLimitMaxAge: maxAge })
+  const result = await execute({ ...input, rateLimitMaxAge: maxAge }, context)
 
-  const normalizedInput = endpointSelector ? normalizeInput(input, endpointSelector(input)) : input
-
-  store.dispatch(successfulRequestObserved(normalizedInput, result))
+  store.dispatch(successfulRequestObserved(input, result))
   state = store.getState()
 
   const defaultLabels = {

@@ -1,4 +1,4 @@
-import { AdapterImplementation, Config, AdapterResponse } from '@chainlink/types'
+import { AdapterImplementation, Config, AdapterResponse, AdapterContext } from '@chainlink/types'
 import { Requester } from '@chainlink/ea-bootstrap'
 import { callAdapter, makeRequestFactory } from './adapter'
 // protocol adapters
@@ -14,6 +14,7 @@ export type Protocol = typeof adapters[number]['NAME']
 // Get address set for protocol
 export const runProtocolAdapter = async (
   jobRunID: string,
+  context: AdapterContext,
   protocol: Protocol,
   data: any,
   config: Config,
@@ -25,7 +26,7 @@ export const runProtocolAdapter = async (
     id: jobRunID,
     data,
   }
-  return callAdapter(execute, next, '_onProtocol')
+  return callAdapter(execute, context, next, '_onProtocol')
 }
 
 const listAdapter = (jobRunID: string, data: any) => {

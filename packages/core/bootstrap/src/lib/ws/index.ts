@@ -1,9 +1,8 @@
-import { AdapterRequest, MakeWSHandler, Middleware, APIEndpoint } from '@chainlink/types'
+import { AdapterRequest, MakeWSHandler, Middleware } from '@chainlink/types'
 import { Store } from 'redux'
 import { connectRequested, subscribeRequested, WSSubscriptionPayload } from './actions'
 import { getWSConfig } from './config'
 import { RootState } from './reducer'
-import { normalizeInput } from '../external-adapter'
 
 export * as actions from './actions'
 export * as config from './config'
@@ -14,20 +13,15 @@ export * as types from './types'
 export const withWebSockets = (
   store: Store<RootState>,
   makeWsHandler?: MakeWSHandler,
-): Middleware => async (
-  execute,
-  endpointSelector?: (request: AdapterRequest) => APIEndpoint,
-) => async (input: AdapterRequest) => {
+): Middleware => async (execute, context) => async (input: AdapterRequest) => {
   const wsConfig = getWSConfig()
-  if (!makeWsHandler || !wsConfig.enabled) return await execute(input) // ignore middleware if conditions are met
+  if (!makeWsHandler || !wsConfig.enabled) return await execute(input, context) // ignore middleware if conditions are met
 
   const wsHandler = await makeWsHandler()
   store.dispatch(connectRequested({ config: wsConfig, wsHandler }))
 
   const subscriptionMsg = wsHandler.subscribe(input)
-  if (!subscriptionMsg) return await execute(input)
-
-  const normalizedInput = endpointSelector ? normalizeInput(input, endpointSelector(input)) : input
+  if (!subscriptionMsg) return await execute(input, context)
 
   const subscriptionPayload: WSSubscriptionPayload = {
     connectionInfo: {
@@ -35,9 +29,10 @@ export const withWebSockets = (
       url: wsHandler.connection.url,
     },
     subscriptionMsg,
-    input: normalizedInput,
+    input,
+    context,
   }
 
   store.dispatch(subscribeRequested(subscriptionPayload))
-  return await execute(input)
+  return await execute(input, context)
 }
