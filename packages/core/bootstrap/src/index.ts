@@ -55,19 +55,6 @@ const storeSlice = (slice: any) =>
     dispatch: (a) => store.dispatch(a),
   } as Store)
 
-// Try to initialize, pass through on error
-const skipOnError = (middleware: Middleware) => async (
-  execute: Execute,
-  context: AdapterContext,
-) => {
-  try {
-    return await middleware(execute, context)
-  } catch (error) {
-    Logger.warn(`${middleware.name} middleware initialization error! Passing through. `, error)
-    return execute
-  }
-}
-
 // Make sure data has the same statusCode as the one we got as a result
 const withStatusCode: Middleware = async (execute, context) => async (input) => {
   const { statusCode, data, ...rest } = await execute(input, context)
@@ -160,7 +147,7 @@ export const makeMiddleware = (
   endpointSelector?: (request: AdapterRequest) => APIEndpoint,
 ): Middleware[] => {
   const warmerMiddleware = [
-    skipOnError(withCache),
+    withCache,
     rateLimit.withRateLimit(storeSlice('rateLimit')),
     withStatusCode,
     withNormalizedInput(endpointSelector),
@@ -168,7 +155,7 @@ export const makeMiddleware = (
 
   return [
     withLogger,
-    skipOnError(withCache),
+    withCache,
     cacheWarmer.withCacheWarmer(storeSlice('cacheWarmer'), warmerMiddleware, {
       store: storeSlice('ws'),
       makeWSHandler: makeWsHandler,

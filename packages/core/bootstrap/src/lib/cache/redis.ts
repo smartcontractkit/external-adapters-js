@@ -77,6 +77,8 @@ export class RedisCache {
   watchdog?: ReturnType<typeof setInterval>
 
   constructor(options: RedisOptions) {
+    logger.info('Creating new redis client instance...')
+
     this.options = options
     const client = createClient({ ...options, retry_strategy: retryStrategy })
     client.on('error', (err) => logger.error('Error connecting to Redis. ', err))
@@ -92,6 +94,8 @@ export class RedisCache {
   }
 
   initialize(options: RedisOptions): void {
+    logger.info('Creating new redis client instance...')
+
     const client = createClient({ ...options, retry_strategy: retryStrategy })
     client.on('error', (err) => logger.error('Error connecting to Redis. ', err))
     client.on('end', () => logger.error('Redis connection ended.'))
@@ -105,7 +109,7 @@ export class RedisCache {
     this.client = client
   }
 
-  private async connect() {
+  async connect() {
     if (!this.options.password) return
 
     return this.contextualTimeout(this._auth(this.options.password), 'connect', {
@@ -117,12 +121,11 @@ export class RedisCache {
     if (this.client.connected) {
       return
     }
-    while (!this.client.connected) {
-      try {
-        this.initialize(this.options)
-      } catch (err) {
-        logger.warn(`Failed to recreate redis client: [${err.message}]`)
-      }
+    try {
+      this.initialize(this.options)
+      this.connect()
+    } catch (err) {
+      logger.warn(`Failed to recreate redis client: [${err.message}]`)
     }
   }
 
@@ -137,11 +140,13 @@ export class RedisCache {
   }
 
   static async build(options: RedisOptions) {
-    logger.info('Creating new redis client instance...')
     redis_connections_open.inc()
     const cache = new RedisCache(options)
-    await cache.connect()
-    cache.startWatching()
+    try {
+      await cache.connect()
+    } finally {
+      cache.startWatching()
+    }
     return cache
   }
 

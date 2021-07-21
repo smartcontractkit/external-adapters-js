@@ -257,6 +257,11 @@ export const withCache: Middleware = async (execute, context: AdapterContext) =>
 
   // Middleware wrapped execute fn which cleans up after
   return async (input) => {
-    return await _executeWithCache(input)
+    try {
+      return await _executeWithCache(input)
+    } catch (err) {
+      logger.warn(`Cache middleware error! Passing through. `, err)
+      return await execute(input, context)
+    }
   }
 }
