@@ -24,7 +24,7 @@ function getNextWeekResolutionTimestamp(contract: ethers.Contract) {
     )
   }
 
-  return nowEastern.plus({ week: 1 }).set({ weekday: 4, hour: 16, minute: 0, second: 0, millisecond: 0 }).toSeconds()
+  return nowEastern.plus({ week: 1 }).set({ weekday: 5, hour: 16, minute: 0, second: 0, millisecond: 0 }).toSeconds()
 }
 
 
