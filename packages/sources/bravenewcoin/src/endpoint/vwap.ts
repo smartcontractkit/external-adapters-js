@@ -10,7 +10,7 @@ export const inputParameters: InputParameters = {
   timestamp: false, // TODO: currently unused, deprecate or utilize me
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, config) => {
+export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
 

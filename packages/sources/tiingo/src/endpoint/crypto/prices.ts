@@ -40,7 +40,7 @@ export const inputParameters: InputParameters = {
 // When an invalid symbol is given the response body is empty
 const customError = (data: ResponseSchema[]) => !data.length
 
-export const execute: ExecuteWithConfig<Config> = async (request, config) => {
+export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
 

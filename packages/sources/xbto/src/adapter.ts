@@ -10,7 +10,7 @@ const endpoints: Record<string, string> = {
   wti: 'api/index_cl',
 }
 
-export const execute: ExecuteWithConfig<Config> = async (input, config) => {
+export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
 
@@ -39,5 +39,5 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
 export const makeConfig = (prefix?: string): Config => Requester.getDefaultConfig(prefix)
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {
-  return async (request) => execute(request, config || makeConfig())
+  return async (request, context) => execute(request, context, config || makeConfig())
 }

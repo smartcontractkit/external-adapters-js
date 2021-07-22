@@ -12,7 +12,7 @@ export const inputParameters: InputParameters = {
   resultPath: false,
 }
 
-export const execute: ExecuteWithConfig<Config> = async (input, config) => {
+export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const validator = new Validator(input, inputParameters)
   if (validator.error) throw validator.error
   const jobRunID = validator.validated.id

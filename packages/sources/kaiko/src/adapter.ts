@@ -24,7 +24,7 @@ const symbolUrl = (from: string, to: string) =>
 const directUrl = (from: string, to: string) =>
   `/spot_direct_exchange_rate/${from.toLowerCase()}/${to.toLowerCase()}`
 
-export const execute: ExecuteWithConfig<Config> = async (request, config) => {
+export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
   Requester.logConfig(config)
@@ -58,17 +58,19 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
     // sometimes, the most recent(fraction of a second) data contain null price
     response.data.data.filter((x: any) => x.price !== null),
     [0, 'price'],
-    { inverse }
+    { inverse },
   )
 
   return Requester.success(jobRunID, response, config.verbose)
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {
-  return async (request) => execute(request, config || makeConfig())
+  return async (request, context) => execute(request, context, config || makeConfig())
 }
 
-const getOptions = (validator: Validator): {
+const getOptions = (
+  validator: Validator,
+): {
   url: string
   inverse?: boolean
 } => {
@@ -77,28 +79,40 @@ const getOptions = (validator: Validator): {
   const includes = validator.validated.data.includes || []
 
   const includeOptions = getIncludesOptions(validator, base, quote, includes)
-  return includeOptions ?? {
-    url: symbolUrl(base, quote)
-  }
+  return (
+    includeOptions ?? {
+      url: symbolUrl(base, quote),
+    }
+  )
 }
 
-const getIncludesOptions = (validator: Validator, from: string, to: string, includes: string[] | Includes[]) => {
+const getIncludesOptions = (
+  validator: Validator,
+  from: string,
+  to: string,
+  includes: string[] | Includes[],
+) => {
   const include = getIncludes(validator, from, to, includes)
   if (!include) return undefined
   return {
     url: directUrl(include.from, include.to),
-    inverse: include.inverse
+    inverse: include.inverse,
   }
 }
 
-const getIncludes = (validator: Validator, from: string, to: string, includes: string[] | Includes[]): Includes | undefined => {
+const getIncludes = (
+  validator: Validator,
+  from: string,
+  to: string,
+  includes: string[] | Includes[],
+): Includes | undefined => {
   if (includes.length === 0) return undefined
 
   if (typeof includes[0] === 'string') {
     return {
       from,
       to: includes[0],
-      inverse: false
+      inverse: false,
     }
   }
   return validator.overrideIncludes(AdapterName, from, to, includes as Includes[])

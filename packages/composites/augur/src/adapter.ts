@@ -4,10 +4,10 @@ import { resolveMarkets, createMarkets } from './methods'
 import { Config, makeConfig } from './config'
 
 const customParams = {
-  method: true
+  method: true,
 }
 
-export const execute: ExecuteWithConfig<Config> = async (input, config) => {
+export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
 
@@ -16,9 +16,9 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
 
   switch (method.toLowerCase()) {
     case 'resolve':
-      return resolveMarkets.execute(input, config)
+      return resolveMarkets.execute(input, context, config)
     case 'create':
-      return createMarkets.execute(input, config)
+      return createMarkets.execute(input, context, config)
     default:
       throw new AdapterError({
         jobRunID,
@@ -29,5 +29,5 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
 }
 
 export const makeExecute = (): Execute => {
-  return async (request: AdapterRequest) => execute(request, makeConfig())
+  return async (request: AdapterRequest, context) => execute(request, context, makeConfig())
 }

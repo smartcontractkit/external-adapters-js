@@ -3,11 +3,11 @@ import { Config, ExecuteWithConfig, ExecuteFactory, MakeWSHandler } from '@chain
 import { makeConfig } from './config'
 import * as endpoints from './endpoint'
 
-export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-  return Builder.buildSelector(request, config, endpoints)
+export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
+  return Builder.buildSelector(request, context, config, endpoints)
 }
 export const makeExecute: ExecuteFactory<Config> = (config) => {
-  return async (request) => execute(request, config || makeConfig())
+  return async (request, context) => execute(request, context, config || makeConfig())
 }
 
 export interface WebsocketResponseSchema {
@@ -49,7 +49,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
           key: `${asset}${metrics}`,
           url,
         }
-      }
+      },
     }
   }
 }

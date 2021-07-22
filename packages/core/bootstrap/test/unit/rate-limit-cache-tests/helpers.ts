@@ -1,18 +1,12 @@
-import { AdapterRequest, Execute } from '@chainlink/types'
+import { AdapterContext, AdapterRequest, Execute } from '@chainlink/types'
 import { combineReducers, Store } from 'redux'
 import { useFakeTimers } from 'sinon'
 import { withDebug } from '../../../src'
-import { withCache } from '../../../src/lib/cache'
+import { defaultOptions, withCache } from '../../../src/lib/cache'
 import * as cacheWarmer from '../../../src/lib/cache-warmer'
 import * as rateLimit from '../../../src/lib/rate-limit'
 import { configureStore } from '../../../src/lib/store'
-
-export const withMiddleware = async (execute: Execute, middlewares: any[]) => {
-  for (let i = 0; i < middlewares.length; i++) {
-    execute = await middlewares[i](execute)
-  }
-  return execute
-}
+import { withMiddleware } from '../../../src/index'
 
 export const newStore = () => {
   const initState = { cacheWarmer: {}, rateLimit: {} }
@@ -25,7 +19,14 @@ export const newStore = () => {
 }
 
 export const makeExecuteWithWarmer = async (execute: Execute, store: Store) => {
-  const executeWithMiddleware = await withMiddleware(execute, [
+  const options = defaultOptions()
+  const context: AdapterContext = {
+    cache: {
+      ...defaultOptions(),
+      instance: await options.cacheBuilder(options.cacheImplOptions),
+    },
+  }
+  const executeWithMiddleware = await withMiddleware(execute, context, [
     withCache,
     rateLimit.withRateLimit({
       getState: () => store.getState().rateLimit,
@@ -34,7 +35,7 @@ export const makeExecuteWithWarmer = async (execute: Execute, store: Store) => {
     withDebug,
   ])
   return async (data: AdapterRequest) => {
-    const result = await executeWithMiddleware(data)
+    const result = await executeWithMiddleware(data, context)
     store.dispatch(
       cacheWarmer.actions.warmupSubscribed({
         id: data.id,

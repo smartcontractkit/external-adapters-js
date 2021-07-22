@@ -7,7 +7,7 @@ export const inputParameters: InputParameters = {}
 
 const customError = (data: any) => data.Response === 'Error'
 
-export const execute: ExecuteWithConfig<Config> = async (request, config) => {
+export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, {})
   if (validator.error) throw validator.error
   const jobRunID = validator.validated.id

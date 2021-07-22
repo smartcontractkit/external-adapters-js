@@ -10,7 +10,7 @@ export const inputParams = {
   cd: false,
 }
 
-const execute: ExecuteWithConfig<Config> = async (input, config) => {
+const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const validator = new Validator(input, inputParams)
   if (validator.error) throw validator.error
 
@@ -45,5 +45,5 @@ const execute: ExecuteWithConfig<Config> = async (input, config) => {
   )
 }
 
-export const makeExecute: ExecuteFactory<Config> = (config?: Config) => (input) =>
-  execute(input, config || makeConfig())
+export const makeExecute: ExecuteFactory<Config> = (config?: Config) => (input, context) =>
+  execute(input, context, config || makeConfig())

@@ -64,7 +64,7 @@ const handleBatchedRequest = (
   return Requester.success(jobRunID, response, true, ['base', 'quote'])
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, config) => {
+export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
   const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
 
@@ -77,7 +77,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   let ids = coinid
   if (!ids) {
     try {
-      const coinIds = await getCoinIds(jobRunID)
+      const coinIds = await getCoinIds(context, jobRunID)
       const symbols = Array.isArray(base) ? base : [base]
       idToSymbol = getSymbolsToIds(symbols, coinIds)
       ids = Object.keys(idToSymbol).join(',')
