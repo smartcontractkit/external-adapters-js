@@ -13,7 +13,7 @@ export const supportedEndpoints = ['crypto', 'price', 'marketcap']
 export const endpointResultPaths = {
   crypto: 'price',
   price: 'price',
-  marketcap: 'marketc_ap',
+  marketcap: 'market_cap',
 }
 
 interface ResponseSchema {
