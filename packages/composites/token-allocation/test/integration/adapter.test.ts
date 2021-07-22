@@ -78,7 +78,7 @@ Requester.request = (request: any) => {
         "statusCode": 200
     }
 }
-const getPriceRequest = (source: string, method: string = "price", quote: string = "EUR"): AdapterRequest => ({ 
+const getPriceRequest = (source: string, method = "price", quote = "EUR"): AdapterRequest => ({ 
     id: jobRunID,
     data: {
       source,
