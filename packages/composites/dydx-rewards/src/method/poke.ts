@@ -85,8 +85,8 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
 
   const tx = await requesterContract.writeOracleData(
     `0x${merkleTree.getRoot().toString('hex')}`,
-    Buffer.from(newIpfsCid),
     newEpoch,
+    Buffer.from(newIpfsCid),
   )
   await tx.wait()
 
