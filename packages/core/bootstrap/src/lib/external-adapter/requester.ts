@@ -14,11 +14,13 @@ import objectPath from 'object-path'
 
 const getFalse = () => false
 
+const DEFAULT_RETRY = 3
+
 export class Requester {
   static async request<T extends AdapterRequestData>(
     config: RequestConfig,
     customError?: any,
-    retries = 3,
+    retries = Number(process.env.RETRY) || DEFAULT_RETRY,
     delay = 1000,
   ): Promise<AxiosResponse<T>> {
     if (typeof config === 'string') config = { url: config }
@@ -80,7 +82,11 @@ export class Requester {
     return await _retry(retries)
   }
 
-  static validateResultNumber(data: { [key: string]: any }, path: (string | number)[], options?: { inverse?: boolean }) {
+  static validateResultNumber(
+    data: { [key: string]: any },
+    path: (string | number)[],
+    options?: { inverse?: boolean },
+  ): number {
     const result = this.getResult(data, path)
     if (typeof result === 'undefined') {
       const message = 'Result could not be found in path'
