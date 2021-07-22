@@ -1,5 +1,5 @@
 import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
-import { AdapterRequest, Execute, AdapterResponse } from '@chainlink/types'
+import { Execute, AdapterResponse, ExecuteWithConfig } from '@chainlink/types'
 import { makeConfig, DEFAULT_ENDPOINT, Config } from './config'
 import { conflux } from './endpoint'
 
@@ -7,9 +7,10 @@ const inputParams = {
   endpoint: false,
 }
 
-export const execute = async (
-  request: AdapterRequest,
-  config: Config,
+export const execute: ExecuteWithConfig<Config> = async (
+  request,
+  context,
+  config,
 ): Promise<AdapterResponse> => {
   const validator = new Validator(request, inputParams)
   if (validator.error) throw validator.error
@@ -21,7 +22,7 @@ export const execute = async (
 
   switch (endpoint) {
     case conflux.NAME: {
-      return await conflux.execute(request, config)
+      return await conflux.execute(request, context, config)
     }
     default: {
       throw new AdapterError({
@@ -34,5 +35,5 @@ export const execute = async (
 }
 
 export const makeExecute = (config?: Config): Execute => {
-  return async (request) => execute(request, config || makeConfig())
+  return async (request, context) => execute(request, context, config || makeConfig())
 }

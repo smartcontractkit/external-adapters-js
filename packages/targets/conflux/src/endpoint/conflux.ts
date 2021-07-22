@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { AdapterRequest, AdapterResponse } from '@chainlink/types'
+import { AdapterResponse, ExecuteWithConfig } from '@chainlink/types'
 import { Conflux } from 'js-conflux-sdk'
 import { ethers } from 'ethers'
 import { Config } from '../config'
@@ -41,9 +41,10 @@ const customParams = {
 
 export const NAME = 'conflux'
 
-export const execute = async (
-  request: AdapterRequest,
-  config: Config,
+export const execute: ExecuteWithConfig<Config> = async (
+  request,
+  _,
+  config,
 ): Promise<AdapterResponse> => {
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error

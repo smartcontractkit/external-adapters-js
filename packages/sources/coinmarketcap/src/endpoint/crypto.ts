@@ -86,7 +86,7 @@ const handleBatchedRequest = (
   return Requester.success(jobRunID, response, true, ['base', 'convert'])
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, config) => {
+export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const url = 'cryptocurrency/quotes/latest'
   const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error

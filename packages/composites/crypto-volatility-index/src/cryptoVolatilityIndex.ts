@@ -5,11 +5,12 @@ import { SigmaCalculator } from './sigmaCalculator'
 import { Decimal } from 'decimal.js'
 import moment from 'moment'
 import { dominanceByCurrency, getDominanceAdapter } from './dominanceDataProvider'
-import { AdapterRequest } from '@chainlink/types'
+import { AdapterContext, AdapterRequest } from '@chainlink/types'
 
 export const calculate = async (
   validated: Record<string, any>,
   requestParams: any,
+  context: AdapterContext,
 ): Promise<number> => {
   const {
     contract: oracleAddress,
@@ -31,6 +32,7 @@ export const calculate = async (
     volatilityIndexData,
     validated.id,
     requestParams,
+    context,
     cryptoCurrencies,
   )
   // Smooth CVI with previous on-chain value if exists
@@ -77,9 +79,15 @@ const calculateWeighted = async (
   vixData: Array<Decimal>,
   id: string,
   requestParams: any,
+  context: AdapterContext,
   cryptoCurrencies: string[],
 ) => {
-  const dominanceByCurrency = await getDominanceByCurrency(id, requestParams, cryptoCurrencies)
+  const dominanceByCurrency = await getDominanceByCurrency(
+    id,
+    requestParams,
+    context,
+    cryptoCurrencies,
+  )
   const weightedVix = cryptoCurrencies.reduce((vix, currency, idx) => {
     const dominance = dominanceByCurrency[currency]
     if (!dominance) throw new Error(`No dominance found for currency ${currency}`)
@@ -97,6 +105,7 @@ const calculateWeighted = async (
 const getDominanceByCurrency = async (
   id: string,
   requestParams: any,
+  context: AdapterContext,
   cryptoCurrencies: string[],
 ) => {
   const dominanceAdapter = await getDominanceAdapter()
@@ -112,7 +121,7 @@ const getDominanceByCurrency = async (
       quote,
     },
   }
-  const dominanceData = await dominanceAdapter(input)
+  const dominanceData = await dominanceAdapter(input, context)
   return dominanceByCurrency(dominanceData.data, quote)
 }
 

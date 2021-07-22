@@ -1,19 +1,25 @@
 import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Execute, AdapterResponse, AdapterRequest } from '@chainlink/types'
+import {
+  ExecuteWithConfig,
+  Execute,
+  AdapterResponse,
+  AdapterRequest,
+  AdapterContext,
+} from '@chainlink/types'
 import { Config } from '../config'
 import { ABI, bytesMappingToHexStr, numToEventId } from './index'
 import { ethers } from 'ethers'
 import { theRundown, sportsdataio } from '../dataProviders'
 
 const resolveParams = {
-  contractAddress: true
+  contractAddress: true,
 }
 
 const eventStatus: { [key: string]: number } = {
-  'STATUS_SCHEDULED': 1,
-  'STATUS_FINAL': 2,
-  'STATUS_POSTPONED': 3,
-  'STATUS_CANCELED': 4
+  STATUS_SCHEDULED: 1,
+  STATUS_FINAL: 2,
+  STATUS_POSTPONED: 3,
+  STATUS_CANCELED: 4,
 }
 
 export interface ResolveEvent {
@@ -26,15 +32,19 @@ export interface ResolveEvent {
 const statusCompleted = [
   eventStatus['STATUS_CANCELED'],
   eventStatus['STATUS_FINAL'],
-  eventStatus['STATUS_POSTPONED']
+  eventStatus['STATUS_POSTPONED'],
   // TODO: What about other statuses in sportsdataio?
 ]
 
-const tryGetEvent = async (dataProviders: Execute[], req: AdapterRequest): Promise<AdapterResponse> => {
+const tryGetEvent = async (
+  dataProviders: Execute[],
+  req: AdapterRequest,
+  context: AdapterContext,
+): Promise<AdapterResponse> => {
   let exception
   for (let i = 0; i < dataProviders.length; i++) {
     try {
-      return await dataProviders[i](req)
+      return await dataProviders[i](req, context)
     } catch (e) {
       Logger.error(e)
       exception = e
@@ -43,7 +53,7 @@ const tryGetEvent = async (dataProviders: Execute[], req: AdapterRequest): Promi
   throw exception
 }
 
-export const execute: ExecuteWithConfig<Config> = async (input, config) => {
+export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
   const validator = new Validator(input, resolveParams)
   if (validator.error) throw validator.error
 
@@ -54,13 +64,17 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const events: ResolveEvent[] = []
   for (const event of eventIDs) {
     try {
-      const response = await tryGetEvent([theRundown.resolve, sportsdataio.resolve], {
-        id: input.id,
-        data: {
-          endpoint: 'event',
-          eventId: numToEventId(event)
-        }
-      })
+      const response = await tryGetEvent(
+        [theRundown.resolve, sportsdataio.resolve],
+        {
+          id: input.id,
+          data: {
+            endpoint: 'event',
+            eventId: numToEventId(event),
+          },
+        },
+        context,
+      )
       events.push(response.result as ResolveEvent)
     } catch (e) {
       Logger.error(e)
@@ -68,8 +82,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   }
 
   // Filters out events that aren't yet ready to resolve.
-  const eventReadyToResolve = events
-    .filter(({ status }) => statusCompleted.includes(status))
+  const eventReadyToResolve = events.filter(({ status }) => statusCompleted.includes(status))
 
   // Build the bytes32 arguments to resolve the events.
   const packed = eventReadyToResolve.map(packResolution)
@@ -89,7 +102,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
 const packResolution = (event: ResolveEvent): string => {
   const encoded = ethers.utils.defaultAbiCoder.encode(
     ['uint128', 'uint8', 'uint16', 'uint16'],
-    [event.id, event.status, Math.round(event.homeScore*10), Math.round(event.awayScore*10)]
+    [event.id, event.status, Math.round(event.homeScore * 10), Math.round(event.awayScore * 10)],
   )
 
   const mapping = [16, 1, 2, 2]

@@ -20,7 +20,7 @@ type Attestation = {
 
 const getAttestationURI = (asset: string) => `/asset-attestations/${asset.toUpperCase()}`
 
-export const execute: ExecuteWithConfig<Config> = async (input, config) => {
+export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const validator = new Validator(input, inputParameters)
   if (validator.error) throw validator.error
   const asset = validator.validated.data.asset

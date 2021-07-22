@@ -1,7 +1,7 @@
 import { createStore } from 'redux'
 import { stub } from 'sinon'
 import { withDebug } from '../../../src'
-import { withCache } from '../../../src/lib/cache'
+import { defaultOptions, withCache } from '../../../src/lib/cache'
 import { logger } from '../../../src/lib/external-adapter'
 import * as rateLimit from '../../../src/lib/rate-limit'
 import {
@@ -10,15 +10,17 @@ import {
   makeExecuteWithWarmer,
   newStore,
   setupClock,
-  withMiddleware,
 } from './helpers'
+import { withMiddleware } from '../../../src/index'
+import { AdapterContext } from '@chainlink/types'
 
 describe('Rate Limit/Cache - Integration', () => {
+  const context: AdapterContext = {}
   const capacity = 50
   let logWarnStub: any
   let logErrorStub: any
 
-  beforeAll(() => {
+  beforeAll(async () => {
     process.env.EXPERIMENTAL_RATE_LIMIT_ENABLED = String(true)
     process.env.RATE_LIMIT_CAPACITY = String(capacity)
     process.env.CACHE_ENABLED = String(true)
@@ -30,6 +32,12 @@ describe('Rate Limit/Cache - Integration', () => {
 
     logWarnStub = stub(logger, 'warn')
     logErrorStub = stub(logger, 'error')
+
+    const options = defaultOptions()
+    context.cache = {
+      ...defaultOptions(),
+      instance: await options.cacheBuilder(options.cacheImplOptions),
+    }
   })
 
   afterAll(() => {
@@ -42,7 +50,7 @@ describe('Rate Limit/Cache - Integration', () => {
     for (let cost = 1; cost < 4; cost++) {
       const store = createStore(rateLimit.reducer.rootReducer, {})
       const dataProvider = dataProviderMock(cost)
-      const executeWithMiddleware = await withMiddleware(dataProvider.execute, [
+      const executeWithMiddleware = await withMiddleware(dataProvider.execute, context, [
         withCache,
         rateLimit.withRateLimit(store),
         withDebug,
@@ -51,7 +59,7 @@ describe('Rate Limit/Cache - Integration', () => {
       const secsInMin = 60
       for (let i = 0; i < secsInMin; i++) {
         const input = { id: '6', data: { test1: 1 } }
-        await executeWithMiddleware(input)
+        await executeWithMiddleware(input, context)
         clock.tick(1000)
       }
 
@@ -68,7 +76,7 @@ describe('Rate Limit/Cache - Integration', () => {
 
     const store = createStore(rateLimit.reducer.rootReducer, {})
     const dataProvider = dataProviderMock()
-    const executeWithMiddleware = await withMiddleware(dataProvider.execute, [
+    const executeWithMiddleware = await withMiddleware(dataProvider.execute, context, [
       withCache,
       rateLimit.withRateLimit(store),
       withDebug,
@@ -79,7 +87,7 @@ describe('Rate Limit/Cache - Integration', () => {
     for (let i = 0; i < (1000 / timeBetweenRequests) * 60; i++) {
       const feedId = i % feedsNumber
       const input = { id: '6', data: { multiple1: feedId } }
-      await executeWithMiddleware(input)
+      await executeWithMiddleware(input, context)
       clock.tick(timeBetweenRequests)
     }
 
@@ -96,7 +104,7 @@ describe('Rate Limit/Cache - Integration', () => {
     const cost = 4
     const store = createStore(rateLimit.reducer.rootReducer, {})
     const dataProvider = dataProviderMock(cost)
-    const executeWithMiddleware = await withMiddleware(dataProvider.execute, [
+    const executeWithMiddleware = await withMiddleware(dataProvider.execute, context, [
       withCache,
       rateLimit.withRateLimit(store),
       withDebug,
@@ -107,7 +115,7 @@ describe('Rate Limit/Cache - Integration', () => {
     for (let i = 0; i < (1000 / timeBetweenRequests) * 120; i++) {
       const feedId = i % feedsNumber
       const input = { id: '6', data: { [`multiple_cost:${cost}`]: feedId } }
-      await executeWithMiddleware(input)
+      await executeWithMiddleware(input, context)
       clock.tick(timeBetweenRequests)
     }
 
@@ -176,7 +184,8 @@ describe('Rate Limit/Cache - Integration', () => {
   //   const rlPerMinute = getRLTokenSpentPerMinute(state.rateLimit.heartbeats)
 
   //   Object.values(rlPerMinute).forEach((req) => {
-  //     expect(req).toBeLessThan(capacity + 10)
+  //     // TODO: check that + 20 is the right capacity
+  //     expect(req).toBeLessThan(capacity + 20)
   //   })
   //   restoreClock()
   // })

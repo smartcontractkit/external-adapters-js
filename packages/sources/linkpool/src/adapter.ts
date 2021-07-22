@@ -1,4 +1,4 @@
-import { ExecuteWithConfig, ExecuteFactory, Config} from '@chainlink/types'
+import { ExecuteWithConfig, ExecuteFactory, Config } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { util } from '@chainlink/ea-bootstrap'
 import { makeConfig } from './config'
@@ -13,7 +13,7 @@ const commonKeys: Record<string, string> = {
   brent: 'BRN',
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, config) => {
+export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 
@@ -39,5 +39,5 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {
-  return async (request) => execute(request, config || makeConfig())
+  return async (request, context) => execute(request, context, config || makeConfig())
 }

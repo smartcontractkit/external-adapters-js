@@ -19,16 +19,16 @@ export const getRateLimitMaxAge = (
       } minutes`,
       adapterRequest,
     )
-  if (maxAge > options.cacheOptions.maxAge) {
+  if (maxAge > options.cacheImplOptions.maxAge) {
     logger.warn(
       `${
         feedId && feedId[0] !== '{' ? `[${feedId}]` : ''
       } Cache: Calculated TTL exceeds maximum TTL, using maximum of ${
-        options.cacheOptions.maxAge / 1000 / 60
+        options.cacheImplOptions.maxAge / 1000 / 60
       } minutes`,
       adapterRequest,
     )
-    return options.cacheOptions.maxAge
+    return options.cacheImplOptions.maxAge
   }
   return maxAge
 }

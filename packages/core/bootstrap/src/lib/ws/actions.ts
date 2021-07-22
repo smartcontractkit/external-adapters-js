@@ -1,4 +1,4 @@
-import { AdapterRequest, WSHandler } from '@chainlink/types'
+import { AdapterContext, AdapterRequest, WSHandler } from '@chainlink/types'
 import { createAction } from '@reduxjs/toolkit'
 import { asAction } from '../store'
 import { WSConfig, WSConnectionInfo } from './types'
@@ -32,6 +32,7 @@ export interface WSSubscriptionPayload {
   connectionInfo: WSConnectionInfo
   subscriptionMsg: any
   input: AdapterRequest
+  context: AdapterContext
 }
 
 export interface WSSubscriptionErrorPayload extends WSErrorPayload {

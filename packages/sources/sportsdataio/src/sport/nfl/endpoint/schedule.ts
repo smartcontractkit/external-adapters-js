@@ -5,10 +5,10 @@ import { Config } from '../../../config'
 export const NAME = 'schedule'
 
 const customParams = {
-  season: true
+  season: true,
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, config) => {
+export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 
@@ -17,7 +17,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   const url = `/nfl/scores/json/Schedules/${season}`
 
   const params = {
-    key: config.nflScoresKey
+    key: config.nflScoresKey,
   }
 
   const options = { ...config.api, params, url }

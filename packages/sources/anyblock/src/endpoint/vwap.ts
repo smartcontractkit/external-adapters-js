@@ -60,7 +60,7 @@ const cleanupDate = (inputDate: string, roundDay: boolean) => {
   return outputDate
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, config) => {
+export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
 

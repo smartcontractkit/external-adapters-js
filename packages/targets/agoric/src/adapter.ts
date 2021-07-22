@@ -36,7 +36,7 @@ export interface PostReply {
   rej?: unknown
 }
 
-const executeImpl: ExecuteWithConfig<Config> = async (request, config) => {
+const executeImpl: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParams)
   if (validator.error) {
     throw validator.error
@@ -76,9 +76,9 @@ const executeImpl: ExecuteWithConfig<Config> = async (request, config) => {
 
 const tryExecuteLogError = (
   execute: ExecuteWithConfig<Config>,
-): ExecuteWithConfig<Config> => async (request, config) => {
+): ExecuteWithConfig<Config> => async (request, context, config) => {
   try {
-    return await execute(request, config)
+    return await execute(request, context, config)
   } catch (e) {
     const queryId: any = request.data?.request_id
     const rest: any = { queryId }
@@ -112,5 +112,5 @@ const tryExecuteLogError = (
 
 export const execute = tryExecuteLogError(executeImpl)
 export const makeExecute: ExecuteFactory<Config> = (config) => {
-  return async (request) => execute(request, config || makeConfig())
+  return async (request, context) => execute(request, context, config || makeConfig())
 }
