@@ -48,7 +48,7 @@ See the [Composite Adapter README](../README.md) for more information on how to 
     "traderRewardsAmount": 5e23,
     "marketMakerRewardsAmount": 2e23,
     "ipnsName": "k51qzi5uqu5dlkb9yviadsfl3uxndbkyhf4n97u1t1np5e9f67zwmjz6yk9m9k",
-    "traderScoreAlpha": 0.7,
+    "traderScoreAlpha": 700000000000000000,
     "newEpoch": 0,
     "activeRootIpfsCid": "bafkreigx6x553cdksm5gj2hh2fkhs2csjnmnny3zxp3tcyzevfj3f3ekli"
   }

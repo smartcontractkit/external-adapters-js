@@ -44,6 +44,12 @@ export interface Input {
   activeRootIpfsCid: string
 }
 
+const parseAddress = (address: string): string => {
+  if (address.length === 42 && address.substring(0, 2) === '0x') return address
+  const buf = Buffer.from(address, 'base64')
+  return `0x${buf.toString('hex').slice(-40)}`
+}
+
 export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
@@ -52,8 +58,10 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const traderRewardsAmount = validator.validated.data.traderRewardsAmount
   const marketMakerRewardsAmount = validator.validated.data.marketMakerRewardsAmount
   const ipnsName = validator.validated.data.ipnsName
-  const traderScoreAlpha = validator.validated.data.traderScoreAlpha
-  const callbackAddress = validator.validated.data.callbackAddress
+  const traderScoreAlpha = new bn.BigNumber(validator.validated.data.traderScoreAlpha)
+    .div('1e18')
+    .toNumber()
+  const callbackAddress = parseAddress(validator.validated.data.callbackAddress)
   const newEpoch = BigNumber.from(validator.validated.data.newEpoch)
   const activeRootIpfsCid = validator.validated.data.activeRootIpfsCid
 
@@ -76,8 +84,8 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const newIpfsCid = await storeJsonTree(jobRunID, ipfs, jsonTree)
 
   const tx = await requesterContract.writeOracleData(
-    '0x' + merkleTree.getRoot().toString('hex'),
-    newIpfsCid,
+    `0x${merkleTree.getRoot().toString('hex')}`,
+    Buffer.from(newIpfsCid),
     newEpoch,
   )
   await tx.wait()
