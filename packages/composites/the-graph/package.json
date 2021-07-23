@@ -34,6 +34,7 @@
     "@chainlink/ea-reference-data-reader": "*",
     "@chainlink/ea-test-helpers": "*",
     "@chainlink/graphql-adapter": "*",
+    "decimal.js": "^10.2.1",
     "tslib": "^2.1.0"
   },
   "devDependencies": {

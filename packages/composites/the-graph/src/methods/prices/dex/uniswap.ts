@@ -1,8 +1,8 @@
-import { DexSubgraph, GraphqlAdapterRequest, TokenInformation } from "../../../types"
+import { DexUniswapSubgraph, GraphqlAdapterRequest, TokenInformation } from "../../../types"
 import { fetchFromGraphqlAdapter } from "../dataProvider"
 import { getPairQuery, getTokenQuery } from "./graphqlQueries"
 
-export class UniswapSubgraph implements DexSubgraph {
+export class UniswapSubgraph implements DexUniswapSubgraph {
     private url: string 
 
     constructor(url: string) {

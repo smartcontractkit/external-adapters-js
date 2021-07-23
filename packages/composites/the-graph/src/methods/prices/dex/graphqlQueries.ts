@@ -23,3 +23,34 @@ export const getPairQuery = `
         }
     }
 `
+
+export const getTokenPoolQuery = `
+    query($symbol: String) {
+        tokens(where: {
+            symbol: $symbol
+        }){
+            coins {
+                pool {
+                    name
+                }
+            }
+        }
+    }
+`
+
+export const getPoolsQuery = `
+    query($name: String) {
+        pools(where: {
+            name : $name
+        }) {
+            name,
+            underlyingCoins {
+                balance,
+                token {
+                    name,
+                    symbol
+                }
+            }
+        }
+    }
+`

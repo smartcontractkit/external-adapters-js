@@ -11,9 +11,13 @@ export interface TokenInformation {
     decimals: number
 }
 
-export interface DexSubgraph {
+export interface DexUniswapSubgraph {
     getToken: (jobRunID: string, symbol: string) => Promise<TokenInformation>,
-    getTokenPairPrice: (jobRunID: string, token0Address: string, token1Address: string) => Promise<number | null>
+    getTokenPairPrice: (jobRunID: string, token0Address: string, token1Address: string) => Promise<number | null>,
+}
+export interface DexCurveSubgraph {
+    getTokenPoolName: (jobRunID: string, symbol: string) => any
+    getPool: (jobRunID: string, name: string) => Promise<PoolInformation>
 }
 
 export enum ReferenceModifierAction {
@@ -30,4 +34,21 @@ export interface DexQueryInputParams {
     referenceContract: string 
     referenceContractDivisor: number
     referenceModifierAction: ReferenceModifierAction,
+    theGraphQuote: string
+}
+
+export interface PoolInformation {
+    name: string,
+    coinCounts: string,
+    underlyingCoins: UnderlyingCoins[]
+}
+export interface UnderlyingCoins {
+    balance: string,
+    token: {
+        symbol: string
+    }
+}
+export interface PoolBalance {
+    token0Balance: number,
+    token1Balance: number
 }
