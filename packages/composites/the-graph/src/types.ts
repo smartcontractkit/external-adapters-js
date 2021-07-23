@@ -11,15 +11,6 @@ export interface TokenInformation {
     decimals: number
 }
 
-export interface DexUniswapSubgraph {
-    getToken: (jobRunID: string, symbol: string) => Promise<TokenInformation>,
-    getTokenPairPrice: (jobRunID: string, token0Address: string, token1Address: string) => Promise<number | null>,
-}
-export interface DexCurveSubgraph {
-    getTokenPoolName: (jobRunID: string, symbol: string) => any
-    getPool: (jobRunID: string, name: string) => Promise<PoolInformation>
-}
-
 export enum ReferenceModifierAction {
     MULTIPLY = "MULTIPLY",
     DIVIDE = "DIVIDE"
