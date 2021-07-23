@@ -1,8 +1,8 @@
 import { Validator, Requester, Logger } from '@chainlink/ea-bootstrap'
 import { Config, CURVE, DEFAULT_ORACLE_ADDRESS, UNISWAP, WETH } from '../../config'
-import { AdapterRequest, AdapterResponse } from "@chainlink/types"
 import { DexUniswapSubgraph, DexQueryInputParams, ReferenceModifierAction, DexCurveSubgraph, PoolBalance, UnderlyingCoins } from '../../types'
 import { getLatestAnswer, getRpcLatestRound } from '@chainlink/ea-reference-data-reader'
+import { ExecuteWithConfig } from '@chainlink/types'
 import { UniswapSubgraph } from './dex/uniswap'
 import { CurveSubgraph } from './dex/curve'
 import { Decimal } from 'decimal.js'
@@ -19,7 +19,7 @@ const customParams = {
   theGraphQuote: false,
 }
 
-export const execute = async (input: AdapterRequest, config: Config): Promise<AdapterResponse> => {
+export const execute: ExecuteWithConfig<Config> = async (input, _,config) => {
     const validator = new Validator(input, customParams)
     if (validator.error) throw validator.error
     const jobRunID = validator.validated.id
@@ -151,30 +151,58 @@ export const executeUniswap = async (jobRunID: string, input: DexQueryInputParam
     return price
 }
 
-const getQuotePrice = async (inputParams: DexQueryInputParams, dexSubgraph: DexUniswapSubgraph): Promise<number> => {
-    const { jobRunID, baseCoinTicker, quoteCoinTicker, referenceContract } = inputParams
-    const token0 = await dexSubgraph.getToken(jobRunID, baseCoinTicker)
-    const token1 = await dexSubgraph.getToken(jobRunID, quoteCoinTicker)
-    let token1PerToken0 = await dexSubgraph.getTokenPairPrice(jobRunID, token0.id, token1.id)
-    if (!token1PerToken0) {
-        token1PerToken0 = await getPriceThroughCommonPair(inputParams, dexSubgraph, token0.id, token1.id)
-    }
-    Logger.info(`Price of ${quoteCoinTicker}/${baseCoinTicker} is ${token1PerToken0}`)
-    if (referenceContract) {
-        token1PerToken0 = await modifyResultByFeedResult(inputParams, token1PerToken0)
-    }
-    return token1PerToken0
+const getQuotePrice = async (
+  inputParams: DexQueryInputParams,
+  dexSubgraph: DexUniswapSubgraph,
+): Promise<number> => {
+  const { jobRunID, baseCoinTicker, quoteCoinTicker, referenceContract } = inputParams
+  const token0 = await dexSubgraph.getToken(jobRunID, baseCoinTicker)
+  const token1 = await dexSubgraph.getToken(jobRunID, quoteCoinTicker)
+  let token1PerToken0 = await dexSubgraph.getTokenPairPrice(jobRunID, token0.id, token1.id)
+  if (!token1PerToken0) {
+    token1PerToken0 = await getPriceThroughCommonPair(
+      inputParams,
+      dexSubgraph,
+      token0.id,
+      token1.id,
+    )
+  }
+  Logger.info(`Price of ${quoteCoinTicker}/${baseCoinTicker} is ${token1PerToken0}`)
+  if (referenceContract) {
+    token1PerToken0 = await modifyResultByFeedResult(inputParams, token1PerToken0)
+  }
+  return token1PerToken0
 }
 
-const getPriceThroughCommonPair = async (inputParams: DexQueryInputParams, dexSubgraph: DexUniswapSubgraph, token0ID: string, token1ID: string): Promise<number> => {
-    const { jobRunID, baseCoinTicker, quoteCoinTicker, intermediaryToken: intermediaryTokenTicker } = inputParams
-    Logger.info(`${quoteCoinTicker}/${baseCoinTicker} pair does not exist.  Determining price using intermediary token ${intermediaryTokenTicker}`)
-    const intermediaryToken = await dexSubgraph.getToken(jobRunID, intermediaryTokenTicker)
-    const refTokenPerToken0 = await dexSubgraph.getTokenPairPrice(jobRunID, token0ID, intermediaryToken.id)
-    const refTokenPerToken1 = await dexSubgraph.getTokenPairPrice(jobRunID, token1ID, intermediaryToken.id)
-    validateTokenPrices(refTokenPerToken0, refTokenPerToken1, baseCoinTicker, quoteCoinTicker)
-    return (refTokenPerToken0 as number) / (refTokenPerToken1 as number)
-}
+const getPriceThroughCommonPair = async (
+  inputParams: DexQueryInputParams,
+  dexSubgraph: DexUniswapSubgraph,
+  token0ID: string,
+  token1ID: string,
+): Promise<number> => {
+  const {
+    jobRunID,
+    baseCoinTicker,
+    quoteCoinTicker,
+    intermediaryToken: intermediaryTokenTicker,
+  } = inputParams
+  Logger.info(
+    `${quoteCoinTicker}/${baseCoinTicker} pair does not exist.  Determining price using intermediary token ${intermediaryTokenTicker}`,
+  )
+  const intermediaryToken = await dexSubgraph.getToken(jobRunID, intermediaryTokenTicker)
+  const refTokenPerToken0 = await dexSubgraph.getTokenPairPrice(
+    jobRunID,
+    token0ID,
+    intermediaryToken.id,
+  )
+  const refTokenPerToken1 = await dexSubgraph.getTokenPairPrice(
+    jobRunID,
+    token1ID,
+    intermediaryToken.id,
+  )
+  validateTokenPrices(refTokenPerToken0, refTokenPerToken1, baseCoinTicker, quoteCoinTicker)
+  return (refTokenPerToken0 as number) / (refTokenPerToken1 as number)
+  }
 
 const validateTokenPrices = (
   priceOne: number | null,
