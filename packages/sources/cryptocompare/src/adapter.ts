@@ -32,7 +32,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
   const getPair = (input: AdapterRequest) => {
     const validator = new Validator(input, crypto.inputParameters, {}, false)
     if (validator.error) return
-    const base = (validator.overrideSymbol(NAME) as string).toUpperCase()
+    const base = validator.overrideSymbol(NAME)
     const quote = validator.validated.data.quote.toUpperCase()
     return `${base}~${quote}`
   }
