@@ -10,6 +10,7 @@ The adapter takes the following environment variables:
 | :-------: | :-------: | :--------------------------: | :-----: | :---------: |
 |    ✅     | `RPC_URL` | The RPC Url to connect to |         |             | 
 |           | `UNISWAP_V2_SUBGRAPH_ENDPOINT` | The Uniswap V2 subgraph endpoint |         |     https://api.thegraph.com/subgraphs/name/ianlapham/uniswapv2        |
+|           | `CURVE_SUBGRAPH_ENDPOINT` | The Curve subgraph endpoint |         |     https://api.thegraph.com/subgraphs/name/curvefi/curve        |
 
 ## Running
 
@@ -24,12 +25,12 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 |    ✅      |       `quoteCoinTicker`, `quote`, `to`, `market`     |   The symbol of the quote currency      |                     |             |
 |           |       `theGraphQuote`     |   The symbol of the quote currency.  This will override `quoteCoinTicker` if supplied      |                     |             |
 |         |       `intermedaryToken`      |   An intermediary token to use if the base and quote coin pair does not exist in the DEX.       |                     |      WETH       |
-|    ✅       |       `dex`                |   The DEX to query data from             |   UNISWAP           |      |    
+|    ✅       |       `dex`                |   The DEX to query data from             |   UNISWAP, CURVE           |      |    
 |           | `referenceContract`         |   The smart contract address of a price feed.  This is used if the price from fetched from the DEX needs to be modified    | |             |
 |           | `referenceContractDivisor`  |   How much the value from the referenceContract needs to be multiplied or divided by    |      |             |
 |           | `referenceModifierAction`  |   Whether to multiply or divide the DEX result by the result from the `referenceContract`   |  multiply, divide  |      multiply       |
 
-### Sample Input 
+### Sample Input UNI/LINK UNISWAP
 
 ```json
 {
@@ -41,7 +42,6 @@ See the [Composite Adapter README](../README.md) for more information on how to 
     }
 }
 ```
-
 ### Sample Output
 
 ```json
@@ -51,6 +51,31 @@ See the [Composite Adapter README](../README.md) for more information on how to 
     "statusCode": 200,
     "data": {
         "result": "0.9794765982638552441956712315789272"
+    }
+}
+```
+
+### Sample Input stETH/ETH CURVE
+
+```json
+{
+    "jobRunId": 1,
+    "data": {
+        "baseCoinTicker": "ETH",
+        "quoteCoinTicker": "stETH",
+        "dex": "CURVE"
+    }
+}
+```
+### Sample Output
+
+```json
+{
+    "jobRunID": "1",
+    "result": "1986.098095187940594",
+    "statusCode": 200,
+    "data": {
+        "result": "1986.098095187940594"
     }
 }
 ```
