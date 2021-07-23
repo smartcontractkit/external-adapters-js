@@ -11,9 +11,20 @@ export enum Networks {
   Optimism = 'optimism',
 }
 
-export const BASE_URLS = {
-  [Networks.Arbitrum]: 'https://rinkeby.arbitrum.io',
-  [Networks.Optimism]: 'https://optimism.io',
+export const RPC_ENDPOINTS = {
+  [Networks.Arbitrum]: 'https://rinkeby.arbitrum.io/rpc',
+  [Networks.Optimism]: 'https://mainnet.optimism.io',
+}
+
+export const HEALTH_ENDPOINTS = {
+  [Networks.Arbitrum]: {
+    endpoint: undefined,
+    responsePath: [],
+  },
+  [Networks.Optimism]: {
+    endpoint: 'https://mainnet-sequencer.optimism.io/health',
+    responsePath: ['healthy'],
+  },
 }
 
 export interface ExtendedConfig extends Config {
