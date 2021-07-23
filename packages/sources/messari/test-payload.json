@@ -1,0 +1,6 @@
+{
+    "requests": [{
+     "coin": "BTC",
+     "market": "ARS"
+    }]
+}
