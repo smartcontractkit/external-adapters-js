@@ -62,6 +62,17 @@ describe('execute', () => {
           } 
         },
       },
+      {
+        name: 'request price from a curve pool',
+        testData: { 
+          id: jobID, 
+          data: { 
+            "baseCoinTicker": "ETH",
+            "quoteCoinTicker": "stETH",
+            "dex": "CURVE"
+          } 
+        },
+      },
     ]
 
     requests.forEach((req) => {
@@ -104,6 +115,17 @@ describe('execute', () => {
             "baseCoinTicker": "UNI",
             "quoteCoinTicker": "LINK",
             "dex": "INVALID DEX"
+          } 
+        },
+      },
+      {
+        name: 'invalid curve pool',
+        testData: { 
+          id: jobID, 
+          data: { 
+            "baseCoinTicker": "UNI",
+            "quoteCoinTicker": "LINK",
+            "dex": "CURVE"
           } 
         },
       },
