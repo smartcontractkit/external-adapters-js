@@ -126,7 +126,7 @@ export const withCache: Middleware = async (execute, context: AdapterContext) =>
     logger.debug(`Request coalescing: DEL ${key}`)
   }
 
-  const _executeWithCache = async (adapterRequest: AdapterRequest): Promise<AdapterResponse> => {
+  return async (adapterRequest) => {
     const key = _getKey(adapterRequest)
     const coalescingKey = _getCoalescingKey(key)
     const observe = metrics.beginObserveCacheMetrics({
@@ -163,105 +163,109 @@ export const withCache: Middleware = async (execute, context: AdapterContext) =>
           ),
       })
 
-    const cachedAdapterResponse = options.requestCoalescing.enabled
-      ? await _getWithCoalescing()
-      : await cache.getResponse(key)
+    try {
+      const cachedAdapterResponse = options.requestCoalescing.enabled
+        ? await _getWithCoalescing()
+        : await cache.getResponse(key)
 
-    if (cachedAdapterResponse) {
-      const maxAgeOverride = getMaxAgeOverride(adapterRequest)
-      if (maxAgeOverride && maxAgeOverride < 0) {
-        logger.trace(`Cache: SKIP(maxAge < 0)`)
-      } else {
-        logger.trace(`Cache: GET ${key}`, cachedAdapterResponse)
-        const ttl = await cache.ttl(key)
-        // TODO: isnt this a bug? cachedAdapterResponse.maxAge will be different
-        // if the above conditional gets executed!
-        const staleness = (cachedAdapterResponse.maxAge - ttl) / 1000
-        const debug = {
-          cacheHit: true,
-          staleness,
-          performance: observe.stalenessAndExecutionTime(true, staleness),
-          providerCost: 0,
+      if (cachedAdapterResponse) {
+        const maxAgeOverride = getMaxAgeOverride(adapterRequest)
+        if (maxAgeOverride && maxAgeOverride < 0) {
+          logger.trace(`Cache: SKIP(maxAge < 0)`)
+        } else {
+          logger.trace(`Cache: GET ${key}`, cachedAdapterResponse)
+          const ttl = await cache.ttl(key)
+          // TODO: isnt this a bug? cachedAdapterResponse.maxAge will be different
+          // if the above conditional gets executed!
+          const staleness = (cachedAdapterResponse.maxAge - ttl) / 1000
+          const debug = {
+            cacheHit: true,
+            staleness,
+            performance: observe.stalenessAndExecutionTime(true, staleness),
+            providerCost: 0,
+          }
+
+          // we should be smarter about this in the future
+          // and allow path configuration if result is not a number or string
+          observe.cacheGet({ value: cachedAdapterResponse.result })
+          const response: AdapterResponse = {
+            jobRunID: adapterRequest.id,
+            ...cachedAdapterResponse,
+            debug,
+          }
+
+          return response
         }
-
-        // we should be smarter about this in the future
-        // and allow path configuration if result is not a number or string
-        observe.cacheGet({ value: cachedAdapterResponse.result })
-        const response: AdapterResponse = {
-          jobRunID: adapterRequest.id,
-          ...cachedAdapterResponse,
-          debug,
-        }
-
-        return response
       }
+    } catch (error) {
+      logger.warn(`Cache middleware error! Passing through. `, error)
+      return await execute(adapterRequest, context)
     }
 
     const maxAge = getTTL(adapterRequest, options)
 
-    // Initiate request coalescing by adding the in-flight mark
-    await _setInFlightMarker(coalescingKey, maxAge)
+    try {
+      // Initiate request coalescing by adding the in-flight mark
+      await _setInFlightMarker(coalescingKey, maxAge)
+    } catch (error) {
+      logger.warn(`Cache middleware error! Passing through. `, error)
+      return await execute(adapterRequest, context)
+    }
 
     const result = await execute(adapterRequest, context)
 
-    // Add successful result to cache
-    const _cacheOnSuccess = async ({
-      statusCode,
-      data,
-      result,
-    }: Pick<AdapterResponse, 'statusCode' | 'data' | 'result'>) => {
-      if (statusCode === 200) {
-        const entry: CacheEntry = {
-          statusCode,
-          data,
-          result,
-          maxAge,
-        }
-        // we should observe non-200 entries too
-        await cache.setResponse(key, entry, maxAge)
-        observe.cacheSet({ statusCode, maxAge })
-        logger.trace(`Cache: SET ${key}`, entry)
-        // Individually cache batch requests
-        if (data?.results) {
-          for (const batchParticipant of Object.values<[AdapterRequest, number]>(data.results)) {
-            const [request, result] = batchParticipant
-            const maxAgeBatchParticipant = getTTL(request, options)
-            const keyBatchParticipant = _getKey(request)
-            const entryBatchParticipant = {
-              statusCode,
-              data: { result },
-              result,
-              maxAge,
-            }
-            await cache.setResponse(
-              keyBatchParticipant,
-              entryBatchParticipant,
-              maxAgeBatchParticipant,
-            )
-            logger.trace(`Cache Split Batch: SET ${keyBatchParticipant}`, entryBatchParticipant)
-          }
-        }
-        // Notify pending requests by removing the in-flight mark
-        await _delInFlightMarker(coalescingKey)
-      }
-    }
-    await _cacheOnSuccess(result)
-
-    const debug = {
-      staleness: 0,
-      performance: observe.stalenessAndExecutionTime(false, 0),
-      providerCost: result.data.cost || 1,
-    }
-    return { ...result, debug: { ...debug, ...result.debug } }
-  }
-
-  // Middleware wrapped execute fn which cleans up after
-  return async (input) => {
     try {
-      return await _executeWithCache(input)
-    } catch (err) {
-      logger.warn(`Cache middleware error! Passing through. `, err)
-      return await execute(input, context)
+      // Add successful result to cache
+      const _cacheOnSuccess = async ({
+        statusCode,
+        data,
+        result,
+      }: Pick<AdapterResponse, 'statusCode' | 'data' | 'result'>) => {
+        if (statusCode === 200) {
+          const entry: CacheEntry = {
+            statusCode,
+            data,
+            result,
+            maxAge,
+          }
+          // we should observe non-200 entries too
+          await cache.setResponse(key, entry, maxAge)
+          observe.cacheSet({ statusCode, maxAge })
+          logger.trace(`Cache: SET ${key}`, entry)
+          // Individually cache batch requests
+          if (data?.results) {
+            for (const batchParticipant of Object.values<[AdapterRequest, number]>(data.results)) {
+              const [request, result] = batchParticipant
+              const maxAgeBatchParticipant = getTTL(request, options)
+              const keyBatchParticipant = _getKey(request)
+              const entryBatchParticipant = {
+                statusCode,
+                data: { result },
+                result,
+                maxAge,
+              }
+              await cache.setResponse(
+                keyBatchParticipant,
+                entryBatchParticipant,
+                maxAgeBatchParticipant,
+              )
+              logger.trace(`Cache Split Batch: SET ${keyBatchParticipant}`, entryBatchParticipant)
+            }
+          }
+          // Notify pending requests by removing the in-flight mark
+          await _delInFlightMarker(coalescingKey)
+        }
+      }
+      await _cacheOnSuccess(result)
+
+      const debug = {
+        staleness: 0,
+        performance: observe.stalenessAndExecutionTime(false, 0),
+        providerCost: result.data.cost || 1,
+      }
+      return { ...result, debug: { ...debug, ...result.debug } }
+    } catch (error) {
+      return result
     }
   }
 }
