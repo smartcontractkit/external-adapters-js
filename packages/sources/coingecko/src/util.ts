@@ -13,11 +13,13 @@ export function getCoinIds(context: AdapterContext, id: string): Promise<CoinsRe
     method: 'post',
     id,
   }
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     const middleware = makeMiddleware(execute, undefined, endpointSelector)
-    withMiddleware(execute, context, middleware).then((executeWithMiddleware) => {
-      return executeWithMiddleware(options, context).then((value) => resolve(value.data))
-    })
+    withMiddleware(execute, context, middleware)
+      .then((executeWithMiddleware) => {
+        return executeWithMiddleware(options, context).then((value) => resolve(value.data))
+      })
+      .catch((error) => reject(error))
   })
 }
 
