@@ -27,7 +27,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   if (!dexSubgraph) {
     throw new Error(`${inputParams.dex} is currently not supported`)
   }
-  let price = await dexSubgraph.execute(jobRunID, inputParams)
+  const price = await dexSubgraph.execute(jobRunID, inputParams)
   return Requester.success(jobRunID, {
       status: 200,
       data: {
