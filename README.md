@@ -90,6 +90,8 @@ Runs the setup step for all adapters. Typically this step just compiles TypeScri
 
 ## External Adapters List
 
+- [Master](./MASTERLIST.md)
+
 - [Source](./packages/sources/README.md)
 
 - [Target](./packages/targets/README.md)
