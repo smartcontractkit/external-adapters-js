@@ -1,7 +1,8 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { HEALTH_ENDPOINTS, Networks, RPC_ENDPOINTS } from './config'
+import { BigNumber } from 'ethers'
 
-export const requestBlockHeight = async (network: Networks): Promise<string> => {
+export const requestBlockHeight = async (network: Networks): Promise<number> => {
   const request = {
     method: 'POST',
     url: RPC_ENDPOINTS[network],
@@ -12,10 +13,15 @@ export const requestBlockHeight = async (network: Networks): Promise<string> => 
       jsonrpc: '2.0',
       method: 'eth_blockNumber',
       params: [],
+      id: 1,
     },
   }
   const response = await Requester.request(request)
-  return response?.data.result
+  const hexBlock = response?.data?.result
+  if (!hexBlock) {
+    throw new Error(`Block number not found on network: ${network}`)
+  }
+  return BigNumber.from(hexBlock).toNumber()
 }
 
 export const getSequencerHealth = async (network: Networks): Promise<boolean> => {

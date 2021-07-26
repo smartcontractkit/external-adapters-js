@@ -5,16 +5,17 @@ import { ExtendedConfig, Networks, makeConfig } from './config'
 import { requestBlockHeight, getSequencerHealth } from './network'
 
 export const makeNetworkStatusCheck = (network: Networks) => {
-  let lastSeenBlock = {
-    block: '',
+  let lastSeenBlock: { block: number; timestamp: number } = {
+    block: 0,
     timestamp: 0,
   }
 
-  const _isPastBlock = (block: string) => lastSeenBlock.block === block
-  const _isStaleBlock = (block: string, delta: number): boolean => {
+  const _isPastBlock = (block: number) => lastSeenBlock.block === block
+  const _isStaleBlock = (block: number, delta: number): boolean => {
     return _isPastBlock(block) && Date.now() - lastSeenBlock.timestamp >= delta
   }
-  const _updateLastSeenBlock = (block: string): void => {
+  const _isValidBlock = (block: number) => lastSeenBlock.block <= block
+  const _updateLastSeenBlock = (block: number): void => {
     lastSeenBlock = {
       block,
       timestamp: Date.now(),
@@ -23,6 +24,7 @@ export const makeNetworkStatusCheck = (network: Networks) => {
 
   return async (delta: number): Promise<boolean> => {
     const block = await requestBlockHeight(network)
+    if (!_isValidBlock(block)) throw new Error('Block found is previous to last seen')
     if (!_isStaleBlock(block, delta)) {
       if (!_isPastBlock(block)) _updateLastSeenBlock(block)
       return true

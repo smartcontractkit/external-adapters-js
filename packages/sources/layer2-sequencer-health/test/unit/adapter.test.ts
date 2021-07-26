@@ -15,7 +15,7 @@ describe('adapter', () => {
     })
 
     it('Stale blocks are unhealthy after Delta seconds', async () => {
-      jest.spyOn(network, 'requestBlockHeight').mockReturnValue(Promise.resolve('0x1'))
+      jest.spyOn(network, 'requestBlockHeight').mockReturnValue(Promise.resolve(1))
       const getNetworkStatus = adapter.makeNetworkStatusCheck(Networks.Arbitrum)
       // 2 minutes delta
       const delta = 120 * 1000
@@ -36,7 +36,7 @@ describe('adapter', () => {
       const timeBetweenCalls = 10 * 1000
       // If blocks change, is not considered stale
       for (let i = 0; i < delta / timeBetweenCalls; i++) {
-        jest.spyOn(network, 'requestBlockHeight').mockReturnValue(Promise.resolve(`0x${i}`))
+        jest.spyOn(network, 'requestBlockHeight').mockReturnValue(Promise.resolve(i))
         expect(await getNetworkStatus(delta)).toBe(true)
         clock.tick(timeBetweenCalls)
       }
@@ -44,6 +44,16 @@ describe('adapter', () => {
       expect(await getNetworkStatus(delta)).toBe(true)
       clock.tick(timeBetweenCalls)
       expect(await getNetworkStatus(delta)).toBe(true)
+    })
+
+    it('Blocks are unhealthy if current is previous to the last seen', async () => {
+      const getNetworkStatus = adapter.makeNetworkStatusCheck(Networks.Arbitrum)
+
+      jest.spyOn(network, 'requestBlockHeight').mockReturnValue(Promise.resolve(3))
+      expect(await getNetworkStatus(30)).toBe(true)
+
+      jest.spyOn(network, 'requestBlockHeight').mockReturnValue(Promise.resolve(2))
+      await expect(getNetworkStatus(30)).rejects.toThrow('Block found is previous to last seen')
     })
   })
 })
