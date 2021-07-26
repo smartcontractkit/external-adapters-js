@@ -3,14 +3,14 @@ import {
 	GraphqlAdapterRequest,
 	PoolBalance,
 	PoolInformation,
+	ReferenceModifierAction,
 	UnderlyingCoins
 } from "../../../types"
 import { fetchFromGraphqlAdapter } from "../dataProvider"
 import { getPoolsQuery, getTokenPoolQuery} from "./graphqlQueries"
-import { Decimal } from 'decimal.js'
 import { Logger } from '@chainlink/ea-bootstrap'
-import { DEFAULT_ORACLE_ADDRESS } from "../../../config"
-import { getRpcLatestRound } from '@chainlink/ea-reference-data-reader'
+import { CURVE } from "../../../config"
+import { getLatestAnswer } from '@chainlink/ea-reference-data-reader'
 
 export class CurveSubgraph {
 	private url: string
@@ -20,23 +20,42 @@ export class CurveSubgraph {
 	}
 
 	// Main method
-	async execute(jobRunID: string, input: DexQueryInputParams): Promise < Decimal > {
+	async execute(jobRunID: string, input: DexQueryInputParams): Promise < number > {
 		const {
 			baseCoinTicker,
-			quoteCoinTicker
+			quoteCoinTicker,
+			dex,
+			referenceContract,
+			referenceContractDivisor,
+			referenceModifierAction = ReferenceModifierAction.MULTIPLY,
+			intermediaryToken,
+			theGraphQuote
 		} = input
+
+		const inputParams: DexQueryInputParams = {
+			jobRunID,
+			baseCoinTicker: baseCoinTicker,
+			quoteCoinTicker: theGraphQuote ? theGraphQuote : quoteCoinTicker,
+			dex: CURVE,
+			referenceContract,
+			referenceContractDivisor,
+			referenceModifierAction: referenceModifierAction.toUpperCase() as ReferenceModifierAction,
+			intermediaryToken,
+			theGraphQuote
+		}
 		if (baseCoinTicker === quoteCoinTicker) {
 			throw new Error("Base and Quote coins must be different")
 		}
+		Logger.info(`Fetching quote for ${quoteCoinTicker}/${baseCoinTicker} pair from ${dex}`)
 		let price
 		try {
-			price = await this.getPoolPrice(jobRunID, input)
+			price = await this.getPoolPrice(jobRunID, inputParams)
 		} catch (e) {
 			throw new Error(`Failed to get price. Reason "${e}"`)
 		}
 		return price
 	}
-	
+
 	async getPool(jobRunID: string, name: string): Promise < PoolInformation > {
 		const data: GraphqlAdapterRequest = {
 			query: getPoolsQuery,
@@ -74,14 +93,15 @@ export class CurveSubgraph {
 		return pools
 	}
 
-	async getPoolPrice(jobRunID: string, input: DexQueryInputParams): Promise < Decimal > {
+	async getPoolPrice(jobRunID: string, inputParams: DexQueryInputParams): Promise < number > {
 		const {
 			baseCoinTicker,
 			quoteCoinTicker,
-			referenceContract
-		} = input
+			referenceContract,
+			referenceContractDivisor
+		} = inputParams
 		const tokenPollsName = await this.getTokenPoolName(jobRunID, quoteCoinTicker)
-		Logger.info(`Founded ${tokenPollsName.length} pools`)
+		Logger.info(`Found ${tokenPollsName.length} pools`)
 		const balances = await Promise.all(tokenPollsName.map(async (name: string) => {
 			const pools = await this.getPool(jobRunID, name);
 			Logger.info(`Fetching balance from '${name}' pool`)
@@ -112,21 +132,33 @@ export class CurveSubgraph {
 		const token1Balanace = pool[0].token1Balance
 		const poolUnderlyingPrice = token1Balanace / token0Balance
 		Logger.info(`Price of ${quoteCoinTicker}/${baseCoinTicker} is ${poolUnderlyingPrice}`)
-		const usdFeedPrice = await this.getFeedPrice(referenceContract)
-		Logger.info(`Price of ${baseCoinTicker}/USD is ${usdFeedPrice}`)
-		const price = usdFeedPrice.mul(poolUnderlyingPrice)
-		Logger.info(`Price of ${quoteCoinTicker}/USD is ${price}`)
-		return price
+		if(!referenceContract) {
+			return poolUnderlyingPrice
+		}
+		const mofifiedPrice  = await this.modifyResultByFeedResult(inputParams, referenceContractDivisor)
+		return mofifiedPrice
 	}
 
-	async getFeedPrice(referenceContract: string): Promise < Decimal > {
-		const multiply = 1e8
-		let oracleAddress = referenceContract
-		if (!oracleAddress) {
-			oracleAddress = DEFAULT_ORACLE_ADDRESS
+	async modifyResultByFeedResult (
+		inputParams: DexQueryInputParams,
+		currentPrice: number,
+	): Promise < number > {
+		const {
+			baseCoinTicker,
+			quoteCoinTicker,
+			referenceContract,
+			referenceContractDivisor,
+			referenceModifierAction
+		} = inputParams
+
+		Logger.info(
+			`Price of ${quoteCoinTicker}/${baseCoinTicker} is going to be modified by the result returned from ${referenceContract} by ${referenceContractDivisor}`,
+		)
+		const modifierTokenPrice = await getLatestAnswer(referenceContract, referenceContractDivisor)
+		Logger.info(`Feed ${referenceContract} returned a value of ${modifierTokenPrice}`)
+		if (referenceModifierAction === ReferenceModifierAction.DIVIDE) {
+			return currentPrice / modifierTokenPrice
 		}
-		const roundData = await getRpcLatestRound(oracleAddress)
-		const usdPrice = new Decimal(roundData.answer.toString()).div(multiply)
-		return usdPrice
+		return currentPrice * modifierTokenPrice
 	}
 }

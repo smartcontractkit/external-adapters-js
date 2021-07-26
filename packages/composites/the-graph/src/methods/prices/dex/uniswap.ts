@@ -191,10 +191,10 @@ export class UniswapSubgraph {
 		}
 	}
 
-	modifyResultByFeedResult = async (
+	async modifyResultByFeedResult(
 		inputParams: DexQueryInputParams,
 		currentPrice: number,
-	): Promise < number > => {
+	): Promise < number > {
 		const {
 			baseCoinTicker,
 			quoteCoinTicker,
