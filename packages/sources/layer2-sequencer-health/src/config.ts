@@ -12,7 +12,7 @@ export enum Networks {
 }
 
 export const RPC_ENDPOINTS = {
-  [Networks.Arbitrum]: 'https://rinkeby.arbitrum.io/rpc',
+  [Networks.Arbitrum]: 'https://arb1.arbitrum.io/rpc',
   [Networks.Optimism]: 'https://mainnet.optimism.io',
 }
 

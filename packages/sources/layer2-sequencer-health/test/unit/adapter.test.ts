@@ -1,35 +1,49 @@
-import { Requester } from '@chainlink/ea-bootstrap'
-import { assertError } from '@chainlink/ea-test-helpers'
-import { AdapterRequest } from '@chainlink/types'
-import { makeExecute } from '../../src/adapter'
+import { Networks } from '../../src/config'
+import { useFakeTimers } from 'sinon'
+import * as adapter from '../../src/adapter'
+import * as network from '../../src/network'
 
-describe('execute', () => {
-  const jobID = '1'
-  const execute = makeExecute()
+describe('adapter', () => {
+  describe('Network health check', () => {
+    let clock
+    beforeEach(() => {
+      clock = useFakeTimers()
+    })
 
-  describe('validation error', () => {
-    const requests = [
-      { name: 'empty body', testData: {} },
-      { name: 'empty data', testData: { data: {} } },
-      {
-        name: 'base not supplied',
-        testData: { id: jobID, data: { quote: 'USD' } },
-      },
-      {
-        name: 'quote not supplied',
-        testData: { id: jobID, data: { base: 'ETH' } },
-      },
-    ]
+    afterEach(() => {
+      clock.restore()
+    })
 
-    requests.forEach((req) => {
-      it(`${req.name}`, async () => {
-        try {
-          await execute(req.testData as AdapterRequest, undefined)
-        } catch (error) {
-          const errorResp = Requester.errored(jobID, error)
-          assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
-        }
-      })
+    it('Stale blocks are unhealthy after Delta seconds', async () => {
+      jest.spyOn(network, 'requestBlockHeight').mockReturnValue(Promise.resolve('0x1'))
+      const getNetworkStatus = adapter.makeNetworkStatusCheck(Networks.Arbitrum)
+      // 2 minutes delta
+      const delta = 120 * 1000
+      const timeBetweenCalls = 10 * 1000
+      // During first two minutes of the block is not considered stale
+      for (let i = 0; i < delta / timeBetweenCalls; i++) {
+        expect(await getNetworkStatus(delta)).toBe(true)
+        clock.tick(timeBetweenCalls)
+      }
+      // After delta time passed, is considered stale
+      expect(await getNetworkStatus(delta)).toBe(false)
+    })
+
+    it('Blocks are healthy after Delta seconds if blocks change', async () => {
+      const getNetworkStatus = adapter.makeNetworkStatusCheck(Networks.Arbitrum)
+      // 2 minutes delta
+      const delta = 120 * 1000
+      const timeBetweenCalls = 10 * 1000
+      // If blocks change, is not considered stale
+      for (let i = 0; i < delta / timeBetweenCalls; i++) {
+        jest.spyOn(network, 'requestBlockHeight').mockReturnValue(Promise.resolve(`0x${i}`))
+        expect(await getNetworkStatus(delta)).toBe(true)
+        clock.tick(timeBetweenCalls)
+      }
+      // After delta time passed the current block should be considered healthy
+      expect(await getNetworkStatus(delta)).toBe(true)
+      clock.tick(timeBetweenCalls)
+      expect(await getNetworkStatus(delta)).toBe(true)
     })
   })
 })

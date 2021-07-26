@@ -1,72 +1,44 @@
 import { ExecuteFactory } from '@chainlink/types'
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
-import { RPC_ENDPOINTS, ExtendedConfig, Networks, makeConfig, HEALTH_ENDPOINTS } from './config'
+import { ExtendedConfig, Networks, makeConfig } from './config'
+import { requestBlockHeight, getSequencerHealth } from './network'
 
-const getSequencerHealth = async (network: Networks): Promise<boolean> => {
-  if (!HEALTH_ENDPOINTS[network]) {
-    throw new Error(`Health endpoint not supported for network: ${network}`)
-  }
-  const response = await Requester.request({
-    url: HEALTH_ENDPOINTS[network]?.endpoint,
-  })
-  return !!Requester.getResult(response.data, HEALTH_ENDPOINTS[network]?.responsePath)
-}
-
-// TODO: Unit tests on getStatus
-const makeNetworkStatusCheck = () => {
-  const lastSeenBlockHeights = {
-    [Networks.Arbitrum]: {
-      block: '',
-      timestamp: 0,
-    },
-    [Networks.Optimism]: {
-      block: '',
-      timestamp: 0,
-    },
+export const makeNetworkStatusCheck = (network: Networks) => {
+  let lastSeenBlock = {
+    block: '',
+    timestamp: 0,
   }
 
-  const requestBlockHeight = async (network: Networks): Promise<string> => {
-    const request = {
-      method: 'POST',
-      url: RPC_ENDPOINTS[network],
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      data: {
-        jsonrpc: '2.0',
-        method: 'eth_blockNumber',
-        params: [],
-        id: 83,
-      },
-    }
-    const response = await Requester.request(request)
-    return response?.data.result
+  const _isPastBlock = (block: string) => lastSeenBlock.block === block
+  const _isStaleBlock = (block: string, delta: number): boolean => {
+    return _isPastBlock(block) && Date.now() - lastSeenBlock.timestamp >= delta
   }
-
-  const isStaleBlock = (network: Networks, block: string, delta: number): boolean => {
-    const _isPastBlock = (block: string) => lastSeenBlockHeights[network].block === block
-    return _isPastBlock(block) && Date.now() - lastSeenBlockHeights[network].timestamp > delta
-  }
-
-  const updateLastSeenBlock = (network: Networks, block: string): void => {
-    lastSeenBlockHeights[network] = {
+  const _updateLastSeenBlock = (block: string): void => {
+    lastSeenBlock = {
       block,
       timestamp: Date.now(),
     }
   }
 
-  return async (network: Networks, delta: number): Promise<boolean> => {
+  return async (delta: number): Promise<boolean> => {
     const block = await requestBlockHeight(network)
-    if (!isStaleBlock(network, block, delta)) {
-      updateLastSeenBlock(network, block)
+    if (!_isStaleBlock(block, delta)) {
+      if (!_isPastBlock(block)) _updateLastSeenBlock(block)
       return true
     }
     return false
   }
 }
 
-const getNetworkStatus = makeNetworkStatusCheck()
+const networks: Record<Networks, (delta: number) => Promise<boolean>> = {
+  [Networks.Arbitrum]: makeNetworkStatusCheck(Networks.Arbitrum),
+  [Networks.Optimism]: makeNetworkStatusCheck(Networks.Optimism),
+}
+
+const getNetworkStatus = (network: Networks, delta: number) => {
+  return networks[network](delta)
+}
 
 export const inputParameters: InputParameters = {
   network: true,
@@ -79,21 +51,23 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
   const jobRunID = validator.validated.id
   const network = validator.validated.data.network as Networks
 
-  const _tryCatch = (fn: any) => async (...args: any[]): Promise<boolean> => {
-    try {
-      return await fn(...args)
-    } catch (e) {
-      console.error(e)
-    }
-    return false
-  }
   // #1 Option: Direct check on health endpoint (getSequencerHealth)
-  // #2 Option: Check block height (getNetworkStatus)
-  const isHealthy = await [getSequencerHealth, getNetworkStatus].reduce(async (prev, fn) => {
-    const res = await _tryCatch(fn)(network, config.delta)
-    return res && prev
-  }, Promise.resolve(true))
+  let isHealthyFromSequencer
+  try {
+    isHealthyFromSequencer = await getSequencerHealth(network)
+  } catch (e) {
+    Logger.error(`Direct sequencer check failed: ${e.message}`)
+  }
 
+  // #2 Option: Check block height (getNetworkStatus)
+  let isHealthyFromNetwork
+  try {
+    isHealthyFromNetwork = await getNetworkStatus(network, config.delta)
+  } catch (e) {
+    Logger.error(`Network health check failed: ${e.message}`)
+  }
+
+  const isHealthy = !!isHealthyFromSequencer || !!isHealthyFromNetwork
   // #3 Option: Check L1 Rollup Contract
   // TODO
 
