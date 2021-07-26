@@ -27,6 +27,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   response.data.result = Requester.validateResultNumber(response.data, [
     'data',
     'quote',
+    'quote',
     convert,
     'total_market_cap',
   ])

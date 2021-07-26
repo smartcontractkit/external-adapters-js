@@ -1,0 +1,103 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`coinmarketcap when making a request to coinmarket cap crypto endpoint coinmarketcap replies with error due to too many requests should reply with failure 1`] = `
+Object {
+  "error": Object {
+    "message": "Request failed with status code 429",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 500,
+}
+`;
+
+exports[`coinmarketcap when making a request to coinmarket cap crypto endpoint coinmarketcap replies with success should reply with success 1`] = `
+Object {
+  "data": Object {
+    "result": 6602.60701122,
+  },
+  "jobRunID": "1",
+  "result": 6602.60701122,
+  "statusCode": 200,
+}
+`;
+
+exports[`coinmarketcap when making a request to coinmarket cap crypto endpoint coinmarketcap replies with success when cid passed in should reply with success 1`] = `
+Object {
+  "data": Object {
+    "result": 6602.60701122,
+  },
+  "jobRunID": "1",
+  "result": 6602.60701122,
+  "statusCode": 200,
+}
+`;
+
+exports[`coinmarketcap when making a request to coinmarket cap crypto endpoint coinmarketcap replies with success when single symbol passed in should reply with success 1`] = `
+Object {
+  "data": Object {
+    "result": 6602.60701122,
+  },
+  "jobRunID": "1",
+  "result": 6602.60701122,
+  "statusCode": 200,
+}
+`;
+
+exports[`coinmarketcap when making a request to coinmarket cap crypto endpoint coinmarketcap replies with success when slug passed in should reply with success 1`] = `
+Object {
+  "data": Object {
+    "result": 6602.60701122,
+  },
+  "jobRunID": "1",
+  "result": 6602.60701122,
+  "statusCode": 200,
+}
+`;
+
+exports[`coinmarketcap when making a request to coinmarket cap to dominance endpoint coinmarketcap replies with error due to too many requests should reply with failure 1`] = `
+Object {
+  "error": Object {
+    "message": "Request failed with status code 429",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 500,
+}
+`;
+
+exports[`coinmarketcap when making a request to coinmarket cap to dominance endpoint coinmarketcap replies with success should reply with success 1`] = `
+Object {
+  "data": Object {
+    "result": 67.0057,
+  },
+  "jobRunID": "1",
+  "result": 67.0057,
+  "statusCode": 200,
+}
+`;
+
+exports[`coinmarketcap when making a request to coinmarket cap to globalmarketcap endpoint coinmarketcap replies with error due to too many requests should reply with failure 1`] = `
+Object {
+  "error": Object {
+    "message": "Request failed with status code 429",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 500,
+}
+`;
+
+exports[`coinmarketcap when making a request to coinmarket cap to globalmarketcap endpoint coinmarketcap replies with success should reply with success 1`] = `
+Object {
+  "data": Object {
+    "result": 2374432083905.6846,
+  },
+  "jobRunID": "1",
+  "result": 2374432083905.6846,
+  "statusCode": 200,
+}
+`;
