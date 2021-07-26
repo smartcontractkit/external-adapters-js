@@ -8,6 +8,12 @@ Adapter that checks the Layer 2 Sequencer status
 | Required? |  Name   |                                                        Description                                                         | Options | Defaults to |
 | :-------: | :-----: | :------------------------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
 |           | `DELTA` | Maximum time in miliseconds from last seen block for the sequencer to be considered healthy |         |     180000 (3 min)        |
+|           | `ARBITRUM_RPC_ENDPOINT` | Arbitrum RPC Endpoint |         |     https://arb1.arbitrum.io/rpc       |
+|           | `ARBITRUM_HEALTH_ENDPOINT` | Arbitrum Health Endpoint |         |   |
+|           | `OPTIMISM_RPC_ENDPOINT` | Optimism RPC Endpoint |         |     https://mainnet.optimism.io       |
+|           | `OPTIMISM_HEALTH_ENDPOINT` | Optimism Health Endpoint |         |     https://mainnet-sequencer.optimism.io/health       |
+
+For the adapter to be useful on the desired network, at least one endpoint (RPC or HEALTH) needs to provided
 
 ---
 
@@ -35,7 +41,8 @@ Adapter that checks the Layer 2 Sequencer status
 {
   "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
   "data": {
-    "healthy": true
+    "result": true,
+    "isHealthy": true
   },
   "statusCode": 200
 }

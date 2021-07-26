@@ -12,7 +12,6 @@ export const requestBlockHeight = async (network: Networks): Promise<string> => 
       jsonrpc: '2.0',
       method: 'eth_blockNumber',
       params: [],
-      id: 83,
     },
   }
   const response = await Requester.request(request)

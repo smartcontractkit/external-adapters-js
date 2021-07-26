@@ -12,17 +12,18 @@ export enum Networks {
 }
 
 export const RPC_ENDPOINTS = {
-  [Networks.Arbitrum]: 'https://arb1.arbitrum.io/rpc',
-  [Networks.Optimism]: 'https://mainnet.optimism.io',
+  [Networks.Arbitrum]: util.getEnv('ARBITRUM_RPC_ENDPOINT') || 'https://arb1.arbitrum.io/rpc',
+  [Networks.Optimism]: util.getEnv('OPTIMISM_RPC_ENDPOINT') || 'https://mainnet.optimism.io',
 }
 
 export const HEALTH_ENDPOINTS = {
   [Networks.Arbitrum]: {
-    endpoint: undefined,
+    endpoint: util.getEnv('ARBITRUM_HEALTH_ENDPOINT'),
     responsePath: [],
   },
   [Networks.Optimism]: {
-    endpoint: 'https://mainnet-sequencer.optimism.io/health',
+    endpoint:
+      util.getEnv('OPTIMISM_HEALTH_ENDPOINT') || 'https://mainnet-sequencer.optimism.io/health',
     responsePath: ['healthy'],
   },
 }
