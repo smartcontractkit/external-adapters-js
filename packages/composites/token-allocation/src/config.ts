@@ -1,7 +1,7 @@
 import Amberdata from '@chainlink/amberdata-adapter'
 import CoinApi from '@chainlink/coinapi-adapter'
 import CoinGecko from '@chainlink/coingecko-adapter'
-import CoinMarketCap from '@chainlink/coinmarketcap-adapter'
+import * as CoinMarketCap from '@chainlink/coinmarketcap-adapter'
 import CoinPaprika from '@chainlink/coinpaprika-adapter'
 import CryptoCompare from '@chainlink/cryptocompare-adapter'
 import { Requester, util } from '@chainlink/ea-bootstrap'
