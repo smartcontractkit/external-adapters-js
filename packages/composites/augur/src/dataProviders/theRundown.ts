@@ -28,6 +28,10 @@ interface TheRundownEvent {
       }
       total: {
         total_over: number
+      },
+      moneyline: {
+        moneyline_home: number,
+        moneyline_away: number
       }
     }
   }
@@ -125,14 +129,16 @@ export const create: Execute = async (input) => {
     const eventId = eventIdToNum(event.event_id)
     const [headToHeadMarket, spreadMarket, totalScoreMarket]: [ethers.BigNumber, ethers.BigNumber, ethers.BigNumber] = await contract.getEventMarkets(eventId)
 
-    // only create spread and totalScore markets if lines exist; always create headToHead market
-    let homeSpread = transformSpecialNone(affiliateId && event.lines?.[affiliateId].spread.point_spread_home)
-    let totalScore = transformSpecialNone(affiliateId && event.lines?.[affiliateId].total.total_over)
-    const createSpread = homeSpread !== undefined
-    const createTotalScore = totalScore !== undefined
-    homeSpread = homeSpread || 0
-    totalScore = totalScore || 0
-    const canCreate = headToHeadMarket.isZero() || (spreadMarket.isZero() && createSpread) || (totalScoreMarket.isZero() && createTotalScore)
+    // Only create head-to-head market if moneylines exist. Only create spread and total-score markets if their lines exist.
+    const moneylineHome = transformSpecialNone(affiliateId && event.lines?.[affiliateId].moneyline.moneyline_home)
+    const moneylineAway = transformSpecialNone(affiliateId && event.lines?.[affiliateId].moneyline.moneyline_away)
+    const homeSpread = transformSpecialNone(affiliateId && event.lines?.[affiliateId].spread.point_spread_home)
+    const totalScore = transformSpecialNone(affiliateId && event.lines?.[affiliateId].total.total_over)
+
+    const createHeadToHead = headToHeadMarket.isZero() && moneylineHome && moneylineAway
+    const createSpread = spreadMarket.isZero() && homeSpread !== undefined
+    const createTotalScore = totalScoreMarket.isZero() && totalScore !== undefined
+    const canCreate = createHeadToHead || createSpread || createTotalScore
     if (!canCreate) {
       cantCreate++
       continue
@@ -143,10 +149,11 @@ export const create: Execute = async (input) => {
       homeTeamId: homeTeam.team_id,
       awayTeamId: awayTeam.team_id,
       startTime,
-      homeSpread,
-      totalScore,
+      homeSpread: homeSpread || 0,
+      totalScore: totalScore || 0,
       createSpread,
-      createTotalScore
+      createTotalScore,
+      moneylines: [moneylineHome || 0, moneylineAway || 0]
     })
   }
 

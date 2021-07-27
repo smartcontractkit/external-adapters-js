@@ -208,7 +208,8 @@ export const createTeam: Execute = async (input) => {
       homeSpread: 0, // TODO: Missing
       totalScore: 0, // TODO: Missing
       createSpread: false, // TODO: Missing
-      createTotalScore: false // TODO: Missing
+      createTotalScore: false, // TODO: Missing
+      moneylines: [0, 0] // TODO Missing
     })
   }
 

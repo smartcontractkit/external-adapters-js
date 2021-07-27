@@ -55,6 +55,7 @@ export const TEAM_ABI = [
       { internalType: "uint256", name: "_totalScore", type: "uint256", },
       { internalType: "bool", name: "_makeSpread", type: "bool", },
       { internalType: "bool", name: "_makeTotalScore", type: "bool", },
+      { internalType: "int256[2]", name: "_moneylines", type: "int256[2]" }
     ],
     name: "createMarket",
     outputs: [
