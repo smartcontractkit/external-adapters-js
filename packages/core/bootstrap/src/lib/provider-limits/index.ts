@@ -68,7 +68,7 @@ const getProviderLimits = (
     logger.debug(
       `Rate Limit: "${provider} does not have tier ${tier} defined. Falling back to lowest tier"`,
     )
-    limitsConfig = protocolConfig['0']
+    limitsConfig = Object.values(protocolConfig)?.[0]
   }
 
   if (!limitsConfig)
