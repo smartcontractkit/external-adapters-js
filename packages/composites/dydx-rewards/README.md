@@ -13,6 +13,11 @@ The adapter takes the following environment variables:
 |    ✅     | `PRIVATE_KEY` | Private key of account used to make special callbacks |         |             |
 |    ✅     |   `RPC_URL`   |                  RPC URL of ETH node                  |         |             |
 
+**Additional environment variables must be set according to the IPFS adapter.**
+This composite adapter executes the code from the IPFS source adapter. As such the same configuration apply to this
+adapter. See [../../sources/ipfs/README.md](../../sources/ipfs/README.md) for more details. The IPFS adapter environment
+variables need to be prefixed with `IPFS_`.
+
 ## Running
 
 See the [Composite Adapter README](../README.md) for more information on how to get started.
