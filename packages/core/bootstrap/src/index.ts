@@ -24,13 +24,18 @@ import {
 import * as metrics from './lib/metrics'
 import { getFeedId } from './lib/metrics/util'
 import * as rateLimit from './lib/rate-limit'
+import * as burstLimit from './lib/burst-limit'
 import * as server from './lib/server'
 import { configureStore } from './lib/store'
 import * as util from './lib/util'
 import * as ws from './lib/ws'
 import http from 'http'
 
+const REDUX_MIDDLEWARE = ['burstLimit', 'cacheWarmer', 'rateLimit', 'ws'] as const
+type ReduxMiddleware = typeof REDUX_MIDDLEWARE[number]
+
 const rootReducer = combineReducers({
+  burstLimit: burstLimit.reducer.rootReducer,
   cacheWarmer: cacheWarmer.reducer.rootReducer,
   rateLimit: rateLimit.reducer.rootReducer,
   ws: ws.reducer.rootReducer,
@@ -39,7 +44,7 @@ const rootReducer = combineReducers({
 export type RootState = ReturnType<typeof rootReducer>
 
 // Init store
-const initState = { cacheWarmer: {}, rateLimit: {}, ws: {} }
+const initState = { burstLimit: {}, cacheWarmer: {}, rateLimit: {}, ws: {} }
 export const store = configureStore(rootReducer, initState, [
   cacheWarmer.epics.epicMiddleware,
   ws.epics.epicMiddleware,
@@ -49,7 +54,7 @@ export const store = configureStore(rootReducer, initState, [
 cacheWarmer.epics.epicMiddleware.run(cacheWarmer.epics.rootEpic)
 ws.epics.epicMiddleware.run(ws.epics.rootEpic)
 
-const storeSlice = (slice: any) =>
+const storeSlice = (slice: ReduxMiddleware) =>
   ({
     getState: () => store.getState()[slice],
     dispatch: (a) => store.dispatch(a),
@@ -147,7 +152,7 @@ export const makeMiddleware = (
   endpointSelector?: (request: AdapterRequest) => APIEndpoint,
 ): Middleware[] => {
   const warmerMiddleware = [
-    withCache,
+    withCache(storeSlice('burstLimit')),
     rateLimit.withRateLimit(storeSlice('rateLimit')),
     withStatusCode,
     withNormalizedInput(endpointSelector),
@@ -155,7 +160,7 @@ export const makeMiddleware = (
 
   return [
     withLogger,
-    withCache,
+    withCache(storeSlice('burstLimit')),
     cacheWarmer.withCacheWarmer(storeSlice('cacheWarmer'), warmerMiddleware, {
       store: storeSlice('ws'),
       makeWSHandler: makeWsHandler,

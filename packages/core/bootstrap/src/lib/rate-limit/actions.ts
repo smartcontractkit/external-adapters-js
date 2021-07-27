@@ -7,8 +7,8 @@ export interface SuccessfulRequestObservedPayload extends ActionBase {
   response: AdapterResponse
 }
 
-export const successfulRequestObserved = createAction(
-  'RL/SUCCESSFUL_REQUEST_OBSERVED',
+export const successfulResponseObserved = createAction(
+  'RL/SUCCESSFUL_RESPONSE_OBSERVED',
   (input: AdapterRequest, response: AdapterResponse) => ({
     payload: toActionPayload({ input, response }) as SuccessfulRequestObservedPayload,
   }),
