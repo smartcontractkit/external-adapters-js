@@ -1,6 +1,23 @@
-import { Requester } from '@chainlink/ea-bootstrap'
+import { Logger, Requester } from '@chainlink/ea-bootstrap'
 import { HEALTH_ENDPOINTS, Networks, RPC_ENDPOINTS } from './config'
 import { BigNumber } from 'ethers'
+
+export interface NetworkHealthCheck {
+  (network: Networks, delta: number): Promise<undefined | boolean>
+}
+
+export const getSequencerHealth: NetworkHealthCheck = async (
+  network: Networks,
+): Promise<undefined | boolean> => {
+  if (!HEALTH_ENDPOINTS[network].endpoint) {
+    Logger.info(`Health endpoint not available for network: ${network}`)
+    return
+  }
+  const response = await Requester.request({
+    url: HEALTH_ENDPOINTS[network]?.endpoint,
+  })
+  return !!Requester.getResult(response.data, HEALTH_ENDPOINTS[network]?.responsePath)
+}
 
 export const requestBlockHeight = async (network: Networks): Promise<number> => {
   const request = {
@@ -24,12 +41,7 @@ export const requestBlockHeight = async (network: Networks): Promise<number> => 
   return BigNumber.from(hexBlock).toNumber()
 }
 
-export const getSequencerHealth = async (network: Networks): Promise<boolean> => {
-  if (!HEALTH_ENDPOINTS[network].endpoint) {
-    throw new Error(`Health endpoint not available for network: ${network}`)
-  }
-  const response = await Requester.request({
-    url: HEALTH_ENDPOINTS[network]?.endpoint,
-  })
-  return !!Requester.getResult(response.data, HEALTH_ENDPOINTS[network]?.responsePath)
+// TODO: Implement when ready
+export const getL1RollupStatus: NetworkHealthCheck = async (): Promise<boolean> => {
+  return true
 }

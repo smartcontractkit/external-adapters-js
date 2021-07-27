@@ -2,7 +2,12 @@ import { ExecuteFactory } from '@chainlink/types'
 import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { ExtendedConfig, Networks, makeConfig } from './config'
-import { requestBlockHeight, getSequencerHealth } from './network'
+import {
+  requestBlockHeight,
+  getSequencerHealth,
+  getL1RollupStatus,
+  NetworkHealthCheck,
+} from './network'
 
 export const makeNetworkStatusCheck = (network: Networks) => {
   let lastSeenBlock: { block: number; timestamp: number } = {
@@ -38,7 +43,7 @@ const networks: Record<Networks, (delta: number) => Promise<boolean>> = {
   [Networks.Optimism]: makeNetworkStatusCheck(Networks.Optimism),
 }
 
-const getNetworkStatus = (network: Networks, delta: number) => {
+export const getL2NetworkStatus: NetworkHealthCheck = (network: Networks, delta: number) => {
   return networks[network](delta)
 }
 
@@ -53,27 +58,37 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
   const jobRunID = validator.validated.id
   const network = validator.validated.data.network as Networks
 
-  // #1 Option: Direct check on health endpoint (getSequencerHealth)
-  let isHealthyFromSequencer
-  try {
-    isHealthyFromSequencer = await getSequencerHealth(network)
-  } catch (e) {
-    Logger.error(`Direct sequencer check failed: ${e.message}`)
+  const _respond = (isHealthy: boolean) =>
+    Requester.success(jobRunID, { data: { isHealthy, result: isHealthy } }, config.verbose)
+
+  const _tryMethod = (fn: NetworkHealthCheck) => async (
+    network: Networks,
+    delta: number,
+  ): Promise<boolean> => {
+    try {
+      const isHealthy = await fn(network, delta)
+      if (isHealthy === false) return false
+    } catch (e) {
+      Logger.error(
+        `Method ${fn.name} failed: ${e.message}. Network ${network} considered unhealthy`,
+      )
+      return false
+    }
+    return true
   }
 
-  // #2 Option: Check block height (getNetworkStatus)
-  let isHealthyFromNetwork
-  try {
-    isHealthyFromNetwork = await getNetworkStatus(network, config.delta)
-  } catch (e) {
-    Logger.error(`Network health check failed: ${e.message}`)
-  }
-
-  const isHealthy = !!isHealthyFromSequencer || !!isHealthyFromNetwork
+  // #1 Option: Direct check on health endpoint
+  // #2 Option: Check block height
   // #3 Option: Check L1 Rollup Contract
-  // TODO
+  // If every method succeeds, the Network is considered healthy
+  const wrappedMethods = [getSequencerHealth, getL2NetworkStatus, getL1RollupStatus].map(_tryMethod)
+  for (let i = 0; i < wrappedMethods.length; i++) {
+    const method = wrappedMethods[i]
+    const isHealthy = await method(network, config.delta)
+    if (!isHealthy) return _respond(false)
+  }
 
-  return Requester.success(jobRunID, { data: { isHealthy, result: isHealthy } }, config.verbose)
+  return _respond(true)
 }
 
 export const makeExecute: ExecuteFactory<ExtendedConfig> = (config) => {

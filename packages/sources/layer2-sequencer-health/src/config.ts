@@ -1,7 +1,8 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
+import { parseBool } from '@chainlink/ea-bootstrap/src/lib/util'
 import { Config } from '@chainlink/types'
 
-export const NAME = 'LAYER2_SEQUENCER_HEALTH'
+export const NAME = 'L2_SEQUENCER_HEALTH'
 
 // 3 minutes
 export const DEFAULT_DELTA_TIME = 3 * 60 * 1000
@@ -33,6 +34,10 @@ export interface ExtendedConfig extends Config {
 }
 
 export const makeConfig = (prefix?: string): ExtendedConfig => {
+  const isCacheEnabled = parseBool(util.getEnv('CACHE_ENABLED'))
+  if (isCacheEnabled) {
+    throw new Error('Cache cannot be enabled on this adapter')
+  }
   const config = Requester.getDefaultConfig(prefix)
   const delta = Number(util.getEnv('DELTA', prefix)) || DEFAULT_DELTA_TIME
   return { ...config, delta }
