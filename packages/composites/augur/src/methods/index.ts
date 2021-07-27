@@ -81,7 +81,7 @@ export const TEAM_ABI = [
 
 ]
 
-const CRYPTO_ABI = [
+export const CRYPTO_ABI = [
   ...ABI,
   {
     inputs: [

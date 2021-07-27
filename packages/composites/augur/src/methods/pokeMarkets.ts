@@ -1,20 +1,42 @@
 import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Execute } from '@chainlink/types'
+import { AdapterRequest, AdapterResponse } from '@chainlink/types'
 import { AggregatorV2V3InterfaceFactory } from '@chainlink/contracts/ethers/v0.6/AggregatorV2V3InterfaceFactory'
 import { Config } from '../config'
 import { CRYPTO_ABI } from './index'
-import { ethers } from 'ethers'
+import { ethers, BigNumber, BigNumberish } from 'ethers'
 import { DateTime } from 'luxon'
 
-function parseRoundId(roundId: number) {
-  return roundId >> 64
+
+class RoundManagement {
+  readonly phase: BigNumber;
+  readonly justRound: BigNumber;
+
+  constructor(phase: BigNumberish, justRound: BigNumberish) {
+    this.phase = BigNumber.from(phase);
+    this.justRound = BigNumber.from(justRound);
+  }
+
+  public get id(): BigNumber {
+    return this.phase.shl(64).or(this.justRound);
+  }
+
+  public nextRound(): RoundManagement {
+    return new RoundManagement(this.phase, this.justRound.add(1));
+  }
+
+  public prevRound(): RoundManagement {
+    return new RoundManagement(this.phase, this.justRound.sub(1));
+  }
+
+  static decode(roundId: BigNumberish): RoundManagement {
+    roundId = BigNumber.from(roundId);
+    const phase = roundId.shr(64);
+    const justRoundId = roundId.sub(phase.shl(64));
+    return new RoundManagement(phase, justRoundId);
+  }
 }
 
-function encodeRoundId(rawRoundId: number) {
-  return (rawRoundId << 64) | rawRoundId
-}
-
-function getNextWeekResolutionTimestamp(contract: ethers.Contract) {
+async function getNextWeekResolutionTimestamp(contract: ethers.Contract): Promise<number> {
   const nowEastern = DateTime.now().setZone('America/New_York')
 
   const contractNextResolutionTime = await contract.nextResolutionTime()
@@ -35,13 +57,14 @@ interface Coin {
 }
 
 interface RoundData {
-  roundId: number
-  startedAt: number
-  updatedAt: number
+  roundId: BigNumberish
+  startedAt: BigNumberish
+  updatedAt: BigNumberish
 }
 
-interface RoundDataForCoin extends RoundData {
+interface RoundDataForCoin {
   coinId: number
+  roundId: BigNumberish
 }
 
 const pokeParams = {
@@ -49,7 +72,7 @@ const pokeParams = {
   coinIndex: true,
 }
 
-export async function execute(input, config): ExecuteWithConfig<Config> {
+export async function execute(input: AdapterRequest, config: Config): Promise<AdapterResponse> {
   const validator = new Validator(input, pokeParams)
   if (validator.error) throw validator.error
 
@@ -59,79 +82,70 @@ export async function execute(input, config): ExecuteWithConfig<Config> {
   const contract = new ethers.Contract(contractAddress, CRYPTO_ABI, config.wallet)
 
   try {
-    await pokMarkets(contract, config)
+    await pokeMarkets(contract, config)
   } catch (e) {
-    return Requester.errored(jobRunID, e)
+    throw Requester.errored(jobRunID, e)
   }
 
-  return Requester.success(jobRunID)
+  return Requester.success(jobRunID, {})
 }
 
 async function fetchResolutionRoundIds(
   resolutionTime: number,
   contract: ethers.Contract,
   config: Config,
-): RoundDataForCoin {
-  // TODO: Validate that this is a valid coin index?
+): Promise<RoundDataForCoin[]> {
   const coins: Coin[] = await contract.getCoins()
   return Promise.all(
-    coins.map(async (coin, index): number => {
+    coins.map(async (coin, index) => {
 
       const aggregator = AggregatorV2V3InterfaceFactory.connect(coin.priceFeed, config.wallet)
 
       // Here we are going to walk backward through rounds to make sure that
       // we pick the *first* update after the passed-in resolutionTime
       let roundData: RoundData = await aggregator.latestRoundData()
-      let nextRoundData: RoundData | null = null
-
-      while (roundData.updatedAt >= resolutionTime) {
-        nextRoundData = roundData;
-        roundData = await aggregator.getRoundData(
-          encodeRoundId(parseRoundId(roundData.roundId) - 1),
-        )
-      }
 
       // If any of the coins can't be resolved, don't resolve any of them we
       // may want to change this
-      if (nextRoundData === null) {
+      if (roundData.updatedAt < resolutionTime) {
         throw Error(
           `Augur: cryptoMarkets - oracle update for ${coin.name} has not occured yet, resolutionTime is ${resolutionTime} but oracle was updated at ${roundData.updatedAt}`,
         )
       }
 
+      let round = RoundManagement.decode(roundData.roundId)
+      while (roundData.updatedAt >= resolutionTime) {
+        roundData = await aggregator.getRoundData(round.prevRound().id)
+        round = RoundManagement.decode(roundData.roundId)
+      }
+
       return {
         coinId: index+1, // add one because getCoins excludes the 0th Coin, which is a placeholder for "no coin"
-        roundId: nextRoundData.roundId
+        roundId: round.nextRound().id, // next round because we iterated one past the desired round
       }
     }),
   )
 }
 
-async function createAndResolveMarkets(roundDataForCoins: RoundDataForCoin[], nextWeek: number, contract: ethers.Contract, confg: Config) {
-  let succeded = 0, failed = 0
-  let nonce = await config.wallet.getTransactionCount()
-  for(let data of roundDataForCoins) {
-    try {
-      const payload [
-        roundDataForCoin.coinId,
-        roundDataForCoin.roundId,
-        { nonce }
-      ]
-      await contract.createAndResolveMarketsForCoin(payload)
-      succeded++
-      nonce++
-    } catch(e) {
-      failed++
-      Logger.log(e)
-    }
+async function createAndResolveMarkets(roundDataForCoins: RoundDataForCoin[], nextWeek: number, contract: ethers.Contract, config: Config) {
+  //     function createAndResolveMarkets(uint80[] calldata _roundIds, uint256 _nextResolutionTime) public {
+  const roundIds: BigNumberish[] = ([ 0 ] as BigNumberish[]).concat(roundDataForCoins.map(x => x.roundId))
+
+  const nonce = await config.wallet.getTransactionCount()
+
+  try {
+    await contract.createAndResolveMarkets(roundIds, nextWeek, { nonce })
+    Logger.log(`Augur: createAndResolveMarkets -- success`)
+  } catch (e) {
+    Logger.log(`Augur: createAndResolveMarkets -- failure`)
+    Logger.error(e)
   }
 
-  Logger.log(`Augur: createAndResolveMarkets -- success: ${succeded}, failed: ${failed}`)
 }
 
 async function pokeMarkets(contract: ethers.Contract, config: Config) {
-  const nextWeekResolutionTimestamp = getNextWeekResolutionTimestamp(contract)
-  const coinResolutionRoundIds = fetchResolutionRoundIds(contractNextResolutionTime, contract, config)
-
-  await createAndResolveMarkets(coinResolutionRoundIds, nextWeekEastern, contract, config)
+  const resolutionTime: BigNumber = await contract.nextResolutionTime();
+  const nextResolutionTime = await getNextWeekResolutionTimestamp(contract)
+  const roundIds = await fetchResolutionRoundIds(resolutionTime.toNumber(), contract, config)
+  await createAndResolveMarkets(roundIds, nextResolutionTime, contract, config)
 }

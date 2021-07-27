@@ -23,7 +23,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
       Logger.debug(`Augur: Chose method create`)
       return createMarkets.execute(input, config)
     case 'poke':
-      Logger.debug(`Augur: Chose method creapoke`)
+      Logger.debug(`Augur: Chose method poke`)
       return pokeMarkets.execute(input, config)
     default:
       throw new AdapterError({
