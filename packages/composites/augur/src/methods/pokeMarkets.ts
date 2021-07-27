@@ -70,7 +70,6 @@ interface RoundDataForCoin {
 
 const pokeParams = {
   contractAddress: true,
-  coinIndex: true,
 }
 
 export async function execute(input: AdapterRequest, config: Config): Promise<AdapterResponse> {
@@ -82,11 +81,7 @@ export async function execute(input: AdapterRequest, config: Config): Promise<Ad
   const contractAddress = validator.validated.data.contractAddress
   const contract = new ethers.Contract(contractAddress, CRYPTO_ABI, config.wallet)
 
-  try {
-    await pokeMarkets(contract, config)
-  } catch (e) {
-    throw Requester.errored(jobRunID, e)
-  }
+  await pokeMarkets(contract, config)
 
   return Requester.success(jobRunID, {})
 }
