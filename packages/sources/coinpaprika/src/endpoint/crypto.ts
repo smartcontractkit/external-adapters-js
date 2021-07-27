@@ -14,7 +14,7 @@ const buildPath = (path: string) => (request: AdapterRequest): string => {
 
 export const endpointResultPaths = {
   crypto: buildPath('price'),
-  marketcap: buildPath('marketcap'),
+  marketcap: buildPath('market_cap'),
   price: buildPath('price'),
 }
 
