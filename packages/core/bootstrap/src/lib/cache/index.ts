@@ -1,6 +1,9 @@
 import { AdapterContext, AdapterRequest, AdapterResponse, Middleware } from '@chainlink/types'
 import hash from 'object-hash'
 import { logger } from '../external-adapter'
+import { Store } from 'redux'
+import { reducer } from '../burst-limit'
+import { withBurstLimit } from '../burst-limit'
 import {
   delay,
   exponentialBackOffMs,
@@ -101,7 +104,10 @@ export const redactOptions = (options: CacheOptions): CacheOptions => ({
       : local.redactOptions(options.cacheImplOptions),
 })
 
-export const withCache: Middleware = async (execute, context: AdapterContext) => {
+export const withCache = (rateLimit?: Store<reducer.BurstLimitState>): Middleware => async (
+  execute,
+  context: AdapterContext,
+) => {
   // If disabled noop
   if (!context?.cache?.instance) return (data: AdapterRequest) => execute(data, context)
 
@@ -212,7 +218,9 @@ export const withCache: Middleware = async (execute, context: AdapterContext) =>
       return await execute(adapterRequest, context)
     }
 
-    const result = await execute(adapterRequest, context)
+    const burstRateLimit = withBurstLimit(rateLimit)
+    const executeWithBackoff = await burstRateLimit(execute, context)
+    const result = await executeWithBackoff(adapterRequest, context)
 
     try {
       // Add successful result to cache

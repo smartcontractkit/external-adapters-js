@@ -1,7 +1,7 @@
 import { AdapterRequest, Middleware } from '@chainlink/types'
 import hash from 'object-hash'
 import { Store } from 'redux'
-import { successfulRequestObserved } from './actions'
+import { successfulResponseObserved } from './actions'
 import * as config from './config'
 import * as metrics from './metrics'
 import {
@@ -77,7 +77,7 @@ export const withRateLimit = (store: Store<RootState>): Middleware => async (
   const maxAge = maxAgeFor(maxThroughput, Intervals[IntervalNames.MINUTE])
   const result = await execute({ ...input, rateLimitMaxAge: maxAge }, context)
 
-  store.dispatch(successfulRequestObserved(input, result))
+  store.dispatch(successfulResponseObserved(input, result))
   state = store.getState()
 
   const defaultLabels = {

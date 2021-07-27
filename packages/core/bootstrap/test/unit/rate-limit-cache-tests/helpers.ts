@@ -27,7 +27,7 @@ export const makeExecuteWithWarmer = async (execute: Execute, store: Store) => {
     },
   }
   const executeWithMiddleware = await withMiddleware(execute, context, [
-    withCache,
+    withCache(),
     rateLimit.withRateLimit({
       getState: () => store.getState().rateLimit,
       dispatch: (a) => store.dispatch(a),

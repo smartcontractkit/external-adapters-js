@@ -42,7 +42,7 @@ export const getMaxAgeOverride = (adapterRequest: AdapterRequest): number | unde
 export const getTTL = (
   adapterRequest: AdapterRequest,
   options: CacheOptions = defaultOptions(),
-) => {
+): number => {
   const TTL = getMaxAgeOverride(adapterRequest) || getRateLimitMaxAge(adapterRequest)
   if (!TTL || TTL < options.minimumAge) return options.minimumAge
   return TTL

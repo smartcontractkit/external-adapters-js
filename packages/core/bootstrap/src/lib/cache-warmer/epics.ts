@@ -27,7 +27,7 @@ import {
   warmupSubscriptionTimeoutReset,
   warmupUnsubscribed,
 } from './actions'
-import { Config, get, WARMUP_REQUEST_ID } from './config'
+import { Config, get, WARMUP_REQUEST_ID, WARMUP_BATCH_REQUEST_ID } from './config'
 import { getSubscriptionKey } from './util'
 import { getTTL } from '../cache/ttl'
 
@@ -183,7 +183,7 @@ export const warmupRequestHandler: Epic<AnyAction, AnyAction, any> = (action$, s
     mergeMap(({ requestData, key }) =>
       from(
         requestData.executeFn({
-          id: WARMUP_REQUEST_ID,
+          id: requestData.childLastSeenById ? WARMUP_BATCH_REQUEST_ID : WARMUP_REQUEST_ID,
           data: { ...requestData.origin, maxAge: -1 },
         }),
       ).pipe(

@@ -3,6 +3,7 @@ import { getHashOpts } from '../util'
 import { MINIMUM_AGE } from '../cache/index'
 
 export const WARMUP_REQUEST_ID = '9001'
+export const WARMUP_BATCH_REQUEST_ID = '9002'
 
 export interface Config {
   /**
