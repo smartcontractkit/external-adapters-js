@@ -2783,6 +2783,7 @@ __metadata:
     "@chainlink/twelvedata-adapter": "*"
     "@chainlink/unibit-adapter": "*"
     "@chainlink/wbtc-address-set-adapter": "*"
+    "@chainlink/wootrade-adapter": "*"
     "@chainlink/xbto-adapter": "*"
     "@types/chai": ^4.2.15
     "@types/jest": ^26.0.22
@@ -3744,6 +3745,20 @@ __metadata:
 "@chainlink/wbtc-address-set-adapter@*, @chainlink/wbtc-address-set-adapter@workspace:packages/sources/wbtc-address-set":
   version: 0.0.0-use.local
   resolution: "@chainlink/wbtc-address-set-adapter@workspace:packages/sources/wbtc-address-set"
+  dependencies:
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.0.1
+    "@types/jest": ^26.0.22
+    "@types/node": ^14.14.35
+    tslib: ^2.1.0
+    typescript: ^4.2.3
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/wootrade-adapter@*, @chainlink/wootrade-adapter@workspace:packages/sources/wootrade":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/wootrade-adapter@workspace:packages/sources/wootrade"
   dependencies:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-test-helpers": "*"
