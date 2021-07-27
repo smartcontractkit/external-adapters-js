@@ -9,14 +9,13 @@ import {
 import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['quotes']
-export const batchablePropertyPath = ['base', 'quote']
+export const batchablePropertyPath = [{ name: 'base' }, { name: 'quote' }]
 
 export const inputParameters: InputParameters = {
   base: ['base', 'from'],
   quote: ['quote', 'to'],
   quantity: false,
 }
-
 const handleBatchedRequest = (
   jobRunID: string,
   request: AdapterRequest,
@@ -34,10 +33,7 @@ const handleBatchedRequest = (
       Requester.validateResultNumber(pair, [resultPath]),
     ])
   }
-  return Requester.success(jobRunID, Requester.withResult(response, undefined, payload), true, [
-    'base',
-    'quote',
-  ])
+  return Requester.success(jobRunID, Requester.withResult(response, undefined, payload), true, batchablePropertyPath)
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -72,5 +68,5 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     return handleBatchedRequest(jobRunID, request, response, 'a')
 
   response.data.result = Requester.validateResultNumber(response.data[0], ['a'])
-  return Requester.success(jobRunID, response, config.verbose, ['base', 'quote'])
+  return Requester.success(jobRunID, response, config.verbose, batchablePropertyPath)
 }
