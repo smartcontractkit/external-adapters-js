@@ -1,10 +1,11 @@
 import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { AdapterRequest, AdapterResponse } from '@chainlink/types'
-import { AggregatorV2V3InterfaceFactory } from '@chainlink/contracts/ethers/v0.6/AggregatorV2V3InterfaceFactory'
-import { Config } from '../config'
-import { CRYPTO_ABI } from './index'
 import { ethers, BigNumber, BigNumberish } from 'ethers'
 import { DateTime } from 'luxon'
+
+import { Config } from '../config'
+import { CRYPTO_ABI } from './index'
+import AggregatorV3InterfaceABI from '../abis/AggregatorV3Interface.json'
 
 
 class RoundManagement {
@@ -99,7 +100,7 @@ async function fetchResolutionRoundIds(
   return Promise.all(
     coins.map(async (coin, index) => {
 
-      const aggregator = AggregatorV2V3InterfaceFactory.connect(coin.priceFeed, config.wallet)
+      const aggregator = new ethers.Contract(coin.priceFeed, AggregatorV3InterfaceABI, config.wallet)
 
       // Here we are going to walk backward through rounds to make sure that
       // we pick the *first* update after the passed-in resolutionTime
