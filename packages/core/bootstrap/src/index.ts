@@ -212,13 +212,14 @@ export type ExecuteHandler = {
 }
 
 export const expose = (
+  name: string,
   execute: Execute,
   makeWsHandler?: MakeWSHandler,
   endpointSelector?: (request: AdapterRequest) => APIEndpoint,
 ): ExecuteHandler => {
   const middleware = makeMiddleware(execute, makeWsHandler, endpointSelector)
   return {
-    server: server.initHandler(execute, middleware),
+    server: server.initHandler(name, execute, middleware),
   }
 }
 
