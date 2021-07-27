@@ -98,6 +98,11 @@ Binary columns report if there was an occurrence of that type on the specified d
 - thunder
 - tornado_funnel_cloud
 
+### Total
+
+- prcp - Total precipitation (rain and/or melted snow) reported during the day in inches and hundredths; will usually not end with the midnight observation--i.e., may include latter part of previous day.
+- sndp - Snow depth in inches to tenths--last report for the day if reported more than once.
+
 ## Unit conversion
 
 The adapter supports converting units from imperial to metric.
