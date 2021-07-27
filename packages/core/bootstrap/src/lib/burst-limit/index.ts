@@ -19,7 +19,7 @@ export const withBurstLimit = (store?: Store<BurstLimitState>): Middleware => as
   execute,
   context,
 ) => async (input) => {
-  const config = rateLimitConfig.get()
+  const config = rateLimitConfig.get(context)
   if (!store || !config.enabled) return await execute(input, context)
 
   const state = store.getState()

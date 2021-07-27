@@ -1,7 +1,7 @@
-import objectHash from 'object-hash'
 import { getRateLimit } from '../provider-limits'
-import { getHashOpts, getEnv, parseBool } from '../util'
+import { getEnv, parseBool } from '../util'
 import { logger } from '../external-adapter'
+import { AdapterContext } from '@chainlink/types'
 
 export interface Config {
   /**
@@ -11,21 +11,16 @@ export interface Config {
   totalCapacity: number
 
   /**
-   * Hashing options for differentiating requests
-   */
-  hashOpts: Required<Parameters<typeof objectHash>>['1']
-
-  /**
    * Determines if Rate Limit option is activated
    */
   enabled: boolean
 }
 
-export function get(): Config {
+export function get(context: AdapterContext): Config {
   const enabled = parseBool(getEnv('EXPERIMENTAL_RATE_LIMIT_ENABLED'))
   let capacity = parseInt(getEnv('RATE_LIMIT_CAPACITY') || '')
   if (!capacity && enabled) {
-    const provider = getEnv('RATE_LIMIT_API_PROVIDER') || ''
+    const provider = getEnv('RATE_LIMIT_API_PROVIDER') || context.name || ''
     const tier = getEnv('RATE_LIMIT_API_TIER') || ''
     try {
       const providerConfig = getRateLimit(provider, tier)
@@ -35,7 +30,6 @@ export function get(): Config {
     }
   }
   return {
-    hashOpts: getHashOpts(),
     totalCapacity: capacity,
     enabled: enabled && !!capacity,
   }

@@ -22,10 +22,13 @@ export const HEADER_CONTENT_TYPE = 'Content-Type'
 export const CONTENT_TYPE_APPLICATION_JSON = 'application/json'
 export const CONTENT_TYPE_TEXT_PLAIN = 'text/plain'
 
-export const initHandler = (execute: Execute, middleware: Middleware[]) => async (): Promise<
-  http.Server
-> => {
+export const initHandler = (
+  name: string,
+  execute: Execute,
+  middleware: Middleware[],
+) => async (): Promise<http.Server> => {
   const context: AdapterContext = {
+    name,
     cache: null,
   }
   const cacheOptions = defaultOptions()

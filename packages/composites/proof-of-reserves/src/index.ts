@@ -4,6 +4,6 @@ import { makeConfig } from './config'
 
 const NAME = 'PROOF_OF_RESERVES'
 
-const handlers = expose(makeExecute())
+const handlers = expose(NAME, makeExecute())
 
 export = { NAME, makeConfig, makeExecute, handlers }
