@@ -81,7 +81,7 @@ describe('adapter', () => {
         undefined,
       )
 
-      expect(response.data.result).toBe(false)
+      expect(response.data.result).toBe(1)
     })
 
     it('If direct sequencer check throws, the network is unhealthy', async () => {
@@ -98,7 +98,7 @@ describe('adapter', () => {
         undefined,
       )
 
-      expect(response.data.result).toBe(false)
+      expect(response.data.result).toBe(1)
     })
 
     it('If direct sequencer check succeeds and L2 network check succeeds, the network is healthy', async () => {
@@ -114,7 +114,7 @@ describe('adapter', () => {
         undefined,
       )
 
-      expect(response.data.result).toBe(true)
+      expect(response.data.result).toBe(0)
     })
 
     it('If direct sequencer check succeeds and L2 network check fails, the network is unhealthy', async () => {
@@ -141,7 +141,7 @@ describe('adapter', () => {
         undefined,
       )
 
-      expect(response.data.result).toBe(false)
+      expect(response.data.result).toBe(1)
     })
 
     it('If direct sequencer check succeeds and L2 network check throws, the network is unhealthy', async () => {
@@ -159,7 +159,7 @@ describe('adapter', () => {
         undefined,
       )
 
-      expect(response.data.result).toBe(false)
+      expect(response.data.result).toBe(1)
     })
   })
 
