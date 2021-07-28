@@ -51,7 +51,7 @@ describe('Rate Limit/Cache - Integration', () => {
       const store = createStore(rateLimit.reducer.rootReducer, {})
       const dataProvider = dataProviderMock(cost)
       const executeWithMiddleware = await withMiddleware(dataProvider.execute, context, [
-        withCache,
+        withCache(),
         rateLimit.withRateLimit(store),
         withDebug,
       ])
@@ -77,7 +77,7 @@ describe('Rate Limit/Cache - Integration', () => {
     const store = createStore(rateLimit.reducer.rootReducer, {})
     const dataProvider = dataProviderMock()
     const executeWithMiddleware = await withMiddleware(dataProvider.execute, context, [
-      withCache,
+      withCache(),
       rateLimit.withRateLimit(store),
       withDebug,
     ])
@@ -105,7 +105,7 @@ describe('Rate Limit/Cache - Integration', () => {
     const store = createStore(rateLimit.reducer.rootReducer, {})
     const dataProvider = dataProviderMock(cost)
     const executeWithMiddleware = await withMiddleware(dataProvider.execute, context, [
-      withCache,
+      withCache(),
       rateLimit.withRateLimit(store),
       withDebug,
     ])
