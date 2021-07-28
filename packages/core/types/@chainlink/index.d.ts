@@ -2,6 +2,7 @@
 declare module '@chainlink/types' {
   import type { CacheOptions } from '@chainlink/ea-bootstrap'
   export interface AdapterContext {
+    name?: string
     cache?: CacheOptions
   }
 
@@ -190,10 +191,14 @@ declare module '@chainlink/types' {
     subsFromMessage: (message: any, subscriptionMsg: any) => any
     // Allows for connection info to be set programmatically based on the input request
     // This is useful for data providers that only allow subscriptions based on URL params
-    programmaticConnectionInfo?: (input: AdapterRequest) => {
-      key: string
-      url: string
-    } | undefined
+    programmaticConnectionInfo?: (
+      input: AdapterRequest,
+    ) =>
+      | {
+          key: string
+          url: string
+        }
+      | undefined
   }
 
   /* INPUT TYPE VALIDATIONS */

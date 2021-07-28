@@ -347,6 +347,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/kaiko"
       },
       {
+        "name": "@chainlink/layer2-sequencer-health-adapter",
+        "reference": "workspace:packages/sources/layer2-sequencer-health"
+      },
+      {
         "name": "@chainlink/lcx-adapter",
         "reference": "workspace:packages/sources/lcx"
       },
@@ -582,6 +586,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/intrinio-adapter", ["workspace:packages/sources/intrinio"]],
       ["@chainlink/json-rpc-adapter", ["workspace:packages/sources/json-rpc"]],
       ["@chainlink/kaiko-adapter", ["workspace:packages/sources/kaiko"]],
+      ["@chainlink/layer2-sequencer-health-adapter", ["workspace:packages/sources/layer2-sequencer-health"]],
       ["@chainlink/lcx-adapter", ["workspace:packages/sources/lcx"]],
       ["@chainlink/linear-finance-adapter", ["workspace:packages/composites/linear-finance"]],
       ["@chainlink/linkpool-adapter", ["workspace:packages/sources/linkpool"]],
@@ -5820,6 +5825,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.41"],
+            ["tslib", "npm:2.2.0"],
+            ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=ddfc1b"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/layer2-sequencer-health-adapter", [
+        ["workspace:packages/sources/layer2-sequencer-health", {
+          "packageLocation": "./packages/sources/layer2-sequencer-health/",
+          "packageDependencies": [
+            ["@chainlink/layer2-sequencer-health-adapter", "workspace:packages/sources/layer2-sequencer-health"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:26.0.22"],
+            ["@types/node", "npm:14.14.41"],
+            ["ethers", "npm:5.1.0"],
+            ["sinon", "npm:10.0.0"],
             ["tslib", "npm:2.2.0"],
             ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=ddfc1b"]
           ],

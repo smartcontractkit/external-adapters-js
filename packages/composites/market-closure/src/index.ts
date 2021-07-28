@@ -3,6 +3,6 @@ import { makeExecute } from './adapter'
 import { makeConfig } from './config'
 
 const NAME = 'MARKET_CLOSURE'
-const handlers = expose(makeExecute())
+const handlers = expose(NAME, makeExecute())
 
 export { NAME, makeExecute, makeConfig, handlers }

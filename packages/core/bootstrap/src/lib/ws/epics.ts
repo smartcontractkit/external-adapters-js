@@ -255,7 +255,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
               context = {}
             }
 
-            const cache = await withCache(execute, context)
+            const cache = await withCache()(execute, context)
             /**
              * Create an adapter request we send to the cache middleware
              * so it uses the following object for setting cache keys

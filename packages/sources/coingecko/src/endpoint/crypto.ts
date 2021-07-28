@@ -1,4 +1,4 @@
-import { AdapterError, Requester, Validator, Logger } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, Logger } from '@chainlink/ea-bootstrap'
 import {
   Config,
   ExecuteWithConfig,
@@ -76,14 +76,10 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
   let idToSymbol = {}
   let ids = coinid
   if (!ids) {
-    try {
-      const coinIds = await getCoinIds(context, jobRunID)
-      const symbols = Array.isArray(base) ? base : [base]
-      idToSymbol = getSymbolsToIds(symbols, coinIds)
-      ids = Object.keys(idToSymbol).join(',')
-    } catch (e) {
-      throw new AdapterError({ jobRunID, statusCode: 400, message: e.message })
-    }
+    const coinIds = await getCoinIds(context, jobRunID)
+    const symbols = Array.isArray(base) ? base : [base]
+    idToSymbol = getSymbolsToIds(symbols, coinIds)
+    ids = Object.keys(idToSymbol).join(',')
   }
 
   const url = '/simple/price'
