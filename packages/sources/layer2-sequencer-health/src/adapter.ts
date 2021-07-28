@@ -58,8 +58,21 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
   const jobRunID = validator.validated.id
   const network = validator.validated.data.network as Networks
 
+  const _translateIntoFeedResponse = (isHealthy: boolean): number => {
+    return isHealthy ? 0 : 1
+  }
+
   const _respond = (isHealthy: boolean) =>
-    Requester.success(jobRunID, { data: { isHealthy, result: isHealthy } }, config.verbose)
+    Requester.success(
+      jobRunID,
+      {
+        data: {
+          isHealthy: _translateIntoFeedResponse(isHealthy),
+          result: _translateIntoFeedResponse(isHealthy),
+        },
+      },
+      config.verbose,
+    )
 
   const _tryMethod = (fn: NetworkHealthCheck) => async (
     network: Networks,
