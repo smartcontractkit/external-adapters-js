@@ -3203,6 +3203,7 @@ __metadata:
     "@types/jest": ^26.0.22
     "@types/nock": ^11.1.0
     "@types/node": ^14.14.35
+    ethers: ^5.4.2
     nock: ^13.1.0
     tslib: ^2.1.0
     typescript: ^4.2.3
@@ -22296,6 +22297,21 @@ resolve@1.17.0:
     utf-8-validate:
       optional: true
   checksum: 3a990b32ed08c72070d5e8913e14dfcd831919205be52a3ff0b4cdd998c8d554f167c9df3841605cde8b11d607768cacab3e823c58c96a5c08c987e093eb767a
+  languageName: node
+  linkType: hard
+
+"ws@npm:7.4.6, ws@npm:^7.4.2":
+  version: 7.4.6
+  resolution: "ws@npm:7.4.6"
+  peerDependencies:
+    bufferutil: ^4.0.1
+    utf-8-validate: ^5.0.2
+  peerDependenciesMeta:
+    bufferutil:
+      optional: true
+    utf-8-validate:
+      optional: true
+  checksum: ffeb626d92f14aa3a67aa3784824c1d290131e25d225f4ca6b1b6b6d7ea754fca67694d89a5b99b144382365e1bccf1f7ec2f92df56f0d25f44939b070452f06
   languageName: node
   linkType: hard
 

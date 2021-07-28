@@ -39,7 +39,7 @@ describe('execute', () => {
           id: jobID,
           data: {
             tokenIdInt: 'test', // Replace this if recording Nock mock
-            tickSet: '1',
+            tickSetId: '1',
           },
         },
       },

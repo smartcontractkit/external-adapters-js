@@ -1,5 +1,8 @@
 import { Requester } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig } from '@chainlink/types'
+import { ExecuteWithConfig } from '@chainlink/types'
+import { BigNumber } from 'ethers'
+import makeNFC from '../abi/NFC'
+import { SpectralAdapterConfig } from '../config'
 
 export const MacroScoreAPIName = 'spectral-proxy' // This should be filled in with a lowercase name corresponding to the API endpoint
 
@@ -32,12 +35,22 @@ export interface IRequestInput {
   id: string // numeric
   data: {
     tokenIdInt: string // numeric
-    tickSet: string // numeric
+    tickSetId: string // numeric
     jobRunID: string // numeric
   }
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request: IRequestInput, config) => {
+const computeTickWithScore = (score: number, tickSet: BigNumber[]) => {
+  for (const [index, tick] of tickSet.entries()) {
+    if (tick.toNumber() < score) return index
+  }
+  return tickSet.length - 1 // returns the last (greatest) tick
+}
+
+export const execute: ExecuteWithConfig<SpectralAdapterConfig> = async (
+  request: IRequestInput,
+  config,
+) => {
   const options = {
     url: config.api,
     method: 'POST',
@@ -48,7 +61,15 @@ export const execute: ExecuteWithConfig<Config> = async (request: IRequestInput,
     },
     timeout: 30000,
   }
-  const response = <ScoreRequestResponse>await Requester.request(options, customError)
-  response.data[0].result = Requester.validateResultNumber(response.data[0], ['score'])
-  return Requester.success(request.data.jobRunID, response, config.verbose)
+  const nfc = await makeNFC(config.nfcAddress, config.rpcUrl)
+  const tickSetIdBigNumber = BigNumber.from(request.data.tickSetId)
+  const tickSet = await nfc.getTickSet(tickSetIdBigNumber)
+  const response = await Requester.request(options, customError)
+  response.data.result = Requester.validateResultNumber(response.data[0], ['score'])
+  const tick = computeTickWithScore(response.data[0].score, tickSet)
+  return Requester.success(
+    request.data.jobRunID,
+    Requester.withResult(response, tick),
+    config.verbose,
+  )
 }
