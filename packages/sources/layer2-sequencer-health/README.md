@@ -2,16 +2,15 @@
 
 Adapter that checks the Layer 2 Sequencer status
 
-
 ### Environment Variables
 
-| Required? |  Name   |                                                        Description                                                         | Options | Defaults to |
-| :-------: | :-----: | :------------------------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
-|           | `DELTA` | Maximum time in miliseconds from last seen block for the sequencer to be considered healthy |         |     180000 (3 min)        |
-|           | `ARBITRUM_RPC_ENDPOINT` | Arbitrum RPC Endpoint |         |     https://arb1.arbitrum.io/rpc       |
-|           | `ARBITRUM_HEALTH_ENDPOINT` | Arbitrum Health Endpoint |         |   |
-|           | `OPTIMISM_RPC_ENDPOINT` | Optimism RPC Endpoint |         |     https://mainnet.optimism.io       |
-|           | `OPTIMISM_HEALTH_ENDPOINT` | Optimism Health Endpoint |         |     https://mainnet-sequencer.optimism.io/health       |
+| Required? |            Name            |                                  Description                                   | Options |                 Defaults to                  |
+| :-------: | :------------------------: | :----------------------------------------------------------------------------: | :-----: | :------------------------------------------: |
+|           |          `DELTA`           | Maximum time in miliseconds from last seen block to consider sequencer healthy |         |                120000 (2 min)                |
+|           |  `ARBITRUM_RPC_ENDPOINT`   |                             Arbitrum RPC Endpoint                              |         |         https://arb1.arbitrum.io/rpc         |
+|           | `ARBITRUM_HEALTH_ENDPOINT` |                            Arbitrum Health Endpoint                            |         |                                              |
+|           |  `OPTIMISM_RPC_ENDPOINT`   |                             Optimism RPC Endpoint                              |         |         https://mainnet.optimism.io          |
+|           | `OPTIMISM_HEALTH_ENDPOINT` |                            Optimism Health Endpoint                            |         | https://mainnet-sequencer.optimism.io/health |
 
 For the adapter to be useful on the desired network, at least one endpoint (RPC or HEALTH) needs to provided
 
@@ -19,11 +18,12 @@ For the adapter to be useful on the desired network, at least one endpoint (RPC 
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |           Options            | Defaults to |
-| :-------: | :------: | :-----------------: | :--------------------------: | :---------: |
-|     ✅     | network | Layer 2 Network to check | arbitrum or optimism |     |
+| Required? |  Name   |       Description        |       Options        | Defaults to |
+| :-------: | :-----: | :----------------------: | :------------------: | :---------: |
+|    ✅     | network | Layer 2 Network to check | arbitrum or optimism |             |
 
 ---
+
 ### Sample Input
 
 ```json
