@@ -7,5 +7,5 @@ export = {
   makeExecute,
   makeWSHandler,
   makeConfig,
-  ...expose(makeExecute(), makeWSHandler(), endpointSelector),
+  ...expose(NAME, makeExecute(), makeWSHandler(), endpointSelector),
 }

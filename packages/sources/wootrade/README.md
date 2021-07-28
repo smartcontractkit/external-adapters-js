@@ -2,13 +2,11 @@
 
 Adapter using the public Wootrade market API for both HTTP(s) and WS.
 
-An example adapter description
-
 ### Environment Variables
 
 | Required? |  Name   |                                                        Description                                                         | Options | Defaults to |
 | :-------: | :-----: | :------------------------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
-|     ✅      | API_KEY | An API key that can be obtained from the data provider's dashboard (add a ✅ in `Required?` if this parameter is required) |         |             |
+|     ✅      | API_KEY | An key to use the wootrade WS API |         |             |
 
 ---
 
