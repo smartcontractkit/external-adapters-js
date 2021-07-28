@@ -1,6 +1,23 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
+export interface ResponseSchema {
+  data: {
+    success: boolean
+    rows: MarketTrades[]
+  }[]
+  error?: {
+    type: string
+    message: string
+  }
+}
+export interface MarketTrades {
+    symbol: string,
+    side: string,
+    executed_price: number,
+    executed_quantity: number,
+    executed_timestamp: string
+}
 
 export const supportedEndpoints = ['crypto', 'ticker']
 
@@ -29,9 +46,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
 
   const options = { ...config.api, params, url }
-  const response = await Requester.request(options, customError)
-  const price = response.data.rows[0].executed_price
-  response.data.result = Requester.validateResultNumber({price}, ['price'])
-
-  return Requester.success(jobRunID, response, config.verbose)
+  const response = await Requester.request<ResponseSchema>(options, customError)
+  const result = Requester.validateResultNumber(response.data, ['rows', 0, 'executed_price'])
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }
