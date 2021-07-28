@@ -56,7 +56,7 @@ export const getPriceProvider = (
           [quote]: {
             [withMarketCap ? 'marketCap' : 'price']: response.data.data.results.find(
               (result: [AdapterRequest, number]) =>
-                result[0].data.base === symbol && result[0].data.quote === quote,
+                result[0].data.base === symbol && (result[0].data.quote === quote || result[0].data.convert === quote),
             )[1],
           },
         },
