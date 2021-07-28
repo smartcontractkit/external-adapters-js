@@ -4,4 +4,9 @@ import { makeConfig } from './config'
 
 const NAME = 'ANYBLOCK'
 
-export = { NAME, makeExecute, makeConfig, ...expose(makeExecute(), undefined, endpointSelector) }
+export = {
+  NAME,
+  makeExecute,
+  makeConfig,
+  ...expose(NAME, makeExecute(), undefined, endpointSelector),
+}

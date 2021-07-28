@@ -3,4 +3,4 @@ import { makeConfig, makeExecute } from './adapter'
 
 const NAME = 'XBTO'
 
-export = { NAME, makeExecute, makeConfig, ...expose(makeExecute()) }
+export = { NAME, makeExecute, makeConfig, ...expose(NAME, makeExecute()) }

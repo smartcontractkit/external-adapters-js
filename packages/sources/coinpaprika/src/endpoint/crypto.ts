@@ -1,4 +1,4 @@
-import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, AdapterRequest, InputParameters } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 import { getCoinIds, getSymbolToId } from '../util'
@@ -14,7 +14,7 @@ const buildPath = (path: string) => (request: AdapterRequest): string => {
 
 export const endpointResultPaths = {
   crypto: buildPath('price'),
-  marketcap: buildPath('marketcap'),
+  marketcap: buildPath('market_cap'),
   price: buildPath('price'),
 }
 
@@ -37,12 +37,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
   // If coinid was provided or base was overridden, that symbol will be fetched
   let coin = coinid || (symbol !== validator.validated.data.base && symbol)
   if (!coin) {
-    try {
-      const coinIds = await getCoinIds(context, jobRunID)
-      coin = await getSymbolToId(symbol, coinIds)
-    } catch (e) {
-      throw new AdapterError({ jobRunID, statusCode: 400, message: e.message })
-    }
+    const coinIds = await getCoinIds(context, jobRunID)
+    coin = await getSymbolToId(symbol, coinIds)
   }
 
   const url = `v1/tickers/${coin.toLowerCase()}`

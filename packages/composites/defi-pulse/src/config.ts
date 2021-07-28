@@ -1,5 +1,7 @@
 import { util } from '@chainlink/ea-bootstrap'
 
+export const NAME = 'DEFI_PULSE'
+
 export type Config = {
   rpcUrl: string
   network: string

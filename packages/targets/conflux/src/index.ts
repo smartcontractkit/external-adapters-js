@@ -4,4 +4,4 @@ import { makeConfig } from './config'
 
 const NAME = 'conflux'
 
-export = { NAME, makeExecute, makeConfig, ...expose(makeExecute()) }
+export = { NAME, makeExecute, makeConfig, ...expose(NAME, makeExecute()) }

@@ -4,4 +4,4 @@ import { makeConfig } from './config'
 
 const NAME = 'JSON-RPC'
 
-export = { NAME, execute, makeConfig, ...expose(makeExecute()) }
+export = { NAME, execute, makeConfig, ...expose(NAME, makeExecute()) }

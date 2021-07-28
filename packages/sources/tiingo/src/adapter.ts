@@ -63,7 +63,11 @@ const customParams = {
   quote: ['quote', 'to', 'market'],
 }
 
-export const makeWSHandler = (config?: Config): MakeWSHandler => {
+export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
+  if ((process.env.NODE_ENV || '').toLowerCase() !== 'development') {
+    return undefined
+  }
+
   const getSubscription = (pair: string | undefined, subscribe = true) => {
     const defaultConfig = config || makeConfig()
     if (!pair) return
