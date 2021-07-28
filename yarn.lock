@@ -3112,6 +3112,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/layer2-sequencer-health-adapter@workspace:packages/sources/layer2-sequencer-health":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/layer2-sequencer-health-adapter@workspace:packages/sources/layer2-sequencer-health"
+  dependencies:
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.0.1
+    "@types/jest": ^26.0.22
+    "@types/node": ^14.14.35
+    ethers: ^5.0.32
+    sinon: ^10.0.0
+    tslib: ^2.1.0
+    typescript: ^4.2.3
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/lcx-adapter@*, @chainlink/lcx-adapter@workspace:packages/sources/lcx":
   version: 0.0.0-use.local
   resolution: "@chainlink/lcx-adapter@workspace:packages/sources/lcx"
