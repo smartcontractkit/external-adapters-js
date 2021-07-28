@@ -18,7 +18,8 @@ describe('execute', () => {
                 "quoteCoinTicker": "USDT",
                 "referenceContract": "0x3E7d1eAB13ad0104d2750B8863b489D65364e32D",
                 "referenceContractDivisor": "100000000",
-                "referenceModifierAction": "divide"
+                "referenceModifierAction": "divide",
+                "dex": "UNISWAP"
             }
         },
       },
@@ -28,7 +29,8 @@ describe('execute', () => {
           id: jobID, 
           data: { 
             "baseCoinTicker": "UNI",
-            "quoteCoinTicker": "LINK"
+            "quoteCoinTicker": "LINK",
+            "dex": "UNISWAP"
           } 
         },
       },
@@ -38,7 +40,8 @@ describe('execute', () => {
           id: jobID, 
           data: { 
             "from": "UNI",
-            "to": "LINK"
+            "to": "LINK",
+            "dex": "UNISWAP"
           } 
         },
       },
@@ -48,7 +51,8 @@ describe('execute', () => {
           id: jobID, 
           data: { 
             "base": "UNI",
-            "quote": "LINK"
+            "quote": "LINK",
+            "dex": "UNISWAP"
           } 
         },
       },
@@ -58,7 +62,8 @@ describe('execute', () => {
           id: jobID, 
           data: { 
             "coin": "UNI",
-            "market": "LINK"
+            "market": "LINK",
+            "dex": "UNISWAP"
           } 
         },
       },
@@ -93,7 +98,8 @@ describe('execute', () => {
           id: jobID, 
           data: { 
             "baseCoinTicker": "LINK",
-            "quoteCoinTicker": "LINK"
+            "quoteCoinTicker": "LINK",
+            "dex": "UNISWAP"
           } 
         },
       },
@@ -103,7 +109,8 @@ describe('execute', () => {
           id: jobID, 
           data: { 
             "baseCoinTicker": "NON_EXISTENT_TOKEN",
-            "quoteCoinTicker": "LINK"
+            "quoteCoinTicker": "LINK",
+            "dex": "UNISWAP"
           } 
         },
       },

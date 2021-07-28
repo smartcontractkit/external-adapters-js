@@ -18,6 +18,7 @@ function generateTestPayload() {
       referenceContractDivisor: "100000000",
       referenceModifierAction: "divide",
       source: searchEnvironment(),
+      dex: "UNISWAP"
     },
   }
   return JSON.stringify(payload)
