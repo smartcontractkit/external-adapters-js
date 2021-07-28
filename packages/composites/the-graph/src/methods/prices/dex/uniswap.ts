@@ -8,7 +8,7 @@ import {
 import { Logger } from '@chainlink/ea-bootstrap'
 import { fetchFromGraphqlAdapter } from "../dataProvider"
 import { getPairQuery, getTokenQuery } from "./graphqlQueries"
-import { getLatestAnswer } from '@chainlink/ea-reference-data-reader'
+import { modifyResultByFeedResult } from "../../common" 
 
 export class UniswapSubgraph {
 	private url: string
@@ -137,7 +137,7 @@ export class UniswapSubgraph {
 		}
 		Logger.info(`Price of ${quoteCoinTicker}/${baseCoinTicker} is ${token1PerToken0}`)
 		if (referenceContract) {
-			token1PerToken0 = await this.modifyResultByFeedResult(inputParams, token1PerToken0)
+			token1PerToken0 = await modifyResultByFeedResult(inputParams, token1PerToken0)
 		}
 		return token1PerToken0
 	}
@@ -189,27 +189,5 @@ export class UniswapSubgraph {
 				)
 			}
 		}
-	}
-
-	async modifyResultByFeedResult(
-		inputParams: DexQueryInputParams,
-		currentPrice: number,
-	): Promise < number > {
-		const {
-			baseCoinTicker,
-			quoteCoinTicker,
-			referenceContract,
-			referenceContractDivisor,
-			referenceModifierAction,
-		} = inputParams
-		Logger.info(
-			`Price of ${quoteCoinTicker}/${baseCoinTicker} is going to be modified by the result returned from ${referenceContract} by ${referenceContractDivisor}`,
-		)
-		const modifierTokenPrice = await getLatestAnswer(referenceContract, referenceContractDivisor)
-		Logger.info(`Feed ${referenceContract} returned a value of ${modifierTokenPrice}`)
-		if (referenceModifierAction === ReferenceModifierAction.DIVIDE) {
-			return currentPrice / modifierTokenPrice
-		}
-		return currentPrice * modifierTokenPrice
 	}
 }

@@ -42,6 +42,7 @@ See the [Composite Adapter README](../README.md) for more information on how to 
     }
 }
 ```
+
 ### Sample Output
 
 ```json
@@ -67,6 +68,7 @@ See the [Composite Adapter README](../README.md) for more information on how to 
     }
 }
 ```
+
 ### Sample Output
 
 ```json
@@ -79,7 +81,6 @@ See the [Composite Adapter README](../README.md) for more information on how to 
     }
 }
 ```
-
 
 ### Sample Input to fetch the price of USD/UNI
 
