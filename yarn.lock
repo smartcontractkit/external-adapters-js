@@ -3112,9 +3112,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/layer2-sequencer-health@workspace:packages/sources/layer2-sequencer-health":
+"@chainlink/layer2-sequencer-health-adapter@workspace:packages/sources/layer2-sequencer-health":
   version: 0.0.0-use.local
-  resolution: "@chainlink/layer2-sequencer-health@workspace:packages/sources/layer2-sequencer-health"
+  resolution: "@chainlink/layer2-sequencer-health-adapter@workspace:packages/sources/layer2-sequencer-health"
   dependencies:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-test-helpers": "*"

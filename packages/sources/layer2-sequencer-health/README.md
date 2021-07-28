@@ -1,4 +1,4 @@
-# Chainlink External Adapter for Example
+# Chainlink External Adapter for Layer 2 Sequencer Health Check
 
 Adapter that checks the Layer 2 Sequencer status
 
