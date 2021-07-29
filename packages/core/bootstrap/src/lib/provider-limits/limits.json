@@ -284,7 +284,7 @@
     "http": {
       "free": {
         "rateLimit1s": 10,
-        "rateLimit1m": 100,
+        "rateLimit1m": 50,
         "note": "1s found in ToS, 1m found at https://www.coingecko.com/en/api"
       }
     },
