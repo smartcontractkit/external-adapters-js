@@ -134,12 +134,6 @@ export const wsPayloads: Payload[] = [
     data: '{\n "data": {\n  "from": "LEND",\n  "to": "USD"\n }\n}',
   },
   {
-    name: 'sDEFI / USD',
-    id: '86f45dcc-90db-4c39-b385-53945c5a9a30',
-    method: 'POST',
-    data: '{\n "data": {\n  "from": "sDEFI",\n  "to": "USD"\n }\n}',
-  },
-  {
     name: 'GNO / ETH',
     id: '86f45dcc-90db-4c39-b385-53945c5a9a30',
     method: 'POST',
@@ -668,12 +662,6 @@ export const wsPayloads: Payload[] = [
     data: '{\n "data": {\n  "base": "LON",\n  "quote": "ETH"\n }\n}',
   },
   {
-    name: 'sCEX / USD',
-    id: '86f45dcc-90db-4c39-b385-53945c5a9a30',
-    method: 'POST',
-    data: '{\n "data": {\n  "base": "sCEX",\n  "quote": "USD"\n }\n}',
-  },
-  {
     name: 'CREAM / ETH',
     id: '86f45dcc-90db-4c39-b385-53945c5a9a30',
     method: 'POST',
@@ -720,12 +708,6 @@ export const wsPayloads: Payload[] = [
     id: '86f45dcc-90db-4c39-b385-53945c5a9a30',
     method: 'POST',
     data: '{\n "data": {\n  "base": "DAI",\n  "quote": "USD"\n }\n}',
-  },
-  {
-    name: 'SAND / USD',
-    id: '86f45dcc-90db-4c39-b385-53945c5a9a30',
-    method: 'POST',
-    data: '{\n "data": {\n  "base": "SAND",\n  "quote": "USD"\n }\n}',
   },
   {
     name: 'FRAX / ETH',
@@ -834,12 +816,6 @@ export const wsPayloads: Payload[] = [
     id: '86f45dcc-90db-4c39-b385-53945c5a9a30',
     method: 'POST',
     data: '{\n "data": {\n  "base": "HEGIC",\n  "quote": "ETH"\n }\n}',
-  },
-  {
-    name: 'sCEX / USD',
-    id: '86f45dcc-90db-4c39-b385-53945c5a9a30',
-    method: 'POST',
-    data: '{\n "data": {\n  "base": "sCEX",\n  "quote": "USD"\n }\n}',
   },
   {
     name: 'ADA / USD',
