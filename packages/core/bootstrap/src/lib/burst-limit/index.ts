@@ -14,8 +14,6 @@ import { logger } from '../external-adapter'
 export * as actions from './actions'
 export * as reducer from './reducer'
 
-const BATCH_REQUEST_BUFFER = 10
-
 export const withBurstLimit = (store?: Store<BurstLimitState>): Middleware => async (
   execute,
   context,
@@ -32,12 +30,12 @@ export const withBurstLimit = (store?: Store<BurstLimitState>): Middleware => as
 
   if (
     input.id !== WARMUP_BATCH_REQUEST_ID && // Always allow Batch Warmer requests through
-    observedRequestsOfParticipant > config.totalCapacity - BATCH_REQUEST_BUFFER
+    observedRequestsOfParticipant > config.totalCapacity / 2
     // TODO: determine BATCH_REQUEST_BUFFER dynamically based on (number of batch warmers * 3)
   ) {
     logger.error(
       `Burst rate limit cap of ${
-        config.totalCapacity - BATCH_REQUEST_BUFFER
+        config.totalCapacity / 2
       } reached. ${observedRequestsOfParticipant} requests sent in the last minute.`,
     )
     throw new Error('New request backoff: Burst rate limit cap reached.')
