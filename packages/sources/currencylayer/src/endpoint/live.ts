@@ -3,6 +3,8 @@ import { ExecuteWithConfig, Config, InputParameters, AdapterRequest, AxiosRespon
 import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['live']
+export const batchablePropertyPath = ['base', 'quote']
+
 
 const customError = (data: any) => data.Response === 'Error'
 
@@ -30,7 +32,7 @@ const handleBatchedRequest = (
         Requester.validateResultNumber(response.data, [resultPath, from + symbol]),
       ])
     }
-    return Requester.success(jobRunID, Requester.withResult(response, undefined, payload), true, ['base', 'quote'])
+    return Requester.success(jobRunID, Requester.withResult(response, undefined, payload), true, batchablePropertyPath)
   }
 
 // NOTE: This endpoint has not been acceptance tested and will need to be once
@@ -57,5 +59,5 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   if (Array.isArray(to)) return handleBatchedRequest(jobRunID, request, response, 'quotes', to)
 
   response.data.result = Requester.validateResultNumber(response.data, ['quotes', from + to])
-  return Requester.success(jobRunID, response, config.verbose, ['base', 'quote'])
+  return Requester.success(jobRunID, response, config.verbose, batchablePropertyPath)
 }
