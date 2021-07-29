@@ -1,18 +1,6 @@
 import { Requester } from '@chainlink/ea-bootstrap'
-import { RequestConfig, AdapterRequest, AdapterResponse } from '@chainlink/types'
+import { RequestConfig } from '@chainlink/types'
 import { ResponsePayload } from './types'
-
-const batchingSupport: { [name: string]: boolean } = {
-  COINGECKO: true,
-  COINMARKETCAP: true,
-  CRYPTOCOMPARE: true,
-  NOMICS: true,
-}
-
-const supportsBatch = (source: string, quote: string) =>
-  batchingSupport[source.toUpperCase()] ||
-  // CoinAPI can only batch USD quotes
-  (source.toUpperCase() === 'COINAPI' && quote.toUpperCase() === 'USD')
 
 /**
  * @description
@@ -35,37 +23,11 @@ const supportsBatch = (source: string, quote: string) =>
  * ```
  */
 
-export const getPriceProvider = (
-  jobRunID: string,
-  source: string,
-  apiConfig: RequestConfig,
-) => async (symbols: string[], quote: string, withMarketCap = false): Promise<ResponsePayload> => {
-  if (supportsBatch(source, quote)) {
-    const data = {
-      id: jobRunID,
-      data: { base: symbols, quote, endpoint: withMarketCap ? 'marketcap' : 'price' },
-    }
-    const response = await Requester.request<AdapterResponse>({
-      ...apiConfig,
-      data,
-    })
-    const payloadEntries = symbols.map((symbol) => {
-      const key = symbol
-      const val = {
-        quote: {
-          [quote]: {
-            [withMarketCap ? 'marketCap' : 'price']: response.data.data.results.find(
-              (result: [AdapterRequest, number]) =>
-                result[0].data.base === symbol && (result[0].data.quote === quote || result[0].data.convert === quote),
-            )[1],
-          },
-        },
-      }
-      return [key, val]
-    })
-    return Object.fromEntries(payloadEntries)
-  }
-
+export const getPriceProvider = (jobRunID: string, apiConfig: RequestConfig) => async (
+  symbols: string[],
+  quote: string,
+  withMarketCap = false,
+): Promise<ResponsePayload> => {
   const results = await Promise.all(
     symbols.map(async (base) => {
       const data = {
