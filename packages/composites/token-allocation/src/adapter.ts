@@ -126,7 +126,7 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
       true,
     )
 
-  const getPrices = getPriceProvider(jobRunID, source, sourceConfig.api)
+  const getPrices = getPriceProvider(jobRunID, sourceConfig.api)
   switch (method.toLowerCase()) {
     case 'price': {
       const price = await computePrice(getPrices, allocations, quote)
