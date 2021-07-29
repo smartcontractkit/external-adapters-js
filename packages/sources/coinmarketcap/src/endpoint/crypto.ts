@@ -9,6 +9,7 @@ import {
 } from '@chainlink/types'
 
 export const supportedEndpoints = ['crypto', 'price', 'marketcap']
+export const batchablePropertyPath = ['base', 'convert']
 
 export const endpointResultPaths = {
   crypto: 'price',
@@ -83,7 +84,7 @@ const handleBatchedRequest = (
 
   response.data.results = payload
   response.data.cost = Requester.validateResultNumber(response.data, ['status', 'credit_count'])
-  return Requester.success(jobRunID, response, true, ['base', 'convert'])
+  return Requester.success(jobRunID, response, true, batchablePropertyPath)
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -161,5 +162,5 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     convert,
     resultPath,
   ])
-  return Requester.success(jobRunID, response, config.verbose, ['base', 'convert'])
+  return Requester.success(jobRunID, response, config.verbose, batchablePropertyPath)
 }
