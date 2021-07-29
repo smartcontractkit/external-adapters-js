@@ -5,28 +5,7 @@ export function mockCoingeckoResponseSuccess() {
     .post('/', {
       id: '1',
       data: {
-        base: [
-          'UNI',
-          'AAVE',
-          'LUNA',
-          'MKR',
-          'SNX',
-          'RUNE',
-          'SUSHI',
-          'COMP',
-          'YFI',
-          'BNT',
-          'UMA',
-          'ZRX',
-          'CRV',
-          '1INCH',
-          'REN',
-          'BAL',
-          'KNC',
-          'BOND',
-          'CREAM',
-          'ALPHA',
-        ],
+        base: 'COMP',
         quote: 'USD',
         endpoint: 'price',
       },
@@ -37,292 +16,712 @@ export function mockCoingeckoResponseSuccess() {
         jobRunID: '1',
         maxAge: 30000,
         statusCode: 200,
-        data: {
-          'compound-governance-token': {
-            usd: 336.69,
-          },
-          'terra-luna': {
-            usd: 5.92,
-          },
-          sushi: {
-            usd: 7.4,
-          },
-          '0x': {
-            usd: 0.697611,
-          },
-          havven: {
-            usd: 6.87,
-          },
-          uniswap: {
-            usd: 18.05,
-          },
-          'alpha-finance': {
-            usd: 0.44541,
-          },
-          aave: {
-            usd: 235.78,
-          },
-          balancer: {
-            usd: 20.31,
-          },
-          barnbridge: {
-            usd: 38.66,
-          },
-          uma: {
-            usd: 9.26,
-          },
-          thorchain: {
-            usd: 6.33,
-          },
-          'cream-2': {
-            usd: 142.07,
-          },
-          maker: {
-            usd: 2565.7,
-          },
-          bancor: {
-            usd: 3.19,
-          },
-          'curve-dao-token': {
-            usd: 1.71,
-          },
-          '1inch': {
-            usd: 2.39,
-          },
-          'republic-protocol': {
-            usd: 0.353853,
-          },
-          'kyber-network-crystal': {
-            usd: 1.59,
-          },
-          'yearn-finance': {
-            usd: 32468,
-          },
-          results: [
-            [
-              {
-                id: '1',
-                data: {
-                  base: 'COMP',
-                  quote: 'USD',
-                  endpoint: 'price',
-                },
-              },
-              336.69,
-            ],
-            [
-              {
-                id: '1',
-                data: {
-                  base: 'LUNA',
-                  quote: 'USD',
-                  endpoint: 'price',
-                },
-              },
-              5.92,
-            ],
-            [
-              {
-                id: '1',
-                data: {
-                  base: 'SUSHI',
-                  quote: 'USD',
-                  endpoint: 'price',
-                },
-              },
-              7.4,
-            ],
-            [
-              {
-                id: '1',
-                data: {
-                  base: 'ZRX',
-                  quote: 'USD',
-                  endpoint: 'price',
-                },
-              },
-              0.697611,
-            ],
-            [
-              {
-                id: '1',
-                data: {
-                  base: 'SNX',
-                  quote: 'USD',
-                  endpoint: 'price',
-                },
-              },
-              6.87,
-            ],
-            [
-              {
-                id: '1',
-                data: {
-                  base: 'UNI',
-                  quote: 'USD',
-                  endpoint: 'price',
-                },
-              },
-              18.05,
-            ],
-            [
-              {
-                id: '1',
-                data: {
-                  base: 'ALPHA',
-                  quote: 'USD',
-                  endpoint: 'price',
-                },
-              },
-              0.44541,
-            ],
-            [
-              {
-                id: '1',
-                data: {
-                  base: 'AAVE',
-                  quote: 'USD',
-                  endpoint: 'price',
-                },
-              },
-              235.78,
-            ],
-            [
-              {
-                id: '1',
-                data: {
-                  base: 'BAL',
-                  quote: 'USD',
-                  endpoint: 'price',
-                },
-              },
-              20.31,
-            ],
-            [
-              {
-                id: '1',
-                data: {
-                  base: 'BOND',
-                  quote: 'USD',
-                  endpoint: 'price',
-                },
-              },
-              38.66,
-            ],
-            [
-              {
-                id: '1',
-                data: {
-                  base: 'UMA',
-                  quote: 'USD',
-                  endpoint: 'price',
-                },
-              },
-              9.26,
-            ],
-            [
-              {
-                id: '1',
-                data: {
-                  base: 'RUNE',
-                  quote: 'USD',
-                  endpoint: 'price',
-                },
-              },
-              6.33,
-            ],
-            [
-              {
-                id: '1',
-                data: {
-                  base: 'CREAM',
-                  quote: 'USD',
-                  endpoint: 'price',
-                },
-              },
-              142.07,
-            ],
-            [
-              {
-                id: '1',
-                data: {
-                  base: 'MKR',
-                  quote: 'USD',
-                  endpoint: 'price',
-                },
-              },
-              2565.7,
-            ],
-            [
-              {
-                id: '1',
-                data: {
-                  base: 'BNT',
-                  quote: 'USD',
-                  endpoint: 'price',
-                },
-              },
-              3.19,
-            ],
-            [
-              {
-                id: '1',
-                data: {
-                  base: 'CRV',
-                  quote: 'USD',
-                  endpoint: 'price',
-                },
-              },
-              1.71,
-            ],
-            [
-              {
-                id: '1',
-                data: {
-                  base: '1INCH',
-                  quote: 'USD',
-                  endpoint: 'price',
-                },
-              },
-              2.39,
-            ],
-            [
-              {
-                id: '1',
-                data: {
-                  base: 'REN',
-                  quote: 'USD',
-                  endpoint: 'price',
-                },
-              },
-              0.353853,
-            ],
-            [
-              {
-                id: '1',
-                data: {
-                  base: 'KNC',
-                  quote: 'USD',
-                  endpoint: 'price',
-                },
-              },
-              1.59,
-            ],
-            [
-              {
-                id: '1',
-                data: {
-                  base: 'YFI',
-                  quote: 'USD',
-                  endpoint: 'price',
-                },
-              },
-              32468,
-            ],
-          ],
-        },
+        result: 336.69,
         metricsMeta: {
-          feedId: '[COMP|MKR|AAVE|UMA|SNX|REN|UNI|KNC|CRV|SUSHI|YFI|BAL|BNT|1INCH]/USD',
+          feedId: 'COMP/USD',
+        },
+        debug: {
+          batchablePropertyPath: ['base', 'quote'],
+        },
+      },
+      [
+        'X-Powered-By',
+        'Express',
+        'Content-Type',
+        'application/json; charset=utf-8',
+        'Content-Length',
+        '714',
+        'ETag',
+        'W/"2ca-B0TkX1zAQfIfnHwQo6e4kGAEMCs"',
+        'Date',
+        'Wed, 23 Jun 2021 22:38:43 GMT',
+        'Connection',
+        'close',
+      ],
+    )
+    .post('/', {
+      id: '1',
+      data: {
+        base: 'LUNA',
+        quote: 'USD',
+        endpoint: 'price',
+      },
+    })
+    .reply(
+      200,
+      {
+        jobRunID: '1',
+        maxAge: 30000,
+        statusCode: 200,
+        result: 5.92,
+        metricsMeta: {
+          feedId: 'LUNA/USD',
+        },
+        debug: {
+          batchablePropertyPath: ['base', 'quote'],
+        },
+      },
+      [
+        'X-Powered-By',
+        'Express',
+        'Content-Type',
+        'application/json; charset=utf-8',
+        'Content-Length',
+        '714',
+        'ETag',
+        'W/"2ca-B0TkX1zAQfIfnHwQo6e4kGAEMCs"',
+        'Date',
+        'Wed, 23 Jun 2021 22:38:43 GMT',
+        'Connection',
+        'close',
+      ],
+    )
+    .post('/', {
+      id: '1',
+      data: {
+        base: 'SUSHI',
+        quote: 'USD',
+        endpoint: 'price',
+      },
+    })
+    .reply(
+      200,
+      {
+        jobRunID: '1',
+        maxAge: 30000,
+        statusCode: 200,
+        result: 7.4,
+        metricsMeta: {
+          feedId: 'SUSHI/USD',
+        },
+        debug: {
+          batchablePropertyPath: ['base', 'quote'],
+        },
+      },
+      [
+        'X-Powered-By',
+        'Express',
+        'Content-Type',
+        'application/json; charset=utf-8',
+        'Content-Length',
+        '714',
+        'ETag',
+        'W/"2ca-B0TkX1zAQfIfnHwQo6e4kGAEMCs"',
+        'Date',
+        'Wed, 23 Jun 2021 22:38:43 GMT',
+        'Connection',
+        'close',
+      ],
+    )
+    .post('/', {
+      id: '1',
+      data: {
+        base: 'ZRX',
+        quote: 'USD',
+        endpoint: 'price',
+      },
+    })
+    .reply(
+      200,
+      {
+        jobRunID: '1',
+        maxAge: 30000,
+        statusCode: 200,
+        result: 0.697611,
+        metricsMeta: {
+          feedId: 'ZRX/USD',
+        },
+        debug: {
+          batchablePropertyPath: ['base', 'quote'],
+        },
+      },
+      [
+        'X-Powered-By',
+        'Express',
+        'Content-Type',
+        'application/json; charset=utf-8',
+        'Content-Length',
+        '714',
+        'ETag',
+        'W/"2ca-B0TkX1zAQfIfnHwQo6e4kGAEMCs"',
+        'Date',
+        'Wed, 23 Jun 2021 22:38:43 GMT',
+        'Connection',
+        'close',
+      ],
+    )
+    .post('/', {
+      id: '1',
+      data: {
+        base: 'SNX',
+        quote: 'USD',
+        endpoint: 'price',
+      },
+    })
+    .reply(
+      200,
+      {
+        jobRunID: '1',
+        maxAge: 30000,
+        statusCode: 200,
+        result: 6.87,
+        metricsMeta: {
+          feedId: 'SNX/USD',
+        },
+        debug: {
+          batchablePropertyPath: ['base', 'quote'],
+        },
+      },
+      [
+        'X-Powered-By',
+        'Express',
+        'Content-Type',
+        'application/json; charset=utf-8',
+        'Content-Length',
+        '714',
+        'ETag',
+        'W/"2ca-B0TkX1zAQfIfnHwQo6e4kGAEMCs"',
+        'Date',
+        'Wed, 23 Jun 2021 22:38:43 GMT',
+        'Connection',
+        'close',
+      ],
+    )
+    .post('/', {
+      id: '1',
+      data: {
+        base: 'UNI',
+        quote: 'USD',
+        endpoint: 'price',
+      },
+    })
+    .reply(
+      200,
+      {
+        jobRunID: '1',
+        maxAge: 30000,
+        statusCode: 200,
+        result: 18.05,
+        metricsMeta: {
+          feedId: 'UNI/USD',
+        },
+        debug: {
+          batchablePropertyPath: ['base', 'quote'],
+        },
+      },
+      [
+        'X-Powered-By',
+        'Express',
+        'Content-Type',
+        'application/json; charset=utf-8',
+        'Content-Length',
+        '714',
+        'ETag',
+        'W/"2ca-B0TkX1zAQfIfnHwQo6e4kGAEMCs"',
+        'Date',
+        'Wed, 23 Jun 2021 22:38:43 GMT',
+        'Connection',
+        'close',
+      ],
+    )
+    .post('/', {
+      id: '1',
+      data: {
+        base: 'ALPHA',
+        quote: 'USD',
+        endpoint: 'price',
+      },
+    })
+    .reply(
+      200,
+      {
+        jobRunID: '1',
+        maxAge: 30000,
+        statusCode: 200,
+        result: 0.44541,
+        metricsMeta: {
+          feedId: 'ALPHA/USD',
+        },
+        debug: {
+          batchablePropertyPath: ['base', 'quote'],
+        },
+      },
+      [
+        'X-Powered-By',
+        'Express',
+        'Content-Type',
+        'application/json; charset=utf-8',
+        'Content-Length',
+        '714',
+        'ETag',
+        'W/"2ca-B0TkX1zAQfIfnHwQo6e4kGAEMCs"',
+        'Date',
+        'Wed, 23 Jun 2021 22:38:43 GMT',
+        'Connection',
+        'close',
+      ],
+    )
+    .post('/', {
+      id: '1',
+      data: {
+        base: 'AAVE',
+        quote: 'USD',
+        endpoint: 'price',
+      },
+    })
+    .reply(
+      200,
+      {
+        jobRunID: '1',
+        maxAge: 30000,
+        statusCode: 200,
+        result: 235.78,
+        metricsMeta: {
+          feedId: 'AAVE/USD',
+        },
+        debug: {
+          batchablePropertyPath: ['base', 'quote'],
+        },
+      },
+      [
+        'X-Powered-By',
+        'Express',
+        'Content-Type',
+        'application/json; charset=utf-8',
+        'Content-Length',
+        '714',
+        'ETag',
+        'W/"2ca-B0TkX1zAQfIfnHwQo6e4kGAEMCs"',
+        'Date',
+        'Wed, 23 Jun 2021 22:38:43 GMT',
+        'Connection',
+        'close',
+      ],
+    )
+    .post('/', {
+      id: '1',
+      data: {
+        base: 'RUNE',
+        quote: 'USD',
+        endpoint: 'price',
+      },
+    })
+    .reply(
+      200,
+      {
+        jobRunID: '1',
+        maxAge: 30000,
+        statusCode: 200,
+        result: 6.33,
+        metricsMeta: {
+          feedId: 'RUNE/USD',
+        },
+        debug: {
+          batchablePropertyPath: ['base', 'quote'],
+        },
+      },
+      [
+        'X-Powered-By',
+        'Express',
+        'Content-Type',
+        'application/json; charset=utf-8',
+        'Content-Length',
+        '714',
+        'ETag',
+        'W/"2ca-B0TkX1zAQfIfnHwQo6e4kGAEMCs"',
+        'Date',
+        'Wed, 23 Jun 2021 22:38:43 GMT',
+        'Connection',
+        'close',
+      ],
+    )
+    .post('/', {
+      id: '1',
+      data: {
+        base: 'BOND',
+        quote: 'USD',
+        endpoint: 'price',
+      },
+    })
+    .reply(
+      200,
+      {
+        jobRunID: '1',
+        maxAge: 30000,
+        statusCode: 200,
+        result: 38.66,
+        metricsMeta: {
+          feedId: 'BOND/USD',
+        },
+        debug: {
+          batchablePropertyPath: ['base', 'quote'],
+        },
+      },
+      [
+        'X-Powered-By',
+        'Express',
+        'Content-Type',
+        'application/json; charset=utf-8',
+        'Content-Length',
+        '714',
+        'ETag',
+        'W/"2ca-B0TkX1zAQfIfnHwQo6e4kGAEMCs"',
+        'Date',
+        'Wed, 23 Jun 2021 22:38:43 GMT',
+        'Connection',
+        'close',
+      ],
+    )
+    .post('/', {
+      id: '1',
+      data: {
+        base: 'UMA',
+        quote: 'USD',
+        endpoint: 'price',
+      },
+    })
+    .reply(
+      200,
+      {
+        jobRunID: '1',
+        maxAge: 30000,
+        statusCode: 200,
+        result: 9.26,
+        metricsMeta: {
+          feedId: 'UMA/USD',
+        },
+        debug: {
+          batchablePropertyPath: ['base', 'quote'],
+        },
+      },
+      [
+        'X-Powered-By',
+        'Express',
+        'Content-Type',
+        'application/json; charset=utf-8',
+        'Content-Length',
+        '714',
+        'ETag',
+        'W/"2ca-B0TkX1zAQfIfnHwQo6e4kGAEMCs"',
+        'Date',
+        'Wed, 23 Jun 2021 22:38:43 GMT',
+        'Connection',
+        'close',
+      ],
+    )
+    .post('/', {
+      id: '1',
+      data: {
+        base: 'BAL',
+        quote: 'USD',
+        endpoint: 'price',
+      },
+    })
+    .reply(
+      200,
+      {
+        jobRunID: '1',
+        maxAge: 30000,
+        statusCode: 200,
+        result: 20.31,
+        metricsMeta: {
+          feedId: 'BAL/USD',
+        },
+        debug: {
+          batchablePropertyPath: ['base', 'quote'],
+        },
+      },
+      [
+        'X-Powered-By',
+        'Express',
+        'Content-Type',
+        'application/json; charset=utf-8',
+        'Content-Length',
+        '714',
+        'ETag',
+        'W/"2ca-B0TkX1zAQfIfnHwQo6e4kGAEMCs"',
+        'Date',
+        'Wed, 23 Jun 2021 22:38:43 GMT',
+        'Connection',
+        'close',
+      ],
+    )
+    .post('/', {
+      id: '1',
+      data: {
+        base: 'CREAM',
+        quote: 'USD',
+        endpoint: 'price',
+      },
+    })
+    .reply(
+      200,
+      {
+        jobRunID: '1',
+        maxAge: 30000,
+        statusCode: 200,
+        result: 142.07,
+        metricsMeta: {
+          feedId: 'CREAM/USD',
+        },
+        debug: {
+          batchablePropertyPath: ['base', 'quote'],
+        },
+      },
+      [
+        'X-Powered-By',
+        'Express',
+        'Content-Type',
+        'application/json; charset=utf-8',
+        'Content-Length',
+        '714',
+        'ETag',
+        'W/"2ca-B0TkX1zAQfIfnHwQo6e4kGAEMCs"',
+        'Date',
+        'Wed, 23 Jun 2021 22:38:43 GMT',
+        'Connection',
+        'close',
+      ],
+    )
+    .post('/', {
+      id: '1',
+      data: {
+        base: 'MKR',
+        quote: 'USD',
+        endpoint: 'price',
+      },
+    })
+    .reply(
+      200,
+      {
+        jobRunID: '1',
+        maxAge: 30000,
+        statusCode: 200,
+        result: 2565.7,
+        metricsMeta: {
+          feedId: 'MKR/USD',
+        },
+        debug: {
+          batchablePropertyPath: ['base', 'quote'],
+        },
+      },
+      [
+        'X-Powered-By',
+        'Express',
+        'Content-Type',
+        'application/json; charset=utf-8',
+        'Content-Length',
+        '714',
+        'ETag',
+        'W/"2ca-B0TkX1zAQfIfnHwQo6e4kGAEMCs"',
+        'Date',
+        'Wed, 23 Jun 2021 22:38:43 GMT',
+        'Connection',
+        'close',
+      ],
+    )
+    .post('/', {
+      id: '1',
+      data: {
+        base: 'BNT',
+        quote: 'USD',
+        endpoint: 'price',
+      },
+    })
+    .reply(
+      200,
+      {
+        jobRunID: '1',
+        maxAge: 30000,
+        statusCode: 200,
+        result: 3.19,
+        metricsMeta: {
+          feedId: 'BNT/USD',
+        },
+        debug: {
+          batchablePropertyPath: ['base', 'quote'],
+        },
+      },
+      [
+        'X-Powered-By',
+        'Express',
+        'Content-Type',
+        'application/json; charset=utf-8',
+        'Content-Length',
+        '714',
+        'ETag',
+        'W/"2ca-B0TkX1zAQfIfnHwQo6e4kGAEMCs"',
+        'Date',
+        'Wed, 23 Jun 2021 22:38:43 GMT',
+        'Connection',
+        'close',
+      ],
+    )
+    .post('/', {
+      id: '1',
+      data: {
+        base: 'CRV',
+        quote: 'USD',
+        endpoint: 'price',
+      },
+    })
+    .reply(
+      200,
+      {
+        jobRunID: '1',
+        maxAge: 30000,
+        statusCode: 200,
+        result: 1.71,
+        metricsMeta: {
+          feedId: 'CRV/USD',
+        },
+        debug: {
+          batchablePropertyPath: ['base', 'quote'],
+        },
+      },
+      [
+        'X-Powered-By',
+        'Express',
+        'Content-Type',
+        'application/json; charset=utf-8',
+        'Content-Length',
+        '714',
+        'ETag',
+        'W/"2ca-B0TkX1zAQfIfnHwQo6e4kGAEMCs"',
+        'Date',
+        'Wed, 23 Jun 2021 22:38:43 GMT',
+        'Connection',
+        'close',
+      ],
+    )
+    .post('/', {
+      id: '1',
+      data: {
+        base: '1INCH',
+        quote: 'USD',
+        endpoint: 'price',
+      },
+    })
+    .reply(
+      200,
+      {
+        jobRunID: '1',
+        maxAge: 30000,
+        statusCode: 200,
+        result: 2.39,
+        metricsMeta: {
+          feedId: '1INCH/USD',
+        },
+        debug: {
+          batchablePropertyPath: ['base', 'quote'],
+        },
+      },
+      [
+        'X-Powered-By',
+        'Express',
+        'Content-Type',
+        'application/json; charset=utf-8',
+        'Content-Length',
+        '714',
+        'ETag',
+        'W/"2ca-B0TkX1zAQfIfnHwQo6e4kGAEMCs"',
+        'Date',
+        'Wed, 23 Jun 2021 22:38:43 GMT',
+        'Connection',
+        'close',
+      ],
+    )
+    .post('/', {
+      id: '1',
+      data: {
+        base: 'REN',
+        quote: 'USD',
+        endpoint: 'price',
+      },
+    })
+    .reply(
+      200,
+      {
+        jobRunID: '1',
+        maxAge: 30000,
+        statusCode: 200,
+        result: 0.353853,
+        metricsMeta: {
+          feedId: 'REN/USD',
+        },
+        debug: {
+          batchablePropertyPath: ['base', 'quote'],
+        },
+      },
+      [
+        'X-Powered-By',
+        'Express',
+        'Content-Type',
+        'application/json; charset=utf-8',
+        'Content-Length',
+        '714',
+        'ETag',
+        'W/"2ca-B0TkX1zAQfIfnHwQo6e4kGAEMCs"',
+        'Date',
+        'Wed, 23 Jun 2021 22:38:43 GMT',
+        'Connection',
+        'close',
+      ],
+    )
+    .post('/', {
+      id: '1',
+      data: {
+        base: 'KNC',
+        quote: 'USD',
+        endpoint: 'price',
+      },
+    })
+    .reply(
+      200,
+      {
+        jobRunID: '1',
+        maxAge: 30000,
+        statusCode: 200,
+        result: 1.59,
+        metricsMeta: {
+          feedId: 'KNC/USD',
+        },
+        debug: {
+          batchablePropertyPath: ['base', 'quote'],
+        },
+      },
+      [
+        'X-Powered-By',
+        'Express',
+        'Content-Type',
+        'application/json; charset=utf-8',
+        'Content-Length',
+        '714',
+        'ETag',
+        'W/"2ca-B0TkX1zAQfIfnHwQo6e4kGAEMCs"',
+        'Date',
+        'Wed, 23 Jun 2021 22:38:43 GMT',
+        'Connection',
+        'close',
+      ],
+    )
+    .post('/', {
+      id: '1',
+      data: {
+        base: 'YFI',
+        quote: 'USD',
+        endpoint: 'price',
+      },
+    })
+    .reply(
+      200,
+      {
+        jobRunID: '1',
+        maxAge: 30000,
+        statusCode: 200,
+        result: 32468,
+        metricsMeta: {
+          feedId: 'YFI/USD',
         },
         debug: {
           batchablePropertyPath: ['base', 'quote'],
