@@ -2,4 +2,4 @@ import { makeExecute } from './adapter'
 import { expose } from '@chainlink/ea-bootstrap'
 
 const NAME = 'BOB'
-export = { NAME, makeExecute, ...expose(makeExecute()) }
+export = { NAME, makeExecute, ...expose(NAME, makeExecute()) }

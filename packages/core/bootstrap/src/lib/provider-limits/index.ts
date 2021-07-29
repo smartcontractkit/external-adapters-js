@@ -1,6 +1,7 @@
+import { logger } from '../external-adapter'
 import limits from './limits.json'
 
-export const DEFAULT_MINUTE_RATE_LIMIT = 60 
+export const DEFAULT_MINUTE_RATE_LIMIT = 60
 export const BURST_UNDEFINED_QUOTA_MULTIPLE = 2
 
 export const DEFAULT_WS_CONNECTIONS = 2
@@ -33,40 +34,57 @@ interface ProviderRateLimit {
   minute: number
 }
 
-export const getRateLimit = (
-  provider: string,
-  tier: string,
-): ProviderRateLimit => {
+export const getRateLimit = (provider: string, tier: string): ProviderRateLimit => {
   const providerLimit = getProviderLimits(provider, tier, 'http')
-  if (!providerLimit) {
-    throw new Error(`Rate Limit: Provider: "${provider}" and Tier: "${tier}" doesn't match any provider spec in limits.json`)
-  }
   return calculateRateLimit(providerLimit as HTTPTier)
 }
 
-export const getWSLimits = (
-  provider: string,
-  tier: string,
-): WSTier => {
+export const getWSLimits = (provider: string, tier: string): WSTier => {
   const providerLimit = getProviderLimits(provider, tier, 'ws')
-  if (!providerLimit) {
-    throw new Error(`WS Limit: Provider: "${provider}" and Tier: "${tier}" doesn't match any provider spec in limits.json`)
-  }
   return calculateWSLimits(providerLimit as WSTier)
 }
 
-const getProviderLimits = (provider: string, tier: string, protocol: string): HTTPTier | WSTier | undefined => {
+const getProviderLimits = (
+  provider: string,
+  tier: string,
+  protocol: 'ws' | 'http',
+): HTTPTier | WSTier | undefined => {
   const parsedLimits = parseLimits(limits)
-  const providerLimit = parsedLimits[provider.toLowerCase()]
-  return protocol === 'http' ? providerLimit?.http[tier.toLowerCase()] : providerLimit?.ws[tier.toLowerCase()]
+  const providerConfig = parsedLimits[provider.toLowerCase()]
+  if (!providerConfig)
+    throw new Error(
+      `Rate Limit: Provider: "${provider}" doesn't match any provider spec in limits.json`,
+    )
+
+  const protocolConfig = providerConfig[protocol]
+  if (!protocolConfig)
+    throw new Error(
+      `Rate Limit: "${provider}" doesn't have any configuration for ${protocol} in limits.json`,
+    )
+
+  let limitsConfig = protocolConfig[tier.toLowerCase()]
+
+  if (!limitsConfig) {
+    logger.debug(
+      `Rate Limit: "${provider} does not have tier ${tier} defined. Falling back to lowest tier"`,
+    )
+    limitsConfig = Object.values(protocolConfig)?.[0]
+  }
+
+  if (!limitsConfig)
+    throw new Error(
+      `Rate Limit: Provider: "${provider}" has no tiers defined for ${protocol} in limits.json`,
+    )
+
+  return limitsConfig
 }
 
 const parseLimits = (limits: any): Limits => {
   const _mapObject = (fn: any) => (o: any) => Object.fromEntries(Object.entries(o).map(fn))
-  const _formatProtocol = _mapObject(((entry: any[]) => {
+  const _formatProtocol = _mapObject((entry: any[]) => {
     const [tierName, rest] = entry
-    return [tierName.toLowerCase(), { ...rest as any }]
-  }))
+    return [tierName.toLowerCase(), { ...(rest as any) }]
+  })
   const _formatProvider = _mapObject((entry: any[]) => {
     const [providerName, protocol] = entry
     const http = _formatProtocol(protocol.http)
@@ -74,14 +92,13 @@ const parseLimits = (limits: any): Limits => {
     return [providerName.toLowerCase(), { http, ws }]
   })
 
-  
   return _formatProvider(limits)
 }
 
 const calculateWSLimits = (providerLimit: WSTier): WSTier => {
   return {
     connections: providerLimit.connections,
-    subscriptions: providerLimit.subscriptions
+    subscriptions: providerLimit.subscriptions,
   }
 }
 
@@ -93,7 +110,7 @@ const calculateRateLimit = (providerLimit: HTTPTier): ProviderRateLimit => {
     quota = providerLimit?.rateLimit1s * 60
   }
   return {
-    second: providerLimit?.rateLimit1s || (quota as number / 60) * BURST_UNDEFINED_QUOTA_MULTIPLE,
-    minute: quota as number
+    second: providerLimit?.rateLimit1s || ((quota as number) / 60) * BURST_UNDEFINED_QUOTA_MULTIPLE,
+    minute: quota as number,
   }
 }

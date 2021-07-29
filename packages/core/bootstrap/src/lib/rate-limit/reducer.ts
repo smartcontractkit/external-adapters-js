@@ -1,7 +1,7 @@
 import { combineReducers, createReducer } from '@reduxjs/toolkit'
 import { makeId } from '.'
 import { WARMUP_REQUEST_ID } from '../cache-warmer/config'
-import { successfulRequestObserved } from './actions'
+import { successfulResponseObserved } from './actions'
 
 export enum IntervalNames {
   MINUTE = 'MINUTE',
@@ -49,7 +49,7 @@ const initialHeartbeatsState: Heartbeats = {
 const DEFAULT_COST = 1
 
 const heartbeatReducer = createReducer<Heartbeats>(initialHeartbeatsState, (builder) => {
-  builder.addCase(successfulRequestObserved, (state, action) => {
+  builder.addCase(successfulResponseObserved, (state, action) => {
     const heartbeat: Heartbeat = {
       id: makeId(action.payload.input),
       c: action.payload.response.data.cost || DEFAULT_COST,
@@ -142,7 +142,7 @@ export function selectParticiantsHeartbeatsFor(
   state: Heartbeats,
   interval: IntervalNames,
   id: string,
-) {
+): Heartbeat[] {
   return state.participants[id]?.[interval] ?? []
 }
 

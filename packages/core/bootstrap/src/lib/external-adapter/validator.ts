@@ -321,6 +321,8 @@ export function normalizeInput(request: AdapterRequest, apiEndpoint: APIEndpoint
   const data = JSON.parse(JSON.stringify(validator.validated.data))
   // remove includes
   delete data.includes
+  // re-add maxAge
+  if (request.data.maxAge) data.maxAge = request.data.maxAge
 
   return { ...request, data }
 }
