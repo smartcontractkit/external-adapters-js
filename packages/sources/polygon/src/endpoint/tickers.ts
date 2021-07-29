@@ -3,7 +3,7 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters, AdapterRequest, AxiosResponse } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
-export const supportedEndpoints = ['quotes']
+export const supportedEndpoints = ['tickers']
 
 export const inputParameters: InputParameters = {
   base: ['base', 'from'],
@@ -15,18 +15,18 @@ const handleBatchedRequest = (
   jobRunID: string,
   request: AdapterRequest,
   response: AxiosResponse<any>,
-  resultPath: string,
+  resultPath: string[],
 ) => {
   const payload: [AdapterRequest, number][] = []
-  for (const pair of response.data) {
-    const base = pair['s'].split('/')[0]
-    const quote = pair['s'].split('/')[1]
+  for (const pair of response.data.tickers) {
+    const base = pair.ticker.substring(2,5)
+    const quote = pair.ticker.substring(5,8)
     payload.push([
       {
         ...request,
         data: { ...request.data, base: base.toUpperCase(), quote: quote.toUpperCase() },
       },
-      Requester.validateResultNumber(pair, [resultPath]),
+      Requester.validateResultNumber(pair, resultPath),
     ])
 
   }
@@ -37,20 +37,20 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
   const jobRunID = validator.validated.id
-  const url = `/quotes`
+  const url = `/v2/snapshot/locale/global/markets/forex/tickers`
   const from = validator.overrideSymbol(AdapterName)
   const to = validator.validated.data.quote
   const pairArray = []
 
   for (const fromCurrency of formatArray(from)) {
     for (const toCurrency of formatArray(to)) {
-      pairArray.push(`${fromCurrency.toUpperCase()}/${toCurrency.toUpperCase()}`)
+      pairArray.push(`C:${fromCurrency.toUpperCase()}${toCurrency.toUpperCase()}`)
     }
   }
   const pairs = pairArray.toString()
   const params = {
     ...config.api.params,
-    pairs,
+    tickers: pairs,
   }
 
   const options = {
@@ -61,9 +61,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const response = await Requester.request(options)
 
-  if (Array.isArray(from) || Array.isArray(to)) return handleBatchedRequest(jobRunID, request, response, 'a')
-
-  response.data.result = Requester.validateResultNumber(response.data[0], ['a'])
+  if (Array.isArray(from) || Array.isArray(to)) return handleBatchedRequest(jobRunID, request, response, ['min','c'])
+  response.data.result = Requester.validateResultNumber(response.data.tickers[0], ['min','c'])
   return Requester.success(jobRunID, response, config.verbose, ['base', 'quote'])
 }
 
