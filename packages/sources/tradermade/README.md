@@ -40,6 +40,54 @@ Aliases: `commodities`
 }
 ```
 
+## Single Currency Pair Example
+
+## Input
+```json
+{
+    "id": "1",
+    "data": {
+        "base": "USD",
+        "to": "EUR"
+    }
+}
+```
+
+## Output
+```json
+{
+    "jobRunID": "1",
+    "result": 0.841432,
+    "debug": {
+        "staleness": 0,
+        "performance": 0.312505529,
+        "providerCost": 1,
+        "batchablePropertyPath": [
+            "from",
+            "to"
+        ]
+    },
+    "statusCode": 200,
+    "data": {
+        "result": 0.841432
+    }
+}
+```
+
+
+## Batch Example
+
+## Input
+```json
+{
+    "id": "1",
+    "data": {
+        "base": ["USD","CAD"],
+        "to": ["EUR","AUD"]
+    }
+}
+```
+
 ## Output
 
 ```json
