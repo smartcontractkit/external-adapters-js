@@ -5,6 +5,7 @@ import { NAME as AdapterName } from '../config'
 export const supportedEndpoints = ['live']
 export const batchablePropertyPath = ['base', 'quote']
 
+
 const customError = (data: any) => data.Response === 'Error'
 
 export const inputParameters: InputParameters = {

@@ -24,7 +24,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const to = validator.validated.data.quote.toUpperCase()
   const amount = validator.validated.data.amount || 1
   const precision = validator.validated.data.precision || 4
-  const url = `conversion/${from}/${to}`
+  const url = `/v1/conversion/${from}/${to}`
 
   const params = {
     ...config.api.params,
