@@ -13,6 +13,7 @@ import { METRICS_ENABLED } from './metrics'
 import { defaultOptions } from './cache'
 import { toObjectWithNumbers } from './util'
 import { executeSync, withMiddleware } from '../index'
+import * as redis from './cache/redis'
 
 const app = express()
 const port = process.env.EA_PORT || 8080
@@ -59,7 +60,17 @@ export const initHandler = (
     })
   })
 
-  app.get(join(baseUrl, 'health'), (_, res) => res.status(200).send('OK'))
+  app.get(join(baseUrl, 'health'), async (_, res) => {
+    if (cacheOptions.enabled && cacheOptions.cacheImplOptions.type === 'redis') {
+      const cache = context.cache.instance as redis.RedisCache
+      if (!cache.client.connected) {
+        res.status(500).send('Redis not connected')
+        return
+      }
+    }
+
+    res.status(200).send('OK')
+  })
 
   const testPayload = loadTestPayload()
   app.get(join(baseUrl, 'smoke'), (_, res) => {
