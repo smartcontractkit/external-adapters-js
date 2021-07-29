@@ -185,6 +185,7 @@ export const withCache = (rateLimit?: Store<reducer.BurstLimitState>): Middlewar
           // if the above conditional gets executed!
           const staleness = (cachedAdapterResponse.maxAge - ttl) / 1000
           const debug = {
+            ...cachedAdapterResponse?.debug,
             cacheHit: true,
             staleness,
             performance: observe.stalenessAndExecutionTime(true, staleness),
@@ -228,13 +229,18 @@ export const withCache = (rateLimit?: Store<reducer.BurstLimitState>): Middlewar
         statusCode,
         data,
         result,
-      }: Pick<AdapterResponse, 'statusCode' | 'data' | 'result'>) => {
+        debug,
+      }: Pick<AdapterResponse, 'statusCode' | 'data' | 'result' | 'debug'>) => {
         if (statusCode === 200) {
+          const debugBatchablePropertyPath = debug
+            ? { batchablePropertyPath: debug.batchablePropertyPath }
+            : {}
           const entry: CacheEntry = {
             statusCode,
             data,
             result,
             maxAge,
+            debug: debugBatchablePropertyPath,
           }
           // we should observe non-200 entries too
           await cache.setResponse(key, entry, maxAge)
@@ -251,6 +257,7 @@ export const withCache = (rateLimit?: Store<reducer.BurstLimitState>): Middlewar
                 data: { result },
                 result,
                 maxAge,
+                debug: debugBatchablePropertyPath,
               }
               await cache.setResponse(
                 keyBatchParticipant,

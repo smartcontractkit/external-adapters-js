@@ -9,6 +9,7 @@ import {
 } from './reducer'
 import * as actions from './actions'
 import { WARMUP_BATCH_REQUEST_ID } from '../cache-warmer/config'
+import { logger } from '../external-adapter'
 
 export * as actions from './actions'
 export * as reducer from './reducer'
@@ -33,8 +34,14 @@ export const withBurstLimit = (store?: Store<BurstLimitState>): Middleware => as
     input.id !== WARMUP_BATCH_REQUEST_ID && // Always allow Batch Warmer requests through
     observedRequestsOfParticipant > config.totalCapacity - BATCH_REQUEST_BUFFER
     // TODO: determine BATCH_REQUEST_BUFFER dynamically based on (number of batch warmers * 3)
-  )
+  ) {
+    logger.error(
+      `Burst rate limit cap of ${
+        config.totalCapacity - BATCH_REQUEST_BUFFER
+      } reached. ${observedRequestsOfParticipant} requests sent in the last minute.`,
+    )
     throw new Error('New request backoff: Burst rate limit cap reached.')
+  }
 
   const requestObservedPayload: actions.RequestObservedPayload = {
     input,
