@@ -32,8 +32,18 @@ export const makeNetworkStatusCheck = (network: Networks) => {
     if (!_isValidBlock(block)) throw new Error('Block found is previous to last seen')
     if (!_isStaleBlock(block, delta)) {
       if (!_isPastBlock(block)) _updateLastSeenBlock(block)
+      Logger.info(
+        `Block #${block} is not considered stale at ${Date.now()}. Last seen block #${
+          lastSeenBlock.block
+        } was at ${lastSeenBlock.timestamp}`,
+      )
       return true
     }
+    Logger.warn(
+      `Block #${block} is considered stale at ${Date.now()}. Last seen block #${
+        lastSeenBlock.block
+      } was at ${lastSeenBlock.timestamp}, more than ${delta} miliseconds ago.`,
+    )
     return false
   }
 }
@@ -80,7 +90,12 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
   ): Promise<boolean> => {
     try {
       const isHealthy = await fn(network, delta)
-      if (isHealthy === false) return false
+      if (isHealthy === false) {
+        Logger.warn(
+          `Method ${fn.name} reported an unhealthy response. Network ${network} considered unhealthy`,
+        )
+        return false
+      }
     } catch (e) {
       Logger.error(
         `Method ${fn.name} failed: ${e.message}. Network ${network} considered unhealthy`,
