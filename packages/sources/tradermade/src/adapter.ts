@@ -40,7 +40,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const symbol = validator.overrideSymbol(NAME)
   const to = (validator.validated.data.to || '')
   const pairArray = []
-
+  console.log(to)
   for (const fromCurrency of formatArray(symbol)) {
     for (const toCurrency of formatArray(to)) {
       pairArray.push(`${fromCurrency.toUpperCase() + toCurrency.toUpperCase()}`)
