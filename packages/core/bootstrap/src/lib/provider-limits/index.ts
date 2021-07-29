@@ -34,6 +34,11 @@ interface ProviderRateLimit {
   minute: number
 }
 
+export const getBurstLimit = (provider: string, tier: string): number => {
+  const providerLimit = getProviderLimits(provider, tier, 'http')
+  return (providerLimit as HTTPTier)?.rateLimit1m || 0
+}
+
 export const getRateLimit = (provider: string, tier: string): ProviderRateLimit => {
   const providerLimit = getProviderLimits(provider, tier, 'http')
   return calculateRateLimit(providerLimit as HTTPTier)

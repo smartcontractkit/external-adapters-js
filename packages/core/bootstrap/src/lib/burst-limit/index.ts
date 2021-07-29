@@ -19,7 +19,7 @@ export const withBurstLimit = (store?: Store<BurstLimitState>): Middleware => as
   context,
 ) => async (input) => {
   const config = rateLimitConfig.get(context)
-  if (!store || !config.enabled) return await execute(input, context)
+  if (!store || !config.enabled || !config.burstCapacity) return await execute(input, context)
 
   const state = store.getState()
   const { requests }: { requests: RequestsState } = state
@@ -30,12 +30,12 @@ export const withBurstLimit = (store?: Store<BurstLimitState>): Middleware => as
 
   if (
     input.id !== WARMUP_BATCH_REQUEST_ID && // Always allow Batch Warmer requests through
-    observedRequestsOfParticipant > config.totalCapacity / 2
+    observedRequestsOfParticipant > config.burstCapacity / 2
     // TODO: determine BATCH_REQUEST_BUFFER dynamically based on (number of batch warmers * 3)
   ) {
     logger.error(
       `Burst rate limit cap of ${
-        config.totalCapacity / 2
+        config.burstCapacity / 2
       } reached. ${observedRequestsOfParticipant} requests sent in the last minute.`,
     )
     throw new Error('New request backoff: Burst rate limit cap reached.')
