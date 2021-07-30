@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/defi-pulse-adapter",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "Chainlink defi pulse adapter",
   "keywords": [
     "Chainlink",
@@ -29,7 +29,7 @@
   "dependencies": {
     "@chainlink/ea-bootstrap": "*",
     "@chainlink/ea-test-helpers": "*",
-    "@chainlink/token-allocation-adapter": "^0.0.3",
+    "@chainlink/token-allocation-adapter": "^0.1.0",
     "ethers": "^5.0.32",
     "tslib": "^2.1.0"
   },
