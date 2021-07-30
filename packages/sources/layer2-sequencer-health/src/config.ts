@@ -5,6 +5,8 @@ export const NAME = 'L2_SEQUENCER_HEALTH'
 
 // 2 minutes
 export const DEFAULT_DELTA_TIME = 2 * 60 * 1000
+// Blocks that replica nodes can fall behind
+export const DEFAULT_DELTA_BLOCKS = 6
 
 export enum Networks {
   Arbitrum = 'arbitrum',
@@ -30,6 +32,7 @@ export const HEALTH_ENDPOINTS = {
 
 export interface ExtendedConfig extends Config {
   delta: number
+  deltaBlocks: number
 }
 
 export const makeConfig = (prefix?: string): ExtendedConfig => {
@@ -39,5 +42,6 @@ export const makeConfig = (prefix?: string): ExtendedConfig => {
   }
   const config = Requester.getDefaultConfig(prefix)
   const delta = Number(util.getEnv('DELTA', prefix)) || DEFAULT_DELTA_TIME
-  return { ...config, delta }
+  const deltaBlocks = Number(util.getEnv('DELTA_BLOCKS', prefix)) || DEFAULT_DELTA_BLOCKS
+  return { ...config, delta, deltaBlocks }
 }

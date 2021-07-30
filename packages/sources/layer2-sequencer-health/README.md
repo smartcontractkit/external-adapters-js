@@ -7,6 +7,7 @@ Adapter that checks the Layer 2 Sequencer status
 | Required? |            Name            |                                  Description                                   | Options |                 Defaults to                  |
 | :-------: | :------------------------: | :----------------------------------------------------------------------------: | :-----: | :------------------------------------------: |
 |           |          `DELTA`           | Maximum time in miliseconds from last seen block to consider sequencer healthy |         |                120000 (2 min)                |
+|           |       `DELTA_BLOCKS`       |          Maximum allowed number of blocks that Nodes can fall behind           |         |                      6                       |
 |           |  `ARBITRUM_RPC_ENDPOINT`   |                             Arbitrum RPC Endpoint                              |         |         https://arb1.arbitrum.io/rpc         |
 |           | `ARBITRUM_HEALTH_ENDPOINT` |                            Arbitrum Health Endpoint                            |         |                                              |
 |           |  `OPTIMISM_RPC_ENDPOINT`   |                             Optimism RPC Endpoint                              |         |         https://mainnet.optimism.io          |
