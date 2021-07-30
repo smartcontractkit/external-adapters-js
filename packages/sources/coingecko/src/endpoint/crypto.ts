@@ -11,6 +11,7 @@ import { NAME as AdapterName } from '../config'
 import { getCoinIds, getSymbolsToIds } from '../util'
 
 export const supportedEndpoints = ['crypto', 'price', 'marketcap']
+export const batchablePropertyPath = ['base', 'quote']
 
 const customError = (data: any) => {
   if (Object.keys(data).length === 0) return true
@@ -61,7 +62,7 @@ const handleBatchedRequest = (
     }
   }
   response.data.results = payload
-  return Requester.success(jobRunID, response, true, ['base', 'quote'])
+  return Requester.success(jobRunID, response, true, batchablePropertyPath)
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
@@ -108,5 +109,5 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
     resultPath,
   ])
 
-  return Requester.success(jobRunID, response, config.verbose, ['base', 'quote'])
+  return Requester.success(jobRunID, response, config.verbose, batchablePropertyPath)
 }

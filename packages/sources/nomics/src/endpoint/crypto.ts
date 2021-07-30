@@ -9,6 +9,7 @@ import {
 import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['crypto', 'price', 'marketcap']
+export const batchablePropertyPath = ['base']
 
 export const endpointResultPaths = {
   crypto: 'price',
@@ -117,9 +118,7 @@ const handleBatchedRequest = (
     ])
   }
 
-  return Requester.success(jobRunID, Requester.withResult(response, undefined, payload), true, [
-    'base',
-  ])
+  return Requester.success(jobRunID, Requester.withResult(response, undefined, payload), true, batchablePropertyPath)
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -154,7 +153,5 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   if (Array.isArray(symbol)) return handleBatchedRequest(jobRunID, request, response, resultPath)
 
   const result = Requester.validateResultNumber(response.data[0], resultPath)
-  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose, [
-    'base',
-  ])
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose, batchablePropertyPath)
 }
