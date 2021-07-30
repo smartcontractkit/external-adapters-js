@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@chainlink/ea-bootstrap": "*",
-    "@chainlink/ea-reference-data-reader": "^0.1.0",
+    "@chainlink/ea-reference-data-reader": "^0.0.4",
     "@chainlink/ea-test-helpers": "*",
     "@chainlink/fcsapi-adapter": "^0.1.0",
     "@chainlink/finnhub-adapter": "^0.1.0",

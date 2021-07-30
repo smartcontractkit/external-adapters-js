@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "@chainlink/ea-bootstrap": "*",
-    "@chainlink/ea-reference-data-reader": "^0.1.0",
+    "@chainlink/ea-reference-data-reader": "^0.0.4",
     "@chainlink/ea-test-helpers": "*",
     "@chainlink/token-allocation-adapter": "^0.1.0",
     "decimal.js": "^10.2.1",
