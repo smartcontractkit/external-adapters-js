@@ -1,7 +1,7 @@
 # Chainlink Google weather Composite Adapter
 
-A demo adapter to query weather data from Google BigQuery. The adapter allows you to fetch the SUM or AVG of selected column
-in the `noaa_gsod` weather database in Google BigQuery within a given date range.
+An adapter used to query weather data from Google BigQuery. The adapter allows you to fetch the `AVG`, `SUM`, `MIN` or
+`MAX` of selected column in the `noaa_gsod` weather database in Google BigQuery within a given date range.
 
 ## Configuration
 
@@ -31,7 +31,7 @@ env PROJECT_ID=gcp-pdp-weather-dev yarn start
 
 | Required? |    Name    |                                Description                                 |              Options              | Defaults to |
 | :-------: | :--------: | :------------------------------------------------------------------------: | :-------------------------------: | :---------: |
-|    ✅     | `geoJson`  |                      A GeoJSON object containing the                       |                                   |             |
+|    ✅     | `geoJson`  |            A GeoJSON object containing the geographies to query            |                                   |             |
 |    ✅     | `dateFrom` |         The date to query data from (inclusive) in ISO 8601 format         |                                   |             |
 |    ✅     |  `dateTo`  |          The date to query data to (inclusive) in ISO 8601 format          |                                   |             |
 |    ✅     |  `method`  |                  Which method to use to aggregate data in                  |    `AVG`, `SUM`, `MIN`, `MAX`     |             |

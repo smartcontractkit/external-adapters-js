@@ -157,9 +157,6 @@ class QueryBuilder {
   }
 
   private geoJsonQuery(): string[] {
-    // Note: this is only efficient for when you have one or more Polygons with an optional Point.
-    // When only using a single Point, this will cause an extra, unnecessary, lookup query.
-    // This is done in order to make it easier to also query stations within Polygon(s).
     return this.geoJson.features.map((ft, i) => {
       switch (ft.geometry.type) {
         case "Polygon": {
@@ -243,7 +240,7 @@ class QueryBuilder {
         // Stations
         'WITH',
         'stations AS (',
-        `  SELECT usaf, ST_GEOGPOINT(lon, lat) AS geog, \`begin\`, \`end\` FROM \`${this.dataset}.stations\` AS stations`,
+        `  SELECT usaf, ST_GEOGPOINT(lon, lat) AS geog, \`begin\`, \`end\` FROM \`${this.dataset}.stations\``,
         ')',
 
         // Main query
