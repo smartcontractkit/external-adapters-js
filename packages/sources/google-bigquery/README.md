@@ -37,16 +37,3 @@ https://googleapis.dev/nodejs/bigquery/latest/global.html#BigQueryOptions
   }
 }
 ```
-
-### Sample Output
-
-```json
-{
-  "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
-  "data": {
-    "price": 77777.77,
-    "result": 77777.77
-  },
-  "statusCode": 200
-}
-```
