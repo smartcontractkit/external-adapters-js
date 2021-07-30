@@ -1,0 +1,15 @@
+apiVersion: 1
+
+deleteDatasources:
+  - name: Prometheus
+    orgId: 1
+
+datasources:
+  - name: Prometheus
+    type: prometheus
+    orgId: 1
+    # Access mode - proxy (server in the UI) or direct (browser in the UI).
+    access: proxy
+    httpMethod: POST
+    url: http://prometheus:9090
+    editable: true

@@ -1,0 +1,67 @@
+{
+  "coingecko": {
+    "COMP": "compound-governance-token",
+    "FNX": "finnexus",
+    "FTT": "ftx-token",
+    "LINA": "linear",
+    "MDX": "mdex",
+    "UNI": "uniswap",
+    "grt": "the-graph"
+  },
+  "nomics": {
+    "AMP": "AMP2",
+    "FNX": "FNX2",
+    "FTT": "FTXTOKEN",
+    "MDX": "MDX2",
+    "RAI": "RAI3",
+    "WING": "WING2"
+  },
+  "coinpaprika": {
+    "GRT": "grt-the-graph"
+  },
+  "kaiko": {
+    "RAI": "RAIR",
+    "uni": "uniswap"
+  },
+  "dxfeed": {
+    "AAPL": "AAPL:BFX",
+    "AMZN": "AMZN:BFX",
+    "FB": "FB:BFX",
+    "FTSE": "UKX.IND:TEI",
+    "GOOGL": "GOOGL:BFX",
+    "N225": "NKY.IND:TEI",
+    "NFLX": "NFLX:BFX",
+    "TSLA": "TSLA:BFX",
+    "WTI": "USO/USD:AFX"
+  },
+  "dxfeed_secondary": {
+    "AAPL": "AAPL.US:TEI",
+    "AMZN": "AMZN.US:TEI",
+    "FB": "FB.US:TEI",
+    "FTSE": "UKX.IND:TEI",
+    "N225": "NKY.IND:TEI",
+    "NFLX": "NFLX.US:TEI",
+    "TSLA": "TSLA.US:TEI"
+  },
+  "finage": {
+    "FTSE": "UK100",
+    "N225": "JAP225"
+  },
+  "tradermade": {
+    "BRENT": "UKOIL",
+    "FTSE": "UK100",
+    "N225": "JPN225",
+    "WTI": "OIL"
+  },
+  "tradingeconomics": {
+    "FTSE": "UKX:IND",
+    "N225": "NKY:IND"
+  },
+  "tiingo": {
+    "MIOTA":"IOTA"
+  },
+  "coinranking": {
+    "BTC": "Qwsogvtv82FCd",
+    "ETH": "razxDUgYGNAdQ"
+  }
+}

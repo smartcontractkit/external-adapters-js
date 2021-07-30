@@ -1,0 +1,16 @@
+{
+  "name": "@chainlink/types",
+  "version": "0.0.1",
+  "types": "index.d.ts",
+  "files": [
+    "index.d.ts"
+  ],
+  "repository": {
+    "url": "https://github.com/smartcontractkit/external-adapters-js",
+    "type": "git"
+  },
+  "license": "MIT",
+  "scripts": {
+    "clean": "echo \"No clean needed\""
+  }
+}

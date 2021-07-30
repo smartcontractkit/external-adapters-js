@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "paths": {
+      "*": ["./types/*"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["dist", "**/*.spec.ts", "**/*.test.ts"],
+  "references": [
+    { "path": "../../core/test-helpers" },
+    { "path": "../../core/reference-data-reader" },
+    { "path": "../../sources/fcsapi" },
+    { "path": "../../sources/finnhub" }
+  ]
+}
