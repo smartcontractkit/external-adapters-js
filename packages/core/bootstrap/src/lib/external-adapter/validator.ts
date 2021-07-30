@@ -323,6 +323,17 @@ export function normalizeInput(request: AdapterRequest, apiEndpoint: APIEndpoint
   delete data.includes
   // re-add maxAge
   if (request.data.maxAge) data.maxAge = request.data.maxAge
+  if (apiEndpoint.batchablePropertyPath) {
+    for (const param of apiEndpoint.batchablePropertyPath) {
+      const value = data[param]
+      if (typeof(value) === 'string')
+        data[param] = data[param].toUpperCase()
+      if (Array.isArray(value)) {
+        for (const index in data[param])
+        data[param][index] = data[param][index].toUpperCase()
+      }
+    }
+  }
 
   return { ...request, data }
 }

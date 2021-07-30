@@ -131,6 +131,7 @@ declare module '@chainlink/types' {
 
   export interface APIEndpoint {
     supportedEndpoints: string[]
+    batchablePropertyPath?: string[]
     endpointResultPaths?: EndpointResultPaths
     inputParameters?: InputParameters
     endpointOverride?: (request: AdapterRequest) => string | null
