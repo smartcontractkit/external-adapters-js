@@ -3,7 +3,6 @@ import { Requester, Validator, util } from '@chainlink/ea-bootstrap'
 import { makeConfig, NAME, DEFAULT_WS_API_ENDPOINT } from './config'
 import * as endpoints from './endpoint'
 
-
 export const batchablePropertyPath = [{name: 'from'},{name: 'to'}]
 
 const customParams = {
