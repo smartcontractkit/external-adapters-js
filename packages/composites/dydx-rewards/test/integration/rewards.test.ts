@@ -1,14 +1,15 @@
 import * as IPFS_Adapter from '@chainlink/ipfs-adapter'
 import { calculateRewards, deconstructJsonTree, Input } from '../../src/method/poke'
 import { BigNumber } from 'ethers'
+import * as bn from 'bignumber.js'
 import mockRewards from '../mock-data/rewards.json'
 
 describe('rewards', () => {
   const jobRunID = '1'
   const ipfs = IPFS_Adapter.makeExecute()
   const defaultInput: Input = {
-    traderRewardsAmount: 5e23,
-    marketMakerRewardsAmount: 2e23,
+    traderRewardsAmount: new bn.BigNumber('5e23'),
+    marketMakerRewardsAmount: new bn.BigNumber('2e23'),
     ipnsName: 'k51qzi5uqu5dlkb9yviadsfl3uxndbkyhf4n97u1t1np5e9f67zwmjz6yk9m9k',
     traderScoreAlpha: 0.7,
     newEpoch: BigNumber.from(0),
