@@ -4,7 +4,65 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.3.0-rc.1] - 2021-6-30
+
+This release marks the fruition of our recent External Adapter efficiency efforts.
+
+For more details see the public node operator guide [here](https://www.notion.so/chainlink/EA-0-3-0-Migration-Guide-3ac0632093a94f4d9ad7ea9e4fab2693).
+
+### Added
+
+- New performance improving middleware to the core EA framework:
+
+  - Cache-warming
+  - Rate-limiting
+  - Websockets
+
+- Metrics support
+
+- Added support for EOD close prices on Finage, IEX Cloud, Twelvedata, Tiingo and Unibit
+
+- New adapters:
+  - `expert-car-broker` to get car prices
+  - `binance` to get binance market data
+  - `sportsdataio` to get sports data from sportsdata.io
+  - `vesper` to get TVL from Vesper
+  - `linear-finance` to calculate indexes for Linear Finance
+
+### Changed
+
+- Conflux adapter sending transaction optimization
+- Improved time resolution from days to seconds and smooth-out the effect of added strikes for `crypto-volatility-index` adapter
+- Added a per-provider ratelimit reference
+- Added Prometheus metrics
+- `tradingeconomics` will now get stream data from TradingEconomics using a persistent WS connection
+- `make` commands are now TypeScript files that can be run through yarn scripts
+
+### Removed
+
+- Removed custom `tradingeconomics-stream` as WS support is not included into `tradingeconomics` adapter
+- Removed serverless support (AWS Lambda & GPC Functions).
+
+## [0.2.0] - 2021-4-13
+
+### Added
+
+- New adapters:
+  - `agoric` to push results to the Agoric blockchain
+  - `therundown` to get sports score data from TheRundown
+  - `tradingeconomics-stream` to get stream data from TradingEconomics
+  - `blockstream` to get Bitcoin height and difficulty
+- Basic prometheus metrics endpoint
+
+### Changed
+
+- Remaining non-2-step adapters migrated to TS
+- Updated support for `DIGG/BTC` in Kaiko and Amberdata
+- Updated base URL for GeoDB
+- CMC now uses preset IDs instead of preset slugs
+- Added support for `tradermade` in `outlier-detection` composite adapter
+- Added support for `overrides` param in price adapters
+- Improved time resolution from days to seconds and smooth-out the effect of added strikes for `crypto-volatility-index` adapter
 
 ### Added
 

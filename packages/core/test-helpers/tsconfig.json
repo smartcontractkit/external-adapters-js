@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src"
+  },
+  "include": ["src/**/*", "src/hardhat_config.json"],
+  "exclude": ["dist", "**/*.spec.ts", "**/*.test.ts"],
+  "references": [{ "path": "../bootstrap" }]
+}

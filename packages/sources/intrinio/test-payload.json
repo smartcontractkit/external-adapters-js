@@ -1,0 +1,6 @@
+{
+ "request": {
+  "base": "IWM",
+  "endpoint": "stock"
+ }
+}
