@@ -28,7 +28,7 @@
 |    ✅     | `quote`, `to`, or `market` |         The symbol of the currency or currenicies to convert to          |                                                                                      |             |
 |    🟡     |        `overrides`         | If base provided is found in overrides, that will be used | [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json) |             |
 
-## Singular Currnecy Pair Example
+## Singular Currency Pair Example
 
 ## Input
 ```json
