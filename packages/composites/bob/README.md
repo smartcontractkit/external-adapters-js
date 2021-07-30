@@ -8,14 +8,13 @@ The adapter takes the following environment variables:
 
 | Required? |   Name    |       Description       | Options |       Defaults to       |
 | :-------: | :-------: | :---------------------: | :-----: | :---------------------: |
-|           | `RPC_URL` | Blockchain RPC endpoint |         | `http://localhost:8545` |
+|     No      | `RPC_URL` | Blockchain RPC endpoint |         | `http://localhost:8545` |
 
 This composite adapter incorporates the [`json-rpc`](../../sources/json-rpc) adapter by calling `"method": "getblockchainfo"`.
 
 ## Running
 
 See the [Composite Adapter README](../README.md) for more information on how to get started.
-
 ---
 
 ## Endpoints
@@ -30,8 +29,9 @@ The format endpoint encodes the chainId, block hash, and block receiptsRoot as b
 
 | Required? |    Name    |      Description       | Options | Defaults to  |
 | :-------: | :--------: | :--------------------: | :-----: | :----------: |
-|    Yes    | `chainID`  | Parameter to query for |         |              |
-|    Yes    | `blockNumber`| Parameter to query for |       |              |
+|    Yes    | `chainID`  | An identifier for which network of the blockchain to use |         |              |
+|    Yes    | `blockNumber`| Block number to query for |       |              |
+|     No    | `url` | Blockchain RPC endpoint |         | `http://localhost:8545` |
 
 ### Sample Input
 

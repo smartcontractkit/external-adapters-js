@@ -105,7 +105,11 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
   const jobRunID = validator.validated.id
   const { quote = config.defaultQuote, method = config.defaultMethod } = validator.validated.data
   const allocations = toValidAllocations(validator.validated.data.allocations)
-  const source: string = (validator.validated.data.source || config.defaultSource || '' ).toLowerCase()
+  const source: string = (
+    validator.validated.data.source ||
+    config.defaultSource ||
+    ''
+  ).toLowerCase()
   if (source === '') {
     throw Error('No source specified in the request or config!')
   }
@@ -122,7 +126,7 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
       true,
     )
 
-  const getPrices = getPriceProvider(jobRunID, source, sourceConfig.api)
+  const getPrices = getPriceProvider(jobRunID, sourceConfig.api)
   switch (method.toLowerCase()) {
     case 'price': {
       const price = await computePrice(getPrices, allocations, quote)

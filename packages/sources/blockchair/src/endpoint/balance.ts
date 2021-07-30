@@ -1,9 +1,11 @@
 import { balance } from '@chainlink/ea-factories'
 import { Requester } from '@chainlink/ea-bootstrap'
-import { Config, Account } from '@chainlink/types'
-import { COINS, isCoinType, isChainType } from '.'
+import { Config, Account, ExecuteFactory } from '@chainlink/types'
+import { COINS, isCoinType, isChainType } from '../config'
 
-export const Name = 'balance'
+export const supportedEndpoints = ['balance']
+
+export const inputParameters = balance.inputParameters
 
 const getBalanceURI = (addresses: string[], coin: string, chain: string) => {
   coin = Requester.toVendorName(coin, COINS)
@@ -37,4 +39,5 @@ const getBalances: balance.GetBalances = async (accounts, config) => {
 
 const isSupported: balance.IsSupported = (coin, chain) => isChainType(chain) && isCoinType(coin)
 
-export const makeExecute = (config: Config) => balance.make({ ...config, getBalances, isSupported })
+export const makeExecute: ExecuteFactory<Config> = (config?: Config) =>
+  balance.make({ ...config, getBalances, isSupported })

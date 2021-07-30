@@ -1,5 +1,5 @@
 import reduce from '@chainlink/reduce-adapter'
-import { AdapterResponse } from '@chainlink/types'
+import { AdapterContext, AdapterResponse } from '@chainlink/types'
 import { callAdapter } from './adapter'
 import { Indexer } from './balance'
 import bitcoinJsonRpc from '@chainlink/bitcoin-json-rpc-adapter'
@@ -8,6 +8,7 @@ import { ethers } from 'ethers'
 // Get reduce balances as total balance
 export const runReduceAdapter = async (
   indexer: Indexer,
+  context: AdapterContext,
   input: AdapterResponse,
 ): Promise<AdapterResponse> => {
   // Bitcoin JSON RPC data balances come already reduced
@@ -34,5 +35,5 @@ export const runReduceAdapter = async (
       valuePath: 'balance',
     },
   }
-  return callAdapter(reduce.execute, next, '_onReduce')
+  return callAdapter(reduce.execute, context, next, '_onReduce')
 }

@@ -1,1 +1,1 @@
-export * as ticker from './ticker'
+export * as crypto from './crypto'

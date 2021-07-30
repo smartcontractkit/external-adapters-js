@@ -1,4 +1,4 @@
-import { Logger, Requester, util } from '@chainlink/ea-bootstrap'
+import { Requester, util } from '@chainlink/ea-bootstrap'
 import types from '@chainlink/types'
 
 export const DEFAULT_API_ENDPOINT = 'https://api.s0.t.hmny.io'
@@ -24,11 +24,4 @@ export const makeConfig = (prefix?: string): Config => {
     chainID: util.getEnv(ENV_CHAIN_ID, prefix) || `${DEFAULT_CHAIN_ID}`,
     gasLimit: util.getEnv(ENV_GAS_LIMIT, prefix) || `${DEFAULT_GAS_LIMIT}`,
   }
-}
-
-// Config without sensitive data
-const redact = (config: Config) => ({ ...config, apiKey: '*****', privateKey: '*****' })
-
-export function logConfig(config: Config): void {
-  Logger.debug('Adapter configuration:', { config: config && redact(config) })
 }

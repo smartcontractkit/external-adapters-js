@@ -9,7 +9,7 @@ const inputParams = {
 }
 
 // Export function to integrate with Chainlink node
-export const execute: ExecuteWithConfig<Config> = async (request, config) => {
+export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
   const validator = new Validator(request, inputParams)
   if (validator.error) throw validator.error
 
@@ -18,10 +18,10 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   switch (endpoint.toLowerCase()) {
     case 'difficulty':
     case getblockchaininfo.NAME: {
-      return getblockchaininfo.execute(request, config)
+      return getblockchaininfo.execute(request, context, config)
     }
     case scantxoutset.NAME: {
-      return scantxoutset.execute(request, config)
+      return scantxoutset.execute(request, context, config)
     }
     default: {
       throw new AdapterError({
@@ -34,5 +34,5 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {
-  return async (request) => execute(request, config || JSONRPC.makeConfig())
+  return async (request, context) => execute(request, context, config || JSONRPC.makeConfig())
 }

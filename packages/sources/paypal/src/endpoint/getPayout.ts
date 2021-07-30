@@ -1,10 +1,10 @@
 import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig } from '@chainlink/types'
+import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import * as paypal from '@paypal/payouts-sdk'
 
-export const NAME = 'getpayout'
+export const supportedEndpoints = ['getpayout', 'read']
 
-const customParams = {
+export const inputParameters: InputParameters = {
   payout_id: true,
   type: false,
 }
@@ -13,8 +13,8 @@ const paramOptions = {
   type: ['ITEM', 'BATCH'],
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-  const validator = new Validator(request, customParams, paramOptions)
+export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
+  const validator = new Validator(request, inputParameters, paramOptions)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id

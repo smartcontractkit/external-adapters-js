@@ -1,46 +1,24 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, Builder } from '@chainlink/ea-bootstrap'
 import {
   AdapterRequest,
   Config,
   ExecuteFactory,
   ExecuteWithConfig,
   MakeWSHandler,
+  APIEndpoint,
 } from '@chainlink/types'
-import { DEFAULT_ENDPOINT, DEFAULT_WS_API_ENDPOINT, makeConfig } from './config'
-import { eod, iex, prices, top } from './endpoint'
+import { DEFAULT_WS_API_ENDPOINT, makeConfig } from './config'
+import * as endpoints from './endpoint'
 
-const inputParams = {
-  endpoint: false,
+export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
+  return Builder.buildSelector(request, context, config, endpoints)
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-  const validator = new Validator(request, inputParams)
-  if (validator.error) throw validator.error
-
-  Requester.logConfig(config)
-
-  const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
-
-  switch (endpoint.toLowerCase()) {
-    case eod.NAME:
-      return await eod.execute(request, config)
-
-    case iex.NAME:
-    case 'stock':
-      return await iex.execute(request, config)
-
-    case top.NAME:
-      return await top.execute(request, config)
-
-    case prices.NAME:
-    case 'crypto':
-    default:
-      return await prices.execute(request, config)
-  }
-}
+export const endpointSelector = (request: AdapterRequest): APIEndpoint =>
+  Builder.selectEndpoint(request, makeConfig(), endpoints)
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {
-  return async (request) => execute(request, config || makeConfig())
+  return async (request, context) => execute(request, context, config || makeConfig())
 }
 
 type MessageType =
@@ -85,7 +63,11 @@ const customParams = {
   quote: ['quote', 'to', 'market'],
 }
 
-export const makeWSHandler = (config?: Config): MakeWSHandler => {
+export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
+  if ((process.env.NODE_ENV || '').toLowerCase() !== 'development') {
+    return undefined
+  }
+
   const getSubscription = (pair: string | undefined, subscribe = true) => {
     const defaultConfig = config || makeConfig()
     if (!pair) return

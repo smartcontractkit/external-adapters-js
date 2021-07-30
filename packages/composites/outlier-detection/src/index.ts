@@ -4,6 +4,6 @@ import { makeExecute } from './adapter'
 
 const NAME = 'OUTLIER-DETECTION'
 
-const handlers = expose(makeExecute())
+const handlers = expose(NAME, makeExecute())
 
 export = { NAME, makeExecute, makeConfig, handlers }

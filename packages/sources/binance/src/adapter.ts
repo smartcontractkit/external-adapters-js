@@ -1,53 +1,37 @@
-import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, ExecuteFactory, MakeWSHandler, AdapterRequest } from '@chainlink/types'
-import { makeConfig, DEFAULT_ENDPOINT, DEFAULT_WS_API_ENDPOINT } from './config'
-import { ticker } from './endpoint'
+import { Requester, Validator, Builder } from '@chainlink/ea-bootstrap'
+import {
+  Config,
+  ExecuteWithConfig,
+  ExecuteFactory,
+  MakeWSHandler,
+  AdapterRequest,
+  APIEndpoint,
+} from '@chainlink/types'
+import { makeConfig, DEFAULT_WS_API_ENDPOINT } from './config'
+import * as endpoints from './endpoint'
 
-const inputParams = {
-  endpoint: false,
+export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
+  return Builder.buildSelector(request, context, config, endpoints)
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-  const validator = new Validator(request, inputParams)
-  if (validator.error) throw validator.error
-
-  Requester.logConfig(config)
-
-  const jobRunID = validator.validated.id
-  const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
-
-  switch (endpoint.toLowerCase()) {
-    case ticker.NAME: {
-      return await ticker.execute(request, config)
-    }
-    default: {
-      throw new AdapterError({
-        jobRunID,
-        message: `Endpoint ${endpoint} not supported.`,
-        statusCode: 400,
-      })
-    }
-  }
-}
+export const endpointSelector = (request: AdapterRequest): APIEndpoint =>
+  Builder.selectEndpoint(request, makeConfig(), endpoints)
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {
-  return async (request) => execute(request, config || makeConfig())
+  return async (request, context) => execute(request, context, config || makeConfig())
 }
 
 export const makeWSHandler = (config?: Config): MakeWSHandler => {
   const getSubscription = (symbol?: string, subscribe = true) => {
     if (!symbol) return
     return {
-      "method": subscribe ? 'SUBSCRIBE' : 'UNSUBSCRIBE',
-      "params":
-        [
-          `${symbol}@miniTicker`,
-        ],
-      "id": 1
+      method: subscribe ? 'SUBSCRIBE' : 'UNSUBSCRIBE',
+      params: [`${symbol}@miniTicker`],
+      id: 1,
     }
   }
   const getSymbol = (input: AdapterRequest) => {
-    const validator = new Validator(input, ticker.customParams, {}, false)
+    const validator = new Validator(input, endpoints.crypto.inputParameters, {}, false)
     if (validator.error) return
     const symbol = validator.validated.data.base.toUpperCase()
     const convert = validator.validated.data.quote.toUpperCase()

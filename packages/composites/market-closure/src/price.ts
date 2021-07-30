@@ -21,9 +21,9 @@ export const getPriceDataProvider = (): PriceDataProvider | undefined => {
 export const getImpl = (type?: PriceDataProvider): Execute => {
   switch (type) {
     case PriceDataProvider.Finnhub:
-      return finnhub.execute
+      return finnhub.makeExecute()
     case PriceDataProvider.FCS_API:
-      return fcsapi.execute
+      return fcsapi.makeExecute()
     default:
       throw Error(`Unknown price data provider adapter type: ${type}`)
   }

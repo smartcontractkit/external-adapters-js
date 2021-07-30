@@ -6,21 +6,21 @@ export const NAME = 'trueusd'
 const customError = (data: any) => data.Response === 'Error'
 
 const customParams = {
-  field: false,
+  resultPath: false,
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, config) => {
+export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, customParams)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const field = validator.validated.data.field || 'totalTrust'
+  const resultPath = validator.validated.data.resultPath || 'totalTrust'
   const url = '/trusttoken/TrueUSD'
 
   const options = { ...config.api, url }
 
   const response = await Requester.request(options, customError)
-  response.data.result = Requester.validateResultNumber(response.data, ['responseData', field])
+  response.data.result = Requester.validateResultNumber(response.data, ['responseData', resultPath])
 
   return Requester.success(jobRunID, response, config.verbose)
 }

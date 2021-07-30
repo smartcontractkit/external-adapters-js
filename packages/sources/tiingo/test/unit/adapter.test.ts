@@ -14,7 +14,7 @@ describe('execute', () => {
       { name: 'empty data', testData: { data: {} } },
       {
         name: 'ticker not supplied',
-        testData: { id: jobID, data: { field: 'open' } },
+        testData: { id: jobID, data: { resultPath: 'open' } },
       },
     ]
 

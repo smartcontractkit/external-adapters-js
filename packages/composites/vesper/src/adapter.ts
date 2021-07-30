@@ -7,7 +7,7 @@ import * as TokenAllocation from '@chainlink/token-allocation-adapter'
 
 const customParams = {}
 
-export const execute: ExecuteWithConfig<Config> = async (input, config) => {
+export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
 
@@ -16,9 +16,9 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const allocations = await getTokenAllocations(config.controllerAddress, provider)
 
   const _execute = TokenAllocation.makeExecute()
-  return await _execute({ id: jobRunID, data: { ...input.data, allocations } })
+  return await _execute({ id: jobRunID, data: { ...input.data, allocations } }, context)
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {
-  return async (request) => execute(request, config || makeConfig())
+  return async (request, context) => execute(request, context, config || makeConfig())
 }

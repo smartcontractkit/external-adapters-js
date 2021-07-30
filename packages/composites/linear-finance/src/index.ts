@@ -4,4 +4,4 @@ import { makeConfig } from './config'
 
 const NAME = 'LINEAR_FINANCE'
 
-export = { NAME, makeConfig, makeExecute, ...expose(makeExecute()) }
+export = { NAME, makeConfig, makeExecute, ...expose(NAME, makeExecute()) }

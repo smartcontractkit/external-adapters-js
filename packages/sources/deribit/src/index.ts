@@ -1,6 +1,5 @@
 import { expose } from '@chainlink/ea-bootstrap'
-import { makeConfig, makeExecute } from './adapter'
+import { makeExecute } from './adapter'
+import { makeConfig, NAME } from './config'
 
-const NAME = 'DERIBIT'
-
-export = { NAME, makeExecute, makeConfig, ...expose(makeExecute()) }
+export = { NAME, makeExecute, makeConfig, ...expose(NAME, makeExecute()) }

@@ -5,6 +5,7 @@ import {
   DataResponse,
   ExecuteFactory,
   SequenceResponseData,
+  InputParameters,
 } from '@chainlink/types'
 import objectPath from 'object-path'
 
@@ -68,13 +69,13 @@ const toGetBalances = (getBalance?: GetBalance) => (accounts: Account[], config:
   return accounts.map((acc) => getBalance(acc, config))
 }
 
-const inputParams = {
+export const inputParameters: InputParameters = {
   dataPath: false,
   confirmations: false,
 }
 
 export const make: ExecuteFactory<BalanceConfig> = (config) => async (input) => {
-  const validator = new Validator(input, inputParams)
+  const validator = new Validator(input, inputParameters)
   if (validator.error) throw validator.error
   if (!config) throw new Error('No configuration supplied')
   if (!config.getBalance && !config.getBalances)

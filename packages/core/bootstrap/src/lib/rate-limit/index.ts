@@ -1,7 +1,8 @@
 import { AdapterRequest, Middleware } from '@chainlink/types'
 import hash from 'object-hash'
 import { Store } from 'redux'
-import { successfulRequestObserved } from './actions'
+import { getHashOpts } from '../util'
+import { successfulResponseObserved } from './actions'
 import * as config from './config'
 import * as metrics from './metrics'
 import {
@@ -23,6 +24,7 @@ export * as reducer from './reducer'
  * @param id Participant ID to get participants heartbeats
  */
 export const computeThroughput = (
+  config: config.Config,
   state: Heartbeats,
   interval: IntervalNames,
   id: string,
@@ -36,7 +38,7 @@ export const computeThroughput = (
   // Compute max throughput by weight
   const weight = throughputOfParticipant / totalThroughtput
 
-  return maxThroughput(weight, costOfParticipant)
+  return maxThroughput(weight, costOfParticipant, config.totalCapacity)
 }
 
 const getAverageCost = (requests: Heartbeat[]): number => {
@@ -44,8 +46,8 @@ const getAverageCost = (requests: Heartbeat[]): number => {
   return requests.reduce((totalCost, h) => totalCost + h.c, 0) / requests.length
 }
 
-const maxThroughput = (weight: number, cost: number): number => {
-  const maxAllowedCapacity = 0.9 * (config.get().totalCapacity / cost)
+const maxThroughput = (weight: number, cost: number, totalCapacity: number): number => {
+  const maxAllowedCapacity = 0.9 * (totalCapacity / cost)
   return weight * maxAllowedCapacity
 }
 
@@ -54,7 +56,7 @@ const maxThroughput = (weight: number, cost: number): number => {
  *
  * @param request payload
  */
-export const makeId = (request: AdapterRequest): string => hash(request, config.get().hashOpts)
+export const makeId = (request: AdapterRequest): string => hash(request, getHashOpts())
 
 /**
  * Calculate maxAge to keep the item cached so we allow the specified throughput.
@@ -65,18 +67,25 @@ export const makeId = (request: AdapterRequest): string => hash(request, config.
 export const maxAgeFor = (throughput: number, interval: number) =>
   throughput <= 0 ? interval : Math.floor(interval / throughput)
 
-export const withRateLimit = (store: Store<RootState>): Middleware => async (execute) => async (
-  input,
-) => {
-  if (!config.get().enabled) return await execute(input)
+export const withRateLimit = (store: Store<RootState>): Middleware => async (
+  execute,
+  context,
+) => async (input) => {
+  const rateLimitConfig = config.get(context)
+  if (!rateLimitConfig.enabled) return await execute(input, context)
   let state = store.getState()
   const { heartbeats } = state
   const requestTypeId = makeId(input)
-  const maxThroughput = computeThroughput(heartbeats, IntervalNames.HOUR, requestTypeId)
+  const maxThroughput = computeThroughput(
+    rateLimitConfig,
+    heartbeats,
+    IntervalNames.HOUR,
+    requestTypeId,
+  )
   const maxAge = maxAgeFor(maxThroughput, Intervals[IntervalNames.MINUTE])
-  const result = await execute({ ...input, rateLimitMaxAge: maxAge })
+  const result = await execute({ ...input, rateLimitMaxAge: maxAge }, context)
 
-  store.dispatch(successfulRequestObserved(input, result))
+  store.dispatch(successfulResponseObserved(input, result))
   state = store.getState()
 
   const defaultLabels = {

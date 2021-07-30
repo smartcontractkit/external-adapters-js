@@ -1,27 +1,15 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, ExecuteFactory, Config } from '@chainlink/types'
-import { makeConfig, DEFAULT_ENDPOINT } from './config'
-import { price } from './endpoint'
+import { Builder } from '@chainlink/ea-bootstrap'
+import { Config, ExecuteWithConfig, ExecuteFactory, AdapterRequest, APIEndpoint } from '@chainlink/types'
+import { makeConfig } from './config'
+import * as endpoints from './endpoint'
 
-const inputParams = {
-  endpoint: false,
+export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
+  return Builder.buildSelector(request, context, config, endpoints)
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, config) => {
-  const validator = new Validator(request, inputParams)
-  if (validator.error) throw validator.error
-
-  Requester.logConfig(config)
-
-  const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
-
-  switch (endpoint) {
-    default: {
-      return await price.execute(request, config)
-    }
-  }
-}
+export const endpointSelector = (request: AdapterRequest): APIEndpoint =>
+  Builder.selectEndpoint(request, makeConfig(), endpoints)
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {
-  return async (request) => execute(request, config || makeConfig())
+  return async (request, context) => execute(request, context, config || makeConfig())
 }

@@ -23,11 +23,13 @@ export const withCacheWarmer = (
   warmerStore: Store<CacheWarmerState>,
   middleware: Middleware[],
   ws: WSInput,
-) => (rawExecute: Execute): Middleware => async (execute) => async (input: AdapterRequest) => {
+) => (rawExecute: Execute): Middleware => async (execute, context) => async (
+  input: AdapterRequest,
+) => {
   const isWarmerActive =
     util.parseBool(process.env.CACHE_ENABLED) &&
     util.parseBool(process.env.EXPERIMENTAL_WARMUP_ENABLED)
-  if (!isWarmerActive) return await execute(input)
+  if (!isWarmerActive) return await execute(input, context)
 
   const wsConfig = getWSConfig()
   const warmupSubscribedPayload: actions.WarmupSubscribedPayload = {
@@ -35,7 +37,7 @@ export const withCacheWarmer = (
     // We need to initilialize the middleware on every beat to open a connection with the cache
     // Wrapping `rawExecute` as `execute` is already wrapped with the default middleware. Warmer doesn't need every default middleware
     executeFn: async (input: AdapterRequest) =>
-      await (await withMiddleware(rawExecute, middleware))(input),
+      await (await withMiddleware(rawExecute, context, middleware))(input, context),
     // Dummy result
     result: {
       jobRunID: '1',
@@ -70,18 +72,18 @@ export const withCacheWarmer = (
         warmerStore.dispatch(actions.warmupUnsubscribed({ key: cacheWarmerKey }))
       }
 
-      return await execute(input)
+      return await execute(input, context)
     }
   }
 
   // In case WS is not available, or WS has no active subscription, warmer should be active
   // Dispatch subscription only if execute was succesful
-  const result = await execute(input)
+  const result = await execute(input, context)
 
   const warmupExecutePayload: actions.WarmupExecutePayload = {
     ...input,
     executeFn: async (input: AdapterRequest) =>
-      await (await withMiddleware(rawExecute, middleware))(input),
+      await (await withMiddleware(rawExecute, context, middleware))(input, context),
     result,
   }
   warmerStore.dispatch(actions.warmupExecute(warmupExecutePayload))

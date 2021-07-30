@@ -4,6 +4,6 @@ import { makeConfig } from './config'
 import * as types from './types'
 
 const NAME = 'Token-Allocation'
-const handlers = expose(makeExecute())
+const handlers = expose(NAME, makeExecute())
 
 export { NAME, types, makeExecute, makeConfig, handlers }

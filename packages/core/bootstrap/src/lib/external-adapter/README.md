@@ -67,6 +67,55 @@ const base = validator.validated.data.base
 const quote = validator.validated.data.quote
 ```
 
+### overrideToken
+
+#### Arguments
+
+- `symbol` (String): The symbol to get the token of
+- `network` (String): Optional param to define which network to get the token for. Default: "mainnet"
+
+Use `overrideToken` to get the token address of the given symbol
+
+```typescript
+const address = validator.overrideToken("WETH")
+// "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+```
+
+### Includes Type:
+
+```typescript
+type Includes = {
+    from: string, // From symbol
+    to: string, // To symbol
+    adapters?: string[], // Array of adapters this applies to
+    inverse?: boolean // If the inverse should be calculated instead
+    tokens?: boolean // If the token addresses should be used instead
+}
+```
+
+### overrideIncludes
+
+#### Arguments
+
+- `adapter` (String): The name of the adapter in use
+- `from` (String): The "from" symbol
+- `to` (String): The "to" symbol
+- `includes` (Includes[]): Array of Includes objects
+
+Get the first applicable Includes object that can be used as an override
+
+```typescript
+const tokenOverride = validator.overrideIncludesToken(
+  "MyAdapter",
+  ""
+  [{ from: "WETH", to: "WBTC", adapters: ["OtherAdapter"] }, { from: "ETH", to: "WBTC" }]
+)
+// {
+//   from: "ETH",
+//   to: "WBTC"
+// }
+```
+
 ## Requester
 
 The Requester is a wrapper around a retryable pattern for reaching out to an endpoint. It can be supplied with a customError object to describe the custom error cases which the adapter should retry fetching data even if the response was successful.
@@ -110,6 +159,15 @@ Requester.request(config, customError, retries, delay)
 
 - `data` (Object): The response's data object
 - `path` (Array): An array of strings (or values of strings) or numbers for indicies to walk the JSON path
+- `options?` (Options): Optional set of options for getting the result
+
+#### Options
+
+```js
+{
+  inverse: false // Set to true to get the inverse rate 
+}
+```
 
 You can use `validateResultNumber` to obtain the value at the given path and receive a number. It takes the response data's object and an array representing the JSON path to return. If the value at the given path is `undefined` or `0`, an error will be thrown.
 

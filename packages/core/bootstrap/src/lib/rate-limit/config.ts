@@ -1,7 +1,7 @@
-import objectHash from 'object-hash'
-import { getRateLimit } from '../provider-limits'
-import { getHashOpts, getEnv, parseBool } from '../util'
+import { getRateLimit, getBurstLimit } from '../provider-limits'
+import { getEnv, parseBool } from '../util'
 import { logger } from '../external-adapter'
+import { AdapterContext } from '@chainlink/types'
 
 export interface Config {
   /**
@@ -9,11 +9,7 @@ export interface Config {
    * originate from the warm up engine itself
    */
   totalCapacity: number
-
-  /**
-   * Hashing options for differentiating requests
-   */
-  hashOpts: Required<Parameters<typeof objectHash>>['1']
+  burstCapacity: number
 
   /**
    * Determines if Rate Limit option is activated
@@ -21,11 +17,11 @@ export interface Config {
   enabled: boolean
 }
 
-export function get(): Config {
+export function get(context: AdapterContext): Config {
   const enabled = parseBool(getEnv('EXPERIMENTAL_RATE_LIMIT_ENABLED'))
   let capacity = parseInt(getEnv('RATE_LIMIT_CAPACITY') || '')
   if (!capacity && enabled) {
-    const provider = getEnv('RATE_LIMIT_API_PROVIDER') || ''
+    const provider = getEnv('RATE_LIMIT_API_PROVIDER') || context.name?.toLowerCase() || ''
     const tier = getEnv('RATE_LIMIT_API_TIER') || ''
     try {
       const providerConfig = getRateLimit(provider, tier)
@@ -34,8 +30,19 @@ export function get(): Config {
       logger.error(e.message)
     }
   }
+  let burstCapacity = 0
+  if (enabled) {
+    const provider = getEnv('RATE_LIMIT_API_PROVIDER') || context.name?.toLowerCase() || ''
+    const tier = getEnv('RATE_LIMIT_API_TIER') || ''
+    try {
+      const providerConfig = getBurstLimit(provider, tier)
+      burstCapacity = Number(providerConfig)
+    } catch {
+      // Ignore
+    }
+  }
   return {
-    hashOpts: getHashOpts(),
+    burstCapacity,
     totalCapacity: capacity,
     enabled: enabled && !!capacity,
   }

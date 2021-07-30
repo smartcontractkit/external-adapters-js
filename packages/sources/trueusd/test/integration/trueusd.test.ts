@@ -15,11 +15,11 @@ describe('execute', () => {
       },
       {
         name: 'id is supplied',
-        testData: { id: jobID, data: { field: 'totalTrust' } },
+        testData: { id: jobID, data: { resultPath: 'totalTrust' } },
       },
       {
         name: 'trust supply',
-        testData: { id: jobID, data: { field: 'totalToken' } },
+        testData: { id: jobID, data: { resultPath: 'totalToken' } },
       },
     ]
 
@@ -36,8 +36,8 @@ describe('execute', () => {
   describe('error calls @integration', () => {
     const requests = [
       {
-        name: 'unknown field',
-        testData: { id: jobID, data: { field: 'not_real' } },
+        name: 'unknown resultPath',
+        testData: { id: jobID, data: { resultPath: 'not_real' } },
       },
     ]
 

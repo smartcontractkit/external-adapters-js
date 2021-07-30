@@ -15,15 +15,15 @@ describe('execute', () => {
       },
       {
         name: 'id not supplied',
-        testData: { data: { field: 'totalTestResults' } },
+        testData: { data: { resultPath: 'totalTestResults' } },
       },
       {
         name: 'without date',
-        testData: { id: jobID, data: { field: 'totalTestResultsIncrease' } },
+        testData: { id: jobID, data: { resultPath: 'totalTestResultsIncrease' } },
       },
       {
         name: 'with date',
-        testData: { id: jobID, data: { field: 'death', date: '20201010' } },
+        testData: { id: jobID, data: { resultPath: 'death', date: '20201010' } },
       },
     ]
 
@@ -43,15 +43,15 @@ describe('execute', () => {
       { name: 'empty data', testData: { data: {} } },
       {
         name: 'unknown date format',
-        testData: { id: jobID, data: { field: 'deaths', date: 'not_real' } },
+        testData: { id: jobID, data: { resultPath: 'deaths', date: 'not_real' } },
       },
       {
         name: 'unknown date format 2',
-        testData: { id: jobID, data: { field: 'deaths', date: '2020111' } },
+        testData: { id: jobID, data: { resultPath: 'deaths', date: '2020111' } },
       },
       {
         name: 'date not found',
-        testData: { id: jobID, data: { field: 'deaths', date: '17601010' } },
+        testData: { id: jobID, data: { resultPath: 'deaths', date: '17601010' } },
       },
     ]
 
@@ -70,8 +70,8 @@ describe('execute', () => {
   describe('error calls @integration', () => {
     const requests = [
       {
-        name: 'unknown field',
-        testData: { id: jobID, data: { field: 'not_real' } },
+        name: 'unknown resultPath',
+        testData: { id: jobID, data: { resultPath: 'not_real' } },
       },
     ]
 

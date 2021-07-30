@@ -9,7 +9,7 @@ const inputParams = {
   record: true,
 }
 
-const execute: ExecuteWithConfig<Config> = async (input, config) => {
+const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
   const validator = new Validator(input, inputParams)
   if (validator.error) throw validator.error
 
@@ -17,7 +17,7 @@ const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const { record } = validator.validated.data
 
   const dnsExecute = DNS.makeExecute(config)
-  const dnsResponse = await dnsExecute(input)
+  const dnsResponse = await dnsExecute(input, context)
   const dnsData: DNSQueryResponse = { ...dnsResponse.data }
   const foundRecord = dnsData.Answer.find((ans: DNSAnswer) => ans.data.includes(record))
 
@@ -33,5 +33,5 @@ const execute: ExecuteWithConfig<Config> = async (input, config) => {
   )
 }
 
-export const makeExecute: ExecuteFactory<Config> = (config?: Config) => (input) =>
-  execute(input, config || makeConfig())
+export const makeExecute: ExecuteFactory<Config> = (config?: Config) => (input, context) =>
+  execute(input, context, config || makeConfig())

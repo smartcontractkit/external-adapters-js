@@ -2,6 +2,8 @@ import { util } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 import { isRenNetwork, RenNetwork } from '@renproject/interfaces'
 
+export const NAME = 'RENVM'
+
 export const ENV_NETWORK = 'NETWORK'
 export const ENV_API_ENDPOINT = 'API_ENDPOINT'
 

@@ -1,1 +1,1 @@
-export * as tickers from './tickers'
+export * as crypto from './crypto'

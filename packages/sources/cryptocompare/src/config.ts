@@ -3,7 +3,7 @@ import { Config } from '@chainlink/types'
 
 export const NAME = 'CRYPTOCOMPARE'
 
-export const DEFAULT_ENDPOINT = 'price'
+export const DEFAULT_ENDPOINT = 'crypto'
 export const DEFAULT_API_ENDPOINT = 'https://min-api.cryptocompare.com'
 export const DEFAULT_WS_API_ENDPOINT = 'wss://streamer.cryptocompare.com/v2'
 
@@ -15,5 +15,6 @@ export const makeConfig = (prefix?: string): Config => {
       ...config.api.headers,
       authorization: `Apikey ${config.apiKey}`,
     }
+  config.defaultEndpoint = DEFAULT_ENDPOINT
   return config
 }

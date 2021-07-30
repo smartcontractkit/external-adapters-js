@@ -8,6 +8,9 @@ import { CacheEntry } from './cache/types'
 export const isObject = (o: unknown): boolean =>
   o !== null && typeof o === 'object' && Array.isArray(o) === false
 
+export const isArray = (o: unknown): boolean =>
+  o !== null && typeof o === 'object' && Array.isArray(o)
+
 export const parseBool = (value: any): boolean => {
   if (!value) return false
   const _val = value.toString().toLowerCase()

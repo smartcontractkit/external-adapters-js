@@ -1,10 +1,12 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig } from '@chainlink/types'
+import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { API_ENDPOINT_MAIN } from '../config'
 
-export const Name = 'height'
+export const supportedEndpoints = ['height']
 
-export const execute: ExecuteWithConfig<Config> = async (request, config) => {
+export const inputParameters: InputParameters = {}
+
+export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request)
   if (validator.error) throw validator.error
 

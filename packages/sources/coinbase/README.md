@@ -6,12 +6,12 @@ Query information from [Coinbase's API](https://developers.coinbase.com/api/v2)
 
 | Required? |   Name   |     Description     |         Options          | Defaults to |
 | :-------: | :------: | :-----------------: | :----------------------: | :---------: |
-|           | endpoint | The endpoint to use | [price](#Price-Endpoint) |    price    |
+|           | endpoint | The endpoint to use | [crypto](#Crypto-Endpoint) |    crypto    |
 
 ---
 
 ## Price Endpoint
-
+##### NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.
 ### Input Params
 
 | Required? |            Name            |               Description                |       Options       | Defaults to |

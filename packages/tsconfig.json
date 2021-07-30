@@ -24,6 +24,9 @@
       "path": "./composites/dns-record-check"
     },
     {
+      "path": "./composites/dxdao"
+    },
+    {
       "path": "./composites/linear-finance"
     },
     {
@@ -87,10 +90,7 @@
       "path": "./sources/amberdata"
     },
     {
-      "path": "./sources/anyblock-gasprice"
-    },
-    {
-      "path": "./sources/anyblock-uniswap-vwap"
+      "path": "./sources/anyblock"
     },
     {
       "path": "./sources/binance"
@@ -123,6 +123,9 @@
       "path": "./sources/btc.com"
     },
     {
+      "path": "./sources/cache.gold"
+    },
+    {
       "path": "./sources/cfbenchmarks"
     },
     {
@@ -144,6 +147,9 @@
       "path": "./sources/coinmarketcap"
     },
     {
+      "path": "./sources/coinmetrics"
+    },
+    {
       "path": "./sources/coinpaprika"
     },
     {
@@ -154,6 +160,9 @@
     },
     {
       "path": "./sources/cryptoapis"
+    },
+    {
+      "path": "./sources/cryptoapis-v2"
     },
     {
       "path": "./sources/cryptocompare"
@@ -249,6 +258,9 @@
       "path": "./sources/metalsapi"
     },
     {
+      "path": "./sources/ncfx"
+    },
+    {
       "path": "./sources/nikkei"
     },
     {
@@ -273,7 +285,7 @@
       "path": "./sources/paypal"
     },
     {
-      "path": "./sources/poa-gasprice"
+      "path": "./sources/poa"
     },
     {
       "path": "./sources/polygon"

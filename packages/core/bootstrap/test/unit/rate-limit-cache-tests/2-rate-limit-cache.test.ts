@@ -1,17 +1,20 @@
 import { createStore } from 'redux'
 import { stub } from 'sinon'
 import { withDebug } from '../../../src'
-import { withCache } from '../../../src/lib/cache'
+import { defaultOptions, withCache } from '../../../src/lib/cache'
 import { logger } from '../../../src/lib/external-adapter'
 import * as rateLimit from '../../../src/lib/rate-limit'
-import { dataProviderMock, getRLTokenSpentPerMinute, setupClock, withMiddleware } from './helpers'
+import { dataProviderMock, getRLTokenSpentPerMinute, setupClock } from './helpers'
+import { withMiddleware } from '../../../src/index'
+import { AdapterContext } from '@chainlink/types'
 
 describe('Rate Limit/Cache - Integration', () => {
+  const context: AdapterContext = {}
   const capacity = 50
   let logWarnStub: any
   let logErrorStub: any
 
-  beforeAll(() => {
+  beforeAll(async () => {
     process.env.EXPERIMENTAL_RATE_LIMIT_ENABLED = String(true)
     process.env.RATE_LIMIT_CAPACITY = String(capacity)
     process.env.CACHE_ENABLED = String(true)
@@ -23,6 +26,12 @@ describe('Rate Limit/Cache - Integration', () => {
 
     logWarnStub = stub(logger, 'warn')
     logErrorStub = stub(logger, 'error')
+
+    const options = defaultOptions()
+    context.cache = {
+      ...defaultOptions(),
+      instance: await options.cacheBuilder(options.cacheImplOptions),
+    }
   })
 
   afterAll(() => {
@@ -35,8 +44,8 @@ describe('Rate Limit/Cache - Integration', () => {
 
     const store = createStore(rateLimit.reducer.rootReducer, {})
     const dataProvider = dataProviderMock()
-    const executeWithMiddleware = await withMiddleware(dataProvider.execute, [
-      withCache,
+    const executeWithMiddleware = await withMiddleware(dataProvider.execute, context, [
+      withCache(),
       rateLimit.withRateLimit(store),
       withDebug,
     ])
@@ -48,7 +57,7 @@ describe('Rate Limit/Cache - Integration', () => {
       const feedId = i % feedsNumber
       for (let internalReq = 0; internalReq < 10; internalReq++) {
         const input = { id: '6', data: { composite1: feedId, quote: internalReq } }
-        await executeWithMiddleware(input)
+        await executeWithMiddleware(input, context)
       }
       clock.tick(timeBetweenRequests)
     }

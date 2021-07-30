@@ -51,6 +51,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/composites/dns-record-check"
       },
       {
+        "name": "@chainlink/dxdao-adapter",
+        "reference": "workspace:packages/composites/dxdao"
+      },
+      {
         "name": "@chainlink/linear-finance-adapter",
         "reference": "workspace:packages/composites/linear-finance"
       },
@@ -143,12 +147,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/amberdata"
       },
       {
-        "name": "@chainlink/anyblock-gasprice-adapter",
-        "reference": "workspace:packages/sources/anyblock-gasprice"
-      },
-      {
-        "name": "@chainlink/anyblock-uniswap-vwap-adapter",
-        "reference": "workspace:packages/sources/anyblock-uniswap-vwap"
+        "name": "@chainlink/anyblock-adapter",
+        "reference": "workspace:packages/sources/anyblock"
       },
       {
         "name": "@chainlink/binance-adapter",
@@ -191,6 +191,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/btc.com"
       },
       {
+        "name": "@chainlink/cache.gold-adapter",
+        "reference": "workspace:packages/sources/cache.gold"
+      },
+      {
         "name": "@chainlink/cfbenchmarks-adapter",
         "reference": "workspace:packages/sources/cfbenchmarks"
       },
@@ -219,6 +223,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/coinmarketcap"
       },
       {
+        "name": "@chainlink/coinmetrics-adapter",
+        "reference": "workspace:packages/sources/coinmetrics"
+      },
+      {
         "name": "@chainlink/coinpaprika-adapter",
         "reference": "workspace:packages/sources/coinpaprika"
       },
@@ -233,6 +241,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {
         "name": "@chainlink/cryptoapis-adapter",
         "reference": "workspace:packages/sources/cryptoapis"
+      },
+      {
+        "name": "@chainlink/cryptoapis-v2-adapter",
+        "reference": "workspace:packages/sources/cryptoapis-v2"
       },
       {
         "name": "@chainlink/cryptocompare-adapter",
@@ -335,6 +347,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/kaiko"
       },
       {
+        "name": "@chainlink/layer2-sequencer-health-adapter",
+        "reference": "workspace:packages/sources/layer2-sequencer-health"
+      },
+      {
         "name": "@chainlink/lcx-adapter",
         "reference": "workspace:packages/sources/lcx"
       },
@@ -357,6 +373,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {
         "name": "@chainlink/metalsapi-adapter",
         "reference": "workspace:packages/sources/metalsapi"
+      },
+      {
+        "name": "@chainlink/ncfx-adapter",
+        "reference": "workspace:packages/sources/ncfx"
       },
       {
         "name": "@chainlink/nikkei-adapter",
@@ -391,8 +411,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/paypal"
       },
       {
-        "name": "@chainlink/poa-gasprice-adapter",
-        "reference": "workspace:packages/sources/poa-gasprice"
+        "name": "@chainlink/poa-adapter",
+        "reference": "workspace:packages/sources/poa"
       },
       {
         "name": "@chainlink/polygon-adapter",
@@ -491,8 +511,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/alphachain-adapter", ["workspace:packages/sources/alphachain"]],
       ["@chainlink/alphavantage-adapter", ["workspace:packages/sources/alphavantage"]],
       ["@chainlink/amberdata-adapter", ["workspace:packages/sources/amberdata"]],
-      ["@chainlink/anyblock-gasprice-adapter", ["workspace:packages/sources/anyblock-gasprice"]],
-      ["@chainlink/anyblock-uniswap-vwap-adapter", ["workspace:packages/sources/anyblock-uniswap-vwap"]],
+      ["@chainlink/anyblock-adapter", ["workspace:packages/sources/anyblock"]],
       ["@chainlink/apy-finance-adapter", ["workspace:packages/composites/apy-finance"]],
       ["@chainlink/augur-adapter", ["workspace:packages/composites/augur"]],
       ["@chainlink/binance-adapter", ["workspace:packages/sources/binance"]],
@@ -507,6 +526,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/bob-adapter", ["workspace:packages/composites/bob"]],
       ["@chainlink/bravenewcoin-adapter", ["workspace:packages/sources/bravenewcoin"]],
       ["@chainlink/btc.com-adapter", ["workspace:packages/sources/btc.com"]],
+      ["@chainlink/cache.gold-adapter", ["workspace:packages/sources/cache.gold"]],
       ["@chainlink/cfbenchmarks-adapter", ["workspace:packages/sources/cfbenchmarks"]],
       ["@chainlink/coinapi-adapter", ["workspace:packages/sources/coinapi"]],
       ["@chainlink/coinbase-adapter", ["workspace:packages/sources/coinbase"]],
@@ -514,12 +534,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/coingecko-adapter", ["workspace:packages/sources/coingecko"]],
       ["@chainlink/coinlore-adapter", ["workspace:packages/sources/coinlore"]],
       ["@chainlink/coinmarketcap-adapter", ["workspace:packages/sources/coinmarketcap"]],
+      ["@chainlink/coinmetrics-adapter", ["workspace:packages/sources/coinmetrics"]],
       ["@chainlink/coinpaprika-adapter", ["workspace:packages/sources/coinpaprika"]],
       ["@chainlink/coinranking-adapter", ["workspace:packages/sources/coinranking"]],
       ["@chainlink/conflux-adapter", ["workspace:packages/targets/conflux"]],
       ["@chainlink/covid-tracker-adapter", ["workspace:packages/sources/covid-tracker"]],
       ["@chainlink/crypto-volatility-index-adapter", ["workspace:packages/composites/crypto-volatility-index"]],
       ["@chainlink/cryptoapis-adapter", ["workspace:packages/sources/cryptoapis"]],
+      ["@chainlink/cryptoapis-v2-adapter", ["workspace:packages/sources/cryptoapis-v2"]],
       ["@chainlink/cryptocompare-adapter", ["workspace:packages/sources/cryptocompare"]],
       ["@chainlink/cryptoid-adapter", ["workspace:packages/sources/cryptoid"]],
       ["@chainlink/cryptomkt-adapter", ["workspace:packages/sources/cryptomkt"]],
@@ -529,6 +551,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/dns-query-adapter", ["workspace:packages/sources/dns-query"]],
       ["@chainlink/dns-record-check-adapter", ["workspace:packages/composites/dns-record-check"]],
       ["@chainlink/dwolla-adapter", ["workspace:packages/sources/dwolla"]],
+      ["@chainlink/dxdao-adapter", ["workspace:packages/composites/dxdao"]],
       ["@chainlink/dxfeed-adapter", ["workspace:packages/sources/dxfeed"]],
       ["@chainlink/dxfeed-secondary-adapter", ["workspace:packages/sources/dxfeed-secondary"]],
       ["@chainlink/dydx-stark-adapter", ["workspace:packages/targets/dydx-stark"]],
@@ -559,6 +582,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/intrinio-adapter", ["workspace:packages/sources/intrinio"]],
       ["@chainlink/json-rpc-adapter", ["workspace:packages/sources/json-rpc"]],
       ["@chainlink/kaiko-adapter", ["workspace:packages/sources/kaiko"]],
+      ["@chainlink/layer2-sequencer-health-adapter", ["workspace:packages/sources/layer2-sequencer-health"]],
       ["@chainlink/lcx-adapter", ["workspace:packages/sources/lcx"]],
       ["@chainlink/linear-finance-adapter", ["workspace:packages/composites/linear-finance"]],
       ["@chainlink/linkpool-adapter", ["workspace:packages/sources/linkpool"]],
@@ -567,6 +591,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/marketstack-adapter", ["workspace:packages/sources/marketstack"]],
       ["@chainlink/messari-adapter", ["workspace:packages/sources/messari"]],
       ["@chainlink/metalsapi-adapter", ["workspace:packages/sources/metalsapi"]],
+      ["@chainlink/ncfx-adapter", ["workspace:packages/sources/ncfx"]],
       ["@chainlink/nikkei-adapter", ["workspace:packages/sources/nikkei"]],
       ["@chainlink/nomics-adapter", ["workspace:packages/sources/nomics"]],
       ["@chainlink/oilpriceapi-adapter", ["workspace:packages/sources/oilpriceapi"]],
@@ -576,7 +601,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/outlier-detection-adapter", ["workspace:packages/composites/outlier-detection"]],
       ["@chainlink/paxos-adapter", ["workspace:packages/sources/paxos"]],
       ["@chainlink/paypal-adapter", ["workspace:packages/sources/paypal"]],
-      ["@chainlink/poa-gasprice-adapter", ["workspace:packages/sources/poa-gasprice"]],
+      ["@chainlink/poa-adapter", ["workspace:packages/sources/poa"]],
       ["@chainlink/polygon-adapter", ["workspace:packages/sources/polygon"]],
       ["@chainlink/proof-of-reserves-adapter", ["workspace:packages/composites/proof-of-reserves"]],
       ["@chainlink/reduce-adapter", ["workspace:packages/sources/reduce"]],
@@ -4455,27 +4480,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT",
         }]
       ]],
-      ["@chainlink/anyblock-gasprice-adapter", [
-        ["workspace:packages/sources/anyblock-gasprice", {
-          "packageLocation": "./packages/sources/anyblock-gasprice/",
+      ["@chainlink/anyblock-adapter", [
+        ["workspace:packages/sources/anyblock", {
+          "packageLocation": "./packages/sources/anyblock/",
           "packageDependencies": [
-            ["@chainlink/anyblock-gasprice-adapter", "workspace:packages/sources/anyblock-gasprice"],
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
-            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
-            ["@types/jest", "npm:26.0.22"],
-            ["@types/node", "npm:14.14.41"],
-            ["tslib", "npm:2.2.0"],
-            ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=ddfc1b"]
-          ],
-          "linkType": "SOFT",
-        }]
-      ]],
-      ["@chainlink/anyblock-uniswap-vwap-adapter", [
-        ["workspace:packages/sources/anyblock-uniswap-vwap", {
-          "packageLocation": "./packages/sources/anyblock-uniswap-vwap/",
-          "packageDependencies": [
-            ["@chainlink/anyblock-uniswap-vwap-adapter", "workspace:packages/sources/anyblock-uniswap-vwap"],
+            ["@chainlink/anyblock-adapter", "workspace:packages/sources/anyblock"],
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
@@ -4730,6 +4739,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT",
         }]
       ]],
+      ["@chainlink/cache.gold-adapter", [
+        ["workspace:packages/sources/cache.gold", {
+          "packageLocation": "./packages/sources/cache.gold/",
+          "packageDependencies": [
+            ["@chainlink/cache.gold-adapter", "workspace:packages/sources/cache.gold"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:26.0.22"],
+            ["@types/node", "npm:14.14.41"],
+            ["tslib", "npm:2.2.0"],
+            ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=ddfc1b"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
       ["@chainlink/cfbenchmarks-adapter", [
         ["workspace:packages/sources/cfbenchmarks", {
           "packageLocation": "./packages/sources/cfbenchmarks/",
@@ -4832,6 +4857,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/coinmarketcap/",
           "packageDependencies": [
             ["@chainlink/coinmarketcap-adapter", "workspace:packages/sources/coinmarketcap"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:26.0.22"],
+            ["@types/node", "npm:14.14.41"],
+            ["tslib", "npm:2.2.0"],
+            ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=ddfc1b"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/coinmetrics-adapter", [
+        ["workspace:packages/sources/coinmetrics", {
+          "packageLocation": "./packages/sources/coinmetrics/",
+          "packageDependencies": [
+            ["@chainlink/coinmetrics-adapter", "workspace:packages/sources/coinmetrics"],
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
@@ -4953,6 +4994,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:14.14.41"],
             ["ethers", "npm:5.1.0"],
             ["object-path", "npm:0.11.5"],
+            ["tslib", "npm:2.2.0"],
+            ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=ddfc1b"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/cryptoapis-v2-adapter", [
+        ["workspace:packages/sources/cryptoapis-v2", {
+          "packageLocation": "./packages/sources/cryptoapis-v2/",
+          "packageDependencies": [
+            ["@chainlink/cryptoapis-v2-adapter", "workspace:packages/sources/cryptoapis-v2"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-factories", "workspace:packages/core/factories"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:26.0.22"],
+            ["@types/node", "npm:14.14.41"],
+            ["ethers", "npm:5.1.0"],
             ["tslib", "npm:2.2.0"],
             ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=ddfc1b"]
           ],
@@ -5107,6 +5166,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT",
         }]
       ]],
+      ["@chainlink/dxdao-adapter", [
+        ["workspace:packages/composites/dxdao", {
+          "packageLocation": "./packages/composites/dxdao/",
+          "packageDependencies": [
+            ["@chainlink/dxdao-adapter", "workspace:packages/composites/dxdao"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/token-allocation-adapter", "workspace:packages/composites/token-allocation"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:26.0.22"],
+            ["@types/node", "npm:14.14.41"],
+            ["ethers", "npm:5.1.0"],
+            ["tslib", "npm:2.2.0"],
+            ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=ddfc1b"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
       ["@chainlink/dxfeed-adapter", [
         ["workspace:packages/sources/dxfeed", {
           "packageLocation": "./packages/sources/dxfeed/",
@@ -5169,8 +5246,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/alphachain-adapter", "workspace:packages/sources/alphachain"],
             ["@chainlink/alphavantage-adapter", "workspace:packages/sources/alphavantage"],
             ["@chainlink/amberdata-adapter", "workspace:packages/sources/amberdata"],
-            ["@chainlink/anyblock-gasprice-adapter", "workspace:packages/sources/anyblock-gasprice"],
-            ["@chainlink/anyblock-uniswap-vwap-adapter", "workspace:packages/sources/anyblock-uniswap-vwap"],
+            ["@chainlink/anyblock-adapter", "workspace:packages/sources/anyblock"],
             ["@chainlink/binance-adapter", "workspace:packages/sources/binance"],
             ["@chainlink/binance-dex-adapter", "workspace:packages/sources/binance-dex"],
             ["@chainlink/bitex-adapter", "workspace:packages/sources/bitex"],
@@ -5181,6 +5257,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/blockstream-adapter", "workspace:packages/sources/blockstream"],
             ["@chainlink/bravenewcoin-adapter", "workspace:packages/sources/bravenewcoin"],
             ["@chainlink/btc.com-adapter", "workspace:packages/sources/btc.com"],
+            ["@chainlink/cache.gold-adapter", "workspace:packages/sources/cache.gold"],
             ["@chainlink/cfbenchmarks-adapter", "workspace:packages/sources/cfbenchmarks"],
             ["@chainlink/coinapi-adapter", "workspace:packages/sources/coinapi"],
             ["@chainlink/coinbase-adapter", "workspace:packages/sources/coinbase"],
@@ -5188,10 +5265,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/coingecko-adapter", "workspace:packages/sources/coingecko"],
             ["@chainlink/coinlore-adapter", "workspace:packages/sources/coinlore"],
             ["@chainlink/coinmarketcap-adapter", "workspace:packages/sources/coinmarketcap"],
+            ["@chainlink/coinmetrics-adapter", "workspace:packages/sources/coinmetrics"],
             ["@chainlink/coinpaprika-adapter", "workspace:packages/sources/coinpaprika"],
             ["@chainlink/coinranking-adapter", "workspace:packages/sources/coinranking"],
             ["@chainlink/covid-tracker-adapter", "workspace:packages/sources/covid-tracker"],
             ["@chainlink/cryptoapis-adapter", "workspace:packages/sources/cryptoapis"],
+            ["@chainlink/cryptoapis-v2-adapter", "workspace:packages/sources/cryptoapis-v2"],
             ["@chainlink/cryptocompare-adapter", "workspace:packages/sources/cryptocompare"],
             ["@chainlink/cryptoid-adapter", "workspace:packages/sources/cryptoid"],
             ["@chainlink/cryptomkt-adapter", "workspace:packages/sources/cryptomkt"],
@@ -5223,6 +5302,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/marketstack-adapter", "workspace:packages/sources/marketstack"],
             ["@chainlink/messari-adapter", "workspace:packages/sources/messari"],
             ["@chainlink/metalsapi-adapter", "workspace:packages/sources/metalsapi"],
+            ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],
             ["@chainlink/nikkei-adapter", "workspace:packages/sources/nikkei"],
             ["@chainlink/nomics-adapter", "workspace:packages/sources/nomics"],
             ["@chainlink/oilpriceapi-adapter", "workspace:packages/sources/oilpriceapi"],
@@ -5231,7 +5311,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/orchid-bandwidth-adapter", "workspace:packages/sources/orchid-bandwidth"],
             ["@chainlink/paxos-adapter", "workspace:packages/sources/paxos"],
             ["@chainlink/paypal-adapter", "workspace:packages/sources/paypal"],
-            ["@chainlink/poa-gasprice-adapter", "workspace:packages/sources/poa-gasprice"],
+            ["@chainlink/poa-adapter", "workspace:packages/sources/poa"],
             ["@chainlink/polygon-adapter", "workspace:packages/sources/polygon"],
             ["@chainlink/reduce-adapter", "workspace:packages/sources/reduce"],
             ["@chainlink/renvm-address-set-adapter", "workspace:packages/sources/renvm-address-set"],
@@ -5272,6 +5352,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/lru-cache", "npm:5.1.0"],
             ["@types/node", "npm:14.14.41"],
             ["@types/object-hash", "npm:1.3.4"],
+            ["@types/object-path", "npm:0.11.0"],
             ["@types/pino", "npm:6.3.8"],
             ["@types/pino-pretty", "npm:4.7.0"],
             ["@types/promise-timeout", "npm:1.3.0"],
@@ -5289,6 +5370,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["lodash", "npm:4.17.21"],
             ["lru-cache", "npm:6.0.0"],
             ["object-hash", "npm:2.1.1"],
+            ["object-path", "npm:0.11.5"],
             ["pino", "npm:6.11.3"],
             ["pino-pretty", "npm:4.8.0"],
             ["prom-client", "npm:13.1.0"],
@@ -5652,7 +5734,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.41"],
             ["tslib", "npm:2.2.0"],
-            ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"]
+            ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=ddfc1b"]
           ],
           "linkType": "SOFT",
         }]
@@ -5737,6 +5819,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.41"],
+            ["tslib", "npm:2.2.0"],
+            ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=ddfc1b"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/layer2-sequencer-health-adapter", [
+        ["workspace:packages/sources/layer2-sequencer-health", {
+          "packageLocation": "./packages/sources/layer2-sequencer-health/",
+          "packageDependencies": [
+            ["@chainlink/layer2-sequencer-health-adapter", "workspace:packages/sources/layer2-sequencer-health"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:26.0.22"],
+            ["@types/node", "npm:14.14.41"],
+            ["ethers", "npm:5.1.0"],
+            ["sinon", "npm:10.0.0"],
             ["tslib", "npm:2.2.0"],
             ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=ddfc1b"]
           ],
@@ -5867,6 +5967,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/metalsapi/",
           "packageDependencies": [
             ["@chainlink/metalsapi-adapter", "workspace:packages/sources/metalsapi"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:26.0.22"],
+            ["@types/node", "npm:14.14.41"],
+            ["tslib", "npm:2.2.0"],
+            ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=ddfc1b"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/ncfx-adapter", [
+        ["workspace:packages/sources/ncfx", {
+          "packageLocation": "./packages/sources/ncfx/",
+          "packageDependencies": [
+            ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
@@ -6033,11 +6149,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT",
         }]
       ]],
-      ["@chainlink/poa-gasprice-adapter", [
-        ["workspace:packages/sources/poa-gasprice", {
-          "packageLocation": "./packages/sources/poa-gasprice/",
+      ["@chainlink/poa-adapter", [
+        ["workspace:packages/sources/poa", {
+          "packageLocation": "./packages/sources/poa/",
           "packageDependencies": [
-            ["@chainlink/poa-gasprice-adapter", "workspace:packages/sources/poa-gasprice"],
+            ["@chainlink/poa-adapter", "workspace:packages/sources/poa"],
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
@@ -6268,7 +6384,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:26.0.22"],
             ["@types/node", "npm:14.14.41"],
             ["tslib", "npm:2.2.0"],
-            ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"]
+            ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=ddfc1b"]
           ],
           "linkType": "SOFT",
         }]

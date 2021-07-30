@@ -1,10 +1,10 @@
-import { makeExecute } from './adapter'
-import { executeSync } from '@chainlink/ea-bootstrap'
+import { endpointSelector, makeExecute } from './adapter'
+import { makeMiddleware, withMiddleware } from '@chainlink/ea-bootstrap'
 import { CoinsResponse } from './endpoint/coins'
+import { AdapterContext } from '@chainlink/types'
 
-export function getCoinIds(id: string): Promise<CoinsResponse[]> {
+export function getCoinIds(context: AdapterContext, id: string): Promise<CoinsResponse[]> {
   const execute = makeExecute()
-  const executeWithMiddleware = executeSync(execute)
   const options = {
     data: {
       endpoint: 'coins',
@@ -14,13 +14,12 @@ export function getCoinIds(id: string): Promise<CoinsResponse[]> {
     id,
   }
   return new Promise((resolve, reject) => {
-    executeWithMiddleware(options, (_, result) => {
-      if (result.error) {
-        reject(result)
-      } else {
-        resolve(result.data)
-      }
-    })
+    const middleware = makeMiddleware(execute, undefined, endpointSelector)
+    withMiddleware(execute, context, middleware)
+      .then((executeWithMiddleware) => {
+        return executeWithMiddleware(options, context).then((value) => resolve(value.data))
+      })
+      .catch((error) => reject(error))
   })
 }
 

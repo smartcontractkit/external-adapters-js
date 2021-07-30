@@ -2,8 +2,7 @@ import * as _1forge from '@chainlink/1forge-adapter'
 import * as alphachain from '@chainlink/alphachain-adapter'
 import * as alphavantage from '@chainlink/alphavantage-adapter'
 import * as amberdata from '@chainlink/amberdata-adapter'
-import * as anyblock_gasprice from '@chainlink/anyblock-gasprice-adapter'
-import * as anyblock_uniswap_vwap from '@chainlink/anyblock-uniswap-vwap-adapter'
+import * as anyblock from '@chainlink/anyblock-adapter'
 import * as binance from '@chainlink/binance-adapter'
 import * as binance_dex from '@chainlink/binance-dex-adapter'
 import * as bitex from '@chainlink/bitex-adapter'
@@ -14,6 +13,7 @@ import * as blockcypher from '@chainlink/blockcypher-adapter'
 import * as blockstream from '@chainlink/blockstream-adapter'
 import * as bravenewcoin from '@chainlink/bravenewcoin-adapter'
 import * as btc_com from '@chainlink/btc.com-adapter'
+import * as cache_gold from '@chainlink/cache.gold-adapter'
 import * as cfbenchmarks from '@chainlink/cfbenchmarks-adapter'
 import * as coinapi from '@chainlink/coinapi-adapter'
 import * as coinbase from '@chainlink/coinbase-adapter'
@@ -21,10 +21,12 @@ import * as coincodex from '@chainlink/coincodex-adapter'
 import * as coingecko from '@chainlink/coingecko-adapter'
 import * as coinlore from '@chainlink/coinlore-adapter'
 import * as coinmarketcap from '@chainlink/coinmarketcap-adapter'
+import * as coinmetrics from '@chainlink/coinmetrics-adapter'
 import * as coinpaprika from '@chainlink/coinpaprika-adapter'
 import * as coinranking from '@chainlink/coinranking-adapter'
 import * as covid_tracker from '@chainlink/covid-tracker-adapter'
 import * as cryptoapis from '@chainlink/cryptoapis-adapter'
+import * as cryptoapis_v2 from '@chainlink/cryptoapis-v2-adapter'
 import * as cryptocompare from '@chainlink/cryptocompare-adapter'
 import * as cryptoid from '@chainlink/cryptoid-adapter'
 import * as cryptomkt from '@chainlink/cryptomkt-adapter'
@@ -56,6 +58,7 @@ import * as lition from '@chainlink/lition-adapter'
 import * as marketstack from '@chainlink/marketstack-adapter'
 import * as messari from '@chainlink/messari-adapter'
 import * as metalsapi from '@chainlink/metalsapi-adapter'
+import * as ncfx from '@chainlink/ncfx-adapter'
 import * as nikkei from '@chainlink/nikkei-adapter'
 import * as nomics from '@chainlink/nomics-adapter'
 import * as oilpriceapi from '@chainlink/oilpriceapi-adapter'
@@ -64,7 +67,7 @@ import * as openexchangerates from '@chainlink/openexchangerates-adapter'
 import * as orchid_adapter from '@chainlink/orchid-bandwidth-adapter'
 import * as paxos from '@chainlink/paxos-adapter'
 import * as paypal from '@chainlink/paypal-adapter'
-import * as poa_adapter from '@chainlink/poa-gasprice-adapter'
+import * as poa from '@chainlink/poa-adapter'
 import * as polygon from '@chainlink/polygon-adapter'
 import * as reduce from '@chainlink/reduce-adapter'
 import * as renvm_adapter_address from '@chainlink/renvm-address-set-adapter'
@@ -88,8 +91,7 @@ export default {
   alphachain,
   alphavantage,
   amberdata,
-  anyblock_gasprice,
-  anyblock_uniswap_vwap,
+  anyblock,
   binance,
   binance_dex,
   bitex,
@@ -100,6 +102,7 @@ export default {
   blockstream,
   bravenewcoin,
   btc_com,
+  cache_gold,
   cfbenchmarks,
   coinapi,
   coinbase,
@@ -107,10 +110,12 @@ export default {
   coingecko,
   coinlore,
   coinmarketcap,
+  coinmetrics,
   coinpaprika,
   coinranking,
   covid_tracker,
   cryptoapis,
+  cryptoapis_v2,
   cryptocompare,
   cryptoid,
   cryptomkt,
@@ -142,6 +147,7 @@ export default {
   marketstack,
   messari,
   metalsapi,
+  ncfx,
   nikkei,
   nomics,
   oilpriceapi,
@@ -150,7 +156,7 @@ export default {
   orchid_adapter,
   paxos,
   paypal,
-  poa_adapter,
+  poa,
   polygon,
   reduce,
   renvm_adapter_address,
