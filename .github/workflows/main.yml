@@ -17,6 +17,8 @@ jobs:
           node-version: '14.x'
       - name: Install Yarn
         run: npm install -g yarn
+      - name: Upgrade Yarn
+        run: yarn set version latest
       - name: Re-download dependencies & verify checksum
         run: yarn install --check-cache
 
