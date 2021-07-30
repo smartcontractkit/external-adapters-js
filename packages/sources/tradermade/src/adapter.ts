@@ -1,5 +1,5 @@
 import { ExecuteWithConfig, Config, ExecuteFactory, AdapterRequest, AxiosResponse, MakeWSHandler } from '@chainlink/types'
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, util } from '@chainlink/ea-bootstrap'
 import { makeConfig, NAME, DEFAULT_WS_API_ENDPOINT } from './config'
 import * as endpoints from './endpoint'
 
@@ -28,11 +28,14 @@ const handleBatchedRequest = (
       },
       Requester.validateResultNumber(pair, [resultPath]),
     ])
-
   }
-  return Requester.success(jobRunID, Requester.withResult(response, undefined, payload), true, batchablePropertyPath)
+  return Requester.success(
+    jobRunID,
+    Requester.withResult(response, undefined, payload),
+    true,
+    batchablePropertyPath,
+  )
 }
-
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, customParams)
@@ -42,11 +45,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const jobRunID = validator.validated.id
   const symbol = validator.overrideSymbol(NAME)
-  const to = (validator.validated.data.to || '')
+  const to = validator.validated.data.to || ''
   const pairArray = []
-  console.log(to)
-  for (const fromCurrency of formatArray(symbol)) {
-    for (const toCurrency of formatArray(to)) {
+
+  for (const fromCurrency of util.formatArray(symbol)) {
+    for (const toCurrency of util.formatArray(to)) {
       pairArray.push(`${fromCurrency.toUpperCase() + toCurrency.toUpperCase()}`)
     }
   }
@@ -59,7 +62,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const options = { ...config.api, params }
 
   const response = await Requester.request(options)
-  if (Array.isArray(symbol) || Array.isArray(to)) return handleBatchedRequest(jobRunID, request, response, 'mid')
+  if (Array.isArray(symbol) || Array.isArray(to))
+    return handleBatchedRequest(jobRunID, request, response, 'mid')
 
   response.data.result = Requester.validateResultNumber(response.data, ['quotes', 0, 'mid'])
   return Requester.success(jobRunID, response, config.api.verbose, batchablePropertyPath)
@@ -108,13 +112,4 @@ export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
       },
     }
   }
-}
-// format input as an array regardless of if it is a string or an array already
-function formatArray(input: string | string[]) {
-  let result = []
-  if(typeof(input)==='string')
-      result.push(input)
-  else
-      result = input
-  return result
 }

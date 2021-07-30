@@ -1,5 +1,11 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters, AdapterRequest, AxiosResponse } from '@chainlink/types'
+import { Requester, Validator, util } from '@chainlink/ea-bootstrap'
+import {
+  ExecuteWithConfig,
+  Config,
+  InputParameters,
+  AdapterRequest,
+  AxiosResponse,
+} from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['quotes']
@@ -19,8 +25,7 @@ const handleBatchedRequest = (
 ) => {
   const payload: [AdapterRequest, number][] = []
   for (const pair of response.data) {
-    const base = pair['s'].split('/')[0]
-    const quote = pair['s'].split('/')[1]
+    const [base, quote] = pair['s'].split('/')
     payload.push([
       {
         ...request,
@@ -28,9 +33,11 @@ const handleBatchedRequest = (
       },
       Requester.validateResultNumber(pair, [resultPath]),
     ])
-
   }
-  return Requester.success(jobRunID, Requester.withResult(response, undefined, payload), true, ['base', 'quote'])
+  return Requester.success(jobRunID, Requester.withResult(response, undefined, payload), true, [
+    'base',
+    'quote',
+  ])
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -42,8 +49,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const to = validator.validated.data.quote
   const pairArray = []
 
-  for (const fromCurrency of formatArray(from)) {
-    for (const toCurrency of formatArray(to)) {
+  for (const fromCurrency of util.formatArray(from)) {
+    for (const toCurrency of util.formatArray(to)) {
       pairArray.push(`${fromCurrency.toUpperCase()}/${toCurrency.toUpperCase()}`)
     }
   }
@@ -61,18 +68,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const response = await Requester.request(options)
 
-  if (Array.isArray(from) || Array.isArray(to)) return handleBatchedRequest(jobRunID, request, response, 'a')
+  if (Array.isArray(from) || Array.isArray(to))
+    return handleBatchedRequest(jobRunID, request, response, 'a')
 
   response.data.result = Requester.validateResultNumber(response.data[0], ['a'])
   return Requester.success(jobRunID, response, config.verbose, ['base', 'quote'])
-}
-
-// format input as an array regardless of if it is a string or an array already
-function formatArray(input: string | string[]) {
-    let result = []
-    if(typeof(input)==='string')
-        result.push(input)
-    else
-        result = input
-    return result
 }
