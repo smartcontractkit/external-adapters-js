@@ -3,6 +3,7 @@ import { ExecuteWithConfig, Config, InputParameters, AdapterRequest, AxiosRespon
 import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['forex', 'price']
+export const batchablePropertyPath = ['base', 'quote']
 
 export const inputParameters: InputParameters = {
   base: ['base', 'from', 'coin'],
@@ -28,7 +29,7 @@ const handleBatchedRequest = (
     ])
 
   }
-  return Requester.success(jobRunID, Requester.withResult(response, undefined, payload), true, ['base', 'quote'])
+  return Requester.success(jobRunID, Requester.withResult(response, undefined, payload), true, batchablePropertyPath)
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -56,5 +57,5 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   response.data.result = Requester.validateResultNumber(response.data, ['rates', to])
 
-  return Requester.success(jobRunID, response, config.verbose, ['base', 'quote'])
+  return Requester.success(jobRunID, response, config.verbose, batchablePropertyPath)
 }

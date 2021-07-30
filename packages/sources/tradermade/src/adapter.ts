@@ -4,6 +4,8 @@ import { makeConfig, NAME, DEFAULT_WS_API_ENDPOINT } from './config'
 import * as endpoints from './endpoint'
 
 
+export const batchablePropertyPath = [{name: 'from'},{name: 'to'}]
+
 const customParams = {
   base: ['base', 'from', 'symbol', 'market'],
   to: false,
@@ -28,7 +30,7 @@ const handleBatchedRequest = (
     ])
 
   }
-  return Requester.success(jobRunID, Requester.withResult(response, undefined, payload), true, ['from', 'to'])
+  return Requester.success(jobRunID, Requester.withResult(response, undefined, payload), true, batchablePropertyPath)
 }
 
 
@@ -60,7 +62,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   if (Array.isArray(symbol) || Array.isArray(to)) return handleBatchedRequest(jobRunID, request, response, 'mid')
 
   response.data.result = Requester.validateResultNumber(response.data, ['quotes', 0, 'mid'])
-  return Requester.success(jobRunID, response, config.api.verbose, [{name: 'from',},{name: 'to',},])
+  return Requester.success(jobRunID, response, config.api.verbose, batchablePropertyPath)
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {

@@ -49,7 +49,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const params = {
     access_key: config.apiKey,
     source: from,
-    currencies: to.join()
+    currencies: () => {
+        if (Array.isArray(to))
+            to.join
+        else
+            to
+        }
   }
 
   const reqConfig = { ...config.api, params, url }
