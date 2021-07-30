@@ -19,6 +19,8 @@ jobs:
         run: npm install -g yarn
       - name: Upgrade Yarn
         run: yarn set version latest
+      - name: Download dependencies
+        run: YARN_CHECKSUM_BEHAVIOR=update yarn
       - name: Re-download dependencies & verify checksum
         run: yarn install --check-cache
 
