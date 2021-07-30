@@ -202,6 +202,8 @@ declare module '@chainlink/types' {
           url: string
         }
       | undefined
+    //
+    noHttp?: boolean
   }
 
   /* INPUT TYPE VALIDATIONS */
