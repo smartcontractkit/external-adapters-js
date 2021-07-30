@@ -42,7 +42,7 @@
     "typescript": "^3.9.7"
   },
   "dependencies": {
-    "@chainlink/token-allocation-adapter": "^0.0.2",
+    "@chainlink/token-allocation-adapter": "^0.1.0",
     "synthetix": "2.45.3"
   }
 }
