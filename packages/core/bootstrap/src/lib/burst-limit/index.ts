@@ -9,7 +9,7 @@ import {
 } from './reducer'
 import * as actions from './actions'
 import { WARMUP_BATCH_REQUEST_ID } from '../cache-warmer/config'
-import { logger } from '../external-adapter'
+import { AdapterError, logger } from '../external-adapter'
 
 export * as actions from './actions'
 export * as reducer from './reducer'
@@ -38,7 +38,11 @@ export const withBurstLimit = (store?: Store<BurstLimitState>): Middleware => as
         config.burstCapacity / 2
       } reached. ${observedRequestsOfParticipant} requests sent in the last minute.`,
     )
-    throw new Error('New request backoff: Burst rate limit cap reached.')
+    throw new AdapterError({
+      jobRunID: input.id,
+      message: 'New request backoff: Burst rate limit cap reached.',
+      statusCode: 429,
+    })
   }
 
   const requestObservedPayload: actions.RequestObservedPayload = {
