@@ -1,5 +1,4 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-//import { warmupStopped } from '@chainlink/ea-bootstrap/src/lib/cache-warmer/actions'
 import { ExecuteWithConfig, Config, InputParameters, AdapterRequest, AxiosResponse } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
