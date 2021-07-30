@@ -15,11 +15,13 @@ export const makeNetworkStatusCheck = (network: Networks) => {
     timestamp: 0,
   }
 
-  const _isPastBlock = (block: number) => lastSeenBlock.block === block
+  const _isPastBlock = (block: number) => block <= lastSeenBlock.block
   const _isStaleBlock = (block: number, delta: number): boolean => {
     return _isPastBlock(block) && Date.now() - lastSeenBlock.timestamp >= delta
   }
-  const _isValidBlock = (block: number) => lastSeenBlock.block <= block
+  // If the request hit a replica node that fell behind, the block could be previous to the last seen. Including a deltaBlocks range to consider this case.
+  const _isValidBlock = (block: number, deltaBlocks: number) =>
+    lastSeenBlock.block - block <= deltaBlocks
   const _updateLastSeenBlock = (block: number): void => {
     lastSeenBlock = {
       block,
@@ -27,9 +29,12 @@ export const makeNetworkStatusCheck = (network: Networks) => {
     }
   }
 
-  return async (delta: number): Promise<boolean> => {
+  return async (delta: number, deltaBlocks: number): Promise<boolean> => {
     const block = await requestBlockHeight(network)
-    if (!_isValidBlock(block)) throw new Error('Block found is previous to last seen')
+    if (!_isValidBlock(block, deltaBlocks))
+      throw new Error(
+        `Block found #${block} is previous to last seen #${lastSeenBlock.block} with more than ${deltaBlocks} difference`,
+      )
     if (!_isStaleBlock(block, delta)) {
       if (!_isPastBlock(block)) _updateLastSeenBlock(block)
       Logger.info(
@@ -48,13 +53,17 @@ export const makeNetworkStatusCheck = (network: Networks) => {
   }
 }
 
-const networks: Record<Networks, (delta: number) => Promise<boolean>> = {
+const networks: Record<Networks, (delta: number, deltaBlocks: number) => Promise<boolean>> = {
   [Networks.Arbitrum]: makeNetworkStatusCheck(Networks.Arbitrum),
   [Networks.Optimism]: makeNetworkStatusCheck(Networks.Optimism),
 }
 
-export const getL2NetworkStatus: NetworkHealthCheck = (network: Networks, delta: number) => {
-  return networks[network](delta)
+export const getL2NetworkStatus: NetworkHealthCheck = (
+  network: Networks,
+  delta: number,
+  deltaBlocks: number,
+) => {
+  return networks[network](delta, deltaBlocks)
 }
 
 export const inputParameters: InputParameters = {
@@ -87,9 +96,10 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
   const _tryMethod = (fn: NetworkHealthCheck) => async (
     network: Networks,
     delta: number,
+    deltaBlocks: number,
   ): Promise<boolean> => {
     try {
-      const isHealthy = await fn(network, delta)
+      const isHealthy = await fn(network, delta, deltaBlocks)
       if (isHealthy === false) {
         Logger.warn(
           `Method ${fn.name} reported an unhealthy response. Network ${network} considered unhealthy`,
@@ -112,7 +122,8 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
   const wrappedMethods = [getSequencerHealth, getL2NetworkStatus, getL1RollupStatus].map(_tryMethod)
   for (let i = 0; i < wrappedMethods.length; i++) {
     const method = wrappedMethods[i]
-    const isHealthy = await method(network, config.delta)
+    const isHealthy = await method(network, config.delta, config.deltaBlocks)
+    // TODO: If unhealthy, doublecheck submitting an empty tx. Not receiving any receipt should confirm that's not healthy
     if (!isHealthy) return _respond(false)
   }
 

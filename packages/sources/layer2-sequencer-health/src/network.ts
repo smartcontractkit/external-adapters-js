@@ -3,7 +3,7 @@ import { HEALTH_ENDPOINTS, Networks, RPC_ENDPOINTS } from './config'
 import { BigNumber } from 'ethers'
 
 export interface NetworkHealthCheck {
-  (network: Networks, delta: number): Promise<undefined | boolean>
+  (network: Networks, delta: number, deltaBlocks: number): Promise<undefined | boolean>
 }
 
 export const getSequencerHealth: NetworkHealthCheck = async (
