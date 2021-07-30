@@ -3,7 +3,7 @@ import { ExecuteWithConfig, Config, InputParameters, AdapterRequest, AxiosRespon
 import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['forex', 'price']
-export const batchablePropertyPath = ['base', 'quote']
+export const batchablePropertyPath = ['quote']
 
 export const inputParameters: InputParameters = {
   base: ['base', 'from', 'coin'],

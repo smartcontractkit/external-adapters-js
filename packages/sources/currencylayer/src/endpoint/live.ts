@@ -3,7 +3,7 @@ import { ExecuteWithConfig, Config, InputParameters, AdapterRequest, AxiosRespon
 import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['live']
-export const batchablePropertyPath = ['base', 'quote']
+export const batchablePropertyPath = ['quote']
 
 
 const customError = (data: any) => data.Response === 'Error'
