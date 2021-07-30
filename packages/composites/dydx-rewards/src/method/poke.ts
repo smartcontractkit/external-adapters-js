@@ -36,8 +36,8 @@ const customParams = {
 }
 
 export interface Input {
-  traderRewardsAmount: number
-  marketMakerRewardsAmount: number
+  traderRewardsAmount: bn.BigNumber
+  marketMakerRewardsAmount: bn.BigNumber
   ipnsName: string
   traderScoreAlpha: number
   newEpoch: BigNumber
@@ -55,8 +55,10 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.jobRunID
-  const traderRewardsAmount = validator.validated.data.traderRewardsAmount
-  const marketMakerRewardsAmount = validator.validated.data.marketMakerRewardsAmount
+  const traderRewardsAmount = new bn.BigNumber(validator.validated.data.traderRewardsAmount)
+  const marketMakerRewardsAmount = new bn.BigNumber(
+    validator.validated.data.marketMakerRewardsAmount,
+  )
   const ipnsName = validator.validated.data.ipnsName
   const traderScoreAlpha = new bn.BigNumber(validator.validated.data.traderScoreAlpha)
     .div('1e18')
@@ -140,7 +142,7 @@ const calcRetroactiveRewards = (epochData: OracleRewardsData, addressRewards: Ad
 const calcTraderRewards = (
   epochData: OracleRewardsData,
   addressRewards: AddressRewards,
-  traderRewardsAmount: number,
+  traderRewardsAmount: bn.BigNumber,
   traderScoreAlpha: number,
 ) => {
   const F = Object.keys(epochData.tradeFeesPaid).reduce(
@@ -167,7 +169,7 @@ const calcTraderRewards = (
   })
 
   Object.keys(traderScore).forEach((addr) => {
-    const reward = new bn.BigNumber(traderRewardsAmount)
+    const reward = traderRewardsAmount
       .times(traderScore[addr])
       .div(traderScoreSum)
       .decimalPlaces(0, bn.BigNumber.ROUND_FLOOR)
@@ -181,7 +183,7 @@ const calcTraderRewards = (
 const calcMarketMakerRewards = (
   epochData: OracleRewardsData,
   addressRewards: AddressRewards,
-  marketMakerRewardsAmount: number,
+  marketMakerRewardsAmount: bn.BigNumber,
 ) => {
   const quoteScoreSum = Object.keys(epochData.quoteScore).reduce(
     (sum, addr) => sum.plus(epochData.quoteScore[addr]),
@@ -189,7 +191,7 @@ const calcMarketMakerRewards = (
   )
 
   Object.keys(epochData.quoteScore).forEach((addr) => {
-    const reward = new bn.BigNumber(marketMakerRewardsAmount)
+    const reward = marketMakerRewardsAmount
       .times(epochData.quoteScore[addr])
       .div(quoteScoreSum)
       .decimalPlaces(0, bn.BigNumber.ROUND_FLOOR)
