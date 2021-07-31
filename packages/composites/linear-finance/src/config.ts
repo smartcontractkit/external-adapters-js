@@ -10,6 +10,6 @@ export type Config = BaseConfig & {
 export const makeConfig = (prefix?: string): Config => {
   return {
     ...Requester.getDefaultConfig(prefix),
-    csvURL: util.getRequiredEnv(ENV_CSV_URL, prefix),
+    csvURL: util.getRequiredEnv(ENV_CSV_URL, prefix)
   }
 }

@@ -7,22 +7,18 @@ on:
   pull_request: ~
 
 jobs:
-  # packages:
-  #   name: Verify dependency package archives
-  #   runs-on: [self-hosted, sdlc-ghr-prod]
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - uses: actions/setup-node@v2
-  #       with:
-  #         node-version: '14.x'
-  #     - name: Install Yarn
-  #       run: npm install -g yarn
-  #     - name: Upgrade Yarn
-  #       run: yarn set version latest
-  #     - name: Download dependencies
-  #       run: YARN_CHECKSUM_BEHAVIOR=update yarn
-  #     - name: Re-download dependencies & verify checksum
-  #       run: yarn install --check-cache
+  packages:
+    name: Verify dependency package archives
+    runs-on: [self-hosted, sdlc-ghr-prod]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+      - name: Install Yarn
+        run: npm install -g yarn
+      - name: Re-download dependencies & verify checksum
+        run: yarn install --check-cache
 
   run-integration-tests:
     name: Run integration tests

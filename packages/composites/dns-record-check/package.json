@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/dns-record-check-adapter",
-  "version": "0.1.0",
+  "version": "0.0.2",
   "description": "Chainlink DNS record check adapter",
   "keywords": [
     "Chainlink",
@@ -27,7 +27,7 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/dns-query-adapter": "^0.1.0",
+    "@chainlink/dns-query-adapter": "^0.0.2",
     "@chainlink/ea-bootstrap": "*",
     "@chainlink/ea-test-helpers": "*",
     "tslib": "^2.1.0"
