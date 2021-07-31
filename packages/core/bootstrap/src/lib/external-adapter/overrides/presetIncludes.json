@@ -1,0 +1,104 @@
+[
+  {
+    "from": "DIGG",
+    "to": "BTC",
+    "includes": [
+      {
+        "from": "WBTC",
+        "to": "DIGG",
+        "adapters": ["KAIKO"],
+        "inverse": true
+      },
+      {
+        "from": "DIGG",
+        "to": "WBTC",
+        "adapters": ["AMBERDATA"],
+        "tokens": true
+      }
+    ]
+  },
+  {
+    "from": "RAI",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "RAI",
+        "to": "WETH",
+        "adapters": ["AMBERDATA"],
+        "tokens": true
+      }
+    ]
+  },
+  {
+    "from": "RGT",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "WETH",
+        "to": "RGT",
+        "adapters": ["KAIKO"],
+        "inverse": true
+      },
+      {
+        "from": "RGT",
+        "to": "WETH",
+        "adapters": ["AMBERDATA"],
+        "tokens": true
+      }
+    ]
+  },
+  {
+    "from": "RARI",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "WETH",
+        "to": "RARI",
+        "adapters": ["KAIKO"],
+        "inverse": true
+      },
+      {
+        "from": "RARI",
+        "to": "WETH",
+        "adapters": ["AMBERDATA"],
+        "tokens": true
+      }
+    ]
+  },
+  {
+    "from": "LDO",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "LDO",
+        "to": "WETH",
+        "adapters": ["AMBERDATA"],
+        "tokens": true
+      }
+    ]
+  },
+  {
+    "from": "VSP",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "VSP",
+        "to": "WETH",
+        "adapters": ["AMBERDATA"],
+        "tokens": true
+      }
+    ]
+  },
+  {
+    "from": "SFI",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "SFI",
+        "to": "WETH",
+        "adapters": ["AMBERDATA"],
+        "tokens": true
+      }
+    ]
+  }
+]
