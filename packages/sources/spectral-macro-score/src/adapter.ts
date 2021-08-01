@@ -1,10 +1,5 @@
 import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
-import {
-  ExecuteFactory,
-  AdapterRequest,
-  AdapterResponse,
-  ExecuteWithConfig,
-} from '@chainlink/types'
+import { ExecuteFactory, AdapterRequest, AdapterResponse } from '@chainlink/types'
 import { makeConfig, DEFAULT_ENDPOINT, SpectralAdapterConfig } from './config'
 import { MacroScoreAPI } from './endpoint'
 
@@ -13,7 +8,7 @@ const inputParams = {
   tickSetId: true,
 }
 
-export const execute: ExecuteWithConfig<SpectralAdapterConfig> = async (
+export const execute = async (
   request: AdapterRequest,
   config: SpectralAdapterConfig,
 ): Promise<AdapterResponse> => {

@@ -1,5 +1,5 @@
 import { Requester } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig } from '@chainlink/types'
+import { AdapterResponse } from '@chainlink/types'
 import { BigNumber } from 'ethers'
 import makeNFC from '../abi/NFC'
 import { SpectralAdapterConfig } from '../config'
@@ -47,10 +47,10 @@ const computeTickWithScore = (score: number, tickSet: BigNumber[]) => {
   return tickSet.length - 1 // returns the last (greatest) tick
 }
 
-export const execute: ExecuteWithConfig<SpectralAdapterConfig> = async (
+export const execute = async (
   request: IRequestInput,
-  config,
-) => {
+  config: SpectralAdapterConfig,
+): Promise<AdapterResponse> => {
   const options = {
     url: config.api,
     method: 'POST',
