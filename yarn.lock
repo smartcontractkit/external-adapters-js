@@ -6227,7 +6227,7 @@ __metadata:
   resolution: "@types/nock@npm:11.1.0"
   dependencies:
     nock: "*"
-  checksum: 09eada0afdd6c59a91fc05ea886fe5b86f8dace2a337773ed4447b2e5423543a74951e0830fd5d89f963ea8758513343c9b2b27c94b82aa0c6923a39a9bef930
+  checksum: 7da1724ea2cbcd00730cc41e4880d987b0450823d5246cb1b0665be8db43ea9517bdff2161a1ecba8f23382c1e410b9b46da621614a9ae286568e6a8fd8a0a74
   languageName: node
   linkType: hard
 
@@ -22297,21 +22297,6 @@ resolve@1.17.0:
     utf-8-validate:
       optional: true
   checksum: 3a990b32ed08c72070d5e8913e14dfcd831919205be52a3ff0b4cdd998c8d554f167c9df3841605cde8b11d607768cacab3e823c58c96a5c08c987e093eb767a
-  languageName: node
-  linkType: hard
-
-"ws@npm:7.4.6, ws@npm:^7.4.2":
-  version: 7.4.6
-  resolution: "ws@npm:7.4.6"
-  peerDependencies:
-    bufferutil: ^4.0.1
-    utf-8-validate: ^5.0.2
-  peerDependenciesMeta:
-    bufferutil:
-      optional: true
-    utf-8-validate:
-      optional: true
-  checksum: ffeb626d92f14aa3a67aa3784824c1d290131e25d225f4ca6b1b6b6d7ea754fca67694d89a5b99b144382365e1bccf1f7ec2f92df56f0d25f44939b070452f06
   languageName: node
   linkType: hard
 

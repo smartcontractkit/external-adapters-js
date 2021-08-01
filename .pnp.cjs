@@ -467,6 +467,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/sochain"
       },
       {
+        "name": "@chainlink/spectral-macro-score-adapter",
+        "reference": "workspace:packages/sources/spectral-macro-score"
+      },
+      {
         "name": "@chainlink/sportsdataio-adapter",
         "reference": "workspace:packages/sources/sportsdataio"
       },
@@ -665,6 +669,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/renvm-address-set-adapter", ["workspace:packages/sources/renvm-address-set"]],
       ["@chainlink/satoshitango-adapter", ["workspace:packages/sources/satoshitango"]],
       ["@chainlink/sochain-adapter", ["workspace:packages/sources/sochain"]],
+      ["@chainlink/spectral-macro-score-adapter", ["workspace:packages/sources/spectral-macro-score"]],
       ["@chainlink/sportsdataio-adapter", ["workspace:packages/sources/sportsdataio"]],
       ["@chainlink/stasis-adapter", ["workspace:packages/sources/stasis"]],
       ["@chainlink/synth-index-adapter", ["workspace:packages/composites/synth-index"]],
@@ -4161,6 +4166,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/renvm-address-set-adapter", "workspace:packages/sources/renvm-address-set"],
             ["@chainlink/satoshitango-adapter", "workspace:packages/sources/satoshitango"],
             ["@chainlink/sochain-adapter", "workspace:packages/sources/sochain"],
+            ["@chainlink/spectral-macro-score-adapter", "workspace:packages/sources/spectral-macro-score"],
             ["@chainlink/sportsdataio-adapter", "workspace:packages/sources/sportsdataio"],
             ["@chainlink/stasis-adapter", "workspace:packages/sources/stasis"],
             ["@chainlink/synthetix-debt-pool-adapter", "workspace:packages/sources/synthetix-debt-pool"],
@@ -5259,6 +5265,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:14.17.7"],
             ["ethers", "npm:5.4.5"],
             ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/spectral-macro-score-adapter", [
+        ["workspace:packages/sources/spectral-macro-score", {
+          "packageLocation": "./packages/sources/spectral-macro-score/",
+          "packageDependencies": [
+            ["@chainlink/spectral-macro-score-adapter", "workspace:packages/sources/spectral-macro-score"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:26.0.24"],
+            ["@types/nock", "npm:11.1.0"],
+            ["@types/node", "npm:14.17.7"],
+            ["ethers", "npm:5.4.3"],
+            ["nock", "npm:13.1.1"],
+            ["tslib", "npm:2.3.0"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -8717,6 +8742,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["@types/nock", [
+        ["npm:11.1.0", {
+          "packageLocation": "./.yarn/cache/@types-nock-npm-11.1.0-01ed73d3fc-7da1724ea2.zip/node_modules/@types/nock/",
+          "packageDependencies": [
+            ["@types/nock", "npm:11.1.0"],
+            ["nock", "npm:13.1.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["@types/node", [
         ["npm:10.12.18", {
           "packageLocation": "./.yarn/cache/@types-node-npm-10.12.18-7c6aeb4e07-333cedae77.zip/node_modules/@types/node/",
@@ -9156,15 +9191,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["debug", "virtual:c9bc8b4682dae1ac36fcb97c7fccfb86af01a1f6fc48eaf83d9bd00fb14f9e1f641a2409ef7e079b4e0ed4a16267412a60166cc456172f4a4f9469cc6ef7c07b#npm:4.3.2"],
             ["eslint", "npm:7.32.0"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
-          ],
-          "packagePeers": [
-            "@types/eslint",
             "eslint",
-            "typescript"
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
       ["@typescript-eslint/scope-manager", [
         ["npm:4.29.2", {
           "packageLocation": "./.yarn/cache/@typescript-eslint-scope-manager-npm-4.29.2-c578c2390e-f89d11cf7c.zip/node_modules/@typescript-eslint/scope-manager/",
