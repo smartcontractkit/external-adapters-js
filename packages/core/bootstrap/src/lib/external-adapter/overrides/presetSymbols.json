@@ -32,7 +32,8 @@
     "N225": "NKY.IND:TEI",
     "NFLX": "NFLX:BFX",
     "TSLA": "TSLA:BFX",
-    "WTI": "USO/USD:AFX"
+    "WTI": "USO/USD:AFX",
+    "MSFT": "MSFT:BFX"
   },
   "dxfeed_secondary": {
     "AAPL": "AAPL.US:TEI",
@@ -41,7 +42,8 @@
     "FTSE": "UKX.IND:TEI",
     "N225": "NKY.IND:TEI",
     "NFLX": "NFLX.US:TEI",
-    "TSLA": "TSLA.US:TEI"
+    "TSLA": "TSLA.US:TEI",
+    "MSFT": "MSFT.US:TEI"
   },
   "finage": {
     "FTSE": "UK100",
