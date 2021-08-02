@@ -104,7 +104,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
 
   const response = await Requester.request<ResponseSchema & { cost?: number }>(options)
   response.data.cost = cost
-  const result = Requester.validateResultNumber(response.data, [resultPath])
+  const result = Requester.validateResultNumber(response.data, resultPath)
 
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }
