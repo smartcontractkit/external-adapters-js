@@ -1,9 +1,9 @@
-import { AdapterContext, Middleware, Execute, ExecuteSync } from '@chainlink/types'
+import { AdapterContext, Middleware, Execute } from '@chainlink/types'
 import express from 'express'
 import http from 'http'
 import { join } from 'path'
 import * as client from 'prom-client'
-import { loadTestPayload, Payload } from './config/test-payload-loader'
+import { loadTestPayload } from './config/test-payload-loader'
 import {
   HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE,
   HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE_MESSAGE,
@@ -73,7 +73,7 @@ export const initHandler = (
   })
 
   const testPayload = loadTestPayload()
-  app.get(join(baseUrl, 'smoke'), (_, res) => {
+  app.get(join(baseUrl, 'smoke'), async (_, res) => {
     if (testPayload.isDefault) {
       return res.status(200).send('OK')
     }
