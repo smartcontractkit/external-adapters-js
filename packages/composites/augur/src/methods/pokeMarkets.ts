@@ -43,9 +43,11 @@ async function getNextWeekResolutionTimestamp(contract: ethers.Contract): Promis
   const contractNextResolutionTime = await contract.nextResolutionTime()
 
   if (contractNextResolutionTime > nowEastern.toSeconds()) {
-    throw Error(
+    Logger.warn(
       `Augur: Next resolution time is in the future`
     )
+
+    return 0;
   }
 
   return nowEastern.plus({ week: 1 }).set({ weekday: 5, hour: 16, minute: 0, second: 0, millisecond: 0 }).toSeconds()
@@ -142,6 +144,8 @@ async function createAndResolveMarkets(roundDataForCoins: RoundDataForCoin[], ne
 async function pokeMarkets(contract: ethers.Contract, config: Config) {
   const resolutionTime: BigNumber = await contract.nextResolutionTime();
   const nextResolutionTime = await getNextWeekResolutionTimestamp(contract)
-  const roundIds = await fetchResolutionRoundIds(resolutionTime.toNumber(), contract, config)
-  await createAndResolveMarkets(roundIds, nextResolutionTime, contract, config)
+  if (nextResolutionTime > 0) {
+    const roundIds = await fetchResolutionRoundIds(resolutionTime.toNumber(), contract, config)
+    await createAndResolveMarkets(roundIds, nextResolutionTime, contract, config)
+  }
 }
