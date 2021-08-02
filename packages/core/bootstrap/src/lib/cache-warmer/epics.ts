@@ -57,7 +57,7 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
       const batchWarmerSubscriptionKey = getSubscriptionKey(
         omit(
           payload,
-          batchablePropertyPath?.map((path) => `data.${path}`),
+          batchablePropertyPath?.map(({ name }) => `data.${name}`),
         ),
       )
 
@@ -105,11 +105,11 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
       else {
         // If incoming batchable request parameters aren't an array, transform into one
         let batchWarmerData = payload.data
-        for (const path of batchablePropertyPath || []) {
-          if (!Array.isArray(batchWarmerData[path]))
+        for (const { name } of batchablePropertyPath || []) {
+          if (!Array.isArray(batchWarmerData[name]))
             batchWarmerData = {
               ...batchWarmerData,
-              [path]: [batchWarmerData[path]],
+              [name]: [batchWarmerData[name]],
             }
         }
         actionsToDispatch.push(
@@ -250,8 +250,8 @@ export const warmupUnsubscriber: Epic<AnyAction, AnyAction, any, EpicDependencie
     filter(warmupLeaveGroup.match),
     withLatestFrom(state$),
     filter(([{ payload }, state]) => {
-      for (const path of payload.batchablePropertyPath) {
-        if (state.cacheWarmer.subscriptions[payload.parent].origin[path].length === 0) return true
+      for (const { name } of payload.batchablePropertyPath) {
+        if (state.cacheWarmer.subscriptions[payload.parent].origin[name].length === 0) return true
       }
       return false
     }),

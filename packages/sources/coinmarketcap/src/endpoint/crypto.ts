@@ -9,7 +9,7 @@ import {
 } from '@chainlink/types'
 
 export const supportedEndpoints = ['crypto', 'price', 'marketcap']
-export const batchablePropertyPath = ['base', 'convert']
+export const batchablePropertyPath = [{ name: 'base' }, { name: 'convert' }]
 
 export const endpointResultPaths = {
   crypto: 'price',

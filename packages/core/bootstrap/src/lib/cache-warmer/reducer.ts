@@ -4,6 +4,11 @@ import { logger } from '../external-adapter'
 import * as actions from './actions'
 import { getSubscriptionKey } from './util'
 
+export interface BatchableProperty {
+  name: string,
+  limit?: number
+}
+
 /**
  * Metadata about a request
  */
@@ -35,7 +40,7 @@ export interface SubscriptionData {
    * If a subscription is being warmed by a parent batch request
    * This will hold the key of the request data to join
    */
-  batchablePropertyPath?: string[]
+  batchablePropertyPath?: BatchableProperty[]
   /**
    * If a subscription is warming multiple other requests
    * This will hold a map of the subscription key to the last time it was seen
@@ -87,10 +92,10 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
     for (const childKey in payload.childLastSeenById) {
       const childRequestData = state[childKey]?.origin
       if (childRequestData) {
-        for (const path of payload.batchablePropertyPath) {
-          const uniqueBatchableValue = new Set(batchWarmer.origin[path])
-          uniqueBatchableValue.add(childRequestData[path] || childRequestData.data[path])
-          batchWarmer.origin[path] = [...uniqueBatchableValue]
+        for (const { name } of payload.batchablePropertyPath) {
+          const uniqueBatchableValue = new Set(batchWarmer.origin[name])
+          uniqueBatchableValue.add(childRequestData[name] || childRequestData.data[name])
+          batchWarmer.origin[name] = [...uniqueBatchableValue]
         }
       }
     }
@@ -107,13 +112,13 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
 
     // The request data for a batch request should only contain unique values
     const requestDataWithUniqueValues = Object.fromEntries<Set<string>>(
-      payload.batchablePropertyPath.map((path) => [path, new Set()]),
+      payload.batchablePropertyPath.map(({ name }) => [name, new Set()]),
     )
 
     // Rebuild the request data without the removed children's data
     const batchRequestData = remainingChildIds.reduce((acc, childId) => {
-      for (const path of payload.batchablePropertyPath) {
-        acc[path].add(state[childId].origin[path])
+      for (const { name } of payload.batchablePropertyPath) {
+        acc[name].add(state[childId].origin[name])
       }
       return acc
     }, requestDataWithUniqueValues)

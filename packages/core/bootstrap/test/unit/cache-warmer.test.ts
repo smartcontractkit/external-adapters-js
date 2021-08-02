@@ -74,7 +74,7 @@ describe('side effect tests', () => {
       result: 1,
     },
     result: 1,
-    debug: { batchablePropertyPath: ['key1'] },
+    debug: { batchablePropertyPath: [{ name: 'key1' }] },
   }
   const batchKeyChild1 = '9478057e793482736b315c1e2660350c4c6547ec'
 
@@ -90,7 +90,7 @@ describe('side effect tests', () => {
       results: [[{ key1: 'baz', key2: 'bar' }, 2]],
     },
     result: 2,
-    debug: { batchablePropertyPath: ['key1'] },
+    debug: { batchablePropertyPath: [{ name: 'key1' }] },
   }
   const batchKeyChild2 = '193785b17d2675cf42fea61df6110f85e79c742d'
 
