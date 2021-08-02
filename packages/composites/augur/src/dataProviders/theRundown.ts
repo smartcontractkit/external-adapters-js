@@ -195,7 +195,12 @@ export const resolve: Execute = async (input) => {
   const validator = new Validator(input, resolveParams)
   if (validator.error) throw validator.error
 
-  const theRundownExec = TheRundown.makeExecute(TheRundown.makeConfig(TheRundown.NAME))
+  const theRundownExec = TheRundown.makeExecute({
+    ...TheRundown.makeConfig(TheRundown.NAME),
+
+    // Need ALL the response data.
+    verbose: true
+  })
 
   const sport = validator.validated.data.sport
   const sportId = sportIdMapping[sport.toUpperCase()]
@@ -210,7 +215,7 @@ export const resolve: Execute = async (input) => {
     }
   }
 
-  const response = (await theRundownExec(req)).result as TheRundownEvent
+  const response = (await theRundownExec(req)).data as TheRundownEvent
 
   const event: ResolveTeam = {
     id: eventIdToNum(response.event_id),
