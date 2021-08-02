@@ -33,6 +33,7 @@ export const HEALTH_ENDPOINTS = {
 export interface ExtendedConfig extends Config {
   delta: number
   deltaBlocks: number
+  privateKey: string
 }
 
 export const makeConfig = (prefix?: string): ExtendedConfig => {
@@ -43,5 +44,8 @@ export const makeConfig = (prefix?: string): ExtendedConfig => {
   const config = Requester.getDefaultConfig(prefix)
   const delta = Number(util.getEnv('DELTA', prefix)) || DEFAULT_DELTA_TIME
   const deltaBlocks = Number(util.getEnv('DELTA_BLOCKS', prefix)) || DEFAULT_DELTA_BLOCKS
-  return { ...config, delta, deltaBlocks }
+  const privateKey =
+    util.getEnv('PRIVATE_KEY', prefix) ||
+    '0x5d0fb412c399932a87be9a802ee77822fc51078f2558cd9f6aae7ce07cca152a'
+  return { ...config, delta, deltaBlocks, privateKey }
 }

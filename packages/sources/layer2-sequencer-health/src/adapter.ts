@@ -7,6 +7,7 @@ import {
   getSequencerHealth,
   getL1RollupStatus,
   NetworkHealthCheck,
+  getStatusByTransaction,
 } from './network'
 
 export const makeNetworkStatusCheck = (network: Networks) => {
@@ -127,6 +128,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
     if (!isHealthy) return _respond(false)
   }
 
+  await getStatusByTransaction(network, config.privateKey)
   return _respond(true)
 }
 

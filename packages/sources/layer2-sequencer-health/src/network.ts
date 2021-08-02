@@ -1,6 +1,6 @@
 import { Logger, Requester } from '@chainlink/ea-bootstrap'
 import { HEALTH_ENDPOINTS, Networks, RPC_ENDPOINTS } from './config'
-import { BigNumber } from 'ethers'
+import { BigNumber, ethers } from 'ethers'
 
 export interface NetworkHealthCheck {
   (network: Networks, delta: number, deltaBlocks: number): Promise<undefined | boolean>
@@ -44,4 +44,38 @@ export const requestBlockHeight = async (network: Networks): Promise<number> => 
 // TODO: Implement when ready
 export const getL1RollupStatus: NetworkHealthCheck = async (): Promise<boolean> => {
   return true
+}
+
+export const getStatusByTransaction = async (
+  network: Networks,
+  privateKey: string,
+  timeout = 10,
+): Promise<boolean> => {
+  const rpcEndpoint = RPC_ENDPOINTS[network]
+  const provider = new ethers.providers.JsonRpcProvider(rpcEndpoint)
+  const wallet = new ethers.Wallet(privateKey, provider)
+
+  const _setTimeout = (timeout: number): Promise<never> =>
+    new Promise((_, rej) =>
+      setTimeout(
+        () => rej(new Error(`Transaction receipt not received in ${timeout} seconds`)),
+        timeout * 1000,
+      ),
+    )
+  Logger.info(`Submitting empty transaction for network: ${network}`)
+
+  const tx = {
+    to: wallet.address,
+    gasPrice: 0,
+    gasLimit: 0,
+    value: 0,
+  }
+  try {
+    const receipt = await Promise.race([_setTimeout(timeout), wallet.sendTransaction(tx)])
+    Logger.info(`Transaction receipt received for network: ${network}`)
+    return (await receipt.wait()).confirmations > 0
+  } catch (e) {
+    Logger.error(`Transaction submission failed: ${e.message}`)
+    return false
+  }
 }
