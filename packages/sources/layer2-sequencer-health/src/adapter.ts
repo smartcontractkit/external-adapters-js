@@ -7,6 +7,7 @@ import {
   getSequencerHealth,
   getL1RollupStatus,
   NetworkHealthCheck,
+  getStatusByTransaction,
 } from './network'
 
 export const makeNetworkStatusCheck = (network: Networks) => {
@@ -47,7 +48,7 @@ export const makeNetworkStatusCheck = (network: Networks) => {
     Logger.warn(
       `Block #${block} is considered stale at ${Date.now()}. Last seen block #${
         lastSeenBlock.block
-      } was at ${lastSeenBlock.timestamp}, more than ${delta} miliseconds ago.`,
+      } was at ${lastSeenBlock.timestamp}, more than ${delta} milliseconds ago.`,
     )
     return false
   }
@@ -123,10 +124,21 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
   for (let i = 0; i < wrappedMethods.length; i++) {
     const method = wrappedMethods[i]
     const isHealthy = await method(network, config.delta, config.deltaBlocks)
-    // TODO: If unhealthy, doublecheck submitting an empty tx. Not receiving any receipt should confirm that's not healthy
-    if (!isHealthy) return _respond(false)
+    if (!isHealthy) {
+      // TODO: Decide if getStatusByTransaction should determine the final state
+      Logger.info(`Checking unhealthy network ${network} with transaction submission`)
+      const isHealthyByTransaction = await getStatusByTransaction(
+        network,
+        config.timeoutLimit,
+      )
+      if (isHealthyByTransaction) {
+        Logger.info(
+          `Transaction submission check succeeded. Network ${network} can be considered healthy`,
+        )
+      }
+      return _respond(false)
+    }
   }
-
   return _respond(true)
 }
 
