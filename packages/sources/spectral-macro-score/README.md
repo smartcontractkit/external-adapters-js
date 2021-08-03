@@ -4,9 +4,11 @@ Used to retrieve a MACRO Score for a given token ID.
 
 ### Environment Variables
 
-| Required? |  Name   |                            Description                             | Options | Defaults to |
-| :-------: | :-----: | :----------------------------------------------------------------: | :-----: | :---------: |
-|    ✅     | API_KEY | An API key that can be obtained from the data provider's dashboard |         |             |
+| Required? |    Name     |                            Description                             | Options | Defaults to |
+| :-------: | :---------: | :----------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     |   API_KEY   | An API key that can be obtained from the data provider's dashboard |         |             |
+|    ✅     |   RPC_URL   |                          Ethereum RPC URL                          |         |             |
+|    ✅     | NFC_ADDRESS |                    Address of the NFC contract                     |         |             |
 
 ---
 
