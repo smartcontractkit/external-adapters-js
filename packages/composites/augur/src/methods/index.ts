@@ -1,5 +1,6 @@
 export * as resolveMarkets from './resolveMarkets'
 export * as createMarkets from './createMarkets'
+export * as pokeMarkets from './pokeMarkets'
 
 export const TEAM_SPORTS = ['mlb', 'nba', 'nfl', 'ncaa-fb']
 export const FIGHTER_SPORTS = ['mma']
@@ -55,6 +56,7 @@ export const TEAM_ABI = [
       { internalType: "uint256", name: "_totalScore", type: "uint256", },
       { internalType: "bool", name: "_makeSpread", type: "bool", },
       { internalType: "bool", name: "_makeTotalScore", type: "bool", },
+      { internalType: "int256[2]", name: "_moneylines", type: "int256[2]" }
     ],
     name: "createMarket",
     outputs: [
@@ -77,6 +79,81 @@ export const TEAM_ABI = [
     type: "function",
   },
 
+]
+
+export const CRYPTO_ABI = [
+  ...ABI,
+  {
+    inputs: [
+      {
+        internalType: 'uint80[]',
+        name: '_roundIds',
+        type: 'uint80[]',
+      },
+      {
+        internalType: 'uint256',
+        name: '_nextResolutionTime',
+        type: 'uint256',
+      },
+    ],
+    name: 'createAndResolveMarkets',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'getCoins',
+    outputs: [
+      {
+        components: [
+          {
+            internalType: 'string',
+            name: 'name',
+            type: 'string',
+          },
+          {
+            internalType: 'contract AggregatorV3Interface',
+            name: 'priceFeed',
+            type: 'address',
+          },
+          {
+            internalType: 'uint256',
+            name: 'price',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint8',
+            name: 'imprecision',
+            type: 'uint8',
+          },
+          {
+            internalType: 'uint256[1]',
+            name: 'currentMarkets',
+            type: 'uint256[1]',
+          },
+        ],
+        internalType: 'struct CryptoMarketFactory.Coin[]',
+        name: '_coins',
+        type: 'tuple[]',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'nextResolutionTime',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
 ]
 
 export const bytesMappingToHexStr = (mapping: number[], encoded: string): string => {

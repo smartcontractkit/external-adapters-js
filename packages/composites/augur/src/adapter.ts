@@ -1,6 +1,6 @@
 import { AdapterError, Logger, Validator } from '@chainlink/ea-bootstrap'
 import { AdapterRequest, ExecuteWithConfig, Execute } from '@chainlink/types'
-import { resolveMarkets, createMarkets } from './methods'
+import { resolveMarkets, createMarkets, pokeMarkets } from './methods'
 import { Config, makeConfig } from './config'
 
 const customParams = {
@@ -22,6 +22,9 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
     case 'create':
       Logger.debug(`Augur: Chose method create`)
       return createMarkets.execute(input, context, config)
+    case 'poke':
+      Logger.debug(`Augur: Chose method poke`)
+      return pokeMarkets.execute(input, context, config)
     default:
       throw new AdapterError({
         jobRunID,

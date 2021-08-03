@@ -28,6 +28,10 @@ interface TheRundownEvent {
       }
       total: {
         total_over: number
+      },
+      moneyline: {
+        moneyline_home: number,
+        moneyline_away: number
       }
     }
   }
@@ -137,21 +141,16 @@ export const create: Execute = async (input, context) => {
       ethers.BigNumber,
     ] = await contract.getEventMarkets(eventId)
 
-    // only create spread and totalScore markets if lines exist; always create headToHead market
-    let homeSpread = transformSpecialNone(
-      affiliateId && event.lines?.[affiliateId].spread.point_spread_home,
-    )
-    let totalScore = transformSpecialNone(
-      affiliateId && event.lines?.[affiliateId].total.total_over,
-    )
-    const createSpread = homeSpread !== undefined
-    const createTotalScore = totalScore !== undefined
-    homeSpread = homeSpread || 0
-    totalScore = totalScore || 0
-    const canCreate =
-      headToHeadMarket.isZero() ||
-      (spreadMarket.isZero() && createSpread) ||
-      (totalScoreMarket.isZero() && createTotalScore)
+    // Only create head-to-head market if moneylines exist. Only create spread and total-score markets if their lines exist.
+    const moneylineHome = transformSpecialNone(affiliateId && event.lines?.[affiliateId].moneyline.moneyline_home)
+    const moneylineAway = transformSpecialNone(affiliateId && event.lines?.[affiliateId].moneyline.moneyline_away)
+    const homeSpread = transformSpecialNone(affiliateId && event.lines?.[affiliateId].spread.point_spread_home)
+    const totalScore = transformSpecialNone(affiliateId && event.lines?.[affiliateId].total.total_over)
+
+    const createHeadToHead = headToHeadMarket.isZero() && moneylineHome && moneylineAway
+    const createSpread = spreadMarket.isZero() && homeSpread !== undefined
+    const createTotalScore = totalScoreMarket.isZero() && totalScore !== undefined
+    const canCreate = createHeadToHead || createSpread || createTotalScore
     if (!canCreate) {
       cantCreate++
       continue
@@ -162,10 +161,11 @@ export const create: Execute = async (input, context) => {
       homeTeamId: homeTeam.team_id,
       awayTeamId: awayTeam.team_id,
       startTime,
-      homeSpread,
-      totalScore,
+      homeSpread: homeSpread || 0,
+      totalScore: totalScore || 0,
       createSpread,
       createTotalScore,
+      moneylines: [moneylineHome || 0, moneylineAway || 0]
     })
   }
 
@@ -207,7 +207,12 @@ export const resolve: Execute = async (input, context) => {
   const validator = new Validator(input, resolveParams)
   if (validator.error) throw validator.error
 
-  const theRundownExec = TheRundown.makeExecute(TheRundown.makeConfig(TheRundown.NAME))
+  const theRundownExec = TheRundown.makeExecute({
+    ...TheRundown.makeConfig(TheRundown.NAME),
+
+    // Need ALL the response data.
+    verbose: true
+  })
 
   const sport = validator.validated.data.sport
   const sportId = sportIdMapping[sport.toUpperCase()]
@@ -215,13 +220,14 @@ export const resolve: Execute = async (input, context) => {
 
   const req = {
     id: input.id,
+    endpoint: 'total-score',
     data: {
       sportId,
-      eventId
+      matchId: eventId
     }
   }
 
-  const response = (await theRundownExec(req, context)).result as TheRundownEvent
+  const response = (await theRundownExec(req, context)).data as TheRundownEvent
 
   const event: ResolveTeam = {
     id: eventIdToNum(response.event_id),
