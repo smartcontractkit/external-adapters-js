@@ -7,6 +7,8 @@ export const NAME = 'L2_SEQUENCER_HEALTH'
 export const DEFAULT_DELTA_TIME = 2 * 60 * 1000
 // Blocks that replica nodes can fall behind
 export const DEFAULT_DELTA_BLOCKS = 6
+// milliseconds to consider a timeout transaction (10 secs)
+export const DEFAULT_TIMEOUT_LIMIT = 10 * 1000
 
 export enum Networks {
   Arbitrum = 'arbitrum',
@@ -33,6 +35,7 @@ export const HEALTH_ENDPOINTS = {
 export interface ExtendedConfig extends Config {
   delta: number
   deltaBlocks: number
+  timeoutLimit: number
   privateKey: string
 }
 
@@ -44,8 +47,7 @@ export const makeConfig = (prefix?: string): ExtendedConfig => {
   const config = Requester.getDefaultConfig(prefix)
   const delta = Number(util.getEnv('DELTA', prefix)) || DEFAULT_DELTA_TIME
   const deltaBlocks = Number(util.getEnv('DELTA_BLOCKS', prefix)) || DEFAULT_DELTA_BLOCKS
-  const privateKey =
-    util.getEnv('PRIVATE_KEY', prefix) ||
-    '0x5d0fb412c399932a87be9a802ee77822fc51078f2558cd9f6aae7ce07cca152a'
-  return { ...config, delta, deltaBlocks, privateKey }
+  const timeoutLimit = Number(util.getEnv('NETWORK_TIMEOUT_LIMIT', prefix)) || DEFAULT_TIMEOUT_LIMIT
+  const privateKey = util.getRequiredEnv('UNFUNDED_PRIVATE_KEY', prefix)
+  return { ...config, delta, deltaBlocks, timeoutLimit, privateKey }
 }

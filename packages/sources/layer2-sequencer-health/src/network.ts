@@ -49,33 +49,61 @@ export const getL1RollupStatus: NetworkHealthCheck = async (): Promise<boolean> 
 export const getStatusByTransaction = async (
   network: Networks,
   privateKey: string,
-  timeout = 10,
+  timeout: number,
 ): Promise<boolean> => {
   const rpcEndpoint = RPC_ENDPOINTS[network]
   const provider = new ethers.providers.JsonRpcProvider(rpcEndpoint)
   const wallet = new ethers.Wallet(privateKey, provider)
 
-  const _setTimeout = (timeout: number): Promise<never> =>
+  // These errors come from the Sequencer when submitting an empty transaction
+  const sequencerOnlineErrors = {
+    [Networks.Arbitrum]: 'gas price too low',
+    [Networks.Optimism]: '',
+  }
+
+  const networkTx: Record<Networks, ethers.providers.TransactionRequest> = {
+    // Arbitrum zero gas price will be auto adjusted by the network to the minimum
+    [Networks.Arbitrum]: {
+      value: 0,
+      gasLimit: 0,
+      gasPrice: 1,
+      to: wallet.address,
+    },
+    [Networks.Optimism]: {
+      value: 0,
+      gasLimit: 0,
+      gasPrice: 1,
+      to: wallet.address,
+    },
+  }
+  const _getErrorMessage = (e: any): string => {
+    const paths = {
+      [Networks.Arbitrum]: ['error', 'message'],
+      [Networks.Optimism]: [],
+    }
+    return (Requester.getResult(e, paths[network]) as string) || ''
+  }
+  const _setTxTimeout = (timeout: number): Promise<never> =>
     new Promise((_, rej) =>
       setTimeout(
-        () => rej(new Error(`Transaction receipt not received in ${timeout} seconds`)),
-        timeout * 1000,
+        () => rej(new Error(`Transaction receipt not received in ${timeout} milliseconds`)),
+        timeout,
       ),
     )
-  Logger.info(`Submitting empty transaction for network: ${network}`)
-
-  const tx = {
-    to: wallet.address,
-    gasPrice: 0,
-    gasLimit: 0,
-    value: 0,
-  }
   try {
-    const receipt = await Promise.race([_setTimeout(timeout), wallet.sendTransaction(tx)])
+    Logger.info(`Submitting empty transaction for network: ${network}`)
+    const receipt = await Promise.race([
+      _setTxTimeout(timeout),
+      wallet.sendTransaction(networkTx[network]),
+    ])
     Logger.info(`Transaction receipt received for network: ${network}`)
     return (await receipt.wait()).confirmations > 0
   } catch (e) {
-    Logger.error(`Transaction submission failed: ${e.message}`)
+    if (_getErrorMessage(e) === sequencerOnlineErrors[network]) {
+      Logger.info(`Transaction submission failed with an expected error: ${_getErrorMessage(e)}`)
+      return true
+    }
+    Logger.error(`Transaction submission failed with an unexpected error: ${e.message}`)
     return false
   }
 }
