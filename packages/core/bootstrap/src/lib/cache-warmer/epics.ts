@@ -28,7 +28,7 @@ import {
   warmupUnsubscribed,
 } from './actions'
 import { Config, get, WARMUP_REQUEST_ID, WARMUP_BATCH_REQUEST_ID } from './config'
-import { getSubscriptionKey, splitIntoBatches } from './util'
+import { concatenateBatchResults, getBatchRequestResultPath, getSubscriptionKey, splitIntoBatches } from './util'
 import { getTTL } from '../cache/ttl'
 
 export interface EpicDependencies {
@@ -186,35 +186,29 @@ export const warmupRequestHandler: Epic<AnyAction, AnyAction, any> = (action$, s
           ...requestData,
           batchablePropertyPath
         },
-        key: action.payload.key
+        key: action.payload.key,
+        subscriptions: state.cacheWarmer.subscriptions 
       }
     }),
     filter(({ requestData }) => !!requestData),
     // make the request
-    mergeMap(({ requestData, key }) =>
+    mergeMap(({ requestData, key, subscriptions }) =>
       from(
         (async () => {
           const batches = splitIntoBatches(requestData)
-          let result = {
-            data: {
-              results: []
-            }
-          }
+          let result = null 
           for (const batch of Object.values(batches)) {
             const data = {
               ...requestData.origin,
               ...batch,
+              resultPath: getBatchRequestResultPath(requestData.batchablePropertyPath, subscriptions, batch),
               maxAge: -1
             }
             const batchResult = await requestData.executeFn({
               id: requestData.childLastSeenById ? WARMUP_BATCH_REQUEST_ID : WARMUP_REQUEST_ID,
               data,
             }) 
-            result.data = {
-              ...result.data,
-              ...batchResult.data,
-              results: batchResult.data.results.concat(result.data.results || [])
-            }
+            result = concatenateBatchResults(result, batchResult)
           }
           return result
         })(),

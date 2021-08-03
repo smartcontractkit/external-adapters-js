@@ -2,8 +2,9 @@ import { omit } from 'lodash'
 import { WarmupExecutePayload, WarmupSubscribedPayload } from './actions'
 import { get } from './config'
 import { BatchableProperty, SubscriptionData } from './reducer'
-import { AdapterRequest } from "@chainlink/types"
+import { AdapterRequest, AdapterResponse } from "@chainlink/types"
 import { hash } from '../util'
+import { SubscriptionsState } from '../ws/reducer'
 
 const conf = get()
 export function getSubscriptionKey(
@@ -74,4 +75,46 @@ function populateBatchesArray(batchesByPath: { [path: string]: string[][] }, bat
       delete currBatch[currPath]
     }
   }
+}
+
+export function concatenateBatchResults(result: AdapterResponse | null, latestResult: AdapterResponse): AdapterResponse {
+  if (!result) {
+    return latestResult
+  }
+  const mergedResult = JSON.parse(JSON.stringify(result))
+  const bases = Object.keys(latestResult.data).filter(base => base !== "results")
+  for (const base of bases) {
+    if (mergedResult.data[base]) {
+      mergedResult.data[base] = {
+        ...mergedResult.data[base],
+        ...latestResult.data[base]
+      }
+    } else {
+      mergedResult.data[base] = latestResult.data[base]
+    }
+  }
+  mergedResult.data.results = mergedResult.data.results.concat(latestResult.data.results)
+  return mergedResult
+}
+
+export function getBatchRequestResultPath(batchablePropertyPath: BatchableProperty[] | undefined, subscriptions: SubscriptionsState, batch: { [p: string]: string[] }): string {
+  if(!batchablePropertyPath) {
+    return ""
+  }
+  const batchedPaths = batchablePropertyPath.map(( { name } ) => name)
+  for (const sub of Object.values(subscriptions).filter(sub => !!sub.origin.data && !!sub.origin.data.resultPath)) {
+    if (doesMatchPath(batchedPaths, sub, batch)) {
+      return sub.origin.data.resultPath 
+    }
+  }
+  return ""
+}
+
+function doesMatchPath(paths: string[], subscription: SubscriptionData, batchedObj: { [p: string]: string[] }): boolean {
+  for (const path of paths) {
+    if (subscription.origin.data[path] !== batchedObj[path][0]) {
+      return false
+    }
+  }
+  return true
 }
