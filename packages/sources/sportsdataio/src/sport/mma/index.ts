@@ -24,10 +24,10 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
       return await event.execute(request, context, config)
     }
     case fight.NAME: {
-      return await fight.execute(request, config)
+      return await fight.execute(request, context, config)
     }
     case leagues.NAME: {
-      return await leagues.execute(request, config)
+      return await leagues.execute(request, context, config)
     }
     default: {
       throw new AdapterError({

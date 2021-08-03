@@ -24,7 +24,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
       return await NFL.execute(request, context, config)
     }
     case NCAA_FB.NAME: {
-      return await NCAA_FB.execute(request, config)
+      return await NCAA_FB.execute(request, context, config)
     }
     default: {
       throw new AdapterError({

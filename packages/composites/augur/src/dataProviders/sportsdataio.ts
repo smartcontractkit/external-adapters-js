@@ -278,7 +278,14 @@ interface Fighter {
   Winner: boolean
 }
 
-const getFightSchedule = async (id: string, sport: string, league: string, season: string, exec: Execute): Promise<FightSchedule[]> => {
+const getFightSchedule = async (
+  id: string,
+  sport: string,
+  league: string,
+  season: string,
+  exec: Execute,
+  context: AdapterContext,
+): Promise<FightSchedule[]> => {
   const input = {
     id,
     data: {
@@ -288,12 +295,18 @@ const getFightSchedule = async (id: string, sport: string, league: string, seaso
       endpoint: 'schedule'
     }
   }
-  const response = await exec(input)
+  const response = await exec(input, context)
   return (response.result as FightSchedule[])
     .filter(event => event.Active)
 }
 
-const getFights = async (id: string, sport: string, eventId: number, exec: Execute): Promise<Fight[]> => {
+const getFights = async (
+  id: string,
+  sport: string,
+  eventId: number,
+  exec: Execute,
+  context: AdapterContext,
+): Promise<Fight[]> => {
   const input = {
     id,
     data: {
@@ -302,12 +315,12 @@ const getFights = async (id: string, sport: string, eventId: number, exec: Execu
       endpoint: 'event'
     }
   }
-  const response = await exec(input)
+  const response = await exec(input, context)
   const fights = (response.result as FightEvent).Fights
   return fights.filter(fight => fight.Active)
 }
 
-export const createFighter: Execute = async (input) => {
+export const createFighter: Execute = async (input, context) => {
   const validator = new Validator(input, createParams)
   if (validator.error) throw validator.error
 
@@ -327,12 +340,12 @@ export const createFighter: Execute = async (input) => {
   for (const league of leagues) {
     const season = new Date().getFullYear();
     Logger.debug(`Getting fight schedule for league ${league} in season ${season}.`)
-    const schedule = (await getFightSchedule(input.id, sport, league, `${season}`, sportsdataioExec))
+    const schedule = (await getFightSchedule(input.id, sport, league, `${season}`, sportsdataioExec, context))
       .filter(event => event.Status === "Scheduled")
 
     Logger.debug(`Getting ${schedule.length} events from season, then filtering out unscheduled`);
     for (const event of schedule) {
-      const eventFights = (await getFights(input.id, sport, event.EventId, sportsdataioExec))
+      const eventFights = (await getFights(input.id, sport, event.EventId, sportsdataioExec, context))
         .filter(fight => fight.Status === "Scheduled")
         .map(fight => ({ ...fight, DateTime: event.DateTime }))
       fights.push(...eventFights)

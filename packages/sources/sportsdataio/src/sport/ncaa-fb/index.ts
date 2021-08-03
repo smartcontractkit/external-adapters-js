@@ -9,7 +9,7 @@ const inputParams = {
   endpoint: true,
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, config) => {
+export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
   const validator = new Validator(request, inputParams)
   if (validator.error) throw validator.error
 
@@ -19,7 +19,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
   switch (endpoint.toLowerCase()) {
     case 'schedule':
     case scores.NAME: {
-      return await scores.execute(request, config)
+      return await scores.execute(request, context, config)
     }
     default: {
       throw new AdapterError({
@@ -32,5 +32,5 @@ export const execute: ExecuteWithConfig<Config> = async (request, config) => {
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {
-  return async (request) => execute(request, config || makeConfig())
+  return async (request, context) => execute(request, context, config || makeConfig())
 }
