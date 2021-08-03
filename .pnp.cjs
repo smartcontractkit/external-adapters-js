@@ -3118,8 +3118,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/therundown-adapter", "workspace:packages/sources/therundown"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
+            ["@types/luxon", "npm:1.27.1"],
             ["@types/node", "npm:14.17.7"],
             ["ethers", "npm:5.1.4"],
+            ["luxon", "npm:1.28.0"],
             ["tslib", "npm:2.3.0"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
@@ -9036,6 +9038,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-lru-cache-npm-5.1.1-46aaa305fe-e1d6c0085f.zip/node_modules/@types/lru-cache/",
           "packageDependencies": [
             ["@types/lru-cache", "npm:5.1.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@types/luxon", [
+        ["npm:1.27.1", {
+          "packageLocation": "./.yarn/cache/@types-luxon-npm-1.27.1-ffe8f597c2-732405c745.zip/node_modules/@types/luxon/",
+          "packageDependencies": [
+            ["@types/luxon", "npm:1.27.1"]
           ],
           "linkType": "HARD",
         }]
