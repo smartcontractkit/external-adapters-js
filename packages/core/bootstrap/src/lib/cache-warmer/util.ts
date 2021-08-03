@@ -1,9 +1,9 @@
 import { omit } from 'lodash'
-import hash from 'object-hash'
 import { WarmupExecutePayload, WarmupSubscribedPayload } from './actions'
 import { get } from './config'
 import { BatchableProperty, SubscriptionData } from './reducer'
 import { AdapterRequest } from "@chainlink/types"
+import { hash } from '../util'
 
 const conf = get()
 export function getSubscriptionKey(

@@ -1,5 +1,4 @@
 import { AdapterContext, AdapterRequest, AdapterResponse, Middleware } from '@chainlink/types'
-import hash from 'object-hash'
 import { logger } from '../external-adapter'
 import { Store } from 'redux'
 import { reducer } from '../burst-limit'
@@ -11,6 +10,7 @@ import {
   getWithCoalescing,
   parseBool,
   uuid,
+  hash,
 } from '../util'
 import { getMaxAgeOverride, getTTL } from './ttl'
 import * as local from './local'

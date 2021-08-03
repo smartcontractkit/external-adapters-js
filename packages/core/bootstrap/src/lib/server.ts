@@ -73,19 +73,30 @@ export const initHandler = (
   })
 
   const testPayload = loadTestPayload()
-  app.get(join(baseUrl, 'smoke'), (_, res) => {
+  app.get(join(baseUrl, 'smoke'), async (_, res) => {
     if (testPayload.isDefault) {
       return res.status(200).send('OK')
     }
 
-    return executeSync(
-      { data: testPayload.request, id: '1' },
-      executeWithMiddleware,
-      context,
-      (status, result) => {
-        res.status(status).json(result)
-      },
-    )
+    const errors = []
+
+    for (const index in testPayload.requests) {
+      try {
+        await executeSync(
+          { data: testPayload.requests[index], id: index },
+          executeWithMiddleware,
+          context,
+          (status, result) => {
+            if (status === 400) errors.push(result)
+          },
+        )
+      } catch (e) {
+        errors.push(e)
+      }
+    }
+    if (errors.length > 0) return res.status(500).send(errors)
+
+    return res.status(200).send('OK')
   })
 
   process.on('SIGINT', () => {

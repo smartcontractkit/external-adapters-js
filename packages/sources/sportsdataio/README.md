@@ -7,7 +7,8 @@ Adapter got get data from Sportsdata.io
 | Required? |        Name        |      Description       | Options | Defaults to |
 | :-------: | :----------------: | :--------------------: | :-----: | :---------: |
 |           | NFL_SCORES_API_KEY | API key for NFL scores |         |             |
-|           | MMA_SCORES_API_KEY | API key for MMA scores |         |             |
+|           | MMA_STATS_API_KEY | API key for MMA stats |         |             |
+|           | CFB_SCORES_API_KEY | API key for CFB scores |         |             |
 
 ---
 
@@ -15,7 +16,7 @@ Adapter got get data from Sportsdata.io
 
 | Required? | Name  |   Description    |   Options   | Defaults to |
 | :-------: | :---: | :--------------: | :---------: | :---------: |
-|           | sport | The sport to use | [nfl](#NFL) |     nfl     |
+|           | sport | The sport to use | [nfl](#NFL), [mma](#MMA), [ncaa-fb](#ncaa-fb) |     nfl     |
 
 ---
 
@@ -55,7 +56,7 @@ Get NFL scores
 
 | Required? |   Name   |      Description      |                    Options                     | Defaults to |
 | :-------: | :------: | :-------------------: | :--------------------------------------------: | :---------: |
-|    ✅     | endpoint | The endpoint to query | [schedule](#MMA-Schedule), [event](#MMA-Event) |             |
+|    ✅     | endpoint | The endpoint to query | [schedule](#MMA-Schedule), [event](#MMA-Event), [fight](#MMA-Fight), [leagues](#MMA-Leagues) |             |
 
 ### MMA Schedule
 
@@ -77,3 +78,45 @@ Get data on specific MMA event
 | Required? |  Name   |      Description      | Options | Defaults to |
 | :-------: | :-----: | :-------------------: | :-----: | :---------: |
 |    ✅     | eventId | The event ID to query |         |             |
+
+### MMA Fight
+
+Get data on specific MMA fight
+
+#### Input Parameters
+
+| Required? |  Name   |      Description      | Options | Defaults to |
+| :-------: | :-----: | :-------------------: | :-----: | :---------: |
+|    ✅     | fightId | The fight ID to query |         |             |
+
+### MMA Leagues
+
+Get list of MMA leagues
+
+#### Input Parameters
+
+_None_
+
+---
+
+## NCAA-FB
+
+### Input Parameters
+
+| Required? |   Name   |      Description      |                     Options                      | Defaults to |
+| :-------: | :------: | :-------------------: | :----------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to query | [schedule](#ncaa-fb-schedule), [scores](#ncaa-fb-scores) |  schedule   |
+
+### NCAA-FB Schedule
+
+This endpoint is an alias for [scores](#ncaa-fb-scores).
+
+### NCAA-FB Scores
+
+Get NCAA FB scores
+
+#### Input Parameters
+
+| Required? |  Name  |          Description          | Options | Defaults to |
+| :-------: | :----: | :---------------------------: | :-----: | :---------: |
+|    ✅     | season | The season to get scores from |         |             |

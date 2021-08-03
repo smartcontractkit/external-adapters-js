@@ -1,0 +1,6 @@
+{
+    "requests": [{
+        "endpoint": "getpayout",
+        "payout_id": "DNPMSBKRYB4AN"
+    }]
+}

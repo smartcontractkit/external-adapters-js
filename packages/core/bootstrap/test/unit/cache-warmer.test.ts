@@ -52,13 +52,13 @@ describe('side effect tests', () => {
   }
   const adapterRequest1: AdapterRequest = { data: {}, id: '0' }
   const adapterRequest2: AdapterRequest = { data: { foo: 'bar' }, id: '0' }
-  const key1 = '9f7f5d41cda1b19294354fe636cad6c40d9b0e41'
-  const key2 = '553279571362b8072c206da5665629f22ac085c5'
+  const key1 = '6fd5ecf807136e36fbc5392ff2d04b29539b3be4'
+  const key2 = '8fccec6bd6b10e62b982fa3a1f91ec0dfe971b1a'
   beforeEach(() => {
     epicDependencies = { config: get() }
   })
 
-  const batchKeyParent = '1035571273dbf9378dd38cd70ecbfd232779f9f3'
+  const batchKeyParent = 'a227f4e12a0b5b5558b871a53c92dbc9255a390b'
   const batchableAdapterRequest1: AdapterRequest = {
     id: '0',
     data: { key1: 'foo', key2: 'bar' },
@@ -76,7 +76,7 @@ describe('side effect tests', () => {
     result: 1,
     debug: { batchablePropertyPath: [{ name: 'key1' }] },
   }
-  const batchKeyChild1 = '9478057e793482736b315c1e2660350c4c6547ec'
+  const batchKeyChild1 = '500fb5c94385c85a5998d5870b463cf5041d4403'
 
   const batchableAdapterRequest2: AdapterRequest = { id: '0', data: { key1: ['baz'], key2: 'bar' } }
   const childAdapterRequest2: AdapterRequest = {
@@ -92,7 +92,7 @@ describe('side effect tests', () => {
     result: 2,
     debug: { batchablePropertyPath: [{ name: 'key1' }] },
   }
-  const batchKeyChild2 = '193785b17d2675cf42fea61df6110f85e79c742d'
+  const batchKeyChild2 = 'e4d4ae76e0deb22ff3a4802acfe4f081ca54825d'
 
   describe('executeHandler', () => {
     describe('when there are no subscriptions', () => {

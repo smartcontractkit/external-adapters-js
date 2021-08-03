@@ -75,6 +75,7 @@ describe('adapter', () => {
     let clock
     beforeEach(() => {
       clock = useFakeTimers()
+      jest.spyOn(network, 'getStatusByTransaction').mockReturnValue(Promise.resolve(false))
     })
 
     afterEach(() => {

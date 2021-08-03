@@ -29,7 +29,7 @@ export const withBurstLimit = (store?: Store<BurstLimitState>): Middleware => as
     requests,
     IntervalNames.MINUTE,
   )
-
+console.log(observedRequestsOfParticipant,config.burstCapacity * BURST_CAP_BUFFER, input.id)
   if (
     input.id !== WARMUP_BATCH_REQUEST_ID && // Always allow Batch Warmer requests through
     observedRequestsOfParticipant > config.burstCapacity * BURST_CAP_BUFFER
