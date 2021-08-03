@@ -1,6 +1,6 @@
 import { AdapterImplementation, AdapterRequest } from '@chainlink/types'
 import { Decimal } from 'decimal.js'
-import { flatMap, values, pick } from 'lodash'
+import { flatMap, values, pick, omit } from 'lodash'
 import objectHash from 'object-hash'
 import { v4 as uuidv4 } from 'uuid'
 import { CacheEntry } from './cache/types'
@@ -190,7 +190,8 @@ export const includableAdapterRequestProperties: string[] = ['data'].concat(
   (process.env.CACHE_KEY_INCLUDED_PROPS || '').split(',').filter((k) => k),
 )
 
-export const getKeyData = (data: AdapterRequest) => pick(data, includableAdapterRequestProperties)
+export const getKeyData = (data: AdapterRequest) =>
+  omit(pick(data, includableAdapterRequestProperties), 'data.resultPath')
 
 export const hash = (
   data: AdapterRequest,
