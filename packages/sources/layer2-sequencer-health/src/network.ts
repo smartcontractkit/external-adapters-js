@@ -58,7 +58,7 @@ export const getStatusByTransaction = async (
   // These errors come from the Sequencer when submitting an empty transaction
   const sequencerOnlineErrors = {
     [Networks.Arbitrum]: 'gas price too low',
-    [Networks.Optimism]: '',
+    [Networks.Optimism]: ''
   }
 
   const networkTx: Record<Networks, ethers.providers.TransactionRequest> = {
