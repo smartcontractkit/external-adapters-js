@@ -28,7 +28,7 @@ import {
   warmupUnsubscribed,
 } from './actions'
 import { Config, get, WARMUP_REQUEST_ID, WARMUP_BATCH_REQUEST_ID } from './config'
-import { getSubscriptionKey } from './util'
+import { getSubscriptionKey, splitIntoBatches } from './util'
 import { getTTL } from '../cache/ttl'
 
 export interface EpicDependencies {
@@ -174,18 +174,50 @@ export const warmupRequestHandler: Epic<AnyAction, AnyAction, any> = (action$, s
     filter(warmupRequested.match),
     // fetch our required state to make a request to warm up an adapter
     withLatestFrom(state$),
-    map(([action, state]) => ({
-      requestData: state.cacheWarmer.subscriptions[action.payload.key],
-      key: action.payload.key,
-    })),
+    map(([action, state]) => {
+      const requestData = state.cacheWarmer.subscriptions[action.payload.key]
+      let batchablePropertyPath
+      if (requestData && requestData.childLastSeenById && Object.keys(requestData.childLastSeenById).length > 0) {
+        const child = state.cacheWarmer.subscriptions[Object.keys(requestData.childLastSeenById)[0]]
+        batchablePropertyPath = child.batchablePropertyPath
+      }
+      return {
+        requestData: {
+          ...requestData,
+          batchablePropertyPath
+        },
+        key: action.payload.key
+      }
+    }),
     filter(({ requestData }) => !!requestData),
     // make the request
     mergeMap(({ requestData, key }) =>
       from(
-        requestData.executeFn({
-          id: requestData.childLastSeenById ? WARMUP_BATCH_REQUEST_ID : WARMUP_REQUEST_ID,
-          data: { ...requestData.origin, maxAge: -1 },
-        }),
+        (async () => {
+          const batches = splitIntoBatches(requestData)
+          let result = {
+            data: {
+              results: []
+            }
+          }
+          for (const batch of Object.values(batches)) {
+            const data = {
+              ...requestData.origin,
+              ...batch,
+              maxAge: -1
+            }
+            const batchResult = await requestData.executeFn({
+              id: requestData.childLastSeenById ? WARMUP_BATCH_REQUEST_ID : WARMUP_REQUEST_ID,
+              data,
+            }) 
+            result.data = {
+              ...result.data,
+              ...batchResult.data,
+              results: batchResult.data.results.concat(result.data.results || [])
+            }
+          }
+          return result
+        })(),
       ).pipe(
         mapTo(warmupFulfilled({ key })),
         catchError((error: unknown) => of(warmupFailed({ error: error as Error, key }))),
