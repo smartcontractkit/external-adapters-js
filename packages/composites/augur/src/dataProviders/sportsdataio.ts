@@ -193,7 +193,7 @@ export const createTeam: Execute = async (input) => {
     }
 
     const [headToHeadMarket, spreadMarket, totalScoreMarket]: [ethers.BigNumber, ethers.BigNumber, ethers.BigNumber]
-      = await contract.getEventMarkets(event.GameID)
+      = (await contract.getEvent(event.GameID)).markets
     const canCreate = headToHeadMarket.isZero() || (spreadMarket.isZero() && false) || (totalScoreMarket.isZero() && false)
     if (!canCreate) {
       cantCreate++
@@ -208,7 +208,8 @@ export const createTeam: Execute = async (input) => {
       homeSpread: 0, // TODO: Missing
       totalScore: 0, // TODO: Missing
       createSpread: false, // TODO: Missing
-      createTotalScore: false // TODO: Missing
+      createTotalScore: false, // TODO: Missing
+      moneylines: [0, 0] // TODO Missing
     })
   }
 
@@ -333,7 +334,8 @@ export const createFighter: Execute = async (input) => {
       continue
     }
 
-    if ((await contract.events(fight.FightId)).eventStatus !== 0) {
+    const event = await contract.getEvent(fight.FightId);
+    if (event.eventStatus !== 0) {
       cantCreate++
       continue
     }
