@@ -227,16 +227,22 @@ export const resolve: Execute = async (input, context) => {
     }
   }
 
-  const response = (await theRundownExec(req, context)).data as TheRundownEvent
+  try {
+    const response = (await theRundownExec(req, context)).data as TheRundownEvent
 
-  const event: ResolveTeam = {
-    id: eventIdToNum(response.event_id),
-    status: eventStatus[response.score.event_status],
-    homeScore: response.score.score_home,
-    awayScore: response.score.score_away,
+    const event: ResolveTeam = {
+      id: eventIdToNum(response.event_id),
+      status: eventStatus[response.score.event_status],
+      homeScore: response.score.score_home,
+      awayScore: response.score.score_away,
+    }
+
+    return Requester.success(input.id, {
+      data: { result: event },
+    })
+  } catch(e) {
+    Logger.error(e);
+
+    return Requester.success(input.id, { data: {} });
   }
-
-  return Requester.success(input.id, {
-    data: { result: event },
-  })
 }
