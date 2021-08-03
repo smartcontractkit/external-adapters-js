@@ -25,15 +25,13 @@ export function getCoinIds(context: AdapterContext, id: string): Promise<CoinsRe
 
 export const getSymbolToId = (symbol: string, coinList: CoinsResponse[]): string => {
   const isId = coinList.find(({ id }) => id.toLowerCase() === symbol.toLowerCase())
-  console.log(isId)
   if (isId && isId.id) return isId.id.toLowerCase()
+
   const coin = coinList.find(
     ({ symbol: coinSymbol, rank }) =>
       coinSymbol.toLowerCase() === symbol.toLowerCase() && rank !== 0,
   )
-  console.log(coin)
   if (coin && coin.id) return coin.id.toLowerCase()
-  console.log(symbol, 'notfound')
 
   throw new Error('Coin id not found')
 }
