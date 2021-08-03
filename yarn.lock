@@ -1490,8 +1490,10 @@ __metadata:
     "@chainlink/therundown-adapter": ^0.1.0
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
+    "@types/luxon": ^1.27.1
     "@types/node": ^14.14.35
     ethers: 5.1.4
+    luxon: ^1.27.0
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
@@ -6849,6 +6851,13 @@ __metadata:
   version: 5.1.1
   resolution: "@types/lru-cache@npm:5.1.1"
   checksum: e1d6c0085f61b16ec5b3073ec76ad1be4844ea036561c3f145fc19f71f084b58a6eb600b14128aa95809d057d28f1d147c910186ae51219f58366ffd2ff2e118
+  languageName: node
+  linkType: hard
+
+"@types/luxon@npm:^1.27.1":
+  version: 1.27.1
+  resolution: "@types/luxon@npm:1.27.1"
+  checksum: 732405c7459dd9f991cff056b801620b92d7c18ddad3cd7c6d3b9c2de714dbfca0c48fc103a5544d19c6e7b9bb7a954bbd2369b30733c680a4633fa60cb03f1f
   languageName: node
   linkType: hard
 
@@ -16574,7 +16583,7 @@ fsevents@~2.1.1:
   languageName: node
   linkType: hard
 
-"luxon@npm:^1.23.0":
+"luxon@npm:^1.23.0, luxon@npm:^1.27.0":
   version: 1.28.0
   resolution: "luxon@npm:1.28.0"
   checksum: 5250cb9f138b6048eeb0b3a9044a4ac994d0058f680c72a0da4b6aeaec8612460385639cba2b1052ef6d5564879e9ed144d686f26d9d97b38ab920d82e18281c

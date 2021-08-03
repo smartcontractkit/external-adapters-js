@@ -1,10 +1,19 @@
 import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Execute } from '@chainlink/types'
 import * as TheRundown from '@chainlink/therundown-adapter'
-import { eventIdToNum, sportIdMapping } from '../methods'
 import { ethers } from 'ethers'
-import { CreateEvent } from '../methods/createMarkets'
-import { ResolveEvent } from '../methods/resolveMarkets'
+import { CreateTeamEvent } from '../methods/createMarkets'
+import { ResolveTeam } from '../methods/resolveMarkets'
+import { BigNumber } from 'ethers'
+
+export const SPORTS_SUPPORTED = ['mlb', 'nba']
+
+export const sportIdMapping: { [sport: string]: number } = {
+  MLB: 3,
+  NBA: 4,
+}
+
+const eventIdToNum = (eventId: string): BigNumber => BigNumber.from(`0x${eventId}`)
 
 interface TheRundownEvent {
   event_id: string
@@ -19,6 +28,10 @@ interface TheRundownEvent {
       }
       total: {
         total_over: number
+      },
+      moneyline: {
+        moneyline_home: number,
+        moneyline_away: number
       }
     }
   }
@@ -55,7 +68,8 @@ export const create: Execute = async (input, context) => {
   const validator = new Validator(input, createParams)
   if (validator.error) throw validator.error
 
-  const sportId = sportIdMapping[validator.validated.data.sport]
+  const sport = validator.validated.data.sport.toUpperCase()
+  const sportId = sportIdMapping[sport]
   const daysInAdvance = validator.validated.data.daysInAdvance
   const startBuffer = validator.validated.data.startBuffer
   const contract = validator.validated.data.contract
@@ -75,11 +89,12 @@ export const create: Execute = async (input, context) => {
   const theRundownExec = TheRundown.makeExecute(TheRundown.makeConfig(TheRundown.NAME))
 
   const events = []
+  Logger.debug(`Augur theRundown: Fetching data from therundown for ${sport} (${sportId})`)
   for (let i = 0; i < daysInAdvance; i++) {
     params.data.date = addDays(params.data.date, 1)
-
+    Logger.debug(`Augur theRundown: Fetching data for date ${params.data.date}`)
     const response = await theRundownExec(params, context)
-    events.push(...(response.result as TheRundownEvent[]))
+    events.push(...response.result as TheRundownEvent[])
   }
 
   Logger.debug(`Augur theRundown: Got ${events.length} events from data provider`)
@@ -90,7 +105,7 @@ export const create: Execute = async (input, context) => {
     skipTBDTeams = 0
 
   // filter markets and build payloads for market creation
-  const eventsToCreate: CreateEvent[] = []
+  const eventsToCreate: CreateTeamEvent[] = []
   for (const event of events) {
     if (event.score.event_status_detail.toUpperCase() === 'TBD') {
       skipTBD++
@@ -126,21 +141,16 @@ export const create: Execute = async (input, context) => {
       ethers.BigNumber,
     ] = await contract.getEventMarkets(eventId)
 
-    // only create spread and totalScore markets if lines exist; always create headToHead market
-    let homeSpread = transformSpecialNone(
-      affiliateId && event.lines?.[affiliateId].spread.point_spread_home,
-    )
-    let totalScore = transformSpecialNone(
-      affiliateId && event.lines?.[affiliateId].total.total_over,
-    )
-    const createSpread = homeSpread !== undefined
-    const createTotalScore = totalScore !== undefined
-    homeSpread = homeSpread || 0
-    totalScore = totalScore || 0
-    const canCreate =
-      headToHeadMarket.isZero() ||
-      (spreadMarket.isZero() && createSpread) ||
-      (totalScoreMarket.isZero() && createTotalScore)
+    // Only create head-to-head market if moneylines exist. Only create spread and total-score markets if their lines exist.
+    const moneylineHome = transformSpecialNone(affiliateId && event.lines?.[affiliateId].moneyline.moneyline_home)
+    const moneylineAway = transformSpecialNone(affiliateId && event.lines?.[affiliateId].moneyline.moneyline_away)
+    const homeSpread = transformSpecialNone(affiliateId && event.lines?.[affiliateId].spread.point_spread_home)
+    const totalScore = transformSpecialNone(affiliateId && event.lines?.[affiliateId].total.total_over)
+
+    const createHeadToHead = headToHeadMarket.isZero() && moneylineHome && moneylineAway
+    const createSpread = spreadMarket.isZero() && homeSpread !== undefined
+    const createTotalScore = totalScoreMarket.isZero() && totalScore !== undefined
+    const canCreate = createHeadToHead || createSpread || createTotalScore
     if (!canCreate) {
       cantCreate++
       continue
@@ -151,10 +161,11 @@ export const create: Execute = async (input, context) => {
       homeTeamId: homeTeam.team_id,
       awayTeamId: awayTeam.team_id,
       startTime,
-      homeSpread,
-      totalScore,
+      homeSpread: homeSpread || 0,
+      totalScore: totalScore || 0,
       createSpread,
       createTotalScore,
+      moneylines: [moneylineHome || 0, moneylineAway || 0]
     })
   }
 
@@ -186,17 +197,39 @@ const eventStatus: { [key: string]: number } = {
 }
 
 const resolveParams = {
-  eventId: true,
+  sport: true,
+  eventId: true
 }
+
+export const numToEventId = (num: BigNumber): string => num.toHexString().slice(2);
 
 export const resolve: Execute = async (input, context) => {
   const validator = new Validator(input, resolveParams)
   if (validator.error) throw validator.error
 
-  const theRundownExec = TheRundown.makeExecute()
-  const response = (await theRundownExec(input, context)).result as TheRundownEvent
+  const theRundownExec = TheRundown.makeExecute({
+    ...TheRundown.makeConfig(TheRundown.NAME),
 
-  const event: ResolveEvent = {
+    // Need ALL the response data.
+    verbose: true
+  })
+
+  const sport = validator.validated.data.sport
+  const sportId = sportIdMapping[sport.toUpperCase()]
+  const eventId = numToEventId(validator.validated.data.eventId)
+
+  const req = {
+    id: input.id,
+    endpoint: 'total-score',
+    data: {
+      sportId,
+      matchId: eventId
+    }
+  }
+
+  const response = (await theRundownExec(req, context)).data as TheRundownEvent
+
+  const event: ResolveTeam = {
     id: eventIdToNum(response.event_id),
     status: eventStatus[response.score.event_status],
     homeScore: response.score.score_home,
