@@ -1,6 +1,6 @@
-import { AdapterImplementation } from '@chainlink/types'
+import { AdapterImplementation, AdapterRequest } from '@chainlink/types'
 import { Decimal } from 'decimal.js'
-import { flatMap, values } from 'lodash'
+import { flatMap, values, pick } from 'lodash'
 import objectHash from 'object-hash'
 import { v4 as uuidv4 } from 'uuid'
 import { CacheEntry } from './cache/types'
@@ -184,6 +184,18 @@ export const excludableAdapterRequestProperties: Record<string, true> = [
     prev[next] = true
     return prev
   }, {} as Record<string, true>)
+
+/** Common keys within adapter requests that should be used to generate a stable key*/
+export const includableAdapterRequestProperties: string[] = ['data'].concat(
+  (process.env.CACHE_KEY_INCLUDED_PROPS || '').split(',').filter((k) => k),
+)
+
+export const getKeyData = (data: AdapterRequest) => pick(data, includableAdapterRequestProperties)
+
+export const hash = (
+  data: AdapterRequest,
+  hashOptions: Required<Parameters<typeof objectHash>>['1'],
+) => objectHash(getKeyData(data), hashOptions)
 
 export const getHashOpts = (): Required<Parameters<typeof objectHash>>['1'] => ({
   algorithm: 'sha1',

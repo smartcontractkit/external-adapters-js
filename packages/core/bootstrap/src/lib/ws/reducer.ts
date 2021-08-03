@@ -1,10 +1,11 @@
 import { AdapterContext, AdapterRequest } from '@chainlink/types'
 import { combineReducers, createReducer, isAnyOf } from '@reduxjs/toolkit'
-import hash from 'object-hash'
-import { getHashOpts } from '../util'
+import { getHashOpts, hash } from '../util'
 import * as actions from './actions'
 
-export const getSubsId = (subscriptionMsg = {}): string => hash(subscriptionMsg, getHashOpts())
+export const getSubsId = (subscriptionMsg: AdapterRequest): string =>
+  hash(subscriptionMsg, getHashOpts())
+
 export interface ConnectionsState {
   total: number
   all: {
