@@ -18,7 +18,7 @@ describe('execute', () => {
         name: 'base',
         testData: {
           id: jobID,
-          data: { base: 'XAU' },
+          data: { base: '' },
         },
       },
       {

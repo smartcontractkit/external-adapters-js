@@ -1,14 +1,13 @@
 import Ajv, { JSONSchemaType } from 'ajv'
 import { logger } from '../external-adapter'
 import path from 'path'
+import { AdapterRequestData } from '@chainlink/types'
 
 /**
  * The test payload read in from filesystem
  */
-interface Payload {
-  request: {
-    [key: string]: any
-  }
+export interface Payload {
+  requests: AdapterRequestData[]
 }
 
 /**
@@ -25,10 +24,14 @@ export function loadTestPayload(): TestPayload {
   const ajv = new Ajv()
   const schema: JSONSchemaType<Payload> = {
     type: 'object',
-    required: ['request'],
+    required: ['requests'],
     properties: {
-      request: {
-        type: 'object',
+      requests: {
+        type: 'array',
+        items: {
+          type: 'object',
+          required: []
+        },
       },
     },
   }
@@ -53,7 +56,7 @@ export function loadTestPayload(): TestPayload {
   }
 }
 
-function resolveDynamicPayload() {
+function resolveDynamicPayload(): string | null {
   /* eslint-disable @typescript-eslint/no-var-requires */
   try {
     // Absolute path for JS file
@@ -68,7 +71,7 @@ function resolveDynamicPayload() {
   }
 }
 
-function resolveStaticPayload() {
+function resolveStaticPayload(): Payload | null {
   try {
     // Absolute path for JSON file
     return require(path.join(process.cwd(), 'test-payload.json'))

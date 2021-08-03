@@ -1,0 +1,6 @@
+{
+    "requests": [{
+        "name": "example.com",
+        "type": "TXT"
+    }]
+}
