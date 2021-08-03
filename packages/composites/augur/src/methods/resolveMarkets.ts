@@ -123,7 +123,13 @@ const fightStatusMapping: { [key: string]: number } = {
   'draw': 3,
 }
 
-const resolveFights = async (jobRunID: string, sport: string, contractAddress: string, _: AdapterContext, config: Config) => {
+const resolveFights = async (
+  jobRunID: string,
+  sport: string,
+  contractAddress: string,
+  context: AdapterContext,
+  config: Config
+) => {
   const contract = new ethers.Contract(contractAddress, mmaABI, config.wallet)
 
   let getEvent: Execute
@@ -147,7 +153,7 @@ const resolveFights = async (jobRunID: string, sport: string, contractAddress: s
           sport,
           eventId
         }
-      })
+      }, context)
       events.push(response.result as ResolveFight)
     } catch (e) {
       Logger.error(e)

@@ -113,7 +113,14 @@ const createTeam = async (jobRunID: string, sport: string, contractAddress: stri
   return Requester.success(jobRunID, {})
 }
 
-const createFighter = async (jobRunID: string, sport: string, contractAddress: string, input: AdapterRequest, _: AdapterContext, config: Config) => {
+const createFighter = async (
+  jobRunID: string,
+  sport: string,
+  contractAddress: string,
+  input: AdapterRequest,
+  context: AdapterContext,
+  config: Config,
+) => {
   const contract = new ethers.Contract(contractAddress, mmaABI, config.wallet)
 
   const req = {
@@ -129,9 +136,9 @@ const createFighter = async (jobRunID: string, sport: string, contractAddress: s
   let events: CreateFighterEvent[] = []
   if (theRundown.SPORTS_SUPPORTED.includes(sport)) {
     // Note: currently no fighter sports implemented here
-    events = (await theRundown.create(req)).result
+    events = (await theRundown.create(req, context)).result
   } else if (sportsdataio.SPORTS_SUPPORTED.includes(sport)) {
-    events = (await sportsdataio.createFighter(req)).result
+    events = (await sportsdataio.createFighter(req, context)).result
   } else {
     throw Error(`Unknown data provider for sport ${sport}`)
   }

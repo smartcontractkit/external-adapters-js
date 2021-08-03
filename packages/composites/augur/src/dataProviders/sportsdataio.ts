@@ -451,7 +451,13 @@ export const resolveTeam: Execute = async (input, context) => {
   })
 }
 
-const getFight = async (id: string, sport: string, fightId: number, exec: Execute): Promise<Fight> => {
+const getFight = async (
+  id: string,
+  sport: string,
+  fightId: number,
+  exec: Execute,
+  context: AdapterContext,
+): Promise<Fight> => {
   const input = {
     id,
     data: {
@@ -460,11 +466,11 @@ const getFight = async (id: string, sport: string, fightId: number, exec: Execut
       endpoint: 'fight'
     }
   }
-  const response = await exec(input)
+  const response = await exec(input, context)
   return response.result
 }
 
-export const resolveFight: Execute = async (input, _) => {
+export const resolveFight: Execute = async (input, context) => {
   const validator = new Validator(input, resolveParams)
   if (validator.error) throw validator.error
 
@@ -473,7 +479,7 @@ export const resolveFight: Execute = async (input, _) => {
   const sportsdataioExec = Sportsdataio.makeExecute(Sportsdataio.makeConfig(Sportsdataio.NAME))
 
   Logger.debug(`Getting fight ${input.id} for sport ${sport}, which has fightId ${fightId}`);
-  const fight = await getFight(input.id, sport, fightId, sportsdataioExec)
+  const fight = await getFight(input.id, sport, fightId, sportsdataioExec, context)
 
   if (!fight) {
     throw Error(`Unable to find fight ${fightId}`)
