@@ -1,7 +1,6 @@
 import { AdapterRequest, Middleware } from '@chainlink/types'
-import hash from 'object-hash'
 import { Store } from 'redux'
-import { getHashOpts } from '../util'
+import { getHashOpts, hash } from '../util'
 import { successfulResponseObserved } from './actions'
 import * as config from './config'
 import * as metrics from './metrics'

@@ -17,7 +17,7 @@ export function getCoinIds(context: AdapterContext, id: string): Promise<CoinsRe
     const middleware = makeMiddleware(execute)
     withMiddleware(execute, context, middleware)
       .then((executeWithMiddleware) => {
-       executeWithMiddleware(options, context).then((value) => resolve(value.data))
+        executeWithMiddleware(options, context).then((value) => resolve(value.data))
       })
       .catch((error) => reject(error))
   })
