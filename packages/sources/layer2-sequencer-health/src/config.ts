@@ -36,7 +36,6 @@ export interface ExtendedConfig extends Config {
   delta: number
   deltaBlocks: number
   timeoutLimit: number
-  privateKey: string
 }
 
 export const makeConfig = (prefix?: string): ExtendedConfig => {
@@ -48,6 +47,5 @@ export const makeConfig = (prefix?: string): ExtendedConfig => {
   const delta = Number(util.getEnv('DELTA', prefix)) || DEFAULT_DELTA_TIME
   const deltaBlocks = Number(util.getEnv('DELTA_BLOCKS', prefix)) || DEFAULT_DELTA_BLOCKS
   const timeoutLimit = Number(util.getEnv('NETWORK_TIMEOUT_LIMIT', prefix)) || DEFAULT_TIMEOUT_LIMIT
-  const privateKey = util.getRequiredEnv('UNFUNDED_PRIVATE_KEY', prefix)
-  return { ...config, delta, deltaBlocks, timeoutLimit, privateKey }
+  return { ...config, delta, deltaBlocks, timeoutLimit }
 }

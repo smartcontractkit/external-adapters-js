@@ -129,7 +129,6 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
       Logger.info(`Checking unhealthy network ${network} with transaction submission`)
       const isHealthyByTransaction = await getStatusByTransaction(
         network,
-        config.privateKey,
         config.timeoutLimit,
       )
       if (isHealthyByTransaction) {

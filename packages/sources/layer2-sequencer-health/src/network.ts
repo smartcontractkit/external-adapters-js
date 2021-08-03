@@ -48,16 +48,16 @@ export const getL1RollupStatus: NetworkHealthCheck = async (): Promise<boolean> 
 
 export const getStatusByTransaction = async (
   network: Networks,
-  privateKey: string,
   timeout: number,
 ): Promise<boolean> => {
   const rpcEndpoint = RPC_ENDPOINTS[network]
   const provider = new ethers.providers.JsonRpcProvider(rpcEndpoint)
-  const wallet = new ethers.Wallet(privateKey, provider)
+  const wallet = new ethers.Wallet(ethers.Wallet.createRandom()?.privateKey, provider)
 
   // These errors come from the Sequencer when submitting an empty transaction
   const sequencerOnlineErrors = {
     [Networks.Arbitrum]: 'gas price too low',
+    // TODO: Optimism error needs to be confirmed by their team
     [Networks.Optimism]: ''
   }
 
@@ -96,7 +96,7 @@ export const getStatusByTransaction = async (
       _setTxTimeout(timeout),
       wallet.sendTransaction(networkTx[network]),
     ])
-    Logger.info(`Transaction receipt received for network: ${network}`)
+    Logger.info(`Transaction receipt received with hash ${receipt.hash} for network: ${network}`)
     return (await receipt.wait()).confirmations > 0
   } catch (e) {
     if (_getErrorMessage(e) === sequencerOnlineErrors[network]) {

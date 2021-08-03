@@ -75,7 +75,6 @@ describe('adapter', () => {
     let clock
     beforeEach(() => {
       clock = useFakeTimers()
-      process.env.UNFUNDED_PRIVATE_KEY = '0x'
       jest.spyOn(network, 'getStatusByTransaction').mockReturnValue(Promise.resolve(false))
     })
 
