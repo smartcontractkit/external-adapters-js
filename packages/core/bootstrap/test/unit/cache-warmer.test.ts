@@ -52,6 +52,7 @@ describe('side effect tests', () => {
   }
   const adapterRequest1: AdapterRequest = { data: {}, id: '0' }
   const adapterRequest2: AdapterRequest = { data: { foo: 'bar' }, id: '0' }
+  const adapterRequest3: AdapterRequest = { foo: 'bar', id: '0' }
   const key1 = '6fd5ecf807136e36fbc5392ff2d04b29539b3be4'
   const key2 = '8fccec6bd6b10e62b982fa3a1f91ec0dfe971b1a'
   beforeEach(() => {
@@ -405,18 +406,43 @@ describe('side effect tests', () => {
           a: actions.warmupRequested({ key: key1 }),
         })
         const subscriptionState: SubscriptionState[string] = {
-          executeFn: stub().returns(of('external adapter return value')),
+          executeFn: async () => ({
+            jobRunID: '1',
+            statusCode: 200,
+            result: 'external adapter return value',
+            data: {
+              result: 'external adapter return value'
+            }
+          }),
           origin: adapterRequest2,
           startedAt: Date.now(),
           isDuplicate: false,
+          childLastSeenById: {
+            [key2]: 2
+          }
+        }
+        const childState: SubscriptionState[string] = {
+          executeFn: async () => ({
+            jobRunID: '1',
+            statusCode: 200,
+            result: 'external adapter return value',
+            data: {
+              result: 'external adapter return value'
+            }
+          }),
+          origin: adapterRequest3,
+          startedAt: Date.now(),
+          isDuplicate: false,
+          batchablePropertyPath: [{ name: "foo" }]
         }
         const state$ = stateStream({
           cacheWarmer: {
-            subscriptions: { [key1]: subscriptionState },
+            subscriptions: { [key1]: subscriptionState, [key2]: childState },
           },
         })
 
         const output$ = warmupRequestHandler(action$, state$, null)
+        output$.subscribe( a => console.log("a", a))
         expectObservable(output$).toBe('a', {
           a: actions.warmupFulfilled({ key: key1 }),
         })
@@ -429,18 +455,29 @@ describe('side effect tests', () => {
         })
         const err = Error('We havin a bad time')
         const subscriptionState: SubscriptionState[string] = {
-          executeFn: stub().returns(throwError(err)),
+          executeFn: async () => { throw err },
           origin: adapterRequest2,
           startedAt: Date.now(),
           isDuplicate: false,
+          childLastSeenById: {
+            [key2]: 2
+          }
+        }
+        const childState: SubscriptionState[string] = {
+          executeFn: async () => { throw err },
+          origin: adapterRequest3,
+          startedAt: Date.now(),
+          isDuplicate: false,
+          batchablePropertyPath: [{ name: "foo" }]
         }
         const state$ = stateStream({
           cacheWarmer: {
-            subscriptions: { [key1]: subscriptionState },
+            subscriptions: { [key1]: subscriptionState, [key2]: childState },
           },
         })
 
         const output$ = warmupRequestHandler(action$, state$, null)
+        output$.subscribe(a => console.log("RES", a))
         expectObservable(output$).toBe('a', {
           a: actions.warmupFailed({
             key: key1,
