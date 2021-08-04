@@ -102,9 +102,9 @@ export function getBatchRequestResultPath(batchablePropertyPath: BatchableProper
     return ""
   }
   const batchedPaths = batchablePropertyPath.map(( { name } ) => name)
-  for (const sub of Object.values(subscriptions).filter(sub => !!sub.origin.data && !!sub.origin.data.resultPath)) {
+  for (const sub of Object.values(subscriptions).filter(sub => !!sub.origin && !!sub.origin.resultPath)) {
     if (doesMatchPath(batchedPaths, sub, batch)) {
-      return sub.origin.data.resultPath 
+      return sub.origin.resultPath 
     }
   }
   return ""
@@ -112,7 +112,7 @@ export function getBatchRequestResultPath(batchablePropertyPath: BatchableProper
 
 function doesMatchPath(paths: string[], subscription: SubscriptionData, batchedObj: { [p: string]: string[] }): boolean {
   for (const path of paths) {
-    if (subscription.origin.data[path] !== batchedObj[path][0]) {
+    if (subscription.origin[path] !== batchedObj[path][0]) {
       return false
     }
   }
