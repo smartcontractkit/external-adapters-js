@@ -442,10 +442,7 @@ describe('side effect tests', () => {
         })
 
         const output$ = warmupRequestHandler(action$, state$, null)
-        output$.subscribe( a => console.log("a", a))
-        expectObservable(output$).toBe('a', {
-          a: actions.warmupFulfilled({ key: key1 }),
-        })
+        output$.subscribe(action => expect(action).toEqual(actions.warmupFulfilled({ key: key1 })))
       })
     })
     it('should handle errors by emitting an error action', () => {
@@ -477,13 +474,10 @@ describe('side effect tests', () => {
         })
 
         const output$ = warmupRequestHandler(action$, state$, null)
-        output$.subscribe(a => console.log("RES", a))
-        expectObservable(output$).toBe('a', {
-          a: actions.warmupFailed({
-            key: key1,
-            error: err,
-          }),
-        })
+        output$.subscribe(action => expect(action).toEqual(actions.warmupFailed({
+          key: key1,
+          error: err,
+        })))
       })
     })
   })
