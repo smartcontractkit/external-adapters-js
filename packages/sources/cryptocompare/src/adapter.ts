@@ -30,8 +30,15 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
     aggregate: 5,
   }
   const getPair = (input: AdapterRequest) => {
-    const validator = new Validator(input, crypto.inputParameters, {}, false)
+    const validator = new Validator(
+      input,
+      { endpoint: false, ...crypto.inputParameters },
+      {},
+      false,
+    )
     if (validator.error) return
+    const endpoint = validator.validated.data.endpoint?.toLowerCase()
+    if (endpoint == 'marketcap') return
     const base = validator.overrideSymbol(NAME)
     const quote = validator.validated.data.quote.toUpperCase()
     return `${base}~${quote}`
