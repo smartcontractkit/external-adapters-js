@@ -1,7 +1,7 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { AdapterResponse } from '@chainlink/types'
 import { BigNumber } from 'ethers'
-import makeNFC from '../abi/NFC'
+import { makeNFC } from '../abi/NFC'
 import { SpectralAdapterConfig } from '../config'
 
 export const MacroScoreAPIName = 'spectral-proxy' // This should be filled in with a lowercase name corresponding to the API endpoint
@@ -42,7 +42,7 @@ export interface IRequestInput {
 
 const computeTickWithScore = (score: number, tickSet: BigNumber[]) => {
   for (const [index, tick] of tickSet.entries()) {
-    if (tick.toNumber() < score) return index
+    if (tick.toNumber() > score) return index
   }
   return tickSet.length - 1 // returns the last (greatest) tick
 }
@@ -67,9 +67,5 @@ export const execute = async (
   const response = await Requester.request(options, customError)
   response.data.result = Requester.validateResultNumber(response.data[0], ['score'])
   const tick = computeTickWithScore(response.data[0].score, tickSet)
-  return Requester.success(
-    request.data.jobRunID,
-    Requester.withResult(response, tick),
-    config.verbose,
-  )
+  return Requester.success(request.data.jobRunID, { data: { result: tick } }, config.verbose)
 }
