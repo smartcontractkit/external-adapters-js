@@ -11,7 +11,7 @@ import { NAME as AdapterName } from '../config'
 import { getCoinIds, getSymbolsToIds } from '../util'
 
 export const supportedEndpoints = ['crypto', 'price', 'marketcap']
-export const batchablePropertyPath = [{ name: 'base' }, { name: 'quote' }]
+export const batchablePropertyPath = [{ name: 'base' }, { name: 'quote', limit: 1 }]
 
 const customError = (data: any) => {
   if (Object.keys(data).length === 0) return true

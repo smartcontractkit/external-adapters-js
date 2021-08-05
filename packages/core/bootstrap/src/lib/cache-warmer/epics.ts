@@ -28,7 +28,7 @@ import {
   warmupUnsubscribed,
 } from './actions'
 import { Config, get, WARMUP_REQUEST_ID, WARMUP_BATCH_REQUEST_ID } from './config'
-import { concatenateBatchResults, getBatchRequestResultPath, getSubscriptionKey, splitIntoBatches } from './util'
+import { concatenateBatchResults, getSubscriptionKey, splitIntoBatches } from './util'
 import { getTTL } from '../cache/ttl'
 
 export interface EpicDependencies {
@@ -104,7 +104,10 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
       // If batch warmer does not exist, start it
       else {
         // If incoming batchable request parameters aren't an array, transform into one
-        let batchWarmerData = payload.data
+        let batchWarmerData = {
+          ...payload.data,
+          resultPath: undefined
+        }
         for (const { name } of batchablePropertyPath || []) {
           if (!Array.isArray(batchWarmerData[name]))
             batchWarmerData = {
@@ -112,6 +115,7 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
               [name]: [batchWarmerData[name]],
             }
         }
+        
         actionsToDispatch.push(
           warmupSubscribed({
             ...payload,
@@ -184,7 +188,7 @@ export const warmupRequestHandler: Epic<AnyAction, AnyAction, any> = (action$, s
     }),
     filter(({ requestData }) => !!requestData),
     // make the request
-    mergeMap(({ requestData, key, subscriptions }) =>
+    mergeMap(({ requestData, key }) =>
       from(
         (async () => {
           const batches = splitIntoBatches(requestData)
@@ -193,7 +197,6 @@ export const warmupRequestHandler: Epic<AnyAction, AnyAction, any> = (action$, s
             const data = {
               ...requestData.origin,
               ...batch,
-              resultPath: getBatchRequestResultPath(requestData.batchablePropertyPath, subscriptions, batch),
               maxAge: -1
             }
             requests.push(requestData.executeFn({

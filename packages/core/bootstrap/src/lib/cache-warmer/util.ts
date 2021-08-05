@@ -4,7 +4,6 @@ import { get } from './config'
 import { BatchableProperty, SubscriptionData } from './reducer'
 import { AdapterRequest, AdapterResponse } from "@chainlink/types"
 import { hash } from '../util'
-import { SubscriptionsState } from '../ws/reducer'
 
 const conf = get()
 export function getSubscriptionKey(
@@ -99,26 +98,4 @@ export function concatenateBatchResults(result: AdapterResponse | null, latestRe
   }
   mergedResult.data.results = mergedResult.data.results.concat(latestResult.data.results)
   return mergedResult
-}
-
-export function getBatchRequestResultPath(batchablePropertyPath: BatchableProperty[] | undefined, subscriptions: SubscriptionsState, batch: BatchRequestChunk): string {
-  if(!batchablePropertyPath) {
-    return ""
-  }
-  const batchedPaths = batchablePropertyPath.map(( { name } ) => name)
-  for (const sub of Object.values(subscriptions).filter(sub => !!sub.origin && !!sub.origin.resultPath)) {
-    if (doesMatchPath(batchedPaths, sub, batch)) {
-      return sub.origin.resultPath 
-    }
-  }
-  return ""
-}
-
-function doesMatchPath(paths: string[], subscription: SubscriptionData, batchedObj: BatchRequestChunk): boolean {
-  for (const path of paths) {
-    if (subscription.origin[path] !== batchedObj[path][0]) {
-      return false
-    }
-  }
-  return true
 }
