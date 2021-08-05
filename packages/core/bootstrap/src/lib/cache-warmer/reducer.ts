@@ -55,12 +55,8 @@ export interface SubscriptionState {
 export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builder) => {
   builder.addCase(actions.warmupSubscribed, (state, { payload }) => {
     const key = payload.key || getSubscriptionKey(payload)
-    const { data, ...rest } = payload.data 
     state[key] = {
-      origin: {
-        ...rest,
-        ...(data ? data : {})
-      },
+      origin: payload.data,
       executeFn: payload.executeFn,
       startedAt: state[key]?.startedAt ?? Date.now(),
       isDuplicate: !!state[key],

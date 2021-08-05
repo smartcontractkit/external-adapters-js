@@ -72,7 +72,7 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
         )) {
           const warmupSubscribedPayloadChild = {
             ...payload,
-            data: request,
+            ...request,
             parent: batchWarmerSubscriptionKey,
             batchablePropertyPath,
           }

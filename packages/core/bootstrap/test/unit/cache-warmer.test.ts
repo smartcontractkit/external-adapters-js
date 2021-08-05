@@ -52,7 +52,6 @@ describe('side effect tests', () => {
   }
   const adapterRequest1: AdapterRequest = { data: {}, id: '0' }
   const adapterRequest2: AdapterRequest = { data: { foo: 'bar' }, id: '0' }
-  const adapterRequest3: AdapterRequest = { foo: 'bar', id: '0' }
   const key1 = '6fd5ecf807136e36fbc5392ff2d04b29539b3be4'
   const key2 = '8fccec6bd6b10e62b982fa3a1f91ec0dfe971b1a'
   beforeEach(() => {
@@ -93,7 +92,7 @@ describe('side effect tests', () => {
     jobRunID: '2',
     statusCode: 200,
     data: {
-      results: [[{ key1: 'baz', key2: 'bar' }, 2]],
+      results: [[{ data: { key1: 'baz', key2: 'bar' } }, 2]],
     },
     result: 2,
     debug: { batchablePropertyPath: [{ name: 'key1' }] },
@@ -435,7 +434,7 @@ describe('side effect tests', () => {
               results: 'external adapter return value'
             }
           }),
-          origin: adapterRequest3,
+          origin: adapterRequest2.data,
           startedAt: Date.now(),
           isDuplicate: false,
           batchablePropertyPath: [{ name: "foo" }]
@@ -467,7 +466,7 @@ describe('side effect tests', () => {
         }
         const childState: SubscriptionState[string] = {
           executeFn: async () => { throw err },
-          origin: adapterRequest3,
+          origin: adapterRequest2.data,
           startedAt: Date.now(),
           isDuplicate: false,
           batchablePropertyPath: [{ name: "foo" }]
