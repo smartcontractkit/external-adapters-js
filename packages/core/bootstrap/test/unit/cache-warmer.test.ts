@@ -133,6 +133,7 @@ describe('side effect tests', () => {
               childLastSeenById: { [batchKeyChild1]: mockTime },
               key: batchKeyParent,
               result: batchableAdapterResponse1,
+              batchablePropertyPath: batchableAdapterResponse1.debug.batchablePropertyPath
             }),
           })
         })
@@ -169,6 +170,7 @@ describe('side effect tests', () => {
               childLastSeenById: { [batchKeyChild2]: mockTime },
               key: batchKeyParent,
               result: batchableAdapterResponse2,
+              batchablePropertyPath: batchableAdapterResponse2.debug.batchablePropertyPath,
             }),
           })
         })
@@ -423,7 +425,8 @@ describe('side effect tests', () => {
           isDuplicate: false,
           childLastSeenById: {
             [key2]: 2
-          }
+          },
+          batchablePropertyPath: [{ name: "foo" }]
         }
         const childState: SubscriptionState[string] = {
           executeFn: async () => ({
@@ -460,6 +463,7 @@ describe('side effect tests', () => {
           origin: adapterRequest2,
           startedAt: Date.now(),
           isDuplicate: false,
+          batchablePropertyPath: [{ name: "foo" }],
           childLastSeenById: {
             [key2]: 2
           }
@@ -508,7 +512,8 @@ describe('side effect tests', () => {
           isDuplicate: false,
           childLastSeenById: {
             [key2]: 2
-          }
+          },
+          batchablePropertyPath: [{ name: "key1" }]
         }
         const childState: SubscriptionState[string] = {
           executeFn: async () => { throw err },
@@ -554,7 +559,8 @@ describe('side effect tests', () => {
           isDuplicate: false,
           childLastSeenById: {
             [key2]: 2
-          }
+          },
+          batchablePropertyPath: [{ name: "key1", limit: 2 }]
         }
         const childState: SubscriptionState[string] = {
           executeFn: async () => { throw err },
