@@ -5,6 +5,7 @@ import {
   AdapterRequest,
   AdapterRequestData,
 } from '@chainlink/types'
+import { reducer } from "../cache-warmer"
 import axios, { AxiosResponse } from 'axios'
 import { deepType } from '../util'
 import { getDefaultConfig, logConfig } from './config'
@@ -163,7 +164,7 @@ export class Requester {
     jobRunID = '1',
     response: Partial<AxiosResponse>,
     verbose = false,
-    batchablePropertyPath?: string[],
+    batchablePropertyPath?: reducer.BatchableProperty[],
   ): AdapterResponse {
     const debug = batchablePropertyPath ? { batchablePropertyPath } : undefined
     return {

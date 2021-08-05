@@ -9,7 +9,7 @@ import {
 import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['assets']
-export const batchablePropertyPath = ['base']
+export const batchablePropertyPath = [{ name: 'base' }]
 
 export const endpointResultPaths = {
   assets: 'price_usd',
