@@ -466,3 +466,7 @@ The follow steps is the general pattern for writing an integration test.
 4. Now you should have a test that does not do any HTTP requests during execution.
 
 For more information, see the [Jest docs.](https://jestjs.io/docs/cli)
+
+#### Adding Provider API rate limits
+
+When adding a new adapter the tiers from that provider will need to be added to the [static configurations](packages/core/bootstrap/src/lib/provider-limits/limits.json) under the `NAME` given to the adapter.
