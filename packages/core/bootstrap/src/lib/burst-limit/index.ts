@@ -1,6 +1,5 @@
 import { Middleware } from '@chainlink/types'
 import { Store } from 'redux'
-import * as rateLimitConfig from '../rate-limit/config'
 import {
   BurstLimitState,
   IntervalNames,
@@ -20,7 +19,7 @@ export const withBurstLimit =
   (store?: Store<BurstLimitState>): Middleware =>
   async (execute, context) =>
   async (input) => {
-    const config = rateLimitConfig.get(context)
+    const config = context.rateLimit ?? {}
     if (!store || !config.enabled || !config.burstCapacity) return await execute(input, context)
 
     const state = store.getState()
