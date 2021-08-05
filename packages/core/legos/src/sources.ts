@@ -84,6 +84,7 @@ import * as trueusd from '@chainlink/trueusd-adapter'
 import * as twelvedata from '@chainlink/twelvedata-adapter'
 import * as unibit from '@chainlink/unibit-adapter'
 import * as wbtc_adapter_address from '@chainlink/wbtc-address-set-adapter'
+import * as wootrade from '@chainlink/wootrade-adapter'
 import * as xbto from '@chainlink/xbto-adapter'
 
 export default {
@@ -173,5 +174,6 @@ export default {
   twelvedata,
   unibit,
   wbtc_adapter_address,
+  wootrade,
   xbto,
 }
