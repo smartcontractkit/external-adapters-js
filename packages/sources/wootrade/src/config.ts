@@ -4,7 +4,7 @@ import { Config } from '@chainlink/types'
 export const NAME = 'WOOTRADE'
 
 export const DEFAULT_ENDPOINT = 'crypto'
-export const DEFAULT_BASE_URL = 'https://api.staging.woo.network'
+export const DEFAULT_BASE_URL = 'https://api.woo.network'
 export const DEFAULT_WS_API_ENDPOINT = 'wss://wss.woo.network/ws/stream'
 
 export const makeConfig = (prefix?: string): Config => {

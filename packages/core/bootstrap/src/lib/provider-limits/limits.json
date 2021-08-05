@@ -1027,5 +1027,15 @@
   "xbto": {
     "http": {},
     "ws": {}
+  },
+  "wootrade": {
+    "http": {},
+    "ws": {     
+      "private": {
+        "connections": 1,
+        "subscriptions": 1,
+        "note": "you need to request the application_id directly with wootrade"
+      }
+    }
   }
 }

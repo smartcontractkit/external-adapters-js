@@ -2,14 +2,6 @@
 
 Adapter using the public Wootrade market API for both HTTP(s) and WS.
 
-### Environment Variables
-
-| Required? |  Name   |                                                        Description                                                         | Options | Defaults to |
-| :-------: | :-----: | :------------------------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
-|     ✅      | API_KEY | An key to use the wootrade WS API |         |             |
-
----
-
 ### Input Parameters
 
 | Required? |   Name   |     Description     |           Options            | Defaults to |
@@ -19,9 +11,6 @@ Adapter using the public Wootrade market API for both HTTP(s) and WS.
 ---
 
 ## Crypto Endpoint
-
-An example endpoint description
-
 ### Input Params
 
 | Required? |            Name            |               Description                |       Options       | Defaults to |
@@ -53,3 +42,12 @@ An example endpoint description
   "statusCode": 200
 }
 ```
+
+### Web Sockets
+### Environment Variables 
+
+| Required? |  Name   |                                                        Description                                                         | Options | Defaults to |
+| :-------: | :-----: | :------------------------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
+|     ✅      | API_KEY | An key to use the wootrade WS API |         |             |
+
+---
