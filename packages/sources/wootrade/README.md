@@ -6,7 +6,7 @@ Adapter using the public Wootrade market API for both HTTP(s) and WS.
 
 | Required? |   Name   |     Description     |           Options            | Defaults to |
 | :-------: | :------: | :-----------------: | :--------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [crypto](#Crypto-Endpoint) |   ticker   |
+|           | endpoint | The endpoint to use | [crypto](#Crypto-Endpoint) |   crypto   |
 
 ---
 
