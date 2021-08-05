@@ -175,7 +175,8 @@ export const warmupRequestHandler: Epic<AnyAction, AnyAction, any> = (action$, s
     // fetch our required state to make a request to warm up an adapter
     withLatestFrom(state$),
     map(([action, state]) => {
-      const requestData = state.cacheWarmer.subscriptions[action.payload.key]
+      const requestData = state.cacheWarmer.subscriptions[action.payload.key] ?? {}
+      const childKeys = Object.keys(requestData.childLastSeenById ?? {})
       let batchablePropertyPath
       if (requestData?.childLastSeenById && Object.keys(requestData.childLastSeenById).length > 0) {
         const child = state.cacheWarmer.subscriptions[Object.keys(requestData.childLastSeenById)[0]]
