@@ -16,9 +16,13 @@ export function getSubscriptionKey(
   )
 }
 
-export function splitIntoBatches(requestData: SubscriptionData): {
-  [path: string]: string[]
-}[] {
+type BatchPath = string[]
+
+interface BatchRequestChunk {
+  [path: string]: BatchPath
+}
+
+export function splitIntoBatches(requestData: SubscriptionData): BatchRequestChunk[] {
   const { batchablePropertyPath, origin } = requestData
   if (!batchablePropertyPath) {
     return []
@@ -27,8 +31,12 @@ export function splitIntoBatches(requestData: SubscriptionData): {
   return getBatchesArray(batchesByPath)
 }
 
-function groupBatchesByPath(batchablePropertyPath: BatchableProperty[], origin: AdapterRequest["data"]): { [path: string]: string[][] } {
-  const batchesByPath: { [path: string]: string[][] } = {}
+type GroupedBatches = {
+  [path: string]: BatchPath[]
+}
+
+function groupBatchesByPath(batchablePropertyPath: BatchableProperty[], origin: AdapterRequest["data"]): GroupedBatches {
+  const batchesByPath: GroupedBatches = {}
   for (const { name, limit } of batchablePropertyPath) {
     if (origin[name]) {
       const batchedValues = origin[name]
@@ -42,7 +50,7 @@ function groupBatchesByPath(batchablePropertyPath: BatchableProperty[], origin: 
   return batchesByPath
 }
 
-function splitValuesIntoBatches(limit: number, values: string[]): string[][] {
+function splitValuesIntoBatches(limit: number, values: string[]): BatchPath[] {
   const batches = []
   let idx = 0
   while(idx < values.length) {
@@ -53,17 +61,13 @@ function splitValuesIntoBatches(limit: number, values: string[]): string[][] {
   return batches 
 }
 
-function getBatchesArray(batchesByPath: { [path: string]: string[][] }): {
-  [path: string]: string[]
-}[] {
-  const batches: {
-    [path: string]: string[]
-  }[] = []
+function getBatchesArray(batchesByPath: GroupedBatches): BatchRequestChunk[] {
+  const batches: BatchRequestChunk[] = []
   populateBatchesArray(batchesByPath, batches, Object.keys(batchesByPath), 0, {})
   return batches
 }
 
-function populateBatchesArray(batchesByPath: { [path: string]: string[][] }, batches: { [path: string]: string[] }[], batchPaths: string[], idx: number, currBatch: { [path: string]: string[] }): void {
+function populateBatchesArray(batchesByPath: GroupedBatches, batches: BatchRequestChunk[], batchPaths: BatchPath, idx: number, currBatch: BatchRequestChunk): void {
   if (idx >= batchPaths.length) {
     batches.push(JSON.parse(JSON.stringify(currBatch)))
   } else {
@@ -97,7 +101,7 @@ export function concatenateBatchResults(result: AdapterResponse | null, latestRe
   return mergedResult
 }
 
-export function getBatchRequestResultPath(batchablePropertyPath: BatchableProperty[] | undefined, subscriptions: SubscriptionsState, batch: { [p: string]: string[] }): string {
+export function getBatchRequestResultPath(batchablePropertyPath: BatchableProperty[] | undefined, subscriptions: SubscriptionsState, batch: BatchRequestChunk): string {
   if(!batchablePropertyPath) {
     return ""
   }
@@ -110,7 +114,7 @@ export function getBatchRequestResultPath(batchablePropertyPath: BatchableProper
   return ""
 }
 
-function doesMatchPath(paths: string[], subscription: SubscriptionData, batchedObj: { [p: string]: string[] }): boolean {
+function doesMatchPath(paths: string[], subscription: SubscriptionData, batchedObj: BatchRequestChunk): boolean {
   for (const path of paths) {
     if (subscription.origin[path] !== batchedObj[path][0]) {
       return false
