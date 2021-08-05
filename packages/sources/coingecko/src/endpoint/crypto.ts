@@ -22,6 +22,9 @@ const buildResultPath = (path: string) => (request: AdapterRequest): string => {
   const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
   const quote = validator.validated.data.quote
+  if (Array.isArray(quote)) {
+    return `${quote[0].toLowerCase()}${path}`
+  }
   return `${quote.toLowerCase()}${path}`
 }
 
