@@ -176,9 +176,8 @@ export const warmupRequestHandler: Epic<AnyAction, AnyAction, any> = (action$, s
     // fetch our required state to make a request to warm up an adapter
     withLatestFrom(state$),
     map(([action, state]) => {
-      const requestData = state.cacheWarmer.subscriptions[action.payload.key]
       return {
-        requestData,
+        requestData: state.cacheWarmer.subscriptions[action.payload.key],
         key: action.payload.key,
         subscriptions: state.cacheWarmer.subscriptions 
       }
