@@ -28,7 +28,7 @@ import {
   warmupUnsubscribed,
 } from './actions'
 import { Config, get, WARMUP_REQUEST_ID, WARMUP_BATCH_REQUEST_ID } from './config'
-import { getSubscriptionKey } from './util'
+import { concatenateBatchResults, getSubscriptionKey, splitIntoBatches } from './util'
 import { getTTL } from '../cache/ttl'
 
 export interface EpicDependencies {
@@ -57,7 +57,7 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
       const batchWarmerSubscriptionKey = getSubscriptionKey(
         omit(
           payload,
-          batchablePropertyPath?.map((path) => `data.${path}`),
+          batchablePropertyPath?.map(({ name }) => `data.${name}`),
         ),
       )
 
@@ -72,7 +72,7 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
         )) {
           const warmupSubscribedPayloadChild = {
             ...payload,
-            data: request,
+            ...request,
             parent: batchWarmerSubscriptionKey,
             batchablePropertyPath,
           }
@@ -104,20 +104,25 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
       // If batch warmer does not exist, start it
       else {
         // If incoming batchable request parameters aren't an array, transform into one
-        let batchWarmerData = payload.data
-        for (const path of batchablePropertyPath || []) {
-          if (!Array.isArray(batchWarmerData[path]))
+        let batchWarmerData = {
+          ...payload.data,
+          resultPath: undefined
+        }
+        for (const { name } of batchablePropertyPath || []) {
+          if (!Array.isArray(batchWarmerData[name]))
             batchWarmerData = {
               ...batchWarmerData,
-              [path]: [batchWarmerData[path]],
+              [name]: [batchWarmerData[name]],
             }
         }
+        
         actionsToDispatch.push(
           warmupSubscribed({
             ...payload,
             data: batchWarmerData,
             key: batchWarmerSubscriptionKey,
             childLastSeenById,
+            batchablePropertyPath
           }),
         )
       }
@@ -174,18 +179,38 @@ export const warmupRequestHandler: Epic<AnyAction, AnyAction, any> = (action$, s
     filter(warmupRequested.match),
     // fetch our required state to make a request to warm up an adapter
     withLatestFrom(state$),
-    map(([action, state]) => ({
-      requestData: state.cacheWarmer.subscriptions[action.payload.key],
-      key: action.payload.key,
-    })),
+    map(([action, state]) => {
+      return {
+        requestData: state.cacheWarmer.subscriptions[action.payload.key],
+        key: action.payload.key,
+        subscriptions: state.cacheWarmer.subscriptions 
+      }
+    }),
     filter(({ requestData }) => !!requestData),
     // make the request
     mergeMap(({ requestData, key }) =>
       from(
-        requestData.executeFn({
-          id: requestData.childLastSeenById ? WARMUP_BATCH_REQUEST_ID : WARMUP_REQUEST_ID,
-          data: { ...requestData.origin, maxAge: -1 },
-        }),
+        (async () => {
+          const batches = splitIntoBatches(requestData)
+          const requests = []
+          for (const batch of Object.values(batches)) {
+            const data = {
+              ...requestData.origin,
+              ...batch,
+              maxAge: -1
+            }
+            requests.push(requestData.executeFn({
+              id: requestData.childLastSeenById ? WARMUP_BATCH_REQUEST_ID : WARMUP_REQUEST_ID,
+              data,
+            }))
+          }
+          const responses = await Promise.all(requests)
+          let result = null 
+          for (const resp of responses) {
+            result = concatenateBatchResults(result, resp)
+          }
+          return result
+        })(),
       ).pipe(
         mapTo(warmupFulfilled({ key })),
         catchError((error: unknown) => of(warmupFailed({ error: error as Error, key }))),
@@ -250,8 +275,8 @@ export const warmupUnsubscriber: Epic<AnyAction, AnyAction, any, EpicDependencie
     filter(warmupLeaveGroup.match),
     withLatestFrom(state$),
     filter(([{ payload }, state]) => {
-      for (const path of payload.batchablePropertyPath) {
-        if (state.cacheWarmer.subscriptions[payload.parent].origin[path].length === 0) return true
+      for (const { name } of payload.batchablePropertyPath) {
+        if (state.cacheWarmer.subscriptions[payload.parent].origin[name].length === 0) return true
       }
       return false
     }),
