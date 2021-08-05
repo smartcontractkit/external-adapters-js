@@ -23,7 +23,7 @@ import {
 } from './lib/external-adapter'
 import * as metrics from './lib/metrics'
 import { getFeedId } from './lib/metrics/util'
-import * as rateLimit from './lib/rate-limit'
+import * as RateLimit from './lib/rate-limit'
 import * as burstLimit from './lib/burst-limit'
 import * as server from './lib/server'
 import { configureStore } from './lib/store'
@@ -37,7 +37,7 @@ type ReduxMiddleware = typeof REDUX_MIDDLEWARE[number]
 const rootReducer = combineReducers({
   burstLimit: burstLimit.reducer.rootReducer,
   cacheWarmer: cacheWarmer.reducer.rootReducer,
-  rateLimit: rateLimit.reducer.rootReducer,
+  rateLimit: RateLimit.reducer.rootReducer,
   ws: ws.reducer.rootReducer,
 })
 
@@ -139,9 +139,7 @@ export const withDebug: Middleware = async (execute, context) => async (input: A
 
 export const withNormalizedInput: (
   endpointSelector?: (request: AdapterRequest) => APIEndpoint,
-) => Middleware = (endpointSelector) => async (execute, context) => async (
-  input: AdapterRequest,
-) => {
+) => Middleware = (endpointSelector) => async (execute, context) => async (input: AdapterRequest) => {
   const normalizedInput = endpointSelector ? normalizeInput(input, endpointSelector(input)) : input
   return execute(normalizedInput, context)
 }
@@ -153,7 +151,7 @@ export const makeMiddleware = (
 ): Middleware[] => {
   const warmerMiddleware = [
     withCache(storeSlice('burstLimit')),
-    rateLimit.withRateLimit(storeSlice('rateLimit')),
+    RateLimit.withRateLimit(storeSlice('rateLimit')),
     withStatusCode,
     withNormalizedInput(endpointSelector),
   ].concat(metrics.METRICS_ENABLED ? [withMetrics] : [])
@@ -166,7 +164,7 @@ export const makeMiddleware = (
       makeWSHandler: makeWsHandler,
     })(execute),
     ws.withWebSockets(storeSlice('ws'), makeWsHandler),
-    rateLimit.withRateLimit(storeSlice('rateLimit')),
+    RateLimit.withRateLimit(storeSlice('rateLimit')),
     withStatusCode,
     withNormalizedInput(endpointSelector),
   ].concat(metrics.METRICS_ENABLED ? [withMetrics, withDebug] : [withDebug])
@@ -223,4 +221,4 @@ export const expose = (
   }
 }
 
-export { Requester, Validator, AdapterError, Builder, Logger, util, server, Cache }
+export { Requester, Validator, AdapterError, Builder, Logger, util, server, Cache, RateLimit }

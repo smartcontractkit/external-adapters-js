@@ -4,6 +4,7 @@ import { withDebug } from '../../../src'
 import { defaultOptions, withCache } from '../../../src/lib/cache'
 import { logger } from '../../../src/lib/external-adapter'
 import * as rateLimit from '../../../src/lib/rate-limit'
+import { get } from '../../../src/lib/rate-limit/config'
 import { dataProviderMock, getRLTokenSpentPerMinute, setupClock } from './helpers'
 import { withMiddleware } from '../../../src/index'
 import { AdapterContext } from '@chainlink/types'
@@ -32,6 +33,7 @@ describe('Rate Limit/Cache - Integration', () => {
       ...defaultOptions(),
       instance: await options.cacheBuilder(options.cacheImplOptions),
     }
+    context.rateLimit = get({})
   })
 
   afterAll(() => {
