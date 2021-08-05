@@ -176,7 +176,6 @@ export const warmupRequestHandler: Epic<AnyAction, AnyAction, any> = (action$, s
     withLatestFrom(state$),
     map(([action, state]) => {
       const requestData = state.cacheWarmer.subscriptions[action.payload.key] ?? {}
-      const childKeys = Object.keys(requestData.childLastSeenById ?? {})
       let batchablePropertyPath
       if (requestData?.childLastSeenById && Object.keys(requestData.childLastSeenById).length > 0) {
         const child = state.cacheWarmer.subscriptions[Object.keys(requestData.childLastSeenById)[0]]
@@ -197,7 +196,7 @@ export const warmupRequestHandler: Epic<AnyAction, AnyAction, any> = (action$, s
       from(
         (async () => {
           const batches = splitIntoBatches(requestData)
-          let result = null 
+          const requests = []
           for (const batch of Object.values(batches)) {
             const data = {
               ...requestData.origin,
@@ -205,11 +204,15 @@ export const warmupRequestHandler: Epic<AnyAction, AnyAction, any> = (action$, s
               resultPath: getBatchRequestResultPath(requestData.batchablePropertyPath, subscriptions, batch),
               maxAge: -1
             }
-            const batchResult = await requestData.executeFn({
+            requests.push(requestData.executeFn({
               id: requestData.childLastSeenById ? WARMUP_BATCH_REQUEST_ID : WARMUP_REQUEST_ID,
               data,
-            }) 
-            result = concatenateBatchResults(result, batchResult)
+            }))
+          }
+          const responses = await Promise.all(requests)
+          let result = null 
+          for (const resp of responses) {
+            result = concatenateBatchResults(result, resp)
           }
           return result
         })(),
