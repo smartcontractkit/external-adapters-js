@@ -11,19 +11,19 @@ describe('execute', () => {
     const requests = [
       {
         name: 'id not supplied',
-        testData: { data: { base: 'ETH', quote: 'USD' } },
+        testData: { data: { base: 'ETH', quote: 'USDT' } },
       },
       {
         name: 'base/quote',
-        testData: { id: jobID, data: { base: 'ETH', quote: 'USD' } },
+        testData: { id: jobID, data: { base: 'ETH', quote: 'USDT' } },
       },
       {
         name: 'from/to',
-        testData: { id: jobID, data: { from: 'ETH', to: 'USD' } },
+        testData: { id: jobID, data: { from: 'ETH', to: 'USDT' } },
       },
       {
         name: 'coin/market',
-        testData: { id: jobID, data: { coin: 'ETH', market: 'USD' } },
+        testData: { id: jobID, data: { coin: 'ETH', market: 'USDT' } },
       },
     ]
 
@@ -41,7 +41,7 @@ describe('execute', () => {
     const requests = [
       {
         name: 'unknown base',
-        testData: { id: jobID, data: { base: 'not_real', quote: 'USD' } },
+        testData: { id: jobID, data: { base: 'not_real', quote: 'USDT' } },
       },
       {
         name: 'unknown quote',

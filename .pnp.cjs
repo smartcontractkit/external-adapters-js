@@ -479,6 +479,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/wbtc-address-set"
       },
       {
+        "name": "@chainlink/wootrade-adapter",
+        "reference": "workspace:packages/sources/wootrade"
+      },
+      {
         "name": "@chainlink/xbto-adapter",
         "reference": "workspace:packages/sources/xbto"
       },
@@ -625,6 +629,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/unibit-adapter", ["workspace:packages/sources/unibit"]],
       ["@chainlink/vesper-adapter", ["workspace:packages/composites/vesper"]],
       ["@chainlink/wbtc-address-set-adapter", ["workspace:packages/sources/wbtc-address-set"]],
+      ["@chainlink/wootrade-adapter", ["workspace:packages/sources/wootrade"]],
       ["@chainlink/xbto-adapter", ["workspace:packages/sources/xbto"]],
       ["k6", ["workspace:packages/k6"]]
     ],
@@ -3923,6 +3928,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/twelvedata-adapter", "workspace:packages/sources/twelvedata"],
             ["@chainlink/unibit-adapter", "workspace:packages/sources/unibit"],
             ["@chainlink/wbtc-address-set-adapter", "workspace:packages/sources/wbtc-address-set"],
+            ["@chainlink/wootrade-adapter", "workspace:packages/sources/wootrade"],
             ["@chainlink/xbto-adapter", "workspace:packages/sources/xbto"],
             ["@types/chai", "npm:4.2.21"],
             ["@types/jest", "npm:26.0.24"],
@@ -5155,6 +5161,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/wbtc-address-set/",
           "packageDependencies": [
             ["@chainlink/wbtc-address-set-adapter", "workspace:packages/sources/wbtc-address-set"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:26.0.24"],
+            ["@types/node", "npm:14.17.7"],
+            ["tslib", "npm:2.3.0"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/wootrade-adapter", [
+        ["workspace:packages/sources/wootrade", {
+          "packageLocation": "./packages/sources/wootrade/",
+          "packageDependencies": [
+            ["@chainlink/wootrade-adapter", "workspace:packages/sources/wootrade"],
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
