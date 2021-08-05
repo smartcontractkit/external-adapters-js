@@ -68,6 +68,11 @@ describe('side effect tests', () => {
     id: '0',
     data: { key1: ['foo'], key2: 'bar' },
   }
+  const batchedAdapterRequest2 = {
+    id: '0',
+    key1: ['foo', 'foo2', 'foo3', 'foo4'], 
+    key2: 'bar',
+  }
   const batchableAdapterResponse1: AdapterResponse = {
     jobRunID: '1',
     statusCode: 200,
@@ -401,7 +406,7 @@ describe('side effect tests', () => {
 
   describe('warmup', () => {
     it('should handle warmup requests by executing a function to update the cache', () => {
-      scheduler.run(({ hot, expectObservable }) => {
+      scheduler.run(({ hot }) => {
         const action$ = actionStream(hot, 'a', {
           a: actions.warmupRequested({ key: key1 }),
         })
@@ -427,7 +432,7 @@ describe('side effect tests', () => {
             statusCode: 200,
             result: 'external adapter return value',
             data: {
-              result: 'external adapter return value'
+              results: 'external adapter return value'
             }
           }),
           origin: adapterRequest3,
@@ -446,7 +451,7 @@ describe('side effect tests', () => {
       })
     })
     it('should handle errors by emitting an error action', () => {
-      scheduler.run(({ hot, expectObservable }) => {
+      scheduler.run(({ hot }) => {
         const action$ = actionStream(hot, 'a', {
           a: actions.warmupRequested({ key: key1 }),
         })
@@ -478,6 +483,95 @@ describe('side effect tests', () => {
           key: key1,
           error: err,
         })))
+      })
+    })
+    it('should throw an error if the API has a limit and no limit is provided', () => {
+      scheduler.run(({ hot }) => {
+        const action$ = actionStream(hot, 'a', {
+          a: actions.warmupRequested({ key: key1 }),
+        })
+        const err = Error('Exceeded batch limit')
+        const limit = batchedAdapterRequest2.key1.length
+        const subscriptionState: SubscriptionState[string] = {
+          executeFn: async (input: AdapterRequest) => { 
+            if (input.data.key1.length >= limit) throw err 
+            return {
+              jobRunID: '1',
+              statusCode: 200,
+              result: 'external adapter return value',
+              data: {
+                results: 'external adapter return value'
+              }
+            }
+          },
+          origin: batchedAdapterRequest2,
+          startedAt: Date.now(),
+          isDuplicate: false,
+          childLastSeenById: {
+            [key2]: 2
+          }
+        }
+        const childState: SubscriptionState[string] = {
+          executeFn: async () => { throw err },
+          origin: adapterRequest2,
+          startedAt: Date.now(),
+          isDuplicate: false,
+          batchablePropertyPath: [{ name: "key1" }]
+        }
+        const state$ = stateStream({
+          cacheWarmer: {
+            subscriptions: { [key1]: subscriptionState, [key2]: childState },
+          },
+        })
+
+        const output$ = warmupRequestHandler(action$, state$, null)
+        output$.subscribe(action => expect(action).toEqual(actions.warmupFailed({
+          key: key1,
+          error: err,
+        })))
+      })
+    })
+    it('should succeed if doing batched requests when there is a limit', () => {
+      scheduler.run(({ hot }) => {
+        const action$ = actionStream(hot, 'a', {
+          a: actions.warmupRequested({ key: key1 }),
+        })
+        const err = Error('Exceeded batch limit')
+        const limit = batchedAdapterRequest2.key1.length
+        const subscriptionState: SubscriptionState[string] = {
+          executeFn: async (input: AdapterRequest) => { 
+            if (input.data.key1.length >= limit) throw err 
+            return {
+              jobRunID: '1',
+              statusCode: 200,
+              result: 'external adapter return value',
+              data: {
+                results: 'external adapter return value'
+              }
+            }
+          },
+          origin: batchedAdapterRequest2,
+          startedAt: Date.now(),
+          isDuplicate: false,
+          childLastSeenById: {
+            [key2]: 2
+          }
+        }
+        const childState: SubscriptionState[string] = {
+          executeFn: async () => { throw err },
+          origin: adapterRequest2,
+          startedAt: Date.now(),
+          isDuplicate: false,
+          batchablePropertyPath: [{ name: "key1", limit: 2 }]
+        }
+        const state$ = stateStream({
+          cacheWarmer: {
+            subscriptions: { [key1]: subscriptionState, [key2]: childState },
+          },
+        })
+
+        const output$ = warmupRequestHandler(action$, state$, null)
+        output$.subscribe(action => expect(action).toEqual(actions.warmupFulfilled({ key: key1 })))
       })
     })
   })
