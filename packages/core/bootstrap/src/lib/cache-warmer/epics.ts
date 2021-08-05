@@ -177,7 +177,7 @@ export const warmupRequestHandler: Epic<AnyAction, AnyAction, any> = (action$, s
     map(([action, state]) => {
       const requestData = state.cacheWarmer.subscriptions[action.payload.key]
       let batchablePropertyPath
-      if (requestData && requestData.childLastSeenById && Object.keys(requestData.childLastSeenById).length > 0) {
+      if (requestData?.childLastSeenById && Object.keys(requestData.childLastSeenById).length > 0) {
         const child = state.cacheWarmer.subscriptions[Object.keys(requestData.childLastSeenById)[0]]
         batchablePropertyPath = child.batchablePropertyPath
       }
