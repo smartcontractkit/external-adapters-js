@@ -4,6 +4,7 @@ import { withDebug } from '../../../src'
 import { defaultOptions, withCache } from '../../../src/lib/cache'
 import { logger } from '../../../src/lib/external-adapter'
 import * as rateLimit from '../../../src/lib/rate-limit'
+import { get } from '../../../src/lib/rate-limit/config'
 import {
   dataProviderMock,
   getRLTokenSpentPerMinute,
@@ -38,6 +39,7 @@ describe('Rate Limit/Cache - Integration', () => {
       ...defaultOptions(),
       instance: await options.cacheBuilder(options.cacheImplOptions),
     }
+    context.rateLimit = get({})
   })
 
   afterAll(() => {

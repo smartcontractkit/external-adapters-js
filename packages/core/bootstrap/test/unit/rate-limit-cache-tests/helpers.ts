@@ -5,6 +5,7 @@ import { withDebug } from '../../../src'
 import { defaultOptions, withCache } from '../../../src/lib/cache'
 import * as cacheWarmer from '../../../src/lib/cache-warmer'
 import * as rateLimit from '../../../src/lib/rate-limit'
+import { get } from '../../../src/lib/rate-limit/config'
 import { configureStore } from '../../../src/lib/store'
 import { withMiddleware } from '../../../src/index'
 
@@ -25,6 +26,7 @@ export const makeExecuteWithWarmer = async (execute: Execute, store: Store) => {
       ...defaultOptions(),
       instance: await options.cacheBuilder(options.cacheImplOptions),
     },
+    rateLimit: get({}),
   }
   const executeWithMiddleware = await withMiddleware(execute, context, [
     withCache(),
