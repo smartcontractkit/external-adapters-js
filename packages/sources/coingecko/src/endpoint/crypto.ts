@@ -11,7 +11,7 @@ import { NAME as AdapterName } from '../config'
 import { getCoinIds, getSymbolsToIds } from '../util'
 
 export const supportedEndpoints = ['crypto', 'price', 'marketcap']
-export const batchablePropertyPath = ['base', 'quote']
+export const batchablePropertyPath = [{ name: 'base' }, { name: 'quote', limit: 1 }]
 
 const customError = (data: any) => {
   if (Object.keys(data).length === 0) return true
@@ -22,6 +22,9 @@ const buildResultPath = (path: string) => (request: AdapterRequest): string => {
   const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
   const quote = validator.validated.data.quote
+  if (Array.isArray(quote)) {
+    return `${quote[0].toLowerCase()}${path}`
+  }
   return `${quote.toLowerCase()}${path}`
 }
 

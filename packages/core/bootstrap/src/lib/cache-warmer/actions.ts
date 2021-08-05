@@ -1,4 +1,5 @@
 import { AdapterRequest, AdapterResponse, Execute } from '@chainlink/types'
+import { BatchableProperty } from './reducer'
 import { createAction } from '@reduxjs/toolkit'
 
 export interface WarmupExecutePayload extends AdapterRequest {
@@ -36,7 +37,7 @@ export interface WarmupSubscribedPayload extends WarmupExecutePayload {
    *  }
    * )
    */
-  batchablePropertyPath?: string[]
+  batchablePropertyPath?: BatchableProperty[]
   /**
    * If a subscription is a batch warmer that is warming multiple other requests
    * This will hold a map of the children subscription key to the last time it was seen
@@ -55,12 +56,12 @@ interface WarmupSubscriptionTimeoutResetPayload {
 interface WarmupJoinGroupPayload {
   parent: string
   childLastSeenById: { [childKey: string]: number }
-  batchablePropertyPath: string[]
+  batchablePropertyPath: BatchableProperty[]
 }
 interface WarmupLeaveGroupPayload {
   parent: string
   childLastSeenById: { [childKey: string]: number }
-  batchablePropertyPath: string[]
+  batchablePropertyPath: BatchableProperty[]
 }
 
 export const warmupSubscribed = createAction<WarmupSubscribedPayload>('WARMUP/SUBSCRIBED')

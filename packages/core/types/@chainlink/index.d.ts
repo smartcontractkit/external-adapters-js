@@ -1,6 +1,8 @@
 // Declare missing type definitions
 declare module '@chainlink/types' {
   import type { CacheOptions } from '@chainlink/ea-bootstrap'
+  import { cacheWarmer } from "@chainlink/ea-bootstrap"
+
   export interface AdapterContext {
     name?: string
     cache?: CacheOptions
@@ -24,7 +26,7 @@ declare module '@chainlink/types' {
     staleness?: number
     performance?: number
     providerCost?: number
-    batchablePropertyPath?: string[]
+    batchablePropertyPath?: cacheWarmer.reducer.BatchableProperty[]
     normalizedRequest?: Record<string, unknown>
   }
 
@@ -131,7 +133,7 @@ declare module '@chainlink/types' {
 
   export interface APIEndpoint {
     supportedEndpoints: string[]
-    batchablePropertyPath?: string[]
+    batchablePropertyPath?: BatchableProperty[]
     endpointResultPaths?: EndpointResultPaths
     inputParameters?: InputParameters
     endpointOverride?: (request: AdapterRequest) => string | null

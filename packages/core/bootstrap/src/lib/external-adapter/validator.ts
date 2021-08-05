@@ -324,13 +324,13 @@ export function normalizeInput(request: AdapterRequest, apiEndpoint: APIEndpoint
   // re-add maxAge
   if (request.data.maxAge) data.maxAge = request.data.maxAge
   if (apiEndpoint.batchablePropertyPath) {
-    for (const param of apiEndpoint.batchablePropertyPath) {
-      const value = data[param]
+    for (const { name } of apiEndpoint.batchablePropertyPath) {
+      const value = data[name]
       if (typeof(value) === 'string')
-        data[param] = data[param].toUpperCase()
+        data[name] = data[name].toUpperCase()
       if (Array.isArray(value)) {
-        for (const index in data[param])
-        data[param][index] = data[param][index].toUpperCase()
+        for (const index in data[name])
+        data[name][index] = data[name][index].toUpperCase()
       }
     }
   }

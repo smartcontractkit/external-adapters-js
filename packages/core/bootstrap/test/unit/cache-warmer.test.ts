@@ -67,6 +67,11 @@ describe('side effect tests', () => {
     id: '0',
     data: { key1: ['foo'], key2: 'bar' },
   }
+  const batchedAdapterRequest2 = {
+    id: '0',
+    key1: ['foo', 'foo2', 'foo3', 'foo4'], 
+    key2: 'bar',
+  }
   const batchableAdapterResponse1: AdapterResponse = {
     jobRunID: '1',
     statusCode: 200,
@@ -74,7 +79,7 @@ describe('side effect tests', () => {
       result: 1,
     },
     result: 1,
-    debug: { batchablePropertyPath: ['key1'] },
+    debug: { batchablePropertyPath: [{ name: 'key1' }] },
   }
   const batchKeyChild1 = '500fb5c94385c85a5998d5870b463cf5041d4403'
 
@@ -87,10 +92,10 @@ describe('side effect tests', () => {
     jobRunID: '2',
     statusCode: 200,
     data: {
-      results: [[{ key1: 'baz', key2: 'bar' }, 2]],
+      results: [[{ data: { key1: 'baz', key2: 'bar' } }, 2]],
     },
     result: 2,
-    debug: { batchablePropertyPath: ['key1'] },
+    debug: { batchablePropertyPath: [{ name: 'key1' }] },
   }
   const batchKeyChild2 = 'e4d4ae76e0deb22ff3a4802acfe4f081ca54825d'
 
@@ -128,6 +133,7 @@ describe('side effect tests', () => {
               childLastSeenById: { [batchKeyChild1]: mockTime },
               key: batchKeyParent,
               result: batchableAdapterResponse1,
+              batchablePropertyPath: batchableAdapterResponse1.debug.batchablePropertyPath
             }),
           })
         })
@@ -164,6 +170,7 @@ describe('side effect tests', () => {
               childLastSeenById: { [batchKeyChild2]: mockTime },
               key: batchKeyParent,
               result: batchableAdapterResponse2,
+              batchablePropertyPath: batchableAdapterResponse2.debug.batchablePropertyPath,
             }),
           })
         })
@@ -400,53 +407,176 @@ describe('side effect tests', () => {
 
   describe('warmup', () => {
     it('should handle warmup requests by executing a function to update the cache', () => {
-      scheduler.run(({ hot, expectObservable }) => {
+      scheduler.run(({ hot }) => {
         const action$ = actionStream(hot, 'a', {
           a: actions.warmupRequested({ key: key1 }),
         })
         const subscriptionState: SubscriptionState[string] = {
-          executeFn: stub().returns(of('external adapter return value')),
+          executeFn: async () => ({
+            jobRunID: '1',
+            statusCode: 200,
+            result: 'external adapter return value',
+            data: {
+              result: 'external adapter return value'
+            }
+          }),
           origin: adapterRequest2,
           startedAt: Date.now(),
           isDuplicate: false,
+          childLastSeenById: {
+            [key2]: 2
+          },
+          batchablePropertyPath: [{ name: "foo" }]
+        }
+        const childState: SubscriptionState[string] = {
+          executeFn: async () => ({
+            jobRunID: '1',
+            statusCode: 200,
+            result: 'external adapter return value',
+            data: {
+              results: 'external adapter return value'
+            }
+          }),
+          origin: adapterRequest2.data,
+          startedAt: Date.now(),
+          isDuplicate: false,
+          batchablePropertyPath: [{ name: "foo" }]
         }
         const state$ = stateStream({
           cacheWarmer: {
-            subscriptions: { [key1]: subscriptionState },
+            subscriptions: { [key1]: subscriptionState, [key2]: childState },
           },
         })
 
         const output$ = warmupRequestHandler(action$, state$, null)
-        expectObservable(output$).toBe('a', {
-          a: actions.warmupFulfilled({ key: key1 }),
-        })
+        output$.subscribe(action => expect(action).toEqual(actions.warmupFulfilled({ key: key1 })))
       })
     })
     it('should handle errors by emitting an error action', () => {
-      scheduler.run(({ hot, expectObservable }) => {
+      scheduler.run(({ hot }) => {
         const action$ = actionStream(hot, 'a', {
           a: actions.warmupRequested({ key: key1 }),
         })
         const err = Error('We havin a bad time')
         const subscriptionState: SubscriptionState[string] = {
-          executeFn: stub().returns(throwError(err)),
+          executeFn: async () => { throw err },
           origin: adapterRequest2,
           startedAt: Date.now(),
           isDuplicate: false,
+          batchablePropertyPath: [{ name: "foo" }],
+          childLastSeenById: {
+            [key2]: 2
+          }
+        }
+        const childState: SubscriptionState[string] = {
+          executeFn: async () => { throw err },
+          origin: adapterRequest2.data,
+          startedAt: Date.now(),
+          isDuplicate: false,
+          batchablePropertyPath: [{ name: "foo" }]
         }
         const state$ = stateStream({
           cacheWarmer: {
-            subscriptions: { [key1]: subscriptionState },
+            subscriptions: { [key1]: subscriptionState, [key2]: childState },
           },
         })
 
         const output$ = warmupRequestHandler(action$, state$, null)
-        expectObservable(output$).toBe('a', {
-          a: actions.warmupFailed({
-            key: key1,
-            error: err,
-          }),
+        output$.subscribe(action => expect(action).toEqual(actions.warmupFailed({
+          key: key1,
+          error: err,
+        })))
+      })
+    })
+    it('should throw an error if the API has a limit and no limit is provided', () => {
+      scheduler.run(({ hot }) => {
+        const action$ = actionStream(hot, 'a', {
+          a: actions.warmupRequested({ key: key1 }),
         })
+        const err = Error('Exceeded batch limit')
+        const limit = batchedAdapterRequest2.key1.length
+        const subscriptionState: SubscriptionState[string] = {
+          executeFn: async (input: AdapterRequest) => { 
+            if (input.data.key1.length >= limit) throw err 
+            return {
+              jobRunID: '1',
+              statusCode: 200,
+              result: 'external adapter return value',
+              data: {
+                results: 'external adapter return value'
+              }
+            }
+          },
+          origin: batchedAdapterRequest2,
+          startedAt: Date.now(),
+          isDuplicate: false,
+          childLastSeenById: {
+            [key2]: 2
+          },
+          batchablePropertyPath: [{ name: "key1" }]
+        }
+        const childState: SubscriptionState[string] = {
+          executeFn: async () => { throw err },
+          origin: adapterRequest2,
+          startedAt: Date.now(),
+          isDuplicate: false,
+          batchablePropertyPath: [{ name: "key1" }]
+        }
+        const state$ = stateStream({
+          cacheWarmer: {
+            subscriptions: { [key1]: subscriptionState, [key2]: childState },
+          },
+        })
+
+        const output$ = warmupRequestHandler(action$, state$, null)
+        output$.subscribe(action => expect(action).toEqual(actions.warmupFailed({
+          key: key1,
+          error: err,
+        })))
+      })
+    })
+    it('should succeed if doing batched requests when there is a limit', () => {
+      scheduler.run(({ hot }) => {
+        const action$ = actionStream(hot, 'a', {
+          a: actions.warmupRequested({ key: key1 }),
+        })
+        const err = Error('Exceeded batch limit')
+        const limit = batchedAdapterRequest2.key1.length
+        const subscriptionState: SubscriptionState[string] = {
+          executeFn: async (input: AdapterRequest) => { 
+            if (input.data.key1.length >= limit) throw err 
+            return {
+              jobRunID: '1',
+              statusCode: 200,
+              result: 'external adapter return value',
+              data: {
+                results: 'external adapter return value'
+              }
+            }
+          },
+          origin: batchedAdapterRequest2,
+          startedAt: Date.now(),
+          isDuplicate: false,
+          childLastSeenById: {
+            [key2]: 2
+          },
+          batchablePropertyPath: [{ name: "key1", limit: 2 }]
+        }
+        const childState: SubscriptionState[string] = {
+          executeFn: async () => { throw err },
+          origin: adapterRequest2,
+          startedAt: Date.now(),
+          isDuplicate: false,
+          batchablePropertyPath: [{ name: "key1", limit: 2 }]
+        }
+        const state$ = stateStream({
+          cacheWarmer: {
+            subscriptions: { [key1]: subscriptionState, [key2]: childState },
+          },
+        })
+
+        const output$ = warmupRequestHandler(action$, state$, null)
+        output$.subscribe(action => expect(action).toEqual(actions.warmupFulfilled({ key: key1 })))
       })
     })
   })

@@ -21,7 +21,14 @@ export function mockCoingeckoResponseSuccess() {
           feedId: 'COMP/USD',
         },
         debug: {
-          batchablePropertyPath: ['base', 'quote'],
+          batchablePropertyPath: [
+            {
+              name: 'base'
+            },
+            {
+              name: 'quote'
+            }
+          ],
         },
       },
       [
@@ -58,7 +65,14 @@ export function mockCoingeckoResponseSuccess() {
           feedId: 'LUNA/USD',
         },
         debug: {
-          batchablePropertyPath: ['base', 'quote'],
+          batchablePropertyPath: [
+            {
+              name: 'base'
+            },
+            {
+              name: 'quote'
+            }
+          ],
         },
       },
       [
@@ -95,7 +109,14 @@ export function mockCoingeckoResponseSuccess() {
           feedId: 'SUSHI/USD',
         },
         debug: {
-          batchablePropertyPath: ['base', 'quote'],
+          batchablePropertyPath: [
+            {
+              name: 'base'
+            },
+            {
+              name: 'quote'
+            }
+          ],
         },
       },
       [
@@ -132,7 +153,14 @@ export function mockCoingeckoResponseSuccess() {
           feedId: 'ZRX/USD',
         },
         debug: {
-          batchablePropertyPath: ['base', 'quote'],
+          batchablePropertyPath: [
+            {
+              name: 'base'
+            },
+            {
+              name: 'quote'
+            }
+          ],
         },
       },
       [
@@ -169,7 +197,14 @@ export function mockCoingeckoResponseSuccess() {
           feedId: 'SNX/USD',
         },
         debug: {
-          batchablePropertyPath: ['base', 'quote'],
+          batchablePropertyPath: [
+            {
+              name: 'base'
+            },
+            {
+              name: 'quote'
+            }
+          ],
         },
       },
       [
@@ -206,7 +241,14 @@ export function mockCoingeckoResponseSuccess() {
           feedId: 'UNI/USD',
         },
         debug: {
-          batchablePropertyPath: ['base', 'quote'],
+          batchablePropertyPath: [
+            {
+              name: 'base'
+            },
+            {
+              name: 'quote'
+            }
+          ],
         },
       },
       [
@@ -243,7 +285,14 @@ export function mockCoingeckoResponseSuccess() {
           feedId: 'ALPHA/USD',
         },
         debug: {
-          batchablePropertyPath: ['base', 'quote'],
+          batchablePropertyPath: [
+            {
+              name: 'base'
+            },
+            {
+              name: 'quote'
+            }
+          ],
         },
       },
       [
@@ -280,7 +329,14 @@ export function mockCoingeckoResponseSuccess() {
           feedId: 'AAVE/USD',
         },
         debug: {
-          batchablePropertyPath: ['base', 'quote'],
+          batchablePropertyPath: [
+            {
+              name: 'base'
+            },
+            {
+              name: 'quote'
+            }
+          ],
         },
       },
       [
@@ -317,7 +373,14 @@ export function mockCoingeckoResponseSuccess() {
           feedId: 'RUNE/USD',
         },
         debug: {
-          batchablePropertyPath: ['base', 'quote'],
+          batchablePropertyPath: [
+            {
+              name: 'base'
+            },
+            {
+              name: 'quote'
+            }
+          ],
         },
       },
       [
@@ -354,7 +417,14 @@ export function mockCoingeckoResponseSuccess() {
           feedId: 'BOND/USD',
         },
         debug: {
-          batchablePropertyPath: ['base', 'quote'],
+          batchablePropertyPath: [
+            {
+              name: 'base'
+            },
+            {
+              name: 'quote'
+            }
+          ],
         },
       },
       [
@@ -391,7 +461,14 @@ export function mockCoingeckoResponseSuccess() {
           feedId: 'UMA/USD',
         },
         debug: {
-          batchablePropertyPath: ['base', 'quote'],
+          batchablePropertyPath: [
+            {
+              name: 'base'
+            },
+            {
+              name: 'quote'
+            }
+          ],
         },
       },
       [
@@ -428,7 +505,14 @@ export function mockCoingeckoResponseSuccess() {
           feedId: 'BAL/USD',
         },
         debug: {
-          batchablePropertyPath: ['base', 'quote'],
+          batchablePropertyPath: [
+            {
+              name: 'base'
+            },
+            {
+              name: 'quote'
+            }
+          ],
         },
       },
       [
@@ -465,7 +549,14 @@ export function mockCoingeckoResponseSuccess() {
           feedId: 'CREAM/USD',
         },
         debug: {
-          batchablePropertyPath: ['base', 'quote'],
+          batchablePropertyPath: [
+            {
+              name: 'base'
+            },
+            {
+              name: 'quote'
+            }
+          ],
         },
       },
       [
@@ -502,7 +593,14 @@ export function mockCoingeckoResponseSuccess() {
           feedId: 'MKR/USD',
         },
         debug: {
-          batchablePropertyPath: ['base', 'quote'],
+          batchablePropertyPath: [
+            {
+              name: 'base'
+            },
+            {
+              name: 'quote'
+            }
+          ],
         },
       },
       [
@@ -539,7 +637,14 @@ export function mockCoingeckoResponseSuccess() {
           feedId: 'BNT/USD',
         },
         debug: {
-          batchablePropertyPath: ['base', 'quote'],
+          batchablePropertyPath: [
+            {
+              name: 'base'
+            },
+            {
+              name: 'quote'
+            }
+          ],
         },
       },
       [
@@ -576,7 +681,14 @@ export function mockCoingeckoResponseSuccess() {
           feedId: 'CRV/USD',
         },
         debug: {
-          batchablePropertyPath: ['base', 'quote'],
+          batchablePropertyPath: [
+            {
+              name: 'base'
+            },
+            {
+              name: 'quote'
+            }
+          ],
         },
       },
       [
@@ -613,7 +725,14 @@ export function mockCoingeckoResponseSuccess() {
           feedId: '1INCH/USD',
         },
         debug: {
-          batchablePropertyPath: ['base', 'quote'],
+          batchablePropertyPath: [
+            {
+              name: 'base'
+            },
+            {
+              name: 'quote'
+            }
+          ],
         },
       },
       [
@@ -650,7 +769,14 @@ export function mockCoingeckoResponseSuccess() {
           feedId: 'REN/USD',
         },
         debug: {
-          batchablePropertyPath: ['base', 'quote'],
+          batchablePropertyPath: [
+            {
+              name: 'base'
+            },
+            {
+              name: 'quote'
+            }
+          ],
         },
       },
       [
@@ -687,7 +813,14 @@ export function mockCoingeckoResponseSuccess() {
           feedId: 'KNC/USD',
         },
         debug: {
-          batchablePropertyPath: ['base', 'quote'],
+          batchablePropertyPath: [
+            {
+              name: 'base'
+            },
+            {
+              name: 'quote'
+            }
+          ],
         },
       },
       [
@@ -724,7 +857,14 @@ export function mockCoingeckoResponseSuccess() {
           feedId: 'YFI/USD',
         },
         debug: {
-          batchablePropertyPath: ['base', 'quote'],
+          batchablePropertyPath: [
+            {
+              name: 'base'
+            },
+            {
+              name: 'quote'
+            }
+          ],
         },
       },
       [
