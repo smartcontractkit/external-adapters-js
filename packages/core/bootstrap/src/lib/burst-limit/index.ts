@@ -33,8 +33,7 @@ const availableSecondLimitCapacity = async (
         `Per Second Burst rate limit cap of ${burstCapacity1s} reached. ${observedRequestsInSecond} requests sent in the last minute. Waiting 1 second. Retry number: ${retry}`,
       )
       await delay(1000)
-    }
-    return true
+    } else return true
   }
   return false
 }
