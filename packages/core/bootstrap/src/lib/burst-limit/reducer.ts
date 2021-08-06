@@ -3,12 +3,12 @@ import { makeId } from '../rate-limit'
 import * as actions from './actions'
 
 export enum IntervalNames {
-  // SECOND = 'SECOND',
+  SECOND = 'SECOND',
   MINUTE = 'MINUTE',
 }
 
 export const Intervals: { [key: string]: number } = {
-  // [IntervalNames.SECOND]: 1000,
+  [IntervalNames.SECOND]: 1000,
   [IntervalNames.MINUTE]: 60 * 1000,
 }
 
@@ -32,11 +32,11 @@ export interface RequestsState {
 
 export const initialRequestsState: RequestsState = {
   total: {
-    // SECOND: 0,
+    SECOND: 0,
     MINUTE: 0,
   },
   participants: {
-    // SECOND: [],
+    SECOND: [],
     MINUTE: [],
   },
 }
@@ -47,10 +47,7 @@ export const requestReducer = createReducer<RequestsState>(initialRequestsState,
       id: makeId(action.payload.input),
       t: Date.now(),
     }
-    const storedIntervals = [
-      // IntervalNames.SECOND,
-      IntervalNames.MINUTE,
-    ]
+    const storedIntervals = [IntervalNames.SECOND, IntervalNames.MINUTE]
 
     for (const intervalName of storedIntervals) {
       // remove all requests that are older than the current interval
