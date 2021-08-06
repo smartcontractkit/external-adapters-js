@@ -94,51 +94,49 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
       config.verbose,
     )
 
-  const _tryMethod = (fn: NetworkHealthCheck) => async (
-    network: Networks,
-    delta: number,
-    deltaBlocks: number,
-  ): Promise<boolean> => {
-    try {
-      const isHealthy = await fn(network, delta, deltaBlocks)
-      if (isHealthy === false) {
-        Logger.warn(
-          `Method ${fn.name} reported an unhealthy response. Network ${network} considered unhealthy`,
+  const _tryMethod =
+    (fn: NetworkHealthCheck) =>
+    async (network: Networks, delta: number, deltaBlocks: number): Promise<boolean> => {
+      try {
+        const isHealthy = await fn(network, delta, deltaBlocks)
+        if (isHealthy === false) {
+          Logger.warn(
+            `Method ${fn.name} reported an unhealthy response. Network ${network} considered unhealthy`,
+          )
+          return false
+        }
+      } catch (e) {
+        Logger.error(
+          `Method ${fn.name} failed: ${e.message}. Network ${network} considered unhealthy`,
         )
         return false
       }
-    } catch (e) {
-      Logger.error(
-        `Method ${fn.name} failed: ${e.message}. Network ${network} considered unhealthy`,
-      )
-      return false
+      return true
     }
-    return true
-  }
 
   // #1 Option: Direct check on health endpoint
   // #2 Option: Check block height
   // #3 Option: Check L1 Rollup Contract
   // If every method succeeds, the Network is considered healthy
+  // If any method fails, an empty tx is sent. This determines the final state
   const wrappedMethods = [getSequencerHealth, getL2NetworkStatus, getL1RollupStatus].map(_tryMethod)
   for (let i = 0; i < wrappedMethods.length; i++) {
     const method = wrappedMethods[i]
     const isHealthy = await method(network, config.delta, config.deltaBlocks)
     if (!isHealthy) {
-      // TODO: Decide if getStatusByTransaction should determine the final state
       Logger.info(`Checking unhealthy network ${network} with transaction submission`)
-      const isHealthyByTransaction = await getStatusByTransaction(
-        network,
-        config.timeoutLimit,
-      )
+      const isHealthyByTransaction = await getStatusByTransaction(network, config.timeoutLimit)
       if (isHealthyByTransaction) {
         Logger.info(
           `Transaction submission check succeeded. Network ${network} can be considered healthy`,
         )
+        return _respond(true)
       }
       return _respond(false)
     }
   }
+
+  // Every method succeded. Network is healthy
   return _respond(true)
 }
 
