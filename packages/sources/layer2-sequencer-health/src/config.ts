@@ -8,7 +8,7 @@ export const DEFAULT_DELTA_TIME = 2 * 60 * 1000
 // Blocks that replica nodes can fall behind
 export const DEFAULT_DELTA_BLOCKS = 6
 // milliseconds to consider a timeout transaction (10 secs)
-export const DEFAULT_TIMEOUT_LIMIT = 10 * 1000
+export const DEFAULT_TIMEOUT_LIMIT = 5 * 1000
 
 export enum Networks {
   Arbitrum = 'arbitrum',
