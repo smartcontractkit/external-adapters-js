@@ -198,7 +198,9 @@ export const hash = (
   data: AdapterRequest,
   hashOptions: Required<Parameters<typeof objectHash>>['1'],
   mode: HashMode = "include"
-) => mode === "include" ? objectHash(getKeyData(data), hashOptions) : objectHash(data, getHashOpts())
+) => {
+  return mode === "include" || !data ? objectHash(getKeyData(data), hashOptions) : objectHash(data, getHashOpts())
+}
 
 export const getHashOpts = (): Required<Parameters<typeof objectHash>>['1'] => ({
   algorithm: 'sha1',
