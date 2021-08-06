@@ -35,7 +35,7 @@ const customParams = {
   units: false,
 }
 
-export const execute: ExecuteWithConfig<Config> = async (input, config) => {
+export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
 
@@ -58,7 +58,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   const queryBuilder = new QueryBuilder(geoJson, dateFrom, dateTo, method, column, config.dataset)
 
   const bigQuery = BigQuery.makeExecute(BigQuery.makeConfig())
-  const response = await bigQuery({ id: jobRunID, data: queryBuilder.toQuery() })
+  const response = await bigQuery({ id: jobRunID, data: queryBuilder.toQuery() }, context)
   const imperialValue = Requester.validateResultNumber(response.result, [0, "result"])
   const result = convertUnits(column, imperialValue, units)
   return Requester.success(jobRunID, { data: { result } })
@@ -92,7 +92,7 @@ const convertUnits = (column: string, value: number, units: string): number => {
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {
-  return async (request) => execute(request, config || makeConfig())
+  return async (request, context) => execute(request, context, config || makeConfig())
 }
 
 type Method = 'SUM' | 'AVG' | 'MIN' | 'MAX'
