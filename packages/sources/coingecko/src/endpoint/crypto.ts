@@ -6,27 +6,28 @@ import {
   AdapterRequest,
   EndpointResultPaths,
   InputParameters,
+  MakeResultPath,
 } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 import { getCoinIds, getSymbolsToIds } from '../util'
 
 export const supportedEndpoints = ['crypto', 'price', 'marketcap']
-export const batchablePropertyPath = [{ name: 'base' }, { name: 'quote', limit: 1 }]
+export const batchablePropertyPath = [{ name: 'base' }, { name: 'quote' }]
 
 const customError = (data: any) => {
   if (Object.keys(data).length === 0) return true
   return false
 }
 
-const buildResultPath = (path: string) => (request: AdapterRequest): string => {
-  const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
-  const quote = validator.validated.data.quote
-  if (Array.isArray(quote)) {
-    return `${quote[0].toLowerCase()}${path}`
+const buildResultPath =
+  (path: string): MakeResultPath =>
+  (request) => {
+    const validator = new Validator(request, inputParameters)
+    if (validator.error) throw validator.error
+    const quote = validator.validated.data.quote
+    if (Array.isArray(quote)) return ''
+    return `${quote.toLowerCase()}${path}`
   }
-  return `${quote.toLowerCase()}${path}`
-}
 
 export const endpointResultPaths: EndpointResultPaths = {
   price: buildResultPath(''),
@@ -46,7 +47,7 @@ const handleBatchedRequest = (
   jobRunID: string,
   request: AdapterRequest,
   response: AxiosResponse,
-  resultPath: string,
+  endpoint: string,
   idToSymbol: Record<string, string>,
 ) => {
   const payload: [AdapterRequest, number][] = []
@@ -54,12 +55,16 @@ const handleBatchedRequest = (
     for (const quote in response.data[base]) {
       const symbol = idToSymbol?.[base]
       if (symbol) {
+        const individualRequest = {
+          ...request,
+          data: { ...request.data, base: symbol.toUpperCase(), quote: quote.toUpperCase() },
+        }
         payload.push([
-          {
-            ...request,
-            data: { ...request.data, base: symbol.toUpperCase(), quote: quote.toUpperCase() },
-          },
-          Requester.validateResultNumber(response.data, [base, resultPath]),
+          individualRequest,
+          Requester.validateResultNumber(response.data, [
+            base,
+            (endpointResultPaths[endpoint] as MakeResultPath)(individualRequest),
+          ]),
         ])
       } else Logger.debug('WARNING: Symbol not found ', base)
     }
@@ -105,7 +110,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
   const response = await Requester.request(options, customError)
 
   if (Array.isArray(base) || Array.isArray(quote))
-    return handleBatchedRequest(jobRunID, request, response, resultPath, idToSymbol)
+    return handleBatchedRequest(jobRunID, request, response, endpoint, idToSymbol)
 
   response.data.result = Requester.validateResultNumber(response.data, [
     ids.toLowerCase(),
