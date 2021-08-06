@@ -55,10 +55,10 @@ export const getStatusByTransaction = async (
   const wallet = new ethers.Wallet(ethers.Wallet.createRandom()?.privateKey, provider)
 
   // These errors come from the Sequencer when submitting an empty transaction
-  const sequencerOnlineErrors = {
-    [Networks.Arbitrum]: 'gas price too low',
+  const sequencerOnlineErrors: Record<Networks, string[]> = {
+    [Networks.Arbitrum]: ['gas price too low', 'forbidden sender address'],
     // TODO: Optimism error needs to be confirmed by their team
-    [Networks.Optimism]: ''
+    [Networks.Optimism]: [''],
   }
 
   const networkTx: Record<Networks, ethers.providers.TransactionRequest> = {
@@ -99,7 +99,7 @@ export const getStatusByTransaction = async (
     Logger.info(`Transaction receipt received with hash ${receipt.hash} for network: ${network}`)
     return (await receipt.wait()).confirmations > 0
   } catch (e) {
-    if (_getErrorMessage(e) === sequencerOnlineErrors[network]) {
+    if (sequencerOnlineErrors[network].includes(_getErrorMessage(e))) {
       Logger.info(`Transaction submission failed with an expected error: ${_getErrorMessage(e)}`)
       return true
     }
