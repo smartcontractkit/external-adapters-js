@@ -193,10 +193,12 @@ export const includableAdapterRequestProperties: string[] = ['data'].concat(
 export const getKeyData = (data: AdapterRequest) =>
   omit(pick(data, includableAdapterRequestProperties), 'data.resultPath')
 
+export type HashMode = "include" | "exclude"
 export const hash = (
   data: AdapterRequest,
   hashOptions: Required<Parameters<typeof objectHash>>['1'],
-) => objectHash(getKeyData(data), hashOptions)
+  mode: HashMode = "include"
+) => mode === "include" ? objectHash(getKeyData(data), hashOptions) : objectHash(data, getHashOpts())
 
 export const getHashOpts = (): Required<Parameters<typeof objectHash>>['1'] => ({
   algorithm: 'sha1',
