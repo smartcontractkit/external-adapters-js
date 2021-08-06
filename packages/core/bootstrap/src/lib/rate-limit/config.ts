@@ -1,4 +1,4 @@
-import { getRateLimit, getBurstLimit } from '../provider-limits'
+import { getRateLimit, getHTTPLimit } from '../provider-limits'
 import { getEnv, parseBool } from '../util'
 import { logger } from '../external-adapter'
 import { AdapterContext } from '@chainlink/types'
@@ -8,8 +8,9 @@ export interface Config {
    * The time to live on a subscription, if no new requests come in that do not
    * originate from the warm up engine itself
    */
+  burstCapacity1s: number
+  burstCapacity1m: number
   totalCapacity: number
-  burstCapacity: number
 
   /**
    * Determines if Rate Limit option is activated
@@ -30,19 +31,27 @@ export function get(context: AdapterContext): Config {
       logger.error(e.message)
     }
   }
-  let burstCapacity = 0
+  let burstCapacity1s = 0
+  let burstCapacity1m = 0
   if (enabled) {
     const provider = getEnv('RATE_LIMIT_API_PROVIDER') || context.name?.toLowerCase() || ''
     const tier = getEnv('RATE_LIMIT_API_TIER') || ''
     try {
-      const providerConfig = getBurstLimit(provider, tier)
-      burstCapacity = Number(providerConfig)
+      const limit = getHTTPLimit(provider, tier, 'rateLimit1s')
+      burstCapacity1s = Number(limit)
+    } catch {
+      // Ignore
+    }
+    try {
+      const limit = getHTTPLimit(provider, tier, 'rateLimit1m')
+      burstCapacity1m = Number(limit)
     } catch {
       // Ignore
     }
   }
   return {
-    burstCapacity,
+    burstCapacity1s,
+    burstCapacity1m,
     totalCapacity: capacity,
     enabled: enabled && !!capacity,
   }
