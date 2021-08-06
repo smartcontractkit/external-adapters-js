@@ -7,10 +7,10 @@ export const BURST_UNDEFINED_QUOTA_MULTIPLE = 2
 export const DEFAULT_WS_CONNECTIONS = 2
 export const DEFAULT_WS_SUBSCRIPTIONS = 10
 
+type RateLimitTimeFrame = 'rateLimit1s' | 'rateLimit1m' | 'rateLimit1h'
+
 type HTTPTier = {
-  rateLimit1s?: number
-  rateLimit1m?: number
-  rateLimit1h?: number
+  [key in RateLimitTimeFrame]: number
 }
 
 type WSTier = {
@@ -34,9 +34,13 @@ interface ProviderRateLimit {
   minute: number
 }
 
-export const getBurstLimit = (provider: string, tier: string): number => {
+export const getHTTPLimit = (
+  provider: string,
+  tier: string,
+  timeframe: RateLimitTimeFrame,
+): number => {
   const providerLimit = getProviderLimits(provider, tier, 'http')
-  return (providerLimit as HTTPTier)?.rateLimit1m || 0
+  return (providerLimit as HTTPTier)?.[timeframe] || 0
 }
 
 export const getRateLimit = (provider: string, tier: string): ProviderRateLimit => {
