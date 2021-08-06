@@ -4358,10 +4358,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@chainlink/google-weather-adapter", "workspace:packages/composites/google-weather"],
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/google-bigquery-adapter", "workspace:packages/sources/google-bigquery"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/convert-units", "npm:2.3.4"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
+            ["convert-units", "npm:2.3.4"],
+            ["geojson-validation", "npm:1.0.2"],
             ["tslib", "npm:2.3.0"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
@@ -8963,6 +8967,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["@types/convert-units", [
+        ["npm:2.3.4", {
+          "packageLocation": "./.yarn/cache/@types-convert-units-npm-2.3.4-4bbc4bfd7c-33fd534eb2.zip/node_modules/@types/convert-units/",
+          "packageDependencies": [
+            ["@types/convert-units", "npm:2.3.4"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["@types/cookiejar", [
         ["npm:2.1.2", {
           "packageLocation": "./.yarn/cache/@types-cookiejar-npm-2.1.2-2588120a7c-f6e1903454.zip/node_modules/@types/cookiejar/",
@@ -13197,6 +13210,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["convert-units", [
+        ["npm:2.3.4", {
+          "packageLocation": "./.yarn/cache/convert-units-npm-2.3.4-db3b774ef1-a693b04347.zip/node_modules/convert-units/",
+          "packageDependencies": [
+            ["convert-units", "npm:2.3.4"],
+            ["lodash.foreach", "npm:2.3.0"],
+            ["lodash.keys", "npm:2.3.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["cookie", [
         ["npm:0.4.0", {
           "packageLocation": "./.yarn/cache/cookie-npm-0.4.0-4b3d629e45-760384ba0a.zip/node_modules/cookie/",
@@ -16478,6 +16502,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/gensync-npm-1.0.0-beta.2-224666d72f-a7437e58c6.zip/node_modules/gensync/",
           "packageDependencies": [
             ["gensync", "npm:1.0.0-beta.2"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["geojson-validation", [
+        ["npm:1.0.2", {
+          "packageLocation": "./.yarn/cache/geojson-validation-npm-1.0.2-fbd63f1c54-cb924cda14.zip/node_modules/geojson-validation/",
+          "packageDependencies": [
+            ["geojson-validation", "npm:1.0.2"]
           ],
           "linkType": "HARD",
         }]
@@ -19975,11 +20008,133 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["lodash._basebind", [
+        ["npm:2.3.0", {
+          "packageLocation": "./.yarn/cache/lodash._basebind-npm-2.3.0-f44f098246-cb5d8645e7.zip/node_modules/lodash._basebind/",
+          "packageDependencies": [
+            ["lodash._basebind", "npm:2.3.0"],
+            ["lodash._basecreate", "npm:2.3.0"],
+            ["lodash._setbinddata", "npm:2.3.0"],
+            ["lodash.isobject", "npm:2.3.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["lodash._basecreate", [
+        ["npm:2.3.0", {
+          "packageLocation": "./.yarn/cache/lodash._basecreate-npm-2.3.0-c439798d44-b427e1d997.zip/node_modules/lodash._basecreate/",
+          "packageDependencies": [
+            ["lodash._basecreate", "npm:2.3.0"],
+            ["lodash._renative", "npm:2.3.0"],
+            ["lodash.isobject", "npm:2.3.0"],
+            ["lodash.noop", "npm:2.3.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["lodash._basecreatecallback", [
+        ["npm:2.3.0", {
+          "packageLocation": "./.yarn/cache/lodash._basecreatecallback-npm-2.3.0-ecd76f4089-4ab2efcdf2.zip/node_modules/lodash._basecreatecallback/",
+          "packageDependencies": [
+            ["lodash._basecreatecallback", "npm:2.3.0"],
+            ["lodash._setbinddata", "npm:2.3.0"],
+            ["lodash.bind", "npm:2.3.0"],
+            ["lodash.identity", "npm:2.3.0"],
+            ["lodash.support", "npm:2.3.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["lodash._basecreatewrapper", [
+        ["npm:2.3.0", {
+          "packageLocation": "./.yarn/cache/lodash._basecreatewrapper-npm-2.3.0-ab02b34ae5-f12254230f.zip/node_modules/lodash._basecreatewrapper/",
+          "packageDependencies": [
+            ["lodash._basecreatewrapper", "npm:2.3.0"],
+            ["lodash._basecreate", "npm:2.3.0"],
+            ["lodash._setbinddata", "npm:2.3.0"],
+            ["lodash._slice", "npm:2.3.0"],
+            ["lodash.isobject", "npm:2.3.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["lodash._createwrapper", [
+        ["npm:2.3.0", {
+          "packageLocation": "./.yarn/cache/lodash._createwrapper-npm-2.3.0-507ae85382-25fdc5323c.zip/node_modules/lodash._createwrapper/",
+          "packageDependencies": [
+            ["lodash._createwrapper", "npm:2.3.0"],
+            ["lodash._basebind", "npm:2.3.0"],
+            ["lodash._basecreatewrapper", "npm:2.3.0"],
+            ["lodash.isfunction", "npm:2.3.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["lodash._objecttypes", [
+        ["npm:2.3.0", {
+          "packageLocation": "./.yarn/cache/lodash._objecttypes-npm-2.3.0-bc93ce1837-8b28eb74aa.zip/node_modules/lodash._objecttypes/",
+          "packageDependencies": [
+            ["lodash._objecttypes", "npm:2.3.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["lodash._renative", [
+        ["npm:2.3.0", {
+          "packageLocation": "./.yarn/cache/lodash._renative-npm-2.3.0-4214a06d68-6ec62af6af.zip/node_modules/lodash._renative/",
+          "packageDependencies": [
+            ["lodash._renative", "npm:2.3.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["lodash._setbinddata", [
+        ["npm:2.3.0", {
+          "packageLocation": "./.yarn/cache/lodash._setbinddata-npm-2.3.0-3ad1a37783-11c61e915c.zip/node_modules/lodash._setbinddata/",
+          "packageDependencies": [
+            ["lodash._setbinddata", "npm:2.3.0"],
+            ["lodash._renative", "npm:2.3.0"],
+            ["lodash.noop", "npm:2.3.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["lodash._shimkeys", [
+        ["npm:2.3.0", {
+          "packageLocation": "./.yarn/cache/lodash._shimkeys-npm-2.3.0-802af09836-0e752f88fc.zip/node_modules/lodash._shimkeys/",
+          "packageDependencies": [
+            ["lodash._shimkeys", "npm:2.3.0"],
+            ["lodash._objecttypes", "npm:2.3.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["lodash._slice", [
+        ["npm:2.3.0", {
+          "packageLocation": "./.yarn/cache/lodash._slice-npm-2.3.0-528acddb8f-00102f49e5.zip/node_modules/lodash._slice/",
+          "packageDependencies": [
+            ["lodash._slice", "npm:2.3.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["lodash.assign", [
         ["npm:4.2.0", {
           "packageLocation": "./.yarn/cache/lodash.assign-npm-4.2.0-18b16126b9-75bbc6733c.zip/node_modules/lodash.assign/",
           "packageDependencies": [
             ["lodash.assign", "npm:4.2.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["lodash.bind", [
+        ["npm:2.3.0", {
+          "packageLocation": "./.yarn/cache/lodash.bind-npm-2.3.0-fe13203b67-d30befce8d.zip/node_modules/lodash.bind/",
+          "packageDependencies": [
+            ["lodash.bind", "npm:2.3.0"],
+            ["lodash._createwrapper", "npm:2.3.0"],
+            ["lodash._renative", "npm:2.3.0"],
+            ["lodash._slice", "npm:2.3.0"]
           ],
           "linkType": "HARD",
         }]
@@ -20029,11 +20184,43 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["lodash.foreach", [
+        ["npm:2.3.0", {
+          "packageLocation": "./.yarn/cache/lodash.foreach-npm-2.3.0-c4ea6f9548-ab3a461278.zip/node_modules/lodash.foreach/",
+          "packageDependencies": [
+            ["lodash.foreach", "npm:2.3.0"],
+            ["lodash._basecreatecallback", "npm:2.3.0"],
+            ["lodash.forown", "npm:2.3.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["lodash.forown", [
+        ["npm:2.3.0", {
+          "packageLocation": "./.yarn/cache/lodash.forown-npm-2.3.0-e6fd776ba3-7b8836594d.zip/node_modules/lodash.forown/",
+          "packageDependencies": [
+            ["lodash.forown", "npm:2.3.0"],
+            ["lodash._basecreatecallback", "npm:2.3.0"],
+            ["lodash._objecttypes", "npm:2.3.0"],
+            ["lodash.keys", "npm:2.3.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["lodash.get", [
         ["npm:4.4.2", {
           "packageLocation": "./.yarn/cache/lodash.get-npm-4.4.2-7bda64ed87-e403047ddb.zip/node_modules/lodash.get/",
           "packageDependencies": [
             ["lodash.get", "npm:4.4.2"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["lodash.identity", [
+        ["npm:2.3.0", {
+          "packageLocation": "./.yarn/cache/lodash.identity-npm-2.3.0-4492fa0b77-cc22abfbe2.zip/node_modules/lodash.identity/",
+          "packageDependencies": [
+            ["lodash.identity", "npm:2.3.0"]
           ],
           "linkType": "HARD",
         }]
@@ -20047,11 +20234,30 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["lodash.isfunction", [
+        ["npm:2.3.0", {
+          "packageLocation": "./.yarn/cache/lodash.isfunction-npm-2.3.0-6e47b88888-ffaf5c3b28.zip/node_modules/lodash.isfunction/",
+          "packageDependencies": [
+            ["lodash.isfunction", "npm:2.3.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["lodash.ismatch", [
         ["npm:4.4.0", {
           "packageLocation": "./.yarn/cache/lodash.ismatch-npm-4.4.0-e538fd6c3d-a393917578.zip/node_modules/lodash.ismatch/",
           "packageDependencies": [
             ["lodash.ismatch", "npm:4.4.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["lodash.isobject", [
+        ["npm:2.3.0", {
+          "packageLocation": "./.yarn/cache/lodash.isobject-npm-2.3.0-d8c0468fb5-184829dd13.zip/node_modules/lodash.isobject/",
+          "packageDependencies": [
+            ["lodash.isobject", "npm:2.3.0"],
+            ["lodash._objecttypes", "npm:2.3.0"]
           ],
           "linkType": "HARD",
         }]
@@ -20070,6 +20276,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/lodash.isstring-npm-4.0.1-721fee791c-eaac87ae96.zip/node_modules/lodash.isstring/",
           "packageDependencies": [
             ["lodash.isstring", "npm:4.0.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["lodash.keys", [
+        ["npm:2.3.0", {
+          "packageLocation": "./.yarn/cache/lodash.keys-npm-2.3.0-0d0e526d05-26d74c9569.zip/node_modules/lodash.keys/",
+          "packageDependencies": [
+            ["lodash.keys", "npm:2.3.0"],
+            ["lodash._renative", "npm:2.3.0"],
+            ["lodash._shimkeys", "npm:2.3.0"],
+            ["lodash.isobject", "npm:2.3.0"]
           ],
           "linkType": "HARD",
         }]
@@ -20097,6 +20315,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/lodash.mergewith-npm-4.6.2-7d2d4201ec-a6db2a9339.zip/node_modules/lodash.mergewith/",
           "packageDependencies": [
             ["lodash.mergewith", "npm:4.6.2"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["lodash.noop", [
+        ["npm:2.3.0", {
+          "packageLocation": "./.yarn/cache/lodash.noop-npm-2.3.0-422c0b058e-5399fb5f75.zip/node_modules/lodash.noop/",
+          "packageDependencies": [
+            ["lodash.noop", "npm:2.3.0"]
           ],
           "linkType": "HARD",
         }]
@@ -20133,6 +20360,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/lodash.sum-npm-4.0.2-f054e0f5dd-b33518c8bd.zip/node_modules/lodash.sum/",
           "packageDependencies": [
             ["lodash.sum", "npm:4.0.2"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["lodash.support", [
+        ["npm:2.3.0", {
+          "packageLocation": "./.yarn/cache/lodash.support-npm-2.3.0-ee835d2681-ae235a4da6.zip/node_modules/lodash.support/",
+          "packageDependencies": [
+            ["lodash.support", "npm:2.3.0"],
+            ["lodash._renative", "npm:2.3.0"]
           ],
           "linkType": "HARD",
         }]
