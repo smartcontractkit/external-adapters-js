@@ -145,13 +145,13 @@ class QueryBuilder {
   }
 
   private from() {
-    const diff = this.dateTo.getFullYear() - this.dateFrom.getFullYear()
+    const diff = this.dateTo.getUTCFullYear() - this.dateFrom.getUTCFullYear()
     if (diff === 0) {
-      return `SELECT \`stn\`, \`${this.column}\`, \`date\` FROM \`${this.dataset}.gsod${this.dateTo.getFullYear()}\``
+      return `SELECT \`stn\`, \`${this.column}\`, \`date\` FROM \`${this.dataset}.gsod${this.dateTo.getUTCFullYear()}\``
     }
 
     const years = new Array(diff + 1).fill(0)
-      .map((_, i) => `SELECT \`stn\`, \`${this.column}\`, \`date\` FROM \`${this.dataset}.gsod${this.dateTo.getFullYear()-i}\``)
+      .map((_, i) => `SELECT \`stn\`, \`${this.column}\`, \`date\` FROM \`${this.dataset}.gsod${this.dateTo.getUTCFullYear()-i}\``)
 
     return years.join('\nUNION ALL\n')
   }
@@ -189,10 +189,9 @@ class QueryBuilder {
   }
 
   private static formatDate(date: Date): string {
-    const d = new Date(date)
-    const year = d.getFullYear()
-    let month = '' + (d.getMonth() + 1)
-    let day = '' + d.getDate()
+    const year = date.getUTCFullYear()
+    let month = '' + (date.getUTCMonth() + 1)
+    let day = '' + date.getUTCDate()
 
     if (month.length < 2)
       month = '0' + month
