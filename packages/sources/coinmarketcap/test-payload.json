@@ -2,9 +2,6 @@
 "requests": [{
         "from": "SUSHI",
         "to": "ETH"
-    },
-    {
-        "from":"SUSHI"
     }]
 }
 
