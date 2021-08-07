@@ -158,7 +158,9 @@ export const warmupSubscriber: Epic<AnyAction, AnyAction, any, EpicDependencies>
     // on a subscribe action being dispatched, spin up a long lived interval if one doesnt exist yet
     mergeMap(([{ payload, key }]) => {
       const TTL = getTTL(payload)
-      return timer(TTL, TTL).pipe(
+      const offset = Math.min(TTL, 1000)
+      const pollInterval = TTL - offset
+      return timer(pollInterval, pollInterval).pipe(
         mapTo(warmupRequested({ key })),
         // unsubscribe our warmup algo when a matching unsubscribe comes in
         takeUntil(
