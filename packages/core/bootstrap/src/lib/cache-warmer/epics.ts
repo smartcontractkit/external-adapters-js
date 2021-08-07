@@ -191,29 +191,34 @@ export const warmupRequestHandler: Epic<AnyAction, AnyAction, any> = (action$, s
     // make the request
     mergeMap(({ requestData, key }) =>
       from(
-        (async () => {
-          const batches = splitIntoBatches(requestData)
-          const requests = []
-          for (const batch of Object.values(batches)) {
-            const data = {
-              ...requestData.origin,
-              ...batch,
-              maxAge: -1,
-            }
-            requests.push(
-              requestData.executeFn({
-                id: requestData.childLastSeenById ? WARMUP_BATCH_REQUEST_ID : WARMUP_REQUEST_ID,
-                data,
-              }),
-            )
-          }
-          const responses = await Promise.all(requests)
-          let result = null
-          for (const resp of responses) {
-            result = concatenateBatchResults(result, resp)
-          }
-          return result
-        })(),
+        requestData.batchablePropertyPath
+          ? (async () => {
+              const batches = splitIntoBatches(requestData)
+              const requests = []
+              for (const batch of Object.values(batches)) {
+                const data = {
+                  ...requestData.origin,
+                  ...batch,
+                  maxAge: -1,
+                }
+                requests.push(() =>
+                  requestData.executeFn({
+                    id: requestData.childLastSeenById ? WARMUP_BATCH_REQUEST_ID : WARMUP_REQUEST_ID,
+                    data,
+                  }),
+                )
+              }
+              const responses = await Promise.all(requests)
+              let result = null
+              for (const resp of responses) {
+                result = concatenateBatchResults(result, resp)
+              }
+              return result
+            })()
+          : requestData.executeFn({
+              id: requestData.childLastSeenById ? WARMUP_BATCH_REQUEST_ID : WARMUP_REQUEST_ID,
+              data: { ...requestData.origin, maxAge: -1 },
+            }),
       ).pipe(
         mapTo(warmupFulfilled({ key })),
         catchError((error: unknown) => of(warmupFailed({ error: error as Error, key }))),
