@@ -1,7 +1,7 @@
 // Declare missing type definitions
 declare module '@chainlink/types' {
   import type { Cache, RateLimit } from '@chainlink/ea-bootstrap'
-  import { cacheWarmer } from "@chainlink/ea-bootstrap"
+  import { cacheWarmer } from '@chainlink/ea-bootstrap'
 
   export interface AdapterContext {
     name?: string
@@ -23,6 +23,7 @@ declare module '@chainlink/types' {
 
   export type AdapterDebug = {
     ws?: boolean
+    warmer?: boolean
     cacheHit?: boolean
     staleness?: number
     performance?: number

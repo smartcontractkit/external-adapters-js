@@ -106,7 +106,7 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
         // If incoming batchable request parameters aren't an array, transform into one
         let batchWarmerData = {
           ...payload.data,
-          resultPath: undefined
+          resultPath: undefined,
         }
         for (const { name } of batchablePropertyPath || []) {
           if (!Array.isArray(batchWarmerData[name]))
@@ -115,14 +115,14 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
               [name]: [batchWarmerData[name]],
             }
         }
-        
+
         actionsToDispatch.push(
           warmupSubscribed({
             ...payload,
             data: batchWarmerData,
             key: batchWarmerSubscriptionKey,
             childLastSeenById,
-            batchablePropertyPath
+            batchablePropertyPath,
           }),
         )
       }
@@ -156,8 +156,11 @@ export const warmupSubscriber: Epic<AnyAction, AnyAction, any, EpicDependencies>
       return !state.cacheWarmer.subscriptions[key]?.isDuplicate
     }),
     // on a subscribe action being dispatched, spin up a long lived interval if one doesnt exist yet
-    mergeMap(([{ payload, key }]) =>
-      timer(0, getTTL(payload)).pipe(
+    mergeMap(([{ payload, key }]) => {
+      const TTL = getTTL(payload)
+      const offset = Math.min(TTL, 1000)
+      const pollInterval = TTL - offset
+      return timer(pollInterval, pollInterval).pipe(
         mapTo(warmupRequested({ key })),
         // unsubscribe our warmup algo when a matching unsubscribe comes in
         takeUntil(
@@ -166,8 +169,8 @@ export const warmupSubscriber: Epic<AnyAction, AnyAction, any, EpicDependencies>
             filter((a) => a.payload.key === key),
           ),
         ),
-      ),
-    ),
+      )
+    }),
   )
 
 /**
@@ -183,34 +186,42 @@ export const warmupRequestHandler: Epic<AnyAction, AnyAction, any> = (action$, s
       return {
         requestData: state.cacheWarmer.subscriptions[action.payload.key],
         key: action.payload.key,
-        subscriptions: state.cacheWarmer.subscriptions 
+        subscriptions: state.cacheWarmer.subscriptions,
       }
     }),
     filter(({ requestData }) => !!requestData),
     // make the request
     mergeMap(({ requestData, key }) =>
       from(
-        (async () => {
-          const batches = splitIntoBatches(requestData)
-          const requests = []
-          for (const batch of Object.values(batches)) {
-            const data = {
-              ...requestData.origin,
-              ...batch,
-              maxAge: -1
-            }
-            requests.push(requestData.executeFn({
+        requestData.batchablePropertyPath
+          ? (async () => {
+              const batches = splitIntoBatches(requestData)
+              const requests = []
+              for (const batch of Object.values(batches)) {
+                const data = {
+                  ...requestData.origin,
+                  ...batch,
+                }
+                requests.push(
+                  requestData.executeFn({
+                    id: requestData.childLastSeenById ? WARMUP_BATCH_REQUEST_ID : WARMUP_REQUEST_ID,
+                    data,
+                    debug: { warmer: true },
+                  }),
+                )
+              }
+              const responses = await Promise.all(requests)
+              let result = null
+              for (const resp of responses) {
+                result = concatenateBatchResults(result, resp)
+              }
+              return result
+            })()
+          : requestData.executeFn({
               id: requestData.childLastSeenById ? WARMUP_BATCH_REQUEST_ID : WARMUP_REQUEST_ID,
-              data,
-            }))
-          }
-          const responses = await Promise.all(requests)
-          let result = null 
-          for (const resp of responses) {
-            result = concatenateBatchResults(result, resp)
-          }
-          return result
-        })(),
+              data: { ...requestData.origin },
+              debug: { warmer: true },
+            }),
       ).pipe(
         mapTo(warmupFulfilled({ key })),
         catchError((error: unknown) => of(warmupFailed({ error: error as Error, key }))),
