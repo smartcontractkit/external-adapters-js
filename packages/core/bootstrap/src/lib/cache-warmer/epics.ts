@@ -202,7 +202,7 @@ export const warmupRequestHandler: Epic<AnyAction, AnyAction, any> = (action$, s
                   ...requestData.origin,
                   ...batch,
                 }
-                requests.push(() =>
+                requests.push(
                   requestData.executeFn({
                     id: requestData.childLastSeenById ? WARMUP_BATCH_REQUEST_ID : WARMUP_REQUEST_ID,
                     data,
@@ -211,7 +211,6 @@ export const warmupRequestHandler: Epic<AnyAction, AnyAction, any> = (action$, s
                 )
               }
               const responses = await Promise.all(requests)
-              console.log(requests, responses)
               let result = null
               for (const resp of responses) {
                 result = concatenateBatchResults(result, resp)
