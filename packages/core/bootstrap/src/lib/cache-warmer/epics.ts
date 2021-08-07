@@ -199,16 +199,17 @@ export const warmupRequestHandler: Epic<AnyAction, AnyAction, any> = (action$, s
                 const data = {
                   ...requestData.origin,
                   ...batch,
-                  maxAge: -1,
                 }
                 requests.push(() =>
                   requestData.executeFn({
                     id: requestData.childLastSeenById ? WARMUP_BATCH_REQUEST_ID : WARMUP_REQUEST_ID,
                     data,
+                    debug: { warmer: true },
                   }),
                 )
               }
               const responses = await Promise.all(requests)
+              console.log(requests, responses)
               let result = null
               for (const resp of responses) {
                 result = concatenateBatchResults(result, resp)
@@ -217,7 +218,8 @@ export const warmupRequestHandler: Epic<AnyAction, AnyAction, any> = (action$, s
             })()
           : requestData.executeFn({
               id: requestData.childLastSeenById ? WARMUP_BATCH_REQUEST_ID : WARMUP_REQUEST_ID,
-              data: { ...requestData.origin, maxAge: -1 },
+              data: { ...requestData.origin },
+              debug: { warmer: true },
             }),
       ).pipe(
         mapTo(warmupFulfilled({ key })),
