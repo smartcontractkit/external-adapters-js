@@ -5,7 +5,7 @@ import {
   AdapterRequest,
   AdapterRequestData,
 } from '@chainlink/types'
-import { reducer } from "../cache-warmer"
+import { reducer } from '../cache-warmer'
 import axios, { AxiosResponse } from 'axios'
 import { deepType } from '../util'
 import { getDefaultConfig, logConfig } from './config'
@@ -15,7 +15,7 @@ import objectPath from 'object-path'
 
 const getFalse = () => false
 
-const DEFAULT_RETRY = 3
+const DEFAULT_RETRY = 1
 
 export class Requester {
   static async request<T extends AdapterRequestData>(
