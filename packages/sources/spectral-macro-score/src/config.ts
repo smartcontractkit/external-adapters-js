@@ -13,7 +13,7 @@ export interface SpectralAdapterConfig extends Config {
 
 export const makeConfig = (prefix?: string): SpectralAdapterConfig => {
   const config = <SpectralAdapterConfig>Requester.getDefaultConfig(prefix)
-  config.api = `${DEFAULT_BASE_URL}/${DEFAULT_ENDPOINT}`
+  config.api = util.getEnv('API_URL') ?? `${DEFAULT_BASE_URL}/${DEFAULT_ENDPOINT}`
   config.verbose = true
   config.rpcUrl = util.getRequiredEnv('RPC_URL')
   config.nfcAddress = util.getRequiredEnv('NFC_ADDRESS')
