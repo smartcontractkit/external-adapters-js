@@ -40,11 +40,11 @@ export interface IRequestInput {
   }
 }
 
-const computeTickWithScore = (score: number, tickSet: BigNumber[]) => {
+export const computeTickWithScore = (score: number, tickSet: BigNumber[]): number => {
   for (const [index, tick] of tickSet.entries()) {
-    if (tick.toNumber() > score) return index
+    if (tick.toNumber() > score) return index + 1
   }
-  return tickSet.length - 1 // returns the last (greatest) tick
+  return tickSet.length // returns the last (greatest) tick
 }
 
 export const execute = async (

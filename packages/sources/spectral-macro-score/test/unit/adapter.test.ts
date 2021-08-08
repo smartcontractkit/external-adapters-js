@@ -16,10 +16,10 @@ describe('execute', () => {
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
-          await execute(req.testData as AdapterRequest)
+          await execute(req.testData as AdapterRequest, null)
         } catch (error) {
           const errorResp = Requester.errored(jobID, error)
-          assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
+          assertError({ expected: 500, actual: errorResp.statusCode }, errorResp, jobID)
         }
       })
     })
