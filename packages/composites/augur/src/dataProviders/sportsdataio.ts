@@ -17,18 +17,28 @@ interface NFLEvent {
   Date: string | null
   Day: string
   GlobalGameID: number
+  AwayTeam: string
   GlobalAwayTeamID: number
+  HomeTeam: string
   GlobalHomeTeamID: number
   Status: string
+  AwayTeamMoneyLine: number | null
+  HomeTeamMoneyLine: number | null
+  OverUnder: number | null
 }
 
 interface TeamSchedule {
   Date: string
   GameID: number
+  AwayTeamName: string
   AwayTeamID: number
+  HomeTeamName: string
   HomeTeamID: number
   Status: string
   PointSpread: number | null
+  AwayTeamMoneyLine: number | null
+  HomeTeamMoneyLine: number | null
+  OverUnder: number | null
 }
 
 interface NFLScores {
@@ -52,6 +62,9 @@ interface CFBGames {
   AwayTeamScore: number | null
   HomeTeamScore: number | null
   PointSpread: number | null
+  AwayTeamMoneyLine: number | null
+  HomeTeamMoneyLine: number | null
+  OverUnder: number | null
 }
 
 interface CommonScores {
@@ -81,28 +94,39 @@ const getSchedule = async (
   }
 
   const response = await exec(input, context)
-  const filtered = (response.result as { GlobalGameID: number }[])
-    .filter(event => event.GlobalGameID != 0)
+  const filtered = (response.result as { GlobalGameID: number }[]).filter(
+    (event) => event.GlobalGameID != 0,
+  )
 
   switch (sport) {
     case 'nfl': {
       return (filtered as NFLEvent[]).map((event) => ({
         Date: event.Date || event.Day,
         GameID: event.GlobalGameID,
+        AwayTeamName: event.AwayTeam,
         AwayTeamID: event.GlobalAwayTeamID,
+        HomeTeamName: event.HomeTeam,
         HomeTeamID: event.GlobalHomeTeamID,
         Status: event.Status,
         PointSpread: event.PointSpread,
+        AwayTeamMoneyLine: event.AwayTeamMoneyLine,
+        HomeTeamMoneyLine: event.HomeTeamMoneyLine,
+        OverUnder: event.OverUnder,
       }))
     }
     case 'ncaa-fb': {
       return (filtered as CFBGames[]).map((event) => ({
         Date: event.DateTime || event.Day,
         GameID: event.GlobalGameID,
+        AwayTeamName: 'Away',
         AwayTeamID: event.GlobalAwayTeamID,
+        HomeTeamName: 'Home',
         HomeTeamID: event.GlobalHomeTeamID,
         Status: event.Status,
-        PointSpread: event.PointSpread
+        PointSpread: event.PointSpread,
+        AwayTeamMoneyLine: event.AwayTeamMoneyLine,
+        HomeTeamMoneyLine: event.HomeTeamMoneyLine,
+        OverUnder: event.OverUnder,
       }))
     }
     default:
@@ -224,14 +248,16 @@ export const createTeam: Execute = async (input, context) => {
 
     createEvents.push({
       id: BigNumber.from(event.GameID),
+      homeTeamName: event.HomeTeamName,
       homeTeamId: event.HomeTeamID,
+      awayTeamName: event.AwayTeamName,
       awayTeamId: event.AwayTeamID,
       startTime,
-      homeSpread: 0, // TODO: Missing
-      totalScore: 0, // TODO: Missing
-      createSpread: false, // TODO: Missing
-      createTotalScore: false, // TODO: Missing
-      moneylines: [0, 0] // TODO Missing
+      homeSpread: event.PointSpread || 0,
+      totalScore: event.OverUnder || 0,
+      createSpread: event.PointSpread !== null,
+      createTotalScore: event.OverUnder !== null,
+      moneylines: [event.HomeTeamMoneyLine || 0, event.AwayTeamMoneyLine || 0],
     })
   }
 
