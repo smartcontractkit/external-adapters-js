@@ -3,5 +3,5 @@ import { makeExecute, makeWSHandler, endpointSelector } from './adapter'
 import { NAME, makeConfig } from './config'
 import * as types from "./endpoint"
 
-const { server } = expose(makeExecute(), makeWSHandler())
+const { server } = expose(NAME, makeExecute(), makeWSHandler(), endpointSelector)
 export { NAME, makeExecute, makeConfig, server, types }
