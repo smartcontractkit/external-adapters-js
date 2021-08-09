@@ -1,10 +1,6 @@
 # Chainlink External Adapter for NCFX
 
-A template to be used as an example for new [External Adapters](https://github.com/smartcontractkit/external-adapters-js)
-
-(please fill out with corresponding information)
-
-An example adapter description
+This adapter only supports WS connections. Make sure WS is enabled in your configuration in order to run this adapter.
 
 ### Environment Variables
 
@@ -12,12 +8,6 @@ An example adapter description
 | :-------: | :-----: | :------------------------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
 |     ✅      | API_USERNAME | The username to the NCFX account |         |             |
 |      ✅     | API_PASSWORD | The password to the NCFX account |         |             |
-
----
-
-### Input Parameters
-
-No adapter specific input parameters
 
 ---
 
