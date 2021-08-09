@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute with request properly formatted should return success 1`] = `
+Object {
+  "data": Object {
+    "payload": Object {
+      "LINK": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": "2000",
+          },
+        },
+      },
+      "WETH": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": "1800",
+          },
+        },
+      },
+    },
+    "result": 2000,
+    "sources": Array [],
+  },
+  "jobRunID": "1",
+  "result": 2000,
+  "statusCode": 200,
+}
+`;
