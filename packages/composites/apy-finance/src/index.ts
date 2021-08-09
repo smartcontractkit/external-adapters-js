@@ -3,5 +3,5 @@ import { makeExecute } from './adapter'
 import { makeConfig } from './config'
 
 const NAME = 'APY-Finance'
-const { server } = expose(makeExecute())
+const { server } = expose(NAME, makeExecute())
 export { NAME, makeConfig, makeExecute, server }
