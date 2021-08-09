@@ -202,7 +202,7 @@ declare module '@chainlink/types' {
           url: string
         }
       | undefined
-    //
+    // Optional flag to ensure adapter only uses WS and doesn't send HTTP requests
     noHttp?: boolean
   }
 
