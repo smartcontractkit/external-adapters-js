@@ -160,11 +160,12 @@ Being:
 
 \*To use this feature the `CACHE_ENABLED` environment variable must also be enabled.
 
-| Required? |             Name              |                                                                          Description                                                                          | Options |    Defaults to     |
-| :-------: | :---------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: | :----------------: |
-|           | `EXPERIMENTAL_WARMUP_ENABLED` |                                                            Enable the cache warmer functionality.                                                             |         |      `false`       |
-|           | `WARMUP_UNHEALTHY_THRESHOLD`  |                      The number of times a warmup execution can fail before we drop a warmup subscription for a particular cache key.to.                      |         |        `3`         |
-|           |   `WARMUP_SUBSCRIPTION_TTL`   | The maximum duration between requests for a cache key to an external adapter before the cache warmer will unsubscribe from warming up a particular cache key. |         | `3600000` (1 hour) |
+| Required? |             Name              |                                                                          Description                                                                          | Options |      Defaults to      |
+| :-------: | :---------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: | :-------------------: |
+|           | `EXPERIMENTAL_WARMUP_ENABLED` |                                                            Enable the cache warmer functionality.                                                             |         |        `false`        |
+|           | `WARMUP_UNHEALTHY_THRESHOLD`  |          The number of times a warmup execution can fail before we drop a warmup subscription for a particular cache key.to. Set to `-1` to disable.          |         |          `3`          |
+|           |   `WARMUP_SUBSCRIPTION_TTL`   | The maximum duration between requests for a cache key to an external adapter before the cache warmer will unsubscribe from warming up a particular cache key. |         |  `3600000` (1 hour)   |
+|           |       `WARMUP_INTERVAL`       |                                        The interval at which the cache warmer should send requests to warm the cache.                                         |         | The cache's TTL (30s) |
 
 ### Request Coalescing
 
