@@ -19,6 +19,7 @@ function searchEnvironment() {
 function generateTestPayload() {
   const payload = {
     request: {
+      index: 'xbci',
       quote: 'USD',
       source: searchEnvironment(),
     },
