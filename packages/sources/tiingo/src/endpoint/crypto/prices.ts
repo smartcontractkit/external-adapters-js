@@ -1,12 +1,19 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import { Requester, Validator, util } from '@chainlink/ea-bootstrap'
+import {
+  ExecuteWithConfig,
+  Config,
+  InputParameters,
+  AdapterRequest,
+  AxiosResponse,
+} from '@chainlink/types'
 import { NAME as AdapterName } from '../../config'
 
 export const supportedEndpoints = ['prices', 'crypto']
+export const batchablePropertyPath = [{ name: 'base' }, { name: 'quote' }]
 
 export const endpointResultPaths = {
-  prices: 'fxClose',
-  crypto: 'fxClose',
+  prices: 'close',
+  crypto: 'close',
 }
 
 export interface ResponseSchema {
@@ -15,20 +22,49 @@ export interface ResponseSchema {
   quoteCurrency: string
   priceData: {
     date: string
-    open: number
-    high: number
     low: number
-    close: number
     volume: number
     volumeNotional: number
-    fxOpen: number
-    fxHigh: number
-    fxLow: number
-    fxClose: number
-    fxVolumeNotional: number
-    fxRate: number
     tradesDone: number
+    open: number
+    high: number
+    close: number
   }[]
+}
+
+const handleBatchedRequest = (
+  jobRunID: string,
+  request: AdapterRequest,
+  response: AxiosResponse<ResponseSchema>,
+  resultPath: string,
+  tickers: string[],
+) => {
+  const responseData = response.data as ResponseSchema[]
+
+  const payload: [AdapterRequest, number][] = []
+  for (const ticker of tickers) {
+    const tickerData = responseData.find((d) => d.ticker.toLowerCase() === ticker.toLowerCase())
+    if (!tickerData) {
+      throw new Error(`Unable to find result for ${ticker}`)
+    }
+
+    const from = tickerData.baseCurrency
+    const to = tickerData.quoteCurrency
+
+    payload.push([
+      {
+        ...request,
+        data: { ...request.data, base: from.toUpperCase(), quote: to.toUpperCase() },
+      },
+      Requester.validateResultNumber(tickerData, [resultPath]),
+    ])
+  }
+  return Requester.success(
+    jobRunID,
+    Requester.withResult(response, undefined, payload),
+    true,
+    batchablePropertyPath,
+  )
 }
 
 export const inputParameters: InputParameters = {
@@ -45,24 +81,35 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const base = validator.overrideSymbol(AdapterName)
-  const quote = validator.validated.data.quote.toLowerCase()
-  const resultPath = validator.validated.data.resultPath
+  const from = validator.overrideSymbol(AdapterName)
+  const to = validator.validated.data.quote.toLowerCase()
+  const tickerArray = []
+
+  for (const fromCurrency of util.formatArray(from)) {
+    for (const toCurrency of util.formatArray(to)) {
+      tickerArray.push(`${fromCurrency.toLowerCase()}${toCurrency.toLowerCase()}`)
+    }
+  }
+  const tickers = tickerArray.toString()
+
+  const resultPath = validator.validated.data.resultPath || endpointResultPaths.crypto
   const url = '/tiingo/crypto/prices'
 
   const options = {
     ...config.api,
     params: {
       token: config.apiKey,
-      baseCurrency: base,
-      convertCurrency: quote,
-      consolidateBaseCurrency: true,
+      tickers,
       resampleFreq: '24hour',
     },
     url,
   }
 
   const response = await Requester.request(options, customError)
+
+  if (Array.isArray(from) || Array.isArray(to))
+    return handleBatchedRequest(jobRunID, request, response, resultPath, tickerArray)
+
   response.data.result = Requester.validateResultNumber(response.data as ResponseSchema[], [
     0,
     'priceData',
