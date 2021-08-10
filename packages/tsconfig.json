@@ -27,6 +27,9 @@
       "path": "./composites/dxdao"
     },
     {
+      "path": "./composites/google-weather"
+    },
+    {
       "path": "./composites/linear-finance"
     },
     {
@@ -225,6 +228,9 @@
       "path": "./sources/geodb"
     },
     {
+      "path": "./sources/google-bigquery"
+    },
+    {
       "path": "./sources/graphql"
     },
     {
@@ -334,6 +340,9 @@
     },
     {
       "path": "./sources/wbtc-address-set"
+    },
+    {
+      "path": "./sources/wootrade"
     },
     {
       "path": "./sources/xbto"

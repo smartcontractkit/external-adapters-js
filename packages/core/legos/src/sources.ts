@@ -47,6 +47,7 @@ import * as fixer from '@chainlink/fixer-adapter'
 import * as fmpcloud from '@chainlink/fmpcloud-adapter'
 import * as genesis_adapter from '@chainlink/genesis-volatility-adapter'
 import * as geodb from '@chainlink/geodb-adapter'
+import * as google_bigquery from '@chainlink/google-bigquery-adapter'
 import * as graphql from '@chainlink/graphql-adapter'
 import * as iex_adapter from '@chainlink/iex-cloud-adapter'
 import * as intrinio from '@chainlink/intrinio-adapter'
@@ -84,6 +85,7 @@ import * as trueusd from '@chainlink/trueusd-adapter'
 import * as twelvedata from '@chainlink/twelvedata-adapter'
 import * as unibit from '@chainlink/unibit-adapter'
 import * as wbtc_adapter_address from '@chainlink/wbtc-address-set-adapter'
+import * as wootrade from '@chainlink/wootrade-adapter'
 import * as xbto from '@chainlink/xbto-adapter'
 
 export default {
@@ -136,6 +138,7 @@ export default {
   fmpcloud,
   genesis_adapter,
   geodb,
+  google_bigquery,
   graphql,
   iex_adapter,
   intrinio,
@@ -173,5 +176,6 @@ export default {
   twelvedata,
   unibit,
   wbtc_adapter_address,
+  wootrade,
   xbto,
 }

@@ -79,6 +79,7 @@
     "@chainlink/fmpcloud-adapter": "*",
     "@chainlink/genesis-volatility-adapter": "*",
     "@chainlink/geodb-adapter": "*",
+    "@chainlink/google-bigquery-adapter": "*",
     "@chainlink/graphql-adapter": "*",
     "@chainlink/iex-cloud-adapter": "*",
     "@chainlink/intrinio-adapter": "*",
@@ -116,6 +117,7 @@
     "@chainlink/twelvedata-adapter": "*",
     "@chainlink/unibit-adapter": "*",
     "@chainlink/wbtc-address-set-adapter": "*",
+    "@chainlink/wootrade-adapter": "*",
     "@chainlink/xbto-adapter": "*",
     "tslib": "^2.1.0"
   }

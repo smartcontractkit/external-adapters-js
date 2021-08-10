@@ -17,7 +17,7 @@ export function getCoinIds(context: AdapterContext, id: string): Promise<CoinsRe
     const middleware = makeMiddleware(execute)
     withMiddleware(execute, context, middleware)
       .then((executeWithMiddleware) => {
-        return executeWithMiddleware(options, context).then((value) => resolve(value.data))
+        executeWithMiddleware(options, context).then((value) => resolve(value.data))
       })
       .catch((error) => reject(error))
   })
@@ -26,10 +26,12 @@ export function getCoinIds(context: AdapterContext, id: string): Promise<CoinsRe
 export const getSymbolToId = (symbol: string, coinList: CoinsResponse[]): string => {
   const isId = coinList.find(({ id }) => id.toLowerCase() === symbol.toLowerCase())
   if (isId && isId.id) return isId.id.toLowerCase()
+
   const coin = coinList.find(
     ({ symbol: coinSymbol, rank }) =>
       coinSymbol.toLowerCase() === symbol.toLowerCase() && rank !== 0,
   )
   if (coin && coin.id) return coin.id.toLowerCase()
+
   throw new Error('Coin id not found')
 }

@@ -1,10 +1,11 @@
 import { AdapterContext, AdapterRequest } from '@chainlink/types'
 import { combineReducers, createReducer, isAnyOf } from '@reduxjs/toolkit'
-import hash from 'object-hash'
-import { getHashOpts } from '../util'
+import { getHashOpts, hash, HashMode } from '../util'
 import * as actions from './actions'
 
-export const getSubsId = (subscriptionMsg = {}): string => hash(subscriptionMsg, getHashOpts())
+export const getSubsId = (subscriptionMsg: AdapterRequest, mode: HashMode = "include"): string =>
+  hash(subscriptionMsg, getHashOpts(), mode)
+
 export interface ConnectionsState {
   total: number
   all: {
@@ -91,7 +92,7 @@ export const subscriptionsReducer = createReducer<SubscriptionsState>(
   (builder) => {
     builder.addCase(actions.subscribeFulfilled, (state, action) => {
       // Add subscription
-      const key = getSubsId(action.payload.subscriptionMsg)
+      const key = getSubsId(action.payload.subscriptionMsg, "exclude")
       state.all[key] = {
         active: true,
         wasEverActive: true,
@@ -103,7 +104,7 @@ export const subscriptionsReducer = createReducer<SubscriptionsState>(
     })
 
     builder.addCase(actions.subscribeRequested, (state, action) => {
-      const key = getSubsId(action.payload.subscriptionMsg)
+      const key = getSubsId(action.payload.subscriptionMsg, "exclude")
       const isActive = state.all[key]?.active
       if (isActive) return
 
@@ -118,7 +119,7 @@ export const subscriptionsReducer = createReducer<SubscriptionsState>(
 
     builder.addCase(actions.unsubscribeFulfilled, (state, action) => {
       // Remove subscription
-      const key = getSubsId(action.payload.subscriptionMsg)
+      const key = getSubsId(action.payload.subscriptionMsg, "exclude")
 
       state.all[key].active = false
       state.all[key].unsubscribed = true

@@ -1,8 +1,9 @@
-import { DEFAULT_DELTA_TIME, makeConfig, Networks } from '../../src/config'
+import { DEFAULT_DELTA_TIME, makeConfig, Networks, RPC_ENDPOINTS } from '../../src/config'
 import { useFakeTimers } from 'sinon'
 import * as network from '../../src/network'
 import * as adapter from '../../src/adapter'
 import { AdapterRequest } from '@chainlink/types'
+import { ethers } from 'ethers'
 
 describe('adapter', () => {
   describe('L2 Network health check', () => {
@@ -75,6 +76,7 @@ describe('adapter', () => {
     let clock
     beforeEach(() => {
       clock = useFakeTimers()
+      jest.spyOn(network, 'getStatusByTransaction').mockReturnValue(Promise.resolve(false))
     })
 
     afterEach(() => {
@@ -161,6 +163,41 @@ describe('adapter', () => {
       jest
         .spyOn(network, 'requestBlockHeight')
         .mockReturnValue(Promise.reject(new Error('Some RPC call error')))
+
+      const response = await execute(
+        {
+          data: {
+            network: 'arbitrum',
+          },
+        } as AdapterRequest,
+        undefined,
+      )
+
+      expect(response.data.result).toBe(1)
+    })
+
+    it('Empty transaction check has the final word on unhealthy method responses', async () => {
+      jest.spyOn(network, 'getSequencerHealth').mockReturnValue(Promise.resolve(false))
+      jest.spyOn(network, 'getStatusByTransaction').mockReturnValue(Promise.resolve(true))
+      jest
+        .spyOn(network, 'requestBlockHeight')
+        .mockReturnValue(Promise.reject(new Error('Some RPC call error')))
+
+      const response = await execute(
+        {
+          data: {
+            network: 'arbitrum',
+          },
+        } as AdapterRequest,
+        undefined,
+      )
+
+      expect(response.data.result).toBe(0)
+    })
+
+    it('Empty transaction confirms rest of methods', async () => {
+      jest.spyOn(network, 'getSequencerHealth').mockReturnValue(Promise.resolve(false))
+      jest.spyOn(network, 'getStatusByTransaction').mockReturnValue(Promise.resolve(false))
 
       const response = await execute(
         {

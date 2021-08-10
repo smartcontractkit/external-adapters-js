@@ -1,9 +1,12 @@
 // Declare missing type definitions
 declare module '@chainlink/types' {
-  import type { CacheOptions } from '@chainlink/ea-bootstrap'
+  import type { Cache, RateLimit } from '@chainlink/ea-bootstrap'
+  import { cacheWarmer } from '@chainlink/ea-bootstrap'
+
   export interface AdapterContext {
     name?: string
-    cache?: CacheOptions
+    cache?: Cache.CacheOptions
+    rateLimit?: RateLimit.config.Config
   }
 
   /* REQUESTS */
@@ -20,11 +23,12 @@ declare module '@chainlink/types' {
 
   export type AdapterDebug = {
     ws?: boolean
+    warmer?: boolean
     cacheHit?: boolean
     staleness?: number
     performance?: number
     providerCost?: number
-    batchablePropertyPath?: string[]
+    batchablePropertyPath?: cacheWarmer.reducer.BatchableProperty[]
     normalizedRequest?: Record<string, unknown>
   }
 
@@ -131,7 +135,7 @@ declare module '@chainlink/types' {
 
   export interface APIEndpoint {
     supportedEndpoints: string[]
-    batchablePropertyPath?: string[]
+    batchablePropertyPath?: BatchableProperty[]
     endpointResultPaths?: EndpointResultPaths
     inputParameters?: InputParameters
     endpointOverride?: (request: AdapterRequest) => string | null
@@ -192,9 +196,7 @@ declare module '@chainlink/types' {
     subsFromMessage: (message: any, subscriptionMsg: any) => any
     // Allows for connection info to be set programmatically based on the input request
     // This is useful for data providers that only allow subscriptions based on URL params
-    programmaticConnectionInfo?: (
-      input: AdapterRequest,
-    ) =>
+    programmaticConnectionInfo?: (input: AdapterRequest) =>
       | {
           key: string
           url: string

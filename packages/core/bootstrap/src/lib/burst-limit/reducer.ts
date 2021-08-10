@@ -3,10 +3,12 @@ import { makeId } from '../rate-limit'
 import * as actions from './actions'
 
 export enum IntervalNames {
+  SECOND = 'SECOND',
   MINUTE = 'MINUTE',
 }
 
 export const Intervals: { [key: string]: number } = {
+  [IntervalNames.SECOND]: 1000,
   [IntervalNames.MINUTE]: 60 * 1000,
 }
 
@@ -24,15 +26,19 @@ export interface RequestsState {
     [interval: string]: number
   }
   participants: {
-    [participantId: string]: {
-      [interval: string]: Request[]
-    }
+    [interval: string]: Request[]
   }
 }
 
 export const initialRequestsState: RequestsState = {
-  total: {},
-  participants: {},
+  total: {
+    SECOND: 0,
+    MINUTE: 0,
+  },
+  participants: {
+    SECOND: [],
+    MINUTE: [],
+  },
 }
 
 export const requestReducer = createReducer<RequestsState>(initialRequestsState, (builder) => {
@@ -41,34 +47,20 @@ export const requestReducer = createReducer<RequestsState>(initialRequestsState,
       id: makeId(action.payload.input),
       t: Date.now(),
     }
-    const { id } = request
-    // Init if first time seeing this id
-    if (!state.participants[id]) {
-      state.participants[id] = {
-        MINUTE: [],
-      }
-    }
+    const storedIntervals = [IntervalNames.SECOND, IntervalNames.MINUTE]
 
-    state.participants[id][IntervalNames.MINUTE] = state.participants[id][
-      IntervalNames.MINUTE
-    ].concat([request])
-
-    let newTotal = 0
-
-    for (const participantId of Object.keys(state.participants)) {
+    for (const intervalName of storedIntervals) {
       // remove all requests that are older than the current interval
-      const window = request.t - Intervals[IntervalNames.MINUTE]
+      const window = request.t - Intervals[intervalName]
       const isInWindow = (h: Request) => h.t >= window
-      state.participants[participantId][IntervalNames.MINUTE] = sortedFilter(
-        state.participants[participantId][IntervalNames.MINUTE],
-        isInWindow,
-      )
-      const newLength = state.participants[participantId][IntervalNames.MINUTE].length
-      if (newLength === 0) delete state.participants[participantId]
-      newTotal = newTotal + newLength
-    }
+      state.participants[intervalName] = sortedFilter(state.participants[intervalName], isInWindow)
 
-    state.total[IntervalNames.MINUTE] = newTotal
+      // add new request
+      state.participants[intervalName] = state.participants[intervalName].concat([request])
+
+      // update total
+      state.total[intervalName] = state.participants[intervalName].length
+    }
 
     return state
   })
@@ -108,9 +100,8 @@ export function selectTotalNumberOfRequestsFor(
 export function selectParticiantsRequestsFor(
   state: RequestsState,
   interval: IntervalNames,
-  id: string,
 ): Request[] {
-  return state.participants[id]?.[interval] ?? []
+  return state.participants[interval] ?? []
 }
 
 export const rootReducer = combineReducers({

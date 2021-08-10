@@ -11,6 +11,7 @@ import {
 import { logger } from './external-adapter'
 import { METRICS_ENABLED } from './metrics'
 import { defaultOptions } from './cache'
+import { get as getRateLimitConfig } from './rate-limit/config'
 import { toObjectWithNumbers } from './util'
 import { executeSync, withMiddleware } from '../index'
 import * as redis from './cache/redis'
@@ -23,83 +24,92 @@ export const HEADER_CONTENT_TYPE = 'Content-Type'
 export const CONTENT_TYPE_APPLICATION_JSON = 'application/json'
 export const CONTENT_TYPE_TEXT_PLAIN = 'text/plain'
 
-export const initHandler = (
-  name: string,
-  execute: Execute,
-  middleware: Middleware[],
-) => async (): Promise<http.Server> => {
-  const context: AdapterContext = {
-    name,
-    cache: null,
-  }
-  const cacheOptions = defaultOptions()
-  if (cacheOptions.enabled) {
-    cacheOptions.instance = await cacheOptions.cacheBuilder(cacheOptions.cacheImplOptions)
-    context.cache = cacheOptions
-  }
-  if (METRICS_ENABLED) {
-    setupMetricsServer()
-  }
-
-  const executeWithMiddleware = await withMiddleware(execute, context, middleware)
-
-  app.use(express.json())
-
-  app.post(baseUrl, (req, res) => {
-    if (!req.is(CONTENT_TYPE_APPLICATION_JSON)) {
-      return res
-        .status(HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE)
-        .send(HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE_MESSAGE)
+export const initHandler =
+  (name: string, execute: Execute, middleware: Middleware[]) => async (): Promise<http.Server> => {
+    const context: AdapterContext = {
+      name,
+      cache: null,
+      rateLimit: getRateLimitConfig({ name }),
     }
-    req.body.data = {
-      ...(req.body.data || {}),
-      ...toObjectWithNumbers(req.query),
+    const cacheOptions = defaultOptions()
+    if (cacheOptions.enabled) {
+      cacheOptions.instance = await cacheOptions.cacheBuilder(cacheOptions.cacheImplOptions)
+      context.cache = cacheOptions
     }
-    return executeSync(req.body, executeWithMiddleware, context, (status, result) => {
-      res.status(status).json(result)
-    })
-  })
+    if (METRICS_ENABLED) {
+      setupMetricsServer()
+    }
 
-  app.get(join(baseUrl, 'health'), async (_, res) => {
-    if (cacheOptions.enabled && cacheOptions.cacheImplOptions.type === 'redis') {
-      const cache = context.cache.instance as redis.RedisCache
-      if (!cache.client.connected) {
-        res.status(500).send('Redis not connected')
-        return
+    const executeWithMiddleware = await withMiddleware(execute, context, middleware)
+
+    app.use(express.json())
+
+    app.post(baseUrl, (req, res) => {
+      if (!req.is(CONTENT_TYPE_APPLICATION_JSON)) {
+        return res
+          .status(HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE)
+          .send(HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE_MESSAGE)
       }
-    }
-
-    res.status(200).send('OK')
-  })
-
-  const testPayload = loadTestPayload()
-  app.get(join(baseUrl, 'smoke'), (_, res) => {
-    if (testPayload.isDefault) {
-      return res.status(200).send('OK')
-    }
-
-    return executeSync(
-      { data: testPayload.request, id: '1' },
-      executeWithMiddleware,
-      context,
-      (status, result) => {
+      req.body.data = {
+        ...(req.body.data || {}),
+        ...toObjectWithNumbers(req.query),
+      }
+      return executeSync(req.body, executeWithMiddleware, context, (status, result) => {
         res.status(status).json(result)
-      },
-    )
-  })
-
-  process.on('SIGINT', () => {
-    context.cache?.instance?.close()
-    process.exit()
-  })
-
-  return new Promise((resolve) => {
-    const server = app.listen(port, () => {
-      logger.info(`Listening on port ${port}!`)
-      resolve(server)
+      })
     })
-  })
-}
+
+    app.get(join(baseUrl, 'health'), async (_, res) => {
+      if (cacheOptions.enabled && cacheOptions.cacheImplOptions.type === 'redis') {
+        const cache = context.cache.instance as redis.RedisCache
+        if (!cache.client.connected) {
+          res.status(500).send('Redis not connected')
+          return
+        }
+      }
+
+      res.status(200).send('OK')
+    })
+
+    const testPayload = loadTestPayload()
+    app.get(join(baseUrl, 'smoke'), async (_, res) => {
+      if (testPayload.isDefault) {
+        return res.status(200).send('OK')
+      }
+
+      const errors = []
+
+      for (const index in testPayload.requests) {
+        try {
+          await executeSync(
+            { data: testPayload.requests[index], id: index },
+            executeWithMiddleware,
+            context,
+            (status, result) => {
+              if (status === 400) errors.push(result)
+            },
+          )
+        } catch (e) {
+          errors.push(e)
+        }
+      }
+      if (errors.length > 0) return res.status(500).send(errors)
+
+      return res.status(200).send('OK')
+    })
+
+    process.on('SIGINT', () => {
+      context.cache?.instance?.close()
+      process.exit()
+    })
+
+    return new Promise((resolve) => {
+      const server = app.listen(port, () => {
+        logger.info(`Listening on port ${port}!`)
+        resolve(server)
+      })
+    })
+  }
 
 function setupMetricsServer() {
   const metricsApp = express()

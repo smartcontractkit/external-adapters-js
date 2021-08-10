@@ -158,6 +158,9 @@
       "path": "../../sources/geodb"
     },
     {
+      "path": "../../sources/google-bigquery"
+    },
+    {
       "path": "../../sources/graphql"
     },
     {
@@ -267,6 +270,9 @@
     },
     {
       "path": "../../sources/wbtc-address-set"
+    },
+    {
+      "path": "../../sources/wootrade"
     },
     {
       "path": "../../sources/xbto"

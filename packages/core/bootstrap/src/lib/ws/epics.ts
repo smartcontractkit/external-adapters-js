@@ -83,7 +83,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
         connection_key: payload.connectionInfo.key,
         connection_url: censor(payload.connectionInfo.url),
         feed_id: getFeedId({ ...payload.input }),
-        subscription_key: getSubsId(payload.subscriptionMsg),
+        subscription_key: getSubsId(payload.subscriptionMsg, 'exclude'),
       })
 
       const openObserver = new Subject()
@@ -154,7 +154,10 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
       // Multiplex subscriptions
       const multiplexSubscriptions$ = subscriptions$.pipe(
         filter(({ payload }) => payload.connectionInfo.key === connectionKey),
-        map(({ payload }) => ({ payload, subscriptionKey: getSubsId(payload.subscriptionMsg) })),
+        map(({ payload }) => ({
+          payload,
+          subscriptionKey: getSubsId(payload.subscriptionMsg, 'exclude'),
+        })),
         withLatestFrom(state$),
         filter(([{ subscriptionKey }, state]) => {
           const isActiveSubscription = !!state.ws.subscriptions.all[subscriptionKey]?.active
@@ -183,8 +186,10 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
                   return false
                 }
                 return (
-                  getSubsId(wsHandler.subsFromMessage(message, payload.subscriptionMsg)) ===
-                  subscriptionKey
+                  getSubsId(
+                    wsHandler.subsFromMessage(message, payload.subscriptionMsg),
+                    'exclude',
+                  ) === subscriptionKey
                 )
               },
             )
@@ -205,7 +210,9 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
                 merge(
                   action$.pipe(
                     filter(unsubscribeRequested.match),
-                    filter((a) => getSubsId(a.payload.subscriptionMsg) === subscriptionKey),
+                    filter(
+                      (a) => getSubsId(a.payload.subscriptionMsg, 'exclude') === subscriptionKey,
+                    ),
                     tap((a) => logger.info('WS: Unsubscribed', subscriptionMeta(a.payload))),
                   ),
                   action$.pipe(
@@ -262,7 +269,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
              */
             const wsResponse: AdapterRequest = {
               ...input,
-              data: { ...input.data, maxAge: -1 }, // Force cache set
+              data: { ...input.data },
               debug: { ws: true },
               metricsMeta: { feedId: getFeedId(input) },
             }
@@ -282,11 +289,13 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
         // when a subscription comes in
         // TODO: we need to filter duplicated subscriptions here
         mergeMap(({ payload }) => {
-          const subscriptionKey = getSubsId(payload.subscriptionMsg)
+          const subscriptionKey = getSubsId(payload.subscriptionMsg, 'exclude')
           // we look for matching subscriptions of the same type
           // which deactivates the current timer
           const reset$ = subscriptions$.pipe(
-            filter(({ payload }) => subscriptionKey === getSubsId(payload.subscriptionMsg)),
+            filter(
+              ({ payload }) => subscriptionKey === getSubsId(payload.subscriptionMsg, 'exclude'),
+            ),
             take(1),
           )
           // start the current unsubscription timer
@@ -413,14 +422,16 @@ export const metricsEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
         connection_key: payload.connectionInfo.key,
         connection_url: censor(payload.connectionInfo.url),
         feed_id: getFeedId({ ...payload.input }),
-        subscription_key: getSubsId(payload.subscriptionMsg),
+        subscription_key: getSubsId(payload.subscriptionMsg, 'exclude'),
       })
       const subscriptionErrorLabels = (payload: WSSubscriptionErrorPayload) => ({
         connection_key: payload.connectionInfo.key,
         connection_url: censor(payload.connectionInfo.url),
         feed_id: payload.input ? getFeedId({ ...payload.input }) : 'N/A',
         message: payload.reason,
-        subscription_key: payload.subscriptionMsg ? getSubsId(payload.subscriptionMsg) : 'N/A',
+        subscription_key: payload.subscriptionMsg
+          ? getSubsId(payload.subscriptionMsg, 'exclude')
+          : 'N/A',
       })
       const messageLabels = (payload: WSMessagePayload) => ({
         feed_id: getFeedId({
@@ -450,7 +461,8 @@ export const metricsEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
           break
         case unsubscribeFulfilled.type: {
           if (
-            state.ws.subscriptions.all[getSubsId(action.payload.subscriptionMsg)]?.wasEverActive
+            state.ws.subscriptions.all[getSubsId(action.payload.subscriptionMsg, 'exclude')]
+              ?.wasEverActive
           ) {
             ws_subscription_active.labels(subscriptionLabels(action.payload)).dec()
           }
