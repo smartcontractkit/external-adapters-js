@@ -220,7 +220,7 @@ export const resolve: Execute = async (input, context) => {
 
   const req = {
     id: input.id,
-    endpoint: 'total-score',
+    endpoint: 'event',
     data: {
       sportId,
       matchId: eventId

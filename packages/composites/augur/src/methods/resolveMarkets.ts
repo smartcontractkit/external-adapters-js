@@ -82,8 +82,13 @@ const resolveTeam = async (jobRunID: string, sport: string, contractAddress: str
     }
   }
 
+  Logger.debug(`Augur: Found ${events.length} events to attempt to resolve`)
+
   // Filters out events that aren't yet ready to resolve.
-  const eventReadyToResolve = events.filter(({ status }) => statusCompleted.includes(status))
+  const eventReadyToResolve = events.filter(({ id, status }) => {
+    Logger.debug(`Augur: status info ${{id, status, needs_resolve: statusCompleted.includes(status)}}`)
+    return statusCompleted.includes(status)
+  })
 
   Logger.debug(`Augur: Prepared to resolve ${eventReadyToResolve.length} events`)
 
