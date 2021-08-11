@@ -11,5 +11,5 @@ export const inputParameters: InputParameters = {
 export const execute: ExecuteWithConfig<Config> = async (request) => {
     const validator = new Validator(request, inputParameters)
     if (validator.error) throw validator.error
-    throw Error("The NCFX adapter does not support making HTTP requests.  Please wait a few seconds while the adapter sets up the WebSockets connection.")
+    throw Error("The NCFX adapter does not support making HTTP requests. Make sure WS is enabled in the adapter configuration.")
 }
