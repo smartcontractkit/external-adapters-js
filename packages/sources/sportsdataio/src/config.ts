@@ -22,7 +22,7 @@ export const makeConfig = (prefix?: string): Config => {
     ...Requester.getDefaultConfig(prefix),
     nflScoresKey: util.getEnv(ENV_NFL_SCORES_API_KEY, prefix),
     mmaStatsKey: util.getEnv(ENV_MMA_STATS_API_KEY, prefix),
-    cfbScoresKey: util.getEnv(ENV_CFB_SCORES_API_KEY, prefix)
+    cfbScoresKey: util.getEnv(ENV_CFB_SCORES_API_KEY, prefix),
   }
   config.api.baseURL = config.api.baseURL || DEFAULT_BASE_URL
 
