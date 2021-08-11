@@ -144,7 +144,7 @@ const getSchedule = async (
         data: {
           sport,
           endpoint: 'schedule',
-          season: '2021', // TODO: Fix a source for this information.
+          season: '2021', // TODO: Find a source for this information.
         },
       }
 
@@ -175,26 +175,29 @@ const getSchedule = async (
 const getScores = async (
   id: string,
   sport: string,
-  season: string,
   exec: Execute,
   context: AdapterContext,
 ): Promise<CommonScores[]> => {
-  const input = {
-    id,
-    data: {
-      sport,
-      endpoint: 'scores',
-      season,
-    },
-  }
-  const response = await exec(input, context)
-  const filtered = (response.result as { GlobalGameID: number }[]).filter(
-    (event) => event.GlobalGameID != 0,
-  )
-
   switch (sport) {
     case 'nfl': {
-      return (filtered as NFLScores[]).map((event) => ({
+      let events: NFLScores[] = []
+      const currentSeason = await getCurrentSeason(id, sport, exec, context)
+
+      for (const seasonPostfixKey of ['PRE', '', 'POST', 'STAR']) {
+        const input = {
+          id,
+          data: {
+            sport,
+            endpoint: 'scores',
+            season: `${currentSeason}${seasonPostfixKey}`,
+          },
+        }
+        const response = await exec(input, context)
+        const filtered = (response.result as NFLScores[]).filter((event) => event.GlobalGameID != 0)
+
+        events = [...events, ...filtered]
+      }
+      return events.map((event) => ({
         Date: event.Date || event.Day,
         GameID: event.GlobalGameID,
         AwayTeamID: event.GlobalAwayTeamID,
@@ -205,6 +208,20 @@ const getScores = async (
       }))
     }
     case 'ncaa-fb': {
+      const input = {
+        id,
+        data: {
+          sport,
+          endpoint: 'scores',
+          season: '2021', // TODO: Find a source for this information.
+        },
+      }
+
+      const response = await exec(input, context)
+      const filtered = (response.result as { GlobalGameID: number }[]).filter(
+        (event) => event.GlobalGameID != 0,
+      )
+
       return (filtered as CFBGames[]).map((event) => ({
         Date: event.DateTime || event.Day,
         GameID: event.GlobalGameID,
@@ -219,8 +236,6 @@ const getScores = async (
       throw Error(`Unable to format scores for sport "${sport}"`)
   }
 }
-
-const getSeason = () => `${new Date().getFullYear()}REG` // TODO: Sufficient? What if at the end of the year?
 
 const createParams = {
   sport: true,
@@ -240,12 +255,13 @@ export const createTeam: Execute = async (input, context) => {
 
   const daysInAdvance = validator.validated.data.daysInAdvance
   const startBuffer = validator.validated.data.startBuffer
+
   const contract: ethers.Contract = validator.validated.data.contract
 
   const sportsdataioExec = Sportsdataio.makeExecute(Sportsdataio.makeConfig(Sportsdataio.NAME))
 
   const schedule = (await getSchedule(input.id, sport, sportsdataioExec, context)).filter(
-    (event) => event.Status === 'STATUS_SCHEDULED',
+    (event) => event.Status === 'Scheduled',
   )
 
   Logger.debug(`Augur sportsdataio: Got ${schedule.length} events from data provider`)
@@ -272,9 +288,8 @@ export const createTeam: Execute = async (input, context) => {
       continue
     }
 
-    const [headToHeadMarket, spreadMarket, totalScoreMarket]: [BigNumber, BigNumber, BigNumber] = (
-      await contract.getEvent(event.GameID)
-    ).markets
+    const [headToHeadMarket, spreadMarket, totalScoreMarket]: [BigNumber, BigNumber, BigNumber] =
+      await contract.getEventMarkets(event.GameID)
     const canCreate =
       headToHeadMarket.isZero() ||
       (spreadMarket.isZero() && false) ||
@@ -494,12 +509,11 @@ const resolveParams = {
 const findEventScore = async (
   jobRunID: string,
   sport: string,
-  season: string,
   eventId: number,
   exec: Execute,
   context: AdapterContext,
 ): Promise<CommonScores | undefined> => {
-  const scores = await getScores(jobRunID, sport, season, exec, context)
+  const scores = await getScores(jobRunID, sport, exec, context)
   return scores.find((game) => game.GameID === eventId)
 }
 
@@ -511,14 +525,7 @@ export const resolveTeam: Execute = async (input, context) => {
   const sport = validator.validated.data.sport
   const sportsdataioExec = Sportsdataio.makeExecute(Sportsdataio.makeConfig(Sportsdataio.NAME))
 
-  const event = await findEventScore(
-    input.id,
-    sport,
-    getSeason(),
-    eventId,
-    sportsdataioExec,
-    context,
-  )
+  const event = await findEventScore(input.id, sport, eventId, sportsdataioExec, context)
   if (!event) {
     throw Error(`Unable to find event ${eventId}`)
   }
