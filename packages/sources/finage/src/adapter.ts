@@ -1,5 +1,7 @@
-import { ExecuteWithConfig, ExecuteFactory, Config, 
-  // AdapterRequest,
+import { 
+  ExecuteWithConfig, 
+  ExecuteFactory,
+  Config, 
   AxiosResponse 
 } from '@chainlink/types'
 import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
