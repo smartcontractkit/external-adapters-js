@@ -194,6 +194,7 @@ const eventStatus: { [key: string]: number } = {
   STATUS_FINAL: 2,
   STATUS_POSTPONED: 3,
   STATUS_CANCELED: 4,
+  STATUS_SUSPENDED: 4 // treating as canceled
 }
 
 const resolveParams = {
@@ -220,10 +221,10 @@ export const resolve: Execute = async (input, context) => {
 
   const req = {
     id: input.id,
-    endpoint: 'event',
     data: {
+      endpoint: 'event',
       sportId,
-      matchId: eventId
+      eventId
     }
   }
 
