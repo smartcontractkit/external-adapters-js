@@ -77,30 +77,54 @@ interface CommonScores {
   HomeScore: number | null
 }
 
-const getSchedule = async (
+const getCurrentSeason = async (
   id: string,
   sport: string,
-  season: string,
   exec: Execute,
   context: AdapterContext,
-): Promise<TeamSchedule[]> => {
+): Promise<string> => {
+  if (sport !== 'nfl') return 'NO_INFO'
+
   const input = {
     id,
     data: {
       sport,
-      endpoint: 'schedule',
-      season,
+      endpoint: 'current-season',
     },
   }
 
   const response = await exec(input, context)
-  const filtered = (response.result as { GlobalGameID: number }[]).filter(
-    (event) => event.GlobalGameID != 0,
-  )
+  Logger.debug(response.data)
+  return response.data.result
+}
 
+const getSchedule = async (
+  id: string,
+  sport: string,
+  exec: Execute,
+  context: AdapterContext,
+): Promise<TeamSchedule[]> => {
   switch (sport) {
     case 'nfl': {
-      return (filtered as NFLEvent[]).map((event) => ({
+      let events: NFLEvent[] = []
+      const currentSeason = await getCurrentSeason(id, sport, exec, context)
+
+      for (const seasonPostfixKey of ['PRE', '', 'POST', 'STAR']) {
+        const input = {
+          id,
+          data: {
+            sport,
+            endpoint: 'schedule',
+            season: `${currentSeason}${seasonPostfixKey}`,
+          },
+        }
+        const response = await exec(input, context)
+        const filtered = (response.result as NFLEvent[]).filter((event) => event.GlobalGameID != 0)
+
+        events = [...events, ...filtered]
+      }
+
+      return (events as NFLEvent[]).map((event) => ({
         Date: event.Date || event.Day,
         GameID: event.GlobalGameID,
         AwayTeamName: event.AwayTeam,
@@ -115,6 +139,20 @@ const getSchedule = async (
       }))
     }
     case 'ncaa-fb': {
+      const input = {
+        id,
+        data: {
+          sport,
+          endpoint: 'schedule',
+          season: '2021', // TODO: Fix a source for this information.
+        },
+      }
+
+      const response = await exec(input, context)
+      const filtered = (response.result as { GlobalGameID: number }[]).filter(
+        (event) => event.GlobalGameID != 0,
+      )
+
       return (filtered as CFBGames[]).map((event) => ({
         Date: event.DateTime || event.Day,
         GameID: event.GlobalGameID,
@@ -206,9 +244,9 @@ export const createTeam: Execute = async (input, context) => {
 
   const sportsdataioExec = Sportsdataio.makeExecute(Sportsdataio.makeConfig(Sportsdataio.NAME))
 
-  const schedule = (
-    await getSchedule(input.id, sport, getSeason(), sportsdataioExec, context)
-  ).filter((event) => event.Status === 'STATUS_SCHEDULED')
+  const schedule = (await getSchedule(input.id, sport, sportsdataioExec, context)).filter(
+    (event) => event.Status === 'STATUS_SCHEDULED',
+  )
 
   Logger.debug(`Augur sportsdataio: Got ${schedule.length} events from data provider`)
   let skipNullDate = 0,
