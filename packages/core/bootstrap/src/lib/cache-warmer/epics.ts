@@ -139,6 +139,7 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
 export const warmupSubscriber: Epic<AnyAction, AnyAction, any, EpicDependencies> = (
   action$,
   state$,
+  { config },
 ) =>
   action$.pipe(
     filter(warmupSubscribed.match),
@@ -159,7 +160,7 @@ export const warmupSubscriber: Epic<AnyAction, AnyAction, any, EpicDependencies>
     mergeMap(([{ payload, key }]) => {
       // Interval should be set to the warmup interval if configured,
       // otherwise use the TTL from the request.
-      const interval = get().warmupInterval || getTTL(payload)
+      const interval = config.warmupInterval || getTTL(payload)
       const offset = Math.min(interval, 1000)
       const pollInterval = interval - offset
       return timer(pollInterval, pollInterval).pipe(
