@@ -52,12 +52,17 @@ const handleBatchedRequest = (
 ) => {
   const payload: [AdapterRequest, number][] = []
   for (const base in response.data) {
-    for (const quote in response.data[base]) {
+    const quoteArray = Array.isArray(request.data.quote) ? request.data.quote : [request.data.quote]
+    for (const quote of quoteArray) {
       const symbol = idToSymbol?.[base]
       if (symbol) {
         const individualRequest = {
           ...request,
-          data: { ...request.data, base: symbol.toUpperCase(), quote: quote.toUpperCase() },
+          data: {
+            ...request.data,
+            base: symbol.toUpperCase(),
+            quote: quote.toUpperCase(),
+          },
         }
         payload.push([
           individualRequest,

@@ -649,6 +649,30 @@ describe('side effect tests', () => {
         })
       })
     })
+    it('should match on request failures and not emit nothing if error threshold is -1', () => {
+      scheduler.run(({ hot, expectObservable }) => {
+        const action$ = actionStream(hot, 'a', {
+          a: actions.warmupFailed({
+            key: key1,
+            error: Error('We havin a bad time'),
+          }),
+        })
+        const state$ = stateStream({
+          cacheWarmer: {
+            warmups: {
+              [key1]: {
+                error: null,
+                errorCount: 3,
+                successCount: 0,
+              },
+            },
+          },
+        })
+        const config = { ...epicDependencies.config, unhealthyThreshold: -1 }
+        const output$ = warmupUnsubscriber(action$, state$, { config })
+        expectObservable(output$).toBe('', {})
+      })
+    })
     it('should start a subscription timeout timer that resets on every resubscription for the same key', () => {
       scheduler.run(({ hot, expectObservable }) => {
         const action$ = actionStream(hot, 'a b 50m a 50m a', {
