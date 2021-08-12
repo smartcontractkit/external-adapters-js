@@ -1,7 +1,8 @@
-import { AdapterRequest, MakeWSHandler, Middleware } from '@chainlink/types'
+import { AdapterRequest, MakeWSHandler, Middleware, AdapterContext, WSHandler } from '@chainlink/types'
 import { Store } from 'redux'
 import { connectRequested, subscribeRequested, WSSubscriptionPayload } from './actions'
 import { getWSConfig } from './config'
+import { WSConfig } from './types'
 import { RootState } from './reducer'
 
 export * as actions from './actions'
@@ -25,11 +26,51 @@ export const withWebSockets = (
       wsHandler.connection.url = programmaticConnectionInfo.url
     }
   }
-
+  
   store.dispatch(connectRequested({ config: wsConfig, wsHandler }))
 
+  if (isBatchedRequest(input)) {
+    await batchSubscribeToWs(input, input, store, context, wsHandler, wsConfig, Object.keys(input.data))
+  } else {
+    const subscriptionMsg = wsHandler.subscribe(input)
+    if (!subscriptionMsg) return await execute(input, context)
+    await subscribeToWs(input, store, context, wsHandler, wsConfig)
+  }
+  return await execute(input, context)
+}
+
+const batchSubscribeToWs = async (
+  curr: AdapterRequest,
+  input: AdapterRequest, 
+  store: Store<RootState>, 
+  context: AdapterContext, 
+  wsHandler: WSHandler, 
+  wsConfig: WSConfig, 
+  dataFields: string[]
+) => {
+  if (dataFields.length === 0) {
+    await subscribeToWs(curr, store, context, wsHandler, wsConfig)
+  } else {
+    let dataValues = input.data[dataFields[0]]
+    if (dataValues) {
+      dataValues = Array.isArray(dataValues) ? dataValues : [dataValues]
+      for (const val of dataValues) {
+        let updatedCurr = JSON.parse(JSON.stringify(curr))
+        updatedCurr = {
+          ...curr,
+          data: {
+            ...curr.data,
+            [dataFields[0]]: val
+          }
+        }
+        await batchSubscribeToWs(updatedCurr, input, store, context, wsHandler, wsConfig, dataFields.slice(1))
+      }
+    }
+  }
+}
+
+const subscribeToWs = async (input: AdapterRequest, store: Store<RootState>, context: AdapterContext, wsHandler: WSHandler, wsConfig: WSConfig) => {
   const subscriptionMsg = wsHandler.subscribe(input)
-  if (!subscriptionMsg) return await execute(input, context)
 
   const subscriptionPayload: WSSubscriptionPayload = {
     connectionInfo: {
@@ -42,5 +83,14 @@ export const withWebSockets = (
   }
 
   store.dispatch(subscribeRequested(subscriptionPayload))
-  return await execute(input, context)
+}
+
+const isBatchedRequest = (input: AdapterRequest): boolean => {
+  const data = input.data 
+  for (const values of Object.values(data)) {
+    if (Array.isArray(values)) {
+      return true 
+    }
+  }
+  return false 
 }
