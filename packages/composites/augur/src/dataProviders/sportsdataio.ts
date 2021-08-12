@@ -12,6 +12,11 @@ const getEpochTime = (dateTime: string, zone = 'America/New_York'): number => {
   return DateTime.fromISO(dateTime, { zone }).toMillis()
 }
 
+interface NFLTeam {
+  GlobalTeamID: number
+  FullName: string
+}
+
 interface NFLEvent {
   PointSpread: number | null
   Date: string | null
@@ -94,7 +99,25 @@ const getCurrentSeason = async (
   }
 
   const response = await exec(input, context)
-  Logger.debug(response.data)
+  return response.data.result
+}
+
+const getTeams = async (
+  id: string,
+  sport: string,
+  exec: Execute,
+  context: AdapterContext,
+): Promise<NFLTeam[]> => {
+  if (sport !== 'nfl') return []
+
+  const input = {
+    id,
+    data: {
+      sport,
+      endpoint: 'teams',
+    },
+  }
+  const response = await exec(input, context)
   return response.data.result
 }
 
@@ -123,6 +146,25 @@ const getSchedule = async (
 
         events = [...events, ...filtered]
       }
+
+      // Need full team names. API just returns an abbreviations
+      const teamNames = await getTeams(id, sport, exec, context)
+      events = events.map((event) => {
+        const homeTeam = teamNames.find(
+          ({ GlobalTeamID }) => GlobalTeamID === event.GlobalHomeTeamID,
+        )
+        const awayTeam = teamNames.find(
+          ({ GlobalTeamID }) => GlobalTeamID === event.GlobalAwayTeamID,
+        )
+
+        if (!homeTeam || !awayTeam) return event
+
+        return {
+          ...event,
+          AwayTeam: awayTeam.FullName,
+          HomeTeam: homeTeam.FullName,
+        }
+      })
 
       return (events as NFLEvent[]).map((event) => ({
         Date: event.Date || event.Day,
