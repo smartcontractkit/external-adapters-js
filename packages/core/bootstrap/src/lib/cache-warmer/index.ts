@@ -1,4 +1,4 @@
-import { AdapterRequest, Execute, MakeWSHandler, Middleware, AdapterResponse } from '@chainlink/types'
+import { AdapterRequest, Execute, MakeWSHandler, Middleware } from '@chainlink/types'
 import { Store } from 'redux'
 import { withMiddleware } from '../../index'
 import { logger } from '../external-adapter'
@@ -9,7 +9,7 @@ import { getSubsId, RootState as WSState } from '../ws/reducer'
 import { separateBatches } from "../ws/utils"
 import * as actions from './actions'
 import { CacheWarmerState } from './reducer'
-import { concatenateBatchResults, getSubscriptionKey } from './util'
+import { getSubscriptionKey } from './util'
 
 export * as actions from './actions'
 export * as epics from './epics'
@@ -52,7 +52,7 @@ export const withCacheWarmer = (
     // If WS is available, and there is an active subscription, warmer should not be active
     const wsHandler = await ws.makeWSHandler()
 
-    const executeFunctions: Promise<AdapterResponse>[] = []
+    let batchMemberHasActiveCWSubsription = false
     separateBatches(input, input, Object.keys(input.data), async (singleInput: AdapterRequest) => {
       const wsSubscriptionKey = getSubsId(wsHandler.subscribe(singleInput))
       const cacheWarmerKey = getSubscriptionKey(warmupSubscribedPayload)
@@ -75,21 +75,11 @@ export const withCacheWarmer = (
             )
           warmerStore.dispatch(actions.warmupUnsubscribed({ key: cacheWarmerKey }))
         }
-        executeFunctions.push(execute(input, context))
+        batchMemberHasActiveCWSubsription = true
       }
     })
-    if (executeFunctions.length > 0) {
-      const responses = await Promise.all(executeFunctions)
-      let result: AdapterResponse = {
-        jobRunID: '1', 
-        statusCode: 200, 
-        data: {}, 
-        result: 1
-      }
-      for (const resp of responses) {
-        result = concatenateBatchResults(result, resp)
-      }
-      return result
+    if (batchMemberHasActiveCWSubsription) {
+      return await execute(input, context)
     }
   }
 

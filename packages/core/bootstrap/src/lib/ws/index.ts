@@ -35,16 +35,14 @@ export const withWebSockets = (
       await subscribeToWs(singleInput, store, context, wsHandler, wsConfig)
     })
   } else {
-    const subscriptionMsg = wsHandler.subscribe(input)
-    if (!subscriptionMsg) return await execute(input, context)
     await subscribeToWs(input, store, context, wsHandler, wsConfig)
   }
   return await execute(input, context)
 }
 
-const subscribeToWs = async (input: AdapterRequest, store: Store<RootState>, context: AdapterContext, wsHandler: WSHandler, wsConfig: WSConfig) => {
+const subscribeToWs = async (input: AdapterRequest, store: Store<RootState>, context: AdapterContext, wsHandler: WSHandler, wsConfig: WSConfig): Promise<void> => {
   const subscriptionMsg = wsHandler.subscribe(input)
-  
+  if (!subscriptionMsg) return
   const subscriptionPayload: WSSubscriptionPayload = {
     connectionInfo: {
       key: wsConfig.connectionInfo.key,
