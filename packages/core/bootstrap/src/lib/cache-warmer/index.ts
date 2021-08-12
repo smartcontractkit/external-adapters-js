@@ -1,4 +1,4 @@
-import { AdapterRequest, Execute, MakeWSHandler, Middleware } from '@chainlink/types'
+import { AdapterRequest, Execute, MakeWSHandler, Middleware, AdapterResponse } from '@chainlink/types'
 import { Store } from 'redux'
 import { withMiddleware } from '../../index'
 import { logger } from '../external-adapter'
@@ -6,9 +6,10 @@ import { getFeedId } from '../metrics/util'
 import * as util from '../util'
 import { getWSConfig } from '../ws/config'
 import { getSubsId, RootState as WSState } from '../ws/reducer'
+import { separateBatches } from "../ws/utils"
 import * as actions from './actions'
 import { CacheWarmerState } from './reducer'
-import { getSubscriptionKey } from './util'
+import { concatenateBatchResults, getSubscriptionKey } from './util'
 
 export * as actions from './actions'
 export * as epics from './epics'
@@ -50,29 +51,45 @@ export const withCacheWarmer = (
   if (wsConfig.enabled && ws.makeWSHandler) {
     // If WS is available, and there is an active subscription, warmer should not be active
     const wsHandler = await ws.makeWSHandler()
-    const wsSubscriptionKey = getSubsId(wsHandler.subscribe(input))
-    const cacheWarmerKey = getSubscriptionKey(warmupSubscribedPayload)
 
-    // Could happen that a subscription is still loading. If that's the case, warmer will open a subscription. If the WS becomes active, on next requests warmer will be unsubscribed
-    const isActiveWSSubscription = ws.store.getState().subscriptions.all[wsSubscriptionKey]?.active
-    // If there is a WS subscription active, warmup subscription (if exists) should be removed, and not play for the moment
-    const isActiveCWSubsciption = warmerStore.getState().subscriptions[cacheWarmerKey]
-    if (isActiveWSSubscription) {
-      if (isActiveCWSubsciption) {
-        logger.info(`Active WS feed detected: disabling cache warmer for ${getFeedId(input)}`)
-        // If there is a Batch WS subscription active, warmup subscription should be removed
-        if (isActiveCWSubsciption.parent && isActiveCWSubsciption.batchablePropertyPath)
-          warmerStore.dispatch(
-            actions.warmupLeaveGroup({
-              parent: isActiveCWSubsciption.parent,
-              childLastSeenById: { [cacheWarmerKey]: Date.now() },
-              batchablePropertyPath: isActiveCWSubsciption.batchablePropertyPath,
-            }),
-          )
-        warmerStore.dispatch(actions.warmupUnsubscribed({ key: cacheWarmerKey }))
+    const executeFunctions: Promise<AdapterResponse>[] = []
+    separateBatches(input, input, Object.keys(input.data), async (singleInput: AdapterRequest) => {
+      const wsSubscriptionKey = getSubsId(wsHandler.subscribe(singleInput))
+      const cacheWarmerKey = getSubscriptionKey(warmupSubscribedPayload)
+  
+      // Could happen that a subscription is still loading. If that's the case, warmer will open a subscription. If the WS becomes active, on next requests warmer will be unsubscribed
+      const isActiveWSSubscription = ws.store.getState().subscriptions.all[wsSubscriptionKey]?.active
+      // If there is a WS subscription active, warmup subscription (if exists) should be removed, and not play for the moment
+      const isActiveCWSubsciption = warmerStore.getState().subscriptions[cacheWarmerKey]
+      if (isActiveWSSubscription) {
+        if (isActiveCWSubsciption) {
+          logger.info(`Active WS feed detected: disabling cache warmer for ${getFeedId(singleInput)}`)
+          // If there is a Batch WS subscription active, warmup subscription should be removed
+          if (isActiveCWSubsciption.parent && isActiveCWSubsciption.batchablePropertyPath)
+            warmerStore.dispatch(
+              actions.warmupLeaveGroup({
+                parent: isActiveCWSubsciption.parent,
+                childLastSeenById: { [cacheWarmerKey]: Date.now() },
+                batchablePropertyPath: isActiveCWSubsciption.batchablePropertyPath,
+              }),
+            )
+          warmerStore.dispatch(actions.warmupUnsubscribed({ key: cacheWarmerKey }))
+        }
+        executeFunctions.push(execute(input, context))
       }
-
-      return await execute(input, context)
+    })
+    if (executeFunctions.length > 0) {
+      const responses = await Promise.all(executeFunctions)
+      let result: AdapterResponse = {
+        jobRunID: '1', 
+        statusCode: 200, 
+        data: {}, 
+        result: 1
+      }
+      for (const resp of responses) {
+        result = concatenateBatchResults(result, resp)
+      }
+      return result
     }
   }
 

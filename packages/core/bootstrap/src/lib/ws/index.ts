@@ -4,6 +4,7 @@ import { connectRequested, subscribeRequested, WSSubscriptionPayload } from './a
 import { getWSConfig } from './config'
 import { WSConfig } from './types'
 import { RootState } from './reducer'
+import { separateBatches } from './utils'
 
 export * as actions from './actions'
 export * as config from './config'
@@ -30,7 +31,9 @@ export const withWebSockets = (
   store.dispatch(connectRequested({ config: wsConfig, wsHandler }))
 
   if (isBatchedRequest(input)) {
-    await batchSubscribeToWs(input, input, store, context, wsHandler, wsConfig, Object.keys(input.data))
+    await separateBatches(input, input, Object.keys(input.data), async (singleInput: AdapterRequest) => {
+      await subscribeToWs(singleInput, store, context, wsHandler, wsConfig)
+    })
   } else {
     const subscriptionMsg = wsHandler.subscribe(input)
     if (!subscriptionMsg) return await execute(input, context)
@@ -39,39 +42,9 @@ export const withWebSockets = (
   return await execute(input, context)
 }
 
-const batchSubscribeToWs = async (
-  curr: AdapterRequest,
-  input: AdapterRequest, 
-  store: Store<RootState>, 
-  context: AdapterContext, 
-  wsHandler: WSHandler, 
-  wsConfig: WSConfig, 
-  dataFields: string[]
-) => {
-  if (dataFields.length === 0) {
-    await subscribeToWs(curr, store, context, wsHandler, wsConfig)
-  } else {
-    let dataValues = input.data[dataFields[0]]
-    if (dataValues) {
-      dataValues = Array.isArray(dataValues) ? dataValues : [dataValues]
-      for (const val of dataValues) {
-        let updatedCurr = JSON.parse(JSON.stringify(curr))
-        updatedCurr = {
-          ...curr,
-          data: {
-            ...curr.data,
-            [dataFields[0]]: val
-          }
-        }
-        await batchSubscribeToWs(updatedCurr, input, store, context, wsHandler, wsConfig, dataFields.slice(1))
-      }
-    }
-  }
-}
-
 const subscribeToWs = async (input: AdapterRequest, store: Store<RootState>, context: AdapterContext, wsHandler: WSHandler, wsConfig: WSConfig) => {
   const subscriptionMsg = wsHandler.subscribe(input)
-
+  
   const subscriptionPayload: WSSubscriptionPayload = {
     connectionInfo: {
       key: wsConfig.connectionInfo.key,
