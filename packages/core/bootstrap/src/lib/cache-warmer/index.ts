@@ -52,7 +52,7 @@ export const withCacheWarmer = (
     // If WS is available, and there is an active subscription, warmer should not be active
     const wsHandler = await ws.makeWSHandler()
 
-    let batchMemberHasActiveCWSubsription = false
+    let batchMemberHasActiveWSSubscription = false
     separateBatches(input, input, Object.keys(input.data), async (singleInput: AdapterRequest) => {
       const wsSubscriptionKey = getSubsId(wsHandler.subscribe(singleInput))
       const cacheWarmerKey = getSubscriptionKey(warmupSubscribedPayload)
@@ -75,10 +75,10 @@ export const withCacheWarmer = (
             )
           warmerStore.dispatch(actions.warmupUnsubscribed({ key: cacheWarmerKey }))
         }
-        batchMemberHasActiveCWSubsription = true
+        batchMemberHasActiveWSSubscription = true
       }
     })
-    if (batchMemberHasActiveCWSubsription) {
+    if (batchMemberHasActiveWSSubscription) {
       return await execute(input, context)
     }
   }
