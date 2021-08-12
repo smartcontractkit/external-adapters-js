@@ -39,13 +39,9 @@ export const withWebSockets = (
     return await awaitResult(context, input, deadline)
   }
 
-  if (isBatchedRequest(input)) {
-    await separateBatches(input, input, Object.keys(input.data), async (singleInput: AdapterRequest) => {
-      await subscribeToWs(singleInput, store, context, wsHandler, wsConfig)
-    })
-  } else {
-    await subscribeToWs(input, store, context, wsHandler, wsConfig)
-  }
+  await separateBatches(input, input, Object.keys(input.data), async (singleInput: AdapterRequest) => {
+    await subscribeToWs(singleInput, store, context, wsHandler, wsConfig)
+  })
   return await execute(input, context)
 }
 
@@ -63,16 +59,6 @@ const subscribeToWs = async (input: AdapterRequest, store: Store<RootState>, con
   }
 
   store.dispatch(subscribeRequested(subscriptionPayload))
-}
-
-const isBatchedRequest = (input: AdapterRequest): boolean => {
-  const data = input.data 
-  for (const values of Object.values(data)) {
-    if (Array.isArray(values)) {
-      return true 
-    }
-  }
-  return false 
 }
 
 const awaitResult = async (context: AdapterContext, input: AdapterRequest, deadline: number) => {
