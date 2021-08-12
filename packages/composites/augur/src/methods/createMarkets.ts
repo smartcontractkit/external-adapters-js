@@ -62,11 +62,11 @@ const createTeam = async (
   context: AdapterContext,
   config: Config,
 ) => {
-  const contract =
-    sport === 'nfl'
-      ? new ethers.Contract(contractAddress, NFL_ABI, config.wallet)
-      : new ethers.Contract(contractAddress, TEAM_ABI, config.wallet)
-
+  const contract = new ethers.Contract(
+    contractAddress,
+    sport === 'nfl' ? NFL_ABI : TEAM_ABI,
+    config.wallet,
+  )
   const req = {
     id: jobRunID,
     data: {
