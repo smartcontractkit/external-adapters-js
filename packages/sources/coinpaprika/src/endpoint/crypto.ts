@@ -1,23 +1,55 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, AdapterRequest, InputParameters } from '@chainlink/types'
+import {
+  ExecuteWithConfig,
+  Config,
+  AdapterRequest,
+  InputParameters,
+  AxiosResponse,
+} from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
-import { getCoinIds, getSymbolToId } from '../util'
+import { getCoin } from '../util'
 
 export const supportedEndpoints = ['crypto', 'price', 'marketcap']
+export const batchablePropertyPath = [{ name: 'base' }, { name: 'quote' }]
 
-const buildPath =
-  (path: string) =>
-  (request: AdapterRequest): string => {
-    const validator = new Validator(request, inputParameters)
-    if (validator.error) throw validator.error
-    const quote = validator.validated.data.quote
-    return `quotes.${quote.toUpperCase()}.${path}`
+export interface ResponseSchema {
+  id: string
+  name: string
+  symbol: string
+  rank: number
+  circulating_supply: number
+  total_supply: number
+  max_supply: number
+  beta_value: number
+  first_data_at: string
+  last_updated: string
+  quotes: {
+    [quote: string]: {
+      price: number
+      volume_24h: number
+      volume_24h_change_24h: number
+      market_cap: number
+      market_cap_change_24h: number
+      percent_change_15m: number
+      percent_change_30m: number
+      percent_change_1h: number
+      percent_change_6h: number
+      percent_change_12h: number
+      percent_change_24h: number
+      percent_change_7d: number
+      percent_change_30d: number
+      percent_change_1y: number
+      ath_price: number
+      ath_date: string
+      percent_from_price_ath: number
+    }
   }
+}
 
 export const endpointResultPaths = {
-  crypto: buildPath('price'),
-  marketcap: buildPath('market_cap'),
-  price: buildPath('price'),
+  crypto: 'price',
+  marketcap: 'market_cap',
+  price: 'price',
 }
 
 export const inputParameters: InputParameters = {
@@ -27,38 +59,102 @@ export const inputParameters: InputParameters = {
   resultPath: false,
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
+interface RequestedData {
+  symbol?: string
+  coinid?: string
+}
+
+const handleBatchedRequest = (
+  jobRunID: string,
+  request: AdapterRequest,
+  response: AxiosResponse,
+  requestedData: RequestedData[],
+  resultPath: string,
+) => {
+  const responseData = response.data as ResponseSchema[]
+  const payload: [AdapterRequest, number][] = []
+
+  requestedData.forEach(({ coinid, symbol }) => {
+    const coin = getCoin(responseData, symbol, coinid)
+    if (!coin) {
+      throw new Error(`unable to find coin: ${coinid || symbol}`)
+    }
+
+    for (const quote in coin.quotes) {
+      payload.push([
+        {
+          ...request,
+          data: {
+            ...request.data,
+            base: coin.symbol.toUpperCase(),
+            quote: quote.toUpperCase(),
+          },
+        },
+        Requester.validateResultNumber(coin, ['quotes', quote, resultPath]),
+      ])
+    }
+  })
+
+  // We'll reset the response data to not output the entire CP coins list
+  const result = Requester.withResult({ ...response, data: {} }, undefined, payload)
+  return Requester.success(jobRunID, result, true, batchablePropertyPath)
+}
+
+export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const symbol = validator.overrideSymbol(AdapterName) as string
-  const quote = validator.validated.data.quote
+  const symbol = validator.overrideSymbol(AdapterName)
+  const requestedQuotes = validator.validated.data.quote
   const coinid = validator.validated.data.coinid as string | undefined
 
-  // If coinid was provided or base was overridden, that symbol will be fetched
-  let coin = coinid || (symbol !== validator.validated.data.base && symbol)
-  if (!coin) {
-    const coinIds = await getCoinIds(context, jobRunID)
-    coin = await getSymbolToId(symbol, coinIds)
+  const url = 'v1/tickers'
+  const resultPath = validator.validated.data.resultPath || endpointResultPaths.crypto
+
+  let quotes: string
+  if (Array.isArray(requestedQuotes)) {
+    quotes = requestedQuotes.map((quote) => quote.toUpperCase()).join(',')
+  } else {
+    quotes = requestedQuotes.toUpperCase()
   }
 
-  const url = `v1/tickers/${coin.toLowerCase()}`
-  const resultPath = validator.validated.data.resultPath
-
-  const params = {
-    quotes: quote.toUpperCase(),
-  }
-
+  const params = { quotes }
   const options = {
     ...config.api,
     url,
     params,
   }
 
-  const response = await Requester.request(options)
-  response.data.result = Requester.validateResultNumber(response.data, resultPath)
-  response.data.cost = 2
+  if (Array.isArray(symbol)) {
+    const requestedData: RequestedData[] = []
 
-  return Requester.success(jobRunID, response, config.verbose)
+    for (let i = 0; i < symbol.length; i++) {
+      if (symbol[i] !== validator.validated.data.base[i]) {
+        requestedData.push({ coinid: symbol[i] })
+      } else {
+        requestedData.push({ symbol: symbol[i] })
+      }
+    }
+
+    const response = await Requester.request<ResponseSchema[]>(options)
+    return handleBatchedRequest(jobRunID, request, response, requestedData, resultPath)
+  }
+
+  // If coinid was provided or base was overridden, that symbol will be fetched
+  const coin = coinid || (symbol !== validator.validated.data.base && symbol ? symbol : undefined)
+
+  const response = await Requester.request<ResponseSchema[]>(options)
+
+  const coinData = getCoin(response.data, symbol, coin)
+  if (!coinData) {
+    throw new Error(`unable to find coin: ${coin || symbol}`)
+  }
+
+  const result = Requester.validateResultNumber(coinData, [
+    'quotes',
+    requestedQuotes.toUpperCase(),
+    resultPath,
+  ])
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }
