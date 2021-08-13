@@ -303,6 +303,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/ethgasstation"
       },
       {
+        "name": "@chainlink/ethgaswatch-adapter",
+        "reference": "workspace:packages/sources/ethgaswatch"
+      },
+      {
         "name": "@chainlink/expert-car-broker-adapter",
         "reference": "workspace:packages/sources/expert-car-broker"
       },
@@ -584,6 +588,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/eodhistoricaldata-adapter", ["workspace:packages/sources/eodhistoricaldata"]],
       ["@chainlink/etherchain-adapter", ["workspace:packages/sources/etherchain"]],
       ["@chainlink/ethgasstation-adapter", ["workspace:packages/sources/ethgasstation"]],
+      ["@chainlink/ethgaswatch-adapter", ["workspace:packages/sources/ethgaswatch"]],
       ["@chainlink/ethwrite-adapter", ["workspace:packages/targets/ethwrite"]],
       ["@chainlink/example-composite-adapter", ["workspace:packages/examples/composite"]],
       ["@chainlink/example-source-adapter", ["workspace:packages/examples/source"]],
@@ -4058,6 +4063,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/eodhistoricaldata-adapter", "workspace:packages/sources/eodhistoricaldata"],
             ["@chainlink/etherchain-adapter", "workspace:packages/sources/etherchain"],
             ["@chainlink/ethgasstation-adapter", "workspace:packages/sources/ethgasstation"],
+            ["@chainlink/ethgaswatch-adapter", "workspace:packages/sources/ethgaswatch"],
             ["@chainlink/expert-car-broker-adapter", "workspace:packages/sources/expert-car-broker"],
             ["@chainlink/fcsapi-adapter", "workspace:packages/sources/fcsapi"],
             ["@chainlink/finage-adapter", "workspace:packages/sources/finage"],
@@ -4072,6 +4078,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/intrinio-adapter", "workspace:packages/sources/intrinio"],
             ["@chainlink/json-rpc-adapter", "workspace:packages/sources/json-rpc"],
             ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],
+            ["@chainlink/layer2-sequencer-health-adapter", "workspace:packages/sources/layer2-sequencer-health"],
             ["@chainlink/lcx-adapter", "workspace:packages/sources/lcx"],
             ["@chainlink/linkpool-adapter", "workspace:packages/sources/linkpool"],
             ["@chainlink/lition-adapter", "workspace:packages/sources/lition"],
@@ -4282,6 +4289,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.0.1"],
             ["@types/node", "npm:14.17.7"],
             ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/ethgaswatch-adapter", [
+        ["workspace:packages/sources/ethgaswatch", {
+          "packageLocation": "./packages/sources/ethgaswatch/",
+          "packageDependencies": [
+            ["@chainlink/ethgaswatch-adapter", "workspace:packages/sources/ethgaswatch"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:26.0.24"],
+            ["@types/node", "npm:14.17.7"],
+            ["tslib", "npm:2.3.0"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
