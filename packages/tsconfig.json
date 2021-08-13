@@ -246,6 +246,9 @@
       "path": "./sources/kaiko"
     },
     {
+      "path": "./sources/layer2-sequencer-health"
+    },
+    {
       "path": "./sources/lcx"
     },
     {
@@ -262,6 +265,9 @@
     },
     {
       "path": "./sources/metalsapi"
+    },
+    {
+      "path": "./sources/mycryptoapi"
     },
     {
       "path": "./sources/ncfx"
