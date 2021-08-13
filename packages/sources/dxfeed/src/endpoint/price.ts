@@ -1,5 +1,11 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import { 
+  ExecuteWithConfig,
+  Config,
+  InputParameters,
+  AxiosResponse,
+  AdapterRequest
+} from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['price', 'crypto', 'stock', 'forex']
@@ -19,7 +25,13 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const symbol = (validator.overrideSymbol(AdapterName) as string).toUpperCase()
+  const base = validator.validated.data.base
+  const symbol = Array.isArray(base)
+    ? base.map((symbol) => symbol.toUpperCase()).join(',')
+    : (validator.overrideSymbol(AdapterName) as string).toUpperCase()
+
+  console.log('symbol', symbol)
+
   const events = quoteEventSymbols[symbol] ? 'Quote' : 'Trade'
 
   const url = 'events.json'
@@ -34,8 +46,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url,
     params,
   }
-
   const response = await Requester.request(options, customError)
+
+  if(Array.isArray(base)) {
+    return handleBatchedRequest(jobRunID, response, events)
+  }
 
   const quotePath = ['Quote', symbol, 'bidPrice']
   const tradePath = ['Trade', symbol, 'price']
@@ -44,4 +59,19 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     events === 'Quote' ? quotePath : tradePath,
   )
   return Requester.success(jobRunID, response, config.verbose)
+}
+
+const handleBatchedRequest = (
+  jobRunID: string,
+  response: AxiosResponse,
+  events: string
+) => {
+  const payload: [AdapterRequest, number][] = []
+  for (const base in response.data[events]) {
+    const info = response.data[events][base]
+    payload.push(info)
+    Requester.validateResultNumber(response.data, [events, base, 'price'])
+  }
+  response.data.result = payload
+  return Requester.success(jobRunID, response, true)
 }
