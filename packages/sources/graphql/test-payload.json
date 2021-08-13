@@ -1,0 +1,8 @@
+{
+  "requests": [{
+    "query":"{\n  token(id:\"0x00000000000045166c45af0fc6e4cf31d9e14b9a\") {\n    id,\n    symbol\n  }\n}\n",
+    "variables": null,
+    "graphqlEndpoint": "https://api.thegraph.com/subgraphs/name/benesjan/uniswap-v3-subgraph"
+  }]
+ }
+ 

@@ -9,21 +9,30 @@ const environmentVariables = [
   { envKey: 'NOMICS_ADAPTER_URL', value: 'nomics' },
 ]
 
-function searchEnvironment() {
+function searchEnvironment(environmentVariables) {
+  const values = []
   for (const { envKey, value } of environmentVariables) {
     const isSetEnvVar = process.env[envKey]
-    if (isSetEnvVar) return value
+    if (isSetEnvVar) values.push(value)
   }
+  return values
 }
 
 function generateTestPayload() {
   const payload = {
-    request: {
+    requests: [],
+  }
+
+  const sources = searchEnvironment(environmentVariables)
+
+  for (const source in sources) {
+    payload.requests.push({
       from: 'sDEFI',
       to: 'USD',
-      source: searchEnvironment(),
-    },
+      source,
+    })
   }
+
   return JSON.stringify(payload)
 }
 
