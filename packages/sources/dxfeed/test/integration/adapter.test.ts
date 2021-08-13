@@ -24,6 +24,23 @@ describe('execute', () => {
     })
   })
 
+  describe('successful batch calls', () => {
+    const requests = [
+      {
+        name: 'supports multiple symbols',
+        testData: { id: jobID, data: { base: ['TSLA', 'AAPL'] } },
+      },
+    ]
+
+    requests.forEach((req) => {
+      it(`${req.name}`, async () => {
+        const data = await execute(req.testData as AdapterRequest)
+        assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
+        expect(Object.keys(data.result).length).toBeGreaterThan(0)
+      })
+    })
+  })
+
   describe('validation error', () => {
     const requests = [
       { name: 'empty body', testData: {} },
