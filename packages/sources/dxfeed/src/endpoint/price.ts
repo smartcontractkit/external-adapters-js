@@ -30,10 +30,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     ? base.map((symbol) => symbol.toUpperCase()).join(',')
     : (validator.overrideSymbol(AdapterName) as string).toUpperCase()
 
-  console.log('symbol', symbol)
-
   const events = quoteEventSymbols[symbol] ? 'Quote' : 'Trade'
-
   const url = 'events.json'
 
   const params = {
