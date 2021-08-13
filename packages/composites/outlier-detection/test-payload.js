@@ -11,21 +11,33 @@ const assetEnvironmentVariables = [
 ]
 
 function searchEnvironment(environmentVariables) {
+  const values = []
   for (const { envKey, value } of environmentVariables) {
     const isSetEnvVar = process.env[envKey]
-    if (isSetEnvVar) return value
+    if (isSetEnvVar) values.push(value)
   }
+  return values
 }
 
 function generateTestPayload() {
   const payload = {
-    request: {
-      contract: '0x0dEaf87519D434DCF74551B2E907aF18D2304946',
-      multiply: 1e8,
-      source: searchEnvironment(sourceEnvironmentVariables),
-      asset: searchEnvironment(assetEnvironmentVariables),
-    },
+    requests: [],
   }
+
+  const sources = searchEnvironment(sourceEnvironmentVariables)
+  const assets = searchEnvironment(assetEnvironmentVariables)
+
+  for (const asset in assets) {
+    for (const source in sources) {
+      payload.requests.push({
+        contract: '0x0dEaf87519D434DCF74551B2E907aF18D2304946',
+        multiply: 1e8,
+        source,
+        asset,
+      })
+    }
+  }
+
   return JSON.stringify(payload)
 }
 

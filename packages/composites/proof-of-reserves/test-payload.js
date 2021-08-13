@@ -15,19 +15,31 @@ const indexerEnvironmentVariables = [
 ]
 
 function searchEnvironment(environmentVariables) {
+  const values = []
   for (const { envKey, value } of environmentVariables) {
     const isSetEnvVar = process.env[envKey]
-    if (isSetEnvVar) return value
+    if (isSetEnvVar) values.push(value)
   }
+  return values
 }
 
 function generateTestPayload() {
   const payload = {
-    request: {
-      indexer: searchEnvironment(indexerEnvironmentVariables),
-      protocol: searchEnvironment(protocolEnvironmentVariables),
-    },
+    requests: [],
   }
+
+  const indexers = searchEnvironment(indexerEnvironmentVariables)
+  const protocols = searchEnvironment(protocolEnvironmentVariables)
+
+  for (const indexer in indexers) {
+    for (const protocol in protocols) {
+      payload.requests.push({
+        indexer,
+        protocol,
+      })
+    }
+  }
+
   return JSON.stringify(payload)
 }
 
