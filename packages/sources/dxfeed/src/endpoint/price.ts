@@ -27,7 +27,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const jobRunID = validator.validated.id
   const base = validator.validated.data.base
   const symbol = Array.isArray(base)
-    ? base.map((symbol) => symbol.toUpperCase()).join(',')
+    ? base.map(symbol => symbol.toUpperCase()).join(',')
     : (validator.overrideSymbol(AdapterName) as string).toUpperCase()
 
   const events = quoteEventSymbols[symbol] ? 'Quote' : 'Trade'
