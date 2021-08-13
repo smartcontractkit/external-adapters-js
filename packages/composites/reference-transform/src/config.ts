@@ -6,12 +6,10 @@ export type Config = {
   sources: { [name: string]: DefaultConfig }
 }
 
-export const ENV_ADAPTER_URL = 'ADAPTER_URL'
-
 export const makeConfig = (prefix = ''): Config => {
   const sources: { [name: string]: DefaultConfig } = {}
   for (const a of legos.sources) {
-    const url = util.getEnv(ENV_ADAPTER_URL, a.toUpperCase())
+    const url = util.getURL(a.toUpperCase())
     if (url) {
       const defaultConfig = Requester.getDefaultConfig(prefix)
       defaultConfig.api.baseURL = url

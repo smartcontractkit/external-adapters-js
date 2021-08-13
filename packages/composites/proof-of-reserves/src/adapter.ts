@@ -1,4 +1,4 @@
-import { Logger } from '@chainlink/ea-bootstrap'
+import { Logger, util } from '@chainlink/ea-bootstrap'
 import {
   AdapterRequest,
   ExecuteWithConfig,
@@ -9,22 +9,22 @@ import {
   AdapterContext,
 } from '@chainlink/types'
 import { Validator, Requester } from '@chainlink/ea-bootstrap'
-import { makeConfig, makeOptions, getURL, DEFAULT_CONFIRMATIONS } from './config'
+import { makeConfig, makeOptions, DEFAULT_CONFIRMATIONS } from './config'
 import { runProtocolAdapter } from './protocol'
 import { Indexer, runBalanceAdapter } from './balance'
 import { runReduceAdapter } from './reduce'
 
-export const makeRequestFactory = (config: Config, prefix: string): Execute => async (
-  input: AdapterRequest,
-) =>
-  (
-    await Requester.request({
-      ...config.api,
-      method: 'post',
-      url: getURL(prefix, true),
-      data: input,
-    })
-  ).data as AdapterResponse
+export const makeRequestFactory =
+  (config: Config, prefix: string): Execute =>
+  async (input: AdapterRequest) =>
+    (
+      await Requester.request({
+        ...config.api,
+        method: 'post',
+        url: util.getURL(prefix, true),
+        data: input,
+      })
+    ).data as AdapterResponse
 
 // Run, log, throw on error
 export const callAdapter = async (

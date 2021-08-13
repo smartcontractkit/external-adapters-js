@@ -5,7 +5,8 @@ import { AdapterImplementation, Execute } from '@chainlink/types'
 import outlier_detection from '../src'
 import { adapters as sources } from '../src/source'
 import { adapters as checks } from '../src/check'
-import { Config, ENV_ADAPTER_URL } from '../src/config'
+import { Config } from '../src/config'
+import { util } from '@chainlink/ea-bootstrap'
 
 const AdapterStubs: Record<string, any> = {
   XBTO: {
@@ -59,7 +60,7 @@ const AdapterStubs: Record<string, any> = {
 // TODO: move to core/test-utils
 const setupEnvironment = (adapters: AdapterImplementation[]) => {
   for (const a of adapters) {
-    process.env[`${a.NAME}_${ENV_ADAPTER_URL}`] = `http://test/${a.NAME}`
+    process.env[`${a.NAME}_${util.ENV_ADAPTER_URL}`] = `http://test/${a.NAME}`
   }
 }
 // const startServices = (adapters: AdapterImplementation[]) => {}
@@ -186,7 +187,7 @@ describe(outlier_detection.NAME, () => {
             }),
           )
         }
-        const data = await execute(req.input)
+        const data = await execute(req.input, {})
         assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
         expect(data.result).toEqual(req.output)
         expect(data.data.result).toEqual(req.output)
@@ -221,7 +222,7 @@ describe(outlier_detection.NAME, () => {
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
-          await execute(req.input)
+          await execute(req.input, {})
         } catch (error) {
           const errorResp = Requester.errored(jobID, error)
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
