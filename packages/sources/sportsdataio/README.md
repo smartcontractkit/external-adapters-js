@@ -121,7 +121,7 @@ _None_
 
 | Required? |   Name   |      Description      |                     Options                      | Defaults to |
 | :-------: | :------: | :-------------------: | :----------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to query | [schedule](#ncaa-fb-schedule), [scores](#ncaa-fb-scores) |  schedule   |
+|           | endpoint | The endpoint to query | [schedule](#ncaa-fb-schedule), [scores](#ncaa-fb-scores), [current-season](#ncaa-fb-current-season)  |  schedule   |
 
 ### NCAA-FB Schedule
 
@@ -136,3 +136,7 @@ Get NCAA FB scores
 | Required? |  Name  |          Description          | Options | Defaults to |
 | :-------: | :----: | :---------------------------: | :-----: | :---------: |
 |    ✅     | season | The season to get scores from |         |             |
+
+### NCAA-FB Current Season
+
+Year of the current season. 

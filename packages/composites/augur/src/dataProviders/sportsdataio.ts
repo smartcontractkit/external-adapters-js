@@ -88,7 +88,7 @@ const getCurrentSeason = async (
   exec: Execute,
   context: AdapterContext,
 ): Promise<string> => {
-  if (sport !== 'nfl') return 'NO_INFO'
+  if (!['nfl', 'ncaa-fb'].includes(sport)) return 'NO_INFO'
 
   const input = {
     id,
@@ -127,10 +127,10 @@ const getSchedule = async (
   exec: Execute,
   context: AdapterContext,
 ): Promise<TeamSchedule[]> => {
+  const currentSeason = await getCurrentSeason(id, sport, exec, context)
   switch (sport) {
     case 'nfl': {
       let events: NFLEvent[] = []
-      const currentSeason = await getCurrentSeason(id, sport, exec, context)
 
       for (const seasonPostfixKey of ['PRE', '', 'POST', 'STAR']) {
         const input = {
@@ -186,7 +186,7 @@ const getSchedule = async (
         data: {
           sport,
           endpoint: 'schedule',
-          season: '2021', // TODO: Find a source for this information.
+          season: currentSeason,
         },
       }
 
@@ -220,10 +220,10 @@ const getScores = async (
   exec: Execute,
   context: AdapterContext,
 ): Promise<CommonScores[]> => {
+  const currentSeason = await getCurrentSeason(id, sport, exec, context)
   switch (sport) {
     case 'nfl': {
       let events: NFLScores[] = []
-      const currentSeason = await getCurrentSeason(id, sport, exec, context)
 
       for (const seasonPostfixKey of ['PRE', '', 'POST', 'STAR']) {
         const input = {
@@ -255,7 +255,7 @@ const getScores = async (
         data: {
           sport,
           endpoint: 'scores',
-          season: '2021', // TODO: Find a source for this information.
+          season: currentSeason,
         },
       }
 

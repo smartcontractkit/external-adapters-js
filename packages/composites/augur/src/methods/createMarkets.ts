@@ -97,10 +97,12 @@ const createTeam = async (
   for (let i = 0; i < events.length; i++) {
     const event = events[i]
     const payload =
-      sport !== 'nfl'
+      sport === 'nfl'
         ? [
             event.id,
+            event.homeTeamName,
             event.homeTeamId,
+            event.awayTeamName,
             event.awayTeamId,
             Math.floor(event.startTime / 1000),
             Math.round(event.homeSpread * 10),
@@ -112,9 +114,7 @@ const createTeam = async (
           ]
         : [
             event.id,
-            event.homeTeamName,
             event.homeTeamId,
-            event.awayTeamName,
             event.awayTeamId,
             Math.floor(event.startTime / 1000),
             Math.round(event.homeSpread * 10),
