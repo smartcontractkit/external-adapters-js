@@ -6,30 +6,30 @@ import { makeExecute } from '../../src/adapter'
 describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
-  process.env.RPC_URL = process.env.RPC_URL || "https://rpc.xdaichain.com/"
-  process.env.TIINGO_DATA_PROVIDER_URL = process.env.TIINGO_DATA_PROVIDER_URL || "http://localhost:3000"
+  process.env.RPC_URL = process.env.RPC_URL || 'https://rpc.xdaichain.com/'
+  process.env.TIINGO_ADAPTER_URL = process.env.TIINGO_ADAPTER_URL || 'http://localhost:3000'
 
   describe('successful calls @e2e', () => {
     const requests = [
       {
         name: 'id not supplied',
-        testData: { 
+        testData: {
           data: {
-            "pairContractAddress": "0x1bDe964eCd52429004CbC5812C07C28bEC9147e9",
-            "source": "tiingo"
-          } 
+            pairContractAddress: '0x1bDe964eCd52429004CbC5812C07C28bEC9147e9',
+            source: 'tiingo',
+          },
         },
       },
       {
         name: 'pair contract address supplied with id',
-        testData: { 
+        testData: {
           jobID: 1,
           data: {
-            "pairContractAddress": "0x1bDe964eCd52429004CbC5812C07C28bEC9147e9",
-            "source": "tiingo"
-          }
+            pairContractAddress: '0x1bDe964eCd52429004CbC5812C07C28bEC9147e9',
+            source: 'tiingo',
+          },
         },
-      }
+      },
     ]
 
     requests.forEach((req) => {
@@ -46,11 +46,11 @@ describe('execute', () => {
     const requests = [
       {
         name: 'invalid pairContractAddress',
-        testData: { 
+        testData: {
           jobID: 1,
           data: {
-            "pairContractAddress": "invalid-address"
-          } 
+            pairContractAddress: 'invalid-address',
+          },
         },
       },
     ]

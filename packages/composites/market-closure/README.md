@@ -15,7 +15,7 @@ The adapter takes the following environment variables:
 | Required? |                    Name                     |                                 Description                                 | Options | Defaults to |
 | :-------: | :-----------------------------------------: | :-------------------------------------------------------------------------: | :-----: | :---------: |
 |           | `CHECK_API_KEY` (when using `tradinghours`) |                 An API key when needed by a check provider                  |         |             |
-|    ✅     |        `{SOURCE}_DATA_PROVIDER_URL`         | The URL location for the price data provider adapter when `source={SOURCE}` |         |             |
+|    ✅     |           `{SOURCE}_ADAPTER_URL`            | The URL location for the price data provider adapter when `source={SOURCE}` |         |             |
 |    ✅     |                  `RPC_URL`                  |                ETH RPC URL to read the reference data value                 |         |             |
 
 ## Running
