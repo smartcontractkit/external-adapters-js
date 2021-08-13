@@ -28,12 +28,14 @@ export type Source = typeof adapters[number]['NAME']
 export const DEFAULT_TOKEN_DECIMALS = 18
 export const DEFAULT_TOKEN_BALANCE = 1
 
-export const ENV_DATA_PROVIDER_URL = 'DATA_PROVIDER_URL'
+export const LEGACY_ENV_ADAPTER_URL = 'ADAPTER_URL'
+export const ENV_ADAPTER_URL = 'ADAPTER_URL'
 
-export const getURL = (prefix: string, required = false) =>
+export const getURL = (prefix: string, required = false): string | undefined =>
   required
-    ? util.getRequiredEnv(ENV_DATA_PROVIDER_URL, prefix)
-    : util.getEnv(ENV_DATA_PROVIDER_URL, prefix)
+    ? util.getRequiredEnv(ENV_ADAPTER_URL, prefix) ||
+      util.getRequiredEnv(LEGACY_ENV_ADAPTER_URL, prefix)
+    : util.getEnv(ENV_ADAPTER_URL, prefix) || util.getEnv(LEGACY_ENV_ADAPTER_URL, prefix)
 
 export const makeConfig = (prefix = ''): Config => {
   const sources: SourceRequestOptions = {}
@@ -53,7 +55,7 @@ export const makeConfig = (prefix = ''): Config => {
     sources,
     defaultMethod: util.getEnv('DEFAULT_METHOD', prefix) || 'price',
     defaultQuote: util.getEnv('DEFAULT_QUOTE') || 'USD',
-    defaultSource: util.getEnv('DEFAULT_SOURCE')
+    defaultSource: util.getEnv('DEFAULT_SOURCE'),
   }
 }
 

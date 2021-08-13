@@ -6,7 +6,7 @@ import { adapters as SourceAdapters } from './source'
 export const DEFAULT_CHECK_THRESHOLD = 0
 export const DEFAULT_ONCHAIN_THRESHOLD = 0
 
-export const ENV_DATA_PROVIDER_URL = 'DATA_PROVIDER_URL'
+export const ENV_ADAPTER_URL = 'ADAPTER_URL'
 
 export type SourceRequestOptions = { [source: string]: RequestConfig }
 export type CheckRequestOptions = { [check: string]: RequestConfig }
@@ -46,9 +46,7 @@ export const makeRequestOptions = (prefix: string, url: string): RequestConfig =
 }
 
 export const getURL = (prefix: string, required = false) =>
-  required
-    ? util.getRequiredEnv(ENV_DATA_PROVIDER_URL, prefix)
-    : util.getEnv(ENV_DATA_PROVIDER_URL, prefix)
+  required ? util.getRequiredEnv(ENV_ADAPTER_URL, prefix) : util.getEnv(ENV_ADAPTER_URL, prefix)
 
 export const makeOptions = ({ sources, checks }: Config) => {
   return {

@@ -1,6 +1,6 @@
 const environmentVariables = [
-  { envKey: 'FINNHUB_DATA_PROVIDER_URL', value: 'finnhub' },
-  { envKey: 'FCSAPI_VOLATILITY_DATA_PROVIDER_URL', value: 'fcsapi' },
+  { envKey: 'FINNHUB_ADAPTER_URL', value: 'finnhub' },
+  { envKey: 'FCSAPI_VOLATILITY_ADAPTER_URL', value: 'fcsapi' },
 ]
 
 function searchEnvironment(environmentVariables) {

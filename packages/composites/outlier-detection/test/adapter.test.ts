@@ -5,7 +5,7 @@ import { AdapterImplementation, Execute } from '@chainlink/types'
 import outlier_detection from '../src'
 import { adapters as sources } from '../src/source'
 import { adapters as checks } from '../src/check'
-import { Config, ENV_DATA_PROVIDER_URL } from '../src/config'
+import { Config, ENV_ADAPTER_URL } from '../src/config'
 
 const AdapterStubs: Record<string, any> = {
   XBTO: {
@@ -59,7 +59,7 @@ const AdapterStubs: Record<string, any> = {
 // TODO: move to core/test-utils
 const setupEnvironment = (adapters: AdapterImplementation[]) => {
   for (const a of adapters) {
-    process.env[`${a.NAME}_${ENV_DATA_PROVIDER_URL}`] = `http://test/${a.NAME}`
+    process.env[`${a.NAME}_${ENV_ADAPTER_URL}`] = `http://test/${a.NAME}`
   }
 }
 // const startServices = (adapters: AdapterImplementation[]) => {}

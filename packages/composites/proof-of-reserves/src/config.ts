@@ -7,12 +7,10 @@ export const DEFAULT_CONFIRMATIONS = 6
 
 export const makeConfig = (prefix?: string): Config => Requester.getDefaultConfig(prefix)
 
-export const ENV_DATA_PROVIDER_URL = 'DATA_PROVIDER_URL'
+export const ENV_ADAPTER_URL = 'ADAPTER_URL'
 
 export const getURL = (prefix: string, required = false): string | undefined =>
-  required
-    ? util.getRequiredEnv(ENV_DATA_PROVIDER_URL, prefix)
-    : util.getEnv(ENV_DATA_PROVIDER_URL, prefix)
+  required ? util.getRequiredEnv(ENV_ADAPTER_URL, prefix) : util.getEnv(ENV_ADAPTER_URL, prefix)
 
 export type Options = {
   protocol: Protocol[]
