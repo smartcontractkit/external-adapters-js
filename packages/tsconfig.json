@@ -204,6 +204,9 @@
       "path": "./sources/ethgasstation"
     },
     {
+      "path": "./sources/ethgaswatch"
+    },
+    {
       "path": "./sources/expert-car-broker"
     },
     {
@@ -244,6 +247,9 @@
     },
     {
       "path": "./sources/kaiko"
+    },
+    {
+      "path": "./sources/layer2-sequencer-health"
     },
     {
       "path": "./sources/lcx"
