@@ -169,7 +169,9 @@ export class AdapterCache {
     })
   }
 
-  public async getResultForRequest(adapterRequest: AdapterRequest): Promise<AdapterResponse | undefined> {
+  public async getResultForRequest(
+    adapterRequest: AdapterRequest,
+  ): Promise<AdapterResponse | undefined> {
     const key = this.getKey(adapterRequest)
     const observe = metrics.beginObserveCacheMetrics({
       isFromWs: !!adapterRequest.debug?.ws,
@@ -217,108 +219,104 @@ export class AdapterCache {
   }
 }
 
-export const withCache = (rateLimit?: Store<reducer.BurstLimitState>): Middleware => async (
-  execute,
-  context: AdapterContext,
-) => {
-  // If disabled noop
-  if (!context?.cache?.instance) return (data: AdapterRequest) => execute(data, context)
+export const withCache =
+  (rateLimit?: Store<reducer.BurstLimitState>): Middleware =>
+  async (execute, context: AdapterContext) => {
+    // If disabled noop
+    if (!context?.cache?.instance) return (data: AdapterRequest) => execute(data, context)
 
-  const adapterCache = new AdapterCache(context)
+    const adapterCache = new AdapterCache(context)
 
-  const {
-    cache: options,
-    cache: { instance: cache },
-  } = context
+    const {
+      cache: options,
+      cache: { instance: cache },
+    } = context
 
-  return async (adapterRequest) => {
-    const key = adapterCache.getKey(adapterRequest)
-    const coalescingKey = adapterCache.getCoalescingKey(key)
-    const observe = metrics.beginObserveCacheMetrics({
-      isFromWs: !!adapterRequest.debug?.ws,
-      participantId: key,
-      feedId: adapterRequest.metricsMeta?.feedId || 'N/A',
-    })
+    return async (adapterRequest) => {
+      const key = adapterCache.getKey(adapterRequest)
+      const coalescingKey = adapterCache.getCoalescingKey(key)
+      const observe = metrics.beginObserveCacheMetrics({
+        isFromWs: !!adapterRequest.debug?.ws,
+        participantId: key,
+        feedId: adapterRequest.metricsMeta?.feedId || 'N/A',
+      })
 
-    try {
-      const cachedAdapterResponse = await adapterCache.getResultForRequest(adapterRequest)
-      if (cachedAdapterResponse) return cachedAdapterResponse
-    } catch (error) {
-      logger.warn(`Cache middleware error! Passing through. `, error)
-      return await execute(adapterRequest, context)
-    }
+      try {
+        const cachedAdapterResponse = await adapterCache.getResultForRequest(adapterRequest)
+        if (cachedAdapterResponse) return cachedAdapterResponse
+      } catch (error) {
+        logger.warn(`Cache middleware error! Passing through. `, error)
+        return await execute(adapterRequest, context)
+      }
 
-    const maxAge = getTTL(adapterRequest, options)
+      const maxAge = getTTL(adapterRequest, options)
 
-    try {
-      // Initiate request coalescing by adding the in-flight mark
-      await adapterCache.setInFlightMarker(coalescingKey, maxAge)
-    } catch (error) {
-      logger.warn(`Cache middleware error! Passing through. `, error)
-      return await execute(adapterRequest, context)
-    }
+      try {
+        // Initiate request coalescing by adding the in-flight mark
+        await adapterCache.setInFlightMarker(coalescingKey, maxAge)
+      } catch (error) {
+        logger.warn(`Cache middleware error! Passing through. `, error)
+        return await execute(adapterRequest, context)
+      }
 
-    const burstRateLimit = withBurstLimit(rateLimit)
-    const executeWithBackoff = await burstRateLimit(execute, context)
-    const result = await executeWithBackoff(adapterRequest, context)
+      const burstRateLimit = withBurstLimit(rateLimit)
+      const executeWithBackoff = await burstRateLimit(execute, context)
+      const result = await executeWithBackoff(adapterRequest, context)
 
-    try {
-      // Add successful result to cache
-      const _cacheOnSuccess = async ({
-                                       statusCode,
-                                       data,
-                                       result,
-                                       debug,
-                                     }: Pick<AdapterResponse, 'statusCode' | 'data' | 'result' | 'debug'>) => {
-        if (statusCode === 200) {
-          const debugBatchablePropertyPath = debug
-            ? { batchablePropertyPath: debug.batchablePropertyPath }
-            : {}
-          const entry: CacheEntry = {
-            statusCode,
-            data,
-            result,
-            maxAge,
-            debug: debugBatchablePropertyPath,
-          }
-          // we should observe non-200 entries too
-          await cache.setResponse(key, entry, maxAge)
-          observe.cacheSet({ statusCode, maxAge })
-          logger.trace(`Cache: SET ${key}`, entry)
-          // Individually cache batch requests
-          if (data?.results) {
-            for (const batchParticipant of Object.values<[AdapterRequest, number]>(data.results)) {
-              const [request, result] = batchParticipant
-              const maxAgeBatchParticipant = getTTL(request, options)
-              const keyBatchParticipant = adapterCache.getKey(request)
-              const entryBatchParticipant = {
-                statusCode,
-                data: { result },
-                result,
-                maxAge,
-              }
-              await cache.setResponse(
-                keyBatchParticipant,
-                entryBatchParticipant,
-                maxAgeBatchParticipant,
-              )
-              logger.trace(`Cache Split Batch: SET ${keyBatchParticipant}`, entryBatchParticipant)
+      try {
+        // Add successful result to cache
+        const _cacheOnSuccess = async ({
+          statusCode,
+          data,
+          result,
+          debug,
+        }: Pick<AdapterResponse, 'statusCode' | 'data' | 'result' | 'debug'>) => {
+          if (statusCode === 200) {
+            const debugBatchablePropertyPath = debug
+              ? { batchablePropertyPath: debug.batchablePropertyPath }
+              : {}
+            const entry: CacheEntry = {
+              statusCode,
+              data,
+              result,
+              maxAge,
+              debug: debugBatchablePropertyPath,
             }
+            // we should observe non-200 entries too
+            await cache.setResponse(key, entry, maxAge)
+            observe.cacheSet({ statusCode, maxAge })
+            logger.trace(`Cache: SET ${key}`, entry)
+            // Individually cache batch requests
+            if (data?.results) {
+              for (const batchParticipant of Object.values<[AdapterRequest, number]>(
+                data.results,
+              )) {
+                const [request, result] = batchParticipant
+                const keyBatchParticipant = adapterCache.getKey(request)
+                const entryBatchParticipant = {
+                  statusCode,
+                  data: { result },
+                  result,
+                  maxAge,
+                }
+                await cache.setResponse(keyBatchParticipant, entryBatchParticipant, maxAge)
+                logger.trace(`Cache Split Batch: SET ${keyBatchParticipant}`, entryBatchParticipant)
+              }
+            }
+            // Notify pending requests by removing the in-flight mark
+            await adapterCache.delInFlightMarker(coalescingKey)
           }
-          // Notify pending requests by removing the in-flight mark
-          await adapterCache.delInFlightMarker(coalescingKey)
         }
-      }
-      await _cacheOnSuccess(result)
+        await _cacheOnSuccess(result)
 
-      const debug = {
-        staleness: 0,
-        performance: observe.stalenessAndExecutionTime(false, 0),
-        providerCost: result.data.cost || 1,
+        const debug = {
+          staleness: 0,
+          performance: observe.stalenessAndExecutionTime(false, 0),
+          providerCost: result.data.cost || 1,
+        }
+        return { ...result, debug: { ...debug, ...result.debug } }
+      } catch (error) {
+        return result
       }
-      return { ...result, debug: { ...debug, ...result.debug } }
-    } catch (error) {
-      return result
     }
   }
-}
