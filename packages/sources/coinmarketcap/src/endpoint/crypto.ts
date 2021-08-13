@@ -138,7 +138,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     params,
   }
   const response = await Requester.request(options)
-
   if (Array.isArray(symbol) || Array.isArray(convert))
     return handleBatchedRequest(jobRunID, request, response, resultPath)
 

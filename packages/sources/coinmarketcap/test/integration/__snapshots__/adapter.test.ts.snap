@@ -71,10 +71,10 @@ Object {
 exports[`coinmarketcap when making a request to coinmarket cap to dominance endpoint coinmarketcap replies with success should reply with success 1`] = `
 Object {
   "data": Object {
-    "result": 67.0057,
+    "result": 44.897494474523,
   },
   "jobRunID": "1",
-  "result": 67.0057,
+  "result": 44.897494474523,
   "statusCode": 200,
 }
 `;
@@ -94,10 +94,10 @@ Object {
 exports[`coinmarketcap when making a request to coinmarket cap to globalmarketcap endpoint coinmarketcap replies with success should reply with success 1`] = `
 Object {
   "data": Object {
-    "result": 2374432083905.6846,
+    "result": 1939416192105.152,
   },
   "jobRunID": "1",
-  "result": 2374432083905.6846,
+  "result": 1939416192105.152,
   "statusCode": 200,
 }
 `;
