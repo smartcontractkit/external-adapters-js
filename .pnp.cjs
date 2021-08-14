@@ -483,6 +483,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/unibit"
       },
       {
+        "name": "@chainlink/upvest-adapter",
+        "reference": "workspace:packages/sources/upvest"
+      },
+      {
         "name": "@chainlink/wbtc-address-set-adapter",
         "reference": "workspace:packages/sources/wbtc-address-set"
       },
@@ -637,6 +641,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/twelvedata-adapter", ["workspace:packages/sources/twelvedata"]],
       ["@chainlink/types", ["workspace:packages/core/types/@chainlink"]],
       ["@chainlink/unibit-adapter", ["workspace:packages/sources/unibit"]],
+      ["@chainlink/upvest-adapter", ["workspace:packages/sources/upvest"]],
       ["@chainlink/vesper-adapter", ["workspace:packages/composites/vesper"]],
       ["@chainlink/wbtc-address-set-adapter", ["workspace:packages/sources/wbtc-address-set"]],
       ["@chainlink/wootrade-adapter", ["workspace:packages/sources/wootrade"]],
@@ -3907,6 +3912,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/intrinio-adapter", "workspace:packages/sources/intrinio"],
             ["@chainlink/json-rpc-adapter", "workspace:packages/sources/json-rpc"],
             ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],
+            ["@chainlink/layer2-sequencer-health-adapter", "workspace:packages/sources/layer2-sequencer-health"],
             ["@chainlink/lcx-adapter", "workspace:packages/sources/lcx"],
             ["@chainlink/linkpool-adapter", "workspace:packages/sources/linkpool"],
             ["@chainlink/lition-adapter", "workspace:packages/sources/lition"],
@@ -3938,6 +3944,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/trueusd-adapter", "workspace:packages/sources/trueusd"],
             ["@chainlink/twelvedata-adapter", "workspace:packages/sources/twelvedata"],
             ["@chainlink/unibit-adapter", "workspace:packages/sources/unibit"],
+            ["@chainlink/upvest-adapter", "workspace:packages/sources/upvest"],
             ["@chainlink/wbtc-address-set-adapter", "workspace:packages/sources/wbtc-address-set"],
             ["@chainlink/wootrade-adapter", "workspace:packages/sources/wootrade"],
             ["@chainlink/xbto-adapter", "workspace:packages/sources/xbto"],
@@ -5176,6 +5183,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/unibit/",
           "packageDependencies": [
             ["@chainlink/unibit-adapter", "workspace:packages/sources/unibit"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:26.0.24"],
+            ["@types/node", "npm:14.17.7"],
+            ["tslib", "npm:2.3.0"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/upvest-adapter", [
+        ["workspace:packages/sources/upvest", {
+          "packageLocation": "./packages/sources/upvest/",
+          "packageDependencies": [
+            ["@chainlink/upvest-adapter", "workspace:packages/sources/upvest"],
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],

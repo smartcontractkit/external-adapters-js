@@ -53,6 +53,7 @@ import * as iex_adapter from '@chainlink/iex-cloud-adapter'
 import * as intrinio from '@chainlink/intrinio-adapter'
 import * as json_adapter from '@chainlink/json-rpc-adapter'
 import * as kaiko from '@chainlink/kaiko-adapter'
+import * as layer2_sequencer_health from '@chainlink/layer2-sequencer-health-adapter'
 import * as lcx from '@chainlink/lcx-adapter'
 import * as linkpool from '@chainlink/linkpool-adapter'
 import * as lition from '@chainlink/lition-adapter'
@@ -84,6 +85,7 @@ import * as tradingeconomics from '@chainlink/tradingeconomics-adapter'
 import * as trueusd from '@chainlink/trueusd-adapter'
 import * as twelvedata from '@chainlink/twelvedata-adapter'
 import * as unibit from '@chainlink/unibit-adapter'
+import * as upvest from '@chainlink/upvest-adapter'
 import * as wbtc_adapter_address from '@chainlink/wbtc-address-set-adapter'
 import * as wootrade from '@chainlink/wootrade-adapter'
 import * as xbto from '@chainlink/xbto-adapter'
@@ -144,6 +146,7 @@ export default {
   intrinio,
   json_adapter,
   kaiko,
+  layer2_sequencer_health,
   lcx,
   linkpool,
   lition,
@@ -175,6 +178,7 @@ export default {
   trueusd,
   twelvedata,
   unibit,
+  upvest,
   wbtc_adapter_address,
   wootrade,
   xbto,
