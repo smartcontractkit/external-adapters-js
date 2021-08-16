@@ -28,6 +28,7 @@ const DEFAULT_RC_INTERVAL = 100
 const DEFAULT_RC_INTERVAL_MAX = 1000
 const DEFAULT_RC_INTERVAL_COEFFICIENT = 2
 const DEFAULT_RC_ENTROPY_MAX = 0
+const DEFAULT_RC_MAX_RETRIES = 5
 
 export const MINIMUM_AGE = 1000 * 60 * 0.5 // 30 seconds
 
@@ -47,6 +48,7 @@ export interface CacheOptions {
     intervalMax: number
     intervalCoefficient: number
     entropyMax: number
+    maxRetries: number
   }
   minimumAge: number
 }
@@ -69,6 +71,7 @@ export const defaultOptions = (): CacheOptions => {
         Number(env.REQUEST_COALESCING_INTERVAL_COEFFICIENT) || DEFAULT_RC_INTERVAL_COEFFICIENT,
       // Add entropy to absorb bursts
       entropyMax: Number(env.REQUEST_COALESCING_ENTROPY_MAX) || DEFAULT_RC_ENTROPY_MAX,
+      maxRetries: Number(env.REQUEST_COALESCING_MAX_RETRIES) || DEFAULT_RC_MAX_RETRIES,
     },
     minimumAge: Number(env.CACHE_MIN_AGE) || MINIMUM_AGE,
   }
@@ -158,7 +161,7 @@ export class AdapterCache {
         logger.debug(`Request coalescing: CHECK inFlight:${inFlight} on retry #${retryCount}`)
         return inFlight
       },
-      retries: 5,
+      retries: this.options.requestCoalescing.maxRetries,
       interval: (retryCount: number) =>
         exponentialBackOffMs(
           retryCount,
