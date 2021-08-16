@@ -1,8 +1,9 @@
-import { AdapterRequest, MakeWSHandler, Middleware } from '@chainlink/types'
+import { AdapterContext, AdapterRequest, MakeWSHandler, Middleware } from '@chainlink/types'
 import { Store } from 'redux'
 import { connectRequested, subscribeRequested, WSSubscriptionPayload } from './actions'
 import { getWSConfig } from './config'
 import { RootState } from './reducer'
+import { AdapterCache } from '../cache'
 
 export * as actions from './actions'
 export * as config from './config'
@@ -42,5 +43,31 @@ export const withWebSockets = (
   }
 
   store.dispatch(subscribeRequested(subscriptionPayload))
+
+  // Check if adapter only supports WS
+  if (wsHandler.noHttp) {
+    // If so, we try to get a result from cache within API_TIMEOUT
+    const requestTimeout = Number(process.env.API_TIMEOUT) || 30000
+    const deadline = Date.now() + requestTimeout
+    return await awaitResult(context, input, deadline)
+  }
+
   return await execute(input, context)
+}
+
+const awaitResult = async (context: AdapterContext, input: AdapterRequest, deadline: number) => {
+  const adapterCache = new AdapterCache(context)
+  const pollInterval = 1_000
+
+  while (Date.now() < deadline - pollInterval) {
+    const cachedAdapterResponse = await adapterCache.getResultForRequest(input)
+    if (cachedAdapterResponse) return cachedAdapterResponse
+    await sleep(pollInterval)
+  }
+
+  throw Error('timed out waiting for result to be cached')
+}
+
+const sleep = async (time: number): Promise<void> => {
+  return new Promise((resolve => setTimeout(resolve, time)))
 }

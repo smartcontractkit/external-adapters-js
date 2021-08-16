@@ -12,19 +12,19 @@ describe('execute', () => {
     const requests = [
       {
         name: 'id not supplied',
-        testData: { data: { symbol: 'FTSE' } },
+        testData: { data: { symbol: 'AAPL' } },
       },
       {
-        name: 'symbol FTSE',
-        testData: { id: jobID, data: { symbol: 'FTSE' } },
+        name: 'symbol AAPL',
+        testData: { id: jobID, data: { symbol: 'AAPL' } },
       },
       {
-        name: 'symbol N225',
-        testData: { id: jobID, data: { symbol: 'N225' } },
+        name: 'symbol TSLA',
+        testData: { id: jobID, data: { symbol: 'TSLA' } },
       },
       {
         name: 'from',
-        testData: { id: jobID, data: { from: 'FTSE' } },
+        testData: { id: jobID, data: { from: 'AAPL' } },
       },
       {
         name: 'endpoint stock',
@@ -42,6 +42,23 @@ describe('execute', () => {
         assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
         expect(data.result).toBeGreaterThan(0)
         expect(data.data.result).toBeGreaterThan(0)
+      })
+    })
+  })
+
+  describe('successful batch calls', () => {
+    const requests = [
+      {
+        name: 'supports multiple symbols',
+        testData: { id: jobID, data: { from: ['TSLA', 'AAPL'], endpoint: 'stock' } },
+      },
+    ]
+
+    requests.forEach((req) => {
+      it(`${req.name}`, async () => {
+        const data = await execute(req.testData as AdapterRequest)
+        assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
+        expect(Object.keys(data.data.result).length).toBeGreaterThan(0)
       })
     })
   })
