@@ -1,6 +1,6 @@
 import JSONRPC from '@chainlink/json-rpc-adapter'
-import { Config, ExecuteWithConfig } from '@chainlink/types'
-import { Validator, Requester } from '@chainlink/ea-bootstrap'
+import { Config, ExecuteWithConfig, AdapterRequest, AdapterContext } from '@chainlink/types'
+import { Validator, Requester, Logger } from '@chainlink/ea-bootstrap'
 
 export const NAME = 'scantxoutset'
 
@@ -25,17 +25,42 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
     scanobjects,
   }
 
-  const response = await JSONRPC.execute(
-    {
-      ...request,
-      data: { ...request.data, method: NAME, params },
-    },
-    context,
-    config,
-  )
+  const response = await scanWithRetries(params, request, context, config)
 
   response.data.result = String(
     Requester.validateResultNumber(response.data, ['result', 'total_amount']),
   )
   return Requester.success(jobRunID, response)
+}
+
+const scanWithRetries = async (
+  params: Record<string, unknown>,
+  request: AdapterRequest,
+  context: AdapterContext,
+  config: Config,
+) => {
+  const requestData = {
+    ...request,
+    data: { ...request.data, method: NAME, params },
+  }
+
+  const deadline = Date.now() + config.api.timeout
+  while (Date.now() + 1000 <= deadline) {
+    try {
+      return await JSONRPC.execute(requestData, context, config)
+    } catch (e) {
+      if (e.cause?.response?.data?.error?.code !== -8) {
+        throw e
+      }
+
+      Logger.debug('scan is already in progress, waiting 1s...')
+      await sleep(1000)
+    }
+  }
+
+  throw new Error('unable to start query within timeout')
+}
+
+const sleep = (ms: number) => {
+  return new Promise((resolve) => setTimeout(resolve, ms))
 }

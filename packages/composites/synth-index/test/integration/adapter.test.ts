@@ -9,7 +9,7 @@ let oldEnv: NodeJS.ProcessEnv
 
 beforeAll(() => {
   oldEnv = JSON.parse(JSON.stringify(process.env))
-  process.env.COINGECKO_DATA_PROVIDER_URL = 'http://localhost:8081'
+  process.env.COINGECKO_ADAPTER_URL = 'http://localhost:8081'
   if (process.env.RECORD) {
     nock.recorder.rec()
   }
