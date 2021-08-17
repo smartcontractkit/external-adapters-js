@@ -38,11 +38,10 @@ class RoundManagement {
 }
 
 async function getNextWeekResolutionTimestamp(contract: ethers.Contract): Promise<number> {
-  const nextGoodResolutionTime = getUpcomingFriday4pmET();
-
   const contractNextResolutionTime = await contract.nextResolutionTime()
+  const now = DateTime.now().setZone("America/New_York").toSeconds();
 
-  if (contractNextResolutionTime > nextGoodResolutionTime) {
+  if (contractNextResolutionTime > now) {
     Logger.warn(
       `Augur: Next resolution time is in the future`
     )
@@ -50,7 +49,7 @@ async function getNextWeekResolutionTimestamp(contract: ethers.Contract): Promis
     return 0;
   }
 
-  return nextGoodResolutionTime;
+  return getUpcomingFriday4pmET();
 }
 
 export function getUpcomingFriday4pmET(): number {
