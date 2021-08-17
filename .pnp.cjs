@@ -451,6 +451,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/stasis"
       },
       {
+        "name": "@chainlink/synthetix-debt-pool-adapter",
+        "reference": "workspace:packages/sources/synthetix-debt-pool"
+      },
+      {
         "name": "@chainlink/taapi-adapter",
         "reference": "workspace:packages/sources/taapi"
       },
@@ -626,6 +630,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/sportsdataio-adapter", ["workspace:packages/sources/sportsdataio"]],
       ["@chainlink/stasis-adapter", ["workspace:packages/sources/stasis"]],
       ["@chainlink/synth-index-adapter", ["workspace:packages/composites/synth-index"]],
+      ["@chainlink/synthetix-debt-pool-adapter", ["workspace:packages/sources/synthetix-debt-pool"]],
       ["@chainlink/taapi-adapter", ["workspace:packages/sources/taapi"]],
       ["@chainlink/the-graph-adapter", ["workspace:packages/composites/the-graph"]],
       ["@chainlink/therundown-adapter", ["workspace:packages/sources/therundown"]],
@@ -3907,6 +3912,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/intrinio-adapter", "workspace:packages/sources/intrinio"],
             ["@chainlink/json-rpc-adapter", "workspace:packages/sources/json-rpc"],
             ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],
+            ["@chainlink/layer2-sequencer-health-adapter", "workspace:packages/sources/layer2-sequencer-health"],
             ["@chainlink/lcx-adapter", "workspace:packages/sources/lcx"],
             ["@chainlink/linkpool-adapter", "workspace:packages/sources/linkpool"],
             ["@chainlink/lition-adapter", "workspace:packages/sources/lition"],
@@ -3930,6 +3936,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/sochain-adapter", "workspace:packages/sources/sochain"],
             ["@chainlink/sportsdataio-adapter", "workspace:packages/sources/sportsdataio"],
             ["@chainlink/stasis-adapter", "workspace:packages/sources/stasis"],
+            ["@chainlink/synthetix-debt-pool-adapter", "workspace:packages/sources/synthetix-debt-pool"],
             ["@chainlink/taapi-adapter", "workspace:packages/sources/taapi"],
             ["@chainlink/therundown-adapter", "workspace:packages/sources/therundown"],
             ["@chainlink/tiingo-adapter", "workspace:packages/sources/tiingo"],
@@ -4999,6 +5006,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["synthetix", "npm:2.45.3"],
             ["tslib", "npm:2.3.0"],
             ["type-fest", "npm:1.3.0"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/synthetix-debt-pool-adapter", [
+        ["workspace:packages/sources/synthetix-debt-pool", {
+          "packageLocation": "./packages/sources/synthetix-debt-pool/",
+          "packageDependencies": [
+            ["@chainlink/synthetix-debt-pool-adapter", "workspace:packages/sources/synthetix-debt-pool"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:26.0.24"],
+            ["@types/node", "npm:14.17.7"],
+            ["tslib", "npm:2.3.0"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",

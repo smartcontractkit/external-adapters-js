@@ -2299,6 +2299,7 @@ __metadata:
     "@chainlink/intrinio-adapter": "*"
     "@chainlink/json-rpc-adapter": "*"
     "@chainlink/kaiko-adapter": "*"
+    "@chainlink/layer2-sequencer-health-adapter": "*"
     "@chainlink/lcx-adapter": "*"
     "@chainlink/linkpool-adapter": "*"
     "@chainlink/lition-adapter": "*"
@@ -2322,6 +2323,7 @@ __metadata:
     "@chainlink/sochain-adapter": "*"
     "@chainlink/sportsdataio-adapter": "*"
     "@chainlink/stasis-adapter": "*"
+    "@chainlink/synthetix-debt-pool-adapter": "*"
     "@chainlink/taapi-adapter": "*"
     "@chainlink/therundown-adapter": "*"
     "@chainlink/tiingo-adapter": "*"
@@ -2694,7 +2696,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/layer2-sequencer-health-adapter@workspace:packages/sources/layer2-sequencer-health":
+"@chainlink/layer2-sequencer-health-adapter@*, @chainlink/layer2-sequencer-health-adapter@workspace:packages/sources/layer2-sequencer-health":
   version: 0.0.0-use.local
   resolution: "@chainlink/layer2-sequencer-health-adapter@workspace:packages/sources/layer2-sequencer-health"
   dependencies:
@@ -3160,6 +3162,20 @@ __metadata:
     synthetix: 2.45.3
     tslib: ^2.1.0
     type-fest: ^1.2.1
+    typescript: ^4.2.3
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/synthetix-debt-pool-adapter@*, @chainlink/synthetix-debt-pool-adapter@workspace:packages/sources/synthetix-debt-pool":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/synthetix-debt-pool-adapter@workspace:packages/sources/synthetix-debt-pool"
+  dependencies:
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.0.1
+    "@types/jest": ^26.0.22
+    "@types/node": ^14.14.35
+    tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
   linkType: soft

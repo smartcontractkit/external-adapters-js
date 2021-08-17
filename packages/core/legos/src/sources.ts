@@ -53,6 +53,7 @@ import * as iex_adapter from '@chainlink/iex-cloud-adapter'
 import * as intrinio from '@chainlink/intrinio-adapter'
 import * as json_adapter from '@chainlink/json-rpc-adapter'
 import * as kaiko from '@chainlink/kaiko-adapter'
+import * as layer2_sequencer_health from '@chainlink/layer2-sequencer-health-adapter'
 import * as lcx from '@chainlink/lcx-adapter'
 import * as linkpool from '@chainlink/linkpool-adapter'
 import * as lition from '@chainlink/lition-adapter'
@@ -76,6 +77,7 @@ import * as satoshitango from '@chainlink/satoshitango-adapter'
 import * as sochain from '@chainlink/sochain-adapter'
 import * as sportsdataio from '@chainlink/sportsdataio-adapter'
 import * as stasis from '@chainlink/stasis-adapter'
+import * as synthetix_debt_pool from '@chainlink/synthetix-debt-pool-adapter'
 import * as taapi from '@chainlink/taapi-adapter'
 import * as therundown from '@chainlink/therundown-adapter'
 import * as tiingo from '@chainlink/tiingo-adapter'
@@ -144,6 +146,7 @@ export default {
   intrinio,
   json_adapter,
   kaiko,
+  layer2_sequencer_health,
   lcx,
   linkpool,
   lition,
@@ -167,6 +170,7 @@ export default {
   sochain,
   sportsdataio,
   stasis,
+  synthetix_debt_pool,
   taapi,
   therundown,
   tiingo,
