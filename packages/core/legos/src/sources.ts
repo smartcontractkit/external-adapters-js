@@ -38,6 +38,7 @@ import * as dxfeed from '@chainlink/dxfeed-adapter'
 import * as dxfeed_secondary from '@chainlink/dxfeed-secondary-adapter'
 import * as eodhistoricaldata from '@chainlink/eodhistoricaldata-adapter'
 import * as etherchain from '@chainlink/etherchain-adapter'
+import * as etherscan from '@chainlink/etherscan-adapter'
 import * as ethgasstation from '@chainlink/ethgasstation-adapter'
 import * as expert_car_broker from '@chainlink/expert-car-broker-adapter'
 import * as fcsapi from '@chainlink/fcsapi-adapter'
@@ -53,6 +54,7 @@ import * as iex_adapter from '@chainlink/iex-cloud-adapter'
 import * as intrinio from '@chainlink/intrinio-adapter'
 import * as json_adapter from '@chainlink/json-rpc-adapter'
 import * as kaiko from '@chainlink/kaiko-adapter'
+import * as layer2_sequencer_health from '@chainlink/layer2-sequencer-health-adapter'
 import * as lcx from '@chainlink/lcx-adapter'
 import * as linkpool from '@chainlink/linkpool-adapter'
 import * as lition from '@chainlink/lition-adapter'
@@ -130,6 +132,7 @@ export default {
   dxfeed_secondary,
   eodhistoricaldata,
   etherchain,
+  etherscan,
   ethgasstation,
   expert_car_broker,
   fcsapi,
@@ -145,6 +148,7 @@ export default {
   intrinio,
   json_adapter,
   kaiko,
+  layer2_sequencer_health,
   lcx,
   linkpool,
   lition,

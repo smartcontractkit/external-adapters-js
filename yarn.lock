@@ -2257,6 +2257,7 @@ __metadata:
     "@chainlink/dxfeed-secondary-adapter": "*"
     "@chainlink/eodhistoricaldata-adapter": "*"
     "@chainlink/etherchain-adapter": "*"
+    "@chainlink/etherscan-adapter": "*"
     "@chainlink/ethgasstation-adapter": "*"
     "@chainlink/expert-car-broker-adapter": "*"
     "@chainlink/fcsapi-adapter": "*"
@@ -2272,6 +2273,7 @@ __metadata:
     "@chainlink/intrinio-adapter": "*"
     "@chainlink/json-rpc-adapter": "*"
     "@chainlink/kaiko-adapter": "*"
+    "@chainlink/layer2-sequencer-health-adapter": "*"
     "@chainlink/lcx-adapter": "*"
     "@chainlink/linkpool-adapter": "*"
     "@chainlink/lition-adapter": "*"
@@ -2339,6 +2341,20 @@ __metadata:
     "@types/node": ^14.14.35
     tslib: ^2.3.1
     typescript: ^4.3.5
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/etherscan-adapter@*, @chainlink/etherscan-adapter@workspace:packages/sources/etherscan":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/etherscan-adapter@workspace:packages/sources/etherscan"
+  dependencies:
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.0.1
+    "@types/jest": ^26.0.22
+    "@types/node": ^14.14.35
+    tslib: ^2.1.0
+    typescript: ^4.2.3
   languageName: unknown
   linkType: soft
 
@@ -2668,7 +2684,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/layer2-sequencer-health-adapter@workspace:packages/sources/layer2-sequencer-health":
+"@chainlink/layer2-sequencer-health-adapter@*, @chainlink/layer2-sequencer-health-adapter@workspace:packages/sources/layer2-sequencer-health":
   version: 0.0.0-use.local
   resolution: "@chainlink/layer2-sequencer-health-adapter@workspace:packages/sources/layer2-sequencer-health"
   dependencies:
