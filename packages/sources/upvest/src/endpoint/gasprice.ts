@@ -3,7 +3,7 @@ import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['gasprice']
 
-interface ResponseSchema  {
+export interface ResponseSchema  {
   success: boolean,
   updated: string,
   estimates: {
