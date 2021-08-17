@@ -14,6 +14,9 @@ const customParams = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
   includes: false,
+  interval: false,
+  sort: false,
+  millisecondsAgo: false,
 }
 
 const symbolUrl = (from: string, to: string) =>
@@ -40,11 +43,13 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const { url, inverse } = getOptions(validator)
 
-  const params = {
-    interval: DEFAULT_INTERVAL,
-    sort: DEFAULT_SORT,
-    start_time: calculateStartTime(DEFAULT_MILLISECONDS),
-  }
+  const interval = validator.validated.data.interval || DEFAULT_INTERVAL
+  const start_time = calculateStartTime(
+    validator.validated.data.millisecondsAgo || DEFAULT_MILLISECONDS,
+  )
+  const sort = validator.validated.data.sort || DEFAULT_SORT
+
+  const params = { interval, sort, start_time }
 
   const requestConfig = {
     ...config.api,
