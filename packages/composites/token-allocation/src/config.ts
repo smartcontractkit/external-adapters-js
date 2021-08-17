@@ -28,19 +28,12 @@ export type Source = typeof adapters[number]['NAME']
 export const DEFAULT_TOKEN_DECIMALS = 18
 export const DEFAULT_TOKEN_BALANCE = 1
 
-export const ENV_DATA_PROVIDER_URL = 'DATA_PROVIDER_URL'
-
-export const getURL = (prefix: string, required = false) =>
-  required
-    ? util.getRequiredEnv(ENV_DATA_PROVIDER_URL, prefix)
-    : util.getEnv(ENV_DATA_PROVIDER_URL, prefix)
-
 export const makeConfig = (prefix = ''): Config => {
   const sources: SourceRequestOptions = {}
 
   for (const a of adapters) {
     const name = a.NAME
-    const url = getURL(name.toUpperCase())
+    const url = util.getURL(name.toUpperCase())
     if (url) {
       const defaultConfig = Requester.getDefaultConfig(prefix)
       defaultConfig.api.baseURL = url
@@ -53,7 +46,7 @@ export const makeConfig = (prefix = ''): Config => {
     sources,
     defaultMethod: util.getEnv('DEFAULT_METHOD', prefix) || 'price',
     defaultQuote: util.getEnv('DEFAULT_QUOTE') || 'USD',
-    defaultSource: util.getEnv('DEFAULT_SOURCE')
+    defaultSource: util.getEnv('DEFAULT_SOURCE'),
   }
 }
 

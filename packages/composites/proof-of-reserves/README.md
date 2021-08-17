@@ -10,23 +10,23 @@ At least one of each of the following categories must be set as an environment v
 
 1. A protocol adapter to retrieve custodial addresses (if not using `list`)
 
-   | Required? |           Name            |               Description                | Options | Defaults to |
-   | :-------: | :-----------------------: | :--------------------------------------: | :-----: | :---------: |
-   |           | `WBTC_DATA_PROVIDER_URL`  | The location of a WBTC external adapter  |         |             |
-   |           | `RENVM_DATA_PROVIDER_URL` | The location of a RenVM external adapter |         |             |
+   | Required? |        Name         |               Description                | Options | Defaults to |
+   | :-------: | :-----------------: | :--------------------------------------: | :-----: | :---------: |
+   |           | `WBTC_ADAPTER_URL`  | The location of a WBTC external adapter  |         |             |
+   |           | `RENVM_ADAPTER_URL` | The location of a RenVM external adapter |         |             |
 
 2. An indexer adapter to retrieve account balances for each custodial address
 
-   | Required? |                 Name                 |                     Description                      | Options | Defaults to |
-   | :-------: | :----------------------------------: | :--------------------------------------------------: | :-----: | :---------: |
-   |           |    `AMBERDATA_DATA_PROVIDER_URL`     |    The location of an Amberdata external adapter     |         |             |
-   |           | `BITCOIN_JSON_RPC_DATA_PROVIDER_URL` | The location of an Bitcoin JSON RPC external adapter |         |             |
-   |           |  `BLOCKCHAIN_COM_DATA_PROVIDER_URL`  |  The location of a Blockchain.com external adapter   |         |             |
-   |           |   `BLOCKCYPHER_DATA_PROVIDER_URL`    |    The location of a Blockcypher external adapter    |         |             |
-   |           |    `BLOCKCHAIR_DATA_PROVIDER_URL`    |    The location of a Blockchair external adapter     |         |             |
-   |           |     `BTC_COM_DATA_PROVIDER_URL`      |      The location of a BTC.com external adapter      |         |             |
-   |           |    `CRYPTOAPIS_DATA_PROVIDER_URL`    |    The location of a Crypto APIs external adapter    |         |             |
-   |           |     `SOCHAIN_DATA_PROVIDER_URL`      |      The location of a SoChain external adapter      |         |             |
+   | Required? |              Name              |                     Description                      | Options | Defaults to |
+   | :-------: | :----------------------------: | :--------------------------------------------------: | :-----: | :---------: |
+   |           |    `AMBERDATA_ADAPTER_URL`     |    The location of an Amberdata external adapter     |         |             |
+   |           | `BITCOIN_JSON_RPC_ADAPTER_URL` | The location of an Bitcoin JSON RPC external adapter |         |             |
+   |           |  `BLOCKCHAIN_COM_ADAPTER_URL`  |  The location of a Blockchain.com external adapter   |         |             |
+   |           |   `BLOCKCYPHER_ADAPTER_URL`    |    The location of a Blockcypher external adapter    |         |             |
+   |           |    `BLOCKCHAIR_ADAPTER_URL`    |    The location of a Blockchair external adapter     |         |             |
+   |           |     `BTC_COM_ADAPTER_URL`      |      The location of a BTC.com external adapter      |         |             |
+   |           |    `CRYPTOAPIS_ADAPTER_URL`    |    The location of a Crypto APIs external adapter    |         |             |
+   |           |     `SOCHAIN_ADAPTER_URL`      |      The location of a SoChain external adapter      |         |             |
 
 ## Running
 

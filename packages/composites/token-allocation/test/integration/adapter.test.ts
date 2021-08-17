@@ -6,7 +6,7 @@ import { makeConfig } from '../../src/config'
 
 describe('execute', () => {
   const jobID = '1'
-  process.env.DATA_PROVIDER_URL = 'ignoreable'
+  process.env.ADAPTER_URL = 'ignoreable'
   const execute = makeExecute(makeConfig(''))
 
   describe('error calls @integration', () => {

@@ -6,10 +6,10 @@ Reference Transform adapters read the value from a given reference feed before u
 
 The adapter takes the following environment variables:
 
-| Required? |             Name             |                                 Description                                 | Options | Defaults to |
-| :-------: | :--------------------------: | :-------------------------------------------------------------------------: | :-----: | :---------: |
-|    ✅     | `{SOURCE}_DATA_PROVIDER_URL` | The URL location for the price data provider adapter when `source={SOURCE}` |         |             |
-|    ✅     |          `RPC_URL`           |                ETH RPC URL to read the reference data value                 |         |             |
+| Required? |          Name          |                                 Description                                 | Options | Defaults to |
+| :-------: | :--------------------: | :-------------------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     | `{SOURCE}_ADAPTER_URL` | The URL location for the price data provider adapter when `source={SOURCE}` |         |             |
+|    ✅     |       `RPC_URL`        |                ETH RPC URL to read the reference data value                 |         |             |
 
 ## Running
 
