@@ -295,6 +295,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/etherchain"
       },
       {
+        "name": "@chainlink/etherscan-adapter",
+        "reference": "workspace:packages/sources/etherscan"
+      },
+      {
         "name": "@chainlink/ethgasstation-adapter",
         "reference": "workspace:packages/sources/ethgasstation"
       },
@@ -575,6 +579,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/ea-test-helpers", ["workspace:packages/core/test-helpers"]],
       ["@chainlink/eodhistoricaldata-adapter", ["workspace:packages/sources/eodhistoricaldata"]],
       ["@chainlink/etherchain-adapter", ["workspace:packages/sources/etherchain"]],
+      ["@chainlink/etherscan-adapter", ["workspace:packages/sources/etherscan"]],
       ["@chainlink/ethgasstation-adapter", ["workspace:packages/sources/ethgasstation"]],
       ["@chainlink/ethwrite-adapter", ["workspace:packages/targets/ethwrite"]],
       ["@chainlink/example-composite-adapter", ["workspace:packages/examples/composite"]],
@@ -3892,6 +3897,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/dxfeed-secondary-adapter", "workspace:packages/sources/dxfeed-secondary"],
             ["@chainlink/eodhistoricaldata-adapter", "workspace:packages/sources/eodhistoricaldata"],
             ["@chainlink/etherchain-adapter", "workspace:packages/sources/etherchain"],
+            ["@chainlink/etherscan-adapter", "workspace:packages/sources/etherscan"],
             ["@chainlink/ethgasstation-adapter", "workspace:packages/sources/ethgasstation"],
             ["@chainlink/expert-car-broker-adapter", "workspace:packages/sources/expert-car-broker"],
             ["@chainlink/fcsapi-adapter", "workspace:packages/sources/fcsapi"],
@@ -3907,6 +3913,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/intrinio-adapter", "workspace:packages/sources/intrinio"],
             ["@chainlink/json-rpc-adapter", "workspace:packages/sources/json-rpc"],
             ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],
+            ["@chainlink/layer2-sequencer-health-adapter", "workspace:packages/sources/layer2-sequencer-health"],
             ["@chainlink/lcx-adapter", "workspace:packages/sources/lcx"],
             ["@chainlink/linkpool-adapter", "workspace:packages/sources/linkpool"],
             ["@chainlink/lition-adapter", "workspace:packages/sources/lition"],
@@ -4096,6 +4103,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/etherchain/",
           "packageDependencies": [
             ["@chainlink/etherchain-adapter", "workspace:packages/sources/etherchain"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:26.0.24"],
+            ["@types/node", "npm:14.17.7"],
+            ["tslib", "npm:2.3.0"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/etherscan-adapter", [
+        ["workspace:packages/sources/etherscan", {
+          "packageLocation": "./packages/sources/etherscan/",
+          "packageDependencies": [
+            ["@chainlink/etherscan-adapter", "workspace:packages/sources/etherscan"],
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],

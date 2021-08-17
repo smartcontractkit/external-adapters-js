@@ -131,6 +131,9 @@
       "path": "../../sources/etherchain"
     },
     {
+      "path": "../../sources/etherscan"
+    },
+    {
       "path": "../../sources/ethgasstation"
     },
     {
@@ -174,6 +177,9 @@
     },
     {
       "path": "../../sources/kaiko"
+    },
+    {
+      "path": "../../sources/layer2-sequencer-health"
     },
     {
       "path": "../../sources/lcx"
