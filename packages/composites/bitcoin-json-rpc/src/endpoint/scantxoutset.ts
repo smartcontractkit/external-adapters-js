@@ -67,7 +67,6 @@ const scanWithRetries = async (
         config.api.timeout = 1000 // We expect this action to be quick, and we do not want to hold up the request on this
         Logger.debug('timeout reached, aborting scan in progress')
         try {
-          console.log(requestData)
           await JSONRPC.execute(requestData, context, config)
         } catch (e) {
           Logger.error(`failed to abort scan in progress: ${e.message}`)
