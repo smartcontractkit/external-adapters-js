@@ -1,11 +1,7 @@
 import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
-import {
-  ExecuteWithConfig,
-  Execute,
-  AdapterContext,
-} from '@chainlink/types'
+import { ExecuteWithConfig, Execute, AdapterContext } from '@chainlink/types'
 import { Config } from '../config'
-import { TEAM_ABI, TEAM_SPORTS, FIGHTER_SPORTS } from './index'
+import { TEAM_ABI, TEAM_SPORTS, FIGHTER_SPORTS, NFL_ABI } from './index'
 import { ethers } from 'ethers'
 import { theRundown, sportsdataio } from '../dataProviders'
 import mmaABI from '../abis/mma.json'
@@ -34,7 +30,7 @@ export interface ResolveFight {
 const statusCompleted = [
   4, // Cancelled
   2, // Final
-  3 // Postponed
+  3, // Postponed
 ]
 
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
@@ -53,8 +49,19 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
   }
 }
 
-const resolveTeam = async (jobRunID: string, sport: string, contractAddress: string, context: AdapterContext, config: Config) => {
-  const contract = new ethers.Contract(contractAddress, TEAM_ABI, config.wallet)
+const resolveTeam = async (
+  jobRunID: string,
+  sport: string,
+  contractAddress: string,
+  context: AdapterContext,
+  config: Config,
+) => {
+  // The difference isn't meaningful here using the proper abis anyway.
+  const contract = new ethers.Contract(
+    contractAddress,
+    sport === 'nfl' ? NFL_ABI : TEAM_ABI,
+    config.wallet,
+  )
 
   let getEvent: Execute
   if (theRundown.SPORTS_SUPPORTED.includes(sport)) {
@@ -69,13 +76,16 @@ const resolveTeam = async (jobRunID: string, sport: string, contractAddress: str
   const events: ResolveTeam[] = []
   for (const eventId of eventIDs) {
     try {
-      const response = await getEvent({
-        id: jobRunID,
-        data: {
-          sport,
-          eventId
-        }
-      }, context)
+      const response = await getEvent(
+        {
+          id: jobRunID,
+          data: {
+            sport,
+            eventId,
+          },
+        },
+        context,
+      )
       events.push(response.result as ResolveTeam)
     } catch (e) {
       Logger.error(e)
@@ -105,7 +115,8 @@ const resolveTeam = async (jobRunID: string, sport: string, contractAddress: str
         eventReadyToResolve[i].status,
         eventReadyToResolve[i].homeScore,
         eventReadyToResolve[i].awayScore,
-        { nonce })
+        { nonce },
+      )
       Logger.info(`Augur: Created tx: ${tx.hash}`)
       nonce++
       succeeded++
@@ -122,10 +133,10 @@ const resolveTeam = async (jobRunID: string, sport: string, contractAddress: str
 }
 
 const fightStatusMapping: { [key: string]: number } = {
-  'unknown': 0,
-  'home': 1,
-  'away': 2,
-  'draw': 3,
+  unknown: 0,
+  home: 1,
+  away: 2,
+  draw: 3,
 }
 
 const resolveFights = async (
@@ -133,7 +144,7 @@ const resolveFights = async (
   sport: string,
   contractAddress: string,
   context: AdapterContext,
-  config: Config
+  config: Config,
 ) => {
   const contract = new ethers.Contract(contractAddress, mmaABI, config.wallet)
 
@@ -146,19 +157,22 @@ const resolveFights = async (
     throw Error(`Unknown data provider for sport ${sport}`)
   }
 
-  Logger.debug("Augur: Getting list of potentially resolvable events")
+  Logger.debug('Augur: Getting list of potentially resolvable events')
   const eventIDs: ethers.BigNumber[] = await contract.listResolvableEvents()
   Logger.debug(`Augur: Found ${eventIDs.length} potentially resolvable events`)
   const events: ResolveFight[] = []
   for (const eventId of eventIDs) {
     try {
-      const response = await getEvent({
-        id: jobRunID,
-        data: {
-          sport,
-          eventId
-        }
-      }, context)
+      const response = await getEvent(
+        {
+          id: jobRunID,
+          data: {
+            sport,
+            eventId,
+          },
+        },
+        context,
+      )
       events.push(response.result as ResolveFight)
     } catch (e) {
       Logger.error(e)
@@ -166,8 +180,7 @@ const resolveFights = async (
   }
 
   // Filters out events that aren't yet ready to resolve.
-  const eventReadyToResolve = events
-    .filter(({ status }) => statusCompleted.includes(status))
+  const eventReadyToResolve = events.filter(({ status }) => statusCompleted.includes(status))
 
   let failed = 0
   let succeeded = 0
@@ -185,14 +198,7 @@ const resolveFights = async (
       fightStatus = fightStatusMapping.away
     }
 
-    const payload = [
-      fight.id,
-      fight.status,
-      fight.fighterA,
-      fight.fighterB,
-      fightStatus,
-      { nonce }
-    ]
+    const payload = [fight.id, fight.status, fight.fighterA, fight.fighterB, fightStatus, { nonce }]
 
     // This call resolves markets.
     try {
@@ -203,7 +209,7 @@ const resolveFights = async (
       succeeded++
     } catch (e) {
       failed++
-      Logger.error(e);
+      Logger.error(e)
     }
   }
 

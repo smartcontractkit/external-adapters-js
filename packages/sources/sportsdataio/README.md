@@ -26,7 +26,7 @@ Adapter got get data from Sportsdata.io
 
 | Required? |   Name   |      Description      |                     Options                      | Defaults to |
 | :-------: | :------: | :-------------------: | :----------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to query | [schedule](#NFL-Schedule), [scores](#NFL-Scores) |  schedule   |
+|           | endpoint | The endpoint to query | [schedule](#NFL-Schedule), [scores](#NFL-Scores), [current-season](#NFL-current-season), [teams](#NFL-teams) |  schedule   |
 
 ### NFL Schedule
 
@@ -47,6 +47,22 @@ Get NFL scores
 | Required? |  Name  |          Description          | Options | Defaults to |
 | :-------: | :----: | :---------------------------: | :-----: | :---------: |
 |    ✅     | season | The season to get scores from |         |             |
+
+### NFL Current Season
+
+Year of the current NFL season. This value changes on July 1st. 
+
+#### Input Parameters
+
+No input parameters.
+
+### NFL Teams
+
+Gets all active teams.
+
+#### Input Parameters
+
+No input parameters.
 
 ---
 
@@ -105,7 +121,7 @@ _None_
 
 | Required? |   Name   |      Description      |                     Options                      | Defaults to |
 | :-------: | :------: | :-------------------: | :----------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to query | [schedule](#ncaa-fb-schedule), [scores](#ncaa-fb-scores) |  schedule   |
+|           | endpoint | The endpoint to query | [schedule](#ncaa-fb-schedule), [scores](#ncaa-fb-scores), [current-season](#ncaa-fb-current-season)  |  schedule   |
 
 ### NCAA-FB Schedule
 
@@ -120,3 +136,7 @@ Get NCAA FB scores
 | Required? |  Name  |          Description          | Options | Defaults to |
 | :-------: | :----: | :---------------------------: | :-----: | :---------: |
 |    ✅     | season | The season to get scores from |         |             |
+
+### NCAA-FB Current Season
+
+Year of the current season. 
