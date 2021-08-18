@@ -2329,7 +2329,7 @@ __metadata:
   dependencies:
     "@actions/core": ^1.4.0
     "@types/jest": ^27.0.1
-    "@types/shelljs": ^0
+    "@types/shelljs": ^0.8.9
     "@types/swagger-jsdoc": ^6
     "@types/yaml": ^1.9.7
     chalk: ^4.1.0
@@ -5998,7 +5998,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/shelljs@npm:^0":
+"@types/shelljs@npm:^0.8.9":
   version: 0.8.9
   resolution: "@types/shelljs@npm:0.8.9"
   dependencies:
