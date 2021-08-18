@@ -2331,7 +2331,7 @@ __metadata:
     "@types/jest": ^26.0.22
     "@types/shelljs": ^0
     "@types/swagger-jsdoc": ^6
-    "@types/yaml": ^1
+    "@types/yaml": ^1.9.7
     chalk: ^4.1.0
     json-schema-ref-parser: ^9.0.7
     shelljs: ^0.8.4
@@ -6081,12 +6081,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/yaml@npm:^1":
-  version: 1.9.6
-  resolution: "@types/yaml@npm:1.9.6"
+"@types/yaml@npm:^1.9.7":
+  version: 1.9.7
+  resolution: "@types/yaml@npm:1.9.7"
   dependencies:
     yaml: "*"
-  checksum: 3df74c9d4028641e2ed710b627ac533e97707713ac17c665df5cc477602f77925a3ceeaf5db76c7400ea42be114609bba990079907e89219ffd905a539997469
+  checksum: 0cdbf1857d89ade9b7d00aa09f2e0a2a56b707870b1dc1387f5be5398cd60c3f92bb32a543471147d2eaf38919f921391e0ade34fc9e1e022c7d67fb1a0da73c
   languageName: node
   linkType: hard
 

@@ -15,7 +15,7 @@
     "@types/jest": "^26.0.22",
     "@types/shelljs": "^0",
     "@types/swagger-jsdoc": "^6",
-    "@types/yaml": "^1",
+    "@types/yaml": "^1.9.7",
     "typescript": "^4.3.5"
   }
 }

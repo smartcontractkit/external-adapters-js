@@ -4334,7 +4334,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:26.0.24"],
             ["@types/shelljs", "npm:0.8.9"],
             ["@types/swagger-jsdoc", "npm:6.0.1"],
-            ["@types/yaml", "npm:1.9.6"],
+            ["@types/yaml", "npm:1.9.7"],
             ["chalk", "npm:4.1.2"],
             ["json-schema-ref-parser", "npm:9.0.9"],
             ["shelljs", "npm:0.8.4"],
@@ -8578,10 +8578,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@types/yaml", [
-        ["npm:1.9.6", {
-          "packageLocation": "./.yarn/cache/@types-yaml-npm-1.9.6-25a1e52ff0-3df74c9d40.zip/node_modules/@types/yaml/",
+        ["npm:1.9.7", {
+          "packageLocation": "./.yarn/cache/@types-yaml-npm-1.9.7-a7e2bbc474-0cdbf1857d.zip/node_modules/@types/yaml/",
           "packageDependencies": [
-            ["@types/yaml", "npm:1.9.6"],
+            ["@types/yaml", "npm:1.9.7"],
             ["yaml", "npm:1.10.2"]
           ],
           "linkType": "HARD",
