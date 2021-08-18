@@ -3993,7 +3993,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["prom-client", "npm:13.1.0"],
             ["promise-timeout", "npm:1.3.0"],
             ["redis", "npm:3.1.2"],
-            ["redux", "npm:4.1.0"],
+            ["redux", "npm:4.1.1"],
             ["redux-logger", "npm:3.0.6"],
             ["redux-observable", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:2.0.0"],
             ["remote-redux-devtools", "npm:0.5.16"],
@@ -22712,6 +22712,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/runtime", "npm:7.14.8"]
           ],
           "linkType": "HARD",
+        }],
+        ["npm:4.1.1", {
+          "packageLocation": "./.yarn/cache/redux-npm-4.1.1-b6f44c6668-99519438a5.zip/node_modules/redux/",
+          "packageDependencies": [
+            ["redux", "npm:4.1.1"],
+            ["@babel/runtime", "npm:7.14.8"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["redux-devtools-core", [
@@ -22775,7 +22783,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["redux-observable", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:2.0.0"],
             ["@types/redux", null],
-            ["redux", "npm:4.1.0"],
+            ["redux", "npm:4.1.1"],
             ["rxjs", "npm:7.3.0"],
             ["tslib", "npm:2.1.0"]
           ],
