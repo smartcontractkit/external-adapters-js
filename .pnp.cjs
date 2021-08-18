@@ -4279,7 +4279,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["object-hash", "npm:2.2.0"],
             ["object-path", "npm:0.11.5"],
             ["pino", "npm:6.13.0"],
-            ["pino-pretty", "npm:4.8.0"],
+            ["pino-pretty", "npm:5.1.3"],
             ["prom-client", "npm:13.1.0"],
             ["promise-timeout", "npm:1.3.0"],
             ["redis", "npm:3.1.2"],
@@ -18367,10 +18367,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["joycon", [
-        ["npm:2.2.5", {
-          "packageLocation": "./.yarn/cache/joycon-npm-2.2.5-fff23ab519-930bb748c0.zip/node_modules/joycon/",
+        ["npm:3.0.1", {
+          "packageLocation": "./.yarn/cache/joycon-npm-3.0.1-1489fed95a-1fb67a921e.zip/node_modules/joycon/",
           "packageDependencies": [
-            ["joycon", "npm:2.2.5"]
+            ["joycon", "npm:3.0.1"]
           ],
           "linkType": "HARD",
         }]
@@ -22188,17 +22188,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["pino-pretty", [
-        ["npm:4.8.0", {
-          "packageLocation": "./.yarn/cache/pino-pretty-npm-4.8.0-0c822e28cb-8e2e4cdb80.zip/node_modules/pino-pretty/",
+        ["npm:5.1.3", {
+          "packageLocation": "./.yarn/cache/pino-pretty-npm-5.1.3-488a9c8f4f-440b94a82e.zip/node_modules/pino-pretty/",
           "packageDependencies": [
-            ["pino-pretty", "npm:4.8.0"],
+            ["pino-pretty", "npm:5.1.3"],
             ["@hapi/bourne", "npm:2.0.0"],
             ["args", "npm:5.0.1"],
             ["chalk", "npm:4.1.2"],
             ["dateformat", "npm:4.5.1"],
             ["fast-safe-stringify", "npm:2.0.8"],
             ["jmespath", "npm:0.15.0"],
-            ["joycon", "npm:2.2.5"],
+            ["joycon", "npm:3.0.1"],
             ["pump", "npm:3.0.0"],
             ["readable-stream", "npm:3.6.0"],
             ["rfdc", "npm:1.3.0"],
