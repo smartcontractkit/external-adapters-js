@@ -3292,7 +3292,7 @@ __metadata:
     "@types/supertest": ^2.0.11
     decimal.js: ^10.2.1
     nock: ^13.1.0
-    supertest: ^6.1.3
+    supertest: ^6.1.6
     synthetix: 2.45.3
     tslib: ^2.3.1
     type-fest: ^2.0.0
@@ -20968,13 +20968,13 @@ resolve@1.17.0:
   languageName: node
   linkType: hard
 
-"supertest@npm:^6.1.3":
-  version: 6.1.4
-  resolution: "supertest@npm:6.1.4"
+"supertest@npm:^6.1.6":
+  version: 6.1.6
+  resolution: "supertest@npm:6.1.6"
   dependencies:
     methods: ^1.1.2
     superagent: ^6.1.0
-  checksum: be2a06421f47a9ca2d90ac50f085b6d34eaee55e7c1df7e0445ae9048f0acb5b084c012e7b30d44efd172201155b7cfc2862ba25814ab38037cece0eeafe22ef
+  checksum: 51d11b794a022b49f0f9664e6d8ffef5e8d18467f65d2b4326e52ec96f0801d7066bf9a97eb06e8b6cd3eb6f662ee5bed937cd5764ab0617a822d7ee4c72ff36
   languageName: node
   linkType: hard
 

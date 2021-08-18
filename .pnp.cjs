@@ -5305,7 +5305,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.11"],
             ["decimal.js", "npm:10.3.1"],
             ["nock", "npm:13.1.1"],
-            ["supertest", "npm:6.1.4"],
+            ["supertest", "npm:6.1.6"],
             ["synthetix", "npm:2.45.3"],
             ["tslib", "npm:2.3.1"],
             ["type-fest", "npm:2.0.0"],
@@ -25002,10 +25002,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["supertest", [
-        ["npm:6.1.4", {
-          "packageLocation": "./.yarn/cache/supertest-npm-6.1.4-c2d96cedf7-be2a06421f.zip/node_modules/supertest/",
+        ["npm:6.1.6", {
+          "packageLocation": "./.yarn/cache/supertest-npm-6.1.6-6f73075270-51d11b794a.zip/node_modules/supertest/",
           "packageDependencies": [
-            ["supertest", "npm:6.1.4"],
+            ["supertest", "npm:6.1.6"],
             ["methods", "npm:1.1.2"],
             ["superagent", "npm:6.1.0"]
           ],
