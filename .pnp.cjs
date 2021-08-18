@@ -4258,7 +4258,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/lodash", "npm:4.14.171"],
             ["@types/lru-cache", "npm:5.1.1"],
             ["@types/node", "npm:14.17.7"],
-            ["@types/object-hash", "npm:1.3.4"],
+            ["@types/object-hash", "npm:2.1.1"],
             ["@types/object-path", "npm:0.11.1"],
             ["@types/pino", "npm:6.3.11"],
             ["@types/pino-pretty", "npm:4.7.1"],
@@ -9353,10 +9353,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@types/object-hash", [
-        ["npm:1.3.4", {
-          "packageLocation": "./.yarn/cache/@types-object-hash-npm-1.3.4-3b3e2e44e8-fe4aa04142.zip/node_modules/@types/object-hash/",
+        ["npm:2.1.1", {
+          "packageLocation": "./.yarn/cache/@types-object-hash-npm-2.1.1-9b5ec75b10-23921d2506.zip/node_modules/@types/object-hash/",
           "packageDependencies": [
-            ["@types/object-hash", "npm:1.3.4"]
+            ["@types/object-hash", "npm:2.1.1"]
           ],
           "linkType": "HARD",
         }]
