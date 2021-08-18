@@ -2333,7 +2333,7 @@ __metadata:
     "@types/swagger-jsdoc": ^6.0.1
     "@types/yaml": ^1.9.7
     chalk: ^4.1.2
-    json-schema-ref-parser: ^9.0.7
+    json-schema-ref-parser: ^9.0.9
     shelljs: ^0.8.4
     snake-case: ^3.0.4
     swagger-jsdoc: 6.1.0
@@ -13849,7 +13849,7 @@ fsevents@~2.1.1:
   languageName: node
   linkType: hard
 
-"json-schema-ref-parser@npm:^9.0.7":
+"json-schema-ref-parser@npm:^9.0.9":
   version: 9.0.9
   resolution: "json-schema-ref-parser@npm:9.0.9"
   dependencies:
