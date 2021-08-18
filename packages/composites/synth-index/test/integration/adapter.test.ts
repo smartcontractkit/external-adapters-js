@@ -3,7 +3,11 @@ import http from 'http'
 import nock from 'nock'
 import request from 'supertest'
 import { server as startServer } from '../../src/index'
-import { mockCoingeckoResponseFailureRedis, mockCoingeckoResponseSuccess } from './fixtures'
+import {
+  mockCoingeckoConnectionFailure,
+  mockCoingeckoResponseFailureRedis,
+  mockCoingeckoResponseSuccess,
+} from './fixtures'
 
 let oldEnv: NodeJS.ProcessEnv
 
@@ -32,7 +36,9 @@ describe('synth-index X coingecko', () => {
   beforeAll(async () => {
     server = await startServer()
   })
-  afterAll((done) => server.close(done))
+  afterAll((done) => {
+    server.close(done)
+  })
   describe('when making a request to coingecko for sDEFI', () => {
     const sDEFIRequest: AdapterRequest = {
       id: '1',
@@ -73,20 +79,20 @@ describe('synth-index X coingecko', () => {
         expect(response.body).toMatchSnapshot()
       })
     })
-    // describe('and coingecko replies with a failure repeatedly', () => {
-    //   it('should try 3 times and then fail', async () => {
-    //     mockCoingeckoResponseFailureRedis()
+    describe('and coingecko replies with a failure repeatedly', () => {
+      it.only('should try 3 times and then fail', async () => {
+        mockCoingeckoConnectionFailure(4)
 
-    //     const response = await req
-    //       .post('/')
-    //       .send(sDEFIRequest)
-    //       .set('Accept', '*/*')
-    //       .set('Content-Type', 'application/json')
-    //       .expect('Content-Type', /json/)
-    //       .expect(500)
+        const response = await req
+          .post('/')
+          .send(sDEFIRequest)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(500)
 
-    //     expect(response.body).toMatchSnapshot()
-    //   }, 20000)
-    // })
+        expect(response.body).toMatchSnapshot()
+      }, 20000)
+    })
   })
 })
