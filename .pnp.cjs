@@ -4236,7 +4236,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/wbtc-address-set-adapter", "workspace:packages/sources/wbtc-address-set"],
             ["@chainlink/wootrade-adapter", "workspace:packages/sources/wootrade"],
             ["@chainlink/xbto-adapter", "workspace:packages/sources/xbto"],
-            ["@types/chai", "npm:4.2.21"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
             ["tslib", "npm:2.3.1"],
@@ -5197,7 +5196,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea", "workspace:packages/core/legos"],
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/ea-reference-data-reader", "workspace:packages/core/reference-data-reader"],
-            ["@types/chai", "npm:4.2.21"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
             ["tslib", "npm:2.3.1"],
@@ -9055,15 +9053,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/body-parser", "npm:1.19.1"],
             ["@types/connect", "npm:3.4.35"],
             ["@types/node", "npm:16.4.10"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["@types/chai", [
-        ["npm:4.2.21", {
-          "packageLocation": "./.yarn/cache/@types-chai-npm-4.2.21-22c1ed2cef-dbd852dfea.zip/node_modules/@types/chai/",
-          "packageDependencies": [
-            ["@types/chai", "npm:4.2.21"]
           ],
           "linkType": "HARD",
         }]

@@ -2455,7 +2455,6 @@ __metadata:
     "@chainlink/wbtc-address-set-adapter": "*"
     "@chainlink/wootrade-adapter": "*"
     "@chainlink/xbto-adapter": "*"
-    "@types/chai": ^4.2.15
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     tslib: ^2.3.1
@@ -3196,7 +3195,6 @@ __metadata:
     "@chainlink/ea": "*"
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-reference-data-reader": "*"
-    "@types/chai": ^4.2.15
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     tslib: ^2.3.1
@@ -6735,13 +6733,6 @@ __metadata:
     "@types/connect": "*"
     "@types/node": "*"
   checksum: 2990656ea2de81f3529a3359a79a13b67feb4c627caf7a367fdc0017a178e567b0cc410546bdd219104ad7197c5ee5a90b70193f5253839ea43d9cdb2d2dacee
-  languageName: node
-  linkType: hard
-
-"@types/chai@npm:^4.2.15":
-  version: 4.2.21
-  resolution: "@types/chai@npm:4.2.21"
-  checksum: dbd852dfea5065c2e86059bdc011c42a380c43bbcf80d427da228dc2a9e1efae27e7baf16570a3158571d92c206782e07fab3b703c28452a75a74380b33d1443
   languageName: node
   linkType: hard
 
