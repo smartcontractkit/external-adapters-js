@@ -2694,7 +2694,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
-    "@google-cloud/bigquery": ^5.6.0
+    "@google-cloud/bigquery": ^5.7.1
     "@types/jest": ^27.0.1
     "@types/node": ^14.14.35
     tslib: ^2.3.1
@@ -4205,9 +4205,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@google-cloud/bigquery@npm:^5.6.0":
-  version: 5.7.0
-  resolution: "@google-cloud/bigquery@npm:5.7.0"
+"@google-cloud/bigquery@npm:^5.7.1":
+  version: 5.7.1
+  resolution: "@google-cloud/bigquery@npm:5.7.1"
   dependencies:
     "@google-cloud/common": ^3.1.0
     "@google-cloud/paginator": ^3.0.0
@@ -4220,7 +4220,7 @@ __metadata:
     p-event: ^4.1.0
     stream-events: ^1.0.5
     uuid: ^8.0.0
-  checksum: 0ef2c390769974d794630b41b3838068360eace1f25299f0547373ba54bd9833d57d899b2e2f590b48a215903a7b23ab4e833e7f788b0da1e09cbc492dc3716b
+  checksum: 6a8d3384787f769955931da2c015b58027ba7491c993c6f2e37910afcc8c75b2b3fabe4d200a60ec66eda5a141fc612a71c5b02d9d16721326c60afa2561095f
   languageName: node
   linkType: hard
 
