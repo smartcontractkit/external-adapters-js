@@ -4538,7 +4538,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.1"],
             ["@types/node", "npm:14.17.7"],
-            ["hardhat", "npm:2.5.0"],
+            ["hardhat", "npm:2.6.0"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
@@ -5967,10 +5967,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@ethereumjs/vm", [
-        ["npm:5.5.1", {
-          "packageLocation": "./.yarn/cache/@ethereumjs-vm-npm-5.5.1-f39a9921fb-370751c6cd.zip/node_modules/@ethereumjs/vm/",
+        ["npm:5.5.2", {
+          "packageLocation": "./.yarn/cache/@ethereumjs-vm-npm-5.5.2-8a23f8355f-20a22c6ce9.zip/node_modules/@ethereumjs/vm/",
           "packageDependencies": [
-            ["@ethereumjs/vm", "npm:5.5.1"],
+            ["@ethereumjs/vm", "npm:5.5.2"],
             ["@ethereumjs/block", "npm:3.4.0"],
             ["@ethereumjs/blockchain", "npm:5.4.0"],
             ["@ethereumjs/common", "npm:2.4.0"],
@@ -15350,15 +15350,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["hardhat", [
-        ["npm:2.5.0", {
-          "packageLocation": "./.yarn/cache/hardhat-npm-2.5.0-790257da47-378a0e2992.zip/node_modules/hardhat/",
+        ["npm:2.6.0", {
+          "packageLocation": "./.yarn/cache/hardhat-npm-2.6.0-c704e1a0fc-d24be22fbb.zip/node_modules/hardhat/",
           "packageDependencies": [
-            ["hardhat", "npm:2.5.0"],
+            ["hardhat", "npm:2.6.0"],
             ["@ethereumjs/block", "npm:3.4.0"],
             ["@ethereumjs/blockchain", "npm:5.4.0"],
             ["@ethereumjs/common", "npm:2.4.0"],
             ["@ethereumjs/tx", "npm:3.3.0"],
-            ["@ethereumjs/vm", "npm:5.5.1"],
+            ["@ethereumjs/vm", "npm:5.5.2"],
             ["@ethersproject/abi", "npm:5.4.0"],
             ["@sentry/node", "npm:5.30.0"],
             ["@solidity-parser/parser", "npm:0.11.1"],
