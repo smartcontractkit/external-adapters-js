@@ -2,8 +2,7 @@
   "name": "@chainlink/ea-scripts",
   "version": "0.0.1",
   "dependencies": {
-    "@actions/core": "^1.2.6",
-    "@actions/github": "^4.0.0",
+    "@actions/core": "^1.4.0",
     "chalk": "^4.1.0",
     "json-schema-ref-parser": "^9.0.7",
     "shelljs": "^0.8.4",
