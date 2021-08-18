@@ -2565,13 +2565,13 @@ __metadata:
     "@semantic-release/commit-analyzer": ^8.0.1
     "@semantic-release/github": ^7.2.3
     "@semantic-release/npm": ^7.1.3
-    "@semantic-release/release-notes-generator": ^9.0.2
+    "@semantic-release/release-notes-generator": ^9.0.3
     "@types/babel__core": ^7.1.15
     "@types/babel__preset-env": ^7.9.2
     "@types/eslint": ^7.28.0
     "@types/jest": ^27.0.1
     "@types/node": ^14.14.35
-    "@types/semantic-release": ^17
+    "@types/semantic-release": ^17.2.1
     "@typescript-eslint/eslint-plugin": ^4.29.2
     "@typescript-eslint/parser": ^4.29.2
     "@vercel/ncc": ^0.29.1
@@ -2582,8 +2582,8 @@ __metadata:
     husky: ^7.0.1
     jest: ^27.0.6
     prettier: ^2.3.2
-    semantic-release: ^17.4.2
-    semantic-release-monorepo: ^7.0.4
+    semantic-release: ^17.4.5
+    semantic-release-monorepo: ^7.0.5
     ts-node: ^10.2.1
     typescript: ^4.3.5
   languageName: unknown
@@ -5151,7 +5151,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@semantic-release/release-notes-generator@npm:^9.0.0, @semantic-release/release-notes-generator@npm:^9.0.2":
+"@semantic-release/release-notes-generator@npm:^9.0.0, @semantic-release/release-notes-generator@npm:^9.0.3":
   version: 9.0.3
   resolution: "@semantic-release/release-notes-generator@npm:9.0.3"
   dependencies:
@@ -5979,7 +5979,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/semantic-release@npm:^17":
+"@types/semantic-release@npm:^17.2.1":
   version: 17.2.1
   resolution: "@types/semantic-release@npm:17.2.1"
   dependencies:
@@ -15096,12 +15096,12 @@ fsevents@~2.1.1:
   languageName: node
   linkType: hard
 
-"marked@npm:^2.0.0":
-  version: 2.1.3
-  resolution: "marked@npm:2.1.3"
+"marked@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "marked@npm:3.0.0"
   bin:
     marked: bin/marked
-  checksum: 21a5ecd4941bc760aba21dfd97185853ec3b464cf707ad971e3ddb3aeb2f44d0deeb36b0889932afdb6f734975a994d92f18815dd0fabadbd902bdaff997cc5b
+  checksum: 04d5ba7405463f8d8c0c1539dc7e06a253b2ebbdb41363ed8a3d0144bf0522f9a44d2c983fef979bbcf714c4f839f90e237e0a89b3a2fdcd58accc1675c4ec47
   languageName: node
   linkType: hard
 
@@ -18568,7 +18568,7 @@ resolve@1.17.0:
   languageName: node
   linkType: hard
 
-"semantic-release-monorepo@npm:^7.0.4":
+"semantic-release-monorepo@npm:^7.0.5":
   version: 7.0.5
   resolution: "semantic-release-monorepo@npm:7.0.5"
   dependencies:
@@ -18594,9 +18594,9 @@ resolve@1.17.0:
   languageName: node
   linkType: hard
 
-"semantic-release@npm:17.4.4, semantic-release@npm:^17.4.2":
-  version: 17.4.4
-  resolution: "semantic-release@npm:17.4.4"
+"semantic-release@npm:17.4.5, semantic-release@npm:^17.4.5":
+  version: 17.4.5
+  resolution: "semantic-release@npm:17.4.5"
   dependencies:
     "@semantic-release/commit-analyzer": ^8.0.0
     "@semantic-release/error": ^2.2.0
@@ -18615,7 +18615,7 @@ resolve@1.17.0:
     hook-std: ^2.0.0
     hosted-git-info: ^4.0.0
     lodash: ^4.17.21
-    marked: ^2.0.0
+    marked: ^3.0.0
     marked-terminal: ^4.1.1
     micromatch: ^4.0.2
     p-each-series: ^2.1.0
@@ -18628,7 +18628,7 @@ resolve@1.17.0:
     yargs: ^16.2.0
   bin:
     semantic-release: bin/semantic-release.js
-  checksum: 870b4df485e7aef09cd3dd9d060112c6d04b7ab4b72fbd74a6c8e5b7702920b33d956e3a16a0004c886508545e2385ee1673be481f1b8ae5380882efae03c444
+  checksum: e1b16ce5a43bf9c1dac525e1d95801aa79d08e4435c1e5945a050ac960c5139e060487103184dde24a0a2c1ae4f090866fc22854e7a7bc8ea953ceea1ef94c31
   languageName: node
   linkType: hard
 
