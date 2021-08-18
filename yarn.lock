@@ -2332,7 +2332,7 @@ __metadata:
     "@types/shelljs": ^0.8.9
     "@types/swagger-jsdoc": ^6.0.1
     "@types/yaml": ^1.9.7
-    chalk: ^4.1.0
+    chalk: ^4.1.2
     json-schema-ref-parser: ^9.0.7
     shelljs: ^0.8.4
     snake-case: ^3.0.4
@@ -8014,7 +8014,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chalk@npm:^4.0.0, chalk@npm:^4.1.0":
+"chalk@npm:^4.0.0, chalk@npm:^4.1.0, chalk@npm:^4.1.2":
   version: 4.1.2
   resolution: "chalk@npm:4.1.2"
   dependencies:
