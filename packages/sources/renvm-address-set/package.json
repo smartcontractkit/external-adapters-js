@@ -33,9 +33,9 @@
   "dependencies": {
     "@chainlink/ea-bootstrap": "*",
     "@chainlink/ea-test-helpers": "*",
-    "@renproject/interfaces": "^1.0.3",
-    "@renproject/ren": "^1.0.7",
-    "@renproject/utils": "^1.0.7",
+    "@renproject/interfaces": "^2.5.1",
+    "@renproject/ren": "^2.5.1",
+    "@renproject/utils": "^2.5.1",
     "bitcoinjs-lib": "^5.1.10",
     "tslib": "^2.1.0"
   },
