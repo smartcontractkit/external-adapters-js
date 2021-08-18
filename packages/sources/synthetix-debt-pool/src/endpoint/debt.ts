@@ -6,7 +6,7 @@ import { ethers } from 'ethers'
 export const supportedEndpoints = ['debt']
 
 export const endpointResultPaths = {
-  example: 'price',
+  debt: 'debt',
 }
 
 interface CurrentDebtResults {
