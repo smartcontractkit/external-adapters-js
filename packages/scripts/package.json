@@ -12,7 +12,7 @@
     "yaml": "^1.10.2"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.22",
+    "@types/jest": "^27.0.1",
     "@types/shelljs": "^0",
     "@types/swagger-jsdoc": "^6",
     "@types/yaml": "^1.9.7",
