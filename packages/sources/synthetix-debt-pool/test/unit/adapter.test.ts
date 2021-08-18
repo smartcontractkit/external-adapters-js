@@ -11,14 +11,6 @@ describe('execute', () => {
     const requests = [
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },
-      {
-        name: 'base not supplied',
-        testData: { id: jobID, data: { quote: 'USD' } },
-      },
-      {
-        name: 'quote not supplied',
-        testData: { id: jobID, data: { base: 'ETH' } },
-      },
     ]
 
     requests.forEach((req) => {

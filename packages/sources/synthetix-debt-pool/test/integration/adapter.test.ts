@@ -1,63 +1,55 @@
-import { Requester } from '@chainlink/ea-bootstrap'
-import { assertError, assertSuccess } from '@chainlink/ea-test-helpers'
-import { AdapterRequest } from '@chainlink/types'
-import { makeExecute } from '../../src/adapter'
+import { server as startServer } from '../../src/index'
+import { ethers, BigNumber } from "ethers"
+import request from 'supertest'
 
-describe('execute', () => {
-  const jobID = '1'
-  const execute = makeExecute()
+const mockBigNum = BigNumber.from("464590202399031116379217447")
 
-  describe('successful calls @integration', () => {
-    const requests = [
-      {
-        name: 'id not supplied',
-        testData: { data: { base: 'ETH', quote: 'USD' } },
+jest.mock("ethers", () => ({
+    ...(jest.requireActual("ethers")),
+    ethers: {
+      providers: {
+        JsonRpcProvider: function(_: string): ethers.provider.JsonRpcProvider { return {} } 
       },
-      {
-        name: 'base/quote',
-        testData: { id: jobID, data: { base: 'ETH', quote: 'USD' } },
-      },
-      {
-        name: 'from/to',
-        testData: { id: jobID, data: { from: 'ETH', to: 'USD' } },
-      },
-      {
-        name: 'coin/market',
-        testData: { id: jobID, data: { coin: 'ETH', market: 'USD' } },
-      },
-    ]
-
-    requests.forEach((req) => {
-      it(`${req.name}`, async () => {
-        const data = await execute(req.testData as AdapterRequest)
-        assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
-        expect(data.result).toBeGreaterThan(0)
-        expect(data.data.result).toBeGreaterThan(0)
-      })
-    })
-  })
-
-  describe('error calls @integration', () => {
-    const requests = [
-      {
-        name: 'unknown base',
-        testData: { id: jobID, data: { base: 'not_real', quote: 'USD' } },
-      },
-      {
-        name: 'unknown quote',
-        testData: { id: jobID, data: { base: 'ETH', quote: 'not_real' } },
-      },
-    ]
-
-    requests.forEach((req) => {
-      it(`${req.name}`, async () => {
-        try {
-          await execute(req.testData as AdapterRequest)
-        } catch (error) {
-          const errorResp = Requester.errored(jobID, error)
-          assertError({ expected: 500, actual: errorResp.statusCode }, errorResp, jobID)
+      Contract: function() {
+        return {
+          currentDebt: () => {
+            return [mockBigNum, true]
+          }
         }
-      })
+      }
+    }
+  }))
+
+let oldEnv: NodeJS.ProcessEnv
+
+describe('synthetix-debt-pool', () => {
+  let server: http.Server
+  const req = request('localhost:8080')
+
+  beforeAll(async () => {
+    server = await startServer()
+    process.env.RPC_URL = "FAKE_RPC_URL"
+  })
+  afterAll((done) => {
+    process.env = oldEnv
+    server.close(done)
+  })
+    
+  describe('when making a request to fetch the current debt', () => {
+    const request = {
+        "id": 1,
+        "data": {}
+    }
+    it("successfully fetches the current debt size of the synthetix debt pool", async () => {
+        const response = await req
+        .post('/')
+        .send(request)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        
+        expect(response.body).toMatchSnapshot()
     })
   })
 })
