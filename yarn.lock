@@ -2575,7 +2575,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^4.29.2
     "@typescript-eslint/parser": ^4.29.2
     "@vercel/ncc": ^0.29.1
-    commitizen: ^4.2.3
+    commitizen: ^4.2.4
     cz-conventional-changelog: ^3.3.0
     eslint: ^7.32.0
     eslint-config-prettier: ^8.3.0
@@ -8535,7 +8535,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"commitizen@npm:^4.0.3, commitizen@npm:^4.2.3":
+"commitizen@npm:^4.0.3, commitizen@npm:^4.2.4":
   version: 4.2.4
   resolution: "commitizen@npm:4.2.4"
   dependencies:
