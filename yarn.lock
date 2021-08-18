@@ -2264,7 +2264,7 @@ __metadata:
     "@types/redux-logger": ^3.0.9
     "@types/remote-redux-devtools": ^0.5.5
     "@types/sinon": ^10.0.2
-    "@types/uuid": ^8.3.0
+    "@types/uuid": ^8.3.1
     "@types/ws": ^7.4.7
     ajv: ^8.3.0
     axios: ^0.21.1
@@ -2288,7 +2288,7 @@ __metadata:
     sinon: ^11.1.2
     tslib: ^2.3.1
     typescript: ^4.3.5
-    uuid: ^8.3.0
+    uuid: ^8.3.2
     ws: ^8.2.0
   languageName: unknown
   linkType: soft
@@ -6050,7 +6050,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/uuid@npm:^8.3.0":
+"@types/uuid@npm:^8.3.1":
   version: 8.3.1
   resolution: "@types/uuid@npm:8.3.1"
   checksum: b41bdc5e86c6f0f1899306be10455636da0f2168c9489b869edd6837ddeb7c0e501b1ff7d857402462986bada2a379125743dd895fa801d03437cd632116a373
@@ -20819,7 +20819,7 @@ resolve@1.17.0:
   languageName: node
   linkType: hard
 
-"uuid@npm:^8.0.0, uuid@npm:^8.3.0":
+"uuid@npm:^8.0.0, uuid@npm:^8.3.2":
   version: 8.3.2
   resolution: "uuid@npm:8.3.2"
   bin:
