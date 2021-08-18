@@ -8789,10 +8789,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"core-js@npm:^3.13.0":
-  version: 3.16.0
-  resolution: "core-js@npm:3.16.0"
-  checksum: e215cf057fadd86e5386d8042c1bd0ddab1c7811d8f66d272c356ba9bae34c0897c3f5a80d19f93fd74cff832652354a0feb0c817234a066ae9177e28c6d865a
+"core-js@npm:^3.16.2":
+  version: 3.16.2
+  resolution: "core-js@npm:3.16.2"
+  checksum: f48b988ab6d144aad1a7c09a73174946f797ec050b4566dee9bf0227560296cdd0f714b37f0ee065303eccf0e7fb8115ccca52ab3e80db12e0dcc20a88219483
   languageName: node
   linkType: hard
 
@@ -14050,7 +14050,7 @@ fsevents@~2.1.1:
     "@types/k6": ^0.32.2
     babel-loader: ^8.2.2
     clean-webpack-plugin: ^4.0.0-alpha.0
-    core-js: ^3.13.0
+    core-js: ^3.16.2
     k6: ^0.0.0
     typescript: ^4.3.5
     webpack: ^5.50.0
