@@ -2011,7 +2011,7 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^27.0.1
     "@types/node": ^14.14.35
-    decimal.js: ^10.2.1
+    decimal.js: ^10.3.1
     moment: ^2.29.1
     tslib: ^2.3.1
     typescript: ^4.3.5
@@ -2235,7 +2235,7 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^27.0.1
     "@types/node": ^14.14.35
-    decimal.js: ^10.2.1
+    decimal.js: ^10.3.1
     ethers: ^5.4.5
     object-path: ^0.11.5
     tslib: ^2.3.1
@@ -2268,7 +2268,7 @@ __metadata:
     "@types/ws": ^7.4.7
     ajv: ^8.6.2
     axios: ^0.21.1
-    decimal.js: ^10.2.1
+    decimal.js: ^10.3.1
     express: ^4.17.1
     fast-redact: ^3.0.1
     lodash: ^4.17.21
@@ -2851,7 +2851,7 @@ __metadata:
     "@types/node": ^14.14.35
     axios: ^0.21.1
     csv-parse: ^4.16.0
-    decimal.js: ^10.2.1
+    decimal.js: ^10.3.1
     tslib: ^2.3.1
     typescript: ^4.3.5
   languageName: unknown
@@ -3160,7 +3160,7 @@ __metadata:
     "@chainlink/wbtc-address-set-adapter": "*"
     "@types/jest": ^27.0.1
     "@types/node": ^14.14.35
-    decimal.js: ^10.2.1
+    decimal.js: ^10.3.1
     ethers: ^5.4.5
     tslib: ^2.3.1
     typescript: ^4.3.5
@@ -3176,7 +3176,7 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^27.0.1
     "@types/node": ^14.14.35
-    decimal.js: ^10.2.1
+    decimal.js: ^10.3.1
     object-path: ^0.11.5
     tslib: ^2.3.1
     typescript: ^4.3.5
@@ -3284,7 +3284,7 @@ __metadata:
     "@types/jest": ^27.0.1
     "@types/node": ^14.14.35
     "@types/supertest": ^2.0.11
-    decimal.js: ^10.2.1
+    decimal.js: ^10.3.1
     nock: ^13.1.1
     supertest: ^6.1.6
     synthetix: 2.45.3
@@ -3370,7 +3370,7 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^27.0.1
     "@types/node": ^14.14.35
-    decimal.js: ^10.2.1
+    decimal.js: ^10.3.1
     ethers: ^5.4.5
     tslib: ^2.3.1
     typescript: ^4.3.5
@@ -9160,7 +9160,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"decimal.js@npm:^10.2.1":
+"decimal.js@npm:^10.2.1, decimal.js@npm:^10.3.1":
   version: 10.3.1
   resolution: "decimal.js@npm:10.3.1"
   checksum: 0351ac9f05fe050f23227aa6a4573bee2d58fa7378fcf28d969a8c789525032effb488a90320fd3fe86a66e17b4bc507d811b15eada5b7f0e7ec5d2af4c24a59

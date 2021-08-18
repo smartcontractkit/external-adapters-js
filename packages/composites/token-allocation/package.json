@@ -38,7 +38,7 @@
     "@chainlink/kaiko-adapter": "*",
     "@chainlink/nomics-adapter": "*",
     "@chainlink/tiingo-adapter": "*",
-    "decimal.js": "^10.2.1",
+    "decimal.js": "^10.3.1",
     "ethers": "^5.4.5",
     "tslib": "^2.3.1"
   },
