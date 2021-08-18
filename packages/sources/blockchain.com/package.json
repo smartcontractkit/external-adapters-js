@@ -36,7 +36,6 @@
     "@chainlink/ea-bootstrap": "*",
     "@chainlink/ea-factories": "*",
     "@chainlink/ea-test-helpers": "*",
-    "object-path": "^0.11.4",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
