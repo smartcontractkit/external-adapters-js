@@ -1,47 +1,35 @@
 # Chainlink External Adapter for Synthetix-debt-pool
 
-A template to be used as an example for new [External Adapters](https://github.com/smartcontractkit/external-adapters-js)
-
-(please fill out with corresponding information)
-
-An example adapter description
+The Synthetix debt pool adapter fetches the total debt from the DebtCache contract.
 
 ### Environment Variables
 
 | Required? |  Name   |                                                        Description                                                         | Options | Defaults to |
 | :-------: | :-----: | :------------------------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
-|           | API_KEY | An API key that can be obtained from the data provider's dashboard (add a ✅ in `Required?` if this parameter is required) |         |             |
+|           | DEBT_POOL_CACHE_ADDRESS | The address of the DebtCache contract |         |  0x9bB05EF2cA7DBAafFC3da1939D1492e6b00F39b8           |
+|     ✅       | RPC_URL | A valid RPC URL to connect to the blockchain |         |            |
 
 ---
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |           Options            | Defaults to |
-| :-------: | :------: | :-----------------: | :--------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [example](#Synthetix-debt-pool-Endpoint) |   example   |
+N/A
 
 ---
 
 ## Synthetix-debt-pool Endpoint
 
-An example endpoint description
 
 ### Input Params
 
-| Required? |            Name            |               Description                |       Options       | Defaults to |
-| :-------: | :------------------------: | :--------------------------------------: | :-----------------: | :---------: |
-|    ✅     | `base`, `from`, or `coin`  |   The symbol of the currency to query    | `BTC`, `ETH`, `USD` |             |
-|    ✅     | `quote`, `to`, or `market` | The symbol of the currency to convert to | `BTC`, `ETH`, `USD` |             |
+N/A
 
 ### Sample Input
 
 ```json
 {
-  "id": "1",
-  "data": {
-    "base": "ETH",
-    "quote": "USD"
-  }
+    "id": 1,
+    "data": {}
 }
 ```
 
@@ -49,11 +37,13 @@ An example endpoint description
 
 ```json
 {
-  "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
-  "data": {
-    "price": 77777.77,
-    "result": 77777.77
-  },
-  "statusCode": 200
+    "jobRunID": 1,
+    "result": "464774989776339326173983425",
+    "statusCode": 200,
+    "data": {
+        "result": "464774989776339326173983425",
+        "total": "464774989776339326173983425",
+        "isInvalid": false
+    }
 }
 ```
