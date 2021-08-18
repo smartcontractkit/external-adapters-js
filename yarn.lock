@@ -2351,7 +2351,7 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^27.0.1
     "@types/node": ^14.14.35
-    hardhat: ^2.0.8
+    hardhat: ^2.6.0
     tslib: ^2.3.1
     typescript: ^4.3.5
   languageName: unknown
@@ -3717,9 +3717,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ethereumjs/vm@npm:^5.5.0":
-  version: 5.5.1
-  resolution: "@ethereumjs/vm@npm:5.5.1"
+"@ethereumjs/vm@npm:^5.5.2":
+  version: 5.5.2
+  resolution: "@ethereumjs/vm@npm:5.5.2"
   dependencies:
     "@ethereumjs/block": ^3.4.0
     "@ethereumjs/blockchain": ^5.4.0
@@ -3734,7 +3734,7 @@ __metadata:
     merkle-patricia-tree: ^4.2.0
     rustbn.js: ~0.2.0
     util.promisify: ^1.0.1
-  checksum: 370751c6cdc240d1b9329d40164ecf841a271ca793b4f3598e3c8ada54055d54654f0e6d6ab1435ff84c3155016dea6273176cd6a83b02b5cec9e16aa0d2f0eb
+  checksum: 20a22c6ce986cfedf941a7051ab0dde19e488b725912464622515a9d32c325079e968347f4f5639105e92440df7207d9551a153fc7ea9883d64703d885c9fc3a
   languageName: node
   linkType: hard
 
@@ -11832,15 +11832,15 @@ fsevents@~2.1.1:
   languageName: node
   linkType: hard
 
-"hardhat@npm:^2.0.8":
-  version: 2.5.0
-  resolution: "hardhat@npm:2.5.0"
+"hardhat@npm:^2.6.0":
+  version: 2.6.0
+  resolution: "hardhat@npm:2.6.0"
   dependencies:
     "@ethereumjs/block": ^3.4.0
     "@ethereumjs/blockchain": ^5.4.0
     "@ethereumjs/common": ^2.4.0
     "@ethereumjs/tx": ^3.3.0
-    "@ethereumjs/vm": ^5.5.0
+    "@ethereumjs/vm": ^5.5.2
     "@ethersproject/abi": ^5.1.2
     "@sentry/node": ^5.18.1
     "@solidity-parser/parser": ^0.11.0
@@ -11885,7 +11885,7 @@ fsevents@~2.1.1:
     ws: ^7.4.6
   bin:
     hardhat: internal/cli/cli.js
-  checksum: 378a0e2992603e11c11b80254a2c197d578f860d6d3b271251a6c6e3235698a763c991639e913388ddcb17d90e0f3e539614277242bf2e2a1a7ddbcc26259aa3
+  checksum: d24be22fbb8418ef98e807492a66c54f5d55d3934e57fde4e9b4ca45e41c770ebbe23b472b3cf6f48742aa89b8989c9caac0c6aca57cce4beeb755e85d912a4b
   languageName: node
   linkType: hard
 
