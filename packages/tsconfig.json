@@ -246,9 +246,6 @@
       "path": "./sources/kaiko"
     },
     {
-      "path": "./sources/layer2-sequencer-health"
-    },
-    {
       "path": "./sources/lcx"
     },
     {
