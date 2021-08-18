@@ -4813,7 +4813,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
-            ["@google-cloud/bigquery", "npm:5.7.0"],
+            ["@google-cloud/bigquery", "npm:5.7.1"],
             ["@types/jest", "npm:27.0.1"],
             ["@types/node", "npm:14.17.7"],
             ["tslib", "npm:2.3.1"],
@@ -6484,10 +6484,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@google-cloud/bigquery", [
-        ["npm:5.7.0", {
-          "packageLocation": "./.yarn/cache/@google-cloud-bigquery-npm-5.7.0-6dc4606e4e-0ef2c39076.zip/node_modules/@google-cloud/bigquery/",
+        ["npm:5.7.1", {
+          "packageLocation": "./.yarn/cache/@google-cloud-bigquery-npm-5.7.1-113c53a6ff-6a8d338478.zip/node_modules/@google-cloud/bigquery/",
           "packageDependencies": [
-            ["@google-cloud/bigquery", "npm:5.7.0"],
+            ["@google-cloud/bigquery", "npm:5.7.1"],
             ["@google-cloud/common", "npm:3.7.0"],
             ["@google-cloud/paginator", "npm:3.0.5"],
             ["@google-cloud/promisify", "npm:2.0.3"],
