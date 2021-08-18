@@ -2574,7 +2574,7 @@ __metadata:
     "@types/semantic-release": ^17
     "@typescript-eslint/eslint-plugin": ^4.29.2
     "@typescript-eslint/parser": ^4.29.2
-    "@vercel/ncc": ^0.27.0
+    "@vercel/ncc": ^0.29.1
     commitizen: ^4.2.3
     cz-conventional-changelog: ^3.3.0
     eslint: ^7.32.0
@@ -6190,14 +6190,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vercel/ncc@npm:^0.27.0":
-  version: 0.27.0
-  resolution: "@vercel/ncc@npm:0.27.0"
+"@vercel/ncc@npm:^0.29.1":
+  version: 0.29.1
+  resolution: "@vercel/ncc@npm:0.29.1"
   dependencies:
     node-gyp: latest
   bin:
     ncc: dist/ncc/cli.js
-  checksum: 84a1cbd214ce451a49c66d7167359c14d9ad19c5fb91409f5c50b5579f188dd0ff33ec772745e834b376c711b41561bf2ad5f1e199ea65d011a080c46a48896d
+  checksum: 588751c809b2414f4f9dbfe1657f913582341dc4eac2f78e60d38a816ccc3a67f6b76422c908b7d5af7ba4b21decf7c2b6a06fc781c418d50aff589d5d9e61b6
   languageName: node
   linkType: hard
 
