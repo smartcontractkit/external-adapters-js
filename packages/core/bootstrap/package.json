@@ -16,7 +16,7 @@
     "dev:metrics": "docker-compose up -d"
   },
   "dependencies": {
-    "@reduxjs/toolkit": "^1.5.0",
+    "@reduxjs/toolkit": "^1.6.1",
     "ajv": "^8.3.0",
     "axios": "^0.21.1",
     "decimal.js": "^10.2.1",
@@ -31,7 +31,7 @@
     "prom-client": "^13.1.0",
     "promise-timeout": "^1.3.0",
     "redis": "^3.0.2",
-    "redux": "^4.0.5",
+    "redux": "^4.1.1",
     "redux-logger": "^3.0.6",
     "redux-observable": "^2.0.0",
     "remote-redux-devtools": "^0.5.16",
@@ -54,8 +54,8 @@
     "@types/pino-pretty": "^4",
     "@types/promise-timeout": "^1.3.0",
     "@types/redis": "^2.8.28",
-    "@types/redux-logger": "^3.0.8",
-    "@types/remote-redux-devtools": "^0.5.4",
+    "@types/redux-logger": "^3.0.9",
+    "@types/remote-redux-devtools": "^0.5.5",
     "@types/sinon": "^9.0.11",
     "@types/uuid": "^8.3.0",
     "@types/ws": "^7.4.1",
