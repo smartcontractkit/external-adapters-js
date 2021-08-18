@@ -4456,7 +4456,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["object-path", "npm:0.11.5"],
             ["pino", "npm:6.13.0"],
             ["pino-pretty", "npm:5.1.3"],
-            ["prom-client", "npm:13.1.0"],
+            ["prom-client", "npm:13.2.0"],
             ["promise-timeout", "npm:1.3.0"],
             ["redis", "npm:3.1.2"],
             ["redux", "npm:4.1.1"],
@@ -21372,10 +21372,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["prom-client", [
-        ["npm:13.1.0", {
-          "packageLocation": "./.yarn/cache/prom-client-npm-13.1.0-84cf4e5133-02d0566aec.zip/node_modules/prom-client/",
+        ["npm:13.2.0", {
+          "packageLocation": "./.yarn/cache/prom-client-npm-13.2.0-8ff3450697-e39b3cc91e.zip/node_modules/prom-client/",
           "packageDependencies": [
-            ["prom-client", "npm:13.1.0"],
+            ["prom-client", "npm:13.2.0"],
             ["tdigest", "npm:0.1.1"]
           ],
           "linkType": "HARD",
