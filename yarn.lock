@@ -1520,7 +1520,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
-    "@types/express": ^4.17.11
+    "@types/express": ^4.17.13
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     ethers: ^5.0.32
@@ -1672,7 +1672,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
-    "@types/express": ^4.17.6
+    "@types/express": ^4.17.13
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     tslib: ^2.1.0
@@ -1687,7 +1687,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
-    "@types/express": ^4.17.6
+    "@types/express": ^4.17.13
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     tslib: ^2.1.0
@@ -1895,7 +1895,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
-    "@types/express": ^4.17.6
+    "@types/express": ^4.17.13
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.35
     tslib: ^2.1.0
@@ -2254,7 +2254,7 @@ __metadata:
   dependencies:
     "@chainlink/types": 0.0.1
     "@reduxjs/toolkit": ^1.6.1
-    "@types/express": ^4.17.11
+    "@types/express": ^4.17.13
     "@types/fast-redact": ^2.0.0
     "@types/jest": ^26.0.22
     "@types/lodash": ^4.14.168
@@ -6778,7 +6778,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/express@npm:^4.17.11, @types/express@npm:^4.17.6":
+"@types/express@npm:^4.17.13":
   version: 4.17.13
   resolution: "@types/express@npm:4.17.13"
   dependencies:
