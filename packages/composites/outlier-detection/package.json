@@ -25,7 +25,7 @@
     "@chainlink/oilpriceapi-adapter": "*",
     "@chainlink/xbto-adapter": "*",
     "axios": "^0.21.1",
-    "tslib": "^2.1.0"
+    "tslib": "^2.3.1"
   },
   "devDependencies": {
     "@chainlink/types": "0.0.1",
