@@ -1,5 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`synth-index X coingecko when making a request to coingecko for sDEFI and coingecko replies with a failure repeatedly should try 3 times and then fail 1`] = `
+Object {
+  "error": Object {
+    "message": "connect ECONNREFUSED 127.0.0.1:8081",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 500,
+}
+`;
+
 exports[`synth-index X coingecko when making a request to coingecko for sDEFI and coingecko replies with a success should reply with success 1`] = `
 Object {
   "data": Object {
