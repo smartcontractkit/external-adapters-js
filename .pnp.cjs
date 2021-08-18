@@ -12004,10 +12004,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["core-js", [
-        ["npm:3.16.0", {
-          "packageLocation": "./.yarn/unplugged/core-js-npm-3.16.0-81e18c66e6/node_modules/core-js/",
+        ["npm:3.16.2", {
+          "packageLocation": "./.yarn/unplugged/core-js-npm-3.16.2-c7ce9e8d48/node_modules/core-js/",
           "packageDependencies": [
-            ["core-js", "npm:3.16.0"]
+            ["core-js", "npm:3.16.2"]
           ],
           "linkType": "HARD",
         }]
@@ -17812,7 +17812,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/k6", "npm:0.32.2"],
             ["babel-loader", "virtual:4f33a23cf772c9fbbeaff833230e51fa7f4a4c09ef609dd1b1396e9132fe2abc348652b57470c151673da706634f58c80da2f57c8a7b7ca0c06dcd07aea7c2c8#npm:8.2.2"],
             ["clean-webpack-plugin", "virtual:4f33a23cf772c9fbbeaff833230e51fa7f4a4c09ef609dd1b1396e9132fe2abc348652b57470c151673da706634f58c80da2f57c8a7b7ca0c06dcd07aea7c2c8#npm:4.0.0-alpha.0"],
-            ["core-js", "npm:3.16.0"],
+            ["core-js", "npm:3.16.2"],
             ["k6", "npm:0.0.0"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"],
             ["webpack", "virtual:4f33a23cf772c9fbbeaff833230e51fa7f4a4c09ef609dd1b1396e9132fe2abc348652b57470c151673da706634f58c80da2f57c8a7b7ca0c06dcd07aea7c2c8#npm:5.50.0"],
