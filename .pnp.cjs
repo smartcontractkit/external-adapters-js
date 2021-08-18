@@ -670,7 +670,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/semantic-release", "npm:17.2.1"],
             ["@typescript-eslint/eslint-plugin", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:4.29.2"],
             ["@typescript-eslint/parser", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:4.29.2"],
-            ["@vercel/ncc", "npm:0.27.0"],
+            ["@vercel/ncc", "npm:0.29.1"],
             ["commitizen", "npm:4.2.4"],
             ["cz-conventional-changelog", "npm:3.3.0"],
             ["eslint", "npm:7.32.0"],
@@ -4677,7 +4677,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/semantic-release", "npm:17.2.1"],
             ["@typescript-eslint/eslint-plugin", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:4.29.2"],
             ["@typescript-eslint/parser", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:4.29.2"],
-            ["@vercel/ncc", "npm:0.27.0"],
+            ["@vercel/ncc", "npm:0.29.1"],
             ["commitizen", "npm:4.2.4"],
             ["cz-conventional-changelog", "npm:3.3.0"],
             ["eslint", "npm:7.32.0"],
@@ -8962,10 +8962,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@vercel/ncc", [
-        ["npm:0.27.0", {
-          "packageLocation": "./.yarn/cache/@vercel-ncc-npm-0.27.0-dcc909a2db-84a1cbd214.zip/node_modules/@vercel/ncc/",
+        ["npm:0.29.1", {
+          "packageLocation": "./.yarn/cache/@vercel-ncc-npm-0.29.1-e356aa24e2-588751c809.zip/node_modules/@vercel/ncc/",
           "packageDependencies": [
-            ["@vercel/ncc", "npm:0.27.0"],
+            ["@vercel/ncc", "npm:0.29.1"],
             ["node-gyp", "npm:8.1.0"]
           ],
           "linkType": "HARD",
