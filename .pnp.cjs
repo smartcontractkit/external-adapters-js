@@ -67,6 +67,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/composites/market-closure"
       },
       {
+        "name": "@chainlink/medianizer-adapter",
+        "reference": "workspace:packages/composites/medianizer"
+      },
+      {
         "name": "@chainlink/outlier-detection-adapter",
         "reference": "workspace:packages/composites/outlier-detection"
       },
@@ -603,6 +607,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/lition-adapter", ["workspace:packages/sources/lition"]],
       ["@chainlink/market-closure-adapter", ["workspace:packages/composites/market-closure"]],
       ["@chainlink/marketstack-adapter", ["workspace:packages/sources/marketstack"]],
+      ["@chainlink/medianizer-adapter", ["workspace:packages/composites/medianizer"]],
       ["@chainlink/messari-adapter", ["workspace:packages/sources/messari"]],
       ["@chainlink/metalsapi-adapter", ["workspace:packages/sources/metalsapi"]],
       ["@chainlink/ncfx-adapter", ["workspace:packages/sources/ncfx"]],
@@ -4589,6 +4594,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
+            ["tslib", "npm:2.3.0"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/medianizer-adapter", [
+        ["workspace:packages/composites/medianizer", {
+          "packageLocation": "./packages/composites/medianizer/",
+          "packageDependencies": [
+            ["@chainlink/medianizer-adapter", "workspace:packages/composites/medianizer"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:26.0.24"],
+            ["@types/node", "npm:14.17.7"],
+            ["axios", "npm:0.21.1"],
             ["tslib", "npm:2.3.0"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
