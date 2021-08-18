@@ -4429,9 +4429,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@reduxjs/toolkit", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:1.6.1"],
             ["@types/express", "npm:4.17.13"],
-            ["@types/fast-redact", "npm:2.0.0"],
+            ["@types/fast-redact", "npm:3.0.1"],
             ["@types/jest", "npm:27.0.1"],
-            ["@types/lodash", "npm:4.14.171"],
+            ["@types/lodash", "npm:4.14.172"],
             ["@types/lru-cache", "npm:5.1.1"],
             ["@types/node", "npm:14.17.7"],
             ["@types/object-hash", "npm:2.1.1"],
@@ -8256,10 +8256,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@types/fast-redact", [
-        ["npm:2.0.0", {
-          "packageLocation": "./.yarn/cache/@types-fast-redact-npm-2.0.0-8446ea12d8-8ea1c1e7ab.zip/node_modules/@types/fast-redact/",
+        ["npm:3.0.1", {
+          "packageLocation": "./.yarn/cache/@types-fast-redact-npm-3.0.1-c9ea72a7f7-0c5d8dbddf.zip/node_modules/@types/fast-redact/",
           "packageDependencies": [
-            ["@types/fast-redact", "npm:2.0.0"]
+            ["@types/fast-redact", "npm:3.0.1"]
           ],
           "linkType": "HARD",
         }]
@@ -8385,10 +8385,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@types/lodash", [
-        ["npm:4.14.171", {
-          "packageLocation": "./.yarn/cache/@types-lodash-npm-4.14.171-b4c768e142-d093d8ff8b.zip/node_modules/@types/lodash/",
+        ["npm:4.14.172", {
+          "packageLocation": "./.yarn/cache/@types-lodash-npm-4.14.172-e52063c461-5fc51ea40d.zip/node_modules/@types/lodash/",
           "packageDependencies": [
-            ["@types/lodash", "npm:4.14.171"]
+            ["@types/lodash", "npm:4.14.172"]
           ],
           "linkType": "HARD",
         }]

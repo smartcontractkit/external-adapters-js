@@ -43,10 +43,10 @@
   "devDependencies": {
     "@chainlink/types": "0.0.1",
     "@types/express": "^4.17.13",
-    "@types/fast-redact": "^2.0.0",
+    "@types/fast-redact": "^3.0.1",
     "@types/jest": "^27.0.1",
-    "@types/lodash": "^4.14.168",
-    "@types/lru-cache": "^5.1.0",
+    "@types/lodash": "^4.14.172",
+    "@types/lru-cache": "^5.1.1",
     "@types/node": "^14.14.35",
     "@types/object-hash": "^2.1.1",
     "@types/object-path": "^0.11.1",
