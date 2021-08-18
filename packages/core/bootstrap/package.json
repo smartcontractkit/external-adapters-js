@@ -19,7 +19,7 @@
     "@reduxjs/toolkit": "^1.6.1",
     "ajv": "^8.6.2",
     "axios": "^0.21.1",
-    "decimal.js": "^10.2.1",
+    "decimal.js": "^10.3.1",
     "express": "^4.17.1",
     "fast-redact": "^3.0.1",
     "lodash": "^4.17.21",
