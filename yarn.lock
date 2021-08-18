@@ -2272,7 +2272,6 @@ __metadata:
     "@chainlink/intrinio-adapter": "*"
     "@chainlink/json-rpc-adapter": "*"
     "@chainlink/kaiko-adapter": "*"
-    "@chainlink/layer2-sequencer-health-adapter": "*"
     "@chainlink/lcx-adapter": "*"
     "@chainlink/linkpool-adapter": "*"
     "@chainlink/lition-adapter": "*"
@@ -2668,7 +2667,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/layer2-sequencer-health-adapter@*, @chainlink/layer2-sequencer-health-adapter@workspace:packages/sources/layer2-sequencer-health":
+"@chainlink/layer2-sequencer-health-adapter@workspace:packages/sources/layer2-sequencer-health":
   version: 0.0.0-use.local
   resolution: "@chainlink/layer2-sequencer-health-adapter@workspace:packages/sources/layer2-sequencer-health"
   dependencies:

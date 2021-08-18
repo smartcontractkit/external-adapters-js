@@ -84,7 +84,6 @@
     "@chainlink/intrinio-adapter": "*",
     "@chainlink/json-rpc-adapter": "*",
     "@chainlink/kaiko-adapter": "*",
-    "@chainlink/layer2-sequencer-health-adapter": "*",
     "@chainlink/lcx-adapter": "*",
     "@chainlink/linkpool-adapter": "*",
     "@chainlink/lition-adapter": "*",
