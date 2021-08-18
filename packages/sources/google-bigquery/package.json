@@ -31,7 +31,7 @@
     "@chainlink/ea-bootstrap": "*",
     "@chainlink/ea-test-helpers": "*",
     "@google-cloud/bigquery": "^5.6.0",
-    "tslib": "^2.1.0"
+    "tslib": "^2.3.1"
   },
   "devDependencies": {
     "@chainlink/types": "0.0.1",

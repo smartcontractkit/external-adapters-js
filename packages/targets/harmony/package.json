@@ -34,7 +34,7 @@
     "@harmony-js/crypto": "^0.1.56",
     "@harmony-js/utils": "^0.1.56",
     "ethers": "5.0.26",
-    "tslib": "^2.1.0"
+    "tslib": "^2.3.1"
   },
   "devDependencies": {
     "@chainlink/types": "0.0.1",

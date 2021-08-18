@@ -32,7 +32,7 @@
     "@chainlink/ea-factories": "*",
     "@chainlink/ea-test-helpers": "*",
     "ethers": "^5.0.32",
-    "tslib": "^2.1.0"
+    "tslib": "^2.3.1"
   },
   "devDependencies": {
     "@chainlink/types": "0.0.1",

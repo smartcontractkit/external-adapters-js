@@ -3309,7 +3309,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -3328,7 +3328,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:14.17.7"],
             ["ethers", "npm:5.4.3"],
             ["express", "npm:4.17.1"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -3344,7 +3344,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -3360,7 +3360,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -3377,7 +3377,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -3393,7 +3393,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -3412,7 +3412,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
             ["ethers", "npm:5.0.32"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -3432,7 +3432,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:14.17.7"],
             ["ethers", "npm:5.1.4"],
             ["luxon", "npm:1.28.0"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -3448,7 +3448,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -3464,7 +3464,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -3481,7 +3481,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -3498,7 +3498,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/express", "npm:4.17.13"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -3515,7 +3515,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/express", "npm:4.17.13"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -3533,7 +3533,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
             ["object-path", "npm:0.11.5"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -3551,7 +3551,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
             ["object-path", "npm:0.11.5"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -3570,7 +3570,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:14.17.7"],
             ["blockcypher", "npm:0.3.0"],
             ["object-path", "npm:0.11.5"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -3586,7 +3586,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -3604,7 +3604,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
             ["ethers", "npm:5.4.3"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -3620,7 +3620,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -3638,7 +3638,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
             ["object-path", "npm:0.11.5"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -3654,7 +3654,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -3670,7 +3670,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -3686,7 +3686,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -3702,7 +3702,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -3718,7 +3718,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -3734,7 +3734,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -3751,7 +3751,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/express", "npm:4.17.13"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -3767,7 +3767,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -3783,7 +3783,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -3799,7 +3799,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -3815,7 +3815,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -3833,7 +3833,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:14.17.7"],
             ["ethers", "npm:5.4.3"],
             ["js-conflux-sdk", "npm:1.6.13"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -3860,7 +3860,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -3880,7 +3880,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:14.17.7"],
             ["decimal.js", "npm:10.3.1"],
             ["moment", "npm:2.29.1"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -3899,7 +3899,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:14.17.7"],
             ["ethers", "npm:5.4.3"],
             ["object-path", "npm:0.11.5"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -3917,7 +3917,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
             ["ethers", "npm:5.4.3"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -3933,7 +3933,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -3949,7 +3949,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -3965,7 +3965,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -3981,7 +3981,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -3999,7 +3999,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
             ["ethers", "npm:5.4.3"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4015,7 +4015,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4031,7 +4031,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4048,7 +4048,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4065,7 +4065,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
             ["dwolla-v2", "npm:3.2.0"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4083,7 +4083,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
             ["ethers", "npm:5.4.3"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4099,7 +4099,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4116,7 +4116,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4136,7 +4136,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["decimal.js", "npm:10.3.1"],
             ["ethers", "npm:5.4.3"],
             ["object-path", "npm:0.11.5"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4239,7 +4239,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/chai", "npm:4.2.21"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4289,7 +4289,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["remote-redux-devtools", "npm:0.5.16"],
             ["rxjs", "npm:7.3.0"],
             ["sinon", "npm:10.0.0"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"],
             ["uuid", "npm:8.3.2"],
             ["ws", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:8.2.0"]
@@ -4308,7 +4308,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:14.17.7"],
             ["@types/object-path", "npm:0.11.1"],
             ["object-path", "npm:0.11.5"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4325,7 +4325,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
             ["ethers", "npm:4.0.49"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4346,7 +4346,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["shelljs", "npm:0.8.4"],
             ["snake-case", "npm:3.0.4"],
             ["swagger-jsdoc", "npm:6.1.0"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"],
             ["yaml", "npm:1.10.2"]
           ],
@@ -4363,7 +4363,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
             ["hardhat", "npm:2.5.0"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4379,7 +4379,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4395,7 +4395,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4411,7 +4411,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4428,7 +4428,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
             ["ethers", "npm:5.4.3"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4443,7 +4443,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4459,7 +4459,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4475,7 +4475,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4527,7 +4527,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4543,7 +4543,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4559,7 +4559,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4575,7 +4575,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4591,7 +4591,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4607,7 +4607,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4623,7 +4623,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4640,7 +4640,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@google-cloud/bigquery", "npm:5.7.0"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4660,7 +4660,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:14.17.7"],
             ["convert-units", "npm:2.3.4"],
             ["geojson-validation", "npm:1.0.2"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4676,7 +4676,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4696,7 +4696,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
             ["ethers", "npm:5.0.26"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4712,7 +4712,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4730,7 +4730,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:14.17.7"],
             ["express", "npm:4.17.1"],
             ["intrinio-realtime", "npm:2.3.0"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4746,7 +4746,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4762,7 +4762,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4780,7 +4780,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:14.17.7"],
             ["ethers", "npm:5.4.3"],
             ["sinon", "npm:10.0.0"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4796,7 +4796,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4815,7 +4815,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["axios", "npm:0.21.1"],
             ["csv-parse", "npm:4.16.0"],
             ["decimal.js", "npm:10.3.1"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4831,7 +4831,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4847,7 +4847,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4867,7 +4867,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
             ["market-closure", "npm:0.1.2"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4883,7 +4883,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4917,7 +4917,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4933,7 +4933,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4949,7 +4949,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4965,7 +4965,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4981,7 +4981,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -4997,7 +4997,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -5013,7 +5013,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -5029,7 +5029,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -5045,7 +5045,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -5070,7 +5070,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/sinon", "npm:9.0.11"],
             ["axios", "npm:0.21.1"],
             ["sinon", "npm:10.0.0"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -5086,7 +5086,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -5104,7 +5104,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
             ["@types/paypal__payouts-sdk", "npm:1.0.3"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -5120,7 +5120,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -5136,7 +5136,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -5165,7 +5165,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:14.17.7"],
             ["decimal.js", "npm:10.3.1"],
             ["ethers", "npm:5.4.3"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -5183,7 +5183,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:14.17.7"],
             ["decimal.js", "npm:10.3.1"],
             ["object-path", "npm:0.11.5"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -5200,7 +5200,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/chai", "npm:4.2.21"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -5220,7 +5220,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
             ["bitcoinjs-lib", "npm:5.2.0"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -5236,7 +5236,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -5255,7 +5255,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:14.17.7"],
             ["ethers", "npm:5.4.3"],
             ["object-path", "npm:0.11.5"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -5271,7 +5271,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -5287,7 +5287,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -5309,7 +5309,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["nock", "npm:13.1.1"],
             ["supertest", "npm:6.1.4"],
             ["synthetix", "npm:2.45.3"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["type-fest", "npm:1.3.0"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
@@ -5326,7 +5326,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -5344,7 +5344,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -5360,7 +5360,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -5376,7 +5376,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -5403,7 +5403,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:14.17.7"],
             ["decimal.js", "npm:10.3.1"],
             ["ethers", "npm:5.4.3"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -5419,7 +5419,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -5436,7 +5436,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
             ["express", "npm:4.17.1"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -5452,7 +5452,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -5468,7 +5468,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -5493,7 +5493,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -5510,7 +5510,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
             ["ethers", "npm:5.4.3"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -5526,7 +5526,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -5542,7 +5542,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -5558,7 +5558,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
-            ["tslib", "npm:2.3.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -25641,6 +25641,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/tslib-npm-2.3.0-277e75e108-8869694c26.zip/node_modules/tslib/",
           "packageDependencies": [
             ["tslib", "npm:2.3.0"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:2.3.1", {
+          "packageLocation": "./.yarn/cache/tslib-npm-2.3.1-0e21e18015-de17a98d46.zip/node_modules/tslib/",
+          "packageDependencies": [
+            ["tslib", "npm:2.3.1"]
           ],
           "linkType": "HARD",
         }]

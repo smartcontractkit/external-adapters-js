@@ -119,6 +119,6 @@
     "@chainlink/wbtc-address-set-adapter": "*",
     "@chainlink/wootrade-adapter": "*",
     "@chainlink/xbto-adapter": "*",
-    "tslib": "^2.1.0"
+    "tslib": "^2.3.1"
   }
 }

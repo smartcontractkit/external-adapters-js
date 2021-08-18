@@ -23,7 +23,7 @@
     "@chainlink/ea-bootstrap": "*",
     "@chainlink/ea-factories": "*",
     "@chainlink/ea-test-helpers": "*",
-    "tslib": "^2.1.0"
+    "tslib": "^2.3.1"
   },
   "devDependencies": {
     "@chainlink/types": "0.0.1",
