@@ -12,6 +12,8 @@
     "clean": "tsc -b --clean  ./packages/tsconfig.json",
     "lint": "eslint --ext ts .",
     "lint:fix": "yarn lint --fix",
+    "format:check": "prettier --check .",
+    "format:fix": "prettier --write .",
     "setup": "tsc -b ./packages/tsconfig.json ",
     "test": "jest",
     "test:unit": "jest unit",
