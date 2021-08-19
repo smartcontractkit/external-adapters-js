@@ -11,7 +11,7 @@ export const makeConfig = (prefix?: string): Config => {
   return config
 }
 
-export const BLOCKCHAIN_NAME_MAP: { [key: string]: string } = {
+export const BLOCKCHAIN_NAME_BY_TICKER = {
   btc: 'bitcoin',
   eth: 'ethereum',
   ltc: 'litecoin',
