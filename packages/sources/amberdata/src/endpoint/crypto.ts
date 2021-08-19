@@ -87,7 +87,9 @@ const getIncludes = (
 ): IncludePair | undefined => {
   if (includes.length === 0) return undefined
 
-  if (typeof includes[0] === 'string') {
+  const presetIncludes = validator.overrideIncludes(AdapterName, from, to)
+  if (presetIncludes && typeof includes[0] === 'string') return presetIncludes
+  else if (typeof includes[0] === 'string') {
     return {
       from,
       to: includes[0],
@@ -95,6 +97,5 @@ const getIncludes = (
       tokens: true,
     }
   }
-
-  return validator.overrideIncludes(AdapterName, from, to)
+  return presetIncludes
 }
