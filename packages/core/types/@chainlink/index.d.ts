@@ -133,14 +133,14 @@ declare module '@chainlink/types' {
     [name: string]: RequiredInputParameter | InputParameterAliases
   }
 
-  export interface APIEndpoint {
+  export interface APIEndpoint <C extends Config = Config>{
     supportedEndpoints: string[]
     batchablePropertyPath?: BatchableProperty[]
     endpointResultPaths?: EndpointResultPaths
     inputParameters?: InputParameters
     endpointOverride?: (request: AdapterRequest) => string | null
-    execute?: Execute | ExecuteWithConfig<Config>
-    makeExecute?: ExecuteFactory<Config>
+    execute?: Execute | ExecuteWithConfig<C>
+    makeExecute?: ExecuteFactory<C>
   }
 
   export type MakeResultPath = (input: AdapterRequest) => string
@@ -152,6 +152,7 @@ declare module '@chainlink/types' {
   export type ConfigFactory = (prefix?: string) => Config
 
   import type { ExecuteHandlers } from '@chainlink/ea-bootstrap'
+  import { BatchableProperty } from '../../bootstrap/dist/lib/cache-warmer/reducer'
   type ExecuteHandlers = ExecuteHandlers
   export type AdapterImplementation = {
     NAME: string

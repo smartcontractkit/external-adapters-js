@@ -110,6 +110,9 @@
       "path": "../../sources/currencylayer"
     },
     {
+      "path": "../../sources/curve"
+    },
+    {
       "path": "../../sources/deribit"
     },
     {

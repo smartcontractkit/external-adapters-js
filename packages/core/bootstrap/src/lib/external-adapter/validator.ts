@@ -5,6 +5,7 @@ import {
   APIEndpoint,
   Includes,
   IncludePair,
+  Config,
 } from '@chainlink/types'
 import { merge } from 'lodash'
 import { isArray, isObject } from '../util'
@@ -296,7 +297,7 @@ export class Validator {
   }
 }
 
-export function normalizeInput(request: AdapterRequest, apiEndpoint: APIEndpoint): AdapterRequest {
+export function normalizeInput<C extends Config = Config>(request: AdapterRequest, apiEndpoint: APIEndpoint<C>): AdapterRequest {
   const input = { ...request }
 
   // if endpoint does not match, an override occurred and we must adjust it
