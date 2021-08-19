@@ -4,10 +4,10 @@
 
 ### Input Params
 
-| Required? |   Name    | Description | Options | Defaults to |
-| :-------: | :-------: | :---------: | :-----: | :---------: |
-|         | `network` |    specify what RenVM network you are talking to         |    `mainnet`, `chaosnet`, `testnet`     |   `testnet`     |
-|         |     `tokenOrContract`      |     token or contract to return an address for        |         |      `BTC`       |
+| Required? |       Name        |                  Description                  |             Options              | Defaults to |
+| :-------: | :---------------: | :-------------------------------------------: | :------------------------------: | :---------: |
+|           |     `network`     | specify what RenVM network you are talking to | `mainnet`, `chaosnet`, `testnet` |  `testnet`  |
+|           | `tokenOrContract` |  token or contract to return an address for   |                                  |    `BTC`    |
 
 ### Sample Input
 

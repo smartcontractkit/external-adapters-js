@@ -19,7 +19,9 @@ Use this adapter for connecting to [AlphaVantage's API](https://www.alphavantage
 ---
 
 ## Forex Endpoint
+
 ##### NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `forex` endpoint instead.
+
 Returns the exchange rate from a currency's current price to a given currency
 
 ### Input Params

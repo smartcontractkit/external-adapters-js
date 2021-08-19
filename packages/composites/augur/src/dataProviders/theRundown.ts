@@ -156,8 +156,9 @@ export const create: Execute = async (input, context) => {
     )
 
     const createHeadToHead = headToHeadMarket.isZero() && moneylineHome && moneylineAway
-    const createSpread = sport !== "MLB" && spreadMarket.isZero() && homeSpread !== undefined
-    const createTotalScore = sport !== "MLB" && totalScoreMarket.isZero() && totalScore !== undefined
+    const createSpread = sport !== 'MLB' && spreadMarket.isZero() && homeSpread !== undefined
+    const createTotalScore =
+      sport !== 'MLB' && totalScoreMarket.isZero() && totalScore !== undefined
     const canCreate = createHeadToHead || createSpread || createTotalScore
     if (!canCreate) {
       cantCreate++
@@ -204,7 +205,7 @@ const eventStatus: { [key: string]: number } = {
   STATUS_FINAL: 2,
   STATUS_POSTPONED: 3,
   STATUS_CANCELED: 4,
-  STATUS_SUSPENDED: 4 // treating as canceled
+  STATUS_SUSPENDED: 4, // treating as canceled
 }
 
 const resolveParams = {

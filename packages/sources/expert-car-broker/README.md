@@ -4,17 +4,17 @@ Adapter to get data from Expert Car Broker.
 
 ### Environment Variables
 
-| Required? |  Name   |                                                        Description                                                         | Options | Defaults to |
-| :-------: | :-----: | :------------------------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
-|     ✅     | API_KEY | An API key that can be obtained from the data provider |         |             |
+| Required? |  Name   |                      Description                       | Options | Defaults to |
+| :-------: | :-----: | :----------------------------------------------------: | :-----: | :---------: |
+|    ✅     | API_KEY | An API key that can be obtained from the data provider |         |             |
 
 ---
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |           Options            | Defaults to |
-| :-------: | :------: | :-----------------: | :--------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [feed](#Feed-Endpoint) |   feed   |
+| Required? |   Name   |     Description     |        Options         | Defaults to |
+| :-------: | :------: | :-----------------: | :--------------------: | :---------: |
+|           | endpoint | The endpoint to use | [feed](#Feed-Endpoint) |    feed     |
 
 ---
 
@@ -22,10 +22,10 @@ Adapter to get data from Expert Car Broker.
 
 ### Input Params
 
-| Required? |            Name            |               Description                |       Options       | Defaults to |
-| :-------: | :------------------------: | :--------------------------------------: | :-----------------: | :---------: |
-|    ✅     | `product`  |   The product to query    | |             |
-|    ✅     | `feedId` | The feed ID to use | |             |
+| Required? |   Name    |     Description      | Options | Defaults to |
+| :-------: | :-------: | :------------------: | :-----: | :---------: |
+|    ✅     | `product` | The product to query |         |             |
+|    ✅     | `feedId`  |  The feed ID to use  |         |             |
 
 ### Sample Input
 

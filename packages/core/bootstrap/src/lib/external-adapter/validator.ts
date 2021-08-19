@@ -177,9 +177,11 @@ export class Validator {
 
   overrideIncludes = (adapter: string, from: string, to: string): IncludePair | undefined => {
     // Search through `presetIncludes` to find matching override for adapter and to/from pairing.
-    const pairs = (this.validated.includes.filter(
-      (val: string | Includes) => typeof val !== 'string',
-    ) as Includes[]).filter(
+    const pairs = (
+      this.validated.includes.filter(
+        (val: string | Includes) => typeof val !== 'string',
+      ) as Includes[]
+    ).filter(
       (pair) =>
         pair.from.toLowerCase() === from.toLowerCase() &&
         pair.to.toLowerCase() === to.toLowerCase(),
