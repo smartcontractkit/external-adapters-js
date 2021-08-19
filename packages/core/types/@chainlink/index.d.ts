@@ -58,7 +58,6 @@ declare module '@chainlink/types' {
     result: R
     payload?: P
   }
-
   export type SequenceResponseData<R> = {
     responses?: any[]
     result: R[]
@@ -170,6 +169,7 @@ declare module '@chainlink/types' {
     warning?: string
   }
 
+  export type WSHandlerConnectionURL = (() => string) | (() => Promise<string>) | string
   export type MakeWSHandler = () => WSHandler | Promise<WSHandler>
   export interface WSHandler {
     // Connection information
@@ -177,7 +177,7 @@ declare module '@chainlink/types' {
       /**
        * WS connection url
        */
-      url: string
+      url: WSHandlerConnectionURL
       protocol?: any
     }
     // Hook to send a message after connection

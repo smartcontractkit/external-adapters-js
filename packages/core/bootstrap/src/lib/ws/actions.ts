@@ -68,3 +68,14 @@ export interface WSMessagePayload {
 }
 
 export const messageReceived = createAction('WS/MESSAGE_RECEIVED', asAction<WSMessagePayload>())
+
+/** OVERRIDES */
+export interface WSHandlerOverride extends WSHandler {
+  connection: {
+    url: string
+    protocol?: any
+  }
+}
+export interface WSConfigOverride extends WSConfigPayload {
+  wsHandler: WSHandlerOverride
+}

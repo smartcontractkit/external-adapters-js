@@ -4,6 +4,7 @@ import { combineEpics, createEpicMiddleware, Epic } from 'redux-observable'
 import { EMPTY, from, merge, Observable, of, race, Subject } from 'rxjs'
 import {
   catchError,
+  concatMap,
   delay,
   endWith,
   filter,
@@ -36,6 +37,7 @@ import {
   WSMessagePayload,
   WSSubscriptionErrorPayload,
   WSSubscriptionPayload,
+  WSConfigOverride,
 } from './actions'
 import {
   ws_connection_active,
@@ -58,6 +60,16 @@ const deserializer = (message: any) => {
   }
 }
 
+type connectRequestedActionWithState = [
+  {
+    payload: WSConfigOverride
+    connectionKey: string
+  },
+  {
+    ws: RootState
+  },
+]
+
 export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (action$, state$) =>
   action$.pipe(
     filter(connectRequested.match),
@@ -68,6 +80,11 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
       const isConnecting = state.ws.connections.all[connectionKey]?.connecting > 1
       return !isActiveConnection && !isConnecting
     }),
+    concatMap(async (data) => {
+      const url = data[0].payload.wsHandler.connection.url
+      if (typeof url !== 'string') data[0].payload.wsHandler.connection.url = await url()
+      return data as connectRequestedActionWithState
+    }),
     // on a connect action being dispatched, open a new WS connection if one doesn't exist yet
     mergeMap(([{ connectionKey, payload }]) => {
       const { config, wsHandler } = payload
@@ -77,11 +94,11 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
 
       const connectionMeta = (payload: WSConfigPayload) => ({
         key: payload.config.connectionInfo.key,
-        url: censor(payload.wsHandler.connection.url),
+        url: censor(url),
       })
       const subscriptionMeta = (payload: WSSubscriptionPayload) => ({
         connection_key: payload.connectionInfo.key,
-        connection_url: censor(payload.connectionInfo.url),
+        connection_url: censor(url),
         feed_id: getFeedId({ ...payload.input }),
         subscription_key: getSubsId(payload.subscriptionMsg, 'exclude'),
       })
@@ -411,22 +428,18 @@ export const metricsEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
     tap(([action, state]) => {
       const connectionLabels = (payload: WSConfigPayload) => ({
         key: payload.config.connectionInfo.key,
-        url: censor(payload.wsHandler.connection.url),
       })
       const connectionErrorLabels = (payload: WSErrorPayload) => ({
         key: payload.connectionInfo.key,
-        url: censor(payload.connectionInfo.url),
         message: payload.reason,
       })
       const subscriptionLabels = (payload: WSSubscriptionPayload) => ({
         connection_key: payload.connectionInfo.key,
-        connection_url: censor(payload.connectionInfo.url),
         feed_id: getFeedId({ ...payload.input }),
         subscription_key: getSubsId(payload.subscriptionMsg, 'exclude'),
       })
       const subscriptionErrorLabels = (payload: WSSubscriptionErrorPayload) => ({
         connection_key: payload.connectionInfo.key,
-        connection_url: censor(payload.connectionInfo.url),
         feed_id: payload.input ? getFeedId({ ...payload.input }) : 'N/A',
         message: payload.reason,
         subscription_key: payload.subscriptionMsg
