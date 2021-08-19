@@ -36,6 +36,9 @@
       "path": "./composites/market-closure"
     },
     {
+      "path": "./composites/medianizer"
+    },
+    {
       "path": "./composites/outlier-detection"
     },
     {
@@ -244,6 +247,9 @@
     },
     {
       "path": "./sources/kaiko"
+    },
+    {
+      "path": "./sources/layer2-sequencer-health"
     },
     {
       "path": "./sources/lcx"

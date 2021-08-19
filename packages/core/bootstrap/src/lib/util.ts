@@ -153,10 +153,8 @@ export function groupBy<K, V>(list: Array<V>, keyGetter: (input: V) => K): Map<K
  *
  * @param name string adapter name
  */
-export const byName =
-  (name?: string) =>
-  (a: AdapterImplementation): boolean =>
-    a.NAME.toUpperCase() === name?.toUpperCase()
+export const byName = (name?: string) => (a: AdapterImplementation): boolean =>
+  a.NAME.toUpperCase() === name?.toUpperCase()
 
 /**
  * Covert number to max number of decimals, trim trailing zeros
@@ -292,7 +290,10 @@ export function deepType(value: unknown, fullClass?: boolean): string {
     return (value + '').toLowerCase()
   } // implicit toString() conversion
 
-  const deepType = Object.prototype.toString.call(value).slice(8, -1).toLowerCase()
+  const deepType = Object.prototype.toString
+    .call(value)
+    .slice(8, -1)
+    .toLowerCase()
   if (deepType === 'generatorfunction') {
     return 'function'
   }
@@ -313,5 +314,8 @@ export const ENV_ADAPTER_URL = 'ADAPTER_URL'
 
 export const getURL = (prefix: string, required = false): string | undefined =>
   required
-    ? getRequiredEnv(ENV_ADAPTER_URL, prefix) || getRequiredEnv(LEGACY_ENV_ADAPTER_URL, prefix)
+    ? getRequiredURL(prefix)
     : getEnv(ENV_ADAPTER_URL, prefix) || getEnv(LEGACY_ENV_ADAPTER_URL, prefix)
+
+export const getRequiredURL = (prefix: string): string =>
+  getRequiredEnv(ENV_ADAPTER_URL, prefix) || getRequiredEnv(LEGACY_ENV_ADAPTER_URL, prefix)
