@@ -19,7 +19,7 @@ export const BLOCKCHAIN_NAME_BY_TICKER = {
   bch: 'bitcoin-cash',
   dash: 'dash',
   doge: 'dogecoin',
-}
+} as const
 
 export function isCoinType(key: string): boolean {
   return !!BLOCKCHAIN_NAME_MAP[key.toLowerCase()]
