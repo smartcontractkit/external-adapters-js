@@ -12,6 +12,8 @@
     "clean": "tsc -b --clean  ./packages/tsconfig.json",
     "lint": "eslint --ext ts .",
     "lint:fix": "yarn lint --fix",
+    "format:check": "prettier --check .",
+    "format:fix": "prettier --write .",
     "setup": "tsc -b ./packages/tsconfig.json ",
     "test": "jest",
     "test:unit": "jest unit",
@@ -47,6 +49,7 @@
     "commitizen": "^4.2.4",
     "cz-conventional-changelog": "^3.3.0",
     "husky": "^7.0.1",
+    "lint-staged": "^11.1.2",
     "prettier": "^2.3.2",
     "semantic-release": "^17.4.5",
     "semantic-release-monorepo": "^7.0.5",
@@ -72,5 +75,8 @@
     "commitizen": {
       "path": "cz-conventional-changelog"
     }
+  },
+  "lint-staged": {
+    "*.{js,css,md,ts,json,yml,yaml}": "prettier --write"
   }
 }

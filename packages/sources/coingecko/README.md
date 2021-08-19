@@ -6,18 +6,20 @@
 | :-------: | :-----: | :---------------------------------: | :-----: | :---------: |
 |           | API_KEY | An optional API key for the Pro API |         |             |
 
-
 ### Input Parameters
 
-| Required? |   Name   |     Description     |                                                                         Options                                                                         | Defaults to |
-| :-------: | :------: | :-----------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
+| Required? |   Name   |     Description     |                                                                          Options                                                                          | Defaults to |
+| :-------: | :------: | :-----------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
 |           | endpoint | The endpoint to use | [crypto](#Crypto-Endpoint), [globalmarketcap](#Global-Market-Capitalization-Endpoint), [dominance](#Dominance-Endpoint), [marketcap](#Marketcap-Endpoint) |    price    |
 
 ---
 
 ## Crypto Endpoint
+
 ##### NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.
+
 ### Input Params
+
 Query the crypto price from [Coingecko](https://api.coingecko.com/api/v3/simple/price)
 
 ### Input Params

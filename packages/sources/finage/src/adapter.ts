@@ -1,9 +1,4 @@
-import { 
-  ExecuteWithConfig, 
-  ExecuteFactory,
-  Config, 
-  AxiosResponse 
-} from '@chainlink/types'
+import { ExecuteWithConfig, ExecuteFactory, Config, AxiosResponse } from '@chainlink/types'
 import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
 import { util } from '@chainlink/ea-bootstrap'
 import { makeConfig, NAME } from './config'
@@ -14,12 +9,12 @@ const customParams = {
 }
 
 interface ResponseScheme {
-  symbol:string,
-  ask: number,
-  bid: number,
-  asize: number,
-  bsize: number,
-  timestamp: number,
+  symbol: string
+  ask: number
+  bid: number
+  asize: number
+  bsize: number
+  timestamp: number
 }
 
 const DEFAULT_ENDPOINT = 'stock'
@@ -35,7 +30,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const symbol = Array.isArray(base)
     ? base.map((symbol) => symbol.toUpperCase()).join(',')
     : (validator.overrideSymbol(NAME) as string).toUpperCase()
-  
+
   const apikey = util.getRandomRequiredEnv('API_KEY')
   let responsePath
   let params
@@ -73,10 +68,10 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
 
   const response = await Requester.request(options)
-  if(Array.isArray(base)) {
+  if (Array.isArray(base)) {
     return handleBatchedRequest(jobRunID, response)
   }
-  
+
   response.data.result = Requester.validateResultNumber(response.data, responsePath)
   return Requester.success(jobRunID, response)
 }
@@ -86,25 +81,21 @@ export const makeExecute: ExecuteFactory<Config> = (config) => {
 }
 
 const getStockURL = (base: string | string[], symbol: string) => {
-  if(Array.isArray(base)) {
+  if (Array.isArray(base)) {
     return `/last/stocks/?symbols=${symbol}`
   }
   return `/last/stock/${symbol}`
 }
 
-const handleBatchedRequest = (
-  jobRunID: string,
-  response: AxiosResponse<ResponseScheme>,
-) => {
-  const payload: {symbol: string, bid: number}[] = []
-  for(const base in response.data) {
+const handleBatchedRequest = (jobRunID: string, response: AxiosResponse<ResponseScheme>) => {
+  const payload: { symbol: string; bid: number }[] = []
+  for (const base in response.data) {
     payload.push({
       symbol: response.data[base].symbol,
-      bid: response.data[base].bid
+      bid: response.data[base].bid,
     })
     Requester.validateResultNumber(response.data, [base, 'bid'])
   }
   response.data.result = payload
   return Requester.success(jobRunID, response)
 }
-

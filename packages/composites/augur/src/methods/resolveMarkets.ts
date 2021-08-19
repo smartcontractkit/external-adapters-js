@@ -96,7 +96,11 @@ const resolveTeam = async (
 
   // Filters out events that aren't yet ready to resolve.
   const eventReadyToResolve = events.filter(({ id, status }) => {
-    Logger.debug(`Augur: status info`, {id: id.toHexString().slice(2), status, needs_resolve: statusCompleted.includes(status)})
+    Logger.debug(`Augur: status info`, {
+      id: id.toHexString().slice(2),
+      status,
+      needs_resolve: statusCompleted.includes(status),
+    })
     return statusCompleted.includes(status)
   })
 
