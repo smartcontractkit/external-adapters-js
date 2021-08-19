@@ -559,7 +559,7 @@
   "ethwrite": {
     "http": {
       "default": {
-        "rateLimit1s": -1,
+        "rateLimit1h": -1,
         "note": "should be using own node"
       }
     },
@@ -592,7 +592,7 @@
   "finage": {
     "http": {
       "professionalstocksusstockmarket": {
-        "rateLimit1s": -1,
+        "rateLimit1h": -1,
         "note": "No rate limit"
       }
     },
@@ -674,6 +674,7 @@
   "kaiko": {
     "http": {
       "default": {
+        "rateLimit1h": -1,
         "note": "claims no rate limits"
       }
     },
@@ -766,7 +767,7 @@
         "note": "1 req/s, presumably allows for bursts"
       },
       "paid": {
-        "rateLimit1s": -1
+        "rateLimit1h": -1
       }
     },
     "ws": {}
@@ -800,7 +801,7 @@
         "rateLimit1h": 136.9
       },
       "unlimited": {
-        "rateLimit1s": -1
+        "rateLimit1h": -1
       }
     },
     "ws": {}
@@ -824,13 +825,13 @@
         "note": "only mentions monthly limits"
       },
       "starter": {
-        "rateLimit1s": -1
+        "rateLimit1h": -1
       },
       "developer": {
-        "rateLimit1s": -1
+        "rateLimit1h": -1
       },
       "advanced": {
-        "rateLimit1s": -1
+        "rateLimit1h": -1
       }
     },
     "ws": {}
