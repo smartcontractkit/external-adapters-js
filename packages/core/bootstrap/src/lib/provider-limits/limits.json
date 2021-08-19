@@ -674,7 +674,6 @@
   "kaiko": {
     "http": {
       "default": {
-        "rateLimit1s": -1,
         "note": "claims no rate limits"
       }
     },
