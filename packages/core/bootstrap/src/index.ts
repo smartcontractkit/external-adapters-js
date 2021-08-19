@@ -8,6 +8,7 @@ import {
   Middleware,
   APIEndpoint,
   Callback,
+  Config,
 } from '@chainlink/types'
 import { combineReducers, Store } from 'redux'
 import { Cache, withCache } from './lib/cache'
@@ -137,17 +138,17 @@ export const withDebug: Middleware = async (execute, context) => async (input: A
   return result
 }
 
-export const withNormalizedInput: (
-  endpointSelector?: (request: AdapterRequest) => APIEndpoint,
+export const withNormalizedInput: <C extends Config = Config>(
+  endpointSelector?: (request: AdapterRequest) => APIEndpoint<C>,
 ) => Middleware = (endpointSelector) => async (execute, context) => async (input: AdapterRequest) => {
   const normalizedInput = endpointSelector ? normalizeInput(input, endpointSelector(input)) : input
   return execute(normalizedInput, context)
 }
 
-export const makeMiddleware = (
+export const makeMiddleware = <C extends Config = Config>(
   execute: Execute,
   makeWsHandler?: MakeWSHandler,
-  endpointSelector?: (request: AdapterRequest) => APIEndpoint,
+  endpointSelector?: (request: AdapterRequest) => APIEndpoint<C>,
 ): Middleware[] => {
   const warmerMiddleware = [
     withCache(storeSlice('burstLimit')),
@@ -209,11 +210,11 @@ export type ExecuteHandler = {
   server: () => Promise<http.Server>
 }
 
-export const expose = (
+export const expose = <C extends Config = Config>(
   name: string,
   execute: Execute,
   makeWsHandler?: MakeWSHandler,
-  endpointSelector?: (request: AdapterRequest) => APIEndpoint,
+  endpointSelector?: (request: AdapterRequest) => APIEndpoint<C>,
 ): ExecuteHandler => {
   const middleware = makeMiddleware(execute, makeWsHandler, endpointSelector)
   return {
