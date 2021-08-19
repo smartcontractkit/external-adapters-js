@@ -13,10 +13,10 @@ export const inputParameters: InputParameters = {
   endpoint: false,
 }
 
-const findSupportedEndpoint = (
-  apiEndpoints: Record<string, APIEndpoint>,
+const findSupportedEndpoint = <C extends Config = Config>(
+  apiEndpoints: Record<string, APIEndpoint<C>>,
   endpoint: string,
-): APIEndpoint | null => {
+): APIEndpoint<C> | null => {
   for (const apiEndpoint of Object.values(apiEndpoints)) {
     // Iterate through supported endpoints of a given Chainlink endpoint
     for (const supportedChainlinkEndpoint of apiEndpoint.supportedEndpoints) {
@@ -28,12 +28,12 @@ const findSupportedEndpoint = (
   return null
 }
 
-const selectEndpoint = (
+const selectEndpoint = <C extends Config = Config>(
   request: AdapterRequest,
-  config: Config,
-  apiEndpoints: Record<string, APIEndpoint>,
+  config: C,
+  apiEndpoints: Record<string, APIEndpoint<C>>,
   customParams?: InputParameters,
-): APIEndpoint => {
+): APIEndpoint<C> => {
   const params = customParams || inputParameters
   const validator = new Validator(request, params)
 
@@ -84,16 +84,16 @@ const selectEndpoint = (
   return apiEndpoint
 }
 
-const buildSelector = (
+const buildSelector = <C extends Config = Config>(
   request: AdapterRequest,
   context: AdapterContext,
-  config: Config,
-  apiEndpoints: Record<string, APIEndpoint>,
+  config: C,
+  apiEndpoints: Record<string, APIEndpoint<C>>,
   customParams?: InputParameters,
 ): Promise<AdapterResponse> => {
   Requester.logConfig(config)
 
-  const apiEndpoint = selectEndpoint(request, config, apiEndpoints, customParams)
+  const apiEndpoint = selectEndpoint<C>(request, config, apiEndpoints, customParams)
 
   if (typeof apiEndpoint.execute === 'function') {
     return apiEndpoint.execute(request, context, config)
