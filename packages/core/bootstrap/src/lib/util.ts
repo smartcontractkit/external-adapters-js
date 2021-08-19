@@ -153,8 +153,10 @@ export function groupBy<K, V>(list: Array<V>, keyGetter: (input: V) => K): Map<K
  *
  * @param name string adapter name
  */
-export const byName = (name?: string) => (a: AdapterImplementation): boolean =>
-  a.NAME.toUpperCase() === name?.toUpperCase()
+export const byName =
+  (name?: string) =>
+  (a: AdapterImplementation): boolean =>
+    a.NAME.toUpperCase() === name?.toUpperCase()
 
 /**
  * Covert number to max number of decimals, trim trailing zeros
@@ -194,11 +196,22 @@ export const getKeyData = (data: AdapterRequest) =>
   omit(pick(data, includableAdapterRequestProperties), 'data.resultPath')
 
 export type HashMode = 'include' | 'exclude'
+/**
+ * Generates a key by hashing input data
+ *
+ * @param data Adapter request input data
+ * @param hashOptions Additional configuration for the objectHash package
+ * @param mode Which behavior to use:
+ *    include (default) - hash only selected properties throwing out everything else
+ *    exclude           - hash the entire data object after excluding certain properties
+ *
+ * @returns string
+ */
 export const hash = (
   data: AdapterRequest,
   hashOptions: Required<Parameters<typeof objectHash>>['1'],
   mode: HashMode = 'include',
-) => {
+): string => {
   return mode === 'include' || !data
     ? objectHash(getKeyData(data), hashOptions)
     : objectHash(data, getHashOpts())
@@ -290,10 +303,7 @@ export function deepType(value: unknown, fullClass?: boolean): string {
     return (value + '').toLowerCase()
   } // implicit toString() conversion
 
-  const deepType = Object.prototype.toString
-    .call(value)
-    .slice(8, -1)
-    .toLowerCase()
+  const deepType = Object.prototype.toString.call(value).slice(8, -1).toLowerCase()
   if (deepType === 'generatorfunction') {
     return 'function'
   }
