@@ -21,8 +21,8 @@ export const BLOCKCHAIN_NAME_BY_TICKER = {
   doge: 'dogecoin',
 } as const
 
-export function isCoinType(key: string): key is keyof typeof BLOCKCHAIN_NAME_MAP{
-  return !!BLOCKCHAIN_NAME_MAP[key.toLowerCase()]
+export function isCoinType(key: string): key is keyof typeof BLOCKCHAIN_NAME_BY_TICKER {
+  return !!BLOCKCHAIN_NAME_BY_TICKER[key.toLowerCase()]
 }
 export const CHAIN_KEYS = ['mainnet', 'testnet'] as const
 export type ChainType = typeof CHAIN_KEYS[number]

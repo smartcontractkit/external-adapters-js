@@ -1,6 +1,6 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
-import { DEFAULT_ENDPOINT, BLOCKCHAIN_NAME_MAP } from '../config'
+import { DEFAULT_ENDPOINT, BLOCKCHAIN_NAME_BY_TICKER } from '../config'
 
 export const supportedEndpoints = ['height', 'difficulty']
 
@@ -53,7 +53,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     throw new Error(`${endpoint} has no payload data path and is invalid`)
   }
   const url = `/v2/blockchain-data/${
-    BLOCKCHAIN_NAME_MAP[blockchain.toLowerCase()]
+    BLOCKCHAIN_NAME_BY_TICKER[blockchain.toLowerCase()]
   }/${network.toLowerCase()}/blocks/last`
   const reqConfig = { ...config.api, url }
   const response = await Requester.request<ResponseSchema>(reqConfig)
