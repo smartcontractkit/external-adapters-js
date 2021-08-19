@@ -23,7 +23,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   return Requester.success(jobRunID, response)
 }
 
-const parseSources = (sources: string | string[]): string[] => {
+export const parseSources = (sources: string | string[]): string[] => {
   if (Array.isArray(sources)) {
     return sources
   }
@@ -64,7 +64,7 @@ const getExecuteMedian = async (
   return median(values)
 }
 
-const median = (values: number[]): number => {
+export const median = (values: number[]): number => {
   if (values.length === 0) return 0
   values.sort((a, b) => a - b)
   const half = Math.floor(values.length / 2)
