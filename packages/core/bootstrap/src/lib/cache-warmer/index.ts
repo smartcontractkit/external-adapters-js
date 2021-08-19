@@ -50,7 +50,7 @@ export const withCacheWarmer = (
   if (wsConfig.enabled && ws.makeWSHandler) {
     // If WS is available, and there is an active subscription, warmer should not be active
     const wsHandler = await ws.makeWSHandler()
-    const wsSubscriptionKey = getSubsId(wsHandler.subscribe(input), "exclude")
+    const wsSubscriptionKey = getSubsId(wsHandler.subscribe(input))
     const cacheWarmerKey = getSubscriptionKey(warmupSubscribedPayload)
 
     // Could happen that a subscription is still loading. If that's the case, warmer will open a subscription. If the WS becomes active, on next requests warmer will be unsubscribed
