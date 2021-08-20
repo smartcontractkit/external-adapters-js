@@ -11,5 +11,7 @@ export const getNetwork = (network: string): bitcoin.networks.Network | undefine
   }
 }
 
-export const p2pkh = (hash: Buffer, network: bitcoin.networks.Network): bitcoin.payments.Payment =>
-  bitcoin.payments.p2pkh({ hash, network })
+export const p2pkh = (
+  pubkey: Buffer,
+  network: bitcoin.networks.Network,
+): bitcoin.payments.Payment => bitcoin.payments.p2pkh({ pubkey, network })

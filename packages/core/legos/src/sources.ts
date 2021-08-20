@@ -76,6 +76,7 @@ import * as satoshitango from '@chainlink/satoshitango-adapter'
 import * as sochain from '@chainlink/sochain-adapter'
 import * as sportsdataio from '@chainlink/sportsdataio-adapter'
 import * as stasis from '@chainlink/stasis-adapter'
+import * as synthetix_debt_pool from '@chainlink/synthetix-debt-pool-adapter'
 import * as taapi from '@chainlink/taapi-adapter'
 import * as therundown from '@chainlink/therundown-adapter'
 import * as tiingo from '@chainlink/tiingo-adapter'
@@ -167,6 +168,7 @@ export default {
   sochain,
   sportsdataio,
   stasis,
+  synthetix_debt_pool,
   taapi,
   therundown,
   tiingo,

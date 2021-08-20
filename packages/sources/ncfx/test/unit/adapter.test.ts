@@ -8,8 +8,8 @@ describe('execute', () => {
   const execute = makeExecute()
 
   beforeAll(() => {
-    process.env.API_USERNAME = process.env.API_USERNAME || "test-user"
-    process.env.API_PASSWORD = process.env.API_PASSWORD || "test-pw"
+    process.env.API_USERNAME = process.env.API_USERNAME || 'test-user'
+    process.env.API_PASSWORD = process.env.API_PASSWORD || 'test-pw'
   })
 
   describe('validation error', () => {

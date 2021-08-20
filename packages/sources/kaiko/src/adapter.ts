@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, ExecuteFactory, Includes } from '@chainlink/types'
+import { Config, ExecuteWithConfig, ExecuteFactory, Includes, IncludePair } from '@chainlink/types'
 import {
   DEFAULT_INTERVAL,
   DEFAULT_SORT,
@@ -81,7 +81,7 @@ const getOptions = (
 } => {
   const base = validator.overrideSymbol(AdapterName) as string
   const quote = validator.validated.data.quote
-  const includes = validator.validated.data.includes || []
+  const includes = validator.validated.includes || []
 
   const includeOptions = getIncludesOptions(validator, base, quote, includes)
   return (
@@ -110,15 +110,17 @@ const getIncludes = (
   from: string,
   to: string,
   includes: string[] | Includes[],
-): Includes | undefined => {
+): IncludePair | undefined => {
   if (includes.length === 0) return undefined
 
-  if (typeof includes[0] === 'string') {
+  const presetIncludes = validator.overrideIncludes(AdapterName, from, to)
+  if (presetIncludes && typeof includes[0] === 'string') return presetIncludes
+  else if (typeof includes[0] === 'string') {
     return {
       from,
       to: includes[0],
       inverse: false,
     }
   }
-  return validator.overrideIncludes(AdapterName, from, to, includes as Includes[])
+  return presetIncludes
 }

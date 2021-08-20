@@ -6,7 +6,8 @@
     "LINA": "linear",
     "MDX": "mdex",
     "UNI": "uniswap",
-    "grt": "the-graph"
+    "grt": "the-graph",
+    "RUNE": "thorchain"
   },
   "nomics": {
     "AMP": "AMP2",
@@ -61,7 +62,7 @@
     "N225": "NKY:IND"
   },
   "tiingo": {
-    "MIOTA":"IOTA"
+    "MIOTA": "IOTA"
   },
   "coinranking": {
     "BTC": "Qwsogvtv82FCd",
