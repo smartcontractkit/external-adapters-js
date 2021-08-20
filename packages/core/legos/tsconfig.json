@@ -251,6 +251,9 @@
       "path": "../../sources/stasis"
     },
     {
+      "path": "../../sources/synthetix-debt-pool"
+    },
+    {
       "path": "../../sources/taapi"
     },
     {

@@ -4,10 +4,10 @@ This adapter only supports WS connections. Make sure WS is enabled in your confi
 
 ### Environment Variables
 
-| Required? |  Name   |                                                        Description                                                         | Options | Defaults to |
-| :-------: | :-----: | :------------------------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
-|     ✅      | API_USERNAME | The username to the NCFX account |         |             |
-|      ✅     | API_PASSWORD | The password to the NCFX account |         |             |
+| Required? |     Name     |           Description            | Options | Defaults to |
+| :-------: | :----------: | :------------------------------: | :-----: | :---------: |
+|    ✅     | API_USERNAME | The username to the NCFX account |         |             |
+|    ✅     | API_PASSWORD | The password to the NCFX account |         |             |
 
 ---
 
@@ -34,29 +34,29 @@ This adapter only supports WS connections. Make sure WS is enabled in your confi
 
 ```json
 {
-    "jobRunID": "1",
-    "result": 1802.8985,
-    "maxAge": 30000,
-    "statusCode": 200,
-    "data": {
-        "timestamp": "2021-07-20T16:04:27",
-        "currencyPair": "ETH/USD",
-        "bid": 1802.6985,
-        "offer": 1803.0985,
-        "mid": 1802.8985,
-        "changes": [
-            {
-                "period": "1h",
-                "change": 46.603398,
-                "percentage": 2.66
-            },
-            {
-                "period": "1d",
-                "change": -18.76243,
-                "percentage": -1.02
-            }
-        ],
-        "result": 1802.8985
-    }
+  "jobRunID": "1",
+  "result": 1802.8985,
+  "maxAge": 30000,
+  "statusCode": 200,
+  "data": {
+    "timestamp": "2021-07-20T16:04:27",
+    "currencyPair": "ETH/USD",
+    "bid": 1802.6985,
+    "offer": 1803.0985,
+    "mid": 1802.8985,
+    "changes": [
+      {
+        "period": "1h",
+        "change": 46.603398,
+        "percentage": 2.66
+      },
+      {
+        "period": "1d",
+        "change": -18.76243,
+        "percentage": -1.02
+      }
+    ],
+    "result": 1802.8985
+  }
 }
 ```

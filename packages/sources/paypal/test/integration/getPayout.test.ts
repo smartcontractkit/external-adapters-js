@@ -38,7 +38,7 @@ describe('execute', () => {
       },
     ]
 
-    requests.forEach(req => {
+    requests.forEach((req) => {
       it(`${req.name}`, async () => {
         const data = await execute(req.testData as AdapterRequest)
         assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
@@ -50,15 +50,21 @@ describe('execute', () => {
     const requests = [
       {
         name: 'unknown BATCH',
-        testData: { id: jobID, data: { endpoint: 'getpayout', payout_id: 'not_real', type: 'BATCH' } },
+        testData: {
+          id: jobID,
+          data: { endpoint: 'getpayout', payout_id: 'not_real', type: 'BATCH' },
+        },
       },
       {
         name: 'unknown ITEM',
-        testData: { id: jobID, data: { endpoint: 'getpayout', payout_id: 'not_real', type: 'ITEM' } },
+        testData: {
+          id: jobID,
+          data: { endpoint: 'getpayout', payout_id: 'not_real', type: 'ITEM' },
+        },
       },
     ]
 
-    requests.forEach(req => {
+    requests.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
           await execute(req.testData as AdapterRequest)

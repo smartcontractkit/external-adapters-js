@@ -1,17 +1,16 @@
-import RenJS from '@renproject/ren'
-import {
-  RenContract,
-  isRenNetwork,
-  isRenContract,
-  isAsset,
-  LockAndMintParams,
-} from '@renproject/interfaces'
-import { resolveInToken, getTokenName } from '@renproject/utils'
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, ExecuteFactory, Config } from '@chainlink/types'
-import { makeConfig, DEFAULT_NETWORK, DEFAULT_TOKEN_OR_CONTRACT } from './config'
+import { Config, ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
+import RenJS from '@renproject/ren'
 import { btc } from './coins'
-
+import { DEFAULT_NETWORK, DEFAULT_TOKEN_OR_CONTRACT, makeConfig } from './config'
+import {
+  getTokenName,
+  isAsset,
+  isRenContract,
+  isRenNetwork,
+  RenContract,
+  resolveInToken,
+} from './ren'
 const inputParams = {
   network: false,
   tokenOrContract: false,
@@ -43,9 +42,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     throw Error(`Unknown Ren tokenOrContract: ${tokenOrContract}`)
   }
 
-  const renContract = isAsset(tokenOrContract)
-    ? resolveInToken(tokenOrContract as LockAndMintParams['sendToken'])
-    : tokenOrContract
+  const renContract = isAsset(tokenOrContract) ? resolveInToken(tokenOrContract) : tokenOrContract
 
   // Only BTC is supported for now
   if (renContract !== RenContract.Btc2Eth && renContract !== RenContract.Eth2Btc) {
@@ -59,8 +56,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const _getAddress = async (): Promise<string | undefined> => {
     if (!config.api) return undefined
-    const { renVM } = new RenJS(network, config.api.baseURL)
-    const out: Buffer = await renVM.selectPublicKey(renContract)
+    const { renVM } = new RenJS(network, {
+      // use v1 legacy version
+      useV2TransactionFormat: false,
+    })
+    // hard code asset since we only support BTC anyway in this adapter
+    const out: Buffer = await renVM.selectPublicKey(renContract, 'BTC')
     return btc.p2pkh(out, bitcoinNetwork).address
   }
 

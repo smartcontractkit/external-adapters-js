@@ -1,1 +1,1 @@
-export * as uniswapSubgraph from "./uniswap"
+export * as uniswapSubgraph from './uniswap'

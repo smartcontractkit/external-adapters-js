@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`synthetix-debt-pool when making a request to fetch the current debt successfully fetches the current debt size of the synthetix debt pool 1`] = `
+Object {
+  "data": Object {
+    "result": "464590202399031116379217447",
+  },
+  "jobRunID": 1,
+  "result": "464590202399031116379217447",
+  "statusCode": 200,
+}
+`;

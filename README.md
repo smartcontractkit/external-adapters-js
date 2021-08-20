@@ -418,6 +418,11 @@ The External Adapter will do some processing, often request data from an API, an
 Decimal.set({ precision: 100 })
 ```
 
+- Handling "includes" in the request should be done with the following priority:
+  1. Full-featured "includes" array (in the format of [presetIncludes.json](packages/core/bootstrap/src/lib/external-adapter/overrides/presetIncludes.json))
+  2. Pre-set includes from the EA (set in [presetIncludes.json](packages/core/bootstrap/src/lib/external-adapter/overrides/presetIncludes.json))
+  3. String array as "includes"
+
 ### Common Issues
 
 ### Testing
