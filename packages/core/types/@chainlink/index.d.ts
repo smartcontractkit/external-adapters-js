@@ -202,6 +202,8 @@ declare module '@chainlink/types' {
           url: string
         }
       | undefined
+    // Optional flag to ensure adapter only uses WS and doesn't send HTTP requests
+    noHttp?: boolean
   }
 
   /* INPUT TYPE VALIDATIONS */
@@ -209,12 +211,18 @@ declare module '@chainlink/types' {
 
   // Includes is an alternative symbol mapping that can be used to represent
   // the original request, such as wrapped tokens on DEXes.
-  export type Includes = {
+  export type IncludePair = {
     from: string // From symbol
     to: string // To symbol
     adapters?: string[] // Array of adapters this applies to
     inverse?: boolean // If the inverse should be calculated instead
     tokens?: boolean // If the token addresses should be used instead
+  }
+
+  export type Includes = {
+    from: string
+    to: string
+    includes: IncludePair[]
   }
 }
 

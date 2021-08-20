@@ -36,6 +36,9 @@
       "path": "./composites/market-closure"
     },
     {
+      "path": "./composites/medianizer"
+    },
+    {
       "path": "./composites/outlier-detection"
     },
     {
@@ -313,6 +316,9 @@
     },
     {
       "path": "./sources/stasis"
+    },
+    {
+      "path": "./sources/synthetix-debt-pool"
     },
     {
       "path": "./sources/taapi"

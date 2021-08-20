@@ -4,13 +4,7 @@ This adapter calculates an index value from the symbols and units as defined in 
 
 ## Configuration
 
-The adapter takes the following environment variables:
-
-| Required? |   Name    |                            Description                             |          Options          | Defaults to |
-| :-------: | :-------: | :----------------------------------------------------------------: | :-----------------------: | :---------: |
-|    ✅     | `CSV_URL` | URL of where to fetch the CSV data. Can be external or local file. | `http(s)://*`, `file://*` |             |
-
-**Additional environment variables must be set according to the Token Allocation adapter.**
+**Environment variables must be set according to the Token Allocation adapter.**
 This composite adapter executes the code from the Token Allocation composite adapter. As such the same configuration and input parameters apply to this adapter. See [../token-allocation/README.md](../token-allocation/README.md) for more details.
 
 ## Running
@@ -18,6 +12,10 @@ This composite adapter executes the code from the Token Allocation composite ada
 See the [Composite Adapter README](../README.md) for more information on how to get started.
 
 ### Input Params
+
+| Required? |  Name   |    Description     |    Options     | Defaults to |
+| :-------: | :-----: | :----------------: | :------------: | :---------: |
+|    ✅     | `index` | The index to query | `xbci`, `xlci` |             |
 
 **Additional environment input params must be set according to the Token Allocation adapter.**
 This composite adapter executes the code from the Token Allocation composite adapter. As such the same configuration and input parameters apply to this adapter. See [../token-allocation/README.md](../token-allocation/README.md) for more details.
@@ -28,6 +26,7 @@ This composite adapter executes the code from the Token Allocation composite ada
 {
   "id": "1",
   "data": {
+    "index": "xbci",
     "quote": "USD",
     "source": "coingecko"
   }

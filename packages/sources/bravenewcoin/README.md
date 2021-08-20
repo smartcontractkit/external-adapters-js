@@ -2,8 +2,8 @@
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |           Options            | Defaults to |
-| :-------: | :------: | :-----------------: | :--------------------------: | :---------: |
+| Required? |   Name   |     Description     |          Options           | Defaults to |
+| :-------: | :------: | :-----------------: | :------------------------: | :---------: |
 |           | endpoint | The endpoint to use | [crypto](#Crypto-Endpoint) |   example   |
 
 ### Configuration
@@ -18,7 +18,9 @@ The adapter takes the following environment variables:
 ---
 
 ## Crypto endpoint
+
 ##### NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.
+
 [BraveNewCoin's AssetTicker endpoint](https://rapidapi.com/BraveNewCoin/api/bravenewcoin?endpoint=apiendpoint_836afc67-19d2-45ae-bb56-c576cec9f602)
 
 ### Input Params

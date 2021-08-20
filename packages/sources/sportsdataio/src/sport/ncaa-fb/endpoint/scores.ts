@@ -5,7 +5,7 @@ import { Config } from '../../../config'
 export const NAME = 'scores'
 
 const customParams = {
-  season: true
+  season: true,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -17,7 +17,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const url = `/cfb/scores/json/Games/${season}`
 
   const params = {
-    key: config.cfbScoresKey
+    key: config.cfbScoresKey,
   }
 
   const options = { ...config.api, params, url }

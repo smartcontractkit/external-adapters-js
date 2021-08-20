@@ -5,7 +5,7 @@ import * as actions from './actions'
 import { getSubscriptionKey } from './util'
 
 export interface BatchableProperty {
-  name: string,
+  name: string
   limit?: number
 }
 

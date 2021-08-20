@@ -1,18 +1,37 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Execute, ExecuteWithConfig } from '@chainlink/types'
-import { makeConfig, Config } from './config'
+import { Validator, AdapterError } from '@chainlink/ea-bootstrap'
+import { Execute, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { makeConfig, Config, INDICES } from './config'
 import { parseData } from './csv'
 import * as TokenAllocation from '@chainlink/token-allocation-adapter'
-import { AxiosResponse } from 'axios'
-import * as fs from 'fs'
+
+export const inputParameters: InputParameters = {
+  index: true,
+}
 
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
-  const validator = new Validator(input)
+  const validator = new Validator(input, inputParameters)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.jobRunID
 
-  const csvData = await getCsvFile(config)
+  const index = validator.validated.data.index.toLowerCase()
+
+  if (!INDICES.includes(index))
+    throw new AdapterError({
+      jobRunID,
+      message: `${index} not supported. Must be one of ${INDICES}`,
+      statusCode: 400,
+    })
+
+  const csvData = config.indices[index]
+
+  if (!csvData)
+    throw new AdapterError({
+      jobRunID,
+      message: `${index} CSV is not configured`,
+      statusCode: 400,
+    })
+
   const allocations = await parseData(csvData)
 
   const _execute = TokenAllocation.makeExecute()
@@ -21,18 +40,4 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
 
 export const makeExecute = (config?: Config): Execute => {
   return async (request, context) => execute(request, context, config || makeConfig())
-}
-
-const getCsvFile = async (config: Config): Promise<string> => {
-  const filePrefix = 'file://'
-  if (config.csvURL.startsWith(filePrefix)) {
-    return fs.readFileSync(config.csvURL.substring(filePrefix.length), 'utf-8')
-  }
-
-  const options = {
-    ...config.api,
-    baseURL: config.csvURL,
-  }
-  const response = (await Requester.request(options)) as AxiosResponse<unknown>
-  return response.data as string
 }

@@ -5,7 +5,7 @@ import {
   ExecuteFactory,
   AdapterRequest,
   APIEndpoint,
-  MakeWSHandler
+  MakeWSHandler,
 } from '@chainlink/types'
 import { makeConfig } from './config'
 import * as endpoints from './endpoint'
@@ -55,8 +55,8 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       toResponse: (message: any) => {
         const ask = message.data.ask
         const bid = message.data.bid
-        const price = (ask + bid) / 2; // average
-        const result = Requester.validateResultNumber({price}, ['price'])
+        const price = (ask + bid) / 2 // average
+        const result = Requester.validateResultNumber({ price }, ['price'])
         return Requester.success('1', { data: { result } })
       },
     }

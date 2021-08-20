@@ -2,19 +2,25 @@ import { AdapterRequest } from '@chainlink/types'
 import { omit } from 'lodash'
 import { AnyAction } from 'redux'
 import { combineEpics, createEpicMiddleware, Epic } from 'redux-observable'
-import { from, merge, of, partition, race, timer } from 'rxjs'
 import {
   catchError,
   delay,
   filter,
+  from,
   map,
   mapTo,
+  merge,
   mergeMap,
+  of,
+  partition,
+  race,
   take,
   takeUntil,
+  timer,
   withLatestFrom,
-} from 'rxjs/operators'
+} from 'rxjs'
 import { RootState } from '../..'
+import { getTTL } from '../cache/ttl'
 import {
   warmupExecute,
   warmupFailed,
@@ -27,9 +33,8 @@ import {
   warmupSubscriptionTimeoutReset,
   warmupUnsubscribed,
 } from './actions'
-import { Config, get, WARMUP_REQUEST_ID, WARMUP_BATCH_REQUEST_ID } from './config'
+import { Config, get, WARMUP_BATCH_REQUEST_ID, WARMUP_REQUEST_ID } from './config'
 import { concatenateBatchResults, getSubscriptionKey, splitIntoBatches } from './util'
-import { getTTL } from '../cache/ttl'
 
 export interface EpicDependencies {
   config: Config
@@ -157,9 +162,11 @@ export const warmupSubscriber: Epic<AnyAction, AnyAction, any, EpicDependencies>
     }),
     // on a subscribe action being dispatched, spin up a long lived interval if one doesnt exist yet
     mergeMap(([{ payload, key }]) => {
-      const TTL = getTTL(payload)
-      const offset = Math.min(TTL, 1000)
-      const pollInterval = TTL - offset
+      // Interval should be set to the warmup interval if configured,
+      // otherwise use the TTL from the request.
+      const interval = get().warmupInterval || getTTL(payload)
+      const offset = Math.min(interval, 1000)
+      const pollInterval = interval - offset
       return timer(pollInterval, pollInterval).pipe(
         mapTo(warmupRequested({ key })),
         // unsubscribe our warmup algo when a matching unsubscribe comes in
@@ -240,7 +247,8 @@ export const warmupUnsubscriber: Epic<AnyAction, AnyAction, any, EpicDependencie
     withLatestFrom(state$),
     filter(
       ([{ payload }, state]) =>
-        state.cacheWarmer.warmups[payload.key]?.errorCount ?? 0 >= config.unhealthyThreshold,
+        (state.cacheWarmer.warmups[payload.key]?.errorCount ?? 0 >= config.unhealthyThreshold) &&
+        config.unhealthyThreshold !== -1,
     ),
     map(([{ payload }]) => warmupUnsubscribed({ key: payload.key })),
   )

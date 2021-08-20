@@ -37,7 +37,8 @@ describe('execute', () => {
           id: jobID,
           data: {
             endpoint: 'gasprice',
-            speed: 'average' },
+            speed: 'average',
+          },
         },
       },
     ]

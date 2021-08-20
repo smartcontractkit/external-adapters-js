@@ -221,12 +221,16 @@ Endpoint used to get information about a transaction or batch of transactions.
 ```
 
 ## Testing
+
 For [integration testing](./test/integration), the [environment variables](#Environment-Variables) described above must be set.
 
 Additionally, the following is required:
-* For [`integration/getPayout.test.ts`](./test/integration/getPayout.test.ts), the following environment variables need to be set with parameters that can be retrieved by the `CLIENT_ID` and `CLIENT_SECRET` in the `sandbox`
+
+- For [`integration/getPayout.test.ts`](./test/integration/getPayout.test.ts), the following environment variables need to be set with parameters that can be retrieved by the `CLIENT_ID` and `CLIENT_SECRET` in the `sandbox`
+
 ```bash
 export PAYOUT_ID_BATCH='batch payout ID'
 export PAYOUT_ID_ITEM='batch item payout ID'
 ```
-* For [`integration/sendPayout.test.ts`](./test/integration/sendPayout.test.ts), the account associated with the `CLIENT_ID` and `CLIENT_SECRET` in the `sandbox` must have a balance that can be sent.
+
+- For [`integration/sendPayout.test.ts`](./test/integration/sendPayout.test.ts), the account associated with the `CLIENT_ID` and `CLIENT_SECRET` in the `sandbox` must have a balance that can be sent.

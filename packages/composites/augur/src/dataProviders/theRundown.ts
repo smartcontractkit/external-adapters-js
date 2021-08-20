@@ -28,9 +28,9 @@ interface TheRundownEvent {
       }
       total: {
         total_over: number
-      },
+      }
       moneyline: {
-        moneyline_home: number,
+        moneyline_home: number
         moneyline_away: number
       }
     }
@@ -94,7 +94,7 @@ export const create: Execute = async (input, context) => {
     params.data.date = addDays(params.data.date, 1)
     Logger.debug(`Augur theRundown: Fetching data for date ${params.data.date}`)
     const response = await theRundownExec(params, context)
-    events.push(...response.result as TheRundownEvent[])
+    events.push(...(response.result as TheRundownEvent[]))
   }
 
   Logger.debug(`Augur theRundown: Got ${events.length} events from data provider`)
@@ -142,14 +142,23 @@ export const create: Execute = async (input, context) => {
     ] = await contract.getEventMarkets(eventId)
 
     // Only create head-to-head market if moneylines exist. Only create spread and total-score markets if their lines exist.
-    const moneylineHome = transformSpecialNone(affiliateId && event.lines?.[affiliateId].moneyline.moneyline_home)
-    const moneylineAway = transformSpecialNone(affiliateId && event.lines?.[affiliateId].moneyline.moneyline_away)
-    const homeSpread = transformSpecialNone(affiliateId && event.lines?.[affiliateId].spread.point_spread_home)
-    const totalScore = transformSpecialNone(affiliateId && event.lines?.[affiliateId].total.total_over)
+    const moneylineHome = transformSpecialNone(
+      affiliateId && event.lines?.[affiliateId].moneyline.moneyline_home,
+    )
+    const moneylineAway = transformSpecialNone(
+      affiliateId && event.lines?.[affiliateId].moneyline.moneyline_away,
+    )
+    const homeSpread = transformSpecialNone(
+      affiliateId && event.lines?.[affiliateId].spread.point_spread_home,
+    )
+    const totalScore = transformSpecialNone(
+      affiliateId && event.lines?.[affiliateId].total.total_over,
+    )
 
     const createHeadToHead = headToHeadMarket.isZero() && moneylineHome && moneylineAway
-    const createSpread = spreadMarket.isZero() && homeSpread !== undefined
-    const createTotalScore = totalScoreMarket.isZero() && totalScore !== undefined
+    const createSpread = sport !== 'MLB' && spreadMarket.isZero() && homeSpread !== undefined
+    const createTotalScore =
+      sport !== 'MLB' && totalScoreMarket.isZero() && totalScore !== undefined
     const canCreate = createHeadToHead || createSpread || createTotalScore
     if (!canCreate) {
       cantCreate++
@@ -158,14 +167,16 @@ export const create: Execute = async (input, context) => {
 
     eventsToCreate.push({
       id: eventId,
+      homeTeamName: 'Home',
       homeTeamId: homeTeam.team_id,
+      awayTeamName: 'Away',
       awayTeamId: awayTeam.team_id,
       startTime,
       homeSpread: homeSpread || 0,
       totalScore: totalScore || 0,
       createSpread,
       createTotalScore,
-      moneylines: [moneylineHome || 0, moneylineAway || 0]
+      moneylines: [moneylineHome || 0, moneylineAway || 0],
     })
   }
 
@@ -194,14 +205,15 @@ const eventStatus: { [key: string]: number } = {
   STATUS_FINAL: 2,
   STATUS_POSTPONED: 3,
   STATUS_CANCELED: 4,
+  STATUS_SUSPENDED: 4, // treating as canceled
 }
 
 const resolveParams = {
   sport: true,
-  eventId: true
+  eventId: true,
 }
 
-export const numToEventId = (num: BigNumber): string => num.toHexString().slice(2);
+export const numToEventId = (num: BigNumber): string => num.toHexString().slice(2)
 
 export const resolve: Execute = async (input, context) => {
   const validator = new Validator(input, resolveParams)
@@ -211,7 +223,7 @@ export const resolve: Execute = async (input, context) => {
     ...TheRundown.makeConfig(TheRundown.NAME),
 
     // Need ALL the response data.
-    verbose: true
+    verbose: true,
   })
 
   const sport = validator.validated.data.sport
@@ -220,11 +232,11 @@ export const resolve: Execute = async (input, context) => {
 
   const req = {
     id: input.id,
-    endpoint: 'total-score',
     data: {
+      endpoint: 'event',
       sportId,
-      matchId: eventId
-    }
+      eventId,
+    },
   }
 
   const response = (await theRundownExec(req, context)).data as TheRundownEvent

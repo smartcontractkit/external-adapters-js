@@ -1,1 +1,1 @@
-export * as tvl from "./tvl"
+export * as tvl from './tvl'

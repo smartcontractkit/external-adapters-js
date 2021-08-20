@@ -6,7 +6,8 @@
     "LINA": "linear",
     "MDX": "mdex",
     "UNI": "uniswap",
-    "grt": "the-graph"
+    "grt": "the-graph",
+    "RUNE": "thorchain"
   },
   "nomics": {
     "AMP": "AMP2",
@@ -14,7 +15,8 @@
     "FTT": "FTXTOKEN",
     "MDX": "MDX2",
     "RAI": "RAI3",
-    "WING": "WING2"
+    "WING": "WING2",
+    "MIOTA": "IOT"
   },
   "coinpaprika": {
     "GRT": "grt-the-graph"
@@ -60,7 +62,7 @@
     "N225": "NKY:IND"
   },
   "tiingo": {
-    "MIOTA":"IOTA"
+    "MIOTA": "IOTA"
   },
   "coinranking": {
     "BTC": "Qwsogvtv82FCd",

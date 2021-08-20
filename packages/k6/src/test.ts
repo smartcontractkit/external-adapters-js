@@ -40,14 +40,14 @@ function getLoadTestGroupsUrls(): LoadTestGroupUrls {
   } else {
     const loadTestGroup = Array(GROUP_COUNT)
       .fill(null)
-      .map((_, i) => `https://adapters-ecs-dydx-${i + 1}.staging.org.devnet.tools`)
+      .map((_) => `https://adapters.main.stage.cldev.sh/`)
 
     const adaptersToMap = ADAPTERS.filter((a) => currIteration % a.secondsPerCall === 0).map(
       (a) => a.name,
     )
     const adaptersPerLoadTestGroup = loadTestGroup.map(
       (u, i) =>
-        [i, Object.fromEntries(adaptersToMap.map((a) => [a, `${u}/${a}/call`] as const))] as const,
+        [i, Object.fromEntries(adaptersToMap.map((a) => [a, `${u}${a}`] as const))] as const,
     )
 
     return Object.fromEntries(adaptersPerLoadTestGroup)
