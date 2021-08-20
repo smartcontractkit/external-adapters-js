@@ -9,6 +9,7 @@ export const DEFAULT_BASE_URL = 'https://gas.mycryptoapi.com/'
 export const makeConfig = (prefix?: string): Config => {
   const config = Requester.getDefaultConfig(prefix)
   config.api.baseURL = config.api.baseURL || DEFAULT_BASE_URL
+  config.verbose = process.env.API_VERBOSE === 'true'
   config.defaultEndpoint = DEFAULT_ENDPOINT
   return config
 }
