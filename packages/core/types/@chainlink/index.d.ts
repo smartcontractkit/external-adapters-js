@@ -133,7 +133,7 @@ declare module '@chainlink/types' {
     [name: string]: RequiredInputParameter | InputParameterAliases
   }
 
-  export interface APIEndpoint <C extends Config = Config>{
+  export interface APIEndpoint<C extends Config = Config> {
     supportedEndpoints: string[]
     batchablePropertyPath?: BatchableProperty[]
     endpointResultPaths?: EndpointResultPaths
