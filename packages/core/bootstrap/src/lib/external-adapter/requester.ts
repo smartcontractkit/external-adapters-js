@@ -51,7 +51,11 @@ export class Requester {
         // Request error
         if (n === 1) {
           logger.error(`Could not reach endpoint: ${JSON.stringify(error.message)}`)
-          throw new AdapterError({ message: error.message, cause: error })
+          throw new AdapterError({
+            statusCode: error.response.status,
+            message: error.message,
+            cause: error,
+          })
         }
 
         return await _delayRetry(`Caught error. Retrying: ${JSON.stringify(error.message)}`)
