@@ -47,7 +47,7 @@ describe('execute', () => {
       {
         name: 'unknown base',
         testData: { id: jobID, data: { base: 'not_real', quote: 'USD' } },
-      }
+      },
     ]
 
     requests.forEach((req) => {

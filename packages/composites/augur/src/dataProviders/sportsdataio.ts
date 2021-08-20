@@ -12,23 +12,38 @@ const getEpochTime = (dateTime: string, zone = 'America/New_York'): number => {
   return DateTime.fromISO(dateTime, { zone }).toMillis()
 }
 
+interface NFLTeam {
+  GlobalTeamID: number
+  FullName: string
+}
+
 interface NFLEvent {
   PointSpread: number | null
   Date: string | null
   Day: string
   GlobalGameID: number
+  AwayTeam: string
   GlobalAwayTeamID: number
+  HomeTeam: string
   GlobalHomeTeamID: number
   Status: string
+  AwayTeamMoneyLine: number | null
+  HomeTeamMoneyLine: number | null
+  OverUnder: number | null
 }
 
 interface TeamSchedule {
   Date: string
   GameID: number
+  AwayTeamName: string
   AwayTeamID: number
+  HomeTeamName: string
   HomeTeamID: number
   Status: string
   PointSpread: number | null
+  AwayTeamMoneyLine: number | null
+  HomeTeamMoneyLine: number | null
+  OverUnder: number | null
 }
 
 interface NFLScores {
@@ -52,6 +67,9 @@ interface CFBGames {
   AwayTeamScore: number | null
   HomeTeamScore: number | null
   PointSpread: number | null
+  AwayTeamMoneyLine: number | null
+  HomeTeamMoneyLine: number | null
+  OverUnder: number | null
 }
 
 interface CommonScores {
@@ -64,45 +82,131 @@ interface CommonScores {
   HomeScore: number | null
 }
 
-const getSchedule = async (
+const getCurrentSeason = async (
   id: string,
   sport: string,
-  season: string,
   exec: Execute,
   context: AdapterContext,
-): Promise<TeamSchedule[]> => {
+): Promise<string> => {
+  if (!['nfl', 'ncaa-fb'].includes(sport)) return 'NO_INFO'
+
   const input = {
     id,
     data: {
       sport,
-      endpoint: 'schedule',
-      season,
+      endpoint: 'current-season',
     },
   }
 
   const response = await exec(input, context)
-  const filtered = (response.result as { GlobalGameID: number }[])
-    .filter(event => event.GlobalGameID != 0)
+  return response.data.result
+}
 
+const getTeams = async (
+  id: string,
+  sport: string,
+  exec: Execute,
+  context: AdapterContext,
+): Promise<NFLTeam[]> => {
+  if (sport !== 'nfl') return []
+
+  const input = {
+    id,
+    data: {
+      sport,
+      endpoint: 'teams',
+    },
+  }
+  const response = await exec(input, context)
+  return response.data.result
+}
+
+const getSchedule = async (
+  id: string,
+  sport: string,
+  exec: Execute,
+  context: AdapterContext,
+): Promise<TeamSchedule[]> => {
+  const currentSeason = await getCurrentSeason(id, sport, exec, context)
   switch (sport) {
     case 'nfl': {
-      return (filtered as NFLEvent[]).map(event => ({
+      let events: NFLEvent[] = []
+
+      for (const seasonPostfixKey of ['PRE', '', 'POST', 'STAR']) {
+        const input = {
+          id,
+          data: {
+            sport,
+            endpoint: 'schedule',
+            season: `${currentSeason}${seasonPostfixKey}`,
+          },
+        }
+        const response = await exec(input, context)
+        const filtered = (response.result as NFLEvent[]).filter((event) => event.GlobalGameID != 0)
+
+        events = [...events, ...filtered]
+      }
+
+      // Need full team names. API just returns an abbreviations
+      const teamNames = await getTeams(id, sport, exec, context)
+      events = events.map((event) => {
+        const homeTeam = teamNames.find(
+          ({ GlobalTeamID }) => GlobalTeamID === event.GlobalHomeTeamID,
+        )
+        const awayTeam = teamNames.find(
+          ({ GlobalTeamID }) => GlobalTeamID === event.GlobalAwayTeamID,
+        )
+
+        if (!homeTeam || !awayTeam) return event
+
+        return {
+          ...event,
+          AwayTeam: awayTeam.FullName,
+          HomeTeam: homeTeam.FullName,
+        }
+      })
+
+      return (events as NFLEvent[]).map((event) => ({
         Date: event.Date || event.Day,
         GameID: event.GlobalGameID,
+        AwayTeamName: event.AwayTeam,
         AwayTeamID: event.GlobalAwayTeamID,
+        HomeTeamName: event.HomeTeam,
         HomeTeamID: event.GlobalHomeTeamID,
         Status: event.Status,
         PointSpread: event.PointSpread,
+        AwayTeamMoneyLine: event.AwayTeamMoneyLine,
+        HomeTeamMoneyLine: event.HomeTeamMoneyLine,
+        OverUnder: event.OverUnder,
       }))
     }
     case 'ncaa-fb': {
-      return (filtered as CFBGames[]).map(event => ({
+      const input = {
+        id,
+        data: {
+          sport,
+          endpoint: 'schedule',
+          season: currentSeason,
+        },
+      }
+
+      const response = await exec(input, context)
+      const filtered = (response.result as { GlobalGameID: number }[]).filter(
+        (event) => event.GlobalGameID != 0,
+      )
+
+      return (filtered as CFBGames[]).map((event) => ({
         Date: event.DateTime || event.Day,
         GameID: event.GlobalGameID,
+        AwayTeamName: 'Away',
         AwayTeamID: event.GlobalAwayTeamID,
+        HomeTeamName: 'Home',
         HomeTeamID: event.GlobalHomeTeamID,
         Status: event.Status,
-        PointSpread: event.PointSpread
+        PointSpread: event.PointSpread,
+        AwayTeamMoneyLine: event.AwayTeamMoneyLine,
+        HomeTeamMoneyLine: event.HomeTeamMoneyLine,
+        OverUnder: event.OverUnder,
       }))
     }
     default:
@@ -113,25 +217,29 @@ const getSchedule = async (
 const getScores = async (
   id: string,
   sport: string,
-  season: string,
   exec: Execute,
   context: AdapterContext,
 ): Promise<CommonScores[]> => {
-  const input = {
-    id,
-    data: {
-      sport,
-      endpoint: 'scores',
-      season,
-    },
-  }
-  const response = await exec(input, context)
-  const filtered = (response.result as { GlobalGameID: number }[])
-    .filter(event => event.GlobalGameID != 0)
-
+  const currentSeason = await getCurrentSeason(id, sport, exec, context)
   switch (sport) {
     case 'nfl': {
-      return (filtered as NFLScores[]).map(event => ({
+      let events: NFLScores[] = []
+
+      for (const seasonPostfixKey of ['PRE', '', 'POST', 'STAR']) {
+        const input = {
+          id,
+          data: {
+            sport,
+            endpoint: 'scores',
+            season: `${currentSeason}${seasonPostfixKey}`,
+          },
+        }
+        const response = await exec(input, context)
+        const filtered = (response.result as NFLScores[]).filter((event) => event.GlobalGameID != 0)
+
+        events = [...events, ...filtered]
+      }
+      return events.map((event) => ({
         Date: event.Date || event.Day,
         GameID: event.GlobalGameID,
         AwayTeamID: event.GlobalAwayTeamID,
@@ -142,7 +250,21 @@ const getScores = async (
       }))
     }
     case 'ncaa-fb': {
-      return (filtered as CFBGames[]).map(event => ({
+      const input = {
+        id,
+        data: {
+          sport,
+          endpoint: 'scores',
+          season: currentSeason,
+        },
+      }
+
+      const response = await exec(input, context)
+      const filtered = (response.result as { GlobalGameID: number }[]).filter(
+        (event) => event.GlobalGameID != 0,
+      )
+
+      return (filtered as CFBGames[]).map((event) => ({
         Date: event.DateTime || event.Day,
         GameID: event.GlobalGameID,
         AwayTeamID: event.GlobalAwayTeamID,
@@ -156,8 +278,6 @@ const getScores = async (
       throw Error(`Unable to format scores for sport "${sport}"`)
   }
 }
-
-const getSeason = () => `${new Date().getFullYear()}REG` // TODO: Sufficient? What if at the end of the year?
 
 const createParams = {
   sport: true,
@@ -177,12 +297,14 @@ export const createTeam: Execute = async (input, context) => {
 
   const daysInAdvance = validator.validated.data.daysInAdvance
   const startBuffer = validator.validated.data.startBuffer
+
   const contract: ethers.Contract = validator.validated.data.contract
 
   const sportsdataioExec = Sportsdataio.makeExecute(Sportsdataio.makeConfig(Sportsdataio.NAME))
 
-  const schedule = (await getSchedule(input.id, sport, getSeason(), sportsdataioExec, context))
-    .filter(event => event.Status === "STATUS_SCHEDULED")
+  const schedule = (await getSchedule(input.id, sport, sportsdataioExec, context)).filter(
+    (event) => event.Status === 'Scheduled',
+  )
 
   Logger.debug(`Augur sportsdataio: Got ${schedule.length} events from data provider`)
   let skipNullDate = 0,
@@ -208,11 +330,8 @@ export const createTeam: Execute = async (input, context) => {
       continue
     }
 
-    const [headToHeadMarket, spreadMarket, totalScoreMarket]: [
-      BigNumber,
-      BigNumber,
-      BigNumber,
-    ] = (await contract.getEvent(event.GameID)).markets
+    const [headToHeadMarket, spreadMarket, totalScoreMarket]: [BigNumber, BigNumber, BigNumber] =
+      await contract.getEventMarkets(event.GameID)
     const canCreate =
       headToHeadMarket.isZero() ||
       (spreadMarket.isZero() && false) ||
@@ -224,14 +343,16 @@ export const createTeam: Execute = async (input, context) => {
 
     createEvents.push({
       id: BigNumber.from(event.GameID),
+      homeTeamName: event.HomeTeamName,
       homeTeamId: event.HomeTeamID,
+      awayTeamName: event.AwayTeamName,
       awayTeamId: event.AwayTeamID,
       startTime,
-      homeSpread: 0, // TODO: Missing
-      totalScore: 0, // TODO: Missing
-      createSpread: false, // TODO: Missing
-      createTotalScore: false, // TODO: Missing
-      moneylines: [0, 0] // TODO Missing
+      homeSpread: event.PointSpread || 0,
+      totalScore: event.OverUnder || 0,
+      createSpread: event.PointSpread !== null,
+      createTotalScore: event.OverUnder !== null,
+      moneylines: [event.HomeTeamMoneyLine || 0, event.AwayTeamMoneyLine || 0],
     })
   }
 
@@ -292,12 +413,11 @@ const getFightSchedule = async (
       sport,
       league,
       season,
-      endpoint: 'schedule'
-    }
+      endpoint: 'schedule',
+    },
   }
   const response = await exec(input, context)
-  return (response.result as FightSchedule[])
-    .filter(event => event.Active)
+  return (response.result as FightSchedule[]).filter((event) => event.Active)
 }
 
 const getFights = async (
@@ -312,12 +432,12 @@ const getFights = async (
     data: {
       sport,
       eventId,
-      endpoint: 'event'
-    }
+      endpoint: 'event',
+    },
   }
   const response = await exec(input, context)
   const fights = (response.result as FightEvent).Fights
-  return fights.filter(fight => fight.Active)
+  return fights.filter((fight) => fight.Active)
 }
 
 export const createFighter: Execute = async (input, context) => {
@@ -336,24 +456,30 @@ export const createFighter: Execute = async (input, context) => {
 
   const fights: Fight[] = []
 
-  const leagues = ["UFC"]
+  const leagues = ['UFC']
   for (const league of leagues) {
-    const season = new Date().getFullYear();
+    const season = new Date().getFullYear()
     Logger.debug(`Getting fight schedule for league ${league} in season ${season}.`)
-    const schedule = (await getFightSchedule(input.id, sport, league, `${season}`, sportsdataioExec, context))
-      .filter(event => event.Status === "Scheduled")
+    const schedule = (
+      await getFightSchedule(input.id, sport, league, `${season}`, sportsdataioExec, context)
+    ).filter((event) => event.Status === 'Scheduled')
 
-    Logger.debug(`Getting ${schedule.length} events from season, then filtering out unscheduled`);
+    Logger.debug(`Getting ${schedule.length} events from season, then filtering out unscheduled`)
     for (const event of schedule) {
-      const eventFights = (await getFights(input.id, sport, event.EventId, sportsdataioExec, context))
-        .filter(fight => fight.Status === "Scheduled")
-        .map(fight => ({ ...fight, DateTime: event.DateTime }))
+      const eventFights = (
+        await getFights(input.id, sport, event.EventId, sportsdataioExec, context)
+      )
+        .filter((fight) => fight.Status === 'Scheduled')
+        .map((fight) => ({ ...fight, DateTime: event.DateTime }))
       fights.push(...eventFights)
     }
   }
 
   Logger.debug(`Augur sportsdataio: Got ${fights.length} fights from data provider`)
-  let skipNullDate = 0, skipDaysInAdvance = 0, skipOddNumberFighters = 0, cantCreate = 0
+  let skipNullDate = 0,
+    skipDaysInAdvance = 0,
+    skipOddNumberFighters = 0,
+    cantCreate = 0
 
   // filter markets and build payloads for market creation
   const createEvents: CreateFighterEvent[] = []
@@ -369,21 +495,19 @@ export const createFighter: Execute = async (input, context) => {
       continue
     }
 
-    const event = await contract.getEvent(fight.FightId);
+    const event = await contract.getEvent(fight.FightId)
     if (event.eventStatus !== 0) {
       cantCreate++
       continue
     }
 
-    const fighters = fight.Fighters
-      .filter(fighter => fighter.Active)
+    const fighters = fight.Fighters.filter((fighter) => fighter.Active)
     if (fighters.length !== 2) {
       skipOddNumberFighters++
       continue
     }
 
-    const moneylines = fighters
-      .map(fighter => fighter.Moneyline)
+    const moneylines = fighters.map((fighter) => fighter.Moneyline)
 
     createEvents.push({
       id: BigNumber.from(fight.FightId),
@@ -392,17 +516,19 @@ export const createFighter: Execute = async (input, context) => {
       fighterB: fighters[1].FighterId,
       fighterBname: `${fighters[1].FirstName} ${fighters[1].LastName}`,
       startTime,
-      moneylines
+      moneylines,
     })
   }
 
   Logger.debug(`Augur sportsdataio: Skipping ${skipNullDate} due to no event date`)
   Logger.debug(`Augur sportsdataio: Skipping ${skipDaysInAdvance} due to daysInAdvance`)
-  Logger.debug(`Augur sportsdataio: Skipping ${skipOddNumberFighters} due to odd number of fighters`)
+  Logger.debug(
+    `Augur sportsdataio: Skipping ${skipOddNumberFighters} due to odd number of fighters`,
+  )
   Logger.debug(`Augur sportsdataio: Skipping ${cantCreate} due to no market to create`)
 
   return Requester.success(input.id, {
-    data: { result: createEvents }
+    data: { result: createEvents },
   })
 }
 
@@ -425,12 +551,11 @@ const resolveParams = {
 const findEventScore = async (
   jobRunID: string,
   sport: string,
-  season: string,
   eventId: number,
   exec: Execute,
-  context: AdapterContext
+  context: AdapterContext,
 ): Promise<CommonScores | undefined> => {
-  const scores = await getScores(jobRunID, sport, season, exec, context)
+  const scores = await getScores(jobRunID, sport, exec, context)
   return scores.find((game) => game.GameID === eventId)
 }
 
@@ -442,7 +567,7 @@ export const resolveTeam: Execute = async (input, context) => {
   const sport = validator.validated.data.sport
   const sportsdataioExec = Sportsdataio.makeExecute(Sportsdataio.makeConfig(Sportsdataio.NAME))
 
-  const event = await findEventScore(input.id, sport, getSeason(), eventId, sportsdataioExec, context)
+  const event = await findEventScore(input.id, sport, eventId, sportsdataioExec, context)
   if (!event) {
     throw Error(`Unable to find event ${eventId}`)
   }
@@ -476,8 +601,8 @@ const getFight = async (
     data: {
       sport,
       fightId,
-      endpoint: 'fight'
-    }
+      endpoint: 'fight',
+    },
   }
   const response = await exec(input, context)
   return response.result
@@ -491,7 +616,7 @@ export const resolveFight: Execute = async (input, context) => {
   const sport = validator.validated.data.sport
   const sportsdataioExec = Sportsdataio.makeExecute(Sportsdataio.makeConfig(Sportsdataio.NAME))
 
-  Logger.debug(`Getting fight ${input.id} for sport ${sport}, which has fightId ${fightId}`);
+  Logger.debug(`Getting fight ${input.id} for sport ${sport}, which has fightId ${fightId}`)
   const fight = await getFight(input.id, sport, fightId, sportsdataioExec, context)
 
   if (!fight) {
@@ -503,8 +628,7 @@ export const resolveFight: Execute = async (input, context) => {
     throw Error(`Unknown status: ${fight.Status}`)
   }
 
-  const winners = fight.Fighters
-    .filter(fighter => fighter.Active && fighter.Winner)
+  const winners = fight.Fighters.filter((fighter) => fighter.Active && fighter.Winner)
 
   const draw = winners.length !== 1
   let winnerId = 0
@@ -522,7 +646,7 @@ export const resolveFight: Execute = async (input, context) => {
     // fighers list to the raw array, and indexing to 0 and 1 could indeed cause this call to
     // provide the incorrect fighter ID for fighterA, but in both of these cases the market resolves
     // as `No Contest` so it still ends up giving proper resolution.
-    fighters = fighters.filter(fighter => fighter.Active)
+    fighters = fighters.filter((fighter) => fighter.Active)
 
     // If this is a draw the winnerId is kept as 0 (uninitialized)
     winnerId = winners[0].FighterId
@@ -538,6 +662,6 @@ export const resolveFight: Execute = async (input, context) => {
   }
 
   return Requester.success(input.id, {
-    data: { result: resolveEvent }
+    data: { result: resolveEvent },
   })
 }

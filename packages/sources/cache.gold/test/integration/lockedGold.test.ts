@@ -11,7 +11,7 @@ describe('execute', () => {
     const requests = [
       {
         name: 'lokedGold',
-        testData: { data: { endpoint: "lockedGold"} },
+        testData: { data: { endpoint: 'lockedGold' } },
       },
     ]
     requests.forEach((req) => {

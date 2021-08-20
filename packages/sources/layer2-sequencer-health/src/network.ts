@@ -16,7 +16,13 @@ export const getSequencerHealth: NetworkHealthCheck = async (
   const response = await Requester.request({
     url: HEALTH_ENDPOINTS[network]?.endpoint,
   })
-  return !!Requester.getResult(response.data, HEALTH_ENDPOINTS[network]?.responsePath)
+  const isHealthy = !!Requester.getResult(response.data, HEALTH_ENDPOINTS[network]?.responsePath)
+  Logger.info(
+    `Health endpoint for network ${network} returned a ${
+      isHealthy ? 'healthy' : 'unhealthy'
+    } response`,
+  )
+  return isHealthy
 }
 
 export const requestBlockHeight = async (network: Networks): Promise<number> => {
@@ -58,7 +64,7 @@ export const getStatusByTransaction = async (
   const sequencerOnlineErrors: Record<Networks, string[]> = {
     [Networks.Arbitrum]: ['gas price too low', 'forbidden sender address'],
     // TODO: Optimism error needs to be confirmed by their team
-    [Networks.Optimism]: [''],
+    [Networks.Optimism]: ['cannot accept 0 gas price transaction'],
   }
 
   const networkTx: Record<Networks, ethers.providers.TransactionRequest> = {
@@ -72,14 +78,14 @@ export const getStatusByTransaction = async (
     [Networks.Optimism]: {
       value: 0,
       gasLimit: 0,
-      gasPrice: 1,
+      gasPrice: 0,
       to: wallet.address,
     },
   }
   const _getErrorMessage = (e: any): string => {
     const paths = {
       [Networks.Arbitrum]: ['error', 'message'],
-      [Networks.Optimism]: [],
+      [Networks.Optimism]: ['error', 'message'],
     }
     return (Requester.getResult(e, paths[network]) as string) || ''
   }

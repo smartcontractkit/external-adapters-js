@@ -2,9 +2,9 @@
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |                                                                         Options                                                                         | Defaults to |
-| :-------: | :------: | :-----------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [lockedGold](#lockedGold)|    lockedGold    |
+| Required? |   Name   |     Description     |          Options          | Defaults to |
+| :-------: | :------: | :-----------------: | :-----------------------: | :---------: |
+|           | endpoint | The endpoint to use | [lockedGold](#lockedGold) | lockedGold  |
 
 ---
 
@@ -14,9 +14,9 @@ Query the total gold grams locked in [cache.gold](https://contract.cache.gold/ap
 
 ### Input Params
 
-|         Required?          |            Name            |                                                                  Description                                                                   |                                        Options                                         | Defaults to |
-| :------------------------: | :------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------: | :---------: |
-|  ⛔ None  |          None          | no parameters are needed to make the request |  |             |
+| Required? | Name |                 Description                  | Options | Defaults to |
+| :-------: | :--: | :------------------------------------------: | :-----: | :---------: |
+|  ⛔ None  | None | no parameters are needed to make the request |         |             |
 
 ### Sample Input
 
@@ -32,11 +32,10 @@ Query the total gold grams locked in [cache.gold](https://contract.cache.gold/ap
 ```json
 {
   "jobRunID": "1",
-  "result":62293.77,
-  "statusCode":200,
-  "data":{
-    "result":62293.77
+  "result": 62293.77,
+  "statusCode": 200,
+  "data": {
+    "result": 62293.77
   }
 }
-
 ```

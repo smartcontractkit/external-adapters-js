@@ -19,7 +19,9 @@ This adapter is for [Polygon.io](https://polygon.io/) and supports the conversio
 ---
 
 ## Forex Endpoint
+
 ##### NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `forex` endpoint instead.
+
 Get FOREX price conversions
 
 ### Input Params

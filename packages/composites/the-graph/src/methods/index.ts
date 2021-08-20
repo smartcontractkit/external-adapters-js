@@ -1,1 +1,1 @@
-export * as prices from "./prices"
+export * as prices from './prices'

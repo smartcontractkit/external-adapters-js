@@ -49,12 +49,31 @@ const scanWithRetries = async (
     try {
       return await JSONRPC.execute(requestData, context, config)
     } catch (e) {
-      if (e.cause?.response?.data?.error?.code !== -8) {
-        throw e
+      if (e.cause?.response?.data?.error?.code === -8) {
+        Logger.debug('scan is already in progress, waiting 1s...')
+        Logger.debug(`time left to wait: ${deadline - Date.now()}ms`)
+        await sleep(1000)
+        continue
+      } else if (e.message === `timeout of ${config.api.timeout}ms exceeded`) {
+        // Highly experimental:
+        // If a timeout error was hit, we try to abort the scan that we initiated
+        // However there is a race condition where:
+        // 1. this request times out
+        // 2. the scan finishes
+        // 3. a new scan is initiated by a different request
+        // 4. this action aborts the scan
+        // However the time between 1. and 4. is minimal, and the likelihood of this happening is low
+        requestData.data.params.action = 'abort'
+        config.api.timeout = 1000 // We expect this action to be quick, and we do not want to hold up the request on this
+        Logger.debug('timeout reached, aborting scan in progress')
+        try {
+          await JSONRPC.execute(requestData, context, config)
+        } catch (e) {
+          Logger.error(`failed to abort scan in progress: ${e.message}`)
+        }
       }
 
-      Logger.debug('scan is already in progress, waiting 1s...')
-      await sleep(1000)
+      throw e
     }
   }
 
