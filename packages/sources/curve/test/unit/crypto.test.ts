@@ -8,7 +8,7 @@ import * as process from 'process'
 describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
-  process.env[ENV_RPC_URL] = process.env[ENV_RPC_URL] || "http://localhost:8546/"
+  process.env[ENV_RPC_URL] = process.env[ENV_RPC_URL] || 'http://localhost:8546/'
 
   describe('validation error', () => {
     const requests = [

@@ -297,7 +297,10 @@ export class Validator {
   }
 }
 
-export function normalizeInput<C extends Config = Config>(request: AdapterRequest, apiEndpoint: APIEndpoint<C>): AdapterRequest {
+export function normalizeInput<C extends Config = Config>(
+  request: AdapterRequest,
+  apiEndpoint: APIEndpoint<C>,
+): AdapterRequest {
   const input = { ...request }
 
   // if endpoint does not match, an override occurred and we must adjust it

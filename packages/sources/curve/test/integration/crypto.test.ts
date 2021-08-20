@@ -9,11 +9,11 @@ jest.mock('ethers', () => ({
   ...jest.requireActual('ethers'),
   ethers: {
     providers: {
-      JsonRpcProvider: function() {
+      JsonRpcProvider: function () {
         return {} as ethers.providers.JsonRpcProvider
       },
     },
-    Contract: function() {
+    Contract: function () {
       return {
         decimals: () => {
           return new Promise((resolve) => resolve(6))
