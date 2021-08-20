@@ -1,7 +1,13 @@
-import { ExecuteWithConfig, ExecuteFactory, Config, AxiosResponse } from '@chainlink/types'
-import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
-import { util } from '@chainlink/ea-bootstrap'
-import { makeConfig, NAME } from './config'
+import {
+  ExecuteWithConfig,
+  ExecuteFactory,
+  Config,
+  AxiosResponse,
+  AdapterRequest,
+  MakeWSHandler,
+} from '@chainlink/types'
+import { Requester, Validator, AdapterError, util } from '@chainlink/ea-bootstrap'
+import { DEFAULT_WS_API_ENDPOINT, makeConfig, NAME } from './config'
 
 const customParams = {
   base: ['base', 'from', 'symbol'],
@@ -98,4 +104,40 @@ const handleBatchedRequest = (jobRunID: string, response: AxiosResponse<Response
   }
   response.data.result = payload
   return Requester.success(jobRunID, response)
+}
+
+export const makeWSHandler = (config?: Config): MakeWSHandler => {
+  const getSubscription = (symbols?: string, subscribe = true) => {
+    if (!symbols) return
+    const sub = {
+      action: subscribe ? 'subscribe' : 'unsubscribe',
+      symbols,
+    }
+    return sub
+  }
+  const getSymbol = (input: AdapterRequest) => {
+    const validator = new Validator(input, customParams, {}, false)
+    if (validator.error) return
+    return validator.validated.data.base.toUpperCase()
+  }
+  return () => {
+    const defaultConfig = config || makeConfig()
+    return {
+      connection: {
+        url: defaultConfig.api.baseWsURL || DEFAULT_WS_API_ENDPOINT,
+      },
+      subscribe: (input) => getSubscription(getSymbol(input)),
+      unsubscribe: (input) => getSubscription(getSymbol(input), false),
+      subsFromMessage: (message) => {
+        if (!message.s) return undefined
+        return getSubscription(`${message.s.toUpperCase()}`)
+      },
+      isError: (message: any) => message['status_code'] && message['status_code'] !== 200,
+      filter: (message: any) => !!message.p,
+      toResponse: (message: any) => {
+        const result = Requester.validateResultNumber(message, ['p'])
+        return Requester.success('1', { data: { result } })
+      },
+    }
+  }
 }
