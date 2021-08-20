@@ -36,7 +36,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   return Requester.success(jobRunID, response)
 }
 
-export const makeConfig = (prefix?: string): Config => Requester.getDefaultConfig(prefix)
+export const makeConfig = (prefix?: string): Config => Requester.getDefaultConfig(prefix, true)
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {
   return async (request, context) => execute(request, context, config || makeConfig())

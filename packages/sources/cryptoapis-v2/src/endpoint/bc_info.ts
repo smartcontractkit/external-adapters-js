@@ -62,7 +62,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     BLOCKCHAIN_NAME_BY_TICKER[blockchain.toLowerCase() as BlockchainTickers]
   }-specific/${network.toLowerCase()}/blocks/last`
   const options = { ...config.api, url }
-  console.log(options)
   const response = await Requester.request<ResponseSchema>(options)
   const result = Requester.validateResultNumber(response.data, payloadDataPath)
   const responseWithCost = { ...response, data: { ...response.data } }
