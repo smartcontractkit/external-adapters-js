@@ -249,9 +249,6 @@
       "path": "./sources/kaiko"
     },
     {
-      "path": "./sources/layer2-sequencer-health"
-    },
-    {
       "path": "./sources/lcx"
     },
     {
@@ -319,6 +316,9 @@
     },
     {
       "path": "./sources/stasis"
+    },
+    {
+      "path": "./sources/synthetix-debt-pool"
     },
     {
       "path": "./sources/taapi"

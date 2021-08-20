@@ -107,6 +107,7 @@
     "@chainlink/sochain-adapter": "*",
     "@chainlink/sportsdataio-adapter": "*",
     "@chainlink/stasis-adapter": "*",
+    "@chainlink/synthetix-debt-pool-adapter": "*",
     "@chainlink/taapi-adapter": "*",
     "@chainlink/therundown-adapter": "*",
     "@chainlink/tiingo-adapter": "*",

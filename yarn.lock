@@ -2207,7 +2207,7 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^27.0.1
     "@types/node": ^14.14.35
-    hardhat: ^2.6.0
+    hardhat: ^2.6.1
     tslib: ^2.3.1
     typescript: ^4.3.5
   languageName: unknown
@@ -2295,6 +2295,7 @@ __metadata:
     "@chainlink/sochain-adapter": "*"
     "@chainlink/sportsdataio-adapter": "*"
     "@chainlink/stasis-adapter": "*"
+    "@chainlink/synthetix-debt-pool-adapter": "*"
     "@chainlink/taapi-adapter": "*"
     "@chainlink/therundown-adapter": "*"
     "@chainlink/tiingo-adapter": "*"
@@ -2781,12 +2782,12 @@ __metadata:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
-    "@types/jest": ^26.0.22
+    "@types/jest": ^27.0.1
     "@types/node": ^14.14.35
     axios: ^0.21.1
     sinon: ^11.1.2
-    tslib: ^2.1.0
-    typescript: ^4.2.3
+    tslib: ^2.3.1
+    typescript: ^4.3.5
   languageName: unknown
   linkType: soft
 
@@ -3147,6 +3148,23 @@ __metadata:
     synthetix: 2.45.3
     tslib: ^2.3.1
     type-fest: ^2.0.0
+    typescript: ^4.3.5
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/synthetix-debt-pool-adapter@*, @chainlink/synthetix-debt-pool-adapter@workspace:packages/sources/synthetix-debt-pool":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/synthetix-debt-pool-adapter@workspace:packages/sources/synthetix-debt-pool"
+  dependencies:
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.0.1
+    "@types/jest": ^27.0.1
+    "@types/node": ^14.14.35
+    "@types/supertest": ^2.0.11
+    ethers: 5.4.5
+    supertest: ^6.1.6
+    tslib: ^2.3.1
     typescript: ^4.3.5
   languageName: unknown
   linkType: soft
@@ -4411,19 +4429,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jest/types@npm:^26.6.2":
-  version: 26.6.2
-  resolution: "@jest/types@npm:26.6.2"
-  dependencies:
-    "@types/istanbul-lib-coverage": ^2.0.0
-    "@types/istanbul-reports": ^3.0.0
-    "@types/node": "*"
-    "@types/yargs": ^15.0.0
-    chalk: ^4.0.0
-  checksum: a0bd3d2f22f26ddb23f41fddf6e6a30bf4fab2ce79ec1cb6ce6fdfaf90a72e00f4c71da91ec61e13db3b10c41de22cf49d07c57ff2b59171d64b29f909c1d8d6
-  languageName: node
-  linkType: hard
-
 "@jest/types@npm:^27.0.6":
   version: 27.0.6
   resolution: "@jest/types@npm:27.0.6"
@@ -5500,16 +5505,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:^26.0.22":
-  version: 26.0.24
-  resolution: "@types/jest@npm:26.0.24"
-  dependencies:
-    jest-diff: ^26.0.0
-    pretty-format: ^26.0.0
-  checksum: ae39675412f08d884926254e9b12bfd2b5a4e4d204c94d3148cb942174a474930d0c60540133c968f22241d4712b7940c96cbc883096eb326a4d5b206fb78bd0
-  languageName: node
-  linkType: hard
-
 "@types/jest@npm:^27.0.1":
   version: 27.0.1
   resolution: "@types/jest@npm:27.0.1"
@@ -5901,15 +5896,6 @@ __metadata:
   version: 20.2.1
   resolution: "@types/yargs-parser@npm:20.2.1"
   checksum: 1d039e64494a7a61ddd278349a3dc60b19f99ff0517425696e796f794e4252452b9d62178e69755ad03f439f9dc0c8c3d7b3a1201b3a24e134bac1a09fa11eaa
-  languageName: node
-  linkType: hard
-
-"@types/yargs@npm:^15.0.0":
-  version: 15.0.14
-  resolution: "@types/yargs@npm:15.0.14"
-  dependencies:
-    "@types/yargs-parser": "*"
-  checksum: 8e358aeb8f0c3758e59e2b8fcfdee5627ab2fe3d92f50f380503d966c7f33287be3322155516a50d27727fde1ad3878f48f60cd6648439126d4b0bbb1a1153ed
   languageName: node
   linkType: hard
 
@@ -9252,13 +9238,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"diff-sequences@npm:^26.6.2":
-  version: 26.6.2
-  resolution: "diff-sequences@npm:26.6.2"
-  checksum: 79af871776ef149a7ff3345d6b1bf37fe6e81f68632aa5542787851f6f60fba19b0be22fdd1e06046f56ae7382763ccfe94a982c39ee72bd107aef435ecbc0cf
-  languageName: node
-  linkType: hard
-
 "diff-sequences@npm:^27.0.6":
   version: 27.0.6
   resolution: "diff-sequences@npm:27.0.6"
@@ -11620,9 +11599,9 @@ fsevents@~2.1.1:
   languageName: node
   linkType: hard
 
-"hardhat@npm:^2.6.0":
-  version: 2.6.0
-  resolution: "hardhat@npm:2.6.0"
+"hardhat@npm:^2.6.1":
+  version: 2.6.1
+  resolution: "hardhat@npm:2.6.1"
   dependencies:
     "@ethereumjs/block": ^3.4.0
     "@ethereumjs/blockchain": ^5.4.0
@@ -11673,7 +11652,7 @@ fsevents@~2.1.1:
     ws: ^7.4.6
   bin:
     hardhat: internal/cli/cli.js
-  checksum: d24be22fbb8418ef98e807492a66c54f5d55d3934e57fde4e9b4ca45e41c770ebbe23b472b3cf6f48742aa89b8989c9caac0c6aca57cce4beeb755e85d912a4b
+  checksum: 3dee779b6b8768d8029015423805635180457f0c8ac9a5ac080c7887c8e28039f291b0113b10a2a90bef2b88788457caff8f020ae8a07bb7a4f12fd318c93f95
   languageName: node
   linkType: hard
 
@@ -13059,18 +13038,6 @@ fsevents@~2.1.1:
   languageName: node
   linkType: hard
 
-"jest-diff@npm:^26.0.0":
-  version: 26.6.2
-  resolution: "jest-diff@npm:26.6.2"
-  dependencies:
-    chalk: ^4.0.0
-    diff-sequences: ^26.6.2
-    jest-get-type: ^26.3.0
-    pretty-format: ^26.6.2
-  checksum: d00d297f31e1ac0252127089892432caa7a11c69bde29cf3bb6c7a839c8afdb95cf1fd401f9df16a4422745da2e6a5d94b428b30666a2540c38e1c5699915c2d
-  languageName: node
-  linkType: hard
-
 "jest-diff@npm:^27.0.0, jest-diff@npm:^27.0.6":
   version: 27.0.6
   resolution: "jest-diff@npm:27.0.6"
@@ -13131,13 +13098,6 @@ fsevents@~2.1.1:
     jest-mock: ^27.0.6
     jest-util: ^27.0.6
   checksum: 910ced755557c4fbc134cf687d9c1571100dfb5d7e9691cdaa76dfcccd2bc97e62cec58e271e600757db94dc41612b3d97700fc3fd2439a298ce5f66e32da215
-  languageName: node
-  linkType: hard
-
-"jest-get-type@npm:^26.3.0":
-  version: 26.3.0
-  resolution: "jest-get-type@npm:26.3.0"
-  checksum: 1cc6465ae4f5e880be22ba52fd270fa64c21994915f81b41f8f7553a7957dd8e077cc8d03035de9412e2d739f8bad6a032ebb5dab5805692a5fb9e20dd4ea666
   languageName: node
   linkType: hard
 
@@ -13881,7 +13841,7 @@ fsevents@~2.1.1:
     core-js: ^3.16.2
     k6: ^0.0.0
     typescript: ^4.3.5
-    webpack: ^5.50.0
+    webpack: ^5.51.1
     webpack-cli: ^4.8.0
   languageName: unknown
   linkType: soft
@@ -17126,18 +17086,6 @@ fsevents@~2.1.1:
   languageName: node
   linkType: hard
 
-"pretty-format@npm:^26.0.0, pretty-format@npm:^26.6.2":
-  version: 26.6.2
-  resolution: "pretty-format@npm:26.6.2"
-  dependencies:
-    "@jest/types": ^26.6.2
-    ansi-regex: ^5.0.0
-    ansi-styles: ^4.0.0
-    react-is: ^17.0.1
-  checksum: e3b808404d7e1519f0df1aa1f25cee0054ab475775c6b2b8c5568ff23194a92d54bf93274139b6f584ca70fd773be4eaa754b0e03f12bb0a8d1426b07f079976
-  languageName: node
-  linkType: hard
-
 "pretty-format@npm:^27.0.0, pretty-format@npm:^27.0.6":
   version: 27.0.6
   resolution: "pretty-format@npm:27.0.6"
@@ -20169,7 +20117,7 @@ resolve@1.17.0:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.2.0, tslib@npm:^2.3.1":
+"tslib@npm:^2.0.3, tslib@npm:^2.2.0, tslib@npm:^2.3.1":
   version: 2.3.1
   resolution: "tslib@npm:2.3.1"
   checksum: de17a98d4614481f7fcb5cd53ffc1aaf8654313be0291e1bfaee4b4bb31a20494b7d218ff2e15017883e8ea9626599b3b0e0229c18383ba9dce89da2adf15cb9
@@ -20359,7 +20307,7 @@ resolve@1.17.0:
   languageName: node
   linkType: hard
 
-"typescript@^4.2.3, typescript@^4.3.4, typescript@^4.3.5":
+"typescript@^4.3.4, typescript@^4.3.5":
   version: 4.3.5
   resolution: "typescript@npm:4.3.5"
   bin:
@@ -20369,7 +20317,7 @@ resolve@1.17.0:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^4.2.3#~builtin<compat/typescript>, typescript@patch:typescript@^4.3.4#~builtin<compat/typescript>, typescript@patch:typescript@^4.3.5#~builtin<compat/typescript>":
+"typescript@patch:typescript@^4.3.4#~builtin<compat/typescript>, typescript@patch:typescript@^4.3.5#~builtin<compat/typescript>":
   version: 4.3.5
   resolution: "typescript@patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"
   bin:
@@ -21327,9 +21275,9 @@ resolve@1.17.0:
   languageName: node
   linkType: hard
 
-"webpack@npm:^5.50.0":
-  version: 5.50.0
-  resolution: "webpack@npm:5.50.0"
+"webpack@npm:^5.51.1":
+  version: 5.51.1
+  resolution: "webpack@npm:5.51.1"
   dependencies:
     "@types/eslint-scope": ^3.7.0
     "@types/estree": ^0.0.50
@@ -21360,7 +21308,7 @@ resolve@1.17.0:
       optional: true
   bin:
     webpack: bin/webpack.js
-  checksum: 293bed1d9101ac127605f35a225a5cbc1bc89eac68d6e09e7feb3e284ec2693b3db7c1dd7710fadf6852f89ad39ed09413c35befa1cfc9738074b33299ac2b9e
+  checksum: 20060bc197a5e690f12e453e86bd89da5b91626a2032efa907122fe541fedc688b1d573e9f92f7b66f15c609808653e158408ebf7c94783723dfbf4ac894a4a7
   languageName: node
   linkType: hard
 
