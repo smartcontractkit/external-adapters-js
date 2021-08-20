@@ -1,7 +1,13 @@
 import { balance } from '@chainlink/ea-factories'
 import { Requester } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteFactory } from '@chainlink/types'
-import { isCoinType, isChainType, TESTNET_BLOCKCHAINS, BLOCKCHAIN_NAME_BY_TICKER } from '../config'
+import {
+  isCoinType,
+  isChainType,
+  TESTNET_BLOCKCHAINS,
+  BLOCKCHAIN_NAME_BY_TICKER,
+  BlockchainTickers,
+} from '../config'
 
 export const supportedEndpoints = ['balance']
 
@@ -16,7 +22,7 @@ const getBalance: balance.GetBalance = async (account, config) => {
   if (!account.coin) {
     throw new Error(`Account ${account.address} is missing blockchain parameter`)
   }
-  const coin = BLOCKCHAIN_NAME_BY_TICKER[account.coin.toLowerCase()]
+  const coin = BLOCKCHAIN_NAME_BY_TICKER[account.coin.toLowerCase() as BlockchainTickers]
   const options = {
     ...config.api,
     url: getBalanceURI(account.address, account.chain as string, coin as string),
