@@ -100,7 +100,7 @@ async function fetchResolutionRoundIds(
   _: AdapterContext,
   config: Config,
 ): Promise<RoundDataForCoin[]> {
-  const coins: Coin[] = await contract.getCoins().slice(1) // index 0 is a dummy value
+  const coins: Coin[] = (await contract.getCoins()).slice(1) // index 0 is a dummy value
   return Promise.all(
     coins.map(async (coin, index) => {
 
