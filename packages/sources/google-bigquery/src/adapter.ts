@@ -28,7 +28,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const bigqueryClient = new BigQuery(bqOptions)
 
   const [rows] = await bigqueryClient.query({ query, params })
-  const response = { data: { result: rows }}
+  const response = { data: { result: rows } }
 
   return Requester.success(jobRunID, response, true)
 }

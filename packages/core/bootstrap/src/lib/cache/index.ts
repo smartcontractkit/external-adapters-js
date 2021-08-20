@@ -306,9 +306,9 @@ export const withCache =
                 logger.trace(`Cache Split Batch: SET ${keyBatchParticipant}`, entryBatchParticipant)
               }
             }
-            // Notify pending requests by removing the in-flight mark
-            await adapterCache.delInFlightMarker(coalescingKey)
           }
+          // Notify pending requests by removing the in-flight mark
+          await adapterCache.delInFlightMarker(coalescingKey)
         }
         await _cacheOnSuccess(result)
 

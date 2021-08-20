@@ -12,6 +12,8 @@
     "clean": "tsc -b --clean  ./packages/tsconfig.json",
     "lint": "eslint --ext ts .",
     "lint:fix": "yarn lint --fix",
+    "format:check": "prettier --check .",
+    "format:fix": "prettier --write .",
     "setup": "tsc -b ./packages/tsconfig.json ",
     "test": "jest",
     "test:unit": "jest unit",
@@ -23,35 +25,36 @@
     "cm": "cz"
   },
   "dependencies": {
-    "@babel/core": "^7.13.14",
-    "@babel/preset-env": "^7.13.12",
-    "@babel/preset-typescript": "^7.13.0",
-    "@types/jest": "^26.0.22",
-    "@typescript-eslint/eslint-plugin": "^4.20.0",
-    "@typescript-eslint/parser": "^4.20.0",
-    "@vercel/ncc": "^0.27.0",
-    "eslint": "^7.23.0",
-    "eslint-config-prettier": "^8.1.0",
-    "jest": "^26.6.3"
+    "@babel/core": "^7.15.0",
+    "@babel/preset-env": "^7.15.0",
+    "@babel/preset-typescript": "^7.15.0",
+    "@types/jest": "^27.0.1",
+    "@typescript-eslint/eslint-plugin": "^4.29.2",
+    "@typescript-eslint/parser": "^4.29.2",
+    "@vercel/ncc": "^0.29.1",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "jest": "^27.0.6"
   },
   "devDependencies": {
     "@semantic-release/commit-analyzer": "^8.0.1",
     "@semantic-release/github": "^7.2.3",
     "@semantic-release/npm": "^7.1.3",
-    "@semantic-release/release-notes-generator": "^9.0.2",
-    "@types/babel__core": "^7",
-    "@types/babel__preset-env": "^7",
-    "@types/eslint": "^7",
+    "@semantic-release/release-notes-generator": "^9.0.3",
+    "@types/babel__core": "^7.1.15",
+    "@types/babel__preset-env": "^7.9.2",
+    "@types/eslint": "^7.28.0",
     "@types/node": "^14.14.35",
-    "@types/semantic-release": "^17",
-    "commitizen": "^4.2.3",
+    "@types/semantic-release": "^17.2.1",
+    "commitizen": "^4.2.4",
     "cz-conventional-changelog": "^3.3.0",
-    "husky": "^6.0.0",
-    "prettier": "^2.0.5",
-    "semantic-release": "^17.4.2",
-    "semantic-release-monorepo": "^7.0.4",
-    "ts-node": "^9.1.1",
-    "typescript": "^4.2.3"
+    "husky": "^7.0.1",
+    "lint-staged": "^11.1.2",
+    "prettier": "^2.3.2",
+    "semantic-release": "^17.4.5",
+    "semantic-release-monorepo": "^7.0.5",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.3.5"
   },
   "prettier": {
     "semi": false,
@@ -72,5 +75,8 @@
     "commitizen": {
       "path": "cz-conventional-changelog"
     }
+  },
+  "lint-staged": {
+    "*.{js,css,md,ts,json,yml,yaml}": "prettier --write"
   }
 }

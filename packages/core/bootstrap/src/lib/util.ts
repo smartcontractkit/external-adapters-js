@@ -196,11 +196,22 @@ export const getKeyData = (data: AdapterRequest) =>
   omit(pick(data, includableAdapterRequestProperties), 'data.resultPath')
 
 export type HashMode = 'include' | 'exclude'
+/**
+ * Generates a key by hashing input data
+ *
+ * @param data Adapter request input data
+ * @param hashOptions Additional configuration for the objectHash package
+ * @param mode Which behavior to use:
+ *    include (default) - hash only selected properties throwing out everything else
+ *    exclude           - hash the entire data object after excluding certain properties
+ *
+ * @returns string
+ */
 export const hash = (
   data: AdapterRequest,
   hashOptions: Required<Parameters<typeof objectHash>>['1'],
   mode: HashMode = 'include',
-) => {
+): string => {
   return mode === 'include' || !data
     ? objectHash(getKeyData(data), hashOptions)
     : objectHash(data, getHashOpts())
@@ -313,5 +324,8 @@ export const ENV_ADAPTER_URL = 'ADAPTER_URL'
 
 export const getURL = (prefix: string, required = false): string | undefined =>
   required
-    ? getRequiredEnv(ENV_ADAPTER_URL, prefix) || getRequiredEnv(LEGACY_ENV_ADAPTER_URL, prefix)
+    ? getRequiredURL(prefix)
     : getEnv(ENV_ADAPTER_URL, prefix) || getEnv(LEGACY_ENV_ADAPTER_URL, prefix)
+
+export const getRequiredURL = (prefix: string): string =>
+  getRequiredEnv(ENV_ADAPTER_URL, prefix) || getRequiredEnv(LEGACY_ENV_ADAPTER_URL, prefix)

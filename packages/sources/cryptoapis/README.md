@@ -11,14 +11,16 @@
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |                                                               Options                                                               | Defaults to |
-| :-------: | :------: | :-----------------: | :---------------------------------------------------------------------------------------------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [crypto](#Crypto-Endpoint), [difficulty](#Difficulty-&-Height-Endpoint), [height](#Difficulty-&-Height-Endpoint), [balance](#Balance) |   `crypto`   |
+| Required? |   Name   |     Description     |                                                                Options                                                                | Defaults to |
+| :-------: | :------: | :-----------------: | :-----------------------------------------------------------------------------------------------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [crypto](#Crypto-Endpoint), [difficulty](#Difficulty-&-Height-Endpoint), [height](#Difficulty-&-Height-Endpoint), [balance](#Balance) |  `crypto`   |
 
 ---
 
 ## Crypto Endpoint
+
 ##### NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.
+
 https://docs.cryptoapis.io/rest-apis/crypto-market-data-apis/index#exchange-rates
 
 ### Input Params

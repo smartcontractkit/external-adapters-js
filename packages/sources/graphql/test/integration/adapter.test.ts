@@ -11,26 +11,28 @@ describe('execute', () => {
     const requests = [
       {
         name: 'request with no variables',
-        testData: { 
+        testData: {
           id: jobID,
           data: {
-           "query":"{\n  markets(first: 1) {\n    borrowRate\n    cash\n    collateralFactor\n    exchangeRate\n    interestRateModelAddress\n    name\n    reserves\n    supplyRate\n    symbol\n    id\n    totalBorrows\n    totalSupply\n    underlyingAddress\n    underlyingName\n    underlyingPrice\n    underlyingSymbol\n    reserveFactor\n    underlyingPriceUSD\n  }\n}\n",
-           "variables": null,
-           "graphqlEndpoint": "https://api.thegraph.com/subgraphs/name/graphprotocol/compound-v2" 
-          } 
+            query:
+              '{\n  markets(first: 1) {\n    borrowRate\n    cash\n    collateralFactor\n    exchangeRate\n    interestRateModelAddress\n    name\n    reserves\n    supplyRate\n    symbol\n    id\n    totalBorrows\n    totalSupply\n    underlyingAddress\n    underlyingName\n    underlyingPrice\n    underlyingSymbol\n    reserveFactor\n    underlyingPriceUSD\n  }\n}\n',
+            variables: null,
+            graphqlEndpoint: 'https://api.thegraph.com/subgraphs/name/graphprotocol/compound-v2',
+          },
         },
       },
       {
         name: 'request with variables',
-        testData: { 
-          id: jobID, 
-          data: { 
-            "query":"query($first: Int){\n  markets(first: $first) {\n    borrowRate\n    cash\n    collateralFactor\n    exchangeRate\n    interestRateModelAddress\n    name\n    reserves\n    supplyRate\n    symbol\n    id\n    totalBorrows\n    totalSupply\n    underlyingAddress\n    underlyingName\n    underlyingPrice\n    underlyingSymbol\n    reserveFactor\n    underlyingPriceUSD\n  }\n}\n",
-            "variables": {
-                "first": 1
+        testData: {
+          id: jobID,
+          data: {
+            query:
+              'query($first: Int){\n  markets(first: $first) {\n    borrowRate\n    cash\n    collateralFactor\n    exchangeRate\n    interestRateModelAddress\n    name\n    reserves\n    supplyRate\n    symbol\n    id\n    totalBorrows\n    totalSupply\n    underlyingAddress\n    underlyingName\n    underlyingPrice\n    underlyingSymbol\n    reserveFactor\n    underlyingPriceUSD\n  }\n}\n',
+            variables: {
+              first: 1,
             },
-            "graphqlEndpoint": "https://api.thegraph.com/subgraphs/name/graphprotocol/compound-v2"
-          } 
+            graphqlEndpoint: 'https://api.thegraph.com/subgraphs/name/graphprotocol/compound-v2',
+          },
         },
       },
     ]
@@ -49,39 +51,41 @@ describe('execute', () => {
     const requests = [
       {
         name: 'corrupt graphQL endpoint',
-        testData: { 
-          id: jobID, 
-          data: { 
-            "query":"query($first: Int){\n  markets(first: $first) {\n    borrowRate\n    cash\n    collateralFactor\n    exchangeRate\n    interestRateModelAddress\n    name\n    reserves\n    supplyRate\n    symbol\n    id\n    totalBorrows\n    totalSupply\n    underlyingAddress\n    underlyingName\n    underlyingPrice\n    underlyingSymbol\n    reserveFactor\n    underlyingPriceUSD\n  }\n}\n",
-            "variables": {
-                "first": 1
+        testData: {
+          id: jobID,
+          data: {
+            query:
+              'query($first: Int){\n  markets(first: $first) {\n    borrowRate\n    cash\n    collateralFactor\n    exchangeRate\n    interestRateModelAddress\n    name\n    reserves\n    supplyRate\n    symbol\n    id\n    totalBorrows\n    totalSupply\n    underlyingAddress\n    underlyingName\n    underlyingPrice\n    underlyingSymbol\n    reserveFactor\n    underlyingPriceUSD\n  }\n}\n',
+            variables: {
+              first: 1,
             },
-            "graphqlEndpoint": "corrupt-endpoint"
-          } 
+            graphqlEndpoint: 'corrupt-endpoint',
+          },
         },
       },
       {
         name: 'corrupt graphQL query',
-        testData: { 
-          id: jobID, 
-          data: { 
-            "query":"corrupt query",
-            "variables": {
-                "first": 1
+        testData: {
+          id: jobID,
+          data: {
+            query: 'corrupt query',
+            variables: {
+              first: 1,
             },
-            "graphqlEndpoint": "corrupt-endpoint"
-          } 
+            graphqlEndpoint: 'corrupt-endpoint',
+          },
         },
       },
       {
         name: 'request with missing variable',
-        testData: { 
-          id: jobID, 
-          data: { 
-            "query":"query($first: Int){\n  markets(first: $first) {\n    borrowRate\n    cash\n    collateralFactor\n    exchangeRate\n    interestRateModelAddress\n    name\n    reserves\n    supplyRate\n    symbol\n    id\n    totalBorrows\n    totalSupply\n    underlyingAddress\n    underlyingName\n    underlyingPrice\n    underlyingSymbol\n    reserveFactor\n    underlyingPriceUSD\n  }\n}\n",
-            "variables": null,
-            "graphqlEndpoint": "https://api.thegraph.com/subgraphs/name/graphprotocol/compound-v2"
-          } 
+        testData: {
+          id: jobID,
+          data: {
+            query:
+              'query($first: Int){\n  markets(first: $first) {\n    borrowRate\n    cash\n    collateralFactor\n    exchangeRate\n    interestRateModelAddress\n    name\n    reserves\n    supplyRate\n    symbol\n    id\n    totalBorrows\n    totalSupply\n    underlyingAddress\n    underlyingName\n    underlyingPrice\n    underlyingSymbol\n    reserveFactor\n    underlyingPriceUSD\n  }\n}\n',
+            variables: null,
+            graphqlEndpoint: 'https://api.thegraph.com/subgraphs/name/graphprotocol/compound-v2',
+          },
         },
       },
     ]

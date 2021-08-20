@@ -7,52 +7,55 @@ import { Config } from '../config'
 import { CRYPTO_ABI } from './index'
 import AggregatorV3InterfaceABI from '../abis/AggregatorV3Interface.json'
 
-
 class RoundManagement {
-  readonly phase: BigNumber;
-  readonly justRound: BigNumber;
+  readonly phase: BigNumber
+  readonly justRound: BigNumber
 
   constructor(phase: BigNumberish, justRound: BigNumberish) {
-    this.phase = BigNumber.from(phase);
-    this.justRound = BigNumber.from(justRound);
+    this.phase = BigNumber.from(phase)
+    this.justRound = BigNumber.from(justRound)
   }
 
   public get id(): BigNumber {
-    return this.phase.shl(64).or(this.justRound);
+    return this.phase.shl(64).or(this.justRound)
   }
 
   public nextRound(): RoundManagement {
-    return new RoundManagement(this.phase, this.justRound.add(1));
+    return new RoundManagement(this.phase, this.justRound.add(1))
   }
 
   public prevRound(): RoundManagement {
-    return new RoundManagement(this.phase, this.justRound.sub(1));
+    return new RoundManagement(this.phase, this.justRound.sub(1))
   }
 
   static decode(roundId: BigNumberish): RoundManagement {
-    roundId = BigNumber.from(roundId);
-    const phase = roundId.shr(64);
-    const justRoundId = roundId.sub(phase.shl(64));
-    return new RoundManagement(phase, justRoundId);
+    roundId = BigNumber.from(roundId)
+    const phase = roundId.shr(64)
+    const justRoundId = roundId.sub(phase.shl(64))
+    return new RoundManagement(phase, justRoundId)
   }
 }
 
 async function getNextWeekResolutionTimestamp(contract: ethers.Contract): Promise<number> {
-  const nowEastern = DateTime.now().setZone('America/New_York')
-
   const contractNextResolutionTime = await contract.nextResolutionTime()
+  const now = DateTime.now().setZone('America/New_York').toSeconds()
 
-  if (contractNextResolutionTime > nowEastern.toSeconds()) {
-    Logger.warn(
-      `Augur: Next resolution time is in the future`
-    )
+  if (contractNextResolutionTime > now) {
+    Logger.warn(`Augur: Next resolution time is in the future`)
 
-    return 0;
+    return 0
   }
 
-  return nowEastern.plus({ week: 1 }).set({ weekday: 5, hour: 16, minute: 0, second: 0, millisecond: 0 }).toSeconds()
+  return getUpcomingFriday4pmET()
 }
 
+export function getUpcomingFriday4pmET(): number {
+  const nowEastern = DateTime.now().setZone('America/New_York')
+  const thisWeek = nowEastern.set({ weekday: 5, hour: 16, minute: 0, second: 0, millisecond: 0 })
+  const past = thisWeek.diff(nowEastern).milliseconds < 0
+  const when = past ? thisWeek.plus({ week: 1 }) : thisWeek
+  return when.toSeconds()
+}
 
 interface Coin {
   name: string
@@ -74,7 +77,11 @@ const pokeParams = {
   contractAddress: true,
 }
 
-export async function execute(input: AdapterRequest, context: AdapterContext, config: Config): Promise<AdapterResponse> {
+export async function execute(
+  input: AdapterRequest,
+  context: AdapterContext,
+  config: Config,
+): Promise<AdapterResponse> {
   const validator = new Validator(input, pokeParams)
   if (validator.error) throw validator.error
 
@@ -97,8 +104,11 @@ async function fetchResolutionRoundIds(
   const coins: Coin[] = await contract.getCoins()
   return Promise.all(
     coins.map(async (coin, index) => {
-
-      const aggregator = new ethers.Contract(coin.priceFeed, AggregatorV3InterfaceABI, config.wallet)
+      const aggregator = new ethers.Contract(
+        coin.priceFeed,
+        AggregatorV3InterfaceABI,
+        config.wallet,
+      )
 
       // Here we are going to walk backward through rounds to make sure that
       // we pick the *first* update after the passed-in resolutionTime
@@ -119,7 +129,7 @@ async function fetchResolutionRoundIds(
       }
 
       return {
-        coinId: index+1, // add one because getCoins excludes the 0th Coin, which is a placeholder for "no coin"
+        coinId: index + 1, // add one because getCoins excludes the 0th Coin, which is a placeholder for "no coin"
         roundId: round.nextRound().id, // next round because we iterated one past the desired round
       }
     }),
@@ -131,10 +141,12 @@ async function createAndResolveMarkets(
   nextWeek: number,
   contract: ethers.Contract,
   _: AdapterContext,
-  config: Config
+  config: Config,
 ) {
   //     function createAndResolveMarkets(uint80[] calldata _roundIds, uint256 _nextResolutionTime) public {
-  const roundIds: BigNumberish[] = ([ 0 ] as BigNumberish[]).concat(roundDataForCoins.map(x => x.roundId))
+  const roundIds: BigNumberish[] = ([0] as BigNumberish[]).concat(
+    roundDataForCoins.map((x) => x.roundId),
+  )
 
   const nonce = await config.wallet.getTransactionCount()
 
@@ -145,14 +157,18 @@ async function createAndResolveMarkets(
     Logger.log(`Augur: createAndResolveMarkets -- failure`)
     Logger.error(e)
   }
-
 }
 
 async function pokeMarkets(contract: ethers.Contract, context: AdapterContext, config: Config) {
-  const resolutionTime: BigNumber = await contract.nextResolutionTime();
+  const resolutionTime: BigNumber = await contract.nextResolutionTime()
   const nextResolutionTime = await getNextWeekResolutionTimestamp(contract)
   if (nextResolutionTime > 0) {
-    const roundIds = await fetchResolutionRoundIds(resolutionTime.toNumber(), contract, context, config)
+    const roundIds = await fetchResolutionRoundIds(
+      resolutionTime.toNumber(),
+      contract,
+      context,
+      config,
+    )
     await createAndResolveMarkets(roundIds, nextResolutionTime, contract, context, config)
   }
 }
