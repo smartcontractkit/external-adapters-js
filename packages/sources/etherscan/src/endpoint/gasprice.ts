@@ -4,12 +4,12 @@ import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 export const supportedEndpoints = ['gasprice']
 
 export interface ResponseSchema {
-  status: number,
-  message: string,
+  status: number
+  message: string
   result: {
-    LastBlock: number,
-    SafeGasPrice: number,
-    ProposeGasPrice: number,
+    LastBlock: number
+    SafeGasPrice: number
+    ProposeGasPrice: number
     FastGasPrice: number
   }
 }
@@ -20,7 +20,7 @@ export const inputParameters: InputParameters = {
   speed: false,
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
+export const execute: ExecuteWithConfig<Config> = async (request: any, _: any, config: Config) => {
   const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
 
@@ -34,17 +34,16 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     apikey: config.apiKey,
   }
 
-  const options = { 
+  const options = {
     ...config.api,
     params,
-    url
+    url,
   }
 
   const response = await Requester.request<ResponseSchema>(options, customError)
-  if(!config.apiKey) {
+  if (!config.apiKey) {
     Logger.warn(response.data.message)
   }
   const result = Requester.validateResultNumber(response.data, ['result', speed])
-
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }
