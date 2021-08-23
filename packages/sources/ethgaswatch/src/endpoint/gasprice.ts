@@ -19,10 +19,10 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const options = {
     ...config.api,
-    url
+    url,
   }
 
-  const response = await Requester.request(options, customError)  
+  const response = await Requester.request(options, customError)
   const result = Requester.validateResultNumber(response.data, [speed, 'gwei'])
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }
