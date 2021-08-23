@@ -1,25 +1,19 @@
 import { AdapterRequest, Execute } from '@chainlink/types'
 import { AnyAction } from 'redux'
 import { combineEpics, createEpicMiddleware, Epic } from 'redux-observable'
+import { EMPTY, from, merge, Observable, of, race, Subject } from 'rxjs'
 import {
   catchError,
   delay,
-  EMPTY,
   endWith,
   filter,
-  from,
   map,
-  merge,
   mergeMap,
-  Observable,
-  of,
-  race,
-  Subject,
   take,
   takeUntil,
   tap,
   withLatestFrom,
-} from 'rxjs'
+} from 'rxjs/operators'
 import { webSocket } from 'rxjs/webSocket'
 import WebSocket from 'ws'
 import { withCache } from '../cache'
@@ -476,4 +470,4 @@ export const metricsEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
 
 export const rootEpic = combineEpics(connectEpic, metricsEpic)
 
-export const epicMiddleware = createEpicMiddleware<any, any, any, void>()
+export const epicMiddleware = createEpicMiddleware()
