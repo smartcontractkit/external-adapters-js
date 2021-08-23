@@ -77,7 +77,7 @@ const quote = validator.validated.data.quote
 Use `overrideToken` to get the token address of the given symbol
 
 ```typescript
-const address = validator.overrideToken("WETH")
+const address = validator.overrideToken('WETH')
 // "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
 ```
 
@@ -85,11 +85,11 @@ const address = validator.overrideToken("WETH")
 
 ```typescript
 type Includes = {
-    from: string, // From symbol
-    to: string, // To symbol
-    adapters?: string[], // Array of adapters this applies to
-    inverse?: boolean // If the inverse should be calculated instead
-    tokens?: boolean // If the token addresses should be used instead
+  from: string // From symbol
+  to: string // To symbol
+  adapters?: string[] // Array of adapters this applies to
+  inverse?: boolean // If the inverse should be calculated instead
+  tokens?: boolean // If the token addresses should be used instead
 }
 ```
 
@@ -106,9 +106,8 @@ Get the first applicable Includes object that can be used as an override
 
 ```typescript
 const tokenOverride = validator.overrideIncludesToken(
-  "MyAdapter",
-  ""
-  [{ from: "WETH", to: "WBTC", adapters: ["OtherAdapter"] }, { from: "ETH", to: "WBTC" }]
+  'MyAdapter',
+  ''[({ from: 'WETH', to: 'WBTC', adapters: ['OtherAdapter'] }, { from: 'ETH', to: 'WBTC' })],
 )
 // {
 //   from: "ETH",
@@ -165,7 +164,7 @@ Requester.request(config, customError, retries, delay)
 
 ```js
 {
-  inverse: false // Set to true to get the inverse rate 
+  inverse: false // Set to true to get the inverse rate
 }
 ```
 

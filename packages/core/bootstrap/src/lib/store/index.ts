@@ -43,7 +43,7 @@ export function configureStore(
           realtime: true,
           port: 8000,
           actionsBlacklist: ['WS/MESSAGE_RECEIVED'],
-        })(...enhancers)
+        })(...(enhancers as any))
       : compose(...enhancers)
 
   // Create a store with the root reducer function being the one exposed by the manager.

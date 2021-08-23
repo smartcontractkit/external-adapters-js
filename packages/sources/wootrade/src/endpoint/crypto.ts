@@ -12,11 +12,11 @@ export interface ResponseSchema {
   }
 }
 export interface MarketTrades {
-    symbol: string,
-    side: string,
-    executed_price: number,
-    executed_quantity: number,
-    executed_timestamp: string
+  symbol: string
+  side: string
+  executed_price: number
+  executed_quantity: number
+  executed_timestamp: string
 }
 
 export const supportedEndpoints = ['crypto', 'ticker']
@@ -42,7 +42,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const params = {
     symbol,
-    limit
+    limit,
   }
 
   const options = { ...config.api, params, url }

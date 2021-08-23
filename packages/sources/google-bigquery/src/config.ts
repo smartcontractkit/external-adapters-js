@@ -20,5 +20,5 @@ export const makeConfig = (prefix?: string): Config => ({
   autoRetry: util.parseBool(util.getEnv('AUTO_RETRY', prefix) || true),
   maxRetries: parseInt(util.getEnv('MAX_RETRIES', prefix) || '3'),
   location: util.getEnv('LOCATION', prefix),
-  api: {}
+  api: {},
 })

@@ -34,9 +34,9 @@ See [testing](#testing) for information on other potential endpoints depending o
 
 Depending on the blockchain, input parameter values and returned responses will vary.
 
-| Required? |     Name     |             Description              | Options | Defaults to |
-| :-------: | :----------: | :----------------------------------: | :-----: | :---------: |
-|    ✅     |   `method`   |     JSON-RPC method to be called     |         |             |
+| Required? |   Name   |             Description              | Options | Defaults to |
+| :-------: | :------: | :----------------------------------: | :-----: | :---------: |
+|    ✅     | `method` |     JSON-RPC method to be called     |         |             |
 |           | `params` | Array of parameters for the `method` |         |             |
 
 ### Sample Input
@@ -54,6 +54,7 @@ Depending on the blockchain, input parameter values and returned responses will 
 ```
 
 ### Sample Output
+
 ```JSON
 {
   "id":1,

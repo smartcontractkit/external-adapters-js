@@ -25,16 +25,16 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 
 ### Input Params
 
-| Required? |             Name              |                                              Description                                              | Options |   Defaults to    |
-| :-------: | :---------------------------: | :---------------------------------------------------------------------------------------------------: | :-----: | :--------------: |
-|    ✅     | `contractAddress`, `contract` |                The address of the on-chain crypto volatility index aggregator contract                |         |                  |
-|           |          `heartBeat`          |                                       Interval between updates                                        |         |       `60`       |
-|           |          `multiply`           |          Multiply amount for the on-chain value, which also determines the result precision           |         |      `1e18`      |
+| Required? |             Name              |                                                                                            Description                                                                                            | Options |   Defaults to    |
+| :-------: | :---------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: | :--------------: |
+|    ✅     | `contractAddress`, `contract` |                                                              The address of the on-chain crypto volatility index aggregator contract                                                              |         |                  |
+|           |          `heartBeat`          |                                                                                     Interval between updates                                                                                      |         |       `60`       |
+|           |          `multiply`           |                                                        Multiply amount for the on-chain value, which also determines the result precision                                                         |         |      `1e18`      |
 |           |         `isAdaptive`          | Indicates whether the calculation result should be adaptively smoothed with its latest on-chain value. This must be set to `false` if the reference contract has not yet completed a valid round. |         |      `true`      |
-|           |      `cryptoCurrencies`       |                             which curencies to use to calculate the index                             |         | `['BTC', 'ETH']` |
-|           |     `deviationThreshold`      |                                the threshold for smoothing calculation                                |         |      `0.11`      |
-|           |          `lambdaMin`          |                          Lambda min value for adaptive smoothing calculation                          |         |     `0.031`      |
-|           |           `lambdaK`           |                           Lambda K value for adaptive smoothing calculation                           |         |      `0.31`      |
+|           |      `cryptoCurrencies`       |                                                                           which curencies to use to calculate the index                                                                           |         | `['BTC', 'ETH']` |
+|           |     `deviationThreshold`      |                                                                              the threshold for smoothing calculation                                                                              |         |      `0.11`      |
+|           |          `lambdaMin`          |                                                                        Lambda min value for adaptive smoothing calculation                                                                        |         |     `0.031`      |
+|           |           `lambdaK`           |                                                                         Lambda K value for adaptive smoothing calculation                                                                         |         |      `0.31`      |
 
 ### Sample Input
 

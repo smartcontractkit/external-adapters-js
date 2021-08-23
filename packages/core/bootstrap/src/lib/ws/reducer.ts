@@ -1,10 +1,23 @@
 import { AdapterContext, AdapterRequest } from '@chainlink/types'
 import { combineReducers, createReducer, isAnyOf } from '@reduxjs/toolkit'
-import { getHashOpts, hash, HashMode } from '../util'
+import { getHashOpts, hash } from '../util'
 import * as actions from './actions'
 
-export const getSubsId = (subscriptionMsg: AdapterRequest, mode: HashMode = "include"): string =>
-  hash(subscriptionMsg, getHashOpts(), mode)
+/**
+ * Generate a key for the WS middleware
+ *
+ * NOTE:
+ * Exclude mode is enforced because the data given to the WS framework
+ * is not an Adapter Request, but a subscription message.
+ *
+ * (e.g. Cryptocompare)
+ * { action: 'SubAdd', subs: [ '5~CCCAGG~BTC~USD' ] }
+ *
+ * The structure of which may change with every adapter, so we need to
+ * use exclude mode to handle dynamically changing properties.
+ */
+export const getSubsId = (subscriptionMsg: AdapterRequest): string =>
+  hash(subscriptionMsg, getHashOpts(), 'exclude')
 
 export interface ConnectionsState {
   total: number
@@ -92,7 +105,7 @@ export const subscriptionsReducer = createReducer<SubscriptionsState>(
   (builder) => {
     builder.addCase(actions.subscribeFulfilled, (state, action) => {
       // Add subscription
-      const key = getSubsId(action.payload.subscriptionMsg, "exclude")
+      const key = getSubsId(action.payload.subscriptionMsg)
       state.all[key] = {
         active: true,
         wasEverActive: true,
@@ -104,7 +117,7 @@ export const subscriptionsReducer = createReducer<SubscriptionsState>(
     })
 
     builder.addCase(actions.subscribeRequested, (state, action) => {
-      const key = getSubsId(action.payload.subscriptionMsg, "exclude")
+      const key = getSubsId(action.payload.subscriptionMsg)
       const isActive = state.all[key]?.active
       if (isActive) return
 
@@ -119,7 +132,7 @@ export const subscriptionsReducer = createReducer<SubscriptionsState>(
 
     builder.addCase(actions.unsubscribeFulfilled, (state, action) => {
       // Remove subscription
-      const key = getSubsId(action.payload.subscriptionMsg, "exclude")
+      const key = getSubsId(action.payload.subscriptionMsg)
 
       state.all[key].active = false
       state.all[key].unsubscribed = true

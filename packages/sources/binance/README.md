@@ -4,22 +4,24 @@ Adapter using the public Binance market API for both HTTP(s) and WS.
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |           Options            | Defaults to |
-| :-------: | :------: | :-----------------: | :--------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [crypto](#Crypto-Endpoint) |   ticker   |
+| Required? |   Name   |     Description     |          Options           | Defaults to |
+| :-------: | :------: | :-----------------: | :------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [crypto](#Crypto-Endpoint) |   ticker    |
 
 ---
 
 ## Crypto Endpoint
+
 ##### NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.
+
 An example endpoint description
 
 ### Input Params
 
-| Required? |            Name            |               Description                |       Options       | Defaults to |
-| :-------: | :------------------------: | :--------------------------------------: | :-----------------: | :---------: |
-|    ✅     | `base`, `from`, or `coin`  |   The symbol of the currency to query    | |             |
-|    ✅     | `quote`, `to`, or `market` | The symbol of the currency to convert to | |             |
+| Required? |            Name            |               Description                | Options | Defaults to |
+| :-------: | :------------------------: | :--------------------------------------: | :-----: | :---------: |
+|    ✅     | `base`, `from`, or `coin`  |   The symbol of the currency to query    |         |             |
+|    ✅     | `quote`, `to`, or `market` | The symbol of the currency to convert to |         |             |
 
 ### Sample Input
 

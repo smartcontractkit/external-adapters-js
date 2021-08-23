@@ -62,10 +62,6 @@
     "N225": "NKY:IND"
   },
   "tiingo": {
-    "MIOTA":"IOTA"
-  },
-  "coinranking": {
-    "BTC": "Qwsogvtv82FCd",
-    "ETH": "razxDUgYGNAdQ"
+    "MIOTA": "IOTA"
   }
 }

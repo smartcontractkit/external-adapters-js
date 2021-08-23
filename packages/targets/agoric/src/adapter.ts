@@ -74,41 +74,41 @@ const executeImpl: ExecuteWithConfig<Config> = async (request, _, config) => {
   })
 }
 
-const tryExecuteLogError = (
-  execute: ExecuteWithConfig<Config>,
-): ExecuteWithConfig<Config> => async (request, context, config) => {
-  try {
-    return await execute(request, context, config)
-  } catch (e) {
-    const queryId: any = request.data?.request_id
-    const rest: any = { queryId }
+const tryExecuteLogError =
+  (execute: ExecuteWithConfig<Config>): ExecuteWithConfig<Config> =>
+  async (request, context, config) => {
+    try {
+      return await execute(request, context, config)
+    } catch (e) {
+      const queryId: any = request.data?.request_id
+      const rest: any = { queryId }
 
-    await Requester.request(
-      {
-        ...config.api,
-        method: 'POST',
-        data: {
-          type: 'oracleServer/error',
-          data: { error: `${(e && e.message) || e}`, ...(queryId && rest) },
+      await Requester.request(
+        {
+          ...config.api,
+          method: 'POST',
+          data: {
+            type: 'oracleServer/error',
+            data: { error: `${(e && e.message) || e}`, ...(queryId && rest) },
+          },
         },
-      },
-      undefined,
-      NUM_RETRIES,
-    ).catch((e2: Error) => console.error(`Cannot reflect error to caller:`, e2))
+        undefined,
+        NUM_RETRIES,
+      ).catch((e2: Error) => console.error(`Cannot reflect error to caller:`, e2))
 
-    // See https://github.com/smartcontractkit/external-adapters-js/issues/204
-    // for discussion of why this code is necessary.
-    if (e instanceof AdapterError) {
-      throw e
+      // See https://github.com/smartcontractkit/external-adapters-js/issues/204
+      // for discussion of why this code is necessary.
+      if (e instanceof AdapterError) {
+        throw e
+      }
+      throw new AdapterError({
+        jobRunID: request.id,
+        statusCode: 500,
+        message: `${(e && e.message) || e}`,
+        cause: e,
+      })
     }
-    throw new AdapterError({
-      jobRunID: request.id,
-      statusCode: 500,
-      message: `${(e && e.message) || e}`,
-      cause: e,
-    })
   }
-}
 
 export const execute = tryExecuteLogError(executeImpl)
 export const makeExecute: ExecuteFactory<Config> = (config) => {
