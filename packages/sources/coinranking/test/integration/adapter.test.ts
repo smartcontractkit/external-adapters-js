@@ -12,19 +12,19 @@ describe('execute', () => {
     const requests = [
       {
         name: 'id not supplied',
-        testData: { data: { base: 'ETH' } },
+        testData: { data: { base: 'ETH', to: 'USD' } },
       },
       {
         name: 'base',
-        testData: { id: jobID, data: { base: 'ETH' } },
+        testData: { id: jobID, data: { base: 'ETH', to: 'USD' } },
       },
       {
         name: 'from',
-        testData: { id: jobID, data: { from: 'ETH' } },
+        testData: { id: jobID, data: { from: 'ETH', to: 'USD' } },
       },
       {
         name: 'coin',
-        testData: { id: jobID, data: { coin: 'ETH' } },
+        testData: { id: jobID, data: { coin: 'ETH', to: 'USD' } },
       },
       {
         name: 'marketcap',
@@ -34,7 +34,7 @@ describe('execute', () => {
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
-        const data = await execute(req.testData as AdapterRequest)
+        const data = await execute(req.testData as AdapterRequest, {})
         assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
         expect(data.result).toBeGreaterThan(0)
         expect(data.data.result).toBeGreaterThan(0)
@@ -48,12 +48,16 @@ describe('execute', () => {
         name: 'unknown base',
         testData: { id: jobID, data: { base: 'not_real', quote: 'USD' } },
       },
+      {
+        name: 'unknown quote',
+        testData: { id: jobID, data: { base: 'BTC', quote: 'not_real' } },
+      },
     ]
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
-          await execute(req.testData as AdapterRequest)
+          await execute(req.testData as AdapterRequest, {})
         } catch (error) {
           const errorResp = Requester.errored(jobID, error)
           assertError({ expected: 500, actual: errorResp.statusCode }, errorResp, jobID)

@@ -4,9 +4,4 @@ import { makeConfig, NAME } from './config'
 
 const server = expose(NAME, makeExecute()).server
 
-export {
-  NAME,
-  makeExecute,
-  makeConfig,
-  server
-}
+export { NAME, makeExecute, makeConfig, server }

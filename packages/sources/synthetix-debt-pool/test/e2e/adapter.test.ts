@@ -11,8 +11,8 @@ describe('execute', () => {
     const requests = [
       {
         name: 'id not supplied',
-        testData: { data: { } },
-      }
+        testData: { data: {} },
+      },
     ]
 
     requests.forEach((req) => {
