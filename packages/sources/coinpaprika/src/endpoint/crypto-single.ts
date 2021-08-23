@@ -5,12 +5,14 @@ import { getCoinIds, getSymbolToId } from '../util'
 
 export const supportedEndpoints = ['crypto-single', 'marketcap-single']
 
-const buildPath = (path: string) => (request: AdapterRequest): string => {
-  const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
-  const quote = validator.validated.data.quote
-  return `quotes.${quote.toUpperCase()}.${path}`
-}
+const buildPath =
+  (path: string) =>
+  (request: AdapterRequest): string => {
+    const validator = new Validator(request, inputParameters)
+    if (validator.error) throw validator.error
+    const quote = validator.validated.data.quote
+    return `quotes.${quote.toUpperCase()}.${path}`
+  }
 
 export const endpointResultPaths = {
   'crypto-single': buildPath('price'),
@@ -37,7 +39,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
   let coin = coinid || (symbol !== validator.validated.data.base && symbol)
   if (!coin) {
     const coinIds = await getCoinIds(context, jobRunID)
-    coin = await getSymbolToId(symbol, coinIds)
+    coin = getSymbolToId(symbol, coinIds)
   }
 
   const url = `v1/tickers/${coin.toLowerCase()}`
