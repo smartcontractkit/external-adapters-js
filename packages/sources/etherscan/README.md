@@ -2,9 +2,9 @@
 
 ### Environment Variables
 
-| Required? |  Name   |                                                        Description                                                         | Options | Defaults to |
-| :-------: | :-----: | :------------------------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
-|     ✅   | API_KEY | An API key that can be obtained [here](https://etherscan.io/apis) |         |             |
+| Required? |  Name   |                            Description                            | Options | Defaults to |
+| :-------: | :-----: | :---------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     | API_KEY | An API key that can be obtained [here](https://etherscan.io/apis) |         |             |
 
 ---
 
@@ -20,19 +20,19 @@
 
 ### Input Params
 
-| Required? |  Name   |    Description    |               Options                | Defaults to |
-| :-------: | :-----: | :---------------: | :----------------------------------: | :---------: |
-|    🟡     | `speed` | The desired speed | `SafeGasPrice`,`ProposeGasPrice`,`FastGasPrice` |  `FastGasPrice`  |
+| Required? |  Name   |    Description    |                     Options                     |  Defaults to   |
+| :-------: | :-----: | :---------------: | :---------------------------------------------: | :------------: |
+|    🟡     | `speed` | The desired speed | `SafeGasPrice`,`ProposeGasPrice`,`FastGasPrice` | `FastGasPrice` |
 
 ### Output Format
 
 ```json
 {
-    "jobRunID": "1",
-    "result": 33,
-    "statusCode": 200,
-    "data": {
-        "result": 33
-    }
+  "jobRunID": "1",
+  "result": 33,
+  "statusCode": 200,
+  "data": {
+    "result": 33
+  }
 }
 ```
