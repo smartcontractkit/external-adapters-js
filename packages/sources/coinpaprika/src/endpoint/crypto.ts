@@ -156,5 +156,10 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     requestedQuotes.toUpperCase(),
     resultPath,
   ])
-  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
+  return Requester.success(
+    jobRunID,
+    Requester.withResult(response, result),
+    config.verbose,
+    batchablePropertyPath,
+  )
 }
