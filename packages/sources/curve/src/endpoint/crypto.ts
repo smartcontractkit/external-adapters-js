@@ -5,6 +5,7 @@ import { ethers, BigNumber } from 'ethers'
 import addressProviderABI from '../abis/address_provider.json'
 import registryExchangesABI from '../abis/registry_exchanges.json'
 import erc20ABI from '../abis/ERC20.json'
+import { Decimal } from 'decimal.js'
 
 export const supportedEndpoints = ['crypto']
 
@@ -47,8 +48,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const [pool, output] = await getBestRate(from, to, amount, config)
 
-  const outputAmount = ethers.utils.formatUnits(output, toDecimals)
-  const rate = Number(outputAmount) / Number(inputAmount)
+  const outputAmount = new Decimal(output.toString()).div(new Decimal(10).pow(toDecimals))
+  const rate = outputAmount.div(inputAmount)
 
   const data: ResponseSchema = {
     pool,
@@ -58,7 +59,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     output: output.toString(),
     outputToken: to,
     outputDecimals: toDecimals,
-    rate,
+    rate: rate.toNumber(),
   }
 
   const response = {
