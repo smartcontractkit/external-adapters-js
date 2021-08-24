@@ -1765,7 +1765,7 @@ __metadata:
     "@types/jest": ^27.0.1
     "@types/node": ^14.14.35
     "@types/supertest": ^2.0.11
-    nock: ^13.1.0
+    nock: ^13.1.2
     supertest: ^6.1.3
     tslib: ^2.3.1
     typescript: ^4.3.5
@@ -1962,6 +1962,25 @@ __metadata:
     "@types/node": ^14.14.35
     tslib: ^2.3.1
     typescript: ^4.3.5
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/curve-adapter@*, @chainlink/curve-adapter@workspace:packages/sources/curve":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/curve-adapter@workspace:packages/sources/curve"
+  dependencies:
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.0.1
+    "@types/jest": ^26.0.22
+    "@types/node": ^14.14.35
+    "@types/supertest": ^2.0.11
+    decimal.js: ^10.3.1
+    ethers: ^5.4.5
+    nock: ^13.1.2
+    supertest: ^6.1.6
+    tslib: ^2.1.0
+    typescript: ^4.2.3
   languageName: unknown
   linkType: soft
 
@@ -2253,6 +2272,7 @@ __metadata:
     "@chainlink/cryptoid-adapter": "*"
     "@chainlink/cryptomkt-adapter": "*"
     "@chainlink/currencylayer-adapter": "*"
+    "@chainlink/curve-adapter": "*"
     "@chainlink/deribit-adapter": "*"
     "@chainlink/dns-query-adapter": "*"
     "@chainlink/dwolla-adapter": "*"
@@ -3178,7 +3198,7 @@ __metadata:
     "@types/node": ^14.14.35
     "@types/supertest": ^2.0.11
     decimal.js: ^10.3.1
-    nock: ^13.1.1
+    nock: ^13.1.2
     supertest: ^6.1.6
     synthetix: 2.45.3
     tslib: ^2.3.1
@@ -15815,7 +15835,7 @@ fsevents@~2.1.1:
   languageName: node
   linkType: hard
 
-"nock@npm:^13.1.0":
+"nock@npm:^13.1.2":
   version: 13.1.2
   resolution: "nock@npm:13.1.2"
   dependencies:
@@ -15824,18 +15844,6 @@ fsevents@~2.1.1:
     lodash.set: ^4.3.2
     propagate: ^2.0.0
   checksum: 61cf123030b86adc202887a7b6588992d751651587cd627d38af2285dde6928577694623777df4585d5838b9a1649264df3c6979983a777885ed4f98320f6e04
-  languageName: node
-  linkType: hard
-
-"nock@npm:^13.1.1":
-  version: 13.1.1
-  resolution: "nock@npm:13.1.1"
-  dependencies:
-    debug: ^4.1.0
-    json-stringify-safe: ^5.0.1
-    lodash.set: ^4.3.2
-    propagate: ^2.0.0
-  checksum: 3acc60893d4da0848f7b1868f8d3c08fb35b90af5df7e4825be5da593f9cc7bb41388bab614058aa27be38404ff002c1073f28ee1f75ee1650694d394c9b8cdc
   languageName: node
   linkType: hard
 

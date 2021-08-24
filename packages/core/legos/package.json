@@ -62,6 +62,7 @@
     "@chainlink/cryptoid-adapter": "*",
     "@chainlink/cryptomkt-adapter": "*",
     "@chainlink/currencylayer-adapter": "*",
+    "@chainlink/curve-adapter": "*",
     "@chainlink/deribit-adapter": "*",
     "@chainlink/dns-query-adapter": "*",
     "@chainlink/dwolla-adapter": "*",
