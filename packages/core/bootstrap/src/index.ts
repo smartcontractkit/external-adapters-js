@@ -138,14 +138,14 @@ export const withDebug: Middleware = async (execute, context) => async (input: A
   return result
 }
 
-export const withNormalizedInput: <C extends Config = Config>(
+export const withNormalizedInput: <C extends Config>(
   endpointSelector?: (request: AdapterRequest) => APIEndpoint<C>,
 ) => Middleware = (endpointSelector) => async (execute, context) => async (input: AdapterRequest) => {
   const normalizedInput = endpointSelector ? normalizeInput(input, endpointSelector(input)) : input
   return execute(normalizedInput, context)
 }
 
-export const makeMiddleware = <C extends Config = Config>(
+export const makeMiddleware = <C extends Config>(
   execute: Execute,
   makeWsHandler?: MakeWSHandler,
   endpointSelector?: (request: AdapterRequest) => APIEndpoint<C>,
@@ -210,7 +210,7 @@ export type ExecuteHandler = {
   server: () => Promise<http.Server>
 }
 
-export const expose = <C extends Config = Config>(
+export const expose = <C extends Config>(
   name: string,
   execute: Execute,
   makeWsHandler?: MakeWSHandler,
