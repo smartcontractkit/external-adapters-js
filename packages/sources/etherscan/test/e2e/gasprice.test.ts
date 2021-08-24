@@ -23,12 +23,18 @@ describe('execute', () => {
           data: { speed: 'fast' },
         },
       },
+      {
+        name: 'empty data',
+        testData: {
+          id: jobID,
+          data: {},
+        },
+      },
     ]
-
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
-        const data = await execute(req.testData)
-        assertSuccess({ expected: 'Ivalid API Key', actual: data.result }, data, jobID)
+        const data = await execute(req.testData as AdapterRequest)
+        assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
         expect(data.data.result).toBeGreaterThan(0)
       })
     })

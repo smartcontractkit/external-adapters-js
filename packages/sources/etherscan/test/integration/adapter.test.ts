@@ -15,10 +15,6 @@ describe('execute', () => {
         testData: {},
       },
       {
-        name: 'empty data',
-        testData: { data: {} },
-      },
-      {
         name: 'no speed param',
         testData: {
           id: jobID,
