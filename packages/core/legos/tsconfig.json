@@ -110,6 +110,9 @@
       "path": "../../sources/currencylayer"
     },
     {
+      "path": "../../sources/curve"
+    },
+    {
       "path": "../../sources/deribit"
     },
     {
@@ -201,6 +204,9 @@
     },
     {
       "path": "../../sources/metalsapi"
+    },
+    {
+      "path": "../../sources/mycryptoapi"
     },
     {
       "path": "../../sources/ncfx"

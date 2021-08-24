@@ -31,6 +31,7 @@ import * as cryptocompare from '@chainlink/cryptocompare-adapter'
 import * as cryptoid from '@chainlink/cryptoid-adapter'
 import * as cryptomkt from '@chainlink/cryptomkt-adapter'
 import * as currencylayer from '@chainlink/currencylayer-adapter'
+import * as curve from '@chainlink/curve-adapter'
 import * as deribit from '@chainlink/deribit-adapter'
 import * as dns_query from '@chainlink/dns-query-adapter'
 import * as dwolla from '@chainlink/dwolla-adapter'
@@ -62,6 +63,7 @@ import * as lition from '@chainlink/lition-adapter'
 import * as marketstack from '@chainlink/marketstack-adapter'
 import * as messari from '@chainlink/messari-adapter'
 import * as metalsapi from '@chainlink/metalsapi-adapter'
+import * as mycryptoapi from '@chainlink/mycryptoapi-adapter'
 import * as ncfx from '@chainlink/ncfx-adapter'
 import * as nikkei from '@chainlink/nikkei-adapter'
 import * as nomics from '@chainlink/nomics-adapter'
@@ -127,6 +129,7 @@ export default {
   cryptoid,
   cryptomkt,
   currencylayer,
+  curve,
   deribit,
   dns_query,
   dwolla,
@@ -158,6 +161,7 @@ export default {
   marketstack,
   messari,
   metalsapi,
+  mycryptoapi,
   ncfx,
   nikkei,
   nomics,
