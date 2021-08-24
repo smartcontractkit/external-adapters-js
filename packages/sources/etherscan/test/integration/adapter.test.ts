@@ -8,34 +8,6 @@ describe('execute', () => {
   const execute = makeExecute()
   process.env.API_KEY = process.env.API_KEY ?? 'test_api_key'
 
-  describe('successful calls @integration', () => {
-    const requests = [
-      {
-        name: 'id not supplied',
-        testData: {
-          data: {
-            speed: 'FastGasPrice',
-          },
-        },
-      },
-      {
-        name: 'speed is FastGasPrice',
-        testData: {
-          id: jobID,
-          data: { speed: 'FastGasPrice' },
-        },
-      },
-    ]
-
-    requests.forEach((req) => {
-      it(`${req.name}`, async () => {
-        const data = await execute(req.testData as AdapterRequest)
-        assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
-        expect(data.data.result).toBeGreaterThan(0)
-      })
-    })
-  })
-
   describe('validation error', () => {
     const requests = [
       {

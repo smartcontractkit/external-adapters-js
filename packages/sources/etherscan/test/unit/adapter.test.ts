@@ -11,10 +11,6 @@ describe('execute', () => {
   describe('validation error', () => {
     const requests = [
       {
-        name: 'empty body',
-        testData: {},
-      },
-      {
         name: 'empty data',
         testData: { data: {} },
       },
@@ -26,7 +22,7 @@ describe('execute', () => {
           await execute(req.testData as AdapterRequest)
         } catch (error) {
           const errorResp = Requester.errored(jobID, error)
-          assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
+          assertError({ expected: 500, actual: errorResp.statusCode }, errorResp, jobID)
         }
       })
     })
