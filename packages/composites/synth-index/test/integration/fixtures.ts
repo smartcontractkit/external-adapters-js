@@ -7,7 +7,7 @@ export function mockCoingeckoResponseSuccess() {
       data: {
         base: 'COMP',
         quote: 'USD',
-        endpoint: 'price',
+        endpoint: 'crypto',
       },
     })
     .reply(
@@ -51,7 +51,7 @@ export function mockCoingeckoResponseSuccess() {
       data: {
         base: 'LUNA',
         quote: 'USD',
-        endpoint: 'price',
+        endpoint: 'crypto',
       },
     })
     .reply(
@@ -95,7 +95,7 @@ export function mockCoingeckoResponseSuccess() {
       data: {
         base: 'SUSHI',
         quote: 'USD',
-        endpoint: 'price',
+        endpoint: 'crypto',
       },
     })
     .reply(
@@ -139,7 +139,7 @@ export function mockCoingeckoResponseSuccess() {
       data: {
         base: 'ZRX',
         quote: 'USD',
-        endpoint: 'price',
+        endpoint: 'crypto',
       },
     })
     .reply(
@@ -183,7 +183,7 @@ export function mockCoingeckoResponseSuccess() {
       data: {
         base: 'SNX',
         quote: 'USD',
-        endpoint: 'price',
+        endpoint: 'crypto',
       },
     })
     .reply(
@@ -227,7 +227,7 @@ export function mockCoingeckoResponseSuccess() {
       data: {
         base: 'UNI',
         quote: 'USD',
-        endpoint: 'price',
+        endpoint: 'crypto',
       },
     })
     .reply(
@@ -271,7 +271,7 @@ export function mockCoingeckoResponseSuccess() {
       data: {
         base: 'ALPHA',
         quote: 'USD',
-        endpoint: 'price',
+        endpoint: 'crypto',
       },
     })
     .reply(
@@ -315,7 +315,7 @@ export function mockCoingeckoResponseSuccess() {
       data: {
         base: 'AAVE',
         quote: 'USD',
-        endpoint: 'price',
+        endpoint: 'crypto',
       },
     })
     .reply(
@@ -359,7 +359,7 @@ export function mockCoingeckoResponseSuccess() {
       data: {
         base: 'RUNE',
         quote: 'USD',
-        endpoint: 'price',
+        endpoint: 'crypto',
       },
     })
     .reply(
@@ -403,7 +403,7 @@ export function mockCoingeckoResponseSuccess() {
       data: {
         base: 'BOND',
         quote: 'USD',
-        endpoint: 'price',
+        endpoint: 'crypto',
       },
     })
     .reply(
@@ -447,7 +447,7 @@ export function mockCoingeckoResponseSuccess() {
       data: {
         base: 'UMA',
         quote: 'USD',
-        endpoint: 'price',
+        endpoint: 'crypto',
       },
     })
     .reply(
@@ -491,7 +491,7 @@ export function mockCoingeckoResponseSuccess() {
       data: {
         base: 'BAL',
         quote: 'USD',
-        endpoint: 'price',
+        endpoint: 'crypto',
       },
     })
     .reply(
@@ -535,7 +535,7 @@ export function mockCoingeckoResponseSuccess() {
       data: {
         base: 'CREAM',
         quote: 'USD',
-        endpoint: 'price',
+        endpoint: 'crypto',
       },
     })
     .reply(
@@ -579,7 +579,7 @@ export function mockCoingeckoResponseSuccess() {
       data: {
         base: 'MKR',
         quote: 'USD',
-        endpoint: 'price',
+        endpoint: 'crypto',
       },
     })
     .reply(
@@ -623,7 +623,7 @@ export function mockCoingeckoResponseSuccess() {
       data: {
         base: 'BNT',
         quote: 'USD',
-        endpoint: 'price',
+        endpoint: 'crypto',
       },
     })
     .reply(
@@ -667,7 +667,7 @@ export function mockCoingeckoResponseSuccess() {
       data: {
         base: 'CRV',
         quote: 'USD',
-        endpoint: 'price',
+        endpoint: 'crypto',
       },
     })
     .reply(
@@ -711,7 +711,7 @@ export function mockCoingeckoResponseSuccess() {
       data: {
         base: '1INCH',
         quote: 'USD',
-        endpoint: 'price',
+        endpoint: 'crypto',
       },
     })
     .reply(
@@ -755,7 +755,7 @@ export function mockCoingeckoResponseSuccess() {
       data: {
         base: 'REN',
         quote: 'USD',
-        endpoint: 'price',
+        endpoint: 'crypto',
       },
     })
     .reply(
@@ -799,7 +799,7 @@ export function mockCoingeckoResponseSuccess() {
       data: {
         base: 'KNC',
         quote: 'USD',
-        endpoint: 'price',
+        endpoint: 'crypto',
       },
     })
     .reply(
@@ -843,7 +843,7 @@ export function mockCoingeckoResponseSuccess() {
       data: {
         base: 'YFI',
         quote: 'USD',
-        endpoint: 'price',
+        endpoint: 'crypto',
       },
     })
     .reply(
@@ -918,7 +918,7 @@ export function mockCoingeckoResponseFailureRedis(postInitialFailures = 2) {
           'ALPHA',
         ],
         quote: 'USD',
-        endpoint: 'price',
+        endpoint: 'crypto',
       },
     })
     .reply(
@@ -975,7 +975,7 @@ export function mockCoingeckoResponseFailureRedis(postInitialFailures = 2) {
           'ALPHA',
         ],
         quote: 'USD',
-        endpoint: 'price',
+        endpoint: 'crypto',
       },
     })
     .times(postInitialFailures)
