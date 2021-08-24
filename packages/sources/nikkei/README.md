@@ -9,7 +9,9 @@
 ---
 
 ## Stock Endpoint
+
 ##### NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `stock` endpoint instead.
+
 ### Input Params
 
 | Required? |           Name            |           Description            |                           Options                           | Defaults to |

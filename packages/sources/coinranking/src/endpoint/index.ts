@@ -1,1 +1,1 @@
-export * as coin from './coin'
+export * as crypto from './crypto'

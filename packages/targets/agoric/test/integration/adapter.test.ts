@@ -118,7 +118,7 @@ describe('execute', () => {
           const app = express()
           app.use(express.json())
           app.post('/api/oracle', (req, res) => {
-            const a = (req.body as unknown) as Action
+            const a = req.body as unknown as Action
             sends.push(a)
             const { queryId } = (a.data as { queryId?: string }) || {}
             if (a.type === 'oracleServer/reply' && queryId === 'bad') {

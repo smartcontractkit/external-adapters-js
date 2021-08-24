@@ -11,14 +11,16 @@ The adapter takes the following environment variables:
 
 ### Input Parameters
 
-| Required? |    Name    |     Description     |                                         Options                                          | Defaults to |
-| :-------: | :--------: | :-----------------: | :--------------------------------------------------------------------------------------: | :---------: |
-|           | `endpoint` | The endpoint to use | [crypto](#Crypto-Endpoint), [balance](#Balance-Endpoint), [marketcap](#MarketCap-Endpoint) |   `crypto`   |
+| Required? |    Name    |     Description     |                                          Options                                           | Defaults to |
+| :-------: | :--------: | :-----------------: | :----------------------------------------------------------------------------------------: | :---------: |
+|           | `endpoint` | The endpoint to use | [crypto](#Crypto-Endpoint), [balance](#Balance-Endpoint), [marketcap](#MarketCap-Endpoint) |  `crypto`   |
 
 ---
 
 ## Crypto Endpoint
+
 ##### NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.
+
 Gets the [latest spot VWAP price](https://docs.amberdata.io/reference#spot-price-pair-latest) from Amberdata.
 
 ### Input Params
@@ -229,9 +231,9 @@ Gets the asset USD Market Cap from Amberdata.
 
 ### Input Params
 
-| Required? |    Name    |               Description                |               Options                |    Defaults to     |
-| :-------: | :--------: | :--------------------------------------: | :----------------------------------: | :----------------: |
-|    🟡     |  `speed`   |            The desired speed             | `safeLow`,`average`,`fast`,`fastest` |     `average`      |
+| Required? |     Name     |               Description                |               Options                |    Defaults to     |
+| :-------: | :----------: | :--------------------------------------: | :----------------------------------: | :----------------: |
+|    🟡     |   `speed`    |            The desired speed             | `safeLow`,`average`,`fast`,`fastest` |     `average`      |
 |    🟡     | `blockchain` | The blockchain id to get gas prices from |                                      | `ethereum-mainnet` |
 
 ## Output

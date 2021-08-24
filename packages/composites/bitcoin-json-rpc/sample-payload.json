@@ -1,5 +1,7 @@
 {
-  "requests": [{
-    "endpoint": "difficulty"
-  }]
+  "requests": [
+    {
+      "endpoint": "difficulty"
+    }
+  ]
 }

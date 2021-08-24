@@ -30,7 +30,7 @@ export function loadTestPayload(): TestPayload {
         type: 'array',
         items: {
           type: 'object',
-          required: []
+          required: [],
         },
       },
     },

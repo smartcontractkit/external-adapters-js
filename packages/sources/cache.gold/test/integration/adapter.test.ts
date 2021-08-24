@@ -15,7 +15,7 @@ describe('execute', () => {
       },
       {
         name: 'lokedGold',
-        testData: { data: { endpoint: "lockedGold"} },
+        testData: { data: { endpoint: 'lockedGold' } },
       },
     ]
 

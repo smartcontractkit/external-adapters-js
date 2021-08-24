@@ -6,24 +6,24 @@ import { makeExecute } from '../../src/adapter'
 describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
-  
+
   beforeAll(() => {
-    process.env.RPC_URL = process.env.RPC_URL || "fake-rpc-url"
+    process.env.RPC_URL = process.env.RPC_URL || 'fake-rpc-url'
   })
 
   describe('validation error', () => {
     const requests = [
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },
-      { 
-        name: 'empty pairContractAddress', 
-        testData: { 
+      {
+        name: 'empty pairContractAddress',
+        testData: {
           jobID: 1,
           data: {
-            "source": "tiingo"
-          } 
+            source: 'tiingo',
+          },
         },
-      }
+      },
     ]
 
     requests.forEach((req) => {
