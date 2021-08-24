@@ -2,25 +2,19 @@ import { AdapterRequest } from '@chainlink/types'
 import { omit } from 'lodash'
 import { AnyAction } from 'redux'
 import { combineEpics, createEpicMiddleware, Epic } from 'redux-observable'
+import { from, merge, of, partition, race, timer } from 'rxjs'
 import {
   catchError,
   delay,
   filter,
-  from,
   map,
   mapTo,
-  merge,
   mergeMap,
-  of,
-  partition,
-  race,
   take,
   takeUntil,
-  timer,
   withLatestFrom,
-} from 'rxjs'
+} from 'rxjs/operators'
 import { RootState } from '../..'
-import { getTTL } from '../cache/ttl'
 import {
   warmupExecute,
   warmupFailed,
@@ -33,8 +27,9 @@ import {
   warmupSubscriptionTimeoutReset,
   warmupUnsubscribed,
 } from './actions'
-import { Config, get, WARMUP_BATCH_REQUEST_ID, WARMUP_REQUEST_ID } from './config'
+import { Config, get, WARMUP_REQUEST_ID, WARMUP_BATCH_REQUEST_ID } from './config'
 import { concatenateBatchResults, getSubscriptionKey, splitIntoBatches } from './util'
+import { getTTL } from '../cache/ttl'
 
 export interface EpicDependencies {
   config: Config

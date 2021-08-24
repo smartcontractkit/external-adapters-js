@@ -39,6 +39,7 @@ import * as dxfeed_secondary from '@chainlink/dxfeed-secondary-adapter'
 import * as eodhistoricaldata from '@chainlink/eodhistoricaldata-adapter'
 import * as etherchain from '@chainlink/etherchain-adapter'
 import * as ethgasstation from '@chainlink/ethgasstation-adapter'
+import * as ethgaswatch from '@chainlink/ethgaswatch-adapter'
 import * as expert_car_broker from '@chainlink/expert-car-broker-adapter'
 import * as fcsapi from '@chainlink/fcsapi-adapter'
 import * as finage from '@chainlink/finage-adapter'
@@ -53,6 +54,7 @@ import * as iex_adapter from '@chainlink/iex-cloud-adapter'
 import * as intrinio from '@chainlink/intrinio-adapter'
 import * as json_adapter from '@chainlink/json-rpc-adapter'
 import * as kaiko from '@chainlink/kaiko-adapter'
+import * as layer2_sequencer_health from '@chainlink/layer2-sequencer-health-adapter'
 import * as lcx from '@chainlink/lcx-adapter'
 import * as linkpool from '@chainlink/linkpool-adapter'
 import * as lition from '@chainlink/lition-adapter'
@@ -85,6 +87,7 @@ import * as tradingeconomics from '@chainlink/tradingeconomics-adapter'
 import * as trueusd from '@chainlink/trueusd-adapter'
 import * as twelvedata from '@chainlink/twelvedata-adapter'
 import * as unibit from '@chainlink/unibit-adapter'
+import * as upvest from '@chainlink/upvest-adapter'
 import * as wbtc_adapter_address from '@chainlink/wbtc-address-set-adapter'
 import * as wootrade from '@chainlink/wootrade-adapter'
 import * as xbto from '@chainlink/xbto-adapter'
@@ -131,6 +134,7 @@ export default {
   eodhistoricaldata,
   etherchain,
   ethgasstation,
+  ethgaswatch,
   expert_car_broker,
   fcsapi,
   finage,
@@ -145,6 +149,7 @@ export default {
   intrinio,
   json_adapter,
   kaiko,
+  layer2_sequencer_health,
   lcx,
   linkpool,
   lition,
@@ -177,6 +182,7 @@ export default {
   trueusd,
   twelvedata,
   unibit,
+  upvest,
   wbtc_adapter_address,
   wootrade,
   xbto,

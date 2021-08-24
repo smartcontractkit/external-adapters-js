@@ -303,6 +303,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/ethgasstation"
       },
       {
+        "name": "@chainlink/ethgaswatch-adapter",
+        "reference": "workspace:packages/sources/ethgaswatch"
+      },
+      {
         "name": "@chainlink/expert-car-broker-adapter",
         "reference": "workspace:packages/sources/expert-car-broker"
       },
@@ -491,6 +495,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/unibit"
       },
       {
+        "name": "@chainlink/upvest-adapter",
+        "reference": "workspace:packages/sources/upvest"
+      },
+      {
         "name": "@chainlink/wbtc-address-set-adapter",
         "reference": "workspace:packages/sources/wbtc-address-set"
       },
@@ -584,6 +592,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/eodhistoricaldata-adapter", ["workspace:packages/sources/eodhistoricaldata"]],
       ["@chainlink/etherchain-adapter", ["workspace:packages/sources/etherchain"]],
       ["@chainlink/ethgasstation-adapter", ["workspace:packages/sources/ethgasstation"]],
+      ["@chainlink/ethgaswatch-adapter", ["workspace:packages/sources/ethgaswatch"]],
       ["@chainlink/ethwrite-adapter", ["workspace:packages/targets/ethwrite"]],
       ["@chainlink/example-composite-adapter", ["workspace:packages/examples/composite"]],
       ["@chainlink/example-source-adapter", ["workspace:packages/examples/source"]],
@@ -647,6 +656,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/twelvedata-adapter", ["workspace:packages/sources/twelvedata"]],
       ["@chainlink/types", ["workspace:packages/core/types/@chainlink"]],
       ["@chainlink/unibit-adapter", ["workspace:packages/sources/unibit"]],
+      ["@chainlink/upvest-adapter", ["workspace:packages/sources/upvest"]],
       ["@chainlink/vesper-adapter", ["workspace:packages/composites/vesper"]],
       ["@chainlink/wbtc-address-set-adapter", ["workspace:packages/sources/wbtc-address-set"]],
       ["@chainlink/wootrade-adapter", ["workspace:packages/sources/wootrade"]],
@@ -4061,6 +4071,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/eodhistoricaldata-adapter", "workspace:packages/sources/eodhistoricaldata"],
             ["@chainlink/etherchain-adapter", "workspace:packages/sources/etherchain"],
             ["@chainlink/ethgasstation-adapter", "workspace:packages/sources/ethgasstation"],
+            ["@chainlink/ethgaswatch-adapter", "workspace:packages/sources/ethgaswatch"],
             ["@chainlink/expert-car-broker-adapter", "workspace:packages/sources/expert-car-broker"],
             ["@chainlink/fcsapi-adapter", "workspace:packages/sources/fcsapi"],
             ["@chainlink/finage-adapter", "workspace:packages/sources/finage"],
@@ -4075,6 +4086,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/intrinio-adapter", "workspace:packages/sources/intrinio"],
             ["@chainlink/json-rpc-adapter", "workspace:packages/sources/json-rpc"],
             ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],
+            ["@chainlink/layer2-sequencer-health-adapter", "workspace:packages/sources/layer2-sequencer-health"],
             ["@chainlink/lcx-adapter", "workspace:packages/sources/lcx"],
             ["@chainlink/linkpool-adapter", "workspace:packages/sources/linkpool"],
             ["@chainlink/lition-adapter", "workspace:packages/sources/lition"],
@@ -4107,6 +4119,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/trueusd-adapter", "workspace:packages/sources/trueusd"],
             ["@chainlink/twelvedata-adapter", "workspace:packages/sources/twelvedata"],
             ["@chainlink/unibit-adapter", "workspace:packages/sources/unibit"],
+            ["@chainlink/upvest-adapter", "workspace:packages/sources/upvest"],
             ["@chainlink/wbtc-address-set-adapter", "workspace:packages/sources/wbtc-address-set"],
             ["@chainlink/wootrade-adapter", "workspace:packages/sources/wootrade"],
             ["@chainlink/xbto-adapter", "workspace:packages/sources/xbto"],
@@ -4158,14 +4171,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["redis", "npm:3.1.2"],
             ["redux", "npm:4.1.1"],
             ["redux-logger", "npm:3.0.6"],
-            ["redux-observable", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:2.0.0"],
+            ["redux-observable", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:1.2.0"],
             ["remote-redux-devtools", "npm:0.5.16"],
-            ["rxjs", "npm:7.3.0"],
+            ["rxjs", "npm:6.6.7"],
             ["sinon", "npm:11.1.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"],
             ["uuid", "npm:8.3.2"],
-            ["ws", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:8.2.0"]
+            ["ws", "virtual:01f99942f87fb5a453dea6f1ff7c3dc60a77e779ffd67aa8b513dd2357ab136601510034533c60ab4783e872e705d0f8b4c8517479d5d9c0dba7518ff1c3c6f9#npm:7.5.3"]
           ],
           "linkType": "SOFT",
         }]
@@ -4283,6 +4296,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.1"],
+            ["@types/node", "npm:14.17.7"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/ethgaswatch-adapter", [
+        ["workspace:packages/sources/ethgaswatch", {
+          "packageLocation": "./packages/sources/ethgaswatch/",
+          "packageDependencies": [
+            ["@chainlink/ethgaswatch-adapter", "workspace:packages/sources/ethgaswatch"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
@@ -5383,6 +5412,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.1"],
+            ["@types/node", "npm:14.17.7"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/upvest-adapter", [
+        ["workspace:packages/sources/upvest", {
+          "packageLocation": "./packages/sources/upvest/",
+          "packageDependencies": [
+            ["@chainlink/upvest-adapter", "workspace:packages/sources/upvest"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
@@ -6602,6 +6647,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@jest/types", [
+        ["npm:26.6.2", {
+          "packageLocation": "./.yarn/cache/@jest-types-npm-26.6.2-fca9877d98-a0bd3d2f22.zip/node_modules/@jest/types/",
+          "packageDependencies": [
+            ["@jest/types", "npm:26.6.2"],
+            ["@types/istanbul-lib-coverage", "npm:2.0.3"],
+            ["@types/istanbul-reports", "npm:3.0.1"],
+            ["@types/node", "npm:16.6.1"],
+            ["@types/yargs", "npm:15.0.14"],
+            ["chalk", "npm:4.1.2"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:27.0.6", {
           "packageLocation": "./.yarn/cache/@jest-types-npm-27.0.6-507453b10b-abe367b073.zip/node_modules/@jest/types/",
           "packageDependencies": [
@@ -7119,7 +7176,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.6.1"],
             ["bignumber.js", "npm:9.0.1"],
             ["bn.js", "npm:5.2.0"],
-            ["bs58", "npm:4.0.1"],
             ["ethers", "npm:5.4.5"],
             ["immutable", "npm:4.0.0-rc.14"]
           ],
@@ -7136,7 +7192,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@renproject/utils", "npm:2.5.1"],
             ["@types/node", "npm:16.6.1"],
             ["bignumber.js", "npm:9.0.1"],
-            ["bn.js", "npm:5.2.0"],
             ["immutable", "npm:4.0.0-rc.14"]
           ],
           "linkType": "HARD",
@@ -7158,7 +7213,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ethers", "npm:5.4.5"],
             ["events", "npm:3.3.0"],
             ["immutable", "npm:4.0.0-rc.14"],
-            ["keccak", "npm:3.0.1"]
+            ["keccak", "npm:3.0.1"],
+            ["web3-utils", "npm:1.5.0"]
           ],
           "linkType": "HARD",
         }]
@@ -7984,6 +8040,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@types/jest", [
+        ["npm:26.0.24", {
+          "packageLocation": "./.yarn/cache/@types-jest-npm-26.0.24-47c570294f-ae39675412.zip/node_modules/@types/jest/",
+          "packageDependencies": [
+            ["@types/jest", "npm:26.0.24"],
+            ["jest-diff", "npm:26.6.2"],
+            ["pretty-format", "npm:26.6.2"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:27.0.1", {
           "packageLocation": "./.yarn/cache/@types-jest-npm-27.0.1-a860f5c797-972aaae341.zip/node_modules/@types/jest/",
           "packageDependencies": [
@@ -8438,6 +8503,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@types/yargs", [
+        ["npm:15.0.14", {
+          "packageLocation": "./.yarn/cache/@types-yargs-npm-15.0.14-07ba249dbb-8e358aeb8f.zip/node_modules/@types/yargs/",
+          "packageDependencies": [
+            ["@types/yargs", "npm:15.0.14"],
+            ["@types/yargs-parser", "npm:20.2.1"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:16.0.4", {
           "packageLocation": "./.yarn/cache/@types-yargs-npm-16.0.4-7aaef7d6c8-caa21d2c95.zip/node_modules/@types/yargs/",
           "packageDependencies": [
@@ -12445,6 +12518,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["diff-sequences", [
+        ["npm:26.6.2", {
+          "packageLocation": "./.yarn/cache/diff-sequences-npm-26.6.2-fbf1967570-79af871776.zip/node_modules/diff-sequences/",
+          "packageDependencies": [
+            ["diff-sequences", "npm:26.6.2"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:27.0.6", {
           "packageLocation": "./.yarn/cache/diff-sequences-npm-27.0.6-1eed05107b-f35ad024d4.zip/node_modules/diff-sequences/",
           "packageDependencies": [
@@ -16612,6 +16692,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["jest-diff", [
+        ["npm:26.6.2", {
+          "packageLocation": "./.yarn/cache/jest-diff-npm-26.6.2-06ca2a96ca-d00d297f31.zip/node_modules/jest-diff/",
+          "packageDependencies": [
+            ["jest-diff", "npm:26.6.2"],
+            ["chalk", "npm:4.1.2"],
+            ["diff-sequences", "npm:26.6.2"],
+            ["jest-get-type", "npm:26.3.0"],
+            ["pretty-format", "npm:26.6.2"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:27.0.6", {
           "packageLocation": "./.yarn/cache/jest-diff-npm-27.0.6-8b8d599514-387e3cdeb2.zip/node_modules/jest-diff/",
           "packageDependencies": [
@@ -16680,6 +16771,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["jest-get-type", [
+        ["npm:26.3.0", {
+          "packageLocation": "./.yarn/cache/jest-get-type-npm-26.3.0-a481f14d96-1cc6465ae4.zip/node_modules/jest-get-type/",
+          "packageDependencies": [
+            ["jest-get-type", "npm:26.3.0"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:27.0.6", {
           "packageLocation": "./.yarn/cache/jest-get-type-npm-27.0.6-635fb783d0-2d4c1381bb.zip/node_modules/jest-get-type/",
           "packageDependencies": [
@@ -21050,6 +21148,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["pretty-format", [
+        ["npm:26.6.2", {
+          "packageLocation": "./.yarn/cache/pretty-format-npm-26.6.2-6edfcf7149-e3b808404d.zip/node_modules/pretty-format/",
+          "packageDependencies": [
+            ["pretty-format", "npm:26.6.2"],
+            ["@jest/types", "npm:26.6.2"],
+            ["ansi-regex", "npm:5.0.0"],
+            ["ansi-styles", "npm:4.3.0"],
+            ["react-is", "npm:17.0.2"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:27.0.6", {
           "packageLocation": "./.yarn/cache/pretty-format-npm-27.0.6-c71fc37c41-1584f7fe29.zip/node_modules/pretty-format/",
           "packageDependencies": [
@@ -21822,25 +21931,27 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["redux-observable", [
-        ["npm:2.0.0", {
-          "packageLocation": "./.yarn/cache/redux-observable-npm-2.0.0-54e611aff8-ad5c23019e.zip/node_modules/redux-observable/",
+        ["npm:1.2.0", {
+          "packageLocation": "./.yarn/cache/redux-observable-npm-1.2.0-46cb237dc3-37ae9622fc.zip/node_modules/redux-observable/",
           "packageDependencies": [
-            ["redux-observable", "npm:2.0.0"]
+            ["redux-observable", "npm:1.2.0"]
           ],
           "linkType": "SOFT",
         }],
-        ["virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:2.0.0", {
-          "packageLocation": "./.yarn/__virtual__/redux-observable-virtual-238676005d/0/cache/redux-observable-npm-2.0.0-54e611aff8-ad5c23019e.zip/node_modules/redux-observable/",
+        ["virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:1.2.0", {
+          "packageLocation": "./.yarn/__virtual__/redux-observable-virtual-248426f337/0/cache/redux-observable-npm-1.2.0-46cb237dc3-37ae9622fc.zip/node_modules/redux-observable/",
           "packageDependencies": [
-            ["redux-observable", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:2.0.0"],
+            ["redux-observable", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:1.2.0"],
             ["@types/redux", null],
+            ["@types/rxjs", null],
             ["redux", "npm:4.1.1"],
-            ["rxjs", "npm:7.3.0"],
-            ["tslib", "npm:2.1.0"]
+            ["rxjs", "npm:6.6.7"]
           ],
           "packagePeers": [
             "@types/redux",
-            "redux"
+            "@types/rxjs",
+            "redux",
+            "rxjs"
           ],
           "linkType": "HARD",
         }]
@@ -22385,14 +22496,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["rxjs", "npm:6.6.7"],
             ["tslib", "npm:1.14.1"]
-          ],
-          "linkType": "HARD",
-        }],
-        ["npm:7.3.0", {
-          "packageLocation": "./.yarn/cache/rxjs-npm-7.3.0-8a14d1c3d9-e63adb8808.zip/node_modules/rxjs/",
-          "packageDependencies": [
-            ["rxjs", "npm:7.3.0"],
-            ["tslib", "npm:2.1.0"]
           ],
           "linkType": "HARD",
         }]
@@ -24430,13 +24533,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["npm:2.1.0", {
-          "packageLocation": "./.yarn/cache/tslib-npm-2.1.0-81c9ac9b82-aa189c8179.zip/node_modules/tslib/",
-          "packageDependencies": [
-            ["tslib", "npm:2.1.0"]
-          ],
-          "linkType": "HARD",
-        }],
         ["npm:2.3.1", {
           "packageLocation": "./.yarn/cache/tslib-npm-2.3.1-0e21e18015-de17a98d46.zip/node_modules/tslib/",
           "packageDependencies": [
@@ -25406,7 +25502,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/web3-eth-npm-1.5.0-0b138bf802-3e1010e64e.zip/node_modules/web3-eth/",
           "packageDependencies": [
             ["web3-eth", "npm:1.5.0"],
-            ["lodash", "npm:4.17.21"],
+            ["bs58", "npm:4.0.1"],
             ["web3-core", "npm:1.5.0"],
             ["web3-core-helpers", "npm:1.5.0"],
             ["web3-core-method", "npm:1.5.0"],
@@ -26037,34 +26133,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "SOFT",
         }],
-        ["npm:8.2.0", {
-          "packageLocation": "./.yarn/cache/ws-npm-8.2.0-2947217175-7cd544312a.zip/node_modules/ws/",
-          "packageDependencies": [
-            ["ws", "npm:8.2.0"]
-          ],
-          "linkType": "SOFT",
-        }],
         ["virtual:01f99942f87fb5a453dea6f1ff7c3dc60a77e779ffd67aa8b513dd2357ab136601510034533c60ab4783e872e705d0f8b4c8517479d5d9c0dba7518ff1c3c6f9#npm:7.5.3", {
           "packageLocation": "./.yarn/__virtual__/ws-virtual-685817a567/0/cache/ws-npm-7.5.3-3a046a0b1a-423dc0d859.zip/node_modules/ws/",
           "packageDependencies": [
             ["ws", "virtual:01f99942f87fb5a453dea6f1ff7c3dc60a77e779ffd67aa8b513dd2357ab136601510034533c60ab4783e872e705d0f8b4c8517479d5d9c0dba7518ff1c3c6f9#npm:7.5.3"],
-            ["@types/bufferutil", null],
-            ["@types/utf-8-validate", null],
-            ["bufferutil", null],
-            ["utf-8-validate", null]
-          ],
-          "packagePeers": [
-            "@types/bufferutil",
-            "@types/utf-8-validate",
-            "bufferutil",
-            "utf-8-validate"
-          ],
-          "linkType": "HARD",
-        }],
-        ["virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:8.2.0", {
-          "packageLocation": "./.yarn/__virtual__/ws-virtual-c28b20311f/0/cache/ws-npm-8.2.0-2947217175-7cd544312a.zip/node_modules/ws/",
-          "packageDependencies": [
-            ["ws", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:8.2.0"],
             ["@types/bufferutil", null],
             ["@types/utf-8-validate", null],
             ["bufferutil", null],
