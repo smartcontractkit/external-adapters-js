@@ -45,8 +45,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const amount = BigNumber.from(inputAmount).mul(BigNumber.from(10).pow(fromDecimals))
   const resultPath = validator.validated.data.resultPath
 
-  const out = await getBestRate(from, to, amount, config)
-  const [pool, output] = out
+  const [pool, output] = await getBestRate(from, to, amount, config)
 
   const outputAmount = ethers.utils.formatUnits(output, toDecimals)
   const rate = Number(outputAmount) / Number(inputAmount)
@@ -74,6 +73,19 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }
 
+// getTokenDetails will find the address and number of decimal for a token.
+// `direction` is used to get the params in the request:
+//   - `{direction}` is the symbol of the token (to find pre-set token details)
+//   - `{direction}Address` is the token address as set in the request
+//   - `{direction}Decimals` is the number of decimals for the token as set in the request
+// The order of operations is as follows:
+//   address:
+//     1. Check if the address was provided in the request.
+//     2. If not, check the symbol in the request to see if we have pre-set the address for this symbol/network.
+//     3. If not, we assume the symbol param was actually the address.
+//   decimals:
+//     1. Check if the number of decimals was provided in the request.
+//     2. Query the contract at the address found above to see how many decimals it's set to.
 const getTokenDetails = async (
   validator: Validator,
   direction: string,
@@ -93,17 +105,15 @@ const getTokenDetails = async (
   return { address, decimals }
 }
 
-const getDecimals = async (address: string, config: Config): Promise<number> => {
-  const token = new ethers.Contract(address, erc20ABI, config.provider)
-  return await token.decimals()
-}
+const getDecimals = async (address: string, config: Config): Promise<number> =>
+  new ethers.Contract(address, erc20ABI, config.provider).decimals()
 
 const getBestRate = async (
   from: string,
   to: string,
   amount: BigNumber,
   config: Config,
-): Promise<[string, BigNumber]> => {
+): Promise<[pool: string, output: BigNumber]> => {
   const provider = new ethers.Contract(
     config.addressProviderAddress,
     addressProviderABI,

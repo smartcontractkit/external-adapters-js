@@ -1,13 +1,13 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { assertError, assertSuccess } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
-import { makeExecute } from '../../src/adapter'
+import { makeExecute } from '../../src'
 
 describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
 
-  describe('successful calls @e2e', () => {
+  describe('successful calls', () => {
     const requests = [
       {
         name: 'id not supplied',
@@ -48,7 +48,6 @@ describe('execute', () => {
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         const data = await execute(req.testData as AdapterRequest, {})
-        console.log(data)
         assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
         expect(data.result).toBeGreaterThan(0)
         expect(data.data.result).toBeGreaterThan(0)
@@ -56,7 +55,7 @@ describe('execute', () => {
     })
   })
 
-  describe('error calls @e2e', () => {
+  describe('error calls', () => {
     const requests = [
       {
         name: 'unknown base',
