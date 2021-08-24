@@ -5720,17 +5720,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sinonjs/samsam@npm:^6.0.2":
-  version: 6.0.2
-  resolution: "@sinonjs/samsam@npm:6.0.2"
-  dependencies:
-    "@sinonjs/commons": ^1.6.0
-    lodash.get: ^4.4.2
-    type-detect: ^4.0.8
-  checksum: bc1514edf15f4fa42a1bf27024b15f87654deb2999045c0e427659ff3c734eba44661fceae3624be23cc15ee9c6ddafe5209af2192845c6b267350b54eed1495
-  languageName: node
-  linkType: hard
-
 "@sinonjs/text-encoding@npm:^0.7.1":
   version: 0.7.1
   resolution: "@sinonjs/text-encoding@npm:0.7.1"
@@ -16446,19 +16435,6 @@ fsevents@~2.1.1:
   languageName: node
   linkType: hard
 
-"nise@npm:^5.1.0":
-  version: 5.1.0
-  resolution: "nise@npm:5.1.0"
-  dependencies:
-    "@sinonjs/commons": ^1.7.0
-    "@sinonjs/fake-timers": ^7.0.4
-    "@sinonjs/text-encoding": ^0.7.1
-    just-extend: ^4.0.2
-    path-to-regexp: ^1.7.0
-  checksum: e3843cc125163ce99b7fb0328edf427b981be32c6c719684582cf0a46fb5206173835a9a14dedac3c4833e415ab0e0493f9f4d4163572a3a0c95db39b093166d
-  languageName: node
-  linkType: hard
-
 "no-case@npm:^3.0.4":
   version: 3.0.4
   resolution: "no-case@npm:3.0.4"
@@ -19541,20 +19517,6 @@ resolve@1.17.0:
   linkType: hard
 
 "sinon@npm:11.1.2":
-  version: 11.1.2
-  resolution: "sinon@npm:11.1.2"
-  dependencies:
-    "@sinonjs/commons": ^1.8.3
-    "@sinonjs/fake-timers": ^7.1.2
-    "@sinonjs/samsam": ^6.0.2
-    diff: ^5.0.0
-    nise: ^5.1.0
-    supports-color: ^7.2.0
-  checksum: 1d01377e230c9ba976bf33f28b588bae7901b0b5a503d2f6b2a7914b0dbaa9f09823481926c6f2abed820123c7fa865519695af3ae2e9ba18d8b025616163501
-  languageName: node
-  linkType: hard
-
-"sinon@npm:^11.1.2":
   version: 11.1.2
   resolution: "sinon@npm:11.1.2"
   dependencies:

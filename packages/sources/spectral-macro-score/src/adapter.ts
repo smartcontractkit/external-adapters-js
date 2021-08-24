@@ -12,11 +12,8 @@ export const execute = async (
   request: AdapterRequest,
   config: SpectralAdapterConfig,
 ): Promise<AdapterResponse> => {
-  console.log('execute')
   const validator = new Validator(request, inputParams)
-  console.log('WUT')
   if (validator.error) {
-    console.log(JSON.stringify(validator.error))
     throw validator.error
   }
 
@@ -39,6 +36,6 @@ export const execute = async (
   }
 }
 
-export const makeExecute: ExecuteFactory<SpectralAdapterConfig> = () => {
-  return async (request) => execute(request, makeConfig())
+export const makeExecute: ExecuteFactory<SpectralAdapterConfig> = (config) => {
+  return async (request) => execute(request, config || makeConfig())
 }

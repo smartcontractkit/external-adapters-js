@@ -54,7 +54,9 @@ export const execute = async (
   const options = {
     url: config.api,
     method: 'POST',
-    data: `{"tokenInt":"${request.data.tokenIdInt}"}`,
+    data: {
+      tokenInt: `${request.data.tokenIdInt}`,
+    },
     headers: {
       'Content-Type': 'application/json',
       'x-api-key': config.apiKey ?? '',

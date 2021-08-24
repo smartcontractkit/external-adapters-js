@@ -41,18 +41,9 @@ Default endpoint used to retrieve a MACRO Score for a given token ID.
 ```json
 {
   "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
-  "data": [
-    {
-      "address": "0xa55E01a40557fAB9d87F993d8f5344f1b2408072",
-      "score_aave": "604.77",
-      "score_comp": "300.00",
-      "score": "452.38",
-      "updated_at": "2021-07-18T20:53:54.402553Z",
-      "is_updating_aave": false,
-      "is_updating_comp": false,
-      "result": 452.38
-    }
-  ],
+  "data": {
+    "result": 1 // this will be the resulting MACRO Score tick
+  },
   "statusCode": 200
 }
 ```
