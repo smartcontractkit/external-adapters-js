@@ -391,6 +391,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/metalsapi"
       },
       {
+        "name": "@chainlink/mycryptoapi-adapter",
+        "reference": "workspace:packages/sources/mycryptoapi"
+      },
+      {
         "name": "@chainlink/ncfx-adapter",
         "reference": "workspace:packages/sources/ncfx"
       },
@@ -623,6 +627,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/medianizer-adapter", ["workspace:packages/composites/medianizer"]],
       ["@chainlink/messari-adapter", ["workspace:packages/sources/messari"]],
       ["@chainlink/metalsapi-adapter", ["workspace:packages/sources/metalsapi"]],
+      ["@chainlink/mycryptoapi-adapter", ["workspace:packages/sources/mycryptoapi"]],
       ["@chainlink/ncfx-adapter", ["workspace:packages/sources/ncfx"]],
       ["@chainlink/nikkei-adapter", ["workspace:packages/sources/nikkei"]],
       ["@chainlink/nomics-adapter", ["workspace:packages/sources/nomics"]],
@@ -4093,6 +4098,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/marketstack-adapter", "workspace:packages/sources/marketstack"],
             ["@chainlink/messari-adapter", "workspace:packages/sources/messari"],
             ["@chainlink/metalsapi-adapter", "workspace:packages/sources/metalsapi"],
+            ["@chainlink/mycryptoapi-adapter", "workspace:packages/sources/mycryptoapi"],
             ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],
             ["@chainlink/nikkei-adapter", "workspace:packages/sources/nikkei"],
             ["@chainlink/nomics-adapter", "workspace:packages/sources/nomics"],
@@ -4835,6 +4841,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.1"],
+            ["@types/node", "npm:14.17.7"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/mycryptoapi-adapter", [
+        ["workspace:packages/sources/mycryptoapi", {
+          "packageLocation": "./packages/sources/mycryptoapi/",
+          "packageDependencies": [
+            ["@chainlink/mycryptoapi-adapter", "workspace:packages/sources/mycryptoapi"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
