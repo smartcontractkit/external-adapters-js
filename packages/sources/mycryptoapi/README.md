@@ -1,11 +1,5 @@
 # Chainlink External Adapter for MyCryptoApi
 
-### Environment Variables
-
-| Required? |    Name     |             Description              |  Options   | Defaults to |
-| :-------: | :---------: | :----------------------------------: | :--------: | :---------: |
-|           | API_VERBOSE | enable/disable verbose output format | true/false |             |
-
 ### Input Parameters
 
 | Required? |   Name   |     Description     |            Options             | Defaults to |
