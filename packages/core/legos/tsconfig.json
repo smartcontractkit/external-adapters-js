@@ -176,6 +176,9 @@
       "path": "../../sources/kaiko"
     },
     {
+      "path": "../../sources/layer2-sequencer-health"
+    },
+    {
       "path": "../../sources/lcx"
     },
     {
@@ -270,6 +273,9 @@
     },
     {
       "path": "../../sources/unibit"
+    },
+    {
+      "path": "../../sources/upvest"
     },
     {
       "path": "../../sources/wbtc-address-set"
