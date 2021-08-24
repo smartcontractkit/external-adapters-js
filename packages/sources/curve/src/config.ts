@@ -1,5 +1,5 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
-import { Config as DefaultConfig } from '@chainlink/types'
+import { Config as BaseConfig, ConfigFactory } from '@chainlink/types'
 import { ethers } from 'ethers'
 
 export const NAME = 'CURVE'
@@ -14,14 +14,14 @@ export const DEFAULT_ADDRESS_PROVIDER = '0x0000000022D53366457F9d5E68Ec105046FC4
 export const DEFAULT_EXCHANGE_PROVIDER_ID = 2
 export const DEFAULT_BLOCKCHAIN_NETWORK = 'ethereum'
 
-export type Config = DefaultConfig & {
+export type Config = BaseConfig & {
   provider: ethers.providers.Provider
   addressProviderAddress: string
   exchangeProviderId: number
   network: string
 }
 
-export const makeConfig = (prefix?: string): Config => {
+export const makeConfig: ConfigFactory<Config> = (prefix) => {
   return {
     ...Requester.getDefaultConfig(prefix),
     defaultEndpoint: DEFAULT_ENDPOINT,

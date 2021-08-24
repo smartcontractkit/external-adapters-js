@@ -149,7 +149,7 @@ declare module '@chainlink/types' {
     [endpoint: string]: MakeResultPath | string
   }
 
-  export type ConfigFactory = (prefix?: string) => Config
+  export type ConfigFactory<C extends Config = Config> = (prefix?: string) => C
 
   import type { ExecuteHandlers } from '@chainlink/ea-bootstrap'
   import { BatchableProperty } from '../../bootstrap/dist/lib/cache-warmer/reducer'
