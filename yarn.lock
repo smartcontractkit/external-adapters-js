@@ -2258,6 +2258,7 @@ __metadata:
     "@chainlink/eodhistoricaldata-adapter": "*"
     "@chainlink/etherchain-adapter": "*"
     "@chainlink/ethgasstation-adapter": "*"
+    "@chainlink/ethgaswatch-adapter": "*"
     "@chainlink/expert-car-broker-adapter": "*"
     "@chainlink/fcsapi-adapter": "*"
     "@chainlink/finage-adapter": "*"
@@ -2355,6 +2356,20 @@ __metadata:
     "@types/node": ^14.14.35
     tslib: ^2.3.1
     typescript: ^4.3.5
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/ethgaswatch-adapter@*, @chainlink/ethgaswatch-adapter@workspace:packages/sources/ethgaswatch":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/ethgaswatch-adapter@workspace:packages/sources/ethgaswatch"
+  dependencies:
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.0.1
+    "@types/jest": ^26.0.22
+    "@types/node": ^14.14.35
+    tslib: ^2.1.0
+    typescript: ^4.2.3
   languageName: unknown
   linkType: soft
 

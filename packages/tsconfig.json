@@ -207,6 +207,9 @@
       "path": "./sources/ethgasstation"
     },
     {
+      "path": "./sources/ethgaswatch"
+    },
+    {
       "path": "./sources/expert-car-broker"
     },
     {
