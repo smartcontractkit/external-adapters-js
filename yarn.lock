@@ -1449,7 +1449,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-test-helpers": "*"
-    "@chainlink/token-allocation-adapter": ^0.1.0
+    "@chainlink/token-allocation-adapter": ^0.1.1
     "@chainlink/types": 0.0.1
     "@openzeppelin/contracts": ^3.3.0
     "@types/jest": ^27.0.1
@@ -1866,7 +1866,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-reference-data-reader": ^0.0.4
     "@chainlink/ea-test-helpers": "*"
-    "@chainlink/token-allocation-adapter": ^0.1.0
+    "@chainlink/token-allocation-adapter": ^0.1.1
     "@chainlink/types": 0.0.1
     "@types/jest": ^27.0.1
     "@types/node": ^14.14.35
@@ -1971,7 +1971,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-test-helpers": "*"
-    "@chainlink/token-allocation-adapter": ^0.1.0
+    "@chainlink/token-allocation-adapter": ^0.1.1
     "@chainlink/types": 0.0.1
     "@types/jest": ^27.0.1
     "@types/node": ^14.14.35
@@ -2724,7 +2724,7 @@ __metadata:
   resolution: "@chainlink/linear-finance-adapter@workspace:packages/composites/linear-finance"
   dependencies:
     "@chainlink/ea-bootstrap": "*"
-    "@chainlink/token-allocation-adapter": 0.1.0
+    "@chainlink/token-allocation-adapter": 0.1.1
     "@chainlink/types": 0.0.1
     "@types/jest": ^27.0.1
     "@types/node": ^14.14.35
@@ -3172,7 +3172,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-test-helpers": "*"
-    "@chainlink/token-allocation-adapter": ^0.1.0
+    "@chainlink/token-allocation-adapter": ^0.1.1
     "@chainlink/types": 0.0.1
     "@types/jest": ^27.0.1
     "@types/node": ^14.14.35
@@ -3262,7 +3262,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/token-allocation-adapter@0.1.0, @chainlink/token-allocation-adapter@^0.1.0, @chainlink/token-allocation-adapter@workspace:packages/composites/token-allocation":
+"@chainlink/token-allocation-adapter@0.1.1, @chainlink/token-allocation-adapter@^0.1.1, @chainlink/token-allocation-adapter@workspace:packages/composites/token-allocation":
   version: 0.0.0-use.local
   resolution: "@chainlink/token-allocation-adapter@workspace:packages/composites/token-allocation"
   dependencies:
@@ -3383,7 +3383,7 @@ __metadata:
   resolution: "@chainlink/vesper-adapter@workspace:packages/composites/vesper"
   dependencies:
     "@chainlink/ea-bootstrap": "*"
-    "@chainlink/token-allocation-adapter": 0.1.0
+    "@chainlink/token-allocation-adapter": 0.1.1
     "@chainlink/types": 0.0.1
     "@types/jest": ^27.0.1
     "@types/node": ^14.14.35

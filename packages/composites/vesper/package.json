@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/vesper-adapter",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Chainlink vesper adapter.",
   "keywords": [
     "Chainlink",
@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "@chainlink/ea-bootstrap": "*",
-    "@chainlink/token-allocation-adapter": "0.1.0",
+    "@chainlink/token-allocation-adapter": "0.1.1",
     "ethers": "^5.4.5",
     "tslib": "^2.3.1"
   },
