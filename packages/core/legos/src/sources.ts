@@ -61,6 +61,7 @@ import * as lition from '@chainlink/lition-adapter'
 import * as marketstack from '@chainlink/marketstack-adapter'
 import * as messari from '@chainlink/messari-adapter'
 import * as metalsapi from '@chainlink/metalsapi-adapter'
+import * as mycryptoapi from '@chainlink/mycryptoapi-adapter'
 import * as ncfx from '@chainlink/ncfx-adapter'
 import * as nikkei from '@chainlink/nikkei-adapter'
 import * as nomics from '@chainlink/nomics-adapter'
@@ -156,6 +157,7 @@ export default {
   marketstack,
   messari,
   metalsapi,
+  mycryptoapi,
   ncfx,
   nikkei,
   nomics,
