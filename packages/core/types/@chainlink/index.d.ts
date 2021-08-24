@@ -133,14 +133,14 @@ declare module '@chainlink/types' {
     [name: string]: RequiredInputParameter | InputParameterAliases
   }
 
-  export interface APIEndpoint {
+  export interface APIEndpoint<C extends Config = Config> {
     supportedEndpoints: string[]
     batchablePropertyPath?: BatchableProperty[]
     endpointResultPaths?: EndpointResultPaths
     inputParameters?: InputParameters
     endpointOverride?: (request: AdapterRequest) => string | null
-    execute?: Execute | ExecuteWithConfig<Config>
-    makeExecute?: ExecuteFactory<Config>
+    execute?: Execute | ExecuteWithConfig<C>
+    makeExecute?: ExecuteFactory<C>
   }
 
   export type MakeResultPath = (input: AdapterRequest) => string
@@ -149,9 +149,10 @@ declare module '@chainlink/types' {
     [endpoint: string]: MakeResultPath | string
   }
 
-  export type ConfigFactory = (prefix?: string) => Config
+  export type ConfigFactory<C extends Config = Config> = (prefix?: string) => C
 
   import type { ExecuteHandlers } from '@chainlink/ea-bootstrap'
+  import { BatchableProperty } from '../../bootstrap/dist/lib/cache-warmer/reducer'
   type ExecuteHandlers = ExecuteHandlers
   export type AdapterImplementation = {
     NAME: string
@@ -211,12 +212,18 @@ declare module '@chainlink/types' {
 
   // Includes is an alternative symbol mapping that can be used to represent
   // the original request, such as wrapped tokens on DEXes.
-  export type Includes = {
+  export type IncludePair = {
     from: string // From symbol
     to: string // To symbol
     adapters?: string[] // Array of adapters this applies to
     inverse?: boolean // If the inverse should be calculated instead
     tokens?: boolean // If the token addresses should be used instead
+  }
+
+  export type Includes = {
+    from: string
+    to: string
+    includes: IncludePair[]
   }
 }
 

@@ -1,5 +1,7 @@
 {
-    "requests": [{
-        "sport": "nfl"
-    }]
+  "requests": [
+    {
+      "sport": "nfl"
+    }
+  ]
 }

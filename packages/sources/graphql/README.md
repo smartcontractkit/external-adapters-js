@@ -6,9 +6,9 @@ No adapter specific environment variables required
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |           Options            | Defaults to |
-| :-------: | :------: | :-----------------: | :--------------------------: | :---------: |
-|    ✅        | graphqlEndpoint | The GraphQL endpoint to make a request to | (#Graphql-Endpoint) |      |
+| Required? |      Name       |                Description                |       Options       | Defaults to |
+| :-------: | :-------------: | :---------------------------------------: | :-----------------: | :---------: |
+|    ✅     | graphqlEndpoint | The GraphQL endpoint to make a request to | (#Graphql-Endpoint) |             |
 
 ---
 
@@ -16,21 +16,21 @@ No adapter specific environment variables required
 
 ### Input Params
 
-| Required? |            Name            |               Description                |       Options       | Defaults to |
-| :-------: | :------------------------: | :--------------------------------------: | :-----------------: | :---------: |
-|    ✅     | `query`  |   The GraphQL query as a string   |                                    |             |
-|         | `variables` | An object of variables to be passed into the query  |  |             |
+| Required? |    Name     |                    Description                     | Options | Defaults to |
+| :-------: | :---------: | :------------------------------------------------: | :-----: | :---------: |
+|    ✅     |   `query`   |           The GraphQL query as a string            |         |             |
+|           | `variables` | An object of variables to be passed into the query |         |             |
 
 ### Sample Input
 
 ```json
 {
-    "jobRunId": 1,
-    "data": {
-        "query":"{\n  token(id:\"0x00000000000045166c45af0fc6e4cf31d9e14b9a\") {\n    id,\n    symbol\n  }\n}\n",
-        "variables": null,
-        "graphqlEndpoint": "https://api.thegraph.com/subgraphs/name/benesjan/uniswap-v3-subgraph"
-    }
+  "jobRunId": 1,
+  "data": {
+    "query": "{\n  token(id:\"0x00000000000045166c45af0fc6e4cf31d9e14b9a\") {\n    id,\n    symbol\n  }\n}\n",
+    "variables": null,
+    "graphqlEndpoint": "https://api.thegraph.com/subgraphs/name/benesjan/uniswap-v3-subgraph"
+  }
 }
 ```
 
@@ -38,25 +38,25 @@ No adapter specific environment variables required
 
 ```json
 {
-    "jobRunID": "1",
-    "result": {
-        "data": {
-            "token": {
-                "id": "0x00000000000045166c45af0fc6e4cf31d9e14b9a",
-                "symbol": "BID"
-            }
-        }
-    },
-    "statusCode": 200,
+  "jobRunID": "1",
+  "result": {
     "data": {
-        "result": {
-            "data": {
-                "token": {
-                    "id": "0x00000000000045166c45af0fc6e4cf31d9e14b9a",
-                    "symbol": "BID"
-                }
-            }
-        }
+      "token": {
+        "id": "0x00000000000045166c45af0fc6e4cf31d9e14b9a",
+        "symbol": "BID"
+      }
     }
+  },
+  "statusCode": 200,
+  "data": {
+    "result": {
+      "data": {
+        "token": {
+          "id": "0x00000000000045166c45af0fc6e4cf31d9e14b9a",
+          "symbol": "BID"
+        }
+      }
+    }
+  }
 }
 ```

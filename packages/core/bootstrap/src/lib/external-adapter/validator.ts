@@ -4,6 +4,8 @@ import {
   AdapterRequest,
   APIEndpoint,
   Includes,
+  IncludePair,
+  Config,
 } from '@chainlink/types'
 import { merge } from 'lodash'
 import { isArray, isObject } from '../util'
@@ -112,16 +114,10 @@ export class Validator {
 
   validateIncludeOverrides(shouldLogError: boolean) {
     try {
-      if (!this.input.data || !(this.input.data.to && this.input.data.from)) {
-        return
-      }
-      if (!this.input.data?.includes) {
-        this.validated.data.includes = this.formatIncludeOverrides(presetIncludes)
-        return
-      }
-      this.validated.tokenOverrides = this.formatTokenOverrides(
-        merge({ ...presetTokens }, this.input.data.tokenOverrides),
-      )
+      this.validated.includes = this.formatIncludeOverrides([
+        ...(this.input.data?.includes || []),
+        ...presetIncludes,
+      ])
     } catch (e) {
       this.parseError(
         e,
@@ -180,21 +176,13 @@ export class Validator {
     return this.validated.tokenOverrides.get(network.toLowerCase())?.get(symbol.toLowerCase())
   }
 
-  overrideIncludes = (
-    adapter: string,
-    from: string,
-    to: string,
-    includes: Includes[],
-  ): Includes | undefined => {
-    includes.filter(
-      (include) =>
-        include.from.toLowerCase() === from.toLowerCase() &&
-        include.to.toLowerCase() === to.toLowerCase() &&
-        (!include.adapters ||
-          include.adapters.map((adapter) => adapter.toLowerCase()).includes(adapter.toLowerCase())),
-    )[0]
+  overrideIncludes = (adapter: string, from: string, to: string): IncludePair | undefined => {
     // Search through `presetIncludes` to find matching override for adapter and to/from pairing.
-    const pairs = presetIncludes.filter(
+    const pairs = (
+      this.validated.includes.filter(
+        (val: string | Includes) => typeof val !== 'string',
+      ) as Includes[]
+    ).filter(
       (pair) =>
         pair.from.toLowerCase() === from.toLowerCase() &&
         pair.to.toLowerCase() === to.toLowerCase(),
@@ -202,7 +190,9 @@ export class Validator {
     for (const pair of pairs) {
       const matchingIncludes = pair.includes.find(
         (include) =>
-          include.adapters.length === 0 || include.adapters.includes(adapter.toUpperCase()),
+          !include.adapters ||
+          include.adapters.length === 0 ||
+          include.adapters.includes(adapter.toUpperCase()),
       )
       if (matchingIncludes) {
         return matchingIncludes
@@ -307,7 +297,10 @@ export class Validator {
   }
 }
 
-export function normalizeInput(request: AdapterRequest, apiEndpoint: APIEndpoint): AdapterRequest {
+export function normalizeInput<C extends Config>(
+  request: AdapterRequest,
+  apiEndpoint: APIEndpoint<C>,
+): AdapterRequest {
   const input = { ...request }
 
   // if endpoint does not match, an override occurred and we must adjust it
@@ -326,11 +319,9 @@ export function normalizeInput(request: AdapterRequest, apiEndpoint: APIEndpoint
   if (apiEndpoint.batchablePropertyPath) {
     for (const { name } of apiEndpoint.batchablePropertyPath) {
       const value = data[name]
-      if (typeof(value) === 'string')
-        data[name] = data[name].toUpperCase()
+      if (typeof value === 'string') data[name] = data[name].toUpperCase()
       if (Array.isArray(value)) {
-        for (const index in data[name])
-        data[name][index] = data[name][index].toUpperCase()
+        for (const index in data[name]) data[name][index] = data[name][index].toUpperCase()
       }
     }
   }

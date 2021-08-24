@@ -10,14 +10,16 @@
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |           Options           | Defaults to |
-| :-------: | :------: | :-----------------: | :-------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [stock](#Stock-Endpoint) |     stock     |
+| Required? |   Name   |     Description     |         Options          | Defaults to |
+| :-------: | :------: | :-----------------: | :----------------------: | :---------: |
+|           | endpoint | The endpoint to use | [stock](#Stock-Endpoint) |    stock    |
 
 ---
 
 ## Stock Endpoint
+
 ##### NOTE: the `eod` endpoint is temporarily still supported, however, is being deprecated. Please use the `stock` endpoint instead.
+
 ### Input Params
 
 | Required? |           Name            |               Description                | Options | Defaults to |

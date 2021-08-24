@@ -7,7 +7,7 @@ export function mockCoingeckoResponseSuccess() {
       data: {
         base: 'COMP',
         quote: 'USD',
-        endpoint: 'price',
+        endpoint: 'crypto',
       },
     })
     .reply(
@@ -23,11 +23,11 @@ export function mockCoingeckoResponseSuccess() {
         debug: {
           batchablePropertyPath: [
             {
-              name: 'base'
+              name: 'base',
             },
             {
-              name: 'quote'
-            }
+              name: 'quote',
+            },
           ],
         },
       },
@@ -51,7 +51,7 @@ export function mockCoingeckoResponseSuccess() {
       data: {
         base: 'LUNA',
         quote: 'USD',
-        endpoint: 'price',
+        endpoint: 'crypto',
       },
     })
     .reply(
@@ -67,11 +67,11 @@ export function mockCoingeckoResponseSuccess() {
         debug: {
           batchablePropertyPath: [
             {
-              name: 'base'
+              name: 'base',
             },
             {
-              name: 'quote'
-            }
+              name: 'quote',
+            },
           ],
         },
       },
@@ -95,7 +95,7 @@ export function mockCoingeckoResponseSuccess() {
       data: {
         base: 'SUSHI',
         quote: 'USD',
-        endpoint: 'price',
+        endpoint: 'crypto',
       },
     })
     .reply(
@@ -111,11 +111,11 @@ export function mockCoingeckoResponseSuccess() {
         debug: {
           batchablePropertyPath: [
             {
-              name: 'base'
+              name: 'base',
             },
             {
-              name: 'quote'
-            }
+              name: 'quote',
+            },
           ],
         },
       },
@@ -139,7 +139,7 @@ export function mockCoingeckoResponseSuccess() {
       data: {
         base: 'ZRX',
         quote: 'USD',
-        endpoint: 'price',
+        endpoint: 'crypto',
       },
     })
     .reply(
@@ -155,11 +155,11 @@ export function mockCoingeckoResponseSuccess() {
         debug: {
           batchablePropertyPath: [
             {
-              name: 'base'
+              name: 'base',
             },
             {
-              name: 'quote'
-            }
+              name: 'quote',
+            },
           ],
         },
       },
@@ -183,7 +183,7 @@ export function mockCoingeckoResponseSuccess() {
       data: {
         base: 'SNX',
         quote: 'USD',
-        endpoint: 'price',
+        endpoint: 'crypto',
       },
     })
     .reply(
@@ -199,11 +199,11 @@ export function mockCoingeckoResponseSuccess() {
         debug: {
           batchablePropertyPath: [
             {
-              name: 'base'
+              name: 'base',
             },
             {
-              name: 'quote'
-            }
+              name: 'quote',
+            },
           ],
         },
       },
@@ -227,7 +227,7 @@ export function mockCoingeckoResponseSuccess() {
       data: {
         base: 'UNI',
         quote: 'USD',
-        endpoint: 'price',
+        endpoint: 'crypto',
       },
     })
     .reply(
@@ -243,11 +243,11 @@ export function mockCoingeckoResponseSuccess() {
         debug: {
           batchablePropertyPath: [
             {
-              name: 'base'
+              name: 'base',
             },
             {
-              name: 'quote'
-            }
+              name: 'quote',
+            },
           ],
         },
       },
@@ -271,7 +271,7 @@ export function mockCoingeckoResponseSuccess() {
       data: {
         base: 'ALPHA',
         quote: 'USD',
-        endpoint: 'price',
+        endpoint: 'crypto',
       },
     })
     .reply(
@@ -287,11 +287,11 @@ export function mockCoingeckoResponseSuccess() {
         debug: {
           batchablePropertyPath: [
             {
-              name: 'base'
+              name: 'base',
             },
             {
-              name: 'quote'
-            }
+              name: 'quote',
+            },
           ],
         },
       },
@@ -315,7 +315,7 @@ export function mockCoingeckoResponseSuccess() {
       data: {
         base: 'AAVE',
         quote: 'USD',
-        endpoint: 'price',
+        endpoint: 'crypto',
       },
     })
     .reply(
@@ -331,11 +331,11 @@ export function mockCoingeckoResponseSuccess() {
         debug: {
           batchablePropertyPath: [
             {
-              name: 'base'
+              name: 'base',
             },
             {
-              name: 'quote'
-            }
+              name: 'quote',
+            },
           ],
         },
       },
@@ -359,7 +359,7 @@ export function mockCoingeckoResponseSuccess() {
       data: {
         base: 'RUNE',
         quote: 'USD',
-        endpoint: 'price',
+        endpoint: 'crypto',
       },
     })
     .reply(
@@ -375,11 +375,11 @@ export function mockCoingeckoResponseSuccess() {
         debug: {
           batchablePropertyPath: [
             {
-              name: 'base'
+              name: 'base',
             },
             {
-              name: 'quote'
-            }
+              name: 'quote',
+            },
           ],
         },
       },
@@ -403,7 +403,7 @@ export function mockCoingeckoResponseSuccess() {
       data: {
         base: 'BOND',
         quote: 'USD',
-        endpoint: 'price',
+        endpoint: 'crypto',
       },
     })
     .reply(
@@ -419,11 +419,11 @@ export function mockCoingeckoResponseSuccess() {
         debug: {
           batchablePropertyPath: [
             {
-              name: 'base'
+              name: 'base',
             },
             {
-              name: 'quote'
-            }
+              name: 'quote',
+            },
           ],
         },
       },
@@ -447,7 +447,7 @@ export function mockCoingeckoResponseSuccess() {
       data: {
         base: 'UMA',
         quote: 'USD',
-        endpoint: 'price',
+        endpoint: 'crypto',
       },
     })
     .reply(
@@ -463,11 +463,11 @@ export function mockCoingeckoResponseSuccess() {
         debug: {
           batchablePropertyPath: [
             {
-              name: 'base'
+              name: 'base',
             },
             {
-              name: 'quote'
-            }
+              name: 'quote',
+            },
           ],
         },
       },
@@ -491,7 +491,7 @@ export function mockCoingeckoResponseSuccess() {
       data: {
         base: 'BAL',
         quote: 'USD',
-        endpoint: 'price',
+        endpoint: 'crypto',
       },
     })
     .reply(
@@ -507,11 +507,11 @@ export function mockCoingeckoResponseSuccess() {
         debug: {
           batchablePropertyPath: [
             {
-              name: 'base'
+              name: 'base',
             },
             {
-              name: 'quote'
-            }
+              name: 'quote',
+            },
           ],
         },
       },
@@ -535,7 +535,7 @@ export function mockCoingeckoResponseSuccess() {
       data: {
         base: 'CREAM',
         quote: 'USD',
-        endpoint: 'price',
+        endpoint: 'crypto',
       },
     })
     .reply(
@@ -551,11 +551,11 @@ export function mockCoingeckoResponseSuccess() {
         debug: {
           batchablePropertyPath: [
             {
-              name: 'base'
+              name: 'base',
             },
             {
-              name: 'quote'
-            }
+              name: 'quote',
+            },
           ],
         },
       },
@@ -579,7 +579,7 @@ export function mockCoingeckoResponseSuccess() {
       data: {
         base: 'MKR',
         quote: 'USD',
-        endpoint: 'price',
+        endpoint: 'crypto',
       },
     })
     .reply(
@@ -595,11 +595,11 @@ export function mockCoingeckoResponseSuccess() {
         debug: {
           batchablePropertyPath: [
             {
-              name: 'base'
+              name: 'base',
             },
             {
-              name: 'quote'
-            }
+              name: 'quote',
+            },
           ],
         },
       },
@@ -623,7 +623,7 @@ export function mockCoingeckoResponseSuccess() {
       data: {
         base: 'BNT',
         quote: 'USD',
-        endpoint: 'price',
+        endpoint: 'crypto',
       },
     })
     .reply(
@@ -639,11 +639,11 @@ export function mockCoingeckoResponseSuccess() {
         debug: {
           batchablePropertyPath: [
             {
-              name: 'base'
+              name: 'base',
             },
             {
-              name: 'quote'
-            }
+              name: 'quote',
+            },
           ],
         },
       },
@@ -667,7 +667,7 @@ export function mockCoingeckoResponseSuccess() {
       data: {
         base: 'CRV',
         quote: 'USD',
-        endpoint: 'price',
+        endpoint: 'crypto',
       },
     })
     .reply(
@@ -683,11 +683,11 @@ export function mockCoingeckoResponseSuccess() {
         debug: {
           batchablePropertyPath: [
             {
-              name: 'base'
+              name: 'base',
             },
             {
-              name: 'quote'
-            }
+              name: 'quote',
+            },
           ],
         },
       },
@@ -711,7 +711,7 @@ export function mockCoingeckoResponseSuccess() {
       data: {
         base: '1INCH',
         quote: 'USD',
-        endpoint: 'price',
+        endpoint: 'crypto',
       },
     })
     .reply(
@@ -727,11 +727,11 @@ export function mockCoingeckoResponseSuccess() {
         debug: {
           batchablePropertyPath: [
             {
-              name: 'base'
+              name: 'base',
             },
             {
-              name: 'quote'
-            }
+              name: 'quote',
+            },
           ],
         },
       },
@@ -755,7 +755,7 @@ export function mockCoingeckoResponseSuccess() {
       data: {
         base: 'REN',
         quote: 'USD',
-        endpoint: 'price',
+        endpoint: 'crypto',
       },
     })
     .reply(
@@ -771,11 +771,11 @@ export function mockCoingeckoResponseSuccess() {
         debug: {
           batchablePropertyPath: [
             {
-              name: 'base'
+              name: 'base',
             },
             {
-              name: 'quote'
-            }
+              name: 'quote',
+            },
           ],
         },
       },
@@ -799,7 +799,7 @@ export function mockCoingeckoResponseSuccess() {
       data: {
         base: 'KNC',
         quote: 'USD',
-        endpoint: 'price',
+        endpoint: 'crypto',
       },
     })
     .reply(
@@ -815,11 +815,11 @@ export function mockCoingeckoResponseSuccess() {
         debug: {
           batchablePropertyPath: [
             {
-              name: 'base'
+              name: 'base',
             },
             {
-              name: 'quote'
-            }
+              name: 'quote',
+            },
           ],
         },
       },
@@ -843,7 +843,7 @@ export function mockCoingeckoResponseSuccess() {
       data: {
         base: 'YFI',
         quote: 'USD',
-        endpoint: 'price',
+        endpoint: 'crypto',
       },
     })
     .reply(
@@ -859,11 +859,11 @@ export function mockCoingeckoResponseSuccess() {
         debug: {
           batchablePropertyPath: [
             {
-              name: 'base'
+              name: 'base',
             },
             {
-              name: 'quote'
-            }
+              name: 'quote',
+            },
           ],
         },
       },
@@ -918,7 +918,7 @@ export function mockCoingeckoResponseFailureRedis(postInitialFailures = 2) {
           'ALPHA',
         ],
         quote: 'USD',
-        endpoint: 'price',
+        endpoint: 'crypto',
       },
     })
     .reply(
@@ -975,7 +975,7 @@ export function mockCoingeckoResponseFailureRedis(postInitialFailures = 2) {
           'ALPHA',
         ],
         quote: 'USD',
-        endpoint: 'price',
+        endpoint: 'crypto',
       },
     })
     .times(postInitialFailures)
@@ -1001,6 +1001,40 @@ export function mockCoingeckoResponseFailureRedis(postInitialFailures = 2) {
         'W/"9a-EbDjtEh0DmR7gH0UNLpFXHcH9Pw"',
         'Date',
         'Thu, 24 Jun 2021 01:58:01 GMT',
+        'Connection',
+        'close',
+      ],
+    )
+}
+
+/**
+ * Mock a failure response from coingecko that originates from a connection failure.
+ *
+ * @param postInitialFailures The number of failures to return
+ */
+export function mockCoingeckoConnectionFailure(times = 1) {
+  nock('http://localhost:8080', { encodedQueryParams: true })
+    .post('/', { id: '1', data: { base: 'sDEFI', to: 'usd', source: 'coingecko' } })
+    .times(times)
+    .reply(
+      500,
+      {
+        jobRunID: '1',
+        status: 'errored',
+        statusCode: 500,
+        error: { name: 'AdapterError', message: 'connect ECONNREFUSED 127.0.0.1:8081' },
+      },
+      [
+        'X-Powered-By',
+        'Express',
+        'Content-Type',
+        'application/json; charset=utf-8',
+        'Content-Length',
+        '132',
+        'ETag',
+        'W/"84-Phw7pmGpUf4AdtvBSGT5BNf2lT4"',
+        'Date',
+        'Wed, 18 Aug 2021 19:37:03 GMT',
         'Connection',
         'close',
       ],

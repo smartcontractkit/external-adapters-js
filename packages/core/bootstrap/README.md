@@ -181,6 +181,7 @@ To configure caching these environment variables are available:
 |           |     `REQUEST_COALESCING_INTERVAL_MAX`     |                                                                                         Maximum back-off in milliseconds.                                                                                          |         |   `1000`    |
 |           | `REQUEST_COALESCING_INTERVAL_COEFFICIENT` |                                                                  A coefficient as the base multiplier for exponential back-off interval function.                                                                  |         |     `2`     |
 |           |     `REQUEST_COALESCING_ENTROPY_MAX`      | Amount of random delay (entropy) in milliseconds that will be added to requests. Avoids issue where the request coalescing key won't be set before multiple other instances in a burst try to access the same key. |         |     `0`     |
+|           |     `REQUEST_COALESCING_MAX_RETRIES`      |                                                   Maximum number of attempts to wait for the request coalescing key to be deleted before continuing this request                                                   |         |     `5`     |
 
 ## Metrics
 

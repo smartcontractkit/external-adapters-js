@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, Includes, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, Config, Includes, IncludePair, InputParameters } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['crypto', 'price']
@@ -48,7 +48,7 @@ const getOptions = (
 } => {
   const base = validator.overrideSymbol(AdapterName) as string
   const quote = validator.validated.data.quote
-  const includes = validator.validated.data.includes || []
+  const includes = validator.validated.includes || []
 
   const includeOptions = getIncludesOptions(validator, base, quote, includes)
   return includeOptions ?? symbolOptions(base, quote)
@@ -84,10 +84,12 @@ const getIncludes = (
   from: string,
   to: string,
   includes: string[] | Includes[],
-): Includes | undefined => {
+): IncludePair | undefined => {
   if (includes.length === 0) return undefined
 
-  if (typeof includes[0] === 'string') {
+  const presetIncludes = validator.overrideIncludes(AdapterName, from, to)
+  if (presetIncludes && typeof includes[0] === 'string') return presetIncludes
+  else if (typeof includes[0] === 'string') {
     return {
       from,
       to: includes[0],
@@ -95,6 +97,5 @@ const getIncludes = (
       tokens: true,
     }
   }
-
-  return validator.overrideIncludes(AdapterName, from, to, includes as Includes[])
+  return presetIncludes
 }
