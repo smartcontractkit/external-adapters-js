@@ -297,7 +297,7 @@ export class Validator {
   }
 }
 
-export function normalizeInput<C extends Config = Config>(
+export function normalizeInput<C extends Config>(
   request: AdapterRequest,
   apiEndpoint: APIEndpoint<C>,
 ): AdapterRequest {
