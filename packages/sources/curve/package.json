@@ -30,6 +30,7 @@
   "dependencies": {
     "@chainlink/ea-bootstrap": "*",
     "@chainlink/ea-test-helpers": "*",
+    "decimal.js": "^10.3.1",
     "ethers": "^5.4.5",
     "tslib": "^2.1.0"
   },
