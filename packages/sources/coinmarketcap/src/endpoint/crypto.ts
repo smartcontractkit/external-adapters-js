@@ -138,7 +138,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     params,
   }
   const response = await Requester.request(options)
-
   if (Array.isArray(symbol) || Array.isArray(convert))
     return handleBatchedRequest(jobRunID, request, response, resultPath)
 
@@ -154,7 +153,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
 
   const key = params.id || _keyForSlug(response.data, params.slug || '') || params.symbol
-
   response.data.result = Requester.validateResultNumber(response.data, [
     'data',
     key,
