@@ -76,7 +76,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
 /**
  * getTokenDetails will find the address and number of decimal for a token.
- * 
+ *
  * The order of operations is as follows:
  *  - address:
  *     1. Check if the address was provided in the request.
