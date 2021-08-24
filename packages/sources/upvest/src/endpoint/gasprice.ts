@@ -3,13 +3,13 @@ import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['gasprice']
 
-export interface ResponseSchema  {
-  success: boolean,
-  updated: string,
+export interface ResponseSchema {
+  success: boolean
+  updated: string
   estimates: {
-    fastest: number,
-    fast: number,
-    medium: number,
+    fastest: number
+    fast: number
+    medium: number
     slow: number
   }
 }
@@ -30,7 +30,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const options = {
     ...config.api,
-    url
+    url,
   }
 
   const response = await Requester.request<ResponseSchema>(options, customError)

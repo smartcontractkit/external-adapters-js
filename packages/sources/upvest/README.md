@@ -12,19 +12,19 @@
 
 ### Input Params
 
-| Required? |  Name   |    Description    |               Options                | Defaults to |
-| :-------: | :-----: | :---------------: | :----------------------------------: | :---------: |
-|    🟡     | `speed` | The desired speed | `slow`,`medium`,`fast`,`fastest` |  `fast`  |
+| Required? |  Name   |    Description    |             Options              | Defaults to |
+| :-------: | :-----: | :---------------: | :------------------------------: | :---------: |
+|    🟡     | `speed` | The desired speed | `slow`,`medium`,`fast`,`fastest` |   `fast`    |
 
 ### Output Format
 
 ```json
 {
-    "jobRunID": "1",
-    "result": 33,
-    "statusCode": 200,
-    "data": {
-        "result": 33
-    }
+  "jobRunID": "1",
+  "result": 33,
+  "statusCode": 200,
+  "data": {
+    "result": 33
+  }
 }
 ```
