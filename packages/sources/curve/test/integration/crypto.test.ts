@@ -1,55 +1,42 @@
-import { AdapterRequest, Execute } from '@chainlink/types'
-import { ethers, BigNumber } from 'ethers'
-import { makeExecute } from '../../src/adapter'
-import * as process from 'process'
-
-const mock_bn = BigNumber.from(1234)
-
-jest.mock('ethers', () => ({
-  ...jest.requireActual('ethers'),
-  ethers: {
-    providers: {
-      JsonRpcProvider: function () {
-        return {} as ethers.providers.JsonRpcProvider
-      },
-    },
-    Contract: function () {
-      return {
-        decimals: () => {
-          return new Promise((resolve) => resolve(6))
-        },
-        get_address: () => {
-          return new Promise((resolve) => resolve('0x0'))
-        },
-        get_best_rate: () => {
-          return new Promise((resolve) => resolve(['0x0', mock_bn]))
-        },
-      }
-    },
-    utils: {
-      formatUnits: (num, decimals) => num / 10 ** decimals,
-    },
-  },
-}))
+import { AdapterRequest } from '@chainlink/types'
+import request from 'supertest'
+import process from 'process'
+import nock from 'nock'
+import http from 'http'
+import { server as startServer } from '../../src'
+import { mockEthereumResponseSuccess } from './fixtures'
 
 let oldEnv: NodeJS.ProcessEnv
 
 beforeAll(() => {
   oldEnv = JSON.parse(JSON.stringify(process.env))
-  process.env.RPC_URL = process.env.RPC_URL || 'http://localhost:8546/'
-  process.env.API_VERBOSE = process.env.API_VERBOSE || 'true'
+  process.env.RPC_URL = process.env.RPC_URL || 'http://localhost:8545'
+  process.env.API_VERBOSE = true
+  if (process.env.RECORD) {
+    nock.recorder.rec()
+  }
 })
 
 afterAll(() => {
   process.env = oldEnv
+  if (process.env.RECORD) {
+    nock.recorder.play()
+  }
+
+  nock.restore()
+  nock.cleanAll()
+  nock.enableNetConnect()
 })
 
 describe('execute', () => {
-  let execute: Execute
   const id = '1'
-
+  let server: http.Server
+  const req = request('localhost:8080')
   beforeAll(async () => {
-    execute = await makeExecute()
+    server = await startServer()
+  })
+  afterAll((done) => {
+    server.close(done)
   })
 
   describe('with from/to', () => {
@@ -62,8 +49,16 @@ describe('execute', () => {
     }
 
     it('should return success', async () => {
-      const resp = await execute(data, {})
-      expect(resp).toMatchSnapshot()
+      mockEthereumResponseSuccess()
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
     })
   })
 
@@ -80,8 +75,16 @@ describe('execute', () => {
     }
 
     it('should return success', async () => {
-      const resp = await execute(data, {})
-      expect(resp).toMatchSnapshot()
+      mockEthereumResponseSuccess()
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
     })
   })
 })
