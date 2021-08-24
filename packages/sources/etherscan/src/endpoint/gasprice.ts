@@ -14,6 +14,12 @@ export interface ResponseSchema {
   }
 }
 
+const speedType: any = {
+  safe: 'SafeGasPrice',
+  medium: 'ProposeGasPrice',
+  fast: 'FastGasPrice',
+}
+
 const customError = (data: any) => data.Response === 'Error'
 
 export const inputParameters: InputParameters = {
@@ -25,7 +31,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const speed = validator.validated.data.speed || 'FastGasPrice'
+  const speedValue = validator.validated.data.speed
+  const speed = speedType[speedValue] || speedType['fast']
   const url = `/api`
 
   const params = {

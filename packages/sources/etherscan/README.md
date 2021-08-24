@@ -20,9 +20,9 @@
 
 ### Input Params
 
-| Required? |  Name   |    Description    |                     Options                     |  Defaults to   |
-| :-------: | :-----: | :---------------: | :---------------------------------------------: | :------------: |
-|    🟡     | `speed` | The desired speed | `SafeGasPrice`,`ProposeGasPrice`,`FastGasPrice` | `FastGasPrice` |
+| Required? |  Name   |    Description    |        Options         | Defaults to |
+| :-------: | :-----: | :---------------: | :--------------------: | :---------: |
+|    🟡     | `speed` | The desired speed | `safe`,`medium`,`fast` |   `fast`    |
 
 ### Output Format
 

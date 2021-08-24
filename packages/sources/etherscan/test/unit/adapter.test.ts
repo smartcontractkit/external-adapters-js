@@ -18,13 +18,6 @@ describe('execute', () => {
         name: 'empty data',
         testData: { data: {} },
       },
-      {
-        name: 'no speed param',
-        testData: {
-          id: jobID,
-          data: { endpoint: 'not_real' },
-        },
-      },
     ]
 
     requests.forEach((req) => {
