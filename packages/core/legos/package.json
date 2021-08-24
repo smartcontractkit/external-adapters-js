@@ -70,6 +70,7 @@
     "@chainlink/eodhistoricaldata-adapter": "*",
     "@chainlink/etherchain-adapter": "*",
     "@chainlink/ethgasstation-adapter": "*",
+    "@chainlink/ethgaswatch-adapter": "*",
     "@chainlink/expert-car-broker-adapter": "*",
     "@chainlink/fcsapi-adapter": "*",
     "@chainlink/finage-adapter": "*",
