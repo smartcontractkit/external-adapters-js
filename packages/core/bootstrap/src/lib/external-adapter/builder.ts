@@ -13,7 +13,7 @@ export const inputParameters: InputParameters = {
   endpoint: false,
 }
 
-const findSupportedEndpoint = <C extends Config = Config>(
+const findSupportedEndpoint = <C extends Config>(
   apiEndpoints: Record<string, APIEndpoint<C>>,
   endpoint: string,
 ): APIEndpoint<C> | null => {
@@ -28,7 +28,7 @@ const findSupportedEndpoint = <C extends Config = Config>(
   return null
 }
 
-const selectEndpoint = <C extends Config = Config>(
+const selectEndpoint = <C extends Config>(
   request: AdapterRequest,
   config: C,
   apiEndpoints: Record<string, APIEndpoint<C>>,
@@ -84,7 +84,7 @@ const selectEndpoint = <C extends Config = Config>(
   return apiEndpoint
 }
 
-const buildSelector = <C extends Config = Config>(
+const buildSelector = <C extends Config>(
   request: AdapterRequest,
   context: AdapterContext,
   config: C,
