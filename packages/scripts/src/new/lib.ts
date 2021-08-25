@@ -79,7 +79,8 @@ async function generate(type: string) {
 
   // add to packages/tsconfig.json
   const tsconfigPath = 'packages/tsconfig.json'
-  const tsconfig = await import(path.relative(__dirname, tsconfigPath))
+  const tsconfig = JSON.parse(JSON.stringify(require(path.relative(__dirname, tsconfigPath))))
+  console.log(tsconfig)
   tsconfig.references = tsconfGenerate(currentWorkspace, tsconfigPath, 1)
   writeData = { ...writeData, [tsconfigPath]: tsconfig }
 
@@ -89,13 +90,17 @@ async function generate(type: string) {
 
     // update legos/tsconfig.json
     const legoTsconfigPath = `${legosPath}/tsconfig.json`
-    const legoTsconfig = await import(path.relative(__dirname, legoTsconfigPath))
+    const legoTsconfig = JSON.parse(
+      JSON.stringify(require(path.relative(__dirname, legoTsconfigPath))),
+    )
     legoTsconfig.references = tsconfGenerate(adapterList, legosPath)
     writeData = { ...writeData, [legoTsconfigPath]: legoTsconfig }
 
     // update legos/package.json
     const legoPackagePath = `${legosPath}/package.json`
-    const legoPackage = await import(path.relative(__dirname, legoPackagePath))
+    const legoPackage = JSON.parse(
+      JSON.stringify(require(path.relative(__dirname, legoPackagePath))),
+    )
     const otherPackages = Object.keys(legoPackage.dependencies)
       .filter((k) => !(k.includes('@chainlink') && k.includes('adapter')))
       .reduce((obj, key) => {
