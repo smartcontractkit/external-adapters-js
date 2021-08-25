@@ -100,5 +100,53 @@
         "tokens": true
       }
     ]
+  },
+  {
+    "from": "FRAX",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "FRAX",
+        "to": "WETH",
+        "adapters": ["AMBERDATA"],
+        "tokens": true
+      }
+    ]
+  },
+  {
+    "from": "BOND",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "BOND",
+        "to": "WETH",
+        "adapters": ["AMBERDATA"],
+        "tokens": true
+      }
+    ]
+  },
+  {
+    "from": "FEI",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "FEI",
+        "to": "WETH",
+        "adapters": ["AMBERDATA"],
+        "tokens": true
+      }
+    ]
+  },
+  {
+    "from": "TRIBE",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "TRIBE",
+        "to": "WETH",
+        "adapters": ["AMBERDATA"],
+        "tokens": true
+      }
+    ]
   }
 ]
