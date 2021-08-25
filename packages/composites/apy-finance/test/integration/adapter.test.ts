@@ -1,6 +1,7 @@
 import { AdapterRequest, Execute } from '@chainlink/types'
 import * as apyFinanceAdapter from "../../src/index"
 import { ethers } from 'ethers'
+import { mockTiingoResponse } from './fixtures'
 
 const mockData = {
     '1': {
@@ -35,40 +36,14 @@ jest.mock("ethers", () => ({
   }
 }))
 
-jest.mock("@chainlink/ea-bootstrap", () => ({
-  ...(jest.requireActual("@chainlink/ea-bootstrap")),
-  requester: jest.fn().mockReturnValue(() => ({
-    "jobRunID": "1",
-    "data": {
-      "sources": [],
-      "payload": {
-        "WETH": {
-          "quote": {
-            "USD": {
-              "price": "1800"
-            }
-          }
-        },
-        "LINK": {
-            "quote": {
-              "USD": {
-                "price": "2000"
-              }
-            }
-        }
-      },
-      "result": 2000
-    },
-    "result": 2000,
-    "statusCode": 200
-  }))
-}))
+
 
 let oldEnv: NodeJS.ProcessEnv
 
 beforeAll(() => {
   oldEnv = JSON.parse(JSON.stringify(process.env))
   process.env.REGISTRY_ADDRESS = process.env.REGISTRY_ADDRESS || "fake-registry-address" 
+  process.env.TIINGO_DATA_PROVIDER_URL = process.env.TIINGO_DATA_PROVIDER_URL || "http://localhost:3000"
 })
 
 afterAll(() => {
@@ -84,6 +59,7 @@ describe('execute', () => {
   })
 
   describe("with request properly formatted", () => {
+    mockTiingoResponse()
     const data: AdapterRequest = { 
       id,
       data: {

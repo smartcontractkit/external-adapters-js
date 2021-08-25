@@ -7,23 +7,24 @@ Object {
       "LINK": Object {
         "quote": Object {
           "USD": Object {
-            "price": "2000",
+            "price": 2000,
           },
         },
       },
       "WETH": Object {
         "quote": Object {
           "USD": Object {
-            "price": "1800",
+            "price": 2000,
           },
         },
       },
     },
-    "result": 2000,
+    "result": 8e-13,
     "sources": Array [],
   },
+  "debug": undefined,
   "jobRunID": "1",
-  "result": 2000,
+  "result": 8e-13,
   "statusCode": 200,
 }
 `;
