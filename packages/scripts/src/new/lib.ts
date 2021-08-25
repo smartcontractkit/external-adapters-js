@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import chalk from 'chalk'
 import * as path from 'path'
 import * as shell from 'shelljs'
