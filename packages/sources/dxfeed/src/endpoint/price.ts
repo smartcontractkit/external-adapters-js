@@ -1,10 +1,10 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { 
+import {
   ExecuteWithConfig,
   Config,
   InputParameters,
   AxiosResponse,
-  AdapterRequest
+  AdapterRequest,
 } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
@@ -27,7 +27,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const jobRunID = validator.validated.id
   const base = validator.validated.data.base
   const symbol = Array.isArray(base)
-    ? base.map(symbol => symbol.toUpperCase()).join(',')
+    ? base.map((symbol) => symbol.toUpperCase()).join(',')
     : (validator.overrideSymbol(AdapterName) as string).toUpperCase()
 
   const events = quoteEventSymbols[symbol] ? 'Quote' : 'Trade'
@@ -45,7 +45,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
   const response = await Requester.request(options, customError)
 
-  if(Array.isArray(base)) {
+  if (Array.isArray(base)) {
     return handleBatchedRequest(jobRunID, response, events)
   }
 
@@ -58,11 +58,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   return Requester.success(jobRunID, response, config.verbose)
 }
 
-const handleBatchedRequest = (
-  jobRunID: string,
-  response: AxiosResponse,
-  events: string
-) => {
+const handleBatchedRequest = (jobRunID: string, response: AxiosResponse, events: string) => {
   const payload: [AdapterRequest, number][] = []
   for (const base in response.data[events]) {
     const info = response.data[events][base]
