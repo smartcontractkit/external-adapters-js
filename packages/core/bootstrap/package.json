@@ -33,12 +33,12 @@
     "redis": "^3.1.2",
     "redux": "^4.1.1",
     "redux-logger": "^3.0.6",
-    "redux-observable": "^2.0.0",
+    "redux-observable": "^1.2.0",
     "remote-redux-devtools": "^0.5.16",
-    "rxjs": "^7.3.0",
-    "tslib": "^2.3.1",
-    "uuid": "^8.3.2",
-    "ws": "^8.2.0"
+    "rxjs": "^6.6.3",
+    "tslib": "^2.1.0",
+    "uuid": "^8.3.0",
+    "ws": "^7.4.4"
   },
   "devDependencies": {
     "@chainlink/types": "0.0.1",

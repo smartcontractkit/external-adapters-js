@@ -2,9 +2,11 @@
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |                                                                          Options                                                                          | Defaults to |
-| :-------: | :------: | :-----------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [crypto](#Crypto-Endpoint), [dominance](#Dominance-Endpoint), [globalmarketcap](#Global-Market-Capitalization-Endpoint), [marketcap](#Marketcap-Endpoint) |  `crypto`   |
+| Required? |   Name   |     Description     |                                                                                          Options                                                                                           | Defaults to |
+| :-------: | :------: | :-----------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [crypto](#Crypto-Endpoint), [dominance](#Dominance-Endpoint), [globalmarketcap](#Global-Market-Capitalization-Endpoint), [marketcap](#Marketcap-Endpoint), crypto-single, marketcap-single |  `crypto`   |
+
+_Note: the `-single` endpoints have the same functionality as their original endpoint, except they will only fetch data for the single asset being queried._
 
 ---
 

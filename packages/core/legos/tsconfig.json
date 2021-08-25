@@ -110,6 +110,9 @@
       "path": "../../sources/currencylayer"
     },
     {
+      "path": "../../sources/curve"
+    },
+    {
       "path": "../../sources/deribit"
     },
     {
@@ -132,6 +135,9 @@
     },
     {
       "path": "../../sources/ethgasstation"
+    },
+    {
+      "path": "../../sources/ethgaswatch"
     },
     {
       "path": "../../sources/expert-car-broker"
@@ -176,6 +182,9 @@
       "path": "../../sources/kaiko"
     },
     {
+      "path": "../../sources/layer2-sequencer-health"
+    },
+    {
       "path": "../../sources/lcx"
     },
     {
@@ -192,6 +201,9 @@
     },
     {
       "path": "../../sources/metalsapi"
+    },
+    {
+      "path": "../../sources/mycryptoapi"
     },
     {
       "path": "../../sources/ncfx"
@@ -270,6 +282,9 @@
     },
     {
       "path": "../../sources/unibit"
+    },
+    {
+      "path": "../../sources/upvest"
     },
     {
       "path": "../../sources/wbtc-address-set"

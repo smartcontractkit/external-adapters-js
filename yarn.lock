@@ -1449,7 +1449,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-test-helpers": "*"
-    "@chainlink/token-allocation-adapter": ^0.1.0
+    "@chainlink/token-allocation-adapter": ^0.1.1
     "@chainlink/types": 0.0.1
     "@openzeppelin/contracts": ^3.3.0
     "@types/jest": ^27.0.1
@@ -1764,6 +1764,9 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": ^27.0.1
     "@types/node": ^14.14.35
+    "@types/supertest": ^2.0.11
+    nock: ^13.1.2
+    supertest: ^6.1.3
     tslib: ^2.3.1
     typescript: ^4.3.5
   languageName: unknown
@@ -1863,7 +1866,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-reference-data-reader": ^0.0.4
     "@chainlink/ea-test-helpers": "*"
-    "@chainlink/token-allocation-adapter": ^0.1.0
+    "@chainlink/token-allocation-adapter": ^0.1.1
     "@chainlink/types": 0.0.1
     "@types/jest": ^27.0.1
     "@types/node": ^14.14.35
@@ -1962,13 +1965,32 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/curve-adapter@*, @chainlink/curve-adapter@workspace:packages/sources/curve":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/curve-adapter@workspace:packages/sources/curve"
+  dependencies:
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.0.1
+    "@types/jest": ^26.0.22
+    "@types/node": ^14.14.35
+    "@types/supertest": ^2.0.11
+    decimal.js: ^10.3.1
+    ethers: ^5.4.5
+    nock: ^13.1.2
+    supertest: ^6.1.6
+    tslib: ^2.1.0
+    typescript: ^4.2.3
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/defi-pulse-adapter@workspace:packages/composites/defi-pulse":
   version: 0.0.0-use.local
   resolution: "@chainlink/defi-pulse-adapter@workspace:packages/composites/defi-pulse"
   dependencies:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-test-helpers": "*"
-    "@chainlink/token-allocation-adapter": ^0.1.0
+    "@chainlink/token-allocation-adapter": ^0.1.1
     "@chainlink/types": 0.0.1
     "@types/jest": ^27.0.1
     "@types/node": ^14.14.35
@@ -2138,14 +2160,14 @@ __metadata:
     redis: ^3.1.2
     redux: ^4.1.1
     redux-logger: ^3.0.6
-    redux-observable: ^2.0.0
+    redux-observable: ^1.2.0
     remote-redux-devtools: ^0.5.16
-    rxjs: ^7.3.0
+    rxjs: ^6.6.3
     sinon: ^11.1.2
-    tslib: ^2.3.1
+    tslib: ^2.1.0
     typescript: ^4.3.5
-    uuid: ^8.3.2
-    ws: ^8.2.0
+    uuid: ^8.3.0
+    ws: ^7.4.4
   languageName: unknown
   linkType: soft
 
@@ -2250,6 +2272,7 @@ __metadata:
     "@chainlink/cryptoid-adapter": "*"
     "@chainlink/cryptomkt-adapter": "*"
     "@chainlink/currencylayer-adapter": "*"
+    "@chainlink/curve-adapter": "*"
     "@chainlink/deribit-adapter": "*"
     "@chainlink/dns-query-adapter": "*"
     "@chainlink/dwolla-adapter": "*"
@@ -2258,6 +2281,7 @@ __metadata:
     "@chainlink/eodhistoricaldata-adapter": "*"
     "@chainlink/etherchain-adapter": "*"
     "@chainlink/ethgasstation-adapter": "*"
+    "@chainlink/ethgaswatch-adapter": "*"
     "@chainlink/expert-car-broker-adapter": "*"
     "@chainlink/fcsapi-adapter": "*"
     "@chainlink/finage-adapter": "*"
@@ -2272,12 +2296,14 @@ __metadata:
     "@chainlink/intrinio-adapter": "*"
     "@chainlink/json-rpc-adapter": "*"
     "@chainlink/kaiko-adapter": "*"
+    "@chainlink/layer2-sequencer-health-adapter": "*"
     "@chainlink/lcx-adapter": "*"
     "@chainlink/linkpool-adapter": "*"
     "@chainlink/lition-adapter": "*"
     "@chainlink/marketstack-adapter": "*"
     "@chainlink/messari-adapter": "*"
     "@chainlink/metalsapi-adapter": "*"
+    "@chainlink/mycryptoapi-adapter": "*"
     "@chainlink/ncfx-adapter": "*"
     "@chainlink/nikkei-adapter": "*"
     "@chainlink/nomics-adapter": "*"
@@ -2304,6 +2330,7 @@ __metadata:
     "@chainlink/trueusd-adapter": "*"
     "@chainlink/twelvedata-adapter": "*"
     "@chainlink/unibit-adapter": "*"
+    "@chainlink/upvest-adapter": "*"
     "@chainlink/wbtc-address-set-adapter": "*"
     "@chainlink/wootrade-adapter": "*"
     "@chainlink/xbto-adapter": "*"
@@ -2353,6 +2380,20 @@ __metadata:
     "@types/node": ^14.14.35
     tslib: ^2.3.1
     typescript: ^4.3.5
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/ethgaswatch-adapter@*, @chainlink/ethgaswatch-adapter@workspace:packages/sources/ethgaswatch":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/ethgaswatch-adapter@workspace:packages/sources/ethgaswatch"
+  dependencies:
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.0.1
+    "@types/jest": ^26.0.22
+    "@types/node": ^14.14.35
+    tslib: ^2.1.0
+    typescript: ^4.2.3
   languageName: unknown
   linkType: soft
 
@@ -2668,7 +2709,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/layer2-sequencer-health-adapter@workspace:packages/sources/layer2-sequencer-health":
+"@chainlink/layer2-sequencer-health-adapter@*, @chainlink/layer2-sequencer-health-adapter@workspace:packages/sources/layer2-sequencer-health":
   version: 0.0.0-use.local
   resolution: "@chainlink/layer2-sequencer-health-adapter@workspace:packages/sources/layer2-sequencer-health"
   dependencies:
@@ -2703,7 +2744,7 @@ __metadata:
   resolution: "@chainlink/linear-finance-adapter@workspace:packages/composites/linear-finance"
   dependencies:
     "@chainlink/ea-bootstrap": "*"
-    "@chainlink/token-allocation-adapter": 0.1.0
+    "@chainlink/token-allocation-adapter": 0.1.1
     "@chainlink/types": 0.0.1
     "@types/jest": ^27.0.1
     "@types/node": ^14.14.35
@@ -2816,6 +2857,20 @@ __metadata:
     "@types/node": ^14.14.35
     tslib: ^2.3.1
     typescript: ^4.3.5
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/mycryptoapi-adapter@*, @chainlink/mycryptoapi-adapter@workspace:packages/sources/mycryptoapi":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/mycryptoapi-adapter@workspace:packages/sources/mycryptoapi"
+  dependencies:
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.0.1
+    "@types/jest": ^26.0.22
+    "@types/node": ^14.14.35
+    tslib: ^2.1.0
+    typescript: ^4.2.3
   languageName: unknown
   linkType: soft
 
@@ -3137,13 +3192,13 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-test-helpers": "*"
-    "@chainlink/token-allocation-adapter": ^0.1.0
+    "@chainlink/token-allocation-adapter": ^0.1.1
     "@chainlink/types": 0.0.1
     "@types/jest": ^27.0.1
     "@types/node": ^14.14.35
     "@types/supertest": ^2.0.11
     decimal.js: ^10.3.1
-    nock: ^13.1.1
+    nock: ^13.1.2
     supertest: ^6.1.6
     synthetix: 2.45.3
     tslib: ^2.3.1
@@ -3227,7 +3282,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/token-allocation-adapter@0.1.0, @chainlink/token-allocation-adapter@^0.1.0, @chainlink/token-allocation-adapter@workspace:packages/composites/token-allocation":
+"@chainlink/token-allocation-adapter@0.1.1, @chainlink/token-allocation-adapter@^0.1.1, @chainlink/token-allocation-adapter@workspace:packages/composites/token-allocation":
   version: 0.0.0-use.local
   resolution: "@chainlink/token-allocation-adapter@workspace:packages/composites/token-allocation"
   dependencies:
@@ -3329,12 +3384,26 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/upvest-adapter@*, @chainlink/upvest-adapter@workspace:packages/sources/upvest":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/upvest-adapter@workspace:packages/sources/upvest"
+  dependencies:
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.0.1
+    "@types/jest": ^26.0.22
+    "@types/node": ^14.14.35
+    tslib: ^2.1.0
+    typescript: ^4.2.3
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/vesper-adapter@workspace:packages/composites/vesper":
   version: 0.0.0-use.local
   resolution: "@chainlink/vesper-adapter@workspace:packages/composites/vesper"
   dependencies:
     "@chainlink/ea-bootstrap": "*"
-    "@chainlink/token-allocation-adapter": 0.1.0
+    "@chainlink/token-allocation-adapter": 0.1.1
     "@chainlink/types": 0.0.1
     "@types/jest": ^27.0.1
     "@types/node": ^14.14.35
@@ -4429,6 +4498,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@jest/types@npm:^26.6.2":
+  version: 26.6.2
+  resolution: "@jest/types@npm:26.6.2"
+  dependencies:
+    "@types/istanbul-lib-coverage": ^2.0.0
+    "@types/istanbul-reports": ^3.0.0
+    "@types/node": "*"
+    "@types/yargs": ^15.0.0
+    chalk: ^4.0.0
+  checksum: a0bd3d2f22f26ddb23f41fddf6e6a30bf4fab2ce79ec1cb6ce6fdfaf90a72e00f4c71da91ec61e13db3b10c41de22cf49d07c57ff2b59171d64b29f909c1d8d6
+  languageName: node
+  linkType: hard
+
 "@jest/types@npm:^27.0.6":
   version: 27.0.6
   resolution: "@jest/types@npm:27.0.6"
@@ -5505,6 +5587,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/jest@npm:^26.0.22":
+  version: 26.0.24
+  resolution: "@types/jest@npm:26.0.24"
+  dependencies:
+    jest-diff: ^26.0.0
+    pretty-format: ^26.0.0
+  checksum: ae39675412f08d884926254e9b12bfd2b5a4e4d204c94d3148cb942174a474930d0c60540133c968f22241d4712b7940c96cbc883096eb326a4d5b206fb78bd0
+  languageName: node
+  linkType: hard
+
 "@types/jest@npm:^27.0.1":
   version: 27.0.1
   resolution: "@types/jest@npm:27.0.1"
@@ -5896,6 +5988,15 @@ __metadata:
   version: 20.2.1
   resolution: "@types/yargs-parser@npm:20.2.1"
   checksum: 1d039e64494a7a61ddd278349a3dc60b19f99ff0517425696e796f794e4252452b9d62178e69755ad03f439f9dc0c8c3d7b3a1201b3a24e134bac1a09fa11eaa
+  languageName: node
+  linkType: hard
+
+"@types/yargs@npm:^15.0.0":
+  version: 15.0.14
+  resolution: "@types/yargs@npm:15.0.14"
+  dependencies:
+    "@types/yargs-parser": "*"
+  checksum: 8e358aeb8f0c3758e59e2b8fcfdee5627ab2fe3d92f50f380503d966c7f33287be3322155516a50d27727fde1ad3878f48f60cd6648439126d4b0bbb1a1153ed
   languageName: node
   linkType: hard
 
@@ -7292,13 +7393,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bn.js@npm:*, bn.js@npm:^5.0.0, bn.js@npm:^5.1.1, bn.js@npm:^5.1.2, bn.js@npm:^5.1.3, bn.js@npm:^5.2.0":
-  version: 5.2.0
-  resolution: "bn.js@npm:5.2.0"
-  checksum: 6117170393200f68b35a061ecbf55d01dd989302e7b3c798a3012354fa638d124f0b2f79e63f77be5556be80322a09c40339eda6413ba7468524c0b6d4b4cb7a
-  languageName: node
-  linkType: hard
-
 "bn.js@npm:4.11.6":
   version: 4.11.6
   resolution: "bn.js@npm:4.11.6"
@@ -7317,6 +7411,13 @@ __metadata:
   version: 4.12.0
   resolution: "bn.js@npm:4.12.0"
   checksum: 39afb4f15f4ea537b55eaf1446c896af28ac948fdcf47171961475724d1bb65118cca49fa6e3d67706e4790955ec0e74de584e45c8f1ef89f46c812bee5b5a12
+  languageName: node
+  linkType: hard
+
+"bn.js@npm:^5.0.0, bn.js@npm:^5.1.1, bn.js@npm:^5.1.2, bn.js@npm:^5.1.3, bn.js@npm:^5.2.0":
+  version: 5.2.0
+  resolution: "bn.js@npm:5.2.0"
+  checksum: 6117170393200f68b35a061ecbf55d01dd989302e7b3c798a3012354fa638d124f0b2f79e63f77be5556be80322a09c40339eda6413ba7468524c0b6d4b4cb7a
   languageName: node
   linkType: hard
 
@@ -9235,6 +9336,13 @@ __metadata:
     asap: ^2.0.0
     wrappy: 1
   checksum: 8b26238db91423b2702a7a6d9629d0019c37c415e7b6e75d4b3e8d27e9464e21cac3618dd145f4d4ee96c70cc6ff034227b5b8a0e9c09015a8bdbe6dace3cfb9
+  languageName: node
+  linkType: hard
+
+"diff-sequences@npm:^26.6.2":
+  version: 26.6.2
+  resolution: "diff-sequences@npm:26.6.2"
+  checksum: 79af871776ef149a7ff3345d6b1bf37fe6e81f68632aa5542787851f6f60fba19b0be22fdd1e06046f56ae7382763ccfe94a982c39ee72bd107aef435ecbc0cf
   languageName: node
   linkType: hard
 
@@ -13038,6 +13146,18 @@ fsevents@~2.1.1:
   languageName: node
   linkType: hard
 
+"jest-diff@npm:^26.0.0":
+  version: 26.6.2
+  resolution: "jest-diff@npm:26.6.2"
+  dependencies:
+    chalk: ^4.0.0
+    diff-sequences: ^26.6.2
+    jest-get-type: ^26.3.0
+    pretty-format: ^26.6.2
+  checksum: d00d297f31e1ac0252127089892432caa7a11c69bde29cf3bb6c7a839c8afdb95cf1fd401f9df16a4422745da2e6a5d94b428b30666a2540c38e1c5699915c2d
+  languageName: node
+  linkType: hard
+
 "jest-diff@npm:^27.0.0, jest-diff@npm:^27.0.6":
   version: 27.0.6
   resolution: "jest-diff@npm:27.0.6"
@@ -13098,6 +13218,13 @@ fsevents@~2.1.1:
     jest-mock: ^27.0.6
     jest-util: ^27.0.6
   checksum: 910ced755557c4fbc134cf687d9c1571100dfb5d7e9691cdaa76dfcccd2bc97e62cec58e271e600757db94dc41612b3d97700fc3fd2439a298ce5f66e32da215
+  languageName: node
+  linkType: hard
+
+"jest-get-type@npm:^26.3.0":
+  version: 26.3.0
+  resolution: "jest-get-type@npm:26.3.0"
+  checksum: 1cc6465ae4f5e880be22ba52fd270fa64c21994915f81b41f8f7553a7957dd8e077cc8d03035de9412e2d739f8bad6a032ebb5dab5805692a5fb9e20dd4ea666
   languageName: node
   linkType: hard
 
@@ -14685,7 +14812,7 @@ fsevents@~2.1.1:
   languageName: node
   linkType: hard
 
-"lodash@npm:*, lodash@npm:^4.17.11, lodash@npm:^4.17.12, lodash@npm:^4.17.14, lodash@npm:^4.17.15, lodash@npm:^4.17.19, lodash@npm:^4.17.20, lodash@npm:^4.17.21, lodash@npm:^4.17.4, lodash@npm:^4.7.0":
+"lodash@npm:^4.17.11, lodash@npm:^4.17.12, lodash@npm:^4.17.14, lodash@npm:^4.17.15, lodash@npm:^4.17.19, lodash@npm:^4.17.20, lodash@npm:^4.17.21, lodash@npm:^4.17.4, lodash@npm:^4.7.0":
   version: 4.17.21
   resolution: "lodash@npm:4.17.21"
   checksum: eb835a2e51d381e561e508ce932ea50a8e5a68f4ebdd771ea240d3048244a8d13658acbd502cd4829768c56f2e16bdd4340b9ea141297d472517b83868e677f7
@@ -15708,15 +15835,15 @@ fsevents@~2.1.1:
   languageName: node
   linkType: hard
 
-"nock@npm:^13.1.1":
-  version: 13.1.1
-  resolution: "nock@npm:13.1.1"
+"nock@npm:^13.1.2":
+  version: 13.1.2
+  resolution: "nock@npm:13.1.2"
   dependencies:
     debug: ^4.1.0
     json-stringify-safe: ^5.0.1
     lodash.set: ^4.3.2
     propagate: ^2.0.0
-  checksum: 3acc60893d4da0848f7b1868f8d3c08fb35b90af5df7e4825be5da593f9cc7bb41388bab614058aa27be38404ff002c1073f28ee1f75ee1650694d394c9b8cdc
+  checksum: 61cf123030b86adc202887a7b6588992d751651587cd627d38af2285dde6928577694623777df4585d5838b9a1649264df3c6979983a777885ed4f98320f6e04
   languageName: node
   linkType: hard
 
@@ -17086,6 +17213,18 @@ fsevents@~2.1.1:
   languageName: node
   linkType: hard
 
+"pretty-format@npm:^26.0.0, pretty-format@npm:^26.6.2":
+  version: 26.6.2
+  resolution: "pretty-format@npm:26.6.2"
+  dependencies:
+    "@jest/types": ^26.6.2
+    ansi-regex: ^5.0.0
+    ansi-styles: ^4.0.0
+    react-is: ^17.0.1
+  checksum: e3b808404d7e1519f0df1aa1f25cee0054ab475775c6b2b8c5568ff23194a92d54bf93274139b6f584ca70fd773be4eaa754b0e03f12bb0a8d1426b07f079976
+  languageName: node
+  linkType: hard
+
 "pretty-format@npm:^27.0.0, pretty-format@npm:^27.0.6":
   version: 27.0.6
   resolution: "pretty-format@npm:27.0.6"
@@ -17755,15 +17894,13 @@ fsevents@~2.1.1:
   languageName: node
   linkType: hard
 
-"redux-observable@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "redux-observable@npm:2.0.0"
-  dependencies:
-    rxjs: ^7.0.0
-    tslib: ~2.1.0
+"redux-observable@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "redux-observable@npm:1.2.0"
   peerDependencies:
     redux: ">=4 <5"
-  checksum: ad5c23019e662541339d5dadb8cb9418d4c29499b52c8557a2a2fb0c3384af0fe3640db124176712d2e60c997bd12c418291ff7d668f01a14d2c553dd191ddd6
+    rxjs: ">=6.0.0-beta.0 <7"
+  checksum: 37ae9622fcf89fdda3e2464e10794752c9234a75e122e1aab2fccd83d192731fd4d8f3ab1baa8e8b71629987246d566bfd46aa6eb586510a0a73abb7ec440b88
   languageName: node
   linkType: hard
 
@@ -18260,21 +18397,12 @@ resolve@1.17.0:
   languageName: node
   linkType: hard
 
-"rxjs@npm:^6.4.0, rxjs@npm:^6.6.7":
+"rxjs@npm:^6.4.0, rxjs@npm:^6.6.3, rxjs@npm:^6.6.7":
   version: 6.6.7
   resolution: "rxjs@npm:6.6.7"
   dependencies:
     tslib: ^1.9.0
   checksum: bc334edef1bb8bbf56590b0b25734ba0deaf8825b703256a93714308ea36dff8a11d25533671adf8e104e5e8f256aa6fdfe39b2e248cdbd7a5f90c260acbbd1b
-  languageName: node
-  linkType: hard
-
-"rxjs@npm:^7.0.0, rxjs@npm:^7.3.0":
-  version: 7.3.0
-  resolution: "rxjs@npm:7.3.0"
-  dependencies:
-    tslib: ~2.1.0
-  checksum: e63adb8808ea6c299a020d56d2af92bcf71efe641adf838499932e29b8f5fd5ff00873653ad48ba3ecf6c9fc11c3c595acf995e8d456f9d8cb85c7d37a1fd72e
   languageName: node
   linkType: hard
 
@@ -19540,7 +19668,7 @@ resolve@1.17.0:
   languageName: node
   linkType: hard
 
-"supertest@npm:^6.1.6":
+"supertest@npm:^6.1.3, supertest@npm:^6.1.6":
   version: 6.1.6
   resolution: "supertest@npm:6.1.6"
   dependencies:
@@ -20117,17 +20245,10 @@ resolve@1.17.0:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.0.3, tslib@npm:^2.2.0, tslib@npm:^2.3.1":
+"tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.2.0, tslib@npm:^2.3.1":
   version: 2.3.1
   resolution: "tslib@npm:2.3.1"
   checksum: de17a98d4614481f7fcb5cd53ffc1aaf8654313be0291e1bfaee4b4bb31a20494b7d218ff2e15017883e8ea9626599b3b0e0229c18383ba9dce89da2adf15cb9
-  languageName: node
-  linkType: hard
-
-"tslib@npm:~2.1.0":
-  version: 2.1.0
-  resolution: "tslib@npm:2.1.0"
-  checksum: aa189c8179de0427b0906da30926fd53c59d96ec239dff87d6e6bc831f608df0cbd6f77c61dabc074408bd0aa0b9ae4ec35cb2c15f729e32f37274db5730cb78
   languageName: node
   linkType: hard
 
@@ -20307,7 +20428,7 @@ resolve@1.17.0:
   languageName: node
   linkType: hard
 
-"typescript@^4.3.4, typescript@^4.3.5":
+"typescript@^4.2.3, typescript@^4.3.4, typescript@^4.3.5":
   version: 4.3.5
   resolution: "typescript@npm:4.3.5"
   bin:
@@ -20317,7 +20438,7 @@ resolve@1.17.0:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^4.3.4#~builtin<compat/typescript>, typescript@patch:typescript@^4.3.5#~builtin<compat/typescript>":
+"typescript@patch:typescript@^4.2.3#~builtin<compat/typescript>, typescript@patch:typescript@^4.3.4#~builtin<compat/typescript>, typescript@patch:typescript@^4.3.5#~builtin<compat/typescript>":
   version: 4.3.5
   resolution: "typescript@patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"
   bin:
@@ -20709,7 +20830,7 @@ resolve@1.17.0:
   languageName: node
   linkType: hard
 
-"uuid@npm:^8.0.0, uuid@npm:^8.3.2":
+"uuid@npm:^8.0.0, uuid@npm:^8.3.0":
   version: 8.3.2
   resolution: "uuid@npm:8.3.2"
   bin:
@@ -21122,6 +21243,21 @@ resolve@1.17.0:
   languageName: node
   linkType: hard
 
+"web3-utils@npm:*, web3-utils@npm:1.5.0, web3-utils@npm:^1.0.0-beta.31, web3-utils@npm:^1.2.1, web3-utils@npm:^1.3.0":
+  version: 1.5.0
+  resolution: "web3-utils@npm:1.5.0"
+  dependencies:
+    bn.js: ^4.11.9
+    eth-lib: 0.2.8
+    ethereum-bloom-filters: ^1.0.6
+    ethjs-unit: 0.1.6
+    number-to-bn: 1.7.0
+    randombytes: ^2.1.0
+    utf8: 3.0.0
+  checksum: 3dce220665bfaa3c23789fe93760af12b68ac6ac2c8e0d3866d9a46105ff959697c9e4db1207ee780f95f386fc54ea2cb42b0826b46d1ebbdbb520f15df8e16e
+  languageName: node
+  linkType: hard
+
 "web3-utils@npm:1.2.2":
   version: 1.2.2
   resolution: "web3-utils@npm:1.2.2"
@@ -21135,21 +21271,6 @@ resolve@1.17.0:
     underscore: 1.9.1
     utf8: 3.0.0
   checksum: bbd1189b7b6255007e997496c14b86fee4836c2f6ee19667cbb63b378a965ed5928b33320780e8312542a2538558185bd0a6ad5998f9eb997dc354a3c1c4ed52
-  languageName: node
-  linkType: hard
-
-"web3-utils@npm:1.5.0, web3-utils@npm:^1.0.0-beta.31, web3-utils@npm:^1.2.1, web3-utils@npm:^1.3.0":
-  version: 1.5.0
-  resolution: "web3-utils@npm:1.5.0"
-  dependencies:
-    bn.js: ^4.11.9
-    eth-lib: 0.2.8
-    ethereum-bloom-filters: ^1.0.6
-    ethjs-unit: 0.1.6
-    number-to-bn: 1.7.0
-    randombytes: ^2.1.0
-    utf8: 3.0.0
-  checksum: 3dce220665bfaa3c23789fe93760af12b68ac6ac2c8e0d3866d9a46105ff959697c9e4db1207ee780f95f386fc54ea2cb42b0826b46d1ebbdbb520f15df8e16e
   languageName: node
   linkType: hard
 
@@ -21577,7 +21698,7 @@ resolve@1.17.0:
   languageName: node
   linkType: hard
 
-"ws@npm:^7.4.6, ws@npm:^7.5.0":
+"ws@npm:^7.4.4, ws@npm:^7.4.6, ws@npm:^7.5.0":
   version: 7.5.3
   resolution: "ws@npm:7.5.3"
   peerDependencies:
@@ -21589,21 +21710,6 @@ resolve@1.17.0:
     utf-8-validate:
       optional: true
   checksum: 423dc0d859fa74020f5555140905b862470a60ea1567bb9ad55a087263d7718b9c94f69678be1cee9868925c570f1e6fc79d09f90c39057bc63fa2edbb2c547b
-  languageName: node
-  linkType: hard
-
-"ws@npm:^8.2.0":
-  version: 8.2.0
-  resolution: "ws@npm:8.2.0"
-  peerDependencies:
-    bufferutil: ^4.0.1
-    utf-8-validate: ^5.0.2
-  peerDependenciesMeta:
-    bufferutil:
-      optional: true
-    utf-8-validate:
-      optional: true
-  checksum: 7cd544312a48dafcb8158c9b4e5f20986cce980d516e0ef0602665911b0e95c5e0dea2846a4bb3153a1e2c839aa3d92fb7e69dd864fe432e881eee9d4e8cf70b
   languageName: node
   linkType: hard
 
