@@ -3584,7 +3584,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.7"],
             ["decimal.js", "npm:10.3.1"],
+            ["ethers", "npm:5.0.32"],
             ["moment", "npm:2.29.1"],
+            ["nock", "npm:13.1.1"],
             ["tslib", "npm:2.3.0"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],

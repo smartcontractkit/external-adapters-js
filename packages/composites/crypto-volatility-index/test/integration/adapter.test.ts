@@ -2,7 +2,7 @@ import { AdapterRequest, Execute } from '@chainlink/types'
 import * as cryptoVolatilityAdapter from "../../src/index"
 import { BigNumber } from "ethers"
 import nock from "nock"
-import { mockBookDataEndpointBTC, mockBookDataEndpointETH, mockCurrencyEndpointBTC, mockCurrencyEndpointETH, mockInstrumentsBTC, mockInstrumentsETH} from "./fixtures"
+import { mockBookDataEndpointBTC, mockBookDataEndpointETH, mockCurrencyEndpointBTC, mockCurrencyEndpointETH, mockInstrumentsBTC, mockInstrumentsETH, mockTokenAllocationResponseETH, mockTokenAllocationResponseBTC } from "./fixtures"
 
 // Fix time information for moment JS
 process.env.TZ = 'GMT'
@@ -11,14 +11,12 @@ Date.now = () => new Date('2021-07-21T10:20:30Z').getTime();
 jest.mock("moment", () => {
   const moment = jest.requireActual("moment")
   moment.weekday = () => 5
-  moment.unix = (expiration?: number) => {
-    if(expiration) {
-      return {
-        weekday: () => 5
+  moment.unix = (expiration?: number) =>
+  expiration
+    ? {
+        weekday: () => 5,
       }
-    }
-    return moment.unix()
-  }
+    : moment.unix()
   return moment
 })
 
@@ -26,40 +24,10 @@ const mockBigNum = BigNumber.from(2000)
 const mockUpdatedAt = BigNumber.from(1624227602)
 
 jest.mock("@chainlink/ea-reference-data-reader", () => ({
-  ...(jest.requireActual("@chainlink/token-allocation-adapter")),
   getRpcLatestRound: () => ({
     answer: mockBigNum,
     updatedAt: mockUpdatedAt
   })
-}))
-
-jest.mock("@chainlink/token-allocation-adapter", () => ({
-  ...(jest.requireActual("@chainlink/token-allocation-adapter")),
-  makeExecute: jest.fn().mockReturnValue(() => ({
-    "jobRunID": "1",
-    "data": {
-      "sources": [],
-      "payload": {
-        "BTC": {
-          "quote": {
-            "USD": {
-              "marketCap": "30000"
-            }
-          }
-        },
-        "ETH": {
-            "quote": {
-              "USD": {
-                "marketCap": "1800"
-              }
-            }
-        }
-      },
-      "result": 2000
-    },
-    "result": 2000,
-    "statusCode": 200
-  }))
 }))
 
 let oldEnv: NodeJS.ProcessEnv
@@ -95,7 +63,7 @@ describe('execute', () => {
     const data: AdapterRequest = { 
       id,
       data: {
-        "source": "coingecko",
+        "source": "tiingo",
         "address": "mock-address",
         "contract": "0x1B58B67B2b2Df71b4b0fb6691271E83A0fa36aC5",
         "isAdaptive": true,
@@ -103,6 +71,8 @@ describe('execute', () => {
       }
     }
 
+    mockTokenAllocationResponseBTC()
+    mockTokenAllocationResponseETH()
     mockBookDataEndpointBTC()
     mockBookDataEndpointETH()
     mockCurrencyEndpointBTC()
@@ -120,13 +90,15 @@ describe('execute', () => {
     const data: AdapterRequest = { 
       id,
       data: {
-        "source": "coingecko",
+        "source": "tiingo",
         "address": "mock-address",
         "contract": "0x1B58B67B2b2Df71b4b0fb6691271E83A0fa36aC5",
         "isAdaptive": false
       }
     }
 
+    mockTokenAllocationResponseBTC()
+    mockTokenAllocationResponseETH()
     mockBookDataEndpointBTC()
     mockBookDataEndpointETH()
     mockCurrencyEndpointBTC()
