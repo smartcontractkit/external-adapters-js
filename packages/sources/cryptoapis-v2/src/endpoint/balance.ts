@@ -4,7 +4,7 @@ import { Config, ExecuteFactory } from '@chainlink/types'
 import {
   isCoinType,
   isChainType,
-  TESTNET_BLOCKCHAINS,
+  TESTNET_BLOCKCHAINS_BY_PLATFORM,
   BLOCKCHAIN_NAME_BY_TICKER,
   BlockchainTickers,
 } from '../config'
@@ -14,7 +14,8 @@ export const supportedEndpoints = ['balance']
 export const inputParameters = balance.inputParameters
 
 const getBalanceURI = (address: string, chain: string, coin: string) => {
-  if (chain === 'testnet') chain = Requester.toVendorName(coin, TESTNET_BLOCKCHAINS) || chain
+  if (chain === 'testnet')
+    chain = Requester.toVendorName(coin, TESTNET_BLOCKCHAINS_BY_PLATFORM) || chain
   return `/v2/blockchain-data/${coin}/${chain}/addresses/${address}`
 }
 

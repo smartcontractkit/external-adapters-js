@@ -31,7 +31,7 @@ export function isChainType(key: string): key is ChainType {
   return CHAIN_KEYS.includes(key as ChainType)
 }
 
-export const TESTNET_BLOCKCHAINS: { [ticker: string]: string } = {
+export const TESTNET_BLOCKCHAINS_BY_PLATFORM = {
   ethereum: 'rinkeby',
   'ethereum-classic': 'mordor',
-}
+} as const
