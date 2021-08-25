@@ -65,24 +65,24 @@ Object {
       "DAI": Object {
         "quote": Object {
           "EUR": Object {
-            "marketCap": 400,
+            "marketCap": 130.27,
           },
         },
       },
       "WBTC": Object {
         "quote": Object {
           "EUR": Object {
-            "marketCap": 200,
+            "marketCap": 130.27,
           },
         },
       },
     },
-    "result": 600,
+    "result": 260.54,
     "sources": Array [],
   },
   "debug": undefined,
   "jobRunID": 1,
-  "result": 600,
+  "result": 260.54,
   "statusCode": 200,
 }
 `;
@@ -94,24 +94,24 @@ Object {
       "DAI": Object {
         "quote": Object {
           "EUR": Object {
-            "marketCap": 400,
+            "marketCap": 130.27,
           },
         },
       },
       "WBTC": Object {
         "quote": Object {
           "EUR": Object {
-            "marketCap": 200,
+            "marketCap": 130.27,
           },
         },
       },
     },
-    "result": 600,
+    "result": 260.54,
     "sources": Array [],
   },
   "debug": undefined,
   "jobRunID": 1,
-  "result": 600,
+  "result": 260.54,
   "statusCode": 200,
 }
 `;
@@ -152,24 +152,24 @@ Object {
       "DAI": Object {
         "quote": Object {
           "EUR": Object {
-            "marketCap": 400,
+            "marketCap": 130.27,
           },
         },
       },
       "WBTC": Object {
         "quote": Object {
           "EUR": Object {
-            "marketCap": 200,
+            "marketCap": 130.27,
           },
         },
       },
     },
-    "result": 600,
+    "result": 260.54,
     "sources": Array [],
   },
   "debug": undefined,
   "jobRunID": 1,
-  "result": 600,
+  "result": 260.54,
   "statusCode": 200,
 }
 `;
@@ -210,24 +210,24 @@ Object {
       "DAI": Object {
         "quote": Object {
           "EUR": Object {
-            "marketCap": 400,
+            "marketCap": 130.27,
           },
         },
       },
       "WBTC": Object {
         "quote": Object {
           "EUR": Object {
-            "marketCap": 200,
+            "marketCap": 130.27,
           },
         },
       },
     },
-    "result": 600,
+    "result": 260.54,
     "sources": Array [],
   },
   "debug": undefined,
   "jobRunID": 1,
-  "result": 600,
+  "result": 260.54,
   "statusCode": 200,
 }
 `;
@@ -268,24 +268,24 @@ Object {
       "DAI": Object {
         "quote": Object {
           "USD": Object {
-            "marketCap": 400,
+            "marketCap": 130.27,
           },
         },
       },
       "WBTC": Object {
         "quote": Object {
           "USD": Object {
-            "marketCap": 200,
+            "marketCap": 130.27,
           },
         },
       },
     },
-    "result": 600,
+    "result": 260.54,
     "sources": Array [],
   },
   "debug": undefined,
   "jobRunID": 1,
-  "result": 600,
+  "result": 260.54,
   "statusCode": 200,
 }
 `;
@@ -355,24 +355,24 @@ Object {
       "DAI": Object {
         "quote": Object {
           "EUR": Object {
-            "price": 400,
+            "price": 130.27,
           },
         },
       },
       "WBTC": Object {
         "quote": Object {
           "EUR": Object {
-            "price": 200,
+            "price": 130.27,
           },
         },
       },
     },
-    "result": 600,
+    "result": 260.54,
     "sources": Array [],
   },
   "debug": undefined,
   "jobRunID": 1,
-  "result": 600,
+  "result": 260.54,
   "statusCode": 200,
 }
 `;
@@ -384,24 +384,24 @@ Object {
       "DAI": Object {
         "quote": Object {
           "EUR": Object {
-            "price": 400,
+            "price": 130.27,
           },
         },
       },
       "WBTC": Object {
         "quote": Object {
           "EUR": Object {
-            "price": 200,
+            "price": 130.27,
           },
         },
       },
     },
-    "result": 600,
+    "result": 260.54,
     "sources": Array [],
   },
   "debug": undefined,
   "jobRunID": 1,
-  "result": 600,
+  "result": 260.54,
   "statusCode": 200,
 }
 `;
@@ -442,24 +442,24 @@ Object {
       "DAI": Object {
         "quote": Object {
           "EUR": Object {
-            "price": 400,
+            "price": 130.27,
           },
         },
       },
       "WBTC": Object {
         "quote": Object {
           "EUR": Object {
-            "price": 200,
+            "price": 130.27,
           },
         },
       },
     },
-    "result": 600,
+    "result": 260.54,
     "sources": Array [],
   },
   "debug": undefined,
   "jobRunID": 1,
-  "result": 600,
+  "result": 260.54,
   "statusCode": 200,
 }
 `;
@@ -500,24 +500,24 @@ Object {
       "DAI": Object {
         "quote": Object {
           "EUR": Object {
-            "price": 400,
+            "price": 130.27,
           },
         },
       },
       "WBTC": Object {
         "quote": Object {
           "EUR": Object {
-            "price": 200,
+            "price": 130.27,
           },
         },
       },
     },
-    "result": 600,
+    "result": 260.54,
     "sources": Array [],
   },
   "debug": undefined,
   "jobRunID": 1,
-  "result": 600,
+  "result": 260.54,
   "statusCode": 200,
 }
 `;
@@ -558,24 +558,24 @@ Object {
       "DAI": Object {
         "quote": Object {
           "USD": Object {
-            "price": 400,
+            "price": 130.27,
           },
         },
       },
       "WBTC": Object {
         "quote": Object {
           "USD": Object {
-            "price": 200,
+            "price": 130.27,
           },
         },
       },
     },
-    "result": 600,
+    "result": 260.54,
     "sources": Array [],
   },
   "debug": undefined,
   "jobRunID": 1,
-  "result": 600,
+  "result": 260.54,
   "statusCode": 200,
 }
 `;
