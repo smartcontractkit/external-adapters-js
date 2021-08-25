@@ -6,7 +6,7 @@ describe('execute', () => {
   const execute = makeExecute()
   process.env.API_KEY = process.env.API_KEY ?? 'test_api_key'
 
-  describe('successful calls @integration', () => {
+  describe('successful calls @e2e', () => {
     const requests = [
       {
         name: 'id not supplied',
