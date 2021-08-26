@@ -1,3 +1,16 @@
+import { ethers } from 'ethers'
+import {
+  CryptoMarketFactory,
+  CryptoMarketFactory__factory,
+  MLBMarketFactory,
+  MLBMarketFactory__factory,
+  MMAMarketFactory,
+  NBAMarketFactory,
+  NBAMarketFactory__factory,
+  NFLMarketFactory,
+  NFLMarketFactory__factory,
+} from '../typechain'
+
 export * as resolveMarkets from './resolveMarkets'
 export * as createMarkets from './createMarkets'
 export * as pokeMarkets from './pokeMarkets'
@@ -41,149 +54,6 @@ const ABI = [
   },
 ]
 
-export const TEAM_ABI = [
-  ...ABI,
-  {
-    inputs: [
-      { internalType: 'uint256', name: '_eventId', type: 'uint256' },
-      { internalType: 'uint256', name: '_homeTeamId', type: 'uint256' },
-      { internalType: 'uint256', name: '_awayTeamId', type: 'uint256' },
-      { internalType: 'uint256', name: '_startTimestamp', type: 'uint256' },
-      { internalType: 'int256', name: '_homeSpread', type: 'int256' },
-      { internalType: 'uint256', name: '_totalScore', type: 'uint256' },
-      { internalType: 'bool', name: '_makeSpread', type: 'bool' },
-      { internalType: 'bool', name: '_makeTotalScore', type: 'bool' },
-      { internalType: 'int256[2]', name: '_moneylines', type: 'int256[2]' },
-    ],
-    name: 'createMarket',
-    outputs: [{ internalType: 'uint256[3]', name: '_ids', type: 'uint256[3]' }],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      { internalType: 'uint256', name: '_eventId', type: 'uint256' },
-      { internalType: 'uint256', name: '_eventStatus', type: 'uint256' },
-      { internalType: 'uint256', name: '_homeScore', type: 'uint256' },
-      { internalType: 'uint256', name: '_awayScore', type: 'uint256' },
-    ],
-    name: 'trustedResolveMarkets',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-]
-
-export const NFL_ABI = [
-  ...ABI,
-  {
-    inputs: [
-      { internalType: 'uint256', name: '_eventId', type: 'uint256' },
-      { internalType: 'string', name: '_homeTeamName', type: 'string' },
-      { internalType: 'uint256', name: '_homeTeamId', type: 'uint256' },
-      { internalType: 'string', name: '_awayTeamName', type: 'string' },
-      { internalType: 'uint256', name: '_awayTeamId', type: 'uint256' },
-      { internalType: 'uint256', name: '_startTimestamp', type: 'uint256' },
-      { internalType: 'int256', name: '_homeSpread', type: 'int256' },
-      { internalType: 'uint256', name: '_totalScore', type: 'uint256' },
-      { internalType: 'bool', name: '_makeSpread', type: 'bool' },
-      { internalType: 'bool', name: '_makeTotalScore', type: 'bool' },
-      { internalType: 'int256[2]', name: '_moneylines', type: 'int256[2]' },
-    ],
-    name: 'createMarket',
-    outputs: [{ internalType: 'uint256[3]', name: '_ids', type: 'uint256[3]' }],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      { internalType: 'uint256', name: '_eventId', type: 'uint256' },
-      { internalType: 'uint256', name: '_eventStatus', type: 'uint256' },
-      { internalType: 'uint256', name: '_homeScore', type: 'uint256' },
-      { internalType: 'uint256', name: '_awayScore', type: 'uint256' },
-    ],
-    name: 'trustedResolveMarkets',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-]
-
-export const CRYPTO_ABI = [
-  ...ABI,
-  {
-    inputs: [
-      {
-        internalType: 'uint80[]',
-        name: '_roundIds',
-        type: 'uint80[]',
-      },
-      {
-        internalType: 'uint256',
-        name: '_nextResolutionTime',
-        type: 'uint256',
-      },
-    ],
-    name: 'createAndResolveMarkets',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'getCoins',
-    outputs: [
-      {
-        components: [
-          {
-            internalType: 'string',
-            name: 'name',
-            type: 'string',
-          },
-          {
-            internalType: 'contract AggregatorV3Interface',
-            name: 'priceFeed',
-            type: 'address',
-          },
-          {
-            internalType: 'uint256',
-            name: 'price',
-            type: 'uint256',
-          },
-          {
-            internalType: 'uint8',
-            name: 'imprecision',
-            type: 'uint8',
-          },
-          {
-            internalType: 'uint256[1]',
-            name: 'currentMarkets',
-            type: 'uint256[1]',
-          },
-        ],
-        internalType: 'struct CryptoMarketFactory.Coin[]',
-        name: '_coins',
-        type: 'tuple[]',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'nextResolutionTime',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-]
-
 export const bytesMappingToHexStr = (mapping: number[], encoded: string): string => {
   const buf = Buffer.from(encoded.substr(2), 'hex')
 
@@ -197,4 +67,53 @@ export const bytesMappingToHexStr = (mapping: number[], encoded: string): string
   const missingBytes = 32 - mapping.reduce((sum, bytes) => sum + bytes)
   elems.push(...new Array(missingBytes).fill(new Uint8Array(1).fill(0)))
   return `0x${Buffer.concat(elems).toString('hex')}`
+}
+
+export const CONTRACT_IDENTIFIERS = ['nfl', 'nba', 'mlb', 'mma', 'crypto'] as const
+
+export type ContractIdentifier = typeof CONTRACT_IDENTIFIERS[number]
+
+export function isContractIdentifier(s: string): s is ContractIdentifier {
+  return CONTRACT_IDENTIFIERS.includes(s as ContractIdentifier)
+}
+
+export function getContract(
+  identifier: ContractIdentifier,
+  address: string,
+  signer: ethers.Signer,
+) {
+  if (identifier === 'nfl') return NFLMarketFactory__factory.connect(address, signer)
+  if (identifier === 'nba') return NBAMarketFactory__factory.connect(address, signer)
+  if (identifier === 'mlb') return MLBMarketFactory__factory.connect(address, signer)
+  if (identifier === 'mma') return MLBMarketFactory__factory.connect(address, signer)
+  if (identifier === 'crypto') return CryptoMarketFactory__factory.connect(address, signer)
+  else throw Error(`Unsupported identifier ${identifier}`)
+}
+
+export function isNFL(contract: ethers.Contract, identifier: string): contract is NFLMarketFactory {
+  contract
+  return identifier === 'nfl'
+}
+
+export function isNBA(contract: ethers.Contract, identifier: string): contract is NBAMarketFactory {
+  contract
+  return identifier === 'nba'
+}
+
+export function isMLB(contract: ethers.Contract, identifier: string): contract is MLBMarketFactory {
+  contract
+  return identifier === 'mlb'
+}
+
+export function isMMA(contract: ethers.Contract, identifier: string): contract is MMAMarketFactory {
+  contract
+  return identifier === 'mma'
+}
+
+export function isCrypto(
+  contract: ethers.Contract,
+  identifier: ContractIdentifier,
+): contract is CryptoMarketFactory {
+  contract
+  return identifier === 'crypto'
 }

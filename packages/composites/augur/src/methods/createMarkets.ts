@@ -1,10 +1,18 @@
 import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, AdapterRequest, AdapterContext } from '@chainlink/types'
+import { AdapterContext, AdapterRequest, ExecuteWithConfig } from '@chainlink/types'
 import { Config } from '../config'
-import { FIGHTER_SPORTS, NFL_ABI, TEAM_ABI, TEAM_SPORTS } from './index'
-import { ethers } from 'ethers'
-import { theRundown, sportsdataio } from '../dataProviders'
-import mmaABI from '../abis/mma.json'
+import {
+  FIGHTER_SPORTS,
+  getContract,
+  isContractIdentifier,
+  isMLB,
+  isMMA,
+  isNBA,
+  isNFL,
+  TEAM_SPORTS,
+} from './index'
+import { ContractTransaction, ethers } from 'ethers'
+import { sportsdataio, theRundown } from '../dataProviders'
 
 const createParams = {
   sport: true,
@@ -62,11 +70,9 @@ const createTeam = async (
   context: AdapterContext,
   config: Config,
 ) => {
-  const contract = new ethers.Contract(
-    contractAddress,
-    sport === 'nfl' ? NFL_ABI : TEAM_ABI,
-    config.wallet,
-  )
+  if (!isContractIdentifier(sport)) throw Error(`Unsupported sport ${sport}`)
+  const contract = getContract(sport, contractAddress, config.signer)
+
   const req = {
     id: jobRunID,
     data: {
@@ -93,39 +99,36 @@ const createTeam = async (
   let failed = 0
   let succeeded = 0
 
-  let nonce = await config.wallet.getTransactionCount()
+  let nonce = await config.signer.getTransactionCount()
   for (let i = 0; i < events.length; i++) {
     const event = events[i]
-    const payload =
-      sport === 'nfl'
-        ? [
-            event.id,
-            event.homeTeamName,
-            event.homeTeamId,
-            event.awayTeamName,
-            event.awayTeamId,
-            Math.floor(event.startTime / 1000),
-            Math.round(event.homeSpread * 10),
-            Math.round(event.totalScore * 10),
-            event.createSpread,
-            event.createTotalScore,
-            event.moneylines,
-            { nonce },
-          ]
-        : [
-            event.id,
-            event.homeTeamId,
-            event.awayTeamId,
-            Math.floor(event.startTime / 1000),
-            Math.round(event.homeSpread * 10),
-            Math.round(event.totalScore * 10),
-            event.createSpread,
-            event.createTotalScore,
-            event.moneylines,
-            { nonce },
-          ]
     try {
-      const tx = await contract.createMarket(...payload)
+      let tx: ContractTransaction
+      if (isNFL(contract, sport) || isNBA(contract, sport)) {
+        tx = await contract.createEvent(
+          event.id,
+          event.homeTeamName,
+          event.homeTeamId,
+          event.awayTeamName,
+          event.awayTeamId,
+          Math.floor(event.startTime / 1000),
+          Math.round(event.homeSpread * 10),
+          Math.round(event.totalScore * 10),
+          event.moneylines as [number, number],
+          { nonce },
+        )
+      } else if (isMLB(contract, sport) || isMMA(contract, sport)) {
+        tx = await contract.createEvent(
+          event.id,
+          event.homeTeamName,
+          event.homeTeamId,
+          event.awayTeamName,
+          event.awayTeamId,
+          Math.floor(event.startTime / 1000),
+          event.moneylines as [number, number],
+          { nonce },
+        )
+      } else throw Error(`Unsupported sport ${sport}`)
       Logger.debug(`Created tx: ${tx.hash}`)
       nonce++
       succeeded++
@@ -149,7 +152,9 @@ const createFighter = async (
   context: AdapterContext,
   config: Config,
 ) => {
-  const contract = new ethers.Contract(contractAddress, mmaABI, config.wallet)
+  if (!isContractIdentifier(sport)) throw Error(`Unsupported sport ${sport}`)
+  const contract = getContract(sport, contractAddress, config.signer)
+  if (!isMMA(contract, sport)) throw Error(`Unsupported fighting sport ${sport}`)
 
   const req = {
     id: jobRunID,
@@ -176,21 +181,20 @@ const createFighter = async (
   let failed = 0
   let succeeded = 0
 
-  let nonce = await config.wallet.getTransactionCount()
+  let nonce = await config.signer.getTransactionCount()
   for (let i = 0; i < events.length; i++) {
     const event = events[i]
-    const payload = [
-      event.id,
-      event.fighterAname,
-      event.fighterA,
-      event.fighterBname,
-      event.fighterB,
-      Math.floor(event.startTime / 1000),
-      event.moneylines,
-      { nonce },
-    ]
     try {
-      const tx = await contract.createMarket(...payload)
+      const tx = await contract.createEvent(
+        event.id,
+        event.fighterAname,
+        event.fighterA,
+        event.fighterBname,
+        event.fighterB,
+        Math.floor(event.startTime / 1000),
+        event.moneylines as [number, number],
+        { nonce },
+      )
       Logger.debug(`Created tx: ${tx.hash}`)
       nonce++
       succeeded++

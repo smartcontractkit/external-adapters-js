@@ -1,0 +1,293 @@
+{
+  "EventId": 195,
+  "LeagueId": 1,
+  "Name": "UFC Fight Night: Hall vs. Strickland",
+  "ShortName": "UFC Fight Night",
+  "Season": 2021,
+  "Day": "2021-07-31T00:00:00",
+  "DateTime": "2021-07-31T18:00:00",
+  "Status": "Scheduled",
+  "Active": true,
+  "Fights": [
+    {
+      "FightId": 2258,
+      "Order": 1,
+      "Status": "Scheduled",
+      "WeightClass": "Middleweight",
+      "CardSegment": "Main Card",
+      "Referee": null,
+      "Rounds": 5,
+      "ResultClock": 0,
+      "ResultRound": 0,
+      "ResultType": null,
+      "WinnerId": null,
+      "Active": true,
+      "Fighters": [
+        {
+          "FighterId": 140000604,
+          "FirstName": "Uriah",
+          "LastName": "Hall",
+          "PreFightWins": 18,
+          "PreFightLosses": 9,
+          "PreFightDraws": 0,
+          "PreFightNoContests": 0,
+          "Winner": false,
+          "Moneyline": null,
+          "Active": true
+        },
+        {
+          "FighterId": 140000741,
+          "FirstName": "Sean",
+          "LastName": "Strickland",
+          "PreFightWins": 23,
+          "PreFightLosses": 3,
+          "PreFightDraws": 0,
+          "PreFightNoContests": 0,
+          "Winner": false,
+          "Moneyline": null,
+          "Active": true
+        }
+      ]
+    },
+    {
+      "FightId": 2265,
+      "Order": 2,
+      "Status": "Scheduled",
+      "WeightClass": "Flyweight",
+      "CardSegment": "Main Card",
+      "Referee": null,
+      "Rounds": 3,
+      "ResultClock": 0,
+      "ResultRound": 0,
+      "ResultType": null,
+      "WinnerId": null,
+      "Active": true,
+      "Fighters": [
+        {
+          "FighterId": 140000222,
+          "FirstName": "Alex",
+          "LastName": "Perez",
+          "PreFightWins": 24,
+          "PreFightLosses": 6,
+          "PreFightDraws": 0,
+          "PreFightNoContests": 0,
+          "Winner": false,
+          "Moneyline": null,
+          "Active": true
+        },
+        {
+          "FighterId": 140000614,
+          "FirstName": "Askar",
+          "LastName": "Askarov",
+          "PreFightWins": 13,
+          "PreFightLosses": 0,
+          "PreFightDraws": 1,
+          "PreFightNoContests": 0,
+          "Winner": false,
+          "Moneyline": null,
+          "Active": true
+        }
+      ]
+    },
+    {
+      "FightId": 2257,
+      "Order": 3,
+      "Status": "Scheduled",
+      "WeightClass": "Featherweight",
+      "CardSegment": "Main Card",
+      "Referee": null,
+      "Rounds": 3,
+      "ResultClock": 0,
+      "ResultRound": 0,
+      "ResultType": null,
+      "WinnerId": null,
+      "Active": true,
+      "Fighters": [
+        {
+          "FighterId": 140000661,
+          "FirstName": "Dooho",
+          "LastName": "Choi",
+          "PreFightWins": 14,
+          "PreFightLosses": 4,
+          "PreFightDraws": 0,
+          "PreFightNoContests": 0,
+          "Winner": false,
+          "Moneyline": null,
+          "Active": true
+        },
+        {
+          "FighterId": 140000990,
+          "FirstName": "Danny",
+          "LastName": "Chavez",
+          "PreFightWins": 11,
+          "PreFightLosses": 4,
+          "PreFightDraws": 0,
+          "PreFightNoContests": 0,
+          "Winner": false,
+          "Moneyline": null,
+          "Active": true
+        }
+      ]
+    },
+    {
+      "FightId": 2261,
+      "Order": 4,
+      "Status": "Scheduled",
+      "WeightClass": "Women's Bantamweight",
+      "CardSegment": "Main Card",
+      "Referee": null,
+      "Rounds": 3,
+      "ResultClock": 0,
+      "ResultRound": 0,
+      "ResultType": null,
+      "WinnerId": null,
+      "Active": true,
+      "Fighters": [
+        {
+          "FighterId": 140000463,
+          "FirstName": "Nicco",
+          "LastName": "Montano",
+          "PreFightWins": 5,
+          "PreFightLosses": 3,
+          "PreFightDraws": 0,
+          "PreFightNoContests": 0,
+          "Winner": false,
+          "Moneyline": null,
+          "Active": true
+        },
+        {
+          "FighterId": 140000589,
+          "FirstName": "Wu",
+          "LastName": "Yanan",
+          "PreFightWins": 11,
+          "PreFightLosses": 4,
+          "PreFightDraws": 0,
+          "PreFightNoContests": 0,
+          "Winner": false,
+          "Moneyline": null,
+          "Active": true
+        }
+      ]
+    },
+    {
+      "FightId": 2263,
+      "Order": 5,
+      "Status": "Scheduled",
+      "WeightClass": "Welterweight",
+      "CardSegment": "Prelims",
+      "Referee": null,
+      "Rounds": 3,
+      "ResultClock": 0,
+      "ResultRound": 0,
+      "ResultType": null,
+      "WinnerId": null,
+      "Active": true,
+      "Fighters": [
+        {
+          "FighterId": 140000942,
+          "FirstName": "Niklas",
+          "LastName": "Stolze",
+          "PreFightWins": 12,
+          "PreFightLosses": 4,
+          "PreFightDraws": 0,
+          "PreFightNoContests": 0,
+          "Winner": false,
+          "Moneyline": null,
+          "Active": true
+        },
+        {
+          "FighterId": 140000924,
+          "FirstName": "Mounir",
+          "LastName": "Lazzez",
+          "PreFightWins": 10,
+          "PreFightLosses": 2,
+          "PreFightDraws": 0,
+          "PreFightNoContests": 0,
+          "Winner": false,
+          "Moneyline": null,
+          "Active": true
+        }
+      ]
+    },
+    {
+      "FightId": 2256,
+      "Order": 6,
+      "Status": "Scheduled",
+      "WeightClass": "Bantamweight",
+      "CardSegment": "Prelims",
+      "Referee": null,
+      "Rounds": 3,
+      "ResultClock": 0,
+      "ResultRound": 0,
+      "ResultType": null,
+      "WinnerId": null,
+      "Active": true,
+      "Fighters": [
+        {
+          "FighterId": 140000069,
+          "FirstName": "Rani",
+          "LastName": "Yahya",
+          "PreFightWins": 27,
+          "PreFightLosses": 10,
+          "PreFightDraws": 1,
+          "PreFightNoContests": 1,
+          "Winner": false,
+          "Moneyline": null,
+          "Active": true
+        },
+        {
+          "FighterId": 140000057,
+          "FirstName": "Kyung Ho",
+          "LastName": "Kang",
+          "PreFightWins": 17,
+          "PreFightLosses": 8,
+          "PreFightDraws": 0,
+          "PreFightNoContests": 1,
+          "Winner": false,
+          "Moneyline": null,
+          "Active": true
+        }
+      ]
+    },
+    {
+      "FightId": 2260,
+      "Order": 7,
+      "Status": "Scheduled",
+      "WeightClass": "Women's Strawweight",
+      "CardSegment": "Prelims",
+      "Referee": null,
+      "Rounds": 3,
+      "ResultClock": 0,
+      "ResultRound": 0,
+      "ResultType": null,
+      "WinnerId": null,
+      "Active": true,
+      "Fighters": [
+        {
+          "FighterId": 140000929,
+          "FirstName": "Jinh Yu",
+          "LastName": "Frey",
+          "PreFightWins": 10,
+          "PreFightLosses": 6,
+          "PreFightDraws": 0,
+          "PreFightNoContests": 0,
+          "Winner": false,
+          "Moneyline": null,
+          "Active": true
+        },
+        {
+          "FighterId": 140000415,
+          "FirstName": "Ashley",
+          "LastName": "Yoder",
+          "PreFightWins": 8,
+          "PreFightLosses": 7,
+          "PreFightDraws": 0,
+          "PreFightNoContests": 0,
+          "Winner": false,
+          "Moneyline": null,
+          "Active": true
+        }
+      ]
+    }
+  ]
+}

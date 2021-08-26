@@ -1,8 +1,12 @@
 {
+  "compilerOptions": {
+    "esModuleInterop": true
+  },
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": "src"
+    "rootDir": "src",
+    "noUnusedLocals": false
   },
   "include": ["src/**/*", "src/abis/*.json"],
   "exclude": ["dist", "**/*.spec.ts", "**/*.test.ts"],

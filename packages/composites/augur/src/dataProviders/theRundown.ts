@@ -244,6 +244,8 @@ export const resolve: Execute = async (input, context) => {
   const event: ResolveTeam = {
     id: eventIdToNum(response.event_id),
     status: eventStatus[response.score.event_status],
+    homeTeamId: response.teams_normalized.find((team) => team.is_home)?.team_id || 0,
+    awayTeamId: response.teams_normalized.find((team) => team.is_away)?.team_id || 0,
     homeScore: response.score.score_home,
     awayScore: response.score.score_away,
   }

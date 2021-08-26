@@ -5,6 +5,7 @@ import { BigNumber, ethers } from 'ethers'
 import { CreateFighterEvent, CreateTeamEvent } from '../methods/createMarkets'
 import { ResolveFight, ResolveTeam } from '../methods/resolveMarkets'
 import { DateTime } from 'luxon'
+import { NFLMarketFactory } from '../typechain'
 
 export const SPORTS_SUPPORTED = ['nfl', 'ncaa-fb', 'mma']
 
@@ -298,7 +299,7 @@ export const createTeam: Execute = async (input, context) => {
   const daysInAdvance = validator.validated.data.daysInAdvance
   const startBuffer = validator.validated.data.startBuffer
 
-  const contract: ethers.Contract = validator.validated.data.contract
+  const contract: NFLMarketFactory = validator.validated.data.contract
 
   const sportsdataioExec = Sportsdataio.makeExecute(Sportsdataio.makeConfig(Sportsdataio.NAME))
 
@@ -330,12 +331,8 @@ export const createTeam: Execute = async (input, context) => {
       continue
     }
 
-    const [headToHeadMarket, spreadMarket, totalScoreMarket]: [BigNumber, BigNumber, BigNumber] =
-      await contract.getEventMarkets(event.GameID)
-    const canCreate =
-      headToHeadMarket.isZero() ||
-      (spreadMarket.isZero() && false) ||
-      (totalScoreMarket.isZero() && false)
+    const sportsEvent = await contract.getSportsEvent(event.GameID)
+    const canCreate = sportsEvent.status === 0
     if (!canCreate) {
       cantCreate++
       continue
@@ -495,7 +492,7 @@ export const createFighter: Execute = async (input, context) => {
       continue
     }
 
-    const event = await contract.getEvent(fight.FightId)
+    const event = await contract.getSportsEvent(fight.FightId)
     if (event.eventStatus !== 0) {
       cantCreate++
       continue
@@ -580,6 +577,8 @@ export const resolveTeam: Execute = async (input, context) => {
   const resolveEvent: ResolveTeam = {
     id: BigNumber.from(event.GameID),
     status,
+    homeTeamId: event.HomeTeamID || 0,
+    awayTeamId: event.AwayTeamID || 0,
     homeScore: event.HomeScore || 0,
     awayScore: event.AwayScore || 0,
   }

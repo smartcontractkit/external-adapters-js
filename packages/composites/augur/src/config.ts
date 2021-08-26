@@ -3,18 +3,18 @@ import { ethers } from 'ethers'
 import { Requester, util } from '@chainlink/ea-bootstrap'
 
 export type Config = DefaultConfig & {
-  wallet: ethers.Wallet
+  signer: ethers.Signer
 }
 
 export const makeConfig = (prefix?: string): Config => {
   const rpcUrl = util.getRequiredEnv('RPC_URL', prefix)
   const privateKey = util.getRequiredEnv('PRIVATE_KEY', prefix)
   const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
-  const wallet = new ethers.Wallet(privateKey, provider)
+  const signer = new ethers.Wallet(privateKey, provider)
 
   return {
     ...Requester.getDefaultConfig(prefix),
     verbose: true,
-    wallet,
+    signer,
   }
 }

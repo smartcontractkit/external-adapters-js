@@ -1,0 +1,95 @@
+{
+  "EventId": 192,
+  "LeagueId": 1,
+  "Name": "UFC Fight Night: Cannonier vs. Gastelum",
+  "ShortName": "UFC Fight Night",
+  "Season": 2021,
+  "Day": "2021-08-21T00:00:00",
+  "DateTime": "2021-08-21T19:00:00",
+  "Status": "Scheduled",
+  "Active": true,
+  "Fights": [
+    {
+      "FightId": 2208,
+      "Order": 1,
+      "Status": "Scheduled",
+      "WeightClass": "Middleweight",
+      "CardSegment": "Main Card",
+      "Referee": null,
+      "Rounds": 5,
+      "ResultClock": 0,
+      "ResultRound": 0,
+      "ResultType": null,
+      "WinnerId": null,
+      "Active": true,
+      "Fighters": [
+        {
+          "FighterId": 140000348,
+          "FirstName": "Jared",
+          "LastName": "Cannonier",
+          "PreFightWins": 13,
+          "PreFightLosses": 5,
+          "PreFightDraws": 0,
+          "PreFightNoContests": 0,
+          "Winner": false,
+          "Moneyline": -220,
+          "Active": true
+        },
+        {
+          "FighterId": 140000556,
+          "FirstName": "Paulo",
+          "LastName": "Costa",
+          "PreFightWins": 13,
+          "PreFightLosses": 1,
+          "PreFightDraws": 0,
+          "PreFightNoContests": 0,
+          "Winner": false,
+          "Moneyline": null,
+          "Active": false
+        },
+        {
+          "FighterId": 140000265,
+          "FirstName": "Kelvin",
+          "LastName": "Gastelum",
+          "PreFightWins": 17,
+          "PreFightLosses": 7,
+          "PreFightDraws": 0,
+          "PreFightNoContests": 1,
+          "Winner": false,
+          "Moneyline": 180,
+          "Active": true
+        }
+      ]
+    },
+    {
+      "FightId": 2207,
+      "Order": null,
+      "Status": null,
+      "WeightClass": null,
+      "CardSegment": null,
+      "Referee": null,
+      "Rounds": null,
+      "ResultClock": null,
+      "ResultRound": null,
+      "ResultType": null,
+      "WinnerId": null,
+      "Active": true,
+      "Fighters": []
+    },
+    {
+      "FightId": 2211,
+      "Order": null,
+      "Status": "Canceled",
+      "WeightClass": null,
+      "CardSegment": null,
+      "Referee": null,
+      "Rounds": null,
+      "ResultClock": null,
+      "ResultRound": null,
+      "ResultType": null,
+      "WinnerId": null,
+      "Active": false,
+      "Fighters": []
+    }
+  ]
+}

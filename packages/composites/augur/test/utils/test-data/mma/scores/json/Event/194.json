@@ -1,0 +1,173 @@
+{
+  "EventId": 194,
+  "LeagueId": 1,
+  "Name": "UFC Fight Night: Sandhagen vs. Dillashaw",
+  "ShortName": "UFC Fight Night",
+  "Season": 2021,
+  "Day": "2021-07-24T00:00:00",
+  "DateTime": "2021-07-24T16:00:00",
+  "Status": "Scheduled",
+  "Active": true,
+  "Fights": [
+    {
+      "FightId": 2224,
+      "Order": 1,
+      "Status": "Scheduled",
+      "WeightClass": "Bantamweight",
+      "CardSegment": "Main Card",
+      "Referee": null,
+      "Rounds": 5,
+      "ResultClock": 0,
+      "ResultRound": 0,
+      "ResultType": null,
+      "WinnerId": null,
+      "Active": true,
+      "Fighters": [
+        {
+          "FighterId": 140000025,
+          "FirstName": "TJ",
+          "LastName": "Dillashaw",
+          "PreFightWins": 17,
+          "PreFightLosses": 4,
+          "PreFightDraws": 0,
+          "PreFightNoContests": 0,
+          "Winner": false,
+          "Moneyline": 149,
+          "Active": true
+        },
+        {
+          "FighterId": 140000007,
+          "FirstName": "Cory",
+          "LastName": "Sandhagen",
+          "PreFightWins": 14,
+          "PreFightLosses": 2,
+          "PreFightDraws": 0,
+          "PreFightNoContests": 0,
+          "Winner": false,
+          "Moneyline": -178,
+          "Active": true
+        }
+      ]
+    },
+    {
+      "FightId": 2227,
+      "Order": 2,
+      "Status": "Scheduled",
+      "WeightClass": "Middleweight",
+      "CardSegment": "Prelims",
+      "Referee": null,
+      "Rounds": 3,
+      "ResultClock": 0,
+      "ResultRound": 0,
+      "ResultType": null,
+      "WinnerId": null,
+      "Active": true,
+      "Fighters": [
+        {
+          "FighterId": 140000472,
+          "FirstName": "Brendan",
+          "LastName": "Allen",
+          "PreFightWins": 16,
+          "PreFightLosses": 4,
+          "PreFightDraws": 0,
+          "PreFightNoContests": 0,
+          "Winner": false,
+          "Moneyline": -102,
+          "Active": true
+        },
+        {
+          "FighterId": 140000411,
+          "FirstName": "Punahele",
+          "LastName": "Soriano",
+          "PreFightWins": 8,
+          "PreFightLosses": 0,
+          "PreFightDraws": 0,
+          "PreFightNoContests": 0,
+          "Winner": false,
+          "Moneyline": -120,
+          "Active": true
+        }
+      ]
+    },
+    {
+      "FightId": 2223,
+      "Order": 3,
+      "Status": "Scheduled",
+      "WeightClass": "Heavyweight",
+      "CardSegment": "Prelims",
+      "Referee": null,
+      "Rounds": 3,
+      "ResultClock": 0,
+      "ResultRound": 0,
+      "ResultType": null,
+      "WinnerId": null,
+      "Active": true,
+      "Fighters": [
+        {
+          "FighterId": 140000271,
+          "FirstName": "Shamil",
+          "LastName": "Abdurakhimov",
+          "PreFightWins": 20,
+          "PreFightLosses": 5,
+          "PreFightDraws": 0,
+          "PreFightNoContests": 0,
+          "Winner": false,
+          "Moneyline": 165,
+          "Active": true
+        },
+        {
+          "FighterId": 140000992,
+          "FirstName": "Chris",
+          "LastName": "Daukaus",
+          "PreFightWins": 11,
+          "PreFightLosses": 3,
+          "PreFightDraws": 0,
+          "PreFightNoContests": 0,
+          "Winner": false,
+          "Moneyline": -201,
+          "Active": true
+        }
+      ]
+    },
+    {
+      "FightId": 2259,
+      "Order": 4,
+      "Status": "Scheduled",
+      "WeightClass": "Bantamweight",
+      "CardSegment": "Prelims",
+      "Referee": null,
+      "Rounds": null,
+      "ResultClock": 0,
+      "ResultRound": 0,
+      "ResultType": null,
+      "WinnerId": null,
+      "Active": true,
+      "Fighters": [
+        {
+          "FighterId": 140000939,
+          "FirstName": "Aaron",
+          "LastName": "Phillips",
+          "PreFightWins": 12,
+          "PreFightLosses": 4,
+          "PreFightDraws": 0,
+          "PreFightNoContests": 0,
+          "Winner": false,
+          "Moneyline": -165,
+          "Active": true
+        },
+        {
+          "FighterId": 140001044,
+          "FirstName": "Cameron",
+          "LastName": "Else",
+          "PreFightWins": 10,
+          "PreFightLosses": 5,
+          "PreFightDraws": 0,
+          "PreFightNoContests": 0,
+          "Winner": false,
+          "Moneyline": 136,
+          "Active": true
+        }
+      ]
+    }
+  ]
+}

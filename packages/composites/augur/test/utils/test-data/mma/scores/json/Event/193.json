@@ -1,0 +1,320 @@
+{
+  "EventId": 193,
+  "LeagueId": 1,
+  "Name": "UFC Fight Night: Makhachev vs. Moises",
+  "ShortName": "UFC Fight Night",
+  "Season": 2021,
+  "Day": "2021-07-17T00:00:00",
+  "DateTime": "2021-07-17T19:00:00",
+  "Status": "Scheduled",
+  "Active": true,
+  "Fights": [
+    {
+      "FightId": 2222,
+      "Order": 1,
+      "Status": "Canceled",
+      "WeightClass": "Featherweight",
+      "CardSegment": "Main Card",
+      "Referee": null,
+      "Rounds": 5,
+      "ResultClock": 0,
+      "ResultRound": 0,
+      "ResultType": null,
+      "WinnerId": null,
+      "Active": false,
+      "Fighters": [
+        {
+          "FighterId": 140000267,
+          "FirstName": "Max",
+          "LastName": "Holloway",
+          "PreFightWins": 22,
+          "PreFightLosses": 6,
+          "PreFightDraws": 0,
+          "PreFightNoContests": 0,
+          "Winner": false,
+          "Moneyline": null,
+          "Active": false
+        },
+        {
+          "FighterId": 140000615,
+          "FirstName": "Yair",
+          "LastName": "Rodriguez",
+          "PreFightWins": 13,
+          "PreFightLosses": 2,
+          "PreFightDraws": 0,
+          "PreFightNoContests": 1,
+          "Winner": false,
+          "Moneyline": null,
+          "Active": false
+        }
+      ]
+    },
+    {
+      "FightId": 2243,
+      "Order": 1,
+      "Status": "Scheduled",
+      "WeightClass": "Lightweight",
+      "CardSegment": "Main Card",
+      "Referee": null,
+      "Rounds": 3,
+      "ResultClock": 0,
+      "ResultRound": 0,
+      "ResultType": null,
+      "WinnerId": null,
+      "Active": true,
+      "Fighters": [
+        {
+          "FighterId": 140000285,
+          "FirstName": "Islam",
+          "LastName": "Makhachev",
+          "PreFightWins": 19,
+          "PreFightLosses": 1,
+          "PreFightDraws": 0,
+          "PreFightNoContests": 0,
+          "Winner": false,
+          "Moneyline": -668,
+          "Active": true
+        },
+        {
+          "FighterId": 140000341,
+          "FirstName": "Thiago",
+          "LastName": "Moises",
+          "PreFightWins": 15,
+          "PreFightLosses": 4,
+          "PreFightDraws": 0,
+          "PreFightNoContests": 0,
+          "Winner": false,
+          "Moneyline": 467,
+          "Active": true
+        }
+      ]
+    },
+    {
+      "FightId": 2226,
+      "Order": 2,
+      "Status": "Scheduled",
+      "WeightClass": "Women's Bantamweight",
+      "CardSegment": "Main Card",
+      "Referee": null,
+      "Rounds": 3,
+      "ResultClock": 0,
+      "ResultRound": 0,
+      "ResultType": null,
+      "WinnerId": null,
+      "Active": true,
+      "Fighters": [
+        {
+          "FighterId": 140001126,
+          "FirstName": "Miesha",
+          "LastName": "Tate",
+          "PreFightWins": 18,
+          "PreFightLosses": 7,
+          "PreFightDraws": 0,
+          "PreFightNoContests": 0,
+          "Winner": false,
+          "Moneyline": -124,
+          "Active": true
+        },
+        {
+          "FighterId": 140000158,
+          "FirstName": "Marion",
+          "LastName": "Reneau",
+          "PreFightWins": 9,
+          "PreFightLosses": 7,
+          "PreFightDraws": 1,
+          "PreFightNoContests": 0,
+          "Winner": false,
+          "Moneyline": 105,
+          "Active": true
+        }
+      ]
+    },
+    {
+      "FightId": 2241,
+      "Order": 5,
+      "Status": "Canceled",
+      "WeightClass": "Lightweight",
+      "CardSegment": "Prelims",
+      "Referee": null,
+      "Rounds": 3,
+      "ResultClock": 0,
+      "ResultRound": 0,
+      "ResultType": null,
+      "WinnerId": null,
+      "Active": false,
+      "Fighters": [
+        {
+          "FighterId": 140001054,
+          "FirstName": "Guram",
+          "LastName": "Kutateladze",
+          "PreFightWins": 12,
+          "PreFightLosses": 2,
+          "PreFightDraws": 0,
+          "PreFightNoContests": 0,
+          "Winner": false,
+          "Moneyline": null,
+          "Active": false
+        },
+        {
+          "FighterId": 140000593,
+          "FirstName": "Don",
+          "LastName": "Madge",
+          "PreFightWins": 9,
+          "PreFightLosses": 3,
+          "PreFightDraws": 1,
+          "PreFightNoContests": 0,
+          "Winner": false,
+          "Moneyline": null,
+          "Active": false
+        }
+      ]
+    },
+    {
+      "FightId": 2244,
+      "Order": 6,
+      "Status": "Scheduled",
+      "WeightClass": "Welterweight",
+      "CardSegment": "Prelims",
+      "Referee": null,
+      "Rounds": 3,
+      "ResultClock": 0,
+      "ResultRound": 0,
+      "ResultType": null,
+      "WinnerId": null,
+      "Active": true,
+      "Fighters": [
+        {
+          "FighterId": 140000885,
+          "FirstName": "Abubakar",
+          "LastName": "Nurmagomedov",
+          "PreFightWins": 16,
+          "PreFightLosses": 3,
+          "PreFightDraws": 1,
+          "PreFightNoContests": 0,
+          "Winner": false,
+          "Moneyline": 102,
+          "Active": false
+        },
+        {
+          "FighterId": 140000508,
+          "FirstName": "Daniel",
+          "LastName": "Rodriguez",
+          "PreFightWins": 14,
+          "PreFightLosses": 2,
+          "PreFightDraws": 0,
+          "PreFightNoContests": 0,
+          "Winner": false,
+          "Moneyline": -274,
+          "Active": true
+        },
+        {
+          "FighterId": 140001132,
+          "FirstName": "Preston",
+          "LastName": "Parsons",
+          "PreFightWins": 9,
+          "PreFightLosses": 2,
+          "PreFightDraws": 0,
+          "PreFightNoContests": 0,
+          "Winner": false,
+          "Moneyline": 220,
+          "Active": true
+        }
+      ]
+    },
+    {
+      "FightId": 2242,
+      "Order": 8,
+      "Status": "Scheduled",
+      "WeightClass": "Bantamweight",
+      "CardSegment": "Prelims",
+      "Referee": null,
+      "Rounds": 3,
+      "ResultClock": 0,
+      "ResultRound": 0,
+      "ResultType": null,
+      "WinnerId": null,
+      "Active": true,
+      "Fighters": [
+        {
+          "FighterId": 140001038,
+          "FirstName": "Sergey",
+          "LastName": "Morozov",
+          "PreFightWins": 16,
+          "PreFightLosses": 4,
+          "PreFightDraws": 0,
+          "PreFightNoContests": 0,
+          "Winner": false,
+          "Moneyline": 131,
+          "Active": true
+        },
+        {
+          "FighterId": 140000255,
+          "FirstName": "Khalid",
+          "LastName": "Taha",
+          "PreFightWins": 13,
+          "PreFightLosses": 3,
+          "PreFightDraws": 0,
+          "PreFightNoContests": 1,
+          "Winner": false,
+          "Moneyline": -157,
+          "Active": true
+        }
+      ]
+    },
+    {
+      "FightId": 2221,
+      "Order": 10,
+      "Status": "Scheduled",
+      "WeightClass": "Flyweight",
+      "CardSegment": "Prelims",
+      "Referee": null,
+      "Rounds": 3,
+      "ResultClock": 0,
+      "ResultRound": 0,
+      "ResultType": null,
+      "WinnerId": null,
+      "Active": true,
+      "Fighters": [
+        {
+          "FighterId": 140000937,
+          "FirstName": "Malcolm",
+          "LastName": "Gordon",
+          "PreFightWins": 12,
+          "PreFightLosses": 5,
+          "PreFightDraws": 0,
+          "PreFightNoContests": 0,
+          "Winner": false,
+          "Moneyline": 247,
+          "Active": true
+        },
+        {
+          "FighterId": 140001098,
+          "FirstName": "Francisco",
+          "LastName": "Figueiredo",
+          "PreFightWins": 12,
+          "PreFightLosses": 3,
+          "PreFightDraws": 1,
+          "PreFightNoContests": 1,
+          "Winner": false,
+          "Moneyline": -315,
+          "Active": true
+        }
+      ]
+    },
+    {
+      "FightId": 2225,
+      "Order": null,
+      "Status": "Canceled",
+      "WeightClass": null,
+      "CardSegment": null,
+      "Referee": null,
+      "Rounds": null,
+      "ResultClock": null,
+      "ResultRound": null,
+      "ResultType": null,
+      "WinnerId": null,
+      "Active": false,
+      "Fighters": []
+    }
+  ]
+}

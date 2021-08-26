@@ -1,0 +1,187 @@
+{
+  "EventId": 191,
+  "LeagueId": 1,
+  "Name": "UFC 266: Volkanovski vs. Ortega",
+  "ShortName": "UFC 266",
+  "Season": 2021,
+  "Day": "2021-09-25T00:00:00",
+  "DateTime": "2021-09-25T18:15:00",
+  "Status": "Scheduled",
+  "Active": true,
+  "Fights": [
+    {
+      "FightId": 2179,
+      "Order": 1,
+      "Status": "Scheduled",
+      "WeightClass": "Featherweight",
+      "CardSegment": "Main Card",
+      "Referee": null,
+      "Rounds": 5,
+      "ResultClock": 0,
+      "ResultRound": 0,
+      "ResultType": null,
+      "WinnerId": null,
+      "Active": true,
+      "Fighters": [
+        {
+          "FighterId": 140000712,
+          "FirstName": "Brian",
+          "LastName": "Ortega",
+          "PreFightWins": 15,
+          "PreFightLosses": 1,
+          "PreFightDraws": 0,
+          "PreFightNoContests": 1,
+          "Winner": false,
+          "Moneyline": null,
+          "Active": true
+        },
+        {
+          "FighterId": 140000347,
+          "FirstName": "Alexander",
+          "LastName": "Volkanovski",
+          "PreFightWins": 22,
+          "PreFightLosses": 1,
+          "PreFightDraws": 0,
+          "PreFightNoContests": 0,
+          "Winner": false,
+          "Moneyline": null,
+          "Active": true
+        }
+      ]
+    },
+    {
+      "FightId": 2178,
+      "Order": 2,
+      "Status": "Scheduled",
+      "WeightClass": "Women's Flyweight",
+      "CardSegment": "Main Card",
+      "Referee": null,
+      "Rounds": 5,
+      "ResultClock": 0,
+      "ResultRound": 0,
+      "ResultType": null,
+      "WinnerId": null,
+      "Active": true,
+      "Fighters": [
+        {
+          "FighterId": 140000015,
+          "FirstName": "Glover",
+          "LastName": "Teixeira",
+          "PreFightWins": 32,
+          "PreFightLosses": 7,
+          "PreFightDraws": 0,
+          "PreFightNoContests": 0,
+          "Winner": false,
+          "Moneyline": 200,
+          "Active": false
+        },
+        {
+          "FighterId": 140000123,
+          "FirstName": "Jan",
+          "LastName": "Blachowicz",
+          "PreFightWins": 28,
+          "PreFightLosses": 8,
+          "PreFightDraws": 0,
+          "PreFightNoContests": 0,
+          "Winner": false,
+          "Moneyline": -250,
+          "Active": false
+        },
+        {
+          "FighterId": 140000402,
+          "FirstName": "Valentina",
+          "LastName": "Shevchenko",
+          "PreFightWins": 21,
+          "PreFightLosses": 3,
+          "PreFightDraws": 0,
+          "PreFightNoContests": 0,
+          "Winner": false,
+          "Moneyline": 200,
+          "Active": true
+        },
+        {
+          "FighterId": 140000517,
+          "FirstName": "Lauren",
+          "LastName": "Murphy",
+          "PreFightWins": 15,
+          "PreFightLosses": 4,
+          "PreFightDraws": 0,
+          "PreFightNoContests": 0,
+          "Winner": false,
+          "Moneyline": -250,
+          "Active": true
+        }
+      ]
+    },
+    {
+      "FightId": 2273,
+      "Order": 3,
+      "Status": "Canceled",
+      "WeightClass": null,
+      "CardSegment": "Main Card",
+      "Referee": null,
+      "Rounds": null,
+      "ResultClock": 0,
+      "ResultRound": 0,
+      "ResultType": null,
+      "WinnerId": null,
+      "Active": false,
+      "Fighters": [
+        {
+          "FighterId": 140000388,
+          "FirstName": "Alexander",
+          "LastName": "Gustafsson",
+          "PreFightWins": 18,
+          "PreFightLosses": 7,
+          "PreFightDraws": 0,
+          "PreFightNoContests": 0,
+          "Winner": false,
+          "Moneyline": null,
+          "Active": false
+        },
+        {
+          "FighterId": 140000238,
+          "FirstName": "Paul",
+          "LastName": "Craig",
+          "PreFightWins": 15,
+          "PreFightLosses": 4,
+          "PreFightDraws": 1,
+          "PreFightNoContests": 0,
+          "Winner": false,
+          "Moneyline": null,
+          "Active": false
+        }
+      ]
+    },
+    {
+      "FightId": 2176,
+      "Order": null,
+      "Status": null,
+      "WeightClass": null,
+      "CardSegment": null,
+      "Referee": null,
+      "Rounds": null,
+      "ResultClock": null,
+      "ResultRound": null,
+      "ResultType": null,
+      "WinnerId": null,
+      "Active": true,
+      "Fighters": []
+    },
+    {
+      "FightId": 2177,
+      "Order": null,
+      "Status": "Canceled",
+      "WeightClass": null,
+      "CardSegment": null,
+      "Referee": null,
+      "Rounds": null,
+      "ResultClock": null,
+      "ResultRound": null,
+      "ResultType": null,
+      "WinnerId": null,
+      "Active": false,
+      "Fighters": []
+    }
+  ]
+}
