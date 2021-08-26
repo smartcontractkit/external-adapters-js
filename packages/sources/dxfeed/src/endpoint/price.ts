@@ -9,6 +9,7 @@ import {
 import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['price', 'crypto', 'stock', 'forex']
+export const batchablePropertyPath = [{ name: 'base', limit: 120 }]
 
 const customError = (data: any) => data.Response === 'Error'
 
@@ -55,7 +56,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     response.data,
     events === 'Quote' ? quotePath : tradePath,
   )
-  return Requester.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, response, config.verbose, batchablePropertyPath)
 }
 
 const handleBatchedRequest = (jobRunID: string, response: AxiosResponse, events: string) => {
@@ -66,5 +67,5 @@ const handleBatchedRequest = (jobRunID: string, response: AxiosResponse, events:
     Requester.validateResultNumber(response.data, [events, base, 'price'])
   }
   response.data.result = payload
-  return Requester.success(jobRunID, response, true)
+  return Requester.success(jobRunID, response, true, batchablePropertyPath)
 }
