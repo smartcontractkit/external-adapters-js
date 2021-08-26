@@ -30,7 +30,7 @@ export const getPriceProvider =
       symbols.map(async (base) => {
         const data = {
           id: jobRunID,
-          data: { base, quote, endpoint: withMarketCap ? 'marketcap' : 'crypto' },
+          data: { base, quote, endpoint: withMarketCap ? 'marketcap' : 'price' },
         }
         const response = await Requester.request({ ...apiConfig, data: data })
         return response.data.result
@@ -40,11 +40,10 @@ export const getPriceProvider =
       const key = symbol
       const val = {
         quote: {
-          [quote]: { [withMarketCap ? 'marketCap' : 'crypto']: results[i] },
+          [quote]: { [withMarketCap ? 'marketCap' : 'price']: results[i] },
         },
       }
       return [key, val]
     })
-
     return Object.fromEntries(payloadEntries)
   }
