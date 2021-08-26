@@ -144,7 +144,12 @@ const handleBatchedRequest = (
       ])
     }
   }
-  return Requester.success(jobRunID, Requester.withResult(response, undefined, payload), true, batchablePropertyPath)
+  return Requester.success(
+    jobRunID,
+    Requester.withResult(response, undefined, payload),
+    true,
+    batchablePropertyPath,
+  )
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -181,5 +186,10 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const result = Requester.validateResultNumber(response.data, ['RAW', symbol, quote, resultPath])
 
-  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose, batchablePropertyPath)
+  return Requester.success(
+    jobRunID,
+    Requester.withResult(response, result),
+    config.verbose,
+    batchablePropertyPath,
+  )
 }

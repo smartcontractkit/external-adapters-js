@@ -1,1 +1,1 @@
-export * as crypto from "./crypto"
+export * as crypto from './crypto'

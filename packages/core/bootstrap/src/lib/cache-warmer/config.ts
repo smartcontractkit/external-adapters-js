@@ -1,6 +1,5 @@
 import objectHash from 'object-hash'
 import { getHashOpts } from '../util'
-import { MINIMUM_AGE } from '../cache/index'
 
 export const WARMUP_REQUEST_ID = '9001'
 export const WARMUP_BATCH_REQUEST_ID = '9002'
@@ -8,9 +7,11 @@ export const WARMUP_BATCH_REQUEST_ID = '9002'
 export interface Config {
   /**
    * The interval in milliseconds which the warm-up engine will execute
-   * the underlying external adapter to update its cache
+   * the underlying external adapter to update its cache. If left empty
+   * should calculate the interval based on the TTL of each request.
    */
-  warmupInterval: number
+  warmupInterval?: number
+
   /**
    * The number of errors that can consecutively occur
    * before a warmup subscription for a particular request
@@ -34,7 +35,7 @@ export function get(): Config {
   return {
     hashOpts: getHashOpts(),
     unhealthyThreshold: Number(process.env.WARMUP_UNHEALTHY_THRESHOLD) || 3,
-    warmupInterval: Number(process.env.CACHE_MIN_AGE) || MINIMUM_AGE,
+    warmupInterval: Number(process.env.WARMUP_INTERVAL),
     subscriptionTTL: Number(process.env.WARMUP_SUBSCRIPTION_TTL) || 60 * 1000 * 60, // default 1h
   }
 }

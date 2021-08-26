@@ -39,6 +39,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       connection: {
         url: `${defaultConfig.api.baseWebsocketURL}/cryptodata`,
       },
+      noHttp: true,
       subscribe: (input) => getSubscription('subscribe', getPair(input)),
       unsubscribe: (input) => getSubscription('unsubscribe', getPair(input)),
       subsFromMessage: (message, subscriptionMsg) => {

@@ -1,9 +1,10 @@
-import * as chalk from 'chalk'
+/* eslint-disable @typescript-eslint/no-var-requires */
+import chalk from 'chalk'
+import * as path from 'path'
 import * as shell from 'shelljs'
+import { getWorkspacePackages, WorkspacePackage } from '../workspace'
 const { red, blue } = chalk
 const { log } = console
-import { getWorkspacePackages, WorkspacePackage } from '../workspace'
-import * as path from 'path'
 
 const ADAPTER_TYPES = ['composite', 'source']
 
@@ -16,7 +17,7 @@ function writeJson(data: any) {
   const files = Object.keys(data)
 
   // write to each file
-  files.forEach(f => {
+  files.forEach((f) => {
     let contents = data[f]
     if (f.includes('.json')) {
       contents = JSON.stringify(contents, null, 2)
@@ -31,7 +32,8 @@ function writeJson(data: any) {
 function checks(): Inputs {
   const type: string = process.argv[2]
   if (!type) throw red.bold('Missing first argument: type')
-  if (!ADAPTER_TYPES.includes(type)) throw red.bold(`Type must be one of: ${ADAPTER_TYPES.join(', ')}`)
+  if (!ADAPTER_TYPES.includes(type))
+    throw red.bold(`Type must be one of: ${ADAPTER_TYPES.join(', ')}`)
 
   const n: string = process.argv[3]
   if (!n) throw red.bold('Missing second argument: name')
@@ -73,12 +75,13 @@ async function generate(type: string) {
 
   // pull latest workspace data after files have been generated
   let currentWorkspace: WorkspacePackage[] = getWorkspacePackages(['scripts', 'core']) //using this alphabetizes everything
-  currentWorkspace = currentWorkspace.filter(w => w.name !== '@chainlink/types') //filter out package
-  const adapterList = currentWorkspace.filter(w => w.type === `${type}s`)
+  currentWorkspace = currentWorkspace.filter((w) => w.name !== '@chainlink/types') //filter out package
+  const adapterList = currentWorkspace.filter((w) => w.type === `${type}s`)
 
   // add to packages/tsconfig.json
   const tsconfigPath = 'packages/tsconfig.json'
-  const tsconfig = await import(path.relative(__dirname, tsconfigPath))
+  const tsconfig = JSON.parse(JSON.stringify(require(path.relative(__dirname, tsconfigPath))))
+  console.log(tsconfig)
   tsconfig.references = tsconfGenerate(currentWorkspace, tsconfigPath, 1)
   writeData = { ...writeData, [tsconfigPath]: tsconfig }
 
@@ -88,15 +91,19 @@ async function generate(type: string) {
 
     // update legos/tsconfig.json
     const legoTsconfigPath = `${legosPath}/tsconfig.json`
-    const legoTsconfig = await import(path.relative(__dirname, legoTsconfigPath))
+    const legoTsconfig = JSON.parse(
+      JSON.stringify(require(path.relative(__dirname, legoTsconfigPath))),
+    )
     legoTsconfig.references = tsconfGenerate(adapterList, legosPath)
     writeData = { ...writeData, [legoTsconfigPath]: legoTsconfig }
 
     // update legos/package.json
     const legoPackagePath = `${legosPath}/package.json`
-    const legoPackage = await import(path.relative(__dirname, legoPackagePath))
+    const legoPackage = JSON.parse(
+      JSON.stringify(require(path.relative(__dirname, legoPackagePath))),
+    )
     const otherPackages = Object.keys(legoPackage.dependencies)
-      .filter(k => !(k.includes('@chainlink') && k.includes('adapter')))
+      .filter((k) => !(k.includes('@chainlink') && k.includes('adapter')))
       .reduce((obj, key) => {
         return { ...obj, [key]: legoPackage.dependencies[key] }
       }, {}) // capture other dependencies (non-adapter)
@@ -111,10 +118,10 @@ async function generate(type: string) {
     let output = shell.cat(legoSourcePath).split('\n')
     const index = output.indexOf('')
     const importEa = output.slice(0, index)
-    const exportEa = output.slice(index).filter(e => e !== '' && e !== '}' && !e.includes('{'))
+    const exportEa = output.slice(index).filter((e) => e !== '' && e !== '}' && !e.includes('{'))
 
     // checks adapter list for newly generated adapters and adds to the list if not already present
-    adapterList.forEach(a => {
+    adapterList.forEach((a) => {
       if (!importEa.join().includes(a.name)) {
         const name = a.name.replace('@chainlink/', '').replace('-adapter', '')
         const nameNoDash = name.replace(/-/g, '_') // /g to apply to whole string not just first instance

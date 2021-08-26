@@ -10,22 +10,24 @@ The adapter takes the following environment variables:
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |                          Options                           | Defaults to |
-| :-------: | :------: | :-----------------: | :--------------------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [price](#Price-Endpoint), [marketcap](#Marketcap-Endpoint) |   `price`   |
+| Required? |   Name   |     Description     |                           Options                            | Defaults to |
+| :-------: | :------: | :-----------------: | :----------------------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [crypto](#Crypto-Endpoint), [marketcap](#Marketcap-Endpoint) |  `crypto`   |
 
 ---
 
 ## Price Endpoint
 
-https://api.coinranking.com/v2/coin/`{COIN_UUID}`
+https://api.coinranking.com/v2/coins
 
 ### Input Params
 
-| Required? |          Name          |                   Description                    | Options | Defaults to |
-| :-------: | :--------------------: | :----------------------------------------------: | :-----: | :---------: |
-|    ✅     | `base`, `from`, `coin` |       The symbol of the currency to query        |         |             |
-|    🟡     |        `coinid`        | The coin ID (optional to use in place of `base`) |         |             |
+| Required? |          Name           |                                  Description                                  | Options | Defaults to |
+| :-------: | :---------------------: | :---------------------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     | `base`, `from`, `coin`  |                      The symbol of the currency to query                      |         |             |
+|    ✅     | `quote`, `to`, `market` |                   The symbol of the currency to convert to                    |         |             |
+|    🟡     |        `coinid`         | The coin ID to select the specific coin (in case of duplicate `from` symbols) |         |             |
+|    🟡     | `referenceCurrencyUuid` |                      Optional UUID of the `to` currency                       |         |             |
 
 ### Sample Input
 
@@ -33,7 +35,8 @@ https://api.coinranking.com/v2/coin/`{COIN_UUID}`
 {
   "id": "1",
   "data": {
-    "base": "ETH"
+    "from": "ETH",
+    "to": "USD"
   }
 }
 ```
@@ -55,14 +58,14 @@ https://api.coinranking.com/v2/coin/`{COIN_UUID}`
 
 ## Marketcap Endpoint
 
-https://api.coinranking.com/v2/coin/`{COIN_UUID}`
-
 ### Input Params
 
-| Required? |          Name          |                   Description                    | Options | Defaults to |
-| :-------: | :--------------------: | :----------------------------------------------: | :-----: | :---------: |
-|    ✅     | `base`, `from`, `coin` |       The symbol of the currency to query        |         |             |
-|    🟡     |        `coinid`        | The coin ID (optional to use in place of `base`) |         |             |
+| Required? |          Name           |                                  Description                                  | Options | Defaults to |
+| :-------: | :---------------------: | :---------------------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     | `base`, `from`, `coin`  |                      The symbol of the currency to query                      |         |             |
+|    ✅     | `quote`, `to`, `market` |                   The symbol of the currency to convert to                    |         |             |
+|    🟡     |        `coinid`         | The coin ID to select the specific coin (in case of duplicate `from` symbols) |         |             |
+|    🟡     | `referenceCurrencyUuid` |                      Optional UUID of the `to` currency                       |         |             |
 
 ### Sample Input
 
@@ -71,7 +74,8 @@ https://api.coinranking.com/v2/coin/`{COIN_UUID}`
   "id": "1",
   "data": {
     "endpoint": "marketcap",
-    "base": "ETH"
+    "base": "ETH",
+    "quote": "USD"
   }
 }
 ```

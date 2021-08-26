@@ -47,10 +47,10 @@ describe('execute', () => {
           id: jobID,
           data: {
             addresses: [
-              "39e7mxbeNmRRnjfy1qkphv1TiMcztZ8VuE",
-              "addr(35ULMyVnFoYaPaMxwHTRmaGdABpAThM4QR)"
+              '39e7mxbeNmRRnjfy1qkphv1TiMcztZ8VuE',
+              'addr(35ULMyVnFoYaPaMxwHTRmaGdABpAThM4QR)',
             ],
-            endpoint: 'scantxoutset'
+            endpoint: 'scantxoutset',
           },
         },
       },

@@ -1,7 +1,7 @@
 import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, AdapterRequest, AdapterContext } from '@chainlink/types'
 import { Config } from '../config'
-import { FIGHTER_SPORTS, TEAM_ABI, TEAM_SPORTS } from './index'
+import { FIGHTER_SPORTS, NFL_ABI, TEAM_ABI, TEAM_SPORTS } from './index'
 import { ethers } from 'ethers'
 import { theRundown, sportsdataio } from '../dataProviders'
 import mmaABI from '../abis/mma.json'
@@ -13,7 +13,9 @@ const createParams = {
 
 export interface CreateTeamEvent {
   id: ethers.BigNumber
+  homeTeamName: string
   homeTeamId: number
+  awayTeamName: string
   awayTeamId: number
   startTime: number
   homeSpread: number
@@ -52,16 +54,26 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
   }
 }
 
-const createTeam = async (jobRunID: string, sport: string, contractAddress: string, input: AdapterRequest, context: AdapterContext, config: Config) => {
-  const contract = new ethers.Contract(contractAddress, TEAM_ABI, config.wallet)
-
+const createTeam = async (
+  jobRunID: string,
+  sport: string,
+  contractAddress: string,
+  input: AdapterRequest,
+  context: AdapterContext,
+  config: Config,
+) => {
+  const contract = new ethers.Contract(
+    contractAddress,
+    sport === 'nfl' ? NFL_ABI : TEAM_ABI,
+    config.wallet,
+  )
   const req = {
     id: jobRunID,
     data: {
       ...input.data,
       contract,
       sport,
-    }
+    },
   }
 
   let events: CreateTeamEvent[] = []
@@ -84,18 +96,34 @@ const createTeam = async (jobRunID: string, sport: string, contractAddress: stri
   let nonce = await config.wallet.getTransactionCount()
   for (let i = 0; i < events.length; i++) {
     const event = events[i]
-    const payload = [
-      event.id,
-      event.homeTeamId,
-      event.awayTeamId,
-      Math.floor(event.startTime / 1000),
-      Math.round(event.homeSpread*10),
-      Math.round(event.totalScore*10),
-      event.createSpread,
-      event.createTotalScore,
-      event.moneylines,
-      { nonce }
-    ]
+    const payload =
+      sport === 'nfl'
+        ? [
+            event.id,
+            event.homeTeamName,
+            event.homeTeamId,
+            event.awayTeamName,
+            event.awayTeamId,
+            Math.floor(event.startTime / 1000),
+            Math.round(event.homeSpread * 10),
+            Math.round(event.totalScore * 10),
+            event.createSpread,
+            event.createTotalScore,
+            event.moneylines,
+            { nonce },
+          ]
+        : [
+            event.id,
+            event.homeTeamId,
+            event.awayTeamId,
+            Math.floor(event.startTime / 1000),
+            Math.round(event.homeSpread * 10),
+            Math.round(event.totalScore * 10),
+            event.createSpread,
+            event.createTotalScore,
+            event.moneylines,
+            { nonce },
+          ]
     try {
       const tx = await contract.createMarket(...payload)
       Logger.debug(`Created tx: ${tx.hash}`)
@@ -129,10 +157,10 @@ const createFighter = async (
       ...input.data,
       contract,
       sport,
-    }
+    },
   }
 
-  Logger.debug("Creating fighter with req:", req);
+  Logger.debug('Creating fighter with req:', req)
   let events: CreateFighterEvent[] = []
   if (theRundown.SPORTS_SUPPORTED.includes(sport)) {
     // Note: currently no fighter sports implemented here
@@ -159,7 +187,7 @@ const createFighter = async (
       event.fighterB,
       Math.floor(event.startTime / 1000),
       event.moneylines,
-      { nonce }
+      { nonce },
     ]
     try {
       const tx = await contract.createMarket(...payload)
