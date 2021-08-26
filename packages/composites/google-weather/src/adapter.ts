@@ -6,12 +6,12 @@ import * as gjv from 'geojson-validation'
 import convert from 'convert-units'
 
 export interface Polygon {
-  type: "Polygon"
+  type: 'Polygon'
   coordinates: [number, number][][]
 }
 
 export type Point = {
-  type: "Point"
+  type: 'Point'
   coordinates: [number, number]
 }
 
@@ -59,7 +59,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
 
   const bigQuery = BigQuery.makeExecute(BigQuery.makeConfig())
   const response = await bigQuery({ id: jobRunID, data: queryBuilder.toQuery() }, context)
-  const imperialValue = Requester.validateResultNumber(response.result, [0, "result"])
+  const imperialValue = Requester.validateResultNumber(response.result, [0, 'result'])
   const result = convertUnits(column, imperialValue, units)
   return Requester.success(jobRunID, { data: { result } })
 }
@@ -105,7 +105,14 @@ class QueryBuilder {
   private readonly column: string
   private readonly dataset: string
 
-  constructor(geoJson: GeoJSON, dateFrom: string, dateTo: string, method: Method, column: string, dataset: string) {
+  constructor(
+    geoJson: GeoJSON,
+    dateFrom: string,
+    dateTo: string,
+    method: Method,
+    column: string,
+    dataset: string,
+  ) {
     this.geoJson = geoJson
     this.dateFrom = new Date(dateFrom)
     this.dateTo = new Date(dateTo)
@@ -147,35 +154,45 @@ class QueryBuilder {
   private from() {
     const diff = this.dateTo.getUTCFullYear() - this.dateFrom.getUTCFullYear()
     if (diff === 0) {
-      return `SELECT \`stn\`, \`${this.column}\`, \`date\` FROM \`${this.dataset}.gsod${this.dateTo.getUTCFullYear()}\``
+      return `SELECT \`stn\`, \`${this.column}\`, \`date\` FROM \`${
+        this.dataset
+      }.gsod${this.dateTo.getUTCFullYear()}\``
     }
 
-    const years = new Array(diff + 1).fill(0)
-      .map((_, i) => `SELECT \`stn\`, \`${this.column}\`, \`date\` FROM \`${this.dataset}.gsod${this.dateTo.getUTCFullYear()-i}\``)
+    const years = new Array(diff + 1)
+      .fill(0)
+      .map(
+        (_, i) =>
+          `SELECT \`stn\`, \`${this.column}\`, \`date\` FROM \`${this.dataset}.gsod${
+            this.dateTo.getUTCFullYear() - i
+          }\``,
+      )
 
     return years.join('\nUNION ALL\n')
   }
 
   private geoJsonQuery(): string[] {
-    return this.geoJson.features.map((ft, i) => {
-      switch (ft.geometry.type) {
-        case "Polygon": {
-          return `ST_CONTAINS(ST_GEOGFROMGEOJSON(@geoJson${i}), stations.geog)`
-        }
-        case "Point": {
-          return [
+    return this.geoJson.features
+      .map((ft, i) => {
+        switch (ft.geometry.type) {
+          case 'Polygon': {
+            return `ST_CONTAINS(ST_GEOGFROMGEOJSON(@geoJson${i}), stations.geog)`
+          }
+          case 'Point': {
+            return [
               'usaf = ',
               '(SELECT usaf FROM stations AS sts',
               'WHERE PARSE_DATE("%Y%m%d", sts.`begin`) <= DATE(@dateFrom)',
               'AND PARSE_DATE("%Y%m%d", sts.`end`) >= DATE(@dateTo)',
-              `ORDER BY ST_DISTANCE(ST_GEOGFROMGEOJSON(@geoJson${i}), sts.geog) LIMIT 1)`
+              `ORDER BY ST_DISTANCE(ST_GEOGFROMGEOJSON(@geoJson${i}), sts.geog) LIMIT 1)`,
             ].join('\n')
+          }
+          default: {
+            return undefined
+          }
         }
-        default: {
-          return undefined
-        }
-      }
-    }).filter(line => !!line) as string[]
+      })
+      .filter((line) => !!line) as string[]
   }
 
   private geoJsonParams(): { [key: string]: string } {
@@ -193,10 +210,8 @@ class QueryBuilder {
     let month = '' + (date.getUTCMonth() + 1)
     let day = '' + date.getUTCDate()
 
-    if (month.length < 2)
-      month = '0' + month
-    if (day.length < 2)
-      day = '0' + day
+    if (month.length < 2) month = '0' + month
+    if (day.length < 2) day = '0' + day
 
     return [year, month, day].join('-')
   }
@@ -233,28 +248,29 @@ class QueryBuilder {
     return []
   }
 
-  public toQuery(): { query: string, params: { [key: string]: string | number }} {
+  public toQuery(): { query: string; params: { [key: string]: string | number } } {
     return {
-      query: [
-        // Stations
-        'WITH',
-        'stations AS (',
-        `  SELECT usaf, ST_GEOGPOINT(lon, lat) AS geog, \`begin\`, \`end\` FROM \`${this.dataset}.stations\``,
-        ')',
+      query:
+        [
+          // Stations
+          'WITH',
+          'stations AS (',
+          `  SELECT usaf, ST_GEOGPOINT(lon, lat) AS geog, \`begin\`, \`end\` FROM \`${this.dataset}.stations\``,
+          ')',
 
-        // Main query
-        `SELECT ${this.select()} AS result`,
-        `FROM (${this.from()})`,
-        'WHERE stn IN (SELECT usaf FROM stations',
-        `WHERE (${this.geoJsonQuery().join(`)\nOR\n(`)}))`,
-        'AND date BETWEEN @dateFrom AND @dateTo',
-        ...this.columnFiltering()
-      ].join('\n') + ';',
+          // Main query
+          `SELECT ${this.select()} AS result`,
+          `FROM (${this.from()})`,
+          'WHERE stn IN (SELECT usaf FROM stations',
+          `WHERE (${this.geoJsonQuery().join(`)\nOR\n(`)}))`,
+          'AND date BETWEEN @dateFrom AND @dateTo',
+          ...this.columnFiltering(),
+        ].join('\n') + ';',
       params: {
         ...this.geoJsonParams(),
         dateFrom: QueryBuilder.formatDate(this.dateFrom),
-        dateTo: QueryBuilder.formatDate(this.dateTo)
-      }
+        dateTo: QueryBuilder.formatDate(this.dateTo),
+      },
     }
   }
 }

@@ -17,7 +17,7 @@ export function isChainType(key: string): key is ChainType {
 }
 
 export const makeConfig = (prefix = ''): Config => {
-    const config = Requester.getDefaultConfig(prefix, true)
-    config.defaultEndpoint = DEFAULT_ENDPOINT
-    return config
+  const config = Requester.getDefaultConfig(prefix, true)
+  config.defaultEndpoint = DEFAULT_ENDPOINT
+  return config
 }

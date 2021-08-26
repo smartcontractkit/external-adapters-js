@@ -153,8 +153,10 @@ export function groupBy<K, V>(list: Array<V>, keyGetter: (input: V) => K): Map<K
  *
  * @param name string adapter name
  */
-export const byName = (name?: string) => (a: AdapterImplementation): boolean =>
-  a.NAME.toUpperCase() === name?.toUpperCase()
+export const byName =
+  (name?: string) =>
+  (a: AdapterImplementation): boolean =>
+    a.NAME.toUpperCase() === name?.toUpperCase()
 
 /**
  * Covert number to max number of decimals, trim trailing zeros
@@ -193,13 +195,26 @@ export const includableAdapterRequestProperties: string[] = ['data'].concat(
 export const getKeyData = (data: AdapterRequest) =>
   omit(pick(data, includableAdapterRequestProperties), 'data.resultPath')
 
-export type HashMode = "include" | "exclude"
+export type HashMode = 'include' | 'exclude'
+/**
+ * Generates a key by hashing input data
+ *
+ * @param data Adapter request input data
+ * @param hashOptions Additional configuration for the objectHash package
+ * @param mode Which behavior to use:
+ *    include (default) - hash only selected properties throwing out everything else
+ *    exclude           - hash the entire data object after excluding certain properties
+ *
+ * @returns string
+ */
 export const hash = (
   data: AdapterRequest,
   hashOptions: Required<Parameters<typeof objectHash>>['1'],
-  mode: HashMode = "include"
-) => {
-  return mode === "include" || !data ? objectHash(getKeyData(data), hashOptions) : objectHash(data, getHashOpts())
+  mode: HashMode = 'include',
+): string => {
+  return mode === 'include' || !data
+    ? objectHash(getKeyData(data), hashOptions)
+    : objectHash(data, getHashOpts())
 }
 
 export const getHashOpts = (): Required<Parameters<typeof objectHash>>['1'] => ({
@@ -303,3 +318,14 @@ export function deepType(value: unknown, fullClass?: boolean): string {
     ? 'object'
     : typeof value
 }
+
+export const LEGACY_ENV_ADAPTER_URL = 'DATA_PROVIDER_URL'
+export const ENV_ADAPTER_URL = 'ADAPTER_URL'
+
+export const getURL = (prefix: string, required = false): string | undefined =>
+  required
+    ? getRequiredURL(prefix)
+    : getEnv(ENV_ADAPTER_URL, prefix) || getEnv(LEGACY_ENV_ADAPTER_URL, prefix)
+
+export const getRequiredURL = (prefix: string): string =>
+  getRequiredEnv(ENV_ADAPTER_URL, prefix) || getRequiredEnv(LEGACY_ENV_ADAPTER_URL, prefix)

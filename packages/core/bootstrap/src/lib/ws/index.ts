@@ -1,4 +1,10 @@
-import { AdapterContext, WSHandler, AdapterRequest, MakeWSHandler, Middleware } from '@chainlink/types'
+import {
+  AdapterContext,
+  WSHandler,
+  AdapterRequest,
+  MakeWSHandler,
+  Middleware,
+} from '@chainlink/types'
 import { Store } from 'redux'
 import { connectRequested, subscribeRequested, WSSubscriptionPayload } from './actions'
 import { getWSConfig } from './config'
@@ -13,39 +19,50 @@ export * as epics from './epics'
 export * as reducer from './reducer'
 export * as types from './types'
 
-export const withWebSockets = (
-  store: Store<RootState>,
-  makeWsHandler?: MakeWSHandler,
-): Middleware => async (execute, context) => async (input: AdapterRequest) => {
-  const wsConfig = getWSConfig()
-  if (!makeWsHandler || !wsConfig.enabled) return await execute(input, context) // ignore middleware if conditions are met
+export const withWebSockets =
+  (store: Store<RootState>, makeWsHandler?: MakeWSHandler): Middleware =>
+  async (execute, context) =>
+  async (input: AdapterRequest) => {
+    const wsConfig = getWSConfig()
+    if (!makeWsHandler || !wsConfig.enabled) return await execute(input, context) // ignore middleware if conditions are met
 
-  const wsHandler = await makeWsHandler()
-  if (wsHandler.programmaticConnectionInfo) {
-    const programmaticConnectionInfo = wsHandler.programmaticConnectionInfo(input)
-    if (programmaticConnectionInfo) {
-      wsConfig.connectionInfo.key = programmaticConnectionInfo.key
-      wsHandler.connection.url = programmaticConnectionInfo.url
+    const wsHandler = await makeWsHandler()
+    if (wsHandler.programmaticConnectionInfo) {
+      const programmaticConnectionInfo = wsHandler.programmaticConnectionInfo(input)
+      if (programmaticConnectionInfo) {
+        wsConfig.connectionInfo.key = programmaticConnectionInfo.key
+        wsHandler.connection.url = programmaticConnectionInfo.url
+      }
     }
+
+    store.dispatch(connectRequested({ config: wsConfig, wsHandler }))
+
+    // Check if adapter only supports WS
+    if (wsHandler.noHttp) {
+      // If so, we try to get a result from cache within API_TIMEOUT
+      const requestTimeout = Number(process.env.API_TIMEOUT) || 30000
+      const deadline = Date.now() + requestTimeout
+      return await awaitResult(context, input, deadline)
+    }
+
+    await separateBatches(
+      input,
+      input,
+      Object.keys(input.data),
+      async (singleInput: AdapterRequest) => {
+        await subscribeToWs(singleInput, store, context, wsHandler, wsConfig)
+      },
+    )
+    return await execute(input, context)
   }
-  
-  store.dispatch(connectRequested({ config: wsConfig, wsHandler }))
 
-  // Check if adapter only supports WS
-  if (wsHandler.noHttp) {
-    // If so, we try to get a result from cache within API_TIMEOUT
-    const requestTimeout = Number(process.env.API_TIMEOUT) || 30000
-    const deadline = Date.now() + requestTimeout
-    return await awaitResult(context, input, deadline)
-  }
-
-  await separateBatches(input, input, Object.keys(input.data), async (singleInput: AdapterRequest) => {
-    await subscribeToWs(singleInput, store, context, wsHandler, wsConfig)
-  })
-  return await execute(input, context)
-}
-
-const subscribeToWs = async (input: AdapterRequest, store: Store<RootState>, context: AdapterContext, wsHandler: WSHandler, wsConfig: WSConfig): Promise<void> => {
+const subscribeToWs = async (
+  input: AdapterRequest,
+  store: Store<RootState>,
+  context: AdapterContext,
+  wsHandler: WSHandler,
+  wsConfig: WSConfig,
+): Promise<void> => {
   const subscriptionMsg = wsHandler.subscribe(input)
   if (!subscriptionMsg) return
   const subscriptionPayload: WSSubscriptionPayload = {
@@ -75,5 +92,5 @@ const awaitResult = async (context: AdapterContext, input: AdapterRequest, deadl
 }
 
 const sleep = async (time: number): Promise<void> => {
-  return new Promise((resolve => setTimeout(resolve, time)))
+  return new Promise((resolve) => setTimeout(resolve, time))
 }

@@ -51,5 +51,5 @@ export const makeConfig = (prefix = ''): Config => ({
       key: util.getEnv(ENV_API_KEY, prefix),
     },
   },
-  defaultEndpoint: DEFAULT_ENDPOINT
+  defaultEndpoint: DEFAULT_ENDPOINT,
 })

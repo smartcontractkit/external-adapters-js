@@ -11,9 +11,9 @@
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |                        Options                        | Defaults to |
-| :-------: | :------: | :-----------------: | :---------------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [closing](#Closing-Endpoint), [price](#Price-Endpoint) |    `closing`    |
+| Required? |   Name   |     Description     |                        Options                         | Defaults to |
+| :-------: | :------: | :-----------------: | :----------------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [closing](#Closing-Endpoint), [price](#Price-Endpoint) |  `closing`  |
 
 ---
 

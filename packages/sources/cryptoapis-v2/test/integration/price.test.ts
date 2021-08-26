@@ -37,7 +37,7 @@ describe('price endpoint', () => {
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
-        const data = await execute(req.testData as AdapterRequest)
+        const data = await execute(req.testData as AdapterRequest, {})
         assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
         expect(data.result).toBeGreaterThan(0)
         expect(data.data.result).toBeGreaterThan(0)
@@ -62,7 +62,7 @@ describe('price endpoint', () => {
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
-          await execute(req.testData as AdapterRequest)
+          await execute(req.testData as AdapterRequest, {})
         } catch (error) {
           const errorResp = Requester.errored(jobID, new AdapterError(error))
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
@@ -86,7 +86,7 @@ describe('price endpoint', () => {
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
-          await execute(req.testData as AdapterRequest)
+          await execute(req.testData as AdapterRequest, {})
         } catch (error) {
           const errorResp = Requester.errored(jobID, new AdapterError(error))
           assertError({ expected: 500, actual: errorResp.statusCode }, errorResp, jobID)

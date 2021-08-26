@@ -2,7 +2,7 @@ import { omit } from 'lodash'
 import { WarmupExecutePayload, WarmupSubscribedPayload } from './actions'
 import { get } from './config'
 import { BatchableProperty, SubscriptionData } from './reducer'
-import { AdapterRequest, AdapterResponse } from "@chainlink/types"
+import { AdapterRequest, AdapterResponse } from '@chainlink/types'
 import { hash } from '../util'
 
 const conf = get()
@@ -34,7 +34,10 @@ type GroupedBatches = {
   [path: string]: BatchPath[]
 }
 
-function groupBatchesByPath(batchablePropertyPath: BatchableProperty[], origin: AdapterRequest["data"]): GroupedBatches {
+function groupBatchesByPath(
+  batchablePropertyPath: BatchableProperty[],
+  origin: AdapterRequest['data'],
+): GroupedBatches {
   const batchesByPath: GroupedBatches = {}
   for (const { name, limit } of batchablePropertyPath) {
     if (origin[name]) {
@@ -52,12 +55,12 @@ function groupBatchesByPath(batchablePropertyPath: BatchableProperty[], origin: 
 function splitValuesIntoBatches(limit: number, values: string[]): BatchPath[] {
   const batches = []
   let idx = 0
-  while(idx < values.length) {
+  while (idx < values.length) {
     const batch = values.slice(idx, Math.min(idx + limit, values.length))
-    idx += limit 
+    idx += limit
     batches.push(batch)
   }
-  return batches 
+  return batches
 }
 
 function getBatchesArray(batchesByPath: GroupedBatches): BatchRequestChunk[] {
@@ -66,7 +69,13 @@ function getBatchesArray(batchesByPath: GroupedBatches): BatchRequestChunk[] {
   return batches
 }
 
-function populateBatchesArray(batchesByPath: GroupedBatches, batches: BatchRequestChunk[], batchPaths: BatchPath, idx: number, currBatch: BatchRequestChunk): void {
+function populateBatchesArray(
+  batchesByPath: GroupedBatches,
+  batches: BatchRequestChunk[],
+  batchPaths: BatchPath,
+  idx: number,
+  currBatch: BatchRequestChunk,
+): void {
   if (idx >= batchPaths.length) {
     batches.push(JSON.parse(JSON.stringify(currBatch)))
   } else {
@@ -80,17 +89,20 @@ function populateBatchesArray(batchesByPath: GroupedBatches, batches: BatchReque
   }
 }
 
-export function concatenateBatchResults(result: AdapterResponse | null, latestResult: AdapterResponse): AdapterResponse {
+export function concatenateBatchResults(
+  result: AdapterResponse | null,
+  latestResult: AdapterResponse,
+): AdapterResponse {
   if (!result) {
     return latestResult
   }
   const mergedResult = JSON.parse(JSON.stringify(result))
-  const bases = Object.keys(latestResult.data).filter(base => base !== "results")
+  const bases = Object.keys(latestResult.data).filter((base) => base !== 'results')
   for (const base of bases) {
     if (mergedResult.data[base]) {
       mergedResult.data[base] = {
         ...mergedResult.data[base],
-        ...latestResult.data[base]
+        ...latestResult.data[base],
       }
     } else {
       mergedResult.data[base] = latestResult.data[base]
