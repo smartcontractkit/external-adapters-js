@@ -8,14 +8,14 @@ describe('execute', () => {
   const execute = makeExecute()
   process.env.API_KEY = process.env.API_KEY ?? 'test_api_key'
 
-  describe('validation error', () => {
+  describe('validation error @integration', () => {
     const requests = [
       {
         name: 'empty body',
         testData: {},
       },
       {
-        name: 'no speed param',
+        name: 'unknown endpoint',
         testData: {
           id: jobID,
           data: { endpoint: 'not_real' },
