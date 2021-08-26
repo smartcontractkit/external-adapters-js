@@ -1,10 +1,9 @@
 import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Execute, AdapterContext } from '@chainlink/types'
 import { Config } from '../config'
-import { TEAM_ABI, TEAM_SPORTS, FIGHTER_SPORTS, NFL_ABI } from './index'
+import { TEAM_SPORTS, FIGHTER_SPORTS, getContract, isMMA, isContractIdentifier } from './index'
 import { ethers } from 'ethers'
 import { theRundown, sportsdataio } from '../dataProviders'
-import mmaABI from '../abis/mma.json'
 
 const resolveParams = {
   contractAddress: true,
@@ -14,6 +13,8 @@ const resolveParams = {
 export interface ResolveTeam {
   id: ethers.BigNumber
   status: number
+  homeTeamId: number
+  awayTeamId: number
   homeScore: number
   awayScore: number
 }
@@ -25,13 +26,16 @@ export interface ResolveFight {
   fighterB: number
   winnerId?: number
   draw: boolean
+  weird: boolean
 }
 
-const statusCompleted = [
-  4, // Cancelled
-  2, // Final
-  3, // Postponed
-]
+enum FightStatus {
+  Final = 2,
+  Postponed = 3,
+  Cancelled = 4,
+}
+
+const statusCompleted = [FightStatus.Cancelled, FightStatus.Final, FightStatus.Postponed]
 
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
   const validator = new Validator(input, resolveParams)
@@ -56,12 +60,8 @@ const resolveTeam = async (
   context: AdapterContext,
   config: Config,
 ) => {
-  // The difference isn't meaningful here using the proper abis anyway.
-  const contract = new ethers.Contract(
-    contractAddress,
-    sport === 'nfl' ? NFL_ABI : TEAM_ABI,
-    config.wallet,
-  )
+  if (!isContractIdentifier(sport)) throw Error(`Unsupported sport ${sport}`)
+  const contract = getContract(sport, contractAddress, config.signer)
 
   let getEvent: Execute
   if (theRundown.SPORTS_SUPPORTED.includes(sport)) {
@@ -109,16 +109,18 @@ const resolveTeam = async (
   let failed = 0
   let succeeded = 0
 
-  let nonce = await config.wallet.getTransactionCount()
+  let nonce = await config.signer.getTransactionCount()
   for (let i = 0; i < eventReadyToResolve.length; i++) {
     Logger.info(`Augur: resolving event "${eventReadyToResolve[i].id}"`)
 
     try {
-      const tx = await contract.trustedResolveMarkets(
+      const tx = await contract.resolveEvent(
         eventReadyToResolve[i].id,
         eventReadyToResolve[i].status,
-        eventReadyToResolve[i].homeScore,
-        eventReadyToResolve[i].awayScore,
+        eventReadyToResolve[i].homeTeamId,
+        eventReadyToResolve[i].awayTeamId,
+        eventReadyToResolve[i].homeScore * 10,
+        eventReadyToResolve[i].awayScore * 10,
         { nonce },
       )
       Logger.info(`Augur: Created tx: ${tx.hash}`)
@@ -150,7 +152,9 @@ const resolveFights = async (
   context: AdapterContext,
   config: Config,
 ) => {
-  const contract = new ethers.Contract(contractAddress, mmaABI, config.wallet)
+  if (!isContractIdentifier(sport)) throw Error(`Unsupported sport ${sport}`)
+  const contract = getContract(sport, contractAddress, config.signer)
+  if (!isMMA(contract, sport)) throw Error(`Unsupported fight sport ${sport}`)
 
   let getEvent: Execute
   if (theRundown.SPORTS_SUPPORTED.includes(sport)) {
@@ -183,13 +187,26 @@ const resolveFights = async (
     }
   }
 
+  // If the event from sportsdataio doesn't match the format we expect, check it against contract.
+  // Note that this code is destructive to the events array's contents.
+  for (const event of events.filter((event) => event.weird)) {
+    Logger.debug(`Augur: Checking weird event ${event.id} against market`, event)
+    const { homeTeamId, awayTeamId } = await contract.getSportsEvent(event.id)
+    // The active fighters changed so we classify this fight as Cancelled, which resolves as No Contest.
+    if (!homeTeamId.eq(event.fighterA) || !awayTeamId.eq(event.fighterB)) {
+      event.status = FightStatus.Cancelled
+      Logger.debug('Augur: forcing event status to Cancelled', event)
+    }
+  }
+
   // Filters out events that aren't yet ready to resolve.
   const eventReadyToResolve = events.filter(({ status }) => statusCompleted.includes(status))
+  Logger.debug(`Augur: Ready to resolve ${eventReadyToResolve.length} markets.`)
 
   let failed = 0
   let succeeded = 0
 
-  let nonce = await config.wallet.getTransactionCount()
+  let nonce = await config.signer.getTransactionCount()
   for (const fight of eventReadyToResolve) {
     Logger.info(`Augur: resolving event "${fight.id.toString()}"`)
 
@@ -202,12 +219,19 @@ const resolveFights = async (
       fightStatus = fightStatusMapping.away
     }
 
-    const payload = [fight.id, fight.status, fight.fighterA, fight.fighterB, fightStatus, { nonce }]
-
     // This call resolves markets.
     try {
-      Logger.debug(`Augur: Resolving market with these arguments: ${JSON.stringify(payload)}`)
-      const tx = await contract.trustedResolveMarkets(...payload)
+      Logger.debug(
+        `Augur: Resolving market with these arguments: ${JSON.stringify(fight)}, ${fightStatus}`,
+      )
+      const tx = await contract.resolveEvent(
+        fight.id,
+        fight.status,
+        fight.fighterA,
+        fight.fighterB,
+        fightStatus,
+        { nonce },
+      )
       Logger.info(`Augur: Created tx: ${tx.hash}`)
       nonce++
       succeeded++

@@ -33,7 +33,9 @@
     "@chainlink/ea-bootstrap": "*",
     "@chainlink/sportsdataio-adapter": "^0.1.0",
     "@chainlink/therundown-adapter": "^0.1.0",
-    "ethers": "5.4.6",
+    "@ethersproject/abi": "~5.4.1",
+    "@ethersproject/providers": "~5.4.5",
+    "ethers": "^5.4.6",
     "luxon": "^1.27.0",
     "tslib": "^2.3.1"
   },

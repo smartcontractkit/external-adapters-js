@@ -1540,10 +1540,12 @@ __metadata:
     "@chainlink/sportsdataio-adapter": ^0.1.0
     "@chainlink/therundown-adapter": ^0.1.0
     "@chainlink/types": 0.0.1
+    "@ethersproject/abi": ~5.4.1
+    "@ethersproject/providers": ~5.4.5
     "@types/jest": 27.0.2
     "@types/luxon": 1.27.1
     "@types/node": 14.17.21
-    ethers: 5.4.6
+    ethers: ^5.4.6
     luxon: ^1.27.0
     tslib: ^2.3.1
     typescript: 4.3.5
@@ -3642,7 +3644,9 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
+    "@types/luxon": ^2.0.5
     "@types/node": 14.17.21
+    luxon: ^2.0.2
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -4203,7 +4207,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ethersproject/abi@npm:5.4.1":
+"@ethersproject/abi@npm:5.4.1, @ethersproject/abi@npm:~5.4.1":
   version: 5.4.1
   resolution: "@ethersproject/abi@npm:5.4.1"
   dependencies:
@@ -4718,7 +4722,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ethersproject/providers@npm:5.4.5":
+"@ethersproject/providers@npm:5.4.5, @ethersproject/providers@npm:~5.4.5":
   version: 5.4.5
   resolution: "@ethersproject/providers@npm:5.4.5"
   dependencies:
@@ -7406,6 +7410,13 @@ __metadata:
   version: 2.0.5
   resolution: "@types/luxon@npm:2.0.5"
   checksum: 2d0229ade7e5af3f8633ee491f7417ca5497885b531f2d86db2e1f65686bb43c7e884505ee003af0ebef48c4db30247e2859ba0c830863d36827f3b8ec7299ac
+  languageName: node
+  linkType: hard
+
+"@types/luxon@npm:^2.0.5":
+  version: 2.0.6
+  resolution: "@types/luxon@npm:2.0.6"
+  checksum: 1c89710e311d190b19243ef322a279c415b840e2d873ac303f8bd4bd1b74d0636d3172b967da576c81c38adb522975054de4a6c3fdce85559415b6aced5717fd
   languageName: node
   linkType: hard
 

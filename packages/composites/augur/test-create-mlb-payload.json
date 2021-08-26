@@ -1,0 +1,10 @@
+{
+  "data": {
+    "method": "create",
+    "sport": "MLB",
+    "daysInAdvance": 7,
+    "startBuffer": 60,
+    "affiliateIds": [9, 3],
+    "contractAddress": "0xcBc0E622254412063f90829e8CfAA930BcA066Bb"
+  }
+}

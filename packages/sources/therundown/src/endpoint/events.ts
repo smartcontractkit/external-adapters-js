@@ -1,5 +1,6 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import { DateTime } from 'luxon'
 
 export const supportedEndpoints = ['events']
 
@@ -19,7 +20,8 @@ export interface ResponseSchema {
 
 const formatDate = (date: Date): string => {
   const pad = (n: number) => (n < 10 ? '0' + n : n)
-  return date.getUTCFullYear() + '-' + pad(date.getUTCMonth() + 1) + '-' + pad(date.getUTCDate())
+  const { year, month, day } = DateTime.fromJSDate(date).setZone('America/New_York')
+  return `${year}-${pad(month)}-${pad(day)}`
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {

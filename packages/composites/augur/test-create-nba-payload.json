@@ -1,0 +1,10 @@
+{
+  "data": {
+    "method": "create",
+    "sport": "NBA",
+    "daysInAdvance": 7,
+    "startBuffer": 86400,
+    "affiliateIds": [9, 3],
+    "contractAddress": "0xedf8f21CD357Fb3B51dfc9bAc227a678344956CE"
+  }
+}

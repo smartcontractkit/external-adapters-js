@@ -3648,6 +3648,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/sportsdataio-adapter", "workspace:packages/sources/sportsdataio"],
             ["@chainlink/therundown-adapter", "workspace:packages/sources/therundown"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@ethersproject/abi", "npm:5.4.1"],
+            ["@ethersproject/providers", "npm:5.4.5"],
             ["@types/jest", "npm:27.0.2"],
             ["@types/luxon", "npm:1.27.1"],
             ["@types/node", "npm:14.17.21"],
@@ -5992,7 +5994,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.2"],
+            ["@types/luxon", "npm:2.0.6"],
             ["@types/node", "npm:14.17.21"],
+            ["luxon", "npm:2.0.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
@@ -10286,6 +10290,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-luxon-npm-2.0.5-66a801b509-2d0229ade7.zip/node_modules/@types/luxon/",
           "packageDependencies": [
             ["@types/luxon", "npm:2.0.5"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:2.0.6", {
+          "packageLocation": "./.yarn/cache/@types-luxon-npm-2.0.6-1d5866f986-1c89710e31.zip/node_modules/@types/luxon/",
+          "packageDependencies": [
+            ["@types/luxon", "npm:2.0.6"]
           ],
           "linkType": "HARD",
         }]

@@ -1,0 +1,10 @@
+{
+  "data": {
+    "method": "create",
+    "sport": "MMA",
+    "daysInAdvance": 4,
+    "startBuffer": 60,
+    "affiliateIds": [9, 3],
+    "contractAddress": "0x6D2e53d53aEc521dec3d53C533E6c6E60444c655"
+  }
+}

@@ -45,6 +45,8 @@ interface TheRundownEvent {
     is_away: boolean
     is_home: boolean
     team_id: number
+    name: string
+    mascot: string
   }[]
 }
 
@@ -90,11 +92,11 @@ export const create: Execute = async (input, context) => {
 
   const events = []
   Logger.debug(`Augur theRundown: Fetching data from therundown for ${sport} (${sportId})`)
-  for (let i = 0; i < daysInAdvance; i++) {
-    params.data.date = addDays(params.data.date, 1)
+  for (let i = 0; i <= daysInAdvance; i++) {
     Logger.debug(`Augur theRundown: Fetching data for date ${params.data.date}`)
     const response = await theRundownExec(params, context)
     events.push(...(response.result as TheRundownEvent[]))
+    params.data.date = addDays(params.data.date, 1)
   }
 
   Logger.debug(`Augur theRundown: Got ${events.length} events from data provider`)
@@ -155,21 +157,24 @@ export const create: Execute = async (input, context) => {
       affiliateId && event.lines?.[affiliateId].total.total_over,
     )
 
-    const createHeadToHead = headToHeadMarket.isZero() && moneylineHome && moneylineAway
-    const createSpread = sport !== 'MLB' && spreadMarket.isZero() && homeSpread !== undefined
-    const createTotalScore =
-      sport !== 'MLB' && totalScoreMarket.isZero() && totalScore !== undefined
+    const createHeadToHead = !headToHeadMarket && moneylineHome && moneylineAway
+    const createSpread = sport !== 'MLB' && !spreadMarket && homeSpread !== undefined
+    const createTotalScore = sport !== 'MLB' && !totalScoreMarket && totalScore !== undefined
     const canCreate = createHeadToHead || createSpread || createTotalScore
     if (!canCreate) {
       cantCreate++
       continue
     }
 
+    function makeName(team: TheRundownEvent['teams_normalized'][number]) {
+      return `${team.name} ${team.mascot}`
+    }
+
     eventsToCreate.push({
       id: eventId,
-      homeTeamName: 'Home',
+      homeTeamName: makeName(homeTeam),
       homeTeamId: homeTeam.team_id,
-      awayTeamName: 'Away',
+      awayTeamName: makeName(awayTeam),
       awayTeamId: awayTeam.team_id,
       startTime,
       homeSpread: homeSpread || 0,
@@ -244,6 +249,8 @@ export const resolve: Execute = async (input, context) => {
   const event: ResolveTeam = {
     id: eventIdToNum(response.event_id),
     status: eventStatus[response.score.event_status],
+    homeTeamId: response.teams_normalized.find((team) => team.is_home)?.team_id || 0,
+    awayTeamId: response.teams_normalized.find((team) => team.is_away)?.team_id || 0,
     homeScore: response.score.score_home,
     awayScore: response.score.score_away,
   }
