@@ -44,7 +44,9 @@ export class SigmaCalculator {
       const { strikePrice, midPrice, underlyingPrice } = call
       if (strikePrice.gt(underlyingPrice)) {
         if (!midPrice) return
-        const prevMax: Decimal = Decimal.max(...[0, ...compareCalls.slice(Math.max(0, idx - 10), idx)])
+        const prevMax: Decimal = Decimal.max(
+          ...[0, ...compareCalls.slice(Math.max(0, idx - 10), idx)],
+        )
         if (idx > 3 && !prevMax.isZero() && midPrice.greaterThan(prevMax.mul(2))) return
         F = underlyingPrice
         if (idx === 0) {
@@ -67,7 +69,9 @@ export class SigmaCalculator {
       const { strikePrice, midPrice, underlyingPrice } = put
       if (strikePrice.lt(underlyingPrice)) {
         if (!midPrice) return
-        const prevMax: Decimal = Decimal.max(...[0, ...comparePuts.slice(Math.max(0, idx - 10), idx)])
+        const prevMax: Decimal = Decimal.max(
+          ...[0, ...comparePuts.slice(Math.max(0, idx - 10), idx)],
+        )
         if (idx > 3 && !prevMax.isZero() && midPrice.greaterThan(prevMax.mul(2))) return
         F = underlyingPrice
         if (idx === 0) {
