@@ -3,19 +3,22 @@ import {
   AdapterResponse,
   ExecuteFactory,
   ExecuteWithConfig,
-} from '@chainlink/types'
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { getLatestAnswer } from '@chainlink/ea-reference-data-reader'
-import {
+  RequestConfig,
   Config,
-  makeConfig,
-  makeOptions,
-  DEFAULT_CHECK_THRESHOLD,
-  DEFAULT_ONCHAIN_THRESHOLD,
-  SourceRequestOptions,
-  CheckRequestOptions,
-} from './config'
+} from '@chainlink/types'
+import { Requester, Validator, util } from '@chainlink/ea-bootstrap'
+import { getLatestAnswer } from '@chainlink/ea-reference-data-reader'
+import { makeConfig, DEFAULT_CHECK_THRESHOLD, DEFAULT_ONCHAIN_THRESHOLD } from './config'
 import { AxiosResponse } from 'axios'
+
+export type SourceRequestOptions = { [source: string]: RequestConfig }
+export type CheckRequestOptions = { [check: string]: RequestConfig }
+
+export type AdapterOptions = {
+  sources: SourceRequestOptions
+  checks: CheckRequestOptions
+  api: any
+}
 
 const customParams = {
   referenceContract: ['referenceContract', 'contract'],
@@ -27,8 +30,8 @@ const customParams = {
   onchain_threshold: false,
 }
 
-const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
-  const paramOptions = makeOptions(config)
+const execute: ExecuteWithConfig<Config> = async (input, _, __) => {
+  const paramOptions = makeOptions(input.data.source.split(','), input.data.check.split(','))
   const validator = new Validator(input, customParams, paramOptions)
   if (validator.error) throw validator.error
 
@@ -41,7 +44,8 @@ const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
 
   const onchainValue = await getLatestAnswer(referenceContract, multiply, input.meta)
 
-  const sourceMedian = await getExecuteMedian(config.sources, source, input)
+  const adapterOptions = getAdapterOptions(source.split(','), check.split(','))
+  const sourceMedian = await getExecuteMedian(adapterOptions.sources, source, input)
 
   if (onchain_threshold > 0) {
     if (difference(sourceMedian, onchainValue) > onchain_threshold) {
@@ -54,13 +58,62 @@ const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
       throw Error('No check adapters provided')
     }
 
-    const checkMedian = await getExecuteMedian(config.checks, check, input)
+    const checkMedian = await getExecuteMedian(adapterOptions.checks, check, input)
     if (difference(sourceMedian, checkMedian) > check_threshold) {
       return success(jobRunID, onchainValue)
     }
   }
 
   return success(jobRunID, sourceMedian)
+}
+
+const getAdapterOptions = (
+  sourceAdapters: string[],
+  checkAdapters: string[],
+  prefix = '',
+): AdapterOptions => {
+  const sources: SourceRequestOptions = {}
+  for (const name of sourceAdapters) {
+    const url = util.getURL(name.toUpperCase())
+    if (url) {
+      sources[name] = makeRequestOptions(prefix, url)
+    } else {
+      throw new Error(`The URL for the ${name} source adapter has not been set yet`)
+    }
+  }
+  const checks: CheckRequestOptions = {}
+  for (const name of checkAdapters) {
+    const url = util.getURL(name.toUpperCase())
+    if (url) {
+      checks[name] = makeRequestOptions(prefix, url)
+    } else {
+      throw new Error(`The URL for the ${name} check adapter has not been set yet`)
+    }
+  }
+
+  return { sources, checks, api: {} }
+}
+
+const makeRequestOptions = (prefix: string, url: string): RequestConfig => {
+  const defaultConfig = Requester.getDefaultConfig(prefix)
+  return {
+    ...defaultConfig.api,
+    method: 'post',
+    url,
+  }
+}
+
+const makeOptions = (sources: string[], checks: string[]) => {
+  return {
+    source: util.permutator(
+      sources.map((value) => value.toLowerCase()),
+      ',',
+    ),
+    check: util.permutator(
+      checks.map((value) => value.toLowerCase()),
+      ',',
+    ),
+  }
 }
 
 const getExecuteMedian = async (
