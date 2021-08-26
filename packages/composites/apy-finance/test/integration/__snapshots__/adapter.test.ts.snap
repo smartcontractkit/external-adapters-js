@@ -4,14 +4,7 @@ exports[`execute with request properly formatted should return success 1`] = `
 Object {
   "data": Object {
     "payload": Object {
-      "LINK": Object {
-        "quote": Object {
-          "USD": Object {
-            "price": 2000,
-          },
-        },
-      },
-      "WETH": Object {
+      "USDC": Object {
         "quote": Object {
           "USD": Object {
             "price": 2000,
@@ -19,12 +12,12 @@ Object {
         },
       },
     },
-    "result": 8e-13,
+    "result": 200000,
     "sources": Array [],
   },
   "debug": undefined,
   "jobRunID": "1",
-  "result": 8e-13,
+  "result": 200000,
   "statusCode": 200,
 }
 `;
