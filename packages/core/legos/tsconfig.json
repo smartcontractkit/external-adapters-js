@@ -134,6 +134,9 @@
       "path": "../../sources/etherchain"
     },
     {
+      "path": "../../sources/etherscan"
+    },
+    {
       "path": "../../sources/ethgasstation"
     },
     {
