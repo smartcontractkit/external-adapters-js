@@ -13,7 +13,7 @@ export const separateBatches = async (
   await separateBatchesHelper(input, input, Object.keys(input.data), callback)
 }
 
-export const separateBatchesHelper = async (
+const separateBatchesHelper = async (
   curr: AdapterRequest,
   input: AdapterRequest,
   dataFields: string[],

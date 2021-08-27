@@ -15,8 +15,7 @@ describe('WebSockets', () => {
         splitRequests.push(res)
       })
       expect(splitRequests.length).toEqual(2)
-      const firstRequest = splitRequests[0]
-      const secondRequest = splitRequests[1]
+      const [firstRequest, secondRequest] = splitRequests
       expect(firstRequest.data.base).toBe('BTC')
       expect(secondRequest.data.base).toBe('BTC')
       expect(firstRequest.data.quote).toBe('USD')
