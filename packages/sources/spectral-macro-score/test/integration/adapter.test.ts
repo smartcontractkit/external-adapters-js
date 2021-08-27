@@ -72,13 +72,21 @@ describe('execute', () => {
     }
 
     requests.forEach((req) => {
-      it(`${req.name}`, async () => {
-        mockContractCall()
-        const adapterResponse = await execute(req.testData as AdapterRequest, null)
-        assertSuccess({ expected: 200, actual: adapterResponse.statusCode }, adapterResponse, jobID)
-        expect(parseInt(adapterResponse.data?.result)).not.toBeNull()
-        expect(parseInt(adapterResponse.data.result)).toBeGreaterThan(0)
-      }, 40000)
+      it(
+        `${req.name}`,
+        async () => {
+          mockContractCall()
+          const adapterResponse = await execute(req.testData as AdapterRequest, null)
+          assertSuccess(
+            { expected: 200, actual: adapterResponse.statusCode },
+            adapterResponse,
+            jobID,
+          )
+          expect(parseInt(adapterResponse.data?.result)).not.toBeNull()
+          expect(parseInt(adapterResponse.data.result)).toBeGreaterThan(0)
+        },
+        config.DEFAULT_TIMEOUT,
+      )
     })
   })
 })

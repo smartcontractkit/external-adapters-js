@@ -2,7 +2,7 @@ import { Requester } from '@chainlink/ea-bootstrap'
 import { AdapterResponse, RequestConfig } from '@chainlink/types'
 import { BigNumber } from 'ethers'
 import { getTickSet } from '../abi/NFC'
-import { SpectralAdapterConfig } from '../config'
+import { DEFAULT_TIMEOUT, SpectralAdapterConfig } from '../config'
 
 export const MacroScoreAPIName = 'spectral-proxy' // This should be filled in with a lowercase name corresponding to the API endpoint
 
@@ -73,7 +73,7 @@ export const execute = async (
       'Content-Type': 'application/json',
       'x-api-key': config.apiKey ?? '',
     },
-    timeout: 30000,
+    timeout: DEFAULT_TIMEOUT,
   }
   const tickSet = await getTickSet(config.nfcAddress, config.rpcUrl, request.data.tickSetId)
   const response = await Requester.request<ScoreResponse[]>(options, customError)
