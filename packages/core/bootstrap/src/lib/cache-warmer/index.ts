@@ -53,7 +53,7 @@ export const withCacheWarmer =
       const wsHandler = await ws.makeWSHandler()
 
       let batchMemberHasActiveWSSubscription = false
-      await separateBatches(input, Object.keys(input.data), async (singleInput: AdapterRequest) => {
+      await separateBatches(input, async (singleInput: AdapterRequest) => {
         const wsSubscriptionKey = getSubsId(wsHandler.subscribe(singleInput))
         const cacheWarmerKey = getSubscriptionKey(warmupSubscribedPayload)
 

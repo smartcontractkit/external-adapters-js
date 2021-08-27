@@ -8,10 +8,9 @@ import { AdapterRequest } from '@chainlink/types'
  */
 export const separateBatches = async (
   input: AdapterRequest,
-  dataFields: string[],
   callback: (singleInput: AdapterRequest) => Promise<void>,
 ): Promise<void> => {
-  await separateBatchesHelper(input, input, dataFields, callback)
+  await separateBatchesHelper(input, input, Object.keys(input.data), callback)
 }
 
 export const separateBatchesHelper = async (
@@ -27,8 +26,7 @@ export const separateBatchesHelper = async (
     if (dataValues) {
       dataValues = Array.isArray(dataValues) ? dataValues : [dataValues]
       for (const val of dataValues) {
-        let updatedCurr = JSON.parse(JSON.stringify(curr))
-        updatedCurr = {
+        const updatedCurr = {
           ...curr,
           data: {
             ...curr.data,

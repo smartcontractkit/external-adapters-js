@@ -11,7 +11,7 @@ describe('WebSockets', () => {
         },
       }
       const splitRequests = []
-      await separateBatches(request, ['base', 'quote'], async (res) => {
+      await separateBatches(request, async (res) => {
         splitRequests.push(res)
       })
       expect(splitRequests.length).toEqual(2)

@@ -38,7 +38,7 @@ export const withWebSockets =
       return await awaitResult(context, input, deadline)
     }
 
-    await separateBatches(input, Object.keys(input.data), async (singleInput: AdapterRequest) => {
+    await separateBatches(input, async (singleInput: AdapterRequest) => {
       const subscriptionMsg = wsHandler.subscribe(singleInput)
       if (!subscriptionMsg) return
       const subscriptionPayload: WSSubscriptionPayload = {
