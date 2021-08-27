@@ -1,6 +1,14 @@
 import { AdapterRequest } from '@chainlink/types'
 
 export const separateBatches = async (
+  input: AdapterRequest,
+  dataFields: string[],
+  callback: (singleInput: AdapterRequest) => Promise<void>,
+): Promise<void> => {
+  await separateBatchesHelper(input, input, dataFields, callback)
+}
+
+export const separateBatchesHelper = async (
   curr: AdapterRequest,
   input: AdapterRequest,
   dataFields: string[],
@@ -21,7 +29,7 @@ export const separateBatches = async (
             [dataFields[0]]: val,
           },
         }
-        await separateBatches(updatedCurr, input, dataFields.slice(1), callback)
+        await separateBatchesHelper(updatedCurr, input, dataFields.slice(1), callback)
       }
     }
   }

@@ -1,14 +1,7 @@
-import {
-  AdapterContext,
-  WSHandler,
-  AdapterRequest,
-  MakeWSHandler,
-  Middleware,
-} from '@chainlink/types'
+import { AdapterContext, AdapterRequest, MakeWSHandler, Middleware } from '@chainlink/types'
 import { Store } from 'redux'
 import { connectRequested, subscribeRequested, WSSubscriptionPayload } from './actions'
 import { getWSConfig } from './config'
-import { WSConfig } from './types'
 import { RootState } from './reducer'
 import { separateBatches } from './utils'
 import { AdapterCache } from '../cache'
@@ -45,38 +38,23 @@ export const withWebSockets =
       return await awaitResult(context, input, deadline)
     }
 
-    await separateBatches(
-      input,
-      input,
-      Object.keys(input.data),
-      async (singleInput: AdapterRequest) => {
-        await subscribeToWs(singleInput, store, context, wsHandler, wsConfig)
-      },
-    )
+    await separateBatches(input, Object.keys(input.data), async (singleInput: AdapterRequest) => {
+      const subscriptionMsg = wsHandler.subscribe(singleInput)
+      if (!subscriptionMsg) return
+      const subscriptionPayload: WSSubscriptionPayload = {
+        connectionInfo: {
+          key: wsConfig.connectionInfo.key,
+          url: wsHandler.connection.url,
+        },
+        subscriptionMsg,
+        input: singleInput,
+        context,
+      }
+
+      store.dispatch(subscribeRequested(subscriptionPayload))
+    })
     return await execute(input, context)
   }
-
-const subscribeToWs = async (
-  input: AdapterRequest,
-  store: Store<RootState>,
-  context: AdapterContext,
-  wsHandler: WSHandler,
-  wsConfig: WSConfig,
-): Promise<void> => {
-  const subscriptionMsg = wsHandler.subscribe(input)
-  if (!subscriptionMsg) return
-  const subscriptionPayload: WSSubscriptionPayload = {
-    connectionInfo: {
-      key: wsConfig.connectionInfo.key,
-      url: wsHandler.connection.url,
-    },
-    subscriptionMsg,
-    input,
-    context,
-  }
-
-  store.dispatch(subscribeRequested(subscriptionPayload))
-}
 
 const awaitResult = async (context: AdapterContext, input: AdapterRequest, deadline: number) => {
   const adapterCache = new AdapterCache(context)

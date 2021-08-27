@@ -53,39 +53,34 @@ export const withCacheWarmer =
       const wsHandler = await ws.makeWSHandler()
 
       let batchMemberHasActiveWSSubscription = false
-      separateBatches(
-        input,
-        input,
-        Object.keys(input.data),
-        async (singleInput: AdapterRequest) => {
-          const wsSubscriptionKey = getSubsId(wsHandler.subscribe(singleInput))
-          const cacheWarmerKey = getSubscriptionKey(warmupSubscribedPayload)
+      await separateBatches(input, Object.keys(input.data), async (singleInput: AdapterRequest) => {
+        const wsSubscriptionKey = getSubsId(wsHandler.subscribe(singleInput))
+        const cacheWarmerKey = getSubscriptionKey(warmupSubscribedPayload)
 
-          // Could happen that a subscription is still loading. If that's the case, warmer will open a subscription. If the WS becomes active, on next requests warmer will be unsubscribed
-          const isActiveWSSubscription =
-            ws.store.getState().subscriptions.all[wsSubscriptionKey]?.active
-          // If there is a WS subscription active, warmup subscription (if exists) should be removed, and not play for the moment
-          const isActiveCWSubsciption = warmerStore.getState().subscriptions[cacheWarmerKey]
-          if (isActiveWSSubscription) {
-            if (isActiveCWSubsciption) {
-              logger.info(
-                `Active WS feed detected: disabling cache warmer for ${getFeedId(singleInput)}`,
+        // Could happen that a subscription is still loading. If that's the case, warmer will open a subscription. If the WS becomes active, on next requests warmer will be unsubscribed
+        const isActiveWSSubscription =
+          ws.store.getState().subscriptions.all[wsSubscriptionKey]?.active
+        // If there is a WS subscription active, warmup subscription (if exists) should be removed, and not play for the moment
+        const isActiveCWSubsciption = warmerStore.getState().subscriptions[cacheWarmerKey]
+        if (isActiveWSSubscription) {
+          if (isActiveCWSubsciption) {
+            logger.info(
+              `Active WS feed detected: disabling cache warmer for ${getFeedId(singleInput)}`,
+            )
+            // If there is a Batch WS subscription active, warmup subscription should be removed
+            if (isActiveCWSubsciption.parent && isActiveCWSubsciption.batchablePropertyPath)
+              warmerStore.dispatch(
+                actions.warmupLeaveGroup({
+                  parent: isActiveCWSubsciption.parent,
+                  childLastSeenById: { [cacheWarmerKey]: Date.now() },
+                  batchablePropertyPath: isActiveCWSubsciption.batchablePropertyPath,
+                }),
               )
-              // If there is a Batch WS subscription active, warmup subscription should be removed
-              if (isActiveCWSubsciption.parent && isActiveCWSubsciption.batchablePropertyPath)
-                warmerStore.dispatch(
-                  actions.warmupLeaveGroup({
-                    parent: isActiveCWSubsciption.parent,
-                    childLastSeenById: { [cacheWarmerKey]: Date.now() },
-                    batchablePropertyPath: isActiveCWSubsciption.batchablePropertyPath,
-                  }),
-                )
-              warmerStore.dispatch(actions.warmupUnsubscribed({ key: cacheWarmerKey }))
-            }
-            batchMemberHasActiveWSSubscription = true
+            warmerStore.dispatch(actions.warmupUnsubscribed({ key: cacheWarmerKey }))
           }
-        },
-      )
+          batchMemberHasActiveWSSubscription = true
+        }
+      })
       if (batchMemberHasActiveWSSubscription) {
         return await execute(input, context)
       }
