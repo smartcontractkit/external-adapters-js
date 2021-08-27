@@ -73,7 +73,6 @@ const toValidAllocations = (allocations: any[]): TokenAllocations => {
 const computePrice = async (getPrices: GetPrices, allocations: TokenAllocations, quote: string) => {
   const symbols = (allocations as TokenAllocations).map((t) => t.symbol)
   const payload = await getPrices(symbols, quote)
-
   const result = priceTotalValue(allocations, quote, payload)
   return { payload, result }
 }
