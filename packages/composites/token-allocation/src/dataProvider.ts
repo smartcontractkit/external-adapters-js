@@ -30,7 +30,7 @@ export const getPriceProvider =
       symbols.map(async (base) => {
         const data = {
           id: jobRunID,
-          data: { base, quote, endpoint: withMarketCap ? 'marketcap' : 'price' },
+          data: { base, quote, endpoint: withMarketCap ? 'marketcap' : 'crypto' },
         }
         const response = await Requester.request({ ...apiConfig, data: data })
         return response.data.result
