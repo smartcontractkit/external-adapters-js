@@ -20312,7 +20312,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         ["npm:13.1.2", {
           "packageLocation": "./.yarn/cache/nock-npm-13.1.2-2bef2e8736-61cf123030.zip/node_modules/nock/",
           "packageDependencies": [
-            ["nock", "npm:13.1.2"],
+            ["nock", "npm:13.1.3"],
             ["debug", "virtual:c9bc8b4682dae1ac36fcb97c7fccfb86af01a1f6fc48eaf83d9bd00fb14f9e1f641a2409ef7e079b4e0ed4a16267412a60166cc456172f4a4f9469cc6ef7c07b#npm:4.3.2"],
             ["json-stringify-safe", "npm:5.0.1"],
             ["lodash.set", "npm:4.3.2"],

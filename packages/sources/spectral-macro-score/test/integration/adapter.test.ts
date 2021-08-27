@@ -61,7 +61,9 @@ describe('execute', () => {
       mockNFC.expects('getTickSet').once().returns(Promise.resolve(mockedResult))
       const mockConfig = sinon.mock(config)
       const mockedConfigResult = {
-        api: 'https://xzff24vr3m.execute-api.us-east-2.amazonaws.com/default/spectral-proxy',
+        api: {
+          baseURL: 'https://xzff24vr3m.execute-api.us-east-2.amazonaws.com/default/',
+        },
         verbose: true,
         rpcUrl: 'test-rpc-url',
         nfcAddress: 'test-nfc-address',
