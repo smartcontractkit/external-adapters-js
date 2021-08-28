@@ -511,6 +511,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/upvest"
       },
       {
+        "name": "@chainlink/uscpi-one-adapter",
+        "reference": "workspace:packages/sources/uscpi-one"
+      },
+      {
         "name": "@chainlink/wbtc-address-set-adapter",
         "reference": "workspace:packages/sources/wbtc-address-set"
       },
@@ -672,6 +676,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/types", ["workspace:packages/core/types/@chainlink"]],
       ["@chainlink/unibit-adapter", ["workspace:packages/sources/unibit"]],
       ["@chainlink/upvest-adapter", ["workspace:packages/sources/upvest"]],
+      ["@chainlink/uscpi-one-adapter", ["workspace:packages/sources/uscpi-one"]],
       ["@chainlink/vesper-adapter", ["workspace:packages/composites/vesper"]],
       ["@chainlink/wbtc-address-set-adapter", ["workspace:packages/sources/wbtc-address-set"]],
       ["@chainlink/wootrade-adapter", ["workspace:packages/sources/wootrade"]],
@@ -4159,6 +4164,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/twelvedata-adapter", "workspace:packages/sources/twelvedata"],
             ["@chainlink/unibit-adapter", "workspace:packages/sources/unibit"],
             ["@chainlink/upvest-adapter", "workspace:packages/sources/upvest"],
+            ["@chainlink/uscpi-one-adapter", "workspace:packages/sources/uscpi-one"],
             ["@chainlink/wbtc-address-set-adapter", "workspace:packages/sources/wbtc-address-set"],
             ["@chainlink/wootrade-adapter", "workspace:packages/sources/wootrade"],
             ["@chainlink/xbto-adapter", "workspace:packages/sources/xbto"],
@@ -5499,6 +5505,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
+            ["@types/node", "npm:14.17.7"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/uscpi-one-adapter", [
+        ["workspace:packages/sources/uscpi-one", {
+          "packageLocation": "./packages/sources/uscpi-one/",
+          "packageDependencies": [
+            ["@chainlink/uscpi-one-adapter", "workspace:packages/sources/uscpi-one"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.1"],
             ["@types/node", "npm:14.17.7"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
