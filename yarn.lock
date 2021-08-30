@@ -2488,8 +2488,8 @@ __metadata:
     "@types/jest": ^27.0.1
     "@types/node": ^14.14.35
     "@types/semantic-release": ^17.2.1
-    "@typescript-eslint/eslint-plugin": ^4.29.2
-    "@typescript-eslint/parser": ^4.29.2
+    "@typescript-eslint/eslint-plugin": 4.29.2
+    "@typescript-eslint/parser": 4.29.2
     "@vercel/ncc": ^0.29.1
     commitizen: ^4.2.4
     cz-conventional-changelog: ^3.3.0
@@ -6424,7 +6424,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/eslint-plugin@npm:^4.29.2":
+"@typescript-eslint/eslint-plugin@npm:4.29.2":
   version: 4.29.2
   resolution: "@typescript-eslint/eslint-plugin@npm:4.29.2"
   dependencies:
@@ -6461,7 +6461,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:^4.29.2":
+"@typescript-eslint/parser@npm:4.29.2":
   version: 4.29.2
   resolution: "@typescript-eslint/parser@npm:4.29.2"
   dependencies:
