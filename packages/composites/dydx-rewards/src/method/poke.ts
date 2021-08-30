@@ -42,6 +42,7 @@ export interface Input {
   traderScoreAlpha: number
   newEpoch: BigNumber
   activeRootIpfsCid: string
+  treasuryClaimAddress: string
 }
 
 const parseAddress = (address: string): string => {
@@ -77,6 +78,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
     traderScoreAlpha,
     newEpoch,
     activeRootIpfsCid,
+    treasuryClaimAddress: config.treasuryClaimAddress,
   }
   const addressRewards = await calculateRewards(jobRunID, rewardsInput, ipfs)
 
@@ -105,7 +107,7 @@ export const calculateRewards = async (
 
   const addressRewards: AddressRewards = {}
   if (input.newEpoch.isZero()) {
-    calcRetroactiveRewards(epochData, addressRewards)
+    calcRetroactiveRewards(epochData, addressRewards, input.treasuryClaimAddress)
   }
 
   calcTraderRewards(epochData, addressRewards, input.traderRewardsAmount, input.traderScoreAlpha)
@@ -133,13 +135,94 @@ const addReward = (
   }
 }
 
-const calcRetroactiveRewards = (epochData: OracleRewardsData, addressRewards: AddressRewards) => {
-  // TODO: TBD by dYdX closer to launch
-  console.log(epochData)
-  console.log(addressRewards)
+// We expect the amount with 2 decimal points, and the token has 18 decimals.
+const rewardAmountToBigNumber = (amount: number) =>
+  BigNumber.from(amount * 100).mul(BigNumber.from(10).pow(16))
+
+// Retroactive tiers are sorted descending to make it easier to find the highest applicable tier
+const retroactiveTiers = [
+  {
+    min: 1_000_000,
+    reward: rewardAmountToBigNumber(9529.86),
+    volumeRequirement: 100_000,
+  },
+  {
+    min: 100_000,
+    reward: rewardAmountToBigNumber(6413.91),
+    volumeRequirement: 50_000,
+  },
+  {
+    min: 10_000,
+    reward: rewardAmountToBigNumber(4349.63),
+    volumeRequirement: 5_000,
+  },
+  {
+    min: 1,
+    reward: rewardAmountToBigNumber(1163.51),
+    volumeRequirement: 500,
+  },
+  {
+    min: 0,
+    reward: rewardAmountToBigNumber(310.75),
+    volumeRequirement: 1,
+  },
+]
+
+// Retroactive rewards is 75M (hard-coded, as the above tiers would have to change if this was changed)
+const totalRetroactiveRewards = BigNumber.from(75_000_000).mul(BigNumber.from(10).pow(18))
+
+const findRetroactiveRewardsTier = (tradeVolume: number) => {
+  const tier = retroactiveTiers.find(({ min }) => tradeVolume > min)
+  if (!tier) {
+    throw new Error(`Unable to find tier for volume: ${tradeVolume}`)
+  }
+
+  return tier
 }
 
-const calcTraderRewards = (
+const EXPO_BONUS_TOKENS = rewardAmountToBigNumber(565.61)
+
+export const calcRetroactiveRewards = (
+  epochData: OracleRewardsData,
+  addressRewards: AddressRewards,
+  treasuryClaimAddress: string,
+) => {
+  if (!epochData.retroactiveTradeVolume) {
+    throw new Error(
+      'tried to calculate retroactive rewards, but retroactiveTradeVolume was not included in epoch data',
+    )
+  }
+
+  let sumRetroactivelyDistributedRewards = BigNumber.from(0)
+
+  Object.keys(epochData.retroactiveTradeVolume).forEach((addr) => {
+    const volume = epochData.tradeVolume?.[addr] || 0
+    const retroactiveVolume = epochData.retroactiveTradeVolume?.[addr] || 0
+    const tier = findRetroactiveRewardsTier(retroactiveVolume)
+    const isExpoUser = epochData.isExpoUser?.[addr] || false
+    const userPotentialRewardTokens = tier.reward.add(isExpoUser ? EXPO_BONUS_TOKENS : 0)
+    const earnedFraction = Math.min(1, volume / tier.volumeRequirement)
+    const userRetroactiveRewardTokens = new bn.BigNumber(userPotentialRewardTokens.toString())
+      .times(earnedFraction)
+      .decimalPlaces(0, bn.BigNumber.ROUND_FLOOR)
+      .toFixed()
+    if (userRetroactiveRewardTokens != '0') {
+      addReward(addressRewards, addr, userRetroactiveRewardTokens)
+      sumRetroactivelyDistributedRewards = sumRetroactivelyDistributedRewards.add(
+        userRetroactiveRewardTokens,
+      )
+    }
+  })
+
+  // If there are tokens not claimed (by users not reaching volume requirements), send them to the
+  // treasury's merkle root claim contract.
+  const totalForfeitedTokens = totalRetroactiveRewards.sub(sumRetroactivelyDistributedRewards)
+  if (!totalForfeitedTokens.isZero()) {
+    addReward(addressRewards, treasuryClaimAddress, totalForfeitedTokens)
+  }
+}
+
+export const calcTraderRewards = (
   epochData: OracleRewardsData,
   addressRewards: AddressRewards,
   traderRewardsAmount: bn.BigNumber,
@@ -149,8 +232,8 @@ const calcTraderRewards = (
     (sum, addr) => sum.plus(epochData.tradeFeesPaid[addr]),
     new bn.BigNumber(0),
   )
-  const G = Object.keys(epochData.averageOpenInterest).reduce(
-    (sum, addr) => sum.plus(epochData.averageOpenInterest[addr]),
+  const G = Object.keys(epochData.openInterest).reduce(
+    (sum, addr) => sum.plus(epochData.openInterest[addr]),
     new bn.BigNumber(0),
   )
 
@@ -159,7 +242,7 @@ const calcTraderRewards = (
 
   Object.keys(epochData.tradeFeesPaid).forEach((addr) => {
     const f = epochData.tradeFeesPaid[addr]
-    const g = epochData.averageOpenInterest[addr] || 0
+    const g = epochData.openInterest[addr] || 0
     const score = new bn.BigNumber((f / F.toNumber()) ** traderScoreAlpha).times(
       (g / G.toNumber()) ** (1 - traderScoreAlpha),
     )
@@ -180,7 +263,7 @@ const calcTraderRewards = (
   })
 }
 
-const calcMarketMakerRewards = (
+export const calcMarketMakerRewards = (
   epochData: OracleRewardsData,
   addressRewards: AddressRewards,
   marketMakerRewardsAmount: bn.BigNumber,

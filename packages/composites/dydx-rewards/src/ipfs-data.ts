@@ -17,10 +17,19 @@ export interface OracleRewardsDataByEpoch {
 
 export interface OracleRewardsData {
   epoch: number
+  retroactiveTradeVolume?: {
+    [address: string]: number
+  }
+  tradeVolume?: {
+    [address: string]: number
+  }
+  isExpoUser?: {
+    [address: string]: boolean
+  }
   tradeFeesPaid: {
     [address: string]: number
   }
-  averageOpenInterest: {
+  openInterest: {
     [address: string]: number
   }
   quoteScore: {
@@ -28,7 +37,11 @@ export interface OracleRewardsData {
   }
 }
 
-export const getDataFromIPNS = async (jobRunID: string, ipfs: Execute, ipnsName: string) => {
+export const getDataFromIPNS = async (
+  jobRunID: string,
+  ipfs: Execute,
+  ipnsName: string,
+): Promise<OracleRewardsDataByEpoch> => {
   const params = { id: jobRunID, data: { method: 'read', ipns: ipnsName, type: 'dag' } }
   const response = await ipfs(params)
   return response.result as OracleRewardsDataByEpoch
