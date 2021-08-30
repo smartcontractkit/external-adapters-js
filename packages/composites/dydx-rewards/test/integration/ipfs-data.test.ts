@@ -20,7 +20,7 @@ describe('ipfs data', () => {
       tradeFeesPaid: {
         [address]: 123,
       },
-      averageOpenInterest: {
+      openInterest: {
         [address]: 123,
       },
       quoteScore: {
