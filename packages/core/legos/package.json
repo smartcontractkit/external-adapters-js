@@ -70,6 +70,7 @@
     "@chainlink/dxfeed-secondary-adapter": "*",
     "@chainlink/eodhistoricaldata-adapter": "*",
     "@chainlink/etherchain-adapter": "*",
+    "@chainlink/etherscan-adapter": "*",
     "@chainlink/ethgasstation-adapter": "*",
     "@chainlink/ethgaswatch-adapter": "*",
     "@chainlink/expert-car-broker-adapter": "*",

@@ -1,0 +1,15 @@
+{
+  "extends": [
+    "config:base",
+    ":automergePatch",
+    ":prConcurrentLimit10",
+    ":automergeLinters",
+    ":automergeTesters",
+    ":automergeTypes",
+    "preview:dockerCompose",
+    "preview:dockerVersions",
+    ":automergePr",
+    ":automergeRequireAllStatusChecks"
+  ],
+  "ignorePaths": [".yarn/sdks"]
+}

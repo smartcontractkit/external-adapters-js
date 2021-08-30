@@ -39,6 +39,7 @@ import * as dxfeed from '@chainlink/dxfeed-adapter'
 import * as dxfeed_secondary from '@chainlink/dxfeed-secondary-adapter'
 import * as eodhistoricaldata from '@chainlink/eodhistoricaldata-adapter'
 import * as etherchain from '@chainlink/etherchain-adapter'
+import * as etherscan from '@chainlink/etherscan-adapter'
 import * as ethgasstation from '@chainlink/ethgasstation-adapter'
 import * as ethgaswatch from '@chainlink/ethgaswatch-adapter'
 import * as expert_car_broker from '@chainlink/expert-car-broker-adapter'
@@ -136,6 +137,7 @@ export default {
   dxfeed_secondary,
   eodhistoricaldata,
   etherchain,
+  etherscan,
   ethgasstation,
   ethgaswatch,
   expert_car_broker,

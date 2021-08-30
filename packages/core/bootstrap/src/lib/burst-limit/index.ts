@@ -52,12 +52,16 @@ export const withBurstLimit =
     // Limit by Second
     if (config.burstCapacity1s) {
       const availableCapacity = availableSecondLimitCapacity(store, config.burstCapacity1s)
-      if (!availableCapacity)
+      if (!availableCapacity) {
+        logger.warn(
+          `External Adapter backing off. Provider's limit of ${config.burstCapacity1s} requests per second reached.`,
+        )
         throw new AdapterError({
           jobRunID: input.id,
           message: 'New request backoff: Second Burst rate limit cap reached.',
           statusCode: 429,
         })
+      }
     }
 
     // Limit by Minute
@@ -72,10 +76,10 @@ export const withBurstLimit =
         observedRequestsInMinute > config.burstCapacity1m * MINUTE_LIMIT_WARMER_BUFFER
         // TODO: determine BATCH_REQUEST_BUFFER dynamically based on (number of batch warmers * 3)
       ) {
-        logger.error(
-          `Burst rate limit cap of ${
+        logger.warn(
+          `External Adapter backing off. Provider's limit of ${
             config.burstCapacity1m * MINUTE_LIMIT_WARMER_BUFFER
-          } reached. ${observedRequestsInMinute} requests sent in the last minute.`,
+          } requests per minute reached. ${observedRequestsInMinute} requests sent in the last minute.`,
         )
         throw new AdapterError({
           jobRunID: input.id,

@@ -1,8 +1,7 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
-export const Name = 'price'
-
+export const supportedEndpoints = ['price']
 export interface ResponseSchema {
   apiVersion: string
   requestId: string
@@ -18,13 +17,13 @@ export interface ResponseSchema {
   }
 }
 
-const priceParams = {
+export const inputParameters: InputParameters = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, priceParams)
+  const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
