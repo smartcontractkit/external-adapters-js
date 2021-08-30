@@ -79,8 +79,5 @@
   },
   "lint-staged": {
     "*.{js,css,md,ts,json,yml,yaml}": "prettier --write"
-  },
-  "resolutions": {
-    "@augurproject/smart": "portal:/home/pg/Development/turbo/packages/smart"
   }
 }

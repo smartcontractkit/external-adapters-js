@@ -48,7 +48,6 @@
     "tslib": "^2.1.0"
   },
   "devDependencies": {
-    "@augurproject/smart": "latest",
     "@chainlink/types": "0.0.1",
     "@ethersproject/constants": "^5.4.0",
     "@nomiclabs/hardhat-ethers": "npm:hardhat-deploy-ethers@0.3.0-beta.10",

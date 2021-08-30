@@ -785,31 +785,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
-      ["@augurproject/smart", [
-        ["portal:/home/pg/Development/turbo/packages/smart::locator=%40chainlink%2Fexternal-adapters-js%40workspace%3A.", {
-          "packageLocation": "../turbo/packages/smart/",
-          "packageDependencies": [
-            ["@augurproject/smart", "portal:/home/pg/Development/turbo/packages/smart::locator=%40chainlink%2Fexternal-adapters-js%40workspace%3A."],
-            ["@chainlink/contracts", "npm:0.2.1"],
-            ["@ethersproject/abstract-provider", "npm:5.4.1"],
-            ["@ethersproject/abstract-signer", "npm:5.4.1"],
-            ["@ethersproject/bytes", "npm:5.4.0"],
-            ["@ethersproject/providers", "npm:5.4.5"],
-            ["@ethersproject/signing-key", "npm:5.4.0"],
-            ["@openzeppelin/contracts", "npm:3.4.0-solc-0.7"],
-            ["@types/luxon", "npm:2.0.2"],
-            ["eslint-config-prettier", "virtual:71885f08daae89ddf1604982d5b2f753bea6bc7ade67a05fe823aecac2fc8537c867f68937e86800e269197bba79c58c4bda59f8c5832ee3d761a1e8d0abedbc#npm:8.3.0"],
-            ["ethers", "npm:5.4.5"],
-            ["hardhat", "npm:2.6.1"],
-            ["hardhat-deploy", "virtual:71885f08daae89ddf1604982d5b2f753bea6bc7ade67a05fe823aecac2fc8537c867f68937e86800e269197bba79c58c4bda59f8c5832ee3d761a1e8d0abedbc#npm:0.7.11"],
-            ["luxon", "npm:2.0.2"],
-            ["prettier-plugin-solidity", "virtual:71885f08daae89ddf1604982d5b2f753bea6bc7ade67a05fe823aecac2fc8537c867f68937e86800e269197bba79c58c4bda59f8c5832ee3d761a1e8d0abedbc#npm:1.0.0-beta.17"],
-            ["tslib", "npm:2.3.1"],
-            ["typechain", "npm:4.0.3"]
-          ],
-          "linkType": "SOFT",
-        }]
-      ]],
       ["@authereum/starkware-crypto", [
         ["npm:1.9.7-beta.7", {
           "packageLocation": "./.yarn/cache/@authereum-starkware-crypto-npm-1.9.7-beta.7-6c2cd009b3-f333f71e10.zip/node_modules/@authereum/starkware-crypto/",
@@ -3349,7 +3324,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/composites/augur/",
           "packageDependencies": [
             ["@chainlink/augur-adapter", "workspace:packages/composites/augur"],
-            ["@augurproject/smart", "portal:/home/pg/Development/turbo/packages/smart::locator=%40chainlink%2Fexternal-adapters-js%40workspace%3A."],
             ["@chainlink/contracts", "npm:0.2.1"],
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
@@ -8179,14 +8153,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@solidity-parser/parser", "npm:0.11.1"]
           ],
           "linkType": "HARD",
-        }],
-        ["npm:0.13.2", {
-          "packageLocation": "./.yarn/cache/@solidity-parser-parser-npm-0.13.2-2ef008f90b-bfdd8ec7f7.zip/node_modules/@solidity-parser/parser/",
-          "packageDependencies": [
-            ["@solidity-parser/parser", "npm:0.13.2"],
-            ["antlr4ts", "npm:0.5.0-dev"]
-          ],
-          "linkType": "HARD",
         }]
       ]],
       ["@szmarczak/http-timer", [
@@ -8788,13 +8754,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-luxon-npm-1.27.1-ffe8f597c2-732405c745.zip/node_modules/@types/luxon/",
           "packageDependencies": [
             ["@types/luxon", "npm:1.27.1"]
-          ],
-          "linkType": "HARD",
-        }],
-        ["npm:2.0.2", {
-          "packageLocation": "./.yarn/cache/@types-luxon-npm-2.0.2-2d6ba0d738-45adccf2fe.zip/node_modules/@types/luxon/",
-          "packageDependencies": [
-            ["@types/luxon", "npm:2.0.2"]
           ],
           "linkType": "HARD",
         }]
@@ -10325,16 +10284,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
-      ["antlr4ts", [
-        ["npm:0.5.0-dev", {
-          "packageLocation": "./.yarn/cache/antlr4ts-npm-0.5.0-dev-7e0fc8988a-640dae2229.zip/node_modules/antlr4ts/",
-          "packageDependencies": [
-            ["antlr4ts", "npm:0.5.0-dev"],
-            ["source-map-support", "npm:0.5.19"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
       ["anymatch", [
         ["npm:2.0.0", {
           "packageLocation": "./.yarn/cache/anymatch-npm-2.0.0-f2fcb92f28-f7bb192984.zip/node_modules/anymatch/",
@@ -10682,15 +10631,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/asynckit-npm-0.4.0-c718858525-7b78c451df.zip/node_modules/asynckit/",
           "packageDependencies": [
             ["asynckit", "npm:0.4.0"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["at-least-node", [
-        ["npm:1.0.0", {
-          "packageLocation": "./.yarn/cache/at-least-node-npm-1.0.0-2b36e661fa-463e2f8e43.zip/node_modules/at-least-node/",
-          "packageDependencies": [
-            ["at-least-node", "npm:1.0.0"]
           ],
           "linkType": "HARD",
         }]
@@ -14298,13 +14238,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["emoji-regex", "npm:8.0.0"]
           ],
           "linkType": "HARD",
-        }],
-        ["npm:9.2.2", {
-          "packageLocation": "./.yarn/cache/emoji-regex-npm-9.2.2-e6fac8d058-8487182da7.zip/node_modules/emoji-regex/",
-          "packageDependencies": [
-            ["emoji-regex", "npm:9.2.2"]
-          ],
-          "linkType": "HARD",
         }]
       ]],
       ["emojis-list", [
@@ -14812,19 +14745,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-config-prettier", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:8.3.0"],
             ["@types/eslint", "npm:7.28.0"],
             ["eslint", "npm:7.32.0"]
-          ],
-          "packagePeers": [
-            "@types/eslint",
-            "eslint"
-          ],
-          "linkType": "HARD",
-        }],
-        ["virtual:71885f08daae89ddf1604982d5b2f753bea6bc7ade67a05fe823aecac2fc8537c867f68937e86800e269197bba79c58c4bda59f8c5832ee3d761a1e8d0abedbc#npm:8.3.0", {
-          "packageLocation": "./.yarn/__virtual__/eslint-config-prettier-virtual-9adf4a569a/0/cache/eslint-config-prettier-npm-8.3.0-f540cd1f53-df4cea3032.zip/node_modules/eslint-config-prettier/",
-          "packageDependencies": [
-            ["eslint-config-prettier", "virtual:71885f08daae89ddf1604982d5b2f753bea6bc7ade67a05fe823aecac2fc8537c867f68937e86800e269197bba79c58c4bda59f8c5832ee3d761a1e8d0abedbc#npm:8.3.0"],
-            ["@types/eslint", null],
-            ["eslint", null]
           ],
           "packagePeers": [
             "@types/eslint",
@@ -16205,17 +16125,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["universalify", "npm:0.1.2"]
           ],
           "linkType": "HARD",
-        }],
-        ["npm:9.1.0", {
-          "packageLocation": "./.yarn/cache/fs-extra-npm-9.1.0-983c2ddb4c-ba71ba32e0.zip/node_modules/fs-extra/",
-          "packageDependencies": [
-            ["fs-extra", "npm:9.1.0"],
-            ["at-least-node", "npm:1.0.0"],
-            ["graceful-fs", "npm:4.2.8"],
-            ["jsonfile", "npm:6.1.0"],
-            ["universalify", "npm:2.0.0"]
-          ],
-          "linkType": "HARD",
         }]
       ]],
       ["fs-minipass", [
@@ -16951,57 +16860,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["hardhat-deploy", [
-        ["npm:0.7.11", {
-          "packageLocation": "./.yarn/cache/hardhat-deploy-npm-0.7.11-3001edad6b-6548998754.zip/node_modules/hardhat-deploy/",
-          "packageDependencies": [
-            ["hardhat-deploy", "npm:0.7.11"]
-          ],
-          "linkType": "SOFT",
-        }],
         ["npm:0.8.11", {
           "packageLocation": "./.yarn/cache/hardhat-deploy-npm-0.8.11-a4511e1d6a-fd5a674e53.zip/node_modules/hardhat-deploy/",
           "packageDependencies": [
             ["hardhat-deploy", "npm:0.8.11"]
           ],
           "linkType": "SOFT",
-        }],
-        ["virtual:71885f08daae89ddf1604982d5b2f753bea6bc7ade67a05fe823aecac2fc8537c867f68937e86800e269197bba79c58c4bda59f8c5832ee3d761a1e8d0abedbc#npm:0.7.11", {
-          "packageLocation": "./.yarn/__virtual__/hardhat-deploy-virtual-7403b6aff7/0/cache/hardhat-deploy-npm-0.7.11-3001edad6b-6548998754.zip/node_modules/hardhat-deploy/",
-          "packageDependencies": [
-            ["hardhat-deploy", "virtual:71885f08daae89ddf1604982d5b2f753bea6bc7ade67a05fe823aecac2fc8537c867f68937e86800e269197bba79c58c4bda59f8c5832ee3d761a1e8d0abedbc#npm:0.7.11"],
-            ["@ethersproject/abi", "npm:5.4.1"],
-            ["@ethersproject/abstract-signer", "npm:5.4.1"],
-            ["@ethersproject/address", "npm:5.4.0"],
-            ["@ethersproject/bignumber", "npm:5.4.1"],
-            ["@ethersproject/bytes", "npm:5.4.0"],
-            ["@ethersproject/constants", "npm:5.4.0"],
-            ["@ethersproject/contracts", "npm:5.4.1"],
-            ["@ethersproject/hardware-wallets", null],
-            ["@ethersproject/providers", "npm:5.4.5"],
-            ["@ethersproject/solidity", "npm:5.4.0"],
-            ["@ethersproject/transactions", "npm:5.4.0"],
-            ["@ethersproject/wallet", "npm:5.4.0"],
-            ["@types/ethersproject__hardware-wallets", null],
-            ["@types/hardhat", null],
-            ["@types/qs", "npm:6.9.7"],
-            ["axios", "npm:0.21.1"],
-            ["chalk", "npm:4.1.2"],
-            ["chokidar", "npm:3.5.2"],
-            ["debug", "virtual:c9bc8b4682dae1ac36fcb97c7fccfb86af01a1f6fc48eaf83d9bd00fb14f9e1f641a2409ef7e079b4e0ed4a16267412a60166cc456172f4a4f9469cc6ef7c07b#npm:4.3.2"],
-            ["form-data", "npm:3.0.1"],
-            ["fs-extra", "npm:9.1.0"],
-            ["hardhat", "npm:2.6.1"],
-            ["match-all", "npm:1.2.6"],
-            ["murmur-128", "npm:0.2.1"],
-            ["qs", "npm:6.10.1"]
-          ],
-          "packagePeers": [
-            "@ethersproject/hardware-wallets",
-            "@types/ethersproject__hardware-wallets",
-            "@types/hardhat",
-            "hardhat"
-          ],
-          "linkType": "HARD",
         }],
         ["virtual:894c7069f8aed076d3839d4f435fd974974296cafbca8e3355fff9d622c82029c9e05eeefeb9e2521cd2b7d885c2414fbaa802b29fb061bade185d5a82c32171#npm:0.8.11", {
           "packageLocation": "./.yarn/__virtual__/hardhat-deploy-virtual-97c32ea7c0/0/cache/hardhat-deploy-npm-0.8.11-a4511e1d6a-fd5a674e53.zip/node_modules/hardhat-deploy/",
@@ -20867,13 +20731,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["luxon", "npm:1.28.0"]
           ],
           "linkType": "HARD",
-        }],
-        ["npm:2.0.2", {
-          "packageLocation": "./.yarn/cache/luxon-npm-2.0.2-1234b63c1d-eb2e366cf4.zip/node_modules/luxon/",
-          "packageDependencies": [
-            ["luxon", "npm:2.0.2"]
-          ],
-          "linkType": "HARD",
         }]
       ]],
       ["make-dir", [
@@ -23591,34 +23448,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
-      ["prettier-plugin-solidity", [
-        ["npm:1.0.0-beta.17", {
-          "packageLocation": "./.yarn/cache/prettier-plugin-solidity-npm-1.0.0-beta.17-efc5f24489-9ae8cef7cb.zip/node_modules/prettier-plugin-solidity/",
-          "packageDependencies": [
-            ["prettier-plugin-solidity", "npm:1.0.0-beta.17"]
-          ],
-          "linkType": "SOFT",
-        }],
-        ["virtual:71885f08daae89ddf1604982d5b2f753bea6bc7ade67a05fe823aecac2fc8537c867f68937e86800e269197bba79c58c4bda59f8c5832ee3d761a1e8d0abedbc#npm:1.0.0-beta.17", {
-          "packageLocation": "./.yarn/__virtual__/prettier-plugin-solidity-virtual-9bfd5dc6c0/0/cache/prettier-plugin-solidity-npm-1.0.0-beta.17-efc5f24489-9ae8cef7cb.zip/node_modules/prettier-plugin-solidity/",
-          "packageDependencies": [
-            ["prettier-plugin-solidity", "virtual:71885f08daae89ddf1604982d5b2f753bea6bc7ade67a05fe823aecac2fc8537c867f68937e86800e269197bba79c58c4bda59f8c5832ee3d761a1e8d0abedbc#npm:1.0.0-beta.17"],
-            ["@solidity-parser/parser", "npm:0.13.2"],
-            ["@types/prettier", null],
-            ["emoji-regex", "npm:9.2.2"],
-            ["escape-string-regexp", "npm:4.0.0"],
-            ["prettier", null],
-            ["semver", "npm:7.3.5"],
-            ["solidity-comments-extractor", "npm:0.0.7"],
-            ["string-width", "npm:4.2.2"]
-          ],
-          "packagePeers": [
-            "@types/prettier",
-            "prettier"
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
       ["pretty-error", [
         ["npm:2.1.2", {
           "packageLocation": "./.yarn/cache/pretty-error-npm-2.1.2-7a43e8ca26-16775d06f9.zip/node_modules/pretty-error/",
@@ -25867,15 +25696,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["require-from-string", "npm:2.0.2"],
             ["semver", "npm:5.7.1"],
             ["tmp", "npm:0.0.33"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["solidity-comments-extractor", [
-        ["npm:0.0.7", {
-          "packageLocation": "./.yarn/cache/solidity-comments-extractor-npm-0.0.7-b84da24f18-a5cedf2310.zip/node_modules/solidity-comments-extractor/",
-          "packageDependencies": [
-            ["solidity-comments-extractor", "npm:0.0.7"]
           ],
           "linkType": "HARD",
         }]
