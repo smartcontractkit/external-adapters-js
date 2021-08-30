@@ -289,11 +289,11 @@
       },
       "analyst": {
         "rateLimit1m": 500,
-        "rateLimit1h": 690,
+        "rateLimit1h": 690
       },
       "pro": {
         "rateLimit1m": 500,
-        "rateLimit1h": 6900,
+        "rateLimit1h": 6900
       }
     },
     "ws": {}
