@@ -11,55 +11,55 @@ describe('execute', () => {
     const requests = [
       {
         name: 'request with reference contract',
-        testData: { 
-            id: jobID,
-            data: {
-                "baseCoinTicker": "UNI",
-                "quoteCoinTicker": "USDT",
-                "referenceContract": "0x3E7d1eAB13ad0104d2750B8863b489D65364e32D",
-                "referenceContractDivisor": "100000000",
-                "referenceModifierAction": "divide"
-            }
+        testData: {
+          id: jobID,
+          data: {
+            baseCoinTicker: 'UNI',
+            quoteCoinTicker: 'USDT',
+            referenceContract: '0x3E7d1eAB13ad0104d2750B8863b489D65364e32D',
+            referenceContractDivisor: '100000000',
+            referenceModifierAction: 'divide',
+          },
         },
       },
       {
         name: 'request with a pair',
-        testData: { 
-          id: jobID, 
-          data: { 
-            "baseCoinTicker": "UNI",
-            "quoteCoinTicker": "LINK"
-          } 
+        testData: {
+          id: jobID,
+          data: {
+            baseCoinTicker: 'UNI',
+            quoteCoinTicker: 'LINK',
+          },
         },
       },
       {
         name: 'request with a pair with from/to alias',
-        testData: { 
-          id: jobID, 
-          data: { 
-            "from": "UNI",
-            "to": "LINK"
-          } 
+        testData: {
+          id: jobID,
+          data: {
+            from: 'UNI',
+            to: 'LINK',
+          },
         },
       },
       {
         name: 'request with a pair with base/quote alias',
-        testData: { 
-          id: jobID, 
-          data: { 
-            "base": "UNI",
-            "quote": "LINK"
-          } 
+        testData: {
+          id: jobID,
+          data: {
+            base: 'UNI',
+            quote: 'LINK',
+          },
         },
       },
       {
         name: 'request with a pair with coin/market alias',
-        testData: { 
-          id: jobID, 
-          data: { 
-            "coin": "UNI",
-            "market": "LINK"
-          } 
+        testData: {
+          id: jobID,
+          data: {
+            coin: 'UNI',
+            market: 'LINK',
+          },
         },
       },
     ]
@@ -78,33 +78,33 @@ describe('execute', () => {
     const requests = [
       {
         name: 'same base and quote tickers',
-        testData: { 
-          id: jobID, 
-          data: { 
-            "baseCoinTicker": "LINK",
-            "quoteCoinTicker": "LINK"
-          } 
+        testData: {
+          id: jobID,
+          data: {
+            baseCoinTicker: 'LINK',
+            quoteCoinTicker: 'LINK',
+          },
         },
       },
       {
         name: 'invalid token',
-        testData: { 
-          id: jobID, 
-          data: { 
-            "baseCoinTicker": "NON_EXISTENT_TOKEN",
-            "quoteCoinTicker": "LINK"
-          } 
+        testData: {
+          id: jobID,
+          data: {
+            baseCoinTicker: 'NON_EXISTENT_TOKEN',
+            quoteCoinTicker: 'LINK',
+          },
         },
       },
       {
         name: 'invalid DEX',
-        testData: { 
-          id: jobID, 
-          data: { 
-            "baseCoinTicker": "UNI",
-            "quoteCoinTicker": "LINK",
-            "dex": "INVALID DEX"
-          } 
+        testData: {
+          id: jobID,
+          data: {
+            baseCoinTicker: 'UNI',
+            quoteCoinTicker: 'LINK',
+            dex: 'INVALID DEX',
+          },
         },
       },
     ]

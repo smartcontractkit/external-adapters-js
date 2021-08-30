@@ -387,6 +387,46 @@ describe('side effect tests', () => {
       })
     })
 
+    it('should create a warmup subscription  with configured interval', () => {
+      scheduler.run(({ hot, expectObservable }) => {
+        const action$ = actionStream(hot, 'a c 9s b ', {
+          a: actions.warmupSubscribed({
+            executeFn: stub(),
+            ...adapterRequest1,
+            result: adapterResult,
+          }),
+          b: actions.warmupUnsubscribed({
+            key: key1,
+          }),
+          c: actions.warmupSubscribed({
+            executeFn: stub(),
+            ...adapterRequest2,
+            result: adapterResult,
+          }),
+        })
+        const state$ = stateStream({
+          cacheWarmer: {
+            subscriptions: {
+              [key1]: { isDuplicate: false },
+              [key2]: { isDuplicate: false },
+            },
+          },
+        })
+
+        const config = { ...epicDependencies.config, warmupInterval: 8000 }
+        const output$ = warmupSubscriber(action$, state$, { config })
+        // With offset, we expect 7000ms when interval is set to 8000ms
+        expectObservable(output$, '^ 14s !').toBe('7000ms a b', {
+          a: actions.warmupRequested({
+            key: key1,
+          }),
+          b: actions.warmupRequested({
+            key: key2,
+          }),
+        })
+      })
+    })
+
     it('should skip creating a subscription if one already exists in state', () => {
       scheduler.run(({ hot, expectObservable }) => {
         const action$ = actionStream(hot, 'a ', {

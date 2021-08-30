@@ -17,7 +17,9 @@
 ---
 
 ## Forex Endpoint
+
 ##### NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `forex` endpoint instead.
+
 ### Input Params
 
 | Required? |            Name            |                        Description                        |                                       Options                                        | Defaults to |

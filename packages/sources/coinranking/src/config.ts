@@ -3,14 +3,14 @@ import { Config } from '@chainlink/types'
 
 export const NAME = 'COINRANKING'
 
-const DEFAULT_ENDPOINT = 'coin'
+export const DEFAULT_ENDPOINT = 'crypto'
 export const DEFAULT_API_ENDPOINT = 'https://api.coinranking.com/v2'
 
 export const makeConfig = (prefix?: string): Config => {
   const config = Requester.getDefaultConfig(prefix)
   config.api = {
     ...config.api,
-    baseURL: config.api.baseURL || DEFAULT_API_ENDPOINT
+    baseURL: config.api.baseURL || DEFAULT_API_ENDPOINT,
   }
   config.defaultEndpoint = DEFAULT_ENDPOINT
   if (config.apiKey) {

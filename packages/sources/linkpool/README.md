@@ -8,11 +8,11 @@
 
 ```json
 {
-   "jobRunID":"1",
-   "data":{
-      "result":42.572120477136
-   },
-   "result":42.572120477136,
-   "statusCode":200
+  "jobRunID": "1",
+  "data": {
+    "result": 42.572120477136
+  },
+  "result": 42.572120477136,
+  "statusCode": 200
 }
 ```

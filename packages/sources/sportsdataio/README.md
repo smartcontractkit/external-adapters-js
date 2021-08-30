@@ -7,15 +7,15 @@ Adapter got get data from Sportsdata.io
 | Required? |        Name        |      Description       | Options | Defaults to |
 | :-------: | :----------------: | :--------------------: | :-----: | :---------: |
 |           | NFL_SCORES_API_KEY | API key for NFL scores |         |             |
-|           | MMA_STATS_API_KEY | API key for MMA stats |         |             |
+|           | MMA_STATS_API_KEY  | API key for MMA stats  |         |             |
 |           | CFB_SCORES_API_KEY | API key for CFB scores |         |             |
 
 ---
 
 ### Input Parameters
 
-| Required? | Name  |   Description    |   Options   | Defaults to |
-| :-------: | :---: | :--------------: | :---------: | :---------: |
+| Required? | Name  |   Description    |                    Options                    | Defaults to |
+| :-------: | :---: | :--------------: | :-------------------------------------------: | :---------: |
 |           | sport | The sport to use | [nfl](#NFL), [mma](#MMA), [ncaa-fb](#ncaa-fb) |     nfl     |
 
 ---
@@ -24,8 +24,8 @@ Adapter got get data from Sportsdata.io
 
 ### Input Parameters
 
-| Required? |   Name   |      Description      |                     Options                      | Defaults to |
-| :-------: | :------: | :-------------------: | :----------------------------------------------: | :---------: |
+| Required? |   Name   |      Description      |                                                   Options                                                    | Defaults to |
+| :-------: | :------: | :-------------------: | :----------------------------------------------------------------------------------------------------------: | :---------: |
 |           | endpoint | The endpoint to query | [schedule](#NFL-Schedule), [scores](#NFL-Scores), [current-season](#NFL-current-season), [teams](#NFL-teams) |  schedule   |
 
 ### NFL Schedule
@@ -50,7 +50,7 @@ Get NFL scores
 
 ### NFL Current Season
 
-Year of the current NFL season. This value changes on July 1st. 
+Year of the current NFL season. This value changes on July 1st.
 
 #### Input Parameters
 
@@ -70,8 +70,8 @@ No input parameters.
 
 ### Input Parameters
 
-| Required? |   Name   |      Description      |                    Options                     | Defaults to |
-| :-------: | :------: | :-------------------: | :--------------------------------------------: | :---------: |
+| Required? |   Name   |      Description      |                                           Options                                            | Defaults to |
+| :-------: | :------: | :-------------------: | :------------------------------------------------------------------------------------------: | :---------: |
 |    ✅     | endpoint | The endpoint to query | [schedule](#MMA-Schedule), [event](#MMA-Event), [fight](#MMA-Fight), [leagues](#MMA-Leagues) |             |
 
 ### MMA Schedule
@@ -119,9 +119,9 @@ _None_
 
 ### Input Parameters
 
-| Required? |   Name   |      Description      |                     Options                      | Defaults to |
-| :-------: | :------: | :-------------------: | :----------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to query | [schedule](#ncaa-fb-schedule), [scores](#ncaa-fb-scores), [current-season](#ncaa-fb-current-season)  |  schedule   |
+| Required? |   Name   |      Description      |                                               Options                                               | Defaults to |
+| :-------: | :------: | :-------------------: | :-------------------------------------------------------------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to query | [schedule](#ncaa-fb-schedule), [scores](#ncaa-fb-scores), [current-season](#ncaa-fb-current-season) |  schedule   |
 
 ### NCAA-FB Schedule
 
@@ -139,4 +139,4 @@ Get NCAA FB scores
 
 ### NCAA-FB Current Season
 
-Year of the current season. 
+Year of the current season.

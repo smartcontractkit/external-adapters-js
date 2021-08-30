@@ -31,6 +31,7 @@ import * as cryptocompare from '@chainlink/cryptocompare-adapter'
 import * as cryptoid from '@chainlink/cryptoid-adapter'
 import * as cryptomkt from '@chainlink/cryptomkt-adapter'
 import * as currencylayer from '@chainlink/currencylayer-adapter'
+import * as curve from '@chainlink/curve-adapter'
 import * as deribit from '@chainlink/deribit-adapter'
 import * as dns_query from '@chainlink/dns-query-adapter'
 import * as dwolla from '@chainlink/dwolla-adapter'
@@ -38,7 +39,9 @@ import * as dxfeed from '@chainlink/dxfeed-adapter'
 import * as dxfeed_secondary from '@chainlink/dxfeed-secondary-adapter'
 import * as eodhistoricaldata from '@chainlink/eodhistoricaldata-adapter'
 import * as etherchain from '@chainlink/etherchain-adapter'
+import * as etherscan from '@chainlink/etherscan-adapter'
 import * as ethgasstation from '@chainlink/ethgasstation-adapter'
+import * as ethgaswatch from '@chainlink/ethgaswatch-adapter'
 import * as expert_car_broker from '@chainlink/expert-car-broker-adapter'
 import * as fcsapi from '@chainlink/fcsapi-adapter'
 import * as finage from '@chainlink/finage-adapter'
@@ -53,12 +56,14 @@ import * as iex_adapter from '@chainlink/iex-cloud-adapter'
 import * as intrinio from '@chainlink/intrinio-adapter'
 import * as json_adapter from '@chainlink/json-rpc-adapter'
 import * as kaiko from '@chainlink/kaiko-adapter'
+import * as layer2_sequencer_health from '@chainlink/layer2-sequencer-health-adapter'
 import * as lcx from '@chainlink/lcx-adapter'
 import * as linkpool from '@chainlink/linkpool-adapter'
 import * as lition from '@chainlink/lition-adapter'
 import * as marketstack from '@chainlink/marketstack-adapter'
 import * as messari from '@chainlink/messari-adapter'
 import * as metalsapi from '@chainlink/metalsapi-adapter'
+import * as mycryptoapi from '@chainlink/mycryptoapi-adapter'
 import * as ncfx from '@chainlink/ncfx-adapter'
 import * as nikkei from '@chainlink/nikkei-adapter'
 import * as nomics from '@chainlink/nomics-adapter'
@@ -76,6 +81,7 @@ import * as satoshitango from '@chainlink/satoshitango-adapter'
 import * as sochain from '@chainlink/sochain-adapter'
 import * as sportsdataio from '@chainlink/sportsdataio-adapter'
 import * as stasis from '@chainlink/stasis-adapter'
+import * as synthetix_debt_pool from '@chainlink/synthetix-debt-pool-adapter'
 import * as taapi from '@chainlink/taapi-adapter'
 import * as therundown from '@chainlink/therundown-adapter'
 import * as tiingo from '@chainlink/tiingo-adapter'
@@ -84,6 +90,7 @@ import * as tradingeconomics from '@chainlink/tradingeconomics-adapter'
 import * as trueusd from '@chainlink/trueusd-adapter'
 import * as twelvedata from '@chainlink/twelvedata-adapter'
 import * as unibit from '@chainlink/unibit-adapter'
+import * as upvest from '@chainlink/upvest-adapter'
 import * as wbtc_adapter_address from '@chainlink/wbtc-address-set-adapter'
 import * as wootrade from '@chainlink/wootrade-adapter'
 import * as xbto from '@chainlink/xbto-adapter'
@@ -122,6 +129,7 @@ export default {
   cryptoid,
   cryptomkt,
   currencylayer,
+  curve,
   deribit,
   dns_query,
   dwolla,
@@ -129,7 +137,9 @@ export default {
   dxfeed_secondary,
   eodhistoricaldata,
   etherchain,
+  etherscan,
   ethgasstation,
+  ethgaswatch,
   expert_car_broker,
   fcsapi,
   finage,
@@ -144,12 +154,14 @@ export default {
   intrinio,
   json_adapter,
   kaiko,
+  layer2_sequencer_health,
   lcx,
   linkpool,
   lition,
   marketstack,
   messari,
   metalsapi,
+  mycryptoapi,
   ncfx,
   nikkei,
   nomics,
@@ -167,6 +179,7 @@ export default {
   sochain,
   sportsdataio,
   stasis,
+  synthetix_debt_pool,
   taapi,
   therundown,
   tiingo,
@@ -175,6 +188,7 @@ export default {
   trueusd,
   twelvedata,
   unibit,
+  upvest,
   wbtc_adapter_address,
   wootrade,
   xbto,
