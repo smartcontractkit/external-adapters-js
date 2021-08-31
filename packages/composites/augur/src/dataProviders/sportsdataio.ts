@@ -322,6 +322,7 @@ export const createTeam: Execute = async (input, context) => {
     }
     const startTime = getEpochTime(event.Date)
     const diffTime = startTime - Date.now()
+
     if (diffTime / 1000 < startBuffer) {
       skipStartBuffer++
       continue

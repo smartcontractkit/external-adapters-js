@@ -43,43 +43,64 @@ describe('NFL createMarket execute', () => {
       return mockDataServer.close()
     })
 
-    let Dates = ['2021-01-16T12:00:00']
+    const dates = ['2021-09-09T03:00:00']
 
-    Dates.forEach((date) => {
-      MockDate.set(date)
-      it(`${date} create`, async () => {
-        let testData = {
-          id: jobID,
-          data: {
-            method: 'create',
-            sport: 'NFL',
-            daysInAdvance: 1,
-            startBuffer: 60,
-            affiliateIds: [1, 3],
-            contractAddress: nflMarketFactory.address,
-          },
-        }
+    describe('runs', () => {
+      const setupMocks = (sandbox: any, date: string) => () => {
+        MockDate.set(date)
+        sandbox.on(Date, 'now', () => Math.floor(new Date(date).valueOf()))
+      }
+      const teardownMocks = (sandbox: any) => () => {
+        MockDate.reset()
+        sandbox.restore()
+      }
 
-        const data = await execute(testData as AdapterRequest, {} as AdapterContext, config)
+      dates.forEach((date) => {
+        describe('', () => {
+          const sandbox = spy.sandbox()
+          before(setupMocks(sandbox, date))
+          after(teardownMocks(sandbox))
+
+          it(`${date} create`, async () => {
+            let testData = {
+              id: jobID,
+              data: {
+                method: 'create',
+                sport: 'NFL',
+                daysInAdvance: 1,
+                startBuffer: 60,
+                affiliateIds: [1, 3],
+                contractAddress: nflMarketFactory.address,
+              },
+            }
+
+            const data = await execute(testData as AdapterRequest, {} as AdapterContext, config)
+            expect(data.statusCode).to.equal(200)
+          })
+        })
       })
-      MockDate.reset()
-    })
 
-    Dates.forEach((date) => {
-      MockDate.set(date)
-      it(`${date} resolve`, async () => {
-        let testData = {
-          id: jobID,
-          data: {
-            method: 'resolve',
-            sport: 'NFL',
-            contractAddress: nflMarketFactory.address,
-          },
-        }
+      dates.forEach((date) => {
+        describe('', () => {
+          const sandbox = spy.sandbox()
+          before(setupMocks(sandbox, date))
+          after(teardownMocks(sandbox))
 
-        const data = await execute(testData as AdapterRequest, {} as AdapterContext, config)
+          it(`${date} resolve`, async () => {
+            let testData = {
+              id: jobID,
+              data: {
+                method: 'resolve',
+                sport: 'NFL',
+                contractAddress: nflMarketFactory.address,
+              },
+            }
+
+            const data = await execute(testData as AdapterRequest, {} as AdapterContext, config)
+            expect(data.statusCode).to.equal(200)
+          })
+        })
       })
-      MockDate.reset()
     })
   })
 
