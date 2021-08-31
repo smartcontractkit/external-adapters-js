@@ -26,10 +26,10 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const base = validator.validated.data.base
+  const base = validator.overrideSymbol(AdapterName)
   const symbol = Array.isArray(base)
     ? base.map((symbol) => symbol.toUpperCase()).join(',')
-    : (validator.overrideSymbol(AdapterName) as string).toUpperCase()
+    : base.toUpperCase()
 
   const events = quoteEventSymbols[symbol] ? 'Quote' : 'Trade'
   const url = 'events.json'
@@ -47,7 +47,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const response = await Requester.request(options, customError)
 
   if (Array.isArray(base)) {
-    return handleBatchedRequest(jobRunID, response, events)
+    return handleBatchedRequest(jobRunID, request, response, events)
   }
 
   const quotePath = ['Quote', symbol, 'bidPrice']
@@ -59,13 +59,25 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   return Requester.success(jobRunID, response, config.verbose, batchablePropertyPath)
 }
 
-const handleBatchedRequest = (jobRunID: string, response: AxiosResponse, events: string) => {
+const handleBatchedRequest = (
+  jobRunID: string,
+  request: AdapterRequest,
+  response: AxiosResponse,
+  events: string,
+) => {
   const payload: [AdapterRequest, number][] = []
   for (const base in response.data[events]) {
-    const info = response.data[events][base]
-    payload.push(info)
-    Requester.validateResultNumber(response.data, [events, base, 'price'])
+    payload.push([
+      {
+        ...request,
+        data: {
+          ...request.data,
+          base: response.data[events][base],
+        },
+      },
+      Requester.validateResultNumber(response.data, [events, base, 'price']),
+    ])
   }
-  response.data.result = payload
+  response.data.results = payload
   return Requester.success(jobRunID, response, true, batchablePropertyPath)
 }
