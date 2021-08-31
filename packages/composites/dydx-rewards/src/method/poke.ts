@@ -182,7 +182,8 @@ const retroactiveTiers = [
 const totalRetroactiveRewards = BigNumber.from(75_000_000).mul(BigNumber.from(10).pow(18))
 
 const findRetroactiveRewardsTier = (tradeVolume: number | boolean) => {
-  if (!tradeVolume) {
+  // Do a strict check to avoid catching "0" - which is treated differently
+  if (tradeVolume === false) {
     return {
       min: 0,
       reward: BigNumber.from(0),
@@ -190,7 +191,7 @@ const findRetroactiveRewardsTier = (tradeVolume: number | boolean) => {
     }
   }
 
-  const tier = retroactiveTiers.find(({ min }) => tradeVolume > min)
+  const tier = retroactiveTiers.find(({ min }) => tradeVolume >= min)
   if (!tier) {
     throw new Error(`Unable to find tier for volume: ${tradeVolume}`)
   }
@@ -215,11 +216,11 @@ export const calcRetroactiveRewards = (
 
   for (const addr of uniqueAddresses) {
     const volume = epochData.tradeVolume?.[addr] || 0
-    const retroactiveVolume = epochData.retroactiveTradeVolume?.[addr] || false
+    const retroactiveVolume = epochData.retroactiveTradeVolume?.[addr] ?? false
     const tier = findRetroactiveRewardsTier(retroactiveVolume)
     const isExpoUser = epochData.isExpoUser?.[addr] || false
     const userPotentialRewardTokens = tier.reward.add(isExpoUser ? EXPO_BONUS_TOKENS : 0)
-    const earnedFraction = Math.min(1, volume / tier.volumeRequirement)
+    const earnedFraction = bn.BigNumber.min(1, new bn.BigNumber(volume).div(tier.volumeRequirement))
     const userRetroactiveRewardTokens = new bn.BigNumber(userPotentialRewardTokens.toString())
       .times(earnedFraction)
       .decimalPlaces(0, bn.BigNumber.ROUND_FLOOR)
