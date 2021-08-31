@@ -60,8 +60,8 @@ describe('rewards', () => {
   const jobRunID = '1'
   const ipfs = IPFS_Adapter.makeExecute()
   const defaultInput: Input = {
-    traderRewardsAmount: new bn.BigNumber(3_835_616).shiftedBy(18),
-    marketMakerRewardsAmount: new bn.BigNumber(1_150_685).shiftedBy(18),
+    traderRewardsAmount: new bn.BigNumber('3835616e18'),
+    marketMakerRewardsAmount: new bn.BigNumber('1150685e18'),
     ipnsName: 'k51qzi5uqu5dlo5nc3rs61zs37bm6cx64s7ubrwvehj50f69361dtblsh4yxxk',
     traderScoreAlpha: 0.7,
     newEpoch: BigNumber.from(0),
