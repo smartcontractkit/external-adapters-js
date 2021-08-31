@@ -26,8 +26,8 @@ export const deconstructJsonTree = (data: MerkleTreeData): AddressRewards => {
 }
 
 const customParams = {
-  traderRewardsAmount: true,
-  marketMakerRewardsAmount: true,
+  traderRewardsAmount: false,
+  marketMakerRewardsAmount: false,
   ipnsName: true,
   traderScoreAlpha: true,
   callbackAddress: true,
@@ -56,10 +56,19 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.jobRunID
-  const traderRewardsAmount = new bn.BigNumber(validator.validated.data.traderRewardsAmount)
-  const marketMakerRewardsAmount = new bn.BigNumber(
-    validator.validated.data.marketMakerRewardsAmount,
-  )
+
+  let traderRewardsAmount = new bn.BigNumber(config.traderRewardsAmount)
+  let marketMakerRewardsAmount = new bn.BigNumber(config.marketMakerRewardsAmount)
+  // Account for CBOR encoding issue
+  if (validator.validated.data.marketMakerRewardsAmount && validator.validated.data.marketMakerRewardsAmount !== 'traderRewardsAmount') {
+    marketMakerRewardsAmount = new bn.BigNumber(
+      validator.validated.data.marketMakerRewardsAmount,
+    )
+  }
+  if (validator.validated.data.traderRewardsAmount) {
+    traderRewardsAmount = new bn.BigNumber(validator.validated.data.traderRewardsAmount)
+  }
+
   const ipnsName = validator.validated.data.ipnsName
   const traderScoreAlpha = new bn.BigNumber(validator.validated.data.traderScoreAlpha)
     .div('1e18')
