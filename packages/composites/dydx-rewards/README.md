@@ -8,11 +8,13 @@ cumulative rewards earned by each user since the start of the distribution progr
 
 The adapter takes the following environment variables:
 
-| Required? |           Name           |                       Description                        | Options |                 Defaults to                  |
-| :-------: | :----------------------: | :------------------------------------------------------: | :-----: | :------------------------------------------: |
-|    ✅     |      `PRIVATE_KEY`       |  Private key of account used to make special callbacks   |         |                                              |
-|    ✅     |        `RPC_URL`         |                   RPC URL of ETH node                    |         |                                              |
-|    ✅     | `TREASURY_CLAIM_ADDRESS` | The address of the treasury's merkle root claim contract |         | `0x95EaBB0248D013b9F59c5D5256CE11b0a8140B54` |
+| Required? |             Name              |                       Description                        | Options |                 Defaults to                  |
+| :-------: | :---------------------------: | :------------------------------------------------------: | :-----: | :------------------------------------------: |
+|    ✅     |         `PRIVATE_KEY`         |  Private key of account used to make special callbacks   |         |                                              |
+|    ✅     |           `RPC_URL`           |                   RPC URL of ETH node                    |         |                                              |
+|    ✅     |   `TREASURY_CLAIM_ADDRESS`    | The address of the treasury's merkle root claim contract |         | `0x95EaBB0248D013b9F59c5D5256CE11b0a8140B54` |
+|    ✅     |    `TRADER_REWARDS_AMOUNT`    |                                                          |         |                 `3835616e18`                 |
+|    ✅     | `MARKET_MAKER_REWARDS_AMOUNT` |                                                          |         |                 `1150685e18`                 |
 
 **Additional environment variables must be set according to the IPFS adapter.**
 This composite adapter executes the code from the IPFS source adapter. As such the same configuration apply to this
