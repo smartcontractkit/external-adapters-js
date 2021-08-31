@@ -225,7 +225,7 @@ local cacheValues = addSideLegend(graphPanel.new(
 ).addTargets(
   [
     prometheus.target(
-      'quantile(0.5, cache_data_get_values{feed_id=~"$feed.*",job="$job"}) by (feed_id)',
+      'quantile(0.5, cache_data_get_values{feed_id=~"$feed.*",namespace="$namespace"}) by (feed_id)',
       legendFormat='Median',
     ),
     prometheus.target(
