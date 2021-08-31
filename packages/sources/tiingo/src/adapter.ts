@@ -59,8 +59,7 @@ interface UpdateMessage extends Message {
 }
 
 const customParams = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
+  base: ['base', 'from', 'coin', 'ticker'],
 }
 
 export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
@@ -68,24 +67,23 @@ export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
     return undefined
   }
 
-  const getSubscription = (pair: string | undefined, subscribe = true) => {
+  const getSubscription = (ticker: string | undefined, subscribe = true) => {
     const defaultConfig = config || makeConfig()
-    if (!pair) return
+    if (!ticker) return
     return {
       eventName: subscribe ? 'subscribe' : 'unsubscribe',
       authorization: defaultConfig?.apiKey,
       eventData: {
         thresholdLevel: 5, // only Last Trade updates
-        tickers: [pair],
+        tickers: [ticker],
       },
     }
   }
-  const getPair = (input: AdapterRequest) => {
+  const getTicker = (input: AdapterRequest): string | undefined => {
     const validator = new Validator(input, customParams, {}, false)
     if (validator.error) return
     const base = validator.validated.data.base.toLowerCase()
-    const quote = validator.validated.data.quote.toLowerCase()
-    return `${base}${quote}`
+    return base
   }
   return () => {
     const defaultConfig = config || makeConfig()
@@ -93,8 +91,9 @@ export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
       connection: {
         url: defaultConfig.api.baseWsURL || DEFAULT_WS_API_ENDPOINT,
       },
-      subscribe: (input) => getSubscription(getPair(input)),
-      unsubscribe: (input) => getSubscription(getPair(input), false),
+      shouldNotServeInputUsingWS: (input) => input.data.endpoint !== 'iex',
+      subscribe: (input) => getSubscription(getTicker(input)),
+      unsubscribe: (input) => getSubscription(getTicker(input), false),
       isError: (message: Message) => message.messageType === 'E',
       filter: (message: Message) => message.messageType === 'A',
       subsFromMessage: (message: UpdateMessage) => message.data && getSubscription(message.data[1]),
