@@ -60,10 +60,11 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
   let traderRewardsAmount = new bn.BigNumber(config.traderRewardsAmount)
   let marketMakerRewardsAmount = new bn.BigNumber(config.marketMakerRewardsAmount)
   // Account for CBOR encoding issue
-  if (validator.validated.data.marketMakerRewardsAmount && validator.validated.data.marketMakerRewardsAmount !== 'traderRewardsAmount') {
-    marketMakerRewardsAmount = new bn.BigNumber(
-      validator.validated.data.marketMakerRewardsAmount,
-    )
+  if (
+    validator.validated.data.marketMakerRewardsAmount &&
+    validator.validated.data.marketMakerRewardsAmount !== 'traderRewardsAmount'
+  ) {
+    marketMakerRewardsAmount = new bn.BigNumber(validator.validated.data.marketMakerRewardsAmount)
   }
   if (validator.validated.data.traderRewardsAmount) {
     traderRewardsAmount = new bn.BigNumber(validator.validated.data.traderRewardsAmount)
@@ -180,7 +181,15 @@ const retroactiveTiers = [
 // Retroactive rewards is 75M (hard-coded, as the above tiers would have to change if this was changed)
 const totalRetroactiveRewards = BigNumber.from(75_000_000).mul(BigNumber.from(10).pow(18))
 
-const findRetroactiveRewardsTier = (tradeVolume: number) => {
+const findRetroactiveRewardsTier = (tradeVolume: number | boolean) => {
+  if (!tradeVolume) {
+    return {
+      min: 0,
+      reward: BigNumber.from(0),
+      volumeRequirement: 1,
+    }
+  }
+
   const tier = retroactiveTiers.find(({ min }) => tradeVolume > min)
   if (!tier) {
     throw new Error(`Unable to find tier for volume: ${tradeVolume}`)
@@ -196,17 +205,17 @@ export const calcRetroactiveRewards = (
   addressRewards: AddressRewards,
   treasuryClaimAddress: string,
 ) => {
-  if (!epochData.retroactiveTradeVolume) {
-    throw new Error(
-      'tried to calculate retroactive rewards, but retroactiveTradeVolume was not included in epoch data',
-    )
-  }
+  const combinedAddresses = [
+    ...Object.keys(epochData.retroactiveTradeVolume || {}),
+    ...Object.keys(epochData.isExpoUser || {}),
+  ]
+  const uniqueAddresses = [...new Set(combinedAddresses)]
 
   let sumRetroactivelyDistributedRewards = BigNumber.from(0)
 
-  Object.keys(epochData.retroactiveTradeVolume).forEach((addr) => {
+  for (const addr of uniqueAddresses) {
     const volume = epochData.tradeVolume?.[addr] || 0
-    const retroactiveVolume = epochData.retroactiveTradeVolume?.[addr] || 0
+    const retroactiveVolume = epochData.retroactiveTradeVolume?.[addr] || false
     const tier = findRetroactiveRewardsTier(retroactiveVolume)
     const isExpoUser = epochData.isExpoUser?.[addr] || false
     const userPotentialRewardTokens = tier.reward.add(isExpoUser ? EXPO_BONUS_TOKENS : 0)
@@ -221,7 +230,7 @@ export const calcRetroactiveRewards = (
         userRetroactiveRewardTokens,
       )
     }
-  })
+  }
 
   // If there are tokens not claimed (by users not reaching volume requirements), send them to the
   // treasury's merkle root claim contract.
