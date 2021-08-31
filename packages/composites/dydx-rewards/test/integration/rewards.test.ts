@@ -90,8 +90,8 @@ describe('calculate retroactive rewards', () => {
   const jobRunID = '1'
   const ipfs = IPFS_Adapter.makeExecute()
   const treasuryClaimAddress = '0x95EaBB0248D013b9F59c5D5256CE11b0a8140B54'
-  const expectedMerkleRoot = '5f6b0e3bfcce6aac8921b2b6bf637e2eaf368fac57c197378cd63ffafba68c3f'
-  const expectedIpfsCid = 'bafkreiegdd3mhuchihkdxgcw5f3dnesru7mbvrqaffvgei6e4mefznbo2u'
+  const expectedMerkleRoot = '41f9ff21e8f74f7f0e8f0ef5dec38b18075b8849a08a6a281f66a181bc409e34'
+  const expectedIpfsCid = 'bafkreicybmu5ce2ujt6cr5gwrhzkyxghfvaxodihadfq2cngryxokzotum'
 
   it('should calculate the correct rewards for epoch 0', async () => {
     const addressRewards: AddressRewards = {}
