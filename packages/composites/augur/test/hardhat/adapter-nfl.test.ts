@@ -1,4 +1,4 @@
-import { AdapterError, Requester } from '@chainlink/ea-bootstrap'
+import { AdapterError, Logger, Requester } from '@chainlink/ea-bootstrap'
 import { assertError, assertSuccess } from '@chainlink/ea-test-helpers'
 import { AdapterContext, AdapterRequest } from '@chainlink/types'
 import { execute } from '../../src/adapter'
@@ -49,6 +49,7 @@ describe('NFL createMarket execute', () => {
       const setupMocks = (sandbox: any, date: string) => () => {
         MockDate.set(date)
         sandbox.on(Date, 'now', () => Math.floor(new Date(date).valueOf()))
+        sandbox.on(Logger, 'error')
       }
       const teardownMocks = (sandbox: any) => () => {
         MockDate.reset()
@@ -75,7 +76,8 @@ describe('NFL createMarket execute', () => {
             }
 
             const data = await execute(testData as AdapterRequest, {} as AdapterContext, config)
-            expect(data.statusCode).to.equal(200)
+            expect(data.statusCode, 'data status code').to.equal(200)
+            expect(Logger.error, 'error logged').to.have.not.been.called()
           })
         })
       })
@@ -97,7 +99,8 @@ describe('NFL createMarket execute', () => {
             }
 
             const data = await execute(testData as AdapterRequest, {} as AdapterContext, config)
-            expect(data.statusCode).to.equal(200)
+            expect(data.statusCode, 'data status code').to.equal(200)
+            expect(Logger.error, 'error logged').to.have.not.been.called()
           })
         })
       })
