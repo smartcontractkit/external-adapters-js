@@ -20,6 +20,9 @@ export const withWebSockets =
     if (!makeWsHandler || !wsConfig.enabled) return await execute(input, context) // ignore middleware if conditions are met
 
     const wsHandler = await makeWsHandler()
+    if (wsHandler.shouldNotServeInputUsingWS && wsHandler.shouldNotServeInputUsingWS(input)) {
+      return await execute(input, context)
+    }
     if (wsHandler.programmaticConnectionInfo) {
       const programmaticConnectionInfo = wsHandler.programmaticConnectionInfo(input)
       if (programmaticConnectionInfo) {
