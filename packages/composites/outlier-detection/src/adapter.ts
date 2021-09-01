@@ -24,7 +24,6 @@ const customParams = {
   referenceContract: ['referenceContract', 'contract'],
   multiply: true,
   source: true,
-  asset: true,
   check: false,
   check_threshold: false,
   onchain_threshold: false,
