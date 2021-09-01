@@ -37,6 +37,7 @@ import * as dns_query from '@chainlink/dns-query-adapter'
 import * as dwolla from '@chainlink/dwolla-adapter'
 import * as dxfeed from '@chainlink/dxfeed-adapter'
 import * as dxfeed_secondary from '@chainlink/dxfeed-secondary-adapter'
+import * as enzyme from '@chainlink/enzyme-adapter'
 import * as eodhistoricaldata from '@chainlink/eodhistoricaldata-adapter'
 import * as etherchain from '@chainlink/etherchain-adapter'
 import * as etherscan from '@chainlink/etherscan-adapter'
@@ -135,6 +136,7 @@ export default {
   dwolla,
   dxfeed,
   dxfeed_secondary,
+  enzyme,
   eodhistoricaldata,
   etherchain,
   etherscan,

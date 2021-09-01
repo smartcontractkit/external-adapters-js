@@ -68,6 +68,7 @@
     "@chainlink/dwolla-adapter": "*",
     "@chainlink/dxfeed-adapter": "*",
     "@chainlink/dxfeed-secondary-adapter": "*",
+    "@chainlink/enzyme-adapter": "*",
     "@chainlink/eodhistoricaldata-adapter": "*",
     "@chainlink/etherchain-adapter": "*",
     "@chainlink/etherscan-adapter": "*",
