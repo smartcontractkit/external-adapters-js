@@ -1,24 +1,24 @@
-# Chainlink External Adapter for Uscpi-one
+# Chainlink External Adapter for US Consumer Price Index (USCPI)
 
 ---
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |          Options           | Defaults to |
-| :-------: | :------: | :-----------------: | :------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [series](#Series-Endpoint) |    serie    |
+| Required? |   Name   |     Description     |         Options          | Defaults to |
+| :-------: | :------: | :-----------------: | :----------------------: | :---------: |
+|           | endpoint | The endpoint to use | [serie](#Serie-Endpoint) |    serie    |
 
 ---
 
-## Series Endpoint
+## Serie Endpoint
 
 ### Input Params
 
-| Required? |   Name   |       Description       |              Options              |  Defaults to  |
-| :-------: | :------: | :---------------------: | :-------------------------------: | :-----------: |
-|           | `series` | The US CPI Data serieID | `CUSR0000SA0`, `LNS14000000`, etc | `CUSR0000SA0` |
-|           | `month`  | The month serie filter  |        `may`, `july`, etc         |               |
-|           |  `year`  |  The year serie filter  |        `2021`, `2020`, etc        |               |
+| Required? |  Name   |       Description       |              Options              |  Defaults to  |
+| :-------: | :-----: | :---------------------: | :-------------------------------: | :-----------: |
+|           | `serie` | The US CPI Data serieID | `CUSR0000SA0`, `LNS14000000`, etc | `CUSR0000SA0` |
+|           | `month` | The month serie filter  |        `may`, `july`, etc         |               |
+|           | `year`  |  The year serie filter  |        `2021`, `2020`, etc        |               |
 
 ### Sample Input
 

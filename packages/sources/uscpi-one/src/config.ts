@@ -1,7 +1,7 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
-export const NAME = 'USCPIONE'
+export const NAME = 'USCPI_ONE'
 
 export const DEFAULT_ENDPOINT = 'series'
 export const DEFAULT_BASE_URL = 'https://api.bls.gov/publicAPI/v2'

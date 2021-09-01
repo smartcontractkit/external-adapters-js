@@ -4,7 +4,7 @@ import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 export const supportedEndpoints = ['series']
 
 export const endpointResultPaths = {
-  example: 'series',
+  series: 'value',
 }
 
 export interface ResponseSchema {
@@ -36,6 +36,7 @@ export const inputParameters: InputParameters = {
   serie: false,
   year: false,
   month: false,
+  resultPath: false,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -43,11 +44,13 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const serie = validator.validated.serie || 'CUSR0000SA0'
+  const serie = validator.validated.data.serie || 'CUSR0000SA0'
   const year = validator.validated.data.year
   const month = validator.validated.data.month
     ? capitalizeFirstLetter(validator.validated.data.month)
     : ''
+  const resultPath = validator.validated.data.resultPath || 'value'
+
   const url = `/timeseries/data/${serie}`
   const options = { ...config.api, url }
   const response = await Requester.request<ResponseSchema>(options, customError)
@@ -63,15 +66,10 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       return obj['year'] === year && obj['periodName'] === month
     })
   }
-  const result = round(Requester.validateResultNumber(filter, [0, 'value']), 1)
+  const result = Requester.validateResultNumber(filter, [0, resultPath])
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }
 
 const capitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1)
-}
-
-const round = (value: number, precision: number) => {
-  const multiplier = Math.pow(10, precision || 0)
-  return Math.round(value * multiplier) / multiplier
 }

@@ -14,15 +14,15 @@ describe('execute', () => {
         testData: { data: { serie: 'EIUIR', month: 'july', year: '2021' } },
       },
       {
-        name: 'unknown serie',
+        name: 'serie not supplied',
         testData: { id: jobID, data: { month: 'july', year: '2021' } },
       },
       {
-        name: 'unknown data',
+        name: 'empty data supplied',
         testData: { id: jobID, data: {} },
       },
       {
-        name: 'unknown month and year',
+        name: 'month and year not supplied',
         testData: { id: jobID, data: { serie: 'EIUIR' } },
       },
     ]
