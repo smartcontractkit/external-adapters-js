@@ -7640,6 +7640,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.6.1"],
             ["bignumber.js", "npm:9.0.1"],
             ["bn.js", "npm:5.2.0"],
+            ["bs58", "npm:4.0.1"],
             ["ethers", "npm:5.4.5"],
             ["immutable", "npm:4.0.0-rc.14"]
           ],
@@ -7656,6 +7657,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@renproject/utils", "npm:2.5.1"],
             ["@types/node", "npm:16.6.1"],
             ["bignumber.js", "npm:9.0.1"],
+            ["bn.js", "npm:5.2.0"],
             ["immutable", "npm:4.0.0-rc.14"]
           ],
           "linkType": "HARD",
