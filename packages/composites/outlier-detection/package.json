@@ -16,14 +16,10 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/deribit-adapter": "*",
-    "@chainlink/dxfeed-adapter": "*",
+    "@chainlink/ea": "*",
     "@chainlink/ea-bootstrap": "*",
     "@chainlink/ea-reference-data-reader": "*",
     "@chainlink/ea-test-helpers": "*",
-    "@chainlink/genesis-volatility-adapter": "*",
-    "@chainlink/oilpriceapi-adapter": "*",
-    "@chainlink/xbto-adapter": "*",
     "axios": "^0.21.1",
     "tslib": "^2.3.1"
   },
