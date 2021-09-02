@@ -2496,7 +2496,7 @@ __metadata:
     eslint: ^7.32.0
     eslint-config-prettier: ^8.3.0
     husky: ^7.0.1
-    jest: ^27.0.6
+    jest: 27.0.6
     lint-staged: ^11.1.2
     prettier: ^2.3.2
     semantic-release: 17.4.5
@@ -13994,7 +13994,7 @@ fsevents@~2.1.1:
   languageName: node
   linkType: hard
 
-"jest@npm:^27.0.6":
+"jest@npm:27.0.6":
   version: 27.0.6
   resolution: "jest@npm:27.0.6"
   dependencies:
