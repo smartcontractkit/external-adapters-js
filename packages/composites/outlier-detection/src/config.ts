@@ -1,7 +1,6 @@
+import legos from '@chainlink/ea'
 import { Requester, util } from '@chainlink/ea-bootstrap'
 import { Config as BaseConfig, RequestConfig } from '@chainlink/types'
-import { adapters as CheckAdapters } from './check'
-import { adapters as SourceAdapters } from './source'
 
 export const DEFAULT_CHECK_THRESHOLD = 0
 export const DEFAULT_ONCHAIN_THRESHOLD = 0
@@ -17,20 +16,14 @@ export type Config = BaseConfig & {
 
 export const makeConfig = (prefix = ''): Config => {
   const sources: SourceRequestOptions = {}
-  for (const a of SourceAdapters) {
-    const url = util.getURL(a.NAME.toUpperCase())
-    if (url) {
-      sources[a.NAME] = makeRequestOptions(prefix, url)
-    }
-  }
   const checks: CheckRequestOptions = {}
-  for (const a of CheckAdapters) {
-    const url = util.getURL(a.NAME.toUpperCase())
+  for (const a of legos.sources) {
+    const url = util.getURL(a.toUpperCase())
     if (url) {
-      checks[a.NAME] = makeRequestOptions(prefix, url)
+      sources[a] = makeRequestOptions(prefix, url)
+      checks[a] = makeRequestOptions(prefix, url)
     }
   }
-
   return { sources, checks, api: {} }
 }
 
