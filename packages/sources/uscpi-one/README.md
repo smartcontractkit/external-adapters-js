@@ -20,6 +20,8 @@
 |           | `month` | The month serie filter  |        `may`, `july`, etc         |               |
 |           | `year`  |  The year serie filter  |        `2021`, `2020`, etc        |               |
 
+It is mandatory to specify the `month` and `year` values together.
+
 ### Sample Input
 
 ```json
