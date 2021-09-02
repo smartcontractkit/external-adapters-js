@@ -12,15 +12,15 @@ Adapter to interact with Enzyme contracts.
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |           Options            | Defaults to |
-| :-------: | :------: | :-----------------: | :--------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [calcNav](#calcNav-Endpoint) |   calcnav   |
+| Required? |   Name   |     Description     |     Options      | Defaults to |
+| :-------: | :------: | :-----------------: | :--------------: | :---------: |
+|           | endpoint | The endpoint to use | calcNav, calcGav |   calcNav   |
 
 ---
 
-## calcNav Endpoint
+## calc[Nav,Gav] Endpoint
 
-Endpoint to call the `calcNav()` function on the contract.
+Endpoint to call the `calc[Nav,Gav]` function on the contract.
 
 ### Input Params
 
