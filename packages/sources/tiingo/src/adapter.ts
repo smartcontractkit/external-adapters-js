@@ -91,7 +91,8 @@ export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
       connection: {
         url: defaultConfig.api.baseWsURL || DEFAULT_WS_API_ENDPOINT,
       },
-      shouldNotServeInputUsingWS: (input) => input.data.endpoint !== 'iex',
+      shouldNotServeInputUsingWS: (input) =>
+        endpoints.iex.supportedEndpoints.indexOf(input.data.endpoint) === -1,
       subscribe: (input) => getSubscription(getTicker(input)),
       unsubscribe: (input) => getSubscription(getTicker(input), false),
       isError: (message: Message) => message.messageType === 'E',
