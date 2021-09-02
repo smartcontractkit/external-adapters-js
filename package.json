@@ -34,7 +34,7 @@
     "@vercel/ncc": "^0.29.1",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
-    "jest": "^27.0.6"
+    "jest": "27.0.6"
   },
   "devDependencies": {
     "@semantic-release/commit-analyzer": "8.0.1",
