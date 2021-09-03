@@ -56,7 +56,8 @@
       { "internalType": "address", "name": "denominationAsset_", "type": "address" },
       { "internalType": "uint256", "name": "netValue_", "type": "uint256" }
     ],
-    "stateMutability": "nonpayable",
+    "stateMutability": "view",
+    "note": "THIS HAS BEEN MODIFIED TO BE A VIEW FUNCTION",
     "type": "function"
   },
   {

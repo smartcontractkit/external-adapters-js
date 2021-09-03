@@ -12,11 +12,51 @@ Adapter to interact with Enzyme contracts.
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |     Options      | Defaults to |
-| :-------: | :------: | :-----------------: | :--------------: | :---------: |
-|           | endpoint | The endpoint to use | calcNav, calcGav |   calcNav   |
+| Required? |   Name   |     Description     |                    Options                    | Defaults to |
+| :-------: | :------: | :-----------------: | :-------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | calcNav, calcGav, calcNetValueForSharesHolder |   calcNav   |
 
 ---
+
+## calcNetValueForSharesHolder Endpoint
+
+Endpoint to call the `calcNetValueForSharesHolder` function on the contract.
+
+### Input Params
+
+| Required? |         Name         | Description | Options | Defaults to |
+| :-------: | :------------------: | :---------: | :-----: | :---------: |
+|    ✅     | `calculatorContract` |             |         |             |
+|    ✅     |     `vaultProxy`     |             |         |             |
+|    ✅     |    `sharesHolder`    |             |         |             |
+
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "calcNetValueForSharesHolder",
+    "calculatorContract": "0x0b2cBB1974f17700531439E3e4AfF5e5D2AADD4A",
+    "vaultProxy": "0x399acf6102c466a3e4c5f94cd00fc1bfb071d3c1",
+    "sharesHolder": "0x31d675bd2bdfdd3e332311bef7cb6ba357a5d4e3"
+  }
+}
+```
+
+### Sample Output
+
+```json
+{
+  "jobRunID": "1",
+  "result": "19995161270996618818245984400",
+  "statusCode": 200,
+  "data": {
+    "nav": "19995161270996618818245984400",
+    "result": "19995161270996618818245984400"
+  }
+}
+```
 
 ## calc[Nav,Gav] Endpoint
 
