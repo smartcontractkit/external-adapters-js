@@ -23,7 +23,6 @@ export const withWebSockets =
     if (wsHandler.shouldNotServeInputUsingWS && wsHandler.shouldNotServeInputUsingWS(input)) {
       return await execute(input, context)
     }
-
     if (wsHandler.programmaticConnectionInfo) {
       const programmaticConnectionInfo = wsHandler.programmaticConnectionInfo(input)
       if (programmaticConnectionInfo) {
