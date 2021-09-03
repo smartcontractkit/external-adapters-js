@@ -1,14 +1,31 @@
 # Chainlink External Adapter for Tradermade
 
-## Endpoints
+### Environment Variables
 
-- `live` and `forex`. Use `forex` when querying for currency pairs. WebSockets can be enabled when fetching data from the `forex` endpoint but not the `live` endpoint. Adapter defaults to the `live` endpoint.
+| Required? |    Name    |                                           Description                                           | Options | Defaults to |
+| :-------: | :--------: | :---------------------------------------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     |  API_KEY   | An API key that can be obtained from [here](https://marketdata.tradermade.com/docs/restful-api) |         |             |
+|           | WS_API_KEY | An API key that can be obtained from [here](https://marketdata.tradermade.com/docs/restful-api) |         |             |
 
-## Input Params
+### Websocket support
 
-- `base`, `from`, or `coin`: The symbol of the currency to query
-- `to`: The symbol of the currency to convert to (for FX)
-- `overrides`: (not required) If base provided is found in overrides, that will be used. [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json)
+This adapter has Websocket support for only the forex endpoint
+
+---
+
+### Input Parameters
+
+| Required? |           Name            |                                                                   Description                                                                   |                   Options                    | Defaults to |
+| :-------: | :-----------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------: | :---------: |
+|           |        `endpoint`         |                                                               The endpoint to use                                                               | [`live`](#Live), [`forex`](#Prices-Endpoint) |   `live`    |
+|    ✅     | `base`, `from`, or `coin` |                                                       The symbol of the currency to query                                                       |                                              |             |
+|           |        `overrides`        | If base provided is found in overrides, that will be used. [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json) |                                              |             |
+
+## Live Endpoint
+
+| Required? | Name |    Description     | Options | Defaults to |
+| :-------: | :--: | :----------------: | :-----: | :---------: |
+|           | `to` | The quote currency |         |             |
 
 ## Sample Input to fetch equity data
 
@@ -50,7 +67,15 @@
 }
 ```
 
-## Sample Input to fetch currency data from the forex endpoint
+## Live Endpoint
+
+This endpoint supports WS
+
+| Required? |                Name                |    Description     | Options | Defaults to |
+| :-------: | :--------------------------------: | :----------------: | :-----: | :---------: |
+|    ✅     | `quote`, `to`, `market`, `convert` | The quote currency |         |             |
+
+## Sample Input
 
 ```json
 {
