@@ -49,11 +49,11 @@ Endpoint to call the `calcNetValueForSharesHolder` function on the contract.
 ```json
 {
   "jobRunID": "1",
-  "result": "19995161270996618818245984400",
+  "result": "10000000000000000000",
   "statusCode": 200,
   "data": {
-    "nav": "19995161270996618818245984400",
-    "result": "19995161270996618818245984400"
+    "netValue": "10000000000000000000",
+    "result": "10000000000000000000"
   }
 }
 ```
