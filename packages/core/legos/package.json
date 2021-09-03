@@ -123,6 +123,7 @@
     "@chainlink/twelvedata-adapter": "*",
     "@chainlink/unibit-adapter": "*",
     "@chainlink/upvest-adapter": "*",
+    "@chainlink/uscpi-one-adapter": "*",
     "@chainlink/wbtc-address-set-adapter": "*",
     "@chainlink/wootrade-adapter": "*",
     "@chainlink/xbto-adapter": "*",

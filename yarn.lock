@@ -2336,6 +2336,7 @@ __metadata:
     "@chainlink/twelvedata-adapter": "*"
     "@chainlink/unibit-adapter": "*"
     "@chainlink/upvest-adapter": "*"
+    "@chainlink/uscpi-one-adapter": "*"
     "@chainlink/wbtc-address-set-adapter": "*"
     "@chainlink/wootrade-adapter": "*"
     "@chainlink/xbto-adapter": "*"
@@ -3428,6 +3429,20 @@ __metadata:
     "@types/jest": 26.0.24
     "@types/node": 14.17.7
     tslib: ^2.1.0
+    typescript: 4.3.5
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/uscpi-one-adapter@*, @chainlink/uscpi-one-adapter@workspace:packages/sources/uscpi-one":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/uscpi-one-adapter@workspace:packages/sources/uscpi-one"
+  dependencies:
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.0.1
+    "@types/jest": 27.0.1
+    "@types/node": 14.17.7
+    tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
   linkType: soft
