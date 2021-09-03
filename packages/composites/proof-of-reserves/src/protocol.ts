@@ -3,7 +3,7 @@ import { Requester } from '@chainlink/ea-bootstrap'
 import { callAdapter, makeRequestFactory } from './adapter'
 // protocol adapters
 import renVM from '@chainlink/renvm-address-set-adapter'
-import wBTC from '@chainlink/wbtc-address-set-adapter'
+import * as wBTC from '@chainlink/wbtc-address-set-adapter'
 
 export const LIST_ADAPTER = 'LIST'
 
