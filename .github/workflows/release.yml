@@ -83,7 +83,7 @@ jobs:
         with:
           branch: ${{ fromJSON('[undefined, "develop"]')[github.ref == 'refs/heads/develop'] }}
           latest: ${{ fromJSON('[undefined, true]')[github.ref == 'refs/heads/develop'] }}
-          image-prefix: ${{ secrets.STAGING_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/
+          image-prefix: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/
 
   publish-artifacts-private:
     needs: [matrix-adapters-private]
@@ -93,7 +93,7 @@ jobs:
       matrix: ${{fromJson(needs.matrix-adapters-private.outputs.matrix)}}
     steps:
       - uses: actions/checkout@v2
-      - name: Configure AWS Credentials for Staging Private ECR
+      - name: Configure AWS Credentials for SDLC Private ECR
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_PRIVATEECR_ACCESSKEY }}
@@ -103,7 +103,7 @@ jobs:
         with:
           branch: ${{ fromJSON('[undefined, "develop"]')[github.ref == 'refs/heads/develop'] }}
           latest: ${{ fromJSON('[undefined, true]')[github.ref == 'refs/heads/develop'] }}
-          image-prefix: ${{ secrets.STAGING_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/
+          image-prefix: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/
           aws-region: ${{ secrets.AWS_REGION }}
           aws-ecr-cmd: ecr
 
@@ -162,7 +162,7 @@ jobs:
         uses: ./.github/actions/release/matrix-adapters
         with:
           latest: true
-          image-prefix: ${{ secrets.STAGING_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/
+          image-prefix: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/
 
   publish-artifacts-release-private-latest:
     if: github.ref != 'refs/heads/develop'
@@ -173,7 +173,7 @@ jobs:
       matrix: ${{fromJson(needs.matrix-adapters-release-latest.outputs.matrix)}}
     steps:
       - uses: actions/checkout@v2
-      - name: Configure AWS Credentials for Staging Private ECR
+      - name: Configure AWS Credentials for SDLC Private ECR
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_PRIVATEECR_ACCESSKEY }}
@@ -182,6 +182,6 @@ jobs:
       - uses: ./.github/actions/release/publish-artifacts
         with:
           latest: true
-          image-prefix: ${{ secrets.STAGING_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+          image-prefix: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
           aws-region: ${{ secrets.AWS_REGION }}
           aws-ecr-cmd: ecr-public
