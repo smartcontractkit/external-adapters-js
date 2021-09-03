@@ -6,7 +6,7 @@ export const NAME = 'ENZYME'
 
 export const ENV_RPC_URL = 'RPC_URL'
 
-export const DEFAULT_ENDPOINT = 'calcnav'
+export const DEFAULT_ENDPOINT = 'calcNav'
 
 export type Config = BaseConfig & {
   provider: ethers.providers.Provider

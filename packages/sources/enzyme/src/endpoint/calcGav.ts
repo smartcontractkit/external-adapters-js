@@ -4,7 +4,7 @@ import { Config } from '../config'
 import { ethers, BigNumber } from 'ethers'
 import FundValueCalculatorABI from '../abis/FundValueCalculator.json'
 
-export const supportedEndpoints = ['calcgav']
+export const supportedEndpoints = ['calcGav']
 
 export const inputParameters: InputParameters = {
   calculatorContract: true,
