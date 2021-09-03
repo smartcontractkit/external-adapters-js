@@ -4,13 +4,13 @@
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |         Options          | Defaults to |
-| :-------: | :------: | :-----------------: | :----------------------: | :---------: |
-|           | endpoint | The endpoint to use | [serie](#Serie-Endpoint) |    serie    |
+| Required? |   Name   |     Description     |          Options           | Defaults to |
+| :-------: | :------: | :-----------------: | :------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [series](#Series-Endpoint) |   series    |
 
 ---
 
-## Serie Endpoint
+## Series Endpoint
 
 ### Input Params
 
