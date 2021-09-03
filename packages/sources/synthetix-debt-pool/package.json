@@ -35,10 +35,10 @@
   },
   "devDependencies": {
     "@chainlink/types": "0.0.1",
-    "@types/jest": "^27.0.1",
-    "@types/node": "^14.14.35",
-    "@types/supertest": "^2.0.11",
-    "supertest": "^6.1.6",
-    "typescript": "^4.3.5"
+    "@types/jest": "27.0.1",
+    "@types/node": "14.17.7",
+    "@types/supertest": "2.0.11",
+    "supertest": "6.1.6",
+    "typescript": "4.3.5"
   }
 }
