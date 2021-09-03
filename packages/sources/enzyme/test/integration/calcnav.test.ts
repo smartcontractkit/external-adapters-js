@@ -4,12 +4,13 @@ import nock from 'nock'
 import http from 'http'
 import { server as startServer } from '../../src'
 import { mockEthereumResponseSuccess } from './fixtures'
+import { ENV_RPC_URL } from '../../src/config'
 
 let oldEnv: NodeJS.ProcessEnv
 
 beforeAll(() => {
   oldEnv = JSON.parse(JSON.stringify(process.env))
-  process.env.RPC_URL = process.env.RPC_URL || 'http://localhost:8545'
+  process.env[ENV_RPC_URL] = process.env[ENV_RPC_URL] || 'http://localhost:8545/'
   process.env.API_VERBOSE = 'true'
   if (process.env.RECORD) {
     nock.recorder.rec()

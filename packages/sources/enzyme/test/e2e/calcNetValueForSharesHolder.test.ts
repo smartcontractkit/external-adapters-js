@@ -2,10 +2,12 @@ import { Requester } from '@chainlink/ea-bootstrap'
 import { assertError, assertSuccess } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
 import { makeExecute } from '../../src'
+import { ENV_RPC_URL } from '../../src/config'
 
 describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
+  process.env[ENV_RPC_URL] = process.env[ENV_RPC_URL] || 'http://localhost:8545/'
 
   describe('successful calls', () => {
     const requests = [
