@@ -33,5 +33,5 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
 
   const response = await Requester.request(options)
   response.data.result = Requester.validateResultNumber(response.data, ['quotes', 0, 'mid'])
-  return Requester.success(jobRunID, response)
+  return Requester.success(jobRunID, response, config.verbose)
 }
