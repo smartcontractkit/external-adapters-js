@@ -77,13 +77,16 @@ jobs:
       matrix: ${{ steps.create-matrix.outputs.result }}
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
       - name: Generate job matrix
         id: create-matrix
-        uses: ./.github/actions/release/matrix-adapters
-        with:
-          branch: ${{ fromJSON('[undefined, "develop"]')[github.ref == 'refs/heads/develop'] }}
-          latest: ${{ fromJSON('[undefined, true]')[github.ref == 'refs/heads/develop'] }}
-          image-prefix: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/
+        run: yarn generate:gha:matrix
+        env:
+          BRANCH: ${{ fromJSON('[undefined, "develop"]')[github.ref == 'refs/heads/develop'] }}
+          LATEST: ${{ fromJSON('[undefined, true]')[github.ref == 'refs/heads/develop'] }}
+          IMAGE_PREFIX: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/
 
   publish-artifacts-private:
     needs: [matrix-adapters-private]

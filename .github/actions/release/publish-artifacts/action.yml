@@ -26,9 +26,11 @@ runs:
         node-version: '14.x'
 
     - name: Install yarn deps
+      shell: bash
       run: yarn
 
     - name: Generate docker-compose file
+      shell: bash
       run: yarn generate:docker-compose
       env:
         BRANCH: ${{ inputs.branch }}
@@ -36,13 +38,17 @@ runs:
         IMAGE_PREFIX: ${{ inputs.image-prefix }}
 
     - name: Build Docker containers
+      shell: bash
       run: docker-compose -f docker-compose.generated.yaml build ${{ matrix.adapter.name }}
 
     - name: Authenticate to ECR
+      shell: bash
       run: aws ecr-public get-login-password --region ${{ inputs.aws-region }} | docker login --username AWS --password-stdin ${{ inputs.image-prefix }}
 
     - name: Create a public ECR repository if does not exist
+      shell: bash
       run: aws ecr-public create-repository --region ${{ inputs.aws-region }} --repository-name adapters/${{ matrix.adapter.name }} || true
 
     - name: Push to ECR
+      shell: bash
       run: docker push ${{ matrix.adapter.image_name }}

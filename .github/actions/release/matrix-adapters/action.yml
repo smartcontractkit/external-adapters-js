@@ -14,7 +14,8 @@ inputs:
     required: true
 
 outputs:
-  matrix: ${{ steps.create-matrix.outputs.result }}
+  result:
+    value: ${{ steps.create-matrix.outputs.result }}
 
 runs:
   using: 'composite'
@@ -25,6 +26,7 @@ runs:
 
     - name: Generate job matrix
       id: create-matrix
+      shell: bash
       run: yarn generate:gha:matrix
       env:
         BRANCH: ${{ inputs.branch }}
