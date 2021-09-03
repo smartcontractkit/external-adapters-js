@@ -1,5 +1,5 @@
 import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
-import { ExecuteFactory, AdapterRequest, AdapterResponse } from '@chainlink/types'
+import { ExecuteFactory, AdapterRequest, AdapterContext, AdapterResponse } from '@chainlink/types'
 import { makeConfig, DEFAULT_ENDPOINT, SpectralAdapterConfig } from './config'
 import { MacroScoreAPI } from './endpoint'
 
@@ -10,6 +10,7 @@ const inputParams = {
 
 export const execute = async (
   request: AdapterRequest,
+  context: AdapterContext,
   config: SpectralAdapterConfig,
 ): Promise<AdapterResponse> => {
   const validator = new Validator(request, inputParams)
@@ -37,5 +38,5 @@ export const execute = async (
 }
 
 export const makeExecute: ExecuteFactory<SpectralAdapterConfig> = (config) => {
-  return async (request) => execute(request, config || makeConfig())
+  return async (request, context) => execute(request, context, config || makeConfig())
 }

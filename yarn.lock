@@ -6112,7 +6112,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:26.0.24":
+"@types/jest@npm:26.0.24, @types/jest@npm:^26.0.22":
   version: 26.0.24
   resolution: "@types/jest@npm:26.0.24"
   dependencies:
@@ -6265,6 +6265,13 @@ __metadata:
   version: 12.20.18
   resolution: "@types/node@npm:12.20.18"
   checksum: 6727276c92bc2d8a76a26f94a611e572d021df018e3c95113e880fd783cdceb973eb0b4e73a7407543b2c4493ff9d6abfbdbf4b502d236f70bb2c17bbf00340e
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^14.14.35":
+  version: 14.17.14
+  resolution: "@types/node@npm:14.17.14"
+  checksum: 66ed675a324fdddc4f693f1b240c0d81a9f53e1c68f7de8b84d02d65c0b447f9fa30d318481d04e1502f68dd37091b5cadc59633b57246582ad25e3fa835cd7d
   languageName: node
   linkType: hard
 
@@ -6451,7 +6458,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/sinon@npm:10.0.2":
+"@types/sinon@npm:10.0.2, @types/sinon@npm:^10.0.2":
   version: 10.0.2
   resolution: "@types/sinon@npm:10.0.2"
   dependencies:
@@ -16453,7 +16460,7 @@ fsevents@~2.1.1:
     json-stringify-safe: ^5.0.1
     lodash.set: ^4.3.2
     propagate: ^2.0.0
-  checksum: 9e53a1edaa804a4b1c8dfb25c46b85ce5ddda8a1ceaa804d0a7caed0de564e1eaa1ef6c590ac5b013efaf4f009e47cf7f40d96e19f23be1122d39caf619b8df9
+  checksum: 61cf123030b86adc202887a7b6588992d751651587cd627d38af2285dde6928577694623777df4585d5838b9a1649264df3c6979983a777885ed4f98320f6e04
   languageName: node
   linkType: hard
 
@@ -19516,7 +19523,7 @@ resolve@1.17.0:
   languageName: node
   linkType: hard
 
-"sinon@npm:11.1.2":
+"sinon@npm:11.1.2, sinon@npm:^11.1.2":
   version: 11.1.2
   resolution: "sinon@npm:11.1.2"
   dependencies:
@@ -21055,6 +21062,16 @@ resolve@1.17.0:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: bc2c4fdf0f1557fdafe4ef74848c72ebd9c8c60829568248f869121aea2bb20e16649a252431d0acb185ec118143be22bed73d08f64379557810d82756afedde
+  languageName: node
+  linkType: hard
+
+"typescript@patch:typescript@^4.2.3#~builtin<compat/typescript>":
+  version: 4.4.2
+  resolution: "typescript@patch:typescript@npm%3A4.4.2#~builtin<compat/typescript>::version=4.4.2&hash=d8b4e7"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 11d6ab6e868117908c388401e2ac06d503c5c8709115ab80ee69a1a6352c1f98471d1e595636bfe6a2d6b20b03a44df6bb2d3d198cea97c0c328968cd18d2b70
   languageName: node
   linkType: hard
 

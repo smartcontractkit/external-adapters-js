@@ -4,7 +4,7 @@ import { BigNumber } from 'ethers'
 import { getTickSet } from '../abi/NFC'
 import { DEFAULT_TIMEOUT, SpectralAdapterConfig } from '../config'
 
-export const MacroScoreAPIName = 'spectral-proxy' // This should be filled in with a lowercase name corresponding to the API endpoint
+export const MacroScoreAPIName = 'spectral-proxy'
 
 export interface ICustomError {
   Response: string
@@ -58,10 +58,7 @@ export const computeTickWithScore = (score: number, tickSet: BigNumber[]): numbe
   return tickSet.length // returns the last (greatest) tick
 }
 
-export const execute = async (
-  request: IRequestInput,
-  config: SpectralAdapterConfig,
-): Promise<AdapterResponse> => {
+export const execute = async (request: IRequestInput, config: SpectralAdapterConfig) => {
   const options: RequestConfig = {
     ...config.api,
     url: '/spectral-proxy',
@@ -69,15 +66,14 @@ export const execute = async (
     data: {
       tokenInt: `${request.data.tokenIdInt}`,
     },
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': config.apiKey ?? '',
-    },
-    timeout: DEFAULT_TIMEOUT,
   }
   const tickSet = await getTickSet(config.nfcAddress, config.rpcUrl, request.data.tickSetId)
   const response = await Requester.request<ScoreResponse[]>(options, customError)
   const score = Requester.validateResultNumber(response.data[0], ['score'])
   const tick = computeTickWithScore(score, tickSet)
-  return Requester.success(request.data.jobRunID, { data: { result: tick } }, config.verbose)
+  return Requester.success(
+    request.data.jobRunID,
+    Requester.withResult(response, tick),
+    config.verbose,
+  )
 }
