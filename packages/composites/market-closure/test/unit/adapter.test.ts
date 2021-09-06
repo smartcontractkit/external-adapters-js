@@ -1,9 +1,9 @@
-import { AdapterRequest } from '@chainlink/types'
 import { AdapterError } from '@chainlink/ea-bootstrap'
 import { assertSuccess } from '@chainlink/ea-test-helpers'
-import { makeExecute } from '../src'
-import { PriceAdapter } from '../src/dataProvider'
-import { Config } from '../src/config'
+import { AdapterRequest } from '@chainlink/types'
+import { makeExecute } from '../../src'
+import { Config } from '../../src/config'
+import { PriceAdapter } from '../../src/dataProvider'
 
 const result = 123
 

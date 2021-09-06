@@ -1,6 +1,6 @@
-import { isMarketClosed } from '../src/checks/schedule'
-import { rejects } from 'assert'
 import { AdapterRequest } from '@chainlink/types'
+import { rejects } from 'assert'
+import { isMarketClosed } from '../../src/checks/schedule'
 
 describe('isMarketClosed Schedule', () => {
   describe('successful calls', () => {
