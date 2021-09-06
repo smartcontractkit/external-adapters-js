@@ -19,7 +19,10 @@
     "MIOTA": "IOT"
   },
   "coinpaprika": {
-    "GRT": "grt-the-graph"
+    "GRT": "grt-the-graph",
+    "LUNA": "luna-terra",
+    "COMP": "comp-compoundd",
+    "BIFI": "bifi-beefyfinance"
   },
   "kaiko": {
     "RAI": "RAIR",
