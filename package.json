@@ -17,7 +17,7 @@
     "setup": "tsc -b ./packages/tsconfig.json ",
     "test": "jest",
     "test:unit": "jest unit",
-    "test:integration": "jest synth-index",
+    "test:integration": "jest --runInBand integration",
     "generate:docker-compose": "ts-node-transpile-only ./packages/scripts/src/docker-build",
     "generate:gha:matrix": "ts-node-transpile-only ./packages/scripts/src/gha",
     "generate:healthcheck:payloads": "ts-node-transpile-only ./packages/scripts/src/healthchecks",
