@@ -4,8 +4,8 @@ import nock from 'nock'
 import request from 'supertest'
 import { server as startServer } from '../../src/index'
 import {
-  mockSuccessfulCoinMarketCapResponse,
   mockCoinMarketCapErrorTooManyRequests,
+  mockSuccessfulCoinMarketCapResponse,
   mockSuccessfulCoinMarketCapResponseWithSlug,
 } from './cryptoFixtures'
 import {
@@ -75,7 +75,7 @@ describe('coinmarketcap', () => {
           .set('Accept', '*/*')
           .set('Content-Type', 'application/json')
           .expect('Content-Type', /json/)
-          .expect(500)
+          .expect(429)
         expect(response.body).toMatchSnapshot()
       })
     })
@@ -117,7 +117,7 @@ describe('coinmarketcap', () => {
           .set('Accept', '*/*')
           .set('Content-Type', 'application/json')
           .expect('Content-Type', /json/)
-          .expect(500)
+          .expect(429)
         expect(response.body).toMatchSnapshot()
       })
     })
@@ -236,7 +236,7 @@ describe('coinmarketcap', () => {
           .set('Accept', '*/*')
           .set('Content-Type', 'application/json')
           .expect('Content-Type', /json/)
-          .expect(500)
+          .expect(429)
         expect(response.body).toMatchSnapshot()
       })
     })
