@@ -8,8 +8,8 @@ describe('execute', () => {
   let execute: Execute
   const id = '1'
 
-  beforeAll(async () => {
-    execute = await apyFinanceAdapter.makeExecute()
+  beforeAll(() => {
+    execute = apyFinanceAdapter.makeExecute()
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env.REGISTRY_ADDRESS =
       process.env.REGISTRY_ADDRESS || '0x7ec81b7035e91f8435bdeb2787dcbd51116ad303'
@@ -39,7 +39,7 @@ describe('execute', () => {
       },
     }
 
-    it('should return success', async () => {
+    it.skip('should return success', async () => {
       const resp = await execute(data)
       expect(resp).toMatchSnapshot()
     })
