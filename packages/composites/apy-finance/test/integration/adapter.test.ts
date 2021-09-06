@@ -1,7 +1,7 @@
 import { AdapterRequest, Execute } from '@chainlink/types'
+import nock from 'nock'
 import * as apyFinanceAdapter from '../../src/index'
-import { mockTiingoResponse, mockEthereumCalls } from './fixtures'
-
+import { mockEthereumCalls, mockTiingoResponse } from './fixtures'
 let oldEnv: NodeJS.ProcessEnv
 
 describe('execute', () => {
