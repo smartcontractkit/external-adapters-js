@@ -201,6 +201,9 @@
       "path": "./sources/dxfeed-secondary"
     },
     {
+      "path": "./sources/enzyme"
+    },
+    {
       "path": "./sources/eodhistoricaldata"
     },
     {
