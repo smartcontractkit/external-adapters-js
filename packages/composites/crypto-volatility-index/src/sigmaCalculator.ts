@@ -16,11 +16,9 @@ export class SigmaCalculator {
     const tm = new Decimal(60 * 60 * 24 * 30)
     const t1 = new Decimal(e1 - now)
     const t2 = new Decimal(e2 - now)
-
     const weighted = (t1.times(t2.minus(tm)).times(sigma1).minus((t2.times((t1.minus(tm)).times(sigma2)))))
       .div((t2.minus(t1)))
       .div(tm) // prettier-ignore
-
     return weighted
   }
 
@@ -46,7 +44,9 @@ export class SigmaCalculator {
       const { strikePrice, midPrice, underlyingPrice } = call
       if (strikePrice.gt(underlyingPrice)) {
         if (!midPrice) return
-        const prevMax: Decimal = Decimal.max(...compareCalls.slice(Math.max(0, idx - 10), idx))
+        const prevMax: Decimal = Decimal.max(
+          ...[0, ...compareCalls.slice(Math.max(0, idx - 10), idx)],
+        )
         if (idx > 3 && !prevMax.isZero() && midPrice.greaterThan(prevMax.mul(2))) return
         F = underlyingPrice
         if (idx === 0) {
@@ -69,7 +69,9 @@ export class SigmaCalculator {
       const { strikePrice, midPrice, underlyingPrice } = put
       if (strikePrice.lt(underlyingPrice)) {
         if (!midPrice) return
-        const prevMax: Decimal = Decimal.max(...comparePuts.slice(Math.max(0, idx - 10), idx))
+        const prevMax: Decimal = Decimal.max(
+          ...[0, ...comparePuts.slice(Math.max(0, idx - 10), idx)],
+        )
         if (idx > 3 && !prevMax.isZero() && midPrice.greaterThan(prevMax.mul(2))) return
         F = underlyingPrice
         if (idx === 0) {

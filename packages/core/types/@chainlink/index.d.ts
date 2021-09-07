@@ -104,6 +104,7 @@ declare module '@chainlink/types' {
 
   export type Config = {
     apiKey?: string
+    wsApiKey?: string
     network?: string
     returnRejectedPromiseOnError?: boolean
     verbose?: boolean
@@ -181,6 +182,8 @@ declare module '@chainlink/types' {
       url: string
       protocol?: any
     }
+    // Determines whether or not to server request using WS
+    shouldNotServeInputUsingWS?: (input: AdapterRequest) => boolean
     // Hook to send a message after connection
     onConnect?: () => any
     // Get the subscription message necessary to subscribe to the feed channel

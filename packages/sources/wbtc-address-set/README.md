@@ -4,15 +4,18 @@
 
 The adapter takes the following environment variables:
 
-| Required? |      Name      |      Description      | Options | Defaults to |
-| :-------: | :------------: | :-------------------: | :-----: | :---------: |
-|    ✅     | `API_ENDPOINT` | wBTC endpoint to call |         |             |
+| Required? |         Name         |                  Description                   | Options | Defaults to |
+| :-------: | :------------------: | :--------------------------------------------: | :-----: | :---------: |
+|           |  `MEMBERS_ENDPOINT`  | wBTC endpoint of members (and their addresses) |         |             |
+|           | `ADDRESSES_ENDPOINT` |           wBTC endpoint of addresses           |         |             |
 
 ## Running
 
 ### Input Params
 
-No input parameters.
+| Required? |    Name    |                                                         Description                                                          |      Options       | Defaults to |
+| :-------: | :--------: | :--------------------------------------------------------------------------------------------------------------------------: | :----------------: | :---------: |
+|           | `endpoint` | Which endpoint to use. Requires that the selected endpoint has been set as an env var (see [configuration](#configuration)). | members, addresses |  addresses  |
 
 ### Sample Input
 

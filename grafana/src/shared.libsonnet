@@ -7,25 +7,24 @@ local layout = import './layout.libsonnet';
 /**
  * Constants
  */
-local prometheusJobName = std.extVar('prometheusJobName');
+local prometheusNamespace = std.extVar('prometheusNamespace');
 local cortexDataSource = std.extVar('cortexDataSource');
-local instanceFilter = 'job="$job",service=~"$service.*"';
+local instanceFilter = 'namespace="$namespace",service=~"$service.*"';
 local interval = '[$__rate_interval]';
-
 
 /**
  * Templates
  */
 
 local createTemplates(multiService) =
-  local jobTempl = template.custom('job', query=prometheusJobName, current=prometheusJobName, hide=true);
+  local namespaceTempl = template.custom('namespace', query=prometheusNamespace, current=prometheusNamespace, hide=true);
   local serviceTempl = template.new(
     'service',
     datasource=cortexDataSource,
     query='http_request_duration_seconds_bucket',
     multi=multiService,
     sort=1,
-    regex='/.*job="' + prometheusJobName + '".*service="(.*)"/',
+    regex='/.*namespace="' + prometheusNamespace + '".*service="(.*)"/',
     current=if multiService then 'All' else null,
     includeAll=multiService,
     refresh='load'
@@ -33,7 +32,7 @@ local createTemplates(multiService) =
   local feedTempl = template.new(
     'feed',
     datasource=cortexDataSource,
-    query='cache_data_get_values{job="$job"}',
+    query='cache_data_get_values{namespace="$namespace"}',
     multi=true,
     sort=1,
     current='All',
@@ -43,7 +42,7 @@ local createTemplates(multiService) =
   );
 
   [
-    jobTempl,
+    namespaceTempl,
     serviceTempl,
     feedTempl,
   ];
