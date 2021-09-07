@@ -58,7 +58,7 @@ runs:
       shell: bash
       run: aws ${{ inputs.aws-ecr-cmd }} get-login-password --region ${{ inputs.aws-region }} | docker login --username AWS --password-stdin ${{ inputs.image-prefix }}
 
-    - name: Create a public ECR repository if does not exist
+    - name: Create a ECR repository if does not exist
       shell: bash
       run: aws ${{ inputs.aws-ecr-cmd }} create-repository --region ${{ inputs.aws-region }} --repository-name adapters/${{ inputs.adapter-name }} || true
 
