@@ -1,8 +1,8 @@
 import { Requester } from '@chainlink/ea-bootstrap'
-import { AdapterResponse, RequestConfig } from '@chainlink/types'
+import { RequestConfig } from '@chainlink/types'
 import { BigNumber } from 'ethers'
 import { getTickSet } from '../abi/NFC'
-import { DEFAULT_TIMEOUT, SpectralAdapterConfig } from '../config'
+import { SpectralAdapterConfig } from '../config'
 
 export const MacroScoreAPIName = 'spectral-proxy'
 
@@ -13,22 +13,6 @@ export interface ICustomError {
 const customError = (data: ICustomError) => {
   if (data.Response === 'Error') return true
   return false
-}
-
-export interface RequestResponseResult {
-  address: string
-  score_aave: string // numeric
-  score_comp: string // numeric
-  score: string // numeric
-  updated_at: string // ISO UTC string
-  is_updating_aave: boolean
-  is_updating_comp: boolean
-  result: number
-}
-
-export interface ScoreRequestResponse {
-  data: RequestResponseResult[]
-  status: number
 }
 
 export interface IRequestInput {

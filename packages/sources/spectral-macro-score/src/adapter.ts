@@ -10,7 +10,7 @@ const inputParams = {
 
 export const execute = async (
   request: AdapterRequest,
-  context: AdapterContext,
+  _: AdapterContext,
   config: SpectralAdapterConfig,
 ): Promise<AdapterResponse> => {
   const validator = new Validator(request, inputParams)
