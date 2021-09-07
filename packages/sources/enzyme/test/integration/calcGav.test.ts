@@ -43,7 +43,7 @@ describe('execute', () => {
     const data: AdapterRequest = {
       id,
       data: {
-        endpoint: 'calcgav',
+        endpoint: 'calcGav',
         calculatorContract: '0x0b2cBB1974f17700531439E3e4AfF5e5D2AADD4A',
         vaultProxy: '0x44902e5a88371224d9ac172e391C64257B701Ade',
       },

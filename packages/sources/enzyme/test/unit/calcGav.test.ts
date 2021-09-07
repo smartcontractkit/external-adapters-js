@@ -11,12 +11,12 @@ describe('execute', () => {
 
   describe('validation error', () => {
     const requests = [
-      { name: 'empty data with endpoint', testData: { data: { endpoint: 'calcgav' } } },
+      { name: 'empty data with endpoint', testData: { data: { endpoint: 'calcGav' } } },
       {
         name: 'calculatorContract not supplied',
         testData: {
           id: jobID,
-          data: { endpoint: 'calcgav', vaultProxy: '0x44902e5a88371224d9ac172e391C64257B701Ade' },
+          data: { endpoint: 'calcGav', vaultProxy: '0x44902e5a88371224d9ac172e391C64257B701Ade' },
         },
       },
       {
@@ -24,7 +24,7 @@ describe('execute', () => {
         testData: {
           id: jobID,
           data: {
-            endpoint: 'calcgav',
+            endpoint: 'calcGav',
             calculatorContract: '0x0b2cBB1974f17700531439E3e4AfF5e5D2AADD4A',
           },
         },

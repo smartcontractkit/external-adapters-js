@@ -15,7 +15,7 @@ describe('execute', () => {
         name: 'id not supplied',
         testData: {
           data: {
-            endpoint: 'calcgav',
+            endpoint: 'calcGav',
             calculatorContract: '0x0b2cBB1974f17700531439E3e4AfF5e5D2AADD4A',
             vaultProxy: '0x44902e5a88371224d9ac172e391C64257B701Ade',
           },
@@ -26,7 +26,7 @@ describe('execute', () => {
         testData: {
           id: jobID,
           data: {
-            endpoint: 'calcgav',
+            endpoint: 'calcGav',
             calculatorContract: '0x0b2cBB1974f17700531439E3e4AfF5e5D2AADD4A',
             vaultProxy: '0x44902e5a88371224d9ac172e391C64257B701Ade',
           },
@@ -51,7 +51,7 @@ describe('execute', () => {
         testData: {
           id: jobID,
           data: {
-            endpoint: 'calcgav',
+            endpoint: 'calcGav',
             calculatorContract: '0x0000000000000000000000000000000000000000',
             vaultProxy: '0x44902e5a88371224d9ac172e391C64257B701Ade',
           },
@@ -62,7 +62,7 @@ describe('execute', () => {
         testData: {
           id: jobID,
           data: {
-            endpoint: 'calcgav',
+            endpoint: 'calcGav',
             calculatorContract: '0x0b2cBB1974f17700531439E3e4AfF5e5D2AADD4A',
             vaultProxy: '0x0000000000000000000000000000000000000000',
           },
