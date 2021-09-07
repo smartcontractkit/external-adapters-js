@@ -56,11 +56,11 @@ runs:
 
     - name: Authenticate to ECR
       shell: bash
-      run: aws ecr-public get-login-password --region ${{ inputs.aws-region }} | docker login --username AWS --password-stdin ${{ inputs.image-prefix }}
+      run: aws ${{ inputs.aws-ecr-cmd }} get-login-password --region ${{ inputs.aws-region }} | docker login --username AWS --password-stdin ${{ inputs.image-prefix }}
 
     - name: Create a public ECR repository if does not exist
       shell: bash
-      run: aws ecr-public create-repository --region ${{ inputs.aws-region }} --repository-name adapters/${{ inputs.adapter-name }} || true
+      run: aws ${{ inputs.aws-ecr-cmd }} create-repository --region ${{ inputs.aws-region }} --repository-name adapters/${{ inputs.adapter-name }} || true
 
     - name: Push to ECR
       shell: bash
