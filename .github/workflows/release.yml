@@ -97,7 +97,7 @@ jobs:
           branch: ${{ fromJSON('[undefined, "develop"]')[github.ref == 'refs/heads/develop'] }}
           latest: ${{ fromJSON('[undefined, true]')[github.ref == 'refs/heads/develop'] }}
 
-          image-prefix: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/
+          image-prefix: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/adapters/
           adapter-name: ${{ matrix.adapter.name }}
           aws-region: ${{ secrets.AWS_REGION }}
           aws-ecr-cmd: ecr
@@ -108,7 +108,7 @@ jobs:
         with:
           latest: true
 
-          image-prefix: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/
+          image-prefix: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/adapters/
           adapter-name: ${{ matrix.adapter.name }}
           aws-region: ${{ secrets.AWS_REGION }}
           aws-ecr-cmd: ecr
