@@ -10,6 +10,9 @@ inputs:
   image-prefix:
     description: 'Prefix to apply to docker images, in our case: typically an aws ECR registry'
     required: true
+  adapter-name:
+    description: 'The name of the adapter'
+    required: true
 
   aws-region:
     description: The aws region to use
@@ -37,9 +40,19 @@ runs:
         LATEST: ${{ inputs.latest }}
         IMAGE_PREFIX: ${{ inputs.image-prefix }}
 
+    - name: Generate adapter image name
+      shell: bash
+      run: yarn generate:image-name
+      id: generate-image-name
+      env:
+        BRANCH: ${{ inputs.branch }}
+        LATEST: ${{ inputs.latest }}
+        IMAGE_PREFIX: ${{ inputs.image-prefix }}
+        ADAPTER_NAME: ${{ inputs.adapter-name }}
+
     - name: Build Docker containers
       shell: bash
-      run: docker-compose -f docker-compose.generated.yaml build ${{ matrix.adapter.name }}
+      run: docker-compose -f docker-compose.generated.yaml build ${{ inputs.adapter-name }}
 
     - name: Authenticate to ECR
       shell: bash
@@ -47,8 +60,8 @@ runs:
 
     - name: Create a public ECR repository if does not exist
       shell: bash
-      run: aws ecr-public create-repository --region ${{ inputs.aws-region }} --repository-name adapters/${{ matrix.adapter.name }} || true
+      run: aws ecr-public create-repository --region ${{ inputs.aws-region }} --repository-name adapters/${{ inputs.adapter-name }} || true
 
     - name: Push to ECR
       shell: bash
-      run: docker push ${{ matrix.adapter.image_name }}
+      run: docker push ${{ steps.generate-image-name.outputs.image_name }}
