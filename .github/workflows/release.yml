@@ -1,5 +1,4 @@
 on:
-  pull_request:
   push:
     branches:
       # On develop, we build and publish containers, with the tag of "develop-latest"
