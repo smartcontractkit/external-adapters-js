@@ -62,7 +62,8 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
           role-to-assume: ${{ secrets.AWS_PUBLICECR_ROLE_ARN }}
           role-duration-seconds: 1200
-      - uses: ./.github/actions/release/publish-artifacts
+      - name: Publish adapter to public ECR
+        uses: ./.github/actions/release/publish-artifacts
         with:
           branch: ${{ fromJSON('[undefined, "develop"]')[github.ref == 'refs/heads/develop'] }}
           latest: ${{ fromJSON('[undefined, true]')[github.ref == 'refs/heads/develop'] }}
@@ -73,6 +74,7 @@ jobs:
           aws-ecr-cmd: ecr-public
       # If we're on master, publish again with a forced 'latest' tag
       - if: github.ref == 'refs/heads/master'
+        name: Publish adapter to public ECR, with forced latest tag
         uses: ./.github/actions/release/publish-artifacts
         with:
           latest: true
@@ -89,7 +91,8 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_PRIVATEECR_ACCESSKEY }}
           aws-secret-access-key: ${{ secrets.AWS_PRIVATEECR_SECRETKEY }}
           aws-region: ${{ secrets.AWS_REGION }}
-      - uses: ./.github/actions/release/publish-artifacts
+      - name: Publish adapter to private ECR
+        uses: ./.github/actions/release/publish-artifacts
         with:
           branch: ${{ fromJSON('[undefined, "develop"]')[github.ref == 'refs/heads/develop'] }}
           latest: ${{ fromJSON('[undefined, true]')[github.ref == 'refs/heads/develop'] }}
@@ -100,6 +103,7 @@ jobs:
           aws-ecr-cmd: ecr
       # If we're on master, publish again with a forced 'latest' tag
       - if: github.ref == 'refs/heads/master'
+        name: Publish adapter to private ECR, with forced latest tag
         uses: ./.github/actions/release/publish-artifacts
         with:
           latest: true
