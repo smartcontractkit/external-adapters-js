@@ -35,7 +35,7 @@ const calcGav = (
   address: string,
   proxy: string,
   config: Config,
-): Promise<[denominationAsset: string, nav: BigNumber]> => {
+): Promise<[denominationAsset: string, gav: BigNumber]> => {
   const contract = new ethers.Contract(address, FundValueCalculatorABI, config.provider)
   return contract.calcGav(proxy)
 }
