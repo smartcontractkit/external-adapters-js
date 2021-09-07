@@ -52,6 +52,8 @@ jobs:
       matrix: ${{fromJson(needs.matrix-adapters.outputs.matrix)}}
     steps:
       - uses: actions/checkout@v2
+
+      # Handle publishing to our public ECR repo
       - name: Configure AWS Credentials for SDLC Public ECR
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -64,29 +66,23 @@ jobs:
         with:
           branch: ${{ fromJSON('[undefined, "develop"]')[github.ref == 'refs/heads/develop'] }}
           latest: ${{ fromJSON('[undefined, true]')[github.ref == 'refs/heads/develop'] }}
+
+          image-prefix: public.ecr.aws/${{ env.publicecr-name }}/adapters/
+          adapter-name: ${{ matrix.adapter.name }}
+          aws-region: us-east-1
+          aws-ecr-cmd: ecr-public
+      # If we're on master, publish again with a forced 'latest' tag
+      - if: github.ref == 'refs/heads/master'
+        uses: ./.github/actions/release/publish-artifacts
+        with:
+          latest: true
+
           image-prefix: public.ecr.aws/${{ env.publicecr-name }}/adapters/
           adapter-name: ${{ matrix.adapter.name }}
           aws-region: us-east-1
           aws-ecr-cmd: ecr-public
 
-  matrix-adapters-private:
-    runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.create-matrix.outputs.result }}
-    steps:
-      - uses: actions/checkout@v2
-      - name: Generate job matrix
-        id: create-matrix
-        uses: ./.github/actions/release/matrix-adapters
-
-  publish-artifacts-private:
-    needs: [matrix-adapters-private]
-    runs-on: ubuntu-latest
-    name: (${{ matrix.adapter.type }}) Publish ${{ matrix.adapter.name }} adapter Docker image
-    strategy:
-      matrix: ${{fromJson(needs.matrix-adapters-private.outputs.matrix)}}
-    steps:
-      - uses: actions/checkout@v2
+      # Handle publishing to our private ECR repo
       - name: Configure AWS Credentials for SDLC Private ECR
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -97,84 +93,18 @@ jobs:
         with:
           branch: ${{ fromJSON('[undefined, "develop"]')[github.ref == 'refs/heads/develop'] }}
           latest: ${{ fromJSON('[undefined, true]')[github.ref == 'refs/heads/develop'] }}
+
           image-prefix: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/
           adapter-name: ${{ matrix.adapter.name }}
           aws-region: ${{ secrets.AWS_REGION }}
           aws-ecr-cmd: ecr
-
-  # Run the same steps as above, but this is to re-tag release images as latest
-  # So released images have a latest tag on them too.
-  # E.g. Releasing @chainlink/coingecko@0.0.3 will have the tag of 0.0.3 from the above jobs
-  # and a tag of 'latest' from the below jobs.
-  # This is only needed for master jobs since the same image needs to be tagged twice
-  matrix-adapters-release-latest:
-    if: github.ref == 'refs/heads/master'
-    runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.create-matrix.outputs.result }}
-    steps:
-      - uses: actions/checkout@v2
-      - name: Generate job matrix
-        id: create-matrix
-        uses: ./.github/actions/release/matrix-adapters
-
-  publish-artifacts-release-latest:
-    if: github.ref == 'refs/heads/master'
-    needs: [matrix-adapters-release-latest]
-    runs-on: ubuntu-latest
-    name: (${{ matrix.adapter.type }}) Publish ${{ matrix.adapter.name }} adapter Docker image
-    strategy:
-      matrix: ${{fromJson(needs.matrix-adapters-release-latest.outputs.matrix)}}
-    steps:
-      - uses: actions/checkout@v2
-      - name: Configure AWS Credentials for SDLC Public ECR
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_PUBLICECR_ACCESSKEY }}
-          aws-secret-access-key: ${{ secrets.AWS_PUBLICECR_SECRETKEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
-          role-to-assume: ${{ secrets.AWS_PUBLICECR_ROLE_ARN }}
-          role-duration-seconds: 1200
-      - uses: ./.github/actions/release/publish-artifacts
+      # If we're on master, publish again with a forced 'latest' tag
+      - if: github.ref == 'refs/heads/master'
+        uses: ./.github/actions/release/publish-artifacts
         with:
           latest: true
-          image-prefix: public.ecr.aws/${{ env.publicecr-name }}/adapters/
+
+          image-prefix: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/
           adapter-name: ${{ matrix.adapter.name }}
-
-          aws-region: us-east-1
-          aws-ecr-cmd: ecr-public
-
-  matrix-adapters-release-private-latest:
-    if: github.ref == 'refs/heads/master'
-    runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.create-matrix.outputs.result }}
-    steps:
-      - uses: actions/checkout@v2
-      - name: Generate job matrix
-        id: create-matrix
-        uses: ./.github/actions/release/matrix-adapters
-
-  publish-artifacts-release-private-latest:
-    if: github.ref == 'refs/heads/master'
-    needs: [matrix-adapters-release-private-latest]
-    runs-on: ubuntu-latest
-    name: (${{ matrix.adapter.type }}) Publish ${{ matrix.adapter.name }} adapter Docker image
-    strategy:
-      matrix: ${{fromJson(needs.matrix-adapters-release-latest.outputs.matrix)}}
-    steps:
-      - uses: actions/checkout@v2
-      - name: Configure AWS Credentials for SDLC Private ECR
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_PRIVATEECR_ACCESSKEY }}
-          aws-secret-access-key: ${{ secrets.AWS_PRIVATEECR_SECRETKEY }}
           aws-region: ${{ secrets.AWS_REGION }}
-      - uses: ./.github/actions/release/publish-artifacts
-        with:
-          latest: true
-          image-prefix: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
-          adapter-name: ${{ matrix.adapter.name }}
-
-          aws-region: ${{ secrets.AWS_REGION }}
-          aws-ecr-cmd: ecr-public
+          aws-ecr-cmd: ecr
