@@ -46,7 +46,6 @@ jobs:
         with:
           branch: ${{ fromJSON('[undefined, "develop"]')[github.ref == 'refs/heads/develop'] }}
           latest: ${{ fromJSON('[undefined, true]')[github.ref == 'refs/heads/develop'] }}
-          image-prefix: public.ecr.aws/${{ env.publicecr-name }}/adapters/
 
   publish-artifacts:
     needs: [matrix-adapters]
@@ -84,7 +83,6 @@ jobs:
         with:
           branch: ${{ fromJSON('[undefined, "develop"]')[github.ref == 'refs/heads/develop'] }}
           latest: ${{ fromJSON('[undefined, true]')[github.ref == 'refs/heads/develop'] }}
-          image-prefix: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/
 
   publish-artifacts-private:
     needs: [matrix-adapters-private]
@@ -125,7 +123,6 @@ jobs:
         uses: ./.github/actions/release/matrix-adapters
         with:
           latest: true
-          image-prefix: public.ecr.aws/${{ env.publicecr-name }}/adapters/
 
   publish-artifacts-release-latest:
     if: github.ref != 'refs/heads/develop'
@@ -163,7 +160,6 @@ jobs:
         uses: ./.github/actions/release/matrix-adapters
         with:
           latest: true
-          image-prefix: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/
 
   publish-artifacts-release-private-latest:
     if: github.ref != 'refs/heads/develop'

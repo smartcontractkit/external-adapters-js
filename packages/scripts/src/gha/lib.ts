@@ -3,7 +3,6 @@ import { DockerLabels, generateFileJSON } from '../docker-build/lib'
 interface JobMatrix {
   adapter: {
     name: string
-    image_name: string
     type: string
   }[]
 }
@@ -21,7 +20,6 @@ export async function getJobMatrix(): Promise<JobMatrix> {
   const adapter = Object.entries(dockerfile.services).map(([k, v]) => {
     return {
       name: k,
-      image_name: v.image,
       type: v.build.labels[DockerLabels.EA_TYPE],
     }
   })

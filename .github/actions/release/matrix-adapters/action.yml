@@ -9,9 +9,6 @@ inputs:
   latest:
     description: Set to "true" to create an image tag with the "latest" tag, "false" to use the external adapter's package.json version instead.
     required: false
-  image-prefix:
-    description: 'Prefix to apply to docker images, in our case: typically an aws ECR registry'
-    required: true
 
 outputs:
   result:
@@ -31,4 +28,3 @@ runs:
       env:
         BRANCH: ${{ inputs.branch }}
         LATEST: ${{ inputs.latest }}
-        IMAGE_PREFIX: ${{ inputs.image-prefix }}
