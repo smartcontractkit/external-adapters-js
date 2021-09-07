@@ -21,6 +21,7 @@
     "generate:docker-compose": "ts-node-transpile-only ./packages/scripts/src/docker-build",
     "generate:gha:matrix": "ts-node-transpile-only ./packages/scripts/src/gha",
     "generate:healthcheck:payloads": "ts-node-transpile-only ./packages/scripts/src/healthchecks",
+    "generate:image-name": "ts-node-transpile-only ./packages/scripts/src/generate-image-name",
     "postinstall": "husky install",
     "cm": "cz"
   },
