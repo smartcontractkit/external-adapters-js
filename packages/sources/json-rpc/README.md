@@ -79,23 +79,23 @@ For Ethereum and any Geth clone (should work with Parity as well):
 Make sure you run these commands from the ROOT of this monorepo.
 
 ```bash
-yarn test json-rpc/test/integration/eth
+yarn test json-rpc/test/e2e/eth
 ```
 
 For Bitcoin:
 
 ```bash
-yarn test json-rpc/test/integration/btc
+yarn test json-rpc/test/e2e/btc
 ```
 
 For AION:
 
 ```bash
-yarn test json-rpc/test/integration/aion
+yarn test json-rpc/test/e2e/aion
 ```
 
 For Zilliqa:
 
 ```bash
-RPC_URL=https://dev-api.zilliqa.com yarn test json-rpc/test/integration/zilliqa
+RPC_URL=https://dev-api.zilliqa.com yarn test json-rpc/test/e2e/zilliqa
 ```
