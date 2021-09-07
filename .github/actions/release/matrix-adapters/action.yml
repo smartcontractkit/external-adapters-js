@@ -2,14 +2,6 @@ name: Matrix Adapters
 
 description: Read build strategy matrix of adapters, from a json file
 
-inputs:
-  branch:
-    description: The current branch this workflow is running from, to include in an image tag, omit if you do not want to have the branch included in the image tag.
-    required: false
-  latest:
-    description: Set to "true" to create an image tag with the "latest" tag, "false" to use the external adapter's package.json version instead.
-    required: false
-
 outputs:
   result:
     value: ${{ steps.create-matrix.outputs.result }}
@@ -25,6 +17,3 @@ runs:
       id: create-matrix
       shell: bash
       run: yarn generate:gha:matrix
-      env:
-        BRANCH: ${{ inputs.branch }}
-        LATEST: ${{ inputs.latest }}

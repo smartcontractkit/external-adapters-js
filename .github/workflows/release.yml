@@ -43,9 +43,6 @@ jobs:
       - name: Generate job matrix
         id: create-matrix
         uses: ./.github/actions/release/matrix-adapters
-        with:
-          branch: ${{ fromJSON('[undefined, "develop"]')[github.ref == 'refs/heads/develop'] }}
-          latest: ${{ fromJSON('[undefined, true]')[github.ref == 'refs/heads/develop'] }}
 
   publish-artifacts:
     needs: [matrix-adapters]
@@ -81,9 +78,6 @@ jobs:
       - name: Generate job matrix
         id: create-matrix
         uses: ./.github/actions/release/matrix-adapters
-        with:
-          branch: ${{ fromJSON('[undefined, "develop"]')[github.ref == 'refs/heads/develop'] }}
-          latest: ${{ fromJSON('[undefined, true]')[github.ref == 'refs/heads/develop'] }}
 
   publish-artifacts-private:
     needs: [matrix-adapters-private]
@@ -112,9 +106,9 @@ jobs:
   # So released images have a latest tag on them too.
   # E.g. Releasing @chainlink/coingecko@0.0.3 will have the tag of 0.0.3 from the above jobs
   # and a tag of 'latest' from the below jobs.
-  # This is only needed for non-develop jobs since the same image needs to be tagged twice
+  # This is only needed for master jobs since the same image needs to be tagged twice
   matrix-adapters-release-latest:
-    if: github.ref != 'refs/heads/develop'
+    if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.create-matrix.outputs.result }}
@@ -123,11 +117,9 @@ jobs:
       - name: Generate job matrix
         id: create-matrix
         uses: ./.github/actions/release/matrix-adapters
-        with:
-          latest: true
 
   publish-artifacts-release-latest:
-    if: github.ref != 'refs/heads/develop'
+    if: github.ref == 'refs/heads/master'
     needs: [matrix-adapters-release-latest]
     runs-on: ubuntu-latest
     name: (${{ matrix.adapter.type }}) Publish ${{ matrix.adapter.name }} adapter Docker image
@@ -153,7 +145,7 @@ jobs:
           aws-ecr-cmd: ecr-public
 
   matrix-adapters-release-private-latest:
-    if: github.ref != 'refs/heads/develop'
+    if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.create-matrix.outputs.result }}
@@ -162,11 +154,9 @@ jobs:
       - name: Generate job matrix
         id: create-matrix
         uses: ./.github/actions/release/matrix-adapters
-        with:
-          latest: true
 
   publish-artifacts-release-private-latest:
-    if: github.ref != 'refs/heads/develop'
+    if: github.ref == 'refs/heads/master'
     needs: [matrix-adapters-release-private-latest]
     runs-on: ubuntu-latest
     name: (${{ matrix.adapter.type }}) Publish ${{ matrix.adapter.name }} adapter Docker image
