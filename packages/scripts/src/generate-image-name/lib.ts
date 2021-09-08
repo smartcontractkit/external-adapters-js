@@ -18,7 +18,7 @@ export async function generateImageName(): Promise<string> {
     )
   }
 
-  const dockerfile = await generateFileJSON({ prefix, branch, useLatest })
+  const dockerfile = await generateFileJSON({ prefix, branch, useLatest }, { context: '.' })
   const adapters = Object.entries(dockerfile.services)
     .filter(([k]) => k === descopedName)
     .map(([, v]) => v.image)
