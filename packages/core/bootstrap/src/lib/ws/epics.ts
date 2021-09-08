@@ -1,7 +1,7 @@
 import { AdapterRequest, Execute } from '@chainlink/types'
 import { AnyAction } from 'redux'
 import { combineEpics, createEpicMiddleware, Epic } from 'redux-observable'
-import { EMPTY, from, merge, Observable, of, race, Subject } from 'rxjs'
+import { concat, EMPTY, from, merge, Observable, of, race, Subject } from 'rxjs'
 import {
   catchError,
   concatMap,
@@ -38,6 +38,7 @@ import {
   WSSubscriptionErrorPayload,
   WSSubscriptionPayload,
   WSConfigOverride,
+  wsSubscriptionReady,
 } from './actions'
 import {
   ws_connection_active,
@@ -48,6 +49,7 @@ import {
   ws_subscription_total,
 } from './metrics'
 import { getSubsId, RootState, SubscriptionsState } from './reducer'
+import { separateBatches } from './utils'
 
 // Rxjs deserializer defaults to JSON.parse.
 // We need to handle errors from non-parsable messages
@@ -69,6 +71,31 @@ type connectRequestedActionWithState = [
     ws: RootState
   },
 ]
+
+export const subscribeReadyEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (action$) =>
+  action$.pipe(
+    filter(wsSubscriptionReady.match),
+    concatMap(async ({ payload }) => {
+      const { wsHandler, config, context, request } = payload
+      const subscriptionPayloads: WSSubscriptionPayload[] = []
+      await separateBatches(request, async (singleInput: AdapterRequest) => {
+        const subscriptionMsg = wsHandler.subscribe(singleInput)
+        if (!subscriptionMsg) return
+        const subscriptionPayload: WSSubscriptionPayload = {
+          connectionInfo: {
+            key: config.connectionInfo.key,
+            url: wsHandler.connection.url,
+          },
+          subscriptionMsg,
+          input: singleInput,
+          context,
+        }
+        subscriptionPayloads.push(subscriptionPayload)
+      })
+      return subscriptionPayloads
+    }),
+    mergeMap(([subscriptionPayload]) => of(subscribeRequested(subscriptionPayload))),
+  )
 
 export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (action$, state$) =>
   action$.pipe(
@@ -410,9 +437,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
           ),
         ),
       )
-
-      // Return the new connection stream
-      return ws$
+      return concat(of(wsSubscriptionReady(payload)), ws$)
     }),
   )
 
@@ -481,6 +506,6 @@ export const metricsEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
     filter(() => false), // do not duplicate events
   )
 
-export const rootEpic = combineEpics(connectEpic, metricsEpic)
+export const rootEpic = combineEpics(connectEpic, metricsEpic, subscribeReadyEpic)
 
 export const epicMiddleware = createEpicMiddleware()

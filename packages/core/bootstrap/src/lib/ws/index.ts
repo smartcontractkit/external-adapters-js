@@ -1,9 +1,8 @@
 import { AdapterContext, AdapterRequest, MakeWSHandler, Middleware } from '@chainlink/types'
 import { Store } from 'redux'
-import { connectRequested, subscribeRequested, WSSubscriptionPayload } from './actions'
+import { connectRequested } from './actions'
 import { getWSConfig } from './config'
 import { RootState } from './reducer'
-import { separateBatches } from './utils'
 import { AdapterCache } from '../cache'
 
 export * as actions from './actions'
@@ -28,7 +27,7 @@ export const withWebSockets =
       }
     }
 
-    store.dispatch(connectRequested({ config: wsConfig, wsHandler }))
+    store.dispatch(connectRequested({ config: wsConfig, wsHandler, context, request: input }))
 
     // Check if adapter only supports WS
     if (wsHandler.noHttp) {
@@ -37,22 +36,6 @@ export const withWebSockets =
       const deadline = Date.now() + requestTimeout
       return await awaitResult(context, input, deadline)
     }
-
-    await separateBatches(input, async (singleInput: AdapterRequest) => {
-      const subscriptionMsg = wsHandler.subscribe(singleInput)
-      if (!subscriptionMsg) return
-      const subscriptionPayload: WSSubscriptionPayload = {
-        connectionInfo: {
-          key: wsConfig.connectionInfo.key,
-          url: wsHandler.connection.url,
-        },
-        subscriptionMsg,
-        input: singleInput,
-        context,
-      }
-
-      store.dispatch(subscribeRequested(subscriptionPayload))
-    })
     return await execute(input, context)
   }
 
