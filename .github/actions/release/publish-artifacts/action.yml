@@ -17,8 +17,8 @@ inputs:
   aws-region:
     description: The aws region to use
     required: true
-  aws-ecr-cmd:
-    description: The aws ecr command to use, either "ecr" or "ecr-public"
+  aws-ecr-private:
+    description: If this action is being used to publish to private ecr
     required: true
 
 runs:
@@ -56,11 +56,20 @@ runs:
 
     - name: Authenticate to ECR
       shell: bash
-      run: aws ${{ inputs.aws-ecr-cmd }} get-login-password --region ${{ inputs.aws-region }} | docker login --username AWS --password-stdin ${{ inputs.image-prefix }}
+      run: aws ${{ fromJSON('["ecr-public", "ecr"]')[inputs.aws-ecr-private == true] }} get-login-password --region ${{ inputs.aws-region }} | docker login --username AWS --password-stdin ${{ inputs.image-prefix }}
 
     - name: Create a ECR repository if does not exist
       shell: bash
-      run: aws ${{ inputs.aws-ecr-cmd }} create-repository --region ${{ inputs.aws-region }} --repository-name adapters/${{ inputs.adapter-name }} || true
+      run: aws ${{ fromJSON('["ecr-public", "ecr"]')[inputs.aws-ecr-private == true] }} create-repository --region ${{ inputs.aws-region }} --repository-name adapters/${{ inputs.adapter-name }} || true
+
+    - if: inputs.aws-ecr-private
+      name: Set ECR repository permissions for secondary account access on private ECR repos only
+      # secrets.AWS_PRIVATE_ECR_SECONDARY_ACCOUNT_ACCESS_IDS string format are comma seperated, double quoted strings. E.g. "1","2","3"
+      run: >
+        aws ecr set-repository-policy
+        --region ${{ inputs.aws-region }}
+        --repository-name adapters/${{ inputs.adapter-name }}
+        --policy-text "$(jq '.Statement[0].Principal.AWS |= [${{ secrets.AWS_PRIVATE_ECR_SECONDARY_ACCOUNT_ACCESS_IDS }}]' .github/actions/release/publish-artifacts/secondary-account-access-policy.json)"
 
     - name: Push to ECR
       shell: bash
