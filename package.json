@@ -18,6 +18,8 @@
     "test": "jest",
     "test:unit": "jest unit",
     "test:integration": "jest --runInBand integration",
+    "test:ci:unit": "jest --coverage unit",
+    "test:ci:integration": "jest --coverage --runInBand integration",
     "generate:docker-compose": "ts-node-transpile-only ./packages/scripts/src/docker-build",
     "generate:gha:matrix": "ts-node-transpile-only ./packages/scripts/src/gha",
     "generate:healthcheck:payloads": "ts-node-transpile-only ./packages/scripts/src/healthchecks",
