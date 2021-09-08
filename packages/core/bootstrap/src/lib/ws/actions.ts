@@ -13,6 +13,10 @@ export interface WSConfigPayload {
 export interface WSConfigDetailedPayload extends WSConfigPayload {
   request: AdapterRequest
   context: AdapterContext
+  wsHandler: WSHandler
+}
+
+export interface WSConfigDetailedPayloadOverride extends WSConfigDetailedPayload {
   wsHandler: WSHandlerOverride
 }
 
@@ -23,7 +27,7 @@ export interface WSErrorPayload {
 
 export const wsSubscriptionReady = createAction(
   'WS/SUBSCRIPTION_READY',
-  asAction<WSConfigDetailedPayload>(),
+  asAction<WSConfigDetailedPayloadOverride>(),
 )
 export const connectRequested = createAction(
   'WS/CONNECT_REQUESTED',

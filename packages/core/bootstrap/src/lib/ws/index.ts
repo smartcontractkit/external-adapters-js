@@ -1,9 +1,10 @@
 import { AdapterContext, AdapterRequest, MakeWSHandler, Middleware } from '@chainlink/types'
 import { Store } from 'redux'
-import { connectRequested } from './actions'
+import { connectRequested, subscribeRequested, WSSubscriptionPayload } from './actions'
 import { getWSConfig } from './config'
 import { RootState } from './reducer'
 import { AdapterCache } from '../cache'
+import { separateBatches } from './utils'
 
 export * as actions from './actions'
 export * as config from './config'
@@ -36,8 +37,34 @@ export const withWebSockets =
       const deadline = Date.now() + requestTimeout
       return await awaitResult(context, input, deadline)
     }
+
+    if (isConnected(store, wsConfig.connectionInfo.key)) {
+      await separateBatches(input, async (singleInput: AdapterRequest) => {
+        const subscriptionMsg = wsHandler.subscribe(singleInput)
+        if (!subscriptionMsg) return
+        const subscriptionPayload: WSSubscriptionPayload = {
+          connectionInfo: {
+            key: wsConfig.connectionInfo.key,
+            url: wsHandler.connection.url,
+          },
+          subscriptionMsg,
+          input: singleInput,
+          context,
+        }
+
+        store.dispatch(subscribeRequested(subscriptionPayload))
+      })
+    }
+
     return await execute(input, context)
   }
+
+const isConnected = (store: Store<RootState>, connectionKey: string): boolean => {
+  const state = store.getState()
+  const isActiveConnection = state.connections.all[connectionKey]?.active
+  const isConnecting = state.connections.all[connectionKey]?.connecting > 1
+  return isActiveConnection && !isConnecting
+}
 
 const awaitResult = async (context: AdapterContext, input: AdapterRequest, deadline: number) => {
   const adapterCache = new AdapterCache(context)
