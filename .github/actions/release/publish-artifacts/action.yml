@@ -62,6 +62,15 @@ runs:
       shell: bash
       run: aws ${{ fromJSON('["ecr-public", "ecr"]')[inputs.aws-ecr-private == true] }} create-repository --region ${{ inputs.aws-region }} --repository-name adapters/${{ inputs.adapter-name }} || true
 
+    - if: inputs.aws-ecr-private
+      name: Set ECR repository permissions for secondary account access on private ECR repos only
+      # secrets.AWS_PRIVATE_ECR_SECONDARY_ACCOUNT_ACCESS_IDS string format are comma seperated, double quoted strings. E.g. "1","2","3"
+      run: >
+        aws ecr set-repository-policy
+        --region ${{ inputs.aws-region }}
+        --repository-name adapters/${{ inputs.adapter-name }}
+        --policy-text "$(jq '.Statement[0].Principal.AWS |= [${{ secrets.AWS_PRIVATE_ECR_SECONDARY_ACCOUNT_ACCESS_IDS }}]' .github/actions/release/publish-artifacts/secondary-account-access-policy.json)"
+
     - name: Push to ECR
       shell: bash
       run: docker push ${{ steps.generate-image-name.outputs.image_name }}
