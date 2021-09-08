@@ -71,7 +71,7 @@ jobs:
           image-prefix: public.ecr.aws/${{ env.publicecr-name }}/adapters/
           adapter-name: ${{ matrix.adapter.name }}
           aws-region: us-east-1
-          aws-ecr-cmd: ecr-public
+          aws-ecr-private: false
       # If we're on master, publish again with a forced 'latest' tag
       - if: github.ref == 'refs/heads/master'
         name: Publish adapter to public ECR, with forced latest tag
@@ -82,8 +82,7 @@ jobs:
           image-prefix: public.ecr.aws/${{ env.publicecr-name }}/adapters/
           adapter-name: ${{ matrix.adapter.name }}
           aws-region: us-east-1
-          aws-ecr-cmd: ecr-public
-
+          aws-ecr-private: false
       # Handle publishing to our private ECR repo
       - name: Configure AWS Credentials for SDLC Private ECR
         uses: aws-actions/configure-aws-credentials@v1
@@ -100,7 +99,7 @@ jobs:
           image-prefix: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/adapters/
           adapter-name: ${{ matrix.adapter.name }}
           aws-region: ${{ secrets.AWS_REGION }}
-          aws-ecr-cmd: ecr
+          aws-ecr-private: true
       # If we're on master, publish again with a forced 'latest' tag
       - if: github.ref == 'refs/heads/master'
         name: Publish adapter to private ECR, with forced latest tag
@@ -111,4 +110,4 @@ jobs:
           image-prefix: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/adapters/
           adapter-name: ${{ matrix.adapter.name }}
           aws-region: ${{ secrets.AWS_REGION }}
-          aws-ecr-cmd: ecr
+          aws-ecr-private: true
