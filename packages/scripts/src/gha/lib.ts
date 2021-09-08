@@ -16,7 +16,7 @@ export async function getJobMatrix(): Promise<JobMatrix> {
   const prefix = process.env.IMAGE_PREFIX || ''
   const useLatest = !!process.env.LATEST
 
-  const dockerfile = await generateFileJSON({ prefix, branch, useLatest })
+  const dockerfile = await generateFileJSON({ prefix, branch, useLatest }, { context: '.' })
   const adapter = Object.entries(dockerfile.services).map(([k, v]) => {
     return {
       name: k,
