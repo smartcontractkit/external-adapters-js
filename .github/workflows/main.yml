@@ -32,7 +32,29 @@ jobs:
         run: npm install -g yarn
       - run: yarn install
       - run: yarn setup
-      - run: yarn test:integration
+      - run: yarn test:ci:integration
+      - uses: codecov/codecov-action@v2
+        with:
+          flags: integration
+          fail_ci_if_error: true
+
+  run-unit-tests:
+    name: Run unit tests
+    runs-on: [self-hosted, sdlc-ghr-prod]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+      - name: Install Yarn
+        run: npm install -g yarn
+      - run: yarn install
+      - run: yarn setup
+      - run: yarn test:ci:unit
+      - uses: codecov/codecov-action@v2
+        with:
+          flags: unit
+          fail_ci_if_error: true
 
   run-basic-checks:
     name: Run linters and unit tests
@@ -48,7 +70,6 @@ jobs:
       - run: yarn setup
       - run: yarn lint
       - run: yarn format:check
-      - run: yarn test:unit
 
   # Read build strategy matrix of adapters, from a json file
   matrix-adapters:
