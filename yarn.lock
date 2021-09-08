@@ -6254,7 +6254,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:14.17.7, @types/node@npm:^14.14.35":
+"@types/node@npm:14.17.7":
   version: 14.17.7
   resolution: "@types/node@npm:14.17.7"
   checksum: e95f28361784106237380ebd4ed133bc9d6aa04694bd061bd913d9008ce88bd596b059464fa56cf534c0cb347a3a9753b8abdf7c85d24a77126bf0ad24c6fdf9
@@ -10935,7 +10935,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ethers@npm:^5.4.6":
+"ethers@npm:^5.4.2, ethers@npm:^5.4.6":
   version: 5.4.6
   resolution: "ethers@npm:5.4.6"
   dependencies:
@@ -16452,27 +16452,9 @@ fsevents@~2.1.1:
   languageName: node
   linkType: hard
 
-"nock@npm:13.1.3, nock@npm:^13.1.3":
   version: 13.1.3
   resolution: "nock@npm:13.1.3"
   dependencies:
-    debug: ^4.1.0
-    json-stringify-safe: ^5.0.1
-    lodash.set: ^4.3.2
-    propagate: ^2.0.0
-  checksum: 61cf123030b86adc202887a7b6588992d751651587cd627d38af2285dde6928577694623777df4585d5838b9a1649264df3c6979983a777885ed4f98320f6e04
-  languageName: node
-  linkType: hard
-
-"node-addon-api@npm:^2.0.0":
-  version: 2.0.2
-  resolution: "node-addon-api@npm:2.0.2"
-  dependencies:
-    node-gyp: latest
-  checksum: 31fb22d674648204f8dd94167eb5aac896c841b84a9210d614bf5d97c74ef059cc6326389cf0c54d2086e35312938401d4cc82e5fcd679202503eb8ac84814f8
-  languageName: node
-  linkType: hard
-
 "node-emoji@npm:^1.10.0":
   version: 1.10.0
   resolution: "node-emoji@npm:1.10.0"
@@ -21052,6 +21034,16 @@ resolve@1.17.0:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: bab033b5e2b0790dd35b77fd005df976ef80b8d84fd2c6e63cc31808151875beae9216e5a315fe7068e8499905c3c354248fe83272cdfc13b7705635f0c66c97
+  languageName: node
+  linkType: hard
+
+typescript@^4.2.3:
+  version: 4.4.2
+  resolution: "typescript@npm:4.4.2"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 194e08e9d1971d667d6fd1a0554616b7022312a2319d70e81a64e502a265992061ee7817ed9a69b52bbabe7a9b85e7938cb8c11c433e40a516b277f8c4dacd51
   languageName: node
   linkType: hard
 
