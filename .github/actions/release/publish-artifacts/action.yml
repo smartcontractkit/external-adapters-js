@@ -1,0 +1,67 @@
+name: Release
+description: Creates a release via building the required external adapters and publishing them. Must have aws credentials already configured
+inputs:
+  branch:
+    description: The current branch this workflow is running from, to include in an image tag, omit if you do not want to have the branch included in the image tag.
+    required: false
+  latest:
+    description: Set to "true" to create an image tag with the "latest" tag, "false" to use the external adapter's package.json version instead.
+    required: false
+  image-prefix:
+    description: 'Prefix to apply to docker images, in our case: typically an aws ECR registry'
+    required: true
+  adapter-name:
+    description: 'The name of the adapter'
+    required: true
+
+  aws-region:
+    description: The aws region to use
+    required: true
+  aws-ecr-cmd:
+    description: The aws ecr command to use, either "ecr" or "ecr-public"
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '14.x'
+
+    - name: Install yarn deps
+      shell: bash
+      run: yarn
+
+    - name: Generate docker-compose file
+      shell: bash
+      run: yarn generate:docker-compose
+      env:
+        BRANCH: ${{ inputs.branch }}
+        LATEST: ${{ inputs.latest }}
+        IMAGE_PREFIX: ${{ inputs.image-prefix }}
+
+    - name: Generate adapter image name
+      shell: bash
+      run: yarn generate:image-name
+      id: generate-image-name
+      env:
+        BRANCH: ${{ inputs.branch }}
+        LATEST: ${{ inputs.latest }}
+        IMAGE_PREFIX: ${{ inputs.image-prefix }}
+        ADAPTER_NAME: ${{ inputs.adapter-name }}
+
+    - name: Build Docker containers
+      shell: bash
+      run: docker-compose -f docker-compose.generated.yaml build ${{ inputs.adapter-name }}
+
+    - name: Authenticate to ECR
+      shell: bash
+      run: aws ${{ inputs.aws-ecr-cmd }} get-login-password --region ${{ inputs.aws-region }} | docker login --username AWS --password-stdin ${{ inputs.image-prefix }}
+
+    - name: Create a ECR repository if does not exist
+      shell: bash
+      run: aws ${{ inputs.aws-ecr-cmd }} create-repository --region ${{ inputs.aws-region }} --repository-name adapters/${{ inputs.adapter-name }} || true
+
+    - name: Push to ECR
+      shell: bash
+      run: docker push ${{ steps.generate-image-name.outputs.image_name }}

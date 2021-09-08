@@ -90,11 +90,11 @@ async function makeDockerComposeFile(
   }
 }
 
-function generateImageName(
+export function generateImageName(
   descopedName: string,
   version: string,
   { prefix, branch, useLatest }: ImageNameConfig,
-) {
+): string {
   const tag = [branch, useLatest ? 'latest' : version].filter(Boolean).join('-')
 
   return `${prefix}${descopedName}:${tag}`
