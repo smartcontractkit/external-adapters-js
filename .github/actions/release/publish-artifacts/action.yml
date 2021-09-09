@@ -71,7 +71,7 @@ runs:
         aws ecr set-repository-policy
         --region ${{ inputs.aws-region }}
         --repository-name adapters/${{ inputs.adapter-name }}
-        --policy-text "$(jq '.Statement[0].Principal.AWS |= [${{ inputs.aws-ecr-account-ids }}]' .github/actions/release/publish-artifacts/secondary-account-access-policy.json)";
+        --policy-text "$(jq '.Statement[0].Principal.AWS |= [${{ inputs.aws-ecr-account-ids }}]' .github/actions/release/publish-artifacts/secondary-account-access-policy.json)" &> /dev/null;
         fi
 
     - name: Push to ECR
