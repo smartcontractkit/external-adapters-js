@@ -8,6 +8,7 @@ function join_by {
   echo "$*"
 }
 
+CONTEXT='..' yarn generate:docker-compose
 ./scripts/generate-prom-config.sh "$(join_by , "${arr[@]}")"
 
-docker-compose -f ./docker-compose.yaml -f ../docker-compose.generated.yaml up --build grizzly grafana prometheus "${arr[@]}"
+docker-compose -f ./docker-compose.yaml -f ../docker-compose.generated.yaml up --build redis grafana prometheus "${arr[@]}"

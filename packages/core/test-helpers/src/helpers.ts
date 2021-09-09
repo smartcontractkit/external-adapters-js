@@ -27,7 +27,7 @@ function buildErrors(label: string, code: number, requests: any[], execute: Exec
         try {
           await execute(req.testData as AdapterRequest, mockContext)
         } catch (error) {
-          const id = req.testData.id
+          const id = req.testData.id ?? '1'
           const errorResp = Requester.errored(id, error)
           assertError({ expected: code, actual: errorResp.statusCode }, errorResp, id)
         }

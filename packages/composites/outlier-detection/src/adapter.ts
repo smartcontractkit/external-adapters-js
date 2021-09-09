@@ -3,25 +3,32 @@ import {
   AdapterResponse,
   ExecuteFactory,
   ExecuteWithConfig,
+  RequestConfig,
 } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { getLatestAnswer } from '@chainlink/ea-reference-data-reader'
 import {
-  Config,
   makeConfig,
-  makeOptions,
   DEFAULT_CHECK_THRESHOLD,
   DEFAULT_ONCHAIN_THRESHOLD,
-  SourceRequestOptions,
-  CheckRequestOptions,
+  makeOptions,
+  Config,
 } from './config'
 import { AxiosResponse } from 'axios'
+
+export type SourceRequestOptions = { [source: string]: RequestConfig }
+export type CheckRequestOptions = { [check: string]: RequestConfig }
+
+export type AdapterOptions = {
+  sources: SourceRequestOptions
+  checks: CheckRequestOptions
+  api: any
+}
 
 const customParams = {
   referenceContract: ['referenceContract', 'contract'],
   multiply: true,
   source: true,
-  asset: true,
   check: false,
   check_threshold: false,
   onchain_threshold: false,

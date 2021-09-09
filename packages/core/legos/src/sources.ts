@@ -37,8 +37,10 @@ import * as dns_query from '@chainlink/dns-query-adapter'
 import * as dwolla from '@chainlink/dwolla-adapter'
 import * as dxfeed from '@chainlink/dxfeed-adapter'
 import * as dxfeed_secondary from '@chainlink/dxfeed-secondary-adapter'
+import * as enzyme from '@chainlink/enzyme-adapter'
 import * as eodhistoricaldata from '@chainlink/eodhistoricaldata-adapter'
 import * as etherchain from '@chainlink/etherchain-adapter'
+import * as etherscan from '@chainlink/etherscan-adapter'
 import * as ethgasstation from '@chainlink/ethgasstation-adapter'
 import * as ethgaswatch from '@chainlink/ethgaswatch-adapter'
 import * as expert_car_broker from '@chainlink/expert-car-broker-adapter'
@@ -90,6 +92,7 @@ import * as trueusd from '@chainlink/trueusd-adapter'
 import * as twelvedata from '@chainlink/twelvedata-adapter'
 import * as unibit from '@chainlink/unibit-adapter'
 import * as upvest from '@chainlink/upvest-adapter'
+import * as uscpi_one from '@chainlink/uscpi-one-adapter'
 import * as wbtc_adapter_address from '@chainlink/wbtc-address-set-adapter'
 import * as wootrade from '@chainlink/wootrade-adapter'
 import * as xbto from '@chainlink/xbto-adapter'
@@ -134,8 +137,10 @@ export default {
   dwolla,
   dxfeed,
   dxfeed_secondary,
+  enzyme,
   eodhistoricaldata,
   etherchain,
+  etherscan,
   ethgasstation,
   ethgaswatch,
   expert_car_broker,
@@ -187,6 +192,7 @@ export default {
   twelvedata,
   unibit,
   upvest,
+  uscpi_one,
   wbtc_adapter_address,
   wootrade,
   xbto,

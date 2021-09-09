@@ -128,10 +128,16 @@
       "path": "../../sources/dxfeed-secondary"
     },
     {
+      "path": "../../sources/enzyme"
+    },
+    {
       "path": "../../sources/eodhistoricaldata"
     },
     {
       "path": "../../sources/etherchain"
+    },
+    {
+      "path": "../../sources/etherscan"
     },
     {
       "path": "../../sources/ethgasstation"
@@ -285,6 +291,9 @@
     },
     {
       "path": "../../sources/upvest"
+    },
+    {
+      "path": "../../sources/uscpi-one"
     },
     {
       "path": "../../sources/wbtc-address-set"

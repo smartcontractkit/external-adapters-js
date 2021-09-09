@@ -11,19 +11,17 @@ The adapter takes the following environment variables:
 
 1. A data source adapter (requires at least 1)
 
-   | Required? |               Name               |                      Description                      | Options | Defaults to |
-   | :-------: | :------------------------------: | :---------------------------------------------------: | :-----: | :---------: |
-   |           |        `XBTO_ADAPTER_URL`        |        The location of a XBTO external adapter        |         |             |
-   |           | `GENESIS_VOLATILITY_ADAPTER_URL` | The location of a Genesis Volatility external adapter |         |             |
-   |           |       `DXFEED_ADAPTER_URL`       |       The location of a DXFeed external adapter       |         |             |
+| Required? |          Name          |                 Description                 | Options | Defaults to |
+| :-------: | :--------------------: | :-----------------------------------------: | :-----: | :---------: |
+|           | `[source]_ADAPTER_URL` | The adapter URL to query for any `[source]` |         |             |
 
 2. A check adapter (requires at least 1)
 
-   | Required? |             Name              |                   Description                    | Options | Defaults to |
-   | :-------: | :---------------------------: | :----------------------------------------------: | :-----: | :---------: |
-   |           |     `DERIBIT_ADAPTER_URL`     |   The location of an Deribit external adapter    |         |             |
-   |           | `OILPRICEAPI_COM_ADAPTER_URL` | The location of a Oil Price API external adapter |         |             |
-   |           |     `DXFEED_ADAPTER_URL`      |    The location of a DXFeed external adapter     |         |             |
+The adapter takes the following environment variables:
+
+| Required? |         Name          |                Description                 | Options | Defaults to |
+| :-------: | :-------------------: | :----------------------------------------: | :-----: | :---------: |
+|           | `[check]_ADAPTER_URL` | The adapter URL to query for any `[check]` |         |             |
 
 3. An ETH RPC URL to read the reference data value. Required by runlog requests.
 
