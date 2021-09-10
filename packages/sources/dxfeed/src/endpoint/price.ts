@@ -50,6 +50,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     return handleBatchedRequest(jobRunID, request, response, events)
   }
 
+  // NOTE: may need to force entries quoteEventSymbols to not use batching
+
   const quotePath = ['Quote', symbol, 'bidPrice']
   const tradePath = ['Trade', symbol, 'price']
   response.data.result = Requester.validateResultNumber(
@@ -67,6 +69,7 @@ const handleBatchedRequest = (
 ) => {
   const payload: [AdapterRequest, number][] = []
   for (const base in response.data[events]) {
+    const isArray = Array.isArray(response.data[events][base])
     payload.push([
       {
         ...request,
@@ -75,7 +78,10 @@ const handleBatchedRequest = (
           base: response.data[events][base],
         },
       },
-      Requester.validateResultNumber(response.data, [events, base, 'price']),
+      Requester.validateResultNumber(
+        response.data,
+        isArray ? [events, base, 0, 'price'] : [events, base, 'price'],
+      ),
     ])
   }
   response.data.results = payload
