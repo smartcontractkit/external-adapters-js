@@ -62,7 +62,7 @@ const deserializer = (message: any) => {
   }
 }
 
-type connectRequestedActionWithState = [
+type ConnectRequestedActionWithState = [
   {
     payload: WSConfigOverride
     connectionKey: string
@@ -108,9 +108,9 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
       return !isActiveConnection && !isConnecting
     }),
     concatMap(async (data) => {
-      const url = data[0].payload.wsHandler.connection.url
-      if (typeof url !== 'string') data[0].payload.wsHandler.connection.url = await url()
-      return data as connectRequestedActionWithState
+      const getUrl = data[0].payload.wsHandler.connection.getUrl
+      if (getUrl) data[0].payload.wsHandler.connection.url = await getUrl()
+      return data as ConnectRequestedActionWithState
     }),
     // on a connect action being dispatched, open a new WS connection if one doesn't exist yet
     mergeMap(([{ connectionKey, payload }]) => {

@@ -54,7 +54,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
     })
     return {
       connection: {
-        url: async () => await ws._makeSocketUrl(),
+        getUrl: ws._makeSocketUrl.bind(ws),
       },
       subscribe: (input) => ws._makeJoinMessage(getBase(input)),
       unsubscribe: (input) => ws._makeLeaveMessage(getBase(input)),

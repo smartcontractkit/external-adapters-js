@@ -170,7 +170,6 @@ declare module '@chainlink/types' {
     warning?: string
   }
 
-  export type WSHandlerConnectionURL = (() => string) | (() => Promise<string>) | string
   export type MakeWSHandler = () => WSHandler | Promise<WSHandler>
   export interface WSHandler {
     // Connection information
@@ -178,7 +177,8 @@ declare module '@chainlink/types' {
       /**
        * WS connection url
        */
-      url: WSHandlerConnectionURL
+      url?: string
+      getUrl?: () => Promise<string>
       protocol?: any
     }
     // Hook to send a message after connection

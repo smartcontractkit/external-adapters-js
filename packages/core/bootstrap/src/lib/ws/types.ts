@@ -1,5 +1,3 @@
-import { WSHandlerConnectionURL } from '@chainlink/types'
-
 export interface WSConfig {
   /** Websockets enabled or disabled*/
   enabled: boolean
@@ -38,5 +36,5 @@ export interface WSConnectionInfo {
   /**
    * @see WSHandler['connection']['url']
    */
-  url: WSHandlerConnectionURL
+  url?: string
 }
