@@ -33,14 +33,6 @@ export const withWebSockets =
 
     store.dispatch(connectRequested({ config: wsConfig, wsHandler }))
 
-    // Check if adapter only supports WS
-    if (wsHandler.noHttp) {
-      // If so, we try to get a result from cache within API_TIMEOUT
-      const requestTimeout = Number(process.env.API_TIMEOUT) || 30000
-      const deadline = Date.now() + requestTimeout
-      return await awaitResult(context, input, deadline)
-    }
-
     await separateBatches(input, async (singleInput: AdapterRequest) => {
       const subscriptionMsg = wsHandler.subscribe(singleInput)
       if (!subscriptionMsg) return
@@ -56,6 +48,13 @@ export const withWebSockets =
 
       store.dispatch(subscribeRequested(subscriptionPayload))
     })
+    // Check if adapter only supports WS
+    if (wsHandler.noHttp) {
+      // If so, we try to get a result from cache within API_TIMEOUT
+      const requestTimeout = Number(process.env.API_TIMEOUT) || 30000
+      const deadline = Date.now() + requestTimeout
+      return await awaitResult(context, input, deadline)
+    }
     return await execute(input, context)
   }
 
