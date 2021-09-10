@@ -1,3 +1,7 @@
+/**
+ * This code is directly copied from Intrinio's library.  We have a ticket to refactor this file.
+ */
+
 import * as https from 'https'
 import * as events from 'events'
 import { Logger } from '@chainlink/ea-bootstrap'
