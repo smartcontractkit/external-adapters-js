@@ -4,6 +4,7 @@ export function mockMacroScoreAPIResponseSuccess() {
   nock('https://xzff24vr3m.execute-api.us-east-2.amazonaws.com:443', {
     encodedQueryParams: true,
   })
+    .persist()
     .post('/default/spectral-proxy', {
       tokenInt: 'test',
     })

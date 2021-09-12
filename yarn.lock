@@ -3201,7 +3201,6 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
-    "@types/nock": ^11.1.0
     "@types/node": ^14.14.35
     "@types/sinon": ^10.0.2
     ethers: ^5.4.2
@@ -6224,15 +6223,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/nock@npm:^11.1.0":
-  version: 11.1.0
-  resolution: "@types/nock@npm:11.1.0"
-  dependencies:
-    nock: "*"
-  checksum: 7da1724ea2cbcd00730cc41e4880d987b0450823d5246cb1b0665be8db43ea9517bdff2161a1ecba8f23382c1e410b9b46da621614a9ae286568e6a8fd8a0a74
-  languageName: node
-  linkType: hard
-
 "@types/node@npm:*, @types/node@npm:>=10":
   version: 16.6.1
   resolution: "@types/node@npm:16.6.1"
@@ -6254,7 +6244,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:14.17.7":
+"@types/node@npm:14.17.7, @types/node@npm:^14.14.35":
   version: 14.17.7
   resolution: "@types/node@npm:14.17.7"
   checksum: e95f28361784106237380ebd4ed133bc9d6aa04694bd061bd913d9008ce88bd596b059464fa56cf534c0cb347a3a9753b8abdf7c85d24a77126bf0ad24c6fdf9
@@ -6265,13 +6255,6 @@ __metadata:
   version: 12.20.18
   resolution: "@types/node@npm:12.20.18"
   checksum: 6727276c92bc2d8a76a26f94a611e572d021df018e3c95113e880fd783cdceb973eb0b4e73a7407543b2c4493ff9d6abfbdbf4b502d236f70bb2c17bbf00340e
-  languageName: node
-  linkType: hard
-
-"@types/node@npm:^14.14.35":
-  version: 14.17.14
-  resolution: "@types/node@npm:14.17.14"
-  checksum: 66ed675a324fdddc4f693f1b240c0d81a9f53e1c68f7de8b84d02d65c0b447f9fa30d318481d04e1502f68dd37091b5cadc59633b57246582ad25e3fa835cd7d
   languageName: node
   linkType: hard
 
@@ -15378,6 +15361,13 @@ fsevents@~2.1.1:
   languageName: node
   linkType: hard
 
+"lodash.set@npm:^4.3.2":
+  version: 4.3.2
+  resolution: "lodash.set@npm:4.3.2"
+  checksum: a9122f49eef9f2d0fc9061a33d87f8e5b8c6b23d46e8b9e9ce1529d3588d79741bd1145a3abdfa3b13082703e65af27ff18d8a07bfc22b9be32f3fc36f763f70
+  languageName: node
+  linkType: hard
+
 "lodash.snakecase@npm:^4.1.1":
   version: 4.1.1
   resolution: "lodash.snakecase@npm:4.1.1"
@@ -15482,6 +15472,15 @@ fsevents@~2.1.1:
   bin:
     loose-envify: cli.js
   checksum: 6517e24e0cad87ec9888f500c5b5947032cdfe6ef65e1c1936a0c48a524b81e65542c9c3edc91c97d5bddc806ee2a985dbc79be89215d613b1de5db6d1cfe6f4
+  languageName: node
+  linkType: hard
+
+"lower-case@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "lower-case@npm:2.0.2"
+  dependencies:
+    tslib: ^2.0.3
+  checksum: 83a0a5f159ad7614bee8bf976b96275f3954335a84fad2696927f609ddae902802c4f3312d86668722e668bef41400254807e1d3a7f2e8c3eede79691aa1f010
   languageName: node
   linkType: hard
 
@@ -16426,9 +16425,24 @@ fsevents@~2.1.1:
   languageName: node
   linkType: hard
 
-"no-case@npm:^3.0.4, nock@npm:*, nock@npm:13.1.3, nock@npm:^13.1.3":
+"no-case@npm:^3.0.4":
+  version: 3.0.4
+  resolution: "no-case@npm:3.0.4"
+  dependencies:
+    lower-case: ^2.0.2
+    tslib: ^2.0.3
+  checksum: 0b2ebc113dfcf737d48dde49cfebf3ad2d82a8c3188e7100c6f375e30eafbef9e9124aadc3becef237b042fd5eb0aad2fd78669c20972d045bbe7fea8ba0be5c
+  languageName: node
+  linkType: hard
+
+"nock@npm:13.1.3, nock@npm:^13.1.3":
   version: 13.1.3
   resolution: "nock@npm:13.1.3"
+  dependencies:
+    debug: ^4.1.0
+    json-stringify-safe: ^5.0.1
+    lodash.set: ^4.3.2
+    propagate: ^2.0.0
   checksum: 9e53a1edaa804a4b1c8dfb25c46b85ce5ddda8a1ceaa804d0a7caed0de564e1eaa1ef6c590ac5b013efaf4f009e47cf7f40d96e19f23be1122d39caf619b8df9
   languageName: node
   linkType: hard
@@ -17932,6 +17946,13 @@ fsevents@~2.1.1:
   dependencies:
     read: 1
   checksum: 443a3b39ac916099988ee0161ab4e22edd1fa27e3d39a38d60e48c11ca6df3f5a90bfe44d95af06ed8659c4050b789ffe64c3f9f8e49a4bea1ea19105c98445a
+  languageName: node
+  linkType: hard
+
+"propagate@npm:^2.0.0":
+  version: 2.0.1
+  resolution: "propagate@npm:2.0.1"
+  checksum: c4febaee2be0979e82fb6b3727878fd122a98d64a7fa3c9d09b0576751b88514a9e9275b1b92e76b364d488f508e223bd7e1dcdc616be4cdda876072fbc2a96c
   languageName: node
   linkType: hard
 
@@ -21018,12 +21039,12 @@ resolve@1.17.0:
   linkType: hard
 
 typescript@^4.2.3:
-  version: 4.4.2
-  resolution: "typescript@npm:4.4.2"
+  version: 4.4.3
+  resolution: "typescript@npm:4.4.3"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 194e08e9d1971d667d6fd1a0554616b7022312a2319d70e81a64e502a265992061ee7817ed9a69b52bbabe7a9b85e7938cb8c11c433e40a516b277f8c4dacd51
+  checksum: 05823f21796d450531a7e4ab299715d38fd9ded0e4ce7400876053f4b5166ca3dde7a68cecfe72d9086039f03c0b6edba36516fb10ed83c5837d9600532ea4c2
   languageName: node
   linkType: hard
 
@@ -21038,12 +21059,12 @@ typescript@^4.2.3:
   linkType: hard
 
 "typescript@patch:typescript@^4.2.3#~builtin<compat/typescript>":
-  version: 4.4.2
-  resolution: "typescript@patch:typescript@npm%3A4.4.2#~builtin<compat/typescript>::version=4.4.2&hash=d8b4e7"
+  version: 4.4.3
+  resolution: "typescript@patch:typescript@npm%3A4.4.3#~builtin<compat/typescript>::version=4.4.3&hash=d8b4e7"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 11d6ab6e868117908c388401e2ac06d503c5c8709115ab80ee69a1a6352c1f98471d1e595636bfe6a2d6b20b03a44df6bb2d3d198cea97c0c328968cd18d2b70
+  checksum: 215a59742afb7e0c3668e2c50ca19813deb24b3cc0d16ac3591990e033728050aaa99e159a72b54cb43653f16c778a5cf9dfeed1f51c3b105710ae082c064af7
   languageName: node
   linkType: hard
 
