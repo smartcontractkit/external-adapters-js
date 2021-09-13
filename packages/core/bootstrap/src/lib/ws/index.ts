@@ -20,6 +20,9 @@ export const withWebSockets =
     if (!makeWsHandler || !wsConfig.enabled) return await execute(input, context) // ignore middleware if conditions are met
 
     const wsHandler = await makeWsHandler()
+    if (wsHandler.shouldNotServeInputUsingWS && wsHandler.shouldNotServeInputUsingWS(input)) {
+      return await execute(input, context)
+    }
     if (wsHandler.programmaticConnectionInfo) {
       const programmaticConnectionInfo = wsHandler.programmaticConnectionInfo(input)
       if (programmaticConnectionInfo) {
@@ -29,14 +32,6 @@ export const withWebSockets =
     }
 
     store.dispatch(connectRequested({ config: wsConfig, wsHandler, context, request: input }))
-
-    // Check if adapter only supports WS
-    if (wsHandler.noHttp) {
-      // If so, we try to get a result from cache within API_TIMEOUT
-      const requestTimeout = Number(process.env.API_TIMEOUT) || 30000
-      const deadline = Date.now() + requestTimeout
-      return await awaitResult(context, input, deadline)
-    }
 
     if (isConnected(store, wsConfig.connectionInfo.key)) {
       await separateBatches(input, async (singleInput: AdapterRequest) => {
@@ -56,6 +51,13 @@ export const withWebSockets =
       })
     }
 
+    // Check if adapter only supports WS
+    if (wsHandler.noHttp) {
+      // If so, we try to get a result from cache within API_TIMEOUT
+      const requestTimeout = Number(process.env.API_TIMEOUT) || 30000
+      const deadline = Date.now() + requestTimeout
+      return await awaitResult(context, input, deadline)
+    }
     return await execute(input, context)
   }
 

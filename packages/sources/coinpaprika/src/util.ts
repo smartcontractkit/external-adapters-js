@@ -9,6 +9,7 @@ export const getCoin = (
   symbol?: string,
   coinId?: string,
 ): ResponseSchema | undefined => {
+  data.sort((a, b) => a.rank - b.rank)
   if (coinId) {
     return data.find(({ id }) => id.toLowerCase() === coinId.toLowerCase())
   } else if (symbol) {

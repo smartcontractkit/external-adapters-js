@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute with calculatorContract/vaultProxy/sharesHolder should return success 1`] = `
+Object {
+  "data": Object {
+    "netValue": "10000000000000000000",
+    "result": "10000000000000000000",
+  },
+  "jobRunID": "1",
+  "result": "10000000000000000000",
+  "statusCode": 200,
+}
+`;

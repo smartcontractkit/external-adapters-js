@@ -37,6 +37,7 @@ import * as dns_query from '@chainlink/dns-query-adapter'
 import * as dwolla from '@chainlink/dwolla-adapter'
 import * as dxfeed from '@chainlink/dxfeed-adapter'
 import * as dxfeed_secondary from '@chainlink/dxfeed-secondary-adapter'
+import * as enzyme from '@chainlink/enzyme-adapter'
 import * as eodhistoricaldata from '@chainlink/eodhistoricaldata-adapter'
 import * as etherchain from '@chainlink/etherchain-adapter'
 import * as etherscan from '@chainlink/etherscan-adapter'
@@ -79,6 +80,7 @@ import * as reduce from '@chainlink/reduce-adapter'
 import * as renvm_adapter_address from '@chainlink/renvm-address-set-adapter'
 import * as satoshitango from '@chainlink/satoshitango-adapter'
 import * as sochain from '@chainlink/sochain-adapter'
+import * as spectral_macro_score from '@chainlink/spectral-macro-score-adapter'
 import * as sportsdataio from '@chainlink/sportsdataio-adapter'
 import * as stasis from '@chainlink/stasis-adapter'
 import * as synthetix_debt_pool from '@chainlink/synthetix-debt-pool-adapter'
@@ -91,6 +93,7 @@ import * as trueusd from '@chainlink/trueusd-adapter'
 import * as twelvedata from '@chainlink/twelvedata-adapter'
 import * as unibit from '@chainlink/unibit-adapter'
 import * as upvest from '@chainlink/upvest-adapter'
+import * as uscpi_one from '@chainlink/uscpi-one-adapter'
 import * as wbtc_adapter_address from '@chainlink/wbtc-address-set-adapter'
 import * as wootrade from '@chainlink/wootrade-adapter'
 import * as xbto from '@chainlink/xbto-adapter'
@@ -135,6 +138,7 @@ export default {
   dwolla,
   dxfeed,
   dxfeed_secondary,
+  enzyme,
   eodhistoricaldata,
   etherchain,
   etherscan,
@@ -177,6 +181,7 @@ export default {
   renvm_adapter_address,
   satoshitango,
   sochain,
+  spectral_macro_score,
   sportsdataio,
   stasis,
   synthetix_debt_pool,
@@ -189,6 +194,7 @@ export default {
   twelvedata,
   unibit,
   upvest,
+  uscpi_one,
   wbtc_adapter_address,
   wootrade,
   xbto,

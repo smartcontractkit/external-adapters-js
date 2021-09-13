@@ -201,6 +201,9 @@
       "path": "./sources/dxfeed-secondary"
     },
     {
+      "path": "./sources/enzyme"
+    },
+    {
       "path": "./sources/eodhistoricaldata"
     },
     {
@@ -327,6 +330,9 @@
       "path": "./sources/sochain"
     },
     {
+      "path": "./sources/spectral-macro-score"
+    },
+    {
       "path": "./sources/sportsdataio"
     },
     {
@@ -361,6 +367,9 @@
     },
     {
       "path": "./sources/upvest"
+    },
+    {
+      "path": "./sources/uscpi-one"
     },
     {
       "path": "./sources/wbtc-address-set"

@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute with calculatorContract/vaultProxy should return success 1`] = `
+Object {
+  "data": Object {
+    "nav": "19995161270996618818245984400",
+    "result": "19995161270996618818245984400",
+  },
+  "jobRunID": "1",
+  "result": "19995161270996618818245984400",
+  "statusCode": 200,
+}
+`;
