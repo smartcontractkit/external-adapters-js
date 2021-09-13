@@ -330,6 +330,9 @@
       "path": "./sources/sochain"
     },
     {
+      "path": "./sources/spectral-macro-score"
+    },
+    {
       "path": "./sources/sportsdataio"
     },
     {
