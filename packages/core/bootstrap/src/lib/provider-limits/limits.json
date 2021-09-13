@@ -683,6 +683,19 @@
     },
     "ws": {}
   },
+  "intrinio": {
+    "http": {
+      "free": {
+        "rateLimit1s": 100
+      }
+    },
+    "ws": {
+      "default": {
+        "connections": 100,
+        "subscriptions": -1
+      }
+    }
+  },
   "kaiko": {
     "http": {
       "default": {
