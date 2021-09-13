@@ -16,7 +16,7 @@ export const withWebSockets =
   (store: Store<RootState>, makeWsHandler?: MakeWSHandler): Middleware =>
   async (execute, context) =>
   async (input: AdapterRequest) => {
-    const wsConfig = getWSConfig()
+    const wsConfig = getWSConfig(input.data.endpoint)
     if (!makeWsHandler || !wsConfig.enabled) return await execute(input, context) // ignore middleware if conditions are met
 
     const wsHandler = await makeWsHandler()

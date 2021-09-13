@@ -109,7 +109,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
     }),
     concatMap(async (data) => {
       const getUrl = data[0].payload.wsHandler.connection.getUrl
-      if (getUrl) data[0].payload.wsHandler.connection.url = await getUrl()
+      if (getUrl) data[0].payload.wsHandler.connection.url = await getUrl(data[0].payload.request)
       return data as ConnectRequestedActionWithState
     }),
     // on a connect action being dispatched, open a new WS connection if one doesn't exist yet
@@ -144,7 +144,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
         WebSocketCtor: WebSocketCtor as any, // TODO: fix types don't match
       })
 
-      wsHandler.onConnect && wsSubject.next(wsHandler.onConnect())
+      wsHandler.onConnect && wsSubject.next(wsHandler.onConnect(payload.request))
 
       // Stream of WS connected & disconnected events
       const open$ = openObserver.pipe(
