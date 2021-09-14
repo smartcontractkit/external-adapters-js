@@ -12,13 +12,13 @@ An adapter to read and write data from IPFS
 
 ### Input Parameters
 
-| Required? |  Name  |    Description     |                   Options                    | Defaults to |
-| :-------: | :----: | :----------------: | :------------------------------------------: | :---------: |
-|           | method | The method to call | [read](#Read-Method), [write](#Write-Method) |    read     |
+| Required? |   Name   |     Description      |                     Options                      | Defaults to |
+| :-------: | :------: | :------------------: | :----------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to call | [read](#Read-Endpoint), [write](#Write-Endpoint) |    read     |
 
 ---
 
-## Read Method
+## Read Endpoint
 
 Read data from IPFS
 
@@ -62,7 +62,7 @@ Read data from IPFS
 }
 ```
 
-## Write Method
+## Write Endpoint
 
 Write data to IPFS
 
@@ -83,7 +83,7 @@ Write data to IPFS
 {
   "id": "1",
   "data": {
-    "method": "write",
+    "endpoint": "write",
     "data": {
       "name": "my object",
       "id": 123

@@ -4,4 +4,5 @@ import { makeConfig } from './config'
 
 const NAME = 'DYDX_REWARDS'
 
-export = { NAME, makeConfig, makeExecute, ...expose(makeExecute()) }
+const { server } = expose(NAME, makeExecute())
+export { NAME, makeExecute, makeConfig, server }

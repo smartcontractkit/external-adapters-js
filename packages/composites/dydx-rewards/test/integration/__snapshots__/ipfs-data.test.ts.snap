@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ipfs data should encode/decode IPFS data into interface 1`] = `
+Object {
+  "epoch": 123,
+  "openInterest": Object {
+    "0xE4dDb4233513498b5aa79B98bEA473b01b101a67": 123,
+  },
+  "quoteScore": Object {
+    "0xE4dDb4233513498b5aa79B98bEA473b01b101a67": 123,
+  },
+  "tradeFeesPaid": Object {
+    "0xE4dDb4233513498b5aa79B98bEA473b01b101a67": 123,
+  },
+}
+`;
+
+exports[`ipfs data should get correct CID from rewards data 1`] = `"bafkreigx6x553cdksm5gj2hh2fkhs2csjnmnny3zxp3tcyzevfj3f3ekli"`;

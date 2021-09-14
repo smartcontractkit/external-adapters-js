@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`calculating rewards should calculate the correct rewards for epoch 0 1`] = `
+Object {
+  "cid": "bafkreicybmu5ce2ujt6cr5gwrhzkyxghfvaxodihadfq2cngryxokzotum",
+  "root": "41f9ff21e8f74f7f0e8f0ef5dec38b18075b8849a08a6a281f66a181bc409e34",
+}
+`;
+
+exports[`full request services request for epoch 0 correctly 1`] = `
+Object {
+  "data": Object {
+    "result": 1,
+  },
+  "debug": undefined,
+  "jobRunID": "1",
+  "result": 1,
+  "statusCode": 200,
+}
+`;

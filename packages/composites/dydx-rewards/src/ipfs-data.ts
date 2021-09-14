@@ -1,6 +1,6 @@
-import { CID } from 'ipfs'
-import { Execute } from '@chainlink/types'
+import { Execute, AdapterContext } from '@chainlink/types'
 import { BigNumber } from 'ethers'
+import { types } from '@chainlink/ipfs-adapter'
 
 export interface AddressRewards {
   [address: string]: BigNumber
@@ -11,7 +11,7 @@ export type MerkleTreeData = [string, string][]
 export interface OracleRewardsDataByEpoch {
   latestEpoch: number
   dataByEpoch: {
-    [epoch: number]: typeof CID
+    [epoch: number]: types.read.CID
   }
 }
 
@@ -41,15 +41,21 @@ export const getDataFromIPNS = async (
   jobRunID: string,
   ipfs: Execute,
   ipnsName: string,
+  context: AdapterContext,
 ): Promise<OracleRewardsDataByEpoch> => {
-  const params = { id: jobRunID, data: { method: 'read', ipns: ipnsName, type: 'dag' } }
-  const response = await ipfs(params)
+  const params = { id: jobRunID, data: { endpoint: 'read', ipns: ipnsName, type: 'dag' } }
+  const response = await ipfs(params, context)
   return response.result as OracleRewardsDataByEpoch
 }
 
-export const getDataForCID = async (jobRunID: string, ipfs: Execute, cid: string) => {
-  const params = { id: jobRunID, data: { method: 'read', cid, codec: 'json' } }
-  const response = await ipfs(params)
+export const getDataForCID = async (
+  jobRunID: string,
+  ipfs: Execute,
+  cid: types.read.IPFSPath,
+  context: AdapterContext,
+) => {
+  const params = { id: jobRunID, data: { endpoint: 'read', cid, codec: 'json' } }
+  const response = await ipfs(params, context)
   return response.result
 }
 
@@ -58,16 +64,22 @@ export const getDataForEpoch = async (
   ipfs: Execute,
   ipnsName: string,
   epoch: number,
+  context: AdapterContext,
 ): Promise<OracleRewardsData> => {
-  const oracleRewardsDataByEpoch = await getDataFromIPNS(jobRunID, ipfs, ipnsName)
+  const oracleRewardsDataByEpoch = await getDataFromIPNS(jobRunID, ipfs, ipnsName, context)
   if (!(epoch in oracleRewardsDataByEpoch.dataByEpoch)) {
     throw Error(`Epoch ${epoch} was not found in OracleRewardsDataByEpoch`)
   }
-  return getDataForCID(jobRunID, ipfs, oracleRewardsDataByEpoch.dataByEpoch[epoch].toV1())
+  return getDataForCID(jobRunID, ipfs, oracleRewardsDataByEpoch.dataByEpoch[epoch].toV1(), context)
 }
 
-export const storeJsonTree = async (jobRunID: string, ipfs: Execute, data: MerkleTreeData) => {
-  const params = { id: jobRunID, data: { method: 'write', data, codec: 'json', cidVersion: 1 } }
-  const response = await ipfs(params)
+export const storeJsonTree = async (
+  jobRunID: string,
+  ipfs: Execute,
+  data: MerkleTreeData,
+  context: AdapterContext,
+) => {
+  const params = { id: jobRunID, data: { endpoint: 'write', data, codec: 'json', cidVersion: 1 } }
+  const response = await ipfs(params, context)
   return response.result
 }
