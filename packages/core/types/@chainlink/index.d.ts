@@ -58,7 +58,6 @@ declare module '@chainlink/types' {
     result: R
     payload?: P
   }
-
   export type SequenceResponseData<R> = {
     responses?: any[]
     result: R[]
@@ -179,7 +178,8 @@ declare module '@chainlink/types' {
       /**
        * WS connection url
        */
-      url: string
+      url?: string
+      getUrl?: () => Promise<string>
       protocol?: any
     }
     // Determines whether or not to server request using WS
