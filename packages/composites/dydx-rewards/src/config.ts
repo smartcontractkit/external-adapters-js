@@ -32,7 +32,9 @@ export const makeConfig = (prefix?: string): Config => {
     wallet,
     treasuryClaimAddress:
       util.getEnv(ENV_TREASURY_CLAIM_ADDRESS, prefix) || DEFAULT_TREASURY_CLAIM_ADDRESS,
-    traderRewardsAmount: util.getEnv(ENV_TRADER_REWARDS_AMOUNT, prefix) || DEFAULT_TRADER_REWARDS_AMOUNT,
-    marketMakerRewardsAmount: util.getEnv(ENV_MARKET_MAKER_REWARDS_AMOUNT, prefix) || DEFAULT_MARKET_MAKER_REWARDS_AMOUNT
+    traderRewardsAmount:
+      util.getEnv(ENV_TRADER_REWARDS_AMOUNT, prefix) || DEFAULT_TRADER_REWARDS_AMOUNT,
+    marketMakerRewardsAmount:
+      util.getEnv(ENV_MARKET_MAKER_REWARDS_AMOUNT, prefix) || DEFAULT_MARKET_MAKER_REWARDS_AMOUNT,
   }
 }
