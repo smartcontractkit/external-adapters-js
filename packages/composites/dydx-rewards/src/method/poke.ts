@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Execute } from '@chainlink/types'
+import { ExecuteWithConfig, Execute, AdapterContext } from '@chainlink/types'
 import { Config } from '../config'
 import { ethers, BigNumber } from 'ethers'
 import { OracleRequester } from '../contracts'
@@ -51,7 +51,7 @@ const parseAddress = (address: string): string => {
   return `0x${buf.toString('hex').slice(-40)}`
 }
 
-export const execute: ExecuteWithConfig<Config> = async (input, config) => {
+export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
 
@@ -90,12 +90,12 @@ export const execute: ExecuteWithConfig<Config> = async (input, config) => {
     activeRootIpfsCid,
     treasuryClaimAddress: config.treasuryClaimAddress,
   }
-  const addressRewards = await calculateRewards(jobRunID, rewardsInput, ipfs)
+  const addressRewards = await calculateRewards(jobRunID, rewardsInput, ipfs, context)
 
   const merkleTree = constructMerkleTree(addressRewards)
   const jsonTree = constructJsonTree(addressRewards)
 
-  const newIpfsCid = await storeJsonTree(jobRunID, ipfs, jsonTree)
+  const newIpfsCid = await storeJsonTree(jobRunID, ipfs, jsonTree, context)
 
   const tx = await requesterContract.writeOracleData(
     `0x${merkleTree.getRoot().toString('hex')}`,
@@ -112,8 +112,15 @@ export const calculateRewards = async (
   jobRunID: string,
   input: Input,
   ipfs: Execute,
+  context: AdapterContext,
 ): Promise<AddressRewards> => {
-  const epochData = await getDataForEpoch(jobRunID, ipfs, input.ipnsName, input.newEpoch.toNumber())
+  const epochData = await getDataForEpoch(
+    jobRunID,
+    ipfs,
+    input.ipnsName,
+    input.newEpoch.toNumber(),
+    context,
+  )
 
   const addressRewards: AddressRewards = {}
   if (input.newEpoch.isZero()) {
@@ -124,7 +131,12 @@ export const calculateRewards = async (
   calcMarketMakerRewards(epochData, addressRewards, input.marketMakerRewardsAmount)
 
   if (!input.newEpoch.isZero()) {
-    const previousCumulativeJsonTree = await getDataForCID(jobRunID, ipfs, input.activeRootIpfsCid)
+    const previousCumulativeJsonTree = await getDataForCID(
+      jobRunID,
+      ipfs,
+      input.activeRootIpfsCid,
+      context,
+    )
     const previousAddressRewards = deconstructJsonTree(previousCumulativeJsonTree)
     calcCumulativeRewards(addressRewards, previousAddressRewards)
   }
