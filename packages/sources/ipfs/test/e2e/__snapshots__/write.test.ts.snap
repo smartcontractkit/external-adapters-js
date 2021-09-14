@@ -1,0 +1,265 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute successful calls dag 1`] = `
+Object {
+  "data": Object {
+    "result": Object {
+      "code": 113,
+      "hash": Uint8Array [
+        18,
+        32,
+        147,
+        164,
+        164,
+        243,
+        180,
+        176,
+        19,
+        100,
+        199,
+        209,
+        185,
+        37,
+        196,
+        134,
+        254,
+        203,
+        137,
+        115,
+        121,
+        16,
+        10,
+        100,
+        35,
+        120,
+        113,
+        115,
+        142,
+        42,
+        166,
+        251,
+        182,
+        206,
+      ],
+      "version": 1,
+    },
+  },
+  "debug": undefined,
+  "jobRunID": "1",
+  "result": Object {
+    "code": 113,
+    "hash": Uint8Array [
+      18,
+      32,
+      147,
+      164,
+      164,
+      243,
+      180,
+      176,
+      19,
+      100,
+      199,
+      209,
+      185,
+      37,
+      196,
+      134,
+      254,
+      203,
+      137,
+      115,
+      121,
+      16,
+      10,
+      100,
+      35,
+      120,
+      113,
+      115,
+      142,
+      42,
+      166,
+      251,
+      182,
+      206,
+    ],
+    "version": 1,
+  },
+  "statusCode": 200,
+}
+`;
+
+exports[`execute successful calls dag-cbor codec 1`] = `
+Object {
+  "data": Object {
+    "result": "QmWFam9NBVVhz3fViSbxjB7utkkjDSmdWWBbbSTkK8kaxk",
+  },
+  "debug": undefined,
+  "jobRunID": "1",
+  "result": "QmWFam9NBVVhz3fViSbxjB7utkkjDSmdWWBbbSTkK8kaxk",
+  "statusCode": 200,
+}
+`;
+
+exports[`execute successful calls dag-cbor codec with link 1`] = `
+Object {
+  "data": Object {
+    "result": "QmfFbkG6a48aB4vSSTL6gZLo7tcLmbBrb5JcXM2HUivixV",
+  },
+  "debug": undefined,
+  "jobRunID": "1",
+  "result": "QmfFbkG6a48aB4vSSTL6gZLo7tcLmbBrb5JcXM2HUivixV",
+  "statusCode": 200,
+}
+`;
+
+exports[`execute successful calls dag-cbor oracleRewardsDataByEpoch 1`] = `
+Object {
+  "data": Object {
+    "result": Object {
+      "code": 113,
+      "hash": Uint8Array [
+        18,
+        32,
+        217,
+        126,
+        179,
+        245,
+        79,
+        48,
+        192,
+        104,
+        211,
+        235,
+        234,
+        123,
+        180,
+        77,
+        72,
+        16,
+        145,
+        19,
+        201,
+        132,
+        230,
+        48,
+        176,
+        138,
+        56,
+        179,
+        21,
+        222,
+        142,
+        130,
+        98,
+        122,
+      ],
+      "version": 1,
+    },
+  },
+  "debug": undefined,
+  "jobRunID": "1",
+  "result": Object {
+    "code": 113,
+    "hash": Uint8Array [
+      18,
+      32,
+      217,
+      126,
+      179,
+      245,
+      79,
+      48,
+      192,
+      104,
+      211,
+      235,
+      234,
+      123,
+      180,
+      77,
+      72,
+      16,
+      145,
+      19,
+      201,
+      132,
+      230,
+      48,
+      176,
+      138,
+      56,
+      179,
+      21,
+      222,
+      142,
+      130,
+      98,
+      122,
+    ],
+    "version": 1,
+  },
+  "statusCode": 200,
+}
+`;
+
+exports[`execute successful calls json codec 1`] = `
+Object {
+  "data": Object {
+    "result": "QmWBEf1XrcVho6VK7HKGCGuJP4Rt8STxkE4XLw66cvbpEb",
+  },
+  "debug": undefined,
+  "jobRunID": "1",
+  "result": "QmWBEf1XrcVho6VK7HKGCGuJP4Rt8STxkE4XLw66cvbpEb",
+  "statusCode": 200,
+}
+`;
+
+exports[`execute successful calls json codec CID v1 1`] = `
+Object {
+  "data": Object {
+    "result": "bafkreidrjtjrjwi2b7do4e74gbome3lwtm7adpouwjfmganrpw7ykfl5a4",
+  },
+  "debug": undefined,
+  "jobRunID": "1",
+  "result": "bafkreidrjtjrjwi2b7do4e74gbome3lwtm7adpouwjfmganrpw7ykfl5a4",
+  "statusCode": 200,
+}
+`;
+
+exports[`execute successful calls json mockOracleRewardsData 1`] = `
+Object {
+  "data": Object {
+    "result": "QmdJZkigqJfvjya9YQ5qW7mFdNHpxUUsSQFKPDjLrdFfg4",
+  },
+  "debug": undefined,
+  "jobRunID": "1",
+  "result": "QmdJZkigqJfvjya9YQ5qW7mFdNHpxUUsSQFKPDjLrdFfg4",
+  "statusCode": 200,
+}
+`;
+
+exports[`execute successful calls json mockOracleRewardsData epoch 1 1`] = `
+Object {
+  "data": Object {
+    "result": "QmRmAK7teai1Mki1V2zNxmBLXnYVVeJ92DCuEotwHPa98a",
+  },
+  "debug": undefined,
+  "jobRunID": "1",
+  "result": "QmRmAK7teai1Mki1V2zNxmBLXnYVVeJ92DCuEotwHPa98a",
+  "statusCode": 200,
+}
+`;
+
+exports[`execute successful calls simple text 1`] = `
+Object {
+  "data": Object {
+    "result": "QmXLpPi3yorJmGe6NsdBfyWSFvLnkX12EJR5zitwv4q8Tf",
+  },
+  "debug": undefined,
+  "jobRunID": "1",
+  "result": "QmXLpPi3yorJmGe6NsdBfyWSFvLnkX12EJR5zitwv4q8Tf",
+  "statusCode": 200,
+}
+`;
