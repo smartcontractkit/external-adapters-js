@@ -15,9 +15,9 @@ on the WS API. This may cause unexpected behaviour for a large number of unique 
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |         Options          | Defaults to |
-| :-------: | :------: | :-----------------: | :----------------------: | :---------: |
-|           | endpoint | The endpoint to use | [price](#Price-Endpoint) |    price    |
+| Required? |   Name   |     Description     |                       Options                        | Defaults to |
+| :-------: | :------: | :-----------------: | :--------------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [price](#Price-Endpoint), [burned](#Burned-Endpoint) |    price    |
 
 ---
 
@@ -53,6 +53,54 @@ Endpoint to get the reference price of the asset.
   "statusCode": 200,
   "data": {
     "result": 29689.476
+  }
+}
+```
+
+## Burned Endpoint
+
+Endpoint to calculate the number of burned coins/tokens for an asset.
+
+### Input Params
+
+| Required? |    Name     |                           Description                            | Options | Defaults to |
+| :-------: | :---------: | :--------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     |   `asset`   |               The symbol of the currency to query                |         |             |
+|           | `frequency` | At which interval to calculate the number of coins/tokens burned |  `1d`   |             |
+|           | `pageSize`  |                Number of results to get per page                 |   `1`   |             |
+
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "burned",
+    "asset": "ETH"
+  }
+}
+```
+
+### Sample Output
+
+```json
+{
+  "jobRunID": "1",
+  "result": "6917.088698410536166313",
+  "statusCode": 200,
+  "data": {
+    "data": [
+      {
+        "asset": "eth",
+        "time": "2021-09-13T00:00:00.000000000Z",
+        "FeeTotNtv": "8811.061704931293693587",
+        "IssTotNtv": "13388.1875",
+        "RevNtv": "15282.160506520757527274"
+      }
+    ],
+    "next_page_token": "0.MjAyMS0wOS0xM1QwMDowMDowMFo",
+    "next_page_url": "https://api.coinmetrics.io/v4/timeseries/asset-metrics?assets=eth&metrics=FeeTotNtv,RevNtv,IssTotNtv&frequency=1d&api_key=hGeSkKBRGhDLIyskqnGE&page_size=1&next_page_token=0.MjAyMS0wOS0xM1QwMDowMDowMFo",
+    "result": "6917.088698410536166313"
   }
 }
 ```
