@@ -15,6 +15,9 @@
       "path": "./composites/bob"
     },
     {
+      "path": "./composites/circuit-breaker"
+    },
+    {
       "path": "./composites/crypto-volatility-index"
     },
     {
