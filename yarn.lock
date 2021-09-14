@@ -2744,6 +2744,7 @@ __metadata:
     ipfs-http-client: ^52.0.3
     ipld-dag-cbor: ^1.0.1
     multiformats: ^9.4.1
+    nock: ^13.1.3
     tslib: ^2.1.0
     typescript: ^4.2.3
   languageName: unknown
