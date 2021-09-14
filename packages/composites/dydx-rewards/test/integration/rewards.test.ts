@@ -10,7 +10,7 @@ import * as bn from 'bignumber.js'
 import rewardsTestData1 from '../mock-data/rewards-test-data-1.json'
 import { AddressRewards, storeJsonTree } from '../../src/ipfs-data'
 import nock from 'nock'
-import { mockIpfsResponseSuccess, mockIpfsRetroactiveRewardsData, mockEthNode } from './fixtures'
+import { mockIpfsRetroactiveRewardsData, mockEthNode } from './fixtures'
 import { makeExecute } from '../../src'
 
 let oldEnv: NodeJS.ProcessEnv

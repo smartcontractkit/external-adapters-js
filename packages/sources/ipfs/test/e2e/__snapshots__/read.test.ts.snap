@@ -1,0 +1,159 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute successful calls custom cid 1`] = `
+Object {
+  "data": Object {
+    "result": "some simple text",
+  },
+  "debug": undefined,
+  "jobRunID": "1",
+  "result": "some simple text",
+  "statusCode": 200,
+}
+`;
+
+exports[`execute successful calls custom cid with codec 1`] = `
+Object {
+  "data": Object {
+    "result": Object {
+      "id": 123,
+      "name": "my object",
+    },
+  },
+  "debug": undefined,
+  "jobRunID": "1",
+  "result": Object {
+    "id": 123,
+    "name": "my object",
+  },
+  "statusCode": 200,
+}
+`;
+
+exports[`execute successful calls custom cid with codec and link 1`] = `
+Object {
+  "data": Object {
+    "result": Object {
+      "id": 123,
+      "link": Object {
+        "codec": "dag-pb",
+        "hash": Object {
+          "data": Array [
+            18,
+            32,
+            133,
+            196,
+            33,
+            117,
+            233,
+            38,
+            101,
+            124,
+            184,
+            253,
+            254,
+            6,
+            99,
+            168,
+            31,
+            83,
+            79,
+            1,
+            3,
+            69,
+            234,
+            187,
+            12,
+            242,
+            154,
+            49,
+            50,
+            97,
+            110,
+            62,
+            38,
+            214,
+          ],
+          "type": "Buffer",
+        },
+        "version": 0,
+      },
+      "name": "my object",
+    },
+  },
+  "debug": undefined,
+  "jobRunID": "1",
+  "result": Object {
+    "id": 123,
+    "link": Object {
+      "codec": "dag-pb",
+      "hash": Object {
+        "data": Array [
+          18,
+          32,
+          133,
+          196,
+          33,
+          117,
+          233,
+          38,
+          101,
+          124,
+          184,
+          253,
+          254,
+          6,
+          99,
+          168,
+          31,
+          83,
+          79,
+          1,
+          3,
+          69,
+          234,
+          187,
+          12,
+          242,
+          154,
+          49,
+          50,
+          97,
+          110,
+          62,
+          38,
+          214,
+        ],
+        "type": "Buffer",
+      },
+      "version": 0,
+    },
+    "name": "my object",
+  },
+  "statusCode": 200,
+}
+`;
+
+exports[`execute successful calls id not supplied 1`] = `
+Object {
+  "data": Object {
+    "result": "Hello, <YOUR NAME HERE>",
+  },
+  "debug": undefined,
+  "jobRunID": "1",
+  "result": "Hello, <YOUR NAME HERE>",
+  "statusCode": 200,
+}
+`;
+
+exports[`execute successful calls simple cid 1`] = `
+Object {
+  "data": Object {
+    "result": "Hello, <YOUR NAME HERE>",
+  },
+  "debug": undefined,
+  "jobRunID": "1",
+  "result": "Hello, <YOUR NAME HERE>",
+  "statusCode": 200,
+}
+`;

@@ -3,38 +3,12 @@ import { assertError, assertSuccess } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
 import { execute } from '../../src/endpoint/read'
 import { makeConfig } from '../../src'
-import nock from 'nock'
-import { mockIpfsErrorResponse, mockIpfsSuccessfulResponse } from './fixtures'
-
-let oldEnv: NodeJS.ProcessEnv
-
-beforeAll(() => {
-  oldEnv = JSON.parse(JSON.stringify(process.env))
-  process.env.API_ENDPOINT = process.env.API_ENDPOINT || 'http://127.0.0.1:5001'
-  process.env.API_VERBOSE = 'true'
-  if (process.env.RECORD) {
-    nock.recorder.rec()
-  }
-})
-
-afterAll(() => {
-  process.env = oldEnv
-  if (process.env.RECORD) {
-    nock.recorder.play()
-  }
-
-  nock.restore()
-  nock.cleanAll()
-  nock.enableNetConnect()
-})
 
 describe('execute', () => {
   const jobID = '1'
   const config = makeConfig()
 
   describe('successful calls', () => {
-    mockIpfsSuccessfulResponse()
-
     const requests = [
       {
         name: 'id not supplied',
@@ -48,6 +22,20 @@ describe('execute', () => {
         name: 'custom cid',
         testData: { id: jobID, data: { cid: 'QmXLpPi3yorJmGe6NsdBfyWSFvLnkX12EJR5zitwv4q8Tf' } },
       },
+      {
+        name: 'custom cid with codec',
+        testData: {
+          id: jobID,
+          data: { cid: 'QmWFam9NBVVhz3fViSbxjB7utkkjDSmdWWBbbSTkK8kaxk', codec: 'dag-cbor' },
+        },
+      },
+      {
+        name: 'custom cid with codec and link',
+        testData: {
+          id: jobID,
+          data: { cid: 'QmPua9o8uxszLfcZfuTftssmzZspci9P8Ys9cvY3xsonDr', codec: 'dag-cbor' },
+        },
+      },
     ]
 
     requests.forEach((req) => {
@@ -60,8 +48,6 @@ describe('execute', () => {
   })
 
   describe('error calls', () => {
-    mockIpfsErrorResponse()
-
     const requests = [
       {
         name: 'unknown cid',

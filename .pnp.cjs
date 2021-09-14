@@ -4967,6 +4967,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ipfs-http-client", "npm:52.0.3"],
             ["ipld-dag-cbor", "npm:1.0.1"],
             ["multiformats", "npm:9.4.6"],
+            ["nock", "npm:13.1.3"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
