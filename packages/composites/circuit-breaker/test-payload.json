@@ -1,6 +1,8 @@
 {
  "requests": [{
-  "from": "LINK",
-  "to": "USD"
+  "sources": ["coingecko", "coinmarketcap"],
+  "base": "ETH",
+  "quote": "USD",
+  "days": 1
  }]
 }
