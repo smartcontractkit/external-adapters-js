@@ -76,7 +76,7 @@ describe('full request', () => {
   const dydxRewards = makeExecute()
 
   it('services request for epoch 0 correctly', async () => {
-    const mockIpfs = mockIpfsRetroactiveRewardsData()
+    mockIpfsRetroactiveRewardsData()
     const mockEth = mockEthNode()
 
     const req = {
@@ -84,7 +84,7 @@ describe('full request', () => {
       data: {
         ipnsName: 'k51qzi5uqu5dlmlt9vu0tp1o4hkwr9hrhl5oia4gf4qgpolsjkj7erk3hy2cvv',
         traderScoreAlpha: '700000000000000000',
-        callbackAddress: '0xaffdA0625B24a28EBA18eb733c41C8481EC0D6D0', // '0x0000000000000000000000000000000000000000',
+        callbackAddress: '0xaffdA0625B24a28EBA18eb733c41C8481EC0D6D0',
         newEpoch: '0',
         activeRootIpfsCid: '',
       },
@@ -92,8 +92,7 @@ describe('full request', () => {
     const response = await dydxRewards(req, {})
     expect(response).toMatchSnapshot()
 
-    // Assert that the correct data was pushed to IPFS and on-chain
-    expect(mockIpfs.isDone()).toBe(true)
+    // Assert that the correct data was written on-chain
     expect(mockEth.isDone()).toBe(true)
   })
 })
