@@ -30,9 +30,12 @@
   "dependencies": {
     "@chainlink/ea-bootstrap": "*",
     "@chainlink/ea-test-helpers": "*",
-    "ipfs": "^0.55.3",
-    "ipfs-http-client": "^50.1.1",
-    "ipld-dag-cbor": "^1.0.0",
+    "cids": "^1.1.8",
+    "ipfs": "^0.58.4",
+    "ipfs-core-types": "^0.7.1",
+    "ipfs-http-client": "^52.0.3",
+    "ipld-dag-cbor": "^1.0.1",
+    "multiformats": "^9.4.1",
     "tslib": "^2.1.0"
   },
   "devDependencies": {

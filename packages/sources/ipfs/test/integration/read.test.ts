@@ -1,7 +1,7 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { assertError, assertSuccess } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
-import { execute } from '../../src/method/read'
+import { execute } from '../../src/endpoint/read'
 import { makeConfig } from '../../src/config'
 
 describe('execute', () => {

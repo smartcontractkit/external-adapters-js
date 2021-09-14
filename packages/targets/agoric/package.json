@@ -29,7 +29,7 @@
   "dependencies": {
     "@chainlink/ea-bootstrap": "*",
     "@chainlink/ea-test-helpers": "*",
-    "ethers": "^5.4.5",
+    "ethers": "^5.4.6",
     "express": "^4.17.1",
     "tslib": "^2.3.1"
   },

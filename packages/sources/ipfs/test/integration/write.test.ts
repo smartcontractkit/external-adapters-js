@@ -1,7 +1,7 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { assertError, assertSuccess } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
-import { execute } from '../../src/method/write'
+import { execute } from '../../src/endpoint/write'
 import { makeConfig } from '../../src/config'
 import * as IPFS from 'ipfs'
 import mockOracleRewardsData from '../mock-data/mock-oracle-rewards-data.json'

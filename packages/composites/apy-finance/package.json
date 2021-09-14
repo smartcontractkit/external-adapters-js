@@ -31,7 +31,7 @@
     "@chainlink/ea-test-helpers": "*",
     "@chainlink/token-allocation-adapter": "^0.1.1",
     "@openzeppelin/contracts": "^3.3.0",
-    "ethers": "5.4.5",
+    "ethers": "5.4.6",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
