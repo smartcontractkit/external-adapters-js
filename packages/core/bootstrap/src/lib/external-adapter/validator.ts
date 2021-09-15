@@ -17,6 +17,7 @@ import presetIncludes from './overrides/presetIncludes.json'
 import { Requester } from './requester'
 import { inputParameters } from './builder'
 
+export type OverrideType = 'overrides' | 'tokenOverrides' | 'includes'
 export class Validator {
   input: any
   customParams: any
@@ -199,6 +200,16 @@ export class Validator {
       }
     }
     return
+  }
+
+  overrideReverseLookup = (adapter: string, type: OverrideType, symbol: string): string => {
+    const overrides: Map<string, string> = this.validated?.[type]?.get(adapter.toLowerCase())
+    if (!overrides) return symbol
+    let originalSymbol: string | undefined
+    overrides.forEach((overridden, original) => {
+      if (overridden.toLowerCase() === symbol.toLowerCase()) originalSymbol = original
+    })
+    return originalSymbol || symbol
   }
 
   formatOverride = (param: any): Override => {
