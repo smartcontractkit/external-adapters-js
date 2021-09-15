@@ -149,13 +149,11 @@ export class RedisCache {
 
   async setResponse(key: string, value: CacheEntry, maxAge: number) {
     const entry = JSON.stringify(value)
-    const resp = await this.contextualTimeout(this._set(key, entry, 'PX', maxAge), 'set', {
+    return await this.contextualTimeout(this._set(key, entry, 'PX', maxAge), 'set', {
       key,
       value,
       maxAge,
     })
-
-    return resp
   }
 
   // TODO: We should have seperate services for response entries, and coalescing support
@@ -212,7 +210,9 @@ export class RedisCache {
   async contextualTimeout(promise: Promise<any>, fnName: string, context: any) {
     try {
       const result = await timeout(promise, this.options.timeout)
-      metrics.redis_commands_sent_count.labels({ status: metrics.CMD_SENT_STATUS.SUCCESS }).inc()
+      metrics.redis_commands_sent_count
+        .labels({ status: metrics.CMD_SENT_STATUS.SUCCESS, function_name: fnName })
+        .inc()
       return result
     } catch (e) {
       if (e instanceof TimeoutError) {

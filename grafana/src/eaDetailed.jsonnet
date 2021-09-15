@@ -62,7 +62,7 @@ local redisCommandsSentCount = addSideLegend(graphPanel.new(
 ).addTarget(
   prometheus.target(
     'rate(redis_commands_sent_count{' + instanceFilter + '}' + interval + ') * 60 ',
-    legendFormat='{{status}}'
+    legendFormat='{{status}} {{function_name}}'
   )
 ));
 
