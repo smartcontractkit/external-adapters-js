@@ -3,6 +3,7 @@ import { combineReducers, createReducer } from '@reduxjs/toolkit'
 import { logger } from '../external-adapter'
 import * as actions from './actions'
 import { getSubscriptionKey } from './util'
+import { merge } from 'lodash'
 
 export interface BatchableProperty {
   name: string
@@ -91,11 +92,29 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
     for (const childKey in payload.childLastSeenById) {
       const childRequestData = state[childKey]?.origin
       if (childRequestData) {
+        // Join request data
         for (const { name } of payload.batchablePropertyPath) {
           const uniqueBatchableValue = new Set(batchWarmer.origin[name])
           uniqueBatchableValue.add(childRequestData[name] || childRequestData.data[name])
           batchWarmer.origin[name] = [...uniqueBatchableValue]
         }
+
+        // Join overrides
+        if (batchWarmer.origin.overrides)
+          batchWarmer.origin.overrides = merge(
+            batchWarmer.origin.overrides,
+            childRequestData.overrides,
+          )
+        if (batchWarmer.origin.tokenOverrides)
+          batchWarmer.origin.tokenOverrides = merge(
+            batchWarmer.origin.tokenOverrides,
+            childRequestData.tokenOverrides,
+          )
+        if (batchWarmer.origin.includes)
+          batchWarmer.origin.includes = merge(
+            batchWarmer.origin.includes,
+            childRequestData.includes,
+          )
       }
     }
   })
@@ -127,9 +146,26 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
       Object.entries(batchRequestData).map(([path, map]) => [path, [...map]]),
     )
 
+    // Rebuild the overrides
+    const overrides = remainingChildIds.reduce<{
+      overrides?: Record<string, string>
+      tokenOverrides?: Record<string, string>
+      includes?: Record<string, string>
+    }>((acc, childId) => {
+      const childOriginData = state[childId].origin
+      if (childOriginData.overrides)
+        acc.overrides = merge(acc.overrides || {}, childOriginData.overrides)
+      if (childOriginData.tokenOverrides)
+        acc.tokenOverrides = merge(acc.tokenOverrides || {}, childOriginData.tokenOverrides)
+      if (childOriginData.includes)
+        acc.includes = merge(acc.includes || {}, childOriginData.includes)
+      return acc
+    }, {})
+
     batchWarmer.origin = {
       ...batchWarmer.origin,
       ...batchableRequestData,
+      ...overrides,
     }
 
     for (const childKey in payload.childLastSeenById) {

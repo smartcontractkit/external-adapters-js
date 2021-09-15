@@ -63,21 +63,29 @@ const handleBatchedRequest = (
   jobRunID: string,
   request: AdapterRequest,
   response: AxiosResponse,
+  validator: Validator,
   resultPath: string,
 ) => {
   const payload: [AdapterRequest, number][] = []
-  for (const base in response.data.data) {
-    for (const quote in response.data.data[base].quote) {
+  for (const base of request.data.base) {
+    const baseWithOverride = validator.overrideSymbol(AdapterName, base)
+    for (const quote in response.data.data[baseWithOverride].quote) {
       payload.push([
         {
           ...request,
           data: {
             ...request.data,
-            base: response.data.data[base].symbol.toUpperCase(),
+            base: base.toUpperCase(),
             convert: quote.toUpperCase(),
           },
         },
-        Requester.validateResultNumber(response.data, ['data', base, 'quote', quote, resultPath]),
+        Requester.validateResultNumber(response.data, [
+          'data',
+          baseWithOverride as string,
+          'quote',
+          quote,
+          resultPath,
+        ]),
       ])
     }
   }
@@ -139,7 +147,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
   const response = await Requester.request(options)
   if (Array.isArray(symbol) || Array.isArray(convert))
-    return handleBatchedRequest(jobRunID, request, response, resultPath)
+    return handleBatchedRequest(jobRunID, request, response, validator, resultPath)
 
   // CMC API currently uses ID as key in response, when querying with "slug" param
   const _keyForSlug = (data: any, slug: string) => {

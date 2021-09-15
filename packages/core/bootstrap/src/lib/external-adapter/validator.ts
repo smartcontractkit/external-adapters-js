@@ -17,6 +17,7 @@ import presetIncludes from './overrides/presetIncludes.json'
 import { Requester } from './requester'
 import { inputParameters } from './builder'
 
+export type OverrideType = 'overrides' | 'tokenOverrides' | 'includes'
 export class Validator {
   input: any
   customParams: any
@@ -201,6 +202,16 @@ export class Validator {
     return
   }
 
+  overrideReverseLookup = (adapter: string, type: OverrideType, symbol: string): string => {
+    const overrides: Map<string, string> = this.validated?.[type]?.get(adapter.toLowerCase())
+    if (!overrides) return symbol
+    let originalSymbol: string | undefined
+    overrides.forEach((overridden, original) => {
+      if (overridden.toLowerCase() === symbol.toLowerCase()) originalSymbol = original
+    })
+    return originalSymbol || symbol
+  }
+
   formatOverride = (param: any): Override => {
     const _throwInvalid = () => {
       const message = `Parameter supplied with wrong format: "overrides"`
@@ -312,10 +323,15 @@ export function normalizeInput<C extends Config>(
 
   // remove undefined values
   const data = JSON.parse(JSON.stringify(validator.validated.data))
-  // remove includes
-  delete data.includes
+
   // re-add maxAge
   if (request.data.maxAge) data.maxAge = request.data.maxAge
+
+  // re-add overrides
+  if (request.data.overrides) data.overrides = request.data.overrides
+  if (request.data.tokenOverrides) data.tokenOverrides = request.data.tokenOverrides
+  if (request.data.includes) data.includes = request.data.includes
+
   if (apiEndpoint.batchablePropertyPath) {
     for (const { name } of apiEndpoint.batchablePropertyPath) {
       const value = data[name]
