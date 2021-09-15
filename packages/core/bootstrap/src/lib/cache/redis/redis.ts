@@ -1,9 +1,9 @@
 import { timeout, TimeoutError } from 'promise-timeout'
-import { ClientOpts, createClient, RedisClient } from 'redis'
+import { ClientOpts, createClient, RedisClient, RetryStrategy } from 'redis'
 import { promisify } from 'util'
-import { logger } from '../external-adapter'
-import { redis_connections_open } from './metrics'
-import { CacheEntry } from './types'
+import { logger } from '../../external-adapter'
+import { CacheEntry } from '../types'
+import * as metrics from './metrics'
 
 // Connection
 const DEFAULT_WATCH_INTERVAL = 5000
@@ -43,7 +43,8 @@ export const redactOptions = (opts: RedisOptions) => {
   return opts
 }
 
-const retryStrategy = (options: any) => {
+const retryStrategy: RetryStrategy = (options) => {
+  metrics.redis_retries_count.inc()
   logger.warn('Redis retry strategy activated.', options)
   if (options.error && options.error.code === 'ECONNREFUSED') {
     // End reconnecting on a specific error and flush all commands with
@@ -140,7 +141,7 @@ export class RedisCache {
   }
 
   static async build(options: RedisOptions) {
-    redis_connections_open.inc()
+    metrics.redis_connections_open.inc()
     const cache = new RedisCache(options)
     cache.startWatching()
     return cache
@@ -148,11 +149,13 @@ export class RedisCache {
 
   async setResponse(key: string, value: CacheEntry, maxAge: number) {
     const entry = JSON.stringify(value)
-    return this.contextualTimeout(this._set(key, entry, 'PX', maxAge), 'set', {
+    const resp = await this.contextualTimeout(this._set(key, entry, 'PX', maxAge), 'set', {
       key,
       value,
       maxAge,
     })
+
+    return resp
   }
 
   // TODO: We should have seperate services for response entries, and coalescing support
@@ -209,6 +212,7 @@ export class RedisCache {
   async contextualTimeout(promise: Promise<any>, fnName: string, context: any) {
     try {
       const result = await timeout(promise, this.options.timeout)
+      metrics.redis_commands_sent_count.labels({ status: metrics.CMD_SENT_STATUS.SUCCESS }).inc()
       return result
     } catch (e) {
       if (e instanceof TimeoutError) {
@@ -219,6 +223,12 @@ export class RedisCache {
         throw e
       }
       logger.error('Redis method error', { fnName, context })
+      metrics.redis_commands_sent_count
+        .labels({
+          status: metrics.CMD_SENT_STATUS.FAIL,
+          function_name: fnName,
+        })
+        .inc()
       throw e
     }
   }
