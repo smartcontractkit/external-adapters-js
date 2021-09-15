@@ -8,3 +8,6 @@ test-payload.json
 .yarn
 .vscode
 .pnp.cjs
+codecov.yml
+docker-compose.generated.yaml
+grafana/generated
