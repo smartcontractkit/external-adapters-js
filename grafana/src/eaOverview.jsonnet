@@ -39,6 +39,31 @@ local redisConnectionsOpen = addSideLegend(graphPanel.new(
   )
 ));
 
+local redisRetriesCount = addSideLegend(graphPanel.new(
+  title='Redis connection retries',
+  sort='decreasing',
+  datasource=cortexDataSource,
+  format='retries',
+).addTarget(
+  prometheus.target(
+    'sum(redis_retries_count{' + instanceFilter + '}) by (app_name)',
+    legendFormat='{{app_name}}'
+  )
+));
+
+
+local redisCommandsSentCount = addSideLegend(graphPanel.new(
+  title='Redis commands sent / minute per app',
+  sort='decreasing',
+  datasource=cortexDataSource,
+  format='sent',
+).addTarget(
+  prometheus.target(
+    'sum(rate(redis_commands_sent_count{' + instanceFilter + '}' + interval + ') * 60) by (app_name)',
+    legendFormat='{{app_name}}'
+  )
+));
+
 local heapUsedPanel = addSideLegend(graphPanel.new(
   title='Heap usage MB',
   sort='decreasing',
@@ -266,6 +291,8 @@ local grid = [
   {
     panels: [
       redisConnectionsOpen { size:: 1 },
+      redisRetriesCount { size:: 1 },
+      redisCommandsSentCount { size:: 1 },
       wsConnectionActiveGraph { size:: 1 },
       wsConnectionErrorsGraph { size:: 1 },
       wsConnectionRetriesGraph { size:: 1 },
