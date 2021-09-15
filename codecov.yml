@@ -4,6 +4,7 @@ comment:
 
 ignore:
   - '.yarn'
+  - '**/*.lock'
   - '.husky'
   - '.github'
   - '.vscode'
