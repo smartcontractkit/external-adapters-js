@@ -9,6 +9,8 @@ ignore:
   - '.vscode'
   - 'grafana'
   - '**/*.test.ts'
+  - '**/*.test.ts.snap'
+  - '**/*fixtures.ts'
   - '**/tests/'
   - '**/test/'
   - '**/generated/'
@@ -16,6 +18,9 @@ ignore:
   - '**/vendor/'
   - '**/schemas/'
   - 'tsconfig.tsbuildinfo'
+  - '**/*.cjs'
+  - '**/*.md'
+  - "**/*.json"
 
 flag_management:
   default_rules:
