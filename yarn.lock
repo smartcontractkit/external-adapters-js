@@ -2370,14 +2370,14 @@ __metadata:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
-    "@types/jest": ^27.0.1
-    "@types/node": ^14.14.35
-    "@types/supertest": ^2.0.11
+    "@types/jest": 27.0.1
+    "@types/node": 14.17.7
+    "@types/supertest": 2.0.11
     ethers: ^5.4.6
-    nock: ^13.1.3
-    supertest: ^6.1.6
+    nock: 13.1.3
+    supertest: 6.1.6
     tslib: ^2.3.1
-    typescript: ^4.3.5
+    typescript: 4.3.5
   languageName: unknown
   linkType: soft
 
@@ -3215,12 +3215,12 @@ __metadata:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
-    "@types/jest": ^26.0.22
-    "@types/node": ^14.14.35
-    "@types/sinon": ^10.0.2
+    "@types/jest": 26.0.24
+    "@types/node": 14.17.7
+    "@types/sinon": 10.0.2
     ethers: ^5.4.2
-    nock: ^13.1.3
-    sinon: ^11.1.2
+    nock: 13.1.3
+    sinon: 11.1.2
     tslib: ^2.1.0
     typescript: 4.3.5
   languageName: unknown
@@ -6126,7 +6126,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:26.0.24, @types/jest@npm:^26.0.22":
+"@types/jest@npm:26.0.24":
   version: 26.0.24
   resolution: "@types/jest@npm:26.0.24"
   dependencies:
@@ -6136,7 +6136,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:27.0.1, @types/jest@npm:^27.0.1":
+"@types/jest@npm:27.0.1":
   version: 27.0.1
   resolution: "@types/jest@npm:27.0.1"
   dependencies:
@@ -6259,7 +6259,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:14.17.7, @types/node@npm:^14.14.35":
+"@types/node@npm:14.17.7":
   version: 14.17.7
   resolution: "@types/node@npm:14.17.7"
   checksum: e95f28361784106237380ebd4ed133bc9d6aa04694bd061bd913d9008ce88bd596b059464fa56cf534c0cb347a3a9753b8abdf7c85d24a77126bf0ad24c6fdf9
@@ -6456,7 +6456,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/sinon@npm:10.0.2, @types/sinon@npm:^10.0.2":
+"@types/sinon@npm:10.0.2":
   version: 10.0.2
   resolution: "@types/sinon@npm:10.0.2"
   dependencies:
@@ -6482,7 +6482,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/supertest@npm:2.0.11, @types/supertest@npm:^2.0.11":
+"@types/supertest@npm:2.0.11":
   version: 2.0.11
   resolution: "@types/supertest@npm:2.0.11"
   dependencies:
@@ -16450,7 +16450,7 @@ fsevents@~2.1.1:
   languageName: node
   linkType: hard
 
-"nock@npm:13.1.3, nock@npm:^13.1.3":
+"nock@npm:13.1.3":
   version: 13.1.3
   resolution: "nock@npm:13.1.3"
   dependencies:
@@ -19521,7 +19521,7 @@ resolve@1.17.0:
   languageName: node
   linkType: hard
 
-"sinon@npm:11.1.2, sinon@npm:^11.1.2":
+"sinon@npm:11.1.2":
   version: 11.1.2
   resolution: "sinon@npm:11.1.2"
   dependencies:
@@ -20283,7 +20283,7 @@ resolve@1.17.0:
   languageName: node
   linkType: hard
 
-"supertest@npm:6.1.6, supertest@npm:^6.1.6":
+"supertest@npm:6.1.6":
   version: 6.1.6
   resolution: "supertest@npm:6.1.6"
   dependencies:
@@ -21043,7 +21043,7 @@ resolve@1.17.0:
   languageName: node
   linkType: hard
 
-"typescript@4.3.5, typescript@^4.3.4, typescript@^4.3.5":
+"typescript@4.3.5, typescript@^4.3.4":
   version: 4.3.5
   resolution: "typescript@npm:4.3.5"
   bin:
@@ -21053,7 +21053,7 @@ resolve@1.17.0:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@4.3.5#~builtin<compat/typescript>, typescript@patch:typescript@^4.3.4#~builtin<compat/typescript>, typescript@patch:typescript@^4.3.5#~builtin<compat/typescript>":
+"typescript@patch:typescript@4.3.5#~builtin<compat/typescript>, typescript@patch:typescript@^4.3.4#~builtin<compat/typescript>":
   version: 4.3.5
   resolution: "typescript@patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"
   bin:

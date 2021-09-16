@@ -192,8 +192,19 @@ export const includableAdapterRequestProperties: string[] = ['data'].concat(
   (process.env.CACHE_KEY_INCLUDED_PROPS || '').split(',').filter((k) => k),
 )
 
+/** Common keys within adapter requests that should be ignored within "data" to create a stable key*/
+const excludableInternalAdapterRequestProperties = [
+  'resultPath',
+  'overrides',
+  'tokenOverrides',
+  'includes',
+]
+
 export const getKeyData = (data: AdapterRequest) =>
-  omit(pick(data, includableAdapterRequestProperties), 'data.resultPath')
+  omit(
+    pick(data, includableAdapterRequestProperties),
+    excludableInternalAdapterRequestProperties.map((property) => `data.${property}`),
+  )
 
 export type HashMode = 'include' | 'exclude'
 /**
