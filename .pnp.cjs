@@ -427,6 +427,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/onchain"
       },
       {
+        "name": "@chainlink/onchain-gas-adapter",
+        "reference": "workspace:packages/sources/onchain-gas"
+      },
+      {
         "name": "@chainlink/openexchangerates-adapter",
         "reference": "workspace:packages/sources/openexchangerates"
       },
@@ -656,6 +660,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/nomics-adapter", ["workspace:packages/sources/nomics"]],
       ["@chainlink/oilpriceapi-adapter", ["workspace:packages/sources/oilpriceapi"]],
       ["@chainlink/onchain-adapter", ["workspace:packages/sources/onchain"]],
+      ["@chainlink/onchain-gas-adapter", ["workspace:packages/sources/onchain-gas"]],
       ["@chainlink/openexchangerates-adapter", ["workspace:packages/sources/openexchangerates"]],
       ["@chainlink/orchid-bandwidth-adapter", ["workspace:packages/sources/orchid-bandwidth"]],
       ["@chainlink/outlier-detection-adapter", ["workspace:packages/composites/outlier-detection"]],
@@ -4156,6 +4161,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/nomics-adapter", "workspace:packages/sources/nomics"],
             ["@chainlink/oilpriceapi-adapter", "workspace:packages/sources/oilpriceapi"],
             ["@chainlink/onchain-adapter", "workspace:packages/sources/onchain"],
+            ["@chainlink/onchain-gas-adapter", "workspace:packages/sources/onchain-gas"],
             ["@chainlink/openexchangerates-adapter", "workspace:packages/sources/openexchangerates"],
             ["@chainlink/orchid-bandwidth-adapter", "workspace:packages/sources/orchid-bandwidth"],
             ["@chainlink/paxos-adapter", "workspace:packages/sources/paxos"],
@@ -5023,6 +5029,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/onchain/",
           "packageDependencies": [
             ["@chainlink/onchain-adapter", "workspace:packages/sources/onchain"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.1"],
+            ["@types/node", "npm:14.17.7"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/onchain-gas-adapter", [
+        ["workspace:packages/sources/onchain-gas", {
+          "packageLocation": "./packages/sources/onchain-gas/",
+          "packageDependencies": [
+            ["@chainlink/onchain-gas-adapter", "workspace:packages/sources/onchain-gas"],
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],

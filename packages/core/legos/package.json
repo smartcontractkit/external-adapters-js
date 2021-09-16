@@ -101,6 +101,7 @@
     "@chainlink/nomics-adapter": "*",
     "@chainlink/oilpriceapi-adapter": "*",
     "@chainlink/onchain-adapter": "*",
+    "@chainlink/onchain-gas-adapter": "*",
     "@chainlink/openexchangerates-adapter": "*",
     "@chainlink/orchid-bandwidth-adapter": "*",
     "@chainlink/paxos-adapter": "*",
