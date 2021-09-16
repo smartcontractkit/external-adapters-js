@@ -5,19 +5,12 @@ import {
   ExecuteWithConfig,
   Config,
   ExecuteFactory,
-  RequestConfig,
 } from '@chainlink/types'
-// import { AxiosResponse } from 'axios'
 import { makeConfig } from './config'
 
-export type SourceRequestOptions = { [source: string]: RequestConfig }
-
-export type AdapterOptions = {
-  sources: SourceRequestOptions
-}
-
 const customParams = {
-  sources: true,
+  primarySource: true,
+  secondarySource: false,
   days: ['days', 'period', 'result', 'key'],
 }
 
@@ -26,16 +19,11 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.jobRunID
-  const sources = parseSources(validator.validated.data.sources)
+  const primarySource = validator.validated.data.primarySource
+  const secondarySource = validator.validated.data.secondarySource
+  const sources = secondarySource ? [primarySource, secondarySource] : [primarySource]
   const urls = sources.map((source) => util.getRequiredURL(source.toUpperCase()))
   return getResults(jobRunID, sources, urls, input, config)
-}
-
-export const parseSources = (sources: string | string[]): string[] => {
-  if (Array.isArray(sources)) {
-    return sources
-  }
-  return sources.split(',')
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {
@@ -51,7 +39,7 @@ const getResults = async (
 ): Promise<AdapterResponse> => {
   let response
   try {
-    Logger.info(`Trying to make an conection with ${sources[0]}`)
+    Logger.info(`Trying to get result from ${sources[0]}`)
     response = await Requester.request({
       ...config.api,
       method: 'post',
@@ -59,7 +47,7 @@ const getResults = async (
       data: request,
     })
   } catch (error) {
-    Logger.info(`We could not connect to ${sources}, trying to make an conection with ${urls[1]}`)
+    Logger.info(`Could not get result from ${sources[0]}, trying to get result from ${sources[1]}`)
     response = await Requester.request({
       ...config.api,
       method: 'post',

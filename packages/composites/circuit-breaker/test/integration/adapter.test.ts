@@ -11,11 +11,11 @@ describe('validation error', () => {
       input: { id: jobID, data: {} },
     },
     {
-      name: 'unsupported source',
+      name: 'unsupported primary source',
       input: {
         id: jobID,
         data: {
-          source: 'NOT_REAL',
+          primarySource: 'NOT_REAL',
           from: 'ETH',
           to: 'USD',
         },
