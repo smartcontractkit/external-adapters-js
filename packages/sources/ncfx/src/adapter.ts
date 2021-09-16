@@ -37,7 +37,13 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
     const defaultConfig = config || makeConfig()
     return {
       connection: {
-        url: `${defaultConfig.api.baseWebsocketURL}/cryptodata`,
+        getUrl: async (input: AdapterRequest) => {
+          const endpoint = input.data.endpoint
+          if (endpoints.forex.supportedEndpoints.indexOf(endpoint) !== -1) {
+            return `${defaultConfig.adapterSpecificParams?.forexDefaultBaseWSUrl}/spotdata`
+          }
+          return `${defaultConfig.api.baseWebsocketURL}/cryptodata`
+        },
       },
       noHttp: true,
       subscribe: (input) => getSubscription('subscribe', getPair(input)),
@@ -61,17 +67,31 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
           const pair = getPair(input)
           const pairMessage = message.find(({ currencyPair }) => currencyPair === pair)
           if (!pairMessage) Logger.warn(`${pair} not found in message`)
-          const result = Requester.validateResultNumber(pairMessage, ['mid'])
+          const endpoint = input.data.endpoint
+          const resultField =
+            endpoints.forex.supportedEndpoints.indexOf(endpoint) !== -1 ? 'rate' : 'mid'
+          const result = Requester.validateResultNumber(pairMessage, [resultField])
           return Requester.success('1', { data: { ...pairMessage, result } }, defaultConfig.verbose)
         }
         Logger.warn(`${message} is in an unexpected format.  Returning null for now.`)
         return Requester.success('1', { data: { result: null } })
       },
-      onConnect: () => ({
-        request: 'login',
-        username: defaultConfig.api.auth.username,
-        password: defaultConfig.api.auth.password,
-      }),
+      onConnect: (input: AdapterRequest) => {
+        const endpoint = input.data.endpoint
+        const username =
+          endpoints.forex.supportedEndpoints.indexOf(endpoint) !== -1
+            ? defaultConfig.adapterSpecificParams?.forexWSUsername
+            : defaultConfig.api.auth.username
+        const password =
+          endpoints.forex.supportedEndpoints.indexOf(endpoint) !== -1
+            ? defaultConfig.adapterSpecificParams?.forexWSPassword
+            : defaultConfig.api.auth.password
+        return {
+          request: 'login',
+          username,
+          password,
+        }
+      },
     }
   }
 }

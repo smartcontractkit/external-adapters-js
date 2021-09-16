@@ -109,6 +109,9 @@ declare module '@chainlink/types' {
     verbose?: boolean
     api?: RequestConfig
     defaultEndpoint?: string
+    adapterSpecificParams?: {
+      [T: string]: string | number
+    }
   }
 
   export type Execute = (input: AdapterRequest, context: AdapterContext) => Promise<AdapterResponse>
