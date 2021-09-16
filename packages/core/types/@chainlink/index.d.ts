@@ -179,13 +179,13 @@ declare module '@chainlink/types' {
        * WS connection url
        */
       url?: string
-      getUrl?: () => Promise<string>
+      getUrl?: (input: AdapterRequest) => Promise<string>
       protocol?: any
     }
     // Determines whether or not to server request using WS
     shouldNotServeInputUsingWS?: (input: AdapterRequest) => boolean
     // Hook to send a message after connection
-    onConnect?: () => any
+    onConnect?: (input: AdapterRequest) => any
     // Get the subscription message necessary to subscribe to the feed channel
     subscribe: (input: AdapterRequest) => any | undefined
     // Get unsubscribe message necessary to unsubscribe to the feed channel
