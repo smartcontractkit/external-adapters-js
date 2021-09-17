@@ -1,37 +1,29 @@
 # Chainlink External Adapter for Onchain-gas
 
-A template to be used as an example for new [External Adapters](https://github.com/smartcontractkit/external-adapters-js)
-
-(please fill out with corresponding information)
-
-An example adapter description
+This adapter calculates the gas price by querying on-chain data
 
 ### Environment Variables
 
-| Required? |  Name   |                                                        Description                                                         | Options | Defaults to |
-| :-------: | :-----: | :------------------------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
-|           | API_KEY | An API key that can be obtained from the data provider's dashboard (add a ✅ in `Required?` if this parameter is required) |         |             |
+| Required? |    Name    |                Description                 | Options | Defaults to |
+| :-------: | :--------: | :----------------------------------------: | :-----: | :---------: |
+|    ✅     | WS_RPC_URL | The WebSocket RPC URL for the chain's node |         |             |
+|    ✅     |  RPC_URL   |   The HTTP RPC URL for the chain's node    |         |             |
 
 ---
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |             Options              | Defaults to |
-| :-------: | :------: | :-----------------: | :------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [example](#Onchain-gas-Endpoint) |   example   |
+N/A
 
 ---
 
 ## Onchain-gas Endpoint
 
-An example endpoint description
-
 ### Input Params
 
-| Required? |            Name            |               Description                |       Options       | Defaults to |
-| :-------: | :------------------------: | :--------------------------------------: | :-----------------: | :---------: |
-|    ✅     | `base`, `from`, or `coin`  |   The symbol of the currency to query    | `BTC`, `ETH`, `USD` |             |
-|    ✅     | `quote`, `to`, or `market` | The symbol of the currency to convert to | `BTC`, `ETH`, `USD` |             |
+| Required? |    Name     |                      Description                       | Options | Defaults to |
+| :-------: | :---------: | :----------------------------------------------------: | :-----: | :---------: |
+|           | `numBlocks` | The number of blocks to use to determine the gas price |         |      1      |
 
 ### Sample Input
 
@@ -39,8 +31,7 @@ An example endpoint description
 {
   "id": "1",
   "data": {
-    "base": "ETH",
-    "quote": "USD"
+    "numBlocks": 1
   }
 }
 ```
@@ -49,11 +40,18 @@ An example endpoint description
 
 ```json
 {
-  "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
-  "data": {
-    "price": 77777.77,
-    "result": 77777.77
+  "jobRunID": "1",
+  "result": [101768070829],
+  "maxAge": 30000,
+  "debug": {
+    "cacheHit": true,
+    "staleness": 0.836,
+    "performance": 0.001656449,
+    "providerCost": 0
   },
-  "statusCode": 200
+  "statusCode": 200,
+  "data": {
+    "result": [101768070829]
+  }
 }
 ```

@@ -1,6 +1,5 @@
 {
  "requests": [{
-  "from": "LINK",
-  "to": "USD"
+    "numBlocks": 5
  }]
 }
