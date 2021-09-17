@@ -1,4 +1,4 @@
-import { AdapterRequest, Execute } from '@chainlink/types'
+import { AdapterRequest, AdapterResponse, Execute } from '@chainlink/types'
 import { AnyAction } from 'redux'
 import { combineEpics, createEpicMiddleware, Epic } from 'redux-observable'
 import { concat, EMPTY, from, merge, Observable, of, race, Subject } from 'rxjs'
@@ -293,7 +293,10 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
              * This results in the cache middleware storing the payload message as a
              * cache value, with the following `wsResponse` as the cache key
              */
-            const response = wsHandler.toResponse(action.payload.message, input)
+            const isToResponseAsync = wsHandler.toResponse.constructor.name === 'AsyncFunction'
+            const response = isToResponseAsync
+              ? await wsHandler.toResponse(action.payload.message, input)
+              : (wsHandler.toResponse(action.payload.message, input) as AdapterResponse)
             if (!response) return action
             const execute: Execute = () => Promise.resolve(response)
             let context = state.ws.subscriptions.all[action.payload.subscriptionKey]?.context
