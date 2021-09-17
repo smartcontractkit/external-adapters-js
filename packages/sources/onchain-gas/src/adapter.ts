@@ -65,7 +65,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
         const hexedBlockNum: string = message.params.result.number
         const block: Block = await getBlock(input.id, hexedBlockNum, message.jsonrpc, defaultConfig)
         const medianGasPrice = getMedianGasPrice(block)
-        return Requester.success('1', { data: { result: medianGasPrice } })
+        return Requester.success(input.id, { data: { result: medianGasPrice } })
       },
     }
   }
