@@ -159,12 +159,14 @@ export const warmupSubscriber: Epic<AnyAction, AnyAction, any, EpicDependencies>
       // this check doesnt work because state is already set!
       return !state.cacheWarmer.subscriptions[key]?.isDuplicate
     }),
+    tap(([{ payload }]) => {
+      const labels = {
+        isBatched: String(!!payload.childLastSeenById),
+      }
+      metrics.cache_warmer_count.labels(labels).inc()
+    }),
     // on a subscribe action being dispatched, spin up a long lived interval if one doesnt exist yet
     mergeMap(([{ payload, key }]) => {
-      payload.childLastSeenById
-        ? metrics.cache_warmer_batch_count.inc()
-        : metrics.cache_warmer_count.inc()
-
       // Interval should be set to the warmup interval if configured,
       // otherwise use the TTL from the request.
       const interval = config.warmupInterval || getTTL(payload)
@@ -179,9 +181,12 @@ export const warmupSubscriber: Epic<AnyAction, AnyAction, any, EpicDependencies>
             filter((a) => a.payload.key === key),
             withLatestFrom(state$),
             tap(([{ payload }, state]) => {
-              state.cacheWarmer.subscriptions[payload.key]?.childLastSeenById
-                ? metrics.cache_warmer_batch_count.dec()
-                : metrics.cache_warmer_count.dec()
+              const labels = {
+                isBatched: String(
+                  !!state.cacheWarmer.subscriptions[payload.key]?.childLastSeenById,
+                ),
+              }
+              metrics.cache_warmer_count.labels(labels).dec()
             }),
           ),
         ),
@@ -243,7 +248,10 @@ export const warmupRequestHandler: Epic<AnyAction, AnyAction, any> = (action$, s
         catchError((error: unknown) =>
           of(
             warmupFailed({
-              id: getFeedId({ id: '0', data: requestData?.origin }),
+              feedLabel: getFeedId({
+                id: requestData.childLastSeenById ? WARMUP_BATCH_REQUEST_ID : WARMUP_REQUEST_ID,
+                data: requestData?.origin,
+              }),
               error: error as Error,
               key,
             }),

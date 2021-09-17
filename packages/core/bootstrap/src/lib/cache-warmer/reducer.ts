@@ -220,7 +220,7 @@ export const warmupReducer = createReducer<RequestState>({}, (builder) => {
   })
 
   builder.addCase(actions.warmupFailed, (state, action) => {
-    const { key, id } = action.payload
+    const { key, feedLabel: id } = action.payload
     const subscription = state[key]
     if (!subscription) {
       logger.error(

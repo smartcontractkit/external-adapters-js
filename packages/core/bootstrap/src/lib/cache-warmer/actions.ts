@@ -91,7 +91,7 @@ interface WarmupFailedPayload {
   /**
    * State lookup key
    */
-  id: string
+  feedLabel: string
   key: string
   error: Error
 }
