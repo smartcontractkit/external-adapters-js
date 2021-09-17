@@ -161,6 +161,9 @@
       "path": "../../sources/fixer"
     },
     {
+      "path": "../../sources/flightaware"
+    },
+    {
       "path": "../../sources/fmpcloud"
     },
     {
