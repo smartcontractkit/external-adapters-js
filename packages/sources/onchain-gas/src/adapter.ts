@@ -38,13 +38,20 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       connection: {
         url: defaultConfig.api.baseURL,
       },
+      toSaveFromFirstMessage: (message: any) => ({
+        subscriptionId: message.params.subscription,
+      }),
       noHttp: true,
       subscribe: (input) => ({
         id: input.id,
         method: 'eth_subscribe',
         params: ['newHeads'],
       }),
-      unsubscribe: (_) => ({}),
+      unsubscribe: (input, subscriptionParams) => ({
+        id: input.id,
+        method: 'eth_unsubscribe',
+        params: [subscriptionParams.subscriptionId],
+      }),
       subsFromMessage: (_, subscriptionMsg) => {
         return {
           id: subscriptionMsg.id,

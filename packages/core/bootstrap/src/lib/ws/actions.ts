@@ -25,6 +25,15 @@ export interface WSErrorPayload {
   reason: string
 }
 
+export interface WSSaveFirstMessagePayload {
+  subscriptionKey: string
+  message: any
+}
+
+export const saveFirstMessageReceived = createAction(
+  'WS/SAVE_FIRST_MESSAGE_RECEIVED',
+  asAction<WSSaveFirstMessagePayload>(),
+)
 export const wsSubscriptionReady = createAction(
   'WS/SUBSCRIPTION_READY',
   asAction<WSConfigDetailedPayloadOverride>(),

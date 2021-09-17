@@ -39,6 +39,7 @@ import {
   WSSubscriptionPayload,
   WSConfigOverride,
   wsSubscriptionReady,
+  saveFirstMessageReceived,
 } from './actions'
 import {
   ws_connection_active,
@@ -209,11 +210,15 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
           return !isActiveSubscription && !isSubscribing
         }),
         // on a subscribe action being dispatched, open a new WS subscription if one doesn't exist yet
-        mergeMap(([{ subscriptionKey, payload }]) =>
+        mergeMap(([{ subscriptionKey, payload }, state]) =>
           wsSubject
             .multiplex(
               () => payload.subscriptionMsg,
-              () => wsHandler.unsubscribe(payload.input),
+              () =>
+                wsHandler.unsubscribe(
+                  payload.input,
+                  state.ws.subscriptions.all[subscriptionKey]?.subscriptionParams,
+                ),
               (message) => {
                 /**
                  * If the error happens on the subscription, it will be on subscribing state and eventually unresponsiveTimeout will take care of it (unsubs/subs)
@@ -274,6 +279,26 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
 
       // All received messages
       const message$ = action$.pipe(filter(messageReceived.match))
+
+      const withSaveFirstMessageToStore = message$.pipe(
+        filter((action) => {
+          return !!wsHandler.toSaveFromFirstMessage && wsHandler.filter(action.payload.message)
+        }),
+        withLatestFrom(state$),
+        filter(([action, state]) => {
+          const key = action.payload.subscriptionKey
+          const subscription = state.ws.subscriptions.all[key]
+          return subscription && !subscription.subscriptionParams
+        }),
+        mergeMap(async ([action]) => {
+          return saveFirstMessageReceived({
+            subscriptionKey: action.payload.subscriptionKey,
+            message: wsHandler.toSaveFromFirstMessage
+              ? wsHandler.toSaveFromFirstMessage(action.payload.message)
+              : {},
+          })
+        }),
+      )
 
       // Save all received messages to cache
       const withCache$ = message$.pipe(
@@ -429,6 +454,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
         multiplexSubscriptions$,
         unsubscribe$,
         withCache$,
+        withSaveFirstMessageToStore,
         error$,
       ).pipe(
         takeUntil(
