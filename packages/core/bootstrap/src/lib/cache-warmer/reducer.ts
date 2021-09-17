@@ -220,7 +220,7 @@ export const warmupReducer = createReducer<RequestState>({}, (builder) => {
   })
 
   builder.addCase(actions.warmupFailed, (state, action) => {
-    const { key } = action.payload
+    const { key, id } = action.payload
     const subscription = state[key]
     if (!subscription) {
       logger.error(
@@ -229,6 +229,7 @@ export const warmupReducer = createReducer<RequestState>({}, (builder) => {
       )
       return state
     }
+    logger.error(`[${id}] Cache Warmer failed: ${subscription.error}`)
     subscription.error = action.payload.error
     subscription.errorCount++
     subscription.successCount = 0
@@ -236,10 +237,9 @@ export const warmupReducer = createReducer<RequestState>({}, (builder) => {
   })
 
   builder.addCase(actions.warmupUnsubscribed, (state, action) => {
-    logger.info('[warmupReducer] Deleting subscription', {
-      warmupSubscriptionKey: action.payload.key,
-    })
-    delete state[action.payload.key]
+    const { key, reason } = action.payload
+    logger.info('[warmupReducer] Deleting subscription. ', reason)
+    delete state[key]
   })
 
   builder.addCase(actions.warmupStopped, (state, action) => {
