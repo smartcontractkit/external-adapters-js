@@ -63,22 +63,31 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       filter: (message) => message.method === 'eth_subscription',
       toResponse: async (message: any, input: AdapterRequest) => {
         const hexedBlockNum: string = message.params.result.number
-        const requestConfig = {
-          url: config?.rpcUrl,
-          data: {
-            jsonrpc: message.jsonrpc,
-            method: 'eth_getBlockByNumber',
-            params: [hexedBlockNum, true],
-            id: input.id,
-          },
-          method: 'post',
-        }
-        const block: Block = await Requester.request(requestConfig)
+        const block: Block = await getBlock(input.id, hexedBlockNum, message.jsonrpc, defaultConfig)
         const medianGasPrice = getMedianGasPrice(block)
         return Requester.success('1', { data: { result: medianGasPrice } })
       },
     }
   }
+}
+
+const getBlock = async (
+  id: string,
+  hexedBlockNumber: string,
+  jsonrpc: string,
+  config: Config,
+): Promise<Block> => {
+  const requestConfig = {
+    url: config.rpcUrl,
+    data: {
+      jsonrpc: jsonrpc,
+      method: 'eth_getBlockByNumber',
+      params: [hexedBlockNumber, true],
+      id,
+    },
+    method: 'post',
+  }
+  return await Requester.request(requestConfig)
 }
 
 const getMedianGasPrice = (block: Block): number => {
