@@ -342,6 +342,7 @@ describe('side effect tests', () => {
           },
           actions.warmupUnsubscribed({
             key: batchKeyParent,
+            reason: 'Unsubscribe test',
           }),
         ),
       ).toEqual({})
@@ -359,6 +360,7 @@ describe('side effect tests', () => {
           }),
           b: actions.warmupUnsubscribed({
             key: key1,
+            reason: 'Unsubscribe test',
           }),
           c: actions.warmupSubscribed({
             executeFn: stub(),
@@ -397,6 +399,7 @@ describe('side effect tests', () => {
           }),
           b: actions.warmupUnsubscribed({
             key: key1,
+            reason: 'Unsubscribe test',
           }),
           c: actions.warmupSubscribed({
             executeFn: stub(),
@@ -533,6 +536,7 @@ describe('side effect tests', () => {
             actions.warmupFailed({
               key: key1,
               error: err,
+              id: '{"data":{"data":{"foo":"bar"},"id":"0"}}',
             }),
           ),
         )
@@ -586,6 +590,7 @@ describe('side effect tests', () => {
             actions.warmupFailed({
               key: key1,
               error: err,
+              id: '{"data":{"id":"0","key1":["foo","foo2","foo3","foo4"],"key2":"bar"}}',
             }),
           ),
         )
@@ -647,6 +652,7 @@ describe('side effect tests', () => {
           a: actions.warmupFailed({
             key: key1,
             error: Error('We havin a bad time'),
+            id: '{"data":{"data":{"foo":"bar"},"id":"0"}}',
           }),
         })
         const state$ = stateStream({
@@ -670,6 +676,7 @@ describe('side effect tests', () => {
           a: actions.warmupFailed({
             key: key1,
             error: Error('We havin a bad time'),
+            id: '{"data":{"data":{"foo":"bar"},"id":"0"}}',
           }),
         })
         const state$ = stateStream({
@@ -685,7 +692,7 @@ describe('side effect tests', () => {
         })
         const output$ = warmupUnsubscriber(action$, state$, epicDependencies)
         expectObservable(output$).toBe('a', {
-          a: actions.warmupUnsubscribed({ key: key1 }),
+          a: actions.warmupUnsubscribed({ key: key1, reason: 'Errored: We havin a bad time' }),
         })
       })
     })
@@ -695,6 +702,7 @@ describe('side effect tests', () => {
           a: actions.warmupFailed({
             key: key1,
             error: Error('We havin a bad time'),
+            id: '{"data":{"data":{"foo":"bar"},"id":"0"}}',
           }),
         })
         const state$ = stateStream({
@@ -731,7 +739,7 @@ describe('side effect tests', () => {
         const output$ = warmupUnsubscriber(action$, state$, epicDependencies)
         expectObservable(output$, '^ 120m !').toBe('50m -- a 9m 59s 998ms b 40m - a', {
           a: actions.warmupSubscriptionTimeoutReset({ key: key1 }),
-          b: actions.warmupUnsubscribed({ key: key2 }),
+          b: actions.warmupUnsubscribed({ key: key2, reason: 'Timeout' }),
         })
       })
     })
