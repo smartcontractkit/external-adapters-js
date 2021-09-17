@@ -104,6 +104,13 @@ const initSubscriptionsState: SubscriptionsState = { total: 0, all: {} }
 export const subscriptionsReducer = createReducer<SubscriptionsState>(
   initSubscriptionsState,
   (builder) => {
+    builder.addCase(actions.updateSubscriptionInput, (state, action) => {
+      const key = action.payload.subscriptionKey
+      state.all[key] = {
+        ...state.all[key],
+        input: action.payload.input,
+      }
+    })
     builder.addCase(actions.saveFirstMessageReceived, (state, action) => {
       const key = action.payload.subscriptionKey
       state.all[key] = {

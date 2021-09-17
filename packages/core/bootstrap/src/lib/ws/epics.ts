@@ -40,6 +40,7 @@ import {
   WSConfigOverride,
   wsSubscriptionReady,
   saveFirstMessageReceived,
+  updateSubscriptionInput,
 } from './actions'
 import {
   ws_connection_active,
@@ -196,6 +197,30 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
       // Subscription requests
       const subscriptions$ = action$.pipe(filter(subscribeRequested.match))
 
+      const updateSubscriptionInput$ = subscriptions$.pipe(
+        filter(({ payload }) => payload.connectionInfo.key === connectionKey),
+        map(({ payload }) => ({
+          payload,
+          subscriptionKey: getSubsId(payload.subscriptionMsg),
+        })),
+        withLatestFrom(state$),
+        filter(([{ subscriptionKey, payload }, state]) => {
+          const isActiveSubscription = !!state.ws.subscriptions.all[subscriptionKey]?.active
+          const isSubscribing = state.ws.subscriptions.all[subscriptionKey]?.subscribing > 1
+          if (!isActiveSubscription || isSubscribing) {
+            return false
+          }
+          const currentInput = state.ws.subscriptions.all[subscriptionKey]?.input
+          return getSubsId(currentInput) !== getSubsId(payload.input)
+        }),
+        mergeMap(async ([{ subscriptionKey, payload }]) => {
+          return updateSubscriptionInput({
+            subscriptionKey,
+            input: payload.input,
+          })
+        }),
+      )
+
       // Multiplex subscriptions
       const multiplexSubscriptions$ = subscriptions$.pipe(
         filter(({ payload }) => payload.connectionInfo.key === connectionKey),
@@ -280,7 +305,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
       // All received messages
       const message$ = action$.pipe(filter(messageReceived.match))
 
-      const withSaveFirstMessageToStore = message$.pipe(
+      const withSaveFirstMessageToStore$ = message$.pipe(
         filter((action) => {
           return !!wsHandler.toSaveFromFirstMessage && wsHandler.filter(action.payload.message)
         }),
@@ -454,7 +479,8 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
         multiplexSubscriptions$,
         unsubscribe$,
         withCache$,
-        withSaveFirstMessageToStore,
+        withSaveFirstMessageToStore$,
+        updateSubscriptionInput$,
         error$,
       ).pipe(
         takeUntil(

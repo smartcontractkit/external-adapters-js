@@ -30,6 +30,15 @@ export interface WSSaveFirstMessagePayload {
   message: any
 }
 
+export interface WSUpdateSubscriptionInputPayload {
+  subscriptionKey: string
+  input: AdapterRequest
+}
+
+export const updateSubscriptionInput = createAction(
+  'WS/UPDATE_SUBSRCRIPTION_INPUT',
+  asAction<WSUpdateSubscriptionInputPayload>(),
+)
 export const saveFirstMessageReceived = createAction(
   'WS/SAVE_FIRST_MESSAGE_RECEIVED',
   asAction<WSSaveFirstMessagePayload>(),
