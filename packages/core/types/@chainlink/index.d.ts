@@ -209,6 +209,7 @@ declare module '@chainlink/types' {
       | undefined
     // Optional flag to ensure adapter only uses WS and doesn't send HTTP requests
     noHttp?: boolean
+    // This function is called if anything from the WS message needs to be saved in the Redux subscription store
     toSaveFromFirstMessage?: (message: any) => any
   }
 
