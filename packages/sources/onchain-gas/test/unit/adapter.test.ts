@@ -7,19 +7,13 @@ describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
 
+  beforeAll(() => {
+    process.env.WS_RPC_URL = process.env.WS_RPC_URL || 'ws_rpc_url'
+    process.env.RPC_URL = process.env.RPC_URL || 'rpc_url'
+  })
+
   describe('validation error', () => {
-    const requests = [
-      { name: 'empty body', testData: {} },
-      { name: 'empty data', testData: { data: {} } },
-      {
-        name: 'base not supplied',
-        testData: { id: jobID, data: { quote: 'USD' } },
-      },
-      {
-        name: 'quote not supplied',
-        testData: { id: jobID, data: { base: 'ETH' } },
-      },
-    ]
+    const requests = [{ name: 'empty body', testData: {} }]
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
