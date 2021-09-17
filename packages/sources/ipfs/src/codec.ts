@@ -21,8 +21,10 @@ export const serialize = (data: string | object, codec?: string): string | Uint8
   throw Error(`Unknown codec: ${codec}`)
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-export const deserialize = (data: Buffer, codec?: string): string | object => {
+export const deserialize = (
+  data: Buffer,
+  codec?: string,
+): ReturnType<typeof dagCBOR.util.deserialize> | string => {
   if (!codec) return data.toString()
 
   switch (codec) {

@@ -1,10 +1,10 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config } from '@chainlink/types'
-import { create } from 'ipfs-http-client'
-import { deserialize } from '../codec'
+import { Config, ExecuteWithConfig } from '@chainlink/types'
 import { IPFS } from 'ipfs-core-types'
+import { create } from 'ipfs-http-client'
 import { CID } from 'multiformats/cid'
-
+import { AsyncReturnType } from 'type-fest'
+import { deserialize } from '../codec'
 export type IPFSPath = string | CID
 export { CID }
 
@@ -41,8 +41,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const codec = validator.validated.data.codec
 
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  let result: string | object
+  let result: AsyncReturnType<typeof readFile | typeof readDag>
   switch (type) {
     case 'raw':
       result = await readFile(cid, codec, client)
