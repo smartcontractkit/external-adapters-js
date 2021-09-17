@@ -1,4 +1,4 @@
-import { Builder, Requester } from '@chainlink/ea-bootstrap'
+import { Builder, Requester, Validator } from '@chainlink/ea-bootstrap'
 import {
   Config,
   ExecuteWithConfig,
@@ -19,16 +19,6 @@ export const endpointSelector = (request: AdapterRequest): APIEndpoint =>
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {
   return async (request, context) => execute(request, context, config || makeConfig())
-}
-
-interface Block {
-  data: {
-    result: {
-      transactions: {
-        gasPrice: string
-      }[]
-    }
-  }
 }
 
 export const makeWSHandler = (config?: Config): MakeWSHandler => {
@@ -62,43 +52,18 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       isError: () => false,
       filter: (message) => message.method === 'eth_subscription',
       toResponse: async (message: any, input: AdapterRequest) => {
+        const validator = new Validator(input, endpoints.gas.inputParameters)
+        if (validator.error) throw validator.error
         const hexedBlockNum: string = message.params.result.number
-        const block: Block = await getBlock(input.id, hexedBlockNum, message.jsonrpc, defaultConfig)
-        const medianGasPrice = getMedianGasPrice(block)
-        return Requester.success(input.id, { data: { result: medianGasPrice } })
+        const medianGasPrices = await endpoints.gas.getTransactionsInPastBlocks(
+          input.id,
+          message.jsonrpc,
+          hexedBlockNum,
+          validator.validated.data.numBlocks,
+          defaultConfig,
+        )
+        return Requester.success(input.id, { data: { result: medianGasPrices } })
       },
     }
   }
-}
-
-const getBlock = async (
-  id: string,
-  hexedBlockNumber: string,
-  jsonrpc: string,
-  config: Config,
-): Promise<Block> => {
-  const requestConfig = {
-    url: config.rpcUrl,
-    data: {
-      jsonrpc: jsonrpc,
-      method: 'eth_getBlockByNumber',
-      params: [hexedBlockNumber, true],
-      id,
-    },
-    method: 'post',
-  }
-  return await Requester.request(requestConfig)
-}
-
-const getMedianGasPrice = (block: Block): number => {
-  const blockTransactions = block.data.result.transactions
-  const gasPrices = blockTransactions.map(({ gasPrice: hexedGasPrice }) =>
-    parseInt(hexedGasPrice, 16),
-  )
-  const sortedPrices = gasPrices.sort((a, b) => b - a)
-  const mid = Math.floor(sortedPrices.length / 2)
-  if (sortedPrices.length % 2 === 0) {
-    return (sortedPrices[mid - 1] + sortedPrices[mid]) / 2
-  }
-  return sortedPrices[mid]
 }
