@@ -30,6 +30,13 @@ describe('execute', () => {
         name: 'fsym/tsyms',
         testData: { id: jobID, data: { fsym: 'ETH', tsyms: 'USD' } },
       },
+      {
+        name: 'market cap',
+        testData: {
+          id: jobID,
+          data: { base: 'ETH', quote: 'USD', endpoint: 'marketcap' },
+        },
+      },
     ]
 
     requests.forEach((req) => {
@@ -49,11 +56,8 @@ describe('execute', () => {
         testData: { id: jobID, data: { fsym: ['ETH', 'BTC'], tsyms: 'USD' } },
       },
       {
-        name: 'market cap',
-        testData: {
-          id: jobID,
-          data: { fsym: 'ETH', tsyms: 'USD', endpoint: 'marketcap' },
-        },
+        name: 'skips pairs it cannot find',
+        testData: { id: jobID, data: { base: ['BTC', 'EURT'], quote: ['USD', 'ARS'] } },
       },
     ]
 

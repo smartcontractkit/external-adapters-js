@@ -9,7 +9,10 @@ import {
 import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['crypto', 'price', 'marketcap']
-export const batchablePropertyPath = [{ name: 'base' }, { name: 'quote' }]
+export const batchablePropertyPath = [
+  { name: 'base', limit: 1000 },
+  { name: 'quote', limit: 100 },
+]
 
 export const endpointResultPaths = {
   crypto: 'PRICE',
@@ -17,7 +20,7 @@ export const endpointResultPaths = {
   marketcap: 'MKTCAP',
 }
 
-interface ResponseSchema {
+export interface ResponseSchema {
   RAW: {
     [fsym: string]: {
       [tsym: string]: {
@@ -26,7 +29,7 @@ interface ResponseSchema {
         FROMSYMBOL: string
         TOSYMBOL: string
         FLAGS: string
-        PRICE: number
+        PRICE?: number
         LASTUPDATE: number
         MEDIAN: number
         LASTVOLUME: number
@@ -120,8 +123,8 @@ interface ResponseSchema {
 }
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
+  base: ['base', 'from', 'coin', 'fsym'],
+  quote: ['quote', 'to', 'market', 'tsyms'],
   resultPath: false,
   endpoint: false,
 }
@@ -129,12 +132,15 @@ export const inputParameters: InputParameters = {
 const handleBatchedRequest = (
   jobRunID: string,
   request: AdapterRequest,
-  response: AxiosResponse<ResponseSchema[]>,
+  response: AxiosResponse<ResponseSchema>,
   resultPath: string,
 ) => {
   const payload: [AdapterRequest, number][] = []
   for (const base in response.data.RAW) {
     for (const quote in response.data.RAW[base]) {
+      // Skip this pair if CC doesn't have resultPath for this pair
+      if (!(resultPath in response.data.RAW[base][quote])) continue
+
       payload.push([
         {
           ...request,
