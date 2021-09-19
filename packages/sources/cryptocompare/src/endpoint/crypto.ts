@@ -123,8 +123,8 @@ export interface ResponseSchema {
 }
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
+  base: ['base', 'from', 'coin', 'fsym'],
+  quote: ['quote', 'to', 'market', 'tsyms'],
   resultPath: false,
   endpoint: false,
 }
