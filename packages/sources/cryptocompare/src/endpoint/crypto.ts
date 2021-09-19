@@ -17,7 +17,7 @@ export const endpointResultPaths = {
   marketcap: 'MKTCAP',
 }
 
-interface ResponseSchema {
+export interface ResponseSchema {
   RAW: {
     [fsym: string]: {
       [tsym: string]: {
@@ -26,7 +26,7 @@ interface ResponseSchema {
         FROMSYMBOL: string
         TOSYMBOL: string
         FLAGS: string
-        PRICE: number
+        PRICE?: number
         LASTUPDATE: number
         MEDIAN: number
         LASTVOLUME: number
@@ -129,12 +129,15 @@ export const inputParameters: InputParameters = {
 const handleBatchedRequest = (
   jobRunID: string,
   request: AdapterRequest,
-  response: AxiosResponse<ResponseSchema[]>,
+  response: AxiosResponse<ResponseSchema>,
   resultPath: string,
 ) => {
   const payload: [AdapterRequest, number][] = []
   for (const base in response.data.RAW) {
     for (const quote in response.data.RAW[base]) {
+      // Skip this pair if CC doesn't have resultPath for this pair
+      if (!(resultPath in response.data.RAW[base][quote])) continue
+
       payload.push([
         {
           ...request,
