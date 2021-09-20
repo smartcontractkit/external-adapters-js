@@ -106,6 +106,17 @@ describe('execute', () => {
           },
         },
       },
+      {
+        name: 'unsupported secondary source',
+        input: {
+          id: jobID,
+          data: {
+            secondarySource: 'none',
+            from: 'ETH',
+            to: 'USD',
+          },
+        },
+      },
     ]
 
     requests.forEach((req) => {
