@@ -50,6 +50,18 @@ describe('execute', () => {
         },
       },
       {
+        name: 'should return correct result values only with the first source',
+        input: {
+          id: jobID,
+          data: {
+            primarySource: 'coinmarketcap',
+            from: 'ETH',
+            to: 'USD',
+            days: 1,
+          },
+        },
+      },
+      {
         name: 'should return correct result if the primary source fail and a secondary souce exist',
         input: {
           id: jobID,
@@ -78,6 +90,10 @@ describe('execute', () => {
       {
         name: 'empty data',
         input: { id: jobID, data: {} },
+      },
+      {
+        name: 'empty body',
+        input: {},
       },
       {
         name: 'unsupported primary source',

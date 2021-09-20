@@ -23,3 +23,15 @@ Object {
   "statusCode": 200,
 }
 `;
+
+exports[`execute result method should return correct result values only with the first source 1`] = `
+Object {
+  "data": Object {
+    "result": 3068.06,
+  },
+  "debug": undefined,
+  "jobRunID": "1",
+  "result": 3068.06,
+  "statusCode": 200,
+}
+`;
