@@ -66,12 +66,8 @@ describe('execute', () => {
 
     request.forEach((req) => {
       it(`${req.name}`, async () => {
-        try {
-          const resp = await execute(req.input)
-          expect(resp).toMatchSnapshot()
-        } catch (error) {
-          console.log('Error', error)
-        }
+        const resp = await execute(req.input)
+        expect(resp).toMatchSnapshot()
       })
     })
   })
