@@ -3,11 +3,11 @@
 exports[`execute result method should return correct result if the primary source fail and a secondary souce exist 1`] = `
 Object {
   "data": Object {
-    "result": 3080.5124661464392,
+    "result": 3068.06,
   },
   "debug": undefined,
   "jobRunID": "1",
-  "result": 3080.5124661464392,
+  "result": 3068.06,
   "statusCode": 200,
 }
 `;
@@ -15,11 +15,11 @@ Object {
 exports[`execute result method should return correct result values if both source exist 1`] = `
 Object {
   "data": Object {
-    "result": 3080.5124661464392,
+    "result": 3068.06,
   },
   "debug": undefined,
   "jobRunID": "1",
-  "result": 3080.5124661464392,
+  "result": 3068.06,
   "statusCode": 200,
 }
 `;
