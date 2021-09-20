@@ -46,6 +46,7 @@ export interface WarmupSubscribedPayload extends WarmupExecutePayload {
 }
 interface WarmupUnsubscribedPayload {
   key: string
+  reason: string
 }
 interface WarmupStoppedPayload {
   key: string
@@ -90,6 +91,7 @@ interface WarmupFailedPayload {
   /**
    * State lookup key
    */
+  feedLabel: string
   key: string
   error: Error
 }

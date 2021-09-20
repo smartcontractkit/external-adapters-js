@@ -76,7 +76,12 @@ export const withCacheWarmer =
                   batchablePropertyPath: isActiveCWSubsciption.batchablePropertyPath,
                 }),
               )
-            warmerStore.dispatch(actions.warmupUnsubscribed({ key: cacheWarmerKey }))
+            warmerStore.dispatch(
+              actions.warmupUnsubscribed({
+                key: cacheWarmerKey,
+                reason: 'Turning off Cache Warmer to use WS.',
+              }),
+            )
           }
           batchMemberHasActiveWSSubscription = true
         }
