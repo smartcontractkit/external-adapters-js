@@ -7,7 +7,7 @@ import {
   APIEndpoint,
   MakeWSHandler,
 } from '@chainlink/types'
-import { makeConfig } from './config'
+import { DEFAULT_BLOCK_IDX, makeConfig } from './config'
 import * as endpoints from './endpoint'
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
@@ -62,7 +62,17 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
           validator.validated.data.numBlocks,
           defaultConfig,
         )
-        return Requester.success(input.id, { data: { result: medianGasPrices } })
+        const blockIdx = validator.validated.data.blockIdx || DEFAULT_BLOCK_IDX
+        return Requester.success(
+          input.id,
+          {
+            data: {
+              values: medianGasPrices,
+              result: medianGasPrices[Math.min(blockIdx, medianGasPrices.length - 1)],
+            },
+          },
+          defaultConfig.verbose,
+        )
       },
     }
   }

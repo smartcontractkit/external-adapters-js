@@ -1,12 +1,12 @@
 import { Validator, Logger, Requester } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
-import { DEAFULT_NUM_BLOCKS, MAX_BLOCKS_TO_QUERY } from '../config'
+import { DEFAULT_NUM_BLOCKS, MAX_BLOCKS_TO_QUERY } from '../config'
 
-// This should be filled in with a lowercase name corresponding to the API endpoint
 export const supportedEndpoints = ['gas']
 
 export const inputParameters: InputParameters = {
   numBlocks: false,
+  blockIdx: false,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request) => {
@@ -31,7 +31,7 @@ export const getTransactionsInPastBlocks = async (
   id: string,
   jsonrpc: string,
   latestHexedBlockNum: string,
-  numBlocksToQuery = DEAFULT_NUM_BLOCKS,
+  numBlocksToQuery = DEFAULT_NUM_BLOCKS,
   config: Config,
 ): Promise<number[]> => {
   const latestBlockNum = parseInt(latestHexedBlockNum, 16)

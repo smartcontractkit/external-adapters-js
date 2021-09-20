@@ -1,10 +1,11 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
-export const NAME = 'ONCHAIN_GAS' // This should be filled in with a name corresponding to the data provider using UPPERCASE and _underscores_.
+export const NAME = 'ONCHAIN_GAS'
 
 export const DEFAULT_ENDPOINT = 'gas'
-export const DEAFULT_NUM_BLOCKS = 1
+export const DEFAULT_NUM_BLOCKS = 1
+export const DEFAULT_BLOCK_IDX = 0
 export const MAX_BLOCKS_TO_QUERY = 10
 
 export const makeConfig = (prefix?: string): Config => {
