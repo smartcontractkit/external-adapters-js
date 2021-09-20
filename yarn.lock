@@ -2787,6 +2787,7 @@ __metadata:
     multiformats: ^9.4.1
     nock: ^13.1.3
     tslib: ^2.1.0
+    type-fest: ^2.3.3
     typescript: ^4.2.3
   languageName: unknown
   linkType: soft
@@ -25561,6 +25562,13 @@ resolve@1.17.0:
   version: 2.0.0
   resolution: "type-fest@npm:2.0.0"
   checksum: 9c7ab00b0b594426710233b6d3d112e2bb5b23a523fed4b3272e76dde36b1b78a5691ea20a40332490d3bd46455d0ad67a51ce2271f90c0ae2309861ca01e20d
+  languageName: node
+  linkType: hard
+
+"type-fest@npm:^2.3.3":
+  version: 2.3.3
+  resolution: "type-fest@npm:2.3.3"
+  checksum: 7737c07b8c98f671e6ff0e8366b0675ba8e3ab56707d039054dcba305fedd27b11cb545d16e6afe70ea98b91e573223f5817dd165d3a27c0e6352eebd2366587
   languageName: node
   linkType: hard
 
