@@ -67,25 +67,23 @@ const handleBatchedRequest = (
   resultPath: string,
 ) => {
   const payload: [AdapterRequest, number][] = []
-  for (const base of request.data.base) {
-    const baseWithOverride = validator.overrideSymbol(AdapterName, base)
-    for (const quote in response.data.data[baseWithOverride].quote) {
+  for (const base in response.data.data) {
+    const originalBase = validator.overrideReverseLookup(
+      AdapterName,
+      'overrides',
+      response.data.data[base].symbol,
+    )
+    for (const quote in response.data.data[base].quote) {
       payload.push([
         {
           ...request,
           data: {
             ...request.data,
-            base: base.toUpperCase(),
+            base: originalBase.toUpperCase(),
             convert: quote.toUpperCase(),
           },
         },
-        Requester.validateResultNumber(response.data, [
-          'data',
-          baseWithOverride as string,
-          'quote',
-          quote,
-          resultPath,
-        ]),
+        Requester.validateResultNumber(response.data, ['data', base, 'quote', quote, resultPath]),
       ])
     }
   }
