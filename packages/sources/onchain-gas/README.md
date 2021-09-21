@@ -25,7 +25,7 @@ N/A
 | Required? |    Name     |                           Description                            | Options | Defaults to |
 | :-------: | :---------: | :--------------------------------------------------------------: | :-----: | :---------: |
 |           | `numBlocks` |     The number of blocks to use to determine the gas price.      |         |      1      |
-|           | `blockIdx`  | The index of the block used for the result field in the response |         |      1      |
+|           | `blockIdx`  | The index of the block used for the result field in the response |         |      0      |
 
 ### Sample Input
 
