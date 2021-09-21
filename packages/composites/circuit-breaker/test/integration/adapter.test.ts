@@ -38,11 +38,11 @@ describe('execute', () => {
     const jobID = '1'
     const request = [
       {
-        name: 'should return correct result values if both source exist',
+        name: 'should return correct result value with the second source if the first one fail',
         input: {
           id: jobID,
           data: {
-            primarySource: 'coingecko',
+            primarySource: 'none',
             secondarySource: 'coinmarketcap',
             from: 'ETH',
             to: 'USD',
@@ -55,20 +55,7 @@ describe('execute', () => {
         input: {
           id: jobID,
           data: {
-            primarySource: 'coinmarketcap',
-            from: 'ETH',
-            to: 'USD',
-            days: 1,
-          },
-        },
-      },
-      {
-        name: 'should return correct result if the primary source fail and a secondary source exist',
-        input: {
-          id: jobID,
-          data: {
-            primarySource: 'none',
-            secondarySource: 'coinmarketcap',
+            primarySource: 'coingecko',
             from: 'ETH',
             to: 'USD',
             days: 1,
@@ -93,7 +80,7 @@ describe('execute', () => {
         input: {
           id: '1',
           data: {
-            primarySource: 'null',
+            primarySource: '',
             base: 'ETH',
             quote: 'USD',
             days: 1,

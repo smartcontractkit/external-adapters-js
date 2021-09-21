@@ -23,7 +23,6 @@ export function mockDataProviderResponses() {
       id: 1,
       data: {
         primarySource: 'coingecko',
-        secondSource: 'coinmarketcap',
         from: 'ETH',
         to: 'USD',
         days: 1,
@@ -34,45 +33,9 @@ export function mockDataProviderResponses() {
       {
         jobRunID: '1',
         data: {
-          result: 3084.78,
+          result: 3068.06,
         },
-        result: 3084.78,
-        statusCode: 200,
-      },
-      [
-        'X-Powered-By',
-        'Express',
-        'Content-Type',
-        'application/json; charset=utf-8',
-        'Content-Length',
-        '714',
-        'ETag',
-        'W/"2ca-B0TkX1zAQfIfnHwQo6e4kGAEMCs"',
-        'Date',
-        'Wed, 23 Jun 2021 22:38:43 GMT',
-        'Connection',
-        'close',
-      ],
-    )
-
-  nock(circuitBreakerUrl)
-    .post('/', {
-      id: 1,
-      data: {
-        primarySource: 'coinmarketcap',
-        from: 'ETH',
-        to: 'USD',
-        days: 1,
-      },
-    })
-    .reply(
-      200,
-      {
-        jobRunID: '1',
-        data: {
-          result: 3084.78,
-        },
-        result: 3084.78,
+        result: 3068.06,
         statusCode: 200,
       },
       [
@@ -107,76 +70,10 @@ export function mockDataProviderResponses() {
       {
         jobRunID: '1',
         data: {
-          result: 3084.78,
-        },
-        result: 3084.78,
-        statusCode: 200,
-      },
-      [
-        'X-Powered-By',
-        'Express',
-        'Content-Type',
-        'application/json; charset=utf-8',
-        'Content-Length',
-        '714',
-        'ETag',
-        'W/"2ca-B0TkX1zAQfIfnHwQo6e4kGAEMCs"',
-        'Date',
-        'Wed, 23 Jun 2021 22:38:43 GMT',
-        'Connection',
-        'close',
-      ],
-    )
-
-  nock(circuitBreakerUrl)
-    .post('/', {
-      id: 1,
-      data: {
-        firstsource: 'null',
-        secondSource: 'coinmarketcap',
-        from: 'ETH',
-        to: 'USD',
-        days: 1,
-      },
-    })
-    .reply(
-      400,
-      {
-        jobRunID: '1',
-        status: 'errored',
-        statusCode: 400,
-        error: {
-          name: 'AdapterError',
-          message: 'Required parameter not supplied: primarySource',
-        },
-      },
-      [
-        'X-Powered-By',
-        'Express',
-        'Content-Type',
-        'application/json; charset=utf-8',
-        'Content-Length',
-        '714',
-        'ETag',
-        'W/"2ca-B0TkX1zAQfIfnHwQo6e4kGAEMCs"',
-        'Date',
-        'Wed, 23 Jun 2021 22:38:43 GMT',
-        'Connection',
-        'close',
-      ],
-    )
-
-  nock(dataProviderConfig.coingecko.providerUrl)
-    .post('/')
-    .reply(
-      200,
-      {
-        jobRunID: '1',
-        result: 3068.06,
-        statusCode: 200,
-        data: {
           result: 3068.06,
         },
+        result: 3068.06,
+        statusCode: 200,
       },
       [
         'X-Powered-By',
@@ -186,9 +83,9 @@ export function mockDataProviderResponses() {
         'Content-Length',
         '714',
         'ETag',
-        'W/"4c-80HqZxTKkxT2QbzJJxLmlKoGX1c"',
+        'W/"2ca-B0TkX1zAQfIfnHwQo6e4kGAEMCs"',
         'Date',
-        'Mon, 20 Sep 2021 14:30:57 GMT',
+        'Wed, 23 Jun 2021 22:38:43 GMT',
         'Connection',
         'close',
       ],
@@ -222,7 +119,7 @@ export function mockDataProviderResponses() {
       ],
     )
 
-  nock(dataProviderConfig.none.providerUrl)
+  nock(dataProviderConfig.coingecko.providerUrl)
     .post('/')
     .reply(
       200,
