@@ -37,8 +37,6 @@ export interface ResponseSchema {
   }
 }
 
-const customError = () => false
-
 export const inputParameters: InputParameters = {
   departure: true,
   flight: true,
@@ -67,7 +65,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const options = { ...config.api, auth, params, url }
 
-  const response = await Requester.request<ResponseSchema>(options, customError)
+  const response = await Requester.request<ResponseSchema>(options)
   const result = Requester.validateResultNumber(response.data, resultPath)
 
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
