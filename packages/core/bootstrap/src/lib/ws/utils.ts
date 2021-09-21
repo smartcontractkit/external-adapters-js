@@ -23,7 +23,7 @@ const separateBatchesHelper = async (
     await callback(curr)
   } else {
     let dataValues = input.data[dataFields[0]]
-    if (dataValues) {
+    if (dataValues != null && dataValues != undefined) {
       dataValues = Array.isArray(dataValues) ? dataValues : [dataValues]
       for (const val of dataValues) {
         const updatedCurr = {

@@ -94,6 +94,7 @@ export interface SubscriptionsState {
       subscribing: number
       input: AdapterRequest
       context: AdapterContext
+      subscriptionParams?: any
     }
   }
 }
@@ -103,6 +104,20 @@ const initSubscriptionsState: SubscriptionsState = { total: 0, all: {} }
 export const subscriptionsReducer = createReducer<SubscriptionsState>(
   initSubscriptionsState,
   (builder) => {
+    builder.addCase(actions.updateSubscriptionInput, (state, action) => {
+      const key = action.payload.subscriptionKey
+      state.all[key] = {
+        ...state.all[key],
+        input: action.payload.input,
+      }
+    })
+    builder.addCase(actions.saveFirstMessageReceived, (state, action) => {
+      const key = action.payload.subscriptionKey
+      state.all[key] = {
+        ...state.all[key],
+        subscriptionParams: action.payload.message,
+      }
+    })
     builder.addCase(actions.subscribeFulfilled, (state, action) => {
       // Add subscription
       const key = getSubsId(action.payload.subscriptionMsg)

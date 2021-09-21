@@ -300,6 +300,9 @@
       "path": "./sources/onchain"
     },
     {
+      "path": "./sources/onchain-gas"
+    },
+    {
       "path": "./sources/openexchangerates"
     },
     {
