@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute result method should return correct result value with the second source if the first one fail 1`] = `
+exports[`execute valid result method should return correct result value with the second source if the first one fail 1`] = `
 Object {
   "data": Object {
     "result": 3068.06,
@@ -12,7 +12,7 @@ Object {
 }
 `;
 
-exports[`execute result method should return correct result values only with the first source 1`] = `
+exports[`execute valid result method should return correct result values only with the first source 1`] = `
 Object {
   "data": Object {
     "result": 3068.06,
