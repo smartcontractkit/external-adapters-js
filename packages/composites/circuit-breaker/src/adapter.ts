@@ -1,4 +1,4 @@
-import { Requester, util, Validator, Logger } from '@chainlink/ea-bootstrap'
+import { AdapterError, Requester, util, Validator, Logger } from '@chainlink/ea-bootstrap'
 import {
   AdapterRequest,
   AdapterResponse,
@@ -46,14 +46,33 @@ const getResults = async (
       url: urls[0],
       data: request,
     })
-  } catch (error) {
-    Logger.info(`Could not get result from ${sources[0]}, trying to get result from ${sources[1]}`)
-    response = await Requester.request({
-      ...config.api,
-      method: 'post',
-      url: urls[1],
-      data: request,
-    })
+  } catch (e) {
+    if (!sources[1]) {
+      Logger.info(`The second source is undefined, please set a correct value`)
+      throw new AdapterError({
+        jobRunID,
+        message: `The second source is undefined`,
+        statusCode: 400,
+      })
+    }
+    try {
+      Logger.info(
+        `Could not get result from ${sources[0]}, trying to get result from ${sources[1]}`,
+      )
+      response = await Requester.request({
+        ...config.api,
+        method: 'post',
+        url: urls[1],
+        data: request,
+      })
+    } catch (e) {
+      Logger.info(`Could not get result from ${sources[1]}`)
+      throw new AdapterError({
+        jobRunID,
+        message: `Could not get result from ${sources[0]} and ${sources[1]}`,
+        statusCode: 400,
+      })
+    }
   }
   response.data.result = Requester.validateResultNumber(response.data, ['data', 'result'])
   return Requester.success(jobRunID, response)

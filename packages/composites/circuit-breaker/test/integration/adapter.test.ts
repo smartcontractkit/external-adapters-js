@@ -11,11 +11,6 @@ describe('execute', () => {
 
   beforeAll(async () => {
     execute = await circuitbreakerAllocationAdapter.makeExecute()
-    oldEnv = JSON.parse(JSON.stringify(process.env))
-    for (const source of Object.keys(dataProviderConfig)) {
-      const { providerUrlEnvVar, providerUrl } = dataProviderConfig[source]
-      process.env[providerUrlEnvVar] = providerUrl
-    }
     if (process.env.RECORD) {
       nock.recorder.rec()
     }
@@ -33,6 +28,12 @@ describe('execute', () => {
   })
 
   describe('result method', () => {
+    oldEnv = JSON.parse(JSON.stringify(process.env))
+    for (const source of Object.keys(dataProviderConfig)) {
+      const { providerUrlEnvVar, providerUrl } = dataProviderConfig[source]
+      process.env[providerUrlEnvVar] = providerUrl
+    }
+
     mockDataProviderResponses()
     const jobID = '1'
     const request = [
@@ -62,7 +63,7 @@ describe('execute', () => {
         },
       },
       {
-        name: 'should return correct result if the primary source fail and a secondary souce exist',
+        name: 'should return correct result if the primary source fail and a secondary source exist',
         input: {
           id: jobID,
           data: {
@@ -84,8 +85,37 @@ describe('execute', () => {
     })
   })
 
+  describe('variables', () => {
+    const jobID = '1'
+    const requests = [
+      {
+        name: 'not setted required env variables',
+        input: {
+          id: '1',
+          data: {
+            primarySource: 'null',
+            base: 'ETH',
+            quote: 'USD',
+            days: 1,
+          },
+        },
+      },
+    ]
+
+    requests.forEach((req) => {
+      it(`${req.name}`, async () => {
+        try {
+          await execute(req.input)
+        } catch (error) {
+          const errorResp = Requester.errored(jobID, error)
+          assertError({ expected: 500, actual: errorResp.statusCode }, errorResp, jobID)
+        }
+      })
+    })
+  })
+
   describe('validation error', () => {
-    const jobID = '2'
+    const jobID = '1'
     const requests = [
       {
         name: 'empty data',
@@ -94,6 +124,17 @@ describe('execute', () => {
       {
         name: 'empty body',
         input: {},
+      },
+      {
+        name: 'primary source attribute not supplied',
+        input: {
+          id: jobID,
+          data: {
+            firstSource: 'coinmarketcap',
+            from: 'ETH',
+            to: 'USD',
+          },
+        },
       },
       {
         name: 'unsupported primary source',
@@ -112,6 +153,27 @@ describe('execute', () => {
           id: jobID,
           data: {
             secondarySource: 'none',
+            from: 'ETH',
+            to: 'USD',
+          },
+        },
+      },
+      {
+        name: 'wrong secondary source name attribute',
+        input: {
+          id: jobID,
+          data: {
+            secondSource: 'none',
+            from: 'ETH',
+            to: 'USD',
+          },
+        },
+      },
+      {
+        name: 'empty first and secondary source',
+        input: {
+          id: jobID,
+          data: {
             from: 'ETH',
             to: 'USD',
           },

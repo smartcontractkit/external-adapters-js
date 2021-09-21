@@ -128,6 +128,44 @@ export function mockDataProviderResponses() {
       ],
     )
 
+  nock(circuitBreakerUrl)
+    .post('/', {
+      id: 1,
+      data: {
+        firstsource: 'null',
+        secondSource: 'coinmarketcap',
+        from: 'ETH',
+        to: 'USD',
+        days: 1,
+      },
+    })
+    .reply(
+      400,
+      {
+        jobRunID: '1',
+        status: 'errored',
+        statusCode: 400,
+        error: {
+          name: 'AdapterError',
+          message: 'Required parameter not supplied: primarySource',
+        },
+      },
+      [
+        'X-Powered-By',
+        'Express',
+        'Content-Type',
+        'application/json; charset=utf-8',
+        'Content-Length',
+        '714',
+        'ETag',
+        'W/"2ca-B0TkX1zAQfIfnHwQo6e4kGAEMCs"',
+        'Date',
+        'Wed, 23 Jun 2021 22:38:43 GMT',
+        'Connection',
+        'close',
+      ],
+    )
+
   nock(dataProviderConfig.coingecko.providerUrl)
     .post('/')
     .reply(

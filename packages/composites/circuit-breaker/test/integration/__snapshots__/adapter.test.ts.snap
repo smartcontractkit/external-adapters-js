@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute result method should return correct result if the primary source fail and a secondary souce exist 1`] = `
+exports[`execute result method should return correct result if the primary source fail and a secondary source exist 1`] = `
 Object {
   "data": Object {
     "result": 3068.06,

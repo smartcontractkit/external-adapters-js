@@ -25,12 +25,13 @@
     "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
     "prepack": "yarn build",
     "build": "tsc -b",
-    "server": "node -e 'require(\"./index.js\").server()'",
-    "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
+    "server": "node -e 'require(\"./index.js\").handlers.server()'",
+    "server:dist": "node -e 'require(\"./dist/index.js\").handlers.server()'",
     "start": "yarn server:dist"
   },
   "dependencies": {
     "@chainlink/ea-bootstrap": "*",
+    "axios": "^0.21.1",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
