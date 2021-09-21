@@ -1,4 +1,7 @@
 {
+  "coinmarketcap": {
+    "PAX": "USDP"
+  },
   "coingecko": {
     "COMP": "compound-governance-token",
     "FNX": "finnexus",
