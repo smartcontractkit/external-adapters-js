@@ -4232,7 +4232,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/pino", "npm:6.3.11"],
             ["@types/pino-pretty", "npm:4.7.1"],
             ["@types/promise-timeout", "npm:1.3.0"],
-            ["@types/redis", "npm:2.8.31"],
+            ["@types/redis", "npm:2.8.32"],
             ["@types/redux-logger", "npm:3.0.9"],
             ["@types/remote-redux-devtools", "npm:0.5.5"],
             ["@types/sinon", "npm:10.0.2"],
@@ -8935,10 +8935,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@types/redis", [
-        ["npm:2.8.31", {
-          "packageLocation": "./.yarn/cache/@types-redis-npm-2.8.31-198c5034ba-5f59a8e8f3.zip/node_modules/@types/redis/",
+        ["npm:2.8.32", {
+          "packageLocation": "./.yarn/cache/@types-redis-npm-2.8.32-a5b861da6a-2b12103e05.zip/node_modules/@types/redis/",
           "packageDependencies": [
-            ["@types/redis", "npm:2.8.31"],
+            ["@types/redis", "npm:2.8.32"],
             ["@types/node", "npm:16.6.1"]
           ],
           "linkType": "HARD",
