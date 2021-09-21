@@ -2649,7 +2649,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/google-bigquery-adapter": 0.0.1
     "@chainlink/types": 0.0.1
-    "@types/convert-units": 2.3.4
+    "@types/convert-units": 2.3.5
     "@types/jest": 27.0.1
     "@types/node": 14.17.17
     convert-units: ^2.3.4
@@ -5995,10 +5995,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/convert-units@npm:2.3.4":
-  version: 2.3.4
-  resolution: "@types/convert-units@npm:2.3.4"
-  checksum: 33fd534eb2cdba7ddff0ee446ce77db393875f7063ad8b659ad08a55d00aac01d666b190fe107a88f5d0c5c8f5be2f6ac067dadc9310d36036c86b5bad370369
+"@types/convert-units@npm:2.3.5":
+  version: 2.3.5
+  resolution: "@types/convert-units@npm:2.3.5"
+  checksum: 326de4dc3d55c9dde47c751fcff5272111391506730c84c982f1d215dd53831d170809995b55d049f43126d37ea980249ee2c7e3c7030e33393f6f0bb2f36059
   languageName: node
   linkType: hard
 
