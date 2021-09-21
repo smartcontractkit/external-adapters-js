@@ -146,4 +146,38 @@ export function mockDataProviderResponses() {
         'close',
       ],
     )
+
+  nock(circuitBreakerUrl)
+    .post('/', {
+      id: 1,
+      data: {
+        primarySource: 'none',
+        secondSource: 'none',
+        from: 'ETH',
+        to: 'USD',
+        days: 1,
+      },
+    })
+    .reply(
+      400,
+      {
+        jobRunID: '1',
+        message: `Could not get result from none and none`,
+        statusCode: 400,
+      },
+      [
+        'X-Powered-By',
+        'Express',
+        'Content-Type',
+        'application/json; charset=utf-8',
+        'Content-Length',
+        '714',
+        'ETag',
+        'W/"2ca-B0TkX1zAQfIfnHwQo6e4kGAEMCs"',
+        'Date',
+        'Wed, 23 Jun 2021 22:38:43 GMT',
+        'Connection',
+        'close',
+      ],
+    )
 }

@@ -27,7 +27,7 @@ describe('execute', () => {
     nock.enableNetConnect()
   })
 
-  describe('result method', () => {
+  describe('valid result method', () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     for (const source of Object.keys(dataProviderConfig)) {
       const { providerUrlEnvVar, providerUrl } = dataProviderConfig[source]
@@ -72,30 +72,51 @@ describe('execute', () => {
     })
   })
 
-  describe('variables', () => {
+  describe('error result method', () => {
+    oldEnv = JSON.parse(JSON.stringify(process.env))
+    for (const source of Object.keys(dataProviderConfig)) {
+      const { providerUrlEnvVar, providerUrl } = dataProviderConfig[source]
+      process.env[providerUrlEnvVar] = providerUrl
+    }
+
+    mockDataProviderResponses()
     const jobID = '1'
-    const requests = [
+    const request = [
       {
-        name: 'not setted required env variables',
+        name: 'should return an error if the first source fail and the second one is not setted propertly',
         input: {
-          id: '1',
+          id: jobID,
           data: {
-            primarySource: '',
-            base: 'ETH',
-            quote: 'USD',
+            primarySource: 'none',
+            secondarySource: 'none',
+            from: 'ETH',
+            to: 'USD',
+            days: 1,
+          },
+        },
+      },
+      {
+        name: 'should return correct result values only with the first source',
+        input: {
+          id: jobID,
+          data: {
+            primarySource: 'none',
+            secondSource: 'coinmarketcap',
+            from: 'ETH',
+            to: 'USD',
             days: 1,
           },
         },
       },
     ]
 
-    requests.forEach((req) => {
+    request.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
-          await execute(req.input)
+          await execute(req.input, {})
         } catch (error) {
           const errorResp = Requester.errored(jobID, error)
-          assertError({ expected: 500, actual: errorResp.statusCode }, errorResp, jobID)
+          assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
         }
       })
     })
