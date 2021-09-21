@@ -670,7 +670,7 @@
     "http": {},
     "ws": {}
   },
-  "iex-cloud": {
+  "iexcloud": {
     "http": {
       "individual": {
         "rateLimit1h": 6944.44444444,
