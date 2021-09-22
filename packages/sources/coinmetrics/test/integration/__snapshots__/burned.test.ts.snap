@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute with endpoint/asset should return success 1`] = `
+Object {
+  "data": Object {
+    "data": Array [
+      Object {
+        "FeeTotNtv": "8678.054136625938276296",
+        "IssTotNtv": "13446.375",
+        "RevNtv": "15542.571011111157438326",
+        "asset": "eth",
+        "time": "2021-09-14T00:00:00.000000000Z",
+      },
+    ],
+    "next_page_token": "0.MjAyMS0wOS0xNFQwMDowMDowMFo",
+    "next_page_url": "https://api.coinmetrics.io/v4/timeseries/asset-metrics?assets=eth&metrics=FeeTotNtv,RevNtv,IssTotNtv&frequency=1d&api_key=test_key&page_size=1&next_page_token=0.MjAyMS0wOS0xNFQwMDowMDowMFo",
+    "result": "6581.85812551478083797",
+  },
+  "jobRunID": "1",
+  "result": "6581.85812551478083797",
+  "statusCode": 200,
+}
+`;

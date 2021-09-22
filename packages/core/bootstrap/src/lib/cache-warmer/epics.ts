@@ -10,6 +10,7 @@ import {
   map,
   mapTo,
   mergeMap,
+  tap,
   take,
   takeUntil,
   withLatestFrom,
@@ -30,6 +31,8 @@ import {
 import { Config, get, WARMUP_REQUEST_ID, WARMUP_BATCH_REQUEST_ID } from './config'
 import { concatenateBatchResults, getSubscriptionKey, splitIntoBatches } from './util'
 import { getTTL } from '../cache/ttl'
+import * as metrics from './metrics'
+import { getFeedId } from '../metrics/util'
 
 export interface EpicDependencies {
   config: Config
@@ -156,6 +159,12 @@ export const warmupSubscriber: Epic<AnyAction, AnyAction, any, EpicDependencies>
       // this check doesnt work because state is already set!
       return !state.cacheWarmer.subscriptions[key]?.isDuplicate
     }),
+    tap(([{ payload }]) => {
+      const labels = {
+        isBatched: String(!!payload.childLastSeenById),
+      }
+      metrics.cache_warmer_count.labels(labels).inc()
+    }),
     // on a subscribe action being dispatched, spin up a long lived interval if one doesnt exist yet
     mergeMap(([{ payload, key }]) => {
       // Interval should be set to the warmup interval if configured,
@@ -170,6 +179,15 @@ export const warmupSubscriber: Epic<AnyAction, AnyAction, any, EpicDependencies>
           action$.pipe(
             filter(warmupUnsubscribed.match || warmupStopped.match),
             filter((a) => a.payload.key === key),
+            withLatestFrom(state$),
+            tap(([{ payload }, state]) => {
+              const labels = {
+                isBatched: String(
+                  !!state.cacheWarmer.subscriptions[payload.key]?.childLastSeenById,
+                ),
+              }
+              metrics.cache_warmer_count.labels(labels).dec()
+            }),
           ),
         ),
       )
@@ -227,7 +245,18 @@ export const warmupRequestHandler: Epic<AnyAction, AnyAction, any> = (action$, s
             }),
       ).pipe(
         mapTo(warmupFulfilled({ key })),
-        catchError((error: unknown) => of(warmupFailed({ error: error as Error, key }))),
+        catchError((error: unknown) =>
+          of(
+            warmupFailed({
+              feedLabel: getFeedId({
+                id: requestData.childLastSeenById ? WARMUP_BATCH_REQUEST_ID : WARMUP_REQUEST_ID,
+                data: requestData?.origin,
+              }),
+              error: error as Error,
+              key,
+            }),
+          ),
+        ),
       ),
     ),
   )
@@ -246,7 +275,9 @@ export const warmupUnsubscriber: Epic<AnyAction, AnyAction, any, EpicDependencie
         (state.cacheWarmer.warmups[payload.key]?.errorCount ?? 0 >= config.unhealthyThreshold) &&
         config.unhealthyThreshold !== -1,
     ),
-    map(([{ payload }]) => warmupUnsubscribed({ key: payload.key })),
+    map(([{ payload }]) =>
+      warmupUnsubscribed({ key: payload.key, reason: `Errored: ${payload.error.message}` }),
+    ),
   )
 
   // emits whenever a subscription event comes in,
@@ -268,7 +299,9 @@ export const warmupUnsubscriber: Epic<AnyAction, AnyAction, any, EpicDependencie
       )
 
       // start the current unsubscription timer
-      const timeout$ = of(warmupUnsubscribed({ key })).pipe(delay(config.subscriptionTTL))
+      const timeout$ = of(warmupUnsubscribed({ key, reason: 'Timeout' })).pipe(
+        delay(config.subscriptionTTL),
+      )
 
       // if a re-subscription comes in before timeout emits, then we emit nothing
       // else we unsubscribe from the current subscription
@@ -295,7 +328,9 @@ export const warmupUnsubscriber: Epic<AnyAction, AnyAction, any, EpicDependencie
       }
       return false
     }),
-    map(([{ payload }]) => warmupUnsubscribed({ key: payload.parent })),
+    map(([{ payload }]) =>
+      warmupUnsubscribed({ key: payload.parent, reason: 'Empty Batch Warmer request data' }),
+    ),
   )
 
   return merge(unsubscribeOnFailure$, unsubscribeOnTimeout$, stopOnBatch$, unsubscribeOnBatchEmpty$)

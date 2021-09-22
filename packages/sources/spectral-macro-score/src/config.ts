@@ -1,7 +1,7 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
-export const NAME = 'spectral-macro-score'
+export const NAME = 'SPECTRAL_MACRO_SCORE'
 
 export const DEFAULT_ENDPOINT = 'spectral-proxy'
 export const DEFAULT_BASE_URL = 'https://xzff24vr3m.execute-api.us-east-2.amazonaws.com/default/'

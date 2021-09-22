@@ -1,6 +1,6 @@
 .git
 node_modules
-dist
+**/dist
 
 # Build artifacts
 packages/**/*.zip

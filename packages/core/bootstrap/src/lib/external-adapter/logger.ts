@@ -49,7 +49,7 @@ export const logger = pino({
         const arg2 = cloneDeep(inputArgs.shift())
 
         // add instanceId if not present
-        if (!arg2.instanceId) arg2.instanceId = uuid()
+        if (typeof arg2 === 'object' && !arg2.instanceId) arg2.instanceId = uuid()
 
         return method.apply(this, [arg2, arg1, ...inputArgs])
       }
