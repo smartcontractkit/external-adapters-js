@@ -120,7 +120,6 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
       const {
         connection: { url, protocol },
       } = wsHandler
-
       const connectionMeta = (payload: WSConfigPayload) => ({
         key: payload.config.connectionInfo.key,
         url: censor(url),
@@ -260,8 +259,9 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
                   return false
                 }
                 return (
-                  getSubsId(wsHandler.subsFromMessage(message, payload.subscriptionMsg)) ===
-                  subscriptionKey
+                  getSubsId(
+                    wsHandler.subsFromMessage(message, payload.subscriptionMsg, payload.input),
+                  ) === subscriptionKey
                 )
               },
             )
