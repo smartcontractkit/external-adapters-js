@@ -291,6 +291,10 @@
         "rateLimit1m": 500,
         "rateLimit1h": 690
       },
+      "chainlink": {
+        "rateLimit1m": 500,
+        "rateLimit1h": 4166
+      },
       "pro": {
         "rateLimit1m": 500,
         "rateLimit1h": 6900
@@ -666,7 +670,7 @@
     "http": {},
     "ws": {}
   },
-  "iex-cloud": {
+  "iexcloud": {
     "http": {
       "individual": {
         "rateLimit1h": 6944.44444444,
@@ -678,6 +682,19 @@
       }
     },
     "ws": {}
+  },
+  "intrinio": {
+    "http": {
+      "free": {
+        "rateLimit1s": 100
+      }
+    },
+    "ws": {
+      "default": {
+        "connections": 100,
+        "subscriptions": -1
+      }
+    }
   },
   "kaiko": {
     "http": {

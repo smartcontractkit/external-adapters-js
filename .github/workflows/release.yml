@@ -4,7 +4,7 @@ on:
       # On develop, we build and publish containers, with the tag of "develop-latest"
 
       # Ex. A newly build coingecko adapter is built and pushed to ECR.
-      # The ECR registry is reachable at public.ecr.aws/chainlink/adapters/
+      # The ECR registry is reachable at public.ecr.aws/chainlink/adapters/, or at the private registry
 
       # You would be able to pull the coingecko adapter with the following command:
       # docker pull public.ecr.aws/chainlink/adapters/coingecko-adapter:develop-latest
@@ -33,23 +33,15 @@ env:
   publicecr-name: chainlink
 
 jobs:
-  # Read build strategy matrix of adapters, from a json file
   matrix-adapters:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.create-matrix.outputs.result }}
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '14.x'
       - name: Generate job matrix
         id: create-matrix
-        run: yarn generate:gha:matrix
-        env:
-          BRANCH: ${{ fromJSON('[undefined, "develop"]')[github.ref == 'refs/heads/develop'] }}
-          LATEST: ${{ fromJSON('[undefined, true]')[github.ref == 'refs/heads/develop'] }}
-          IMAGE_PREFIX: public.ecr.aws/${{ env.publicecr-name }}/adapters/
+        uses: ./.github/actions/release/matrix-adapters
 
   publish-artifacts:
     needs: [matrix-adapters]
@@ -57,21 +49,11 @@ jobs:
     name: (${{ matrix.adapter.type }}) Publish ${{ matrix.adapter.name }} adapter Docker image
     strategy:
       matrix: ${{fromJson(needs.matrix-adapters.outputs.matrix)}}
+      max-parallel: 50
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '14.x'
-      - name: Install yarn deps
-        run: yarn
-      - name: Generate docker-compose file
-        run: yarn generate:docker-compose
-        env:
-          BRANCH: ${{ fromJSON('[undefined, "develop"]')[github.ref == 'refs/heads/develop'] }}
-          LATEST: ${{ fromJSON('[undefined, true]')[github.ref == 'refs/heads/develop'] }}
-          IMAGE_PREFIX: public.ecr.aws/${{ env.publicecr-name }}/adapters/
-      - name: Build Docker containers
-        run: docker-compose -f docker-compose.generated.yaml build ${{ matrix.adapter.name }}
+
+      # Handle publishing to our public ECR repo
       - name: Configure AWS Credentials for SDLC Public ECR
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -80,67 +62,55 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
           role-to-assume: ${{ secrets.AWS_PUBLICECR_ROLE_ARN }}
           role-duration-seconds: 1200
-      - name: Authenticate to public ECR
-        run: aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/${{ env.publicecr-name }}
-      - name: Create a public ECR repository if does not exist
-        run: aws ecr-public create-repository --region us-east-1 --repository-name adapters/${{ matrix.adapter.name }} || true
-      - name: Push to public ECR
-        run: docker push ${{ matrix.adapter.image_name }}
-
-  # Run the same steps as above, but this is to re-tag release images as latest
-  # So released images have a latest tag on them too.
-  # E.g. Releasing @chainlink/coingecko@0.0.3 will have the tag of 0.0.3 from the above jobs
-  # and a tag of 'latest' from the below jobs.
-  # This is only needed for non-develop jobs since the same image needs to be tagged twice
-  matrix-adapters-release-latest:
-    if: github.ref != 'refs/heads/develop'
-    runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.create-matrix.outputs.result }}
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - name: Publish adapter to public ECR
+        uses: ./.github/actions/release/publish-artifacts
         with:
-          node-version: '14.x'
-      - name: Generate job matrix
-        id: create-matrix
-        run: yarn generate:gha:matrix
-        env:
-          LATEST: true
-          IMAGE_PREFIX: public.ecr.aws/${{ env.publicecr-name }}/adapters/
+          branch: ${{ fromJSON('[undefined, "develop"]')[github.ref == 'refs/heads/develop'] }}
+          latest: ${{ fromJSON('[undefined, true]')[github.ref == 'refs/heads/develop'] }}
 
-  publish-artifacts-release-latest:
-    if: github.ref != 'refs/heads/develop'
-    needs: [matrix-adapters-release-latest]
-    runs-on: ubuntu-latest
-    name: (${{ matrix.adapter.type }}) Publish ${{ matrix.adapter.name }} adapter Docker image
-    strategy:
-      matrix: ${{fromJson(needs.matrix-adapters-release-latest.outputs.matrix)}}
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+          image-prefix: public.ecr.aws/${{ env.publicecr-name }}/adapters/
+          adapter-name: ${{ matrix.adapter.name }}
+          aws-region: us-east-1
+          aws-ecr-private: 'false'
+      # If we're on master, publish again with a forced 'latest' tag
+      - if: github.ref == 'refs/heads/master'
+        name: Publish adapter to public ECR, with forced latest tag
+        uses: ./.github/actions/release/publish-artifacts
         with:
-          node-version: '14.x'
-      - name: Install yarn deps
-        run: yarn
-      - name: Generate docker-compose file
-        run: yarn generate:docker-compose
-        env:
-          LATEST: true
-          IMAGE_PREFIX: public.ecr.aws/${{ env.publicecr-name }}/adapters/
-      - name: Build Docker containers
-        run: docker-compose -f docker-compose.generated.yaml build ${{ matrix.adapter.name }}
-      - name: Configure AWS Credentials for SDLC Public ECR
+          latest: true
+
+          image-prefix: public.ecr.aws/${{ env.publicecr-name }}/adapters/
+          adapter-name: ${{ matrix.adapter.name }}
+          aws-region: us-east-1
+          aws-ecr-private: 'false'
+      # Handle publishing to our private ECR repo
+      - name: Configure AWS Credentials for SDLC Private ECR
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_PUBLICECR_ACCESSKEY }}
-          aws-secret-access-key: ${{ secrets.AWS_PUBLICECR_SECRETKEY }}
+          aws-access-key-id: ${{ secrets.AWS_PRIVATEECR_ACCESSKEY }}
+          aws-secret-access-key: ${{ secrets.AWS_PRIVATEECR_SECRETKEY }}
           aws-region: ${{ secrets.AWS_REGION }}
-          role-to-assume: ${{ secrets.AWS_PUBLICECR_ROLE_ARN }}
-          role-duration-seconds: 1200
-      - name: Authenticate to public ECR
-        run: aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/${{ env.publicecr-name }}
-      - name: Create a public ECR repository if does not exist
-        run: aws ecr-public create-repository --region us-east-1 --repository-name adapters/${{ matrix.adapter.name }} || true
-      - name: Push to public ECR
-        run: docker push ${{ matrix.adapter.image_name }}
+      - name: Publish adapter to private ECR
+        uses: ./.github/actions/release/publish-artifacts
+        with:
+          branch: ${{ fromJSON('[undefined, "develop"]')[github.ref == 'refs/heads/develop'] }}
+          latest: ${{ fromJSON('[undefined, true]')[github.ref == 'refs/heads/develop'] }}
+
+          image-prefix: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/adapters/
+          adapter-name: ${{ matrix.adapter.name }}
+          aws-region: ${{ secrets.AWS_REGION }}
+          aws-ecr-private: 'true'
+          aws-ecr-account-ids: ${{ secrets.AWS_PRIVATE_ECR_SECONDARY_ACCOUNT_ACCESS_IDS }}
+
+      # If we're on master, publish again with a forced 'latest' tag
+      - if: github.ref == 'refs/heads/master'
+        name: Publish adapter to private ECR, with forced latest tag
+        uses: ./.github/actions/release/publish-artifacts
+        with:
+          latest: true
+
+          image-prefix: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/adapters/
+          adapter-name: ${{ matrix.adapter.name }}
+          aws-region: ${{ secrets.AWS_REGION }}
+          aws-ecr-private: 'true'
+          aws-ecr-account-ids: ${{ secrets.AWS_PRIVATE_ECR_SECONDARY_ACCOUNT_ACCESS_IDS }}

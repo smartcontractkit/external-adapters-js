@@ -342,6 +342,7 @@ describe('side effect tests', () => {
           },
           actions.warmupUnsubscribed({
             key: batchKeyParent,
+            reason: 'Unsubscribe test',
           }),
         ),
       ).toEqual({})
@@ -359,6 +360,7 @@ describe('side effect tests', () => {
           }),
           b: actions.warmupUnsubscribed({
             key: key1,
+            reason: 'Unsubscribe test',
           }),
           c: actions.warmupSubscribed({
             executeFn: stub(),
@@ -377,6 +379,47 @@ describe('side effect tests', () => {
 
         const output$ = warmupSubscriber(action$, state$, epicDependencies)
         expectObservable(output$, '^ 35s !').toBe('29000ms a b', {
+          a: actions.warmupRequested({
+            key: key1,
+          }),
+          b: actions.warmupRequested({
+            key: key2,
+          }),
+        })
+      })
+    })
+
+    it('should create a warmup subscription  with configured interval', () => {
+      scheduler.run(({ hot, expectObservable }) => {
+        const action$ = actionStream(hot, 'a c 9s b ', {
+          a: actions.warmupSubscribed({
+            executeFn: stub(),
+            ...adapterRequest1,
+            result: adapterResult,
+          }),
+          b: actions.warmupUnsubscribed({
+            key: key1,
+            reason: 'Unsubscribe test',
+          }),
+          c: actions.warmupSubscribed({
+            executeFn: stub(),
+            ...adapterRequest2,
+            result: adapterResult,
+          }),
+        })
+        const state$ = stateStream({
+          cacheWarmer: {
+            subscriptions: {
+              [key1]: { isDuplicate: false },
+              [key2]: { isDuplicate: false },
+            },
+          },
+        })
+
+        const config = { ...epicDependencies.config, warmupInterval: 8000 }
+        const output$ = warmupSubscriber(action$, state$, { config })
+        // With offset, we expect 7000ms when interval is set to 8000ms
+        expectObservable(output$, '^ 14s !').toBe('7000ms a b', {
           a: actions.warmupRequested({
             key: key1,
           }),
@@ -493,6 +536,7 @@ describe('side effect tests', () => {
             actions.warmupFailed({
               key: key1,
               error: err,
+              feedLabel: '{"data":{"data":{"foo":"bar"},"id":"0"}}',
             }),
           ),
         )
@@ -546,6 +590,7 @@ describe('side effect tests', () => {
             actions.warmupFailed({
               key: key1,
               error: err,
+              feedLabel: '{"data":{"id":"0","key1":["foo","foo2","foo3","foo4"],"key2":"bar"}}',
             }),
           ),
         )
@@ -607,6 +652,7 @@ describe('side effect tests', () => {
           a: actions.warmupFailed({
             key: key1,
             error: Error('We havin a bad time'),
+            feedLabel: '{"data":{"data":{"foo":"bar"},"id":"0"}}',
           }),
         })
         const state$ = stateStream({
@@ -630,6 +676,7 @@ describe('side effect tests', () => {
           a: actions.warmupFailed({
             key: key1,
             error: Error('We havin a bad time'),
+            feedLabel: '{"data":{"data":{"foo":"bar"},"id":"0"}}',
           }),
         })
         const state$ = stateStream({
@@ -645,7 +692,7 @@ describe('side effect tests', () => {
         })
         const output$ = warmupUnsubscriber(action$, state$, epicDependencies)
         expectObservable(output$).toBe('a', {
-          a: actions.warmupUnsubscribed({ key: key1 }),
+          a: actions.warmupUnsubscribed({ key: key1, reason: 'Errored: We havin a bad time' }),
         })
       })
     })
@@ -655,6 +702,7 @@ describe('side effect tests', () => {
           a: actions.warmupFailed({
             key: key1,
             error: Error('We havin a bad time'),
+            feedLabel: '{"data":{"data":{"foo":"bar"},"id":"0"}}',
           }),
         })
         const state$ = stateStream({
@@ -691,7 +739,7 @@ describe('side effect tests', () => {
         const output$ = warmupUnsubscriber(action$, state$, epicDependencies)
         expectObservable(output$, '^ 120m !').toBe('50m -- a 9m 59s 998ms b 40m - a', {
           a: actions.warmupSubscriptionTimeoutReset({ key: key1 }),
-          b: actions.warmupUnsubscribed({ key: key2 }),
+          b: actions.warmupUnsubscribed({ key: key2, reason: 'Timeout' }),
         })
       })
     })

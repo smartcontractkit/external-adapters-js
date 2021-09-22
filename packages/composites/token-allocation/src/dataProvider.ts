@@ -40,11 +40,10 @@ export const getPriceProvider =
       const key = symbol
       const val = {
         quote: {
-          [quote]: { [withMarketCap ? 'marketCap' : 'crypto']: results[i] },
+          [quote]: { [withMarketCap ? 'marketCap' : 'price']: results[i] },
         },
       }
       return [key, val]
     })
-
     return Object.fromEntries(payloadEntries)
   }

@@ -7,6 +7,7 @@ const ENV_API_ENDPOINT = 'API_ENDPOINT'
 const ENV_API_TIMEOUT = 'API_TIMEOUT'
 const ENV_API_VERBOSE = 'API_VERBOSE'
 const ENV_WS_API_ENDPOINT = 'WS_API_ENDPOINT'
+const ENV_WS_API_KEY = 'WS_API_KEY'
 
 const DEFAULT_API_TIMEOUT = 30000
 
@@ -22,13 +23,17 @@ export const constants = {
 const cloneNoSecrets = (config: Config): Config =>
   (({ apiKey, api: { auth, headers, params, ...api }, ...o }) => ({ api, ...o }))(config)
 
-export function getDefaultConfig(prefix = '', requireKey = false): Config {
+export function getDefaultConfig(prefix = '', requireKey = false, requireWsKey = false): Config {
   const apiKey = requireKey
     ? getRandomRequiredEnv(ENV_API_KEY, ',', prefix)
     : getRandomEnv(ENV_API_KEY, ',', prefix)
+  const wsApiKey = requireWsKey
+    ? getRandomRequiredEnv(ENV_WS_API_KEY, ',', prefix)
+    : getRandomEnv(ENV_WS_API_KEY, ',', prefix)
   const timeout = getEnv(ENV_API_TIMEOUT, prefix)
   return {
     apiKey,
+    wsApiKey,
     verbose: !!getEnv(ENV_API_VERBOSE, prefix),
     api: {
       withCredentials: !!apiKey,

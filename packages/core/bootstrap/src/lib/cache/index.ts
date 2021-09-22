@@ -296,11 +296,15 @@ export const withCache =
               )) {
                 const [request, result] = batchParticipant
                 const keyBatchParticipant = adapterCache.getKey(request)
+                const debugBatchablePropertyPath = debug
+                  ? { batchablePropertyPath: debug.batchablePropertyPath }
+                  : {}
                 const entryBatchParticipant = {
                   statusCode,
                   data: { result },
                   result,
                   maxAge,
+                  debug: debugBatchablePropertyPath,
                 }
                 await cache.setResponse(keyBatchParticipant, entryBatchParticipant, maxAge)
                 logger.trace(`Cache Split Batch: SET ${keyBatchParticipant}`, entryBatchParticipant)

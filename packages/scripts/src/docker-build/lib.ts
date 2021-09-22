@@ -9,16 +9,28 @@ export async function writeFile(): Promise<void> {
   fs.writeFileSync(join(path, 'docker-compose.generated.yaml'), await generateFile())
 }
 
+export interface ComposeFileOptions {
+  context: string
+}
+
 export async function generateFile(): Promise<string> {
   const branch = process.env.BRANCH || ''
   const prefix = process.env.IMAGE_PREFIX || ''
   const useLatest = !!process.env.LATEST
 
-  return yaml.stringify(await generateFileJSON({ prefix, branch, useLatest }), { merge: true })
+  const context = process.env.CONTEXT || '.'
+
+  const composeFileOptions = { context }
+  return yaml.stringify(await generateFileJSON({ prefix, branch, useLatest }, composeFileOptions), {
+    merge: true,
+  })
 }
 
-export async function generateFileJSON(imageNameConfig: ImageNameConfig): Promise<Dockerfile> {
-  return makeDockerComposeFile(getWorkspacePackages(), imageNameConfig)
+export async function generateFileJSON(
+  imageNameConfig: ImageNameConfig,
+  composeFileOptions: ComposeFileOptions,
+): Promise<Dockerfile> {
+  return makeDockerComposeFile(getWorkspacePackages(), imageNameConfig, composeFileOptions)
 }
 
 interface Service {
@@ -51,6 +63,7 @@ export enum DockerLabels {
 async function makeDockerComposeFile(
   packages: WorkspacePackages,
   imageNameConfig: ImageNameConfig,
+  composeFileOptions: ComposeFileOptions,
 ): Promise<Dockerfile> {
   const flattenedSchemas = await flattenAllSchemas()
   const flattenedSchemasByLocation = flattenedSchemas.reduce<Record<string, FlattenedSchema>>(
@@ -68,7 +81,7 @@ async function makeDockerComposeFile(
         image: generateImageName(next.descopedName, next.version, imageNameConfig),
         ports: [`${8080 + i}:8080`],
         build: {
-          context: '.', // Handle dynamic context
+          context: composeFileOptions.context, // Handle dynamic context
           dockerfile: './Dockerfile',
           args: {
             location: next.location,
@@ -90,11 +103,11 @@ async function makeDockerComposeFile(
   }
 }
 
-function generateImageName(
+export function generateImageName(
   descopedName: string,
   version: string,
   { prefix, branch, useLatest }: ImageNameConfig,
-) {
+): string {
   const tag = [branch, useLatest ? 'latest' : version].filter(Boolean).join('-')
 
   return `${prefix}${descopedName}:${tag}`

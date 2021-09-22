@@ -47,6 +47,7 @@ const handleBatchedRequest = (
   jobRunID: string,
   request: AdapterRequest,
   response: AxiosResponse,
+  validator: Validator,
   endpoint: string,
   idToSymbol: Record<string, string>,
 ) => {
@@ -60,7 +61,7 @@ const handleBatchedRequest = (
           ...request,
           data: {
             ...request.data,
-            base: symbol.toUpperCase(),
+            base: validator.overrideReverseLookup(AdapterName, 'overrides', symbol).toUpperCase(),
             quote: quote.toUpperCase(),
           },
         }
@@ -115,7 +116,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
   const response = await Requester.request(options, customError)
 
   if (Array.isArray(base) || Array.isArray(quote))
-    return handleBatchedRequest(jobRunID, request, response, endpoint, idToSymbol)
+    return handleBatchedRequest(jobRunID, request, response, validator, endpoint, idToSymbol)
 
   response.data.result = Requester.validateResultNumber(response.data, [
     ids.toLowerCase(),

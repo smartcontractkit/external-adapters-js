@@ -128,10 +128,16 @@
       "path": "../../sources/dxfeed-secondary"
     },
     {
+      "path": "../../sources/enzyme"
+    },
+    {
       "path": "../../sources/eodhistoricaldata"
     },
     {
       "path": "../../sources/etherchain"
+    },
+    {
+      "path": "../../sources/etherscan"
     },
     {
       "path": "../../sources/ethgasstation"
@@ -153,6 +159,9 @@
     },
     {
       "path": "../../sources/fixer"
+    },
+    {
+      "path": "../../sources/flightaware"
     },
     {
       "path": "../../sources/fmpcloud"
@@ -221,6 +230,9 @@
       "path": "../../sources/onchain"
     },
     {
+      "path": "../../sources/onchain-gas"
+    },
+    {
       "path": "../../sources/openexchangerates"
     },
     {
@@ -249,6 +261,9 @@
     },
     {
       "path": "../../sources/sochain"
+    },
+    {
+      "path": "../../sources/spectral-macro-score"
     },
     {
       "path": "../../sources/sportsdataio"
@@ -285,6 +300,9 @@
     },
     {
       "path": "../../sources/upvest"
+    },
+    {
+      "path": "../../sources/uscpi-one"
     },
     {
       "path": "../../sources/wbtc-address-set"

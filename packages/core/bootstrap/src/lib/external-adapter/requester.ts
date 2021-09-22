@@ -51,7 +51,11 @@ export class Requester {
         // Request error
         if (n === 1) {
           logger.error(`Could not reach endpoint: ${JSON.stringify(error.message)}`)
-          throw new AdapterError({ message: error.message, cause: error })
+          throw new AdapterError({
+            statusCode: error.response.status,
+            message: error.message,
+            cause: error,
+          })
         }
 
         return await _delayRetry(`Caught error. Retrying: ${JSON.stringify(error.message)}`)
@@ -119,7 +123,7 @@ export class Requester {
 
   static withResult<T>(
     response: AxiosResponse<T>,
-    result?: number,
+    result?: number | string,
     results?: [AdapterRequest, number][],
   ): AxiosResponseWithLiftedResult<T> | AxiosResponseWithPayloadAndLiftedResult<T> {
     const isObj = deepType(response.data) === 'object'
@@ -197,7 +201,7 @@ export class Requester {
  * ```
  */
 interface SingleResult {
-  result?: number
+  result?: number | string
 }
 
 /**

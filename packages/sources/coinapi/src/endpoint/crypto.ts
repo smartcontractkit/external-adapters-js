@@ -8,7 +8,11 @@ export const endpointOverride = (request: AdapterRequest): string | null => {
   // The Assets endpoint supports batch requests, but only for USD quotes.
   // If possible, use it.
   const validator = new Validator(request, inputParameters)
-  if (validator.validated.data.quote === 'USD') return 'assets'
+  if (
+    !Array.isArray(validator.validated.data.quote) &&
+    validator.validated.data.quote?.toUpperCase() === 'USD'
+  )
+    return 'assets'
   return null
 }
 
