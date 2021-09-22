@@ -79,6 +79,7 @@
     "@chainlink/finage-adapter": "*",
     "@chainlink/finnhub-adapter": "*",
     "@chainlink/fixer-adapter": "*",
+    "@chainlink/flightaware-adapter": "*",
     "@chainlink/fmpcloud-adapter": "*",
     "@chainlink/genesis-volatility-adapter": "*",
     "@chainlink/geodb-adapter": "*",

@@ -48,6 +48,7 @@ import * as fcsapi from '@chainlink/fcsapi-adapter'
 import * as finage from '@chainlink/finage-adapter'
 import * as finnhub from '@chainlink/finnhub-adapter'
 import * as fixer from '@chainlink/fixer-adapter'
+import * as flightaware from '@chainlink/flightaware-adapter'
 import * as fmpcloud from '@chainlink/fmpcloud-adapter'
 import * as genesis_adapter from '@chainlink/genesis-volatility-adapter'
 import * as geodb from '@chainlink/geodb-adapter'
@@ -150,6 +151,7 @@ export default {
   finage,
   finnhub,
   fixer,
+  flightaware,
   fmpcloud,
   genesis_adapter,
   geodb,

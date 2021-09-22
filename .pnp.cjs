@@ -339,6 +339,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/fixer"
       },
       {
+        "name": "@chainlink/flightaware-adapter",
+        "reference": "workspace:packages/sources/flightaware"
+      },
+      {
         "name": "@chainlink/fmpcloud-adapter",
         "reference": "workspace:packages/sources/fmpcloud"
       },
@@ -633,6 +637,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/finage-adapter", ["workspace:packages/sources/finage"]],
       ["@chainlink/finnhub-adapter", ["workspace:packages/sources/finnhub"]],
       ["@chainlink/fixer-adapter", ["workspace:packages/sources/fixer"]],
+      ["@chainlink/flightaware-adapter", ["workspace:packages/sources/flightaware"]],
       ["@chainlink/fmpcloud-adapter", ["workspace:packages/sources/fmpcloud"]],
       ["@chainlink/genesis-volatility-adapter", ["workspace:packages/sources/genesis-volatility"]],
       ["@chainlink/geodb-adapter", ["workspace:packages/sources/geodb"]],
@@ -4143,6 +4148,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/finage-adapter", "workspace:packages/sources/finage"],
             ["@chainlink/finnhub-adapter", "workspace:packages/sources/finnhub"],
             ["@chainlink/fixer-adapter", "workspace:packages/sources/fixer"],
+            ["@chainlink/flightaware-adapter", "workspace:packages/sources/flightaware"],
             ["@chainlink/fmpcloud-adapter", "workspace:packages/sources/fmpcloud"],
             ["@chainlink/genesis-volatility-adapter", "workspace:packages/sources/genesis-volatility"],
             ["@chainlink/geodb-adapter", "workspace:packages/sources/geodb"],
@@ -4584,6 +4590,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.1"],
             ["@types/node", "npm:14.17.17"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/flightaware-adapter", [
+        ["workspace:packages/sources/flightaware", {
+          "packageLocation": "./packages/sources/flightaware/",
+          "packageDependencies": [
+            ["@chainlink/flightaware-adapter", "workspace:packages/sources/flightaware"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.1"],
+            ["@types/node", "npm:14.17.7"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],

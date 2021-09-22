@@ -2296,6 +2296,7 @@ __metadata:
     "@chainlink/finage-adapter": "*"
     "@chainlink/finnhub-adapter": "*"
     "@chainlink/fixer-adapter": "*"
+    "@chainlink/flightaware-adapter": "*"
     "@chainlink/fmpcloud-adapter": "*"
     "@chainlink/genesis-volatility-adapter": "*"
     "@chainlink/geodb-adapter": "*"
@@ -2583,6 +2584,20 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.1
     "@types/node": 14.17.17
+    tslib: ^2.3.1
+    typescript: 4.3.5
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/flightaware-adapter@*, @chainlink/flightaware-adapter@workspace:packages/sources/flightaware":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/flightaware-adapter@workspace:packages/sources/flightaware"
+  dependencies:
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.0.1
+    "@types/jest": 27.0.1
+    "@types/node": 14.17.7
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
