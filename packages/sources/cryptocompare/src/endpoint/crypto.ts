@@ -130,17 +130,24 @@ const handleBatchedRequest = (
   jobRunID: string,
   request: AdapterRequest,
   response: AxiosResponse<ResponseSchema[]>,
+  validator: Validator,
   resultPath: string,
 ) => {
   const payload: [AdapterRequest, number][] = []
-  for (const base in response.data.RAW) {
-    for (const quote in response.data.RAW[base]) {
+  for (const base of request.data.base) {
+    const baseWithOverride = validator.overrideSymbol(AdapterName, base)
+    for (const quote in response.data.RAW[baseWithOverride]) {
       payload.push([
         {
           ...request,
           data: { ...request.data, base: base.toUpperCase(), quote: quote.toUpperCase() },
         },
-        Requester.validateResultNumber(response.data, ['RAW', base, quote, resultPath]),
+        Requester.validateResultNumber(response.data, [
+          'RAW',
+          baseWithOverride as string,
+          quote,
+          resultPath,
+        ]),
       ])
     }
   }
@@ -182,7 +189,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const response = await Requester.request<ResponseSchema>(options)
 
   if (Array.isArray(symbol) || Array.isArray(quote))
-    return handleBatchedRequest(jobRunID, request, response, resultPath)
+    return handleBatchedRequest(jobRunID, request, response, validator, resultPath)
 
   const result = Requester.validateResultNumber(response.data, ['RAW', symbol, quote, resultPath])
 

@@ -26,10 +26,10 @@ const DEFAULT_WS_SUBSCRIPTION_TTL = 120000
 const DEFAULT_WS_SUBSCRIPTION_UNRESPONSIVE_TTL = 120000
 
 /** Load WSConfig from environment variables */
-export const getWSConfig = (): WSConfig => ({
+export const getWSConfig = (endpoint?: string): WSConfig => ({
   enabled: parseBool(getEnv(ENV_WS_ENABLED)),
   connectionInfo: {
-    key: getEnv(ENV_WS_CONNECTION_KEY) || '1',
+    key: `${getEnv(ENV_WS_CONNECTION_KEY) || '1'}-${endpoint}`,
   },
   connectionLimit: Number(getEnv(ENV_WS_CONNECTION_LIMIT)) || DEFAULT_WS_CONNECTION_LIMIT,
   connectionTTL: Number(getEnv(ENV_WS_CONNECTION_TTL)) || DEFAULT_WS_CONNECTION_TTL,

@@ -41,6 +41,32 @@ local redisConnectionsOpen = graphPanel.new(
   )
 );
 
+local redisRetriesCount = addSideLegend(graphPanel.new(
+  title='Redis connection retries',
+  sort='decreasing',
+  datasource=cortexDataSource,
+  format='retries',
+).addTarget(
+  prometheus.target(
+    'sum(redis_retries_count{' + instanceFilter + '})',
+    legendFormat='retries'
+  )
+));
+
+
+local redisCommandsSentCount = addSideLegend(graphPanel.new(
+  title='Redis commands sent / minute per status',
+  sort='decreasing',
+  datasource=cortexDataSource,
+  format='sent',
+).addTarget(
+  prometheus.target(
+    'rate(redis_commands_sent_count{' + instanceFilter + '}' + interval + ') * 60 ',
+    legendFormat='{{status}} {{function_name}}'
+  )
+));
+
+
 local heapUsedPanel = graphPanel.new(
   title='Heap usage MB',
   sort='decreasing',
@@ -66,7 +92,7 @@ local httpRequestsPerMinutePanel = addSideLegend(graphPanel.new(
 ).addTarget(
   prometheus.target(
     httpsRequestsPerMinuteQuery,
-    legendFormat='{{app_name}} {{feed_id}} {{status_code}} {{type}} CacheWarmer:{{is_cache_warming}}'
+    legendFormat='{{service}} {{feed_id}} {{status_code}} {{type}} CacheWarmer:{{is_cache_warming}}'
   )
 ));
 
@@ -127,7 +153,7 @@ local httpRequestDurationAverageSeconds = graphPanel.new(
 ).addTarget(
   prometheus.target(
     'rate(http_request_duration_seconds_sum{' + instanceFilter + '}' + interval + ')/rate(http_request_duration_seconds_count{' + instanceFilter + '}' + interval + ')',
-    legendFormat='{{app_name}}',
+    legendFormat='{{service}}',
   )
 );
 local httpRequestDurationSecondsHeatmap = heatmapPanel.new(
@@ -153,7 +179,7 @@ local wsConnectionActiveGraph = graphPanel.new(
 ).addTarget(
   prometheus.target(
     'ws_connection_active{' + instanceFilter + '}',
-    legendFormat='{{app_name}} | Key:{{key}}',
+    legendFormat='{{service}} | Key:{{key}}',
   ),
 );
 
@@ -165,7 +191,7 @@ local wsConnectionErrorsGraph = graphPanel.new(
 ).addTarget(
   prometheus.target(
     'ws_connection_errors{' + instanceFilter + '}',
-    legendFormat='{{app_name}} | Key:{{key}}',
+    legendFormat='{{service}} | Key:{{key}}',
   ),
 );
 
@@ -178,7 +204,7 @@ local wsConnectionRetriesGraph = graphPanel.new(
   prometheus.target(
     'ws_connection_retries{' + instanceFilter + '}',
 
-    legendFormat='{{app_name}} | Key:{{key}}',
+    legendFormat='{{service}} | Key:{{key}}',
   )
 );
 
@@ -191,7 +217,7 @@ local wsActiveSubscriptions = addSideLegend(graphPanel.new(
 ).addTarget(
   prometheus.target(
     'ws_subscription_active{' + instanceFilter + '}',
-    legendFormat='{{app_name}} | ConnKey: {{ connection_key }} ConnUrl: {{ connection_url }} Feed: {{feed_id}}'
+    legendFormat='{{service}} | ConnKey: {{ connection_key }} ConnUrl: {{ connection_url }} Feed: {{feed_id}}'
   )
 ));
 
@@ -204,7 +230,7 @@ local wsMessagesPerSecondGraph = addSideLegend(graphPanel.new(
 ).addTarget(
   prometheus.target(
     'rate(ws_message_total{' + instanceFilter + '}' + interval + ')',
-    legendFormat='{{app_name}} | Feed: {{feed_id}}'
+    legendFormat='{{service}} | Feed: {{feed_id}}'
   )
 ));
 
@@ -325,6 +351,8 @@ local grid = [
   {
     panels: [
       redisConnectionsOpen { size:: 1 },
+      redisRetriesCount { size:: 1 },
+      redisCommandsSentCount { size:: 1 },
       wsConnectionActiveGraph { size:: 1 },
       wsConnectionErrorsGraph { size:: 1 },
       wsConnectionRetriesGraph { size:: 1 },

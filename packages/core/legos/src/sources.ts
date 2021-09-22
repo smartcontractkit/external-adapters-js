@@ -70,6 +70,7 @@ import * as nikkei from '@chainlink/nikkei-adapter'
 import * as nomics from '@chainlink/nomics-adapter'
 import * as oilpriceapi from '@chainlink/oilpriceapi-adapter'
 import * as onchain from '@chainlink/onchain-adapter'
+import * as onchain_gas from '@chainlink/onchain-gas-adapter'
 import * as openexchangerates from '@chainlink/openexchangerates-adapter'
 import * as orchid_adapter from '@chainlink/orchid-bandwidth-adapter'
 import * as paxos from '@chainlink/paxos-adapter'
@@ -171,6 +172,7 @@ export default {
   nomics,
   oilpriceapi,
   onchain,
+  onchain_gas,
   openexchangerates,
   orchid_adapter,
   paxos,

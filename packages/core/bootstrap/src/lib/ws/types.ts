@@ -36,5 +36,5 @@ export interface WSConnectionInfo {
   /**
    * @see WSHandler['connection']['url']
    */
-  url: string
+  url?: string
 }

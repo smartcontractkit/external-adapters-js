@@ -58,7 +58,6 @@ declare module '@chainlink/types' {
     result: R
     payload?: P
   }
-
   export type SequenceResponseData<R> = {
     responses?: any[]
     result: R[]
@@ -110,6 +109,7 @@ declare module '@chainlink/types' {
     verbose?: boolean
     api?: RequestConfig
     defaultEndpoint?: string
+    rpcUrl?: string
   }
 
   export type Execute = (input: AdapterRequest, context: AdapterContext) => Promise<AdapterResponse>
@@ -179,19 +179,20 @@ declare module '@chainlink/types' {
       /**
        * WS connection url
        */
-      url: string
+      url?: string
+      getUrl?: (input: AdapterRequest) => Promise<string>
       protocol?: any
     }
     // Determines whether or not to server request using WS
     shouldNotServeInputUsingWS?: (input: AdapterRequest) => boolean
     // Hook to send a message after connection
-    onConnect?: () => any
+    onConnect?: (input: AdapterRequest) => any
     // Get the subscription message necessary to subscribe to the feed channel
     subscribe: (input: AdapterRequest) => any | undefined
     // Get unsubscribe message necessary to unsubscribe to the feed channel
-    unsubscribe: (input: any) => any | undefined
+    unsubscribe: (input: any, subscriptionParams: any) => any | undefined
     // Map to response from the incoming message and formats it into an AdapterResponse
-    toResponse: (message: any, input: AdapterRequest) => AdapterResponse
+    toResponse: (message: any, input: AdapterRequest) => Promise<AdapterResponse> | AdapterResponse
     // Filter any message that is not from a subscribed channel
     filter: (message: any) => boolean
     // Determines if the incoming message is an error
@@ -208,6 +209,8 @@ declare module '@chainlink/types' {
       | undefined
     // Optional flag to ensure adapter only uses WS and doesn't send HTTP requests
     noHttp?: boolean
+    // This function is called if anything from the WS message needs to be saved in the Redux subscription store
+    toSaveFromFirstMessage?: (message: any) => any
   }
 
   /* INPUT TYPE VALIDATIONS */
