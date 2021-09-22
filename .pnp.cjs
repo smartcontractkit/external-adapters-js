@@ -67,6 +67,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/composites/linear-finance"
       },
       {
+        "name": "@chainlink/lotus-adapter",
+        "reference": "workspace:packages/composites/lotus"
+      },
+      {
         "name": "@chainlink/market-closure-adapter",
         "reference": "workspace:packages/composites/market-closure"
       },
@@ -349,6 +353,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {
         "name": "@chainlink/fmpcloud-adapter",
         "reference": "workspace:packages/sources/fmpcloud"
+      },
+      {
+        "name": "@chainlink/gemini-adapter",
+        "reference": "workspace:packages/sources/gemini"
       },
       {
         "name": "@chainlink/genesis-volatility-adapter",
@@ -648,6 +656,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/fixer-adapter", ["workspace:packages/sources/fixer"]],
       ["@chainlink/flightaware-adapter", ["workspace:packages/sources/flightaware"]],
       ["@chainlink/fmpcloud-adapter", ["workspace:packages/sources/fmpcloud"]],
+      ["@chainlink/gemini-adapter", ["workspace:packages/sources/gemini"]],
       ["@chainlink/genesis-volatility-adapter", ["workspace:packages/sources/genesis-volatility"]],
       ["@chainlink/geodb-adapter", ["workspace:packages/sources/geodb"]],
       ["@chainlink/google-bigquery-adapter", ["workspace:packages/sources/google-bigquery"]],
@@ -664,6 +673,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/linear-finance-adapter", ["workspace:packages/composites/linear-finance"]],
       ["@chainlink/linkpool-adapter", ["workspace:packages/sources/linkpool"]],
       ["@chainlink/lition-adapter", ["workspace:packages/sources/lition"]],
+      ["@chainlink/lotus-adapter", ["workspace:packages/composites/lotus"]],
       ["@chainlink/market-closure-adapter", ["workspace:packages/composites/market-closure"]],
       ["@chainlink/marketstack-adapter", ["workspace:packages/sources/marketstack"]],
       ["@chainlink/medianizer-adapter", ["workspace:packages/composites/medianizer"]],
@@ -4333,6 +4343,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/fixer-adapter", "workspace:packages/sources/fixer"],
             ["@chainlink/flightaware-adapter", "workspace:packages/sources/flightaware"],
             ["@chainlink/fmpcloud-adapter", "workspace:packages/sources/fmpcloud"],
+            ["@chainlink/gemini-adapter", "workspace:packages/sources/gemini"],
             ["@chainlink/genesis-volatility-adapter", "workspace:packages/sources/genesis-volatility"],
             ["@chainlink/geodb-adapter", "workspace:packages/sources/geodb"],
             ["@chainlink/google-bigquery-adapter", "workspace:packages/sources/google-bigquery"],
@@ -4812,6 +4823,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT",
         }]
       ]],
+      ["@chainlink/gemini-adapter", [
+        ["workspace:packages/sources/gemini", {
+          "packageLocation": "./packages/sources/gemini/",
+          "packageDependencies": [
+            ["@chainlink/gemini-adapter", "workspace:packages/sources/gemini"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.1"],
+            ["@types/node", "npm:14.17.17"],
+            ["@types/supertest", "npm:2.0.11"],
+            ["nock", "npm:13.1.3"],
+            ["supertest", "npm:6.1.6"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
       ["@chainlink/genesis-volatility-adapter", [
         ["workspace:packages/sources/genesis-volatility", {
           "packageLocation": "./packages/sources/genesis-volatility/",
@@ -5086,6 +5116,27 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.2"],
             ["@types/node", "npm:14.17.17"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/lotus-adapter", [
+        ["workspace:packages/composites/lotus", {
+          "packageLocation": "./packages/composites/lotus/",
+          "packageDependencies": [
+            ["@chainlink/lotus-adapter", "workspace:packages/composites/lotus"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/json-rpc-adapter", "workspace:packages/sources/json-rpc"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.1"],
+            ["@types/node", "npm:14.17.17"],
+            ["@types/supertest", "npm:2.0.11"],
+            ["ethers", "npm:5.4.7"],
+            ["nock", "npm:13.1.3"],
+            ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
@@ -5423,6 +5474,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/cryptoapis-adapter", "workspace:packages/sources/cryptoapis"],
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/gemini-adapter", "workspace:packages/sources/gemini"],
+            ["@chainlink/lotus-adapter", "workspace:packages/composites/lotus"],
             ["@chainlink/reduce-adapter", "workspace:packages/sources/reduce"],
             ["@chainlink/renvm-address-set-adapter", "workspace:packages/sources/renvm-address-set"],
             ["@chainlink/sochain-adapter", "workspace:packages/sources/sochain"],
@@ -6376,6 +6429,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@ethersproject-bignumber-npm-5.4.1-b8ae23f0c1-ba15450063.zip/node_modules/@ethersproject/bignumber/",
           "packageDependencies": [
             ["@ethersproject/bignumber", "npm:5.4.1"],
+            ["@ethersproject/bytes", "npm:5.4.0"],
+            ["@ethersproject/logger", "npm:5.4.0"],
+            ["bn.js", "npm:4.12.0"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:5.4.2", {
+          "packageLocation": "./.yarn/cache/@ethersproject-bignumber-npm-5.4.2-c27e5bc241-4332d27826.zip/node_modules/@ethersproject/bignumber/",
+          "packageDependencies": [
+            ["@ethersproject/bignumber", "npm:5.4.2"],
             ["@ethersproject/bytes", "npm:5.4.0"],
             ["@ethersproject/logger", "npm:5.4.0"],
             ["bn.js", "npm:4.12.0"]
@@ -9706,6 +9769,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:26.0.24"],
             ["jest-diff", "npm:26.6.2"],
             ["pretty-format", "npm:26.6.2"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:27.0.1", {
+          "packageLocation": "./.yarn/cache/@types-jest-npm-27.0.1-a860f5c797-972aaae341.zip/node_modules/@types/jest/",
+          "packageDependencies": [
+            ["@types/jest", "npm:27.0.1"],
+            ["jest-diff", "npm:27.0.6"],
+            ["pretty-format", "npm:27.0.6"]
           ],
           "linkType": "HARD",
         }],
@@ -16153,6 +16225,43 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ethersproject/base64", "npm:5.4.0"],
             ["@ethersproject/basex", "npm:5.4.0"],
             ["@ethersproject/bignumber", "npm:5.4.1"],
+            ["@ethersproject/bytes", "npm:5.4.0"],
+            ["@ethersproject/constants", "npm:5.4.0"],
+            ["@ethersproject/contracts", "npm:5.4.1"],
+            ["@ethersproject/hash", "npm:5.4.0"],
+            ["@ethersproject/hdnode", "npm:5.4.0"],
+            ["@ethersproject/json-wallets", "npm:5.4.0"],
+            ["@ethersproject/keccak256", "npm:5.4.0"],
+            ["@ethersproject/logger", "npm:5.4.1"],
+            ["@ethersproject/networks", "npm:5.4.2"],
+            ["@ethersproject/pbkdf2", "npm:5.4.0"],
+            ["@ethersproject/properties", "npm:5.4.1"],
+            ["@ethersproject/providers", "npm:5.4.5"],
+            ["@ethersproject/random", "npm:5.4.0"],
+            ["@ethersproject/rlp", "npm:5.4.0"],
+            ["@ethersproject/sha2", "npm:5.4.0"],
+            ["@ethersproject/signing-key", "npm:5.4.0"],
+            ["@ethersproject/solidity", "npm:5.4.0"],
+            ["@ethersproject/strings", "npm:5.4.0"],
+            ["@ethersproject/transactions", "npm:5.4.0"],
+            ["@ethersproject/units", "npm:5.4.0"],
+            ["@ethersproject/wallet", "npm:5.4.0"],
+            ["@ethersproject/web", "npm:5.4.0"],
+            ["@ethersproject/wordlists", "npm:5.4.0"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:5.4.7", {
+          "packageLocation": "./.yarn/cache/ethers-npm-5.4.7-be7565dd78-744d58c1c4.zip/node_modules/ethers/",
+          "packageDependencies": [
+            ["ethers", "npm:5.4.7"],
+            ["@ethersproject/abi", "npm:5.4.1"],
+            ["@ethersproject/abstract-provider", "npm:5.4.1"],
+            ["@ethersproject/abstract-signer", "npm:5.4.1"],
+            ["@ethersproject/address", "npm:5.4.0"],
+            ["@ethersproject/base64", "npm:5.4.0"],
+            ["@ethersproject/basex", "npm:5.4.0"],
+            ["@ethersproject/bignumber", "npm:5.4.2"],
             ["@ethersproject/bytes", "npm:5.4.0"],
             ["@ethersproject/constants", "npm:5.4.0"],
             ["@ethersproject/contracts", "npm:5.4.1"],

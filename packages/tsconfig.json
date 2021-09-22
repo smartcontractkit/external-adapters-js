@@ -36,6 +36,9 @@
       "path": "./composites/linear-finance"
     },
     {
+      "path": "./composites/lotus"
+    },
+    {
       "path": "./composites/market-closure"
     },
     {
@@ -241,6 +244,9 @@
     },
     {
       "path": "./sources/fmpcloud"
+    },
+    {
+      "path": "./sources/gemini"
     },
     {
       "path": "./sources/genesis-volatility"

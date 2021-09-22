@@ -30,6 +30,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
     url,
     method: 'POST' as any,
     headers: {
+      ...config.api.headers,
       'Content-Type': 'application/json',
     },
     // Remove undefined values

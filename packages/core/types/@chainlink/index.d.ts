@@ -45,7 +45,7 @@ declare module '@chainlink/types' {
     BigNumberish | BigNumberish[] | AdapterRequestData
   >
   export type AdapterRequest = {
-    id: string
+    id: string | number
     data: AdapterRequestData
     meta?: AdapterRequestMeta
     metricsMeta?: AdapterMetricsMeta

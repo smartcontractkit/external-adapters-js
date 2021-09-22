@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute with token should return success 1`] = `
+Object {
+  "data": Object {
+    "addresses": Array [
+      "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi",
+      "f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay",
+    ],
+    "currency": "EFIL",
+    "ethereum_supply": 33427.594125,
+    "result": Array [
+      "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi",
+      "f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay",
+    ],
+  },
+  "jobRunID": "1",
+  "result": Array [
+    "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi",
+    "f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay",
+  ],
+  "statusCode": 200,
+}
+`;
