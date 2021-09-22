@@ -10,6 +10,8 @@ describe('execute', () => {
   beforeAll(() => {
     process.env.API_USERNAME = process.env.API_USERNAME || 'test-user'
     process.env.API_PASSWORD = process.env.API_PASSWORD || 'test-pw'
+    process.env.FOREX_WS_USERNAME = process.env.FOREX_WS_USERNAME || 'test-ws-username'
+    process.env.FOREX_WS_PASSWORD = process.env.FOREX_WS_PASSWORD || 'test-ws-password'
   })
 
   describe('validation error', () => {
