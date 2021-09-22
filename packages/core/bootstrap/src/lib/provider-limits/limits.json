@@ -291,10 +291,6 @@
         "rateLimit1m": 500,
         "rateLimit1h": 690
       },
-      "chainlink": {
-        "rateLimit1m": 500,
-        "rateLimit1h": 4166
-      },
       "pro": {
         "rateLimit1m": 500,
         "rateLimit1h": 6900
