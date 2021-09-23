@@ -47,7 +47,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
           const pairMessage = message.find(
             ({ currencyPair }) => currencyPair === subscriptionMsg.ccy,
           )
-          if (!pairMessage) Logger.warn(`${subscriptionMsg.ccy} not found in message`)
+          if (!pairMessage) return
           return getSubscription('subscribe', `${pairMessage.currencyPair}`)
         }
         return getSubscription('subscribe', `${message}`)
@@ -60,7 +60,9 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
         if (Array.isArray(message) && message.length > 0) {
           const pair = getPair(input)
           const pairMessage = message.find(({ currencyPair }) => currencyPair === pair)
-          if (!pairMessage) Logger.warn(`${pair} not found in message`)
+          if (!pairMessage) {
+            throw new Error(`${pair} not found in message`)
+          }
           const result = Requester.validateResultNumber(pairMessage, ['mid'])
           return Requester.success('1', { data: { ...pairMessage, result } }, defaultConfig.verbose)
         }
