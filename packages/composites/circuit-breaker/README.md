@@ -16,11 +16,10 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 
 ### Input Params
 
-| Required? |                 Name                 |          Description           |
-| :-------: | :----------------------------------: | :----------------------------: |
-|    ✅     |           `primarySource`            | First source adapters to query |
-|           |          `secondarySource`           | Second source adapter to query |
-|    ✅     | `days`, `key`, `result`, or `period` |   Prive value interval days    |
+| Required? |       Name        |          Description           |
+| :-------: | :---------------: | :----------------------------: |
+|    ✅     |  `primarySource`  | First source adapters to query |
+|    ✅     | `secondarySource` | Second source adapter to query |
 
 ### Sample Input
 
@@ -30,7 +29,6 @@ See the [Composite Adapter README](../README.md) for more information on how to 
   "data": {
     "primarySource": "coingecko",
     "secondarySource": "coinmarketcap",
-    "days": 1,
     "base": "ETH",
     "quote": "USD"
   }

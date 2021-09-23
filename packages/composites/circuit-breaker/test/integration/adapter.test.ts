@@ -46,19 +46,18 @@ describe('execute', () => {
             secondarySource: 'coinmarketcap',
             from: 'ETH',
             to: 'USD',
-            days: 1,
           },
         },
       },
       {
-        name: 'should return correct result values only with the first source',
+        name: 'should return correct result values',
         input: {
           id: jobID,
           data: {
             primarySource: 'coingecko',
+            secondarySource: 'coinmarketcap',
             from: 'ETH',
             to: 'USD',
-            days: 1,
           },
         },
       },
@@ -91,20 +90,6 @@ describe('execute', () => {
             secondarySource: 'none',
             from: 'ETH',
             to: 'USD',
-            days: 1,
-          },
-        },
-      },
-      {
-        name: 'should return correct result values only with the first source',
-        input: {
-          id: jobID,
-          data: {
-            primarySource: 'none',
-            secondSource: 'coinmarketcap',
-            from: 'ETH',
-            to: 'USD',
-            days: 1,
           },
         },
       },
@@ -116,7 +101,7 @@ describe('execute', () => {
           await execute(req.input, {})
         } catch (error) {
           const errorResp = Requester.errored(jobID, error)
-          assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
+          assertError({ expected: 500, actual: errorResp.statusCode }, errorResp, jobID)
         }
       })
     })
@@ -187,6 +172,9 @@ describe('execute', () => {
           },
         },
       },
+      { name: 'allocations not supplied', testData: { id: jobID, data: {} } },
+      { name: 'base not supplied', testData: { id: jobID, data: { quote: 'ARS' } } },
+      { name: 'quote not supplied', testData: { id: jobID, data: { base: 'BTC' } } },
     ]
 
     requests.forEach((req) => {
