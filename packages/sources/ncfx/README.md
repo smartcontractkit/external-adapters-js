@@ -17,6 +17,7 @@ This adapter only supports WS connections. Make sure WS is enabled in your confi
 | :-------: | :------------------------: | :--------------------------------------: | :-----------------: | :---------: |
 |    ✅     | `base`, `from`, or `coin`  |   The symbol of the currency to query    | `BTC`, `ETH`, `USD` |             |
 |    ✅     | `quote`, `to`, or `market` | The symbol of the currency to convert to | `BTC`, `ETH`, `USD` |             |
+|           |         `endpoint`         | The symbol of the currency to convert to |  `forex`, `crypto`  |  `crypto`   |
 
 ### Sample Input
 

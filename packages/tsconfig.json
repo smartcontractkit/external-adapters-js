@@ -237,6 +237,9 @@
       "path": "./sources/fixer"
     },
     {
+      "path": "./sources/flightaware"
+    },
+    {
       "path": "./sources/fmpcloud"
     },
     {
@@ -301,6 +304,9 @@
     },
     {
       "path": "./sources/onchain"
+    },
+    {
+      "path": "./sources/onchain-gas"
     },
     {
       "path": "./sources/openexchangerates"

@@ -1798,6 +1798,10 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.1
     "@types/node": 14.17.17
+    "@types/supertest": ^2.0.11
+    ethers: ^5.4.6
+    nock: ^13.1.3
+    supertest: ^6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2308,6 +2312,7 @@ __metadata:
     "@chainlink/finage-adapter": "*"
     "@chainlink/finnhub-adapter": "*"
     "@chainlink/fixer-adapter": "*"
+    "@chainlink/flightaware-adapter": "*"
     "@chainlink/fmpcloud-adapter": "*"
     "@chainlink/genesis-volatility-adapter": "*"
     "@chainlink/geodb-adapter": "*"
@@ -2330,6 +2335,7 @@ __metadata:
     "@chainlink/nomics-adapter": "*"
     "@chainlink/oilpriceapi-adapter": "*"
     "@chainlink/onchain-adapter": "*"
+    "@chainlink/onchain-gas-adapter": "*"
     "@chainlink/openexchangerates-adapter": "*"
     "@chainlink/orchid-bandwidth-adapter": "*"
     "@chainlink/paxos-adapter": "*"
@@ -2599,6 +2605,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/flightaware-adapter@*, @chainlink/flightaware-adapter@workspace:packages/sources/flightaware":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/flightaware-adapter@workspace:packages/sources/flightaware"
+  dependencies:
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.0.1
+    "@types/jest": 27.0.1
+    "@types/node": 14.17.7
+    tslib: ^2.3.1
+    typescript: 4.3.5
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/fmpcloud-adapter@*, @chainlink/fmpcloud-adapter@workspace:packages/sources/fmpcloud":
   version: 0.0.0-use.local
   resolution: "@chainlink/fmpcloud-adapter@workspace:packages/sources/fmpcloud"
@@ -2664,7 +2684,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/google-bigquery-adapter": 0.0.1
     "@chainlink/types": 0.0.1
-    "@types/convert-units": 2.3.4
+    "@types/convert-units": 2.3.5
     "@types/jest": 27.0.1
     "@types/node": 14.17.17
     convert-units: ^2.3.4
@@ -2994,6 +3014,20 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.1
     "@types/node": 14.17.17
+    tslib: ^2.3.1
+    typescript: 4.3.5
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/onchain-gas-adapter@*, @chainlink/onchain-gas-adapter@workspace:packages/sources/onchain-gas":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/onchain-gas-adapter@workspace:packages/sources/onchain-gas"
+  dependencies:
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.0.1
+    "@types/jest": 27.0.1
+    "@types/node": 14.17.7
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -5996,10 +6030,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/convert-units@npm:2.3.4":
-  version: 2.3.4
-  resolution: "@types/convert-units@npm:2.3.4"
-  checksum: 33fd534eb2cdba7ddff0ee446ce77db393875f7063ad8b659ad08a55d00aac01d666b190fe107a88f5d0c5c8f5be2f6ac067dadc9310d36036c86b5bad370369
+"@types/convert-units@npm:2.3.5":
+  version: 2.3.5
+  resolution: "@types/convert-units@npm:2.3.5"
+  checksum: 326de4dc3d55c9dde47c751fcff5272111391506730c84c982f1d215dd53831d170809995b55d049f43126d37ea980249ee2c7e3c7030e33393f6f0bb2f36059
   languageName: node
   linkType: hard
 
@@ -6490,7 +6524,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/supertest@npm:2.0.11":
+"@types/supertest@npm:2.0.11, @types/supertest@npm:^2.0.11":
   version: 2.0.11
   resolution: "@types/supertest@npm:2.0.11"
   dependencies:
@@ -16458,7 +16492,7 @@ fsevents@~2.1.1:
   languageName: node
   linkType: hard
 
-"nock@npm:13.1.3":
+"nock@npm:13.1.3, nock@npm:^13.1.3":
   version: 13.1.3
   resolution: "nock@npm:13.1.3"
   dependencies:
@@ -20291,7 +20325,7 @@ resolve@1.17.0:
   languageName: node
   linkType: hard
 
-"supertest@npm:6.1.6":
+"supertest@npm:6.1.6, supertest@npm:^6.1.6":
   version: 6.1.6
   resolution: "supertest@npm:6.1.6"
   dependencies:

@@ -343,6 +343,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/fixer"
       },
       {
+        "name": "@chainlink/flightaware-adapter",
+        "reference": "workspace:packages/sources/flightaware"
+      },
+      {
         "name": "@chainlink/fmpcloud-adapter",
         "reference": "workspace:packages/sources/fmpcloud"
       },
@@ -429,6 +433,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {
         "name": "@chainlink/onchain-adapter",
         "reference": "workspace:packages/sources/onchain"
+      },
+      {
+        "name": "@chainlink/onchain-gas-adapter",
+        "reference": "workspace:packages/sources/onchain-gas"
       },
       {
         "name": "@chainlink/openexchangerates-adapter",
@@ -634,6 +642,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/finage-adapter", ["workspace:packages/sources/finage"]],
       ["@chainlink/finnhub-adapter", ["workspace:packages/sources/finnhub"]],
       ["@chainlink/fixer-adapter", ["workspace:packages/sources/fixer"]],
+      ["@chainlink/flightaware-adapter", ["workspace:packages/sources/flightaware"]],
       ["@chainlink/fmpcloud-adapter", ["workspace:packages/sources/fmpcloud"]],
       ["@chainlink/genesis-volatility-adapter", ["workspace:packages/sources/genesis-volatility"]],
       ["@chainlink/geodb-adapter", ["workspace:packages/sources/geodb"]],
@@ -661,6 +670,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/nomics-adapter", ["workspace:packages/sources/nomics"]],
       ["@chainlink/oilpriceapi-adapter", ["workspace:packages/sources/oilpriceapi"]],
       ["@chainlink/onchain-adapter", ["workspace:packages/sources/onchain"]],
+      ["@chainlink/onchain-gas-adapter", ["workspace:packages/sources/onchain-gas"]],
       ["@chainlink/openexchangerates-adapter", ["workspace:packages/sources/openexchangerates"]],
       ["@chainlink/orchid-bandwidth-adapter", ["workspace:packages/sources/orchid-bandwidth"]],
       ["@chainlink/outlier-detection-adapter", ["workspace:packages/composites/outlier-detection"]],
@@ -3721,6 +3731,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.1"],
             ["@types/node", "npm:14.17.17"],
+            ["@types/supertest", "npm:2.0.11"],
+            ["ethers", "npm:5.4.6"],
+            ["nock", "npm:13.1.3"],
+            ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
@@ -4157,6 +4171,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/finage-adapter", "workspace:packages/sources/finage"],
             ["@chainlink/finnhub-adapter", "workspace:packages/sources/finnhub"],
             ["@chainlink/fixer-adapter", "workspace:packages/sources/fixer"],
+            ["@chainlink/flightaware-adapter", "workspace:packages/sources/flightaware"],
             ["@chainlink/fmpcloud-adapter", "workspace:packages/sources/fmpcloud"],
             ["@chainlink/genesis-volatility-adapter", "workspace:packages/sources/genesis-volatility"],
             ["@chainlink/geodb-adapter", "workspace:packages/sources/geodb"],
@@ -4179,6 +4194,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/nomics-adapter", "workspace:packages/sources/nomics"],
             ["@chainlink/oilpriceapi-adapter", "workspace:packages/sources/oilpriceapi"],
             ["@chainlink/onchain-adapter", "workspace:packages/sources/onchain"],
+            ["@chainlink/onchain-gas-adapter", "workspace:packages/sources/onchain-gas"],
             ["@chainlink/openexchangerates-adapter", "workspace:packages/sources/openexchangerates"],
             ["@chainlink/orchid-bandwidth-adapter", "workspace:packages/sources/orchid-bandwidth"],
             ["@chainlink/paxos-adapter", "workspace:packages/sources/paxos"],
@@ -4603,6 +4619,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT",
         }]
       ]],
+      ["@chainlink/flightaware-adapter", [
+        ["workspace:packages/sources/flightaware", {
+          "packageLocation": "./packages/sources/flightaware/",
+          "packageDependencies": [
+            ["@chainlink/flightaware-adapter", "workspace:packages/sources/flightaware"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.1"],
+            ["@types/node", "npm:14.17.7"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
       ["@chainlink/fmpcloud-adapter", [
         ["workspace:packages/sources/fmpcloud", {
           "packageLocation": "./packages/sources/fmpcloud/",
@@ -4677,7 +4709,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/google-bigquery-adapter", "workspace:packages/sources/google-bigquery"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
-            ["@types/convert-units", "npm:2.3.4"],
+            ["@types/convert-units", "npm:2.3.5"],
             ["@types/jest", "npm:27.0.1"],
             ["@types/node", "npm:14.17.17"],
             ["convert-units", "npm:2.3.4"],
@@ -5051,6 +5083,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.1"],
             ["@types/node", "npm:14.17.17"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/onchain-gas-adapter", [
+        ["workspace:packages/sources/onchain-gas", {
+          "packageLocation": "./packages/sources/onchain-gas/",
+          "packageDependencies": [
+            ["@chainlink/onchain-gas-adapter", "workspace:packages/sources/onchain-gas"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.1"],
+            ["@types/node", "npm:14.17.7"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
@@ -8482,10 +8530,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@types/convert-units", [
-        ["npm:2.3.4", {
-          "packageLocation": "./.yarn/cache/@types-convert-units-npm-2.3.4-4bbc4bfd7c-33fd534eb2.zip/node_modules/@types/convert-units/",
+        ["npm:2.3.5", {
+          "packageLocation": "./.yarn/cache/@types-convert-units-npm-2.3.5-645185dbb7-326de4dc3d.zip/node_modules/@types/convert-units/",
           "packageDependencies": [
-            ["@types/convert-units", "npm:2.3.4"]
+            ["@types/convert-units", "npm:2.3.5"]
           ],
           "linkType": "HARD",
         }]
