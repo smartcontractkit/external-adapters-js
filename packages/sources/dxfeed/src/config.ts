@@ -9,6 +9,7 @@ export const DEMO_ENDPOINT = 'https://tools.dxfeed.com/webservice/rest'
 export const makeConfig = (prefix?: string): Config => {
   const config = Requester.getDefaultConfig(prefix)
   config.api.baseURL = config.api.baseURL || DEMO_ENDPOINT
+  config.api.baseWsURL = config.api.baseWsURL || ''
   if (config.api.baseURL === DEMO_ENDPOINT)
     console.warn(`Using demo endpoint: ${DEMO_ENDPOINT} (Please do not use in production!)`)
 

@@ -190,8 +190,22 @@ declare module '@chainlink/types' {
     shouldNotServeInputUsingWS?: (input: AdapterRequest) => boolean
     // Hook to send a message after connection
     onConnect?: (input: AdapterRequest) => any
+    // Hook to send chain of onConnect messages
+    onConnectChain?: ((
+      input?: AdapterRequest,
+      prevWsResponse?: any,
+      connectionParams?: any,
+    ) => void)[]
     // Get the subscription message necessary to subscribe to the feed channel
     subscribe: (input: AdapterRequest) => any | undefined
+    // Modify subscription payload before sending to WS
+    modifySubscriptionPayload?: (
+      originalPayload: any,
+      subscriptionParams: any,
+      connectionParams: any,
+    ) => any
+    // Filter to whether or not modify subscription payload
+    shouldModifyPayload?: (payload: any) => bool
     // Get unsubscribe message necessary to unsubscribe to the feed channel
     unsubscribe: (input: any, subscriptionParams: any) => any | undefined
     // Map to response from the incoming message and formats it into an AdapterResponse
@@ -214,6 +228,9 @@ declare module '@chainlink/types' {
     noHttp?: boolean
     // This function is called if anything from the WS message needs to be saved in the Redux subscription store
     toSaveFromFirstMessage?: (message: any) => any
+    shouldSaveToStore?: (subscriptionMsg: any) => boolean
+    saveOnConnectToConnection?: (message: any) => any
+    shouldSaveToConnection?: (message: any) => boolean
   }
 
   /* INPUT TYPE VALIDATIONS */
