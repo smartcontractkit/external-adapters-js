@@ -2514,7 +2514,7 @@ __metadata:
     "@types/eslint": 7.28.0
     "@types/jest": 27.0.1
     "@types/node": 14.17.17
-    "@types/semantic-release": 17.2.1
+    "@types/semantic-release": 17.2.2
     "@typescript-eslint/eslint-plugin": 4.29.2
     "@typescript-eslint/parser": 4.29.2
     "@vercel/ncc": 0.29.1
@@ -6466,12 +6466,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/semantic-release@npm:17.2.1":
-  version: 17.2.1
-  resolution: "@types/semantic-release@npm:17.2.1"
+"@types/semantic-release@npm:17.2.2":
+  version: 17.2.2
+  resolution: "@types/semantic-release@npm:17.2.2"
   dependencies:
     "@types/node": "*"
-  checksum: fc6e9c24eb958cf2cb6968b1a36ff97ed3799ea28e0c40eb4d8464d7c8c1036fbbcd92679a2efa0b27193a4fc3e7445daf9b969b80835a75353b3e59ae2d8997
+  checksum: d8d79649da38704afbaac3072e6f5c2ed6e9d21006ac7d84f40941f54139525d76cc6ffe1f08697721a3f2e096c6d3599b97006b352dfc4e9aafd8c13171e381
   languageName: node
   linkType: hard
 
