@@ -29,7 +29,7 @@ export interface ConnectionsState {
       connectionParams?: {
         [T: string]: string
       }
-      onConnectIdx: number
+      requestId: number
     }
   }
 }
@@ -53,15 +53,15 @@ export const connectionsReducer = createReducer<ConnectionsState>(
         active: true,
         connecting: 0,
         wasEverConnected: true,
-        onConnectIdx: 0,
+        requestId: Math.max(state.all[key].requestId, 0),
       }
     })
-    builder.addCase(actions.messageReceived, (state, action) => {
+    builder.addCase(actions.subscribeRequested, (state, action) => {
       const key = action.payload.connectionInfo.key
       if (!state.all[key]) return
       state.all[key] = {
         ...state.all[key],
-        onConnectIdx: state.all[key].onConnectIdx + 1,
+        requestId: state.all[key].requestId + 1,
       }
     })
     builder.addCase(actions.connectRequested, (state, action) => {
@@ -73,7 +73,7 @@ export const connectionsReducer = createReducer<ConnectionsState>(
       state.all[key] = {
         active: false,
         connecting: isConnecting ? state.all[key].connecting + 1 : 1,
-        onConnectIdx: 0,
+        requestId: 0,
       }
     })
 

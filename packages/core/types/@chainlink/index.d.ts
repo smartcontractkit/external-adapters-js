@@ -203,6 +203,7 @@ declare module '@chainlink/types' {
       originalPayload: any,
       subscriptionParams: any,
       connectionParams: any,
+      id: number,
     ) => any
     // Filter to whether or not modify subscription payload
     shouldModifyPayload?: (payload: any) => bool
@@ -228,9 +229,16 @@ declare module '@chainlink/types' {
     noHttp?: boolean
     // This function is called if anything from the WS message needs to be saved in the Redux subscription store
     toSaveFromFirstMessage?: (message: any) => any
-    shouldMarkSubscriptionAsActive: (subscriptionMsg: any) => boolean
+    // Format message to save to the connection redux store
     saveOnConnectToConnection?: (message: any) => any
+    // Filters out messages that should be saved to the connection redux store
     shouldSaveToConnection?: (message: any) => boolean
+    // Formats the heartbeat message that needs to be sent to the WS connecton
+    heartbeatMessage?: (id: number, connectionParams: any) => any
+    // The interval between sending heartbeat messages
+    heartbeatIntervalInMS?: number
+    // Filters out messages that are not expected from sending a message constructed by one of the onConnect hooks
+    isOnConnectChainMessage?: (message: any) => boolean
   }
 
   /* INPUT TYPE VALIDATIONS */

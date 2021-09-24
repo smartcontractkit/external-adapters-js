@@ -76,20 +76,31 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       },
       saveOnConnectToConnection: (message: any) => {
         return {
-          id: message[0].id,
+          requestId: message[0].id,
           clientId: message[0].clientId,
         }
       },
-      modifySubscriptionPayload: (original, _, connectionParams) => {
+      modifySubscriptionPayload: (original, _, connectionParams, id) => {
         original[0].clientId = connectionParams.clientId
-        original[0].id = connectionParams.id
+        original[0].id = id.toString()
         return original
       },
       shouldModifyPayload: (payload) => isDataSubscriptionMsg(payload),
       shouldSaveToConnection: (message: any) => {
         return !!message[0].clientId
       },
+      heartbeatMessage: (id: number, connectionParams: any) => [
+        {
+          id: id.toString(),
+          channel: '/meta/connect',
+          connectionType: 'websocket',
+          clientId: connectionParams.clientId,
+        },
+      ],
+      heartbeatIntervalInMS: 30000,
       shouldSaveToStore: (subscriptionMessage: any) => isDataSubscriptionMsg(subscriptionMessage),
+      isOnConnectChainMessage: (message: any) =>
+        message[0].channel === '/meta/handshake' || message[0].channel === '/meta/connect',
       onConnectChain: [
         () => [
           {

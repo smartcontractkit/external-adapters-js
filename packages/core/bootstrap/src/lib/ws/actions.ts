@@ -85,6 +85,10 @@ export const incrementOnConnectIdx = createAction(
   'WS/INCREMENT_ON_CONNECT_IDX',
   asAction<{ key: string }>(),
 )
+export const onConnectComplete = createAction(
+  'WS/ON_CONNECT_COMPLETE',
+  asAction<WSSubscriptionPayload>(),
+)
 
 /** SUBSCRIPTIONS */
 export interface WSSubscriptionPayload {
