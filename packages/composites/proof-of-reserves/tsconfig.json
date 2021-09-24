@@ -19,6 +19,7 @@
     { "path": "../../sources/reduce" },
     { "path": "../../sources/sochain" },
     { "path": "../../sources/wbtc-address-set" },
-    { "path": "../lotus" }
+    { "path": "../lotus" },
+    { "path": "../../sources/gemini" }
   ]
 }
