@@ -355,7 +355,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
         mergeMap(([action, state]) => {
           const connectionKey = action.payload.connectionInfo.key
           const connectionState = state.ws.connections.all[connectionKey]
-          const interval = wsHandler.heartbeatIntervalInMS || 30000 // Default Interval
+          const interval = wsHandler.heartbeatIntervalInMS || config.defaultHeartbeatIntervalInMS
           return timer(interval, interval).pipe(
             mergeMap(() => {
               if (wsHandler.heartbeatMessage) {
