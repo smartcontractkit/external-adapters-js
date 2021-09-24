@@ -4,7 +4,7 @@ import { Config } from '@chainlink/types'
 export const NAME = 'CRYPTOMKT'
 
 export const DEFAULT_ENDPOINT = 'crypto'
-export const DEFAULT_BASE_URL = 'https://api.cryptomkt.com/v1/'
+export const DEFAULT_BASE_URL = 'https://api.exchange.cryptomkt.com/api/3/'
 
 export const makeConfig = (prefix?: string): Config => {
   const config = Requester.getDefaultConfig(prefix)
