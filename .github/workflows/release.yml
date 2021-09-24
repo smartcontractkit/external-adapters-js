@@ -49,7 +49,7 @@ jobs:
     name: (${{ matrix.adapter.type }}) Publish ${{ matrix.adapter.name }} adapter Docker image
     strategy:
       matrix: ${{fromJson(needs.matrix-adapters.outputs.matrix)}}
-      max-parallel: 50
+      max-parallel: 35
     steps:
       - uses: actions/checkout@v2
 
