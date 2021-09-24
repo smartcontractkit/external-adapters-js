@@ -41,7 +41,6 @@ import {
   wsSubscriptionReady,
   saveFirstMessageReceived,
   updateSubscriptionInput,
-  dummy,
   saveOnConnectMessage,
 } from './actions'
 import {
@@ -358,13 +357,13 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
             connectionState.onConnectIdx <= wsHandler.onConnectChain.length
           )
         }),
-        mergeMap(async ([{ payload }, state]) => {
+        mergeMap(([{ payload }, state]) => {
           const { input, context, message } = payload
           const onConnectIdx = state.ws.connections.all[payload.connectionInfo.key]
             ? state.ws.connections.all[payload.connectionInfo.key].onConnectIdx
             : 0
           if (!wsHandler.onConnectChain || onConnectIdx === undefined) {
-            return dummy
+            return EMPTY
           }
           const onConnectChainFinished = onConnectIdx >= wsHandler.onConnectChain.length
           const connectionInStore =
@@ -381,7 +380,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
             input,
             context,
           }
-          return subscribeRequested(subscriptionPayload)
+          return of(subscribeRequested(subscriptionPayload))
         }),
       )
 

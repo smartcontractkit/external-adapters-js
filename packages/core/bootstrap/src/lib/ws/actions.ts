@@ -47,7 +47,6 @@ export interface WSSaveMessageToConnection {
   message: any
 }
 
-export const dummy = createAction('DUMMY', asAction())
 export const runOnConnectFunctions = createAction(
   'WS/RUN_ON_CONNECT_FUNCTIONS',
   asAction<WSRunOnConnectFunctions>(),
