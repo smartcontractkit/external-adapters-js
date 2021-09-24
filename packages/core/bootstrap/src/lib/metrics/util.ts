@@ -1,6 +1,7 @@
 import { AdapterRequest } from '@chainlink/types'
 import { logger, Validator } from '../external-adapter'
 import { excludableAdapterRequestProperties } from '../util'
+import * as crypto from 'crypto'
 
 /**
  * Normalizes http status codes.
@@ -29,6 +30,11 @@ export function normalizeStatusCode(status?: number): string {
   }
   return '5XX'
 }
+
+/**
+ * Maxiumum number of characters that a feedId can contain.
+ */
+export const MAX_FEED_ID_LENGTH = 300
 
 /**
  * Get feed id name based on input params
@@ -74,5 +80,10 @@ export const getFeedId = (input: AdapterRequest): string => {
     .filter((prop) => !excludableAdapterRequestProperties[prop])
     .map((k) => [k, input[k as keyof AdapterRequest]])
 
-  return JSON.stringify(Object.fromEntries(entries))
+  const rawFeedId = JSON.stringify(Object.fromEntries(entries))
+
+  // If feedId exceed the max length use the md5 hash
+  return rawFeedId.length > MAX_FEED_ID_LENGTH
+    ? crypto.createHash('md5').update(rawFeedId).digest('hex')
+    : rawFeedId
 }
