@@ -241,17 +241,17 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
           wsSubject
             .multiplex(
               () => {
+                const clonedPayload = JSON.parse(JSON.stringify(payload.subscriptionMsg))
                 const shouldModifyPayload =
-                  !!wsHandler.shouldModifyPayload &&
-                  wsHandler.shouldModifyPayload(payload.subscriptionMsg)
+                  !!wsHandler.shouldModifyPayload && wsHandler.shouldModifyPayload(clonedPayload)
                 const subMsg =
                   shouldModifyPayload && wsHandler.modifySubscriptionPayload
                     ? wsHandler.modifySubscriptionPayload(
-                        payload.subscriptionMsg,
+                        clonedPayload,
                         state.ws.subscriptions.all[subscriptionKey]?.subscriptionParams,
                         state.ws.connections.all[payload.connectionInfo.key].connectionParams,
                       )
-                    : payload.subscriptionMsg
+                    : clonedPayload
                 return subMsg
               },
               () =>
@@ -294,8 +294,8 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
                 const isActiveSubscription = !!state.ws.subscriptions.all[subscriptionKey]?.active
                 if (
                   !isActiveSubscription &&
-                  (!wsHandler.shouldSaveToStore ||
-                    wsHandler.shouldSaveToStore(payload.subscriptionMsg))
+                  (!wsHandler.shouldMarkSubscriptionAsActive ||
+                    wsHandler.shouldMarkSubscriptionAsActive(payload.subscriptionMsg))
                 ) {
                   logger.info('WS: Subscribed', subscriptionMeta(payload))
                   return of(

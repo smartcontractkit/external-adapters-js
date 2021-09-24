@@ -228,7 +228,7 @@ declare module '@chainlink/types' {
     noHttp?: boolean
     // This function is called if anything from the WS message needs to be saved in the Redux subscription store
     toSaveFromFirstMessage?: (message: any) => any
-    shouldSaveToStore?: (subscriptionMsg: any) => boolean
+    shouldMarkSubscriptionAsActive: (subscriptionMsg: any) => boolean
     saveOnConnectToConnection?: (message: any) => any
     shouldSaveToConnection?: (message: any) => boolean
   }
