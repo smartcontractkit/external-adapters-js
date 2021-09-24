@@ -23,10 +23,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
 
   const _getBalance = async (address: string, requestId: number) => {
     const requestData = {
-      id: requestId + 1,
+      id: jobRunID,
       data: {
         method: methodName,
         params: [address],
+        requestId: requestId + 1,
       },
     }
     const result = await JSONRPC.execute(requestData, context, jsonRpcConfig)
