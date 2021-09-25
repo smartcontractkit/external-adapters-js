@@ -25,6 +25,7 @@ import {
   warmupRequested,
   warmupStopped,
   warmupSubscribed,
+  warmupSubscribedMultiple,
   warmupSubscriptionTimeoutReset,
   warmupUnsubscribed,
 } from './actions'
@@ -70,6 +71,7 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
       const childLastSeenById: { [childKey: string]: number } = {}
       // If result was from a batch request
       if (payload.result?.data?.results) {
+        const members = []
         for (const [request] of Object.values<[AdapterRequest, number]>(
           payload.result.data.results,
         )) {
@@ -81,8 +83,9 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
           }
           const childKey = getSubscriptionKey(warmupSubscribedPayloadChild)
           childLastSeenById[childKey] = Date.now()
-          actionsToDispatch.push(warmupSubscribed(warmupSubscribedPayloadChild))
+          members.push(warmupSubscribedPayloadChild)
         }
+        actionsToDispatch.push(warmupSubscribedMultiple({ members }))
       } else {
         const warmupSubscribedPayloadChild = {
           ...payload,
@@ -312,11 +315,9 @@ export const warmupUnsubscriber: Epic<AnyAction, AnyAction, any, EpicDependencie
   const stopOnBatch$ = keyedSubscription$.pipe(
     // when a subscription comes in, if it has children
     filter(({ payload }) => !!payload?.childLastSeenById),
-    mergeMap(({ payload }) =>
-      Object.keys(payload?.childLastSeenById || {}).map((childKey) =>
-        warmupStopped({ key: childKey }),
-      ),
-    ),
+    mergeMap(({ payload }) => [
+      warmupStopped({ keys: Object.keys(payload?.childLastSeenById || {}) }),
+    ]),
   )
 
   const unsubscribeOnBatchEmpty$ = action$.pipe(
