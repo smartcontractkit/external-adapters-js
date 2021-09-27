@@ -39,7 +39,7 @@
     "@chainlink/nomics-adapter": "*",
     "@chainlink/tiingo-adapter": "*",
     "decimal.js": "^10.3.1",
-    "ethers": "^5.4.5",
+    "ethers": "^5.4.6",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
