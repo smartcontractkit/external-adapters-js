@@ -55,8 +55,6 @@ export const initHandler =
         ...toObjectWithNumbers(req.query),
       }
       return executeSync(req.body, executeWithMiddleware, context, (status, result) => {
-        console.log(3, result)
-
         res.status(status).json(result)
       })
     })
