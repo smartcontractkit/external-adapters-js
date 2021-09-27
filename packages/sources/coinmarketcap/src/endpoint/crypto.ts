@@ -42,7 +42,6 @@ const presetIds: { [symbol: string]: number } = {
   AAVE: 7278,
   UMA: 5617,
   SNX: 2586,
-  RAI2: 8525,
   REN: 2539,
   KNC: 1982,
   SUSHI: 6758,
