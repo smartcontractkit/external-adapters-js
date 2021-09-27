@@ -84,7 +84,12 @@ export class RedisCache {
     const client = createClient({ ...options, retry_strategy: retryStrategy })
     client.on('error', (err) => logger.error('Error connecting to Redis. ', err))
     client.on('end', () => logger.error('Redis connection ended.'))
-
+    client.on('connected', () => {
+      logger.info(`Redis client connected: ${client.connected}`)
+    })
+    client.on('ready', () =>
+      logger.info('Redis client ready to serve requests, queued requests will be replayed'),
+    )
     this._auth = promisify(client.auth).bind(client)
     this._get = promisify(client.get).bind(client)
     this._set = promisify(client.set).bind(client)
