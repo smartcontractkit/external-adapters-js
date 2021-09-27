@@ -1,8 +1,11 @@
-import { AdapterContext, Middleware, Execute } from '@chainlink/types'
+import { AdapterContext, Execute, Middleware } from '@chainlink/types'
 import express from 'express'
 import http from 'http'
 import { join } from 'path'
 import * as client from 'prom-client'
+import { executeSync, withMiddleware } from '../index'
+import { defaultOptions } from './cache'
+import * as redis from './cache/redis'
 import { loadTestPayload } from './config/test-payload-loader'
 import {
   HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE,
@@ -10,11 +13,8 @@ import {
 } from './errors'
 import { logger } from './external-adapter'
 import { METRICS_ENABLED } from './metrics'
-import { defaultOptions } from './cache'
 import { get as getRateLimitConfig } from './rate-limit/config'
 import { toObjectWithNumbers } from './util'
-import { executeSync, withMiddleware } from '../index'
-import * as redis from './cache/redis'
 
 const app = express()
 const port = process.env.EA_PORT || 8080
@@ -61,6 +61,7 @@ export const initHandler =
 
     app.get(join(baseUrl, 'health'), async (_, res) => {
       if (cacheOptions.enabled && cacheOptions.cacheImplOptions.type === 'redis') {
+        logger.debug('Checking if redis connection initialized')
         const cache = context.cache.instance as redis.RedisCache
         if (!cache.client.connected) {
           res.status(500).send('Redis not connected')
