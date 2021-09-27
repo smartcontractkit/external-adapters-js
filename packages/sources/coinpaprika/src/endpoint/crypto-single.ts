@@ -3,7 +3,7 @@ import { ExecuteWithConfig, Config, AdapterRequest, InputParameters } from '@cha
 import { NAME as AdapterName } from '../config'
 import { getCoinIds, getSymbolToId } from '../util'
 
-export const supportedEndpoints = ['crypto', 'price', 'marketcap']
+export const supportedEndpoints = []
 
 const buildPath =
   (path: string) =>
