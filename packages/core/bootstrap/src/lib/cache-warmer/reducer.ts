@@ -67,6 +67,21 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
     }
   })
 
+  builder.addCase(actions.warmupSubscribedMultiple, (state, { payload }) => {
+    for (const member of payload.members) {
+      const key = member.key || getSubscriptionKey(member)
+      state[key] = {
+        origin: member.data,
+        executeFn: member.executeFn,
+        startedAt: state[key]?.startedAt ?? Date.now(),
+        isDuplicate: !!state[key],
+        parent: member.parent || state[key]?.parent,
+        batchablePropertyPath: member.batchablePropertyPath || state[key]?.batchablePropertyPath,
+        childLastSeenById: member?.childLastSeenById,
+      }
+    }
+  })
+
   builder.addCase(actions.warmupUnsubscribed, (state, action) => {
     const subscription = state[action.payload.key]
     if (subscription) {
@@ -243,10 +258,12 @@ export const warmupReducer = createReducer<RequestState>({}, (builder) => {
   })
 
   builder.addCase(actions.warmupStopped, (state, action) => {
-    logger.info('[warmupReducer] Stopping subscription', {
-      warmupSubscriptionKey: action.payload.key,
+    logger.info('[warmupReducer] Stopping subscriptions', {
+      warmupSubscriptionKey: action.payload.keys,
     })
-    delete state[action.payload.key]
+    for (const key in action.payload.keys) {
+      delete state[key]
+    }
   })
 })
 

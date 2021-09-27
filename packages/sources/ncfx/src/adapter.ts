@@ -1,4 +1,4 @@
-import { Requester, Validator, Logger, Builder } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, Builder } from '@chainlink/ea-bootstrap'
 import {
   Config,
   ExecuteWithConfig,
@@ -68,7 +68,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
           const pairMessage = message.find(
             (m: NCFXWSResponse) => m[pairField] === subscriptionMsg.ccy,
           )
-          if (!pairMessage) Logger.warn(`${subscriptionMsg.ccy} not found in message`)
+          if (!pairMessage) return
           return getSubscription('subscribe', `${pairMessage.currencyPair || pairMessage.ccy}`)
         }
         return getSubscription('subscribe', `${message}`)
@@ -82,7 +82,9 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
         const pairMessage = message.find(
           (m: NCFXWSResponse) => m[getPairFieldFromNCFXResponse(input.data.endpoint)] === pair,
         )
-        if (!pairMessage) Logger.warn(`${pair} not found in message`)
+        if (!pairMessage) {
+          throw new Error(`${pair} not found in message`)
+        }
         const endpoint = input.data.endpoint
         const resultField = isForexEndpoint(endpoint) ? 'rate' : 'mid'
         const result = Requester.validateResultNumber(pairMessage, [resultField])
