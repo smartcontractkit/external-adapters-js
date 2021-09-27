@@ -38,11 +38,23 @@ describe('execute', () => {
     const jobID = '1'
     const request = [
       {
-        name: 'should return correct result value with the second source if the first one fail',
+        name: 'should return correct result value with the second source if the first one fail by conection refuse',
         input: {
           id: jobID,
           data: {
             primarySource: 'none',
+            secondarySource: 'coinmarketcap',
+            from: 'ETH',
+            to: 'USD',
+          },
+        },
+      },
+      {
+        name: 'should return correct result value with the second source if the first one fail by 500 error',
+        input: {
+          id: jobID,
+          data: {
+            primarySource: 'coinpaprika',
             secondarySource: 'coinmarketcap',
             from: 'ETH',
             to: 'USD',
@@ -82,12 +94,24 @@ describe('execute', () => {
     const jobID = '1'
     const request = [
       {
-        name: 'should return an error if the first source fail and the second one is not setted propertly',
+        name: 'should return an error if the 2 sources return connection refuse error',
         input: {
           id: jobID,
           data: {
             primarySource: 'none',
             secondarySource: 'none',
+            from: 'ETH',
+            to: 'USD',
+          },
+        },
+      },
+      {
+        name: 'should return an error if the second source return an error',
+        input: {
+          id: jobID,
+          data: {
+            primarySource: 'wootrade',
+            secondarySource: 'coinpaprika',
             from: 'ETH',
             to: 'USD',
           },

@@ -1,15 +1,16 @@
-import { AdapterError, Requester, util, Validator, Logger } from '@chainlink/ea-bootstrap'
-import { AdapterRequest, ExecuteWithConfig, Config, ExecuteFactory } from '@chainlink/types'
+import { Requester, util, Validator, Logger } from '@chainlink/ea-bootstrap'
+import {
+  AdapterResponse,
+  AdapterRequest,
+  ExecuteWithConfig,
+  Config,
+  ExecuteFactory,
+} from '@chainlink/types'
 import { makeConfig } from './config'
-import { AxiosResponse } from 'axios'
 
 const customParams = {
   primarySource: true,
   secondarySource: true,
-}
-
-export interface ResponseSchema {
-  result: any
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
@@ -21,9 +22,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const secondarySource = validator.validated.data.secondarySource
   const sources = secondarySource ? [primarySource, secondarySource] : [primarySource]
   const urls = sources.map((source) => util.getRequiredURL(source.toUpperCase()))
-  const response = await getResults(jobRunID, sources, urls, input, config)
-  response.data.result = Requester.validateResultNumber(response.data, ['data', 'result'])
-  return Requester.success(jobRunID, response)
+  return getResults(jobRunID, sources, urls, input, config)
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {
@@ -36,30 +35,28 @@ const getResults = async (
   urls: string[],
   request: AdapterRequest,
   config: Config,
-): Promise<AxiosResponse<ResponseSchema>> => {
+): Promise<AdapterResponse> => {
   try {
     Logger.info(`Trying to get result from ${sources[0]}`)
-    return await Requester.request<ResponseSchema>({
-      ...config.api,
-      method: 'post',
-      url: urls[0],
-      data: request,
-    })
+    return Requester.success(
+      jobRunID,
+      await Requester.request({
+        ...config.api,
+        method: 'post',
+        url: urls[0],
+        data: request,
+      }),
+    )
   } catch (e) {
-    if (!sources[1]) {
-      Logger.info(`The second source is undefined, please set a correct value`)
-      throw new AdapterError({
-        jobRunID,
-        message: `The second source is undefined`,
-        statusCode: 400,
-      })
-    }
     Logger.info(`Could not get result from ${sources[0]}, trying to get result from ${sources[1]}`)
-    return await Requester.request<ResponseSchema>({
-      ...config.api,
-      method: 'post',
-      url: urls[1],
-      data: request,
-    })
+    return Requester.success(
+      jobRunID,
+      await Requester.request({
+        ...config.api,
+        method: 'post',
+        url: urls[1],
+        data: request,
+      }),
+    )
   }
 }
