@@ -50,7 +50,7 @@ export class Requester {
       } catch (error) {
         // Request error
         if (n === 1) {
-          logger.error(`Could not reach endpoint: ${JSON.stringify(error.message)}`)
+          logger.error(`Could not reach endpoint: ${JSON.stringify(error)}`)
           throw new AdapterError({
             statusCode: error.response.status,
             message: error.message,
