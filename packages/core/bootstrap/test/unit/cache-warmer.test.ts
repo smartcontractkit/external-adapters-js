@@ -157,12 +157,16 @@ describe('side effect tests', () => {
 
           const output$ = executeHandler(action$, state$, epicDependencies)
           expectObservable(output$).toBe('(a b)', {
-            a: actions.warmupSubscribed({
-              executeFn: executeStub,
-              ...childAdapterRequest2,
-              parent: batchKeyParent,
-              result: batchableAdapterResponse2,
-              batchablePropertyPath: batchableAdapterResponse2.debug.batchablePropertyPath,
+            a: actions.warmupSubscribedMultiple({
+              members: [
+                {
+                  executeFn: executeStub,
+                  ...childAdapterRequest2,
+                  parent: batchKeyParent,
+                  result: batchableAdapterResponse2,
+                  batchablePropertyPath: batchableAdapterResponse2.debug.batchablePropertyPath,
+                },
+              ],
             }),
             b: actions.warmupSubscribed({
               executeFn: executeStub,
@@ -244,12 +248,16 @@ describe('side effect tests', () => {
 
           const output$ = executeHandler(action$, state$, epicDependencies)
           expectObservable(output$).toBe('(a b)', {
-            a: actions.warmupSubscribed({
-              executeFn: executeStub,
-              ...childAdapterRequest2,
-              parent: batchKeyParent,
-              result: batchableAdapterResponse2,
-              batchablePropertyPath: batchableAdapterResponse2.debug.batchablePropertyPath,
+            a: actions.warmupSubscribedMultiple({
+              members: [
+                {
+                  executeFn: executeStub,
+                  ...childAdapterRequest2,
+                  parent: batchKeyParent,
+                  result: batchableAdapterResponse2,
+                  batchablePropertyPath: batchableAdapterResponse2.debug.batchablePropertyPath,
+                },
+              ],
             }),
             b: actions.warmupJoinGroup({
               batchablePropertyPath: batchableAdapterResponse1.debug.batchablePropertyPath,
