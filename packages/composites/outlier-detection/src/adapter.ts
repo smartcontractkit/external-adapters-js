@@ -11,6 +11,7 @@ import {
   makeConfig,
   DEFAULT_CHECK_THRESHOLD,
   DEFAULT_ONCHAIN_THRESHOLD,
+  DEFAULT_NETWORK,
   makeOptions,
   Config,
 } from './config'
@@ -32,6 +33,7 @@ const customParams = {
   check: false,
   check_threshold: false,
   onchain_threshold: false,
+  network: false,
 }
 
 const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
@@ -45,8 +47,9 @@ const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const check_threshold = validator.validated.data.check_threshold || DEFAULT_CHECK_THRESHOLD
   const onchain_threshold = validator.validated.data.onchain_threshold || DEFAULT_ONCHAIN_THRESHOLD
   const { referenceContract, multiply } = validator.validated.data
+  const network = validator.validated.data.network || DEFAULT_NETWORK
 
-  const onchainValue = await getLatestAnswer(referenceContract, multiply, input.meta)
+  const onchainValue = await getLatestAnswer(network, referenceContract, multiply, input.meta)
 
   const sourceMedian = await getExecuteMedian(config.sources, source, input)
 

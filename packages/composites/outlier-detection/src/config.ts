@@ -4,6 +4,7 @@ import { Config as BaseConfig, RequestConfig } from '@chainlink/types'
 
 export const DEFAULT_CHECK_THRESHOLD = 0
 export const DEFAULT_ONCHAIN_THRESHOLD = 0
+export const DEFAULT_NETWORK = 'ETHEREUM'
 
 export type SourceRequestOptions = { [source: string]: RequestConfig }
 export type CheckRequestOptions = { [check: string]: RequestConfig }
