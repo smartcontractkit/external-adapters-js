@@ -1,6 +1,6 @@
 import { Requester, Validator, AdapterError, Logger } from '@chainlink/ea-bootstrap'
 import { AdapterResponse, Execute, AdapterRequest } from '@chainlink/types'
-import { makeConfig, Config } from './config'
+import { makeConfig, Config, DEFAULT_NETWORK } from './config'
 import { getRpcLatestAnswer } from '@chainlink/ea-reference-data-reader'
 
 const customParams = {
@@ -9,6 +9,7 @@ const customParams = {
   multiply: false,
   operator: ['operator'],
   dividend: false,
+  network: false,
 }
 
 const transform = (offchain: number, onchain: number, operator: string, dividendConfig: string) => {
@@ -36,6 +37,7 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
   const multiply = validator.validated.data.multiply || 100000000
   const operator = validator.validated.data.operator
   const dividend = validator.validated.data.dividend || 'off-chain'
+  const network = validator.validated.data.network || DEFAULT_NETWORK
 
   if (operator !== 'multiply' && operator !== 'divide')
     throw new AdapterError({
@@ -53,7 +55,7 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
 
   Logger.debug('Getting value from contract: ' + contract)
 
-  let price = await getRpcLatestAnswer(contract, 1)
+  let price = await getRpcLatestAnswer(network, contract, 1)
   price = price / multiply
   Logger.debug('Value: ' + price)
 

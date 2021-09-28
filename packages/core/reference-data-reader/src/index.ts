@@ -1,7 +1,7 @@
 import { ethers } from 'ethers'
 import { AggregatorInterfaceFactory } from '@chainlink/contracts/ethers/v0.6/AggregatorInterfaceFactory'
 import { AggregatorV2V3InterfaceFactory } from '@chainlink/contracts/ethers/v0.6/AggregatorV2V3InterfaceFactory'
-import { util } from '@chainlink/ea-bootstrap'
+import { util, Logger } from '@chainlink/ea-bootstrap'
 import { BigNumber } from 'ethers/utils'
 
 export interface RoundData {
@@ -13,37 +13,53 @@ export interface RoundData {
 }
 
 export type ReferenceDataPrice = (
+  network: string,
   contractAddress: string,
   multiply: number,
   meta?: Record<string, unknown>,
 ) => Promise<number>
 
-export type ReferenceDataRound = (contractAddress: string) => Promise<RoundData>
+export type ReferenceDataRound = (network: string, contractAddress: string) => Promise<RoundData>
 
 export const getLatestAnswer: ReferenceDataPrice = async (
+  network,
   contractAddress: string,
   multiply: number,
   meta?: Record<string, unknown>,
 ): Promise<number> => {
-  if (!meta || !meta.latestAnswer) return getRpcLatestAnswer(contractAddress, multiply)
+  if (!meta || !meta.latestAnswer) return getRpcLatestAnswer(network, contractAddress, multiply)
 
   return (meta.latestAnswer as number) / multiply
 }
 export const getRpcLatestAnswer: ReferenceDataPrice = async (
+  network,
   contractAddress: string,
   multiply: number,
 ): Promise<number> => {
-  const rpcUrl = util.getRequiredEnv('RPC_URL')
+  const rpcUrl = getRpcUrl(network)
   const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
   const aggregator = AggregatorInterfaceFactory.connect(contractAddress, provider)
   return (await aggregator.latestAnswer()).div(multiply).toNumber()
 }
 
 export const getRpcLatestRound: ReferenceDataRound = async (
+  network,
   contractAddress: string,
 ): Promise<RoundData> => {
-  const rpcUrl = util.getRequiredEnv('RPC_URL')
+  const rpcUrl = getRpcUrl(network)
   const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
   const aggregator = AggregatorV2V3InterfaceFactory.connect(contractAddress, provider)
   return await aggregator.latestRoundData()
+}
+
+export const getRpcUrl = (network: string): string => {
+  // Backwards compatability for RPC_URL
+  const rpcURL = util.getEnv('RPC_URL')
+  if (rpcURL) {
+    Logger.warn(
+      'Using the environment variable RPC_URL of an unknown network type. Multiple RPC URLs are now supported, please use only one instance of this adapter. Set the RPC_URLs with a prefix for the name of the network (e.g. ETHEREUM_RPC_URL).',
+    )
+    return rpcURL
+  }
+  return util.getRequiredEnv(`${network.toUpperCase}_RPC_URL`)
 }

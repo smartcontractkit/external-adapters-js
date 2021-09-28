@@ -11,6 +11,7 @@ const customParams = {
   deviationThreshold: false,
   lambdaMin: false,
   lambdaK: false,
+  network: false,
 }
 
 export const execute: Execute = async (input: AdapterRequest, context: AdapterContext) => {

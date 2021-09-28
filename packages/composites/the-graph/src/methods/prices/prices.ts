@@ -1,5 +1,5 @@
 import { Validator, Requester, Logger } from '@chainlink/ea-bootstrap'
-import { Config, WETH } from '../../config'
+import { Config, WETH, DEFAULT_NETWORK } from '../../config'
 import { ExecuteWithConfig } from '@chainlink/types'
 import { DexSubgraph, DexQueryInputParams, ReferenceModifierAction } from '../../types'
 import { getLatestAnswer } from '@chainlink/ea-reference-data-reader'
@@ -14,6 +14,7 @@ const customParams = {
   referenceContract: false,
   referenceContractDivisor: false,
   theGraphQuote: false,
+  network: false,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
@@ -29,6 +30,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
     referenceModifierAction = ReferenceModifierAction.MULTIPLY,
     intermediaryToken = WETH,
     theGraphQuote,
+    network,
   } = validator.validated.data
   if (!theGraphQuote && !quoteCoinTicker) {
     throw new Error('quoteCoinTicker cannot be empty if theGraphQuote not supplied')
@@ -47,6 +49,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
     referenceContractDivisor,
     referenceModifierAction: referenceModifierAction.toUpperCase() as ReferenceModifierAction,
     intermediaryToken: intermediaryToken.toUpperCase(),
+    network: network || DEFAULT_NETWORK,
   }
   if (baseCoinTicker === quoteCoinTicker) {
     throw new Error('Base and Quote coins must be different')
@@ -153,11 +156,16 @@ const modifyResultByFeedResult = async (
     referenceContract,
     referenceContractDivisor,
     referenceModifierAction,
+    network,
   } = inputParams
   Logger.info(
     `Price of ${quoteCoinTicker}/${baseCoinTicker} is going to be modified by the result returned from ${referenceContract} by ${referenceContractDivisor}`,
   )
-  const modifierTokenPrice = await getLatestAnswer(referenceContract, referenceContractDivisor)
+  const modifierTokenPrice = await getLatestAnswer(
+    network,
+    referenceContract,
+    referenceContractDivisor,
+  )
   Logger.info(`Feed ${referenceContract} returned a value of ${modifierTokenPrice}`)
   if (referenceModifierAction === ReferenceModifierAction.DIVIDE) {
     return currentPrice / modifierTokenPrice
