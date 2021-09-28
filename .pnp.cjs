@@ -39,6 +39,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/composites/bob"
       },
       {
+        "name": "@chainlink/circuit-breaker-adapter",
+        "reference": "workspace:packages/composites/circuit-breaker"
+      },
+      {
         "name": "@chainlink/crypto-volatility-index-adapter",
         "reference": "workspace:packages/composites/crypto-volatility-index"
       },
@@ -596,6 +600,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/btc.com-adapter", ["workspace:packages/sources/btc.com"]],
       ["@chainlink/cache.gold-adapter", ["workspace:packages/sources/cache.gold"]],
       ["@chainlink/cfbenchmarks-adapter", ["workspace:packages/sources/cfbenchmarks"]],
+      ["@chainlink/circuit-breaker-adapter", ["workspace:packages/composites/circuit-breaker"]],
       ["@chainlink/coinapi-adapter", ["workspace:packages/sources/coinapi"]],
       ["@chainlink/coinbase-adapter", ["workspace:packages/sources/coinbase"]],
       ["@chainlink/coincodex-adapter", ["workspace:packages/sources/coincodex"]],
@@ -3751,6 +3756,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.2"],
             ["@types/node", "npm:14.17.17"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/circuit-breaker-adapter", [
+        ["workspace:packages/composites/circuit-breaker", {
+          "packageLocation": "./packages/composites/circuit-breaker/",
+          "packageDependencies": [
+            ["@chainlink/circuit-breaker-adapter", "workspace:packages/composites/circuit-breaker"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.2"],
+            ["@types/node", "npm:14.17.7"],
+            ["axios", "npm:0.21.1"],
+            ["nock", "npm:13.1.3"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
