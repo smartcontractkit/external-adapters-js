@@ -1,7 +1,7 @@
 import { AdapterRequest, AdapterResponse, Execute } from '@chainlink/types'
 import { AnyAction } from 'redux'
 import { combineEpics, createEpicMiddleware, Epic } from 'redux-observable'
-import { concat, EMPTY, from, merge, Observable, of, race, Subject } from 'rxjs'
+import { concat, EMPTY, from, merge, Observable, of, race, Subject, timer } from 'rxjs'
 import {
   catchError,
   concatMap,
@@ -41,6 +41,8 @@ import {
   wsSubscriptionReady,
   saveFirstMessageReceived,
   updateSubscriptionInput,
+  saveOnConnectMessage,
+  onConnectComplete,
 } from './actions'
 import {
   ws_connection_active,
@@ -81,7 +83,9 @@ export const subscribeReadyEpic: Epic<AnyAction, AnyAction, { ws: RootState }, a
       const { wsHandler, config, context, request } = payload
       const subscriptionPayloads: WSSubscriptionPayload[] = []
       await separateBatches(request, async (singleInput: AdapterRequest) => {
-        const subscriptionMsg = wsHandler.subscribe(singleInput)
+        const subscriptionMsg = wsHandler.onConnectChain
+          ? wsHandler.onConnectChain[0]()
+          : wsHandler.subscribe(singleInput)
         if (!subscriptionMsg) return
         const subscriptionPayload: WSSubscriptionPayload = {
           connectionInfo: {
@@ -237,7 +241,24 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
         mergeMap(([{ subscriptionKey, payload }, state]) =>
           wsSubject
             .multiplex(
-              () => payload.subscriptionMsg,
+              () => {
+                const clonedPayload = JSON.parse(JSON.stringify(payload.subscriptionMsg))
+                const shouldModifyPayload =
+                  !!wsHandler.shouldModifyPayload &&
+                  wsHandler.shouldModifyPayload(clonedPayload) &&
+                  wsHandler.modifySubscriptionPayload
+                const connectionState = state.ws.connections.all[payload.connectionInfo.key]
+                const subMsg =
+                  shouldModifyPayload && wsHandler.modifySubscriptionPayload
+                    ? wsHandler.modifySubscriptionPayload(
+                        clonedPayload,
+                        state.ws.subscriptions.all[subscriptionKey]?.subscriptionParams,
+                        connectionState.connectionParams,
+                        connectionState.requestId,
+                      )
+                    : clonedPayload
+                return subMsg
+              },
               () =>
                 wsHandler.unsubscribe(
                   payload.input,
@@ -258,6 +279,13 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
                   errorObserver.next(subscriptionError(error))
                   return false
                 }
+                if (
+                  wsHandler.isOnConnectChainMessage &&
+                  wsHandler.isOnConnectChainMessage(message)
+                ) {
+                  // Pass through all messages that are needed to continue the on connect change
+                  return true
+                }
                 return (
                   getSubsId(
                     wsHandler.subsFromMessage(message, payload.subscriptionMsg, payload.input),
@@ -273,10 +301,24 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
                   logger.info('WS: Subscribed', subscriptionMeta(payload))
                   return of(
                     subscribeFulfilled(payload),
-                    messageReceived({ message, subscriptionKey }),
+                    messageReceived({
+                      message,
+                      subscriptionKey,
+                      input: payload.input,
+                      context: payload.context,
+                      connectionInfo: payload.connectionInfo,
+                    }),
                   )
                 }
-                return of(messageReceived({ message, subscriptionKey }))
+                return of(
+                  messageReceived({
+                    message,
+                    subscriptionKey,
+                    input: payload.input,
+                    context: payload.context,
+                    connectionInfo: payload.connectionInfo,
+                  }),
+                )
               }),
               takeUntil(
                 merge(
@@ -302,12 +344,90 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
         }),
       )
 
+      const withOnConnectChainComplete$ = action$.pipe(
+        filter((action) => onConnectComplete.match(action) && !!wsHandler.heartbeatMessage),
+        withLatestFrom(state$),
+        filter(([action, state]) => {
+          const connectionKey = action.payload.connectionInfo.key
+          const connectionState = state.ws.connections.all[connectionKey]
+          return !!connectionState && connectionState.active
+        }),
+        mergeMap(([action, state]) => {
+          const connectionKey = action.payload.connectionInfo.key
+          const connectionState = state.ws.connections.all[connectionKey]
+          const interval = wsHandler.heartbeatIntervalInMS || config.defaultHeartbeatIntervalInMS
+          return timer(interval, interval).pipe(
+            mergeMap(() => {
+              if (wsHandler.heartbeatMessage) {
+                const heartbeatPayload = wsHandler.heartbeatMessage(
+                  connectionState.requestId,
+                  connectionState.connectionParams,
+                )
+                wsSubject.next(heartbeatPayload)
+              }
+              return EMPTY
+            }),
+            tap(() => logger.info('Sending heartbeat message')),
+            takeUntil(
+              action$.pipe(
+                filter(disconnectFulfilled.match),
+                filter((action) => action.payload.config.connectionInfo.key === connectionKey),
+              ),
+            ),
+          )
+        }),
+      )
+
       // All received messages
       const message$ = action$.pipe(filter(messageReceived.match))
 
+      const withContinueOnConnectChain$ = message$.pipe(
+        withLatestFrom(state$),
+        filter(([action, state]) => {
+          const key = action.payload.connectionInfo.key
+          const connectionState = state.ws.connections.all[key]
+          return (
+            !!connectionState &&
+            !!wsHandler.onConnectChain &&
+            connectionState.requestId <= wsHandler.onConnectChain.length
+          )
+        }),
+        mergeMap(([{ payload }, state]) => {
+          const { input, context, message } = payload
+          const onConnectIdx = state.ws.connections.all[payload.connectionInfo.key]
+            ? state.ws.connections.all[payload.connectionInfo.key].requestId
+            : 0
+          if (!wsHandler.onConnectChain || onConnectIdx === undefined) {
+            return EMPTY
+          }
+          const onConnectChainFinished = onConnectIdx >= wsHandler.onConnectChain.length
+          const connectionInStore =
+            state.ws.connections.all[payload.connectionInfo.key].connectionParams
+          const subscriptionMsg = onConnectChainFinished
+            ? wsHandler.subscribe(input)
+            : wsHandler.onConnectChain[onConnectIdx](input, message, connectionInStore)
+          const subscriptionPayload: WSSubscriptionPayload = {
+            connectionInfo: {
+              key: config.connectionInfo.key,
+              url: wsHandler.connection.url,
+            },
+            subscriptionMsg,
+            input,
+            context,
+          }
+          if (onConnectChainFinished) {
+            return of(
+              subscribeRequested(subscriptionPayload),
+              onConnectComplete(subscriptionPayload),
+            )
+          }
+          return of(subscribeRequested(subscriptionPayload))
+        }),
+      )
+
       const withSaveFirstMessageToStore$ = message$.pipe(
-        filter((action) => {
-          return !!wsHandler.toSaveFromFirstMessage && wsHandler.filter(action.payload.message)
+        filter(() => {
+          return !!wsHandler.toSaveFromFirstMessage
         }),
         withLatestFrom(state$),
         filter(([action, state]) => {
@@ -320,6 +440,29 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
             subscriptionKey: action.payload.subscriptionKey,
             message: wsHandler.toSaveFromFirstMessage
               ? wsHandler.toSaveFromFirstMessage(action.payload.message)
+              : {},
+          })
+        }),
+      )
+
+      const withSaveToConnection$ = message$.pipe(
+        filter((action) => {
+          return (
+            !!wsHandler.shouldSaveToConnection &&
+            wsHandler.shouldSaveToConnection(action.payload.message)
+          )
+        }),
+        withLatestFrom(state$),
+        filter(([action, state]) => {
+          const key = action.payload.connectionInfo.key
+          const connection = state.ws.connections.all[key]
+          return !!connection && connection.active
+        }),
+        mergeMap(async ([action]) => {
+          return saveOnConnectMessage({
+            connectionKey: action.payload.connectionInfo.key,
+            message: wsHandler.saveOnConnectToConnection
+              ? wsHandler.saveOnConnectToConnection(action.payload.message)
               : {},
           })
         }),
@@ -481,6 +624,9 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
         withCache$,
         withSaveFirstMessageToStore$,
         updateSubscriptionInput$,
+        withContinueOnConnectChain$,
+        withSaveToConnection$,
+        withOnConnectChainComplete$,
         error$,
       ).pipe(
         takeUntil(

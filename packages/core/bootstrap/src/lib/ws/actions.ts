@@ -1,5 +1,6 @@
 import { AdapterContext, AdapterRequest, WSHandler } from '@chainlink/types'
 import { createAction } from '@reduxjs/toolkit'
+import { WebSocketSubject } from 'rxjs/webSocket'
 import { asAction } from '../store'
 import { WSConfig, WSConnectionInfo } from './types'
 
@@ -35,6 +36,21 @@ export interface WSUpdateSubscriptionInputPayload {
   input: AdapterRequest
 }
 
+export interface WSRunOnConnectFunctions {
+  wsHandler: WSHandler
+  wsSubject: WebSocketSubject<any>
+  input: AdapterRequest
+}
+
+export interface WSSaveMessageToConnection {
+  connectionKey: string
+  message: any
+}
+
+export const runOnConnectFunctions = createAction(
+  'WS/RUN_ON_CONNECT_FUNCTIONS',
+  asAction<WSRunOnConnectFunctions>(),
+)
 export const updateSubscriptionInput = createAction(
   'WS/UPDATE_SUBSRCRIPTION_INPUT',
   asAction<WSUpdateSubscriptionInputPayload>(),
@@ -60,6 +76,18 @@ export const disconnectFulfilled = createAction(
 export const disconnectRequested = createAction(
   'WS/DISCONNECT_REQUESTED',
   asAction<WSConfigPayload>(),
+)
+export const saveOnConnectMessage = createAction(
+  'WS/SAVE_ON_CONNECT_MESSAGE',
+  asAction<WSSaveMessageToConnection>(),
+)
+export const incrementOnConnectIdx = createAction(
+  'WS/INCREMENT_ON_CONNECT_IDX',
+  asAction<{ key: string }>(),
+)
+export const onConnectComplete = createAction(
+  'WS/ON_CONNECT_COMPLETE',
+  asAction<WSSubscriptionPayload>(),
 )
 
 /** SUBSCRIPTIONS */
@@ -100,6 +128,9 @@ export const unsubscribeFulfilled = createAction(
 export interface WSMessagePayload {
   message: unknown
   subscriptionKey: string
+  input: AdapterRequest
+  context: AdapterContext
+  connectionInfo: WSConnectionInfo
 }
 
 export const messageReceived = createAction('WS/MESSAGE_RECEIVED', asAction<WSMessagePayload>())

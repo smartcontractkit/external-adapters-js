@@ -26,6 +26,10 @@ export interface ConnectionsState {
       active: boolean
       connecting: number
       wasEverConnected?: boolean
+      connectionParams?: {
+        [T: string]: string
+      }
+      requestId: number
     }
   }
 }
@@ -35,6 +39,13 @@ const initConnectionsState: ConnectionsState = { total: 0, all: {} }
 export const connectionsReducer = createReducer<ConnectionsState>(
   initConnectionsState,
   (builder) => {
+    builder.addCase(actions.saveOnConnectMessage, (state, action) => {
+      const { connectionKey, message } = action.payload
+      state.all[connectionKey] = {
+        ...state.all[connectionKey],
+        connectionParams: message,
+      }
+    })
     builder.addCase(actions.connectFulfilled, (state, action) => {
       // Add connection
       const { key } = action.payload.config.connectionInfo
@@ -42,9 +53,17 @@ export const connectionsReducer = createReducer<ConnectionsState>(
         active: true,
         connecting: 0,
         wasEverConnected: true,
+        requestId: Math.max(state.all[key].requestId, 0),
       }
     })
-
+    builder.addCase(actions.subscribeRequested, (state, action) => {
+      const key = action.payload.connectionInfo.key
+      if (!state.all[key]) return
+      state.all[key] = {
+        ...state.all[key],
+        requestId: state.all[key].requestId + 1,
+      }
+    })
     builder.addCase(actions.connectRequested, (state, action) => {
       const { key } = action.payload.config.connectionInfo
       const isActive = state.all[key]?.active
@@ -54,6 +73,7 @@ export const connectionsReducer = createReducer<ConnectionsState>(
       state.all[key] = {
         active: false,
         connecting: isConnecting ? state.all[key].connecting + 1 : 1,
+        requestId: 0,
       }
     })
 
