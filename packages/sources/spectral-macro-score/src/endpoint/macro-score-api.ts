@@ -2,6 +2,7 @@ import { Requester } from '@chainlink/ea-bootstrap'
 import { RequestConfig } from '@chainlink/types'
 import { BigNumber } from 'ethers'
 import { getTickSet } from '../abi/NFC'
+import { getNFCAddress } from '../abi/NFCRegistry'
 import { SpectralAdapterConfig } from '../config'
 
 export const MacroScoreAPIName = 'spectral-proxy'
@@ -51,7 +52,8 @@ export const execute = async (request: IRequestInput, config: SpectralAdapterCon
       tokenInt: `${request.data.tokenIdInt}`,
     },
   }
-  const tickSet = await getTickSet(config.nfcAddress, config.rpcUrl, request.data.tickSetId)
+  const nfcAddress = await getNFCAddress(config.nfcRegistryAddress, config.rpcUrl)
+  const tickSet = await getTickSet(nfcAddress, config.rpcUrl, request.data.tickSetId)
   const response = await Requester.request<ScoreResponse[]>(options, customError)
   const score = Requester.validateResultNumber(response.data[0], ['score'])
   const tick = computeTickWithScore(score, tickSet)

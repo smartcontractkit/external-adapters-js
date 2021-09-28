@@ -9,7 +9,7 @@ export const DEFAULT_TIMEOUT = 60000
 
 export interface SpectralAdapterConfig extends Config {
   rpcUrl: string
-  nfcAddress: string
+  nfcRegistryAddress: string
 }
 
 export const makeConfig = (prefix?: string): SpectralAdapterConfig => {
@@ -17,7 +17,7 @@ export const makeConfig = (prefix?: string): SpectralAdapterConfig => {
   config.api.baseURL = config.api.baseURL || DEFAULT_BASE_URL
   config.api.timeout = DEFAULT_TIMEOUT
   config.rpcUrl = util.getRequiredEnv('RPC_URL')
-  config.nfcAddress = util.getRequiredEnv('NFC_ADDRESS')
+  config.nfcRegistryAddress = util.getRequiredEnv('NFC_REGISTRY_ADDRESS')
   config.api.headers = {
     'Content-Type': 'application/json',
     'x-api-key': config.apiKey ?? '',

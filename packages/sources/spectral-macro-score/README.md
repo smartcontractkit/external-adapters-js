@@ -4,12 +4,12 @@ Used to retrieve a MACRO Score for a given token ID.
 
 ### Environment Variables
 
-| Required? |     Name     |                            Description                             | Options |                          Defaults to                           |
-| :-------: | :----------: | :----------------------------------------------------------------: | :-----: | :------------------------------------------------------------: |
-|    ✅     |   API_KEY    | An API key that can be obtained from the data provider's dashboard |         |                                                                |
-|    ✅     |   RPC_URL    |                          Ethereum RPC URL                          |         |                                                                |
-|    ✅     | NFC_ADDRESS  |                    Address of the NFC contract                     |         |                                                                |
-|           | API_ENDPOINT |                      MACRO Score API Endpoint                      |         | https://xzff24vr3m.execute-api.us-east-2.amazonaws.com/default |
+| Required? |         Name         |                            Description                             | Options |                          Defaults to                           |
+| :-------: | :------------------: | :----------------------------------------------------------------: | :-----: | :------------------------------------------------------------: |
+|    ✅     |       API_KEY        | An API key that can be obtained from the data provider's dashboard |         |                                                                |
+|    ✅     |       RPC_URL        |                          Ethereum RPC URL                          |         |                                                                |
+|    ✅     | NFC_REGISTRY_ADDRESS |                Address of the NFC registry contract                |         |                                                                |
+|           |     API_ENDPOINT     |                      MACRO Score API Endpoint                      |         | https://xzff24vr3m.execute-api.us-east-2.amazonaws.com/default |
 
 ---
 

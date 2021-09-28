@@ -6126,7 +6126,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:26.0.24, @types/jest@npm:^26.0.22":
+"@types/jest@npm:26.0.24":
   version: 26.0.24
   resolution: "@types/jest@npm:26.0.24"
   dependencies:
@@ -6463,7 +6463,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/sinon@npm:10.0.2, @types/sinon@npm:^10.0.2":
+"@types/sinon@npm:10.0.2":
   version: 10.0.2
   resolution: "@types/sinon@npm:10.0.2"
   dependencies:
@@ -19528,7 +19528,7 @@ resolve@1.17.0:
   languageName: node
   linkType: hard
 
-"sinon@npm:11.1.2, sinon@npm:^11.1.2":
+"sinon@npm:11.1.2":
   version: 11.1.2
   resolution: "sinon@npm:11.1.2"
   dependencies:

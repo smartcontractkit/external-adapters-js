@@ -4,6 +4,7 @@ import { BigNumber } from 'ethers'
 import nock from 'nock'
 import sinon from 'sinon'
 import * as NFC from '../../src/abi/NFC'
+import * as NFCRegistry from '../../src/abi/NFCRegistry'
 import { makeExecute } from '../../src/adapter'
 import * as config from '../../src/config'
 import { mockMacroScoreAPIResponseSuccess } from '../mocks/macro-score-api.mock'
@@ -50,6 +51,10 @@ describe('execute', () => {
     ]
 
     const mockContractCall = () => {
+      sinon.mock
+      const mockNFCRegistry = sinon.mock(NFCRegistry)
+      const mockedNFCAddress = '0x925CdEa508beAaCCd8c859A7B3cD230d67258678'
+      mockNFCRegistry.expects('getNFCAddress').once().returns(Promise.resolve(mockedNFCAddress))
       const mockNFC = sinon.mock(NFC)
       const mockedResult = [
         BigNumber.from('440'),
