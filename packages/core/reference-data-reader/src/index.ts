@@ -1,7 +1,7 @@
 import { ethers } from 'ethers'
 import { AggregatorInterfaceFactory } from '@chainlink/contracts/ethers/v0.6/AggregatorInterfaceFactory'
 import { AggregatorV2V3InterfaceFactory } from '@chainlink/contracts/ethers/v0.6/AggregatorV2V3InterfaceFactory'
-import { util, Logger } from '@chainlink/ea-bootstrap'
+import { AdapterError, util, Logger } from '@chainlink/ea-bootstrap'
 import { BigNumber } from 'ethers/utils'
 
 export interface RoundData {
@@ -53,6 +53,10 @@ export const getRpcLatestRound: ReferenceDataRound = async (
 }
 
 export const getRpcUrl = (network: string): string => {
+  // First try with network prefix
+  const rpcUrlWithNetwork = util.getEnv(`${network.toUpperCase}_RPC_URL`)
+  if (rpcUrlWithNetwork) return rpcUrlWithNetwork
+
   // Backwards compatability for RPC_URL
   const rpcURL = util.getEnv('RPC_URL')
   if (rpcURL) {
@@ -61,5 +65,8 @@ export const getRpcUrl = (network: string): string => {
     )
     return rpcURL
   }
-  return util.getRequiredEnv(`${network.toUpperCase}_RPC_URL`)
+
+  throw new Error(
+    `Network ${network} must be configured with an environment variable ${`${network.toUpperCase}_RPC_URL`}`,
+  )
 }
