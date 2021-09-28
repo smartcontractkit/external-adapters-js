@@ -54,7 +54,7 @@ export const getRpcLatestRound: ReferenceDataRound = async (
 
 export const getRpcUrl = (network: string): string => {
   // First try with network prefix
-  const rpcUrlWithNetwork = util.getEnv(`${network.toUpperCase}_RPC_URL`)
+  const rpcUrlWithNetwork = util.getEnv(`${network.toUpperCase()}_RPC_URL`)
   if (rpcUrlWithNetwork) return rpcUrlWithNetwork
 
   // Backwards compatability for RPC_URL
