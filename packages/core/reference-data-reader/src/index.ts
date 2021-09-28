@@ -1,7 +1,7 @@
 import { ethers } from 'ethers'
 import { AggregatorInterfaceFactory } from '@chainlink/contracts/ethers/v0.6/AggregatorInterfaceFactory'
 import { AggregatorV2V3InterfaceFactory } from '@chainlink/contracts/ethers/v0.6/AggregatorV2V3InterfaceFactory'
-import { AdapterError, util, Logger } from '@chainlink/ea-bootstrap'
+import { util, Logger } from '@chainlink/ea-bootstrap'
 import { BigNumber } from 'ethers/utils'
 
 export interface RoundData {
