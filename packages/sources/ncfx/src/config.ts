@@ -13,12 +13,12 @@ export const makeConfig = (prefix?: string): Config => {
   config.api.baseURL = config.api.baseURL || DEFAULT_BASE_URL
   config.api.baseWebsocketURL = config.api.baseWebsocketURL || DEFAULT_BASE_WS_URL
   config.defaultEndpoint = DEFAULT_ENDPOINT
-  const username = util.getRequiredEnv('API_USERNAME', prefix) || ''
-  const password = util.getRequiredEnv('API_PASSWORD', prefix) || ''
+  const username = util.getEnv('API_USERNAME', prefix) || ''
+  const password = util.getEnv('API_PASSWORD', prefix) || ''
   config.api.auth = { username, password }
   config.adapterSpecificParams = {
-    forexWSUsername: util.getRequiredEnv('FOREX_WS_USERNAME', prefix) || '',
-    forexWSPassword: util.getRequiredEnv('FOREX_WS_PASSWORD', prefix) || '',
+    forexWSUsername: util.getEnv('FOREX_WS_USERNAME', prefix) || '',
+    forexWSPassword: util.getEnv('FOREX_WS_PASSWORD', prefix) || '',
     forexDefaultBaseWSUrl: FOREX_DEFAULT_BASE_WS_URL,
   }
   return config
