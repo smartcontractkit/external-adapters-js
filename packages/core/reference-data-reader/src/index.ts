@@ -67,6 +67,6 @@ export const getRpcUrl = (network: string): string => {
   }
 
   throw new Error(
-    `Network ${network} must be configured with an environment variable ${`${network.toUpperCase}_RPC_URL`}`,
+    `Network ${network} must be configured with an environment variable ${`${network.toUpperCase()}_RPC_URL`}`,
   )
 }
