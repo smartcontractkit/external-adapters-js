@@ -76,7 +76,8 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
     .toNumber()
   const callbackAddress = parseAddress(validator.validated.data.callbackAddress)
   const newEpoch = BigNumber.from(validator.validated.data.newEpoch)
-  const activeRootIpfsCid = validator.validated.data.activeRootIpfsCid
+  const activeRootIpfsCidBase64 = Buffer.from(validator.validated.data.activeRootIpfsCid, 'base64')
+  const activeRootIpfsCid = activeRootIpfsCidBase64.toString()
 
   const requesterContract = new ethers.Contract(callbackAddress, OracleRequester, config.wallet)
 
