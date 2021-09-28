@@ -67,10 +67,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/composites/linear-finance"
       },
       {
-        "name": "@chainlink/lotus-adapter",
-        "reference": "workspace:packages/composites/lotus"
-      },
-      {
         "name": "@chainlink/market-closure-adapter",
         "reference": "workspace:packages/composites/market-closure"
       },
@@ -411,6 +407,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/lition"
       },
       {
+        "name": "@chainlink/lotus-adapter",
+        "reference": "workspace:packages/sources/lotus"
+      },
+      {
         "name": "@chainlink/marketstack-adapter",
         "reference": "workspace:packages/sources/marketstack"
       },
@@ -673,7 +673,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/linear-finance-adapter", ["workspace:packages/composites/linear-finance"]],
       ["@chainlink/linkpool-adapter", ["workspace:packages/sources/linkpool"]],
       ["@chainlink/lition-adapter", ["workspace:packages/sources/lition"]],
-      ["@chainlink/lotus-adapter", ["workspace:packages/composites/lotus"]],
+      ["@chainlink/lotus-adapter", ["workspace:packages/sources/lotus"]],
       ["@chainlink/market-closure-adapter", ["workspace:packages/composites/market-closure"]],
       ["@chainlink/marketstack-adapter", ["workspace:packages/sources/marketstack"]],
       ["@chainlink/medianizer-adapter", ["workspace:packages/composites/medianizer"]],
@@ -5123,10 +5123,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@chainlink/lotus-adapter", [
-        ["workspace:packages/composites/lotus", {
-          "packageLocation": "./packages/composites/lotus/",
+        ["workspace:packages/sources/lotus", {
+          "packageLocation": "./packages/sources/lotus/",
           "packageDependencies": [
-            ["@chainlink/lotus-adapter", "workspace:packages/composites/lotus"],
+            ["@chainlink/lotus-adapter", "workspace:packages/sources/lotus"],
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/json-rpc-adapter", "workspace:packages/sources/json-rpc"],
@@ -5475,7 +5475,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/gemini-adapter", "workspace:packages/sources/gemini"],
-            ["@chainlink/lotus-adapter", "workspace:packages/composites/lotus"],
+            ["@chainlink/lotus-adapter", "workspace:packages/sources/lotus"],
             ["@chainlink/reduce-adapter", "workspace:packages/sources/reduce"],
             ["@chainlink/renvm-address-set-adapter", "workspace:packages/sources/renvm-address-set"],
             ["@chainlink/sochain-adapter", "workspace:packages/sources/sochain"],
