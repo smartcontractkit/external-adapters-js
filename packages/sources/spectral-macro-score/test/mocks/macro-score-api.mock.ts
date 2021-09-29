@@ -10,17 +10,9 @@ export function mockMacroScoreAPIResponseSuccess() {
     })
     .reply(
       200,
-      [
-        {
-          address: '0xa55E01a40557fAB9d87F993d8f5344f1b2408072',
-          score_aave: '604.77',
-          score_comp: '300.00',
-          score: '452.38',
-          updated_at: '2021-07-18T21:07:56.219383Z',
-          is_updating_aave: false,
-          is_updating_comp: false,
-        },
-      ],
+      {
+        score: '452.38',
+      },
       [
         'Date',
         'Sun, 18 Jul 2021 21:08:00 GMT',

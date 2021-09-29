@@ -5,6 +5,8 @@ import nock from 'nock'
 import sinon from 'sinon'
 import * as NFC from '../../src/abi/NFC'
 import * as NFCRegistry from '../../src/abi/NFCRegistry'
+import { getTickSet } from '../../src/abi/NFC'
+import { getNFCAddress } from '../../src/abi/NFCRegistry'
 import { makeExecute } from '../../src/adapter'
 import * as config from '../../src/config'
 import { mockMacroScoreAPIResponseSuccess } from '../mocks/macro-score-api.mock'
@@ -44,49 +46,46 @@ describe('execute', () => {
           id: jobID,
           data: {
             tokenIdInt: 'test', // Replace this if recording Nock mock
-            tickSetId: '1',
+            tickSetId: BigNumber.from('1'),
           },
         },
       },
     ]
 
-    const mockContractCall = () => {
+    const mockContractCall = async () => {
       sinon.mock
-      const mockNFCRegistry = sinon.mock(NFCRegistry)
-      const mockedNFCAddress = '0x925CdEa508beAaCCd8c859A7B3cD230d67258678'
-      mockNFCRegistry.expects('getNFCAddress').once().returns(Promise.resolve(mockedNFCAddress))
-      const mockNFC = sinon.mock(NFC)
-      const mockedResult = [
-        BigNumber.from('440'),
-        BigNumber.from('530'),
-        BigNumber.from('620'),
-        BigNumber.from('710'),
-        BigNumber.from('800'),
-      ]
-      mockNFC.expects('getTickSet').once().returns(Promise.resolve(mockedResult))
+      const rpcUrl = 'https://kovan.infura.io/v3/8d56dbce524d46a584cbc039a6d48fd0'
+      const nfcAddress = await getNFCAddress('0x6C29d5D08c9751Ac38Cc8E1a7a4cb75951548A15', rpcUrl)
+      const tickSet = await getTickSet(nfcAddress, rpcUrl, BigNumber.from('1'))
+
       const mockConfig = sinon.mock(config)
+
       const mockedConfigResult = {
         api: {
           baseURL: 'https://xzff24vr3m.execute-api.us-east-2.amazonaws.com/default/',
         },
         verbose: true,
-        rpcUrl: 'test-rpc-url',
-        nfcAddress: 'test-nfc-address',
+        rpcUrl: 'https://kovan.infura.io/v3/8d56dbce524d46a584cbc039a6d48fd0',
+        nfcRegistryAddress: '0x6C29d5D08c9751Ac38Cc8E1a7a4cb75951548A15',
       }
       mockConfig.expects('makeConfig').once().returns(mockedConfigResult)
+
+      return tickSet
     }
 
     requests.forEach((req) => {
       it(
         `${req.name}`,
         async () => {
-          mockContractCall()
+          await mockContractCall()
           const adapterResponse = await execute(req.testData as AdapterRequest, null)
+
           assertSuccess(
             { expected: 200, actual: adapterResponse.statusCode },
             adapterResponse,
             jobID,
           )
+
           expect(parseInt(adapterResponse.data?.result)).not.toBeNull()
           expect(parseInt(adapterResponse.data.result)).toBeGreaterThan(0)
         },

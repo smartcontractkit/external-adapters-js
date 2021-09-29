@@ -26,14 +26,7 @@ export interface IRequestInput {
 }
 
 export interface ScoreResponse {
-  address: string
-  score_aave: string // numeric
-  score_comp: string // numeric
   score: string // numeric
-  updated_at: string // ISO UTC string
-  is_updating_aave: boolean
-  is_updating_comp: boolean
-  result: number
 }
 
 export const computeTickWithScore = (score: number, tickSet: BigNumber[]): number => {
@@ -54,9 +47,10 @@ export const execute = async (request: IRequestInput, config: SpectralAdapterCon
   }
   const nfcAddress = await getNFCAddress(config.nfcRegistryAddress, config.rpcUrl)
   const tickSet = await getTickSet(nfcAddress, config.rpcUrl, request.data.tickSetId)
-  const response = await Requester.request<ScoreResponse[]>(options, customError)
-  const score = Requester.validateResultNumber(response.data[0], ['score'])
+  const response = await Requester.request<ScoreResponse>(options, customError)
+  const score = Requester.validateResultNumber(response.data, ['score'])
   const tick = computeTickWithScore(score, tickSet)
+
   return Requester.success(
     request.data.jobRunID,
     Requester.withResult(response, tick),
