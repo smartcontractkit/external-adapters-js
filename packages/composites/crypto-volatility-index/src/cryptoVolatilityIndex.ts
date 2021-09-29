@@ -13,14 +13,14 @@ export const calculate = async (
   context: AdapterContext,
 ): Promise<number> => {
   const {
-    renewPeriod = 300000,
+    renewPeriod = 300,
     multiply = 1e18,
-    heartbeatMinutes = 60,
+    maxIndex = 200,
     isAdaptive = true,
     cryptoCurrencies = ['BTC', 'ETH'],
-    deviationThreshold = 0.11,
-    lambdaMin = 0.031,
-    lambdaK = 0.31,
+    deviationThreshold = 0.2,
+    lambdaMin = 0.04,
+    lambdaK = 0.4,
   } = validated.data
 
   // Get all of the required derivatives data for the calculations, for all the relevant currencies
@@ -37,10 +37,10 @@ export const calculate = async (
   )
   // Smooth CVI with previous on-chain value if exists
   const cvi = !isAdaptive
-    ? toOnChainValue(weightedCVI, multiply)
+    ? weightedCVI
     : await applySmoothing(
         weightedCVI,
-        heartbeatMinutes,
+        renewPeriod,
         deviationThreshold,
         lambdaMin,
         lambdaK,
@@ -48,9 +48,9 @@ export const calculate = async (
       )
 
   Logger.info(`CVI: ${cvi}`)
-  validateIndex(cvi)
+  validateIndex(cvi, maxIndex)
   await saveCache(context, cvi, renewPeriod)
-  return cvi
+  return toOnChainValue(cvi, multiply)
 }
 
 const calculateVixValues = async (
@@ -127,7 +127,7 @@ const getDominanceByCurrency = async (
 
 const applySmoothing = async (
   weightedCVI: number,
-  heartBeatMinutes: number,
+  renewPeriod: number,
   deviationThreshold: number,
   lambdaMin: number,
   lambdaK: number,
@@ -151,7 +151,7 @@ const applySmoothing = async (
 
   const d = Math.abs(latestIndex.toNumber() / weightedCVI - 1)
   const l =
-    d >= deviationThreshold ? lambdaMin : lambda(dtSeconds, heartBeatMinutes, lambdaMin, lambdaK)
+    d >= deviationThreshold ? lambdaMin : lambda(dtSeconds, renewPeriod / 60, lambdaMin, lambdaK)
   const smoothed = latestIndex.mul(new Decimal(1 - l)).add(new Decimal(weightedCVI).mul(l))
   Logger.debug(`Previous value:${latestIndex}, updatedAt:${updatedAt}, dtSeconds:${dtSeconds}`)
   return smoothed.toNumber()
@@ -162,9 +162,8 @@ const lambda = function (t: number, heartBeatMinutes: number, lambdaMin: number,
   return lambdaMin + (lambdaK * Math.min(t, T)) / T
 }
 
-const MAX_INDEX = 200
-const validateIndex = function (cvi: number) {
-  if (cvi <= 0 || cvi > MAX_INDEX) {
+const validateIndex = function (cvi: number, maxIndex: number) {
+  if (cvi <= 0 || cvi > maxIndex) {
     throw new Error('Invalid calculated index value')
   }
 }

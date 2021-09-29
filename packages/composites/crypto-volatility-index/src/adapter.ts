@@ -5,7 +5,7 @@ import { calculate } from './cryptoVolatilityIndex'
 const customParams = {
   renewPeriod: false,
   multiply: false,
-  heartbeatMinutes: false,
+  maxIndex: false,
   isAdaptive: false,
   cryptoCurrencies: false,
   deviationThreshold: false,

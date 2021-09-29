@@ -19,9 +19,9 @@ export const saveCache = async (
   const value = await cache.getResponse(CACHE_KEY)
   const cachedValue: CachedCVIValue = value?.data
   const now = moment().utc().unix()
-  if (!cachedValue || now - cachedValue.timestamp > renewPeriod) {
+  if (!cachedValue || now - cachedValue.timestamp > renewPeriod * 1000) {
     const data: CachedCVIValue = { value: result, timestamp: now }
-    cache.setResponse(CACHE_KEY, { data } as CacheEntry, renewPeriod * 2)
+    cache.setResponse(CACHE_KEY, { data } as CacheEntry, renewPeriod * 2000)
   }
 }
 
