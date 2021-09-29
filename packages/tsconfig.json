@@ -15,6 +15,9 @@
       "path": "./composites/bob"
     },
     {
+      "path": "./composites/circuit-breaker"
+    },
+    {
       "path": "./composites/crypto-volatility-index"
     },
     {
@@ -24,10 +27,10 @@
       "path": "./composites/dns-record-check"
     },
     {
-      "path": "./composites/dydx-rewards"
+      "path": "./composites/dxdao"
     },
     {
-      "path": "./composites/dxdao"
+      "path": "./composites/dydx-rewards"
     },
     {
       "path": "./composites/google-weather"

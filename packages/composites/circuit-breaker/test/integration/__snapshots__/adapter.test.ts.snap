@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute valid result method should return correct result value with the second source if the first one fail by 500 error 1`] = `
+Object {
+  "data": Object {
+    "result": 3139.726053759448,
+  },
+  "debug": undefined,
+  "jobRunID": "1",
+  "result": 3139.726053759448,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute valid result method should return correct result value with the second source if the first one fail by conection refuse 1`] = `
+Object {
+  "data": Object {
+    "result": 3139.726053759448,
+  },
+  "debug": undefined,
+  "jobRunID": "1",
+  "result": 3139.726053759448,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute valid result method should return correct result values 1`] = `
+Object {
+  "data": Object {
+    "result": 3068.06,
+  },
+  "debug": undefined,
+  "jobRunID": "1",
+  "result": 3068.06,
+  "statusCode": 200,
+}
+`;
