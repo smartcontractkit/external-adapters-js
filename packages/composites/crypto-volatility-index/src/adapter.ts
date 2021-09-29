@@ -3,7 +3,7 @@ import { AdapterContext, AdapterRequest, Execute } from '@chainlink/types'
 import { calculate } from './cryptoVolatilityIndex'
 
 const customParams = {
-  contract: ['contractAddress', 'contract'],
+  renewPeriod: false,
   multiply: false,
   heartbeatMinutes: false,
   isAdaptive: false,
