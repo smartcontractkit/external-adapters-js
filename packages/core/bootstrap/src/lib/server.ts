@@ -1,6 +1,8 @@
 import { AdapterContext, Execute, Middleware } from '@chainlink/types'
 import express from 'express'
 import http from 'http'
+import slowDown from 'express-slow-down'
+import rateLimit from 'express-rate-limit'
 import { join } from 'path'
 import * as client from 'prom-client'
 import { executeSync, withMiddleware } from '../index'
@@ -36,13 +38,17 @@ export const initHandler =
       cacheOptions.instance = await cacheOptions.cacheBuilder(cacheOptions.cacheImplOptions)
       context.cache = cacheOptions
     }
+
     if (METRICS_ENABLED) {
       setupMetricsServer()
     }
 
-    const executeWithMiddleware = await withMiddleware(execute, context, middleware)
+    initExpressMiddleware(
+      app,
+      // context
+    )
 
-    app.use(express.json())
+    const executeWithMiddleware = await withMiddleware(execute, context, middleware)
 
     app.post(baseUrl, (req, res) => {
       if (!req.is(CONTENT_TYPE_APPLICATION_JSON)) {
@@ -123,4 +129,30 @@ function setupMetricsServer() {
   })
 
   metricsApp.listen(metricsPort, () => logger.info(`Monitoring listening on port ${metricsPort}!`))
+}
+
+function initExpressMiddleware(
+  app: express.Express,
+  // context: AdapterContext
+) {
+  app.set('trust proxy', 1)
+
+  // TODO: utilize context for Redis
+
+  const limiter = rateLimit({
+    windowMs: 5 * 100, // 5 seconds
+    max: 250, // limit each IP to 250 requests per windowMs
+    keyGenerator: () => '*', // use one key for all incoming requests
+  })
+  app.use(limiter)
+
+  const speedLimiter = slowDown({
+    windowMs: 5 * 100, // 5 seconds
+    delayAfter: 250, // allow 100 requests per 5 seconds, then...
+    delayMs: 1000, // begin adding 1000ms of delay per request above 250
+    keyGenerator: () => '*', // use one key for all incoming requests
+  })
+  app.use(speedLimiter)
+
+  app.use(express.json())
 }
