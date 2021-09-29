@@ -119,13 +119,13 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const response = await Requester.request<ResponseSchema>(options)
 
-  if (response.data.next_page_token) {
-    response.data.data.forEach((day: Day) => {
-      const burnedEth: number =
-        parseFloat(day.FeeTotNtv) - (parseFloat(day.RevNtv) - parseFloat(day.IssTotNtv))
-      totalBurned += burnedEth
-    })
+  response.data.data.forEach((day: Day) => {
+    const burnedEth: number =
+      parseFloat(day.FeeTotNtv) - (parseFloat(day.RevNtv) - parseFloat(day.IssTotNtv))
+    totalBurned += burnedEth
+  })
 
+  if (response.data.next_page_token) {
     let flag = 1
 
     nextPageToken = response.data.next_page_token
