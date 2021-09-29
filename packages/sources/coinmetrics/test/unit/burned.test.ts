@@ -18,7 +18,7 @@ describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
 
-  process.env.API_KEY = process.env.API_KEY || 'hGeSkKBRGhDLIyskqnGE'
+  process.env.API_KEY = process.env.API_KEY || 'your_api_key'
 
   describe('validation error', () => {
     const requests = [
