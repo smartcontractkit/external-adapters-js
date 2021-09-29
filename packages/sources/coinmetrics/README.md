@@ -59,15 +59,14 @@ Endpoint to get the reference price of the asset.
 
 ## Burned Endpoint
 
-Endpoint to calculate the number of burned coins/tokens for an asset.
+Endpoint to calculate the number of burned ETH since the EIP-1559 proposal.
 
 ### Input Params
 
-| Required? |    Name     |                           Description                            | Options | Defaults to |
-| :-------: | :---------: | :--------------------------------------------------------------: | :-----: | :---------: |
-|    ✅     |   `asset`   |               The symbol of the currency to query                |         |             |
-|           | `frequency` | At which interval to calculate the number of coins/tokens burned |  `1d`   |             |
-|           | `pageSize`  |                Number of results to get per page                 |   `1`   |             |
+| Required? |    Name     |              Description               |   Options    | Defaults to  |
+| :-------: | :---------: | :------------------------------------: | :----------: | :----------: |
+|           | `startDate` | The start date for the queried period. | `YYYY-MM-DD` | `2021-08-05` |
+|           |  `endDate`  |  The end date for the queried period.  | `YYYY-MM-DD` | today's date |
 
 ### Sample Input
 
@@ -76,7 +75,8 @@ Endpoint to calculate the number of burned coins/tokens for an asset.
   "id": "1",
   "data": {
     "endpoint": "burned",
-    "asset": "ETH"
+    "startDate": "2021-09-20",
+    "endDate": "2021-09-26"
   }
 }
 ```
@@ -86,21 +86,10 @@ Endpoint to calculate the number of burned coins/tokens for an asset.
 ```json
 {
   "jobRunID": "1",
-  "result": "6917.088698410536166313",
+  "result": "46662.986943652840879674",
   "statusCode": 200,
   "data": {
-    "data": [
-      {
-        "asset": "eth",
-        "time": "2021-09-13T00:00:00.000000000Z",
-        "FeeTotNtv": "8811.061704931293693587",
-        "IssTotNtv": "13388.1875",
-        "RevNtv": "15282.160506520757527274"
-      }
-    ],
-    "next_page_token": "0.MjAyMS0wOS0xM1QwMDowMDowMFo",
-    "next_page_url": "https://api.coinmetrics.io/v4/timeseries/asset-metrics?assets=eth&metrics=FeeTotNtv,RevNtv,IssTotNtv&frequency=1d&page_size=1&next_page_token=0.MjAyMS0wOS0xM1QwMDowMDowMFo",
-    "result": "6917.088698410536166313"
+    "result": "46662.986943652840879674"
   }
 }
 ```
