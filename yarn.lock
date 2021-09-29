@@ -1783,7 +1783,7 @@ __metadata:
     "@types/jest": 27.0.2
     "@types/node": 14.17.17
     "@types/supertest": ^2.0.11
-    ethers: ^5.4.6
+    ethers: ^5.4.7
     nock: ^13.1.3
     supertest: ^6.1.6
     tslib: ^2.3.1
@@ -3991,6 +3991,17 @@ __metadata:
     "@ethersproject/logger": ^5.4.0
     bn.js: ^4.11.9
   checksum: ba154500635ed4545ba2e2a06ed1b4f07738956e131f1a4c0fc706f8eed80d89c9cc93fdf1a71f95e4f943e29faf8b3644cc1226c51f9280d26dc6783089f976
+  languageName: node
+  linkType: hard
+
+"@ethersproject/bignumber@npm:5.4.2":
+  version: 5.4.2
+  resolution: "@ethersproject/bignumber@npm:5.4.2"
+  dependencies:
+    "@ethersproject/bytes": ^5.4.0
+    "@ethersproject/logger": ^5.4.0
+    bn.js: ^4.11.9
+  checksum: 4332d27826b5f443824caa93232e7024d77d180cd59c184ee19d15637f696908da609fab8dfa805a5825f258f48ec0aeb20db890b1094779453320460ac2a50b
   languageName: node
   linkType: hard
 
@@ -11007,6 +11018,44 @@ __metadata:
     "@ethersproject/web": 5.4.0
     "@ethersproject/wordlists": 5.4.0
   checksum: 3750ca9532b1413ef2b1bd611f4a8c74aa6413cbe47dd443d52430e4457a1343ea84c334e99018f816ea19e2848bb885146421c86101fe4570292b43c7762081
+  languageName: node
+  linkType: hard
+
+"ethers@npm:^5.4.7":
+  version: 5.4.7
+  resolution: "ethers@npm:5.4.7"
+  dependencies:
+    "@ethersproject/abi": 5.4.1
+    "@ethersproject/abstract-provider": 5.4.1
+    "@ethersproject/abstract-signer": 5.4.1
+    "@ethersproject/address": 5.4.0
+    "@ethersproject/base64": 5.4.0
+    "@ethersproject/basex": 5.4.0
+    "@ethersproject/bignumber": 5.4.2
+    "@ethersproject/bytes": 5.4.0
+    "@ethersproject/constants": 5.4.0
+    "@ethersproject/contracts": 5.4.1
+    "@ethersproject/hash": 5.4.0
+    "@ethersproject/hdnode": 5.4.0
+    "@ethersproject/json-wallets": 5.4.0
+    "@ethersproject/keccak256": 5.4.0
+    "@ethersproject/logger": 5.4.1
+    "@ethersproject/networks": 5.4.2
+    "@ethersproject/pbkdf2": 5.4.0
+    "@ethersproject/properties": 5.4.1
+    "@ethersproject/providers": 5.4.5
+    "@ethersproject/random": 5.4.0
+    "@ethersproject/rlp": 5.4.0
+    "@ethersproject/sha2": 5.4.0
+    "@ethersproject/signing-key": 5.4.0
+    "@ethersproject/solidity": 5.4.0
+    "@ethersproject/strings": 5.4.0
+    "@ethersproject/transactions": 5.4.0
+    "@ethersproject/units": 5.4.0
+    "@ethersproject/wallet": 5.4.0
+    "@ethersproject/web": 5.4.0
+    "@ethersproject/wordlists": 5.4.0
+  checksum: 744d58c1c46c88ea6f713ab58436c3f2e1d976691842c021c0377fb22a647eaa64c603ef52273e9de5bdbfaf2831a191c6ae9efc4e78fb571453e9b9492c32a0
   languageName: node
   linkType: hard
 
