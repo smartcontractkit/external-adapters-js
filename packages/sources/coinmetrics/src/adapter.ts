@@ -1,4 +1,4 @@
-import { Builder, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterError, Builder, Requester, Validator, Logger } from '@chainlink/ea-bootstrap'
 import {
   Config,
   ExecuteWithConfig,
@@ -29,35 +29,52 @@ export interface WebsocketResponseSchema {
   cm_sequence_id: string
 }
 
+const getSubKeyInfo = (input: AdapterRequest) => {
+  const validator = new Validator(input, endpoints.price.inputParameters, {}, false)
+  if (validator.error) throw validator.error
+  const asset = validator.validated.data.base.toLowerCase()
+  const quote = validator.validated.data.quote.toUpperCase()
+  if (quote !== 'USD' && quote !== 'EUR')
+    throw new AdapterError({
+      jobRunID: input.id,
+      statusCode: 400,
+      message: 'Quote must be of type USD or EUR',
+    })
+  const metrics = `ReferenceRate${quote}`
+  return { asset, metrics }
+}
+
 export const makeWSHandler = (config?: Config): MakeWSHandler => {
   return () => {
-    let asset = ''
-    let metrics = ''
-
     const defaultConfig = config || makeConfig()
     return {
       connection: {
         url: defaultConfig.api.baseWsURL,
       },
-      subscribe: () => `${asset}${metrics}`,
+      subscribe: (input) => {
+        const { asset, metrics } = getSubKeyInfo(input)
+        return `${asset}${metrics}`
+      },
       unsubscribe: () => '',
-      subsFromMessage: (message) => `${message.asset}${metrics}`,
+      subsFromMessage: (message) => {
+        const metrics = Object.keys(message).find((key) => key.includes('ReferenceRate'))
+        if (!metrics)
+          Logger.debug(`Error: Could not find "ReferenceRate" key in WS message. ${message}`)
+        return `${message.asset}${metrics}`
+      },
       isError: () => false,
       filter: () => true,
-      toResponse: (message: WebsocketResponseSchema) => {
+      toResponse: (message: WebsocketResponseSchema, input) => {
+        const { metrics } = getSubKeyInfo(input)
         const result = Requester.validateResultNumber(message, [metrics])
         return Requester.success('1', { data: { result } })
       },
       programmaticConnectionInfo: (input) => {
-        const validator = new Validator(input, endpoints.price.inputParameters, {}, false)
-        if (validator.error) return
-        asset = validator.validated.data.base.toLowerCase()
-        const quote = validator.validated.data.quote
-        metrics = `ReferenceRate${quote.toUpperCase()}`
+        const { asset, metrics } = getSubKeyInfo(input)
+        const key = `${asset}${metrics}`
         const url = `${defaultConfig.api.baseWsURL}/timeseries-stream/asset-metrics?assets=${asset}&metrics=${metrics}&frequency=1s&api_key=${defaultConfig.apiKey}`
-
         return {
-          key: `${asset}${metrics}`,
+          key,
           url,
         }
       },
