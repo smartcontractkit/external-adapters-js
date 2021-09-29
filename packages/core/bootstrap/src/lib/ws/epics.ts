@@ -435,13 +435,19 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
           const subscription = state.ws.subscriptions.all[key]
           return subscription && !subscription.subscriptionParams
         }),
-        mergeMap(async ([action]) => {
-          return saveFirstMessageReceived({
-            subscriptionKey: action.payload.subscriptionKey,
-            message: wsHandler.toSaveFromFirstMessage
-              ? wsHandler.toSaveFromFirstMessage(action.payload.message)
-              : {},
-          })
+        mergeMap(([action]) => {
+          const toSave = wsHandler.toSaveFromFirstMessage
+            ? wsHandler.toSaveFromFirstMessage(action.payload.message)
+            : undefined
+          if (!toSave) {
+            return EMPTY
+          }
+          return of(
+            saveFirstMessageReceived({
+              subscriptionKey: action.payload.subscriptionKey,
+              message: toSave,
+            }),
+          )
         }),
       )
 

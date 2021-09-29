@@ -28,9 +28,14 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       connection: {
         url: defaultConfig.api.baseURL,
       },
-      toSaveFromFirstMessage: (message: any) => ({
-        subscriptionId: message.params.subscription,
-      }),
+      toSaveFromFirstMessage: (message: any) => {
+        if (message.method !== 'eth_subscription' || !message.params) {
+          return undefined
+        }
+        return {
+          subscriptionId: message.params.subscription,
+        }
+      },
       noHttp: true,
       subscribe: (input) => ({
         id: input.id,
