@@ -50,6 +50,7 @@ import * as finnhub from '@chainlink/finnhub-adapter'
 import * as fixer from '@chainlink/fixer-adapter'
 import * as flightaware from '@chainlink/flightaware-adapter'
 import * as fmpcloud from '@chainlink/fmpcloud-adapter'
+import * as gemini from '@chainlink/gemini-adapter'
 import * as genesis_adapter from '@chainlink/genesis-volatility-adapter'
 import * as geodb from '@chainlink/geodb-adapter'
 import * as google_bigquery from '@chainlink/google-bigquery-adapter'
@@ -154,6 +155,7 @@ export default {
   fixer,
   flightaware,
   fmpcloud,
+  gemini,
   genesis_adapter,
   geodb,
   google_bigquery,

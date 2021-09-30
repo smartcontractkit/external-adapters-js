@@ -81,6 +81,7 @@
     "@chainlink/fixer-adapter": "*",
     "@chainlink/flightaware-adapter": "*",
     "@chainlink/fmpcloud-adapter": "*",
+    "@chainlink/gemini-adapter": "*",
     "@chainlink/genesis-volatility-adapter": "*",
     "@chainlink/geodb-adapter": "*",
     "@chainlink/google-bigquery-adapter": "*",

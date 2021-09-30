@@ -246,6 +246,9 @@
       "path": "./sources/fmpcloud"
     },
     {
+      "path": "./sources/gemini"
+    },
+    {
       "path": "./sources/genesis-volatility"
     },
     {
@@ -283,6 +286,9 @@
     },
     {
       "path": "./sources/lition"
+    },
+    {
+      "path": "./sources/lotus"
     },
     {
       "path": "./sources/marketstack"

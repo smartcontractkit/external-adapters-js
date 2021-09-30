@@ -6,6 +6,7 @@ const inputParams = {
   url: false,
   method: false,
   params: false,
+  requestId: false,
 }
 
 // Export function to integrate with Chainlink node
@@ -17,9 +18,10 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
   const url = config.RPC_URL || validator.validated.data.url || DEFAULT_BASE_URL
   const method = validator.validated.data.method || ''
   const params = validator.validated.data.params
+  const requestId = validator.validated.data.requestId || jobRunID
 
   const data = {
-    id: jobRunID,
+    id: requestId,
     jsonrpc: '2.0',
     method,
     params,
@@ -30,6 +32,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
     url,
     method: 'POST' as any,
     headers: {
+      ...config.api.headers,
       'Content-Type': 'application/json',
     },
     // Remove undefined values

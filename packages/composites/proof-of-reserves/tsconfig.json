@@ -18,6 +18,8 @@
     { "path": "../../sources/renvm-address-set" },
     { "path": "../../sources/reduce" },
     { "path": "../../sources/sochain" },
-    { "path": "../../sources/wbtc-address-set" }
+    { "path": "../../sources/wbtc-address-set" },
+    { "path": "../../sources/lotus" },
+    { "path": "../../sources/gemini" }
   ]
 }
