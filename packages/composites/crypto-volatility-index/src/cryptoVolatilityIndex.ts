@@ -19,7 +19,7 @@ export const calculate = async (
     isAdaptive = true,
     cryptoCurrencies = ['BTC', 'ETH'],
     deviationThreshold = 0.2,
-    lambdaMin = 0.04,
+    lambdaMin = 0.008,
     lambdaK = 0.4,
   } = validated.data
 
