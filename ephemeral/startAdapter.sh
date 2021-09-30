@@ -9,14 +9,14 @@
 # IMAGE_REPOSITORY - Defaults to the chainlink public ecr for adapters.
 # IMAGE_TAG - Defaults to develop-latest. Can also be an image sha256
 #
-# Example: ADAPTER=coingecko RELEASE_TAG=tate yarn qa:adapter:start
+# Example: ADAPTER=coingecko RELEASE_TAG=test yarn qa:adapter:start
 #
 ###### ----- ######
 
 ## The name of the adapter you want to deploy
 ADAPTER=${ADAPTER:=}
 ## A unique release tag, in ci this will be the pr number, keeps us from having collisions
-RELEASE_TAG=${RELEASE_TAG:=tate}
+RELEASE_TAG=${RELEASE_TAG:=}
 ## Path to the helm chart directory
 HELM_CHART_DIR=${HELM_CHART_DIR:=./ephemeral/cl-adapter}
 ## The repository where your built image is
