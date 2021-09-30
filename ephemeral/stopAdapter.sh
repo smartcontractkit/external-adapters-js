@@ -6,7 +6,7 @@
 # ADAPTER - Required.
 # RELEASE_TAG - Required. Used to remove a unique release of the adapter. Use the same one you used when starting the adapter.
 #
-# Example: ADAPTER=coingecko RELEASE_TAG=tate yarn qa:adapter:stop
+# Example: ADAPTER=coingecko RELEASE_TAG=test yarn qa:adapter:stop
 #
 ###### ----- ######
 
