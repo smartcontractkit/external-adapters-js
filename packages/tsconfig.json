@@ -54,6 +54,9 @@
       "path": "./composites/reference-transform"
     },
     {
+      "path": "./composites/set-token-index"
+    },
+    {
       "path": "./composites/synth-index"
     },
     {
