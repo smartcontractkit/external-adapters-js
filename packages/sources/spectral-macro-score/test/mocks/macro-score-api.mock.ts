@@ -6,7 +6,7 @@ export function mockMacroScoreAPIResponseSuccess() {
   })
     .persist()
     .post('/default/spectral-proxy', {
-      tokenInt: 'test',
+      tokenIdHash: 'test',
     })
     .reply(
       200,

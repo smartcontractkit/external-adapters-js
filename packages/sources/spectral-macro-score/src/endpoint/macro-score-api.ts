@@ -19,7 +19,7 @@ const customError = (data: ICustomError) => {
 export interface IRequestInput {
   id: string // numeric
   data: {
-    tokenIdInt: string // numeric
+    tokenIdHash: string // bytes32Hash
     tickSetId: string // numeric
     jobRunID: string // numeric
   }
@@ -42,7 +42,7 @@ export const execute = async (request: IRequestInput, config: SpectralAdapterCon
     url: '/spectral-proxy',
     method: 'POST',
     data: {
-      tokenInt: `${request.data.tokenIdInt}`,
+      tokenIdHash: `${request.data.tokenIdHash}`,
     },
   }
   const nfcAddress = await getNFCAddress(config.nfcRegistryAddress, config.rpcUrl)

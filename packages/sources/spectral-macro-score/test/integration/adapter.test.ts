@@ -45,7 +45,7 @@ describe('execute', () => {
         testData: {
           id: jobID,
           data: {
-            tokenIdInt: 'test', // Replace this if recording Nock mock
+            tokenIdHash: 'test', // Replace this if recording Nock mock
             tickSetId: BigNumber.from('1'),
           },
         },

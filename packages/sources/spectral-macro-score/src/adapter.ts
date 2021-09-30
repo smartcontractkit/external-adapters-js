@@ -4,7 +4,7 @@ import { makeConfig, DEFAULT_ENDPOINT, SpectralAdapterConfig } from './config'
 import { MacroScoreAPI } from './endpoint'
 
 const inputParams = {
-  tokenIdInt: true,
+  tokenIdHash: true,
   tickSetId: true,
 }
 

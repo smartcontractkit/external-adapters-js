@@ -19,10 +19,10 @@ Default endpoint used to retrieve a MACRO Score for a given token ID.
 
 ### Input Params
 
-| Required? |     Name     |                             Description                              | Options | Defaults to |
-| :-------: | :----------: | :------------------------------------------------------------------: | :-----: | :---------: |
-|    ✅     | `tokenIdInt` |             The tokenID for the user as an integer value             |         |             |
-|    ✅     |  `tickSet`   | The set of ticks used to compute the MACRO Score as in integer value |         |             |
+| Required? |     Name      |                             Description                              | Options | Defaults to |
+| :-------: | :-----------: | :------------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     | `tokenIdHash` |           The tokenID for the user as a bytes32 hash value           |         |             |
+|    ✅     |   `tickSet`   | The set of ticks used to compute the MACRO Score as in integer value |         |             |
 
 ### Sample Input
 
@@ -30,7 +30,7 @@ Default endpoint used to retrieve a MACRO Score for a given token ID.
 {
   "id": "278c97ffadb54a5bbb93cfec5f7b5503",
   "data": {
-    "tokenIdInt": "106006608980615540182575301024074047146897433631717113916135614816662076801843",
+    "tokenIdHash": "106006608980615540182575301024074047146897433631717113916135614816662076801843",
     "tickeSet": "1"
   }
 }
