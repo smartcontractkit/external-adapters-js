@@ -217,7 +217,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
         withLatestFrom(state$),
         mergeMap(([closeContext, state]) => {
           const activeSubs = Object.entries(state.ws.subscriptions.all)
-            .filter(([_, info]) => info?.active)
+            .filter(([_, info]) => info?.active && info.connectionKey === config.connectionInfo.key)
             .map(
               ([_, info]) =>
                 ({
@@ -431,7 +431,10 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
       )
 
       // All received messages
-      const message$ = action$.pipe(filter(messageReceived.match))
+      const message$ = action$.pipe(
+        filter(messageReceived.match),
+        filter((action) => action.payload.connectionInfo.key === connectionKey),
+      )
 
       const withContinueOnConnectChain$ = message$.pipe(
         withLatestFrom(state$),
@@ -638,8 +641,10 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
           action$.pipe(
             // TODO: not seeing unsubscribe events because of this
             filter(disconnectFulfilled.match),
-            tap((action) => logger.info('WS: Disconnected', connectionMeta(action.payload))),
             filter((a) => a.payload.config.connectionInfo.key === connectionKey),
+            tap((action) => {
+              logger.info('WS: Disconnected Fulfilled', connectionMeta(action.payload))
+            }),
           ),
         ),
       )
