@@ -1,4 +1,4 @@
-import { Validator } from '@chainlink/ea-bootstrap'
+import { Logger, Validator } from '@chainlink/ea-bootstrap'
 import { AdapterResponse, AdapterRequest, Execute, AdapterContext } from '@chainlink/types'
 import { getAllocations } from './index-allocations'
 import * as TokenAllocation from '@chainlink/token-allocation-adapter'
@@ -16,6 +16,9 @@ export const execute = async (
   context: AdapterContext,
   config: Config,
 ): Promise<AdapterResponse> => {
+  Logger.warn(
+    `WARN: This EA will be deprecated, 'set-token-index' will be used for future reference.`,
+  )
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
 
