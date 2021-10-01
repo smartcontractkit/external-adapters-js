@@ -52,7 +52,7 @@ import {
   ws_subscription_errors,
   ws_subscription_total,
 } from './metrics'
-import { getSubsId, RootState, SubscriptionsState } from './reducer'
+import { getSubsId, RootState } from './reducer'
 import { separateBatches } from './utils'
 
 // Rxjs deserializer defaults to JSON.parse.
@@ -216,7 +216,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
       const close$ = closeObserver.pipe(
         withLatestFrom(state$),
         mergeMap(([closeContext, state]) => {
-          const activeSubs = Object.entries(state.ws.subscriptions as SubscriptionsState)
+          const activeSubs = Object.entries(state.ws.subscriptions.all)
             .filter(([_, info]) => info?.active)
             .map(
               ([_, info]) =>
