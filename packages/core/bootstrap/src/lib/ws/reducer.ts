@@ -23,6 +23,7 @@ export interface ConnectionsState {
   total: number
   all: {
     [key: string]: {
+      shouldNotRetryConnecting?: boolean
       active: boolean
       connecting: number
       wasEverConnected?: boolean
@@ -50,6 +51,7 @@ export const connectionsReducer = createReducer<ConnectionsState>(
       // Add connection
       const { key } = action.payload.config.connectionInfo
       state.all[key] = {
+        ...state.all[key],
         active: true,
         connecting: 0,
         wasEverConnected: true,
@@ -71,6 +73,7 @@ export const connectionsReducer = createReducer<ConnectionsState>(
 
       const isConnecting = !isNaN(Number(state.all[key]?.connecting))
       state.all[key] = {
+        ...state.all[key],
         active: false,
         connecting: isConnecting ? state.all[key].connecting + 1 : 1,
         requestId: 0,
@@ -87,6 +90,7 @@ export const connectionsReducer = createReducer<ConnectionsState>(
       const { key } = action.payload.config.connectionInfo
       state.all[key].active = false
       state.all[key].connecting = 0 // turn off connecting
+      state.all[key].shouldNotRetryConnecting = action.payload.shouldNotRetryConnecting
     })
 
     builder.addMatcher(
@@ -115,6 +119,7 @@ export interface SubscriptionsState {
       input: AdapterRequest
       context: AdapterContext
       subscriptionParams?: any
+      connectionKey: string
     }
   }
 }
@@ -148,6 +153,7 @@ export const subscriptionsReducer = createReducer<SubscriptionsState>(
         subscribing: 0,
         input: { ...action.payload.input },
         context: action.payload.context,
+        connectionKey: action.payload.connectionInfo.key,
       }
     })
 
@@ -162,6 +168,7 @@ export const subscriptionsReducer = createReducer<SubscriptionsState>(
         subscribing: isSubscribing ? state.all[key].subscribing + 1 : 1,
         input: { ...action.payload.input },
         context: action.payload.context,
+        connectionKey: action.payload.connectionInfo.key,
       }
     })
 

@@ -166,9 +166,11 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
     map(({ payload }) => ({ payload, connectionKey: payload.config.connectionInfo.key })),
     withLatestFrom(state$),
     filter(([{ connectionKey }, state]) => {
-      const isActiveConnection = state.ws.connections.all[connectionKey]?.active
-      const isConnecting = state.ws.connections.all[connectionKey]?.connecting > 1
-      return !isActiveConnection && !isConnecting
+      const connectionState = state.ws.connections.all[connectionKey]
+      const isActiveConnection = connectionState?.active
+      const isConnecting = connectionState?.connecting > 1
+      const hasErrored = connectionState?.shouldNotRetryConnecting
+      return !hasErrored && !isActiveConnection && !isConnecting
     }),
     concatMap(async (data) => {
       const getUrl = data[0].payload.wsHandler.connection.getUrl
@@ -216,8 +218,11 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
       const close$ = closeObserver.pipe(
         withLatestFrom(state$),
         mergeMap(([closeContext, state]) => {
+          const key = config.connectionInfo.key
           const activeSubs = Object.entries(state.ws.subscriptions.all)
-            .filter(([_, info]) => info?.active && info.connectionKey === config.connectionInfo.key)
+            .filter(
+              ([_, info]) => (info.active || info.subscribing > 0) && info.connectionKey === key,
+            )
             .map(
               ([_, info]) =>
                 ({
@@ -240,7 +245,12 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
           })
           return from([
             ...activeSubs.map(toUnsubscribed),
-            disconnectFulfilled({ config, wsHandler }),
+            disconnectFulfilled({
+              config,
+              wsHandler,
+              shouldNotRetryConnecting:
+                wsHandler.shouldRetryConnection && !wsHandler.shouldRetryConnection(closeContext),
+            }),
           ])
         }),
       )
@@ -331,6 +341,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
                   const error = {
                     reason: JSON.stringify(message),
                     connectionInfo: { key: connectionKey, url },
+                    error: message,
                   }
                   logger.error('WS: Error', error)
                   errorObserver.next(subscriptionError(error))

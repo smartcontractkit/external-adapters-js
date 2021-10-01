@@ -239,6 +239,8 @@ declare module '@chainlink/types' {
     heartbeatIntervalInMS?: number
     // Filters out messages that are not expected from sending a message constructed by one of the onConnect hooks
     isOnConnectChainMessage?: (message: any) => boolean
+    // Should try open connection again after error
+    shouldRetryConnection?: (errorMessage: any) => boolean
   }
 
   /* INPUT TYPE VALIDATIONS */
