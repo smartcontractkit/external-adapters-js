@@ -131,9 +131,11 @@ export interface WSMessagePayload {
   input: AdapterRequest
   context: AdapterContext
   connectionInfo: WSConnectionInfo
+  wsHandler: WSHandlerOverride
 }
 
 export const messageReceived = createAction('WS/MESSAGE_RECEIVED', asAction<WSMessagePayload>())
+export const writeToCache = createAction('WS/WRITE_MESSAGE_TO_CACHE', asAction<WSMessagePayload>())
 
 /** OVERRIDES */
 export interface WSHandlerOverride extends WSHandler {
