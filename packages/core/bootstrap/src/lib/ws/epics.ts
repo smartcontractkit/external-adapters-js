@@ -6,6 +6,7 @@ import {
   catchError,
   concatMap,
   delay,
+  endWith,
   filter,
   map,
   mergeMap,
@@ -184,7 +185,6 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
         key: payload.config.connectionInfo.key,
         url: censor(url),
       })
-
       const subscriptionMeta = (payload: WSSubscriptionPayload) => ({
         connection_key: payload.connectionInfo.key,
         connection_url: censor(url),
@@ -354,31 +354,38 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
               withLatestFrom(state$),
               mergeMap(([message, state]) => {
                 const isActiveSubscription = !!state.ws.subscriptions.all[subscriptionKey]?.active
+                const actionPayload = {
+                  message,
+                  subscriptionKey,
+                  input: payload.input,
+                  context: payload.context,
+                  connectionInfo: payload.connectionInfo,
+                  wsHandler,
+                }
                 if (!isActiveSubscription) {
                   logger.info('WS: Subscribed', subscriptionMeta(payload))
                   return of(
                     subscribeFulfilled(payload),
-                    writeToCache({
-                      message,
-                      subscriptionKey,
-                      input: payload.input,
-                      context: payload.context,
-                      connectionInfo: payload.connectionInfo,
-                      wsHandler,
-                    }),
+                    writeToCache(actionPayload),
+                    messageReceived(actionPayload),
                   )
                 }
-                return of(
-                  writeToCache({
-                    message,
-                    subscriptionKey,
-                    input: payload.input,
-                    context: payload.context,
-                    connectionInfo: payload.connectionInfo,
-                    wsHandler,
-                  }),
-                )
+                return of(writeToCache(actionPayload), messageReceived(actionPayload))
               }),
+              takeUntil(
+                merge(
+                  action$.pipe(
+                    filter(unsubscribeRequested.match),
+                    filter((a) => getSubsId(a.payload.subscriptionMsg) === subscriptionKey),
+                    tap((a) => logger.info('WS: Unsubscribed', subscriptionMeta(a.payload))),
+                  ),
+                  action$.pipe(
+                    filter(disconnectFulfilled.match),
+                    filter((a) => a.payload.config.connectionInfo.key === connectionKey),
+                  ),
+                ),
+              ),
+              endWith(unsubscribeFulfilled(payload)),
             ),
         ),
         catchError((e) => {
