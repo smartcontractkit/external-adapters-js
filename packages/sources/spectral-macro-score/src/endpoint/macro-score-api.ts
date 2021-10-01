@@ -51,9 +51,5 @@ export const execute = async (request: IRequestInput, config: SpectralAdapterCon
   const score = Requester.validateResultNumber(response.data, ['score'])
   const tick = computeTickWithScore(score, tickSet)
 
-  return Requester.success(
-    request.data.jobRunID,
-    Requester.withResult(response, tick),
-    config.verbose,
-  )
+  return Requester.success(request.data.jobRunID, Requester.withResult(response, tick))
 }
