@@ -62,11 +62,12 @@ describe('execute', () => {
 
       const mockedConfigResult = {
         api: {
-          baseURL: 'https://xzff24vr3m.execute-api.us-east-2.amazonaws.com/default/',
+          baseURL: 'https://macro-api-staging.spectral.finance/api',
         },
         verbose: true,
         rpcUrl: 'https://kovan.infura.io/v3/8d56dbce524d46a584cbc039a6d48fd0',
         nfcRegistryAddress: '0x6C29d5D08c9751Ac38Cc8E1a7a4cb75951548A15',
+        timeout: config.DEFAULT_TIMEOUT,
       }
       mockConfig.expects('makeConfig').once().returns(mockedConfigResult)
 

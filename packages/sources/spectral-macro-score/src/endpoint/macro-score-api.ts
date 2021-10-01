@@ -5,7 +5,7 @@ import { getTickSet } from '../abi/NFC'
 import { getNFCAddress } from '../abi/NFCRegistry'
 import { SpectralAdapterConfig } from '../config'
 
-export const MacroScoreAPIName = 'spectral-proxy'
+export const MacroScoreAPIName = 'run_proxy'
 
 export interface ICustomError {
   Response: string
@@ -26,7 +26,9 @@ export interface IRequestInput {
 }
 
 export interface ScoreResponse {
-  score: string // numeric
+  body: {
+    score: string // numeric
+  }
 }
 
 export const computeTickWithScore = (score: number, tickSet: BigNumber[]): number => {
@@ -39,16 +41,18 @@ export const computeTickWithScore = (score: number, tickSet: BigNumber[]): numbe
 export const execute = async (request: IRequestInput, config: SpectralAdapterConfig) => {
   const options: RequestConfig = {
     ...config.api,
-    url: '/spectral-proxy',
+    timeout: config.timeout,
+    url: '/run_proxy',
     method: 'POST',
     data: {
       tokenIdHash: `${request.data.tokenIdHash}`,
     },
   }
+
   const nfcAddress = await getNFCAddress(config.nfcRegistryAddress, config.rpcUrl)
   const tickSet = await getTickSet(nfcAddress, config.rpcUrl, request.data.tickSetId)
   const response = await Requester.request<ScoreResponse>(options, customError)
-  const score = Requester.validateResultNumber(response.data, ['score'])
+  const score = Requester.validateResultNumber(response.data.body, ['score'])
   const tick = computeTickWithScore(score, tickSet)
 
   return Requester.success(request.data.jobRunID, Requester.withResult(response, tick))
