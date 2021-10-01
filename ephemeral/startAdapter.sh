@@ -55,4 +55,5 @@ helm upgrade ${NAME} ${HELM_CHART_DIR} \
     --create-namespace \
     --set image.repository="${IMAGE_REPOSITORY}${ADAPTER}-adapter" \
     --set image.tag=${IMAGE_TAG} \
-    --set name=${NAME}
+    --set name=${NAME} \
+    --wait
