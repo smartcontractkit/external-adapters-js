@@ -102,7 +102,7 @@ export interface WSSubscriptionPayload {
 export interface WSSubscriptionErrorPayload extends WSErrorPayload {
   subscriptionMsg?: any
   input?: AdapterRequest
-  error?: any
+  error?: unknown
 }
 
 export const subscribeRequested = createAction(
