@@ -44,6 +44,16 @@ const getSubKeyInfo = (input: AdapterRequest) => {
   return { asset, metrics }
 }
 
+export interface WSError {
+  error: {
+    type: string
+    message: string
+  }
+}
+
+export const BAD_PARAMETERS = 'bad_parameters'
+export const BAD_PARAMETER = 'bad_parameter'
+
 export const makeWSHandler = (config?: Config): MakeWSHandler => {
   return () => {
     const defaultConfig = config || makeConfig()
@@ -62,7 +72,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
           Logger.debug(`Error: Could not find "ReferenceRate" key in WS message. ${message}`)
         return `${message.asset}${metrics}`
       },
-      isError: () => false,
+      isError: (message) => !!message.error,
       filter: () => true,
       toResponse: (message: WebsocketResponseSchema, input) => {
         const { metrics } = getSubKeyInfo(input)
@@ -78,9 +88,9 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
           url,
         }
       },
-      shouldRetryConnection: (closeContext) => {
-        // Coinmetrics returns this code after closing a connection due to the pair being unsupported
-        return closeContext.code != 1000
+      shouldNotRetryConnection: (error) => {
+        const wsError = error as WSError
+        return wsError.error.type === BAD_PARAMETERS || wsError.error.type === BAD_PARAMETER
       },
     }
   }
