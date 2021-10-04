@@ -104,24 +104,6 @@ export const subscribeReadyEpic: Epic<AnyAction, AnyAction, { ws: RootState }, a
     mergeMap(([subscriptionPayload]) => of(subscribeRequested(subscriptionPayload))),
   )
 
-export const recordErrorEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (action$) =>
-  action$.pipe(
-    filter((action) => subscriptionError.match(action) && !!action.payload.error),
-    mergeMap(({ payload }) => {
-      const { wsHandler, error, connectionInfo, subscriptionMsg } = payload
-      const { shouldNotRetryConnection, shouldNotRetrySubscription } = wsHandler
-      return of(
-        subscriptionErrorHandler({
-          connectionInfo,
-          subscriptionMsg,
-          shouldNotRetryConnection: !!shouldNotRetryConnection && shouldNotRetryConnection(error),
-          shouldNotRetrySubscription:
-            !!shouldNotRetrySubscription && shouldNotRetrySubscription(error),
-        }),
-      )
-    }),
-  )
-
 export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (action$, state$) =>
   action$.pipe(
     filter(connectRequested.match),
@@ -624,6 +606,24 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
         ),
       )
       return concat(of(wsSubscriptionReady(payload)), ws$)
+    }),
+  )
+
+export const recordErrorEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (action$) =>
+  action$.pipe(
+    filter((action) => subscriptionError.match(action) && !!action.payload.error),
+    mergeMap(({ payload }) => {
+      const { wsHandler, error, connectionInfo, subscriptionMsg } = payload
+      const { shouldNotRetryConnection, shouldNotRetrySubscription } = wsHandler
+      return of(
+        subscriptionErrorHandler({
+          connectionInfo,
+          subscriptionMsg,
+          shouldNotRetryConnection: !!shouldNotRetryConnection && shouldNotRetryConnection(error),
+          shouldNotRetrySubscription:
+            !!shouldNotRetrySubscription && shouldNotRetrySubscription(error),
+        }),
+      )
     }),
   )
 
