@@ -176,6 +176,12 @@ declare module '@chainlink/types' {
   }
 
   export type MakeWSHandler = () => WSHandler | Promise<WSHandler>
+  export interface WebsocketErrorMessageSchema {
+    type: string
+    wasClean: boolean
+    reason: string
+    code: number
+  }
   export interface WSHandler {
     // Connection information
     connection: {
@@ -239,6 +245,8 @@ declare module '@chainlink/types' {
     heartbeatIntervalInMS?: number
     // Filters out messages that are not expected from sending a message constructed by one of the onConnect hooks
     isOnConnectChainMessage?: (message: any) => boolean
+    // Should try open connection again after error
+    shouldRetryConnection?: (errorMessage: WebsocketErrorMessageSchema) => boolean
   }
 
   /* INPUT TYPE VALIDATIONS */

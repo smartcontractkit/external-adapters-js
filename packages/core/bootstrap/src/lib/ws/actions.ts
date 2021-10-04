@@ -9,6 +9,7 @@ export interface WSConfigPayload {
   config: WSConfig
   // TODO: wsHandler should not be sent as an event
   wsHandler: WSHandler
+  shouldNotRetryConnecting?: boolean
 }
 
 export interface WSConfigDetailedPayload extends WSConfigPayload {
@@ -101,6 +102,7 @@ export interface WSSubscriptionPayload {
 export interface WSSubscriptionErrorPayload extends WSErrorPayload {
   subscriptionMsg?: any
   input?: AdapterRequest
+  error?: unknown
 }
 
 export const subscribeRequested = createAction(
@@ -131,6 +133,7 @@ export interface WSMessagePayload {
   input: AdapterRequest
   context: AdapterContext
   connectionInfo: WSConnectionInfo
+  wsHandler: WSHandlerOverride
 }
 
 export const messageReceived = createAction('WS/MESSAGE_RECEIVED', asAction<WSMessagePayload>())

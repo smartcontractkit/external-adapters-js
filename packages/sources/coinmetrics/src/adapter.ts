@@ -78,6 +78,10 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
           url,
         }
       },
+      shouldRetryConnection: (closeContext) => {
+        // Coinmetrics returns this code after closing a connection due to the pair being unsupported
+        return closeContext.code != 1000
+      },
     }
   }
 }
