@@ -63,10 +63,6 @@ const customParams = {
 }
 
 export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
-  if ((process.env.NODE_ENV || '').toLowerCase() !== 'development') {
-    return undefined
-  }
-
   const getSubscription = (ticker: string | undefined, subscribe = true) => {
     const defaultConfig = config || makeConfig()
     if (!ticker) return
