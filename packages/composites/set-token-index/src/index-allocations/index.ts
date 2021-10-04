@@ -1,6 +1,6 @@
 import { ethers } from 'ethers'
 import { types } from '@chainlink/token-allocation-adapter'
-import { getSymbol } from '../symbols'
+import { getToken } from '../symbols'
 
 /*
   NOTICE!
@@ -8,7 +8,7 @@ import { getSymbol } from '../symbols'
   The current implementation is fetching data directly from SetToken contracts (https://etherscan.io/address/0x78733fa5e70e3ab61dc49d93921b289e4b667093#code)
   Note that this implementation won't work in other networks unless we deploy a copy of the contract.
 
-  The correct implementation should use SetProtocol.js typed library instead to fetch data directly from the SetToken contract directly. 
+  The correct implementation should use SetProtocol.js typed library instead to fetch data directly from the SetToken contract directly.
   The ChainlinkAdapter.getAllocations(ISetToken _setToken) should be reimplemented in JS in order to use it.
 */
 
@@ -38,10 +38,12 @@ export const getAllocations = async (
 
   // Token balances are coming already normalized as 18 decimals token
   return await Promise.all(
-    addresses.map(async (address: string, i: number) => ({
-      balance: balances[i],
-      symbol: await getSymbol(address, rpcUrl, network),
-      decimals: 18,
-    })),
+    addresses.map(async (address: string, i: number) => {
+      const token = await getToken(address, rpcUrl, network)
+      return {
+        balance: balances[i],
+        ...token,
+      }
+    }),
   )
 }
