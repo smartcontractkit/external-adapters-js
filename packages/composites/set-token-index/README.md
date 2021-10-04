@@ -1,16 +1,10 @@
-# Chainlink Defi Pulse Index Adapter
+# Chainlink Set Token Index Adapter
 
-The adapter combines real-time DPI allocation data from on-chain with off-chain price sources in order to calculate an accurate price for the DPI.
-
-## IMPORTANT
-
-This EA will be deprecated, set-token-index will be used for future reference. [Go to Set Token Index](../set-token-index/README.md)
+The adapter combines allocation data from on-chain with off-chain price sources in order to calculate an accurate price.
 
 ## NOTICE
 
-This EA will be deprecated,
-
-As explained before, this adapter makes use of some onchain data. The current implementation is fetching data directly from SetToken contracts (https://etherscan.io/address/0x78733fa5e70e3ab61dc49d93921b289e4b667093#code). Note that this implementation won't work in other networks unless we deploy a copy of the contract.
+As explained before, this adapter makes use of some onchain data. The current implementation is fetching data directly from a SetToken contract. Note that this implementation won't work in other networks unless we deploy a copy of the contract.
 
 The correct implementation should use SetProtocol.js typed library instead to fetch data directly from the SetToken contract directly.
 The ChainlinkAdapter.getAllocations(ISetToken \_setToken) should be reimplemented in JS in order to use it.
@@ -60,83 +54,62 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 ```json
 {
   "jobRunID": "1",
+  "result": 77.2904228488926,
+  "statusCode": 200,
   "data": {
     "sources": [],
     "payload": {
-      "YFI": {
+      "LINK": {
         "quote": {
           "USD": {
-            "price": "30728.51152684"
+            "price": 23.55965014968372
           }
         }
       },
-      "COMP": {
+      "RENFIL": {
         "quote": {
           "USD": {
-            "price": "198.21970609"
+            "price": 58.58848468608767
           }
         }
       },
-      "SNX": {
+      "GRT": {
         "quote": {
           "USD": {
-            "price": "13.51407837"
+            "price": 0.64488150175457
           }
         }
       },
-      "MKR": {
+      "BAT": {
         "quote": {
           "USD": {
-            "price": "1226.46551940"
+            "price": 0.62484393253882
           }
         }
       },
-      "REN": {
+      "LPT": {
         "quote": {
           "USD": {
-            "price": "0.64199191"
+            "price": 16.96103283121956
           }
         }
       },
-      "KNC": {
+      "OCEAN": {
         "quote": {
           "USD": {
-            "price": "1.35595208"
+            "price": 0.63431907164532
           }
         }
       },
-      "LRC": {
+      "NMR": {
         "quote": {
           "USD": {
-            "price": "0.38664748"
-          }
-        }
-      },
-      "BAL": {
-        "quote": {
-          "USD": {
-            "price": "19.04491399"
-          }
-        }
-      },
-      "UNI": {
-        "quote": {
-          "USD": {
-            "price": "8.19034913"
-          }
-        }
-      },
-      "AAVE": {
-        "quote": {
-          "USD": {
-            "price": "183.52498799"
+            "price": 40.86539340005501
           }
         }
       }
     },
-    "result": 207.478005723407
-  },
-  "result": 207.478005723407,
-  "statusCode": 200
+    "result": 77.2904228488926
+  }
 }
 ```
