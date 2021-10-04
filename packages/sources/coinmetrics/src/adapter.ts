@@ -52,6 +52,7 @@ export interface WSError {
 }
 
 export const BAD_PARAMETERS = 'bad_parameters'
+export const BAD_PARAMETER = 'bad_parameter'
 
 export const makeWSHandler = (config?: Config): MakeWSHandler => {
   return () => {
@@ -71,7 +72,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
           Logger.debug(`Error: Could not find "ReferenceRate" key in WS message. ${message}`)
         return `${message.asset}${metrics}`
       },
-      isError: () => false,
+      isError: (message) => !!message.error,
       filter: () => true,
       toResponse: (message: WebsocketResponseSchema, input) => {
         const { metrics } = getSubKeyInfo(input)
@@ -89,7 +90,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       },
       shouldNotRetryConnection: (error) => {
         const wsError = error as WSError
-        return wsError.error.type === BAD_PARAMETERS
+        return wsError.error.type === BAD_PARAMETERS || wsError.error.type === BAD_PARAMETER
       },
     }
   }

@@ -94,7 +94,7 @@ export const connectionsReducer = createReducer<ConnectionsState>(
 
     builder.addCase(actions.subscriptionErrorHandler, (state, action) => {
       const { key } = action.payload.connectionInfo
-      state.all[key].shouldNotRetryConnecting = !action.payload.shouldNotRetryConnection
+      state.all[key].shouldNotRetryConnecting = action.payload.shouldNotRetryConnection
     })
 
     builder.addMatcher(

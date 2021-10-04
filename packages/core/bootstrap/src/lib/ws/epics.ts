@@ -106,7 +106,7 @@ export const subscribeReadyEpic: Epic<AnyAction, AnyAction, { ws: RootState }, a
 
 export const recordErrorEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (action$) =>
   action$.pipe(
-    filter(subscriptionError.match),
+    filter((action) => subscriptionError.match(action) && !!action.payload.error),
     mergeMap(({ payload }) => {
       const { wsHandler, error, connectionInfo, subscriptionMsg } = payload
       const { shouldNotRetryConnection, shouldNotRetrySubscription } = wsHandler
