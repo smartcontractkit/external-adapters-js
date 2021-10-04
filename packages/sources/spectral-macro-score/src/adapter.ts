@@ -21,6 +21,7 @@ export const execute = async (
   Requester.logConfig(config)
 
   request.data.jobRunID = validator.validated.id
+
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
 
   switch (endpoint.toLowerCase()) {

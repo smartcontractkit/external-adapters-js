@@ -5,7 +5,7 @@ import { getTickSet } from '../abi/NFC'
 import { getNFCAddress } from '../abi/NFCRegistry'
 import { SpectralAdapterConfig } from '../config'
 
-export const MacroScoreAPIName = 'run_proxy'
+export const MacroScoreAPIName = 'test'
 
 export interface ICustomError {
   Response: string
@@ -42,7 +42,7 @@ export const execute = async (request: IRequestInput, config: SpectralAdapterCon
   const options: RequestConfig = {
     ...config.api,
     timeout: config.timeout,
-    url: '/run_proxy',
+    url: '/test',
     method: 'POST',
     data: {
       tokenIdHash: `${request.data.tokenIdHash}`,

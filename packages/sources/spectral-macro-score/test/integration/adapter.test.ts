@@ -45,7 +45,7 @@ describe('execute', () => {
         testData: {
           id: jobID,
           data: {
-            tokenIdHash: 'test', // Replace this if recording Nock mock
+            tokenIdHash: '0x1a8b05acc3013b2d34a747a85d7d878597bdb177c31c6d0a06b9e654817a9582', // Replace this if recording Nock mock
             tickSetId: BigNumber.from('1'),
           },
         },
@@ -62,7 +62,7 @@ describe('execute', () => {
 
       const mockedConfigResult = {
         api: {
-          baseURL: 'https://macro-api-staging.spectral.finance/api',
+          baseURL: 'https://f97sprwtfd.execute-api.us-east-2.amazonaws.com',
         },
         verbose: true,
         rpcUrl: 'https://kovan.infura.io/v3/8d56dbce524d46a584cbc039a6d48fd0',
