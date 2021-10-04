@@ -90,7 +90,11 @@ export const connectionsReducer = createReducer<ConnectionsState>(
       const { key } = action.payload.config.connectionInfo
       state.all[key].active = false
       state.all[key].connecting = 0 // turn off connecting
-      state.all[key].shouldNotRetryConnecting = action.payload.shouldNotRetryConnecting
+    })
+
+    builder.addCase(actions.subscriptionErrorHandler, (state, action) => {
+      const { key } = action.payload.connectionInfo
+      state.all[key].shouldNotRetryConnecting = !action.payload.shouldNotRetryConnection
     })
 
     builder.addMatcher(
@@ -120,6 +124,7 @@ export interface SubscriptionsState {
       context: AdapterContext
       subscriptionParams?: any
       connectionKey: string
+      shouldNotRetry?: boolean
     }
   }
 }
@@ -178,6 +183,13 @@ export const subscriptionsReducer = createReducer<SubscriptionsState>(
 
       state.all[key].active = false
       state.all[key].unsubscribed = true
+    })
+
+    builder.addCase(actions.subscriptionErrorHandler, (state, action) => {
+      const key = getSubsId(action.payload.subscriptionMsg)
+      if (state.all[key]) {
+        state.all[key].shouldNotRetry = action.payload.shouldNotRetrySubscription
+      }
     })
 
     builder.addCase(actions.disconnectFulfilled, (state) => {
