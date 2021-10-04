@@ -593,7 +593,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
             filter(disconnectFulfilled.match),
             filter((a) => a.payload.config.connectionInfo.key === connectionKey),
             tap((action) => {
-              logger.info('WS: Disconnected Fulfilled', connectionMeta(action.payload))
+              logger.debug('WS: Disconnected Fulfilled', connectionMeta(action.payload))
             }),
           ),
         ),
