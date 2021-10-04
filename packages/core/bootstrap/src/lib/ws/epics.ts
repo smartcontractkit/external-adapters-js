@@ -43,7 +43,6 @@ import {
   updateSubscriptionInput,
   saveOnConnectMessage,
   onConnectComplete,
-  writeToCache,
 } from './actions'
 import {
   ws_connection_active,
@@ -76,62 +75,6 @@ type ConnectRequestedActionWithState = [
     ws: RootState
   },
 ]
-
-export const writeMessageToCacheEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
-  action$,
-  state$,
-) =>
-  action$.pipe(
-    filter(writeToCache.match),
-    filter((action) => action.payload.wsHandler.filter(action.payload.message)),
-    withLatestFrom(state$),
-    mergeMap(async ([action, state]) => {
-      const wsHandler = action.payload.wsHandler
-      try {
-        const input = state.ws.subscriptions.all[action.payload.subscriptionKey]?.input || {}
-
-        if (!input) logger.warn(`WS: Could not find subscription from incoming message`)
-
-        /**
-         * Wrap the payload so that the cache middleware treats it as if
-         * it is calling out to the underlying API, which immediately resolves
-         * to the websocket message here instead.
-         *
-         * This results in the cache middleware storing the payload message as a
-         * cache value, with the following `wsResponse` as the cache key
-         */
-        const isToResponseAsync = wsHandler.toResponse.constructor.name === 'AsyncFunction'
-        const response = isToResponseAsync
-          ? await wsHandler.toResponse(action.payload.message, input)
-          : (wsHandler.toResponse(action.payload.message, input) as AdapterResponse)
-        if (!response) return action
-        const execute: Execute = () => Promise.resolve(response)
-        let context = state.ws.subscriptions.all[action.payload.subscriptionKey]?.context
-        if (!context) {
-          logger.warn(`WS Unsubscribe No Response: Could not find context`)
-          context = {}
-        }
-
-        const cache = await withCache()(execute, context)
-        /**
-         * Create an adapter request we send to the cache middleware
-         * so it uses the following object for setting cache keys
-         */
-        const wsResponse: AdapterRequest = {
-          ...input,
-          data: { ...input.data },
-          debug: { ws: true },
-          metricsMeta: { feedId: getFeedId(input) },
-        }
-        await cache(wsResponse, context)
-        logger.trace('WS: Saved result', { input, result: response.result })
-      } catch (e) {
-        logger.error(`WS: Cache error: ${e.message}`)
-      }
-      return action
-    }),
-    filter(() => false),
-  )
 
 export const subscribeReadyEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (action$) =>
   action$.pipe(
@@ -375,13 +318,9 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
                 }
                 if (!isActiveSubscription) {
                   logger.info('WS: Subscribed', subscriptionMeta(payload))
-                  return of(
-                    subscribeFulfilled(payload),
-                    writeToCache(actionPayload),
-                    messageReceived(actionPayload),
-                  )
+                  return of(subscribeFulfilled(payload), messageReceived(actionPayload))
                 }
-                return of(writeToCache(actionPayload), messageReceived(actionPayload))
+                return of(messageReceived(actionPayload))
               }),
               takeUntil(
                 merge(
@@ -441,7 +380,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
         }),
       )
 
-      // All received messages
+      // All received messages using the same connection key
       const message$ = action$.pipe(
         filter(messageReceived.match),
         filter((action) => action.payload.connectionInfo.key === connectionKey),
@@ -661,6 +600,62 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
       )
       return concat(of(wsSubscriptionReady(payload)), ws$)
     }),
+  )
+
+export const writeMessageToCacheEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
+  action$,
+  state$,
+) =>
+  action$.pipe(
+    filter(messageReceived.match),
+    filter((action) => action.payload.wsHandler.filter(action.payload.message)),
+    withLatestFrom(state$),
+    mergeMap(async ([action, state]) => {
+      const wsHandler = action.payload.wsHandler
+      try {
+        const input = state.ws.subscriptions.all[action.payload.subscriptionKey]?.input || {}
+
+        if (!input) logger.warn(`WS: Could not find subscription from incoming message`)
+
+        /**
+         * Wrap the payload so that the cache middleware treats it as if
+         * it is calling out to the underlying API, which immediately resolves
+         * to the websocket message here instead.
+         *
+         * This results in the cache middleware storing the payload message as a
+         * cache value, with the following `wsResponse` as the cache key
+         */
+        const isToResponseAsync = wsHandler.toResponse.constructor.name === 'AsyncFunction'
+        const response = isToResponseAsync
+          ? await wsHandler.toResponse(action.payload.message, input)
+          : (wsHandler.toResponse(action.payload.message, input) as AdapterResponse)
+        if (!response) return action
+        const execute: Execute = () => Promise.resolve(response)
+        let context = state.ws.subscriptions.all[action.payload.subscriptionKey]?.context
+        if (!context) {
+          logger.warn(`WS Unsubscribe No Response: Could not find context`)
+          context = {}
+        }
+
+        const cache = await withCache()(execute, context)
+        /**
+         * Create an adapter request we send to the cache middleware
+         * so it uses the following object for setting cache keys
+         */
+        const wsResponse: AdapterRequest = {
+          ...input,
+          data: { ...input.data },
+          debug: { ws: true },
+          metricsMeta: { feedId: getFeedId(input) },
+        }
+        await cache(wsResponse, context)
+        logger.trace('WS: Saved result', { input, result: response.result })
+      } catch (e) {
+        logger.error(`WS: Cache error: ${e.message}`)
+      }
+      return action
+    }),
+    filter(() => false),
   )
 
 export const metricsEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state$) =>
