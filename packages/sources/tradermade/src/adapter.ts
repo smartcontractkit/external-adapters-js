@@ -21,7 +21,10 @@ export const makeExecute: ExecuteFactory<Config> = (config) => {
   return async (request, context) => execute(request, context, config || makeConfig())
 }
 
-export const makeWSHandler = (config?: Config): MakeWSHandler => {
+export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
+  if ((process.env.NODE_ENV || '').toLowerCase() !== 'development') {
+    return undefined
+  }
   const getSubscription = (pair?: string) => {
     const defaultConfig = config || makeConfig()
     if (!pair) return
