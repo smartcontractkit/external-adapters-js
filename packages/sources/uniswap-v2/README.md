@@ -4,10 +4,11 @@ This adapter allows querying UniswapV2.fi contracts
 
 ### Environment Variables
 
-| Required? |        Name        |                                                Description                                                | Options | Defaults to |
-| :-------: | :----------------: | :-------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
-|    ✅     |      RPC_URL       |               An http(s) RPC URL to a blockchain node that can read the UniswapV2 contracts               |         |             |
-|           | BLOCKCHAIN_NETWORK | The network to get pre-defined token addresses from. NOTE: THIS SHOULD NOT BE CHANGED ON ETHEREUM MAINNET |         | `ethereum`  |
+| Required? |        Name        |                                                Description                                                | Options |                 Defaults to                  |
+| :-------: | :----------------: | :-------------------------------------------------------------------------------------------------------: | :-----: | :------------------------------------------: |
+|    ✅     |      RPC_URL       |               An http(s) RPC URL to a blockchain node that can read the UniswapV2 contracts               |         |                                              |
+|           | BLOCKCHAIN_NETWORK |    The uniswap router address to get price from. NOTE: THIS SHOULD NOT BE CHANGED ON ETHEREUM MAINNET     |         | `0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D` |
+|           |  ROUTER_CONTRACT   | The network to get pre-defined token addresses from. NOTE: THIS SHOULD NOT BE CHANGED ON ETHEREUM MAINNET |         |                  `ethereum`                  |
 
 ---
 
