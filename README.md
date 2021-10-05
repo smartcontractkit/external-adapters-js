@@ -232,20 +232,22 @@ The following section details mechanisms that reduce the number of API calls mad
 
 Caching allows for the EA to store successful responses and facilitate faster future response times.
 
-To enable, the following environment variables must be set:
+Caching is enabled by default. It can be turned off using:
 
 ```bash
-export CACHE_ENABLED=true
+export CACHE_ENABLED=false
 ```
 
 See [/bootstrap](./packages/core/bootstrap#caching) for more details and configuration options.
 
 #### Rate Limiting
 
-The Rate Limit middleware prevents hitting rate limit issues with data providers. This is done by adjusting how long a request lives in the cache based on the available capacity of your API subscription plan. To enable use the following environment keys:
+The Rate Limit middleware prevents hitting rate limit issues with data providers. This is done by adjusting how long a request lives in the cache based on the available capacity of your API subscription plan. The cache must be enabled to use this middleware.
+
+Rate Limiting is enabled by default. It can be turned off using:
 
 ```bash
-export RATE_LIMIT_ENABLED=true CACHE_ENABLED=true
+export RATE_LIMIT_ENABLED=false
 ```
 
 There are two options for defining API subscription capacity:
@@ -262,21 +264,24 @@ export RATE_LIMIT_CAPACITY=60
 export RATE_LIMIT_API_PROVIDER=coingecko RATE_LIMIT_API_TIER=free
 ```
 
+The `RATE_LIMIT_API_PROVIDER` environment variable is optional as when not given it will derive from the running adapter.
+
 Preset tiers/plans can be found [here](./packages/core/bootstrap/src/lib/provider-limits/limits.json) and use the corresponding `provider` and `tierName`.
 
 See [/bootstrap](./packages/core/bootstrap/README.md#rate-limit) for more details and configuration options.
 
 #### Cache Warming
 
-When a new unique request comes in to an EA the Cache Warming middleware will begin polling the API on an interval ensure that data is always ready to be served and is as fresh as possible.
+When a new unique request comes in to an EA the Cache Warming middleware will begin polling the API on an interval ensure that data is always ready to be served and is as fresh as possible. The cache must be enabled to use this middleware.
 
-To enable, the following environment variables must be set:
+Cache Warming is enabled by default. It can be turned off using:
 
 ```bash
-export CACHE_ENABLED=true WARMUP_ENABLED=true
+export WARMUP_ENABLED=false
 ```
 
 The cache will begin polling once the first request has been received.
+It will also attempt to use batch requests to save API credits when possible.
 
 See [/bootstrap](./packages/core/bootstrap/README.md#Cache-Warmer) for more details and configuration options.
 
