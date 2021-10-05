@@ -22,6 +22,15 @@ export const makeExecute: ExecuteFactory<Config> = (config) => {
   return async (request, context) => execute(request, context, config || makeConfig())
 }
 
+export interface WSErrorType {
+  TYPE: string
+  MESSAGE: string
+  PARAMETER: string
+  INFO: string
+}
+
+export const INVALID_SUB = 'INVALID_SUB'
+
 export const makeWSHandler = (config?: Config): MakeWSHandler => {
   // https://min-api.cryptocompare.com/documentation/websockets
   const subscriptions = {
@@ -48,6 +57,9 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
     return { action, subs: [`${subscriptions.aggregate}~CCCAGG~${pair}`] }
   }
   const withApiKey = (url: string, apiKey: string) => `${url}?api_key=${apiKey}`
+  const shouldNotRetryAfterError = (error: WSErrorType): boolean => {
+    return error.MESSAGE === INVALID_SUB
+  }
   return () => {
     const defaultConfig = config || makeConfig()
     return {
@@ -73,6 +85,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
         const result = Requester.validateResultNumber(message, ['PRICE'])
         return Requester.success('1', { data: { result } })
       },
+      shouldNotRetrySubscription: (error) => shouldNotRetryAfterError(error as WSErrorType),
     }
   }
 }

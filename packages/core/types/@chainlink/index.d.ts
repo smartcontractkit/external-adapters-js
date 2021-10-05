@@ -246,13 +246,15 @@ declare module '@chainlink/types' {
     // Filters out messages that are not expected from sending a message constructed by one of the onConnect hooks
     isOnConnectChainMessage?: (message: any) => boolean
     // Should try open connection again after error
-    shouldRetryConnection?: (errorMessage: WebsocketErrorMessageSchema) => boolean
     // Whether or not message is sent to subscribe to a pair/ticker
     isDataMessage?: (message: unknown) => boolean
     // Whether or not to reply to a heartbeat message from the server
     shouldReplyToServerHeartbeat?: (message: unknown) => boolean
     // The message that will be sent back to the WS server
     heartbeatReplyMessage?: (message: unknown, id: number, connectionParams: any) => unknown
+    shouldNotRetryConnection?: (error: unknown) => boolean
+    // Should try resubscribing to a connection again
+    shouldNotRetrySubscription?: (subscription: unknown) => boolean
   }
 
   /* INPUT TYPE VALIDATIONS */

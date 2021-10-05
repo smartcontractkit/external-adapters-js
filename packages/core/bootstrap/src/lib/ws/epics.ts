@@ -43,6 +43,7 @@ import {
   updateSubscriptionInput,
   saveOnConnectMessage,
   onConnectComplete,
+  subscriptionErrorHandler,
 } from './actions'
 import {
   ws_connection_active,
@@ -196,8 +197,6 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
             disconnectFulfilled({
               config,
               wsHandler,
-              shouldNotRetryConnecting:
-                wsHandler.shouldRetryConnection && !wsHandler.shouldRetryConnection(closeContext),
             }),
           ])
         }),
@@ -250,14 +249,16 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
         filter(([{ subscriptionKey, payload }, state]) => {
           const isActiveSubscription = !!state.ws.subscriptions.all[subscriptionKey]?.active
           const isSubscribing = state.ws.subscriptions.all[subscriptionKey]?.subscribing > 1
+          const shouldNotRetrySubscribing =
+            state.ws.subscriptions.all[subscriptionKey]?.shouldNotRetry
           const isNotActive = !isActiveSubscription && !isSubscribing
           const { isDataMessage, onConnectChain } = wsHandler
           if (isDataMessage && onConnectChain && isDataMessage(payload.subscriptionMsg)) {
             const connectionState = state.ws.connections.all[payload.connectionInfo.key]
             const hasOnConnectChainCompleted = connectionState.requestId >= onConnectChain.length
-            return isNotActive && hasOnConnectChainCompleted
+            return !shouldNotRetrySubscribing && isNotActive && hasOnConnectChainCompleted
           }
-          return isNotActive
+          return !shouldNotRetrySubscribing && isNotActive
         }),
         // on a subscribe action being dispatched, open a new WS subscription if one doesn't exist yet
         mergeMap(([{ subscriptionKey, payload }, state]) =>
@@ -299,7 +300,12 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
                     error: message,
                   }
                   logger.error('WS: Error', error)
-                  errorObserver.next(subscriptionError(error))
+                  errorObserver.next(
+                    subscriptionError({
+                      ...error,
+                      wsHandler,
+                    }),
+                  )
                   return false
                 }
                 if (
@@ -573,6 +579,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
               subscriptionError({
                 ...action,
                 reason: 'WS: unsubscribe -> subscribe (unresponsive channel)',
+                wsHandler,
               }),
               unsubscribeRequested(action),
               subscribeRequested(action),
@@ -632,6 +639,24 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
         ),
       )
       return concat(of(wsSubscriptionReady(payload)), ws$)
+    }),
+  )
+
+export const recordErrorEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (action$) =>
+  action$.pipe(
+    filter((action) => subscriptionError.match(action) && !!action.payload.error),
+    mergeMap(({ payload }) => {
+      const { wsHandler, error, connectionInfo, subscriptionMsg } = payload
+      const { shouldNotRetryConnection, shouldNotRetrySubscription } = wsHandler
+      return of(
+        subscriptionErrorHandler({
+          connectionInfo,
+          subscriptionMsg,
+          shouldNotRetryConnection: !!shouldNotRetryConnection && shouldNotRetryConnection(error),
+          shouldNotRetrySubscription:
+            !!shouldNotRetrySubscription && shouldNotRetrySubscription(error),
+        }),
+      )
     }),
   )
 
@@ -761,6 +786,7 @@ export const rootEpic = combineEpics(
   metricsEpic,
   subscribeReadyEpic,
   writeMessageToCacheEpic,
+  recordErrorEpic,
 )
 
 export const epicMiddleware = createEpicMiddleware()
