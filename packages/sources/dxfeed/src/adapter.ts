@@ -26,6 +26,7 @@ export type DXFeedMessage = {
   clientId?: string
   id: number
   data: any[]
+  successful?: boolean
 }[]
 
 export const makeWSHandler = (config?: Config): MakeWSHandler => {
@@ -74,7 +75,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
         }
         return null
       },
-      isError: (_) => false,
+      isError: (message) => (message as DXFeedMessage)[0].successful === false,
       filter: (message: DXFeedMessage) => {
         return isDataMessage(message)
       },
