@@ -21,6 +21,7 @@ import { CacheEntry } from './types'
 
 const env = process.env
 
+export const DEFAULT_CACHE_ENABLED = true
 const DEFAULT_CACHE_TYPE = 'local'
 const DEFAULT_CACHE_KEY_GROUP = uuid()
 // Request coalescing
@@ -55,7 +56,7 @@ export interface CacheOptions {
 
 export const defaultOptions = (): CacheOptions => {
   return {
-    enabled: parseBool(env.CACHE_ENABLED),
+    enabled: parseBool(env.CACHE_ENABLED ?? DEFAULT_CACHE_ENABLED),
     cacheImplOptions: defaultCacheImplOptions(),
     cacheBuilder: defaultCacheBuilder(),
     key: {
