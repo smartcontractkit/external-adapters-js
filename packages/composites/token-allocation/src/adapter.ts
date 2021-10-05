@@ -9,6 +9,7 @@ import { getPriceProvider } from './dataProvider'
 Decimal.set({ precision: 100 })
 
 export const priceTotalValue = (
+  source: string,
   allocations: TokenAllocations,
   quote: string,
   data: ResponsePayload,
@@ -16,6 +17,10 @@ export const priceTotalValue = (
   return allocations
     .reduce((acc, t) => {
       const val = data[t.symbol].quote[quote].price
+      if (!val)
+        throw new Error(
+          `ERROR: No price value found for ${t.symbol}/${quote} from the ${source} adapter.`,
+        )
       const coins = new Decimal(t.balance.toString(10)).div(10 ** t.decimals)
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       return acc.add(coins.mul(val!))
@@ -24,6 +29,7 @@ export const priceTotalValue = (
 }
 
 export const marketCapTotalValue = (
+  source: string,
   allocations: TokenAllocations,
   quote: string,
   data: ResponsePayload,
@@ -31,6 +37,10 @@ export const marketCapTotalValue = (
   return allocations
     .reduce((acc, t) => {
       const val = data[t.symbol].quote[quote].marketCap
+      if (!val)
+        throw new Error(
+          `ERROR: No marketcap value found for ${t.symbol}/${quote} from the ${source} adapter.`,
+        )
       const coins = new Decimal(t.balance.toString(10)).div(10 ** t.decimals)
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       return acc.add(coins.mul(val!))
@@ -70,14 +80,20 @@ const toValidAllocations = (allocations: any[]): TokenAllocations => {
   })
 }
 
-const computePrice = async (getPrices: GetPrices, allocations: TokenAllocations, quote: string) => {
+const computePrice = async (
+  source: string,
+  getPrices: GetPrices,
+  allocations: TokenAllocations,
+  quote: string,
+) => {
   const symbols = (allocations as TokenAllocations).map((t) => t.symbol)
   const payload = await getPrices(symbols, quote)
-  const result = priceTotalValue(allocations, quote, payload)
+  const result = priceTotalValue(source, allocations, quote, payload)
   return { payload, result }
 }
 
 const computeMarketCap = async (
+  source: string,
   getPrices: GetPrices,
   allocations: TokenAllocations,
   quote: string,
@@ -85,7 +101,7 @@ const computeMarketCap = async (
   const symbols = (allocations as TokenAllocations).map((t) => t.symbol)
   const payload = await getPrices(symbols, quote, true)
 
-  const result = marketCapTotalValue(allocations, quote, payload)
+  const result = marketCapTotalValue(source, allocations, quote, payload)
   return { payload, result }
 }
 
@@ -125,14 +141,14 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
       true,
     )
 
-  const getPrices = getPriceProvider(jobRunID, sourceConfig.api)
+  const getPrices = getPriceProvider(source, jobRunID, sourceConfig.api)
   switch (method.toLowerCase()) {
     case 'price': {
-      const price = await computePrice(getPrices, allocations, quote)
+      const price = await computePrice(source, getPrices, allocations, quote)
       return _success(price.payload, price.result)
     }
     case 'marketcap': {
-      const marketCap = await computeMarketCap(getPrices, allocations, quote)
+      const marketCap = await computeMarketCap(source, getPrices, allocations, quote)
       return _success(marketCap.payload, marketCap.result)
     }
     default:
