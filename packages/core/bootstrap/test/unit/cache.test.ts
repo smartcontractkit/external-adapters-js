@@ -24,41 +24,38 @@ const counterFrom =
 
 describe('cache', () => {
   describe('options defaults', () => {
-    describe('ENV disabled', () => {
-      beforeEach(() => {
-        delete process.env.CACHE_ENABLED
-      })
-
-      it(`configures env options with cache enabled: false`, () => {
-        const options = defaultOptions()
-        expect(options).toHaveProperty('enabled', false)
-      })
+    beforeEach(() => {
+      delete process.env.CACHE_ENABLED
+      delete process.env.CACHE_MAX_AGE
     })
 
-    describe('ENV enabled', () => {
-      beforeEach(() => {
-        process.env.CACHE_ENABLED = 'true'
-      })
+    it(`configures env options with cache enabled: true`, () => {
+      const options = defaultOptions()
+      expect(options).toHaveProperty('enabled', true)
+    })
 
-      it(`configures env options with cache enabled: true`, () => {
-        const options = defaultOptions()
-        expect(options).toHaveProperty('enabled', true)
-      })
-
-      it(`configures env options with default maxAge: 1000 * 60 * 1.5`, () => {
-        const options = defaultOptions()
-        expect(options.cacheImplOptions).toHaveProperty('maxAge', 1000 * 60 * 1.5)
-      })
+    it(`configures env options with default maxAge: 1000 * 60 * 1.5`, () => {
+      const options = defaultOptions()
+      expect(options.cacheImplOptions).toHaveProperty('maxAge', 1000 * 60 * 1.5)
     })
   })
 
   describe('disabled', () => {
-    beforeEach(() => {
-      delete process.env.CACHE_ENABLED
+    const context: AdapterContext = {
+      cache: null,
+    }
+
+    beforeEach(async () => {
+      process.env.CACHE_ENABLED = 'false'
+      const cacheOptions = defaultOptions()
+      if (cacheOptions.enabled) {
+        cacheOptions.instance = await cacheOptions.cacheBuilder(cacheOptions.cacheImplOptions)
+        context.cache = cacheOptions
+      }
     })
 
     it(`does not cache`, async () => {
-      const counter = await withCache()(counterFrom(1), {})
+      const counter = await withCache()(counterFrom(1), context)
       await callAndExpect(counter, 3, 3)
       await callAndExpect(counter, 3, 6)
       await callAndExpect(counter, 3, 9)
