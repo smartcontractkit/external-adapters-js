@@ -467,6 +467,26 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
         }),
       )
 
+      const respondWithHeartbeat$ = message$.pipe(
+        filter(
+          (action) =>
+            !!wsHandler.shouldReplyToServerHeartbeat &&
+            wsHandler.shouldReplyToServerHeartbeat(action.payload.message),
+        ),
+        withLatestFrom(state$),
+        mergeMap(([action, state]) => {
+          const { connectionInfo, message } = action.payload
+          const key = connectionInfo.key
+          const { requestId, connectionParams } = state.ws.connections.all[key]
+          if (wsHandler.heartbeatReplyMessage) {
+            wsSubject.next(wsHandler.heartbeatReplyMessage(message, requestId, connectionParams))
+          }
+          return of(action)
+        }),
+        tap(() => logger.info('Responded to server heartbeat')),
+        filter(() => false),
+      )
+
       const withSaveToConnection$ = message$.pipe(
         filter((action) => {
           return (
@@ -598,6 +618,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
         withSaveToConnection$,
         withOnConnectChainComplete$,
         error$,
+        respondWithHeartbeat$,
       ).pipe(
         takeUntil(
           action$.pipe(

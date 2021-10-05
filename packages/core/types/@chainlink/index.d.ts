@@ -249,6 +249,10 @@ declare module '@chainlink/types' {
     shouldRetryConnection?: (errorMessage: WebsocketErrorMessageSchema) => boolean
     // Whether or not message is sent to subscribe to a pair/ticker
     isDataMessage?: (message: unknown) => boolean
+    // Whether or not to reply to a heartbeat message from the server
+    shouldReplyToServerHeartbeat?: (message: unknown) => boolean
+    // The message that will be sent back to the WS server
+    heartbeatReplyMessage?: (message: unknown, id: number, connectionParams: any) => unknown
   }
 
   /* INPUT TYPE VALIDATIONS */
