@@ -247,6 +247,8 @@ declare module '@chainlink/types' {
     isOnConnectChainMessage?: (message: any) => boolean
     // Should try open connection again after error
     shouldRetryConnection?: (errorMessage: WebsocketErrorMessageSchema) => boolean
+    // Whether or not message is sent to subscribe to a pair/ticker
+    isDataMessage?: (message: unknown) => boolean
   }
 
   /* INPUT TYPE VALIDATIONS */

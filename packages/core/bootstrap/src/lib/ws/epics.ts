@@ -113,7 +113,12 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
       const isActiveConnection = connectionState?.active
       const isConnecting = connectionState?.connecting > 1
       const hasErrored = connectionState?.shouldNotRetryConnecting
-      return !hasErrored && !isActiveConnection && !isConnecting
+      return (
+        !hasErrored &&
+        !isActiveConnection &&
+        !isConnecting &&
+        (!connectionState || connectionState.requestId === 0)
+      )
     }),
     concatMap(async (data) => {
       const getUrl = data[0].payload.wsHandler.connection.getUrl
@@ -242,10 +247,17 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
           subscriptionKey: getSubsId(payload.subscriptionMsg),
         })),
         withLatestFrom(state$),
-        filter(([{ subscriptionKey }, state]) => {
+        filter(([{ subscriptionKey, payload }, state]) => {
           const isActiveSubscription = !!state.ws.subscriptions.all[subscriptionKey]?.active
           const isSubscribing = state.ws.subscriptions.all[subscriptionKey]?.subscribing > 1
-          return !isActiveSubscription && !isSubscribing
+          const isNotActive = !isActiveSubscription && !isSubscribing
+          const { isDataMessage, onConnectChain } = wsHandler
+          if (isDataMessage && onConnectChain && isDataMessage(payload.subscriptionMsg)) {
+            const connectionState = state.ws.connections.all[payload.connectionInfo.key]
+            const hasOnConnectChainCompleted = connectionState.requestId >= onConnectChain.length
+            return isNotActive && hasOnConnectChainCompleted
+          }
+          return isNotActive
         }),
         // on a subscribe action being dispatched, open a new WS subscription if one doesn't exist yet
         mergeMap(([{ subscriptionKey, payload }, state]) =>
@@ -359,6 +371,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
           const connectionState = state.ws.connections.all[connectionKey]
           const interval = wsHandler.heartbeatIntervalInMS || config.defaultHeartbeatIntervalInMS
           return timer(interval, interval).pipe(
+            tap(() => logger.info('Sending heartbeat message')),
             mergeMap(() => {
               if (wsHandler.heartbeatMessage) {
                 const heartbeatPayload = wsHandler.heartbeatMessage(
@@ -369,7 +382,6 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
               }
               return EMPTY
             }),
-            tap(() => logger.info('Sending heartbeat message')),
             takeUntil(
               action$.pipe(
                 filter(disconnectFulfilled.match),

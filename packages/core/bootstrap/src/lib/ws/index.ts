@@ -63,9 +63,14 @@ export const withWebSockets =
 
 const isConnected = (store: Store<RootState>, connectionKey: string): boolean => {
   const state = store.getState()
-  const isActiveConnection = state.connections.all[connectionKey]?.active
-  const isConnecting = state.connections.all[connectionKey]?.connecting > 1
-  return isActiveConnection && !isConnecting
+  const connectionState = state.connections.all[connectionKey]
+  if (!connectionState) {
+    return false
+  }
+  const isActiveConnection = connectionState.active
+  const isConnecting = connectionState.connecting > 1
+  const hasOnConnectChainCompleted = connectionState.isOnConnectChainComplete
+  return isActiveConnection && !isConnecting && hasOnConnectChainCompleted
 }
 
 const awaitResult = async (context: AdapterContext, input: AdapterRequest, deadline: number) => {

@@ -101,6 +101,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       shouldSaveToStore: (subscriptionMessage: any) => isDataSubscriptionMsg(subscriptionMessage),
       isOnConnectChainMessage: (message: any) =>
         message[0].channel === '/meta/handshake' || message[0].channel === '/meta/connect',
+      isDataMessage: (message: unknown) => isDataSubscriptionMsg(message),
       onConnectChain: [
         () => [
           {
