@@ -116,12 +116,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "KAIKO_ADAPTER_URL": Object {
@@ -273,12 +273,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "JSON_RPC_ADAPTER_RPC_URL": Object {
@@ -466,12 +466,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "KAIKO_ADAPTER_URL": Object {
@@ -662,12 +662,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "KAIKO_ADAPTER_URL": Object {
@@ -823,12 +823,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -1069,12 +1069,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -1262,12 +1262,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "KAIKO_ADAPTER_URL": Object {
@@ -1453,12 +1453,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "KAIKO_ADAPTER_URL": Object {
@@ -1611,12 +1611,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -1761,12 +1761,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -1906,12 +1906,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -2059,12 +2059,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -2208,12 +2208,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -2357,12 +2357,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -2506,12 +2506,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -2655,12 +2655,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -2804,12 +2804,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -2960,12 +2960,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -3109,12 +3109,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -3254,12 +3254,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -3403,12 +3403,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -3552,12 +3552,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -3697,12 +3697,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -3842,12 +3842,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -3995,12 +3995,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -4140,12 +4140,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -4293,12 +4293,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -4442,12 +4442,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -4587,12 +4587,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -4732,12 +4732,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -4877,12 +4877,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -5022,12 +5022,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -5171,12 +5171,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -5316,12 +5316,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -5465,12 +5465,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -5610,12 +5610,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -5759,12 +5759,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -5908,12 +5908,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -6057,12 +6057,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -6202,12 +6202,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -6351,12 +6351,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -6496,12 +6496,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -6649,12 +6649,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -6794,12 +6794,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -6952,12 +6952,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -7110,12 +7110,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -7264,12 +7264,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -7414,12 +7414,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -7568,12 +7568,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -7713,12 +7713,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "FCSAPI_ADAPTER_API_KEY": Object {
@@ -7862,12 +7862,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "FINAGE_ADAPTER_API_KEY": Object {
@@ -8011,12 +8011,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "FINNHUB_ADAPTER_API_KEY": Object {
@@ -8160,12 +8160,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "FIXER_ADAPTER_API_ENDPOINT": Object {
@@ -8314,12 +8314,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "FMPCLOUD_ADAPTER_API_ENDPOINT": Object {
@@ -8468,12 +8468,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "GENESIS_VOLATILITY_ADAPTER_API_KEY": Object {
@@ -8617,12 +8617,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "GEODB_ADAPTER_API_ENDPOINT": Object {
@@ -8767,12 +8767,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "IEX_CLOUD_ADAPTER_API_ENDPOINT": Object {
@@ -8921,12 +8921,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "INTRINIO_ADAPTER_API_KEY": Object {
@@ -9070,12 +9070,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "JSON_RPC_ADAPTER_RPC_URL": Object {
@@ -9221,12 +9221,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "KAIKO_ADAPTER_API_ENDPOINT": Object {
@@ -9375,12 +9375,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LCX_ADAPTER_API_KEY": Object {
@@ -9524,12 +9524,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LINKPOOL_ADAPTER_API_KEY": Object {
@@ -9673,12 +9673,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LITION_ADAPTER_API_ENDPOINT": Object {
@@ -9823,12 +9823,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -9977,12 +9977,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -10131,12 +10131,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -10285,12 +10285,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -10435,12 +10435,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -10589,12 +10589,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -10738,12 +10738,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -10887,12 +10887,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -11041,12 +11041,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -11191,12 +11191,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -11344,12 +11344,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -11498,12 +11498,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -11648,12 +11648,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -11802,12 +11802,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -11947,12 +11947,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -12101,12 +12101,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -12251,12 +12251,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -12401,12 +12401,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -12546,12 +12546,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -12695,12 +12695,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -12849,12 +12849,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -13003,12 +13003,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -13171,12 +13171,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -13316,12 +13316,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -13466,12 +13466,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -13615,12 +13615,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -13764,12 +13764,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -13913,12 +13913,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -14066,12 +14066,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -14216,12 +14216,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -14374,12 +14374,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -14536,12 +14536,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -14695,12 +14695,12 @@ Array [
         "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_RATE_LIMIT_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_RATE_LIMIT_ENABLED",
+      "RATE_LIMIT_ENABLED": Object {
+        "originalKey": "RATE_LIMIT_ENABLED",
         "type": "string",
       },
-      "EXPERIMENTAL_WARMUP_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_WARMUP_ENABLED",
+      "WARMUP_ENABLED": Object {
+        "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
       "GAS_LIMIT": Object {

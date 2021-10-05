@@ -23,8 +23,8 @@ envVars:
   CACHE_REDIS_TIMEOUT: 3000
   # https://docs.microsoft.com/en-us/azure/azure-cache-for-redis/cache-best-practices
   EXPERIMENTAL_METRICS_ENABLED: true
-  EXPERIMENTAL_WARMUP_ENABLED: true
-  EXPERIMENTAL_RATE_LIMIT_ENABLED: true
+  WARMUP_ENABLED: true
+  RATE_LIMIT_ENABLED: true
   LOG_LEVEL: info
   METRICS_PORT: 9080
   WS_ENABLED: false
