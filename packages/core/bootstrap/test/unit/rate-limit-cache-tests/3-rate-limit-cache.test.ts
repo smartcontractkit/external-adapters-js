@@ -14,7 +14,7 @@ describe('Rate Limit/Cache - Integration', () => {
   let logErrorStub: any
 
   beforeAll(() => {
-    process.env.EXPERIMENTAL_RATE_LIMIT_ENABLED = String(true)
+    process.env.RATE_LIMIT_ENABLED = String(true)
     process.env.RATE_LIMIT_CAPACITY = String(capacity)
     process.env.CACHE_ENABLED = String(true)
 

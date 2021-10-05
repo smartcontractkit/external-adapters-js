@@ -19,7 +19,7 @@ export interface Config {
 }
 
 export function get(context: AdapterContext): Config {
-  const enabled = parseBool(getEnv('EXPERIMENTAL_RATE_LIMIT_ENABLED'))
+  const enabled = parseBool(getEnv('RATE_LIMIT_ENABLED'))
   let capacity = parseInt(getEnv('RATE_LIMIT_CAPACITY') || '')
   if (!capacity && enabled) {
     const provider = getEnv('RATE_LIMIT_API_PROVIDER') || context.name?.toLowerCase() || ''

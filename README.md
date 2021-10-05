@@ -245,7 +245,7 @@ See [/bootstrap](./packages/core/bootstrap#caching) for more details and configu
 The Rate Limit middleware prevents hitting rate limit issues with data providers. This is done by adjusting how long a request lives in the cache based on the available capacity of your API subscription plan. To enable use the following environment keys:
 
 ```bash
-export EXPERIMENTAL_RATE_LIMIT_ENABLED=true CACHE_ENABLED=true
+export RATE_LIMIT_ENABLED=true CACHE_ENABLED=true
 ```
 
 There are two options for defining API subscription capacity:
@@ -273,7 +273,7 @@ When a new unique request comes in to an EA the Cache Warming middleware will be
 To enable, the following environment variables must be set:
 
 ```bash
-export CACHE_ENABLED=true EXPERIMENTAL_WARMUP_ENABLED=true
+export CACHE_ENABLED=true WARMUP_ENABLED=true
 ```
 
 The cache will begin polling once the first request has been received.
