@@ -10,6 +10,7 @@ export const ENV_BLOCKCHAIN_NETWORK = 'BLOCKCHAIN_NETWORK'
 export const DEFAULT_ENDPOINT = 'crypto'
 export const DEFAULT_BLOCKCHAIN_NETWORK = 'ethereum'
 export const UNISWAP_ROUTER_CONTRACT = '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D'
+export const SUSHISWAP_ROUTER_CONTRACT = '0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F'
 
 export type Config = BaseConfig & {
   provider: ethers.providers.Provider
