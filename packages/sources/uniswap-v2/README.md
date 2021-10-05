@@ -4,12 +4,10 @@ This adapter allows querying UniswapV2.fi contracts
 
 ### Environment Variables
 
-| Required? |         Name         |                                                            Description                                                             | Options |                 Defaults to                  |
-| :-------: | :------------------: | :--------------------------------------------------------------------------------------------------------------------------------: | :-----: | :------------------------------------------: |
-|    ✅     |       RPC_URL        |                           An http(s) RPC URL to a blockchain node that can read the UniswapV2 contracts                            |         |                                              |
-|           |   ADDRESS_PROVIDER   |            The address of the UniswapV2 address provider contract. NOTE: THIS SHOULD NOT BE CHANGED ON ETHEREUM MAINNET            |         | `0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D` |
-|           | EXCHANGE_PROVIDER_ID | The index of the exchange provider contract in the address provider contract. NOTE: THIS SHOULD NOT BE CHANGED ON ETHEREUM MAINNET |         |                     `2`                      |
-|           |  BLOCKCHAIN_NETWORK  |             The network to get pre-defined token addresses from. NOTE: THIS SHOULD NOT BE CHANGED ON ETHEREUM MAINNET              |         |                  `ethereum`                  |
+| Required? |        Name        |                                                Description                                                | Options | Defaults to |
+| :-------: | :----------------: | :-------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     |      RPC_URL       |               An http(s) RPC URL to a blockchain node that can read the UniswapV2 contracts               |         |             |
+|           | BLOCKCHAIN_NETWORK | The network to get pre-defined token addresses from. NOTE: THIS SHOULD NOT BE CHANGED ON ETHEREUM MAINNET |         | `ethereum`  |
 
 ---
 
