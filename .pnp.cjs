@@ -543,6 +543,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/unibit"
       },
       {
+        "name": "@chainlink/uniswap-v2-adapter",
+        "reference": "workspace:packages/sources/uniswap-v2"
+      },
+      {
         "name": "@chainlink/upvest-adapter",
         "reference": "workspace:packages/sources/upvest"
       },
@@ -720,6 +724,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/twelvedata-adapter", ["workspace:packages/sources/twelvedata"]],
       ["@chainlink/types", ["workspace:packages/core/types/@chainlink"]],
       ["@chainlink/unibit-adapter", ["workspace:packages/sources/unibit"]],
+      ["@chainlink/uniswap-v2-adapter", ["workspace:packages/sources/uniswap-v2"]],
       ["@chainlink/upvest-adapter", ["workspace:packages/sources/upvest"]],
       ["@chainlink/uscpi-one-adapter", ["workspace:packages/sources/uscpi-one"]],
       ["@chainlink/vesper-adapter", ["workspace:packages/composites/vesper"]],
@@ -5874,6 +5879,27 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.2"],
             ["@types/node", "npm:14.17.17"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/uniswap-v2-adapter", [
+        ["workspace:packages/sources/uniswap-v2", {
+          "packageLocation": "./packages/sources/uniswap-v2/",
+          "packageDependencies": [
+            ["@chainlink/uniswap-v2-adapter", "workspace:packages/sources/uniswap-v2"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:26.0.24"],
+            ["@types/node", "npm:14.17.17"],
+            ["@types/supertest", "npm:2.0.11"],
+            ["decimal.js", "npm:10.3.1"],
+            ["ethers", "npm:5.4.6"],
+            ["nock", "npm:13.1.3"],
+            ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
