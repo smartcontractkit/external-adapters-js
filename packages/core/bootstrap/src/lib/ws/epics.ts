@@ -104,7 +104,11 @@ export const subscribeReadyEpic: Epic<AnyAction, AnyAction, { ws: RootState }, a
     mergeMap(([subscriptionPayload]) => {
       // TODO: remove after debugging
       logger.debug(subscriptionPayload)
-      return of(subscribeRequested(subscriptionPayload))
+      const action = subscribeRequested(subscriptionPayload)
+      if (!action.payload.connectionInfo) {
+        logger.error('INVALID_SUBSCRIBE_REQUESTED_IN_READY_EPIC', action)
+      }
+      return of(action)
     }),
   )
 
@@ -430,13 +434,14 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
             input,
             context,
           }
-          if (onConnectChainFinished) {
-            return of(
-              subscribeRequested(subscriptionPayload),
-              onConnectComplete(subscriptionPayload),
-            )
+          const action = subscribeRequested(subscriptionPayload)
+          if (!action.payload.connectionInfo) {
+            logger.error('ON_MESSAGE', action)
           }
-          return of(subscribeRequested(subscriptionPayload))
+          if (onConnectChainFinished) {
+            return of(action, onConnectComplete(subscriptionPayload))
+          }
+          return of(action)
         }),
       )
 
@@ -547,6 +552,11 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
               context,
             }
 
+            const subReqAction = subscribeRequested(action)
+            if (!subReqAction.payload.connectionInfo) {
+              logger.error('UNSUB_NO_RESP', subReqAction)
+            }
+
             const timeout$ = of(
               subscriptionError({
                 ...action,
@@ -554,7 +564,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
                 wsHandler,
               }),
               unsubscribeRequested(action),
-              subscribeRequested(action),
+              subReqAction,
             ).pipe(
               delay(config.subscriptionUnresponsiveTTL),
               tap((a) => {
