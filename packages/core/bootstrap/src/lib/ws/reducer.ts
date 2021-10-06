@@ -61,7 +61,7 @@ export const connectionsReducer = createReducer<ConnectionsState>(
     })
     builder.addCase(actions.subscribeRequested, (state, action) => {
       if (!action.payload.connectionInfo) {
-        logger.error('Missing connection info', action.payload)
+        logger.error(`Missing connection info: ${action.payload}`)
         return
       }
       const key = action.payload.connectionInfo.key
