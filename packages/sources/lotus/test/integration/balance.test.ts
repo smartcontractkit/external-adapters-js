@@ -12,7 +12,8 @@ beforeAll(() => {
   oldEnv = JSON.parse(JSON.stringify(process.env))
   process.env.RPC_URL = process.env.RPC_URL || 'http://127.0.0.1:1234/rpc/v0'
   process.env.API_KEY = process.env.API_KEY || 'test_api_key'
-  process.env.API_VERBOSE = true
+  process.env.API_VERBOSE = 'true'
+  process.env.CACHE_ENABLED = 'false'
   if (process.env.RECORD) {
     nock.recorder.rec()
   }

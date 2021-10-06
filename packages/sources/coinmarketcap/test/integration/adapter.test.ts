@@ -22,6 +22,7 @@ describe('coinmarketcap', () => {
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env.API_KEY = process.env.API_KEY || 'mock-api-key'
+    process.env.CACHE_ENABLED = 'false'
     if (process.env.RECORD) {
       nock.recorder.rec()
     }
@@ -64,9 +65,6 @@ describe('coinmarketcap', () => {
 
     describe('coinmarketcap replies with error due to too many requests', () => {
       it('should reply with failure', async () => {
-        // Fail 3 times to mimic retries
-        mockFailedGlobalMetricsResponse('USD')
-        mockFailedGlobalMetricsResponse('USD')
         mockFailedGlobalMetricsResponse('USD')
 
         const response = await req
@@ -106,9 +104,6 @@ describe('coinmarketcap', () => {
 
     describe('coinmarketcap replies with error due to too many requests', () => {
       it('should reply with failure', async () => {
-        // Fail 3 times to mimic retries
-        mockFailedGlobalMetricsResponse()
-        mockFailedGlobalMetricsResponse()
         mockFailedGlobalMetricsResponse()
 
         const response = await req
@@ -225,9 +220,6 @@ describe('coinmarketcap', () => {
 
     describe('coinmarketcap replies with error due to too many requests', () => {
       it('should reply with failure', async () => {
-        // Fail 3 times to mimic retries
-        mockCoinMarketCapErrorTooManyRequests()
-        mockCoinMarketCapErrorTooManyRequests()
         mockCoinMarketCapErrorTooManyRequests()
 
         const response = await req
