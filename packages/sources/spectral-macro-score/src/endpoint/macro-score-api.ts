@@ -51,7 +51,7 @@ export const execute = async (request: IRequestInput, config: SpectralAdapterCon
       'Content-Type': 'application/json',
     },
     timeout: config.timeout,
-    url: '/availAddressesEA',
+    url: '/availAddressesEA/',
     method: 'POST',
     data: {
       key: `${config.FAST_API_KEY}`,
