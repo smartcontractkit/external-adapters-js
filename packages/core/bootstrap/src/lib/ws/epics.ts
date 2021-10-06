@@ -101,7 +101,11 @@ export const subscribeReadyEpic: Epic<AnyAction, AnyAction, { ws: RootState }, a
       })
       return subscriptionPayloads
     }),
-    mergeMap(([subscriptionPayload]) => of(subscribeRequested(subscriptionPayload))),
+    mergeMap(([subscriptionPayload]) => {
+      // TODO: remove after debugging
+      logger.debug(subscriptionPayload)
+      return of(subscribeRequested(subscriptionPayload))
+    }),
   )
 
 export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (action$, state$) =>

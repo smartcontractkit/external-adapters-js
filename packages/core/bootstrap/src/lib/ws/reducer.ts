@@ -61,7 +61,7 @@ export const connectionsReducer = createReducer<ConnectionsState>(
     })
     builder.addCase(actions.subscribeRequested, (state, action) => {
       if (!action.payload.connectionInfo) {
-        logger.error(`Missing connection info: ${action.payload}`)
+        logger.error(`Missing connection info: ${JSON.stringify(action.payload)}`)
         return
       }
       const key = action.payload.connectionInfo.key
@@ -171,6 +171,11 @@ export const subscriptionsReducer = createReducer<SubscriptionsState>(
       const key = getSubsId(action.payload.subscriptionMsg)
       const isActive = state.all[key]?.active
       if (isActive) return
+
+      if (!action.payload.connectionInfo) {
+        logger.error(`Missing connection info: ${JSON.stringify(action.payload)}`)
+        return
+      }
 
       const isSubscribing = state.all[key]?.subscribing
       state.all[key] = {
