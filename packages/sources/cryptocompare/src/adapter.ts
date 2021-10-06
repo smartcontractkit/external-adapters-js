@@ -45,15 +45,15 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       {},
       false,
     )
-    if (validator.error) return
+    if (validator.error) return false
     const endpoint = validator.validated.data.endpoint?.toLowerCase()
-    if (endpoint == 'marketcap') return
+    if (endpoint == 'marketcap') return false
     const base = validator.overrideSymbol(NAME)
     const quote = validator.validated.data.quote.toUpperCase()
     return `${base}~${quote}`
   }
-  const getSubscription = (action: 'SubAdd' | 'SubRemove', pair?: string) => {
-    if (!pair) return
+  const getSubscription = (action: 'SubAdd' | 'SubRemove', pair?: string | boolean) => {
+    if (!pair) return false
     return { action, subs: [`${subscriptions.aggregate}~CCCAGG~${pair}`] }
   }
   const withApiKey = (url: string, apiKey: string) => `${url}?api_key=${apiKey}`
