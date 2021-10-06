@@ -87,7 +87,13 @@ export const subscribeReadyEpic: Epic<AnyAction, AnyAction, { ws: RootState }, a
         const subscriptionMsg = wsHandler.onConnectChain
           ? wsHandler.onConnectChain[0]()
           : wsHandler.subscribe(singleInput)
-        if (!subscriptionMsg) return
+        if (!subscriptionMsg) {
+          logger.error(`No subscription message found while seperating batches`, {
+            singleInput,
+            request,
+          })
+          return
+        }
         const subscriptionPayload: WSSubscriptionPayload = {
           connectionInfo: {
             key: config.connectionInfo.key,
@@ -102,11 +108,10 @@ export const subscribeReadyEpic: Epic<AnyAction, AnyAction, { ws: RootState }, a
       return subscriptionPayloads
     }),
     mergeMap(([subscriptionPayload]) => {
-      // TODO: remove after debugging
-      logger.debug(subscriptionPayload)
       const action = subscribeRequested(subscriptionPayload)
-      if (!action.payload.connectionInfo) {
-        logger.error('INVALID_SUBSCRIBE_REQUESTED_IN_READY_EPIC', action)
+      if (!subscriptionPayload) {
+        logger.debug('INVALID_SUBSCRIBE_REQUESTED_IN_READY_EPIC', action)
+        return EMPTY
       }
       return of(action)
     }),
@@ -434,14 +439,11 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
             input,
             context,
           }
-          const action = subscribeRequested(subscriptionPayload)
-          if (!action.payload.connectionInfo) {
-            logger.error('ON_MESSAGE', action)
-          }
+          const subscribeRequestedAction = subscribeRequested(subscriptionPayload)
           if (onConnectChainFinished) {
-            return of(action, onConnectComplete(subscriptionPayload))
+            return of(subscribeRequestedAction, onConnectComplete(subscriptionPayload))
           }
-          return of(action)
+          return of(subscribeRequestedAction)
         }),
       )
 
@@ -553,9 +555,6 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
             }
 
             const subReqAction = subscribeRequested(action)
-            if (!subReqAction.payload.connectionInfo) {
-              logger.error('UNSUB_NO_RESP', subReqAction)
-            }
 
             const timeout$ = of(
               subscriptionError({
