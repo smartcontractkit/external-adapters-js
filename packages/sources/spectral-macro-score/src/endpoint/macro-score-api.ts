@@ -7,7 +7,7 @@ import { SpectralAdapterConfig } from '../config'
 
 const delay = (ms: number) => new Promise((res) => setTimeout(res, ms))
 
-export const MacroScoreAPIName = 'calculate'
+export const MacroScoreAPIName = 'submit'
 
 export interface ICustomError {
   Response: string
@@ -30,7 +30,7 @@ export interface AddressesResponse {
   signed_addresses: string[]
 }
 export interface CalculationResponse {
-  job: string
+  primary_address: string
 }
 export interface ResolveResponse {
   score: string // numeric,
@@ -46,7 +46,7 @@ export const computeTickWithScore = (score: number, tickSet: BigNumber[]): numbe
 
 export const execute = async (request: IRequestInput, config: SpectralAdapterConfig) => {
   const addressOptions: RequestConfig = {
-    baseURL: 'https://spec-address-db.herokuapp.com/v1/addressBatch',
+    baseURL: `${config.BASE_URL_FAST_API}`,
     headers: {
       'Content-Type': 'application/json',
     },
@@ -54,7 +54,7 @@ export const execute = async (request: IRequestInput, config: SpectralAdapterCon
     url: '/availAddressesEA',
     method: 'POST',
     data: {
-      key: '12345',
+      key: `${config.FAST_API_KEY}`,
       tokenId: `${request.data.tokenIdHash}`,
     },
   }
@@ -63,40 +63,46 @@ export const execute = async (request: IRequestInput, config: SpectralAdapterCon
   const addresses = addressResponse.data.signed_addresses
 
   const calculateOptions: RequestConfig = {
-    ...config.api,
+    baseURL: `${config.BASE_URL_MACRO_API}`,
     headers: {
       'Content-Type': 'application/json',
-      // 'x-api-key': '501349cea25efe2dab5fa8fcdce5334aaf0025cb',
+      Authorization: `Token ${config.MACRO_API_KEY}`,
     },
     timeout: config.timeout,
-    url: '/calculate/',
+    url: '/submit/',
     method: 'POST',
     data: {
       addresses,
-      username: `${request.data.tokenIdHash}`,
     },
   }
 
-  const nfcAddress = await getNFCAddress(config.nfcRegistryAddress, config.rpcUrl)
-  const tickSet = await getTickSet(nfcAddress, config.rpcUrl, request.data.tickSetId)
+  const RPCProvider = `${config.INFURA_URL}${config.INFURA_API_KEY}`
+  const nfcAddress = await getNFCAddress(config.NFC_REGISTRY_ADDRESS, RPCProvider)
+  const tickSet = await getTickSet(nfcAddress, RPCProvider, request.data.tickSetId)
 
   const calculateReponse = await Requester.request<CalculationResponse>(
     calculateOptions,
     customError,
   )
-  const jobId = calculateReponse.data.job
+  const primary_address = calculateReponse.data.primary_address
 
   const resolveOptions: RequestConfig = {
-    ...config.api,
+    baseURL: `${config.BASE_URL_MACRO_API}`,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Token ${config.MACRO_API_KEY}`,
+    },
     timeout: config.timeout,
-    url: `/resolve/job/${jobId}/`,
+    url: `/resolve/${primary_address}/`,
     method: 'GET',
   }
 
   let resolve = await Requester.request<ResolveResponse>(resolveOptions, customError)
   while (resolve && resolve.data.message === 'calculating') {
     await delay(2000)
-    console.log(`Score not ready, calculation is pending for job id ${jobId}...`)
+    console.log(
+      `Score not ready, calculation is pending for the primary address  ${primary_address}...`,
+    )
     resolve = await Requester.request<ResolveResponse>(resolveOptions, customError)
   }
 
@@ -104,6 +110,6 @@ export const execute = async (request: IRequestInput, config: SpectralAdapterCon
 
   const tick = computeTickWithScore(score, tickSet)
 
-  console.log(`Score fulfilled for job id ${jobId}!`)
+  console.log(`Score fulfilled for primary address ${primary_address}!`)
   return Requester.success(request.data.jobRunID, Requester.withResult(resolve, tick))
 }

@@ -1,10 +1,9 @@
 import { assertSuccess } from '@chainlink/ea-test-helpers'
+import { util } from '@chainlink/ea-bootstrap'
 import { AdapterRequest } from '@chainlink/types'
 import { BigNumber } from 'ethers'
 import nock from 'nock'
 import sinon from 'sinon'
-import * as NFC from '../../src/abi/NFC'
-import * as NFCRegistry from '../../src/abi/NFCRegistry'
 import { getTickSet } from '../../src/abi/NFC'
 import { getNFCAddress } from '../../src/abi/NFCRegistry'
 import { makeExecute } from '../../src/adapter'
@@ -54,19 +53,22 @@ describe('execute', () => {
 
     const mockContractCall = async () => {
       sinon.mock
-      const rpcUrl = 'https://kovan.infura.io/v3/8d56dbce524d46a584cbc039a6d48fd0'
-      const nfcAddress = await getNFCAddress('0x6C29d5D08c9751Ac38Cc8E1a7a4cb75951548A15', rpcUrl)
+      const rpcUrl = `${util.getRequiredEnv('INFURA_URL')}${util.getRequiredEnv('INFURA_API_KEY')}`
+      const nfcAddress = await getNFCAddress(util.getRequiredEnv('NFC_REGISTRY_ADDRESS'), rpcUrl)
       const tickSet = await getTickSet(nfcAddress, rpcUrl, BigNumber.from('1'))
 
       const mockConfig = sinon.mock(config)
 
       const mockedConfigResult = {
-        api: {
-          baseURL: 'https://macro-api-staging.spectral.finance/api',
-        },
+        api: {},
         verbose: true,
-        rpcUrl: 'https://kovan.infura.io/v3/8d56dbce524d46a584cbc039a6d48fd0',
-        nfcRegistryAddress: '0x6C29d5D08c9751Ac38Cc8E1a7a4cb75951548A15',
+        BASE_URL_MACRO_API: util.getRequiredEnv('BASE_URL_MACRO_API'),
+        BASE_URL_FAST_API: util.getRequiredEnv('BASE_URL_FAST_API'),
+        MACRO_API_KEY: util.getRequiredEnv('MACRO_API_KEY'),
+        FAST_API_KEY: util.getRequiredEnv('FAST_API_KEY'),
+        INFURA_URL: util.getRequiredEnv('INFURA_URL'),
+        INFURA_API_KEY: util.getRequiredEnv('INFURA_API_KEY'),
+        NFC_REGISTRY_ADDRESS: util.getRequiredEnv('NFC_REGISTRY_ADDRESS'),
         timeout: config.DEFAULT_TIMEOUT,
       }
       mockConfig.expects('makeConfig').once().returns(mockedConfigResult)

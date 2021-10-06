@@ -4,12 +4,15 @@ Used to retrieve a MACRO Score for a given token ID.
 
 ### Environment Variables
 
-| Required? |         Name         |                            Description                             | Options |                  Defaults to                   |
-| :-------: | :------------------: | :----------------------------------------------------------------: | :-----: | :--------------------------------------------: |
-|    ✅     |       API_KEY        | An API key that can be obtained from the data provider's dashboard |         |                                                |
-|    ✅     |       RPC_URL        |                          Ethereum RPC URL                          |         |                                                |
-|    ✅     | NFC_REGISTRY_ADDRESS |                Address of the NFC registry contract                |         |                                                |
-|           |     API_ENDPOINT     |                      MACRO Score API Endpoint                      |         | https://macro-api-staging.spectral.finance/api |
+| Required? |         Name         |             Description              | Options | Defaults to |
+| :-------: | :------------------: | :----------------------------------: | :-----: | :---------: |
+|    ✅     |  BASE_URL_MACRO_API  |       MACRO Score API base URL       |         |             |
+|    ✅     |  BASE_URL_FAST_API   |      Bundles' Fast API Base URL      |         |             |
+|    ✅     |    MACRO_API_KEY     |         MACRO Score API Key          |         |             |
+|    ✅     |     FAST_API_KEY     |             FAST API Key             |         |             |
+|    ✅     |      INFURA_URL      |     Base URL of Infura ENDPOINT      |         |             |
+|    ✅     |    INFURA_API_KEY    |            INFURA API KEY            |         |             |
+|    ✅     | NFC_REGISTRY_ADDRESS | Address of the NFC registry contract |         |             |
 
 ---
 
