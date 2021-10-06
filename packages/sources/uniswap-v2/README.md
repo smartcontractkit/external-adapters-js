@@ -57,7 +57,6 @@ Gets the exchange rate between two tokens
   "result": 0.999465,
   "statusCode": 200,
   "data": {
-    "pool": "0xA5407eAE9Ba41422680e2e00537571bcC53efBfD",
     "input": "1000000",
     "inputToken": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
     "inputDecimals": 6,
