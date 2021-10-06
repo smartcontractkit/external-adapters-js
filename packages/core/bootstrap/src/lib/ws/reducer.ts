@@ -1,5 +1,6 @@
 import { AdapterContext, AdapterRequest } from '@chainlink/types'
 import { combineReducers, createReducer, isAnyOf } from '@reduxjs/toolkit'
+import { logger } from '../external-adapter'
 import { getHashOpts, hash } from '../util'
 import * as actions from './actions'
 
@@ -59,6 +60,10 @@ export const connectionsReducer = createReducer<ConnectionsState>(
       }
     })
     builder.addCase(actions.subscribeRequested, (state, action) => {
+      if (!action.payload.connectionInfo) {
+        logger.error('Missing connection info', action.payload)
+        return
+      }
       const key = action.payload.connectionInfo.key
       if (!state.all[key]) return
       state.all[key] = {
