@@ -3,8 +3,9 @@ import { Config } from '@chainlink/types'
 
 export const NAME = 'SPECTRAL_MACRO_SCORE'
 
-export const DEFAULT_ENDPOINT = 'test'
-export const DEFAULT_BASE_URL = 'https://f97sprwtfd.execute-api.us-east-2.amazonaws.com/'
+export const DEFAULT_BASE_URL = 'https://macro-api-staging.spectral.finance/api'
+export const DEFAULT_ENDPOINT = 'calculate'
+
 export const DEFAULT_TIMEOUT = 60000
 
 export interface SpectralAdapterConfig extends Config {

@@ -5,7 +5,9 @@ import { getTickSet } from '../abi/NFC'
 import { getNFCAddress } from '../abi/NFCRegistry'
 import { SpectralAdapterConfig } from '../config'
 
-export const MacroScoreAPIName = 'test'
+const delay = (ms: number) => new Promise((res) => setTimeout(res, ms))
+
+export const MacroScoreAPIName = 'calculate'
 
 export interface ICustomError {
   Response: string
@@ -17,18 +19,22 @@ const customError = (data: ICustomError) => {
 }
 
 export interface IRequestInput {
-  id: string // numeric
+  id: string
   data: {
     tokenIdHash: string // bytes32Hash
     tickSetId: string // numeric
-    jobRunID: string // numeric
+    jobRunID: string
   }
 }
-
-export interface ScoreResponse {
-  body: {
-    score: string // numeric
-  }
+export interface AddressesResponse {
+  signed_addresses: string[]
+}
+export interface CalculationResponse {
+  job: string
+}
+export interface ResolveResponse {
+  score: string // numeric,
+  message: string
 }
 
 export const computeTickWithScore = (score: number, tickSet: BigNumber[]): number => {
@@ -39,21 +45,65 @@ export const computeTickWithScore = (score: number, tickSet: BigNumber[]): numbe
 }
 
 export const execute = async (request: IRequestInput, config: SpectralAdapterConfig) => {
-  const options: RequestConfig = {
-    ...config.api,
+  const addressOptions: RequestConfig = {
+    baseURL: 'https://spec-address-db.herokuapp.com/v1/addressBatch',
+    headers: {
+      'Content-Type': 'application/json',
+    },
     timeout: config.timeout,
-    url: '/test',
+    url: '/availAddressesEA',
     method: 'POST',
     data: {
-      tokenIdHash: `${request.data.tokenIdHash}`,
+      key: '12345',
+      tokenId: `${request.data.tokenIdHash}`,
+    },
+  }
+
+  const addressResponse = await Requester.request<AddressesResponse>(addressOptions, customError)
+  const addresses = addressResponse.data.signed_addresses
+
+  const calculateOptions: RequestConfig = {
+    ...config.api,
+    headers: {
+      'Content-Type': 'application/json',
+      // 'x-api-key': '501349cea25efe2dab5fa8fcdce5334aaf0025cb',
+    },
+    timeout: config.timeout,
+    url: '/calculate/',
+    method: 'POST',
+    data: {
+      addresses,
+      username: `${request.data.tokenIdHash}`,
     },
   }
 
   const nfcAddress = await getNFCAddress(config.nfcRegistryAddress, config.rpcUrl)
   const tickSet = await getTickSet(nfcAddress, config.rpcUrl, request.data.tickSetId)
-  const response = await Requester.request<ScoreResponse>(options, customError)
-  const score = Requester.validateResultNumber(response.data.body, ['score'])
+
+  const calculateReponse = await Requester.request<CalculationResponse>(
+    calculateOptions,
+    customError,
+  )
+  const jobId = calculateReponse.data.job
+
+  const resolveOptions: RequestConfig = {
+    ...config.api,
+    timeout: config.timeout,
+    url: `/resolve/job/${jobId}/`,
+    method: 'GET',
+  }
+
+  let resolve = await Requester.request<ResolveResponse>(resolveOptions, customError)
+  while (resolve && resolve.data.message === 'calculating') {
+    await delay(2000)
+    console.log(`Score not ready, calculation is pending for job id ${jobId}...`)
+    resolve = await Requester.request<ResolveResponse>(resolveOptions, customError)
+  }
+
+  const score = Requester.validateResultNumber(resolve.data, ['score'])
+
   const tick = computeTickWithScore(score, tickSet)
 
-  return Requester.success(request.data.jobRunID, Requester.withResult(response, tick))
+  console.log(`Score fulfilled for job id ${jobId}!`)
+  return Requester.success(request.data.jobRunID, Requester.withResult(resolve, tick))
 }

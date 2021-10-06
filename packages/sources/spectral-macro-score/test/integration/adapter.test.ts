@@ -62,7 +62,7 @@ describe('execute', () => {
 
       const mockedConfigResult = {
         api: {
-          baseURL: 'https://f97sprwtfd.execute-api.us-east-2.amazonaws.com',
+          baseURL: 'https://macro-api-staging.spectral.finance/api',
         },
         verbose: true,
         rpcUrl: 'https://kovan.infura.io/v3/8d56dbce524d46a584cbc039a6d48fd0',
