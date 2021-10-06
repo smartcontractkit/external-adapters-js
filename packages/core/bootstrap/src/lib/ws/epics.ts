@@ -377,7 +377,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
           const connectionState = state.ws.connections.all[connectionKey]
           const interval = wsHandler.heartbeatIntervalInMS || config.defaultHeartbeatIntervalInMS
           return timer(interval, interval).pipe(
-            tap(() => logger.info('Sending heartbeat message')),
+            tap(() => logger.debug('Sending heartbeat message')),
             mergeMap(() => {
               if (wsHandler.heartbeatMessage) {
                 const heartbeatPayload = wsHandler.heartbeatMessage(
@@ -489,7 +489,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
           }
           return of(action)
         }),
-        tap(() => logger.info('Responded to server heartbeat')),
+        tap(() => logger.debug('Responded to server heartbeat')),
         filter(() => false),
       )
 
