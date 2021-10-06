@@ -23,7 +23,6 @@ import {
   normalizeInput,
 } from './lib/external-adapter'
 import * as metrics from './lib/metrics'
-import { getFeedId } from './lib/metrics/util'
 import * as RateLimit from './lib/rate-limit'
 import * as burstLimit from './lib/burst-limit'
 import * as server from './lib/server'
@@ -92,9 +91,9 @@ const withLogger: Middleware = async (execute, context) => async (input: Adapter
 }
 
 const withMetrics: Middleware = async (execute, context) => async (input: AdapterRequest) => {
-  const feedId = getFeedId(input)
+  const feedId = metrics.util.getFeedId(input)
   const metricsMeta: AdapterMetricsMeta = {
-    feedId: metrics.util.getFeedId(input),
+    feedId,
   }
 
   const recordMetrics = () => {
