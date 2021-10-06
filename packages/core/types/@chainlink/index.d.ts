@@ -253,7 +253,7 @@ declare module '@chainlink/types' {
     heartbeatReplyMessage?: (message: unknown, id: number, connectionParams: any) => unknown
     // Should try open connection again after error
     shouldNotRetryConnection?: (error: unknown) => boolean
-    // Should try resubscribing to a connection again
+    // Should try resubscribing to a connection again after an error
     shouldNotRetrySubscription?: (subscription: unknown) => boolean
   }
 
