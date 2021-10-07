@@ -21,6 +21,14 @@ export const makeExecute: ExecuteFactory<Config> = (config) => {
   return async (request, context) => execute(request, context, config || makeConfig())
 }
 
+export type DXFeedMessage = {
+  channel: string
+  clientId?: string
+  id: number
+  data: any[]
+  successful?: boolean
+}[]
+
 export const makeWSHandler = (config?: Config): MakeWSHandler => {
   const getSubscription = (request: 'subscribe' | 'unsubscribe', ticker?: string) => {
     if (!ticker) return
@@ -36,9 +44,11 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
     ]
   }
 
+  const META_CONNECT = '/meta/connect'
+
   return () => {
     const defaultConfig = config || makeConfig()
-    const isDataMessage = (message: any) =>
+    const isDataMessage = (message: DXFeedMessage) =>
       Array.isArray(message) && message[0].channel === '/service/data'
     const isDataSubscriptionMsg = (subscriptionMessage: any) =>
       Array.isArray(subscriptionMessage) && subscriptionMessage[0].channel === '/service/sub'
@@ -65,16 +75,16 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
         }
         return null
       },
-      isError: (message: any) => Number(message.TYPE) > 400 && Number(message.TYPE) < 900,
-      filter: (message: any) => {
+      isError: (message) => (message as DXFeedMessage)[0].successful === false,
+      filter: (message: DXFeedMessage) => {
         return isDataMessage(message)
       },
-      toResponse: (message: any) => {
+      toResponse: (message: DXFeedMessage) => {
         const data = message[0].data[1]
         const result = data[6]
         return Requester.success('1', { data: { ...message[0], result } }, defaultConfig.verbose)
       },
-      saveOnConnectToConnection: (message: any) => {
+      saveOnConnectToConnection: (message: DXFeedMessage) => {
         return {
           requestId: message[0].id,
           clientId: message[0].clientId,
@@ -86,21 +96,24 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
         return original
       },
       shouldModifyPayload: (payload) => isDataSubscriptionMsg(payload),
-      shouldSaveToConnection: (message: any) => {
+      shouldSaveToConnection: (message: DXFeedMessage) => {
         return !!message[0].clientId
       },
-      heartbeatMessage: (id: number, connectionParams: any) => [
+      shouldReplyToServerHeartbeat: (message) =>
+        (message as DXFeedMessage)[0].channel === META_CONNECT,
+      heartbeatReplyMessage: (_, id, connectionParams) => [
         {
           id: id.toString(),
-          channel: '/meta/connect',
+          channel: META_CONNECT,
           connectionType: 'websocket',
           clientId: connectionParams.clientId,
         },
       ],
       heartbeatIntervalInMS: 30000,
       shouldSaveToStore: (subscriptionMessage: any) => isDataSubscriptionMsg(subscriptionMessage),
-      isOnConnectChainMessage: (message: any) =>
-        message[0].channel === '/meta/handshake' || message[0].channel === '/meta/connect',
+      isOnConnectChainMessage: (message: DXFeedMessage) =>
+        message[0].channel === '/meta/handshake' || message[0].channel === META_CONNECT,
+      isDataMessage: (message: unknown) => isDataSubscriptionMsg(message),
       onConnectChain: [
         () => [
           {
@@ -118,7 +131,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
         (_, prevWsResponse, connectionParams) => [
           {
             id: '2',
-            channel: '/meta/connect',
+            channel: META_CONNECT,
             connectionType: 'websocket',
             advice: {
               timeout: 0,
@@ -129,7 +142,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
         (_, prevWsResponse, connectionParams) => [
           {
             id: '3',
-            channel: '/meta/connect',
+            channel: META_CONNECT,
             connectionType: 'websocket',
             clientId: prevWsResponse[0].clientId || connectionParams.clientId,
           },

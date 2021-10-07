@@ -1370,7 +1370,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -1385,7 +1385,7 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/express": 4.17.13
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     ethers: ^5.4.6
     express: ^4.17.1
     tslib: ^2.3.1
@@ -1401,7 +1401,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -1415,7 +1415,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -1430,7 +1430,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -1444,7 +1444,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -1460,7 +1460,7 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@openzeppelin/contracts": ^3.3.0
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     ethers: 5.4.6
     nock: 13.1.3
     tslib: ^2.3.1
@@ -1478,7 +1478,7 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
     "@types/luxon": 1.27.1
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     ethers: 5.4.6
     luxon: ^1.27.0
     tslib: ^2.3.1
@@ -1494,7 +1494,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -1508,7 +1508,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -1523,7 +1523,7 @@ __metadata:
     "@chainlink/json-rpc-adapter": ^0.1.0
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -1538,7 +1538,7 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/express": 4.17.13
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -1553,7 +1553,7 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/express": 4.17.13
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -1568,7 +1568,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -1583,7 +1583,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -1598,7 +1598,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     blockcypher: ^0.3.0
     tslib: ^2.3.1
     typescript: 4.3.5
@@ -1613,7 +1613,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -1628,7 +1628,7 @@ __metadata:
     "@chainlink/json-rpc-adapter": ^0.1.0
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     ethers: ^5.4.6
     tslib: ^2.3.1
     typescript: 4.3.5
@@ -1643,7 +1643,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -1658,7 +1658,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -1672,7 +1672,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -1686,7 +1686,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -1700,7 +1700,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.7
+    "@types/node": 14.17.21
     axios: ^0.21.1
     nock: 13.1.3
     tslib: ^2.3.1
@@ -1716,7 +1716,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -1730,7 +1730,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -1744,7 +1744,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -1758,7 +1758,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -1773,7 +1773,7 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/express": 4.17.13
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -1787,7 +1787,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     "@types/supertest": 2.0.11
     nock: 13.1.3
     supertest: 6.1.6
@@ -1804,7 +1804,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     "@types/supertest": ^2.0.11
     ethers: ^5.4.6
     nock: ^13.1.3
@@ -1822,7 +1822,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -1836,7 +1836,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -1850,7 +1850,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     ethers: ^5.4.6
     js-conflux-sdk: ^1.5.11
     tslib: ^2.3.1
@@ -1881,7 +1881,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -1897,7 +1897,7 @@ __metadata:
     "@chainlink/token-allocation-adapter": ^0.1.1
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     decimal.js: ^10.3.1
     ethers: 5.0.32
     moment: ^2.29.1
@@ -1916,7 +1916,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     ethers: ^5.4.6
     tslib: ^2.3.1
     typescript: 4.3.5
@@ -1932,7 +1932,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     ethers: ^5.4.6
     tslib: ^2.3.1
     typescript: 4.3.5
@@ -1947,7 +1947,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -1961,7 +1961,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -1975,7 +1975,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -1989,7 +1989,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2003,7 +2003,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 26.0.24
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     "@types/supertest": 2.0.11
     decimal.js: ^10.3.1
     ethers: ^5.4.6
@@ -2023,7 +2023,7 @@ __metadata:
     "@chainlink/token-allocation-adapter": ^0.1.1
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     ethers: ^5.4.6
     tslib: ^2.3.1
     typescript: 4.3.5
@@ -2038,7 +2038,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2052,7 +2052,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2067,7 +2067,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2081,7 +2081,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     dwolla-v2: ^3.2.0
     tslib: ^2.3.1
     typescript: 4.3.5
@@ -2097,7 +2097,7 @@ __metadata:
     "@chainlink/token-allocation-adapter": "workspace:packages/composites/token-allocation"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     ethers: ^5.4.6
     tslib: ^2.3.1
     typescript: 4.3.5
@@ -2112,7 +2112,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2127,7 +2127,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2141,7 +2141,7 @@ __metadata:
     "@chainlink/ipfs-adapter": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
-    "@types/node": ^14.14.35
+    "@types/node": 14.17.21
     "@types/supertest": ^2.0.11
     bignumber.js: ^9.0.1
     ethers: ^5.3.0
@@ -2164,7 +2164,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     decimal.js: ^10.3.1
     ethers: ^5.4.6
     object-path: ^0.11.5
@@ -2184,7 +2184,7 @@ __metadata:
     "@types/jest": 27.0.2
     "@types/lodash": 4.14.173
     "@types/lru-cache": 5.1.1
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     "@types/object-hash": 2.1.1
     "@types/object-path": 0.11.1
     "@types/pino": 6.3.11
@@ -2230,7 +2230,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     "@types/object-path": 0.11.1
     object-path: ^0.11.5
     tslib: ^2.3.1
@@ -2246,7 +2246,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     ethers: ^4.0.48
     tslib: ^2.3.1
     typescript: 4.3.5
@@ -2280,7 +2280,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     hardhat: 2.6.1
     tslib: ^2.3.1
     typescript: 4.3.5
@@ -2395,7 +2395,7 @@ __metadata:
     "@chainlink/wootrade-adapter": "*"
     "@chainlink/xbto-adapter": "*"
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2409,7 +2409,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     "@types/supertest": 2.0.11
     ethers: ^5.4.6
     nock: 13.1.3
@@ -2427,7 +2427,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2441,7 +2441,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2455,7 +2455,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 26.0.24
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.1.0
     typescript: 4.3.5
   languageName: unknown
@@ -2469,7 +2469,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2483,7 +2483,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 26.0.24
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.1.0
     typescript: 4.3.5
   languageName: unknown
@@ -2497,7 +2497,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     ethers: ^5.4.6
     tslib: ^2.3.1
     typescript: 4.3.5
@@ -2511,7 +2511,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2525,7 +2525,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2539,7 +2539,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2560,7 +2560,7 @@ __metadata:
     "@types/babel__preset-env": 7.9.2
     "@types/eslint": 7.28.0
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     "@types/semantic-release": 17.2.2
     "@typescript-eslint/eslint-plugin": 4.29.2
     "@typescript-eslint/parser": 4.29.2
@@ -2588,7 +2588,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2602,7 +2602,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2616,7 +2616,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2630,7 +2630,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2644,7 +2644,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.7
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2658,7 +2658,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2672,7 +2672,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.1
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     "@types/supertest": ^2.0.11
     nock: ^13.1.3
     supertest: ^6.1.6
@@ -2689,7 +2689,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2703,7 +2703,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2718,7 +2718,7 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@google-cloud/bigquery": ^5.7.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2734,7 +2734,7 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/convert-units": 2.3.5
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     convert-units: ^2.3.4
     geojson-validation: ^1.0.2
     tslib: ^2.3.1
@@ -2750,7 +2750,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2767,7 +2767,7 @@ __metadata:
     "@harmony-js/crypto": ^0.1.56
     "@harmony-js/utils": ^0.1.56
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     ethers: 5.4.6
     tslib: ^2.3.1
     typescript: 4.3.5
@@ -2782,7 +2782,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2796,7 +2796,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     express: ^4.17.1
     intrinio-realtime: ^2.3.0
     tslib: ^2.3.1
@@ -2812,7 +2812,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": ^26.0.22
-    "@types/node": ^14.14.35
+    "@types/node": 14.17.21
     cids: ^1.1.8
     ipfs: ^0.58.4
     ipfs-core-types: ^0.7.1
@@ -2834,7 +2834,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2848,7 +2848,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2862,7 +2862,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     ethers: ^5.4.6
     sinon: 11.1.2
     tslib: ^2.3.1
@@ -2878,7 +2878,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2892,7 +2892,7 @@ __metadata:
     "@chainlink/token-allocation-adapter": 0.1.1
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     axios: ^0.21.1
     csv-parse: ^4.16.0
     decimal.js: ^10.3.1
@@ -2909,7 +2909,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2923,7 +2923,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2938,7 +2938,7 @@ __metadata:
     "@chainlink/json-rpc-adapter": "workspace:packages/sources/json-rpc"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.1
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     "@types/supertest": ^2.0.11
     ethers: ^5.4.7
     nock: ^13.1.3
@@ -2959,7 +2959,7 @@ __metadata:
     "@chainlink/finnhub-adapter": ^0.1.0
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     market-closure: ^0.1.2
     tslib: ^2.3.1
     typescript: 4.3.5
@@ -2974,7 +2974,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2988,7 +2988,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     axios: ^0.21.1
     sinon: 11.1.2
     tslib: ^2.3.1
@@ -3004,7 +3004,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3018,7 +3018,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3032,7 +3032,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 26.0.24
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.1.0
     typescript: 4.3.5
   languageName: unknown
@@ -3046,7 +3046,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3060,7 +3060,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3074,7 +3074,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3088,7 +3088,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3102,7 +3102,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3116,7 +3116,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.7
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3130,7 +3130,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3144,7 +3144,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3160,7 +3160,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     "@types/sinon": 10.0.2
     axios: ^0.21.1
     sinon: 11.1.2
@@ -3177,7 +3177,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3192,7 +3192,7 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@paypal/payouts-sdk": ^1.1.0
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     "@types/paypal__payouts-sdk": 1.0.3
     tslib: ^2.3.1
     typescript: 4.3.5
@@ -3207,7 +3207,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3221,7 +3221,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3248,7 +3248,7 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@chainlink/wbtc-address-set-adapter": "*"
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     decimal.js: ^10.3.1
     ethers: ^5.4.6
     tslib: ^2.3.1
@@ -3264,7 +3264,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     decimal.js: ^10.3.1
     object-path: ^0.11.5
     tslib: ^2.3.1
@@ -3280,7 +3280,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-reference-data-reader": "*"
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3297,7 +3297,7 @@ __metadata:
     "@renproject/ren": ^2.5.1
     "@renproject/utils": ^2.5.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     bitcoinjs-lib: ^5.2.0
     tslib: ^2.3.1
     typescript: 4.3.5
@@ -3312,7 +3312,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3327,7 +3327,7 @@ __metadata:
     "@chainlink/token-allocation-adapter": ^0.1.1
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     ethers: ^5.4.6
     tslib: ^2.3.1
     typescript: 4.3.5
@@ -3343,7 +3343,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     ethers: ^5.4.6
     tslib: ^2.3.1
     typescript: 4.3.5
@@ -3358,7 +3358,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 26.0.24
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     "@types/sinon": 10.0.2
     ethers: ^5.4.2
     nock: 13.1.3
@@ -3376,7 +3376,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3390,7 +3390,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3405,7 +3405,7 @@ __metadata:
     "@chainlink/token-allocation-adapter": ^0.1.1
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     "@types/supertest": 2.0.11
     decimal.js: ^10.3.1
     nock: 13.1.3
@@ -3425,7 +3425,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     "@types/supertest": 2.0.11
     ethers: 5.4.6
     supertest: 6.1.6
@@ -3442,7 +3442,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3458,7 +3458,7 @@ __metadata:
     "@chainlink/graphql-adapter": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3472,7 +3472,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3486,7 +3486,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3509,7 +3509,7 @@ __metadata:
     "@chainlink/tiingo-adapter": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     decimal.js: ^10.3.1
     ethers: ^5.4.6
     nock: 13.1.3
@@ -3526,7 +3526,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3540,7 +3540,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     express: ^4.17.1
     tslib: ^2.3.1
     typescript: 4.3.5
@@ -3555,7 +3555,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3569,7 +3569,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3589,7 +3589,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3614,6 +3614,25 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/uniswap-v2-adapter@workspace:packages/sources/uniswap-v2":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/uniswap-v2-adapter@workspace:packages/sources/uniswap-v2"
+  dependencies:
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.0.1
+    "@types/jest": 26.0.24
+    "@types/node": 14.17.17
+    "@types/supertest": 2.0.11
+    decimal.js: ^10.3.1
+    ethers: ^5.4.6
+    nock: 13.1.3
+    supertest: 6.1.6
+    tslib: ^2.1.0
+    typescript: 4.3.5
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/upvest-adapter@*, @chainlink/upvest-adapter@workspace:packages/sources/upvest":
   version: 0.0.0-use.local
   resolution: "@chainlink/upvest-adapter@workspace:packages/sources/upvest"
@@ -3622,7 +3641,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 26.0.24
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.1.0
     typescript: 4.3.5
   languageName: unknown
@@ -3636,7 +3655,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3650,7 +3669,7 @@ __metadata:
     "@chainlink/token-allocation-adapter": 0.1.1
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     ethers: ^5.4.6
     tslib: ^2.3.1
     typescript: 4.3.5
@@ -3665,7 +3684,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3679,7 +3698,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3693,7 +3712,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
-    "@types/node": 14.17.17
+    "@types/node": 14.17.21
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -7197,10 +7216,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:14.17.7, @types/node@npm:^14.14.35":
-  version: 14.17.7
-  resolution: "@types/node@npm:14.17.7"
-  checksum: e95f28361784106237380ebd4ed133bc9d6aa04694bd061bd913d9008ce88bd596b059464fa56cf534c0cb347a3a9753b8abdf7c85d24a77126bf0ad24c6fdf9
+"@types/node@npm:14.17.21":
+  version: 14.17.21
+  resolution: "@types/node@npm:14.17.21"
+  checksum: f5fc54b1a857f6a3a266c25521cddda28c711979ec6e443187076b0c99df08b8578c5c0bef64af35f13fc1475f8fd8a71619dd708219b855a8f28629f7880bbb
   languageName: node
   linkType: hard
 

@@ -11,6 +11,10 @@ export interface WSConfigPayload {
   wsHandler: WSHandler
 }
 
+export interface WSConnectFulfilledPayload extends WSConfigPayload {
+  connectionInfo: WSConnectionInfo
+}
+
 export interface WSConfigDetailedPayload extends WSConfigPayload {
   request: AdapterRequest
   context: AdapterContext
@@ -67,7 +71,10 @@ export const connectRequested = createAction(
   'WS/CONNECT_REQUESTED',
   asAction<WSConfigDetailedPayload>(),
 )
-export const connectFulfilled = createAction('WS/CONNECT_FULFILLED', asAction<WSConfigPayload>())
+export const connectFulfilled = createAction(
+  'WS/CONNECT_FULFILLED',
+  asAction<WSConnectFulfilledPayload>(),
+)
 export const connectFailed = createAction('WS/CONNECTION_FAILED', asAction<WSErrorPayload>())
 export const disconnectFulfilled = createAction(
   'WS/DISCONNECT_FULFILLED',
