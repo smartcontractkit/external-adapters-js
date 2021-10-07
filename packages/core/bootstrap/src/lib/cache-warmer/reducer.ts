@@ -126,10 +126,10 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
             childRequestData.tokenOverrides,
           )
         if (batchWarmer.origin.includes)
-          batchWarmer.origin.includes = merge(
-            batchWarmer.origin.includes,
-            childRequestData.includes,
-          )
+          batchWarmer.origin.includes = [
+            ...batchWarmer.origin.includes,
+            ...childRequestData.includes,
+          ]
       }
     }
   })
@@ -165,7 +165,7 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
     const overrides = remainingChildIds.reduce<{
       overrides?: Record<string, string>
       tokenOverrides?: Record<string, string>
-      includes?: Record<string, string>
+      includes?: string[]
     }>((acc, childId) => {
       const childOriginData = state[childId].origin
       if (childOriginData.overrides)
@@ -173,7 +173,7 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
       if (childOriginData.tokenOverrides)
         acc.tokenOverrides = merge(acc.tokenOverrides || {}, childOriginData.tokenOverrides)
       if (childOriginData.includes)
-        acc.includes = merge(acc.includes || {}, childOriginData.includes)
+        acc.includes = [...(acc.includes || []), ...childOriginData.includes]
       return acc
     }, {})
 

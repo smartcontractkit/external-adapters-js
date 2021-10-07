@@ -12,12 +12,16 @@ export * as epics from './epics'
 export * as reducer from './reducer'
 export * as types from './types'
 
+import { WARMUP_REQUEST_ID, WARMUP_BATCH_REQUEST_ID } from '../cache-warmer/config'
+
 export const withWebSockets =
   (store: Store<RootState>, makeWsHandler?: MakeWSHandler): Middleware =>
   async (execute, context) =>
   async (input: AdapterRequest) => {
     const wsConfig = getWSConfig(input.data.endpoint)
     if (!makeWsHandler || !wsConfig.enabled) return await execute(input, context) // ignore middleware if conditions are met
+    if (input.id === WARMUP_REQUEST_ID || input.id === WARMUP_BATCH_REQUEST_ID)
+      return await execute(input, context) // ignore middleware if warmer request
 
     const wsHandler = await makeWsHandler()
     if (wsHandler.shouldNotServeInputUsingWS && wsHandler.shouldNotServeInputUsingWS(input)) {
