@@ -86,17 +86,17 @@ export const connectionsReducer = createReducer<ConnectionsState>(
       const connectionState = state.all[key]
       const isActive = connectionState?.active
       if (isActive) return
-      if (connectionState && !connectionState.isOnConnectChainComplete) {
-        return
-      }
+
+      const wsHandler = action.payload.wsHandler
+      const hasNoOnConnectChain = !wsHandler.onConnectChain
 
       const isConnecting = !isNaN(Number(connectionState?.connecting))
       state.all[key] = {
         ...connectionState,
         active: false,
         connecting: isConnecting ? connectionState.connecting + 1 : 1,
-        requestId: 0,
-        isOnConnectChainComplete: false,
+        requestId: isConnecting ? connectionState.requestId : 0,
+        isOnConnectChainComplete: hasNoOnConnectChain,
       }
     })
 
