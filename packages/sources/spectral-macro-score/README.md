@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Spectral-MACRO-Score
 
-Used to retrieve a MACRO Score for a given token ID.
+Used to retrieve a tick (bucket in Credit Scores) for a given token ID hash.
 
 ### Environment Variables
 
@@ -18,7 +18,7 @@ Used to retrieve a MACRO Score for a given token ID.
 
 ## Spectral-MACRO-Score Endpoint
 
-Default endpoint used to retrieve a MACRO Score for a given token ID.
+Default endpoint used to retrieve a tick (bucket in Credit Scores) for a given token ID hash.
 
 ### Input Params
 

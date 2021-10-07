@@ -1,4 +1,4 @@
-import { Requester } from '@chainlink/ea-bootstrap'
+import { Requester, AdapterError } from '@chainlink/ea-bootstrap'
 import { RequestConfig } from '@chainlink/types'
 import { BigNumber } from 'ethers'
 import { getTickSet } from '../abi/NFC'
@@ -31,6 +31,7 @@ export interface AddressesResponse {
 }
 export interface CalculationResponse {
   primary_address: string
+  message: string
 }
 export interface ResolveResponse {
   score: string // numeric,
@@ -84,7 +85,21 @@ export const execute = async (request: IRequestInput, config: SpectralAdapterCon
     calculateOptions,
     customError,
   )
-  const primary_address = calculateReponse.data.primary_address
+  let primary_address
+  if (calculateReponse && !(calculateReponse.data.message === 'address and user already exist')) {
+    primary_address = calculateReponse.data.primary_address
+  } else if (
+    calculateReponse &&
+    calculateReponse.data.message === 'address and user already exist' &&
+    addresses[0]
+  ) {
+    primary_address = addresses[0]
+  } else {
+    throw new AdapterError({
+      message: 'FastAPI + Macro API error',
+      cause: 'Addresses exists in MACRO API but bundle is empty on FAST API',
+    })
+  }
 
   const resolveOptions: RequestConfig = {
     baseURL: `${config.BASE_URL_MACRO_API}`,
@@ -98,8 +113,9 @@ export const execute = async (request: IRequestInput, config: SpectralAdapterCon
   }
 
   let resolve = await Requester.request<ResolveResponse>(resolveOptions, customError)
+  await delay(8000)
   while (resolve && resolve.data.message === 'calculating') {
-    await delay(2000)
+    await delay(4000)
     console.log(
       `Score not ready, calculation is pending for the primary address  ${primary_address}...`,
     )
@@ -110,6 +126,6 @@ export const execute = async (request: IRequestInput, config: SpectralAdapterCon
 
   const tick = computeTickWithScore(score, tickSet)
 
-  console.log(`Score fulfilled for primary address ${primary_address}!`)
+  console.log(`Tick ${tick} fulfilled for primary address ${primary_address}!`)
   return Requester.success(request.data.jobRunID, Requester.withResult(resolve, tick))
 }
