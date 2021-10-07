@@ -1,6 +1,11 @@
 import * as IPFS_Adapter from '@chainlink/ipfs-adapter'
 import { types } from '@chainlink/ipfs-adapter'
-import { OracleRewardsDataByEpoch, OracleRewardsData, storeJsonTree } from '../../src/ipfs-data'
+import {
+  OracleRewardsDataByEpoch,
+  OracleRewardsData,
+  storeJsonTree,
+  MerkleTreeData,
+} from '../../src/ipfs-data'
 import mockRewards from '../mock-data/rewards.json'
 import nock from 'nock'
 import { mockIpfsResponseSuccess } from './fixtures'
@@ -9,6 +14,7 @@ let oldEnv: NodeJS.ProcessEnv
 
 beforeAll(() => {
   oldEnv = JSON.parse(JSON.stringify(process.env))
+  process.env.CACHE_ENABLED = 'false'
   process.env.RPC_URL = process.env.API_ENDPOINT || 'http://127.0.0.1:5001'
   process.env.API_VERBOSE = 'true'
   if (process.env.RECORD) {
@@ -93,7 +99,7 @@ describe('ipfs data', () => {
   it('should get correct CID from rewards data', async () => {
     mockIpfsResponseSuccess()
 
-    const result = await storeJsonTree('1', ipfs, mockRewards, {})
+    const result = await storeJsonTree('1', ipfs, mockRewards as MerkleTreeData, {})
     expect(result).toMatchSnapshot()
   })
 })

@@ -11,8 +11,9 @@ let oldEnv: NodeJS.ProcessEnv
 
 beforeAll(() => {
   oldEnv = JSON.parse(JSON.stringify(process.env))
+  process.env.CACHE_ENABLED = 'false'
   process.env.API_ENDPOINT = process.env.API_ENDPOINT || DEFAULT_BASE_URL
-  process.env.API_VERBOSE = true
+  process.env.API_VERBOSE = 'true'
   if (process.env.RECORD) {
     nock.recorder.rec()
   }
@@ -35,6 +36,7 @@ describe('execute', () => {
   const req = request('localhost:8080')
   beforeAll(async () => {
     server = await startServer()
+    process.env.CACHE_ENABLED = 'false'
   })
   afterAll((done) => {
     server.close(done)

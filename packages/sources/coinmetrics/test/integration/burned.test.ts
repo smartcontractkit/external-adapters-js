@@ -10,6 +10,7 @@ let oldEnv: NodeJS.ProcessEnv
 
 beforeAll(() => {
   oldEnv = JSON.parse(JSON.stringify(process.env))
+  process.env.CACHE_ENABLED = 'false'
   process.env.API_KEY = process.env.API_KEY || 'test_key'
   process.env.API_VERBOSE = true
   if (process.env.RECORD) {
@@ -34,6 +35,7 @@ describe('execute', () => {
   const req = request('localhost:8080')
   beforeAll(async () => {
     server = await startServer()
+    process.env.CACHE_ENABLED = 'false'
   })
   afterAll((done) => {
     server.close(done)

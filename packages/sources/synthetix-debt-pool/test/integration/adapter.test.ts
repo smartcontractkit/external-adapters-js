@@ -31,6 +31,7 @@ describe('synthetix-debt-pool', () => {
   beforeAll(async () => {
     server = await startServer()
     process.env.RPC_URL = 'FAKE_RPC_URL'
+    process.env.CACHE_ENABLED = 'false'
   })
   afterAll((done) => {
     process.env = oldEnv

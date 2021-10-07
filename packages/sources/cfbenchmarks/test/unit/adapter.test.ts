@@ -7,6 +7,7 @@ let oldEnv: NodeJS.ProcessEnv
 
 beforeAll(() => {
   oldEnv = JSON.parse(JSON.stringify(process.env))
+  process.env.CACHE_ENABLED = 'false'
   process.env.API_USERNAME = process.env.API_USERNAME || 'test_username'
   process.env.API_PASSWORD = process.env.API_PASSWORD || 'test_password'
 })
