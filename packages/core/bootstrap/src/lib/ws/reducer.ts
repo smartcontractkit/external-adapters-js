@@ -32,6 +32,7 @@ export interface ConnectionsState {
         [T: string]: string
       }
       requestId: number
+      isOnConnectChainComplete: boolean
     }
   }
 }
@@ -46,6 +47,15 @@ export const connectionsReducer = createReducer<ConnectionsState>(
       state.all[connectionKey] = {
         ...state.all[connectionKey],
         connectionParams: message,
+      }
+    })
+    builder.addCase(actions.onConnectComplete, (state, action) => {
+      const {
+        connectionInfo: { key },
+      } = action.payload
+      state.all[key] = {
+        ...state.all[key],
+        isOnConnectChainComplete: true,
       }
     })
     builder.addCase(actions.connectFulfilled, (state, action) => {
@@ -73,15 +83,20 @@ export const connectionsReducer = createReducer<ConnectionsState>(
     })
     builder.addCase(actions.connectRequested, (state, action) => {
       const { key } = action.payload.config.connectionInfo
-      const isActive = state.all[key]?.active
+      const connectionState = state.all[key]
+      const isActive = connectionState?.active
       if (isActive) return
+      if (connectionState && !connectionState.isOnConnectChainComplete) {
+        return
+      }
 
-      const isConnecting = !isNaN(Number(state.all[key]?.connecting))
+      const isConnecting = !isNaN(Number(connectionState?.connecting))
       state.all[key] = {
-        ...state.all[key],
+        ...connectionState,
         active: false,
-        connecting: isConnecting ? state.all[key].connecting + 1 : 1,
+        connecting: isConnecting ? connectionState.connecting + 1 : 1,
         requestId: 0,
+        isOnConnectChainComplete: false,
       }
     })
 
@@ -95,6 +110,7 @@ export const connectionsReducer = createReducer<ConnectionsState>(
       const { key } = action.payload.config.connectionInfo
       state.all[key].active = false
       state.all[key].connecting = 0 // turn off connecting
+      state.all[key].requestId = 0
     })
 
     builder.addCase(actions.subscriptionErrorHandler, (state, action) => {

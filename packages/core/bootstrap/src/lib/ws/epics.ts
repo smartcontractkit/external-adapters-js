@@ -127,7 +127,12 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
       const isActiveConnection = connectionState?.active
       const isConnecting = connectionState?.connecting > 1
       const hasErrored = connectionState?.shouldNotRetryConnecting
-      return !hasErrored && !isActiveConnection && !isConnecting
+      return (
+        !hasErrored &&
+        !isActiveConnection &&
+        !isConnecting &&
+        (!connectionState || connectionState.requestId === 0)
+      )
     }),
     concatMap(async (data) => {
       const getUrl = data[0].payload.wsHandler.connection.getUrl
@@ -254,12 +259,19 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
           subscriptionKey: getSubsId(payload.subscriptionMsg),
         })),
         withLatestFrom(state$),
-        filter(([{ subscriptionKey }, state]) => {
+        filter(([{ subscriptionKey, payload }, state]) => {
           const isActiveSubscription = !!state.ws.subscriptions.all[subscriptionKey]?.active
           const isSubscribing = state.ws.subscriptions.all[subscriptionKey]?.subscribing > 1
           const shouldNotRetrySubscribing =
             state.ws.subscriptions.all[subscriptionKey]?.shouldNotRetry
-          return !isActiveSubscription && !isSubscribing && !shouldNotRetrySubscribing
+          const isNotActive = !isActiveSubscription && !isSubscribing
+          const { isDataMessage, onConnectChain } = wsHandler
+          if (isDataMessage && onConnectChain && isDataMessage(payload.subscriptionMsg)) {
+            const connectionState = state.ws.connections.all[payload.connectionInfo.key]
+            const hasOnConnectChainCompleted = connectionState.requestId >= onConnectChain.length
+            return !shouldNotRetrySubscribing && isNotActive && hasOnConnectChainCompleted
+          }
+          return !shouldNotRetrySubscribing && isNotActive
         }),
         // on a subscribe action being dispatched, open a new WS subscription if one doesn't exist yet
         mergeMap(([{ subscriptionKey, payload }, state]) =>
@@ -378,6 +390,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
           const connectionState = state.ws.connections.all[connectionKey]
           const interval = wsHandler.heartbeatIntervalInMS || config.defaultHeartbeatIntervalInMS
           return timer(interval, interval).pipe(
+            tap(() => logger.debug('Sending heartbeat message')),
             mergeMap(() => {
               if (wsHandler.heartbeatMessage) {
                 const heartbeatPayload = wsHandler.heartbeatMessage(
@@ -388,7 +401,6 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
               }
               return EMPTY
             }),
-            tap(() => logger.info('Sending heartbeat message')),
             takeUntil(
               action$.pipe(
                 filter(disconnectFulfilled.match),
@@ -470,6 +482,26 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
               )
             : EMPTY
         }),
+      )
+
+      const respondWithHeartbeat$ = message$.pipe(
+        filter(
+          (action) =>
+            !!wsHandler.shouldReplyToServerHeartbeat &&
+            wsHandler.shouldReplyToServerHeartbeat(action.payload.message),
+        ),
+        withLatestFrom(state$),
+        mergeMap(([action, state]) => {
+          const { connectionInfo, message } = action.payload
+          const key = connectionInfo.key
+          const { requestId, connectionParams } = state.ws.connections.all[key]
+          if (wsHandler.heartbeatReplyMessage) {
+            wsSubject.next(wsHandler.heartbeatReplyMessage(message, requestId, connectionParams))
+          }
+          return of(action)
+        }),
+        tap(() => logger.debug('Responded to server heartbeat')),
+        filter(() => false),
       )
 
       const withSaveToConnection$ = message$.pipe(
@@ -606,6 +638,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
         withSaveToConnection$,
         withOnConnectChainComplete$,
         error$,
+        respondWithHeartbeat$,
       ).pipe(
         takeUntil(
           action$.pipe(
