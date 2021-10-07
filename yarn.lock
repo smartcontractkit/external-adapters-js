@@ -3595,9 +3595,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/uniswap-v3-adapter@workspace:packages/sources/uniswap-v3":
+"@chainlink/uniswap-v2-adapter@workspace:packages/sources/uniswap-v2":
   version: 0.0.0-use.local
-  resolution: "@chainlink/uniswap-v3-adapter@workspace:packages/sources/uniswap-v3"
+  resolution: "@chainlink/uniswap-v2-adapter@workspace:packages/sources/uniswap-v2"
   dependencies:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-test-helpers": "*"
@@ -3614,9 +3614,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/uniswap-v2-adapter@workspace:packages/sources/uniswap-v2":
+"@chainlink/uniswap-v3-adapter@workspace:packages/sources/uniswap-v3":
   version: 0.0.0-use.local
-  resolution: "@chainlink/uniswap-v2-adapter@workspace:packages/sources/uniswap-v2"
+  resolution: "@chainlink/uniswap-v3-adapter@workspace:packages/sources/uniswap-v3"
   dependencies:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-test-helpers": "*"
