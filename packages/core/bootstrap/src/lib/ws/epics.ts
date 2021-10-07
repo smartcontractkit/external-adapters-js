@@ -174,7 +174,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
 
       // Stream of WS connected & disconnected events
       const open$ = openObserver.pipe(
-        map(() => connectFulfilled({ config, wsHandler })),
+        map(() => connectFulfilled({ config, wsHandler, connectionInfo: config.connectionInfo })),
         tap((action) => logger.info('WS: Connected', connectionMeta(action.payload))),
       )
       const close$ = closeObserver.pipe(
@@ -377,8 +377,10 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
         }),
       )
 
-      const withOnConnectChainComplete$ = action$.pipe(
-        filter((action) => onConnectComplete.match(action) && !!wsHandler.heartbeatMessage),
+      const withHeartbeatAtIntervals$ = action$.pipe(
+        filter((action) => {
+          return connectFulfilled.match(action) && !!wsHandler.heartbeatMessage
+        }),
         withLatestFrom(state$),
         filter(([action, state]) => {
           const connectionKey = action.payload.connectionInfo.key
@@ -636,7 +638,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
         updateSubscriptionInput$,
         withContinueOnConnectChain$,
         withSaveToConnection$,
-        withOnConnectChainComplete$,
+        withHeartbeatAtIntervals$,
         error$,
         respondWithHeartbeat$,
       ).pipe(

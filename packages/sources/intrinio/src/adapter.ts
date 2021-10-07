@@ -63,6 +63,8 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       filter: (message) => message.event == 'quote' && message.payload?.type == 'last',
       toResponse: (wsResponse: any): AdapterResponse =>
         Requester.success(undefined, { data: { result: wsResponse?.payload?.price } }),
+      heartbeatIntervalInMS: 3000, // Same as the one from the Intrinio WS SDK
+      heartbeatMessage: () => ws._makeHeartbeatMessage(),
     }
   }
 }
