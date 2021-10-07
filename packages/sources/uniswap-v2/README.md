@@ -1,6 +1,6 @@
-# Chainlink External Adapter for UniswapV2.fi
+# Chainlink External Adapter for Uniswap V2
 
-This adapter allows querying UniswapV2.fi contracts
+This adapter allows querying Uniswap V2 contracts
 
 ### Environment Variables
 
