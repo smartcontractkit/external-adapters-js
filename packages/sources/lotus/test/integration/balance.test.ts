@@ -10,10 +10,10 @@ let oldEnv: NodeJS.ProcessEnv
 
 beforeAll(() => {
   oldEnv = JSON.parse(JSON.stringify(process.env))
+  process.env.CACHE_ENABLED = 'false'
   process.env.RPC_URL = process.env.RPC_URL || 'http://127.0.0.1:1234/rpc/v0'
   process.env.API_KEY = process.env.API_KEY || 'test_api_key'
   process.env.API_VERBOSE = 'true'
-  process.env.CACHE_ENABLED = 'false'
   if (process.env.RECORD) {
     nock.recorder.rec()
   }
@@ -36,6 +36,7 @@ describe('execute', () => {
   const req = request('localhost:8080')
   beforeAll(async () => {
     server = await startServer()
+    process.env.CACHE_ENABLED = 'false'
   })
   afterAll((done) => {
     server.close(done)

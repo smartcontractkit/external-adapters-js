@@ -34,6 +34,7 @@ describe('execute', () => {
   beforeAll(async () => {
     execute = await tokenAllocationAdapter.makeExecute()
     oldEnv = JSON.parse(JSON.stringify(process.env))
+    process.env.CACHE_ENABLED = 'false'
     for (const source of Object.keys(dataProviderConfig)) {
       const { providerUrlEnvVar, providerUrl } = dataProviderConfig[source]
       process.env[providerUrlEnvVar] = providerUrl

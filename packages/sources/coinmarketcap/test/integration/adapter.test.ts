@@ -21,8 +21,8 @@ describe('coinmarketcap', () => {
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env.API_KEY = process.env.API_KEY || 'mock-api-key'
     process.env.CACHE_ENABLED = 'false'
+    process.env.API_KEY = process.env.API_KEY || 'mock-api-key'
     if (process.env.RECORD) {
       nock.recorder.rec()
     }

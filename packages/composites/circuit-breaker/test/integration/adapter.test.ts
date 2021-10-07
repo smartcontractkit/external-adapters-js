@@ -29,6 +29,7 @@ describe('execute', () => {
 
   describe('valid result method', () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
+    process.env.CACHE_ENABLED = 'false'
     for (const source of Object.keys(dataProviderConfig)) {
       const { providerUrlEnvVar, providerUrl } = dataProviderConfig[source]
       process.env[providerUrlEnvVar] = providerUrl
@@ -85,6 +86,7 @@ describe('execute', () => {
 
   describe('error result method', () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
+    process.env.CACHE_ENABLED = 'false'
     for (const source of Object.keys(dataProviderConfig)) {
       const { providerUrlEnvVar, providerUrl } = dataProviderConfig[source]
       process.env[providerUrlEnvVar] = providerUrl

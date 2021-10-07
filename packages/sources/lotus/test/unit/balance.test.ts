@@ -8,6 +8,7 @@ let oldEnv: NodeJS.ProcessEnv
 
 beforeAll(() => {
   oldEnv = JSON.parse(JSON.stringify(process.env))
+  process.env.CACHE_ENABLED = 'false'
   process.env.API_KEY = process.env.API_KEY || 'test_key'
 })
 
