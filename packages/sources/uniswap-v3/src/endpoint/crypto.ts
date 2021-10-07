@@ -117,40 +117,20 @@ const getBestRate = async (
   amount: BigNumber,
   config: Config,
 ): Promise<[output: BigNumber]> => {
-  const method = 'quoteExactInputSingle'
-
   // pull abi from file
   const quoterContract = new ethers.Contract(config.uniswapQuoter, quoterABI, config.provider)
-  const packedAbi = Object.keys(quoterContract.functions).filter((func) =>
-    func.startsWith(method),
-  )[0]
-
-  // generate method signature
-  // ie. quoteExactInputSingle(address,address,uint24,uint256,uint160)
-  // => 0xf7729d43
-  const methodSignature = ethers.utils.solidityKeccak256(['string'], [packedAbi]).substring(0, 10)
-
-  // extract argument types for encoding
-  const solidityAbi = quoterABI.filter((item) => item.name == method)[0]
-  const abiArgTypes = solidityAbi.inputs.map((arg) => arg.type)
 
   // encode inputs for quoteExactInputSingle
   const sqrtPriceLimitX96 = 0
-  let encoded = ethers.utils.defaultAbiCoder.encode(
-    abiArgTypes, // ['address', 'address', 'uint24', 'uint256', 'uint160']
-    [from, to, config.feeAmount, amount, sqrtPriceLimitX96],
+
+  // execute non view function as a call
+  const result = await quoterContract.callStatic.quoteExactInputSingle(
+    from,
+    to,
+    config.feeAmount,
+    amount,
+    sqrtPriceLimitX96,
   )
 
-  // build final data payload
-  encoded = methodSignature + encoded.substring(2)
-
-  // call to get expected price
-  const res = await config.provider.call({
-    to: config.uniswapQuoter,
-    data: encoded,
-  })
-
-  // decode result for output
-  const decoded = ethers.utils.defaultAbiCoder.decode(['uint256'], res)[0]
-  return [decoded]
+  return [result]
 }
