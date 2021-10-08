@@ -515,7 +515,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
               requestId,
               connectionParams,
             )
-            logger.info('Sending heartbeat payload', heartbeatMessage)
+            logger.debug('Responding with heartbeat payload', heartbeatMessage)
             wsSubject.next(heartbeatMessage)
           }
           return of(action)
