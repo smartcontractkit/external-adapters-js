@@ -55,6 +55,7 @@ import {
 } from './metrics'
 import { getSubsId, RootState } from './reducer'
 import { separateBatches } from './utils'
+import { getWSConfig } from './config'
 
 // Rxjs deserializer defaults to JSON.parse.
 // We need to handle errors from non-parsable messages
@@ -686,7 +687,8 @@ export const writeMessageToCacheEpic: Epic<AnyAction, AnyAction, { ws: RootState
     mergeMap(async ([action, state]) => {
       const wsHandler = action.payload.wsHandler
       try {
-        const input = state.ws.subscriptions.all[action.payload.subscriptionKey]?.input || {}
+        const subscriptionState = state.ws.subscriptions.all[action.payload.subscriptionKey]
+        const input = subscriptionState?.input || {}
 
         if (!input) logger.warn(`WS: Could not find subscription from incoming message`)
 
@@ -704,20 +706,22 @@ export const writeMessageToCacheEpic: Epic<AnyAction, AnyAction, { ws: RootState
           : (wsHandler.toResponse(action.payload.message, input) as AdapterResponse)
         if (!response) return action
         const execute: Execute = () => Promise.resolve(response)
-        let context = state.ws.subscriptions.all[action.payload.subscriptionKey]?.context
+        let context = subscriptionState?.context
         if (!context) {
           logger.warn(`WS Unsubscribe No Response: Could not find context`)
           context = {}
         }
 
         const cache = await withCache()(execute, context)
+        const wsConfig = getWSConfig(input.data?.endpoint)
+
         /**
          * Create an adapter request we send to the cache middleware
          * so it uses the following object for setting cache keys
          */
         const wsResponse: AdapterRequest = {
           ...input,
-          data: { ...input.data },
+          data: { maxAge: wsConfig.subscriptionTTL, ...input.data },
           debug: { ws: true },
           metricsMeta: { feedId: getFeedId(input) },
         }
