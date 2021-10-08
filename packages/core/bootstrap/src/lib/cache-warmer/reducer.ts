@@ -127,7 +127,7 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
           )
         if (batchWarmer.origin.includes || childRequestData.includes)
           batchWarmer.origin.includes = [
-            ...batchWarmer.origin.includes,
+            ...(batchWarmer.origin.includes || []),
             ...(childRequestData.includes || []),
           ]
       }
