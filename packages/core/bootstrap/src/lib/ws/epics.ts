@@ -41,7 +41,6 @@ import {
   wsSubscriptionReady,
   saveFirstMessageReceived,
   updateSubscriptionInput,
-  saveOnConnectMessage,
   onConnectComplete,
   subscriptionErrorHandler,
 } from './actions'
@@ -85,7 +84,7 @@ export const subscribeReadyEpic: Epic<AnyAction, AnyAction, { ws: RootState }, a
       const subscriptionPayloads: WSSubscriptionPayload[] = []
       await separateBatches(request, async (singleInput: AdapterRequest) => {
         const subscriptionMsg = wsHandler.onConnectChain
-          ? wsHandler.onConnectChain[0]()
+          ? wsHandler.onConnectChain[0].payload
           : wsHandler.subscribe(singleInput)
         if (!subscriptionMsg) {
           logger.error(`No subscription message found while seperating batches`, {
@@ -301,6 +300,20 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
                   state.ws.subscriptions.all[subscriptionKey]?.subscriptionParams,
                 ),
               (message) => {
+                const connectionState = state.ws.connections.all[payload.connectionInfo.key]
+                const shouldPassAlong =
+                  (payload.filterMultiplex && payload.filterMultiplex(message)) ||
+                  getSubsId(
+                    wsHandler.subsFromMessage(
+                      message,
+                      payload.subscriptionMsg,
+                      payload.input,
+                      connectionState?.connectionParams,
+                    ),
+                  ) === subscriptionKey
+                if (!shouldPassAlong) {
+                  return false
+                }
                 /**
                  * If the error happens on the subscription, it will be on subscribing state and eventually unresponsiveTimeout will take care of it (unsubs/subs)
                  * If the error happens during a subscription, and is only eventual, can be ignored
@@ -321,18 +334,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
                   )
                   return false
                 }
-                if (
-                  wsHandler.isOnConnectChainMessage &&
-                  wsHandler.isOnConnectChainMessage(message)
-                ) {
-                  // Pass through all messages that are needed to continue the on connect change
-                  return true
-                }
-                return (
-                  getSubsId(
-                    wsHandler.subsFromMessage(message, payload.subscriptionMsg, payload.input),
-                  ) === subscriptionKey
-                )
+                return true
               },
             )
             .pipe(
@@ -439,11 +441,9 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
             return EMPTY
           }
           const onConnectChainFinished = onConnectIdx >= wsHandler.onConnectChain.length
-          const connectionInStore =
-            state.ws.connections.all[payload.connectionInfo.key].connectionParams
           const subscriptionMsg = onConnectChainFinished
             ? wsHandler.subscribe(input)
-            : wsHandler.onConnectChain[onConnectIdx](input, message, connectionInStore)
+            : wsHandler.onConnectChain[onConnectIdx].payload
           const subscriptionPayload: WSSubscriptionPayload = {
             connectionInfo: {
               key: config.connectionInfo.key,
@@ -452,6 +452,18 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
             subscriptionMsg,
             input,
             context,
+            messageToSave:
+              wsHandler.shouldSaveToConnection &&
+              wsHandler.shouldSaveToConnection(message) &&
+              wsHandler.saveOnConnectToConnection
+                ? wsHandler.saveOnConnectToConnection(message)
+                : null,
+            filterMultiplex: onConnectChainFinished
+              ? undefined
+              : wsHandler.onConnectChain[onConnectIdx].filter,
+            shouldNeverUnsubscribe: onConnectChainFinished
+              ? false
+              : wsHandler.onConnectChain[onConnectIdx].shouldNeverUnsubscribe,
           }
           const subscribeRequestedAction = subscribeRequested(subscriptionPayload)
           if (onConnectChainFinished) {
@@ -498,40 +510,23 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
           const key = connectionInfo.key
           const { requestId, connectionParams } = state.ws.connections.all[key]
           if (wsHandler.heartbeatReplyMessage) {
-            wsSubject.next(wsHandler.heartbeatReplyMessage(message, requestId, connectionParams))
+            const heartbeatMessage = wsHandler.heartbeatReplyMessage(
+              message,
+              requestId,
+              connectionParams,
+            )
+            logger.info('Sending heartbeat payload', heartbeatMessage)
+            wsSubject.next(heartbeatMessage)
           }
           return of(action)
         }),
-        tap(() => logger.debug('Responded to server heartbeat')),
         filter(() => false),
-      )
-
-      const withSaveToConnection$ = message$.pipe(
-        filter((action) => {
-          return (
-            !!wsHandler.shouldSaveToConnection &&
-            wsHandler.shouldSaveToConnection(action.payload.message)
-          )
-        }),
-        withLatestFrom(state$),
-        filter(([action, state]) => {
-          const key = action.payload.connectionInfo.key
-          const connection = state.ws.connections.all[key]
-          return !!connection && connection.active
-        }),
-        mergeMap(async ([action]) => {
-          return saveOnConnectMessage({
-            connectionKey: action.payload.connectionInfo.key,
-            message: wsHandler.saveOnConnectToConnection
-              ? wsHandler.saveOnConnectToConnection(action.payload.message)
-              : {},
-          })
-        }),
       )
 
       // Once a request happens, a subscription timeout starts. If no more requests ask for
       // this subscription before the time runs out, it will be unsubscribed
       const unsubscribeOnTimeout$ = subscriptions$.pipe(
+        filter((action) => !action.payload.shouldNeverUnsubscribe),
         // when a subscription comes in
         // TODO: we need to filter duplicated subscriptions here
         mergeMap(({ payload }) => {
@@ -637,7 +632,6 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
         withSaveFirstMessageToStore$,
         updateSubscriptionInput$,
         withContinueOnConnectChain$,
-        withSaveToConnection$,
         withHeartbeatAtIntervals$,
         error$,
         respondWithHeartbeat$,

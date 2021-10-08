@@ -42,13 +42,6 @@ const initConnectionsState: ConnectionsState = { total: 0, all: {} }
 export const connectionsReducer = createReducer<ConnectionsState>(
   initConnectionsState,
   (builder) => {
-    builder.addCase(actions.saveOnConnectMessage, (state, action) => {
-      const { connectionKey, message } = action.payload
-      state.all[connectionKey] = {
-        ...state.all[connectionKey],
-        connectionParams: message,
-      }
-    })
     builder.addCase(actions.onConnectComplete, (state, action) => {
       const {
         connectionInfo: { key },
@@ -79,6 +72,7 @@ export const connectionsReducer = createReducer<ConnectionsState>(
       state.all[key] = {
         ...state.all[key],
         requestId: state.all[key].requestId + 1,
+        connectionParams: action.payload.messageToSave || state.all[key].connectionParams,
       }
     })
     builder.addCase(actions.connectRequested, (state, action) => {
@@ -209,6 +203,7 @@ export const subscriptionsReducer = createReducer<SubscriptionsState>(
 
       state.all[key].active = false
       state.all[key].unsubscribed = true
+      state.all[key].subscribing = 0
     })
 
     builder.addCase(actions.subscriptionErrorHandler, (state, action) => {

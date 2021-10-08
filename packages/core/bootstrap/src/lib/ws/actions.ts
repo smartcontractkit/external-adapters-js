@@ -103,6 +103,9 @@ export interface WSSubscriptionPayload {
   subscriptionMsg: any
   input: AdapterRequest
   context: AdapterContext
+  messageToSave?: any
+  filterMultiplex?: (message: any) => boolean
+  shouldNeverUnsubscribe?: boolean
 }
 
 export interface WSSubscriptionErrorPayload extends WSErrorPayload {
