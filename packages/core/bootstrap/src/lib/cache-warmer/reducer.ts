@@ -115,20 +115,20 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
         }
 
         // Join overrides
-        if (batchWarmer.origin.overrides)
+        if (batchWarmer.origin.overrides || childRequestData.overrides)
           batchWarmer.origin.overrides = merge(
             batchWarmer.origin.overrides,
             childRequestData.overrides,
           )
-        if (batchWarmer.origin.tokenOverrides)
+        if (batchWarmer.origin.tokenOverrides || childRequestData.tokenOverrides)
           batchWarmer.origin.tokenOverrides = merge(
             batchWarmer.origin.tokenOverrides,
             childRequestData.tokenOverrides,
           )
-        if (batchWarmer.origin.includes)
+        if (batchWarmer.origin.includes || childRequestData.includes)
           batchWarmer.origin.includes = [
             ...batchWarmer.origin.includes,
-            ...childRequestData.includes,
+            ...(childRequestData.includes || []),
           ]
       }
     }
