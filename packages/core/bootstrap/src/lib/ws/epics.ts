@@ -602,7 +602,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
               delay(config.subscriptionUnresponsiveTTL),
               tap((a) => {
                 if (subscriptionError.match(a)) {
-                  logger.error(
+                  logger.warn(
                     '[unsubscribeOnNoResponse] Resubscribing due to unresponsive subscription, this happens when a subscription does not receive a message for longer than the subscriptionUnresponsiveTTL value',
                     { feedId: a.payload.input ? getFeedId(a.payload.input) : 'undefined' },
                   )
