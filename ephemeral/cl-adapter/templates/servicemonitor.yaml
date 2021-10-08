@@ -1,0 +1,34 @@
+{{ if .Values.envVars.EXPERIMENTAL_METRICS_ENABLED | default false -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: adapter-{{ .Values.name }}-metrics
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "cl-adapter.labels" . | nindent 4 }}
+    type: metrics 
+spec:
+  type: ClusterIP
+  ports:
+    - port: {{ .Values.envVars.METRICS_PORT | default 9080 }}
+      targetPort: metrics
+      protocol: TCP
+      name: metrics
+  selector:
+    {{- include "cl-adapter.selectorLabels" . | nindent 4 }}
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: adapter-{{ .Values.name }}
+  labels:
+    {{- include "cl-adapter.labels" . | nindent 4 }}
+    release: prometheus
+spec:
+  selector:
+    matchLabels:
+      {{- include "cl-adapter.labels" . | nindent 6 }}
+      type: metrics
+  endpoints:
+  - port: metrics
+{{- end }}

@@ -107,13 +107,22 @@ const handleBatchedRequest = (
   jobRunID: string,
   request: AdapterRequest,
   response: AxiosResponse<ResponseSchema[]>,
+  validator: Validator,
   resultPath: string,
 ) => {
   const payload: [AdapterRequest, number][] = []
   for (const i in response.data) {
     const entry = response.data[i]
     payload.push([
-      { ...request, data: { ...request.data, base: entry.symbol.toUpperCase() } },
+      {
+        ...request,
+        data: {
+          ...request.data,
+          base: validator
+            .overrideReverseLookup(AdapterName, 'overrides', entry.symbol)
+            .toUpperCase(),
+        },
+      },
       Requester.validateResultNumber(response.data[i], [resultPath]),
     ])
   }
@@ -155,7 +164,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const response = await Requester.request<ResponseSchema[]>(reqConfig, customError)
 
-  if (Array.isArray(symbol)) return handleBatchedRequest(jobRunID, request, response, resultPath)
+  if (Array.isArray(symbol))
+    return handleBatchedRequest(jobRunID, request, response, validator, resultPath)
 
   const result = Requester.validateResultNumber(response.data[0], resultPath)
   return Requester.success(

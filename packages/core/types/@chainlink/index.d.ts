@@ -58,7 +58,6 @@ declare module '@chainlink/types' {
     result: R
     payload?: P
   }
-
   export type SequenceResponseData<R> = {
     responses?: any[]
     result: R[]
@@ -104,11 +103,16 @@ declare module '@chainlink/types' {
 
   export type Config = {
     apiKey?: string
+    wsApiKey?: string
     network?: string
     returnRejectedPromiseOnError?: boolean
     verbose?: boolean
     api?: RequestConfig
     defaultEndpoint?: string
+    adapterSpecificParams?: {
+      [T: string]: string | number
+    }
+    rpcUrl?: string
   }
 
   export type Execute = (input: AdapterRequest, context: AdapterContext) => Promise<AdapterResponse>
@@ -172,29 +176,58 @@ declare module '@chainlink/types' {
   }
 
   export type MakeWSHandler = () => WSHandler | Promise<WSHandler>
+  export interface WebsocketErrorMessageSchema {
+    type: string
+    wasClean: boolean
+    reason: string
+    code: number
+  }
   export interface WSHandler {
     // Connection information
     connection: {
       /**
        * WS connection url
        */
-      url: string
+      url?: string
+      getUrl?: (input: AdapterRequest) => Promise<string>
       protocol?: any
     }
+    // Determines whether or not to server request using WS
+    shouldNotServeInputUsingWS?: (input: AdapterRequest) => boolean
     // Hook to send a message after connection
-    onConnect?: () => any
+    onConnect?: (input: AdapterRequest) => any
+    // Hook to send chain of onConnect messages
+    onConnectChain?: {
+      payload: any
+      filter?: (prevMessage: any) => boolean
+      shouldNeverUnsubscribe?: boolean
+    }[]
     // Get the subscription message necessary to subscribe to the feed channel
     subscribe: (input: AdapterRequest) => any | undefined
+    // Modify subscription payload before sending to WS
+    modifySubscriptionPayload?: (
+      originalPayload: any,
+      subscriptionParams: any,
+      connectionParams: any,
+      id: number,
+    ) => any
+    // Filter to whether or not modify subscription payload
+    shouldModifyPayload?: (payload: any) => bool
     // Get unsubscribe message necessary to unsubscribe to the feed channel
-    unsubscribe: (input: any) => any | undefined
+    unsubscribe: (input: any, subscriptionParams: any) => any | undefined
     // Map to response from the incoming message and formats it into an AdapterResponse
-    toResponse: (message: any, input: AdapterRequest) => AdapterResponse
+    toResponse: (message: any, input: AdapterRequest) => Promise<AdapterResponse> | AdapterResponse
     // Filter any message that is not from a subscribed channel
     filter: (message: any) => boolean
     // Determines if the incoming message is an error
     isError: (message: any) => boolean
     // Based on the incoming message, returns its corresponding subscription message
-    subsFromMessage: (message: any, subscriptionMsg: any) => any
+    subsFromMessage: (
+      message: any,
+      subscriptionMsg: any,
+      input: AdapterRequest,
+      connectionParams?: any,
+    ) => any
     // Allows for connection info to be set programmatically based on the input request
     // This is useful for data providers that only allow subscriptions based on URL params
     programmaticConnectionInfo?: (input: AdapterRequest) =>
@@ -205,6 +238,28 @@ declare module '@chainlink/types' {
       | undefined
     // Optional flag to ensure adapter only uses WS and doesn't send HTTP requests
     noHttp?: boolean
+    // This function is called if anything from the WS message needs to be saved in the Redux subscription store
+    toSaveFromFirstMessage?: (message: any) => any
+    // Format message to save to the connection redux store
+    saveOnConnectToConnection?: (message: any) => any
+    // Filters out messages that should be saved to the connection redux store
+    shouldSaveToConnection?: (message: any) => boolean
+    // Formats the heartbeat message that needs to be sent to the WS connecton
+    heartbeatMessage?: (id: number, connectionParams: any) => any
+    // The interval between sending heartbeat messages
+    heartbeatIntervalInMS?: number
+    // Filters out messages that are not expected from sending a message constructed by one of the onConnect hooks
+    isOnConnectChainMessage?: (message: any) => boolean
+    // Whether or not message is sent to subscribe to a pair/ticker
+    isDataMessage?: (message: unknown) => boolean
+    // Whether or not to reply to a heartbeat message from the server
+    shouldReplyToServerHeartbeat?: (message: unknown) => boolean
+    // The message that will be sent back to the WS server
+    heartbeatReplyMessage?: (message: unknown, id: number, connectionParams: any) => unknown
+    // Should try open connection again after error
+    shouldNotRetryConnection?: (error: unknown) => boolean
+    // Should try resubscribing to a connection again after an error
+    shouldNotRetrySubscription?: (subscription: unknown) => boolean
   }
 
   /* INPUT TYPE VALIDATIONS */

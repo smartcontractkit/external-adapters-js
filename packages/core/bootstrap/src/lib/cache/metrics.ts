@@ -44,11 +44,6 @@ export const beginObserveCacheMetrics = ({
   }
 }
 
-export const redis_connections_open = new client.Counter({
-  name: 'redis_connections_open',
-  help: 'The number of redis connections that are open',
-})
-
 enum CacheTypes {
   Redis = 'redis',
   Local = 'local',

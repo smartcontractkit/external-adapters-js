@@ -26,6 +26,8 @@ export interface WSConfig {
   subscriptionUnresponsiveTTL: number
   /** List of subscription keys that will have priority (reserved capacity) */
   subscriptionPriorityList?: Array<string>
+  /** The default number of milliseconds between heartbeat messages.  This can be overridden at the adapter level */
+  defaultHeartbeatIntervalInMS: number
 }
 
 export interface WSConnectionInfo {
@@ -36,5 +38,5 @@ export interface WSConnectionInfo {
   /**
    * @see WSHandler['connection']['url']
    */
-  url: string
+  url?: string
 }

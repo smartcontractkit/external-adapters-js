@@ -8,3 +8,5 @@ test-payload.json
 .yarn
 .vscode
 .pnp.cjs
+
+ephemeral/cl-adapter

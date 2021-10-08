@@ -5,10 +5,13 @@ local promTemplate(targets) = {
   },
   scrape_configs: [
     {
-      job_name: 'external_adapters_local',
+      job_name: 'adapters',
       static_configs: [
         {
           targets: [x + ':9080' for x in std.split(targets, ',')],
+          labels: {
+            namespace: 'adapters',
+          },
         },
       ],
     },

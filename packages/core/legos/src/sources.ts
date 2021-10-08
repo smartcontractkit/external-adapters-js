@@ -37,8 +37,10 @@ import * as dns_query from '@chainlink/dns-query-adapter'
 import * as dwolla from '@chainlink/dwolla-adapter'
 import * as dxfeed from '@chainlink/dxfeed-adapter'
 import * as dxfeed_secondary from '@chainlink/dxfeed-secondary-adapter'
+import * as enzyme from '@chainlink/enzyme-adapter'
 import * as eodhistoricaldata from '@chainlink/eodhistoricaldata-adapter'
 import * as etherchain from '@chainlink/etherchain-adapter'
+import * as etherscan from '@chainlink/etherscan-adapter'
 import * as ethgasstation from '@chainlink/ethgasstation-adapter'
 import * as ethgaswatch from '@chainlink/ethgaswatch-adapter'
 import * as expert_car_broker from '@chainlink/expert-car-broker-adapter'
@@ -46,13 +48,16 @@ import * as fcsapi from '@chainlink/fcsapi-adapter'
 import * as finage from '@chainlink/finage-adapter'
 import * as finnhub from '@chainlink/finnhub-adapter'
 import * as fixer from '@chainlink/fixer-adapter'
+import * as flightaware from '@chainlink/flightaware-adapter'
 import * as fmpcloud from '@chainlink/fmpcloud-adapter'
+import * as gemini from '@chainlink/gemini-adapter'
 import * as genesis_adapter from '@chainlink/genesis-volatility-adapter'
 import * as geodb from '@chainlink/geodb-adapter'
 import * as google_bigquery from '@chainlink/google-bigquery-adapter'
 import * as graphql from '@chainlink/graphql-adapter'
 import * as iex_adapter from '@chainlink/iex-cloud-adapter'
 import * as intrinio from '@chainlink/intrinio-adapter'
+import * as ipfs from '@chainlink/ipfs-adapter'
 import * as json_adapter from '@chainlink/json-rpc-adapter'
 import * as kaiko from '@chainlink/kaiko-adapter'
 import * as layer2_sequencer_health from '@chainlink/layer2-sequencer-health-adapter'
@@ -68,6 +73,7 @@ import * as nikkei from '@chainlink/nikkei-adapter'
 import * as nomics from '@chainlink/nomics-adapter'
 import * as oilpriceapi from '@chainlink/oilpriceapi-adapter'
 import * as onchain from '@chainlink/onchain-adapter'
+import * as onchain_gas from '@chainlink/onchain-gas-adapter'
 import * as openexchangerates from '@chainlink/openexchangerates-adapter'
 import * as orchid_adapter from '@chainlink/orchid-bandwidth-adapter'
 import * as paxos from '@chainlink/paxos-adapter'
@@ -78,6 +84,7 @@ import * as reduce from '@chainlink/reduce-adapter'
 import * as renvm_adapter_address from '@chainlink/renvm-address-set-adapter'
 import * as satoshitango from '@chainlink/satoshitango-adapter'
 import * as sochain from '@chainlink/sochain-adapter'
+import * as spectral_macro_score from '@chainlink/spectral-macro-score-adapter'
 import * as sportsdataio from '@chainlink/sportsdataio-adapter'
 import * as stasis from '@chainlink/stasis-adapter'
 import * as synthetix_debt_pool from '@chainlink/synthetix-debt-pool-adapter'
@@ -90,6 +97,7 @@ import * as trueusd from '@chainlink/trueusd-adapter'
 import * as twelvedata from '@chainlink/twelvedata-adapter'
 import * as unibit from '@chainlink/unibit-adapter'
 import * as upvest from '@chainlink/upvest-adapter'
+import * as uscpi_one from '@chainlink/uscpi-one-adapter'
 import * as wbtc_adapter_address from '@chainlink/wbtc-address-set-adapter'
 import * as wootrade from '@chainlink/wootrade-adapter'
 import * as xbto from '@chainlink/xbto-adapter'
@@ -134,8 +142,10 @@ export default {
   dwolla,
   dxfeed,
   dxfeed_secondary,
+  enzyme,
   eodhistoricaldata,
   etherchain,
+  etherscan,
   ethgasstation,
   ethgaswatch,
   expert_car_broker,
@@ -143,13 +153,16 @@ export default {
   finage,
   finnhub,
   fixer,
+  flightaware,
   fmpcloud,
+  gemini,
   genesis_adapter,
   geodb,
   google_bigquery,
   graphql,
   iex_adapter,
   intrinio,
+  ipfs,
   json_adapter,
   kaiko,
   layer2_sequencer_health,
@@ -165,6 +178,7 @@ export default {
   nomics,
   oilpriceapi,
   onchain,
+  onchain_gas,
   openexchangerates,
   orchid_adapter,
   paxos,
@@ -175,6 +189,7 @@ export default {
   renvm_adapter_address,
   satoshitango,
   sochain,
+  spectral_macro_score,
   sportsdataio,
   stasis,
   synthetix_debt_pool,
@@ -187,6 +202,7 @@ export default {
   twelvedata,
   unibit,
   upvest,
+  uscpi_one,
   wbtc_adapter_address,
   wootrade,
   xbto,

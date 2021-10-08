@@ -1,7 +1,7 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
-export const NAME = 'OPEN-EXCHANGE-RATES'
+export const NAME = 'OPENEXCHANGERATES'
 
 export const DEFAULT_ENDPOINT = 'forex'
 export const DEFAULT_BASE_URL = 'https://openexchangerates.org/api/'

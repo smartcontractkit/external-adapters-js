@@ -51,7 +51,7 @@ describe('Rate Limit Middleware', () => {
   const capacity = 50
   const context: AdapterContext = {}
   beforeAll(() => {
-    process.env.EXPERIMENTAL_RATE_LIMIT_ENABLED = String(true)
+    process.env.RATE_LIMIT_ENABLED = String(true)
     process.env.RATE_LIMIT_CAPACITY = String(capacity)
     context.rateLimit = get({})
   })

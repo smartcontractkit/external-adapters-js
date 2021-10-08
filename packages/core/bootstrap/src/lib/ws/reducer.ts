@@ -1,5 +1,6 @@
 import { AdapterContext, AdapterRequest } from '@chainlink/types'
 import { combineReducers, createReducer, isAnyOf } from '@reduxjs/toolkit'
+import { logger } from '../external-adapter'
 import { getHashOpts, hash } from '../util'
 import * as actions from './actions'
 
@@ -23,9 +24,15 @@ export interface ConnectionsState {
   total: number
   all: {
     [key: string]: {
+      shouldNotRetryConnecting?: boolean
       active: boolean
       connecting: number
       wasEverConnected?: boolean
+      connectionParams?: {
+        [T: string]: string
+      }
+      requestId: number
+      isOnConnectChainComplete: boolean
     }
   }
 }
@@ -35,25 +42,55 @@ const initConnectionsState: ConnectionsState = { total: 0, all: {} }
 export const connectionsReducer = createReducer<ConnectionsState>(
   initConnectionsState,
   (builder) => {
+    builder.addCase(actions.onConnectComplete, (state, action) => {
+      const {
+        connectionInfo: { key },
+      } = action.payload
+      state.all[key] = {
+        ...state.all[key],
+        isOnConnectChainComplete: true,
+      }
+    })
     builder.addCase(actions.connectFulfilled, (state, action) => {
       // Add connection
       const { key } = action.payload.config.connectionInfo
       state.all[key] = {
+        ...state.all[key],
         active: true,
         connecting: 0,
         wasEverConnected: true,
+        requestId: Math.max(state.all[key].requestId, 0),
       }
     })
-
+    builder.addCase(actions.subscribeRequested, (state, action) => {
+      if (!action.payload.connectionInfo) {
+        logger.error(`Missing connection info: ${JSON.stringify(action.payload)}`)
+        return
+      }
+      const key = action.payload.connectionInfo.key
+      if (!state.all[key]) return
+      state.all[key] = {
+        ...state.all[key],
+        requestId: state.all[key].requestId + 1,
+        connectionParams: action.payload.messageToSave || state.all[key].connectionParams,
+      }
+    })
     builder.addCase(actions.connectRequested, (state, action) => {
       const { key } = action.payload.config.connectionInfo
-      const isActive = state.all[key]?.active
+      const connectionState = state.all[key]
+      const isActive = connectionState?.active
       if (isActive) return
 
-      const isConnecting = !isNaN(Number(state.all[key]?.connecting))
+      const wsHandler = action.payload.wsHandler
+      const hasNoOnConnectChain = !wsHandler.onConnectChain
+
+      const isConnecting = !isNaN(Number(connectionState?.connecting))
       state.all[key] = {
+        ...connectionState,
         active: false,
-        connecting: isConnecting ? state.all[key].connecting + 1 : 1,
+        connecting: isConnecting ? connectionState.connecting + 1 : 1,
+        requestId: isConnecting ? connectionState.requestId : 0,
+        isOnConnectChainComplete: hasNoOnConnectChain,
       }
     })
 
@@ -67,6 +104,12 @@ export const connectionsReducer = createReducer<ConnectionsState>(
       const { key } = action.payload.config.connectionInfo
       state.all[key].active = false
       state.all[key].connecting = 0 // turn off connecting
+      state.all[key].requestId = 0
+    })
+
+    builder.addCase(actions.subscriptionErrorHandler, (state, action) => {
+      const { key } = action.payload.connectionInfo
+      state.all[key].shouldNotRetryConnecting = action.payload.shouldNotRetryConnection
     })
 
     builder.addMatcher(
@@ -94,6 +137,9 @@ export interface SubscriptionsState {
       subscribing: number
       input: AdapterRequest
       context: AdapterContext
+      subscriptionParams?: any
+      connectionKey: string
+      shouldNotRetry?: boolean
     }
   }
 }
@@ -103,6 +149,20 @@ const initSubscriptionsState: SubscriptionsState = { total: 0, all: {} }
 export const subscriptionsReducer = createReducer<SubscriptionsState>(
   initSubscriptionsState,
   (builder) => {
+    builder.addCase(actions.updateSubscriptionInput, (state, action) => {
+      const key = action.payload.subscriptionKey
+      state.all[key] = {
+        ...state.all[key],
+        input: action.payload.input,
+      }
+    })
+    builder.addCase(actions.saveFirstMessageReceived, (state, action) => {
+      const key = action.payload.subscriptionKey
+      state.all[key] = {
+        ...state.all[key],
+        subscriptionParams: action.payload.message,
+      }
+    })
     builder.addCase(actions.subscribeFulfilled, (state, action) => {
       // Add subscription
       const key = getSubsId(action.payload.subscriptionMsg)
@@ -113,6 +173,7 @@ export const subscriptionsReducer = createReducer<SubscriptionsState>(
         subscribing: 0,
         input: { ...action.payload.input },
         context: action.payload.context,
+        connectionKey: action.payload.connectionInfo.key,
       }
     })
 
@@ -121,12 +182,18 @@ export const subscriptionsReducer = createReducer<SubscriptionsState>(
       const isActive = state.all[key]?.active
       if (isActive) return
 
+      if (!action.payload.connectionInfo) {
+        logger.error(`Missing connection info: ${JSON.stringify(action.payload)}`)
+        return
+      }
+
       const isSubscribing = state.all[key]?.subscribing
       state.all[key] = {
         active: false,
         subscribing: isSubscribing ? state.all[key].subscribing + 1 : 1,
         input: { ...action.payload.input },
         context: action.payload.context,
+        connectionKey: action.payload.connectionInfo.key,
       }
     })
 
@@ -136,6 +203,14 @@ export const subscriptionsReducer = createReducer<SubscriptionsState>(
 
       state.all[key].active = false
       state.all[key].unsubscribed = true
+      state.all[key].subscribing = 0
+    })
+
+    builder.addCase(actions.subscriptionErrorHandler, (state, action) => {
+      const key = getSubsId(action.payload.subscriptionMsg)
+      if (state.all[key]) {
+        state.all[key].shouldNotRetry = action.payload.shouldNotRetrySubscription
+      }
     })
 
     builder.addCase(actions.disconnectFulfilled, (state) => {

@@ -46,7 +46,7 @@ To configure caching these environment variables are available:
 
 | Required? |           Name            |                                                                                                                                     Description                                                                                                                                     |      Options       |                              Defaults to                              |
 | :-------: | :-----------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----------------: | :-------------------------------------------------------------------: |
-|           |      `CACHE_ENABLED`      |                                                                                                                                   Toggle caching.                                                                                                                                   |                    |                                `false`                                |
+|           |      `CACHE_ENABLED`      |                                                                                                                                   Toggle caching.                                                                                                                                   |                    |                                `true`                                 |
 |           |       `CACHE_TYPE`        |                                                                                                                          Which cache type should be used.                                                                                                                           | `local` or `redis` |                                `local`                                |
 |           |     `CACHE_KEY_GROUP`     |                                      Set to specific group ID to group the cached data, for this adapter, with other instances in the same group. Applicable only in remote cache scenarios, where multiple adapter instances share the cache.                                      |                    |                          UUID of the adapter                          |
 |           | `CACHE_KEY_IGNORED_PROPS` |                                                                                Keys to ignore while deriving the cache key, delimited by `,`. The key set will be added to the default ignored keys                                                                                 |                    | `['id', 'maxAge', 'meta', 'rateLimitMaxAge', 'debug', 'metricsMeta']` |
@@ -102,9 +102,9 @@ For **ElastiCache Redis** deployments: if encryption in transit is used, to make
 
 To avoid hitting rate limit issues with the data provider subscription, a rate limit capacity per minute can be set:
 
-| Required? |               Name                |            Description             | Options | Defaults to |
-| :-------: | :-------------------------------: | :--------------------------------: | :-----: | :---------: |
-|           | `EXPERIMENTAL_RATE_LIMIT_ENABLED` | Enabling Rate Limit functionality. |         |   `false`   |
+| Required? |         Name         |            Description             | Options | Defaults to |
+| :-------: | :------------------: | :--------------------------------: | :-----: | :---------: |
+|           | `RATE_LIMIT_ENABLED` | Enabling Rate Limit functionality. |         |   `true`    |
 
 - Option 1, manual capacity setting:
 
@@ -114,10 +114,10 @@ To avoid hitting rate limit issues with the data provider subscription, a rate l
 
 - Option 2, capacity by reference. Check your plan [here](./src/lib/provider-limits/limits.json) and use it with the following configuration:
 
-| Required? |           Name            |         Description         | Options | Defaults to |
-| :-------: | :-----------------------: | :-------------------------: | :-----: | :---------: |
-|           | `RATE_LIMIT_API_PROVIDER` |    Name of the provider.    |         |  undefined  |
-|           |   `RATE_LIMIT_API_TIER`   | Plan you are subscribed to. |         |  undefined  |
+| Required? |           Name            |         Description         | Options |                   Defaults to                    |
+| :-------: | :-----------------------: | :-------------------------: | :-----: | :----------------------------------------------: |
+|           | `RATE_LIMIT_API_PROVIDER` |    Name of the provider.    |         | The derived name of the running External Adapter |
+|           |   `RATE_LIMIT_API_TIER`   | Plan you are subscribed to. |         |                    undefined                     |
 
 #### Provider Limits
 
@@ -160,12 +160,12 @@ Being:
 
 \*To use this feature the `CACHE_ENABLED` environment variable must also be enabled.
 
-| Required? |             Name              |                                                                          Description                                                                          | Options |      Defaults to      |
-| :-------: | :---------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: | :-------------------: |
-|           | `EXPERIMENTAL_WARMUP_ENABLED` |                                                            Enable the cache warmer functionality.                                                             |         |        `false`        |
-|           | `WARMUP_UNHEALTHY_THRESHOLD`  |          The number of times a warmup execution can fail before we drop a warmup subscription for a particular cache key.to. Set to `-1` to disable.          |         |          `3`          |
-|           |   `WARMUP_SUBSCRIPTION_TTL`   | The maximum duration between requests for a cache key to an external adapter before the cache warmer will unsubscribe from warming up a particular cache key. |         |  `3600000` (1 hour)   |
-|           |       `WARMUP_INTERVAL`       |                                        The interval at which the cache warmer should send requests to warm the cache.                                         |         | The cache's TTL (30s) |
+| Required? |             Name             |                                                                          Description                                                                          | Options |          Defaults to          |
+| :-------: | :--------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: | :---------------------------: |
+|           |       `WARMUP_ENABLED`       |                                                            Enable the cache warmer functionality.                                                             |         |            `true`             |
+|           | `WARMUP_UNHEALTHY_THRESHOLD` |          The number of times a warmup execution can fail before we drop a warmup subscription for a particular cache key.to. Set to `-1` to disable.          |         |              `3`              |
+|           |  `WARMUP_SUBSCRIPTION_TTL`   | The maximum duration between requests for a cache key to an external adapter before the cache warmer will unsubscribe from warming up a particular cache key. |         |      `3600000` (1 hour)       |
+|           |      `WARMUP_INTERVAL`       |                                        The interval at which the cache warmer should send requests to warm the cache.                                         |         | The cache's minimum TTL (30s) |
 
 ### Request Coalescing
 

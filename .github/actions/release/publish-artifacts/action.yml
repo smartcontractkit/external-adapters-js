@@ -1,0 +1,79 @@
+name: Release
+description: Creates a release via building the required external adapters and publishing them. Must have aws credentials already configured
+inputs:
+  branch:
+    description: The current branch this workflow is running from, to include in an image tag, omit if you do not want to have the branch included in the image tag.
+    required: false
+  latest:
+    description: Set to "true" to create an image tag with the "latest" tag, "false" to use the external adapter's package.json version instead.
+    required: false
+  image-prefix:
+    description: 'Prefix to apply to docker images, in our case: typically an aws ECR registry'
+    required: true
+  adapter-name:
+    description: 'The name of the adapter'
+    required: true
+
+  aws-region:
+    description: The aws region to use
+    required: true
+  aws-ecr-private:
+    description: If this action is being used to publish to private ecr
+    required: true
+  aws-ecr-account-ids:
+    description: A string of strings that specifies what accounts to allow pull access when "aws-ecr-private" is "true". A string that is composed of comma seperated, double quoted strings. E.g. "1","2","3".
+
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '14.x'
+
+    - name: Install yarn deps
+      shell: bash
+      run: yarn
+
+    - name: Generate docker-compose file
+      shell: bash
+      run: yarn generate:docker-compose
+      env:
+        BRANCH: ${{ inputs.branch }}
+        LATEST: ${{ inputs.latest }}
+        IMAGE_PREFIX: ${{ inputs.image-prefix }}
+
+    - name: Generate adapter image name
+      shell: bash
+      run: yarn generate:image-name
+      id: generate-image-name
+      env:
+        BRANCH: ${{ inputs.branch }}
+        LATEST: ${{ inputs.latest }}
+        IMAGE_PREFIX: ${{ inputs.image-prefix }}
+        ADAPTER_NAME: ${{ inputs.adapter-name }}
+
+    - name: Build Docker containers
+      shell: bash
+      run: docker-compose -f docker-compose.generated.yaml build ${{ inputs.adapter-name }}
+
+    - name: Authenticate to ECR
+      shell: bash
+      run: aws ${{ fromJSON('["ecr-public", "ecr"]')[inputs.aws-ecr-private == 'true'] }} get-login-password --region ${{ inputs.aws-region }} | docker login --username AWS --password-stdin ${{ inputs.image-prefix }}
+
+    - name: Create a ECR repository if does not exist
+      shell: bash
+      run: aws ${{ fromJSON('["ecr-public", "ecr"]')[inputs.aws-ecr-private == 'true'] }} create-repository --region ${{ inputs.aws-region }} --repository-name adapters/${{ inputs.adapter-name }} || true
+
+    - shell: bash
+      name: Set ECR repository permissions for secondary account access on private ECR repos only
+      run: >
+        if ${{ toJson(fromJson(inputs.aws-ecr-private)) }}; then
+        aws ecr set-repository-policy
+        --region ${{ inputs.aws-region }}
+        --repository-name adapters/${{ inputs.adapter-name }}
+        --policy-text "$(jq '.Statement[0].Principal.AWS |= [${{ inputs.aws-ecr-account-ids }}]' .github/actions/release/publish-artifacts/secondary-account-access-policy.json)" &> /dev/null;
+        fi
+
+    - name: Push to ECR
+      shell: bash
+      run: docker push ${{ steps.generate-image-name.outputs.image_name }}

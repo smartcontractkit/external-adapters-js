@@ -3,7 +3,7 @@ import { ExecuteWithConfig, Config, AdapterRequest, InputParameters } from '@cha
 import { NAME as AdapterName } from '../config'
 import { getCoinIds, getSymbolToId } from '../util'
 
-export const supportedEndpoints = ['crypto-single', 'marketcap-single']
+export const supportedEndpoints = []
 
 const buildPath =
   (path: string) =>
@@ -15,8 +15,9 @@ const buildPath =
   }
 
 export const endpointResultPaths = {
-  'crypto-single': buildPath('price'),
-  'marketcap-single': buildPath('market_cap'),
+  crypto: buildPath('price'),
+  price: buildPath('price'),
+  marketcap: buildPath('market_cap'),
 }
 
 export const inputParameters: InputParameters = {

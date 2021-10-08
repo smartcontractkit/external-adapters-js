@@ -1,4 +1,4 @@
-import { Requester, Validator, Logger, Builder } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, Builder } from '@chainlink/ea-bootstrap'
 import {
   Config,
   ExecuteWithConfig,
@@ -27,53 +27,83 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
     if (validator.error) return
     const base = validator.validated.data.base.toUpperCase()
     const quote = validator.validated.data.quote.toUpperCase()
-    return `${base}/${quote}`
+    const endpoint = input.data.endpoint
+    return endpoints.forex.supportedEndpoints.indexOf(endpoint) !== -1
+      ? `${base}${quote}`
+      : `${base}/${quote}`
   }
   const getSubscription = (request: 'subscribe' | 'unsubscribe', pair?: string) => {
     if (!pair) return
     return { request, ccy: pair }
   }
+
+  interface NCFXWSResponse {
+    ccy?: string
+    currencyPair?: string
+  }
+
+  const isForexEndpoint = (endpoint: string) =>
+    endpoints.forex.supportedEndpoints.indexOf(endpoint) !== -1
+  const getPairFieldFromNCFXResponse = (endpoint: string) =>
+    isForexEndpoint(endpoint) ? 'ccy' : 'currencyPair'
+
   return () => {
     const defaultConfig = config || makeConfig()
     return {
       connection: {
-        url: `${defaultConfig.api.baseWebsocketURL}/cryptodata`,
+        getUrl: async (input: AdapterRequest) => {
+          const endpoint = input.data.endpoint
+          if (isForexEndpoint(endpoint)) {
+            return `${defaultConfig.adapterSpecificParams?.forexDefaultBaseWSUrl}/spotdata`
+          }
+          return `${defaultConfig.api.baseWebsocketURL}/cryptodata`
+        },
       },
       noHttp: true,
       subscribe: (input) => getSubscription('subscribe', getPair(input)),
       unsubscribe: (input) => getSubscription('unsubscribe', getPair(input)),
-      subsFromMessage: (message, subscriptionMsg) => {
+      subsFromMessage: (message, subscriptionMsg, input) => {
         if (Array.isArray(message) && message.length > 0) {
+          const pairField = getPairFieldFromNCFXResponse(input.data.endpoint)
           const pairMessage = message.find(
-            ({ currencyPair }) => currencyPair === subscriptionMsg.ccy,
+            (m: NCFXWSResponse) => m[pairField] === subscriptionMsg.ccy,
           )
           if (!pairMessage) return
-          return getSubscription('subscribe', `${pairMessage.currencyPair}`)
+          return getSubscription('subscribe', `${pairMessage.currencyPair || pairMessage.ccy}`)
         }
         return getSubscription('subscribe', `${message}`)
       },
       isError: (message: any) => Number(message.TYPE) > 400 && Number(message.TYPE) < 900,
-      filter: () => {
-        return true
+      filter: (message: any) => {
+        return Array.isArray(message) && message.length > 0
       },
       toResponse: (message: any, input: AdapterRequest) => {
-        if (Array.isArray(message) && message.length > 0) {
-          const pair = getPair(input)
-          const pairMessage = message.find(({ currencyPair }) => currencyPair === pair)
-          if (!pairMessage) {
-            throw new Error(`${pair} not found in message`)
-          }
-          const result = Requester.validateResultNumber(pairMessage, ['mid'])
-          return Requester.success('1', { data: { ...pairMessage, result } }, defaultConfig.verbose)
+        const pair = getPair(input)
+        const pairMessage = message.find(
+          (m: NCFXWSResponse) => m[getPairFieldFromNCFXResponse(input.data.endpoint)] === pair,
+        )
+        if (!pairMessage) {
+          throw new Error(`${pair} not found in message`)
         }
-        Logger.warn(`${message} is in an unexpected format.  Returning null for now.`)
-        return Requester.success('1', { data: { result: null } })
+        const endpoint = input.data.endpoint
+        const resultField = isForexEndpoint(endpoint) ? 'rate' : 'mid'
+        const result = Requester.validateResultNumber(pairMessage, [resultField])
+        return Requester.success('1', { data: { ...pairMessage, result } }, defaultConfig.verbose)
       },
-      onConnect: () => ({
-        request: 'login',
-        username: defaultConfig.api.auth.username,
-        password: defaultConfig.api.auth.password,
-      }),
+      onConnect: (input: AdapterRequest) => {
+        const endpoint = input.data.endpoint
+        const username = isForexEndpoint(endpoint)
+          ? defaultConfig.adapterSpecificParams?.forexWSUsername
+          : defaultConfig.api.auth.username
+        const password = isForexEndpoint(endpoint)
+          ? defaultConfig.adapterSpecificParams?.forexWSPassword
+          : defaultConfig.api.auth.password
+        return {
+          request: 'login',
+          username,
+          password,
+        }
+      },
     }
   }
 }

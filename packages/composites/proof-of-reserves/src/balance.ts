@@ -15,6 +15,7 @@ import blockcypher from '@chainlink/blockcypher-adapter'
 import btcCom from '@chainlink/btc.com-adapter'
 import cryptoapis from '@chainlink/cryptoapis-adapter'
 import sochain from '@chainlink/sochain-adapter'
+import * as lotus from '@chainlink/lotus-adapter'
 
 export const adapters: AdapterImplementation[] = [
   amberdata,
@@ -25,6 +26,7 @@ export const adapters: AdapterImplementation[] = [
   btcCom,
   cryptoapis,
   sochain,
+  lotus,
 ]
 
 export type Indexer = typeof adapters[number]['NAME']

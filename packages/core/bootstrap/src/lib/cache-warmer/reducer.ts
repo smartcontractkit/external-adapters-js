@@ -3,6 +3,7 @@ import { combineReducers, createReducer } from '@reduxjs/toolkit'
 import { logger } from '../external-adapter'
 import * as actions from './actions'
 import { getSubscriptionKey } from './util'
+import { merge } from 'lodash'
 
 export interface BatchableProperty {
   name: string
@@ -66,6 +67,21 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
     }
   })
 
+  builder.addCase(actions.warmupSubscribedMultiple, (state, { payload }) => {
+    for (const member of payload.members) {
+      const key = member.key || getSubscriptionKey(member)
+      state[key] = {
+        origin: member.data,
+        executeFn: member.executeFn,
+        startedAt: state[key]?.startedAt ?? Date.now(),
+        isDuplicate: !!state[key],
+        parent: member.parent || state[key]?.parent,
+        batchablePropertyPath: member.batchablePropertyPath || state[key]?.batchablePropertyPath,
+        childLastSeenById: member?.childLastSeenById,
+      }
+    }
+  })
+
   builder.addCase(actions.warmupUnsubscribed, (state, action) => {
     const subscription = state[action.payload.key]
     if (subscription) {
@@ -91,11 +107,29 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
     for (const childKey in payload.childLastSeenById) {
       const childRequestData = state[childKey]?.origin
       if (childRequestData) {
+        // Join request data
         for (const { name } of payload.batchablePropertyPath) {
           const uniqueBatchableValue = new Set(batchWarmer.origin[name])
           uniqueBatchableValue.add(childRequestData[name] || childRequestData.data[name])
           batchWarmer.origin[name] = [...uniqueBatchableValue]
         }
+
+        // Join overrides
+        if (batchWarmer.origin.overrides || childRequestData.overrides)
+          batchWarmer.origin.overrides = merge(
+            batchWarmer.origin.overrides,
+            childRequestData.overrides,
+          )
+        if (batchWarmer.origin.tokenOverrides || childRequestData.tokenOverrides)
+          batchWarmer.origin.tokenOverrides = merge(
+            batchWarmer.origin.tokenOverrides,
+            childRequestData.tokenOverrides,
+          )
+        if (batchWarmer.origin.includes || childRequestData.includes)
+          batchWarmer.origin.includes = [
+            ...(batchWarmer.origin.includes || []),
+            ...(childRequestData.includes || []),
+          ]
       }
     }
   })
@@ -127,9 +161,26 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
       Object.entries(batchRequestData).map(([path, map]) => [path, [...map]]),
     )
 
+    // Rebuild the overrides
+    const overrides = remainingChildIds.reduce<{
+      overrides?: Record<string, string>
+      tokenOverrides?: Record<string, string>
+      includes?: string[]
+    }>((acc, childId) => {
+      const childOriginData = state[childId].origin
+      if (childOriginData.overrides)
+        acc.overrides = merge(acc.overrides || {}, childOriginData.overrides)
+      if (childOriginData.tokenOverrides)
+        acc.tokenOverrides = merge(acc.tokenOverrides || {}, childOriginData.tokenOverrides)
+      if (childOriginData.includes)
+        acc.includes = [...(acc.includes || []), ...childOriginData.includes]
+      return acc
+    }, {})
+
     batchWarmer.origin = {
       ...batchWarmer.origin,
       ...batchableRequestData,
+      ...overrides,
     }
 
     for (const childKey in payload.childLastSeenById) {
@@ -184,7 +235,7 @@ export const warmupReducer = createReducer<RequestState>({}, (builder) => {
   })
 
   builder.addCase(actions.warmupFailed, (state, action) => {
-    const { key } = action.payload
+    const { key, feedLabel: id, error } = action.payload
     const subscription = state[key]
     if (!subscription) {
       logger.error(
@@ -193,6 +244,7 @@ export const warmupReducer = createReducer<RequestState>({}, (builder) => {
       )
       return state
     }
+    logger.error(`[${id}] Cache Warmer failed`, { error: error?.message })
     subscription.error = action.payload.error
     subscription.errorCount++
     subscription.successCount = 0
@@ -200,17 +252,18 @@ export const warmupReducer = createReducer<RequestState>({}, (builder) => {
   })
 
   builder.addCase(actions.warmupUnsubscribed, (state, action) => {
-    logger.info('[warmupReducer] Deleting subscription', {
-      warmupSubscriptionKey: action.payload.key,
-    })
-    delete state[action.payload.key]
+    const { key, reason } = action.payload
+    logger.info('[warmupReducer] Deleting subscription. ', { reason })
+    delete state[key]
   })
 
   builder.addCase(actions.warmupStopped, (state, action) => {
-    logger.info('[warmupReducer] Stopping subscription', {
-      warmupSubscriptionKey: action.payload.key,
+    logger.info('[warmupReducer] Stopping subscriptions', {
+      warmupSubscriptionKey: action.payload.keys,
     })
-    delete state[action.payload.key]
+    for (const key in action.payload.keys) {
+      delete state[key]
+    }
   })
 })
 

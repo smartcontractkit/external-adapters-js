@@ -1,6 +1,8 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
 import { getDataProvider, PriceAdapter } from './dataProvider'
 
+export const DEFAULT_NETWORK = 'ETHEREUM'
+
 export type GetPriceAdapter = (name: string) => PriceAdapter
 
 export type Config = {

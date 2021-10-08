@@ -2,6 +2,8 @@ import legos from '@chainlink/ea'
 import { Requester, util } from '@chainlink/ea-bootstrap'
 import { Config as DefaultConfig } from '@chainlink/types'
 
+export const DEFAULT_NETWORK = 'ETHEREUM'
+
 export type Config = {
   sources: { [name: string]: DefaultConfig }
 }

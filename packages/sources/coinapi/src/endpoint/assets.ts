@@ -44,12 +44,22 @@ const handleBatchedRequest = (
   jobRunID: string,
   request: AdapterRequest,
   response: AxiosResponse<ResponseSchema[]>,
+  validator: Validator,
   resultPath: string,
 ) => {
   const payload: [AdapterRequest, number][] = []
+
   for (const asset of response.data) {
     payload.push([
-      { ...request, data: { ...request.data, base: asset.asset_id.toUpperCase(), quote: 'USD' } },
+      {
+        ...request,
+        data: {
+          ...request.data,
+          base: validator
+            .overrideReverseLookup(AdapterName, 'overrides', asset.asset_id)
+            .toUpperCase(),
+        },
+      },
       Requester.validateResultNumber(asset, [resultPath]),
     ])
   }
@@ -64,10 +74,9 @@ const handleBatchedRequest = (
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
-
   const jobRunID = validator.validated.id
   const resultPath = validator.validated.data.resultPath
-  const from = validator.validated.data.from
+  const from = validator.validated.data.base
   const symbol = validator.overrideSymbol(AdapterName, from)
   const url = `assets`
   const params = {
@@ -82,7 +91,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const response = await Requester.request<ResponseSchema[]>(options)
 
-  if (Array.isArray(symbol)) return handleBatchedRequest(jobRunID, request, response, resultPath)
+  if (Array.isArray(symbol))
+    return handleBatchedRequest(jobRunID, request, response, validator, resultPath)
 
   const result = Requester.validateResultNumber(response.data[0], [resultPath])
   return Requester.success(

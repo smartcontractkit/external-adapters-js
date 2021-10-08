@@ -3,28 +3,37 @@ import {
   AdapterResponse,
   ExecuteFactory,
   ExecuteWithConfig,
+  RequestConfig,
 } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { getLatestAnswer } from '@chainlink/ea-reference-data-reader'
 import {
-  Config,
   makeConfig,
-  makeOptions,
   DEFAULT_CHECK_THRESHOLD,
   DEFAULT_ONCHAIN_THRESHOLD,
-  SourceRequestOptions,
-  CheckRequestOptions,
+  DEFAULT_NETWORK,
+  makeOptions,
+  Config,
 } from './config'
 import { AxiosResponse } from 'axios'
+
+export type SourceRequestOptions = { [source: string]: RequestConfig }
+export type CheckRequestOptions = { [check: string]: RequestConfig }
+
+export type AdapterOptions = {
+  sources: SourceRequestOptions
+  checks: CheckRequestOptions
+  api: any
+}
 
 const customParams = {
   referenceContract: ['referenceContract', 'contract'],
   multiply: true,
   source: true,
-  asset: true,
   check: false,
   check_threshold: false,
   onchain_threshold: false,
+  network: false,
 }
 
 const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
@@ -38,8 +47,9 @@ const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const check_threshold = validator.validated.data.check_threshold || DEFAULT_CHECK_THRESHOLD
   const onchain_threshold = validator.validated.data.onchain_threshold || DEFAULT_ONCHAIN_THRESHOLD
   const { referenceContract, multiply } = validator.validated.data
+  const network = validator.validated.data.network || DEFAULT_NETWORK
 
-  const onchainValue = await getLatestAnswer(referenceContract, multiply, input.meta)
+  const onchainValue = await getLatestAnswer(network, referenceContract, multiply, input.meta)
 
   const sourceMedian = await getExecuteMedian(config.sources, source, input)
 

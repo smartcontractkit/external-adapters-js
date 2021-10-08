@@ -2,7 +2,13 @@
 
 The adapter combines real-time DPI allocation data from on-chain with off-chain price sources in order to calculate an accurate price for the DPI.
 
+## IMPORTANT
+
+This EA will be deprecated, set-token-index will be used for future reference. [Go to Set Token Index](../set-token-index/README.md)
+
 ## NOTICE
+
+This EA will be deprecated,
 
 As explained before, this adapter makes use of some onchain data. The current implementation is fetching data directly from SetToken contracts (https://etherscan.io/address/0x78733fa5e70e3ab61dc49d93921b289e4b667093#code). Note that this implementation won't work in other networks unless we deploy a copy of the contract.
 

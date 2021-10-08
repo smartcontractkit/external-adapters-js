@@ -1,0 +1,96 @@
+# Default values for cl-adapter.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicas: 1
+
+name: fake-adapter
+namespace: adapters
+
+image:
+  repository: fake.repository.com/fakepath
+  tag: latest
+  pullPolicy: Always
+
+adapter:
+  logLevel: info
+
+envVars:
+  CACHE_ENABLED: true
+  CACHE_TYPE: redis
+  CACHE_REDIS_CONNECTION_TIMEOUT: 2147483647
+  CACHE_REDIS_HOST: redis-master
+  CACHE_REDIS_TIMEOUT: 3000
+  # https://docs.microsoft.com/en-us/azure/azure-cache-for-redis/cache-best-practices
+  EXPERIMENTAL_METRICS_ENABLED: true
+  WARMUP_ENABLED: true
+  RATE_LIMIT_ENABLED: true
+  LOG_LEVEL: info
+  METRICS_PORT: 9080
+  WS_ENABLED: false
+
+cache:
+  redis:
+    secretName: redis
+    secretKey: redis-password
+
+podSecurityContext:
+  fsGroup: 2000
+
+securityContext:
+  capabilities:
+    drop:
+      - ALL
+  runAsUser: 1000
+  runAsNonRoot: true
+  # readOnlyRootFilesystem: true
+
+service:
+  port: 8080
+
+livenessProbe:
+  httpGet:
+    path: /health
+    port: http
+  failureThreshold: 5
+  initialDelaySeconds: 5
+  periodSeconds: 30
+  timeoutSeconds: 15
+
+readinessProbe:
+  httpGet:
+    path: /health
+    port: http
+  failureThreshold: 3
+  initialDelaySeconds: 5
+  periodSeconds: 20
+  timeoutSeconds: 10
+
+# vpa uses requests:limits as a direct ratio
+resources:
+  limits:
+    cpu: 100m
+    memory: 192Mi
+  requests:
+    cpu: 30m
+    memory: 64Mi
+
+hpa:
+  enabled: false
+  # The k8s server side diff will add target: '0'
+  # if this is not declared, which breaks edits to the
+  # HPA resource. With this workaround targetAverage
+  # is unused when targetAverage is defined.
+  target: 1
+  targetAverage: 8
+
+# vertical pod autoscaler
+# this is the min/max for requests only
+vpa:
+  enabled: true
+  max:
+    cpu: 300m
+    memory: 384Mi
+  min:
+    cpu: 15m
+    memory: 32Mi

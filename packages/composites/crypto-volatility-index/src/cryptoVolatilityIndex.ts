@@ -6,6 +6,7 @@ import { Decimal } from 'decimal.js'
 import moment from 'moment'
 import { dominanceByCurrency, getDominanceAdapter } from './dominanceDataProvider'
 import { AdapterContext, AdapterRequest } from '@chainlink/types'
+import { DEFAULT_NETWORK } from './config'
 
 export const calculate = async (
   validated: Record<string, any>,
@@ -21,6 +22,7 @@ export const calculate = async (
     deviationThreshold = 0.11,
     lambdaMin = 0.031,
     lambdaK = 0.31,
+    network = DEFAULT_NETWORK,
   } = validated.data
 
   // Get all of the required derivatives data for the calculations, for all the relevant currencies
@@ -46,6 +48,7 @@ export const calculate = async (
         deviationThreshold,
         lambdaMin,
         lambdaK,
+        network,
       )
 
   Logger.info(`CVI: ${cvi}`)
@@ -133,8 +136,9 @@ const applySmoothing = async (
   deviationThreshold: number,
   lambdaMin: number,
   lambdaK: number,
+  network: string,
 ): Promise<number> => {
-  const roundData = await getRpcLatestRound(oracleAddress)
+  const roundData = await getRpcLatestRound(network, oracleAddress)
   const latestIndex = new Decimal(roundData.answer.toString()).div(multiply)
   const updatedAt = roundData.updatedAt.mul(1000).toNumber()
 

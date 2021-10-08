@@ -10,7 +10,7 @@ export const makeConfig = (prefix?: string): Config => {
   const config = Requester.getDefaultConfig(prefix, true)
   config.api.baseURL = config.api.baseURL || DEFAULT_BASE_URL
   const wsUrl = config.api.baseWsURL || DEFAULT_WS_API_ENDPOINT
-  const socketKey = util.getRequiredEnv('WS_SOCKET_KEY')
+  const socketKey = util.getEnv('WS_SOCKET_KEY')
   config.api.baseWsURL = `${wsUrl}?token=${socketKey}`
   return config
 }
