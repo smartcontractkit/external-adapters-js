@@ -24,9 +24,14 @@ export const makeExecute: ExecuteFactory<Config> = (config) => {
 export type DXFeedMessage = {
   channel: string
   clientId?: string
-  id: number
+  id: string
   data: any[]
   successful?: boolean
+  advice?: {
+    interval: number
+    timeout: number
+    reconnect: string
+  }
 }[]
 
 export const makeWSHandler = (config?: Config): MakeWSHandler => {
@@ -34,7 +39,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
     if (!ticker) return
     return [
       {
-        channel: '/service/sub',
+        channel: SERVICE_SUB,
         data: {
           [`${request === 'subscribe' ? 'add' : 'remove'}`]: {
             Quote: [ticker],
@@ -44,14 +49,51 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
     ]
   }
 
+  const META_HANDSHAKE = '/meta/handshake'
   const META_CONNECT = '/meta/connect'
+  const SERVICE_SUB = '/service/sub'
+  const SERVICE_DATA = '/service/data'
 
   return () => {
     const defaultConfig = config || makeConfig()
     const isDataMessage = (message: DXFeedMessage) =>
-      Array.isArray(message) && message[0].channel === '/service/data'
+      Array.isArray(message) && message[0].channel === SERVICE_DATA
     const isDataSubscriptionMsg = (subscriptionMessage: any) =>
-      Array.isArray(subscriptionMessage) && subscriptionMessage[0].channel === '/service/sub'
+      Array.isArray(subscriptionMessage) && subscriptionMessage[0].channel === SERVICE_SUB
+
+    const handshakeMsg = [
+      {
+        id: '1',
+        version: '1.0',
+        minimumVersion: '1.0',
+        channel: '/meta/handshake',
+        supportedConnectionTypes: ['websocket', 'long-polling', 'callback-polling'],
+        advice: {
+          timeout: 60000,
+          interval: 0,
+        },
+      },
+    ]
+
+    const firstHeartbeatMsg = [
+      {
+        id: '2',
+        channel: META_CONNECT,
+        connectionType: 'websocket',
+        advice: {
+          timeout: 0,
+        },
+      },
+    ]
+
+    const heartbeatMsg = [
+      {
+        id: '3',
+        channel: META_CONNECT,
+        connectionType: 'websocket',
+      },
+    ]
+
     return {
       connection: {
         url: defaultConfig.api.baseWsURL,
@@ -68,12 +110,17 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
         const ticker = validator.validated.data.base
         return getSubscription('unsubscribe', ticker)
       },
-      subsFromMessage: (message) => {
-        if (isDataMessage(message)) {
-          const pair = message[0].data[1][0]
-          return getSubscription('subscribe', pair)
+      subsFromMessage: (message: DXFeedMessage) => {
+        switch (message[0].channel) {
+          case META_HANDSHAKE:
+            return handshakeMsg
+          case META_CONNECT:
+            return heartbeatMsg
+          case SERVICE_DATA:
+            return getSubscription('subscribe', message[0].data[1][0])
+          default:
+            return null
         }
-        return null
       },
       isError: (message) => (message as DXFeedMessage)[0].successful === false,
       filter: (message: DXFeedMessage) => {
@@ -86,7 +133,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       },
       saveOnConnectToConnection: (message: DXFeedMessage) => {
         return {
-          requestId: message[0].id,
+          requestId: parseInt(message[0].id),
           clientId: message[0].clientId,
         }
       },
@@ -95,15 +142,18 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
         original[0].id = id.toString()
         return original
       },
-      shouldModifyPayload: (payload) => isDataSubscriptionMsg(payload),
+      shouldModifyPayload: (payload) =>
+        payload[0].channel === META_CONNECT || payload[0].channel === SERVICE_SUB,
       shouldSaveToConnection: (message: DXFeedMessage) => {
         return !!message[0].clientId
       },
-      shouldReplyToServerHeartbeat: (message) =>
-        (message as DXFeedMessage)[0].channel === META_CONNECT,
-      heartbeatReplyMessage: (_, id, connectionParams) => [
+      shouldReplyToServerHeartbeat: (message) => {
+        const dxFeedMsg = message as DXFeedMessage
+        return Object.keys(dxFeedMsg[0]).length === 3 && dxFeedMsg[0].channel === META_CONNECT
+      },
+      heartbeatReplyMessage: (message, _, connectionParams) => [
         {
-          id: id.toString(),
+          id: parseInt((message as DXFeedMessage)[0].id) + 1,
           channel: META_CONNECT,
           connectionType: 'websocket',
           clientId: connectionParams.clientId,
@@ -112,41 +162,23 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       heartbeatIntervalInMS: 30000,
       shouldSaveToStore: (subscriptionMessage: any) => isDataSubscriptionMsg(subscriptionMessage),
       isOnConnectChainMessage: (message: DXFeedMessage) =>
-        message[0].channel === '/meta/handshake' || message[0].channel === META_CONNECT,
+        message[0].channel === META_HANDSHAKE || message[0].channel === META_CONNECT,
       isDataMessage: (message: unknown) => isDataSubscriptionMsg(message),
       onConnectChain: [
-        () => [
-          {
-            id: '1',
-            version: '1.0',
-            minimumVersion: '1.0',
-            channel: '/meta/handshake',
-            supportedConnectionTypes: ['websocket', 'long-polling', 'callback-polling'],
-            advice: {
-              timeout: 60000,
-              interval: 0,
-            },
-          },
-        ],
-        (_, prevWsResponse, connectionParams) => [
-          {
-            id: '2',
-            channel: META_CONNECT,
-            connectionType: 'websocket',
-            advice: {
-              timeout: 0,
-            },
-            clientId: prevWsResponse[0].clientId || connectionParams.clientId,
-          },
-        ],
-        (_, prevWsResponse, connectionParams) => [
-          {
-            id: '3',
-            channel: META_CONNECT,
-            connectionType: 'websocket',
-            clientId: prevWsResponse[0].clientId || connectionParams.clientId,
-          },
-        ],
+        {
+          payload: handshakeMsg,
+        },
+        {
+          payload: firstHeartbeatMsg,
+          filter: (message: DXFeedMessage) => message[0].id == '2',
+        },
+        {
+          payload: heartbeatMsg,
+          filter: (message: DXFeedMessage) =>
+            message[0].id === '3' ||
+            (Object.keys(message[0]).length === 3 && message[0].channel === META_CONNECT),
+          shouldNeverUnsubscribe: true,
+        },
       ],
     }
   }

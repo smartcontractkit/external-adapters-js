@@ -197,11 +197,11 @@ declare module '@chainlink/types' {
     // Hook to send a message after connection
     onConnect?: (input: AdapterRequest) => any
     // Hook to send chain of onConnect messages
-    onConnectChain?: ((
-      input?: AdapterRequest,
-      prevWsResponse?: any,
-      connectionParams?: any,
-    ) => void)[]
+    onConnectChain?: {
+      payload: any
+      filter?: (prevMessage: any) => boolean
+      shouldNeverUnsubscribe?: boolean
+    }[]
     // Get the subscription message necessary to subscribe to the feed channel
     subscribe: (input: AdapterRequest) => any | undefined
     // Modify subscription payload before sending to WS
@@ -222,7 +222,12 @@ declare module '@chainlink/types' {
     // Determines if the incoming message is an error
     isError: (message: any) => boolean
     // Based on the incoming message, returns its corresponding subscription message
-    subsFromMessage: (message: any, subscriptionMsg: any, input: AdapterRequest) => any
+    subsFromMessage: (
+      message: any,
+      subscriptionMsg: any,
+      input: AdapterRequest,
+      connectionParams?: any,
+    ) => any
     // Allows for connection info to be set programmatically based on the input request
     // This is useful for data providers that only allow subscriptions based on URL params
     programmaticConnectionInfo?: (input: AdapterRequest) =>
