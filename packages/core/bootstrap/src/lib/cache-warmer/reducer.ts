@@ -3,7 +3,7 @@ import { combineReducers, createReducer } from '@reduxjs/toolkit'
 import { logger } from '../external-adapter'
 import * as actions from './actions'
 import { getSubscriptionKey } from './util'
-import { merge } from 'lodash'
+import { merge, uniq } from 'lodash'
 
 export interface BatchableProperty {
   name: string
@@ -126,10 +126,10 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
             childRequestData.tokenOverrides,
           )
         if (batchWarmer.origin.includes || childRequestData.includes)
-          batchWarmer.origin.includes = [
+          batchWarmer.origin.includes = uniq([
             ...(batchWarmer.origin.includes || []),
             ...(childRequestData.includes || []),
-          ]
+          ])
       }
     }
   })
@@ -173,7 +173,7 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
       if (childOriginData.tokenOverrides)
         acc.tokenOverrides = merge(acc.tokenOverrides || {}, childOriginData.tokenOverrides)
       if (childOriginData.includes)
-        acc.includes = [...(acc.includes || []), ...childOriginData.includes]
+        acc.includes = uniq([...(acc.includes || []), ...childOriginData.includes])
       return acc
     }, {})
 
