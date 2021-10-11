@@ -219,6 +219,9 @@
       "path": "./sources/eodhistoricaldata"
     },
     {
+      "path": "./sources/eth-balance"
+    },
+    {
       "path": "./sources/etherchain"
     },
     {

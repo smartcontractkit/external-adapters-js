@@ -319,6 +319,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/eodhistoricaldata"
       },
       {
+        "name": "@chainlink/eth-balance-adapter",
+        "reference": "workspace:packages/sources/eth-balance"
+      },
+      {
         "name": "@chainlink/etherchain-adapter",
         "reference": "workspace:packages/sources/etherchain"
       },
@@ -659,6 +663,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/ea-test-helpers", ["workspace:packages/core/test-helpers"]],
       ["@chainlink/enzyme-adapter", ["workspace:packages/sources/enzyme"]],
       ["@chainlink/eodhistoricaldata-adapter", ["workspace:packages/sources/eodhistoricaldata"]],
+      ["@chainlink/eth-balance-adapter", ["workspace:packages/sources/eth-balance"]],
       ["@chainlink/etherchain-adapter", ["workspace:packages/sources/etherchain"]],
       ["@chainlink/etherscan-adapter", ["workspace:packages/sources/etherscan"]],
       ["@chainlink/ethgasstation-adapter", ["workspace:packages/sources/ethgasstation"]],
@@ -4389,6 +4394,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/dxfeed-secondary-adapter", "workspace:packages/sources/dxfeed-secondary"],
             ["@chainlink/enzyme-adapter", "workspace:packages/sources/enzyme"],
             ["@chainlink/eodhistoricaldata-adapter", "workspace:packages/sources/eodhistoricaldata"],
+            ["@chainlink/eth-balance-adapter", "workspace:packages/sources/eth-balance"],
             ["@chainlink/etherchain-adapter", "workspace:packages/sources/etherchain"],
             ["@chainlink/etherscan-adapter", "workspace:packages/sources/etherscan"],
             ["@chainlink/ethgasstation-adapter", "workspace:packages/sources/ethgasstation"],
@@ -4615,6 +4621,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.2"],
             ["@types/node", "npm:14.17.21"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/eth-balance-adapter", [
+        ["workspace:packages/sources/eth-balance", {
+          "packageLocation": "./packages/sources/eth-balance/",
+          "packageDependencies": [
+            ["@chainlink/eth-balance-adapter", "workspace:packages/sources/eth-balance"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.2"],
+            ["@types/node", "npm:14.17.21"],
+            ["ethers", "npm:5.4.6"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],

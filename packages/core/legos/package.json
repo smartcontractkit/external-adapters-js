@@ -71,6 +71,7 @@
     "@chainlink/dxfeed-secondary-adapter": "*",
     "@chainlink/enzyme-adapter": "*",
     "@chainlink/eodhistoricaldata-adapter": "*",
+    "@chainlink/eth-balance-adapter": "*",
     "@chainlink/etherchain-adapter": "*",
     "@chainlink/etherscan-adapter": "*",
     "@chainlink/ethgasstation-adapter": "*",
