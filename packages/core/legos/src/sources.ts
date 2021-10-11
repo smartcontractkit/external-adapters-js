@@ -39,6 +39,7 @@ import * as dxfeed from '@chainlink/dxfeed-adapter'
 import * as dxfeed_secondary from '@chainlink/dxfeed-secondary-adapter'
 import * as enzyme from '@chainlink/enzyme-adapter'
 import * as eodhistoricaldata from '@chainlink/eodhistoricaldata-adapter'
+import * as eth_balance from '@chainlink/eth-balance-adapter'
 import * as etherchain from '@chainlink/etherchain-adapter'
 import * as etherscan from '@chainlink/etherscan-adapter'
 import * as ethgasstation from '@chainlink/ethgasstation-adapter'
@@ -64,6 +65,7 @@ import * as layer2_sequencer_health from '@chainlink/layer2-sequencer-health-ada
 import * as lcx from '@chainlink/lcx-adapter'
 import * as linkpool from '@chainlink/linkpool-adapter'
 import * as lition from '@chainlink/lition-adapter'
+import * as lotus from '@chainlink/lotus-adapter'
 import * as marketstack from '@chainlink/marketstack-adapter'
 import * as messari from '@chainlink/messari-adapter'
 import * as metalsapi from '@chainlink/metalsapi-adapter'
@@ -96,6 +98,7 @@ import * as tradingeconomics from '@chainlink/tradingeconomics-adapter'
 import * as trueusd from '@chainlink/trueusd-adapter'
 import * as twelvedata from '@chainlink/twelvedata-adapter'
 import * as unibit from '@chainlink/unibit-adapter'
+import * as uniswap_v2 from '@chainlink/uniswap-v2-adapter'
 import * as upvest from '@chainlink/upvest-adapter'
 import * as uscpi_one from '@chainlink/uscpi-one-adapter'
 import * as wbtc_adapter_address from '@chainlink/wbtc-address-set-adapter'
@@ -144,6 +147,7 @@ export default {
   dxfeed_secondary,
   enzyme,
   eodhistoricaldata,
+  eth_balance,
   etherchain,
   etherscan,
   ethgasstation,
@@ -169,6 +173,7 @@ export default {
   lcx,
   linkpool,
   lition,
+  lotus,
   marketstack,
   messari,
   metalsapi,
@@ -201,6 +206,7 @@ export default {
   trueusd,
   twelvedata,
   unibit,
+  uniswap_v2,
   upvest,
   uscpi_one,
   wbtc_adapter_address,

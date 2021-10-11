@@ -216,6 +216,9 @@
       "path": "./sources/eodhistoricaldata"
     },
     {
+      "path": "./sources/eth-balance"
+    },
+    {
       "path": "./sources/etherchain"
     },
     {
@@ -388,6 +391,9 @@
     },
     {
       "path": "./sources/unibit"
+    },
+    {
+      "path": "./sources/uniswap-v2"
     },
     {
       "path": "./sources/upvest"

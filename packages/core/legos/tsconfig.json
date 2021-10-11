@@ -134,6 +134,9 @@
       "path": "../../sources/eodhistoricaldata"
     },
     {
+      "path": "../../sources/eth-balance"
+    },
+    {
       "path": "../../sources/etherchain"
     },
     {
@@ -207,6 +210,9 @@
     },
     {
       "path": "../../sources/lition"
+    },
+    {
+      "path": "../../sources/lotus"
     },
     {
       "path": "../../sources/marketstack"
@@ -303,6 +309,9 @@
     },
     {
       "path": "../../sources/unibit"
+    },
+    {
+      "path": "../../sources/uniswap-v2"
     },
     {
       "path": "../../sources/upvest"
