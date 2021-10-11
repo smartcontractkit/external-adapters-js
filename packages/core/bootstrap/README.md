@@ -42,6 +42,10 @@ Detailed here is optional configuration that can be provided to any EA through e
 
 To cache data every adapter using the `bootstrap` package has access to a simple LRU cache that will cache successful 200 responses using SHA1 hash of input as a key.
 
+> ### ⚠️ Note
+>
+> Please check and ensure caching is allowed and not in violation of the Terms of Service of the data provider's API. Disable caching flags if it is not supported by the specified API provider's TOS.
+
 To configure caching these environment variables are available:
 
 | Required? |           Name            |                                                                                                                                     Description                                                                                                                                     |      Options       |                              Defaults to                              |

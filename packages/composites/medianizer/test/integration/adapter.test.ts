@@ -23,7 +23,6 @@ const AdapterStubs: Record<string, any> = {
     result: 2000,
     statusCode: 200,
   },
-  FAILING: false,
 }
 
 const setupEnvironment = (adapters: string[]) => {
@@ -80,18 +79,6 @@ describe('medianizer', () => {
         },
         output: 1500,
       },
-      {
-        name: 'still works with failing adapters',
-        input: {
-          id: jobID,
-          data: {
-            sources: 'coingecko,failing',
-            from: 'ETH',
-            to: 'USD',
-          },
-        },
-        output: 1000,
-      },
     ]
 
     requests.forEach((req) => {
@@ -103,12 +90,7 @@ describe('medianizer', () => {
             method: 'post',
             url: process.env[`${stub.toUpperCase()}_${util.ENV_ADAPTER_URL}`],
             data: req.input,
-          }).returns(
-            new Promise<any>((resolve, reject) => {
-              const response = AdapterStubs[stub]
-              response ? resolve(response) : reject('Mock Failure')
-            }),
-          )
+          }).returns(new Promise<any>((resolve) => resolve(AdapterStubs[stub])))
         }
         const data = await execute(req.input, {})
         assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
@@ -127,7 +109,7 @@ describe('medianizer', () => {
         input: {
           id: jobID,
           data: {
-            sources: 'coingecko,failing',
+            sources: 'coingecko',
             from: 'ETH',
             to: 'USD',
             minAnswers: 2,
@@ -145,12 +127,7 @@ describe('medianizer', () => {
             method: 'post',
             url: process.env[`${stub.toUpperCase()}_${util.ENV_ADAPTER_URL}`],
             data: req.input,
-          }).returns(
-            new Promise<any>((resolve, reject) => {
-              const response = AdapterStubs[stub]
-              response ? resolve(response) : reject('Mock Failure')
-            }),
-          )
+          }).returns(new Promise<any>((resolve) => resolve(AdapterStubs[stub])))
         }
         try {
           await await execute(req.input, {})
