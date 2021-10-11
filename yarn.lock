@@ -2441,6 +2441,7 @@ __metadata:
   resolution: "@chainlink/eth-balance-adapter@workspace:packages/sources/eth-balance"
   dependencies:
     "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-factories": "*"
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
