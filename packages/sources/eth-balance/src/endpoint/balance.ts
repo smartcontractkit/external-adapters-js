@@ -1,5 +1,5 @@
 import { Validator, Requester, AdapterError } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, InputParameters, AxiosResponse } from '@chainlink/types'
 import { Config } from '../config'
 import { utils } from 'ethers'
 
@@ -36,13 +36,21 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const balances = await Promise.all<AddressWithBalance>(
     addresses.map((addr: Address) => getBalance(addr.address, config)),
   )
-  const formattedBalances = balances.map((balance) => ({
+  const formattedBalances: AxiosResponse<AddressWithBalance> = balances.map((balance) => ({
     ...balance,
     balance: utils.formatEther(balance.balance),
   }))
-  const result = { jobRunID, statusCode: 200, data: formattedBalances, result: formattedBalances }
-  console.log(result)
-  return Requester.success(jobRunID, result)
+
+  const response = {
+    jobRunID,
+    status: 200,
+    statusText: 'OK',
+    headers: {},
+    config: {},
+    data: formattedBalances,
+  }
+
+  return Requester.success(jobRunID, Requester.withResult(response, formattedBalances))
 }
 
 const getBalance: any = async (address: string, config: Config) => ({
