@@ -5,7 +5,7 @@ import { getTickSet } from '../abi/NFC'
 import { getNFCAddress } from '../abi/NFCRegistry'
 import { SpectralAdapterConfig } from '../config'
 
-const delay = (ms: number) => new Promise((res) => setTimeout(res, ms))
+//const delay = (ms: number) => new Promise((res) => setTimeout(res, ms))
 
 export const MacroScoreAPIName = 'submit'
 
@@ -15,6 +15,15 @@ export interface ICustomError {
 
 const customError = (data: ICustomError) => {
   if (data.Response === 'Error') return true
+  return false
+}
+
+export interface IResolveResult {
+  message: string
+}
+
+const customErrorResolve = (data: IResolveResult) => {
+  if (data.message === 'calculating') return true
   return false
 }
 
@@ -86,6 +95,7 @@ export const execute = async (request: IRequestInput, config: SpectralAdapterCon
     customError,
   )
   let primary_address
+  console.log(calculateReponse.data)
   if (calculateReponse && !(calculateReponse.data.message === 'address and user already exist')) {
     primary_address = calculateReponse.data.primary_address
   } else if (
@@ -101,6 +111,7 @@ export const execute = async (request: IRequestInput, config: SpectralAdapterCon
     })
   }
 
+  console.log('PRIMARY , ', primary_address)
   const resolveOptions: RequestConfig = {
     baseURL: `${config.BASE_URL_MACRO_API}`,
     headers: {
@@ -112,15 +123,12 @@ export const execute = async (request: IRequestInput, config: SpectralAdapterCon
     method: 'GET',
   }
 
-  let resolve = await Requester.request<ResolveResponse>(resolveOptions, customError)
-  await delay(8000)
-  while (resolve && resolve.data.message === 'calculating') {
-    await delay(4000)
-    console.log(
-      `Score not ready, calculation is pending for the primary address  ${primary_address}...`,
-    )
-    resolve = await Requester.request<ResolveResponse>(resolveOptions, customError)
-  }
+  let resolve = await Requester.request<ResolveResponse>(
+    resolveOptions,
+    customErrorResolve,
+    25,
+    4000,
+  )
 
   const score = Requester.validateResultNumber(resolve.data, ['score'])
 

@@ -6,7 +6,7 @@ export const NAME = 'SPECTRAL_MACRO_SCORE'
 export const DEFAULT_BASE_URL = 'https://macro-api-test.spectral.finance/api'
 export const DEFAULT_ENDPOINT = 'submit'
 
-export const DEFAULT_TIMEOUT = 60000
+export const DEFAULT_TIMEOUT = 120000
 
 export interface SpectralAdapterConfig extends Config {
   BASE_URL_MACRO_API: string
