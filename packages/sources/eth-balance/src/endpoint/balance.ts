@@ -6,12 +6,12 @@ import { BigNumber, utils } from 'ethers'
 export const supportedEndpoints = ['balance']
 
 export const inputParameters: InputParameters = {
-  addresses: ['addresses'],
+  addresses: ['addresses', 'result'],
 }
 
 interface AddressWithBalance {
   address: string
-  balance: BigNumber
+  balance: string | BigNumber
 }
 
 interface Address {
@@ -23,12 +23,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const addresses = validator.validated.data.addresses
+  const addresses = validator.validated.data.addresses || validator.validated.data.result
 
   if (!addresses || !Array.isArray(addresses) || addresses.length === 0) {
     throw new AdapterError({
       jobRunID,
-      message: `Input, at 'address' path, must be a non-empty array.`,
+      message: `Input, at 'addresses' or 'result' path, must be a non-empty array.`,
       statusCode: 400,
     })
   }
@@ -36,7 +36,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const balances = await Promise.all<AddressWithBalance>(
     addresses.map((addr: Address) => getBalance(addr.address, config)),
   )
-  const formattedBalances: AxiosResponse<AddressWithBalance> = balances.map((balance) => ({
+  const formattedBalances: AddressWithBalance[] = balances.map((balance) => ({
     ...balance,
     balance: utils.formatEther(balance.balance),
   }))
@@ -50,7 +50,10 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     data: formattedBalances,
   }
 
-  return Requester.success(jobRunID, Requester.withResult(response, formattedBalances))
+  return Requester.success(
+    jobRunID,
+    Requester.withResult(response, formattedBalances as AxiosResponse<AddressWithBalance[]>),
+  )
 }
 
 const getBalance: (address: string, config: Config) => Promise<AddressWithBalance> = async (
