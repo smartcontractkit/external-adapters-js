@@ -3,6 +3,7 @@ import * as alphachain from '@chainlink/alphachain-adapter'
 import * as alphavantage from '@chainlink/alphavantage-adapter'
 import * as amberdata from '@chainlink/amberdata-adapter'
 import * as anyblock from '@chainlink/anyblock-adapter'
+import * as ap_election from '@chainlink/ap-election-adapter'
 import * as binance from '@chainlink/binance-adapter'
 import * as binance_dex from '@chainlink/binance-dex-adapter'
 import * as bitex from '@chainlink/bitex-adapter'
@@ -111,6 +112,7 @@ export default {
   alphavantage,
   amberdata,
   anyblock,
+  ap_election,
   binance,
   binance_dex,
   bitex,

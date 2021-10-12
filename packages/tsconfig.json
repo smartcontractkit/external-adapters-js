@@ -108,6 +108,9 @@
       "path": "./sources/anyblock"
     },
     {
+      "path": "./sources/ap-election"
+    },
+    {
       "path": "./sources/binance"
     },
     {
