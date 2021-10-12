@@ -12,12 +12,40 @@ describe('execute', () => {
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },
       {
-        name: 'base not supplied',
-        testData: { id: jobID, data: { quote: 'USD' } },
+        name: 'date not supplied',
+        testData: {
+          id: jobID,
+          data: {
+            statePostal: 'VA',
+            level: 'state',
+            officeID: 'A',
+            raceType: 'D',
+          },
+        },
       },
       {
-        name: 'quote not supplied',
-        testData: { id: jobID, data: { base: 'ETH' } },
+        name: 'statePostal not supplied',
+        testData: {
+          id: jobID,
+          data: {
+            date: '2021-06-08',
+            level: 'state',
+            officeID: 'A',
+            raceType: 'D',
+          },
+        },
+      },
+      {
+        name: 'officeID not supplied',
+        testData: {
+          id: jobID,
+          data: {
+            statePostal: 'VA',
+            date: '2021-06-08',
+            level: 'state',
+            raceType: 'D',
+          },
+        },
       },
     ]
 

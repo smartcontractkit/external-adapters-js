@@ -1,16 +1,14 @@
 # Chainlink External Adapter for Ap-election
 
-A template to be used as an example for new [External Adapters](https://github.com/smartcontractkit/external-adapters-js)
-
 (please fill out with corresponding information)
 
-An example adapter description
+The AP Election adapter fetches the latest election results provided by the Associated Press API and returns the winner of a given election.
 
 ### Environment Variables
 
-| Required? |  Name   |                                                        Description                                                         | Options | Defaults to |
-| :-------: | :-----: | :------------------------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
-|           | API_KEY | An API key that can be obtained from the data provider's dashboard (add a ✅ in `Required?` if this parameter is required) |         |             |
+| Required? |  Name   | Description | Options | Defaults to |
+| :-------: | :-----: | :---------: | :-----: | :---------: |
+|    ✅     | API_KEY |             |         |             |
 
 ---
 
@@ -18,7 +16,7 @@ An example adapter description
 
 | Required? |   Name   |     Description     |             Options              | Defaults to |
 | :-------: | :------: | :-----------------: | :------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [example](#Ap-election-Endpoint) |   example   |
+|           | election | The endpoint to use | [example](#Ap-election-Endpoint) |   example   |
 
 ---
 
