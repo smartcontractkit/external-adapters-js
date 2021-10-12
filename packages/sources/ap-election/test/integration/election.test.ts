@@ -16,7 +16,7 @@ let oldEnv: NodeJS.ProcessEnv
 
 beforeAll(() => {
   oldEnv = JSON.parse(JSON.stringify(process.env))
-  process.env.API_KEY = process.env.API_KEY || 'mock-key'
+  process.env.API_KEY = 'mock-key'
   process.env.API_VERBOSE = process.env.API_VERBOSE || 'true'
   if (process.env.RECORD) {
     nock.recorder.rec()
