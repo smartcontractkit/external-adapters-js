@@ -26,11 +26,11 @@ The balance endpoint will fetch the balance of each address in the query.
 
 ### Input Params
 
-| Required? |    Name     |                 Description                  | Options | Defaults to |
-| :-------: | :---------: | :------------------------------------------: | :-----: | :---------: |
-|    ✅     | `addresses` | An array of addresses to get the balances of |         |             |
+| Required? |    Name     |                                         Description                                          | Options | Defaults to |
+| :-------: | :---------: | :------------------------------------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     | `addresses` | An array of addresses to get the balances of (this may also be under the 'result' parameter) |         |             |
 
-`addresses` is an array of objects that contain the following information:
+`addresses` or `result` is an array of objects that contain the following information:
 
 | Required? |   Name    |   Description    | Options | Defaults to |
 | :-------: | :-------: | :--------------: | :-----: | :---------: |
