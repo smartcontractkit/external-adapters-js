@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockResponseWithNoRaces = () => {
+export const mockResponseWithNoRaces = (apikey) => {
   nock('https://api.ap.org/v2', { encodedQueryParams: true })
     .get('/elections/2021-06-08')
     .query({
@@ -11,7 +11,7 @@ export const mockResponseWithNoRaces = () => {
       format: 'json',
       winner: 'X',
       resultsType: 'l',
-      apikey: 'mock-key',
+      apikey,
     })
     .reply(
       200,
@@ -73,7 +73,7 @@ export const mockResponseWithNoRaces = () => {
     )
 }
 
-export const mockResponseWithMultipleRaces = () => {
+export const mockResponseWithMultipleRaces = (apikey) => {
   nock('https://api.ap.org/v2', { encodedQueryParams: true })
     .get('/elections/2021-06-08')
     .query({
@@ -84,7 +84,7 @@ export const mockResponseWithMultipleRaces = () => {
       format: 'json',
       winner: 'X',
       resultsType: 'l',
-      apikey: 'mock-key',
+      apikey,
     })
     .reply(
       200,
@@ -301,7 +301,7 @@ export const mockResponseWithMultipleRaces = () => {
     )
 }
 
-export const mockResponseWithNationalAndState = () => {
+export const mockResponseWithNationalAndState = (apikey) => {
   nock('https://api.ap.org/v2', { encodedQueryParams: true })
     .get('/elections/2020-11-08')
     .query({
@@ -312,7 +312,7 @@ export const mockResponseWithNationalAndState = () => {
       format: 'json',
       winner: 'X',
       resultsType: 'l',
-      apikey: 'mock-key',
+      apikey,
     })
     .reply(
       200,
@@ -452,18 +452,18 @@ export const mockResponseWithNationalAndState = () => {
     )
 }
 
-export const mockStatusLevelResponse = () => {
+export const mockStatusLevelResponse = (apikey) => {
   nock('https://api.ap.org/v2', { encodedQueryParams: true })
     .get('/elections/2021-06-08')
     .query({
-      statePostal: 'VA',
+      statePostal: 'CA',
       officeID: 'A',
       level: 'state',
       raceTypeID: 'D',
       format: 'json',
       winner: 'X',
       resultsType: 'l',
-      apikey: 'mock-key',
+      apikey,
     })
     .reply(
       200,
@@ -571,7 +571,7 @@ export const mockStatusLevelResponse = () => {
     )
 }
 
-export const mockResponseWithStateAndDistrict = () => {
+export const mockResponseWithStateAndDistrict = (apikey) => {
   nock('https://api.ap.org/v2', { encodedQueryParams: true })
     .get('/elections/2021-06-08')
     .query({
@@ -582,7 +582,7 @@ export const mockResponseWithStateAndDistrict = () => {
       format: 'json',
       winner: 'X',
       resultsType: 'l',
-      apikey: 'mock-key',
+      apikey,
     })
     .reply(
       200,
