@@ -1450,6 +1450,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/ap-election-adapter@*, @chainlink/ap-election-adapter@workspace:packages/sources/ap-election":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/ap-election-adapter@workspace:packages/sources/ap-election"
+  dependencies:
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.0.1
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+    nock: 13.1.3
+    supertest: 6.1.6
+    tslib: ^2.3.1
+    typescript: 4.3.5
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/apy-finance-adapter@workspace:packages/composites/apy-finance":
   version: 0.0.0-use.local
   resolution: "@chainlink/apy-finance-adapter@workspace:packages/composites/apy-finance"
@@ -2296,6 +2312,7 @@ __metadata:
     "@chainlink/alphavantage-adapter": "*"
     "@chainlink/amberdata-adapter": "*"
     "@chainlink/anyblock-adapter": "*"
+    "@chainlink/ap-election-adapter": "*"
     "@chainlink/binance-adapter": "*"
     "@chainlink/binance-dex-adapter": "*"
     "@chainlink/bitex-adapter": "*"
@@ -2357,6 +2374,7 @@ __metadata:
     "@chainlink/lcx-adapter": "*"
     "@chainlink/linkpool-adapter": "*"
     "@chainlink/lition-adapter": "*"
+    "@chainlink/lotus-adapter": "*"
     "@chainlink/marketstack-adapter": "*"
     "@chainlink/messari-adapter": "*"
     "@chainlink/metalsapi-adapter": "*"
@@ -2389,6 +2407,7 @@ __metadata:
     "@chainlink/trueusd-adapter": "*"
     "@chainlink/twelvedata-adapter": "*"
     "@chainlink/unibit-adapter": "*"
+    "@chainlink/uniswap-v2-adapter": "*"
     "@chainlink/upvest-adapter": "*"
     "@chainlink/uscpi-one-adapter": "*"
     "@chainlink/wbtc-address-set-adapter": "*"
@@ -3595,7 +3614,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/uniswap-v2-adapter@workspace:packages/sources/uniswap-v2":
+"@chainlink/uniswap-v2-adapter@*, @chainlink/uniswap-v2-adapter@workspace:packages/sources/uniswap-v2":
   version: 0.0.0-use.local
   resolution: "@chainlink/uniswap-v2-adapter@workspace:packages/sources/uniswap-v2"
   dependencies:

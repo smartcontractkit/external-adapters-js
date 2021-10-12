@@ -108,6 +108,9 @@
       "path": "./sources/anyblock"
     },
     {
+      "path": "./sources/ap-election"
+    },
+    {
       "path": "./sources/binance"
     },
     {
@@ -388,6 +391,9 @@
     },
     {
       "path": "./sources/unibit"
+    },
+    {
+      "path": "./sources/uniswap-v2"
     },
     {
       "path": "./sources/upvest"
