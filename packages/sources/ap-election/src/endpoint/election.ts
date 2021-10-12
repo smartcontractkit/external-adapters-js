@@ -1,5 +1,5 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterRequest, Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 
 // This should be filled in with a lowercase name corresponding to the API endpoint
 export const supportedEndpoints = ['election']
@@ -54,7 +54,7 @@ const customError = (data: any) => data.Response === 'Error'
 
 export const inputParameters: InputParameters = {
   date: true,
-  statePostal: true, // Validate only one
+  statePostal: true,
   level: false,
   officeID: true,
   raceType: false,
@@ -63,6 +63,7 @@ export const inputParameters: InputParameters = {
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
+  validateRequest(request)
 
   const jobRunID = validator.validated.id
   const { level, raceType, date, ...rest } = validator.validated.data
@@ -84,6 +85,18 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const result = getRaceWinner(response.data)
 
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
+}
+
+const validateRequest = (request: AdapterRequest) => {
+  const { statePostal } = request.data
+  const statePostals = statePostal.split(',')
+  if (statePostals.length > 1) {
+    throw new AdapterError({
+      jobRunID: request.id,
+      statusCode: 400,
+      message: 'Adapter only supports finding results from a single state',
+    })
+  }
 }
 
 const getRaceWinner = (response: ResponseSchema): string => {

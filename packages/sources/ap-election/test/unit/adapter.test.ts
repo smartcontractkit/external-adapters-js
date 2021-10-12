@@ -47,6 +47,18 @@ describe('execute', () => {
           },
         },
       },
+      {
+        name: 'multiple states provided',
+        testData: {
+          id: jobID,
+          data: {
+            statePostal: 'VA,WA,CA',
+            date: '2021-06-08',
+            level: 'state',
+            raceType: 'D',
+          },
+        },
+      },
     ]
 
     requests.forEach((req) => {
