@@ -1,12 +1,9 @@
 import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { AdapterRequest, Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 
-// This should be filled in with a lowercase name corresponding to the API endpoint
 export const supportedEndpoints = ['election']
 
-export const endpointResultPaths = {
-  example: 'price',
-}
+export const endpointResultPaths = {}
 
 interface Candidate {
   first: string
