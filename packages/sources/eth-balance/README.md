@@ -1,37 +1,40 @@
 # Chainlink External Adapter for Eth-balance
 
-A template to be used as an example for new [External Adapters](https://github.com/smartcontractkit/external-adapters-js)
-
-(please fill out with corresponding information)
-
-An example adapter description
+External adapter for fetching balances for ETH addresses
 
 ### Environment Variables
 
-| Required? |  Name   |                                                        Description                                                         | Options | Defaults to |
-| :-------: | :-----: | :------------------------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
-|           | API_KEY | An API key that can be obtained from the data provider's dashboard (add a ✅ in `Required?` if this parameter is required) |         |             |
+The adapter takes the following environment variables:
+
+| Required? |  Name   |     Description     | Options | Defaults to |
+| :-------: | :-----: | :-----------------: | :-----: | :---------: |
+|    ✅     | RPC_URL | RPC URL of ETH node |         |             |
 
 ---
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |             Options              | Defaults to |
-| :-------: | :------: | :-----------------: | :------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [example](#Eth-balance-Endpoint) |   example   |
+| Required? |   Name   |     Description     |           Options            | Defaults to |
+| :-------: | :------: | :-----------------: | :--------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [balance](#Balance-Endpoint) |   balance   |
 
 ---
 
-## Eth-balance Endpoint
+## Balance Endpoint
 
-An example endpoint description
+The balance endpoint will fetch the balance of each address in the query.
 
 ### Input Params
 
-| Required? |            Name            |               Description                |       Options       | Defaults to |
-| :-------: | :------------------------: | :--------------------------------------: | :-----------------: | :---------: |
-|    ✅     | `base`, `from`, or `coin`  |   The symbol of the currency to query    | `BTC`, `ETH`, `USD` |             |
-|    ✅     | `quote`, `to`, or `market` | The symbol of the currency to convert to | `BTC`, `ETH`, `USD` |             |
+| Required? |    Name     |                 Description                  | Options | Defaults to |
+| :-------: | :---------: | :------------------------------------------: | :-----: | :---------: |
+|    ✅     | `addresses` | An array of addresses to get the balances of |         |             |
+
+`addresses` is an array of objects that contain the following information:
+
+| Required? |   Name    |   Description    | Options | Defaults to |
+| :-------: | :-------: | :--------------: | :-----: | :---------: |
+|    ✅     | `address` | Address to query |         |
 
 ### Sample Input
 
@@ -39,8 +42,10 @@ An example endpoint description
 {
   "id": "1",
   "data": {
-    "base": "ETH",
-    "quote": "USD"
+    "addresses": [
+      { "address": "0xfF1BE3171A16FE431E31d874E4De14814362E588" },
+      { "address": "0xbef7bcbDFbE321e1f407282a9caFcA41A4984a4d" }
+    ]
   }
 }
 ```
@@ -49,11 +54,29 @@ An example endpoint description
 
 ```json
 {
-  "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
+  "jobRunID": "1",
+  "result": [
+    {
+      "address": "0xfF1BE3171A16FE431E31d874E4De14814362E588",
+      "balance": "0.0"
+    },
+    {
+      "address": "0xbef7bcbDFbE321e1f407282a9caFcA41A4984a4d",
+      "balance": "0.046572563850192871"
+    }
+  ],
+  "statusCode": 200,
   "data": {
-    "price": 77777.77,
-    "result": 77777.77
-  },
-  "statusCode": 200
+    "result": [
+      {
+        "address": "0xfF1BE3171A16FE431E31d874E4De14814362E588",
+        "balance": "0.0"
+      },
+      {
+        "address": "0xbef7bcbDFbE321e1f407282a9caFcA41A4984a4d",
+        "balance": "0.046572563850192871"
+      }
+    ]
+  }
 }
 ```
