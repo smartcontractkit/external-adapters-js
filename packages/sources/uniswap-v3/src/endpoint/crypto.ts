@@ -44,7 +44,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const amount = BigNumber.from(inputAmount).mul(BigNumber.from(10).pow(fromDecimals))
   const resultPath = validator.validated.data.resultPath
 
-  const [output] = await getBestRate(from, to, amount, config)
+  const output = await getBestRate(from, to, amount, config)
 
   const outputAmount = new Decimal(output.toString()).div(new Decimal(10).pow(toDecimals))
   const rate = outputAmount.div(inputAmount)
@@ -116,7 +116,7 @@ const getBestRate = async (
   to: string,
   amount: BigNumber,
   config: Config,
-): Promise<[output: BigNumber]> => {
+): Promise<BigNumber> => {
   // pull abi from file
   const quoterContract = new ethers.Contract(config.uniswapQuoter, quoterABI, config.provider)
 
@@ -124,13 +124,11 @@ const getBestRate = async (
   const sqrtPriceLimitX96 = 0
 
   // execute non view function as a call
-  const result = await quoterContract.callStatic.quoteExactInputSingle(
+  return await quoterContract.callStatic.quoteExactInputSingle(
     from,
     to,
     config.feeAmount,
     amount,
     sqrtPriceLimitX96,
   )
-
-  return [result]
 }

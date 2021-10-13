@@ -7,11 +7,16 @@ export const NAME = 'UNISWAP-V3'
 export const ENV_RPC_URL = 'RPC_URL'
 export const ENV_BLOCKCHAIN_NETWORK = 'BLOCKCHAIN_NETWORK'
 export const ENV_QUOTER_CONTRACT = 'QUOTER_CONTRACT'
-export const ENV_FEE = 'FEE'
+export const ENV_FEE = 'DEFAULT_FEE'
 
 export const DEFAULT_ENDPOINT = 'crypto'
 export const DEFAULT_BLOCKCHAIN_NETWORK = 'ethereum'
-export const DEFAULT_FEE = 500
+
+// https://docs.uniswap.org/protocol/concepts/V3-overview/fees#pool-fees-tiers
+// LOW    MID    HIGH
+// 0.05%  0.30%  1.00%
+// 500    3000   10000
+export const DEFAULT_FEE = 3000
 export const DEFAULT_QUOTER_CONTRACT = '0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6'
 
 export type Config = BaseConfig & {
