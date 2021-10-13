@@ -44,7 +44,7 @@ describe('execute', () => {
         testData: {
           id: jobID,
           data: {
-            tokenIdHash: '0x4f227f3cd320ab8df1c6f8dee74b5f958af8d19ace1622413a9315b6eff85145', // Replace this if recording Nock mock
+            tokenIdHash: '0xaccc41bfab1dbadc07fc27501daa97aea20569b94f2fb85d46612f011fe980e2', // Replace this if recording Nock mock
             tickSetId: BigNumber.from('1'),
           },
         },

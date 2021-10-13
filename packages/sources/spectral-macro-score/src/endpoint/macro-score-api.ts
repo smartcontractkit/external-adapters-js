@@ -35,8 +35,10 @@ export interface IRequestInput {
     jobRunID: string
   }
 }
+
 export interface AddressesResponse {
   signed_addresses: string[]
+  primary_address: string
 }
 export interface CalculationResponse {
   primary_address: string
@@ -71,6 +73,14 @@ export const execute = async (request: IRequestInput, config: SpectralAdapterCon
 
   const addressResponse = await Requester.request<AddressesResponse>(addressOptions, customError)
   const addresses = addressResponse.data.signed_addresses
+  const primaryAddress = addressResponse.data.primary_address
+
+  if (!primaryAddress) {
+    throw new AdapterError({
+      message: 'FastAPI + Macro API error',
+      cause: 'Primary address does not exist on FAST API',
+    })
+  }
 
   const calculateOptions: RequestConfig = {
     baseURL: `${config.BASE_URL_MACRO_API}`,
@@ -82,6 +92,7 @@ export const execute = async (request: IRequestInput, config: SpectralAdapterCon
     url: '/submit/',
     method: 'POST',
     data: {
+      username: primaryAddress,
       addresses,
     },
   }
@@ -94,24 +105,21 @@ export const execute = async (request: IRequestInput, config: SpectralAdapterCon
     calculateOptions,
     customError,
   )
-  let primary_address
-  console.log(calculateReponse.data)
-  if (calculateReponse && !(calculateReponse.data.message === 'address and user already exist')) {
-    primary_address = calculateReponse.data.primary_address
-  } else if (
+
+  if (
     calculateReponse &&
-    calculateReponse.data.message === 'address and user already exist' &&
-    addresses[0]
+    primaryAddress &&
+    !(calculateReponse.data.message === 'address and user already exist')
   ) {
-    primary_address = addresses[0]
-  } else {
-    throw new AdapterError({
-      message: 'FastAPI + Macro API error',
-      cause: 'Addresses exists in MACRO API but bundle is empty on FAST API',
-    })
+    if (primaryAddress !== calculateReponse.data.primary_address) {
+      throw new AdapterError({
+        message: 'FastAPI + Macro API error',
+        cause: 'Primary address is different in FAST API and MACRO Score API',
+      })
+    }
   }
 
-  console.log('PRIMARY , ', primary_address)
+  console.log('Pending calculation for: ', primaryAddress)
   const resolveOptions: RequestConfig = {
     baseURL: `${config.BASE_URL_MACRO_API}`,
     headers: {
@@ -119,7 +127,7 @@ export const execute = async (request: IRequestInput, config: SpectralAdapterCon
       Authorization: `Token ${config.MACRO_API_KEY}`,
     },
     timeout: config.timeout,
-    url: `/resolve/${primary_address}/`,
+    url: `/resolve/${primaryAddress}/`,
     method: 'GET',
   }
 
@@ -134,6 +142,6 @@ export const execute = async (request: IRequestInput, config: SpectralAdapterCon
 
   const tick = computeTickWithScore(score, tickSet)
 
-  console.log(`Tick ${tick} fulfilled for primary address ${primary_address}!`)
+  console.log(`Tick ${tick} fulfilled for primary address ${primaryAddress}!`)
   return Requester.success(request.data.jobRunID, Requester.withResult(resolve, tick))
 }
