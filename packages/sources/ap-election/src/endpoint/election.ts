@@ -30,6 +30,9 @@ interface ReportingUnit {
 }
 
 export interface ResponseSchema {
+  winnerFirstName: string
+  winnerLastName: string
+  winnerVoteCount: number
   electionDate: string
   timestamp: string
   races: {
@@ -79,9 +82,16 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const options = { ...config.api, params, url }
 
   const response = await Requester.request<ResponseSchema>(options, customError)
-  const result = getRaceWinner(response.data)
+  const raceWinner = getRaceWinner(response.data)
 
-  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
+  response.data.winnerFirstName = raceWinner.first
+  response.data.winnerLastName = raceWinner.last
+  response.data.winnerVoteCount = raceWinner.voteCount
+  return Requester.success(
+    jobRunID,
+    Requester.withResult(response, concatenateName(raceWinner)),
+    config.verbose,
+  )
 }
 
 const validateRequest = (request: AdapterRequest) => {
@@ -96,7 +106,7 @@ const validateRequest = (request: AdapterRequest) => {
   }
 }
 
-const getRaceWinner = (response: ResponseSchema): string => {
+const getRaceWinner = (response: ResponseSchema): Candidate => {
   const races = response.races
   if (races.length === 0) {
     throw Error('We could not find any races')
@@ -106,8 +116,7 @@ const getRaceWinner = (response: ResponseSchema): string => {
   }
   const reportingUnits = races[0].reportingUnits
   const topLevelRU = getTopLevelReportingUnit(reportingUnits)
-  const winner = getReportingUnitWinner(topLevelRU)
-  return concatenateName(winner)
+  return getReportingUnitWinner(topLevelRU)
 }
 
 const getTopLevelReportingUnit = (reportingUnits: ReportingUnit[]): ReportingUnit => {

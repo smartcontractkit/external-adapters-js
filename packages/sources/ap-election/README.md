@@ -105,7 +105,10 @@ This endpoint fetches the results from an election and reports back a winner if 
       }
     ],
     "nextrequest": "https://api.ap.org/v2/elections/2021-06-08?format=json&level=state&officeid=A&racetypeid=D&resultstype=l&statepostal=VA&winner=X&minDateTime=2021-06-09T20%3a35%3a40.840Z",
-    "result": "271187,Herring"
+    "result": "271187,Herring",
+    "winnerFirstName": "Mark",
+    "winnerLastName": "Herring",
+    "winnerVoteCount": 271187
   }
 }
 ```
