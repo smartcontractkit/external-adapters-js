@@ -14,9 +14,9 @@ Adapter got get data from Sportsdata.io
 
 ### Input Parameters
 
-| Required? | Name  |   Description    |                    Options                    | Defaults to |
-| :-------: | :---: | :--------------: | :-------------------------------------------: | :---------: |
-|           | sport | The sport to use | [nfl](#NFL), [mma](#MMA), [ncaa-fb](#ncaa-fb) |     nfl     |
+| Required? | Name  |   Description    |                          Options                           | Defaults to |
+| :-------: | :---: | :--------------: | :--------------------------------------------------------: | :---------: |
+|           | sport | The sport to use | [nfl](#NFL), [mma](#MMA), [ncaa-fb](#ncaa-fb), [nba](#nba) |     nfl     |
 
 ---
 
