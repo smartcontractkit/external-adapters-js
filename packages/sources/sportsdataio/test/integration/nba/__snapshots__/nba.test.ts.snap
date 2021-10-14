@@ -1,5 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`execute fetch nba player data should return a 400 if date is missing 1`] = `
+Object {
+  "error": Object {
+    "message": "Required parameter not supplied: date",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
 exports[`execute fetch nba player data should return the correct player information 1`] = `
 Object {
   "data": Object {

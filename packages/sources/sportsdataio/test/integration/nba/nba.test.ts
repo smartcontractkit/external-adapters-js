@@ -33,6 +33,7 @@ describe('execute', () => {
   const id = '1'
   let server: http.Server
   const req = request('localhost:8080')
+
   beforeAll(async () => {
     server = await startServer()
   })
@@ -41,18 +42,18 @@ describe('execute', () => {
   })
 
   describe('fetch nba player data', () => {
-    const data: AdapterRequest = {
-      id,
-      data: {
-        date: '2021-OCT-11',
-        sport: 'nba',
-        endpoint: 'player-stats',
-      },
-    }
-
     mockSportsDataProviderResponse()
 
     it('should return the correct player information', async () => {
+      const data: AdapterRequest = {
+        id,
+        data: {
+          date: '2021-OCT-11',
+          sport: 'nba',
+          endpoint: 'player-stats',
+        },
+      }
+
       const response = await req
         .post('/')
         .send(data)
@@ -60,6 +61,25 @@ describe('execute', () => {
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('should return a 400 if date is missing', async () => {
+      const data: AdapterRequest = {
+        id,
+        data: {
+          sport: 'nba',
+          endpoint: 'player-stats',
+        },
+      }
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
       expect(response.body).toMatchSnapshot()
     })
   })
