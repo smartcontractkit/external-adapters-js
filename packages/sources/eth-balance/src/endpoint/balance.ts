@@ -1,7 +1,6 @@
 import { Validator, Requester, AdapterError } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters, AxiosResponse } from '@chainlink/types'
 import { Config } from '../config'
-import { BigNumber, utils } from 'ethers'
 
 export const supportedEndpoints = ['balance']
 
@@ -11,7 +10,7 @@ export const inputParameters: InputParameters = {
 
 interface AddressWithBalance {
   address: string
-  balance: string | BigNumber
+  balance: string
 }
 
 interface Address {
@@ -36,10 +35,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const balances = await Promise.all<AddressWithBalance>(
     addresses.map((addr: Address) => getBalance(addr.address, config)),
   )
-  const formattedBalances: AddressWithBalance[] = balances.map((balance) => ({
-    ...balance,
-    balance: utils.formatEther(balance.balance),
-  }))
 
   const response = {
     jobRunID,
@@ -47,12 +42,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     statusText: 'OK',
     headers: {},
     config: {},
-    data: formattedBalances,
+    data: balances,
   }
 
   return Requester.success(
     jobRunID,
-    Requester.withResult(response, formattedBalances as AxiosResponse<AddressWithBalance[]>),
+    Requester.withResult(response, balances as AxiosResponse<AddressWithBalance[]>),
   )
 }
 
@@ -61,5 +56,5 @@ const getBalance: (address: string, config: Config) => Promise<AddressWithBalanc
   config: Config,
 ) => ({
   address,
-  balance: await config.provider.getBalance(address),
+  balance: (await config.provider.getBalance(address)).toString(),
 })
