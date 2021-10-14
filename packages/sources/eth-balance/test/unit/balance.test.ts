@@ -14,7 +14,7 @@ describe('execute', () => {
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },
       {
-        name: 'empty address',
+        name: 'empty addresses',
         testData: { id: jobID, data: { addresses: [] } },
       },
       {
