@@ -31,12 +31,13 @@ export const inputParameters: InputParameters = {
   toDecimals: false,
   amount: false,
   resultPath: false,
+  feeTiers: false,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
+  if (validator.error) throw validator.error
   const jobRunID = validator.validated.id
   const { address: from, decimals: fromDecimals } = await getTokenDetails(validator, 'from', config)
   const { address: to, decimals: toDecimals } = await getTokenDetails(validator, 'to', config)
@@ -44,7 +45,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const amount = BigNumber.from(inputAmount).mul(BigNumber.from(10).pow(fromDecimals))
   const resultPath = validator.validated.data.resultPath
 
-  const output = await getBestRate(from, to, amount, config)
+  const feeTiers = validator.validated.data.feeTiers || config.feeTiers
+  const output = await getBestRate(from, to, amount, feeTiers, config)
 
   const outputAmount = new Decimal(output.toString()).div(new Decimal(10).pow(toDecimals))
   const rate = outputAmount.div(inputAmount)
@@ -115,6 +117,7 @@ const getBestRate = async (
   from: string,
   to: string,
   amount: BigNumber,
+  feeTiers: number[],
   config: Config,
 ): Promise<BigNumber> => {
   // pull abi from file
@@ -122,13 +125,23 @@ const getBestRate = async (
 
   // encode inputs for quoteExactInputSingle
   const sqrtPriceLimitX96 = 0
+  let bestPrice = BigNumber.from(0)
 
-  // execute non view function as a call
-  return await quoterContract.callStatic.quoteExactInputSingle(
-    from,
-    to,
-    config.feeAmount,
-    amount,
-    sqrtPriceLimitX96,
-  )
+  // iterate over fee tiers
+  for (let fee of feeTiers) {
+    // execute non view function as a call
+    let price = await quoterContract.callStatic.quoteExactInputSingle(
+      from,
+      to,
+      fee,
+      amount,
+      sqrtPriceLimitX96,
+    )
+    // update best price by largest amount out
+    if (price > bestPrice) {
+      bestPrice = price
+    }
+  }
+
+  return bestPrice
 }

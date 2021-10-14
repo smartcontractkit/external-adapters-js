@@ -66,7 +66,7 @@ describe('execute', () => {
     const data: AdapterRequest = {
       id,
       data: {
-        from: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48', // USDC
+        from: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2', // USDC
         fromDecimals: 18,
         to: '0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984', // UNI
         toDecimals: 18,
