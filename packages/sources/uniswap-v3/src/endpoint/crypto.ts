@@ -129,18 +129,20 @@ const getBestRate = async (
 
   // iterate over fee tiers
   for (const fee of feeTiers) {
-    // execute non view function as a call
-    const price = await quoterContract.callStatic.quoteExactInputSingle(
-      from,
-      to,
-      fee,
-      amount,
-      sqrtPriceLimitX96,
-    )
-    // update best price by largest amount out
-    if (price > bestPrice) {
-      bestPrice = price
-    }
+    try {
+      // execute non view function as a call
+      const price = await quoterContract.callStatic.quoteExactInputSingle(
+        from,
+        to,
+        fee,
+        amount,
+        sqrtPriceLimitX96,
+      )
+      // update best price by largest amount out
+      if (price > bestPrice) {
+        bestPrice = price
+      }
+    } catch (error) {}
   }
 
   return bestPrice
