@@ -1,15 +1,10 @@
-import { assertSuccess } from '@chainlink/ea-test-helpers'
+import { assertSuccess, serverErrors, validationErrors } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
 import { makeExecute } from '../../src/adapter'
-import { serverErrors, validationErrors } from '../../../../core/test-helpers/src/helpers'
 
 describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
-
-  beforeAll(() => {
-    process.env.RPC_URL = process.env.RPC_URL || 'fake-rpc-url'
-  })
 
   describe('successful calls', () => {
     const requests = [
