@@ -11,9 +11,9 @@ The adapter takes the following environment variables:
 
 ### Input Parameters
 
-| Required? |    Name    |     Description     |                                          Options                                           | Defaults to |
-| :-------: | :--------: | :-----------------: | :----------------------------------------------------------------------------------------: | :---------: |
-|           | `endpoint` | The endpoint to use | [crypto](#Crypto-Endpoint), [balance](#Balance-Endpoint), [marketcap](#MarketCap-Endpoint) |  `crypto`   |
+| Required? |    Name    |     Description     |                                                        Options                                                         | Defaults to |
+| :-------: | :--------: | :-----------------: | :--------------------------------------------------------------------------------------------------------------------: | :---------: |
+|           | `endpoint` | The endpoint to use | [crypto](#Crypto-Endpoint), [balance](#Balance-Endpoint), [marketcap](#MarketCap-Endpoint), [volume](#Volume-Endpoint) |  `crypto`   |
 
 ---
 
@@ -270,6 +270,57 @@ Gets the asset USD Market Cap from Amberdata.
     "result": 14000000000
   },
   "result": 14000000000,
+  "statusCode": 200
+}
+```
+
+## Volume Endpoint
+
+Gets the [24h-volume for historical of a pair](https://docs.amberdata.io/reference#spot-price-pair-historical) from Amberdata.
+
+### Input Params
+
+| Required? |            Name            |                        Description                        |                                       Options                                        | Defaults to |
+| :-------: | :------------------------: | :-------------------------------------------------------: | :----------------------------------------------------------------------------------: | :---------: |
+|    ✅     | `base`, `from`, or `coin`  |            The symbol of the currency to query            |                                                                                      |             |
+|    ✅     | `quote`, `to`, or `market` |         The symbol of the currency to convert to          |                                                                                      |             |
+|           |        `overrides`         | If base provided is found in overrides, that will be used | [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json) |             |
+
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "volume",
+    "base": "LINK",
+    "quote": "USD"
+  }
+}
+```
+
+### Sample Output
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "status": 200,
+    "title": "OK",
+    "description": "Successful request",
+    "payload": {
+      "metadata": { "startDate": 1634158105724, "endDate": 1634244505724 },
+      "data": {
+        [{
+          "timestamp": 1634169600000,
+          "pair": "link_usd",
+          "price": 26.5973064
+        }]
+      }
+    },
+    "result": 22201324.19515343
+  },
+  "result": 22201324.19515343,
   "statusCode": 200
 }
 ```

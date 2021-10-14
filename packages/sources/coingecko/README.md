@@ -8,9 +8,9 @@
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |                                                                          Options                                                                          | Defaults to |
-| :-------: | :------: | :-----------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [crypto](#Crypto-Endpoint), [globalmarketcap](#Global-Market-Capitalization-Endpoint), [dominance](#Dominance-Endpoint), [marketcap](#Marketcap-Endpoint) |    price    |
+| Required? |   Name   |     Description     |                                                                                        Options                                                                                        | Defaults to |
+| :-------: | :------: | :-----------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [crypto](#Crypto-Endpoint), [globalmarketcap](#Global-Market-Capitalization-Endpoint), [dominance](#Dominance-Endpoint), [marketcap](#Marketcap-Endpoint), [volume](#Volume-Endpoint) |    price    |
 
 ---
 
