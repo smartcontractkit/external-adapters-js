@@ -142,7 +142,9 @@ const getBestRate = async (
       if (price > bestPrice) {
         bestPrice = price
       }
-    } catch (error) {}
+    } catch (error) {
+      console.error(`Failed with: ${error}`)
+    }
   }
 
   return bestPrice
