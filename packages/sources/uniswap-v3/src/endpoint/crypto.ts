@@ -128,9 +128,9 @@ const getBestRate = async (
   let bestPrice = BigNumber.from(0)
 
   // iterate over fee tiers
-  for (let fee of feeTiers) {
+  for (const fee of feeTiers) {
     // execute non view function as a call
-    let price = await quoterContract.callStatic.quoteExactInputSingle(
+    const price = await quoterContract.callStatic.quoteExactInputSingle(
       from,
       to,
       fee,
