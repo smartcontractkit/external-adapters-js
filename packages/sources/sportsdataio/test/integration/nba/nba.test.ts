@@ -51,6 +51,7 @@ describe('execute', () => {
           date: '2021-OCT-11',
           sport: 'nba',
           endpoint: 'player-stats',
+          playerID: 20002528,
         },
       }
 
@@ -70,6 +71,27 @@ describe('execute', () => {
         data: {
           sport: 'nba',
           endpoint: 'player-stats',
+          playerID: 20002528,
+        },
+      }
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('should return a 400 if playerID is missing', async () => {
+      const data: AdapterRequest = {
+        id,
+        data: {
+          sport: 'nba',
+          endpoint: 'player-stats',
+          date: '2021-OCT-11',
         },
       }
 

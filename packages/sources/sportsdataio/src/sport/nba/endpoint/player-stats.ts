@@ -5,11 +5,9 @@ import { utils } from 'ethers'
 
 export const NAME = 'player-stats'
 
-const DEFAULT_PLAYER_ID = 20002528 // LaMelo Ball
-
 const customParams = {
   date: true,
-  playerID: false,
+  playerID: true,
 }
 
 export interface ResponseSchema {
@@ -103,7 +101,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const jobRunID = validator.validated.id
   const { date, playerID } = validator.validated.data
-  const url = `/nba/stats/json/PlayerGameStatsByPlayer/${date}/${playerID || DEFAULT_PLAYER_ID}`
+  const url = `/nba/stats/json/PlayerGameStatsByPlayer/${date}/${playerID}`
 
   const params = {
     key: config.nbaKey,
