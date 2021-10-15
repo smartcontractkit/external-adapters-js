@@ -6,6 +6,7 @@ import {
   AdapterResponse,
   InputParameters,
   AdapterContext,
+  MakeResultPath,
 } from '@chainlink/types'
 import { logger } from '../external-adapter'
 
@@ -77,7 +78,8 @@ const selectEndpoint = <C extends Config>(
   // Allow adapter endpoints to dynamically query different endpoint resultPaths
   if (apiEndpoint.endpointResultPaths && request.data && !request.data.resultPath) {
     const resultPath = apiEndpoint.endpointResultPaths[endpoint]
-    if (typeof resultPath === 'function') request.data.resultPath = resultPath(request)
+    if (typeof resultPath === 'function')
+      request.data.resultPath = (resultPath as MakeResultPath)(request)
     else request.data.resultPath = resultPath
   }
 
