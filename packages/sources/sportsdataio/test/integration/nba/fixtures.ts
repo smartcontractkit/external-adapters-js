@@ -1,9 +1,9 @@
 import nock from 'nock'
 
-export const mockSportsDataProviderResponse = () => {
+export const mockSportsDataProviderResponse = (key: string) => {
   nock('https://fly.sportsdata.io:443', { encodedQueryParams: true })
     .get('/v3/nba/stats/json/PlayerGameStatsByPlayer/2021-OCT-11/20002528')
-    .query({ key: '6cd20300b9eb40e093ee5cc30cda1007' })
+    .query({ key: key })
     .reply(
       200,
       {
@@ -98,7 +98,7 @@ export const mockSportsDataProviderResponse = () => {
         'Content-Type',
         'application/json; charset=utf-8',
         'Last-Modified',
-        'Thu, 14 Oct 2021 17:43:58 GMT',
+        'Fri, 15 Oct 2021 04:48:20 GMT',
         'X-AspNet-Version',
         '4.0.30319',
         'Cache-Control',
@@ -110,17 +110,17 @@ export const mockSportsDataProviderResponse = () => {
         'Accept-Ranges',
         'bytes',
         'Date',
-        'Thu, 14 Oct 2021 17:43:59 GMT',
+        'Fri, 15 Oct 2021 04:48:20 GMT',
         'Age',
         '0',
         'X-Served-By',
-        'cache-pwk12227-PWK, cache-sea4475-SEA',
+        'cache-pwk4945-PWK, cache-sea4462-SEA',
         'X-Cache',
         'MISS, MISS',
         'X-Cache-Hits',
         '0, 0',
         'X-Timer',
-        'S1634233439.905292,VS0,VE123',
+        'S1634273301.621275,VS0,VE117',
         'Vary',
         'x-subtier, Accept-Encoding',
         'Access-Control-Allow-Origin',

@@ -12,7 +12,7 @@ const MOCK_KEY = 'mock-key'
 
 beforeAll(() => {
   oldEnv = JSON.parse(JSON.stringify(process.env))
-  process.env.API_KEY = process.env.API_KEY || MOCK_KEY
+  process.env.NBA_API_KEY = process.env.NBA_API_KEY || MOCK_KEY
   if (process.env.RECORD) {
     nock.recorder.rec()
   }
@@ -42,7 +42,7 @@ describe('execute', () => {
   })
 
   describe('fetch nba player data', () => {
-    mockSportsDataProviderResponse()
+    mockSportsDataProviderResponse(MOCK_KEY)
 
     it('should return the correct player information', async () => {
       const data: AdapterRequest = {
