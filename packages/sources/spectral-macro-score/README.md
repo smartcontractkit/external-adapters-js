@@ -50,3 +50,29 @@ Default endpoint used to retrieve a tick (bucket in Credit Scores) for a given t
   "statusCode": 200
 }
 ```
+
+### Chainlink Node Job example
+
+```json
+type = "directrequest"
+schemaVersion = 1
+name = "Source Tick Into NFC"
+contractAddress = "ADDRESS"
+maxTaskDuration = "0s"
+observationSource = """
+    decode_log   [type=ethabidecodelog
+                  abi="OracleRequest(bytes32 indexed specId, address requester, bytes32 requestId, uint256 payment, address callbackAddr, bytes4 callbackFunctionId, uint256 cancelExpiration, uint256 dataVersion, bytes data)"
+                  data="$(jobRun.logData)"
+                  topics="$(jobRun.logTopics)"]
+    decode_cbor [type=cborparse data="$(decode_log.data)"]
+    macro_score_adapter        [type=bridge name="spectral-macro-score-adapter" requestData="{\\"data\\":{\\"tokenIdHash\\": $(decode_cbor.tokenIdHash), \\"tickSetId\\": $(decode_cbor.tickSetId)}}"]
+    parse        [type=jsonparse path="result"]
+    encode_data  [type=ethabiencode abi="(uint256 tickResponse)" data="{\\"tickResponse\\":$(parse)}"]
+    encode_tx    [type=ethabiencode
+                  abi="fulfillOracleRequest(bytes32 requestId, uint256 payment, address callbackAddress, bytes4 callbackFunctionId, uint256 expiration, bytes32 data)"
+                  data="{\\"requestId\\": $(decode_log.requestId),\\"payment\\": $(decode_log.payment),\\"callbackAddress\\": $(decode_log.callbackAddr),\\"callbackFunctionId\\": $(decode_log.callbackFunctionId),\\"expiration\\": $(decode_log.cancelExpiration),\\"data\\": $(encode_data)}"]
+    submit_tx    [type=ethtx to="ADDRESS" data="$(encode_tx)"]
+
+    decode_log -> decode_cbor -> macro_score_adapter -> parse -> encode_data -> encode_tx -> submit_tx
+"""
+```
