@@ -87,3 +87,41 @@
   }
 }
 ```
+
+## Volume Endpoint
+
+Fetch one or multiple assets for volume
+
+### Input Params
+
+| Required? |          Name           |                   Description                    | Options | Defaults to |
+| :-------: | :---------------------: | :----------------------------------------------: | :-----: | :---------: |
+|    ✅     | `base`, `from`, `coin`  |       The symbol of the currency to query        |         |             |
+|    ✅     | `quote`, `to`, `market` |     The symbol of the currency to convert to     |         |             |
+|           |        `coinid`         | The coin ID (optional to use in place of `base`) |         |             |
+
+### Sample Input
+
+```json
+{
+  "jobId": "1",
+  "data": {
+    "endpoint": "volume",
+    "base": "ETH",
+    "quote": "USD"
+  }
+}
+```
+
+### Sample Output
+
+```json
+{
+  "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
+  "data": {
+    "result": 142754466.69826838
+  },
+  "result": 142754466.69826838,
+  "statusCode": 200
+}
+```
