@@ -22,9 +22,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const addresses = validator.validated.data.addresses || validator.validated.data.result
+  const addresses = validator.validated.data.addresses as Address[]
 
-  if (!addresses || !Array.isArray(addresses) || addresses.length === 0) {
+  if (!Array.isArray(addresses) || addresses.length === 0) {
     throw new AdapterError({
       jobRunID,
       message: `Input, at 'addresses' or 'result' path, must be a non-empty array.`,
@@ -32,9 +32,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     })
   }
 
-  const balances = await Promise.all<AddressWithBalance>(
-    addresses.map((addr: Address) => getBalance(addr.address, config)),
-  )
+  const balances = await Promise.all(addresses.map((addr) => getBalance(addr.address, config)))
 
   const response = {
     jobRunID,
@@ -51,10 +49,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   )
 }
 
-const getBalance: (address: string, config: Config) => Promise<AddressWithBalance> = async (
-  address: string,
-  config: Config,
-) => ({
+const getBalance = async (address: string, config: Config): Promise<AddressWithBalance> => ({
   address,
   balance: (await config.provider.getBalance(address)).toString(),
 })
