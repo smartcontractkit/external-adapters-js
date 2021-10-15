@@ -2,6 +2,7 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig } from '@chainlink/types'
 import { Config } from '../../../config'
 import { utils } from 'ethers'
+import { DateTime } from 'luxon'
 
 export const NAME = 'player-stats'
 
@@ -142,7 +143,8 @@ const packResponse = (response: ResponseSchema): string => {
     'uint8',
     'uint16',
   ]
-  const epochSeconds = new Date(response.DateTime).getTime() / 1000
+  const date = DateTime.fromJSDate(new Date(response.DateTime), { zone: 'America/Los_Angeles' })
+  const epochSeconds = date.valueOf() / 1000
   const dataValues = [
     response.Season,
     epochSeconds,

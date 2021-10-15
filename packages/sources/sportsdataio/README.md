@@ -155,10 +155,10 @@ Gets the stats for an NBA player for a game
 
 #### Input Parameters
 
-| Required? |   Name   |                  Description                  |                                                                                                     Options                                                                                                      | Defaults to |
-| :-------: | :------: | :-------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
-|    ✅     |   date   | The date of the game formatted as 2021-OCT-11 |                                                                                                                                                                                                                  |             |
-|    ✅     | playerID |   The player ID of the player to query for    | You can find a list of player IDs by making a request here https://api.sportsdata.io/v3/nba/scores/json/Players. Docs: https://sportsdata.io/developers/api-documentation/nba#/endpoint/player-details-by-active |             |
+| Required? |   Name   |                                                         Description                                                         |                                                                                                     Options                                                                                                      | Defaults to |
+| :-------: | :------: | :-------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
+|    ✅     |   date   | The date of the game formatted as YYYY-MMM-DD e.g 2021-OCT-11. Adapter assumes date is in the America/Los Angeles timezone. |                                                                                                                                                                                                                  |             |
+|    ✅     | playerID |                                          The player ID of the player to query for                                           | You can find a list of player IDs by making a request here https://api.sportsdata.io/v3/nba/scores/json/Players. Docs: https://sportsdata.io/developers/api-documentation/nba#/endpoint/player-details-by-active |             |
 
 ### Sample Input
 
