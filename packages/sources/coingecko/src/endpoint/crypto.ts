@@ -4,9 +4,7 @@ import {
   ExecuteWithConfig,
   AxiosResponse,
   AdapterRequest,
-  EndpointResultPaths,
   InputParameters,
-  MakeResultPath,
 } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 import { getCoinIds, getSymbolsToIds } from '../util'
@@ -19,17 +17,17 @@ const customError = (data: any) => {
   return false
 }
 
-const buildResultPath =
-  (path: string): MakeResultPath =>
-  (request) => {
-    const validator = new Validator(request, inputParameters)
-    if (validator.error) throw validator.error
-    const quote = validator.validated.data.quote
-    if (Array.isArray(quote)) return ''
-    return `${quote.toLowerCase()}${path}`
-  }
+const buildResultPath = (path: string) => (request: AdapterRequest) => {
+  const validator = new Validator(request, inputParameters)
+  if (validator.error) throw validator.error
+  const quote = validator.validated.data.quote
+  if (Array.isArray(quote)) return ''
+  return `${quote.toLowerCase()}${path}`
+}
 
-export const endpointResultPaths: EndpointResultPaths = {
+export const endpointResultPaths: {
+  [endpoint: string]: ReturnType<typeof buildResultPath>
+} = {
   price: buildResultPath(''),
   crypto: buildResultPath(''),
   marketcap: buildResultPath('_market_cap'),
@@ -69,7 +67,7 @@ const handleBatchedRequest = (
           individualRequest,
           Requester.validateResultNumber(response.data, [
             base,
-            (endpointResultPaths[endpoint] as MakeResultPath)(individualRequest),
+            endpointResultPaths[endpoint](individualRequest),
           ]),
         ])
       } else Logger.debug('WARNING: Symbol not found ', base)
@@ -117,7 +115,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
 
   if (Array.isArray(base) || Array.isArray(quote))
     return handleBatchedRequest(jobRunID, request, response, validator, endpoint, idToSymbol)
-
   response.data.result = Requester.validateResultNumber(response.data, [
     ids.toLowerCase(),
     resultPath,
