@@ -13,6 +13,8 @@ const MOCK_KEY = 'mock-key'
 beforeAll(() => {
   oldEnv = JSON.parse(JSON.stringify(process.env))
   process.env.NBA_API_KEY = process.env.NBA_API_KEY || MOCK_KEY
+  process.env.API_VERBOSE = 'true'
+
   if (process.env.RECORD) {
     nock.recorder.rec()
   }
