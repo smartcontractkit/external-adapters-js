@@ -2,7 +2,7 @@ import { Requester, util } from '@chainlink/ea-bootstrap'
 import { Config as BaseConfig, ConfigFactory } from '@chainlink/types'
 import { ethers } from 'ethers'
 
-export const NAME = 'UNISWAP-V2'
+export const NAME = 'UNISWAP_V2'
 
 export const ENV_RPC_URL = 'RPC_URL'
 export const ENV_BLOCKCHAIN_NETWORK = 'BLOCKCHAIN_NETWORK'
