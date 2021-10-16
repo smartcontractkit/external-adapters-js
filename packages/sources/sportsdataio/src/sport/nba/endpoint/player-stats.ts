@@ -12,6 +12,7 @@ const customParams = {
 }
 
 export interface ResponseSchema {
+  epochS: number
   StatID: number
   TeamID: number
   PlayerID: number
@@ -111,14 +112,16 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const options = { ...config.api, params, url }
 
   const response = await Requester.request<ResponseSchema>(options)
+  const d = DateTime.fromISO(response.data.DateTime, { zone: 'America/Los_Angeles' })
+  const epochSeconds = d.valueOf() / 1000
   return Requester.success(
     jobRunID,
-    Requester.withResult(response, packResponse(response.data)),
+    Requester.withResult(response, packResponse(response.data, epochSeconds)),
     config.verbose,
   )
 }
 
-const packResponse = (response: ResponseSchema): string => {
+const packResponse = (response: ResponseSchema, epochS: number): string => {
   const dataTypes = [
     'uint16',
     'uint32',
@@ -143,11 +146,9 @@ const packResponse = (response: ResponseSchema): string => {
     'uint8',
     'uint16',
   ]
-  const date = DateTime.fromJSDate(new Date(response.DateTime), { zone: 'America/Los_Angeles' })
-  const epochSeconds = date.valueOf() / 1000
   const dataValues = [
     response.Season,
-    epochSeconds,
+    epochS,
     response.HomeOrAway === 'HOME',
     response.isGameOver,
     response.GlobalGameID,
