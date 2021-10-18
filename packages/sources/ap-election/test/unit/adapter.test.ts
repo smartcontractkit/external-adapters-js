@@ -36,7 +36,7 @@ describe('execute', () => {
         },
       },
       {
-        name: 'officeID not supplied',
+        name: 'officeID and raceID not supplied',
         testData: {
           id: jobID,
           data: {
