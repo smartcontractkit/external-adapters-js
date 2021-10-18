@@ -61,7 +61,7 @@ const customError = (data: any) => data.Response === 'Error'
 export const inputParameters: InputParameters = {
   date: true,
   statePostal: true,
-  officeID: true,
+  officeID: false,
   raceType: false,
   raceID: false,
 }
@@ -111,13 +111,20 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 }
 
 const validateRequest = (request: AdapterRequest) => {
-  const { statePostal } = request.data
+  const { statePostal, officeID, raceID } = request.data
   const statePostals = statePostal.split(',')
   if (statePostals.length > 1) {
     throw new AdapterError({
       jobRunID: request.id,
       statusCode: 400,
       message: 'Adapter only supports finding results from a single state',
+    })
+  }
+  if (!officeID && !raceID) {
+    throw new AdapterError({
+      jobRunID: request.id,
+      statusCode: 400,
+      message: 'Either officeID or raceID must be present',
     })
   }
 }
