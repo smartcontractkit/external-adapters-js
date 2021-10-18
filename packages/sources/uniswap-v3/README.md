@@ -27,16 +27,17 @@ Gets the exchange rate between two tokens
 
 ### Input Params
 
-| Required? |            Name            |                                                     Description                                                      | Options | Defaults to |
-| :-------: | :------------------------: | :------------------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
-|    ✅     | `base`, `from`, or `coin`  |                                    The symbol or address of the currency to query                                    |         |             |
-|           |       `fromAddress`        |          Optional param to pre-define the address to convert from. If set, it takes precedence over `from`           |         |             |
-|           |       `fromDecimals`       | Optional param to pre-define the number of decimals in the `from` token. Setting this will make the query run faster |         |             |
-|    ✅     | `quote`, `to`, or `market` |                                 The symbol or address of the currency to convert to                                  |         |             |
-|           |        `toAddress`         |            Optional param to pre-define the address to convert to. If set, it takes precedence over `to`             |         |             |
-|           |        `toDecimals`        |  Optional param to pre-define the number of decimals in the `to` token. Setting this will make the query run faster  |         |             |
-|           |          `amount`          |               The exchange amount to get the rate of. The amount is in full units, e.g. 1 USDC, 1 ETH                |         |     `1`     |
-|           |        `resultPath`        |                                                 The result to fetch                                                  |         |   `rate`    |
+| Required? |            Name            |                                                     Description                                                      | Options |    Defaults to     |
+| :-------: | :------------------------: | :------------------------------------------------------------------------------------------------------------------: | :-----: | :----------------: |
+|    ✅     | `base`, `from`, or `coin`  |                                    The symbol or address of the currency to query                                    |         |                    |
+|           |       `fromAddress`        |          Optional param to pre-define the address to convert from. If set, it takes precedence over `from`           |         |                    |
+|           |       `fromDecimals`       | Optional param to pre-define the number of decimals in the `from` token. Setting this will make the query run faster |         |                    |
+|    ✅     | `quote`, `to`, or `market` |                                 The symbol or address of the currency to convert to                                  |         |                    |
+|           |        `toAddress`         |            Optional param to pre-define the address to convert to. If set, it takes precedence over `to`             |         |                    |
+|           |        `toDecimals`        |  Optional param to pre-define the number of decimals in the `to` token. Setting this will make the query run faster  |         |                    |
+|           |          `amount`          |               The exchange amount to get the rate of. The amount is in full units, e.g. 1 USDC, 1 ETH                |         |        `1`         |
+|           |        `resultPath`        |                                                 The result to fetch                                                  |         |       `rate`       |
+|           |         `feeTiers`         |                    Optional param of fee tiers to iterate through when quoting a pairs swap price                    |         | `[500,3000,10000]` |
 
 ### Sample Input
 

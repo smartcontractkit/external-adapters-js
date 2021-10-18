@@ -48,6 +48,10 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const feeTiers = validator.validated.data.feeTiers || config.feeTiers
   const output = await getBestRate(from, to, amount, feeTiers, config)
 
+  if (output.eq(0)) {
+    throw new Error('Quoted output was zero. This pool or fee tier may not exist')
+  }
+
   const outputAmount = new Decimal(output.toString()).div(new Decimal(10).pow(toDecimals))
   const rate = outputAmount.div(inputAmount)
 
