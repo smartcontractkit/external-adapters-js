@@ -64,6 +64,7 @@ export const inputParameters: InputParameters = {
   officeID: false,
   raceType: false,
   raceID: false,
+  resultsType: false,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -72,16 +73,16 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   validateRequest(request)
 
   const jobRunID = validator.validated.id
-  const { raceType, date, ...rest } = validator.validated.data
+  const { raceType, date, resultsType, ...rest } = validator.validated.data
   const url = `/elections/${date}`
 
   const params = {
     ...rest,
     level: 'state',
-    raceTypeID: raceType || 'D',
+    raceTypeID: raceType,
     format: 'json',
     winner: 'X',
-    resultsType: 'l',
+    resultsType: resultsType || 'l',
     apikey: config.apiKey,
   }
 
