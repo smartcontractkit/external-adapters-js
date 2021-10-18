@@ -1,5 +1,6 @@
 import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { AdapterRequest, Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { utils } from 'ethers'
 
 export const supportedEndpoints = ['election']
 
@@ -30,9 +31,14 @@ interface ReportingUnit {
 }
 
 export interface ResponseSchema {
+  precinctsReporting: number
+  precinctsReportingPct: number
   winnerFirstName: string
   winnerLastName: string
   winnerVoteCount: number
+  winnerCandidateId: string
+  winnerParty: string
+  candidates: string[]
   electionDate: string
   timestamp: string
   races: {
@@ -55,9 +61,9 @@ const customError = (data: any) => data.Response === 'Error'
 export const inputParameters: InputParameters = {
   date: true,
   statePostal: true,
-  level: false,
   officeID: true,
   raceType: false,
+  raceID: false,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -66,12 +72,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   validateRequest(request)
 
   const jobRunID = validator.validated.id
-  const { level, raceType, date, ...rest } = validator.validated.data
+  const { raceType, date, ...rest } = validator.validated.data
   const url = `/elections/${date}`
 
   const params = {
     ...rest,
-    level: level || 'state',
+    level: 'state',
     raceTypeID: raceType || 'D',
     format: 'json',
     winner: 'X',
@@ -82,11 +88,21 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const options = { ...config.api, params, url }
 
   const response = await Requester.request<ResponseSchema>(options, customError)
-  const raceWinner = getRaceWinner(response.data)
+  validateResponse(response.data)
 
+  const race = response.data.races[0]
+  const reportingUnit = getReportingUnit(race.reportingUnits, rest.statePostal)
+  const raceWinner = getReportingUnitWinner(reportingUnit)
+
+  response.data.precinctsReporting = reportingUnit.precinctsReporting
+  response.data.precinctsReportingPct = reportingUnit.precinctsReportingPct
   response.data.winnerFirstName = raceWinner.first
   response.data.winnerLastName = raceWinner.last
   response.data.winnerVoteCount = raceWinner.voteCount
+  response.data.winnerCandidateId = raceWinner.candidateID
+  response.data.winnerParty = raceWinner.party
+  response.data.candidates = encodeCandidates(reportingUnit.candidates)
+
   return Requester.success(
     jobRunID,
     Requester.withResult(response, concatenateName(raceWinner)),
@@ -106,7 +122,7 @@ const validateRequest = (request: AdapterRequest) => {
   }
 }
 
-const getRaceWinner = (response: ResponseSchema): Candidate => {
+const validateResponse = (response: ResponseSchema) => {
   const races = response.races
   if (races.length === 0) {
     throw Error('We could not find any races')
@@ -114,25 +130,16 @@ const getRaceWinner = (response: ResponseSchema): Candidate => {
   if (races.length > 1) {
     throw Error("We don't support finding the winner from multiple races")
   }
-  const reportingUnits = races[0].reportingUnits
-  const topLevelRU = getTopLevelReportingUnit(reportingUnits)
-  return getReportingUnitWinner(topLevelRU)
 }
 
-const getTopLevelReportingUnit = (reportingUnits: ReportingUnit[]): ReportingUnit => {
-  let highestRU
-  for (const ru of reportingUnits) {
-    const level = ru.level
-    // Only one of them will be national
-    if (level === 'national') {
-      return ru
-    } else if (level === 'state') {
-      // There will only be one state
-      highestRU = ru
-    }
+const getReportingUnit = (reportingUnits: ReportingUnit[], statePostal: string): ReportingUnit => {
+  // Response should only contain a national RU if the statePostal is US but will contain both national and state for any other statePostal codes.
+  const level = statePostal === 'US' ? 'national' : 'state'
+  const reportingUnit = reportingUnits.find((ru) => ru.level === level)
+  if (!reportingUnit) {
+    throw Error('Cannot find reporting unit')
   }
-  if (!highestRU) throw Error('Cannot find either national or state reporting unit')
-  return highestRU
+  return reportingUnit
 }
 
 const getReportingUnitWinner = (reportingUnit: ReportingUnit): Candidate => {
@@ -145,3 +152,21 @@ const getReportingUnitWinner = (reportingUnit: ReportingUnit): Candidate => {
 }
 
 const concatenateName = (candidate: Candidate): string => `${candidate.voteCount},${candidate.last}`
+
+const encodeCandidates = (candidates: Candidate[]): string[] => {
+  const encodedCandidates: string[] = []
+  const encodedValTypes = ['uint32', 'string', 'string', 'string', 'uint32', 'bool']
+  const abiCoder = utils.defaultAbiCoder
+  for (const { candidateID, party, first, last, voteCount, winner } of candidates) {
+    const encodedCandidate = abiCoder.encode(encodedValTypes, [
+      candidateID,
+      party,
+      first,
+      last,
+      voteCount,
+      !!winner,
+    ])
+    encodedCandidates.push(encodedCandidate)
+  }
+  return encodedCandidates
+}
