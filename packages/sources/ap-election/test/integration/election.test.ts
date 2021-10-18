@@ -8,7 +8,6 @@ import {
   mockResponseWithMultipleRaces,
   mockResponseWithNationalAndState,
   mockResponseWithNoRaces,
-  mockResponseWithStateAndDistrict,
   mockStatusLevelResponse,
 } from './fixtures'
 
@@ -104,39 +103,13 @@ describe('execute', () => {
       id,
       data: {
         date: '2020-11-08',
-        statePostal: 'VA',
+        statePostal: 'US',
         level: 'state',
         officeID: 'P',
         raceType: 'G',
       },
     }
     mockResponseWithNationalAndState(MOCK_KEY)
-
-    it('should return success', async () => {
-      const response = await req
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body).toMatchSnapshot()
-    })
-  })
-
-  describe('with response having both state and disrict reporting units', () => {
-    const data: AdapterRequest = {
-      id,
-      data: {
-        date: '2021-06-08',
-        statePostal: 'VA',
-        level: 'state',
-        officeID: 'A',
-        raceType: 'D',
-      },
-    }
-
-    mockResponseWithStateAndDistrict(MOCK_KEY)
 
     it('should return success', async () => {
       const response = await req
