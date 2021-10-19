@@ -8,13 +8,14 @@ import {
   InputParameters,
 } from '@chainlink/types'
 
-export const supportedEndpoints = ['crypto', 'price', 'marketcap']
+export const supportedEndpoints = ['crypto', 'price', 'marketcap', 'volume']
 export const batchablePropertyPath = [{ name: 'base' }, { name: 'convert', limit: 120 }]
 
 export const endpointResultPaths = {
   crypto: 'price',
   price: 'price',
   marketcap: 'market_cap',
+  volume: 'volume_24h',
 }
 
 // Coin IDs fetched from the ID map: https://coinmarketcap.com/api/documentation/v1/#operation/getV1CryptocurrencyMap
