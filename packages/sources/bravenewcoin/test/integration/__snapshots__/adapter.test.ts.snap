@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`bravenewcoin when making a request to bravenewcoin to crypto endpoint bravenewcoin replies with success should reply with success 1`] = `
+Object {
+  "data": Object {
+    "result": 0.05986385840449063,
+  },
+  "jobRunID": "1",
+  "result": 0.05986385840449063,
+  "statusCode": 200,
+}
+`;
