@@ -1,1 +1,1 @@
-export * as example from './function'
+export * as endpoints from './function'
