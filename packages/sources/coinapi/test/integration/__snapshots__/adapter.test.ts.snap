@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`coinmarketcap coinapi crypto endpoint when sending request without quote asset should reply with failure 1`] = `
+Object {
+  "error": Object {
+    "message": "Required parameter not supplied: quote",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`coinmarketcap coinapi crypto endpoint when sending well-formed request should reply with success 1`] = `
+Object {
+  "data": Object {
+    "result": 0.06262119731705901,
+  },
+  "jobRunID": "1",
+  "result": 0.06262119731705901,
+  "statusCode": 200,
+}
+`;
