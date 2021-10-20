@@ -111,6 +111,9 @@
       "path": "./sources/ap-election"
     },
     {
+      "path": "./sources/bea"
+    },
+    {
       "path": "./sources/binance"
     },
     {
