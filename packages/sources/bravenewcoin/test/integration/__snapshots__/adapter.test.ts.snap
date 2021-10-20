@@ -10,3 +10,14 @@ Object {
   "statusCode": 200,
 }
 `;
+
+exports[`bravenewcoin when making a request to bravenewcoin to vwap endpoint bravenewcoin replies with success should reply with success 1`] = `
+Object {
+  "data": Object {
+    "result": 3821.520292860939,
+  },
+  "jobRunID": "2",
+  "result": 3821.520292860939,
+  "statusCode": 200,
+}
+`;

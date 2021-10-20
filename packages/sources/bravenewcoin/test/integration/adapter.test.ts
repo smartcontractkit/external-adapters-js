@@ -11,6 +11,7 @@ import {
   mockEthCoinEndpoint,
   mockEthMarketEndpoint,
 } from './cryptoFixtures'
+import { mockEthOhlcvEndpoint, mockVwapResponse } from './vwapFixtures'
 
 let oldEnv: NodeJS.ProcessEnv
 
@@ -61,6 +62,33 @@ describe('bravenewcoin', () => {
         const response = await req
           .post('/')
           .send(cryptoRequest)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+        expect(response.body).toMatchSnapshot()
+      })
+    })
+  })
+
+  describe('when making a request to bravenewcoin to vwap endpoint', () => {
+    const vwapRequest: AdapterRequest = {
+      id: '2',
+      data: {
+        endpoint: 'vwap',
+        base: 'ETH',
+      },
+    }
+
+    describe('bravenewcoin replies with success', () => {
+      it('should reply with success', async () => {
+        mockAuthTokenResponse()
+        mockEthCoinEndpoint()
+        mockEthOhlcvEndpoint()
+        mockVwapResponse()
+        const response = await req
+          .post('/')
+          .send(vwapRequest)
           .set('Accept', '*/*')
           .set('Content-Type', 'application/json')
           .expect('Content-Type', /json/)
