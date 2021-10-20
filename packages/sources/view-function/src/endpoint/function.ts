@@ -1,7 +1,7 @@
-import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { Config } from '../config'
-import { Contract, utils } from 'ethers'
+import { utils } from 'ethers'
 
 export const supportedEndpoints = ['function']
 
@@ -20,36 +20,15 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const fnSignature = validator.validated.data.signature
   const params = validator.validated.data.inputParams || []
 
-  if (typeof address !== 'string' || !address.length) {
-    throw new AdapterError({
-      jobRunID,
-      message: `Input, at 'address' or 'contract' path, must be a non-empty string.`,
-      statusCode: 400,
-    })
-  }
+  const iface = new utils.Interface([fnSignature])
+  const fnName = iface.functions[Object.keys(iface.functions)[0]].name
 
-  if (typeof fnSignature !== 'string' || !fnSignature.length) {
-    throw new AdapterError({
-      jobRunID,
-      message: `Input, at 'signature' or 'function' path, must be a non-empty string.`,
-      statusCode: 400,
-    })
-  }
+  const encoded = iface.encodeFunctionData(fnName, [...params])
 
-  const contract = new Contract(address, [fnSignature], config.provider)
-  const fnName = Object.keys(contract.functions)[1]
-  let executionResult = await contract[fnName](...params)
-
-  if (typeof executionResult === 'string') {
-    executionResult = utils.toUtf8Bytes(executionResult)
-  }
-
-  let result
-  try {
-    result = utils.hexZeroPad(executionResult, 32)
-  } catch (e) {
-    result = executionResult
-  }
+  const result = await config.provider.call({
+    to: address,
+    data: encoded,
+  })
 
   const response = {
     jobRunID,

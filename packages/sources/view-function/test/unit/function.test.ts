@@ -12,17 +12,6 @@ describe('execute', () => {
     const requests = [
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },
-      {
-        name: 'empty function signature',
-        testData: { id: jobID, data: { signature: '' } },
-      },
-      {
-        name: 'empty address',
-        testData: {
-          id: jobID,
-          data: { signature: 'function symbol() view returns (string)', address: '' },
-        },
-      },
     ]
 
     requests.forEach((req) => {
