@@ -100,8 +100,10 @@ import * as trueusd from '@chainlink/trueusd-adapter'
 import * as twelvedata from '@chainlink/twelvedata-adapter'
 import * as unibit from '@chainlink/unibit-adapter'
 import * as uniswap_v2 from '@chainlink/uniswap-v2-adapter'
+import * as uniswap_v3 from '@chainlink/uniswap-v3-adapter'
 import * as upvest from '@chainlink/upvest-adapter'
 import * as uscpi_one from '@chainlink/uscpi-one-adapter'
+import * as view_function from '@chainlink/view-function-adapter'
 import * as wbtc_adapter_address from '@chainlink/wbtc-address-set-adapter'
 import * as wootrade from '@chainlink/wootrade-adapter'
 import * as xbto from '@chainlink/xbto-adapter'
@@ -209,8 +211,10 @@ export default {
   twelvedata,
   unibit,
   uniswap_v2,
+  uniswap_v3,
   upvest,
   uscpi_one,
+  view_function,
   wbtc_adapter_address,
   wootrade,
   xbto,
