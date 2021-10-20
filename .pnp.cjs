@@ -555,12 +555,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/unibit"
       },
       {
-        "name": "@chainlink/uniswap-v3-adapter",
-        "reference": "workspace:packages/sources/uniswap-v3"
-      },
-      {
         "name": "@chainlink/uniswap-v2-adapter",
         "reference": "workspace:packages/sources/uniswap-v2"
+      },
+      {
+        "name": "@chainlink/uniswap-v3-adapter",
+        "reference": "workspace:packages/sources/uniswap-v3"
       },
       {
         "name": "@chainlink/upvest-adapter",
@@ -569,6 +569,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {
         "name": "@chainlink/uscpi-one-adapter",
         "reference": "workspace:packages/sources/uscpi-one"
+      },
+      {
+        "name": "@chainlink/view-function-adapter",
+        "reference": "workspace:packages/sources/view-function"
       },
       {
         "name": "@chainlink/wbtc-address-set-adapter",
@@ -743,11 +747,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/twelvedata-adapter", ["workspace:packages/sources/twelvedata"]],
       ["@chainlink/types", ["workspace:packages/core/types/@chainlink"]],
       ["@chainlink/unibit-adapter", ["workspace:packages/sources/unibit"]],
-      ["@chainlink/uniswap-v3-adapter", ["workspace:packages/sources/uniswap-v3"]],
       ["@chainlink/uniswap-v2-adapter", ["workspace:packages/sources/uniswap-v2"]],
+      ["@chainlink/uniswap-v3-adapter", ["workspace:packages/sources/uniswap-v3"]],
       ["@chainlink/upvest-adapter", ["workspace:packages/sources/upvest"]],
       ["@chainlink/uscpi-one-adapter", ["workspace:packages/sources/uscpi-one"]],
       ["@chainlink/vesper-adapter", ["workspace:packages/composites/vesper"]],
+      ["@chainlink/view-function-adapter", ["workspace:packages/sources/view-function"]],
       ["@chainlink/wbtc-address-set-adapter", ["workspace:packages/sources/wbtc-address-set"]],
       ["@chainlink/wootrade-adapter", ["workspace:packages/sources/wootrade"]],
       ["@chainlink/xbto-adapter", ["workspace:packages/sources/xbto"]],
@@ -4460,8 +4465,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/twelvedata-adapter", "workspace:packages/sources/twelvedata"],
             ["@chainlink/unibit-adapter", "workspace:packages/sources/unibit"],
             ["@chainlink/uniswap-v2-adapter", "workspace:packages/sources/uniswap-v2"],
+            ["@chainlink/uniswap-v3-adapter", "workspace:packages/sources/uniswap-v3"],
             ["@chainlink/upvest-adapter", "workspace:packages/sources/upvest"],
             ["@chainlink/uscpi-one-adapter", "workspace:packages/sources/uscpi-one"],
+            ["@chainlink/view-function-adapter", "workspace:packages/sources/view-function"],
             ["@chainlink/wbtc-address-set-adapter", "workspace:packages/sources/wbtc-address-set"],
             ["@chainlink/wootrade-adapter", "workspace:packages/sources/wootrade"],
             ["@chainlink/xbto-adapter", "workspace:packages/sources/xbto"],
@@ -6053,6 +6060,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/vesper-adapter", "workspace:packages/composites/vesper"],
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/token-allocation-adapter", "workspace:packages/composites/token-allocation"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.2"],
+            ["@types/node", "npm:14.17.21"],
+            ["ethers", "npm:5.4.6"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/view-function-adapter", [
+        ["workspace:packages/sources/view-function", {
+          "packageLocation": "./packages/sources/view-function/",
+          "packageDependencies": [
+            ["@chainlink/view-function-adapter", "workspace:packages/sources/view-function"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.2"],
             ["@types/node", "npm:14.17.21"],
