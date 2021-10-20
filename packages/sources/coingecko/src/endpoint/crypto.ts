@@ -9,7 +9,7 @@ import {
 import { NAME as AdapterName } from '../config'
 import { getCoinIds, getSymbolsToIds } from '../util'
 
-export const supportedEndpoints = ['crypto', 'price', 'marketcap']
+export const supportedEndpoints = ['crypto', 'price', 'marketcap', 'volume']
 export const batchablePropertyPath = [{ name: 'base' }, { name: 'quote' }]
 
 const customError = (data: any) => {
@@ -31,6 +31,7 @@ export const endpointResultPaths: {
   price: buildResultPath(''),
   crypto: buildResultPath(''),
   marketcap: buildResultPath('_market_cap'),
+  volume: buildResultPath('_24h_vol'),
 }
 
 export const inputParameters: InputParameters = {
@@ -102,6 +103,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
     ids,
     vs_currencies: Array.isArray(quote) ? quote.join(',') : quote,
     include_market_cap: endpoint === 'marketcap',
+    include_24hr_vol: endpoint === 'volume',
     x_cg_pro_api_key: config.apiKey,
   }
 

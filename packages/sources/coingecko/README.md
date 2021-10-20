@@ -8,9 +8,9 @@
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |                                                                          Options                                                                          | Defaults to |
-| :-------: | :------: | :-----------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [crypto](#Crypto-Endpoint), [globalmarketcap](#Global-Market-Capitalization-Endpoint), [dominance](#Dominance-Endpoint), [marketcap](#Marketcap-Endpoint) |    price    |
+| Required? |   Name   |     Description     |                                                                                        Options                                                                                        | Defaults to |
+| :-------: | :------: | :-----------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [crypto](#Crypto-Endpoint), [globalmarketcap](#Global-Market-Capitalization-Endpoint), [dominance](#Dominance-Endpoint), [marketcap](#Marketcap-Endpoint), [volume](#Volume-Endpoint) |    price    |
 
 ---
 
@@ -253,6 +253,44 @@ Query the Market Cap for the requested assets
   "statusCode": 200,
   "data": {
     "result": 177000170328.04462
+  }
+}
+```
+
+## Volume Endpoint
+
+Query the volume for the requested assets
+
+### Input Params
+
+|         Required?          |            Name            |                  Description                   |                                        Options                                         | Defaults to |
+| :------------------------: | :------------------------: | :--------------------------------------------: | :------------------------------------------------------------------------------------: | :---------: |
+|  (✅ if not using `base`)  |          `coinid`          |     The CoinGecko id of the coin to query      | [See list here](https://www.coingecko.com/api/documentations/v3#/coins/get_coins_list) |             |
+| (✅ if not using `coinid`) | `base`, `from`, or `coin`  |      The symbol of the currency to query       |                                           ↑                                            |             |
+|             ✅             | `quote`, `to`, or `market` | The symbol of the currency to fecth market cap |                                           ↑                                            |             |
+
+### Sample Input
+
+```json
+{
+  "jobId": "1",
+  "data": {
+    "endpoint": "volume",
+    "base": "ETH",
+    "quote": "USD"
+  }
+}
+```
+
+### Sample Output
+
+```json
+{
+  "jobRunID": "1",
+  "result": ,
+  "statusCode": 200,
+  "data": {
+    "result": 1243245791.6128
   }
 }
 ```
