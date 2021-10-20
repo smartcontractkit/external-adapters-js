@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute with multiple addresses should return success 1`] = `
+Object {
+  "data": Object {
+    "result": Array [
+      Object {
+        "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d",
+        "balance": "842796652117371",
+      },
+      Object {
+        "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed",
+        "balance": "1604497408893139674",
+      },
+    ],
+  },
+  "jobRunID": "1",
+  "result": Array [
+    Object {
+      "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d",
+      "balance": "842796652117371",
+    },
+    Object {
+      "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed",
+      "balance": "1604497408893139674",
+    },
+  ],
+  "statusCode": 200,
+}
+`;
+
+exports[`execute with single address should return success 1`] = `
+Object {
+  "data": Object {
+    "result": Array [
+      Object {
+        "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d",
+        "balance": "842796652117371",
+      },
+    ],
+  },
+  "jobRunID": "1",
+  "result": Array [
+    Object {
+      "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d",
+      "balance": "842796652117371",
+    },
+  ],
+  "statusCode": 200,
+}
+`;

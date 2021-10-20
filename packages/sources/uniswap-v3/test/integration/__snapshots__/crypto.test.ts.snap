@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute with custom params should return success 1`] = `
+Object {
+  "data": Object {
+    "input": "10000000000000000000",
+    "inputDecimals": 18,
+    "inputToken": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+    "output": "1454105298115974341987",
+    "outputDecimals": 18,
+    "outputToken": "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
+    "rate": 145.41052981159743,
+    "result": 145.41052981159743,
+  },
+  "jobRunID": "1",
+  "result": 145.41052981159743,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute with from/to should return success 1`] = `
+Object {
+  "data": Object {
+    "input": "1000000",
+    "inputDecimals": 6,
+    "inputToken": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+    "output": "999148",
+    "outputDecimals": 6,
+    "outputToken": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+    "rate": 0.999148,
+    "result": 0.999148,
+  },
+  "jobRunID": "1",
+  "result": 0.999148,
+  "statusCode": 200,
+}
+`;

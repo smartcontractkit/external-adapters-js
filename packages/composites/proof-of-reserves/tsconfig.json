@@ -20,6 +20,7 @@
     { "path": "../../sources/sochain" },
     { "path": "../../sources/wbtc-address-set" },
     { "path": "../../sources/lotus" },
-    { "path": "../../sources/gemini" }
+    { "path": "../../sources/gemini" },
+    { "path": "../../sources/eth-balance" }
   ]
 }

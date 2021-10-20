@@ -40,6 +40,7 @@
     "@chainlink/cryptoapis-adapter": "*",
     "@chainlink/ea-bootstrap": "*",
     "@chainlink/ea-test-helpers": "*",
+    "@chainlink/eth-balance-adapter": "*",
     "@chainlink/gemini-adapter": "*",
     "@chainlink/lotus-adapter": "*",
     "@chainlink/reduce-adapter": "*",

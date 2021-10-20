@@ -41,6 +41,7 @@ import * as dxfeed from '@chainlink/dxfeed-adapter'
 import * as dxfeed_secondary from '@chainlink/dxfeed-secondary-adapter'
 import * as enzyme from '@chainlink/enzyme-adapter'
 import * as eodhistoricaldata from '@chainlink/eodhistoricaldata-adapter'
+import * as eth_balance from '@chainlink/eth-balance-adapter'
 import * as etherchain from '@chainlink/etherchain-adapter'
 import * as etherscan from '@chainlink/etherscan-adapter'
 import * as ethgasstation from '@chainlink/ethgasstation-adapter'
@@ -150,6 +151,7 @@ export default {
   dxfeed_secondary,
   enzyme,
   eodhistoricaldata,
+  eth_balance,
   etherchain,
   etherscan,
   ethgasstation,

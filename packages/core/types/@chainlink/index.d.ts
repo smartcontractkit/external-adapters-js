@@ -147,10 +147,12 @@ declare module '@chainlink/types' {
     makeExecute?: ExecuteFactory<C>
   }
 
-  export type MakeResultPath = (input: AdapterRequest) => string
+  export type ResultPath = string | (number | string)[]
+  export type MakeResultPath = (input: AdapterRequest) => ResultPath
+  export type MakeResultPathFactory = (path: string) => MakeResultPath
 
   export interface EndpointResultPaths {
-    [endpoint: string]: MakeResultPath | string
+    [endpoint: string]: ResultPath | MakeResultPath
   }
 
   export type ConfigFactory<C extends Config = Config> = (prefix?: string) => C

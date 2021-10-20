@@ -17,9 +17,9 @@ enable WS, set `NODE_ENV=development` in addition to `WS_ENABLED=true`.
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |                                                           Options                                                           | Defaults to |
-| :-------: | :------: | :-----------------: | :-------------------------------------------------------------------------------------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [`eod`](#EOD-Endpoint), [`iex` or `stock`](#IEX-Endpoint), [`top`](#Top-Endpoint), [`prices` or `crypto`](#Prices-Endpoint) |  `crypto`   |
+| Required? |   Name   |     Description     |                                                                          Options                                                                          | Defaults to |
+| :-------: | :------: | :-----------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [`eod`](#EOD-Endpoint), [`iex` or `stock`](#IEX-Endpoint), [`top`](#Top-Endpoint), [`prices` or `crypto`](#Prices-Endpoint), [`volume`](#Volume-Endpoint) |  `crypto`   |
 
 ---
 
@@ -176,6 +176,50 @@ This endpoint does a VWAP of all the exchanges on the current day and across bas
     "result": 130.27
   },
   "result": 130.27,
+  "statusCode": 200
+}
+```
+
+---
+
+## Volume Endpoint
+
+Crypto prices endpoint from:
+
+https://api.tiingo.com/documentation/crypto
+
+This endpoint gets the 24h volume for a pair
+
+### Input Params
+
+| Required? |            Name            |                Description                 | Options | Defaults to |
+| :-------: | :------------------------: | :----------------------------------------: | :-----: | :---------: |
+|    ✅     | `base`, `from`, or `coin`  |     The cryptocurrency symbol to query     |         |             |
+|    ✅     | `quote`, `to`, or `market` | The output currency to return the price in |         |             |
+|           |          `field`           |            The value to return             |         | `lastPrice` |
+
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "volume",
+    "base": "btc",
+    "quote": "usd"
+  }
+}
+```
+
+### Sample Output
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "result": 6034249067.971378
+  },
+  "result": 6034249067.971378,
   "statusCode": 200
 }
 ```

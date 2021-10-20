@@ -4,14 +4,12 @@ import {
   ExecuteWithConfig,
   AxiosResponse,
   AdapterRequest,
-  EndpointResultPaths,
   InputParameters,
-  MakeResultPath,
 } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 import { getCoinIds, getSymbolsToIds } from '../util'
 
-export const supportedEndpoints = ['crypto', 'price', 'marketcap']
+export const supportedEndpoints = ['crypto', 'price', 'marketcap', 'volume']
 export const batchablePropertyPath = [{ name: 'base' }, { name: 'quote' }]
 
 const customError = (data: any) => {
@@ -19,20 +17,21 @@ const customError = (data: any) => {
   return false
 }
 
-const buildResultPath =
-  (path: string): MakeResultPath =>
-  (request) => {
-    const validator = new Validator(request, inputParameters)
-    if (validator.error) throw validator.error
-    const quote = validator.validated.data.quote
-    if (Array.isArray(quote)) return ''
-    return `${quote.toLowerCase()}${path}`
-  }
+const buildResultPath = (path: string) => (request: AdapterRequest) => {
+  const validator = new Validator(request, inputParameters)
+  if (validator.error) throw validator.error
+  const quote = validator.validated.data.quote
+  if (Array.isArray(quote)) return ''
+  return `${quote.toLowerCase()}${path}`
+}
 
-export const endpointResultPaths: EndpointResultPaths = {
+export const endpointResultPaths: {
+  [endpoint: string]: ReturnType<typeof buildResultPath>
+} = {
   price: buildResultPath(''),
   crypto: buildResultPath(''),
   marketcap: buildResultPath('_market_cap'),
+  volume: buildResultPath('_24h_vol'),
 }
 
 export const inputParameters: InputParameters = {
@@ -69,7 +68,7 @@ const handleBatchedRequest = (
           individualRequest,
           Requester.validateResultNumber(response.data, [
             base,
-            (endpointResultPaths[endpoint] as MakeResultPath)(individualRequest),
+            endpointResultPaths[endpoint](individualRequest),
           ]),
         ])
       } else Logger.debug('WARNING: Symbol not found ', base)
@@ -104,6 +103,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
     ids,
     vs_currencies: Array.isArray(quote) ? quote.join(',') : quote,
     include_market_cap: endpoint === 'marketcap',
+    include_24hr_vol: endpoint === 'volume',
     x_cg_pro_api_key: config.apiKey,
   }
 
@@ -117,7 +117,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
 
   if (Array.isArray(base) || Array.isArray(quote))
     return handleBatchedRequest(jobRunID, request, response, validator, endpoint, idToSymbol)
-
   response.data.result = Requester.validateResultNumber(response.data, [
     ids.toLowerCase(),
     resultPath,
