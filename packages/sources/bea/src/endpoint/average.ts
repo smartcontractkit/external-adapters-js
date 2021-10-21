@@ -1,7 +1,7 @@
-import { Requester, AdapterError, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 
-export const supportedEndpoints = ['price']
+export const supportedEndpoints = ['average']
 
 export type DataSchema = {
   TableName: string
@@ -96,14 +96,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const options = { ...config.api, params, url }
   const response = await Requester.request<ResponseSchema>(options, customError)
 
-  if (response.data.BEAAPI.Error) {
-    throw new AdapterError({
-      jobRunID,
-      message: response.data.BEAAPI.Error.ErrorDetail.Description,
-      statusCode: 400,
-    })
-  }
-
   const values = [] as ValueSchema[]
   response.data.BEAAPI.Results.Data.forEach((element: DataSchema) => {
     if (element.SeriesCode === series) {
@@ -118,15 +110,19 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     }
   })
 
+  // Decreasing sort by year and month
+  values.sort((a, b) =>
+    a.year < b.year ? 1 : a.year === b.year ? (a.month < b.month ? 1 : -1) : -1,
+  )
+
   let sum = 0
   let count = 0
   for (let i = 0; values.length > 0 && count < last; i++) {
-    const item = values.pop() as ValueSchema
-    sum += item.value
+    sum += values[count].value
     count += 1
   }
 
-  response.data.result = sum / last
+  response.data.result = sum / count
   const result = Requester.validateResultNumber(response.data, ['result'])
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

@@ -10,13 +10,13 @@
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |        Options         | Defaults to |
-| :-------: | :------: | :-----------------: | :--------------------: | :---------: |
-|           | endpoint | The endpoint to use | [price](#Bea-Endpoint) |    price    |
+| Required? |   Name   |     Description     |           Options            | Defaults to |
+| :-------: | :------: | :-----------------: | :--------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [average](#Average-Endpoint) |   average   |
 
 ---
 
-## Bea Endpoint
+## Average Endpoint
 
 ### Input Params
 
