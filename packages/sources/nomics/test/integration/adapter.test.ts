@@ -6,32 +6,26 @@ import { mockCryptoResponseSuccess, mockGlobalMarketResponseSuccess } from './fi
 import * as nock from 'nock'
 import * as http from 'http'
 
-beforeAll(() => {
-  process.env.CACHE_ENABLED = 'false'
-  process.env.API_KEY = process.env.API_KEY || 'fake-api-key'
-  if (process.env.RECORD) {
-    nock.recorder.rec()
-  }
-})
-
-afterAll(() => {
-  if (process.env.RECORD) {
-    nock.recorder.play()
-  }
-
-  nock.restore()
-  nock.cleanAll()
-  nock.enableNetConnect()
-})
-
 describe('execute', () => {
   const id = '1'
   let server: http.Server
   const req = request('localhost:8080')
   beforeAll(async () => {
+    process.env.CACHE_ENABLED = 'false'
+    process.env.API_KEY = process.env.API_KEY || 'fake-api-key'
+    if (process.env.RECORD) {
+      nock.recorder.rec()
+    }
     server = await startServer()
   })
   afterAll((done) => {
+    if (process.env.RECORD) {
+      nock.recorder.play()
+    }
+
+    nock.restore()
+    nock.cleanAll()
+    nock.enableNetConnect()
     server.close(done)
   })
 
