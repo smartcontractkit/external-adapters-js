@@ -3,7 +3,7 @@ import nock from 'nock'
 export function mockCryptoEndpointSuccess() {
   nock('https://rest.coinapi.io:443', { encodedQueryParams: true })
     .get('/v1/exchangerate/ETH/BTC')
-    .query({ apikey: 'D7F388FA-A4FE-45D5-A5AB-2DBA8D4B8E79' })
+    .query({ apikey: 'mock-api-key' })
     .reply(
       200,
       {
@@ -166,34 +166,6 @@ export function mockCryptoEndpointSuccess() {
         'x-ratelimit-request-cost',
         '1',
         'connection',
-        'close',
-      ],
-    )
-}
-
-export function mockCryptoEndpointFailure() {
-  nock('http://localhost:8080', { encodedQueryParams: true })
-    .post('/', { id: '1', data: { endpoint: 'crypto', base: 'ETH' } })
-    .reply(
-      400,
-      {
-        jobRunID: '1',
-        status: 'errored',
-        statusCode: 400,
-        error: { name: 'AdapterError', message: 'Required parameter not supplied: quote' },
-      },
-      [
-        'X-Powered-By',
-        'Express',
-        'Content-Type',
-        'application/json; charset=utf-8',
-        'Content-Length',
-        '135',
-        'ETag',
-        'W/"87-xawu3mXjiwn+C2kmlMbQ7pMPSyU"',
-        'Date',
-        'Wed, 20 Oct 2021 21:43:24 GMT',
-        'Connection',
         'close',
       ],
     )
