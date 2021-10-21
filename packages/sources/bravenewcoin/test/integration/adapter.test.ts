@@ -4,28 +4,29 @@ import http from 'http'
 import nock from 'nock'
 import request from 'supertest'
 import { server as startServer } from '../../src'
-import { mockCryptoEndpointFailure, mockCryptoEndpointSuccess } from './cryptoFixtures'
-import { mockVwapEndpointFailure, mockVwapEndpointSuccess } from './vwapFixtures'
-
-let oldEnv: NodeJS.ProcessEnv
+import { mockCryptoEndpointSuccess } from './cryptoFixtures'
+import { mockVwapEndpointSuccess } from './vwapFixtures'
 
 describe('bravenewcoin', () => {
   let server: http.Server
+  const oldEnv: NodeJS.ProcessEnv = JSON.parse(JSON.stringify(process.env))
   const req = request('localhost:8080')
 
   beforeAll(async () => {
-    oldEnv = JSON.parse(JSON.stringify(process.env))
+    server = await startServer()
     process.env.CACHE_ENABLED = 'false'
+
     if (util.parseBool(process.env.RECORD)) {
       nock.recorder.rec()
     } else {
       process.env.API_KEY = 'mock-api-key'
       process.env.CLIENT_ID = 'mock-client-id'
     }
-    server = await startServer()
   })
+
   afterAll((done) => {
     process.env = oldEnv
+
     if (util.parseBool(process.env.RECORD)) {
       nock.recorder.play()
     }
@@ -59,20 +60,6 @@ describe('bravenewcoin', () => {
         expect(response.body).toMatchSnapshot()
       })
     })
-
-    describe('when sending request without API key', () => {
-      it('should reply with failure', async () => {
-        mockCryptoEndpointFailure()
-        const response = await req
-          .post('/')
-          .send(cryptoRequest)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(403)
-        expect(response.body).toMatchSnapshot()
-      })
-    })
   })
 
   describe('when making a request to bravenewcoin to vwap endpoint', () => {
@@ -94,20 +81,6 @@ describe('bravenewcoin', () => {
           .set('Content-Type', 'application/json')
           .expect('Content-Type', /json/)
           .expect(200)
-        expect(response.body).toMatchSnapshot()
-      })
-    })
-
-    describe('when sending request without API key', () => {
-      it('should reply with failure', async () => {
-        mockVwapEndpointFailure()
-        const response = await req
-          .post('/')
-          .send(vwapRequest)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(403)
         expect(response.body).toMatchSnapshot()
       })
     })
