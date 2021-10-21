@@ -4,9 +4,9 @@ import http from 'http'
 import nock from 'nock'
 import request from 'supertest'
 import { server as startServer } from '../../src/index'
-import { mockCryptoEndpointSuccess } from './cryptoFixtures'
+import { mockCryptoEndpoint } from './cryptoFixtures'
 
-describe('coinmarketcap', () => {
+describe('coinapi', () => {
   let server: http.Server
   const oldEnv: NodeJS.ProcessEnv = JSON.parse(JSON.stringify(process.env))
   const req = request('localhost:8080')
@@ -33,7 +33,7 @@ describe('coinmarketcap', () => {
     server.close(done)
   })
 
-  describe('coinapi crypto endpoint', () => {
+  describe('crypto endpoint', () => {
     describe('when sending well-formed request', () => {
       it('should reply with success', async () => {
         const cryptoRequest: AdapterRequest = {
@@ -44,7 +44,7 @@ describe('coinmarketcap', () => {
             quote: 'BTC',
           },
         }
-        mockCryptoEndpointSuccess()
+        mockCryptoEndpoint()
         const response = await req
           .post('/')
           .send(cryptoRequest)

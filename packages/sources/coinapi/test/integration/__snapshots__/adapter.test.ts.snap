@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`coinmarketcap coinapi crypto endpoint when sending well-formed request should reply with success 1`] = `
+exports[`coinapi crypto endpoint when sending well-formed request should reply with success 1`] = `
 Object {
   "data": Object {
     "result": 0.06262119731705901,
