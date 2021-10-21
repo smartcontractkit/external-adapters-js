@@ -95,7 +95,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const options = { ...config.api, params, url }
   const response = await Requester.request<ResponseSchema>(options, customError)
-
   const values = [] as ValueSchema[]
   response.data.BEAAPI.Results.Data.forEach((element: DataSchema) => {
     if (element.SeriesCode === series) {
