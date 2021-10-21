@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export function mockCryptoEndpointSuccess() {
+export function mockCryptoEndpoint() {
   nock('https://rest.coinapi.io:443', { encodedQueryParams: true })
     .get('/v1/exchangerate/ETH/BTC')
     .query({ apikey: 'mock-api-key' })
