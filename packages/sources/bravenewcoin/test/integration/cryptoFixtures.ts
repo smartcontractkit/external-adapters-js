@@ -1,50 +1,37 @@
 import nock from 'nock'
 
-export function mockAuthTokenResponse() {
+export function mockCryptoEndpointSuccess() {
   nock('https://bravenewcoin.p.rapidapi.com:443', { encodedQueryParams: true })
     .post('/oauth/token', {
       audience: 'https://api.bravenewcoin.com',
-      client_id: 'oCdQoZoI96ERE9HY3sQ7JmbACfBf55RY',
+      client_id: 'mock-client-id',
       grant_type: 'client_credentials',
     })
-    .reply(
-      200,
-      {
-        access_token:
-          'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik5EVXhNRGhHT0VReE56STVOelJCTTBJM1FrUTVOa0l4TWtRd1FrSTJSalJFTVRaR1F6QTBOZyJ9.eyJpc3MiOiJodHRwczovL2F1dGguYnJhdmVuZXdjb2luLmNvbS8iLCJzdWIiOiJvQ2RRb1pvSTk2RVJFOUhZM3NRN0ptYkFDZkJmNTVSWUBjbGllbnRzIiwiYXVkIjoiaHR0cHM6Ly9hcGkuYnJhdmVuZXdjb2luLmNvbSIsImlhdCI6MTYzNDYzNTA4NiwiZXhwIjoxNjM0NzIxNDg2LCJhenAiOiJvQ2RRb1pvSTk2RVJFOUhZM3NRN0ptYkFDZkJmNTVSWSIsInNjb3BlIjoicmVhZDppbmRleC10aWNrZXIgcmVhZDpyYW5raW5nIHJlYWQ6bXdhIHJlYWQ6Z3dhIHJlYWQ6YWdncmVnYXRlcyByZWFkOm1hcmtldCByZWFkOmFzc2V0IHJlYWQ6b2hsY3YgcmVhZDptYXJrZXQtY2FwIiwiZ3R5IjoiY2xpZW50LWNyZWRlbnRpYWxzIn0.UdzOdOSNdP8y5iMVypN-Bull3ohuV48Pkb1_niBoVavxHNczBfHxOrjrZcvj6-G1QFhEHO5aglmZ3EBqCH_w45xcRziWf4LNTMtcBUwIjjM4ceUd5RH2pmeSmrM7z33DWAqL0vyTcpuQREGr5XqKjYMAmvm27eyycJddZBiPWRk4z8TP73eyTqiYE_JZDTEvDaaYW4xwbp7QGuSDNWv6WuG3jnDpsX2eeq0HH7Q6gAaSMvfUfOAScqq0wPbxv_SBh56eY4sE5AP5RdeY3GSRzX3Q4U0Pxbf_kiM_TLBAtPSqa8oJxLjj84bVtm_jDzRJAYGRTWOlZHwGCfAZA4mLDg',
-        scope:
-          'read:index-ticker read:ranking read:mwa read:gwa read:aggregates read:market read:asset read:ohlcv read:market-cap',
-        expires_in: 45079,
-        token_type: 'Bearer',
-      },
-      [
-        'Content-Type',
-        'application/json;charset=UTF-8',
-        'Date',
-        'Tue, 19 Oct 2021 20:46:47 GMT',
-        'Server',
-        'RapidAPI-1.2.8',
-        'Via',
-        '1.1 82893cc36087a50f9a150a621d10e740.cloudfront.net (CloudFront)',
-        'X-Amz-Cf-Id',
-        'fNiOd5L-jl94gUFhBIKhbFseFmUxCu_als1CNJE1hVLwzHJOdA10fg==',
-        'X-Amz-Cf-Pop',
-        'SEA19-C3',
-        'X-Cache',
-        'Miss from cloudfront',
-        'X-RapidAPI-Region',
-        'AWS - us-west-2',
-        'X-RapidAPI-Version',
-        '1.2.8',
-        'Content-Length',
-        '1120',
-        'Connection',
-        'Close',
-      ],
-    )
-}
+    .reply(200, {}, [
+      'Content-Type',
+      'application/json;charset=UTF-8',
+      'Date',
+      'Tue, 19 Oct 2021 20:46:47 GMT',
+      'Server',
+      'RapidAPI-1.2.8',
+      'Via',
+      '1.1 82893cc36087a50f9a150a621d10e740.cloudfront.net (CloudFront)',
+      'X-Amz-Cf-Id',
+      'fNiOd5L-jl94gUFhBIKhbFseFmUxCu_als1CNJE1hVLwzHJOdA10fg==',
+      'X-Amz-Cf-Pop',
+      'SEA19-C3',
+      'X-Cache',
+      'Miss from cloudfront',
+      'X-RapidAPI-Region',
+      'AWS - us-west-2',
+      'X-RapidAPI-Version',
+      '1.2.8',
+      'Content-Length',
+      '1120',
+      'Connection',
+      'Close',
+    ])
 
-export function mockBtcCoinEndpoint() {
   nock('https://bravenewcoin.p.rapidapi.com:443', { encodedQueryParams: true })
     .get('/asset')
     .query({ status: 'ACTIVE', symbol: 'BTC' })
@@ -98,9 +85,7 @@ export function mockBtcCoinEndpoint() {
         'Close',
       ],
     )
-}
 
-export function mockBtcMarketEndpoint() {
   nock('https://bravenewcoin.p.rapidapi.com:443', { encodedQueryParams: true })
     .get('/market-cap')
     .query({ assetId: 'f1ff77b6-3ab4-4719-9ded-2fc7e71cff1f' })
@@ -158,37 +143,7 @@ export function mockBtcMarketEndpoint() {
         'Close',
       ],
     )
-}
 
-export function mockCryptoResponse() {
-  nock('http://localhost:8080', { encodedQueryParams: true })
-    .post('/', { id: '1', data: { endpoint: 'crypto', base: 'ETH', quote: 'BTC' } })
-    .reply(
-      200,
-      {
-        jobRunID: '1',
-        result: 0.05986385840449063,
-        statusCode: 200,
-        data: { result: 0.05986385840449063 },
-      },
-      [
-        'X-Powered-By',
-        'Express',
-        'Content-Type',
-        'application/json; charset=utf-8',
-        'Content-Length',
-        '100',
-        'ETag',
-        'W/"64-3kXL7+uvKLguB6cSInOvQtu4RgM"',
-        'Date',
-        'Tue, 19 Oct 2021 20:46:48 GMT',
-        'Connection',
-        'close',
-      ],
-    )
-}
-
-export function mockEthCoinEndpoint() {
   nock('https://bravenewcoin.p.rapidapi.com:443', { encodedQueryParams: true })
     .get('/asset')
     .query({ status: 'ACTIVE', symbol: 'ETH' })
@@ -242,9 +197,7 @@ export function mockEthCoinEndpoint() {
         'Close',
       ],
     )
-}
 
-export function mockEthMarketEndpoint() {
   nock('https://bravenewcoin.p.rapidapi.com:443', { encodedQueryParams: true })
     .get('/market-cap')
     .query({ assetId: 'e991ba77-d384-48ff-b0a4-40e95ef6b7d6' })
@@ -300,6 +253,111 @@ export function mockEthMarketEndpoint() {
         '350',
         'Connection',
         'Close',
+      ],
+    )
+
+  nock('http://localhost:8080', { encodedQueryParams: true })
+    .post('/', { id: '1', data: { endpoint: 'crypto', base: 'ETH', quote: 'BTC' } })
+    .reply(
+      200,
+      {
+        jobRunID: '1',
+        result: 0.05986385840449063,
+        statusCode: 200,
+        data: { result: 0.05986385840449063 },
+      },
+      [
+        'X-Powered-By',
+        'Express',
+        'Content-Type',
+        'application/json; charset=utf-8',
+        'Content-Length',
+        '100',
+        'ETag',
+        'W/"64-3kXL7+uvKLguB6cSInOvQtu4RgM"',
+        'Date',
+        'Tue, 19 Oct 2021 20:46:48 GMT',
+        'Connection',
+        'close',
+      ],
+    )
+
+  nock('http://localhost:8080', { encodedQueryParams: true })
+    .post('/', { id: '2', data: { endpoint: 'vwap', base: 'ETH' } })
+    .reply(
+      200,
+      {
+        jobRunID: '2',
+        result: 3821.520292860939,
+        statusCode: 200,
+        data: { result: 3821.520292860939 },
+      },
+      [
+        'X-Powered-By',
+        'Express',
+        'Content-Type',
+        'application/json; charset=utf-8',
+        'Content-Length',
+        '96',
+        'ETag',
+        'W/"60-XZbGwgdUFMnCUHuL8U6AQiHlUlo"',
+        'Date',
+        'Wed, 20 Oct 2021 14:39:22 GMT',
+        'Connection',
+        'close',
+      ],
+    )
+}
+
+export function mockCryptoEndpointFailure() {
+  nock('https://bravenewcoin.p.rapidapi.com:443', { encodedQueryParams: true })
+    .post('/oauth/token', {
+      audience: 'https://api.bravenewcoin.com',
+      client_id: 'mock-client-id',
+      grant_type: 'client_credentials',
+    })
+    .reply(403, { message: 'You are not subscribed to this API.' }, [
+      'Content-Type',
+      'application/json',
+      'Date',
+      'Thu, 21 Oct 2021 15:03:54 GMT',
+      'Server',
+      'RapidAPI-1.2.8',
+      'X-RapidAPI-Proxy-Response',
+      'true',
+      'X-RapidAPI-Region',
+      'AWS - us-west-2',
+      'X-RapidAPI-Version',
+      '1.2.8',
+      'Content-Length',
+      '49',
+      'Connection',
+      'Close',
+    ])
+
+  nock('http://localhost:8080', { encodedQueryParams: true })
+    .post('/', { id: '1', data: { endpoint: 'crypto', base: 'ETH', quote: 'BTC' } })
+    .reply(
+      403,
+      {
+        jobRunID: '1',
+        status: 'errored',
+        statusCode: 403,
+        error: { name: 'AdapterError', message: 'Request failed with status code 403' },
+      },
+      [
+        'X-Powered-By',
+        'Express',
+        'Content-Type',
+        'application/json; charset=utf-8',
+        'Content-Length',
+        '132',
+        'ETag',
+        'W/"84-Q3J16FCvSfErFI58Zq6nyxyqHuM"',
+        'Date',
+        'Thu, 21 Oct 2021 15:03:54 GMT',
+        'Connection',
+        'close',
       ],
     )
 }

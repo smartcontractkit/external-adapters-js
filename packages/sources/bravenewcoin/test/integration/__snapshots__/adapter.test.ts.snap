@@ -1,6 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`bravenewcoin when making a request to bravenewcoin to crypto endpoint bravenewcoin replies with success should reply with success 1`] = `
+exports[`bravenewcoin when making a request to bravenewcoin to crypto endpoint when sending request without API key should reply with failure 1`] = `
+Object {
+  "error": Object {
+    "message": "Request failed with status code 403",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 403,
+}
+`;
+
+exports[`bravenewcoin when making a request to bravenewcoin to crypto endpoint when sending well-formed request should reply with success 1`] = `
 Object {
   "data": Object {
     "result": 0.05986385840449063,
@@ -11,7 +23,19 @@ Object {
 }
 `;
 
-exports[`bravenewcoin when making a request to bravenewcoin to vwap endpoint bravenewcoin replies with success should reply with success 1`] = `
+exports[`bravenewcoin when making a request to bravenewcoin to vwap endpoint when sending request without API key should reply with failure 1`] = `
+Object {
+  "error": Object {
+    "message": "Request failed with status code 403",
+    "name": "AdapterError",
+  },
+  "jobRunID": "2",
+  "status": "errored",
+  "statusCode": 403,
+}
+`;
+
+exports[`bravenewcoin when making a request to bravenewcoin to vwap endpoint when sending well-formed request should reply with success 1`] = `
 Object {
   "data": Object {
     "result": 3821.520292860939,
