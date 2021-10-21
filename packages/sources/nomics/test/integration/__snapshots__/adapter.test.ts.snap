@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute crypto api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 53835.22386957,
+  },
+  "jobRunID": "1",
+  "result": 53835.22386957,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute global market api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 2810702841731,
+  },
+  "jobRunID": "1",
+  "result": 2810702841731,
+  "statusCode": 200,
+}
+`;
