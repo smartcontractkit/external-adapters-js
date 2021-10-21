@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`coingecko crypto endpoint when sending well-formed request should reply with success 1`] = `
+Object {
+  "data": Object {
+    "result": 0.06541766,
+  },
+  "jobRunID": "1",
+  "result": 0.06541766,
+  "statusCode": 200,
+}
+`;
