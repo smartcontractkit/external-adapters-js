@@ -64,9 +64,15 @@ const tokenABI = [
 
 const getToken = async (tokenAddress: string, provider: ethers.providers.Provider) => {
   const token = new ethers.Contract(tokenAddress, tokenABI, provider)
+  let symbol = await token.symbol()
+  // Instead of querying the WETH price, get ETH price
+  if (symbol.toUpperCase() === 'WETH') {
+    symbol = 'ETH'
+  }
+  const decimals = await token.decimals()
   return {
-    symbol: await token.symbol(),
-    decimals: await token.decimals(),
+    symbol,
+    decimals,
   }
 }
 
