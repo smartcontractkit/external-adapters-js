@@ -128,23 +128,6 @@ export const mockPriceResponseSuccess = (): nock =>
       ],
     )
 
-export const mockRateResponseFailure = (): nock =>
-  nock('https://us.market-api.kaiko.io/v2/data/trades.v1', {
-    encodedQueryParams: true,
-  })
-    .get('/spot_exchange_rate/xxx/usd')
-    .query((query) => true)
-    .reply(400, (_, request) => 'Invalid base or quote', [
-      'Content-Type',
-      'application/json',
-      'Connection',
-      'close',
-      'Vary',
-      'Accept-Encoding',
-      'Vary',
-      'Origin',
-    ])
-
 export const mockPriceResponseFailure = (): nock =>
   nock('https://min-api.cryptocompare.com/', {
     encodedQueryParams: true,
