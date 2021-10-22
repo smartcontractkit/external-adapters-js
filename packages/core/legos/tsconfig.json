@@ -344,6 +344,9 @@
       "path": "../../sources/wootrade"
     },
     {
+      "path": "../../sources/wrapped"
+    },
+    {
       "path": "../../sources/xbto"
     }
   ]

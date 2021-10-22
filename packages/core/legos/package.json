@@ -140,6 +140,7 @@
     "@chainlink/view-function-adapter": "*",
     "@chainlink/wbtc-address-set-adapter": "*",
     "@chainlink/wootrade-adapter": "*",
+    "@chainlink/wrapped-adapter": "*",
     "@chainlink/xbto-adapter": "*",
     "tslib": "^2.3.1"
   }
