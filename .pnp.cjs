@@ -583,6 +583,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/wootrade"
       },
       {
+        "name": "@chainlink/wrapped-adapter",
+        "reference": "workspace:packages/sources/wrapped"
+      },
+      {
         "name": "@chainlink/xbto-adapter",
         "reference": "workspace:packages/sources/xbto"
       },
@@ -755,6 +759,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/view-function-adapter", ["workspace:packages/sources/view-function"]],
       ["@chainlink/wbtc-address-set-adapter", ["workspace:packages/sources/wbtc-address-set"]],
       ["@chainlink/wootrade-adapter", ["workspace:packages/sources/wootrade"]],
+      ["@chainlink/wrapped-adapter", ["workspace:packages/sources/wrapped"]],
       ["@chainlink/xbto-adapter", ["workspace:packages/sources/xbto"]],
       ["k6", ["workspace:packages/k6"]]
     ],
@@ -4471,6 +4476,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/view-function-adapter", "workspace:packages/sources/view-function"],
             ["@chainlink/wbtc-address-set-adapter", "workspace:packages/sources/wbtc-address-set"],
             ["@chainlink/wootrade-adapter", "workspace:packages/sources/wootrade"],
+            ["@chainlink/wrapped-adapter", "workspace:packages/sources/wrapped"],
             ["@chainlink/xbto-adapter", "workspace:packages/sources/xbto"],
             ["@types/jest", "npm:27.0.2"],
             ["@types/node", "npm:14.17.21"],
@@ -6113,6 +6119,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.2"],
             ["@types/node", "npm:14.17.21"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/wrapped-adapter", [
+        ["workspace:packages/sources/wrapped", {
+          "packageLocation": "./packages/sources/wrapped/",
+          "packageDependencies": [
+            ["@chainlink/wrapped-adapter", "workspace:packages/sources/wrapped"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.2"],
+            ["@types/node", "npm:14.17.21"],
+            ["nock", "npm:13.1.3"],
+            ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
