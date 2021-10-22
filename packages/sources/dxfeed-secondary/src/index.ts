@@ -1,7 +1,10 @@
 import { expose } from '@chainlink/ea-bootstrap'
-import { makeExecute } from './adapter'
+import * as dxfeed from '@chainlink/dxfeed-adapter'
 import { makeConfig, NAME } from './config'
 
-const NAME_OVERRIDE = 'DXFEED'
-
-export = { NAME, makeExecute, makeConfig, ...expose(NAME_OVERRIDE, makeExecute()) }
+export = {
+  NAME,
+  makeExecute: dxfeed.makeExecute,
+  makeConfig,
+  ...expose(NAME, dxfeed.makeExecute(), dxfeed.makeWSHandler(), dxfeed.endpointSelector),
+}
