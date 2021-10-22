@@ -23,8 +23,6 @@ export const adapters: AdapterImplementation[] = [
   Tiingo,
 ]
 
-console.log({ adapters, names: adapters.map((a) => a?.NAME) })
-
 export type Source = typeof adapters[number]['NAME']
 
 export const DEFAULT_TOKEN_DECIMALS = 18
