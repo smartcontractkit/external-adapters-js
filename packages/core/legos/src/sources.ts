@@ -111,6 +111,7 @@ import * as uscpi_one from '@chainlink/uscpi-one-adapter'
 import * as view_function from '@chainlink/view-function-adapter'
 import * as wbtc_adapter_address from '@chainlink/wbtc-address-set-adapter'
 import * as wootrade from '@chainlink/wootrade-adapter'
+import * as wrapped from '@chainlink/wrapped-adapter'
 import * as xbto from '@chainlink/xbto-adapter'
 
 export default {
@@ -227,5 +228,6 @@ export default {
   view_function,
   wbtc_adapter_address,
   wootrade,
+  wrapped,
   xbto,
 }
