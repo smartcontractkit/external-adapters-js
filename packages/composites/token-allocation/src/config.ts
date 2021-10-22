@@ -5,7 +5,7 @@ import * as CoinMarketCap from '@chainlink/coinmarketcap-adapter'
 import CoinPaprika from '@chainlink/coinpaprika-adapter'
 import CryptoCompare from '@chainlink/cryptocompare-adapter'
 import { Requester, util } from '@chainlink/ea-bootstrap'
-import Kaiko from '@chainlink/kaiko-adapter'
+import * as Kaiko from '@chainlink/kaiko-adapter'
 import Nomics from '@chainlink/nomics-adapter'
 import * as Tiingo from '@chainlink/tiingo-adapter'
 import { AdapterImplementation } from '@chainlink/types'
@@ -22,6 +22,8 @@ export const adapters: AdapterImplementation[] = [
   Nomics,
   Tiingo,
 ]
+
+console.log({ adapters, names: adapters.map((a) => a?.NAME) })
 
 export type Source = typeof adapters[number]['NAME']
 
