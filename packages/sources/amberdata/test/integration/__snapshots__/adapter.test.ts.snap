@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`amberdata when making a request to crypto endpoint should reply with success 1`] = `
+Object {
+  "data": Object {
+    "result": 0.06567038,
+  },
+  "jobRunID": "1",
+  "result": 0.06567038,
+  "statusCode": 200,
+}
+`;
+
+exports[`amberdata when making a request to marketcap endpoint should reply with success 1`] = `
+Object {
+  "data": Object {
+    "result": 490182085144.57404,
+  },
+  "jobRunID": "1",
+  "result": 490182085144.57404,
+  "statusCode": 200,
+}
+`;
+
+exports[`amberdata when making a request to volume endpoint should reply with success 1`] = `
+Object {
+  "data": Object {
+    "result": 13804511.82541564,
+  },
+  "jobRunID": "1",
+  "result": 13804511.82541564,
+  "statusCode": 200,
+}
+`;
