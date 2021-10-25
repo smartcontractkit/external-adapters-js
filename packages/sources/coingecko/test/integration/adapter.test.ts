@@ -1,34 +1,23 @@
 import { AdapterRequest } from '@chainlink/types'
-import { util } from '@chainlink/ea-bootstrap'
 import http from 'http'
 import nock from 'nock'
 import request from 'supertest'
-import { server as startServer } from '../../src/index'
-import {
-  mockCryptoEndpoint,
-  // mockDominanceEndpoint,
-  // mockGlobalMarketCapEndpoint,
-  // mockMarketCapEndpoint,
-} from './fixtures'
+import { server as startServer } from '../../src'
+import { mockCryptoSuccess, mockDominanceSuccess } from './fixtures'
 
-describe('coingecko', () => {
+describe('execute', () => {
+  const id = '1'
   let server: http.Server
-  const oldEnv: NodeJS.ProcessEnv = JSON.parse(JSON.stringify(process.env))
   const req = request('localhost:8080')
-
   beforeAll(async () => {
     process.env.CACHE_ENABLED = 'false'
-
-    if (util.parseBool(process.env.RECORD)) {
+    if (process.env.RECORD) {
       nock.recorder.rec()
-    } else {
-      process.env.API_KEY = 'mock-api-key'
     }
     server = await startServer()
   })
   afterAll((done) => {
-    process.env = oldEnv
-    if (util.parseBool(process.env.RECORD)) {
+    if (process.env.RECORD) {
       nock.recorder.play()
     }
 
@@ -38,51 +27,120 @@ describe('coingecko', () => {
     server.close(done)
   })
 
-  describe('crypto endpoint', () => {
-    describe('when sending well-formed request', () => {
-      it('should reply with success', async () => {
-        const cryptoRequest: AdapterRequest = {
-          id: '1',
-          data: {
-            endpoint: 'crypto',
-            base: 'ETH',
-            quote: 'BTC',
-          },
-        }
-        mockCryptoEndpoint()
-        const response = await req
-          .post('/')
-          .send(cryptoRequest)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(200)
-        expect(response.body).toMatchSnapshot()
-      })
+  describe('crypto api', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        base: 'ETH',
+        quote: 'USD',
+      },
+    }
+
+    it('should return success', async () => {
+      mockCryptoSuccess()
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
     })
   })
 
-  // describe('dominance endpoint', () => {
-  //   describe('when sending well-formed request', () => {
-  //     it('should reply with success', async () => {
-  //       const cryptoRequest: AdapterRequest = {
-  //         id: '1',
-  //         data: {
-  //           endpoint: 'crypto',
-  //           base: 'ETH',
-  //           quote: 'BTC',
-  //         },
-  //       }
-  //       mockCryptoEndpoint()
-  //       const response = await req
-  //         .post('/')
-  //         .send(cryptoRequest)
-  //         .set('Accept', '*/*')
-  //         .set('Content-Type', 'application/json')
-  //         .expect('Content-Type', /json/)
-  //         .expect(200)
-  //       expect(response.body).toMatchSnapshot()
-  //     })
-  //   })
-  // })
+  describe('volume api', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        endpoint: 'volume',
+        base: 'ETH',
+        quote: 'USD',
+      },
+    }
+
+    it('should return success', async () => {
+      mockCryptoSuccess()
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('marketcap api', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        endpoint: 'marketcap',
+        base: 'ETH',
+        quote: 'USD',
+      },
+    }
+
+    it('should return success', async () => {
+      mockCryptoSuccess()
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('globalmarketcap api', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        endpoint: 'globalmarketcap',
+        quote: 'USD',
+      },
+    }
+
+    it('should return success', async () => {
+      mockDominanceSuccess()
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('dominance api', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        endpoint: 'dominance',
+        quote: 'ETH',
+      },
+    }
+
+    it('should return success', async () => {
+      mockDominanceSuccess()
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
 })
