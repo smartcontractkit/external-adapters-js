@@ -14,7 +14,7 @@ export function getAllocations(
   const options = {
     data: {
       endpoint: 'allocations',
-      maxAge: 5 * 60 * 1000, // 5 minutes
+      maxAge: 60 * 1000, // 1 minute
     },
     method: 'post',
     id,
