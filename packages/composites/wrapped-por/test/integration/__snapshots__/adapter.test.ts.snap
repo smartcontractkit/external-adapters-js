@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute get symbol address sum balances should return success 1`] = `
+Object {
+  "data": Object {
+    "result": "3938711109096905",
+  },
+  "jobRunID": "1",
+  "maxAge": 30000,
+  "result": "3938711109096905",
+  "statusCode": 200,
+}
+`;

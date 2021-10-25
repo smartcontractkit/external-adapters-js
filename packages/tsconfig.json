@@ -69,6 +69,9 @@
       "path": "./composites/vesper"
     },
     {
+      "path": "./composites/wrapped-por"
+    },
+    {
       "path": "./core/bootstrap"
     },
     {

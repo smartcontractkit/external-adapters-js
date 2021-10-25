@@ -3269,7 +3269,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/proof-of-reserves-adapter@workspace:packages/composites/proof-of-reserves":
+"@chainlink/proof-of-reserves-adapter@*, @chainlink/proof-of-reserves-adapter@workspace:packages/composites/proof-of-reserves":
   version: 0.0.0-use.local
   resolution: "@chainlink/proof-of-reserves-adapter@workspace:packages/composites/proof-of-reserves"
   dependencies:
@@ -3774,6 +3774,24 @@ __metadata:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-test-helpers": "*"
     "@chainlink/types": 0.0.1
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+    nock: 13.1.3
+    supertest: 6.1.6
+    tslib: ^2.3.1
+    typescript: 4.3.5
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/wrapper-por-adapter@workspace:packages/composites/wrapped-por":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/wrapper-por-adapter@workspace:packages/composites/wrapped-por"
+  dependencies:
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/proof-of-reserves-adapter": "*"
+    "@chainlink/types": 0.0.1
+    "@chainlink/wrapped-adapter": "*"
     "@types/jest": 27.0.2
     "@types/node": 14.17.21
     nock: 13.1.3

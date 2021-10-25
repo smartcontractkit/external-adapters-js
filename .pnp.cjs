@@ -111,6 +111,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/composites/vesper"
       },
       {
+        "name": "@chainlink/wrapper-por-adapter",
+        "reference": "workspace:packages/composites/wrapped-por"
+      },
+      {
         "name": "@chainlink/ea-bootstrap",
         "reference": "workspace:packages/core/bootstrap"
       },
@@ -760,6 +764,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/wbtc-address-set-adapter", ["workspace:packages/sources/wbtc-address-set"]],
       ["@chainlink/wootrade-adapter", ["workspace:packages/sources/wootrade"]],
       ["@chainlink/wrapped-adapter", ["workspace:packages/sources/wrapped"]],
+      ["@chainlink/wrapper-por-adapter", ["workspace:packages/composites/wrapped-por"]],
       ["@chainlink/xbto-adapter", ["workspace:packages/sources/xbto"]],
       ["k6", ["workspace:packages/k6"]]
     ],
@@ -6133,6 +6138,26 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.2"],
+            ["@types/node", "npm:14.17.21"],
+            ["nock", "npm:13.1.3"],
+            ["supertest", "npm:6.1.6"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/wrapper-por-adapter", [
+        ["workspace:packages/composites/wrapped-por", {
+          "packageLocation": "./packages/composites/wrapped-por/",
+          "packageDependencies": [
+            ["@chainlink/wrapper-por-adapter", "workspace:packages/composites/wrapped-por"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/proof-of-reserves-adapter", "workspace:packages/composites/proof-of-reserves"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@chainlink/wrapped-adapter", "workspace:packages/sources/wrapped"],
             ["@types/jest", "npm:27.0.2"],
             ["@types/node", "npm:14.17.21"],
             ["nock", "npm:13.1.3"],
