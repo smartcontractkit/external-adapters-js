@@ -91,7 +91,7 @@ export function mockVwapEndpointSuccess() {
     .query({
       indexId: 'e991ba77-d384-48ff-b0a4-40e95ef6b7d6',
       indexType: 'GWA',
-      timestamp: '2021-10-20T17%3A44%3A49.065Z',
+      timestamp: /.*/i,
       size: '1',
     })
     .reply(
@@ -147,32 +147,6 @@ export function mockVwapEndpointSuccess() {
         '468',
         'Connection',
         'Close',
-      ],
-    )
-
-  nock('http://localhost:8080', { encodedQueryParams: true })
-    .post('/', { id: '2', data: { endpoint: 'vwap', base: 'ETH' } })
-    .reply(
-      200,
-      {
-        jobRunID: '2',
-        result: 3969.76725876602,
-        statusCode: 200,
-        data: { result: 3969.76725876602 },
-      },
-      [
-        'X-Powered-By',
-        'Express',
-        'Content-Type',
-        'application/json; charset=utf-8',
-        'Content-Length',
-        '94',
-        'ETag',
-        'W/"5e-l5P6w59YgwOaDIhYqDTDMUtPYag"',
-        'Date',
-        'Thu, 21 Oct 2021 17:44:50 GMT',
-        'Connection',
-        'close',
       ],
     )
 }
