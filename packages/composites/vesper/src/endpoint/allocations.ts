@@ -1,5 +1,10 @@
 import { ethers } from 'ethers'
 import { types } from '@chainlink/token-allocation-adapter'
+import { ExecuteWithConfig } from '@chainlink/types'
+import { Config } from '../config'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
+
+export const supportedEndpoints = ['allocations']
 
 const controllerABI = [
   {
@@ -96,10 +101,15 @@ const getPoolValue = async (poolAddress: string, provider: ethers.providers.Prov
   return Promise.all(getValues)
 }
 
-export const getTokenAllocations = async (
-  controllerAddress: string,
-  provider: ethers.providers.Provider,
-): Promise<types.TokenAllocations> => {
+export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
+  const validator = new Validator(input, {})
+  if (validator.error) throw validator.error
+
+  const jobRunID = validator.validated.jobRunID
+  const controllerAddress = config.controllerAddress
+
+  const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl)
+
   const controller = new ethers.Contract(controllerAddress, controllerABI, provider)
   const pool = (await controller.pools()) as string
 
@@ -129,5 +139,10 @@ export const getTokenAllocations = async (
     balance: input.balance.toString(),
   })
 
-  return Object.keys(tokens).map((token) => _convertBigNumberish(tokens[token]))
+  const allocations = Object.keys(tokens).map((token) => _convertBigNumberish(tokens[token]))
+  const response = {
+    data: allocations,
+  }
+
+  return Requester.success(jobRunID, response, true)
 }
