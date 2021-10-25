@@ -139,7 +139,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
     balance: input.balance.toString(),
   })
 
-  const allocations = Object.keys(tokens).map((token) => _convertBigNumberish(tokens[token]))
+  const allocations = Object.values(tokens).map((token) => _convertBigNumberish(token))
   const response = {
     data: allocations,
   }
