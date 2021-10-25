@@ -4,6 +4,7 @@ import {
   RequestConfig,
   AdapterRequest,
   AdapterRequestData,
+  ResultPath,
 } from '@chainlink/types'
 import { reducer } from '../cache-warmer'
 import axios, { AxiosResponse } from 'axios'
@@ -90,7 +91,7 @@ export class Requester {
 
   static validateResultNumber(
     data: { [key: string]: any },
-    path: (string | number)[],
+    path: ResultPath,
     options?: { inverse?: boolean },
   ): number {
     const result = this.getResult(data, path)
@@ -111,7 +112,7 @@ export class Requester {
     return num
   }
 
-  static getResult(data: { [key: string]: unknown }, path: (string | number)[]): unknown {
+  static getResult(data: { [key: string]: unknown }, path: ResultPath): unknown {
     return objectPath.get(data, path)
   }
 

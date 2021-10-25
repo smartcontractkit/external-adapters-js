@@ -9,7 +9,7 @@ import {
 import { NAME as AdapterName } from '../config'
 import { getCoin } from '../util'
 
-export const supportedEndpoints = ['crypto', 'price', 'marketcap']
+export const supportedEndpoints = ['crypto', 'price', 'marketcap', 'volume']
 export const batchablePropertyPath = [{ name: 'base' }, { name: 'quote' }]
 
 export interface ResponseSchema {
@@ -50,6 +50,7 @@ export const endpointResultPaths = {
   crypto: 'price',
   marketcap: 'market_cap',
   price: 'price',
+  volume: 'volume_24h',
 }
 
 export const inputParameters: InputParameters = {
