@@ -1,11 +1,7 @@
 import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, InputParameters, AxiosResponse } from '@chainlink/types'
+import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['deposits']
-
-export type Addresses = {
-  address: string
-}
 
 const customError = (data: any) => data.Response === 'Error'
 
@@ -34,13 +30,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     })
   }
 
-  const result = addresses.map((element: string) => {
-    return { address: element }
-  })
-
-  response.data.result = result as Addresses[]
-  return Requester.success(
-    jobRunID,
-    Requester.withResult(response, result as AxiosResponse<Addresses[]>),
-  )
+  response.data.result = addresses as string[]
+  return Requester.success(jobRunID, Requester.withResult(response, addresses))
 }
