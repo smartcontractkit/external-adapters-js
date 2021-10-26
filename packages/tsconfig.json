@@ -147,6 +147,9 @@
       "path": "./sources/cfbenchmarks"
     },
     {
+      "path": "./sources/chain-reserve-wallet"
+    },
+    {
       "path": "./sources/coinapi"
     },
     {

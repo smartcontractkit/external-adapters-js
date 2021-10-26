@@ -223,6 +223,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/cfbenchmarks"
       },
       {
+        "name": "@chainlink/chain-reserve-wallet-adapter",
+        "reference": "workspace:packages/sources/chain-reserve-wallet"
+      },
+      {
         "name": "@chainlink/coinapi-adapter",
         "reference": "workspace:packages/sources/coinapi"
       },
@@ -633,6 +637,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/btc.com-adapter", ["workspace:packages/sources/btc.com"]],
       ["@chainlink/cache.gold-adapter", ["workspace:packages/sources/cache.gold"]],
       ["@chainlink/cfbenchmarks-adapter", ["workspace:packages/sources/cfbenchmarks"]],
+      ["@chainlink/chain-reserve-wallet-adapter", ["workspace:packages/sources/chain-reserve-wallet"]],
       ["@chainlink/circuit-breaker-adapter", ["workspace:packages/composites/circuit-breaker"]],
       ["@chainlink/coinapi-adapter", ["workspace:packages/sources/coinapi"]],
       ["@chainlink/coinbase-adapter", ["workspace:packages/sources/coinbase"]],
@@ -3821,6 +3826,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT",
         }]
       ]],
+      ["@chainlink/chain-reserve-wallet-adapter", [
+        ["workspace:packages/sources/chain-reserve-wallet", {
+          "packageLocation": "./packages/sources/chain-reserve-wallet/",
+          "packageDependencies": [
+            ["@chainlink/chain-reserve-wallet-adapter", "workspace:packages/sources/chain-reserve-wallet"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.2"],
+            ["@types/node", "npm:14.17.21"],
+            ["ethers", "npm:5.4.6"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
       ["@chainlink/circuit-breaker-adapter", [
         ["workspace:packages/composites/circuit-breaker", {
           "packageLocation": "./packages/composites/circuit-breaker/",
@@ -4381,6 +4403,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/btc.com-adapter", "workspace:packages/sources/btc.com"],
             ["@chainlink/cache.gold-adapter", "workspace:packages/sources/cache.gold"],
             ["@chainlink/cfbenchmarks-adapter", "workspace:packages/sources/cfbenchmarks"],
+            ["@chainlink/chain-reserve-wallet-adapter", "workspace:packages/sources/chain-reserve-wallet"],
             ["@chainlink/coinapi-adapter", "workspace:packages/sources/coinapi"],
             ["@chainlink/coinbase-adapter", "workspace:packages/sources/coinbase"],
             ["@chainlink/coincodex-adapter", "workspace:packages/sources/coincodex"],
