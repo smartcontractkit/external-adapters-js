@@ -58,7 +58,121 @@ export function mockCryptoEndpoint() {
     )
 }
 
-export function mockBalanceEndpoint() {}
+export function mockBalanceEndpoint() {
+  nock('https://web3api.io:443', { encodedQueryParams: true })
+    .get('/api/v2/addresses/38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF/account-balances/latest')
+    .reply(
+      200,
+      {
+        status: 200,
+        title: 'OK',
+        description: 'Successful request',
+        payload: {
+          address: { address: '38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF' },
+          blockchainId: '408fa195a34b533de9ad9889f076045e',
+          blockNumber: '693286',
+          timestampNanoseconds: 0,
+          value: '2188',
+          timestamp: '2021-07-29T20:54:39.000Z',
+        },
+      },
+      [
+        'Content-Type',
+        'application/json; charset=utf-8',
+        'Content-Length',
+        '285',
+        'Connection',
+        'close',
+        'Date',
+        'Tue, 26 Oct 2021 15:28:01 GMT',
+        'x-amzn-RequestId',
+        '0e4cb91d-06df-4281-86c9-9effa735dd0c',
+        'Access-Control-Allow-Origin',
+        '*',
+        'X-Response-Time',
+        '25.648ms',
+        'x-amzn-Remapped-Content-Length',
+        '285',
+        'x-amzn-Remapped-Connection',
+        'keep-alive',
+        'Set-Cookie',
+        'AWSALB=bKIqRArtz0YYWRppt8yNVS3RcLpmCVCh5a4ty+KSTFMQWDZCvdKMWXJ3pJNjizgy0KqEg5wyAfznCOY9KQ6niv5Ek4z/sDAmlE0YkesRwtZTTPiKcWlWmfYQPdSB; Expires=Tue, 02 Nov 2021 15:28:01 GMT; Path=/',
+        'Set-Cookie',
+        'AWSALBCORS=bKIqRArtz0YYWRppt8yNVS3RcLpmCVCh5a4ty+KSTFMQWDZCvdKMWXJ3pJNjizgy0KqEg5wyAfznCOY9KQ6niv5Ek4z/sDAmlE0YkesRwtZTTPiKcWlWmfYQPdSB; Expires=Tue, 02 Nov 2021 15:28:01 GMT; Path=/; SameSite=None; Secure',
+        'x-amz-apigw-id',
+        'H0m0UEWAIAMF6Hw=',
+        'ETag',
+        'W/"11d-9m0wDFpEzWf3toDPotW0YvCKBiQ"',
+        'x-amzn-Remapped-Date',
+        'Tue, 26 Oct 2021 15:28:01 GMT',
+        'X-Cache',
+        'Miss from cloudfront',
+        'Via',
+        '1.1 925e7b77d00fe09d3e904612516a8235.cloudfront.net (CloudFront)',
+        'X-Amz-Cf-Pop',
+        'HIO50-C2',
+        'X-Amz-Cf-Id',
+        'kRWMcAT8h1DtgkQEMmVmlUHvRyaNLo2eS9lSLcT8UJUijfLlxQtLOQ==',
+      ],
+    )
+
+  nock('https://web3api.io:443', { encodedQueryParams: true })
+    .get('/api/v2/addresses/3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1/account-balances/latest')
+    .reply(
+      200,
+      {
+        status: 200,
+        title: 'OK',
+        description: 'Successful request',
+        payload: {
+          address: { address: '3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1' },
+          blockchainId: '408fa195a34b533de9ad9889f076045e',
+          blockNumber: '692934',
+          timestampNanoseconds: 0,
+          value: '0',
+          timestamp: '2021-07-27T17:18:38.000Z',
+        },
+      },
+      [
+        'Content-Type',
+        'application/json; charset=utf-8',
+        'Content-Length',
+        '282',
+        'Connection',
+        'close',
+        'Date',
+        'Tue, 26 Oct 2021 15:28:01 GMT',
+        'x-amzn-RequestId',
+        'e63857bc-dfb7-493b-b3c9-159ffe947bca',
+        'Access-Control-Allow-Origin',
+        '*',
+        'X-Response-Time',
+        '30.586ms',
+        'x-amzn-Remapped-Content-Length',
+        '282',
+        'x-amzn-Remapped-Connection',
+        'keep-alive',
+        'Set-Cookie',
+        'AWSALB=kHnsr6FFHk+eKx2Fnj93fqmJwEhu6KkvHfS4+acpyc29k1lJ5tIWpZnKR+PVRIXzA6SRMP/9qpfdx0QVbvPr4fVjWWUZH9Sgx2Au/UfZjwEUHZv2ib00tRtGyusl; Expires=Tue, 02 Nov 2021 15:28:01 GMT; Path=/',
+        'Set-Cookie',
+        'AWSALBCORS=kHnsr6FFHk+eKx2Fnj93fqmJwEhu6KkvHfS4+acpyc29k1lJ5tIWpZnKR+PVRIXzA6SRMP/9qpfdx0QVbvPr4fVjWWUZH9Sgx2Au/UfZjwEUHZv2ib00tRtGyusl; Expires=Tue, 02 Nov 2021 15:28:01 GMT; Path=/; SameSite=None; Secure',
+        'x-amz-apigw-id',
+        'H0m0UF5moAMFoLA=',
+        'ETag',
+        'W/"11a-k8BfD8eQn+ln2eBXSoM3Bt0JCMk"',
+        'x-amzn-Remapped-Date',
+        'Tue, 26 Oct 2021 15:28:01 GMT',
+        'X-Cache',
+        'Miss from cloudfront',
+        'Via',
+        '1.1 4e4146a38d6d3f79964fdb06a05f26cf.cloudfront.net (CloudFront)',
+        'X-Amz-Cf-Pop',
+        'HIO50-C2',
+        'X-Amz-Cf-Id',
+        'TSaonj6s9RVEx3TU9JP86i6y0RsXV8F2r3i7RI3tPlvOSZtn5TcI2A==',
+      ],
+    )
+}
 
 export function mockMarketCapEndpoint() {
   nock('https://web3api.io:443', { encodedQueryParams: true })

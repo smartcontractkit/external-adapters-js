@@ -1,5 +1,42 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`amberdata when making a request to balance endpoint should reply with success 1`] = `
+Object {
+  "data": Object {
+    "result": Array [
+      Object {
+        "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1",
+        "balance": "0",
+        "chain": "mainnet",
+        "coin": "btc",
+      },
+      Object {
+        "address": "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF",
+        "balance": "2188",
+        "chain": "mainnet",
+        "coin": "btc",
+      },
+    ],
+  },
+  "jobRunID": "1",
+  "result": Array [
+    Object {
+      "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1",
+      "balance": "0",
+      "chain": "mainnet",
+      "coin": "btc",
+    },
+    Object {
+      "address": "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF",
+      "balance": "2188",
+      "chain": "mainnet",
+      "coin": "btc",
+    },
+  ],
+  "statusCode": 200,
+}
+`;
+
 exports[`amberdata when making a request to crypto endpoint should reply with success 1`] = `
 Object {
   "data": Object {
