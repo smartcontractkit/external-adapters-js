@@ -3,11 +3,10 @@
 exports[`execute get symbol address sum balances should return success 1`] = `
 Object {
   "data": Object {
-    "result": "3938711109096905",
+    "result": "3858950875039521157800",
   },
   "jobRunID": "1",
-  "maxAge": 30000,
-  "result": "3938711109096905",
+  "result": "3858950875039521157800",
   "statusCode": 200,
 }
 `;

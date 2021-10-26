@@ -8,7 +8,8 @@ import * as http from 'http'
 
 beforeAll(() => {
   process.env.CACHE_ENABLED = 'false'
-  process.env.ETH_BALANCE_ADAPTER_URL || 'http://localhost:8081'
+  process.env.ETH_BALANCE_ADAPTER_URL =
+    process.env.ETH_BALANCE_ADAPTER_URL || 'http://localhost:8081'
   if (process.env.RECORD) {
     nock.recorder.rec()
   }

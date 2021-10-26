@@ -1,4 +1,3 @@
-// import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { AdapterRequest, AdapterResponse, Execute, AdapterContext } from '@chainlink/types'
 import * as PoR from '@chainlink/proof-of-reserves-adapter'
@@ -47,6 +46,5 @@ export const execute = async (
   return Requester.success(jobRunID, sum)
 }
 
-export const makeExecute = (): Execute => {
-  return async (request, context) => execute(request, context || makeConfig())
-}
+export const makeExecute = (): Execute => async (request, context) =>
+  execute(request, context || makeConfig())
