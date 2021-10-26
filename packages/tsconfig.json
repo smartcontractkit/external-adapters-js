@@ -369,6 +369,9 @@
       "path": "./sources/stasis"
     },
     {
+      "path": "./sources/supermariocoin"
+    },
+    {
       "path": "./sources/synthetix-debt-pool"
     },
     {

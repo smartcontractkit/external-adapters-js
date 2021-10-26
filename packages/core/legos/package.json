@@ -121,6 +121,7 @@
     "@chainlink/spectral-macro-score-adapter": "*",
     "@chainlink/sportsdataio-adapter": "*",
     "@chainlink/stasis-adapter": "*",
+    "@chainlink/supermariocoin-adapter": "*",
     "@chainlink/synthetix-debt-pool-adapter": "*",
     "@chainlink/taapi-adapter": "*",
     "@chainlink/therundown-adapter": "*",

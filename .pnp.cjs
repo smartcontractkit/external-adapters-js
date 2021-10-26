@@ -519,6 +519,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/stasis"
       },
       {
+        "name": "@chainlink/supermariocoin-adapter",
+        "reference": "workspace:packages/sources/supermariocoin"
+      },
+      {
         "name": "@chainlink/synthetix-debt-pool-adapter",
         "reference": "workspace:packages/sources/synthetix-debt-pool"
       },
@@ -734,6 +738,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/spectral-macro-score-adapter", ["workspace:packages/sources/spectral-macro-score"]],
       ["@chainlink/sportsdataio-adapter", ["workspace:packages/sources/sportsdataio"]],
       ["@chainlink/stasis-adapter", ["workspace:packages/sources/stasis"]],
+      ["@chainlink/supermariocoin-adapter", ["workspace:packages/sources/supermariocoin"]],
       ["@chainlink/synth-index-adapter", ["workspace:packages/composites/synth-index"]],
       ["@chainlink/synthetix-debt-pool-adapter", ["workspace:packages/sources/synthetix-debt-pool"]],
       ["@chainlink/taapi-adapter", ["workspace:packages/sources/taapi"]],
@@ -4455,6 +4460,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/spectral-macro-score-adapter", "workspace:packages/sources/spectral-macro-score"],
             ["@chainlink/sportsdataio-adapter", "workspace:packages/sources/sportsdataio"],
             ["@chainlink/stasis-adapter", "workspace:packages/sources/stasis"],
+            ["@chainlink/supermariocoin-adapter", "workspace:packages/sources/supermariocoin"],
             ["@chainlink/synthetix-debt-pool-adapter", "workspace:packages/sources/synthetix-debt-pool"],
             ["@chainlink/taapi-adapter", "workspace:packages/sources/taapi"],
             ["@chainlink/therundown-adapter", "workspace:packages/sources/therundown"],
@@ -5747,6 +5753,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.2"],
             ["@types/node", "npm:14.17.21"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/supermariocoin-adapter", [
+        ["workspace:packages/sources/supermariocoin", {
+          "packageLocation": "./packages/sources/supermariocoin/",
+          "packageDependencies": [
+            ["@chainlink/supermariocoin-adapter", "workspace:packages/sources/supermariocoin"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.2"],
+            ["@types/node", "npm:14.17.21"],
+            ["@types/supertest", "npm:2.0.11"],
+            ["nock", "npm:13.1.3"],
+            ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],

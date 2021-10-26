@@ -90,6 +90,7 @@ import * as sochain from '@chainlink/sochain-adapter'
 import * as spectral_macro_score from '@chainlink/spectral-macro-score-adapter'
 import * as sportsdataio from '@chainlink/sportsdataio-adapter'
 import * as stasis from '@chainlink/stasis-adapter'
+import * as supermariocoin from '@chainlink/supermariocoin-adapter'
 import * as synthetix_debt_pool from '@chainlink/synthetix-debt-pool-adapter'
 import * as taapi from '@chainlink/taapi-adapter'
 import * as therundown from '@chainlink/therundown-adapter'
@@ -201,6 +202,7 @@ export default {
   spectral_macro_score,
   sportsdataio,
   stasis,
+  supermariocoin,
   synthetix_debt_pool,
   taapi,
   therundown,
