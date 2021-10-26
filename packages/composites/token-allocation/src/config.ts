@@ -1,4 +1,4 @@
-import Amberdata from '@chainlink/amberdata-adapter'
+import * as Amberdata from '@chainlink/amberdata-adapter'
 import CoinApi from '@chainlink/coinapi-adapter'
 import CoinGecko from '@chainlink/coingecko-adapter'
 import * as CoinMarketCap from '@chainlink/coinmarketcap-adapter'
