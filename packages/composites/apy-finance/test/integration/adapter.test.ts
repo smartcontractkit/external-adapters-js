@@ -41,7 +41,7 @@ describe('execute', () => {
     }
 
     it.skip('should return success', async () => {
-      const resp = await execute(data, {})
+      const resp = await execute(data)
       expect(resp).toMatchSnapshot()
     })
   })

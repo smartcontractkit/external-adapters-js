@@ -1,18 +1,13 @@
-import { Requester, util } from '@chainlink/ea-bootstrap'
-import * as types from '@chainlink/types'
+import { util } from '@chainlink/ea-bootstrap'
 
-export type Config = types.Config & {
+export type Config = {
   rpcUrl: string
   registryAddr: string
 }
 
-export const DEFAULT_ENDPOINT = 'tvl'
-
-export const makeConfig = (prefix?: string): Config => {
+export const makeConfig = (): Config => {
   return {
-    ...Requester.getDefaultConfig(prefix),
     rpcUrl: util.getRequiredEnv('RPC_URL'),
     registryAddr: util.getRequiredEnv('REGISTRY_ADDRESS'),
-    defaultEndpoint: DEFAULT_ENDPOINT,
   }
 }
