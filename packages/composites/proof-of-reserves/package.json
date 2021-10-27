@@ -31,12 +31,14 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
+    "@chainlink/ada-balance-adapter": "*",
     "@chainlink/amberdata-adapter": "*",
     "@chainlink/bitcoin-json-rpc-adapter": "*",
     "@chainlink/blockchain.com-adapter": "*",
     "@chainlink/blockchair-adapter": "*",
     "@chainlink/blockcypher-adapter": "*",
     "@chainlink/btc.com-adapter": "*",
+    "@chainlink/chain-reserve-wallet-adapter": "*",
     "@chainlink/cryptoapis-adapter": "*",
     "@chainlink/ea-bootstrap": "*",
     "@chainlink/ea-test-helpers": "*",

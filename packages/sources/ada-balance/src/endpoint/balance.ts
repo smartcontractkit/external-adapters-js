@@ -12,7 +12,7 @@ export interface ResponseSchema {
 }
 
 export const inputParameters: InputParameters = {
-  addresses: true,
+  addresses: ['addresses', 'result'],
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {

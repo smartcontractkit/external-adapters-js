@@ -1,37 +1,30 @@
 # Chainlink External Adapter for Ada-balance
 
-A template to be used as an example for new [External Adapters](https://github.com/smartcontractkit/external-adapters-js)
-
-(please fill out with corresponding information)
-
-An example adapter description
+This adapter can be used to query Cardano address balances.
 
 ### Environment Variables
 
-| Required? |  Name   |                                                        Description                                                         | Options | Defaults to |
-| :-------: | :-----: | :------------------------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
-|           | API_KEY | An API key that can be obtained from the data provider's dashboard (add a ✅ in `Required?` if this parameter is required) |         |             |
+| Required? |      Name       |               Description               |                                                         Options                                                          | Defaults to |
+| :-------: | :-------------: | :-------------------------------------: | :----------------------------------------------------------------------------------------------------------------------: | :---------: |
+|    ✅     | WS_API_ENDPOINT | The WS API endpoint of the Cardano node | Testnet (ec2-34-223-102-72.us-west-2.compute.amazonaws.com), Mainnet (ec2-18-237-40-218.us-west-2.compute.amazonaws.com) |             |
 
 ---
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |             Options              | Defaults to |
-| :-------: | :------: | :-----------------: | :------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [example](#Ada-balance-Endpoint) |   example   |
+N/A
 
 ---
 
 ## Ada-balance Endpoint
 
-An example endpoint description
+This endpoint fetches an address's balance and outputs it in Lovelace.
 
 ### Input Params
 
-| Required? |            Name            |               Description                |       Options       | Defaults to |
-| :-------: | :------------------------: | :--------------------------------------: | :-----------------: | :---------: |
-|    ✅     | `base`, `from`, or `coin`  |   The symbol of the currency to query    | `BTC`, `ETH`, `USD` |             |
-|    ✅     | `quote`, `to`, or `market` | The symbol of the currency to convert to | `BTC`, `ETH`, `USD` |             |
+| Required? |    Name     |                 Description                 | Options | Defaults to |
+| :-------: | :---------: | :-----------------------------------------: | :-----: | :---------: | --- |
+|    ✅     | `addresses` | An array of addresses to query balances for |         |             |     |
 
 ### Sample Input
 
@@ -39,8 +32,9 @@ An example endpoint description
 {
   "id": "1",
   "data": {
-    "base": "ETH",
-    "quote": "USD"
+    "addresses": [
+      "addr_test1qz87tn9yat3xfutzds43tnj8qw457hk3v46w4028rtnx56v89wjwnrwcvlfm2atvcnnclh3x7thwrl7pgnffaw24mgws0dga4m"
+    ]
   }
 }
 ```
@@ -49,11 +43,11 @@ An example endpoint description
 
 ```json
 {
-  "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
+  "jobRunID": "1",
+  "result": 5000000,
+  "statusCode": 200,
   "data": {
-    "price": 77777.77,
-    "result": 77777.77
-  },
-  "statusCode": 200
+    "result": 5000000
+  }
 }
 ```

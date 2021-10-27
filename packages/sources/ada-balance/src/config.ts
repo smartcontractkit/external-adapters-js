@@ -1,7 +1,7 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
-export const NAME = 'ADA_BALANCE' // This should be filled in with a name corresponding to the data provider using UPPERCASE and _underscores_.
+export const NAME = 'ADA_BALANCE'
 
 export const DEFAULT_ENDPOINT = 'balance'
 

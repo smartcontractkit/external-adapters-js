@@ -21,6 +21,8 @@
     { "path": "../../sources/wbtc-address-set" },
     { "path": "../../sources/lotus" },
     { "path": "../../sources/gemini" },
-    { "path": "../../sources/eth-balance" }
+    { "path": "../../sources/eth-balance" },
+    { "path": "../../sources/ada-balance" },
+    { "path": "../../sources/chain-reserve-wallet" }
   ]
 }
