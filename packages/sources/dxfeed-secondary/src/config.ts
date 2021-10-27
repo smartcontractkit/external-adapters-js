@@ -3,6 +3,8 @@ import { Config } from '@chainlink/types'
 
 export const NAME = 'DXFEED_SECONDARY'
 
-export const DEFAULT_ENDPOINT = 'price'
-
-export const makeConfig = (prefix?: string): Config => dxfeed.makeConfig(prefix)
+export const makeConfig = (prefix?: string): Config => {
+  const baseConfig = dxfeed.makeConfig(prefix)
+  baseConfig.name = NAME
+  return baseConfig
+}

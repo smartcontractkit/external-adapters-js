@@ -8,6 +8,7 @@ export const DEMO_ENDPOINT = 'https://tools.dxfeed.com/webservice/rest'
 
 export const makeConfig = (prefix?: string): Config => {
   const config = Requester.getDefaultConfig(prefix)
+  config.name = NAME
   config.api.baseURL = config.api.baseURL || DEMO_ENDPOINT
   config.api.baseWsURL = config.api.baseWsURL || ''
   if (config.api.baseURL === DEMO_ENDPOINT)
