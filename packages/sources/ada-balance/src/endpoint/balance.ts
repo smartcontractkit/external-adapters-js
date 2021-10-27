@@ -2,6 +2,7 @@ import { AdapterError, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { Address, Lovelace, Utxo } from '@cardano-ogmios/schema'
 import * as client from '@cardano-ogmios/client'
+import { DEFAULT_RPC_PORT } from '../config'
 
 export const supportedEndpoints = ['balance']
 
@@ -24,7 +25,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   if (addresses.length === 0) {
     throw new AdapterError({ jobRunID, statusCode: 400, message: 'Addresses cannot be empty' })
   }
-  const result = await getAddressBalances(addresses, config.api.baseWsUrl)
+  const result = await getAddressBalances(
+    addresses,
+    config.api.baseWsUrl,
+    config.rpcPort || DEFAULT_RPC_PORT,
+  )
 
   return {
     jobRunID,
@@ -36,10 +41,14 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
 }
 
-const getAddressBalances = async (addresses: Address[], wsUrl: string): Promise<Lovelace> => {
+const getAddressBalances = async (
+  addresses: Address[],
+  wsUrl: string,
+  port: number,
+): Promise<Lovelace> => {
   const utxo = await client.utxo(addresses, {
     connection: {
-      port: 1337,
+      port,
       host: wsUrl,
       protocol: 'ws',
     },

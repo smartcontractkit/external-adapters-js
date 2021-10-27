@@ -1,12 +1,14 @@
 # Chainlink External Adapter for Ada-balance
 
-This adapter can be used to query Cardano address balances.
+This adapter can be used to query Cardano address balances. The balance is queried from a Cardano node that has Ogmios running on top of it. Ogmios is a
+lightweight bridge interface that allows clients to query the Cardano node using JSON-RPC. More details can be found on their website https://ogmios.dev/.
 
 ### Environment Variables
 
-| Required? |      Name       |               Description               |                                                         Options                                                          | Defaults to |
-| :-------: | :-------------: | :-------------------------------------: | :----------------------------------------------------------------------------------------------------------------------: | :---------: |
-|    ✅     | WS_API_ENDPOINT | The WS API endpoint of the Cardano node | Testnet (ec2-34-223-102-72.us-west-2.compute.amazonaws.com), Mainnet (ec2-18-237-40-218.us-west-2.compute.amazonaws.com) |             |
+| Required? |      Name       |                  Description                   |                                                         Options                                                          | Defaults to |
+| :-------: | :-------------: | :--------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------: | :---------: |
+|    ✅     | WS_API_ENDPOINT |    The WS API endpoint of the Cardano node     | Testnet (ec2-34-223-102-72.us-west-2.compute.amazonaws.com), Mainnet (ec2-18-237-40-218.us-west-2.compute.amazonaws.com) |             |
+|           |    RPC_PORT     | The port the Cardano Ogmios node is running on |                                                                                                                          |    1337     |
 
 ---
 
