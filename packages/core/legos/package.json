@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "@chainlink/1forge-adapter": "*",
+    "@chainlink/ada-balance-adapter": "*",
     "@chainlink/alphachain-adapter": "*",
     "@chainlink/alphavantage-adapter": "*",
     "@chainlink/amberdata-adapter": "*",
