@@ -11,12 +11,6 @@ addresses from a deployed smart contract.
 
 ---
 
-### Input Parameters
-
-N/A
-
----
-
 ## Chain-reserve-wallet Endpoint
 
 This endpoint reads the set of custodial addresses from a smart contract and returns in as a response.

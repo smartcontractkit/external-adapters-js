@@ -12,12 +12,6 @@ lightweight bridge interface that allows clients to query the Cardano node using
 
 ---
 
-### Input Parameters
-
-N/A
-
----
-
 ## Ada-balance Endpoint
 
 This endpoint fetches an address's balance and outputs it in Lovelace.
