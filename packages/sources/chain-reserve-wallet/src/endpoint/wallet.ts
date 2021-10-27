@@ -2,12 +2,7 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { AdapterResponse, Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { ethers } from 'ethers'
 
-// This should be filled in with a lowercase name corresponding to the API endpoint
 export const supportedEndpoints = ['wallet']
-
-export const endpointResultPaths = {
-  example: 'price',
-}
 
 export interface ResponseSchema {
   data: {
@@ -49,7 +44,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const jobRunID = validator.validated.id
   const { chainID, contractAddress } = validator.validated.data
   const rpcUrl = config.rpcUrl
-
   const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
   const walletProviderContract = new ethers.Contract(contractAddress, abi, provider)
   const addresses = await walletProviderContract.walletAddresses(chainID)

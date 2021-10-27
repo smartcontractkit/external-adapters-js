@@ -7,17 +7,17 @@ describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
 
+  beforeAll(() => {
+    process.env.WS_API_ENDPOINT = 'test-endpoint'
+  })
+
   describe('validation error', () => {
     const requests = [
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },
       {
-        name: 'base not supplied',
-        testData: { id: jobID, data: { quote: 'USD' } },
-      },
-      {
-        name: 'quote not supplied',
-        testData: { id: jobID, data: { base: 'ETH' } },
+        name: 'empty addresses',
+        testData: { id: jobID, data: { addresses: [] } },
       },
     ]
 

@@ -1,35 +1,41 @@
-import { AdapterRequest } from '@chainlink/types'
-import http from 'http'
-import nock from 'nock'
-import request from 'supertest'
-import { server as startServer } from '../../src/index'
-import { mockCustodialAddressesResponse } from './fixtures'
+import { AdapterRequest, Execute } from '@chainlink/types'
+import { makeExecute } from '../../src'
+import { ethers } from 'ethers'
+
+jest.mock('ethers', () => ({
+  ...jest.requireActual('ethers'),
+  ethers: {
+    providers: {
+      JsonRpcProvider: function (_: string): ethers.provider.JsonRpcProvider {
+        return {}
+      },
+    },
+    Contract: function () {
+      return {
+        walletAddresses: (____: string) => {
+          return [
+            'addr_test1qz87tn9yat3xfutzds43tnj8qw457hk3v46w4028rtnx56v89wjwnrwcvlfm2atvcnnclh3x7thwrl7pgnffaw24mgws0dga4m',
+          ]
+        },
+      }
+    },
+  },
+}))
 
 let oldEnv: NodeJS.ProcessEnv
 
 describe('chain-reserve-wallet', () => {
-  let server: http.Server
-  const req = request('localhost:8080')
+  let execute: Execute
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env.RPC_URL = process.env.RPC_URL || 'test-rpc-url'
-    if (process.env.RECORD) {
-      nock.recorder.rec()
-    }
-    server = await startServer()
+    process.env.RPC_URL =
+      process.env.RPC_URL || 'https://kovan.infura.io/v3/4d97c9da8e764ff3b1d466e1e09172123'
+    execute = makeExecute()
   })
 
-  afterAll((done) => {
+  afterAll(() => {
     process.env = oldEnv
-    if (process.env.RECORD) {
-      nock.recorder.play()
-    }
-
-    nock.restore()
-    nock.cleanAll()
-    nock.enableNetConnect()
-    server.close(done)
   })
 
   describe('when making a request to fetch the contract addresses', () => {
@@ -42,16 +48,8 @@ describe('chain-reserve-wallet', () => {
     }
 
     it('is successful', async () => {
-      mockCustodialAddressesResponse()
-
-      const response = await req
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body).toMatchSnapshot()
+      const response = await execute(data, {})
+      expect(response).toMatchSnapshot()
     })
   })
 })

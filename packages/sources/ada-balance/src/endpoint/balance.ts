@@ -1,4 +1,4 @@
-import { Validator } from '@chainlink/ea-bootstrap'
+import { AdapterError, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { Address, Lovelace, Utxo } from '@cardano-ogmios/schema'
 import * as client from '@cardano-ogmios/client'
@@ -21,6 +21,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const jobRunID = validator.validated.id
   const addresses = validator.validated.data.addresses
+  if (addresses.length === 0) {
+    throw new AdapterError({ jobRunID, statusCode: 400, message: 'Addresses cannot be empty' })
+  }
   const result = await getAddressBalances(addresses, config.api.baseWsUrl)
 
   return {
@@ -41,8 +44,9 @@ const getAddressBalances = async (addresses: Address[], wsUrl: string): Promise<
       protocol: 'ws',
     },
   })
+
   // TODO:  Figure out error that shows up whenever we try to pull in Ogmios V4.1.0
   // The issue here is that we are using the V3.2.0 client, which has a different response type than
-  // what is being returned from the API.  The API returns v4.1.0
+  // what is being returned from the API.  The API returns v4.1.0.  This code works ut casting utxo is ugly.
   return (utxo as unknown as Utxo).reduce((total, [_, out]) => total + out.value.coins, 0)
 }

@@ -7,10 +7,30 @@ describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
 
+  beforeAll(() => {
+    process.env.RPC_URL = process.env.RPC_URL || 'fake-rpc-url'
+  })
+
   describe('validation error', () => {
     const requests = [
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },
+      {
+        name: 'without chainID',
+        testData: {
+          data: {
+            contractAddress: 'test-address',
+          },
+        },
+      },
+      {
+        name: 'without contract address',
+        testData: {
+          data: {
+            chainID: 0,
+          },
+        },
+      },
     ]
 
     requests.forEach((req) => {
