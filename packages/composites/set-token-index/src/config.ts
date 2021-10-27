@@ -3,7 +3,7 @@ import * as types from '@chainlink/types'
 
 export const NAME = 'SET_TOKEN_INDEX'
 
-export const DEFAULT_ENDPOINT = 'tvl'
+export const DEFAULT_ENDPOINT = 'token-index'
 
 export type Config = types.Config & {
   rpcUrl: string

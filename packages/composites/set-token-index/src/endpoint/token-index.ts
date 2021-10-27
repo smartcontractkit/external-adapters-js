@@ -4,7 +4,7 @@ import { makeMiddleware, Validator, withMiddleware } from '@chainlink/ea-bootstr
 import * as TA from '@chainlink/token-allocation-adapter'
 import { makeExecute } from '../adapter'
 
-export const supportedEndpoints = ['tvl']
+export const supportedEndpoints = ['token-index']
 
 export function getAllocations(
   context: AdapterContext,
