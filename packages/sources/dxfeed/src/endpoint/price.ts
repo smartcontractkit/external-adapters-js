@@ -26,7 +26,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const base = validator.overrideSymbol(AdapterName)
+  const base = validator.overrideSymbol(config.name || AdapterName)
   const symbol = Array.isArray(base)
     ? base.map((symbol) => symbol.toUpperCase()).join(',')
     : base.toUpperCase()

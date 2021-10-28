@@ -102,6 +102,7 @@ declare module '@chainlink/types' {
   export type { AxiosResponse, RequestConfig } from 'axios'
 
   export type Config = {
+    name?: string
     apiKey?: string
     wsApiKey?: string
     network?: string
