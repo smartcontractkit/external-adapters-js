@@ -5,10 +5,10 @@ lightweight bridge interface that allows clients to query the Cardano node using
 
 ### Environment Variables
 
-| Required? |      Name       |                  Description                   |                                                         Options                                                          | Defaults to |
-| :-------: | :-------------: | :--------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------: | :---------: |
-|    ✅     | WS_API_ENDPOINT |    The WS API endpoint of the Cardano node     | Testnet (ec2-34-223-102-72.us-west-2.compute.amazonaws.com), Mainnet (ec2-18-237-40-218.us-west-2.compute.amazonaws.com) |             |
-|           |    RPC_PORT     | The port the Cardano Ogmios node is running on |                                                                                                                          |    1337     |
+| Required? |      Name       |                  Description                   | Options | Defaults to |
+| :-------: | :-------------: | :--------------------------------------------: | :-----: | :---------: |
+|    ✅     | WS_API_ENDPOINT |    The WS API endpoint of the Cardano node     |         |             |
+|           |    RPC_PORT     | The port the Cardano Ogmios node is running on |         |    1337     |
 
 ---
 
