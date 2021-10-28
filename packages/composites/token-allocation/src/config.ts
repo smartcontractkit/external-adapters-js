@@ -1,6 +1,6 @@
 import Amberdata from '@chainlink/amberdata-adapter'
+import * as CoinGecko from '@chainlink/coingecko-adapter'
 import * as CoinApi from '@chainlink/coinapi-adapter'
-import CoinGecko from '@chainlink/coingecko-adapter'
 import * as CoinMarketCap from '@chainlink/coinmarketcap-adapter'
 import * as CoinPaprika from '@chainlink/coinpaprika-adapter'
 import * as CryptoCompare from '@chainlink/cryptocompare-adapter'
