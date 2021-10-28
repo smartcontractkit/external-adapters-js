@@ -29,10 +29,8 @@ export function getAllocations(
   })
 }
 
-const customParams = {}
-
 export const execute: ExecuteWithConfig<Config> = async (input, context) => {
-  const validator = new Validator(input, customParams)
+  const validator = new Validator(input, {})
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.jobRunID

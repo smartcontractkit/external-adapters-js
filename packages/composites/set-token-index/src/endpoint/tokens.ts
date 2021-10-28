@@ -1,6 +1,6 @@
 import { ethers, utils } from 'ethers'
 import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig } from '@chainlink/types'
+import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { Config } from '../config'
 
 export const supportedEndpoints = ['tokens']
@@ -56,7 +56,7 @@ const getOnChainErc20Token = async (
   const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
   const _symbol = (abi: ethers.ContractInterface) =>
     new ethers.Contract(address, abi, provider).symbol()
-  const decimals = await new ethers.Contract(address, ERC20ABI, provider).symbol()
+  const decimals = await new ethers.Contract(address, ERC20ABI, provider).decimals()
   Logger.debug(`Fetching ERC20 token details from blockchain on address ${address}`)
   return { symbol: await getOnChainSymbol(_symbol), decimals }
 }
@@ -85,12 +85,12 @@ export const getToken = async (
   return cachedDirectory[address] || (await getOnChainErc20Token(rpcUrl, address))
 }
 
-const customParams = {
+export const inputParameters: InputParameters = {
   address: true,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
-  const validator = new Validator(input, customParams)
+  const validator = new Validator(input, inputParameters)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.jobRunID
