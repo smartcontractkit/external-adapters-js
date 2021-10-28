@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute fetch wallet balance should return success 1`] = `
+Object {
+  "data": Object {
+    "result": "5000000",
+  },
+  "jobRunID": "1",
+  "result": "5000000",
+  "statusCode": 200,
+}
+`;

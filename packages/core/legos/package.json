@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "@chainlink/1forge-adapter": "*",
+    "@chainlink/ada-balance-adapter": "*",
     "@chainlink/alphachain-adapter": "*",
     "@chainlink/alphavantage-adapter": "*",
     "@chainlink/amberdata-adapter": "*",
@@ -47,6 +48,7 @@
     "@chainlink/btc.com-adapter": "*",
     "@chainlink/cache.gold-adapter": "*",
     "@chainlink/cfbenchmarks-adapter": "*",
+    "@chainlink/chain-reserve-wallet-adapter": "*",
     "@chainlink/coinapi-adapter": "*",
     "@chainlink/coinbase-adapter": "*",
     "@chainlink/coincodex-adapter": "*",

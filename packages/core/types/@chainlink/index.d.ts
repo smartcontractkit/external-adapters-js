@@ -114,6 +114,7 @@ declare module '@chainlink/types' {
       [T: string]: string | number
     }
     rpcUrl?: string
+    rpcPort?: number
   }
 
   export type Execute = (input: AdapterRequest, context: AdapterContext) => Promise<AdapterResponse>
