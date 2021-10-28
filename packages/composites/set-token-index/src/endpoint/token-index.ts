@@ -36,6 +36,8 @@ export function getAllocations(
 export const inputParameters: InputParameters = {
   address: true,
   adapter: true,
+  source: false,
+  quote: false,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, context) => {
