@@ -96,6 +96,9 @@
       "path": "./sources/1forge"
     },
     {
+      "path": "./sources/ada-balance"
+    },
+    {
       "path": "./sources/alphachain"
     },
     {
@@ -148,6 +151,9 @@
     },
     {
       "path": "./sources/cfbenchmarks"
+    },
+    {
+      "path": "./sources/chain-reserve-wallet"
     },
     {
       "path": "./sources/coinapi"

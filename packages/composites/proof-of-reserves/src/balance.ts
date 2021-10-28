@@ -17,6 +17,7 @@ import cryptoapis from '@chainlink/cryptoapis-adapter'
 import sochain from '@chainlink/sochain-adapter'
 import * as lotus from '@chainlink/lotus-adapter'
 import * as ethBalance from '@chainlink/eth-balance-adapter'
+import * as adaBalance from '@chainlink/ada-balance-adapter'
 
 export const adapters: AdapterImplementation[] = [
   amberdata,
@@ -29,6 +30,7 @@ export const adapters: AdapterImplementation[] = [
   sochain,
   lotus,
   ethBalance,
+  adaBalance,
 ]
 
 export type Indexer = typeof adapters[number]['NAME']
