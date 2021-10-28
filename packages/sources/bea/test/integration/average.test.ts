@@ -53,7 +53,7 @@ describe('execute', () => {
         .expect('Content-Type', /json/)
         .expect(200)
       expect(response.body.data.result).toBe(115.85033333333334)
-      expect(response).toMatchSnapshot()
+      expect(response.body).toMatchSnapshot()
     })
   })
 })
