@@ -1,4 +1,4 @@
-import { AdapterContext, ExecuteWithConfig } from '@chainlink/types'
+import { AdapterContext, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { Config } from '../config'
 import { makeMiddleware, Validator, withMiddleware } from '@chainlink/ea-bootstrap'
 import * as TA from '@chainlink/token-allocation-adapter'
@@ -29,8 +29,13 @@ export function getAllocations(
   })
 }
 
+export const inputParameters: InputParameters = {
+  source: false,
+  quote: false,
+}
+
 export const execute: ExecuteWithConfig<Config> = async (input, context) => {
-  const validator = new Validator(input, {})
+  const validator = new Validator(input, inputParameters)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.jobRunID
