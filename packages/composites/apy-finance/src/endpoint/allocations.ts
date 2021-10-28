@@ -18,7 +18,7 @@ const getAllocations = async (registry: ethers.Contract): Promise<types.TokenAll
 
   return components.map((symbol: string, i: number) => ({
     symbol,
-    balance: BigNumber.from(balances[i]),
+    balance: BigNumber.from(balances[i]).toString(),
     decimals: BigNumber.from(decimals[i]).toNumber(),
   }))
 }

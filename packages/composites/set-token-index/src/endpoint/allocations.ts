@@ -1,5 +1,5 @@
 import { ethers } from 'ethers'
-import { AdapterContext, ExecuteWithConfig } from '@chainlink/types'
+import { AdapterContext, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { makeMiddleware, Requester, Validator, withMiddleware } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
 import * as TA from '../../../token-allocation'
@@ -55,13 +55,13 @@ const ABI = [
   },
 ]
 
-const customParams = {
+export const inputParameters: InputParameters = {
   contractAddress: true,
   setAddress: true,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
-  const validator = new Validator(input, customParams)
+  const validator = new Validator(input, inputParameters)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.jobRunID
@@ -78,7 +78,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
     addresses.map(async (address: string, i: number) => {
       const token = await getToken(context, jobRunID, address)
       return {
-        balance: balances[i],
+        balance: balances[i].toString(),
         ...token,
       }
     }),

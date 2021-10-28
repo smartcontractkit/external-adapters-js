@@ -1,7 +1,7 @@
 import { expose } from '@chainlink/ea-bootstrap'
-import { makeExecute } from './adapter'
+import { endpointSelector, makeExecute } from './adapter'
 import { makeConfig } from './config'
 
 const NAME = 'APY-Finance'
-const { server } = expose(NAME, makeExecute())
+const { server } = expose(NAME, makeExecute(), undefined, endpointSelector)
 export { NAME, makeConfig, makeExecute, server }
