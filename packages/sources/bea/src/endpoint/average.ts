@@ -1,5 +1,6 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import Decimal from 'decimal.js'
 
 export const supportedEndpoints = ['average']
 
@@ -17,7 +18,7 @@ export type DataSchema = {
 }
 
 export type ValueSchema = {
-  value: number
+  value: Decimal
   year: string
   month: string
 }
@@ -59,7 +60,7 @@ export interface ResponseSchema {
       }
     }
   }
-  result: number
+  result: Decimal
 }
 
 const customError = (data: any) => data.Response === 'Error'
@@ -96,13 +97,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const options = { ...config.api, params, url }
   const response = await Requester.request<ResponseSchema>(options, customError)
   const values = [] as ValueSchema[]
+  console.log(response.data)
   response.data.BEAAPI.Results.Data.forEach((element: DataSchema) => {
     if (element.SeriesCode === series) {
-      const date = element.TimePeriod.split('M')
-      const year = date[0]
-      const month = date[1]
+      const [year, month] = element.TimePeriod.split('M')
       values.push({
-        value: Number(element.DataValue),
+        value: new Decimal(element.DataValue),
         year: year,
         month: month,
       })
@@ -114,14 +114,10 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     a.year < b.year ? 1 : a.year === b.year ? (a.month < b.month ? 1 : -1) : -1,
   )
 
-  let sum = 0
-  let count = 0
-  for (let i = 0; values.length > 0 && count < last; i++) {
-    sum += values[count].value
-    count += 1
-  }
+  const count = values.length > 0 ? last : 0
+  const sum = Decimal.sum(...values.slice(0, last).map((element) => element.value))
+  response.data.result = count !== 0 ? sum.div(count) : new Decimal(0)
 
-  response.data.result = sum / count
   const result = Requester.validateResultNumber(response.data, ['result'])
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

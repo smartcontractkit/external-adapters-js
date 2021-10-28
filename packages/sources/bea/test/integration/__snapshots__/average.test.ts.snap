@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute get average price should return success 1`] = `
+Object {
+  "header": Object {
+    "connection": "close",
+    "content-length": "98",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 28 Oct 2021 20:39:16 GMT",
+    "etag": "W/\\"62-D7NR/JWS7tcXHtPOfxg6IYxErzc\\"",
+    "x-powered-by": "Express",
+  },
+  "req": Object {
+    "data": Object {
+      "data": Object {},
+      "id": "1",
+    },
+    "headers": Object {
+      "accept": "*/*",
+      "content-type": "application/json",
+    },
+    "method": "POST",
+    "url": "localhost:8080/",
+  },
+  "status": 200,
+  "text": "{\\"jobRunID\\":\\"1\\",\\"result\\":115.85033333333334,\\"statusCode\\":200,\\"data\\":{\\"result\\":115.85033333333334}}",
+}
+`;
