@@ -1750,6 +1750,9 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
     "@types/node": 14.17.21
+    "@types/supertest": 2.0.11
+    nock: 13.1.3
+    supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -1792,6 +1795,8 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
     "@types/node": 14.17.21
+    nock: 13.1.3
+    supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -1856,6 +1861,8 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
     "@types/node": 14.17.21
+    nock: 13.1.3
+    supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -1981,6 +1988,8 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
     "@types/node": 14.17.21
+    nock: 13.1.3
+    supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2907,6 +2916,8 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
     "@types/node": 14.17.21
+    nock: 13.1.3
+    supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3133,6 +3144,8 @@ __metadata:
     "@chainlink/types": 0.0.1
     "@types/jest": 27.0.2
     "@types/node": 14.17.21
+    nock: 13.1.3
+    supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown

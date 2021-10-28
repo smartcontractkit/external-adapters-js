@@ -112,7 +112,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const options = { ...config.api, params, url }
 
   const response = await Requester.request<ResponseSchema>(options)
-  const d = DateTime.fromISO(response.data.DateTime, { zone: 'America/Los_Angeles' })
+  const d = DateTime.fromISO(response.data.DateTime, { zone: 'GMT' })
   const epochSeconds = d.valueOf() / 1000
   return Requester.success(
     jobRunID,
@@ -170,5 +170,6 @@ const packResponse = (response: ResponseSchema, epochS: number): string => {
     response.TripleDoubles,
     response.Points,
   ]
-  return utils.solidityPack(dataTypes, dataValues)
+  const packedResult = utils.solidityPack(dataTypes, dataValues)
+  return packedResult.startsWith('0x') ? packedResult.substring(2) : packedResult
 }
