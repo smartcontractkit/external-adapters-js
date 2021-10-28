@@ -1,5 +1,9 @@
 import { ethers, utils } from 'ethers'
-import { Logger } from '@chainlink/ea-bootstrap'
+import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { Config } from '../config'
+
+export const supportedEndpoints = ['tokens']
 
 type Directory = Record<string, { symbol: string; decimals: number }>
 
@@ -27,6 +31,7 @@ const ERC20ABI = [
     type: 'function',
   },
 ]
+
 const ERC20ABI_bytes32 = [
   {
     constant: true,
@@ -51,7 +56,7 @@ const getOnChainErc20Token = async (
   const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
   const _symbol = (abi: ethers.ContractInterface) =>
     new ethers.Contract(address, abi, provider).symbol()
-  const decimals = await new ethers.Contract(address, ERC20ABI, provider).symbol()
+  const decimals = await new ethers.Contract(address, ERC20ABI, provider).decimals()
   Logger.debug(`Fetching ERC20 token details from blockchain on address ${address}`)
   return { symbol: await getOnChainSymbol(_symbol), decimals }
 }
@@ -78,4 +83,27 @@ export const getToken = async (
     cachedDirectory = await getDirectory(network)
   }
   return cachedDirectory[address] || (await getOnChainErc20Token(rpcUrl, address))
+}
+
+export const inputParameters: InputParameters = {
+  address: true,
+}
+
+export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
+  const validator = new Validator(input, inputParameters)
+  if (validator.error) throw validator.error
+
+  const jobRunID = validator.validated.jobRunID
+  const address = validator.validated.data.address
+
+  if (!cachedDirectory) {
+    cachedDirectory = await getDirectory(config.network)
+  }
+  const token = cachedDirectory[address] || (await getOnChainErc20Token(config.rpcUrl, address))
+
+  const response = {
+    data: token,
+  }
+
+  return Requester.success(jobRunID, response, true)
 }

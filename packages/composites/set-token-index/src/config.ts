@@ -1,15 +1,20 @@
-import { util } from '@chainlink/ea-bootstrap'
+import { Requester, util } from '@chainlink/ea-bootstrap'
+import * as types from '@chainlink/types'
 
 export const NAME = 'SET_TOKEN_INDEX'
 
-export type Config = {
+export const DEFAULT_ENDPOINT = 'token-index'
+
+export type Config = types.Config & {
   rpcUrl: string
   network: string
 }
 
-export const makeConfig = (network = 'mainnet'): Config => {
+export const makeConfig = (prefix?: string, network = 'mainnet'): Config => {
   return {
-    rpcUrl: util.getRequiredEnv('RPC_URL'),
+    ...Requester.getDefaultConfig(prefix),
+    rpcUrl: util.getRequiredEnv('RPC_URL', prefix),
     network,
+    defaultEndpoint: DEFAULT_ENDPOINT,
   }
 }
