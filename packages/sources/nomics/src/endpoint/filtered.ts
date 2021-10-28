@@ -14,6 +14,7 @@ const customError = (data: any) => {
 
 export const inputParameters: InputParameters = {
   base: ['base', 'from', 'coin', 'id'],
+  exchanges: ['exchanges'],
   resultPath: false,
 }
 
@@ -23,15 +24,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const symbol = validator.overrideSymbol(AdapterName)
   const jobRunID = validator.validated.id
+  const exchanges = validator.validated.data.exchanges
   const resultPath = validator.validated.data.resultPath
-  const exchanges = `
-    binance,binance_us,bitfinex,bitflyer,
-    bithumb,bitstamp,bittrex,bkex,btcturk,
-    cex,citex,gdax,coincheck,coinex,
-    coinflex,coinone,cryptocom,etorox,ftx,
-    gemini,hitbtc,itbit,korbit,kraken,
-    kucoin,lbank,okcoinusd,okex,poloniex,
-    tokok,trade_ogre`
 
   const url = `/prices/restricted`
 

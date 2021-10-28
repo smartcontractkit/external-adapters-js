@@ -11,6 +11,17 @@ Object {
 }
 `;
 
+exports[`execute filtered api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 77.77,
+  },
+  "jobRunID": "1",
+  "result": 77.77,
+  "statusCode": 200,
+}
+`;
+
 exports[`execute global market api should return success 1`] = `
 Object {
   "data": Object {
