@@ -1,8 +1,9 @@
 import { AdapterError, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
-import { Address, Lovelace, Utxo } from '@cardano-ogmios/schema'
+import { Address, Utxo } from '@cardano-ogmios/schema'
 import * as client from '@cardano-ogmios/client'
 import { DEFAULT_RPC_PORT } from '../config'
+import { BigNumber } from 'ethers'
 
 export const supportedEndpoints = ['balance']
 
@@ -45,7 +46,7 @@ const getAddressBalances = async (
   addresses: Address[],
   wsUrl: string,
   port: number,
-): Promise<Lovelace> => {
+): Promise<string> => {
   const utxo = await client.utxo(addresses, {
     connection: {
       port,
@@ -57,5 +58,9 @@ const getAddressBalances = async (
   // TODO:  Figure out error that shows up whenever we try to pull in Ogmios V4.1.0
   // The issue here is that we are using the V3.2.0 client, which has a different response type than
   // what is being returned from the API.  The API returns v4.1.0.  This code works ut casting utxo is ugly.
-  return (utxo as unknown as Utxo).reduce((total, [_, out]) => total + out.value.coins, 0)
+  const balanceAsBigNum = (utxo as unknown as Utxo).reduce(
+    (total, [_, out]) => total.add(BigNumber.from(out.value.coins)),
+    BigNumber.from(0),
+  )
+  return balanceAsBigNum.toString()
 }
