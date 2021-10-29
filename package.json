@@ -24,6 +24,7 @@
     "generate:gha:matrix": "ts-node-transpile-only ./packages/scripts/src/gha",
     "generate:healthcheck:payloads": "ts-node-transpile-only ./packages/scripts/src/healthchecks",
     "generate:image-name": "ts-node-transpile-only ./packages/scripts/src/generate-image-name",
+    "generate:readme": "ts-node-transpile-only ./packages/scripts/src/generate-readme",
     "postinstall": "husky install",
     "cm": "cz",
     "qa:adapter:start": "./ephemeral/startAdapter.sh",
