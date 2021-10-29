@@ -1,40 +1,48 @@
 import * as shell from 'shelljs'
 import { readFileSync } from 'fs'
 import { buildTable } from './table'
+import {
+  AdapterPackage,
+  AdapterSchema,
+  JsonObject,
+  SchemaProperties,
+  SchemaRequired,
+  TableText,
+  TextRow,
+} from './types'
 
 const templatePath = 'packages/scripts/src/generate-readme/template.md'
 
-const envVarHeaders = ['Required?', 'Name', 'Type', 'Options', 'Default']
+const envVarHeaders: TextRow = ['Required?', 'Name', 'Type', 'Options', 'Default']
 
-function getReadmePath(adapterPath: string) {
+function getReadmePath(adapterPath: string): string {
   return adapterPath + 'README.md'
 }
 
-function getPackagePath(adapterPath: string) {
+function getPackagePath(adapterPath: string): string {
   return adapterPath + 'package.json'
 }
 
-function getSchemaPath(adapterPath: string) {
+function getSchemaPath(adapterPath: string): string {
   return adapterPath + 'schemas/env.json'
 }
 
-function getJsonFile(path: string) {
+function getJsonFile(path: string): JsonObject {
   return JSON.parse(readFileSync(path, 'utf-8'))
 }
 
-function addEnvVarSection(requiredEnvVars: any, envVars: any, readmePath: string) {
-  const requiredEnvVarsMap = requiredEnvVars.reduce((map, key) => {
-    map[key] = true
-    return map
-  }, {})
-
-  const tableText = Object.keys(envVars).map((key) => {
+function addEnvVarSection(
+  requiredEnvVars: SchemaRequired,
+  envVars: SchemaProperties,
+  readmePath: string,
+): void {
+  const tableText: TableText = Object.keys(envVars).map((key) => {
     const envVar = envVars[key]
-    const required = requiredEnvVarsMap[key] ? '✅' : ''
+    const required = requiredEnvVars.includes(key) ? '✅' : ''
     const name = key ?? ''
     const type = envVar.type ?? ''
-    const options = envVar.enum?.join(', ') ?? ''
-    const defaultText = envVar.default ?? ''
+    const options = envVar.enum?.map((e) => e.toString()).join(', ') ?? ''
+    const defaultText = envVar.default?.toString() ?? ''
     return [required, name, type, options, defaultText]
   })
 
@@ -44,12 +52,12 @@ function addEnvVarSection(requiredEnvVars: any, envVars: any, readmePath: string
   shell.sed('-i', '\\$ENV_VARS', envVarSection, readmePath)
 }
 
-function buildReadme(adapterPath: string) {
+function buildReadme(adapterPath: string): void {
   const readmePath = getReadmePath(adapterPath)
   shell.cp(templatePath, readmePath)
 
-  const adapterPackage = getJsonFile(getPackagePath(adapterPath))
-  const adapterSchema = getJsonFile(getSchemaPath(adapterPath))
+  const adapterPackage = getJsonFile(getPackagePath(adapterPath)) as AdapterPackage
+  const adapterSchema = getJsonFile(getSchemaPath(adapterPath)) as AdapterSchema
 
   shell.sed('-i', '\\$ADAPTER_NAME', adapterPackage.name, readmePath)
   shell.sed('-i', '\\$SEMVER', adapterPackage.version, readmePath)

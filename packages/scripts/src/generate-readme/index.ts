@@ -1,3 +1,3 @@
-import { main } from './lib'
+import { main } from './generator'
 
 main()
