@@ -401,3 +401,27 @@ export const mockGlobalMarketResponseSuccess = (): nock =>
         'Origin',
       ],
     )
+
+export const mockFilteredResponseSuccess = (): nock =>
+  nock('https://api.nomics.com/v1', {
+    encodedQueryParams: true,
+  })
+    .get('/prices/restricted')
+    .query({ currency: 'LINK', key: 'fake-api-key', exchanges: 'binance,coinbase' })
+    .reply(
+      200,
+      (_, request) => ({
+        currency: 'LINK',
+        price: 77.77,
+      }),
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
