@@ -151,6 +151,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/scripts"
       },
       {
+        "name": "@chainlink/readme-test-adapter",
+        "reference": "workspace:packages/scripts/src/generate-readme/readme-test-adapter"
+      },
+      {
         "name": "@chainlink/1forge-adapter",
         "reference": "workspace:packages/sources/1forge"
       },
@@ -735,6 +739,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/poa-adapter", ["workspace:packages/sources/poa"]],
       ["@chainlink/polygon-adapter", ["workspace:packages/sources/polygon"]],
       ["@chainlink/proof-of-reserves-adapter", ["workspace:packages/composites/proof-of-reserves"]],
+      ["@chainlink/readme-test-adapter", ["workspace:packages/scripts/src/generate-readme/readme-test-adapter"]],
       ["@chainlink/reduce-adapter", ["workspace:packages/sources/reduce"]],
       ["@chainlink/reference-transform-adapter", ["workspace:packages/composites/reference-transform"]],
       ["@chainlink/renvm-address-set-adapter", ["workspace:packages/sources/renvm-address-set"]],
@@ -5679,6 +5684,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ethers", "npm:5.4.6"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/readme-test-adapter", [
+        ["workspace:packages/scripts/src/generate-readme/readme-test-adapter", {
+          "packageLocation": "./packages/scripts/src/generate-readme/readme-test-adapter/",
+          "packageDependencies": [
+            ["@chainlink/readme-test-adapter", "workspace:packages/scripts/src/generate-readme/readme-test-adapter"]
           ],
           "linkType": "SOFT",
         }]

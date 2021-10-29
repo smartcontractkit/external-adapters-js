@@ -3374,6 +3374,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/readme-test-adapter@workspace:packages/scripts/src/generate-readme/readme-test-adapter":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/readme-test-adapter@workspace:packages/scripts/src/generate-readme/readme-test-adapter"
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/reduce-adapter@*, @chainlink/reduce-adapter@workspace:packages/sources/reduce":
   version: 0.0.0-use.local
   resolution: "@chainlink/reduce-adapter@workspace:packages/sources/reduce"

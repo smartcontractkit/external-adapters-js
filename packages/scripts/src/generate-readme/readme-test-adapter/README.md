@@ -1,4 +1,4 @@
-# @chainlink/test-adapter
+# @chainlink/readme-test-adapter
 
 Version: 1.2.3
 
