@@ -1,30 +1,83 @@
 import * as shell from 'shelljs'
 import { readFileSync } from 'fs'
+import { buildTable } from './table'
 
-const scriptPath = 'packages/scripts/src/generate-readme/'
-const templatePath = scriptPath + 'template.md'
-const readmePath = scriptPath + 'README.md'
-const exampleSourcePath = 'packages/examples/source/'
-const examplePackagePath = exampleSourcePath + 'package.json'
+const templatePath = 'packages/scripts/src/generate-readme/template.md'
 
-const ADAPTER_NAME_REPLACE = '\\$ADAPTER_NAME'
-const SEMVER_NUM_REPLACE = '\\$SEMVER'
+const envVarHeaders = ['Required?', 'Name', 'Type', 'Options', 'Default']
 
-function createReadme() {
-  shell.cp(templatePath, readmePath)
+function getReadmePath(adapterPath: string) {
+  return adapterPath + 'README.md'
+}
 
-  const examplePackage = getJsonFile(examplePackagePath)
+function getPackagePath(adapterPath: string) {
+  return adapterPath + 'package.json'
+}
 
-  shell.sed('-i', ADAPTER_NAME_REPLACE, examplePackage.name, readmePath)
-  shell.sed('-i', SEMVER_NUM_REPLACE, examplePackage.version, readmePath)
-
-  console.log(shell.cat(readmePath).stdout)
+function getSchemaPath(adapterPath: string) {
+  return adapterPath + 'schemas/env.json'
 }
 
 function getJsonFile(path: string) {
   return JSON.parse(readFileSync(path, 'utf-8'))
 }
 
+function addEnvVarSection(requiredEnvVars: any, envVars: any, readmePath: string) {
+  const requiredEnvVarsMap = requiredEnvVars.reduce((map, key) => {
+    map[key] = true
+    return map
+  }, {})
+
+  const tableText = Object.keys(envVars).map((key) => {
+    const envVar = envVars[key]
+    const required = requiredEnvVarsMap[key] ? '✅' : ''
+    const name = key ?? ''
+    const type = envVar.type ?? ''
+    const options = envVar.enum?.join(', ') ?? ''
+    const defaultText = envVar.default ?? ''
+    return [required, name, type, options, defaultText]
+  })
+
+  const envVarSection =
+    '### Environment Variables\n\n' + buildTable(tableText, envVarHeaders) + '\n\n---'
+
+  shell.sed('-i', '\\$ENV_VARS', envVarSection, readmePath)
+}
+
+function buildReadme(adapterPath: string) {
+  const readmePath = getReadmePath(adapterPath)
+  shell.cp(templatePath, readmePath)
+
+  const adapterPackage = getJsonFile(getPackagePath(adapterPath))
+  const adapterSchema = getJsonFile(getSchemaPath(adapterPath))
+
+  shell.sed('-i', '\\$ADAPTER_NAME', adapterPackage.name, readmePath)
+  shell.sed('-i', '\\$SEMVER', adapterPackage.version, readmePath)
+
+  addEnvVarSection(adapterSchema.required, adapterSchema.properties, readmePath)
+}
+
 export function main(): void {
-  createReadme()
+  let adapterPath = process.argv[2]
+
+  if (!adapterPath.endsWith('/')) adapterPath += '/'
+
+  if (!shell.test('-d', adapterPath)) {
+    console.log(`${adapterPath} is not a directory`)
+    return
+  }
+  if (!shell.test('-f', getPackagePath(adapterPath))) {
+    console.log(`No package.json found in ${adapterPath}`)
+    return
+  }
+  if (!shell.test('-f', getSchemaPath(adapterPath))) {
+    console.log(`No schemas/env.json found in ${adapterPath}`)
+    return
+  }
+
+  console.log('Generating README')
+
+  buildReadme(adapterPath)
+
+  console.log(`README saved at: ${getReadmePath(adapterPath)}`)
 }

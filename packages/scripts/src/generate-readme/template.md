@@ -2,13 +2,7 @@
 
 Version: $SEMVER
 
-### Environment Variables
-
-| Required? |  Name   |                                                        Description                                                         | Options | Defaults to |
-| :-------: | :-----: | :------------------------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
-|           | API_KEY | An API key that can be obtained from the data provider's dashboard (add a ✅ in `Required?` if this parameter is required) |         |             |
-
----
+$ENV_VARS
 
 ### Input Parameters
 
