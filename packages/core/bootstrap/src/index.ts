@@ -1,6 +1,7 @@
 import {
   AdapterMetricsMeta,
   AdapterRequest,
+  AdapterRequestData,
   AdapterContext,
   Execute,
   ExecuteSync,
@@ -79,13 +80,39 @@ const withStatusCode: Middleware = async (execute, context) => async (input) => 
 
 // Log adapter input & output data
 const withLogger: Middleware = async (execute, context) => async (input: AdapterRequest) => {
+  interface IError {
+    jobRunID: string
+    params: AdapterRequestData
+    message: string
+    feedID: string
+    endpoit?: string
+    errorResponse?: any
+    rawError?: any
+  }
   Logger.debug('Input: ', { input })
   try {
     const result = await execute(input, context)
     Logger.debug(`Output: [${result.statusCode}]: `, { output: result.data })
     return result
   } catch (error) {
-    Logger.error(error.toString(), { stack: error.stack })
+    const feedID = metrics.util.getFeedId(input)
+    const errorLog: IError = {
+      message: error.toString(),
+      jobRunID: input.id,
+      params: input.data,
+      feedID,
+    }
+    if (error.endpoint) {
+      errorLog.endpoit = error.endpoint
+    }
+    if (error.errorResponse) {
+      errorLog.errorResponse = error.errorResponse
+    }
+    if (Logger.level === 'trace') {
+      errorLog.rawError = error.rawError
+    }
+
+    Logger.error({ ...errorLog, stack: error.stack })
     throw error
   }
 }
@@ -195,7 +222,8 @@ export const executeSync: ExecuteSync = async (
 
     return callback(result.statusCode, result)
   } catch (error) {
-    return callback(error.statusCode || 500, Requester.errored(data.id, error))
+    const feedID = metrics.util.getFeedId(data)
+    return callback(error.statusCode || 500, Requester.errored(data.id, error, undefined, feedID))
   }
 }
 
