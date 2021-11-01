@@ -7,6 +7,9 @@ export class AdapterError extends Error {
   name: string
   message: string
   cause: any
+  endpoint: string
+  errorResponse: any
+  feedID: string
 
   constructor({
     jobRunID = '1',
@@ -15,6 +18,9 @@ export class AdapterError extends Error {
     name = 'AdapterError',
     message = 'An error occurred.',
     cause,
+    endpoint,
+    errorResponse,
+    feedID,
   }: Partial<AdapterError>) {
     super(message)
 
@@ -24,11 +30,20 @@ export class AdapterError extends Error {
     this.name = name
     this.message = message
     this.cause = cause
+    this.endpoint = endpoint!
+    this.errorResponse = errorResponse
+    this.feedID = feedID!
   }
 
   toJSONResponse(): AdapterErrorResponse {
     const showDebugInfo = process.env.NODE_ENV === 'development' || process.env.DEBUG === 'true'
-    const errorBasic = { name: this.name, message: this.message }
+    const errorBasic = {
+      name: this.name,
+      message: this.message,
+      endpoint: this.endpoint,
+      errorResponse: this.errorResponse,
+      feedID: this.feedID,
+    }
     const errorFull = { ...errorBasic, stack: this.stack, cause: this.cause }
     return {
       jobRunID: this.jobRunID,
