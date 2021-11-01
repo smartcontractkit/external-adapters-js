@@ -1547,6 +1547,23 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/bea-adapter@*, @chainlink/bea-adapter@workspace:packages/sources/bea":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/bea-adapter@workspace:packages/sources/bea"
+  dependencies:
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.0.1
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+    decimal.js: ^10.3.1
+    nock: 13.1.3
+    supertest: 6.1.6
+    tslib: ^2.3.1
+    typescript: 4.3.5
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/binance-adapter@*, @chainlink/binance-adapter@workspace:packages/sources/binance":
   version: 0.0.0-use.local
   resolution: "@chainlink/binance-adapter@workspace:packages/sources/binance"
@@ -2383,6 +2400,7 @@ __metadata:
     "@chainlink/amberdata-adapter": "*"
     "@chainlink/anyblock-adapter": "*"
     "@chainlink/ap-election-adapter": "*"
+    "@chainlink/bea-adapter": "*"
     "@chainlink/binance-adapter": "*"
     "@chainlink/binance-dex-adapter": "*"
     "@chainlink/bitex-adapter": "*"

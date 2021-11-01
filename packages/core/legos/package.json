@@ -36,6 +36,7 @@
     "@chainlink/amberdata-adapter": "*",
     "@chainlink/anyblock-adapter": "*",
     "@chainlink/ap-election-adapter": "*",
+    "@chainlink/bea-adapter": "*",
     "@chainlink/binance-adapter": "*",
     "@chainlink/binance-dex-adapter": "*",
     "@chainlink/bitex-adapter": "*",
