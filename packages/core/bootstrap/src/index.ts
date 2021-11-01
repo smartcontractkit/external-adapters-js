@@ -85,9 +85,10 @@ const withLogger: Middleware = async (execute, context) => async (input: Adapter
     params: AdapterRequestData
     message: string
     feedID: string
-    endpoit?: string
+    endpoint?: string
     errorResponse?: any
     rawError?: any
+    stack: any
   }
   Logger.debug('Input: ', { input })
   try {
@@ -101,18 +102,16 @@ const withLogger: Middleware = async (execute, context) => async (input: Adapter
       jobRunID: input.id,
       params: input.data,
       feedID,
+      stack: error.stack,
+      endpoint: error.endpoint,
+      errorResponse: error.errorResponse,
     }
-    if (error.endpoint) {
-      errorLog.endpoit = error.endpoint
-    }
-    if (error.errorResponse) {
-      errorLog.errorResponse = error.errorResponse
-    }
+
     if (Logger.level === 'trace') {
       errorLog.rawError = error.rawError
     }
 
-    Logger.error({ ...errorLog, stack: error.stack })
+    Logger.error(errorLog)
     throw error
   }
 }

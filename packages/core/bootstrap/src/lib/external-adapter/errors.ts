@@ -18,9 +18,9 @@ export class AdapterError extends Error {
     name = 'AdapterError',
     message = 'An error occurred.',
     cause,
-    endpoint = '',
-    errorResponse = null,
-    feedID = '',
+    endpoint,
+    errorResponse,
+    feedID,
   }: Partial<AdapterError>) {
     super(message)
 
@@ -30,9 +30,9 @@ export class AdapterError extends Error {
     this.name = name
     this.message = message
     this.cause = cause
-    this.endpoint = endpoint
+    this.endpoint = endpoint!
     this.errorResponse = errorResponse
-    this.feedID = feedID
+    this.feedID = feedID!
   }
 
   toJSONResponse(): AdapterErrorResponse {
@@ -40,9 +40,9 @@ export class AdapterError extends Error {
     const errorBasic = {
       name: this.name,
       message: this.message,
-      endpoint: this.endpoint || undefined,
-      errorResponse: this.errorResponse || undefined,
-      feedID: this.feedID || undefined,
+      endpoint: this.endpoint,
+      errorResponse: this.errorResponse,
+      feedID: this.feedID,
     }
     const errorFull = { ...errorBasic, stack: this.stack, cause: this.cause }
     return {

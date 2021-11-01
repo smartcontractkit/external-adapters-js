@@ -159,7 +159,7 @@ export class Requester {
         statusCode,
         message: error.message,
         cause: error,
-        feedID: feedID,
+        feedID,
       }).toJSONResponse()
     }
     return new AdapterError({ jobRunID, statusCode, message: error, feedID }).toJSONResponse()

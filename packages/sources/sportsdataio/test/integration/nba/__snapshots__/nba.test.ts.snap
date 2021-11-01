@@ -3,6 +3,7 @@
 exports[`execute fetch nba player data should return a 400 if date is missing 1`] = `
 Object {
   "error": Object {
+    "feedID": "{\\"data\\":{\\"sport\\":\\"nba\\",\\"endpoint\\":\\"player-stats\\",\\"playerID\\":20002528}}",
     "message": "Required parameter not supplied: date",
     "name": "AdapterError",
   },
@@ -15,6 +16,7 @@ Object {
 exports[`execute fetch nba player data should return a 400 if playerID is missing 1`] = `
 Object {
   "error": Object {
+    "feedID": "{\\"data\\":{\\"sport\\":\\"nba\\",\\"endpoint\\":\\"player-stats\\",\\"date\\":\\"2021-OCT-11\\"}}",
     "message": "Required parameter not supplied: playerID",
     "name": "AdapterError",
   },
