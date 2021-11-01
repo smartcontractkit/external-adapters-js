@@ -2,7 +2,7 @@
 
 Version: 1.2.3
 
-### Environment Variables
+## Environment Variables
 
 | Required? |     Name     |  Type  |       Options       |            Default             |
 | :-------: | :----------: | :----: | :-----------------: | :----------------------------: |
@@ -14,7 +14,7 @@ Version: 1.2.3
 
 ---
 
-### Input Parameters
+## Input Parameters
 
 | Required? |   Name   |     Description     |           Options            | Defaults to |
 | :-------: | :------: | :-----------------: | :--------------------------: | :---------: |
@@ -22,7 +22,7 @@ Version: 1.2.3
 
 ---
 
-### Balance Endpoint
+## Balance Endpoint
 
 Example description of balance endpoint
 
@@ -41,7 +41,7 @@ A sample of endpoint input
 
 A sample of endpoint output
 
-### Marketcap Endpoint
+## Marketcap Endpoint
 
 Example description of marketcap endpoint
 
@@ -60,7 +60,7 @@ A sample of endpoint input
 
 A sample of endpoint output
 
-### Price Endpoint
+## Price Endpoint
 
 Example description of price endpoint
 

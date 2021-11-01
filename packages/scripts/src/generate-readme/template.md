@@ -4,7 +4,7 @@ Version: $SEMVER
 
 $ENV_VARS
 
-### Input Parameters
+## Input Parameters
 
 | Required? |   Name   |     Description     |           Options            | Defaults to |
 | :-------: | :------: | :-----------------: | :--------------------------: | :---------: |

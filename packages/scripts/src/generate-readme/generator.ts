@@ -68,7 +68,7 @@ function addEnvVarSection(
   })
 
   const envVarSection =
-    '### Environment Variables\n\n' + buildTable(tableText, envVarHeaders) + '\n\n---'
+    '## Environment Variables\n\n' + buildTable(tableText, envVarHeaders) + '\n\n---'
 
   shell.sed('-i', '\\$ENV_VARS', envVarSection, readmePath)
 }
@@ -76,17 +76,17 @@ function addEnvVarSection(
 function addEndpointSections(endpointIndexPath: string, readmePath: string): void {
   const indexStr = shell.cat(endpointIndexPath)
   const lines = indexStr.stdout.split('\n')
-  const endpoints = lines.map((s) => s.split(' ')[3])
+  const endpoints = lines.filter((s) => s.length).map((s) => s.split(' ')[3])
 
   const endpointSections = endpoints
     .map(
       (e) =>
-        `### ${capitalize(e)} Endpoint\n\n` +
+        `## ${capitalize(e)} Endpoint\n\n` +
         `Example description of ${e} endpoint\n\n` +
         '### Input Params\n\n' +
         buildTable(exampleEndpointInputTable, endpointInputHeaders) +
-        '\n\n### Sample Input\n\n A sample of endpoint input\n\n' +
-        '### Sample Output\n\n A sample of endpoint output\n',
+        '\n\n### Sample Input\n\nA sample of endpoint input\n\n' +
+        '### Sample Output\n\nA sample of endpoint output',
     )
     .join('\n\n')
 
@@ -126,6 +126,10 @@ export function main(): void {
   }
   if (!shell.test('-f', getSchemaPath(adapterPath))) {
     console.log(`No schemas/env.json found in ${adapterPath}`)
+    return
+  }
+  if (!shell.test('-f', getEndpointIndexPath(adapterPath))) {
+    console.log(`No src/endpoint/index.ts found in ${adapterPath}`)
     return
   }
 
