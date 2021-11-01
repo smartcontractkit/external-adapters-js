@@ -22,38 +22,59 @@ Version: 1.2.3
 
 ---
 
-## Example Endpoint
+### Balance Endpoint
 
-An example endpoint description
+Example description of balance endpoint
 
 ### Input Params
 
-| Required? |            Name            |               Description                |       Options       | Defaults to |
-| :-------: | :------------------------: | :--------------------------------------: | :-----------------: | :---------: |
-|    ✅     | `base`, `from`, or `coin`  |   The symbol of the currency to query    | `BTC`, `ETH`, `USD` |             |
-|    ✅     | `quote`, `to`, or `market` | The symbol of the currency to convert to | `BTC`, `ETH`, `USD` |             |
+| Required? |            Name            |                 Type                 |       Options       | Default |
+| :-------: | :------------------------: | :----------------------------------: | :-----------------: | :-----: |
+|    ✅     | `base`, `from`, or `coin`  |   Symbol of the currency to query    | `BTC`, `ETH`, `USD` |         |
+|    ✅     | `quote`, `to`, or `market` | Symbol of the currency to convert to | `BTC`, `ETH`, `USD` |         |
 
 ### Sample Input
 
-```json
-{
-  "id": "1",
-  "data": {
-    "base": "ETH",
-    "quote": "USD"
-  }
-}
-```
+A sample of endpoint input
 
 ### Sample Output
 
-```json
-{
-  "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
-  "data": {
-    "price": 77777.77,
-    "result": 77777.77
-  },
-  "statusCode": 200
-}
-```
+A sample of endpoint output
+
+### Marketcap Endpoint
+
+Example description of marketcap endpoint
+
+### Input Params
+
+| Required? |            Name            |                 Type                 |       Options       | Default |
+| :-------: | :------------------------: | :----------------------------------: | :-----------------: | :-----: |
+|    ✅     | `base`, `from`, or `coin`  |   Symbol of the currency to query    | `BTC`, `ETH`, `USD` |         |
+|    ✅     | `quote`, `to`, or `market` | Symbol of the currency to convert to | `BTC`, `ETH`, `USD` |         |
+
+### Sample Input
+
+A sample of endpoint input
+
+### Sample Output
+
+A sample of endpoint output
+
+### Price Endpoint
+
+Example description of price endpoint
+
+### Input Params
+
+| Required? |            Name            |                 Type                 |       Options       | Default |
+| :-------: | :------------------------: | :----------------------------------: | :-----------------: | :-----: |
+|    ✅     | `base`, `from`, or `coin`  |   Symbol of the currency to query    | `BTC`, `ETH`, `USD` |         |
+|    ✅     | `quote`, `to`, or `market` | Symbol of the currency to convert to | `BTC`, `ETH`, `USD` |         |
+
+### Sample Input
+
+A sample of endpoint input
+
+### Sample Output
+
+A sample of endpoint output
