@@ -13,6 +13,7 @@ import { getDefaultConfig, logConfig } from './config'
 import { AdapterError } from './errors'
 import { logger } from './logger'
 import objectPath from 'object-path'
+import { join } from 'path'
 
 const getFalse = () => false
 
@@ -46,7 +47,7 @@ export class Requester {
       }
 
       let response: AxiosResponse<T>
-      const endpoint = `${config.baseURL}/${config.url}`
+      const url = join(config.baseURL || '', config.url || '')
       try {
         response = await axios(config)
       } catch (error) {
@@ -57,7 +58,7 @@ export class Requester {
             message: error?.message,
             cause: error,
             errorResponse: error?.response?.data?.error,
-            endpoint,
+            url,
           })
         }
 
@@ -69,7 +70,7 @@ export class Requester {
         if (n === 1) {
           const message = `Could not retrieve valid data: ${JSON.stringify(response.data)}`
           const cause = response.data.error || 'customError'
-          throw new AdapterError({ message, cause, endpoint })
+          throw new AdapterError({ message, cause, url })
         }
 
         return await _delayRetry(`Error in response. Retrying: ${JSON.stringify(response.data)}`)
