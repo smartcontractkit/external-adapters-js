@@ -1,4 +1,4 @@
-import legos from '../src'
+import legos from '../../src'
 
 describe('legos test', () => {
   it('has valid adapter names', function () {
