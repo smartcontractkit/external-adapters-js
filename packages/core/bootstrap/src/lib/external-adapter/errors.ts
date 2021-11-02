@@ -7,9 +7,9 @@ export class AdapterError extends Error {
   name: string
   message: string
   cause: any
-  url: string
+  url?: string
   errorResponse: any
-  feedID: string
+  feedID?: string
 
   constructor({
     jobRunID = '1',
@@ -30,9 +30,13 @@ export class AdapterError extends Error {
     this.name = name
     this.message = message
     this.cause = cause
-    this.url = url!
+    if (url) {
+      this.url = url
+    }
+    if (feedID) {
+      this.feedID = feedID
+    }
     this.errorResponse = errorResponse
-    this.feedID = feedID!
   }
 
   toJSONResponse(): AdapterErrorResponse {

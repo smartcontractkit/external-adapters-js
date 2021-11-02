@@ -83,7 +83,7 @@ declare module '@chainlink/types' {
     cause: string
   }
 
-  export type AdapterErrorFull = {
+  export type AdapterErrorLog = {
     jobRunID: string
     params: AdapterRequestData
     message: string

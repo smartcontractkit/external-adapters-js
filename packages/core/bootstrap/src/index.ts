@@ -1,7 +1,7 @@
 import {
   AdapterMetricsMeta,
   AdapterRequest,
-  AdapterErrorFull,
+  AdapterErrorLog,
   AdapterContext,
   Execute,
   ExecuteSync,
@@ -87,7 +87,7 @@ const withLogger: Middleware = async (execute, context) => async (input: Adapter
     return result
   } catch (error) {
     const feedID = metrics.util.getFeedId(input)
-    const errorLog: AdapterErrorFull = {
+    const errorLog: AdapterErrorLog = {
       message: error.toString(),
       jobRunID: input.id,
       params: input.data,
