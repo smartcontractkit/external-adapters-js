@@ -4622,7 +4622,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["axios", "npm:0.21.1"],
             ["decimal.js", "npm:10.3.1"],
             ["express", "npm:4.17.1"],
-            ["express-rate-limit", "npm:5.3.0"],
+            ["express-rate-limit", "npm:5.5.0"],
             ["express-slow-down", "npm:1.4.0"],
             ["fast-redact", "npm:3.0.1"],
             ["lodash", "npm:4.17.21"],
@@ -16889,10 +16889,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["express-rate-limit", [
-        ["npm:5.3.0", {
-          "packageLocation": "./.yarn/cache/express-rate-limit-npm-5.3.0-21970356f6-8d78c95721.zip/node_modules/express-rate-limit/",
+        ["npm:5.5.0", {
+          "packageLocation": "./.yarn/cache/express-rate-limit-npm-5.5.0-b2276bbb72-bdb8c3deb2.zip/node_modules/express-rate-limit/",
           "packageDependencies": [
-            ["express-rate-limit", "npm:5.3.0"]
+            ["express-rate-limit", "npm:5.5.0"]
           ],
           "linkType": "HARD",
         }]
