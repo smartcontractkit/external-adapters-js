@@ -1,9 +1,11 @@
 import * as _1forge from '@chainlink/1forge-adapter'
+import * as ada_balance from '@chainlink/ada-balance-adapter'
 import * as alphachain from '@chainlink/alphachain-adapter'
 import * as alphavantage from '@chainlink/alphavantage-adapter'
 import * as amberdata from '@chainlink/amberdata-adapter'
 import * as anyblock from '@chainlink/anyblock-adapter'
 import * as ap_election from '@chainlink/ap-election-adapter'
+import * as bea from '@chainlink/bea-adapter'
 import * as binance from '@chainlink/binance-adapter'
 import * as binance_dex from '@chainlink/binance-dex-adapter'
 import * as bitex from '@chainlink/bitex-adapter'
@@ -16,6 +18,7 @@ import * as bravenewcoin from '@chainlink/bravenewcoin-adapter'
 import * as btc_com from '@chainlink/btc.com-adapter'
 import * as cache_gold from '@chainlink/cache.gold-adapter'
 import * as cfbenchmarks from '@chainlink/cfbenchmarks-adapter'
+import * as chain_reserve_wallet from '@chainlink/chain-reserve-wallet-adapter'
 import * as coinapi from '@chainlink/coinapi-adapter'
 import * as coinbase from '@chainlink/coinbase-adapter'
 import * as coincodex from '@chainlink/coincodex-adapter'
@@ -110,11 +113,13 @@ import * as xbto from '@chainlink/xbto-adapter'
 
 export default {
   _1forge,
+  ada_balance,
   alphachain,
   alphavantage,
   amberdata,
   anyblock,
   ap_election,
+  bea,
   binance,
   binance_dex,
   bitex,
@@ -127,6 +132,7 @@ export default {
   btc_com,
   cache_gold,
   cfbenchmarks,
+  chain_reserve_wallet,
   coinapi,
   coinbase,
   coincodex,

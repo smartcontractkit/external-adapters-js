@@ -33,8 +33,6 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 | :-------: | :-------: | :-----------------------------: | :-----: | :---------: |
 |    ✅     | `address` |     Address of the SetToken     |         |             |
 |    ✅     | `adapter` | Address of the adapter contract |         |             |
-|           |  `name`   |           Index name            |         |             |
-|           |  `asset`  |           Asset name            |         |             |
 
 ### Sample Input
 

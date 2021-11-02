@@ -5,10 +5,11 @@ import { callAdapter, makeRequestFactory } from './adapter'
 import renVM from '@chainlink/renvm-address-set-adapter'
 import * as wBTC from '@chainlink/wbtc-address-set-adapter'
 import * as Gemini from '@chainlink/gemini-adapter'
+import * as chainReserveWallets from '@chainlink/chain-reserve-wallet-adapter'
 
 export const LIST_ADAPTER = 'LIST'
 
-export const adapters: AdapterImplementation[] = [wBTC, renVM, Gemini]
+export const adapters: AdapterImplementation[] = [wBTC, renVM, Gemini, chainReserveWallets]
 
 export type Protocol = typeof adapters[number]['NAME']
 

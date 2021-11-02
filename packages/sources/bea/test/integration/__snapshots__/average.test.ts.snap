@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute get average price should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 115.85033333333334,
+  },
+  "jobRunID": "1",
+  "result": 115.85033333333334,
+  "statusCode": 200,
+}
+`;

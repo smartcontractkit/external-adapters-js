@@ -102,6 +102,7 @@ declare module '@chainlink/types' {
   export type { AxiosResponse, RequestConfig } from 'axios'
 
   export type Config = {
+    name?: string
     apiKey?: string
     wsApiKey?: string
     network?: string
@@ -113,6 +114,7 @@ declare module '@chainlink/types' {
       [T: string]: string | number
     }
     rpcUrl?: string
+    rpcPort?: number
   }
 
   export type Execute = (input: AdapterRequest, context: AdapterContext) => Promise<AdapterResponse>

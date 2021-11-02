@@ -293,7 +293,7 @@ Types
     "IsClosed": true,
     "LineupConfirmed": false,
     "LineupStatus": "Active",
-    "result": "0x07e66164f328000001317318070e05060208030302060809010000000013"
+    "result": "07e66164f328000001317318070e05060208030302060809010000000013"
   }
 }
 ```
