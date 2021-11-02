@@ -2310,7 +2310,7 @@ __metadata:
     axios: ^0.21.1
     decimal.js: ^10.3.1
     express: ^4.17.1
-    express-rate-limit: ^5.3.0
+    express-rate-limit: ^5.5.0
     express-slow-down: ^1.4.0
     fast-redact: ^3.0.1
     lodash: ^4.17.21
@@ -13112,10 +13112,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"express-rate-limit@npm:^5.3.0":
-  version: 5.3.0
-  resolution: "express-rate-limit@npm:5.3.0"
-  checksum: 8d78c957215bc0092186b455e03b52fdfff279dc2a8bdd98ee9cc14a0cbbb60cf5ef7844fc2d3b9122584d64449ea4f7aaeb2c93e93a9c115cfba89ca4e27ea6
+"express-rate-limit@npm:^5.5.0":
+  version: 5.5.0
+  resolution: "express-rate-limit@npm:5.5.0"
+  checksum: bdb8c3deb2edc1ab94bc92c36577f8caf465e7e68e6438f46d9feef5a93e4dfadeb000973e4b8b33da83a7a5bb945d9a2ebd037da0d53282fc23c48b835a4672
   languageName: node
   linkType: hard
 

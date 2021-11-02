@@ -14,7 +14,7 @@ import {
   HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE_MESSAGE,
 } from './errors'
 import { logger } from './external-adapter'
-import { METRICS_ENABLED } from './metrics'
+import { METRICS_ENABLED, httpRateLimit } from './metrics'
 import { get as getRateLimitConfig } from './rate-limit/config'
 import { toObjectWithNumbers } from './util'
 
@@ -129,9 +129,9 @@ function setupMetricsServer() {
 }
 
 const windowMs = 1000 * 60 // define window as per minute, since this is a common interval
-const max = parseInt(process.env.EA_RATE_LIMIT_MAX || '1500') // default to 1500 req/min max
-const delayAfter = max * (Number(process.env.EA_SLOW_DOWN_AFTER_FACTOR) || 0.8) // we start slowing down requests when we reach 80% of our max limit for the current interval
-const delayMs = parseInt(process.env.EA_SLOW_DOWN_DELAY_MS || '500') // default to slowing down each request by 500ms
+const max = parseInt(process.env.SERVER_RATE_LIMIT_MAX || '1500') // default to 1500 req/min max
+const delayAfter = max * (Number(process.env.SERVER_SLOW_DOWN_AFTER_FACTOR) || 0.8) // we start slowing down requests when we reach 80% of our max limit for the current interval
+const delayMs = parseInt(process.env.SERVER_SLOW_DOWN_DELAY_MS || '500') // default to slowing down each request by 500ms
 
 function initExpressMiddleware(app: express.Express) {
   app.set('trust proxy', 1)
@@ -140,6 +140,10 @@ function initExpressMiddleware(app: express.Express) {
     windowMs,
     max, // limit each IP's requests per windowMs
     keyGenerator: () => '*', // use one key for all incoming requests
+    handler: ((_, res) => {
+      httpRateLimit.inc()
+      res.status(429).send('Too many requests, please try again later.')
+    }) as express.RequestHandler,
   })
   app.use(rateLimiter)
 
