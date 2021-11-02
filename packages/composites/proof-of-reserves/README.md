@@ -16,6 +16,7 @@ At least one of each of the following categories must be set as an environment v
    |           |        `RENVM_ADAPTER_URL`         |    The location of a RenVM external adapter    |         |             |
    |           |        `GEMINI_ADAPTER_URL`        |   The location of a Gemini external adapter    |         |             |
    |           | `CHAIN_RESERVE_WALLET_ADAPTER_URL` | The location of a Chain reserve wallet adapter |         |             |
+   |           |       `WRAPPED_ADAPTER_URL`        |   The location of a Wrapped external adapter   |         |             |
 
 2. An indexer adapter to retrieve account balances for each custodial address
 
@@ -41,7 +42,7 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 
 | Required? |      Name       |                                             Description                                              |                                                                         Options                                                                          | Defaults to |
 | :-------: | :-------------: | :--------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
-|    ✅     |   `protocol`    |                                 The protocol external adapter to use                                 |                                                `chain_reserve_wallet`, `gemini`, `list`, `renvm`, `wbtc`                                                 |             |
+|    ✅     |   `protocol`    |                                 The protocol external adapter to use                                 |                                           `chain_reserve_wallet`, `gemini`, `list`, `renvm`, `wbtc`, `wrapped`                                           |             |
 |    ✅     |    `indexer`    |                                 The indexer external adapter to use                                  | `ada_balance`, `amberdata`, `bitcoin_json_rpc`, `blockchain_com`. `blockchair`, `blockcypher`,`btc_com`, `cryptoapis`, `eth_balance`, `lotus`, `sochain` |             |
 |           | `confirmations` | The number of confirmations required for a transaction to be counted when getting an address balance |                                                                                                                                                          |      6      |
 |           |   `addresses`   |           An array of addresses to get the balance from, when "protocol" is set to `list`            |                                                                                                                                                          |             |

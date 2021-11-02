@@ -3440,6 +3440,7 @@ __metadata:
     "@chainlink/sochain-adapter": 1.0.0
     "@chainlink/types": 1.0.0
     "@chainlink/wbtc-address-set-adapter": 1.0.0
+    "@chainlink/wrapped-adapter": 1.0.0
     "@types/jest": 27.0.2
     "@types/node": 14.17.21
     decimal.js: ^10.3.1
