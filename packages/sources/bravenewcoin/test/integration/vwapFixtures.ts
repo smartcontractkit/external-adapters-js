@@ -4,7 +4,7 @@ export function mockVwapEndpointSuccess() {
   nock('https://bravenewcoin.p.rapidapi.com:443', { encodedQueryParams: true })
     .post('/oauth/token', {
       audience: 'https://api.bravenewcoin.com',
-      client_id: 'mock-client-id',
+      client_id: 'test-client-id',
       grant_type: 'client_credentials',
     })
     .reply(200, {}, [
