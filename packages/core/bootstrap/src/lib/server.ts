@@ -43,10 +43,7 @@ export const initHandler =
       setupMetricsServer()
     }
 
-    initExpressMiddleware(
-      app,
-      // context
-    )
+    initExpressMiddleware(app)
 
     const executeWithMiddleware = await withMiddleware(execute, context, middleware)
 
@@ -131,25 +128,25 @@ function setupMetricsServer() {
   metricsApp.listen(metricsPort, () => logger.info(`Monitoring listening on port ${metricsPort}!`))
 }
 
-function initExpressMiddleware(
-  app: express.Express,
-  // context: AdapterContext
-) {
+const windowMs = 1000 * 60 // define window as per minute, since this is a common interval
+const max = parseInt(process.env.EA_RATE_LIMIT_MAX || '1500') // default to 1500 req/min max
+const delayAfter = max * (Number(process.env.EA_SLOW_DOWN_AFTER_FACTOR) || 0.8) // we start slowing down requests when we reach 80% of our max limit for the current interval
+const delayMs = parseInt(process.env.EA_SLOW_DOWN_DELAY_MS || '500') // default to slowing down each request by 500ms
+
+function initExpressMiddleware(app: express.Express) {
   app.set('trust proxy', 1)
 
-  // TODO: utilize context for Redis
-
-  const limiter = rateLimit({
-    windowMs: 5 * 100, // 5 seconds
-    max: 250, // limit each IP to 250 requests per windowMs
+  const rateLimiter = rateLimit({
+    windowMs,
+    max, // limit each IP's requests per windowMs
     keyGenerator: () => '*', // use one key for all incoming requests
   })
-  app.use(limiter)
+  app.use(rateLimiter)
 
   const speedLimiter = slowDown({
-    windowMs: 5 * 100, // 5 seconds
-    delayAfter: 250, // allow 100 requests per 5 seconds, then...
-    delayMs: 1000, // begin adding 1000ms of delay per request above 250
+    windowMs,
+    delayAfter,
+    delayMs,
     keyGenerator: () => '*', // use one key for all incoming requests
   })
   app.use(speedLimiter)
