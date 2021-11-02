@@ -7,7 +7,7 @@ export class AdapterError extends Error {
   name: string
   message: string
   cause: any
-  endpoint: string
+  url: string
   errorResponse: any
   feedID: string
 
@@ -18,7 +18,7 @@ export class AdapterError extends Error {
     name = 'AdapterError',
     message = 'An error occurred.',
     cause,
-    endpoint,
+    url,
     errorResponse,
     feedID,
   }: Partial<AdapterError>) {
@@ -30,7 +30,7 @@ export class AdapterError extends Error {
     this.name = name
     this.message = message
     this.cause = cause
-    this.endpoint = endpoint!
+    this.url = url!
     this.errorResponse = errorResponse
     this.feedID = feedID!
   }
@@ -40,7 +40,7 @@ export class AdapterError extends Error {
     const errorBasic = {
       name: this.name,
       message: this.message,
-      endpoint: this.endpoint,
+      url: this.url,
       errorResponse: this.errorResponse,
       feedID: this.feedID,
     }
