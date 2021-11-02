@@ -16,7 +16,7 @@ describe('bravenewcoin', () => {
     server = await startServer()
     process.env.CACHE_ENABLED = 'false'
 
-    process.env.API_KEY = process.env.API_KEY || 'mock-api-key'
+    process.env.API_KEY = process.env.API_KEY || 'test-api-key'
     process.env.CLIENT_ID = process.env.CLIENT_ID || 'mock-client-id'
 
     if (util.parseBool(process.env.RECORD)) {
