@@ -5,10 +5,7 @@ import { BLOCKCHAINS, isChainType, isCoinType } from '../config'
 
 export const supportedEndpoints = ['balance']
 
-export const inputParameters = {
-  ...balance.inputParameters,
-  addresses: false,
-}
+export const inputParameters = balance.inputParameters
 
 const getBalanceURI = (address: string) => `/api/v2/addresses/${address}/account-balances/latest`
 
