@@ -1,7 +1,7 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
-export const NAME = 'WRAPPER'
+export const NAME = 'WRAPPED'
 
 export const DEFAULT_ENDPOINT = 'deposits'
 export const DEFAULT_BASE_URL = 'http://chainlink.wrappedeng.com'

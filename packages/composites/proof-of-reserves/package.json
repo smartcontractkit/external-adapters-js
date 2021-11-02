@@ -49,6 +49,7 @@
     "@chainlink/renvm-address-set-adapter": "*",
     "@chainlink/sochain-adapter": "*",
     "@chainlink/wbtc-address-set-adapter": "*",
+    "@chainlink/wrapped-adapter": "*",
     "decimal.js": "^10.3.1",
     "ethers": "^5.4.6",
     "tslib": "^2.3.1"

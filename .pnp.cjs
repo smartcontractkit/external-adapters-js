@@ -5704,6 +5704,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/sochain-adapter", "workspace:packages/sources/sochain"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@chainlink/wbtc-address-set-adapter", "workspace:packages/sources/wbtc-address-set"],
+            ["@chainlink/wrapped-adapter", "workspace:packages/sources/wrapped"],
             ["@types/jest", "npm:27.0.2"],
             ["@types/node", "npm:14.17.21"],
             ["decimal.js", "npm:10.3.1"],
