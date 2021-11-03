@@ -28,7 +28,7 @@ describe('execute', () => {
     server.close(done)
   })
 
-  describe('exchange rate api', () => {
+  describe('volatility rate api', () => {
     const data: AdapterRequest = {
       id,
       data: {
