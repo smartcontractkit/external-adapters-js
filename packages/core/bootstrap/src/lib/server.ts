@@ -128,8 +128,8 @@ function setupMetricsServer() {
   metricsApp.listen(metricsPort, () => logger.info(`Monitoring listening on port ${metricsPort}!`))
 }
 
-const windowMs = 1000 * 60 // define window as per minute, since this is a common interval
-const max = parseInt(process.env.SERVER_RATE_LIMIT_MAX || '1500') // default to 1500 req/min max
+const windowMs = 1000 * 5
+const max = parseInt(process.env.SERVER_RATE_LIMIT_MAX || '250') // default to 250 req / 5 seconds max
 const delayAfter = max * (Number(process.env.SERVER_SLOW_DOWN_AFTER_FACTOR) || 0.8) // we start slowing down requests when we reach 80% of our max limit for the current interval
 const delayMs = parseInt(process.env.SERVER_SLOW_DOWN_DELAY_MS || '500') // default to slowing down each request by 500ms
 
