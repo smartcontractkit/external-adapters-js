@@ -4,7 +4,11 @@ import * as process from 'process'
 import { server as startServer } from '../../src'
 import * as nock from 'nock'
 import * as http from 'http'
-import { mockCryptoResponseSuccess } from './fixtures'
+import {
+  mockCryptoResponseFailure,
+  mockCryptoResponseSuccess,
+  mockReferenceCurrenciesSuccess,
+} from './fixtures'
 
 describe('execute', () => {
   const id = '1'
@@ -63,7 +67,32 @@ describe('execute', () => {
     }
 
     it('should return success', async () => {
+      mockReferenceCurrenciesSuccess()
       mockCryptoResponseSuccess()
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('crypto api with invalid base', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        base: 'non-existing',
+        quote: 'USD',
+      },
+    }
+
+    it('should return failure', async () => {
+      mockReferenceCurrenciesSuccess()
+      mockCryptoResponseFailure()
 
       const response = await req
         .post('/')
