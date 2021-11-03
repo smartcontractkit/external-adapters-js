@@ -13,9 +13,9 @@ This external adapter allows querying contracts on the Terra blockchain.
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |          Options          | Defaults to |
-| :-------: | :------: | :-----------------: | :-----------------------: | :---------: |
-|           | endpoint | The endpoint to use | [example](#View-Endpoint) |    view     |
+| Required? |   Name   |     Description     |        Options         | Defaults to |
+| :-------: | :------: | :-----------------: | :--------------------: | :---------: |
+|           | endpoint | The endpoint to use | [view](#View-Endpoint) |    view     |
 
 ---
 
