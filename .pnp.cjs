@@ -539,6 +539,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/taapi"
       },
       {
+        "name": "@chainlink/terra-view-function-adapter",
+        "reference": "workspace:packages/sources/terra-view-function"
+      },
+      {
         "name": "@chainlink/therundown-adapter",
         "reference": "workspace:packages/sources/therundown"
       },
@@ -752,6 +756,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/synth-index-adapter", ["workspace:packages/composites/synth-index"]],
       ["@chainlink/synthetix-debt-pool-adapter", ["workspace:packages/sources/synthetix-debt-pool"]],
       ["@chainlink/taapi-adapter", ["workspace:packages/sources/taapi"]],
+      ["@chainlink/terra-view-function-adapter", ["workspace:packages/sources/terra-view-function"]],
       ["@chainlink/the-graph-adapter", ["workspace:packages/composites/the-graph"]],
       ["@chainlink/therundown-adapter", ["workspace:packages/sources/therundown"]],
       ["@chainlink/tiingo-adapter", ["workspace:packages/sources/tiingo"]],
@@ -4569,6 +4574,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/stasis-adapter", "workspace:packages/sources/stasis"],
             ["@chainlink/synthetix-debt-pool-adapter", "workspace:packages/sources/synthetix-debt-pool"],
             ["@chainlink/taapi-adapter", "workspace:packages/sources/taapi"],
+            ["@chainlink/terra-view-function-adapter", "workspace:packages/sources/terra-view-function"],
             ["@chainlink/therundown-adapter", "workspace:packages/sources/therundown"],
             ["@chainlink/tiingo-adapter", "workspace:packages/sources/tiingo"],
             ["@chainlink/tradermade-adapter", "workspace:packages/sources/tradermade"],
@@ -5923,6 +5929,26 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.2"],
             ["@types/node", "npm:14.17.21"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/terra-view-function-adapter", [
+        ["workspace:packages/sources/terra-view-function", {
+          "packageLocation": "./packages/sources/terra-view-function/",
+          "packageDependencies": [
+            ["@chainlink/terra-view-function-adapter", "workspace:packages/sources/terra-view-function"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@terra-money/terra.js", "npm:2.1.20"],
+            ["@types/jest", "npm:27.0.2"],
+            ["@types/node", "npm:14.17.21"],
+            ["@types/supertest", "npm:2.0.11"],
+            ["nock", "npm:13.1.4"],
+            ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
@@ -9583,6 +9609,41 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["@terra-money/terra.js", [
+        ["npm:2.1.20", {
+          "packageLocation": "./.yarn/cache/@terra-money-terra.js-npm-2.1.20-783fc41306-dd7934f9b0.zip/node_modules/@terra-money/terra.js/",
+          "packageDependencies": [
+            ["@terra-money/terra.js", "npm:2.1.20"],
+            ["@terra-money/terra.proto", "npm:0.1.7"],
+            ["axios", "npm:0.21.1"],
+            ["bech32", "npm:2.0.0"],
+            ["bip32", "npm:2.0.6"],
+            ["bip39", "npm:3.0.4"],
+            ["bufferutil", "npm:4.0.5"],
+            ["decimal.js", "npm:10.3.1"],
+            ["jscrypto", "npm:1.0.2"],
+            ["long", "npm:5.1.0"],
+            ["readable-stream", "npm:3.6.0"],
+            ["secp256k1", "npm:4.0.2"],
+            ["tmp", "npm:0.2.1"],
+            ["utf-8-validate", "npm:5.0.7"],
+            ["ws", "virtual:783fc41306a1b614158f48e0dd5ccf0b9adad81d46bfd11bf3c6d143ec3b3b914b183602896ceddc91e1c71ee1c81b5e58237ab0e85d706469b3fc98b3e54e38#npm:7.5.5"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@terra-money/terra.proto", [
+        ["npm:0.1.7", {
+          "packageLocation": "./.yarn/cache/@terra-money-terra.proto-npm-0.1.7-77d92ea197-c6ad15f559.zip/node_modules/@terra-money/terra.proto/",
+          "packageDependencies": [
+            ["@terra-money/terra.proto", "npm:0.1.7"],
+            ["google-protobuf", "npm:3.19.1"],
+            ["long", "npm:4.0.0"],
+            ["protobufjs", "npm:6.11.2"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["@tokenizer/token", [
         ["npm:0.3.0", {
           "packageLocation": "./.yarn/cache/@tokenizer-token-npm-0.3.0-4441352cc5-1d575d02d2.zip/node_modules/@tokenizer/token/",
@@ -12299,6 +12360,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["bech32", "npm:1.1.4"]
           ],
           "linkType": "HARD",
+        }],
+        ["npm:2.0.0", {
+          "packageLocation": "./.yarn/cache/bech32-npm-2.0.0-ad98b7dd79-fa15acb270.zip/node_modules/bech32/",
+          "packageDependencies": [
+            ["bech32", "npm:2.0.0"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["before-after-hook", [
@@ -12967,6 +13035,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["bufferutil", "npm:4.0.3"],
             ["node-gyp", "npm:8.1.0"],
             ["node-gyp-build", "npm:4.2.3"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:4.0.5", {
+          "packageLocation": "./.yarn/unplugged/bufferutil-npm-4.0.5-88cc521694/node_modules/bufferutil/",
+          "packageDependencies": [
+            ["bufferutil", "npm:4.0.5"],
+            ["node-gyp", "npm:8.1.0"],
+            ["node-gyp-build", "npm:4.3.0"]
           ],
           "linkType": "HARD",
         }]
@@ -18108,6 +18185,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["google-protobuf", [
+        ["npm:3.19.1", {
+          "packageLocation": "./.yarn/cache/google-protobuf-npm-3.19.1-f2bb0b2cd2-9ec57e1bdf.zip/node_modules/google-protobuf/",
+          "packageDependencies": [
+            ["google-protobuf", "npm:3.19.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["got", [
         ["npm:7.1.0", {
           "packageLocation": "./.yarn/cache/got-npm-7.1.0-83d1107046-0270472a38.zip/node_modules/got/",
@@ -21699,6 +21785,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["jscrypto", [
+        ["npm:1.0.2", {
+          "packageLocation": "./.yarn/cache/jscrypto-npm-1.0.2-7a506d0458-3179dd391c.zip/node_modules/jscrypto/",
+          "packageDependencies": [
+            ["jscrypto", "npm:1.0.2"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["jsdom", [
         ["npm:16.7.0", {
           "packageLocation": "./.yarn/cache/jsdom-npm-16.7.0-216c5c4bf9-454b833718.zip/node_modules/jsdom/",
@@ -23562,6 +23657,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["long", "npm:4.0.0"]
           ],
           "linkType": "HARD",
+        }],
+        ["npm:5.1.0", {
+          "packageLocation": "./.yarn/cache/long-npm-5.1.0-3322cd5032-bcf3c7cc20.zip/node_modules/long/",
+          "packageDependencies": [
+            ["long", "npm:5.1.0"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["longest", [
@@ -25015,6 +25117,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["propagate", "npm:2.0.1"]
           ],
           "linkType": "HARD",
+        }],
+        ["npm:13.1.4", {
+          "packageLocation": "./.yarn/cache/nock-npm-13.1.4-52696004bf-2452150f52.zip/node_modules/nock/",
+          "packageDependencies": [
+            ["nock", "npm:13.1.4"],
+            ["debug", "virtual:c9bc8b4682dae1ac36fcb97c7fccfb86af01a1f6fc48eaf83d9bd00fb14f9e1f641a2409ef7e079b4e0ed4a16267412a60166cc456172f4a4f9469cc6ef7c07b#npm:4.3.2"],
+            ["json-stringify-safe", "npm:5.0.1"],
+            ["lodash.set", "npm:4.3.2"],
+            ["propagate", "npm:2.0.1"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["node-addon-api", [
@@ -25114,6 +25227,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/node-gyp-build-npm-4.2.3-051c80c95f-450d7b2016.zip/node_modules/node-gyp-build/",
           "packageDependencies": [
             ["node-gyp-build", "npm:4.2.3"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:4.3.0", {
+          "packageLocation": "./.yarn/cache/node-gyp-build-npm-4.3.0-87bdf5216f-1ecab16d9f.zip/node_modules/node-gyp-build/",
+          "packageDependencies": [
+            ["node-gyp-build", "npm:4.3.0"]
           ],
           "linkType": "HARD",
         }]
@@ -30542,6 +30662,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["os-tmpdir", "npm:1.0.2"]
           ],
           "linkType": "HARD",
+        }],
+        ["npm:0.2.1", {
+          "packageLocation": "./.yarn/cache/tmp-npm-0.2.1-a9c8d9c0ca-8b12146541.zip/node_modules/tmp/",
+          "packageDependencies": [
+            ["tmp", "npm:0.2.1"],
+            ["rimraf", "npm:3.0.2"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["tmpl", [
@@ -31471,6 +31599,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["utf-8-validate", "npm:5.0.5"],
             ["node-gyp", "npm:8.1.0"],
             ["node-gyp-build", "npm:4.2.3"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:5.0.7", {
+          "packageLocation": "./.yarn/unplugged/utf-8-validate-npm-5.0.7-88d731f8ad/node_modules/utf-8-validate/",
+          "packageDependencies": [
+            ["utf-8-validate", "npm:5.0.7"],
+            ["node-gyp", "npm:8.1.0"],
+            ["node-gyp-build", "npm:4.3.0"]
           ],
           "linkType": "HARD",
         }]
@@ -32843,6 +32980,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "SOFT",
         }],
+        ["npm:7.5.5", {
+          "packageLocation": "./.yarn/cache/ws-npm-7.5.5-8f4a2a84a8-bd2b437256.zip/node_modules/ws/",
+          "packageDependencies": [
+            ["ws", "npm:7.5.5"]
+          ],
+          "linkType": "SOFT",
+        }],
         ["virtual:01f99942f87fb5a453dea6f1ff7c3dc60a77e779ffd67aa8b513dd2357ab136601510034533c60ab4783e872e705d0f8b4c8517479d5d9c0dba7518ff1c3c6f9#npm:7.5.3", {
           "packageLocation": "./.yarn/__virtual__/ws-virtual-685817a567/0/cache/ws-npm-7.5.3-3a046a0b1a-423dc0d859.zip/node_modules/ws/",
           "packageDependencies": [
@@ -32868,6 +33012,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/utf-8-validate", null],
             ["bufferutil", null],
             ["utf-8-validate", null]
+          ],
+          "packagePeers": [
+            "@types/bufferutil",
+            "@types/utf-8-validate",
+            "bufferutil",
+            "utf-8-validate"
+          ],
+          "linkType": "HARD",
+        }],
+        ["virtual:783fc41306a1b614158f48e0dd5ccf0b9adad81d46bfd11bf3c6d143ec3b3b914b183602896ceddc91e1c71ee1c81b5e58237ab0e85d706469b3fc98b3e54e38#npm:7.5.5", {
+          "packageLocation": "./.yarn/__virtual__/ws-virtual-7d6807f063/0/cache/ws-npm-7.5.5-8f4a2a84a8-bd2b437256.zip/node_modules/ws/",
+          "packageDependencies": [
+            ["ws", "virtual:783fc41306a1b614158f48e0dd5ccf0b9adad81d46bfd11bf3c6d143ec3b3b914b183602896ceddc91e1c71ee1c81b5e58237ab0e85d706469b3fc98b3e54e38#npm:7.5.5"],
+            ["@types/bufferutil", null],
+            ["@types/utf-8-validate", null],
+            ["bufferutil", "npm:4.0.5"],
+            ["utf-8-validate", "npm:5.0.7"]
           ],
           "packagePeers": [
             "@types/bufferutil",
