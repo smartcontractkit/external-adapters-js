@@ -11,6 +11,19 @@ Object {
 }
 `;
 
+exports[`execute crypto api with invalid base should return failure 1`] = `
+Object {
+  "error": Object {
+    "feedID": "NON-EXISTING/USD",
+    "message": "Unable to find coin: non-existing",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 500,
+}
+`;
+
 exports[`execute marketcap api should return success 1`] = `
 Object {
   "data": Object {
