@@ -3,11 +3,17 @@ import { Config, ExecuteWithConfig, InputParameters, AxiosResponse } from '@chai
 
 export const supportedEndpoints = ['deposits']
 
+export interface ResponseSchema {
+  [token: string]: Addresses[]
+}
+
 export type Addresses = {
   address: string
 }
 
-const customError = (data: any) => data.Response === 'Error'
+const customError = (data: any) => {
+  return typeof data !== 'object'
+}
 
 export const inputParameters: InputParameters = {
   symbol: false,
@@ -22,7 +28,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const url = `/deposits`
 
   const options = { ...config.api, url }
-  const response = await Requester.request(options, customError)
+  const response = await Requester.request<ResponseSchema>(options, customError)
   const addresses = response.data[symbol]
   const keys = Object.keys(response.data).join()
 
@@ -34,11 +40,10 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     })
   }
 
-  const result = addresses.map((element: string) => {
-    return { address: element }
+  const result = addresses.map((value: Addresses) => {
+    return { address: value }
   })
 
-  response.data.result = result as Addresses[]
   return Requester.success(
     jobRunID,
     Requester.withResult(response, result as AxiosResponse<Addresses[]>),
