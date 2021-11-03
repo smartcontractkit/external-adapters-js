@@ -36,7 +36,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
 
   const response = await Requester.request(options, customError)
-  console.log(response)
   response.data.result = Requester.validateResultNumber(response.data, ['result'])
 
   return Requester.success(jobRunID, response, config.verbose)
