@@ -24,9 +24,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     data: {
       encodedGames,
       games,
-      result: encodedGames.length,
+      result: encodedGames,
     },
-    result: encodedGames.length,
+    result: encodedGames,
   }
   return Requester.success(jobRunID, respData, config.verbose)
 }
