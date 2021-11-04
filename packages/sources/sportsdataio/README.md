@@ -115,6 +115,35 @@ _None_
 
 ---
 
+## MLB
+
+### Input Parameters
+
+| Required? |   Name   |      Description      |                     Options                     | Defaults to |
+| :-------: | :------: | :-------------------: | :---------------------------------------------: | :---------: |
+|    ✅     | endpoint | The endpoint to query | [schedule](#MLB-Schedule), [score](#MLB-Score)) |             |
+
+### MLB Schedule
+
+Get the MLB schedule on a given date
+
+#### Input Parameters
+
+| Required? | Name |                Description                 | Options | Defaults to |
+| :-------: | :--: | :----------------------------------------: | :-----: | :---------: |
+|    ✅     | date | The date games to query were/are played on |         |             |
+
+### MLB Score
+
+Get the Scores for a game
+
+#### Input Parameters
+
+| Required? |  Name  |                Description                | Options | Defaults to |
+| :-------: | :----: | :---------------------------------------: | :-----: | :---------: |
+|    ✅     |  date  |      The date the game was played on      |         |             |
+|    ✅     | gameID | The game ID of the game to get scores for |         |             |
+
 ## NCAA-FB
 
 ### Input Parameters

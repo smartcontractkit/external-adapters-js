@@ -1,7 +1,7 @@
 import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
 import { makeConfig, DEFAULT_SPORT } from './config'
-import { MMA, NFL, NCAA_FB, NBA } from './sport'
+import { MMA, NFL, NCAA_FB, NBA, MLB } from './sport'
 
 const inputParams = {
   sport: true,
@@ -28,6 +28,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
     }
     case NBA.NAME: {
       return await NBA.execute(request, context, config)
+    }
+    case MLB.NAME: {
+      return await MLB.execute(request, context, config)
     }
     default: {
       throw new AdapterError({

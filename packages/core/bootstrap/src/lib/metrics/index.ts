@@ -47,3 +47,8 @@ export const httpRequestsDataProviderHits = new client.Counter({
   help: 'The number of http requests that hit the provider',
   labelNames: ['method', 'statusCode', 'apiKey', 'retry'] as const,
 })
+
+export const httpRateLimit = new client.Counter({
+  name: 'http_requests_rate_limit',
+  help: 'The number of denied requests because of server rate limiting',
+})

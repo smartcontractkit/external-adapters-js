@@ -25,10 +25,10 @@ Object {
 exports[`execute exchange rate api with invalid token should return failure 1`] = `
 Object {
   "error": Object {
-    "endpoint": "https://us.market-api.kaiko.io/v2/data/trades.v1//spot_exchange_rate/xxx/usd",
     "feedID": "XXX/USD",
     "message": "Request failed with status code 400",
     "name": "AdapterError",
+    "url": "https:/us.market-api.kaiko.io/v2/data/trades.v1/spot_exchange_rate/xxx/usd",
   },
   "jobRunID": "1",
   "status": "errored",
