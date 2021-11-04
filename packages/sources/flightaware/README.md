@@ -13,9 +13,9 @@ An example adapter description
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |                    Options                     |     Defaults to      |
-| :-------: | :------: | :-----------------: | :--------------------------------------------: | :------------------: |
-|           | endpoint | The endpoint to use | [estimatedarrivaltime](#FlightInfoEx-Endpoint) | estimatedarrivaltime |
+| Required? |   Name   |     Description     |                    Options                                                                   |     Defaults to      |
+| :-------: | :------: | :-----------------: | :------------------------------------------------------------------------------------------: | :------------------: |
+|           | endpoint | The endpoint to use | [estimatedarrivaltime](#FlightInfoEx-Endpoint) / [actualarrivaltime](#FlightInfoEx-Endpoint) | estimatedarrivaltime |
 
 ---
 
