@@ -1,14 +1,16 @@
 # $ADAPTER_NAME
 
-Version: $SEMVER
+Version: $SEM_VER
+
+## Environment Variables
 
 $ENV_VARS
 
+---
+
 ## Input Parameters
 
-| Required? |   Name   |     Description     |           Options            | Defaults to |
-| :-------: | :------: | :-----------------: | :--------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [example](#Example-Endpoint) |   example   |
+$INPUT_PARAMS
 
 ---
 

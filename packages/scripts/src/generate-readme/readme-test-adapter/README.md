@@ -16,9 +16,9 @@ Version: 1.2.3
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |           Options            | Defaults to |
-| :-------: | :------: | :-----------------: | :--------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [example](#Example-Endpoint) |   example   |
+| Required? |   Name   |  Type  |                                         Options                                          | Default |
+| :-------: | :------: | :----: | :--------------------------------------------------------------------------------------: | :-----: |
+|           | endpoint | string | [balance](#balance-endpoint), [marketcap](#marketcap-endpoint), [price](#price-endpoint) | example |
 
 ---
 
