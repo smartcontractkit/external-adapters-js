@@ -4,10 +4,10 @@ import { Config, ExecuteWithConfig, InputParameters, AxiosResponse } from '@chai
 export const supportedEndpoints = ['deposits']
 
 export interface ResponseSchema {
-  [token: string]: Addresses[]
+  [token: string]: Address[]
 }
 
-export type Addresses = {
+export type Address = {
   address: string
 }
 
@@ -30,9 +30,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const options = { ...config.api, url }
   const response = await Requester.request<ResponseSchema>(options, customError)
   const addresses = response.data[symbol]
-  const keys = Object.keys(response.data).join()
 
   if (!addresses) {
+    const keys = Object.keys(response.data).join()
     throw new AdapterError({
       jobRunID,
       message: `Input, at 'symbol' path, must be one of the following values: ${keys}`,
@@ -40,12 +40,10 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     })
   }
 
-  const result = addresses.map((value: Addresses) => {
-    return { address: value }
-  })
+  const result = addresses.map((address: Address) => ({ address }))
 
   return Requester.success(
     jobRunID,
-    Requester.withResult(response, result as AxiosResponse<Addresses[]>),
+    Requester.withResult(response, result as AxiosResponse<Address[]>),
   )
 }
