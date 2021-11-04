@@ -26,10 +26,17 @@ const capitalize = (s: string): string => s[0].toUpperCase() + s.slice(1)
 
 const getJsonFile = (path: string): JsonObject => JSON.parse(readFileSync(path, 'utf-8'))
 
+const saveFilePath = (mainDir: string, localPath: string): string => {
+  const filePath = mainDir + localPath
+  if (!shell.test('-f', filePath)) throw Error(`No ${localPath} found in ${mainDir}`)
+  else return filePath
+}
+
 class ReadmeGenerator {
   adapterPackage: AdapterPackage
   adapterPath: string
   adapterSchema: AdapterSchema
+  defaultEndpoint: string
   endpoints: string[]
   readmePath: string
 
@@ -38,15 +45,10 @@ class ReadmeGenerator {
 
     if (!shell.test('-d', adapterPath)) throw Error(`${adapterPath} is not a directory`)
 
-    const endpointIndexPath = adapterPath + 'src/endpoint/index.ts'
-    if (!shell.test('-f', endpointIndexPath))
-      throw Error(`No src/endpoint/index.ts found in ${adapterPath}`)
-
-    const packagePath = adapterPath + 'package.json'
-    if (!shell.test('-f', packagePath)) throw Error(`No package.json found in ${adapterPath}`)
-
-    const schemaPath = adapterPath + 'schemas/env.json'
-    if (!shell.test('-f', schemaPath)) throw Error(`No schemas/env.json found in ${adapterPath}`)
+    const configPath = saveFilePath(adapterPath, 'src/config.ts')
+    const endpointIndexPath = saveFilePath(adapterPath, 'src/endpoint/index.ts')
+    const packagePath = saveFilePath(adapterPath, 'package.json')
+    const schemaPath = saveFilePath(adapterPath, 'schemas/env.json')
 
     this.adapterPath = adapterPath
     this.adapterPackage = getJsonFile(packagePath) as AdapterPackage
@@ -54,9 +56,16 @@ class ReadmeGenerator {
     this.readmePath = adapterPath + 'README.md'
 
     // Get list of endpoints
-    const indexStr = shell.cat(endpointIndexPath)
-    const lines = indexStr.stdout.split('\n')
-    this.endpoints = lines.filter((s) => s.length).map((s) => s.split(' ')[3])
+    const endpointGrepLines = shell.grep('--', 'export \\* as ', endpointIndexPath).toString()
+    const endpointLines = endpointGrepLines.split('\n').filter((s) => s.length)
+    this.endpoints = endpointLines.map((s) => s.split(' ')[3])
+
+    // Get defaultEndpoint
+    const defaultGrepLines = shell
+      .grep('--', 'export const DEFAULT_ENDPOINT = ', configPath)
+      .toString()
+    const defaultLines = defaultGrepLines.split('\n').filter((s) => s.length)
+    this.defaultEndpoint = defaultLines.length === 1 ? defaultLines[0].split("'")[1] : ''
   }
 
   buildReadme(): void {
@@ -99,7 +108,7 @@ class ReadmeGenerator {
 
   addInputParamsSection(): void {
     const endpointList = this.endpoints.map((e) => `[${e}](#${e.replace(' ', '-')}-endpoint)`)
-    const tableText = [['', 'endpoint', 'string', endpointList.join(', '), 'example']]
+    const tableText = [['', 'endpoint', 'string', endpointList.join(', '), this.defaultEndpoint]]
 
     const inputParamTable = buildTable(tableText, inputParamHeaders)
 
