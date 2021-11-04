@@ -40,7 +40,10 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     })
   }
 
-  const result = addresses.map((address: Address) => ({ address }))
+  const result = {
+    coin: symbol,
+    addresses: addresses.map((address: Address) => ({ address })),
+  }
 
   return Requester.success(
     jobRunID,
