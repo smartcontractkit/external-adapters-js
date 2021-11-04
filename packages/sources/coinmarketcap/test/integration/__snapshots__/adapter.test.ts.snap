@@ -3,8 +3,10 @@
 exports[`coinmarketcap when making a request to coinmarket cap crypto endpoint coinmarketcap replies with error due to too many requests should reply with failure 1`] = `
 Object {
   "error": Object {
+    "feedID": "BTC/USD",
     "message": "Request failed with status code 429",
     "name": "AdapterError",
+    "url": "https:/pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest",
   },
   "jobRunID": "1",
   "status": "errored",
@@ -59,8 +61,10 @@ Object {
 exports[`coinmarketcap when making a request to coinmarket cap to dominance endpoint coinmarketcap replies with error due to too many requests should reply with failure 1`] = `
 Object {
   "error": Object {
+    "feedID": "{\\"data\\":{\\"endpoint\\":\\"dominance\\",\\"market\\":\\"BTC\\"}}",
     "message": "Request failed with status code 429",
     "name": "AdapterError",
+    "url": "https:/pro-api.coinmarketcap.com/v1/global-metrics/quotes/latest",
   },
   "jobRunID": "1",
   "status": "errored",
@@ -82,8 +86,10 @@ Object {
 exports[`coinmarketcap when making a request to coinmarket cap to globalmarketcap endpoint coinmarketcap replies with error due to too many requests should reply with failure 1`] = `
 Object {
   "error": Object {
+    "feedID": "{\\"data\\":{\\"endpoint\\":\\"globalmarketcap\\",\\"market\\":\\"USD\\"}}",
     "message": "Request failed with status code 429",
     "name": "AdapterError",
+    "url": "https:/pro-api.coinmarketcap.com/v1/global-metrics/quotes/latest",
   },
   "jobRunID": "1",
   "status": "errored",

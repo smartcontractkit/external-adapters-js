@@ -2,7 +2,11 @@ import { AdapterRequest } from '@chainlink/types'
 import request from 'supertest'
 import * as process from 'process'
 import { server as startServer } from '../../src'
-import { mockCryptoResponseSuccess, mockGlobalMarketResponseSuccess } from './fixtures'
+import {
+  mockCryptoResponseSuccess,
+  mockGlobalMarketResponseSuccess,
+  mockFilteredResponseSuccess,
+} from './fixtures'
 import * as nock from 'nock'
 import * as http from 'http'
 
@@ -62,6 +66,30 @@ describe('execute', () => {
 
     it('should return success', async () => {
       mockGlobalMarketResponseSuccess()
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('filtered api', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        from: 'LINK',
+        endpoint: 'filtered',
+        exchanges: 'binance,coinbase',
+      },
+    }
+
+    it('should return success', async () => {
+      mockFilteredResponseSuccess()
 
       const response = await req
         .post('/')

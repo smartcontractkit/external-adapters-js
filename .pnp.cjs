@@ -183,6 +183,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/ap-election"
       },
       {
+        "name": "@chainlink/bea-adapter",
+        "reference": "workspace:packages/sources/bea"
+      },
+      {
         "name": "@chainlink/binance-adapter",
         "reference": "workspace:packages/sources/binance"
       },
@@ -632,6 +636,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/ap-election-adapter", ["workspace:packages/sources/ap-election"]],
       ["@chainlink/apy-finance-adapter", ["workspace:packages/composites/apy-finance"]],
       ["@chainlink/augur-adapter", ["workspace:packages/composites/augur"]],
+      ["@chainlink/bea-adapter", ["workspace:packages/sources/bea"]],
       ["@chainlink/binance-adapter", ["workspace:packages/sources/binance"]],
       ["@chainlink/binance-dex-adapter", ["workspace:packages/sources/binance-dex"]],
       ["@chainlink/bitcoin-json-rpc-adapter", ["workspace:packages/composites/bitcoin-json-rpc"]],
@@ -3570,6 +3575,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.2"],
             ["@types/node", "npm:14.17.21"],
+            ["@types/supertest", "npm:2.0.11"],
+            ["nock", "npm:13.1.3"],
+            ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
@@ -3645,6 +3653,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:14.17.21"],
             ["ethers", "npm:5.4.6"],
             ["luxon", "npm:1.28.0"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/bea-adapter", [
+        ["workspace:packages/sources/bea", {
+          "packageLocation": "./packages/sources/bea/",
+          "packageDependencies": [
+            ["@chainlink/bea-adapter", "workspace:packages/sources/bea"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.2"],
+            ["@types/node", "npm:14.17.21"],
+            ["decimal.js", "npm:10.3.1"],
+            ["nock", "npm:13.1.3"],
+            ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
@@ -3830,6 +3857,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.2"],
             ["@types/node", "npm:14.17.21"],
+            ["@types/supertest", "npm:2.0.11"],
+            ["nock", "npm:13.1.3"],
+            ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
@@ -4460,6 +4490,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/amberdata-adapter", "workspace:packages/sources/amberdata"],
             ["@chainlink/anyblock-adapter", "workspace:packages/sources/anyblock"],
             ["@chainlink/ap-election-adapter", "workspace:packages/sources/ap-election"],
+            ["@chainlink/bea-adapter", "workspace:packages/sources/bea"],
             ["@chainlink/binance-adapter", "workspace:packages/sources/binance"],
             ["@chainlink/binance-dex-adapter", "workspace:packages/sources/binance-dex"],
             ["@chainlink/bitex-adapter", "workspace:packages/sources/bitex"],
@@ -4580,9 +4611,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@reduxjs/toolkit", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:1.6.1"],
             ["@types/express", "npm:4.17.13"],
+            ["@types/express-rate-limit", "npm:5.1.3"],
+            ["@types/express-slow-down", "npm:1.3.1"],
             ["@types/fast-redact", "npm:3.0.1"],
             ["@types/jest", "npm:27.0.2"],
-            ["@types/lodash", "npm:4.14.173"],
+            ["@types/lodash", "npm:4.14.176"],
             ["@types/lru-cache", "npm:5.1.1"],
             ["@types/node", "npm:14.17.21"],
             ["@types/object-hash", "npm:2.1.1"],
@@ -4600,6 +4633,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["axios", "npm:0.21.1"],
             ["decimal.js", "npm:10.3.1"],
             ["express", "npm:4.17.1"],
+            ["express-rate-limit", "npm:5.5.0"],
+            ["express-slow-down", "npm:1.4.0"],
             ["fast-redact", "npm:3.0.1"],
             ["lodash", "npm:4.17.21"],
             ["lru-cache", "npm:6.0.0"],
@@ -9986,6 +10021,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["@types/express-rate-limit", [
+        ["npm:5.1.3", {
+          "packageLocation": "./.yarn/cache/@types-express-rate-limit-npm-5.1.3-9d611672fc-44c0b79e48.zip/node_modules/@types/express-rate-limit/",
+          "packageDependencies": [
+            ["@types/express-rate-limit", "npm:5.1.3"],
+            ["@types/express", "npm:4.17.13"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["@types/express-serve-static-core", [
         ["npm:4.17.24", {
           "packageLocation": "./.yarn/cache/@types-express-serve-static-core-npm-4.17.24-cd6b9fd3ba-2f0b471126.zip/node_modules/@types/express-serve-static-core/",
@@ -9994,6 +10039,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.6.1"],
             ["@types/qs", "npm:6.9.7"],
             ["@types/range-parser", "npm:1.2.4"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@types/express-slow-down", [
+        ["npm:1.3.1", {
+          "packageLocation": "./.yarn/cache/@types-express-slow-down-npm-1.3.1-a6a6b79749-234bb196a4.zip/node_modules/@types/express-slow-down/",
+          "packageDependencies": [
+            ["@types/express-slow-down", "npm:1.3.1"],
+            ["@types/express", "npm:4.17.13"]
           ],
           "linkType": "HARD",
         }]
@@ -10146,10 +10201,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@types/lodash", [
-        ["npm:4.14.173", {
-          "packageLocation": "./.yarn/cache/@types-lodash-npm-4.14.173-6fc2954d52-9e97ef5816.zip/node_modules/@types/lodash/",
+        ["npm:4.14.176", {
+          "packageLocation": "./.yarn/cache/@types-lodash-npm-4.14.176-34dca4acb8-9e949704df.zip/node_modules/@types/lodash/",
           "packageDependencies": [
-            ["@types/lodash", "npm:4.14.173"]
+            ["@types/lodash", "npm:4.14.176"]
           ],
           "linkType": "HARD",
         }]
@@ -16849,6 +16904,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["type-is", "npm:1.6.18"],
             ["utils-merge", "npm:1.0.1"],
             ["vary", "npm:1.1.2"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["express-rate-limit", [
+        ["npm:5.5.0", {
+          "packageLocation": "./.yarn/cache/express-rate-limit-npm-5.5.0-b2276bbb72-bdb8c3deb2.zip/node_modules/express-rate-limit/",
+          "packageDependencies": [
+            ["express-rate-limit", "npm:5.5.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["express-slow-down", [
+        ["npm:1.4.0", {
+          "packageLocation": "./.yarn/cache/express-slow-down-npm-1.4.0-51d492c66e-8afa71ce29.zip/node_modules/express-slow-down/",
+          "packageDependencies": [
+            ["express-slow-down", "npm:1.4.0"],
+            ["defaults", "npm:1.0.3"]
           ],
           "linkType": "HARD",
         }]

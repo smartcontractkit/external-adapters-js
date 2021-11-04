@@ -3,8 +3,10 @@
 exports[`execute api with invalid token should return failure 1`] = `
 Object {
   "error": Object {
+    "feedID": "ETH/XXX",
     "message": "Request failed with status code 500",
     "name": "AdapterError",
+    "url": "https:/min-api.cryptocompare.com/data/pricemultifull",
   },
   "jobRunID": "1",
   "status": "errored",
