@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute eod api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 26.3,
+  },
+  "jobRunID": "1",
+  "result": 26.3,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute stock api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 25.8,
+  },
+  "jobRunID": "1",
+  "result": 25.8,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute stock api with invalid base should return failure 1`] = `
+Object {
+  "error": Object {
+    "errorResponse": "Please check the symbol and try again.",
+    "feedID": "{\\"data\\":{\\"endpoint\\":\\"stock\\",\\"base\\":\\"non-existing\\"}}",
+    "message": "Request failed with status code 400",
+    "name": "AdapterError",
+    "url": "https:/api.finage.co.uk/last/stock/NON-EXISTING",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
