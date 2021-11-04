@@ -7,7 +7,7 @@ import {
 } from '@chainlink/types'
 import { callAdapter, makeRequestFactory } from './adapter'
 // balance adapters
-import amberdata from '@chainlink/amberdata-adapter'
+import * as amberdata from '@chainlink/amberdata-adapter'
 import bitcoinJsonRpc from '@chainlink/bitcoin-json-rpc-adapter'
 import blockchainCom from '@chainlink/blockchain.com-adapter'
 import blockchair from '@chainlink/blockchair-adapter'

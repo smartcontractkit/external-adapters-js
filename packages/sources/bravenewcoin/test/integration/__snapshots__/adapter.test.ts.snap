@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`bravenewcoin when making a request to bravenewcoin to crypto endpoint when sending well-formed request should reply with success 1`] = `
+Object {
+  "data": Object {
+    "result": 0.06453350218072039,
+  },
+  "jobRunID": "1",
+  "result": 0.06453350218072039,
+  "statusCode": 200,
+}
+`;
+
+exports[`bravenewcoin when making a request to bravenewcoin to vwap endpoint when sending well-formed request should reply with success 1`] = `
+Object {
+  "data": Object {
+    "result": 3969.76725876602,
+  },
+  "jobRunID": "2",
+  "result": 3969.76725876602,
+  "statusCode": 200,
+}
+`;
