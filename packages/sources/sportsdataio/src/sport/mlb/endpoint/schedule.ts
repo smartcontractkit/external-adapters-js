@@ -22,7 +22,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const encodedGames = encodeGames(games)
   const respData = {
     data: {
-      encodedGames,
       games,
       result: encodedGames,
     },
