@@ -10,7 +10,7 @@ export const inputParameters: InputParameters = {
   count: false,
   interval: false,
   convert: false,
-  convertID: false,
+  cid: false,
   aux: false,
   skipInvalid: false,
 }
@@ -27,9 +27,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const count = validator.validated.data.count || 10
   const interval = validator.validated.data.interval || '5m'
   const convert = validator.validated.data.convert?.toUpperCase() || 'USD'
-
-  // validate if convert exists
-  const convert_id = validator.validated.data.convertID
+  const convert_id = validator.validated.data.cid
 
   const aux = validator.validated.data.aux
   const skip_invalid = validator.validated.data.skipInvalid || true
@@ -54,7 +52,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
 
   const response = await Requester.request(options)
-  console.log('response', response)
-  // response.data.result = Requester.validateResultNumber(response.data, ['data','quote',convert,'total_market_cap',])
-  return Requester.success(jobRunID, response, config.verbose)
+  return Requester.success(
+    jobRunID,
+    Requester.withResult(response, response.data.data),
+    config.verbose,
+  )
 }

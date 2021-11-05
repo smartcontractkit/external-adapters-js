@@ -392,3 +392,89 @@ https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest
   "statusCode": 200
 }
 ```
+
+## Historical Endpoint
+
+https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/historical33333
+
+### Input Params
+
+| Required? |                  Name                   |                                   Description                                   |                                          Options                                          | Defaults to |
+| :-------: | :-------------------------------------: | :-----------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------: | :---------: |
+|    ✅     | `base`, `from`, `coin`, `symbol`, `sym` |                       The symbol of the currency to query                       |                                                                                           |    `BTC`    |
+|           |   `quote`, `to`, `market`, `convert`    |                    The symbol of the currency to convert to                     |                                                                                           |    `USD`    |
+|           |                 `start`                 |           Timestamp (Unix or ISO 8601) to start returning quotes for            |                                                                                           |             |
+|           |                  `end`                  |            Timestamp (Unix or ISO 8601) to stop returning quotes for            |                                                                                           |             |
+|           |                 `count`                 |              The number of interval periods to return results for               |                                                                                           |    `10`     |
+|           |               `interval`                |                   Interval of time to return data points for                    |                                                                                           |    `5m`     |
+|           |                  `cid`                  |              The CMC coin ID (optional to use in place of `base`)               |                                                                                           |             |
+|           |                  `aux`                  | Optionally specify a comma-separated list of supplemental data fields to return | `price`,`volume`, `market_cap`,`quote_timestamp`,`is_active`, `is_fiat`,`search_interval` |             |
+
+### Notes
+
+Check the [historical endpoint](https://coinmarketcap.com/api/documentation/v1/#operation/getV1CryptocurrencyQuotesHistorical) documentation for more details
+
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "historical",
+    "symbol": "ETH",
+    "convert": "BTC",
+    "start": "2021-07-23T14"
+  }
+}
+```
+
+### Sample Output
+
+```json
+{
+  "jobRunID": "1",
+  "result": {
+    "quotes": [
+      {
+        "timestamp": "2021-07-23T14:04:03.000Z",
+        "quote": {
+          "BTC": {
+            "price": 0.06372463643632112,
+            "volume_24h": 504265.23763687897,
+            "market_cap": 7443591.90020768,
+            "timestamp": "2021-07-23T14:04:12.000Z"
+          }
+        }
+      }
+    ],
+    "id": 1027,
+    "name": "Ethereum",
+    "symbol": "ETH",
+    "is_active": 1,
+    "is_fiat": 0
+  },
+  "statusCode": 200,
+  "data": {
+    "result": {
+      "quotes": [
+        {
+          "timestamp": "2021-07-23T14:04:03.000Z",
+          "quote": {
+            "BTC": {
+              "price": 0.06372463643632112,
+              "volume_24h": 504265.23763687897,
+              "market_cap": 7443591.90020768,
+              "timestamp": "2021-07-23T14:04:12.000Z"
+            }
+          }
+        }
+      ],
+      "id": 1027,
+      "name": "Ethereum",
+      "symbol": "ETH",
+      "is_active": 1,
+      "is_fiat": 0
+    }
+  }
+}
+```
