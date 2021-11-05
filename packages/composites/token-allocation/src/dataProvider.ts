@@ -1,6 +1,6 @@
 import { AdapterError, Requester } from '@chainlink/ea-bootstrap'
 import { AdapterResponse, RequestConfig } from '@chainlink/types'
-import { ResponsePayload } from './types'
+import { ResponsePayload, GetPrices } from './types'
 import { Logger } from '@chainlink/ea-bootstrap'
 import { AdapterRequest } from '@chainlink/types'
 
@@ -128,3 +128,27 @@ const sendRequestToSource = async <T>(source: string, request: AdapterRequest): 
     )
   }
 }
+
+// (source: string, jobRunID: string, apiConfig: RequestConfig): GetPrices =>
+// async (symbols, quote, additionalInput, withMarketCap = false): Promise<ResponsePayload> => {
+//   const results = await Promise.all(
+//     symbols.map(async (base) => {
+//       const data = {
+//         id: jobRunID,
+//         data: {
+//           ...additionalInput,
+//           base,
+//           quote,
+//           endpoint: withMarketCap ? 'marketcap' : 'crypto',
+//         },
+//       }
+//       try {
+//         const response = await Requester.request({ ...apiConfig, data: data })
+//         return response.data.result
+//       } catch (error) {
+//         Logger.error(`Request to ${source} adapter failed: ${error}`)
+//         throw new Error(
+//           `Failed to request the ${source} adapter. Ensure that the ${source.toUpperCase()}_ADAPTER_URL environment variable is correctly pointed to the adapter location.`,
+//         )
+//       }
+//     }),
