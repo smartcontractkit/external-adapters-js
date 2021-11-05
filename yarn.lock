@@ -3405,6 +3405,11 @@ __metadata:
 "@chainlink/readme-test-adapter@workspace:packages/scripts/src/generate-readme/readme-test-adapter":
   version: 0.0.0-use.local
   resolution: "@chainlink/readme-test-adapter@workspace:packages/scripts/src/generate-readme/readme-test-adapter"
+  dependencies:
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-factories": "*"
+    "@chainlink/types": 0.0.1
+    tslib: ^2.3.1
   languageName: unknown
   linkType: soft
 

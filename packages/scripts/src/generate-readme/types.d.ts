@@ -15,6 +15,15 @@ export type AdapterSchema = {
   type: string
 }
 
+export type EndpointDetails = {
+  [endpointName: string]: {
+    supportedEndpoints: string[]
+    inputParameters: {
+      [inputName: string]: string[] | boolean
+    }
+  }
+}
+
 export type JsonObject = Record<string, unknown>
 
 export type MaxColChars = number[]

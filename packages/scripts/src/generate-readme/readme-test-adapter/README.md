@@ -24,14 +24,15 @@ Version: 1.2.3
 
 ## Balance Endpoint
 
-Example description of balance endpoint
+`balance` is the only supported name for this endpoint.
 
 ### Input Params
 
-| Required? |            Name            |                 Type                 |       Options       | Default |
-| :-------: | :------------------------: | :----------------------------------: | :-----------------: | :-----: |
-|    ✅     | `base`, `from`, or `coin`  |   Symbol of the currency to query    | `BTC`, `ETH`, `USD` |         |
-|    ✅     | `quote`, `to`, or `market` | Symbol of the currency to convert to | `BTC`, `ETH`, `USD` |         |
+| Required? |     Name      | Type | Options | Default |
+| :-------: | :-----------: | :--: | :-----: | :-----: |
+|           |   dataPath    |      |         |         |
+|           | confirmations |      |         |         |
+|           |   addresses   |      |         |         |
 
 ### Sample Input
 
@@ -43,14 +44,17 @@ A sample of endpoint output
 
 ## Marketcap Endpoint
 
-Example description of marketcap endpoint
+Supported names for this endpoint are: `marketcap`, `mc`.
 
 ### Input Params
 
-| Required? |            Name            |                 Type                 |       Options       | Default |
-| :-------: | :------------------------: | :----------------------------------: | :-----------------: | :-----: |
-|    ✅     | `base`, `from`, or `coin`  |   Symbol of the currency to query    | `BTC`, `ETH`, `USD` |         |
-|    ✅     | `quote`, `to`, or `market` | Symbol of the currency to convert to | `BTC`, `ETH`, `USD` |         |
+| Required? |         Name          | Type |      Options      | Default |
+| :-------: | :-------------------: | :--: | :---------------: | :-----: |
+|    ✅     |         base          |      | base, from, coin  |         |
+|    ✅     |         quote         |      | quote, to, market |         |
+|    ✅     |        coinid         |      |                   |         |
+|           |      resultPath       |      |                   |         |
+|           | referenceCurrencyUuid |      |                   |         |
 
 ### Sample Input
 
@@ -62,14 +66,15 @@ A sample of endpoint output
 
 ## Price Endpoint
 
-Example description of price endpoint
+Supported names for this endpoint are: `price`, `convert`.
 
 ### Input Params
 
-| Required? |            Name            |                 Type                 |       Options       | Default |
-| :-------: | :------------------------: | :----------------------------------: | :-----------------: | :-----: |
-|    ✅     | `base`, `from`, or `coin`  |   Symbol of the currency to query    | `BTC`, `ETH`, `USD` |         |
-|    ✅     | `quote`, `to`, or `market` | Symbol of the currency to convert to | `BTC`, `ETH`, `USD` |         |
+| Required? |  Name  | Type |      Options      | Default |
+| :-------: | :----: | :--: | :---------------: | :-----: |
+|    ✅     |  base  |      | base, from, coin  |         |
+|    ✅     | quote  |      | quote, to, market |         |
+|           | amount |      |                   |         |
 
 ### Sample Input
 

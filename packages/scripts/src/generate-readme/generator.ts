@@ -1,7 +1,16 @@
 import * as shell from 'shelljs'
 import { readFileSync } from 'fs'
 import { buildTable } from './table'
-import { AdapterPackage, AdapterSchema, JsonObject, TableText, TextRow } from './types'
+import {
+  AdapterPackage,
+  AdapterSchema,
+  EndpointDetails,
+  JsonObject,
+  TableText,
+  TextRow,
+} from './types'
+
+const localPathToRoot = '../../../../'
 
 const templatePath = 'packages/scripts/src/generate-readme/template.md'
 
@@ -11,24 +20,12 @@ const endpointInputHeaders: TextRow = ['Required?', 'Name', 'Type', 'Options', '
 
 const inputParamHeaders: TextRow = ['Required?', 'Name', 'Type', 'Options', 'Default']
 
-const exampleEndpointInputTable: TableText = [
-  ['✅', '`base`, `from`, or `coin`', 'Symbol of the currency to query', '`BTC`, `ETH`, `USD`', ''],
-  [
-    '✅',
-    '`quote`, `to`, or `market`',
-    'Symbol of the currency to convert to',
-    '`BTC`, `ETH`, `USD`',
-    '',
-  ],
-]
-
 const capitalize = (s: string): string => s[0].toUpperCase() + s.slice(1)
 
 const getJsonFile = (path: string): JsonObject => JSON.parse(readFileSync(path, 'utf-8'))
 
-const saveFilePath = (mainDir: string, localPath: string): string => {
-  const filePath = mainDir + localPath
-  if (!shell.test('-f', filePath)) throw Error(`No ${localPath} found in ${mainDir}`)
+const checkFilePath = (filePath: string): string => {
+  if (!shell.test('-f', filePath)) throw Error(`${filePath} is not a file`)
   else return filePath
 }
 
@@ -36,8 +33,8 @@ class ReadmeGenerator {
   adapterPackage: AdapterPackage
   adapterPath: string
   adapterSchema: AdapterSchema
-  defaultEndpoint: string
-  endpoints: string[]
+  defaultEndpoint = ''
+  endpointDetails: EndpointDetails = {}
   readmePath: string
 
   constructor(adapterPath: string) {
@@ -45,27 +42,21 @@ class ReadmeGenerator {
 
     if (!shell.test('-d', adapterPath)) throw Error(`${adapterPath} is not a directory`)
 
-    const configPath = saveFilePath(adapterPath, 'src/config.ts')
-    const endpointIndexPath = saveFilePath(adapterPath, 'src/endpoint/index.ts')
-    const packagePath = saveFilePath(adapterPath, 'package.json')
-    const schemaPath = saveFilePath(adapterPath, 'schemas/env.json')
+    const packagePath = checkFilePath(adapterPath + 'package.json')
+    const schemaPath = checkFilePath(adapterPath + 'schemas/env.json')
 
     this.adapterPath = adapterPath
     this.adapterPackage = getJsonFile(packagePath) as AdapterPackage
     this.adapterSchema = getJsonFile(schemaPath) as AdapterSchema
     this.readmePath = adapterPath + 'README.md'
+  }
 
-    // Get list of endpoints
-    const endpointGrepLines = shell.grep('--', 'export \\* as ', endpointIndexPath).toString()
-    const endpointLines = endpointGrepLines.split('\n').filter((s) => s.length)
-    this.endpoints = endpointLines.map((s) => s.split(' ')[3])
+  async fetchImports(): Promise<void> {
+    const endpointPath = checkFilePath(this.adapterPath + 'src/endpoint/index.ts')
+    this.endpointDetails = await require(localPathToRoot + endpointPath)
 
-    // Get defaultEndpoint
-    const defaultGrepLines = shell
-      .grep('--', 'export const DEFAULT_ENDPOINT = ', configPath)
-      .toString()
-    const defaultLines = defaultGrepLines.split('\n').filter((s) => s.length)
-    this.defaultEndpoint = defaultLines.length === 1 ? defaultLines[0].split("'")[1] : ''
+    const configPath = checkFilePath(this.adapterPath + 'src/config.ts')
+    this.defaultEndpoint = (await require(localPathToRoot + configPath)).DEFAULT_ENDPOINT
   }
 
   buildReadme(): void {
@@ -107,7 +98,9 @@ class ReadmeGenerator {
   }
 
   addInputParamsSection(): void {
-    const endpointList = this.endpoints.map((e) => `[${e}](#${e.replace(' ', '-')}-endpoint)`)
+    const endpointList = Object.keys(this.endpointDetails).map(
+      (e) => `[${e}](#${e.replace(' ', '-')}-endpoint)`,
+    )
     const tableText = [['', 'endpoint', 'string', endpointList.join(', '), this.defaultEndpoint]]
 
     const inputParamTable = buildTable(tableText, inputParamHeaders)
@@ -116,28 +109,50 @@ class ReadmeGenerator {
   }
 
   addEndpointSections(): void {
-    const endpointSections = this.endpoints
-      .map(
-        (e) =>
-          `## ${capitalize(e)} Endpoint\n\n` +
-          `Example description of ${e} endpoint\n\n` +
+    const endpointSections = Object.entries(this.endpointDetails)
+      .map(([eName, eDetails]) => {
+        const tableText: TableText = Object.entries(eDetails.inputParameters).map(
+          ([pName, pDetails]) => {
+            const required = Array.isArray(pDetails) || pDetails === true ? '✅' : ''
+            const name = pName ?? ''
+            const type = ''
+            const options = Array.isArray(pDetails) ? pDetails.join(', ') : ''
+            const defaultText = ''
+            return [required, name, type, options, defaultText]
+          },
+        )
+
+        const endpointNames = eDetails.supportedEndpoints
+        const supportedEndpointText =
+          endpointNames.length > 1
+            ? `Supported names for this endpoint are: ${endpointNames
+                .map((e) => `\`${e}\``)
+                .join(', ')}.`
+            : `\`${endpointNames[0]}\` is the only supported name for this endpoint.`
+
+        return (
+          `## ${capitalize(eName)} Endpoint\n\n` +
+          `${supportedEndpointText}\n\n` +
           '### Input Params\n\n' +
-          buildTable(exampleEndpointInputTable, endpointInputHeaders) +
+          buildTable(tableText, endpointInputHeaders) +
           '\n\n### Sample Input\n\nA sample of endpoint input\n\n' +
-          '### Sample Output\n\nA sample of endpoint output',
-      )
+          '### Sample Output\n\nA sample of endpoint output'
+        )
+      })
       .join('\n\n')
 
     shell.sed('-i', '\\$ENDPOINT_SECTIONS', endpointSections, this.readmePath)
   }
 }
 
-export function main(): void {
+export async function main(): Promise<void> {
   try {
     const adapterPath = process.argv[2]
 
     const readmeGenerator = new ReadmeGenerator(adapterPath)
 
+    await readmeGenerator.fetchImports() // Must fetch imports as separate step, since dynamic imports are
+    // async but constructor cannot contain async code
     readmeGenerator.buildReadme()
   } catch (e) {
     console.log(`Error: ${e}`)
