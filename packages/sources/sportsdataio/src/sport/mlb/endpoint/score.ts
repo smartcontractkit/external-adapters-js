@@ -38,7 +38,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 }
 
 const encodeGame = (game: GameResponse): string => {
-  const types = ['uint256', 'string', 'string', 'string', 'string', 'string', 'string']
+  const types = ['uint256', 'string', 'string', 'string', 'string', 'int256', 'int256']
   const values = [
     game.GameID,
     game.Status,
