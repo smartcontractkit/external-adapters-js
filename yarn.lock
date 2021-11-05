@@ -1823,6 +1823,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/1forge-adapter@workspace:packages/sources/1forge"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -1849,6 +1850,13 @@ __metadata:
     ethers: ^5.5.0
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -1858,6 +1866,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/ada-balance-adapter@workspace:packages/sources/ada-balance"
   dependencies:
+<<<<<<< HEAD
     "@cardano-ogmios/client": ^5.0.0
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
@@ -1865,6 +1874,15 @@ __metadata:
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
     "@types/ws": ^7.4.0
+=======
+    "@cardano-ogmios/client": 3.2.0
+    "@cardano-ogmios/schema": 4.1.0
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     ethers: ^5.4.6
     tslib: ^2.3.1
     typescript: 4.3.5
@@ -1876,9 +1894,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/agoric-adapter@workspace:packages/targets/agoric"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     "@types/express": 4.17.13
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
@@ -1893,11 +1917,19 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/alphachain-adapter@workspace:packages/sources/alphachain"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -1926,10 +1958,16 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-test-helpers": "*"
+<<<<<<< HEAD
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
     ethers: ^5.5.1
+=======
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -1939,12 +1977,21 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/amberdata-adapter@workspace:packages/sources/amberdata"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-factories": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-factories": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
@@ -1978,6 +2025,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/anyblock-adapter@workspace:packages/sources/anyblock"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -1986,6 +2034,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: ^13.2.4
     supertest: ^6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -1995,12 +2050,20 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/ap-election-adapter@workspace:packages/sources/ap-election"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
     "@types/supertest": 2.0.11
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     ethers: ^5.4.6
     nock: 13.2.4
     supertest: 6.2.2
@@ -2013,6 +2076,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/apy-finance-adapter@workspace:packages/composites/apy-finance"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/token-allocation-adapter": "workspace:*"
@@ -2021,6 +2085,17 @@ __metadata:
     "@types/node": 16.11.19
     ethers: 5.4.7
     nock: 13.2.4
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/token-allocation-adapter": ^0.2.0
+    "@chainlink/types": 0.1.0
+    "@openzeppelin/contracts": ^3.3.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+    ethers: 5.4.6
+    nock: 13.1.3
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2030,11 +2105,19 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/augur-adapter@workspace:packages/composites/augur"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/sportsdataio-adapter": "workspace:*"
     "@chainlink/therundown-adapter": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/sportsdataio-adapter": "*"
+    "@chainlink/therundown-adapter": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     "@types/luxon": 1.27.1
     "@types/node": 16.11.19
     ethers: 5.4.7
@@ -2048,12 +2131,20 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/bea-adapter@workspace:packages/sources/bea"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
     "@types/supertest": 2.0.11
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     decimal.js: ^10.3.1
     nock: 13.2.4
     supertest: 6.2.2
@@ -2066,6 +2157,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/binance-adapter@workspace:packages/sources/binance"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -2073,6 +2165,13 @@ __metadata:
     "@types/node": 16.11.19
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2082,6 +2181,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/binance-dex-adapter@workspace:packages/sources/binance-dex"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -2090,6 +2190,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2099,12 +2206,21 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/bitcoin-json-rpc-adapter@workspace:packages/composites/bitcoin-json-rpc"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/json-rpc-adapter": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/json-rpc-adapter": ^0.1.0
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2114,9 +2230,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/bitex-adapter@workspace:packages/sources/bitex"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     "@types/express": 4.17.13
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
@@ -2132,9 +2254,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/bitso-adapter@workspace:packages/sources/bitso"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     "@types/express": 4.17.13
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
@@ -2150,12 +2278,21 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/blockchain.com-adapter@workspace:packages/sources/blockchain.com"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-factories": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-factories": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2165,12 +2302,21 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/blockchair-adapter@workspace:packages/sources/blockchair"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-factories": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-factories": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2180,6 +2326,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/blockcypher-adapter@workspace:packages/sources/blockcypher"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-factories": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
@@ -2187,6 +2334,14 @@ __metadata:
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
     "@types/supertest": 2.0.11
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-factories": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     blockcypher: ^0.3.0
     nock: 13.2.4
     supertest: 6.2.2
@@ -2199,6 +2354,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/blockstream-adapter@workspace:packages/sources/blockstream"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -2207,6 +2363,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2216,12 +2379,21 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/bob-adapter@workspace:packages/composites/bob"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/json-rpc-adapter": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/json-rpc-adapter": ^0.1.0
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     ethers: ^5.4.6
     tslib: ^2.3.1
     typescript: 4.3.5
@@ -2232,11 +2404,19 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/bravenewcoin-adapter@workspace:packages/sources/bravenewcoin"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
@@ -2272,6 +2452,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/btc.com-adapter@workspace:packages/sources/btc.com"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-factories": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
@@ -2280,6 +2461,14 @@ __metadata:
     "@types/node": 16.11.19
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-factories": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2289,6 +2478,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/cache.gold-adapter@workspace:packages/sources/cache.gold"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -2297,6 +2487,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2306,6 +2503,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/cfbenchmarks-adapter@workspace:packages/sources/cfbenchmarks"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -2314,6 +2512,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2323,12 +2528,21 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/chain-reserve-wallet-adapter@workspace:packages/sources/chain-reserve-wallet"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
     ethers: 5.4.7
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+    ethers: 5.4.6
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2338,6 +2552,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/circuit-breaker-adapter@workspace:packages/composites/circuit-breaker"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -2345,6 +2560,15 @@ __metadata:
     "@types/node": 16.11.19
     axios: ^0.24.0
     nock: 13.2.4
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+    axios: ^0.21.1
+    nock: 13.1.3
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2354,11 +2578,19 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coinapi-adapter@workspace:packages/sources/coinapi"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
@@ -2371,6 +2603,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coinbase-adapter@workspace:packages/sources/coinbase"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -2379,6 +2612,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2388,6 +2628,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coincodex-adapter@workspace:packages/sources/coincodex"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -2396,6 +2637,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2405,6 +2653,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coingecko-adapter@workspace:packages/sources/coingecko"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -2413,6 +2662,15 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+    nock: 13.1.3
+    supertest: 6.1.6
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2422,9 +2680,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coinlore-adapter@workspace:packages/sources/coinlore"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     "@types/express": 4.17.13
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
@@ -2440,11 +2704,19 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coinmarketcap-adapter@workspace:packages/sources/coinmarketcap"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
@@ -2457,12 +2729,21 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coinmetrics-adapter@workspace:packages/sources/coinmetrics"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
     "@types/supertest": 2.0.11
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+    "@types/supertest": ^2.0.11
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     ethers: ^5.4.6
     nock: 13.2.4
     supertest: 6.2.2
@@ -2475,6 +2756,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coinpaprika-adapter@workspace:packages/sources/coinpaprika"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -2483,6 +2765,15 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+    nock: 13.1.3
+    supertest: 6.1.6
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2492,6 +2783,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coinranking-adapter@workspace:packages/sources/coinranking"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -2500,6 +2792,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2509,11 +2808,19 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/conflux-adapter@workspace:packages/targets/conflux"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     ethers: ^5.4.6
     js-conflux-sdk: ^1.5.11
     tslib: ^2.3.1
@@ -2540,6 +2847,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/covid-tracker-adapter@workspace:packages/sources/covid-tracker"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -2548,6 +2856,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2557,6 +2872,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/crypto-volatility-index-adapter@workspace:packages/composites/crypto-volatility-index"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-reference-data-reader": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
@@ -2564,6 +2880,15 @@ __metadata:
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-reference-data-reader": ^0.0.4
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/token-allocation-adapter": ^0.2.0
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     decimal.js: ^10.3.1
     ethers: 5.0.32
     moment: ^2.29.1
@@ -2577,12 +2902,21 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/cryptoapis-adapter@workspace:packages/sources/cryptoapis"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-factories": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-factories": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     ethers: ^5.4.6
     nock: 13.2.4
     supertest: 6.2.2
@@ -2595,12 +2929,21 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/cryptoapis-v2-adapter@workspace:packages/sources/cryptoapis-v2"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-factories": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-factories": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     ethers: ^5.4.6
     tslib: ^2.3.1
     typescript: 4.3.5
@@ -2611,6 +2954,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/cryptocompare-adapter@workspace:packages/sources/cryptocompare"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -2619,6 +2963,15 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+    nock: 13.1.3
+    supertest: 6.1.6
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2628,6 +2981,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/cryptoid-adapter@workspace:packages/sources/cryptoid"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -2636,6 +2990,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2645,6 +3006,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/cryptomkt-adapter@workspace:packages/sources/cryptomkt"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -2653,6 +3015,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2662,6 +3031,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/currencylayer-adapter@workspace:packages/sources/currencylayer"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -2670,6 +3040,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2679,11 +3056,19 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/curve-adapter@workspace:packages/sources/curve"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 26.0.24
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     "@types/supertest": 2.0.11
     decimal.js: ^10.3.1
     ethers: ^5.4.6
@@ -2716,12 +3101,21 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/defi-pulse-adapter@workspace:packages/composites/defi-pulse"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/token-allocation-adapter": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/token-allocation-adapter": ^0.2.0
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     ethers: ^5.4.6
     tslib: ^2.3.1
     typescript: 4.3.5
@@ -2732,6 +3126,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/deribit-adapter@workspace:packages/sources/deribit"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -2740,6 +3135,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2749,11 +3151,19 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/dns-query-adapter@workspace:packages/sources/dns-query"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2782,6 +3192,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-test-helpers": "*"
+<<<<<<< HEAD
     "@chainlink/types": "workspace:*"
     "@ethersproject/abi": ^5.5.0
     "@ethersproject/bytes": ^5.5.0
@@ -2789,6 +3200,11 @@ __metadata:
     "@types/node": 16.11.19
     ethers: ^5.4.6
     merkletreejs: ^0.2.18
+=======
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2798,11 +3214,19 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/dwolla-adapter@workspace:packages/sources/dwolla"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     dwolla-v2: ^3.2.0
     tslib: ^2.3.1
     typescript: 4.3.5
@@ -2813,12 +3237,21 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/dxdao-adapter@workspace:packages/composites/dxdao"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/token-allocation-adapter": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/token-allocation-adapter": "workspace:packages/composites/token-allocation"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     ethers: ^5.4.6
     tslib: ^2.3.1
     typescript: 4.3.5
@@ -2829,6 +3262,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/dxfeed-adapter@workspace:packages/sources/dxfeed"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -2837,6 +3271,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2846,6 +3287,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/dxfeed-secondary-adapter@workspace:packages/sources/dxfeed-secondary"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/dxfeed-adapter": "workspace:*"
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
@@ -2855,6 +3297,14 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/dxfeed-adapter": "*"
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2864,12 +3314,21 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/dydx-rewards-adapter@workspace:packages/composites/dydx-rewards"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ipfs-adapter": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
     "@types/supertest": 2.0.11
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ipfs-adapter": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": ^26.0.22
+    "@types/node": 14.17.21
+    "@types/supertest": ^2.0.11
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     bignumber.js: ^9.0.1
     ethers: ^5.3.0
     ipfs: ^0.60.0
@@ -2887,11 +3346,19 @@ __metadata:
   resolution: "@chainlink/dydx-stark-adapter@workspace:packages/targets/dydx-stark"
   dependencies:
     "@authereum/starkware-crypto": ^1.9.7-beta.7
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     decimal.js: ^10.3.1
     ethers: ^5.4.6
     object-path: ^0.11.5
@@ -2904,8 +3371,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/ea-bootstrap@workspace:packages/core/bootstrap"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/types": "workspace:*"
     "@node-redis/client": 1.0.0
+=======
+    "@chainlink/types": 0.1.0
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     "@reduxjs/toolkit": ^1.6.1
     "@types/express": 4.17.13
     "@types/express-rate-limit": 5.1.3
@@ -2958,10 +3429,17 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/ea-factories@workspace:packages/core/factories"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     "@types/object-path": 0.11.1
     object-path: ^0.11.5
     tslib: ^2.3.1
@@ -2974,10 +3452,17 @@ __metadata:
   resolution: "@chainlink/ea-reference-data-reader@workspace:packages/core/reference-data-reader"
   dependencies:
     "@chainlink/contracts": ^0.0.11
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     ethers: ^4.0.48
     tslib: ^2.3.1
     typescript: 4.3.5
@@ -3025,12 +3510,20 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/ea-test-helpers@workspace:packages/core/test-helpers"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
     hardhat: 2.7.1
     mock-socket: 9.1.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+    hardhat: 2.6.1
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3172,11 +3665,19 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/enzyme-adapter@workspace:packages/sources/enzyme"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     "@types/supertest": 2.0.11
     ethers: ^5.4.6
     nock: 13.2.4
@@ -3190,6 +3691,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/eodhistoricaldata-adapter@workspace:packages/sources/eodhistoricaldata"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -3198,6 +3700,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3207,6 +3716,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/eth-balance-adapter@workspace:packages/sources/eth-balance"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-factories": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
@@ -3214,6 +3724,14 @@ __metadata:
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
     "@types/supertest": 2.0.11
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-factories": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     ethers: ^5.4.6
     nock: 13.2.4
     supertest: 6.2.2
@@ -3226,6 +3744,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/etherchain-adapter@workspace:packages/sources/etherchain"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -3234,6 +3753,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3243,6 +3769,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/etherscan-adapter@workspace:packages/sources/etherscan"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -3251,6 +3778,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 26.0.24
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.1.0
     typescript: 4.3.5
   languageName: unknown
@@ -3260,6 +3794,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/ethgasstation-adapter@workspace:packages/sources/ethgasstation"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -3268,6 +3803,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3277,6 +3819,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/ethgaswatch-adapter@workspace:packages/sources/ethgaswatch"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -3285,6 +3828,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 26.0.24
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.1.0
     typescript: 4.3.5
   languageName: unknown
@@ -3294,11 +3844,19 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/ethwrite-adapter@workspace:packages/targets/ethwrite"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     ethers: ^5.4.6
     tslib: ^2.3.1
     typescript: 4.3.5
@@ -3309,10 +3867,17 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/example-composite-adapter@workspace:packages/examples/composite"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3322,11 +3887,19 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/example-source-adapter@workspace:packages/examples/source"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3336,6 +3909,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/expert-car-broker-adapter@workspace:packages/sources/expert-car-broker"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -3344,6 +3918,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3381,6 +3962,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/fcsapi-adapter@workspace:packages/sources/fcsapi"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -3389,6 +3971,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3398,6 +3987,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/finage-adapter@workspace:packages/sources/finage"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -3406,6 +3996,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3415,6 +4012,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/finnhub-adapter@workspace:packages/sources/finnhub"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -3423,6 +4021,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3432,6 +4037,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/fixer-adapter@workspace:packages/sources/fixer"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -3440,6 +4046,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3449,11 +4062,19 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/flightaware-adapter@workspace:packages/sources/flightaware"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3463,6 +4084,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/fmpcloud-adapter@workspace:packages/sources/fmpcloud"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -3471,6 +4093,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3480,6 +4109,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/gemini-adapter@workspace:packages/sources/gemini"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -3488,6 +4118,16 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.1
+    "@types/node": 14.17.21
+    "@types/supertest": ^2.0.11
+    nock: ^13.1.3
+    supertest: ^6.1.6
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3497,6 +4137,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/genesis-volatility-adapter@workspace:packages/sources/genesis-volatility"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -3504,6 +4145,13 @@ __metadata:
     "@types/node": 16.11.19
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3513,11 +4161,19 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/geodb-adapter@workspace:packages/sources/geodb"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3527,9 +4183,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/google-bigquery-adapter@workspace:packages/sources/google-bigquery"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     "@google-cloud/bigquery": ^5.7.1
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
@@ -3542,10 +4204,17 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/google-weather-adapter@workspace:packages/composites/google-weather"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/google-bigquery-adapter": "workspace:*"
     "@chainlink/types": "workspace:*"
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/google-bigquery-adapter": 0.0.1
+    "@chainlink/types": 0.1.0
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     "@types/convert-units": 2.3.5
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
@@ -3577,11 +4246,19 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/graphql-adapter@workspace:packages/sources/graphql"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3591,10 +4268,17 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/harmony-adapter@workspace:packages/targets/harmony"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@harmony-js/core": 0.1.57
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@harmony-js/core": 0.1.56
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     "@harmony-js/crypto": ^0.1.56
     "@harmony-js/utils": ^0.1.56
     "@types/jest": 27.0.3
@@ -3628,6 +4312,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/iex-cloud-adapter@workspace:packages/sources/iex-cloud"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -3636,6 +4321,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3645,12 +4337,20 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/intrinio-adapter@workspace:packages/sources/intrinio"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
     "@types/supertest": 2.0.11
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     express: ^4.17.1
     intrinio-realtime: ^2.3.0
     nock: 13.2.4
@@ -3664,11 +4364,19 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/ipfs-adapter@workspace:packages/sources/ipfs"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": ^26.0.22
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     cids: ^1.1.8
     ipfs: ^0.60.0
     ipfs-core-types: ^0.9.0
@@ -3703,6 +4411,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/json-rpc-adapter@workspace:packages/sources/json-rpc"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -3711,6 +4420,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3720,6 +4436,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/kaiko-adapter@workspace:packages/sources/kaiko"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -3728,6 +4445,15 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+    nock: 13.1.3
+    supertest: 6.1.6
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3737,11 +4463,19 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/layer2-sequencer-health-adapter@workspace:packages/sources/layer2-sequencer-health"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     ethers: ^5.4.6
     sinon: 12.0.1
     tslib: ^2.3.1
@@ -3753,6 +4487,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/lcx-adapter@workspace:packages/sources/lcx"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -3761,6 +4496,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3770,6 +4512,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/linear-finance-adapter@workspace:packages/composites/linear-finance"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/token-allocation-adapter": "workspace:*"
@@ -3778,6 +4521,14 @@ __metadata:
     "@types/node": 16.11.19
     "@types/supertest": 2.0.11
     axios: ^0.24.0
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/token-allocation-adapter": ^0.2.0
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+    axios: ^0.21.1
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     csv-parse: ^4.16.0
     decimal.js: ^10.3.1
     moment: ^2.29.1
@@ -3793,11 +4544,19 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/linkpool-adapter@workspace:packages/sources/linkpool"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3807,11 +4566,19 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/lition-adapter@workspace:packages/sources/lition"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3821,6 +4588,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/lotus-adapter@workspace:packages/sources/lotus"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/json-rpc-adapter": "workspace:*"
@@ -3828,6 +4596,15 @@ __metadata:
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
     "@types/supertest": 2.0.11
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "workspace:packages/core/test-helpers"
+    "@chainlink/json-rpc-adapter": "workspace:packages/sources/json-rpc"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.1
+    "@types/node": 14.17.21
+    "@types/supertest": ^2.0.11
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     ethers: ^5.4.7
     nock: 13.2.4
     supertest: 6.2.2
@@ -3840,6 +4617,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/market-closure-adapter@workspace:packages/composites/market-closure"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-reference-data-reader": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
@@ -3848,6 +4626,16 @@ __metadata:
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-reference-data-reader": ^0.0.4
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/fcsapi-adapter": ^0.1.0
+    "@chainlink/finnhub-adapter": ^0.1.0
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     market-closure: ^0.1.2
     tslib: ^2.3.1
     typescript: 4.3.5
@@ -3858,6 +4646,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/marketstack-adapter@workspace:packages/sources/marketstack"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -3866,6 +4655,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3875,6 +4671,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/medianizer-adapter@workspace:packages/composites/medianizer"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -3884,6 +4681,15 @@ __metadata:
     axios: ^0.24.0
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+    axios: ^0.21.1
+    sinon: 11.1.2
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3893,11 +4699,19 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/messari-adapter@workspace:packages/sources/messari"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3907,6 +4721,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/metalsapi-adapter@workspace:packages/sources/metalsapi"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -3932,6 +4747,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: ^6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3941,6 +4763,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/mycryptoapi-adapter@workspace:packages/sources/mycryptoapi"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -3949,6 +4772,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 26.0.24
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.1.0
     typescript: 4.3.5
   languageName: unknown
@@ -3958,6 +4788,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/ncfx-adapter@workspace:packages/sources/ncfx"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -3965,6 +4796,13 @@ __metadata:
     "@types/node": 16.11.19
     "@types/supertest": 2.0.11
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3972,6 +4810,7 @@ __metadata:
 
 "@chainlink/nftx-adapter@workspace:packages/composites/nftx":
   version: 0.0.0-use.local
+<<<<<<< HEAD
   resolution: "@chainlink/nftx-adapter@workspace:packages/composites/nftx"
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
@@ -3985,6 +4824,15 @@ __metadata:
     ethers: ^5.5.4
     nock: ^13.2.4
     supertest: ^6.2.2
+=======
+  resolution: "@chainlink/nikkei-adapter@workspace:packages/sources/nikkei"
+  dependencies:
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3994,6 +4842,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/nikkei-adapter@workspace:packages/sources/nikkei"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -4001,6 +4850,15 @@ __metadata:
     "@types/node": 16.11.19
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+    nock: 13.1.3
+    supertest: 6.1.6
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -4010,6 +4868,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/nomics-adapter@workspace:packages/sources/nomics"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -4018,6 +4877,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -4027,6 +4893,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/oilpriceapi-adapter@workspace:packages/sources/oilpriceapi"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -4035,6 +4902,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -4044,6 +4918,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/onchain-gas-adapter@workspace:packages/sources/onchain-gas"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -4052,6 +4927,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -4061,6 +4943,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/openexchangerates-adapter@workspace:packages/sources/openexchangerates"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -4069,6 +4952,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -4078,6 +4968,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/orchid-bandwidth-adapter@workspace:packages/sources/orchid-bandwidth"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -4086,6 +4977,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -4095,6 +4993,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/outlier-detection-adapter@workspace:packages/composites/outlier-detection"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea": "workspace:*"
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-reference-data-reader": "workspace:*"
@@ -4105,6 +5004,18 @@ __metadata:
     "@types/sinon": 10.0.11
     axios: ^0.24.0
     sinon: 12.0.1
+=======
+    "@chainlink/ea": "*"
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-reference-data-reader": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+    "@types/sinon": 10.0.2
+    axios: ^0.21.1
+    sinon: 11.1.2
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -4114,6 +5025,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/paxos-adapter@workspace:packages/sources/paxos"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -4122,6 +5034,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -4131,9 +5050,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/paypal-adapter@workspace:packages/sources/paypal"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     "@paypal/payouts-sdk": ^1.1.0
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
@@ -4147,6 +5072,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/poa-adapter@workspace:packages/sources/poa"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -4155,6 +5081,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -4164,6 +5097,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/polygon-adapter@workspace:packages/sources/polygon"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -4186,6 +5120,12 @@ __metadata:
     "@chainlink/proof-of-reserves-adapter": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     "@types/node": 14.17.21
     decimal.js: ^10.3.1
     tslib: ^2.3.1
@@ -4197,6 +5137,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/proof-of-reserves-adapter@workspace:packages/composites/proof-of-reserves"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ada-balance-adapter": "workspace:*"
     "@chainlink/amberdata-adapter": "workspace:*"
     "@chainlink/bitcoin-json-rpc-adapter": "workspace:*"
@@ -4220,6 +5161,29 @@ __metadata:
     "@chainlink/wrapped-adapter": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+=======
+    "@chainlink/ada-balance-adapter": "*"
+    "@chainlink/amberdata-adapter": "*"
+    "@chainlink/bitcoin-json-rpc-adapter": "*"
+    "@chainlink/blockchain.com-adapter": "*"
+    "@chainlink/blockchair-adapter": "*"
+    "@chainlink/blockcypher-adapter": "*"
+    "@chainlink/btc.com-adapter": "*"
+    "@chainlink/chain-reserve-wallet-adapter": "*"
+    "@chainlink/cryptoapis-adapter": "*"
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/eth-balance-adapter": "*"
+    "@chainlink/gemini-adapter": "*"
+    "@chainlink/lotus-adapter": "*"
+    "@chainlink/reduce-adapter": "*"
+    "@chainlink/renvm-address-set-adapter": "*"
+    "@chainlink/sochain-adapter": "*"
+    "@chainlink/types": 0.1.0
+    "@chainlink/wbtc-address-set-adapter": "*"
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     decimal.js: ^10.3.1
     ethers: ^5.4.6
     tslib: ^2.3.1
@@ -4245,12 +5209,20 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/reduce-adapter@workspace:packages/sources/reduce"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
     "@types/supertest": 2.0.11
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     decimal.js: ^10.3.1
     object-path: ^0.11.5
     supertest: 6.2.2
@@ -4277,10 +5249,16 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/renvm-address-set-adapter@workspace:packages/sources/renvm-address-set"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/proof-of-reserves-adapter": "workspace:*"
     "@chainlink/types": "workspace:*"
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     "@renproject/interfaces": ^2.5.1
     "@renproject/ren": ^2.5.1
     "@renproject/utils": ^2.5.1
@@ -4299,6 +5277,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/satoshitango-adapter@workspace:packages/sources/satoshitango"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -4307,6 +5286,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -4316,6 +5302,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/set-token-index-adapter@workspace:packages/composites/set-token-index"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/token-allocation-adapter": "workspace:*"
@@ -4323,6 +5310,14 @@ __metadata:
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
     "@types/supertest": 2.0.11
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/token-allocation-adapter": ^0.2.0
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     ethers: ^5.4.6
     nock: 13.2.4
     supertest: 6.2.2
@@ -4354,6 +5349,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/sochain-adapter@workspace:packages/sources/sochain"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-factories": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
@@ -4361,6 +5357,14 @@ __metadata:
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
     "@types/supertest": 2.0.11
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-factories": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     ethers: ^5.4.6
     nock: 13.2.4
     supertest: 6.2.2
@@ -4390,12 +5394,21 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/spectral-macro-score-adapter@workspace:packages/sources/spectral-macro-score"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
     "@types/sinon": 10.0.11
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 26.0.24
+    "@types/node": 14.17.21
+    "@types/sinon": 10.0.2
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     ethers: ^5.4.2
     nock: 13.2.4
     sinon: 12.0.1
@@ -4404,6 +5417,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+<<<<<<< HEAD
 "@chainlink/sportsdataio-adapter@workspace:*, @chainlink/sportsdataio-adapter@workspace:packages/sources/sportsdataio":
   version: 0.0.0-use.local
   resolution: "@chainlink/sportsdataio-adapter@workspace:packages/sources/sportsdataio"
@@ -4415,6 +5429,18 @@ __metadata:
     "@types/luxon": 2.0.9
     "@types/node": 16.11.19
     "@types/supertest": 2.0.11
+=======
+"@chainlink/sportsdataio-adapter@*, @chainlink/sportsdataio-adapter@workspace:packages/sources/sportsdataio":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/sportsdataio-adapter@workspace:packages/sources/sportsdataio"
+  dependencies:
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/luxon": ^2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     ethers: ^5.4.6
     luxon: ^2.0.2
     nock: 13.2.4
@@ -4428,6 +5454,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/stasis-adapter@workspace:packages/sources/stasis"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -4436,6 +5463,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -4445,12 +5479,21 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/synth-index-adapter@workspace:packages/composites/synth-index"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/token-allocation-adapter": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/token-allocation-adapter": ^0.2.0
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     "@types/supertest": 2.0.11
     decimal.js: ^10.3.1
     nock: 13.2.4
@@ -4466,12 +5509,20 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/synthetix-debt-pool-adapter@workspace:packages/sources/synthetix-debt-pool"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@synthetixio/contracts-interface": ^2.61.0
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     "@types/supertest": 2.0.11
     ethers: 5.5.3
     supertest: 6.2.2
@@ -4484,6 +5535,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/taapi-adapter@workspace:packages/sources/taapi"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -4510,6 +5562,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -4519,6 +5578,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/the-graph-adapter@workspace:packages/composites/the-graph"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-reference-data-reader": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
@@ -4526,11 +5586,21 @@ __metadata:
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-reference-data-reader": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/graphql-adapter": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
   linkType: soft
 
+<<<<<<< HEAD
 "@chainlink/therundown-adapter@workspace:*, @chainlink/therundown-adapter@workspace:packages/sources/therundown":
   version: 0.0.0-use.local
   resolution: "@chainlink/therundown-adapter@workspace:packages/sources/therundown"
@@ -4543,6 +5613,17 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+"@chainlink/therundown-adapter@*, @chainlink/therundown-adapter@workspace:packages/sources/therundown":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/therundown-adapter@workspace:packages/sources/therundown"
+  dependencies:
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -4552,6 +5633,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/tiingo-adapter@workspace:packages/sources/tiingo"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -4560,11 +5642,19 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
   linkType: soft
 
+<<<<<<< HEAD
 "@chainlink/token-allocation-adapter@workspace:*, @chainlink/token-allocation-adapter@workspace:packages/composites/token-allocation":
   version: 0.0.0-use.local
   resolution: "@chainlink/token-allocation-adapter@workspace:packages/composites/token-allocation"
@@ -4587,6 +5677,26 @@ __metadata:
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+=======
+"@chainlink/token-allocation-adapter@^0.2.0, @chainlink/token-allocation-adapter@workspace:packages/composites/token-allocation":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/token-allocation-adapter@workspace:packages/composites/token-allocation"
+  dependencies:
+    "@chainlink/amberdata-adapter": "*"
+    "@chainlink/coinapi-adapter": "*"
+    "@chainlink/coingecko-adapter": "*"
+    "@chainlink/coinmarketcap-adapter": "*"
+    "@chainlink/coinpaprika-adapter": "*"
+    "@chainlink/cryptocompare-adapter": "*"
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/kaiko-adapter": "*"
+    "@chainlink/nomics-adapter": "*"
+    "@chainlink/tiingo-adapter": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     decimal.js: ^10.3.1
     ethers: ^5.4.6
     nock: 13.2.4
@@ -4599,6 +5709,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/tradermade-adapter@workspace:packages/sources/tradermade"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -4607,6 +5718,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -4616,12 +5734,20 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/tradingeconomics-adapter@workspace:packages/sources/tradingeconomics"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
     "@types/supertest": 2.0.11
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     express: ^4.17.1
     nock: 13.2.4
     supertest: 6.2.2
@@ -4634,6 +5760,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/trueusd-adapter@workspace:packages/sources/trueusd"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -4642,6 +5769,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -4651,6 +5785,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/twelvedata-adapter@workspace:packages/sources/twelvedata"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -4659,12 +5794,23 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
   linkType: soft
 
+<<<<<<< HEAD
 "@chainlink/types@workspace:*, @chainlink/types@workspace:packages/core/types/@chainlink":
+=======
+"@chainlink/types@0.1.0, @chainlink/types@workspace:packages/core/types/@chainlink":
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
   version: 0.0.0-use.local
   resolution: "@chainlink/types@workspace:packages/core/types/@chainlink"
   languageName: unknown
@@ -4674,6 +5820,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/unibit-adapter@workspace:packages/sources/unibit"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -4682,6 +5829,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -4691,11 +5845,19 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/uniswap-v2-adapter@workspace:packages/sources/uniswap-v2"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 26.0.24
+    "@types/node": 14.17.17
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     "@types/supertest": 2.0.11
     decimal.js: ^10.3.1
     ethers: ^5.4.6
@@ -4710,11 +5872,19 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/uniswap-v3-adapter@workspace:packages/sources/uniswap-v3"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 26.0.24
+    "@types/node": 14.17.17
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     "@types/supertest": 2.0.11
     decimal.js: ^10.3.1
     ethers: ^5.4.6
@@ -4729,6 +5899,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/upvest-adapter@workspace:packages/sources/upvest"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -4737,6 +5908,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 26.0.24
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.1.0
     typescript: 4.3.5
   languageName: unknown
@@ -4746,6 +5924,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/uscpi-one-adapter@workspace:packages/sources/uscpi-one"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -4754,6 +5933,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -4763,11 +5949,19 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/vesper-adapter@workspace:packages/composites/vesper"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/token-allocation-adapter": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/token-allocation-adapter": ^0.2.0
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     ethers: ^5.4.6
     tslib: ^2.3.1
     typescript: 4.3.5
@@ -4778,12 +5972,20 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/view-function-adapter@workspace:packages/sources/view-function"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
     "@types/supertest": 2.0.11
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     ethers: ^5.4.6
     nock: 13.2.4
     supertest: 6.2.2
@@ -4796,6 +5998,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/wbtc-address-set-adapter@workspace:packages/sources/wbtc-address-set"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/proof-of-reserves-adapter": "workspace:*"
@@ -4805,6 +6008,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -4814,6 +6024,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/wootrade-adapter@workspace:packages/sources/wootrade"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -4822,6 +6033,13 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -4848,6 +6066,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/xbto-adapter@workspace:packages/sources/xbto"
   dependencies:
+<<<<<<< HEAD
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
@@ -4875,6 +6094,13 @@ __metadata:
     ethers: ^5.5.1
     nock: 13.2.4
     supertest: 6.2.2
+=======
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.1.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+>>>>>>> bea780c8e (Update monorepo package dependency versions)
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
