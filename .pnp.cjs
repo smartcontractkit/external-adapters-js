@@ -5727,7 +5727,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         ["workspace:packages/scripts/src/generate-readme/readme-test-adapter", {
           "packageLocation": "./packages/scripts/src/generate-readme/readme-test-adapter/",
           "packageDependencies": [
-            ["@chainlink/readme-test-adapter", "workspace:packages/scripts/src/generate-readme/readme-test-adapter"]
+            ["@chainlink/readme-test-adapter", "workspace:packages/scripts/src/generate-readme/readme-test-adapter"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-factories", "workspace:packages/core/factories"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["tslib", "npm:2.3.1"]
           ],
           "linkType": "SOFT",
         }]

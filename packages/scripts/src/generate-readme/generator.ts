@@ -56,7 +56,7 @@ class ReadmeGenerator {
     this.endpointDetails = await require(localPathToRoot + endpointPath)
 
     const configPath = checkFilePath(this.adapterPath + 'src/config.ts')
-    this.defaultEndpoint = (await require(localPathToRoot + configPath)).DEFAULT_ENDPOINT
+    this.defaultEndpoint = (await require(localPathToRoot + configPath)).DEFAULT_ENDPOINT ?? ''
   }
 
   buildReadme(): void {
