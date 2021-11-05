@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute forex rate api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 4494.0249,
+  },
+  "jobRunID": "1",
+  "result": 4494.0249,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute live  api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 150.50501,
+  },
+  "jobRunID": "1",
+  "result": 150.50501,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute live  api with invalid base should return failure 1`] = `
+Object {
+  "error": Object {
+    "feedID": "{\\"data\\":{\\"endpoint\\":\\"live\\",\\"base\\":\\"NON-EXISTING\\"}}",
+    "message": "Result could not be found in path",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 500,
+}
+`;
