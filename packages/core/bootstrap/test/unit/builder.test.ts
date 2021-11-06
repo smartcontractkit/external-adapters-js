@@ -24,7 +24,7 @@ describe('Builder', () => {
       id: '1',
       data: {
         endpoint: 'testDownstreamEndpoint',
-        source: 'someSourceAdapter',
+        source: 'SOMESOURCEADAPTER',
       },
     }
     const downstreamConfig = {
@@ -48,7 +48,7 @@ describe('Builder', () => {
       },
     }
     const endpointMap = {
-      someSourceAdapter: { someSourceEndpoint: mockAPIEndpoint2 },
+      SOMESOURCEADAPTER: { someSourceEndpoint: mockAPIEndpoint2 },
     }
     it(`correctly merges downstream input parameters`, () => {
       const upstreamEndpoint: UpstreamEndpointsGroup = ['source', endpointMap, endpointName]
@@ -58,8 +58,24 @@ describe('Builder', () => {
         downstreamEndpoints,
         [upstreamEndpoint],
         upstreamConfig,
+        false,
       )
       expect(mergedDownstreamEndpoint.inputParameters).toHaveProperty('inputParam2')
+      expect(mergedDownstreamEndpoint.inputParameters['inputParam2']).toBeTruthy()
+    })
+
+    it(`ignores required input parameters when ignoreRequired is true`, () => {
+      const upstreamEndpoint: UpstreamEndpointsGroup = ['source', endpointMap, endpointName]
+      const mergedDownstreamEndpoint = Builder.selectCompositeEndpoint(
+        request,
+        downstreamConfig,
+        downstreamEndpoints,
+        [upstreamEndpoint],
+        upstreamConfig,
+        true,
+      )
+      expect(mergedDownstreamEndpoint.inputParameters).toHaveProperty('inputParam2')
+      expect(mergedDownstreamEndpoint.inputParameters['inputparam2']).toBeFalsy()
     })
   })
 })
