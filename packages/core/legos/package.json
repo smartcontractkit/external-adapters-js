@@ -126,6 +126,7 @@
     "@chainlink/stasis-adapter": "*",
     "@chainlink/synthetix-debt-pool-adapter": "*",
     "@chainlink/taapi-adapter": "*",
+    "@chainlink/terra-view-function-adapter": "*",
     "@chainlink/therundown-adapter": "*",
     "@chainlink/tiingo-adapter": "*",
     "@chainlink/tradermade-adapter": "*",
