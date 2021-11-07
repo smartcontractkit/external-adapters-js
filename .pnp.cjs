@@ -187,6 +187,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/alphavantage"
       },
       {
+        "name": "@chainlink/alpine-adapter",
+        "reference": "workspace:packages/sources/alpine"
+      },
+      {
         "name": "@chainlink/amberdata-adapter",
         "reference": "workspace:packages/sources/amberdata"
       },
@@ -664,6 +668,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/agoric-adapter", ["workspace:packages/targets/agoric"]],
       ["@chainlink/alphachain-adapter", ["workspace:packages/sources/alphachain"]],
       ["@chainlink/alphavantage-adapter", ["workspace:packages/sources/alphavantage"]],
+      ["@chainlink/alpine-adapter", ["workspace:packages/sources/alpine"]],
       ["@chainlink/amberdata-adapter", ["workspace:packages/sources/amberdata"]],
       ["@chainlink/anchor-adapter", ["workspace:packages/composites/anchor"]],
       ["@chainlink/anyblock-adapter", ["workspace:packages/sources/anyblock"]],
@@ -3990,6 +3995,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/alpine-adapter", [
+        ["workspace:packages/sources/alpine", {
+          "packageLocation": "./packages/sources/alpine/",
+          "packageDependencies": [
+            ["@chainlink/alpine-adapter", "workspace:packages/sources/alpine"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.2"],
+            ["@types/node", "npm:14.17.21"],
+            ["ethers", "npm:5.5.1"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
@@ -7646,6 +7668,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
+
         ["npm:5.5.0", {
           "packageLocation": "./.yarn/cache/@ethersproject-abstract-provider-npm-5.5.0-20e029afc3-5570a357c7.zip/node_modules/@ethersproject/abstract-provider/",
           "packageDependencies": [
@@ -7660,6 +7683,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
+
         ["npm:5.5.1", {
           "packageLocation": "./.yarn/cache/@ethersproject-abstract-provider-npm-5.5.1-57cbb2d4b2-73ee68b232.zip/node_modules/@ethersproject/abstract-provider/",
           "packageDependencies": [
@@ -17379,6 +17403,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
+
         ["npm:5.5.0", {
           "packageLocation": "./.yarn/cache/ethers-npm-5.5.0-21d7919007-20cb7eaaa5.zip/node_modules/ethers/",
           "packageDependencies": [
@@ -17416,6 +17441,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
+
         ["npm:5.5.1", {
           "packageLocation": "./.yarn/cache/ethers-npm-5.5.1-abb6c1e2d0-ee004e3e2f.zip/node_modules/ethers/",
           "packageDependencies": [
