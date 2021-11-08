@@ -5,6 +5,7 @@ import {
   AdapterPackage,
   AdapterSchema,
   EndpointDetails,
+  IOMap,
   JsonObject,
   TableText,
   TextRow,
@@ -30,24 +31,24 @@ const checkFilePath = (filePath: string): string => {
 }
 
 class ReadmeGenerator {
-  adapterPackage: AdapterPackage
+  packagePath: string
   adapterPath: string
-  adapterSchema: AdapterSchema
   defaultEndpoint = ''
   endpointDetails: EndpointDetails = {}
+  integrationTestPath: string
   readmePath: string
+  schemaPath: string
 
   constructor(adapterPath: string) {
     if (!adapterPath.endsWith('/')) adapterPath += '/'
 
     if (!shell.test('-d', adapterPath)) throw Error(`${adapterPath} is not a directory`)
 
-    const packagePath = checkFilePath(adapterPath + 'package.json')
-    const schemaPath = checkFilePath(adapterPath + 'schemas/env.json')
+    this.packagePath = checkFilePath(adapterPath + 'package.json')
+    this.schemaPath = checkFilePath(adapterPath + 'schemas/env.json')
+    this.integrationTestPath = checkFilePath(adapterPath + 'test/integration/adapter.test.ts')
 
     this.adapterPath = adapterPath
-    this.adapterPackage = getJsonFile(packagePath) as AdapterPackage
-    this.adapterSchema = getJsonFile(schemaPath) as AdapterSchema
     this.readmePath = adapterPath + 'README.md'
   }
 
@@ -60,7 +61,7 @@ class ReadmeGenerator {
   }
 
   buildReadme(): void {
-    console.log('Generating README')
+    console.log('Generating README...')
 
     this.copyTemplate()
     this.addIntroSection()
@@ -72,19 +73,27 @@ class ReadmeGenerator {
   }
 
   copyTemplate(): void {
+    console.log('Copying template...')
+
     shell.cp(templatePath, this.readmePath)
   }
 
   addIntroSection(): void {
-    shell.sed('-i', '\\$ADAPTER_NAME', this.adapterPackage.name, this.readmePath)
-    shell.sed('-i', '\\$SEM_VER', this.adapterPackage.version, this.readmePath)
+    console.log('Adding title and version...')
+
+    const adapterPackage = getJsonFile(this.packagePath) as AdapterPackage
+    shell.sed('-i', '\\$ADAPTER_NAME', adapterPackage.name, this.readmePath)
+    shell.sed('-i', '\\$SEM_VER', adapterPackage.version, this.readmePath)
   }
 
   addEnvVarSection(): void {
-    const envVars = this.adapterSchema.properties
+    console.log('Adding environment variables...')
+
+    const adapterSchema = getJsonFile(this.schemaPath) as AdapterSchema
+    const envVars = adapterSchema.properties
 
     const tableText: TableText = Object.entries(envVars).map(([key, envVar]) => {
-      const required = this.adapterSchema.required.includes(key) ? '✅' : ''
+      const required = adapterSchema.required.includes(key) ? '✅' : ''
       const name = key ?? ''
       const type = envVar.type ?? ''
       const options = envVar.enum?.map((e) => e.toString()).join(', ') ?? ''
@@ -98,6 +107,8 @@ class ReadmeGenerator {
   }
 
   addInputParamsSection(): void {
+    console.log('Adding input parameters...')
+
     const endpointList = Object.keys(this.endpointDetails).map(
       (e) => `[${e}](#${e.replace(' ', '-')}-endpoint)`,
     )
@@ -109,9 +120,45 @@ class ReadmeGenerator {
   }
 
   addEndpointSections(): void {
+    console.log('Extracting example requests and responses...')
+
+    // Fetch input/output examples
+    const testOutput = shell
+      .exec(`yarn test ${this.integrationTestPath}`, { fatal: true, silent: true })
+      .toString()
+    const logObjects: JsonObject[][] = testOutput
+      .split('\n')
+      .reduce((ioPairs: JsonObject[][], consoleOut: string) => {
+        try {
+          const parsed = JSON.parse(consoleOut)
+          if ('input' in parsed) ioPairs.push([parsed.input])
+          else if ('output' in parsed && ioPairs[-1].length === 1) ioPairs[-1].push(parsed.output)
+          return ioPairs
+        } catch (e) {
+          return ioPairs
+        }
+      }, [])
+
+    const endpointIO = logObjects.reduce((ioMap: IOMap, inOutPair) => {
+      if (inOutPair.length === 2) {
+        const endpoint = inOutPair[0]?.data?.endpoint
+        if (endpoint) {
+          ioMap[endpoint] = ioMap[endpoint] || []
+          ioMap[endpoint].push({ input: inOutPair[0], output: inOutPair[1] })
+        }
+      }
+      return ioMap
+    }, {})
+
     const endpointSections = Object.entries(this.endpointDetails)
-      .map(([eName, eDetails]) => {
-        const tableText: TableText = Object.entries(eDetails.inputParameters).map(
+      .map(([endpointName, endpointDetails]) => {
+        console.log(`Adding ${endpointName} endpoint section...`)
+
+        // Fetch section title
+        const sectionTitle = `## ${capitalize(endpointName)} Endpoint\n\n`
+
+        // Fetch input table
+        const inputTable: TableText = Object.entries(endpointDetails.inputParameters).map(
           ([pName, pDetails]) => {
             const required = Array.isArray(pDetails) || pDetails === true ? '✅' : ''
             const name = pName ?? ''
@@ -121,25 +168,36 @@ class ReadmeGenerator {
             return [required, name, type, options, defaultText]
           },
         )
+        const inputTableSection =
+          '### Input Params\n\n' + buildTable(inputTable, endpointInputHeaders) + '\n\n'
 
-        const endpointNames = eDetails.supportedEndpoints
+        // Fetch supported endpoint text
+        const endpointNames = endpointDetails.supportedEndpoints
         const supportedEndpointText =
           endpointNames.length > 1
             ? `Supported names for this endpoint are: ${endpointNames
                 .map((e) => `\`${e}\``)
-                .join(', ')}.`
-            : `\`${endpointNames[0]}\` is the only supported name for this endpoint.`
+                .join(', ')}.\n\n`
+            : `\`${endpointNames[0]}\` is the only supported name for this endpoint.\n\n`
 
-        return (
-          `## ${capitalize(eName)} Endpoint\n\n` +
-          `${supportedEndpointText}\n\n` +
-          '### Input Params\n\n' +
-          buildTable(tableText, endpointInputHeaders) +
-          '\n\n### Sample Input\n\nA sample of endpoint input\n\n' +
-          '### Sample Output\n\nA sample of endpoint output'
-        )
+        // Fetch input/output text
+        let ioExamples = ''
+        if (endpointName in endpointIO) {
+          ioExamples = '### Examples\n\n'
+          for (const ioPair of endpointIO[endpointName]) {
+            const { input, output } = ioPair
+            const inputJson = JSON.stringify(input, null, 2)
+            const outputJson = JSON.stringify(output, null, 2)
+            ioExamples =
+              ioExamples +
+              `Request:\n\`\`\`json\n${inputJson}\n\`\`\`\n\n` +
+              `Response:\n\`\`\`json\n${outputJson}\n\`\`\`\n\n`
+          }
+        }
+
+        return sectionTitle + supportedEndpointText + inputTableSection + ioExamples
       })
-      .join('\n\n')
+      .join('')
 
     shell.sed('-i', '\\$ENDPOINT_SECTIONS', endpointSections, this.readmePath)
   }

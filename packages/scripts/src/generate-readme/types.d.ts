@@ -24,7 +24,14 @@ export type EndpointDetails = {
   }
 }
 
-export type JsonObject = Record<string, unknown>
+export type IOMap = Record<string, IOPair[]>
+
+export type IOPair = {
+  input: JsonObject
+  output: JsonObject
+}
+
+export type JsonObject = Record<string, any>
 
 export type MaxColChars = number[]
 
