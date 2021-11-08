@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute closing rate api should return success 1`] = `
+exports[`execute closing api should return success 1`] = `
 Object {
   "data": Object {
     "result": 20.8675,
