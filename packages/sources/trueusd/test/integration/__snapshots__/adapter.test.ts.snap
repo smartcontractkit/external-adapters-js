@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute exchange rate api should return success 1`] = `
+exports[`execute api should return success 1`] = `
 Object {
   "data": Object {
     "result": 1256102560.69,
