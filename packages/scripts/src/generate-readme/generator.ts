@@ -126,13 +126,15 @@ class ReadmeGenerator {
     const testOutput = shell
       .exec(`yarn test ${this.integrationTestPath}`, { fatal: true, silent: true })
       .toString()
+
     const logObjects: JsonObject[][] = testOutput
       .split('\n')
       .reduce((ioPairs: JsonObject[][], consoleOut: string) => {
         try {
           const parsed = JSON.parse(consoleOut)
           if ('input' in parsed) ioPairs.push([parsed.input])
-          else if ('output' in parsed && ioPairs[-1].length === 1) ioPairs[-1].push(parsed.output)
+          else if ('output' in parsed && ioPairs[ioPairs.length - 1].length === 1)
+            ioPairs[ioPairs.length - 1].push(parsed.output)
           return ioPairs
         } catch (e) {
           return ioPairs
@@ -141,11 +143,9 @@ class ReadmeGenerator {
 
     const endpointIO = logObjects.reduce((ioMap: IOMap, inOutPair) => {
       if (inOutPair.length === 2) {
-        const endpoint = inOutPair[0]?.data?.endpoint
-        if (endpoint) {
-          ioMap[endpoint] = ioMap[endpoint] || []
-          ioMap[endpoint].push({ input: inOutPair[0], output: inOutPair[1] })
-        }
+        const endpoint = inOutPair[0]?.data?.endpoint ?? this.defaultEndpoint
+        ioMap[endpoint] = ioMap[endpoint] ?? []
+        ioMap[endpoint].push({ input: inOutPair[0], output: inOutPair[1] })
       }
       return ioMap
     }, {})
@@ -181,23 +181,24 @@ class ReadmeGenerator {
             : `\`${endpointNames[0]}\` is the only supported name for this endpoint.\n\n`
 
         // Fetch input/output text
-        let ioExamples = ''
-        if (endpointName in endpointIO) {
-          ioExamples = '### Examples\n\n'
-          for (const ioPair of endpointIO[endpointName]) {
-            const { input, output } = ioPair
-            const inputJson = JSON.stringify(input, null, 2)
-            const outputJson = JSON.stringify(output, null, 2)
-            ioExamples =
-              ioExamples +
-              `Request:\n\`\`\`json\n${inputJson}\n\`\`\`\n\n` +
-              `Response:\n\`\`\`json\n${outputJson}\n\`\`\`\n\n`
+        const ioExamples = []
+        for (const supportedName of endpointDetails.supportedEndpoints) {
+          if (supportedName in endpointIO) {
+            for (const ioPair of endpointIO[supportedName]) {
+              const { input, output } = ioPair
+              const inputJson = JSON.stringify(input, null, 2)
+              const outputJson = JSON.stringify(output, null, 2)
+              ioExamples.push(
+                `Request:\n\`\`\`json\n${inputJson}\n\`\`\`\n\nResponse:\n\`\`\`json\n${outputJson}\n\`\`\``,
+              )
+            }
           }
         }
+        const ioExamplesText = ioExamples.length ? '### Examples\n\n' + ioExamples.join('\n\n') : ''
 
-        return sectionTitle + supportedEndpointText + inputTableSection + ioExamples
+        return sectionTitle + supportedEndpointText + inputTableSection + ioExamplesText
       })
-      .join('')
+      .join('\n\n')
 
     shell.sed('-i', '\\$ENDPOINT_SECTIONS', endpointSections, this.readmePath)
   }
