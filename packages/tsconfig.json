@@ -384,6 +384,9 @@
       "path": "./sources/taapi"
     },
     {
+      "path": "./sources/terra-view-function"
+    },
+    {
       "path": "./sources/therundown"
     },
     {

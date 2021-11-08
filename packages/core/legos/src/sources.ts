@@ -95,6 +95,7 @@ import * as sportsdataio from '@chainlink/sportsdataio-adapter'
 import * as stasis from '@chainlink/stasis-adapter'
 import * as synthetix_debt_pool from '@chainlink/synthetix-debt-pool-adapter'
 import * as taapi from '@chainlink/taapi-adapter'
+import * as terra_view_function from '@chainlink/terra-view-function-adapter'
 import * as therundown from '@chainlink/therundown-adapter'
 import * as tiingo from '@chainlink/tiingo-adapter'
 import * as tradermade from '@chainlink/tradermade-adapter'
@@ -209,6 +210,7 @@ export default {
   stasis,
   synthetix_debt_pool,
   taapi,
+  terra_view_function,
   therundown,
   tiingo,
   tradermade,
