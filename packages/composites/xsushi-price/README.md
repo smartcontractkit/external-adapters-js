@@ -1,6 +1,6 @@
 # Chainlink xSUSHI Price Composite Adapter
 
-Due to additional complexities with the xSUSHI token, this adapter allows for getting the real price of the xSUSHI.
+Due to additional complexities with the xSUSHI token, this adapter allows for getting the real price of xSUSHI.
 
 The calculation is done as follows:
 
@@ -23,6 +23,18 @@ This composite adapter executes the code from the Token Allocation composite ada
 ## Running
 
 See the [Composite Adapter README](../README.md) for more information on how to get started.
+
+---
+
+### Input Parameters
+
+| Required? |   Name   |     Description     |                                   Options                                    | Defaults to |
+| :-------: | :------: | :-----------------: | :--------------------------------------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [price](#Price-Endpoint), [ratio](#Ratio-Endpoint), [sushi](#Sushi-Endpoint) |    price    |
+
+---
+
+## Price Endpoint
 
 ### Input Params
 
@@ -63,6 +75,64 @@ See the [Composite Adapter README](../README.md) for more information on how to 
   },
   "jobRunID": "1",
   "result": 14.422000451599907,
+  "statusCode": 200
+}
+```
+
+---
+
+## Ratio Endpoint
+
+Gets the ratio between SUSHI and xSUSHI tokens (with 18 decimals)
+
+### Input Params
+
+_None_
+
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {}
+}
+```
+
+### Sample Output
+
+```json
+{
+  "data": "1196870372476465755",
+  "jobRunID": "1",
+  "statusCode": 200
+}
+```
+
+---
+
+## Sushi Endpoint
+
+Gets the SUSHI token address from the xSUSHI contract
+
+### Input Params
+
+_None_
+
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {}
+}
+```
+
+### Sample Output
+
+```json
+{
+  "data": "0x6B3595068778DD592e39A122f4f5a5cF09C90fE2",
+  "jobRunID": "1",
   "statusCode": 200
 }
 ```
