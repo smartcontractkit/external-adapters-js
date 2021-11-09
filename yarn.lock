@@ -1308,6 +1308,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime-corejs3@npm:^7.14.9":
+  version: 7.16.0
+  resolution: "@babel/runtime-corejs3@npm:7.16.0"
+  dependencies:
+    core-js-pure: ^3.19.0
+    regenerator-runtime: ^0.13.4
+  checksum: f850f77b18bfdc7f42d5ff542cf55d9b2373d0d8ebbbfba153817d64e308789f6331e41940ba329673f699052c5a94ecbc890c5e28b715e1f1cf18d3f40bd6d5
+  languageName: node
+  linkType: hard
+
 "@babel/runtime@npm:^7.4.4, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.9.2":
   version: 7.14.8
   resolution: "@babel/runtime@npm:7.14.8"
@@ -3813,6 +3823,24 @@ __metadata:
     "@types/jest": 26.0.24
     "@types/node": 14.17.21
     tslib: ^2.1.0
+    typescript: 4.3.5
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/us-census-adapter@workspace:packages/sources/us-census":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/us-census-adapter@workspace:packages/sources/us-census"
+  dependencies:
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": 0.0.1
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+    citysdk: ^2.1.13
+    ethers: ^5.4.6
+    nock: 13.1.3
+    supertest: 6.1.6
+    tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
   linkType: soft
@@ -10192,6 +10220,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"citysdk@npm:^2.1.13":
+  version: 2.1.13
+  resolution: "citysdk@npm:2.1.13"
+  dependencies:
+    xmlhttprequest: ^1.8.0
+    xregexp: ^5.1.0
+  checksum: d1d40809d126cee8a9272fe553b326153fe28361be2e3cabb0994d0efca9a6b165e9a2fb33c5477574501bc92fa472e50d5b30802c508d6d51a8b210e6956e59
+  languageName: node
+  linkType: hard
+
 "cjs-module-lexer@npm:^1.0.0":
   version: 1.2.2
   resolution: "cjs-module-lexer@npm:1.2.2"
@@ -10864,6 +10902,13 @@ __metadata:
   version: 3.16.0
   resolution: "core-js-pure@npm:3.16.0"
   checksum: 8d48180af8ea2e78cbe51237bbec32b21d1c34f6f6c0d96b3e28ef192b67f5dcaf985e0db82bba9534376f267e6d2799bf92ac67841dadcaf7a5a8e899bb52df
+  languageName: node
+  linkType: hard
+
+"core-js-pure@npm:^3.19.0":
+  version: 3.19.1
+  resolution: "core-js-pure@npm:3.19.1"
+  checksum: b6d593ce2ac9da1adf8da3efc0b9cca8cc969d7d758c511db877a41d92216dbdf7a2341f89c07516bf0da1ce8b994e103f604ab37ca31379a35512c05d291804
   languageName: node
   linkType: hard
 
@@ -28015,10 +28060,19 @@ resolve@1.17.0:
   languageName: node
   linkType: hard
 
-"xmlhttprequest@npm:1.8.0":
+"xmlhttprequest@npm:1.8.0, xmlhttprequest@npm:^1.8.0":
   version: 1.8.0
   resolution: "xmlhttprequest@npm:1.8.0"
   checksum: c891cf0d7884b4f5cce835aa01f1965727cd352cbd2d7a2e0605bf11ec99ae2198364cca54656ec8b2581a5704dee6c2bf9911922a0ff2a71b613455d32e81b7
+  languageName: node
+  linkType: hard
+
+"xregexp@npm:^5.1.0":
+  version: 5.1.0
+  resolution: "xregexp@npm:5.1.0"
+  dependencies:
+    "@babel/runtime-corejs3": ^7.14.9
+  checksum: f5cc852e147f8c074d3ef198c919070012b4c7cd442f702873bea5569003a42d730db14d375012933abd7fb7c9ad932ddcf342879ea94d2259f274453a190c68
   languageName: node
   linkType: hard
 

@@ -583,6 +583,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/upvest"
       },
       {
+        "name": "@chainlink/us-census-adapter",
+        "reference": "workspace:packages/sources/us-census"
+      },
+      {
         "name": "@chainlink/uscpi-one-adapter",
         "reference": "workspace:packages/sources/uscpi-one"
       },
@@ -770,6 +774,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/uniswap-v2-adapter", ["workspace:packages/sources/uniswap-v2"]],
       ["@chainlink/uniswap-v3-adapter", ["workspace:packages/sources/uniswap-v3"]],
       ["@chainlink/upvest-adapter", ["workspace:packages/sources/upvest"]],
+      ["@chainlink/us-census-adapter", ["workspace:packages/sources/us-census"]],
       ["@chainlink/uscpi-one-adapter", ["workspace:packages/sources/uscpi-one"]],
       ["@chainlink/vesper-adapter", ["workspace:packages/composites/vesper"]],
       ["@chainlink/view-function-adapter", ["workspace:packages/sources/view-function"]],
@@ -3393,6 +3398,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@babel-runtime-npm-7.14.8-177f7f6866-d2dd0ce51d.zip/node_modules/@babel/runtime/",
           "packageDependencies": [
             ["@babel/runtime", "npm:7.14.8"],
+            ["regenerator-runtime", "npm:0.13.9"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@babel/runtime-corejs3", [
+        ["npm:7.16.0", {
+          "packageLocation": "./.yarn/cache/@babel-runtime-corejs3-npm-7.16.0-bc59a2ff2a-f850f77b18.zip/node_modules/@babel/runtime-corejs3/",
+          "packageDependencies": [
+            ["@babel/runtime-corejs3", "npm:7.16.0"],
+            ["core-js-pure", "npm:3.19.1"],
             ["regenerator-runtime", "npm:0.13.9"]
           ],
           "linkType": "HARD",
@@ -6185,6 +6201,26 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.21"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/us-census-adapter", [
+        ["workspace:packages/sources/us-census", {
+          "packageLocation": "./packages/sources/us-census/",
+          "packageDependencies": [
+            ["@chainlink/us-census-adapter", "workspace:packages/sources/us-census"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.2"],
+            ["@types/node", "npm:14.17.21"],
+            ["citysdk", "npm:2.1.13"],
+            ["ethers", "npm:5.4.6"],
+            ["nock", "npm:13.1.3"],
+            ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
@@ -13613,6 +13649,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["citysdk", [
+        ["npm:2.1.13", {
+          "packageLocation": "./.yarn/cache/citysdk-npm-2.1.13-bc212b96d4-d1d40809d1.zip/node_modules/citysdk/",
+          "packageDependencies": [
+            ["citysdk", "npm:2.1.13"],
+            ["xmlhttprequest", "npm:1.8.0"],
+            ["xregexp", "npm:5.1.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["cjs-module-lexer", [
         ["npm:1.2.2", {
           "packageLocation": "./.yarn/cache/cjs-module-lexer-npm-1.2.2-473ce063ea-977f3f042b.zip/node_modules/cjs-module-lexer/",
@@ -14376,6 +14423,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/unplugged/core-js-pure-npm-3.16.0-6a85251041/node_modules/core-js-pure/",
           "packageDependencies": [
             ["core-js-pure", "npm:3.16.0"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:3.19.1", {
+          "packageLocation": "./.yarn/unplugged/core-js-pure-npm-3.19.1-c8cb644631/node_modules/core-js-pure/",
+          "packageDependencies": [
+            ["core-js-pure", "npm:3.19.1"]
           ],
           "linkType": "HARD",
         }]
@@ -33271,6 +33325,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/xmlhttprequest-ssl-npm-2.0.0-a9c0d5efed-1e98df67f0.zip/node_modules/xmlhttprequest-ssl/",
           "packageDependencies": [
             ["xmlhttprequest-ssl", "npm:2.0.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["xregexp", [
+        ["npm:5.1.0", {
+          "packageLocation": "./.yarn/cache/xregexp-npm-5.1.0-74d30b75d0-f5cc852e14.zip/node_modules/xregexp/",
+          "packageDependencies": [
+            ["xregexp", "npm:5.1.0"],
+            ["@babel/runtime-corejs3", "npm:7.16.0"]
           ],
           "linkType": "HARD",
         }]

@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute with invalid geography should return error 1`] = `
+Object {
+  "error": Object {
+    "feedID": "{\\"data\\":{\\"endpoint\\":\\"acs5_2019\\",\\"geography\\":\\"tract\\",\\"variables\\":[\\"B25001_001E\\",\\"B25002_002E\\"],\\"latitude\\":-1,\\"longitude\\":-122.419418}}",
+    "message": Object {
+      "error": Object {
+        "message": "No FIPS (Census geocodes) found for given arguments",
+        "name": "AdapterError",
+      },
+      "jobRunID": "1",
+      "status": "errored",
+      "statusCode": 400,
+    },
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute with invalid variable should return error 1`] = `
+Object {
+  "error": Object {
+    "feedID": "{\\"data\\":{\\"endpoint\\":\\"acs5_2019\\",\\"geography\\":\\"tract\\",\\"variables\\":[\\"SOME_INVALID_VAR\\"],\\"latitude\\":37.774929,\\"longitude\\":-122.419418}}",
+    "message": Object {
+      "error": Object {
+        "message": "STATUS: 400  for: https://api.census.gov/data/2019/acs/acs5?get=NAME,B25001_001E,B25002_002E&for=combined statistical area:488&key=mock-key",
+        "name": "AdapterError",
+      },
+      "jobRunID": "1",
+      "status": "errored",
+      "statusCode": 400,
+    },
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
