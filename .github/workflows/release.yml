@@ -54,7 +54,8 @@ jobs:
       - uses: actions/checkout@v2
 
       # Handle publishing to our public ECR repo
-      - name: Configure AWS Credentials for SDLC Public ECR
+      - if: github.ref == 'refs/heads/master'
+        name: Configure AWS Credentials for SDLC Public ECR
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_PUBLICECR_ACCESSKEY }}
@@ -73,16 +74,20 @@ jobs:
           aws-region: us-east-1
           aws-ecr-private: 'false'
       # If we're on master, publish again with a forced 'latest' tag
-      - if: github.ref == 'refs/heads/master'
-        name: Publish adapter to public ECR, with forced latest tag
-        uses: ./.github/actions/release/publish-artifacts
-        with:
-          latest: true
+      #
+      # NOTE: Temporarily disabled until further sem ver control is added
+      #
+      # - if: github.ref == 'refs/heads/master'
+      #   name: Publish adapter to public ECR, with forced latest tag
+      #   uses: ./.github/actions/release/publish-artifacts
+      #   with:
+      #     latest: true
 
-          image-prefix: public.ecr.aws/${{ env.publicecr-name }}/adapters/
-          adapter-name: ${{ matrix.adapter.name }}
-          aws-region: us-east-1
-          aws-ecr-private: 'false'
+      #     image-prefix: public.ecr.aws/${{ env.publicecr-name }}/adapters/
+      #     adapter-name: ${{ matrix.adapter.name }}
+      #     aws-region: us-east-1
+      #     aws-ecr-private: 'false'
+
       # Handle publishing to our private ECR repo
       - name: Configure AWS Credentials for SDLC Private ECR
         uses: aws-actions/configure-aws-credentials@v1
