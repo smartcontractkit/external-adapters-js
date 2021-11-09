@@ -1,45 +1,26 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig } from '@chainlink/types'
+import { Requester } from '@chainlink/ea-bootstrap'
 import { balance } from '@chainlink/ea-factories'
-import { NAME as AdapterName } from '../config'
+import { Config, ExecuteFactory } from '@chainlink/types'
 
-// This should be filled in with a lowercase name corresponding to the API endpoint
 export const supportedEndpoints = ['balance']
-
-export const endpointResultPaths = {
-  example: 'price',
-}
-
-export interface ResponseSchema {
-  data: {
-    // Some data
-  }
-}
-
-const customError = (data: any) => data.Response === 'Error'
 
 export const inputParameters = balance.inputParameters
 
-export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
-
-  const jobRunID = validator.validated.id
-  const base = validator.overrideSymbol(AdapterName)
-  const quote = validator.validated.data.quote
-  const url = `price`
-  const resultPath = validator.validated.data.resultPath
-
-  const params = {
-    base,
-    quote,
-    api_key: config.apiKey,
+const getBalance: balance.GetBalance = async (account, config) => {
+  const reqConfig: any = {
+    ...config.api,
+    url: `/address/${account.address}`,
+    headers: {
+      ...config.api.headers,
+      'blockchain-id': 'bitcoin-network',
+    },
   }
-
-  const options = { ...config.api, params, url }
-
-  const response = await Requester.request<ResponseSchema>(options, customError)
-  const result = Requester.validateResultNumber(response.data, [resultPath])
-
-  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
+  const response = await Requester.request(reqConfig)
+  return {
+    payload: response.data,
+    result: [{ ...account, balance: response.data.payload.value }],
+  }
 }
+
+export const makeExecute: ExecuteFactory<Config> = (config?: Config) =>
+  balance.make({ ...config, getBalance, isSupported: () => true })

@@ -3409,6 +3409,9 @@ __metadata:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-factories": "*"
     "@chainlink/types": 0.0.1
+    "@types/supertest": 2.0.11
+    nock: 13.1.3
+    supertest: 6.1.6
     tslib: ^2.3.1
   languageName: unknown
   linkType: soft

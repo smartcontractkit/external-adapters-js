@@ -6,12 +6,13 @@ import { NAME as AdapterName } from '../config'
 export const supportedEndpoints = ['marketcap', 'mc']
 
 export const endpointResultPaths = {
-  example: 'price',
+  marketcap: 'marketcap',
+  mc: 'marketcap',
 }
 
 export interface ResponseSchema {
   data: {
-    // Some data
+    marketcap: number
   }
 }
 
@@ -32,7 +33,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const jobRunID = validator.validated.id
   const base = validator.overrideSymbol(AdapterName)
   const quote = validator.validated.data.quote
-  const url = `price`
+  const url = `marketcap`
   const resultPath = validator.validated.data.resultPath
 
   const params = {
@@ -42,7 +43,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
 
   const options = { ...config.api, params, url }
-
   const response = await Requester.request<ResponseSchema>(options, customError)
   const result = Requester.validateResultNumber(response.data, [resultPath])
 

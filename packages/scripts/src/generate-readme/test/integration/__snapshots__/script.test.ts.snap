@@ -1,4 +1,7 @@
-# @chainlink/readme-test-adapter
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`readme generation script when generating readme for readme-test-adapter should successfully generate readme 1`] = `
+"# @chainlink/readme-test-adapter
 
 Version: 1.2.3
 
@@ -24,7 +27,7 @@ Version: 1.2.3
 
 ## Balance Endpoint
 
-`balance` is the only supported name for this endpoint.
+\`balance\` is the only supported name for this endpoint.
 
 ### Input Params
 
@@ -38,39 +41,39 @@ Version: 1.2.3
 
 Request:
 
-```json
+\`\`\`json
 {
-  "id": "1",
-  "data": {
-    "endpoint": "balance",
-    "dataPath": "addresses",
-    "addresses": [
+  \\"id\\": \\"1\\",
+  \\"data\\": {
+    \\"endpoint\\": \\"balance\\",
+    \\"dataPath\\": \\"addresses\\",
+    \\"addresses\\": [
       {
-        "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1"
+        \\"address\\": \\"3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1\\"
       }
     ]
   }
 }
-```
+\`\`\`
 
 Response:
 
-```json
+\`\`\`json
 {
-  "result": [
+  \\"result\\": [
     {
-      "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1",
-      "chain": "mainnet",
-      "coin": "btc",
-      "balance": "2188"
+      \\"address\\": \\"3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1\\",
+      \\"chain\\": \\"mainnet\\",
+      \\"coin\\": \\"btc\\",
+      \\"balance\\": \\"2188\\"
     }
   ]
 }
-```
+\`\`\`
 
 ## Marketcap Endpoint
 
-Supported names for this endpoint are: `marketcap`, `mc`.
+Supported names for this endpoint are: \`marketcap\`, \`mc\`.
 
 ### Input Params
 
@@ -86,53 +89,53 @@ Supported names for this endpoint are: `marketcap`, `mc`.
 
 Request:
 
-```json
+\`\`\`json
 {
-  "id": "1",
-  "data": {
-    "endpoint": "marketcap",
-    "base": "BTC",
-    "quote": "USD",
-    "coinid": "Bitcoin",
-    "resultPath": "marketcap"
+  \\"id\\": \\"1\\",
+  \\"data\\": {
+    \\"endpoint\\": \\"marketcap\\",
+    \\"base\\": \\"BTC\\",
+    \\"quote\\": \\"USD\\",
+    \\"coinid\\": \\"Bitcoin\\",
+    \\"resultPath\\": \\"marketcap\\"
   }
 }
-```
+\`\`\`
 
 Response:
 
-```json
+\`\`\`json
 {
-  "result": 1000000000
+  \\"result\\": 1000000000
 }
-```
+\`\`\`
 
 Request:
 
-```json
+\`\`\`json
 {
-  "id": "1",
-  "data": {
-    "endpoint": "mc",
-    "base": "BTC",
-    "quote": "USD",
-    "coinid": "Bitcoin",
-    "resultPath": "marketcap"
+  \\"id\\": \\"1\\",
+  \\"data\\": {
+    \\"endpoint\\": \\"mc\\",
+    \\"base\\": \\"BTC\\",
+    \\"quote\\": \\"USD\\",
+    \\"coinid\\": \\"Bitcoin\\",
+    \\"resultPath\\": \\"marketcap\\"
   }
 }
-```
+\`\`\`
 
 Response:
 
-```json
+\`\`\`json
 {
-  "result": 1000000000
+  \\"result\\": 1000000000
 }
-```
+\`\`\`
 
 ## Price Endpoint
 
-Supported names for this endpoint are: `price`, `convert`.
+Supported names for this endpoint are: \`price\`, \`convert\`.
 
 ### Input Params
 
@@ -147,44 +150,46 @@ Supported names for this endpoint are: `price`, `convert`.
 
 Request:
 
-```json
+\`\`\`json
 {
-  "id": "1",
-  "data": {
-    "endpoint": "price",
-    "base": "BTC",
-    "quote": "USD",
-    "resultPath": "price"
+  \\"id\\": \\"1\\",
+  \\"data\\": {
+    \\"endpoint\\": \\"price\\",
+    \\"base\\": \\"BTC\\",
+    \\"quote\\": \\"USD\\",
+    \\"resultPath\\": \\"price\\"
   }
 }
-```
+\`\`\`
 
 Response:
 
-```json
+\`\`\`json
 {
-  "result": 123456
+  \\"result\\": 123456
 }
-```
+\`\`\`
 
 Request:
 
-```json
+\`\`\`json
 {
-  "id": "1",
-  "data": {
-    "endpoint": "convert",
-    "base": "BTC",
-    "quote": "USD",
-    "resultPath": "price"
+  \\"id\\": \\"1\\",
+  \\"data\\": {
+    \\"endpoint\\": \\"convert\\",
+    \\"base\\": \\"BTC\\",
+    \\"quote\\": \\"USD\\",
+    \\"resultPath\\": \\"price\\"
   }
 }
-```
+\`\`\`
 
 Response:
 
-```json
+\`\`\`json
 {
-  "result": 123456
+  \\"result\\": 123456
 }
-```
+\`\`\`
+"
+`;

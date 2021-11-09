@@ -5731,6 +5731,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/ea-factories", "workspace:packages/core/factories"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/supertest", "npm:2.0.11"],
+            ["nock", "npm:13.1.3"],
+            ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"]
           ],
           "linkType": "SOFT",

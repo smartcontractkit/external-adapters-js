@@ -6,12 +6,13 @@ import { NAME as AdapterName } from '../config'
 export const supportedEndpoints = ['price', 'convert']
 
 export const endpointResultPaths = {
-  example: 'price',
+  price: 'price',
+  convert: 'price',
 }
 
 export interface ResponseSchema {
   data: {
-    // Some data
+    price: number
   }
 }
 
@@ -21,6 +22,7 @@ export const inputParameters: InputParameters = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
   amount: false,
+  resultPath: false,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -40,7 +42,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
 
   const options = { ...config.api, params, url }
-
   const response = await Requester.request<ResponseSchema>(options, customError)
   const result = Requester.validateResultNumber(response.data, [resultPath])
 

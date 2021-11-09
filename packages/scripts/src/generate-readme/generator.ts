@@ -21,6 +21,8 @@ const endpointInputHeaders: TextRow = ['Required?', 'Name', 'Type', 'Options', '
 
 const inputParamHeaders: TextRow = ['Required?', 'Name', 'Type', 'Options', 'Default']
 
+const testEnvOverrides = { RECORD: undefined, LOG_LEVEL: 'debug' }
+
 const capitalize = (s: string): string => s[0].toUpperCase() + s.slice(1)
 
 const getJsonFile = (path: string): JsonObject => JSON.parse(readFileSync(path, 'utf-8'))
@@ -28,6 +30,10 @@ const getJsonFile = (path: string): JsonObject => JSON.parse(readFileSync(path, 
 const checkFilePath = (filePath: string): string => {
   if (!shell.test('-f', filePath)) throw Error(`${filePath} is not a file`)
   else return filePath
+}
+
+const checkOptionalFilePath = (filePath: string): string => {
+  return shell.test('-f', filePath) ? filePath : null
 }
 
 class ReadmeGenerator {
@@ -46,7 +52,9 @@ class ReadmeGenerator {
 
     this.packagePath = checkFilePath(adapterPath + 'package.json')
     this.schemaPath = checkFilePath(adapterPath + 'schemas/env.json')
-    this.integrationTestPath = checkFilePath(adapterPath + 'test/integration/adapter.test.ts')
+    this.integrationTestPath = checkOptionalFilePath(
+      adapterPath + 'test/integration/adapter.test.ts',
+    )
 
     this.adapterPath = adapterPath
     this.readmePath = adapterPath + 'README.md'
@@ -101,7 +109,9 @@ class ReadmeGenerator {
       return [required, name, type, options, defaultText]
     })
 
-    const envVarTable = buildTable(tableText, envVarHeaders)
+    const envVarTable = tableText.length
+      ? buildTable(tableText, envVarHeaders)
+      : 'There are no environment variables for this adapter.'
 
     shell.sed('-i', '\\$ENV_VARS', envVarTable, this.readmePath)
   }
@@ -114,7 +124,9 @@ class ReadmeGenerator {
     )
     const tableText = [['', 'endpoint', 'string', endpointList.join(', '), this.defaultEndpoint]]
 
-    const inputParamTable = buildTable(tableText, inputParamHeaders)
+    const inputParamTable = tableText.length
+      ? buildTable(tableText, inputParamHeaders)
+      : 'There are no input parameters for this adapter.'
 
     shell.sed('-i', '\\$INPUT_PARAMS', inputParamTable, this.readmePath)
   }
@@ -123,32 +135,39 @@ class ReadmeGenerator {
     console.log('Extracting example requests and responses...')
 
     // Fetch input/output examples
-    const testOutput = shell
-      .exec(`yarn test ${this.integrationTestPath}`, { fatal: true, silent: true })
-      .toString()
+    let endpointIO = {}
+    if (this.integrationTestPath) {
+      const testOutput = shell
+        .exec(`yarn test ${this.integrationTestPath}`, {
+          fatal: true,
+          silent: true,
+          env: { ...process.env, ...testEnvOverrides },
+        })
+        .toString()
 
-    const logObjects: JsonObject[][] = testOutput
-      .split('\n')
-      .reduce((ioPairs: JsonObject[][], consoleOut: string) => {
-        try {
-          const parsed = JSON.parse(consoleOut)
-          if ('input' in parsed) ioPairs.push([parsed.input])
-          else if ('output' in parsed && ioPairs[ioPairs.length - 1].length === 1)
-            ioPairs[ioPairs.length - 1].push(parsed.output)
-          return ioPairs
-        } catch (e) {
-          return ioPairs
+      const logObjects: JsonObject[][] = testOutput
+        .split('\n')
+        .reduce((ioPairs: JsonObject[][], consoleOut: string) => {
+          try {
+            const parsed = JSON.parse(consoleOut)
+            if ('input' in parsed) ioPairs.push([parsed.input])
+            else if ('output' in parsed && ioPairs[ioPairs.length - 1].length === 1)
+              ioPairs[ioPairs.length - 1].push(parsed.output)
+            return ioPairs
+          } catch (e) {
+            return ioPairs
+          }
+        }, [])
+
+      endpointIO = logObjects.reduce((ioMap: IOMap, inOutPair) => {
+        if (inOutPair.length === 2) {
+          const endpoint = inOutPair[0]?.data?.endpoint ?? this.defaultEndpoint
+          ioMap[endpoint] = ioMap[endpoint] ?? []
+          ioMap[endpoint].push({ input: inOutPair[0], output: inOutPair[1] })
         }
-      }, [])
-
-    const endpointIO = logObjects.reduce((ioMap: IOMap, inOutPair) => {
-      if (inOutPair.length === 2) {
-        const endpoint = inOutPair[0]?.data?.endpoint ?? this.defaultEndpoint
-        ioMap[endpoint] = ioMap[endpoint] ?? []
-        ioMap[endpoint].push({ input: inOutPair[0], output: inOutPair[1] })
-      }
-      return ioMap
-    }, {})
+        return ioMap
+      }, {})
+    }
 
     const endpointSections = Object.entries(this.endpointDetails)
       .map(([endpointName, endpointDetails]) => {
@@ -158,7 +177,7 @@ class ReadmeGenerator {
         const sectionTitle = `## ${capitalize(endpointName)} Endpoint\n\n`
 
         // Fetch input table
-        const inputTable: TableText = Object.entries(endpointDetails.inputParameters).map(
+        const inputTableText: TableText = Object.entries(endpointDetails.inputParameters).map(
           ([pName, pDetails]) => {
             const required = Array.isArray(pDetails) || pDetails === true ? '✅' : ''
             const name = pName ?? ''
@@ -168,8 +187,12 @@ class ReadmeGenerator {
             return [required, name, type, options, defaultText]
           },
         )
-        const inputTableSection =
-          '### Input Params\n\n' + buildTable(inputTable, endpointInputHeaders) + '\n\n'
+
+        const inputTable = inputTableText.length
+          ? buildTable(inputTableText, endpointInputHeaders)
+          : 'There are no input parameters for this endpoint.'
+
+        const inputTableSection = '### Input Params\n\n' + inputTable + '\n\n'
 
         // Fetch supported endpoint text
         const endpointNames = endpointDetails.supportedEndpoints
@@ -178,7 +201,9 @@ class ReadmeGenerator {
             ? `Supported names for this endpoint are: ${endpointNames
                 .map((e) => `\`${e}\``)
                 .join(', ')}.\n\n`
-            : `\`${endpointNames[0]}\` is the only supported name for this endpoint.\n\n`
+            : endpointNames.length === 1
+            ? `\`${endpointNames[0]}\` is the only supported name for this endpoint.\n\n`
+            : 'There are no supported names for this endpoint.\n\n'
 
         // Fetch input/output text
         const ioExamples = []
@@ -194,7 +219,9 @@ class ReadmeGenerator {
             }
           }
         }
-        const ioExamplesText = ioExamples.length ? '### Examples\n\n' + ioExamples.join('\n\n') : ''
+        const ioExamplesText =
+          '### Examples\n\n' +
+          (ioExamples.length ? ioExamples.join('\n\n') : 'There are no examples for this endpoint.')
 
         return sectionTitle + supportedEndpointText + inputTableSection + ioExamplesText
       })
