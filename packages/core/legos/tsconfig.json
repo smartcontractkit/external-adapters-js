@@ -131,6 +131,9 @@
       "path": "../../sources/dns-query"
     },
     {
+      "path": "../../sources/durin"
+    },
+    {
       "path": "../../sources/dwolla"
     },
     {
