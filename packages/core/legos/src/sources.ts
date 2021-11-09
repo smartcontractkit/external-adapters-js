@@ -106,6 +106,7 @@ import * as unibit from '@chainlink/unibit-adapter'
 import * as uniswap_v2 from '@chainlink/uniswap-v2-adapter'
 import * as uniswap_v3 from '@chainlink/uniswap-v3-adapter'
 import * as upvest from '@chainlink/upvest-adapter'
+import * as us_census from '@chainlink/us-census-adapter'
 import * as uscpi_one from '@chainlink/uscpi-one-adapter'
 import * as view_function from '@chainlink/view-function-adapter'
 import * as wbtc_adapter_address from '@chainlink/wbtc-address-set-adapter'
@@ -221,6 +222,7 @@ export default {
   uniswap_v2,
   uniswap_v3,
   upvest,
+  us_census,
   uscpi_one,
   view_function,
   wbtc_adapter_address,

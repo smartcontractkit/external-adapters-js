@@ -137,6 +137,7 @@
     "@chainlink/uniswap-v2-adapter": "*",
     "@chainlink/uniswap-v3-adapter": "*",
     "@chainlink/upvest-adapter": "*",
+    "@chainlink/us-census-adapter": "*",
     "@chainlink/uscpi-one-adapter": "*",
     "@chainlink/view-function-adapter": "*",
     "@chainlink/wbtc-address-set-adapter": "*",

@@ -2521,6 +2521,7 @@ __metadata:
     "@chainlink/uniswap-v2-adapter": "*"
     "@chainlink/uniswap-v3-adapter": "*"
     "@chainlink/upvest-adapter": "*"
+    "@chainlink/us-census-adapter": "*"
     "@chainlink/uscpi-one-adapter": "*"
     "@chainlink/view-function-adapter": "*"
     "@chainlink/wbtc-address-set-adapter": "*"
@@ -3827,7 +3828,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/us-census-adapter@workspace:packages/sources/us-census":
+"@chainlink/us-census-adapter@*, @chainlink/us-census-adapter@workspace:packages/sources/us-census":
   version: 0.0.0-use.local
   resolution: "@chainlink/us-census-adapter@workspace:packages/sources/us-census"
   dependencies:

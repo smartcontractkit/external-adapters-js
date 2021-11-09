@@ -80,5 +80,6 @@
 - [Trueusd](./trueusd/README.md)
 - [Twelvedata](./twelvedata/README.md)
 - [Unibit](./unibit/README.md)
+- [US Census](./us-census/README.md)
 - [wBTC Address Set](./wbtc-address-set/README.md)
 - [Xbto](./xbto/README.md)
