@@ -4,7 +4,7 @@ import * as TA from '@chainlink/token-allocation-adapter'
 import { Config } from '../config'
 import { makeExecute } from '../adapter'
 
-export const supportedEndpoints = ['price']
+export const supportedEndpoints = ['price', 'crypto']
 
 export function getRatio(context: AdapterContext, id: string): Promise<string> {
   const execute = makeExecute()
