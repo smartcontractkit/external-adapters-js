@@ -808,7 +808,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/core", "npm:7.15.0"],
             ["@babel/preset-env", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.15.0"],
             ["@babel/preset-typescript", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.15.0"],
-            ["@changesets/cli", "npm:2.17.0"],
+            ["@changesets/cli", "npm:2.18.0"],
             ["@semantic-release/commit-analyzer", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:8.0.1"],
             ["@semantic-release/github", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.2.3"],
             ["@semantic-release/npm", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.1.3"],
@@ -5026,7 +5026,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/core", "npm:7.15.0"],
             ["@babel/preset-env", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.15.0"],
             ["@babel/preset-typescript", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.15.0"],
-            ["@changesets/cli", "npm:2.17.0"],
+            ["@changesets/cli", "npm:2.18.0"],
             ["@semantic-release/commit-analyzer", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:8.0.1"],
             ["@semantic-release/github", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.2.3"],
             ["@semantic-release/npm", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.1.3"],
@@ -6477,14 +6477,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@changesets/apply-release-plan", [
-        ["npm:5.0.1", {
-          "packageLocation": "./.yarn/cache/@changesets-apply-release-plan-npm-5.0.1-39fbbb1d39-787f36d43b.zip/node_modules/@changesets/apply-release-plan/",
+        ["npm:5.0.2", {
+          "packageLocation": "./.yarn/cache/@changesets-apply-release-plan-npm-5.0.2-14bd767769-3dbb220c75.zip/node_modules/@changesets/apply-release-plan/",
           "packageDependencies": [
-            ["@changesets/apply-release-plan", "npm:5.0.1"],
+            ["@changesets/apply-release-plan", "npm:5.0.2"],
             ["@babel/runtime", "npm:7.16.0"],
-            ["@changesets/config", "npm:1.6.1"],
+            ["@changesets/config", "npm:1.6.2"],
             ["@changesets/get-version-range-type", "npm:0.3.2"],
-            ["@changesets/git", "npm:1.1.2"],
+            ["@changesets/git", "npm:1.2.0"],
             ["@changesets/types", "npm:4.0.1"],
             ["@manypkg/get-packages", "npm:1.1.2"],
             ["detect-indent", "npm:6.1.0"],
@@ -6499,13 +6499,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@changesets/assemble-release-plan", [
-        ["npm:5.0.1", {
-          "packageLocation": "./.yarn/cache/@changesets-assemble-release-plan-npm-5.0.1-7667b7baf5-65dfdf3193.zip/node_modules/@changesets/assemble-release-plan/",
+        ["npm:5.0.2", {
+          "packageLocation": "./.yarn/cache/@changesets-assemble-release-plan-npm-5.0.2-b8e4a4e901-e34228d29c.zip/node_modules/@changesets/assemble-release-plan/",
           "packageDependencies": [
-            ["@changesets/assemble-release-plan", "npm:5.0.1"],
+            ["@changesets/assemble-release-plan", "npm:5.0.2"],
             ["@babel/runtime", "npm:7.16.0"],
             ["@changesets/errors", "npm:0.1.4"],
-            ["@changesets/get-dependents-graph", "npm:1.2.2"],
+            ["@changesets/get-dependents-graph", "npm:1.2.3"],
             ["@changesets/types", "npm:4.0.1"],
             ["@manypkg/get-packages", "npm:1.1.2"],
             ["semver", "npm:5.7.1"]
@@ -6514,21 +6514,21 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@changesets/cli", [
-        ["npm:2.17.0", {
-          "packageLocation": "./.yarn/cache/@changesets-cli-npm-2.17.0-c720e9e7b0-214a0752cc.zip/node_modules/@changesets/cli/",
+        ["npm:2.18.0", {
+          "packageLocation": "./.yarn/cache/@changesets-cli-npm-2.18.0-e3c334614b-0a20c15290.zip/node_modules/@changesets/cli/",
           "packageDependencies": [
-            ["@changesets/cli", "npm:2.17.0"],
+            ["@changesets/cli", "npm:2.18.0"],
             ["@babel/runtime", "npm:7.16.0"],
-            ["@changesets/apply-release-plan", "npm:5.0.1"],
-            ["@changesets/assemble-release-plan", "npm:5.0.1"],
-            ["@changesets/config", "npm:1.6.1"],
+            ["@changesets/apply-release-plan", "npm:5.0.2"],
+            ["@changesets/assemble-release-plan", "npm:5.0.2"],
+            ["@changesets/config", "npm:1.6.2"],
             ["@changesets/errors", "npm:0.1.4"],
-            ["@changesets/get-dependents-graph", "npm:1.2.2"],
-            ["@changesets/get-release-plan", "npm:3.0.1"],
-            ["@changesets/git", "npm:1.1.2"],
+            ["@changesets/get-dependents-graph", "npm:1.2.3"],
+            ["@changesets/get-release-plan", "npm:3.0.2"],
+            ["@changesets/git", "npm:1.2.0"],
             ["@changesets/logger", "npm:0.0.5"],
             ["@changesets/pre", "npm:1.0.7"],
-            ["@changesets/read", "npm:0.5.0"],
+            ["@changesets/read", "npm:0.5.1"],
             ["@changesets/types", "npm:4.0.1"],
             ["@changesets/write", "npm:0.1.5"],
             ["@manypkg/get-packages", "npm:1.1.2"],
@@ -6553,12 +6553,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@changesets/config", [
-        ["npm:1.6.1", {
-          "packageLocation": "./.yarn/cache/@changesets-config-npm-1.6.1-76aaea0011-55f0e0e039.zip/node_modules/@changesets/config/",
+        ["npm:1.6.2", {
+          "packageLocation": "./.yarn/cache/@changesets-config-npm-1.6.2-235720986f-5ade65470e.zip/node_modules/@changesets/config/",
           "packageDependencies": [
-            ["@changesets/config", "npm:1.6.1"],
+            ["@changesets/config", "npm:1.6.2"],
             ["@changesets/errors", "npm:0.1.4"],
-            ["@changesets/get-dependents-graph", "npm:1.2.2"],
+            ["@changesets/get-dependents-graph", "npm:1.2.3"],
             ["@changesets/logger", "npm:0.0.5"],
             ["@changesets/types", "npm:4.0.1"],
             ["@manypkg/get-packages", "npm:1.1.2"],
@@ -6579,10 +6579,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@changesets/get-dependents-graph", [
-        ["npm:1.2.2", {
-          "packageLocation": "./.yarn/cache/@changesets-get-dependents-graph-npm-1.2.2-376837dea7-cfe762e92a.zip/node_modules/@changesets/get-dependents-graph/",
+        ["npm:1.2.3", {
+          "packageLocation": "./.yarn/cache/@changesets-get-dependents-graph-npm-1.2.3-c190a3498c-76178467b0.zip/node_modules/@changesets/get-dependents-graph/",
           "packageDependencies": [
-            ["@changesets/get-dependents-graph", "npm:1.2.2"],
+            ["@changesets/get-dependents-graph", "npm:1.2.3"],
             ["@changesets/types", "npm:4.0.1"],
             ["@manypkg/get-packages", "npm:1.1.2"],
             ["chalk", "npm:2.4.2"],
@@ -6593,15 +6593,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@changesets/get-release-plan", [
-        ["npm:3.0.1", {
-          "packageLocation": "./.yarn/cache/@changesets-get-release-plan-npm-3.0.1-62f844103c-816c05a919.zip/node_modules/@changesets/get-release-plan/",
+        ["npm:3.0.2", {
+          "packageLocation": "./.yarn/cache/@changesets-get-release-plan-npm-3.0.2-41d98a4f7e-b0fa5cf378.zip/node_modules/@changesets/get-release-plan/",
           "packageDependencies": [
-            ["@changesets/get-release-plan", "npm:3.0.1"],
+            ["@changesets/get-release-plan", "npm:3.0.2"],
             ["@babel/runtime", "npm:7.16.0"],
-            ["@changesets/assemble-release-plan", "npm:5.0.1"],
-            ["@changesets/config", "npm:1.6.1"],
+            ["@changesets/assemble-release-plan", "npm:5.0.2"],
+            ["@changesets/config", "npm:1.6.2"],
             ["@changesets/pre", "npm:1.0.7"],
-            ["@changesets/read", "npm:0.5.0"],
+            ["@changesets/read", "npm:0.5.1"],
             ["@changesets/types", "npm:4.0.1"],
             ["@manypkg/get-packages", "npm:1.1.2"]
           ],
@@ -6618,10 +6618,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@changesets/git", [
-        ["npm:1.1.2", {
-          "packageLocation": "./.yarn/cache/@changesets-git-npm-1.1.2-bdc838ab75-5677cfb7f0.zip/node_modules/@changesets/git/",
+        ["npm:1.2.0", {
+          "packageLocation": "./.yarn/cache/@changesets-git-npm-1.2.0-c2ccd2eef4-1b962b7647.zip/node_modules/@changesets/git/",
           "packageDependencies": [
-            ["@changesets/git", "npm:1.1.2"],
+            ["@changesets/git", "npm:1.2.0"],
             ["@babel/runtime", "npm:7.16.0"],
             ["@changesets/errors", "npm:0.1.4"],
             ["@changesets/types", "npm:4.0.1"],
@@ -6668,12 +6668,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@changesets/read", [
-        ["npm:0.5.0", {
-          "packageLocation": "./.yarn/cache/@changesets-read-npm-0.5.0-a67ed7743b-1ed4182753.zip/node_modules/@changesets/read/",
+        ["npm:0.5.1", {
+          "packageLocation": "./.yarn/cache/@changesets-read-npm-0.5.1-8bf089bbab-d1a75bc3f8.zip/node_modules/@changesets/read/",
           "packageDependencies": [
-            ["@changesets/read", "npm:0.5.0"],
+            ["@changesets/read", "npm:0.5.1"],
             ["@babel/runtime", "npm:7.16.0"],
-            ["@changesets/git", "npm:1.1.2"],
+            ["@changesets/git", "npm:1.2.0"],
             ["@changesets/logger", "npm:0.0.5"],
             ["@changesets/parse", "npm:0.3.9"],
             ["@changesets/types", "npm:4.0.1"],
