@@ -4,9 +4,9 @@ This adapter gets the tvl of Ethereum vaults as well as the block numbers of the
 
 ### Environment Variables
 
-| Required? |      Name       |     Description     | Options | Defaults to |
-| :-------: | :-------------: | :-----------------: | :-----: | :---------: |
-|    ✅     | ALCHEMY_API_KEY | Key for alchemy.com |         |             |
+| Required? |  Name   |         Description          | Options | Defaults to |
+| :-------: | :-----: | :--------------------------: | :-----: | :---------: |
+|    ✅     | RPC_URL | RPC url for Ethereum/Polygon |         |             |
 
 ---
 
@@ -24,10 +24,9 @@ This gets the tvl of a vault on Ethereum
 
 ### Input Params
 
-| Required? |      Name      |            Description            |     Options     | Defaults to |
-| :-------: | :------------: | :-------------------------------: | :-------------: | :---------: |
-|    ✅     |   `chainId`    |  The id of the network to query   | Any eth network |             |
-|    ✅     | `vaultAddress` | The address of the vault contract |                 |             |
+| Required? |      Name      |            Description            | Options | Defaults to |
+| :-------: | :------------: | :-------------------------------: | :-----: | :---------: |
+|    ✅     | `vaultAddress` | The address of the vault contract |         |             |
 
 ### Sample Input
 
@@ -35,7 +34,6 @@ This gets the tvl of a vault on Ethereum
 {
   "id": "1",
   "data": {
-    "chainId": 42,
     "vaultAddress": "0xA0F3BC193651c902C0cae9779c6E7F10761bF2Ac",
     "endpoint": "tvl"
   }
@@ -62,7 +60,6 @@ This gets the lastblock of a cross chain transfer from the given chain
 
 | Required? |       Name       |             Description             | Options | Defaults to |
 | :-------: | :--------------: | :---------------------------------: | :-----: | :---------: |
-|    ✅     |    `chainId`     |   The id of the network to query    |         |             |
 |    ✅     | `stagingAddress` | The address of the staging contract |         |             |
 
 ### Sample Input
@@ -71,7 +68,6 @@ This gets the lastblock of a cross chain transfer from the given chain
 {
   "id": "1",
   "data": {
-    "chainId": 80001,
     "stagingAddress": "0xd5c81d46D8237b06fa6110aEB43363b6F63bC247",
     "endpoint": "lastblock"
   }

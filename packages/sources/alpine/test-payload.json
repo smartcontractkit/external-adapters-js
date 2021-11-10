@@ -1,17 +1,3 @@
 {
- "requests": [{
-    "id": "1",
-    "data": {
-      "chainId": 42,
-      "vaultAddress": "0xA0F3BC193651c902C0cae9779c6E7F10761bF2Ac",
-      "endpoint": "tvl"
-    }
-  },{
-    "id": "1",
-    "data": {
-      "chainId": 80001,
-      "stagingAddress": "0xd5c81d46D8237b06fa6110aEB43363b6F63bC247",
-      "endpoint": "lastblock"
-    }
-  }]
+ "requests": []
 }
