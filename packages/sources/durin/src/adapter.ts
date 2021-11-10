@@ -18,15 +18,13 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
   const response = await endpoints.optimismGateway.execute(request, context, config)
   const handlerResponse = response.data.result as HandlerResponse
 
-  const result = hexlify(
-    concat([
-      Interface.getSighash(handlerResponse.returnType),
-      ethers.utils.defaultAbiCoder.encode(
-        handlerResponse.returnType.inputs,
-        handlerResponse.response,
-      ),
-    ]),
+  const sigHash = Interface.getSighash(handlerResponse.returnType)
+  const abiEncoded = ethers.utils.defaultAbiCoder.encode(
+    handlerResponse.returnType.inputs,
+    handlerResponse.response,
   )
+
+  const result = hexlify(concat([sigHash, abiEncoded]))
 
   const jobRunID = validator.validated.jobRunID
 
