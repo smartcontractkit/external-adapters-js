@@ -1,6 +1,7 @@
 import {
   AdapterMetricsMeta,
   AdapterRequest,
+  AdapterErrorLog,
   AdapterContext,
   Execute,
   ExecuteSync,
@@ -85,7 +86,26 @@ const withLogger: Middleware = async (execute, context) => async (input: Adapter
     Logger.debug(`Output: [${result.statusCode}]: `, { output: result.data })
     return result
   } catch (error) {
-    Logger.error(error.toString(), { stack: error.stack })
+    const feedID = metrics.util.getFeedId(input)
+    const errorLog: AdapterErrorLog = {
+      message: error.toString(),
+      jobRunID: input.id,
+      params: input.data,
+      feedID,
+      url: error.url,
+      errorResponse: error.errorResponse,
+    }
+
+    if (Logger.level === 'debug') {
+      errorLog.stack = error.stack
+    }
+
+    if (Logger.level === 'trace') {
+      errorLog.rawError = error.cause
+      errorLog.stack = undefined
+    }
+
+    Logger.error(errorLog)
     throw error
   }
 }
@@ -195,7 +215,11 @@ export const executeSync: ExecuteSync = async (
 
     return callback(result.statusCode, result)
   } catch (error) {
-    return callback(error.statusCode || 500, Requester.errored(data.id, error))
+    const feedID = metrics.util.getFeedId(data)
+    return callback(
+      error.statusCode || 500,
+      Requester.errored(data.id, error, error.statusCode, feedID),
+    )
   }
 }
 

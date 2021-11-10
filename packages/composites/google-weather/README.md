@@ -35,7 +35,7 @@ env PROJECT_ID=gcp-pdp-weather-dev yarn start
 |    ✅     | `dateFrom` |         The date to query data from (inclusive) in ISO 8601 format         |                                   |             |
 |    ✅     |  `dateTo`  |          The date to query data to (inclusive) in ISO 8601 format          |                                   |             |
 |    ✅     |  `method`  |                  Which method to use to aggregate data in                  |    `AVG`, `SUM`, `MIN`, `MAX`     |             |
-|    ✅     |  `field`   |                      Which column to fetch data from                       | [Data available](#data-available) |             |
+|    ✅     |  `column`  |                      Which column to fetch data from                       | [Data available](#data-available) |             |
 |           |  `units`   | What unit system to return the result in ([conversions](#unit-conversion)) |       `imperial`, `metric`        | `imperial`  |
 
 ### GeoJSON data

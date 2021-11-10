@@ -1,10 +1,11 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 
-export const supportedEndpoints = ['estimatedarrivaltime']
+export const supportedEndpoints = ['estimatedarrivaltime', 'actualarrivaltime']
 
 export const endpointResultPaths = {
   estimatedarrivaltime: 'FlightInfoExResult.flights.0.estimatedarrivaltime',
+  actualarrivaltime: 'FlightInfoExResult.flights.0.actualarrivaltime',
 }
 
 interface Flights {

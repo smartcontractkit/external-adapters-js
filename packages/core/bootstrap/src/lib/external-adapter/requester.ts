@@ -4,6 +4,7 @@ import {
   RequestConfig,
   AdapterRequest,
   AdapterRequestData,
+  ResultPath,
 } from '@chainlink/types'
 import { reducer } from '../cache-warmer'
 import axios, { AxiosResponse } from 'axios'
@@ -12,6 +13,7 @@ import { getDefaultConfig, logConfig } from './config'
 import { AdapterError } from './errors'
 import { logger } from './logger'
 import objectPath from 'object-path'
+import { join } from 'path'
 
 const getFalse = () => false
 
@@ -45,17 +47,18 @@ export class Requester {
       }
 
       let response: AxiosResponse<T>
+      const url = join(config.baseURL || '', config.url || '')
       try {
         response = await axios(config)
       } catch (error) {
         // Request error
         if (n === 1) {
-          logger.error(`Could not reach endpoint: ${JSON.stringify(error.message)}`)
-
           throw new AdapterError({
             statusCode: error?.response?.status,
             message: error?.message,
             cause: error,
+            errorResponse: error?.response?.data?.error,
+            url,
           })
         }
 
@@ -66,9 +69,8 @@ export class Requester {
         // Response error
         if (n === 1) {
           const message = `Could not retrieve valid data: ${JSON.stringify(response.data)}`
-          logger.error(message)
           const cause = response.data.error || 'customError'
-          throw new AdapterError({ message, cause })
+          throw new AdapterError({ message, cause, url })
         }
 
         return await _delayRetry(`Error in response. Retrying: ${JSON.stringify(response.data)}`)
@@ -90,7 +92,7 @@ export class Requester {
 
   static validateResultNumber(
     data: { [key: string]: any },
-    path: (string | number)[],
+    path: ResultPath,
     options?: { inverse?: boolean },
   ): number {
     const result = this.getResult(data, path)
@@ -111,7 +113,7 @@ export class Requester {
     return num
   }
 
-  static getResult(data: { [key: string]: unknown }, path: (string | number)[]): unknown {
+  static getResult(data: { [key: string]: unknown }, path: ResultPath): unknown {
     return objectPath.get(data, path)
   }
 
@@ -143,9 +145,13 @@ export class Requester {
     jobRunID = '1',
     error?: AdapterError | Error | string,
     statusCode = 500,
+    feedID?: string,
   ): AdapterErrorResponse {
     if (error instanceof AdapterError) {
       error.jobRunID = jobRunID
+      if (feedID) {
+        error.feedID = feedID
+      }
       return error.toJSONResponse()
     }
     if (error instanceof Error) {
@@ -154,9 +160,10 @@ export class Requester {
         statusCode,
         message: error.message,
         cause: error,
+        feedID,
       }).toJSONResponse()
     }
-    return new AdapterError({ jobRunID, statusCode, message: error }).toJSONResponse()
+    return new AdapterError({ jobRunID, statusCode, message: error, feedID }).toJSONResponse()
   }
 
   /**

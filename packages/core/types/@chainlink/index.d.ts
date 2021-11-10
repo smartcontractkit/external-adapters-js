@@ -83,6 +83,17 @@ declare module '@chainlink/types' {
     cause: string
   }
 
+  export type AdapterErrorLog = {
+    jobRunID: string
+    params: AdapterRequestData
+    message: string
+    feedID: string
+    url?: string
+    errorResponse?: any
+    rawError?: any
+    stack?: any
+  }
+
   export type AdapterErrorResponse = {
     jobRunID: string
     status: string
@@ -102,6 +113,7 @@ declare module '@chainlink/types' {
   export type { AxiosResponse, RequestConfig } from 'axios'
 
   export type Config = {
+    name?: string
     apiKey?: string
     wsApiKey?: string
     network?: string
@@ -113,6 +125,7 @@ declare module '@chainlink/types' {
       [T: string]: string | number
     }
     rpcUrl?: string
+    rpcPort?: number
   }
 
   export type Execute = (input: AdapterRequest, context: AdapterContext) => Promise<AdapterResponse>
@@ -147,10 +160,12 @@ declare module '@chainlink/types' {
     makeExecute?: ExecuteFactory<C>
   }
 
-  export type MakeResultPath = (input: AdapterRequest) => string
+  export type ResultPath = string | (number | string)[]
+  export type MakeResultPath = (input: AdapterRequest) => ResultPath
+  export type MakeResultPathFactory = (path: string) => MakeResultPath
 
   export interface EndpointResultPaths {
-    [endpoint: string]: MakeResultPath | string
+    [endpoint: string]: ResultPath | MakeResultPath
   }
 
   export type ConfigFactory<C extends Config = Config> = (prefix?: string) => C

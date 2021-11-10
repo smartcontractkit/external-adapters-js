@@ -1,8 +1,11 @@
 import * as _1forge from '@chainlink/1forge-adapter'
+import * as ada_balance from '@chainlink/ada-balance-adapter'
 import * as alphachain from '@chainlink/alphachain-adapter'
 import * as alphavantage from '@chainlink/alphavantage-adapter'
 import * as amberdata from '@chainlink/amberdata-adapter'
 import * as anyblock from '@chainlink/anyblock-adapter'
+import * as ap_election from '@chainlink/ap-election-adapter'
+import * as bea from '@chainlink/bea-adapter'
 import * as binance from '@chainlink/binance-adapter'
 import * as binance_dex from '@chainlink/binance-dex-adapter'
 import * as bitex from '@chainlink/bitex-adapter'
@@ -15,6 +18,7 @@ import * as bravenewcoin from '@chainlink/bravenewcoin-adapter'
 import * as btc_com from '@chainlink/btc.com-adapter'
 import * as cache_gold from '@chainlink/cache.gold-adapter'
 import * as cfbenchmarks from '@chainlink/cfbenchmarks-adapter'
+import * as chain_reserve_wallet from '@chainlink/chain-reserve-wallet-adapter'
 import * as coinapi from '@chainlink/coinapi-adapter'
 import * as coinbase from '@chainlink/coinbase-adapter'
 import * as coincodex from '@chainlink/coincodex-adapter'
@@ -39,6 +43,7 @@ import * as dxfeed from '@chainlink/dxfeed-adapter'
 import * as dxfeed_secondary from '@chainlink/dxfeed-secondary-adapter'
 import * as enzyme from '@chainlink/enzyme-adapter'
 import * as eodhistoricaldata from '@chainlink/eodhistoricaldata-adapter'
+import * as eth_balance from '@chainlink/eth-balance-adapter'
 import * as etherchain from '@chainlink/etherchain-adapter'
 import * as etherscan from '@chainlink/etherscan-adapter'
 import * as ethgasstation from '@chainlink/ethgasstation-adapter'
@@ -64,6 +69,7 @@ import * as layer2_sequencer_health from '@chainlink/layer2-sequencer-health-ada
 import * as lcx from '@chainlink/lcx-adapter'
 import * as linkpool from '@chainlink/linkpool-adapter'
 import * as lition from '@chainlink/lition-adapter'
+import * as lotus from '@chainlink/lotus-adapter'
 import * as marketstack from '@chainlink/marketstack-adapter'
 import * as messari from '@chainlink/messari-adapter'
 import * as metalsapi from '@chainlink/metalsapi-adapter'
@@ -89,6 +95,7 @@ import * as sportsdataio from '@chainlink/sportsdataio-adapter'
 import * as stasis from '@chainlink/stasis-adapter'
 import * as synthetix_debt_pool from '@chainlink/synthetix-debt-pool-adapter'
 import * as taapi from '@chainlink/taapi-adapter'
+import * as terra_view_function from '@chainlink/terra-view-function-adapter'
 import * as therundown from '@chainlink/therundown-adapter'
 import * as tiingo from '@chainlink/tiingo-adapter'
 import * as tradermade from '@chainlink/tradermade-adapter'
@@ -96,18 +103,24 @@ import * as tradingeconomics from '@chainlink/tradingeconomics-adapter'
 import * as trueusd from '@chainlink/trueusd-adapter'
 import * as twelvedata from '@chainlink/twelvedata-adapter'
 import * as unibit from '@chainlink/unibit-adapter'
+import * as uniswap_v2 from '@chainlink/uniswap-v2-adapter'
+import * as uniswap_v3 from '@chainlink/uniswap-v3-adapter'
 import * as upvest from '@chainlink/upvest-adapter'
 import * as uscpi_one from '@chainlink/uscpi-one-adapter'
+import * as view_function from '@chainlink/view-function-adapter'
 import * as wbtc_adapter_address from '@chainlink/wbtc-address-set-adapter'
 import * as wootrade from '@chainlink/wootrade-adapter'
 import * as xbto from '@chainlink/xbto-adapter'
 
 export default {
   _1forge,
+  ada_balance,
   alphachain,
   alphavantage,
   amberdata,
   anyblock,
+  ap_election,
+  bea,
   binance,
   binance_dex,
   bitex,
@@ -120,6 +133,7 @@ export default {
   btc_com,
   cache_gold,
   cfbenchmarks,
+  chain_reserve_wallet,
   coinapi,
   coinbase,
   coincodex,
@@ -144,6 +158,7 @@ export default {
   dxfeed_secondary,
   enzyme,
   eodhistoricaldata,
+  eth_balance,
   etherchain,
   etherscan,
   ethgasstation,
@@ -169,6 +184,7 @@ export default {
   lcx,
   linkpool,
   lition,
+  lotus,
   marketstack,
   messari,
   metalsapi,
@@ -194,6 +210,7 @@ export default {
   stasis,
   synthetix_debt_pool,
   taapi,
+  terra_view_function,
   therundown,
   tiingo,
   tradermade,
@@ -201,8 +218,11 @@ export default {
   trueusd,
   twelvedata,
   unibit,
+  uniswap_v2,
+  uniswap_v3,
   upvest,
   uscpi_one,
+  view_function,
   wbtc_adapter_address,
   wootrade,
   xbto,

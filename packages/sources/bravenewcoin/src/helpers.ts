@@ -3,7 +3,7 @@ import { Requester } from '@chainlink/ea-bootstrap'
 export const host = 'bravenewcoin.p.rapidapi.com'
 export const apiHeaders = {
   'x-rapidapi-host': host,
-  'x-rapidapi-key': process.env.API_KEY,
+  'x-rapidapi-key': process.env.API_KEY || 'test-api-key',
 }
 
 export const authenticate = async () => {

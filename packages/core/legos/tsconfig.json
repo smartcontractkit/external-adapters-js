@@ -14,6 +14,9 @@
       "path": "../../sources/1forge"
     },
     {
+      "path": "../../sources/ada-balance"
+    },
+    {
       "path": "../../sources/alphachain"
     },
     {
@@ -24,6 +27,12 @@
     },
     {
       "path": "../../sources/anyblock"
+    },
+    {
+      "path": "../../sources/ap-election"
+    },
+    {
+      "path": "../../sources/bea"
     },
     {
       "path": "../../sources/binance"
@@ -60,6 +69,9 @@
     },
     {
       "path": "../../sources/cfbenchmarks"
+    },
+    {
+      "path": "../../sources/chain-reserve-wallet"
     },
     {
       "path": "../../sources/coinapi"
@@ -132,6 +144,9 @@
     },
     {
       "path": "../../sources/eodhistoricaldata"
+    },
+    {
+      "path": "../../sources/eth-balance"
     },
     {
       "path": "../../sources/etherchain"
@@ -209,6 +224,9 @@
       "path": "../../sources/lition"
     },
     {
+      "path": "../../sources/lotus"
+    },
+    {
       "path": "../../sources/marketstack"
     },
     {
@@ -284,6 +302,9 @@
       "path": "../../sources/taapi"
     },
     {
+      "path": "../../sources/terra-view-function"
+    },
+    {
       "path": "../../sources/therundown"
     },
     {
@@ -305,10 +326,19 @@
       "path": "../../sources/unibit"
     },
     {
+      "path": "../../sources/uniswap-v2"
+    },
+    {
+      "path": "../../sources/uniswap-v3"
+    },
+    {
       "path": "../../sources/upvest"
     },
     {
       "path": "../../sources/uscpi-one"
+    },
+    {
+      "path": "../../sources/view-function"
     },
     {
       "path": "../../sources/wbtc-address-set"

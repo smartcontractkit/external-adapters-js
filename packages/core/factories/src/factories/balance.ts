@@ -72,6 +72,7 @@ const toGetBalances = (getBalance?: GetBalance) => (accounts: Account[], config:
 export const inputParameters: InputParameters = {
   dataPath: false,
   confirmations: false,
+  addresses: false,
 }
 
 export const make: ExecuteFactory<BalanceConfig> = (config) => async (input) => {

@@ -66,9 +66,8 @@ jobs:
         name: Publish adapter to public ECR
         uses: ./.github/actions/release/publish-artifacts
         with:
-          branch: ${{ fromJSON('[undefined, "develop"]')[github.ref == 'refs/heads/develop'] }}
-          latest: ${{ fromJSON('[undefined, true]')[github.ref == 'refs/heads/develop'] }}
-
+          branch: undefined
+          latest: undefined
           image-prefix: public.ecr.aws/${{ env.publicecr-name }}/adapters/
           adapter-name: ${{ matrix.adapter.name }}
           aws-region: us-east-1

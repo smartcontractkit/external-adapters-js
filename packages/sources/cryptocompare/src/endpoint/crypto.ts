@@ -8,7 +8,7 @@ import {
 } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
-export const supportedEndpoints = ['crypto', 'price', 'marketcap']
+export const supportedEndpoints = ['crypto', 'price', 'marketcap', 'volume']
 export const batchablePropertyPath = [
   { name: 'base', limit: 1000 },
   { name: 'quote', limit: 100 },
@@ -18,6 +18,7 @@ export const endpointResultPaths = {
   crypto: 'PRICE',
   price: 'PRICE',
   marketcap: 'MKTCAP',
+  volume: 'VOLUME24HOURTO',
 }
 
 export interface ResponseSchema {
