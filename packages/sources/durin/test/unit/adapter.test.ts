@@ -6,6 +6,7 @@ import { makeExecute } from '../../src/adapter'
 describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
+  process.env.RPC_URL = 'http://localhost:9545'
 
   describe('validation error', () => {
     const requests = [
