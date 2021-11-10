@@ -30,13 +30,13 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/ea-bootstrap": "*",
-    "@chainlink/token-allocation-adapter": "*",
+    "@chainlink/ea-bootstrap": "1.0.0",
+    "@chainlink/token-allocation-adapter": "1.0.0",
     "ethers": "^5.5.1",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
-    "@chainlink/ea-test-helpers": "*",
+    "@chainlink/ea-test-helpers": "1.0.0",
     "@chainlink/types": "1.0.0",
     "@types/jest": "27.0.2",
     "@types/node": "14.17.21",

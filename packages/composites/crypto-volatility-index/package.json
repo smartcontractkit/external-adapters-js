@@ -25,10 +25,10 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/ea-bootstrap": "*",
-    "@chainlink/ea-reference-data-reader": "^1.0.0",
-    "@chainlink/ea-test-helpers": "*",
-    "@chainlink/token-allocation-adapter": "^1.0.0",
+    "@chainlink/ea-bootstrap": "1.0.0",
+    "@chainlink/ea-reference-data-reader": "1.0.0",
+    "@chainlink/ea-test-helpers": "1.0.0",
+    "@chainlink/token-allocation-adapter": "1.0.0",
     "decimal.js": "^10.3.1",
     "moment": "^2.29.1",
     "tslib": "^2.3.1"

@@ -16,11 +16,11 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/ea-bootstrap": "*",
-    "@chainlink/ea-reference-data-reader": "^1.0.0",
-    "@chainlink/ea-test-helpers": "*",
-    "@chainlink/fcsapi-adapter": "^1.0.0",
-    "@chainlink/finnhub-adapter": "^1.0.0",
+    "@chainlink/ea-bootstrap": "1.0.0",
+    "@chainlink/ea-reference-data-reader": "1.0.0",
+    "@chainlink/ea-test-helpers": "1.0.0",
+    "@chainlink/fcsapi-adapter": "1.0.0",
+    "@chainlink/finnhub-adapter": "1.0.0",
     "market-closure": "^0.1.2",
     "tslib": "^2.3.1"
   },

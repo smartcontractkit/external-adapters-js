@@ -33,9 +33,9 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/ea-bootstrap": "*",
-    "@chainlink/ea-factories": "*",
-    "@chainlink/ea-test-helpers": "*",
+    "@chainlink/ea-bootstrap": "1.0.0",
+    "@chainlink/ea-factories": "1.0.0",
+    "@chainlink/ea-test-helpers": "1.0.0",
     "ethers": "^5.4.6",
     "tslib": "^2.3.1"
   },

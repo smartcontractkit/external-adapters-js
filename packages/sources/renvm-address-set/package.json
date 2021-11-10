@@ -31,8 +31,8 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/ea-bootstrap": "*",
-    "@chainlink/ea-test-helpers": "*",
+    "@chainlink/ea-bootstrap": "1.0.0",
+    "@chainlink/ea-test-helpers": "1.0.0",
     "@renproject/interfaces": "^2.5.1",
     "@renproject/ren": "^2.5.1",
     "@renproject/utils": "^2.5.1",

@@ -30,8 +30,8 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/ea-bootstrap": "*",
-    "@chainlink/ipfs-adapter": "*",
+    "@chainlink/ea-bootstrap": "1.0.0",
+    "@chainlink/ipfs-adapter": "1.0.0",
     "bignumber.js": "^9.0.1",
     "ethers": "^5.3.0",
     "ipfs": "^0.58.4",

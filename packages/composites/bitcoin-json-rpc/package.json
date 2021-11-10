@@ -18,9 +18,9 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/ea-bootstrap": "*",
-    "@chainlink/ea-test-helpers": "*",
-    "@chainlink/json-rpc-adapter": "^1.0.0",
+    "@chainlink/ea-bootstrap": "1.0.0",
+    "@chainlink/ea-test-helpers": "1.0.0",
+    "@chainlink/json-rpc-adapter": "1.0.0",
     "tslib": "^2.3.1"
   },
   "devDependencies": {

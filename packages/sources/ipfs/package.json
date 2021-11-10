@@ -28,8 +28,8 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/ea-bootstrap": "*",
-    "@chainlink/ea-test-helpers": "*",
+    "@chainlink/ea-bootstrap": "1.0.0",
+    "@chainlink/ea-test-helpers": "1.0.0",
     "cids": "^1.1.8",
     "ipfs": "^0.58.4",
     "ipfs-core-types": "^0.7.1",
