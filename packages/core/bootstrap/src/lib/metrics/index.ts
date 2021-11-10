@@ -2,13 +2,14 @@ import * as client from 'prom-client'
 import { parseBool } from '../util'
 export * as util from './util'
 
-client.collectDefaultMetrics()
-client.register.setDefaultLabels(
-  // we'll inject both name and versions in
-  // when EAEE gets merged, because it'll be a lot easier
-  // to refactor with full type coverage support
-  { app_name: process.env.METRICS_NAME || 'N/A', app_version: 'N/A' },
-)
+export const setupMetrics = (name: string): void => {
+  client.collectDefaultMetrics()
+  client.register.setDefaultLabels({
+    app_name: process.env.METRICS_NAME || name || 'N/A',
+    app_version: process.env.npm_package_version,
+  })
+}
+
 export const METRICS_ENABLED = parseBool(process.env.EXPERIMENTAL_METRICS_ENABLED)
 
 export enum HttpRequestType {
