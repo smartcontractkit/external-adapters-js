@@ -17,6 +17,7 @@ import { get as getRateLimitConfig } from './rate-limit/config'
 import { toObjectWithNumbers } from './util'
 
 const app = express()
+const version = process.env.npm_package_version
 const port = process.env.EA_PORT || 8080
 const baseUrl = process.env.BASE_URL || '/'
 
@@ -64,12 +65,12 @@ export const initHandler =
         logger.debug('Checking if redis connection initialized')
         const cache = context.cache.instance as redis.RedisCache
         if (!cache.client.connected) {
-          res.status(500).send('Redis not connected')
+          res.status(500).send({ message: 'Redis not connected', version })
           return
         }
       }
 
-      res.status(200).send('OK')
+      res.status(200).send({ message: 'OK', version })
     })
 
     const testPayload = loadTestPayload()
