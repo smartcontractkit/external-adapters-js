@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/gemini-adapter",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Chainlink gemini adapter.",
   "keywords": [
     "Chainlink",
@@ -33,7 +33,7 @@
     "tslib": "^2.3.1"
   },
   "devDependencies": {
-    "@chainlink/types": "0.0.1",
+    "@chainlink/types": "1.0.0",
     "@types/jest": "27.0.1",
     "@types/node": "14.17.21",
     "@types/supertest": "^2.0.11",

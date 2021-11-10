@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/apy-finance-adapter",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "description": "Chainlink APY Finance TVL adapter",
   "keywords": [
     "Chainlink",
@@ -29,13 +29,13 @@
   "dependencies": {
     "@chainlink/ea-bootstrap": "*",
     "@chainlink/ea-test-helpers": "*",
-    "@chainlink/token-allocation-adapter": "^0.1.1",
+    "@chainlink/token-allocation-adapter": "^1.0.0",
     "@openzeppelin/contracts": "^3.3.0",
     "ethers": "5.4.6",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
-    "@chainlink/types": "0.0.1",
+    "@chainlink/types": "1.0.0",
     "@types/jest": "27.0.2",
     "@types/node": "14.17.21",
     "nock": "13.1.3",
