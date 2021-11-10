@@ -4,6 +4,25 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - 2021-11-10
+
+The stable General Availability release, also known as EAv2.
+
+From this point on external adapters will manage their own versions and changelogs.
+Docker images for each EA will be published under a tag with its own semantic version.
+
+```
+docker pull public.ecr.aws/chainlink/adapters/1forge-adapter:1.0.0
+```
+
+RC.2 through RC.7 details are summarized below:
+
+### Added
+
+### Changed
+
+### Removed
+
 ## [0.3.0-rc.1] - 2021-6-30
 
 This release marks the fruition of our recent External Adapter efficiency efforts.
