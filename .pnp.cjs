@@ -11026,15 +11026,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
-      ["@types/k6", [
-        ["npm:0.32.2", {
-          "packageLocation": "./.yarn/cache/@types-k6-npm-0.32.2-e0155431e5-d7dae7710f.zip/node_modules/@types/k6/",
-          "packageDependencies": [
-            ["@types/k6", "npm:0.32.2"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
       ["@types/keccak", [
         ["npm:3.0.1", {
           "packageLocation": "./.yarn/cache/@types-keccak-npm-3.0.1-5763a04e62-55551902b3.zip/node_modules/@types/keccak/",
@@ -23344,16 +23335,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["k6", [
-        ["npm:0.0.0", {
-          "packageLocation": "./.yarn/cache/k6-npm-0.0.0-a2be337d04-13a6701565.zip/node_modules/k6/",
-          "packageDependencies": [
-            ["k6", "npm:0.0.0"]
-          ],
-          "linkType": "HARD",
-        }],
         ["workspace:packages/k6", {
           "packageLocation": "./packages/k6/",
           "packageDependencies": [
+            ["k6", "workspace:packages/k6"],
             ["@babel/core", "npm:7.15.0"],
             ["@babel/plugin-proposal-class-properties", "virtual:19ae54f3988f54649b13d516415615bd5d78740ebea95a939bf96ae90aa45f499ce1727611c3e07f2531b20c69700f054f13d64974e845ed83a38198860f845f#npm:7.14.5"],
             ["@babel/plugin-proposal-object-rest-spread", "virtual:19ae54f3988f54649b13d516415615bd5d78740ebea95a939bf96ae90aa45f499ce1727611c3e07f2531b20c69700f054f13d64974e845ed83a38198860f845f#npm:7.14.7"],
@@ -23361,11 +23346,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/preset-typescript", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.15.0"],
             ["@types/babel__core", "npm:7.1.16"],
             ["@types/babel__preset-env", "npm:7.9.2"],
-            ["@types/k6", "npm:0.32.2"],
             ["babel-loader", "virtual:4f33a23cf772c9fbbeaff833230e51fa7f4a4c09ef609dd1b1396e9132fe2abc348652b57470c151673da706634f58c80da2f57c8a7b7ca0c06dcd07aea7c2c8#npm:8.2.2"],
             ["clean-webpack-plugin", "virtual:4f33a23cf772c9fbbeaff833230e51fa7f4a4c09ef609dd1b1396e9132fe2abc348652b57470c151673da706634f58c80da2f57c8a7b7ca0c06dcd07aea7c2c8#npm:4.0.0"],
             ["core-js", "npm:3.16.2"],
-            ["k6", "npm:0.0.0"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"],
             ["webpack", "virtual:4f33a23cf772c9fbbeaff833230e51fa7f4a4c09ef609dd1b1396e9132fe2abc348652b57470c151673da706634f58c80da2f57c8a7b7ca0c06dcd07aea7c2c8#npm:5.51.1"],
             ["webpack-cli", "virtual:4f33a23cf772c9fbbeaff833230e51fa7f4a4c09ef609dd1b1396e9132fe2abc348652b57470c151673da706634f58c80da2f57c8a7b7ca0c06dcd07aea7c2c8#npm:4.8.0"]

@@ -2272,9 +2272,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/dxdao-adapter@workspace:packages/composites/dxdao"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/token-allocation-adapter": "workspace:packages/composites/token-allocation"
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/token-allocation-adapter": "workspace:*"
     "@chainlink/types": 1.0.0
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
@@ -2355,7 +2355,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ea-bootstrap@*, @chainlink/ea-bootstrap@1.0.0, @chainlink/ea-bootstrap@workspace:packages/core/bootstrap":
+"@chainlink/ea-bootstrap@*, @chainlink/ea-bootstrap@1.0.0, @chainlink/ea-bootstrap@workspace:*, @chainlink/ea-bootstrap@workspace:packages/core/bootstrap":
   version: 0.0.0-use.local
   resolution: "@chainlink/ea-bootstrap@workspace:packages/core/bootstrap"
   dependencies:
@@ -2459,7 +2459,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ea-test-helpers@*, @chainlink/ea-test-helpers@1.0.0, @chainlink/ea-test-helpers@workspace:packages/core/test-helpers":
+"@chainlink/ea-test-helpers@*, @chainlink/ea-test-helpers@1.0.0, @chainlink/ea-test-helpers@workspace:*, @chainlink/ea-test-helpers@workspace:packages/core/test-helpers":
   version: 0.0.0-use.local
   resolution: "@chainlink/ea-test-helpers@workspace:packages/core/test-helpers"
   dependencies:
@@ -3053,7 +3053,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/json-rpc-adapter@1.0.0, @chainlink/json-rpc-adapter@workspace:packages/sources/json-rpc":
+"@chainlink/json-rpc-adapter@1.0.0, @chainlink/json-rpc-adapter@workspace:*, @chainlink/json-rpc-adapter@workspace:packages/sources/json-rpc":
   version: 0.0.0-use.local
   resolution: "@chainlink/json-rpc-adapter@workspace:packages/sources/json-rpc"
   dependencies:
@@ -3164,10 +3164,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/lotus-adapter@workspace:packages/sources/lotus"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": "workspace:packages/core/test-helpers"
-    "@chainlink/json-rpc-adapter": "workspace:packages/sources/json-rpc"
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/json-rpc-adapter": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     "@types/supertest": ^2.0.11
@@ -3763,7 +3763,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/token-allocation-adapter@1.0.0, @chainlink/token-allocation-adapter@workspace:packages/composites/token-allocation":
+"@chainlink/token-allocation-adapter@1.0.0, @chainlink/token-allocation-adapter@workspace:*, @chainlink/token-allocation-adapter@workspace:packages/composites/token-allocation":
   version: 0.0.0-use.local
   resolution: "@chainlink/token-allocation-adapter@workspace:packages/composites/token-allocation"
   dependencies:
@@ -3854,7 +3854,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/types@1.0.0, @chainlink/types@workspace:packages/core/types/@chainlink":
+"@chainlink/types@1.0.0, @chainlink/types@workspace:*, @chainlink/types@workspace:packages/core/types/@chainlink":
   version: 0.0.0-use.local
   resolution: "@chainlink/types@workspace:packages/core/types/@chainlink"
   languageName: unknown
@@ -8145,13 +8145,6 @@ __metadata:
   version: 7.0.8
   resolution: "@types/json-schema@npm:7.0.8"
   checksum: f1d0fe76ab1db93846f36a9179faa44b9b66f2f5f44597e46e65456a1c998f632c63b94ed347058ed1a230cbf95a9a164b4daf4d70aa3d651d5033f7856df83c
-  languageName: node
-  linkType: hard
-
-"@types/k6@npm:0.32.2":
-  version: 0.32.2
-  resolution: "@types/k6@npm:0.32.2"
-  checksum: d7dae7710f73a8ac743450a77e31468a6d01bf0b1a20015b9f358eb591c40a91adecca668f2a33b7ed4931ea5827c278dab828708e4804b6926528fe6134f195
   languageName: node
   linkType: hard
 
@@ -19117,13 +19110,6 @@ fsevents@~2.1.1:
   languageName: node
   linkType: hard
 
-"k6@npm:^0.0.0":
-  version: 0.0.0
-  resolution: "k6@npm:0.0.0"
-  checksum: 13a6701565b36457326c77bddafd73d9137c016088961e9ce18e78a3a48b8b155f93775b8e12d6f21e226da21d8c1dfe3e6a130cd35409bce84c247746b1cd85
-  languageName: node
-  linkType: hard
-
 "k6@workspace:packages/k6":
   version: 0.0.0-use.local
   resolution: "k6@workspace:packages/k6"
@@ -19135,11 +19121,9 @@ fsevents@~2.1.1:
     "@babel/preset-typescript": 7.15.0
     "@types/babel__core": 7.1.16
     "@types/babel__preset-env": 7.9.2
-    "@types/k6": 0.32.2
     babel-loader: 8.2.2
     clean-webpack-plugin: 4.0.0
     core-js: 3.16.2
-    k6: ^0.0.0
     typescript: 4.3.5
     webpack: 5.51.1
     webpack-cli: 4.8.0

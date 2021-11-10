@@ -30,9 +30,9 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/ea-bootstrap": "1.0.0",
-    "@chainlink/ea-test-helpers": "1.0.0",
-    "@chainlink/token-allocation-adapter": "workspace:packages/composites/token-allocation",
+    "@chainlink/ea-bootstrap": "workspace:*",
+    "@chainlink/ea-test-helpers": "workspace:*",
+    "@chainlink/token-allocation-adapter": "workspace:*",
     "ethers": "^5.4.6",
     "tslib": "^2.3.1"
   },
