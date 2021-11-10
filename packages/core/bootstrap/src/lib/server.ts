@@ -14,7 +14,7 @@ import {
   HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE_MESSAGE,
 } from './errors'
 import { logger } from './external-adapter'
-import { METRICS_ENABLED, httpRateLimit } from './metrics'
+import { METRICS_ENABLED, httpRateLimit, setupMetrics } from './metrics'
 import { get as getRateLimitConfig } from './rate-limit/config'
 import { toObjectWithNumbers } from './util'
 
@@ -41,7 +41,7 @@ export const initHandler =
     }
 
     if (METRICS_ENABLED) {
-      setupMetricsServer()
+      setupMetricsServer(name)
     }
 
     initExpressMiddleware(app)
@@ -116,10 +116,12 @@ export const initHandler =
     })
   }
 
-function setupMetricsServer() {
+function setupMetricsServer(name: string) {
   const metricsApp = express()
   const metricsPort = process.env.METRICS_PORT || 9080
   const endpoint = process.env.METRICS_USE_BASE_URL ? join(baseUrl, 'metrics') : '/metrics'
+
+  setupMetrics(name)
 
   metricsApp.get(endpoint, async (_, res) => {
     res.type('txt')
