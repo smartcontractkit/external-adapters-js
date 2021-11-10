@@ -20775,18 +20775,6 @@ fsevents@~2.1.1:
   languageName: node
   linkType: hard
 
-"nock@npm:^13.1.4":
-  version: 13.1.4
-  resolution: "nock@npm:13.1.4"
-  dependencies:
-    debug: ^4.1.0
-    json-stringify-safe: ^5.0.1
-    lodash.set: ^4.3.2
-    propagate: ^2.0.0
-  checksum: 2452150f52991229dcba1ee5f32870e7db7ef338fa7a0d4b73f6c034a8df22da076b9569ec04e3c1cdaa919a4657aad702b8eb20ada81b0f43c2feb9c6ae4b48
-  languageName: node
-  linkType: hard
-
 "nock@npm:^13.2.0":
   version: 13.2.0
   resolution: "nock@npm:13.2.0"
