@@ -3,12 +3,11 @@ import { Config as BaseConfig } from '@chainlink/types'
 
 export const NAME = 'DURIN'
 
-export const DEFAULT_ENDPOINT = 'gateway'
-export const DEFAULT_BASE_URL = 'http://localhost:18081'
+export const DEFAULT_ENDPOINT = 'optimism-gateway'
 
 export interface Config extends BaseConfig {
-  l2RpcUrl: string
-  addressManagerContract: string
+  l2RpcUrl?: string
+  addressManagerContract?: string
 }
 
 export const makeConfig = (prefix?: string): Config => {
@@ -19,7 +18,7 @@ export const makeConfig = (prefix?: string): Config => {
     ...Requester.getDefaultConfig(prefix),
     defaultEndpoint: DEFAULT_ENDPOINT,
     rpcUrl: util.getRequiredEnv('RPC_URL', prefix),
-    l2RpcUrl: util.getRequiredEnv('L2_RPC_URL', prefix),
-    addressManagerContract: util.getRequiredEnv('ADDRESS_MANAGER_CONTRACT', prefix),
+    l2RpcUrl: util.getEnv('L2_RPC_URL', prefix),
+    addressManagerContract: util.getEnv('ADDRESS_MANAGER_CONTRACT', prefix),
   }
 }

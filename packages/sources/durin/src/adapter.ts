@@ -25,7 +25,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
   )
 
   const result = hexlify(concat([sigHash, abiEncoded]))
-
   const jobRunID = validator.validated.jobRunID
 
   return {

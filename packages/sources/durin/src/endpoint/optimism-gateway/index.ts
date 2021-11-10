@@ -3,11 +3,11 @@ import { ADDRESS_MANAGER_ABI, STATE_COMMITMENT_CHAIN_ABI } from './abis'
 import { Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { ethers } from 'ethers'
-import { Config } from '../config'
+import { Config } from '../../config'
 import { RLP } from 'ethers/lib/utils'
 import MerkleTree from 'merkletreejs'
-import { HandlerResponse } from '../types'
-import { toInterface } from '../utils'
+import { toInterface } from '../../utils'
+import { HandlerResponse } from '../../types'
 import { StateBatchHeader } from './types'
 
 export const supportedEndpoints = ['optimism-gateway']
@@ -32,6 +32,9 @@ const ZERO_ADDRESS = '0x' + '00'.repeat(20)
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
+
+  if (!config.addressManagerContract) throw Error('AddressManagerContract address not set')
+  if (!config.l2RpcUrl) throw Error('L2 RPC URL not set')
 
   const jobRunID = validator.validated.id
   const { to: address, data, abi: optimismGatewayStubABI } = validator.validated.data
