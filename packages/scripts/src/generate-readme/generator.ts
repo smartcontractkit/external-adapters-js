@@ -12,11 +12,18 @@ import {
 
 const localPathToRoot = '../../../../'
 
-const envVarHeaders: TextRow = ['Required?', 'Name', 'Type', 'Options', 'Default']
+const envVarHeaders: TextRow = ['Required?', 'Name', 'Description', 'Type', 'Options', 'Default']
 
 const endpointInputHeaders: TextRow = ['Required?', 'Name', 'Type', 'Options', 'Default']
 
-const inputParamHeaders: TextRow = ['Required?', 'Name', 'Type', 'Options', 'Default']
+const inputParamHeaders: TextRow = [
+  'Required?',
+  'Name',
+  'Description',
+  'Type',
+  'Options',
+  'Default',
+]
 
 const testEnvOverrides = { RECORD: undefined, LOG_LEVEL: 'debug', API_VERBOSE: 'true' }
 
@@ -86,10 +93,8 @@ class ReadmeGenerator {
   addIntroSection(): void {
     console.log('Adding title and version...')
 
-    this.readmeText =
-      `# ${this.adapterPackage.name}\n\n` +
-      `Version: ${this.adapterPackage.version}\n\n` +
-      `${this.adapterSchema.description}\n\n`
+    this.readmeText = `# ${this.adapterPackage.name}\n\nVersion: ${this.adapterPackage.version}\n\n`
+    if (this.adapterSchema.description) this.readmeText += `${this.adapterSchema.description}\n\n`
   }
 
   addEnvVarSection(): void {
@@ -100,10 +105,11 @@ class ReadmeGenerator {
     const tableText: TableText = Object.entries(envVars).map(([key, envVar]) => {
       const required = this.adapterSchema.required.includes(key) ? '✅' : ''
       const name = key ?? ''
+      const description = envVar.description ?? ''
       const type = envVar.type ?? ''
-      const options = envVar.enum?.map((e) => e.toString()).join(', ') ?? ''
-      const defaultText = envVar.default?.toString() ?? ''
-      return [required, name, type, options, defaultText]
+      const options = envVar.enum?.map((e) => `\`${e.toString()}\``).join(', ') ?? ''
+      const defaultText = envVar.default ? `\`${envVar.default.toString()}\`` : ''
+      return [required, name, description, type, options, defaultText]
     })
 
     const envVarTable = tableText.length
@@ -120,7 +126,16 @@ class ReadmeGenerator {
       const lowercase = e.toLowerCase()
       return `[${lowercase}](#${lowercase}-endpoint)`
     })
-    const tableText = [['', 'endpoint', 'string', endpointList.join(', '), this.defaultEndpoint]]
+    const tableText = [
+      [
+        '',
+        'endpoint',
+        'The endpoint to use',
+        'string',
+        endpointList.join(', '),
+        `\`${this.defaultEndpoint}\``,
+      ],
+    ]
 
     const inputParamTable = tableText.length
       ? buildTable(tableText, inputParamHeaders)

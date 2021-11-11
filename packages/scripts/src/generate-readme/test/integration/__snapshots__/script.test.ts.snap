@@ -9,21 +9,21 @@ This is a fake adapter for testing, and should not be used as a template for ada
 
 ## Environment Variables
 
-| Required? |     Name     |  Type  |       Options       |            Default             |
-| :-------: | :----------: | :----: | :-----------------: | :----------------------------: |
-|           | API_ENDPOINT | string |                     | https://test.api.endpoint.link |
-|           |   CHAIN_ID   | number |                     |               1                |
-|           |     MODE     | string | live, sandbox, test |            sandbox             |
-|    ✅     | PRIVATE_KEY  | string |                     |                                |
-|    ✅     |   RPC_URL    | string |                     |                                |
+| Required? |     Name     |                                                Description                                                 |  Type  |          Options          |             Default              |
+| :-------: | :----------: | :--------------------------------------------------------------------------------------------------------: | :----: | :-----------------------: | :------------------------------: |
+|           | API_ENDPOINT |                                            API Endpoint to use                                             | string |                           | \`https://test.api.endpoint.link\` |
+|           |   CHAIN_ID   |                                Chain ID (\`1 = Mainnet\`, \`2 = Testnet\`, ...)                                | number |                           |               \`1\`                |
+|           |     MODE     | API Mode has \`live\` for live data, \`sandbox\` for development, and \`test\` for live-like environment testing | string | \`live\`, \`sandbox\`, \`test\` |            \`sandbox\`             |
+|    ✅     | PRIVATE_KEY  |                                          Private subscription key                                          | string |                           |                                  |
+|    ✅     |   RPC_URL    |                                            RPC Endpoint to use                                             | string |                           |                                  |
 
 ---
 
 ## Input Parameters
 
-| Required? |   Name   |  Type  |                                         Options                                          | Default |
-| :-------: | :------: | :----: | :--------------------------------------------------------------------------------------: | :-----: |
-|           | endpoint | string | [balance](#balance-endpoint), [marketcap](#marketcap-endpoint), [price](#price-endpoint) | balance |
+| Required? |   Name   |     Description     |  Type  |                                         Options                                          |  Default  |
+| :-------: | :------: | :-----------------: | :----: | :--------------------------------------------------------------------------------------: | :-------: |
+|           | endpoint | The endpoint to use | string | [balance](#balance-endpoint), [marketcap](#marketcap-endpoint), [price](#price-endpoint) | \`balance\` |
 
 ---
 

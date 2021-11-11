@@ -8,6 +8,7 @@ export type AdapterSchema = {
   properties: {
     [key: string]: {
       default?: string | number
+      description?: string
       enum?: (string | number)[]
       type?: string
     }
