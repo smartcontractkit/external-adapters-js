@@ -25,9 +25,9 @@ The adapter takes the following environment variables:
 
 3. An RPC URL to read the on-chain reference data value. Required by runlog requests.
 
-   | Required? |        Name         |        Description        | Options | Defaults to  |
-   | :-------: | :-----------------: | :-----------------------: | :-----: | :----------: |
-   |           | `[NETWORK]_RPC_URL` | (e.g. `ETHEREUM_RPC_URL`) |         | `"ETHEREUM"` |
+   | Required? |        Name         |        Description        | Options | Defaults to |
+   | :-------: | :-----------------: | :-----------------------: | :-----: | :---------: |
+   |           | `[NETWORK]_RPC_URL` | (e.g. `ETHEREUM_RPC_URL`) |         |             |
 
 ## Running
 
