@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/spectral-macro-score-adapter",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Chainlink spectral-macro-score adapter.",
   "keywords": [
     "Chainlink",
@@ -28,13 +28,13 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/ea-bootstrap": "*",
-    "@chainlink/ea-test-helpers": "*",
+    "@chainlink/ea-bootstrap": "1.0.0",
+    "@chainlink/ea-test-helpers": "1.0.0",
     "ethers": "^5.4.2",
     "tslib": "^2.1.0"
   },
   "devDependencies": {
-    "@chainlink/types": "0.0.1",
+    "@chainlink/types": "1.0.0",
     "@types/jest": "26.0.24",
     "@types/node": "14.17.21",
     "@types/sinon": "10.0.2",

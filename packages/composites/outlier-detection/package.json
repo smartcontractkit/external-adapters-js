@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/outlier-detection-adapter",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Chainlink Outlier Detection adapter.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -16,15 +16,15 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/ea": "*",
-    "@chainlink/ea-bootstrap": "*",
-    "@chainlink/ea-reference-data-reader": "*",
-    "@chainlink/ea-test-helpers": "*",
+    "@chainlink/ea": "1.0.0",
+    "@chainlink/ea-bootstrap": "1.0.0",
+    "@chainlink/ea-reference-data-reader": "1.0.0",
+    "@chainlink/ea-test-helpers": "1.0.0",
     "axios": "^0.21.1",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
-    "@chainlink/types": "0.0.1",
+    "@chainlink/types": "1.0.0",
     "@types/jest": "27.0.2",
     "@types/node": "14.17.21",
     "@types/sinon": "10.0.2",

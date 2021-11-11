@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute forex rate api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 1.36606,
+  },
+  "jobRunID": "1",
+  "result": 1.36606,
+  "statusCode": 200,
+}
+`;

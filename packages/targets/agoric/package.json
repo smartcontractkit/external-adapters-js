@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/agoric-adapter",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Chainlink adapter to post to the Agoric blockchain",
   "keywords": [
     "Chainlink",
@@ -27,14 +27,14 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/ea-bootstrap": "*",
-    "@chainlink/ea-test-helpers": "*",
+    "@chainlink/ea-bootstrap": "1.0.0",
+    "@chainlink/ea-test-helpers": "1.0.0",
     "ethers": "^5.4.6",
     "express": "^4.17.1",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
-    "@chainlink/types": "0.0.1",
+    "@chainlink/types": "1.0.0",
     "@types/express": "4.17.13",
     "@types/jest": "27.0.2",
     "@types/node": "14.17.21",
