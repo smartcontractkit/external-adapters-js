@@ -1900,7 +1900,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/coinmetrics-adapter@1.0.0, @chainlink/coinmetrics-adapter@workspace:packages/sources/coinmetrics":
+"@chainlink/coinmetrics-adapter@1.1.0, @chainlink/coinmetrics-adapter@workspace:packages/sources/coinmetrics":
   version: 0.0.0-use.local
   resolution: "@chainlink/coinmetrics-adapter@workspace:packages/sources/coinmetrics"
   dependencies:
@@ -2430,7 +2430,7 @@ __metadata:
     "@chainlink/coingecko-adapter": 1.0.0
     "@chainlink/coinlore-adapter": 1.0.0
     "@chainlink/coinmarketcap-adapter": 1.0.0
-    "@chainlink/coinmetrics-adapter": 1.0.0
+    "@chainlink/coinmetrics-adapter": 1.1.0
     "@chainlink/coinpaprika-adapter": 1.0.0
     "@chainlink/coinranking-adapter": 1.0.0
     "@chainlink/covid-tracker-adapter": 1.0.0
