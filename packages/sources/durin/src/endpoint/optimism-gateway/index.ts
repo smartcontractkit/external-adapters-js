@@ -148,7 +148,8 @@ const getLatestStateBatchHeader = async (
 
 const getElementsToConstructProof = (stateBatchHeader: StateBatchHeader): string[] => {
   const elements = []
-  for (let i = 0; i < Math.pow(2, Math.ceil(Math.log2(stateBatchHeader.stateRoots.length))); i++) {
+  const maxElements = Math.pow(2, Math.ceil(Math.log2(stateBatchHeader.stateRoots.length)))
+  for (let i = 0; i < maxElements; i++) {
     if (i < stateBatchHeader.stateRoots.length) {
       elements.push(stateBatchHeader.stateRoots[i])
     } else {
@@ -166,9 +167,7 @@ const getMerkleTreeProof = (elements: string[], index: number): any[] => {
     return Buffer.from(element.slice(2), 'hex')
   })
   const tree = new MerkleTree(leaves, hash)
-  return tree.getProof(leaves[index], index).map((element) => {
-    return element.data
-  })
+  return tree.getProof(leaves[index], index).map(({ data }) => data)
 }
 
 const getProofFromL2Resolver = async (

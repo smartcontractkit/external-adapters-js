@@ -11,9 +11,6 @@ export interface Config extends BaseConfig {
 }
 
 export const makeConfig = (prefix?: string): Config => {
-  const config = Requester.getDefaultConfig(prefix)
-  config.defaultEndpoint = DEFAULT_ENDPOINT
-  config.rpcUrl = util.getRequiredEnv('RPC_URL')
   return {
     ...Requester.getDefaultConfig(prefix),
     defaultEndpoint: DEFAULT_ENDPOINT,

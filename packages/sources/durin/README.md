@@ -30,7 +30,7 @@ Currently this endpoint has the same functionality as the server in this example
 | Required? |  Name  |                                              Description                                               | Options | Defaults to |
 | :-------: | :----: | :----------------------------------------------------------------------------------------------------: | :-----: | :---------: |
 |    ✅     | `abi`  | The ABI of the originally called L1 contract. In this example it is the OptimismResolverStub contract. |         |             |
-|    ✅     |  `to`  |                        The **L1** address of the originall called L1 contract.                         |         |
+|    ✅     |  `to`  |                         The **L1** address of the original called L1 contract.                         |         |
 |    ✅     | `data` |            The hex encoded function call of the original function called in the L1 contract            |         |             |
 
 ### Sample Input
