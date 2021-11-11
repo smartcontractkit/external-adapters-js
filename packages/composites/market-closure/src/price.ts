@@ -1,7 +1,7 @@
 import { Execute } from '@chainlink/types'
 // TODO: use all price providers from @chainlink/ea
 import finnhub from '@chainlink/finnhub-adapter'
-import fcsapi from '@chainlink/fcsapi-adapter'
+import * as fcsapi from '@chainlink/fcsapi-adapter'
 
 export enum PriceDataProvider {
   Finnhub = 'finnhub',
