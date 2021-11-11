@@ -21,10 +21,10 @@ The ChainlinkAdapter.getAllocations(ISetToken \_setToken) should be reimplemente
 
 The adapter takes the following environment variables:
 
-| Required? |      Name       |                       Description                       | Options | Defaults to |
-| :-------: | :-------------: | :-----------------------------------------------------: | :-----: | :---------: |
-|    ✅     |    `RPC_URL`    | Blockchain RPC endpoint to get the needed on-chain data |         |             |
-|           | `DEFAULT_QUOTE` |         Currency that the price will be fetched         |         |    `USD`    |
+| Required? |        Name        |                          Description                          | Options | Defaults to |
+| :-------: | :----------------: | :-----------------------------------------------------------: | :-----: | :---------: |
+|    ✅     | `ETHEREUM_RPC_URL` | Mainnet Ethereum RPC endpoint to get the needed on-chain data |         |             |
+|           |  `DEFAULT_QUOTE`   |            Currency that the price will be fetched            |         |    `USD`    |
 
 **Additional environment variables must be set according to the Token Allocation adapter.**
 This composite adapter executes the code from the Token Allocation composite adapter. As such the same configuration and input parameters apply to this adapter. See [../token-allocation/README.md](../token-allocation/README.md) for more details.

@@ -5,10 +5,10 @@ prices of the latest blocks sorted from the latest to oldest.
 
 ### Environment Variables
 
-| Required? |    Name    |                Description                 | Options | Defaults to |
-| :-------: | :--------: | :----------------------------------------: | :-----: | :---------: |
-|    ✅     | WS_RPC_URL | The WebSocket RPC URL for the chain's node |         |             |
-|    ✅     |  RPC_URL   |   The HTTP RPC URL for the chain's node    |         |             |
+| Required? |        Name         |                Description                 | Options | Defaults to |
+| :-------: | :-----------------: | :----------------------------------------: | :-----: | :---------: |
+|    ✅     | ETHEREUM_WS_RPC_URL | The WebSocket RPC URL for the chain's node |         |             |
+|    ✅     |  ETHEREUM_RPC_URL   |   The HTTP RPC URL for the chain's node    |         |             |
 
 ---
 

@@ -4,7 +4,8 @@ import { ethers } from 'ethers'
 
 export const NAME = 'UNISWAP-V2'
 
-export const ENV_RPC_URL = 'RPC_URL'
+export const ENV_ETHEREUM_RPC_URL = 'ETHEREUM_RPC_URL'
+export const ENV_FALLBACK_RPC_URL = 'RPC_URL'
 export const ENV_BLOCKCHAIN_NETWORK = 'BLOCKCHAIN_NETWORK'
 export const ENV_ROUTER_CONTRACT = 'ROUTER_CONTRACT'
 
@@ -23,7 +24,9 @@ export const makeConfig: ConfigFactory<Config> = (prefix: string | undefined) =>
   return {
     ...Requester.getDefaultConfig(prefix),
     defaultEndpoint: DEFAULT_ENDPOINT,
-    provider: new ethers.providers.JsonRpcProvider(util.getRequiredEnv(ENV_RPC_URL, prefix)),
+    provider: new ethers.providers.JsonRpcProvider(
+      util.getRequiredEnvWithFallback(ENV_ETHEREUM_RPC_URL, [ENV_FALLBACK_RPC_URL], prefix),
+    ),
     network: util.getEnv(ENV_BLOCKCHAIN_NETWORK, prefix) || DEFAULT_BLOCKCHAIN_NETWORK,
     uniswapRouter: util.getEnv(ENV_ROUTER_CONTRACT, prefix) || DEFAULT_ROUTER_CONTRACT,
   }
