@@ -2,6 +2,8 @@
 
 Version: 1.2.3
 
+This is a fake adapter for testing, and should not be used as a template for adapters.
+
 ## Environment Variables
 
 | Required? |     Name     |  Type  |       Options       |            Default             |

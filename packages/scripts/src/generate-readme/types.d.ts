@@ -4,6 +4,7 @@ export type AdapterPackage = {
 }
 
 export type AdapterSchema = {
+  description?: string
   properties: {
     [key: string]: {
       default?: string | number
@@ -12,7 +13,6 @@ export type AdapterSchema = {
     }
   }
   required: string[]
-  type: string
 }
 
 export type EndpointDetails = {

@@ -1,5 +1,4 @@
 import * as shell from 'shelljs'
-import { readFileSync } from 'fs'
 import { buildTable } from './table'
 import {
   AdapterPackage,
@@ -23,7 +22,7 @@ const testEnvOverrides = { RECORD: undefined, LOG_LEVEL: 'debug', API_VERBOSE: '
 
 const capitalize = (s: string): string => s[0].toUpperCase() + s.slice(1)
 
-const getJsonFile = (path: string): JsonObject => JSON.parse(readFileSync(path, 'utf-8'))
+const getJsonFile = (path: string): JsonObject => JSON.parse(shell.cat(path).toString())
 
 const checkFilePath = (filePath: string): string => {
   if (!shell.test('-f', filePath)) throw Error(`${filePath} is not a file`)
@@ -39,13 +38,15 @@ const wrapJson = (objectStr: string): string => {
 }
 
 class ReadmeGenerator {
-  packagePath: string
   adapterPath: string
+  packagePath: string
+  schemaPath: string
+  integrationTestPath: string
+  adapterPackage: AdapterPackage
+  adapterSchema: AdapterSchema
   defaultEndpoint = ''
   endpointDetails: EndpointDetails = {}
-  integrationTestPath: string
   readmeText = ''
-  schemaPath: string
 
   constructor(adapterPath: string) {
     if (!adapterPath.endsWith('/')) adapterPath += '/'
@@ -59,6 +60,9 @@ class ReadmeGenerator {
     )
 
     this.adapterPath = adapterPath
+
+    this.adapterPackage = getJsonFile(this.packagePath) as AdapterPackage
+    this.adapterSchema = getJsonFile(this.schemaPath) as AdapterSchema
   }
 
   async fetchImports(): Promise<void> {
@@ -79,45 +83,22 @@ class ReadmeGenerator {
     this.createReadmeFile()
   }
 
-  createReadmeFile(): void {
-    console.log('Creating README file...')
-
-    const readmePath = this.adapterPath + 'README.md'
-    if (shell.test('-f', readmePath)) {
-      const archivePath = this.adapterPath + 'readme-archive/'
-      if (!shell.test('-d', archivePath)) shell.mkdir(archivePath)
-
-      let i = 1
-      let archiveReadmePath = `${this.adapterPath}readme-archive/README-${i}.md`
-      while (shell.test('-f', archiveReadmePath)) {
-        i += 1
-        archiveReadmePath = `${this.adapterPath}readme-archive/README-${i}.md`
-      }
-
-      shell.cp(readmePath, archiveReadmePath)
-    }
-
-    const shellString = new shell.ShellString(this.readmeText)
-    shellString.to(readmePath)
-
-    console.log(`README saved at: ${readmePath}`)
-  }
-
   addIntroSection(): void {
     console.log('Adding title and version...')
 
-    const adapterPackage = getJsonFile(this.packagePath) as AdapterPackage
-    this.readmeText = `# ${adapterPackage.name}\n\nVersion: ${adapterPackage.version}\n\n`
+    this.readmeText =
+      `# ${this.adapterPackage.name}\n\n` +
+      `Version: ${this.adapterPackage.version}\n\n` +
+      `${this.adapterSchema.description}\n\n`
   }
 
   addEnvVarSection(): void {
     console.log('Adding environment variables...')
 
-    const adapterSchema = getJsonFile(this.schemaPath) as AdapterSchema
-    const envVars = adapterSchema.properties
+    const envVars = this.adapterSchema.properties
 
     const tableText: TableText = Object.entries(envVars).map(([key, envVar]) => {
-      const required = adapterSchema.required.includes(key) ? '✅' : ''
+      const required = this.adapterSchema.required.includes(key) ? '✅' : ''
       const name = key ?? ''
       const type = envVar.type ?? ''
       const options = envVar.enum?.map((e) => e.toString()).join(', ') ?? ''
@@ -250,6 +231,30 @@ class ReadmeGenerator {
       .join('\n\n---\n\n')
 
     this.readmeText += endpointSections + '\n'
+  }
+
+  createReadmeFile(): void {
+    console.log('Creating README file...')
+
+    const readmePath = this.adapterPath + 'README.md'
+    if (shell.test('-f', readmePath)) {
+      const archivePath = this.adapterPath + 'readme-archive/'
+      if (!shell.test('-d', archivePath)) shell.mkdir(archivePath)
+
+      let i = 0
+      let archiveReadmePath = ''
+      do {
+        i += 1
+        archiveReadmePath = `${archivePath}README-${i}.md`
+      } while (shell.test('-f', archiveReadmePath))
+
+      shell.cp(readmePath, archiveReadmePath)
+    }
+
+    const shellString = new shell.ShellString(this.readmeText)
+    shellString.to(readmePath)
+
+    console.log(`README saved at: ${readmePath}`)
   }
 }
 

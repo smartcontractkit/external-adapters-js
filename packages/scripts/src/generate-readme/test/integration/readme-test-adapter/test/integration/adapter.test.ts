@@ -13,7 +13,6 @@ describe('readme test adapter', () => {
   const req = request('localhost:8080')
 
   beforeAll(async () => {
-    console.log({ pEnvInAdapterTest: process.env })
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env.CACHE_ENABLED = 'false'
     process.env.API_KEY = process.env.API_KEY || 'mock-api-key'

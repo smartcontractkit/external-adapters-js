@@ -3402,9 +3402,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/readme-test-adapter@workspace:packages/scripts/src/generate-readme/readme-test-adapter":
+"@chainlink/readme-test-adapter@workspace:packages/scripts/src/generate-readme/test/integration/readme-test-adapter":
   version: 0.0.0-use.local
-  resolution: "@chainlink/readme-test-adapter@workspace:packages/scripts/src/generate-readme/readme-test-adapter"
+  resolution: "@chainlink/readme-test-adapter@workspace:packages/scripts/src/generate-readme/test/integration/readme-test-adapter"
   dependencies:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-factories": "*"

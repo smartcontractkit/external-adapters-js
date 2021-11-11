@@ -152,7 +152,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       },
       {
         "name": "@chainlink/readme-test-adapter",
-        "reference": "workspace:packages/scripts/src/generate-readme/readme-test-adapter"
+        "reference": "workspace:packages/scripts/src/generate-readme/test/integration/readme-test-adapter"
       },
       {
         "name": "@chainlink/1forge-adapter",
@@ -744,7 +744,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/poa-adapter", ["workspace:packages/sources/poa"]],
       ["@chainlink/polygon-adapter", ["workspace:packages/sources/polygon"]],
       ["@chainlink/proof-of-reserves-adapter", ["workspace:packages/composites/proof-of-reserves"]],
-      ["@chainlink/readme-test-adapter", ["workspace:packages/scripts/src/generate-readme/readme-test-adapter"]],
+      ["@chainlink/readme-test-adapter", ["workspace:packages/scripts/src/generate-readme/test/integration/readme-test-adapter"]],
       ["@chainlink/reduce-adapter", ["workspace:packages/sources/reduce"]],
       ["@chainlink/reference-transform-adapter", ["workspace:packages/composites/reference-transform"]],
       ["@chainlink/renvm-address-set-adapter", ["workspace:packages/sources/renvm-address-set"]],
@@ -5724,10 +5724,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@chainlink/readme-test-adapter", [
-        ["workspace:packages/scripts/src/generate-readme/readme-test-adapter", {
-          "packageLocation": "./packages/scripts/src/generate-readme/readme-test-adapter/",
+        ["workspace:packages/scripts/src/generate-readme/test/integration/readme-test-adapter", {
+          "packageLocation": "./packages/scripts/src/generate-readme/test/integration/readme-test-adapter/",
           "packageDependencies": [
-            ["@chainlink/readme-test-adapter", "workspace:packages/scripts/src/generate-readme/readme-test-adapter"],
+            ["@chainlink/readme-test-adapter", "workspace:packages/scripts/src/generate-readme/test/integration/readme-test-adapter"],
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/ea-factories", "workspace:packages/core/factories"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
