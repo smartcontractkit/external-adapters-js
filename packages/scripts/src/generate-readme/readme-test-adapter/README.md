@@ -34,7 +34,7 @@ Version: 1.2.3
 |           | confirmations |      |         |         |
 |           |   addresses   |      |         |         |
 
-### Examples
+### Example
 
 Request:
 
@@ -57,6 +57,23 @@ Response:
 
 ```json
 {
+  "responses": [
+    {
+      "status": 200,
+      "title": "OK",
+      "description": "Successful request",
+      "payload": {
+        "address": {
+          "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1"
+        },
+        "blockchainId": "408fa195a34b533de9ad9889f076045e",
+        "blockNumber": "693286",
+        "timestampNanoseconds": 0,
+        "value": "2188",
+        "timestamp": "2021-07-29T20:54:39.000Z"
+      }
+    }
+  ],
   "result": [
     {
       "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1",
@@ -68,21 +85,23 @@ Response:
 }
 ```
 
+---
+
 ## Marketcap Endpoint
 
 Supported names for this endpoint are: `marketcap`, `mc`.
 
 ### Input Params
 
-| Required? |         Name          | Type |      Options      | Default |
-| :-------: | :-------------------: | :--: | :---------------: | :-----: |
-|    ✅     |         base          |      | base, from, coin  |         |
-|    ✅     |         quote         |      | quote, to, market |         |
-|    ✅     |        coinid         |      |                   |         |
-|           |      resultPath       |      |                   |         |
-|           | referenceCurrencyUuid |      |                   |         |
+| Required? |         Name          | Type |         Options         | Default |
+| :-------: | :-------------------: | :--: | :---------------------: | :-----: |
+|    ✅     |         base          |      | `base`, `from`, `coin`  |         |
+|    ✅     |         quote         |      | `quote`, `to`, `market` |         |
+|    ✅     |        coinid         |      |                         |         |
+|           |      resultPath       |      |                         |         |
+|           | referenceCurrencyUuid |      |                         |         |
 
-### Examples
+### Example
 
 Request:
 
@@ -103,9 +122,13 @@ Response:
 
 ```json
 {
+  "marketcap": 1000000000,
   "result": 1000000000
 }
 ```
+
+<details>
+<summary>Additional Examples</summary>
 
 Request:
 
@@ -126,9 +149,14 @@ Response:
 
 ```json
 {
+  "marketcap": 1000000000,
   "result": 1000000000
 }
 ```
+
+</details>
+
+---
 
 ## Price Endpoint
 
@@ -136,14 +164,14 @@ Supported names for this endpoint are: `price`, `convert`.
 
 ### Input Params
 
-| Required? |    Name    | Type |      Options      | Default |
-| :-------: | :--------: | :--: | :---------------: | :-----: |
-|    ✅     |    base    |      | base, from, coin  |         |
-|    ✅     |   quote    |      | quote, to, market |         |
-|           |   amount   |      |                   |         |
-|           | resultPath |      |                   |         |
+| Required? |    Name    | Type |         Options         | Default |
+| :-------: | :--------: | :--: | :---------------------: | :-----: |
+|    ✅     |    base    |      | `base`, `from`, `coin`  |         |
+|    ✅     |   quote    |      | `quote`, `to`, `market` |         |
+|           |   amount   |      |                         |         |
+|           | resultPath |      |                         |         |
 
-### Examples
+### Example
 
 Request:
 
@@ -163,9 +191,13 @@ Response:
 
 ```json
 {
+  "price": 123456,
   "result": 123456
 }
 ```
+
+<details>
+<summary>Additional Examples</summary>
 
 Request:
 
@@ -185,6 +217,9 @@ Response:
 
 ```json
 {
+  "price": 123456,
   "result": 123456
 }
 ```
+
+</details>

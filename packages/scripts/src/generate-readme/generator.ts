@@ -13,15 +13,13 @@ import {
 
 const localPathToRoot = '../../../../'
 
-const templatePath = 'packages/scripts/src/generate-readme/template.md'
-
 const envVarHeaders: TextRow = ['Required?', 'Name', 'Type', 'Options', 'Default']
 
 const endpointInputHeaders: TextRow = ['Required?', 'Name', 'Type', 'Options', 'Default']
 
 const inputParamHeaders: TextRow = ['Required?', 'Name', 'Type', 'Options', 'Default']
 
-const testEnvOverrides = { RECORD: undefined, LOG_LEVEL: 'debug' }
+const testEnvOverrides = { RECORD: undefined, LOG_LEVEL: 'debug', API_VERBOSE: 'true' }
 
 const capitalize = (s: string): string => s[0].toUpperCase() + s.slice(1)
 
@@ -36,13 +34,17 @@ const checkOptionalFilePath = (filePath: string): string => {
   return shell.test('-f', filePath) ? filePath : null
 }
 
+const wrapJson = (objectStr: string): string => {
+  return `\`\`\`json\n${objectStr}\n\`\`\``
+}
+
 class ReadmeGenerator {
   packagePath: string
   adapterPath: string
   defaultEndpoint = ''
   endpointDetails: EndpointDetails = {}
   integrationTestPath: string
-  readmePath: string
+  readmeText = ''
   schemaPath: string
 
   constructor(adapterPath: string) {
@@ -57,7 +59,6 @@ class ReadmeGenerator {
     )
 
     this.adapterPath = adapterPath
-    this.readmePath = adapterPath + 'README.md'
   }
 
   async fetchImports(): Promise<void> {
@@ -71,27 +72,42 @@ class ReadmeGenerator {
   buildReadme(): void {
     console.log('Generating README...')
 
-    this.copyTemplate()
     this.addIntroSection()
     this.addEnvVarSection()
     this.addInputParamsSection()
     this.addEndpointSections()
-
-    console.log(`README saved at: ${this.readmePath}`)
+    this.createReadmeFile()
   }
 
-  copyTemplate(): void {
-    console.log('Copying template...')
+  createReadmeFile(): void {
+    console.log('Creating README file...')
 
-    shell.cp(templatePath, this.readmePath)
+    const readmePath = this.adapterPath + 'README.md'
+    if (shell.test('-f', readmePath)) {
+      const archivePath = this.adapterPath + 'readme-archive/'
+      if (!shell.test('-d', archivePath)) shell.mkdir(archivePath)
+
+      let i = 1
+      let archiveReadmePath = `${this.adapterPath}readme-archive/README-${i}.md`
+      while (shell.test('-f', archiveReadmePath)) {
+        i += 1
+        archiveReadmePath = `${this.adapterPath}readme-archive/README-${i}.md`
+      }
+
+      shell.cp(readmePath, archiveReadmePath)
+    }
+
+    const shellString = new shell.ShellString(this.readmeText)
+    shellString.to(readmePath)
+
+    console.log(`README saved at: ${readmePath}`)
   }
 
   addIntroSection(): void {
     console.log('Adding title and version...')
 
     const adapterPackage = getJsonFile(this.packagePath) as AdapterPackage
-    shell.sed('-i', '\\$ADAPTER_NAME', adapterPackage.name, this.readmePath)
-    shell.sed('-i', '\\$SEM_VER', adapterPackage.version, this.readmePath)
+    this.readmeText = `# ${adapterPackage.name}\n\nVersion: ${adapterPackage.version}\n\n`
   }
 
   addEnvVarSection(): void {
@@ -113,22 +129,23 @@ class ReadmeGenerator {
       ? buildTable(tableText, envVarHeaders)
       : 'There are no environment variables for this adapter.'
 
-    shell.sed('-i', '\\$ENV_VARS', envVarTable, this.readmePath)
+    this.readmeText += `## Environment Variables\n\n${envVarTable}\n\n---\n\n`
   }
 
   addInputParamsSection(): void {
     console.log('Adding input parameters...')
 
-    const endpointList = Object.keys(this.endpointDetails).map(
-      (e) => `[${e}](#${e.replace(' ', '-')}-endpoint)`,
-    )
+    const endpointList = Object.keys(this.endpointDetails).map((e) => {
+      const lowercase = e.toLowerCase()
+      return `[${lowercase}](#${lowercase}-endpoint)`
+    })
     const tableText = [['', 'endpoint', 'string', endpointList.join(', '), this.defaultEndpoint]]
 
     const inputParamTable = tableText.length
       ? buildTable(tableText, inputParamHeaders)
       : 'There are no input parameters for this adapter.'
 
-    shell.sed('-i', '\\$INPUT_PARAMS', inputParamTable, this.readmePath)
+    this.readmeText += `## Input Parameters\n\n${inputParamTable}\n\n---\n\n`
   }
 
   addEndpointSections(): void {
@@ -174,7 +191,7 @@ class ReadmeGenerator {
         console.log(`Adding ${endpointName} endpoint section...`)
 
         // Fetch section title
-        const sectionTitle = `## ${capitalize(endpointName)} Endpoint\n\n`
+        const sectionTitle = `## ${capitalize(endpointName)} Endpoint`
 
         // Fetch input table
         const inputTableText: TableText = Object.entries(endpointDetails.inputParameters).map(
@@ -182,7 +199,9 @@ class ReadmeGenerator {
             const required = Array.isArray(pDetails) || pDetails === true ? '✅' : ''
             const name = pName ?? ''
             const type = ''
-            const options = Array.isArray(pDetails) ? pDetails.join(', ') : ''
+            const options = Array.isArray(pDetails)
+              ? pDetails.map((d) => `\`${d}\``).join(', ')
+              : ''
             const defaultText = ''
             return [required, name, type, options, defaultText]
           },
@@ -192,18 +211,16 @@ class ReadmeGenerator {
           ? buildTable(inputTableText, endpointInputHeaders)
           : 'There are no input parameters for this endpoint.'
 
-        const inputTableSection = '### Input Params\n\n' + inputTable + '\n\n'
+        const inputTableSection = '### Input Params\n' + inputTable
 
         // Fetch supported endpoint text
-        const endpointNames = endpointDetails.supportedEndpoints
+        const endpointNames = endpointDetails.supportedEndpoints.map((e) => `\`${e}\``)
         const supportedEndpointText =
           endpointNames.length > 1
-            ? `Supported names for this endpoint are: ${endpointNames
-                .map((e) => `\`${e}\``)
-                .join(', ')}.\n\n`
+            ? `Supported names for this endpoint are: ${endpointNames.join(', ')}.`
             : endpointNames.length === 1
-            ? `\`${endpointNames[0]}\` is the only supported name for this endpoint.\n\n`
-            : 'There are no supported names for this endpoint.\n\n'
+            ? `${endpointNames[0]} is the only supported name for this endpoint.`
+            : 'There are no supported names for this endpoint.'
 
         // Fetch input/output text
         const ioExamples = []
@@ -214,20 +231,25 @@ class ReadmeGenerator {
               const inputJson = JSON.stringify(input, null, 2)
               const outputJson = JSON.stringify(output, null, 2)
               ioExamples.push(
-                `Request:\n\`\`\`json\n${inputJson}\n\`\`\`\n\nResponse:\n\`\`\`json\n${outputJson}\n\`\`\``,
+                `Request:\n${wrapJson(inputJson)}\nResponse:\n${wrapJson(outputJson)}`,
               )
             }
           }
         }
-        const ioExamplesText =
-          '### Examples\n\n' +
-          (ioExamples.length ? ioExamples.join('\n\n') : 'There are no examples for this endpoint.')
+        let ioExamplesText = ''
+        if (ioExamples.length === 0) ioExamplesText = 'There are no examples for this endpoint.'
+        else ioExamplesText = '### Example\n' + ioExamples[0]
 
-        return sectionTitle + supportedEndpointText + inputTableSection + ioExamplesText
+        if (ioExamples.length > 1)
+          ioExamplesText += `\n<details>\n<summary>Additional Examples</summary>\n\n${ioExamples
+            .slice(1)
+            .join('\n\n')}\n</details>\n`
+
+        return [sectionTitle, supportedEndpointText, inputTableSection, ioExamplesText].join('\n\n')
       })
-      .join('\n\n')
+      .join('\n\n---\n\n')
 
-    shell.sed('-i', '\\$ENDPOINT_SECTIONS', endpointSections, this.readmePath)
+    this.readmeText += endpointSections + '\n'
   }
 }
 
