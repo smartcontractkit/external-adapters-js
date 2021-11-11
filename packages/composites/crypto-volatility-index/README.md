@@ -10,9 +10,9 @@ The CVI's calculation is based on the classic approach of the Black-Scholes opti
 
 The CVI calculation requires the following environment variables:
 
-| Required? |   Name    |                       Description                       | Options | Defaults to |
-| :-------: | :-------: | :-----------------------------------------------------: | :-----: | :---------: |
-|    ✅     | `RPC_URL` | Blockchain RPC endpoint to get the needed on-chain data |         |             |
+| Required? |        Name         |                                    Description                                    | Options | Defaults to |
+| :-------: | :-----------------: | :-------------------------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     | `[NETWORK]_RPC_URL` | Blockchain RPC endpoint to get the needed on-chain data (e.g. `ETHEREUM_RPC_URL`) |         |             |
 
 **Additional environment variables must be set according to the Token Allocation adapter.**
 This composite adapter executes the code from the Token Allocation composite adapter. As such the same configuration and input parameters apply to this adapter. See [../token-allocation/README.md](../token-allocation/README.md) for more details.
@@ -28,6 +28,7 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 | Required? |             Name              |                                                                                            Description                                                                                            | Options |   Defaults to    |
 | :-------: | :---------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: | :--------------: |
 |    ✅     | `contractAddress`, `contract` |                                                              The address of the on-chain crypto volatility index aggregator contract                                                              |         |                  |
+|           |           `network`           |                                                                                  The blockchain network to use.                                                                                   |         |   `'ETHEREUM'`   |
 |           |          `heartBeat`          |                                                                                     Interval between updates                                                                                      |         |       `60`       |
 |           |          `multiply`           |                                                        Multiply amount for the on-chain value, which also determines the result precision                                                         |         |      `1e18`      |
 |           |         `isAdaptive`          | Indicates whether the calculation result should be adaptively smoothed with its latest on-chain value. This must be set to `false` if the reference contract has not yet completed a valid round. |         |      `true`      |

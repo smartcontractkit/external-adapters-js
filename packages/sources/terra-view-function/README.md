@@ -4,10 +4,10 @@ This external adapter allows querying contracts on the Terra blockchain.
 
 ### Environment Variables
 
-| Required? |   Name   |            Description            | Options | Defaults to |
-| :-------: | :------: | :-------------------------------: | :-----: | :---------: |
-|    ✅     | RPC_URL  |       The RPC URL to query        |         |             |
-|    ✅     | CHAIN_ID | Which chain ID it's connecting to |         |             |
+| Required? |       Name       |              Description              | Options | Defaults to |
+| :-------: | :--------------: | :-----------------------------------: | :-----: | :---------: |
+|    ✅     | ETHEREUM_RPC_URL | The Ethereum Mainnet RPC URL to query |         |             |
+|    ✅     |     CHAIN_ID     |   Which chain ID it's connecting to   |         |             |
 
 ---
 

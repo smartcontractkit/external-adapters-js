@@ -12,10 +12,10 @@ pricexSUSHI = priceSUSHI * (SUSHI.balanceOf(xSUSHI.address) * 1e18 / xSUSHI.tota
 
 The adapter takes the following environment variables:
 
-| Required? |       Name       |           Description           | Options |                 Defaults to                  |
-| :-------: | :--------------: | :-----------------------------: | :-----: | :------------------------------------------: |
-|    ✅     |    `RPC_URL`     |     URL of an ETH RPC node      |         |                                              |
-|           | `XSUSHI_ADDRESS` | The address of the xSUSHI token |         | `0x8798249c2E607446EfB7Ad49eC89dD1865Ff4272` |
+| Required? |        Name        |            Description             | Options |                 Defaults to                  |
+| :-------: | :----------------: | :--------------------------------: | :-----: | :------------------------------------------: |
+|    ✅     | `ETHEREUM_RPC_URL` | URL of a Mainnet Ethereum RPC node |         |                                              |
+|           |  `XSUSHI_ADDRESS`  |  The address of the xSUSHI token   |         | `0x8798249c2E607446EfB7Ad49eC89dD1865Ff4272` |
 
 **Additional environment variables must be set according to the Token Allocation adapter.**
 This composite adapter executes the code from the Token Allocation composite adapter. As such the same configuration and input parameters apply to this adapter. See [../token-allocation/README.md](../token-allocation/README.md) for more details.

@@ -11,7 +11,7 @@ The adapter takes the following environment variables:
 | Required? |             Name              |                       Description                        | Options |                 Defaults to                  |
 | :-------: | :---------------------------: | :------------------------------------------------------: | :-----: | :------------------------------------------: |
 |    ✅     |         `PRIVATE_KEY`         |  Private key of account used to make special callbacks   |         |                                              |
-|    ✅     |           `RPC_URL`           |                   RPC URL of ETH node                    |         |                                              |
+|    ✅     |      `ETHEREUM_RPC_URL`       |              Ethereum Mainnet RPC URL node               |         |                                              |
 |           |   `TREASURY_CLAIM_ADDRESS`    | The address of the treasury's merkle root claim contract |         | `0x95EaBB0248D013b9F59c5D5256CE11b0a8140B54` |
 |           |    `TRADER_REWARDS_AMOUNT`    |                                                          |         |                 `3835616e18`                 |
 |           | `MARKET_MAKER_REWARDS_AMOUNT` |                                                          |         |                 `1150685e18`                 |

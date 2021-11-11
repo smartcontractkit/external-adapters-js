@@ -10,7 +10,7 @@ let oldEnv: NodeJS.ProcessEnv
 
 beforeAll(() => {
   oldEnv = JSON.parse(JSON.stringify(process.env))
-  process.env.RPC_URL = process.env.RPC_URL || 'http://localhost:8545'
+  process.env.ETHEREUM_RPC_URL = process.env.ETHEREUM_RPC_URL || 'http://localhost:8545'
   process.env.API_VERBOSE = true
   if (process.env.RECORD) {
     nock.recorder.rec()

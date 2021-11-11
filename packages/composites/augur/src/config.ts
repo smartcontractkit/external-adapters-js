@@ -7,7 +7,7 @@ export type Config = DefaultConfig & {
 }
 
 export const makeConfig = (prefix?: string): Config => {
-  const rpcUrl = util.getRequiredEnv('RPC_URL', prefix)
+  const rpcUrl = util.getRequiredEnvWithFallback('ETHEREUM_RPC_URL', ['RPC_URL'], prefix)
   const privateKey = util.getRequiredEnv('PRIVATE_KEY', prefix)
   const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
   const wallet = new ethers.Wallet(privateKey, provider)
