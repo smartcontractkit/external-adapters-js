@@ -1403,6 +1403,24 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/accuweather-adapter@1.0.0, @chainlink/accuweather-adapter@workspace:packages/sources/accuweather":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/accuweather-adapter@workspace:packages/sources/accuweather"
+  dependencies:
+    "@chainlink/ea-bootstrap": 1.0.0
+    "@chainlink/ea-test-helpers": 1.0.0
+    "@chainlink/types": 1.0.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+    "@types/supertest": ^2.0.11
+    ethers: ^5.5.0
+    nock: ^13.1.4
+    supertest: ^6.1.6
+    tslib: ^2.3.1
+    typescript: 4.3.5
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/ada-balance-adapter@1.0.0, @chainlink/ada-balance-adapter@workspace:packages/sources/ada-balance":
   version: 0.0.0-use.local
   resolution: "@chainlink/ada-balance-adapter@workspace:packages/sources/ada-balance"
@@ -2404,6 +2422,7 @@ __metadata:
   resolution: "@chainlink/ea@workspace:packages/core/legos"
   dependencies:
     "@chainlink/1forge-adapter": 1.0.0
+    "@chainlink/accuweather-adapter": 1.0.0
     "@chainlink/ada-balance-adapter": 1.0.0
     "@chainlink/alphachain-adapter": 1.0.0
     "@chainlink/alphavantage-adapter": 1.0.0
@@ -4283,6 +4302,21 @@ __metadata:
     "@ethersproject/transactions": ^5.4.0
     "@ethersproject/web": ^5.4.0
   checksum: dd4b8b0b58a58b094377e657e46cb59231bed89abdaa774cad6b0a21015d797283d50585fd4e7f1f9dfda66feede0aed8725183839f4527067427902720e360b
+  languageName: node
+  linkType: hard
+
+"@ethersproject/abstract-provider@npm:5.5.0":
+  version: 5.5.0
+  resolution: "@ethersproject/abstract-provider@npm:5.5.0"
+  dependencies:
+    "@ethersproject/bignumber": ^5.5.0
+    "@ethersproject/bytes": ^5.5.0
+    "@ethersproject/logger": ^5.5.0
+    "@ethersproject/networks": ^5.5.0
+    "@ethersproject/properties": ^5.5.0
+    "@ethersproject/transactions": ^5.5.0
+    "@ethersproject/web": ^5.5.0
+  checksum: 5570a357c75535190058fdef2355e9c6c8d0b2936ce6a55e84d179d6466c59116a8daf1cf878db35ff478c87c0f2e2ea13149159aa7a6f60fb113001d4e651f5
   languageName: node
   linkType: hard
 
@@ -13389,6 +13423,44 @@ __metadata:
     "@ethersproject/web": 5.4.0
     "@ethersproject/wordlists": 5.4.0
   checksum: 744d58c1c46c88ea6f713ab58436c3f2e1d976691842c021c0377fb22a647eaa64c603ef52273e9de5bdbfaf2831a191c6ae9efc4e78fb571453e9b9492c32a0
+  languageName: node
+  linkType: hard
+
+"ethers@npm:^5.5.0":
+  version: 5.5.0
+  resolution: "ethers@npm:5.5.0"
+  dependencies:
+    "@ethersproject/abi": 5.5.0
+    "@ethersproject/abstract-provider": 5.5.0
+    "@ethersproject/abstract-signer": 5.5.0
+    "@ethersproject/address": 5.5.0
+    "@ethersproject/base64": 5.5.0
+    "@ethersproject/basex": 5.5.0
+    "@ethersproject/bignumber": 5.5.0
+    "@ethersproject/bytes": 5.5.0
+    "@ethersproject/constants": 5.5.0
+    "@ethersproject/contracts": 5.5.0
+    "@ethersproject/hash": 5.5.0
+    "@ethersproject/hdnode": 5.5.0
+    "@ethersproject/json-wallets": 5.5.0
+    "@ethersproject/keccak256": 5.5.0
+    "@ethersproject/logger": 5.5.0
+    "@ethersproject/networks": 5.5.0
+    "@ethersproject/pbkdf2": 5.5.0
+    "@ethersproject/properties": 5.5.0
+    "@ethersproject/providers": 5.5.0
+    "@ethersproject/random": 5.5.0
+    "@ethersproject/rlp": 5.5.0
+    "@ethersproject/sha2": 5.5.0
+    "@ethersproject/signing-key": 5.5.0
+    "@ethersproject/solidity": 5.5.0
+    "@ethersproject/strings": 5.5.0
+    "@ethersproject/transactions": 5.5.0
+    "@ethersproject/units": 5.5.0
+    "@ethersproject/wallet": 5.5.0
+    "@ethersproject/web": 5.5.0
+    "@ethersproject/wordlists": 5.5.0
+  checksum: 20cb7eaaa5e9ec7d2e017681ebba44c2b65bd67bb0573fabfbc585266bd3355ca6e4653ac18e75a17b8914c225c7885cdb512fa40c9296e555c880610ab3f2a0
   languageName: node
   linkType: hard
 
