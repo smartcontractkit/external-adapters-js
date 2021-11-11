@@ -4,7 +4,7 @@
 
 | Required? |          Name           |                 Description                 | Options |                Defaults to                 |
 | :-------: | :---------------------: | :-----------------------------------------: | :-----: | :----------------------------------------: |
-|    ✅     |        `RPC_URL`        |  The RPC URL to connect to the XDai chain   |         |                                            |
+|    ✅     |     `XDAI_RPC_URL`      |  The RPC URL to connect to the XDai chain   |         |                                            |
 |           | `WETH_CONTRACT_ADDRESS` | The WETH contract address on the XDai Chain |         | 0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1 |
 
 **Additional environment variables must be set according to the Token Allocation adapter.**

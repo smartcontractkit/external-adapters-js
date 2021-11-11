@@ -6,12 +6,12 @@ Composite adapter to handle Augur market creation and resolution
 
 The adapter takes the following environment variables:
 
-| Required? |       Name       |                                         Description                                          | Options | Defaults to |
-| :-------: | :--------------: | :------------------------------------------------------------------------------------------: | :-----: | :---------: |
-|    ✅     |    `RPC_URL`     |                                   RPC URL for the ETH node                                   |         |             |
-|    ✅     |  `PRIVATE_KEY`   |                      Private key of the account to use for on-chain txs                      |         |             |
-|           |  `THERUNDOWN_*`  |  Configuration variables for The Rundown: [See README](../../sources/therundown/README.md)   |         |             |
-|           | `SPORTSDATAIO_*` | Configuration variables for Sportsdataio: [See README](../../sources/sportsdataio/README.md) |         |             |
+| Required? |        Name        |                                         Description                                          | Options | Defaults to |
+| :-------: | :----------------: | :------------------------------------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     | `ETHEREUM_RPC_URL` |                                   RPC URL for the ETH node                                   |         |             |
+|    ✅     |   `PRIVATE_KEY`    |                      Private key of the account to use for on-chain txs                      |         |             |
+|           |   `THERUNDOWN_*`   |  Configuration variables for The Rundown: [See README](../../sources/therundown/README.md)   |         |             |
+|           |  `SPORTSDATAIO_*`  | Configuration variables for Sportsdataio: [See README](../../sources/sportsdataio/README.md) |         |             |
 
 ## Running
 

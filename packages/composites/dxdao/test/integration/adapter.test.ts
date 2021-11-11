@@ -49,7 +49,7 @@ let oldEnv: NodeJS.ProcessEnv
 beforeAll(() => {
   oldEnv = JSON.parse(JSON.stringify(process.env))
   process.env.CACHE_ENABLED = 'false'
-  process.env.RPC_URL = process.env.RPC_URL || 'https://rpc.xdaichain.com/'
+  process.env.XDAI_RPC_URL = process.env.XDAI_RPC_URL || 'https://rpc.xdaichain.com/'
   process.env.WETH_CONTRACT_ADDRESS =
     process.env.WETH_CONTRACT_ADDRESS || '0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1'
 })

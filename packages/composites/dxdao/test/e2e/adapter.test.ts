@@ -6,7 +6,7 @@ import { makeExecute } from '../../src/adapter'
 describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
-  process.env.RPC_URL = process.env.RPC_URL || 'https://rpc.xdaichain.com/'
+  process.env.XDAI_RPC_URL = process.env.XDAI_RPC_URL || 'https://rpc.xdaichain.com/'
   process.env.TIINGO_ADAPTER_URL = process.env.TIINGO_ADAPTER_URL || 'http://localhost:3000'
 
   describe('successful calls @e2e', () => {

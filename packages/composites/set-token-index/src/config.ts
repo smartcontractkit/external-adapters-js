@@ -13,7 +13,7 @@ export type Config = types.Config & {
 export const makeConfig = (prefix?: string, network = 'mainnet'): Config => {
   return {
     ...Requester.getDefaultConfig(prefix),
-    rpcUrl: util.getRequiredEnv('RPC_URL', prefix),
+    rpcUrl: util.getRequiredEnvWithFallback('ETHEREUM_RPC_URL', ['RPC_URL'], prefix),
     network,
     defaultEndpoint: DEFAULT_ENDPOINT,
   }

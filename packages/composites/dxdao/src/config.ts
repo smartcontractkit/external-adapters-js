@@ -11,7 +11,7 @@ export const NAME = 'DX_DAO'
 export const makeConfig = (prefix?: string): Config => {
   return {
     ...Requester.getDefaultConfig(prefix),
-    rpcUrl: util.getRequiredEnv('RPC_URL'),
+    rpcUrl: util.getRequiredEnvWithFallback('XDAI_RPC_URL', ['RPC_URL'], prefix),
     wethContractAddress:
       util.getEnv('WETH_CONTRACT_ADDRESS') || '0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1',
   }
