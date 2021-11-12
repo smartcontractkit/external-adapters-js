@@ -12,11 +12,12 @@ import {
   HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE_MESSAGE,
 } from './errors'
 import { logger } from './external-adapter'
-import { METRICS_ENABLED } from './metrics'
+import { METRICS_ENABLED, setupMetrics } from './metrics'
 import { get as getRateLimitConfig } from './rate-limit/config'
 import { toObjectWithNumbers } from './util'
 
 const app = express()
+const version = process.env.npm_package_version
 const port = process.env.EA_PORT || 8080
 const baseUrl = process.env.BASE_URL || '/'
 
@@ -37,7 +38,7 @@ export const initHandler =
       context.cache = cacheOptions
     }
     if (METRICS_ENABLED) {
-      setupMetricsServer()
+      setupMetricsServer(name)
     }
 
     const executeWithMiddleware = await withMiddleware(execute, context, middleware)
@@ -64,12 +65,12 @@ export const initHandler =
         logger.debug('Checking if redis connection initialized')
         const cache = context.cache.instance as redis.RedisCache
         if (!cache.client.connected) {
-          res.status(500).send('Redis not connected')
+          res.status(500).send({ message: 'Redis not connected', version })
           return
         }
       }
 
-      res.status(200).send('OK')
+      res.status(200).send({ message: 'OK', version })
     })
 
     const testPayload = loadTestPayload()
@@ -112,10 +113,12 @@ export const initHandler =
     })
   }
 
-function setupMetricsServer() {
+function setupMetricsServer(name: string) {
   const metricsApp = express()
   const metricsPort = process.env.METRICS_PORT || 9080
   const endpoint = process.env.METRICS_USE_BASE_URL ? join(baseUrl, 'metrics') : '/metrics'
+
+  setupMetrics(name)
 
   metricsApp.get(endpoint, async (_, res) => {
     res.type('txt')

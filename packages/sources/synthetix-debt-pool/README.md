@@ -4,10 +4,10 @@ The Synthetix debt pool adapter fetches the total debt from the DebtCache contra
 
 ### Environment Variables
 
-| Required? |          Name           |                 Description                  | Options |                Defaults to                 |
-| :-------: | :---------------------: | :------------------------------------------: | :-----: | :----------------------------------------: |
-|           | DEBT_POOL_CACHE_ADDRESS |    The address of the DebtCache contract     |         | 0x9bB05EF2cA7DBAafFC3da1939D1492e6b00F39b8 |
-|    ✅     |         RPC_URL         | A valid RPC URL to connect to the blockchain |         |                                            |
+| Required? |          Name           |                          Description                          | Options |                Defaults to                 |
+| :-------: | :---------------------: | :-----------------------------------------------------------: | :-----: | :----------------------------------------: |
+|           | DEBT_POOL_CACHE_ADDRESS |             The address of the DebtCache contract             |         | 0x9bB05EF2cA7DBAafFC3da1939D1492e6b00F39b8 |
+|    ✅     |    ETHEREUM_RPC_URL     | A valid Ethereum Mainnet RPC URL to connect to the blockchain |         |                                            |
 
 ---
 

@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/amberdata-adapter",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "license": "MIT",
   "main": "dist/index.js",
   "scripts": {
@@ -20,13 +20,13 @@
     "dist"
   ],
   "dependencies": {
-    "@chainlink/ea-bootstrap": "*",
-    "@chainlink/ea-factories": "*",
-    "@chainlink/ea-test-helpers": "*",
+    "@chainlink/ea-bootstrap": "1.0.0",
+    "@chainlink/ea-factories": "1.0.0",
+    "@chainlink/ea-test-helpers": "1.0.0",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
-    "@chainlink/types": "0.0.1",
+    "@chainlink/types": "1.0.0",
     "@types/jest": "27.0.2",
     "@types/node": "14.17.21",
     "typescript": "4.3.5"

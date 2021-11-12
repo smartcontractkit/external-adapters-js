@@ -11,8 +11,8 @@ export const DEFAULT_ENDPOINT = 'tvl'
 export const makeConfig = (prefix?: string): Config => {
   return {
     ...Requester.getDefaultConfig(prefix),
-    rpcUrl: util.getRequiredEnv('RPC_URL'),
-    registryAddr: util.getRequiredEnv('REGISTRY_ADDRESS'),
+    rpcUrl: util.getRequiredEnvWithFallback('ETHEREUM_RPC_URL', ['RPC_URL'], prefix),
+    registryAddr: util.getRequiredEnv('REGISTRY_ADDRESS', prefix),
     defaultEndpoint: DEFAULT_ENDPOINT,
   }
 }
