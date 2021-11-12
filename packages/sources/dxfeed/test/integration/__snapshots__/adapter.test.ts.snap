@@ -3,28 +3,10 @@
 exports[`dxfeed price endpoint should reply with success 1`] = `
 Object {
   "data": Object {
-    "Trade": Object {
-      "UKX:FTSE": Object {
-        "change": -36.5,
-        "dayTurnover": "NaN",
-        "dayVolume": "NaN",
-        "eventSymbol": "UKX:FTSE",
-        "eventTime": 0,
-        "exchangeCode": "",
-        "extendedTradingHours": false,
-        "price": 7347.68,
-        "sequence": 147828,
-        "size": 0,
-        "tickDirection": "ZERO_DOWN",
-        "time": 1636731276000,
-        "timeNanoPart": 0,
-      },
-    },
-    "result": 7347.68,
-    "status": "OK",
+    "result": 239.255,
   },
   "jobRunID": "1",
-  "result": 7347.68,
+  "result": 239.255,
   "statusCode": 200,
 }
 `;

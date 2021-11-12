@@ -14,10 +14,8 @@ describe('dxfeed', () => {
   beforeAll(async () => {
     server = await startServer()
     process.env.CACHE_ENABLED = 'false'
-
-    process.env.API_KEY = process.env.API_KEY || 'test-api-key'
-    process.env.CLIENT_ID = process.env.CLIENT_ID || 'test-client-id'
-
+    process.env.API_USERNAME = process.env.API_USERNAME || 'fake-api-username'
+    process.env.API_PASSWORD = process.env.API_PASSWORD || 'fake-api-password'
     if (util.parseBool(process.env.RECORD)) {
       nock.recorder.rec()
     }
@@ -40,7 +38,7 @@ describe('dxfeed', () => {
     const priceRequest: AdapterRequest = {
       id: '1',
       data: {
-        base: 'FTSE',
+        base: 'TSLA',
       },
     }
 
