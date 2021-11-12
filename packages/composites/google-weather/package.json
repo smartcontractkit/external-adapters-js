@@ -30,15 +30,15 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/ea-bootstrap": "1.0.0",
-    "@chainlink/google-bigquery-adapter": "1.0.0",
+    "@chainlink/ea-bootstrap": "workspace:*",
+    "@chainlink/google-bigquery-adapter": "workspace:*",
     "convert-units": "^2.3.4",
     "geojson-validation": "^1.0.2",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
-    "@chainlink/ea-test-helpers": "1.0.0",
-    "@chainlink/types": "1.0.0",
+    "@chainlink/ea-test-helpers": "workspace:*",
+    "@chainlink/types": "workspace:*",
     "@types/convert-units": "2.3.5",
     "@types/jest": "27.0.3",
     "@types/node": "14.17.21",

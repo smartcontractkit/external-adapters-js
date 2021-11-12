@@ -1398,23 +1398,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chainlink/1forge-adapter@1.0.0, @chainlink/1forge-adapter@workspace:packages/sources/1forge":
+"@chainlink/1forge-adapter@workspace:*, @chainlink/1forge-adapter@workspace:packages/sources/1forge":
   version: 0.0.0-use.local
   resolution: "@chainlink/1forge-adapter@workspace:packages/sources/1forge"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
-    nock: 13.1.4
+    nock: 13.1.3
     supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
   linkType: soft
 
-"@chainlink/accuweather-adapter@1.0.0, @chainlink/accuweather-adapter@workspace:packages/sources/accuweather":
+"@chainlink/accuweather-adapter@workspace:*, @chainlink/accuweather-adapter@workspace:packages/sources/accuweather":
   version: 0.0.0-use.local
   resolution: "@chainlink/accuweather-adapter@workspace:packages/sources/accuweather"
   dependencies:
@@ -1432,15 +1432,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ada-balance-adapter@1.0.0, @chainlink/ada-balance-adapter@workspace:packages/sources/ada-balance":
+"@chainlink/ada-balance-adapter@workspace:*, @chainlink/ada-balance-adapter@workspace:packages/sources/ada-balance":
   version: 0.0.0-use.local
   resolution: "@chainlink/ada-balance-adapter@workspace:packages/sources/ada-balance"
   dependencies:
     "@cardano-ogmios/client": 3.2.0
     "@cardano-ogmios/schema": 4.1.0
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     ethers: ^5.4.6
@@ -1453,9 +1453,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/agoric-adapter@workspace:packages/targets/agoric"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/express": 4.17.13
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
@@ -1466,13 +1466,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/alphachain-adapter@1.0.0, @chainlink/alphachain-adapter@workspace:packages/sources/alphachain":
+"@chainlink/alphachain-adapter@workspace:*, @chainlink/alphachain-adapter@workspace:packages/sources/alphachain":
   version: 0.0.0-use.local
   resolution: "@chainlink/alphachain-adapter@workspace:packages/sources/alphachain"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -1480,47 +1480,47 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/alphavantage-adapter@1.0.0, @chainlink/alphavantage-adapter@workspace:packages/sources/alphavantage":
+"@chainlink/alphavantage-adapter@workspace:*, @chainlink/alphavantage-adapter@workspace:packages/sources/alphavantage":
   version: 0.0.0-use.local
   resolution: "@chainlink/alphavantage-adapter@workspace:packages/sources/alphavantage"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
-    nock: 13.1.4
+    nock: 13.1.3
     supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
   linkType: soft
 
-"@chainlink/amberdata-adapter@1.0.0, @chainlink/amberdata-adapter@workspace:packages/sources/amberdata":
+"@chainlink/amberdata-adapter@workspace:*, @chainlink/amberdata-adapter@workspace:packages/sources/amberdata":
   version: 0.0.0-use.local
   resolution: "@chainlink/amberdata-adapter@workspace:packages/sources/amberdata"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-factories": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-factories": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     "@types/supertest": 2.0.11
-    nock: 13.1.4
+    nock: 13.1.3
     supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
   linkType: soft
 
-"@chainlink/anyblock-adapter@1.0.0, @chainlink/anyblock-adapter@workspace:packages/sources/anyblock":
+"@chainlink/anyblock-adapter@workspace:*, @chainlink/anyblock-adapter@workspace:packages/sources/anyblock":
   version: 0.0.0-use.local
   resolution: "@chainlink/anyblock-adapter@workspace:packages/sources/anyblock"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -1528,17 +1528,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ap-election-adapter@1.0.0, @chainlink/ap-election-adapter@workspace:packages/sources/ap-election":
+"@chainlink/ap-election-adapter@workspace:*, @chainlink/ap-election-adapter@workspace:packages/sources/ap-election":
   version: 0.0.0-use.local
   resolution: "@chainlink/ap-election-adapter@workspace:packages/sources/ap-election"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     ethers: ^5.4.6
-    nock: 13.1.4
+    nock: 13.1.3
     supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
@@ -1549,15 +1549,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/apy-finance-adapter@workspace:packages/composites/apy-finance"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/token-allocation-adapter": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/token-allocation-adapter": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@openzeppelin/contracts": ^3.3.0
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     ethers: 5.4.6
-    nock: 13.1.4
+    nock: 13.1.3
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -1567,10 +1567,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/augur-adapter@workspace:packages/composites/augur"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/sportsdataio-adapter": 1.0.0
-    "@chainlink/therundown-adapter": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/sportsdataio-adapter": "workspace:*"
+    "@chainlink/therundown-adapter": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/luxon": 1.27.1
     "@types/node": 14.17.21
@@ -1581,30 +1581,30 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/bea-adapter@1.0.0, @chainlink/bea-adapter@workspace:packages/sources/bea":
+"@chainlink/bea-adapter@workspace:*, @chainlink/bea-adapter@workspace:packages/sources/bea":
   version: 0.0.0-use.local
   resolution: "@chainlink/bea-adapter@workspace:packages/sources/bea"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     decimal.js: ^10.3.1
-    nock: 13.1.4
+    nock: 13.1.3
     supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
   linkType: soft
 
-"@chainlink/binance-adapter@1.0.0, @chainlink/binance-adapter@workspace:packages/sources/binance":
+"@chainlink/binance-adapter@workspace:*, @chainlink/binance-adapter@workspace:packages/sources/binance":
   version: 0.0.0-use.local
   resolution: "@chainlink/binance-adapter@workspace:packages/sources/binance"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -1612,13 +1612,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/binance-dex-adapter@1.0.0, @chainlink/binance-dex-adapter@workspace:packages/sources/binance-dex":
+"@chainlink/binance-dex-adapter@workspace:*, @chainlink/binance-dex-adapter@workspace:packages/sources/binance-dex":
   version: 0.0.0-use.local
   resolution: "@chainlink/binance-dex-adapter@workspace:packages/sources/binance-dex"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -1626,14 +1626,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/bitcoin-json-rpc-adapter@1.0.0, @chainlink/bitcoin-json-rpc-adapter@workspace:packages/composites/bitcoin-json-rpc":
+"@chainlink/bitcoin-json-rpc-adapter@workspace:*, @chainlink/bitcoin-json-rpc-adapter@workspace:packages/composites/bitcoin-json-rpc":
   version: 0.0.0-use.local
   resolution: "@chainlink/bitcoin-json-rpc-adapter@workspace:packages/composites/bitcoin-json-rpc"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/json-rpc-adapter": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/json-rpc-adapter": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -1641,13 +1641,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/bitex-adapter@1.0.0, @chainlink/bitex-adapter@workspace:packages/sources/bitex":
+"@chainlink/bitex-adapter@workspace:*, @chainlink/bitex-adapter@workspace:packages/sources/bitex":
   version: 0.0.0-use.local
   resolution: "@chainlink/bitex-adapter@workspace:packages/sources/bitex"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/express": 4.17.13
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
@@ -1656,13 +1656,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/bitso-adapter@1.0.0, @chainlink/bitso-adapter@workspace:packages/sources/bitso":
+"@chainlink/bitso-adapter@workspace:*, @chainlink/bitso-adapter@workspace:packages/sources/bitso":
   version: 0.0.0-use.local
   resolution: "@chainlink/bitso-adapter@workspace:packages/sources/bitso"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/express": 4.17.13
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
@@ -1671,14 +1671,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/blockchain.com-adapter@1.0.0, @chainlink/blockchain.com-adapter@workspace:packages/sources/blockchain.com":
+"@chainlink/blockchain.com-adapter@workspace:*, @chainlink/blockchain.com-adapter@workspace:packages/sources/blockchain.com":
   version: 0.0.0-use.local
   resolution: "@chainlink/blockchain.com-adapter@workspace:packages/sources/blockchain.com"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-factories": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-factories": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -1686,14 +1686,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/blockchair-adapter@1.0.0, @chainlink/blockchair-adapter@workspace:packages/sources/blockchair":
+"@chainlink/blockchair-adapter@workspace:*, @chainlink/blockchair-adapter@workspace:packages/sources/blockchair":
   version: 0.0.0-use.local
   resolution: "@chainlink/blockchair-adapter@workspace:packages/sources/blockchair"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-factories": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-factories": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -1701,14 +1701,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/blockcypher-adapter@1.0.0, @chainlink/blockcypher-adapter@workspace:packages/sources/blockcypher":
+"@chainlink/blockcypher-adapter@workspace:*, @chainlink/blockcypher-adapter@workspace:packages/sources/blockcypher":
   version: 0.0.0-use.local
   resolution: "@chainlink/blockcypher-adapter@workspace:packages/sources/blockcypher"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-factories": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-factories": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     blockcypher: ^0.3.0
@@ -1717,13 +1717,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/blockstream-adapter@1.0.0, @chainlink/blockstream-adapter@workspace:packages/sources/blockstream":
+"@chainlink/blockstream-adapter@workspace:*, @chainlink/blockstream-adapter@workspace:packages/sources/blockstream":
   version: 0.0.0-use.local
   resolution: "@chainlink/blockstream-adapter@workspace:packages/sources/blockstream"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -1735,10 +1735,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/bob-adapter@workspace:packages/composites/bob"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/json-rpc-adapter": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/json-rpc-adapter": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     ethers: ^5.4.6
@@ -1747,31 +1747,31 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/bravenewcoin-adapter@1.0.0, @chainlink/bravenewcoin-adapter@workspace:packages/sources/bravenewcoin":
+"@chainlink/bravenewcoin-adapter@workspace:*, @chainlink/bravenewcoin-adapter@workspace:packages/sources/bravenewcoin":
   version: 0.0.0-use.local
   resolution: "@chainlink/bravenewcoin-adapter@workspace:packages/sources/bravenewcoin"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     "@types/supertest": 2.0.11
-    nock: 13.1.4
+    nock: 13.1.3
     supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
   linkType: soft
 
-"@chainlink/btc.com-adapter@1.0.0, @chainlink/btc.com-adapter@workspace:packages/sources/btc.com":
+"@chainlink/btc.com-adapter@workspace:*, @chainlink/btc.com-adapter@workspace:packages/sources/btc.com":
   version: 0.0.0-use.local
   resolution: "@chainlink/btc.com-adapter@workspace:packages/sources/btc.com"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-factories": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-factories": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -1779,13 +1779,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/cache.gold-adapter@1.0.0, @chainlink/cache.gold-adapter@workspace:packages/sources/cache.gold":
+"@chainlink/cache.gold-adapter@workspace:*, @chainlink/cache.gold-adapter@workspace:packages/sources/cache.gold":
   version: 0.0.0-use.local
   resolution: "@chainlink/cache.gold-adapter@workspace:packages/sources/cache.gold"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -1793,13 +1793,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/cfbenchmarks-adapter@1.0.0, @chainlink/cfbenchmarks-adapter@workspace:packages/sources/cfbenchmarks":
+"@chainlink/cfbenchmarks-adapter@workspace:*, @chainlink/cfbenchmarks-adapter@workspace:packages/sources/cfbenchmarks":
   version: 0.0.0-use.local
   resolution: "@chainlink/cfbenchmarks-adapter@workspace:packages/sources/cfbenchmarks"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -1807,13 +1807,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/chain-reserve-wallet-adapter@1.0.0, @chainlink/chain-reserve-wallet-adapter@workspace:packages/sources/chain-reserve-wallet":
+"@chainlink/chain-reserve-wallet-adapter@workspace:*, @chainlink/chain-reserve-wallet-adapter@workspace:packages/sources/chain-reserve-wallet":
   version: 0.0.0-use.local
   resolution: "@chainlink/chain-reserve-wallet-adapter@workspace:packages/sources/chain-reserve-wallet"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     ethers: 5.4.6
@@ -1826,42 +1826,42 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/circuit-breaker-adapter@workspace:packages/composites/circuit-breaker"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     axios: ^0.21.1
-    nock: 13.1.4
+    nock: 13.1.3
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
   linkType: soft
 
-"@chainlink/coinapi-adapter@1.0.0, @chainlink/coinapi-adapter@workspace:packages/sources/coinapi":
+"@chainlink/coinapi-adapter@workspace:*, @chainlink/coinapi-adapter@workspace:packages/sources/coinapi":
   version: 0.0.0-use.local
   resolution: "@chainlink/coinapi-adapter@workspace:packages/sources/coinapi"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     "@types/supertest": 2.0.11
-    nock: 13.1.4
+    nock: 13.1.3
     supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
   linkType: soft
 
-"@chainlink/coinbase-adapter@1.0.0, @chainlink/coinbase-adapter@workspace:packages/sources/coinbase":
+"@chainlink/coinbase-adapter@workspace:*, @chainlink/coinbase-adapter@workspace:packages/sources/coinbase":
   version: 0.0.0-use.local
   resolution: "@chainlink/coinbase-adapter@workspace:packages/sources/coinbase"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -1869,13 +1869,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/coincodex-adapter@1.0.0, @chainlink/coincodex-adapter@workspace:packages/sources/coincodex":
+"@chainlink/coincodex-adapter@workspace:*, @chainlink/coincodex-adapter@workspace:packages/sources/coincodex":
   version: 0.0.0-use.local
   resolution: "@chainlink/coincodex-adapter@workspace:packages/sources/coincodex"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -1883,29 +1883,29 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/coingecko-adapter@1.0.0, @chainlink/coingecko-adapter@workspace:packages/sources/coingecko":
+"@chainlink/coingecko-adapter@workspace:*, @chainlink/coingecko-adapter@workspace:packages/sources/coingecko":
   version: 0.0.0-use.local
   resolution: "@chainlink/coingecko-adapter@workspace:packages/sources/coingecko"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
-    nock: 13.1.4
+    nock: 13.1.3
     supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
   linkType: soft
 
-"@chainlink/coinlore-adapter@1.0.0, @chainlink/coinlore-adapter@workspace:packages/sources/coinlore":
+"@chainlink/coinlore-adapter@workspace:*, @chainlink/coinlore-adapter@workspace:packages/sources/coinlore":
   version: 0.0.0-use.local
   resolution: "@chainlink/coinlore-adapter@workspace:packages/sources/coinlore"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/express": 4.17.13
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
@@ -1914,17 +1914,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/coinmarketcap-adapter@1.0.0, @chainlink/coinmarketcap-adapter@workspace:packages/sources/coinmarketcap":
+"@chainlink/coinmarketcap-adapter@workspace:*, @chainlink/coinmarketcap-adapter@workspace:packages/sources/coinmarketcap":
   version: 0.0.0-use.local
   resolution: "@chainlink/coinmarketcap-adapter@workspace:packages/sources/coinmarketcap"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     "@types/supertest": 2.0.11
-    nock: 13.1.4
+    nock: 13.1.3
     supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
@@ -1935,46 +1935,46 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coinmetrics-adapter@workspace:packages/sources/coinmetrics"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     "@types/supertest": ^2.0.11
     ethers: ^5.4.6
-    nock: 13.1.4
+    nock: ^13.1.3
     supertest: ^6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
   linkType: soft
 
-"@chainlink/coinpaprika-adapter@1.0.0, @chainlink/coinpaprika-adapter@workspace:packages/sources/coinpaprika":
+"@chainlink/coinpaprika-adapter@workspace:*, @chainlink/coinpaprika-adapter@workspace:packages/sources/coinpaprika":
   version: 0.0.0-use.local
   resolution: "@chainlink/coinpaprika-adapter@workspace:packages/sources/coinpaprika"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
-    nock: 13.1.4
+    nock: 13.1.3
     supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
   linkType: soft
 
-"@chainlink/coinranking-adapter@1.0.0, @chainlink/coinranking-adapter@workspace:packages/sources/coinranking":
+"@chainlink/coinranking-adapter@workspace:*, @chainlink/coinranking-adapter@workspace:packages/sources/coinranking":
   version: 0.0.0-use.local
   resolution: "@chainlink/coinranking-adapter@workspace:packages/sources/coinranking"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
-    nock: 13.1.4
+    nock: 13.1.3
     supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
@@ -1985,9 +1985,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/conflux-adapter@workspace:packages/targets/conflux"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     ethers: ^5.4.6
@@ -2012,13 +2012,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chainlink/covid-tracker-adapter@1.0.0, @chainlink/covid-tracker-adapter@workspace:packages/sources/covid-tracker":
+"@chainlink/covid-tracker-adapter@workspace:*, @chainlink/covid-tracker-adapter@workspace:packages/sources/covid-tracker":
   version: 0.0.0-use.local
   resolution: "@chainlink/covid-tracker-adapter@workspace:packages/sources/covid-tracker"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -2030,30 +2030,30 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/crypto-volatility-index-adapter@workspace:packages/composites/crypto-volatility-index"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-reference-data-reader": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/token-allocation-adapter": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-reference-data-reader": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/token-allocation-adapter": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     decimal.js: ^10.3.1
     ethers: 5.0.32
     moment: ^2.29.1
-    nock: 13.1.4
+    nock: 13.1.3
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
   linkType: soft
 
-"@chainlink/cryptoapis-adapter@1.0.0, @chainlink/cryptoapis-adapter@workspace:packages/sources/cryptoapis":
+"@chainlink/cryptoapis-adapter@workspace:*, @chainlink/cryptoapis-adapter@workspace:packages/sources/cryptoapis":
   version: 0.0.0-use.local
   resolution: "@chainlink/cryptoapis-adapter@workspace:packages/sources/cryptoapis"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-factories": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-factories": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     ethers: ^5.4.6
@@ -2062,14 +2062,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/cryptoapis-v2-adapter@1.0.0, @chainlink/cryptoapis-v2-adapter@workspace:packages/sources/cryptoapis-v2":
+"@chainlink/cryptoapis-v2-adapter@workspace:*, @chainlink/cryptoapis-v2-adapter@workspace:packages/sources/cryptoapis-v2":
   version: 0.0.0-use.local
   resolution: "@chainlink/cryptoapis-v2-adapter@workspace:packages/sources/cryptoapis-v2"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-factories": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-factories": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     ethers: ^5.4.6
@@ -2078,29 +2078,29 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/cryptocompare-adapter@1.0.0, @chainlink/cryptocompare-adapter@workspace:packages/sources/cryptocompare":
+"@chainlink/cryptocompare-adapter@workspace:*, @chainlink/cryptocompare-adapter@workspace:packages/sources/cryptocompare":
   version: 0.0.0-use.local
   resolution: "@chainlink/cryptocompare-adapter@workspace:packages/sources/cryptocompare"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
-    nock: 13.1.4
+    nock: 13.1.3
     supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
   linkType: soft
 
-"@chainlink/cryptoid-adapter@1.0.0, @chainlink/cryptoid-adapter@workspace:packages/sources/cryptoid":
+"@chainlink/cryptoid-adapter@workspace:*, @chainlink/cryptoid-adapter@workspace:packages/sources/cryptoid":
   version: 0.0.0-use.local
   resolution: "@chainlink/cryptoid-adapter@workspace:packages/sources/cryptoid"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -2108,13 +2108,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/cryptomkt-adapter@1.0.0, @chainlink/cryptomkt-adapter@workspace:packages/sources/cryptomkt":
+"@chainlink/cryptomkt-adapter@workspace:*, @chainlink/cryptomkt-adapter@workspace:packages/sources/cryptomkt":
   version: 0.0.0-use.local
   resolution: "@chainlink/cryptomkt-adapter@workspace:packages/sources/cryptomkt"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -2122,29 +2122,29 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/currencylayer-adapter@1.0.0, @chainlink/currencylayer-adapter@workspace:packages/sources/currencylayer":
+"@chainlink/currencylayer-adapter@workspace:*, @chainlink/currencylayer-adapter@workspace:packages/sources/currencylayer":
   version: 0.0.0-use.local
   resolution: "@chainlink/currencylayer-adapter@workspace:packages/sources/currencylayer"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
-    nock: 13.1.4
+    nock: 13.1.3
     supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
   linkType: soft
 
-"@chainlink/curve-adapter@1.0.0, @chainlink/curve-adapter@workspace:packages/sources/curve":
+"@chainlink/curve-adapter@workspace:*, @chainlink/curve-adapter@workspace:packages/sources/curve":
   version: 0.0.0-use.local
   resolution: "@chainlink/curve-adapter@workspace:packages/sources/curve"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 26.0.24
     "@types/node": 14.17.21
     "@types/supertest": 2.0.11
@@ -2178,10 +2178,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/defi-pulse-adapter@workspace:packages/composites/defi-pulse"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/token-allocation-adapter": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/token-allocation-adapter": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     ethers: ^5.4.6
@@ -2190,29 +2190,29 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/deribit-adapter@1.0.0, @chainlink/deribit-adapter@workspace:packages/sources/deribit":
+"@chainlink/deribit-adapter@workspace:*, @chainlink/deribit-adapter@workspace:packages/sources/deribit":
   version: 0.0.0-use.local
   resolution: "@chainlink/deribit-adapter@workspace:packages/sources/deribit"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
-    nock: 13.1.4
+    nock: 13.1.3
     supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
   linkType: soft
 
-"@chainlink/dns-query-adapter@1.0.0, @chainlink/dns-query-adapter@workspace:packages/sources/dns-query":
+"@chainlink/dns-query-adapter@workspace:*, @chainlink/dns-query-adapter@workspace:packages/sources/dns-query":
   version: 0.0.0-use.local
   resolution: "@chainlink/dns-query-adapter@workspace:packages/sources/dns-query"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -2224,10 +2224,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/dns-record-check-adapter@workspace:packages/composites/dns-record-check"
   dependencies:
-    "@chainlink/dns-query-adapter": 1.0.0
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/dns-query-adapter": "workspace:*"
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -2235,13 +2235,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/durin-adapter@1.0.0, @chainlink/durin-adapter@workspace:packages/sources/durin":
+"@chainlink/durin-adapter@workspace:*, @chainlink/durin-adapter@workspace:packages/sources/durin":
   version: 0.0.0-use.local
   resolution: "@chainlink/durin-adapter@workspace:packages/sources/durin"
   dependencies:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-test-helpers": "*"
-    "@chainlink/types": 1.0.0
+    "@chainlink/types": "workspace:*"
     "@ethersproject/abi": ^5.5.0
     "@ethersproject/bytes": ^5.5.0
     "@types/jest": 27.0.3
@@ -2253,13 +2253,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/dwolla-adapter@1.0.0, @chainlink/dwolla-adapter@workspace:packages/sources/dwolla":
+"@chainlink/dwolla-adapter@workspace:*, @chainlink/dwolla-adapter@workspace:packages/sources/dwolla":
   version: 0.0.0-use.local
   resolution: "@chainlink/dwolla-adapter@workspace:packages/sources/dwolla"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     dwolla-v2: ^3.2.0
@@ -2275,7 +2275,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/token-allocation-adapter": "workspace:*"
-    "@chainlink/types": 1.0.0
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     ethers: ^5.4.6
@@ -2284,30 +2284,30 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/dxfeed-adapter@1.0.0, @chainlink/dxfeed-adapter@workspace:packages/sources/dxfeed":
+"@chainlink/dxfeed-adapter@workspace:*, @chainlink/dxfeed-adapter@workspace:packages/sources/dxfeed":
   version: 0.0.0-use.local
   resolution: "@chainlink/dxfeed-adapter@workspace:packages/sources/dxfeed"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
-    nock: 13.1.4
+    nock: 13.1.3
     supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
   linkType: soft
 
-"@chainlink/dxfeed-secondary-adapter@1.0.0, @chainlink/dxfeed-secondary-adapter@workspace:packages/sources/dxfeed-secondary":
+"@chainlink/dxfeed-secondary-adapter@workspace:*, @chainlink/dxfeed-secondary-adapter@workspace:packages/sources/dxfeed-secondary":
   version: 0.0.0-use.local
   resolution: "@chainlink/dxfeed-secondary-adapter@workspace:packages/sources/dxfeed-secondary"
   dependencies:
-    "@chainlink/dxfeed-adapter": 1.0.0
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/dxfeed-adapter": "workspace:*"
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -2319,10 +2319,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/dydx-rewards-adapter@workspace:packages/composites/dydx-rewards"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ipfs-adapter": 1.0.0
-    "@chainlink/types": 1.0.0
-    "@types/jest": 26.0.24
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ipfs-adapter": "workspace:*"
+    "@chainlink/types": "workspace:*"
+    "@types/jest": ^26.0.24
     "@types/node": 14.17.21
     "@types/supertest": ^2.0.11
     bignumber.js: ^9.0.1
@@ -2342,9 +2342,9 @@ __metadata:
   resolution: "@chainlink/dydx-stark-adapter@workspace:packages/targets/dydx-stark"
   dependencies:
     "@authereum/starkware-crypto": ^1.9.7-beta.7
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     decimal.js: ^10.3.1
@@ -2359,7 +2359,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/ea-bootstrap@workspace:packages/core/bootstrap"
   dependencies:
-    "@chainlink/types": 1.0.0
+    "@chainlink/types": "workspace:*"
     "@reduxjs/toolkit": ^1.6.1
     "@types/express": 4.17.13
     "@types/express-rate-limit": ^5
@@ -2409,12 +2409,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ea-factories@1.0.0, @chainlink/ea-factories@workspace:packages/core/factories":
+"@chainlink/ea-factories@workspace:*, @chainlink/ea-factories@workspace:packages/core/factories":
   version: 0.0.0-use.local
   resolution: "@chainlink/ea-factories@workspace:packages/core/factories"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     "@types/object-path": 0.11.1
@@ -2424,13 +2424,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ea-reference-data-reader@1.0.0, @chainlink/ea-reference-data-reader@workspace:packages/core/reference-data-reader":
+"@chainlink/ea-reference-data-reader@workspace:*, @chainlink/ea-reference-data-reader@workspace:packages/core/reference-data-reader":
   version: 0.0.0-use.local
   resolution: "@chainlink/ea-reference-data-reader@workspace:packages/core/reference-data-reader"
   dependencies:
     "@chainlink/contracts": ^0.0.11
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     ethers: ^4.0.48
@@ -2463,8 +2463,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/ea-test-helpers@workspace:packages/core/test-helpers"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     hardhat: 2.6.8
@@ -2473,125 +2473,125 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ea@1.0.0, @chainlink/ea@workspace:packages/core/legos":
+"@chainlink/ea@workspace:*, @chainlink/ea@workspace:packages/core/legos":
   version: 0.0.0-use.local
   resolution: "@chainlink/ea@workspace:packages/core/legos"
   dependencies:
-    "@chainlink/1forge-adapter": 1.0.0
-    "@chainlink/accuweather-adapter": 1.0.0
-    "@chainlink/ada-balance-adapter": 1.0.0
-    "@chainlink/alphachain-adapter": 1.0.0
-    "@chainlink/alphavantage-adapter": 1.0.0
-    "@chainlink/amberdata-adapter": 1.0.0
-    "@chainlink/anyblock-adapter": 1.0.0
-    "@chainlink/ap-election-adapter": 1.0.0
-    "@chainlink/bea-adapter": 1.0.0
-    "@chainlink/binance-adapter": 1.0.0
-    "@chainlink/binance-dex-adapter": 1.0.0
-    "@chainlink/bitex-adapter": 1.0.0
-    "@chainlink/bitso-adapter": 1.0.0
-    "@chainlink/blockchain.com-adapter": 1.0.0
-    "@chainlink/blockchair-adapter": 1.0.0
-    "@chainlink/blockcypher-adapter": 1.0.0
-    "@chainlink/blockstream-adapter": 1.0.0
-    "@chainlink/bravenewcoin-adapter": 1.0.0
-    "@chainlink/btc.com-adapter": 1.0.0
-    "@chainlink/cache.gold-adapter": 1.0.0
-    "@chainlink/cfbenchmarks-adapter": 1.0.0
-    "@chainlink/chain-reserve-wallet-adapter": 1.0.0
-    "@chainlink/coinapi-adapter": 1.0.0
-    "@chainlink/coinbase-adapter": 1.0.0
-    "@chainlink/coincodex-adapter": 1.0.0
-    "@chainlink/coingecko-adapter": 1.0.0
-    "@chainlink/coinlore-adapter": 1.0.0
-    "@chainlink/coinmarketcap-adapter": 1.0.0
+    "@chainlink/1forge-adapter": "workspace:*"
+    "@chainlink/accuweather-adapter": "workspace:*"
+    "@chainlink/ada-balance-adapter": "workspace:*"
+    "@chainlink/alphachain-adapter": "workspace:*"
+    "@chainlink/alphavantage-adapter": "workspace:*"
+    "@chainlink/amberdata-adapter": "workspace:*"
+    "@chainlink/anyblock-adapter": "workspace:*"
+    "@chainlink/ap-election-adapter": "workspace:*"
+    "@chainlink/bea-adapter": "workspace:*"
+    "@chainlink/binance-adapter": "workspace:*"
+    "@chainlink/binance-dex-adapter": "workspace:*"
+    "@chainlink/bitex-adapter": "workspace:*"
+    "@chainlink/bitso-adapter": "workspace:*"
+    "@chainlink/blockchain.com-adapter": "workspace:*"
+    "@chainlink/blockchair-adapter": "workspace:*"
+    "@chainlink/blockcypher-adapter": "workspace:*"
+    "@chainlink/blockstream-adapter": "workspace:*"
+    "@chainlink/bravenewcoin-adapter": "workspace:*"
+    "@chainlink/btc.com-adapter": "workspace:*"
+    "@chainlink/cache.gold-adapter": "workspace:*"
+    "@chainlink/cfbenchmarks-adapter": "workspace:*"
+    "@chainlink/chain-reserve-wallet-adapter": "workspace:*"
+    "@chainlink/coinapi-adapter": "workspace:*"
+    "@chainlink/coinbase-adapter": "workspace:*"
+    "@chainlink/coincodex-adapter": "workspace:*"
+    "@chainlink/coingecko-adapter": "workspace:*"
+    "@chainlink/coinlore-adapter": "workspace:*"
+    "@chainlink/coinmarketcap-adapter": "workspace:*"
     "@chainlink/coinmetrics-adapter": 1.1.0
-    "@chainlink/coinpaprika-adapter": 1.0.0
-    "@chainlink/coinranking-adapter": 1.0.0
-    "@chainlink/covid-tracker-adapter": 1.0.0
-    "@chainlink/cryptoapis-adapter": 1.0.0
-    "@chainlink/cryptoapis-v2-adapter": 1.0.0
-    "@chainlink/cryptocompare-adapter": 1.0.0
-    "@chainlink/cryptoid-adapter": 1.0.0
-    "@chainlink/cryptomkt-adapter": 1.0.0
-    "@chainlink/currencylayer-adapter": 1.0.0
-    "@chainlink/curve-adapter": 1.0.0
-    "@chainlink/deribit-adapter": 1.0.0
-    "@chainlink/dns-query-adapter": 1.0.0
-    "@chainlink/durin-adapter": 1.0.0
-    "@chainlink/dwolla-adapter": 1.0.0
-    "@chainlink/dxfeed-adapter": 1.0.0
-    "@chainlink/dxfeed-secondary-adapter": 1.0.0
-    "@chainlink/enzyme-adapter": 1.0.0
-    "@chainlink/eodhistoricaldata-adapter": 1.0.0
-    "@chainlink/eth-balance-adapter": 1.0.0
-    "@chainlink/etherchain-adapter": 1.0.0
-    "@chainlink/etherscan-adapter": 1.0.0
-    "@chainlink/ethgasstation-adapter": 1.0.0
-    "@chainlink/ethgaswatch-adapter": 1.0.0
-    "@chainlink/expert-car-broker-adapter": 1.0.0
-    "@chainlink/fcsapi-adapter": 1.0.0
-    "@chainlink/finage-adapter": 1.0.0
-    "@chainlink/finnhub-adapter": 1.0.0
-    "@chainlink/fixer-adapter": 1.0.0
-    "@chainlink/flightaware-adapter": 1.0.0
-    "@chainlink/fmpcloud-adapter": 1.0.0
-    "@chainlink/gemini-adapter": 1.0.0
-    "@chainlink/genesis-volatility-adapter": 1.0.0
-    "@chainlink/geodb-adapter": 1.0.0
-    "@chainlink/google-bigquery-adapter": 1.0.0
-    "@chainlink/graphql-adapter": 1.0.0
-    "@chainlink/iex-cloud-adapter": 1.0.0
-    "@chainlink/intrinio-adapter": 1.0.0
-    "@chainlink/ipfs-adapter": 1.0.0
-    "@chainlink/json-rpc-adapter": 1.0.0
-    "@chainlink/kaiko-adapter": 1.0.0
-    "@chainlink/layer2-sequencer-health-adapter": 1.0.0
-    "@chainlink/lcx-adapter": 1.0.0
-    "@chainlink/linkpool-adapter": 1.0.0
-    "@chainlink/lition-adapter": 1.0.0
-    "@chainlink/lotus-adapter": 1.0.0
-    "@chainlink/marketstack-adapter": 1.0.0
-    "@chainlink/messari-adapter": 1.0.0
-    "@chainlink/metalsapi-adapter": 1.0.0
-    "@chainlink/mycryptoapi-adapter": 1.0.0
-    "@chainlink/ncfx-adapter": 1.0.0
-    "@chainlink/nikkei-adapter": 1.0.0
-    "@chainlink/nomics-adapter": 1.0.0
-    "@chainlink/oilpriceapi-adapter": 1.0.0
-    "@chainlink/onchain-adapter": 1.0.0
-    "@chainlink/onchain-gas-adapter": 1.0.0
-    "@chainlink/openexchangerates-adapter": 1.0.0
-    "@chainlink/orchid-bandwidth-adapter": 1.0.0
-    "@chainlink/paxos-adapter": 1.0.0
-    "@chainlink/paypal-adapter": 1.0.0
-    "@chainlink/poa-adapter": 1.0.0
-    "@chainlink/polygon-adapter": 1.0.0
-    "@chainlink/reduce-adapter": 1.0.0
-    "@chainlink/renvm-address-set-adapter": 1.0.0
-    "@chainlink/satoshitango-adapter": 1.0.0
-    "@chainlink/sochain-adapter": 1.0.0
-    "@chainlink/spectral-macro-score-adapter": 1.0.0
-    "@chainlink/sportsdataio-adapter": 1.0.0
-    "@chainlink/stasis-adapter": 1.0.0
-    "@chainlink/synthetix-debt-pool-adapter": 1.0.0
-    "@chainlink/taapi-adapter": 1.0.0
-    "@chainlink/terra-view-function-adapter": 2.0.0
-    "@chainlink/therundown-adapter": 1.0.0
-    "@chainlink/tiingo-adapter": 1.0.0
-    "@chainlink/tradermade-adapter": 1.0.0
-    "@chainlink/tradingeconomics-adapter": 1.0.0
-    "@chainlink/trueusd-adapter": 1.0.0
-    "@chainlink/twelvedata-adapter": 1.0.0
-    "@chainlink/unibit-adapter": 1.0.0
-    "@chainlink/uniswap-v2-adapter": 1.0.0
-    "@chainlink/uniswap-v3-adapter": 1.0.0
-    "@chainlink/upvest-adapter": 1.0.0
-    "@chainlink/uscpi-one-adapter": 1.0.0
-    "@chainlink/view-function-adapter": 1.0.0
-    "@chainlink/wbtc-address-set-adapter": 1.0.0
-    "@chainlink/wootrade-adapter": 1.0.0
-    "@chainlink/xbto-adapter": 1.0.0
+    "@chainlink/coinpaprika-adapter": "workspace:*"
+    "@chainlink/coinranking-adapter": "workspace:*"
+    "@chainlink/covid-tracker-adapter": "workspace:*"
+    "@chainlink/cryptoapis-adapter": "workspace:*"
+    "@chainlink/cryptoapis-v2-adapter": "workspace:*"
+    "@chainlink/cryptocompare-adapter": "workspace:*"
+    "@chainlink/cryptoid-adapter": "workspace:*"
+    "@chainlink/cryptomkt-adapter": "workspace:*"
+    "@chainlink/currencylayer-adapter": "workspace:*"
+    "@chainlink/curve-adapter": "workspace:*"
+    "@chainlink/deribit-adapter": "workspace:*"
+    "@chainlink/dns-query-adapter": "workspace:*"
+    "@chainlink/durin-adapter": "workspace:*"
+    "@chainlink/dwolla-adapter": "workspace:*"
+    "@chainlink/dxfeed-adapter": "workspace:*"
+    "@chainlink/dxfeed-secondary-adapter": "workspace:*"
+    "@chainlink/enzyme-adapter": "workspace:*"
+    "@chainlink/eodhistoricaldata-adapter": "workspace:*"
+    "@chainlink/eth-balance-adapter": "workspace:*"
+    "@chainlink/etherchain-adapter": "workspace:*"
+    "@chainlink/etherscan-adapter": "workspace:*"
+    "@chainlink/ethgasstation-adapter": "workspace:*"
+    "@chainlink/ethgaswatch-adapter": "workspace:*"
+    "@chainlink/expert-car-broker-adapter": "workspace:*"
+    "@chainlink/fcsapi-adapter": "workspace:*"
+    "@chainlink/finage-adapter": "workspace:*"
+    "@chainlink/finnhub-adapter": "workspace:*"
+    "@chainlink/fixer-adapter": "workspace:*"
+    "@chainlink/flightaware-adapter": "workspace:*"
+    "@chainlink/fmpcloud-adapter": "workspace:*"
+    "@chainlink/gemini-adapter": "workspace:*"
+    "@chainlink/genesis-volatility-adapter": "workspace:*"
+    "@chainlink/geodb-adapter": "workspace:*"
+    "@chainlink/google-bigquery-adapter": "workspace:*"
+    "@chainlink/graphql-adapter": "workspace:*"
+    "@chainlink/iex-cloud-adapter": "workspace:*"
+    "@chainlink/intrinio-adapter": "workspace:*"
+    "@chainlink/ipfs-adapter": "workspace:*"
+    "@chainlink/json-rpc-adapter": "workspace:*"
+    "@chainlink/kaiko-adapter": "workspace:*"
+    "@chainlink/layer2-sequencer-health-adapter": "workspace:*"
+    "@chainlink/lcx-adapter": "workspace:*"
+    "@chainlink/linkpool-adapter": "workspace:*"
+    "@chainlink/lition-adapter": "workspace:*"
+    "@chainlink/lotus-adapter": "workspace:*"
+    "@chainlink/marketstack-adapter": "workspace:*"
+    "@chainlink/messari-adapter": "workspace:*"
+    "@chainlink/metalsapi-adapter": "workspace:*"
+    "@chainlink/mycryptoapi-adapter": "workspace:*"
+    "@chainlink/ncfx-adapter": "workspace:*"
+    "@chainlink/nikkei-adapter": "workspace:*"
+    "@chainlink/nomics-adapter": "workspace:*"
+    "@chainlink/oilpriceapi-adapter": "workspace:*"
+    "@chainlink/onchain-adapter": "workspace:*"
+    "@chainlink/onchain-gas-adapter": "workspace:*"
+    "@chainlink/openexchangerates-adapter": "workspace:*"
+    "@chainlink/orchid-bandwidth-adapter": "workspace:*"
+    "@chainlink/paxos-adapter": "workspace:*"
+    "@chainlink/paypal-adapter": "workspace:*"
+    "@chainlink/poa-adapter": "workspace:*"
+    "@chainlink/polygon-adapter": "workspace:*"
+    "@chainlink/reduce-adapter": "workspace:*"
+    "@chainlink/renvm-address-set-adapter": "workspace:*"
+    "@chainlink/satoshitango-adapter": "workspace:*"
+    "@chainlink/sochain-adapter": "workspace:*"
+    "@chainlink/spectral-macro-score-adapter": "workspace:*"
+    "@chainlink/sportsdataio-adapter": "workspace:*"
+    "@chainlink/stasis-adapter": "workspace:*"
+    "@chainlink/synthetix-debt-pool-adapter": "workspace:*"
+    "@chainlink/taapi-adapter": "workspace:*"
+    "@chainlink/terra-view-function-adapter": "workspace:*"
+    "@chainlink/therundown-adapter": "workspace:*"
+    "@chainlink/tiingo-adapter": "workspace:*"
+    "@chainlink/tradermade-adapter": "workspace:*"
+    "@chainlink/tradingeconomics-adapter": "workspace:*"
+    "@chainlink/trueusd-adapter": "workspace:*"
+    "@chainlink/twelvedata-adapter": "workspace:*"
+    "@chainlink/unibit-adapter": "workspace:*"
+    "@chainlink/uniswap-v2-adapter": "workspace:*"
+    "@chainlink/uniswap-v3-adapter": "workspace:*"
+    "@chainlink/upvest-adapter": "workspace:*"
+    "@chainlink/uscpi-one-adapter": "workspace:*"
+    "@chainlink/view-function-adapter": "workspace:*"
+    "@chainlink/wbtc-address-set-adapter": "workspace:*"
+    "@chainlink/wootrade-adapter": "workspace:*"
+    "@chainlink/xbto-adapter": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -2599,31 +2599,31 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/enzyme-adapter@1.0.0, @chainlink/enzyme-adapter@workspace:packages/sources/enzyme":
+"@chainlink/enzyme-adapter@workspace:*, @chainlink/enzyme-adapter@workspace:packages/sources/enzyme":
   version: 0.0.0-use.local
   resolution: "@chainlink/enzyme-adapter@workspace:packages/sources/enzyme"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     "@types/supertest": 2.0.11
     ethers: ^5.4.6
-    nock: 13.1.4
+    nock: 13.1.3
     supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
   linkType: soft
 
-"@chainlink/eodhistoricaldata-adapter@1.0.0, @chainlink/eodhistoricaldata-adapter@workspace:packages/sources/eodhistoricaldata":
+"@chainlink/eodhistoricaldata-adapter@workspace:*, @chainlink/eodhistoricaldata-adapter@workspace:packages/sources/eodhistoricaldata":
   version: 0.0.0-use.local
   resolution: "@chainlink/eodhistoricaldata-adapter@workspace:packages/sources/eodhistoricaldata"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -2631,31 +2631,31 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/eth-balance-adapter@1.0.0, @chainlink/eth-balance-adapter@workspace:packages/sources/eth-balance":
+"@chainlink/eth-balance-adapter@workspace:*, @chainlink/eth-balance-adapter@workspace:packages/sources/eth-balance":
   version: 0.0.0-use.local
   resolution: "@chainlink/eth-balance-adapter@workspace:packages/sources/eth-balance"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-factories": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-factories": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     ethers: ^5.4.6
-    nock: 13.1.4
+    nock: 13.1.3
     supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
   linkType: soft
 
-"@chainlink/etherchain-adapter@1.0.0, @chainlink/etherchain-adapter@workspace:packages/sources/etherchain":
+"@chainlink/etherchain-adapter@workspace:*, @chainlink/etherchain-adapter@workspace:packages/sources/etherchain":
   version: 0.0.0-use.local
   resolution: "@chainlink/etherchain-adapter@workspace:packages/sources/etherchain"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -2663,13 +2663,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/etherscan-adapter@1.0.0, @chainlink/etherscan-adapter@workspace:packages/sources/etherscan":
+"@chainlink/etherscan-adapter@workspace:*, @chainlink/etherscan-adapter@workspace:packages/sources/etherscan":
   version: 0.0.0-use.local
   resolution: "@chainlink/etherscan-adapter@workspace:packages/sources/etherscan"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 26.0.24
     "@types/node": 14.17.21
     tslib: ^2.1.0
@@ -2677,13 +2677,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ethgasstation-adapter@1.0.0, @chainlink/ethgasstation-adapter@workspace:packages/sources/ethgasstation":
+"@chainlink/ethgasstation-adapter@workspace:*, @chainlink/ethgasstation-adapter@workspace:packages/sources/ethgasstation":
   version: 0.0.0-use.local
   resolution: "@chainlink/ethgasstation-adapter@workspace:packages/sources/ethgasstation"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -2691,13 +2691,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ethgaswatch-adapter@1.0.0, @chainlink/ethgaswatch-adapter@workspace:packages/sources/ethgaswatch":
+"@chainlink/ethgaswatch-adapter@workspace:*, @chainlink/ethgaswatch-adapter@workspace:packages/sources/ethgaswatch":
   version: 0.0.0-use.local
   resolution: "@chainlink/ethgaswatch-adapter@workspace:packages/sources/ethgaswatch"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 26.0.24
     "@types/node": 14.17.21
     tslib: ^2.1.0
@@ -2709,9 +2709,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/ethwrite-adapter@workspace:packages/targets/ethwrite"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     ethers: ^5.4.6
@@ -2724,8 +2724,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/example-composite-adapter@workspace:packages/examples/composite"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -2737,9 +2737,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/example-source-adapter@workspace:packages/examples/source"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -2747,13 +2747,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/expert-car-broker-adapter@1.0.0, @chainlink/expert-car-broker-adapter@workspace:packages/sources/expert-car-broker":
+"@chainlink/expert-car-broker-adapter@workspace:*, @chainlink/expert-car-broker-adapter@workspace:packages/sources/expert-car-broker":
   version: 0.0.0-use.local
   resolution: "@chainlink/expert-car-broker-adapter@workspace:packages/sources/expert-car-broker"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -2797,77 +2797,77 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/fcsapi-adapter@1.0.0, @chainlink/fcsapi-adapter@workspace:packages/sources/fcsapi":
+"@chainlink/fcsapi-adapter@workspace:*, @chainlink/fcsapi-adapter@workspace:packages/sources/fcsapi":
   version: 0.0.0-use.local
   resolution: "@chainlink/fcsapi-adapter@workspace:packages/sources/fcsapi"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
-    nock: 13.1.4
+    nock: 13.1.3
     supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
   linkType: soft
 
-"@chainlink/finage-adapter@1.0.0, @chainlink/finage-adapter@workspace:packages/sources/finage":
+"@chainlink/finage-adapter@workspace:*, @chainlink/finage-adapter@workspace:packages/sources/finage":
   version: 0.0.0-use.local
   resolution: "@chainlink/finage-adapter@workspace:packages/sources/finage"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
-    nock: 13.1.4
+    nock: 13.1.3
     supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
   linkType: soft
 
-"@chainlink/finnhub-adapter@1.0.0, @chainlink/finnhub-adapter@workspace:packages/sources/finnhub":
+"@chainlink/finnhub-adapter@workspace:*, @chainlink/finnhub-adapter@workspace:packages/sources/finnhub":
   version: 0.0.0-use.local
   resolution: "@chainlink/finnhub-adapter@workspace:packages/sources/finnhub"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
-    nock: 13.1.4
+    nock: 13.1.3
     supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
   linkType: soft
 
-"@chainlink/fixer-adapter@1.0.0, @chainlink/fixer-adapter@workspace:packages/sources/fixer":
+"@chainlink/fixer-adapter@workspace:*, @chainlink/fixer-adapter@workspace:packages/sources/fixer":
   version: 0.0.0-use.local
   resolution: "@chainlink/fixer-adapter@workspace:packages/sources/fixer"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
-    nock: 13.1.4
+    nock: 13.1.3
     supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
   linkType: soft
 
-"@chainlink/flightaware-adapter@1.0.0, @chainlink/flightaware-adapter@workspace:packages/sources/flightaware":
+"@chainlink/flightaware-adapter@workspace:*, @chainlink/flightaware-adapter@workspace:packages/sources/flightaware":
   version: 0.0.0-use.local
   resolution: "@chainlink/flightaware-adapter@workspace:packages/sources/flightaware"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -2875,13 +2875,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/fmpcloud-adapter@1.0.0, @chainlink/fmpcloud-adapter@workspace:packages/sources/fmpcloud":
+"@chainlink/fmpcloud-adapter@workspace:*, @chainlink/fmpcloud-adapter@workspace:packages/sources/fmpcloud":
   version: 0.0.0-use.local
   resolution: "@chainlink/fmpcloud-adapter@workspace:packages/sources/fmpcloud"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -2889,30 +2889,30 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/gemini-adapter@1.0.0, @chainlink/gemini-adapter@workspace:packages/sources/gemini":
+"@chainlink/gemini-adapter@workspace:*, @chainlink/gemini-adapter@workspace:packages/sources/gemini":
   version: 0.0.0-use.local
   resolution: "@chainlink/gemini-adapter@workspace:packages/sources/gemini"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     "@types/supertest": ^2.0.11
-    nock: 13.1.4
+    nock: ^13.1.3
     supertest: ^6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
   linkType: soft
 
-"@chainlink/genesis-volatility-adapter@1.0.0, @chainlink/genesis-volatility-adapter@workspace:packages/sources/genesis-volatility":
+"@chainlink/genesis-volatility-adapter@workspace:*, @chainlink/genesis-volatility-adapter@workspace:packages/sources/genesis-volatility":
   version: 0.0.0-use.local
   resolution: "@chainlink/genesis-volatility-adapter@workspace:packages/sources/genesis-volatility"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -2920,13 +2920,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/geodb-adapter@1.0.0, @chainlink/geodb-adapter@workspace:packages/sources/geodb":
+"@chainlink/geodb-adapter@workspace:*, @chainlink/geodb-adapter@workspace:packages/sources/geodb":
   version: 0.0.0-use.local
   resolution: "@chainlink/geodb-adapter@workspace:packages/sources/geodb"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -2934,13 +2934,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/google-bigquery-adapter@1.0.0, @chainlink/google-bigquery-adapter@workspace:packages/sources/google-bigquery":
+"@chainlink/google-bigquery-adapter@workspace:*, @chainlink/google-bigquery-adapter@workspace:packages/sources/google-bigquery":
   version: 0.0.0-use.local
   resolution: "@chainlink/google-bigquery-adapter@workspace:packages/sources/google-bigquery"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@google-cloud/bigquery": ^5.7.1
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
@@ -2953,10 +2953,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/google-weather-adapter@workspace:packages/composites/google-weather"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/google-bigquery-adapter": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/google-bigquery-adapter": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/convert-units": 2.3.5
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
@@ -2967,13 +2967,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/graphql-adapter@1.0.0, @chainlink/graphql-adapter@workspace:packages/sources/graphql":
+"@chainlink/graphql-adapter@workspace:*, @chainlink/graphql-adapter@workspace:packages/sources/graphql":
   version: 0.0.0-use.local
   resolution: "@chainlink/graphql-adapter@workspace:packages/sources/graphql"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -2985,9 +2985,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/harmony-adapter@workspace:packages/targets/harmony"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@harmony-js/core": 0.1.56
     "@harmony-js/crypto": ^0.1.56
     "@harmony-js/utils": ^0.1.56
@@ -2999,29 +2999,29 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/iex-cloud-adapter@1.0.0, @chainlink/iex-cloud-adapter@workspace:packages/sources/iex-cloud":
+"@chainlink/iex-cloud-adapter@workspace:*, @chainlink/iex-cloud-adapter@workspace:packages/sources/iex-cloud":
   version: 0.0.0-use.local
   resolution: "@chainlink/iex-cloud-adapter@workspace:packages/sources/iex-cloud"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
-    nock: 13.1.4
+    nock: 13.1.3
     supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
   linkType: soft
 
-"@chainlink/intrinio-adapter@1.0.0, @chainlink/intrinio-adapter@workspace:packages/sources/intrinio":
+"@chainlink/intrinio-adapter@workspace:*, @chainlink/intrinio-adapter@workspace:packages/sources/intrinio":
   version: 0.0.0-use.local
   resolution: "@chainlink/intrinio-adapter@workspace:packages/sources/intrinio"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     express: ^4.17.1
@@ -3031,14 +3031,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ipfs-adapter@1.0.0, @chainlink/ipfs-adapter@workspace:packages/sources/ipfs":
+"@chainlink/ipfs-adapter@workspace:*, @chainlink/ipfs-adapter@workspace:packages/sources/ipfs":
   version: 0.0.0-use.local
   resolution: "@chainlink/ipfs-adapter@workspace:packages/sources/ipfs"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
-    "@types/jest": 26.0.24
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
+    "@types/jest": ^26.0.24
     "@types/node": 14.17.21
     cids: ^1.1.8
     ipfs: ^0.58.4
@@ -3053,13 +3053,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/json-rpc-adapter@1.0.0, @chainlink/json-rpc-adapter@workspace:*, @chainlink/json-rpc-adapter@workspace:packages/sources/json-rpc":
+"@chainlink/json-rpc-adapter@workspace:*, @chainlink/json-rpc-adapter@workspace:packages/sources/json-rpc":
   version: 0.0.0-use.local
   resolution: "@chainlink/json-rpc-adapter@workspace:packages/sources/json-rpc"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -3067,29 +3067,29 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/kaiko-adapter@1.0.0, @chainlink/kaiko-adapter@workspace:packages/sources/kaiko":
+"@chainlink/kaiko-adapter@workspace:*, @chainlink/kaiko-adapter@workspace:packages/sources/kaiko":
   version: 0.0.0-use.local
   resolution: "@chainlink/kaiko-adapter@workspace:packages/sources/kaiko"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
-    nock: 13.1.4
+    nock: 13.1.3
     supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
   linkType: soft
 
-"@chainlink/layer2-sequencer-health-adapter@1.0.0, @chainlink/layer2-sequencer-health-adapter@workspace:packages/sources/layer2-sequencer-health":
+"@chainlink/layer2-sequencer-health-adapter@workspace:*, @chainlink/layer2-sequencer-health-adapter@workspace:packages/sources/layer2-sequencer-health":
   version: 0.0.0-use.local
   resolution: "@chainlink/layer2-sequencer-health-adapter@workspace:packages/sources/layer2-sequencer-health"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     ethers: ^5.4.6
@@ -3099,13 +3099,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/lcx-adapter@1.0.0, @chainlink/lcx-adapter@workspace:packages/sources/lcx":
+"@chainlink/lcx-adapter@workspace:*, @chainlink/lcx-adapter@workspace:packages/sources/lcx":
   version: 0.0.0-use.local
   resolution: "@chainlink/lcx-adapter@workspace:packages/sources/lcx"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -3117,28 +3117,28 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/linear-finance-adapter@workspace:packages/composites/linear-finance"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/token-allocation-adapter": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/token-allocation-adapter": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     axios: ^0.21.1
     csv-parse: ^4.16.0
     decimal.js: ^10.3.1
-    nock: 13.1.4
+    nock: 13.1.3
     supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
   linkType: soft
 
-"@chainlink/linkpool-adapter@1.0.0, @chainlink/linkpool-adapter@workspace:packages/sources/linkpool":
+"@chainlink/linkpool-adapter@workspace:*, @chainlink/linkpool-adapter@workspace:packages/sources/linkpool":
   version: 0.0.0-use.local
   resolution: "@chainlink/linkpool-adapter@workspace:packages/sources/linkpool"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -3146,13 +3146,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/lition-adapter@1.0.0, @chainlink/lition-adapter@workspace:packages/sources/lition":
+"@chainlink/lition-adapter@workspace:*, @chainlink/lition-adapter@workspace:packages/sources/lition":
   version: 0.0.0-use.local
   resolution: "@chainlink/lition-adapter@workspace:packages/sources/lition"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -3160,7 +3160,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/lotus-adapter@1.0.0, @chainlink/lotus-adapter@workspace:packages/sources/lotus":
+"@chainlink/lotus-adapter@workspace:*, @chainlink/lotus-adapter@workspace:packages/sources/lotus":
   version: 0.0.0-use.local
   resolution: "@chainlink/lotus-adapter@workspace:packages/sources/lotus"
   dependencies:
@@ -3183,12 +3183,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/market-closure-adapter@workspace:packages/composites/market-closure"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-reference-data-reader": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/fcsapi-adapter": 1.0.0
-    "@chainlink/finnhub-adapter": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-reference-data-reader": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/fcsapi-adapter": "workspace:*"
+    "@chainlink/finnhub-adapter": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     market-closure: ^0.1.2
@@ -3197,13 +3197,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/marketstack-adapter@1.0.0, @chainlink/marketstack-adapter@workspace:packages/sources/marketstack":
+"@chainlink/marketstack-adapter@workspace:*, @chainlink/marketstack-adapter@workspace:packages/sources/marketstack":
   version: 0.0.0-use.local
   resolution: "@chainlink/marketstack-adapter@workspace:packages/sources/marketstack"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -3215,9 +3215,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/medianizer-adapter@workspace:packages/composites/medianizer"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     axios: ^0.21.1
@@ -3227,13 +3227,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/messari-adapter@1.0.0, @chainlink/messari-adapter@workspace:packages/sources/messari":
+"@chainlink/messari-adapter@workspace:*, @chainlink/messari-adapter@workspace:packages/sources/messari":
   version: 0.0.0-use.local
   resolution: "@chainlink/messari-adapter@workspace:packages/sources/messari"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -3241,13 +3241,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/metalsapi-adapter@1.0.0, @chainlink/metalsapi-adapter@workspace:packages/sources/metalsapi":
+"@chainlink/metalsapi-adapter@workspace:*, @chainlink/metalsapi-adapter@workspace:packages/sources/metalsapi":
   version: 0.0.0-use.local
   resolution: "@chainlink/metalsapi-adapter@workspace:packages/sources/metalsapi"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -3255,13 +3255,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/mycryptoapi-adapter@1.0.0, @chainlink/mycryptoapi-adapter@workspace:packages/sources/mycryptoapi":
+"@chainlink/mycryptoapi-adapter@workspace:*, @chainlink/mycryptoapi-adapter@workspace:packages/sources/mycryptoapi":
   version: 0.0.0-use.local
   resolution: "@chainlink/mycryptoapi-adapter@workspace:packages/sources/mycryptoapi"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 26.0.24
     "@types/node": 14.17.21
     tslib: ^2.1.0
@@ -3269,13 +3269,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ncfx-adapter@1.0.0, @chainlink/ncfx-adapter@workspace:packages/sources/ncfx":
+"@chainlink/ncfx-adapter@workspace:*, @chainlink/ncfx-adapter@workspace:packages/sources/ncfx":
   version: 0.0.0-use.local
   resolution: "@chainlink/ncfx-adapter@workspace:packages/sources/ncfx"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -3283,13 +3283,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/nikkei-adapter@1.0.0, @chainlink/nikkei-adapter@workspace:packages/sources/nikkei":
+"@chainlink/nikkei-adapter@workspace:*, @chainlink/nikkei-adapter@workspace:packages/sources/nikkei":
   version: 0.0.0-use.local
   resolution: "@chainlink/nikkei-adapter@workspace:packages/sources/nikkei"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -3297,29 +3297,29 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/nomics-adapter@1.0.0, @chainlink/nomics-adapter@workspace:packages/sources/nomics":
+"@chainlink/nomics-adapter@workspace:*, @chainlink/nomics-adapter@workspace:packages/sources/nomics":
   version: 0.0.0-use.local
   resolution: "@chainlink/nomics-adapter@workspace:packages/sources/nomics"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
-    nock: 13.1.4
+    nock: 13.1.3
     supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
   linkType: soft
 
-"@chainlink/oilpriceapi-adapter@1.0.0, @chainlink/oilpriceapi-adapter@workspace:packages/sources/oilpriceapi":
+"@chainlink/oilpriceapi-adapter@workspace:*, @chainlink/oilpriceapi-adapter@workspace:packages/sources/oilpriceapi":
   version: 0.0.0-use.local
   resolution: "@chainlink/oilpriceapi-adapter@workspace:packages/sources/oilpriceapi"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -3327,13 +3327,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/onchain-adapter@1.0.0, @chainlink/onchain-adapter@workspace:packages/sources/onchain":
+"@chainlink/onchain-adapter@workspace:*, @chainlink/onchain-adapter@workspace:packages/sources/onchain":
   version: 0.0.0-use.local
   resolution: "@chainlink/onchain-adapter@workspace:packages/sources/onchain"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -3341,13 +3341,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/onchain-gas-adapter@1.0.0, @chainlink/onchain-gas-adapter@workspace:packages/sources/onchain-gas":
+"@chainlink/onchain-gas-adapter@workspace:*, @chainlink/onchain-gas-adapter@workspace:packages/sources/onchain-gas":
   version: 0.0.0-use.local
   resolution: "@chainlink/onchain-gas-adapter@workspace:packages/sources/onchain-gas"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -3355,32 +3355,32 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/openexchangerates-adapter@1.0.0, @chainlink/openexchangerates-adapter@workspace:packages/sources/openexchangerates":
+"@chainlink/openexchangerates-adapter@workspace:*, @chainlink/openexchangerates-adapter@workspace:packages/sources/openexchangerates":
   version: 0.0.0-use.local
   resolution: "@chainlink/openexchangerates-adapter@workspace:packages/sources/openexchangerates"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
-    nock: 13.1.4
+    nock: 13.1.3
     supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
   linkType: soft
 
-"@chainlink/orchid-bandwidth-adapter@1.0.0, @chainlink/orchid-bandwidth-adapter@workspace:packages/sources/orchid-bandwidth":
+"@chainlink/orchid-bandwidth-adapter@workspace:*, @chainlink/orchid-bandwidth-adapter@workspace:packages/sources/orchid-bandwidth":
   version: 0.0.0-use.local
   resolution: "@chainlink/orchid-bandwidth-adapter@workspace:packages/sources/orchid-bandwidth"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
-    nock: 13.1.4
+    nock: 13.1.3
     supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
@@ -3391,11 +3391,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/outlier-detection-adapter@workspace:packages/composites/outlier-detection"
   dependencies:
-    "@chainlink/ea": 1.0.0
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-reference-data-reader": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea": "workspace:*"
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-reference-data-reader": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     "@types/sinon": 10.0.6
@@ -3406,13 +3406,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/paxos-adapter@1.0.0, @chainlink/paxos-adapter@workspace:packages/sources/paxos":
+"@chainlink/paxos-adapter@workspace:*, @chainlink/paxos-adapter@workspace:packages/sources/paxos":
   version: 0.0.0-use.local
   resolution: "@chainlink/paxos-adapter@workspace:packages/sources/paxos"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -3420,13 +3420,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/paypal-adapter@1.0.0, @chainlink/paypal-adapter@workspace:packages/sources/paypal":
+"@chainlink/paypal-adapter@workspace:*, @chainlink/paypal-adapter@workspace:packages/sources/paypal":
   version: 0.0.0-use.local
   resolution: "@chainlink/paypal-adapter@workspace:packages/sources/paypal"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@paypal/payouts-sdk": ^1.1.0
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
@@ -3436,13 +3436,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/poa-adapter@1.0.0, @chainlink/poa-adapter@workspace:packages/sources/poa":
+"@chainlink/poa-adapter@workspace:*, @chainlink/poa-adapter@workspace:packages/sources/poa":
   version: 0.0.0-use.local
   resolution: "@chainlink/poa-adapter@workspace:packages/sources/poa"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -3450,13 +3450,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/polygon-adapter@1.0.0, @chainlink/polygon-adapter@workspace:packages/sources/polygon":
+"@chainlink/polygon-adapter@workspace:*, @chainlink/polygon-adapter@workspace:packages/sources/polygon":
   version: 0.0.0-use.local
   resolution: "@chainlink/polygon-adapter@workspace:packages/sources/polygon"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -3468,25 +3468,25 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/proof-of-reserves-adapter@workspace:packages/composites/proof-of-reserves"
   dependencies:
-    "@chainlink/ada-balance-adapter": 1.0.0
-    "@chainlink/amberdata-adapter": 1.0.0
-    "@chainlink/bitcoin-json-rpc-adapter": 1.0.0
-    "@chainlink/blockchain.com-adapter": 1.0.0
-    "@chainlink/blockchair-adapter": 1.0.0
-    "@chainlink/blockcypher-adapter": 1.0.0
-    "@chainlink/btc.com-adapter": 1.0.0
-    "@chainlink/chain-reserve-wallet-adapter": 1.0.0
-    "@chainlink/cryptoapis-adapter": 1.0.0
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/eth-balance-adapter": 1.0.0
-    "@chainlink/gemini-adapter": 1.0.0
-    "@chainlink/lotus-adapter": 1.0.0
-    "@chainlink/reduce-adapter": 1.0.0
-    "@chainlink/renvm-address-set-adapter": 1.0.0
-    "@chainlink/sochain-adapter": 1.0.0
-    "@chainlink/types": 1.0.0
-    "@chainlink/wbtc-address-set-adapter": 1.0.0
+    "@chainlink/ada-balance-adapter": "workspace:*"
+    "@chainlink/amberdata-adapter": "workspace:*"
+    "@chainlink/bitcoin-json-rpc-adapter": "workspace:*"
+    "@chainlink/blockchain.com-adapter": "workspace:*"
+    "@chainlink/blockchair-adapter": "workspace:*"
+    "@chainlink/blockcypher-adapter": "workspace:*"
+    "@chainlink/btc.com-adapter": "workspace:*"
+    "@chainlink/chain-reserve-wallet-adapter": "workspace:*"
+    "@chainlink/cryptoapis-adapter": "workspace:*"
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/eth-balance-adapter": "workspace:*"
+    "@chainlink/gemini-adapter": "workspace:*"
+    "@chainlink/lotus-adapter": "workspace:*"
+    "@chainlink/reduce-adapter": "workspace:*"
+    "@chainlink/renvm-address-set-adapter": "workspace:*"
+    "@chainlink/sochain-adapter": "workspace:*"
+    "@chainlink/types": "workspace:*"
+    "@chainlink/wbtc-address-set-adapter": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     decimal.js: ^10.3.1
@@ -3496,13 +3496,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/reduce-adapter@1.0.0, @chainlink/reduce-adapter@workspace:packages/sources/reduce":
+"@chainlink/reduce-adapter@workspace:*, @chainlink/reduce-adapter@workspace:packages/sources/reduce":
   version: 0.0.0-use.local
   resolution: "@chainlink/reduce-adapter@workspace:packages/sources/reduce"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     decimal.js: ^10.3.1
@@ -3516,9 +3516,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/reference-transform-adapter@workspace:packages/composites/reference-transform"
   dependencies:
-    "@chainlink/ea": 1.0.0
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-reference-data-reader": 1.0.0
+    "@chainlink/ea": "workspace:*"
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-reference-data-reader": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -3526,13 +3526,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/renvm-address-set-adapter@1.0.0, @chainlink/renvm-address-set-adapter@workspace:packages/sources/renvm-address-set":
+"@chainlink/renvm-address-set-adapter@workspace:*, @chainlink/renvm-address-set-adapter@workspace:packages/sources/renvm-address-set":
   version: 0.0.0-use.local
   resolution: "@chainlink/renvm-address-set-adapter@workspace:packages/sources/renvm-address-set"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@renproject/interfaces": ^2.5.1
     "@renproject/ren": ^2.5.1
     "@renproject/utils": ^2.5.1
@@ -3544,13 +3544,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/satoshitango-adapter@1.0.0, @chainlink/satoshitango-adapter@workspace:packages/sources/satoshitango":
+"@chainlink/satoshitango-adapter@workspace:*, @chainlink/satoshitango-adapter@workspace:packages/sources/satoshitango":
   version: 0.0.0-use.local
   resolution: "@chainlink/satoshitango-adapter@workspace:packages/sources/satoshitango"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -3562,28 +3562,28 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/set-token-index-adapter@workspace:packages/composites/set-token-index"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/token-allocation-adapter": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/token-allocation-adapter": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     ethers: ^5.4.6
-    nock: 13.1.4
+    nock: 13.1.3
     supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
   linkType: soft
 
-"@chainlink/sochain-adapter@1.0.0, @chainlink/sochain-adapter@workspace:packages/sources/sochain":
+"@chainlink/sochain-adapter@workspace:*, @chainlink/sochain-adapter@workspace:packages/sources/sochain":
   version: 0.0.0-use.local
   resolution: "@chainlink/sochain-adapter@workspace:packages/sources/sochain"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-factories": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-factories": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     ethers: ^5.4.6
@@ -3592,13 +3592,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/spectral-macro-score-adapter@1.0.0, @chainlink/spectral-macro-score-adapter@workspace:packages/sources/spectral-macro-score":
+"@chainlink/spectral-macro-score-adapter@workspace:*, @chainlink/spectral-macro-score-adapter@workspace:packages/sources/spectral-macro-score":
   version: 0.0.0-use.local
   resolution: "@chainlink/spectral-macro-score-adapter@workspace:packages/sources/spectral-macro-score"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 26.0.24
     "@types/node": 14.17.21
     "@types/sinon": 10.0.6
@@ -3610,35 +3610,35 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/sportsdataio-adapter@1.0.0, @chainlink/sportsdataio-adapter@workspace:packages/sources/sportsdataio":
+"@chainlink/sportsdataio-adapter@workspace:*, @chainlink/sportsdataio-adapter@workspace:packages/sources/sportsdataio":
   version: 0.0.0-use.local
   resolution: "@chainlink/sportsdataio-adapter@workspace:packages/sources/sportsdataio"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/luxon": ^2
     "@types/node": 14.17.21
     ethers: ^5.4.6
     luxon: ^2.0.2
-    nock: 13.1.4
+    nock: 13.1.3
     supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
   linkType: soft
 
-"@chainlink/stasis-adapter@1.0.0, @chainlink/stasis-adapter@workspace:packages/sources/stasis":
+"@chainlink/stasis-adapter@workspace:*, @chainlink/stasis-adapter@workspace:packages/sources/stasis":
   version: 0.0.0-use.local
   resolution: "@chainlink/stasis-adapter@workspace:packages/sources/stasis"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
-    nock: 13.1.4
+    nock: 13.1.3
     supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
@@ -3649,15 +3649,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/synth-index-adapter@workspace:packages/composites/synth-index"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/token-allocation-adapter": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/token-allocation-adapter": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     "@types/supertest": 2.0.11
     decimal.js: ^10.3.1
-    nock: 13.1.4
+    nock: 13.1.3
     supertest: 6.1.6
     synthetix: 2.45.3
     tslib: ^2.3.1
@@ -3666,13 +3666,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/synthetix-debt-pool-adapter@1.0.0, @chainlink/synthetix-debt-pool-adapter@workspace:packages/sources/synthetix-debt-pool":
+"@chainlink/synthetix-debt-pool-adapter@workspace:*, @chainlink/synthetix-debt-pool-adapter@workspace:packages/sources/synthetix-debt-pool":
   version: 0.0.0-use.local
   resolution: "@chainlink/synthetix-debt-pool-adapter@workspace:packages/sources/synthetix-debt-pool"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     "@types/supertest": 2.0.11
@@ -3683,29 +3683,29 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/taapi-adapter@1.0.0, @chainlink/taapi-adapter@workspace:packages/sources/taapi":
+"@chainlink/taapi-adapter@workspace:*, @chainlink/taapi-adapter@workspace:packages/sources/taapi":
   version: 0.0.0-use.local
   resolution: "@chainlink/taapi-adapter@workspace:packages/sources/taapi"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
-    nock: 13.1.4
+    nock: 13.1.3
     supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
   linkType: soft
 
-"@chainlink/terra-view-function-adapter@2.0.0, @chainlink/terra-view-function-adapter@workspace:packages/sources/terra-view-function":
+"@chainlink/terra-view-function-adapter@workspace:*, @chainlink/terra-view-function-adapter@workspace:packages/sources/terra-view-function":
   version: 0.0.0-use.local
   resolution: "@chainlink/terra-view-function-adapter@workspace:packages/sources/terra-view-function"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@terra-money/terra.js": ^2.0.15
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
@@ -3721,11 +3721,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/the-graph-adapter@workspace:packages/composites/the-graph"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-reference-data-reader": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/graphql-adapter": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-reference-data-reader": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/graphql-adapter": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -3733,13 +3733,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/therundown-adapter@1.0.0, @chainlink/therundown-adapter@workspace:packages/sources/therundown":
+"@chainlink/therundown-adapter@workspace:*, @chainlink/therundown-adapter@workspace:packages/sources/therundown":
   version: 0.0.0-use.local
   resolution: "@chainlink/therundown-adapter@workspace:packages/sources/therundown"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -3747,16 +3747,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/tiingo-adapter@1.0.0, @chainlink/tiingo-adapter@workspace:packages/sources/tiingo":
+"@chainlink/tiingo-adapter@workspace:*, @chainlink/tiingo-adapter@workspace:packages/sources/tiingo":
   version: 0.0.0-use.local
   resolution: "@chainlink/tiingo-adapter@workspace:packages/sources/tiingo"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
-    nock: 13.1.4
+    nock: 13.1.3
     supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
@@ -3767,87 +3767,87 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/token-allocation-adapter@workspace:packages/composites/token-allocation"
   dependencies:
-    "@chainlink/amberdata-adapter": 1.0.0
-    "@chainlink/coinapi-adapter": 1.0.0
-    "@chainlink/coingecko-adapter": 1.0.0
-    "@chainlink/coinmarketcap-adapter": 1.0.0
-    "@chainlink/coinpaprika-adapter": 1.0.0
-    "@chainlink/cryptocompare-adapter": 1.0.0
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/kaiko-adapter": 1.0.0
-    "@chainlink/nomics-adapter": 1.0.0
-    "@chainlink/tiingo-adapter": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/amberdata-adapter": "workspace:*"
+    "@chainlink/coinapi-adapter": "workspace:*"
+    "@chainlink/coingecko-adapter": "workspace:*"
+    "@chainlink/coinmarketcap-adapter": "workspace:*"
+    "@chainlink/coinpaprika-adapter": "workspace:*"
+    "@chainlink/cryptocompare-adapter": "workspace:*"
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/kaiko-adapter": "workspace:*"
+    "@chainlink/nomics-adapter": "workspace:*"
+    "@chainlink/tiingo-adapter": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     decimal.js: ^10.3.1
     ethers: ^5.4.6
-    nock: 13.1.4
+    nock: 13.1.3
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
   linkType: soft
 
-"@chainlink/tradermade-adapter@1.0.0, @chainlink/tradermade-adapter@workspace:packages/sources/tradermade":
+"@chainlink/tradermade-adapter@workspace:*, @chainlink/tradermade-adapter@workspace:packages/sources/tradermade":
   version: 0.0.0-use.local
   resolution: "@chainlink/tradermade-adapter@workspace:packages/sources/tradermade"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
-    nock: 13.1.4
+    nock: 13.1.3
     supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
   linkType: soft
 
-"@chainlink/tradingeconomics-adapter@1.0.0, @chainlink/tradingeconomics-adapter@workspace:packages/sources/tradingeconomics":
+"@chainlink/tradingeconomics-adapter@workspace:*, @chainlink/tradingeconomics-adapter@workspace:packages/sources/tradingeconomics":
   version: 0.0.0-use.local
   resolution: "@chainlink/tradingeconomics-adapter@workspace:packages/sources/tradingeconomics"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     express: ^4.17.1
-    nock: 13.1.4
+    nock: 13.1.3
     supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
   linkType: soft
 
-"@chainlink/trueusd-adapter@1.0.0, @chainlink/trueusd-adapter@workspace:packages/sources/trueusd":
+"@chainlink/trueusd-adapter@workspace:*, @chainlink/trueusd-adapter@workspace:packages/sources/trueusd":
   version: 0.0.0-use.local
   resolution: "@chainlink/trueusd-adapter@workspace:packages/sources/trueusd"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
-    nock: 13.1.4
+    nock: 13.1.3
     supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
   linkType: soft
 
-"@chainlink/twelvedata-adapter@1.0.0, @chainlink/twelvedata-adapter@workspace:packages/sources/twelvedata":
+"@chainlink/twelvedata-adapter@workspace:*, @chainlink/twelvedata-adapter@workspace:packages/sources/twelvedata":
   version: 0.0.0-use.local
   resolution: "@chainlink/twelvedata-adapter@workspace:packages/sources/twelvedata"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
-    nock: 13.1.4
+    nock: 13.1.3
     supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
@@ -3860,13 +3860,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/unibit-adapter@1.0.0, @chainlink/unibit-adapter@workspace:packages/sources/unibit":
+"@chainlink/unibit-adapter@workspace:*, @chainlink/unibit-adapter@workspace:packages/sources/unibit":
   version: 0.0.0-use.local
   resolution: "@chainlink/unibit-adapter@workspace:packages/sources/unibit"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -3874,13 +3874,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/uniswap-v2-adapter@1.0.0, @chainlink/uniswap-v2-adapter@workspace:packages/sources/uniswap-v2":
+"@chainlink/uniswap-v2-adapter@workspace:*, @chainlink/uniswap-v2-adapter@workspace:packages/sources/uniswap-v2":
   version: 0.0.0-use.local
   resolution: "@chainlink/uniswap-v2-adapter@workspace:packages/sources/uniswap-v2"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 26.0.24
     "@types/node": 14.17.17
     "@types/supertest": 2.0.11
@@ -3893,13 +3893,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/uniswap-v3-adapter@1.0.0, @chainlink/uniswap-v3-adapter@workspace:packages/sources/uniswap-v3":
+"@chainlink/uniswap-v3-adapter@workspace:*, @chainlink/uniswap-v3-adapter@workspace:packages/sources/uniswap-v3":
   version: 0.0.0-use.local
   resolution: "@chainlink/uniswap-v3-adapter@workspace:packages/sources/uniswap-v3"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 26.0.24
     "@types/node": 14.17.17
     "@types/supertest": 2.0.11
@@ -3912,13 +3912,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/upvest-adapter@1.0.0, @chainlink/upvest-adapter@workspace:packages/sources/upvest":
+"@chainlink/upvest-adapter@workspace:*, @chainlink/upvest-adapter@workspace:packages/sources/upvest":
   version: 0.0.0-use.local
   resolution: "@chainlink/upvest-adapter@workspace:packages/sources/upvest"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 26.0.24
     "@types/node": 14.17.21
     tslib: ^2.1.0
@@ -3926,16 +3926,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/uscpi-one-adapter@1.0.0, @chainlink/uscpi-one-adapter@workspace:packages/sources/uscpi-one":
+"@chainlink/uscpi-one-adapter@workspace:*, @chainlink/uscpi-one-adapter@workspace:packages/sources/uscpi-one":
   version: 0.0.0-use.local
   resolution: "@chainlink/uscpi-one-adapter@workspace:packages/sources/uscpi-one"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
-    nock: 13.1.4
+    nock: 13.1.3
     supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
@@ -3946,9 +3946,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/vesper-adapter@workspace:packages/composites/vesper"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/token-allocation-adapter": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/token-allocation-adapter": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     ethers: ^5.4.6
@@ -3957,62 +3957,62 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/view-function-adapter@1.0.0, @chainlink/view-function-adapter@workspace:packages/sources/view-function":
+"@chainlink/view-function-adapter@workspace:*, @chainlink/view-function-adapter@workspace:packages/sources/view-function":
   version: 0.0.0-use.local
   resolution: "@chainlink/view-function-adapter@workspace:packages/sources/view-function"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     ethers: ^5.4.6
-    nock: 13.1.4
+    nock: 13.1.3
     supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
   linkType: soft
 
-"@chainlink/wbtc-address-set-adapter@1.0.0, @chainlink/wbtc-address-set-adapter@workspace:packages/sources/wbtc-address-set":
+"@chainlink/wbtc-address-set-adapter@workspace:*, @chainlink/wbtc-address-set-adapter@workspace:packages/sources/wbtc-address-set":
   version: 0.0.0-use.local
   resolution: "@chainlink/wbtc-address-set-adapter@workspace:packages/sources/wbtc-address-set"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
-    nock: 13.1.4
+    nock: 13.1.3
     supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
   linkType: soft
 
-"@chainlink/wootrade-adapter@1.0.0, @chainlink/wootrade-adapter@workspace:packages/sources/wootrade":
+"@chainlink/wootrade-adapter@workspace:*, @chainlink/wootrade-adapter@workspace:packages/sources/wootrade":
   version: 0.0.0-use.local
   resolution: "@chainlink/wootrade-adapter@workspace:packages/sources/wootrade"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
-    nock: 13.1.4
+    nock: 13.1.3
     supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
   linkType: soft
 
-"@chainlink/xbto-adapter@1.0.0, @chainlink/xbto-adapter@workspace:packages/sources/xbto":
+"@chainlink/xbto-adapter@workspace:*, @chainlink/xbto-adapter@workspace:packages/sources/xbto":
   version: 0.0.0-use.local
   resolution: "@chainlink/xbto-adapter@workspace:packages/sources/xbto"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     tslib: ^2.3.1
@@ -4024,10 +4024,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/xsushi-price-adapter@workspace:packages/composites/xsushi-price"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/token-allocation-adapter": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/token-allocation-adapter": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     "@types/supertest": ^2.0.11
@@ -8121,7 +8121,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:26.0.24":
+"@types/jest@npm:26.0.24, @types/jest@npm:^26.0.24":
   version: 26.0.24
   resolution: "@types/jest@npm:26.0.24"
   dependencies:
@@ -21817,6 +21817,18 @@ fsevents@~2.1.1:
   languageName: node
   linkType: hard
 
+"nock@npm:13.1.3":
+  version: 13.1.3
+  resolution: "nock@npm:13.1.3"
+  dependencies:
+    debug: ^4.1.0
+    json-stringify-safe: ^5.0.1
+    lodash.set: ^4.3.2
+    propagate: ^2.0.0
+  checksum: 9e53a1edaa804a4b1c8dfb25c46b85ce5ddda8a1ceaa804d0a7caed0de564e1eaa1ef6c590ac5b013efaf4f009e47cf7f40d96e19f23be1122d39caf619b8df9
+  languageName: node
+  linkType: hard
+
 "nock@npm:13.1.4, nock@npm:^13.1.4":
   version: 13.1.4
   resolution: "nock@npm:13.1.4"
@@ -21829,7 +21841,7 @@ fsevents@~2.1.1:
   languageName: node
   linkType: hard
 
-"nock@npm:13.2.1":
+"nock@npm:13.2.1, nock@npm:^13.1.3":
   version: 13.2.1
   resolution: "nock@npm:13.2.1"
   dependencies:
