@@ -6,7 +6,7 @@ export const NAME = 'ALPINE' // This should be filled in with a name correspondi
 export const makeConfig = (prefix?: string): Config => {
   const config = Requester.getDefaultConfig(prefix)
 
-  config.rpcUrl = util.getRequiredEnv('RPC_URL')
+  config.rpcUrl = util.getRequiredEnv('RPC_URL', prefix)
   config.defaultEndpoint = 'tvl'
   return config
 }
