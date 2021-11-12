@@ -27,14 +27,7 @@
 |    ✅     | `base`, `from`, `coin`, `market` |            The symbol of the currency to query            |                                                                                      |             |
 |    🟡     |           `overrides`            | If base provided is found in overrides, that will be used | [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json) |             |
 
-`overrides` should contain the following symbol conversions:
-
-```bash
-N225 ➡️ 'NKY.IND:TEI'
-FTSE ➡️ 'UKX.IND:TEI'
-TSLA ➡️ 'TSLA:BFX'
-TSLAX ➡️ 'TSLA.US:TEI'
-```
+You may search for relevant symbols using the [Symbol Lookup Tool](https://symbol-lookup.dxfeed.com/) and map them using `overrides`. You can confirm validity of symbols with the [REST Services Demo Tool](https://tools.dxfeed.com/webservice/rest-demo.jsp).
 
 ### Sample Input
 
