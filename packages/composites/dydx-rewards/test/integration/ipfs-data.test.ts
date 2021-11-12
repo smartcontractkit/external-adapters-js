@@ -15,7 +15,7 @@ let oldEnv: NodeJS.ProcessEnv
 beforeAll(() => {
   oldEnv = JSON.parse(JSON.stringify(process.env))
   process.env.CACHE_ENABLED = 'false'
-  process.env.RPC_URL = process.env.API_ENDPOINT || 'http://127.0.0.1:5001'
+  process.env.ETHEREUM_RPC_URL = process.env.API_ENDPOINT || 'http://127.0.0.1:5001'
   process.env.API_VERBOSE = 'true'
   if (process.env.RECORD) {
     nock.recorder.rec()

@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute symbol api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 1.15591,
+  },
+  "jobRunID": "1",
+  "result": 1.15591,
+  "statusCode": 200,
+}
+`;

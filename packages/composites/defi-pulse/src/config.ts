@@ -9,7 +9,7 @@ export type Config = {
 
 export const makeConfig = (network = 'mainnet'): Config => {
   return {
-    rpcUrl: util.getRequiredEnv('RPC_URL'),
+    rpcUrl: util.getRequiredEnvWithFallback('ETHEREUM_RPC_URL', ['RPC_URL']),
     network,
   }
 }

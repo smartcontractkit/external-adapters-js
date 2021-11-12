@@ -2,7 +2,7 @@ import { ethers } from 'ethers'
 import { AdapterContext, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { makeMiddleware, Requester, Validator, withMiddleware } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
-import * as TA from '../../../token-allocation'
+import * as TA from '@chainlink/token-allocation-adapter'
 import { makeExecute } from '../adapter'
 
 export const supportedEndpoints = ['allocations']

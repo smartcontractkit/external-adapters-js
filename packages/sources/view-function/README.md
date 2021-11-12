@@ -6,9 +6,9 @@ External adapter for executing contract function and returning the result
 
 The adapter takes the following environment variables:
 
-| Required? |  Name   |     Description     | Options | Defaults to |
-| :-------: | :-----: | :-----------------: | :-----: | :---------: |
-|    ✅     | RPC_URL | RPC URL of ETH node |         |             |
+| Required? |       Name       |          Description          | Options | Defaults to |
+| :-------: | :--------------: | :---------------------------: | :-----: | :---------: |
+|    ✅     | ETHEREUM_RPC_URL | RPC URL of a Mainnet ETH node |         |             |
 
 ---
 

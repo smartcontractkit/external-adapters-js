@@ -8,7 +8,7 @@ describe('execute', () => {
   const execute = makeExecute()
 
   beforeAll(() => {
-    process.env.RPC_URL = process.env.RPC_URL || 'fake-rpc-url'
+    process.env.XDAI_RPC_URL = process.env.XDAI_RPC_URL || 'fake-rpc-url'
   })
 
   describe('validation error', () => {
