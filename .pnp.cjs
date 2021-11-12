@@ -315,6 +315,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/dns-query"
       },
       {
+        "name": "@chainlink/durin-adapter",
+        "reference": "workspace:packages/sources/durin"
+      },
+      {
         "name": "@chainlink/dwolla-adapter",
         "reference": "workspace:packages/sources/dwolla"
       },
@@ -680,6 +684,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/deribit-adapter", ["workspace:packages/sources/deribit"]],
       ["@chainlink/dns-query-adapter", ["workspace:packages/sources/dns-query"]],
       ["@chainlink/dns-record-check-adapter", ["workspace:packages/composites/dns-record-check"]],
+      ["@chainlink/durin-adapter", ["workspace:packages/sources/durin"]],
       ["@chainlink/dwolla-adapter", ["workspace:packages/sources/dwolla"]],
       ["@chainlink/dxdao-adapter", ["workspace:packages/composites/dxdao"]],
       ["@chainlink/dxfeed-adapter", ["workspace:packages/sources/dxfeed"]],
@@ -4381,6 +4386,26 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT",
         }]
       ]],
+      ["@chainlink/durin-adapter", [
+        ["workspace:packages/sources/durin", {
+          "packageLocation": "./packages/sources/durin/",
+          "packageDependencies": [
+            ["@chainlink/durin-adapter", "workspace:packages/sources/durin"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@ethersproject/abi", "npm:5.5.0"],
+            ["@ethersproject/bytes", "npm:5.5.0"],
+            ["@types/jest", "npm:27.0.2"],
+            ["@types/node", "npm:14.17.21"],
+            ["ethers", "npm:5.4.6"],
+            ["merkletreejs", "npm:0.2.24"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
       ["@chainlink/dwolla-adapter", [
         ["workspace:packages/sources/dwolla", {
           "packageLocation": "./packages/sources/dwolla/",
@@ -4538,6 +4563,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/curve-adapter", "workspace:packages/sources/curve"],
             ["@chainlink/deribit-adapter", "workspace:packages/sources/deribit"],
             ["@chainlink/dns-query-adapter", "workspace:packages/sources/dns-query"],
+            ["@chainlink/durin-adapter", "workspace:packages/sources/durin"],
             ["@chainlink/dwolla-adapter", "workspace:packages/sources/dwolla"],
             ["@chainlink/dxfeed-adapter", "workspace:packages/sources/dxfeed"],
             ["@chainlink/dxfeed-secondary-adapter", "workspace:packages/sources/dxfeed-secondary"],
