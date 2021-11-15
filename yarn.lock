@@ -2505,7 +2505,7 @@ __metadata:
     "@chainlink/ethgaswatch-adapter": 1.0.0
     "@chainlink/expert-car-broker-adapter": 1.0.0
     "@chainlink/fcsapi-adapter": 1.0.0
-    "@chainlink/finage-adapter": 1.0.0
+    "@chainlink/finage-adapter": 1.1.0
     "@chainlink/finnhub-adapter": 1.0.0
     "@chainlink/fixer-adapter": 1.0.0
     "@chainlink/flightaware-adapter": 1.0.0
@@ -2552,8 +2552,8 @@ __metadata:
     "@chainlink/taapi-adapter": 1.0.0
     "@chainlink/terra-view-function-adapter": 2.0.0
     "@chainlink/therundown-adapter": 1.0.0
-    "@chainlink/tiingo-adapter": 1.0.0
-    "@chainlink/tradermade-adapter": 1.0.0
+    "@chainlink/tiingo-adapter": 1.1.0
+    "@chainlink/tradermade-adapter": 1.1.0
     "@chainlink/tradingeconomics-adapter": 1.0.0
     "@chainlink/trueusd-adapter": 1.0.0
     "@chainlink/twelvedata-adapter": 1.0.0
@@ -2786,7 +2786,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/finage-adapter@1.0.0, @chainlink/finage-adapter@workspace:packages/sources/finage":
+"@chainlink/finage-adapter@1.1.0, @chainlink/finage-adapter@workspace:packages/sources/finage":
   version: 0.0.0-use.local
   resolution: "@chainlink/finage-adapter@workspace:packages/sources/finage"
   dependencies:
@@ -3720,7 +3720,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/tiingo-adapter@1.0.0, @chainlink/tiingo-adapter@workspace:packages/sources/tiingo":
+"@chainlink/tiingo-adapter@1.1.0, @chainlink/tiingo-adapter@workspace:packages/sources/tiingo":
   version: 0.0.0-use.local
   resolution: "@chainlink/tiingo-adapter@workspace:packages/sources/tiingo"
   dependencies:
@@ -3750,7 +3750,7 @@ __metadata:
     "@chainlink/ea-test-helpers": 1.0.0
     "@chainlink/kaiko-adapter": 1.0.0
     "@chainlink/nomics-adapter": 1.0.0
-    "@chainlink/tiingo-adapter": 1.0.0
+    "@chainlink/tiingo-adapter": 1.1.0
     "@chainlink/types": 1.0.0
     "@types/jest": 27.0.2
     "@types/node": 14.17.21
@@ -3762,7 +3762,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/tradermade-adapter@1.0.0, @chainlink/tradermade-adapter@workspace:packages/sources/tradermade":
+"@chainlink/tradermade-adapter@1.1.0, @chainlink/tradermade-adapter@workspace:packages/sources/tradermade":
   version: 0.0.0-use.local
   resolution: "@chainlink/tradermade-adapter@workspace:packages/sources/tradermade"
   dependencies:
