@@ -1,11 +1,11 @@
-import { Requester, Validator, Builder } from '@chainlink/ea-bootstrap'
+import { Builder, Requester, Validator } from '@chainlink/ea-bootstrap'
 import {
   AdapterRequest,
+  APIEndpoint,
   Config,
   ExecuteFactory,
   ExecuteWithConfig,
   MakeWSHandler,
-  APIEndpoint,
 } from '@chainlink/types'
 import { DEFAULT_WS_API_ENDPOINT, makeConfig } from './config'
 import * as endpoints from './endpoint'
@@ -75,20 +75,37 @@ export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
       },
     }
   }
-  const getTicker = (input: AdapterRequest): string | undefined => {
+  const getFxTicker = (input: AdapterRequest): string | undefined => {
     const validator = new Validator(input, customParams, {}, false)
     if (validator.error) return
-    const base = validator.validated.data.base.toLowerCase()
-    return base
+    return validator.validated.data.base.toLowerCase()
   }
+  const isFx = (input: AdapterRequest): boolean =>
+    endpoints.iex.supportedEndpoints.indexOf(input.data.endpoint) > -1
+  const getCryptoTicker = (input: AdapterRequest): string | undefined => {
+    const validator = new Validator(input, endpoints.prices.inputParameters, {}, false)
+    if (validator.error) return
+    return `${validator.validated.data.base.toLowerCase()}${validator.validated.data.quote.toLowerCase()}`
+  }
+  const isCrypto = (input: AdapterRequest): boolean =>
+    endpoints.prices.supportedEndpoints.indexOf(input.data.endpoint) > -1
+
+  const getTicker = (input: AdapterRequest) => {
+    if (isFx(input)) {
+      return getFxTicker(input)
+    } else if (isCrypto(input)) {
+      return getCryptoTicker(input)
+    }
+    return undefined
+  }
+
   return () => {
     const defaultConfig = config || makeConfig()
     return {
       connection: {
         url: defaultConfig.api.baseWsURL || DEFAULT_WS_API_ENDPOINT,
       },
-      shouldNotServeInputUsingWS: (input) =>
-        endpoints.iex.supportedEndpoints.indexOf(input.data.endpoint) === -1,
+      shouldNotServeInputUsingWS: (input) => !isFx(input) && !isCrypto(input),
       subscribe: (input) => getSubscription(getTicker(input)),
       unsubscribe: (input) => getSubscription(getTicker(input), false),
       isError: (message: Message) => message.messageType === 'E',
