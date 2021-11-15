@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`dns record check record check endpoint should return success 1`] = `
+Object {
+  "data": Object {
+    "result": true,
+  },
+  "jobRunID": "1",
+  "result": true,
+  "statusCode": 200,
+}
+`;

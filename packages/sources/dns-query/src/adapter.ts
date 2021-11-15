@@ -39,7 +39,10 @@ const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
     jobRunID,
     {
       status: 200,
-      data: data,
+      data: {
+        ...data,
+        result: data,
+      },
     },
     config.verbose,
   )
