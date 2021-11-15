@@ -83,7 +83,7 @@
     "@chainlink/ethgaswatch-adapter": "1.0.0",
     "@chainlink/expert-car-broker-adapter": "1.0.0",
     "@chainlink/fcsapi-adapter": "1.0.0",
-    "@chainlink/finage-adapter": "1.0.0",
+    "@chainlink/finage-adapter": "1.1.0",
     "@chainlink/finnhub-adapter": "1.0.0",
     "@chainlink/fixer-adapter": "1.0.0",
     "@chainlink/flightaware-adapter": "1.0.0",

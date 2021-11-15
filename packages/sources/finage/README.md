@@ -36,6 +36,8 @@ https://finage.co.uk/docs/api/stock-market-previous-close
 
 https://finage.co.uk/docs/api/stock-last-quote
 
+The result will be calculated as the midpoint between the ask and the bid.
+
 ### Input Params
 
 | Required? |            Name             |             Description             | Options | Defaults to |
@@ -49,6 +51,56 @@ https://finage.co.uk/docs/api/stock-last-quote
   "id": "1",
   "data": {
     "from": "UK100"
+  }
+}
+```
+
+### Sample Output
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "currencies": [
+      {
+        "name": "UK100",
+        "value": 6395.5,
+        "change": 61,
+        "difference": 0.96
+      }
+    ],
+    "lastUpdate": "2020-11-27T17:07:02",
+    "lastUpdate_Timestamp": "1606496822",
+    "result": 6395.5
+  },
+  "result": 6395.5,
+  "statusCode": 200
+}
+```
+
+---
+
+## Forex endpoint
+
+https://finage.co.uk/docs/api/forex-last-quote
+
+The result will be calculated as the midpoint between the ask and the bid.
+
+### Input Params
+
+| Required? |            Name             |               Description                | Options | Defaults to |
+| :-------: | :-------------------------: | :--------------------------------------: | :-----: | :---------: |
+|    ✅     | `base`, `from`, or `symbol` |   The symbol of the currency to query    |         |             |
+|    ✅     | `quote`, `to`, or `market`  | The symbol of the currency to convert to |         |             |
+
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "from": "GBP",
+    "to": "USD"
   }
 }
 ```

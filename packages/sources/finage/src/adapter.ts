@@ -1,141 +1,95 @@
 import {
-  ExecuteWithConfig,
-  ExecuteFactory,
-  Config,
-  AxiosResponse,
   AdapterRequest,
+  APIEndpoint,
+  ExecuteFactory,
+  ExecuteWithConfig,
   MakeWSHandler,
 } from '@chainlink/types'
-import { Requester, Validator, AdapterError, util } from '@chainlink/ea-bootstrap'
-import { DEFAULT_WS_API_ENDPOINT, makeConfig, NAME } from './config'
+import { Builder, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Config, makeConfig, NAME } from './config'
+import * as endpoints from './endpoint'
 
-const customParams = {
-  base: ['base', 'from', 'symbol'],
-  endpoint: false,
+export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
+  return Builder.buildSelector(request, context, config, endpoints)
 }
 
-interface ResponseScheme {
-  symbol: string
-  ask: number
-  bid: number
-  asize: number
-  bsize: number
-  timestamp: number
-}
-
-const DEFAULT_ENDPOINT = 'stock'
-
-export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, customParams)
-  if (validator.error) throw validator.error
-
-  const jobRunID = validator.validated.id
-  const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
-  let url: string
-  const base = validator.validated.data.base
-  const symbol = Array.isArray(base)
-    ? base.map((symbol) => symbol.toUpperCase()).join(',')
-    : (validator.overrideSymbol(NAME) as string).toUpperCase()
-
-  const apikey = util.getRandomRequiredEnv('API_KEY')
-  let responsePath
-  let params
-
-  switch (endpoint) {
-    case 'stock': {
-      url = getStockURL(base, symbol)
-      responsePath = ['bid']
-      params = {
-        apikey,
-      }
-      break
-    }
-    case 'eod': {
-      url = `/agg/stock/prev-close/${symbol}`
-      responsePath = ['results', 0, 'c']
-      params = {
-        apikey,
-      }
-      break
-    }
-    default: {
-      throw new AdapterError({
-        jobRunID,
-        message: `Endpoint ${endpoint} not supported.`,
-        statusCode: 400,
-      })
-    }
-  }
-
-  const options = {
-    ...config.api,
-    url,
-    params,
-  }
-
-  const response = await Requester.request(options)
-  if (Array.isArray(base)) {
-    return handleBatchedRequest(jobRunID, response)
-  }
-
-  response.data.result = Requester.validateResultNumber(response.data, responsePath)
-  return Requester.success(jobRunID, response)
-}
+export const endpointSelector = (request: AdapterRequest): APIEndpoint<Config> =>
+  Builder.selectEndpoint(request, makeConfig(), endpoints)
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {
   return async (request, context) => execute(request, context, config || makeConfig())
 }
 
-const getStockURL = (base: string | string[], symbol: string) => {
-  if (Array.isArray(base)) {
-    return `/last/stocks/?symbols=${symbol}`
-  }
-  return `/last/stock/${symbol}`
-}
-
-const handleBatchedRequest = (jobRunID: string, response: AxiosResponse<ResponseScheme>) => {
-  const payload: { symbol: string; bid: number }[] = []
-  for (const base in response.data) {
-    payload.push({
-      symbol: response.data[base].symbol,
-      bid: response.data[base].bid,
-    })
-    Requester.validateResultNumber(response.data, [base, 'bid'])
-  }
-  response.data.result = payload
-  return Requester.success(jobRunID, response)
-}
-
 export const makeWSHandler = (config?: Config): MakeWSHandler => {
   const getSubscription = (symbols?: string, subscribe = true) => {
     if (!symbols) return
-    const sub = {
+    return {
       action: subscribe ? 'subscribe' : 'unsubscribe',
       symbols,
     }
-    return sub
   }
-  const getSymbol = (input: AdapterRequest) => {
-    const validator = new Validator(input, customParams, {}, false)
+  const getStockSymbol = (input: AdapterRequest) => {
+    const validator = new Validator(input, endpoints.stock.inputParams, {}, false)
     if (validator.error) return
     return validator.validated.data.base.toUpperCase()
   }
+  const isStock = (input: AdapterRequest): boolean =>
+    endpoints.stock.supportedEndpoints.indexOf(input.data.endpoint) > -1
+
+  const getForexSymbol = (input: AdapterRequest) => {
+    const validator = new Validator(input, endpoints.forex.inputParams, {}, false)
+    if (validator.error) return
+    const from = (validator.overrideSymbol(NAME) as string).toUpperCase()
+    const to = validator.validated.data.quote.toUpperCase()
+    return `${from}/${to}` // Note that this adds the "/", whereas the REST endpoint doesn't use this
+  }
+  const isForex = (input: AdapterRequest): boolean =>
+    endpoints.forex.supportedEndpoints.indexOf(input.data.endpoint) > -1
+
+  const getSymbol = (input: AdapterRequest): string | undefined => {
+    if (isStock(input)) {
+      return getStockSymbol(input)
+    } else if (isForex(input)) {
+      return getForexSymbol(input)
+    }
+    return undefined
+  }
+
   return () => {
     const defaultConfig = config || makeConfig()
     return {
-      connection: {
-        url: defaultConfig.api.baseWsURL || DEFAULT_WS_API_ENDPOINT,
+      connection: {},
+      programmaticConnectionInfo: (input) => {
+        if (isStock(input)) {
+          return {
+            key: 'stock',
+            url: defaultConfig.stockWsEndpoint,
+          }
+        } else if (isForex(input)) {
+          return {
+            key: 'forex',
+            url: defaultConfig.forexWsEndpoint,
+          }
+        }
+        return undefined
       },
       subscribe: (input) => getSubscription(getSymbol(input)),
       unsubscribe: (input) => getSubscription(getSymbol(input), false),
       subsFromMessage: (message) => {
-        if (!message.s) return undefined
-        return getSubscription(`${message.s.toUpperCase()}`)
+        if (message.s) return getSubscription(`${message.s.toUpperCase()}`)
+        return undefined
       },
       isError: (message: any) => message['status_code'] && message['status_code'] !== 200,
-      filter: (message: any) => !!message.p,
+      filter: (message: any) => !!message.p || (!!message.a && !!message.b),
       toResponse: (message: any) => {
-        const result = Requester.validateResultNumber(message, ['p'])
+        if (message.p) {
+          const result = Requester.validateResultNumber(message, ['p'])
+          return Requester.success('1', { data: { result } })
+        }
+
+        const ask = Requester.validateResultNumber(message, ['a'])
+        const bid = Requester.validateResultNumber(message, ['b'])
+        const result = (ask + bid) / 2
         return Requester.success('1', { data: { result } })
       },
     }
