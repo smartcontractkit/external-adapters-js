@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute block endpoint should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 22674148233453,
+  },
+  "jobRunID": "1",
+  "result": 22674148233453,
+  "statusCode": 200,
+}
+`;
