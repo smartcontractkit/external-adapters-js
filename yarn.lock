@@ -2529,7 +2529,7 @@ __metadata:
     "@chainlink/stasis-adapter": 1.0.0
     "@chainlink/synthetix-debt-pool-adapter": 1.0.0
     "@chainlink/taapi-adapter": 1.0.0
-    "@chainlink/terra-view-function-adapter": 1.0.0
+    "@chainlink/terra-view-function-adapter": 2.0.0
     "@chainlink/therundown-adapter": 1.0.0
     "@chainlink/tiingo-adapter": 1.0.0
     "@chainlink/tradermade-adapter": 1.0.0
@@ -3651,7 +3651,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/terra-view-function-adapter@1.0.0, @chainlink/terra-view-function-adapter@workspace:packages/sources/terra-view-function":
+"@chainlink/terra-view-function-adapter@2.0.0, @chainlink/terra-view-function-adapter@workspace:packages/sources/terra-view-function":
   version: 0.0.0-use.local
   resolution: "@chainlink/terra-view-function-adapter@workspace:packages/sources/terra-view-function"
   dependencies:
