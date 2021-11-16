@@ -6379,24 +6379,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT",
         }]
       ]],
-      ["@chainlink/wrapped-adapter", [
-        ["workspace:packages/sources/wrapped", {
-          "packageLocation": "./packages/sources/wrapped/",
-          "packageDependencies": [
-            ["@chainlink/wrapped-adapter", "workspace:packages/sources/wrapped"],
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
-            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
-            ["@types/jest", "npm:27.0.2"],
-            ["@types/node", "npm:14.17.21"],
-            ["nock", "npm:13.1.3"],
-            ["supertest", "npm:6.1.6"],
-            ["tslib", "npm:2.3.1"],
-            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
-          ],
-          "linkType": "SOFT",
-        }]
-      ]],
       ["@chainlink/xbto-adapter", [
         ["workspace:packages/sources/xbto", {
           "packageLocation": "./packages/sources/xbto/",
