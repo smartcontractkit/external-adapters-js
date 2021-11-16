@@ -24,7 +24,7 @@ export const makeExecute: ExecuteFactory<Config> = (config) => {
 export const makeWSHandler = (): MakeWSHandler => {
   const getSubscription = (symbol?: string) => {
     if (!symbol) return
-    return 'login'
+    return 'subscribe_to_all'
   }
   const getSymbol = (input: AdapterRequest) => {
     const validator = new Validator(input, endpoints.forex.inputParameters, {})
@@ -39,6 +39,7 @@ export const makeWSHandler = (): MakeWSHandler => {
         url: 'wss://sockets.1forge.com/socket',
       },
       subscribe: (input) => getSubscription(getSymbol(input)),
+      onConnect: () => 'login',
       noHttp: true,
       unsubscribe: (input) => getSubscription(getSymbol(input)),
       subsFromMessage: (message) => {
