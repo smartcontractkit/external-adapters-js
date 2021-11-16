@@ -2130,6 +2130,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/defi-dozen-adapter@workspace:packages/composites/defi-dozen":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/defi-dozen-adapter@workspace:packages/composites/defi-dozen"
+  dependencies:
+    "@chainlink/ea-bootstrap": 1.0.0
+    "@chainlink/ea-test-helpers": 1.0.0
+    "@chainlink/token-allocation-adapter": 1.0.0
+    "@chainlink/types": 1.0.0
+    "@types/jest": 27.0.2
+    "@types/node": 14.17.21
+    tslib: ^2.3.1
+    typescript: 4.3.5
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/defi-pulse-adapter@workspace:packages/composites/defi-pulse":
   version: 0.0.0-use.local
   resolution: "@chainlink/defi-pulse-adapter@workspace:packages/composites/defi-pulse"
