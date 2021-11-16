@@ -81,14 +81,15 @@ export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
     return validator.validated.data.base.toLowerCase()
   }
   const isFx = (input: AdapterRequest): boolean =>
-    endpoints.iex.supportedEndpoints.indexOf(input.data.endpoint) > -1
+    endpoints.iex.supportedEndpoints.includes(input.data.endpoint)
   const getCryptoTicker = (input: AdapterRequest): string | undefined => {
     const validator = new Validator(input, endpoints.prices.inputParameters, {}, false)
     if (validator.error) return
-    return `${validator.validated.data.base.toLowerCase()}${validator.validated.data.quote.toLowerCase()}`
+    const { base, quote } = validator.validated.data
+    return `${base}${quote}`.toLowerCase()
   }
   const isCrypto = (input: AdapterRequest): boolean =>
-    endpoints.prices.supportedEndpoints.indexOf(input.data.endpoint) > -1
+    endpoints.prices.supportedEndpoints.includes(input.data.endpoint)
 
   const getTicker = (input: AdapterRequest) => {
     if (isFx(input)) {

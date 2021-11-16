@@ -34,7 +34,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
     return validator.validated.data.base.toUpperCase()
   }
   const isStock = (input: AdapterRequest): boolean =>
-    endpoints.stock.supportedEndpoints.indexOf(input.data.endpoint) > -1
+    endpoints.stock.supportedEndpoints.includes(input.data.endpoint)
 
   const getForexSymbol = (input: AdapterRequest) => {
     const validator = new Validator(input, endpoints.forex.inputParams, {}, false)
@@ -44,7 +44,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
     return `${from}/${to}` // Note that this adds the "/", whereas the REST endpoint doesn't use this
   }
   const isForex = (input: AdapterRequest): boolean =>
-    endpoints.forex.supportedEndpoints.indexOf(input.data.endpoint) > -1
+    endpoints.forex.supportedEndpoints.includes(input.data.endpoint)
 
   const getSymbol = (input: AdapterRequest): string | undefined => {
     if (isStock(input)) {
@@ -73,10 +73,11 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
         }
         return undefined
       },
+      shouldNotServeInputUsingWS: (input) => !isForex(input) && !isStock(input),
       subscribe: (input) => getSubscription(getSymbol(input)),
       unsubscribe: (input) => getSubscription(getSymbol(input), false),
       subsFromMessage: (message) => {
-        if (message.s) return getSubscription(`${message.s.toUpperCase()}`)
+        if (message.s) return getSubscription(message.s.toUpperCase())
         return undefined
       },
       isError: (message: any) => message['status_code'] && message['status_code'] !== 200,
