@@ -10,8 +10,9 @@ describe('execute', () => {
 
   describe('validation error', () => {
     const requests = [
-      { name: 'empty body', testData: {} },
-      { name: 'empty data', testData: { data: {} } },
+      { name: 'empty data', testData: { data: { endpoint: 'forex' } } },
+      { name: 'missing quote', testData: { data: { endpoint: 'forex', base: 'GBP' } } },
+      { name: 'missing base', testData: { data: { endpoint: 'forex', quote: 'USD' } } },
     ]
 
     requests.forEach((req) => {
