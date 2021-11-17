@@ -24,7 +24,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const options = { ...config.api, url }
 
   const response = await Requester.request<ResponseSchema>(options)
-  const result = response.data.addresses
+  const result = response.data.addresses.map((address) => ({ address }))
 
   const output = { ...response, data: { ...response.data, result } }
 

@@ -41,20 +41,22 @@ This adapter takes no environment variables.
 {
   "jobRunID": "1",
   "result": [
-    "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi",
-    "f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay"
+    {
+      "address": "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi"
+    },
+    {
+      "address": "f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay"
+    }
   ],
   "statusCode": 200,
   "data": {
-    "addresses": [
-      "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi",
-      "f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay"
-    ],
-    "ethereum_supply": 33427.594125,
-    "currency": "EFIL",
     "result": [
-      "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi",
-      "f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay"
+      {
+        "address": "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi"
+      },
+      {
+        "address": "f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay"
+      }
     ]
   }
 }
