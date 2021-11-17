@@ -10713,14 +10713,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"clean-webpack-plugin@npm:4.0.0-alpha.0":
-  version: 4.0.0-alpha.0
-  resolution: "clean-webpack-plugin@npm:4.0.0-alpha.0"
+"clean-webpack-plugin@npm:4.0.0":
+  version: 4.0.0
+  resolution: "clean-webpack-plugin@npm:4.0.0"
   dependencies:
     del: ^4.1.1
   peerDependencies:
     webpack: ">=4.0.0 <6.0.0"
-  checksum: a988736616cfb54f1f6be8e4d4da4deee59dff4d75ec6d7d8fc6703fb5612f8d8d06f0a5ed8be7fd7609fc2b3452753b36bf88188bc852b155b5a6498dcd4c27
+  checksum: 199425e87b8c4a24ea321ec8116408219930f2ef86e27dd4cdf0ed77ed7b8b3a6908ed5160e4e981c773e015ba1d79d3f53f2fdcfebc5dc0b68f1478dea08fff
   languageName: node
   linkType: hard
 
@@ -18541,7 +18541,7 @@ fsevents@~2.1.1:
     "@types/babel__preset-env": 7.9.2
     "@types/k6": 0.32.2
     babel-loader: 8.2.2
-    clean-webpack-plugin: 4.0.0-alpha.0
+    clean-webpack-plugin: 4.0.0
     core-js: 3.16.2
     k6: ^0.0.0
     typescript: 4.3.5
