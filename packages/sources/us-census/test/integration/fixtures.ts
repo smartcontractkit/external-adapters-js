@@ -1,28 +1,28 @@
 import nock from 'nock'
 
 const validTigerWebResponse = {
-  displayFieldName: 'NAME',
+  displayFieldName: 'BASENAME',
   fieldAliases: {
-    CSA: 'CSA',
+    STATE: 'STATE',
   },
   fields: [
     {
-      name: 'CSA',
+      name: 'STATE',
       type: 'esriFieldTypeString',
-      alias: 'CSA',
-      length: 3,
+      alias: 'STATE',
+      length: 2,
     },
   ],
   features: [
     {
       attributes: {
-        CSA: '488',
+        STATE: '06',
       },
     },
   ],
 }
 
-export const mockResponseWithInvalidLatitude = (apikey: string) => {
+export const mockResponseWithInvalidLatitude = () => {
   nock('https://tigerweb.geo.census.gov', { encodedQueryParams: true })
     .get('/arcgis/rest/services/TIGERweb/tigerWMS_ACS2019/MapServer/74/query')
     .query((query) => true)
@@ -48,9 +48,9 @@ export const mockResponseWithInvalidLatitude = (apikey: string) => {
     .reply(400, (_, request) => 'Should not reach this nock')
 }
 
-export const mockResponseWithInvalidVariable = (apikey: string) => {
+export const mockResponseWithInvalidVariable = () => {
   nock('https://tigerweb.geo.census.gov', { encodedQueryParams: true })
-    .get('/arcgis/rest/services/TIGERweb/tigerWMS_ACS2019/MapServer/74/query')
+    .get('/arcgis/rest/services/TIGERweb/tigerWMS_ACS2019/MapServer/82/query')
     .query((query) => true)
     .reply(200, (_, request) => validTigerWebResponse)
 

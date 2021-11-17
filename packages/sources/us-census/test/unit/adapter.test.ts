@@ -3,6 +3,8 @@ import { assertError } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
 import { makeExecute } from '../../src/adapter'
 
+process.env.API_KEY = 'test_api_key'
+
 describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
@@ -55,6 +57,7 @@ describe('execute', () => {
           await execute(req.testData as AdapterRequest)
         } catch (error) {
           const errorResp = Requester.errored(jobID, error)
+          console.log({ errorResp })
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
         }
       })

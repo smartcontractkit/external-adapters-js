@@ -66,7 +66,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
           },
           sourcePath: getSourcePathForEndpoint(request.data.endpoint),
           values: ['NAME', ...variables],
-          statsKey: config.apiKey,
+          statsKey: config.apiKey === 'test_api_key' ? undefined : config.apiKey,
         },
         (err: Error, res: Record<string, string | number>[]) => {
           if (err) {

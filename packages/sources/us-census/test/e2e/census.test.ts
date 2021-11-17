@@ -2,6 +2,8 @@ import { assertSuccess } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
 import { makeExecute } from '../../src/adapter'
 
+process.env.API_KEY = 'test_api_key'
+
 describe('execute', () => {
   jest.setTimeout(10000)
   const jobID = '1'

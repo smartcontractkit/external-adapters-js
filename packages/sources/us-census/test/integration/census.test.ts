@@ -8,11 +8,10 @@ import { mockResponseWithInvalidLatitude, mockResponseWithInvalidVariable } from
 
 let oldEnv: NodeJS.ProcessEnv
 
-const MOCK_KEY = 'mock-key'
+process.env.API_KEY = 'test_api_key'
 
 beforeAll(() => {
   oldEnv = JSON.parse(JSON.stringify(process.env))
-  process.env.API_KEY = MOCK_KEY
   process.env.API_VERBOSE = process.env.API_VERBOSE || 'true'
   if (process.env.RECORD) {
     nock.recorder.rec()
@@ -53,7 +52,7 @@ describe('execute', () => {
       },
     }
 
-    mockResponseWithInvalidLatitude(MOCK_KEY)
+    mockResponseWithInvalidLatitude()
 
     it('should return error', async () => {
       const response = await req
@@ -72,14 +71,14 @@ describe('execute', () => {
       id,
       data: {
         endpoint: 'acs5_2019',
-        geography: 'tract',
+        geography: 'state',
         variables: ['SOME_INVALID_VAR'],
         latitude: 37.774929,
         longitude: -122.419418,
       },
     }
 
-    mockResponseWithInvalidVariable(MOCK_KEY)
+    mockResponseWithInvalidVariable()
 
     it('should return error', async () => {
       const response = await req
