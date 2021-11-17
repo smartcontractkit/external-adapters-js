@@ -4766,7 +4766,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.2"],
             ["@types/node", "npm:14.17.21"],
-            ["hardhat", "npm:2.6.1"],
+            ["hardhat", "npm:2.6.8"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
@@ -9895,10 +9895,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@solidity-parser/parser", [
-        ["npm:0.11.1", {
-          "packageLocation": "./.yarn/cache/@solidity-parser-parser-npm-0.11.1-7b1a8b2859-eee5a7aea6.zip/node_modules/@solidity-parser/parser/",
+        ["npm:0.14.0", {
+          "packageLocation": "./.yarn/cache/@solidity-parser-parser-npm-0.14.0-0abd83b9c7-fe92710e53.zip/node_modules/@solidity-parser/parser/",
           "packageDependencies": [
-            ["@solidity-parser/parser", "npm:0.11.1"]
+            ["@solidity-parser/parser", "npm:0.14.0"],
+            ["antlr4ts", "npm:0.5.0-dev"]
           ],
           "linkType": "HARD",
         }]
@@ -12106,6 +12107,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/ansistyles-npm-0.1.3-112dc5352d-0072507f97.zip/node_modules/ansistyles/",
           "packageDependencies": [
             ["ansistyles", "npm:0.1.3"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["antlr4ts", [
+        ["npm:0.5.0-dev", {
+          "packageLocation": "./.yarn/cache/antlr4ts-npm-0.5.0-dev-7e0fc8988a-640dae2229.zip/node_modules/antlr4ts/",
+          "packageDependencies": [
+            ["antlr4ts", "npm:0.5.0-dev"],
+            ["source-map-support", "npm:0.5.20"]
           ],
           "linkType": "HARD",
         }]
@@ -18896,10 +18907,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["hardhat", [
-        ["npm:2.6.1", {
-          "packageLocation": "./.yarn/cache/hardhat-npm-2.6.1-c6fddc15f2-3dee779b6b.zip/node_modules/hardhat/",
+        ["npm:2.6.8", {
+          "packageLocation": "./.yarn/cache/hardhat-npm-2.6.8-cc4feb4d38-72b450391f.zip/node_modules/hardhat/",
           "packageDependencies": [
-            ["hardhat", "npm:2.6.1"],
+            ["hardhat", "npm:2.6.8"],
             ["@ethereumjs/block", "npm:3.4.0"],
             ["@ethereumjs/blockchain", "npm:5.4.0"],
             ["@ethereumjs/common", "npm:2.4.0"],
@@ -18907,7 +18918,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ethereumjs/vm", "npm:5.5.2"],
             ["@ethersproject/abi", "npm:5.4.0"],
             ["@sentry/node", "npm:5.30.0"],
-            ["@solidity-parser/parser", "npm:0.11.1"],
+            ["@solidity-parser/parser", "npm:0.14.0"],
             ["@types/bn.js", "npm:5.1.0"],
             ["@types/lru-cache", "npm:5.1.1"],
             ["abort-controller", "npm:3.0.0"],
@@ -30081,6 +30092,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/source-map-support-npm-0.5.19-65b33ae61e-c72802fdba.zip/node_modules/source-map-support/",
           "packageDependencies": [
             ["source-map-support", "npm:0.5.19"],
+            ["buffer-from", "npm:1.1.2"],
+            ["source-map", "npm:0.6.1"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:0.5.20", {
+          "packageLocation": "./.yarn/cache/source-map-support-npm-0.5.20-edfc5ce275-43946aff45.zip/node_modules/source-map-support/",
+          "packageDependencies": [
+            ["source-map-support", "npm:0.5.20"],
             ["buffer-from", "npm:1.1.2"],
             ["source-map", "npm:0.6.1"]
           ],
