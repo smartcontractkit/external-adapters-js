@@ -395,7 +395,7 @@ https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest
 
 ## Historical Endpoint
 
-https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/historical33333
+https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/historical
 
 ### Input Params
 
