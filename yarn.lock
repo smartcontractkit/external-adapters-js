@@ -2748,7 +2748,7 @@ __metadata:
     "@semantic-release/release-notes-generator": 9.0.3
     "@types/babel__core": 7.1.16
     "@types/babel__preset-env": 7.9.2
-    "@types/eslint": 7.28.0
+    "@types/eslint": 7.28.2
     "@types/jest": 27.0.2
     "@types/node": 14.17.21
     "@types/semantic-release": 17.2.2
@@ -7726,13 +7726,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/eslint@npm:*, @types/eslint@npm:7.28.0":
+"@types/eslint@npm:*":
   version: 7.28.0
   resolution: "@types/eslint@npm:7.28.0"
   dependencies:
     "@types/estree": "*"
     "@types/json-schema": "*"
   checksum: 75ac2577d2a2e35bae66f56d2d1c871d5e836b2721cf14bd3df450c9d584eba48fa3b1013fba710245bf4795f16e1df0ed315e543e3199c4815ee4782537d0ae
+  languageName: node
+  linkType: hard
+
+"@types/eslint@npm:7.28.2":
+  version: 7.28.2
+  resolution: "@types/eslint@npm:7.28.2"
+  dependencies:
+    "@types/estree": "*"
+    "@types/json-schema": "*"
+  checksum: d177f3eec22971baeef8f244693687ee4c0357125f4a8fb7e614b83e36b98318a0b1a13b31230199d2a91af54122b67883faa7b4d2c29f0c83e2650f6b0d4d9c
   languageName: node
   linkType: hard
 
