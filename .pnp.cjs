@@ -5134,7 +5134,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
-            ["@types/jest", "npm:27.0.1"],
+            ["@types/jest", "npm:27.0.2"],
             ["@types/node", "npm:14.17.21"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.1.3"],
@@ -5440,7 +5440,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/json-rpc-adapter", "workspace:packages/sources/json-rpc"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
-            ["@types/jest", "npm:27.0.1"],
+            ["@types/jest", "npm:27.0.2"],
             ["@types/node", "npm:14.17.21"],
             ["@types/supertest", "npm:2.0.11"],
             ["ethers", "npm:5.4.7"],
@@ -10702,15 +10702,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:26.0.24"],
             ["jest-diff", "npm:26.6.2"],
             ["pretty-format", "npm:26.6.2"]
-          ],
-          "linkType": "HARD",
-        }],
-        ["npm:27.0.1", {
-          "packageLocation": "./.yarn/cache/@types-jest-npm-27.0.1-a860f5c797-972aaae341.zip/node_modules/@types/jest/",
-          "packageDependencies": [
-            ["@types/jest", "npm:27.0.1"],
-            ["jest-diff", "npm:27.0.6"],
-            ["pretty-format", "npm:27.0.6"]
           ],
           "linkType": "HARD",
         }],
