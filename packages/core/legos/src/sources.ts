@@ -1,4 +1,5 @@
 import * as _1forge from '@chainlink/1forge-adapter'
+import * as accuweather from '@chainlink/accuweather-adapter'
 import * as ada_balance from '@chainlink/ada-balance-adapter'
 import * as alphachain from '@chainlink/alphachain-adapter'
 import * as alphavantage from '@chainlink/alphavantage-adapter'
@@ -38,6 +39,7 @@ import * as currencylayer from '@chainlink/currencylayer-adapter'
 import * as curve from '@chainlink/curve-adapter'
 import * as deribit from '@chainlink/deribit-adapter'
 import * as dns_query from '@chainlink/dns-query-adapter'
+import * as durin from '@chainlink/durin-adapter'
 import * as dwolla from '@chainlink/dwolla-adapter'
 import * as dxfeed from '@chainlink/dxfeed-adapter'
 import * as dxfeed_secondary from '@chainlink/dxfeed-secondary-adapter'
@@ -115,6 +117,7 @@ import * as xbto from '@chainlink/xbto-adapter'
 
 export default {
   _1forge,
+  accuweather,
   ada_balance,
   alphachain,
   alphavantage,
@@ -154,6 +157,7 @@ export default {
   curve,
   deribit,
   dns_query,
+  durin,
   dwolla,
   dxfeed,
   dxfeed_secondary,

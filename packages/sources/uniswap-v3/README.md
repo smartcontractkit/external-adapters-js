@@ -6,7 +6,7 @@ This adapter allows querying Uniswap V3 contracts
 
 | Required? |        Name        |                                                 Description                                                 | Options |                 Defaults to                  |
 | :-------: | :----------------: | :---------------------------------------------------------------------------------------------------------: | :-----: | :------------------------------------------: |
-|    ✅     |      RPC_URL       |               An http(s) RPC URL to a blockchain node that can read the Uniswap V3 contracts                |         |                                              |
+|    ✅     |  ETHEREUM_RPC_URL  |               An http(s) RPC URL to a blockchain node that can read the Uniswap V3 contracts                |         |                                              |
 |           |  QUOTER_CONTRACT   | The address of the Uniswap V3 address quoter contract. NOTE: THIS SHOULD NOT BE CHANGED ON ETHEREUM MAINNET |         | `0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6` |
 |           | DEFAULT_FEE_TIERS  |                                       The Uniswap V3 fee tiers amount                                       |         |              `[500,3000,10000]`              |
 |           | BLOCKCHAIN_NETWORK |  The network to get pre-defined token addresses from. NOTE: THIS SHOULD NOT BE CHANGED ON ETHEREUM MAINNET  |         |                  `ethereum`                  |
