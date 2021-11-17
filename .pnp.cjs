@@ -4690,7 +4690,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:14.17.21"],
             ["@types/object-hash", "npm:2.1.1"],
             ["@types/object-path", "npm:0.11.1"],
-            ["@types/pino", "npm:6.3.11"],
+            ["@types/pino", "npm:6.3.12"],
             ["@types/pino-pretty", "npm:4.7.1"],
             ["@types/promise-timeout", "npm:1.3.0"],
             ["@types/redis", "npm:2.8.32"],
@@ -10980,6 +10980,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-pino-npm-6.3.11-8fff910981-170d4a3ae1.zip/node_modules/@types/pino/",
           "packageDependencies": [
             ["@types/pino", "npm:6.3.11"],
+            ["@types/node", "npm:16.6.1"],
+            ["@types/pino-pretty", "npm:4.7.1"],
+            ["@types/pino-std-serializers", "npm:2.4.1"],
+            ["sonic-boom", "npm:2.1.0"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:6.3.12", {
+          "packageLocation": "./.yarn/cache/@types-pino-npm-6.3.12-19c7982858-8017351466.zip/node_modules/@types/pino/",
+          "packageDependencies": [
+            ["@types/pino", "npm:6.3.12"],
             ["@types/node", "npm:16.6.1"],
             ["@types/pino-pretty", "npm:4.7.1"],
             ["@types/pino-std-serializers", "npm:2.4.1"],
