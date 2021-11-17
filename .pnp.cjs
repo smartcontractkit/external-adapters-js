@@ -4696,7 +4696,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/redis", "npm:2.8.32"],
             ["@types/redux-logger", "npm:3.0.9"],
             ["@types/remote-redux-devtools", "npm:0.5.5"],
-            ["@types/sinon", "npm:10.0.2"],
+            ["@types/sinon", "npm:10.0.6"],
             ["@types/uuid", "npm:8.3.1"],
             ["@types/ws", "npm:7.4.7"],
             ["ajv", "npm:8.6.2"],
@@ -5700,7 +5700,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.2"],
             ["@types/node", "npm:14.17.21"],
-            ["@types/sinon", "npm:10.0.2"],
+            ["@types/sinon", "npm:10.0.6"],
             ["axios", "npm:0.21.1"],
             ["sinon", "npm:11.1.2"],
             ["tslib", "npm:2.3.1"],
@@ -5927,7 +5927,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.21"],
-            ["@types/sinon", "npm:10.0.2"],
+            ["@types/sinon", "npm:10.0.6"],
             ["ethers", "npm:5.4.6"],
             ["nock", "npm:13.1.3"],
             ["sinon", "npm:11.1.2"],
@@ -11135,10 +11135,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@types/sinon", [
-        ["npm:10.0.2", {
-          "packageLocation": "./.yarn/cache/@types-sinon-npm-10.0.2-2a54516cee-442e62fe19.zip/node_modules/@types/sinon/",
+        ["npm:10.0.6", {
+          "packageLocation": "./.yarn/cache/@types-sinon-npm-10.0.6-3a1b027ac2-1c2ae7daa8.zip/node_modules/@types/sinon/",
           "packageDependencies": [
-            ["@types/sinon", "npm:10.0.2"],
+            ["@types/sinon", "npm:10.0.6"],
             ["@sinonjs/fake-timers", "npm:7.1.2"]
           ],
           "linkType": "HARD",
