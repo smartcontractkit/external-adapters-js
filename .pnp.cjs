@@ -4704,6 +4704,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/swagger-jsdoc", "npm:6.0.1"],
             ["@types/yaml", "npm:1.9.7"],
             ["chalk", "npm:4.1.2"],
+            ["command-line-args", "npm:5.2.0"],
             ["json-schema-ref-parser", "npm:9.0.9"],
             ["shelljs", "npm:0.8.4"],
             ["snake-case", "npm:3.0.4"],
@@ -11739,6 +11740,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["array-back", [
+        ["npm:3.1.0", {
+          "packageLocation": "./.yarn/cache/array-back-npm-3.1.0-a52d25f5a3-7205004fcd.zip/node_modules/array-back/",
+          "packageDependencies": [
+            ["array-back", "npm:3.1.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["array-find-index", [
         ["npm:1.0.2", {
           "packageLocation": "./.yarn/cache/array-find-index-npm-1.0.2-a7d5fbff35-aac128bf36.zip/node_modules/array-find-index/",
@@ -13931,6 +13941,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/command-exists-npm-1.2.9-cc51a1f78a-729ae3d88a.zip/node_modules/command-exists/",
           "packageDependencies": [
             ["command-exists", "npm:1.2.9"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["command-line-args", [
+        ["npm:5.2.0", {
+          "packageLocation": "./.yarn/cache/command-line-args-npm-5.2.0-fb7d5cad56-a63dd41541.zip/node_modules/command-line-args/",
+          "packageDependencies": [
+            ["command-line-args", "npm:5.2.0"],
+            ["array-back", "npm:3.1.0"],
+            ["find-replace", "npm:3.0.0"],
+            ["lodash.camelcase", "npm:4.3.0"],
+            ["typical", "npm:4.0.0"]
           ],
           "linkType": "HARD",
         }]
@@ -17288,6 +17311,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["find-node-modules", "npm:2.1.2"],
             ["findup-sync", "npm:4.0.0"],
             ["merge", "npm:2.1.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["find-replace", [
+        ["npm:3.0.0", {
+          "packageLocation": "./.yarn/cache/find-replace-npm-3.0.0-686bd07d28-6b04bcfd79.zip/node_modules/find-replace/",
+          "packageDependencies": [
+            ["find-replace", "npm:3.0.0"],
+            ["array-back", "npm:3.1.0"]
           ],
           "linkType": "HARD",
         }]
@@ -23327,6 +23360,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["lodash._createwrapper", "npm:2.3.0"],
             ["lodash._renative", "npm:2.3.0"],
             ["lodash._slice", "npm:2.3.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["lodash.camelcase", [
+        ["npm:4.3.0", {
+          "packageLocation": "./.yarn/cache/lodash.camelcase-npm-4.3.0-bf268e3bf0-cb9227612f.zip/node_modules/lodash.camelcase/",
+          "packageDependencies": [
+            ["lodash.camelcase", "npm:4.3.0"]
           ],
           "linkType": "HARD",
         }]
@@ -31125,6 +31167,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/typescript-patch-bb3b548ba1-bc2c4fdf0f.zip/node_modules/typescript/",
           "packageDependencies": [
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["typical", [
+        ["npm:4.0.0", {
+          "packageLocation": "./.yarn/cache/typical-npm-4.0.0-2255d8d515-a242081956.zip/node_modules/typical/",
+          "packageDependencies": [
+            ["typical", "npm:4.0.0"]
           ],
           "linkType": "HARD",
         }]

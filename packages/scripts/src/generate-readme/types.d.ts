@@ -5,15 +5,13 @@ export type AdapterPackage = {
 
 export type AdapterSchema = {
   description?: string
-  properties: {
-    [key: string]: {
-      default?: string | number
-      description?: string
-      enum?: (string | number)[]
-      type?: string
-    }
-  }
+  endpointParameters: EndpointParameters
+  properties: EnvVars
   required: string[]
+}
+
+export type Blacklist = {
+  blacklist: string[]
 }
 
 export type EndpointDetails = {
@@ -22,6 +20,26 @@ export type EndpointDetails = {
     inputParameters: {
       [inputName: string]: string[] | boolean
     }
+  }
+}
+
+export type EndpointParameters = {
+  [endpoint: string]: {
+    [inputParameter: string]: {
+      default?: string | number
+      description?: string
+      enum?: (string | number)[]
+      type?: string
+    }
+  }
+}
+
+export type EnvVars = {
+  [envVar: string]: {
+    default?: string | number
+    description?: string
+    enum?: (string | number)[]
+    type?: string
   }
 }
 

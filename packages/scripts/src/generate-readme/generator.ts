@@ -1,9 +1,13 @@
 import * as shell from 'shelljs'
 import { buildTable } from './table'
+import commandLineArgs from 'command-line-args'
 import {
   AdapterPackage,
   AdapterSchema,
+  Blacklist,
   EndpointDetails,
+  EndpointParameters,
+  EnvVars,
   IOMap,
   JsonObject,
   TableText,
@@ -11,6 +15,10 @@ import {
 } from './types'
 
 const localPathToRoot = '../../../../'
+
+const pathToBlacklist = 'packages/scripts/src/generate-readme/readme-blacklist.json'
+
+const pathToSources = 'packages/sources/'
 
 const envVarHeaders: TextRow = ['Required?', 'Name', 'Description', 'Type', 'Options', 'Default']
 
@@ -36,7 +44,7 @@ const checkFilePath = (filePath: string): string => {
   else return filePath
 }
 
-const checkOptionalFilePath = (filePath: string): string => {
+const checkOptionalFilePath = (filePath: string): string | null => {
   return shell.test('-f', filePath) ? filePath : null
 }
 
@@ -45,15 +53,19 @@ const wrapJson = (objectStr: string): string => {
 }
 
 class ReadmeGenerator {
+  adapterDescription: string
   adapterPath: string
-  packagePath: string
-  schemaPath: string
-  integrationTestPath: string
-  adapterPackage: AdapterPackage
-  adapterSchema: AdapterSchema
   defaultEndpoint = ''
   endpointDetails: EndpointDetails = {}
+  endpointParameters: EndpointParameters
+  envVars: EnvVars
+  integrationTestPath: string | null
+  name: string
+  packagePath: string
   readmeText = ''
+  requiredEnvVars: string[]
+  schemaPath: string
+  version: string
 
   constructor(adapterPath: string) {
     if (!adapterPath.endsWith('/')) adapterPath += '/'
@@ -68,16 +80,29 @@ class ReadmeGenerator {
 
     this.adapterPath = adapterPath
 
-    this.adapterPackage = getJsonFile(this.packagePath) as AdapterPackage
-    this.adapterSchema = getJsonFile(this.schemaPath) as AdapterSchema
+    const adapterPackage = getJsonFile(this.packagePath) as AdapterPackage
+    this.name = adapterPackage.name
+    this.version = adapterPackage.version
+
+    const adapterSchema = getJsonFile(this.schemaPath) as AdapterSchema
+    this.adapterDescription = adapterSchema.description
+    this.endpointParameters = adapterSchema.endpointParameters
+    this.envVars = adapterSchema.properties
+    this.requiredEnvVars = adapterSchema.required
   }
 
   async fetchImports(): Promise<void> {
+    const configPath = checkFilePath(this.adapterPath + 'src/config.ts')
+    this.defaultEndpoint = (await require(localPathToRoot + configPath)).DEFAULT_ENDPOINT ?? ''
+
     const endpointPath = checkFilePath(this.adapterPath + 'src/endpoint/index.ts')
     this.endpointDetails = await require(localPathToRoot + endpointPath)
 
-    const configPath = checkFilePath(this.adapterPath + 'src/config.ts')
-    this.defaultEndpoint = (await require(localPathToRoot + configPath)).DEFAULT_ENDPOINT ?? ''
+    for (const [endpointName, endpointDetails] of Object.entries(this.endpointDetails)) {
+      const schemaEndpointParameters = { ...this.endpointParameters }
+      //TODO add checks for mismatch of 1:1 mapping - 1:00
+      //TODO consolidate all input param information into single attribute of class - 1:00
+    }
   }
 
   buildReadme(): void {
@@ -94,16 +119,16 @@ class ReadmeGenerator {
     console.log('Adding title and version...')
 
     this.readmeText = `# ${this.adapterPackage.name}\n\nVersion: ${this.adapterPackage.version}\n\n`
-    if (this.adapterSchema.description) this.readmeText += `${this.adapterSchema.description}\n\n`
+    if (this.adapterDescription) this.readmeText += `${this.adapterDescription}\n\n`
   }
 
   addEnvVarSection(): void {
     console.log('Adding environment variables...')
 
-    const envVars = this.adapterSchema.properties
+    const envVars = this.envVars
 
     const tableText: TableText = Object.entries(envVars).map(([key, envVar]) => {
-      const required = this.adapterSchema.required.includes(key) ? '✅' : ''
+      const required = this.requiredEnvVars.includes(key) ? '✅' : ''
       const name = key ?? ''
       const description = envVar.description ?? ''
       const type = envVar.type ?? ''
@@ -194,7 +219,7 @@ class ReadmeGenerator {
           ([pName, pDetails]) => {
             const required = Array.isArray(pDetails) || pDetails === true ? '✅' : ''
             const name = pName ?? ''
-            const type = ''
+            const type = '' //TODO add these sections for input params
             const options = Array.isArray(pDetails)
               ? pDetails.map((d) => `\`${d}\``).join(', ')
               : ''
@@ -275,13 +300,32 @@ class ReadmeGenerator {
 
 export async function main(): Promise<void> {
   try {
-    const adapterPath = process.argv[2]
+    const options = commandLineArgs([
+      { name: 'all', alias: 'a', type: Boolean },
+      { name: 'adapters', multiple: true, defaultOption: true },
+    ])
 
-    const readmeGenerator = new ReadmeGenerator(adapterPath)
+    let adapters = []
+    if (options.all) adapters = shell.ls('-A', pathToSources).filter((name) => name !== 'README.md')
+    else if (options.adapters?.length) adapters = options.adapters
+    else throw Error('Please specify at least one adapter to generate the README for.')
 
-    await readmeGenerator.fetchImports() // Must fetch imports as separate step, since dynamic imports are
-    // async but constructor cannot contain async code
-    readmeGenerator.buildReadme()
+    const blacklist = (getJsonFile(pathToBlacklist) as Blacklist).blacklist
+    const adapterInBlacklist = blacklist.reduce((map, a) => {
+      map[a] = true
+      return map
+    }, {})
+
+    const generatorTargets: string[] = adapters.filter((a) => !adapterInBlacklist[a])
+
+    for (const target of generatorTargets) {
+      const readmeGenerator = new ReadmeGenerator(pathToSources + target)
+
+      // Fetch imports as separate step, since dynamic imports are async but constructor can't contain async code
+      await readmeGenerator.fetchImports()
+
+      readmeGenerator.buildReadme()
+    }
   } catch (e) {
     console.log(`Error: ${e}`)
     return
