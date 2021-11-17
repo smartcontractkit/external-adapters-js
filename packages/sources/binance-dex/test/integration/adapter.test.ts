@@ -12,7 +12,6 @@ describe('execute', () => {
   const req = request('localhost:8080')
   beforeAll(async () => {
     process.env.CACHE_ENABLED = 'false'
-    process.env.API_KEY = process.env.API_KEY || 'fake-api-key'
     if (process.env.RECORD) {
       nock.recorder.rec()
     }

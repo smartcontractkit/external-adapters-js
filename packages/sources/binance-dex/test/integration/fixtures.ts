@@ -22,7 +22,7 @@ export const mockRateResponseSuccess = (): nock =>
           highPrice: '1.00980000',
           lowPrice: '0.99700000',
           openTime: 1636993579000,
-          closeTime: 1637079979000,
+          closeTime: 163707997900000000000000000000000000,
           firstId: '202650439-0',
           lastId: '202857405-0',
           bidPrice: '0.99900000',
