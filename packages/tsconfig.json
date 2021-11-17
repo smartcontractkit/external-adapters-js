@@ -102,6 +102,9 @@
       "path": "./sources/ada-balance"
     },
     {
+      "path": "./sources/accuweather"
+    },
+    {
       "path": "./sources/alphachain"
     },
     {

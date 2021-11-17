@@ -1,4 +1,5 @@
 import * as _1forge from '@chainlink/1forge-adapter'
+import * as accuweather from '@chainlink/accuweather-adapter'
 import * as ada_balance from '@chainlink/ada-balance-adapter'
 import * as alphachain from '@chainlink/alphachain-adapter'
 import * as alphavantage from '@chainlink/alphavantage-adapter'
@@ -116,6 +117,7 @@ import * as xbto from '@chainlink/xbto-adapter'
 
 export default {
   _1forge,
+  accuweather,
   ada_balance,
   alphachain,
   alphavantage,

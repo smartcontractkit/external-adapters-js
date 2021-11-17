@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "@chainlink/1forge-adapter": "1.0.0",
+    "@chainlink/accuweather-adapter": "1.0.0",
     "@chainlink/ada-balance-adapter": "1.0.0",
     "@chainlink/alphachain-adapter": "1.0.0",
     "@chainlink/alphavantage-adapter": "1.0.0",
