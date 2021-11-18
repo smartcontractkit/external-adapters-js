@@ -18,7 +18,7 @@ This composite adapter executes the code from the Token Allocation composite ada
 {
   "id": "1",
   "data": {
-    "sourc": "coinmarketcap"
+    "source": "coinmarketcap"
   }
 }
 ```
