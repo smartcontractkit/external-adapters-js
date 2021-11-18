@@ -9,8 +9,7 @@ let oldEnv: NodeJS.ProcessEnv
 beforeAll(() => {
   oldEnv = JSON.parse(JSON.stringify(process.env))
   process.env.CACHE_ENABLED = 'false'
-  process.env.ETHEREUM_RPC_URL = process.env.ETHEREUM_RPC_URL || 'https://bombay-lcd.terra.dev'
-  process.env.CHAIN_ID = process.env.CHAIN_ID || 'bombay-12'
+  process.env.BOMBAY_12_RPC_URL = process.env.BOMBAY_12_RPC_URL || 'https://bombay-lcd.terra.dev'
 })
 
 afterAll(() => {
@@ -29,6 +28,7 @@ describe('execute', () => {
           data: {
             address: 'terra1dw5ex5g802vgrek3nzppwt29tfzlpa38ep97qy',
             query: { aggregator_query: { get_latest_round_data: {} } },
+            chainId: 'bombay-12',
           },
         },
       },
@@ -39,6 +39,7 @@ describe('execute', () => {
           data: {
             address: 'terra1dw5ex5g802vgrek3nzppwt29tfzlpa38ep97qy',
             query: { aggregator_query: { get_latest_round_data: {} } },
+            chainId: 'bombay-12',
           },
         },
       },
@@ -62,6 +63,7 @@ describe('execute', () => {
           data: {
             address: 'not_real',
             query: { aggregator_query: { get_latest_round_data: {} } },
+            chainId: 'bombay-12',
           },
         },
       },
@@ -72,6 +74,7 @@ describe('execute', () => {
           data: {
             address: 'terra1dw5ex5g802vgrek3nzppwt29tfzlpa38ep97qy',
             query: { get_latest_round_data: {} },
+            chainId: 'bombay-12',
           },
         },
       },
