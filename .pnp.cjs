@@ -4691,7 +4691,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/object-hash", "npm:2.1.1"],
             ["@types/object-path", "npm:0.11.1"],
             ["@types/pino", "npm:6.3.12"],
-            ["@types/pino-pretty", "npm:4.7.1"],
+            ["@types/pino-pretty", "npm:4.7.3"],
             ["@types/promise-timeout", "npm:1.3.0"],
             ["@types/redis", "npm:2.8.32"],
             ["@types/redux-logger", "npm:3.0.9"],
@@ -11005,6 +11005,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@types/pino-pretty", "npm:4.7.1"],
             ["@types/pino", "npm:6.3.11"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:4.7.3", {
+          "packageLocation": "./.yarn/cache/@types-pino-pretty-npm-4.7.3-5ebf57cfd2-40fe67e73d.zip/node_modules/@types/pino-pretty/",
+          "packageDependencies": [
+            ["@types/pino-pretty", "npm:4.7.3"],
+            ["@types/node", "npm:16.6.1"],
+            ["@types/pino", "npm:6.3.12"]
           ],
           "linkType": "HARD",
         }]
