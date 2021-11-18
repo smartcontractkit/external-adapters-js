@@ -1,0 +1,80 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Ephemeral Adapters Testing starting and stopping ephemeral adapters should override any values passed in as arguments or environment variables 1`] = `
+Object {
+  "action": "start",
+  "adapter": "adapter",
+  "helmChartDir": "helm_chart_dir",
+  "helmValuesOverride": "-f helm_values",
+  "imageRepository": "test_image_repo",
+  "imageTag": "test_tag",
+  "name": "qa-ea-adapter-release",
+  "release": "release",
+}
+`;
+
+exports[`Ephemeral Adapters Testing starting and stopping ephemeral adapters should throw an error if a command is not installed 1`] = `"[31m[1mtest is not installed[22m[39m"`;
+
+exports[`Ephemeral Adapters Testing starting and stopping ephemeral adapters should throw an error if we are not on the sdlc cluster 1`] = `"[31m[1mWe only want to spin ephemeral environments up on the sdlc cluster. Please change your kubectx. [object Object][22m[39m"`;
+
+exports[`Ephemeral Adapters Testing starting and stopping ephemeral adapters should throw an error if we can't deploy the helm chart 1`] = `"[31m[1mFailed to deploy the external adapter: [object Object][22m[39m"`;
+
+exports[`Ephemeral Adapters Testing starting and stopping ephemeral adapters should throw an error if we can't download the helm chart 1`] = `"[31m[1mFailed to pull the chainlink helm chart repository: [object Object][22m[39m"`;
+
+exports[`Ephemeral Adapters Testing starting and stopping ephemeral adapters should throw an error if we can't remove the adapter 1`] = `"[31m[1mFailed to remove the external adapter: [object Object][22m[39m"`;
+
+exports[`Ephemeral Adapters Testing starting and stopping ephemeral adapters should throw if args are less than 5 1`] = `
+"[31m[1m[22m[39m
+[31m[1mAt least 3 arguments are required and 1 optional.[22m[39m
+[31m[1m1: Options are \\"start\\" or \\"stop\\". In releation to whether you want to start or stop the adapter.[22m[39m
+[31m[1m2: The adapter name you wish to start. Must match an adapter we have built a docker image for.[22m[39m
+[31m[1m3: The unique release tag for this deployment. Use your name if you are running locally or the PR number for CI.[22m[39m
+[31m[1m4: Optional. The docker image tag you wish to deploy. Can also be a sha256 for the image. Defaults to develop-latest.[22m[39m
+[31m[1mThere are 3 other variables that can be changed via environment variables. These are:[22m[39m
+[31m[1mHELM_CHART_DIR - The path to the helm chart directory for the adapters. Defaults to the one in this project.[22m[39m
+[31m[1mHELM_VALUES - The path to a helm values file you wish to use to override any default values in the chart[22m[39m
+[31m[1mIMAGE_REPOSITORY - The docker image reposoitory where the image you want deployed lives. Defaults to the public chainlink ecr.[22m[39m"
+`;
+
+exports[`Ephemeral Adapters Testing starting and stopping ephemeral adapters should throw if we an empty string for the second argument 1`] = `
+"[31m[1mMissing second argument: adapter[22m[39m
+[31m[1m[22m[39m
+[31m[1mAt least 3 arguments are required and 1 optional.[22m[39m
+[31m[1m1: Options are \\"start\\" or \\"stop\\". In releation to whether you want to start or stop the adapter.[22m[39m
+[31m[1m2: The adapter name you wish to start. Must match an adapter we have built a docker image for.[22m[39m
+[31m[1m3: The unique release tag for this deployment. Use your name if you are running locally or the PR number for CI.[22m[39m
+[31m[1m4: Optional. The docker image tag you wish to deploy. Can also be a sha256 for the image. Defaults to develop-latest.[22m[39m
+[31m[1mThere are 3 other variables that can be changed via environment variables. These are:[22m[39m
+[31m[1mHELM_CHART_DIR - The path to the helm chart directory for the adapters. Defaults to the one in this project.[22m[39m
+[31m[1mHELM_VALUES - The path to a helm values file you wish to use to override any default values in the chart[22m[39m
+[31m[1mIMAGE_REPOSITORY - The docker image reposoitory where the image you want deployed lives. Defaults to the public chainlink ecr.[22m[39m"
+`;
+
+exports[`Ephemeral Adapters Testing starting and stopping ephemeral adapters should throw if we an empty string for the third argument 1`] = `
+"[31m[1mMissing third argument: release tag[22m[39m
+[31m[1m[22m[39m
+[31m[1mAt least 3 arguments are required and 1 optional.[22m[39m
+[31m[1m1: Options are \\"start\\" or \\"stop\\". In releation to whether you want to start or stop the adapter.[22m[39m
+[31m[1m2: The adapter name you wish to start. Must match an adapter we have built a docker image for.[22m[39m
+[31m[1m3: The unique release tag for this deployment. Use your name if you are running locally or the PR number for CI.[22m[39m
+[31m[1m4: Optional. The docker image tag you wish to deploy. Can also be a sha256 for the image. Defaults to develop-latest.[22m[39m
+[31m[1mThere are 3 other variables that can be changed via environment variables. These are:[22m[39m
+[31m[1mHELM_CHART_DIR - The path to the helm chart directory for the adapters. Defaults to the one in this project.[22m[39m
+[31m[1mHELM_VALUES - The path to a helm values file you wish to use to override any default values in the chart[22m[39m
+[31m[1mIMAGE_REPOSITORY - The docker image reposoitory where the image you want deployed lives. Defaults to the public chainlink ecr.[22m[39m"
+`;
+
+exports[`Ephemeral Adapters Testing starting and stopping ephemeral adapters should throw if we do not have a valid action as the first argument 1`] = `"[31m[1mThe first argument must be one of: start, stop[22m[39m"`;
+
+exports[`Ephemeral Adapters Testing starting and stopping ephemeral adapters should use defaults if minimum viable arguments are passed 1`] = `
+Object {
+  "action": "start",
+  "adapter": "adapter",
+  "helmChartDir": "chainlink/cl-adapter",
+  "helmValuesOverride": "",
+  "imageRepository": "795953128386.dkr.ecr.us-west-2.amazonaws.com/adapters/",
+  "imageTag": "develop-latest",
+  "name": "qa-ea-adapter-release",
+  "release": "release",
+}
+`;

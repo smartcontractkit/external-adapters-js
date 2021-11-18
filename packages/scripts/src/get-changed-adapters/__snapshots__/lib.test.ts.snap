@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`get-changed-adapters cli check args should print the usage string if not enough args are provided 1`] = `
+"[31m[1m[22m[39m
+[31m[1mRequires 1 argument of the changed files file path.[22m[39m"
+`;
+
+exports[`get-changed-adapters cli check args should throw an error if the action argument is not a valid option 1`] = `
+"[31m[1m[22m[39m
+[31m[1mRequires 1 argument of the changed files file path.[22m[39m"
+`;
+
+exports[`get-changed-adapters cli createOutput should return the list of adapters when adapters exist in each type 1`] = `"abc def ghi"`;
+
+exports[`get-changed-adapters cli generateFilteredAdaptersListByType should exclude non package and test files 1`] = `
+Object {
+  "composites": Array [
+    "bcd",
+  ],
+  "coreWasChanged": false,
+  "sources": Array [],
+  "targets": Array [],
+}
+`;
+
+exports[`get-changed-adapters cli generateFilteredAdaptersListByType should return the different types of adapters when multiple exist are changed and return that core was changed when core changes occur 1`] = `
+Object {
+  "composites": Array [
+    "bcd",
+  ],
+  "coreWasChanged": true,
+  "sources": Array [
+    "abc",
+  ],
+  "targets": Array [
+    "gef",
+  ],
+}
+`;
+
+exports[`get-changed-adapters cli loadChangedFileList should return an array of changed files 1`] = `
+Array [
+  "packages/sources/xbto/package.json",
+  "packages/sources/blarg/src/index.ts",
+  "packages/sources/xbto/test/integration/__snapshots__/adapter.test.ts.snap",
+]
+`;

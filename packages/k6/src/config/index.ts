@@ -12,7 +12,7 @@ export type AdapterNames =
   | 'coinmarketcap'
 
 interface AdapterConfig {
-  name: AdapterNames
+  name: AdapterNames | string
   /**
    * How many seconds to wait inbetween each call to this adapter
    */
@@ -20,7 +20,8 @@ interface AdapterConfig {
 }
 export const ADAPTERS: AdapterConfig[] = [
   // { name: 'nomics', secondsPerCall: 10 },
-  { name: 'coinapi', secondsPerCall: 10 },
+  // { name: 'coinapi', secondsPerCall: 10 },
   // { name: 'cryptocompare', secondsPerCall: 1 },
   // { name: 'tiingo', secondsPerCall: 5 },
+  { name: 'coingecko', secondsPerCall: 10 },
 ]

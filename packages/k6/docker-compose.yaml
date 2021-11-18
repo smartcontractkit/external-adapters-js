@@ -1,0 +1,9 @@
+version: "3.9"
+services:
+  k6:
+    image: 795953128386.dkr.ecr.us-west-2.amazonaws.com/k6:latest
+    ports:
+      - 6565:6565
+    build:
+      context: .
+      dockerfile: ./Dockerfile

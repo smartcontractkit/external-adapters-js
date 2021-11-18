@@ -21,7 +21,10 @@
   },
   "scripts": {
     "build": "yarn webpack",
+    "build:docker": "docker-compose build",
     "test": "yarn build && k6 run dist/test.js",
-    "test:cryptocompare": "yarn build && k6 run dist/testCryptocompare.js"
+    "test:cryptocompare": "yarn build && k6 run dist/testCryptocompare.js",
+    "test:docker": "yarn build && yarn build:docker && docker run -p 6565:6565 --rm --name k6 --env-file ./.env -v $(pwd)/:/load -it 795953128386.dkr.ecr.us-west-2.amazonaws.com/k6 run /load/dist/test.js",
+    "test:docker2": "yarn build && yarn build:docker && docker-compose up"
   }
 }

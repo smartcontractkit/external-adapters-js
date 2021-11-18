@@ -465,6 +465,106 @@ yarn test $adapter/test/unit/my-specific-test.test.ts
 yarn test --watch $adapter/test/unit
 ```
 
+#### Soak Testing
+
+In order to soak test adapters we need to create and push the adapter out to the sdlc cluster. From there we can use the Flux Emulator or K6 to send traffic to it for the amount of time you need.
+
+Prerequisites to starting an external adapter in the sdlc cluster
+
+1. You must be on the vpn to access the k8s cluster.
+2. You must have your kubectx set to the sdlc cluster which also requires you be logged into the aws secure-sdlc account as a power user. To do so it would look something like this but with your specific profile name`aws sso login --profile sdlc-power`. Instructions to set this up can be found here: https://www.notion.so/chainlink/QA-Kubernetes-Cluster-ca3f1a64e6fd4476ac5a76c8bfcd8624
+3. In order to pull the external adapter helm chart you need to have a GitHub PAT and add the chainlik helm repo using the instructions here: https://github.com/smartcontractkit/charts
+
+To spin up an adapter in the sdlc cluster:
+
+```bash
+# Build all packages
+yarn install
+yarn setup
+
+# Build the docker-compose
+# The uniqueName can be your name or something unique to you, for example in ci it will use the PR number
+# Change the adapter name to the adapter you are testing
+export AWS_PROFILE=sdlc-k8s
+export AWS_REGION=us-west-2
+export UNIQUE_NAME=unique-name
+export ADAPTER_NAME=coingecko
+export IMAGE_PREFIX=795953128386.dkr.ecr.us-west-2.amazonaws.com/adapters/
+export IMAGE_TAG=qa-${UNIQUE_NAME}
+IMAGE_TAG=${IMAGE_TAG} IMAGE_PREFIX=${IMAGE_PREFIX} yarn generate:docker-compose
+
+# Build the docker image
+docker-compose -f docker-compose.generated.yaml build ${ADAPTER_NAME}-adapter
+
+# Push adapter image to private ecr
+aws sso login --profile ${AWS_PROFILE}
+aws ecr get-login-password --region ${AWS_REGION} --profile ${AWS_PROFILE} | docker login --username AWS --password-stdin ${IMAGE_PREFIX}
+# If you need to create a repository for a new adapter it can be done like so:
+#aws ecr create-repository --region ${AWS_REGION} --profile ${AWS_PROFILE} --repository-name adapters/${ADAPTER_NAME} || true
+docker push ${IMAGE_PREFIX}${ADAPTER_NAME}-adapter:${IMAGE_TAG}
+
+# Start the adapter in the sdlc cluster
+yarn qa:adapter start ${ADAPTER_NAME} ${UNIQUE_NAME} ${IMAGE_TAG}
+```
+
+To tear down the deployment made above after you are done testing:
+
+```bash
+yarn qa:adapter stop ${ADAPTER_NAME} ${UNIQUE_NAME} ${UNIQUE_NAME}
+```
+
+To start running a test via Flux Emulator:
+
+```bash
+# Use the same unique and adapter name from when you started the adapter
+export UNIQUE_NAME=unique-name
+export ADAPTER_NAME=coingecko
+yarn qa:flux:configure start ${ADAPTER_NAME} ${UNIQUE_NAME}
+```
+
+To stop running a test via Flux Emulator:
+
+```bash
+yarn qa:flux:configure stop ${ADAPTER_NAME} ${UNIQUE_NAME}
+```
+
+To build a K6 payload file from the Flux Emulator config on WeiWatchers:
+
+```bash
+yarn qa:flux:configure k6payload ${ADAPTER_NAME} ${UNIQUE_NAME}
+```
+
+To start a test using k6 and the generated payload
+
+```bash
+export UNIQUE_NAME=unique-name
+export ADAPTER_NAME=coingecko
+export IMAGE_PREFIX=795953128386.dkr.ecr.us-west-2.amazonaws.com/adapters/
+# create the config
+yarn qa:flux:configure k6payload ${ADAPTER_NAME} ${UNIQUE_NAME}
+
+# Move to the k6 package and build/push
+cd ./packages/k6
+yarn build
+docker build -t 795953128386.dkr.ecr.us-west-2.amazonaws.com/k6:${UNIQUE_NAME} .
+docker push 795953128386.dkr.ecr.us-west-2.amazonaws.com/k6:${UNIQUE_NAME}
+helm upgrade k6-${UNIQUE_NAME} ./k8s \
+      --install \
+      --namespace k6-soak \
+      --create-namespace \
+      -f ./k8s/values.yaml \
+      --set image.tag=${UNIQUE_NAME} \
+      --set name=k6-${UNIQUE_NAME} \
+      --wait
+```
+
+To stop a test using k6 in the cluster
+```bash
+helm uninstall k6-${UNIQUE_NAME} \
+      --namespace k6-soak \
+      --wait
+```
+
 #### Adding Integration Test Fixtures
 
 We use `nock` for intercepting HTTP requests in integration tests and returning mock data.
@@ -480,6 +580,7 @@ The follow steps is the general pattern for writing an integration test.
 4. Now you should have a test that does not do any HTTP requests during execution.
 
 For more information, see the [Jest docs.](https://jestjs.io/docs/cli)
+
 
 #### Adding Provider API rate limits
 
