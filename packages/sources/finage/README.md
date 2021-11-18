@@ -10,9 +10,11 @@
 
 The adapter takes the following environment variables:
 
-| Required? |   Name    | Description | Options | Defaults to |
-| :-------: | :-------: | :---------: | :-----: | :---------: |
-|    ✅     | `API_KEY` |             |         |             |
+| Required? |          Name           |                     Description                     | Options |            Defaults to            |
+| :-------: | :---------------------: | :-------------------------------------------------: | :-----: | :-------------------------------: |
+|    ✅     |        `API_KEY`        |                                                     |         |                                   |
+|           | `STOCK_WS_API_ENDPOINT` | The Websocket endpoint to connect to for stock data |         | `wss://e4s39ar3mr.finage.ws:7002` |
+|           | `FOREX_WS_API_ENDPOINT` | The Websocket endpoint to connect to for forex data |         | `wss://w29hxx2ndd.finage.ws:8001` |
 
 ---
 
