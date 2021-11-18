@@ -16,7 +16,8 @@ Please be careful with the latitude/longitude and passed into this, since there 
 
 | Required? |   Name    |                                              Description                                              |                                        Options                                         | Defaults to |
 | :-------: | :-------: | :---------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------: | :---------: |
-|    ✅     | endpoint  |        The [Census Source/year](https://www.census.gov/data/developers/data-sets.html) to use         | dec_2010, acs5_2013, acs5_2014, acs5_2015, acs5_2016, acs5_2017, acs5_2018, acs5_2019  |             |
+|           | endpoint  |                                          The endpoint to use                                          |                                         census                                         |   census    |
+|    ✅     |  dataset  |        The [Census Dataset/year](https://www.census.gov/data/developers/data-sets.html) to use        | dec_2010, acs5_2013, acs5_2014, acs5_2015, acs5_2016, acs5_2017, acs5_2018, acs5_2019  |             |
 |    ✅     | variables |   An array of the [variables](https://api.census.gov/data/2010/dec/sf1/variables.html) to query for   |                                                                                        |             |
 |    ✅     | longitude |                              The longitude of the location to query for                               |                                                                                        |             |
 |    ✅     | latitude  |                              The longitude of the location to query for                               |                                                                                        |             |
@@ -24,11 +25,11 @@ Please be careful with the latitude/longitude and passed into this, since there 
 
 ---
 
-## Endpoints
+## Datasets
 
 ### Census Variables
 
-The available variables _vary by endpoint_. They are documented on the US Census website, but can be confusing. We highly recommend playing around with the Census APIs to understand the available variables.
+The available variables _vary by dataset_. They are documented on the US Census website, but can be confusing. We highly recommend playing around with the Census APIs to understand the available variables.
 
 Since we currently only support ACS 5 Year and Decennial, the variables available for each API/year combination are:
 
@@ -46,13 +47,13 @@ Example: https://api.census.gov/data/2010/dec/sf1/variables.html
 
 ### ACS 5 Year Input
 
-These endpoints use the American Community Survey 5 Year results, which are the most accurate of the ACS results. They provide results down to the [block group](https://www2.census.gov/geo/pdfs/reference/geodiagram.pdf), which is a geography defined by the US Census. Block groups can provide census data down to the neighborhood level (on average, areas of [600 to 3,000 people](https://en.wikipedia.org/wiki/Census_block_group)).
+These datasets use the American Community Survey 5 Year results, which are the most accurate of the ACS results. They provide results down to the [block group](https://www2.census.gov/geo/pdfs/reference/geodiagram.pdf), which is a geography defined by the US Census. Block groups can provide census data down to the neighborhood level (on average, areas of [600 to 3,000 people](https://en.wikipedia.org/wiki/Census_block_group)).
 
 ### Decennial Input
 
-These endpoints use the Decennial Census results, which is the most famous census and has the smallest geographies available. They provide results down to the [block](https://www2.census.gov/geo/pdfs/reference/geodiagram.pdf), which is another geography defined by the US Census, smaller. We do not (yet) support blocks, due to the confusion that can arise from inputting Decennial vs ACS 5 Year geographies.
+These datasets use the Decennial Census results, which is the most famous census and has the smallest geographies available. They provide results down to the [block](https://www2.census.gov/geo/pdfs/reference/geodiagram.pdf), which is another geography defined by the US Census, smaller. We do not (yet) support blocks, due to the confusion that can arise from inputting Decennial vs ACS 5 Year geographies.
 
-_The 2020 Decennial results will be released at the end of 2021. This endpoint will be added once it is released by the US Census._
+_The 2020 Decennial results will be released at the end of 2021. This dataset will be added once it is released by the US Census._
 
 ### Geographies
 
@@ -68,7 +69,7 @@ This is a request to get the Total Housing Units and Occupancy Status in the sur
 {
   "id": 1,
   "data": {
-    "endpoint": "acs5_2019",
+    "dataset": "acs5_2019",
     "variables": ["B25001_001E", "B25002_002E"],
     "geography": "tract",
     "latitude": 37.774929,

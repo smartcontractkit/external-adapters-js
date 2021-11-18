@@ -54,10 +54,9 @@ describe('execute', () => {
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
-          await execute(req.testData as AdapterRequest)
+          await execute(req.testData as AdapterRequest, undefined)
         } catch (error) {
           const errorResp = Requester.errored(jobID, error)
-          console.log({ errorResp })
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
         }
       })

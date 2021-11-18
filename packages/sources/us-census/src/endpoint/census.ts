@@ -3,7 +3,9 @@ import { AdapterRequest, Config, ExecuteWithConfig, InputParameters } from '@cha
 import census from 'citysdk'
 import { ethers } from 'ethers'
 
-type Endpoint =
+export const supportedEndpoints: string[] = ['census']
+
+type CensusDataset =
   | 'dec_2010'
   | 'acs5_2013'
   | 'acs5_2014'
@@ -13,7 +15,7 @@ type Endpoint =
   | 'acs5_2018'
   | 'acs5_2019'
 
-export const supportedEndpoints: Endpoint[] = [
+export const supportedDatasets: CensusDataset[] = [
   'dec_2010',
   'acs5_2013',
   'acs5_2014',
@@ -25,6 +27,7 @@ export const supportedEndpoints: Endpoint[] = [
 ]
 
 export const inputParameters: InputParameters = {
+  dataset: true,
   variables: true,
   longitude: true,
   latitude: true,
@@ -57,14 +60,14 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     const result = await new Promise<Record<string, string | number>[]>((resolve, reject) =>
       census(
         {
-          vintage: getYearForEndpoint(request.data.endpoint),
+          vintage: getYearForDataset(request.data.dataset),
           geoHierarchy: {
             [geographyResolved]: {
               lat: latitude,
               lng: longitude,
             },
           },
-          sourcePath: getSourcePathForEndpoint(request.data.endpoint),
+          sourcePath: getSourcePathForDataset(request.data.dataset),
           values: ['NAME', ...variables],
           statsKey: config.apiKey === 'test_api_key' ? undefined : config.apiKey,
         },
@@ -110,11 +113,11 @@ const validateRequest = (request: AdapterRequest) => {
     })
   }
 
-  if (!supportedEndpoints.includes(request.data.endpoint)) {
+  if (!supportedDatasets.includes(request.data.dataset)) {
     throw new AdapterError({
       jobRunID: request.id,
       statusCode: 400,
-      message: 'Endpoint is not valid',
+      message: 'Dataset is not valid',
     })
   }
 
@@ -127,30 +130,29 @@ const validateRequest = (request: AdapterRequest) => {
   }
 }
 
-const getYearForEndpoint = (endpoint: Endpoint) =>
-  endpoint === 'dec_2010'
+const getYearForDataset = (dataset: CensusDataset) =>
+  dataset === 'dec_2010'
     ? 2010
-    : endpoint === 'acs5_2013'
+    : dataset === 'acs5_2013'
     ? 2013
-    : endpoint === 'acs5_2014'
+    : dataset === 'acs5_2014'
     ? 2014
-    : endpoint === 'acs5_2015'
+    : dataset === 'acs5_2015'
     ? 2015
-    : endpoint === 'acs5_2016'
+    : dataset === 'acs5_2016'
     ? 2016
-    : endpoint === 'acs5_2017'
+    : dataset === 'acs5_2017'
     ? 2017
-    : endpoint === 'acs5_2018'
+    : dataset === 'acs5_2018'
     ? 2018
-    : endpoint === 'acs5_2019'
+    : dataset === 'acs5_2019'
     ? 2019
     : -1
 
-const getSourcePathForEndpoint = (endpoint: Endpoint) =>
-  endpoint === 'dec_2010' ? ['dec', 'sf1'] : ['acs', 'acs5']
+const getSourcePathForDataset = (dataset: CensusDataset) =>
+  dataset === 'dec_2010' ? ['dec', 'sf1'] : ['acs', 'acs5']
 
 const encodeResult = (fipsName: string, variables: (string | number)[]) => {
-  console.log({ variables })
   const types = ['string', ...Array(variables.length).fill('int256')]
   const values = [fipsName, ...variables]
   return ethers.utils.defaultAbiCoder.encode(types, values)
