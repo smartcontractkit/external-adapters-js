@@ -1,30 +1,16 @@
 # Chainlink Defi-dozen Composite Adapter
 
-A template to be used as an example for new [Composite External Adapters](../../composites)
-
-(please fill out with corresponding information)
-
-An example composite adapter description
-
 ## Configuration
 
-The adapter takes the following environment variables:
-
-| Required? |        Name        |           Description           | Options | Defaults to |
-| :-------: | :----------------: | :-----------------------------: | :-----: | :---------: |
-|    ✅     | `ETHEREUM_RPC_URL` | Defi-dozen _required_ parameter |         |             |
-|           |      `OPTION`      | Defi-dozen _optional_ parameter |         |   `true`    |
+**Environment variables must be set according to the Token Allocation adapter.**
+This composite adapter executes the code from the Token Allocation composite adapter. As such the same configuration and input parameters apply to this adapter. See [../token-allocation/README.md](../token-allocation/README.md) for more details.
 
 ## Running
 
 See the [Composite Adapter README](../README.md) for more information on how to get started.
 
-### Input Params
-
-| Required? |            Name            |               Description                |       Options       | Defaults to |
-| :-------: | :------------------------: | :--------------------------------------: | :-----------------: | :---------: |
-|    ✅     | `base`, `from`, or `coin`  |   The symbol of the currency to query    | `BTC`, `ETH`, `USD` |             |
-|    ✅     | `quote`, `to`, or `market` | The symbol of the currency to convert to | `BTC`, `ETH`, `USD` |             |
+**Additional environment input params must be set according to the Token Allocation adapter.**
+This composite adapter executes the code from the Token Allocation composite adapter. As such the same configuration and input parameters apply to this adapter. See [../token-allocation/README.md](../token-allocation/README.md) for more details.
 
 ### Sample Input
 
@@ -32,8 +18,7 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 {
   "id": "1",
   "data": {
-    "base": "ETH",
-    "quote": "USD"
+    "sourc": "coinmarketcap"
   }
 }
 ```
@@ -42,11 +27,98 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 
 ```json
 {
-  "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
+  "jobRunID": "1",
+  "result": 35298.99851077005,
+  "statusCode": 200,
   "data": {
-    "price": 77777.77,
-    "result": 77777.77
-  },
-  "statusCode": 200
+    "sources": [],
+    "payload": {
+      "UNI": {
+        "quote": {
+          "USD": {
+            "price": 20.509754531374618
+          }
+        }
+      },
+      "LINK": {
+        "quote": {
+          "USD": {
+            "price": 27.217264320933708
+          }
+        }
+      },
+      "AAVE": {
+        "quote": {
+          "USD": {
+            "price": 265.70665175995515
+          }
+        }
+      },
+      "GRT": {
+        "quote": {
+          "USD": {
+            "price": 0.8993708849816983
+          }
+        }
+      },
+      "MKR": {
+        "quote": {
+          "USD": {
+            "price": 2847.0521691613285
+          }
+        }
+      },
+      "COMP": {
+        "quote": {
+          "USD": {
+            "price": 301.82761720395234
+          }
+        }
+      },
+      "SUSHI": {
+        "quote": {
+          "USD": {
+            "price": 9.010604226485228
+          }
+        }
+      },
+      "SNX": {
+        "quote": {
+          "USD": {
+            "price": 8.385971829948389
+          }
+        }
+      },
+      "YFI": {
+        "quote": {
+          "USD": {
+            "price": 31799.15653662672
+          }
+        }
+      },
+      "BAT": {
+        "quote": {
+          "USD": {
+            "price": 1.0054931999911176
+          }
+        }
+      },
+      "PERP": {
+        "quote": {
+          "USD": {
+            "price": 14.2816854008598
+          }
+        }
+      },
+      "BNT": {
+        "quote": {
+          "USD": {
+            "price": 3.945391623516949
+          }
+        }
+      }
+    },
+    "result": 35298.99851077005
+  }
 }
 ```
