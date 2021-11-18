@@ -8,7 +8,6 @@ import * as http from 'http'
 
 beforeAll(() => {
   process.env.CACHE_ENABLED = 'false'
-  process.env.API_KEY = process.env.API_KEY || 'fake_api'
   if (process.env.RECORD) {
     nock.recorder.rec()
   }

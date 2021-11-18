@@ -34,20 +34,9 @@
 ```json
 {
   "jobRunID": "1",
-  "result": [
-    {
-      "address": "0x6E4C739B4d66E7104739Fc0F235E9c9FFD1F8da4"
-    },
-    {
-      "address": "0x67a53ADbA557E6129D3Eb1aab090E23D22711DB2"
-    },
-    {
-      "address": "0x57Fc3f242aD907E9518645Ba4D0802F7a65B3677"
-    }
-  ],
-  "statusCode": 200,
-  "data": {
-    "result": [
+  "result": {
+    "coin": "ETH",
+    "addresses": [
       {
         "address": "0x6E4C739B4d66E7104739Fc0F235E9c9FFD1F8da4"
       },
@@ -58,6 +47,23 @@
         "address": "0x57Fc3f242aD907E9518645Ba4D0802F7a65B3677"
       }
     ]
+  },
+  "statusCode": 200,
+  "data": {
+    "result": {
+      "coin": "ETH",
+      "addresses": [
+        {
+          "address": "0x6E4C739B4d66E7104739Fc0F235E9c9FFD1F8da4"
+        },
+        {
+          "address": "0x67a53ADbA557E6129D3Eb1aab090E23D22711DB2"
+        },
+        {
+          "address": "0x57Fc3f242aD907E9518645Ba4D0802F7a65B3677"
+        }
+      ]
+    }
   }
 }
 ```

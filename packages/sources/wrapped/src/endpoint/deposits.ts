@@ -16,7 +16,7 @@ const customError = (data: any) => {
 }
 
 export const inputParameters: InputParameters = {
-  symbol: false,
+  symbol: true,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -24,7 +24,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const symbol = validator.validated.data.symbol || 'ETH'
+  const symbol = validator.validated.data.symbol
   const url = `/deposits`
 
   const options = { ...config.api, url }
