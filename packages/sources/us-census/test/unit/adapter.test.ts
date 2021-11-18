@@ -14,6 +14,19 @@ describe('execute', () => {
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },
       {
+        name: 'variables empty',
+        testData: {
+          id: jobID,
+          data: {
+            endpoint: 'acs5_2019',
+            geography: 'tract',
+            latitude: 37.774929,
+            longitude: -122.419418,
+            variables: [],
+          },
+        },
+      },
+      {
         name: 'variables not supplied',
         testData: {
           id: jobID,
@@ -33,6 +46,19 @@ describe('execute', () => {
             endpoint: 'acs5_2019',
             variables: ['B25001_001E', 'B25002_002E'],
             geography: 'tract',
+          },
+        },
+      },
+      {
+        name: 'invalid endpoint',
+        testData: {
+          id: jobID,
+          data: {
+            endpoint: 'acs5_1890',
+            variables: ['B25001_001E', 'B25002_002E'],
+            geography: 'tract',
+            latitude: 37.774929,
+            longitude: -122.419418,
           },
         },
       },

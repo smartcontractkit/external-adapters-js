@@ -184,3 +184,93 @@ export const mockNewYorkStateSuccessResponse = () => {
       ],
     ])
 }
+
+export const mock2013SuccessResponse = () => {
+  nock('https://tigerweb.geo.census.gov', { encodedQueryParams: true })
+    .get('/arcgis/rest/services/TIGERweb/tigerWMS_ACS2013/MapServer/82/query')
+    .query((query) => true)
+    .reply(200, (_, request) => validTigerWebResponse)
+
+  nock('https://api.census.gov', { encodedQueryParams: true })
+    .get('/data/2013/acs/acs5')
+    .query((query) => true)
+    .reply(200, (_, request) => [
+      ['NAME', 'B08101_001E', 'state'],
+      ['California', '16290887', '06'],
+    ])
+}
+
+export const mock2014SuccessResponse = () => {
+  nock('https://tigerweb.geo.census.gov', { encodedQueryParams: true })
+    .get('/arcgis/rest/services/TIGERweb/tigerWMS_ACS2014/MapServer/82/query')
+    .query((query) => true)
+    .reply(200, (_, request) => validTigerWebResponse)
+
+  nock('https://api.census.gov', { encodedQueryParams: true })
+    .get('/data/2014/acs/acs5')
+    .query((query) => true)
+    .reply(200, (_, request) => [
+      ['NAME', 'B08101_001E', 'state'],
+      ['California', '16529777', '06'],
+    ])
+}
+
+export const mock2015SuccessResponse = () => {
+  nock('https://tigerweb.geo.census.gov', { encodedQueryParams: true })
+    .get('/arcgis/rest/services/TIGERweb/tigerWMS_ACS2015/MapServer/82/query')
+    .query((query) => true)
+    .reply(200, (_, request) => validTigerWebResponse)
+
+  nock('https://api.census.gov', { encodedQueryParams: true })
+    .get('/data/2015/acs/acs5')
+    .query((query) => true)
+    .reply(200, (_, request) => [
+      ['NAME', 'B08101_001E', 'state'],
+      ['California', '16869052', '06'],
+    ])
+}
+
+export const mock2016SuccessResponse = () => {
+  nock('https://tigerweb.geo.census.gov', { encodedQueryParams: true })
+    .get('/arcgis/rest/services/TIGERweb/tigerWMS_ACS2016/MapServer/82/query')
+    .query((query) => true)
+    .reply(200, (_, request) => validTigerWebResponse)
+
+  nock('https://api.census.gov', { encodedQueryParams: true })
+    .get('/data/2016/acs/acs5')
+    .query((query) => true)
+    .reply(200, (_, request) => [
+      ['NAME', 'B08101_001E', 'state'],
+      ['California', '17193695', '06'],
+    ])
+}
+
+export const mock2017SuccessResponse = () => {
+  nock('https://tigerweb.geo.census.gov', { encodedQueryParams: true })
+    .get('/arcgis/rest/services/TIGERweb/tigerWMS_ACS2017/MapServer/82/query')
+    .query((query) => true)
+    .reply(200, (_, request) => validTigerWebResponse)
+
+  nock('https://api.census.gov', { encodedQueryParams: true })
+    .get('/data/2017/acs/acs5')
+    .query((query) => true)
+    .reply(200, (_, request) => [
+      ['NAME', 'B08101_001E', 'state'],
+      ['California', '17589758', '06'],
+    ])
+}
+
+export const mock2018SuccessResponse = () => {
+  nock('https://tigerweb.geo.census.gov', { encodedQueryParams: true })
+    .get('/arcgis/rest/services/TIGERweb/tigerWMS_ACS2018/MapServer/82/query')
+    .query((query) => true)
+    .reply(200, (_, request) => validTigerWebResponse)
+
+  nock('https://api.census.gov', { encodedQueryParams: true })
+    .get('/data/2018/acs/acs5')
+    .query((query) => true)
+    .reply(200, (_, request) => [
+      ['NAME', 'B08101_001E', 'state'],
+      ['California', '17904213', '06'],
+    ])
+}

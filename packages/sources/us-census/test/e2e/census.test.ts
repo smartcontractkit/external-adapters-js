@@ -16,7 +16,7 @@ describe('execute', () => {
         testData: {
           id: jobID,
           data: {
-            dataset: 'acs5_2016',
+            dataset: 'acs5_2014',
             variables: ['B25001_001E', 'B25002_002E', 'B25003_002E', 'B25003_003E'],
             geography: 'block group',
             latitude: 37.774929,
@@ -29,7 +29,7 @@ describe('execute', () => {
         testData: {
           id: jobID,
           data: {
-            dataset: 'acs5_2016',
+            dataset: 'acs5_2018',
             variables: ['B25001_001E', 'B25002_002E', 'B25003_002E', 'B25003_003E'],
             geography: 'block group',
             latitude: 33.448376,
@@ -42,7 +42,7 @@ describe('execute', () => {
         testData: {
           id: jobID,
           data: {
-            dataset: 'acs5_2016',
+            dataset: 'acs5_2013',
             variables: ['B25001_001E'],
             latitude: 37.774929,
             longitude: -122.419418,
@@ -54,6 +54,7 @@ describe('execute', () => {
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         const adapterResponse = await execute(req.testData as AdapterRequest, undefined)
+        console.log({ adapterResponse })
         assertSuccess(adapterResponse.statusCode, adapterResponse, jobID)
       })
     })

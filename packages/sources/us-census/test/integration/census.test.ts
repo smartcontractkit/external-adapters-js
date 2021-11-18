@@ -10,6 +10,12 @@ import {
   mockResponseWithInvalidVariable,
   mockAlternativeSuccessResponse,
   mockNewYorkStateSuccessResponse,
+  mock2013SuccessResponse,
+  mock2014SuccessResponse,
+  mock2015SuccessResponse,
+  mock2016SuccessResponse,
+  mock2017SuccessResponse,
+  mock2018SuccessResponse,
 } from './fixtures'
 
 let oldEnv: NodeJS.ProcessEnv
@@ -81,8 +87,8 @@ describe('execute', () => {
         geography: 'state',
         // means of transportation to work (car, public, walk)
         variables: ['B08101_001E', 'B08101_017E', 'B08101_025E', 'B08101_033E'],
-        latitude: 33.555555,
-        longitude: -111.074036,
+        latitude: 37.774929,
+        longitude: -122.419418,
       },
     }
 
@@ -130,55 +136,217 @@ describe('execute', () => {
     })
   })
 
-  describe('with invalid geography', () => {
+  describe('with valid input 2013', () => {
     const data: AdapterRequest = {
       id,
       data: {
-        dataset: 'acs5_2019',
+        dataset: 'acs5_2013',
         geography: 'state',
-        variables: ['B25001_001E', 'B25002_002E'],
-        latitude: -1,
-        longitude: -122.419418,
-      },
-    }
-
-    mockResponseWithInvalidLatitude()
-
-    it('should return error', async () => {
-      const response = await req
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(400)
-      expect(response.body).toMatchSnapshot()
-    })
-  })
-
-  describe('with invalid variable', () => {
-    const data: AdapterRequest = {
-      id,
-      data: {
-        dataset: 'acs5_2019',
-        geography: 'state',
-        variables: ['SOME_INVALID_VAR'],
+        // means of transportation to work
+        variables: ['B08101_001E'],
         latitude: 37.774929,
         longitude: -122.419418,
       },
     }
 
-    mockResponseWithInvalidVariable()
+    mock2013SuccessResponse()
 
-    it('should return error', async () => {
+    it('should return success', async () => {
       const response = await req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
-        .expect(400)
+        .expect(200)
       expect(response.body).toMatchSnapshot()
     })
   })
+
+  describe('with valid input 2014', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        dataset: 'acs5_2014',
+        geography: 'state',
+        // means of transportation to work
+        variables: ['B08101_001E'],
+        latitude: 37.774929,
+        longitude: -122.419418,
+      },
+    }
+
+    mock2014SuccessResponse()
+
+    it('should return success', async () => {
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('with valid input 2015', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        dataset: 'acs5_2015',
+        geography: 'state',
+        // means of transportation to work
+        variables: ['B08101_001E'],
+        latitude: 37.774929,
+        longitude: -122.419418,
+      },
+    }
+
+    mock2015SuccessResponse()
+
+    it('should return success', async () => {
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('with valid input 2016', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        dataset: 'acs5_2016',
+        geography: 'state',
+        // means of transportation to work
+        variables: ['B08101_001E'],
+        latitude: 37.774929,
+        longitude: -122.419418,
+      },
+    }
+
+    mock2016SuccessResponse()
+
+    it('should return success', async () => {
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('with valid input 2017', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        dataset: 'acs5_2017',
+        geography: 'state',
+        // means of transportation to work
+        variables: ['B08101_001E'],
+        latitude: 37.774929,
+        longitude: -122.419418,
+      },
+    }
+
+    mock2017SuccessResponse()
+
+    it('should return success', async () => {
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('with valid input 2018', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        dataset: 'acs5_2018',
+        geography: 'state',
+        // means of transportation to work
+        variables: ['B08101_001E'],
+        latitude: 37.774929,
+        longitude: -122.419418,
+      },
+    }
+
+    mock2018SuccessResponse()
+
+    it('should return success', async () => {
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  // describe('with invalid geography', () => {
+  //   const data: AdapterRequest = {
+  //     id,
+  //     data: {
+  //       dataset: 'acs5_2019',
+  //       geography: 'state',
+  //       variables: ['B25001_001E', 'B25002_002E'],
+  //       latitude: -1,
+  //       longitude: -122.419418,
+  //     },
+  //   }
+
+  //   mockResponseWithInvalidLatitude()
+
+  //   it('should return error', async () => {
+  //     const response = await req
+  //       .post('/')
+  //       .send(data)
+  //       .set('Accept', '*/*')
+  //       .set('Content-Type', 'application/json')
+  //       .expect('Content-Type', /json/)
+  //       .expect(400)
+  //     expect(response.body).toMatchSnapshot()
+  //   })
+  // })
+
+  // describe('with invalid variable', () => {
+  //   const data: AdapterRequest = {
+  //     id,
+  //     data: {
+  //       dataset: 'acs5_2019',
+  //       geography: 'state',
+  //       variables: ['SOME_INVALID_VAR'],
+  //       latitude: 37.774929,
+  //       longitude: -122.419418,
+  //     },
+  //   }
+
+  //   mockResponseWithInvalidVariable()
+
+  //   it('should return error', async () => {
+  //     const response = await req
+  //       .post('/')
+  //       .send(data)
+  //       .set('Accept', '*/*')
+  //       .set('Content-Type', 'application/json')
+  //       .expect('Content-Type', /json/)
+  //       .expect(400)
+  //     expect(response.body).toMatchSnapshot()
+  //   })
+  // })
 })

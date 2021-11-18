@@ -6,17 +6,12 @@ import { ethers } from 'ethers'
 export const supportedEndpoints: string[] = ['census']
 
 type CensusDataset =
-  | 'dec_2010'
-  | 'acs5_2013'
-  | 'acs5_2014'
-  | 'acs5_2015'
-  | 'acs5_2016'
-  | 'acs5_2017'
-  | 'acs5_2018'
-  | 'acs5_2019'
+  // | 'dec_2010' // not supported yet (pending upstream bug fix)
+  // | 'dec_2020' // not supported yet
+  'acs5_2013' | 'acs5_2014' | 'acs5_2015' | 'acs5_2016' | 'acs5_2017' | 'acs5_2018' | 'acs5_2019'
 
 export const supportedDatasets: CensusDataset[] = [
-  'dec_2010',
+  // "dec_2020", "dec_2010" - not supported yet
   'acs5_2013',
   'acs5_2014',
   'acs5_2015',
@@ -57,17 +52,19 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     //   county: '075',
     //   tract: '020100'
     // }
+    const year = getYearForDataset(request.data.dataset)
+
     const result = await new Promise<Record<string, string | number>[]>((resolve, reject) =>
       census(
         {
-          vintage: getYearForDataset(request.data.dataset),
+          vintage: year,
           geoHierarchy: {
             [geographyResolved]: {
               lat: latitude,
               lng: longitude,
             },
           },
-          sourcePath: getSourcePathForDataset(request.data.dataset),
+          sourcePath: getSourcePathForDataset(),
           values: ['NAME', ...variables],
           statsKey: config.apiKey === 'test_api_key' ? undefined : config.apiKey,
         },
@@ -131,9 +128,7 @@ const validateRequest = (request: AdapterRequest) => {
 }
 
 const getYearForDataset = (dataset: CensusDataset) =>
-  dataset === 'dec_2010'
-    ? 2010
-    : dataset === 'acs5_2013'
+  dataset === 'acs5_2013'
     ? 2013
     : dataset === 'acs5_2014'
     ? 2014
@@ -145,12 +140,9 @@ const getYearForDataset = (dataset: CensusDataset) =>
     ? 2017
     : dataset === 'acs5_2018'
     ? 2018
-    : dataset === 'acs5_2019'
-    ? 2019
-    : -1
+    : 2019
 
-const getSourcePathForDataset = (dataset: CensusDataset) =>
-  dataset === 'dec_2010' ? ['dec', 'sf1'] : ['acs', 'acs5']
+const getSourcePathForDataset = () => ['acs', 'acs5']
 
 const encodeResult = (fipsName: string, variables: (string | number)[]) => {
   const types = ['string', ...Array(variables.length).fill('int256')]
