@@ -4682,7 +4682,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@reduxjs/toolkit", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:1.6.1"],
             ["@types/express", "npm:4.17.13"],
             ["@types/express-rate-limit", "npm:5.1.3"],
-            ["@types/express-slow-down", "npm:1.3.1"],
+            ["@types/express-slow-down", "npm:1.3.2"],
             ["@types/fast-redact", "npm:3.0.1"],
             ["@types/jest", "npm:27.0.2"],
             ["@types/lodash", "npm:4.14.177"],
@@ -10636,10 +10636,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@types/express-slow-down", [
-        ["npm:1.3.1", {
-          "packageLocation": "./.yarn/cache/@types-express-slow-down-npm-1.3.1-a6a6b79749-234bb196a4.zip/node_modules/@types/express-slow-down/",
+        ["npm:1.3.2", {
+          "packageLocation": "./.yarn/cache/@types-express-slow-down-npm-1.3.2-b28f05256e-609f1cfde9.zip/node_modules/@types/express-slow-down/",
           "packageDependencies": [
-            ["@types/express-slow-down", "npm:1.3.1"],
+            ["@types/express-slow-down", "npm:1.3.2"],
             ["@types/express", "npm:4.17.13"]
           ],
           "linkType": "HARD",
