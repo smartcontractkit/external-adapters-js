@@ -1,12 +1,12 @@
 const environmentVariables = [
-  { envKey: 'AMBERDATA_ADAPTER_URL', value: 'amberdata' },
-  { envKey: 'COINAPI_ADAPTER_URL', value: 'coinapi' },
-  { envKey: 'COINGECKO_ADAPTER_URL', value: 'coingecko' },
-  { envKey: 'COINMARKETCAP_ADAPTER_URL', value: 'coinmarketcap' },
-  { envKey: 'COINPAPRIKA_ADAPTER_URL', value: 'coinpaprika' },
-  { envKey: 'CRYPTOCOMPARE_ADAPTER_URL', value: 'cryptocompare' },
-  { envKey: 'KAIKO_ADAPTER_URL', value: 'kaiko' },
-  { envKey: 'NOMICS_ADAPTER_URL', value: 'nomics' },
+  { envKey: 'ADAPTER_URL_AMBERDATA', value: 'amberdata' },
+  { envKey: 'ADAPTER_URL_COINAPI', value: 'coinapi' },
+  { envKey: 'ADAPTER_URL_COINGECKO', value: 'coingecko' },
+  { envKey: 'ADAPTER_URL_COINMARKETCAP', value: 'coinmarketcap' },
+  { envKey: 'ADAPTER_URL_COINPAPRIKA', value: 'coinpaprika' },
+  { envKey: 'ADAPTER_URL_CRYPTOCOMPARE', value: 'cryptocompare' },
+  { envKey: 'ADAPTER_URL_KAIKO', value: 'kaiko' },
+  { envKey: 'ADAPTER_URL_NOMICS', value: 'nomics' },
 ]
 
 function searchEnvironment(environmentVariables) {

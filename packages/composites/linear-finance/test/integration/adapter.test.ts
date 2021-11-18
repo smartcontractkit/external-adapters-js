@@ -12,8 +12,8 @@ describe('execute', () => {
   const req = request('localhost:8080')
   beforeAll(async () => {
     process.env.CACHE_ENABLED = 'false'
-    process.env.COINMARKETCAP_ADAPTER_URL =
-      process.env.COINMARKETCAP_ADAPTER_URL || 'http://localhost:8082'
+    process.env.ADAPTER_URL_COINMARKETCAP =
+      process.env.ADAPTER_URL_COINMARKETCAP || 'http://localhost:8082'
     if (process.env.RECORD) {
       nock.recorder.rec()
     }

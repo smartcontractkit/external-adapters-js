@@ -66,7 +66,7 @@ If an environment variable can be dynamically named, use parentheses to indicate
  * @swagger
  * securityDefinitions:
  *  environment-variables:
- *    (SOURCE)_ADAPTER_URL:
+ *    ADAPTER_URL_(SOURCE):
  *      required: true
  */
 ```
@@ -80,14 +80,14 @@ Additionally, `oneOf` can be used to indicate a list of environment variables wh
  *  environment-variables:
  *    source-adapter:
  *      oneOf:
- *        - XBTO_ADAPTER_URL
- *        - GENESIS_VOLATILITY_ADAPTER_URL
- *        - DXFEED_ADAPTER_URL
+ *        - ADAPTER_URL_XBTO
+ *        - ADAPTER_URL_GENESIS_VOLATILITY
+ *        - ADAPTER_URL_DXFEED
  *    check-adapter:
  *      oneOf:
- *        - DERIBIT_ADAPTER_URL
- *        - OILPRICEAPI_COM_ADAPTER_URL
- *        - DXFEED_ADAPTER_URL
+ *        - ADAPTER_URL_DERIBIT
+ *        - ADAPTER_URL_OILPRICEAPI_COM
+ *        - ADAPTER_URL_DXFEED
  *    RPC_URL:
  *      required: false
  */

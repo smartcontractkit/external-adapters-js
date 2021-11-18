@@ -15,7 +15,7 @@ The adapter takes the following environment variables:
 | Required? |                    Name                     |                                 Description                                 | Options | Defaults to |
 | :-------: | :-----------------------------------------: | :-------------------------------------------------------------------------: | :-----: | :---------: |
 |           | `CHECK_API_KEY` (when using `tradinghours`) |                 An API key when needed by a check provider                  |         |             |
-|    ✅     |           `{SOURCE}_ADAPTER_URL`            | The URL location for the price data provider adapter when `source={SOURCE}` |         |             |
+|    ✅     |           `ADAPTER_URL_{SOURCE}`            | The URL location for the price data provider adapter when `source={SOURCE}` |         |             |
 |    ✅     |             `[NETWORK]_RPC_URL`             | RPC URL to read the on-chain reference data value (e.g. `ETHEREUM_RPC_URL`) |         |             |
 
 ## Running
