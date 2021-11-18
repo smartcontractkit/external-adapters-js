@@ -10,15 +10,15 @@ To be functional at least one of the following underyling adapter locations will
 
 | Required? |            Name             |                   Description                    | Options | Defaults to |
 | :-------: | :-------------------------: | :----------------------------------------------: | :-----: | :---------: |
-|           |   `AMBERDATA_ADAPTER_URL`   |  The location of an Amberdata external adapter   |         |             |
-|           |    `COINAPI_ADAPTER_URL`    |    The location of a CoinAPI external adapter    |         |             |
-|           |   `COINGECKO_ADAPTER_URL`   |   The location of a CoinGecko external adapter   |         |             |
-|           | `COINMARKETCAP_ADAPTER_URL` | The location of a CoinMarketCap external adapter |         |             |
-|           |  `COINPAPRIKA_ADAPTER_URL`  |  The location of a CoinPaprika external adapter  |         |             |
-|           | `CRYPTOCOMPARE_ADAPTER_URL` | The location of a CryptoCompare external adapter |         |             |
-|           |     `KAIKO_ADAPTER_URL`     |     The location of a Kaiko external adapter     |         |             |
-|           |    `NOMICS_ADAPTER_URL`     |    The location of a Nomics external adapter     |         |             |
-|           |    `TIINGO_ADAPTER_URL`     |    The location of a Tiingo external adapter     |         |             |
+|           |   `ADAPTER_URL_AMBERDATA`   |  The location of an Amberdata external adapter   |         |             |
+|           |    `ADAPTER_URL_COINAPI`    |    The location of a CoinAPI external adapter    |         |             |
+|           |   `ADAPTER_URL_COINGECKO`   |   The location of a CoinGecko external adapter   |         |             |
+|           | `ADAPTER_URL_COINMARKETCAP` | The location of a CoinMarketCap external adapter |         |             |
+|           |  `ADAPTER_URL_COINPAPRIKA`  |  The location of a CoinPaprika external adapter  |         |             |
+|           | `ADAPTER_URL_CRYPTOCOMPARE` | The location of a CryptoCompare external adapter |         |             |
+|           |     `ADAPTER_URL_KAIKO`     |     The location of a Kaiko external adapter     |         |             |
+|           |    `ADAPTER_URL_NOMICS`     |    The location of a Nomics external adapter     |         |             |
+|           |    `ADAPTER_URL_TIINGO`     |    The location of a Tiingo external adapter     |         |             |
 
 Optionally the default behavior of the composite adapter can be configured
 

@@ -7,7 +7,7 @@ describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
   process.env.XDAI_RPC_URL = process.env.XDAI_RPC_URL || 'https://rpc.xdaichain.com/'
-  process.env.TIINGO_ADAPTER_URL = process.env.TIINGO_ADAPTER_URL || 'http://localhost:3000'
+  process.env.ADAPTER_URL_TIINGO = process.env.ADAPTER_URL_TIINGO || 'http://localhost:3000'
 
   describe('successful calls @e2e', () => {
     const requests = [

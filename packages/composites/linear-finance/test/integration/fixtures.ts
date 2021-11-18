@@ -2,7 +2,7 @@ import nock from 'nock'
 
 export const adapterConfig = {
   coinmarketcap: {
-    adapterUrlEnvVar: 'COINMARKETCAP_ADAPTER_URL',
+    adapterUrlEnvVar: 'ADAPTER_URL_COINMARKETCAP',
     adapterUrl: 'http://localhost:8082',
   },
 }

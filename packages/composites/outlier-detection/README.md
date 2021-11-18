@@ -13,7 +13,7 @@ The adapter takes the following environment variables:
 
 | Required? |          Name          |                 Description                 | Options | Defaults to |
 | :-------: | :--------------------: | :-----------------------------------------: | :-----: | :---------: |
-|           | `[source]_ADAPTER_URL` | The adapter URL to query for any `[source]` |         |             |
+|           | `ADAPTER_URL_[source]` | The adapter URL to query for any `[source]` |         |             |
 
 2. A check adapter (requires at least 1)
 
@@ -21,7 +21,7 @@ The adapter takes the following environment variables:
 
 | Required? |         Name          |                Description                 | Options | Defaults to |
 | :-------: | :-------------------: | :----------------------------------------: | :-----: | :---------: |
-|           | `[check]_ADAPTER_URL` | The adapter URL to query for any `[check]` |         |             |
+|           | `ADAPTER_URL_[check]` | The adapter URL to query for any `[check]` |         |             |
 
 3. An RPC URL to read the on-chain reference data value. Required by runlog requests.
 

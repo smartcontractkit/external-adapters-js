@@ -5,8 +5,8 @@ Array [
   Object {
     "location": "packages/composites/apy-finance",
     "schema": Object {
-      "AMBERDATA_ADAPTER_URL": Object {
-        "originalKey": "AMBERDATA_ADAPTER_URL",
+      "ADAPTER_URL_AMBERDATA": Object {
+        "originalKey": "ADAPTER_URL_AMBERDATA",
         "type": "string",
       },
       "APY_FINANCE_ADAPTER_RPC_URL": Object {
@@ -70,24 +70,24 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
-      "COINAPI_ADAPTER_URL": Object {
-        "originalKey": "COINAPI_ADAPTER_URL",
+      "ADAPTER_URL_COINAPI": Object {
+        "originalKey": "ADAPTER_URL_COINAPI",
         "type": "string",
       },
-      "COINGECKO_ADAPTER_URL": Object {
-        "originalKey": "COINGECKO_ADAPTER_URL",
+      "ADAPTER_URL_COINGECKO": Object {
+        "originalKey": "ADAPTER_URL_COINGECKO",
         "type": "string",
       },
-      "COINMARKETCAP_ADAPTER_URL": Object {
-        "originalKey": "COINMARKETCAP_ADAPTER_URL",
+      "ADAPTER_URL_COINMARKETCAP": Object {
+        "originalKey": "ADAPTER_URL_COINMARKETCAP",
         "type": "string",
       },
-      "COINPAPRIKA_ADAPTER_URL": Object {
-        "originalKey": "COINPAPRIKA_ADAPTER_URL",
+      "ADAPTER_URL_COINPAPRIKA": Object {
+        "originalKey": "ADAPTER_URL_COINPAPRIKA",
         "type": "string",
       },
-      "CRYPTOCOMPARE_ADAPTER_URL": Object {
-        "originalKey": "CRYPTOCOMPARE_ADAPTER_URL",
+      "ADAPTER_URL_CRYPTOCOMPARE": Object {
+        "originalKey": "ADAPTER_URL_CRYPTOCOMPARE",
         "type": "string",
       },
       "DEBUG": Object {
@@ -124,8 +124,8 @@ Array [
         "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
-      "KAIKO_ADAPTER_URL": Object {
-        "originalKey": "KAIKO_ADAPTER_URL",
+      "ADAPTER_URL_KAIKO": Object {
+        "originalKey": "ADAPTER_URL_KAIKO",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -144,8 +144,8 @@ Array [
         "originalKey": "NODE_ENV",
         "type": "string",
       },
-      "NOMICS_ADAPTER_URL": Object {
-        "originalKey": "NOMICS_ADAPTER_URL",
+      "ADAPTER_URL_NOMICS": Object {
+        "originalKey": "ADAPTER_URL_NOMICS",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -356,8 +356,8 @@ Array [
   Object {
     "location": "packages/composites/crypto-volatility-index",
     "schema": Object {
-      "AMBERDATA_ADAPTER_URL": Object {
-        "originalKey": "AMBERDATA_ADAPTER_URL",
+      "ADAPTER_URL_AMBERDATA": Object {
+        "originalKey": "ADAPTER_URL_AMBERDATA",
         "type": "string",
       },
       "BASE_URL": Object {
@@ -416,24 +416,24 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
-      "COINAPI_ADAPTER_URL": Object {
-        "originalKey": "COINAPI_ADAPTER_URL",
+      "ADAPTER_URL_COINAPI": Object {
+        "originalKey": "ADAPTER_URL_COINAPI",
         "type": "string",
       },
-      "COINGECKO_ADAPTER_URL": Object {
-        "originalKey": "COINGECKO_ADAPTER_URL",
+      "ADAPTER_URL_COINGECKO": Object {
+        "originalKey": "ADAPTER_URL_COINGECKO",
         "type": "string",
       },
-      "COINMARKETCAP_ADAPTER_URL": Object {
-        "originalKey": "COINMARKETCAP_ADAPTER_URL",
+      "ADAPTER_URL_COINMARKETCAP": Object {
+        "originalKey": "ADAPTER_URL_COINMARKETCAP",
         "type": "string",
       },
-      "COINPAPRIKA_ADAPTER_URL": Object {
-        "originalKey": "COINPAPRIKA_ADAPTER_URL",
+      "ADAPTER_URL_COINPAPRIKA": Object {
+        "originalKey": "ADAPTER_URL_COINPAPRIKA",
         "type": "string",
       },
-      "CRYPTOCOMPARE_ADAPTER_URL": Object {
-        "originalKey": "CRYPTOCOMPARE_ADAPTER_URL",
+      "ADAPTER_URL_CRYPTOCOMPARE": Object {
+        "originalKey": "ADAPTER_URL_CRYPTOCOMPARE",
         "type": "string",
       },
       "DEBUG": Object {
@@ -474,8 +474,8 @@ Array [
         "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
-      "KAIKO_ADAPTER_URL": Object {
-        "originalKey": "KAIKO_ADAPTER_URL",
+      "ADAPTER_URL_KAIKO": Object {
+        "originalKey": "ADAPTER_URL_KAIKO",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -494,8 +494,8 @@ Array [
         "originalKey": "NODE_ENV",
         "type": "string",
       },
-      "NOMICS_ADAPTER_URL": Object {
-        "originalKey": "NOMICS_ADAPTER_URL",
+      "ADAPTER_URL_NOMICS": Object {
+        "originalKey": "ADAPTER_URL_NOMICS",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -551,8 +551,8 @@ Array [
   Object {
     "location": "packages/composites/defi-pulse",
     "schema": Object {
-      "AMBERDATA_ADAPTER_URL": Object {
-        "originalKey": "AMBERDATA_ADAPTER_URL",
+      "ADAPTER_URL_AMBERDATA": Object {
+        "originalKey": "ADAPTER_URL_AMBERDATA",
         "type": "string",
       },
       "BASE_URL": Object {
@@ -611,24 +611,24 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
-      "COINAPI_ADAPTER_URL": Object {
-        "originalKey": "COINAPI_ADAPTER_URL",
+      "ADAPTER_URL_COINAPI": Object {
+        "originalKey": "ADAPTER_URL_COINAPI",
         "type": "string",
       },
-      "COINGECKO_ADAPTER_URL": Object {
-        "originalKey": "COINGECKO_ADAPTER_URL",
+      "ADAPTER_URL_COINGECKO": Object {
+        "originalKey": "ADAPTER_URL_COINGECKO",
         "type": "string",
       },
-      "COINMARKETCAP_ADAPTER_URL": Object {
-        "originalKey": "COINMARKETCAP_ADAPTER_URL",
+      "ADAPTER_URL_COINMARKETCAP": Object {
+        "originalKey": "ADAPTER_URL_COINMARKETCAP",
         "type": "string",
       },
-      "COINPAPRIKA_ADAPTER_URL": Object {
-        "originalKey": "COINPAPRIKA_ADAPTER_URL",
+      "ADAPTER_URL_COINPAPRIKA": Object {
+        "originalKey": "ADAPTER_URL_COINPAPRIKA",
         "type": "string",
       },
-      "CRYPTOCOMPARE_ADAPTER_URL": Object {
-        "originalKey": "CRYPTOCOMPARE_ADAPTER_URL",
+      "ADAPTER_URL_CRYPTOCOMPARE": Object {
+        "originalKey": "ADAPTER_URL_CRYPTOCOMPARE",
         "type": "string",
       },
       "DEBUG": Object {
@@ -670,8 +670,8 @@ Array [
         "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
-      "KAIKO_ADAPTER_URL": Object {
-        "originalKey": "KAIKO_ADAPTER_URL",
+      "ADAPTER_URL_KAIKO": Object {
+        "originalKey": "ADAPTER_URL_KAIKO",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -690,8 +690,8 @@ Array [
         "originalKey": "NODE_ENV",
         "type": "string",
       },
-      "NOMICS_ADAPTER_URL": Object {
-        "originalKey": "NOMICS_ADAPTER_URL",
+      "ADAPTER_URL_NOMICS": Object {
+        "originalKey": "ADAPTER_URL_NOMICS",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -908,14 +908,14 @@ Array [
         "originalKey": "RPC_URL",
         "type": "string",
       },
-      "FCSAPI_ADAPTER_URL": Object {
+      "ADAPTER_URL_FCSAPI": Object {
         "format": "uri",
-        "originalKey": "FCSAPI_ADAPTER_URL",
+        "originalKey": "ADAPTER_URL_FCSAPI",
         "type": "string",
       },
-      "FINNHUB_ADAPTER_URL": Object {
+      "ADAPTER_URL_FINNHUB": Object {
         "format": "uri",
-        "originalKey": "FINNHUB_ADAPTER_URL",
+        "originalKey": "ADAPTER_URL_FINNHUB",
         "type": "string",
       },
       "TH_API_KEY": Object {
@@ -927,28 +927,28 @@ Array [
   Object {
     "location": "packages/composites/outlier-detection",
     "schema": Object {
-      "DERIBIT_ADAPTER_URL": Object {
-        "originalKey": "DERIBIT_ADAPTER_URL",
+      "ADAPTER_URL_DERIBIT": Object {
+        "originalKey": "ADAPTER_URL_DERIBIT",
         "type": "string",
       },
-      "DXFEED_ADAPTER_URL": Object {
-        "originalKey": "DXFEED_ADAPTER_URL",
+      "ADAPTER_URL_DXFEED": Object {
+        "originalKey": "ADAPTER_URL_DXFEED",
         "type": "string",
       },
       "EA_REFERENCE_DATA_READER_RPC_URL": Object {
         "originalKey": "RPC_URL",
         "type": "string",
       },
-      "GENESIS_VOLATILITY_ADAPTER_URL": Object {
-        "originalKey": "GENESIS_VOLATILITY_ADAPTER_URL",
+      "ADAPTER_URL_GENESIS_VOLATILITY": Object {
+        "originalKey": "ADAPTER_URL_GENESIS_VOLATILITY",
         "type": "string",
       },
-      "OILPRICEAPI_COM_ADAPTER_URL": Object {
-        "originalKey": "OILPRICEAPI_COM_ADAPTER_URL",
+      "ADAPTER_URL_OILPRICEAPI_COM": Object {
+        "originalKey": "ADAPTER_URL_OILPRICEAPI_COM",
         "type": "string",
       },
-      "XBTO_ADAPTER_URL": Object {
-        "originalKey": "XBTO_ADAPTER_URL",
+      "ADAPTER_URL_XBTO": Object {
+        "originalKey": "ADAPTER_URL_XBTO",
         "type": "string",
       },
     },
@@ -956,40 +956,40 @@ Array [
   Object {
     "location": "packages/composites/proof-of-reserves",
     "schema": Object {
-      "AMBERDATA_ADAPTER_URL": Object {
-        "originalKey": "AMBERDATA_ADAPTER_URL",
+      "ADAPTER_URL_AMBERDATA": Object {
+        "originalKey": "ADAPTER_URL_AMBERDATA",
         "type": "string",
       },
-      "BLOCKCHAIN_COM_ADAPTER_URL": Object {
-        "originalKey": "BLOCKCHAIN_COM_ADAPTER_URL",
+      "ADAPTER_URL_BLOCKCHAIN_COM": Object {
+        "originalKey": "ADAPTER_URL_BLOCKCHAIN_COM",
         "type": "string",
       },
-      "BLOCKCHAIR_ADAPTER_URL": Object {
-        "originalKey": "BLOCKCHAIR_ADAPTER_URL",
+      "ADAPTER_URL_BLOCKCHAIR": Object {
+        "originalKey": "ADAPTER_URL_BLOCKCHAIR",
         "type": "string",
       },
-      "BLOCKCYPHER_ADAPTER_URL": Object {
-        "originalKey": "BLOCKCYPHER_ADAPTER_URL",
+      "ADAPTER_URL_BLOCKCYPHER": Object {
+        "originalKey": "ADAPTER_URL_BLOCKCYPHER",
         "type": "string",
       },
-      "BTC_COM_ADAPTER_URL": Object {
-        "originalKey": "BTC_COM_ADAPTER_URL",
+      "ADAPTER_URL_BTC_COM": Object {
+        "originalKey": "ADAPTER_URL_BTC_COM",
         "type": "string",
       },
-      "CRYPTOAPIS_ADAPTER_URL": Object {
-        "originalKey": "CRYPTOAPIS_ADAPTER_URL",
+      "ADAPTER_URL_CRYPTOAPIS": Object {
+        "originalKey": "ADAPTER_URL_CRYPTOAPIS",
         "type": "string",
       },
-      "RENVM_ADAPTER_URL": Object {
-        "originalKey": "RENVM_ADAPTER_URL",
+      "ADAPTER_URL_RENVM": Object {
+        "originalKey": "ADAPTER_URL_RENVM",
         "type": "string",
       },
-      "SOCHAIN_ADAPTER_URL": Object {
-        "originalKey": "SOCHAIN_ADAPTER_URL",
+      "ADAPTER_URL_SOCHAIN": Object {
+        "originalKey": "ADAPTER_URL_SOCHAIN",
         "type": "string",
       },
-      "WBTC_ADAPTER_URL": Object {
-        "originalKey": "WBTC_ADAPTER_URL",
+      "ADAPTER_URL_WBTC": Object {
+        "originalKey": "ADAPTER_URL_WBTC",
         "type": "string",
       },
     },
@@ -1125,9 +1125,9 @@ Array [
         "originalKey": "REQUEST_COALESCING_INTERVAL_MAX",
         "type": "string",
       },
-      "SOURCE_ADAPTER_URL": Object {
+      "ADAPTER_URL_SOURCE": Object {
         "format": "uri",
-        "originalKey": "SOURCE_ADAPTER_URL",
+        "originalKey": "ADAPTER_URL_SOURCE",
         "type": "string",
       },
       "TIMEOUT": Object {
@@ -1151,8 +1151,8 @@ Array [
   Object {
     "location": "packages/composites/synth-index",
     "schema": Object {
-      "AMBERDATA_ADAPTER_URL": Object {
-        "originalKey": "AMBERDATA_ADAPTER_URL",
+      "ADAPTER_URL_AMBERDATA": Object {
+        "originalKey": "ADAPTER_URL_AMBERDATA",
         "type": "string",
       },
       "BASE_URL": Object {
@@ -1211,24 +1211,24 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
-      "COINAPI_ADAPTER_URL": Object {
-        "originalKey": "COINAPI_ADAPTER_URL",
+      "ADAPTER_URL_COINAPI": Object {
+        "originalKey": "ADAPTER_URL_COINAPI",
         "type": "string",
       },
-      "COINGECKO_ADAPTER_URL": Object {
-        "originalKey": "COINGECKO_ADAPTER_URL",
+      "ADAPTER_URL_COINGECKO": Object {
+        "originalKey": "ADAPTER_URL_COINGECKO",
         "type": "string",
       },
-      "COINMARKETCAP_ADAPTER_URL": Object {
-        "originalKey": "COINMARKETCAP_ADAPTER_URL",
+      "ADAPTER_URL_COINMARKETCAP": Object {
+        "originalKey": "ADAPTER_URL_COINMARKETCAP",
         "type": "string",
       },
-      "COINPAPRIKA_ADAPTER_URL": Object {
-        "originalKey": "COINPAPRIKA_ADAPTER_URL",
+      "ADAPTER_URL_COINPAPRIKA": Object {
+        "originalKey": "ADAPTER_URL_COINPAPRIKA",
         "type": "string",
       },
-      "CRYPTOCOMPARE_ADAPTER_URL": Object {
-        "originalKey": "CRYPTOCOMPARE_ADAPTER_URL",
+      "ADAPTER_URL_CRYPTOCOMPARE": Object {
+        "originalKey": "ADAPTER_URL_CRYPTOCOMPARE",
         "type": "string",
       },
       "DEBUG": Object {
@@ -1270,8 +1270,8 @@ Array [
         "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
-      "KAIKO_ADAPTER_URL": Object {
-        "originalKey": "KAIKO_ADAPTER_URL",
+      "ADAPTER_URL_KAIKO": Object {
+        "originalKey": "ADAPTER_URL_KAIKO",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -1290,8 +1290,8 @@ Array [
         "originalKey": "NODE_ENV",
         "type": "string",
       },
-      "NOMICS_ADAPTER_URL": Object {
-        "originalKey": "NOMICS_ADAPTER_URL",
+      "ADAPTER_URL_NOMICS": Object {
+        "originalKey": "ADAPTER_URL_NOMICS",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {
@@ -1347,8 +1347,8 @@ Array [
   Object {
     "location": "packages/composites/token-allocation",
     "schema": Object {
-      "AMBERDATA_ADAPTER_URL": Object {
-        "originalKey": "AMBERDATA_ADAPTER_URL",
+      "ADAPTER_URL_AMBERDATA": Object {
+        "originalKey": "ADAPTER_URL_AMBERDATA",
         "type": "string",
       },
       "BASE_URL": Object {
@@ -1407,24 +1407,24 @@ Array [
         "originalKey": "CACHE_UPDATE_AGE_ON_GET",
         "type": "string",
       },
-      "COINAPI_ADAPTER_URL": Object {
-        "originalKey": "COINAPI_ADAPTER_URL",
+      "ADAPTER_URL_COINAPI": Object {
+        "originalKey": "ADAPTER_URL_COINAPI",
         "type": "string",
       },
-      "COINGECKO_ADAPTER_URL": Object {
-        "originalKey": "COINGECKO_ADAPTER_URL",
+      "ADAPTER_URL_COINGECKO": Object {
+        "originalKey": "ADAPTER_URL_COINGECKO",
         "type": "string",
       },
-      "COINMARKETCAP_ADAPTER_URL": Object {
-        "originalKey": "COINMARKETCAP_ADAPTER_URL",
+      "ADAPTER_URL_COINMARKETCAP": Object {
+        "originalKey": "ADAPTER_URL_COINMARKETCAP",
         "type": "string",
       },
-      "COINPAPRIKA_ADAPTER_URL": Object {
-        "originalKey": "COINPAPRIKA_ADAPTER_URL",
+      "ADAPTER_URL_COINPAPRIKA": Object {
+        "originalKey": "ADAPTER_URL_COINPAPRIKA",
         "type": "string",
       },
-      "CRYPTOCOMPARE_ADAPTER_URL": Object {
-        "originalKey": "CRYPTOCOMPARE_ADAPTER_URL",
+      "ADAPTER_URL_CRYPTOCOMPARE": Object {
+        "originalKey": "ADAPTER_URL_CRYPTOCOMPARE",
         "type": "string",
       },
       "DEBUG": Object {
@@ -1461,8 +1461,8 @@ Array [
         "originalKey": "WARMUP_ENABLED",
         "type": "string",
       },
-      "KAIKO_ADAPTER_URL": Object {
-        "originalKey": "KAIKO_ADAPTER_URL",
+      "ADAPTER_URL_KAIKO": Object {
+        "originalKey": "ADAPTER_URL_KAIKO",
         "type": "string",
       },
       "LOG_LEVEL": Object {
@@ -1481,8 +1481,8 @@ Array [
         "originalKey": "NODE_ENV",
         "type": "string",
       },
-      "NOMICS_ADAPTER_URL": Object {
-        "originalKey": "NOMICS_ADAPTER_URL",
+      "ADAPTER_URL_NOMICS": Object {
+        "originalKey": "ADAPTER_URL_NOMICS",
         "type": "string",
       },
       "RATE_LIMIT_API_PROVIDER": Object {

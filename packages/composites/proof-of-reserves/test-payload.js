@@ -1,17 +1,17 @@
 const protocolEnvironmentVariables = [
-  { envKey: 'WBTC_ADAPTER_URL', value: 'wbtc' },
-  { envKey: 'RENVM_ADAPTER_URL', value: 'renvm' },
+  { envKey: 'ADAPTER_URL_WBTC', value: 'wbtc' },
+  { envKey: 'ADAPTER_URL_RENVM', value: 'renvm' },
 ]
 
 const indexerEnvironmentVariables = [
-  { envKey: 'AMBERDATA_ADAPTER_URL', value: 'amberdata' },
-  { envKey: 'BITCOIN_JSON_RPC_ADAPTER_URL', value: 'bitcoin_json_rpc' },
-  { envKey: 'BLOCKCHAIN_COM_ADAPTER_URL', value: 'blockchain_com' },
-  { envKey: 'BLOCKCYPHER_ADAPTER_URL', value: 'blockcypher' },
-  { envKey: 'BLOCKCHAIR_ADAPTER_URL', value: 'blockchair' },
-  { envKey: 'BTC_COM_ADAPTER_URL', value: 'btc_com' },
-  { envKey: 'CRYPTOAPIS_ADAPTER_URL', value: 'cryptoapis' },
-  { envKey: 'SOCHAIN_ADAPTER_URL', value: 'sochain' },
+  { envKey: 'ADAPTER_URL_AMBERDATA', value: 'amberdata' },
+  { envKey: 'ADAPTER_URL_BITCOIN_JSON_RPC', value: 'bitcoin_json_rpc' },
+  { envKey: 'ADAPTER_URL_BLOCKCHAIN_COM', value: 'blockchain_com' },
+  { envKey: 'ADAPTER_URL_BLOCKCYPHER', value: 'blockcypher' },
+  { envKey: 'ADAPTER_URL_BLOCKCHAIR', value: 'blockchair' },
+  { envKey: 'ADAPTER_URL_BTC_COM', value: 'btc_com' },
+  { envKey: 'ADAPTER_URL_CRYPTOAPIS', value: 'cryptoapis' },
+  { envKey: 'ADAPTER_URL_SOCHAIN', value: 'sochain' },
 ]
 
 function searchEnvironment(environmentVariables) {

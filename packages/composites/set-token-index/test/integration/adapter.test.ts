@@ -12,8 +12,8 @@ beforeAll(() => {
   oldEnv = JSON.parse(JSON.stringify(process.env))
   process.env.CACHE_ENABLED = 'false'
   process.env.RPC_URL = process.env.RPC_URL || 'http://localhost:8545'
-  process.env.COINMARKETCAP_ADAPTER_URL =
-    process.env.COINMARKETCAP_ADAPTER_URL || 'http://localhost:8082'
+  process.env.ADAPTER_URL_COINMARKETCAP =
+    process.env.ADAPTER_URL_COINMARKETCAP || 'http://localhost:8082'
 
   process.env.API_VERBOSE = 'true'
   if (process.env.RECORD) {

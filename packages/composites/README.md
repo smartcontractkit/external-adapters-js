@@ -20,7 +20,7 @@ They are published to NPM under the `@chainlink` organization.
 
 ## Service Discovery
 
-Composite adapters rely on other external adapters to retrieve their own provider specific data. In setting up a composite adapter the locations of these underlying external adapters will need to be set as environment variables using `[name]_ADAPTER_URL`. See the specific composite adapter's documentation for further details.
+Composite adapters rely on other external adapters to retrieve their own provider specific data. In setting up a composite adapter the locations of these underlying external adapters will need to be set as environment variables using `ADAPTER_URL_[name]`. See the specific composite adapter's documentation for further details.
 
 ## Running
 
@@ -35,7 +35,8 @@ yarn && yarn build
 Run the underlying external adapters and set their locations as environment variables. For example, using the [proof-of-reserves](./proof-of-reservers) composite adapter with the [WBTC](../sources/wbtc-address-set) and [blockchain.com](../sources/blockchain.com) adapters.
 
 ```bash
-export WBTC_ADAPTER_URL=localhost:3000 BLOCKCHAIN_COM_ADAPTER_URL=localhost:3001
+export ADAPTER_URL_WBTC=localhost:3000
+ADAPTER_URL_BLOCKCHAIN_COM=localhost:3001
 ```
 
 Change directories into proof-of-reserves and start the server:

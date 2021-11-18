@@ -11,7 +11,7 @@ The adapter takes the following environment variables:
 
 | Required? |          Name          |                 Description                 | Options | Defaults to |
 | :-------: | :--------------------: | :-----------------------------------------: | :-----: | :---------: |
-|           | `[source]_ADAPTER_URL` | The adapter URL to query for any `[source]` |         |             |
+|           | `ADAPTER_URL_[source]` | The adapter URL to query for any `[source]` |         |             |
 
 ## Running
 
@@ -24,13 +24,13 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 |    ✅     |  `sources`   | An array or comma delimited list of source adapters to query |         |             |
 |           | `minAnswers` |    The minimum amount of answers needed to return a value    |         |     `1`     |
 
-Each source in `sources` needs to have a defined `*_ADAPTER_URL` defined as an env var.
+Each source in `sources` needs to have a defined `ADAPTER_URL_*` defined as an env var.
 
 _E.g. for a request with `"sources": ["coingecko", "coinpaprika"]`, you will need to have pre-set the following env vars:_
 
 ```
-COINGECKO_ADAPTER_URL=https://coingecko_adapter_url/
-COINPAPRIKA_ADAPTER_URL=https://coinpaprika_adapter_url/
+ADAPTER_URL_COINGECKO=https://ADAPTER_URL_COINGECKO/
+ADAPTER_URL_COINPAPRIKA=https://ADAPTER_URL_COINPAPRIKA/
 ```
 
 ### Sample Input

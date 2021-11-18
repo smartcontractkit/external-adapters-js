@@ -39,7 +39,7 @@ export const getPriceProvider =
         } catch (error) {
           Logger.error(`Request to ${source} adapter failed: ${error}`)
           throw new Error(
-            `Failed to request the ${source} adapter. Ensure that the ${source.toUpperCase()}_ADAPTER_URL environment variable is correctly pointed to the adapter location.`,
+            `Failed to request the ${source} adapter. Ensure that the ADAPTER_URL_${source.toUpperCase()} environment variable is correctly pointed to the adapter location.`,
           )
         }
       }),

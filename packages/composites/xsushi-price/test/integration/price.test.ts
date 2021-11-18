@@ -12,8 +12,8 @@ beforeAll(() => {
   oldEnv = JSON.parse(JSON.stringify(process.env))
   process.env.CACHE_ENABLED = 'false'
   process.env.ETHEREUM_RPC_URL = process.env.ETHEREUM_RPC_URL || 'http://localhost:8545'
-  process.env.COINPAPRIKA_ADAPTER_URL =
-    process.env.COINPAPRIKA_ADAPTER_URL || 'http://localhost:8081'
+  process.env.ADAPTER_URL_COINPAPRIKA =
+    process.env.ADAPTER_URL_COINPAPRIKA || 'http://localhost:8081'
   process.env.API_VERBOSE = true
   if (process.env.RECORD) {
     nock.recorder.rec()

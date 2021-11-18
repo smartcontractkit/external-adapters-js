@@ -14,7 +14,7 @@ let oldEnv: NodeJS.ProcessEnv
 beforeAll(() => {
   oldEnv = JSON.parse(JSON.stringify(process.env))
   process.env.CACHE_ENABLED = 'false'
-  process.env.COINGECKO_ADAPTER_URL = 'http://localhost:8081'
+  process.env.ADAPTER_URL_COINGECKO = 'http://localhost:8081'
   if (process.env.RECORD) {
     nock.recorder.rec()
   }

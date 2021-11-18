@@ -8,7 +8,7 @@ The adapter takes the following environment variables:
 
 | Required? |          Name          |                 Description                 | Options | Defaults to |
 | :-------: | :--------------------: | :-----------------------------------------: | :-----: | :---------: |
-|           | `[source]_ADAPTER_URL` | The adapter URL to query for any `[source]` |         |             |
+|           | `ADAPTER_URL_[source]` | The adapter URL to query for any `[source]` |         |             |
 
 ## Running
 

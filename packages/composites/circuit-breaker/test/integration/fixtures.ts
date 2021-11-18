@@ -2,23 +2,23 @@ import nock from 'nock'
 
 export const dataProviderConfig = {
   coingecko: {
-    providerUrlEnvVar: 'COINGECKO_ADAPTER_URL',
+    providerUrlEnvVar: 'ADAPTER_URL_COINGECKO',
     providerUrl: 'http://localhost:8081',
   },
   coinmarketcap: {
-    providerUrlEnvVar: 'COINMARKETCAP_ADAPTER_URL',
+    providerUrlEnvVar: 'ADAPTER_URL_COINMARKETCAP',
     providerUrl: 'http://localhost:8082',
   },
   none: {
-    providerUrlEnvVar: 'NONE_ADAPTER_URL',
+    providerUrlEnvVar: 'ADAPTER_URL_NONE',
     providerUrl: 'http://localhost:8089',
   },
   coinpaprika: {
-    providerUrlEnvVar: 'COINPAPRIKA_ADAPTER_URL',
+    providerUrlEnvVar: 'ADAPTER_URL_COINPAPRIKA',
     providerUrl: 'http://localhost:8083',
   },
   wootrade: {
-    providerUrlEnvVar: 'WOOTRADE_ADAPTER_URL',
+    providerUrlEnvVar: 'ADAPTER_URL_WOOTRADE',
     providerUrl: 'http://localhost:8084',
   },
 }

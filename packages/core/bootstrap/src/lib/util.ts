@@ -100,8 +100,12 @@ const getEnvName = (name: string, prefix = '') => {
 // Only case-insensitive alphanumeric and underscore (_) are allowed for env vars
 const isEnvNameValid = (name: string) => /^[_a-z0-9]+$/i.test(name)
 
-export const getEnv = (name: string, prefix = ''): string | undefined =>
-  process.env[getEnvName(name, prefix)]
+export const getEnv = (name: string, prefix = ''): string | undefined => {
+  let envname = process.env[getEnvName(name, prefix)]
+  if (!envname) envname = process.env[getEnvName(prefix, name)]
+  console.log(`envname: ${envname}`)
+  return envname
+}
 
 // Custom error for required env variable.
 export class RequiredEnvError extends Error {
@@ -337,10 +341,14 @@ export const ENV_ADAPTER_URL = 'ADAPTER_URL'
 export const getURL = (prefix: string, required = false): string | undefined =>
   required
     ? getRequiredURL(prefix)
-    : getEnv(ENV_ADAPTER_URL, prefix) || getEnv(LEGACY_ENV_ADAPTER_URL, prefix)
+    : getEnv(prefix, ENV_ADAPTER_URL) ||
+      getEnv(ENV_ADAPTER_URL, prefix) ||
+      getEnv(LEGACY_ENV_ADAPTER_URL, prefix)
 
 export const getRequiredURL = (prefix: string): string =>
-  getRequiredEnv(ENV_ADAPTER_URL, prefix) || getRequiredEnv(LEGACY_ENV_ADAPTER_URL, prefix)
+  getRequiredEnv(prefix, ENV_ADAPTER_URL) ||
+  getRequiredEnv(ENV_ADAPTER_URL, prefix) ||
+  getRequiredEnv(LEGACY_ENV_ADAPTER_URL, prefix)
 
 /**
  * Get variable from environment then check for a fallback if it is not set then throw if neither are set
@@ -364,6 +372,5 @@ export const getRequiredEnvWithFallback = (
     const val = getEnv(fallback, prefix)
     if (val) return val
   }
-
   throw new RequiredEnvError(getEnvName(primary, prefix))
 }

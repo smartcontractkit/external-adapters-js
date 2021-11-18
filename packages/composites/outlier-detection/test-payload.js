@@ -1,13 +1,13 @@
 const sourceEnvironmentVariables = [
-  { envKey: 'XBTO_ADAPTER_URL', value: 'xbto' },
-  { envKey: 'GENESIS_VOLATILITY_ADAPTER_URL', value: 'genesis_volatility' },
-  { envKey: 'DXFEED_ADAPTER_URL', value: 'dxfeed' },
+  { envKey: 'ADAPTER_URL_XBTO', value: 'xbto' },
+  { envKey: 'ADAPTER_URL_GENESIS_VOLATILITY', value: 'genesis_volatility' },
+  { envKey: 'ADAPTER_URL_DXFEED', value: 'dxfeed' },
 ]
 
 const assetEnvironmentVariables = [
-  { envKey: 'DERIBIT_ADAPTER_URL', value: 'deribit' },
-  { envKey: 'OILPRICEAPI_COM_ADAPTER_URL', value: 'oilpriceapi' },
-  { envKey: 'DXFEED_ADAPTER_URL', value: 'dxfeed' },
+  { envKey: 'ADAPTER_URL_DERIBIT', value: 'deribit' },
+  { envKey: 'ADAPTER_URL_OILPRICEAPI_COM', value: 'oilpriceapi' },
+  { envKey: 'ADAPTER_URL_DXFEED', value: 'dxfeed' },
 ]
 
 function searchEnvironment(environmentVariables) {
