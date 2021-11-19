@@ -298,55 +298,55 @@ describe('execute', () => {
     })
   })
 
-  // describe('with invalid geography', () => {
-  //   const data: AdapterRequest = {
-  //     id,
-  //     data: {
-  //       dataset: 'acs5_2019',
-  //       geography: 'state',
-  //       variables: ['B25001_001E', 'B25002_002E'],
-  //       latitude: -1,
-  //       longitude: -122.419418,
-  //     },
-  //   }
+  describe('with invalid geography', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        dataset: 'acs5_2019',
+        geography: 'state',
+        variables: ['B25001_001E', 'B25002_002E'],
+        latitude: -1,
+        longitude: -122.419418,
+      },
+    }
 
-  //   mockResponseWithInvalidLatitude()
+    mockResponseWithInvalidLatitude()
 
-  //   it('should return error', async () => {
-  //     const response = await req
-  //       .post('/')
-  //       .send(data)
-  //       .set('Accept', '*/*')
-  //       .set('Content-Type', 'application/json')
-  //       .expect('Content-Type', /json/)
-  //       .expect(400)
-  //     expect(response.body).toMatchSnapshot()
-  //   })
-  // })
+    it('should return error', async () => {
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(500)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
 
-  // describe('with invalid variable', () => {
-  //   const data: AdapterRequest = {
-  //     id,
-  //     data: {
-  //       dataset: 'acs5_2019',
-  //       geography: 'state',
-  //       variables: ['SOME_INVALID_VAR'],
-  //       latitude: 37.774929,
-  //       longitude: -122.419418,
-  //     },
-  //   }
+  describe('with invalid variable', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        dataset: 'acs5_2019',
+        geography: 'state',
+        variables: ['SOME_INVALID_VAR'],
+        latitude: 37.774929,
+        longitude: -122.419418,
+      },
+    }
 
-  //   mockResponseWithInvalidVariable()
+    mockResponseWithInvalidVariable()
 
-  //   it('should return error', async () => {
-  //     const response = await req
-  //       .post('/')
-  //       .send(data)
-  //       .set('Accept', '*/*')
-  //       .set('Content-Type', 'application/json')
-  //       .expect('Content-Type', /json/)
-  //       .expect(400)
-  //     expect(response.body).toMatchSnapshot()
-  //   })
-  // })
+    it('should return error', async () => {
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(500)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
 })

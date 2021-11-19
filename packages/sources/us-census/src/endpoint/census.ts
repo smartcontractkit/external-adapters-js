@@ -43,60 +43,56 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const geographyResolved = (geography || 'state').replace('_', ' ') // replace underscores
 
-  try {
-    // Result is formatted similarly to:
-    // {
-    //   NAME: 'Census Tract 201, San Francisco County, California',
-    //   B25001_001E: 3481,
-    //   state: '06',
-    //   county: '075',
-    //   tract: '020100'
-    // }
-    const year = getYearForDataset(request.data.dataset)
+  // Result is formatted similarly to:
+  // {
+  //   NAME: 'Census Tract 201, San Francisco County, California',
+  //   B25001_001E: 3481,
+  //   state: '06',
+  //   county: '075',
+  //   tract: '020100'
+  // }
+  const year = getYearForDataset(request.data.dataset)
 
-    const result = await new Promise<Record<string, string | number>[]>((resolve, reject) =>
-      census(
-        {
-          vintage: year,
-          geoHierarchy: {
-            [geographyResolved]: {
-              lat: latitude,
-              lng: longitude,
-            },
+  const result = await new Promise<Record<string, string | number>[]>((resolve, reject) =>
+    census(
+      {
+        vintage: year,
+        geoHierarchy: {
+          [geographyResolved]: {
+            lat: latitude,
+            lng: longitude,
           },
-          sourcePath: getSourcePathForDataset(),
-          values: ['NAME', ...variables],
-          statsKey: config.apiKey === 'test_api_key' ? undefined : config.apiKey,
         },
-        (err: Error, res: Record<string, string | number>[]) => {
-          if (err) {
-            return reject(err)
-          }
-
-          return resolve(res)
-        },
-      ),
-    )
-
-    const firstResult = result?.[0]
-
-    const fipsName = firstResult?.NAME.toString()
-    const censusVariables = variables.map((variable) => result?.[0]?.[variable])
-
-    const encodedResult = encodeResult(fipsName, censusVariables)
-
-    const respData = {
-      data: {
-        ...firstResult,
-        result: encodedResult,
+        sourcePath: getSourcePathForDataset(),
+        values: ['NAME', ...variables],
+        statsKey: config.apiKey === 'test_api_key' ? undefined : config.apiKey,
       },
-      result: encodedResult,
-    }
+      (err: Error, res: Record<string, string | number>[]) => {
+        if (err) {
+          return reject(err)
+        }
 
-    return Requester.success(jobRunID, respData, config.verbose)
-  } catch (e) {
-    throw Requester.errored(jobRunID, e, 400)
+        return resolve(res)
+      },
+    ),
+  )
+
+  const firstResult = result?.[0]
+
+  const fipsName = firstResult?.NAME.toString()
+  const censusVariables = variables.map((variable) => result?.[0]?.[variable])
+
+  const encodedResult = encodeResult(fipsName, censusVariables)
+
+  const respData = {
+    data: {
+      ...firstResult,
+      result: encodedResult,
+    },
+    result: encodedResult,
   }
+
+  return Requester.success(jobRunID, respData, config.verbose)
 }
 
 const validateRequest = (request: AdapterRequest) => {
