@@ -139,6 +139,7 @@
     "@chainlink/uniswap-v2-adapter": "workspace:*",
     "@chainlink/uniswap-v3-adapter": "workspace:*",
     "@chainlink/upvest-adapter": "workspace:*",
+    "@chainlink/us-census-adapter": "workspace:*",
     "@chainlink/uscpi-one-adapter": "workspace:*",
     "@chainlink/view-function-adapter": "workspace:*",
     "@chainlink/wbtc-address-set-adapter": "workspace:*",

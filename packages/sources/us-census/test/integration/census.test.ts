@@ -16,6 +16,7 @@ import {
   mock2016SuccessResponse,
   mock2017SuccessResponse,
   mock2018SuccessResponse,
+  mock2010SuccessResponse,
 } from './fixtures'
 
 let oldEnv: NodeJS.ProcessEnv
@@ -123,6 +124,33 @@ describe('execute', () => {
     }
 
     mockNewYorkStateSuccessResponse()
+
+    it('should return success', async () => {
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('with valid input 2010', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        dataset: 'dec_2010',
+        geography: 'state',
+        // vacancy status of housing units (vacant)
+        variables: ['H005001'],
+        latitude: 37.774929,
+        longitude: -122.419418,
+      },
+    }
+
+    mock2010SuccessResponse()
 
     it('should return success', async () => {
       const response = await req

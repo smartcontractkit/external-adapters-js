@@ -185,6 +185,21 @@ export const mockNewYorkStateSuccessResponse = () => {
     ])
 }
 
+export const mock2010SuccessResponse = () => {
+  nock('https://tigerweb.geo.census.gov', { encodedQueryParams: true })
+    .get('/arcgis/rest/services/TIGERweb/tigerWMS_Census2010/MapServer/98/query')
+    .query((query) => true)
+    .reply(200, (_, request) => validTigerWebResponse)
+
+  nock('https://api.census.gov', { encodedQueryParams: true })
+    .get('/data/2010/dec/sf1')
+    .query((query) => true)
+    .reply(200, (_, request) => [
+      ['NAME', 'H005001', 'state'],
+      ['California', '1102583', '06'],
+    ])
+}
+
 export const mock2013SuccessResponse = () => {
   nock('https://tigerweb.geo.census.gov', { encodedQueryParams: true })
     .get('/arcgis/rest/services/TIGERweb/tigerWMS_ACS2013/MapServer/82/query')

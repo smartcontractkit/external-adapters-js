@@ -4700,6 +4700,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/uniswap-v2-adapter", "workspace:packages/sources/uniswap-v2"],
             ["@chainlink/uniswap-v3-adapter", "workspace:packages/sources/uniswap-v3"],
             ["@chainlink/upvest-adapter", "workspace:packages/sources/upvest"],
+            ["@chainlink/us-census-adapter", "workspace:packages/sources/us-census"],
             ["@chainlink/uscpi-one-adapter", "workspace:packages/sources/uscpi-one"],
             ["@chainlink/view-function-adapter", "workspace:packages/sources/view-function"],
             ["@chainlink/wbtc-address-set-adapter", "workspace:packages/sources/wbtc-address-set"],
