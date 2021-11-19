@@ -28,15 +28,15 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/ea-bootstrap": "1.0.0",
-    "@chainlink/ea-test-helpers": "1.0.0",
-    "citysdk": "^2.1.13",
+    "@chainlink/ea-bootstrap": "workspace:*",
+    "@chainlink/ea-test-helpers": "workspace:*",
+    "citysdk": "2.2.0",
     "ethers": "^5.4.6",
-    "tslib": "^2.1.0"
+    "tslib": "^2.3.1"
   },
   "devDependencies": {
-    "@chainlink/types": "1.0.0",
-    "@types/jest": "26.0.24",
+    "@chainlink/types": "workspace:*",
+    "@types/jest": "27.0.3",
     "@types/node": "14.17.21",
     "nock": "13.1.3",
     "supertest": "6.1.6",
