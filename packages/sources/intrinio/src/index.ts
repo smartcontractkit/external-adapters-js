@@ -3,3 +3,4 @@ import { makeExecute, makeWSHandler } from './adapter'
 import { makeConfig, NAME } from './config'
 
 export = { NAME, makeExecute, makeConfig, ...expose(NAME, makeExecute(), makeWSHandler()) }
+// force a test to kick off
