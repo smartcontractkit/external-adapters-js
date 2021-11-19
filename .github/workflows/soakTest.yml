@@ -45,6 +45,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.QA_GITHUB_TOKEN }}
           PR_NUMBER: ${{ steps.findPr.outputs.pr }}
         run: |
+          set -x
           CHANGED_FILES_NAME=./changedFiles.txt
           gh pr view ${PR_NUMBER} --json files --jq '.files.[].path' > ${CHANGED_FILES_NAME}
           ADAPTERS_LIST="$(yarn get-changed-adapters "${CHANGED_FILES_NAME}")"
@@ -56,6 +57,7 @@ jobs:
         env:
           ADAPTER_NAMES: ${{ steps.get-pr-info.outputs.ADAPTERS_LIST }}
         run: |
+          set -x
           ADAPTERS_LIST=
           for adapter in ${ADAPTER_NAMES}; do
             echo "${adapter}"
