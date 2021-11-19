@@ -23,6 +23,7 @@ export function getCoinIds(context: AdapterContext, id: string): Promise<CoinsRe
   })
 }
 
+// test change
 export const getSymbolsToIds = (
   symbols: string[],
   coinList: CoinsResponse[],
