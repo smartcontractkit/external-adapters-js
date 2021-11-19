@@ -55,10 +55,11 @@ describe('get-changed-adapters cli', () => {
   describe('generateFilteredAdaptersListByType', () => {
     it('should return the different types of adapters when multiple exist are changed and return that core was changed when core changes occur', () => {
       const changedFiles = [
-        'packages/sources/abc/package.json',
+        'packages/sources/abc/src/package.json',
+        'packages/sources/abc/test/package.json',
         'packages/composites/bcd/src/index.ts',
-        'packages/targets/gef/blarg/blarg/blarg.ts',
-        'packages/core/anything.ts',
+        'packages/targets/gef/src/blarg/blarg/blarg.ts',
+        'packages/core/any/src/anything.ts',
       ]
       const changedAdapters = generateFilteredAdaptersListByType(changedFiles)
       expect(changedAdapters.sources.length).toEqual(1)
@@ -118,7 +119,7 @@ describe('get-changed-adapters cli', () => {
 
       // verify the console output
       expect(console.log).toHaveBeenCalledTimes(1)
-      expect(console.log).toHaveBeenCalledWith("xbto blarg")
+      expect(console.log).toHaveBeenCalledWith("blarg")
     })
   })
 })

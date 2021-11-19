@@ -54,14 +54,14 @@ const filterFilesToAdapters = (
 ): string[] => {
   // filter files for specific adapter type
   const changedFilesForType = changedFiles.filter(function (str) {
-    return str.includes(`packages/${filterForAdapterType}`)
+    return str.includes(`packages/${filterForAdapterType}/`)
   })
 
   const uniqueAdapters: { [key: string]: boolean } = {}
   for (let i = 0; i < changedFilesForType.length; i++) {
     const line = changedFilesForType[i]
     // remove test files
-    if (line.includes('/test/')) {
+    if (!line.includes('/src/')) {
       continue
     }
 
