@@ -30,9 +30,10 @@ spec:
           {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-          {{- if .Values.envSecrets }}
-          envFrom:
-            - secretRef:
-                name: {{ .Values.name }}
-          {{- end }}
+          env:
+            - name: GITHUB_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: qa-github-token
+                  key: GITHUB_TOKEN
         
