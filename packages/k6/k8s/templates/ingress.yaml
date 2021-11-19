@@ -1,9 +1,7 @@
-{{- $name := .Values.name -}}
-{{- $svcPort := .Values.service.port -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ $name }}
+  name: {{ .Values.name }}
   namespace: {{ .Values.namespace }}
   labels:
     {{- include "k6.labels" . | nindent 4 }}
@@ -14,17 +12,17 @@ spec:
   rules:
     - http:
         paths:
-          - path: /{{ $name }}
+          - path: /{{ .Values.name }}
             pathType: Prefix
             backend:
               service:
-                name: k6-{{ $name }}
+                name: k6-{{ .Values.name }}
                 port: 
-                  number: {{ $svcPort }}
-          - path: /{{ $name }}/(.*)
+                  number: {{ .Values.service.port }}
+          - path: /{{ .Values.name }}/(.*)
             pathType: Prefix
             backend:
               service:
-                name: k6-{{ $name }}
+                name: k6-{{ .Values.name }}
                 port: 
-                  number: {{ $svcPort }}
+                  number: {{ .Values.service.port }}
