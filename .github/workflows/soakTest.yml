@@ -45,20 +45,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.QA_GITHUB_TOKEN }}
           PR_NUMBER: ${{ steps.findPr.outputs.pr }}
         run: |
-          set -x
-
-          #TODO Need to clean the below lines up when ready for real prs
-          # pull_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
-          # pull_number=1096
-          # echo "::set-output name=PR_NUMBER::${pull_number}"
-          # echo "pull request number is ${pull_number}"
-
           CHANGED_FILES_NAME=./changedFiles.txt
           gh pr view ${PR_NUMBER} --json files --jq '.files.[].path' > ${CHANGED_FILES_NAME}
           ADAPTERS_LIST="$(yarn get-changed-adapters "${CHANGED_FILES_NAME}")"
-
-          #TODO Need to clean the below line up when ready for real prs
-          # ADAPTERS_LIST="coingecko coinpaprika notarealadapter"
 
           # export adapters from this step
           echo "::set-output name=ADAPTERS_LIST::${ADAPTERS_LIST}"
@@ -67,7 +56,6 @@ jobs:
         env:
           ADAPTER_NAMES: ${{ steps.get-pr-info.outputs.ADAPTERS_LIST }}
         run: |
-          set -x
           ADAPTERS_LIST=
           for adapter in ${ADAPTER_NAMES}; do
             echo "${adapter}"
@@ -88,7 +76,6 @@ jobs:
           IMAGE_PREFIX: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/adapters/
         run: |
           IMAGE_TAG=pr${PR_NUMBER}
-          set -x
           IMAGE_TAG=${IMAGE_TAG} IMAGE_PREFIX=${IMAGE_PREFIX} yarn generate:docker-compose
           BUILD_NAMES=
           for adapter in ${ADAPTER_NAMES}; do
@@ -106,7 +93,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.QA_GITHUB_TOKEN }}
         run: |
           IMAGE_TAG=pr${PR_NUMBER}
-          set -x
           # pull down the chainlink adapter helm chart
           helm repo add chainlink https://raw.githubusercontent.com/smartcontractkit/charts/gh-pages/ --password ${GITHUB_TOKEN} --username dummy
           # deploy all the adapters
@@ -119,7 +105,6 @@ jobs:
           ADAPTER_NAMES: ${{ steps.adapters-list.outputs.ADAPTERS_LIST }}
           IMAGE_PREFIX: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/k6
         run: |
-          set -x
           IMAGE_TAG=pr${PR_NUMBER}
           OUTER_DIR=$(pwd)
           for adapter in ${ADAPTER_NAMES}; do
@@ -144,7 +129,6 @@ jobs:
           PR_NUMBER: ${{ steps.findPr.outputs.pr }}
           ADAPTER_NAMES: ${{ steps.adapters-list.outputs.ADAPTERS_LIST }}
         run: |
-          set -x
           IMAGE_TAG=pr${PR_NUMBER}
           cd ./packages/k6
           for adapter in ${ADAPTER_NAMES}; do
