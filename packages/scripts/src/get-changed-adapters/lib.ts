@@ -7,7 +7,7 @@ Requires 1 argument of the changed files file path.`
 
 /**
  * Checks the args for required input.
- * @returns The inputs from the args.
+ * @returns {string} The inputs from the args.
  */
 export const checkArgs = (): string => {
   if (process.argv.length < 3) {
@@ -30,12 +30,22 @@ export interface ChangedAdapters {
   coreWasChanged: boolean
 }
 
+/**
+ * Load the changed files from a file holding the list
+ * @param {string} file The path to the file containing the list of changes 
+ * @returns {string[]} The list of changed files as an array
+ */
 export const loadChangedFileList = (file: string): string[] => {
   const fileText = fs.readFileSync(file)
   const changedFiles = fileText.toString().split('\n')
   return changedFiles
 }
 
+/**
+ * Filter all the changed files by their adapter type
+ * @param {string[]} changedFiles The list of changed files
+ * @returns {ChangedAdapters} The changed adapters object with all changes for each adapter type
+ */
 export const generateFilteredAdaptersListByType = (changedFiles: string[]): ChangedAdapters => {
   // Build lists of unique adapters changed for each type in each file
   const coreChanges = filterFilesToAdapters(changedFiles, 'core')
@@ -48,6 +58,13 @@ export const generateFilteredAdaptersListByType = (changedFiles: string[]): Chan
   return changedAdapters
 }
 
+/**
+ * Filter changed files into a specific adapter type removing any changes that
+ * are not part of a src directory.
+ * @param {string[]} changedFiles The list of changed files
+ * @param {string} filterForAdapterType The type of adapter to filter for
+ * @returns {string[]} The filtered list of adapters that have changed
+ */
 const filterFilesToAdapters = (
   changedFiles: string[],
   filterForAdapterType: string,
@@ -60,12 +77,12 @@ const filterFilesToAdapters = (
   const uniqueAdapters: { [key: string]: boolean } = {}
   for (let i = 0; i < changedFilesForType.length; i++) {
     const line = changedFilesForType[i]
-    // remove test files
+    // remove any files not in a src folder
     if (!line.includes('/src/')) {
       continue
     }
 
-    // load unique adapters into dictionary
+    // load adapters into dictionary, means we don't have to worry about duplicates
     const dirNames = line.split('/')
     uniqueAdapters[dirNames[2]] = true
   }
@@ -73,8 +90,14 @@ const filterFilesToAdapters = (
   return Object.keys(uniqueAdapters)
 }
 
+/**
+ * Creates the output for a ci pipeline to understand what adapters have changed and what adapters
+ * to spin up for testing.
+ * @param {ChangedAdapters} adapters The changed adapters object with all changed adapters for each type of adapter
+ * @returns {string} The bash array formatted string of adapters with changes.
+ */
 export const createOutput = (adapters: ChangedAdapters): string => {
-  // TODO if needed do specific things for specific adapters, none yet
+  // TODO if needed do specific things for specific adapters, for example composites
   // if needed do specific things for core changes
   if (adapters.coreWasChanged) {
     // TODO add an adapter of each type to the outgoing array to be tested
