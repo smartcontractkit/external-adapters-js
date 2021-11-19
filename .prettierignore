@@ -9,4 +9,4 @@ test-payload.json
 .vscode
 .pnp.cjs
 
-ephemeral/cl-adapter
+packages/k6/k8s/templates
