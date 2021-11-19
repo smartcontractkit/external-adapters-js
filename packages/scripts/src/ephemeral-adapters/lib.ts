@@ -170,6 +170,7 @@ export const deployAdapter = (config: Inputs): void => {
       --set image.repository="${config.imageRepository}${config.adapter}-adapter" \
       --set image.tag=${config.imageTag} \
       --set name=${config.name} \
+      --force \
       --wait`,
   )
   if (deployHelm.code !== 0) {
