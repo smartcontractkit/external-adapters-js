@@ -40,7 +40,7 @@ if [ ! -z ${PR_NUMBER+x} ]; then
     FAILURE_DATA=$(tail -n 150 ~/testResults.txt)
     # push fail data to pr as a comment
     # gh pr review ${PR_NUMBER} -c -b "${FAILURE_DATA}"
-    gh pr comment ${PR_NUMBER} -b "Soak test for ${CI_ADAPTER_NAME} failed: ```${FAILURE_DATA}```"
+    gh pr comment ${PR_NUMBER} -b "Soak test for ${CI_ADAPTER_NAME} failed: \`${FAILURE_DATA}\`"
   else
     echo "test passed"
     # gh pr review ${PR_NUMBER} -c -b "Soak tests look good"
