@@ -32,7 +32,7 @@ export interface ChangedAdapters {
 
 /**
  * Load the changed files from a file holding the list
- * @param {string} file The path to the file containing the list of changes 
+ * @param {string} file The path to the file containing the list of changes
  * @returns {string[]} The list of changed files as an array
  */
 export const loadChangedFileList = (file: string): string[] => {
@@ -65,10 +65,7 @@ export const generateFilteredAdaptersListByType = (changedFiles: string[]): Chan
  * @param {string} filterForAdapterType The type of adapter to filter for
  * @returns {string[]} The filtered list of adapters that have changed
  */
-const filterFilesToAdapters = (
-  changedFiles: string[],
-  filterForAdapterType: string,
-): string[] => {
+const filterFilesToAdapters = (changedFiles: string[], filterForAdapterType: string): string[] => {
   // filter files for specific adapter type
   const changedFilesForType = changedFiles.filter(function (str) {
     return str.includes(`packages/${filterForAdapterType}/`)

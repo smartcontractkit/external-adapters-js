@@ -46,7 +46,7 @@ jobs:
           PR_NUMBER: ${{ steps.findPr.outputs.pr }}
         run: |
           set -x
-          
+
           #TODO Need to clean the below lines up when ready for real prs
           # pull_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
           # pull_number=1096
@@ -140,7 +140,7 @@ jobs:
             docker push ${IMAGE_PREFIX}:${IMAGE_TAG}-${adapter}
           done
       - name: Deploy k6
-        env: 
+        env:
           PR_NUMBER: ${{ steps.findPr.outputs.pr }}
           ADAPTER_NAMES: ${{ steps.adapters-list.outputs.ADAPTERS_LIST }}
         run: |
@@ -157,4 +157,3 @@ jobs:
               --set name=k6-${PR_NUMBER}-${adapter} \
               --wait
           done
-

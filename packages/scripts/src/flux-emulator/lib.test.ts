@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs'
 import { checkArgs, Inputs, main, start, stop, writeK6Payload } from './lib'
 import { ReferenceContractConfigResponse } from './ReferenceContractConfig'
-import fs from 'fs';
+import fs from 'fs'
 
 const exampleReferenceContractConfigResponse: ReferenceContractConfigResponse = {
   configs: [
@@ -123,7 +123,6 @@ jest.mock('./ReferenceContractConfig', () => {
 })
 
 describe('Flux Emulator cli', () => {
-  
   it('should print the usage string if not enough args are provided', async () => {
     try {
       checkArgs()

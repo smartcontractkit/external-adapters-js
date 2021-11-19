@@ -22,9 +22,12 @@ export async function generateFile(): Promise<string> {
   const context = process.env.CONTEXT || '.'
 
   const composeFileOptions = { context }
-  return yaml.stringify(await generateFileJSON({ prefix, branch, useLatest, tag }, composeFileOptions), {
-    merge: true,
-  })
+  return yaml.stringify(
+    await generateFileJSON({ prefix, branch, useLatest, tag }, composeFileOptions),
+    {
+      merge: true,
+    },
+  )
 }
 
 export async function generateFileJSON(

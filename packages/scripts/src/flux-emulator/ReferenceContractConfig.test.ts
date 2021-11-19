@@ -191,12 +191,12 @@ describe('flux emulator config editing', () => {
   })
 
   it('should return true when the adapter exists in the config', async () => {
-    const exists = adapterExistsInConfig("adapterName1", parseConfig(exampleFeed))
+    const exists = adapterExistsInConfig('adapterName1', parseConfig(exampleFeed))
     expect(exists).toEqual(true)
   })
 
   it('should return false when the adapter does not exist in the config', async () => {
-    const exists = adapterExistsInConfig("notanameintheconfig", parseConfig(exampleFeed))
+    const exists = adapterExistsInConfig('notanameintheconfig', parseConfig(exampleFeed))
     expect(exists).toEqual(false)
   })
 

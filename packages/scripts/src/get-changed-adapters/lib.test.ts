@@ -1,4 +1,11 @@
-import { ChangedAdapters, checkArgs, createOutput, generateFilteredAdaptersListByType, loadChangedFileList, main } from './lib'
+import {
+  ChangedAdapters,
+  checkArgs,
+  createOutput,
+  generateFilteredAdaptersListByType,
+  loadChangedFileList,
+  main,
+} from './lib'
 
 const changedFilesExample = [
   'packages/sources/xbto/package.json',
@@ -14,11 +21,11 @@ jest.mock('fs', () => {
     readFileSync: jest
       .fn()
       .mockImplementationOnce((): Buffer => {
-        return Buffer.from(changedFilesExample.join('\n'), "utf-8");
+        return Buffer.from(changedFilesExample.join('\n'), 'utf-8')
       })
       .mockImplementationOnce((): Buffer => {
-        return Buffer.from(changedFilesExample.join('\n'), "utf-8");
-      })
+        return Buffer.from(changedFilesExample.join('\n'), 'utf-8')
+      }),
   }
 })
 
@@ -90,7 +97,7 @@ describe('get-changed-adapters cli', () => {
         sources: ['abc'],
         composites: ['def'],
         targets: ['ghi'],
-        coreWasChanged: true
+        coreWasChanged: true,
       }
       const output = createOutput(changedAdapters)
       expect(output).toContain('abc')
@@ -102,7 +109,7 @@ describe('get-changed-adapters cli', () => {
 
   describe('loadChangedFileList', () => {
     it('should return an array of changed files', async () => {
-      const changedFiles = loadChangedFileList("test file name")
+      const changedFiles = loadChangedFileList('test file name')
       expect(changedFiles.length).toEqual(3)
       expect(changedFiles).toMatchSnapshot()
     })
@@ -119,7 +126,7 @@ describe('get-changed-adapters cli', () => {
 
       // verify the console output
       expect(console.log).toHaveBeenCalledTimes(1)
-      expect(console.log).toHaveBeenCalledWith("blarg")
+      expect(console.log).toHaveBeenCalledWith('blarg')
     })
   })
 })

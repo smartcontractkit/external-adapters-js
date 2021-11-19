@@ -7,17 +7,17 @@ replicaCount: 1
 image:
   repository: 795953128386.dkr.ecr.us-west-2.amazonaws.com/k6
   pullPolicy: Always
-  tag: "latest"
+  tag: 'latest'
 
 podAnnotations: {}
 
-podSecurityContext: 
+podSecurityContext:
   fsGroup: 2000
 
-securityContext: 
+securityContext:
   capabilities:
     drop:
-    - ALL
+      - ALL
   readOnlyRootFilesystem: true
   runAsNonRoot: true
   runAsUser: 1000

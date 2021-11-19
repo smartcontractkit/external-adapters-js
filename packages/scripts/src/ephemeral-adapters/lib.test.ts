@@ -18,42 +18,48 @@ jest.mock('../shell/Shell', () => {
   return {
     Shell: jest
       .fn()
-      .mockImplementationOnce(() => { // check command fail 1
+      .mockImplementationOnce(() => {
+        // check command fail 1
         return {
           exec: () => {
             return '' as ShellOut
           },
         }
       })
-      .mockImplementationOnce(() => { // verify on sdlc cluster fail 1
+      .mockImplementationOnce(() => {
+        // verify on sdlc cluster fail 1
         return {
           exec: () => {
             return { code: 1 } as ShellOut
           },
         }
       })
-      .mockImplementationOnce(() => { // deploy adapter fail 1
+      .mockImplementationOnce(() => {
+        // deploy adapter fail 1
         return {
           exec: () => {
             return { code: 1 } as ShellOut
           },
         }
       })
-      .mockImplementationOnce(() => { // deploy adapter fail 2 pt 1
+      .mockImplementationOnce(() => {
+        // deploy adapter fail 2 pt 1
         return {
           exec: () => {
             return { code: 0 } as ShellOut
           },
         }
       })
-      .mockImplementationOnce(() => { // deploy adapter fail 2 pt 2
+      .mockImplementationOnce(() => {
+        // deploy adapter fail 2 pt 2
         return {
           exec: () => {
             return { code: 1 } as ShellOut
           },
         }
       })
-      .mockImplementationOnce(() => { // remove adapter fail 1
+      .mockImplementationOnce(() => {
+        // remove adapter fail 1
         return {
           exec: () => {
             return { code: 1 } as ShellOut
@@ -63,7 +69,7 @@ jest.mock('../shell/Shell', () => {
       .mockImplementation(() => {
         return {
           exec: () => {
-            return {code: 0} as ShellOut
+            return { code: 0 } as ShellOut
           },
         }
       }),
@@ -113,16 +119,17 @@ describe('Ephemeral Adapters Testing', () => {
 
     it("should throw an error if we can't download the helm chart", async () => {
       let failed = false
-      try{
+      try {
         deployAdapter({
           action: '',
-          adapter: '', 
-          release: '', 
-          imageTag: '', 
-          imageRepository: '', 
-          helmChartDir: '', 
-          helmValuesOverride: '', 
-          name: ''})
+          adapter: '',
+          release: '',
+          imageTag: '',
+          imageRepository: '',
+          helmChartDir: '',
+          helmValuesOverride: '',
+          name: '',
+        })
         failed = true
       } catch (error) {
         expect(error).toMatchSnapshot()
@@ -132,16 +139,17 @@ describe('Ephemeral Adapters Testing', () => {
 
     it("should throw an error if we can't deploy the helm chart", async () => {
       let failed = false
-      try{
+      try {
         deployAdapter({
           action: 'start',
-          adapter: '', 
-          release: '', 
-          imageTag: '', 
-          imageRepository: '', 
-          helmChartDir: '', 
-          helmValuesOverride: '', 
-          name: ''})
+          adapter: '',
+          release: '',
+          imageTag: '',
+          imageRepository: '',
+          helmChartDir: '',
+          helmValuesOverride: '',
+          name: '',
+        })
         failed = true
       } catch (error) {
         expect(error).toMatchSnapshot()
@@ -151,16 +159,17 @@ describe('Ephemeral Adapters Testing', () => {
 
     it("should throw an error if we can't remove the adapter", async () => {
       let failed = false
-      try{
+      try {
         removeAdapter({
           action: 'stop',
-          adapter: '', 
-          release: '', 
-          imageTag: '', 
-          imageRepository: '', 
-          helmChartDir: '', 
-          helmValuesOverride: '', 
-          name: ''})
+          adapter: '',
+          release: '',
+          imageTag: '',
+          imageRepository: '',
+          helmChartDir: '',
+          helmValuesOverride: '',
+          name: '',
+        })
         failed = true
       } catch (error) {
         expect(error).toMatchSnapshot()
@@ -228,13 +237,13 @@ describe('Ephemeral Adapters Testing', () => {
 
     it('should override any values passed in as arguments or environment variables', async () => {
       process.argv = ['', '', 'start', 'adapter', 'release', 'test_tag']
-      process.env["IMAGE_REPOSITORY"] = "test_image_repo"
-      process.env["HELM_CHART_DIR"] = "helm_chart_dir"
+      process.env['IMAGE_REPOSITORY'] = 'test_image_repo'
+      process.env['HELM_CHART_DIR'] = 'helm_chart_dir'
       process.env['HELM_VALUES'] = 'helm_values'
       const inputs = checkArgs()
-      expect(inputs.imageTag).toEqual("test_tag")
-      expect(inputs.imageRepository).toEqual("test_image_repo")
-      expect(inputs.helmChartDir).toEqual("helm_chart_dir")
+      expect(inputs.imageTag).toEqual('test_tag')
+      expect(inputs.imageRepository).toEqual('test_image_repo')
+      expect(inputs.helmChartDir).toEqual('helm_chart_dir')
       expect(inputs.helmValuesOverride).toEqual('-f helm_values')
       expect(inputs).toMatchSnapshot()
     })

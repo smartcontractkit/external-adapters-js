@@ -265,7 +265,7 @@ export const removeAdapterFromFeed = (
  */
 export const adapterExistsInConfig = (
   adapterName: string,
-  masterConfig: ReferenceContractConfig[]
+  masterConfig: ReferenceContractConfig[],
 ): boolean => {
   for (const config of masterConfig) {
     for (const node of config.nodes) {
@@ -292,7 +292,7 @@ export const convertConfigToK6Payload = (
       name: config.name,
       id: '86f45dcc-90db-4c39-b385-53945c5a9a30',
       method: 'POST',
-      data: JSON.stringify({data: config.data}),
+      data: JSON.stringify({ data: config.data }),
     }
     payloads.push(payload)
   }

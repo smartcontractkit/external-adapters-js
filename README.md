@@ -559,6 +559,7 @@ helm upgrade k6-${UNIQUE_NAME} ./k8s \
 ```
 
 To stop a test using k6 in the cluster
+
 ```bash
 helm uninstall k6-${UNIQUE_NAME} \
       --namespace k6-soak \
@@ -580,7 +581,6 @@ The follow steps is the general pattern for writing an integration test.
 4. Now you should have a test that does not do any HTTP requests during execution.
 
 For more information, see the [Jest docs.](https://jestjs.io/docs/cli)
-
 
 #### Adding Provider API rate limits
 
