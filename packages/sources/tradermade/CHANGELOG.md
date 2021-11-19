@@ -1,5 +1,7 @@
 ## v1.1.0
 
-### Changed
+## 1.0.0
 
-- `NODE_ENV=development` is no longer necessary to use WS
+### Major Changes
+
+- EAv2 Release. Start of individual EA versioning.

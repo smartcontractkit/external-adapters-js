@@ -1,9 +1,7 @@
 ## v1.1.0
 
-### Added
+## 1.0.0
 
-- Added WS support for Forex
+### Major Changes
 
-### Changed
-
-- Refactored to use endpoint format
+- EAv2 Release. Start of individual EA versioning.

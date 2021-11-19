@@ -1,5 +1,7 @@
 ## v1.1.0
 
-### Added
+## 1.0.0
 
-- Added WS support for Crypto
+### Major Changes
+
+- EAv2 Release. Start of individual EA versioning.
