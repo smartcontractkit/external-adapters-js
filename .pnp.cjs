@@ -47,6 +47,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/composites/crypto-volatility-index"
       },
       {
+        "name": "@chainlink/defi-dozen-adapter",
+        "reference": "workspace:packages/composites/defi-dozen"
+      },
+      {
         "name": "@chainlink/defi-pulse-adapter",
         "reference": "workspace:packages/composites/defi-pulse"
       },
@@ -685,6 +689,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/cryptomkt-adapter", ["workspace:packages/sources/cryptomkt"]],
       ["@chainlink/currencylayer-adapter", ["workspace:packages/sources/currencylayer"]],
       ["@chainlink/curve-adapter", ["workspace:packages/sources/curve"]],
+      ["@chainlink/defi-dozen-adapter", ["workspace:packages/composites/defi-dozen"]],
       ["@chainlink/defi-pulse-adapter", ["workspace:packages/composites/defi-pulse"]],
       ["@chainlink/deribit-adapter", ["workspace:packages/sources/deribit"]],
       ["@chainlink/dns-query-adapter", ["workspace:packages/sources/dns-query"]],
@@ -4334,6 +4339,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.11"],
             ["decimal.js", "npm:10.3.1"],
             ["ethers", "npm:5.4.6"],
+            ["nock", "npm:13.1.3"],
+            ["supertest", "npm:6.1.6"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/defi-dozen-adapter", [
+        ["workspace:packages/composites/defi-dozen", {
+          "packageLocation": "./packages/composites/defi-dozen/",
+          "packageDependencies": [
+            ["@chainlink/defi-dozen-adapter", "workspace:packages/composites/defi-dozen"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/token-allocation-adapter", "workspace:packages/composites/token-allocation"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.2"],
+            ["@types/node", "npm:14.17.21"],
             ["nock", "npm:13.1.3"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
