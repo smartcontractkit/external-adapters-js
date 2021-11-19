@@ -45,6 +45,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.QA_GITHUB_TOKEN }}
           PR_NUMBER: ${{ steps.findPr.outputs.pr }}
         run: |
+          set -x
           CHANGED_FILES_NAME=./changedFiles.txt
           gh pr view ${PR_NUMBER} --json files --jq '.files.[].path' > ${CHANGED_FILES_NAME}
           ADAPTERS_LIST="$(yarn get-changed-adapters "${CHANGED_FILES_NAME}")"
@@ -56,6 +57,7 @@ jobs:
         env:
           ADAPTER_NAMES: ${{ steps.get-pr-info.outputs.ADAPTERS_LIST }}
         run: |
+          set -x
           ADAPTERS_LIST=
           for adapter in ${ADAPTER_NAMES}; do
             echo "${adapter}"
@@ -78,13 +80,15 @@ jobs:
           IMAGE_TAG=pr${PR_NUMBER}
           IMAGE_TAG=${IMAGE_TAG} IMAGE_PREFIX=${IMAGE_PREFIX} yarn generate:docker-compose
           BUILD_NAMES=
-          for adapter in ${ADAPTER_NAMES}; do
-            BUILD_NAMES="${BUILD_NAMES} ${adapter}-adapter"
-          done
-          docker-compose -f docker-compose.generated.yaml build ${BUILD_NAMES}
-          for adapter in ${ADAPTER_NAMES}; do
-            docker push ${IMAGE_PREFIX}${adapter}-adapter:${IMAGE_TAG}
-          done
+          if [ -n "$ADAPTER_NAMES" ]; then
+            for adapter in ${ADAPTER_NAMES}; do
+              BUILD_NAMES="${BUILD_NAMES} ${adapter}-adapter"
+            done
+            docker-compose -f docker-compose.generated.yaml build ${BUILD_NAMES}
+            for adapter in ${ADAPTER_NAMES}; do
+              docker push ${IMAGE_PREFIX}${adapter}-adapter:${IMAGE_TAG}
+            done
+          fi
       - name: Deploy adapters
         env:
           PR_NUMBER: ${{ steps.findPr.outputs.pr }}
@@ -96,9 +100,11 @@ jobs:
           # pull down the chainlink adapter helm chart
           helm repo add chainlink https://raw.githubusercontent.com/smartcontractkit/charts/gh-pages/ --password ${GITHUB_TOKEN} --username dummy
           # deploy all the adapters
-          for adapter in ${ADAPTER_NAMES}; do
-            yarn qa:adapter start ${adapter} ${PR_NUMBER} ${IMAGE_TAG}
-          done
+          if [ -n "$ADAPTER_NAMES" ]; then
+            for adapter in ${ADAPTER_NAMES}; do
+              yarn qa:adapter start ${adapter} ${PR_NUMBER} ${IMAGE_TAG}
+            done
+          fi
       - name: Build the k6 payloads and images
         env:
           PR_NUMBER: ${{ steps.findPr.outputs.pr }}
@@ -107,23 +113,25 @@ jobs:
         run: |
           IMAGE_TAG=pr${PR_NUMBER}
           OUTER_DIR=$(pwd)
-          for adapter in ${ADAPTER_NAMES}; do
-            cd ${OUTER_DIR}
-            # create the config
-            yarn qa:flux:configure k6payload ${adapter} ${PR_NUMBER}
-            # Move to the k6 package and build/push
-            cd ./packages/k6
-            # configure docker env
-            echo "" >> ./.env
-            echo "PAYLOAD_GENERATED=true" >> ./.env
-            echo "CI_ADAPTER_NAME=${adapter}" >> ./.env
-            echo "QA_RELEASE_TAG=${PR_NUMBER}" >> ./.env
-            echo "PR_NUMBER=${PR_NUMBER}" >> ./.env
-            cat ./.env
-            yarn build
-            docker build -t ${IMAGE_PREFIX}:${IMAGE_TAG}-${adapter} .
-            docker push ${IMAGE_PREFIX}:${IMAGE_TAG}-${adapter}
-          done
+          if [ -n "$ADAPTER_NAMES" ]; then
+            for adapter in ${ADAPTER_NAMES}; do
+              cd ${OUTER_DIR}
+              # create the config
+              yarn qa:flux:configure k6payload ${adapter} ${PR_NUMBER}
+              # Move to the k6 package and build/push
+              cd ./packages/k6
+              # configure docker env
+              echo "" >> ./.env
+              echo "PAYLOAD_GENERATED=true" >> ./.env
+              echo "CI_ADAPTER_NAME=${adapter}" >> ./.env
+              echo "QA_RELEASE_TAG=${PR_NUMBER}" >> ./.env
+              echo "PR_NUMBER=${PR_NUMBER}" >> ./.env
+              cat ./.env
+              yarn build
+              docker build -t ${IMAGE_PREFIX}:${IMAGE_TAG}-${adapter} .
+              docker push ${IMAGE_PREFIX}:${IMAGE_TAG}-${adapter}
+            done
+          fi
       - name: Deploy k6
         env:
           PR_NUMBER: ${{ steps.findPr.outputs.pr }}
@@ -131,13 +139,15 @@ jobs:
         run: |
           IMAGE_TAG=pr${PR_NUMBER}
           cd ./packages/k6
-          for adapter in ${ADAPTER_NAMES}; do
-            helm upgrade k6-${PR_NUMBER}-${adapter} ./k8s \
-              --install \
-              --namespace adapters \
-              --create-namespace \
-              -f ./k8s/values.yaml \
-              --set image.tag=${IMAGE_TAG}-${adapter} \
-              --set name=k6-${PR_NUMBER}-${adapter} \
-              --wait
-          done
+          if [ -n "$ADAPTER_NAMES" ]; then
+            for adapter in ${ADAPTER_NAMES}; do
+              helm upgrade k6-${PR_NUMBER}-${adapter} ./k8s \
+                --install \
+                --namespace adapters \
+                --create-namespace \
+                -f ./k8s/values.yaml \
+                --set image.tag=${IMAGE_TAG}-${adapter} \
+                --set name=k6-${PR_NUMBER}-${adapter} \
+                --wait
+            done
+          fi
