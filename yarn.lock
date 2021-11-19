@@ -1418,9 +1418,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/accuweather-adapter@workspace:packages/sources/accuweather"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     "@types/supertest": ^2.0.11
@@ -1931,7 +1931,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/coinmetrics-adapter@1.1.0, @chainlink/coinmetrics-adapter@workspace:packages/sources/coinmetrics":
+"@chainlink/coinmetrics-adapter@workspace:*, @chainlink/coinmetrics-adapter@workspace:packages/sources/coinmetrics":
   version: 0.0.0-use.local
   resolution: "@chainlink/coinmetrics-adapter@workspace:packages/sources/coinmetrics"
   dependencies:
@@ -2161,10 +2161,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/defi-dozen-adapter@workspace:packages/composites/defi-dozen"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.0.0
-    "@chainlink/ea-test-helpers": 1.0.0
-    "@chainlink/token-allocation-adapter": 1.0.0
-    "@chainlink/types": 1.0.0
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/token-allocation-adapter": "workspace:*"
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     nock: 13.1.4
@@ -2355,7 +2355,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ea-bootstrap@*, @chainlink/ea-bootstrap@1.0.0, @chainlink/ea-bootstrap@workspace:*, @chainlink/ea-bootstrap@workspace:packages/core/bootstrap":
+"@chainlink/ea-bootstrap@*, @chainlink/ea-bootstrap@workspace:*, @chainlink/ea-bootstrap@workspace:packages/core/bootstrap":
   version: 0.0.0-use.local
   resolution: "@chainlink/ea-bootstrap@workspace:packages/core/bootstrap"
   dependencies:
@@ -2459,7 +2459,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ea-test-helpers@*, @chainlink/ea-test-helpers@1.0.0, @chainlink/ea-test-helpers@workspace:*, @chainlink/ea-test-helpers@workspace:packages/core/test-helpers":
+"@chainlink/ea-test-helpers@*, @chainlink/ea-test-helpers@workspace:*, @chainlink/ea-test-helpers@workspace:packages/core/test-helpers":
   version: 0.0.0-use.local
   resolution: "@chainlink/ea-test-helpers@workspace:packages/core/test-helpers"
   dependencies:
@@ -2505,7 +2505,7 @@ __metadata:
     "@chainlink/coingecko-adapter": "workspace:*"
     "@chainlink/coinlore-adapter": "workspace:*"
     "@chainlink/coinmarketcap-adapter": "workspace:*"
-    "@chainlink/coinmetrics-adapter": 1.1.0
+    "@chainlink/coinmetrics-adapter": "workspace:*"
     "@chainlink/coinpaprika-adapter": "workspace:*"
     "@chainlink/coinranking-adapter": "workspace:*"
     "@chainlink/covid-tracker-adapter": "workspace:*"
@@ -3754,7 +3754,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/token-allocation-adapter@1.0.0, @chainlink/token-allocation-adapter@workspace:*, @chainlink/token-allocation-adapter@workspace:packages/composites/token-allocation":
+"@chainlink/token-allocation-adapter@workspace:*, @chainlink/token-allocation-adapter@workspace:packages/composites/token-allocation":
   version: 0.0.0-use.local
   resolution: "@chainlink/token-allocation-adapter@workspace:packages/composites/token-allocation"
   dependencies:
@@ -3845,7 +3845,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/types@1.0.0, @chainlink/types@workspace:*, @chainlink/types@workspace:packages/core/types/@chainlink":
+"@chainlink/types@workspace:*, @chainlink/types@workspace:packages/core/types/@chainlink":
   version: 0.0.0-use.local
   resolution: "@chainlink/types@workspace:packages/core/types/@chainlink"
   languageName: unknown
