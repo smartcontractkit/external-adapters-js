@@ -6435,7 +6435,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:14.17.21"],
             ["@types/supertest", "npm:2.0.11"],
             ["ethers", "npm:5.5.1"],
-            ["nock", "npm:13.2.0"],
+            ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
@@ -25859,10 +25859,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["npm:13.2.0", {
-          "packageLocation": "./.yarn/cache/nock-npm-13.2.0-e2c4f7f99c-97862bfe06.zip/node_modules/nock/",
+        ["npm:13.2.1", {
+          "packageLocation": "./.yarn/cache/nock-npm-13.2.1-93bbd63b82-b401fb8143.zip/node_modules/nock/",
           "packageDependencies": [
-            ["nock", "npm:13.2.0"],
+            ["nock", "npm:13.2.1"],
             ["debug", "virtual:c9bc8b4682dae1ac36fcb97c7fccfb86af01a1f6fc48eaf83d9bd00fb14f9e1f641a2409ef7e079b4e0ed4a16267412a60166cc456172f4a4f9469cc6ef7c07b#npm:4.3.2"],
             ["json-stringify-safe", "npm:5.0.1"],
             ["lodash.set", "npm:4.3.2"],
