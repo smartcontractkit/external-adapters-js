@@ -3,7 +3,6 @@
   "devDependencies": {
     "@types/babel__core": "7.1.16",
     "@types/babel__preset-env": "7.9.2",
-    "@types/k6": "0.32.2",
     "clean-webpack-plugin": "4.0.0",
     "typescript": "4.3.5"
   },
@@ -15,7 +14,6 @@
     "@babel/preset-typescript": "7.15.0",
     "babel-loader": "8.2.2",
     "core-js": "3.16.2",
-    "k6": "^0.0.0",
     "webpack": "5.51.1",
     "webpack-cli": "4.8.0"
   },

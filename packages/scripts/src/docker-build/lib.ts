@@ -33,7 +33,7 @@ export async function generateFile(): Promise<string> {
 export async function generateFileJSON(
   imageNameConfig: ImageNameConfig,
   composeFileOptions: ComposeFileOptions,
-): Promise<Dockerfile> {
+): Promise<DockerComposeFile> {
   return makeDockerComposeFile(getWorkspacePackages(), imageNameConfig, composeFileOptions)
 }
 
@@ -49,7 +49,7 @@ interface Service {
   environment: string[]
 }
 
-interface Dockerfile {
+interface DockerComposeFile {
   version: string
   services: Record<string, Service>
 }
@@ -69,7 +69,7 @@ async function makeDockerComposeFile(
   packages: WorkspacePackages,
   imageNameConfig: ImageNameConfig,
   composeFileOptions: ComposeFileOptions,
-): Promise<Dockerfile> {
+): Promise<DockerComposeFile> {
   const flattenedSchemas = await flattenAllSchemas()
   const flattenedSchemasByLocation = flattenedSchemas.reduce<Record<string, FlattenedSchema>>(
     (prev, next) => {
