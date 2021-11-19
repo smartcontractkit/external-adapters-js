@@ -10,20 +10,14 @@ on:
 
       - develop
 
-      # On master, we build and publish containers with the tag of "latest" and another tag of the
-      # adapters version contained within package.json.
-
       # Ex. If the value of the field "version" in the "package.json" file of the coingecko adapter is "0.0.5-beta",
       # The "coingecko-adapter" container will be resolvable with the following specifiers:
-      # coingecko-adapter:latest
       # coingecko-adapter:0.0.5-beta
 
       # The ECR registry is reachable at public.ecr.aws/chainlink/adapters/
 
       # You would be able to pull the coingecko adapter with the following commands:
-      # docker pull public.ecr.aws/chainlink/adapters/coingecko-adapter:latest
       # docker pull public.ecr.aws/chainlink/adapters/coingecko-adapter:0.0.5-beta
-      # docker pull <accountid>.dkr.ecr.<region>.amazonaws.com/adapters/coingecko-adapter:latest
       - master
 
   # A workflow dispatch would trigger the same behaviour as a push to the master branch
@@ -82,8 +76,8 @@ jobs:
           aws-ecr-private: 'true'
           aws-ecr-account-ids: ${{ secrets.AWS_PRIVATE_ECR_SECONDARY_ACCOUNT_ACCESS_IDS }}
 
-      # If we're on master, publish again with a 'latest' tag if we didnt have a duplicate versioned adapter
-      - if: github.ref == 'refs/heads/master' && !steps.publish-adapter-versioned-private-ecr.outputs.image-exists
+      # For our private ECR repo that we use for staging, we keep the latest tag around to have staging auto-update
+      - if: ! steps.publish-adapter-versioned-private-ecr.outputs.image-exists
         name: Publish adapter to private ECR, with latest tag
         uses: ./.github/actions/release/publish-artifacts
         with:
@@ -117,18 +111,6 @@ jobs:
         with:
           branch: undefined
           latest: undefined
-
-          image-prefix: public.ecr.aws/${{ env.publicecr-name }}/adapters/
-          adapter-name: ${{ matrix.adapter.name }}
-          aws-region: us-east-1
-          aws-ecr-private: 'false'
-
-      - if: github.ref == 'refs/heads/master' && !steps.publish-adapter-versioned-public-ecr.outputs.image-exists
-        name: Publish adapter to public ECR, with latest tag
-        uses: ./.github/actions/release/publish-artifacts
-        with:
-          branch: undefined
-          latest: true
 
           image-prefix: public.ecr.aws/${{ env.publicecr-name }}/adapters/
           adapter-name: ${{ matrix.adapter.name }}
