@@ -77,7 +77,7 @@ jobs:
           aws-ecr-account-ids: ${{ secrets.AWS_PRIVATE_ECR_SECONDARY_ACCOUNT_ACCESS_IDS }}
 
       # For our private ECR repo that we use for staging, we keep the latest tag around to have staging auto-update
-      - if: ! steps.publish-adapter-versioned-private-ecr.outputs.image-exists
+      - if: ${{ ! steps.publish-adapter-versioned-private-ecr.outputs.image-exists }}
         name: Publish adapter to private ECR, with latest tag
         uses: ./.github/actions/release/publish-artifacts
         with:
