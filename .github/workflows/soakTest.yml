@@ -148,7 +148,6 @@ jobs:
                 -f ./k8s/values.yaml \
                 --set image.tag=${IMAGE_TAG}-${adapter} \
                 --set name=k6-${PR_NUMBER}-${adapter} \
-                --force
                 --wait
             done
           fi
