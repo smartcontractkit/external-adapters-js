@@ -21,6 +21,9 @@
       "path": "./composites/crypto-volatility-index"
     },
     {
+      "path": "./composites/defi-dozen"
+    },
+    {
       "path": "./composites/defi-pulse"
     },
     {
