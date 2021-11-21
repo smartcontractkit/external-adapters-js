@@ -8,5 +8,4 @@ for adapter in ${ADAPTER_NAMES}; do
     NAME=k6-${PR_NUMBER}-${adapter} yarn qa:adapter stop k6 ${PR_NUMBER} || true
     # stop the adapter pod
     yarn qa:adapter stop ${adapter} ${PR_NUMBER} || true
-    # TODO cleanup images created for this test run, not sure if we want to open this can of worms yet
 done
