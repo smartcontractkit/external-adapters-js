@@ -3847,7 +3847,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/types@workspace:*, @chainlink/types@workspace:packages/core/types/@chainlink":
+"@chainlink/types@1.0.0, @chainlink/types@workspace:*, @chainlink/types@workspace:packages/core/types/@chainlink":
   version: 0.0.0-use.local
   resolution: "@chainlink/types@workspace:packages/core/types/@chainlink"
   languageName: unknown
@@ -4005,7 +4005,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@chainlink/types": "workspace:*"
+    "@chainlink/types": 1.0.0
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
     nock: 13.1.3
