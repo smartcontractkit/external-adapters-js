@@ -1,5 +1,11 @@
 # @chainlink/bitex-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- Add crypto endpoint response schema
+
 ## 1.0.1
 
 ### Patch Changes
