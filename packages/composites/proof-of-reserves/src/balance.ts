@@ -7,7 +7,7 @@ import {
 } from '@chainlink/types'
 import { callAdapter, makeRequestFactory } from './adapter'
 // balance adapters
-import amberdata from '@chainlink/amberdata-adapter'
+import * as amberdata from '@chainlink/amberdata-adapter'
 import bitcoinJsonRpc from '@chainlink/bitcoin-json-rpc-adapter'
 import blockchainCom from '@chainlink/blockchain.com-adapter'
 import blockchair from '@chainlink/blockchair-adapter'
@@ -16,6 +16,8 @@ import btcCom from '@chainlink/btc.com-adapter'
 import cryptoapis from '@chainlink/cryptoapis-adapter'
 import sochain from '@chainlink/sochain-adapter'
 import * as lotus from '@chainlink/lotus-adapter'
+import * as ethBalance from '@chainlink/eth-balance-adapter'
+import * as adaBalance from '@chainlink/ada-balance-adapter'
 
 export const adapters: AdapterImplementation[] = [
   amberdata,
@@ -27,6 +29,8 @@ export const adapters: AdapterImplementation[] = [
   cryptoapis,
   sochain,
   lotus,
+  ethBalance,
+  adaBalance,
 ]
 
 export type Indexer = typeof adapters[number]['NAME']

@@ -117,7 +117,7 @@ class QueryBuilder {
     this.dateFrom = new Date(dateFrom)
     this.dateTo = new Date(dateTo)
     this.method = method
-    this.column = column
+    this.column = column.replace(/\W/g, '')
     this.dataset = dataset
   }
 

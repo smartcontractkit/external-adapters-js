@@ -232,6 +232,10 @@ The following section details mechanisms that reduce the number of API calls mad
 
 Caching allows for the EA to store successful responses and facilitate faster future response times.
 
+> ### ⚠️ Note
+>
+> Please check and ensure caching is allowed and not in violation of the Terms of Service of the data provider's API. Disable caching flags if it is not supported by the specified API provider's TOS.
+
 Caching is enabled by default. It can be turned off using:
 
 ```bash
@@ -363,10 +367,10 @@ To get started from one of the example adapters seen in [examples](./packages/ex
 yarn new [template-type] [name-of-adapter]
 ```
 
-|     Parameter     |           Description           |         Options         |
-| :---------------: | :-----------------------------: | :---------------------: |
-|  `template-type`  | the name of the template to use | `composites`, `sources` |
-| `name-of-adapter` |  what to call the new adapter   |      user-defined       |
+|     Parameter     |           Description           |        Options        |
+| :---------------: | :-----------------------------: | :-------------------: |
+|  `template-type`  | the name of the template to use | `composite`, `source` |
+| `name-of-adapter` |  what to call the new adapter   |     user-defined      |
 
 For example
 

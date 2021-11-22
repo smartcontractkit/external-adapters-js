@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute crypto api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 4226.71,
+  },
+  "jobRunID": "1",
+  "result": 4226.71,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute dominance api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 18.127134683884314,
+  },
+  "jobRunID": "1",
+  "result": 18.127134683884314,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute globalmarketcap api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 2744386468602.4453,
+  },
+  "jobRunID": "1",
+  "result": 2744386468602.4453,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute marketcap api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 499351414399.08246,
+  },
+  "jobRunID": "1",
+  "result": 499351414399.08246,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute volume api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 17345604238.153397,
+  },
+  "jobRunID": "1",
+  "result": 17345604238.153397,
+  "statusCode": 200,
+}
+`;

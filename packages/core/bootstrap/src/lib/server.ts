@@ -1,6 +1,8 @@
 import { AdapterContext, Execute, Middleware } from '@chainlink/types'
 import express from 'express'
 import http from 'http'
+import slowDown from 'express-slow-down'
+import rateLimit from 'express-rate-limit'
 import { join } from 'path'
 import * as client from 'prom-client'
 import { executeSync, withMiddleware } from '../index'
@@ -12,7 +14,7 @@ import {
   HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE_MESSAGE,
 } from './errors'
 import { logger } from './external-adapter'
-import { METRICS_ENABLED, setupMetrics } from './metrics'
+import { METRICS_ENABLED, httpRateLimit, setupMetrics } from './metrics'
 import { get as getRateLimitConfig } from './rate-limit/config'
 import { toObjectWithNumbers } from './util'
 
@@ -37,13 +39,14 @@ export const initHandler =
       cacheOptions.instance = await cacheOptions.cacheBuilder(cacheOptions.cacheImplOptions)
       context.cache = cacheOptions
     }
+
     if (METRICS_ENABLED) {
       setupMetricsServer(name)
     }
 
-    const executeWithMiddleware = await withMiddleware(execute, context, middleware)
+    initExpressMiddleware(app)
 
-    app.use(express.json())
+    const executeWithMiddleware = await withMiddleware(execute, context, middleware)
 
     app.post(baseUrl, (req, res) => {
       if (!req.is(CONTENT_TYPE_APPLICATION_JSON)) {
@@ -126,4 +129,34 @@ function setupMetricsServer(name: string) {
   })
 
   metricsApp.listen(metricsPort, () => logger.info(`Monitoring listening on port ${metricsPort}!`))
+}
+
+const windowMs = 1000 * 5
+const max = parseInt(process.env.SERVER_RATE_LIMIT_MAX || '250') // default to 250 req / 5 seconds max
+const delayAfter = max * (Number(process.env.SERVER_SLOW_DOWN_AFTER_FACTOR) || 0.8) // we start slowing down requests when we reach 80% of our max limit for the current interval
+const delayMs = parseInt(process.env.SERVER_SLOW_DOWN_DELAY_MS || '500') // default to slowing down each request by 500ms
+
+function initExpressMiddleware(app: express.Express) {
+  app.set('trust proxy', 1)
+
+  const rateLimiter = rateLimit({
+    windowMs,
+    max, // limit each IP's requests per windowMs
+    keyGenerator: () => '*', // use one key for all incoming requests
+    handler: ((_, res) => {
+      httpRateLimit.inc()
+      res.status(429).send('Too many requests, please try again later.')
+    }) as express.RequestHandler,
+  })
+  app.use(rateLimiter)
+
+  const speedLimiter = slowDown({
+    windowMs,
+    delayAfter,
+    delayMs,
+    keyGenerator: () => '*', // use one key for all incoming requests
+  })
+  app.use(speedLimiter)
+
+  app.use(express.json())
 }

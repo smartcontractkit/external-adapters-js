@@ -9,7 +9,9 @@
     "RUNE": "thorchain",
     "UNI": "uniswap",
     "grt": "the-graph",
-    "BCH": "bitcoin-cash"
+    "BCH": "bitcoin-cash",
+    "LEO": "leo-token",
+    "FIL": "filecoin"
   },
   "coinmarketcap": {
     "PAX": "USDP"
