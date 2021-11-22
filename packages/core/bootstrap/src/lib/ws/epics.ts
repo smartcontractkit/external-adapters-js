@@ -67,6 +67,11 @@ const deserializer = (message: any) => {
   }
 }
 
+const serializer = (message: any) => {
+  if (typeof message === 'string') return message
+  return JSON.stringify(message)
+}
+
 type ConnectRequestedActionWithState = [
   {
     payload: WSConfigOverride
@@ -102,6 +107,9 @@ export const subscribeReadyEpic: Epic<AnyAction, AnyAction, { ws: RootState }, a
           subscriptionMsg,
           input: singleInput,
           context,
+          filterMultiplex: wsHandler.onConnectChain
+            ? wsHandler.onConnectChain[0].filter
+            : undefined,
         }
         subscriptionPayloads.push(subscriptionPayload)
       })
@@ -165,6 +173,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
         url,
         protocol, // TODO: Double check this
         deserializer,
+        serializer,
         openObserver,
         closeObserver,
         WebSocketCtor: WebSocketCtor as any, // TODO: fix types don't match

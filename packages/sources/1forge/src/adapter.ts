@@ -21,7 +21,7 @@ export const makeExecute: ExecuteFactory<Config> = (config) => {
   return async (request, context) => execute(request, context, config || makeConfig())
 }
 
-export const makeWSHandler = (): MakeWSHandler => {
+export const makeWSHandler = (config?: Config): MakeWSHandler => {
   const getSubscription = (symbol?: string) => {
     if (!symbol) return
     return 'subscribe_to_all'
@@ -34,12 +34,13 @@ export const makeWSHandler = (): MakeWSHandler => {
     return `${symbol.toLowerCase()}${convert.toLowerCase()}`
   }
   return () => {
+    const defaultConfig = config || makeConfig()
+
     return {
       connection: {
         url: 'wss://sockets.1forge.com/socket',
       },
       subscribe: (input) => getSubscription(getSymbol(input)),
-      onConnect: () => 'login',
       noHttp: true,
       unsubscribe: (input) => getSubscription(getSymbol(input)),
       subsFromMessage: (message) => {
@@ -52,6 +53,14 @@ export const makeWSHandler = (): MakeWSHandler => {
         const result = Requester.validateResultNumber(message, ['c'])
         return Requester.success('1', { data: { result } })
       },
+      onConnectChain: [
+        {
+          payload: `login|${defaultConfig.apiKey}`,
+          filter: (message: any) => {
+            return message.data.indexOf('post_login_success') !== -1
+          },
+        },
+      ],
     }
   }
 }
