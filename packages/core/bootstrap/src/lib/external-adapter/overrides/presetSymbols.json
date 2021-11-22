@@ -10,7 +10,8 @@
     "UNI": "uniswap",
     "grt": "the-graph",
     "BCH": "bitcoin-cash",
-    "LEO": "leo-token"
+    "LEO": "leo-token",
+    "FIL": "filecoin"
   },
   "coinmarketcap": {
     "PAX": "USDP"
