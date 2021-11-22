@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ethgaswatch-adapter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Chainlink ethgaswatch adapter.",
   "keywords": [
     "Chainlink",
