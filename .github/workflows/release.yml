@@ -64,11 +64,11 @@ jobs:
         id: publish-adapter-versioned-private-ecr
         uses: ./.github/actions/release/publish-artifacts
         with:
-          # Having both branch and latest be undefined means that the underlying action will only publish semver-style versions.
+          # Having both branch and latest be null means that the underlying action will only publish semver-style versions.
           # Take a look at scripts/src/generate-image-name/__snapshots__/lib.test.ts.snap for example image name outputs based on
           # branch / latest inputs
-          branch: undefined
-          latest: undefined
+          branch: null
+          latest: null
 
           image-prefix: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/adapters/
           adapter-name: ${{ matrix.adapter.name }}
@@ -81,7 +81,7 @@ jobs:
         name: Publish adapter to private ECR, with latest tag
         uses: ./.github/actions/release/publish-artifacts
         with:
-          branch: undefined
+          branch: null
           latest: true
 
           image-prefix: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/adapters/
@@ -109,8 +109,8 @@ jobs:
         id: publish-adapter-versioned-public-ecr
         uses: ./.github/actions/release/publish-artifacts
         with:
-          branch: undefined
-          latest: undefined
+          branch: null
+          latest: null
 
           image-prefix: public.ecr.aws/${{ env.publicecr-name }}/adapters/
           adapter-name: ${{ matrix.adapter.name }}
