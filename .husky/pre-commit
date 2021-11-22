@@ -4,3 +4,11 @@
 yarn lint-staged
 
 yarn generate:readme -a
+README_GENERATOR_EXIT_CODE=$?
+
+if [ $README_GENERATOR_EXIT_CODE -ne 0 ]; then
+    echo "README(s) could not be generated. Aborting commit."
+    exit 1
+else
+    echo "README(s) generated successfully."
+fi

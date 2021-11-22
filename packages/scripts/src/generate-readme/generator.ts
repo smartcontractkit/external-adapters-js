@@ -329,7 +329,7 @@ class ReadmeGenerator {
   }
 }
 
-export async function main(): Promise<void> {
+export async function main(): Promise<void | string> {
   try {
     const options = commandLineArgs([
       { name: 'all', alias: 'a', type: Boolean },
@@ -365,6 +365,6 @@ export async function main(): Promise<void> {
     }
   } catch (e) {
     console.log(`Error: ${e}`)
-    return
+    process.exit(1)
   }
 }
