@@ -1,5 +1,11 @@
 # @chainlink/sportsdataio-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- Add NBA and MLB support
+
 ## 1.0.1
 
 ### Patch Changes

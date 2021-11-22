@@ -1,5 +1,14 @@
 # @chainlink/token-allocation-adapter
 
+## 1.0.3
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies
+  - @chainlink/cryptocompare-adapter@1.1.0
+  - @chainlink/amberdata-adapter@1.1.0
+
 ## 1.0.2
 
 ### Patch Changes

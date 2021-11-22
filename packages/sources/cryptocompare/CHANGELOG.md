@@ -1,5 +1,11 @@
 # @chainlink/cryptocompare-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- Add volume endpoint
+
 ## 1.0.1
 
 ### Patch Changes

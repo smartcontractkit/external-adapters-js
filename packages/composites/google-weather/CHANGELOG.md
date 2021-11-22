@@ -1,5 +1,11 @@
 # @chainlink/google-weather-adapter
 
+## 1.0.2
+
+### Patch Changes
+
+- Fix to alpha-numeric column name
+
 ## 1.0.1
 
 ### Patch Changes

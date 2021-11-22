@@ -1,11 +1,21 @@
 # @chainlink/ea
 
-## 1.0.4
+## 1.0.5
 
 ### Patch Changes
 
 - Updated dependencies
   - @chainlink/bitex-adapter@1.1.0
+
+## 1.0.4
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies
+  - @chainlink/cryptocompare-adapter@1.1.0
+  - @chainlink/sportsdataio-adapter@1.1.0
+  - @chainlink/amberdata-adapter@1.1.0
 
 ## 1.0.3
 
