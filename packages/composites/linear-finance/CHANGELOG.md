@@ -1,5 +1,15 @@
 # @chainlink/linear-finance-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- Update xbci and xlci indices
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.0.3
+
 ## 1.0.2
 
 ### Patch Changes

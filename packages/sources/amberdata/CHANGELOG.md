@@ -1,5 +1,11 @@
 # @chainlink/amberdata-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- add volume endpoint
+
 ## 1.0.1
 
 ### Patch Changes

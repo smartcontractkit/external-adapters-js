@@ -1,5 +1,11 @@
 # @chainlink/outlier-detection-adapter
 
+## 1.0.4
+
+### Patch Changes
+
+- @chainlink/ea@1.0.4
+
 ## 1.0.3
 
 ### Patch Changes
