@@ -64,6 +64,7 @@ runs:
         ADAPTER_NAME: ${{ inputs.adapter-name }}
         AWS_REGION: ${{ inputs.aws-region }}
         AWS_ECR_PRIVATE: ${{ inputs.aws-ecr-private }}
+        IMAGE_NAME: ${{ steps.generate-image-name.outputs.image_name }}
       run: .github/actions/release/publish-artifacts/image_exists
 
     - name: Build Docker containers

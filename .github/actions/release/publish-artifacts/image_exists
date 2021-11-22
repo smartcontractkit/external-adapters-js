@@ -4,9 +4,12 @@
 # IMAGE_NAME=public.ecr.aws/chainlink/adapters/example-source-adapter:1.0.0
 # ADAPTER_NAME=example-source-adapter
 # AWS_ECR_PRIAVTE=true
+# AWS_REGION=us-west-2
 
 # Extract the image tag out of the generated image name, since the tag comes immediately after a ":"
+echo "Extracting image tag from image name ${IMAGE_NAME}..."
 image_tag=$(echo "$IMAGE_NAME" | awk -F: '{print $2}')
+echo "Extracted $image_tag from $IMAGE_NAME"
 
 # For either ECR public or private, see if an image exists by fetching its metadata
 if [ "$AWS_ECR_PRIVATE" == "true" ]; then
