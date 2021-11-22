@@ -2,14 +2,14 @@ import * as shell from 'shelljs'
 import { buildTable } from './table'
 import commandLineArgs from 'command-line-args'
 import {
-  AdapterPackage,
-  AdapterSchema,
   Blacklist,
   EndpointDetails,
   EndpointParameters,
   EnvVars,
   IOMap,
   JsonObject,
+  Package,
+  Schema,
   TableText,
   TextRow,
 } from './types'
@@ -20,18 +20,7 @@ const pathToBlacklist = 'packages/scripts/src/generate-readme/readme-blacklist.j
 
 const pathToSources = 'packages/sources/'
 
-const envVarHeaders: TextRow = ['Required?', 'Name', 'Description', 'Type', 'Options', 'Default']
-
-const endpointInputHeaders: TextRow = ['Required?', 'Name', 'Type', 'Options', 'Default']
-
-const inputParamHeaders: TextRow = [
-  'Required?',
-  'Name',
-  'Description',
-  'Type',
-  'Options',
-  'Default',
-]
+const paramHeaders: TextRow = ['Required?', 'Name', 'Description', 'Type', 'Options', 'Default']
 
 const testEnvOverrides = { RECORD: undefined, LOG_LEVEL: 'debug', API_VERBOSE: 'true' }
 
@@ -53,11 +42,11 @@ const wrapJson = (objectStr: string): string => {
 }
 
 class ReadmeGenerator {
-  adapterDescription: string
+  schemaDescription: string
   adapterPath: string
   defaultEndpoint = ''
   endpointDetails: EndpointDetails = {}
-  endpointParameters: EndpointParameters
+  schemaEndpointParameters: EndpointParameters
   envVars: EnvVars
   integrationTestPath: string | null
   name: string
@@ -80,33 +69,69 @@ class ReadmeGenerator {
 
     this.adapterPath = adapterPath
 
-    const adapterPackage = getJsonFile(this.packagePath) as AdapterPackage
-    this.name = adapterPackage.name
-    this.version = adapterPackage.version
+    const packageJson = getJsonFile(this.packagePath) as Package
+    this.name = packageJson.name
+    this.version = packageJson.version
 
-    const adapterSchema = getJsonFile(this.schemaPath) as AdapterSchema
-    this.adapterDescription = adapterSchema.description
-    this.endpointParameters = adapterSchema.endpointParameters
-    this.envVars = adapterSchema.properties
-    this.requiredEnvVars = adapterSchema.required
+    const schema = getJsonFile(this.schemaPath) as Schema
+    this.schemaDescription = schema.description
+    this.schemaEndpointParameters = schema.endpointParameters
+    this.envVars = schema.properties
+    this.requiredEnvVars = schema.required
   }
 
   async fetchImports(): Promise<void> {
+    // Fetch imports as separate step, since dynamic imports are async but constructor can't contain async code
+
     const configPath = checkFilePath(this.adapterPath + 'src/config.ts')
     this.defaultEndpoint = (await require(localPathToRoot + configPath)).DEFAULT_ENDPOINT ?? ''
 
     const endpointPath = checkFilePath(this.adapterPath + 'src/endpoint/index.ts')
-    this.endpointDetails = await require(localPathToRoot + endpointPath)
+    const codedEndpointDetails = await require(localPathToRoot + endpointPath)
 
-    for (const [endpointName, endpointDetails] of Object.entries(this.endpointDetails)) {
-      const schemaEndpointParameters = { ...this.endpointParameters }
-      //TODO add checks for mismatch of 1:1 mapping - 1:00
-      //TODO consolidate all input param information into single attribute of class - 1:00
+    const endpointDetails = {}
+
+    for (const schemaEndpoint in this.schemaEndpointParameters) {
+      if (!(schemaEndpoint in codedEndpointDetails))
+        throw Error(`Unknown endpoint ${schemaEndpoint} found in env.json schema.`)
+
+      for (const inputParam in this.schemaEndpointParameters[schemaEndpoint]) {
+        if (!(inputParam in codedEndpointDetails[schemaEndpoint].inputParameters))
+          throw Error(
+            `Unknown input param ${inputParam} for endpoint ${schemaEndpoint} found in env.json schema.`,
+          )
+      }
     }
+
+    for (const codedEndpoint in codedEndpointDetails) {
+      if (!(codedEndpoint in this.schemaEndpointParameters))
+        throw Error(`Endpoint ${codedEndpoint} not found in env.json schema.`)
+
+      const inputParameters = {}
+
+      for (const codedInputParam in codedEndpointDetails[codedEndpoint].inputParameters) {
+        if (!(codedInputParam in this.schemaEndpointParameters[codedEndpoint]))
+          throw Error(
+            `Input param ${codedInputParam} for endpoint ${codedEndpoint} not found in env.json schema.`,
+          )
+
+        inputParameters[codedInputParam] = {
+          ...this.schemaEndpointParameters[codedEndpoint][codedInputParam],
+          codedDetails: codedEndpointDetails[codedEndpoint].inputParameters[codedInputParam],
+        }
+      }
+
+      endpointDetails[codedEndpoint] = {
+        supportedEndpoints: codedEndpointDetails[codedEndpoint].supportedEndpoints,
+        inputParameters,
+      }
+    }
+
+    this.endpointDetails = endpointDetails
   }
 
   buildReadme(): void {
-    console.log('Generating README...')
+    console.log(`Generating README for ${this.adapterPath}`)
 
     this.addIntroSection()
     this.addEnvVarSection()
@@ -118,8 +143,8 @@ class ReadmeGenerator {
   addIntroSection(): void {
     console.log('Adding title and version...')
 
-    this.readmeText = `# ${this.adapterPackage.name}\n\nVersion: ${this.adapterPackage.version}\n\n`
-    if (this.adapterDescription) this.readmeText += `${this.adapterDescription}\n\n`
+    this.readmeText = `# ${this.name}\n\nVersion: ${this.version}\n\n`
+    if (this.schemaDescription) this.readmeText += `${this.schemaDescription}\n\n`
   }
 
   addEnvVarSection(): void {
@@ -138,7 +163,7 @@ class ReadmeGenerator {
     })
 
     const envVarTable = tableText.length
-      ? buildTable(tableText, envVarHeaders)
+      ? buildTable(tableText, paramHeaders)
       : 'There are no environment variables for this adapter.'
 
     this.readmeText += `## Environment Variables\n\n${envVarTable}\n\n---\n\n`
@@ -163,7 +188,7 @@ class ReadmeGenerator {
     ]
 
     const inputParamTable = tableText.length
-      ? buildTable(tableText, inputParamHeaders)
+      ? buildTable(tableText, paramHeaders)
       : 'There are no input parameters for this adapter.'
 
     this.readmeText += `## Input Parameters\n\n${inputParamTable}\n\n---\n\n`
@@ -216,20 +241,26 @@ class ReadmeGenerator {
 
         // Fetch input table
         const inputTableText: TableText = Object.entries(endpointDetails.inputParameters).map(
-          ([pName, pDetails]) => {
-            const required = Array.isArray(pDetails) || pDetails === true ? '✅' : ''
-            const name = pName ?? ''
-            const type = '' //TODO add these sections for input params
-            const options = Array.isArray(pDetails)
-              ? pDetails.map((d) => `\`${d}\``).join(', ')
-              : ''
-            const defaultText = ''
-            return [required, name, type, options, defaultText]
+          ([param, attributes]) => {
+            const description =
+              (attributes.description ?? '') +
+              (Array.isArray(attributes.codedDetails) && attributes.codedDetails.length
+                ? ` Available param names are: ${attributes.codedDetails
+                    .map((d) => `\`${d}\``)
+                    .join(', ')}.`
+                : '')
+            const required =
+              Array.isArray(attributes.codedDetails) || attributes.codedDetails === true ? '✅' : ''
+            const name = param ?? ''
+            const type = attributes.type ?? ''
+            const options = attributes.enum?.map((d) => `\`${d.toString()}\``).join(', ') ?? ''
+            const defaultText = attributes.default ? `\`${attributes.default.toString()}\`` : ''
+            return [required, name, description, type, options, defaultText]
           },
         )
 
         const inputTable = inputTableText.length
-          ? buildTable(inputTableText, endpointInputHeaders)
+          ? buildTable(inputTableText, paramHeaders)
           : 'There are no input parameters for this endpoint.'
 
         const inputTableSection = '### Input Params\n' + inputTable
@@ -302,10 +333,19 @@ export async function main(): Promise<void> {
   try {
     const options = commandLineArgs([
       { name: 'all', alias: 'a', type: Boolean },
+      { name: 'testPath', alias: 't', type: String },
       { name: 'adapters', multiple: true, defaultOption: true },
     ])
 
+    if (options.testPath) {
+      const readmeGenerator = new ReadmeGenerator(options.testPath)
+      await readmeGenerator.fetchImports()
+      readmeGenerator.buildReadme()
+      return
+    }
+
     let adapters = []
+
     if (options.all) adapters = shell.ls('-A', pathToSources).filter((name) => name !== 'README.md')
     else if (options.adapters?.length) adapters = options.adapters
     else throw Error('Please specify at least one adapter to generate the README for.')
@@ -320,10 +360,7 @@ export async function main(): Promise<void> {
 
     for (const target of generatorTargets) {
       const readmeGenerator = new ReadmeGenerator(pathToSources + target)
-
-      // Fetch imports as separate step, since dynamic imports are async but constructor can't contain async code
       await readmeGenerator.fetchImports()
-
       readmeGenerator.buildReadme()
     }
   } catch (e) {

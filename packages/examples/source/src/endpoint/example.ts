@@ -2,7 +2,8 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
-// This should be filled in with a lowercase name corresponding to the API endpoint
+// This should be filled in with a lowercase name corresponding to the API endpoint.
+// The supportedEndpoints list must be present for README generation.
 export const supportedEndpoints = ['example']
 
 export const endpointResultPaths = {
@@ -17,6 +18,7 @@ export interface ResponseSchema {
 
 const customError = (data: any) => data.Response === 'Error'
 
+// The inputParameters object must be present for README generation.
 export const inputParameters: InputParameters = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],

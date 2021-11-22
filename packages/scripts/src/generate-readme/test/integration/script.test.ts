@@ -8,7 +8,7 @@ describe('readme generation script', () => {
       const generatedReadmePath = pathToAdapter + 'README.md'
       const savedArchivesPath = pathToAdapter + 'readme-archive/'
 
-      shell.exec(`yarn generate:readme ${pathToAdapter}`)
+      shell.exec(`yarn generate:readme -t ${pathToAdapter}`)
 
       shell.rm('-rf', savedArchivesPath)
 

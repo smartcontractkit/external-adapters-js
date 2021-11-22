@@ -1,15 +1,3 @@
-export type AdapterPackage = {
-  name: string
-  version: string
-}
-
-export type AdapterSchema = {
-  description?: string
-  endpointParameters: EndpointParameters
-  properties: EnvVars
-  required: string[]
-}
-
 export type Blacklist = {
   blacklist: string[]
 }
@@ -18,7 +6,13 @@ export type EndpointDetails = {
   [endpointName: string]: {
     supportedEndpoints: string[]
     inputParameters: {
-      [inputName: string]: string[] | boolean
+      [inputName: string]: {
+        codedDetails: string[] | boolean
+        default?: string | number
+        description?: string
+        enum?: (string | number)[]
+        type?: string
+      }
     }
   }
 }
@@ -53,6 +47,18 @@ export type IOPair = {
 export type JsonObject = Record<string, any>
 
 export type MaxColChars = number[]
+
+export type Package = {
+  name: string
+  version: string
+}
+
+export type Schema = {
+  description?: string
+  endpointParameters: EndpointParameters
+  properties: EnvVars
+  required: string[]
+}
 
 export type TableText = string[][]
 
