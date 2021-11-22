@@ -2,6 +2,19 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { AdapterResponse, Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { ethers } from 'ethers'
 
+const networks = ['cardano', 'doge']
+const chainIds = ['mainnet', 'testnet']
+
+const networkChainMap: { [key: string]: number } = {
+  cardano_testnet: 0,
+  doge_testnet: 1,
+  cardano_mainnet: 2,
+  doge_mainnet: 3,
+}
+
+const isNetwork = (maybeNetwork: any) => networks.indexOf(maybeNetwork) !== -1
+const isChainId = (maybeChainId: any) => chainIds.indexOf(maybeChainId) !== -1
+
 export const supportedEndpoints = ['wallet']
 
 export interface ResponseSchema {
@@ -11,7 +24,8 @@ export interface ResponseSchema {
 }
 
 export const inputParameters: InputParameters = {
-  chainID: true,
+  chainId: true,
+  network: true,
   contractAddress: true,
 }
 
@@ -42,17 +56,29 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const { chainID, contractAddress } = validator.validated.data
+  const { chainId, contractAddress, network } = validator.validated.data
+
+  if (!isNetwork(network)) {
+    throw Error(`Unknown network: ${network}`)
+  }
+
+  if (!isChainId(chainId)) {
+    throw Error(`Unknown chainId: ${chainId}`)
+  }
+
+  const chain = networkChainMap[`${network}_${chainId}`]
+
   const rpcUrl = config.rpcUrl
   const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
   const walletProviderContract = new ethers.Contract(contractAddress, abi, provider)
-  const addresses = await walletProviderContract.walletAddresses(chainID)
+  const addresses: string[] = await walletProviderContract.walletAddresses(chain)
 
+  const response = addresses.map((address) => ({ address, chainId, network }))
   const result: AdapterResponse = {
     jobRunID,
-    result: addresses,
+    result: response,
     data: {
-      result: addresses,
+      result: response,
     },
     statusCode: 200,
   }
