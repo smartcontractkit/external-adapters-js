@@ -165,5 +165,5 @@ function initExpressMiddleware(app: express.Express) {
   })
   app.use(speedLimiter)
 
-  app.use(express.json())
+  app.use(express.json({ limit: '1mb' }))
 }

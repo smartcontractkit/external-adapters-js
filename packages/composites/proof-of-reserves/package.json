@@ -45,6 +45,7 @@
     "@chainlink/eth-balance-adapter": "workspace:*",
     "@chainlink/gemini-adapter": "workspace:*",
     "@chainlink/lotus-adapter": "workspace:*",
+    "@chainlink/por-indexer-adapter": "workspace:*",
     "@chainlink/reduce-adapter": "workspace:*",
     "@chainlink/renvm-address-set-adapter": "workspace:*",
     "@chainlink/sochain-adapter": "workspace:*",
