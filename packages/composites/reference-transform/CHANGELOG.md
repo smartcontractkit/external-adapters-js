@@ -1,5 +1,15 @@
 # @chainlink/reference-transform-adapter
 
+## 1.0.5
+
+### Patch Changes
+
+- ** DUMMY VERSION BUMP - Test release pipeline **
+- Updated dependencies
+  - @chainlink/ea-bootstrap@1.0.2
+  - @chainlink/ea@1.0.5
+  - @chainlink/ea-reference-data-reader@1.0.2
+
 ## 1.0.4
 
 ### Patch Changes
