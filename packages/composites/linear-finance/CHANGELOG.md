@@ -1,5 +1,14 @@
 # @chainlink/linear-finance-adapter
 
+## 1.1.1
+
+### Patch Changes
+
+- ** DUMMY VERSION BUMP - Test release pipeline **
+- Updated dependencies
+  - @chainlink/token-allocation-adapter@1.0.4
+  - @chainlink/ea-bootstrap@1.0.2
+
 ## 1.1.0
 
 ### Minor Changes

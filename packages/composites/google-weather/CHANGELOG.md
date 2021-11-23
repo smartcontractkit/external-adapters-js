@@ -1,5 +1,14 @@
 # @chainlink/google-weather-adapter
 
+## 1.0.3
+
+### Patch Changes
+
+- ** DUMMY VERSION BUMP - Test release pipeline **
+- Updated dependencies
+  - @chainlink/ea-bootstrap@1.0.2
+  - @chainlink/google-bigquery-adapter@1.0.2
+
 ## 1.0.2
 
 ### Patch Changes
