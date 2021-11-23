@@ -28,4 +28,3 @@ spec:
                 secretKeyRef:
                   name: qa-github-token
                   key: GITHUB_TOKEN
-        
