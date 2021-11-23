@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
+import { Account, Config, ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
 import RenJS from '@renproject/ren'
 import { btc } from './coins'
 import { DEFAULT_NETWORK, DEFAULT_TOKEN_OR_CONTRACT, makeConfig } from './config'

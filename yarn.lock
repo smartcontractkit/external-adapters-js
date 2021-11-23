@@ -3968,6 +3968,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/por-indexer-adapter@workspace:*, @chainlink/por-indexer-adapter@workspace:packages/composites/por-indexer":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/por-indexer-adapter@workspace:packages/composites/por-indexer"
+  dependencies:
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
+    "@types/jest": 27.0.3
+    "@types/node": 14.17.21
+    decimal.js: ^10.3.1
+    tslib: ^2.3.1
+    typescript: 4.3.5
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/proof-of-reserves-adapter@workspace:packages/composites/proof-of-reserves":
   version: 0.0.0-use.local
   resolution: "@chainlink/proof-of-reserves-adapter@workspace:packages/composites/proof-of-reserves"
@@ -3986,6 +4001,7 @@ __metadata:
     "@chainlink/eth-balance-adapter": "workspace:*"
     "@chainlink/gemini-adapter": "workspace:*"
     "@chainlink/lotus-adapter": "workspace:*"
+    "@chainlink/por-indexer-adapter": "workspace:*"
     "@chainlink/reduce-adapter": "workspace:*"
     "@chainlink/renvm-address-set-adapter": "workspace:*"
     "@chainlink/sochain-adapter": "workspace:*"

@@ -20,19 +20,20 @@ At least one of each of the following categories must be set as an environment v
 
 2. An indexer adapter to retrieve account balances for each custodial address
 
-   | Required? |              Name              |                     Description                      | Options | Defaults to |
-   | :-------: | :----------------------------: | :--------------------------------------------------: | :-----: | :---------: |
-   |           |    `AMBERDATA_ADAPTER_URL`     |    The location of an Amberdata external adapter     |         |             |
-   |           | `BITCOIN_JSON_RPC_ADAPTER_URL` | The location of an Bitcoin JSON RPC external adapter |         |             |
-   |           |  `BLOCKCHAIN_COM_ADAPTER_URL`  |  The location of a Blockchain.com external adapter   |         |             |
-   |           |   `BLOCKCYPHER_ADAPTER_URL`    |    The location of a Blockcypher external adapter    |         |             |
-   |           |    `BLOCKCHAIR_ADAPTER_URL`    |    The location of a Blockchair external adapter     |         |             |
-   |           |     `BTC_COM_ADAPTER_URL`      |      The location of a BTC.com external adapter      |         |             |
-   |           |    `CRYPTOAPIS_ADAPTER_URL`    |    The location of a Crypto APIs external adapter    |         |             |
-   |           |     `SOCHAIN_ADAPTER_URL`      |      The location of a SoChain external adapter      |         |             |
-   |           |      `LOTUS_ADAPTER_URL`       |       The location of a Lotus external adapter       |         |             |
-   |           |   `ETH_BALANCE_ADAPTER_URL`    |    The location of a EthBalance external adapter     |         |             |
-   |           |   `ADA_BALANCE_ADAPTER_URL`    |    The location of a Ada balance external adapter    |         |             |
+   | Required? |              Name              |                         Description                          | Options | Defaults to |
+   | :-------: | :----------------------------: | :----------------------------------------------------------: | :-----: | :---------: |
+   |           |    `AMBERDATA_ADAPTER_URL`     |        The location of an Amberdata external adapter         |         |             |
+   |           | `BITCOIN_JSON_RPC_ADAPTER_URL` |     The location of an Bitcoin JSON RPC external adapter     |         |             |
+   |           |   `POR_INDEXER_ADAPTER_URL`    | The location of a Proof-of-Reserves Indexer external adapter |         |             |
+   |           |  `BLOCKCHAIN_COM_ADAPTER_URL`  |      The location of a Blockchain.com external adapter       |         |             |
+   |           |   `BLOCKCYPHER_ADAPTER_URL`    |        The location of a Blockcypher external adapter        |         |             |
+   |           |    `BLOCKCHAIR_ADAPTER_URL`    |        The location of a Blockchair external adapter         |         |             |
+   |           |     `BTC_COM_ADAPTER_URL`      |          The location of a BTC.com external adapter          |         |             |
+   |           |    `CRYPTOAPIS_ADAPTER_URL`    |        The location of a Crypto APIs external adapter        |         |             |
+   |           |     `SOCHAIN_ADAPTER_URL`      |          The location of a SoChain external adapter          |         |             |
+   |           |      `LOTUS_ADAPTER_URL`       |           The location of a Lotus external adapter           |         |             |
+   |           |   `ETH_BALANCE_ADAPTER_URL`    |        The location of a EthBalance external adapter         |         |             |
+   |           |   `ADA_BALANCE_ADAPTER_URL`    |        The location of a Ada balance external adapter        |         |             |
 
 ## Running
 

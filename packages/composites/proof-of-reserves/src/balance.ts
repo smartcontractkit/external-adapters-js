@@ -5,10 +5,12 @@ import {
   Account,
   AdapterContext,
 } from '@chainlink/types'
+import { PorInputAddress } from '@chainlink/por-indexer-adapter/src/PorInputAddress'
 import { callAdapter, makeRequestFactory } from './adapter'
 // balance adapters
 import * as amberdata from '@chainlink/amberdata-adapter'
 import bitcoinJsonRpc from '@chainlink/bitcoin-json-rpc-adapter'
+import porIndexer from '@chainlink/por-indexer-adapter'
 import blockchainCom from '@chainlink/blockchain.com-adapter'
 import blockchair from '@chainlink/blockchair-adapter'
 import * as blockcypher from '@chainlink/blockcypher-adapter'
@@ -22,6 +24,7 @@ import * as adaBalance from '@chainlink/ada-balance-adapter'
 export const adapters: AdapterImplementation[] = [
   amberdata,
   bitcoinJsonRpc,
+  porIndexer,
   blockchainCom,
   blockcypher,
   blockchair,
@@ -44,27 +47,53 @@ export const runBalanceAdapter = async (
   input: AdapterResponse,
 ): Promise<AdapterResponse> => {
   const execute = makeRequestFactory(config, indexer)
-  const next =
-    indexer === bitcoinJsonRpc.NAME
-      ? buildLocalBitcoinNodeRequest(input)
-      : {
-          id: input.jobRunID,
-          data: {
-            result: input.data.result,
-            dataPath: 'result',
-            endpoint: 'balance',
-            confirmations,
-          },
-        }
+  let next
+  switch (indexer) {
+    case bitcoinJsonRpc.NAME:
+      next = buildLocalBitcoinNodeRequest(input)
+      break
+    case porIndexer.NAME:
+      next = buildPorIndexerRequest(input, confirmations)
+      break
+    default:
+      next = {
+        id: input.jobRunID,
+        data: {
+          result: input.data.result,
+          dataPath: 'result',
+          endpoint: 'balance',
+          confirmations,
+        },
+      }
+  }
   return callAdapter(execute, context, next, '_onBalance')
 }
 
-const buildLocalBitcoinNodeRequest = (input: AdapterResponse) => {
+function buildLocalBitcoinNodeRequest(input: AdapterResponse) {
   return {
     id: input.jobRunID,
     data: {
       scanobjects: input.data.result.map((result: Account) => result.address),
       endpoint: 'scantxoutset',
+    },
+  }
+}
+
+function buildPorIndexerRequest(input: AdapterResponse, minConfirmations: number) {
+  return {
+    id: input.jobRunID,
+    data: {
+      addresses: input.data.result.map((account: Account): PorInputAddress => {
+        if (typeof account.coin === 'undefined' || typeof account.chain === 'undefined') {
+          throw new Error(`Coin and chain must be defined for address ${account.address}`)
+        }
+        return {
+          network: account.coin,
+          chainId: account.chain,
+          address: account.address,
+        }
+      }),
+      minConfirmations,
     },
   }
 }
