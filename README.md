@@ -472,7 +472,7 @@ In order to soak test adapters we need to create and push the adapter out to the
 Prerequisites to starting an external adapter in the sdlc cluster
 
 1. You must be on the vpn to access the k8s cluster.
-2. You must have your kubectx set to the sdlc cluster which also requires you be logged into the aws secure-sdlc account as a user with k8s permissions. To do so it would look something like this but with your specific profile name`aws sso login --profile sdlc`. Instructions to set this up can be found here: https://www.notion.so/chainlink/QA-Kubernetes-Cluster-ca3f1a64e6fd4476ac5a76c8bfcd8624
+2. You must have your kubeconfig set to the sdlc cluster which also requires you be logged into the aws secure-sdlc account as a user with k8s permissions. To do so it would look something like this but with your specific profile name `aws sso login --profile sdlc`. Instructions to set this up and set your kubeconfig can be found here: https://www.notion.so/chainlink/QA-Kubernetes-Cluster-ca3f1a64e6fd4476ac5a76c8bfcd8624
 3. In order to pull the external adapter helm chart you need to have a GitHub PAT and add the chainlik helm repo using the instructions here: https://github.com/smartcontractkit/charts
 
 To spin up an adapter in the sdlc cluster:
