@@ -280,7 +280,7 @@ export class Validator {
   }
 
   validateRequiredParam(param: any, key: string, options: any[]) {
-    if (typeof param === 'undefined') {
+    if (typeof param === 'undefined' || param === '') {
       const message = `Required parameter not supplied: ${key}`
       throw new AdapterError({ jobRunID: this.validated.id, statusCode: 400, message })
     }
