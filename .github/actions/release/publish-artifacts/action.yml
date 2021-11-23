@@ -82,16 +82,16 @@ runs:
     - name: Authenticate to ECR
       if: inputs.latest || ! steps.check-image-exists.outputs.image-exists
       shell: bash
-      run: aws ${{ fromJSON('["ecr-public", "ecr"]')[inputs.aws-ecr-private] }} get-login-password --region ${{ inputs.aws-region }} | docker login --username AWS --password-stdin ${{ inputs.image-prefix }}
+      run: aws ${{ fromJSON('["ecr-public", "ecr"]')[inputs.aws-ecr-private == 'true'] }} get-login-password --region ${{ inputs.aws-region }} | docker login --username AWS --password-stdin ${{ inputs.image-prefix }}
 
     - name: Create a ECR repository if does not exist
       if: inputs.latest || ! steps.check-image-exists.outputs.image-exists
       shell: bash
-      run: aws ${{ fromJSON('["ecr-public", "ecr"]')[inputs.aws-ecr-private] }} create-repository --region ${{ inputs.aws-region }} --repository-name adapters/${{ inputs.adapter-name }} || true
+      run: aws ${{ fromJSON('["ecr-public", "ecr"]')[inputs.aws-ecr-private == 'true'] }} create-repository --region ${{ inputs.aws-region }} --repository-name adapters/${{ inputs.adapter-name }} || true
 
     - name: Set ECR repository permissions for secondary account access on private ECR repos
       shell: bash
-      if: inputs.aws-ecr-private && (inputs.latest || ! steps.check-image-exists.outputs.image-exists)
+      if: inputs.aws-ecr-private == 'false' && (inputs.latest || ! steps.check-image-exists.outputs.image-exists)
       run: >
         aws ecr set-repository-policy
         --region ${{ inputs.aws-region }}
