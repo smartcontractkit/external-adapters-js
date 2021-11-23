@@ -140,6 +140,22 @@ export const execute = async (request: IRequestInput, config: SpectralAdapterCon
 
   const score = Requester.validateResultNumber(resolve.data, ['score'])
 
+  if (!score) {
+    const message = Requester.getResult(resolve.data as { [key: string]: any }, ['message'])
+
+    if (message === 'Failed') {
+      console.log(`Calculation failed at the macro-api level`)
+      return Requester.success(
+        request.data.jobRunID,
+        Requester.withResult(resolve, `Calculation failed at the macro-api level`),
+      )
+    } else {
+      return Requester.success(
+        request.data.jobRunID,
+        Requester.withResult(resolve, `Calculation failed at the macro-api level with no message`),
+      )
+    }
+  }
   const tick = computeTickWithScore(score, tickSet)
 
   console.log(`Tick ${tick} fulfilled for primary address ${primaryAddress}!`)
