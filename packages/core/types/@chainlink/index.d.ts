@@ -146,8 +146,18 @@ declare module '@chainlink/types' {
 
   export type RequiredInputParameter = boolean
   export type InputParameterAliases = string[]
+  export type InputParameter = {
+    aliases?: InputParameterAliases
+    description?: string
+    type?: 'bigint' | 'boolean' | 'list' | 'number' | 'object' | 'string'
+    required?: RequiredInputParameter
+    options?: (number | string)[]
+    default?: boolean | number | string
+    dependsOn?: string[]
+    exclusive?: string[]
+  }
   export type InputParameters = {
-    [name: string]: RequiredInputParameter | InputParameterAliases
+    [name: string]: RequiredInputParameter | InputParameterAliases | InputParameter
   }
 
   export interface APIEndpoint<C extends Config = Config> {
