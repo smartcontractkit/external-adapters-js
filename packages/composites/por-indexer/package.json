@@ -19,6 +19,7 @@
   "dependencies": {
     "@chainlink/ea-bootstrap": "workspace:*",
     "@chainlink/ea-test-helpers": "workspace:*",
+    "@chainlink/proof-of-reserves-adapter": "workspace:*",
     "decimal.js": "^10.3.1",
     "tslib": "^2.3.1"
   },
