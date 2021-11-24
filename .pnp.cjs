@@ -4721,7 +4721,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/redux-logger", "npm:3.0.9"],
             ["@types/remote-redux-devtools", "npm:0.5.5"],
             ["@types/sinon", "npm:10.0.6"],
-            ["@types/uuid", "npm:8.3.1"],
+            ["@types/uuid", "npm:8.3.3"],
             ["@types/ws", "npm:7.4.7"],
             ["ajv", "npm:8.6.2"],
             ["axios", "npm:0.21.1"],
@@ -10833,10 +10833,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@types/uuid", [
-        ["npm:8.3.1", {
-          "packageLocation": "./.yarn/cache/@types-uuid-npm-8.3.1-4239b14bac-b41bdc5e86.zip/node_modules/@types/uuid/",
+        ["npm:8.3.3", {
+          "packageLocation": "./.yarn/cache/@types-uuid-npm-8.3.3-805fed50df-3f340155bb.zip/node_modules/@types/uuid/",
           "packageDependencies": [
-            ["@types/uuid", "npm:8.3.1"]
+            ["@types/uuid", "npm:8.3.3"]
           ],
           "linkType": "HARD",
         }]
