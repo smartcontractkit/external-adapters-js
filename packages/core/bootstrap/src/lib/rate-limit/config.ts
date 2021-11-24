@@ -26,6 +26,11 @@ export function get(context: AdapterContext): Config {
     parseBool(getEnv('CACHE_ENABLED') ?? DEFAULT_CACHE_ENABLED) &&
     parseBool(getEnv('RATE_LIMIT_ENABLED') ?? DEFAULT_RATE_LIMIT_ENABLED)
   let capacity = parseInt(getEnv('RATE_LIMIT_CAPACITY') || '')
+  const perSecRateLimit = getEnv('RATE_LIMIT_CAPACITY_SECOND')
+  const perMinuteRateLimit = getEnv('RATE_LIMIT_CAPACITY_MINUTE')
+  if (perSecRateLimit) capacity = parseInt(perSecRateLimit)
+  if (perMinuteRateLimit) capacity = parseInt(perMinuteRateLimit)
+
   if (!capacity && enabled) {
     const provider = getEnv('RATE_LIMIT_API_PROVIDER') || context.name?.toLowerCase() || ''
     const tier = getEnv('RATE_LIMIT_API_TIER') || ''
