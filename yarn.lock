@@ -3119,7 +3119,7 @@ __metadata:
     eslint-config-prettier: 8.3.0
     husky: 7.0.4
     jest: 27.3.1
-    lint-staged: 11.1.2
+    lint-staged: 11.1.4
     prettier: 2.3.2
     ts-node: 10.2.1
     typescript: 4.3.5
@@ -18961,9 +18961,9 @@ fsevents@~2.1.1:
   languageName: node
   linkType: hard
 
-"lint-staged@npm:11.1.2":
-  version: 11.1.2
-  resolution: "lint-staged@npm:11.1.2"
+"lint-staged@npm:11.1.4":
+  version: 11.1.4
+  resolution: "lint-staged@npm:11.1.4"
   dependencies:
     chalk: ^4.1.1
     cli-truncate: ^2.1.0
@@ -18981,7 +18981,7 @@ fsevents@~2.1.1:
     stringify-object: ^3.3.0
   bin:
     lint-staged: bin/lint-staged.js
-  checksum: 0050d1836dda879c58561fa4efd100f5cd14fcbf8ee3fdeab7e89ec4219c019543bb5bf2442f760557ebe4bb8b7bfc56a9c98b9384acecfe0f8553f091723e36
+  checksum: aa2a54678f639f90a08d059f510274371d2fceb4866da35dbd2d84205027ddca30114702c78507ee34c12d850d640a20434b508df1e0e8827a1276eb5d0939b0
   languageName: node
   linkType: hard
 
