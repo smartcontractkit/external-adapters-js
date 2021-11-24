@@ -97,4 +97,28 @@ describe('execute', () => {
       expect(response.body).toMatchSnapshot()
     })
   })
+
+  describe('forex api', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        endpoint: 'forex',
+        from: 'GBP',
+        to: 'USD',
+      },
+    }
+
+    it('should return success', async () => {
+      mockResponseSuccess()
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
 })

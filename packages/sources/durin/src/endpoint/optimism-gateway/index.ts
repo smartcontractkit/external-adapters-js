@@ -51,8 +51,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const node: string = args[0]
   const stateBatchHeader = await getLatestStateBatchHeader(l1Provider, addressManager)
   const elements = getElementsToConstructProof(stateBatchHeader)
-  const index = elements.length - 1
-  const treeProof = getMerkleTreeProof(elements, index)
+  const lastElemIdx = elements.length - 1
+  const treeProof = getMerkleTreeProof(elements, lastElemIdx)
   const l2Provider = new ethers.providers.JsonRpcProvider(config.l2RpcUrl)
   const l2Proof: any = await getProofFromL2Resolver(
     node,
@@ -66,10 +66,10 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const ret = [
     node,
     {
-      stateRoot: stateBatchHeader.stateRoots[index],
+      stateRoot: stateBatchHeader.stateRoots[stateBatchHeader.stateRoots.length - 1],
       stateRootBatchHeader: stateBatchHeader.batch,
       stateRootProof: {
-        index,
+        index: lastElemIdx,
         siblings: treeProof,
       },
       stateTrieWitness: RLP.encode(l2Proof.accountProof),

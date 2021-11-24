@@ -367,10 +367,10 @@ To get started from one of the example adapters seen in [examples](./packages/ex
 yarn new [template-type] [name-of-adapter]
 ```
 
-|     Parameter     |           Description           |         Options         |
-| :---------------: | :-----------------------------: | :---------------------: |
-|  `template-type`  | the name of the template to use | `composites`, `sources` |
-| `name-of-adapter` |  what to call the new adapter   |      user-defined       |
+|     Parameter     |           Description           |        Options        |
+| :---------------: | :-----------------------------: | :-------------------: |
+|  `template-type`  | the name of the template to use | `composite`, `source` |
+| `name-of-adapter` |  what to call the new adapter   |     user-defined      |
 
 For example
 

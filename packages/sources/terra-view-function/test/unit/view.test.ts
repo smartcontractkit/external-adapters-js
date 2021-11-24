@@ -8,8 +8,7 @@ let oldEnv: NodeJS.ProcessEnv
 
 beforeAll(() => {
   oldEnv = JSON.parse(JSON.stringify(process.env))
-  process.env.ETHEREUM_RPC_URL = process.env.ETHEREUM_RPC_URL || 'http://localhost:1234/'
-  process.env.CHAIN_ID = process.env.CHAIN_ID || 'bombay-12'
+  process.env.COLUMBUS_5_RPC_URL = process.env.COLUMBUS_5_RPC_URL || 'http://localhost:1234/'
 })
 
 afterAll(() => {

@@ -21,6 +21,9 @@
       "path": "./composites/crypto-volatility-index"
     },
     {
+      "path": "./composites/defi-dozen"
+    },
+    {
       "path": "./composites/defi-pulse"
     },
     {
@@ -100,6 +103,9 @@
     },
     {
       "path": "./sources/ada-balance"
+    },
+    {
+      "path": "./sources/accuweather"
     },
     {
       "path": "./sources/alphachain"
