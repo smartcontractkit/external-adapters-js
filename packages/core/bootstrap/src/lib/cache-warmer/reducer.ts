@@ -257,6 +257,10 @@ export const warmupReducer = createReducer<RequestState>({}, (builder) => {
     delete state[key]
   })
 
+  builder.addCase(actions.warmupShutdown, () => {
+    logger.info('[warmupReducer] Shutting down... ')
+  })
+
   builder.addCase(actions.warmupStopped, (state, action) => {
     logger.info('[warmupReducer] Stopping subscriptions', {
       warmupSubscriptionKey: action.payload.keys,
