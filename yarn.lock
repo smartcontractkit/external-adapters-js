@@ -3974,6 +3974,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/proof-of-reserves-adapter": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.21
@@ -3983,7 +3984,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/proof-of-reserves-adapter@workspace:packages/composites/proof-of-reserves":
+"@chainlink/proof-of-reserves-adapter@workspace:*, @chainlink/proof-of-reserves-adapter@workspace:packages/composites/proof-of-reserves":
   version: 0.0.0-use.local
   resolution: "@chainlink/proof-of-reserves-adapter@workspace:packages/composites/proof-of-reserves"
   dependencies:
@@ -4055,6 +4056,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/proof-of-reserves-adapter": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@renproject/interfaces": ^2.5.1
     "@renproject/ren": ^2.5.1
@@ -4551,6 +4553,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/proof-of-reserves-adapter": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19

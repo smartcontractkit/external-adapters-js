@@ -12,6 +12,8 @@ import {
   RenContract,
   resolveInToken,
 } from './ren'
+import { PorInputAddress } from '@chainlink/proof-of-reserves-adapter/src/PorInputAddress'
+
 const inputParams = {
   network: false,
   tokenOrContract: false,
@@ -67,8 +69,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
 
   const address = await _getAddress()
+  if (!address) {
+    throw Error(`Address must be non-empty`)
+  }
   const coin = getTokenName(renContract)
-  const result = [
+  const result: Array<Account & PorInputAddress> = [
     {
       address,
       coin: coin.toLowerCase(),

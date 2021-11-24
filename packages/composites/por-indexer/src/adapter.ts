@@ -1,15 +1,15 @@
 import { ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExtendedConfig, makeConfig } from './config'
+import { PorInputAddress } from '@chainlink/proof-of-reserves-adapter/src/PorInputAddress'
 import Decimal from 'decimal.js'
-import { PorInputAddress } from './PorInputAddress'
 
 const inputParams = {
   addresses: true,
   minConfirmations: false,
 }
 
-const getPorId = (coin: string, chainId: string) => `${coin}_${chainId}`.toUpperCase()
+const getPorId = (network: string, chainId: string) => `${network}_${chainId}`.toUpperCase()
 
 export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _context, config) => {
   const validator = new Validator(request, inputParams)
@@ -17,14 +17,14 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _conte
 
   const jobRunID = validator.validated.jobRunID
   const minConfirmations = validator.validated.data.minConfirmations as number
-  const accounts = validator.validated.data.addresses as PorInputAddress[]
+  const porInputAddresses = validator.validated.data.addresses as PorInputAddress[]
 
   // Collect addresses into their respective PoR requests
   // Mapping from PoR ID to list of addresses
   const porServiceRequests = new Map<string, string[]>()
-  for (const { network, chainId, address } of accounts) {
+  for (const { network, chainId, address } of porInputAddresses) {
     if (typeof network === 'undefined' || typeof chainId === 'undefined') {
-      throw new Error(`Coin and chain must be defined for address ${address}`)
+      throw new Error(`network and chainId must be defined for address ${address}`)
     }
     const id = getPorId(network, chainId)
     const existingAddresses = porServiceRequests.get(id) || []

@@ -5,7 +5,6 @@ import {
   Account,
   AdapterContext,
 } from '@chainlink/types'
-import { PorInputAddress } from '@chainlink/por-indexer-adapter/src/PorInputAddress'
 import { callAdapter, makeRequestFactory } from './adapter'
 // balance adapters
 import * as amberdata from '@chainlink/amberdata-adapter'
@@ -83,16 +82,7 @@ function buildPorIndexerRequest(input: AdapterResponse, minConfirmations: number
   return {
     id: input.jobRunID,
     data: {
-      addresses: input.data.result.map((account: Account): PorInputAddress => {
-        if (typeof account.coin === 'undefined' || typeof account.chain === 'undefined') {
-          throw new Error(`Coin and chain must be defined for address ${account.address}`)
-        }
-        return {
-          network: account.coin,
-          chainId: account.chain,
-          address: account.address,
-        }
-      }),
+      addresses: input.data.result,
       minConfirmations,
     },
   }

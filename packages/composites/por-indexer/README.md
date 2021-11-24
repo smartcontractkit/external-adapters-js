@@ -8,7 +8,7 @@ The adapter takes the following environment variables:
 
 | Required? |                 Name                  |                             Description                              | Options |       Defaults to       |
 | :-------: | :-----------------------------------: | :------------------------------------------------------------------: | :-----: | :---------------------: |
-|           |     `BTC_MAINNET_POR_INDEXER_URL`     |                 Bitcoin PoR Indexer Service endpoint                 |         | `http://localhost:8080` |
+|           |   `BITCOIN_MAINNET_POR_INDEXER_URL`   |                 Bitcoin PoR Indexer Service endpoint                 |         | `http://localhost:8080` |
 |           | `[NETWORK]_[CHAINID]_POR_INDEXER_URL` | PoR Indexer Service endpoint for any other network to be implemented |         |                         |
 
 ## Running
