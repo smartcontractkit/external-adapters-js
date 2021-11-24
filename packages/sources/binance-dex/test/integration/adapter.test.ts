@@ -11,7 +11,6 @@ describe('execute', () => {
   let server: http.Server
   const req = request('localhost:8080')
   beforeAll(async () => {
-    process.env.CACHE_ENABLED = 'false'
     if (process.env.RECORD) {
       nock.recorder.rec()
     }
