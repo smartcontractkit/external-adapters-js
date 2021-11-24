@@ -6,7 +6,7 @@ import { DNSQueryResponse, DNSAnswer } from '@chainlink/dns-query-adapter/dist/t
 import { makeConfig } from './config'
 
 const inputParams = {
-  name: true,
+  name: ['name', 'record'],
   type: true,
   do: false,
   cd: false,
