@@ -6,7 +6,7 @@ This repository contains the source code for Chainlink external adapters.
 
 1. [Getting Started](#Getting-Started)
 2. [How to Run](#How-to-Run)
-3. [Testing]($Testing)
+3. [Testing](#Testing)
 4. [Deployment](#Deployment)
 5. [Advanced Features](#Advanced-Features)
 
@@ -172,7 +172,7 @@ coincodex-adapter:
 
 ## Testing
 
-In order to test adapters locally, you may need to set environment variables such as `$API_KEY`. These can be found in the
+In order to test adapters locally, you may need to set environment variables such as `$API_KEY`. These can be found in the `README.md` for every adapter.
 
 Make sure you run these commands from the ROOT of this monorepo.
 
@@ -208,8 +208,7 @@ $ yarn test --watch $adapter/test/unit
 Images are being published to Chainlink's public AWS ECR repositories:
 `public.ecr.aws/chainlink/adapters`
 
-They can also be found in the public gallery, the registry name is `chainlink`.
-(e.g. `https://gallery.ecr.aws/chainlink/adapters/1forge-adapter`)
+They can also be found in the public gallery, the registry name is `chainlink` (e.g. `https://gallery.ecr.aws/chainlink/adapters/1forge-adapter`).
 
 The External Adapters are being tagged with semantic releases to allow for automated upgrades.
 

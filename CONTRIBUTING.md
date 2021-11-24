@@ -6,7 +6,7 @@ Thank you for your interest in improving the Chainlink External Adapter codebase
 
 1. [Creating A New Adapter](#Creating-A-New-Adapter)
 2. [Input](#Input)
-3. [Output]($Output)
+3. [Output](#Output)
 4. [Common Patterns](#Common-Patterns)
 5. [Mock Integration Testing](#Mock-Integration-Testing)
 6. [Adding Provider API Rate Limits](#Adding-Provider-API-Rate-Limits)
@@ -36,7 +36,7 @@ _If on a Mac, this requires `gnu-sed` to be installed and set as the default for
 
 When flux monitor or OCR jobs from the core Chainlink node post to external adapters, the request body looks as follows:
 
-```json
+```js
 {
   "id": "2cae6a10e5184aa685c3428964b02418",
   "data": { "from": "ETH", "to": "USD" },
@@ -55,7 +55,7 @@ Optionally `data` parameters can also be passed via a query string added to the 
 
 The External Adapter will do some processing, often request data from an API, and return the following response structure:
 
-```json
+```js
   {
     "jobRunID": "2cae6a10e5184aa685c3428964b02418",
     "statusCode": 200,
@@ -63,7 +63,7 @@ The External Adapter will do some processing, often request data from an API, an
       "result": 3000 // Result for Flux Monitor jobs.
       // ... Response data
     },
-    "result": 3000 // Result for OCR jobs.
+    "result": 3000, // Result for OCR jobs.
     "maxAge": 222, // [OPTIONAL] metadata for how long the request is cached for
     "debug": { // [OPTIONAL]
       // Additional metadata from the EA framework used for tracking metrics
