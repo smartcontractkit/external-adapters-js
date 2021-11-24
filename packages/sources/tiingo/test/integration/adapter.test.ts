@@ -11,7 +11,6 @@ describe('execute', () => {
   let server: http.Server
   const req = request('localhost:8080')
   beforeAll(async () => {
-    process.env.CACHE_ENABLED = 'false'
     process.env.API_KEY = process.env.API_KEY || 'fake-api-key'
     if (process.env.RECORD) {
       nock.recorder.rec()
@@ -130,6 +129,54 @@ describe('execute', () => {
       data: {
         endpoint: 'volume',
         base: 'ETH',
+        quote: 'USD',
+      },
+    }
+
+    it('should return success', async () => {
+      mockResponseSuccess()
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('forex', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        endpoint: 'forex',
+        base: 'GBP',
+        quote: 'USD',
+      },
+    }
+
+    it('should return success', async () => {
+      mockResponseSuccess()
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('commodities', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        endpoint: 'commodities',
+        base: 'USOIL',
         quote: 'USD',
       },
     }

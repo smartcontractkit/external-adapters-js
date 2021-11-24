@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ea-scripts",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "dependencies": {
     "@actions/core": "1.4.0",
     "chalk": "4.1.2",
@@ -12,7 +12,7 @@
     "yaml": "1.10.2"
   },
   "devDependencies": {
-    "@types/jest": "27.0.2",
+    "@types/jest": "27.0.3",
     "@types/shelljs": "0.8.9",
     "@types/swagger-jsdoc": "6.0.1",
     "@types/yaml": "1.9.7",

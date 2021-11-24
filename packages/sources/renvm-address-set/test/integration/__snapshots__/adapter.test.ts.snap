@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute btc api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": Array [
+      Object {
+        "address": "mytu3FGw8cTzGTBTQZoVcZ2CZaYpRdk2YA",
+        "chain": "testnet",
+        "coin": "btc",
+      },
+    ],
+  },
+  "jobRunID": "1",
+  "result": Array [
+    Object {
+      "address": "mytu3FGw8cTzGTBTQZoVcZ2CZaYpRdk2YA",
+      "chain": "testnet",
+      "coin": "btc",
+    },
+  ],
+  "statusCode": 200,
+}
+`;
