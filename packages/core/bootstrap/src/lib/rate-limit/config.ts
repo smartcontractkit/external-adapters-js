@@ -28,9 +28,10 @@ export function get(context: AdapterContext): Config {
   let capacity = parseInt(getEnv('RATE_LIMIT_CAPACITY') || '')
   const perSecRateLimit = getEnv('RATE_LIMIT_CAPACITY_SECOND')
   const perMinuteRateLimit = getEnv('RATE_LIMIT_CAPACITY_MINUTE')
-  if (perSecRateLimit) capacity = parseInt(perSecRateLimit)
-  if (perMinuteRateLimit) capacity = parseInt(perMinuteRateLimit)
-
+  const shouldIgnorePerSecLimit = perSecRateLimit && parseInt(perSecRateLimit) <= 0
+  const shouldIgnorePerMinLimit = perMinuteRateLimit && parseInt(perMinuteRateLimit) <= 0
+  if (perSecRateLimit) capacity = shouldIgnorePerSecLimit ? 0 : parseInt(perSecRateLimit)
+  if (perMinuteRateLimit) capacity = shouldIgnorePerMinLimit ? 0 : parseInt(perMinuteRateLimit)
   if (!capacity && enabled) {
     const provider = getEnv('RATE_LIMIT_API_PROVIDER') || context.name?.toLowerCase() || ''
     const tier = getEnv('RATE_LIMIT_API_TIER') || ''
@@ -48,17 +49,18 @@ export function get(context: AdapterContext): Config {
     const tier = getEnv('RATE_LIMIT_API_TIER') || ''
     try {
       const limit = getHTTPLimit(provider, tier, 'rateLimit1s')
-      burstCapacity1s = Number(limit)
+      burstCapacity1s = shouldIgnorePerSecLimit ? 0 : Number(limit)
     } catch {
       // Ignore
     }
     try {
       const limit = getHTTPLimit(provider, tier, 'rateLimit1m')
-      burstCapacity1m = Number(limit)
+      burstCapacity1m = shouldIgnorePerMinLimit ? 0 : Number(limit)
     } catch {
       // Ignore
     }
   }
+
   return {
     burstCapacity1s,
     burstCapacity1m,
