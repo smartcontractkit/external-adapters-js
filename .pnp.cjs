@@ -5636,7 +5636,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
-            ["@harmony-js/core", "npm:0.1.56"],
+            ["@harmony-js/core", "npm:0.1.57"],
             ["@harmony-js/crypto", "npm:0.1.56"],
             ["@harmony-js/utils", "npm:0.1.56"],
             ["@types/jest", "npm:27.0.3"],
@@ -8987,6 +8987,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@harmony-js/utils", "npm:0.1.56"]
           ],
           "linkType": "HARD",
+        }],
+        ["npm:0.1.57", {
+          "packageLocation": "./.yarn/cache/@harmony-js-account-npm-0.1.57-5d4e57032e-d554536000.zip/node_modules/@harmony-js/account/",
+          "packageDependencies": [
+            ["@harmony-js/account", "npm:0.1.57"],
+            ["@harmony-js/core", "npm:0.1.57"],
+            ["@harmony-js/crypto", "npm:0.1.56"],
+            ["@harmony-js/network", "npm:0.1.56"],
+            ["@harmony-js/staking", "npm:0.1.56"],
+            ["@harmony-js/transaction", "npm:0.1.56"],
+            ["@harmony-js/utils", "npm:0.1.56"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["@harmony-js/contract", [
@@ -9009,6 +9022,20 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@harmony-js/core", "npm:0.1.56"],
             ["@harmony-js/account", "npm:0.1.56"],
+            ["@harmony-js/contract", "npm:0.1.56"],
+            ["@harmony-js/crypto", "npm:0.1.56"],
+            ["@harmony-js/network", "npm:0.1.56"],
+            ["@harmony-js/staking", "npm:0.1.56"],
+            ["@harmony-js/transaction", "npm:0.1.56"],
+            ["@harmony-js/utils", "npm:0.1.56"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:0.1.57", {
+          "packageLocation": "./.yarn/cache/@harmony-js-core-npm-0.1.57-8db3b24a6f-9473f9faa7.zip/node_modules/@harmony-js/core/",
+          "packageDependencies": [
+            ["@harmony-js/core", "npm:0.1.57"],
+            ["@harmony-js/account", "npm:0.1.57"],
             ["@harmony-js/contract", "npm:0.1.56"],
             ["@harmony-js/crypto", "npm:0.1.56"],
             ["@harmony-js/network", "npm:0.1.56"],
