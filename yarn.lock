@@ -18241,7 +18241,7 @@ fsevents@~2.1.1:
     clean-webpack-plugin: 4.0.0
     core-js: 3.16.4
     typescript: 4.3.5
-    webpack: 5.51.1
+    webpack: 5.51.2
     webpack-cli: 4.8.0
   languageName: unknown
   linkType: soft
@@ -26894,9 +26894,9 @@ resolve@1.17.0:
   languageName: node
   linkType: hard
 
-"webpack@npm:5.51.1":
-  version: 5.51.1
-  resolution: "webpack@npm:5.51.1"
+"webpack@npm:5.51.2":
+  version: 5.51.2
+  resolution: "webpack@npm:5.51.2"
   dependencies:
     "@types/eslint-scope": ^3.7.0
     "@types/estree": ^0.0.50
@@ -26927,7 +26927,7 @@ resolve@1.17.0:
       optional: true
   bin:
     webpack: bin/webpack.js
-  checksum: 20060bc197a5e690f12e453e86bd89da5b91626a2032efa907122fe541fedc688b1d573e9f92f7b66f15c609808653e158408ebf7c94783723dfbf4ac894a4a7
+  checksum: f767bf26afb89e6105757462a0d2d829583699aca0b76894339e2c60fc6dc0fbfc569fc070ef2d5e295f47b4ec649ab68db16bbc1fb593de9f5bb771afd85aca
   languageName: node
   linkType: hard
 
