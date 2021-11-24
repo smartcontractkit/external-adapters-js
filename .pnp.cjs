@@ -4057,7 +4057,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@openzeppelin/contracts", "npm:3.4.1"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
-            ["ethers", "npm:5.4.6"],
+            ["ethers", "npm:5.4.7"],
             ["nock", "npm:13.1.3"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
@@ -4077,7 +4077,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.0.3"],
             ["@types/luxon", "npm:1.27.1"],
             ["@types/node", "npm:14.17.34"],
-            ["ethers", "npm:5.4.6"],
+            ["ethers", "npm:5.4.7"],
             ["luxon", "npm:1.28.0"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
@@ -4351,7 +4351,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
-            ["ethers", "npm:5.4.6"],
+            ["ethers", "npm:5.4.7"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
@@ -5641,7 +5641,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@harmony-js/utils", "npm:0.1.56"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
-            ["ethers", "npm:5.4.6"],
+            ["ethers", "npm:5.4.7"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
@@ -6410,7 +6410,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
             ["@types/supertest", "npm:2.0.11"],
-            ["ethers", "npm:5.4.6"],
+            ["ethers", "npm:5.4.7"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
