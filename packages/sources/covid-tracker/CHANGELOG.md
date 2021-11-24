@@ -1,5 +1,11 @@
 # @chainlink/covid-tracker-adapter
 
+## 1.0.3
+
+### Patch Changes
+
+- Test pipeline run #2
+
 ## 1.0.2
 
 ### Patch Changes

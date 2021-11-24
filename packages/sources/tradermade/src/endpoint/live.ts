@@ -2,7 +2,7 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 import { NAME } from '../config'
 
-export const supportedEndpoints = ['live']
+export const supportedEndpoints = ['live', 'commodities']
 
 const customParams = {
   base: ['base', 'from', 'symbol', 'market'],

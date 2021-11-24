@@ -91,7 +91,7 @@ runs:
 
     - name: Set ECR repository permissions for secondary account access on private ECR repos
       shell: bash
-      if: inputs.aws-ecr-private == 'false' && (inputs.latest || ! steps.check-image-exists.outputs.image-exists)
+      if: inputs.aws-ecr-private == 'true' && (inputs.latest || ! steps.check-image-exists.outputs.image-exists)
       run: >
         aws ecr set-repository-policy
         --region ${{ inputs.aws-region }}

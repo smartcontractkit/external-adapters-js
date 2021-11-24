@@ -23,6 +23,8 @@ This adapter has Websocket support for only the forex endpoint
 
 ## Live Endpoint
 
+Aliases: `commodities`
+
 | Required? | Name |    Description     | Options | Defaults to |
 | :-------: | :--: | :----------------: | :-----: | :---------: |
 |           | `to` | The quote currency |         |             |

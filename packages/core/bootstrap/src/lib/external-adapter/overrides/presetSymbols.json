@@ -63,7 +63,8 @@
     "WING": "WING2"
   },
   "tiingo": {
-    "MIOTA": "IOTA"
+    "MIOTA": "IOTA",
+    "WTI": "usoil"
   },
   "tradermade": {
     "BRENT": "UKOIL",
