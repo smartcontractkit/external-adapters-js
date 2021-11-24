@@ -1,10 +1,26 @@
-## [1.1.0]
+# @chainlink/cryptoapis-adapter
 
-### Added
+## 1.0.2
 
-- Integration tests for `balance`, `bc_info`, and `crypto` endpoints
-- Add `crypto` as supported name for `price` endpoint
+### Patch Changes
 
-### Changed
+- ** DUMMY VERSION BUMP - Test release pipeline **
+- Updated dependencies
+  - @chainlink/ea-bootstrap@1.0.2
+  - @chainlink/ea-factories@1.0.2
+  - @chainlink/ea-test-helpers@1.0.1
 
-- `src` import method updated
+## 1.0.1
+
+### Patch Changes
+
+- Updated dependencies
+  - @chainlink/ea-bootstrap@1.0.1
+  - @chainlink/ea-factories@1.0.1
+  - @chainlink/ea-test-helpers@1.0.0
+
+## 1.0.0
+
+### Major Changes
+
+- EAv2 Release. Start of individual EA versioning.
