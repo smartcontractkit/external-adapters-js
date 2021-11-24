@@ -2979,7 +2979,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
-    "@harmony-js/core": 0.1.56
+    "@harmony-js/core": 0.1.57
     "@harmony-js/crypto": ^0.1.56
     "@harmony-js/utils": ^0.1.56
     "@types/jest": 27.0.3
@@ -6157,6 +6157,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@harmony-js/account@npm:0.1.57":
+  version: 0.1.57
+  resolution: "@harmony-js/account@npm:0.1.57"
+  dependencies:
+    "@harmony-js/core": 0.1.57
+    "@harmony-js/crypto": 0.1.56
+    "@harmony-js/network": 0.1.56
+    "@harmony-js/staking": 0.1.56
+    "@harmony-js/transaction": 0.1.56
+    "@harmony-js/utils": 0.1.56
+  checksum: d554536000c7f6343b6c935cf70c156ae96af211ec351d7f58b76ffde8639b0d7a9f16183380d10f55300228bf812ea33f4d982d4a256da327515459c20c9d9b
+  languageName: node
+  linkType: hard
+
 "@harmony-js/contract@npm:0.1.56":
   version: 0.1.56
   resolution: "@harmony-js/contract@npm:0.1.56"
@@ -6182,6 +6196,21 @@ __metadata:
     "@harmony-js/transaction": 0.1.56
     "@harmony-js/utils": 0.1.56
   checksum: 12927e10285bd7d1f990e898f468fa9a441b1e31ddfb54807a7ae4913400a59be8407eb2f9ea3e0a24d77d9fb9d883c8c77cd33a93bd63eecfcb3e0a91a495f8
+  languageName: node
+  linkType: hard
+
+"@harmony-js/core@npm:0.1.57":
+  version: 0.1.57
+  resolution: "@harmony-js/core@npm:0.1.57"
+  dependencies:
+    "@harmony-js/account": 0.1.57
+    "@harmony-js/contract": 0.1.56
+    "@harmony-js/crypto": 0.1.56
+    "@harmony-js/network": 0.1.56
+    "@harmony-js/staking": 0.1.56
+    "@harmony-js/transaction": 0.1.56
+    "@harmony-js/utils": 0.1.56
+  checksum: 9473f9faa76c95dae4923d728f64476af541abc77c98ca3cdf4a196fa7b23c9b2ea3245382ff22e231473ed8c9712892f861bb93c1d5ed463c0ac58c0b174d75
   languageName: node
   linkType: hard
 
