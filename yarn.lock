@@ -3949,7 +3949,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
-    "@types/luxon": 2.0.5
+    "@types/luxon": 2.0.7
     "@types/node": 14.17.21
     ethers: ^5.4.6
     luxon: ^2.0.2
@@ -8138,10 +8138,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/luxon@npm:2.0.5":
-  version: 2.0.5
-  resolution: "@types/luxon@npm:2.0.5"
-  checksum: 2d0229ade7e5af3f8633ee491f7417ca5497885b531f2d86db2e1f65686bb43c7e884505ee003af0ebef48c4db30247e2859ba0c830863d36827f3b8ec7299ac
+"@types/luxon@npm:2.0.7":
+  version: 2.0.7
+  resolution: "@types/luxon@npm:2.0.7"
+  checksum: 81ee3bf5085dac398468e788c2bdc9d36a28c673453f335b6bfe0b31bacb907a7368b09e1794c93702e73c5ebf2733c562c2bfb12768e893a58ce7dc70beacd9
   languageName: node
   linkType: hard
 

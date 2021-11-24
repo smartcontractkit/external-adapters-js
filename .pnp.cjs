@@ -6346,7 +6346,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
-            ["@types/luxon", "npm:2.0.5"],
+            ["@types/luxon", "npm:2.0.7"],
             ["@types/node", "npm:14.17.21"],
             ["ethers", "npm:5.4.6"],
             ["luxon", "npm:2.0.2"],
@@ -10849,10 +10849,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["npm:2.0.5", {
-          "packageLocation": "./.yarn/cache/@types-luxon-npm-2.0.5-66a801b509-2d0229ade7.zip/node_modules/@types/luxon/",
+        ["npm:2.0.7", {
+          "packageLocation": "./.yarn/cache/@types-luxon-npm-2.0.7-408800309f-81ee3bf508.zip/node_modules/@types/luxon/",
           "packageDependencies": [
-            ["@types/luxon", "npm:2.0.5"]
+            ["@types/luxon", "npm:2.0.7"]
           ],
           "linkType": "HARD",
         }]
