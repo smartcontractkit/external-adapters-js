@@ -23,17 +23,21 @@ import {
   warmupJoinGroup,
   warmupLeaveGroup,
   warmupRequested,
+  warmupShutdown,
   warmupStopped,
+  WarmupStoppedPayload,
   warmupSubscribed,
   warmupSubscribedMultiple,
   warmupSubscriptionTimeoutReset,
   warmupUnsubscribed,
+  WarmupUnsubscribedPayload,
 } from './actions'
 import { Config, get, WARMUP_REQUEST_ID, WARMUP_BATCH_REQUEST_ID } from './config'
 import { concatenateBatchResults, getSubscriptionKey, splitIntoBatches } from './util'
 import { getTTL } from '../cache/ttl'
 import * as metrics from './metrics'
 import { getFeedId } from '../metrics/util'
+import { PayloadAction } from '@reduxjs/toolkit'
 
 export interface EpicDependencies {
   config: Config
@@ -177,17 +181,20 @@ export const warmupSubscriber: Epic<AnyAction, AnyAction, any, EpicDependencies>
       const pollInterval = interval - offset
       return timer(pollInterval, pollInterval).pipe(
         mapTo(warmupRequested({ key })),
+        takeUntil(action$.pipe(filter(warmupShutdown.match))),
         // unsubscribe our warmup algo when a matching unsubscribe comes in
         takeUntil(
           action$.pipe(
             filter(warmupUnsubscribed.match || warmupStopped.match),
-            filter((a) => a.payload.key === key),
+            filter(
+              (a: PayloadAction<WarmupUnsubscribedPayload | WarmupStoppedPayload>) =>
+                ('key' in a.payload && a.payload.key === key) ||
+                ('keys' in a.payload && a.payload.keys.includes(key)),
+            ),
             withLatestFrom(state$),
-            tap(([{ payload }, state]) => {
+            tap(([, state]) => {
               const labels = {
-                isBatched: String(
-                  !!state.cacheWarmer.subscriptions[payload.key]?.childLastSeenById,
-                ),
+                isBatched: String(!!state.cacheWarmer.subscriptions[key]?.childLastSeenById),
               }
               metrics.cache_warmer_count.labels(labels).dec()
             }),
@@ -304,6 +311,7 @@ export const warmupUnsubscriber: Epic<AnyAction, AnyAction, any, EpicDependencie
       // start the current unsubscription timer
       const timeout$ = of(warmupUnsubscribed({ key, reason: 'Timeout' })).pipe(
         delay(config.subscriptionTTL),
+        takeUntil(action$.pipe(filter(warmupShutdown.match))),
       )
 
       // if a re-subscription comes in before timeout emits, then we emit nothing

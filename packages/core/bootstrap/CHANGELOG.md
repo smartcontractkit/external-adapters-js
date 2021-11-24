@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 1.0.2
+
+### Patch Changes
+
+- ** DUMMY VERSION BUMP - Test release pipeline **
+
 ## 1.0.1
 
 ### Patch Changes
