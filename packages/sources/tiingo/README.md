@@ -17,9 +17,9 @@ enable WS, set `NODE_ENV=development` in addition to `WS_ENABLED=true`.
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |                                                                          Options                                                                          | Defaults to |
-| :-------: | :------: | :-----------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [`eod`](#EOD-Endpoint), [`iex` or `stock`](#IEX-Endpoint), [`top`](#Top-Endpoint), [`prices` or `crypto`](#Prices-Endpoint), [`volume`](#Volume-Endpoint) |  `crypto`   |
+| Required? |   Name   |     Description     |                                                                                                   Options                                                                                                    | Defaults to |
+| :-------: | :------: | :-----------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [`eod`](#EOD-Endpoint), [`iex` or `stock`](#IEX-Endpoint), [`top`](#Top-Endpoint), [`prices` or `crypto`](#Prices-Endpoint), [`volume`](#Volume-Endpoint), [`forex`, `fx` or `commodities`](#Forex-Endpoint) |  `crypto`   |
 
 ---
 
@@ -220,6 +220,48 @@ This endpoint gets the 24h volume for a pair
     "result": 6034249067.971378
   },
   "result": 6034249067.971378,
+  "statusCode": 200
+}
+```
+
+--
+
+## Forex Endpoint
+
+Aliases: `fx`, `commodities`
+
+https://api.tiingo.com/documentation/forex
+
+### Input Params
+
+| Required? |                Name                 |        Description        | Options | Defaults to |
+| :-------: | :---------------------------------: | :-----------------------: | :-----: | :---------: |
+|    ✅     | `base`, `asset`, `market` or `from` |    The asset to query     |         |             |
+|    ✅     |           `quote` or `to`           |  The quote to convert to  |         |             |
+|           |            `resultPath`             | The result path to return |         | `midPrice`  |
+
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "forex",
+    "from": "GBP",
+    "to": "USD"
+  }
+}
+```
+
+### Sample Output
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "result": 1.33605
+  },
+  "result": 1.33605,
   "statusCode": 200
 }
 ```

@@ -155,3 +155,63 @@ export const mockResponseSuccess = (): nock =>
         'Origin',
       ],
     )
+    .get('/tiingo/fx/gbpusd/top')
+    .query({ token: 'fake-api-key' })
+    .reply(
+      200,
+      [
+        {
+          ticker: 'gbpusd',
+          quoteTimestamp: '2021-11-23T15:13:39.472000+00:00',
+          bidPrice: 1.31418,
+          bidSize: 1000000,
+          askPrice: 1.35792,
+          askSize: 1000000,
+          midPrice: 1.33605,
+        },
+      ],
+      [
+        'content-type',
+        'application/json',
+        'content-length',
+        '170',
+        'vary',
+        'Accept, Cookie, Origin',
+        'allow',
+        'GET, HEAD, OPTIONS',
+        'x-frame-options',
+        'SAMEORIGIN',
+        'connection',
+        'close',
+      ],
+    )
+    .get('/tiingo/fx/usoilusd/top')
+    .query({ token: 'fake-api-key' })
+    .reply(
+      200,
+      [
+        {
+          ticker: 'usoilusd',
+          quoteTimestamp: '2021-11-23T15:14:45.768000+00:00',
+          bidPrice: 77.45,
+          bidSize: 1000000,
+          askPrice: 77.58,
+          askSize: 1000000,
+          midPrice: 77.515,
+        },
+      ],
+      [
+        'content-type',
+        'application/json',
+        'content-length',
+        '167',
+        'x-frame-options',
+        'SAMEORIGIN',
+        'vary',
+        'Accept, Cookie, Origin',
+        'allow',
+        'GET, HEAD, OPTIONS',
+        'connection',
+        'close',
+      ],
+    )

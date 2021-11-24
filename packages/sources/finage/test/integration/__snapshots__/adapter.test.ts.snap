@@ -11,6 +11,17 @@ Object {
 }
 `;
 
+exports[`execute forex api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 1.3443049999999999,
+  },
+  "jobRunID": "1",
+  "result": 1.3443049999999999,
+  "statusCode": 200,
+}
+`;
+
 exports[`execute stock api should return success 1`] = `
 Object {
   "data": Object {

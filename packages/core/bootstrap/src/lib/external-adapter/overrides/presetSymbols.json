@@ -10,7 +10,8 @@
     "UNI": "uniswap",
     "grt": "the-graph",
     "BCH": "bitcoin-cash",
-    "LEO": "leo-token"
+    "LEO": "leo-token",
+    "FIL": "filecoin"
   },
   "coinmarketcap": {
     "PAX": "USDP"
@@ -62,7 +63,8 @@
     "WING": "WING2"
   },
   "tiingo": {
-    "MIOTA": "IOTA"
+    "MIOTA": "IOTA",
+    "WTI": "usoil"
   },
   "tradermade": {
     "BRENT": "UKOIL",
