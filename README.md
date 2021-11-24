@@ -2,8 +2,6 @@
 
 This repository contains the source code for Chainlink external adapters.
 
----
-
 ## Table of Contents
 
 1. [Getting Started](#Getting-Started)
@@ -11,8 +9,6 @@ This repository contains the source code for Chainlink external adapters.
 3. [Testing]($Testing)
 4. [Deployment](#Deployment)
 5. [Advanced Features](#Advanced-Features)
-
----
 
 ## Getting Started
 
@@ -61,8 +57,6 @@ Runs the setup step for all adapters. Typically this step just compiles TypeScri
     ║
     ╚══ targets - adapters that write data to a location, often a blockchain.
 ```
-
----
 
 ## How to Run
 
@@ -176,8 +170,6 @@ coincodex-adapter:
   - Username: admin
   - Password: admin
 
----
-
 ## Testing
 
 In order to test adapters locally, you may need to set environment variables such as `$API_KEY`. These can be found in the
@@ -208,8 +200,6 @@ $ yarn test $adapter/test/unit/my-specific-test.test.ts
 # Run a tests in watch mode, re-running tests that have code changes or dependency changes in them
 $ yarn test --watch $adapter/test/unit
 ```
-
----
 
 ## Deployment
 
@@ -242,8 +232,6 @@ It can be helpful to pass a text file to the container to handle giving multiple
 ```json
 $ docker run -p 8080:8080 --env-file=[[path to your env file]] public.ecr.aws/chainlink/adapters/1forge-adapter:latest
 ```
-
----
 
 ## Advanced Features
 
@@ -349,5 +337,3 @@ To help query the correct symbols the External Adapter request can contain an ob
 In the above example when the `coinmarketcap` External Adapter is requested with a `base` of `RAI` the ticker will be changed to `RAI2`.
 
 </details>
-
----

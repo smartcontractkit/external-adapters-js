@@ -2,8 +2,6 @@
 
 Thank you for your interest in improving the Chainlink External Adapter codebase! The steps below support development of original adapters, but you are more than welcome to contribute to existing adapters as well. When opening a PR, please invite `smartcontractkit/solutions-engineering` to review the changes.
 
----
-
 ## Table of Contents
 
 1. [Creating A New Adapter](#Creating-A-New-Adapter)
@@ -12,8 +10,6 @@ Thank you for your interest in improving the Chainlink External Adapter codebase
 4. [Common Patterns](#Common-Patterns)
 5. [Mock Integration Testing](#Mock-Integration-Testing)
 6. [Adding Provider API Rate Limits](#Adding-Provider-API-Rate-Limits)
-
----
 
 ## Creating A New Adapter
 
@@ -36,8 +32,6 @@ $ yarn new source my-new-adapter
 
 _If on a Mac, this requires `gnu-sed` to be installed and set as the default for the command `sed`._
 
----
-
 ## Input
 
 When flux monitor or OCR jobs from the core Chainlink node post to external adapters, the request body looks as follows:
@@ -56,8 +50,6 @@ When flux monitor or OCR jobs from the core Chainlink node post to external adap
 The `updatedAt` field is a unix timestamp representing when the `latestAnswer` was computed.
 
 Optionally `data` parameters can also be passed via a query string added to the [Bridge](https://docs.chain.link/docs/node-operators) URL like: `{ENDPOINT}?from=ETH&to=USD`. This is useful when trying to conform to unified input parameters.
-
----
 
 ## Output
 
@@ -79,8 +71,6 @@ The External Adapter will do some processing, often request data from an API, an
   }
 ```
 
----
-
 ## Common Patterns
 
 - Use [BigNumber](https://github.com/MikeMcl/bignumber.js/) when operating on large integers
@@ -94,8 +84,6 @@ Decimal.set({ precision: 100 })
   1. Full-featured "includes" array (in the format of [presetIncludes.json](packages/core/bootstrap/src/lib/external-adapter/overrides/presetIncludes.json))
   2. Pre-set includes from the EA (set in [presetIncludes.json](packages/core/bootstrap/src/lib/external-adapter/overrides/presetIncludes.json))
   3. String array as "includes"
-
----
 
 ## Mock Integration Testing
 
@@ -113,10 +101,6 @@ The follow steps is the general pattern for writing an integration test.
 
 For more information on Jest, see the [Jest docs](https://jestjs.io/docs/cli).
 
----
-
 ## Adding Provider API Rate Limits
 
 When adding a new adapter the tiers from that provider will need to be added to the [static configurations](packages/core/bootstrap/src/lib/provider-limits/limits.json) under the `NAME` given to the adapter.
-
----
