@@ -23,7 +23,7 @@ describe('execute', () => {
     ]
 
     requests.forEach((req) => {
-      it(`${req.name}`, async () => {
+      it(req.name, async () => {
         try {
           await execute(req.testData as AdapterRequest, {})
         } catch (error) {
