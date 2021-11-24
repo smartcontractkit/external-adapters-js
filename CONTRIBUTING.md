@@ -26,7 +26,7 @@ $ yarn new [template-type] [name-of-adapter]
 
 For example
 
-```
+```bash
 $ yarn new source my-new-adapter
 ```
 
@@ -76,7 +76,7 @@ The External Adapter will do some processing, often request data from an API, an
 - Use [BigNumber](https://github.com/MikeMcl/bignumber.js/) when operating on large integers
 - Use [Decimal.js](https://github.com/MikeMcl/decimal.js/) for all floating point operations. `Decimal.js` uses a precision of 20 by default, but we may lose some precision with really large numbers, so please update to a higher precision before usage:
 
-```
+```js
 Decimal.set({ precision: 100 })
 ```
 

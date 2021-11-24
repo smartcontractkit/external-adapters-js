@@ -217,19 +217,19 @@ The External Adapters are being tagged with semantic releases to allow for autom
 
 The EA container image can be download by using the [docker pull command](https://docs.docker.com/engine/reference/commandline/pull/). For example:
 
-```json
+```sh
 $ docker pull public.ecr.aws/chainlink/adapters/1forge-adapter:latest
 ```
 
 To run the image use the [docker run command](https://docs.docker.com/engine/reference/run/). For example:
 
-```json
+```sh
 $ docker run -p 8080:8080 -e API_KEY='YOUR_API_KEY' public.ecr.aws/chainlink/adapters/1forge-adapter:latest
 ```
 
 It can be helpful to pass a text file to the container to handle giving multiple environment variables:
 
-```json
+```sh
 $ docker run -p 8080:8080 --env-file=[[path to your env file]] public.ecr.aws/chainlink/adapters/1forge-adapter:latest
 ```
 
