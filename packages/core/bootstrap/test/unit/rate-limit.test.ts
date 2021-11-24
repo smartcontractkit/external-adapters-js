@@ -50,10 +50,51 @@ const getMaxAge = (config: Config, store: Store, input: AdapterRequest) => {
 describe('Rate Limit Middleware', () => {
   const capacity = 50
   const context: AdapterContext = {}
+
+  let oldEnv
+
   beforeAll(() => {
     process.env.RATE_LIMIT_ENABLED = String(true)
     process.env.RATE_LIMIT_CAPACITY = String(capacity)
     context.rateLimit = get({})
+  })
+
+  beforeEach(() => {
+    oldEnv = process.env
+  })
+
+  afterEach(() => {
+    process.env = oldEnv
+  })
+
+  describe('config', () => {
+    it('sets the burstCapacity1s and capacity to 0 if RATE_LIMIT_CAPACITY_SECOND is set to 0', () => {
+      process.env.RATE_LIMIT_CAPACITY_SECOND = '0'
+      const config = get({})
+      expect(config.burstCapacity1s).toBe(0)
+      expect(config.totalCapacity).toBe(0)
+    })
+
+    it('sets the burstCapacity1s and capacity to 0 if RATE_LIMIT_CAPACITY_SEC is set to 0', () => {
+      process.env.RATE_LIMIT_CAPACITY_MINUTE = '0'
+      const config = get({})
+      expect(config.burstCapacity1m).toBe(0)
+      expect(config.totalCapacity).toBe(0)
+    })
+
+    it('sets the burstCapacity1s and capacity to 0 if RATE_LIMIT_CAPACITY_SECOND is set to less than 0', () => {
+      process.env.RATE_LIMIT_CAPACITY_SECOND = '-1'
+      const config = get({})
+      expect(config.burstCapacity1s).toBe(0)
+      expect(config.totalCapacity).toBe(0)
+    })
+
+    it('sets the burstCapacity1s and capacity to 0 if RATE_LIMIT_CAPACITY_SEC is set to less than 0', () => {
+      process.env.RATE_LIMIT_CAPACITY_MINUTE = '-1'
+      const config = get({})
+      expect(config.burstCapacity1m).toBe(0)
+      expect(config.totalCapacity).toBe(0)
+    })
   })
 
   describe('Max Age Calculation', () => {
