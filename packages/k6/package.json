@@ -5,7 +5,7 @@
     "@types/babel__core": "7.1.16",
     "@types/babel__preset-env": "7.9.2",
     "clean-webpack-plugin": "4.0.0",
-    "typescript": "4.3.5"
+    "typescript": "4.5.2"
   },
   "dependencies": {
     "@babel/core": "7.15.8",
