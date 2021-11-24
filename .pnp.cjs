@@ -5702,7 +5702,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["multiformats", "npm:9.4.6"],
             ["nock", "npm:13.2.1"],
             ["tslib", "npm:2.3.1"],
-            ["type-fest", "npm:2.3.4"],
+            ["type-fest", "npm:2.6.0"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -30285,10 +30285,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["npm:2.3.4", {
-          "packageLocation": "./.yarn/cache/type-fest-npm-2.3.4-ca81c66833-95b5930587.zip/node_modules/type-fest/",
+        ["npm:2.6.0", {
+          "packageLocation": "./.yarn/cache/type-fest-npm-2.6.0-d5d7a07471-8cb11716f3.zip/node_modules/type-fest/",
           "packageDependencies": [
-            ["type-fest", "npm:2.3.4"]
+            ["type-fest", "npm:2.6.0"]
           ],
           "linkType": "HARD",
         }]
