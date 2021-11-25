@@ -5200,7 +5200,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
-            ["hardhat", "npm:2.6.8"],
+            ["hardhat", "npm:2.7.0"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
@@ -18592,10 +18592,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["hardhat", [
-        ["npm:2.6.8", {
-          "packageLocation": "./.yarn/cache/hardhat-npm-2.6.8-cc4feb4d38-72b450391f.zip/node_modules/hardhat/",
+        ["npm:2.7.0", {
+          "packageLocation": "./.yarn/cache/hardhat-npm-2.7.0-a306ae9247-a299e86676.zip/node_modules/hardhat/",
           "packageDependencies": [
-            ["hardhat", "npm:2.6.8"],
+            ["hardhat", "npm:2.7.0"],
             ["@ethereumjs/block", "npm:3.4.0"],
             ["@ethereumjs/blockchain", "npm:5.4.0"],
             ["@ethereumjs/common", "npm:2.4.0"],
@@ -18641,7 +18641,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["stacktrace-parser", "npm:0.1.10"],
             ["true-case-path", "npm:2.2.1"],
             ["tsort", "npm:0.0.1"],
-            ["uuid", "npm:3.4.0"],
+            ["uuid", "npm:8.3.2"],
             ["ws", "virtual:7254fd8ce77b68d889a3bdd3adbb30714345e4eabc20dd8acb030d6e3eee243c63ff0ce6a1521e60e11dc5384028500cf1f4f630567b5957b27a769fdfe8d8c4#npm:7.5.3"]
           ],
           "linkType": "HARD",
