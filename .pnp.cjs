@@ -3872,10 +3872,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["npm:4.1.0", {
-          "packageLocation": "./.yarn/cache/@cardano-ogmios-schema-npm-4.1.0-9cf8862ea4-c6083042fb.zip/node_modules/@cardano-ogmios/schema/",
+        ["npm:4.2.1", {
+          "packageLocation": "./.yarn/cache/@cardano-ogmios-schema-npm-4.2.1-f844367482-78bfb85aad.zip/node_modules/@cardano-ogmios/schema/",
           "packageDependencies": [
-            ["@cardano-ogmios/schema", "npm:4.1.0"]
+            ["@cardano-ogmios/schema", "npm:4.2.1"]
           ],
           "linkType": "HARD",
         }]
@@ -3924,7 +3924,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@chainlink/ada-balance-adapter", "workspace:packages/sources/ada-balance"],
             ["@cardano-ogmios/client", "npm:3.2.0"],
-            ["@cardano-ogmios/schema", "npm:4.1.0"],
+            ["@cardano-ogmios/schema", "npm:4.2.1"],
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
