@@ -1712,10 +1712,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cardano-ogmios/schema@npm:4.1.0":
-  version: 4.1.0
-  resolution: "@cardano-ogmios/schema@npm:4.1.0"
-  checksum: c6083042fb06802b4d046cc276537c19fd3aa26ae9bcc86c17be81a2bddaede34510741b9c34f8a40db0e4d9c7c20673960ccf73069106058d0e18ae8bfd8bb8
+"@cardano-ogmios/schema@npm:4.2.1":
+  version: 4.2.1
+  resolution: "@cardano-ogmios/schema@npm:4.2.1"
+  checksum: 78bfb85aaddff2f5d276cc570c6d235c94e120bc758d3cf5dad8537918d2cc4644b9a76a098c7f4b30e75e050bb6bb7385a9a8ae0e79426806058eeec4f7fa44
   languageName: node
   linkType: hard
 
@@ -1758,7 +1758,7 @@ __metadata:
   resolution: "@chainlink/ada-balance-adapter@workspace:packages/sources/ada-balance"
   dependencies:
     "@cardano-ogmios/client": 3.2.0
-    "@cardano-ogmios/schema": 4.1.0
+    "@cardano-ogmios/schema": 4.2.1
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
