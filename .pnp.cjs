@@ -4352,7 +4352,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
-            ["axios", "npm:0.21.1"],
+            ["axios", "npm:0.24.0"],
             ["nock", "npm:13.2.1"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
@@ -5090,7 +5090,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/uuid", "npm:8.3.3"],
             ["@types/ws", "npm:7.4.7"],
             ["ajv", "npm:8.6.2"],
-            ["axios", "npm:0.21.1"],
+            ["axios", "npm:0.24.0"],
             ["decimal.js", "npm:10.3.1"],
             ["express", "npm:4.17.1"],
             ["express-rate-limit", "npm:5.5.0"],
@@ -5770,7 +5770,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
-            ["axios", "npm:0.21.1"],
+            ["axios", "npm:0.24.0"],
             ["csv-parse", "npm:4.16.0"],
             ["decimal.js", "npm:10.3.1"],
             ["nock", "npm:13.2.1"],
@@ -5880,7 +5880,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
-            ["axios", "npm:0.21.1"],
+            ["axios", "npm:0.24.0"],
             ["sinon", "npm:11.1.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
@@ -6083,7 +6083,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
             ["@types/sinon", "npm:10.0.6"],
-            ["axios", "npm:0.21.1"],
+            ["axios", "npm:0.24.0"],
             ["sinon", "npm:11.1.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
@@ -12572,7 +12572,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/axios-npm-0.21.1-d192f6b3b3-c87915fa0b.zip/node_modules/axios/",
           "packageDependencies": [
             ["axios", "npm:0.21.1"],
-            ["follow-redirects", "virtual:d192f6b3b31cd5d11a443145a3883a70c04cbd7c813c53085dbaf50263735f1162f10fdbddd53c24e162ec3bc37b90966413084323739b7cf942b8bfb4da8831#npm:1.14.1"]
+            ["follow-redirects", "virtual:f57bb93e361f2ec655d3c7a580ac0d897e80a4ceb361062d1e4ab84c1ac2129aad341ab7c192e2a39eadfd988c4b8d6815f8240290f820f74f823ba0474068c0#npm:1.14.1"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:0.24.0", {
+          "packageLocation": "./.yarn/cache/axios-npm-0.24.0-39e5c1e79e-468cf496c0.zip/node_modules/axios/",
+          "packageDependencies": [
+            ["axios", "npm:0.24.0"],
+            ["follow-redirects", "virtual:39e5c1e79ea63134f0cf339f4463df92854aaf708a45210afd29a0b4b9f67f95b34a1abbcabaae6d0033ad99a1d5f690ab51ed8e5d3283b87ccbc3a9ab3ec05f#npm:1.14.5"]
           ],
           "linkType": "HARD",
         }]
@@ -17759,10 +17767,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "SOFT",
         }],
-        ["virtual:d192f6b3b31cd5d11a443145a3883a70c04cbd7c813c53085dbaf50263735f1162f10fdbddd53c24e162ec3bc37b90966413084323739b7cf942b8bfb4da8831#npm:1.14.1", {
-          "packageLocation": "./.yarn/__virtual__/follow-redirects-virtual-0c4ea90a75/0/cache/follow-redirects-npm-1.14.1-e6bdc0f8e5-7381a55bdc.zip/node_modules/follow-redirects/",
+        ["npm:1.14.5", {
+          "packageLocation": "./.yarn/cache/follow-redirects-npm-1.14.5-7c681222a0-f004a76b2e.zip/node_modules/follow-redirects/",
           "packageDependencies": [
-            ["follow-redirects", "virtual:d192f6b3b31cd5d11a443145a3883a70c04cbd7c813c53085dbaf50263735f1162f10fdbddd53c24e162ec3bc37b90966413084323739b7cf942b8bfb4da8831#npm:1.14.1"],
+            ["follow-redirects", "npm:1.14.5"]
+          ],
+          "linkType": "SOFT",
+        }],
+        ["virtual:39e5c1e79ea63134f0cf339f4463df92854aaf708a45210afd29a0b4b9f67f95b34a1abbcabaae6d0033ad99a1d5f690ab51ed8e5d3283b87ccbc3a9ab3ec05f#npm:1.14.5", {
+          "packageLocation": "./.yarn/__virtual__/follow-redirects-virtual-02c2a4727a/0/cache/follow-redirects-npm-1.14.5-7c681222a0-f004a76b2e.zip/node_modules/follow-redirects/",
+          "packageDependencies": [
+            ["follow-redirects", "virtual:39e5c1e79ea63134f0cf339f4463df92854aaf708a45210afd29a0b4b9f67f95b34a1abbcabaae6d0033ad99a1d5f690ab51ed8e5d3283b87ccbc3a9ab3ec05f#npm:1.14.5"],
+            ["debug", "virtual:40c87ada7f2f684a486a15e9daad470176b55201376bfdeb15dad896f5233b78f99666966eda31038040b4d17aa8b8f8bf53fddc6773a558064319b9a0677061#npm:4.3.2"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["virtual:f57bb93e361f2ec655d3c7a580ac0d897e80a4ceb361062d1e4ab84c1ac2129aad341ab7c192e2a39eadfd988c4b8d6815f8240290f820f74f823ba0474068c0#npm:1.14.1", {
+          "packageLocation": "./.yarn/__virtual__/follow-redirects-virtual-14302a5329/0/cache/follow-redirects-npm-1.14.1-e6bdc0f8e5-7381a55bdc.zip/node_modules/follow-redirects/",
+          "packageDependencies": [
+            ["follow-redirects", "virtual:f57bb93e361f2ec655d3c7a580ac0d897e80a4ceb361062d1e4ab84c1ac2129aad341ab7c192e2a39eadfd988c4b8d6815f8240290f820f74f823ba0474068c0#npm:1.14.1"],
             ["debug", "virtual:40c87ada7f2f684a486a15e9daad470176b55201376bfdeb15dad896f5233b78f99666966eda31038040b4d17aa8b8f8bf53fddc6773a558064319b9a0677061#npm:4.3.2"]
           ],
           "linkType": "HARD",
@@ -28599,7 +28622,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["solc", "npm:0.7.3"],
             ["command-exists", "npm:1.2.9"],
             ["commander", "npm:3.0.2"],
-            ["follow-redirects", "virtual:d192f6b3b31cd5d11a443145a3883a70c04cbd7c813c53085dbaf50263735f1162f10fdbddd53c24e162ec3bc37b90966413084323739b7cf942b8bfb4da8831#npm:1.14.1"],
+            ["follow-redirects", "virtual:f57bb93e361f2ec655d3c7a580ac0d897e80a4ceb361062d1e4ab84c1ac2129aad341ab7c192e2a39eadfd988c4b8d6815f8240290f820f74f823ba0474068c0#npm:1.14.1"],
             ["fs-extra", "npm:0.30.0"],
             ["js-sha3", "npm:0.8.0"],
             ["memorystream", "npm:0.3.1"],
