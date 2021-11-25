@@ -830,10 +830,21 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@actions/core", [
-        ["npm:1.4.0", {
-          "packageLocation": "./.yarn/cache/@actions-core-npm-1.4.0-82fe1c0286-bdad9fedeb.zip/node_modules/@actions/core/",
+        ["npm:1.6.0", {
+          "packageLocation": "./.yarn/cache/@actions-core-npm-1.6.0-a2628c48cb-ac4689b609.zip/node_modules/@actions/core/",
           "packageDependencies": [
-            ["@actions/core", "npm:1.4.0"]
+            ["@actions/core", "npm:1.6.0"],
+            ["@actions/http-client", "npm:1.0.11"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@actions/http-client", [
+        ["npm:1.0.11", {
+          "packageLocation": "./.yarn/cache/@actions-http-client-npm-1.0.11-f7fe88143c-2c72834ec3.zip/node_modules/@actions/http-client/",
+          "packageDependencies": [
+            ["@actions/http-client", "npm:1.0.11"],
+            ["tunnel", "npm:0.0.6"]
           ],
           "linkType": "HARD",
         }]
@@ -5174,7 +5185,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/scripts/",
           "packageDependencies": [
             ["@chainlink/ea-scripts", "workspace:packages/scripts"],
-            ["@actions/core", "npm:1.4.0"],
+            ["@actions/core", "npm:1.6.0"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/shelljs", "npm:0.8.9"],
             ["@types/swagger-jsdoc", "npm:6.0.1"],
@@ -30153,6 +30164,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["strip-ansi", "npm:6.0.0"],
             ["wcwidth", "npm:1.0.1"],
             ["yargs", "npm:15.4.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["tunnel", [
+        ["npm:0.0.6", {
+          "packageLocation": "./.yarn/cache/tunnel-npm-0.0.6-b1c0830ea4-c362948df9.zip/node_modules/tunnel/",
+          "packageDependencies": [
+            ["tunnel", "npm:0.0.6"]
           ],
           "linkType": "HARD",
         }]
