@@ -28,7 +28,7 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@cardano-ogmios/client": "3.2.0",
+    "@cardano-ogmios/client": "4.2.1",
     "@cardano-ogmios/schema": "4.2.1",
     "@chainlink/ea-bootstrap": "workspace:*",
     "@chainlink/ea-test-helpers": "workspace:*",

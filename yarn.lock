@@ -1692,23 +1692,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cardano-ogmios/client@npm:3.2.0":
-  version: 3.2.0
-  resolution: "@cardano-ogmios/client@npm:3.2.0"
+"@cardano-ogmios/client@npm:4.2.1":
+  version: 4.2.1
+  resolution: "@cardano-ogmios/client@npm:4.2.1"
   dependencies:
-    "@cardano-ogmios/schema": 3.2.0
+    "@cardano-ogmios/schema": 4.2.1
+    "@cardanosolutions/json-bigint": ^1.0.0
+    "@types/json-bigint": ^1.0.1
+    cross-fetch: ^3.1.4
+    fastq: ^1.11.0
     isomorphic-ws: ^4.0.1
     nanoid: ^3.1.22
     ts-custom-error: ^3.2.0
-    ws: ^7.4.4
-  checksum: 86e3aee85336667147cf6b23a579ad54a93a722f5847710aa0b7dd870a5b26846335b2bc2f1a1592cb12c2a5987a130c92af4e92c9095579baf76271d450cc75
-  languageName: node
-  linkType: hard
-
-"@cardano-ogmios/schema@npm:3.2.0":
-  version: 3.2.0
-  resolution: "@cardano-ogmios/schema@npm:3.2.0"
-  checksum: a124a9f3aab2c106853f9b43a75241609ec04172d9ea81f40896299b9249f419a1ac026372fbcc757f487a96627164ecb909b490f3608670975447df48d0beed
+    ws: ^7.4.6
+  checksum: 92a4deebf008da5128f6eba371505ab264b0dd7dd84cbdcedaa5e1894e6aea35c44dadcd03dcf1e3c36a49ea963d1ee3b0a2a76ca7f7a15674344ffeb8c48c19
   languageName: node
   linkType: hard
 
@@ -1716,6 +1713,15 @@ __metadata:
   version: 4.2.1
   resolution: "@cardano-ogmios/schema@npm:4.2.1"
   checksum: 78bfb85aaddff2f5d276cc570c6d235c94e120bc758d3cf5dad8537918d2cc4644b9a76a098c7f4b30e75e050bb6bb7385a9a8ae0e79426806058eeec4f7fa44
+  languageName: node
+  linkType: hard
+
+"@cardanosolutions/json-bigint@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@cardanosolutions/json-bigint@npm:1.0.0"
+  dependencies:
+    bignumber.js: ^9.0.0
+  checksum: 5df5986de7135e8da55cf5012ebe7d0fb9f57d139ae9aa1cb11e584d0b6c70c60e55fa1994a4e5fde5787285dfef3c252319accb0a93e8ccc6ad2f577ec66931
   languageName: node
   linkType: hard
 
@@ -1757,7 +1763,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/ada-balance-adapter@workspace:packages/sources/ada-balance"
   dependencies:
-    "@cardano-ogmios/client": 3.2.0
+    "@cardano-ogmios/client": 4.2.1
     "@cardano-ogmios/schema": 4.2.1
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
@@ -8006,6 +8012,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/json-bigint@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "@types/json-bigint@npm:1.0.1"
+  checksum: b39e55a811f554bd25f1d991bc4fc70655216dff466f21f97160097573a4bc7b478c1907aa5194c79022c115f509f8e4712083c51f57665e7a2de7412ff7801f
+  languageName: node
+  linkType: hard
+
 "@types/json-schema@npm:*, @types/json-schema@npm:^7.0.5, @types/json-schema@npm:^7.0.6, @types/json-schema@npm:^7.0.7, @types/json-schema@npm:^7.0.8":
   version: 7.0.8
   resolution: "@types/json-schema@npm:7.0.8"
@@ -11447,7 +11460,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cross-fetch@npm:^3.0.2":
+"cross-fetch@npm:^3.0.2, cross-fetch@npm:^3.1.4":
   version: 3.1.4
   resolution: "cross-fetch@npm:3.1.4"
   dependencies:
@@ -13801,6 +13814,15 @@ __metadata:
   version: 0.2.0
   resolution: "fastify-warning@npm:0.2.0"
   checksum: c19ebccf54a3122877d2248400772ca98bacbabdf97826211ede29246c640d47431a2eebed1f52f9421139ed5e52e42d3bd4aefc46e27b6f34add3507529fd97
+  languageName: node
+  linkType: hard
+
+"fastq@npm:^1.11.0":
+  version: 1.13.0
+  resolution: "fastq@npm:1.13.0"
+  dependencies:
+    reusify: ^1.0.4
+  checksum: 32cf15c29afe622af187d12fc9cd93e160a0cb7c31a3bb6ace86b7dea3b28e7b72acde89c882663f307b2184e14782c6c664fa315973c03626c7d4bff070bb0b
   languageName: node
   linkType: hard
 
