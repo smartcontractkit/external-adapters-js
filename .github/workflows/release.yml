@@ -116,3 +116,15 @@ jobs:
           adapter-name: ${{ matrix.adapter.name }}
           aws-region: us-east-1
           aws-ecr-private: 'false' # Use of string intentional for evaluation
+
+      - name: Publish adapter to public ECR
+        id: publish-adapter-versioned-public-ecr
+        uses: ./.github/actions/release/publish-artifacts
+        with:
+          branch: develop
+          latest: true
+
+          image-prefix: public.ecr.aws/${{ env.publicecr-name }}/adapters/
+          adapter-name: ${{ matrix.adapter.name }}
+          aws-region: us-east-1
+          aws-ecr-private: 'false' # Use of string intentional for evaluation
