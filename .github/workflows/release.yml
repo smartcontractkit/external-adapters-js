@@ -118,7 +118,6 @@ jobs:
           aws-ecr-private: 'false' # Use of string intentional for evaluation
 
       - name: Publish adapter to public ECR
-        id: publish-adapter-versioned-public-ecr
         uses: ./.github/actions/release/publish-artifacts
         with:
           branch: develop
