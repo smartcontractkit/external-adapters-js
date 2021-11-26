@@ -1,5 +1,5 @@
 ---
-'@chainlink/cache.gold-adapter': patch
+'@chainlink/cache.gold-adapter': minor
 ---
 
 src export changed
