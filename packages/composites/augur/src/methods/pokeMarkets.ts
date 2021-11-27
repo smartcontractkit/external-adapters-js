@@ -7,6 +7,25 @@ import { Config } from '../config'
 import { getContract } from './index'
 import { AggregatorV3Interface__factory, CryptoMarketFactoryV3 } from '../typechain'
 
+// Use this for cases where something goes wrong.
+// The contract will verify these
+type HackyResolveRoundIDs = {
+  [timestamp: number]: {
+    [coin: string]: string
+  }
+}
+
+const hackyResolveRoundIds: HackyResolveRoundIDs = {
+  1637355600: {
+    ETH: '36893488147419981809',
+    BTC: '36893488147419975892',
+    MATIC: '36893488147419964172',
+    REP: '18446744073709562952',
+    DOGE: '36893488147419373053',
+    LINK: '36893488147419965957',
+  },
+}
+
 class RoundManagement {
   readonly phase: BigNumber
   readonly justRound: BigNumber
@@ -126,6 +145,21 @@ async function fetchResolutionRoundIds(
         return {
           coinId: index + 1,
           roundId: round.id,
+        }
+      }
+
+      // PG: This is a hack to use a specific round because of a timeout
+      // with jobs running too late. The round will be verified on chain.
+      if (!!hackyResolveRoundIds[resolutionTime]) {
+        const roundId = BigNumber.from(hackyResolveRoundIds[resolutionTime][coin.name])
+        Logger.debug('Augur: hacky resolve', {
+          name: coin.name,
+          roundId: roundId.toString(),
+        })
+
+        return {
+          coinId: index + 1,
+          roundId,
         }
       }
 
