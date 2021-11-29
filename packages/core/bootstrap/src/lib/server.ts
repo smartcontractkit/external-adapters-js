@@ -5,7 +5,7 @@ import slowDown from 'express-slow-down'
 import rateLimit from 'express-rate-limit'
 import { join } from 'path'
 import * as client from 'prom-client'
-import { executeSync, withMiddleware } from '../index'
+import { executeSync, storeSlice, withMiddleware } from '../index'
 import { defaultOptions } from './cache'
 import * as redis from './cache/redis'
 import { loadTestPayload } from './config/test-payload-loader'
@@ -17,6 +17,7 @@ import { logger } from './external-adapter'
 import { METRICS_ENABLED, httpRateLimit, setupMetrics } from './metrics'
 import { get as getRateLimitConfig } from './rate-limit/config'
 import { toObjectWithNumbers } from './util'
+import { warmupShutdown } from './cache-warmer/actions'
 
 const app = express()
 const version = process.env.npm_package_version
@@ -110,6 +111,11 @@ export const initHandler =
 
     return new Promise((resolve) => {
       const server = app.listen(port, () => {
+        server.on('close', () => {
+          storeSlice('cacheWarmer').dispatch(warmupShutdown())
+          context.cache?.instance?.close()
+        })
+
         logger.info(`Listening on port ${port}!`)
         resolve(server)
       })

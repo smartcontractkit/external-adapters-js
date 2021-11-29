@@ -31,7 +31,7 @@
     "@chainlink/ea-bootstrap": "workspace:*",
     "@chainlink/ea-test-helpers": "workspace:*",
     "cids": "^1.1.8",
-    "ipfs": "^0.58.4",
+    "ipfs": "^0.60.0",
     "ipfs-core-types": "^0.7.1",
     "ipfs-http-client": "^52.0.3",
     "ipld-dag-cbor": "^1.0.1",
@@ -40,10 +40,10 @@
   },
   "devDependencies": {
     "@chainlink/types": "workspace:*",
-    "@types/jest": "26.0.24",
-    "@types/node": "14.17.21",
-    "nock": "13.1.4",
-    "type-fest": "^2.3.3",
-    "typescript": "^4.2.3"
+    "@types/jest": "27.0.3",
+    "@types/node": "14.17.34",
+    "nock": "13.2.1",
+    "type-fest": "2.6.0",
+    "typescript": "4.3.5"
   }
 }

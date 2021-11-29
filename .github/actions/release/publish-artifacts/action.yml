@@ -58,6 +58,7 @@ runs:
         ADAPTER_NAME: ${{ inputs.adapter-name }}
 
     - name: Check if image already exists on the public/private ECR repository
+      id: check-image-exists
       # Disable default fast fail functionality since we care about exit code handling in the script itself
       shell: bash --noprofile --norc {0}
       env:
