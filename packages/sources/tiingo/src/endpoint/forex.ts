@@ -1,0 +1,42 @@
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import { NAME } from '../config'
+
+export const supportedEndpoints = ['forex', 'fx', 'commodities']
+
+export const endpointResultPaths = {
+  fx: 'midPrice',
+  forex: 'midPrice',
+  commodities: 'midPrice',
+}
+
+export const inputParameters: InputParameters = {
+  base: ['base', 'asset', 'from', 'market'],
+  quote: ['quote', 'to'],
+  resultPath: false,
+}
+
+export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
+  const validator = new Validator(request, inputParameters)
+  if (validator.error) throw validator.error
+
+  const jobRunID = validator.validated.id
+  const base = validator.overrideSymbol(NAME, validator.validated.data.base)
+  const quote = validator.validated.data.quote
+  const ticker = `${base}${quote}`.toLowerCase()
+  const resultPath = validator.validated.data.resultPath
+  const url = `/tiingo/fx/${ticker}/top`
+
+  const reqConfig = {
+    ...config.api,
+    params: {
+      token: config.apiKey,
+    },
+    url,
+  }
+
+  const response = await Requester.request(reqConfig)
+  const result = Requester.validateResultNumber(response.data, [0, resultPath])
+
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
+}
