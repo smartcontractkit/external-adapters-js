@@ -32,7 +32,7 @@ export function get(context: AdapterContext): Config {
   const shouldIgnorePerMinLimit = perMinuteRateLimit && parseInt(perMinuteRateLimit) <= 0
   if (perSecRateLimit) capacity = shouldIgnorePerSecLimit ? 0 : parseInt(perSecRateLimit)
   if (perMinuteRateLimit) capacity = shouldIgnorePerMinLimit ? 0 : parseInt(perMinuteRateLimit)
-  if (!capacity && enabled) {
+  if ((capacity === undefined || capacity === null) && enabled) {
     const provider = getEnv('RATE_LIMIT_API_PROVIDER') || context.name?.toLowerCase() || ''
     const tier = getEnv('RATE_LIMIT_API_TIER') || ''
     try {
