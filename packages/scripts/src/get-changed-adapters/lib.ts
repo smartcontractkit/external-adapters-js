@@ -103,9 +103,9 @@ export const createOutput = (adapters: ChangedAdapters): string => {
 
   // combine adapters lists to create bash usable array of adapters to test
   const combinedAdapters = [...adapters.sources, ...adapters.composites, ...adapters.targets]
-  
+
   // remove all adapters not in the allow list
-  const allowedAdapters = combinedAdapters.filter(function(adapter) {
+  const allowedAdapters = combinedAdapters.filter(function (adapter) {
     return AllowedAdapters.includes(adapter)
   })
 

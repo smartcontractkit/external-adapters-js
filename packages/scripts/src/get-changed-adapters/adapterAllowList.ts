@@ -1,4 +1,1 @@
-export const AllowedAdapters: string[] = [
-    "coingecko",
-    "coinpaprika",
-]
+export const AllowedAdapters: string[] = ['coingecko', 'coinpaprika']
