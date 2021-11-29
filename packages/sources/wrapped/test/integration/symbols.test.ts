@@ -7,7 +7,6 @@ import * as nock from 'nock'
 import * as http from 'http'
 
 beforeAll(() => {
-  process.env.CACHE_ENABLED = 'false'
   if (process.env.RECORD) {
     nock.recorder.rec()
   }
@@ -29,7 +28,6 @@ describe('execute', () => {
   const req = request('localhost:8080')
   beforeAll(async () => {
     server = await startServer()
-    process.env.CACHE_ENABLED = 'false'
   })
   afterAll((done) => {
     server.close(done)

@@ -13,6 +13,8 @@ export interface Networks {
 
 export type Address = {
   address: string
+  network: string
+  chainId: string
 }
 
 const customError = (data: any) => {
@@ -26,22 +28,22 @@ export const inputParameters: InputParameters = {
 }
 
 const networks: Networks = {
-  BCH: 'Bitcoin Cash',
-  BTC: 'Bitcoin',
-  CELO: 'Celo',
-  ETH: 'Ethereum',
-  FIL: 'Filecoin',
-  LTC: 'Litecoin',
-  WCELO: 'Ethereum', // Wrapped Celo
-  WCUSD: 'Ethereum', // Wrapped Celo Dollar
-  WFIL: 'Ethereum', // Wrapped Filecoin
-  WZEC: 'Ethereum', // Wrapped Zcash
-  XLM: 'Stellar',
-  XRP: 'Ripple',
-  XTZ: 'Tezos',
-  ZEC: 'Zcash',
-  ZRX: 'Ethereum', // 0x
-  cUSD: 'Celo',
+  BCH: 'bitcoincash',
+  BTC: 'bitcoin',
+  CELO: 'celo',
+  ETH: 'ethereum',
+  FIL: 'filecoin',
+  LTC: 'litecoin',
+  WCELO: 'ethereum', // Wrapped Celo
+  WCUSD: 'ethereum', // Wrapped Celo Dollar
+  WFIL: 'ethereum', // Wrapped Filecoin
+  WZEC: 'ethereum', // Wrapped Zcash
+  XLM: 'stellar',
+  XRP: 'ripple',
+  XTZ: 'tezos',
+  ZEC: 'zcash',
+  ZRX: 'ethereum', // 0x
+  cUSD: 'celo',
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -50,7 +52,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const jobRunID = validator.validated.id
   const symbol = validator.validated.data.symbol
-  const chainId = validator.validated.data.chainId || 'main'
+  const chainId = validator.validated.data.chainId || 'mainnet'
   const network = validator.validated.data.network || networks[symbol]
   const url = `/deposits`
 
