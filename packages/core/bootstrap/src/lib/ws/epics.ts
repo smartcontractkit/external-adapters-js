@@ -59,6 +59,7 @@ import { getWSConfig } from './config'
 // Rxjs deserializer defaults to JSON.parse.
 // We need to handle errors from non-parsable messages
 const deserializer = (message: any) => {
+  if (typeof message.data === 'string') return message
   try {
     return JSON.parse(message.data)
   } catch (e) {
