@@ -21,7 +21,6 @@ import { Requester } from './requester'
 import { inputParameters } from './builder'
 
 export type OverrideType = 'overrides' | 'tokenOverrides' | 'includes'
-
 export class Validator {
   input: {
     id?: string
@@ -29,13 +28,7 @@ export class Validator {
   }
   inputConfigs: InputParameters
   options: Record<string, any[]>
-  validated: {
-    id: string
-    data?: any
-    includes?: Override
-    overrides?: Override
-    tokenOverrides?: Override
-  }
+  validated: any
   error: AdapterError | undefined
   errored: AdapterErrorResponse | undefined
   shouldLogError: boolean
@@ -59,13 +52,15 @@ export class Validator {
         const inputConfig = this.inputConfigs[key]
 
         if (Array.isArray(inputConfig)) {
+          // TODO move away from alias arrays in favor of InputParameter config type
           const usedKey = this.getUsedKey(key, inputConfig)
-          if (!usedKey) this.throwInvalid(`None of aliases used for required key ${key}`)()
-          this.validateRequiredParam(usedKey as string, options)
+          if (!usedKey) this.throwInvalid(`None of aliases used for required key ${key}`)
+          this.validateRequiredParam(this.input.data[usedKey as string], key, options)
         } else if (typeof inputConfig === 'boolean') {
+          // TODO move away from required T/F in favor of InputParameter config type
           inputConfig
-            ? this.validateRequiredParam(key, options)
-            : this.validateOptionalParam(key, options)
+            ? this.validateRequiredParam(this.input.data[key], key, options)
+            : this.validateOptionalParam(this.input.data[key], key, options)
         } else if (Object.keys(inputConfig).length > 0) {
           this.validateObjectParam(key)
         }
@@ -123,7 +118,7 @@ export class Validator {
 
   overrideSymbol = (adapter: string, symbol?: string | string[]): string | string[] => {
     const defaultSymbol = symbol || this.validated.data.base
-    if (!defaultSymbol) this.throwInvalid(`Required parameter not supplied: base`)()
+    if (!defaultSymbol) this.throwInvalid(`Required parameter not supplied: base`)
     if (!this.validated.overrides) return defaultSymbol
     if (!Array.isArray(defaultSymbol))
       return (
@@ -181,7 +176,8 @@ export class Validator {
   }
 
   formatOverride = (param: any): Override => {
-    const _throwInvalid = this.throwInvalid(`Parameter supplied with wrong format: "override"`)
+    const _throwInvalid = () =>
+      this.throwInvalid(`Parameter supplied with wrong format: "override"`)
 
     if (!isObject(param)) _throwInvalid()
 
@@ -199,7 +195,8 @@ export class Validator {
   }
 
   formatIncludeOverrides = (param: any): Override => {
-    const _throwInvalid = this.throwInvalid(`Parameter supplied with wrong format: "includes"`)
+    const _throwInvalid = () =>
+      this.throwInvalid(`Parameter supplied with wrong format: "includes"`)
     if (!isArray(param)) _throwInvalid()
 
     const _isValid = Object.values(param).every((val) => isObject(val) || typeof val === 'string')
@@ -208,7 +205,7 @@ export class Validator {
     return param
   }
 
-  throwInvalid = (message: string) => (): void => {
+  throwInvalid = (message: string): void => {
     throw new AdapterError({ jobRunID: this.validated.id, statusCode: 400, message })
   }
 
@@ -221,69 +218,87 @@ export class Validator {
       ? this.input.data[usedKey as string] ?? inputConfig.default
       : inputConfig.default
 
-    if (inputConfig.required && (param === undefined || param === null || param === ''))
-      this.throwInvalid(`Required parameter ${key} not supplied`)
+    const paramIsDefined = !(param === undefined || param === null || param === '')
 
-    if (inputConfig.type && typeof param !== inputConfig.type)
-      this.throwInvalid(`${key} parameter must be of type ${inputConfig.type}`)
+    if (inputConfig.required && !paramIsDefined)
+      this.throwInvalid(`Required parameter ${key} must be non-null and non-empty`)
 
-    if (inputConfig.options && !inputConfig.options.includes(param))
-      this.throwInvalid(
-        `${key} parameter is not in the set of available options: ${inputConfig.options.join(
-          ', ',
-        )}`,
-      )
+    if (paramIsDefined) {
+      if (inputConfig.type) {
+        const primitiveTypes = ['boolean', 'number', 'bigint', 'string']
 
-    for (const dependency of inputConfig.dependsOn ?? []) {
-      const usedDependencyKey = this.getUsedKey(
-        dependency,
-        (this.inputConfigs[dependency] as InputParameter).aliases ?? [],
-      )
-      if (!usedDependencyKey) this.throwInvalid(`${key} dependency ${dependency} not supplied`)
-    }
+        if (![...primitiveTypes, 'array', 'object'].includes(inputConfig.type))
+          this.throwInvalid(`${key} parameter has unrecognized type ${inputConfig.type}`)
 
-    for (const exclusive of inputConfig.exclusive ?? []) {
-      const usedExclusiveKey = this.getUsedKey(
-        exclusive,
-        (this.inputConfigs[exclusive] as InputParameter).aliases ?? [],
-      )
-      if (usedExclusiveKey)
-        this.throwInvalid(`${key} cannot be supplied concurrently with ${exclusive}`)
+        if (primitiveTypes.includes(inputConfig.type) && typeof param !== inputConfig.type)
+          this.throwInvalid(`${key} parameter must be of type ${inputConfig.type}`)
+
+        if (inputConfig.type === 'array' && (!Array.isArray(param) || param.length === 0))
+          this.throwInvalid(`${key} parameter must be a non-empty array`)
+
+        if (
+          inputConfig.type === 'object' &&
+          (!param ||
+            Array.isArray(param) ||
+            typeof param !== inputConfig.type ||
+            Object.keys(param).length === 0)
+        )
+          this.throwInvalid(`${key} parameter must be an object with at least one property`)
+      }
+
+      if (inputConfig.options && !inputConfig.options.includes(param))
+        this.throwInvalid(`${key} parameter is not in the set of available options`)
+
+      for (const dependency of inputConfig.dependsOn ?? []) {
+        const usedDependencyKey = this.getUsedKey(
+          dependency,
+          (this.inputConfigs[dependency] as InputParameter).aliases ?? [],
+        )
+        if (!usedDependencyKey) this.throwInvalid(`${key} dependency ${dependency} not supplied`)
+      }
+
+      for (const exclusive of inputConfig.exclusive ?? []) {
+        const usedExclusiveKey = this.getUsedKey(
+          exclusive,
+          (this.inputConfigs[exclusive] as InputParameter).aliases ?? [],
+        )
+        if (usedExclusiveKey)
+          this.throwInvalid(`${key} cannot be supplied concurrently with ${exclusive}`)
+      }
     }
 
     this.validated.data[key] = param
   }
 
-  validateOptionalParam(key: string, options: any[]): void {
-    const param = this.input.data[key]
+  validateOptionalParam(param: any, key: string, options: any[]): void {
     if (param && options) {
       if (!Array.isArray(options))
-        this.throwInvalid(`Parameter options for ${key} must be of an Array type`)()
+        this.throwInvalid(`Parameter options for ${key} must be of an Array type`)
       if (!options.includes(param))
-        this.throwInvalid(`${param} is not a supported ${key} option. Must be one of ${options}`)()
+        this.throwInvalid(`${param} is not a supported ${key} option. Must be one of ${options}`)
     }
     this.validated.data[key] = param
   }
 
-  validateRequiredParam(key: string, options: any[]): void {
-    const param = this.input.data[key]
-    if (typeof param === 'undefined') this.throwInvalid(`Required parameter not supplied: ${key}`)()
+  validateRequiredParam(param: any, key: string, options: any[]): void {
+    if (typeof param === 'undefined') this.throwInvalid(`Required parameter not supplied: ${key}`)
     if (options) {
       if (!Array.isArray(options))
-        this.throwInvalid(`Parameter options for ${key} must be of an Array type`)()
+        this.throwInvalid(`Parameter options for ${key} must be of an Array type`)
       if (!options.includes(param))
         this.throwInvalid(
           `${param} is not a supported ${key} option. Must be one of ${options.join(' || ')}`,
-        )()
+        )
     }
     this.validated.data[key] = param
   }
 
   getUsedKey(key: string, keyArray: InputParameterAliases): string | undefined {
-    if (!keyArray.includes(key)) keyArray.push(key)
+    const comparisonArray = [...keyArray]
+    if (!comparisonArray.includes(key)) comparisonArray.push(key)
 
     const inputParamKeys = Object.keys(this.input.data)
-    return inputParamKeys.find((k) => keyArray.includes(k))
+    return inputParamKeys.find((k) => comparisonArray.includes(k))
   }
 }
 

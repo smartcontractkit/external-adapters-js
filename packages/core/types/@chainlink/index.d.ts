@@ -149,10 +149,10 @@ declare module '@chainlink/types' {
   export type InputParameter = {
     aliases?: InputParameterAliases
     description?: string
-    type?: 'bigint' | 'boolean' | 'list' | 'number' | 'object' | 'string'
+    type?: 'bigint' | 'boolean' | 'array' | 'number' | 'object' | 'string'
     required?: RequiredInputParameter
-    options?: (number | string)[]
-    default?: boolean | number | string
+    options?: any[]
+    default?: any
     dependsOn?: string[]
     exclusive?: string[]
   }
