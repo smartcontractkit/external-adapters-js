@@ -87,7 +87,7 @@ describe('full request', () => {
         traderScoreAlpha: '700000000000000000',
         callbackAddress: '0xaffdA0625B24a28EBA18eb733c41C8481EC0D6D0',
         newEpoch: '0',
-        activeRootIpfsCid: '',
+        activeRootIpfsCid: 'test-cid',
       },
     }
     const response = await dydxRewards(req, {})

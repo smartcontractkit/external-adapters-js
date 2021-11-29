@@ -73,11 +73,11 @@ jobs:
           image-prefix: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/adapters/
           adapter-name: ${{ matrix.adapter.name }}
           aws-region: ${{ secrets.AWS_REGION }}
-          aws-ecr-private: 'true'
+          aws-ecr-private: 'true' # Use of string intentional for evaluation
           aws-ecr-account-ids: ${{ secrets.AWS_PRIVATE_ECR_SECONDARY_ACCOUNT_ACCESS_IDS }}
 
       # For our private ECR repo that we use for staging, we keep the latest tag around to have staging auto-update
-      - if: ${{ ! steps.publish-adapter-versioned-private-ecr.outputs.image-exists }}
+      - if: steps.publish-adapter-versioned-private-ecr.outputs.image-exists == 'false'
         name: Publish adapter to private ECR, with latest tag
         uses: ./.github/actions/release/publish-artifacts
         with:
@@ -87,7 +87,7 @@ jobs:
           image-prefix: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/adapters/
           adapter-name: ${{ matrix.adapter.name }}
           aws-region: ${{ secrets.AWS_REGION }}
-          aws-ecr-private: 'true'
+          aws-ecr-private: 'true' # Use of string intentional for evaluation
           aws-ecr-account-ids: ${{ secrets.AWS_PRIVATE_ECR_SECONDARY_ACCOUNT_ACCESS_IDS }}
 
       #
@@ -115,4 +115,4 @@ jobs:
           image-prefix: public.ecr.aws/${{ env.publicecr-name }}/adapters/
           adapter-name: ${{ matrix.adapter.name }}
           aws-region: us-east-1
-          aws-ecr-private: 'false'
+          aws-ecr-private: 'false' # Use of string intentional for evaluation

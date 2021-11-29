@@ -63,6 +63,21 @@ describe('Validator', () => {
       expect(validator?.error?.status).toEqual('errored')
     })
 
+    it('errors if empty string is provided', () => {
+      const input = {
+        id: '1',
+        data: {
+          endpoint: '',
+        },
+      }
+      const validator = new Validator(input, params)
+      expect(validator.validated.id).toEqual('1')
+      expect(validator.validated.data).toEqual({})
+      expect(validator.error).toBeTruthy()
+      expect(validator?.error?.statusCode).toEqual(400)
+      expect(validator?.error?.status).toEqual('errored')
+    })
+
     it('errors if an array param is not provided', () => {
       const input = {
         id: 'abc123',

@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/uniswap-v2-adapter",
-  "version": "1.0.1",
+  "version": "1.0.4",
   "description": "Chainlink uniswap-v2 adapter.",
   "keywords": [
     "Chainlink",
@@ -36,10 +36,10 @@
   },
   "devDependencies": {
     "@chainlink/types": "workspace:*",
-    "@types/jest": "26.0.24",
-    "@types/node": "14.17.17",
+    "@types/jest": "27.0.3",
+    "@types/node": "14.17.34",
     "@types/supertest": "2.0.11",
-    "nock": "13.1.4",
+    "nock": "13.2.1",
     "supertest": "6.1.6",
     "typescript": "4.3.5"
   }
