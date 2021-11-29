@@ -98,7 +98,7 @@ export class Validator {
     }
   }
 
-  parseError(error: any): void {
+  parseError(error: Error): void {
     const message = 'Error validating input.'
     if (error instanceof AdapterError) this.error = error
     else
@@ -221,7 +221,7 @@ export class Validator {
       ? this.input.data[usedKey as string] ?? inputConfig.default
       : inputConfig.default
 
-    if (inputConfig.required && (param === undefined || param === null))
+    if (inputConfig.required && (param === undefined || param === null || param === ''))
       this.throwInvalid(`Required parameter ${key} not supplied`)
 
     if (inputConfig.type && typeof param !== inputConfig.type)
