@@ -399,16 +399,16 @@ https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/historical
 
 ### Input Params
 
-| Required? |                  Name                   |                                   Description                                   |                                          Options                                          | Defaults to |
-| :-------: | :-------------------------------------: | :-----------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------: | :---------: |
-|    ✅     | `base`, `from`, `coin`, `symbol`, `sym` |                       The symbol of the currency to query                       |                                                                                           |    `BTC`    |
-|           |   `quote`, `to`, `market`, `convert`    |                    The symbol of the currency to convert to                     |                                                                                           |    `USD`    |
-|           |                 `start`                 |           Timestamp (Unix or ISO 8601) to start returning quotes for            |                                                                                           |             |
-|           |                  `end`                  |            Timestamp (Unix or ISO 8601) to stop returning quotes for            |                                                                                           |             |
-|           |                 `count`                 |              The number of interval periods to return results for               |                                                                                           |    `10`     |
-|           |               `interval`                |                   Interval of time to return data points for                    |                                                                                           |    `5m`     |
-|           |                  `cid`                  |              The CMC coin ID (optional to use in place of `base`)               |                                                                                           |             |
-|           |                  `aux`                  | Optionally specify a comma-separated list of supplemental data fields to return | `price`,`volume`, `market_cap`,`quote_timestamp`,`is_active`, `is_fiat`,`search_interval` |             |
+| Required? |                       Name                        |                                   Description                                   |                                          Options                                          | Defaults to |
+| :-------: | :-----------------------------------------------: | :-----------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------: | :---------: |
+|    ✅     | `base`, `from`, `coin`, `symbol`, `sym`, `symbol` |                       The symbol of the currency to query                       |                                                                                           |             |
+|    ✅     |        `quote`, `to`, `market`, `convert`         |                    The symbol of the currency to convert to                     |                                                                                           |             |
+|           |                      `start`                      |           Timestamp (Unix or ISO 8601) to start returning quotes for            |                                                                                           |             |
+|           |                       `end`                       |            Timestamp (Unix or ISO 8601) to stop returning quotes for            |                                                                                           |             |
+|           |                      `count`                      |              The number of interval periods to return results for               |                                                                                           |    `10`     |
+|           |                    `interval`                     |                   Interval of time to return data points for                    |                                                                                           |    `5m`     |
+|           |                       `cid`                       |              The CMC coin ID (optional to use in place of `base`)               |                                                                                           |             |
+|           |                       `aux`                       | Optionally specify a comma-separated list of supplemental data fields to return | `price`,`volume`, `market_cap`,`quote_timestamp`,`is_active`, `is_fiat`,`search_interval` |             |
 
 ### Notes
 
