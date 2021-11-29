@@ -4,10 +4,14 @@ This external adapter allows querying contracts on the Terra blockchain.
 
 ### Environment Variables
 
-| Required? |   Name   |            Description            | Options | Defaults to |
-| :-------: | :------: | :-------------------------------: | :-----: | :---------: |
-|    ✅     | RPC_URL  |       The RPC URL to query        |         |             |
-|    ✅     | CHAIN_ID | Which chain ID it's connecting to |         |             |
+| Required? |        Name        |                               Description                                | Options | Defaults to  |
+| :-------: | :----------------: | :----------------------------------------------------------------------: | :-----: | :----------: |
+|    ✅     | COLUMBUS_5_RPC_URL | The URL to a Terra `columbus-5` full node to query on-chain mainnet data |         |              |
+|    ✅     | BOMBAY_12_RPC_URL  | The URL to a Terra `bombay-12` full node to query on-chain testnet data  |         |              |
+|    ✅     | LOCALTERRA_RPC_URL |   The URL to a locally running Terra full node to query on-chain data    |         |              |
+|           |  DEFAULT_CHAIN_ID  |         The default `chainId` value to use as an input parameter         |         | `columbus-5` |
+
+A list of public endpoints can be found [here](https://docs.terra.money/Reference/endpoints.html). Please only use these for testing, not in production, as they are not secure.
 
 ---
 
@@ -23,11 +27,13 @@ This external adapter allows querying contracts on the Terra blockchain.
 
 ### Input Params
 
-| Required? |          Name           |                  Description                   | Options | Defaults to |
-| :-------: | :---------------------: | :--------------------------------------------: | :-----: | :---------: |
-|    ✅     | `address` or `contract` |              The address to query              |         |             |
-|    ✅     |         `query`         |                The query object                |         |             |
-|           |        `params`         | Optional params object to include in the query |         |             |
+| Required? |          Name           |                                                                           Description                                                                            |                 Options                 |               Defaults to               |
+| :-------: | :---------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------: | :-------------------------------------: |
+|    ✅     | `address` or `contract` |                                                                       The address to query                                                                       |                                         |                                         |
+|    ✅     |         `query`         |                                                                         The query object                                                                         |                                         |                                         |
+|           |        `params`         |                                                          Optional params object to include in the query                                                          |                                         |                                         |
+|           |        `chainId`        |                                                                   Which chain ID to connect to                                                                   | `columbus-5`, `bombay-12`, `localterra` | `DEFAULT_CHAIN_ID` environment variable |
+|           |      `resultPath`       | The [object-path](https://github.com/mariocasciaro/object-path) string to parse a single `result` value. When not provided the entire response will be provided. |                                         |                                         |
 
 ### Sample Input
 

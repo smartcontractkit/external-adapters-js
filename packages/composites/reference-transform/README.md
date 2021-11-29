@@ -9,7 +9,7 @@ The adapter takes the following environment variables:
 | Required? |          Name          |                                 Description                                 | Options | Defaults to |
 | :-------: | :--------------------: | :-------------------------------------------------------------------------: | :-----: | :---------: |
 |    ✅     | `{SOURCE}_ADAPTER_URL` | The URL location for the price data provider adapter when `source={SOURCE}` |         |             |
-|    ✅     |       `RPC_URL`        |                ETH RPC URL to read the reference data value                 |         |             |
+|    ✅     |  `{NETWORK}_RPC_URL`   | RPC URL to read the on-chain reference data value (e.g. `ETHEREUM_RPC_URL`) |         |             |
 
 ## Running
 
@@ -17,13 +17,14 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 
 ### Input params
 
-| Required? |        Name         |                       Description                        |         Options         | Defaults to |
-| :-------: | :-----------------: | :------------------------------------------------------: | :---------------------: | :---------: |
-|    ✅     |      `source`       |   The source external adapter to request a value from    |                         |             |
-|    ✅     | `referenceContract` |        The reference contract to get a value from        |                         |             |
-|    ✅     |     `operator`      |     The operator to use for the value transformation     |   `multiply`,`divide`   |             |
-|    🟡     |     `multiply`      |          Multiply amount for the on-chain value          |                         |  100000000  |
-|    🟡     |     `dividend`      | Which value to use as dividend when operator is "divide" | `on-chain`, `off-chain` | `off-chain` |
+| Required? |        Name         |                       Description                        |         Options         | Defaults to  |
+| :-------: | :-----------------: | :------------------------------------------------------: | :---------------------: | :----------: |
+|    ✅     |      `source`       |   The source external adapter to request a value from    |                         |              |
+|    ✅     | `referenceContract` |        The reference contract to get a value from        |                         |              |
+|    ✅     |     `operator`      |     The operator to use for the value transformation     |   `multiply`,`divide`   |              |
+|           |      `network`      |              The blockchain network to use.              |                         | `'ETHEREUM'` |
+|    🟡     |     `multiply`      |          Multiply amount for the on-chain value          |                         |  100000000   |
+|    🟡     |     `dividend`      | Which value to use as dividend when operator is "divide" | `on-chain`, `off-chain` | `off-chain`  |
 
 In addition to these parameters the input parameters to make a request to the source will need to be provided. Please see the specified source's README for more details.
 

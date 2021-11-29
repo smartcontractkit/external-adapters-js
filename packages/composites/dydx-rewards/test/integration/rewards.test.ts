@@ -19,7 +19,7 @@ beforeAll(() => {
   oldEnv = JSON.parse(JSON.stringify(process.env))
   process.env.CACHE_ENABLED = 'false'
   process.env.API_ENDPOINT = process.env.API_ENDPOINT || 'http://127.0.0.1:5001'
-  process.env.RPC_URL = process.env.RPC_URL || 'http://127.0.0.1:8545'
+  process.env.ETHEREUM_RPC_URL = process.env.ETHEREUM_RPC_URL || 'http://127.0.0.1:8545'
   process.env.PRIVATE_KEY =
     process.env.PRIVATE_KEY || '8da4ef21b864d2cc526dbdb2a120bd2874c36c9d0a1fb7f8c63d7f7a8b41de8f'
   process.env.API_VERBOSE = 'true'
@@ -87,7 +87,7 @@ describe('full request', () => {
         traderScoreAlpha: '700000000000000000',
         callbackAddress: '0xaffdA0625B24a28EBA18eb733c41C8481EC0D6D0',
         newEpoch: '0',
-        activeRootIpfsCid: '',
+        activeRootIpfsCid: 'test-cid',
       },
     }
     const response = await dydxRewards(req, {})

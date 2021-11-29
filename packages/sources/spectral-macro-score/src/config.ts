@@ -16,7 +16,7 @@ export const makeConfig = (prefix?: string): SpectralAdapterConfig => {
   const config = <SpectralAdapterConfig>Requester.getDefaultConfig(prefix)
   config.api.baseURL = config.api.baseURL || DEFAULT_BASE_URL
   config.api.timeout = DEFAULT_TIMEOUT
-  config.rpcUrl = util.getRequiredEnv('RPC_URL')
+  config.rpcUrl = util.getRequiredEnvWithFallback('ETHEREUM_RPC_URL', ['RPC_URL'], prefix)
   config.nfcAddress = util.getRequiredEnv('NFC_ADDRESS')
   config.api.headers = {
     'Content-Type': 'application/json',

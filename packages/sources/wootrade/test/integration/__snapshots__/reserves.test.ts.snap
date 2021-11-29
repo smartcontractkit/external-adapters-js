@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute with token should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 4499.01,
+    "rows": Array [
+      Object {
+        "executed_price": 4499.01,
+        "executed_quantity": 0.043747,
+        "executed_timestamp": "1636138728.930",
+        "side": "SELL",
+        "symbol": "SPOT_ETH_USDT",
+      },
+    ],
+    "success": true,
+  },
+  "jobRunID": "1",
+  "result": 4499.01,
+  "statusCode": 200,
+}
+`;

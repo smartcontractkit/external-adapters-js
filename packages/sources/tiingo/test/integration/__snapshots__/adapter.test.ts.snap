@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute commodities should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 77.515,
+  },
+  "jobRunID": "1",
+  "result": 77.515,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute eod api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 48.77,
+  },
+  "jobRunID": "1",
+  "result": 48.77,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute forex should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 1.33605,
+  },
+  "jobRunID": "1",
+  "result": 1.33605,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute iex api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 51.27,
+  },
+  "jobRunID": "1",
+  "result": 51.27,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute prices api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 4462.5193860735335,
+  },
+  "jobRunID": "1",
+  "result": 4462.5193860735335,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute top api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 4471.9,
+  },
+  "jobRunID": "1",
+  "result": 4471.9,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute volume api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 4094298121.291589,
+  },
+  "jobRunID": "1",
+  "result": 4094298121.291589,
+  "statusCode": 200,
+}
+`;

@@ -29,6 +29,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const respData = {
     data: {
       ...game,
+      homeTeamScore: game.HomeTeamRuns,
+      awayTeamScore: game.AwayTeamRuns,
       result: encodedGame,
     },
     result: encodedGame,
@@ -38,7 +40,17 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 }
 
 const encodeGame = (game: GameResponse): string => {
-  const types = ['uint256', 'string', 'string', 'string', 'string', 'int256', 'int256']
+  const types = [
+    'uint256',
+    'string',
+    'string',
+    'string',
+    'string',
+    'int256',
+    'int256',
+    'int256',
+    'int256',
+  ]
   const values = [
     game.GameID,
     game.Status,
@@ -47,6 +59,8 @@ const encodeGame = (game: GameResponse): string => {
     game.HomeTeam,
     game.AwayTeamMoneyLine,
     game.HomeTeamMoneyLine,
+    game.AwayTeamRuns,
+    game.HomeTeamRuns,
   ]
   return ethers.utils.defaultAbiCoder.encode(types, values)
 }

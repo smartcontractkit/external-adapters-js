@@ -7,4 +7,6 @@ export interface GameResponse {
   HomeTeam: string
   AwayTeamMoneyLine: number
   HomeTeamMoneyLine: number
+  AwayTeamRuns: number
+  HomeTeamRuns: number
 }

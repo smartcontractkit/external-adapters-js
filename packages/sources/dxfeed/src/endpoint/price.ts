@@ -8,7 +8,7 @@ import {
 } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
-export const supportedEndpoints = ['price', 'crypto', 'stock', 'forex']
+export const supportedEndpoints = ['price', 'crypto', 'stock', 'forex', 'commodities']
 export const batchablePropertyPath = [{ name: 'base', limit: 120 }]
 
 const customError = (data: any) => data.Response === 'Error'

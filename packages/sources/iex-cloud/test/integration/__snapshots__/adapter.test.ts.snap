@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute crypto rate api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 4539.44,
+  },
+  "jobRunID": "1",
+  "result": 4539.44,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute eod  api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 48.77,
+  },
+  "jobRunID": "1",
+  "result": 48.77,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute stock api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 48.77,
+  },
+  "jobRunID": "1",
+  "result": 48.77,
+  "statusCode": 200,
+}
+`;

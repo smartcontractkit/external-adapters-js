@@ -1,0 +1,97 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute burned endpoint success calls when successfully requesting coinmetrics API should return greater than "0" 1`] = `
+Object {
+  "data": Object {
+    "data": Array [
+      Object {
+        "FeeTotNtv": "14465.059425601977193289",
+        "IssTotNtv": "13175.1875",
+        "RevNtv": "14887.21684537933981053",
+        "asset": "eth",
+        "time": "2021-11-04T00:00:00.000000000Z",
+      },
+    ],
+    "next_page_token": "0.MjAyMS0wOC0wNlQwMDowMDowMFo",
+    "result": "12753.030080222637382759",
+  },
+  "jobRunID": "1",
+  "result": "12753.030080222637382759",
+  "statusCode": 200,
+}
+`;
+
+exports[`execute total-burned endpoint success calls when successfully requesting coinmetrics API with pagination should return greater than "0" 1`] = `
+Object {
+  "data": Object {
+    "data": Array [
+      Object {
+        "FeeTotNtv": "3",
+        "IssTotNtv": "5",
+        "RevNtv": "4",
+        "asset": "eth",
+        "time": "2021-08-05T00:00:00.000000000Z",
+      },
+    ],
+    "result": "9.0",
+  },
+  "jobRunID": "1",
+  "result": "9.0",
+  "statusCode": 200,
+}
+`;
+
+exports[`execute total-burned endpoint success calls when successfully requesting coinmetrics API without pagination should return greater than "0" 1`] = `
+Object {
+  "data": Object {
+    "data": Array [
+      Object {
+        "FeeTotNtv": "9331.617399578292365165",
+        "IssTotNtv": "13465.375",
+        "RevNtv": "14903.076551063217245019",
+        "asset": "eth",
+        "time": "2021-09-20T00:00:00.000000000Z",
+      },
+      Object {
+        "FeeTotNtv": "10725.893521006011986668",
+        "IssTotNtv": "13569.625",
+        "RevNtv": "15125.559184739053811959",
+        "asset": "eth",
+        "time": "2021-09-21T00:00:00.000000000Z",
+      },
+      Object {
+        "FeeTotNtv": "7241.077830167154483706",
+        "IssTotNtv": "13445.875",
+        "RevNtv": "14506.07882008361914748",
+        "asset": "eth",
+        "time": "2021-09-22T00:00:00.000000000Z",
+      },
+      Object {
+        "FeeTotNtv": "9503.848309834219302852",
+        "IssTotNtv": "13372.8125",
+        "RevNtv": "16274.553315636682282599",
+        "asset": "eth",
+        "time": "2021-09-23T00:00:00.000000000Z",
+      },
+      Object {
+        "FeeTotNtv": "7640.784022848909291801",
+        "IssTotNtv": "13449.25",
+        "RevNtv": "14517.956543257905308913",
+        "asset": "eth",
+        "time": "2021-09-24T00:00:00.000000000Z",
+      },
+      Object {
+        "FeeTotNtv": "5019.537962541415576967",
+        "IssTotNtv": "13721.25",
+        "RevNtv": "14418.533987808854584078",
+        "asset": "eth",
+        "time": "2021-09-25T00:00:00.000000000Z",
+      },
+    ],
+    "result": "40741.188143386670627111",
+  },
+  "jobRunID": "1",
+  "result": "40741.188143386670627111",
+  "statusCode": 200,
+}
+`;

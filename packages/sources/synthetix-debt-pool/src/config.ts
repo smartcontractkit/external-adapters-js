@@ -16,6 +16,6 @@ export const makeConfig = (prefix?: string): Config => {
     ...Requester.getDefaultConfig(prefix),
     defaultEndpoint: DEFAULT_ENDPOINT,
     debtPoolCacheAddress: util.getEnv('DEBT_POOL_CACHE_ADDRESS') || DEFAULT_DEBT_POOL_CACHE_ADDRESS,
-    rpcUrl: util.getRequiredEnv('RPC_URL'),
+    rpcUrl: util.getRequiredEnvWithFallback('ETHEREUM_RPC_URL', ['RPC_URL'], prefix),
   }
 }

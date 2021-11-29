@@ -21,6 +21,9 @@
       "path": "./composites/crypto-volatility-index"
     },
     {
+      "path": "./composites/defi-dozen"
+    },
+    {
       "path": "./composites/defi-pulse"
     },
     {
@@ -69,6 +72,9 @@
       "path": "./composites/vesper"
     },
     {
+      "path": "./composites/xsushi-price"
+    },
+    {
       "path": "./core/bootstrap"
     },
     {
@@ -97,6 +103,9 @@
     },
     {
       "path": "./sources/ada-balance"
+    },
+    {
+      "path": "./sources/accuweather"
     },
     {
       "path": "./sources/alphachain"
@@ -211,6 +220,9 @@
     },
     {
       "path": "./sources/dns-query"
+    },
+    {
+      "path": "./sources/durin"
     },
     {
       "path": "./sources/dwolla"
