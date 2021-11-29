@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/durin-adapter",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Chainlink durin adapter.",
   "keywords": [
     "Chainlink",
