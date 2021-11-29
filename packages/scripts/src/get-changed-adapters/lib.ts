@@ -1,5 +1,6 @@
 import chalk from 'chalk'
 import fs from 'fs'
+import { AllowedAdapters } from './adapterAllowList'
 const { red } = chalk
 
 const usageString = `
@@ -101,7 +102,14 @@ export const createOutput = (adapters: ChangedAdapters): string => {
   }
 
   // combine adapters lists to create bash usable array of adapters to test
-  return [...adapters.sources, ...adapters.composites, ...adapters.targets].join(' ')
+  const combinedAdapters = [...adapters.sources, ...adapters.composites, ...adapters.targets]
+  
+  // remove all adapters not in the allow list
+  const allowedAdapters = combinedAdapters.filter(function(adapter) {
+    return AllowedAdapters.includes(adapter)
+  })
+
+  return allowedAdapters.join(' ')
 }
 
 export async function main(): Promise<void> {

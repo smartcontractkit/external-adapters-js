@@ -76,7 +76,6 @@ export const fetchConfigFromUrl = (
 
   return axios.get<ApiResponse>(configUrl, { timeout: REQUEST_TIMEOUT_MS }).pipe(
     map((res: { data: Record<string, unknown>[] }) => {
-      // console.log(res.data)
       const configs = parseConfig(res.data)
       const ret: ReferenceContractConfigResponse = {
         configs,

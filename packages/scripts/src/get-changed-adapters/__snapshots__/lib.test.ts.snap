@@ -10,7 +10,7 @@ exports[`get-changed-adapters cli check args should throw an error if the action
 [31m[1mRequires 1 argument of the changed files file path.[22m[39m"
 `;
 
-exports[`get-changed-adapters cli createOutput should return the list of adapters when adapters exist in each type 1`] = `"abc def ghi"`;
+exports[`get-changed-adapters cli createOutput should return the list of adapters when adapters exist in each type 1`] = `"coingecko coinpaprika"`;
 
 exports[`get-changed-adapters cli generateFilteredAdaptersListByType should exclude non package and test files 1`] = `
 Object {
@@ -41,7 +41,7 @@ Object {
 exports[`get-changed-adapters cli loadChangedFileList should return an array of changed files 1`] = `
 Array [
   "packages/sources/xbto/package.json",
-  "packages/sources/blarg/src/index.ts",
-  "packages/sources/xbto/test/integration/__snapshots__/adapter.test.ts.snap",
+  "packages/sources/coinpaprika/src/index.ts",
+  "packages/sources/coingecko/test/integration/__snapshots__/adapter.test.ts.snap",
 ]
 `;

@@ -555,7 +555,7 @@ To stop or tear down a test using k6 in the cluster do the below.
 UNIQUE_NAME=${UNIQUE_NAME} ADAPTER=${ADAPTER} ./packages/k6/stop.sh
 ```
 
-When you are done testing please remember to tear town any adapters and k6 deployments in the cluster. If you used the same UNIQUE_NAME for all the above you can clean up both the adapters and the k6 tests with this:
+When you are done testing please remember to tear down any adapters and k6 deployments in the cluster. If you used the same UNIQUE_NAME for all of the above you can clean up both the adapters and the k6 tests with this:
 
 ```bash
 PR_NUMBER=${UNIQUE_NAME} ./packages/scripts/src/ephemeral-adapters/cleanup.sh

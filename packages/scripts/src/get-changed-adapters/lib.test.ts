@@ -9,8 +9,8 @@ import {
 
 const changedFilesExample = [
   'packages/sources/xbto/package.json',
-  'packages/sources/blarg/src/index.ts',
-  'packages/sources/xbto/test/integration/__snapshots__/adapter.test.ts.snap',
+  'packages/sources/coinpaprika/src/index.ts',
+  'packages/sources/coingecko/test/integration/__snapshots__/adapter.test.ts.snap',
 ]
 
 jest.mock('fs', () => {
@@ -94,15 +94,14 @@ describe('get-changed-adapters cli', () => {
   describe('createOutput', () => {
     it('should return the list of adapters when adapters exist in each type', async () => {
       const changedAdapters: ChangedAdapters = {
-        sources: ['abc'],
-        composites: ['def'],
+        sources: ['coingecko'],
+        composites: ['coinpaprika'],
         targets: ['ghi'],
         coreWasChanged: true,
       }
       const output = createOutput(changedAdapters)
-      expect(output).toContain('abc')
-      expect(output).toContain('def')
-      expect(output).toContain('ghi')
+      expect(output).toContain('coingecko')
+      expect(output).toContain('coinpaprika')
       expect(output).toMatchSnapshot()
     })
   })
@@ -126,7 +125,7 @@ describe('get-changed-adapters cli', () => {
 
       // verify the console output
       expect(console.log).toHaveBeenCalledTimes(1)
-      expect(console.log).toHaveBeenCalledWith('blarg')
+      expect(console.log).toHaveBeenCalledWith('coinpaprika')
     })
   })
 })
