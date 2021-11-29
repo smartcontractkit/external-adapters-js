@@ -5116,7 +5116,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["redux-observable", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:1.2.0"],
             ["remote-redux-devtools", "npm:0.5.16"],
             ["rxjs", "npm:6.6.7"],
-            ["sinon", "npm:11.1.2"],
+            ["sinon", "npm:12.0.1"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"],
             ["uuid", "npm:8.3.2"],
@@ -5743,7 +5743,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
             ["ethers", "npm:5.4.6"],
-            ["sinon", "npm:11.1.2"],
+            ["sinon", "npm:12.0.1"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
@@ -5887,7 +5887,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
             ["axios", "npm:0.24.0"],
-            ["sinon", "npm:11.1.2"],
+            ["sinon", "npm:12.0.1"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
@@ -6090,7 +6090,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:14.17.34"],
             ["@types/sinon", "npm:10.0.6"],
             ["axios", "npm:0.24.0"],
-            ["sinon", "npm:11.1.2"],
+            ["sinon", "npm:12.0.1"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
@@ -6321,7 +6321,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/sinon", "npm:10.0.6"],
             ["ethers", "npm:5.4.6"],
             ["nock", "npm:13.2.1"],
-            ["sinon", "npm:11.1.2"],
+            ["sinon", "npm:12.0.1"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
@@ -28352,12 +28352,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["sinon", [
-        ["npm:11.1.2", {
-          "packageLocation": "./.yarn/cache/sinon-npm-11.1.2-5325724cb2-1d01377e23.zip/node_modules/sinon/",
+        ["npm:12.0.1", {
+          "packageLocation": "./.yarn/cache/sinon-npm-12.0.1-b9d98d3d3a-a264310c28.zip/node_modules/sinon/",
           "packageDependencies": [
-            ["sinon", "npm:11.1.2"],
+            ["sinon", "npm:12.0.1"],
             ["@sinonjs/commons", "npm:1.8.3"],
-            ["@sinonjs/fake-timers", "npm:7.1.2"],
+            ["@sinonjs/fake-timers", "npm:8.1.0"],
             ["@sinonjs/samsam", "npm:6.0.2"],
             ["diff", "npm:5.0.0"],
             ["nise", "npm:5.1.0"],

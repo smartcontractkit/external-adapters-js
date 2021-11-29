@@ -12,6 +12,7 @@ import {
   mockFailedGlobalMetricsResponse,
   mockSuccessfulGlobalMetricsResponse,
 } from './globalMetricsFixtures'
+import { mockSuccessfulHistoricalCapResponse } from './historicalFixtures'
 
 let oldEnv: NodeJS.ProcessEnv
 
@@ -230,6 +231,32 @@ describe('coinmarketcap', () => {
           .expect('Content-Type', /json/)
           .expect(429)
         expect(response.body).toMatchSnapshot()
+      })
+    })
+  })
+  describe('coinmarketcap replies with success when request historical endpoint', () => {
+    const data: AdapterRequest = {
+      id: '1',
+      data: {
+        endpoint: 'historical',
+        symbol: 'ETH',
+        convert: 'BTC',
+        start: '2021-07-23T14',
+      },
+    }
+
+    describe('coinmarketcap replies with success', () => {
+      it('should reply with success', async () => {
+        mockSuccessfulHistoricalCapResponse()
+
+        const response = await req
+          .post('/')
+          .send(data)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+        expect(response.body.data).toMatchSnapshot()
       })
     })
   })
