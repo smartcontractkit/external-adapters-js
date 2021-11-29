@@ -15,13 +15,15 @@ This adapter has Websocket support for only the forex endpoint
 
 ### Input Parameters
 
-| Required? |           Name            |                                                                   Description                                                                   |                   Options                    | Defaults to |
-| :-------: | :-----------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------: | :---------: |
-|           |        `endpoint`         |                                                               The endpoint to use                                                               | [`live`](#Live), [`forex`](#Prices-Endpoint) |   `live`    |
-|    ✅     | `base`, `from`, or `coin` |                                                       The symbol of the currency to query                                                       |                                              |             |
-|           |        `overrides`        | If base provided is found in overrides, that will be used. [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json) |                                              |             |
+| Required? |           Name            |                                                                   Description                                                                   |                       Options                        | Defaults to |
+| :-------: | :-----------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------: | :---------: |
+|           |        `endpoint`         |                                                               The endpoint to use                                                               | [`live`](#Live-Endpoint), [`forex`](#Forex-Endpoint) |   `live`    |
+|    ✅     | `base`, `from`, or `coin` |                                                       The symbol of the currency to query                                                       |                                                      |             |
+|           |        `overrides`        | If base provided is found in overrides, that will be used. [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json) |                                                      |             |
 
 ## Live Endpoint
+
+Aliases: `commodities`
 
 | Required? | Name |    Description     | Options | Defaults to |
 | :-------: | :--: | :----------------: | :-----: | :---------: |
@@ -67,7 +69,7 @@ This adapter has Websocket support for only the forex endpoint
 }
 ```
 
-## Live Endpoint
+## Forex Endpoint
 
 This endpoint supports WS
 

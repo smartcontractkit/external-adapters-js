@@ -47,6 +47,16 @@ export const mockResponseSuccess = (): nock =>
         'Origin',
       ],
     )
+    .get('/last/forex/GBPUSD')
+    .query({ apikey: 'fake-api-key' })
+    .reply(200, { symbol: 'GBPUSD', ask: 1.34435, bid: 1.34426, timestamp: 1637060382000 }, [
+      'Content-Type',
+      'application/json; charset=utf-8',
+      'Content-Length',
+      '73',
+      'Connection',
+      'close',
+    ])
 
 export const mockResponseFailure = (): nock =>
   nock('https://api.finage.co.uk', {

@@ -100,8 +100,10 @@ const getEnvName = (name: string, prefix = '') => {
 // Only case-insensitive alphanumeric and underscore (_) are allowed for env vars
 const isEnvNameValid = (name: string) => /^[_a-z0-9]+$/i.test(name)
 
-export const getEnv = (name: string, prefix = ''): string | undefined =>
-  process.env[getEnvName(name, prefix)]
+export const getEnv = (name: string, prefix = ''): string | undefined => {
+  const envVar = process.env[getEnvName(name, prefix)]
+  return envVar === '' ? undefined : envVar
+}
 
 // Custom error for required env variable.
 export class RequiredEnvError extends Error {
