@@ -1,6 +1,8 @@
 import { server as startServer } from '../../src/index'
 import { ethers, BigNumber } from 'ethers'
 import request from 'supertest'
+import http from 'http'
+import process from 'process'
 
 const mockBigNum = BigNumber.from('464590202399031116379217447')
 
@@ -24,17 +26,24 @@ jest.mock('ethers', () => ({
 
 let oldEnv: NodeJS.ProcessEnv
 
+beforeAll(() => {
+  oldEnv = JSON.parse(JSON.stringify(process.env))
+  process.env.ETHEREUM_RPC_URL = 'FAKE_ETHEREUM_RPC_URL'
+  process.env.CACHE_ENABLED = 'false'
+})
+
+afterAll(() => {
+  process.env = oldEnv
+})
+
 describe('synthetix-debt-pool', () => {
   let server: http.Server
   const req = request('localhost:8080')
 
   beforeAll(async () => {
     server = await startServer()
-    process.env.ETHEREUM_RPC_URL = 'FAKE_ETHEREUM_RPC_URL'
-    process.env.CACHE_ENABLED = 'false'
   })
   afterAll((done) => {
-    process.env = oldEnv
     server.close(done)
   })
 

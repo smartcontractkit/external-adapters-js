@@ -55,7 +55,7 @@ export const store = configureStore(rootReducer, initState, [
 cacheWarmer.epics.epicMiddleware.run(cacheWarmer.epics.rootEpic)
 ws.epics.epicMiddleware.run(ws.epics.rootEpic)
 
-const storeSlice = (slice: ReduxMiddleware) =>
+export const storeSlice = (slice: ReduxMiddleware): Store =>
   ({
     getState: () => store.getState()[slice],
     dispatch: (a) => store.dispatch(a),
