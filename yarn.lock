@@ -4170,7 +4170,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/types@1.0.0, @chainlink/types@workspace:*, @chainlink/types@workspace:packages/core/types/@chainlink":
+"@chainlink/types@workspace:*, @chainlink/types@workspace:packages/core/types/@chainlink":
   version: 0.0.0-use.local
   resolution: "@chainlink/types@workspace:packages/core/types/@chainlink"
   languageName: unknown
@@ -4328,10 +4328,10 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@chainlink/types": 1.0.0
+    "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
-    "@types/node": 14.17.21
-    nock: 13.1.3
+    "@types/node": 14.17.34
+    nock: 13.2.1
     supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
