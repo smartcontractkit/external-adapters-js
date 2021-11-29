@@ -21,6 +21,8 @@ const customError = (data: any) => {
 
 export const inputParameters: InputParameters = {
   symbol: true,
+  network: false,
+  chainId: false,
 }
 
 const networks: Networks = {
@@ -48,6 +50,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const jobRunID = validator.validated.id
   const symbol = validator.validated.data.symbol
+  const chainId = validator.validated.data.chainId || 'main'
+  const network = validator.validated.data.network || networks[symbol]
   const url = `/deposits`
 
   const options = { ...config.api, url }
@@ -65,8 +69,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const result = addresses.map((address: Address) => ({
     address,
-    networks: networks[symbol],
-    chainId: 'mainnet',
+    network,
+    chainId,
   }))
 
   return Requester.success(
