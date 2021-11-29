@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 1.2.0
+
+### Minor Changes
+
+- 9de168b08: Disable per minute and per second rate limits through env vars
+
 ## 1.1.0
 
 ### Minor Changes
