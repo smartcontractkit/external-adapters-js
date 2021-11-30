@@ -1,5 +1,11 @@
 # @chainlink/etherchain-adapter
 
+## 1.0.5
+
+### Patch Changes
+
+- Modify root export style
+
 ## 1.0.4
 
 ### Patch Changes
