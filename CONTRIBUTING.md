@@ -94,7 +94,7 @@ For example, take a look at the [synth-index](./packages/composites/synth-index/
 
 The follow steps is the general pattern for writing an integration test.
 
-1. Setup nock to record HTTP requests, see the [synth-index] (./packages/composites/synth-index/test/integration/adapter.test.ts) test for a code sample.
+1. Setup nock to record HTTP requests, see the [synth-index](./packages/composites/synth-index/test/integration/adapter.test.ts) test for a code sample.
 2. Run the test, using live API endpoints for the external adapter under test to hit, with nock recording on (`export RECORD=true`).
 3. Using the generated fixture data from step 2, write a `fixtures.ts` file to return the mock data instead.
 4. Run the tests again with nock recording disabled (`unset RECORD`). API requests should now be intercepted and mocked using the fixture data. Be sure to run tests with the `--updateSnapshot` flags to update the integration snapshot if necessary.
