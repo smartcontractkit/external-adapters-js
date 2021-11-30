@@ -3,4 +3,4 @@
 '@chainlink/btc.com-adapter': minor
 ---
 
-Add Btc.com integration tests
+Btc.com src export change
