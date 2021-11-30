@@ -26,8 +26,9 @@
     "generate:image-name": "ts-node-transpile-only ./packages/scripts/src/generate-image-name",
     "postinstall": "husky install",
     "cm": "cz",
-    "qa:adapter:start": "./ephemeral/startAdapter.sh",
-    "qa:adapter:stop": "./ephemeral/stopAdapter.sh"
+    "qa:adapter": "ts-node-transpile-only ./packages/scripts/src/ephemeral-adapters",
+    "qa:flux:configure": "ts-node-transpile-only ./packages/scripts/src/flux-emulator",
+    "get-changed-adapters": "ts-node-transpile-only ./packages/scripts/src/get-changed-adapters"
   },
   "dependencies": {
     "@babel/core": "7.16.0",
