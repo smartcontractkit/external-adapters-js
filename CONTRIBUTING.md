@@ -90,7 +90,7 @@ Decimal.set({ precision: 100 })
 We use [Nock](https://github.com/nock/nock) for intercepting HTTP requests in integration tests and returning mock data.
 The [recording](https://github.com/nock/nock#recording) functionality of nock is used when first writing the test to automatically generate accurate fixture data.
 
-For example, take a look at the [synth-index] (./packages/composites/synth-index/test/integration/adapter.test.ts) test to see it in usage. When the `RECORD` environment variable is truthy, nock will proxy HTTP requests and generate fixture data that can be used to contruct the integration test.
+For example, take a look at the [synth-index](./packages/composites/synth-index/test/integration/adapter.test.ts) test to see it in usage. When the `RECORD` environment variable is truthy, nock will proxy HTTP requests and generate fixture data that can be used to contruct the integration test.
 
 The follow steps is the general pattern for writing an integration test.
 
