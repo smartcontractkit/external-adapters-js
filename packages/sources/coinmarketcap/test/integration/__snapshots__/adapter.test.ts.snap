@@ -1,5 +1,76 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`coinmarketcap coinmarketcap replies with success when request historical endpoint coinmarketcap replies with success should reply with success 1`] = `
+Object {
+  "result": Object {
+    "result": Object {
+      "id": 1027,
+      "is_active": 1,
+      "is_fiat": 0,
+      "name": "Ethereum",
+      "quotes": Array [
+        Object {
+          "quote": Object {
+            "BTC": Object {
+              "market_cap": 7443591.90020768,
+              "price": 0.06372463643632112,
+              "timestamp": "2021-07-23T14:04:12.000Z",
+              "volume_24h": 504265.23763687897,
+            },
+          },
+          "timestamp": "2021-07-23T14:04:03.000Z",
+        },
+        Object {
+          "quote": Object {
+            "BTC": Object {
+              "market_cap": 7442982.142507192,
+              "price": 0.06371941629686442,
+              "timestamp": "2021-07-23T14:09:13.000Z",
+              "volume_24h": 503702.65783204953,
+            },
+          },
+          "timestamp": "2021-07-23T14:09:03.000Z",
+        },
+        Object {
+          "quote": Object {
+            "BTC": Object {
+              "market_cap": 7443649.549774187,
+              "price": 0.06372453768196841,
+              "timestamp": "2021-07-23T14:14:23.000Z",
+              "volume_24h": 503184.31892236834,
+            },
+          },
+          "timestamp": "2021-07-23T14:14:08.000Z",
+        },
+        Object {
+          "quote": Object {
+            "BTC": Object {
+              "market_cap": 7437851.780012068,
+              "price": 0.06367490340039632,
+              "timestamp": "2021-07-23T14:19:12.000Z",
+              "volume_24h": 503087.4919427468,
+            },
+          },
+          "timestamp": "2021-07-23T14:19:06.000Z",
+        },
+        Object {
+          "quote": Object {
+            "BTC": Object {
+              "market_cap": 7428169.077137268,
+              "price": 0.06359201049147004,
+              "timestamp": "2021-07-23T14:49:09.000Z",
+              "volume_24h": 495928.26554275176,
+            },
+          },
+          "timestamp": "2021-07-23T14:49:03.000Z",
+        },
+      ],
+      "symbol": "ETH",
+    },
+  },
+}
+`;
+
 exports[`coinmarketcap when making a request to coinmarket cap crypto endpoint coinmarketcap replies with error due to too many requests should reply with failure 1`] = `
 Object {
   "error": Object {

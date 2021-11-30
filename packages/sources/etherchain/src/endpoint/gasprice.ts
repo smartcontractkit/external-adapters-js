@@ -9,6 +9,13 @@ export const inputParameters: InputParameters = {
   speed: false,
 }
 
+interface ResponseSchema {
+  safeLow: string
+  standard: string
+  fast: string
+  fastest: string
+}
+
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
@@ -22,8 +29,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url,
   }
 
-  const response = await Requester.request(options, customError)
-  response.data.result = Requester.validateResultNumber(response.data, [speed]) * 1e9
+  const response = await Requester.request<ResponseSchema>(options, customError)
+  const result = Requester.validateResultNumber(response.data, [speed]) * 1e9
 
-  return Requester.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

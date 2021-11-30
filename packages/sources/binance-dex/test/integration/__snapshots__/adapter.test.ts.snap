@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute rate api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 1,
+  },
+  "jobRunID": "1",
+  "result": 1,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute rate api with invalid symbol should return failure 1`] = `
+Object {
+  "error": Object {
+    "feedID": "NON/EXISTING",
+    "message": "Request failed with status code 400",
+    "name": "AdapterError",
+    "url": "https:/dex-asiapacific.binance.org/api/v1/ticker/24hr",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
