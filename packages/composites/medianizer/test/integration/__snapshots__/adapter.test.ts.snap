@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`medianizer erroring calls returns error if not reaching minAnswers 1`] = `
+Object {
+  "error": Object {
+    "feedID": "ETH/USD",
+    "message": "Not returning median: got 1 answers, requiring min. 2 answers",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 500,
+}
+`;
+
+exports[`medianizer successful calls return success without comma separated sources 1`] = `
+Object {
+  "data": Object {
+    "result": 4415.5654504608,
+  },
+  "jobRunID": "1",
+  "result": 4415.5654504608,
+  "statusCode": 200,
+}
+`;
+
+exports[`medianizer successful calls returns success with comma separated sources 1`] = `
+Object {
+  "data": Object {
+    "result": 4415.5654504608,
+  },
+  "jobRunID": "1",
+  "result": 4415.5654504608,
+  "statusCode": 200,
+}
+`;
+
+exports[`medianizer validation error returns a validation error if the request contains unsupported sources 1`] = `
+Object {
+  "error": Object {
+    "feedID": "ETH/USD",
+    "message": "Required parameter not supplied: sources",
+    "name": "AdapterError",
+  },
+  "jobRunID": "2",
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`medianizer validation error returns a validation error if the request data is empty 1`] = `
+Object {
+  "error": Object {
+    "feedID": "{\\"data\\":{}}",
+    "message": "Required parameter not supplied: sources",
+    "name": "AdapterError",
+  },
+  "jobRunID": "2",
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
