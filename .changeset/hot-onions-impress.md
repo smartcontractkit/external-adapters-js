@@ -3,4 +3,4 @@
 '@chainlink/cryptoapis-adapter': minor
 ---
 
-Add cryptoapis integration tests
+Cryptoapis src export change
