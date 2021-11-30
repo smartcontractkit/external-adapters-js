@@ -61,7 +61,7 @@ export class Validator {
           inputConfig
             ? this.validateRequiredParam(this.input.data[key], key, options)
             : this.validateOptionalParam(this.input.data[key], key, options)
-        } else if (Object.keys(inputConfig).length > 0) {
+        } else {
           this.validateObjectParam(key)
         }
       }

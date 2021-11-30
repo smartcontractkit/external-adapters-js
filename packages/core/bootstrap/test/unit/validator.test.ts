@@ -1,5 +1,4 @@
 import { InputParameters } from '@chainlink/types'
-import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants'
 import { Validator } from '../../src/lib/external-adapter/validator'
 
 describe('Validator', () => {
