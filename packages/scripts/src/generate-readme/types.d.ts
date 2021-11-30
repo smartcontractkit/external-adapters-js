@@ -5,26 +5,7 @@ export type Blacklist = {
 export type EndpointDetails = {
   [endpointName: string]: {
     supportedEndpoints: string[]
-    inputParameters: {
-      [inputName: string]: {
-        codedDetails: string[] | boolean
-        default?: string | number
-        description?: string
-        enum?: (string | number)[]
-        type?: string
-      }
-    }
-  }
-}
-
-export type EndpointParameters = {
-  [endpoint: string]: {
-    [inputParameter: string]: {
-      default?: string | number
-      description?: string
-      enum?: (string | number)[]
-      type?: string
-    }
+    inputParameters: InputParameters
   }
 }
 
@@ -37,9 +18,26 @@ export type EnvVars = {
   }
 }
 
+type InputParameter = {
+  aliases?: InputParameterAliases
+  description?: string
+  type?: 'bigint' | 'boolean' | 'array' | 'number' | 'object' | 'string'
+  required?: RequiredInputParameter
+  options?: any[]
+  default?: any
+  dependsOn?: string[]
+  exclusive?: string[]
+}
+
+type InputParameters = {
+  [name: string]: RequiredInputParameter | InputParameterAliases | InputParameter
+}
+
+type InputParameterAliases = string[]
+
 export type IOMap = Record<string, IOPair[]>
 
-export type IOPair = {
+type IOPair = {
   input: JsonObject
   output: JsonObject
 }
@@ -53,9 +51,10 @@ export type Package = {
   version: string
 }
 
+type RequiredInputParameter = boolean
+
 export type Schema = {
   description?: string
-  endpointParameters: EndpointParameters
   properties: EnvVars
   required: string[]
 }

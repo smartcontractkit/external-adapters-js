@@ -30,11 +30,11 @@ This is a fake adapter for testing, and should not be used as a template for ada
 
 ### Input Params
 
-| Required? |     Name      |                               Description                               |  Type  | Options |   Default   |
-| :-------: | :-----------: | :---------------------------------------------------------------------: | :----: | :-----: | :---------: |
-|           |   dataPath    |                     Path for balance data response.                     | string |         | `addresses` |
-|           | confirmations | Number of confirmations for transactions to add to balance calculation. | number |         |     `4`     |
-|           |   addresses   |                       List of addresses to query.                       |  list  |         |             |
+| Required? |     Name      | Aliases | Description | Type | Options | Default | Depends On | Not Valid With |
+| :-------: | :-----------: | :-----: | :---------: | :--: | :-----: | :-----: | :--------: | :------------: |
+|           |   dataPath    |         |             |      |         |         |            |                |
+|           | confirmations |         |             |      |         |         |            |                |
+|           |   addresses   |         |             |      |         |         |            |                |
 
 ### Example
 
@@ -95,13 +95,13 @@ Supported names for this endpoint are: `marketcap`, `mc`.
 
 ### Input Params
 
-| Required? |         Name          |                                Description                                |  Type  | Options |   Default   |
-| :-------: | :-------------------: | :-----------------------------------------------------------------------: | :----: | :-----: | :---------: |
-|    ✅     |         base          |  Base asset to query. Available param names are: `base`, `from`, `coin`.  | string |         |    `BTC`    |
-|    ✅     |         quote         | Quote asset to query. Available param names are: `quote`, `to`, `market`. | string |         |    `USD`    |
-|    ✅     |        coinid         |                             ID of main coin.                              | number |         |  `1 (BTC)`  |
-|           |      resultPath       |                     Path for marketcap data response.                     | string |         | `marketcap` |
-|           | referenceCurrencyUuid |           UUID of reference currency (meaningless input param).           | number |         |     `0`     |
+| Required? |         Name          |         Aliases         | Description | Type | Options | Default | Depends On | Not Valid With |
+| :-------: | :-------------------: | :---------------------: | :---------: | :--: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |         base          | `base`, `from`, `coin`  |             |      |         |         |            |                |
+|    ✅     |         quote         | `quote`, `to`, `market` |             |      |         |         |            |                |
+|    ✅     |        coinid         |                         |             |      |         |         |            |                |
+|           |      resultPath       |                         |             |      |         |         |            |                |
+|           | referenceCurrencyUuid |                         |             |      |         |         |            |                |
 
 ### Example
 
@@ -166,12 +166,12 @@ Supported names for this endpoint are: `price`, `convert`.
 
 ### Input Params
 
-| Required? |    Name    |                                Description                                |  Type  | Options | Default |
-| :-------: | :--------: | :-----------------------------------------------------------------------: | :----: | :-----: | :-----: |
-|    ✅     |    base    |  Base asset to query. Available param names are: `base`, `from`, `coin`.  | string |         |  `BTC`  |
-|    ✅     |   quote    | Quote asset to query. Available param names are: `quote`, `to`, `market`. | string |         |  `USD`  |
-|           |   amount   |            Amount of asset to query (meaningless input param).            | number |         |         |
-|           | resultPath |                       Path for price data response.                       | string |         | `price` |
+| Required? |    Name    |         Aliases         | Description | Type | Options | Default | Depends On | Not Valid With |
+| :-------: | :--------: | :---------------------: | :---------: | :--: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |    base    | `base`, `from`, `coin`  |             |      |         |         |            |                |
+|    ✅     |   quote    | `quote`, `to`, `market` |             |      |         |         |            |                |
+|           |   amount   |                         |             |      |         |         |            |                |
+|           | resultPath |                         |             |      |         |         |            |                |
 
 ### Example
 
