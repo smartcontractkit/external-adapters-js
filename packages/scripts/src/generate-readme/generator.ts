@@ -53,6 +53,16 @@ const checkFilePath = (filePath: string): string => {
 const checkOptionalFilePath = (filePath: string): string | null => {
   return shell.test('-f', filePath) ? filePath : null
 }
+
+const createReadmeFile = (adapterPath: string, readmeText: string): void => {
+  const readmePath = adapterPath + 'README.md'
+
+  const shellString = new shell.ShellString(readmeText)
+  shellString.to(readmePath)
+
+  console.log(`README saved at ${readmePath}`)
+}
+
 class ReadmeGenerator {
   schemaDescription: string
   adapterPath: string
@@ -98,14 +108,19 @@ class ReadmeGenerator {
     this.endpointDetails = await require(localPathToRoot + endpointPath)
   }
 
-  buildReadme(): void {
-    console.log(`Generating README for ${this.adapterPath}`)
+  getAdapterPath(): string {
+    return this.adapterPath
+  }
+
+  getReadme(): string {
+    console.log(`Generating README text for ${this.adapterPath}`)
 
     this.addIntroSection()
     this.addEnvVarSection()
     this.addInputParamsSection()
     this.addEndpointSections()
-    this.createReadmeFile()
+
+    return this.readmeText
   }
 
   addIntroSection(): void {
@@ -293,30 +308,6 @@ class ReadmeGenerator {
 
     this.readmeText += endpointSections + '\n'
   }
-
-  createReadmeFile(): void {
-    console.log('Creating README file...')
-
-    const readmePath = this.adapterPath + 'README.md'
-    if (shell.test('-f', readmePath)) {
-      const archivePath = this.adapterPath + 'readme-archive/'
-      if (!shell.test('-d', archivePath)) shell.mkdir(archivePath)
-
-      let i = 0
-      let archiveReadmePath = ''
-      do {
-        i += 1
-        archiveReadmePath = `${archivePath}README-${i}.md`
-      } while (shell.test('-f', archiveReadmePath))
-
-      shell.cp(readmePath, archiveReadmePath)
-    }
-
-    const shellString = new shell.ShellString(this.readmeText)
-    shellString.to(readmePath)
-
-    console.log(`README saved at: ${readmePath}`)
-  }
 }
 
 export async function main(): Promise<void | string> {
@@ -348,10 +339,19 @@ export async function main(): Promise<void | string> {
 
     const generatorTargets: string[] = adapters.filter((a) => !adapterInBlacklist[a])
 
-    for (const target of generatorTargets) {
+    console.log('Collecting README updates')
+    const readmeQueue = generatorTargets.map(async (target) => {
       const readmeGenerator = new ReadmeGenerator(pathToSources + target)
       await readmeGenerator.fetchImports()
-      readmeGenerator.buildReadme()
+
+      const adapterPath = readmeGenerator.getAdapterPath()
+      const readmeText = readmeGenerator.getReadme()
+      return [adapterPath, readmeText]
+    })
+
+    console.log('Saving READMEs')
+    for (adapter of readmeQueue) {
+      createReadmeFile(adapter[0], adapter[1])
     }
   } catch (e) {
     console.log(`Error: ${e}`)
