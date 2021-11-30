@@ -281,7 +281,8 @@ export class Validator {
   }
 
   validateRequiredParam(param: any, key: string, options: any[]): void {
-    if (typeof param === 'undefined' || param === '') this.throwInvalid(`Required parameter not supplied: ${key}`)
+    if (typeof param === 'undefined' || param === '')
+      this.throwInvalid(`Required parameter not supplied: ${key}`)
     if (options) {
       if (!Array.isArray(options))
         this.throwInvalid(`Parameter options for ${key} must be of an Array type`)
