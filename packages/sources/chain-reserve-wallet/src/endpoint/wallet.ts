@@ -12,8 +12,8 @@ const networkChainMap: { [key: string]: number } = {
   doge_mainnet: 3,
 }
 
-const isNetwork = (maybeNetwork: any) => networks.indexOf(maybeNetwork) !== -1
-const isChainId = (maybeChainId: any) => chainIds.indexOf(maybeChainId) !== -1
+const isNetwork = (maybeNetwork: string) => networks.indexOf(maybeNetwork) !== -1
+const isChainId = (maybeChainId: string) => chainIds.indexOf(maybeChainId) !== -1
 
 export const supportedEndpoints = ['wallet']
 
