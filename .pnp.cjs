@@ -71,6 +71,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/composites/google-weather"
       },
       {
+        "name": "@chainlink/historical-average-adapter",
+        "reference": "workspace:packages/composites/historical-average"
+      },
+      {
         "name": "@chainlink/linear-finance-adapter",
         "reference": "workspace:packages/composites/linear-finance"
       },
@@ -736,6 +740,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/google-weather-adapter", ["workspace:packages/composites/google-weather"]],
       ["@chainlink/graphql-adapter", ["workspace:packages/sources/graphql"]],
       ["@chainlink/harmony-adapter", ["workspace:packages/targets/harmony"]],
+      ["@chainlink/historical-average-adapter", ["workspace:packages/composites/historical-average"]],
       ["@chainlink/iex-cloud-adapter", ["workspace:packages/sources/iex-cloud"]],
       ["@chainlink/intrinio-adapter", ["workspace:packages/sources/intrinio"]],
       ["@chainlink/ipfs-adapter", ["workspace:packages/sources/ipfs"]],
@@ -5664,6 +5669,21 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
             ["ethers", "npm:5.4.7"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/historical-average-adapter", [
+        ["workspace:packages/composites/historical-average", {
+          "packageLocation": "./packages/composites/historical-average/",
+          "packageDependencies": [
+            ["@chainlink/historical-average-adapter", "workspace:packages/composites/historical-average"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.3"],
+            ["@types/node", "npm:14.17.34"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],

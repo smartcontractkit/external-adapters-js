@@ -1,0 +1,1 @@
+# @chainlink/historical-average-adapter
