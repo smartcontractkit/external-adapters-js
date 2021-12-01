@@ -2942,6 +2942,7 @@ __metadata:
     "@chainlink/view-function-adapter": "workspace:*"
     "@chainlink/wbtc-address-set-adapter": "workspace:*"
     "@chainlink/wootrade-adapter": "workspace:*"
+    "@chainlink/wrapped-adapter": "workspace:*"
     "@chainlink/xbto-adapter": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.34
@@ -3850,6 +3851,7 @@ __metadata:
     "@chainlink/sochain-adapter": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@chainlink/wbtc-address-set-adapter": "workspace:*"
+    "@chainlink/wrapped-adapter": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.34
     decimal.js: ^10.3.1
@@ -4367,6 +4369,22 @@ __metadata:
 "@chainlink/wootrade-adapter@workspace:*, @chainlink/wootrade-adapter@workspace:packages/sources/wootrade":
   version: 0.0.0-use.local
   resolution: "@chainlink/wootrade-adapter@workspace:packages/sources/wootrade"
+  dependencies:
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
+    "@types/jest": 27.0.3
+    "@types/node": 14.17.34
+    nock: 13.2.1
+    supertest: 6.1.6
+    tslib: ^2.3.1
+    typescript: 4.3.5
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/wrapped-adapter@workspace:*, @chainlink/wrapped-adapter@workspace:packages/sources/wrapped":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/wrapped-adapter@workspace:packages/sources/wrapped"
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"

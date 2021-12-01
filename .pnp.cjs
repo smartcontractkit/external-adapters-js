@@ -615,6 +615,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/wootrade"
       },
       {
+        "name": "@chainlink/wrapped-adapter",
+        "reference": "workspace:packages/sources/wrapped"
+      },
+      {
         "name": "@chainlink/xbto-adapter",
         "reference": "workspace:packages/sources/xbto"
       },
@@ -794,6 +798,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/view-function-adapter", ["workspace:packages/sources/view-function"]],
       ["@chainlink/wbtc-address-set-adapter", ["workspace:packages/sources/wbtc-address-set"]],
       ["@chainlink/wootrade-adapter", ["workspace:packages/sources/wootrade"]],
+      ["@chainlink/wrapped-adapter", ["workspace:packages/sources/wrapped"]],
       ["@chainlink/xbto-adapter", ["workspace:packages/sources/xbto"]],
       ["@chainlink/xsushi-price-adapter", ["workspace:packages/composites/xsushi-price"]],
       ["k6", ["workspace:packages/k6"]]
@@ -5074,6 +5079,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/view-function-adapter", "workspace:packages/sources/view-function"],
             ["@chainlink/wbtc-address-set-adapter", "workspace:packages/sources/wbtc-address-set"],
             ["@chainlink/wootrade-adapter", "workspace:packages/sources/wootrade"],
+            ["@chainlink/wrapped-adapter", "workspace:packages/sources/wrapped"],
             ["@chainlink/xbto-adapter", "workspace:packages/sources/xbto"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
@@ -6222,6 +6228,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/sochain-adapter", "workspace:packages/sources/sochain"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@chainlink/wbtc-address-set-adapter", "workspace:packages/sources/wbtc-address-set"],
+            ["@chainlink/wrapped-adapter", "workspace:packages/sources/wrapped"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
             ["decimal.js", "npm:10.3.1"],
@@ -6803,6 +6810,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/wootrade/",
           "packageDependencies": [
             ["@chainlink/wootrade-adapter", "workspace:packages/sources/wootrade"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.3"],
+            ["@types/node", "npm:14.17.34"],
+            ["nock", "npm:13.2.1"],
+            ["supertest", "npm:6.1.6"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/wrapped-adapter", [
+        ["workspace:packages/sources/wrapped", {
+          "packageLocation": "./packages/sources/wrapped/",
+          "packageDependencies": [
+            ["@chainlink/wrapped-adapter", "workspace:packages/sources/wrapped"],
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
