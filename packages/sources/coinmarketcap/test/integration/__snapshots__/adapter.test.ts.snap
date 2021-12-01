@@ -2,71 +2,132 @@
 
 exports[`coinmarketcap coinmarketcap replies with success when request historical endpoint coinmarketcap replies with success should reply with success 1`] = `
 Object {
-  "result": Object {
-    "result": Object {
-      "id": 1027,
-      "is_active": 1,
-      "is_fiat": 0,
-      "name": "Ethereum",
-      "quotes": Array [
-        Object {
-          "quote": Object {
-            "BTC": Object {
-              "market_cap": 7443591.90020768,
-              "price": 0.06372463643632112,
-              "timestamp": "2021-07-23T14:04:12.000Z",
-              "volume_24h": 504265.23763687897,
-            },
+  "data": Object {
+    "id": 1027,
+    "is_active": 1,
+    "is_fiat": 0,
+    "name": "Ethereum",
+    "quotes": Array [
+      Object {
+        "quote": Object {
+          "BTC": Object {
+            "market_cap": 7443591.90020768,
+            "price": 0.06372463643632112,
+            "timestamp": "2021-07-23T14:04:12.000Z",
+            "volume_24h": 504265.23763687897,
           },
-          "timestamp": "2021-07-23T14:04:03.000Z",
         },
-        Object {
-          "quote": Object {
-            "BTC": Object {
-              "market_cap": 7442982.142507192,
-              "price": 0.06371941629686442,
-              "timestamp": "2021-07-23T14:09:13.000Z",
-              "volume_24h": 503702.65783204953,
-            },
+        "timestamp": "2021-07-23T14:04:03.000Z",
+      },
+      Object {
+        "quote": Object {
+          "BTC": Object {
+            "market_cap": 7442982.142507192,
+            "price": 0.06371941629686442,
+            "timestamp": "2021-07-23T14:09:13.000Z",
+            "volume_24h": 503702.65783204953,
           },
-          "timestamp": "2021-07-23T14:09:03.000Z",
         },
-        Object {
-          "quote": Object {
-            "BTC": Object {
-              "market_cap": 7443649.549774187,
-              "price": 0.06372453768196841,
-              "timestamp": "2021-07-23T14:14:23.000Z",
-              "volume_24h": 503184.31892236834,
-            },
+        "timestamp": "2021-07-23T14:09:03.000Z",
+      },
+      Object {
+        "quote": Object {
+          "BTC": Object {
+            "market_cap": 7443649.549774187,
+            "price": 0.06372453768196841,
+            "timestamp": "2021-07-23T14:14:23.000Z",
+            "volume_24h": 503184.31892236834,
           },
-          "timestamp": "2021-07-23T14:14:08.000Z",
         },
-        Object {
-          "quote": Object {
-            "BTC": Object {
-              "market_cap": 7437851.780012068,
-              "price": 0.06367490340039632,
-              "timestamp": "2021-07-23T14:19:12.000Z",
-              "volume_24h": 503087.4919427468,
-            },
+        "timestamp": "2021-07-23T14:14:08.000Z",
+      },
+      Object {
+        "quote": Object {
+          "BTC": Object {
+            "market_cap": 7437851.780012068,
+            "price": 0.06367490340039632,
+            "timestamp": "2021-07-23T14:19:12.000Z",
+            "volume_24h": 503087.4919427468,
           },
-          "timestamp": "2021-07-23T14:19:06.000Z",
         },
-        Object {
-          "quote": Object {
-            "BTC": Object {
-              "market_cap": 7428169.077137268,
-              "price": 0.06359201049147004,
-              "timestamp": "2021-07-23T14:49:09.000Z",
-              "volume_24h": 495928.26554275176,
-            },
+        "timestamp": "2021-07-23T14:19:06.000Z",
+      },
+      Object {
+        "quote": Object {
+          "BTC": Object {
+            "market_cap": 7431909.064055017,
+            "price": 0.06362402824508358,
+            "timestamp": "2021-07-23T14:24:09.000Z",
+            "volume_24h": 501663.79642084066,
           },
-          "timestamp": "2021-07-23T14:49:03.000Z",
         },
-      ],
-      "symbol": "ETH",
-    },
+        "timestamp": "2021-07-23T14:24:05.000Z",
+      },
+      Object {
+        "quote": Object {
+          "BTC": Object {
+            "market_cap": 7431699.906071862,
+            "price": 0.06362223765893496,
+            "timestamp": "2021-07-23T14:29:13.000Z",
+            "volume_24h": 499637.90000928735,
+          },
+        },
+        "timestamp": "2021-07-23T14:29:06.000Z",
+      },
+      Object {
+        "quote": Object {
+          "BTC": Object {
+            "market_cap": 7423747.214838163,
+            "price": 0.06355415525274345,
+            "timestamp": "2021-07-23T14:34:15.000Z",
+            "volume_24h": 497509.87502596335,
+          },
+        },
+        "timestamp": "2021-07-23T14:34:04.000Z",
+      },
+      Object {
+        "quote": Object {
+          "BTC": Object {
+            "market_cap": 7424385.657376196,
+            "price": 0.06355962091247133,
+            "timestamp": "2021-07-23T14:39:19.000Z",
+            "volume_24h": 497304.8331171168,
+          },
+        },
+        "timestamp": "2021-07-23T14:39:07.000Z",
+      },
+      Object {
+        "quote": Object {
+          "BTC": Object {
+            "market_cap": 7433758.980181678,
+            "price": 0.06363986524132226,
+            "timestamp": "2021-07-23T14:44:07.000Z",
+            "volume_24h": 496738.91156870575,
+          },
+        },
+        "timestamp": "2021-07-23T14:44:04.000Z",
+      },
+      Object {
+        "quote": Object {
+          "BTC": Object {
+            "market_cap": 7428169.077137268,
+            "price": 0.06359201049147004,
+            "timestamp": "2021-07-23T14:49:09.000Z",
+            "volume_24h": 495928.26554275176,
+          },
+        },
+        "timestamp": "2021-07-23T14:49:03.000Z",
+      },
+    ],
+    "symbol": "ETH",
+  },
+  "status": Object {
+    "credit_count": 1,
+    "elapsed": 30,
+    "error_code": 0,
+    "error_message": null,
+    "notice": null,
+    "timestamp": "2021-12-01T14:44:08.026Z",
   },
 }
 `;
