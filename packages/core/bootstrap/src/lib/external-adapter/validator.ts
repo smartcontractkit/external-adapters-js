@@ -8,7 +8,6 @@ import {
   InputParameter,
   InputParameters,
   Config,
-  InputParameterAliases,
 } from '@chainlink/types'
 import { merge } from 'lodash'
 import { isArray, isObject } from '../util'
@@ -294,7 +293,7 @@ export class Validator {
     this.validated.data[key] = param
   }
 
-  getUsedKey(key: string, keyArray: InputParameterAliases): string | undefined {
+  getUsedKey(key: string, keyArray: string[]): string | undefined {
     const comparisonArray = [...keyArray]
     if (!comparisonArray.includes(key)) comparisonArray.push(key)
 
