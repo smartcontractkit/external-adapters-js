@@ -1,6 +1,10 @@
 {
  "requests": [{
-  "from": "LINK",
-  "to": "USD"
+   "from": "ETH",
+   "to": "USD",
+   "fromDate": "2021-11-01",
+   "days": 7,
+   "source": "coinmarketcap",
+   "interval": "1d"
  }]
 }

@@ -2,6 +2,7 @@ import { expose } from '@chainlink/ea-bootstrap'
 import { makeExecute } from './adapter'
 import { makeConfig } from './config'
 
-const NAME = 'EXAMPLE_COMPOSITE'
+const NAME = 'HISTORICAL_AVERAGE'
 
-export = { NAME, makeConfig, makeExecute, ...expose(NAME, makeExecute()) }
+const { server } = expose(NAME, makeExecute())
+export { NAME, makeExecute, makeConfig, server }
