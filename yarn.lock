@@ -3354,6 +3354,24 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/historical-average-adapter@workspace:packages/composites/historical-average":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/historical-average-adapter@workspace:packages/composites/historical-average"
+  dependencies:
+    "@chainlink/coinmarketcap-adapter": "workspace:*"
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
+    "@types/jest": 27.0.3
+    "@types/node": 14.17.34
+    decimal.js: ^10.3.1
+    nock: ^13.2.1
+    supertest: ^6.1.6
+    tslib: ^2.3.1
+    typescript: 4.3.5
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/iex-cloud-adapter@workspace:*, @chainlink/iex-cloud-adapter@workspace:packages/sources/iex-cloud":
   version: 0.0.0-use.local
   resolution: "@chainlink/iex-cloud-adapter@workspace:packages/sources/iex-cloud"
@@ -20907,7 +20925,7 @@ fsevents@~2.1.1:
   languageName: node
   linkType: hard
 
-"nock@npm:13.2.1":
+"nock@npm:13.2.1, nock@npm:^13.2.1":
   version: 13.2.1
   resolution: "nock@npm:13.2.1"
   dependencies:
@@ -24975,7 +24993,7 @@ resolve@1.17.0:
   languageName: node
   linkType: hard
 
-"supertest@npm:6.1.6":
+"supertest@npm:6.1.6, supertest@npm:^6.1.6":
   version: 6.1.6
   resolution: "supertest@npm:6.1.6"
   dependencies:
