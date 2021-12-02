@@ -1,5 +1,13 @@
 # @chainlink/ea
 
+## 1.0.9
+
+### Patch Changes
+
+- Updated dependencies [64f2dfabc]
+  - @chainlink/coingecko-adapter@1.0.5
+  - @chainlink/coinpaprika-adapter@1.0.5
+
 ## 1.0.8
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @chainlink/coinpaprika-adapter
 
+## 1.0.5
+
+### Patch Changes
+
+- 64f2dfabc: Make sure errors are caught to not keep the socket open
+
 ## 1.0.4
 
 ### Patch Changes
