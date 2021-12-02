@@ -1,5 +1,11 @@
 # @chainlink/xbto-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- 970c651bc: src export changed
+
 ## 1.0.4
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @chainlink/bitex-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- 24d8d6d8e: src export changed
+
 ## 1.1.3
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @chainlink/polygon-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- 9caf06f69: src export changed
+
 ## 1.0.4
 
 ### Patch Changes

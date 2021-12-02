@@ -1,5 +1,11 @@
 # @chainlink/bitso-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- 61bac9f6d: src export changed
+
 ## 1.0.4
 
 ### Patch Changes

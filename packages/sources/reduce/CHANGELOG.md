@@ -1,5 +1,11 @@
 # @chainlink/reduce-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- 8fb01fa5d: src export changed
+
 ## 1.0.4
 
 ### Patch Changes

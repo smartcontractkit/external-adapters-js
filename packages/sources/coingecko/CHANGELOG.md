@@ -1,5 +1,11 @@
 # @chainlink/coingecko-adapter
 
+## 1.0.5
+
+### Patch Changes
+
+- b6a7e4475: Make sure errors are caught to not keep the socket open
+
 ## 1.0.4
 
 ### Patch Changes
