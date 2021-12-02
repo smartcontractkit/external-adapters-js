@@ -94,25 +94,36 @@ export const getFromToDates = (
   days?: string | number,
 ): { fromDate: Date; toDate: Date } => {
   if (from && to) {
-    return {
-      fromDate: new Date(from),
-      toDate: new Date(to),
+    const fromDate = new Date(from)
+    const toDate = new Date(to)
+    if (fromDate >= toDate) {
+      throw new AdapterError({
+        statusCode: 400,
+        message: 'The "fromDate" must be before the "toDate"',
+      })
     }
+
+    return { fromDate, toDate }
   } else if (!days) {
     throw new AdapterError({
       statusCode: 400,
       message: 'Missing either from/to dates and days param',
     })
   }
+  const numDays = Number(days)
+  if (numDays <= 0) {
+    throw new AdapterError({
+      statusCode: 400,
+      message: 'The days param is less than or equal to 0',
+    })
+  }
 
   if (from) {
     const fromDate = new Date(from)
-    const numDays = Number(days)
     const toDate = addDays(fromDate, numDays)
     return { fromDate, toDate }
   } else if (to) {
     const toDate = new Date(to)
-    const numDays = Number(days)
     const fromDate = addDays(toDate, -numDays)
     return { fromDate, toDate }
   }

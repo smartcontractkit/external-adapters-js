@@ -85,6 +85,32 @@ describe('execute', () => {
           },
         },
       },
+      {
+        name: 'fromDate is after toDate',
+        testData: {
+          id: jobID,
+          data: {
+            from: 'ETH',
+            to: 'USD',
+            fromDate: '2021-11-08',
+            toDate: '2021-11-01',
+            source: 'coinmarketcap',
+          },
+        },
+      },
+      {
+        name: 'the days param is <= 0',
+        testData: {
+          id: jobID,
+          data: {
+            from: 'ETH',
+            to: 'USD',
+            fromDate: '2021-11-01',
+            days: 0,
+            source: 'coinmarketcap',
+          },
+        },
+      },
     ]
 
     requests.forEach((req) => {
