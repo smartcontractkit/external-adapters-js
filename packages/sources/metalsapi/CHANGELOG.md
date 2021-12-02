@@ -1,5 +1,11 @@
 # @chainlink/metalsapi-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- e2a79ea36: src export changed
+
 ## 1.0.4
 
 ### Patch Changes

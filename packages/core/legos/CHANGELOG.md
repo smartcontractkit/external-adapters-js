@@ -1,5 +1,75 @@
 # @chainlink/ea
 
+## 1.0.10
+
+### Patch Changes
+
+- Updated dependencies [d6d3de689]
+- Updated dependencies [5eea56027]
+- Updated dependencies [96bee4f7d]
+- Updated dependencies [e2a79ea36]
+- Updated dependencies [bfe1c9dcf]
+- Updated dependencies [9caf06f69]
+- Updated dependencies [c6d30df9b]
+- Updated dependencies [68ca55840]
+- Updated dependencies [868882321]
+- Updated dependencies [3c83bcbb7]
+- Updated dependencies [22f3173ad]
+- Updated dependencies [59cc6e48e]
+- Updated dependencies [4af9af544]
+- Updated dependencies [d3f02b39a]
+- Updated dependencies [59cc6e48e]
+- Updated dependencies [e88e5ffac]
+- Updated dependencies [970c651bc]
+- Updated dependencies [6e2ac9822]
+- Updated dependencies [b189cfe67]
+- Updated dependencies [24d8d6d8e]
+- Updated dependencies [7a88772ab]
+- Updated dependencies [4d61c0d1a]
+- Updated dependencies [4ebd0a0fd]
+- Updated dependencies [b6a7e4475]
+- Updated dependencies [be351be5c]
+- Updated dependencies [bf14d6d9d]
+- Updated dependencies [61bac9f6d]
+- Updated dependencies [cfa687bf0]
+- Updated dependencies [9d411234a]
+- Updated dependencies [84393e1a1]
+- Updated dependencies [8fb01fa5d]
+- Updated dependencies [61d12bc51]
+  - @chainlink/mycryptoapi-adapter@1.1.0
+  - @chainlink/coinlore-adapter@1.1.0
+  - @chainlink/etherscan-adapter@1.1.0
+  - @chainlink/metalsapi-adapter@1.1.0
+  - @chainlink/json-rpc-adapter@1.1.0
+  - @chainlink/polygon-adapter@1.1.0
+  - @chainlink/eodhistoricaldata-adapter@1.1.0
+  - @chainlink/fmpcloud-adapter@1.1.0
+  - @chainlink/satoshitango-adapter@1.1.0
+  - @chainlink/etherchain-adapter@1.1.0
+  - @chainlink/paxos-adapter@1.1.0
+  - @chainlink/poa-adapter@1.1.0
+  - @chainlink/upvest-adapter@1.1.0
+  - @chainlink/binance-dex-adapter@1.1.0
+  - @chainlink/wrapped-adapter@2.0.0
+  - @chainlink/xbto-adapter@1.1.0
+  - @chainlink/blockcypher-adapter@1.1.0
+  - @chainlink/coinmarketcap-adapter@1.2.0
+  - @chainlink/bitex-adapter@1.2.0
+  - @chainlink/coinbase-adapter@1.1.0
+  - @chainlink/sochain-adapter@1.1.0
+  - @chainlink/ethgaswatch-adapter@1.1.0
+  - @chainlink/coingecko-adapter@1.0.5
+  - @chainlink/coinpaprika-adapter@1.0.5
+  - @chainlink/cache.gold-adapter@1.1.0
+  - @chainlink/cryptomkt-adapter@1.1.0
+  - @chainlink/bitso-adapter@1.1.0
+  - @chainlink/cryptoid-adapter@1.1.0
+  - @chainlink/lcx-adapter@1.1.0
+  - @chainlink/unibit-adapter@1.1.0
+  - @chainlink/reduce-adapter@1.1.0
+  - @chainlink/ethgasstation-adapter@1.1.0
+  - @chainlink/lotus-adapter@1.0.5
+
 ## 1.0.9
 
 ### Patch Changes

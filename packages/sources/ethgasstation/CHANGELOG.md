@@ -1,5 +1,11 @@
 # @chainlink/ethgasstation-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- 61d12bc51: src export changed
+
 ## 1.0.4
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @chainlink/coinmarketcap-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- b189cfe67: Update historical endpoint result format and export types
+
 ## 1.1.1
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @chainlink/satoshitango-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- 868882321: src export changed
+
 ## 1.0.4
 
 ### Patch Changes

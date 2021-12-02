@@ -1,5 +1,11 @@
 # @chainlink/lcx-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- 9d411234a: src export changed
+
 ## 1.0.4
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @chainlink/binance-dex-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- d3f02b39a: src export changed
+
 ## 1.0.4
 
 ### Patch Changes

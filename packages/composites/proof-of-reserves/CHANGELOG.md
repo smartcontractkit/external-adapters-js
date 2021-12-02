@@ -1,5 +1,24 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- e88e5ffac: Add wrapped EA support
+
+### Patch Changes
+
+- Updated dependencies [e88e5ffac]
+- Updated dependencies [6e2ac9822]
+- Updated dependencies [4d61c0d1a]
+- Updated dependencies [8fb01fa5d]
+  - @chainlink/wrapped-adapter@2.0.0
+  - @chainlink/blockcypher-adapter@1.1.0
+  - @chainlink/sochain-adapter@1.1.0
+  - @chainlink/reduce-adapter@1.1.0
+  - @chainlink/bitcoin-json-rpc-adapter@1.0.5
+  - @chainlink/lotus-adapter@1.0.5
+
 ## 1.0.5
 
 ### Patch Changes

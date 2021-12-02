@@ -1,5 +1,11 @@
 # @chainlink/cache.gold-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- be351be5c: src export changed
+
 ## 1.0.4
 
 ### Patch Changes

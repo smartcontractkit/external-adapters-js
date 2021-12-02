@@ -1,5 +1,11 @@
 # @chainlink/coinbase-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- 7a88772ab: src export changed
+
 ## 1.0.4
 
 ### Patch Changes

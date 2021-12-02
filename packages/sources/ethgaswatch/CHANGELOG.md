@@ -1,5 +1,11 @@
 # @chainlink/ethgaswatch-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- 4ebd0a0fd: src export changed
+
 ## 1.0.4
 
 ### Patch Changes

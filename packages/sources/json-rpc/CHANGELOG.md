@@ -1,5 +1,11 @@
 # @chainlink/json-rpc-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- bfe1c9dcf: src export changed
+
 ## 1.0.4
 
 ### Patch Changes

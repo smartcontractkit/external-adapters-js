@@ -1,5 +1,11 @@
 # @chainlink/paxos-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- 22f3173ad: src export changed
+
 ## 1.0.4
 
 ### Patch Changes

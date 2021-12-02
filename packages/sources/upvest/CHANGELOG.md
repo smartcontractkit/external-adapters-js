@@ -1,5 +1,11 @@
 # @chainlink/upvest-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- 4af9af544: Src export change
+
 ## 1.0.4
 
 ### Patch Changes
