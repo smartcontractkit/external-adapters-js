@@ -2,6 +2,8 @@ import { expose } from '@chainlink/ea-bootstrap'
 import { makeExecute } from './adapter'
 import { makeConfig } from './config'
 
-const NAME = 'ANCHOR_PROTOCOL'
+const NAME = 'PRICE'
 
-export = { NAME, makeConfig, makeExecute, ...expose(NAME, makeExecute()) }
+const { server } = expose(NAME, makeExecute())
+
+export { NAME, makeConfig, makeExecute, server }

@@ -23,10 +23,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:."
       },
       {
-        "name": "@chainlink/anchor-protocol-adapter",
-        "reference": "workspace:packages/composites/anchor-protocol"
-      },
-      {
         "name": "@chainlink/apy-finance-adapter",
         "reference": "workspace:packages/composites/apy-finance"
       },
@@ -665,7 +661,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/alphachain-adapter", ["workspace:packages/sources/alphachain"]],
       ["@chainlink/alphavantage-adapter", ["workspace:packages/sources/alphavantage"]],
       ["@chainlink/amberdata-adapter", ["workspace:packages/sources/amberdata"]],
-      ["@chainlink/anchor-protocol-adapter", ["workspace:packages/composites/anchor-protocol"]],
       ["@chainlink/anyblock-adapter", ["workspace:packages/sources/anyblock"]],
       ["@chainlink/ap-election-adapter", ["workspace:packages/sources/ap-election"]],
       ["@chainlink/apy-finance-adapter", ["workspace:packages/composites/apy-finance"]],
@@ -4014,23 +4009,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT",
         }]
       ]],
-      ["@chainlink/anchor-protocol-adapter", [
-        ["workspace:packages/composites/anchor-protocol", {
-          "packageLocation": "./packages/composites/anchor-protocol/",
-          "packageDependencies": [
-            ["@chainlink/anchor-protocol-adapter", "workspace:packages/composites/anchor-protocol"],
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
-            ["@chainlink/token-allocation-adapter", "workspace:packages/composites/token-allocation"],
-            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
-            ["@types/jest", "npm:27.0.3"],
-            ["@types/node", "npm:14.17.34"],
-            ["ethers", "npm:5.5.1"],
-            ["tslib", "npm:2.3.1"],
-            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
-          ],
-          "linkType": "SOFT",
-        }]
-      ]],
       ["@chainlink/anyblock-adapter", [
         ["workspace:packages/sources/anyblock", {
           "packageLocation": "./packages/sources/anyblock/",
@@ -6284,11 +6262,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@chainlink/price-adapter", "workspace:packages/composites/price"],
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/token-allocation-adapter", "workspace:packages/composites/token-allocation"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
             ["ethers", "npm:5.5.1"],
+            ["nock", "npm:13.2.1"],
+            ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
