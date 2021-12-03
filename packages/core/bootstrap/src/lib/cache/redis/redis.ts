@@ -1,5 +1,9 @@
 import { timeout, TimeoutError } from 'promise-timeout'
-import { ClientOpts, createClient, RedisClient, RetryStrategy } from 'redis'
+import { createClient } from 'redis'
+// Node Redis is having issues with type exports in v4: https://github.com/redis/node-redis/issues/1673
+// The following is a workaround for now (TODO import from 'redis' and remove these dependencies)
+import { RedisClientOptions } from '@node-redis/client/dist/lib/client' //TODO add RedisClientType here
+import { RedisModules, RedisScripts } from '@node-redis/client/dist/lib/commands'
 import { promisify } from 'util'
 import { logger } from '../../external-adapter'
 import { CacheEntry } from '../types'
@@ -20,20 +24,32 @@ const DEFAULT_CACHE_MAX_AGE = 1000 * 60 * 1.5 // 1.5 minutes
 
 const env = process.env
 
-export type RedisOptions = ClientOpts & { maxAge: number; timeout: number; type: 'redis' }
+export type RedisOptions = RedisClientOptions<RedisModules, RedisScripts> & {
+  maxAge: number
+  timeout: number
+  type: 'redis'
+}
 
 export const defaultOptions = (): RedisOptions => ({
   type: 'redis',
-  host: env.CACHE_REDIS_HOST || DEFAULT_CACHE_REDIS_HOST,
-  port: Number(env.CACHE_REDIS_PORT) || DEFAULT_CACHE_REDIS_PORT,
-  path: env.CACHE_REDIS_PATH || DEFAULT_CACHE_REDIS_PATH,
+  socket: {
+    host: env.CACHE_REDIS_HOST || DEFAULT_CACHE_REDIS_HOST,
+    port: Number(env.CACHE_REDIS_PORT) || DEFAULT_CACHE_REDIS_PORT,
+    path: env.CACHE_REDIS_PATH || DEFAULT_CACHE_REDIS_PATH,
+    reconnectStrategy: (retries: number): number => {
+      metrics.redis_retries_count.inc()
+      logger.warn('Redis retry strategy activated.')
+
+      if (retries > 10) logger.warn(`Redis retry attempt #${retries}`)
+
+      return Math.min(retries * 100, 3000) // Next reconnect attempt time
+    },
+    // connectTimeout: Number(env.CACHE_REDIS_CONNECTION_TIMEOUT) || DEFAULT_CACHE_REDIS_CONNECTION_TIMEOUT,
+  },
   url: env.CACHE_REDIS_URL || DEFAULT_CACHE_REDIS_URL,
   password: env.CACHE_REDIS_PASSWORD || DEFAULT_CACHE_REDIS_PASSWORD,
   maxAge: Number(env.CACHE_MAX_AGE) || DEFAULT_CACHE_MAX_AGE,
   timeout: Number(env.CACHE_REDIS_TIMEOUT) || DEFAULT_CACHE_REDIS_REQUEST_TIMEOUT,
-  // connect_timeout:
-  //   Number(env.CACHE_REDIS_CONNECTION_TIMEOUT) || DEFAULT_CACHE_REDIS_CONNECTION_TIMEOUT,
-  // socket_initial_delay: Number(env.CACHE_REDIS_INITIAL_DELAY) || DEFAULT_CACHE_REDIS_INITIAL_DELAY,
 })
 
 // Options without sensitive data
@@ -43,32 +59,9 @@ export const redactOptions = (opts: RedisOptions) => {
   return opts
 }
 
-const retryStrategy: RetryStrategy = (options) => {
-  metrics.redis_retries_count.inc()
-  logger.warn('Redis retry strategy activated.', options)
-  if (options.error && options.error.code === 'ECONNREFUSED') {
-    // End reconnecting on a specific error and flush all commands with
-    // a individual error
-    logger.warn('Connection refused.', options)
-    return new Error('The server refused the connection')
-  }
-  if (options.total_retry_time > 1000 * 60 * 60) {
-    // End reconnecting after a specific timeout and flush all commands
-    // with a individual error
-    logger.warn('Redis retry strategy exhausted.', options)
-    return new Error('Retry time exhausted')
-  }
-  if (options.attempt > 10) {
-    logger.warn(`Redis retry attempt #${options.attempt}`, options)
-    return undefined
-  }
-  // reconnect after
-  return Math.min(options.attempt * 100, 3000)
-}
-
 export class RedisCache {
   options: RedisOptions
-  client: RedisClient
+  client: any //TODO use RedisClientType with some modifications?
   _auth: any
   _get: any
   _set: any
@@ -81,7 +74,7 @@ export class RedisCache {
     logger.info('Creating new redis client instance...')
 
     this.options = options
-    const client = createClient({ ...options, retry_strategy: retryStrategy })
+    const client = createClient(options)
     client.on('error', (err) => logger.error('Error connecting to Redis. ', err))
     client.on('end', () => logger.error('Redis connection ended.'))
     client.on('connected', () => {
@@ -99,11 +92,15 @@ export class RedisCache {
     this.client = client
   }
 
-  initialize(options: RedisOptions): void {
+  async initialize(options: RedisOptions): Promise<void> {
     logger.info('Re-initializing new redis client instance...')
 
-    const client = createClient({ ...options, retry_strategy: retryStrategy })
+    const client = createClient(options)
+
     client.on('error', (err) => logger.error('Error connecting to Redis. ', err))
+
+    await client.connect()
+
     client.on('end', () => logger.error('Redis connection ended.'))
 
     this._auth = promisify(client.auth).bind(client)
@@ -128,7 +125,7 @@ export class RedisCache {
       return
     }
     try {
-      this.initialize(this.options)
+      await this.initialize(this.options)
       this.connect()
     } catch (err) {
       logger.warn(`Failed to recreate redis client: [${err.message}]`)
