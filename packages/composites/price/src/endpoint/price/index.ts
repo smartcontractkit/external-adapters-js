@@ -3,6 +3,7 @@ import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { Config } from '../../config'
 import { convertUSDQuote, getTokenPrice } from '../../utils'
 import * as beth from './beth'
+import * as bluna from './bluna'
 
 export const supportedEndpoints = ['price']
 
@@ -27,6 +28,11 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
       taDecimals = beth.INTERMEDIARY_TOKEN_DECIMALS
       priceExecute = beth.execute
       intermediaryTokenSymbol = beth.INTERMEDIARY_TOKEN
+      break
+    case bluna.FROM:
+      taDecimals = bluna.INTERMEDIARY_TOKEN_DECIMALS
+      priceExecute = bluna.execute
+      intermediaryTokenSymbol = bluna.INTERMEDIARY_TOKEN
       break
     default:
       throw Error(`Invalid from symbol ${fromUpperCase}`)
