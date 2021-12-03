@@ -1,4 +1,4 @@
-# @chainlink/example-composite-adapter
+# @chainlink/price-adapter
 
 ## 1.0.4
 
