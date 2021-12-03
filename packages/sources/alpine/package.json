@@ -1,7 +1,7 @@
 {
   "name": "@chainlink/alpine-adapter",
   "version": "0.0.1",
-  "description": "Chainlink example source adapter.",
+  "description": "Chainlink alpine adapter.",
   "keywords": [
     "Chainlink",
     "LINK",

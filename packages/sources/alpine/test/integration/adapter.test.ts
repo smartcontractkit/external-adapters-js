@@ -23,19 +23,11 @@ jest.mock('ethers', () => ({
   },
 }))
 
-let oldEnv: NodeJS.ProcessEnv
-
 describe('alpine', () => {
   let execute: Execute
 
   beforeAll(async () => {
-    oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env.RPC_URL = process.env.RPC_URL || 'test-endpoint'
     execute = makeExecute()
-  })
-
-  afterAll(() => {
-    process.env = oldEnv
   })
 
   describe('tvl', () => {

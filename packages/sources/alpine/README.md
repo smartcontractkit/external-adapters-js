@@ -4,9 +4,9 @@ This adapter gets the tvl of Ethereum vaults as well as the block numbers of the
 
 ### Environment Variables
 
-| Required? |  Name   |         Description          | Options | Defaults to |
-| :-------: | :-----: | :--------------------------: | :-----: | :---------: |
-|    ✅     | RPC_URL | RPC url for Ethereum/Polygon |         |             |
+| Required? |        Name        |         Description          | Options | Defaults to |
+| :-------: | :----------------: | :--------------------------: | :-----: | :---------: |
+|    ✅     | {network}\_RPC_URL | RPC url for Ethereum/Polygon |         |             |
 
 ---
 
@@ -15,6 +15,7 @@ This adapter gets the tvl of Ethereum vaults as well as the block numbers of the
 | Required? |   Name   |     Description     |                        Options                         | Defaults to |
 | :-------: | :------: | :-----------------: | :----------------------------------------------------: | :---------: |
 |    ✅     | endpoint | The endpoint to use | [tvl](#TVL-Endpoint), [lastBlock](#LastBlock-Endpoint) |     tvl     |
+|    ✅     | network  |     The network     |             Etiher "ETHEREUM" or "POLYGON"             |  ETHEREUM   |
 
 ---
 
@@ -35,7 +36,8 @@ This gets the tvl of a vault on Ethereum
   "id": "1",
   "data": {
     "vaultAddress": "0xA0F3BC193651c902C0cae9779c6E7F10761bF2Ac",
-    "endpoint": "tvl"
+    "endpoint": "tvl",
+    "network": "ETHEREUM"
   }
 }
 ```
@@ -69,7 +71,8 @@ This gets the lastblock of a cross chain transfer from the given chain
   "id": "1",
   "data": {
     "stagingAddress": "0xd5c81d46D8237b06fa6110aEB43363b6F63bC247",
-    "endpoint": "lastblock"
+    "endpoint": "lastblock",
+    "network": "POLYGON"
   }
 }
 ```

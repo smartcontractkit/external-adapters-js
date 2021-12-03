@@ -1,4 +1,4 @@
-import { Validator } from '@chainlink/ea-bootstrap'
+import { Validator, util } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { ethers } from 'ethers'
 import vaultAbi from '../abi/vault.json'
@@ -18,8 +18,10 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const jobRunID = validator.validated.id
   const { vaultAddress } = validator.validated.data
+  const network = validator.validated.data.network || config.network
 
-  const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl)
+  const rpcUrl = network == 'ETH' ? util.getEnv('ETHEREUM_RPC_URL') : util.getEnv('POLYGON_RPC_URL')
+  const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
 
   const vault = new ethers.Contract(vaultAddress, vaultAbi, provider)
   const result = (await vault.totalAssets()).toString()
