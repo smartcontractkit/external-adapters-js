@@ -30,9 +30,9 @@ export const execute = async (
     provider,
   )
   const bEthExchangeRateBigNum = await anchorVaultContract.get_rate()
-  const bEthExchangeRate = bEthExchangeRateBigNum.div(BigNumber.from(10).pow(18)).toNumber()
-  const stEthPrice = taAdapterResponse.data.result
-  const result = stEthPrice / bEthExchangeRate
+  const stEthPerBEth = bEthExchangeRateBigNum.div(BigNumber.from(10).pow(18)).toNumber()
+  const usdPerStEth = taAdapterResponse.data.result
+  const result = usdPerStEth * stEthPerBEth
   return {
     jobRunID: input.id,
     statusCode: 200,
