@@ -1835,6 +1835,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/anchor-protocol-adapter@workspace:packages/composites/anchor-protocol":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/anchor-protocol-adapter@workspace:packages/composites/anchor-protocol"
+  dependencies:
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/token-allocation-adapter": "workspace:*"
+    "@chainlink/types": "workspace:*"
+    "@types/jest": 27.0.3
+    "@types/node": 14.17.34
+    ethers: ^5.5.1
+    tslib: ^2.3.1
+    typescript: 4.3.5
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/anyblock-adapter@workspace:*, @chainlink/anyblock-adapter@workspace:packages/sources/anyblock":
   version: 0.0.0-use.local
   resolution: "@chainlink/anyblock-adapter@workspace:packages/sources/anyblock"
@@ -3863,9 +3878,11 @@ __metadata:
   resolution: "@chainlink/price-adapter@workspace:packages/composites/price"
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/token-allocation-adapter": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.34
+    ethers: ^5.5.1
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
