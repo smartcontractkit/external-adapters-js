@@ -1,12 +1,13 @@
 import { AdapterContext, AdapterRequest, AdapterResponse } from '@chainlink/types'
 import * as TA from '@chainlink/token-allocation-adapter'
 import { BigNumber } from 'ethers'
+import { DEFAULT_TOKEN_DECIMALS } from './config'
 
 export const getTokenPrice = async (
   input: AdapterRequest,
   context: AdapterContext,
   symbol: string,
-  decimals = 8,
+  decimals = DEFAULT_TOKEN_DECIMALS,
 ): Promise<AdapterResponse> => {
   const _config = TA.makeConfig()
   const _execute = TA.makeExecute(_config)
@@ -25,7 +26,7 @@ export const convertUSDQuote = async (
   context: AdapterContext,
   usdPrice: number,
   targetQuote: string,
-  targetQuoteDecimals = 18,
+  targetQuoteDecimals = DEFAULT_TOKEN_DECIMALS,
 ): Promise<number> => {
   const targetQuoteUSDRateResp = await getTokenPrice(
     input,

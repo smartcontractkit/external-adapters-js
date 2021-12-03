@@ -1,6 +1,10 @@
 {
  "requests": [{
-  "from": "LINK",
-  "to": "USD"
- }]
+    "id": "1",
+    "data": {
+      "from": "BETH",
+      "to": "USD",
+      "source": "coingecko"
+    }
+  }]
 }

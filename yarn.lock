@@ -3863,12 +3863,15 @@ __metadata:
   resolution: "@chainlink/price-adapter@workspace:packages/composites/price"
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/terra-view-function-adapter": "workspace:*"
     "@chainlink/token-allocation-adapter": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 14.17.34
     ethers: ^5.5.1
+    nock: 13.2.1
+    supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown

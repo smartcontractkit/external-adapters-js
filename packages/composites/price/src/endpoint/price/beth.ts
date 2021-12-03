@@ -1,6 +1,5 @@
-import { AdapterContext, AdapterRequest, AdapterResponse } from '@chainlink/types'
 import { BigNumber, ethers } from 'ethers'
-import { Config } from '../../config'
+import { PriceExecute } from '.'
 
 export const FROM = 'BETH'
 export const INTERMEDIARY_TOKEN_DECIMALS = 8
@@ -16,12 +15,7 @@ export const anchorVaultAbi = [
   },
 ]
 
-export const execute = async (
-  input: AdapterRequest,
-  _: AdapterContext,
-  config: Config,
-  taAdapterResponse: AdapterResponse,
-): Promise<AdapterResponse> => {
+export const execute: PriceExecute = async (input, _, config, taAdapterResponse) => {
   const rpcUrl = config.rpcUrl
   const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
   const anchorVaultContract = new ethers.Contract(
