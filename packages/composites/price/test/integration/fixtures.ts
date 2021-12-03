@@ -1,5 +1,35 @@
 import nock from 'nock'
 
+export function mockLunaUSDPrice() {
+  nock('http://localhost:5000', { encodedQueryParams: true })
+    .persist()
+    .post('/', { id: '1', data: { base: 'LUNA', quote: 'USD', endpoint: 'crypto' } })
+    .reply(
+      200,
+      { jobRunID: '1', result: 69.24, maxAge: 30000, statusCode: 200, data: { result: 69.24 } },
+      [
+        'X-Powered-By',
+        'Express',
+        'X-RateLimit-Limit',
+        '250',
+        'X-RateLimit-Remaining',
+        '246',
+        'Date',
+        'Fri, 03 Dec 2021 05:46:54 GMT',
+        'X-RateLimit-Reset',
+        '1638510417',
+        'Content-Type',
+        'application/json; charset=utf-8',
+        'Content-Length',
+        '87',
+        'ETag',
+        'W/"57-8u9i5RNCsrlLL47Tvv9xGrhiR8M"',
+        'Connection',
+        'close',
+      ],
+    )
+}
+
 export function mockSTEthUSDPrice() {
   nock('http://localhost:5000', { encodedQueryParams: true })
     .persist(true)
