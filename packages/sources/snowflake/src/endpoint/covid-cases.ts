@@ -35,7 +35,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
         where country_region = 'United States'
         and province_state = :1
         and county = :2
-        limit 1
       `,
       bindings: {
         '1': {

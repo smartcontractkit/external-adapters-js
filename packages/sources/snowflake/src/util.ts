@@ -1,7 +1,7 @@
 import crypto from 'crypto'
 import jwt from 'jsonwebtoken'
 
-const LIFETIME = 120 // seconds
+const LIFETIME = 120 * 1000 // milliseconds
 const ALGORITHM = 'RS256'
 const ISSUER = 'iss'
 const SUBJECT = 'sub'
