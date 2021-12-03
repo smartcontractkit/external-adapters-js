@@ -24,7 +24,7 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 
 | Required? |            Name            |                                 Description                                 |       Options       | Defaults to |
 | :-------: | :------------------------: | :-------------------------------------------------------------------------: | :-----------------: | :---------: |
-|    ✅     | `base`, `from`, or `coin`  |                     The symbol of the currency to query                     |       `BEth`        |             |
+|    ✅     | `base`, `from`, or `coin`  |                     The symbol of the currency to query                     |   `BEth`, `BLuna`   |             |
 |    ✅     | `quote`, `to`, or `market` |                  The symbol of the currency to convert to                   | `BTC`, `ETH`, `USD` |             |
 |           |      `quoteDecimals`       | The number of decimals of the `to` coin. Can be left blank if `to` is `USD` |                     |     18      |
 |           |          `source`          |  The data provider to query. This is required if not specified in config.   |                     |             |
@@ -51,6 +51,39 @@ See the [Composite Adapter README](../README.md) for more information on how to 
   "statusCode": 200,
   "data": {
     "result": 4507.32
+  }
+}
+```
+
+#### BLuna Additional params
+
+| Required? |            Name             |             Description             |                                  Options                                   | Defaults to |
+| :-------: | :-------------------------: | :---------------------------------: | :------------------------------------------------------------------------: | :---------: |
+|    ✅     | `terraBLunaContractAddress` | The BLuna contract address in Terra | [Link](https://docs.anchorprotocol.com/smart-contracts/deployed-contracts) |             |
+
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "from": "BLuna",
+    "to": "USD",
+    "source": "coingecko",
+    "terraBLunaContractAddress": "terra1mtwph2juhj0rvjz7dy92gvl6xvukaxu8rfv8ts"
+  }
+}
+```
+
+### Sample Output
+
+```json
+{
+  "jobRunID": "1",
+  "result": 68.68049351018732,
+  "statusCode": 200,
+  "data": {
+    "result": 68.68049351018732
   }
 }
 ```
