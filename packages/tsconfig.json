@@ -54,6 +54,9 @@
       "path": "./composites/outlier-detection"
     },
     {
+      "path": "./composites/price"
+    },
+    {
       "path": "./composites/proof-of-reserves"
     },
     {

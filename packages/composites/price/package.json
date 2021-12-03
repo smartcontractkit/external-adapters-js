@@ -1,0 +1,42 @@
+{
+  "name": "@chainlink/price-adapter",
+  "version": "1.0.4",
+  "description": "Chainlink price adapter.",
+  "keywords": [
+    "Chainlink",
+    "LINK",
+    "BTC",
+    "Bitcoin",
+    "blockchain",
+    "oracle",
+    "price"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "url": "https://github.com/smartcontractkit/external-adapters-js",
+    "type": "git"
+  },
+  "license": "MIT",
+  "scripts": {
+    "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
+    "prepack": "yarn build",
+    "build": "tsc -b",
+    "server": "node -e 'require(\"./index.js\").server()'",
+    "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
+    "start": "yarn server:dist"
+  },
+  "dependencies": {
+    "@chainlink/ea-bootstrap": "workspace:*",
+    "tslib": "^2.3.1"
+  },
+  "devDependencies": {
+    "@chainlink/types": "workspace:*",
+    "@types/jest": "27.0.3",
+    "@types/node": "14.17.34",
+    "typescript": "4.3.5"
+  }
+}

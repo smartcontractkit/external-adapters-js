@@ -3858,6 +3858,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/price-adapter@workspace:packages/composites/price":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/price-adapter@workspace:packages/composites/price"
+  dependencies:
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/types": "workspace:*"
+    "@types/jest": 27.0.3
+    "@types/node": 14.17.34
+    tslib: ^2.3.1
+    typescript: 4.3.5
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/proof-of-reserves-adapter@workspace:packages/composites/proof-of-reserves":
   version: 0.0.0-use.local
   resolution: "@chainlink/proof-of-reserves-adapter@workspace:packages/composites/proof-of-reserves"
