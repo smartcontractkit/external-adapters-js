@@ -1,5 +1,11 @@
 import { Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import {
+  AdapterContext,
+  AdapterRequest,
+  AdapterResponse,
+  ExecuteWithConfig,
+  InputParameters,
+} from '@chainlink/types'
 import { Config } from '../../config'
 import { convertUSDQuote, getTokenPrice } from '../../utils'
 import * as beth from './beth'
@@ -13,15 +19,23 @@ export const inputParameters: InputParameters = {
   source: false,
 }
 
+export type PriceExecute = (
+  input: AdapterRequest,
+  context: AdapterContext,
+  config: Config,
+  taAdapterResponse: AdapterResponse,
+) => Promise<AdapterResponse>
+
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
   const validator = new Validator(input, inputParameters)
   if (validator.error) throw validator.error
 
   const { from, to, quoteDecimals } = validator.validated.data
   const fromUpperCase = from.toUpperCase()
-  let taDecimals
-  let priceExecute
-  let intermediaryTokenSymbol
+
+  let taDecimals: number
+  let priceExecute: PriceExecute
+  let intermediaryTokenSymbol: string
   switch (fromUpperCase) {
     case beth.FROM:
       taDecimals = beth.INTERMEDIARY_TOKEN_DECIMALS

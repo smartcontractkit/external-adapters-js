@@ -3,7 +3,7 @@ import { server as startServer } from '../../../src'
 import nock from 'nock'
 import http from 'http'
 import request from 'supertest'
-import { mockSTEthBTCPrice, mockSTEthEthPrices, mockSTEthUSDPrice } from '../fixtures'
+import { mockBTCUSDPrice, mockETHUSDPrice, mockSTEthUSDPrice } from '../fixtures'
 
 import { ethers, BigNumber } from 'ethers'
 
@@ -84,7 +84,7 @@ describe('price-beth', () => {
 
     it('returns success when fetching the ETH/BEth price', async () => {
       mockSTEthUSDPrice()
-      mockSTEthEthPrices()
+      mockETHUSDPrice()
       const data: AdapterRequest = {
         id: jobID,
         data: {
@@ -106,7 +106,7 @@ describe('price-beth', () => {
 
     it('returns success when fetching the BTC/BEth price', async () => {
       mockSTEthUSDPrice()
-      mockSTEthBTCPrice()
+      mockBTCUSDPrice()
 
       const data: AdapterRequest = {
         id: jobID,

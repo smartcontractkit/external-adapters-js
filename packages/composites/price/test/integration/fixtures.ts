@@ -30,7 +30,7 @@ export function mockSTEthUSDPrice() {
     )
 }
 
-export function mockSTEthEthPrices() {
+export function mockETHUSDPrice() {
   nock('http://localhost:5000', { encodedQueryParams: true })
     .post('/', { id: '1', data: { base: 'ETH', quote: 'USD', endpoint: 'crypto' } })
     .reply(
@@ -59,7 +59,7 @@ export function mockSTEthEthPrices() {
     )
 }
 
-export function mockSTEthBTCPrice() {
+export function mockBTCUSDPrice() {
   nock('http://localhost:5000', { encodedQueryParams: true })
     .post('/', { id: '1', data: { base: 'BTC', quote: 'USD', endpoint: 'crypto' } })
     .reply(
