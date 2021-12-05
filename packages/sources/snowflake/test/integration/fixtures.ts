@@ -9,7 +9,7 @@ export const mockSnowflakeResponse = (): Scope =>
       database: 'test_database',
       schema: 'test_schema',
       statement:
-        "\n        select confirmed\n        from JHU_DASHBOARD_COVID_19_GLOBAL\n        where country_region = 'United States'\n        and province_state = :1\n        and county = :2\n        limit 1\n      ",
+        "\n        select confirmed\n        from JHU_DASHBOARD_COVID_19_GLOBAL\n        where country_region = 'United States'\n        and province_state = :1\n        and county = :2\n      ",
       bindings: {
         '1': { type: 'TEXT', value: 'Alabama' },
         '2': { type: 'TEXT', value: 'Autauga' },
