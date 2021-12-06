@@ -155,7 +155,7 @@ declare module '@chainlink/types' {
     exclusive?: string[] // other inputs that cannot be present with this one
   }
   export type InputParameters = {
-    [name: string]: boolean | string[] | InputParameter
+    [name: string]: InputParameter | boolean | string[]
   }
 
   export interface APIEndpoint<C extends Config = Config> {
