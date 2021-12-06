@@ -3,6 +3,9 @@
   "include": [],
   "references": [
     {
+      "path": "./composites/anchor"
+    },
+    {
       "path": "./composites/apy-finance"
     },
     {
@@ -52,9 +55,6 @@
     },
     {
       "path": "./composites/outlier-detection"
-    },
-    {
-      "path": "./composites/price"
     },
     {
       "path": "./composites/proof-of-reserves"

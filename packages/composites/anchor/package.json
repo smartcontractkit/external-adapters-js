@@ -1,7 +1,7 @@
 {
-  "name": "@chainlink/price-adapter",
-  "version": "1.0.4",
-  "description": "Chainlink price adapter.",
+  "name": "@chainlink/anchor-adapter",
+  "version": "0.0.0",
+  "description": "Chainlink anchor adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
@@ -9,7 +9,7 @@
     "Bitcoin",
     "blockchain",
     "oracle",
-    "price"
+    "anchor"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

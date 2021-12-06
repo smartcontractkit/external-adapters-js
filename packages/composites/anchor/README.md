@@ -1,6 +1,6 @@
-# Chainlink Price Composite Adapter
+# Chainlink Anchor Composite Adapter
 
-This composite adapter fetches the price of a given token if it needs to be derived through an intermediary token.
+This composite adapter fetches the price of a given token from the Anchor protocol.
 
 ## Configuration
 
