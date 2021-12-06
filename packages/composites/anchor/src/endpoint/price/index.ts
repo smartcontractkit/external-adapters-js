@@ -18,6 +18,7 @@ export const inputParameters: InputParameters = {
   to: ['quote', 'to', 'market'],
   quoteDecimals: false,
   source: false,
+  terraBLunaContractAddress: false,
 }
 
 export type PriceExecute = (
@@ -35,7 +36,6 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
 
   const { from, to, quoteDecimals } = validator.validated.data
   const fromUpperCase = from.toUpperCase()
-
   let taDecimals: number
   let priceExecute: PriceExecute
   let intermediaryTokenSymbol: string
