@@ -186,7 +186,7 @@ export class AdapterCache {
     const cachedAdapterResponse = this.options.requestCoalescing.enabled
       ? await this.getWithCoalescing(key)
       : await this.cache.getResponse(key)
-
+    console.log({ key, cachedAdapterResponse })
     if (cachedAdapterResponse) {
       const maxAgeOverride = getMaxAgeOverride(adapterRequest)
       if (adapterRequest?.debug?.warmer) logger.trace(`Cache: SKIP(Cache Warmer middleware)`)

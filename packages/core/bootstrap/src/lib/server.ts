@@ -69,6 +69,7 @@ export const initHandler =
         logger.debug('Checking if redis connection initialized')
         const cache = context.cache.instance as redis.RedisCache
         if (!cache.client.connected) {
+          //TODO update
           res.status(500).send({ message: 'Redis not connected', version })
           return
         }
