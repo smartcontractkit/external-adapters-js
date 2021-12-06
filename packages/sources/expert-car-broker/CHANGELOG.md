@@ -1,5 +1,11 @@
 # @chainlink/expert-car-broker-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- 55db26dcc: src export changed
+
 ## 1.0.4
 
 ### Patch Changes

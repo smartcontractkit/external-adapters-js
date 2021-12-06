@@ -1,5 +1,11 @@
 # @chainlink/synthetix-debt-pool-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- 91d580d0e: aggregate debt from multiple chains
+
 ## 1.0.4
 
 ### Patch Changes

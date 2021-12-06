@@ -1,5 +1,20 @@
 # @chainlink/ea
 
+## 1.0.11
+
+### Patch Changes
+
+- Updated dependencies [19242855d]
+- Updated dependencies [55db26dcc]
+- Updated dependencies [91d580d0e]
+- Updated dependencies [89f6d5f7d]
+- Updated dependencies [adf969cc9]
+  - @chainlink/blockstream-adapter@1.1.0
+  - @chainlink/expert-car-broker-adapter@1.1.0
+  - @chainlink/synthetix-debt-pool-adapter@1.1.0
+  - @chainlink/cryptocompare-adapter@1.1.4
+  - @chainlink/marketstack-adapter@1.1.0
+
 ## 1.0.10
 
 ### Patch Changes

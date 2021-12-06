@@ -1,5 +1,11 @@
 # @chainlink/marketstack-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- adf969cc9: src export changed
+
 ## 1.0.4
 
 ### Patch Changes
