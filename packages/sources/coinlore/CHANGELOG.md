@@ -1,5 +1,11 @@
 # @chainlink/coinlore-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- 5eea56027: src export changed
+
 ## 1.0.4
 
 ### Patch Changes

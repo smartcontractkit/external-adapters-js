@@ -1,5 +1,11 @@
 # @chainlink/unibit-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- 84393e1a1: src export changed
+
 ## 1.0.4
 
 ### Patch Changes

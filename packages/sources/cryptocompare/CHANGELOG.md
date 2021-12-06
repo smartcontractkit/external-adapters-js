@@ -1,5 +1,11 @@
 # @chainlink/cryptocompare-adapter
 
+## 1.1.4
+
+### Patch Changes
+
+- 89f6d5f7d: Ensure uppercase symbol overrides
+
 ## 1.1.3
 
 ### Patch Changes

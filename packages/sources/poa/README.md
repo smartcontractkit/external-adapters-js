@@ -2,9 +2,9 @@
 
 ### Input Params
 
-| Required? |  Name   |             Description             |              Options               | Defaults to |
-| :-------: | :-----: | :---------------------------------: | :--------------------------------: | :---------: |
-|    🟡     | `speed` | The symbol of the currency to query | `slow`,`standard`,`fast`,`instant` | `standard`  |
+| Required? |  Name   |             Description             |         Options         | Defaults to |
+| :-------: | :-----: | :---------------------------------: | :---------------------: | :---------: |
+|    🟡     | `speed` | The symbol of the currency to query | `slow`,`fast`,`average` |  `average`  |
 
 ## Output Format
 

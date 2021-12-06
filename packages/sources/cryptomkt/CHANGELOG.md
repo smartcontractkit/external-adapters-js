@@ -1,5 +1,11 @@
 # @chainlink/cryptomkt-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- bf14d6d9d: src export changed
+
 ## 1.0.4
 
 ### Patch Changes

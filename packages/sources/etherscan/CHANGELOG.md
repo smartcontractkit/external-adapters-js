@@ -1,5 +1,11 @@
 # @chainlink/etherscan-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- 96bee4f7d: src export changed
+
 ## 1.0.4
 
 ### Patch Changes

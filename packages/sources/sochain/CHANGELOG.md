@@ -1,5 +1,11 @@
 # @chainlink/sochain-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- 4d61c0d1a: src export changed
+
 ## 1.0.4
 
 ### Patch Changes

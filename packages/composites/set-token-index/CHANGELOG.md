@@ -1,5 +1,18 @@
 # @chainlink/set-token-index-adapter
 
+## 1.0.8
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.0.8
+
+## 1.0.7
+
+### Patch Changes
+
+- b6a7e4475: Make sure errors are caught to not keep the socket open
+  - @chainlink/token-allocation-adapter@1.0.7
+
 ## 1.0.6
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @chainlink/fmpcloud-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- 68ca55840: src export changed
+
 ## 1.0.4
 
 ### Patch Changes

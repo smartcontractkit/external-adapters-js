@@ -1,5 +1,11 @@
 # @chainlink/blockcypher-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- 6e2ac9822: blockcypher src export change
+
 ## 1.0.4
 
 ### Patch Changes

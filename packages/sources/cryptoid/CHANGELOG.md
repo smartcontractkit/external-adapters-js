@@ -1,5 +1,11 @@
 # @chainlink/cryptoid-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- cfa687bf0: src export changed
+
 ## 1.0.4
 
 ### Patch Changes

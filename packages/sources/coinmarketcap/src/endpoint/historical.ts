@@ -15,6 +15,35 @@ export const inputParameters: InputParameters = {
   skipInvalid: false,
 }
 
+export interface ResponseSchema {
+  status: {
+    timestamp: string
+    error_code: number
+    error_message: string | null
+    elapsed: number
+    credit_count: number
+    notice: unknown | undefined
+  }
+  data: {
+    quotes: {
+      timestamp: string
+      quote: {
+        [quote: string]: {
+          price: number
+          volume_24h: number
+          market_cap: number
+          timestamp: string
+        }
+      }
+    }[]
+    id: number
+    name: string
+    symbol: string
+    is_active: number
+    is_fiat: number
+  }
+}
+
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
@@ -49,10 +78,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     params,
   }
 
-  const response = await Requester.request(options)
-  return Requester.success(
-    jobRunID,
-    Requester.withResult(response, response.data.data),
-    config.verbose,
-  )
+  const response = await Requester.request<ResponseSchema>(options)
+  return Requester.success(jobRunID, response, true)
 }

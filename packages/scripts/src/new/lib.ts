@@ -108,7 +108,7 @@ async function generate(type: string) {
         return { ...obj, [key]: legoPackage.dependencies[key] }
       }, {}) // capture other dependencies (non-adapter)
     legoPackage.dependencies = adapterList.reduce((obj, adapter) => {
-      return { ...obj, [adapter.name]: '*' }
+      return { ...obj, [adapter.name]: 'workspace:*' }
     }, otherPackages)
     writeData = { ...writeData, [legoPackagePath]: legoPackage }
 
