@@ -21,6 +21,9 @@
       "path": "./composites/crypto-volatility-index"
     },
     {
+      "path": "./composites/defi-dozen"
+    },
+    {
       "path": "./composites/defi-pulse"
     },
     {
@@ -34,6 +37,9 @@
     },
     {
       "path": "./composites/google-weather"
+    },
+    {
+      "path": "./composites/historical-average"
     },
     {
       "path": "./composites/linear-finance"
@@ -99,10 +105,10 @@
       "path": "./sources/1forge"
     },
     {
-      "path": "./sources/ada-balance"
+      "path": "./sources/accuweather"
     },
     {
-      "path": "./sources/accuweather"
+      "path": "./sources/ada-balance"
     },
     {
       "path": "./sources/alphachain"
@@ -436,6 +442,9 @@
     },
     {
       "path": "./sources/wootrade"
+    },
+    {
+      "path": "./sources/wrapped"
     },
     {
       "path": "./sources/xbto"

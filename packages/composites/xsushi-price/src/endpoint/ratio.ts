@@ -21,7 +21,9 @@ export function getSushiAddress(context: AdapterContext, id: string): Promise<st
     const middleware = makeMiddleware(execute)
     withMiddleware(execute, context, middleware)
       .then((executeWithMiddleware) => {
-        executeWithMiddleware(options, context).then((value) => resolve(value.data))
+        executeWithMiddleware(options, context)
+          .then((value) => resolve(value.data))
+          .catch(reject)
       })
       .catch((error) => reject(error))
   })
