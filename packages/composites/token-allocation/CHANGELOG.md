@@ -1,5 +1,12 @@
 # @chainlink/token-allocation-adapter
 
+## 1.0.8
+
+### Patch Changes
+
+- Updated dependencies [89f6d5f7d]
+  - @chainlink/cryptocompare-adapter@1.1.4
+
 ## 1.0.7
 
 ### Patch Changes

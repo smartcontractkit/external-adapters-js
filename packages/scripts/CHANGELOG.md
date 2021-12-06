@@ -1,5 +1,11 @@
 # @chainlink/ea-scripts
 
+## 1.1.1
+
+### Patch Changes
+
+- 60f008810: Update adapter generator script to write dependencies in the current format
+
 ## 1.1.0
 
 ### Minor Changes
