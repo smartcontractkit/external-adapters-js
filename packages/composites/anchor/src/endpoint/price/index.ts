@@ -27,6 +27,8 @@ export type PriceExecute = (
   taAdapterResponse: AdapterResponse,
 ) => Promise<AdapterResponse>
 
+const supportedSymbols = [beth.FROM, bluna.FROM]
+
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
   const validator = new Validator(input, inputParameters)
   if (validator.error) throw validator.error
@@ -49,7 +51,9 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
       intermediaryTokenSymbol = bluna.INTERMEDIARY_TOKEN
       break
     default:
-      throw Error(`Invalid from symbol ${fromUpperCase}`)
+      throw Error(
+        `Invalid from symbol ${fromUpperCase}.  Supported Symbols ${supportedSymbols.join(',')}`,
+      )
   }
   const taResponse = await getTokenPrice(input, context, intermediaryTokenSymbol, taDecimals)
   const resultInUSD = await priceExecute(input, context, config, taResponse)
