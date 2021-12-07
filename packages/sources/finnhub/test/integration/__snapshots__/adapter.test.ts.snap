@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute rate api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 1.15894,
+  },
+  "jobRunID": "1",
+  "result": 1.15894,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute rate api with invalid base should return failure 1`] = `
+Object {
+  "error": Object {
+    "feedID": "{\\"data\\":{\\"base\\":\\"NON-EXISTING\\"}}",
+    "message": "Invalid result",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 500,
+}
+`;

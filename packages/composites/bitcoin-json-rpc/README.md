@@ -6,11 +6,11 @@ The adapter provides an interface for retrieving data from the Bitcoin blockchai
 
 The adapter takes the following environment variables:
 
-| Required? |   Name    |       Description       | Options |       Defaults to       |
-| :-------: | :-------: | :---------------------: | :-----: | :---------------------: |
-|           | `RPC_URL` | Blockchain RPC endpoint |         | `http://localhost:8332` |
+| Required? |       Name        |           Description           | Options |       Defaults to       |
+| :-------: | :---------------: | :-----------------------------: | :-----: | :---------------------: |
+|           | `BITCOIN_RPC_URL` | Bitcoin blockchain RPC endpoint |         | `http://localhost:8332` |
 
-Other common `RPC_URL` endpoints:
+Other common `BITCOIN_RPC_URL` endpoints:
 
 - bitcoind: http://localhost:8332
 - btcd: http://localhost:8334
@@ -151,7 +151,7 @@ timeout for requests to this endpoint `2 x API_TIMEOUT + 1000` ms.
 
 ## Testing
 
-Testing is dependent on the type of node you're connecting to. You can set a local environment variable `RPC_URL` to point to an RPC connection. Otherwise, the adapter will default to `"http://localhost:8545"`.
+Testing is dependent on the type of node you're connecting to. You can set a local environment variable `BITCOIN_RPC_URL` to point to an RPC connection. Otherwise, the adapter will default to `"http://localhost:8545"`.
 
 RPC Address and Port Defaults:
 

@@ -17,19 +17,23 @@ export async function generateFile(): Promise<string> {
   const branch = process.env.BRANCH || ''
   const prefix = process.env.IMAGE_PREFIX || ''
   const useLatest = !!process.env.LATEST
+  const tag = process.env.IMAGE_TAG || ''
 
   const context = process.env.CONTEXT || '.'
 
   const composeFileOptions = { context }
-  return yaml.stringify(await generateFileJSON({ prefix, branch, useLatest }, composeFileOptions), {
-    merge: true,
-  })
+  return yaml.stringify(
+    await generateFileJSON({ prefix, branch, useLatest, tag }, composeFileOptions),
+    {
+      merge: true,
+    },
+  )
 }
 
 export async function generateFileJSON(
   imageNameConfig: ImageNameConfig,
   composeFileOptions: ComposeFileOptions,
-): Promise<Dockerfile> {
+): Promise<DockerComposeFile> {
   return makeDockerComposeFile(getWorkspacePackages(), imageNameConfig, composeFileOptions)
 }
 
@@ -45,7 +49,7 @@ interface Service {
   environment: string[]
 }
 
-interface Dockerfile {
+interface DockerComposeFile {
   version: string
   services: Record<string, Service>
 }
@@ -54,6 +58,7 @@ export interface ImageNameConfig {
   branch: string
   prefix: string
   useLatest: boolean
+  tag?: string
 }
 
 export enum DockerLabels {
@@ -64,7 +69,7 @@ async function makeDockerComposeFile(
   packages: WorkspacePackages,
   imageNameConfig: ImageNameConfig,
   composeFileOptions: ComposeFileOptions,
-): Promise<Dockerfile> {
+): Promise<DockerComposeFile> {
   const flattenedSchemas = await flattenAllSchemas()
   const flattenedSchemasByLocation = flattenedSchemas.reduce<Record<string, FlattenedSchema>>(
     (prev, next) => {
@@ -106,9 +111,12 @@ async function makeDockerComposeFile(
 export function generateImageName(
   descopedName: string,
   version: string,
-  { prefix, branch, useLatest }: ImageNameConfig,
+  { prefix, branch, useLatest, tag }: ImageNameConfig,
 ): string {
-  const tag = [branch, useLatest ? 'latest' : version].filter(Boolean).join('-')
+  let imageTag = tag
+  if (!tag) {
+    imageTag = [branch, useLatest ? 'latest' : version].filter(Boolean).join('-')
+  }
 
-  return `${prefix}${descopedName}:${tag}`
+  return `${prefix}${descopedName}:${imageTag}`
 }

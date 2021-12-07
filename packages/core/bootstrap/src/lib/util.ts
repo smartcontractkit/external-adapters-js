@@ -100,8 +100,10 @@ const getEnvName = (name: string, prefix = '') => {
 // Only case-insensitive alphanumeric and underscore (_) are allowed for env vars
 const isEnvNameValid = (name: string) => /^[_a-z0-9]+$/i.test(name)
 
-export const getEnv = (name: string, prefix = ''): string | undefined =>
-  process.env[getEnvName(name, prefix)]
+export const getEnv = (name: string, prefix = ''): string | undefined => {
+  const envVar = process.env[getEnvName(name, prefix)]
+  return envVar === '' ? undefined : envVar
+}
 
 // Custom error for required env variable.
 export class RequiredEnvError extends Error {
@@ -114,6 +116,7 @@ export class RequiredEnvError extends Error {
 /**
  * Get variable from environments
  * @param name The name of environment variable
+ * @param prefix A string to add before the environment variable name
  * @throws {RequiredEnvError} Will throw an error if environment variable is not defined.
  * @returns {string}
  */
@@ -340,3 +343,29 @@ export const getURL = (prefix: string, required = false): string | undefined =>
 
 export const getRequiredURL = (prefix: string): string =>
   getRequiredEnv(ENV_ADAPTER_URL, prefix) || getRequiredEnv(LEGACY_ENV_ADAPTER_URL, prefix)
+
+/**
+ * Get variable from environment then check for a fallback if it is not set then throw if neither are set
+ * @param primary The name of environment variable to look for first
+ * @param prefix A string to add before the environment variable name
+ * @param fallbacks The subsequent names of environment variables to look for if the primary is not found
+ * @throws {RequiredEnvError} Will throw an error if environment variable is not defined.
+ * @returns {string}
+ */
+export const getRequiredEnvWithFallback = (
+  primary: string,
+  fallbacks: string[],
+  prefix = '',
+): string => {
+  // Attempt primary
+  const val = getEnv(primary, prefix)
+  if (val) return val
+
+  // Attempt fallbacks
+  for (const fallback of fallbacks) {
+    const val = getEnv(fallback, prefix)
+    if (val) return val
+  }
+
+  throw new RequiredEnvError(getEnvName(primary, prefix))
+}

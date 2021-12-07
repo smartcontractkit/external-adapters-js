@@ -32,7 +32,6 @@ This is a fake adapter for testing, and should not be used as a template for ada
 \`balance\` is the only supported name for this endpoint.
 
 ### Input Params
-
 | Required? |     Name      | Aliases | Description | Type | Options | Default | Depends On | Not Valid With |
 | :-------: | :-----------: | :-----: | :---------: | :--: | :-----: | :-----: | :--------: | :------------: |
 |           |   dataPath    |         |             |      |         |         |            |                |
@@ -40,9 +39,7 @@ This is a fake adapter for testing, and should not be used as a template for ada
 |           |   addresses   |         |             |      |         |         |            |                |
 
 ### Example
-
 Request:
-
 \`\`\`json
 {
   \\"id\\": \\"1\\",
@@ -57,9 +54,7 @@ Request:
   }
 }
 \`\`\`
-
 Response:
-
 \`\`\`json
 {
   \\"responses\\": [
@@ -97,7 +92,6 @@ Response:
 Supported names for this endpoint are: \`marketcap\`, \`mc\`.
 
 ### Input Params
-
 | Required? |         Name          |         Aliases         | Description | Type | Options | Default | Depends On | Not Valid With |
 | :-------: | :-------------------: | :---------------------: | :---------: | :--: | :-----: | :-----: | :--------: | :------------: |
 |    ✅     |         base          | \`base\`, \`from\`, \`coin\`  |             |      |         |         |            |                |
@@ -107,9 +101,7 @@ Supported names for this endpoint are: \`marketcap\`, \`mc\`.
 |           | referenceCurrencyUuid |                         |             |      |         |         |            |                |
 
 ### Example
-
 Request:
-
 \`\`\`json
 {
   \\"id\\": \\"1\\",
@@ -122,21 +114,17 @@ Request:
   }
 }
 \`\`\`
-
 Response:
-
 \`\`\`json
 {
   \\"marketcap\\": 1000000000,
   \\"result\\": 1000000000
 }
 \`\`\`
-
 <details>
 <summary>Additional Examples</summary>
 
 Request:
-
 \`\`\`json
 {
   \\"id\\": \\"1\\",
@@ -149,17 +137,15 @@ Request:
   }
 }
 \`\`\`
-
 Response:
-
 \`\`\`json
 {
   \\"marketcap\\": 1000000000,
   \\"result\\": 1000000000
 }
 \`\`\`
-
 </details>
+
 
 ---
 
@@ -168,7 +154,6 @@ Response:
 Supported names for this endpoint are: \`price\`, \`convert\`.
 
 ### Input Params
-
 | Required? |    Name    |         Aliases         | Description | Type | Options | Default | Depends On | Not Valid With |
 | :-------: | :--------: | :---------------------: | :---------: | :--: | :-----: | :-----: | :--------: | :------------: |
 |    ✅     |    base    | \`base\`, \`from\`, \`coin\`  |             |      |         |         |            |                |
@@ -177,9 +162,7 @@ Supported names for this endpoint are: \`price\`, \`convert\`.
 |           | resultPath |                         |             |      |         |         |            |                |
 
 ### Example
-
 Request:
-
 \`\`\`json
 {
   \\"id\\": \\"1\\",
@@ -191,21 +174,17 @@ Request:
   }
 }
 \`\`\`
-
 Response:
-
 \`\`\`json
 {
   \\"price\\": 123456,
   \\"result\\": 123456
 }
 \`\`\`
-
 <details>
 <summary>Additional Examples</summary>
 
 Request:
-
 \`\`\`json
 {
   \\"id\\": \\"1\\",
@@ -217,16 +196,14 @@ Request:
   }
 }
 \`\`\`
-
 Response:
-
 \`\`\`json
 {
   \\"price\\": 123456,
   \\"result\\": 123456
 }
 \`\`\`
-
 </details>
+
 "
 `;

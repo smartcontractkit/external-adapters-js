@@ -8,8 +8,8 @@ describe('execute', () => {
   const execute = makeExecute()
 
   beforeAll(() => {
-    process.env.WS_RPC_URL = process.env.WS_RPC_URL || 'ws_rpc_url'
-    process.env.RPC_URL = process.env.RPC_URL || 'rpc_url'
+    process.env.ETHEREUM_WS_RPC_URL = process.env.ETHEREUM_WS_RPC_URL || 'ws_rpc_url'
+    process.env.ETHEREUM_RPC_URL = process.env.ETHEREUM_RPC_URL || 'rpc_url'
   })
 
   describe('validation error', () => {

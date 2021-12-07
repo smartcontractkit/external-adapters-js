@@ -22,9 +22,6 @@ export const makeExecute: ExecuteFactory<Config> = (config) => {
 }
 
 export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
-  if ((process.env.NODE_ENV || '').toLowerCase() !== 'development') {
-    return undefined
-  }
   const getSubscription = (pair?: string) => {
     const defaultConfig = config || makeConfig()
     if (!pair) return

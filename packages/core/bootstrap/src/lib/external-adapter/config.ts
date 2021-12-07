@@ -1,4 +1,4 @@
-import { getRandomRequiredEnv, getRandomEnv, getEnv } from './util'
+import { getRandomRequiredEnv, getRandomEnv, getEnv } from '../util'
 import { Config } from '@chainlink/types'
 import { logger } from './logger'
 

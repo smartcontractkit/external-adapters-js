@@ -144,10 +144,18 @@ declare module '@chainlink/types' {
 
   export type ExecuteFactory<C extends Config> = (config?: C) => Execute
 
-  export type RequiredInputParameter = boolean
-  export type InputParameterAliases = string[]
+  export type InputParameter = {
+    aliases?: string[]
+    description?: string
+    type?: 'bigint' | 'boolean' | 'array' | 'number' | 'object' | 'string'
+    required?: boolean
+    options?: any[] // enumerated options, ex. ['ADA', 'BTC', 'ETH']
+    default?: any
+    dependsOn?: string[] // other inputs this one depends on
+    exclusive?: string[] // other inputs that cannot be present with this one
+  }
   export type InputParameters = {
-    [name: string]: RequiredInputParameter | InputParameterAliases
+    [name: string]: InputParameter | boolean | string[]
   }
 
   export interface APIEndpoint<C extends Config = Config> {

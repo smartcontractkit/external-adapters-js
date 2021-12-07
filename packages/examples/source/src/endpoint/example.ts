@@ -20,9 +20,16 @@ const customError = (data: any) => data.Response === 'Error'
 
 // The inputParameters object must be present for README generation.
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
-  resultPath: false,
+  // See InputParameters type for more config options
+  base: {
+    aliases: ['from', 'coin'],
+    required: true,
+  },
+  quote: {
+    aliases: ['to', 'market'],
+    required: true,
+  },
+  resultPath: {},
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {

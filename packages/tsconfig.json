@@ -3,6 +3,9 @@
   "include": [],
   "references": [
     {
+      "path": "./composites/anchor"
+    },
+    {
       "path": "./composites/apy-finance"
     },
     {
@@ -21,6 +24,9 @@
       "path": "./composites/crypto-volatility-index"
     },
     {
+      "path": "./composites/defi-dozen"
+    },
+    {
       "path": "./composites/defi-pulse"
     },
     {
@@ -34,6 +40,9 @@
     },
     {
       "path": "./composites/google-weather"
+    },
+    {
+      "path": "./composites/historical-average"
     },
     {
       "path": "./composites/linear-finance"
@@ -69,6 +78,9 @@
       "path": "./composites/vesper"
     },
     {
+      "path": "./composites/xsushi-price"
+    },
+    {
       "path": "./core/bootstrap"
     },
     {
@@ -94,6 +106,9 @@
     },
     {
       "path": "./sources/1forge"
+    },
+    {
+      "path": "./sources/accuweather"
     },
     {
       "path": "./sources/ada-balance"
@@ -211,6 +226,9 @@
     },
     {
       "path": "./sources/dns-query"
+    },
+    {
+      "path": "./sources/durin"
     },
     {
       "path": "./sources/dwolla"
@@ -384,6 +402,9 @@
       "path": "./sources/taapi"
     },
     {
+      "path": "./sources/terra-view-function"
+    },
+    {
       "path": "./sources/therundown"
     },
     {
@@ -424,6 +445,9 @@
     },
     {
       "path": "./sources/wootrade"
+    },
+    {
+      "path": "./sources/wrapped"
     },
     {
       "path": "./sources/xbto"

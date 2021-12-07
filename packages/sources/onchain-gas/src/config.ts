@@ -10,8 +10,12 @@ export const MAX_BLOCKS_TO_QUERY = 10
 
 export const makeConfig = (prefix?: string): Config => {
   const config = Requester.getDefaultConfig(prefix)
-  config.api.baseURL = util.getRequiredEnv('WS_RPC_URL', prefix)
-  config.rpcUrl = util.getRequiredEnv('RPC_URL', prefix)
+  config.api.baseURL = util.getRequiredEnvWithFallback(
+    'ETHEREUM_WS_RPC_URL',
+    ['WS_RPC_URL'],
+    prefix,
+  )
+  config.rpcUrl = util.getRequiredEnvWithFallback('ETHEREUM_RPC_URL', ['RPC_URL'], prefix)
   config.defaultEndpoint = DEFAULT_ENDPOINT
   return config
 }

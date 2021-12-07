@@ -1,0 +1,59 @@
+# Default values for cl-adapter.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicas: 1
+
+name: fake-adapter
+namespace: adapters
+
+image:
+  repository: fake.repository.com/fakepath
+  tag: latest
+  pullPolicy: Always
+
+adapter:
+  logLevel: info
+
+envVars:
+  LOG_LEVEL: info
+  EXPERIMENTAL_METRICS_ENABLED: false
+  CACHE_ENABLED: false
+
+service:
+  port: 6060
+
+livenessProbe:
+  httpGet:
+    path: /
+    port: http
+  failureThreshold: 5
+  initialDelaySeconds: 5
+  periodSeconds: 30
+  timeoutSeconds: 15
+
+readinessProbe:
+  httpGet:
+    path: /
+    port: http
+  failureThreshold: 3
+  initialDelaySeconds: 5
+  periodSeconds: 20
+  timeoutSeconds: 10
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 192Mi
+  requests:
+    cpu: 30m
+    memory: 64Mi
+
+hpa:
+  enabled: false
+
+vpa:
+  enabled: false
+
+serviceMonitor:
+  enabled: true

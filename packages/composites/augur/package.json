@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/augur-adapter",
-  "version": "0.1.0",
+  "version": "1.0.6",
   "description": "Chainlink augur adapter.",
   "keywords": [
     "Chainlink",
@@ -30,18 +30,18 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/ea-bootstrap": "*",
-    "@chainlink/sportsdataio-adapter": "^0.1.0",
-    "@chainlink/therundown-adapter": "^0.1.0",
-    "ethers": "5.4.6",
+    "@chainlink/ea-bootstrap": "workspace:*",
+    "@chainlink/sportsdataio-adapter": "workspace:*",
+    "@chainlink/therundown-adapter": "workspace:*",
+    "ethers": "5.4.7",
     "luxon": "^1.27.0",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
-    "@chainlink/types": "0.0.1",
-    "@types/jest": "27.0.2",
+    "@chainlink/types": "workspace:*",
+    "@types/jest": "27.0.3",
     "@types/luxon": "1.27.1",
-    "@types/node": "14.17.21",
+    "@types/node": "14.17.34",
     "typescript": "4.3.5"
   }
 }

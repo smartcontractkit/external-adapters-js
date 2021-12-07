@@ -1,0 +1,37 @@
+# Default values for k6.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: 795953128386.dkr.ecr.us-west-2.amazonaws.com/k6
+  pullPolicy: Always
+  tag: 'latest'
+
+podAnnotations: {}
+
+podSecurityContext:
+  fsGroup: 2000
+
+securityContext:
+  capabilities:
+    drop:
+      - ALL
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1000
+
+service:
+  port: 6565
+
+resources:
+  limits:
+    cpu: 200m
+    memory: 192Mi
+  requests:
+    cpu: 100m
+    memory: 96Mi
+
+autoscaling:
+  enabled: false

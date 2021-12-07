@@ -4,10 +4,14 @@ The Synthetix debt pool adapter fetches the total debt from the DebtCache contra
 
 ### Environment Variables
 
-| Required? |          Name           |                 Description                  | Options |                Defaults to                 |
-| :-------: | :---------------------: | :------------------------------------------: | :-----: | :----------------------------------------: |
-|           | DEBT_POOL_CACHE_ADDRESS |    The address of the DebtCache contract     |         | 0x9bB05EF2cA7DBAafFC3da1939D1492e6b00F39b8 |
-|    ✅     |         RPC_URL         | A valid RPC URL to connect to the blockchain |         |                                            |
+| Required? |                    Name                    |                       Description                        | Options | Defaults to |
+| :-------: | :----------------------------------------: | :------------------------------------------------------: | :-----: | :---------: |
+|           | ETHEREUM_ADDRESS_PROVIDER_CONTRACT_ADDRESS | The address of the address provider contract in ethereum |         |             |
+|           |              ETHEREUM_RPC_URL              |             A valid Ethereum Mainnet RPC URL             |         |             |
+|           | OPTIMISM_ADDRESS_PROVIDER_CONTRACT_ADDRESS | The address of the address provider contract in ethereum |         |             |
+|           |              OPTIMISM_RPC_URL              |             A valid Ethereum Mainnet RPC URL             |         |             |
+
+The environment variables above are not required to start the adapter but are required when you want to pull the debt from that chain. Not setting any will not prevent the adapter from starting but it won't be able to pull debt from any chains.
 
 ---
 
@@ -21,9 +25,11 @@ N/A
 
 ### Input Params
 
-N/A
+| Required? |     Name     |       Description        |        Options         | Defaults to |
+| :-------: | :----------: | :----------------------: | :--------------------: | :---------: |
+|           | chainSources | Chains to pull debt from | `ethereum`, `optimism` |             |
 
-### Sample Input
+### Sample Input 1
 
 ```json
 {
@@ -32,16 +38,41 @@ N/A
 }
 ```
 
-### Sample Output
+### Sample Output 2
 
 ```json
 {
   "jobRunID": 1,
-  "result": "464774989776339326173983425",
+  "result": "325477250609593129853813523",
+  "maxAge": 30000,
   "statusCode": 200,
   "data": {
-    "result": "464774989776339326173983425",
-    "total": "464774989776339326173983425",
+    "result": "325477250609593129853813523",
+    "isInvalid": false
+  }
+}
+```
+
+### Sample Input 2
+
+```json
+{
+  "id": 1,
+  "data": {
+    "chainSources": ["optimism"]
+  }
+}
+```
+
+### Sample Output 2
+
+```json
+{
+  "jobRunID": 1,
+  "result": "50977793699622560436740360",
+  "statusCode": 200,
+  "data": {
+    "result": "50977793699622560436740360",
     "isInvalid": false
   }
 }

@@ -4,18 +4,43 @@ import { Config as DefaultConfig } from '@chainlink/types'
 export const NAME = 'SYNTHETIX_DEBT_POOL'
 
 export const DEFAULT_ENDPOINT = 'debt'
-export const DEFAULT_DEBT_POOL_CACHE_ADDRESS = '0x9bB05EF2cA7DBAafFC3da1939D1492e6b00F39b8'
+
+export enum SUPPORTED_CHAINS {
+  ETHEREUM = 'ETHEREUM',
+  OPTIMISM = 'OPTIMISM',
+}
 
 export interface Config extends DefaultConfig {
-  debtPoolCacheAddress: string
-  rpcUrl: string
+  chains: {
+    [key: string]: {
+      rpcUrl: string
+      addressProviderContractAddress: string
+    }
+  }
 }
 
 export const makeConfig = (prefix?: string): Config => {
-  return {
+  const config: Config = {
     ...Requester.getDefaultConfig(prefix),
     defaultEndpoint: DEFAULT_ENDPOINT,
-    debtPoolCacheAddress: util.getEnv('DEBT_POOL_CACHE_ADDRESS') || DEFAULT_DEBT_POOL_CACHE_ADDRESS,
-    rpcUrl: util.getRequiredEnv('RPC_URL'),
+    chains: {},
   }
+
+  for (const chainName of Object.values(SUPPORTED_CHAINS)) {
+    const chainRpcURL = util.getEnv(`${chainName}_RPC_URL`, prefix)
+    const addressProviderContractAddress = util.getEnv(
+      `${chainName}_ADDRESS_PROVIDER_CONTRACT_ADDRESS`,
+      prefix,
+    )
+    if (chainRpcURL && addressProviderContractAddress) {
+      config.chains[chainName] = {
+        rpcUrl: chainRpcURL,
+        addressProviderContractAddress,
+      }
+    }
+  }
+
+  const chains = Object.keys(config.chains)
+  if (chains.length === 0) throw Error('Must set at least one RPC Chain URL')
+  return config
 }

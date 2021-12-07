@@ -10,10 +10,10 @@ An example composite adapter description
 
 The adapter takes the following environment variables:
 
-| Required? |   Name    |         Description          | Options | Defaults to |
-| :-------: | :-------: | :--------------------------: | :-----: | :---------: |
-|    ✅     | `RPC_URL` | Example _required_ parameter |         |             |
-|           | `OPTION`  | Example _optional_ parameter |         |   `true`    |
+| Required? |        Name        |         Description          | Options | Defaults to |
+| :-------: | :----------------: | :--------------------------: | :-----: | :---------: |
+|    ✅     | `ETHEREUM_RPC_URL` | Example _required_ parameter |         |             |
+|           |      `OPTION`      | Example _optional_ parameter |         |   `true`    |
 
 ## Running
 

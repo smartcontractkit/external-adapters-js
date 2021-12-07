@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute avgprice indicator api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 66470.04250000001,
+  },
+  "jobRunID": "1",
+  "result": 66470.04250000001,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute cci indicator api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": -109.20727257685407,
+  },
+  "jobRunID": "1",
+  "result": -109.20727257685407,
+  "statusCode": 200,
+}
+`;

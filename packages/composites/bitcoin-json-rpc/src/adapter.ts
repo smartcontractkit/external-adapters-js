@@ -1,7 +1,6 @@
-import JSONRPC from '@chainlink/json-rpc-adapter'
 import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
 import { Validator, AdapterError } from '@chainlink/ea-bootstrap'
-import { DEFAULT_ENDPOINT } from './config'
+import { DEFAULT_ENDPOINT, makeConfig } from './config'
 import { getblockchaininfo, scantxoutset } from './endpoint'
 
 const inputParams = {
@@ -34,5 +33,5 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {
-  return async (request, context) => execute(request, context, config || JSONRPC.makeConfig())
+  return async (request, context) => execute(request, context, config || makeConfig())
 }

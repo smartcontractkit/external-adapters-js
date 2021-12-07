@@ -89,13 +89,13 @@ class ReadmeGenerator {
     this.adapterPath = adapterPath
 
     const packageJson = getJsonFile(packagePath) as Package
-    this.name = packageJson.name
-    this.version = packageJson.version
+    this.name = packageJson.name ?? ''
+    this.version = packageJson.version ?? ''
 
     const schema = getJsonFile(schemaPath) as Schema
-    this.schemaDescription = schema.description
-    this.envVars = schema.properties
-    this.requiredEnvVars = schema.required
+    this.schemaDescription = schema.description ?? ''
+    this.envVars = schema.properties ?? {}
+    this.requiredEnvVars = schema.required ?? []
   }
 
   async fetchImports(): Promise<void> {
@@ -321,7 +321,8 @@ export async function main(): Promise<void | string> {
     if (options.testPath) {
       const readmeGenerator = new ReadmeGenerator(options.testPath)
       await readmeGenerator.fetchImports()
-      readmeGenerator.buildReadme()
+
+      createReadmeFile(readmeGenerator.getAdapterPath(), readmeGenerator.getReadme())
       return
     }
 
@@ -350,7 +351,7 @@ export async function main(): Promise<void | string> {
     })
 
     console.log('Saving READMEs')
-    for (adapter of readmeQueue) {
+    for (const adapter of readmeQueue) {
       createReadmeFile(adapter[0], adapter[1])
     }
   } catch (e) {

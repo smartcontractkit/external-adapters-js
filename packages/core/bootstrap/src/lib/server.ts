@@ -5,7 +5,7 @@ import slowDown from 'express-slow-down'
 import rateLimit from 'express-rate-limit'
 import { join } from 'path'
 import * as client from 'prom-client'
-import { executeSync, withMiddleware } from '../index'
+import { executeSync, storeSlice, withMiddleware } from '../index'
 import { defaultOptions } from './cache'
 import * as redis from './cache/redis'
 import { loadTestPayload } from './config/test-payload-loader'
@@ -14,11 +14,13 @@ import {
   HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE_MESSAGE,
 } from './errors'
 import { logger } from './external-adapter'
-import { METRICS_ENABLED, httpRateLimit } from './metrics'
+import { METRICS_ENABLED, httpRateLimit, setupMetrics } from './metrics'
 import { get as getRateLimitConfig } from './rate-limit/config'
 import { toObjectWithNumbers } from './util'
+import { warmupShutdown } from './cache-warmer/actions'
 
 const app = express()
+const version = process.env.npm_package_version
 const port = process.env.EA_PORT || 8080
 const baseUrl = process.env.BASE_URL || '/'
 
@@ -40,7 +42,7 @@ export const initHandler =
     }
 
     if (METRICS_ENABLED) {
-      setupMetricsServer()
+      setupMetricsServer(name)
     }
 
     initExpressMiddleware(app)
@@ -67,12 +69,12 @@ export const initHandler =
         logger.debug('Checking if redis connection initialized')
         const cache = context.cache.instance as redis.RedisCache
         if (!cache.client.connected) {
-          res.status(500).send('Redis not connected')
+          res.status(500).send({ message: 'Redis not connected', version })
           return
         }
       }
 
-      res.status(200).send('OK')
+      res.status(200).send({ message: 'OK', version })
     })
 
     const testPayload = loadTestPayload()
@@ -109,16 +111,23 @@ export const initHandler =
 
     return new Promise((resolve) => {
       const server = app.listen(port, () => {
+        server.on('close', () => {
+          storeSlice('cacheWarmer').dispatch(warmupShutdown())
+          context.cache?.instance?.close()
+        })
+
         logger.info(`Listening on port ${port}!`)
         resolve(server)
       })
     })
   }
 
-function setupMetricsServer() {
+function setupMetricsServer(name: string) {
   const metricsApp = express()
   const metricsPort = process.env.METRICS_PORT || 9080
   const endpoint = process.env.METRICS_USE_BASE_URL ? join(baseUrl, 'metrics') : '/metrics'
+
+  setupMetrics(name)
 
   metricsApp.get(endpoint, async (_, res) => {
     res.type('txt')

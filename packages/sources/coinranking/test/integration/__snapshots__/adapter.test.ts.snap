@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute crypto api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 4478.930333561968,
+  },
+  "jobRunID": "1",
+  "result": 4478.930333561968,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute crypto api with invalid base should return failure 1`] = `
+Object {
+  "error": Object {
+    "feedID": "NON-EXISTING/USD",
+    "message": "Unable to find coin: non-existing",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 500,
+}
+`;
+
+exports[`execute marketcap api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 527538906196,
+  },
+  "jobRunID": "1",
+  "result": 527538906196,
+  "statusCode": 200,
+}
+`;

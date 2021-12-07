@@ -16,3 +16,7 @@ node_modules
 *generated*
 vendor
 coverage
+
+# Helm and K6
+cl-adapter-*
+packages/k6/src/config/ws.json
