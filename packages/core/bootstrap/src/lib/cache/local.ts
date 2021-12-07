@@ -29,9 +29,18 @@ type CacheOptions = Omit<
   'max' | 'maxAge' | 'updateAgeOnGet'
 > &
   ReturnType<typeof defaultOptions>
+
 export class LocalLRUCache {
   options: CacheOptions
   client: LRU<string, CacheEntry | boolean>
+  static cacheInstance: LocalLRUCache
+
+  static getInstance(options: CacheOptions): LocalLRUCache {
+    if (!LocalLRUCache.cacheInstance) {
+      this.cacheInstance = new LocalLRUCache(options)
+    }
+    return this.cacheInstance
+  }
 
   constructor(options: CacheOptions) {
     this.options = options

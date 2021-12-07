@@ -98,7 +98,7 @@ const defaultCacheBuilder = () => {
         return await redis.RedisCache.build(options as redis.RedisOptions)
       }
       default: {
-        return await Promise.resolve(new local.LocalLRUCache(options))
+        return await Promise.resolve(local.LocalLRUCache.getInstance(options))
       }
     }
   }
