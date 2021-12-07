@@ -54,10 +54,10 @@ export interface CacheOptions {
   minimumAge: number
 }
 
-export const defaultOptions = (): CacheOptions => {
+export const defaultOptions = (shouldUseLocal?: boolean): CacheOptions => {
   return {
     enabled: parseBool(env.CACHE_ENABLED ?? DEFAULT_CACHE_ENABLED),
-    cacheImplOptions: defaultCacheImplOptions(),
+    cacheImplOptions: shouldUseLocal ? local.defaultOptions() : defaultCacheImplOptions(),
     cacheBuilder: defaultCacheBuilder(),
     key: {
       group: env.CACHE_KEY_GROUP || DEFAULT_CACHE_KEY_GROUP,
@@ -91,7 +91,6 @@ const defaultCacheBuilder = () => {
       case 'redis': {
         return await redis.RedisCache.build(options as redis.RedisOptions)
       }
-
       default: {
         return await Promise.resolve(new local.LocalLRUCache(options))
       }
@@ -231,14 +230,21 @@ export const withCache =
 
     const adapterCache = new AdapterCache(context)
 
+    const localCacheOptions = defaultOptions(true)
+    localCacheOptions.instance = await localCacheOptions.cacheBuilder(
+      localCacheOptions.cacheImplOptions,
+    )
+
     const {
       cache: options,
       cache: { instance: cache },
     } = context
 
     return async (adapterRequest) => {
-      const key = adapterCache.getKey(adapterRequest)
-      const coalescingKey = adapterCache.getCoalescingKey(key)
+      let cacheToUse = cache
+      let adapterCacheToUse = adapterCache
+      const key = adapterCacheToUse.getKey(adapterRequest)
+      const coalescingKey = adapterCacheToUse.getCoalescingKey(key)
       const observe = metrics.beginObserveCacheMetrics({
         isFromWs: !!adapterRequest.debug?.ws,
         participantId: key,
@@ -246,21 +252,41 @@ export const withCache =
       })
 
       try {
-        const cachedAdapterResponse = await adapterCache.getResultForRequest(adapterRequest)
+        const cachedAdapterResponse = await adapterCacheToUse.getResultForRequest(adapterRequest)
         if (cachedAdapterResponse) return cachedAdapterResponse
       } catch (error) {
-        logger.warn(`Cache middleware error! Passing through. `, error)
-        return await execute(adapterRequest, context)
+        logger.warn(`Cache middleware error! Trying to fetch from local cache. `, error)
+        adapterCacheToUse = new AdapterCache({
+          ...context,
+          cache: localCacheOptions,
+        })
+        cacheToUse = localCacheOptions.instance
+        try {
+          const localCacheResponse = await adapterCacheToUse.getResultForRequest(adapterRequest)
+          if (localCacheResponse) return localCacheResponse
+        } catch (e) {
+          return await execute(adapterRequest, context)
+        }
       }
 
       const maxAge = getTTL(adapterRequest, options)
 
       try {
         // Initiate request coalescing by adding the in-flight mark
-        await adapterCache.setInFlightMarker(coalescingKey, maxAge)
+        await adapterCacheToUse.setInFlightMarker(coalescingKey, maxAge)
       } catch (error) {
-        logger.warn(`Cache middleware error! Passing through. `, error)
-        return await execute(adapterRequest, context)
+        logger.warn(`Cache middleware error! Trying to fetch from local cache. `, error)
+        adapterCacheToUse = new AdapterCache({
+          ...context,
+          cache: localCacheOptions,
+        })
+        cacheToUse = localCacheOptions.instance
+        try {
+          const localCacheResponse = await adapterCacheToUse.getResultForRequest(adapterRequest)
+          if (localCacheResponse) return localCacheResponse
+        } catch (e) {
+          return await execute(adapterRequest, context)
+        }
       }
 
       const burstRateLimit = withBurstLimit(rateLimit)
@@ -287,7 +313,7 @@ export const withCache =
               debug: debugBatchablePropertyPath,
             }
             // we should observe non-200 entries too
-            await cache.setResponse(key, entry, maxAge)
+            await cacheToUse.setResponse(key, entry, maxAge)
             observe.cacheSet({ statusCode, maxAge })
             logger.trace(`Cache: SET ${key}`, entry)
             // Individually cache batch requests
@@ -296,7 +322,7 @@ export const withCache =
                 data.results,
               )) {
                 const [request, result] = batchParticipant
-                const keyBatchParticipant = adapterCache.getKey(request)
+                const keyBatchParticipant = adapterCacheToUse.getKey(request)
                 const debugBatchablePropertyPath = debug
                   ? { batchablePropertyPath: debug.batchablePropertyPath }
                   : {}
@@ -307,13 +333,13 @@ export const withCache =
                   maxAge,
                   debug: debugBatchablePropertyPath,
                 }
-                await cache.setResponse(keyBatchParticipant, entryBatchParticipant, maxAge)
+                await cacheToUse.setResponse(keyBatchParticipant, entryBatchParticipant, maxAge)
                 logger.trace(`Cache Split Batch: SET ${keyBatchParticipant}`, entryBatchParticipant)
               }
             }
           }
           // Notify pending requests by removing the in-flight mark
-          await adapterCache.delInFlightMarker(coalescingKey)
+          await adapterCacheToUse.delInFlightMarker(coalescingKey)
         }
         await _cacheOnSuccess(result)
 
