@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 1.2.1
+
+### Patch Changes
+
+- WS deserializer now only returns string if the payload is not JSON
+
 ## 1.2.0
 
 ### Minor Changes
