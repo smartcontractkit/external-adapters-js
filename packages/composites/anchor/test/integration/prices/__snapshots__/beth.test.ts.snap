@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`price-beth successful calls return success when fetching the USD/BEth price 1`] = `
+Object {
+  "data": Object {
+    "result": 4507.32,
+  },
+  "jobRunID": "1",
+  "result": 4507.32,
+  "statusCode": 200,
+}
+`;
+
+exports[`price-beth successful calls returns success when fetching the BTC/BEth price 1`] = `
+Object {
+  "data": Object {
+    "result": 0.07962618803660389,
+  },
+  "jobRunID": "1",
+  "result": 0.07962618803660389,
+  "statusCode": 200,
+}
+`;
+
+exports[`price-beth successful calls returns success when fetching the ETH/BEth price 1`] = `
+Object {
+  "data": Object {
+    "result": 0.9931255122815366,
+  },
+  "jobRunID": "1",
+  "result": 0.9931255122815366,
+  "statusCode": 200,
+}
+`;

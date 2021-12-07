@@ -1,7 +1,7 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
-export const supportedEndpoints = ['quote', 'price']
+export const supportedEndpoints = ['quote', 'price', 'stock']
 
 const customError = (data: any) => data.Response === 'Error'
 

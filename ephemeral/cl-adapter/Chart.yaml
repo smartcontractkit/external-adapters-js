@@ -1,9 +1,0 @@
-apiVersion: v2
-name: cl-adapter
-description: A generic Helm chart for Chainlink adapters
-maintainers:
-  - name: Chainlink
-    url: chain.link
-
-type: application
-version: 0.1.15
