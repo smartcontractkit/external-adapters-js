@@ -14,6 +14,9 @@ The adapter takes the following environment variables:
 **Additional environment variables must be set according to the Token Allocation adapter.**
 This composite adapter executes the code from the Token Allocation composite adapter. As such the same configuration and input parameters apply to this adapter. See [../token-allocation/README.md](../token-allocation/README.md) for more details.
 
+**Additional environment variables must be set according to the Terra View Function adapter.**
+This composite adapter executes the code from the Token Allocation composite adapter. As such the same configuration and input parameters apply to this adapter. See [../../sources/terra-view-function/README.md](../sources/terra-view-function/README.md) for more details.
+
 ## Running
 
 See the [Composite Adapter README](../README.md) for more information on how to get started.

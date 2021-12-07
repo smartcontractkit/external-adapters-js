@@ -49,7 +49,6 @@ describe('price-bluna', () => {
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     server = await startServer()
-    process.env.API_KEY = 'CG-BxqpSs7NBKWvcckgQp2aBMVj'
     process.env.COLUMBUS_5_RPC_URL = 'fake-columbus-rpc'
     process.env.COINGECKO_ADAPTER_URL = 'http://localhost:5000'
     process.env.RPC_URL = 'test-rpc-url'
