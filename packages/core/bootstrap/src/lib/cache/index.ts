@@ -1,4 +1,10 @@
-import { AdapterContext, AdapterRequest, AdapterResponse, Middleware } from '@chainlink/types'
+import {
+  AdapterContext,
+  AdapterRequest,
+  AdapterResponse,
+  Execute,
+  Middleware,
+} from '@chainlink/types'
 import { logger } from '../external-adapter'
 import { Store } from 'redux'
 import { reducer } from '../burst-limit'
@@ -222,6 +228,27 @@ export class AdapterCache {
   }
 }
 
+const handleFailedCacheRead = async (
+  adapterRequest: AdapterRequest,
+  context: AdapterContext,
+  error: Error,
+  execute: Execute,
+  adapterCache: AdapterCache,
+): Promise<AdapterResponse | undefined> => {
+  const type = env.CACHE_TYPE || DEFAULT_CACHE_TYPE
+  if (type === 'local') {
+    logger.warn('Cache type already set to local.  Passing through...')
+    return await execute(adapterRequest, context)
+  }
+  try {
+    logger.warn(`Trying to fetch from local cache. `, error)
+    return await adapterCache.getResultForRequest(adapterRequest)
+  } catch (error) {
+    logger.warn('Failed to fetch response from local cache.  Passing through...')
+    return await execute(adapterRequest, context)
+  }
+}
+
 export const withCache =
   (rateLimit?: Store<reducer.BurstLimitState>): Middleware =>
   async (execute, context: AdapterContext) => {
@@ -255,18 +282,22 @@ export const withCache =
         const cachedAdapterResponse = await adapterCacheToUse.getResultForRequest(adapterRequest)
         if (cachedAdapterResponse) return cachedAdapterResponse
       } catch (error) {
-        logger.warn(`Cache middleware error! Trying to fetch from local cache. `, error)
-        adapterCacheToUse = new AdapterCache({
+        const localAdapterCache = new AdapterCache({
           ...context,
           cache: localCacheOptions,
         })
-        cacheToUse = localCacheOptions.instance
-        try {
-          const localCacheResponse = await adapterCacheToUse.getResultForRequest(adapterRequest)
-          if (localCacheResponse) return localCacheResponse
-        } catch (e) {
-          return await execute(adapterRequest, context)
+        const response = await handleFailedCacheRead(
+          adapterRequest,
+          context,
+          error,
+          execute,
+          localAdapterCache,
+        )
+        if (response) {
+          return response
         }
+        cacheToUse = localCacheOptions.instance
+        adapterCacheToUse = localAdapterCache
       }
 
       const maxAge = getTTL(adapterRequest, options)
@@ -275,18 +306,22 @@ export const withCache =
         // Initiate request coalescing by adding the in-flight mark
         await adapterCacheToUse.setInFlightMarker(coalescingKey, maxAge)
       } catch (error) {
-        logger.warn(`Cache middleware error! Trying to fetch from local cache. `, error)
-        adapterCacheToUse = new AdapterCache({
+        const localAdapterCache = new AdapterCache({
           ...context,
           cache: localCacheOptions,
         })
-        cacheToUse = localCacheOptions.instance
-        try {
-          const localCacheResponse = await adapterCacheToUse.getResultForRequest(adapterRequest)
-          if (localCacheResponse) return localCacheResponse
-        } catch (e) {
-          return await execute(adapterRequest, context)
+        const response = await handleFailedCacheRead(
+          adapterRequest,
+          context,
+          error,
+          execute,
+          localAdapterCache,
+        )
+        if (response) {
+          return response
         }
+        cacheToUse = localCacheOptions.instance
+        adapterCacheToUse = localAdapterCache
       }
 
       const burstRateLimit = withBurstLimit(rateLimit)
