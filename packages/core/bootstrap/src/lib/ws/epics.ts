@@ -59,11 +59,13 @@ import { getWSConfig } from './config'
 // Rxjs deserializer defaults to JSON.parse.
 // We need to handle errors from non-parsable messages
 const deserializer = (message: any) => {
-  if (typeof message.data === 'string') return message
   try {
     return JSON.parse(message.data)
   } catch (e) {
-    logger.debug('WS: Message received with invalid format')
+    // If message looked like a JSON payload, write a message to the logs
+    if (message.length > 1 && ['{', '['].includes(message.substr(0, 1))) {
+      logger.debug('WS: Message received with invalid format')
+    }
     return message
   }
 }
