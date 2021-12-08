@@ -21,20 +21,34 @@ const customError = (data: any) => data.Response === 'Error'
 export const inputParameters: InputParameters = {
   base: {
     aliases: ['from', 'coin'],
+    description: 'The symbol of the currency to query',
     required: true,
+    type: 'string',
   },
   quote: {
     aliases: ['to', 'market'],
+    description: 'The symbol of the currency to convert to',
     required: true,
+    type: 'string',
   },
   coinid: {
-    required: true,
+    description: 'The coin ID (optional to use in place of `base`)',
+    exclusive: ['referenceCurrencyUuid'],
+    required: false,
+    type: 'number',
   },
   resultPath: {
+    description: 'The path for the result',
+    default: 'result',
+    options: ['address', 'addresses', 'marketcap', 'result', 'results'],
     required: false,
+    type: 'string',
   },
   referenceCurrencyUuid: {
+    description: 'The reference currency UUID to utilize',
+    exclusive: ['coinid'],
     required: false,
+    type: 'string',
   },
 }
 

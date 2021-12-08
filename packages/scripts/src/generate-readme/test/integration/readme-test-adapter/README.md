@@ -95,13 +95,13 @@ Supported names for this endpoint are: `marketcap`, `mc`.
 
 ### Input Params
 
-| Required? |         Name          |    Aliases     | Description | Type | Options | Default | Depends On | Not Valid With |
-| :-------: | :-------------------: | :------------: | :---------: | :--: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |         base          | `from`, `coin` |             |      |         |         |            |                |
-|    ✅     |         quote         | `to`, `market` |             |      |         |         |            |                |
-|    ✅     |        coinid         |                |             |      |         |         |            |                |
-|           |      resultPath       |                |             |      |         |         |            |                |
-|           | referenceCurrencyUuid |                |             |      |         |         |            |                |
+| Required? |         Name          |    Aliases     |                   Description                    |  Type  |                         Options                          | Default  | Depends On |     Not Valid With      |
+| :-------: | :-------------------: | :------------: | :----------------------------------------------: | :----: | :------------------------------------------------------: | :------: | :--------: | :---------------------: |
+|    ✅     |         base          | `from`, `coin` |       The symbol of the currency to query        | string |                                                          |          |            |                         |
+|    ✅     |         quote         | `to`, `market` |     The symbol of the currency to convert to     | string |                                                          |          |            |                         |
+|           |        coinid         |                | The coin ID (optional to use in place of `base`) | number |                                                          |          |            | `referenceCurrencyUuid` |
+|           |      resultPath       |                |             The path for the result              | string | `address`, `addresses`, `marketcap`, `result`, `results` | `result` |            |                         |
+|           | referenceCurrencyUuid |                |      The reference currency UUID to utilize      | string |                                                          |          |            |        `coinid`         |
 
 ### Example
 
@@ -114,7 +114,7 @@ Request:
     "endpoint": "marketcap",
     "base": "BTC",
     "quote": "USD",
-    "coinid": "Bitcoin",
+    "coinid": 1,
     "resultPath": "marketcap"
   }
 }
@@ -141,7 +141,7 @@ Request:
     "endpoint": "mc",
     "base": "BTC",
     "quote": "USD",
-    "coinid": "Bitcoin",
+    "coinid": 2,
     "resultPath": "marketcap"
   }
 }
@@ -166,12 +166,12 @@ Supported names for this endpoint are: `price`, `convert`.
 
 ### Input Params
 
-| Required? |    Name    |    Aliases     | Description | Type | Options | Default | Depends On | Not Valid With |
-| :-------: | :--------: | :------------: | :---------: | :--: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |    base    | `from`, `coin` |             |      |         |         |            |                |
-|    ✅     |   quote    | `to`, `market` |             |      |         |         |            |                |
-|           |   amount   |                |             |      |         |         |            |                |
-|           | resultPath |                |             |      |         |         |            |                |
+| Required? |    Name    |    Aliases     |               Description                |  Type  |                       Options                        | Default  |  Depends On  | Not Valid With |
+| :-------: | :--------: | :------------: | :--------------------------------------: | :----: | :--------------------------------------------------: | :------: | :----------: | :------------: |
+|    ✅     |    base    | `from`, `coin` |   The symbol of the currency to query    | string |                                                      |          |              |                |
+|    ✅     |   quote    | `to`, `market` | The symbol of the currency to convert to | string |                                                      |          |              |                |
+|           |   amount   |    `value`     |       Amount of currency to price        | number |                                                      |          | `resultPath` |                |
+|           | resultPath |                |         The path for the result          | string | `address`, `addresses`, `price`, `result`, `results` | `result` |   `amount`   |                |
 
 ### Example
 
@@ -184,6 +184,7 @@ Request:
     "endpoint": "price",
     "base": "BTC",
     "quote": "USD",
+    "amount": 1,
     "resultPath": "price"
   }
 }
@@ -210,6 +211,7 @@ Request:
     "endpoint": "convert",
     "base": "BTC",
     "quote": "USD",
+    "amount": 10,
     "resultPath": "price"
   }
 }

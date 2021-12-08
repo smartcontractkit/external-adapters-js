@@ -1,4 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { logger } from '@chainlink/ea-bootstrap/dist/lib/external-adapter'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
@@ -21,17 +22,30 @@ const customError = (data: any) => data.Response === 'Error'
 export const inputParameters: InputParameters = {
   base: {
     aliases: ['from', 'coin'],
+    description: 'The symbol of the currency to query',
     required: true,
+    type: 'string',
   },
   quote: {
     aliases: ['to', 'market'],
+    description: 'The symbol of the currency to convert to',
     required: true,
+    type: 'string',
   },
   amount: {
+    aliases: ['value'],
+    description: 'Amount of currency to price',
     required: false,
+    type: 'number',
+    dependsOn: ['resultPath'],
   },
   resultPath: {
+    description: 'The path for the result',
+    default: 'result',
+    options: ['address', 'addresses', 'price', 'result', 'results'],
     required: false,
+    type: 'string',
+    dependsOn: ['amount'],
   },
 }
 

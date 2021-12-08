@@ -64,7 +64,7 @@ describe('readme test adapter', () => {
           coin: 'BTC',
           market: 'USD',
           endpoint: 'marketcap',
-          coinid: 'Bitcoin',
+          coinid: 1,
         },
       }
 
@@ -86,7 +86,7 @@ describe('readme test adapter', () => {
           coin: 'BTC',
           market: 'USD',
           endpoint: 'mc',
-          coinid: 'Bitcoin',
+          coinid: 2,
         },
       }
 
@@ -107,6 +107,7 @@ describe('readme test adapter', () => {
       const priceRequest: AdapterRequest = {
         id: '1',
         data: {
+          amount: 1,
           base: 'BTC',
           quote: 'USD',
           endpoint: 'price',
@@ -128,6 +129,7 @@ describe('readme test adapter', () => {
       const priceRequest: AdapterRequest = {
         id: '1',
         data: {
+          amount: 10,
           base: 'BTC',
           quote: 'USD',
           endpoint: 'convert',

@@ -313,6 +313,11 @@ class ReadmeGenerator {
 
 export async function main(): Promise<void | string> {
   try {
+    const oldEnv: NodeJS.ProcessEnv = JSON.parse(JSON.stringify(process.env))
+    process.env.NODE_ENV = undefined
+    process.env.API_VERBOSE = undefined
+    process.env.LOG_LEVEL = undefined
+
     const options = commandLineArgs([
       { name: 'all', alias: 'a', type: Boolean },
       { name: 'testPath', alias: 't', type: String },
@@ -357,6 +362,8 @@ export async function main(): Promise<void | string> {
     for (const adapter of readmeQueue) {
       createReadmeFile(adapter[0], adapter[1])
     }
+
+    process.env = oldEnv
   } catch (e) {
     console.log(`Error: ${e}`)
     process.exit(1)
