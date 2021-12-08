@@ -7,7 +7,6 @@ import { join } from 'path'
 import * as client from 'prom-client'
 import { executeSync, storeSlice, withMiddleware } from '../index'
 import { defaultOptions } from './cache'
-import * as redis from './cache/redis'
 import { loadTestPayload } from './config/test-payload-loader'
 import {
   HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE,
@@ -65,15 +64,16 @@ export const initHandler =
     })
 
     app.get(join(baseUrl, 'health'), async (_, res) => {
-      if (cacheOptions.enabled && cacheOptions.cacheImplOptions.type === 'redis') {
-        logger.debug('Checking if redis connection initialized')
-        const cache = context.cache.instance as redis.RedisCache
-        if (!cache.client.connected) {
-          //TODO update
-          res.status(500).send({ message: 'Redis not connected', version })
-          return
-        }
-      }
+      // TODO add health check for Redis connection (the following is deprecated)
+      // if (cacheOptions.enabled && cacheOptions.cacheImplOptions.type === 'redis') {
+      //   logger.debug('Checking if redis connection initialized')
+      //   const cache = context.cache.instance as redis.RedisCache
+      //   if (!cache.client.connected) {
+      //     //TODO update
+      //     res.status(500).send({ message: 'Redis not connected', version })
+      //     return
+      //   }
+      // }
 
       res.status(200).send({ message: 'OK', version })
     })
