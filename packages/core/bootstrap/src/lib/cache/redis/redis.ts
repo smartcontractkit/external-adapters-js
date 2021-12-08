@@ -1,7 +1,6 @@
 import { timeout, TimeoutError } from 'promise-timeout'
 import { createClient } from 'redis'
-// Node Redis is having issues with type exports in v4: https://github.com/redis/node-redis/issues/1673
-// The following is a workaround for now (TODO import from 'redis' and remove these dependencies)
+// TODO https://app.shortcut.com/chainlinklabs/story/23811/update-redis-client-types-and-imports
 import { RedisClientOptions } from '@node-redis/client/dist/lib/client' //TODO add RedisClientType here
 import { RedisModules, RedisScripts } from '@node-redis/client/dist/lib/commands'
 import { logger } from '../../external-adapter'
@@ -62,7 +61,7 @@ export const redactOptions = (opts: RedisOptions) => {
 
 export class RedisCache {
   options: RedisOptions
-  client: any //TODO use RedisClientType with some modifications?
+  client: any //TODO https://app.shortcut.com/chainlinklabs/story/23811/update-redis-client-types-and-imports
   watchdog?: ReturnType<typeof setInterval>
 
   constructor(options: RedisOptions) {

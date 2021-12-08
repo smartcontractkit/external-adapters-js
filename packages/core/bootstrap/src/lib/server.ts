@@ -64,12 +64,11 @@ export const initHandler =
     })
 
     app.get(join(baseUrl, 'health'), async (_, res) => {
-      // TODO add health check for Redis connection (the following is deprecated)
+      // TODO https://app.shortcut.com/chainlinklabs/story/23810/update-redis-server-healthcheck
       // if (cacheOptions.enabled && cacheOptions.cacheImplOptions.type === 'redis') {
       //   logger.debug('Checking if redis connection initialized')
       //   const cache = context.cache.instance as redis.RedisCache
       //   if (!cache.client.connected) {
-      //     //TODO update
       //     res.status(500).send({ message: 'Redis not connected', version })
       //     return
       //   }
