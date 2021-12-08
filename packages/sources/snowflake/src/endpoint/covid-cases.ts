@@ -1,5 +1,6 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { SnowflakeConfig } from '../config'
 import { buildSnowflakeJWT } from '../util'
 
 export const supportedEndpoints = ['covid-cases']
@@ -9,7 +10,40 @@ export const inputParameters: InputParameters = {
   county: ['county'],
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
+type UUIDv4 = string
+
+export interface ResponseSchema {
+  resultSetMetaData: {
+    numRows: number
+    format: 'jsonv2'
+    partitionInfo: [{ rowCount: number; uncompressedSize: number }]
+    rowType: [
+      {
+        name: string
+        database: string
+        schema: string
+        table: string
+        type: string
+        byteLength: number | null
+        scale: number
+        precision: number
+        nullable: boolean
+        collation: null
+        length: number | null
+      },
+    ]
+  }
+  data: string[][] // List of rows, each row an array of requested fields
+  code: string
+  statementStatusUrl: `/api/statements/${UUIDv4}?requestId=${UUIDv4}`
+  requestId: UUIDv4
+  sqlState: number
+  statementHandle: UUIDv4
+  message: number
+  createdOn: number
+}
+
+export const execute: ExecuteWithConfig<SnowflakeConfig> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
 
@@ -18,17 +52,17 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const county = validator.validated.data.county
 
   const jwtToken = buildSnowflakeJWT({
-    privateKey: config.api.privateKey,
-    qualifiedUsername: config.api.qualifiedUsername,
+    privateKey: config.privateKey,
+    qualifiedUsername: config.qualifiedUsername,
   })
 
-  const response = await Requester.request({
-    baseURL: config.api.baseURL,
+  const response = await Requester.request<ResponseSchema>({
+    baseURL: config.baseURL,
     url: '/statements',
     method: 'POST',
     data: {
-      database: config.api.database,
-      schema: config.api.schema,
+      database: config.database,
+      schema: config.schema,
       statement: `
         select confirmed
         from JHU_DASHBOARD_COVID_19_GLOBAL
@@ -58,6 +92,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     },
   })
 
-  response.data.result = Requester.validateResultNumber(response.data, ['data', '0', '0'])
-  return Requester.success(jobRunID, response, config.verbose)
+  const result = Requester.validateResultNumber(response.data, ['data', '0', '0'])
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

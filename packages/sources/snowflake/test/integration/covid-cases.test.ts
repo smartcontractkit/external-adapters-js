@@ -39,8 +39,8 @@ beforeAll(async () => {
   process.env.DB_USERNAME = process.env.DB_USERNAME ?? 'test_db_username'
   process.env.DATABASE = process.env.DATABASE ?? 'test_database'
   process.env.SCHEMA = process.env.SCHEMA ?? 'test_schema'
-  process.env.REGION = process.env.REGION ?? 'test_region'
-  process.env.PROVIDER = process.env.PROVIDER ?? 'test_provider'
+  process.env.CLOUD_REGION = process.env.CLOUD_REGION ?? 'test_region'
+  process.env.CLOUD_PROVIDER = process.env.CLOUD_PROVIDER ?? 'test_provider'
   process.env.PRIVATE_KEY = process.env.PRIVATE_KEY ?? (await generatePrivateKey())
 
   process.env.API_VERBOSE = true as unknown as string

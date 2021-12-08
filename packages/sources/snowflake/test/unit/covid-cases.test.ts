@@ -12,8 +12,8 @@ describe('execute', () => {
   process.env.DATABASE = process.env.DATABASE ?? 'test_database'
   process.env.SCHEMA = process.env.SCHEMA ?? 'test_schema'
   process.env.PRIVATE_KEY = process.env.PRIVATE_KEY ?? 'test_private_key'
-  process.env.REGION = process.env.REGION ?? 'test_region'
-  process.env.PROVIDER = process.env.PROVIDER ?? 'test_provider'
+  process.env.CLOUD_REGION = process.env.CLOUD_REGION ?? 'test_region'
+  process.env.CLOUD_PROVIDER = process.env.CLOUD_PROVIDER ?? 'test_provider'
 
   describe('validation error', () => {
     const requests = [

@@ -5,15 +5,15 @@ To setup the environment, here are additional docs to [assign a key pair to a us
 
 ### Environment Variables
 
-| Required? |    Name     |                                Description                                | Options |       Defaults to        |
-| :-------: | :---------: | :-----------------------------------------------------------------------: | :-----: | :----------------------: |
-|    ✅     | PRIVATE_KEY | Private PKCS PEM Key matching assigned public key for a user in Snowflake |         |                          |
-|    ✅     |   ACCOUNT   |                Unique identifier for the Snowflake account                |         |                          |
-|    ✅     | DB_USERNAME |                         Name of the database user                         |         |                          |
-|           |  DATABASE   |                    Name of the database to connect to                     |         | COVID19_BY_STARSCHEMA_DM |
-|           |   SCHEMA    |             Database schema where the main tables are located             |         |          PUBLIC          |
-|           |  PROVIDER   |           Shortcut for the selected cloud provider (e.g. 'aws')           |         |                          |
-|           |   REGION    |        Shortcut for the designated cloud region (e.g. 'us-east-2')        |         |                          |
+| Required? |      Name      |                                Description                                | Options |       Defaults to        |
+| :-------: | :------------: | :-----------------------------------------------------------------------: | :-----: | :----------------------: |
+|    ✅     |  PRIVATE_KEY   | Private PKCS PEM Key matching assigned public key for a user in Snowflake |         |                          |
+|    ✅     |    ACCOUNT     |                Unique identifier for the Snowflake account                |         |                          |
+|    ✅     |  DB_USERNAME   |                         Name of the database user                         |         |                          |
+|           |    DATABASE    |                    Name of the database to connect to                     |         | COVID19_BY_STARSCHEMA_DM |
+|           |     SCHEMA     |             Database schema where the main tables are located             |         |          PUBLIC          |
+|           | CLOUD_PROVIDER |           Shortcut for the selected cloud provider (e.g. 'aws')           |         |                          |
+|           |  CLOUD_REGION  |        Shortcut for the designated cloud region (e.g. 'us-east-2')        |         |                          |
 
 ---
 
