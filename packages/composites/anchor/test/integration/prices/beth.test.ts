@@ -2,10 +2,11 @@ import { AdapterRequest } from '@chainlink/types'
 import { server as startServer } from '../../../src'
 import nock from 'nock'
 import http from 'http'
-import request from 'supertest'
+import request, { SuperTest, Test } from 'supertest'
 import { mockBTCUSDPrice, mockETHUSDPrice, mockSTEthUSDPrice } from '../fixtures'
 
 import { ethers, BigNumber } from 'ethers'
+import { AddressInfo } from 'net'
 
 const mockBigNum = BigNumber.from(10).pow(18)
 
@@ -31,11 +32,12 @@ let oldEnv: NodeJS.ProcessEnv
 
 describe('price-beth', () => {
   let server: http.Server
-  const req = request('localhost:8080')
+  let req: SuperTest<Test>
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     server = await startServer()
+    req = request(`localhost:${(server.address() as AddressInfo).port}`)
     process.env.COLUMBUS_5_RPC_URL = 'fake-columbus-rpc'
     process.env.API_KEY = 'test'
     process.env.ANCHOR_VAULT_CONTRACT_ADDRESS = 'test-address'
