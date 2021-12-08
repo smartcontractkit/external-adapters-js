@@ -1,5 +1,16 @@
 # @chainlink/ea-bootstrap
 
+## 1.3.0
+
+### Minor Changes
+
+- c93e5654: Add new input parameter configuration in Validator class
+- ccff5d7f: Upgrade Redis to V4
+
+### Patch Changes
+
+- b78f8e06: Print out actual used port when bootstrapping server
+
 ## 1.2.1
 
 ### Patch Changes
