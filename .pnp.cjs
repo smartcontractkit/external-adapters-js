@@ -5158,6 +5158,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@node-redis/client", "npm:1.0.0"],
             ["@reduxjs/toolkit", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:1.6.1"],
             ["@types/express", "npm:4.17.13"],
             ["@types/express-rate-limit", "npm:5.1.3"],
@@ -5172,7 +5173,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/pino", "npm:6.3.12"],
             ["@types/pino-pretty", "npm:4.7.3"],
             ["@types/promise-timeout", "npm:1.3.0"],
-            ["@types/redis", "npm:2.8.32"],
             ["@types/redux-logger", "npm:3.0.9"],
             ["@types/remote-redux-devtools", "npm:0.5.5"],
             ["@types/sinon", "npm:10.0.6"],
@@ -5193,7 +5193,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["pino-pretty", "npm:5.1.3"],
             ["prom-client", "npm:13.2.0"],
             ["promise-timeout", "npm:1.3.0"],
-            ["redis", "npm:3.1.2"],
+            ["redis", "npm:4.0.0"],
             ["redux", "npm:4.1.1"],
             ["redux-logger", "npm:3.0.6"],
             ["redux-observable", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:1.2.0"],
@@ -9744,6 +9744,63 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["@node-redis/client", [
+        ["npm:1.0.0", {
+          "packageLocation": "./.yarn/cache/@node-redis-client-npm-1.0.0-f8870156bc-b9e5699e04.zip/node_modules/@node-redis/client/",
+          "packageDependencies": [
+            ["@node-redis/client", "npm:1.0.0"],
+            ["cluster-key-slot", "npm:1.1.0"],
+            ["generic-pool", "npm:3.8.2"],
+            ["redis-parser", "npm:3.0.0"],
+            ["yallist", "npm:4.0.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@node-redis/json", [
+        ["npm:1.0.0", {
+          "packageLocation": "./.yarn/cache/@node-redis-json-npm-1.0.0-4283cdc1e0-b0c7238125.zip/node_modules/@node-redis/json/",
+          "packageDependencies": [
+            ["@node-redis/json", "npm:1.0.0"]
+          ],
+          "linkType": "SOFT",
+        }],
+        ["virtual:9a60413f7a82d982b014be6321df14b0485b29e437c6104a45b16ce5860ec1c6e9bb250122b1de8db35c58018e50bfe1ad6e5a90a29266adfc6d923b8fe3bc8c#npm:1.0.0", {
+          "packageLocation": "./.yarn/__virtual__/@node-redis-json-virtual-d410543cdc/0/cache/@node-redis-json-npm-1.0.0-4283cdc1e0-b0c7238125.zip/node_modules/@node-redis/json/",
+          "packageDependencies": [
+            ["@node-redis/json", "virtual:9a60413f7a82d982b014be6321df14b0485b29e437c6104a45b16ce5860ec1c6e9bb250122b1de8db35c58018e50bfe1ad6e5a90a29266adfc6d923b8fe3bc8c#npm:1.0.0"],
+            ["@node-redis/client", "npm:1.0.0"],
+            ["@types/node-redis__client", null]
+          ],
+          "packagePeers": [
+            "@node-redis/client",
+            "@types/node-redis__client"
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@node-redis/search", [
+        ["npm:1.0.0", {
+          "packageLocation": "./.yarn/cache/@node-redis-search-npm-1.0.0-fc5db63e55-908a786d4e.zip/node_modules/@node-redis/search/",
+          "packageDependencies": [
+            ["@node-redis/search", "npm:1.0.0"]
+          ],
+          "linkType": "SOFT",
+        }],
+        ["virtual:9a60413f7a82d982b014be6321df14b0485b29e437c6104a45b16ce5860ec1c6e9bb250122b1de8db35c58018e50bfe1ad6e5a90a29266adfc6d923b8fe3bc8c#npm:1.0.0", {
+          "packageLocation": "./.yarn/__virtual__/@node-redis-search-virtual-564e0285f9/0/cache/@node-redis-search-npm-1.0.0-fc5db63e55-908a786d4e.zip/node_modules/@node-redis/search/",
+          "packageDependencies": [
+            ["@node-redis/search", "virtual:9a60413f7a82d982b014be6321df14b0485b29e437c6104a45b16ce5860ec1c6e9bb250122b1de8db35c58018e50bfe1ad6e5a90a29266adfc6d923b8fe3bc8c#npm:1.0.0"],
+            ["@node-redis/client", "npm:1.0.0"],
+            ["@types/node-redis__client", null]
+          ],
+          "packagePeers": [
+            "@node-redis/client",
+            "@types/node-redis__client"
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["@nodelib/fs.scandir", [
         ["npm:2.1.5", {
           "packageLocation": "./.yarn/cache/@nodelib-fs.scandir-npm-2.1.5-89c67370dd-a970d595bd.zip/node_modules/@nodelib/fs.scandir/",
@@ -11263,16 +11320,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-range-parser-npm-1.2.4-23d797fbde-b7c0dfd508.zip/node_modules/@types/range-parser/",
           "packageDependencies": [
             ["@types/range-parser", "npm:1.2.4"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["@types/redis", [
-        ["npm:2.8.32", {
-          "packageLocation": "./.yarn/cache/@types-redis-npm-2.8.32-a5b861da6a-2b12103e05.zip/node_modules/@types/redis/",
-          "packageDependencies": [
-            ["@types/redis", "npm:2.8.32"],
-            ["@types/node", "npm:16.6.1"]
           ],
           "linkType": "HARD",
         }]
@@ -14648,6 +14695,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["clone-response", "npm:1.0.2"],
             ["mimic-response", "npm:1.0.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["cluster-key-slot", [
+        ["npm:1.1.0", {
+          "packageLocation": "./.yarn/cache/cluster-key-slot-npm-1.1.0-c895b3234e-fc953c7520.zip/node_modules/cluster-key-slot/",
+          "packageDependencies": [
+            ["cluster-key-slot", "npm:1.1.0"]
           ],
           "linkType": "HARD",
         }]
@@ -18387,6 +18443,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["gcp-metadata", "npm:4.3.1"],
             ["gaxios", "npm:4.3.2"],
             ["json-bigint", "npm:1.0.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["generic-pool", [
+        ["npm:3.8.2", {
+          "packageLocation": "./.yarn/cache/generic-pool-npm-3.8.2-e08966e1f1-f549077d90.zip/node_modules/generic-pool/",
+          "packageDependencies": [
+            ["generic-pool", "npm:3.8.2"]
           ],
           "linkType": "HARD",
         }]
@@ -27696,23 +27761,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["redis", [
-        ["npm:3.1.2", {
-          "packageLocation": "./.yarn/cache/redis-npm-3.1.2-0dbc9973a0-baec421986.zip/node_modules/redis/",
+        ["npm:4.0.0", {
+          "packageLocation": "./.yarn/cache/redis-npm-4.0.0-9a60413f7a-7676b35400.zip/node_modules/redis/",
           "packageDependencies": [
-            ["redis", "npm:3.1.2"],
-            ["denque", "npm:1.5.0"],
-            ["redis-commands", "npm:1.7.0"],
-            ["redis-errors", "npm:1.2.0"],
-            ["redis-parser", "npm:3.0.0"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["redis-commands", [
-        ["npm:1.7.0", {
-          "packageLocation": "./.yarn/cache/redis-commands-npm-1.7.0-528f61f9d8-d1ff7fbcb5.zip/node_modules/redis-commands/",
-          "packageDependencies": [
-            ["redis-commands", "npm:1.7.0"]
+            ["redis", "npm:4.0.0"],
+            ["@node-redis/client", "npm:1.0.0"],
+            ["@node-redis/json", "virtual:9a60413f7a82d982b014be6321df14b0485b29e437c6104a45b16ce5860ec1c6e9bb250122b1de8db35c58018e50bfe1ad6e5a90a29266adfc6d923b8fe3bc8c#npm:1.0.0"],
+            ["@node-redis/search", "virtual:9a60413f7a82d982b014be6321df14b0485b29e437c6104a45b16ce5860ec1c6e9bb250122b1de8db35c58018e50bfe1ad6e5a90a29266adfc6d923b8fe3bc8c#npm:1.0.0"]
           ],
           "linkType": "HARD",
         }]
