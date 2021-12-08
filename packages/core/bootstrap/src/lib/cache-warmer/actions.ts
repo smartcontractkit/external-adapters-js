@@ -51,10 +51,12 @@ export interface WarmupSubscribedMultiplePayload {
 
 export interface WarmupUnsubscribedPayload {
   key: string
+  isBatched: boolean
   reason: string
 }
 export interface WarmupStoppedPayload {
   keys: string[]
+  isBatched: boolean
 }
 interface WarmupSubscriptionTimeoutResetPayload {
   key: string

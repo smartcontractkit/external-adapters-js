@@ -32,9 +32,16 @@ import {
   warmupUnsubscribed,
   WarmupUnsubscribedPayload,
 } from './actions'
-import { Config, get, WARMUP_REQUEST_ID, WARMUP_BATCH_REQUEST_ID } from './config'
+import {
+  Config,
+  get,
+  WARMUP_REQUEST_ID,
+  WARMUP_BATCH_REQUEST_ID,
+  MINIMUM_WARMUP_INTERVAL,
+  WARMUP_POLL_OFFSET,
+} from './config'
 import { concatenateBatchResults, getSubscriptionKey, splitIntoBatches } from './util'
-import { getTTL } from '../cache/ttl'
+import { getTTL, getMaxAgeOverride } from '../cache/ttl'
 import * as metrics from './metrics'
 import { getFeedId } from '../metrics/util'
 import { PayloadAction } from '@reduxjs/toolkit'
@@ -161,7 +168,9 @@ export const warmupSubscriber: Epic<AnyAction, AnyAction, any, EpicDependencies>
     // check if the subscription already exists, then noop
     filter(([{ payload, key }, state]) => {
       // if a child, register, but don't warm
-      if (payload.parent) return false
+      if (payload.parent) {
+        return false
+      }
       // if subscription does not exist, then continue
       // this check doesnt work because state is already set!
       return !state.cacheWarmer.subscriptions[key]?.isDuplicate
@@ -176,9 +185,12 @@ export const warmupSubscriber: Epic<AnyAction, AnyAction, any, EpicDependencies>
     mergeMap(([{ payload, key }]) => {
       // Interval should be set to the warmup interval if configured,
       // otherwise use the TTL from the request.
-      const interval = config.warmupInterval || getTTL(payload)
-      const offset = Math.min(interval, 1000)
-      const pollInterval = interval - offset
+      const interval = Math.max(
+        getMaxAgeOverride(payload) || config.warmupInterval || getTTL(payload),
+        MINIMUM_WARMUP_INTERVAL,
+      )
+      const pollInterval =
+        interval > WARMUP_POLL_OFFSET * 2 ? interval - WARMUP_POLL_OFFSET : interval
       return timer(pollInterval, pollInterval).pipe(
         mapTo(warmupRequested({ key })),
         takeUntil(action$.pipe(filter(warmupShutdown.match))),
@@ -186,15 +198,16 @@ export const warmupSubscriber: Epic<AnyAction, AnyAction, any, EpicDependencies>
         takeUntil(
           action$.pipe(
             filter(warmupUnsubscribed.match || warmupStopped.match),
-            filter(
-              (a: PayloadAction<WarmupUnsubscribedPayload | WarmupStoppedPayload>) =>
+            filter((a: PayloadAction<WarmupUnsubscribedPayload | WarmupStoppedPayload>) => {
+              return (
                 ('key' in a.payload && a.payload.key === key) ||
-                ('keys' in a.payload && a.payload.keys.includes(key)),
-            ),
+                ('keys' in a.payload && a.payload.keys.includes(key))
+              )
+            }),
             withLatestFrom(state$),
-            tap(([, state]) => {
+            tap(([{ payload }]) => {
               const labels = {
-                isBatched: String(!!state.cacheWarmer.subscriptions[key]?.childLastSeenById),
+                isBatched: String(payload.isBatched),
               }
               metrics.cache_warmer_count.labels(labels).dec()
             }),
@@ -285,9 +298,14 @@ export const warmupUnsubscriber: Epic<AnyAction, AnyAction, any, EpicDependencie
         (state.cacheWarmer.warmups[payload.key]?.errorCount ?? 0 >= config.unhealthyThreshold) &&
         config.unhealthyThreshold !== -1,
     ),
-    map(([{ payload }]) =>
-      warmupUnsubscribed({ key: payload.key, reason: `Errored: ${payload.error.message}` }),
-    ),
+    map(([{ payload }, state]) => {
+      const isBatched = !!state.cacheWarmer.subscriptions[payload.key]?.childLastSeenById
+      return warmupUnsubscribed({
+        key: payload.key,
+        isBatched,
+        reason: `Errored: ${payload.error.message}`,
+      })
+    }),
   )
 
   // emits whenever a subscription event comes in,
@@ -299,7 +317,8 @@ export const warmupUnsubscriber: Epic<AnyAction, AnyAction, any, EpicDependencie
 
   const unsubscribeOnTimeout$ = keyedSubscription$.pipe(
     // when a subscription comes in
-    mergeMap(({ key }) => {
+    withLatestFrom(state$),
+    mergeMap(([{ key }, state]) => {
       // we look for matching subscriptions of the same type
       // which deactivates the current timer
       const reset$ = keyedSubscription$.pipe(
@@ -307,9 +326,10 @@ export const warmupUnsubscriber: Epic<AnyAction, AnyAction, any, EpicDependencie
         take(1),
         mapTo(warmupSubscriptionTimeoutReset({ key })),
       )
+      const isBatched = !!state.cacheWarmer.subscriptions[key]?.childLastSeenById
 
       // start the current unsubscription timer
-      const timeout$ = of(warmupUnsubscribed({ key, reason: 'Timeout' })).pipe(
+      const timeout$ = of(warmupUnsubscribed({ key, isBatched, reason: 'Timeout' })).pipe(
         delay(config.subscriptionTTL),
         takeUntil(action$.pipe(filter(warmupShutdown.match))),
       )
@@ -324,7 +344,10 @@ export const warmupUnsubscriber: Epic<AnyAction, AnyAction, any, EpicDependencie
     // when a subscription comes in, if it has children
     filter(({ payload }) => !!payload?.childLastSeenById),
     mergeMap(({ payload }) => [
-      warmupStopped({ keys: Object.keys(payload?.childLastSeenById || {}) }),
+      warmupStopped({
+        keys: Object.keys(payload?.childLastSeenById || {}),
+        isBatched: !!payload?.childLastSeenById,
+      }),
     ]),
   )
 
@@ -338,7 +361,11 @@ export const warmupUnsubscriber: Epic<AnyAction, AnyAction, any, EpicDependencie
       return false
     }),
     map(([{ payload }]) =>
-      warmupUnsubscribed({ key: payload.parent, reason: 'Empty Batch Warmer request data' }),
+      warmupUnsubscribed({
+        key: payload.parent,
+        isBatched: true,
+        reason: 'Empty Batch Warmer request data',
+      }),
     ),
   )
 

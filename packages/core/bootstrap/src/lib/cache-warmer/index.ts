@@ -79,9 +79,12 @@ export const withCacheWarmer =
                   batchablePropertyPath: isActiveCWSubsciption.batchablePropertyPath,
                 }),
               )
+            const isBatched =
+              !!warmerStore.getState().subscriptions[cacheWarmerKey]?.childLastSeenById
             warmerStore.dispatch(
               actions.warmupUnsubscribed({
                 key: cacheWarmerKey,
+                isBatched,
                 reason: 'Turning off Cache Warmer to use WS.',
               }),
             )
