@@ -86,5 +86,42 @@ describe('Bootstrap/Metrics Utils', () => {
         util.getFeedId(input)
       }).not.toThrow()
     })
+
+    it(`Correctly handles arrays in base/quote parameters`, () => {
+      const input1: AdapterRequest = {
+        id: '1',
+        data: {
+          base: ['BTC', 'ETH', 'DOGE'], // Tests sorting as well
+          quote: 'USD',
+        },
+      }
+      let feedName = util.getFeedId(input1)
+      expect(feedName).toBe('[BTC|DOGE|ETH]/USD')
+
+      const input2: AdapterRequest = {
+        id: '1',
+        data: {
+          base: ['BTC'],
+          quote: ['USD'],
+        },
+      }
+      feedName = util.getFeedId(input2)
+      expect(feedName).toBe('BTC/USD')
+    })
+
+    it(`Returns fixed feed id when debug warmer property is set to true`, () => {
+      const input: AdapterRequest = {
+        id: '1',
+        data: {
+          base: ['BTC', 'ETH', 'DOGE'],
+          quote: 'USD',
+        },
+        debug: {
+          warmer: true,
+        },
+      }
+      const feedName = util.getFeedId(input)
+      expect(feedName).toBe('CACHE_WARMER')
+    })
   })
 })

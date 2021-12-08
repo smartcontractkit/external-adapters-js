@@ -1,10 +1,11 @@
-import { AdapterRequest } from '@chainlink/types'
+import { AdapterRequest, AdapterResponse } from '@chainlink/types'
 import { server as startServer } from '../../../src'
 import nock from 'nock'
 import http from 'http'
-import request from 'supertest'
+import request, { SuperTest, Test } from 'supertest'
 import * as view from '@chainlink/terra-view-function-adapter'
 import { mockBTCUSDPrice, mockETHUSDPrice, mockLunaUSDPrice } from '../fixtures'
+import { AddressInfo } from 'net'
 
 jest.mock('@chainlink/terra-view-function-adapter', () => ({
   ...jest.requireActual('@chainlink/terra-view-function-adapter'),
@@ -44,12 +45,12 @@ let oldEnv: NodeJS.ProcessEnv
 
 describe('price-bluna', () => {
   let server: http.Server
-  const req = request('localhost:8080')
+  let req: SuperTest<Test>
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     server = await startServer()
-    process.env.API_KEY = 'CG-BxqpSs7NBKWvcckgQp2aBMVj'
+    req = request(`localhost:${(server.address() as AddressInfo).port}`)
     process.env.COLUMBUS_5_RPC_URL = 'fake-columbus-rpc'
     process.env.COINGECKO_ADAPTER_URL = 'http://localhost:5000'
     process.env.RPC_URL = 'test-rpc-url'
