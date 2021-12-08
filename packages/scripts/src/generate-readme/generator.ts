@@ -34,7 +34,12 @@ const inputParamHeaders: TextRow = [
   'Not Valid With',
 ]
 
-const testEnvOverrides = { RECORD: undefined, LOG_LEVEL: 'debug', API_VERBOSE: 'true' }
+const testEnvOverrides = {
+  API_VERBOSE: 'true',
+  LOG_LEVEL: 'debug',
+  NODE_ENV: undefined,
+  RECORD: undefined,
+}
 
 const capitalize = (s: string): string => s[0].toUpperCase() + s.slice(1)
 
@@ -74,9 +79,13 @@ class ReadmeGenerator {
   name: string
   readmeText = ''
   requiredEnvVars: string[]
+  verbose: boolean
   version: string
 
-  constructor(adapterPath: string) {
+  constructor(adapterPath: string, verbose = false) {
+    this.verbose = verbose
+
+    if (verbose) console.log('Confirming file paths')
     if (!adapterPath.endsWith('/')) adapterPath += '/'
 
     if (!shell.test('-d', adapterPath)) throw Error(`${adapterPath} is not a directory`)
@@ -89,10 +98,12 @@ class ReadmeGenerator {
 
     this.adapterPath = adapterPath
 
+    if (verbose) console.log('Checking package.json')
     const packageJson = getJsonFile(packagePath) as Package
     this.name = packageJson.name ?? ''
     this.version = packageJson.version ?? ''
 
+    if (verbose) console.log('Checking schema/env.json')
     const schema = getJsonFile(schemaPath) as Schema
     this.schemaDescription = schema.description ?? ''
     this.envVars = schema.properties ?? {}
@@ -102,9 +113,11 @@ class ReadmeGenerator {
   async fetchImports(): Promise<void> {
     // Fetch imports as separate step, since dynamic imports are async but constructor can't contain async code
 
+    if (this.verbose) console.log('Importing src/config.ts')
     const configPath = checkFilePath(this.adapterPath + 'src/config.ts')
     this.defaultEndpoint = (await require(localPathToRoot + configPath)).DEFAULT_ENDPOINT ?? ''
 
+    if (this.verbose) console.log('Importing src/endpoint/index.ts')
     const endpointPath = checkFilePath(this.adapterPath + 'src/endpoint/index.ts')
     this.endpointDetails = await require(localPathToRoot + endpointPath)
   }
@@ -125,14 +138,14 @@ class ReadmeGenerator {
   }
 
   addIntroSection(): void {
-    console.log('Adding title and version...')
+    if (this.verbose) console.log('Adding title and version...')
 
     this.readmeText = `# ${this.name}\n\nVersion: ${this.version}\n\n`
     if (this.schemaDescription) this.readmeText += `${this.schemaDescription}\n\n`
   }
 
   addEnvVarSection(): void {
-    console.log('Adding environment variables...')
+    if (this.verbose) console.log('Adding environment variables...')
 
     const envVars = this.envVars
 
@@ -154,7 +167,7 @@ class ReadmeGenerator {
   }
 
   addInputParamsSection(): void {
-    console.log('Adding input parameters...')
+    if (this.verbose) console.log('Adding input parameters...')
 
     const endpointList = Object.keys(this.endpointDetails).map((e) => {
       const lowercase = e.toLowerCase()
@@ -179,7 +192,7 @@ class ReadmeGenerator {
   }
 
   addEndpointSections(): void {
-    console.log('Extracting example requests and responses...')
+    if (this.verbose) console.log('Extracting example requests and responses...')
 
     // Fetch input/output examples
     let endpointIO = {} as IOMap
@@ -218,7 +231,7 @@ class ReadmeGenerator {
 
     const endpointSections = Object.entries(this.endpointDetails)
       .map(([endpointName, endpointDetails]) => {
-        console.log(`Adding ${endpointName} endpoint section...`)
+        if (this.verbose) console.log(`Adding ${endpointName} endpoint section...`)
 
         const sectionTitle = `## ${capitalize(endpointName)} Endpoint`
 
@@ -313,19 +326,15 @@ class ReadmeGenerator {
 
 export async function main(): Promise<void | string> {
   try {
-    const oldEnv: NodeJS.ProcessEnv = JSON.parse(JSON.stringify(process.env))
-    process.env.NODE_ENV = undefined
-    process.env.API_VERBOSE = undefined
-    process.env.LOG_LEVEL = undefined
-
     const options = commandLineArgs([
       { name: 'all', alias: 'a', type: Boolean },
+      { name: 'verbose', alias: 'v', type: Boolean },
       { name: 'testPath', alias: 't', type: String },
       { name: 'adapters', multiple: true, defaultOption: true },
     ])
 
     if (options.testPath) {
-      const readmeGenerator = new ReadmeGenerator(options.testPath)
+      const readmeGenerator = new ReadmeGenerator(options.testPath, options.verbose)
       await readmeGenerator.fetchImports()
 
       createReadmeFile(readmeGenerator.getAdapterPath(), readmeGenerator.getReadme())
@@ -349,12 +358,9 @@ export async function main(): Promise<void | string> {
     console.log('Collecting README updates')
     const readmeQueue = await Promise.all(
       generatorTargets.map(async (target) => {
-        const readmeGenerator = new ReadmeGenerator(pathToSources + target)
+        const readmeGenerator = new ReadmeGenerator(pathToSources + target, options.verbose)
         await readmeGenerator.fetchImports()
-
-        const adapterPath = readmeGenerator.getAdapterPath()
-        const readmeText = readmeGenerator.getReadme()
-        return [adapterPath, readmeText]
+        return [readmeGenerator.getAdapterPath(), readmeGenerator.getReadme()]
       }),
     )
 
@@ -362,8 +368,6 @@ export async function main(): Promise<void | string> {
     for (const adapter of readmeQueue) {
       createReadmeFile(adapter[0], adapter[1])
     }
-
-    process.env = oldEnv
   } catch (e) {
     console.log(`Error: ${e}`)
     process.exit(1)
