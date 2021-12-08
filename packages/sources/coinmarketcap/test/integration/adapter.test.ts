@@ -1,7 +1,8 @@
 import { AdapterRequest } from '@chainlink/types'
 import http from 'http'
+import { AddressInfo } from 'net'
 import nock from 'nock'
-import request from 'supertest'
+import request, { SuperTest, Test } from 'supertest'
 import { server as startServer } from '../../src/index'
 import {
   mockCoinMarketCapErrorTooManyRequests,
@@ -18,7 +19,7 @@ let oldEnv: NodeJS.ProcessEnv
 
 describe('coinmarketcap', () => {
   let server: http.Server
-  const req = request('localhost:8080')
+  let req: SuperTest<Test>
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
@@ -28,7 +29,9 @@ describe('coinmarketcap', () => {
       nock.recorder.rec()
     }
     server = await startServer()
+    req = request(`localhost:${(server.address() as AddressInfo).port}`)
   })
+
   afterAll((done) => {
     process.env = oldEnv
     if (process.env.RECORD) {
@@ -234,6 +237,7 @@ describe('coinmarketcap', () => {
       })
     })
   })
+
   describe('coinmarketcap replies with success when request historical endpoint', () => {
     const data: AdapterRequest = {
       id: '1',

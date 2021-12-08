@@ -1,5 +1,19 @@
 # @chainlink/upvest-adapter
 
+## 1.1.1
+
+### Patch Changes
+
+- Updated dependencies
+  - @chainlink/ea-bootstrap@1.2.1
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.1.0
+
+### Minor Changes
+
+- 4af9af544: Src export change
+
 ## 1.0.4
 
 ### Patch Changes

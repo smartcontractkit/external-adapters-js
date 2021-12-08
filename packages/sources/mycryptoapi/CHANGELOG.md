@@ -1,5 +1,19 @@
 # @chainlink/mycryptoapi-adapter
 
+## 1.1.1
+
+### Patch Changes
+
+- Updated dependencies
+  - @chainlink/ea-bootstrap@1.2.1
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.1.0
+
+### Minor Changes
+
+- d6d3de689: src export changed
+
 ## 1.0.4
 
 ### Patch Changes

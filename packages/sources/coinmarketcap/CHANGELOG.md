@@ -1,5 +1,19 @@
 # @chainlink/coinmarketcap-adapter
 
+## 1.2.1
+
+### Patch Changes
+
+- Updated dependencies
+  - @chainlink/ea-bootstrap@1.2.1
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.2.0
+
+### Minor Changes
+
+- b189cfe67: Update historical endpoint result format and export types
+
 ## 1.1.1
 
 ### Patch Changes

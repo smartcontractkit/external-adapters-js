@@ -3,6 +3,9 @@
   "include": [],
   "references": [
     {
+      "path": "./composites/anchor"
+    },
+    {
       "path": "./composites/apy-finance"
     },
     {

@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute coin price api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 4533.8640179546355,
+  },
+  "jobRunID": "1",
+  "result": 4533.8640179546355,
+  "statusCode": 200,
+}
+`;

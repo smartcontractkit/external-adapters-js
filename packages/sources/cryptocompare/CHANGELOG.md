@@ -1,5 +1,19 @@
 # @chainlink/cryptocompare-adapter
 
+## 1.1.5
+
+### Patch Changes
+
+- Updated dependencies
+  - @chainlink/ea-bootstrap@1.2.1
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.1.4
+
+### Patch Changes
+
+- 89f6d5f7d: Ensure uppercase symbol overrides
+
 ## 1.1.3
 
 ### Patch Changes

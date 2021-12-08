@@ -1,5 +1,20 @@
 # @chainlink/poa-adapter
 
+## 1.1.1
+
+### Patch Changes
+
+- Updated dependencies
+  - @chainlink/ea-bootstrap@1.2.1
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.1.0
+
+### Minor Changes
+
+- 59cc6e48e: src export changed
+- 59cc6e48e: change default speed parameter to 'average'
+
 ## 1.0.4
 
 ### Patch Changes
