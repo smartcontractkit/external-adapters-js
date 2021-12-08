@@ -1,6 +1,7 @@
 {
   "blacklist": [
     "1forge",
+    "accuweather",
     "ada-balance",
     "agoric",
     "alphachain",
@@ -140,6 +141,7 @@
     "view-function",
     "wbtc-address-set",
     "wootrade",
+    "wrapped",
     "xbto",
     "xsushi-price"
   ]
