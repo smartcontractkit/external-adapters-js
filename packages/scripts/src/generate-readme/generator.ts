@@ -3,6 +3,7 @@ import { buildTable } from './table'
 import commandLineArgs from 'command-line-args'
 import {
   Blacklist,
+  BooleanMap,
   EndpointDetails,
   EnvVars,
   IOMap,
@@ -181,7 +182,7 @@ class ReadmeGenerator {
     console.log('Extracting example requests and responses...')
 
     // Fetch input/output examples
-    let endpointIO = {}
+    let endpointIO = {} as IOMap
     if (this.integrationTestPath) {
       const testOutput = shell
         .exec(`yarn test ${this.integrationTestPath}`, {
@@ -326,14 +327,14 @@ export async function main(): Promise<void | string> {
       return
     }
 
-    let adapters = []
+    let adapters: string[] = []
 
     if (options.all) adapters = shell.ls('-A', pathToSources).filter((name) => name !== 'README.md')
     else if (options.adapters?.length) adapters = options.adapters
     else throw Error('Please specify at least one adapter to generate the README for.')
 
     const blacklist = (getJsonFile(pathToBlacklist) as Blacklist).blacklist
-    const adapterInBlacklist = blacklist.reduce((map, a) => {
+    const adapterInBlacklist = blacklist.reduce((map: BooleanMap, a) => {
       map[a] = true
       return map
     }, {})
@@ -341,14 +342,16 @@ export async function main(): Promise<void | string> {
     const generatorTargets: string[] = adapters.filter((a) => !adapterInBlacklist[a])
 
     console.log('Collecting README updates')
-    const readmeQueue = generatorTargets.map(async (target) => {
-      const readmeGenerator = new ReadmeGenerator(pathToSources + target)
-      await readmeGenerator.fetchImports()
+    const readmeQueue = await Promise.all(
+      generatorTargets.map(async (target) => {
+        const readmeGenerator = new ReadmeGenerator(pathToSources + target)
+        await readmeGenerator.fetchImports()
 
-      const adapterPath = readmeGenerator.getAdapterPath()
-      const readmeText = readmeGenerator.getReadme()
-      return [adapterPath, readmeText]
-    })
+        const adapterPath = readmeGenerator.getAdapterPath()
+        const readmeText = readmeGenerator.getReadme()
+        return [adapterPath, readmeText]
+      }),
+    )
 
     console.log('Saving READMEs')
     for (const adapter of readmeQueue) {

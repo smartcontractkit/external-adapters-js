@@ -95,13 +95,13 @@ Supported names for this endpoint are: `marketcap`, `mc`.
 
 ### Input Params
 
-| Required? |         Name          |         Aliases         | Description | Type | Options | Default | Depends On | Not Valid With |
-| :-------: | :-------------------: | :---------------------: | :---------: | :--: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |         base          | `base`, `from`, `coin`  |             |      |         |         |            |                |
-|    ✅     |         quote         | `quote`, `to`, `market` |             |      |         |         |            |                |
-|    ✅     |        coinid         |                         |             |      |         |         |            |                |
-|           |      resultPath       |                         |             |      |         |         |            |                |
-|           | referenceCurrencyUuid |                         |             |      |         |         |            |                |
+| Required? |         Name          |    Aliases     | Description | Type | Options | Default | Depends On | Not Valid With |
+| :-------: | :-------------------: | :------------: | :---------: | :--: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |         base          | `from`, `coin` |             |      |         |         |            |                |
+|    ✅     |         quote         | `to`, `market` |             |      |         |         |            |                |
+|    ✅     |        coinid         |                |             |      |         |         |            |                |
+|           |      resultPath       |                |             |      |         |         |            |                |
+|           | referenceCurrencyUuid |                |             |      |         |         |            |                |
 
 ### Example
 
@@ -166,12 +166,12 @@ Supported names for this endpoint are: `price`, `convert`.
 
 ### Input Params
 
-| Required? |    Name    |         Aliases         | Description | Type | Options | Default | Depends On | Not Valid With |
-| :-------: | :--------: | :---------------------: | :---------: | :--: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |    base    | `base`, `from`, `coin`  |             |      |         |         |            |                |
-|    ✅     |   quote    | `quote`, `to`, `market` |             |      |         |         |            |                |
-|           |   amount   |                         |             |      |         |         |            |                |
-|           | resultPath |                         |             |      |         |         |            |                |
+| Required? |    Name    |    Aliases     | Description | Type | Options | Default | Depends On | Not Valid With |
+| :-------: | :--------: | :------------: | :---------: | :--: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |    base    | `from`, `coin` |             |      |         |         |            |                |
+|    ✅     |   quote    | `to`, `market` |             |      |         |         |            |                |
+|           |   amount   |                |             |      |         |         |            |                |
+|           | resultPath |                |             |      |         |         |            |                |
 
 ### Example
 

@@ -4,6 +4,8 @@ export type Blacklist = {
   blacklist: string[]
 }
 
+export type BooleanMap = Record<string, boolean>
+
 export type EndpointDetails = {
   [endpointName: string]: {
     supportedEndpoints: string[]
