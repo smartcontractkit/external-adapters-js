@@ -1,7 +1,7 @@
 import { AdapterRequest } from '@chainlink/types'
 import request, { SuperTest, Test } from 'supertest'
 import * as process from 'process'
-import { makeExecute, server as startServer } from '../../src'
+import { server as startServer } from '../../src'
 import * as nock from 'nock'
 import * as http from 'http'
 import { mockResponseSuccess } from './fixtures'
