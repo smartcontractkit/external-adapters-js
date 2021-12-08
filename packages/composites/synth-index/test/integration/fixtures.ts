@@ -1012,8 +1012,8 @@ export function mockCoingeckoResponseFailureRedis(postInitialFailures = 2) {
  *
  * @param postInitialFailures The number of failures to return
  */
-export function mockCoingeckoConnectionFailure(times = 1) {
-  nock('http://localhost:8080', { encodedQueryParams: true })
+export function mockCoingeckoConnectionFailure(port: number, times = 1) {
+  nock(`http://localhost:${port}`, { encodedQueryParams: true })
     .post('/', { id: '1', data: { base: 'sDEFI', to: 'usd', source: 'coingecko' } })
     .times(times)
     .reply(
