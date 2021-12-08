@@ -241,7 +241,7 @@ const handleFailedCacheRead = async (
     return await execute(adapterRequest, context)
   }
   try {
-    logger.warn(`Trying to fetch from local cache. `, error)
+    logger.warn('Trying to fetch from local cache.', error)
     return await adapterCache.getResultForRequest(adapterRequest)
   } catch (error) {
     logger.warn('Failed to fetch response from local cache.  Passing through...')
@@ -262,6 +262,13 @@ export const withCache =
       localCacheOptions.cacheImplOptions,
     )
 
+    const localAdapterCache = new AdapterCache({
+      ...context,
+      cache: {
+        ...context.cache,
+        instance: localCacheOptions.instance,
+      },
+    })
     const {
       cache: options,
       cache: { instance: cache },
@@ -278,51 +285,38 @@ export const withCache =
         feedId: adapterRequest.metricsMeta?.feedId || 'N/A',
       })
 
-      try {
-        const cachedAdapterResponse = await adapterCacheToUse.getResultForRequest(adapterRequest)
-        if (cachedAdapterResponse) return cachedAdapterResponse
-      } catch (error) {
-        const localAdapterCache = new AdapterCache({
-          ...context,
-          cache: localCacheOptions,
-        })
-        const response = await handleFailedCacheRead(
-          adapterRequest,
-          context,
-          error,
-          execute,
-          localAdapterCache,
-        )
-        if (response) {
-          return response
+      const tryDoDistributedCacheAction = async (
+        fn: () => Promise<AdapterResponse | void | undefined>,
+      ): Promise<AdapterResponse | void | undefined> => {
+        try {
+          return await fn()
+        } catch (error) {
+          const response = await handleFailedCacheRead(
+            adapterRequest,
+            context,
+            error,
+            execute,
+            localAdapterCache,
+          )
+          if (response) {
+            return response
+          }
+          cacheToUse = localCacheOptions.instance
+          adapterCacheToUse = localAdapterCache
         }
-        cacheToUse = localCacheOptions.instance
-        adapterCacheToUse = localAdapterCache
       }
+
+      const adapterResponse = await tryDoDistributedCacheAction(
+        async () => await adapterCacheToUse.getResultForRequest(adapterRequest),
+      )
+      if (adapterResponse) return adapterResponse
 
       const maxAge = getTTL(adapterRequest, options)
 
-      try {
-        // Initiate request coalescing by adding the in-flight mark
-        await adapterCacheToUse.setInFlightMarker(coalescingKey, maxAge)
-      } catch (error) {
-        const localAdapterCache = new AdapterCache({
-          ...context,
-          cache: localCacheOptions,
-        })
-        const response = await handleFailedCacheRead(
-          adapterRequest,
-          context,
-          error,
-          execute,
-          localAdapterCache,
-        )
-        if (response) {
-          return response
-        }
-        cacheToUse = localCacheOptions.instance
-        adapterCacheToUse = localAdapterCache
-      }
+      const inFlightMarkerResponse = await tryDoDistributedCacheAction(
+        async () => await adapterCacheToUse.setInFlightMarker(coalescingKey, maxAge),
+      )
+      if (inFlightMarkerResponse) return inFlightMarkerResponse
 
       const burstRateLimit = withBurstLimit(rateLimit)
       const executeWithBackoff = await burstRateLimit(execute, context)
