@@ -10,10 +10,11 @@ import { mockVwapEndpointSuccess } from './vwapFixtures'
 describe('bravenewcoin', () => {
   let server: http.Server
   const oldEnv: NodeJS.ProcessEnv = JSON.parse(JSON.stringify(process.env))
-  const req = request('localhost:8080')
+  let req: any
 
   beforeAll(async () => {
     server = await startServer()
+    req = request(`localhost:${(server.address() as AddressInfo).port}`)
     process.env.CACHE_ENABLED = 'false'
 
     process.env.API_KEY = process.env.API_KEY || 'test-api-key'

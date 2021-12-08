@@ -22,11 +22,12 @@ const setupEnvironment = (adapters: string[]) => {
 
 describe('medianizer', () => {
   let server: http.Server
-  const req = request('localhost:8080')
+  let req: any
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     server = await startServer()
+    req = request(`localhost:${(server.address() as AddressInfo).port}`)
     setupEnvironment(['coingecko', 'coinpaprika', 'failing'])
     if (process.env.RECORD) {
       nock.recorder.rec()

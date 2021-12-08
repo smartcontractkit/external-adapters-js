@@ -1,6 +1,8 @@
 import { assertError, assertSuccess } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
+import { AddressInfo } from 'net'
 import request from 'supertest'
+import { SuiteContext } from './adapter.test'
 import {
   mockCoinmetricsResponseError2,
   mockCoinmetricsResponseSuccessMalformed3,
@@ -8,9 +10,13 @@ import {
   mockCoinmetricsResponseSuccess3,
 } from './fixtures'
 
-export function burnedTests(): void {
-  const req = request('localhost:8080')
+export function burnedTests(context: SuiteContext): void {
   const id = '1'
+  let req: any
+
+  beforeAll(() => {
+    req = request(`localhost:${(context.server.address() as AddressInfo).port}`)
+  })
 
   describe('error calls', () => {
     describe('when unsuccessfully requesting coinmetrics API', () => {

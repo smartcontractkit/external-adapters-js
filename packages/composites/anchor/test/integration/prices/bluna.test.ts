@@ -44,11 +44,12 @@ let oldEnv: NodeJS.ProcessEnv
 
 describe('price-bluna', () => {
   let server: http.Server
-  const req = request('localhost:8080')
+  let req: any
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     server = await startServer()
+    req = request(`localhost:${(server.address() as AddressInfo).port}`)
     process.env.API_KEY = 'CG-BxqpSs7NBKWvcckgQp2aBMVj'
     process.env.COLUMBUS_5_RPC_URL = 'fake-columbus-rpc'
     process.env.COINGECKO_ADAPTER_URL = 'http://localhost:5000'

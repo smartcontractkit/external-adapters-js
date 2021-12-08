@@ -9,10 +9,16 @@ import {
   mockAWCurrentConditionsResponseSuccessMalformed3,
 } from './fixtures'
 import { Unit } from '../../src/endpoint/current-conditions'
+import { SuiteContext } from './adapter.test'
+import { AddressInfo } from 'net'
 
-export function currentConditionsTests(): void {
-  const req = request('localhost:8080')
+export function currentConditionsTests(context: SuiteContext): void {
   const id = '1'
+  let req: any
+
+  beforeAll(() => {
+    req = request(`localhost:${(context.server.address() as AddressInfo).port}`)
+  })
 
   describe('error calls', () => {
     const locationKey = 123456

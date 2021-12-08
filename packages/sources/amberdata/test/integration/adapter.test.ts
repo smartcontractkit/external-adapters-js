@@ -15,7 +15,7 @@ let oldEnv: NodeJS.ProcessEnv
 
 describe('amberdata', () => {
   let server: http.Server
-  const req = request('localhost:8080')
+  let req: any
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
@@ -25,6 +25,7 @@ describe('amberdata', () => {
       nock.recorder.rec()
     }
     server = await startServer()
+    req = request(`localhost:${(server.address() as AddressInfo).port}`)
   })
   afterAll((done) => {
     process.env = oldEnv

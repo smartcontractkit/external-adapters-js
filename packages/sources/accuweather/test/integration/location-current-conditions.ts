@@ -9,10 +9,16 @@ import {
   mockAWLocationResponseSuccessLocationNotFound,
 } from './fixtures'
 import { Unit } from '../../src/endpoint/current-conditions'
+import { SuiteContext } from './adapter.test'
+import { AddressInfo } from 'net'
 
-export function locationCurrentConditionsTests(): void {
-  const req = request('localhost:8080')
+export function locationCurrentConditionsTests(context: SuiteContext): void {
   const id = '1'
+  let req: any
+
+  beforeAll(() => {
+    req = request(`localhost:${(context.server.address() as AddressInfo).port}`)
+  })
 
   describe('error calls', () => {
     describe('when the location endpoint fails', () => {

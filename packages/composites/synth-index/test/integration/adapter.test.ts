@@ -1,5 +1,6 @@
 import { AdapterRequest } from '@chainlink/types'
 import http from 'http'
+import { AddressInfo } from 'net'
 import nock from 'nock'
 import request from 'supertest'
 import { server as startServer } from '../../src/index'
@@ -33,9 +34,10 @@ afterAll(() => {
 
 describe('synth-index X coingecko', () => {
   let server: http.Server
-  const req = request('localhost:8080')
+  let req: any
   beforeAll(async () => {
     server = await startServer()
+    req = request(`localhost:${(server.address() as AddressInfo).port}`)
     process.env.CACHE_ENABLED = 'false'
   })
   afterAll((done) => {
@@ -83,7 +85,7 @@ describe('synth-index X coingecko', () => {
     })
     describe('and coingecko replies with a failure repeatedly', () => {
       it.only('should try 3 times and then fail', async () => {
-        mockCoingeckoConnectionFailure(4)
+        mockCoingeckoConnectionFailure((server.address() as AddressInfo).port, 4)
 
         const response = await req
           .post('/')

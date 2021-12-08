@@ -4,8 +4,13 @@ import http from 'http'
 import { server as startServer } from '../../src'
 import { burnedTests } from './burned'
 import { totalBurnedTests } from './total-burned'
+import { AddressInfo } from 'net'
 
 let oldEnv: NodeJS.ProcessEnv
+
+export interface SuiteContext {
+  server: http.Server
+}
 
 beforeAll(() => {
   oldEnv = JSON.parse(JSON.stringify(process.env))
@@ -29,16 +34,18 @@ afterAll(() => {
 })
 
 describe('execute', () => {
-  let server: http.Server
+  const context: SuiteContext = {
+    server: null,
+  }
 
   beforeAll(async () => {
-    server = await startServer()
+    context.server = await startServer()
   })
 
   afterAll((done) => {
-    server.close(done)
+    context.server.close(done)
   })
 
-  describe('total-burned endpoint', () => totalBurnedTests())
-  describe('burned endpoint', () => burnedTests())
+  describe('total-burned endpoint', () => totalBurnedTests(context))
+  describe('burned endpoint', () => burnedTests(context))
 })

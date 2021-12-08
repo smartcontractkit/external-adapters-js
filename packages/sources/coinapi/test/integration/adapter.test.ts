@@ -9,7 +9,7 @@ import { mockCryptoEndpoint } from './cryptoFixtures'
 describe('coinapi', () => {
   let server: http.Server
   const oldEnv: NodeJS.ProcessEnv = JSON.parse(JSON.stringify(process.env))
-  const req = request('localhost:8080')
+  let req: any
 
   beforeAll(async () => {
     process.env.CACHE_ENABLED = 'false'
@@ -20,6 +20,7 @@ describe('coinapi', () => {
       process.env.API_KEY = 'mock-api-key'
     }
     server = await startServer()
+    req = request(`localhost:${(server.address() as AddressInfo).port}`)
   })
   afterAll((done) => {
     process.env = oldEnv

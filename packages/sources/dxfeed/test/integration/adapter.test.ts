@@ -9,10 +9,11 @@ import { mockPriceEndpoint } from './fixtures'
 describe('dxfeed', () => {
   let server: http.Server
   const oldEnv: NodeJS.ProcessEnv = JSON.parse(JSON.stringify(process.env))
-  const req = request('localhost:8080')
+  let req: any
 
   beforeAll(async () => {
     server = await startServer()
+    req = request(`localhost:${(server.address() as AddressInfo).port}`)
     process.env.CACHE_ENABLED = 'false'
     process.env.API_USERNAME = process.env.API_USERNAME || 'fake-api-username'
     process.env.API_PASSWORD = process.env.API_PASSWORD || 'fake-api-password'

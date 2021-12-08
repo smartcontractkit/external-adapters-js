@@ -31,11 +31,12 @@ let oldEnv: NodeJS.ProcessEnv
 
 describe('price-beth', () => {
   let server: http.Server
-  const req = request('localhost:8080')
+  let req: any
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     server = await startServer()
+    req = request(`localhost:${(server.address() as AddressInfo).port}`)
     process.env.COLUMBUS_5_RPC_URL = 'fake-columbus-rpc'
     process.env.API_KEY = 'test'
     process.env.ANCHOR_VAULT_CONTRACT_ADDRESS = 'test-address'

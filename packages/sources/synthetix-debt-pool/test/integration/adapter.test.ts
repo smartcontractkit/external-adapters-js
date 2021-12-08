@@ -77,10 +77,11 @@ afterAll(() => {
 
 describe('synthetix-debt-pool', () => {
   let server: http.Server
-  const req = request('localhost:8080')
+  let req: any
 
   beforeAll(async () => {
     server = await startServer()
+    req = request(`localhost:${(server.address() as AddressInfo).port}`)
   })
   afterAll((done) => {
     server.close(done)

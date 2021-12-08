@@ -18,6 +18,7 @@ import { METRICS_ENABLED, httpRateLimit, setupMetrics } from './metrics'
 import { get as getRateLimitConfig } from './rate-limit/config'
 import { toObjectWithNumbers } from './util'
 import { warmupShutdown } from './cache-warmer/actions'
+import { AddressInfo } from 'net'
 
 const app = express()
 const version = process.env.npm_package_version
@@ -116,7 +117,7 @@ export const initHandler =
           context.cache?.instance?.close()
         })
 
-        logger.info(`Listening on port ${port}!`)
+        logger.info(`Listening on port ${(server.address() as AddressInfo).port}!`)
         resolve(server)
       })
     })

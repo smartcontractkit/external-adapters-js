@@ -9,7 +9,7 @@ import { mockResponseSuccess } from './fixtures'
 describe('execute', () => {
   const id = '1'
   let server: http.Server
-  const req = request('localhost:8080')
+  let req: any
   beforeAll(async () => {
     process.env.RPC_URL = process.env.RPC_URL || 'http://localhost:8545'
 
@@ -17,6 +17,7 @@ describe('execute', () => {
       nock.recorder.rec()
     }
     server = await startServer()
+    req = request(`localhost:${(server.address() as AddressInfo).port}`)
   })
   afterAll((done) => {
     if (process.env.RECORD) {
