@@ -2,14 +2,15 @@ import { AdapterRequest } from '@chainlink/types'
 import { util } from '@chainlink/ea-bootstrap'
 import http from 'http'
 import nock from 'nock'
-import request from 'supertest'
+import request, { SuperTest, Test } from 'supertest'
 import { server as startServer } from '../../src/index'
 import { mockCryptoEndpoint } from './cryptoFixtures'
+import { AddressInfo } from 'net'
 
 describe('coinapi', () => {
   let server: http.Server
   const oldEnv: NodeJS.ProcessEnv = JSON.parse(JSON.stringify(process.env))
-  let req: any
+  let req: SuperTest<Test>
 
   beforeAll(async () => {
     process.env.CACHE_ENABLED = 'false'
@@ -22,6 +23,7 @@ describe('coinapi', () => {
     server = await startServer()
     req = request(`localhost:${(server.address() as AddressInfo).port}`)
   })
+
   afterAll((done) => {
     process.env = oldEnv
     if (util.parseBool(process.env.RECORD)) {

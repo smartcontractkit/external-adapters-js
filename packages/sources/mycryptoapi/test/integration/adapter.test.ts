@@ -1,5 +1,5 @@
 import { AdapterRequest } from '@chainlink/types'
-import request from 'supertest'
+import request, { SuperTest, Test } from 'supertest'
 import * as process from 'process'
 import { server as startServer } from '../../src'
 import * as nock from 'nock'
@@ -10,7 +10,8 @@ import { AddressInfo } from 'net'
 describe('execute', () => {
   const id = '1'
   let server: http.Server
-  let req: any
+  let req: SuperTest<Test>
+
   beforeAll(async () => {
     if (process.env.RECORD) {
       nock.recorder.rec()
@@ -18,6 +19,7 @@ describe('execute', () => {
     server = await startServer()
     req = request(`localhost:${(server.address() as AddressInfo).port}`)
   })
+
   afterAll((done) => {
     if (process.env.RECORD) {
       nock.recorder.play()

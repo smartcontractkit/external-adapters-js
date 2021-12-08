@@ -4,7 +4,6 @@ import http from 'http'
 import { server as startServer } from '../../src'
 import { burnedTests } from './burned'
 import { totalBurnedTests } from './total-burned'
-import { AddressInfo } from 'net'
 
 let oldEnv: NodeJS.ProcessEnv
 

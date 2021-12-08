@@ -1,14 +1,16 @@
 import { AdapterRequest } from '@chainlink/types'
 import http from 'http'
+import { AddressInfo } from 'net'
 import nock from 'nock'
-import request from 'supertest'
+import request, { SuperTest, Test } from 'supertest'
 import { server as startServer } from '../../src'
 import { mockCryptoSuccess, mockDominanceSuccess } from './fixtures'
 
 describe('execute', () => {
   const id = '1'
   let server: http.Server
-  let req: any
+  let req: SuperTest<Test>
+
   beforeAll(async () => {
     process.env.CACHE_ENABLED = 'false'
     if (process.env.RECORD) {
@@ -17,6 +19,7 @@ describe('execute', () => {
     server = await startServer()
     req = request(`localhost:${(server.address() as AddressInfo).port}`)
   })
+
   afterAll((done) => {
     if (process.env.RECORD) {
       nock.recorder.play()

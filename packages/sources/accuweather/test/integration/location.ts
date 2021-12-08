@@ -1,7 +1,7 @@
 import { assertError, assertSuccess } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
 import { AddressInfo } from 'net'
-import request from 'supertest'
+import request, { SuperTest, Test } from 'supertest'
 import { SuiteContext } from './adapter.test'
 import {
   mockAWLocationResponseError,
@@ -13,7 +13,7 @@ import {
 
 export function locationTests(context: SuiteContext): void {
   const id = '1'
-  let req: any
+  let req: SuperTest<Test>
 
   beforeAll(() => {
     req = request(`localhost:${(context.server.address() as AddressInfo).port}`)

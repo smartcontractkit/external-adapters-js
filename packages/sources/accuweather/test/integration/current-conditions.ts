@@ -1,6 +1,6 @@
 import { assertError, assertSuccess } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
-import request from 'supertest'
+import request, { SuperTest, Test } from 'supertest'
 import {
   mockAWCurrentConditionsResponseError,
   mockAWCurrentConditionsResponseSuccess,
@@ -14,7 +14,7 @@ import { AddressInfo } from 'net'
 
 export function currentConditionsTests(context: SuiteContext): void {
   const id = '1'
-  let req: any
+  let req: SuperTest<Test>
 
   beforeAll(() => {
     req = request(`localhost:${(context.server.address() as AddressInfo).port}`)

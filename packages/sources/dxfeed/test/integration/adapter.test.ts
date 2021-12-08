@@ -2,14 +2,15 @@ import { AdapterRequest } from '@chainlink/types'
 import { util } from '@chainlink/ea-bootstrap'
 import http from 'http'
 import nock from 'nock'
-import request from 'supertest'
+import request, { SuperTest, Test } from 'supertest'
 import { server as startServer } from '../../src'
 import { mockPriceEndpoint } from './fixtures'
+import { AddressInfo } from 'net'
 
 describe('dxfeed', () => {
   let server: http.Server
   const oldEnv: NodeJS.ProcessEnv = JSON.parse(JSON.stringify(process.env))
-  let req: any
+  let req: SuperTest<Test>
 
   beforeAll(async () => {
     server = await startServer()

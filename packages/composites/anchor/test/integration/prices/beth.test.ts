@@ -2,10 +2,11 @@ import { AdapterRequest } from '@chainlink/types'
 import { server as startServer } from '../../../src'
 import nock from 'nock'
 import http from 'http'
-import request from 'supertest'
+import request, { SuperTest, Test } from 'supertest'
 import { mockBTCUSDPrice, mockETHUSDPrice, mockSTEthUSDPrice } from '../fixtures'
 
 import { ethers, BigNumber } from 'ethers'
+import { AddressInfo } from 'net'
 
 const mockBigNum = BigNumber.from(10).pow(18)
 
@@ -31,7 +32,7 @@ let oldEnv: NodeJS.ProcessEnv
 
 describe('price-beth', () => {
   let server: http.Server
-  let req: any
+  let req: SuperTest<Test>
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))

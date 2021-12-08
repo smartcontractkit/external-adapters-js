@@ -3,12 +3,13 @@ import { util } from '@chainlink/ea-bootstrap'
 import { server as startServer } from '../../src'
 import nock from 'nock'
 import http from 'http'
-import request from 'supertest'
+import request, { SuperTest, Test } from 'supertest'
 import {
   mockSuccessfulResponsesWithCommaSeparatedSources,
   mockSuccessfulResponsesWithoutCommaSeparatedSources,
   mockSuccessfulResponsesWithSingleSource,
 } from './fixtures'
+import { AddressInfo } from 'net'
 
 let oldEnv: NodeJS.ProcessEnv
 
@@ -22,7 +23,7 @@ const setupEnvironment = (adapters: string[]) => {
 
 describe('medianizer', () => {
   let server: http.Server
-  let req: any
+  let req: SuperTest<Test>
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))

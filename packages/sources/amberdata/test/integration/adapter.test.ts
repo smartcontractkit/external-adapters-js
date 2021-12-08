@@ -2,7 +2,7 @@ import { AdapterRequest } from '@chainlink/types'
 import { util } from '@chainlink/ea-bootstrap'
 import http from 'http'
 import nock from 'nock'
-import request from 'supertest'
+import request, { SuperTest, Test } from 'supertest'
 import { server as startServer } from '../../src/index'
 import {
   mockCryptoEndpoint,
@@ -10,12 +10,13 @@ import {
   mockMarketCapEndpoint,
   mockVolumeEndpoint,
 } from './fixtures'
+import { AddressInfo } from 'net'
 
 let oldEnv: NodeJS.ProcessEnv
 
 describe('amberdata', () => {
   let server: http.Server
-  let req: any
+  let req: SuperTest<Test>
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
@@ -27,6 +28,7 @@ describe('amberdata', () => {
     server = await startServer()
     req = request(`localhost:${(server.address() as AddressInfo).port}`)
   })
+
   afterAll((done) => {
     process.env = oldEnv
     if (util.parseBool(process.env.RECORD)) {

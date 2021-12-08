@@ -1,10 +1,11 @@
-import { AdapterRequest } from '@chainlink/types'
+import { AdapterRequest, AdapterResponse } from '@chainlink/types'
 import { server as startServer } from '../../../src'
 import nock from 'nock'
 import http from 'http'
-import request from 'supertest'
+import request, { SuperTest, Test } from 'supertest'
 import * as view from '@chainlink/terra-view-function-adapter'
 import { mockBTCUSDPrice, mockETHUSDPrice, mockLunaUSDPrice } from '../fixtures'
+import { AddressInfo } from 'net'
 
 jest.mock('@chainlink/terra-view-function-adapter', () => ({
   ...jest.requireActual('@chainlink/terra-view-function-adapter'),
@@ -44,7 +45,7 @@ let oldEnv: NodeJS.ProcessEnv
 
 describe('price-bluna', () => {
   let server: http.Server
-  let req: any
+  let req: SuperTest<Test>
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
