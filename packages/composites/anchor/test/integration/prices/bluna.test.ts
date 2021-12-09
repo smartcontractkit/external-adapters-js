@@ -83,7 +83,6 @@ describe('price-bluna', () => {
           from: 'BLuna',
           to: 'USD',
           source: 'coingecko',
-          terraBLunaContractAddress: 'terra1mtwph2juhj0rvjz7dy92gvl6xvukaxu8rfv8ts',
         },
       }
 

@@ -1,5 +1,11 @@
 # @chainlink/anchor-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- 5bd4a7a0: make terra contract address param optional
+
 ## 1.0.1
 
 ### Patch Changes
