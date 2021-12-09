@@ -14,7 +14,18 @@ export const batchablePropertyPath = [{ name: 'base', limit: 120 }]
 const customError = (data: any) => data.Response === 'Error'
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin', 'market'],
+  base: {
+    required: true,
+    aliases: ['from', 'coin', 'market'],
+    description: 'The symbol of the currency to query',
+    type: 'string',
+  },
+  overrides: {
+    required: false,
+    description:
+      'If base provided is found in overrides, that will be used. Default presets are [here](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json)',
+    type: 'object',
+  },
 }
 
 const quoteEventSymbols: { [key: string]: boolean } = {
