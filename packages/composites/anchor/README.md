@@ -39,8 +39,7 @@ See the [Composite Adapter README](../README.md) for more information on how to 
   "id": "1",
   "data": {
     "from": "BETH",
-    "to": "USD",
-    "source": "coingecko"
+    "to": "USD"
   }
 }
 ```
@@ -60,9 +59,9 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 
 #### BLuna Additional params
 
-| Required? |            Name             |             Description             |                                  Options                                   | Defaults to |
-| :-------: | :-------------------------: | :---------------------------------: | :------------------------------------------------------------------------: | :---------: |
-|    ✅     | `terraBLunaContractAddress` | The BLuna contract address in Terra | [Link](https://docs.anchorprotocol.com/smart-contracts/deployed-contracts) |             |
+| Required? |            Name             |             Description             |                                  Options                                   |                  Defaults to                   |
+| :-------: | :-------------------------: | :---------------------------------: | :------------------------------------------------------------------------: | :--------------------------------------------: |
+|           | `terraBLunaContractAddress` | The BLuna contract address in Terra | [Link](https://docs.anchorprotocol.com/smart-contracts/deployed-contracts) | `terra1mtwph2juhj0rvjz7dy92gvl6xvukaxu8rfv8ts` |
 
 ### Sample Input
 
@@ -71,9 +70,7 @@ See the [Composite Adapter README](../README.md) for more information on how to 
   "id": "1",
   "data": {
     "from": "BLuna",
-    "to": "USD",
-    "source": "coingecko",
-    "terraBLunaContractAddress": "terra1mtwph2juhj0rvjz7dy92gvl6xvukaxu8rfv8ts"
+    "to": "USD"
   }
 }
 ```
