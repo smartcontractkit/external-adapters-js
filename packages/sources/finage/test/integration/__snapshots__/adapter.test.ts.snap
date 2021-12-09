@@ -1,5 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`execute crypto api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 50940.12,
+  },
+  "jobRunID": "1",
+  "result": 50940.12,
+  "statusCode": 200,
+}
+`;
+
 exports[`execute eod api should return success 1`] = `
 Object {
   "data": Object {
