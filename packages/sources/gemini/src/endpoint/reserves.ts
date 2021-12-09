@@ -21,7 +21,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const jobRunID = validator.validated.id
   const token = validator.validated.data.token
-  const network = validator.validated.data.network || 'ethereum'
+  const network = validator.validated.data.network || 'filecoin'
   const chainId = validator.validated.data.chainId || 'mainnet'
   const url = `/v1/tokens/${token.toLowerCase()}/reserves`
 

@@ -13,12 +13,12 @@ Object {
       Object {
         "address": "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi",
         "chainId": "mainnet",
-        "network": "ethereum",
+        "network": "filecoin",
       },
       Object {
         "address": "f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay",
         "chainId": "mainnet",
-        "network": "ethereum",
+        "network": "filecoin",
       },
     ],
   },
@@ -27,12 +27,12 @@ Object {
     Object {
       "address": "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi",
       "chainId": "mainnet",
-      "network": "ethereum",
+      "network": "filecoin",
     },
     Object {
       "address": "f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay",
       "chainId": "mainnet",
-      "network": "ethereum",
+      "network": "filecoin",
     },
   ],
   "statusCode": 200,

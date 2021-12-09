@@ -24,7 +24,7 @@ This adapter takes no environment variables.
 | :-------: | :-------------------------: | :------------------------------------------------------: | :-----: | :---------: |
 |    ✅     | `token`, `asset`, or `coin` |             The symbol of the token to query             | `EFIL`  |             |
 |           |          `chainId`          | An identifier for which network of the blockchain to use |         |  `mainnet`  |
-|           |          `network`          |                                                          |         | `ethereum`  |
+|           |          `network`          |                                                          |         | `filecoin`  |
 
 ### Sample Input
 
@@ -46,12 +46,12 @@ This adapter takes no environment variables.
     {
       "address": "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi",
       "chainId": "mainnet",
-      "network": "ethereum"
+      "network": "filecoin"
     },
     {
       "address": "f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay",
       "chainId": "mainnet",
-      "network": "ethereum"
+      "network": "filecoin"
     }
   ],
   "statusCode": 200,
@@ -60,12 +60,12 @@ This adapter takes no environment variables.
       {
         "address": "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi",
         "chainId": "mainnet",
-        "network": "ethereum"
+        "network": "filecoin"
       },
       {
         "address": "f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay",
         "chainId": "mainnet",
-        "network": "ethereum"
+        "network": "filecoin"
       }
     ]
   }
