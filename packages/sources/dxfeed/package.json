@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/dxfeed-adapter",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "Chainlink dxfeed adapter.",
   "keywords": [
     "Chainlink",

@@ -1,5 +1,12 @@
 # @chainlink/ea-bootstrap
 
+## 1.3.2
+
+### Patch Changes
+
+- a212f2cb2: WS bug fixes
+- Only set Redis URL when defined as an env var
+
 ## 1.3.1
 
 ### Patch Changes
