@@ -26,31 +26,35 @@ export type RedisOptions = RedisClientOptions<RedisModules, RedisScripts> & {
   type: 'redis'
 }
 
-export const defaultOptions = (): RedisOptions => ({
-  type: 'redis',
-  socket: {
-    host: env.CACHE_REDIS_HOST || DEFAULT_CACHE_REDIS_HOST,
-    port: Number(env.CACHE_REDIS_PORT) || DEFAULT_CACHE_REDIS_PORT,
-    path: env.CACHE_REDIS_PATH || DEFAULT_CACHE_REDIS_PATH,
-    reconnectStrategy: (retries: number): number => {
-      metrics.redis_retries_count.inc()
-      logger.warn(`Redis reconnect attempt #${retries}`)
-      return Math.min(
-        retries * 100,
-        Number(env.CACHE_REDIS_MAX_RECONNECT_COOLDOWN) ||
-          DEFAULT_CACHE_REDIS_MAX_RECONNECT_COOLDOWN,
-      ) // Next reconnect attempt time
+export const defaultOptions = (): RedisOptions => {
+  const options: RedisOptions = {
+    type: 'redis',
+    socket: {
+      host: env.CACHE_REDIS_HOST || DEFAULT_CACHE_REDIS_HOST,
+      port: Number(env.CACHE_REDIS_PORT) || DEFAULT_CACHE_REDIS_PORT,
+      path: env.CACHE_REDIS_PATH || DEFAULT_CACHE_REDIS_PATH,
+      reconnectStrategy: (retries: number): number => {
+        metrics.redis_retries_count.inc()
+        logger.warn(`Redis reconnect attempt #${retries}`)
+        return Math.min(
+          retries * 100,
+          Number(env.CACHE_REDIS_MAX_RECONNECT_COOLDOWN) ||
+            DEFAULT_CACHE_REDIS_MAX_RECONNECT_COOLDOWN,
+        ) // Next reconnect attempt time
+      },
+      connectTimeout:
+        Number(env.CACHE_REDIS_CONNECTION_TIMEOUT) || DEFAULT_CACHE_REDIS_CONNECTION_TIMEOUT,
     },
-    connectTimeout:
-      Number(env.CACHE_REDIS_CONNECTION_TIMEOUT) || DEFAULT_CACHE_REDIS_CONNECTION_TIMEOUT,
-  },
-  url: env.CACHE_REDIS_URL || DEFAULT_CACHE_REDIS_URL,
-  password: env.CACHE_REDIS_PASSWORD || DEFAULT_CACHE_REDIS_PASSWORD,
-  commandsQueueMaxLength:
-    Number(env.CACHE_REDIS_MAX_QUEUED_ITEMS) || DEFAULT_CACHE_REDIS_MAX_QUEUED_ITEMS,
-  maxAge: Number(env.CACHE_MAX_AGE) || DEFAULT_CACHE_MAX_AGE,
-  timeout: Number(env.CACHE_REDIS_TIMEOUT) || DEFAULT_CACHE_REDIS_REQUEST_TIMEOUT,
-})
+    password: env.CACHE_REDIS_PASSWORD || DEFAULT_CACHE_REDIS_PASSWORD,
+    commandsQueueMaxLength:
+      Number(env.CACHE_REDIS_MAX_QUEUED_ITEMS) || DEFAULT_CACHE_REDIS_MAX_QUEUED_ITEMS,
+    maxAge: Number(env.CACHE_MAX_AGE) || DEFAULT_CACHE_MAX_AGE,
+    timeout: Number(env.CACHE_REDIS_TIMEOUT) || DEFAULT_CACHE_REDIS_REQUEST_TIMEOUT,
+  }
+  const cacheRedisURL = env.CACHE_REDIS_URL || DEFAULT_CACHE_REDIS_URL
+  if (cacheRedisURL) options.url = cacheRedisURL
+  return options
+}
 
 // Options without sensitive data
 export const redactOptions = (opts: RedisOptions) => {
