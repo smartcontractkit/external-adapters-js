@@ -1,5 +1,16 @@
 # @chainlink/defi-dozen-adapter
 
+## 1.0.11
+
+### Patch Changes
+
+- Updated dependencies [9e3e1cbb6]
+- Updated dependencies [a3b352bb5]
+- Updated dependencies [97bbbfc69]
+  - @chainlink/ea-bootstrap@1.3.1
+  - @chainlink/token-allocation-adapter@1.0.11
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.0.10
 
 ### Patch Changes

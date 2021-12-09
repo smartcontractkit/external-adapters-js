@@ -1,5 +1,13 @@
 # @chainlink/ea-bootstrap
 
+## 1.3.1
+
+### Patch Changes
+
+- 9e3e1cbb6: Provide fixed feed_id for cache warmer requests
+- a3b352bb5: Fix rate limit capacity parsing
+- 97bbbfc69: This PR fixes an issue with the cache warmer metrics that was causing them to go into the negatives
+
 ## 1.3.0
 
 ### Minor Changes
