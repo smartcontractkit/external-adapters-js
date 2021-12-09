@@ -343,21 +343,20 @@ export async function main(): Promise<void | string> {
 
     let adapters: string[] = []
 
-    if (options.all) adapters = shell.ls('-A', pathToSources).filter((name) => name !== 'README.md')
-    else if (options.adapters?.length) adapters = options.adapters
+    if (options.all) {
+      adapters = shell.ls('-A', pathToSources).filter((name) => name !== 'README.md')
+      const blacklist = (getJsonFile(pathToBlacklist) as Blacklist).blacklist
+      const adapterInBlacklist = blacklist.reduce((map: BooleanMap, a) => {
+        map[a] = true
+        return map
+      }, {})
+      adapters = adapters.filter((a) => !adapterInBlacklist[a])
+    } else if (options.adapters?.length) adapters = options.adapters
     else throw Error('Please specify at least one adapter to generate the README for.')
-
-    const blacklist = (getJsonFile(pathToBlacklist) as Blacklist).blacklist
-    const adapterInBlacklist = blacklist.reduce((map: BooleanMap, a) => {
-      map[a] = true
-      return map
-    }, {})
-
-    const generatorTargets: string[] = adapters.filter((a) => !adapterInBlacklist[a])
 
     console.log('Collecting README updates')
     const readmeQueue = await Promise.all(
-      generatorTargets.map(async (target) => {
+      adapters.map(async (target) => {
         const readmeGenerator = new ReadmeGenerator(pathToSources + target, options.verbose)
         await readmeGenerator.fetchImports()
         return [readmeGenerator.getAdapterPath(), readmeGenerator.getReadme()]
