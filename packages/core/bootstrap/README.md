@@ -83,7 +83,7 @@ For example, if the `CACHE_KEY_IGNORED_PROPS=timestamp` is set, these requests w
 
 | Required? |           Name            |                                                                                                                              Description                                                                                                                               | Options | Defaults to |
 | :-------: | :-----------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
-|           |     `CACHE_MAX_ITEMS`     |                                                                                   The maximum size of the cache, checked by applying the length function to all values in the cache.                                                                                   |         |    `500`    |
+|           |     `CACHE_MAX_ITEMS`     |                                                                                   The maximum size of the cache, checked by applying the length function to all values in the cache.                                                                                   |         |   `1000`    |
 |           | `CACHE_UPDATE_AGE_ON_GET` | When using time-expiring entries with maxAge, setting this to true will make each item's effective time update to the current time whenever it is retrieved from cache, causing it to not expire. (It can still fall out of cache based on recency of use, of course.) |         |   `false`   |
 
 ### Redis
