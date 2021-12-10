@@ -1,5 +1,13 @@
 # @chainlink/coinmetrics-adapter
 
+## 1.1.6
+
+### Patch Changes
+
+- Updated dependencies [34b40ed33]
+  - @chainlink/ea-bootstrap@1.2.2
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.1.5
 
 ### Patch Changes
