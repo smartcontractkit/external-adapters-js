@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 1.3.3
+
+### Patch Changes
+
+- 946b778c: Increase default local cache MAX_ITEMS to 1000
+
 ## 1.3.2
 
 ### Patch Changes
