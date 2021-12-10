@@ -18,7 +18,8 @@
   },
   "coinpaprika": {
     "GRT": "grt-the-graph",
-    "PAX": "usdp-paxos-standard-token"
+    "PAX": "usdp-paxos-standard-token",
+    "KNC": "knc-kyber-network"
   },
   "cryptocompare": {
     "PAX": "USDP"
