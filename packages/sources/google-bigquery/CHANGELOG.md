@@ -1,5 +1,13 @@
 # @chainlink/google-bigquery-adapter
 
+## 1.0.9
+
+### Patch Changes
+
+- Updated dependencies [946b778c]
+  - @chainlink/ea-bootstrap@1.3.3
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.0.8
 
 ### Patch Changes
