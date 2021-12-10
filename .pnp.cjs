@@ -543,6 +543,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/satoshitango"
       },
       {
+        "name": "@chainlink/snowflake-adapter",
+        "reference": "workspace:packages/sources/snowflake"
+      },
+      {
         "name": "@chainlink/sochain-adapter",
         "reference": "workspace:packages/sources/sochain"
       },
@@ -787,6 +791,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/renvm-address-set-adapter", ["workspace:packages/sources/renvm-address-set"]],
       ["@chainlink/satoshitango-adapter", ["workspace:packages/sources/satoshitango"]],
       ["@chainlink/set-token-index-adapter", ["workspace:packages/composites/set-token-index"]],
+      ["@chainlink/snowflake-adapter", ["workspace:packages/sources/snowflake"]],
       ["@chainlink/sochain-adapter", ["workspace:packages/sources/sochain"]],
       ["@chainlink/spectral-macro-score-adapter", ["workspace:packages/sources/spectral-macro-score"]],
       ["@chainlink/sportsdataio-adapter", ["workspace:packages/sources/sportsdataio"]],
@@ -3894,6 +3899,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -3986,6 +3992,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -4026,6 +4033,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["ethers", "npm:5.5.1"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
@@ -4061,6 +4069,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["ethers", "npm:5.4.6"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
@@ -4120,6 +4129,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["decimal.js", "npm:10.3.1"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
@@ -4139,6 +4149,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["nock", "npm:13.1.3"],
+            ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
@@ -4155,6 +4167,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.1.3"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -4191,6 +4204,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/express", "npm:4.17.13"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.1.3"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -4210,6 +4224,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/express", "npm:4.17.13"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.1.3"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -4263,6 +4278,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["blockcypher", "npm:0.3.0"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
@@ -4282,6 +4298,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -4354,6 +4371,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.1.3"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -4442,6 +4460,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.1.3"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -4460,6 +4479,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -4478,6 +4498,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -4497,6 +4518,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/express", "npm:4.17.13"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.1.3"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -4554,6 +4576,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -4572,6 +4595,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -4619,6 +4643,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -4695,6 +4720,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -4713,6 +4739,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.1.3"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -4731,6 +4758,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -4749,6 +4777,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -4789,6 +4818,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -4825,6 +4855,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -4931,6 +4962,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -4950,6 +4982,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -5100,6 +5133,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/reduce-adapter", "workspace:packages/sources/reduce"],
             ["@chainlink/renvm-address-set-adapter", "workspace:packages/sources/renvm-address-set"],
             ["@chainlink/satoshitango-adapter", "workspace:packages/sources/satoshitango"],
+            ["@chainlink/snowflake-adapter", "workspace:packages/sources/snowflake"],
             ["@chainlink/sochain-adapter", "workspace:packages/sources/sochain"],
             ["@chainlink/spectral-macro-score-adapter", "workspace:packages/sources/spectral-macro-score"],
             ["@chainlink/sportsdataio-adapter", "workspace:packages/sources/sportsdataio"],
@@ -5137,6 +5171,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@node-redis/client", "npm:1.0.0"],
             ["@reduxjs/toolkit", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:1.6.1"],
             ["@types/express", "npm:4.17.13"],
             ["@types/express-rate-limit", "npm:5.1.3"],
@@ -5151,7 +5186,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/pino", "npm:6.3.12"],
             ["@types/pino-pretty", "npm:4.7.3"],
             ["@types/promise-timeout", "npm:1.3.0"],
-            ["@types/redis", "npm:2.8.32"],
             ["@types/redux-logger", "npm:3.0.9"],
             ["@types/remote-redux-devtools", "npm:0.5.5"],
             ["@types/sinon", "npm:10.0.6"],
@@ -5172,7 +5206,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["pino-pretty", "npm:5.1.3"],
             ["prom-client", "npm:13.2.0"],
             ["promise-timeout", "npm:1.3.0"],
-            ["redis", "npm:3.1.2"],
+            ["redis", "npm:4.0.0"],
             ["redux", "npm:4.1.1"],
             ["redux-logger", "npm:3.0.6"],
             ["redux-observable", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:1.2.0"],
@@ -5301,6 +5335,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -5320,6 +5355,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["ethers", "npm:5.4.6"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
@@ -5339,6 +5375,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -5357,6 +5394,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -5375,6 +5413,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -5393,6 +5432,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -5459,6 +5499,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -5506,6 +5547,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -5524,6 +5566,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -5542,6 +5585,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -5560,6 +5604,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -5594,6 +5639,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -5631,6 +5677,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["nock", "npm:13.2.1"],
+            ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
@@ -5737,6 +5785,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["decimal.js", "npm:10.3.1"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
@@ -5756,6 +5805,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -5816,6 +5866,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -5834,6 +5885,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -5870,6 +5922,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -5888,6 +5941,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["axios", "npm:0.24.0"],
             ["csv-parse", "npm:4.16.0"],
             ["decimal.js", "npm:10.3.1"],
@@ -5982,6 +6036,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -6000,6 +6055,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["axios", "npm:0.24.0"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
@@ -6035,6 +6091,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -6053,6 +6110,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -6087,6 +6145,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["nock", "npm:13.2.1"],
+            ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
@@ -6103,6 +6163,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -6121,6 +6182,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -6171,6 +6233,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -6189,6 +6252,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -6228,6 +6292,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -6264,6 +6329,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -6282,6 +6348,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -6351,6 +6418,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["decimal.js", "npm:10.3.1"],
             ["object-path", "npm:0.11.5"],
             ["supertest", "npm:6.1.6"],
@@ -6389,6 +6457,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@renproject/utils", "npm:2.5.1"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["bitcoinjs-lib", "npm:5.2.0"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
@@ -6408,6 +6477,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -6427,7 +6497,29 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["ethers", "npm:5.4.6"],
+            ["nock", "npm:13.2.1"],
+            ["supertest", "npm:6.1.6"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/snowflake-adapter", [
+        ["workspace:packages/sources/snowflake", {
+          "packageLocation": "./packages/sources/snowflake/",
+          "packageDependencies": [
+            ["@chainlink/snowflake-adapter", "workspace:packages/sources/snowflake"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.3"],
+            ["@types/jsonwebtoken", "npm:8.5.6"],
+            ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
+            ["jsonwebtoken", "npm:8.5.1"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -6447,6 +6539,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["ethers", "npm:5.4.6"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
@@ -6487,6 +6580,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.0.3"],
             ["@types/luxon", "npm:2.0.7"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["ethers", "npm:5.4.6"],
             ["luxon", "npm:2.0.2"],
             ["nock", "npm:13.2.1"],
@@ -6507,6 +6601,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -6567,6 +6662,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -6623,6 +6719,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -6641,6 +6738,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -6687,6 +6785,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -6705,6 +6804,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["express", "npm:4.17.1"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
@@ -6724,6 +6824,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -6742,6 +6843,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -6769,6 +6871,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -6829,6 +6932,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -6847,6 +6951,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -6882,6 +6987,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["ethers", "npm:5.4.6"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
@@ -6901,6 +7007,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -6919,6 +7026,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -6937,6 +7045,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -6955,6 +7064,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.1.3"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -9690,6 +9800,63 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["@node-redis/client", [
+        ["npm:1.0.0", {
+          "packageLocation": "./.yarn/cache/@node-redis-client-npm-1.0.0-f8870156bc-b9e5699e04.zip/node_modules/@node-redis/client/",
+          "packageDependencies": [
+            ["@node-redis/client", "npm:1.0.0"],
+            ["cluster-key-slot", "npm:1.1.0"],
+            ["generic-pool", "npm:3.8.2"],
+            ["redis-parser", "npm:3.0.0"],
+            ["yallist", "npm:4.0.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@node-redis/json", [
+        ["npm:1.0.0", {
+          "packageLocation": "./.yarn/cache/@node-redis-json-npm-1.0.0-4283cdc1e0-b0c7238125.zip/node_modules/@node-redis/json/",
+          "packageDependencies": [
+            ["@node-redis/json", "npm:1.0.0"]
+          ],
+          "linkType": "SOFT",
+        }],
+        ["virtual:9a60413f7a82d982b014be6321df14b0485b29e437c6104a45b16ce5860ec1c6e9bb250122b1de8db35c58018e50bfe1ad6e5a90a29266adfc6d923b8fe3bc8c#npm:1.0.0", {
+          "packageLocation": "./.yarn/__virtual__/@node-redis-json-virtual-d410543cdc/0/cache/@node-redis-json-npm-1.0.0-4283cdc1e0-b0c7238125.zip/node_modules/@node-redis/json/",
+          "packageDependencies": [
+            ["@node-redis/json", "virtual:9a60413f7a82d982b014be6321df14b0485b29e437c6104a45b16ce5860ec1c6e9bb250122b1de8db35c58018e50bfe1ad6e5a90a29266adfc6d923b8fe3bc8c#npm:1.0.0"],
+            ["@node-redis/client", "npm:1.0.0"],
+            ["@types/node-redis__client", null]
+          ],
+          "packagePeers": [
+            "@node-redis/client",
+            "@types/node-redis__client"
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@node-redis/search", [
+        ["npm:1.0.0", {
+          "packageLocation": "./.yarn/cache/@node-redis-search-npm-1.0.0-fc5db63e55-908a786d4e.zip/node_modules/@node-redis/search/",
+          "packageDependencies": [
+            ["@node-redis/search", "npm:1.0.0"]
+          ],
+          "linkType": "SOFT",
+        }],
+        ["virtual:9a60413f7a82d982b014be6321df14b0485b29e437c6104a45b16ce5860ec1c6e9bb250122b1de8db35c58018e50bfe1ad6e5a90a29266adfc6d923b8fe3bc8c#npm:1.0.0", {
+          "packageLocation": "./.yarn/__virtual__/@node-redis-search-virtual-564e0285f9/0/cache/@node-redis-search-npm-1.0.0-fc5db63e55-908a786d4e.zip/node_modules/@node-redis/search/",
+          "packageDependencies": [
+            ["@node-redis/search", "virtual:9a60413f7a82d982b014be6321df14b0485b29e437c6104a45b16ce5860ec1c6e9bb250122b1de8db35c58018e50bfe1ad6e5a90a29266adfc6d923b8fe3bc8c#npm:1.0.0"],
+            ["@node-redis/client", "npm:1.0.0"],
+            ["@types/node-redis__client", null]
+          ],
+          "packagePeers": [
+            "@node-redis/client",
+            "@types/node-redis__client"
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["@nodelib/fs.scandir", [
         ["npm:2.1.5", {
           "packageLocation": "./.yarn/cache/@nodelib-fs.scandir-npm-2.1.5-89c67370dd-a970d595bd.zip/node_modules/@nodelib/fs.scandir/",
@@ -10891,6 +11058,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["@types/jsonwebtoken", [
+        ["npm:8.5.6", {
+          "packageLocation": "./.yarn/cache/@types-jsonwebtoken-npm-8.5.6-a2debacc40-c1c0e40cb1.zip/node_modules/@types/jsonwebtoken/",
+          "packageDependencies": [
+            ["@types/jsonwebtoken", "npm:8.5.6"],
+            ["@types/node", "npm:16.6.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["@types/keccak", [
         ["npm:3.0.1", {
           "packageLocation": "./.yarn/cache/@types-keccak-npm-3.0.1-5763a04e62-55551902b3.zip/node_modules/@types/keccak/",
@@ -11209,16 +11386,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-range-parser-npm-1.2.4-23d797fbde-b7c0dfd508.zip/node_modules/@types/range-parser/",
           "packageDependencies": [
             ["@types/range-parser", "npm:1.2.4"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["@types/redis", [
-        ["npm:2.8.32", {
-          "packageLocation": "./.yarn/cache/@types-redis-npm-2.8.32-a5b861da6a-2b12103e05.zip/node_modules/@types/redis/",
-          "packageDependencies": [
-            ["@types/redis", "npm:2.8.32"],
-            ["@types/node", "npm:16.6.1"]
           ],
           "linkType": "HARD",
         }]
@@ -14603,6 +14770,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["clone-response", "npm:1.0.2"],
             ["mimic-response", "npm:1.0.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["cluster-key-slot", [
+        ["npm:1.1.0", {
+          "packageLocation": "./.yarn/cache/cluster-key-slot-npm-1.1.0-c895b3234e-fc953c7520.zip/node_modules/cluster-key-slot/",
+          "packageDependencies": [
+            ["cluster-key-slot", "npm:1.1.0"]
           ],
           "linkType": "HARD",
         }]
@@ -18365,6 +18541,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["gcp-metadata", "npm:4.3.1"],
             ["gaxios", "npm:4.3.2"],
             ["json-bigint", "npm:1.0.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["generic-pool", [
+        ["npm:3.8.2", {
+          "packageLocation": "./.yarn/cache/generic-pool-npm-3.8.2-e08966e1f1-f549077d90.zip/node_modules/generic-pool/",
+          "packageDependencies": [
+            ["generic-pool", "npm:3.8.2"]
           ],
           "linkType": "HARD",
         }]
@@ -22600,6 +22785,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["jsonwebtoken", [
+        ["npm:8.5.1", {
+          "packageLocation": "./.yarn/cache/jsonwebtoken-npm-8.5.1-c007670b76-93c9e3f23c.zip/node_modules/jsonwebtoken/",
+          "packageDependencies": [
+            ["jsonwebtoken", "npm:8.5.1"],
+            ["jws", "npm:3.2.2"],
+            ["lodash.includes", "npm:4.3.0"],
+            ["lodash.isboolean", "npm:3.0.3"],
+            ["lodash.isinteger", "npm:4.0.4"],
+            ["lodash.isnumber", "npm:3.0.3"],
+            ["lodash.isplainobject", "npm:4.0.6"],
+            ["lodash.isstring", "npm:4.0.1"],
+            ["lodash.once", "npm:4.1.1"],
+            ["ms", "npm:2.1.3"],
+            ["semver", "npm:5.7.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["jsprim", [
         ["npm:1.4.1", {
           "packageLocation": "./.yarn/cache/jsprim-npm-1.4.1-948d2c9ec3-6bcb20ec26.zip/node_modules/jsprim/",
@@ -22650,6 +22854,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["jwa", [
+        ["npm:1.4.1", {
+          "packageLocation": "./.yarn/cache/jwa-npm-1.4.1-4f19d6572c-ff30ea7c2d.zip/node_modules/jwa/",
+          "packageDependencies": [
+            ["jwa", "npm:1.4.1"],
+            ["buffer-equal-constant-time", "npm:1.0.1"],
+            ["ecdsa-sig-formatter", "npm:1.0.11"],
+            ["safe-buffer", "npm:5.2.1"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:2.0.0", {
           "packageLocation": "./.yarn/cache/jwa-npm-2.0.0-52a7c3f1ca-8f00b71ad5.zip/node_modules/jwa/",
           "packageDependencies": [
@@ -22662,6 +22876,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["jws", [
+        ["npm:3.2.2", {
+          "packageLocation": "./.yarn/cache/jws-npm-3.2.2-c1ae59c7af-f0213fe5b7.zip/node_modules/jws/",
+          "packageDependencies": [
+            ["jws", "npm:3.2.2"],
+            ["jwa", "npm:1.4.1"],
+            ["safe-buffer", "npm:5.2.1"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:4.0.0", {
           "packageLocation": "./.yarn/cache/jws-npm-4.0.0-2a24fd53b9-d68d07aa6d.zip/node_modules/jws/",
           "packageDependencies": [
@@ -23822,6 +24045,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["lodash.includes", [
+        ["npm:4.3.0", {
+          "packageLocation": "./.yarn/cache/lodash.includes-npm-4.3.0-3a2f6fa22c-71092c1305.zip/node_modules/lodash.includes/",
+          "packageDependencies": [
+            ["lodash.includes", "npm:4.3.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["lodash.isboolean", [
+        ["npm:3.0.3", {
+          "packageLocation": "./.yarn/cache/lodash.isboolean-npm-3.0.3-b575b41488-b70068b4a8.zip/node_modules/lodash.isboolean/",
+          "packageDependencies": [
+            ["lodash.isboolean", "npm:3.0.3"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["lodash.isequal", [
         ["npm:4.5.0", {
           "packageLocation": "./.yarn/cache/lodash.isequal-npm-4.5.0-f8b0f64d63-da27515dc5.zip/node_modules/lodash.isequal/",
@@ -23840,12 +24081,48 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["lodash.isinteger", [
+        ["npm:4.0.4", {
+          "packageLocation": "./.yarn/cache/lodash.isinteger-npm-4.0.4-42add9f4e1-6034821b3f.zip/node_modules/lodash.isinteger/",
+          "packageDependencies": [
+            ["lodash.isinteger", "npm:4.0.4"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["lodash.isnumber", [
+        ["npm:3.0.3", {
+          "packageLocation": "./.yarn/cache/lodash.isnumber-npm-3.0.3-b3bb5f7347-913784275b.zip/node_modules/lodash.isnumber/",
+          "packageDependencies": [
+            ["lodash.isnumber", "npm:3.0.3"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["lodash.isobject", [
         ["npm:2.3.0", {
           "packageLocation": "./.yarn/cache/lodash.isobject-npm-2.3.0-d8c0468fb5-184829dd13.zip/node_modules/lodash.isobject/",
           "packageDependencies": [
             ["lodash.isobject", "npm:2.3.0"],
             ["lodash._objecttypes", "npm:2.3.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["lodash.isplainobject", [
+        ["npm:4.0.6", {
+          "packageLocation": "./.yarn/cache/lodash.isplainobject-npm-4.0.6-d73937742f-29c6351f28.zip/node_modules/lodash.isplainobject/",
+          "packageDependencies": [
+            ["lodash.isplainobject", "npm:4.0.6"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["lodash.isstring", [
+        ["npm:4.0.1", {
+          "packageLocation": "./.yarn/cache/lodash.isstring-npm-4.0.1-721fee791c-eaac87ae96.zip/node_modules/lodash.isstring/",
+          "packageDependencies": [
+            ["lodash.isstring", "npm:4.0.1"]
           ],
           "linkType": "HARD",
         }]
@@ -23894,6 +24171,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/lodash.noop-npm-2.3.0-422c0b058e-5399fb5f75.zip/node_modules/lodash.noop/",
           "packageDependencies": [
             ["lodash.noop", "npm:2.3.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["lodash.once", [
+        ["npm:4.1.1", {
+          "packageLocation": "./.yarn/cache/lodash.once-npm-4.1.1-d8ba329ead-d768fa9f9b.zip/node_modules/lodash.once/",
+          "packageDependencies": [
+            ["lodash.once", "npm:4.1.1"]
           ],
           "linkType": "HARD",
         }]
@@ -27683,23 +27969,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["redis", [
-        ["npm:3.1.2", {
-          "packageLocation": "./.yarn/cache/redis-npm-3.1.2-0dbc9973a0-baec421986.zip/node_modules/redis/",
+        ["npm:4.0.0", {
+          "packageLocation": "./.yarn/cache/redis-npm-4.0.0-9a60413f7a-7676b35400.zip/node_modules/redis/",
           "packageDependencies": [
-            ["redis", "npm:3.1.2"],
-            ["denque", "npm:1.5.0"],
-            ["redis-commands", "npm:1.7.0"],
-            ["redis-errors", "npm:1.2.0"],
-            ["redis-parser", "npm:3.0.0"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["redis-commands", [
-        ["npm:1.7.0", {
-          "packageLocation": "./.yarn/cache/redis-commands-npm-1.7.0-528f61f9d8-d1ff7fbcb5.zip/node_modules/redis-commands/",
-          "packageDependencies": [
-            ["redis-commands", "npm:1.7.0"]
+            ["redis", "npm:4.0.0"],
+            ["@node-redis/client", "npm:1.0.0"],
+            ["@node-redis/json", "virtual:9a60413f7a82d982b014be6321df14b0485b29e437c6104a45b16ce5860ec1c6e9bb250122b1de8db35c58018e50bfe1ad6e5a90a29266adfc6d923b8fe3bc8c#npm:1.0.0"],
+            ["@node-redis/search", "virtual:9a60413f7a82d982b014be6321df14b0485b29e437c6104a45b16ce5860ec1c6e9bb250122b1de8db35c58018e50bfe1ad6e5a90a29266adfc6d923b8fe3bc8c#npm:1.0.0"]
           ],
           "linkType": "HARD",
         }]

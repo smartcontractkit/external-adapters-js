@@ -88,14 +88,17 @@ For example, if the `CACHE_KEY_IGNORED_PROPS=timestamp` is set, these requests w
 
 ### Redis
 
-| Required? |          Name          |                                                                   Description                                                                   | Options | Defaults to |
-| :-------: | :--------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
-|           |   `CACHE_REDIS_HOST`   |                                                         IP address of the Redis server.                                                         |         | `127.0.0.1` |
-|           |   `CACHE_REDIS_PORT`   |                                                            Port of the Redis server.                                                            |         |   `6379`    |
-|           |   `CACHE_REDIS_PATH`   |                                                   The UNIX socket string of the Redis server.                                                   |         |  undefined  |
-|           |   `CACHE_REDIS_URL`    | The URL of the Redis server. Format: `[redis[s]:]//[[user][:password@]][host][:port][/db-number][?db=db-number[&password=bar[&option=value]]]`. |         |  undefined  |
-|           | `CACHE_REDIS_PASSWORD` |                                                      The password required for redis auth.                                                      |         |   `null`    |
-|           | `CACHE_REDIS_TIMEOUT`  |                                      The timeout in ms if connection to Redis errors or is not responding.                                      |         |    `500`    |
+| Required? |                 Name                 |                                                                   Description                                                                   | Options | Defaults to |
+| :-------: | :----------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
+|           |   `CACHE_REDIS_CONNECTION_TIMEOUT`   |                                             Timeout to end socket connection due to inactivity (ms)                                             |         |   `15000`   |
+|           |          `CACHE_REDIS_HOST`          |                                                         IP address of the Redis server.                                                         |         | `127.0.0.1` |
+|           |    `CACHE_REDIS_MAX_QUEUED_ITEMS`    |                                              Maximum length of the client's internal command queue                                              |         |     100     |
+|           | `CACHE_REDIS_MAX_RECONNECT_COOLDOWN` |                                              Max cooldown time before attempting to reconnect (ms)                                              |         |   `3000`    |
+|           |          `CACHE_REDIS_PORT`          |                                                            Port of the Redis server.                                                            |         |   `6379`    |
+|           |          `CACHE_REDIS_PATH`          |                                                   The UNIX socket string of the Redis server.                                                   |         |  undefined  |
+|           |          `CACHE_REDIS_URL`           | The URL of the Redis server. Format: `[redis[s]:]//[[user][:password@]][host][:port][/db-number][?db=db-number[&password=bar[&option=value]]]`. |         |  undefined  |
+|           |        `CACHE_REDIS_PASSWORD`        |                                                      The password required for redis auth.                                                      |         |   `null`    |
+|           |        `CACHE_REDIS_TIMEOUT`         |                                           Timeout to fail a Redis server request if no response (ms)                                            |         |    `500`    |
 
 For local development run a Redis Docker container:
 
@@ -167,12 +170,12 @@ Being:
 
 \*To use this feature the `CACHE_ENABLED` environment variable must also be enabled.
 
-| Required? |             Name             |                                                                          Description                                                                          | Options |          Defaults to          |
-| :-------: | :--------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: | :---------------------------: |
-|           |       `WARMUP_ENABLED`       |                                                            Enable the cache warmer functionality.                                                             |         |            `true`             |
-|           | `WARMUP_UNHEALTHY_THRESHOLD` |          The number of times a warmup execution can fail before we drop a warmup subscription for a particular cache key.to. Set to `-1` to disable.          |         |              `3`              |
-|           |  `WARMUP_SUBSCRIPTION_TTL`   | The maximum duration between requests for a cache key to an external adapter before the cache warmer will unsubscribe from warming up a particular cache key. |         |      `3600000` (1 hour)       |
-|           |      `WARMUP_INTERVAL`       |                                        The interval at which the cache warmer should send requests to warm the cache.                                         |         | The cache's minimum TTL (30s) |
+| Required? |             Name             |                                                                                                   Description                                                                                                   | Options |             Defaults to             |
+| :-------: | :--------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: | :---------------------------------: |
+|           |       `WARMUP_ENABLED`       |                                                                                     Enable the cache warmer functionality.                                                                                      |         |               `true`                |
+|           | `WARMUP_UNHEALTHY_THRESHOLD` |                                   The number of times a warmup execution can fail before we drop a warmup subscription for a particular cache key.to. Set to `-1` to disable.                                   |         |                 `3`                 |
+|           |  `WARMUP_SUBSCRIPTION_TTL`   |                          The maximum duration between requests for a cache key to an external adapter before the cache warmer will unsubscribe from warming up a particular cache key.                          |         |         `3600000` (1 hour)          |
+|           |      `WARMUP_INTERVAL`       | The interval (in ms) at which the cache warmer should send requests to warm the cache. Prioritizes hard-coded max age, then `WARMUP_INTERVAL` environment variable, lastly the calculated TTL of a cache entry. |         | The cache's minimum TTL (30,000 ms) |
 
 ### Request Coalescing
 

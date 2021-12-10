@@ -17,7 +17,7 @@ Object {
     "result": 70.71,
   },
   "jobRunID": "1",
-  "maxAge": 30000,
+  "maxAge": 90000,
   "result": 70.71,
   "statusCode": 200,
 }

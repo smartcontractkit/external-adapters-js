@@ -1,6 +1,8 @@
 import { assertError, assertSuccess } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
-import request from 'supertest'
+import { AddressInfo } from 'net'
+import request, { SuperTest, Test } from 'supertest'
+import { SuiteContext } from './adapter.test'
 import {
   mockAWLocationResponseError,
   mockAWLocationResponseSuccessLocationNotFound,
@@ -9,9 +11,13 @@ import {
   mockAWLocationResponseSuccessMalformed2,
 } from './fixtures'
 
-export function locationTests(): void {
-  const req = request('localhost:8080')
+export function locationTests(context: SuiteContext): void {
   const id = '1'
+  let req: SuperTest<Test>
+
+  beforeAll(() => {
+    req = request(`localhost:${(context.server.address() as AddressInfo).port}`)
+  })
 
   describe('error calls', () => {
     describe('when unsuccessfully requests accuweather API', () => {

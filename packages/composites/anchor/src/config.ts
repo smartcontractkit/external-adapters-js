@@ -9,7 +9,7 @@ export interface Config extends DefaultConfig {
 }
 
 export const makeConfig = (prefix?: string): Config => {
-  const config = Requester.getDefaultConfig(prefix, true)
+  const config = Requester.getDefaultConfig(prefix)
   config.rpcUrl = util.getRequiredEnv('RPC_URL', prefix)
   config.defaultEndpoint = DEFAULT_ENDPOINT
 

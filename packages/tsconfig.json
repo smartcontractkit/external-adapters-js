@@ -384,6 +384,9 @@
       "path": "./sources/satoshitango"
     },
     {
+      "path": "./sources/snowflake"
+    },
+    {
       "path": "./sources/sochain"
     },
     {

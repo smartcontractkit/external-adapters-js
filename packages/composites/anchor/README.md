@@ -14,6 +14,9 @@ The adapter takes the following environment variables:
 **Additional environment variables must be set according to the Token Allocation adapter.**
 This composite adapter executes the code from the Token Allocation composite adapter. As such the same configuration and input parameters apply to this adapter. See [../token-allocation/README.md](../token-allocation/README.md) for more details.
 
+**Additional environment variables must be set according to the Terra View Function adapter.**
+This composite adapter executes the code from the Token Allocation composite adapter. As such the same configuration and input parameters apply to this adapter. See [../../sources/terra-view-function/README.md](../sources/terra-view-function/README.md) for more details.
+
 ## Running
 
 See the [Composite Adapter README](../README.md) for more information on how to get started.
@@ -36,8 +39,7 @@ See the [Composite Adapter README](../README.md) for more information on how to 
   "id": "1",
   "data": {
     "from": "BETH",
-    "to": "USD",
-    "source": "coingecko"
+    "to": "USD"
   }
 }
 ```
@@ -57,9 +59,9 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 
 #### BLuna Additional params
 
-| Required? |            Name             |             Description             |                                  Options                                   | Defaults to |
-| :-------: | :-------------------------: | :---------------------------------: | :------------------------------------------------------------------------: | :---------: |
-|    ✅     | `terraBLunaContractAddress` | The BLuna contract address in Terra | [Link](https://docs.anchorprotocol.com/smart-contracts/deployed-contracts) |             |
+| Required? |            Name             |             Description             |                                  Options                                   |                  Defaults to                   |
+| :-------: | :-------------------------: | :---------------------------------: | :------------------------------------------------------------------------: | :--------------------------------------------: |
+|           | `terraBLunaContractAddress` | The BLuna contract address in Terra | [Link](https://docs.anchorprotocol.com/smart-contracts/deployed-contracts) | `terra1mtwph2juhj0rvjz7dy92gvl6xvukaxu8rfv8ts` |
 
 ### Sample Input
 
@@ -68,9 +70,7 @@ See the [Composite Adapter README](../README.md) for more information on how to 
   "id": "1",
   "data": {
     "from": "BLuna",
-    "to": "USD",
-    "source": "coingecko",
-    "terraBLunaContractAddress": "terra1mtwph2juhj0rvjz7dy92gvl6xvukaxu8rfv8ts"
+    "to": "USD"
   }
 }
 ```
