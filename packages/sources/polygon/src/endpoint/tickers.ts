@@ -1,9 +1,15 @@
 import { Requester, Validator, util } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters, AdapterRequest, AxiosResponse } from '@chainlink/types'
+import {
+  ExecuteWithConfig,
+  Config,
+  InputParameters,
+  AdapterRequest,
+  AxiosResponse,
+} from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['tickers']
-export const batchablePropertyPath = ['base', 'quote']
+export const batchablePropertyPath = [{ name: 'base' }, { name: 'quote' }]
 
 export const inputParameters: InputParameters = {
   base: ['base', 'from'],
@@ -19,8 +25,8 @@ const handleBatchedRequest = (
 ) => {
   const payload: [AdapterRequest, number][] = []
   for (const pair of response.data.tickers) {
-    const base = pair.ticker.substring(2,5)
-    const quote = pair.ticker.substring(5,8)
+    const base = pair.ticker.substring(2, 5)
+    const quote = pair.ticker.substring(5, 8)
     payload.push([
       {
         ...request,
@@ -28,9 +34,13 @@ const handleBatchedRequest = (
       },
       Requester.validateResultNumber(pair, resultPath),
     ])
-
   }
-  return Requester.success(jobRunID, Requester.withResult(response, undefined, payload), true, batchablePropertyPath)
+  return Requester.success(
+    jobRunID,
+    Requester.withResult(response, undefined, payload),
+    true,
+    batchablePropertyPath,
+  )
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -52,7 +62,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     ...config.api.params,
     tickers: pairs,
   }
-
+  console.log(params)
   const options = {
     ...config.api,
     url,
@@ -61,7 +71,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const response = await Requester.request(options)
 
-  if (Array.isArray(from) || Array.isArray(to)) return handleBatchedRequest(jobRunID, request, response, ['min','c'])
-  response.data.result = Requester.validateResultNumber(response.data.tickers[0], ['min','c'])
+  if (Array.isArray(from) || Array.isArray(to))
+    return handleBatchedRequest(jobRunID, request, response, ['min', 'c'])
+  response.data.result = Requester.validateResultNumber(response.data.tickers[0], ['min', 'c'])
   return Requester.success(jobRunID, response, config.verbose, batchablePropertyPath)
 }

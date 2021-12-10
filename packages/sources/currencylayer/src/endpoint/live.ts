@@ -1,10 +1,15 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters, AdapterRequest, AxiosResponse } from '@chainlink/types'
+import {
+  ExecuteWithConfig,
+  Config,
+  InputParameters,
+  AdapterRequest,
+  AxiosResponse,
+} from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['live']
-export const batchablePropertyPath = ['quote']
-
+export const batchablePropertyPath = [{ name: 'quote' }]
 
 const customError = (data: any) => data.Response === 'Error'
 
@@ -15,25 +20,30 @@ export const inputParameters: InputParameters = {
 }
 
 const handleBatchedRequest = (
-    jobRunID: string,
-    request: AdapterRequest,
-    response: AxiosResponse<any>,
-    resultPath: string,
-    symbols: string[]
-  ) => {
-    const payload: [AdapterRequest, number][] = []
-    for (const symbol of symbols) {
-      const from = response.data.source
-      payload.push([
-        {
-          ...request,
-          data: { ...request.data, base: from.toUpperCase(), quote: symbol.toUpperCase() },
-        },
-        Requester.validateResultNumber(response.data, [resultPath, from + symbol]),
-      ])
-    }
-    return Requester.success(jobRunID, Requester.withResult(response, undefined, payload), true, batchablePropertyPath)
+  jobRunID: string,
+  request: AdapterRequest,
+  response: AxiosResponse<any>,
+  resultPath: string,
+  symbols: string[],
+) => {
+  const payload: [AdapterRequest, number][] = []
+  for (const symbol of symbols) {
+    const from = response.data.source
+    payload.push([
+      {
+        ...request,
+        data: { ...request.data, base: from.toUpperCase(), quote: symbol.toUpperCase() },
+      },
+      Requester.validateResultNumber(response.data, [resultPath, from + symbol]),
+    ])
   }
+  return Requester.success(
+    jobRunID,
+    Requester.withResult(response, undefined, payload),
+    true,
+    batchablePropertyPath,
+  )
+}
 
 // NOTE: This endpoint has not been acceptance tested and will need to be once
 // a valid API Key is obtained.
@@ -50,15 +60,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     access_key: config.apiKey,
     source: from,
     currencies: () => {
-        if (Array.isArray(to))
-            to.join
-        else
-            to
-        }
+      if (Array.isArray(to)) to.join
+      else to
+    },
   }
 
   const reqConfig = { ...config.api, params, url }
-
 
   const response = await Requester.request(reqConfig, customError)
   if (Array.isArray(to)) return handleBatchedRequest(jobRunID, request, response, 'quotes', to)

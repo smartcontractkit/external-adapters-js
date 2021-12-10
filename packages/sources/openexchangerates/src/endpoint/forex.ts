@@ -1,9 +1,15 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters, AdapterRequest, AxiosResponse } from '@chainlink/types'
+import {
+  ExecuteWithConfig,
+  Config,
+  InputParameters,
+  AdapterRequest,
+  AxiosResponse,
+} from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['forex', 'price']
-export const batchablePropertyPath = ['quote']
+export const batchablePropertyPath = [{ name: 'quote' }]
 
 export const inputParameters: InputParameters = {
   base: ['base', 'from', 'coin'],
@@ -15,7 +21,7 @@ const handleBatchedRequest = (
   request: AdapterRequest,
   response: AxiosResponse<any>,
   resultPath: string,
-  symbols: string[]
+  symbols: string[],
 ) => {
   const payload: [AdapterRequest, number][] = []
   for (const symbol of symbols) {
@@ -27,9 +33,13 @@ const handleBatchedRequest = (
       },
       Requester.validateResultNumber(response.data, [resultPath, symbol]),
     ])
-
   }
-  return Requester.success(jobRunID, Requester.withResult(response, undefined, payload), true, batchablePropertyPath)
+  return Requester.success(
+    jobRunID,
+    Requester.withResult(response, undefined, payload),
+    true,
+    batchablePropertyPath,
+  )
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
