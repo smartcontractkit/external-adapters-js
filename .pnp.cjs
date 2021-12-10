@@ -539,6 +539,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/satoshitango"
       },
       {
+        "name": "@chainlink/snowflake-adapter",
+        "reference": "workspace:packages/sources/snowflake"
+      },
+      {
         "name": "@chainlink/sochain-adapter",
         "reference": "workspace:packages/sources/sochain"
       },
@@ -782,6 +786,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/renvm-address-set-adapter", ["workspace:packages/sources/renvm-address-set"]],
       ["@chainlink/satoshitango-adapter", ["workspace:packages/sources/satoshitango"]],
       ["@chainlink/set-token-index-adapter", ["workspace:packages/composites/set-token-index"]],
+      ["@chainlink/snowflake-adapter", ["workspace:packages/sources/snowflake"]],
       ["@chainlink/sochain-adapter", ["workspace:packages/sources/sochain"]],
       ["@chainlink/spectral-macro-score-adapter", ["workspace:packages/sources/spectral-macro-score"]],
       ["@chainlink/sportsdataio-adapter", ["workspace:packages/sources/sportsdataio"]],
@@ -5123,6 +5128,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/reduce-adapter", "workspace:packages/sources/reduce"],
             ["@chainlink/renvm-address-set-adapter", "workspace:packages/sources/renvm-address-set"],
             ["@chainlink/satoshitango-adapter", "workspace:packages/sources/satoshitango"],
+            ["@chainlink/snowflake-adapter", "workspace:packages/sources/snowflake"],
             ["@chainlink/sochain-adapter", "workspace:packages/sources/sochain"],
             ["@chainlink/spectral-macro-score-adapter", "workspace:packages/sources/spectral-macro-score"],
             ["@chainlink/sportsdataio-adapter", "workspace:packages/sources/sportsdataio"],
@@ -6470,6 +6476,27 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:14.17.34"],
             ["@types/supertest", "npm:2.0.11"],
             ["ethers", "npm:5.4.6"],
+            ["nock", "npm:13.2.1"],
+            ["supertest", "npm:6.1.6"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/snowflake-adapter", [
+        ["workspace:packages/sources/snowflake", {
+          "packageLocation": "./packages/sources/snowflake/",
+          "packageDependencies": [
+            ["@chainlink/snowflake-adapter", "workspace:packages/sources/snowflake"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.3"],
+            ["@types/jsonwebtoken", "npm:8.5.6"],
+            ["@types/node", "npm:14.17.34"],
+            ["@types/supertest", "npm:2.0.11"],
+            ["jsonwebtoken", "npm:8.5.1"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -11004,6 +11031,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-json-schema-npm-7.0.8-39e64e8908-f1d0fe76ab.zip/node_modules/@types/json-schema/",
           "packageDependencies": [
             ["@types/json-schema", "npm:7.0.8"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@types/jsonwebtoken", [
+        ["npm:8.5.6", {
+          "packageLocation": "./.yarn/cache/@types-jsonwebtoken-npm-8.5.6-a2debacc40-c1c0e40cb1.zip/node_modules/@types/jsonwebtoken/",
+          "packageDependencies": [
+            ["@types/jsonwebtoken", "npm:8.5.6"],
+            ["@types/node", "npm:16.6.1"]
           ],
           "linkType": "HARD",
         }]
@@ -22693,6 +22730,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["jsonwebtoken", [
+        ["npm:8.5.1", {
+          "packageLocation": "./.yarn/cache/jsonwebtoken-npm-8.5.1-c007670b76-93c9e3f23c.zip/node_modules/jsonwebtoken/",
+          "packageDependencies": [
+            ["jsonwebtoken", "npm:8.5.1"],
+            ["jws", "npm:3.2.2"],
+            ["lodash.includes", "npm:4.3.0"],
+            ["lodash.isboolean", "npm:3.0.3"],
+            ["lodash.isinteger", "npm:4.0.4"],
+            ["lodash.isnumber", "npm:3.0.3"],
+            ["lodash.isplainobject", "npm:4.0.6"],
+            ["lodash.isstring", "npm:4.0.1"],
+            ["lodash.once", "npm:4.1.1"],
+            ["ms", "npm:2.1.3"],
+            ["semver", "npm:5.7.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["jsprim", [
         ["npm:1.4.1", {
           "packageLocation": "./.yarn/cache/jsprim-npm-1.4.1-948d2c9ec3-6bcb20ec26.zip/node_modules/jsprim/",
@@ -22743,6 +22799,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["jwa", [
+        ["npm:1.4.1", {
+          "packageLocation": "./.yarn/cache/jwa-npm-1.4.1-4f19d6572c-ff30ea7c2d.zip/node_modules/jwa/",
+          "packageDependencies": [
+            ["jwa", "npm:1.4.1"],
+            ["buffer-equal-constant-time", "npm:1.0.1"],
+            ["ecdsa-sig-formatter", "npm:1.0.11"],
+            ["safe-buffer", "npm:5.2.1"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:2.0.0", {
           "packageLocation": "./.yarn/cache/jwa-npm-2.0.0-52a7c3f1ca-8f00b71ad5.zip/node_modules/jwa/",
           "packageDependencies": [
@@ -22755,6 +22821,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["jws", [
+        ["npm:3.2.2", {
+          "packageLocation": "./.yarn/cache/jws-npm-3.2.2-c1ae59c7af-f0213fe5b7.zip/node_modules/jws/",
+          "packageDependencies": [
+            ["jws", "npm:3.2.2"],
+            ["jwa", "npm:1.4.1"],
+            ["safe-buffer", "npm:5.2.1"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:4.0.0", {
           "packageLocation": "./.yarn/cache/jws-npm-4.0.0-2a24fd53b9-d68d07aa6d.zip/node_modules/jws/",
           "packageDependencies": [
@@ -23906,6 +23981,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["lodash.includes", [
+        ["npm:4.3.0", {
+          "packageLocation": "./.yarn/cache/lodash.includes-npm-4.3.0-3a2f6fa22c-71092c1305.zip/node_modules/lodash.includes/",
+          "packageDependencies": [
+            ["lodash.includes", "npm:4.3.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["lodash.isboolean", [
+        ["npm:3.0.3", {
+          "packageLocation": "./.yarn/cache/lodash.isboolean-npm-3.0.3-b575b41488-b70068b4a8.zip/node_modules/lodash.isboolean/",
+          "packageDependencies": [
+            ["lodash.isboolean", "npm:3.0.3"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["lodash.isequal", [
         ["npm:4.5.0", {
           "packageLocation": "./.yarn/cache/lodash.isequal-npm-4.5.0-f8b0f64d63-da27515dc5.zip/node_modules/lodash.isequal/",
@@ -23924,12 +24017,48 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["lodash.isinteger", [
+        ["npm:4.0.4", {
+          "packageLocation": "./.yarn/cache/lodash.isinteger-npm-4.0.4-42add9f4e1-6034821b3f.zip/node_modules/lodash.isinteger/",
+          "packageDependencies": [
+            ["lodash.isinteger", "npm:4.0.4"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["lodash.isnumber", [
+        ["npm:3.0.3", {
+          "packageLocation": "./.yarn/cache/lodash.isnumber-npm-3.0.3-b3bb5f7347-913784275b.zip/node_modules/lodash.isnumber/",
+          "packageDependencies": [
+            ["lodash.isnumber", "npm:3.0.3"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["lodash.isobject", [
         ["npm:2.3.0", {
           "packageLocation": "./.yarn/cache/lodash.isobject-npm-2.3.0-d8c0468fb5-184829dd13.zip/node_modules/lodash.isobject/",
           "packageDependencies": [
             ["lodash.isobject", "npm:2.3.0"],
             ["lodash._objecttypes", "npm:2.3.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["lodash.isplainobject", [
+        ["npm:4.0.6", {
+          "packageLocation": "./.yarn/cache/lodash.isplainobject-npm-4.0.6-d73937742f-29c6351f28.zip/node_modules/lodash.isplainobject/",
+          "packageDependencies": [
+            ["lodash.isplainobject", "npm:4.0.6"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["lodash.isstring", [
+        ["npm:4.0.1", {
+          "packageLocation": "./.yarn/cache/lodash.isstring-npm-4.0.1-721fee791c-eaac87ae96.zip/node_modules/lodash.isstring/",
+          "packageDependencies": [
+            ["lodash.isstring", "npm:4.0.1"]
           ],
           "linkType": "HARD",
         }]
@@ -23978,6 +24107,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/lodash.noop-npm-2.3.0-422c0b058e-5399fb5f75.zip/node_modules/lodash.noop/",
           "packageDependencies": [
             ["lodash.noop", "npm:2.3.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["lodash.once", [
+        ["npm:4.1.1", {
+          "packageLocation": "./.yarn/cache/lodash.once-npm-4.1.1-d8ba329ead-d768fa9f9b.zip/node_modules/lodash.once/",
+          "packageDependencies": [
+            ["lodash.once", "npm:4.1.1"]
           ],
           "linkType": "HARD",
         }]
