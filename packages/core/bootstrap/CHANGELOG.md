@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 1.2.2
+
+### Patch Changes
+
+- 34b40ed33: Fix rate limit capacity parsing
+
 ## 1.2.1
 
 ### Patch Changes
