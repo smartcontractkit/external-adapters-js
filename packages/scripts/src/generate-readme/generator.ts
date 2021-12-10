@@ -155,7 +155,7 @@ class ReadmeGenerator {
       const description = envVar.description ?? ''
       const type = envVar.type ?? ''
       const options = codeList(envVar.enum ?? [])
-      const defaultText = envVar.default ? wrapCode(envVar.default) : ''
+      const defaultText = Object.keys(envVar).includes('default') ? wrapCode(envVar.default) : ''
       return [required, name, description, type, options, defaultText]
     })
 
