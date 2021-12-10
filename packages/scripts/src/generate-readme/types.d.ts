@@ -17,7 +17,7 @@ export type EnvVars = {
   [envVar: string]: {
     default?: string | number
     description?: string
-    enum?: (string | number)[]
+    options?: (string | number)[]
     type?: string
   }
 }
