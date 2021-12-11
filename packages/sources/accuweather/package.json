@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/accuweather-adapter",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "Chainlink accuweather adapter.",
   "keywords": [
     "Chainlink",

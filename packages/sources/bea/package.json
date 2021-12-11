@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/bea-adapter",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "Chainlink bea adapter.",
   "keywords": [
     "Chainlink",
