@@ -1,5 +1,14 @@
 # @chainlink/reference-transform-adapter
 
+## 1.0.17
+
+### Patch Changes
+
+- Updated dependencies [790b2fa4]
+  - @chainlink/ea-bootstrap@1.3.4
+  - @chainlink/ea-reference-data-reader@1.0.10
+  - @chainlink/ea@1.0.17
+
 ## 1.0.16
 
 ### Patch Changes

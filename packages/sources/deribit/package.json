@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/deribit-adapter",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Chainlink Deribit adapter.",
   "keywords": [
     "Chainlink",
