@@ -249,7 +249,7 @@ export const withCache =
         const cachedAdapterResponse = await adapterCache.getResultForRequest(adapterRequest)
         if (cachedAdapterResponse) return cachedAdapterResponse
       } catch (error) {
-        logger.warn(`Cache middleware error! Passing through. `, error)
+        logger.error(`Cache middleware unable to get result! Continuing without caching - `, error)
         return await execute(adapterRequest, context)
       }
 
@@ -259,7 +259,7 @@ export const withCache =
         // Initiate request coalescing by adding the in-flight mark
         await adapterCache.setInFlightMarker(coalescingKey, maxAge)
       } catch (error) {
-        logger.warn(`Cache middleware error! Passing through. `, error)
+        logger.error(`Cache middleware unable to set result! Continuing without caching - `, error)
         return await execute(adapterRequest, context)
       }
 

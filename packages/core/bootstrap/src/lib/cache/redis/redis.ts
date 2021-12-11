@@ -73,13 +73,15 @@ export class RedisCache {
 
     this.options = options
     const client = createClient(options as RedisClientOptions<RedisModules, RedisScripts>)
-    client.on('error', (err) => logger.error(`Error connecting to Redis: ${err}`))
-    client.on('end', () => logger.error('Redis connection ended.'))
-    client.on('connect', () => logger.info('Initiating connection to Redis server.'))
+    client.on('error', (err) => logger.error(`[Redis client] Error connecting to Redis: ${err}`))
+    client.on('end', () => logger.error('[Redis client] Connection ended.'))
+    client.on('connect', () => logger.info('[Redis client] Initiating connection to Redis server.'))
     client.on('ready', () =>
-      logger.info('Redis client ready to serve requests, queued requests will be replayed'),
+      logger.info('[Redis client] Ready to serve requests, queued requests will be replayed'),
     )
-    client.on('reconnecting', () => logger.info('Attempting to reconnect to Redis server.'))
+    client.on('reconnecting', () =>
+      logger.info('[Redis client] Attempting to reconnect to Redis server.'),
+    )
     this.client = client
   }
 
@@ -92,28 +94,34 @@ export class RedisCache {
 
   async setResponse(key: string, value: CacheEntry, maxAge: number) {
     const entry = JSON.stringify(value)
-    return await this.contextualTimeout(this.client.set(key, entry, { PX: maxAge }), 'set', {
-      key,
-      value,
-      maxAge,
-    })
+    return await this.contextualTimeout(
+      this.client.set(key, entry, { PX: maxAge }),
+      'setResponse',
+      {
+        key,
+        value,
+        maxAge,
+      },
+    )
   }
 
   // TODO: We should have seperate services for response entries, and coalescing support
   async setFlightMarker(key: string, maxAge: number) {
-    return this.contextualTimeout(this.client.set(key, true, { PX: maxAge }), 'set', {
+    return this.contextualTimeout(this.client.set(key, true, { PX: maxAge }), 'setFlightMarker', {
       key,
       maxAge,
     })
   }
 
   async getResponse(key: string): Promise<CacheEntry | undefined> {
-    const entry: string = await this.contextualTimeout(this.client.get(key), 'get', { key })
+    const entry: string = await this.contextualTimeout(this.client.get(key), 'getResponse', { key })
     return JSON.parse(entry)
   }
 
   async getFlightMarker(key: string): Promise<boolean> {
-    const entry: string = await this.contextualTimeout(this.client.get(key), 'get', { key })
+    const entry: string = await this.contextualTimeout(this.client.get(key), 'getFlightMarker', {
+      key,
+    })
 
     return JSON.parse(entry)
   }
@@ -149,7 +157,7 @@ export class RedisCache {
     }
   }
 
-  async contextualTimeout(promise: Promise<any>, fnName: string, context: any) {
+  async contextualTimeout(promise: Promise<any>, fnName: string, context: Record<string, any>) {
     try {
       const result = await timeout(promise, this.options.timeout)
       metrics.redis_commands_sent_count
@@ -159,12 +167,18 @@ export class RedisCache {
     } catch (e) {
       if (e instanceof TimeoutError) {
         logger.error(
-          `Redis method timed out, consider increasing CACHE_REDIS_TIMEOUT (from ${this.options.timeout} ms) or increasing your redis instance performance`,
+          `[Redis] Method timed out, consider increasing CACHE_REDIS_TIMEOUT (from ${this.options.timeout} ms) or increasing your resource allocation`,
           { fnName, context },
         )
+        metrics.redis_commands_sent_count
+          .labels({
+            status: metrics.CMD_SENT_STATUS.TIMEOUT,
+            function_name: fnName,
+          })
+          .inc()
         throw e
       }
-      logger.error('Redis method error', { fnName, context, e })
+      logger.error(`[Redis] Method ${fnName} errored: \n${JSON.stringify(context)}\n${e}`)
       metrics.redis_commands_sent_count
         .labels({
           status: metrics.CMD_SENT_STATUS.FAIL,
