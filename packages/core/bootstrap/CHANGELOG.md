@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 1.3.4
+
+### Patch Changes
+
+- 790b2fa4: Add Coinpaprika KNC override
+
 ## 1.3.3
 
 ### Patch Changes

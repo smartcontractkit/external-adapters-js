@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/onchain-gas-adapter",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Chainlink onchain-gas adapter.",
   "keywords": [
     "Chainlink",

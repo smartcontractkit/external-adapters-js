@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/messari-adapter",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Chainlink Messari adapter.",
   "keywords": [
     "Chainlink",
