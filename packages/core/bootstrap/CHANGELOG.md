@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 1.3.5
+
+### Patch Changes
+
+- Add additional logs for Redis
+
 ## 1.3.4
 
 ### Patch Changes

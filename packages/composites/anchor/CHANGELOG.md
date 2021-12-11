@@ -1,5 +1,15 @@
 # @chainlink/anchor-adapter
 
+## 1.1.4
+
+### Patch Changes
+
+- Updated dependencies
+  - @chainlink/ea-bootstrap@1.3.5
+  - @chainlink/token-allocation-adapter@1.0.15
+  - @chainlink/ea-test-helpers@1.0.1
+  - @chainlink/terra-view-function-adapter@1.0.11
+
 ## 1.1.3
 
 ### Patch Changes
