@@ -57,7 +57,7 @@ export const defaultOptions = (): RedisOptions => {
 }
 
 // Options without sensitive data
-export const redactOptions = (opts: RedisOptions) => {
+export const redactOptions = (opts: RedisOptions): RedisOptions => {
   if (opts.password) opts.password = opts.password.replace(/.+/g, '*****')
   if (opts.url) opts.url = opts.url.replace(/:\/\/.+@/g, '://*****@')
   return opts
@@ -66,7 +66,6 @@ export const redactOptions = (opts: RedisOptions) => {
 export class RedisCache {
   options: RedisOptions
   client: any //TODO https://app.shortcut.com/chainlinklabs/story/23811/update-redis-client-types-and-imports
-  watchdog?: ReturnType<typeof setInterval>
 
   constructor(options: RedisOptions) {
     logger.info('Creating new redis client instance...')
@@ -105,12 +104,9 @@ export class RedisCache {
     )
   }
 
-  // TODO: We should have seperate services for response entries, and coalescing support
-  async setFlightMarker(key: string, maxAge: number) {
-    return this.contextualTimeout(this.client.set(key, true, { PX: maxAge }), 'setFlightMarker', {
-      key,
-      maxAge,
-    })
+  async setFlightMarker(): Promise<void> {
+    // NOTE: node-redis v4 supports auto-pipelining
+    // See https://github.com/redis/node-redis/issues/492
   }
 
   async getResponse(key: string): Promise<CacheEntry | undefined> {
@@ -118,12 +114,10 @@ export class RedisCache {
     return JSON.parse(entry)
   }
 
-  async getFlightMarker(key: string): Promise<boolean> {
-    const entry: string = await this.contextualTimeout(this.client.get(key), 'getFlightMarker', {
-      key,
-    })
-
-    return JSON.parse(entry)
+  async getFlightMarker(): Promise<boolean> {
+    // NOTE: node-redis v4 supports auto-pipelining
+    // See https://github.com/redis/node-redis/issues/492
+    return false
   }
 
   async del(key: string) {
@@ -143,7 +137,7 @@ export class RedisCache {
    *
    * The alternative is to use: `context.callbackWaitsForEmtpyEventLoop = false`
    */
-  async close() {
+  async close(): Promise<void> {
     if (!this.client) return
 
     try {
