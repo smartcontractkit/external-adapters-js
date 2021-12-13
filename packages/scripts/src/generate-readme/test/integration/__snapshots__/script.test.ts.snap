@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`readme generation script when generating readme for readme-test-adapter should successfully generate readme 1`] = `
-"# @chainlink/readme-test-adapter
+"# README Test Adapter
 
 Version: 1.2.3
 

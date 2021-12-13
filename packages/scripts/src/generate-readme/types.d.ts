@@ -39,6 +39,7 @@ export type Package = {
 }
 
 export type Schema = {
+  title?: string
   description?: string
   properties?: EnvVars
   required?: string[]

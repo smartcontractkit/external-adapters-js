@@ -3,23 +3,6 @@
 exports[`readme test adapter balance endpoint should reply with success 1`] = `
 Object {
   "data": Object {
-    "responses": Array [
-      Object {
-        "description": "Successful request",
-        "payload": Object {
-          "address": Object {
-            "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1",
-          },
-          "blockNumber": "693286",
-          "blockchainId": "408fa195a34b533de9ad9889f076045e",
-          "timestamp": "2021-07-29T20:54:39.000Z",
-          "timestampNanoseconds": 0,
-          "value": "2188",
-        },
-        "status": 200,
-        "title": "OK",
-      },
-    ],
     "result": Array [
       Object {
         "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1",
@@ -45,7 +28,6 @@ Object {
 exports[`readme test adapter marketcap endpoint should reply with success 1`] = `
 Object {
   "data": Object {
-    "marketcap": 1000000000,
     "result": 1000000000,
   },
   "jobRunID": "1",
@@ -57,7 +39,6 @@ Object {
 exports[`readme test adapter marketcap endpoint should reply with success when called with \`mc\` 1`] = `
 Object {
   "data": Object {
-    "marketcap": 1000000000,
     "result": 1000000000,
   },
   "jobRunID": "1",
@@ -69,7 +50,6 @@ Object {
 exports[`readme test adapter price endpoint should reply with success 1`] = `
 Object {
   "data": Object {
-    "price": 123456,
     "result": 123456,
   },
   "jobRunID": "1",
@@ -81,7 +61,6 @@ Object {
 exports[`readme test adapter price endpoint should reply with success when called with \`convert\` 1`] = `
 Object {
   "data": Object {
-    "price": 123456,
     "result": 123456,
   },
   "jobRunID": "1",

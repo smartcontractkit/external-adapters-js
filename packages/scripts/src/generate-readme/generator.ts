@@ -100,12 +100,12 @@ class ReadmeGenerator {
 
     if (verbose) console.log('Checking package.json')
     const packageJson = getJsonFile(packagePath) as Package
-    this.name = packageJson.name ?? ''
     this.version = packageJson.version ?? ''
 
     if (verbose) console.log('Checking schema/env.json')
     const schema = getJsonFile(schemaPath) as Schema
     this.schemaDescription = schema.description ?? ''
+    this.name = schema.title ?? packageJson.name ?? ''
     this.envVars = schema.properties ?? {}
     this.requiredEnvVars = schema.required ?? []
   }
