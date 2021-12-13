@@ -12,10 +12,31 @@ const customError = (data: any) => {
 }
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from'],
-  quote: ['quote', 'to'],
-  amount: false,
-  precision: false,
+  base: {
+    aliases: ['from'],
+    required: true,
+    description: 'The symbol of the currency to query',
+  },
+  quote: {
+    aliases: ['to'],
+    required: true,
+    description: 'The symbol of the currency to convert to',
+  },
+  amount: {
+    required: false,
+    description: 'The amount of the `base` to convert ',
+    default: 1,
+  },
+  precision: {
+    required: false,
+    description: 'The number of significant figures to include',
+    default: 6,
+  },
+  overrides: {
+    required: false,
+    description:
+      'If base provided is found in overrides, that will be used. [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json)',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {

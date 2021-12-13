@@ -4,19 +4,47 @@ import * as paypal from '@paypal/payouts-sdk'
 
 export const supportedEndpoints = ['sendpayout', 'write']
 
-const customParams = {
-  amount: true,
-  currency: false,
-  receiver: true,
-  recipient_type: false,
-  note: false,
-  sender_item_id: false,
-  email_subject: false,
-  email_message: false,
+export const customParams = {
+  recipient_type: ['EMAIL', 'PHONE', 'PAYPAL_ID'],
 }
 
 export const inputParameters: InputParameters = {
-  recipient_type: ['EMAIL', 'PHONE', 'PAYPAL_ID'],
+  amount: {
+    required: true,
+    description: 'Amount to send as a string',
+  },
+  currency: {
+    required: false,
+    description:
+      'Three-character ISO-4217 currency code. [options](https://developer.paypal.com/docs/api/reference/currency-codes/)',
+    default: 'USD',
+  },
+  receiver: {
+    required: true,
+    description: 'Specified receiver matching the `recipient_type`',
+  },
+  recipient_type: {
+    required: false,
+    description: 'The type of `receiver`',
+    options: ['EMAIL', 'PHONE', 'PAYPAL_ID'],
+    default: 'EMAIL',
+  },
+  note: {
+    required: false,
+    description: 'Custom note for payout',
+  },
+  sender_item_id: {
+    required: false,
+    description: 'Custom sender-specified ID for payout',
+  },
+  email_subject: {
+    required: false,
+    description: 'Custom email subject for the payment notification',
+  },
+  email_message: {
+    required: false,
+    description: 'Custom email message for the payment notification',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {

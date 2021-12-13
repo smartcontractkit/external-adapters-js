@@ -29,3 +29,28 @@ export const mockResponseSuccess = (): nock =>
         'Origin',
       ],
     )
+    .get('/prices/latest?by_code=WTI_USD')
+    .reply(
+      200,
+      (_, request) => ({
+        status: 'success',
+        data: {
+          price: 71.47,
+          formatted: '$71.47',
+          currency: 'USD',
+          code: 'WTI_USD',
+          created_at: '2021-12-13T14:07:07.356Z',
+          type: 'spot_price',
+        },
+      }),
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )

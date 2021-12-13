@@ -7,7 +7,10 @@ export const supportedEndpoints = ['assetAttestation']
 const customError = (data: any) => data.Response === 'Error'
 
 export const inputParameters: InputParameters = {
-  asset: true,
+  asset: {
+    required: true,
+    description: 'The symbol of the currency to query',
+  },
 }
 
 type Attestation = {
