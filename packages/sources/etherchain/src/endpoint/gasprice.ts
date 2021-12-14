@@ -6,7 +6,13 @@ export const supportedEndpoints = ['gasprice']
 const customError = (data: any) => data.Response === 'Error'
 
 export const inputParameters: InputParameters = {
-  speed: false,
+  speed: {
+    required: false,
+    type: 'string',
+    description: 'The desired speed',
+    options: ['safeLow', 'average', 'fast', 'fastest'],
+    default: 'average',
+  },
 }
 
 interface ResponseSchema {
@@ -21,7 +27,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const speed = validator.validated.data.speed || 'standard'
+  const speed = validator.validated.data.speed
   const url = `/api/gasPriceOracle`
 
   const options = {

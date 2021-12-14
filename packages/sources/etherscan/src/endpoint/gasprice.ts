@@ -23,7 +23,13 @@ const speedType: any = {
 const customError = (data: any) => data.Response === 'Error'
 
 export const inputParameters: InputParameters = {
-  speed: false,
+  speed: {
+    required: false,
+    description: 'The desired speed',
+    type: 'string',
+    options: ['safe', 'medium', 'fast'],
+    default: 'fast',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {

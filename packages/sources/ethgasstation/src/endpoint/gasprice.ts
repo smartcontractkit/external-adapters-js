@@ -6,7 +6,13 @@ export const supportedEndpoints = ['gasprice']
 const customError = (data: any) => data.Response === 'Error'
 
 export const inputParameters: InputParameters = {
-  speed: false,
+  speed: {
+    required: false,
+    description: 'The desired speed',
+    type: 'string',
+    options: ['safeLow', 'average', 'fast', 'fastest'],
+    default: 'average',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -14,7 +20,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const speed = validator.validated.data.speed || 'average'
+  const speed = validator.validated.data.speed
   const url = `/api/v1/egs/api/ethgasAPI.json?`
 
   const options = {

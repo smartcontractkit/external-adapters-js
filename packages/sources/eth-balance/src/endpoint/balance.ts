@@ -5,7 +5,13 @@ import { Config } from '../config'
 export const supportedEndpoints = ['balance']
 
 export const inputParameters: InputParameters = {
-  addresses: ['addresses', 'result'],
+  addresses: {
+    aliases: ['result'],
+    required: true,
+    type: 'object',
+    description:
+      'An array of addresses to get the balances of (as an object with string `address` as an attribute)',
+  },
 }
 
 interface AddressWithBalance {
