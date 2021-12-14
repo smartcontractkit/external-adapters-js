@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 1.3.6
+
+### Patch Changes
+
+- 39e18f66: Redis request coalescing sends a string value
+
 ## 1.3.5
 
 ### Patch Changes
