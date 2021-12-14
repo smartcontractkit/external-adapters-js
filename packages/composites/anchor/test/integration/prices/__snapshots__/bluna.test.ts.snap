@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`price-bluna successful calls return success when fetching the USD/BLuna price 1`] = `
+Object {
+  "data": Object {
+    "result": 69.24049753409115,
+  },
+  "jobRunID": "1",
+  "result": 69.24049753409115,
+  "statusCode": 200,
+}
+`;
+
+exports[`price-bluna successful calls returns success when fetching the BTC/BLuna price 1`] = `
+Object {
+  "data": Object {
+    "result": 0.0012232006772089734,
+  },
+  "jobRunID": "1",
+  "result": 0.0012232006772089734,
+  "statusCode": 200,
+}
+`;
+
+exports[`price-bluna successful calls returns success when fetching the ETH/BLuna price 1`] = `
+Object {
+  "data": Object {
+    "result": 0.015256184292256317,
+  },
+  "jobRunID": "1",
+  "result": 0.015256184292256317,
+  "statusCode": 200,
+}
+`;

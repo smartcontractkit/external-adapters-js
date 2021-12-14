@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`alpine lastblock can get blockNum 1`] = `
+Object {
+  "data": Object {
+    "result": "50",
+  },
+  "jobRunID": "1",
+  "result": "50",
+  "statusCode": 200,
+}
+`;
+
+exports[`alpine tvl can get tvl 1`] = `
+Object {
+  "data": Object {
+    "result": "5000",
+  },
+  "jobRunID": "1",
+  "result": "5000",
+  "statusCode": 200,
+}
+`;
+

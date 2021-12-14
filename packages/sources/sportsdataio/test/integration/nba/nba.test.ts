@@ -34,11 +34,13 @@ afterAll(() => {
 describe('execute', () => {
   const id = '1'
   let server: http.Server
-  const req = request('localhost:8080')
+  let req: SuperTest<Test>
 
   beforeAll(async () => {
     server = await startServer()
+    req = request(`localhost:${(server.address() as AddressInfo).port}`)
   })
+
   afterAll((done) => {
     server.close(done)
   })
