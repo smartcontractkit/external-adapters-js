@@ -50,6 +50,12 @@
 
 - b78f8e06: Print out actual used port when bootstrapping server
 
+## 1.2.2
+
+### Patch Changes
+
+- 34b40ed33: Fix rate limit capacity parsing
+
 ## 1.2.1
 
 ### Patch Changes
