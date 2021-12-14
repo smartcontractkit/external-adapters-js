@@ -2,4 +2,4 @@
 '@chainlink/ea-bootstrap': patch
 ---
 
-Remove Redis request coalescing
+Redis request coalescing sends a string value

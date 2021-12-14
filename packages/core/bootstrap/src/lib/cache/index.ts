@@ -183,10 +183,9 @@ export class AdapterCache {
       feedId: adapterRequest.metricsMeta?.feedId || 'N/A',
     })
 
-    const cachedAdapterResponse =
-      this.options.requestCoalescing.enabled && this.options.cacheImplOptions.type === 'local'
-        ? await this.getWithCoalescing(key)
-        : await this.cache.getResponse(key)
+    const cachedAdapterResponse = this.options.requestCoalescing.enabled
+      ? await this.getWithCoalescing(key)
+      : await this.cache.getResponse(key)
 
     if (cachedAdapterResponse) {
       const maxAgeOverride = getMaxAgeOverride(adapterRequest)
