@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/uscpi-one-adapter",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "Chainlink uscpi-one adapter.",
   "keywords": [
     "Chainlink",

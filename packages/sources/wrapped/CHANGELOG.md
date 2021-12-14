@@ -1,5 +1,13 @@
 # @chainlink/wrapped-adapter
 
+## 2.0.8
+
+### Patch Changes
+
+- Updated dependencies [39e18f66]
+  - @chainlink/ea-bootstrap@1.3.6
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 2.0.7
 
 ### Patch Changes
