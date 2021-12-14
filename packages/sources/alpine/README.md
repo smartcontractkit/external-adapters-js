@@ -6,7 +6,7 @@ This adapter gets the tvl of Ethereum vaults as well as the block numbers of the
 
 | Required? |        Name        |         Description          | Options | Defaults to |
 | :-------: | :----------------: | :--------------------------: | :-----: | :---------: |
-|    ✅     | {network}\_RPC_URL | RPC url for Ethereum/Polygon |         |             |
+|           | {network}\_RPC_URL | RPC url for Ethereum/Polygon |         |             |
 
 ---
 

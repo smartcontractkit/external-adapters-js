@@ -1,7 +1,8 @@
-import { Validator, util } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
-import { ethers } from 'ethers'
+import { Validator } from '@chainlink/ea-bootstrap'
+import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { Config, DEFAULT_NETWORK, ETH } from '../config'
 import stagingAbi from '../abi/stagingContract.json'
+import { ethers } from 'ethers'
 
 export const supportedEndpoints = ['lastblock']
 
@@ -15,10 +16,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const jobRunID = validator.validated.id
   const { stagingAddress } = validator.validated.data
-  const network = validator.validated.data.network || config.network
 
-  const rpcUrl =
-    network == 'ETHEREUM' ? util.getEnv('ETHEREUM_RPC_URL') : util.getEnv('POLYGON_RPC_URL')
+  const network = validator.validated.data.network || DEFAULT_NETWORK
+  const rpcUrl = network.toUpperCase() == ETH ? config.ethereumRpcUrl : config.polygonRpcUrl
   const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
 
   const stagingContract = new ethers.Contract(stagingAddress, stagingAbi, provider)
