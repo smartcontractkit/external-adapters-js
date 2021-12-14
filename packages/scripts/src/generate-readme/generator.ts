@@ -1,6 +1,8 @@
 import * as shell from 'shelljs'
 import { buildTable } from './table'
+import { balance } from '@chainlink/ea-factories'
 import commandLineArgs from 'command-line-args'
+import { getBalanceTable, inputParamHeaders, paramHeaders } from './tableAssets'
 import {
   Blacklist,
   BooleanMap,
@@ -11,7 +13,6 @@ import {
   Package,
   Schema,
   TableText,
-  TextRow,
 } from './types'
 
 const localPathToRoot = '../../../../'
@@ -19,20 +20,6 @@ const localPathToRoot = '../../../../'
 const pathToBlacklist = 'packages/scripts/src/generate-readme/readme-blacklist.json'
 
 const pathToSources = 'packages/sources/'
-
-const paramHeaders: TextRow = ['Required?', 'Name', 'Description', 'Type', 'Options', 'Default']
-
-const inputParamHeaders: TextRow = [
-  'Required?',
-  'Name',
-  'Aliases',
-  'Description',
-  'Type',
-  'Options',
-  'Default',
-  'Depends On',
-  'Not Valid With',
-]
 
 const testEnvOverrides = {
   API_VERBOSE: 'true',
@@ -235,52 +222,57 @@ class ReadmeGenerator {
 
         const sectionTitle = `## ${capitalize(endpointName)} Endpoint`
 
-        const inputTableText: TableText = Object.entries(endpointDetails.inputParameters).map(
-          ([param, attributes]) => {
-            const name = param ?? ''
+        let inputTable = ''
+        if (endpointDetails.inputParameters === balance.inputParameters) {
+          inputTable = getBalanceTable()
+        } else {
+          const inputTableText: TableText = Object.entries(endpointDetails.inputParameters).map(
+            ([param, attributes]) => {
+              const name = param ?? ''
 
-            let requiredIcon = ''
-            let aliases = ''
-            let description = ''
-            let type = ''
-            let options = ''
-            let defaultText = ''
-            let dependsOn = ''
-            let exclusive = ''
+              let requiredIcon = ''
+              let aliases = ''
+              let description = ''
+              let type = ''
+              let options = ''
+              let defaultText = ''
+              let dependsOn = ''
+              let exclusive = ''
 
-            if (typeof attributes === 'boolean') {
-              requiredIcon = attributes ? '✅' : ''
-            } else if (Array.isArray(attributes)) {
-              requiredIcon = '✅'
-              aliases = codeList(attributes)
-            } else {
-              // InputParameter config
-              requiredIcon = attributes.required ? '✅' : ''
-              aliases = codeList(attributes.aliases)
-              description = attributes.description ?? ''
-              type = attributes.type ?? ''
-              options = codeList(attributes.options)
-              defaultText = attributes.default ? wrapCode(attributes.default) : ''
-              dependsOn = codeList(attributes.dependsOn)
-              exclusive = codeList(attributes.exclusive)
-            }
-            return [
-              requiredIcon,
-              name,
-              aliases,
-              description,
-              type,
-              options,
-              defaultText,
-              dependsOn,
-              exclusive,
-            ]
-          },
-        )
+              if (typeof attributes === 'boolean') {
+                requiredIcon = attributes ? '✅' : ''
+              } else if (Array.isArray(attributes)) {
+                requiredIcon = '✅'
+                aliases = codeList(attributes)
+              } else {
+                // InputParameter config
+                requiredIcon = attributes.required ? '✅' : ''
+                aliases = codeList(attributes.aliases)
+                description = attributes.description ?? ''
+                type = attributes.type ?? ''
+                options = codeList(attributes.options)
+                defaultText = attributes.default ? wrapCode(attributes.default) : ''
+                dependsOn = codeList(attributes.dependsOn)
+                exclusive = codeList(attributes.exclusive)
+              }
+              return [
+                requiredIcon,
+                name,
+                aliases,
+                description,
+                type,
+                options,
+                defaultText,
+                dependsOn,
+                exclusive,
+              ]
+            },
+          )
 
-        const inputTable = inputTableText.length
-          ? buildTable(inputTableText, inputParamHeaders)
-          : 'There are no input parameters for this endpoint.'
+          inputTable = inputTableText.length
+            ? buildTable(inputTableText, inputParamHeaders)
+            : 'There are no input parameters for this endpoint.'
+        }
 
         const inputTableSection = '### Input Params\n' + inputTable
 

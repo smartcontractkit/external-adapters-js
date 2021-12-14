@@ -30,11 +30,19 @@ This is a fake adapter for testing, and should not be used as a template for ada
 
 ### Input Params
 
-| Required? |     Name      | Aliases | Description | Type | Options | Default | Depends On | Not Valid With |
-| :-------: | :-----------: | :-----: | :---------: | :--: | :-----: | :-----: | :--------: | :------------: |
-|           |   dataPath    |         |             |      |         |         |            |                |
-|           | confirmations |         |             |      |         |         |            |                |
-|           |   addresses   |         |             |      |         |         |            |                |
+| Required? |     Name      | Aliases |                        Description                         |  Type  | Options | Default  | Depends On | Not Valid With |
+| :-------: | :-----------: | :-----: | :--------------------------------------------------------: | :----: | :-----: | :------: | :--------: | :------------: |
+|    ✅     |   addresses   |         | Array of objects with address information as defined below | array  |         |          |            |                |
+|           | confirmations |         |                  Confirmations parameter                   | number |         |   `6`    |            |                |
+|           |   dataPath    |         |           Path where to find the addresses array           | string |         | `result` |            |                |
+
+Address objects within `addresses` have the following properties:
+
+| Required? |  Name   |                 Description                  |  Type  |                  Options                  |  Default  |
+| :-------: | :-----: | :------------------------------------------: | :----: | :---------------------------------------: | :-------: |
+|    ✅     | address |               Address to query               | string |                                           |           |
+|           |  chain  | Chain to query (Ethereum testnet is Rinkeby) | string |           `mainnet`, `testnet`            | `mainnet` |
+|           |  coin   |              Currency to query               | string | `bch`, `btc`, `btsv`, `eth`, `ltc`, `zec` |   `btc`   |
 
 ### Example
 

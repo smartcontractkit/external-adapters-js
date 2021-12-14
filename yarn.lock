@@ -2838,6 +2838,7 @@ __metadata:
   resolution: "@chainlink/ea-scripts@workspace:packages/scripts"
   dependencies:
     "@actions/core": 1.6.0
+    "@chainlink/ea-factories": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/shelljs": 0.8.9

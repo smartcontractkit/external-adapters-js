@@ -5261,6 +5261,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@chainlink/ea-scripts", "workspace:packages/scripts"],
             ["@actions/core", "npm:1.6.0"],
+            ["@chainlink/ea-factories", "workspace:packages/core/factories"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/shelljs", "npm:0.8.9"],
