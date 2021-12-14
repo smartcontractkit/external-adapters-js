@@ -7668,7 +7668,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-
         ["npm:5.5.0", {
           "packageLocation": "./.yarn/cache/@ethersproject-abstract-provider-npm-5.5.0-20e029afc3-5570a357c7.zip/node_modules/@ethersproject/abstract-provider/",
           "packageDependencies": [
@@ -7683,7 +7682,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-
         ["npm:5.5.1", {
           "packageLocation": "./.yarn/cache/@ethersproject-abstract-provider-npm-5.5.1-57cbb2d4b2-73ee68b232.zip/node_modules/@ethersproject/abstract-provider/",
           "packageDependencies": [
@@ -11040,6 +11038,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@types/jest", [
+        ["npm:27.0.2", {
+          "packageLocation": "./.yarn/cache/@types-jest-npm-27.0.2-f9ba43c7f9-814ad5f5d2.zip/node_modules/@types/jest/",
+          "packageDependencies": [
+            ["@types/jest", "npm:27.0.2"],
+            ["jest-diff", "npm:27.0.6"],
+            ["pretty-format", "npm:27.0.6"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:27.0.3", {
           "packageLocation": "./.yarn/cache/@types-jest-npm-27.0.3-c4c49cbce2-3683a99458.zip/node_modules/@types/jest/",
           "packageDependencies": [
@@ -11215,6 +11222,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-node-npm-12.20.36-d06e056a72-096748b23e.zip/node_modules/@types/node/",
           "packageDependencies": [
             ["@types/node", "npm:12.20.36"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:14.17.21", {
+          "packageLocation": "./.yarn/cache/@types-node-npm-14.17.21-499809933c-f5fc54b1a8.zip/node_modules/@types/node/",
+          "packageDependencies": [
+            ["@types/node", "npm:14.17.21"]
           ],
           "linkType": "HARD",
         }],
@@ -17403,7 +17417,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-
         ["npm:5.5.0", {
           "packageLocation": "./.yarn/cache/ethers-npm-5.5.0-21d7919007-20cb7eaaa5.zip/node_modules/ethers/",
           "packageDependencies": [
@@ -17441,7 +17454,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-
         ["npm:5.5.1", {
           "packageLocation": "./.yarn/cache/ethers-npm-5.5.1-abb6c1e2d0-ee004e3e2f.zip/node_modules/ethers/",
           "packageDependencies": [
