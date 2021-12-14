@@ -71,6 +71,7 @@ declare module '@chainlink/types' {
     maxAge?: number
     metricsMeta?: AdapterMetricsMeta
     debug?: AdapterDebug
+    providerStatusCode?: number
   }
 
   /* ERRORS */
@@ -98,6 +99,7 @@ declare module '@chainlink/types' {
     jobRunID: string
     status: string
     statusCode: number
+    providerStatusCode?: number
     error: ErrorBasic | ErrorFull
   }
 
