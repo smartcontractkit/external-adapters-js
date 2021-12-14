@@ -46,6 +46,7 @@ Object {
   },
   "debug": undefined,
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": Object {
     "code": 113,
     "hash": Uint8Array [
@@ -97,6 +98,7 @@ Object {
   },
   "debug": undefined,
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": "QmWFam9NBVVhz3fViSbxjB7utkkjDSmdWWBbbSTkK8kaxk",
   "statusCode": 200,
 }
@@ -109,6 +111,7 @@ Object {
   },
   "debug": undefined,
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": "QmfFbkG6a48aB4vSSTL6gZLo7tcLmbBrb5JcXM2HUivixV",
   "statusCode": 200,
 }
@@ -160,6 +163,7 @@ Object {
   },
   "debug": undefined,
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": Object {
     "code": 113,
     "hash": Uint8Array [
@@ -211,6 +215,7 @@ Object {
   },
   "debug": undefined,
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": "QmWBEf1XrcVho6VK7HKGCGuJP4Rt8STxkE4XLw66cvbpEb",
   "statusCode": 200,
 }
@@ -223,6 +228,7 @@ Object {
   },
   "debug": undefined,
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": "bafkreidrjtjrjwi2b7do4e74gbome3lwtm7adpouwjfmganrpw7ykfl5a4",
   "statusCode": 200,
 }
@@ -235,6 +241,7 @@ Object {
   },
   "debug": undefined,
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": "QmdJZkigqJfvjya9YQ5qW7mFdNHpxUUsSQFKPDjLrdFfg4",
   "statusCode": 200,
 }
@@ -247,6 +254,7 @@ Object {
   },
   "debug": undefined,
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": "QmRmAK7teai1Mki1V2zNxmBLXnYVVeJ92DCuEotwHPa98a",
   "statusCode": 200,
 }
@@ -259,6 +267,7 @@ Object {
   },
   "debug": undefined,
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": "QmXLpPi3yorJmGe6NsdBfyWSFvLnkX12EJR5zitwv4q8Tf",
   "statusCode": 200,
 }

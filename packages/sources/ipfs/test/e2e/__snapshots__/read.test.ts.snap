@@ -7,6 +7,7 @@ Object {
   },
   "debug": undefined,
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": "some simple text",
   "statusCode": 200,
 }
@@ -22,6 +23,7 @@ Object {
   },
   "debug": undefined,
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": Object {
     "id": 123,
     "name": "my object",
@@ -83,6 +85,7 @@ Object {
   },
   "debug": undefined,
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": Object {
     "id": 123,
     "link": Object {
@@ -141,6 +144,7 @@ Object {
   },
   "debug": undefined,
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": "Hello, <YOUR NAME HERE>",
   "statusCode": 200,
 }
@@ -153,6 +157,7 @@ Object {
   },
   "debug": undefined,
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": "Hello, <YOUR NAME HERE>",
   "statusCode": 200,
 }

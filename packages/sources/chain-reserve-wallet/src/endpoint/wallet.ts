@@ -80,7 +80,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     data: {
       result: response,
     },
-    statusCode: 200,
+    status: 200,
   }
 
   return Requester.success(jobRunID, result, config.verbose)
