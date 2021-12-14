@@ -104,9 +104,11 @@ export class RedisCache {
     )
   }
 
-  async setFlightMarker(): Promise<void> {
-    // NOTE: node-redis v4 supports auto-pipelining
-    // See https://github.com/redis/node-redis/issues/492
+  async setFlightMarker(key: string, maxAge: number) {
+    return this.contextualTimeout(this.client.set(key, 'true', { PX: maxAge }), 'setFlightMarker', {
+      key,
+      maxAge,
+    })
   }
 
   async getResponse(key: string): Promise<CacheEntry | undefined> {
@@ -114,10 +116,12 @@ export class RedisCache {
     return JSON.parse(entry)
   }
 
-  async getFlightMarker(): Promise<boolean> {
-    // NOTE: node-redis v4 supports auto-pipelining
-    // See https://github.com/redis/node-redis/issues/492
-    return false
+  async getFlightMarker(key: string): Promise<boolean> {
+    const entry: string = await this.contextualTimeout(this.client.get(key), 'getFlightMarker', {
+      key,
+    })
+
+    return JSON.parse(entry)
   }
 
   async del(key: string) {
