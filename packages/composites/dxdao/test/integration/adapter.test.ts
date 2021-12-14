@@ -26,6 +26,7 @@ jest.mock('@chainlink/token-allocation-adapter', () => ({
   ...jest.requireActual('@chainlink/token-allocation-adapter'),
   makeExecute: jest.fn().mockReturnValue(() => ({
     jobRunID: '1',
+    providerStatusCode: 200,
     data: {
       sources: [],
       payload: {
