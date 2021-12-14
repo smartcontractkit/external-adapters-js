@@ -66,8 +66,17 @@ export interface ResponseSchema {
 const customError = (data: any) => data.Response === 'Error'
 
 export const inputParameters: InputParameters = {
-  series: false,
-  last: false,
+  series: {
+    description: 'The series code to query',
+    options: ['DGDSRG', 'DPCERG', 'etc'],
+    type: 'string',
+    default: 'DPCERG',
+  },
+  last: {
+    description: 'The last N months to query',
+    type: 'number',
+    default: 3,
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {

@@ -43,7 +43,11 @@ export interface ResponseSchema {
 }
 
 export const inputParameters: InputParameters = {
-  resultPath: false,
+  resultPath: {
+    description: 'The path for the result',
+    required: false,
+    type: 'string',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
