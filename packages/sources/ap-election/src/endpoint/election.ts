@@ -59,12 +59,28 @@ export interface ResponseSchema {
 const customError = (data: any) => data.Response === 'Error'
 
 export const inputParameters: InputParameters = {
-  date: true,
-  statePostal: true,
-  officeID: false,
-  raceType: false,
-  raceID: false,
-  resultsType: false,
+  date: {
+    description: 'The date of the election formatted as YYYY-MM-DD',
+    required: true,
+  },
+  statePostal: {
+    description:
+      "The state's two letter code e.g CA. `US` to get the results of a nationwide election",
+    required: true,
+  },
+  officeID: {
+    description:
+      'The office ID the election is for. List can be found here https://aphelp.ap.org/Content/SupportDocs/Elections/API/#t=Office_ID_Examples.htm',
+  },
+  raceID: {
+    description: 'The race ID the election is for',
+  },
+  raceType: {
+    description:
+      'The race type the election is for. The race type can be `D(Dem Primary)`, `R(GOP Primary)`, `G(General)`, `E(Dem Caucus)`, `S(GOP Caucus)`, `X(Open Primary or special use cases)`',
+    options: ['D', 'R', 'G', 'E', 'S', 'X'],
+    default: 'D',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {

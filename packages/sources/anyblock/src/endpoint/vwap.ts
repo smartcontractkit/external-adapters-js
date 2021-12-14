@@ -8,11 +8,31 @@ const customError = (data: any) => {
 }
 
 export const inputParameters: InputParameters = {
-  address: true,
-  debug: false,
-  roundDay: false,
-  start: false,
-  end: false,
+  address: {
+    description: 'Uniswap pool **checksum address**',
+    type: 'string',
+    required: true,
+  },
+  debug: {
+    description: 'Switch to show `raw` trade value',
+    type: 'string',
+    default: 'false',
+  },
+  roundDay: {
+    description: 'TSwitch to round the start and end to midnight UTC',
+    type: 'string',
+    default: 'false',
+  },
+  start: {
+    description: 'Epoch timestamp in seconds',
+    type: 'string',
+    default: '$now - 24h',
+  },
+  end: {
+    description: 'Epoch timestamp in seconds',
+    type: 'string',
+    default: '$now',
+  },
 }
 
 const buildVWAP = (response: any, debug: boolean) => {

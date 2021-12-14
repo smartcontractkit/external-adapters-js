@@ -5,9 +5,22 @@ import { NAME as AdapterName } from '../config'
 export const supportedEndpoints = ['price', 'forex']
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from'],
-  quote: ['quote', 'to'],
-  quantity: false,
+  base: {
+    aliases: ['from'],
+    description: 'The symbol of the currency to query',
+    required: true,
+  },
+  quote: {
+    aliases: ['to'],
+    description: ' The symbol of the currency to convert to',
+    required: true,
+  },
+  quantity: {
+    description: 'An additional amount of the original currency',
+  },
+  overrides: {
+    description: `If base provided is found in overrides, that will be used [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json)`,
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {

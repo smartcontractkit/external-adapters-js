@@ -6,9 +6,20 @@ export const supportedEndpoints = ['dataquery']
 const customError = (data: any) => data.status !== '200'
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
-  resultPath: false,
+  base: {
+    aliases: ['from', 'coin'],
+    description: 'The symbol of the currency to query',
+    required: true,
+  },
+  quote: {
+    aliases: ['to', 'market'],
+    description: 'The symbol of the currency to convert to',
+    required: true,
+  },
+  field: {
+    description: 'The object path to access the value that will be returned as the result',
+    default: 'result',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {

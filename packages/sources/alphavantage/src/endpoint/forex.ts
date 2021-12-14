@@ -10,8 +10,24 @@ const customError = (data: any) => {
 }
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
+  base: {
+    aliases: ['from', 'coin'],
+    type: 'string',
+    description:
+      'The symbol of the currency to query. The full list of options can be found here [Physical Currency list](https://www.alphavantage.co/physical_currency_list/) or [Cryptocurrency list](https://www.alphavantage.co/digital_currency_list/)',
+    required: true,
+  },
+  quote: {
+    aliases: ['to', 'market'],
+    type: 'string',
+    description:
+      'The symbol of the currency to convert to. The full list of options can be found here [Physical Currency list](https://www.alphavantage.co/physical_currency_list/) or [Cryptocurrency list](https://www.alphavantage.co/digital_currency_list/)',
+    required: true,
+  },
+  overrides: {
+    description:
+      'If base provided is found in overrides, that will be used. Overrides list can be found here [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json)',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {

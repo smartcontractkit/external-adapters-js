@@ -10,7 +10,12 @@ const customError = (data: any) => {
 }
 
 export const inputParameters: InputParameters = {
-  speed: false,
+  speed: {
+    description: 'The desired speed',
+    type: 'string',
+    default: 'standard',
+    options: ['slow', 'standard', 'fast', 'instant'],
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
