@@ -53,13 +53,10 @@
 - Updated dependencies [9e3e1cbb6]
 - Updated dependencies [a3b352bb5]
 - Updated dependencies [97bbbfc69]
+
   - @chainlink/ea-bootstrap@1.3.1
   - @chainlink/ea@1.0.14
   - @chainlink/ea-reference-data-reader@1.0.7
-
-## 1.0.13
-
-### Patch Changes
 
 - Updated dependencies [b78f8e06]
 - Updated dependencies [c93e5654]
@@ -67,6 +64,15 @@
   - @chainlink/ea-bootstrap@1.3.0
   - @chainlink/ea@1.0.13
   - @chainlink/ea-reference-data-reader@1.0.6
+
+## 1.0.13
+
+### Patch Changes
+
+- Updated dependencies [34b40ed33]
+  - @chainlink/ea-bootstrap@1.2.2
+  - @chainlink/ea-reference-data-reader@1.0.6
+  - @chainlink/ea@1.0.13
 
 ## 1.0.12
 

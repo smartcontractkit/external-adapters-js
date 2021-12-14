@@ -56,15 +56,17 @@
   - @chainlink/ea-bootstrap@1.3.1
   - @chainlink/token-allocation-adapter@1.0.11
   - @chainlink/ea-test-helpers@1.0.1
+- Updated dependencies [b78f8e06]
+- Updated dependencies [c93e5654]
+- Updated dependencies [ccff5d7f]
+  - @chainlink/ea-bootstrap@1.3.0
 
 ## 1.0.10
 
 ### Patch Changes
 
-- Updated dependencies [b78f8e06]
-- Updated dependencies [c93e5654]
-- Updated dependencies [ccff5d7f]
-  - @chainlink/ea-bootstrap@1.3.0
+- Updated dependencies [34b40ed33]
+  - @chainlink/ea-bootstrap@1.2.2
   - @chainlink/token-allocation-adapter@1.0.10
   - @chainlink/ea-test-helpers@1.0.1
 

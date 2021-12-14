@@ -56,15 +56,17 @@
   - @chainlink/ea-bootstrap@1.3.1
   - @chainlink/ea-test-helpers@1.0.1
   - @chainlink/json-rpc-adapter@1.1.3
+- Updated dependencies [b78f8e06]
+- Updated dependencies [c93e5654]
+- Updated dependencies [ccff5d7f]
+  - @chainlink/ea-bootstrap@1.3.0
 
 ## 1.0.7
 
 ### Patch Changes
 
-- Updated dependencies [b78f8e06]
-- Updated dependencies [c93e5654]
-- Updated dependencies [ccff5d7f]
-  - @chainlink/ea-bootstrap@1.3.0
+- Updated dependencies [34b40ed33]
+  - @chainlink/ea-bootstrap@1.2.2
   - @chainlink/ea-test-helpers@1.0.1
   - @chainlink/json-rpc-adapter@1.1.2
 

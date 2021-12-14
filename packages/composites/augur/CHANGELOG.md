@@ -53,13 +53,10 @@
 - Updated dependencies [9e3e1cbb6]
 - Updated dependencies [a3b352bb5]
 - Updated dependencies [97bbbfc69]
+
   - @chainlink/ea-bootstrap@1.3.1
   - @chainlink/sportsdataio-adapter@1.1.6
   - @chainlink/therundown-adapter@1.1.1
-
-## 1.0.7
-
-### Patch Changes
 
 - Updated dependencies [fe8ab13c]
 - Updated dependencies [b78f8e06]
@@ -68,6 +65,15 @@
   - @chainlink/therundown-adapter@1.1.0
   - @chainlink/ea-bootstrap@1.3.0
   - @chainlink/sportsdataio-adapter@1.1.5
+
+## 1.0.7
+
+### Patch Changes
+
+- Updated dependencies [34b40ed33]
+  - @chainlink/ea-bootstrap@1.2.2
+  - @chainlink/sportsdataio-adapter@1.1.5
+  - @chainlink/therundown-adapter@1.0.6
 
 ## 1.0.6
 
