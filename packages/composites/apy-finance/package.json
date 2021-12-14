@@ -30,7 +30,7 @@
     "@chainlink/ea-bootstrap": "workspace:*",
     "@chainlink/ea-test-helpers": "workspace:*",
     "@chainlink/token-allocation-adapter": "workspace:*",
-    "@openzeppelin/contracts": "^3.3.0",
+    "@openzeppelin/contracts": "^4.0.0",
     "ethers": "5.4.7",
     "tslib": "^2.3.1"
   },
