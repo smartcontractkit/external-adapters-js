@@ -13,11 +13,7 @@ import * as crypto from 'crypto'
  * @returns {string} the normalized status code.
  */
 export function normalizeStatusCode(status?: number): string {
-  if (!status) {
-    return '5XX'
-  }
-
-  if (status >= 200 && status < 300) {
+  if (!status || (status >= 200 && status < 300)) {
     return '2XX'
   }
 
