@@ -1,5 +1,12 @@
 # @chainlink/ea
 
+## 1.0.20
+
+### Patch Changes
+
+- Updated dependencies [1cda142a3]
+  - @chainlink/ethgasstation-adapter@1.1.9
+
 ## 1.0.19
 
 ### Patch Changes

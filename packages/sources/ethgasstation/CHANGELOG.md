@@ -1,5 +1,11 @@
 # @chainlink/ethgasstation-adapter
 
+## 1.1.9
+
+### Patch Changes
+
+- 1cda142a3: Make sure API timeout is not hardcoded
+
 ## 1.1.8
 
 ### Patch Changes
