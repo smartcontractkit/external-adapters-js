@@ -4,11 +4,31 @@ import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 export const supportedEndpoints = ['matches']
 
 export const inputParameters: InputParameters = {
-  lat: true,
-  lng: true,
-  radius: true,
-  start: true,
-  end: true,
+  lat: {
+    required: true,
+    description: 'latitude coordinate',
+    type: 'string',
+  },
+  lng: {
+    required: true,
+    description: 'longitude coordinate',
+    type: 'string',
+  },
+  radius: {
+    required: true,
+    description: 'radius around coordinates (in m)',
+    type: 'string',
+  },
+  start: {
+    required: true,
+    description: 'start time (yyyy-mm-dd hh:mm:ss)',
+    type: 'string',
+  },
+  end: {
+    required: true,
+    description: 'end time (yyyy-mm-dd hh:mm:ss)',
+    type: 'string',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {

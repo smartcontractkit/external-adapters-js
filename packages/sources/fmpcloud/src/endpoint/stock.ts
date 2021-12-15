@@ -6,7 +6,12 @@ export const supportedEndpoints = ['quote', 'price', 'stock']
 const customError = (data: any) => data.Response === 'Error'
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'asset', 'from'],
+  base: {
+    required: true,
+    aliases: ['asset', 'from'],
+    description: 'The symbol of the currency to query',
+    type: 'string',
+  },
 }
 
 const commonKeys: { [key: string]: string } = {

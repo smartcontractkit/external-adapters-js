@@ -10,7 +10,13 @@ export interface ResponseSchema {
 }
 
 export const inputParameters: InputParameters = {
-  token: ['token', 'asset', 'coin'],
+  token: {
+    required: true,
+    aliases: ['asset', 'coin'],
+    description: 'The symbol of the token to query',
+    default: 'EFIL',
+    type: 'string',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
