@@ -55,7 +55,7 @@ export class Requester {
         if (n === 1) {
           throw new AdapterError({
             statusCode: 200,
-            providerStatusCode: error?.response?.status || 0, // 0 -> connection error
+            providerStatusCode: error?.response?.status ?? 0, // 0 -> connection error
             message: error?.message,
             cause: error,
             errorResponse: error?.response?.data?.error,
@@ -73,7 +73,7 @@ export class Requester {
           const cause = response.data.error || 'customError'
           throw new AdapterError({
             statusCode: 200,
-            providerStatusCode: response.data.error?.code || response.status,
+            providerStatusCode: response.data.error?.code ?? response.status,
             message,
             cause,
             url,

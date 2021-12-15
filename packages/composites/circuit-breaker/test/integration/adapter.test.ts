@@ -129,7 +129,6 @@ describe('execute', () => {
           await execute(req.input, {})
         } catch (error) {
           const errorResp = Requester.errored(jobID, error)
-          console.log(errorResp)
           assertError(
             { expected: expectedProviderStatusCodes[i], actual: errorResp.providerStatusCode },
             errorResp,

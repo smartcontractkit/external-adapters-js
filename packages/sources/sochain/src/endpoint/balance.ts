@@ -24,14 +24,11 @@ const getBalance: balance.GetBalance = async (account, config) => {
   // Each BTC has 8 decimal places
   const balance = ethers.utils.parseUnits(response.data.data.confirmed_balance, 8).toString()
 
-  const result = {
+  return {
     payload: response.data,
     result: [{ ...account, balance }],
     status: response.status,
   }
-
-  console.log(result)
-  return result
 }
 
 const isSupported: balance.IsSupported = (coin, chain) => isChainType(chain) && isCoinType(coin)
