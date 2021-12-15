@@ -3502,7 +3502,7 @@ __metadata:
     "@types/node": 14.17.34
     cids: ^1.1.8
     ipfs: ^0.60.0
-    ipfs-core-types: ^0.7.1
+    ipfs-core-types: ^0.9.0
     ipfs-http-client: ^52.0.3
     ipld-dag-cbor: ^1.0.1
     multiformats: ^9.4.1
@@ -16217,6 +16217,17 @@ fsevents@~2.1.1:
     multiaddr: ^10.0.0
     multiformats: ^9.4.13
   checksum: 0bf10eb1a469404b4af302356d16c8fb517fb7df15a4d02d3a3930b8fd7d78133220aaf3357b6066e6961187270af611f00483762c4383d24f91884c412c2099
+  languageName: node
+  linkType: hard
+
+"ipfs-core-types@npm:^0.9.0":
+  version: 0.9.0
+  resolution: "ipfs-core-types@npm:0.9.0"
+  dependencies:
+    interface-datastore: ^6.0.2
+    multiaddr: ^10.0.0
+    multiformats: ^9.4.13
+  checksum: 22db8e039348dc372c99b45a87ce8dce81e15fa710cee410c1731004d528e0bd0da96b5a4c5571d501313fae93316af3b902c2220c486d2fade2e53f07a7d17b
   languageName: node
   linkType: hard
 
