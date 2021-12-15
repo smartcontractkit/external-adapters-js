@@ -5870,7 +5870,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["cids", "npm:1.1.8"],
             ["ipfs", "npm:0.60.2"],
-            ["ipfs-core-types", "npm:0.7.1"],
+            ["ipfs-core-types", "npm:0.9.0"],
             ["ipfs-http-client", "npm:52.0.3"],
             ["ipld-dag-cbor", "npm:1.0.1"],
             ["multiformats", "npm:9.4.6"],
@@ -20199,6 +20199,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/ipfs-core-types-npm-0.8.4-f46505be4a-0bf10eb1a4.zip/node_modules/ipfs-core-types/",
           "packageDependencies": [
             ["ipfs-core-types", "npm:0.8.4"],
+            ["interface-datastore", "npm:6.0.2"],
+            ["multiaddr", "npm:10.0.1"],
+            ["multiformats", "npm:9.4.14"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:0.9.0", {
+          "packageLocation": "./.yarn/cache/ipfs-core-types-npm-0.9.0-375bec901e-22db8e0393.zip/node_modules/ipfs-core-types/",
+          "packageDependencies": [
+            ["ipfs-core-types", "npm:0.9.0"],
             ["interface-datastore", "npm:6.0.2"],
             ["multiaddr", "npm:10.0.1"],
             ["multiformats", "npm:9.4.14"]
