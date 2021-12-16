@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 1.4.0
+
+### Minor Changes
+
+- 1b015ae2: Modify the way metrics are calculated on DP errors for the http_total_requests metric
+
 ## 1.3.6
 
 ### Patch Changes
