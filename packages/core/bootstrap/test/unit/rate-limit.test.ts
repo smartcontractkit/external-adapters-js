@@ -72,7 +72,7 @@ describe('Rate Limit Middleware', () => {
     it('it uses the lowest tier if RATE_LIMIT_CAPACITY_SEC and RATE_LIMIT_CAPACITY_M are not set', () => {
       const coingeckoLowestRatePerSec = 10
       const coingeckoLowestRatePerMin = 50
-      const config = get({})
+      const config = get({ name: 'coingecko' })
       expect(config.burstCapacity1s).toEqual(coingeckoLowestRatePerSec)
       expect(config.burstCapacity1m).toEqual(coingeckoLowestRatePerMin)
       expect(config.totalCapacity).toEqual(capacity)
@@ -80,30 +80,30 @@ describe('Rate Limit Middleware', () => {
 
     it('sets the burstCapacity1s and capacity to 0 if RATE_LIMIT_CAPACITY_SECOND is set to 0', () => {
       process.env.RATE_LIMIT_CAPACITY_SECOND = '0'
-      const config = get({})
+      const config = get({ name: 'coingecko' })
       expect(config.burstCapacity1s).toBe(0)
-      expect(config.totalCapacity).toBe(0)
+      expect(config.totalCapacity).toBe(capacity)
     })
 
     it('sets the burstCapacity1s and capacity to 0 if RATE_LIMIT_CAPACITY_MINUTE is set to 0', () => {
       process.env.RATE_LIMIT_CAPACITY_MINUTE = '0'
-      const config = get({})
+      const config = get({ name: 'coingecko' })
       expect(config.burstCapacity1m).toBe(0)
-      expect(config.totalCapacity).toBe(0)
+      expect(config.totalCapacity).toBe(capacity)
     })
 
     it('sets the burstCapacity1s and capacity to 0 if RATE_LIMIT_CAPACITY_SECOND is set to less than 0', () => {
       process.env.RATE_LIMIT_CAPACITY_SECOND = '-1'
-      const config = get({})
+      const config = get({ name: 'coingecko' })
       expect(config.burstCapacity1s).toBe(0)
-      expect(config.totalCapacity).toBe(0)
+      expect(config.totalCapacity).toBe(capacity)
     })
 
     it('sets the burstCapacity1s and capacity to 0 if RATE_LIMIT_CAPACITY_MINUTE is set to less than 0', () => {
       process.env.RATE_LIMIT_CAPACITY_MINUTE = '-1'
-      const config = get({})
+      const config = get({ name: 'coingecko' })
       expect(config.burstCapacity1m).toBe(0)
-      expect(config.totalCapacity).toBe(0)
+      expect(config.totalCapacity).toBe(capacity)
     })
   })
 

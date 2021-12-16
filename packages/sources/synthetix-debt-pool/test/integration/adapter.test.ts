@@ -1,8 +1,9 @@
 import { server as startServer } from '../../src/index'
 import { ethers, BigNumber } from 'ethers'
-import request from 'supertest'
+import request, { SuperTest, Test } from 'supertest'
 import http from 'http'
 import process from 'process'
+import { AddressInfo } from 'net'
 
 const mockChainConfig = {
   ethereum: {
@@ -77,11 +78,13 @@ afterAll(() => {
 
 describe('synthetix-debt-pool', () => {
   let server: http.Server
-  const req = request('localhost:8080')
+  let req: SuperTest<Test>
 
   beforeAll(async () => {
     server = await startServer()
+    req = request(`localhost:${(server.address() as AddressInfo).port}`)
   })
+
   afterAll((done) => {
     server.close(done)
   })

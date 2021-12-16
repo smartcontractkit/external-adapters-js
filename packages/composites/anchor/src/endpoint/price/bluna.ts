@@ -6,9 +6,10 @@ import { Validator } from '@chainlink/ea-bootstrap'
 export const FROM = 'BLUNA'
 export const INTERMEDIARY_TOKEN_DECIMALS = 8
 export const INTERMEDIARY_TOKEN = 'LUNA'
+export const DEFAULT_TERRA_BLUNA_CONTRACT_ADDRESS = 'terra1mtwph2juhj0rvjz7dy92gvl6xvukaxu8rfv8ts'
 
 export const inputParameters: InputParameters = {
-  terraBLunaContractAddress: true,
+  terraBLunaContractAddress: false,
 }
 
 export const execute = async (
@@ -24,7 +25,8 @@ export const execute = async (
   const viewFunctionAdapterRequest: AdapterRequest = {
     id: input.id,
     data: {
-      address: validator.validated.data.terraBLunaContractAddress,
+      address:
+        validator.validated.data.terraBLunaContractAddress || DEFAULT_TERRA_BLUNA_CONTRACT_ADDRESS,
       query: {
         state: {},
       },

@@ -3,12 +3,13 @@ import { util } from '@chainlink/ea-bootstrap'
 import { server as startServer } from '../../src'
 import nock from 'nock'
 import http from 'http'
-import request from 'supertest'
+import request, { SuperTest, Test } from 'supertest'
 import {
   mockSuccessfulResponsesWithCommaSeparatedSources,
   mockSuccessfulResponsesWithoutCommaSeparatedSources,
   mockSuccessfulResponsesWithSingleSource,
 } from './fixtures'
+import { AddressInfo } from 'net'
 
 let oldEnv: NodeJS.ProcessEnv
 
@@ -22,11 +23,12 @@ const setupEnvironment = (adapters: string[]) => {
 
 describe('medianizer', () => {
   let server: http.Server
-  const req = request('localhost:8080')
+  let req: SuperTest<Test>
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     server = await startServer()
+    req = request(`localhost:${(server.address() as AddressInfo).port}`)
     setupEnvironment(['coingecko', 'coinpaprika', 'failing'])
     if (process.env.RECORD) {
       nock.recorder.rec()
