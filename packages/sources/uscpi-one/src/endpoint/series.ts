@@ -33,10 +33,24 @@ export interface DataSchema {
 const customError = (data: any) => data.Response === 'Error'
 
 export const inputParameters: InputParameters = {
-  serie: false,
-  year: false,
-  month: false,
-  resultPath: false,
+  serie: {
+    required: false,
+    description: 'The US CPI Data serieID (`CUSR0000SA0`, `LNS14000000`, etc)',
+    default: 'CUSR0000SA0',
+  },
+  year: {
+    required: false,
+    description:
+      'The year serie filter (`2021`, `2020`, etc). It is mandatory to specify the `month` and `year` values together.',
+  },
+  month: {
+    required: false,
+    description:
+      'The month serie filter  `may`, `july`, etc. It is mandatory to specify the `month` and `year` values together. ',
+  },
+  resultPath: {
+    required: false,
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {

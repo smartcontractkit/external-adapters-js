@@ -17,7 +17,12 @@ export interface ResponseSchema {
 const customError = (data: any) => data.Response === 'Error'
 
 export const inputParameters: InputParameters = {
-  speed: false,
+  speed: {
+    required: false,
+    description: 'The desired speed',
+    options: ['slow', 'medium', 'fast', 'fastest'],
+    default: 'fast',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {

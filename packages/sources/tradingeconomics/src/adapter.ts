@@ -1,45 +1,25 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { AdapterRequest, AdapterResponse, MakeWSHandler } from '@chainlink/types'
-import { Config, DEFAULT_WS_API_ENDPOINT, makeConfig, NAME } from './config'
+import {
+  AdapterRequest,
+  AdapterResponse,
+  APIEndpoint,
+  ExecuteWithConfig,
+  MakeWSHandler,
+  ExecuteFactory,
+} from '@chainlink/types'
+import { Builder, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { makeConfig, DEFAULT_WS_API_ENDPOINT, NAME, Config } from './config'
+import * as endpoints from './endpoint'
+import { inputParameters } from './endpoint/price'
 
-export const customParams = {
-  base: ['base', 'from', 'asset'],
+export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
+  return Builder.buildSelector(request, context, config, endpoints)
 }
 
-export const execute = async (input: AdapterRequest, config: Config) => {
-  const validator = new Validator(input, customParams)
-  if (validator.error) throw validator.error
+export const endpointSelector = (request: AdapterRequest): APIEndpoint<Config> =>
+  Builder.selectEndpoint(request, makeConfig(), endpoints)
 
-  const jobRunID = validator.validated.id
-  const symbol = (validator.overrideSymbol(NAME) as string).toUpperCase()
-
-  // Fall back to getting the data from HTTP endpoint
-  const url = `/symbol/${symbol}`
-
-  const params = {
-    c: `${config.client.key}:${config.client.secret}`,
-  }
-
-  const request = {
-    ...config.api,
-    url,
-    params,
-  }
-
-  const response = await Requester.request(request)
-  if (!response.data || response.data.length < 1) {
-    throw new Error('no result for query')
-  }
-  // Replace array by the first object in array
-  // to avoid unexpected behavior when returning arrays.
-  response.data = response.data[0]
-
-  response.data.result = Requester.validateResultNumber(response.data, ['Last'])
-  return Requester.success(jobRunID, response)
-}
-
-export const makeExecute = (config?: Config) => {
-  return async (request: AdapterRequest) => execute(request, config || makeConfig())
+export const makeExecute: ExecuteFactory<Config> = (config) => {
+  return async (request, context) => execute(request, context, config || makeConfig())
 }
 
 export const makeWSHandler = (config?: Config): MakeWSHandler => {
@@ -60,7 +40,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
         ),
       },
       subscribe: (input) => {
-        const validator = new Validator(input, customParams, {}, false)
+        const validator = new Validator(input, inputParameters, {}, false)
         if (validator.error) {
           return
         }

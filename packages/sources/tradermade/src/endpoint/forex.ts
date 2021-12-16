@@ -1,4 +1,4 @@
-import { ExecuteWithConfig, Config } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 import { execute as liveExecute } from './live'
 import { Validator } from '@chainlink/ea-bootstrap'
 
@@ -9,13 +9,21 @@ import { Validator } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['forex']
 
-export const customParams = {
-  base: ['base', 'from', 'symbol', 'market'],
-  quote: ['quote', 'to', 'market', 'convert'],
+export const inputParameters: InputParameters = {
+  base: {
+    aliases: ['from', 'symbol', 'market'],
+    required: true,
+    description: 'The symbol of the currency to query',
+  },
+  quote: {
+    aliases: ['to', 'market', 'convert'],
+    required: true,
+    description: 'The quote currency',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
-  const validator = new Validator(input, customParams)
+  const validator = new Validator(input, inputParameters)
   if (validator.error) throw validator.error
   const transformedInputData = {
     ...input,

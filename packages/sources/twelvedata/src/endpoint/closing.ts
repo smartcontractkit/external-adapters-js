@@ -7,7 +7,11 @@ export const supportedEndpoints = ['closing', 'eod']
 const customError = (data: any) => data.Response === 'Error'
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin', 'market', 'symbol'],
+  base: {
+    aliases: ['from', 'coin', 'market', 'symbol'],
+    required: true,
+    description: 'The symbol of the currency to query',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {

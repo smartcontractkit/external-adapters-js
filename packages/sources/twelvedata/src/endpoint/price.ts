@@ -7,7 +7,11 @@ export const supportedEndpoints = ['price', 'crypto', 'stock', 'forex']
 const customError = (data: any) => data.Response === 'Error'
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin', 'market'],
+  base: {
+    aliases: ['base', 'from', 'coin', 'market'],
+    required: true,
+    description: 'The symbol of the currency to query',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {

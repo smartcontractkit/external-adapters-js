@@ -4,7 +4,10 @@ import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 export const supportedEndpoints = ['event']
 
 export const inputParameters: InputParameters = {
-  eventId: true,
+  eventId: {
+    required: true,
+    description: 'The ID of the event to query',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {

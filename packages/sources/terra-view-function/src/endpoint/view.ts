@@ -6,11 +6,29 @@ import { Config, ChainId, SUPPORTED_CHAIN_IDS } from '../config'
 export const supportedEndpoints = ['view']
 
 export const inputParameters: InputParameters = {
-  address: ['address', 'contract'],
-  query: true,
-  params: false,
-  chainId: false,
-  resultPath: false,
+  address: {
+    aliases: ['contract'],
+    required: true,
+    description: 'The address to query',
+  },
+  query: {
+    required: true,
+    description: 'The query object',
+  },
+  params: {
+    required: false,
+    description: 'Optional params object to include in the query	',
+  },
+  chainId: {
+    required: false,
+    description: 'Which chain ID to connect to. Default is `DEFAULT_CHAIN_ID` environment variable',
+    options: ['columbus-5', 'bombay-12', 'localterra'],
+  },
+  resultPath: {
+    required: false,
+    description:
+      ' The [object-path](https://github.com/mariocasciaro/object-path) string to parse a single `result` value. When not provided the entire response will be provided.',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
