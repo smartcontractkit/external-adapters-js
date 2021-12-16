@@ -20,11 +20,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const date = validator.validated.data.date
   const gameID = validator.validated.data.gameID
   const games = await getGamesByDate(date, config)
-  const game = games.find((game) => game.GameID === gameID)
-
+  let game = games.find((game) => game.GameID === gameID)
   if (!game) {
     throw new Error(`Cannot find game with ID ${gameID} on date ${date}`)
   }
+  game = hideValuesIfGameNotFinished(game)
+
   const encodedGame = encodeGame(game)
   const respData = {
     data: {
@@ -63,4 +64,16 @@ const encodeGame = (game: GameResponse): string => {
     game.HomeTeamRuns,
   ]
   return ethers.utils.defaultAbiCoder.encode(types, values)
+}
+
+const hideValuesIfGameNotFinished = (game: GameResponse): GameResponse => {
+  const isGameComplete = game.Status === 'Final'
+  if (isGameComplete) return game
+  return {
+    ...game,
+    AwayTeamMoneyLine: -1,
+    HomeTeamMoneyLine: -1,
+    AwayTeamRuns: -1,
+    HomeTeamRuns: -1,
+  }
 }

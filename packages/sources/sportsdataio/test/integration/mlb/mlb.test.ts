@@ -68,6 +68,48 @@ describe('execute', () => {
       expect(response.body).toMatchSnapshot()
     })
 
+    it('should only return the games for a specific team', async () => {
+      const data: AdapterRequest = {
+        id,
+        data: {
+          date: '2017-JUL-31',
+          sport: 'mlb',
+          endpoint: 'schedule',
+          teamID: 'ATL',
+        },
+      }
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('should only return the gameIDs if onlyShowGameIDs is supplied', async () => {
+      const data: AdapterRequest = {
+        id,
+        data: {
+          date: '2017-JUL-31',
+          sport: 'mlb',
+          endpoint: 'schedule',
+          onlyShowGameIDs: true,
+        },
+      }
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+
     it('should return a 400 if date is missing', async () => {
       const data: AdapterRequest = {
         id,
@@ -99,6 +141,27 @@ describe('execute', () => {
           sport: 'mlb',
           endpoint: 'score',
           gameID: 49119,
+        },
+      }
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('should return -1 for scores and odds if the game is not complete yet', async () => {
+      const data: AdapterRequest = {
+        id,
+        data: {
+          date: '2017-JUL-31',
+          sport: 'mlb',
+          endpoint: 'score',
+          gameID: 49127,
         },
       }
 

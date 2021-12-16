@@ -3,12 +3,14 @@ import { ExecuteWithConfig } from '@chainlink/types'
 import { Config } from '../../../config'
 import { ethers } from 'ethers'
 import { GameResponse } from '../types'
-import { getGamesByDate } from '../utils'
+import { getGamesByDate, getGamesByTeam } from '../utils'
 
 export const NAME = 'schedule'
 
 const customParams = {
   date: true,
+  teamID: false,
+  onlyShowGameIDs: false,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -16,16 +18,20 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const date = validator.validated.data.date
+  const { date, teamID, onlyShowGameIDs } = validator.validated.data
+  let games = await getGamesByDate(date, config)
 
-  const games = await getGamesByDate(date, config)
-  const encodedGames = encodeGames(games)
+  if (teamID) {
+    games = getGamesByTeam(games, teamID)
+  }
+
+  const result = onlyShowGameIDs ? games.map((game) => game.GameID) : encodeGames(games)
   const respData = {
     data: {
       games,
-      result: encodedGames,
+      result,
     },
-    result: encodedGames,
+    result,
   }
   return Requester.success(jobRunID, respData, config.verbose)
 }

@@ -2,6 +2,7 @@ import nock from 'nock'
 
 export const mockGamesResponse = (key: string) => {
   nock('https://fly.sportsdata.io:443', { encodedQueryParams: true })
+    .persist()
     .get('/v3/mlb/scores/json/GamesByDate/2017-JUL-31')
     .query({ key })
     .reply(
@@ -11,7 +12,7 @@ export const mockGamesResponse = (key: string) => {
           GameID: 49127,
           Season: 2017,
           SeasonType: 1,
-          Status: 'Final',
+          Status: 'InProgress',
           Day: '2017-07-31T00:00:00',
           DateTime: '2017-07-31T12:35:00',
           AwayTeam: 'ATL',

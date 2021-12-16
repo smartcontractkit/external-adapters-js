@@ -33,3 +33,11 @@ export const getGamesByDate = async (date: string, config: Config): Promise<Game
     }),
   )
 }
+
+export const getGamesByTeam = (games: GameResponse[], teamID: string): GameResponse[] => {
+  return games.filter(
+    (game) =>
+      game.AwayTeam.toLowerCase() === teamID.toLowerCase() ||
+      game.HomeTeam.toLowerCase() === teamID.toLowerCase(),
+  )
+}
