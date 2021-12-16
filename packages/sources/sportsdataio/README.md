@@ -4,19 +4,20 @@ Adapter got get data from Sportsdata.io
 
 ### Environment Variables
 
-| Required? |        Name        |      Description       | Options | Defaults to |
-| :-------: | :----------------: | :--------------------: | :-----: | :---------: |
-|           | NFL_SCORES_API_KEY | API key for NFL scores |         |             |
-|           | MMA_STATS_API_KEY  | API key for MMA stats  |         |             |
-|           | CFB_SCORES_API_KEY | API key for CFB scores |         |             |
+| Required? |        Name        |             Description             | Options | Defaults to |
+| :-------: | :----------------: | :---------------------------------: | :-----: | :---------: |
+|           | NFL_SCORES_API_KEY |       API key for NFL scores        |         |             |
+|           | MMA_STATS_API_KEY  |        API key for MMA stats        |         |             |
+|           | CFB_SCORES_API_KEY |       API key for CFB scores        |         |             |
+|           |    MLB_API_KEY     | API key for MLB schedule and scores |         |             |
 
 ---
 
 ### Input Parameters
 
-| Required? | Name  |   Description    |                          Options                           | Defaults to |
-| :-------: | :---: | :--------------: | :--------------------------------------------------------: | :---------: |
-|           | sport | The sport to use | [nfl](#NFL), [mma](#MMA), [ncaa-fb](#ncaa-fb), [nba](#nba) |     nfl     |
+| Required? | Name  |   Description    |                                 Options                                 | Defaults to |
+| :-------: | :---: | :--------------: | :---------------------------------------------------------------------: | :---------: |
+|           | sport | The sport to use | [nfl](#NFL), [mma](#MMA), [ncaa-fb](#ncaa-fb), [nba](#nba), [mlb](#MLB) |     nfl     |
 
 ---
 
@@ -129,9 +130,45 @@ Get the MLB schedule on a given date
 
 #### Input Parameters
 
-| Required? | Name |                Description                 | Options | Defaults to |
-| :-------: | :--: | :----------------------------------------: | :-----: | :---------: |
-|    ✅     | date | The date games to query were/are played on |         |             |
+| Required? |      Name      |                                      Description                                      |          Options           | Defaults to |
+| :-------: | :------------: | :-----------------------------------------------------------------------------------: | :------------------------: | :---------: |
+|    ✅     |      date      |                      The date games to query were/are played on                       |                            |             |
+|           |     teamID     |                           The team ID to filter by e.g LAD                            | See list of team IDs below |             |
+|           | onlyShowGameID | Set to true if response should only contain game IDs instead of the whole game object |                            |             |
+
+#### List of team IDs
+
+- Dodgers: LAD
+- Reds: CIN
+- Blue Jays: TOR
+- Pirates: PIT
+- Royals: KC
+- All Stars: NL
+- Cubs: CHC
+- Guardians: CLE
+- Rays: TB
+- Phillies: PHI
+- Mariners: SEA
+- Diamondbacks: ARI
+- Giants: SF
+- White Sox: CHW
+- Tigers: DET
+- Mets: NYM
+- Orioles: BAL
+- Twins: MIN
+- Angels: LAA
+- Marlins: MIA
+- Rockies: COL
+- Athletics: OAK
+- Red Sox: BOS
+- Braves: ATL
+- All Stars: AL
+- Rangers: TEX
+- Yankees: NYY
+- Astros: HOU
+- Cardinals: STL
+- Brewers: MIL
+- Padres: SD
 
 ### MLB Score
 
