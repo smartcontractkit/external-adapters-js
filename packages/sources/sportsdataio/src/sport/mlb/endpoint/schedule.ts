@@ -24,15 +24,17 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   if (teamID) {
     games = getGamesByTeam(games, teamID)
   }
+  const gameIDs = games.map((game) => game.GameID)
+  const result = onlyShowGameIDs ? gameIDs : encodeGames(games)
 
-  const result = onlyShowGameIDs ? games.map((game) => game.GameID) : encodeGames(games)
   const respData = {
     data: {
-      games,
+      games: onlyShowGameIDs ? gameIDs : games,
       result,
     },
     result,
   }
+
   return Requester.success(jobRunID, respData, config.verbose)
 }
 
