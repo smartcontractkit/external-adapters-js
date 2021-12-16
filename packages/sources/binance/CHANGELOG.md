@@ -1,5 +1,13 @@
 # @chainlink/binance-adapter
 
+## 1.1.5
+
+### Patch Changes
+
+- Updated dependencies [1b015ae2]
+  - @chainlink/ea-bootstrap@1.4.0
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.1.4
 
 ### Patch Changes
