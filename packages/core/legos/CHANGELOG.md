@@ -1,5 +1,12 @@
 # @chainlink/ea
 
+## 1.0.22
+
+### Patch Changes
+
+- Updated dependencies
+  - @chainlink/cryptocompare-adapter@1.1.14
+
 ## 1.0.21
 
 ### Patch Changes
