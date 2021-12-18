@@ -10,8 +10,10 @@ import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['crypto', 'price', 'marketcap', 'volume']
 export const batchablePropertyPath = [
-  { name: 'base', limit: 1000 },
-  { name: 'quote', limit: 100 },
+  // NOTE: Cryptocompare limits by character length of fsyms
+  { name: 'base', limit: 200 }, // actual limit: 1000 characters
+  { name: 'quote', limit: 20 }, // actual limit: 100 characters
+  // TODO handle character length limits
 ]
 
 export const endpointResultPaths = {
