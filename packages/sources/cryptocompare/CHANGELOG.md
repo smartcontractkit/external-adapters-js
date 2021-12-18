@@ -1,5 +1,11 @@
 # @chainlink/cryptocompare-adapter
 
+## 1.1.14
+
+### Patch Changes
+
+- Lower batch property limits to reflect character limit
+
 ## 1.1.13
 
 ### Patch Changes
