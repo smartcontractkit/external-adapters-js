@@ -177,7 +177,7 @@ Starting from the root of the repository:
 
 1. Ensure that the project is setup and that the docker-compose file has been generated
 
-   ```json
+   ```
    yarn && yarn setup && yarn generate:docker-compose
    ```
 
@@ -187,7 +187,7 @@ The adapter will have the format of `[[ADAPTER NAME]]-adapter`.
 
 For example:
 
-```json
+```
 cd grafana && ./scripts/compose.sh coingecko-adapter coinmarketcap-adapter
 ```
 
@@ -195,7 +195,7 @@ cd grafana && ./scripts/compose.sh coingecko-adapter coinmarketcap-adapter
 
 - External Adapters - search `docker-compose.generated.yaml` for the name of your EA. The port it is running on will be found as the first number before the colon under `ports`.
 
-```json
+```yml
 coincodex-adapter:
     image: coincodex-adapter:0.0.4
     ports:
@@ -339,19 +339,19 @@ The External Adapters are being tagged with semantic releases to allow for autom
 
 The EA container image can be download by using the [docker pull command](https://docs.docker.com/engine/reference/commandline/pull/). For example:
 
-```json
+```
 docker pull public.ecr.aws/chainlink/adapters/1forge-adapter:latest
 ```
 
 To run the image use the [docker run command](https://docs.docker.com/engine/reference/run/). For example:
 
-```json
+```
 docker run -p 8080:8080 -e API_KEY='YOUR_API_KEY' public.ecr.aws/chainlink/adapters/1forge-adapter:latest
 ```
 
 It can be helpful to pass a text file to the container to handle giving multiple environment variables:
 
-```json
+```
 docker run -p 8080:8080 --env-file=[[path to your env file]] public.ecr.aws/chainlink/adapters/1forge-adapter:latest
 ```
 
@@ -403,7 +403,7 @@ Optionally `data` parameters can also be passed via a query string added to the 
 
 The External Adapter will do some processing, often request data from an API, and return the following response structure:
 
-```json
+```javascript
   {
     "jobRunID": "2cae6a10e5184aa685c3428964b02418",
     "statusCode": 200,
