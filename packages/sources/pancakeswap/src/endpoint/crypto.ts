@@ -2,13 +2,9 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { NAME as AdapterName, Config, ROUTER_CONTRACT } from '../config'
 import { ethers, BigNumber } from 'ethers'
-import { BigNumber as BigNumberJs } from 'bignumber.js'
 import routerABI from '../abis/router.json'
 import erc20ABI from '../abis/ERC20.json'
-import addressProviderABI from '../abis/address_provider.json'
-import registryExchangesABI from '../abis/registry_exchanges.json'
 import { Decimal } from 'decimal.js'
-import * as a from './end'
 
 export const supportedEndpoints = ['crypto']
 
@@ -122,38 +118,10 @@ const getBestRate = async (
   to: tokenDetails,
   amount: BigNumber,
   config: Config,
-): Promise<BigNumberJs> => {
-  // discover the address of the factory contract
-  console.log('begofore', ROUTER_CONTRACT)
+): Promise<BigNumber> => {
   const router = new ethers.Contract(ROUTER_CONTRACT, routerABI, config.provider)
-
-  const factoryContract = await router.factory()
 
   const amt = await router.getAmountsOut(amount, [from.address, to.address])
 
   return amt[1]
-
-  // discover the liquidity pool for the token pair
-  const provider = new ethers.Contract(factoryContract, addressProviderABI, config.provider)
-
-  const exchangePairAddr = await provider.getPair(from.address, to.address)
-
-  console.log('pair', exchangePairAddr)
-
-  // now swap!
-  const swaps = new ethers.Contract(exchangePairAddr, registryExchangesABI, config.provider)
-  const r = await swaps.getReserves()
-
-  // `ethers` bignumber can't handle fractions
-  // do the conversion between types to no loose precision
-  const reserve0: BigNumberJs = new BigNumberJs(r._reserve0.toString())
-  const reserve1: BigNumberJs = new BigNumberJs(r._reserve1.toString())
-
-  if (reserve0.isZero()) {
-    throw new Error(`No liquidity for pair`)
-  }
-
-  const price = reserve1.div(reserve0)
-
-  return price
 }

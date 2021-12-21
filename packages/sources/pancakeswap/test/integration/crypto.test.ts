@@ -12,7 +12,7 @@ let oldEnv: NodeJS.ProcessEnv
 beforeAll(() => {
   oldEnv = JSON.parse(JSON.stringify(process.env))
   process.env.CACHE_ENABLED = 'false'
-  process.env.RPC_URL = process.env.RPC_URL || 'http://localhost:8545'
+  process.env.RPC_URL = process.env.RPC_URL || 'https://bsc-dataseed1.binance.org:443'
   process.env.API_VERBOSE = true as unknown as string
   if (process.env.RECORD) {
     nock.recorder.rec()
@@ -54,7 +54,7 @@ describe('execute', () => {
       },
     }
 
-    it.skip('should return success', async () => {
+    it('should return success', async () => {
       mockEthereumResponseSuccess()
 
       const response = await req
@@ -72,15 +72,15 @@ describe('execute', () => {
     const data: AdapterRequest = {
       id,
       data: {
-        from: '0xBC6DA0FE9aD5f3b0d58160288917AA56653660E9',
+        from: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
         fromDecimals: 18,
-        to: '0x6c3F90f043a72FA612cbac8115EE7e52BDe6E490',
+        to: '0xe9e7cea3dedca5984780bafc599bd69add087d56',
         toDecimals: 18,
         amount: 10,
       },
     }
 
-    it.skip('should return success', async () => {
+    it('should return success', async () => {
       mockEthereumResponseSuccess()
 
       const response = await req

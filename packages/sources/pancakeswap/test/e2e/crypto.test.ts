@@ -11,12 +11,7 @@ describe('execute', () => {
     const requests = [
       {
         name: 'id not supplied',
-        testData: {
-          data: {
-            base: '0x2541be91fe0d220ffcbe65f11d88217a87a43bda',
-            quote: '0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d',
-          },
-        },
+        testData: { data: { base: 'USDC', quote: 'USDT' } },
       },
       {
         name: 'base/quote',
@@ -40,10 +35,10 @@ describe('execute', () => {
           id: jobID,
           data: {
             from: 'NOT_REAL',
-            fromAddress: '0xBC6DA0FE9aD5f3b0d58160288917AA56653660E9',
+            fromAddress: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
             fromDecimals: 18,
             to: 'ALSO_NOT_REAL',
-            toAddress: '0x6c3F90f043a72FA612cbac8115EE7e52BDe6E490',
+            toAddress: '0xe9e7cea3dedca5984780bafc599bd69add087d56',
             toDecimals: 18,
           },
         },

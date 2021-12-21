@@ -5,16 +5,15 @@ Object {
   "data": Object {
     "input": "10000000000000000000",
     "inputDecimals": 18,
-    "inputToken": "0xBC6DA0FE9aD5f3b0d58160288917AA56653660E9",
-    "output": "9777973472353241389",
+    "inputToken": "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+    "output": "5239325125242389496139",
     "outputDecimals": 18,
-    "outputToken": "0x6c3F90f043a72FA612cbac8115EE7e52BDe6E490",
-    "pool": "0x43b4FdFD4Ff969587185cDB6f0BD875c5Fc83f8c",
-    "rate": 0.9777973472353242,
-    "result": 0.9777973472353242,
+    "outputToken": "0xe9e7cea3dedca5984780bafc599bd69add087d56",
+    "rate": 523.932512524239,
+    "result": 523.932512524239,
   },
   "jobRunID": "1",
-  "result": 0.9777973472353242,
+  "result": 523.932512524239,
   "statusCode": 200,
 }
 `;
@@ -22,18 +21,17 @@ Object {
 exports[`execute with from/to should return success 1`] = `
 Object {
   "data": Object {
-    "input": "1000000",
-    "inputDecimals": 6,
-    "inputToken": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
-    "output": "999424",
-    "outputDecimals": 6,
-    "outputToken": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-    "pool": "0xbEbc44782C7dB0a1A60Cb6fe97d0b483032FF1C7",
-    "rate": 0.999424,
-    "result": 0.999424,
+    "input": "1000000000000000000",
+    "inputDecimals": 18,
+    "inputToken": "0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d",
+    "output": "995786777529191071",
+    "outputDecimals": 18,
+    "outputToken": "0x55d398326f99059ff775485246999027b3197955",
+    "rate": 0.9957867775291911,
+    "result": 0.9957867775291911,
   },
   "jobRunID": "1",
-  "result": 0.999424,
+  "result": 0.9957867775291911,
   "statusCode": 200,
 }
 `;
