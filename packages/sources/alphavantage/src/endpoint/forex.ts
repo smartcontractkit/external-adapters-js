@@ -14,6 +14,20 @@ export const inputParameters: InputParameters = {
   quote: ['quote', 'to', 'market'],
 }
 
+export interface ResponseSchema {
+  'Realtime Currency Exchange Rate': {
+    '1. From_Currency Code': string
+    '2. From_Currency Name': string
+    '3. To_Currency Code': string
+    '4. To_Currency Name': string
+    '5. Exchange Rate': string
+    '6. Last Refreshed': string
+    '7. Time Zone': string
+    '8. Bid Price': string
+    '9. Ask Price': string
+  }
+}
+
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
@@ -38,11 +52,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     params,
   }
 
-  const response = await Requester.request(options, customError)
-  response.data.result = Requester.validateResultNumber(response.data, [
+  const response = await Requester.request<ResponseSchema>(options, customError)
+  const result = Requester.validateResultNumber(response.data, [
     'Realtime Currency Exchange Rate',
     '5. Exchange Rate',
   ])
 
-  return Requester.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }
