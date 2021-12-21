@@ -120,6 +120,9 @@
       "path": "./sources/alphavantage"
     },
     {
+      "path": "./sources/alpine"
+    },
+    {
       "path": "./sources/amberdata"
     },
     {
@@ -361,6 +364,9 @@
     },
     {
       "path": "./sources/orchid-bandwidth"
+    },
+    {
+      "path": "./sources/pancakeswap"
     },
     {
       "path": "./sources/paxos"

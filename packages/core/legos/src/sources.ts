@@ -3,6 +3,7 @@ import * as accuweather from '@chainlink/accuweather-adapter'
 import * as ada_balance from '@chainlink/ada-balance-adapter'
 import * as alphachain from '@chainlink/alphachain-adapter'
 import * as alphavantage from '@chainlink/alphavantage-adapter'
+import * as alpine from '@chainlink/alpine-adapter'
 import * as amberdata from '@chainlink/amberdata-adapter'
 import * as anyblock from '@chainlink/anyblock-adapter'
 import * as ap_election from '@chainlink/ap-election-adapter'
@@ -84,6 +85,7 @@ import * as onchain from '@chainlink/onchain-adapter'
 import * as onchain_gas from '@chainlink/onchain-gas-adapter'
 import * as openexchangerates from '@chainlink/openexchangerates-adapter'
 import * as orchid_adapter from '@chainlink/orchid-bandwidth-adapter'
+import * as pancakeswap from '@chainlink/pancakeswap-adapter'
 import * as paxos from '@chainlink/paxos-adapter'
 import * as paypal from '@chainlink/paypal-adapter'
 import * as poa from '@chainlink/poa-adapter'
@@ -122,6 +124,7 @@ export default {
   ada_balance,
   alphachain,
   alphavantage,
+  alpine,
   amberdata,
   anyblock,
   ap_election,
@@ -203,6 +206,7 @@ export default {
   onchain_gas,
   openexchangerates,
   orchid_adapter,
+  pancakeswap,
   paxos,
   paypal,
   poa,
