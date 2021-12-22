@@ -11,7 +11,7 @@ import { NAME as AdapterName } from '../config'
 export const supportedEndpoints = ['price', 'crypto', 'stock', 'forex', 'commodities']
 export const batchablePropertyPath = [{ name: 'base', limit: 120 }]
 
-const customError = (data: any) => data.Response === 'Error'
+const customError = (data: { status: string }) => data.status !== 'OK'
 
 export const inputParameters: InputParameters = {
   base: ['base', 'from', 'coin', 'market'],
@@ -21,6 +21,26 @@ const quoteEventSymbols: { [key: string]: boolean } = {
   'USO/USD:AFX': true,
 }
 
+export interface ResponseSchema {
+  status: string
+  Trade: {
+    [key: string]: {
+      eventSymbol: string
+      eventTime: number
+      time: number
+      timeNanoPart: number
+      sequence: number
+      exchangeCode: string
+      price: number
+      change: number
+      size: number
+      dayVolume: number
+      dayTurnover: number
+      tickDirection: string
+      extendedTradingHours: boolean
+    }
+  }
+}
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
@@ -44,7 +64,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url,
     params,
   }
-  const response = await Requester.request(options, customError)
+  const response = await Requester.request<ResponseSchema>(options, customError)
 
   if (Array.isArray(base)) {
     return handleBatchedRequest(jobRunID, request, response, events)
@@ -54,17 +74,22 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const quotePath = ['Quote', symbol, 'bidPrice']
   const tradePath = ['Trade', symbol, 'price']
-  response.data.result = Requester.validateResultNumber(
+  const result = Requester.validateResultNumber(
     response.data,
     events === 'Quote' ? quotePath : tradePath,
   )
-  return Requester.success(jobRunID, response, config.verbose, batchablePropertyPath)
+  return Requester.success(
+    jobRunID,
+    Requester.withResult(response, result),
+    config.verbose,
+    batchablePropertyPath,
+  )
 }
 
 const handleBatchedRequest = (
   jobRunID: string,
   request: AdapterRequest,
-  response: AxiosResponse,
+  response: AxiosResponse<ResponseSchema>,
   events: string,
 ) => {
   const payload: [AdapterRequest, number][] = []
@@ -84,6 +109,10 @@ const handleBatchedRequest = (
       ),
     ])
   }
-  response.data.results = payload
-  return Requester.success(jobRunID, response, true, batchablePropertyPath)
+  return Requester.success(
+    jobRunID,
+    Requester.withResult(response, undefined, payload),
+    true,
+    batchablePropertyPath,
+  )
 }
