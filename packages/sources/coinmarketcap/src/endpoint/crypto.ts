@@ -18,6 +18,47 @@ export const endpointResultPaths = {
   volume: 'volume_24h',
 }
 
+export interface ResponseSchema {
+  data: {
+    [key: string]: {
+      id: number
+      name: string
+      symbol: string
+      slug: string
+      is_active: number
+      is_fiat: number
+      circulating_supply: number
+      total_supply: number
+      max_supply: number
+      date_added: string
+      num_market_pairs: number
+      cmc_rank: number
+      last_updated: string
+      tags: string[]
+      platform: string
+      quote: {
+        [key: string]: {
+          price: number
+          volume_24h: number
+          percent_change_1h: number
+          percent_change_24h: number
+          percent_change_7d: number
+          percent_change_30d: number
+          market_cap: number
+          last_updated: string
+        }
+      }
+    }
+  }
+  status: {
+    timestamp: string
+    error_code: number
+    error_message: string
+    elapsed: number
+    credit_count: number
+  }
+}
+
 // Coin IDs fetched from the ID map: https://coinmarketcap.com/api/documentation/v1/#operation/getV1CryptocurrencyMap
 const presetIds: { [symbol: string]: number } = {
   COMP: 5692,
@@ -62,7 +103,7 @@ export const inputParameters: InputParameters = {
 const handleBatchedRequest = (
   jobRunID: string,
   request: AdapterRequest,
-  response: AxiosResponse,
+  response: AxiosResponse<ResponseSchema>,
   validator: Validator,
   resultPath: string,
 ) => {
@@ -88,9 +129,14 @@ const handleBatchedRequest = (
     }
   }
 
-  response.data.results = payload
+  const results = payload
   response.data.cost = Requester.validateResultNumber(response.data, ['status', 'credit_count'])
-  return Requester.success(jobRunID, response, true, batchablePropertyPath)
+  return Requester.success(
+    jobRunID,
+    Requester.withResult(response, undefined, results),
+    true,
+    batchablePropertyPath,
+  )
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -143,28 +189,34 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url,
     params,
   }
-  const response = await Requester.request(options)
+  const response = await Requester.request<ResponseSchema>(options)
   if (Array.isArray(symbol) || Array.isArray(convert))
     return handleBatchedRequest(jobRunID, request, response, validator, resultPath)
 
   // CMC API currently uses ID as key in response, when querying with "slug" param
-  const _keyForSlug = (data: any, slug: string) => {
+  const _keyForSlug = (data: ResponseSchema, slug: string) => {
     if (!data || !data.data) return
     // First try to find slug key in response (in case the API starts returning keys correctly)
     if (Object.keys(data.data).includes(slug)) return slug
     // Fallback to ID
     const _iEqual = (s1: string, s2: string) => s1.toUpperCase() === s2.toUpperCase()
-    const o: any = Object.values(data.data).find((o: any) => _iEqual(o.slug, slug))
+    const o = Object.values(data.data).find((o) => _iEqual(o.slug, slug))
+
     return o && o.id
   }
 
   const key = params.id || _keyForSlug(response.data, params.slug || '') || params.symbol
-  response.data.result = Requester.validateResultNumber(response.data, [
+  const result = Requester.validateResultNumber(response.data, [
     'data',
     key,
     'quote',
     convert,
     resultPath,
   ])
-  return Requester.success(jobRunID, response, config.verbose, batchablePropertyPath)
+  return Requester.success(
+    jobRunID,
+    Requester.withResult(response, result),
+    config.verbose,
+    batchablePropertyPath,
+  )
 }
