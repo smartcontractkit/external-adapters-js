@@ -10,6 +10,24 @@ export const inputParameters: InputParameters = {
   timestamp: false, // TODO: currently unused, deprecate or utilize me
 }
 
+export interface ResponseSchema {
+  content: {
+    close: number
+    endTimestamp: string
+    high: number
+    id: string
+    indexId: string
+    indexType: string
+    low: number
+    open: number
+    startTimestamp: string
+    timestamp: string
+    twap: number
+    volume: number
+    vwap: number
+  }[]
+}
+
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
@@ -39,8 +57,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     },
   }
 
-  const response = await Requester.request(options)
-  response.data.result = Requester.validateResultNumber(response.data, ['content', 0, 'vwap'])
+  const response = await Requester.request<ResponseSchema>(options)
+  const result = Requester.validateResultNumber(response.data, ['content', 0, 'vwap'])
 
-  return Requester.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }
