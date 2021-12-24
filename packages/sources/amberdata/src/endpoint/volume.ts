@@ -4,7 +4,7 @@ import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['volume']
 
-const customError = (data: any) => {
+const customError = (data: ResponseSchema) => {
   return Object.keys(data.payload).length === 0
 }
 
@@ -36,6 +36,21 @@ export const inputParameters: InputParameters = {
   includes: false,
 }
 
+export interface ResponseSchema {
+  status: number
+  title: string
+  description: string
+  payload: {
+    metadata: { startDate: number; endDate: number }
+    data: {
+      timestamp: number
+      pair: string
+      price: string
+      volume: string
+    }[]
+  }
+}
+
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const validator = new Validator(input, inputParameters)
   if (validator.error) throw validator.error
@@ -44,16 +59,11 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const { url, params, inverse } = getOptions(validator)
   const reqConfig = { ...config.api, params, url }
 
-  const response = await Requester.request(reqConfig, customError)
-  console.log(response.data.payload.data)
-  response.data.result = Requester.validateResultNumber(
-    response.data,
-    ['payload', 'data', 0, 'volume'],
-    {
-      inverse,
-    },
-  )
-  return Requester.success(jobRunID, response, config.verbose)
+  const response = await Requester.request<ResponseSchema>(reqConfig, customError)
+  const result = Requester.validateResultNumber(response.data, ['payload', 'data', 0, 'volume'], {
+    inverse,
+  })
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }
 
 const getOptions = (
