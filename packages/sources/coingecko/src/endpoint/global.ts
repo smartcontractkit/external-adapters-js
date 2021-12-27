@@ -8,14 +8,28 @@ export const endpointResultPaths = {
   dominance: 'market_cap_percentage',
 }
 
-const customError = (data: any) => {
-  if (Object.keys(data).length === 0) return true
-  return false
+const customError = (data: ResponseSchema) => {
+  return Object.keys(data).length === 0
 }
 
 export const inputParameters: InputParameters = {
   market: ['quote', 'to', 'market', 'coin'],
   resultPath: false,
+}
+
+export interface ResponseSchema {
+  data: {
+    active_cryptocurrencies: number
+    upcoming_icos: number
+    ongoing_icos: number
+    ended_icos: number
+    markets: number
+    total_market_cap: Record<string, number>
+    total_volume: Record<string, number>
+    market_cap_percentage: Record<string, number>
+    market_cap_change_percentage_24h_usd: number
+    updated_at: number
+  }
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -35,8 +49,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     },
   }
 
-  const response = await Requester.request(options, customError)
-  response.data.result = Requester.validateResultNumber(response.data, ['data', resultPath, market])
+  const response = await Requester.request<ResponseSchema>(options, customError)
+  const result = Requester.validateResultNumber(response.data, ['data', resultPath, market])
 
-  return Requester.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }
