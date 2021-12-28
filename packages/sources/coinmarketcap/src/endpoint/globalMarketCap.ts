@@ -6,8 +6,7 @@ export const supportedEndpoints = ['globalmarketcap']
 export const inputParameters: InputParameters = {
   market: {
     aliases: ['quote', 'to'],
-    description: 'The symbol of the currency to query',
-    default: 'USD',
+    description: 'The symbol of the currency to query. Default: `usd`',
     required: true,
     type: 'string',
   },
