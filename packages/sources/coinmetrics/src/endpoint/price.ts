@@ -21,8 +21,19 @@ export interface ResponseSchema {
 const customError = (data: ResponseSchema) => !!data.error
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
+  base: {
+    aliases: ['from', 'coin'],
+    description: 'The symbol of the currency to query',
+    required: true,
+    type: 'string',
+  },
+  quote: {
+    aliases: ['to', 'market'],
+    description: 'The symbol of the currency to convert to',
+    required: true,
+    options: ['USD', 'EUR'],
+    type: 'string',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {

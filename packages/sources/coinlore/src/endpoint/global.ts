@@ -10,9 +10,25 @@ export const endpointResultPaths: EndpointResultPaths = {
 }
 
 export const inputParameters: InputParameters = {
-  base: false,
-  resultPath: false,
-  endpoint: false,
+  base: {
+    description: 'When using a field of `d`, the currency to prefix the field with (e.g. `usd_d`',
+    options: ['btc', 'eth'],
+    required: false,
+    type: 'string',
+    default: 'btc',
+  },
+  resultPath: {
+    aliases: ['field'],
+    description: 'The object path to access the value that will be returned as the result',
+    required: false,
+    type: 'string',
+    default: 'd',
+  },
+  endpoint: {
+    description: 'The adapter endpoint to use',
+    required: false,
+    type: 'string',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {

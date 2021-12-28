@@ -11,8 +11,17 @@ export interface ResponseSchema {
 }
 
 export const inputParameters: InputParameters = {
-  chainID: true,
-  contractAddress: true,
+  chainID: {
+    description: 'The ID of the target PoR chain. Chain Ids: 0(Cardano), 1(Doge)',
+    options: [0, 1],
+    type: 'number',
+    required: true,
+  },
+  contractAddress: {
+    description: 'The address of the smart contract holding the custodial addresses',
+    type: 'string',
+    required: true,
+  },
 }
 
 const abi = [

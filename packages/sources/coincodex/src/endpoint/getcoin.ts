@@ -1,13 +1,12 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
-export const supportedEndpoints = ['globalmarketcap']
+export const supportedEndpoints = ['getcoin']
 
 export const inputParameters: InputParameters = {
-  market: {
-    aliases: ['quote', 'to'],
+  base: {
+    aliases: ['from', 'coin'],
     description: 'The symbol of the currency to query',
-    default: 'USD',
     required: true,
     type: 'string',
   },
@@ -18,23 +17,14 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-
-  const convert = validator.validated.data.market.toUpperCase()
-  const url = '/global-metrics/quotes/latest'
-
-  const params = { convert }
+  const base = validator.validated.data.base.toLowerCase()
 
   const options = {
     ...config.api,
-    url,
-    params,
+    url: `get_coin/${base}`,
   }
+
   const response = await Requester.request(options)
-  response.data.result = Requester.validateResultNumber(response.data, [
-    'data',
-    'quote',
-    convert,
-    'total_market_cap',
-  ])
-  return Requester.success(jobRunID, response, config.verbose)
+  response.data.result = Requester.validateResultNumber(response.data, ['last_price_usd'])
+  return Requester.success(jobRunID, response)
 }

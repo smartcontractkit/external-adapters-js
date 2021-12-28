@@ -4,7 +4,13 @@ import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 export const supportedEndpoints = ['dominance']
 
 export const inputParameters: InputParameters = {
-  market: ['market', 'to', 'quote'],
+  market: {
+    aliases: ['quote', 'to'],
+    description: 'The symbol of the currency to query',
+    options: ['BTC', 'ETH'],
+    required: true,
+    type: 'string',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {

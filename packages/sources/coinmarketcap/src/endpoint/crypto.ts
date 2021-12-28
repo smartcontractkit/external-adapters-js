@@ -52,11 +52,37 @@ const presetIds: { [symbol: string]: number } = {
 }
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin', 'sym', 'symbol'],
-  convert: ['quote', 'to', 'market', 'convert'],
-  cid: false,
-  slug: false,
-  resultPath: false,
+  base: {
+    aliases: ['from', 'coin', 'sym', 'symbol'],
+    description: 'The symbol of the currency to query',
+    required: true,
+    type: 'string',
+  },
+  convert: {
+    aliases: ['quote', 'to', 'market', 'convert'],
+    description: 'The symbol of the currency to convert to',
+    required: true,
+    type: 'string',
+  },
+  cid: {
+    description: 'The CMC coin ID (optional to use in place of base)',
+    required: false,
+    type: 'string',
+  },
+  slug: {
+    description: 'The CMC coin ID (optional to use in place of base)',
+    required: false,
+    type: 'string',
+  },
+  overrides: {
+    description:
+      'If base provided is found in overrides, that will be used. [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json)',
+  },
+  resultPath: {
+    description: 'The path for the result',
+    required: false,
+    type: 'string',
+  },
 }
 
 const handleBatchedRequest = (

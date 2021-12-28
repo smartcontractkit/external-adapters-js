@@ -14,8 +14,19 @@ const customError = (data: any) => {
 }
 
 export const inputParameters: InputParameters = {
-  market: ['quote', 'to', 'market', 'coin'],
-  resultPath: false,
+  market: {
+    aliases: ['quote', 'to', 'market', 'coin'],
+    description:
+      'The ticker of the coin to query. [Supported tickers](https://api.coingecko.com/api/v3/global)',
+    required: true,
+    type: 'string',
+  },
+  resultPath: {
+    description: 'The path for the result',
+    default: 'result',
+    required: false,
+    type: 'string',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {

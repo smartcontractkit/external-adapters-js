@@ -4,7 +4,13 @@ import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 export const supportedEndpoints = ['dominance']
 
 export const inputParameters: InputParameters = {
-  market: ['market', 'to', 'quote'],
+  market: {
+    aliases: ['to', 'quote'],
+    description: 'The symbol of the currency to convert to',
+    options: [`BTC`],
+    required: true,
+    type: 'string',
+  },
 }
 
 const convert: { [key: string]: string } = {

@@ -9,9 +9,22 @@ export const endpointResultPaths = {
 }
 
 export const inputParameters: InputParameters = {
-  blockchain: ['blockchain', 'coin'],
-  resultPath: false,
-  network: false,
+  blockchain: {
+    aliases: ['coin', 'market'],
+    description: 'The blockchain to retrieve info for',
+    options: ['BTC', 'ETH', 'LTC', 'ETC', 'BCH', 'DOGE', 'DASH'],
+    required: true,
+  },
+  resultPath: {
+    description: 'The path for the result',
+    required: false,
+    type: 'string',
+  },
+  network: {
+    description: 'The blockchain network name',
+    default: 'mainnet',
+    required: true,
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {

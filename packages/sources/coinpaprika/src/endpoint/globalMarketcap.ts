@@ -4,7 +4,12 @@ import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 export const supportedEndpoints = ['globalmarketcap']
 
 export const inputParameters: InputParameters = {
-  market: ['market', 'to', 'quote'],
+  market: {
+    aliases: ['to', 'quote'],
+    description: 'The symbol of the currency to convert to',
+    required: true,
+    type: 'string',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {

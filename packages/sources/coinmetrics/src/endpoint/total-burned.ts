@@ -30,11 +30,36 @@ const DEFAULT_PAGE_SIZE = 10_000
 const URL = 'timeseries/asset-metrics'
 
 export const inputParameters: InputParameters = {
-  asset: true,
-  frequency: false,
-  pageSize: false,
-  startTime: false,
-  endTime: false,
+  asset: {
+    description:
+      'The symbol of the currency to query. See [Coin Metrics Assets](https://docs.coinmetrics.io/info/assets)',
+    type: 'string',
+    required: true,
+  },
+  frequency: {
+    description: 'At which interval to calculate the number of coins/tokens burned',
+    options: ['1d, 1b'],
+    type: 'string',
+    required: false,
+  },
+  pageSize: {
+    description: 'Number of results to get per page. From 1 to 10000',
+    default: 10000,
+    type: 'number',
+    required: false,
+  },
+  startTime: {
+    description:
+      'The start time for the queried period. See [Supported DateTime Formats](#supported-datetime-formats)',
+    type: 'string',
+    required: false,
+  },
+  endTime: {
+    description:
+      'The end time for the queried period. See [Supported DateTime Formats](#supported-datetime-formats)',
+    type: 'string',
+    required: false,
+  },
 }
 
 export const calculateBurnedTKN = (assetMetricsList: AssetMetrics[]): BigNumber => {
