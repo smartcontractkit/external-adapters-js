@@ -15,10 +15,6 @@ describe('execute', () => {
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },
       {
-        name: 'base not supplied',
-        testData: { id: jobID, data: { quote: 'ETH' } },
-      },
-      {
         name: 'quote not supplied',
         testData: { id: jobID, data: { base: 'ETH' } },
       },
