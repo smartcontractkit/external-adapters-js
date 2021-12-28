@@ -14,7 +14,7 @@ export interface ResponseSchema {
   }
 }
 
-const customError = (data: any) => data.Response === 'Error'
+const customError = (data: ResponseSchema) => !data.success
 
 export const inputParameters: InputParameters = {
   speed: false,
