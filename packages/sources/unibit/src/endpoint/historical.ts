@@ -26,9 +26,11 @@ export interface ResponseSchema {
       },
     ]
   }
+  cost: number
 }
 
-const customError = (data: any) => data.Response === 'Error'
+const customError = (data: ResponseSchema) =>
+  !data.result_data || Object.keys(data.result_data).length === 0
 
 const customParams = {
   base: ['base', 'from', 'coin', 'market', 'symbol'],
@@ -53,13 +55,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url,
   }
 
-  const response = await Requester.request(options, customError)
-  response.data.result = Requester.validateResultNumber(response.data.result_data, [
-    symbol,
-    0,
-    'close',
-  ])
+  const response = await Requester.request<ResponseSchema>(options, customError)
+  const result = Requester.validateResultNumber(response.data, ['result_data', symbol, 0, 'close'])
   response.data.cost = 10
 
-  return Requester.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }
