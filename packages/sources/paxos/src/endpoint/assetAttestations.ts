@@ -4,8 +4,6 @@ import { DEFAULT_BASE_URL } from '../config'
 
 export const supportedEndpoints = ['assetAttestation']
 
-const customError = (data: any) => data.Response === 'Error'
-
 export const inputParameters: InputParameters = {
   asset: true,
 }
@@ -31,7 +29,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const url = getAttestationURI(asset)
   const reqConfig = { ...config.api, baseURL: DEFAULT_BASE_URL, url }
 
-  const response = await Requester.request<Attestation>(reqConfig, customError)
+  const response = await Requester.request<Attestation>(reqConfig)
 
   const output = {
     asset: asset,
