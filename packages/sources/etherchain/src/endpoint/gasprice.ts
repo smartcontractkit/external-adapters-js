@@ -3,8 +3,6 @@ import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['gasprice']
 
-const customError = (data: any) => data.Response === 'Error'
-
 export const inputParameters: InputParameters = {
   speed: false,
 }
@@ -29,7 +27,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url,
   }
 
-  const response = await Requester.request<ResponseSchema>(options, customError)
+  const response = await Requester.request<ResponseSchema>(options)
   const result = Requester.validateResultNumber(response.data, [speed]) * 1e9
 
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
