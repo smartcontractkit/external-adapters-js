@@ -13,9 +13,18 @@ const customError = (data: any) => {
 }
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin', 'id'],
-  exchanges: ['exchanges'],
-  resultPath: false,
+  base: {
+    aliases: ['from', 'coin', 'id'],
+    required: true,
+    description: 'The symbol of the currency to query',
+  },
+  exchanges: {
+    required: true,
+    description: 'Comma delimited list of exchange names',
+  },
+  resultPath: {
+    required: false,
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {

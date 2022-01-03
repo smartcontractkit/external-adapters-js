@@ -10,7 +10,12 @@ const commonKeys: Record<string, string> = {
 }
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin'],
+  base: {
+    aliases: ['from', 'coin'],
+    description:
+      'The symbol of the index to query [list](https://indexes.nikkei.co.jp/en/nkave/index)',
+    required: true,
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {

@@ -20,7 +20,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const options = {
     ...config.api,
     url,
-    timeout: 10000,
   }
 
   const response = await Requester.request(options, customError)
