@@ -1,5 +1,16 @@
 # @chainlink/ea
 
+## 1.0.23
+
+### Patch Changes
+
+- Updated dependencies [19381a8d]
+- Updated dependencies [ab4f8eeb]
+  - @chainlink/cfbenchmarks-adapter@1.1.0
+  - @chainlink/ncfx-adapter@1.0.14
+  - @chainlink/nikkei-adapter@1.1.7
+  - @chainlink/nomics-adapter@1.0.14
+
 ## 1.0.22
 
 ### Patch Changes
