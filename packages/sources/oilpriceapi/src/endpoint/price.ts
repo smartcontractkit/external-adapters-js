@@ -11,7 +11,7 @@ export const commonKeys: Record<string, string> = {
 
 export const inputParameters: InputParameters = {
   base: {
-    aliases: ['base', 'type', 'asset', 'from', 'market'],
+    aliases: ['type', 'asset', 'from', 'market'],
     description: 'The type of oil to get the price from',
     options: ['bz', 'brent', 'wti'],
     required: true,
@@ -32,7 +32,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const url = validator.validated.data.url || 'prices/latest'
+  const url = validator.validated.data.url
   const base = validator.validated.data.base.toLowerCase()
   // eslint-disable-next-line camelcase
   const by_code = commonKeys[base] || base

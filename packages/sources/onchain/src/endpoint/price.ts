@@ -7,8 +7,10 @@ export const supportedEndpoints = ['price']
 
 export const inputParameters: InputParameters = {
   market: {
-    aliases: ['market', 'from', 'future'],
+    aliases: ['from', 'future'],
     required: true,
+    description: 'The symbol of the future to query',
+    type: 'string',
   },
 }
 

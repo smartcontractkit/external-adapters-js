@@ -16,26 +16,31 @@ export const inputParameters: InputParameters = {
     aliases: ['from'],
     required: true,
     description: 'The symbol of the currency to query',
+    type: 'string',
   },
   quote: {
     aliases: ['to'],
     required: true,
     description: 'The symbol of the currency to convert to',
+    type: 'string',
   },
   amount: {
     required: false,
     description: 'The amount of the `base` to convert ',
     default: 1,
+    type: 'number',
   },
   precision: {
     required: false,
     description: 'The number of significant figures to include',
     default: 6,
+    type: 'number',
   },
   overrides: {
     required: false,
     description:
       'If base provided is found in overrides, that will be used. [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json)',
+    type: 'object',
   },
 }
 

@@ -9,6 +9,7 @@ export const inputParameters: InputParameters = {
     description: 'The desired speed',
     options: ['slow', 'fast', 'average'],
     default: 'average',
+    type: 'string',
   },
 }
 
@@ -18,7 +19,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   Requester.logConfig(config)
   const jobRunID = validator.validated.id
-  const speed = validator.validated.data.speed || 'average'
+  const speed = validator.validated.data.speed
   const reqConfig = {
     ...config.api,
   }

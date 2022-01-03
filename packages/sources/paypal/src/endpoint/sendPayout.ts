@@ -12,43 +12,51 @@ export const inputParameters: InputParameters = {
   amount: {
     required: true,
     description: 'Amount to send as a string',
+    type: 'string',
   },
   currency: {
     required: false,
     description:
       'Three-character ISO-4217 currency code. [options](https://developer.paypal.com/docs/api/reference/currency-codes/)',
     default: 'USD',
+    type: 'string',
   },
   receiver: {
     required: true,
     description: 'Specified receiver matching the `recipient_type`',
+    type: 'string',
   },
   recipient_type: {
     required: false,
     description: 'The type of `receiver`',
     options: ['EMAIL', 'PHONE', 'PAYPAL_ID'],
     default: 'EMAIL',
+    type: 'string',
   },
   note: {
     required: false,
     description: 'Custom note for payout',
+    type: 'string',
   },
   sender_item_id: {
     required: false,
     description: 'Custom sender-specified ID for payout',
+    type: 'string',
   },
   email_subject: {
     required: false,
     description: 'Custom email subject for the payment notification',
+    type: 'string',
   },
   email_message: {
     required: false,
     description: 'Custom email message for the payment notification',
+    type: 'string',
   },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, customParams, inputParameters)
+  const validator = new Validator(request, inputParameters, customParams)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
